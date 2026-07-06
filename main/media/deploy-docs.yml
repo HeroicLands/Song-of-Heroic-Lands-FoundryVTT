@@ -44,6 +44,7 @@ jobs:
               run: |
                   npm run docs:prepare
                   npm run docs:html
+                  npm run docs:version
 
             - name: Determine target directory
               id: meta
@@ -111,7 +112,7 @@ jobs:
                     <head>
                       <meta charset="utf-8">
                       <meta http-equiv="refresh" content="0; url=./latest/">
-                      <link rel="canonical" href="https://api.heroiclands.org/latest/">
+                      <link rel="canonical" href="https://api.heroiclands.org/v0.7.0/">
                       <title>Song of Heroic Lands API</title>
                     </head>
                     <body>

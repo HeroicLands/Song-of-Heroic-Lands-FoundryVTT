@@ -12,49 +12,66 @@
  */
 
 import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
-import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
-import type { SohlAction } from "@src/domain/action/SohlAction";
-import { isScriptActionMutationAllowed } from "@src/domain/action/SohlAction";
+import { isScriptActionMutationAllowed } from "@src/entity/action/SohlAction";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type {
     SohlItem,
     SohlItemLogic,
 } from "@src/document/item/foundry/SohlItem";
 import type { FilePath, HTMLString } from "@src/utils/helpers";
-import { SohlActionContext } from "@src/core/SohlActionContext";
-import { SohlDataModel, defineSohlDataSchema } from "@src/core/SohlDataModel";
-import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
-import { SkillBase } from "@src/domain/SkillBase";
-import { SohlSpeaker } from "@src/core/SohlSpeaker";
-import { SimpleRoll } from "@src/utils/SimpleRoll";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import {
+    SohlDataModel,
+    defineSohlDataSchema,
+} from "@src/core/foundry/SohlDataModel";
+import { SohlLogic } from "@src/core/logic/SohlLogic";
+import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import {
     fvttCallHook,
     fvttCallHookCancel,
-    fvttHookOnError,
     fvttResolveUuidAsync,
-    inputDialog,
-    type DialogButtonCallback,
 } from "@src/core/FoundryHelpers";
-import { toFilePath } from "@src/utils/helpers";
-import { IMPACT_ASPECT } from "@src/utils/constants";
-import { resolveInjury } from "@src/domain/body/InjuryResolution";
-import {
-    parseInjuryRequest,
-    isAutomatedRequest,
-    readInjuryDialogForm,
-    buildInjuryCardData,
-    resolveAutomatedInjury,
-    getActorBodyStructure,
-    createTraumaFromInjury,
-    type InjuryDialogForm,
-} from "@src/document/actor/foundry/injury-actions";
-import type { ResolvedInjury } from "@src/domain/body/InjuryResolution";
-import type { SohlTriggerContext } from "@src/core/SohlEventTrigger";
-const { HTMLField, StringField, FilePathField } = foundry.data.fields;
+const { HTMLField, FilePathField } = foundry.data.fields;
 
 /**
  * Base class for all Actor documents in the SoHL system, including
  * Beings, Cohorts, Structures, Vehicles, and Assemblies.
+ *
+ * ## Lifecycle hooks
+ *
+ * During data preparation SoHL fires cancellable Foundry hooks around each
+ * lifecycle phase, so a **module** can augment or replace actor/item behavior
+ * without editing system source. Two families are emitted:
+ *
+ * - **Item hooks** — `sohl.<itemType>.{pre,post}{Initialize,Evaluate,Finalize}`,
+ *   once per embedded item (from {@link prepareEmbeddedData}). Args `(item, ctx)`.
+ * - **Actor hooks** — `sohl.actor.<actorType>.{pre,post}{Initialize,Evaluate,Finalize}`,
+ *   for the actor itself (the init pair from {@link prepareBaseData}, evaluate and
+ *   finalize from {@link prepareDerivedData}). Args `(actor, ctx)` — `ctx` is
+ *   omitted for the init pair.
+ *
+ * `ctx` is a {@link SohlActionContext}; `<itemType>`/`<actorType>` are the type
+ * strings in {@link ITEM_KIND} / {@link ACTOR_KIND}. The `pre*` hooks are
+ * **cancellable**: if any listener returns `false`, that phase's logic method is
+ * skipped and its matching `post*` hook is not fired. Phase barriers still hold
+ * (every item finishes `initialize` before any `evaluate`, and so on) — see the
+ * phase model on {@link SohlLogic}.
+ *
+ * @example
+ * // Augment every Skill after it evaluates (register from a module's init hook).
+ * Hooks.on("sohl.skill.postEvaluate", (item, ctx) => {
+ *     if (item.system.shortcode !== "tactics") return;
+ *     item.system.logic.masteryLevel.add("tactics-bonus", 5);
+ * });
+ *
+ * @example
+ * // Replace a phase: returning false from a `pre*` hook skips the built-in logic
+ * // (and suppresses the matching `post*` hook) for that document.
+ * Hooks.on("sohl.skill.preEvaluate", (item, ctx) => {
+ *     if (item.system.shortcode !== "tactics") return;
+ *     myCustomEvaluate(item, ctx);
+ *     return false; // cancel the default evaluate()
+ * });
  *
  * NOTE: The Foundry-free contracts (SohlActorLogic, SohlActorData, SohlActorBaseLogic)
  * now live in src/document/actor/logic/SohlActorBaseLogic.ts and are re-exported here.
@@ -85,249 +102,21 @@ export class SohlActor extends Actor {
     }
 
     /**
-     * Get the context menu options for a specific SohlItem document.
-     * @param doc The SohlItem document to get context options for.
-     * @returns The context menu options for the specified SohlItem document.
+     * Returns a SohlSpeaker for this actor, optionally using a specific token if provided.
+     * @param token The token to use for the speaker, if any.
+     * @returns The SohlSpeaker for this actor.
      */
-    protected static _getContextOptions(
-        doc: SohlActor,
-    ): SohlContextMenu.Entry[] {
-        return doc.getContextOptions();
-    }
-
-    /**
-     * The context-menu options — the actions currently available — for this
-     * actor.
-     *
-     * @remarks
-     * One entry per action whose `visible` predicate currently passes (an
-     * action's `trigger` / domain preconditions can hide it); `SCRIPT` actions
-     * are additionally permission-gated when executed. Use this to discover
-     * which actions can be performed on the actor.
-     *
-     * @returns The available context-menu entries.
-     */
-    getContextOptions(): SohlContextMenu.Entry[] {
-        return this.logic.getContextOptions();
-    }
-
-    /**
-     * Helper method to handle chat card button clicks.
-     * @param btn The button element that was clicked.
-     */
-    async onChatCardButton(btn: HTMLElement): Promise<void> {
-        const actionName = btn.dataset.action;
-        if (!actionName) return;
-
-        // `createInjury` is handled directly (it posts an injury rather than
-        // running an intrinsic action).
-        if (actionName === "createInjury") {
-            await this.onCreateInjury(btn);
-            return;
+    getSpeaker(token?: TokenDocument): SohlSpeaker {
+        if (token) {
+            return new SohlSpeaker({ token: token.id ?? undefined });
         }
-
-        // Otherwise dispatch generically to the actor's logic — the same shape
-        // SohlItem uses — so defender chat-card actions (e.g. the automated
-        // combat defenses) reach their intrinsic-action methods. The button's
-        // dataset becomes the action's `scope`.
-        const context = new SohlActionContext({
-            speaker: this.logic.speaker,
-            type: actionName,
-            title: btn.textContent?.trim() ?? actionName,
-            scope: { ...btn.dataset },
-        });
-
-        const action =
-            this.logic.actions.get(actionName) ??
-            [...this.logic.actions.values()].find(
-                (act) =>
-                    act.data.executor === actionName ||
-                    act.data.title === actionName,
-            );
-
-        if (action) {
-            await action.execute(context);
-            return;
+        if (!this._speaker) {
+            this._speaker = new SohlSpeaker({
+                actor: this.id ?? undefined,
+                token: this.getToken()?.id ?? undefined,
+            });
         }
-
-        const fn = (this.logic as any)[actionName];
-        if (typeof fn === "function") {
-            await fn.call(this.logic, context);
-        } else {
-            sohl.log.warn(
-                `SoHL | ${this.name} (Actor) received unhandled chat-card action "${actionName}".`,
-            );
-        }
-    }
-
-    /**
-     * Resolve and post an injury from a chat-card `createInjury` click. The
-     * forward-carried `data-test-result-json` discriminates the two modes:
-     * an automated request (aimed `targetPart` + `spread`) resolves with no
-     * player input; an assisted request opens the Add Injury dialog so the GM
-     * can pick the location and tune armor reduction.
-     * @param btn - The clicked chat-card button carrying the injury request.
-     */
-    private async onCreateInjury(btn: HTMLElement): Promise<void> {
-        const body = getActorBodyStructure(this);
-        if (!body) {
-            sohl.log.uiWarn(
-                `${this.name} has no Lineage body structure; cannot resolve an injury.`,
-            );
-            return;
-        }
-
-        const req = parseInjuryRequest(btn.dataset.testResultJson);
-        if (!req) {
-            sohl.log.uiWarn(
-                `SoHL | createInjury button on ${this.name} carried no valid injury request.`,
-            );
-            return;
-        }
-
-        // Automated: aim was forwarded, so resolve and record with no dialog.
-        if (isAutomatedRequest(req)) {
-            const injury = resolveAutomatedInjury(req, body);
-            await this.postInjury(injury, injury.level >= 1);
-            if (injury.level >= 1) await createTraumaFromInjury(this, injury);
-            return;
-        }
-
-        // Assisted: let the player confirm location, aspect, impact, and armor.
-        await this.addInjuryViaDialog({
-            location: req.location ?? "",
-            aspect: req.aspect,
-            impact: req.impact,
-            armorReduction: req.armorReduction ?? 0,
-            extraBleedRisk: !!req.extraBleedRisk,
-        });
-    }
-
-    /**
-     * Open the Add Injury dialog, resolve the player's input into an injury,
-     * post the injury card, and (when requested) record the Trauma. Shared by
-     * the assisted-combat `createInjury` flow and the character sheet's manual
-     * Add Injury action. Pre-fills the dialog from `prefill`; an empty prefill
-     * yields a blank manual-entry dialog.
-     * @param prefill - Initial values to pre-fill the dialog with.
-     * @param prefill.location - The hit-location shortcode.
-     * @param prefill.aspect - The weapon impact aspect.
-     * @param prefill.impact - The raw impact total.
-     * @param prefill.armorReduction - Manual armor reduction.
-     * @param prefill.extraBleedRisk - Force the wound to bleed.
-     */
-    async addInjuryViaDialog(
-        prefill: {
-            location?: string;
-            aspect?: string;
-            impact?: number;
-            armorReduction?: number;
-            extraBleedRisk?: boolean;
-        } = {},
-    ): Promise<void> {
-        const body = getActorBodyStructure(this);
-        if (!body) {
-            sohl.log.uiWarn(
-                `${this.name} has no Lineage body structure; cannot add an injury.`,
-            );
-            return;
-        }
-
-        const dialogData = {
-            hitLocations: body
-                .getAllLocations()
-                .map((l) => ({ code: l.shortcode, name: l.name })),
-            aspectChoices: Object.values(IMPACT_ASPECT),
-            location: prefill.location ?? "",
-            aspect: prefill.aspect ?? "",
-            impactVal: prefill.impact ?? 0,
-            armorReduction: prefill.armorReduction ?? 0,
-            extraBleedRisk: !!prefill.extraBleedRisk,
-            addToCharSheet: true,
-            askRecordInjury: true,
-        };
-
-        const result = await inputDialog({
-            title: `${this.name}: Add Injury`,
-            template: toFilePath(
-                "systems/sohl/templates/dialog/injury-dialog.hbs",
-            ),
-            data: dialogData,
-            callback: ((
-                _event: PointerEvent | SubmitEvent,
-                button: HTMLButtonElement,
-            ): Promise<InjuryDialogForm | null> => {
-                const form = button.querySelector("form");
-                if (!form) return Promise.resolve(null);
-                const fd = new FormDataExtended(form);
-                return Promise.resolve(readInjuryDialogForm(fd.object));
-            }) as DialogButtonCallback,
-            rejectClose: false,
-        });
-        if (!result) return;
-
-        const form = result as InjuryDialogForm;
-        const location = body
-            .getAllLocations()
-            .find((l) => l.shortcode === form.locationCode);
-        const injury = resolveInjury({
-            impact: form.impact,
-            aspect: form.aspect,
-            body,
-            location,
-            armorReduction: form.armorReduction,
-            extraBleedRisk: form.extraBleedRisk,
-        });
-        await this.postInjury(injury, form.addToCharSheet);
-        if (form.addToCharSheet && injury.level >= 1)
-            await createTraumaFromInjury(this, injury);
-    }
-
-    /**
-     * Post an `injury-card` to chat for a resolved injury on this actor.
-     * @param injury - The resolved injury to render.
-     * @param addToCharSheet - Whether the injury was recorded on the sheet.
-     */
-    private async postInjury(
-        injury: ResolvedInjury,
-        addToCharSheet: boolean,
-    ): Promise<void> {
-        const data = buildInjuryCardData(injury, {
-            actorId: this.id,
-            handlerActorUuid: this.uuid,
-            name: this.name ?? "",
-            addToCharSheet,
-        });
-        await this.getSpeaker().toChat(
-            toFilePath("systems/sohl/templates/chat/injury-card.hbs"),
-            data,
-        );
-    }
-
-    /**
-     * Helper method to handle chat card edit actions.
-     * @param btn The button element that was clicked.
-     */
-    async onChatCardEditAction(btn: HTMLElement): Promise<void> {
-        // TODO(#66): Handle chat card edit actions here
-        console.log("Edit action clicked:", btn);
-    }
-
-    /**
-     * Handle a trigger dispatched by the SoHL event queue.
-     * Override in subclasses to implement actor-specific trigger handling.
-     * @param kind - Subscription kind identifier
-     * @param _context - Trigger context (discriminated by `context.name`)
-     * @param _payload - Optional context data attached when subscribing
-     */
-    async handleSohlEvent(
-        kind: string,
-        _context: SohlTriggerContext,
-        _payload?: Record<string, unknown>,
-    ): Promise<void> {
-        console.warn(
-            `SoHL | ${this.name} (Actor) received unhandled event "${kind}"`,
-        );
+        return this._speaker;
     }
 
     /**
@@ -352,48 +141,11 @@ export class SohlActor extends Actor {
     }
 
     /**
-     * Returns the {@link SohlActionContext} for this actor.
-     * @param token The token to use for context, if any.
-     * @returns The action context for this actor.
-     */
-    protected _getContext(token?: TokenDocument): SohlActionContext {
-        return new SohlActionContext({
-            speaker: this.getSpeaker(token),
-        });
-    }
-
-    /**
-     * Returns a SohlSpeaker for this actor, optionally using a specific token if provided.
-     * @param token The token to use for the speaker, if any.
-     * @returns The SohlSpeaker for this actor.
-     */
-    getSpeaker(token?: TokenDocument): SohlSpeaker {
-        if (token) {
-            return new SohlSpeaker({ token: token.id });
-        }
-        if (!this._speaker) {
-            this._speaker = new SohlSpeaker({
-                actor: this.id,
-                token: this.getToken()?.id,
-            });
-        }
-        return this._speaker;
-    }
-
-    /**
-     * Sets up the intrinsic actions for this actor.
-     * @param context The action context to use for setup.
-     */
-    setupIntrinsicActions(context: SohlActionContext): void {}
-
-    /**
      * Reset per-cycle caches and run the actor logic's initialize phase.
      *
      * @remarks
      * Clears the cached speaker and lifecycle-action cache and resets each
-     * embedded item's effect-phase tracker, then — unless cancelled by the
-     * `sohl.actor.<type>.preInitialize` hook — calls {@link logic}'s `initialize`
-     * and fires `postInitialize`. Part of Foundry's data-preparation lifecycle.
+     * embedded item's effect-phase tracker.
      */
     override prepareBaseData(): void {
         super.prepareBaseData();
@@ -404,10 +156,6 @@ export class SohlActor extends Actor {
         this.items?.forEach((i) =>
             (i as any)._completedActiveEffectPhases?.clear?.(),
         );
-        if (fvttCallHookCancel(`sohl.actor.${this.type}.preInitialize`, this)) {
-            this.logic.initialize();
-        }
-        fvttCallHook(`sohl.actor.${this.type}.postInitialize`, this);
     }
 
     /**
@@ -455,7 +203,7 @@ export class SohlActor extends Actor {
         // It's called between prepareBaseData() and prepareDerivedData() in the data preparation lifecycle
         super.prepareEmbeddedData();
 
-        const ctx = this._getContext();
+        const ctx = (this.logic as any)._getContext();
 
         /*
          * Here we implement the phase-batched lifecycle for all embedded items
@@ -473,7 +221,13 @@ export class SohlActor extends Actor {
          * must not be overriden; they are not used for the item lifecycle.
          */
 
-        // Phase I: Initialize all embedded items
+        // Perform initialization phase for the actor itself
+        if (fvttCallHookCancel(`sohl.actor.${this.type}.preInitialize`, this)) {
+            this.logic.initialize();
+        }
+        fvttCallHook(`sohl.actor.${this.type}.postInitialize`, this);
+
+        // Next, perform the initialization phase for all embedded items
         this.items.forEach((item) => {
             if (
                 fvttCallHookCancel(`sohl.${item.type}.preInitialize`, item, ctx)
@@ -491,7 +245,17 @@ export class SohlActor extends Actor {
             item.applyActiveEffects("initial");
         });
 
-        // Phase II: Evaluate all embedded items
+        // Perform the evaluate phase for the actor itself
+        if (
+            fvttCallHookCancel(`sohl.actor.${this.type}.preEvaluate`, this, ctx)
+        ) {
+            this.logic.evaluate();
+            fvttCallHook(`sohl.actor.${this.type}.postEvaluate`, this, ctx);
+            const postEvaluate = this.logic.actions.get("postEvaluate");
+            postEvaluate?.execute(ctx);
+        }
+
+        // Next, perform the evaluate phase for all embedded items
         this.items.forEach((it) => {
             if (fvttCallHookCancel(`sohl.${it.type}.preEvaluate`, it, ctx)) {
                 it.logic.evaluate();
@@ -502,7 +266,7 @@ export class SohlActor extends Actor {
             }
         });
 
-        // Phase III: Finalize all embedded items
+        // Next, perform the finalize phase for all embedded items
         this.items.forEach((it) => {
             if (fvttCallHookCancel(`sohl.${it.type}.preFinalize`, it, ctx)) {
                 it.logic.finalize();
@@ -512,31 +276,15 @@ export class SohlActor extends Actor {
                 postFinalize?.execute(ctx);
             }
         });
-    }
 
-    /**
-     * Run the actor logic's evaluate and finalize phases after items are
-     * prepared.
-     *
-     * @remarks
-     * Each phase is gated by its `sohl.actor.<type>.pre<Phase>` hook and followed
-     * by the matching `post<Phase>` hook. Part of Foundry's data-preparation
-     * lifecycle.
-     */
-    override prepareDerivedData(): void {
-        super.prepareDerivedData();
-        const ctx = this._getContext();
-        if (
-            fvttCallHookCancel(`sohl.actor.${this.type}.preEvaluate`, this, ctx)
-        ) {
-            this.logic.evaluate();
-            fvttCallHook(`sohl.actor.${this.type}.postEvaluate`, this, ctx);
-        }
+        // Finally, perform the finalize phase for the actor itself
         if (
             fvttCallHookCancel(`sohl.actor.${this.type}.preFinalize`, this, ctx)
         ) {
             this.logic.finalize();
             fvttCallHook(`sohl.actor.${this.type}.postFinalize`, this, ctx);
+            const postFinalize = this.logic.actions.get("postFinalize");
+            postFinalize?.execute(ctx);
         }
     }
 
@@ -765,6 +513,7 @@ export {
 import type {
     SohlActorLogic,
     SohlActorData,
+    SohlActorBaseLogic,
 } from "@src/document/actor/logic/SohlActorBaseLogic";
 
 /**
@@ -832,7 +581,7 @@ export abstract class SohlActorDataModel<
      * @throws If the parent is not a {@link SohlActor}.
      */
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
-        if (!(options.parent instanceof SohlActor)) {
+        if (!(options.parent?.documentName === "Actor")) {
             throw new Error("Parent must be of type SohlActor");
         }
         super(data, options);

@@ -1,0 +1,533 @@
+<!DOCTYPE html><html class="default" lang="en" data-base=".."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Build, Deployment, and Release | Song of Heroic Lands API - v0.7.0</title><meta name="description" content="Documentation for Song of Heroic Lands API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><link rel="stylesheet" href="../assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">Song of Heroic Lands API - v0.7.0</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb"><li><a href="../modules.html">Song of Heroic Lands API</a></li><li><a href="Documentation.html">Documentation</a></li><li><a href="Documentation.How-to.html">How-to</a></li><li><a href="Documentation.How-to.Build,_Deployment,_and_Release.html">Build, Deployment, and Release</a></li></ul></div><div class="tsd-panel tsd-typography"><a id="build-deployment-and-release" class="tsd-anchor"></a><h1 class="tsd-anchor-link">Build, Deployment, and Release<a href="#build-deployment-and-release" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1><p>Everything you need to take Song of Heroic Lands (SoHL) from a fresh clone to a
+running Foundry instance and a published release: environment setup, every npm
+script, how the build pipeline works, the layout of the <code>build/</code> directory,
+compendium packs and the Obsidian vault, deploying to a Foundry instance, and the
+release process. <strong>Manual steps are called out explicitly</strong> with a 🔧 marker.</p>
+<blockquote>
+<p>Audience: maintainers and contributors working on the SoHL system itself. For
+the rules of contributing, see
+<a href="Documentation.Contributing.System_Development.html">System Development</a>.</p>
+</blockquote>
+<a id="1-first-time-setup" class="tsd-anchor"></a><h2 class="tsd-anchor-link">1. First-time setup<a href="#1-first-time-setup" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>🔧 <strong>Prerequisites:</strong> <strong>Node.js ≥ 24</strong> (see <code>engines</code> in <code>package.json</code>) and
+<strong>Git</strong> — that's all you need to build and test. Deploying to a Foundry instance
+may need extra access depending on the target (for example, SSH for a remote host).</p>
+<pre><code class="bash"><span class="hl-3">git</span><span class="hl-1"> </span><span class="hl-9">clone</span><span class="hl-1"> </span><span class="hl-9">https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT.git</span><br/><span class="hl-3">cd</span><span class="hl-1"> </span><span class="hl-9">Song-of-Heroic-Lands-FoundryVTT</span><br/><span class="hl-3">cp</span><span class="hl-1"> </span><span class="hl-9">.env.local.example</span><span class="hl-1"> </span><span class="hl-9">.env.local</span><span class="hl-1">   </span><span class="hl-5"># then edit — see below</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">ci</span><span class="hl-1">                             </span><span class="hl-5"># clean install from package-lock.json → node_modules/</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">build</span><span class="hl-1">                      </span><span class="hl-5"># full build into build/stage/</span>
+</code><button type="button">Copy</button></pre>
+
+<p>🔧 <strong><code>.env.local</code></strong> (gitignored — each developer keeps their own) holds the Foundry
+paths that drive deployment. You only need it when deploying to a Foundry instance;
+<a href="#6-deploying-to-a-foundry-instance">§6 Deploying to a Foundry instance</a> lists
+every variable and what it's for.</p>
+<p>See the file <strong><code>.gitignore</code></strong> for the specifics of which files are local only
+and not stored in the repo. In particular, if you create a <code>nogit</code> folder,
+anything inside of it will be ignored. If you use VSCode or IntelliJ, those
+IDE configurations will also be ignored.</p>
+<a id="2-npm-scripts" class="tsd-anchor"></a><h2 class="tsd-anchor-link">2. npm scripts<a href="#2-npm-scripts" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Every script in <code>package.json</code>, grouped by purpose. <code>run-s</code> runs steps in
+sequence; <code>run-p</code> runs them in parallel.</p>
+<a id="build" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Build<a href="#build" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Script</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>build</code></td>
+<td>Full production build: <code>npm ci</code> then <code>build:noci</code>. The canonical &quot;build it all&quot; entry.</td>
+</tr>
+<tr>
+<td><code>build:local</code></td>
+<td>Same as <code>build</code> but <code>npm i</code> (allows lockfile updates) instead of <code>npm ci</code>.</td>
+</tr>
+<tr>
+<td><code>build:noci</code></td>
+<td>The pipeline without install: <code>lint:todos → build:types → build:prepare → test:coverage → test:purity → build:code</code>.</td>
+</tr>
+<tr>
+<td><code>build:prepare</code></td>
+<td>In parallel: <code>build:css</code>, <code>build:db</code>, <code>build:system</code>.</td>
+</tr>
+<tr>
+<td><code>build:types</code></td>
+<td>TypeScript type-check / compile (<code>tsc -p tsconfig.json</code>). No emit beyond <code>.d.ts</code>/checking.</td>
+</tr>
+<tr>
+<td><code>build:css</code></td>
+<td>Compile <code>scss/sohl.scss</code> → <code>build/stage/css/sohl.css</code> (Sass).</td>
+</tr>
+<tr>
+<td><code>build:system</code></td>
+<td>Generate <code>build/stage/system.json</code> from the template + <code>package.json</code> version (<code>utils/build-system-json.mjs</code>).</td>
+</tr>
+<tr>
+<td><code>build:assets</code></td>
+<td>Copy <code>templates/</code>, <code>lang/</code>, <code>assets/*</code>, <code>LICENSE.md</code>, <code>README.md</code> into <code>build/stage/</code> (<code>utils/copy-assets.mjs</code>).</td>
+</tr>
+<tr>
+<td><code>build:db</code></td>
+<td><code>build:assets</code> then <code>build:compiledb</code> — stage assets, then compile packs.</td>
+</tr>
+<tr>
+<td><code>build:compiledb</code></td>
+<td>Compile <code>assets/packs/*/_source/</code> JSON → LevelDB packs in <code>build/stage/packs/</code>.</td>
+</tr>
+<tr>
+<td><code>build:unpackdb</code></td>
+<td>The reverse: unpack the staged LevelDB packs back to JSON (for inspection).</td>
+</tr>
+<tr>
+<td><code>build:code</code></td>
+<td>Bundle the system with Vite (<code>vite build --mode release</code>) → <code>build/stage/sohl.js</code>.</td>
+</tr>
+<tr>
+<td><code>build:icons</code></td>
+<td>Rebuild the icon font from SVGs (<code>utils/build-icon-font.mjs</code>). Run by hand when icons change.</td>
+</tr>
+<tr>
+<td><code>build:pack-release</code></td>
+<td>Zip <code>build/stage/</code> → <code>build/dist/system.zip</code> and copy <code>system.json</code> (<code>utils/pack-release.mjs</code>).</td>
+</tr>
+<tr>
+<td><code>clean</code> / <code>distclean</code></td>
+<td>Remove build output (<code>distclean</code> also clears caches/<code>node_modules</code>-level artifacts).</td>
+</tr>
+</tbody>
+</table>
+<a id="compendium-packs" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Compendium packs<a href="#compendium-packs" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Script</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>packs:export</code></td>
+<td>🔧 Walk the HeroicLands <strong>Obsidian vault</strong> and regenerate <code>assets/packs/*/_source/</code> (maintainers).</td>
+</tr>
+<tr>
+<td><code>packs:rebuild</code></td>
+<td><code>packs:export</code> then <code>build:compiledb</code> — full vault → LevelDB roundtrip.</td>
+</tr>
+<tr>
+<td><code>packs:clean</code></td>
+<td>Remove the generated <code>_source/</code> trees.</td>
+</tr>
+</tbody>
+</table>
+<a id="tests-lint-format" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Tests, lint, format<a href="#tests-lint-format" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Script</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>test</code></td>
+<td>Run the vitest suite once.</td>
+</tr>
+<tr>
+<td><code>test:watch</code> / <code>test:ui</code></td>
+<td>Watch mode / the vitest UI.</td>
+</tr>
+<tr>
+<td><code>test:coverage</code></td>
+<td>Run with coverage.</td>
+</tr>
+<tr>
+<td><code>test:purity</code></td>
+<td>The Foundry-free purity check (<code>vitest.purity.config.ts</code>).</td>
+</tr>
+<tr>
+<td><code>lint</code> / <code>lint:fix</code></td>
+<td>ESLint over <code>src/</code> (with <code>--fix</code>).</td>
+</tr>
+<tr>
+<td><code>lint:todos</code></td>
+<td>Fail if any <code>TODO</code>/<code>FIXME</code> lacks an issue reference.</td>
+</tr>
+<tr>
+<td><code>format</code> / <code>format:check</code></td>
+<td>Prettier write / check the whole repo.</td>
+</tr>
+</tbody>
+</table>
+<a id="docs" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Docs<a href="#docs" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Script</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>docs</code></td>
+<td>Full doc build: <code>docs:prepare → docs:html → docs:md → docs:version</code>.</td>
+</tr>
+<tr>
+<td><code>docs:prepare</code></td>
+<td><code>docs:catalog</code> (generate the type catalog) + <code>docs:bundle</code> (the TypeDoc entry barrel).</td>
+</tr>
+<tr>
+<td><code>docs:html</code> / <code>docs:md</code></td>
+<td>TypeDoc HTML / Markdown output.</td>
+</tr>
+<tr>
+<td><code>docs:version</code></td>
+<td>Rewrite <code>api.heroiclands.org/v0.7.0</code> → <code>…/v&lt;version&gt;</code> in the generated output.</td>
+</tr>
+<tr>
+<td><code>docs:coverage</code></td>
+<td>Report doc-comment coverage.</td>
+</tr>
+<tr>
+<td><code>docs:serve</code> / <code>docs:watch</code></td>
+<td>Serve <code>build/stage/docs</code> / rebuild-and-serve on change.</td>
+</tr>
+</tbody>
+</table>
+<a id="deploy-and-release" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Deploy and release<a href="#deploy-and-release" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Script</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>push:dev</code> / <code>push:qa</code> / <code>push:prod</code></td>
+<td>🔧 copy <code>build/stage/</code> to the matching <code>FOUNDRYVTT_*_DATA</code> instance.</td>
+</tr>
+<tr>
+<td><code>deploy:dev</code> / <code>deploy:qa</code> / <code>deploy:prod</code></td>
+<td>🔧 <code>build</code> then the matching <code>push:*</code>.</td>
+</tr>
+<tr>
+<td><code>deploy:release</code></td>
+<td><code>build</code> then <code>build:pack-release</code> — produce the release zip locally.</td>
+</tr>
+<tr>
+<td><code>changeset</code></td>
+<td>Create a changeset (interactive). See <a href="Documentation.Contributing.Writing_Changesets.html">Writing Changesets</a>.</td>
+</tr>
+<tr>
+<td><code>changeset:version</code></td>
+<td>Apply pending changesets: bump the version and update <code>CHANGELOG.md</code> (normally run by CI).</td>
+</tr>
+<tr>
+<td><code>changeset:check</code></td>
+<td>Verify a changeset exists.</td>
+</tr>
+</tbody>
+</table>
+<a id="3-the-build-pipeline" class="tsd-anchor"></a><h2 class="tsd-anchor-link">3. The build pipeline<a href="#3-the-build-pipeline" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><code>npm run build</code> runs <code>npm ci</code> then <code>build:noci</code>, which is:</p>
+<ol>
+<li><strong><code>lint:todos</code></strong> — no unlinked <code>TODO</code>/<code>FIXME</code>.</li>
+<li><strong><code>build:types</code></strong> — <code>tsc</code> type-checks the whole project.</li>
+<li><strong><code>build:prepare</code></strong> (parallel):
+<ul>
+<li><strong><code>build:css</code></strong> — Sass → <code>build/stage/css/sohl.css</code>.</li>
+<li><strong><code>build:db</code></strong> — copy assets, then compile packs to <code>build/stage/packs/</code>.</li>
+<li><strong><code>build:system</code></strong> — write <code>build/stage/system.json</code>.</li>
+</ul>
+</li>
+<li><strong><code>test:coverage</code></strong> and <strong><code>test:purity</code></strong> — the suite must pass.</li>
+<li><strong><code>build:code</code></strong> — Vite bundles <code>src/sohl.ts</code> → <code>build/stage/sohl.js</code> (single ES
+module, sourcemap, unminified, with <code>emptyOutDir: false</code> so it doesn't wipe the
+staged CSS/assets/packs).</li>
+</ol>
+<p>The result is a complete, deployable system in <strong><code>build/stage/</code></strong>.</p>
+<a id="4-the-build-directory-layout" class="tsd-anchor"></a><h2 class="tsd-anchor-link">4. The <code>build/</code> directory layout<a href="#4-the-build-directory-layout" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><pre><code><span class="hl-0">build</span><span class="hl-1">/</span><br/><span class="hl-1">├── </span><span class="hl-0">stage</span><span class="hl-1">/            </span><span class="hl-4">THE</span><span class="hl-1"> </span><span class="hl-4">DEPLOYABLE</span><span class="hl-1"> </span><span class="hl-4">SYSTEM</span><span class="hl-1"> — </span><span class="hl-0">what</span><span class="hl-1"> </span><span class="hl-0">Foundry</span><span class="hl-1"> </span><span class="hl-0">loads</span><br/><span class="hl-1">│   ├── </span><span class="hl-0">sohl</span><span class="hl-1">.</span><span class="hl-3">js</span><span class="hl-1">(.</span><span class="hl-0">map</span><span class="hl-1">) </span><span class="hl-0">bundled</span><span class="hl-1"> </span><span class="hl-0">system</span><span class="hl-1"> </span><span class="hl-3">code</span><span class="hl-1"> (</span><span class="hl-0">Vite</span><span class="hl-1">)</span><br/><span class="hl-1">│   ├── </span><span class="hl-0">system</span><span class="hl-1">.</span><span class="hl-0">json</span><span class="hl-1">   </span><span class="hl-0">generated</span><span class="hl-1"> </span><span class="hl-3">manifest</span><span class="hl-1"> (</span><span class="hl-0">version</span><span class="hl-1">, </span><span class="hl-0">packs</span><span class="hl-1">, </span><span class="hl-0">compatibility</span><span class="hl-1">, </span><span class="hl-0">URLs</span><span class="hl-1">)</span><br/><span class="hl-1">│   ├── </span><span class="hl-0">css</span><span class="hl-1">/</span><span class="hl-0">sohl</span><span class="hl-1">.</span><span class="hl-0">css</span><span class="hl-1">  </span><span class="hl-0">compiled</span><span class="hl-1"> </span><span class="hl-0">styles</span><br/><span class="hl-1">│   ├── </span><span class="hl-0">templates</span><span class="hl-1">/    </span><span class="hl-0">Handlebars</span><span class="hl-1"> </span><span class="hl-3">templates</span><span class="hl-1"> (</span><span class="hl-0">copied</span><span class="hl-1">)</span><br/><span class="hl-1">│   ├── </span><span class="hl-0">lang</span><span class="hl-1">/         </span><span class="hl-3">localization</span><span class="hl-1"> (</span><span class="hl-0">copied</span><span class="hl-1">)</span><br/><span class="hl-1">│   ├── </span><span class="hl-0">assets</span><span class="hl-1">/       </span><span class="hl-0">icons</span><span class="hl-1">, </span><span class="hl-0">fonts</span><span class="hl-1">, </span><span class="hl-0">audio</span><span class="hl-1">, </span><span class="hl-0">ui</span><span class="hl-1">, </span><span class="hl-3">silhouette</span><span class="hl-1"> (</span><span class="hl-0">copied</span><span class="hl-1">)</span><br/><span class="hl-1">│   ├── </span><span class="hl-0">packs</span><span class="hl-1">/        </span><span class="hl-0">compiled</span><span class="hl-1"> </span><span class="hl-0">LevelDB</span><span class="hl-1"> </span><span class="hl-0">compendium</span><span class="hl-1"> </span><span class="hl-0">packs</span><br/><span class="hl-1">│   └── </span><span class="hl-0">docs</span><span class="hl-1">/         </span><span class="hl-0">generated</span><span class="hl-1"> </span><span class="hl-4">HTML</span><span class="hl-1"> </span><span class="hl-4">API</span><span class="hl-1"> </span><span class="hl-3">docs</span><span class="hl-1"> (</span><span class="hl-0">after</span><span class="hl-1"> </span><span class="hl-9">`npm run docs`</span><span class="hl-1">)</span><br/><span class="hl-1">├── </span><span class="hl-0">dist</span><span class="hl-1">/             </span><span class="hl-0">release</span><span class="hl-1"> </span><span class="hl-0">files</span><span class="hl-1"> — </span><span class="hl-0">uploaded</span><span class="hl-1"> </span><span class="hl-0">to</span><span class="hl-1"> </span><span class="hl-0">the</span><span class="hl-1"> </span><span class="hl-0">GitHub</span><span class="hl-1"> </span><span class="hl-0">Release</span><br/><span class="hl-1">│   ├── </span><span class="hl-0">system</span><span class="hl-1">.</span><span class="hl-0">zip</span><span class="hl-1">    </span><span class="hl-0">the</span><span class="hl-1"> </span><span class="hl-0">released</span><span class="hl-1"> </span><span class="hl-0">system</span><span class="hl-1"> </span><span class="hl-3">archive</span><span class="hl-1"> (</span><span class="hl-0">a</span><span class="hl-1"> </span><span class="hl-0">zip</span><span class="hl-1"> </span><span class="hl-6">of</span><span class="hl-1"> </span><span class="hl-0">build</span><span class="hl-1">/</span><span class="hl-0">stage</span><span class="hl-1">/)</span><br/><span class="hl-1">│   └── </span><span class="hl-0">system</span><span class="hl-1">.</span><span class="hl-0">json</span><span class="hl-1">   </span><span class="hl-0">the</span><span class="hl-1"> </span><span class="hl-0">released</span><span class="hl-1"> </span><span class="hl-0">manifest</span><br/><span class="hl-1">├── </span><span class="hl-0">docbundle</span><span class="hl-1">/        </span><span class="hl-0">generated</span><span class="hl-1"> </span><span class="hl-0">TypeDoc</span><span class="hl-1"> </span><span class="hl-0">entry</span><span class="hl-1"> </span><span class="hl-3">barrel</span><span class="hl-1"> (</span><span class="hl-0">All</span><span class="hl-1">.</span><span class="hl-0">ts</span><span class="hl-1">)</span><br/><span class="hl-1">├── </span><span class="hl-0">docs</span><span class="hl-1">/             </span><span class="hl-0">the</span><span class="hl-1"> </span><span class="hl-0">Markdown</span><span class="hl-1"> </span><span class="hl-0">documentation</span><span class="hl-1"> </span><span class="hl-3">tree</span><span class="hl-1"> (</span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-0">docs</span><span class="hl-1">:</span><span class="hl-0">md</span><span class="hl-1">)</span><br/><span class="hl-1">└── </span><span class="hl-0">tmp</span><span class="hl-1">/              </span><span class="hl-3">scratch</span><span class="hl-1"> (</span><span class="hl-0">e</span><span class="hl-1">.</span><span class="hl-0">g</span><span class="hl-1">. </span><span class="hl-0">unpacked</span><span class="hl-1"> </span><span class="hl-0">packs</span><span class="hl-1">)</span>
+</code><button>Copy</button></pre>
+
+<p><strong><code>build/stage/</code> <em>is</em> the system directory.</strong> Its contents are exactly what an
+installed <code>Data/systems/sohl/</code> looks like — Foundry would load it as-is. Everything
+downstream derives from it: the push scripts copy it verbatim into a Foundry data
+directory, and <code>build:pack-release</code> simply zips its contents into the release
+<code>system.zip</code>. There is no separate transform step — the staged directory <strong>is</strong> the
+system, and <code>system.zip</code> is just an archive of it.</p>
+<p><strong>How <code>system.json</code> is assembled</strong> (<code>utils/build-system-json.mjs</code>): it reads
+<code>assets/templates/system.template.json</code> (the static metadata — document types,
+<code>packs</code> array, media) and injects the dynamic fields from <code>package.json</code>: <code>version</code>,
+the repo <code>url</code>/<code>bugs</code>, the <code>manifest</code> URL (latest release's <code>system.json</code>), and the
+versioned <code>download</code> URL (<code>…/releases/download/v&lt;version&gt;/system.zip</code>).</p>
+<a id="5-compendium-packs-and-the-obsidian-vault" class="tsd-anchor"></a><h2 class="tsd-anchor-link">5. Compendium packs and the Obsidian vault<a href="#5-compendium-packs-and-the-obsidian-vault" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>SoHL ships three compendium packs — <strong>items</strong>, <strong>journals</strong>, <strong>actors</strong> — declared
+in the system manifest. Each has a committed JSON source tree at
+<code>assets/packs/&lt;pack&gt;/_source/</code>, which <code>build:compiledb</code> compiles into Foundry's
+LevelDB format under <code>build/stage/packs/&lt;pack&gt;/</code>.</p>
+<a id="design-decision--committed-pack-sources" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Design decision — committed pack sources<a href="#design-decision--committed-pack-sources" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The pack content is <em>authored</em> in the HeroicLands Obsidian vault, but <strong>the build
+never reads the vault directly.</strong> Instead, a separate <code>packs:export</code> step pulls
+everything out of the vault and writes it as plain JSON under
+<code>assets/packs/*/_source/</code>, and those JSON trees are <strong>committed to this
+repository</strong>.</p>
+<p>This is deliberate. It means the system builds from the repo alone — a contributor
+can run <code>npm run build</code> (or <code>npm run build:compiledb</code> for packs only) <strong>without the
+vault present</strong>. The vault is required only to <em>regenerate</em> the <code>_source/</code> trees (a
+maintainer task), never to build. Put differently: the vault is the <strong>authoring</strong>
+source of truth; the committed <code>_source/</code> JSON is the <strong>build's</strong> source of truth.</p>
+<a id="authoring-content-in-the-heroiclands-vault" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Authoring content in the HeroicLands vault<a href="#authoring-content-in-the-heroiclands-vault" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The authoritative content lives in the
+<a href="https://github.com/HeroicLands/HeroicLands">HeroicLands Obsidian Vault</a>, a sibling
+repository the pack scripts expect at <strong><code>../HeroicLands/</code></strong> (next to this repo —
+see <code>utils/packs/export.mjs</code>). Items, actors, and journal entries are authored
+there as Markdown files with YAML frontmatter (<code>package: sohl</code>, a <code>type:</code>, a
+stable <code>id:</code>, and folder/embedding metadata).</p>
+<p>🔧 <strong>Regenerating the pack sources from the vault</strong> (maintainers with the vault):</p>
+<pre><code class="bash"><span class="hl-3">git</span><span class="hl-1"> </span><span class="hl-9">clone</span><span class="hl-1"> </span><span class="hl-9">https://github.com/HeroicLands/HeroicLands.git</span><span class="hl-1"> </span><span class="hl-9">../HeroicLands</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">packs:export</span><span class="hl-1">      </span><span class="hl-5"># vault → assets/packs/*/_source/ (wipes &amp; rewrites them)</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">build:compiledb</span><span class="hl-1">   </span><span class="hl-5"># _source/ JSON → build/stage/packs/ (LevelDB)</span><br/><span class="hl-5"># or both at once:</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">packs:rebuild</span>
+</code><button type="button">Copy</button></pre>
+
+<p><code>packs:export</code> (<code>utils/packs/export.mjs</code>) drives three per-pack compilers
+(<code>utils/packs/items.mjs</code>, <code>journals.mjs</code>, <code>actors.mjs</code>): they walk the vault,
+select files by frontmatter, validate folders against each pack's <code>folders.yaml</code>,
+and write per-entry JSON to the <code>_source/</code> tree.</p>
+<a id="6-deploying-to-a-foundry-instance" class="tsd-anchor"></a><h2 class="tsd-anchor-link">6. Deploying to a Foundry instance<a href="#6-deploying-to-a-foundry-instance" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The push scripts copy the staged system into a Foundry data directory:</p>
+<pre><code class="bash"><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">deploy:qa</span><span class="hl-1">      </span><span class="hl-5"># build, then push:qa   (build + copy in one step)</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">push:qa</span><span class="hl-1">        </span><span class="hl-5"># copy build/stage/ only (no rebuild)</span>
+</code><button type="button">Copy</button></pre>
+
+<p>The Foundry paths that drive deployment live in <strong><code>.env.local</code></strong> (copy it from
+<code>.env.local.example</code>). Use <strong>absolute paths only</strong> — <code>$HOME</code> and <code>~</code> are not
+expanded. A <code>*_DATA</code> value may be either:</p>
+<ul>
+<li>a <strong>local path</strong> (e.g. <code>/Users/me/fvtt/data</code>) — deployed with an intrinsic
+Node file copy, or</li>
+<li>a <strong>remote SFTP target</strong> (<code>[user@]host:/path</code>) — deployed over SFTP via
+<code>ssh2-sftp-client</code>, a pure-JS SSH client (no <code>ssh</code> binary required). By
+default the running <strong>SSH agent</strong> is used — <code>$SSH_AUTH_SOCK</code> on macOS/Linux,
+or the OpenSSH named pipe on Windows automatically — so if <code>ssh host</code> already
+works no extra config is needed. No password or passphrase is read from
+<code>.env.local</code> (for an encrypted key, load it into the agent with <code>ssh-add</code>).
+Per-stage overrides exist for username, port, agent endpoint
+(<code>..._AGENT=pageant</code> for PuTTY), and a key-file path that skips the agent
+entirely — see the comments in <code>.env.local.example</code>.</li>
+</ul>
+<p>Either way the push is a <strong>full mirror</strong>: the destination
+<code>Data/systems/sohl/</code> is cleared and rewritten so it ends up an exact copy of
+<code>build/stage/</code> (stale files are removed). SFTP has no delta transfer, so a
+remote push re-uploads the whole staged build each time.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FOUNDRYVTT_DEV_DATA</code></td>
+<td>The Foundry <strong>user-data root</strong> for the <strong>dev</strong> environment. <code>npm run push:dev</code> deploys <code>build/stage/</code> into <code>&lt;root&gt;/Data/systems/sohl/</code> — the <code>Data/systems/sohl/</code> suffix is appended automatically.</td>
+</tr>
+<tr>
+<td><code>FOUNDRYVTT_QA_DATA</code></td>
+<td>The user-data root for <strong>QA</strong>, used by <code>npm run push:qa</code>.</td>
+</tr>
+<tr>
+<td><code>FOUNDRYVTT_PROD_DATA</code></td>
+<td>The user-data root for <strong>production</strong>, used by <code>npm run push:prod</code>.</td>
+</tr>
+<tr>
+<td><code>FOUNDRYVTT_DEV</code> / <code>FOUNDRYVTT_QA</code> / <code>FOUNDRYVTT_PROD</code></td>
+<td>The Foundry <strong>application install</strong> path for each environment (recorded for convenience; the deploy step uses the <code>*_DATA</code> roots above).</td>
+</tr>
+</tbody>
+</table>
+<p>Point each <code>*_DATA</code> variable at the Foundry <strong>user-data directory</strong> (the one that
+contains <code>Data/</code>), not at <code>systems/</code> — the deploy appends the rest.</p>
+<p>🔧 <strong>Manual steps around a deploy:</strong></p>
+<ul>
+<li>Stop (or at least be ready to reload) Foundry — a running server can hold file
+locks and won't pick up code changes until reloaded.</li>
+<li>After the deploy completes, <strong>reload/restart</strong> Foundry to load the new system.</li>
+<li>The first time you use it in a world, select <strong>SoHL</strong> as the world's game system.</li>
+</ul>
+<a id="7-cutting-a-release" class="tsd-anchor"></a><h2 class="tsd-anchor-link">7. Cutting a release<a href="#7-cutting-a-release" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>A release is cut by <strong>merging the auto-generated &quot;Version Packages&quot; PR</strong>; the
+<code>Version and Release</code> GitHub Actions workflow (<code>.github/workflows/release.yml</code>)
+does the build, tag, GitHub Release, and asset upload. The only command you
+type by hand is the docs-deploy dispatch at the end.</p>
+<a id="while-developing" class="tsd-anchor"></a><h3 class="tsd-anchor-link">While developing<a href="#while-developing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Every <code>feat</code>/<code>bug</code> PR carries a changeset (see
+<a href="Documentation.Contributing.Writing_Changesets.html">Writing Changesets</a>):</p>
+<pre><code class="bash"><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">changeset</span><span class="hl-1">   </span><span class="hl-5"># choose the version bump, write the summary</span><br/><span class="hl-5"># then commit the generated .changeset/*.md with your PR</span>
+</code><button type="button">Copy</button></pre>
+
+<p>These accumulate on <code>main</code> as PRs merge.</p>
+<a id="to-cut-the-release-maintainer" class="tsd-anchor"></a><h3 class="tsd-anchor-link">To cut the release (maintainer)<a href="#to-cut-the-release-maintainer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ol>
+<li>
+<p>Make sure every change you want in the release is merged to <code>main</code>, each
+with its changeset.</p>
+</li>
+<li>
+<p>On each push to <code>main</code>, the workflow opens or updates a PR titled
+<strong><code>chore(release): version packages</code></strong> — it runs <code>changeset version</code> to bump
+<code>package.json</code> and rewrite <code>CHANGELOG.md</code>. Review it (the version and changelog
+are the release).</p>
+</li>
+<li>
+<p>🔧 <strong>Merge that PR</strong> — in the GitHub UI, or from the CLI (the changesets
+action opens it from the <code>changeset-release/main</code> branch):</p>
+<pre><code class="bash"><span class="hl-3">gh</span><span class="hl-1"> </span><span class="hl-9">pr</span><span class="hl-1"> </span><span class="hl-9">merge</span><span class="hl-1"> </span><span class="hl-9">changeset-release/main</span><span class="hl-1"> [--admin] --squash --delete-branch</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Merging <em>is</em> the release — there's nothing else to run locally. The workflow
+re-runs on the merge, sees a new untagged version, and automatically:</p>
+<ul>
+<li>runs <code>npm run build</code> then <code>npm run build:pack-release</code>,</li>
+<li>creates the <code>v&lt;version&gt;</code> git tag and a <strong>GitHub Release</strong>,</li>
+<li>attaches <code>system.zip</code> + <code>system.json</code> (the manifest/download Foundry installs
+and updates from).</li>
+</ul>
+</li>
+<li>
+<p>🔧 <strong>Publish the versioned API docs.</strong> The Release is created with the Actions
+<code>GITHUB_TOKEN</code>, which by design can't trigger another workflow, so the docs
+workflow does <strong>not</strong> fire on its own. Run (substituting the version just
+released — the release job also prints this exact line in its run summary):</p>
+<pre><code class="bash"><span class="hl-3">gh</span><span class="hl-1"> </span><span class="hl-9">workflow</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">deploy-docs.yml</span><span class="hl-1"> </span><span class="hl-6">--ref</span><span class="hl-1"> </span><span class="hl-9">v</span><span class="hl-1">&lt;</span><span class="hl-9">versio</span><span class="hl-1">n&gt;   </span><span class="hl-5"># e.g. v0.7.1</span>
+</code><button type="button">Copy</button></pre>
+
+<p>This publishes <code>api.heroiclands.org/v&lt;version&gt;/</code> and mirrors it to <code>/latest/</code>.</p>
+</li>
+</ol>
+<p>That's the entire release. Two notes:</p>
+<ul>
+<li><code>npm run deploy:release</code> only builds the release zip <strong>locally</strong> (into
+<code>build/dist/</code>) for inspection — it does <strong>not</strong> publish anything. Releasing
+always goes through the merge-the-PR flow above.</li>
+<li>A push to <code>main</code> with no pending changesets whose version is already tagged does
+nothing — ordinary merges never release.</li>
+</ul>
+<p><strong>At a glance — who does what:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Manual?</th>
+<th>By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Author changesets</td>
+<td>🔧 yes</td>
+<td>developer</td>
+</tr>
+<tr>
+<td>Open the Version Packages PR</td>
+<td>no (CI)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Merge the Version Packages PR</td>
+<td>🔧 yes</td>
+<td>maintainer</td>
+</tr>
+<tr>
+<td>Tag + GitHub Release + assets</td>
+<td>no (CI)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Publish versioned API docs</td>
+<td>🔧 yes (<code>gh workflow run deploy-docs.yml --ref v&lt;version&gt;</code>)</td>
+<td>maintainer</td>
+</tr>
+<tr>
+<td>Deploy to a Foundry instance</td>
+<td>🔧 yes</td>
+<td>operator</td>
+</tr>
+</tbody>
+</table>
+<a id="8-the-build-utility-scripts" class="tsd-anchor"></a><h2 class="tsd-anchor-link">8. The build utility scripts<a href="#8-the-build-utility-scripts" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The build/deploy/doc/pack tooling lives in <strong><code>utils/</code></strong> (with the pack tooling
+under <code>utils/packs/</code>). Each script carries a header comment describing its purpose
+and how to invoke it — read the file itself for the authoritative detail. In brief:</p>
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>build-system-json.mjs</code></td>
+<td>Generate <code>build/stage/system.json</code> from the template + version.</td>
+</tr>
+<tr>
+<td><code>copy-assets.mjs</code></td>
+<td>Stage templates, lang, assets, and root files into <code>build/stage/</code>.</td>
+</tr>
+<tr>
+<td><code>build-icon-font.mjs</code></td>
+<td>Build the icon font from SVGs.</td>
+</tr>
+<tr>
+<td><code>build-type-catalog.mjs</code></td>
+<td>Generate <code>docs/reference/type-catalog.md</code> from the kind enums.</td>
+</tr>
+<tr>
+<td><code>build-docs-entry.mjs</code></td>
+<td>Generate the single TypeDoc entry barrel for cross-link resolution.</td>
+</tr>
+<tr>
+<td><code>sync-doc-version.mjs</code></td>
+<td>Pin <code>…/latest</code> doc links to <code>…/v&lt;version&gt;</code> in generated output.</td>
+</tr>
+<tr>
+<td><code>docs-coverage.mjs</code></td>
+<td>Report doc-comment coverage.</td>
+</tr>
+<tr>
+<td><code>check-todos.mjs</code></td>
+<td>Fail the build on unlinked <code>TODO</code>/<code>FIXME</code> markers.</td>
+</tr>
+<tr>
+<td><code>clean.mjs</code></td>
+<td>Remove build output (<code>--distclean</code> for a deeper clean).</td>
+</tr>
+<tr>
+<td><code>pack-release.mjs</code></td>
+<td>Zip <code>build/stage/</code> into the release <code>system.zip</code> + <code>system.json</code>.</td>
+</tr>
+<tr>
+<td><code>push-stage.mjs</code></td>
+<td>deploy <code>build/stage/</code> to a Foundry instance (<code>dev</code>/<code>qa</code>/<code>prod</code>).</td>
+</tr>
+<tr>
+<td><code>release.mjs</code></td>
+<td>Legacy local release path; authenticate with <code>gh auth login</code> (CI normally cuts releases).</td>
+</tr>
+<tr>
+<td><code>packs/build-compendiums.mjs</code></td>
+<td>Compile/unpack <code>_source/</code> ↔ LevelDB packs (Foundry CLI).</td>
+</tr>
+<tr>
+<td><code>packs/export.mjs</code></td>
+<td>Vault → <code>_source/</code> export orchestrator.</td>
+</tr>
+<tr>
+<td><code>packs/{items,journals,actors}.mjs</code></td>
+<td>Per-pack vault compilers.</td>
+</tr>
+<tr>
+<td><code>packs/helpers.mjs</code></td>
+<td>Shared pack helpers (frontmatter, <code>_key</code>, folders).</td>
+</tr>
+<tr>
+<td><code>packs/clean-sources.mjs</code></td>
+<td>Remove generated <code>_source/</code> trees.</td>
+</tr>
+<tr>
+<td><code>typedoc-plugin-*.mjs</code></td>
+<td>TypeDoc plugins (source categories, nested nav, Foundry links, data-field schema).</td>
+</tr>
+</tbody>
+</table>
+<a id="see-also" class="tsd-anchor"></a><h2 class="tsd-anchor-link">See also<a href="#see-also" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li><a href="Documentation.How-to.Getting_Started.html">Getting Started</a> — the codebase tour for a new developer.</li>
+<li><a href="Documentation.Contributing.System_Development.html">System Development</a> — the rules of
+contributing and the PR workflow.</li>
+<li><a href="Documentation.Contributing.Writing_Changesets.html">Writing Changesets</a> — recording a change
+for the changelog and release.</li>
+<li><a href="Documentation.How-to.Testing.html">Testing</a> — the test tooling and patterns.</li>
+</ul>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#build-deployment-and-release"><span>Build, <wbr/>Deployment, and <wbr/>Release</span></a><ul><li><a href="#1-first-time-setup"><span>1. <wbr/>First-<wbr/>time setup</span></a></li><li><a href="#2-npm-scripts"><span>2. npm scripts</span></a></li><li><ul><li><a href="#build"><span>Build</span></a></li><li><a href="#compendium-packs"><span>Compendium packs</span></a></li><li><a href="#tests-lint-format"><span>Tests, lint, format</span></a></li><li><a href="#docs"><span>Docs</span></a></li><li><a href="#deploy-and-release"><span>Deploy and release</span></a></li></ul></li><li><a href="#3-the-build-pipeline"><span>3. <wbr/>The build pipeline</span></a></li><li><a href="#4-the-build-directory-layout"><span>4. <wbr/>The build/ directory layout</span></a></li><li><a href="#5-compendium-packs-and-the-obsidian-vault"><span>5. <wbr/>Compendium packs and the <wbr/>Obsidian vault</span></a></li><li><ul><li><a href="#design-decision--committed-pack-sources"><span>Design decision — committed pack sources</span></a></li><li><a href="#authoring-content-in-the-heroiclands-vault"><span>Authoring content in the <wbr/>Heroic<wbr/>Lands vault</span></a></li></ul></li><li><a href="#6-deploying-to-a-foundry-instance"><span>6. <wbr/>Deploying to a <wbr/>Foundry instance</span></a></li><li><a href="#7-cutting-a-release"><span>7. <wbr/>Cutting a release</span></a></li><li><ul><li><a href="#while-developing"><span>While developing</span></a></li><li><a href="#to-cut-the-release-maintainer"><span>To cut the release (maintainer)</span></a></li></ul></li><li><a href="#8-the-build-utility-scripts"><span>8. <wbr/>The build utility scripts</span></a></li><li><a href="#see-also"><span>See also</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>

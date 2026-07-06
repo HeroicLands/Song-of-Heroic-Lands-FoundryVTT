@@ -1,0 +1,187 @@
+<!DOCTYPE html><html class="default" lang="en" data-base=".."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>System Development | Song of Heroic Lands API - v0.7.0</title><meta name="description" content="Documentation for Song of Heroic Lands API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><link rel="stylesheet" href="../assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">Song of Heroic Lands API - v0.7.0</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb"><li><a href="../modules.html">Song of Heroic Lands API</a></li><li><a href="Documentation.html">Documentation</a></li><li><a href="Documentation.Contributing.html">Contributing</a></li><li><a href="Documentation.Contributing.System_Development.html">System Development</a></li></ul></div><div class="tsd-panel tsd-typography"><a id="system-development" class="tsd-anchor"></a><h1 class="tsd-anchor-link">System Development<a href="#system-development" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1><p>How to make a change to the Song of Heroic Lands (SoHL) <strong>system codebase</strong> that
+fits its architecture and gets merged. Stability, architectural coherence, and
+long-term maintainability are critical — many people run long campaigns on this
+system, so this guide is deliberately strict about process. Read it before your
+first contribution.</p>
+<blockquote>
+<p>Want to <strong>build a module</strong>, or write <strong>macros / Script Actions</strong>, rather than
+change the system itself? Start from the repository's
+<a href="../media/CONTRIBUTING.md">CONTRIBUTING.md</a>, which points each audience to the right
+guide. This page is for working on the system codebase.</p>
+</blockquote>
+<a id="governance" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Governance<a href="#governance" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li>The project is maintained by the repository owner. Architectural decisions remain
+under maintainer authority.</li>
+<li>All changes are submitted via Pull Request — no direct commits to protected
+branches.</li>
+<li>Contributions are welcome, but maintainers reserve the right to decline changes
+that do not align with the long-term direction of the system.</li>
+</ul>
+<a id="license-agreement" class="tsd-anchor"></a><h2 class="tsd-anchor-link">License agreement<a href="#license-agreement" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>By submitting a contribution (code, documentation, or creative content), you certify
+that:</p>
+<ul>
+<li>You have the legal right to contribute the material.</li>
+<li>You agree that your contribution is licensed under the project's dual-license
+structure:
+<ul>
+<li><a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL-3.0-or-later</a> for software code</li>
+<li><a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA-4.0</a> for documentation and creative content</li>
+</ul>
+</li>
+<li>Your contribution may be redistributed under those licenses.</li>
+</ul>
+<p>Contributors retain copyright to their contributions.</p>
+<a id="prohibited-content" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Prohibited content<a href="#prohibited-content" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Under no circumstances may copyrighted material from other projects or systems be
+placed in this repository. This includes, but is not limited to:</p>
+<ul>
+<li>Copyrighted text, verbatim rule descriptions, or tables from any third-party
+publisher's rulebooks or supplements</li>
+<li>Names, trademarks, or trade dress of <strong>Kelestia Productions Ltd.</strong> or
+<strong>Columbia Games</strong></li>
+<li>Art, maps, illustrations, or other creative assets owned by third parties</li>
+<li>Any content whose inclusion would infringe on the intellectual property rights of
+others</li>
+</ul>
+<p>Game mechanics themselves are not copyrightable and may be implemented, but the
+specific creative expression used to describe them (rulebook text, proprietary
+terminology, etc.) may not be reproduced. If you are unsure whether material is
+permissible, ask before contributing it. Contributions found to contain prohibited
+content will be removed immediately.</p>
+<a id="getting-set-up" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Getting set up<a href="#getting-set-up" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li><strong>Prerequisites:</strong> <strong>Node.js</strong> (see <code>engines</code> in
+<a href="../media/package.json"><code>package.json</code></a> for supported versions) and <strong>Git</strong>. All
+other tooling (TypeScript, Vite, Sass, Prettier, ESLint, vitest) installs via
+<code>npm ci</code> and runs from <code>node_modules</code>. Optional, for specific workflows: SSH
+access to a remote host (deploying to a remote Foundry instance via
+<code>npm run push:dev</code> / <code>push:prod</code>, which use SFTP over SSH — no <code>rsync</code> needed) and
+<code>gh auth login</code> (so the legacy local release helper, <code>utils/release.mjs</code>, can read
+a GitHub token from your keychain).</li>
+<li><strong>First steps:</strong> fork the repo, branch from <code>main</code>, run <code>npm ci</code>, and copy
+<code>.env.local.example</code> to <code>.env.local</code> (gitignored; one per developer). See
+<a href="Documentation.How-to.Getting_Started.html">Getting Started</a> for the full setup and codebase
+tour.</li>
+<li><strong>Learn the mental model before changing anything:</strong>
+<a href="Documentation.Concepts.Architecture_Overview.html">Architecture Overview</a> — the three-layer design and
+a map of the <code>src/</code> tree.</li>
+</ul>
+<a id="core-rules-non-negotiable" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Core rules (non-negotiable)<a href="#core-rules-non-negotiable" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ol>
+<li><strong>No cosmetic refactors.</strong> This is a large, interdependent system; cosmetic
+churn causes regressions. Change code because behavior needs it.</li>
+<li><strong>Extension over rewrites.</strong> Prefer hooks, actions, registries, and subclassing
+over editing core source.</li>
+<li><strong>Small, focused changes.</strong> One feature, one bug fix, or one documentation
+improvement per PR. No mixed refactors or &quot;drive-by cleanups.&quot;</li>
+<li><strong>No placeholders or stubs.</strong> Submit complete, working implementations.</li>
+<li><strong>Backwards compatibility.</strong> Never rename, remove, or restructure existing data
+fields without a migration strategy (see below) — treat every data-model change
+as high-risk.</li>
+<li><strong>Stable localization keys.</strong> Never rename existing keys in <code>lang/en.json</code>; add
+new keys instead.</li>
+<li><strong>The logic layer stays Foundry-free.</strong> All Foundry API access goes through
+<code>src/core/FoundryHelpers.ts</code> (see <a href="#architectural-boundaries">Architectural boundaries</a>).</li>
+<li><strong>Test-driven development.</strong> Write the test before the code it verifies.</li>
+</ol>
+<a id="development-workflow" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Development workflow<a href="#development-workflow" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="issue-first" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Issue first<a href="#issue-first" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>No repository change lands without a tracking GitHub issue — <strong>except</strong> pure
+<code>cleanup/*</code>, <code>docs/*</code>, and <code>chore/*</code> work (housekeeping, documentation, and
+tooling with no shipped-behavior change). File or find the issue before you start
+so you have its number for the branch name.</p>
+<p>When you open an issue, the <strong>body is the problem statement only</strong> — symptoms,
+reproduction, expected vs. actual, and optionally acceptance criteria. Root cause
+and the proposed fix go in a <strong>comment</strong>, not the body.</p>
+<a id="branch-naming" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Branch naming<a href="#branch-naming" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li>Feature and bug branches: <code>&lt;type&gt;/issue_&lt;#&gt;_&lt;short-kebab-summary&gt;</code> — for example
+<code>bug/issue_59_actor-pack-embedded-keys</code> or <code>feat/issue_72_combat-tracker-actions</code>.
+The <code>issue_&lt;#&gt;</code> segment is the parseable source of truth; the trailing slug is a
+human-readable label.</li>
+<li>Issue-free types: <code>cleanup/&lt;slug&gt;</code>, <code>docs/&lt;slug&gt;</code>, <code>chore/&lt;slug&gt;</code>.</li>
+</ul>
+<a id="test-driven-development" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Test-driven development<a href="#test-driven-development" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Write the test first, watch it fail, then implement. Tests run in Node via
+<a href="https://vitest.dev">vitest</a> — <strong>no Foundry VTT required</strong>:</p>
+<ul>
+<li>Construct logic objects with the builders in <code>tests/mocks/logicHarness.ts</code>
+(<code>makeItemLogic</code> / <code>makeActorLogic</code> / <code>makeMockActor</code> / <code>makeAttributeStub</code>).</li>
+<li>Use <code>it.todo(&quot;...&quot;)</code> to document intended-but-unimplemented behavior.</li>
+<li>Run <code>npm run test</code> before <code>npm run build</code>. See <a href="Documentation.How-to.Testing.html">Testing</a>.</li>
+</ul>
+<a id="no-orphan-todos" class="tsd-anchor"></a><h3 class="tsd-anchor-link">No orphan TODOs<a href="#no-orphan-todos" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Every <code>TODO</code>/<code>FIXME</code> that survives a merge must reference a tracking issue, written
+as <code>TODO(#123)</code> / <code>FIXME(#123)</code>. If a marker isn't worth an issue, do the work now
+or delete the comment. <code>npm run lint:todos</code> (run in CI and <code>build:noci</code>) fails the
+build on any unlinked marker.</p>
+<a id="changesets" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Changesets<a href="#changesets" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><code>feat/*</code> and <code>bug/*</code> branches <strong>always</strong> add a <code>.changeset/</code> entry — regardless of
+whether the change is user-facing. <code>cleanup/*</code>, <code>docs/*</code>, and <code>chore/*</code> need none.
+Keep the changeset current as work progresses (don't write it only at the end),
+reference the issue, and describe <strong>only the fix</strong> — the problem context lives in
+the issue. See <a href="Documentation.Contributing.Writing_Changesets.html">Writing Changesets</a> for details.</p>
+<a id="format-before-commit" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Format before commit<a href="#format-before-commit" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Run <code>npm run format:check</code> (Prettier) <strong>first</strong>. If a file you did <strong>not</strong> touch
+shows up as unformatted, stop and ask — do not run <code>format</code> blind, since
+<code>prettier --write .</code> formats the whole repo and would sweep unrelated drift into
+your commit. Once only your files are flagged, run <code>npm run format</code>, then <code>git add</code>
+only your files.</p>
+<a id="submitting-a-pull-request" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Submitting a pull request<a href="#submitting-a-pull-request" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Before opening the PR, both of these must pass without errors:</p>
+<pre><code class="bash"><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">build</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">docs</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Submit with a clear description of what changed and why.</p>
+<a id="architectural-boundaries" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Architectural boundaries<a href="#architectural-boundaries" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The <strong>logic/domain layer is Foundry-free</strong>, and new logic/domain code must keep it
+that way: never value-import from <code>**/foundry/**</code> or other Foundry-coupled modules —
+use <code>import type</code>, or add a <code>fvtt*</code> shim to <code>src/core/FoundryHelpers.ts</code> (plus its
+mock). The boundary, why it holds, and the ESLint + purity guards that enforce it are
+described in <a href="Documentation.Concepts.Architecture_Overview.html#logic-layer">Architecture → Logic layer</a> —
+read it (and <a href="Documentation.How-to.Extension_Points.html">Extension Points</a>) before changing core
+systems.</p>
+<a id="do-not-touch-without-maintainer-approval" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Do not touch without maintainer approval<a href="#do-not-touch-without-maintainer-approval" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Open an issue and discuss before changing any of the following — do not submit
+unsolicited PRs for them:</p>
+<ul>
+<li>The foundations: <code>SohlSystem.ts</code> (registration/wiring), <code>SohlDataModel.ts</code>,
+<code>SohlItem.ts</code> / <code>SohlActor.ts</code>, <code>SohlLogic.ts</code>, world migration logic, and
+<code>sohl.ts</code> (system initialization).</li>
+<li>Core data-model changes, the combat-resolution pipeline, the class registry, and
+large or cross-cutting refactors.</li>
+</ul>
+<p>If a data-model change is unavoidable it must be approved first, documented, ship
+with automatic migration code that upgrades old worlds seamlessly, and be tested
+against real world data — migrations must never require manual user intervention.</p>
+<a id="conventions" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Conventions<a href="#conventions" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li><strong>File headers.</strong> Every <code>.ts</code> file carries the GPL-3.0 license header; every
+<code>.hbs</code> file carries the HBS license header.</li>
+<li><strong>JSDoc.</strong> Public-API JSDoc feeds TypeDoc generation — keep it complete and
+lint-clean. PRs that modify behavior update the relevant docs: JSDoc for public
+APIs, <a href="Documentation.How-to.Extension_Points.html">Extension Points</a> for extension points, and
+the user guide under <code>../../assets/packs/journals/_source/</code> for user workflows.</li>
+<li><strong>Documentation links.</strong> In <code>docs/</code> markdown, link to code by <strong>symbol</strong>, not
+coordinates. Use <code>{@link Symbol}</code> / <code>{@link Symbol.member}</code> for API-documented
+symbols — it resolves to the symbol page on <a href="http://api.heroiclands.org">api.heroiclands.org</a> and never drifts.
+For symbols absent from the API (DataModels, Sheets), use a path-only file link
+(no line numbers) and name the symbol in prose. <strong>Never</strong> use line-range fragments
+(<code>#L120-L140</code>): they rot silently on any edit and duplicate TypeDoc's automatic,
+commit-pinned source links.</li>
+<li><strong>Foundry v14.</strong> Target Foundry VTT v14+ and follow the v14 patterns described in
+the <a href="Documentation.Concepts.Architecture_Overview.html">Architecture Overview</a>.</li>
+</ul>
+<a id="extending-sohl-instead-of-changing-it" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Extending SoHL instead of changing it<a href="#extending-sohl-instead-of-changing-it" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>If you want to <em>extend</em> the system rather than change its core — ship house rules,
+add content or automation, or script behavior — do it from the outside:</p>
+<ul>
+<li><a href="Documentation.Contributing.Writing_Modules.html">Writing Modules</a> — build a Foundry module that integrates with or
+extends SoHL via hooks, registries, the <code>sohl</code> public object, and CSS variables.</li>
+<li><a href="Documentation.Concepts.Macros_and_Actions.html">Macros and Actions</a> — write macro-bar scripts or
+document-attached Script Actions against the SoHL API.</li>
+<li><a href="Documentation.Concepts.The_SoHL_API.html">The SoHL API</a> — the document and <code>sohl</code> surfaces scripts
+and modules use.</li>
+</ul>
+<p>These build on the deeper how-to references —
+<a href="Documentation.How-to.Extension_Points.html">Extension Points</a> and
+<a href="Documentation.How-to.Lifecycle_Hooks.html">Lifecycle Hooks</a>.</p>
+<a id="ai-assisted-contributions" class="tsd-anchor"></a><h2 class="tsd-anchor-link">AI-assisted contributions<a href="#ai-assisted-contributions" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>AI tools may assist, but you are fully responsible for the result. Do not submit
+unreviewed AI-generated code. Ensure all output maintains architectural
+consistency and avoids speculative abstractions or unnecessary complexity.</p>
+<a id="welcome-contributions" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Welcome contributions<a href="#welcome-contributions" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>These areas are especially welcome and generally safe without prior discussion:</p>
+<ul>
+<li>Documentation improvements and clarifications</li>
+<li>JSDoc comment improvements</li>
+<li>User-guide enhancements</li>
+<li>Bug fixes with minimal, well-scoped changes</li>
+<li>Isolated UI/UX improvements</li>
+<li>Additional test coverage</li>
+<li>Localization contributions</li>
+</ul>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#system-development"><span>System <wbr/>Development</span></a><ul><li><a href="#governance"><span>Governance</span></a></li><li><a href="#license-agreement"><span>License agreement</span></a></li><li><a href="#prohibited-content"><span>Prohibited content</span></a></li><li><a href="#getting-set-up"><span>Getting set up</span></a></li><li><a href="#core-rules-non-negotiable"><span>Core rules (non-<wbr/>negotiable)</span></a></li><li><a href="#development-workflow"><span>Development workflow</span></a></li><li><ul><li><a href="#issue-first"><span>Issue first</span></a></li><li><a href="#branch-naming"><span>Branch naming</span></a></li><li><a href="#test-driven-development"><span>Test-<wbr/>driven development</span></a></li><li><a href="#no-orphan-todos"><span>No orphan TODOs</span></a></li><li><a href="#changesets"><span>Changesets</span></a></li><li><a href="#format-before-commit"><span>Format before commit</span></a></li><li><a href="#submitting-a-pull-request"><span>Submitting a pull request</span></a></li></ul></li><li><a href="#architectural-boundaries"><span>Architectural boundaries</span></a></li><li><a href="#do-not-touch-without-maintainer-approval"><span>Do not touch without maintainer approval</span></a></li><li><a href="#conventions"><span>Conventions</span></a></li><li><a href="#extending-sohl-instead-of-changing-it"><span>Extending <wbr/>SoHL instead of changing it</span></a></li><li><a href="#ai-assisted-contributions"><span>AI-<wbr/>assisted contributions</span></a></li><li><a href="#welcome-contributions"><span>Welcome contributions</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>

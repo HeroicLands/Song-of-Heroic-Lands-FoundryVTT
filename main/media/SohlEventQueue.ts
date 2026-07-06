@@ -16,7 +16,7 @@ import {
     fvttIsCurrentUserGM,
     fvttResolveUuidAsync,
 } from "@src/core/FoundryHelpers";
-import type { SohlTriggerContext } from "@src/core/SohlEventTrigger";
+import type { SohlTriggerContext } from "@src/entity/event/event-trigger";
 
 /**
  * A single registered subscription, uniquely identified by `(uuid, kind)`.
