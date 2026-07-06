@@ -18,6 +18,14 @@
  * ({@link ../build-docs-entry.mjs}) and the source-category plugin
  * ({@link ../typedoc-plugin-source-category.mjs}) so the architecture grouping
  * is defined in exactly one place.
+ *
+ * Exports `GROUP_DISPLAY`, `FILE_DISPLAY`, `displayForFile()`, and
+ * `CATEGORY_ORDER`. This is a pure helper module with no side effects or CLI
+ * entry point — it is imported by the docs build / TypeDoc plugins, not run
+ * directly.
+ *
+ * Usage:
+ *   (no direct script) import { displayForFile } from "./docs-grouping.mjs";
  */
 
 /**

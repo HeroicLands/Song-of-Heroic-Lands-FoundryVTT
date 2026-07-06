@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { AfflictionLogic } from "@src/document/item/logic/AfflictionLogic";
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     AFFLICTION_SUBTYPE,
     AFFLICTION_TRANSMISSION,

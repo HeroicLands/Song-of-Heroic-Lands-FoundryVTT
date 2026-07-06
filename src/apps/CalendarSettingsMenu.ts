@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlSystem } from "@src/core/SohlSystem";
+import { SohlSystem } from "@src/core/logic/SohlSystem";
 import { buildCalendarViewModel } from "@src/apps/logic/calendar-settings-view";
 
 const CalendarSettingsMenu_Base: any =

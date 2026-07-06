@@ -11,7 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlDomains, type DomainEntry } from "@src/core/SohlDomains";
+import {
+    DomainRegistry,
+    type DomainEntry,
+} from "@src/entity/domain/DomainRegistry";
 import {
     DOMAIN_FAMILY,
     DomainFamilies,
@@ -72,7 +75,9 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
      * @returns The template context of domain groups and an emptiness flag.
      */
     protected override async _prepareContext(_options: any): Promise<any> {
-        const groups = buildDomainGroups(Object.values(SohlDomains.getAll()));
+        const groups = buildDomainGroups(
+            Object.values(DomainRegistry.getAll()),
+        );
         return {
             groups,
             isEmpty: groups.length === 0,
@@ -96,7 +101,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
             isNew: true,
         });
         if (!result) return;
-        await SohlDomains.register(result, "world");
+        await DomainRegistry.register(result, "world");
         this.render();
     }
 
@@ -117,14 +122,14 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
             .closest("[data-shortcode]")
             ?.getAttribute("data-shortcode");
         if (!shortcode) return;
-        const existing = SohlDomains.get(shortcode);
+        const existing = DomainRegistry.get(shortcode);
         if (!existing) return;
         const result = await DomainManagerApp.promptForEntry({
             isNew: false,
             existing,
         });
         if (!result) return;
-        await SohlDomains.register(result);
+        await DomainRegistry.register(result);
         this.render();
     }
 
@@ -145,7 +150,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
             .closest("[data-shortcode]")
             ?.getAttribute("data-shortcode");
         if (!shortcode) return;
-        const existing = SohlDomains.get(shortcode);
+        const existing = DomainRegistry.get(shortcode);
         if (!existing) return;
         if (existing.source !== "world") {
             ui.notifications.warn(
@@ -161,7 +166,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
             )}</p>`,
         } as any);
         if (!confirmed) return;
-        await SohlDomains.remove(shortcode);
+        await DomainRegistry.remove(shortcode);
         this.render();
     }
 

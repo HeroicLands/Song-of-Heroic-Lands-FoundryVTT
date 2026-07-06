@@ -15,8 +15,8 @@ This documentation is **developer- and API-facing only**. Player- and GM-facing 
 Design and rationale — how and why the system is built the way it is.
 
 - [Architecture Overview](concepts/architecture.md)
-- [Lifecycle Model](concepts/lifecycle-model.md)
-- [Assembly Architecture](concepts/assembly-architecture.md)
+- [Macros and Actions](concepts/macros-and-actions.md)
+- [The SoHL API](concepts/sohl-api.md)
 - [CSS Architecture & Styleguide](concepts/css-architecture.md)
 
 ## How-to
@@ -26,7 +26,6 @@ Task-oriented guides for getting something done.
 - [Getting Started (New Developer Guide)](how-to/getting-started.md)
 - [Extension Points](how-to/extension-points.md)
 - [Lifecycle Hooks](how-to/lifecycle-hooks.md)
-- [Actions](how-to/actions.md)
 - [House Rules Cookbook](how-to/house-rules-cookbook.md)
 - [Testing](how-to/testing.md)
 
@@ -46,8 +45,9 @@ Contracts, catalogs, and specifications.
 
 ## Contributing
 
-Maintainer and project-meta documentation.
+How to contribute: standards, the development workflow, and maintainer/project-meta.
 
+- [System Development](contributing/system-development.md) — standards, the rules of development, and how to submit a change.
 - [API Docs Hosting (api.heroiclands.org)](contributing/api-docs-hosting.md)
 
 ## Player & GM rules (external)

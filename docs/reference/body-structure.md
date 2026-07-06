@@ -42,7 +42,7 @@ Domain objects are reconstructed on every preparation cycle. Active effects may 
 
 ## Body parts
 
-A body part is a primary anatomical division — Head, Torso, an arm, a leg, a wing. Persisted fields, per [LineageDataModel.ts:44-153](../../src/document/item/foundry/LineageDataModel.ts#L44-L153):
+A body part is a primary anatomical division — Head, Torso, an arm, a leg, a wing. Persisted fields, from the `defineSchema()` of [LineageDataModel.ts](../../src/document/item/foundry/LineageDataModel.ts):
 
 | Field         | Type                  | Purpose                                                                                            |
 | ------------- | --------------------- | -------------------------------------------------------------------------------------------------- |
@@ -55,11 +55,11 @@ A body part is a primary anatomical division — Head, Torso, an arm, a leg, a w
 | `favoredFlag` | boolean               | Marks the part as favored (off-hand vs. main-hand semantics).                                      |
 | `locations`   | `BodyLocation.Data[]` | The hit locations nested within this part.                                                         |
 
-A convenience getter `BodyPart.affectsMobility` is `true` when the part has any of the `vital`, `core`, or `locomotor` roles ([src/domain/body/BodyPart.ts:54-61](../../src/domain/body/BodyPart.ts#L54-L61)).
+A convenience getter {@link BodyPart.affectsMobility} is `true` when the part has any of the `vital`, `core`, or `locomotor` roles.
 
 ## Body locations
 
-A body location is a specific hit point within a part — Skull, Thorax, Right Elbow. Persisted fields, per [LineageDataModel.ts:88-150](../../src/document/item/foundry/LineageDataModel.ts#L88-L150):
+A body location is a specific hit point within a part — Skull, Thorax, Right Elbow. Persisted fields, also from the `defineSchema()` of [LineageDataModel.ts](../../src/document/item/foundry/LineageDataModel.ts):
 
 | Field                    | Type                             | Purpose                                                                                                                                                                                       |
 | ------------------------ | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -109,7 +109,7 @@ The adjacency graph defines which parts are next to which, as an array of unorde
 ]
 ```
 
-Each pair is bidirectional. The adjacency graph drives the **aimed-strike drift algorithm** ([BodyStructure.getRandomPart](../../src/domain/body/BodyStructure.ts#L97-L136)):
+Each pair is bidirectional. The adjacency graph drives the **aimed-strike drift algorithm** ({@link BodyStructure.getRandomPart}):
 
 1. Roll `1..spread`.
 2. If the roll ≤ the current target part's `probWeight`, that part is hit.

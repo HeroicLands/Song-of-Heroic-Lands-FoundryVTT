@@ -16,8 +16,14 @@ import {
     MysteryLogic,
     MysteryData,
 } from "@src/document/item/logic/MysteryLogic";
-import { ITEM_KIND } from "@src/utils/constants";
-const { SchemaField, NumberField, BooleanField } = foundry.data.fields;
+import {
+    ITEM_KIND,
+    MYSTERY_SUBTYPE,
+    MysterySubTypes,
+    type MysterySubType,
+} from "@src/utils/constants";
+const { SchemaField, NumberField, BooleanField, StringField } =
+    foundry.data.fields;
 
 /**
  * Builds the data schema for the Mystery item, extending the base item schema
@@ -27,6 +33,13 @@ const { SchemaField, NumberField, BooleanField } = foundry.data.fields;
 function defineMysterySchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
+        // The mystery's subtype; `buff` marks birthsigns (matched by shortcode
+        // in skill-base formulas).
+        subType: new StringField({
+            initial: MYSTERY_SUBTYPE.OTHER,
+            required: true,
+            choices: MysterySubTypes,
+        }),
         // Note: if value is null, then there is no defined level
         levelBase: new NumberField({
             integer: true,
@@ -67,6 +80,7 @@ export class MysteryDataModel<
         "SOHL.Item",
     ];
     static override readonly kind = ITEM_KIND.MYSTERY;
+    subType!: MysterySubType;
     levelBase!: number;
     charges!: {
         usesCharges: boolean;

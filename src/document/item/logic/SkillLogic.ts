@@ -11,16 +11,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { TraitLogic } from "./TraitLogic";
 import type { MysteryLogic } from "./MysteryLogic";
-import { SohlActionContext } from "@src/core/SohlActionContext";
-import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
-import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
-import type { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
-import { SkillBase } from "@src/domain/SkillBase";
+import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
+import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
 import {
     ACTION_SUBTYPE,
     ITEM_KIND,
+    MYSTERY_SUBTYPE,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     VALUE_DELTA_ID,
@@ -28,7 +28,7 @@ import {
     type SkillSubType,
 } from "@src/utils/constants";
 import { FilePath, toFilePath } from "@src/utils/helpers";
-import { SimpleRoll } from "@src/utils/SimpleRoll";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import type { SohlItem } from "../foundry/SohlItem";
 import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
 import {
@@ -37,7 +37,7 @@ import {
     fvttActiveTokenLogicForActor,
 } from "@src/core/FoundryHelpers";
 import { AttributeLogic } from "./AttributeLogic";
-import { SohlAction } from "@src/domain/action/SohlAction";
+import { SohlAction } from "@src/entity/action/SohlAction";
 
 // TODO(#70): This needs to be internationalized
 const FATE_DESC_TABLE: SuccessTestResult.LimitedDescription[] = [
@@ -119,11 +119,11 @@ export class SkillLogic<
     boosts!: number;
 
     /**
-     * The skill base, a {@link SkillBase} parsed from
+     * The computed skill base value, derived by {@link calcSkillBase} from
      * {@link SkillData.skillBaseFormula} and resolved against the actor's
-     * traits.
+     * attributes and birthsign mysteries.
      */
-    skillBase!: SkillBase;
+    skillBase!: number;
 
     /**
      * The mastery level as a {@link MasteryLevelModifier}, seeded from
@@ -198,7 +198,7 @@ export class SkillLogic<
 
         const sb = this._skillBaseForRoll;
         const resolved = rollFormula.replace(/\bsb\b/gi, String(sb));
-        const roll = SimpleRoll.fromFormula(resolved);
+        const roll = SimpleRoll.fromFormula(resolved, this);
         roll.roll();
 
         const updateData: PlainObject = {
@@ -213,7 +213,7 @@ export class SkillLogic<
      * always return 0).
      */
     protected get _skillBaseForRoll(): number {
-        return this.skillBase?.value ?? 0;
+        return this.skillBase ?? 0;
     }
 
     /**
@@ -258,9 +258,12 @@ export class SkillLogic<
         );
     }
 
-    /** Whether the skill is valid, i.e. its {@link skillBase} resolved successfully. */
+    /**
+     * Whether the skill's base formula is valid — i.e. it references at least
+     * two attributes (the minimum for a skill base average).
+     */
     get valid() {
-        return this.skillBase.valid;
+        return skillBaseAttrShortcodes(this.data.skillBaseFormula).length >= 2;
     }
 
     /** The amount by which {@link improveWithSDR} raises the base mastery level on success. */
@@ -283,7 +286,7 @@ export class SkillLogic<
      */
     async successTest(
         context: SohlActionContext,
-    ): Promise<SuccessTestResult | null | false> {
+    ): Promise<SuccessTestResult | undefined | false> {
         return this.masteryLevel.successTest(context);
     }
 
@@ -350,7 +353,7 @@ export class SkillLogic<
      */
     async improveWithSDR(context: SohlActionContext): Promise<void> {
         const updateData: PlainObject = { "system.improveFlag": false };
-        const roll = SimpleRoll.fromFormula(`1d100+${this.skillBase.value}`);
+        const roll = SimpleRoll.fromFormula(`1d100+${this.skillBase}`, this);
         roll.roll();
         const isSuccess = roll.total > this.masteryLevel.base;
 
@@ -529,9 +532,10 @@ export class SkillLogic<
         }
 
         // Calculate Skill Base
-        this.skillBase ||= new SkillBase(this.data.skillBaseFormula, {
-            attributes: this.actorLogic?.logicTypes[ITEM_KIND.ATTRIBUTE] ?? [],
-        });
+        this.skillBase = calcSkillBase(
+            this.data.skillBaseFormula,
+            this.actorLogic,
+        );
     }
 
     /** @inheritdoc */
@@ -559,9 +563,7 @@ export class SkillLogic<
             this.masteryLevel.setBase(this.masteryLevel.maxTarget);
         }
         if (
-            this.skillBase.attributes.some(
-                (attr) => attr.data.shortcode === "aur",
-            )
+            skillBaseAttrShortcodes(this.data.skillBaseFormula).includes("aur")
         ) {
             // Any skill that has Aura in its SB formula cannot use fate
             this.fateMasteryLevel.disabled =
@@ -598,6 +600,111 @@ export class SkillLogic<
  * @param ml The current Mastery Level
  * @returns The calculated Mastery Boost
  */
+/**
+ * The attribute shortcodes referenced by a skill-base formula — its `@code`
+ * terms, lowercased and stripped of any `:multiplier`. Used to validate a
+ * formula (needs ≥ 2 attributes) and to detect Aura-based skills.
+ *
+ * @param skillBaseFormula - The skill's `skillBaseFormula` string.
+ * @returns The referenced attribute shortcodes, in formula order.
+ */
+function skillBaseAttrShortcodes(skillBaseFormula: string): string[] {
+    return (skillBaseFormula || "")
+        .toLowerCase()
+        .split(",")
+        .map((term) => term.trim())
+        .filter((term) => term.startsWith("@") && term.length > 1)
+        .map((term) => term.slice(1).split(":")[0]);
+}
+
+/**
+ * Computes a skill's **skill base** (SB) value from its formula, resolving
+ * attribute references and birthsign bonuses against the owning actor.
+ *
+ * The formula is a comma-separated, case-insensitive list of terms:
+ *
+ * - `@code` — average in the actor's attribute with that shortcode; `@code:2`
+ *   weights it ×2.
+ * - `hirin:2` — add 2 if the actor has the `hirin` birthsign; `ahnu` adds 1.
+ *   Birthsigns are Mystery items of subtype `buff`, matched by shortcode; only
+ *   the single largest matching birthsign bonus applies.
+ * - `5` — a flat numeric modifier.
+ *
+ * The attribute average rounds up when exactly two attributes are given and the
+ * first (primary) exceeds the second, down when it does not, and to nearest
+ * otherwise. The result is clamped to ≥ 0. A formula referencing fewer than two
+ * attributes (or an absent formula/actor) yields 0.
+ *
+ * @param skillBaseFormula - The skill's `skillBaseFormula` string.
+ * @param actorLogic - The owning actor's logic, source of attribute scores and
+ *   birthsign mysteries; a falsy value yields 0.
+ * @returns The computed skill base value (≥ 0).
+ */
+export function calcSkillBase(
+    skillBaseFormula: string,
+    actorLogic: SohlActorLogic<any> | null | undefined,
+): number {
+    if (!skillBaseFormula || !actorLogic) return 0;
+
+    const attributes = actorLogic.logicTypes[ITEM_KIND.ATTRIBUTE];
+    // Birthsigns are `buff`-subtype Mystery items; the shortcode is the token.
+    const birthsigns = new Set(
+        actorLogic.logicTypes[ITEM_KIND.MYSTERY]
+            .filter((m) => m.data.subType === MYSTERY_SUBTYPE.BUFF)
+            .map((m) => m.data.shortcode.toLowerCase()),
+    );
+
+    const attrScores: number[] = [];
+    let birthsignBonus = 0;
+    let modifier = 0;
+
+    for (const raw of skillBaseFormula.toLowerCase().split(",")) {
+        const term = raw.trim();
+        if (!term) continue;
+
+        if (term.startsWith("@")) {
+            // Attribute reference: `@code`, optionally `@code:multiplier`.
+            const [code, multRaw] = term.slice(1).split(":");
+            if (!code) continue;
+            const mult = multRaw ? Number.parseInt(multRaw, 10) || 1 : 1;
+            const attr = attributes.find((a) => a.data.shortcode === code);
+            attrScores.push((attr?.score.effective ?? 0) * mult);
+            continue;
+        }
+
+        if (/^[-+]?\d+$/.test(term)) {
+            // Flat numeric modifier.
+            modifier += Number.parseInt(term, 10);
+            continue;
+        }
+
+        // Birthsign term: `code` (adds 1) or `code:count`. Only the largest
+        // matching birthsign bonus applies.
+        const [code, countRaw] = term.split(":");
+        const count = countRaw ? Number.parseInt(countRaw, 10) || 1 : 1;
+        if (birthsigns.has(code)) {
+            birthsignBonus = Math.max(birthsignBonus, count);
+        }
+    }
+
+    // A valid skill base averages two or more attributes.
+    if (attrScores.length < 2) return 0;
+
+    const sum = attrScores.reduce((acc, score) => acc + score, 0);
+    let average = sum / attrScores.length;
+    if (attrScores.length === 2) {
+        // Two-attribute rounding: up when the primary exceeds the secondary.
+        average =
+            attrScores[0] > attrScores[1] ?
+                Math.ceil(average)
+            :   Math.floor(average);
+    } else {
+        average = Math.round(average);
+    }
+
+    return Math.max(0, average + birthsignBonus + modifier);
+}
+
 function calcMasteryBoost(ml: number): number {
     if (ml <= 39) return 10;
     else if (ml <= 44) return 9;

@@ -12,7 +12,7 @@
  */
 
 import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
-import { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
+import { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { SOHL_CONTEXT_MENU_SORT_GROUP } from "@src/utils/constants";
 
 /**
@@ -22,7 +22,7 @@ import { SOHL_CONTEXT_MENU_SORT_GROUP } from "@src/utils/constants";
  * combatant's {@link SohlCombatant.getContextOptions}.
  */
 const COMBATANT_MENU_ACTION_DEFS =
-    CombatantLogic.defineIntrinsicActions().filter(
+    SohlCombatantLogic.defineIntrinsicActions().filter(
         (d) => d.group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
     );
 

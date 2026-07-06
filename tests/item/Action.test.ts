@@ -3,7 +3,7 @@ import {
     SohlAction,
     userMeetsExecutePermission,
     isScriptActionMutationAllowed,
-} from "@src/domain/action/SohlAction";
+} from "@src/entity/action/SohlAction";
 import { ACTION_SUBTYPE } from "@src/utils/constants";
 import * as ContextMenuEntryModule from "@src/utils/ContextMenuEntry";
 // Resolves to the mock-swapped shim in tests (vitest.config.ts alias); spy on

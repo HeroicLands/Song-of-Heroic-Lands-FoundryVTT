@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { MysticalAbilityLogic } from "@src/document/item/logic/MysticalAbilityLogic";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { ITEM_KIND } from "@src/utils/constants";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 

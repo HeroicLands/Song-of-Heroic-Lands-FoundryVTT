@@ -19,11 +19,23 @@ import {
 } from "@src/document/actor/logic/SohlActorBaseLogic";
 
 /**
- * A hybrid Actor/Item container for complex items.
+ * An **Assembly** is an Actor-document container that groups related items so they
+ * can be moved as a unit. It uses an Actor (not an Item) so Foundry's embedded-
+ * document system can host the items — and so it can be placed on scenes as a
+ * token, carry permissions, and be drag-and-dropped like any actor.
  *
- * An assembly is a group of related items that are treated as a single unit.
- * It is generally used to group physical items, such as a suit of armor
- * composed of multiple pieces that together form a single functional unit.
+ * It is both **actor-like** (a token with embedded items and permissions) and
+ * **container-like** (a set of items transferred as a group to another actor).
+ *
+ * **Drop behavior:** dropping an Assembly onto another actor (e.g. a Being) unpacks
+ * its items onto the target — the result is identical to having added each item
+ * individually. A "Full Plate Armor" assembly might group the Cuirass, Helm,
+ * Gauntlets, and Greaves (ArmorGear items); a "Treasure Chest" might group a
+ * ContainerGear with MiscGear (coins, rope) and ConcoctionGear (potions).
+ *
+ * The type follows SoHL's three-class split: this Logic holds the behavior;
+ * {@link AssemblyData} (backed by `AssemblyDataModel`) adds no fields beyond
+ * {@link SohlActorData}; `AssemblySheet` is the UI.
  *
  * @typeParam TData - The Assembly data interface.
  */

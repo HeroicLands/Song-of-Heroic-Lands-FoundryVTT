@@ -25,6 +25,9 @@ import { displayForFile } from "./docs-grouping.mjs";
  * An explicit, hand-written `@category` tag always wins — this plugin only
  * fills in a category when the author has not provided one.
  *
+ * Not invoked directly — loaded by TypeDoc via the `plugin` array in
+ * typedoc-html.json / typedoc-markdown.json.
+ *
  * @param {import("typedoc").Application} app
  */
 export function load(app) {

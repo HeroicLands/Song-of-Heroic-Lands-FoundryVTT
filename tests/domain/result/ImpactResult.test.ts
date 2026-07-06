@@ -6,9 +6,9 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { ImpactResult } from "@src/domain/result/ImpactResult";
-import { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
-import { SimpleRoll } from "@src/utils/SimpleRoll";
+import { ImpactResult } from "@src/entity/result/ImpactResult";
+import { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { instanceFromJSON } from "@src/utils/helpers";
 import { IMPACT_ASPECT } from "@src/utils/constants";
 
@@ -40,21 +40,24 @@ describe("ImpactResult", () => {
         const r = new ImpactResult(
             {
                 impactModifier: makeImpactMod(),
-                roll: new SimpleRoll({
-                    numDice: 2,
-                    dieFaces: 6,
-                    modifier: 5,
-                    rolls: [3, 4],
-                }),
+                roll: new SimpleRoll(
+                    {
+                        numDice: 2,
+                        dieFaces: 6,
+                        modifier: 5,
+                        rolls: [3, 4],
+                    },
+                    { parent },
+                ),
                 aimBodyPartCode: "head",
-                source: "Broadsword",
+                label: "Broadsword",
             } as any,
             { parent },
         );
         expect(r.total).toBe(12); // 3 + 4 + 5
         expect(r.aspect).toBe(IMPACT_ASPECT.EDGED);
         expect(r.aimBodyPartCode).toBe("head");
-        expect(r.source).toBe("Broadsword");
+        expect(r.label).toBe("Broadsword");
     });
 
     it("rolls the impact on creation when no roll is supplied", () => {
@@ -72,17 +75,20 @@ describe("ImpactResult", () => {
         const r = new ImpactResult(
             {
                 impactModifier: makeImpactMod(),
-                roll: new SimpleRoll({
-                    numDice: 2,
-                    dieFaces: 6,
-                    modifier: 5,
-                    rolls: [1, 1],
-                }),
-                source: "fall",
+                roll: new SimpleRoll(
+                    {
+                        numDice: 2,
+                        dieFaces: 6,
+                        modifier: 5,
+                        rolls: [1, 1],
+                    },
+                    { parent },
+                ),
+                label: "fall",
             } as any,
             { parent },
         );
-        expect(r.source).toBe("fall");
+        expect(r.label).toBe("fall");
         expect(r.aimBodyPartCode).toBe("");
         expect(r.total).toBe(7);
     });
@@ -91,14 +97,17 @@ describe("ImpactResult", () => {
         const r = new ImpactResult(
             {
                 impactModifier: makeImpactMod(),
-                roll: new SimpleRoll({
-                    numDice: 2,
-                    dieFaces: 6,
-                    modifier: 5,
-                    rolls: [3, 4],
-                }),
+                roll: new SimpleRoll(
+                    {
+                        numDice: 2,
+                        dieFaces: 6,
+                        modifier: 5,
+                        rolls: [3, 4],
+                    },
+                    { parent },
+                ),
                 aimBodyPartCode: "head",
-                source: "fall",
+                label: "fall",
             } as any,
             { parent },
         );
@@ -110,7 +119,7 @@ describe("ImpactResult", () => {
         expect(revived.total).toBe(12);
         expect(revived.aspect).toBe(IMPACT_ASPECT.EDGED);
         expect(revived.aimBodyPartCode).toBe("head");
-        expect(revived.source).toBe("fall");
+        expect(revived.label).toBe("fall");
         expect(revived.impactModifier).toBeInstanceOf(ImpactModifier);
     });
 });

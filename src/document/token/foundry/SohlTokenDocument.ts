@@ -11,12 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    getCanvas,
-    fvttGetTargetedTokens,
-    fvttRangeToTarget,
-} from "@src/core/FoundryHelpers";
-import { SohlActionContext } from "@src/core/SohlActionContext";
+import { buildActionScope } from "@src/utils/helpers";
+import { getCanvas, fvttGetTargetedTokens } from "@src/core/FoundryHelpers";
+import { fvttRangeToTarget } from "@src/core/FoundryHelpers";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import {
     SohlTokenDocumentLogic,
     type TokenData,
@@ -82,7 +80,10 @@ export class SohlTokenDocument extends TokenDocument {
             speaker: this.logic.speaker,
             type: actionName,
             title: btn.textContent?.trim() ?? actionName,
-            scope: { ...btn.dataset },
+            scope: buildActionScope(
+                btn.dataset,
+                (this.logic as any).actorLogic ?? this.logic,
+            ),
         });
 
         const action =
@@ -176,6 +177,10 @@ export class SohlTokenDocument extends TokenDocument {
         targetToken: SohlTokenDocument,
         gridUnits: boolean = false,
     ): number | null {
-        return fvttRangeToTarget(sourceToken, targetToken, gridUnits);
+        return fvttRangeToTarget(
+            sourceToken.logic,
+            targetToken.logic,
+            gridUnits,
+        );
     }
 }

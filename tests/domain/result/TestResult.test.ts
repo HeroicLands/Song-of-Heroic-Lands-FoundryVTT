@@ -23,7 +23,9 @@ describe("TestResult (abstract)", () => {
     });
 
     describe("toJSON()", () => {
-        it.todo("serializes the result to a plain object via instanceToJSON");
+        it.todo(
+            "serializes the result to a plain object via its curated toJSON",
+        );
     });
 
     describe("constants", () => {

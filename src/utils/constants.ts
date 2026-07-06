@@ -12,10 +12,80 @@
  */
 
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
+// Type-only imports (erased at runtime) so this stays a dependency-free leaf
+// module that both the branded classes and their consumers can import.
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
+import type { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
+import type {
+    ItemLogicByKind,
+    ActorLogicByKind,
+} from "@src/core/foundry/sohl-config";
+import type { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
+import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
+import type { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
 /** Persisted property key that records a data model's discriminator kind. */
-export const KIND_KEY: string = "__kind" as const;
+export const KIND_KEY = "__kind" as const;
 /** Persisted property key that records a data model's schema version. */
 export const SCHEMA_VERSION_KEY: string = "__schemaVer" as const;
+
+/**
+ * Runtime type brands — an `instanceof` replacement for the cases where an
+ * `instanceof` value-import would form a module cycle, or where a check must
+ * match a whole subtype hierarchy.
+ *
+ * Each brand is a module-scoped `Symbol()` (not `Symbol.for`, whose global
+ * string key would reopen the spoof door): un-spoofable, collision-free, and
+ * invisible to `Object.keys` / `JSON.stringify` / spread (so it never leaks
+ * into serialized data). A class attaches its brand with an inherited getter —
+ * `get [BRAND.SohlLogic]() { return true; }` — so every subtype at any depth
+ * carries it, and a class can carry its ancestors' brands too.
+ *
+ * Populate this lazily: a brand is only worth adding where the serializable
+ * `data.kind` / `.kind` discriminants can't serve. See {@link isA}.
+ */
+export interface BrandType extends ItemLogicByKind, ActorLogicByKind {
+    SohlLogic: SohlLogic<any>;
+    SohlItemLogic: SohlItemLogic<any>;
+    SohlActorLogic: SohlActorLogic<any>;
+    SohlCombatantLogic: SohlCombatantLogic<any>;
+    SohlTokenDocumentLogic: SohlTokenDocumentLogic;
+}
+
+/**
+ * Symbol brands for the cycle-forced base types only — those an `instanceof`
+ * value-import can't reach without forming a module cycle. Item/actor kinds are
+ * **not** here: they are matched by their serializable `.kind` discriminant in
+ * {@link isA} (no cycle, and a Symbol would buy only un-spoofability, which is
+ * meaningless for a kind). Module-scoped `Symbol()`, never an own/serialized
+ * property when attached via an inherited getter.
+ */
+export const BRAND = {
+    SohlLogic: Symbol("SohlLogic"),
+    SohlItemLogic: Symbol("SohlItemLogic"),
+    SohlActorLogic: Symbol("SohlActorLogic"),
+    SohlCombatantLogic: Symbol("SohlCombatantLogic"),
+    SohlTokenDocumentLogic: Symbol("SohlTokenDocumentLogic"),
+};
+
+/**
+ * Narrowing type guard: is `x` of the type keyed by `key`? Pass a
+ * {@link BrandType} key — a base-type name (`"SohlLogic"`) or a kind value
+ * (`ITEM_KIND.SKILL` / `ACTOR_KIND.BEING`, which narrow because `defineType`
+ * preserves literals). Base types are matched by their {@link BRAND} Symbol;
+ * item/actor kinds by the logic's `.kind` discriminant.
+ *
+ * @param x - The value to test.
+ * @param key - The brand/kind key (a {@link BrandType} key).
+ * @returns Whether `x` matches `key`, narrowing `x` to `BrandType[key]`.
+ */
+export function isA<K extends keyof BrandType>(
+    x: unknown,
+    key: K,
+): x is BrandType[K] {
+    const o = x as { kind?: unknown; [k: symbol]: unknown } | null | undefined;
+    const brand = (BRAND as Partial<Record<keyof BrandType, symbol>>)[key];
+    return brand !== undefined ? !!o?.[brand] : o?.kind === key;
+}
 
 /** Unicode glyphs used in formatted output (×, ≥, ≤, ∞, ★, ☆). */
 export const SYMBOL: StrictObject<string> = {
@@ -25,6 +95,7 @@ export const SYMBOL: StrictObject<string> = {
     INFINITY: String.fromCodePoint(0x221e),
     STARF: String.fromCharCode(0x2605),
     STAR: String.fromCharCode(0x2606),
+    EMDASH: String.fromCharCode(0x2014),
 };
 
 export const {
@@ -1331,6 +1402,7 @@ export const {
     SPIRITTALENT: "spirittalent",
     ALCHEMY: "alchemy",
     DIVINATION: "divination",
+    BIRTHSIGN: "birthsign",
 });
 /** Union of all mystical-ability subtype values. */
 export type MysticalAbilitySubType =

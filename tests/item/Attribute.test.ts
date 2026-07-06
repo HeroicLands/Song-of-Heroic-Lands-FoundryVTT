@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
-import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import { ITEM_KIND } from "@src/utils/constants";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import { makeItemLogic } from "@tests/mocks/logicHarness";

@@ -19,6 +19,9 @@
  * emit Foundry-compatible JSON. These helpers handle the common shape:
  * markdown parsing, frontmatter access (including the nested `sohl:` block),
  * filename generation, and slug normalization.
+ *
+ * Not a standalone script — a shared helper module imported by the pack
+ * compilers (export.mjs, items.mjs, journals.mjs, actors.mjs).
  */
 
 import fs from "fs";

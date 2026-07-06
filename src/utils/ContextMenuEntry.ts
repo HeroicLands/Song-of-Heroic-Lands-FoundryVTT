@@ -16,7 +16,7 @@ import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { HTMLString } from "@src/utils/helpers";
 import type { SohlContextMenuSortGroup } from "@src/utils/constants";
 import { fvttGetActor, getContextItem } from "@src/core/FoundryHelpers";
-import { SohlActionContext } from "@src/core/SohlActionContext";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SafeExpression, STANDARD_HELPERS } from "@src/utils/SafeExpression";
 
 /**

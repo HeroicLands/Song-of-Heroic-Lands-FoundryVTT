@@ -1,4 +1,61 @@
+import { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
+import { defaultToJSON, defaultFromJSON } from "@src/utils/helpers";
+import { BRAND, IMPACT_ASPECT } from "@src/utils/constants";
+
+// A stand-in owning logic carrying the SohlLogic brand.
+const parent = { id: "p", [BRAND.SohlLogic]: true } as any;
+
 describe("ImpactModifier", () => {
+    describe("toJSON / serialization", () => {
+        it("emits the roll and aspect alongside the modifier fields", () => {
+            const im = new ImpactModifier(
+                {
+                    baseValue: 3,
+                    roll: new SimpleRoll(
+                        { numDice: 2, dieFaces: 6 },
+                        { parent },
+                    ),
+                    aspect: IMPACT_ASPECT.EDGED,
+                } as any,
+                { parent },
+            );
+            const json = im.toJSON();
+            expect(json.__kind).toBe("ImpactModifier");
+            expect(json.aspect).toBe(IMPACT_ASPECT.EDGED);
+            expect((json.roll as any).__kind).toBe("SimpleRoll");
+            expect((json.roll as any).numDice).toBe(2);
+            expect((json.roll as any).dieFaces).toBe(6);
+        });
+
+        it("round-trips roll + aspect through defaultFromJSON", () => {
+            const im = new ImpactModifier(
+                {
+                    baseValue: 3,
+                    roll: new SimpleRoll(
+                        { numDice: 2, dieFaces: 6, rolls: [3, 4] },
+                        { parent },
+                    ),
+                    aspect: IMPACT_ASPECT.EDGED,
+                } as any,
+                { parent },
+            );
+            const revived = defaultFromJSON(
+                JSON.parse(JSON.stringify(defaultToJSON(im))),
+                { parent },
+            ) as ImpactModifier;
+            expect(revived).toBeInstanceOf(ImpactModifier);
+            expect(revived.numDice).toBe(2);
+            expect(revived.die).toBe(6);
+            expect(revived.aspectType).toBe(IMPACT_ASPECT.EDGED);
+        });
+
+        it("serializes a null roll as null", () => {
+            const im = new ImpactModifier({ baseValue: 2 } as any, { parent });
+            expect(im.toJSON().roll).toBeNull();
+        });
+    });
+
     describe("constructor", () => {
         it.todo(
             "creates an instance with default values (null roll, BLUNT aspect)",
