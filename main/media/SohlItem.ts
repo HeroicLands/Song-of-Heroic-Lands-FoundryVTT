@@ -225,7 +225,7 @@ export class SohlItem extends Item {
             } catch (err) {
                 sohl.log.warn(
                     `Effect "${(effect as any).name}" change "${change.key}" failed on ${this.uuid}:`,
-                    err,
+                    err as PlainObject,
                 );
             }
         }
@@ -868,7 +868,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         const destContainerId = target?.dataset.containerId;
 
         // If no other container is specified, use this item
-        let destContainer: SohlDocument | null = null;
+        let destContainer: SohlItem | null = null;
         if (destContainerId) {
             destContainer = (this.document.actor as any)?.allItems.get(
                 destContainerId,
@@ -892,7 +892,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             return true;
         }
 
-        const similarItem: SohlItem | undefined = destContainer.find(
+        const similarItem: SohlItem | undefined = (destContainer as any).find(
             (it: SohlItem) =>
                 droppedItem.id === it.id ||
                 (droppedItem.name === it.name && droppedItem.type === it.type),
