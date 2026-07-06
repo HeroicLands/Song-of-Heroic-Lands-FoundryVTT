@@ -23,6 +23,14 @@
  * Folder hierarchies are declared in each pack's `folders.yaml`. Vault
  * frontmatter references folders by id (e.g.
  * `sohl.folder: O9ilOMwjidmb04JY`); unknown ids fail the export.
+ *
+ * Reads the vault from `../HeroicLands` (sibling repo) and writes to
+ * `assets/packs/<name>/_source/`. Exits non-zero if the vault is missing or
+ * any pack reports errors.
+ *
+ * Usage:
+ *   npm run packs:export                   // → node utils/packs/export.mjs
+ *   node utils/packs/export.mjs
  */
 
 import fs from "fs";

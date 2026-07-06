@@ -42,7 +42,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <button
                 data-action="{{action}}"
                 data-action-handler-uuid="{{../targetToken.uuid}}"
-                data-opposed-test-result-json="{{../opposedTestResultJson}}">
+                data-scope="{{toJSON ../scopeData}}">
                 <i class="{{icon}}"></i> {{label}}
             </button>
             {{/each}}

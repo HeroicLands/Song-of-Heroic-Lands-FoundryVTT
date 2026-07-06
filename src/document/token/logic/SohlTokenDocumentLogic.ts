@@ -11,21 +11,21 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
-import type { SohlActionContext } from "@src/core/SohlActionContext";
-import { SohlAction } from "@src/domain/action/SohlAction";
-import { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
-import type { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
-import { showDefenseDialog } from "@src/document/actor/logic/automated-combat";
-import { resolveActionInput } from "@src/utils/actionInput";
-import { instanceFromJSON } from "@src/utils/helpers";
+import { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
+import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import { SohlAction } from "@src/entity/action/SohlAction";
+import { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
+import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import {
     ACTION_SUBTYPE,
+    BRAND,
+    isA,
     ITEM_KIND,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
+import { showDefenseDialog } from "@src/document/combatant/logic/combatant-dialogs";
 
 /**
  * The Foundry-free data contract for a SoHL token — the {@link SohlLogicData}
@@ -70,6 +70,17 @@ interface OpposedItemLogic {
 export class SohlTokenDocumentLogic<
     TData extends TokenData = TokenData,
 > extends SohlLogic<TData> {
+    /**
+     * Runtime brand identifying this as a token logic without needing an
+     * `instanceof` check against the class. Consumers in the Foundry-free
+     * layer (e.g. {@link SohlActionContext}) detect it via `isA` to avoid
+     * importing the class as a value, which would form an import cycle through
+     * {@link SohlLogic}.
+     */
+    get [BRAND.SohlTokenDocumentLogic](): true {
+        return true;
+    }
+
     /** This token's actor name, for dialog/warning text. */
     private get actorName(): string {
         return this.actorLogic?.name ?? this.name;
@@ -86,8 +97,7 @@ export class SohlTokenDocumentLogic<
         const logics: any[] = actorLogic?.allLogics ?? [];
         return logics.filter(
             (il) =>
-                (il?.data?.kind === ITEM_KIND.SKILL ||
-                    il?.data?.kind === ITEM_KIND.ATTRIBUTE) &&
+                (isA(il, ITEM_KIND.SKILL) || isA(il, ITEM_KIND.ATTRIBUTE)) &&
                 il?.masteryLevel &&
                 !il.masteryLevel.disabled,
         ) as OpposedItemLogic[];
@@ -127,26 +137,29 @@ export class SohlTokenDocumentLogic<
 
     /**
      * Resume an opposed test on this (the **target**) token — the handler the
-     * opposed-request card's Respond button addresses. Reconstructs the prior
-     * {@link OpposedTestResult} from `scope.opposedTestResultJson`, lets the
-     * defender pick the responding skill or attribute, and resolves the contest.
+     * opposed-request card's Respond button addresses. Reads the prior
+     * {@link OpposedTestResult} (already revived from the card's `data-scope`),
+     * lets the defender pick the responding skill or attribute, and resolves the
+     * contest.
      *
-     * @param context - The action context; `scope.opposedTestResultJson` carries
-     *   the serialized prior opposed test, and (when `skipDialog`)
-     *   `scope.responderLogicUuid` selects the responding item logic.
+     * @param context - The action context; `scope.opposedTestResult` is the live
+     *   prior opposed test (revived by the dispatch handler), and (when
+     *   `skipDialog`) `scope.responderLogicUuid` selects the responding item logic.
      * @returns The evaluated {@link OpposedTestResult}, `false` if a side
      *   cancelled, or `null` when it cannot be resumed.
      */
     async opposedTestResume(
         context: SohlActionContext,
-    ): Promise<OpposedTestResult | false | null> {
+    ): Promise<OpposedTestResult | false | undefined> {
         const scope = (context.scope as any) ?? {};
-        const json = scope.opposedTestResultJson;
-        if (!json) {
+        const priorTestResult = scope.opposedTestResult as
+            | OpposedTestResult
+            | undefined;
+        if (!priorTestResult) {
             sohl.log.uiWarn(
                 `${this.actorName} has no opposed test to resolve.`,
             );
-            return null;
+            return;
         }
 
         const candidates = this.opposedItemLogics();
@@ -154,7 +167,7 @@ export class SohlTokenDocumentLogic<
             sohl.log.uiWarn(
                 `${this.actorName} has no usable skill or attribute to respond with.`,
             );
-            return null;
+            return;
         }
 
         const choices: Record<string, string> = {};
@@ -163,43 +176,34 @@ export class SohlTokenDocumentLogic<
                 `${c.name} (ML:${c.masteryLevel.constrainedEffective})`;
         });
 
-        const input = await resolveActionInput<{
-            key: string;
-            situationalModifier: number;
-        }>(context, {
-            fromScope: (s) => {
-                const idx = candidates.findIndex(
-                    (c) => c.uuid === s.responderLogicUuid,
-                );
-                return {
-                    key: idx >= 0 ? String(idx) : "0",
-                    situationalModifier:
-                        Number.parseInt(String(s.situationalModifier), 10) || 0,
-                };
-            },
-            dialog: () =>
-                showDefenseDialog(
-                    `${this.actorName} — Respond to Opposed Test`,
-                    "Respond with:",
-                    choices,
-                    "0",
-                ),
-        });
-        if (!input) return null;
+        let dlgResult: { key: string; situationalModifier: number } | undefined;
+        if (scope.skipDialog) {
+            const idx = candidates.findIndex(
+                (c) => c.uuid === scope.responderLogicUuid,
+            );
+            dlgResult = {
+                key: idx >= 0 ? String(idx) : "0",
+                situationalModifier:
+                    Number.parseInt(String(scope.situationalModifier), 10) || 0,
+            };
+        } else {
+            dlgResult = await showDefenseDialog(
+                `${this.actorName} — Respond to Opposed Test`,
+                "Respond with:",
+                choices,
+                "0",
+            );
+        }
+        if (!dlgResult) return;
 
-        const responder = candidates[Number(input.key)];
-        if (!responder) return null;
-
-        const priorTestResult = instanceFromJSON<OpposedTestResult>(
-            json,
-            this.actorLogic ?? this,
-        );
+        const responder = candidates[Number(dlgResult.key)];
+        if (!responder) return;
 
         const resumeContext = context.clone();
         resumeContext.scope = {
             ...scope,
             priorTestResult,
-            situationalModifier: input.situationalModifier,
+            situationalModifier: dlgResult.situationalModifier,
         } as any;
 
         return responder.masteryLevel.opposedTestResume(resumeContext);

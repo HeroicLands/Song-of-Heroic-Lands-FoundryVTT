@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlSpeaker } from "@src/core/SohlSpeaker";
-import { SohlSystem } from "@src/core/SohlSystem";
+import { SOHLCONFIG } from "@src/core/foundry/sohl-config";
+import { SohlSystem } from "@src/core/logic/SohlSystem";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import { resolveChatCardHandlerUuid } from "@src/document/chat/chat-card-dispatch";
@@ -20,11 +20,11 @@ import { gateAutomatedDefenseButtons } from "@src/document/chat/chat-card-gating
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 import { registerCombatTrackerHooks } from "@src/document/combat/combat-tracker-hooks";
 import { registerCombatantConfigHooks } from "@src/document/combatant/combatant-config-hooks";
-import { wireSohlHookBridge } from "@src/core/SohlHookBridge";
+import { wireSohlHookBridge } from "@src/core/logic/SohlHookBridge";
 import { CalendarSettingsMenu } from "@src/apps/CalendarSettingsMenu";
 import { DomainManagerApp } from "@src/apps/DomainManagerApp";
-import { SohlDomains } from "@src/core/SohlDomains";
-import { BUILTIN_DOMAINS } from "@src/core/builtinDomains";
+import { DomainRegistry } from "@src/entity/domain/DomainRegistry";
+import { BUILTIN_DOMAINS } from "@src/entity/domain/builtin-domains";
 import { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 
 /**
@@ -34,9 +34,9 @@ import { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument
  */
 function setupSystem(): SohlSystem {
     const sohl = SohlSystem.getInstance();
-    foundry.utils.mergeObject(CONFIG, sohl.CONFIG);
+    foundry.utils.mergeObject(CONFIG, SOHLCONFIG);
     // TokenDocument is not a typed document (no `system` DataModel), so it is
-    // registered directly here rather than through a `sohl.CONFIG` block. This
+    // registered directly here rather than through a `SOHLCONFIG` block. This
     // makes canvas tokens `SohlTokenDocument` instances, giving them the
     // transient `.logic` adapter and `onChatCardButton` that the opposed-test
     // flow dispatches to.
@@ -237,12 +237,12 @@ let __builtinDomainsSeeded = false;
 function registerBuiltinDomains(): void {
     if (__builtinDomainsSeeded) return;
     __builtinDomainsSeeded = true;
-    const existing = SohlDomains.getAll();
+    const existing = DomainRegistry.getAll();
     const missing = BUILTIN_DOMAINS.filter(
         (entry) => !(entry.shortcode in existing),
     );
     if (missing.length === 0) return;
-    void SohlDomains.register(missing, "sohl").catch((err) => {
+    void DomainRegistry.register(missing, "sohl").catch((err) => {
         sohl.log.error("SoHL | Failed to register built-in domains", err);
     });
 }

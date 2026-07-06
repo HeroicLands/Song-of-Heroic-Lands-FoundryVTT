@@ -11,12 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { BodyStructure } from "@src/domain/body/BodyStructure";
+import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import {
     resolveInjury,
     buildTraumaData,
     type ResolvedInjury,
-} from "@src/domain/body/InjuryResolution";
+} from "@src/entity/body/injury-resolution";
 import {
     IMPACT_ASPECT,
     ITEM_KIND,
@@ -85,18 +85,26 @@ function toAspect(value: unknown): ImpactAspect {
 }
 
 /**
- * Parse a chat-card `data-test-result-json` payload into an
- * {@link InjuryRequest}. Returns `null` when the payload is missing or not
- * valid JSON. Pure and Foundry-free.
- * @param json - The raw JSON string from the chat card dataset.
+ * Parse a chat-card `data-scope` payload into an {@link InjuryRequest}.
+ * Accepts an already-revived scope object or a raw JSON string; returns `null`
+ * when the payload is missing or not valid. Pure and Foundry-free.
+ * @param input - The revived `data-scope` object, or a raw JSON string.
  * @returns The parsed request, or `null` if missing or invalid.
  */
-export function parseInjuryRequest(json: unknown): InjuryRequest | null {
-    if (typeof json !== "string" || !json.trim()) return null;
+export function parseInjuryRequest(input: unknown): InjuryRequest | null {
+    // Accept either an already-parsed scope object (the `data-scope` payload,
+    // revived by the dispatch handler) or a raw JSON string.
     let raw: Record<string, unknown>;
-    try {
-        raw = JSON.parse(json);
-    } catch {
+    if (typeof input === "string") {
+        if (!input.trim()) return null;
+        try {
+            raw = JSON.parse(input);
+        } catch {
+            return null;
+        }
+    } else if (input && typeof input === "object") {
+        raw = input as Record<string, unknown>;
+    } else {
         return null;
     }
     if (!raw || typeof raw !== "object") return null;

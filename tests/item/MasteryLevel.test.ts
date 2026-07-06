@@ -1,9 +1,10 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
-import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
+import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { TraitLogic } from "@src/document/item/logic/TraitLogic";
 import { ITEM_KIND, VALUE_DELTA_INFO } from "@src/utils/constants";
 import { makeItemLogic } from "@tests/mocks/logicHarness";
+import * as FoundryHelpers from "@src/core/FoundryHelpers";
 
 /*
  * The former MasteryLevelLogic class no longer exists; mastery-level test
@@ -45,7 +46,7 @@ describe("MasteryLevelModifier", () => {
     describe("constructor", () => {
         it("throws when constructed without a parent", () => {
             expect(() => new MasteryLevelModifier({})).toThrow(
-                "ValueModifier must be constructed with a parent",
+                "SohlEntity requires a parent",
             );
         });
 
@@ -187,9 +188,29 @@ describe("MasteryLevelModifier", () => {
         });
     });
 
-    describe("successTest (context.skipDialog bypass)", () => {
-        function bypassContext(scope: Record<string, unknown> = {}) {
-            return { skipDialog: true, scope } as any;
+    describe("successTest (dialog-driven flow)", () => {
+        /*
+         * The current source always drives the standard-test dialog: it builds
+         * the dialog data and awaits FoundryHelpers.inputDialog, then applies
+         * the returned situational modifier / success-level mod / roll mode to a
+         * cloned MasteryLevelModifier. A dismissed dialog (falsy return) cancels
+         * the test. We exercise that flow by stubbing inputDialog's return.
+         */
+        function ctx(scope: Record<string, unknown> = {}) {
+            return { scope } as any;
+        }
+
+        /** Stub the standard-test dialog to resolve the given form values. */
+        function mockDialog(
+            values: {
+                situationalModifier?: number;
+                successLevelMod?: number;
+                rollMode?: string;
+            } | null,
+        ) {
+            return vi
+                .spyOn(FoundryHelpers, "inputDialog")
+                .mockResolvedValue(values as any);
         }
 
         /** Stub out the Foundry-adjacent result evaluation/chat. */
@@ -203,16 +224,12 @@ describe("MasteryLevelModifier", () => {
             return { evaluate, toChat };
         }
 
-        it("resolves inputs from context.scope and returns the evaluated result", async () => {
+        it("applies the dialog's success-level mod and roll mode to the result", async () => {
             const { evaluate, toChat } = stubResult(true);
+            mockDialog({ successLevelMod: 2, rollMode: "gmroll" });
             const ml = makeMLMod();
             ml.setBase(50);
-            const result = await ml.successTest(
-                bypassContext({
-                    successLevelMod: 2,
-                    rollMode: "gmroll",
-                }),
-            );
+            const result = await ml.successTest(ctx());
             expect(result).toBeInstanceOf(SuccessTestResult);
             const tr = result as SuccessTestResult;
             expect(tr.masteryLevelModifier.successLevelMod).toBe(2);
@@ -222,16 +239,13 @@ describe("MasteryLevelModifier", () => {
         });
 
         it("applies the situational modifier as the SitMod delta", async () => {
-            // Regression: this previously used `VALUE_DELTA_ID.PLAYER`
-            // (undefined — the map is keyed by shortcode, "SitMod"), so the
-            // situational modifier was silently dropped. The call sites now
-            // use VALUE_DELTA_ID[VALUE_DELTA_INFO.PLAYER].
+            // The source adds the situational modifier under
+            // VALUE_DELTA_INFO.PLAYER ("SitMod").
             stubResult(true);
+            mockDialog({ situationalModifier: 10 });
             const ml = makeMLMod();
             ml.setBase(50);
-            const result = (await ml.successTest(
-                bypassContext({ situationalModifier: 10 }),
-            )) as SuccessTestResult;
+            const result = (await ml.successTest(ctx())) as SuccessTestResult;
             expect(
                 result.masteryLevelModifier.has(VALUE_DELTA_INFO.PLAYER),
             ).toBe(true);
@@ -240,66 +254,73 @@ describe("MasteryLevelModifier", () => {
 
         it("tests against a clone — the source modifier is left untouched", async () => {
             stubResult(true);
+            mockDialog({ situationalModifier: 10 });
             const ml = makeMLMod();
             ml.setBase(50);
-            const result = (await ml.successTest(
-                bypassContext({ situationalModifier: 10 }),
-            )) as SuccessTestResult;
+            const result = (await ml.successTest(ctx())) as SuccessTestResult;
             expect(result.masteryLevelModifier).not.toBe(ml);
             expect(ml.deltas).toHaveLength(0);
             expect(ml.effective).toBe(50);
         });
 
-        it("defaults missing scope values like the dialog defaults", async () => {
+        it("adds no SitMod delta when the situational modifier is zero", async () => {
             stubResult(true);
+            mockDialog({
+                situationalModifier: 0,
+                successLevelMod: 0,
+                rollMode: "roll",
+            });
             const ml = makeMLMod();
             ml.setBase(50);
-            const result = (await ml.successTest(
-                bypassContext({}),
-            )) as SuccessTestResult;
-            // No situational modifier → no deltas at all
+            const result = (await ml.successTest(ctx())) as SuccessTestResult;
+            // A zero situational modifier adds no delta at all
             expect(result.masteryLevelModifier.deltas).toHaveLength(0);
             expect(
                 result.masteryLevelModifier.has(VALUE_DELTA_INFO.PLAYER),
             ).toBe(false);
             expect(result.masteryLevelModifier.successLevelMod).toBe(0);
-            // Default roll mode is the result's own default ("roll")
             expect(result.rollMode).toBe("roll");
         });
 
         it("reuses a priorTestResult from scope instead of creating a new one", async () => {
             stubResult(true);
+            mockDialog({
+                situationalModifier: 0,
+                successLevelMod: 0,
+                rollMode: "roll",
+            });
             const ml = makeMLMod();
             ml.setBase(50);
-            const first = (await ml.successTest(
-                bypassContext({}),
-            )) as SuccessTestResult;
+            const first = (await ml.successTest(ctx())) as SuccessTestResult;
             const second = await ml.successTest(
-                bypassContext({ priorTestResult: first }),
+                ctx({ priorTestResult: first }),
             );
             expect(second).toBe(first);
         });
 
         it("returns false (no chat) when evaluation is not allowed", async () => {
             const { toChat } = stubResult(false);
+            mockDialog({
+                situationalModifier: 0,
+                successLevelMod: 0,
+                rollMode: "roll",
+            });
             const ml = makeMLMod();
             ml.setBase(50);
-            const result = await ml.successTest(bypassContext({}));
+            const result = await ml.successTest(ctx());
             expect(result).toBe(false);
             expect(toChat).not.toHaveBeenCalled();
         });
 
-        it("returns null when the dialog path is dismissed", async () => {
-            // Without skipDialog the mocked FoundryHelpers inputDialog
-            // resolves to null, i.e. the user dismissed the dialog.
+        it("returns undefined when the dialog is dismissed", async () => {
+            // A falsy inputDialog return cancels the test; the source bare-returns
+            // (undefined), not null.
             const { evaluate } = stubResult(true);
+            mockDialog(null);
             const ml = makeMLMod();
             ml.setBase(50);
-            const result = await ml.successTest({
-                skipDialog: false,
-                scope: {},
-            } as any);
-            expect(result).toBeNull();
+            const result = await ml.successTest(ctx());
+            expect(result).toBeUndefined();
             expect(evaluate).not.toHaveBeenCalled();
         });
     });

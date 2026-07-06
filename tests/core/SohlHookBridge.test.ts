@@ -6,8 +6,8 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { SohlEventQueue } from "@src/core/SohlEventQueue";
-import { wireSohlHookBridge } from "@src/core/SohlHookBridge";
+import { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
+import { wireSohlHookBridge } from "@src/core/logic/SohlHookBridge";
 // Mock-swapped shim (vitest alias); spy on it instead of touching raw Foundry globals.
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
 

@@ -13,10 +13,12 @@
 
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItemLogic } from "@src/document/item/foundry/SohlItem";
-import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
-import type { ItemLogicByKind } from "@src/core/SohlSystem";
-import { ItemKinds, type ItemKind } from "@src/utils/constants";
+import { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
+import { BRAND, ItemKinds, type ItemKind } from "@src/utils/constants";
 import type { FilePath, HTMLString } from "@src/utils/helpers";
+import { SohlTriggerContext } from "@src/entity/event/event-trigger";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import type { ItemLogicByKind } from "@src/core/foundry/sohl-config";
 
 /**
  * The Foundry-free foundation of the actor logic layer.
@@ -49,6 +51,14 @@ export interface SohlActorLogic<
         shortcode: string,
         type: K,
     ): ItemLogicByKind[K] | undefined;
+
+    /**
+     * Find an embedded item's logic by its `shortcode` and item kind.
+     * @typeParam K The item kind, inferred from the `type` argument.
+     * @param id The item's id.
+     * @returns The matching item's logic typed for `type`, or `undefined`.
+     */
+    getItemLogic(id: string): SohlItemLogic<any> | undefined;
 
     /** The logic instances of every embedded item, in `items` order. */
     readonly allLogics: SohlItemLogic<any>[];
@@ -99,6 +109,15 @@ export class SohlActorBaseLogic<
     TData extends SohlActorData = SohlActorData,
 > extends SohlLogic<TData> {
     /**
+     * Runtime brand identifying any actor logic — inherited by every actor-kind
+     * logic, so `isA(x, "SohlActorLogic")` matches across the whole hierarchy
+     * (which a leaf `.kind` string can't). Never an own/serialized property.
+     */
+    get [BRAND.SohlActorLogic](): true {
+        return true;
+    }
+
+    /**
      * Find an embedded item's logic by its `shortcode` and item kind.
      *
      * @remarks
@@ -122,11 +141,35 @@ export class SohlActorBaseLogic<
     getItemLogic<K extends ItemKind>(
         shortcode: string,
         type: K,
-    ): ItemLogicByKind[K] | undefined {
+    ): ItemLogicByKind[K] | undefined;
+
+    /**
+     * Find an embedded item's logic by its `id`.
+     *
+     * @param id The item's id.
+     * @returns The matching item's logic or `undefined` if no item matches.
+     */
+    getItemLogic(id: string): SohlItemLogic<any> | undefined;
+
+    /**
+     *
+     * @param idOrShortcode
+     * @param type
+     */
+    getItemLogic(
+        idOrShortcode: string,
+        type?: ItemKind,
+    ): SohlItemLogic<any> | undefined {
+        if (type !== undefined) {
+            return this.data.itemLogics.find(
+                (logic) =>
+                    logic.data.kind === type &&
+                    logic.data.shortcode === idOrShortcode,
+            );
+        }
         return this.data.itemLogics.find(
-            (logic) =>
-                logic.data.kind === type && logic.data.shortcode === shortcode,
-        ) as ItemLogicByKind[K] | undefined;
+            (logic) => logic.data.id === idOrShortcode,
+        );
     }
 
     /**
@@ -164,6 +207,29 @@ export class SohlActorBaseLogic<
     /** Whether the actor is owned by at least one player (non-GM) user. */
     get hasPlayerOwner(): boolean {
         return this.data.hasPlayerOwner;
+    }
+
+    /**
+     * Sets up the intrinsic actions for this actor.
+     * @param context The action context to use for setup.
+     */
+    setupIntrinsicActions(context: SohlActionContext): void {}
+
+    /**
+     * Handle a trigger dispatched by the SoHL event queue.
+     * Override in subclasses to implement actor-specific trigger handling.
+     * @param kind - Subscription kind identifier
+     * @param _context - Trigger context (discriminated by `context.name`)
+     * @param _payload - Optional context data attached when subscribing
+     */
+    async handleSohlEvent(
+        kind: string,
+        _context: SohlTriggerContext,
+        _payload?: Record<string, unknown>,
+    ): Promise<void> {
+        console.warn(
+            `SoHL | ${this.name} (Actor) received unhandled event "${kind}"`,
+        );
     }
 
     /* --------------------------------------------- */

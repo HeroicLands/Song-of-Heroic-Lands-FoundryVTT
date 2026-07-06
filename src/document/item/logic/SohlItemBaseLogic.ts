@@ -12,8 +12,9 @@
  */
 
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
-import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
+import { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
 import type { HTMLString } from "@src/utils/helpers";
+import { BRAND } from "@src/utils/constants";
 
 /**
  * The Foundry-free foundation of the item logic layer.
@@ -68,6 +69,15 @@ export interface SohlItemData<
 export class SohlItemBaseLogic<
     TData extends SohlItemData = SohlItemData,
 > extends SohlLogic<TData> {
+    /**
+     * Runtime brand identifying any item logic — inherited by every item-kind
+     * logic, so `isA(x, "SohlItemLogic")` matches across the whole hierarchy
+     * (which a leaf `.kind` string can't). Never an own/serialized property.
+     */
+    get [BRAND.SohlItemLogic](): true {
+        return true;
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */

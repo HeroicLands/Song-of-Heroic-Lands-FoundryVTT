@@ -16,8 +16,8 @@ import {
     LineageLogic,
     LineageData,
 } from "@src/document/item/logic/LineageLogic";
-import { BodyStructure } from "@src/domain/body/BodyStructure";
-import type { MoveBaseDict } from "@src/domain/movement/move-helpers";
+import { BodyStructure } from "@src/entity/body/BodyStructure";
+import type { MoveBaseDict } from "@src/entity/movement/move-helpers";
 import {
     Amputabilities,
     AMPUTABILITY,

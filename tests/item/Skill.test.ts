@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
-import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
-import { SimpleRoll } from "@src/utils/SimpleRoll";
+import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { ITEM_KIND } from "@src/utils/constants";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import {
@@ -85,9 +85,9 @@ describe("SkillLogic", () => {
                 { actor },
             );
             logic.initialize();
-            expect(logic.skillBase.valid).toBe(true);
-            // SkillBase averages the referenced attribute scores: (12+14)/2
-            expect(logic.skillBase.value).toBe(13);
+            expect(logic.valid).toBe(true);
+            // calcSkillBase averages the referenced attribute scores: (12+14)/2
+            expect(logic.skillBase).toBe(13);
         });
 
         it("disables fate when the actor has no Aura attribute", () => {
@@ -319,7 +319,8 @@ describe("SkillLogic", () => {
                 speaker: { toChat: vi.fn() },
             } as any);
             expect(fromFormula).toHaveBeenCalledWith(
-                `1d100+${logic.skillBase.value}`,
+                `1d100+${logic.skillBase}`,
+                logic,
             );
         });
     });
@@ -341,14 +342,17 @@ describe("SkillLogic", () => {
                     result: "42",
                 } as any);
             const actor = makeMockActor();
+            // A valid skill base averages two or more attributes; @str,@dex both
+            // at 10 gives a skill base of 10.
             actor.items.set("str1", makeAttributeStub("str", 10));
+            actor.items.set("dex1", makeAttributeStub("dex", 10));
             const logic = makeSkill(
-                { skillBaseFormula: "@str" },
+                { skillBaseFormula: "@str,@dex" },
                 { actor, flags: { "sohl.rollFormula": "2d6+sb" } },
             );
             logic.initialize();
             await logic.recalculate();
-            expect(fromFormula).toHaveBeenCalledWith("2d6+10");
+            expect(fromFormula).toHaveBeenCalledWith("2d6+10", logic);
             expect(logic.item.update).toHaveBeenCalledWith({
                 "system.masteryLevelBase": 42,
             });
@@ -368,12 +372,12 @@ describe("SkillLogic", () => {
             expect(logic.availableFate).toEqual([]);
         });
 
-        it("valid mirrors skillBase.valid", () => {
+        it("valid is false when the formula references fewer than two attributes", () => {
             const actor = makeMockActor();
             actor.items.set("str1", makeAttributeStub("str", 12));
             const logic = makeSkill({ skillBaseFormula: "@str" }, { actor });
             logic.initialize();
-            expect(logic.valid).toBe(logic.skillBase.valid);
+            expect(logic.valid).toBe(false);
         });
 
         it("canImprove requires ownership/GM and an enabled mastery level", () => {

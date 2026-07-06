@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
-import { ValueDelta } from "@src/domain/modifier/ValueDelta";
-import { VALUE_DELTA_OPERATOR } from "@src/utils/constants";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { ValueDelta } from "@src/entity/modifier/ValueDelta";
+import {
+    VALUE_DELTA_OPERATOR,
+    type ValueDeltaOperator,
+} from "@src/utils/constants";
 
 /**
  * Pure mapping rules behind SoHL's Active-Effect change application. The
@@ -33,7 +36,7 @@ import { VALUE_DELTA_OPERATOR } from "@src/utils/constants";
  * @param type - The Foundry change type string.
  * @returns The corresponding `VALUE_DELTA_OPERATOR` (`ADD` for unknown types).
  */
-export function changeTypeToOperator(type: string): string {
+export function changeTypeToOperator(type: string): ValueDeltaOperator {
     switch (type) {
         case "add":
             return VALUE_DELTA_OPERATOR.ADD;
@@ -65,12 +68,15 @@ export function pushDeltaToValueModifier(vm: ValueModifier, change: any): void {
     const effectName = change?.effect?.name ?? "Active Effect";
     const shortcode = effectName.slice(0, 16);
     try {
-        const delta = new ValueDelta({
-            name: "SOHL.INFO.ActiveEffect",
-            shortcode,
-            op: changeTypeToOperator(String(change.type ?? "add")),
-            value: String(change.value ?? 0),
-        });
+        const delta = new ValueDelta(
+            {
+                name: "SOHL.INFO.ActiveEffect",
+                shortcode,
+                op: changeTypeToOperator(String(change.type ?? "add")),
+                value: String(change.value ?? 0),
+            },
+            { parent: vm.parent },
+        );
         // Remove any existing delta from this same effect, then push fresh.
         vm.deltas = vm.deltas.filter((d) => d.shortcode !== shortcode);
         vm.deltas.push(delta);

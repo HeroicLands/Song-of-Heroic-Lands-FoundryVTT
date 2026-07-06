@@ -20,7 +20,7 @@ See also: [Calendar](./calendar.md), [Effects Integration](./effects-integration
 
 ## What it is
 
-`sohl.events` (an instance of [`SohlEventQueue`](../../src/core/SohlEventQueue.ts)) is a lightweight in-memory **trigger dispatcher**. A document — an injury, an affliction, a cohort, a piece of decaying gear — subscribes to a **trigger** (a named lifecycle moment), and when that trigger fires, the queue calls back into the document.
+`sohl.events` (an instance of [`SohlEventQueue`](../../src/entity/event/SohlEventQueue.ts)) is a lightweight in-memory **trigger dispatcher**. A document — an injury, an affliction, a cohort, a piece of decaying gear — subscribes to a **trigger** (a named lifecycle moment), and when that trigger fires, the queue calls back into the document.
 
 The queue is a dispatch engine. It carries no game rules — every rule lives in the handler on the document.
 
@@ -219,7 +219,7 @@ To add a SoHL-specific trigger (e.g. `"sohlInjuryHealed"`):
 import {
     registerSohlTrigger,
     fireSohlTrigger,
-} from "@src/core/SohlEventTrigger";
+} from "@src/entity/event/SohlEventTrigger";
 
 // During system init — adds the name to CONFIG.ActiveEffect.expiryEvents
 // so it appears in the effect-config UI's duration→expiry dropdown.

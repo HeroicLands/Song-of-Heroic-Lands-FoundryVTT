@@ -1,150 +1,39 @@
 # Contributing to Song of Heroic Lands (SoHL)
 
-Thank you for your interest in contributing to SoHL, a Foundry VTT game system. Stability, architectural coherence, and long-term maintainability are critical to this project. Please read this document carefully before submitting changes.
+Thank you for your interest in contributing to _Song of Heroic Lands_.
 
-## Governance
+# System Development
 
-- The project is maintained by the repository owner. Architectural decisions remain under maintainer authority.
-- All changes must be submitted via Pull Request — no direct commits to protected branches.
-- Contributions are welcome, but maintainers reserve the right to decline changes that do not align with the long-term direction of the system.
+If you are interested in contributing directly to the _Song of Heroic Lands_
+system codebase, please review the **System Development guide**, which holds the
+rules of development in this repo. It is published on the website and mirrored
+in-repo:
 
-## License Agreement
+- Website: <https://api.heroiclands.org/latest/documents/Documentation.Contributing.System_Development.html>
+- In-repo: [docs/contributing/system-development.md](docs/contributing/system-development.md)
 
-By submitting a contribution (code, documentation, or creative content), you certify that:
+# Writing Modules
 
-- You have the legal right to contribute the material.
-- You agree that your contribution is licensed under the project's dual-license structure:
-    - **GPL-3.0-or-later** for software code
-    - **CC-BY-SA-4.0** for documentation and creative content
-- Your contribution may be redistributed under those licenses.
+If you are interested in developing a module integrating with or extending the
+capabilities of _Song of Heroic Lands_, please review the **Module developer
+guide**, which provides guidance on standard methods to extend the functionality
+of the system with a module. It is published on the website and mirrored in-repo:
 
-Contributors retain copyright to their contributions.
+- Website: <https://api.heroiclands.org/latest/documents/Documentation.Contributing.Writing_Modules.html>
+- In-repo: [docs/contributing/module-development.md](docs/contributing/module-development.md)
 
-## Prohibited Content
+# Macro or Actions developers
 
-Under no circumstances may copyrighted material from other projects or systems be placed in this repository. This includes, but is not limited to:
+If you are interested in writing **Script Action** functions or **Foundry VTT
+Macros** that utilize the capabilities of the system, please review the **Macros
+and Actions guide**. It is published on the website and mirrored in-repo:
 
-- Copyrighted text, verbatim rule descriptions, or tables from any third-party publisher's rulebooks or supplements
-- Names, trademarks, or trade dress of **Kelestia Productions Ltd.** or **Columbia Games**
-- Art, maps, illustrations, or other creative assets owned by third parties
-- Any content whose inclusion would infringe on the intellectual property rights of others
+- Website: <https://api.heroiclands.org/latest/documents/Documentation.How-to.Macros_and_Actions.html>
+- In-repo: [docs/how-to/macros-and-actions.md](docs/how-to/macros-and-actions.md)
 
-Game mechanics themselves are not copyrightable and may be implemented, but the specific creative expression used to describe them (rulebook text, proprietary terminology, etc.) may not be reproduced.
+# Browse the API
 
-If you are unsure whether material is permissible, ask before contributing it. Contributions found to contain prohibited content will be removed immediately.
+If you simply want a more detailed look at the available public API, it is
+publicly available here:
 
-## Prerequisites
-
-- **Node.js** (see `engines` in `package.json` for supported versions)
-- **Git** — required for version control
-
-The following are only needed for specific workflows:
-
-- **rsync** — required for deploying to remote Foundry VTT instances
-  (`npm run push:dev`, `npm run push:prod`). Not needed for local deployments
-  or for building the system.
-
-Releases are created via the GitHub API (no local git tagging required).
-Set `GITHUB_TOKEN` in `.env.local` to use `npm run deploy:release`.
-
-All other tooling (TypeScript, Vite, Sass, Prettier, ESLint, etc.) is installed
-automatically via `npm ci` and runs from the project's `node_modules`.
-
-## Getting Started
-
-1. Fork the repository and create a feature branch from `main`.
-2. Run `npm ci` to install dependencies.
-3. Copy `.env.local.example` to `.env.local` and fill in the paths for your
-   local Foundry VTT installations. This file is gitignored — each developer
-   maintains their own copy. See the comments in the example file for details.
-4. Read [Getting Started](docs/how-to/getting-started.md) for an overview of the codebase and how to make changes.
-5. Review [Architecture Overview](docs/concepts/architecture.md) for the mental model and project conventions.
-6. Make your changes, ensuring `npm run build` and `npm run docs` both pass.
-7. Submit a Pull Request with a clear description of what changed and why.
-
-## Development Standards
-
-### Small, Focused Changes
-
-Each pull request should address one concern:
-
-- One feature, one bug fix, or one documentation improvement.
-- Do not mix refactors with feature changes, include "drive-by cleanups," or submit broad stylistic rewrites.
-
-### Preserve Architecture
-
-Before changing core systems, read `docs/concepts/` and `docs/how-to/extension-points.md`, and follow established patterns. Prefer:
-
-- Subclassing over branching logic
-- Adding new Result/Modifier types instead of modifying shared pipelines
-- Extending via registries rather than altering base behavior
-
-### Documentation
-
-Pull requests that modify behavior must include corresponding documentation updates:
-
-- Public APIs — update JSDoc comments (these feed TypeDoc generation)
-- Extension points — update `docs/how-to/extension-points.md`
-- User workflows — update the user guide in `assets/packs/journals/data/user-guide/`
-
-### Backwards Compatibility
-
-Backwards compatibility is critical. Many people use this system for long-running campaigns, and any change that affects the data model can prevent them from upgrading without damaging their worlds. Treat every data model change as high-risk.
-
-**Prohibited without maintainer approval:**
-
-- Renaming, removing, or restructuring existing data fields
-- Changing the shape or type of stored data
-- Altering the meaning or units of existing values
-- Removing or renaming document types or subtypes
-
-**If a data model change is unavoidable, it must:**
-
-- Be discussed with the maintainer and approved before implementation
-- Be clearly documented, explaining what changed and why
-- Include automatic migration code that detects worlds on the old schema and patches them to the new schema seamlessly on upgrade
-- Be tested against real world data to verify that existing campaigns survive the migration without data loss or corruption
-- Never require manual intervention from users — migrations must be fully automatic
-
-### Localization
-
-- Never rename existing localization keys in `lang/en.json` — add new keys instead.
-- Keep localization files consistent and organized.
-
-### AI-Assisted Contributions
-
-AI tools may be used to assist with contributions, but you are fully responsible for the result. Do not submit unreviewed AI-generated code. Ensure all output maintains architectural consistency and avoids introducing speculative abstractions or unnecessary complexity.
-
-## Validation
-
-Before submitting a PR, run:
-
-```bash
-npm run build
-npm run docs
-```
-
-Both must complete without errors.
-
-## Areas Requiring Maintainer Discussion
-
-Open an issue before working on any of the following. Do not submit unsolicited PRs for these areas:
-
-- Core data model changes
-- Combat resolution pipeline changes
-- System initialization or registration
-- Class registry changes
-- Migration logic
-- Large refactors or cross-cutting changes
-
-## Welcome Contributions
-
-The following areas are especially welcome and generally safe to contribute to without prior discussion:
-
-- Documentation improvements and clarifications
-- JSDoc comment improvements
-- User guide enhancements
-- Bug fixes with minimal, well-scoped changes
-- Isolated UI/UX improvements
-- Additional test coverage
-- Localization contributions
+- [API Reference](https://api.heroiclands.org/latest)

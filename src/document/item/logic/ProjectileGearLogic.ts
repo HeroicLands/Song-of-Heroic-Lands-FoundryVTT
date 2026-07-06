@@ -12,7 +12,7 @@
  */
 
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-import { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
+import { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
 import { ImpactAspect, ProjectileGearSubType } from "@src/utils/constants";
 
 /**

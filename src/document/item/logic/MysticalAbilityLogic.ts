@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import {
@@ -26,9 +26,9 @@ import {
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
 import { MysteryLogic } from "./MysteryLogic";
-import { SohlAction } from "@src/domain/action/SohlAction";
-import type { SohlActionContext } from "@src/core/SohlActionContext";
-import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
+import { SohlAction } from "@src/entity/action/SohlAction";
+import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 
 /**
  * An actively invoked supernatural power.

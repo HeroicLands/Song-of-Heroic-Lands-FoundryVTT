@@ -53,69 +53,17 @@ tests/
 
 For placeholder tests, use `it.todo("description")` to document intended behavior that hasn't been implemented yet. These appear in test output as skipped items, serving as a backlog of work.
 
-## Testing without Foundry VTT
+## Scope: the logic layer
 
-SoHL tests run in Node.js via vitest — no browser, no Foundry VTT server. This is possible because of two mechanisms:
+Unit tests are scoped to the **logic layer** — Logic classes and domain objects. They do not test the Foundry layer (DataModels, Sheets, documents). This is possible because the logic layer is **Foundry-isolated**: it touches Foundry only through the `FoundryHelpers` shim and the `*Data` interfaces on `logic.data` — see [Architecture → Logic layer](../concepts/architecture.md#logic-layer) for the boundary and why it holds.
 
-### 1. The Foundry runtime shim (`FoundryHelpers.ts`)
+Tests run in Node via vitest (no browser, no Foundry server) by supplying test doubles for exactly those two channels, plus the `sohl` surface:
 
-The file `src/core/FoundryHelpers.ts` is a thin wrapper around Foundry VTT globals that are only available inside a running Foundry environment:
+- **The `FoundryHelpers` shim is mock-swapped.** vitest aliases `@src/core/FoundryHelpers` to `tests/mocks/foundry/core/FoundryHelpers.ts` (see `vitest.config.ts`). Spy on that mock to stub or assert shim calls — e.g. `vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue("everyone")`. When production needs a new global, add the `fvtt`-prefixed wrapper and its mock counterpart (see [Adding new shim functions](#adding-new-shim-functions)).
+- **The Data interfaces are supplied as plain objects.** `tests/mocks/logicHarness.ts` builds a Logic instance from a plain `*Data` object exactly as `SohlDataModel.create()` does — no Foundry required (see [Writing tests for Logic classes](#writing-tests-for-logic-classes)).
+- **The `sohl` surface is set up directly, not shimmed.** `globalThis.sohl` (a {@link SohlSystem} instance — `sohl.i18n`, `sohl.log`, `sohl.CONFIG`) is SoHL's own, so `tests/setup.ts` installs a minimal one rather than wrapping it. Rule of thumb: **if SoHL owns it, set it up directly; if Foundry provides it, shim it.**
 
-- `game.*` (settings, user, actors, scenes, time)
-- `canvas.*` (tokens)
-- `Hooks.*` (callAll, onError)
-- `foundry.utils.*` (mergeObject)
-- `fromUuid` / `fromUuidSync` (document resolution)
-- `Roll` (dice — converting `SimpleRoll` to Foundry Roll for chat display)
-- `ChatMessage.*` (chat operations)
-- `TextEditor.enrichHTML()` (rich text)
-- `DialogV2.*` (dialogs)
-- `DocumentSheetConfig` (sheet registration)
-
-All exports that wrap Foundry globals use the `fvtt` prefix (e.g., `fvttGetSetting`, `fvttCallHook`). Functions that don't wrap globals (e.g., `inputDialog`, `getContextItem`) use plain names.
-
-For UI notifications, use `sohl.log.uiWarn` / `sohl.log.uiError` (SohlLogger) instead of wrapping `ui.notifications` directly.
-
-During testing, vitest swaps this module for a mock at `tests/mocks/foundry/core/FoundryHelpers.ts` via the alias configuration in `vitest.config.ts`:
-
-```typescript
-// vitest.config.ts
-{
-    find: "@src/core/FoundryHelpers",
-    replacement: isTest
-        ? path.resolve(__dirname, "tests/mocks/foundry/core/FoundryHelpers.ts")
-        : undefined, // falls through to the normal @src/* alias
-}
-```
-
-**What goes through the shim:** Only globals that Foundry VTT provides and that do not exist in Node.js. These are things you cannot construct or control yourself.
-
-**What does NOT go through the shim:** The `globalThis.sohl` object (a `SohlSystem` instance) is entirely under SoHL's control. It provides localization (`sohl.i18n`), logging (`sohl.log`), configuration (`sohl.CONFIG`), and system identity (`sohl.id`). Since we own this object, we set it up directly in the test setup file rather than shimming it.
-
-### 2. The test setup file (`tests/setup.ts`)
-
-This file runs before all tests and provides:
-
-- **`globalThis.sohl`** — A minimal `SohlSystem`-like object with working i18n (pass-through), logging (no-op), and CONFIG stubs.
-- **`globalThis.foundry`** — Minimal stubs for `foundry.data.fields.*` (schema field constructors), `foundry.utils.*`, and other compile-time dependencies.
-- **`globalThis.game`** — Stub game state (settings, user, actors, scenes).
-- **Other Foundry globals** — `ui`, `Hooks`, `CONST`, `Roll`, `ChatMessage`, `Dialog`, etc.
-
-### Design principle
-
-The boundary is clear: **if SoHL controls it, test it directly. If Foundry provides it, shim it.**
-
-| Dependency                        | Approach            | Reason                           |
-| --------------------------------- | ------------------- | -------------------------------- |
-| `sohl.i18n.localize()`            | Direct access       | We own the SohlSystem object     |
-| `sohl.log.warn()`                 | Direct access       | We own the logger                |
-| `sohl.CONFIG.ValueModifier`       | Direct access       | We own the CONFIG registry       |
-| `game.settings.get()`             | Shim                | Foundry game state               |
-| `ui.notifications.warn()`         | Shim                | Foundry UI                       |
-| `Hooks.callAll()`                 | Shim                | Foundry hook system              |
-| `Roll.create()`                   | Shim                | Foundry dice engine              |
-| `fromUuidSync()`                  | Shim                | Foundry document resolution      |
-| `foundry.data.fields.StringField` | Neither (type-only) | Compile-time schema constructors |
+`tests/setup.ts` also installs **runtime** stubs for the Foundry globals that the _Foundry layer_ builds on at load — notably `foundry.data.fields.*` (DataModels instantiate these schema-field classes in `defineSchema()`) and `game` — so a test can import a Foundry-coupled module without a running Foundry. These are not shimmed because the **logic layer never touches them directly**; only its enclosing Foundry layer does, and that layer uses Foundry directly by design (and isn't unit-tested).
 
 ## Adding new shim functions
 
@@ -162,7 +110,7 @@ Additional patterns:
 
 ## Logic-layer purity smoke test
 
-`npm run test:purity` (part of `build:noci`) runs `tests/purity/logic-imports.purity.ts` under `vitest.purity.config.ts` — a config with **no** `tests/setup.ts`, so no Foundry global stubs exist. It dynamically imports every module in the Foundry-free zones (`src/document/*/logic/`, `src/domain/`, the pure core files, `src/utils/ContextMenuEntry.ts`); any module-level `foundry.*`/`game.*` access throws and fails the suite. Together with the ESLint boundary rule in `eslint.config.js` (no value imports of Foundry-coupled modules from those zones; `import type` is allowed), this guarantees the logic layer stays unit-testable.
+`npm run test:purity` (part of `build:noci`) runs `tests/purity/logic-imports.purity.ts` under `vitest.purity.config.ts` — a config with **no** `tests/setup.ts`, so no Foundry global stubs exist. It dynamically imports every module in the Foundry-free zones (`src/document/*/logic/`, `src/domain/`, the pure core files, `src/utils/ContextMenuEntry.ts`); any module-level `foundry.*`/`game.*` access throws and fails the suite. This is one of the two boundary guards — see [Architecture → Logic layer](../concepts/architecture.md#logic-layer) for what they enforce and the complementary ESLint rule.
 
 ## End-to-end example: testing a domain object
 
@@ -173,7 +121,7 @@ Here's a complete example of testing a domain object following the TDD workflow.
 ```typescript
 // tests/domain/modifier/ValueModifier.test.ts
 import { describe, it, expect } from "vitest";
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { VALUE_DELTA_OPERATOR } from "@src/utils/constants";
 
 // Minimal mock parent — ValueModifier only checks truthiness

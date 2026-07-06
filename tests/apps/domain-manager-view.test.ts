@@ -14,7 +14,7 @@
 import { describe, it, expect } from "vitest";
 import { buildDomainGroups } from "@src/apps/logic/domain-manager-view";
 import { DOMAIN_FAMILY, domainFamilyLabels } from "@src/utils/constants";
-import type { DomainEntry } from "@src/core/SohlDomains";
+import type { DomainEntry } from "@src/entity/domain/DomainRegistry";
 
 function entry(over: Partial<DomainEntry>): DomainEntry {
     return {

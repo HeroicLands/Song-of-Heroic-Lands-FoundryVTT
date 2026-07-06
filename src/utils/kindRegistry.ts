@@ -13,7 +13,7 @@
 
 /**
  * Registry mapping serialization "kind" tags to their constructors, enabling
- * {@link instanceToJSON} / {@link defaultFromJSON} to round-trip domain class
+ * {@link defaultToJSON} / {@link defaultFromJSON} to round-trip domain class
  * instances (results, modifiers, rolls) through plain JSON — e.g. when an
  * `AttackResult` is embedded in a chat-card data attribute and rehydrated on
  * the defender's client.

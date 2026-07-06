@@ -45,8 +45,8 @@ import type { ProjectileGearLogic } from "@src/common/item/ProjectileGear";
 import type { SkillLogic } from "@src/common/item/Skill";
 import type { TraitLogic } from "@src/common/item/Trait";
 import type { WeaponGearLogic } from "@src/common/item/WeaponGear";
-import type { SohlLogic } from "@src/core/SohlLogic";
-import type { SohlActionContext } from "@src/core/SohlActionContext";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
+import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 
 // ✅ Custom utility types
 declare global {
