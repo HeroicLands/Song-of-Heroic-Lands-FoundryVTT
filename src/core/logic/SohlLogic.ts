@@ -13,6 +13,7 @@
 
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import {
@@ -511,7 +512,7 @@ function setDefaultAction(actions: SohlAction[]): SohlAction[] {
  * @remarks The base shape of every document's `system` data, reachable as `document.system` and (typed as the interface) `document.logic.data`.
  */
 export interface SohlLogicData<
-    TParent extends SohlDocument = SohlDocument,
+    TParent extends SohlDocument | SohlTokenDocument = SohlDocument,
     TLogic extends SohlLogic<any> = SohlLogic<any>,
 > {
     /** The Foundry document (actor or item) this data belongs to, or `null`. */

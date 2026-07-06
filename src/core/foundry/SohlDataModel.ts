@@ -283,8 +283,10 @@ export abstract class SohlDataModel<
             );
         }
         let dataModel: Constructor<SohlDataModel<any, any>> | undefined;
-        for (const docType of ["Item", "Actor", "ActiveEffect"]) {
-            dataModel = sohl.CONFIG[docType].dataModels[kind];
+        for (const docType of ["Item", "Actor", "ActiveEffect"] as const) {
+            dataModel = sohl.CONFIG[docType].dataModels[kind] as Constructor<
+                SohlDataModel<any, any>
+            >;
             if (dataModel) break;
         }
         if (!dataModel) {
@@ -311,7 +313,7 @@ export abstract class SohlDataModel<
 
 /** @internal */
 export namespace SohlDataModel {
-    export type Any = SohlDataModel<SohlDocument, any>;
+    export type Any = SohlDataModel<any, any>;
 
     export namespace DataModel {
         export interface Statics {
@@ -418,9 +420,9 @@ export namespace SohlDataModel {
 
             /** The actor this sheet relates to: the document itself if it is an actor, otherwise its owning actor (or `null`). */
             get actor(): SohlActor | null {
-                return ActorKinds.includes(this.document.type) ?
+                return ActorKinds.includes(this.document.type as any) ?
                         (this.document as SohlActor)
-                    :   this.document.actor || null;
+                    :   (this.document as any).actor || null;
             }
 
             /**
@@ -437,24 +439,24 @@ export namespace SohlDataModel {
                 data.config = sohl.CONFIG;
                 data.owner = !!this.document.isOwner;
                 data.limited = !!this.document.limited;
-                data.options = this.document.options;
-                data.editable = !!this.document.editable;
+                data.options = (this.document as any).options;
+                data.editable = !!(this.document as any).editable;
                 data.cssClass = data.owner ? "editable" : "locked";
                 data.isBeing = this.document.type === ACTOR_KIND.BEING;
                 data.isAssembly = this.document.type === ACTOR_KIND.ASSEMBLY;
                 data.actor =
-                    ActorKinds.includes(this.document.type) ?
+                    ActorKinds.includes(this.document.type as any) ?
                         (this.document as SohlActor)
-                    :   this.document.actor || null;
+                    :   (this.document as any).actor || null;
                 data.flags = this.document.flags;
                 data.system = this.document.system;
                 data.isGM = game.user.isGM;
                 data.fields = this.document.system.schema.fields;
-                data.effects = this.document.effects;
+                data.effects = (this.document as any).effects;
 
                 // Collect all effects from other Items/Actors that are affecting this item
                 data.trxEffects = {};
-                this.document.transferredEffects?.forEach(
+                (this.document as any).transferredEffects?.forEach(
                     (effect: SohlActiveEffect) => {
                         if (effect.id && !effect.disabled) {
                             data.trxEffects[effect.id] = effect;
@@ -612,7 +614,9 @@ export namespace SohlDataModel {
             protected static _getContextOptions(
                 doc: SohlDocument,
             ): SohlContextMenu.Entry[] {
-                let result = doc.getContextOptions() as SohlContextMenu.Entry[];
+                let result = (
+                    doc as any
+                ).getContextOptions() as SohlContextMenu.Entry[];
                 if (!result || !result.length) return [];
 
                 result = result.filter(
@@ -888,9 +892,7 @@ export namespace SohlDataModel {
 
                 newArray.push(dlgResult);
                 const updateData = { [dataset.array]: newArray };
-                const result = await (this.document as SohlDocument).update(
-                    updateData,
-                );
+                const result = await (this.document as any).update(updateData);
                 if (result) this.render();
             }
 
@@ -955,7 +957,7 @@ export namespace SohlDataModel {
 
                 array.push(dlgResult);
                 const updateData = { [dataset.array]: array };
-                await (this.document as SohlDocument).update(updateData);
+                await (this.document as any).update(updateData);
             }
 
             /**
@@ -1030,7 +1032,7 @@ export namespace SohlDataModel {
 
                 array.push(dlgResult);
                 const updateData = { [dataset.array]: array };
-                await (this.document as SohlDocument).update(updateData);
+                await (this.document as any).update(updateData);
             }
 
             /**
@@ -1111,7 +1113,7 @@ export namespace SohlDataModel {
                     ) => a.maxValue - b.maxValue,
                 );
                 const updateData = { [dataset.array]: array };
-                await (this.document as SohlDocument).update(updateData);
+                await (this.document as any).update(updateData);
                 this.render();
             }
 
@@ -1157,7 +1159,7 @@ export namespace SohlDataModel {
                     dataset.array,
                 ) as any[];
                 array = array.filter((a: any) => a !== dataset.value);
-                const result = await (this.document as SohlDocument).update({
+                const result = await (this.document as any).update({
                     [dataset.array]: array,
                 });
                 if (result) this.render();
@@ -1227,9 +1229,7 @@ export namespace SohlDataModel {
 
                 object[dlgResult.key] = dlgResult.value;
                 const updateData = { [dataset.object]: object };
-                const result = await (this.document as SohlDocument).update(
-                    updateData,
-                );
+                const result = await (this.document as any).update(updateData);
                 if (result) this.render();
             }
 

@@ -94,8 +94,11 @@ export class BodyPart extends SohlEntity {
         this.roles = [...data.roles];
         this.canHoldItem = data.canHoldItem;
         this.heldItem =
-            data.heldItemId &&
-            this.parent.actor?.items.get<SohlItem>(data.heldItemId);
+            data.heldItemId ?
+                ((this.parent.actor?.items.get<SohlItem>(data.heldItemId) as
+                    | SohlItem
+                    | undefined) ?? undefined)
+            :   undefined;
         this.probWeight = new ValueModifier(
             {},
             { parent: this.parent },

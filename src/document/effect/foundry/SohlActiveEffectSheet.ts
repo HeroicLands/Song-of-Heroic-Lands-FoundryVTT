@@ -106,7 +106,7 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
                 const metadataType = resolveEffectMetadataType(
                     scope,
                     document.type,
-                    document.parent?.type,
+                    (document.parent as any)?.type,
                     (document as any).actor?.type,
                 );
                 partContext.keyChoices = resolveEffectKeyChoices(metadataType);
