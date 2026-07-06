@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
 import {
     areCombatantsEnemies,
-    isThreatening,
     THREAT_NEGATING_STATUSES,
 } from "@src/document/combatant/logic/SohlCombatantLogic";
+import { makeCombatantLogic } from "@tests/mocks/logicHarness";
 
 describe("areCombatantsEnemies", () => {
     it("returns false when comparing a combatant to itself", () => {
@@ -37,36 +37,79 @@ describe("areCombatantsEnemies", () => {
 });
 
 describe("isThreatening", () => {
-    const base = {
-        isEnemy: true,
-        isDefeated: false,
-        isIncapacitated: false,
-        isHidden: false,
-        reaches: true,
-    };
+    /**
+     * Build a subject/candidate pair for `subject.isThreatening(candidate)`.
+     * Defaults describe an alive, conscious, visible enemy in reach:
+     * both combatants are ungrouped (so `areCombatantsEnemies` treats them as
+     * enemies), the candidate is not defeated/hidden and carries no
+     * threat-negating status, and its `reaches()` is stubbed to `true` (the
+     * real reach test is scene-coupled and covered elsewhere).
+     */
+    function makePair(
+        candidateOverrides: {
+            groupId?: string | null;
+            isDefeated?: boolean;
+            statuses?: Set<string>;
+            isHidden?: boolean;
+            reaches?: boolean;
+        } = {},
+    ) {
+        const subject = makeCombatantLogic();
+        const candidate = makeCombatantLogic();
+        const {
+            groupId = null,
+            isDefeated = false,
+            statuses = new Set<string>(),
+            isHidden = false,
+            reaches = true,
+        } = candidateOverrides;
+        candidate.data.groupId = groupId;
+        candidate.data.isDefeated = isDefeated;
+        candidate.data.statuses = statuses;
+        candidate.data.isHidden = isHidden;
+        // `isThreatening` consults `candidate.reaches(subject)`; the underlying
+        // grid-distance check needs a live scene, so stub the reach outcome.
+        candidate.reaches = () => reaches;
+        return { subject, candidate };
+    }
 
     it("returns true for an alive, conscious, capable, visible enemy in reach", () => {
-        expect(isThreatening(base)).toBe(true);
+        const { subject, candidate } = makePair();
+        expect(subject.isThreatening(candidate)).toBe(true);
     });
 
-    it("returns false when not an enemy", () => {
-        expect(isThreatening({ ...base, isEnemy: false })).toBe(false);
+    it("returns false when not an enemy (same group)", () => {
+        const { subject, candidate } = makePair({ groupId: "red" });
+        subject.data.groupId = "red";
+        expect(subject.isThreatening(candidate)).toBe(false);
+    });
+
+    it("returns false against itself", () => {
+        const { subject } = makePair();
+        subject.reaches = () => true;
+        expect(subject.isThreatening(subject)).toBe(false);
     });
 
     it("returns false when defeated", () => {
-        expect(isThreatening({ ...base, isDefeated: true })).toBe(false);
+        const { subject, candidate } = makePair({ isDefeated: true });
+        expect(subject.isThreatening(candidate)).toBe(false);
     });
 
-    it("returns false when incapacitated", () => {
-        expect(isThreatening({ ...base, isIncapacitated: true })).toBe(false);
+    it("returns false when incapacitated (threat-negating status)", () => {
+        const { subject, candidate } = makePair({
+            statuses: new Set([THREAT_NEGATING_STATUSES[0]]),
+        });
+        expect(subject.isThreatening(candidate)).toBe(false);
     });
 
     it("returns false when hidden", () => {
-        expect(isThreatening({ ...base, isHidden: true })).toBe(false);
+        const { subject, candidate } = makePair({ isHidden: true });
+        expect(subject.isThreatening(candidate)).toBe(false);
     });
 
     it("returns false when out of reach", () => {
-        expect(isThreatening({ ...base, reaches: false })).toBe(false);
+        const { subject, candidate } = makePair({ reaches: false });
+        expect(subject.isThreatening(candidate)).toBe(false);
     });
 });
 

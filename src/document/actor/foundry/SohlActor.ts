@@ -12,45 +12,26 @@
  */
 
 import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
-import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
-import type { SohlAction } from "@src/domain/action/SohlAction";
-import { isScriptActionMutationAllowed } from "@src/domain/action/SohlAction";
+import { isScriptActionMutationAllowed } from "@src/entity/action/SohlAction";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type {
     SohlItem,
     SohlItemLogic,
 } from "@src/document/item/foundry/SohlItem";
 import type { FilePath, HTMLString } from "@src/utils/helpers";
-import { SohlActionContext } from "@src/core/SohlActionContext";
-import { SohlDataModel, defineSohlDataSchema } from "@src/core/SohlDataModel";
-import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
-import { SkillBase } from "@src/domain/SkillBase";
-import { SohlSpeaker } from "@src/core/SohlSpeaker";
-import { SimpleRoll } from "@src/utils/SimpleRoll";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import {
+    SohlDataModel,
+    defineSohlDataSchema,
+} from "@src/core/foundry/SohlDataModel";
+import { SohlLogic } from "@src/core/logic/SohlLogic";
+import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import {
     fvttCallHook,
     fvttCallHookCancel,
-    fvttHookOnError,
     fvttResolveUuidAsync,
-    inputDialog,
-    type DialogButtonCallback,
 } from "@src/core/FoundryHelpers";
-import { toFilePath } from "@src/utils/helpers";
-import { IMPACT_ASPECT } from "@src/utils/constants";
-import { resolveInjury } from "@src/domain/body/InjuryResolution";
-import {
-    parseInjuryRequest,
-    isAutomatedRequest,
-    readInjuryDialogForm,
-    buildInjuryCardData,
-    resolveAutomatedInjury,
-    getActorBodyStructure,
-    createTraumaFromInjury,
-    type InjuryDialogForm,
-} from "@src/document/actor/logic/injury-actions";
-import type { ResolvedInjury } from "@src/domain/body/InjuryResolution";
-import type { SohlTriggerContext } from "@src/core/SohlEventTrigger";
-const { HTMLField, StringField, FilePathField } = foundry.data.fields;
+const { HTMLField, FilePathField } = foundry.data.fields;
 
 /**
  * Base class for all Actor documents in the SoHL system, including
@@ -164,9 +145,7 @@ export class SohlActor extends Actor {
      *
      * @remarks
      * Clears the cached speaker and lifecycle-action cache and resets each
-     * embedded item's effect-phase tracker, then — unless cancelled by the
-     * `sohl.actor.<type>.preInitialize` hook — calls {@link logic}'s `initialize`
-     * and fires `postInitialize`. Part of Foundry's data-preparation lifecycle.
+     * embedded item's effect-phase tracker.
      */
     override prepareBaseData(): void {
         super.prepareBaseData();
@@ -177,10 +156,6 @@ export class SohlActor extends Actor {
         this.items?.forEach((i) =>
             (i as any)._completedActiveEffectPhases?.clear?.(),
         );
-        if (fvttCallHookCancel(`sohl.actor.${this.type}.preInitialize`, this)) {
-            this.logic.initialize();
-        }
-        fvttCallHook(`sohl.actor.${this.type}.postInitialize`, this);
     }
 
     /**
@@ -246,7 +221,13 @@ export class SohlActor extends Actor {
          * must not be overriden; they are not used for the item lifecycle.
          */
 
-        // Phase I: Initialize all embedded items
+        // Perform initialization phase for the actor itself
+        if (fvttCallHookCancel(`sohl.actor.${this.type}.preInitialize`, this)) {
+            this.logic.initialize();
+        }
+        fvttCallHook(`sohl.actor.${this.type}.postInitialize`, this);
+
+        // Next, perform the initialization phase for all embedded items
         this.items.forEach((item) => {
             if (
                 fvttCallHookCancel(`sohl.${item.type}.preInitialize`, item, ctx)
@@ -264,7 +245,17 @@ export class SohlActor extends Actor {
             item.applyActiveEffects("initial");
         });
 
-        // Phase II: Evaluate all embedded items
+        // Perform the evaluate phase for the actor itself
+        if (
+            fvttCallHookCancel(`sohl.actor.${this.type}.preEvaluate`, this, ctx)
+        ) {
+            this.logic.evaluate();
+            fvttCallHook(`sohl.actor.${this.type}.postEvaluate`, this, ctx);
+            const postEvaluate = this.logic.actions.get("postEvaluate");
+            postEvaluate?.execute(ctx);
+        }
+
+        // Next, perform the evaluate phase for all embedded items
         this.items.forEach((it) => {
             if (fvttCallHookCancel(`sohl.${it.type}.preEvaluate`, it, ctx)) {
                 it.logic.evaluate();
@@ -275,7 +266,7 @@ export class SohlActor extends Actor {
             }
         });
 
-        // Phase III: Finalize all embedded items
+        // Next, perform the finalize phase for all embedded items
         this.items.forEach((it) => {
             if (fvttCallHookCancel(`sohl.${it.type}.preFinalize`, it, ctx)) {
                 it.logic.finalize();
@@ -285,31 +276,15 @@ export class SohlActor extends Actor {
                 postFinalize?.execute(ctx);
             }
         });
-    }
 
-    /**
-     * Run the actor logic's evaluate and finalize phases after items are
-     * prepared.
-     *
-     * @remarks
-     * Each phase is gated by its `sohl.actor.<type>.pre<Phase>` hook and followed
-     * by the matching `post<Phase>` hook. Part of Foundry's data-preparation
-     * lifecycle.
-     */
-    override prepareDerivedData(): void {
-        super.prepareDerivedData();
-        const ctx = (this.logic as any)._getContext();
-        if (
-            fvttCallHookCancel(`sohl.actor.${this.type}.preEvaluate`, this, ctx)
-        ) {
-            this.logic.evaluate();
-            fvttCallHook(`sohl.actor.${this.type}.postEvaluate`, this, ctx);
-        }
+        // Finally, perform the finalize phase for the actor itself
         if (
             fvttCallHookCancel(`sohl.actor.${this.type}.preFinalize`, this, ctx)
         ) {
             this.logic.finalize();
             fvttCallHook(`sohl.actor.${this.type}.postFinalize`, this, ctx);
+            const postFinalize = this.logic.actions.get("postFinalize");
+            postFinalize?.execute(ctx);
         }
     }
 
@@ -606,7 +581,7 @@ export abstract class SohlActorDataModel<
      * @throws If the parent is not a {@link SohlActor}.
      */
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
-        if (!(options.parent instanceof SohlActor)) {
+        if (!(options.parent?.documentName === "Actor")) {
             throw new Error("Parent must be of type SohlActor");
         }
         super(data, options);

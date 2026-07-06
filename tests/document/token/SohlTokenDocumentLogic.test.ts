@@ -29,6 +29,9 @@ function withOpposedItem(
     const logic = {
         uuid: stub.uuid,
         name: stub.name,
+        // `opposedItemLogics()` filters via `isA(il, ITEM_KIND.SKILL/ATTRIBUTE)`,
+        // which reads `il.kind` (a real logic's `get kind()` → `data.kind`).
+        kind,
         masteryLevel: {
             disabled: stub.disabled ?? "",
             constrainedEffective: stub.constrainedEffective ?? 50,
@@ -87,32 +90,34 @@ describe("SohlTokenDocumentLogic", () => {
     });
 
     describe("opposedTestResume (responder side)", () => {
-        it("warns and returns null when scope carries no opposedTestResultJson", async () => {
+        it("warns and returns undefined when scope carries no opposedTestResult", async () => {
             const tokenLogic = makeTokenLogic();
             const result = await tokenLogic.opposedTestResume({
                 scope: {},
             } as any);
 
-            expect(result).toBeNull();
+            expect(result).toBeUndefined();
             expect(warn).toHaveBeenCalledWith(
                 expect.stringMatching(/no opposed test to resolve/),
             );
         });
 
-        it("warns and returns null when the responder has no usable skill or attribute", async () => {
+        it("warns and returns undefined when the responder has no usable skill or attribute", async () => {
             const tokenLogic = makeTokenLogic();
             const result = await tokenLogic.opposedTestResume({
-                scope: { opposedTestResultJson: "{}" },
-                skipDialog: true,
+                scope: {
+                    opposedTestResult: { id: "prior" },
+                    skipDialog: true,
+                },
             } as any);
 
-            expect(result).toBeNull();
+            expect(result).toBeUndefined();
             expect(warn).toHaveBeenCalledWith(
                 expect.stringMatching(/no usable skill or attribute/),
             );
         });
 
-        it("reconstructs the prior result, selects the responding item, and delegates with priorTestResult in scope", async () => {
+        it("reads the live prior result from scope, selects the responding item, and delegates with priorTestResult in scope", async () => {
             const opposedTestResume = vi.fn().mockResolvedValue("RESOLVED");
             const actor = makeMockActor();
             withOpposedItem(actor, "skill", {
@@ -122,16 +127,14 @@ describe("SohlTokenDocumentLogic", () => {
             });
             const tokenLogic = makeTokenLogic({ actor });
 
+            // The dispatch handler already revived the prior opposed test from
+            // the card's `data-scope`, so it arrives as a live object in scope.
             const prior = { id: "prior-opposed" };
-            const fromJSON = vi
-                .spyOn(helpers, "instanceFromJSON")
-                .mockReturnValue(prior as any);
-
             const ctx = {
-                skipDialog: true,
                 scope: {
-                    opposedTestResultJson: "{}",
+                    opposedTestResult: prior,
                     responderLogicUuid: "Item.dodge1",
+                    skipDialog: true,
                 },
                 clone() {
                     return { scope: {} };
@@ -140,7 +143,6 @@ describe("SohlTokenDocumentLogic", () => {
 
             const result = await tokenLogic.opposedTestResume(ctx);
 
-            expect(fromJSON).toHaveBeenCalledWith("{}", expect.anything());
             expect(opposedTestResume).toHaveBeenCalledTimes(1);
             const passedCtx = opposedTestResume.mock.calls[0][0];
             expect(passedCtx.scope.priorTestResult).toBe(prior);

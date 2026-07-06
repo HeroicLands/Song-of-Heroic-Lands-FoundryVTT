@@ -11,12 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    collectBlockableStrikeModes,
-    hasMeleeAttackStrikeMode,
-    hasAnyStatus,
-    DEFENSE_DISABLING_STATUSES,
-} from "@src/document/actor/logic/combat-actions";
+import { collectBlockableStrikeModes } from "@src/document/combatant/logic/SohlCombatantLogic";
+import type { SohlActorLogic } from "../actor/logic/SohlActorBaseLogic";
+import { DEFENSE_DISABLING_STATUSES } from "../combatant/logic/SohlCombatantLogic";
+import { ITEM_KIND } from "@src/utils/constants";
 
 /**
  * Render-time gating for an attack card's defender-response buttons.
@@ -99,4 +97,41 @@ export function gateAutomatedDefenseButtons(
     element.querySelectorAll(".card-buttons").forEach((container) => {
         if (!container.querySelector("button")) container.remove();
     });
+}
+
+/**
+ * Whether the actor has any **melee attack** strike mode it could counterstrike
+ * with — i.e. a melee mode whose `attack` is present and not disabled (not
+ * `noAttack`). Range-independent (reach is checked when the counterstrike is
+ * actually resolved); this is the capability gate for showing the Counterstrike
+ * button. Pure and Foundry-free.
+ * @param actorLogic - The actor's logic; its weapons and combat techniques are scanned via logicTypes.
+ * @returns `true` if the actor has any usable melee attack strike mode.
+ */
+export function hasMeleeAttackStrikeMode(
+    actorLogic: SohlActorLogic<any>,
+): boolean {
+    const usable = (sm: any) => !!sm && !sm.attack?.disabled && !!sm.isMelee;
+    const lt = actorLogic.logicTypes;
+    for (const logic of lt[ITEM_KIND.WEAPONGEAR]) {
+        for (const sm of logic.strikeModes ?? []) if (usable(sm)) return true;
+    }
+    for (const logic of lt[ITEM_KIND.COMBATTECHNIQUE]) {
+        if (usable(logic.strikeMode)) return true;
+    }
+    return false;
+}
+
+/**
+ * Whether any id in `forbidden` is present in `statuses`. Pure.
+ * @param statuses - The status-effect ids currently active.
+ * @param forbidden - The status ids to scan for.
+ * @returns `true` if any forbidden id is present in `statuses`.
+ */
+export function hasAnyStatus(
+    statuses: Iterable<string>,
+    forbidden: readonly string[],
+): boolean {
+    const set = statuses instanceof Set ? statuses : new Set(statuses);
+    return forbidden.some((s) => set.has(s));
 }

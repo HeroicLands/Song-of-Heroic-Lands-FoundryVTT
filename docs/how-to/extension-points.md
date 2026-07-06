@@ -71,7 +71,7 @@ Core components:
 - `src/domain/result/*` — test and combat result classes
 - `src/domain/modifier/*` — value tracking and modification
 - `src/document/combatant/` — combatant tracking
-- `src/core/SohlActionContext.ts` — request context
+- `src/entity/action/SohlActionContext.ts` — request context
 
 **Safe extension:**
 
@@ -112,6 +112,15 @@ When adding a new button: **emit one of the recognized dataset attributes** (do 
 introduce a new attribute name), and **add an `action` case** to the resolved
 document's handler — e.g. {@link SohlActor.onChatCardButton}, which switches on
 `btn.dataset.action` (today it handles `createInjury`).
+
+To pass **data** to the action — a result, a request object — do not invent a new
+`data-*-json` attribute; put the whole payload in one `data-scope`. The card-creation
+logic sets a scope field (`scopeData: defaultToJSON(scope)`) and the template renders
+`data-scope="{{toJSON scopeData}}"` (the `{{toJSON}}` helper stringifies it); the
+handler revives it with {@link buildActionScope}, so the `action` case reads **live
+objects** off `context.scope` (e.g. `context.scope.attackResult`), never a JSON string.
+See [Chat-card dispatch contract — Passing scope](../reference/runtime-contracts.md#passing-scope-to-a-button)
+and the [Entity serialization contract](../reference/runtime-contracts.md#entity-serialization-contract).
 
 ### Cross-actor effects (the acknowledge-button pattern)
 

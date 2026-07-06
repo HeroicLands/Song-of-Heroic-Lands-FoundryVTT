@@ -12,7 +12,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { readBaseMove } from "@src/domain/movement/move-helpers";
+import { readBaseMove } from "@src/entity/movement/move-helpers";
 import { MOVEMENT_MEDIUM } from "@src/utils/constants";
 
 describe("readBaseMove", () => {

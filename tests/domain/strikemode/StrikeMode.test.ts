@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
-import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
+import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
+import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 
 // Minimal mock parent — CombatModifier/ValueModifier/ImpactModifier need a parent
 const MOCK_LOGIC = {

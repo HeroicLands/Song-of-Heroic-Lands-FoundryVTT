@@ -6,11 +6,11 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { BodyStructure } from "@src/domain/body/BodyStructure";
+import { BodyStructure } from "@src/entity/body/BodyStructure";
 import {
     aggregateArmor,
     type ArmorLayer,
-} from "@src/domain/body/ArmorAggregation";
+} from "@src/entity/body/armor-aggregation";
 
 const SKULL_LOC = {
     shortcode: "skull",
@@ -55,12 +55,13 @@ const SAMPLE_DATA: BodyStructure.Data = {
 } as any;
 
 const MOCK_LINEAGE_LOGIC = {
+    kind: "lineage",
     actor: null,
     data: { bodyStructure: SAMPLE_DATA },
 } as any;
 
 function makeBody(): BodyStructure {
-    return new BodyStructure(SAMPLE_DATA, MOCK_LINEAGE_LOGIC);
+    return new BodyStructure(SAMPLE_DATA, { parent: MOCK_LINEAGE_LOGIC });
 }
 
 function loc(body: BodyStructure, code: string) {

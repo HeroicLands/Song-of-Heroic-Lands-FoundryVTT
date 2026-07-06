@@ -10,7 +10,7 @@ import {
     fireSohlTrigger,
     registerSohlTrigger,
     SOHL_BUILTIN_TRIGGERS,
-} from "@src/core/SohlEventTrigger";
+} from "@src/entity/event/event-trigger";
 
 describe("SohlEventTrigger", () => {
     describe("SOHL_BUILTIN_TRIGGERS", () => {

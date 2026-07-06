@@ -11,19 +11,45 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { describe, it, expect } from "vitest";
-import { instanceToJSON, instanceFromJSON } from "@src/utils/helpers";
-import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
-import { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
-import { ValueDelta } from "@src/domain/modifier/ValueDelta";
-import { SimpleRoll } from "@src/utils/SimpleRoll";
-import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
-import { AttackResult } from "@src/domain/result/AttackResult";
+import { describe, it, expect, vi } from "vitest";
+import {
+    instanceFromJSON,
+    defaultToJSON,
+    defaultFromJSON,
+} from "@src/utils/helpers";
+
+// The FoundryHelpers test mock predates the combatant-UUID lookup that
+// AttackResult now performs in its constructor, so it does not export
+// `fvttLogicFromUuidSync`. Supply it here (extending the mock) so building an
+// AttackResult resolves its combatant to a minimal stand-in logic.
+vi.mock("@src/core/FoundryHelpers", async (importOriginal) => {
+    const actual = await importOriginal<Record<string, unknown>>();
+    return {
+        ...actual,
+        fvttLogicFromUuidSync: (uuid: string) => ({ uuid, name: "Combatant" }),
+    };
+});
+import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
+import { ValueDelta } from "@src/entity/modifier/ValueDelta";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
+import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
+import { AttackResult } from "@src/entity/result/AttackResult";
+import { DefendResult } from "@src/entity/result/DefendResult";
+import { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
+import { CombatResult } from "@src/entity/result/CombatResult";
 import {
     VALUE_DELTA_OPERATOR,
     MARGINAL_SUCCESS,
     CRITICAL_SUCCESS,
 } from "@src/utils/constants";
+
+/** Full serialize→string→revive cycle via the defaultToJSON/defaultFromJSON pair. */
+function cycle<T>(obj: object): T {
+    return defaultFromJSON(JSON.parse(JSON.stringify(defaultToJSON(obj))), {
+        parent,
+    }) as T;
+}
 
 /** A parent logic stub sufficient for result/modifier construction. */
 const parent = {
@@ -36,17 +62,20 @@ const parent = {
 
 /** Serialize exactly as a chat-card data attribute would: toJSON -> string. */
 function toAttr(obj: object): string {
-    return JSON.stringify(instanceToJSON(obj));
+    return JSON.stringify(defaultToJSON(obj));
 }
 
 function addDelta(m: { deltas: ValueDelta[] }, value: number): void {
     m.deltas.push(
-        new ValueDelta({
-            name: "SOHL.INFO.test",
-            shortcode: "TST",
-            op: VALUE_DELTA_OPERATOR.ADD,
-            value: String(value),
-        }),
+        new ValueDelta(
+            {
+                name: "SOHL.INFO.test",
+                shortcode: "TST",
+                op: VALUE_DELTA_OPERATOR.ADD,
+                value: String(value),
+            },
+            { parent },
+        ),
     );
     (m as any).dirty = true;
 }
@@ -92,12 +121,15 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
 
     describe("SuccessTestResult", () => {
         it("rehydrates with a live SimpleRoll and MasteryLevelModifier", () => {
-            const roll = new SimpleRoll({
-                numDice: 1,
-                dieFaces: 100,
-                modifier: 0,
-                rolls: [55],
-            });
+            const roll = new SimpleRoll(
+                {
+                    numDice: 1,
+                    dieFaces: 100,
+                    modifier: 0,
+                    rolls: [55],
+                },
+                { parent },
+            );
             const mlMod = new MasteryLevelModifier({ baseValue: 45 } as any, {
                 parent,
             });
@@ -127,11 +159,14 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
             // Simulate a result the attacker has already evaluated.
             const r = new SuccessTestResult(
                 {
-                    roll: new SimpleRoll({
-                        numDice: 1,
-                        dieFaces: 100,
-                        rolls: [5],
-                    }),
+                    roll: new SimpleRoll(
+                        {
+                            numDice: 1,
+                            dieFaces: 100,
+                            rolls: [5],
+                        },
+                        { parent },
+                    ),
                     masteryLevelModifier: new MasteryLevelModifier(
                         { baseValue: 50 } as any,
                         { parent },
@@ -155,11 +190,14 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
         it("a snapshot AttackResult keeps its evaluated success level", () => {
             const a = new AttackResult(
                 {
-                    roll: new SimpleRoll({
-                        numDice: 1,
-                        dieFaces: 100,
-                        rolls: [30],
-                    }),
+                    roll: new SimpleRoll(
+                        {
+                            numDice: 1,
+                            dieFaces: 100,
+                            rolls: [30],
+                        },
+                        { parent },
+                    ),
                     masteryLevelModifier: new MasteryLevelModifier(
                         { baseValue: 50 } as any,
                         { parent },
@@ -171,12 +209,20 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
                         } as any,
                         { parent },
                     ),
+                    mode: { itemUuid: "Item.mode", smId: "sm1" },
+                    combatantUuid: "Combatant.c1",
                 } as any,
                 { parent },
             );
             (a as any)._successLevel = MARGINAL_SUCCESS;
 
-            const revived = instanceFromJSON<AttackResult>(toAttr(a), parent);
+            // `combatantUuid` is a transient the constructor resolves to a live
+            // combatant (never stored on the instance, so never serialized) —
+            // re-supply it on rehydrate the same way `parent` is re-supplied.
+            const revived = instanceFromJSON<AttackResult>(
+                { ...JSON.parse(toAttr(a)), combatantUuid: "Combatant.c1" },
+                parent,
+            );
 
             expect(revived.successLevel).toBe(MARGINAL_SUCCESS);
         });
@@ -198,22 +244,32 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
             );
             const a = new AttackResult(
                 {
-                    roll: new SimpleRoll({
-                        numDice: 1,
-                        dieFaces: 100,
-                        rolls: [30],
-                    }),
+                    roll: new SimpleRoll(
+                        {
+                            numDice: 1,
+                            dieFaces: 100,
+                            rolls: [30],
+                        },
+                        { parent },
+                    ),
                     masteryLevelModifier: new MasteryLevelModifier(
                         { baseValue: 50 } as any,
                         { parent },
                     ),
                     impact,
                     aimBodyPartCode: "head",
+                    mode: { itemUuid: "Item.mode", smId: "sm1" },
+                    combatantUuid: "Combatant.c1",
                 } as any,
                 { parent },
             );
 
-            const revived = instanceFromJSON<AttackResult>(toAttr(a), parent);
+            // `combatantUuid` is a transient (see the snapshot test above);
+            // re-supply it on rehydrate alongside `parent`.
+            const revived = instanceFromJSON<AttackResult>(
+                { ...JSON.parse(toAttr(a)), combatantUuid: "Combatant.c1" },
+                parent,
+            );
 
             expect(revived).toBeInstanceOf(AttackResult);
             expect(revived.impact).toBeInstanceOf(ImpactModifier);
@@ -221,6 +277,117 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
             expect(revived.impact.die).toBe(6);
             expect(revived.aimBodyPartCode).toBe("head");
             expect(revived.roll.total).toBe(30);
+        });
+    });
+
+    describe("OpposedTestResult", () => {
+        it("rehydrates both contestants' success tests via toJSON", () => {
+            const source = new SuccessTestResult(
+                {
+                    roll: new SimpleRoll(
+                        { numDice: 1, dieFaces: 100, rolls: [15] },
+                        { parent },
+                    ),
+                    masteryLevelModifier: new MasteryLevelModifier(
+                        { baseValue: 60 } as any,
+                        { parent },
+                    ),
+                } as any,
+                { parent },
+            );
+            const target = new SuccessTestResult(
+                {
+                    roll: new SimpleRoll(
+                        { numDice: 1, dieFaces: 100, rolls: [95] },
+                        { parent },
+                    ),
+                    masteryLevelModifier: new MasteryLevelModifier(
+                        { baseValue: 40 } as any,
+                        { parent },
+                    ),
+                } as any,
+                { parent },
+            );
+            const o = new OpposedTestResult(
+                {
+                    sourceTestResult: source,
+                    targetTestResult: target,
+                    tieBreak: 1,
+                    breakTies: true,
+                } as any,
+                { parent },
+            );
+
+            const revived = cycle<OpposedTestResult>(o);
+            expect(revived).toBeInstanceOf(OpposedTestResult);
+            expect(revived.sourceTestResult).toBeInstanceOf(SuccessTestResult);
+            expect(revived.targetTestResult).toBeInstanceOf(SuccessTestResult);
+            expect(revived.sourceTestResult.roll.total).toBe(15);
+            expect(revived.targetTestResult.roll.total).toBe(95);
+            expect(revived.tieBreak).toBe(1);
+            expect(revived.breakTies).toBe(true);
+        });
+    });
+
+    describe("CombatResult", () => {
+        it("rehydrates its nested attack and defend results self-contained", () => {
+            const attack = new AttackResult(
+                {
+                    roll: new SimpleRoll(
+                        { numDice: 1, dieFaces: 100, rolls: [22] },
+                        { parent },
+                    ),
+                    masteryLevelModifier: new MasteryLevelModifier(
+                        { baseValue: 70 } as any,
+                        { parent },
+                    ),
+                    impact: new ImpactModifier(
+                        {
+                            roll: { numDice: 2, dieFaces: 6 },
+                            aspect: "edged",
+                        } as any,
+                        { parent },
+                    ),
+                    aimBodyPartCode: "head",
+                    mode: { itemUuid: "Item.mode", smId: "sm1" },
+                    combatantUuid: "Combatant.atk",
+                } as any,
+                { parent },
+            );
+            const defend = new DefendResult(
+                {
+                    roll: new SimpleRoll(
+                        { numDice: 1, dieFaces: 100, rolls: [80] },
+                        { parent },
+                    ),
+                    masteryLevelModifier: new MasteryLevelModifier(
+                        { baseValue: 45 } as any,
+                        { parent },
+                    ),
+                    label: "Dodge",
+                    combatantUuid: "Combatant.def",
+                } as any,
+                { parent },
+            );
+            const c = new CombatResult(
+                {
+                    attackResult: attack,
+                    defendResult: defend,
+                    sourceTestResult: attack,
+                    targetTestResult: defend,
+                } as any,
+                { parent },
+            );
+
+            // No manual re-supply of combatantUuid: toJSON persists it.
+            const revived = cycle<CombatResult>(c);
+            expect(revived).toBeInstanceOf(CombatResult);
+            expect(revived.attackResult).toBeInstanceOf(AttackResult);
+            expect(revived.defendResult).toBeInstanceOf(DefendResult);
+            expect(revived.attackResult.roll.total).toBe(22);
+            expect(revived.attackResult.impact.numDice).toBe(2);
+            expect(revived.defendResult.roll.total).toBe(80);
+            expect(revived.defendResult.label).toBe("Dodge");
         });
     });
 });

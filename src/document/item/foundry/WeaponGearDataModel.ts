@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
+import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { GearDataModel } from "@src/document/item/foundry/GearDataModel";
 import {
     WeaponGearLogic,

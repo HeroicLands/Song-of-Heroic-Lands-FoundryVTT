@@ -7,7 +7,9 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { gateAutomatedDefenseButtons } from "@src/document/chat/chat-card-gating";
-import * as CombatActions from "@src/document/actor/logic/combat-actions";
+import * as CombatantLogic from "@src/document/combatant/logic/SohlCombatantLogic";
+import { DEFENSE_DISABLING_STATUSES } from "@src/document/combatant/logic/SohlCombatantLogic";
+import { ITEM_KIND } from "@src/utils/constants";
 
 const ACTIONS = {
     dodge: "automatedDodgeResume",
@@ -54,26 +56,45 @@ function allButtons() {
     } as Record<string, ReturnType<typeof makeButton>>;
 }
 
-function makeDefender(isOwner: boolean): any {
-    return { isOwner, actor: { statuses: [], logic: {} } };
+/**
+ * A stub defender combatant. `statuses` feeds the real `hasAnyStatus` gate;
+ * `hasMelee` shapes a real `logicTypes` so the real `hasMeleeAttackStrikeMode`
+ * gate (both now live in `chat-card-gating.ts` and are called directly, so they
+ * cannot be spied) returns the intended verdict. Block capability is still
+ * decided by `collectBlockableStrikeModes`, which is spied (a cross-module call).
+ */
+function makeDefender(
+    isOwner: boolean,
+    {
+        statuses = [],
+        hasMelee = true,
+    }: { statuses?: string[]; hasMelee?: boolean } = {},
+): any {
+    const meleeMode = { isMelee: true, attack: {} };
+    return {
+        isOwner,
+        actor: {
+            statuses,
+            logic: {
+                logicTypes: {
+                    [ITEM_KIND.WEAPONGEAR]:
+                        hasMelee ? [{ strikeModes: [meleeMode] }] : [],
+                    [ITEM_KIND.COMBATTECHNIQUE]: [],
+                },
+            },
+        },
+    };
 }
 
 describe("gateAutomatedDefenseButtons", () => {
-    let incapacitated: any;
     let canBlock: any;
-    let canCounter: any;
 
     beforeEach(() => {
-        // Default: healthy, block- and counter-capable. Tests override per case.
-        incapacitated = vi
-            .spyOn(CombatActions, "hasAnyStatus")
-            .mockReturnValue(false);
+        // Default: block-capable. Incapacitation and counterstrike capability
+        // are driven by real defender data (see makeDefender), not spies.
         canBlock = vi
-            .spyOn(CombatActions, "collectBlockableStrikeModes")
+            .spyOn(CombatantLogic, "collectBlockableStrikeModes")
             .mockReturnValue([{} as any]);
-        canCounter = vi
-            .spyOn(CombatActions, "hasMeleeAttackStrikeMode")
-            .mockReturnValue(true);
     });
     afterEach(() => vi.restoreAllMocks());
 
@@ -93,10 +114,9 @@ describe("gateAutomatedDefenseButtons", () => {
     });
 
     it("leaves only Ignore when an owned defender is incapacitated", () => {
-        incapacitated.mockReturnValue(true);
         const buttons = allButtons();
         gateAutomatedDefenseButtons(makeElement(buttons), () =>
-            makeDefender(true),
+            makeDefender(true, { statuses: [DEFENSE_DISABLING_STATUSES[0]] }),
         );
         expect(buttons[ACTIONS.dodge].remove).toHaveBeenCalled();
         expect(buttons[ACTIONS.counter].remove).toHaveBeenCalled();
@@ -117,10 +137,9 @@ describe("gateAutomatedDefenseButtons", () => {
     });
 
     it("removes Counterstrike (only) when an owned, healthy defender has no melee-attack mode", () => {
-        canCounter.mockReturnValue(false);
         const buttons = allButtons();
         gateAutomatedDefenseButtons(makeElement(buttons), () =>
-            makeDefender(true),
+            makeDefender(true, { hasMelee: false }),
         );
         expect(buttons[ACTIONS.counter].remove).toHaveBeenCalled();
         expect(buttons[ACTIONS.block].remove).not.toHaveBeenCalled();

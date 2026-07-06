@@ -11,12 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
-import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
-import type { SohlActionContext } from "@src/core/SohlActionContext";
-import type { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
-import { SohlAction } from "@src/domain/action/SohlAction";
+import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
+import { SohlAction } from "@src/entity/action/SohlAction";
 import { fvttActiveTokenLogicForActor } from "@src/core/FoundryHelpers";
 import {
     ACTION_SUBTYPE,

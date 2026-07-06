@@ -11,20 +11,23 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     SohlItemBaseLogic,
     type SohlItemData,
 } from "@src/document/item/logic/SohlItemBaseLogic";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
-import type { SohlActionContext } from "@src/core/SohlActionContext";
+import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { fvttGetActor } from "@src/core/FoundryHelpers";
 import {
     ACTION_SUBTYPE,
+    ITEM_KIND,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
-import { SohlAction } from "@src/domain/action/SohlAction";
+import { SohlAction } from "@src/entity/action/SohlAction";
+import { BodyPart } from "@src/entity/body/BodyPart";
+import { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 
 /**
  * Abstract base logic for all physical gear items — the foundation for
@@ -58,7 +61,7 @@ export abstract class GearLogic<
     /** Structural integrity as a `ValueModifier`, seeded from {@link GearData.durabilityBase}. */
     durability!: ValueModifier;
     /** The containing item's logic, resolved from {@link GearData.containerId}, or `null` when not in a container. */
-    containedIn!: GearLogic | null;
+    containedIn?: GearLogic;
 
     /**
      * The Cohort actors this gear item is shared with, resolved from
@@ -74,6 +77,22 @@ export abstract class GearLogic<
      * duplicating item data.
      */
     sharedWithCohorts!: SohlActor[];
+
+    /**
+     * Body Parts that are holding this gear item
+     * @returns An array of BodyParts that are currently holding this item
+     */
+    get heldBy(): BodyPart[] {
+        const bodyParts = (this.actorLogic as BeingLogic)?.logicTypes[
+            ITEM_KIND.LINEAGE
+        ][0]?.bodyStructure?.parts;
+        return (
+            bodyParts?.filter((part): part is BodyPart => {
+                const heldItem = part.heldItem;
+                return heldItem !== undefined && heldItem.id === this.id;
+            }) ?? []
+        );
+    }
 
     /* --------------------------------------------- */
     /* Array update helpers                          */
@@ -184,7 +203,6 @@ export abstract class GearLogic<
         this.durability = new ValueModifier({}, { parent: this }).setBase(
             this.data.durabilityBase,
         );
-        this.containedIn = null;
         this.sharedWithCohorts = (this.data.sharedWithCohortIds ?? [])
             .map((id) => fvttGetActor(id) as SohlActor | null)
             .filter((a): a is SohlActor => a !== null);
@@ -194,10 +212,9 @@ export abstract class GearLogic<
     override evaluate(): void {
         super.evaluate();
         if (this.data.containerId) {
-            this.containedIn =
-                (this.actorLogic?.allLogics.find(
-                    (logic) => logic.id === this.data.containerId,
-                ) as GearLogic | undefined) ?? null;
+            this.containedIn = this.actorLogic?.allLogics.find(
+                (logic) => logic.id === this.data.containerId,
+            ) as GearLogic | undefined;
         }
     }
 

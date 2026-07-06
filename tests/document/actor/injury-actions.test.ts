@@ -6,7 +6,7 @@
  */
 
 import { describe, it, expect, vi } from "vitest";
-import { BodyStructure } from "@src/domain/body/BodyStructure";
+import { BodyStructure } from "@src/entity/body/BodyStructure";
 import {
     parseInjuryRequest,
     isAutomatedRequest,
@@ -14,7 +14,7 @@ import {
     buildInjuryCardData,
     resolveAutomatedInjury,
 } from "@src/document/actor/logic/injury-actions";
-import { resolveInjury } from "@src/domain/body/InjuryResolution";
+import { resolveInjury } from "@src/entity/body/injury-resolution";
 import { IMPACT_ASPECT } from "@src/utils/constants";
 
 const SKULL_LOC = {
@@ -52,12 +52,13 @@ const SAMPLE_DATA: BodyStructure.Data = {
 } as any;
 
 const MOCK_LINEAGE_LOGIC = {
+    kind: "lineage",
     actor: null,
     data: { bodyStructure: SAMPLE_DATA },
 } as any;
 
 function makeBody(): BodyStructure {
-    return new BodyStructure(SAMPLE_DATA, MOCK_LINEAGE_LOGIC);
+    return new BodyStructure(SAMPLE_DATA, { parent: MOCK_LINEAGE_LOGIC });
 }
 
 describe("parseInjuryRequest", () => {

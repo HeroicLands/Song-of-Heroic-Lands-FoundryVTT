@@ -11,10 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
-import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
-import { SohlActionContext } from "@src/core/SohlActionContext";
-import { CombatResult } from "@src/domain/result/CombatResult";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import { CombatResult } from "@src/entity/result/CombatResult";
 import {
     SohlActorBaseLogic,
     type SohlActorData,
@@ -23,18 +23,17 @@ import {
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import type { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
 import type { CombatTechniqueLogic } from "@src/document/item/logic/CombatTechniqueLogic";
-import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
+import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import type { ArmorGearLogic } from "@src/document/item/logic/ArmorGearLogic";
 import {
     aggregateArmor,
     type ArmorLayer,
-} from "@src/domain/body/ArmorAggregation";
+} from "@src/entity/body/armor-aggregation";
 import {
     computeActorReach,
     type MeleeReachOption,
 } from "@src/document/actor/logic/reach-helpers";
-import { computeAvailableStrikeModes } from "@src/document/actor/logic/strike-mode-helpers";
-import type { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
+import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import {
     selectActorTokens,
     selectActorCombatant,
@@ -47,7 +46,7 @@ import {
 } from "@src/core/FoundryHelpers";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
-import { readBaseMove } from "@src/domain/movement/move-helpers";
+import { readBaseMove } from "@src/entity/movement/move-helpers";
 import {
     ACTION_SUBTYPE,
     defineType,
@@ -58,9 +57,9 @@ import {
     SOHL_CONTEXT_MENU_SORT_GROUP,
     TEST_TYPE,
 } from "@src/utils/constants";
-import { SohlAction } from "@src/domain/action/SohlAction";
-import { SimpleRoll } from "@src/utils/SimpleRoll";
-import { SohlLogic } from "@src/core/SohlLogic";
+import { SohlAction } from "@src/entity/action/SohlAction";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
+import { SohlLogic } from "@src/core/logic/SohlLogic";
 import {
     buildInjuryCardData,
     createTraumaFromInjury,
@@ -71,12 +70,18 @@ import {
     readInjuryDialogForm,
     resolveAutomatedInjury,
 } from "@src/document/actor/logic/injury-actions";
-import { toFilePath } from "@src/utils/helpers";
+import {
+    toFilePath,
+    defaultToJSON,
+    buildActionScope,
+} from "@src/utils/helpers";
 import {
     ResolvedInjury,
     resolveInjury,
-} from "@src/domain/body/InjuryResolution";
-import { SohlSpeaker } from "@src/core/SohlSpeaker";
+} from "@src/entity/body/injury-resolution";
+import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
+import { ImpactResult } from "@src/entity/result/ImpactResult";
+import { DamageCardInput } from "@src/document/combatant/logic/SohlCombatantLogic";
 
 /**
  * A single person, creature, or NPC.
@@ -109,6 +114,13 @@ export class BeingLogic<
      * @type {number}
      */
     shockState!: number;
+
+    /**
+     * The being's pull score, determining whether it can draw certain bow weapons.
+     *
+     * @type {ValueModifier}
+     */
+    pull!: ValueModifier;
 
     /**
      * The effective base move (feet per combat round) for this being in
@@ -185,35 +197,83 @@ export class BeingLogic<
     }
 
     /**
+     * Return the usable strike modes for this weapon.
+     *
+     * @remarks
+     * This method returns the usable strike modes for a weapon, based on whether
+     * the item is currently readied, how many body parts are holding the weapon,
+     * and other conditions including heft, pull, and similar considerations.
+     *
+     * @param options
+     * @param options.distanceToTarget if specified, the distance from the weapon holder
+     * to the target, used to consider reach and/or range.
+     * @param options.volleyAllowed if `true`, volley strike modes are allowed, otherwise not.
+     * @param options.directAllowed if `true`, direct strike modes are allowed, otherwise not.
+     * @param options.meleeAllowed if `true`, melee strike modes are allowed, otherwise not.
+     * @returns array of strike modes on this weapon that are currently usable that
+     * meet the criteria.
+     */
+    getUsableStrikeModes(
+        {
+            distanceToTarget,
+            volleyAllowed,
+            directAllowed,
+            meleeAllowed,
+        }: {
+            distanceToTarget: number;
+            volleyAllowed: boolean;
+            directAllowed: boolean;
+            meleeAllowed: boolean;
+        } = {
+            distanceToTarget: 0,
+            volleyAllowed: false,
+            directAllowed: true,
+            meleeAllowed: true,
+        },
+    ): StrikeModeBase[] {
+        return [];
+    }
+
+    /**
      * The strike modes currently available to this being:
      *
      * - every combat technique's strike mode (intrinsic, always available), and
      * - each weapon strike mode whose weapon is held in at least the mode's
      *   `minParts` limbs.
+     * - If a missile weapon, the draw must be less then or equal to the being's
+     *   pull.
      *
      * Reads each strike mode's already-prepared data, so it should be read
      * after item preparation. Returns an empty array when no mode is available.
      */
     get availableStrikeModes(): StrikeModeBase[] {
-        const lt = this.logicTypes;
-        const bodyStructure = lt[ITEM_KIND.LINEAGE][0]?.bodyStructure;
+        const bodyStructure =
+            this.logicTypes[ITEM_KIND.LINEAGE][0]?.bodyStructure;
 
-        const techniqueModes: StrikeModeBase[] = [];
-        for (const ct of lt[ITEM_KIND.COMBATTECHNIQUE]) {
-            const sm = ct.strikeMode;
-            if (sm) techniqueModes.push(sm);
+        let resultStrikeModes: StrikeModeBase[] = [];
+
+        // Add Combat Technique strike modes
+        for (const ct of this.logicTypes[ITEM_KIND.COMBATTECHNIQUE]) {
+            resultStrikeModes.push(ct.strikeMode);
         }
 
-        const weapons = lt[ITEM_KIND.WEAPONGEAR].map((weapon) => ({
-            id: weapon.id,
-            strikeModes: weapon.strikeModes ?? [],
-        }));
+        // Add all appropriate weapon strike modes
+        this.logicTypes[ITEM_KIND.WEAPONGEAR].forEach((weapon) => {
+            const numHeldLimbs = weapon.heldBy.length;
+            if (numHeldLimbs) {
+                const candidates = weapon.strikeModes.filter((sm) => {
+                    if (sm.minParts > numHeldLimbs) return false;
+                    if (!sm.isMissile) return true;
+                    return (
+                        (sm as MissileStrikeMode).draw.effective <=
+                        this.pull.effective
+                    );
+                });
+                resultStrikeModes.push(...candidates);
+            }
+        });
 
-        return computeAvailableStrikeModes(
-            bodyStructure,
-            techniqueModes,
-            weapons,
-        );
+        return resultStrikeModes;
     }
 
     /**
@@ -276,14 +336,64 @@ export class BeingLogic<
      * location and damage. If armor or other defenses are unable to fully mitigate the impact,
      * this will return the resulting damage and location so it can then be used
      * to apply damage to the being's body roles and parts.
-     * @param context - Action context carrying the combat result in its scope.
-     * @param [context.scope.CombatResult] The CombatResult representing the result of the attack or effect.
+     * @param context - Action context carrying the impact result in its scope.
+     * @param [context.scope.ImpactResult] The ImpactResult representing the result of the attack or effect.
      * @returns The impact result, or null if no impact occurred.
      */
     async calcImpact(
-        context: SohlActionContext<CombatResult.ContextScope>,
-    ): Promise<SimpleRoll | null> {
-        return null;
+        context: SohlActionContext<Partial<ImpactResult.ContextScope>>,
+    ): Promise<PlainObject | undefined> {
+        let impactResult: ImpactResult | undefined;
+        if (!context.scope?.priorTestResult) {
+            if (!context.scope?.impactModifier) {
+                sohl.log.error(
+                    "calcImpact requires an ImpactResult in the action context scope",
+                );
+                return;
+            }
+            impactResult = new ImpactResult(context.scope, { parent: this });
+            await impactResult.evaluate();
+        } else {
+            impactResult = context.scope.priorTestResult;
+        }
+
+        const cardData: DamageCardInput = {
+            title:
+                context.scope.mode ?
+                    `${context.scope.mode.fullLabel}`
+                :   "Impact",
+            notes: "",
+            impactLabel:
+                impactResult.roll ?
+                    `${impactResult.roll.formula}${impactResult.aspect}`
+                :   "",
+            rollResult: impactResult.roll?.result ?? "",
+            impact: impactResult.roll.total ?? 0,
+            aspect: impactResult.aspect ?? IMPACT_ASPECT.BLUNT,
+            hasTarget: !!context.target?.name,
+            targetName: context.target?.name ?? "",
+            handlerUuid: context.target?.actorLogic?.uuid ?? "",
+            sourceActorUuid: this.uuid,
+            // The createInjury button's `scope` payload: a plain injury request
+            // built from the impact (matching `injuryButton`), aimed hit-location
+            // forwarded when present so the handler can resolve automatically.
+            scopeData: defaultToJSON({
+                impact: impactResult.total,
+                aspect: impactResult.aspect,
+                ...(impactResult.aimBodyPartCode ?
+                    {
+                        targetPart: impactResult.aimBodyPartCode,
+                        spread: impactResult.spread,
+                    }
+                :   {}),
+            }) as PlainObject,
+        };
+        await context.speaker.toChat(
+            toFilePath("systems/sohl/templates/chat/damage-card.hbs"),
+            cardData,
+        );
+
+        return cardData;
     }
 
     /**
@@ -627,10 +737,10 @@ export class BeingLogic<
 
     /**
      * Resolve and post an injury from a chat-card `createInjury` click. The
-     * forward-carried `data-test-result-json` discriminates the two modes:
-     * an automated request (aimed `targetPart` + `spread`) resolves with no
-     * player input; an assisted request opens the Add Injury dialog so the GM
-     * can pick the location and tune armor reduction.
+     * button's `data-scope` payload (a plain injury request) discriminates the
+     * two modes: an automated request (aimed `targetPart` + `spread`) resolves
+     * with no player input; an assisted request opens the Add Injury dialog so
+     * the GM can pick the location and tune armor reduction.
      * @param btn - The clicked chat-card button carrying the injury request.
      */
     private async onCreateInjury(btn: HTMLElement): Promise<void> {
@@ -642,7 +752,9 @@ export class BeingLogic<
             return;
         }
 
-        const req = parseInjuryRequest(btn.dataset.testResultJson);
+        const req = parseInjuryRequest(
+            buildActionScope(btn.dataset, (this as any).actorLogic ?? this),
+        );
         if (!req) {
             sohl.log.uiWarn(
                 `SoHL | createInjury button on ${this.name} carried no valid injury request.`,
@@ -796,7 +908,10 @@ export class BeingLogic<
             speaker: logic.speaker,
             type: actionName,
             title: btn.textContent?.trim() ?? actionName,
-            scope: { ...btn.dataset },
+            scope: buildActionScope(
+                btn.dataset,
+                (logic as any).actorLogic ?? logic,
+            ),
         });
 
         const action =
@@ -842,3 +957,11 @@ export class BeingLogic<
 export interface BeingData<
     TLogic extends SohlActorLogic<BeingData> = SohlActorLogic<any>,
 > extends SohlActorData<TLogic> {}
+
+/**
+ * Representation of a single available strike mode
+ */
+export interface BeingCombatMode {
+    strikeMode: StrikeModeBase[];
+    weapon: WeaponGearLogic | CombatTechniqueLogic;
+}

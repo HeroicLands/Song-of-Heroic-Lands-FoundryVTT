@@ -11,16 +11,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { buildActionScope } from "@src/utils/helpers";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { HTMLString } from "@src/utils/helpers";
-import { SohlActionContext } from "@src/core/SohlActionContext";
-import { SohlDataModel, defineSohlDataSchema } from "@src/core/SohlDataModel";
-import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import {
+    SohlDataModel,
+    defineSohlDataSchema,
+} from "@src/core/foundry/SohlDataModel";
+import { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
 import { fvttCallHook } from "@src/core/FoundryHelpers";
-import type { SohlTriggerContext } from "@src/core/SohlEventTrigger";
-import { isScriptActionMutationAllowed } from "@src/domain/action/SohlAction";
+import type { SohlTriggerContext } from "@src/entity/event/event-trigger";
+import { isScriptActionMutationAllowed } from "@src/entity/action/SohlAction";
 import { GearLogic } from "../logic/GearLogic";
 import {
     localizeSubType,
@@ -239,7 +243,10 @@ export class SohlItem extends Item {
             speaker: this.logic.speaker,
             type: actionName,
             title: btn.textContent?.trim() ?? actionName,
-            scope: { ...btn.dataset },
+            scope: buildActionScope(
+                btn.dataset,
+                (this.logic as any).actorLogic ?? this.logic,
+            ),
         });
         const action =
             this.logic.actions.get(actionName) ??
@@ -353,7 +360,7 @@ export abstract class SohlItemDataModel<
      * @throws If the supplied parent is not a `SohlItem`.
      */
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
-        if (!(options.parent instanceof SohlItem)) {
+        if (!(options.parent?.documentName === "Item")) {
             throw new Error("Parent must be of type SohlItem");
         }
         super(data, options);

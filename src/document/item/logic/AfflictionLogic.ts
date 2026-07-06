@@ -11,9 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
-import type { SohlActionContext } from "@src/core/SohlActionContext";
-import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
     ACTION_SUBTYPE,
@@ -41,7 +41,7 @@ import {
     SohlItemBaseLogic,
     type SohlItemData,
 } from "@src/document/item/logic/SohlItemBaseLogic";
-import { SohlAction } from "@src/domain/action/SohlAction";
+import { SohlAction } from "@src/entity/action/SohlAction";
 
 const FEAR_LABEL_BY_LEVEL: Record<number, string> = Object.fromEntries(
     Object.entries(FEAR_LEVEL).map(([k, v]) => [

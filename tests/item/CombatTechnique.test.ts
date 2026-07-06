@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { CombatTechniqueLogic } from "@src/document/item/logic/CombatTechniqueLogic";
-import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
-import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
+import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
+import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import { IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
@@ -77,25 +77,10 @@ afterEach(() => {
 
 describe("CombatTechniqueLogic", () => {
     describe("construction", () => {
-        // Unlike WeaponGearLogic, every executor named by
-        // defineIntrinsicActions() exists as a method, so construction
-        // succeeds without filtering.
         it("constructs against a plain-object CombatTechniqueData (no Foundry)", () => {
             const logic = makeTechnique();
             expect(logic).toBeInstanceOf(CombatTechniqueLogic);
             expect(logic.data.kind).toBe(ITEM_KIND.COMBATTECHNIQUE);
-        });
-
-        it("defines the automated-combat intrinsic actions", () => {
-            const logic = makeTechnique();
-            for (const shortcode of [
-                "automatedCombatStart",
-                "automatedBlockResume",
-                "automatedCounterstrikeResume",
-                "postfinalize",
-            ]) {
-                expect(logic.actions.has(shortcode), shortcode).toBe(true);
-            }
         });
     });
 
@@ -189,41 +174,6 @@ describe("CombatTechniqueLogic", () => {
             logic.evaluate();
             expect(() => logic.finalize()).not.toThrow();
         });
-    });
-
-    describe("intrinsic executors", () => {
-        it("automatedCombatStart - delegates to the attacker combatant's automatedCombatStart, passing this logic's uuid in scope", async () => {
-            const automatedCombatStart = vi.fn().mockResolvedValue(undefined);
-            vi.spyOn(
-                FoundryHelpers,
-                "fvttActiveCombatantForActor",
-            ).mockReturnValue({ automatedCombatStart } as any);
-            const logic = makeTechnique({}, { name: "Shield Bash" });
-            const ctx = { scope: {} } as any;
-            await logic.automatedCombatStart(ctx);
-            expect(automatedCombatStart).toHaveBeenCalledWith(ctx);
-            expect(ctx.scope.logicUuid).toBe(logic.uuid);
-        });
-
-        it("automatedCombatStart - warns and aborts when the actor is not in the active combat", async () => {
-            vi.spyOn(
-                FoundryHelpers,
-                "fvttActiveCombatantForActor",
-            ).mockReturnValue(null);
-            const logic = makeTechnique({}, { name: "Shield Bash" });
-            const ctx = { scope: {} } as any;
-            await expect(
-                logic.automatedCombatStart(ctx),
-            ).resolves.toBeUndefined();
-            expect(ctx.scope.logicUuid).toBeUndefined();
-        });
-
-        it.todo(
-            "automatedBlockResume - strike-mode selection and delegation (currently an empty stub)",
-        );
-        it.todo(
-            "automatedCounterstrikeResume - strike-mode selection and delegation (currently an empty stub)",
-        );
     });
 });
 

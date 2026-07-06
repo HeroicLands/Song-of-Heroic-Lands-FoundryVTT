@@ -12,10 +12,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import {
-    computeMove,
-    chooseInitialDisplayedMedium,
-} from "@src/document/combatant/logic/SohlCombatantLogic";
+import { chooseInitialDisplayedMedium } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { MOVEMENT_MEDIUM } from "@src/utils/constants";
 
 function fakeBeingLogic(moveBase: Record<string, number>) {
@@ -25,42 +22,6 @@ function fakeBeingLogic(moveBase: Record<string, number>) {
         },
     };
 }
-
-describe("computeMove", () => {
-    it("multiplies effective base move by moveFactor", () => {
-        const beingLogic = fakeBeingLogic({ terrestrial: 30 });
-        expect(computeMove(beingLogic, MOVEMENT_MEDIUM.TERRESTRIAL, 1)).toBe(
-            30,
-        );
-        expect(computeMove(beingLogic, MOVEMENT_MEDIUM.TERRESTRIAL, 0.5)).toBe(
-            15,
-        );
-        expect(computeMove(beingLogic, MOVEMENT_MEDIUM.TERRESTRIAL, 2)).toBe(
-            60,
-        );
-    });
-
-    it("returns null when actor has no BeingLogic (e.g. vehicle)", () => {
-        expect(
-            computeMove(undefined, MOVEMENT_MEDIUM.TERRESTRIAL, 1),
-        ).toBeNull();
-        expect(computeMove(null, MOVEMENT_MEDIUM.TERRESTRIAL, 1)).toBeNull();
-    });
-
-    it("returns null when the base move for that medium is 0", () => {
-        const beingLogic = fakeBeingLogic({ terrestrial: 0, aerial: 60 });
-        expect(
-            computeMove(beingLogic, MOVEMENT_MEDIUM.TERRESTRIAL, 1),
-        ).toBeNull();
-        // Other media still work
-        expect(computeMove(beingLogic, MOVEMENT_MEDIUM.AERIAL, 1)).toBe(60);
-    });
-
-    it("returns 0 when moveFactor is 0 (creature cannot move this turn)", () => {
-        const beingLogic = fakeBeingLogic({ terrestrial: 30 });
-        expect(computeMove(beingLogic, MOVEMENT_MEDIUM.TERRESTRIAL, 0)).toBe(0);
-    });
-});
 
 describe("chooseInitialDisplayedMedium", () => {
     it("returns the user-set medium when explicitly provided", () => {

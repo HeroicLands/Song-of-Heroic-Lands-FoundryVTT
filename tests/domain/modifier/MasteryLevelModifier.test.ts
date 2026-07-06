@@ -1,4 +1,48 @@
+import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { defaultToJSON, defaultFromJSON } from "@src/utils/helpers";
+import { BRAND } from "@src/utils/constants";
+
+// Stand-in owning logic carrying the SohlLogic brand.
+const parent = {
+    id: "p",
+    name: "Skill",
+    label: "Skill",
+    data: { kind: "skill" },
+    [BRAND.SohlLogic]: true,
+} as any;
+
 describe("MasteryLevelModifier", () => {
+    describe("toJSON / serialization", () => {
+        it("round-trips the test-resolution parameters", () => {
+            const ml = new MasteryLevelModifier(
+                {
+                    baseValue: 50,
+                    minTarget: 5,
+                    maxTarget: 95,
+                    successLevelMod: 1,
+                    critFailureDigits: [0],
+                    critSuccessDigits: [5],
+                    type: "skill-test",
+                    title: "Test",
+                } as any,
+                { parent },
+            );
+            const revived = defaultFromJSON(
+                JSON.parse(JSON.stringify(defaultToJSON(ml))),
+                { parent },
+            ) as MasteryLevelModifier;
+            expect(revived).toBeInstanceOf(MasteryLevelModifier);
+            expect(revived.base).toBe(50);
+            expect(revived.minTarget).toBe(5);
+            expect(revived.maxTarget).toBe(95);
+            expect(revived.successLevelMod).toBe(1);
+            expect(revived.critFailureDigits).toEqual([0]);
+            expect(revived.critSuccessDigits).toEqual([5]);
+            expect(revived.type).toBe("skill-test");
+            expect(revived.title).toBe("Test");
+        });
+    });
+
     describe("constructor", () => {
         it.todo(
             "creates an instance with default values when no data provided",

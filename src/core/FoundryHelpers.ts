@@ -11,12 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SimpleRoll } from "@src/utils/SimpleRoll";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { FilePath, toSanitizedHTML, HTMLString } from "@src/utils/helpers";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlScene } from "@src/document/scene/foundry/SohlScene";
-import type { SohlLogic } from "@src/core/SohlLogic";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import type { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
@@ -169,19 +169,21 @@ export function fvttMergeObject(
 /**
  * Synchronously resolve a document by UUID.
  * @param uuid - The document UUID to resolve.
- * @returns The resolved document, or `null` if not found.
+ * @returns The resolved document, or `undefined` if not found.
  */
-export function fvttResolveUuid(uuid: string): any {
-    return fromUuidSync(uuid);
+export function fvttResolveUuid(uuid: string): any | undefined {
+    return fromUuidSync(uuid) ?? undefined;
 }
 
 /**
  * Asynchronously resolve a document by UUID.
  * @param uuid - The document UUID to resolve.
- * @returns A promise resolving to the document, or `null` if not found.
+ * @returns A promise resolving to the document, or `undefined` if not found.
  */
-export async function fvttResolveUuidAsync(uuid: string): Promise<any> {
-    return fromUuid(uuid);
+export async function fvttResolveUuidAsync(
+    uuid: string,
+): Promise<any | undefined> {
+    return (await fromUuid(uuid)) ?? undefined;
 }
 
 /**
@@ -190,13 +192,15 @@ export async function fvttResolveUuidAsync(uuid: string): Promise<any> {
  * @remarks The logic-layer counterpart of `fromUuidSync`: it hides the Foundry
  * document entirely, returning only the logic, so the logic layer can treat a
  * UUID as an opaque token and round-trip it back to logic. Like `fromUuidSync`,
- * it returns `null` for documents not already in memory (e.g. unloaded
- * compendium entries) — use {@link logicFromUuid} when that is possible.
+ * it returns `undefined` for documents not already in memory (e.g. unloaded
+ * compendium entries) — use {@link fvttLogicFromUuid} when that is possible.
  * @param uuid - The (opaque) document UUID.
- * @returns The document's logic, or `null` if unresolved.
+ * @returns The document's logic, or `undefined` if unresolved.
  */
-export function logicFromUuidSync(uuid: string): SohlLogic<any> | null {
-    return (fromUuidSync(uuid) as any)?.logic ?? null;
+export function fvttLogicFromUuidSync<
+    T extends SohlLogic<any> = SohlLogic<any>,
+>(uuid: string): T | undefined {
+    return (fromUuidSync(uuid) as any)?.logic ?? undefined;
 }
 
 /**
@@ -206,12 +210,12 @@ export function logicFromUuidSync(uuid: string): SohlLogic<any> | null {
  * compendium / not-yet-loaded documents as well. Hides the Foundry document,
  * returning only the logic.
  * @param uuid - The (opaque) document UUID.
- * @returns A promise resolving to the document's logic, or `null` if unresolved.
+ * @returns A promise resolving to the document's logic, or `undefined` if unresolved.
  */
-export async function logicFromUuid(
-    uuid: string,
-): Promise<SohlLogic<any> | null> {
-    return ((await fromUuid(uuid)) as any)?.logic ?? null;
+export async function fvttLogicFromUuid<
+    T extends SohlLogic<any> = SohlLogic<any>,
+>(uuid: string): Promise<T | undefined> {
+    return ((await fromUuid(uuid)) as any)?.logic ?? undefined;
 }
 
 // ---------------------------------------------------------------------------
@@ -586,8 +590,8 @@ export async function awaitDialog(config: Partial<DialogConfig>): Promise<any> {
  * Unregister a custom sheet for a Foundry document class.
  * @param documentClass - The Foundry document class the sheet was registered for.
  * @param sheetClass - The sheet class to unregister.
- * @param root0 - Unregistration options.
- * @param root0.types - The document subtypes to unregister the sheet for.
+ * @param options
+ * @param options.types - The document subtypes to unregister the sheet for.
  */
 export function unregisterSheet(
     documentClass: any,
@@ -875,14 +879,14 @@ export function fvttGetTargetedTokens(
 /**
  * Calculates the distance from sourceToken to targetToken in "scene" units (e.g., feet).
  *
- * @param sourceToken - The source token.
- * @param targetToken - The target token.
+ * @param sourceToken - The source token logic.
+ * @param targetToken - The target token logic.
  * @param gridUnits - Whether to return the distance in grid units rather than scene units.
  * @returns {number|null} The distance, or null if not calculable.
  */
 export function fvttRangeToTarget(
-    sourceToken: SohlTokenDocument,
-    targetToken: SohlTokenDocument,
+    sourceToken: SohlTokenDocumentLogic,
+    targetToken: SohlTokenDocumentLogic,
     gridUnits: boolean = false,
 ): number | null {
     if (!canvas.scene?.grid) {
@@ -900,8 +904,8 @@ export function fvttRangeToTarget(
 
     const result = getCanvas().grid?.measurePath(
         [
-            (sourceToken as any).object.center,
-            (targetToken as any).object.center,
+            (sourceToken.parent as any).object.center,
+            (targetToken.parent as any).object.center,
         ],
         {},
     );
