@@ -46,7 +46,9 @@ describe("BodyPart", () => {
             expect(part.shortcode).toBe("larm");
             expect(part.affectsMobility).toBe(false);
             expect(part.canHoldItem).toBe(true);
-            expect(part.heldItem).toBeNull();
+            // `heldItem` is `SohlItem | undefined` (optional); with no held
+            // item it is `undefined`, not `null`.
+            expect(part.heldItem).toBeUndefined();
             expect(part.probWeight.effective).toBe(20);
             expect(part.index).toBe(0);
         });

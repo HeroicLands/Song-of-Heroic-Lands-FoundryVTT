@@ -185,7 +185,10 @@ function registerSystemSettings() {
             try {
                 SohlSystem.applyCalendar(value);
             } catch (err) {
-                sohl.log.error(`Failed to apply calendar "${value}":`, err);
+                sohl.log.error(
+                    `Failed to apply calendar "${value}":`,
+                    err as PlainObject,
+                );
             }
         },
     });
@@ -729,7 +732,7 @@ function registerHandlebarsHelpers() {
         } catch (err) {
             sohl.log.warn(
                 `displayWorldTime: formatter "${format}" failed`,
-                err,
+                err as PlainObject,
             );
             return "";
         }

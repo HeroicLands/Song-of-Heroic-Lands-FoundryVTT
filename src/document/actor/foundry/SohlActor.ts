@@ -153,7 +153,7 @@ export class SohlActor extends Actor {
         this._lifecycleActionsCache = new Map<string, SohlItem>();
         // Reset each embedded item's effect-phase tracker for the new prep
         // cycle (mirrors Foundry's Actor#_clearData() handling on itself).
-        this.items?.forEach((i) =>
+        this.items?.forEach((i: SohlItem) =>
             (i as any)._completedActiveEffectPhases?.clear?.(),
         );
     }
@@ -228,7 +228,7 @@ export class SohlActor extends Actor {
         fvttCallHook(`sohl.actor.${this.type}.postInitialize`, this);
 
         // Next, perform the initialization phase for all embedded items
-        this.items.forEach((item) => {
+        this.items.forEach((item: SohlItem) => {
             if (
                 fvttCallHookCancel(`sohl.${item.type}.preInitialize`, item, ctx)
             ) {
@@ -241,7 +241,7 @@ export class SohlActor extends Actor {
         });
 
         // Evaluate all Active Effects on the items
-        this.items.forEach((item) => {
+        this.items.forEach((item: SohlItem) => {
             item.applyActiveEffects("initial");
         });
 
@@ -256,7 +256,7 @@ export class SohlActor extends Actor {
         }
 
         // Next, perform the evaluate phase for all embedded items
-        this.items.forEach((it) => {
+        this.items.forEach((it: SohlItem) => {
             if (fvttCallHookCancel(`sohl.${it.type}.preEvaluate`, it, ctx)) {
                 it.logic.evaluate();
                 fvttCallHook(`sohl.${it.type}.postEvaluate`, it, ctx);
@@ -267,7 +267,7 @@ export class SohlActor extends Actor {
         });
 
         // Next, perform the finalize phase for all embedded items
-        this.items.forEach((it) => {
+        this.items.forEach((it: SohlItem) => {
             if (fvttCallHookCancel(`sohl.${it.type}.preFinalize`, it, ctx)) {
                 it.logic.finalize();
                 fvttCallHook(`sohl.${it.type}.postFinalize`, it, ctx);
@@ -599,7 +599,7 @@ export abstract class SohlActorDataModel<
      * actor logic derive everything from this list.
      */
     get itemLogics(): SohlItemLogic<any>[] {
-        return this.parent.items.map((it) => it.logic);
+        return this.parent.items.map((it: SohlItem) => it.logic);
     }
 
     /** Whether the actor is owned by at least one player (non-GM) user. */
