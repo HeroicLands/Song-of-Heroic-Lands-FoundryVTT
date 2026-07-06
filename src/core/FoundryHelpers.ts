@@ -12,7 +12,21 @@
  */
 
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
-import { FilePath, toSanitizedHTML, HTMLString } from "@src/utils/helpers";
+import {
+    FilePath,
+    toSanitizedHTML,
+    HTMLString,
+    setUuidResolver,
+} from "@src/utils/helpers";
+import type {
+    DialogButtonCallback,
+    DialogButton,
+    DialogRenderCallback,
+    DialogCloseCallback,
+    DialogSubmitCallback,
+    DialogConfig,
+    AwaitDialogResult,
+} from "@src/utils/types";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlScene } from "@src/document/scene/foundry/SohlScene";
@@ -39,102 +53,18 @@ import { SohlCombat } from "@src/document/combat/foundry/SohlCombat";
 // Dialog types
 // ---------------------------------------------------------------------------
 
-/**
- * Handler invoked when a {@link DialogButton} is clicked.
- *
- * @param event - The pointer or submit event that triggered the button.
- * @param button - The clicked button element.
- * @param dialog - The host dialog element.
- * @returns A promise resolving to the value the dialog should yield.
- */
-export type DialogButtonCallback = (
-    event: PointerEvent | SubmitEvent,
-    button: HTMLButtonElement,
-    dialog: HTMLDialogElement,
-) => Promise<any>;
-
-/** Definition of a single button rendered in a dialog. */
-export interface DialogButton {
-    /** Unique action identifier returned when this button is selected. */
-    action: string;
-    /** Human-readable label shown on the button. */
-    label: string;
-    /** Icon (e.g. a Font Awesome class) displayed on the button. */
-    icon: string;
-    /** CSS class(es) applied to the button. */
-    class: string;
-    /** Whether this button is the default (activated on Enter). */
-    default?: boolean;
-    /** Handler invoked when the button is clicked. */
-    callback: DialogButtonCallback;
-}
-
-/**
- * Handler invoked after a dialog's content is rendered.
- *
- * @param event - The render event.
- * @param dialogElement - The rendered dialog element.
- */
-export type DialogRenderCallback = (
-    event: Event,
-    dialogElement: HTMLDialogElement,
-) => Promise<void>;
-
-/**
- * Handler invoked when a dialog is closed.
- *
- * @param event - The close event.
- * @param dialog - The dialog instance being closed.
- */
-export type DialogCloseCallback = (
-    event: Event,
-    dialog: Record<string, any>,
-) => Promise<void>;
-
-/**
- * Handler invoked when a dialog is submitted.
- *
- * @param result - The value produced by the dialog's selected action.
- */
-export type DialogSubmitCallback = (result: any) => Promise<void>;
-
-/** Configuration options shared by the dialog helper functions in this module. */
-export interface DialogConfig {
-    /** Path to a Handlebars template rendered for the dialog body. Takes precedence over {@link DialogConfig.content}. */
-    template?: FilePath;
-    /** Title displayed in the dialog window header. */
-    title?: string;
-    /** Inline HTML used as the dialog body when no {@link DialogConfig.template} is given. */
-    content?: HTMLString;
-    /** Data passed to the template or inline content during rendering. */
-    data?: PlainObject;
-    /** Whether the dialog blocks interaction with the rest of the UI. */
-    modal?: boolean;
-    /** Whether dismissing the dialog rejects the promise instead of resolving to `null`. */
-    rejectClose?: boolean;
-    /** Handler invoked after the dialog content is rendered. */
-    render?: DialogRenderCallback;
-    /** Handler invoked when the dialog is closed. */
-    close?: DialogCloseCallback;
-    /** Handler invoked when the dialog is submitted. */
-    submit?: DialogSubmitCallback;
-    /** Overrides for the OK button (used by {@link okDialog}). */
-    ok?: Partial<DialogButton>;
-    /** Overrides for the Yes button (used by {@link yesNoDialog}). */
-    yes?: Partial<DialogButton>;
-    /** Overrides for the No button (used by {@link yesNoDialog}). */
-    no?: Partial<DialogButton>;
-    /** Custom set of buttons (used by {@link awaitDialog}). */
-    buttons?: Partial<DialogButton>[];
-}
-
-/** Result returned from an awaited dialog interaction. */
-export interface AwaitDialogResult {
-    /** The value produced by the selected button's callback. */
-    value: any;
-    /** The action identifier of the selected button. */
-    action: string;
-}
+// The dialog types are pure (Foundry-free) declarations and live in the shared
+// util types module. They are re-exported here so the dialog helpers below and
+// existing consumers can keep importing them from the FoundryHelpers surface.
+export type {
+    DialogButtonCallback,
+    DialogButton,
+    DialogRenderCallback,
+    DialogCloseCallback,
+    DialogSubmitCallback,
+    DialogConfig,
+    AwaitDialogResult,
+};
 
 // ---------------------------------------------------------------------------
 // Utilities
@@ -981,3 +911,15 @@ export function combatantSpacesMoved(
     );
     return result?.spaces ?? 0;
 }
+
+// ---------------------------------------------------------------------------
+// Serialization boundary registration
+// ---------------------------------------------------------------------------
+
+// The pure serialization core in `helpers.ts` revives a `ClientDocument`
+// reference (a UUID) through an injected resolver rather than importing this
+// shim (which would make it Foundry-coupled and create an import cycle).
+// Registering here — a load-time side effect of the shim — wires Foundry's
+// UUID resolution in for every runtime code path, since any Foundry-side module
+// imports FoundryHelpers.
+setUuidResolver(fvttResolveUuid);
