@@ -6,6 +6,8 @@
  * running Foundry VTT environment.
  */
 
+import { setUuidResolver } from "@src/utils/helpers";
+
 // ---------------------------------------------------------------------------
 // Dialog types (re-exported for consumers)
 // ---------------------------------------------------------------------------
@@ -331,3 +333,7 @@ export function getContextItem(_header: HTMLElement): any {
 export function getContextLogic(_element: HTMLElement): any {
     return null;
 }
+
+// Mirror the real shim: register the UUID resolver used by the pure
+// serialization core (`defaultFromJSON`) to revive ClientDocument references.
+setUuidResolver(fvttResolveUuid);

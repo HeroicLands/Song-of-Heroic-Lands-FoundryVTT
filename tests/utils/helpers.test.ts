@@ -25,9 +25,12 @@ import {
     index,
     defaultToJSON,
     defaultFromJSON,
+    cloneInstance,
+    setUuidResolver,
     sortStrings,
     getStatic,
 } from "@src/utils/helpers";
+import { fvttResolveUuid } from "@src/core/FoundryHelpers";
 
 describe("romanize", () => {
     it("converts 1 to I", () => {
@@ -703,5 +706,79 @@ describe("getStatic", () => {
         expect(() => getStatic(inst, "nope")).toThrow(
             'Static property "nope" not found',
         );
+    });
+});
+
+describe("cloneInstance (pure deep-merge of overrides)", () => {
+    it("returns a deep copy, not the same reference", () => {
+        const original = { a: 1, nested: { x: 1 } };
+        const copy = cloneInstance<typeof original>(original);
+        expect(copy).toEqual(original);
+        expect(copy).not.toBe(original);
+        expect(copy.nested).not.toBe(original.nested);
+    });
+
+    it("applies top-level field overrides", () => {
+        const original = { a: 1, b: 2 };
+        const copy = cloneInstance<typeof original>(original, { b: 99 });
+        expect(copy).toEqual({ a: 1, b: 99 });
+    });
+
+    it("inserts keys absent from the source", () => {
+        const original: Record<string, number> = { a: 1 };
+        const copy = cloneInstance<Record<string, number>>(original, { c: 3 });
+        expect(copy).toEqual({ a: 1, c: 3 });
+    });
+
+    it("recursively merges nested plain objects (Foundry mergeObject semantics)", () => {
+        const original = { pos: { x: 1, y: 2 } };
+        const copy = cloneInstance<typeof original>(original, {
+            pos: { y: 3, z: 4 } as any,
+        });
+        // Deep merge keeps x, overrides y, and inserts z.
+        expect(copy).toEqual({ pos: { x: 1, y: 3, z: 4 } });
+    });
+
+    it("replaces arrays wholesale rather than merging them", () => {
+        const original = { tags: [1, 2, 3] };
+        const copy = cloneInstance<typeof original>(original, {
+            tags: [9] as any,
+        });
+        expect(copy).toEqual({ tags: [9] });
+    });
+});
+
+describe("defaultFromJSON — ClientDocument revival via registered resolver", () => {
+    afterEach(() => {
+        // Restore the default (mock) resolver so later tests are unaffected.
+        setUuidResolver(fvttResolveUuid);
+    });
+
+    it("resolves a ClientDocument reference through the registered resolver", () => {
+        setUuidResolver((uuid) => ({ __resolved: uuid }));
+        const revived = defaultFromJSON({
+            __type: "ClientDocument",
+            uuid: "Actor.abc123",
+        });
+        expect(revived).toEqual({ __resolved: "Actor.abc123" });
+    });
+
+    it("revives nested ClientDocument references inside objects and arrays", () => {
+        setUuidResolver((uuid) => `doc:${uuid}`);
+        const revived = defaultFromJSON({
+            single: { __type: "ClientDocument", uuid: "Item.x" },
+            many: [{ __type: "ClientDocument", uuid: "Item.y" }, "plain"],
+        });
+        expect(revived).toEqual({
+            single: "doc:Item.x",
+            many: ["doc:Item.y", "plain"],
+        });
+    });
+
+    it("throws a clear error when no resolver is registered", () => {
+        setUuidResolver(undefined);
+        expect(() =>
+            defaultFromJSON({ __type: "ClientDocument", uuid: "Actor.z" }),
+        ).toThrow(/resolver/i);
     });
 });
