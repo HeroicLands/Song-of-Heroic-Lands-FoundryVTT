@@ -74,7 +74,7 @@ export abstract class SohlEntity {
      * @param options - Clone options (e.g. a new `parent`).
      * @returns The cloned entity.
      */
-    clone(data: PlainObject, options: PlainObject): this;
+    clone(data: PlainObject, options: Partial<SohlEntity.Options>): this;
 
     /**
      * Deep-copy this entity, optionally overriding fields and clone options.
@@ -83,8 +83,11 @@ export abstract class SohlEntity {
      * @returns The cloned entity.
      */
     clone(
+        // `data` is an intentional tier-2 open bag (`PlainObject`): it carries
+        // arbitrary subclass field overrides the base class cannot enumerate.
+        // `options` is a known shape, so it is typed `Partial<SohlEntity.Options>`.
         dataOrParent: PlainObject | SohlLogic<any> = {},
-        options: PlainObject = {},
+        options: Partial<SohlEntity.Options> = {},
     ): this {
         let data: PlainObject;
         if (isA(dataOrParent, "SohlLogic")) {
