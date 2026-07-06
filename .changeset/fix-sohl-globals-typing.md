@@ -29,5 +29,11 @@ every `sohl.*` global access and on SoHL document / data-model types.
   `charges.value` read in `SkillLogic`, and `BodyPart.heldItem` now normalizes
   to `undefined` (its declared type) instead of `null` when no item is held.
 
+Also adds a build/CI guard (`npm run lint:dts`, wired into `build:noci` and the
+build workflow) that type-checks the project's own declaration files with
+`skipLibCheck` off and fails on any error in a file we own — so this regression
+cannot silently recur. Third-party library errors (which `skipLibCheck` exists
+to suppress) are ignored.
+
 Type-only change; no runtime behavior change beyond the two correctness fixes
 noted above.
