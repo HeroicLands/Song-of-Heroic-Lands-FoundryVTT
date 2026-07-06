@@ -77,12 +77,18 @@ export interface ProjectileGearData<
         overrideDice: boolean;
         /** When `true`, the projectile's modifier overrides the weapon's modifier rather than combining with it. */
         overrideModifier: boolean;
-        /** Number of impact dice. */
+        /** Number of impact dice. `0` means no dice are contributed. */
         numDice: number;
-        /** Number of sides on each impact die. */
-        die: number;
-        /** Flat modifier added to the impact roll. */
-        modifier: number;
+        /**
+         * Number of sides on each impact die. `null` when the projectile's die
+         * "does not apply" (the weapon supplies it); when specified, ≥ 2.
+         */
+        die: number | null;
+        /**
+         * Flat modifier added to the impact roll. `null` when the projectile's
+         * modifier "does not apply" (the weapon supplies it); `0` means none.
+         */
+        modifier: number | null;
         /** Damage aspect (e.g. blunt, edged, piercing) of the impact. */
         aspect: ImpactAspect;
     };

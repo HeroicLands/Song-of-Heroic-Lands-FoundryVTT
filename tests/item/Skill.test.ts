@@ -267,7 +267,7 @@ describe("SkillLogic", () => {
             vi.spyOn(
                 FoundryHelpersMock,
                 "fvttActiveTokenLogicForActor",
-            ).mockReturnValue(null);
+            ).mockReturnValue(undefined);
             const logic = makeSkill();
             logic.initialize();
             const ctx = { scope: {} } as any;

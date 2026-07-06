@@ -201,12 +201,14 @@ describe("MysteryDataModel", () => {
         it.todo("defines subType with MysterySubTypes choices");
         it.todo("defines domainCode as optional StringField");
         it.todo("defines skills as ArrayField of StringFields");
-        it.todo("defines levelBase as integer NumberField with min 0");
         it.todo(
-            "defines charges.value as integer NumberField with min -1, initial -1",
+            "defines levelBase as nullable integer NumberField, initial null, min 0",
         );
         it.todo(
-            "defines charges.max as integer NumberField with min -1, initial -1",
+            "defines charges.value as nullable integer NumberField, initial null, min 0",
+        );
+        it.todo(
+            "defines charges.max as nullable integer NumberField, initial null, min 0",
         );
     });
 

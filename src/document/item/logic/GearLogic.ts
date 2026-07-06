@@ -204,8 +204,8 @@ export abstract class GearLogic<
             this.data.durabilityBase,
         );
         this.sharedWithCohorts = (this.data.sharedWithCohortIds ?? [])
-            .map((id) => fvttGetActor(id) as SohlActor | null)
-            .filter((a): a is SohlActor => a !== null);
+            .map((id) => fvttGetActor(id) as SohlActor | undefined)
+            .filter((a): a is SohlActor => a != null);
     }
 
     /** @inheritdoc */

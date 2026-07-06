@@ -604,7 +604,7 @@ function registerHandlebarsHelpers() {
     Handlebars.registerHelper("concat", function () {
         var outStr = "";
         for (var arg in arguments) {
-            if (typeof arguments[arg] != "object") {
+            if (typeof arguments[arg] !== "object") {
                 outStr += arguments[arg];
             }
         }
