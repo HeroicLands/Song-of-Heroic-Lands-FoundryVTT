@@ -16,9 +16,9 @@ import {
     type SohlItemData,
     type SohlItemLogic,
 } from "@src/document/item/logic/SohlItemBaseLogic";
-import { BodyStructure } from "@src/domain/body/BodyStructure";
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
-import type { MoveBaseDict } from "@src/domain/movement/move-helpers";
+import { BodyStructure } from "@src/entity/body/BodyStructure";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import type { MoveBaseDict } from "@src/entity/movement/move-helpers";
 import type { MovementMedium } from "@src/utils/constants";
 
 /**
@@ -100,7 +100,9 @@ export class LineageLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.bodyStructure = new BodyStructure(this.data.bodyStructure, this);
+        this.bodyStructure = new BodyStructure(this.data.bodyStructure, {
+            parent: this,
+        });
         this.bodyWeight = new ValueModifier({}, { parent: this }).setBase(
             this.data.bodyWeightBase,
         );

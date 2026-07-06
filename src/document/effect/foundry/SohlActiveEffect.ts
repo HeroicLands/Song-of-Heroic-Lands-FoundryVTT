@@ -13,7 +13,7 @@
 
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
-import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 import {
     ACTIVE_EFFECT_SCOPE,
     ITEM_KIND,
@@ -21,8 +21,8 @@ import {
     type ItemKind,
     ItemKinds,
 } from "@src/utils/constants";
-import { SafeExpression, STANDARD_HELPERS } from "@src/utils/SafeExpression";
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { pushDeltaToValueModifier } from "@src/document/effect/logic/effect-logic";
 
 /**
@@ -104,7 +104,10 @@ export class SohlActiveEffect extends ActiveEffect {
 
         let expression: SafeExpression;
         try {
-            expression = new SafeExpression(script, STANDARD_HELPERS);
+            expression = new SafeExpression(
+                { source: script },
+                { parent: this.actor.logic },
+            );
         } catch (err) {
             sohl.log.warn("Failed to compile test script on Active Effect:", {
                 test: script,
@@ -270,7 +273,10 @@ function dispatchStrikeModeChange(
     let predicate: SafeExpression | undefined;
     if (predicateSrc) {
         try {
-            predicate = new SafeExpression(predicateSrc, STANDARD_HELPERS);
+            predicate = new SafeExpression(
+                { source: predicateSrc },
+                { parent: targetDoc.logic },
+            );
         } catch (err) {
             sohl.log.warn("strikeModePredicate failed to compile:", {
                 source: predicateSrc,

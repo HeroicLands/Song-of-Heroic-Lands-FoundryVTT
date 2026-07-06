@@ -24,7 +24,7 @@ import {
     domainFamilyLabels,
     type DomainFamily,
 } from "@src/utils/constants";
-import type { DomainEntry } from "@src/core/SohlDomains";
+import type { DomainEntry } from "@src/entity/domain/DomainRegistry";
 
 /** A domain entry augmented with the per-row UI flags. */
 export interface DomainRenderRow extends DomainEntry {

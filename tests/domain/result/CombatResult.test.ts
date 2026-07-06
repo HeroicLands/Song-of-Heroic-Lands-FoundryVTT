@@ -6,10 +6,10 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { CombatResult } from "@src/domain/result/CombatResult";
-import { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
-import { AttackResult } from "@src/domain/result/AttackResult";
-import { ImpactResult } from "@src/domain/result/ImpactResult";
+import { CombatResult } from "@src/entity/result/CombatResult";
+import { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
+import { AttackResult } from "@src/entity/result/AttackResult";
+import { ImpactResult } from "@src/entity/result/ImpactResult";
 import { IMPACT_ASPECT, TEST_TYPE } from "@src/utils/constants";
 
 // Success-level scale: critical failure -1, marginal failure 0,
@@ -162,11 +162,14 @@ describe("calcMeleeCombatResult — Counterstrike", () => {
     const cx = (atk: number, def: number) => {
         const cr = makeCombat(
             makeSide({ level: atk }),
-            // A counterstrike's response is itself an AttackResult.
+            // A counterstrike's response is itself an AttackResult, which
+            // always carries an impact formula; CombatResult rolls it whenever
+            // the counterstrike lands, so the side must supply one (+ parent).
             makeSide({
                 level: def,
                 testType: TEST_TYPE.COUNTERSTRIKE.id,
                 asAttack: true,
+                withImpact: true,
             }),
         );
         cr.opposedTestEvaluate();
@@ -293,7 +296,7 @@ describe("impact rolled on the blow landing", () => {
         expect(cr.attackerLandsBlow).toBe(true);
         expect(cr.attackerImpact).toBeInstanceOf(ImpactResult);
         expect(cr.attackerImpact!.aspect).toBe(IMPACT_ASPECT.EDGED);
-        expect(cr.defenderImpact).toBeUndefined();
+        expect(cr.cxImpact).toBeUndefined();
     });
 
     it("produces no ImpactResult when the attack does not land", () => {
@@ -318,7 +321,7 @@ describe("impact rolled on the blow landing", () => {
         );
         cr.opposedTestEvaluate();
         expect(cr.defenderLandsBlow).toBe(true);
-        expect(cr.defenderImpact).toBeInstanceOf(ImpactResult);
+        expect(cr.cxImpact).toBeInstanceOf(ImpactResult);
     });
 });
 

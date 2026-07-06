@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActionContext } from "@src/core/SohlActionContext";
+import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import {
     SohlActorBaseLogic,
     type SohlActorData,

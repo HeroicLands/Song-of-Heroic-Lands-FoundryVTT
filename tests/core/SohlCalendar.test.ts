@@ -14,7 +14,12 @@ import {
     afterAll,
     afterEach,
 } from "vitest";
-import { SohlCalendarData } from "@src/core/SohlCalendar";
+import { SohlCalendarData } from "@src/core/foundry/SohlCalendar";
+import {
+    formatTimestamp,
+    formatDefault,
+    formatRelativeTime,
+} from "@src/core/logic/sohl-calendar-logic";
 // Mock-swapped shim (vitest alias); spy on it instead of touching raw Foundry globals.
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
 
@@ -238,17 +243,13 @@ describe("SohlCalendarData", () => {
         it("SoHL calendar: formats as ' YYYY-MM-DD HH:MM:SS' with leading space for after-era", () => {
             const cal = new SohlCalendarData(makeSohlConfig());
             const c = cal.timeToComponents(0);
-            expect(SohlCalendarData.formatTimestamp(cal, c)).toBe(
-                " 0001-01-01 00:00:00",
-            );
+            expect(formatTimestamp(cal, c)).toBe(" 0001-01-01 00:00:00");
         });
 
         it("SoHL calendar: formats with '-' prefix and abs year for before-era", () => {
             const cal = new SohlCalendarData(makeSohlConfig());
             const c = cal.timeToComponents(-51 * SOHL_YEAR_SECONDS);
-            expect(SohlCalendarData.formatTimestamp(cal, c)).toBe(
-                "-0051-01-01 00:00:00",
-            );
+            expect(formatTimestamp(cal, c)).toBe("-0051-01-01 00:00:00");
         });
 
         it("SoHL calendar: skips year-zero adjustment when hasYearZero is true", () => {
@@ -256,9 +257,7 @@ describe("SohlCalendarData", () => {
                 makeSohlConfig({ era: { hasYearZero: true } }),
             );
             const c = cal.timeToComponents(0);
-            expect(SohlCalendarData.formatTimestamp(cal, c)).toBe(
-                " 0000-01-01 00:00:00",
-            );
+            expect(formatTimestamp(cal, c)).toBe(" 0000-01-01 00:00:00");
         });
 
         it("pads year to 4 digits, month/day/time to 2 digits", () => {
@@ -270,14 +269,14 @@ describe("SohlCalendarData", () => {
                     5 * 60 +
                     7,
             );
-            const out = SohlCalendarData.formatTimestamp(cal, c);
+            const out = formatTimestamp(cal, c);
             expect(out).toMatch(/^ \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/);
         });
 
         it("Foreign calendar: formats as 'YYYY-MM-DD HH:MM:SS' (no sign prefix, no year-zero adjustment)", () => {
             const cal = new ForeignCalendar(makeForeignConfig());
             const c = cal.timeToComponents(0);
-            const out = SohlCalendarData.formatTimestamp(cal, c);
+            const out = formatTimestamp(cal, c);
             expect(out).toBe("0000-01-01 00:00:00");
             expect(out).not.toMatch(/^[- ]/);
         });
@@ -286,9 +285,7 @@ describe("SohlCalendarData", () => {
             const cal = new ForeignCalendar(makeForeignConfig());
             expect((cal as any).era).toBeUndefined();
             const c = cal.timeToComponents(365 * SECONDS_PER_DAY);
-            expect(() =>
-                SohlCalendarData.formatTimestamp(cal, c),
-            ).not.toThrow();
+            expect(() => formatTimestamp(cal, c)).not.toThrow();
         });
     });
 
@@ -298,9 +295,7 @@ describe("SohlCalendarData", () => {
             const c = cal.timeToComponents(
                 14 * SECONDS_PER_DAY + 14 * 3600 + 30 * 60,
             );
-            expect(SohlCalendarData.formatDefault(cal, c)).toBe(
-                "15 Month0 1TR 14:30:00",
-            );
+            expect(formatDefault(cal, c)).toBe("15 Month0 1TR 14:30:00");
         });
 
         it("Foreign calendar: formats as 'day monthName year HH:MM:SS' with no era data", () => {
@@ -308,22 +303,20 @@ describe("SohlCalendarData", () => {
             const c = cal.timeToComponents(
                 14 * SECONDS_PER_DAY + 14 * 3600 + 30 * 60,
             );
-            expect(SohlCalendarData.formatDefault(cal, c)).toBe(
-                "15 Jan 0 14:30:00",
-            );
+            expect(formatDefault(cal, c)).toBe("15 Jan 0 14:30:00");
         });
 
         it("Foreign calendar: pulls month label from calendar.months.values[m].name", () => {
             const cal = new ForeignCalendar(makeForeignConfig());
             const c = cal.timeToComponents(31 * SECONDS_PER_DAY);
-            expect(SohlCalendarData.formatDefault(cal, c)).toContain("Feb");
+            expect(formatDefault(cal, c)).toContain("Feb");
         });
 
         it("Foreign calendar: does not access components.eraYear/eraAbbrev and does not crash", () => {
             const cal = new ForeignCalendar(makeForeignConfig());
             const c = cal.timeToComponents(0);
             expect((c as any).eraYear).toBeUndefined();
-            expect(() => SohlCalendarData.formatDefault(cal, c)).not.toThrow();
+            expect(() => formatDefault(cal, c)).not.toThrow();
         });
     });
 
@@ -356,16 +349,14 @@ describe("SohlCalendarData", () => {
             setWorldTime(0);
             const cal = new SohlCalendarData(makeSohlConfig());
             const c = cal.timeToComponents(0);
-            expect(SohlCalendarData.formatRelativeTime(cal, c)).toBe(
-                "TIME.Now",
-            );
+            expect(formatRelativeTime(cal, c)).toBe("TIME.Now");
         });
 
         it("formats future times with the 'SOHL.TIME.Until' template", () => {
             setWorldTime(0);
             const cal = new SohlCalendarData(makeSohlConfig());
             const c = cal.timeToComponents(3 * SECONDS_PER_DAY);
-            const out = SohlCalendarData.formatRelativeTime(cal, c);
+            const out = formatRelativeTime(cal, c);
             expect(out).toMatch(/^FUT\[/);
         });
 
@@ -373,7 +364,7 @@ describe("SohlCalendarData", () => {
             setWorldTime(3 * SECONDS_PER_DAY);
             const cal = new SohlCalendarData(makeSohlConfig());
             const c = cal.timeToComponents(0);
-            const out = SohlCalendarData.formatRelativeTime(cal, c);
+            const out = formatRelativeTime(cal, c);
             expect(out).toMatch(/^PAST\[/);
         });
 
@@ -381,7 +372,7 @@ describe("SohlCalendarData", () => {
             setWorldTime(0);
             const cal = new SohlCalendarData(makeSohlConfig());
             const c = cal.timeToComponents(3 * SECONDS_PER_DAY);
-            const out = SohlCalendarData.formatRelativeTime(cal, c);
+            const out = formatRelativeTime(cal, c);
             expect(out).toContain("3 ");
             expect(out).not.toContain("0 ");
         });
@@ -396,8 +387,8 @@ describe("SohlCalendarData", () => {
                     5 * 60 +
                     6,
             );
-            const long = SohlCalendarData.formatRelativeTime(cal, c);
-            const short = SohlCalendarData.formatRelativeTime(cal, c, {
+            const long = formatRelativeTime(cal, c);
+            const short = formatRelativeTime(cal, c, {
                 maxTerms: 2,
             });
             expect(short.length).toBeLessThan(long.length);
@@ -407,7 +398,7 @@ describe("SohlCalendarData", () => {
             setWorldTime(0);
             const cal = new SohlCalendarData(makeSohlConfig());
             const c = cal.timeToComponents(3 * SECONDS_PER_DAY);
-            const short = SohlCalendarData.formatRelativeTime(cal, c, {
+            const short = formatRelativeTime(cal, c, {
                 short: true,
             });
             expect(short).toContain("TIME.Day.abbr");
@@ -418,7 +409,7 @@ describe("SohlCalendarData", () => {
             const cal = new SohlCalendarData(makeSohlConfig());
             const target = cal.timeToComponents(0);
             const anchor = cal.timeToComponents(3 * SECONDS_PER_DAY);
-            const out = SohlCalendarData.formatRelativeTime(cal, target, {
+            const out = formatRelativeTime(cal, target, {
                 fromComponents: anchor,
             });
             expect(out).toMatch(/^PAST\[/);
@@ -428,9 +419,7 @@ describe("SohlCalendarData", () => {
             setWorldTime(0);
             const cal = new ForeignCalendar(makeForeignConfig());
             const c = cal.timeToComponents(2 * SECONDS_PER_DAY);
-            expect(() =>
-                SohlCalendarData.formatRelativeTime(cal, c),
-            ).not.toThrow();
+            expect(() => formatRelativeTime(cal, c)).not.toThrow();
         });
     });
 });

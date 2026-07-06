@@ -18,7 +18,6 @@ import {
     combine,
     createUniqueName,
     asyncForEach,
-    instanceToJSON,
     serializeFn,
     deserializeFn,
     textToFunction,
@@ -406,29 +405,6 @@ describe("asyncForEach", () => {
             results.push(item);
         });
         expect(results).toEqual([]);
-    });
-});
-
-describe("instanceToJSON", () => {
-    it("includes __kind from constructor", () => {
-        class MyClass {
-            static kind = "myKind";
-            value = 42;
-        }
-        const instance = new MyClass();
-        const json = instanceToJSON(instance);
-        expect(json.__kind).toBe("myKind");
-        expect(json.value).toBe(42);
-    });
-
-    it("strips leading underscores from property names", () => {
-        class MyClass {
-            static kind = "test";
-            _private = "secret";
-        }
-        const json = instanceToJSON(new MyClass());
-        expect(json.private).toBe("secret");
-        expect(json._private).toBeUndefined();
     });
 });
 

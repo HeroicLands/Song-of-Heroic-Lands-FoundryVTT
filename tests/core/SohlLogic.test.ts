@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { SohlItemBaseLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
-import { SohlSpeaker } from "@src/core/SohlSpeaker";
-import { ContextMenuEntry } from "@src/utils/ContextMenuEntry";
+import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
+import { ContextMenuEntry } from "@src/apps/logic/ContextMenuEntry";
 import {
     ACTION_SUBTYPE,
     SOHL_ACTION_SCOPE,
@@ -76,7 +76,7 @@ describe("SohlLogic", () => {
             );
             expect(logic.id).toBe("item123");
             expect(logic.name).toBe("My Item");
-            expect(logic.type).toBe("misc");
+            expect(logic.kind).toBe("misc");
         });
 
         it("item returns the owning item when the data has one", () => {

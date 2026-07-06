@@ -45,6 +45,9 @@ function makeActorWithItems(items: any[]): any {
             values: () => itemsMap.values(),
             get: (id: string) => itemsMap.get(id),
         },
+        // `system.test` predicates compile to a SafeExpression parented on the
+        // actor's logic; a truthy stand-in satisfies the SohlEntity contract.
+        logic: { id: "actor-logic" },
     };
     items.forEach((i) => (i.parent = actor));
     return actor;

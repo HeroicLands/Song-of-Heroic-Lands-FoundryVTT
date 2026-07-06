@@ -12,21 +12,19 @@
  */
 
 import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
-import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
-import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
-import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
-import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
+import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
+import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
+import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import {
     ACTION_SUBTYPE,
-    defineType,
     ITEM_KIND,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     STRIKE_MODE_TYPE,
 } from "@src/utils/constants";
-import { SohlAction } from "@src/domain/action/SohlAction";
-import type { SohlActionContext } from "@src/core/SohlActionContext";
-import type { CombatResult } from "@src/domain/result/CombatResult";
+import { SohlAction } from "@src/entity/action/SohlAction";
+import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import type { CombatResult } from "@src/entity/result/CombatResult";
 import { fvttActiveCombatantForActor } from "@src/core/FoundryHelpers";
 
 /**
@@ -51,119 +49,13 @@ export class CombatTechniqueLogic<
     /** The runtime strike-mode instance, built from persisted data. */
     strikeMode!: StrikeModeBase;
 
-    /* --------------------------------------------- */
-    /* Intrinsic Actions                             */
-    /* --------------------------------------------- */
-
     /**
-     * Begin automated combat with this combat technique. Delegates into the
-     * attacker's {@link CombatantLogic.automatedCombatStart} action — the single
-     * combat-start entry point — passing this technique's `logicUuid` (and any
-     * `smId` already in scope) so only this technique's in-range strike modes are
-     * offered.
-     *
-     * @param context - Action context driving the automated combat start.
+     * The runtime strike-mode instance as an array. For a combat technique,
+     * this is always a single-element array containing {@link strikeMode}.
+     * @returns An array containing the single {@link strikeMode} instance.
      */
-    async automatedCombatStart(
-        context: SohlActionContext<EmptyObject>,
-    ): Promise<void> {
-        const combatantLogic = fvttActiveCombatantForActor(this.actor);
-        if (!combatantLogic) {
-            sohl.log.uiWarn(
-                `${this.name} cannot start automated combat: its actor is not in the active combat.`,
-            );
-            return;
-        }
-        (context.scope as PlainObject).logicUuid = this.uuid;
-        await combatantLogic.automatedCombatStart(context);
-    }
-
-    /**
-     * Present a dialog asking the player to select a strike mode to block with to resume
-     * the automated combat.
-     *
-     * @remarks
-     * Any strike mode that has the noBlock trait should be filtered out of the choices.
-     * The default value of the choices should be the most recently used strike mode that
-     * does not have the noBlock trait. Otherwise, there is no default value.
-     *
-     * Once a strike mode is selected, delegate processing of the block resume to that
-     * strike mode's item.
-     *
-     * One of `combatResult` or `attackResult` must be supplied in `context.scope`:
-     * - `combatResult` is the prior automated resume result that is being reassessed
-     * - `attackResult` is the result of the automated attack that initiated the automated resume
-     *
-     * @param context - Action context carrying the combat or attack result in its scope.
-     * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
-     * @param [context.scope.attackResult] The test result that initiated the opposed test
-     */
-    async automatedBlockResume(
-        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
-    ): Promise<void> {}
-
-    /**
-     * Present a dialog asking the player to select a strike mode to use for the counterstrike
-     * defense. The default should be the most recently used attack or counterstrike mode.
-     *
-     * @remarks
-     * Any strike mode that has the noAttack trait should be filtered out of the choices.
-     * The default value of the choices should be the most recently used strike mode that
-     * does not have the noAttack trait. Otherwise, there is no default value.
-     *
-     * Once a strike mode is selected, delegate processing of the counterstrike
-     * resume to that strike mode's item.
-     *
-     * One of `combatResult` or `attackResult` must be supplied in `context.scope`:
-     * - `combatResult` is the prior automated resume result that is being reassessed
-     * - `attackResult` is the result of the automated attack that initiated the automated resume
-     *
-     * @param context - Action context carrying the combat or attack result in its scope.
-     * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
-     * @param [context.scope.attackResult] The test result that initiated the opposed test
-     */
-    async automatedCounterstrikeResume(
-        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
-    ): Promise<void> {}
-
-    /**
-     * Define and return all intrinsic actions for this logic type.
-     * @returns A map of action shortcodes to their definitions
-     */
-    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
-        return [
-            ...SohlItemBaseLogic.defineIntrinsicActions(),
-            {
-                shortcode: "automatedCombatStart",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.CombatTechnique.Action.automatedCombatStart",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "sohl-sword",
-                executor: "automatedCombatStart",
-                visible: "true",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-            },
-            {
-                shortcode: "automatedBlockResume",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.CombatTechnique.Action.automatedBlockResume",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "sohl-sheild-reflect",
-                executor: "automatedBlockResume",
-                visible: "false",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-            },
-            {
-                shortcode: "automatedCounterstrikeResume",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.CombatTechnique.Action.automatedCounterstrikeResume",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "sohl-riposte",
-                executor: "automatedCounterstrikeResume",
-                visible: "false",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-            },
-        ];
+    get strikeModes(): StrikeModeBase[] {
+        return [this.strikeMode];
     }
 
     /* --------------------------------------------- */
@@ -222,4 +114,11 @@ export interface CombatTechniqueData<
      * is obtained via `CombatTechniqueDataModel.strikeModeInstance`.
      */
     strikeMode: MeleeStrikeMode.Data | MissileStrikeMode.Data;
+
+    /**
+     * The runtime strike-mode instance as an array. For a combat technique,
+     * this is always a single-element array containing {@link strikeMode}.
+     * @returns An array containing the single {@link strikeMode} instance.
+     */
+    get strikeModes(): StrikeModeBase[];
 }

@@ -14,8 +14,8 @@ import {
     vi,
     type MockInstance,
 } from "vitest";
-import { SohlEventQueue } from "@src/core/SohlEventQueue";
-import type { SohlTriggerContext } from "@src/core/SohlEventTrigger";
+import { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
+import type { SohlTriggerContext } from "@src/entity/event/event-trigger";
 // Mock-swapped shim (vitest alias); spy on it instead of touching raw Foundry globals.
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
 

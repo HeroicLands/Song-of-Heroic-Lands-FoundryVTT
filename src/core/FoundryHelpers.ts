@@ -11,16 +11,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SimpleRoll } from "@src/utils/SimpleRoll";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { FilePath, toSanitizedHTML, HTMLString } from "@src/utils/helpers";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlScene } from "@src/document/scene/foundry/SohlScene";
-import type { SohlLogic } from "@src/core/SohlLogic";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
-import type { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
+import type { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
+import { SohlCombat } from "@src/document/combat/foundry/SohlCombat";
 
 /**
  * Foundry VTT runtime shim.
@@ -168,19 +169,21 @@ export function fvttMergeObject(
 /**
  * Synchronously resolve a document by UUID.
  * @param uuid - The document UUID to resolve.
- * @returns The resolved document, or `null` if not found.
+ * @returns The resolved document, or `undefined` if not found.
  */
-export function fvttResolveUuid(uuid: string): any {
-    return fromUuidSync(uuid);
+export function fvttResolveUuid(uuid: string): any | undefined {
+    return fromUuidSync(uuid) ?? undefined;
 }
 
 /**
  * Asynchronously resolve a document by UUID.
  * @param uuid - The document UUID to resolve.
- * @returns A promise resolving to the document, or `null` if not found.
+ * @returns A promise resolving to the document, or `undefined` if not found.
  */
-export async function fvttResolveUuidAsync(uuid: string): Promise<any> {
-    return fromUuid(uuid);
+export async function fvttResolveUuidAsync(
+    uuid: string,
+): Promise<any | undefined> {
+    return (await fromUuid(uuid)) ?? undefined;
 }
 
 /**
@@ -189,13 +192,15 @@ export async function fvttResolveUuidAsync(uuid: string): Promise<any> {
  * @remarks The logic-layer counterpart of `fromUuidSync`: it hides the Foundry
  * document entirely, returning only the logic, so the logic layer can treat a
  * UUID as an opaque token and round-trip it back to logic. Like `fromUuidSync`,
- * it returns `null` for documents not already in memory (e.g. unloaded
- * compendium entries) — use {@link logicFromUuid} when that is possible.
+ * it returns `undefined` for documents not already in memory (e.g. unloaded
+ * compendium entries) — use {@link fvttLogicFromUuid} when that is possible.
  * @param uuid - The (opaque) document UUID.
- * @returns The document's logic, or `null` if unresolved.
+ * @returns The document's logic, or `undefined` if unresolved.
  */
-export function logicFromUuidSync(uuid: string): SohlLogic<any> | null {
-    return (fromUuidSync(uuid) as any)?.logic ?? null;
+export function fvttLogicFromUuidSync<
+    T extends SohlLogic<any> = SohlLogic<any>,
+>(uuid: string): T | undefined {
+    return (fromUuidSync(uuid) as any)?.logic ?? undefined;
 }
 
 /**
@@ -205,12 +210,12 @@ export function logicFromUuidSync(uuid: string): SohlLogic<any> | null {
  * compendium / not-yet-loaded documents as well. Hides the Foundry document,
  * returning only the logic.
  * @param uuid - The (opaque) document UUID.
- * @returns A promise resolving to the document's logic, or `null` if unresolved.
+ * @returns A promise resolving to the document's logic, or `undefined` if unresolved.
  */
-export async function logicFromUuid(
-    uuid: string,
-): Promise<SohlLogic<any> | null> {
-    return ((await fromUuid(uuid)) as any)?.logic ?? null;
+export async function fvttLogicFromUuid<
+    T extends SohlLogic<any> = SohlLogic<any>,
+>(uuid: string): Promise<T | undefined> {
+    return ((await fromUuid(uuid)) as any)?.logic ?? undefined;
 }
 
 // ---------------------------------------------------------------------------
@@ -585,8 +590,8 @@ export async function awaitDialog(config: Partial<DialogConfig>): Promise<any> {
  * Unregister a custom sheet for a Foundry document class.
  * @param documentClass - The Foundry document class the sheet was registered for.
  * @param sheetClass - The sheet class to unregister.
- * @param root0 - Unregistration options.
- * @param root0.types - The document subtypes to unregister the sheet for.
+ * @param options
+ * @param options.types - The document subtypes to unregister the sheet for.
  */
 export function unregisterSheet(
     documentClass: any,
@@ -608,71 +613,6 @@ export function unregisterSheet(
 // ---------------------------------------------------------------------------
 
 /**
- * Determines the identity of the current token/actor that is in combat.
- * If token is specified, tries to use token (and will allow it regardless
- * if user is GM), otherwise returned token will be the combatant whose
- * turn it currently is.
- *
- * @param token - An optional token to use; if the user is a GM or
- *   `forceAllow` is set it is used directly, otherwise it must match the
- *   current combatant.
- * @param forceAllow - When `true`, accept the supplied `token` even if the
- *   current user is not a GM.
- * @returns An object containing the resolved `token` and its `actor`, or
- *   `null` if no valid combatant could be determined (a UI warning is
- *   surfaced in that case).
- */
-export function getTokenInCombat(
-    token: any = null,
-    forceAllow = false,
-): {
-    /** The token of the current combatant. */
-    token: any;
-    /** The actor associated with the resolved token. */
-    actor: any;
-} | null {
-    if (token && ((game as any).user?.isGM || forceAllow)) {
-        return { token, actor: token.actor };
-    }
-
-    if (!(game as any).combat?.started) {
-        sohl.log.uiWarn("No active combat.");
-        return null;
-    }
-
-    if ((game as any).combat.combatants.size === 0) {
-        sohl.log.uiWarn(`No combatants.`);
-        return null;
-    }
-
-    const combatant = (game as any).combat.combatant;
-
-    if (combatant.isDefeated) {
-        sohl.log.uiWarn(`Combatant ${combatant.token.name} has been defeated`);
-        return null;
-    }
-
-    if (token && token.id !== combatant.token.id) {
-        sohl.log.uiWarn(`${combatant.token.name} is not the current combatant`);
-        return null;
-    }
-
-    if (!combatant.actor.isOwner) {
-        sohl.log.uiWarn(
-            `You do not have permissions to control the combatant ${combatant.token.name}.`,
-        );
-        return null;
-    }
-
-    token = getCanvas().tokens?.get(combatant.token.id);
-    if (!token) {
-        throw new Error(`Token ${combatant.token.id} not found on canvas`);
-    }
-
-    return { token, actor: combatant.actor };
-}
-
-/**
  * Get the active Foundry canvas.
  *
  * @returns The current {@link foundry.canvas.Canvas} instance.
@@ -686,57 +626,14 @@ export function getCanvas(): foundry.canvas.Canvas {
 }
 
 /**
- * Get the active Foundry game instance.
- *
- * @returns The current {@link foundry.Game} instance.
- * @throws If the game is not available.
- */
-export function getGame(): foundry.Game {
-    if (!(game instanceof foundry.Game)) {
-        throw new Error("Game is not available");
-    }
-    return game;
-}
-
-/**
- * Get the current user.
- *
- * @returns The current {@link User}.
- * @throws If the user is not available.
- */
-export function getCurrentUser(): User {
-    if (!(game.user instanceof User)) {
-        throw new Error("User is not available");
-    }
-    return game.user;
-}
-
-/**
- * Get the scene currently shown on the canvas.
- *
- * @returns The current {@link Scene}.
- * @throws If no scene is available on the canvas.
- * @remarks Unlike {@link getActiveScene}, this returns the scene presently
- *   displayed on the canvas rather than the world's active scene.
- */
-export function getCurrentScene(): Scene {
-    if (!(canvas.scene instanceof Scene)) {
-        throw new Error("Scene is not available");
-    }
-    return canvas.scene;
-}
-
-/**
  * The world's currently **active** scene (the one flagged active in the scene
  * navigation), or `null` when the game is unavailable or no scene is active.
  *
- * Unlike {@link getCurrentScene} (the scene presently shown on the canvas),
- * this returns `game.scenes.active` and never throws.
- * @returns The active {@link Scene}, or `null` if none is active.
+ * @returns The active {@link SohlScene}, or `undefined` if none is active.
  */
-export function getActiveScene(): Scene | null {
-    if (!(game instanceof foundry.Game)) return null;
-    return (game.scenes?.active as Scene | undefined) ?? null;
+export function getActiveScene(): Optional<SohlScene> {
+    if (!(game instanceof foundry.Game)) return undefined;
+    return game.scenes?.active as SohlScene;
 }
 
 /**
@@ -744,13 +641,13 @@ export function getActiveScene(): Scene | null {
  * game is unavailable or no combat is active. Never throws.
  * @returns The active {@link Combat}, or `null` if none is active.
  */
-export function getActiveCombat(): Combat | null {
-    if (!(game instanceof foundry.Game)) return null;
-    return (game.combat as Combat | undefined) ?? null;
+export function getActiveCombat(): Optional<SohlCombat> {
+    if (!(game instanceof foundry.Game)) return undefined;
+    return game.combat as SohlCombat;
 }
 
 /**
- * The {@link CombatantLogic} for the given actor's combatant in the active
+ * The {@link SohlCombatantLogic} for the given actor's combatant in the active
  * combat, or `null` when the game is unavailable, no combat is active, or the
  * actor is not a combatant. The actor's active token (when one exists) is used
  * to disambiguate; otherwise the first combatant for the actor is taken.
@@ -762,7 +659,7 @@ export function getActiveCombat(): Combat | null {
  */
 export function fvttActiveCombatantForActor(
     actor: SohlActor | null,
-): CombatantLogic | null {
+): SohlCombatantLogic | null {
     if (!actor) return null;
     const combat = getActiveCombat();
     if (!combat) return null;
@@ -773,32 +670,32 @@ export function fvttActiveCombatantForActor(
             (tokenId != null && c.tokenId === tokenId) ||
             c.actor?.id === actor.id,
     ) ?? null) as SohlCombatant | null;
-    return (combatant?.logic as CombatantLogic | undefined) ?? null;
+    return (combatant?.logic as SohlCombatantLogic | undefined) ?? null;
 }
 
 /**
- * The {@link CombatantLogic} of every combatant in the same combat as the given
+ * The {@link SohlCombatantLogic} of every combatant in the same combat as the given
  * combatant (including it), or an empty array when it is not in a combat.
  *
- * Lets the Foundry-free {@link CombatantLogic} reach its peers (for ally /
+ * Lets the Foundry-free {@link SohlCombatantLogic} reach its peers (for ally /
  * threat queries) without walking `combatant.combat.combatants` directly.
  * @param combatant - The combatant whose peers to resolve.
  * @returns The peer combatant logics, or an empty array.
  */
 export function fvttCombatantLogics(
     combatant: SohlCombatant | null,
-): CombatantLogic[] {
+): SohlCombatantLogic[] {
     const combat = (combatant as any)?.combat;
     if (!combat) return [];
     return (combat.combatants as any).map(
         (c: any) => c.logic,
-    ) as CombatantLogic[];
+    ) as SohlCombatantLogic[];
 }
 
 /**
  * Prompt the GM to move a combatant into a {@link CombatantGroup}, delegating
  * the dialog and group creation/assignment to the document. Lets the
- * Foundry-free {@link CombatantLogic.moveToGroup} action trigger the operation
+ * Foundry-free {@link SohlCombatantLogic.moveToGroup} action trigger the operation
  * without invoking document methods directly.
  * @param combatant - The combatant to reassign.
  */
@@ -982,14 +879,14 @@ export function fvttGetTargetedTokens(
 /**
  * Calculates the distance from sourceToken to targetToken in "scene" units (e.g., feet).
  *
- * @param sourceToken - The source token.
- * @param targetToken - The target token.
+ * @param sourceToken - The source token logic.
+ * @param targetToken - The target token logic.
  * @param gridUnits - Whether to return the distance in grid units rather than scene units.
  * @returns {number|null} The distance, or null if not calculable.
  */
 export function fvttRangeToTarget(
-    sourceToken: SohlTokenDocument,
-    targetToken: SohlTokenDocument,
+    sourceToken: SohlTokenDocumentLogic,
+    targetToken: SohlTokenDocumentLogic,
     gridUnits: boolean = false,
 ): number | null {
     if (!canvas.scene?.grid) {
@@ -1007,8 +904,8 @@ export function fvttRangeToTarget(
 
     const result = getCanvas().grid?.measurePath(
         [
-            (sourceToken as any).object.center,
-            (targetToken as any).object.center,
+            (sourceToken.parent as any).object.center,
+            (targetToken.parent as any).object.center,
         ],
         {},
     );

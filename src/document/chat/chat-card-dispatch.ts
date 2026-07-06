@@ -47,3 +47,16 @@ export function resolveChatCardHandlerUuid(
         null
     );
 }
+
+/**
+ * Process a chat-card button click.
+ * @param btn The HTMLButtonElement that represents the clicked button
+ */
+export function onChatCardButton(btn: HTMLButtonElement): void {}
+
+/**
+ * Process a chat-card edit link click (to modify the parameters of certain
+ * chat cards).
+ * @param edit The HTMLElement that represents the clicked element
+ */
+export function onChatCardEditAction(edit: HTMLElement): void {}

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { SohlSpeaker } from "@src/core/SohlSpeaker";
+import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import { instanceFromJSON } from "@src/utils/helpers";
 
 describe("SohlSpeaker serialization round-trip", () => {

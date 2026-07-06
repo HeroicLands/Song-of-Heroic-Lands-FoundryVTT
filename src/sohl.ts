@@ -11,21 +11,22 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlSpeaker } from "@src/core/SohlSpeaker";
-import { SohlSystem } from "@src/core/SohlSystem";
+import { SOHLCONFIG } from "@src/core/foundry/sohl-config";
+import { SohlSystem } from "@src/core/logic/SohlSystem";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
-import { AIAdapter } from "@src/utils/ai/AIAdapter";
 import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import { resolveChatCardHandlerUuid } from "@src/document/chat/chat-card-dispatch";
 import { gateAutomatedDefenseButtons } from "@src/document/chat/chat-card-gating";
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 import { registerCombatTrackerHooks } from "@src/document/combat/combat-tracker-hooks";
 import { registerCombatantConfigHooks } from "@src/document/combatant/combatant-config-hooks";
-import { wireSohlHookBridge } from "@src/core/SohlHookBridge";
-import { CalendarSettingsMenu } from "@src/apps/CalendarSettingsMenu";
-import { DomainManagerApp } from "@src/apps/DomainManagerApp";
-import { SohlDomains } from "@src/core/SohlDomains";
-import { BUILTIN_DOMAINS } from "@src/core/builtinDomains";
+import { wireSohlHookBridge } from "@src/core/logic/SohlHookBridge";
+import { CalendarSettingsMenu } from "@src/apps/foundry/CalendarSettingsMenu";
+import { DomainManagerApp } from "@src/apps/foundry/DomainManagerApp";
+import { ExpressionLibraryMenu } from "@src/apps/foundry/ExpressionLibraryMenu";
+import { expressionHelpers } from "@src/entity/expr/ExpressionHelperRegistry";
+import { DomainRegistry } from "@src/entity/domain/DomainRegistry";
+import { BUILTIN_DOMAINS } from "@src/entity/domain/builtin-domains";
 import { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 
 /**
@@ -35,9 +36,9 @@ import { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument
  */
 function setupSystem(): SohlSystem {
     const sohl = SohlSystem.getInstance();
-    foundry.utils.mergeObject(CONFIG, sohl.CONFIG);
+    foundry.utils.mergeObject(CONFIG, SOHLCONFIG);
     // TokenDocument is not a typed document (no `system` DataModel), so it is
-    // registered directly here rather than through a `sohl.CONFIG` block. This
+    // registered directly here rather than through a `SOHLCONFIG` block. This
     // makes canvas tokens `SohlTokenDocument` instances, giving them the
     // transient `.logic` adapter and `onChatCardButton` that the opposed-test
     // flow dispatches to.
@@ -222,6 +223,31 @@ function registerSystemSettings() {
         type: DomainManagerApp as any,
         restricted: true,
     });
+
+    // Expression helper library settings. The parsed custom-helper map and the
+    // chosen file path are persisted so helpers reload on world start.
+    game.settings.register("sohl", "expressionHelpers", {
+        name: "SOHL.Settings.expressionHelpers.name",
+        scope: "world",
+        config: false,
+        type: Object,
+        default: {},
+    });
+    game.settings.register("sohl", "expressionHelpersPath", {
+        name: "SOHL.Settings.expressionHelpersPath.name",
+        scope: "world",
+        config: false,
+        type: String,
+        default: "",
+    });
+    game.settings.registerMenu("sohl", "expressionHelpersMenu", {
+        name: "SOHL.Settings.expressionHelpersMenu.name",
+        label: "SOHL.Settings.expressionHelpersMenu.label",
+        hint: "SOHL.Settings.expressionHelpersMenu.hint",
+        icon: "sohl-scroll",
+        type: ExpressionLibraryMenu as any,
+        restricted: true,
+    });
 }
 
 /**
@@ -238,12 +264,12 @@ let __builtinDomainsSeeded = false;
 function registerBuiltinDomains(): void {
     if (__builtinDomainsSeeded) return;
     __builtinDomainsSeeded = true;
-    const existing = SohlDomains.getAll();
+    const existing = DomainRegistry.getAll();
     const missing = BUILTIN_DOMAINS.filter(
         (entry) => !(entry.shortcode in existing),
     );
     if (missing.length === 0) return;
-    void SohlDomains.register(missing, "sohl").catch((err) => {
+    void DomainRegistry.register(missing, "sohl").catch((err) => {
         sohl.log.error("SoHL | Failed to register built-in domains", err);
     });
 }
@@ -262,6 +288,32 @@ function rehydrateCalendars(): void {
             builtin: false,
         });
     }
+}
+
+/**
+ * Load the world's persisted custom expression helpers into the global
+ * registry at world start. Reads the `expressionHelpers` world setting (a map
+ * of helper name → `{ args?, body }`) and installs each; invalid entries are
+ * skipped and logged. Safe to call before any data-authored expression is
+ * built (item logic runs later in the lifecycle).
+ */
+function rehydrateExpressionHelpers(): void {
+    const library = game.settings.get("sohl", "expressionHelpers") as Record<
+        string,
+        unknown
+    >;
+    if (!library || !Object.keys(library).length) return;
+    const { installed, skipped } = expressionHelpers.loadLibrary(library);
+    if (skipped.length) {
+        for (const s of skipped) {
+            sohl.log.warn(
+                `Expression helper "${s.name}" skipped on load: ${s.reason}`,
+            );
+        }
+    }
+    sohl.log.info(
+        `SoHL | Loaded ${installed.length} custom expression helper(s).`,
+    );
 }
 
 /**
@@ -342,18 +394,6 @@ function registerSystemHooks() {
         });
         leftCol.appendChild(btn);
     });
-
-    (Hooks as any).on(
-        "chatMessage",
-        (
-            _app: ChatLog,
-            message: string,
-            data: {
-                speaker?: Partial<SohlSpeaker.Data>;
-                user: string | null;
-            },
-        ) => AIAdapter.chatMessage(ui.chat, message, data),
-    );
 
     (Hooks as any).on(
         "renderChatMessageHTML",
@@ -461,6 +501,7 @@ function registerSystemHooks() {
     registerBuiltinDomains();
     rehydrateCalendars();
     applyActiveCalendar();
+    rehydrateExpressionHelpers();
     sohl.log.setLogThreshold(
         (game as any).settings.get("sohl", "logLevel") || LOGLEVEL.INFO,
     );

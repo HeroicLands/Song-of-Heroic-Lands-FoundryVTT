@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { BodyStructure } from "@src/domain/body/BodyStructure";
-import type { BodyPart } from "@src/domain/body/BodyPart";
-import type { BodyLocation } from "@src/domain/body/BodyLocation";
+import { BodyStructure } from "@src/entity/body/BodyStructure";
+import type { BodyPart } from "@src/entity/body/BodyPart";
+import type { BodyLocation } from "@src/entity/body/BodyLocation";
 
 const SKULL_LOC = {
     shortcode: "skull",
@@ -52,10 +52,14 @@ const SAMPLE_DATA: BodyStructure.Data = {
     adjacent: [["head", "thorax"]],
 };
 
-// Minimal mock: beingLogic with null actor and canonical data for update methods
+// Minimal construction options: a Lineage-kinded parent logic (null actor,
+// canonical data for the update methods) wrapped as the entity's options.
 const MOCK_BEING_LOGIC = {
-    actor: null,
-    data: { bodyStructure: SAMPLE_DATA },
+    parent: {
+        kind: "lineage",
+        actor: null,
+        data: { bodyStructure: SAMPLE_DATA },
+    },
 } as any;
 
 describe("BodyStructure", () => {
@@ -123,12 +127,16 @@ describe("BodyStructure", () => {
         // Mock being-logic whose actor resolves heldItemId -> a stub item.
         const logicResolving = (ids: string[]) =>
             ({
-                actor: {
-                    items: {
-                        get: (id: string) => (ids.includes(id) ? { id } : null),
+                parent: {
+                    kind: "lineage",
+                    actor: {
+                        items: {
+                            get: (id: string) =>
+                                ids.includes(id) ? { id } : null,
+                        },
                     },
+                    data: { bodyStructure: HOLDING_DATA },
                 },
-                data: { bodyStructure: HOLDING_DATA },
             }) as any;
 
         it("counts item-holding limbs whose held item matches", () => {

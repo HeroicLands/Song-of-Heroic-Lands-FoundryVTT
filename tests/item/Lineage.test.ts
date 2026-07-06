@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { LineageLogic } from "@src/document/item/logic/LineageLogic";
-import { BodyStructure } from "@src/domain/body/BodyStructure";
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { BodyStructure } from "@src/entity/body/BodyStructure";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     ITEM_KIND,
     MOVEMENT_MEDIUM,
@@ -116,7 +116,7 @@ describe("LineageLogic", () => {
             expect(logic.bodyStructure).toBeInstanceOf(BodyStructure);
             expect(logic.bodyStructure.parts).toHaveLength(2);
             expect(logic.bodyStructure.parts[0].shortcode).toBe("head");
-            expect(logic.bodyStructure.lineageLogic).toBe(logic);
+            expect(logic.bodyStructure.parent).toBe(logic);
         });
 
         it("seeds bodyWeight from bodyWeightBase", () => {

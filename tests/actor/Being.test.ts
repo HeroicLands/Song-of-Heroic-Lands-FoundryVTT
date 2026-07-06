@@ -2,8 +2,8 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { CombatTechniqueLogic } from "@src/document/item/logic/CombatTechniqueLogic";
-import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     ACTOR_KIND,
     IMPACT_ASPECT,
@@ -267,26 +267,37 @@ describe("BeingLogic", () => {
             const actor: any = logic.actor;
             const ct = makeTechniqueItem(actor);
             const weaponMode = makeMeleeMode(logic, { minParts: 1 });
+            // availableStrikeModes now reads the count of body parts holding the
+            // weapon off the weapon logic's `heldBy` getter (GearLogic.heldBy).
+            // Held in one limb → the minParts:1 mode is available.
             actor.itemTypes = {
-                [ITEM_KIND.LINEAGE]: [
-                    { logic: { bodyStructure: { limbsHolding: () => 1 } } },
-                ],
+                [ITEM_KIND.LINEAGE]: [{ logic: { bodyStructure: {} } }],
                 [ITEM_KIND.COMBATTECHNIQUE]: [ct],
                 [ITEM_KIND.WEAPONGEAR]: [
-                    { id: "wpn1", logic: { strikeModes: [weaponMode] } },
+                    {
+                        id: "wpn1",
+                        logic: {
+                            strikeModes: [weaponMode],
+                            heldBy: [{ shortcode: "hand-r" }],
+                        },
+                    },
                 ],
             };
             const modes = logic.availableStrikeModes;
             expect(modes).toEqual([ct.logic.strikeMode, weaponMode]);
         });
 
-        it("excludes weapon modes when there is no body structure to hold them", () => {
+        it("excludes weapon modes when the weapon is held by no body parts", () => {
             const logic = makeBeing();
             const actor: any = logic.actor;
             const weaponMode = makeMeleeMode(logic, { minParts: 1 });
+            // An unheld weapon reports an empty `heldBy`, so no mode is available.
             actor.itemTypes = {
                 [ITEM_KIND.WEAPONGEAR]: [
-                    { id: "wpn1", logic: { strikeModes: [weaponMode] } },
+                    {
+                        id: "wpn1",
+                        logic: { strikeModes: [weaponMode], heldBy: [] },
+                    },
                 ],
             };
             expect(logic.availableStrikeModes).toEqual([]);
@@ -373,13 +384,21 @@ describe("BeingLogic", () => {
         it("resolve to null (not yet implemented)", async () => {
             const logic = makeBeing();
             const ctx = { scope: {} } as any;
-            await expect(logic.calcImpact(ctx)).resolves.toBeNull();
             await expect(logic.shockTest(ctx)).resolves.toBeNull();
             await expect(logic.stumbleTest(ctx)).resolves.toBeNull();
             await expect(logic.fumbleTest(ctx)).resolves.toBeNull();
             await expect(logic.moraleTest(ctx)).resolves.toBeNull();
             await expect(logic.fearTest(ctx)).resolves.toBeNull();
             await expect(logic.contractAfflictionTest(ctx)).resolves.toBeNull();
+        });
+
+        it("calcImpact returns undefined when the scope has no impact data", async () => {
+            // calcImpact is now implemented: with neither a priorTestResult nor
+            // an impactModifier in scope it logs an error and bare-returns
+            // (undefined), rather than the old not-yet-implemented `null`.
+            const logic = makeBeing();
+            const ctx = { scope: {} } as any;
+            await expect(logic.calcImpact(ctx)).resolves.toBeUndefined();
         });
 
         it.todo("shockTest - rolls the Shock skill without impairment penalty");

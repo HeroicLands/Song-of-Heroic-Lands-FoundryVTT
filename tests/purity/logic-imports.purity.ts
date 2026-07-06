@@ -22,15 +22,11 @@ import { describe, it } from "vitest";
 const PURE_ZONES: Record<string, Record<string, () => Promise<unknown>>> = {
     "core (pure files)": import.meta.glob(
         [
-            "../../src/core/SohlLogic.ts",
-            "../../src/core/SohlActionContext.ts",
-            "../../src/core/SohlSpeaker.ts",
-            "../../src/core/SohlEventTrigger.ts",
+            "../../src/core/logic/SohlLogic.ts",
+            "../../src/entity/action/SohlActionContext.ts",
+            "../../src/core/logic/SohlSpeaker.ts",
+            "../../src/entity/event/SohlEventTrigger.ts",
         ],
-        { eager: false },
-    ),
-    "utils/ContextMenuEntry": import.meta.glob(
-        "../../src/utils/ContextMenuEntry.ts",
         { eager: false },
     ),
     "item logic layer": import.meta.glob(
@@ -64,7 +60,7 @@ const PURE_ZONES: Record<string, Record<string, () => Promise<unknown>>> = {
     "apps logic layer": import.meta.glob("../../src/apps/logic/**/*.ts", {
         eager: false,
     }),
-    "domain layer": import.meta.glob("../../src/domain/**/*.ts", {
+    "entity layer": import.meta.glob("../../src/entity/**/*.ts", {
         eager: false,
     }),
 };

@@ -32,7 +32,7 @@ The `updateWorldTime` hook fires after every world-time change — this is the u
 
 ### `SohlCalendarData`
 
-`src/core/SohlCalendar.ts` defines `SohlCalendarData extends foundry.data.CalendarData` with one schema addition: an `era` subfield with `hasYearZero`, `name`, `abbrev`, `beforeName`, `beforeAbbrev`, and `description`. This lets a fantasy calendar express era labels (e.g. "TR" / "Before TR") without overloading the existing year fields.
+`src/core/foundry/SohlCalendar.ts` defines `SohlCalendarData extends foundry.data.CalendarData` with one schema addition: an `era` subfield with `hasYearZero`, `name`, `abbrev`, `beforeName`, `beforeAbbrev`, and `description`. This lets a fantasy calendar express era labels (e.g. "TR" / "Before TR") without overloading the existing year fields.
 
 `timeToComponents()` is overridden to return a `SohlCalendarComponents` shape that adds `eraYear`, `beforeEra`, `eraName`, and `eraAbbrev` to the standard `TimeComponents`. All formatters operate on this enriched shape.
 
@@ -88,7 +88,7 @@ An imported calendar JSON should match the union of Foundry's `CalendarConfig` s
 
 SoHL is deliberately a polite citizen here. Modules override the calendar by setting the same `CONFIG.time.*` slots — whoever writes last, wins. Since module `init` hooks generally fire after system `init` hooks (or in a `setup` hook), an active calendar module will typically end up in control of `game.time.calendar`.
 
-That is fine. Any SoHL code that wants a formatted date calls `sohl.calendar.format(worldTime, "sohl.default")` and accepts whatever string comes back. SoHL must **not** assume `sohl.calendar instanceof SohlCalendarData` in production code paths. As of this writing, no code outside `src/core/SohlCalendar.ts` and `src/core/SohlSystem.ts` reads the SoHL-specific surface — verified by grepping `SohlCalendarData` across `src/`.
+That is fine. Any SoHL code that wants a formatted date calls `sohl.calendar.format(worldTime, "sohl.default")` and accepts whatever string comes back. SoHL must **not** assume `sohl.calendar instanceof SohlCalendarData` in production code paths. As of this writing, no code outside `src/core/foundry/SohlCalendar.ts` and `src/core/SohlSystem.ts` reads the SoHL-specific surface — verified by grepping `SohlCalendarData` across `src/`.
 
 ### Formatter safety under module override
 
@@ -115,11 +115,11 @@ const stamp = sohl.calendar.format(now, "sohl.timestamp"); // SoHL: " 0722-04-15
 const future = sohl.calendar.format(eventTime, "sohl.relative"); // "3 days, 4 hours until"
 ```
 
-All three names are valid against any active calendar — see the formatter table above. For the SoHL-specific accessor `SohlCalendarData.worldDate` (returns `SohlCalendarComponents` for the current world time), see `src/core/SohlCalendar.ts`. That accessor is only safe when SoHL's calendar is actually active — prefer `sohl.calendar.timeToComponents(fvttWorldTime())` in code that should survive a foreign calendar override.
+All three names are valid against any active calendar — see the formatter table above. For the SoHL-specific accessor `SohlCalendarData.worldDate` (returns `SohlCalendarComponents` for the current world time), see `src/core/foundry/SohlCalendar.ts`. That accessor is only safe when SoHL's calendar is actually active — prefer `sohl.calendar.timeToComponents(fvttWorldTime())` in code that should survive a foreign calendar override.
 
 ### Scheduling future events
 
-Calendar **display** is one half of the use case; the other is **scheduling work to fire at a future world time**. SoHL provides `sohl.events` for that — see `src/core/SohlEventQueue.ts`. The queue dispatches on the `updateWorldTime` hook (primary GM only). The injury → next-healing-check flow is the canonical example.
+Calendar **display** is one half of the use case; the other is **scheduling work to fire at a future world time**. SoHL provides `sohl.events` for that — see `src/entity/event/SohlEventQueue.ts`. The queue dispatches on the `updateWorldTime` hook (primary GM only). The injury → next-healing-check flow is the canonical example.
 
 ```typescript
 // In a Logic class's finalize() — schedule the next check
@@ -160,7 +160,7 @@ _None tracked at present. Add entries here as they surface._
 
 ## References
 
-- Source: `src/core/SohlCalendar.ts`, `src/core/SohlSystem.ts`, `src/apps/CalendarSettingsMenu.ts`, `src/sohl.ts`, `src/utils/constants.ts` (`SOHL_DEFAULT_CALENDAR_CONFIG`)
-- Tests: `tests/core/SohlCalendar.test.ts`
+- Source: `src/core/foundry/SohlCalendar.ts`, `src/core/SohlSystem.ts`, `src/apps/CalendarSettingsMenu.ts`, `src/sohl.ts`, `src/utils/constants.ts` (`SOHL_DEFAULT_CALENDAR_CONFIG`)
+- Tests: `tests/core/foundry/SohlCalendar.test.ts`
 - Foundry v14: `client/helpers/time.mjs` (`GameTime`, `initializeCalendar`), `client/data/calendar.mjs` (`CalendarData`), `client/game.mjs` (`Game#initializeGame` and `Game#setupGame`)
 - Foundry TS types: `node_modules/fvtt-types/src/foundry/client/data/calendar.d.mts`

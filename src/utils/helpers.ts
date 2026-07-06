@@ -22,7 +22,7 @@ import { ITEM_KIND, KIND_KEY } from "@src/utils/constants";
 type MasteryLevelData = MysticalAbilityData | SkillData | TraitData;
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import { fvttMergeObject, fvttResolveUuid } from "@src/core/FoundryHelpers";
-import { getKindForCtor, getCtorForKind } from "@src/utils/kindRegistry";
+import { getCtorForKind } from "@src/utils/kindRegistry";
 
 /**
  * A value permitted in a SoHL world/client setting: a JSON-like scalar
@@ -830,7 +830,7 @@ export function defaultFromJSON(
 
 /**
  * Reconstruct a live class instance from its serialized form — the inverse of
- * {@link instanceToJSON} followed by `JSON.stringify`. Accepts either the JSON
+ * {@link defaultToJSON} followed by `JSON.stringify`. Accepts either the JSON
  * string or the already-parsed object. Nested registered instances are revived
  * bottom-up; the owning {@link SohlLogic} is supplied via `parent` (every
  * modifier/result requires one) rather than carried in the payload.
@@ -847,6 +847,31 @@ export function instanceFromJSON<T>(
 ): T {
     const parsed = typeof data === "string" ? JSON.parse(data) : data;
     return defaultFromJSON(parsed, { parent }) as T;
+}
+
+/**
+ * Build an action's `scope` from a clicked chat-card element's dataset.
+ *
+ * A card's button carries its per-action `scope` as a single serialized blob in
+ * `data-scope` — `JSON.stringify(defaultToJSON(scope))` — holding the rich
+ * objects (results, modifiers, request payloads) with their `__kind` tags. This
+ * revives it with {@link defaultFromJSON}, so a nested `AttackResult` /
+ * `OpposedTestResult` comes back as a live instance. Routing/dispatch metadata
+ * (`data-action`, the `data-*-handler-uuid` keys) lives in its own flat
+ * attributes, read directly off the dataset before scope — it is deliberately
+ * *not* folded into scope.
+ *
+ * @param dataset - The clicked element's `dataset`.
+ * @param parent - The owning logic supplied to revived registered instances.
+ * @returns The revived `data-scope` payload (empty object when absent).
+ */
+export function buildActionScope(
+    dataset: DOMStringMap,
+    parent: unknown,
+): UnknownObject {
+    const scopeJson = dataset.scope;
+    if (!scopeJson) return {};
+    return defaultFromJSON(JSON.parse(scopeJson), { parent }) as UnknownObject;
 }
 
 /**
@@ -966,41 +991,6 @@ export function defaultToJSON(value: any): JsonValue | undefined {
 }
 
 /**
- * Serialize an object instance to a plain JSON-safe object.
- * Strips leading underscores from property names, skips functions,
- * and includes a `__kind` field for type identification.
- *
- * @param instance - The object instance to serialize.
- * @returns A plain JSON-safe object representing the instance.
- */
-export function instanceToJSON(instance: object): PlainObject {
-    const result: PlainObject = {};
-    result[KIND_KEY] =
-        getKindForCtor(instance.constructor) ??
-        (instance.constructor as any).kind;
-
-    for (const key of Object.keys(instance)) {
-        // The `_parent` back-reference (e.g. ValueModifier/TestResult -> owning
-        // SohlLogic) is transient and re-supplied via `options.parent` on
-        // reconstruction. Serializing it bloats the payload and can recurse
-        // through the logic graph, so it is never emitted.
-        if (key === "_parent") continue;
-
-        const value = (instance as any)[key];
-        const nkey = key.startsWith("_") ? key.substring(1) : key;
-
-        if (typeof value === "function") {
-            const descriptor = Object.getOwnPropertyDescriptor(instance, key);
-            if (!descriptor || typeof descriptor.value !== "function") continue;
-        }
-
-        result[nkey] = defaultToJSON(value);
-    }
-
-    return result;
-}
-
-/**
  * Create a deep copy of an object instance by serializing it and reviving it
  * through {@link defaultFromJSON}.
  *
@@ -1026,14 +1016,15 @@ export function cloneInstance<T>(
     data: PlainObject = {},
     options: PlainObject = {},
 ): T {
-    // Prefer a custom toJSON (e.g. SohlSpeaker serializes documents as ids);
-    // fall back to reflective serialization.
-    const json =
-        typeof (instance as any).toJSON === "function" ?
-            (instance as any).toJSON()
-        :   instanceToJSON(instance);
+    // `defaultToJSON` honors a custom `toJSON` (every SohlEntity has one, e.g.
+    // SohlSpeaker serializes documents as ids) and reflects plain objects
+    // otherwise — the same JSON-safe form `defaultFromJSON` reads back.
+    const json = defaultToJSON(instance) as PlainObject;
     const merged = fvttMergeObject(json, data) as PlainObject;
-    const parent = (options as any).parent ?? (instance as any).parent;
+    // The caller must decide what the clone attaches to — there is no implicit
+    // "reuse the source's parent" fallback. Cloning a SohlEntity subclass
+    // without a parent throws (in the entity constructor) by design.
+    const parent = (options as any).parent;
     const revived = defaultFromJSON(merged, { parent });
     if (revived instanceof (instance.constructor as any)) {
         return revived as T;

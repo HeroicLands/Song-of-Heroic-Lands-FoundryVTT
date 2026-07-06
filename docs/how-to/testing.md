@@ -121,7 +121,7 @@ Here's a complete example of testing a domain object following the TDD workflow.
 ```typescript
 // tests/domain/modifier/ValueModifier.test.ts
 import { describe, it, expect } from "vitest";
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { VALUE_DELTA_OPERATOR } from "@src/utils/constants";
 
 // Minimal mock parent — ValueModifier only checks truthiness

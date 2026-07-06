@@ -187,7 +187,7 @@ Use `registerSohlTrigger(name, label)` to add a custom trigger name to both Foun
 import {
     registerSohlTrigger,
     fireSohlTrigger,
-} from "@src/core/SohlEventTrigger";
+} from "@src/entity/event/SohlEventTrigger";
 
 registerSohlTrigger("sohlInjuryHealed", "SOHL.Trigger.InjuryHealed");
 ```

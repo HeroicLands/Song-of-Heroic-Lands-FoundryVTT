@@ -17,9 +17,9 @@ import {
 } from "@src/document/item/logic/CombatTechniqueLogic";
 import { ITEM_KIND, STRIKE_MODE_TYPE } from "@src/utils/constants";
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItem";
-import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
-import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
-import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
+import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
+import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
+import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 
 const { StringField, SchemaField, TypedSchemaField } = foundry.data.fields;
 
@@ -72,6 +72,14 @@ export class CombatTechniqueDataModel<
     static override readonly kind = ITEM_KIND.COMBATTECHNIQUE;
     group!: string;
     strikeMode!: MeleeStrikeMode.Data | MissileStrikeMode.Data;
+
+    /**
+     * An array of strike mode instances for this combat technique.
+     * For Combat Techniques, this array contains only a single strike mode instance.
+     */
+    get strikeModes(): StrikeModeBase[] {
+        return [this.strikeModeInstance];
+    }
 
     /**
      * Returns the CombatTechnique data schema.

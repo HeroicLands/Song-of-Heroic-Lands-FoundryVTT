@@ -1,16 +1,21 @@
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
-import { ValueDelta } from "@src/domain/modifier/ValueDelta";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { ValueDelta } from "@src/entity/modifier/ValueDelta";
 import {
+    BRAND,
     VALUE_DELTA_ID,
     VALUE_DELTA_INFO,
     VALUE_DELTA_OPERATOR,
+    type ValueDeltaOperator,
 } from "@src/utils/constants";
 
+// A stand-in owning logic. Carries the SohlLogic brand so `isA(x, "SohlLogic")`
+// recognizes it — needed for the `clone(parent)` reparent form below.
 const mockParent = {
     id: "test",
     name: "Test",
     label: "Test Label",
     data: { kind: "skill" },
+    [BRAND.SohlLogic]: true,
 } as any;
 
 function createVM(data: Partial<ValueModifier.Data> = {}): ValueModifier {
@@ -21,16 +26,19 @@ function createVM(data: Partial<ValueModifier.Data> = {}): ValueModifier {
 function pushDelta(
     vm: ValueModifier,
     shortcode: string,
-    op: string,
+    op: ValueDeltaOperator,
     value: string | number,
 ): void {
     vm.deltas.push(
-        new ValueDelta({
-            name: "SOHL.INFO.test",
-            shortcode,
-            op,
-            value: String(value),
-        }),
+        new ValueDelta(
+            {
+                name: "SOHL.INFO.test",
+                shortcode,
+                op,
+                value: String(value),
+            },
+            { parent: mockParent },
+        ),
     );
     // Mark dirty so _apply recalculates on next access
     (vm as any).dirty = true;
@@ -40,7 +48,7 @@ describe("ValueModifier", () => {
     describe("constructor", () => {
         it("throws when constructed without a parent", () => {
             expect(() => new ValueModifier({}, {} as any)).toThrow(
-                "ValueModifier must be constructed with a parent.",
+                "SohlEntity requires a parent",
             );
         });
 
@@ -305,7 +313,8 @@ describe("ValueModifier", () => {
             pushDelta(vm, "TST", VALUE_DELTA_OPERATOR.ADD, 20);
             expect(vm.effective).toBe(65);
 
-            const copy = vm.clone<ValueModifier>();
+            // Idiomatic "clone keeping the same parent": pass the source's parent.
+            const copy = vm.clone(vm.parent);
 
             expect(copy).toBeInstanceOf(ValueModifier);
             expect(copy).not.toBe(vm);

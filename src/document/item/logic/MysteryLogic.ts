@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import {
     SohlItemBaseLogic,
@@ -23,8 +23,8 @@ import {
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
-import { SohlAction } from "@src/domain/action/SohlAction";
-import type { SohlActionContext } from "@src/core/SohlActionContext";
+import { SohlAction } from "@src/entity/action/SohlAction";
+import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 
 /**
  * A passive or charge-based mystical power associated with a character or
@@ -174,6 +174,11 @@ export class MysteryLogic<
 export interface MysteryData<
     TLogic extends MysteryLogic<MysteryData> = MysteryLogic<any>,
 > extends SohlItemData<TLogic> {
+    /**
+     * The mystery's subtype. `buff` marks a birthsign (matched by
+     * {@link SohlItemData.shortcode | shortcode} in skill-base formulas).
+     */
+    subType: MysterySubType;
     /** The base level of the mystery, or null if not applicable */
     levelBase: number | null;
     /** Usage tracking: current charges and maximum */

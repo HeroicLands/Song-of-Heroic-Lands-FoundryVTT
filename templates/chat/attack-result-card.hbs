@@ -189,7 +189,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             id="attacker-injury"
             data-action="createInjury"
             data-handler-uuid="{{attackInjuryHandlerUuid}}"
-            data-test-result-json="{{attackInjuryJson}}">
+            data-scope="{{toJSON attackInjuryScope}}">
             Calculate {{attackInjuryTargetName}} Injury
         </button>
         {{/if}} {{#if hasDefendInjury}}
@@ -197,7 +197,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             id="defender-injury"
             data-action="createInjury"
             data-handler-uuid="{{defendInjuryHandlerUuid}}"
-            data-test-result-json="{{defendInjuryJson}}">
+            data-scope="{{toJSON defendInjuryScope}}">
             Calculate {{defendInjuryTargetName}} Injury
         </button>
         {{/if}}
