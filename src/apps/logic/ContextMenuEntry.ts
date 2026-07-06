@@ -13,11 +13,12 @@
 
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import type { HTMLString } from "@src/utils/helpers";
 import type { SohlContextMenuSortGroup } from "@src/utils/constants";
 import { fvttGetActor, getContextItem } from "@src/core/FoundryHelpers";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
-import { SafeExpression, STANDARD_HELPERS } from "@src/utils/SafeExpression";
+import { SafeExpression } from "@src/entity/expr/SafeExpression";
 
 /**
  * The Foundry-free context-menu primitives shared by the logic layer and the
@@ -114,16 +115,27 @@ export function makeLogicMethodCallback(
  * @param source The condition source (string SafeExpression or a
  *   ready-made predicate function).
  * @param entryName The owning entry's display name, used in log output.
+ * @param parent The owning document's logic, used as the compiled
+ *   expression's parent. Required to compile a string condition; a string
+ *   condition without a parent is treated as hidden.
  * @returns A predicate that evaluates the condition against a target.
  */
 export function compileCondition(
     source: ContextMenuCondition,
     entryName: string,
+    parent?: SohlLogic,
 ): (target: HTMLElement) => boolean {
     if (typeof source === "function") return source;
+    if (!parent) {
+        sohl.log.warn(
+            "Cannot compile a string context-menu condition without a parent logic; entry will be hidden:",
+            { entry: entryName, condition: source },
+        );
+        return () => false;
+    }
     let expression: SafeExpression;
     try {
-        expression = new SafeExpression(source, STANDARD_HELPERS);
+        expression = new SafeExpression({ source }, { parent });
     } catch (err) {
         sohl.log.warn(
             "Failed to compile context menu condition; entry will be hidden:",

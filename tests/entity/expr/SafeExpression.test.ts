@@ -2,17 +2,23 @@ import { describe, it, expect } from "vitest";
 import {
     SafeExpression,
     SafeExpressionError,
-    STANDARD_HELPERS,
-} from "@src/utils/SafeExpression";
+} from "@src/entity/expr/SafeExpression";
+
+// SafeExpression extends SohlEntity, whose constructor requires an owning
+// `parent`. Helpers now come from the global registry (built-ins always
+// present), so no helper argument is passed at construction.
+const mockParent = { id: "test", name: "Test" } as any;
 
 /** Compile + evaluate in one step against the standard helper registry. */
 function run(source: string, context?: Record<string, unknown>): unknown {
-    return new SafeExpression(source, STANDARD_HELPERS).evaluate(context);
+    return new SafeExpression({ source }, { parent: mockParent }).evaluate(
+        context,
+    );
 }
 
 /** Build a thunk that constructs a SafeExpression (for rejection assertions). */
 function compile(source: string): () => SafeExpression {
-    return () => new SafeExpression(source, STANDARD_HELPERS);
+    return () => new SafeExpression({ source }, { parent: mockParent });
 }
 
 describe("SafeExpression", () => {
@@ -274,10 +280,47 @@ describe("SafeExpression", () => {
 
     describe("reuse", () => {
         it("compiles once and evaluates against many contexts", () => {
-            const expr = new SafeExpression("x * 2", STANDARD_HELPERS);
+            const expr = new SafeExpression(
+                { source: "x * 2" },
+                { parent: mockParent },
+            );
             expect(expr.source).toBe("x * 2");
             expect(expr.evaluate({ x: 3 })).toBe(6);
             expect(expr.evaluate({ x: 5 })).toBe(10);
+        });
+    });
+
+    describe("serialization (SohlEntity)", () => {
+        it("requires a parent", () => {
+            expect(() => new SafeExpression({ source: "1 + 1" }, {})).toThrow(
+                /parent/,
+            );
+        });
+
+        it("toJSON persists only the source (plus the kind tag)", () => {
+            const expr = new SafeExpression(
+                { source: "level >= 3" },
+                { parent: mockParent },
+            );
+            const json = expr.toJSON() as Record<string, unknown>;
+            expect(json.source).toBe("level >= 3");
+            expect(json.__kind).toBe("SafeExpression");
+            // The AST is never serialized.
+            expect(json.ast).toBeUndefined();
+        });
+
+        it("round-trips through toJSON and reconstruction", () => {
+            const original = new SafeExpression(
+                { source: "level >= 3 && !injured" },
+                { parent: mockParent },
+            );
+            const revived = new SafeExpression(
+                original.toJSON() as { source: string },
+                { parent: mockParent },
+            );
+            expect(revived.source).toBe(original.source);
+            expect(revived.evaluate({ level: 5, injured: false })).toBe(true);
+            expect(revived.evaluate({ level: 2, injured: false })).toBe(false);
         });
     });
 
