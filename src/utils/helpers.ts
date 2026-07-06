@@ -875,6 +875,40 @@ export function buildActionScope(
 }
 
 /**
+ * Deep-replace `undefined` with `null` inside a JSON-shaped value so that the
+ * serialized form canonically spells "empty" as `null` (which survives
+ * `JSON.stringify`, where `undefined` keys are dropped). Only plain objects and
+ * arrays are traversed; every other value — including a bare top-level
+ * `undefined` — is returned unchanged.
+ *
+ * @remarks
+ * This is the single enforcement point for the SohlEntity serialization
+ * convention "within the Data layer, `undefined` ≡ `null` ≡ empty": it runs over
+ * the raw output of a custom `toJSON` in {@link defaultToJSON}. It is pure and
+ * idempotent — it never re-encodes already-serialized tagged forms (`__type`,
+ * `__date__`, …), it only nullifies `undefined`.
+ *
+ * @param value - A JSON-safe value (typically a `toJSON` result).
+ * @returns The same value with nested `undefined` replaced by `null`.
+ */
+function nullifyUndefined(value: JsonValue | undefined): JsonValue | undefined {
+    if (Array.isArray(value)) {
+        return value.map((v) =>
+            v === undefined ? null : (nullifyUndefined(v) as JsonValue),
+        );
+    }
+    if (value !== null && typeof value === "object") {
+        const result: Record<string, JsonValue> = {};
+        for (const [key, val] of Object.entries(value)) {
+            result[key] =
+                val === undefined ? null : (nullifyUndefined(val) as JsonValue);
+        }
+        return result;
+    }
+    return value;
+}
+
+/**
  * Recursively convert an arbitrary value into a JSON-safe representation that
  * {@link defaultFromJSON} can faithfully revive.
  *
@@ -883,7 +917,8 @@ export function buildActionScope(
  * `RegExp`, and `Error` are encoded with tagged forms. Foundry documents (those
  * with a `documentName`) are reduced to a `ClientDocument` reference by UUID.
  * Functions, symbols, and `undefined` are dropped (return `undefined`). Objects
- * with a `toJSON` method delegate to it; other objects are serialized key by key
+ * with a `toJSON` method delegate to it, with nested `undefined` canonicalized to
+ * `null` (see `nullifyUndefined`); other objects are serialized key by key
  * (omitting keys whose values serialize to `undefined`).
  *
  * @param value - The value to serialize.
@@ -976,7 +1011,9 @@ export function defaultToJSON(value: any): JsonValue | undefined {
 
     if (typeof value === "object" && value !== null) {
         if (typeof (value as any).toJSON === "function") {
-            return (value as any).toJSON();
+            // Canonicalize the Data layer: nested `undefined` → `null`
+            // (see {@link nullifyUndefined}). Top-level `undefined` is preserved.
+            return nullifyUndefined((value as any).toJSON());
         }
 
         const result: Record<string, JsonValue> = {};
