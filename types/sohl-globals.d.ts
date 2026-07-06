@@ -53,7 +53,6 @@ declare global {
     type PlainObject = Record<string, any>;
     type UnknownObject = object;
     type EmptyObject = Record<string, never>;
-    type AnyObject = object;
     type StrictObject<T> = Record<string, T>;
     type AnyFunction = (...args: any[]) => any;
     type AsyncFunction<Args extends any[] = any[], Return = any> = (

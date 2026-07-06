@@ -657,6 +657,26 @@ describe("defaultToJSON / defaultFromJSON", () => {
     it("returns undefined for undefined", () => {
         expect(defaultToJSON(undefined)).toBeUndefined();
     });
+
+    it("converts undefined fields to null when delegating to a custom toJSON", () => {
+        const obj = { toJSON: () => ({ a: 1, b: undefined }) };
+        expect(defaultToJSON(obj)).toEqual({ a: 1, b: null });
+    });
+
+    it("deeply converts undefined to null within a custom toJSON result", () => {
+        const obj = {
+            toJSON: () => ({ nested: { x: undefined }, list: [undefined, 2] }),
+        };
+        expect(defaultToJSON(obj)).toEqual({
+            nested: { x: null },
+            list: [null, 2],
+        });
+    });
+
+    it("leaves a custom toJSON's null and defined values intact", () => {
+        const obj = { toJSON: () => ({ a: null, b: "x", c: 0 }) };
+        expect(defaultToJSON(obj)).toEqual({ a: null, b: "x", c: 0 });
+    });
 });
 
 describe("getStatic", () => {
