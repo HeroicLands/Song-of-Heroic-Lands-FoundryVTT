@@ -16,8 +16,8 @@ import { SohlCalendarData } from "@src/core/foundry/SohlCalendar";
 import { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
 import * as utils from "@src/utils/helpers";
 import * as constants from "@src/utils/constants";
-import { SohlLocalize } from "@src/utils/SohlLocalize";
-import { SohlLogger } from "@src/utils/SohlLogger";
+import { SohlLocalize } from "@src/core/foundry/SohlLocalize";
+import { SohlLogger } from "@src/core/foundry/SohlLogger";
 import {
     ActorKinds,
     ItemKinds,

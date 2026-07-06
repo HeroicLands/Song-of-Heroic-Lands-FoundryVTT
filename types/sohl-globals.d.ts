@@ -13,12 +13,7 @@
 
 import type { SohlSystem } from "@src/common";
 import type { GroupStance } from "@src/utils/constants";
-import type {
-    SohlMap,
-    SohlLogger,
-    SohlLocalize,
-    SohlMersenneTwister,
-} from "@src/utils/helpers";
+import type { SohlMap, SohlLogger, SohlLocalize } from "@src/utils/helpers";
 import type { SohlTokenDocument } from "@src/common/document/SohlTokenDocument";
 import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
 import type { SohlActor } from "@src/common/actor/SohlActor";
