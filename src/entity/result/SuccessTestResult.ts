@@ -14,7 +14,7 @@
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import { registerKind } from "@src/utils/kindRegistry";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
-import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 import type {
     SohlItem,
     SohlItemLogic,

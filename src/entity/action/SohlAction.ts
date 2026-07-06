@@ -27,7 +27,7 @@ import { SafeExpression, STANDARD_HELPERS } from "@src/utils/SafeExpression";
 import {
     resolveContextActor,
     resolveContextItem,
-} from "@src/utils/ContextMenuEntry";
+} from "@src/apps/logic/ContextMenuEntry";
 import { SohlEntity } from "../SohlEntity";
 
 /**

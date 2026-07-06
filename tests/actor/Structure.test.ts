@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { StructureLogic } from "@src/document/actor/logic/StructureLogic";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
-import { ContextMenuEntry } from "@src/utils/ContextMenuEntry";
+import { ContextMenuEntry } from "@src/apps/logic/ContextMenuEntry";
 import { ACTOR_KIND } from "@src/utils/constants";
 import { makeActorLogic } from "@tests/mocks/logicHarness";
 

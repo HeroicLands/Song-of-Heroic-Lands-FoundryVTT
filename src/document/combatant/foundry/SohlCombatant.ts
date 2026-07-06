@@ -21,7 +21,7 @@ import {
     defineSohlDataSchema,
 } from "@src/core/foundry/SohlDataModel";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
-import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 import type { SohlCombatantLogic } from "../logic/SohlCombatantLogic";
 import { chooseInitialDisplayedMedium } from "../logic/SohlCombatantLogic";
 import { DEFAULT_COMBAT_GROUP } from "@src/document/combat/logic/combat-logic";

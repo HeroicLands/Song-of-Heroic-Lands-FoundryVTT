@@ -29,10 +29,6 @@ const PURE_ZONES: Record<string, Record<string, () => Promise<unknown>>> = {
         ],
         { eager: false },
     ),
-    "utils/ContextMenuEntry": import.meta.glob(
-        "../../src/utils/ContextMenuEntry.ts",
-        { eager: false },
-    ),
     "item logic layer": import.meta.glob(
         "../../src/document/item/logic/**/*.ts",
         { eager: false },

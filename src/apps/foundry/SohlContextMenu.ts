@@ -23,7 +23,7 @@ import {
     makeLogicMethodCallback,
     resolveContextActor,
     resolveContextItem,
-} from "@src/utils/ContextMenuEntry";
+} from "@src/apps/logic/ContextMenuEntry";
 
 /**
  * SoHL's specialization of Foundry's `ContextMenu` UI control.
