@@ -5,7 +5,7 @@ import {
     isScriptActionMutationAllowed,
 } from "@src/entity/action/SohlAction";
 import { ACTION_SUBTYPE } from "@src/utils/constants";
-import * as ContextMenuEntryModule from "@src/utils/ContextMenuEntry";
+import * as ContextMenuEntryModule from "@src/apps/logic/ContextMenuEntry";
 // Resolves to the mock-swapped shim in tests (vitest.config.ts alias); spy on
 // it instead of poking raw Foundry globals.
 import * as FoundryHelpers from "@src/core/FoundryHelpers";

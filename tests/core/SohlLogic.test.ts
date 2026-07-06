@@ -2,7 +2,7 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { SohlItemBaseLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
-import { ContextMenuEntry } from "@src/utils/ContextMenuEntry";
+import { ContextMenuEntry } from "@src/apps/logic/ContextMenuEntry";
 import {
     ACTION_SUBTYPE,
     SOHL_ACTION_SCOPE,

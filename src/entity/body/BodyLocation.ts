@@ -175,8 +175,6 @@ export namespace BodyLocation {
     export interface Data extends SohlEntity.Data {
         /** Unique location identifier within its part. */
         shortcode: string;
-        /**  Owning body part (supplies the lineage logic parent) */
-        bodyPart: BodyPart;
         /** Display name of the location. */
         name?: string;
         /** Bleeding tier (BleedingSusceptibility value). */

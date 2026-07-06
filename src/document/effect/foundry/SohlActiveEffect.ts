@@ -13,7 +13,7 @@
 
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
-import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 import {
     ACTIVE_EFFECT_SCOPE,
     ITEM_KIND,
