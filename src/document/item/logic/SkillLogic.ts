@@ -175,7 +175,7 @@ export class SkillLogic<
         if (result && result.isSuccess) {
             const updateData: PlainObject = {};
             updateData["system.charges.value"] = Math.max(
-                fateItem.system.charges.value - 1,
+                (fateItem.system.charges?.value ?? 0) - 1,
                 0,
             );
             fateItem.update(updateData);
