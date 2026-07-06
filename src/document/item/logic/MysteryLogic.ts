@@ -138,8 +138,11 @@ export class MysteryLogic<
         }
         if (this.data.charges.max !== null) {
             this.charges = {
+                // `charges.value === null` means infinite charges remaining;
+                // normalize to `undefined` (no base) for the ValueModifier,
+                // which rejects `null`.
                 value: new ValueModifier({}, { parent: this }).setBase(
-                    this.data.charges.value,
+                    this.data.charges.value ?? undefined,
                 ),
                 max: new ValueModifier({}, { parent: this }).setBase(
                     this.data.charges.max,
@@ -185,9 +188,12 @@ export interface MysteryData<
     charges: {
         /** Whether this mystery consumes charges when used. */
         usesCharges: boolean;
-        /** Current number of charges remaining. */
-        value: number;
-        /** Maximum number of charges; −1 indicates infinite uses. */
-        max: number;
+        /** Current number of charges remaining. `null` means infinite. */
+        value: number | null;
+        /**
+         * Maximum number of charges. `0` means no maximum; `null` means the
+         * mystery does not use charges.
+         */
+        max: number | null;
     };
 }
