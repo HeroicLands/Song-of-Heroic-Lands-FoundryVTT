@@ -117,11 +117,11 @@ export class SohlTokenDocument extends TokenDocument {
      * Foundry-free callers can use the same implementation.
      *
      * @param single - Only return a single token if true, otherwise return an array of tokens.
-     * @returns The targeted token document(s), or null if failed.
+     * @returns The targeted token document(s), or `undefined` if failed.
      */
     static getTargetedTokens(
         single: boolean = false,
-    ): SohlTokenDocument[] | null {
+    ): SohlTokenDocument[] | undefined {
         return fvttGetTargetedTokens(single);
     }
 
@@ -132,12 +132,12 @@ export class SohlTokenDocument extends TokenDocument {
      * Note that this is the **selected** tokens, not the targeted tokens.
      *
      * @param single - Only return a single token if true, otherwise return an array of tokens.
-     * @returns The selected token document(s), or null if failed.
+     * @returns The selected token document(s), or `undefined` if failed.
      */
     static getSelectedTokens(
         single: boolean = false,
-    ): SohlTokenDocument[] | null {
-        let result: SohlTokenDocument[] | null = null;
+    ): SohlTokenDocument[] | undefined {
+        let result: SohlTokenDocument[] | undefined = undefined;
         const selectedTokens: Token[] | undefined =
             getCanvas().tokens?.controlled;
         if (!selectedTokens || selectedTokens.length === 0) {
@@ -170,13 +170,13 @@ export class SohlTokenDocument extends TokenDocument {
      * @param sourceToken - The source token.
      * @param targetToken - The target token.
      * @param gridUnits - Whether to return in grid units; defaults to false.
-     * @returns {number|null} The distance, or null if not calculable.
+     * @returns {number|undefined} The distance, or `undefined` if not calculable.
      */
     static rangeToTarget(
         sourceToken: SohlTokenDocument,
         targetToken: SohlTokenDocument,
         gridUnits: boolean = false,
-    ): number | null {
+    ): number | undefined {
         return fvttRangeToTarget(
             sourceToken.logic,
             targetToken.logic,

@@ -21,6 +21,7 @@ import {
     ImpactAspect,
     ImpactAspects,
     ITEM_KIND,
+    PROJECTILEGEAR_SUBTYPE,
     ProjectileGearSubType,
     ProjectileGearSubTypes,
 } from "@src/utils/constants";
@@ -38,26 +39,27 @@ function defineProjectileGearSchema(): foundry.data.fields.DataSchema {
         subType: new StringField({
             choices: ProjectileGearSubTypes,
             required: true,
+            initial: PROJECTILEGEAR_SUBTYPE.NONE,
         }),
         impactBase: new SchemaField({
             overrideDice: new BooleanField({ initial: false }),
             overrideModifier: new BooleanField({ initial: false }),
             numDice: new NumberField({
                 integer: true,
-                nullable: true,
-                initial: null,
+                nullable: false,
+                initial: 0,
                 min: 0,
             }),
             die: new NumberField({
                 integer: true,
-                initial: 6,
-                min: 0,
+                min: 2,
+                nullable: true,
+                initial: null,
             }),
             modifier: new NumberField({
                 integer: true,
                 nullable: true,
                 initial: null,
-                min: 0,
             }),
             aspect: new StringField({
                 initial: IMPACT_ASPECT.BLUNT,

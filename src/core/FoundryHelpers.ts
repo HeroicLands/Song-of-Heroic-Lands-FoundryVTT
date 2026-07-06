@@ -378,37 +378,37 @@ export function fvttGetListFormatter(): Intl.ListFormat {
 /**
  * Get an actor by ID from the world collection.
  * @param id - The actor document ID.
- * @returns The actor, or `null` if not found.
+ * @returns The actor, or `undefined` if not found.
  */
 export function fvttGetActor(id: string): any {
-    return (game as any).actors?.get(id) ?? null;
+    return (game as any).actors?.get(id) ?? undefined;
 }
 
 /**
  * Get a scene by ID from the world collection.
  * @param id - The scene document ID.
- * @returns The scene, or `null` if not found.
+ * @returns The scene, or `undefined` if not found.
  */
 export function fvttGetScene(id: string): any {
-    return (game as any).scenes?.get(id) ?? null;
+    return (game as any).scenes?.get(id) ?? undefined;
 }
 
 /**
  * Get a token by ID from the current canvas.
  * @param id - The token ID.
- * @returns The token, or `null` if not found.
+ * @returns The token, or `undefined` if not found.
  */
 export function fvttGetToken(id: string): any {
-    return (canvas as any)?.tokens?.get(id) ?? null;
+    return (canvas as any)?.tokens?.get(id) ?? undefined;
 }
 
 /**
  * Get a user by ID from the world collection.
  * @param id - The user document ID.
- * @returns The user, or `null` if not found.
+ * @returns The user, or `undefined` if not found.
  */
 export function fvttGetUser(id: string): any {
-    return (game as any).users?.get(id) ?? null;
+    return (game as any).users?.get(id) ?? undefined;
 }
 
 // ---------------------------------------------------------------------------
@@ -627,50 +627,50 @@ export function getCanvas(): foundry.canvas.Canvas {
 
 /**
  * The world's currently **active** scene (the one flagged active in the scene
- * navigation), or `null` when the game is unavailable or no scene is active.
+ * navigation), or `undefined` when the game is unavailable or no scene is active.
  *
  * @returns The active {@link SohlScene}, or `undefined` if none is active.
  */
-export function getActiveScene(): Optional<SohlScene> {
+export function getActiveScene(): SohlScene | undefined {
     if (!(game instanceof foundry.Game)) return undefined;
     return game.scenes?.active as SohlScene;
 }
 
 /**
- * The currently active combat encounter (`game.combat`), or `null` when the
+ * The currently active combat encounter (`game.combat`), or `undefined` when the
  * game is unavailable or no combat is active. Never throws.
- * @returns The active {@link Combat}, or `null` if none is active.
+ * @returns The active {@link Combat}, or `undefined` if none is active.
  */
-export function getActiveCombat(): Optional<SohlCombat> {
+export function getActiveCombat(): SohlCombat | undefined {
     if (!(game instanceof foundry.Game)) return undefined;
     return game.combat as SohlCombat;
 }
 
 /**
  * The {@link SohlCombatantLogic} for the given actor's combatant in the active
- * combat, or `null` when the game is unavailable, no combat is active, or the
+ * combat, or `undefined` when the game is unavailable, no combat is active, or the
  * actor is not a combatant. The actor's active token (when one exists) is used
  * to disambiguate; otherwise the first combatant for the actor is taken.
  *
  * Lets Foundry-free logic (e.g. weapon/technique item logic) reach the
  * combatant action layer without touching `game`/`canvas` directly.
  * @param actor - The actor whose active combatant to resolve.
- * @returns The combatant's logic, or `null`.
+ * @returns The combatant's logic, or `undefined`.
  */
 export function fvttActiveCombatantForActor(
     actor: SohlActor | null,
-): SohlCombatantLogic | null {
-    if (!actor) return null;
+): SohlCombatantLogic | undefined {
+    if (!actor) return undefined;
     const combat = getActiveCombat();
-    if (!combat) return null;
+    if (!combat) return undefined;
     const tokenId = (actor.getActiveTokens?.()?.[0] as any)?.document?.id;
     const combatants = combat.combatants as any;
-    const combatant = (combatants.find?.(
+    const combatant = combatants.find?.(
         (c: any) =>
             (tokenId != null && c.tokenId === tokenId) ||
             c.actor?.id === actor.id,
-    ) ?? null) as SohlCombatant | null;
-    return (combatant?.logic as SohlCombatantLogic | undefined) ?? null;
+    ) as SohlCombatant | undefined;
+    return combatant?.logic as SohlCombatantLogic | undefined;
 }
 
 /**
@@ -707,21 +707,21 @@ export async function fvttPromptMoveCombatantToGroup(
 
 /**
  * The {@link SohlTokenDocumentLogic} for the given actor's active token on the
- * canvas, or `null` when the game is unavailable or the actor has no token.
+ * canvas, or `undefined` when the game is unavailable or the actor has no token.
  *
  * Lets Foundry-free logic (e.g. skill/attribute item logic) reach the
  * token-logic layer — where opposed tests live — without touching `canvas`.
  * @param actor - The actor whose active token logic to resolve.
- * @returns The token's logic, or `null`.
+ * @returns The token's logic, or `undefined`.
  */
 export function fvttActiveTokenLogicForActor(
     actor: SohlActor | null,
-): SohlTokenDocumentLogic | null {
-    if (!actor) return null;
+): SohlTokenDocumentLogic | undefined {
+    if (!actor) return undefined;
     const token = (actor.getActiveTokens?.()?.[0] as any)?.document as
         | { logic?: SohlTokenDocumentLogic }
         | undefined;
-    return token?.logic ?? null;
+    return token?.logic ?? undefined;
 }
 
 // ---------------------------------------------------------------------------
@@ -774,7 +774,7 @@ export async function getDocumentFromPacks(
         docType: "Item",
         keepId: false,
     },
-): Promise<Optional<any>> {
+): Promise<any | undefined> {
     let data;
     const allDocs = await getDocsFromPacks(packNames, {
         documentName: options.documentName,
@@ -814,13 +814,13 @@ export async function getDocumentFromPacks(
 /**
  * Resolve the SohlItem for a context menu target element.
  * @param header - The context menu target element.
- * @returns The resolved {@link SohlItem}, or `null` if none could be resolved.
+ * @returns The resolved {@link SohlItem}, or `undefined` if none could be resolved.
  */
-export function getContextItem(header: HTMLElement): SohlItem | null {
+export function getContextItem(header: HTMLElement): SohlItem | undefined {
     const element = header.closest(".item") as HTMLElement;
     const item =
         element?.dataset?.effectId && fromUuidSync(element.dataset.itemId);
-    return item && typeof item === "object" ? (item as SohlItem) : null;
+    return item && typeof item === "object" ? (item as SohlItem) : undefined;
 }
 
 /**
@@ -845,12 +845,12 @@ export function getContextLogic(element: HTMLElement): any {
  * Note that this is the **targeted** tokens, not the selected tokens.
  *
  * @param single - Only return a single token if true, otherwise return an array of tokens.
- * @returns The targeted token document(s), or null if failed.
+ * @returns The targeted token document(s), or `undefined` if failed.
  */
 export function fvttGetTargetedTokens(
     single: boolean = false,
-): SohlTokenDocument[] | null {
-    let result: SohlTokenDocument[] | null = null;
+): SohlTokenDocument[] | undefined {
+    let result: SohlTokenDocument[] | undefined = undefined;
     const targetTokens: Set<Token> = ((game as any).user as User)
         ?.targets as unknown as Set<Token>;
 
@@ -882,16 +882,16 @@ export function fvttGetTargetedTokens(
  * @param sourceToken - The source token logic.
  * @param targetToken - The target token logic.
  * @param gridUnits - Whether to return the distance in grid units rather than scene units.
- * @returns {number|null} The distance, or null if not calculable.
+ * @returns {number|undefined} The distance, or `undefined` if not calculable.
  */
 export function fvttRangeToTarget(
     sourceToken: SohlTokenDocumentLogic,
     targetToken: SohlTokenDocumentLogic,
     gridUnits: boolean = false,
-): number | null {
+): number | undefined {
     if (!canvas.scene?.grid) {
         sohl.log.uiWarn(`No scene active`);
-        return null;
+        return undefined;
     }
     if (!gridUnits && !["feet", "ft"].includes(canvas.scene.grid.units)) {
         sohl.log.uiWarn(
@@ -914,7 +914,7 @@ export function fvttRangeToTarget(
         sohl.log.uiWarn(
             `Could not calculate distance from ${sourceToken.id} to ${targetToken.id}`,
         );
-        return null;
+        return undefined;
     }
 
     return gridUnits ? result.spaces : result.distance;
@@ -922,35 +922,35 @@ export function fvttRangeToTarget(
 
 /**
  * The point used to measure distance to/from a combatant — its token center
- * (with elevation), or `null` when no placed token is available.
+ * (with elevation), or `undefined` when no placed token is available.
  * @param combatant - The combatant whose token center to read.
- * @returns The measure point, or `null`.
+ * @returns The measure point, or `undefined`.
  */
 function combatantMeasurePoint(
     combatant: SohlCombatant,
-): { x: number; y: number; elevation: number } | null {
+): { x: number; y: number; elevation: number } | undefined {
     const token = (combatant as any).token;
     const center = token?.object?.center ?? token?.center;
-    if (!center) return null;
+    if (!center) return undefined;
     return { x: center.x, y: center.y, elevation: token?.elevation ?? 0 };
 }
 
 /**
  * The center-to-center grid distance (feet) between two combatants' tokens, or
- * `null` when either token position is unavailable. The scene-coupled geometry
+ * `undefined` when either token position is unavailable. The scene-coupled geometry
  * behind `CombatantLogic.reaches`.
  * @param a - The first combatant.
  * @param b - The second combatant.
- * @returns The grid distance in feet, or `null`.
+ * @returns The grid distance in feet, or `undefined`.
  */
 export function combatantGridDistance(
     a: SohlCombatant,
     b: SohlCombatant,
-): number | null {
+): number | undefined {
     const from = combatantMeasurePoint(a);
     const to = combatantMeasurePoint(b);
-    if (!from || !to) return null;
-    return getCanvas().grid?.measurePath([from, to], {})?.distance ?? null;
+    if (!from || !to) return undefined;
+    return getCanvas().grid?.measurePath([from, to], {})?.distance ?? undefined;
 }
 
 /**

@@ -13,6 +13,7 @@
 
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import {
+    IMPACT_ASPECT,
     ImpactAspects,
     STRIKE_MODE_TYPE,
     StrikeModeTypes,
@@ -163,7 +164,7 @@ export abstract class StrikeModeBase extends SohlEntity {
      */
     static fromPointerData(
         data: StrikeModeBase.PointerData,
-    ): Optional<StrikeModeBase> {
+    ): StrikeModeBase | undefined {
         const itemLogic: SohlLogic | undefined = fvttLogicFromUuidSync(
             data.itemUuid,
         );
@@ -204,6 +205,7 @@ export abstract class StrikeModeBase extends SohlEntity {
                 required: true,
                 blank: false,
                 choices: StrikeModeTypes,
+                initial: STRIKE_MODE_TYPE.MELEE,
             }),
             name: new StringField({ required: true, blank: false }),
             minParts: new NumberField({
@@ -211,7 +213,7 @@ export abstract class StrikeModeBase extends SohlEntity {
                 min: 1,
                 initial: 1,
             }),
-            assocSkillCode: new StringField({ blank: false }),
+            assocSkillCode: new StringField({ blank: true, initial: "" }),
             attack: new SchemaField({
                 disabled: new BooleanField({ initial: false }),
                 spread: new NumberField({
@@ -225,7 +227,8 @@ export abstract class StrikeModeBase extends SohlEntity {
                 numDice: new NumberField({
                     integer: true,
                     min: 0,
-                    initial: 1,
+                    nullable: false,
+                    initial: 0,
                 }),
                 die: new NumberField({
                     integer: true,
@@ -233,10 +236,15 @@ export abstract class StrikeModeBase extends SohlEntity {
                     nullable: true,
                     initial: null,
                 }),
-                modifier: new NumberField({ integer: true, initial: 0 }),
+                modifier: new NumberField({
+                    integer: true,
+                    nullable: true,
+                    initial: null,
+                }),
                 aspect: new StringField({
                     blank: false,
                     choices: ImpactAspects,
+                    initial: IMPACT_ASPECT.BLUNT,
                 }),
             }),
             traits: new ObjectField({ initial: {} }),
@@ -318,16 +326,24 @@ export namespace StrikeModeBase {
         };
         /** Base impact (damage) definition before runtime modifiers. */
         impactBase: {
-            /** Number of impact dice contributed by the mode itself. */
+            /**
+             * Number of impact dice contributed by the mode itself. `0` means
+             * this mode contributes no dice.
+             */
             numDice: number;
             /**
-             * Die size. `null` when the strike mode contributes no dice of
-             * its own (e.g., a bow whose impact dice come from the
-             * projectile). Otherwise an integer ≥ 2.
+             * Die size. `null` when the strike mode's die "does not apply"
+             * (e.g., a bow whose impact die comes from the projectile);
+             * combination logic then uses whichever source's die is non-null.
+             * When specified, an integer ≥ 2.
              */
             die: number | null;
-            /** Flat amount added to the rolled impact total. */
-            modifier: number;
+            /**
+             * Flat amount added to the rolled impact total. `null` when this
+             * mode's modifier "does not apply" (use the other source's);
+             * `0` means an explicit modifier of none.
+             */
+            modifier: number | null;
             /** Damage aspect (e.g., blunt, edged, piercing) this mode inflicts. */
             aspect: ImpactAspect;
         };

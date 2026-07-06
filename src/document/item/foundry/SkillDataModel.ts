@@ -43,7 +43,7 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
             required: true,
             choices: SkillSubTypes,
         }),
-        skillBaseFormula: new StringField(),
+        skillBaseFormula: new StringField({ initial: "" }),
         masteryLevelBase: new NumberField({
             initial: 0,
             min: 0,
@@ -54,7 +54,7 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
             blank: false,
             choices: SkillCombatCategories,
         }),
-        parentSkillCode: new StringField(),
+        parentSkillCode: new StringField({ initial: "" }),
         initSkillMult: new NumberField({
             integer: false,
             initial: 0,
