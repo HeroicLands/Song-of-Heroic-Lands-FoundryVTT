@@ -157,6 +157,31 @@ For symbols absent from the API (DataModels, Sheets), use a path-only file link
 commit-pinned source links.</li>
 <li><strong>Foundry v14.</strong> Target Foundry VTT v14+ and follow the v14 patterns described in
 the <a href="Documentation.Concepts.Architecture_Overview.html">Architecture Overview</a>.</li>
+<li><strong>Null vs. undefined — null at the edges, undefined in the core.</strong> Absence is not
+spelled two ways at random:
+<ul>
+<li><em>Persistence and the Foundry API boundary use <code>null</code>.</em> DataModel fields and
+the Foundry APIs that natively return <code>null</code> (<code>DialogV2</code> dismissal, <code>getFlag</code>,
+document lookups) keep it — Foundry mandates it and <code>null</code> survives
+<code>JSON.stringify</code> where <code>undefined</code> keys are dropped.</li>
+<li><em>The logic/domain layer uses <code>undefined</code></em> for &quot;maybe absent&quot; — matching
+optional parameters/properties (<code>?:</code>), which already yield <code>undefined</code>. Write
+<code>T | undefined</code> directly; there is no <code>Optional&lt;T&gt;</code> alias (an alias cannot
+cover <code>?:</code> positions, so it could never be the single consistent spelling).</li>
+<li><em>The <code>FoundryHelpers</code> shim normalizes</em> Foundry <code>null</code> to <code>undefined</code> as values
+cross into the logic layer.</li>
+<li><code>== null</code> / <code>!= null</code> (matches both) is the blessed idiom at genuine mixed
+boundaries; <code>eqeqeq</code> (configured with <code>{ null: &quot;ignore&quot; }</code>) enforces strict
+equality everywhere else.</li>
+</ul>
+</li>
+<li><strong>DataModel empty values — sentinel vs. nullable.</strong> In persisted schemas the choice
+is semantic, not serialization-driven (both <code>null</code> and <code>&quot;&quot;</code>/<code>0</code> round-trip). Use a
+typed blank sentinel (<code>&quot;&quot;</code>, <code>0</code>, <code>[]</code>, <code>{}</code>) when the empty state is itself a valid
+value; use <code>nullable: true, initial: null</code> only when &quot;unset / not-applicable&quot; must be
+distinguishable from <em>every</em> valid value (an optional cap, a die size, an optional
+reference). Always set <code>initial</code> explicitly — a bare <code>new StringField()</code> is
+non-required and silently initializes to <code>undefined</code>, not <code>&quot;&quot;</code>.</li>
 </ul>
 <a id="extending-sohl-instead-of-changing-it" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Extending SoHL instead of changing it<a href="#extending-sohl-instead-of-changing-it" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>If you want to <em>extend</em> the system rather than change its core — ship house rules,
 add content or automation, or script behavior — do it from the outside:</p>
