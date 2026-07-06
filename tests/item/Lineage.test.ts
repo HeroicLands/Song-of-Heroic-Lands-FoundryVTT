@@ -116,7 +116,7 @@ describe("LineageLogic", () => {
             expect(logic.bodyStructure).toBeInstanceOf(BodyStructure);
             expect(logic.bodyStructure.parts).toHaveLength(2);
             expect(logic.bodyStructure.parts[0].shortcode).toBe("head");
-            expect(logic.bodyStructure._parent).toBe(logic);
+            expect(logic.bodyStructure.parent).toBe(logic);
         });
 
         it("seeds bodyWeight from bodyWeightBase", () => {

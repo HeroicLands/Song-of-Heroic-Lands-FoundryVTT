@@ -27,7 +27,7 @@ import {
     type ContextMenuCondition,
     resolveContextActor,
     resolveContextItem,
-} from "@src/utils/ContextMenuEntry";
+} from "@src/apps/logic/ContextMenuEntry";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import { SohlMap } from "@src/utils/collection/SohlMap";
