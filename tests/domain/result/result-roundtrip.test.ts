@@ -390,4 +390,31 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
             expect(revived.defendResult.label).toBe("Dodge");
         });
     });
+
+    describe("construct-from-toJSON (defaultFromJSON is the constructor)", () => {
+        it("defaultFromJSON(x.toJSON(), { parent }) returns a live leaf instance, no stringify or `new X` needed", () => {
+            const v = new ValueDelta(
+                {
+                    name: "SOHL.INFO.test",
+                    shortcode: "TST",
+                    op: VALUE_DELTA_OPERATOR.ADD,
+                    value: "7",
+                },
+                { parent },
+            );
+
+            // `toJSON()` is a serialized PlainObject, never handed to a
+            // constructor directly. `defaultFromJSON` is the supported bridge:
+            // it revives (here, a leaf) and calls `new ValueDelta(...)` itself,
+            // returning the live instance — so no `new X(defaultFromJSON(...))`.
+            const revived = defaultFromJSON(v.toJSON(), {
+                parent,
+            }) as ValueDelta;
+
+            expect(revived).toBeInstanceOf(ValueDelta);
+            expect(revived.shortcode).toBe("TST");
+            expect(revived.op).toBe(VALUE_DELTA_OPERATOR.ADD);
+            expect(revived.numValue).toBe(7);
+        });
+    });
 });
