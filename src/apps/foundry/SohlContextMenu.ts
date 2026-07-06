@@ -13,6 +13,7 @@
 
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import {
     ContextMenuEntry,
     type ContextMenuEntryContext,
@@ -74,7 +75,11 @@ export class SohlContextMenu
         // is the shape Foundry's ContextMenu base class expects (condition
         // and callback both functions).
         const compiled = menuItems.map((it: SohlContextMenu.Entry) => {
-            const conditionFn = compileCondition(it.condition, it.name);
+            const conditionFn = compileCondition(
+                it.condition,
+                it.name,
+                options.parent,
+            );
             let callback = it.callback;
             if (!callback) {
                 if (!it.functionName) {
@@ -95,13 +100,16 @@ export class SohlContextMenu
      * @see {@link compileCondition}
      * @param source - The condition source to compile.
      * @param entryName - The entry name, used for error reporting.
+     * @param parent - The owning document's logic, used as the compiled
+     *   expression's parent (required for string conditions).
      * @returns A predicate evaluating the condition against a target element.
      */
     static compileCondition(
         source: SohlContextMenu.Condition,
         entryName: string,
+        parent?: SohlLogic,
     ): (target: HTMLElement) => boolean {
-        return compileCondition(source, entryName);
+        return compileCondition(source, entryName, parent);
     }
 
     /**
@@ -238,6 +246,11 @@ export namespace SohlContextMenu {
         fixed?: boolean;
         /** When `true`, the base class operates in jQuery-compatibility mode. */
         jQuery?: boolean;
+        /**
+         * The owning document's logic, used as the parent for any string
+         * (SafeExpression) entry conditions compiled by the menu.
+         */
+        parent?: SohlLogic;
     }
 
     /**
