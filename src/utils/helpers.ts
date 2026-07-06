@@ -21,21 +21,30 @@ import { ITEM_KIND, KIND_KEY } from "@src/utils/constants";
 /** System data of an item whose proficiency is tracked as a mastery level. */
 type MasteryLevelData = MysticalAbilityData | SkillData | TraitData;
 import { SohlMap } from "@src/utils/collection/SohlMap";
-import { fvttMergeObject, fvttResolveUuid } from "@src/core/FoundryHelpers";
 import { getCtorForKind } from "@src/utils/kindRegistry";
 
 /**
- * A value permitted in a SoHL world/client setting: a JSON-like scalar
- * (string, number, boolean, bigint, null, or undefined) or an array thereof.
+ * Resolver used by {@link defaultFromJSON} to revive a `ClientDocument`
+ * reference (a UUID) back into a live document. It is the single Foundry
+ * touch-point of the serialization core, injected via {@link setUuidResolver}
+ * so this module stays Foundry-free: the `FoundryHelpers` shim registers
+ * `fvttResolveUuid` at load, and the test mock registers its own.
  */
-export type SohlSettingValue =
-    | string
-    | number
-    | boolean
-    | bigint
-    | null
-    | undefined
-    | SohlSettingValue[];
+let uuidResolver: ((uuid: string) => unknown) | undefined;
+
+/**
+ * Register (or clear) the resolver used to revive `ClientDocument` references
+ * during {@link defaultFromJSON}. Called by the Foundry shim at module load so
+ * the pure serialization core never imports Foundry directly.
+ *
+ * @param resolver - A function mapping a document UUID to its live document, or
+ *   `undefined` to clear the registration.
+ */
+export function setUuidResolver(
+    resolver: ((uuid: string) => unknown) | undefined,
+): void {
+    uuidResolver = resolver;
+}
 
 /**
  * Get a static property from a class instance.
@@ -798,7 +807,14 @@ export function defaultFromJSON(
             case "URL":
                 return new URL(maybe.href);
             case "ClientDocument":
-                return fvttResolveUuid(maybe.uuid);
+                if (!uuidResolver) {
+                    throw new Error(
+                        "defaultFromJSON: no UUID resolver registered; cannot " +
+                            "revive a ClientDocument reference. The FoundryHelpers " +
+                            "shim registers one via setUuidResolver at load.",
+                    );
+                }
+                return uuidResolver(maybe.uuid);
         }
 
         // Revive a registered domain-class instance. Children are revived
@@ -1028,6 +1044,39 @@ export function defaultToJSON(value: any): JsonValue | undefined {
 }
 
 /**
+ * Recursively merge `other` into `original`, mirroring the subset of Foundry's
+ * `mergeObject` defaults that {@link cloneInstance} relies on: plain objects are
+ * merged key-by-key (`insertKeys`/`insertValues`), matching nested plain-object
+ * values recurse, and every other value — including arrays — replaces wholesale.
+ *
+ * @remarks
+ * Pure and Foundry-free: this exists so `cloneInstance` no longer depends on the
+ * Foundry shim. It mutates and returns `original` (which is always the throwaway
+ * `defaultToJSON` output at the sole call site), matching `mergeObject`'s
+ * in-place default.
+ *
+ * @param original - The base object, mutated in place and returned.
+ * @param other - The overrides merged on top.
+ * @returns `original`, with `other` merged in.
+ */
+function deepMerge(original: PlainObject, other: PlainObject): PlainObject {
+    for (const [key, value] of Object.entries(other)) {
+        const existing = original[key];
+        if (
+            isObject(existing) &&
+            !Array.isArray(existing) &&
+            isObject(value) &&
+            !Array.isArray(value)
+        ) {
+            deepMerge(existing as PlainObject, value as PlainObject);
+        } else {
+            original[key] = value;
+        }
+    }
+    return original;
+}
+
+/**
  * Create a deep copy of an object instance by serializing it and reviving it
  * through {@link defaultFromJSON}.
  *
@@ -1057,7 +1106,7 @@ export function cloneInstance<T>(
     // SohlSpeaker serializes documents as ids) and reflects plain objects
     // otherwise — the same JSON-safe form `defaultFromJSON` reads back.
     const json = defaultToJSON(instance) as PlainObject;
-    const merged = fvttMergeObject(json, data) as PlainObject;
+    const merged = deepMerge(json, data) as PlainObject;
     // The caller must decide what the clone attaches to — there is no implicit
     // "reuse the source's parent" fallback. Cloning a SohlEntity subclass
     // without a parent throws (in the entity constructor) by design.
