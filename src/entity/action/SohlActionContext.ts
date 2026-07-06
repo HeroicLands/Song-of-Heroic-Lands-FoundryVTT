@@ -55,6 +55,15 @@ import type { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlToken
  * // Fork a received context to retarget it, leaving the original untouched.
  * const retargeted = context.clone({ target: someToken });
  *
+ * @example
+ * // Build a context naming who is acting, then run an action with it.
+ * const ctx = new SohlActionContext({ speaker: actor.getSpeaker() });
+ * await action.execute(ctx);
+ *
+ * @example
+ * // Fork a received context to retarget it, leaving the original untouched.
+ * const retargeted = context.clone({ target: someToken });
+ *
  * @typeParam S - Shape of the {@link scope} payload for this action.
  */
 export class SohlActionContext<S extends UnknownObject = UnknownObject> {
