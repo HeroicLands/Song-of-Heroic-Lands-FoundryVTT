@@ -614,18 +614,22 @@ export const SOHLCONFIG: SohlConfig = {
     Combatant: {
         documentClass: SohlCombatant,
         documentSheets: [],
+        // Register the single combatant data model under the always-valid `base`
+        // type (as Scene does). A named subtype would have to be declared in
+        // system.json `documentTypes` AND defaulted, else combatants created by
+        // the tracker/API fall back to typeless `base` with no `system.logic`,
+        // crashing group seeding. The data model's static `kind` is unchanged, so
+        // the COMBATANT_LOGIC lookup still resolves SohlCombatantLogic.
         dataModels: {
-            sohlcombatantdata: SohlCombatantDataModel,
+            base: SohlCombatantDataModel,
         },
         typeLabels: {
-            base: "Base",
-            sohlcombatantdata: "SOHL.SohlCombatant.combatantdata",
+            base: "SOHL.SohlCombatant.combatantdata",
         },
         typeIcons: {
             base: "sohl-swordman",
-            sohlcombatantdata: "sohl-swordman",
         },
-        types: ["base", "sohlcombatantdata"],
+        types: ["base"],
     },
     Combat: {
         documentClass: SohlCombat,

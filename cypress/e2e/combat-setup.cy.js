@@ -12,19 +12,12 @@
  */
 
 /**
- * Scenario 5 (head): combat setup.
+ * Scenario 5 (head): combat setup — create a combat over two tokens, start it,
+ * seed combatant groups, and advance turns/rounds.
  *
- * RED FINDING (surfaced by this suite): combatants cannot be created with the
- * `sohlcombatantdata` type because `system.json` `documentTypes` declares
- * subtypes for Actor/Item/ActiveEffect only — NOT Combatant. So a combatant
- * falls back to the typeless `base` model, which has no `system.logic`, and
- * `SohlCombat.seedCombatantGroups` throws `Cannot read properties of undefined
- * (reading 'groupId')` on the first combatant added. Combat is non-functional
- * end-to-end until Combatant (and Combat) subtypes are declared in
- * `documentTypes` AND new combatants default to / are created with the sohl type.
- *
- * The combatant-dependent tests are therefore RED (skipped) pending that fix.
- * `cy.createCombatWith` is written correctly and will pass once it lands.
+ * Combatants receive `SohlCombatantDataModel` (and thus `.logic`) via the `base`
+ * type registration (fix for #142); before that they fell back to the typeless
+ * `base` model with no `system.logic` and group seeding crashed.
  */
 
 describe("combat setup", () => {
@@ -44,7 +37,7 @@ describe("combat setup", () => {
                 cy.foundry((win) => {
                     const c = win.game.combats.get(combat.id);
                     return { exists: !!c, active: c?.active };
-                }).should((r) => {
+                }).then((r) => {
                     expect(r.exists).to.be.true;
                     expect(r.active, "is the active combat").to.be.true;
                 });
@@ -52,10 +45,7 @@ describe("combat setup", () => {
         });
     });
 
-    // RED — blocked by #142: Combatant subtype not declared in system.json
-    // documentTypes → combatants get the base model (no logic) →
-    // seedCombatantGroups crashes. Enable once combatant typing is fixed.
-    describe.skip("combat with combatants (RED — combatant subtype gap)", () => {
+    describe("combat with combatants", () => {
         function twoTokensInCombat() {
             cy.createActor("being", {
                 name: "attacker",
@@ -71,7 +61,7 @@ describe("combat setup", () => {
             });
         }
 
-        it("registers both combatants and starts the combat", () => {
+        it("registers both combatants with logic and starts the combat", () => {
             twoTokensInCombat();
             cy.then(function () {
                 cy.createCombatWith(this.tokens).then((combat) => {
@@ -80,13 +70,21 @@ describe("combat setup", () => {
                         return {
                             combatants: c.combatants.size,
                             started: c.started,
-                            logics: win.sohl.currentCombatCombatantLogics
-                                .length,
+                            // The #142 fix: every combatant receives its data
+                            // model, so `system.logic` (SohlCombatantLogic) is
+                            // present. (`sohl.currentCombatCombatantLogics` is
+                            // not asserted here — it reads the *viewed* combat
+                            // via `game.combat`, which needs a canvas viewport
+                            // absent in headless runs.)
+                            allHaveLogic: c.combatants.contents.every(
+                                (cb) => !!cb.system?.logic,
+                            ),
                         };
-                    }).should((r) => {
-                        expect(r.combatants).to.eq(2);
-                        expect(r.started).to.be.true;
-                        expect(r.logics).to.eq(2);
+                    }).then((r) => {
+                        expect(r.combatants, "two combatants").to.eq(2);
+                        expect(r.started, "combat started").to.be.true;
+                        expect(r.allHaveLogic, "combatants have logic").to.be
+                            .true;
                     });
                 });
             });
@@ -96,19 +94,27 @@ describe("combat setup", () => {
             twoTokensInCombat();
             cy.then(function () {
                 cy.createCombatWith(this.tokens).then((combat) => {
-                    cy.foundry((win) => {
+                    cy.foundry(async (win) => {
                         const c = win.game.combats.get(combat.id);
+                        // Group seeding runs async in the post-create hook
+                        // (`void seedCombatantGroups`), so poll until assigned.
+                        for (let i = 0; i < 50; i++) {
+                            const [a, b] = c.combatants.contents;
+                            if (a.groupId && b.groupId) break;
+                            await new Promise((r) => setTimeout(r, 100));
+                        }
                         const [c1, c2] = c.combatants.contents;
                         return {
-                            g1: c1.group?.id ?? c1.system?.groupId ?? null,
-                            g2: c2.group?.id ?? c2.system?.groupId ?? null,
+                            g1: c1.groupId ?? null,
+                            g2: c2.groupId ?? null,
                             enemies: c1.logic.isEnemyOf(c2.logic),
                         };
-                    }).should((r) => {
-                        expect(r.g1).to.not.be.null;
-                        expect(r.g2).to.not.be.null;
+                    }).then((r) => {
+                        expect(r.g1, "combatant 1 grouped").to.not.be.null;
+                        expect(r.g2, "combatant 2 grouped").to.not.be.null;
                         expect(r.g1).to.not.eq(r.g2);
-                        expect(r.enemies).to.be.true;
+                        expect(r.enemies, "different groups are enemies").to.be
+                            .true;
                     });
                 });
             });

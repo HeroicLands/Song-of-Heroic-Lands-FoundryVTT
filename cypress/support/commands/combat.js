@@ -38,9 +38,8 @@ Cypress.Commands.add("createCombatWith", (tokens, opts = {}) =>
             toRealm(win, { scene: sceneId, active: true }),
         );
         const combatantData = tokens.map((t) => ({
-            // Combatant types are ["base", "sohlcombatantdata"] with no default,
-            // so the sohl type must be set explicitly or `system.logic` is absent.
-            type: "sohlcombatantdata",
+            // The combatant data model is registered under the default `base`
+            // type, so no explicit type is needed — `system.logic` is present.
             tokenId: t.id,
             sceneId: t.parent?.id ?? t.sceneId ?? sceneId,
             actorId: t.actorId ?? t.actor?.id,
