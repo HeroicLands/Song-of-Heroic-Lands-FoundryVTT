@@ -11,17 +11,17 @@ audience: SoHL maintainers extending tests, opposed rolls, or combat outcomes.
 
 # Combat Resolution Pipeline
 
-> **Audience:**
+> **Audience:** SoHL maintainers extending tests, opposed rolls, or combat outcomes.
 
 ## Class hierarchy
 
 ```
-TestResult (abstract)                          src/domain/result/TestResult.ts
-├── SuccessTestResult                          src/domain/result/SuccessTestResult.ts
-│   ├── AttackResult                           src/domain/result/AttackResult.ts
-│   └── DefendResult                           src/domain/result/DefendResult.ts
-└── OpposedTestResult                          src/domain/result/OpposedTestResult.ts
-    └── CombatResult                           src/domain/result/CombatResult.ts
+TestResult (abstract)                          src/entity/result/TestResult.ts
+├── SuccessTestResult                          src/entity/result/SuccessTestResult.ts
+│   ├── AttackResult                           src/entity/result/AttackResult.ts
+│   └── DefendResult                           src/entity/result/DefendResult.ts
+└── OpposedTestResult                          src/entity/result/OpposedTestResult.ts
+    └── CombatResult                           src/entity/result/CombatResult.ts
 ```
 
 ## Pipeline overview
@@ -50,9 +50,9 @@ Non-combat tests (skill checks, trait tests) use steps 1-2 only, producing a `Su
 
 ### Automated-combat invariants (enforced before step 1)
 
-Automated combat checks the [Automated Combat Invariants](./combat.md#automated-combat-invariants) up front and aborts (with a player-facing UI notification) on any violation — both participants must be combatants in the same active combat, the attacker must not be incapacitated/defeated/dead, and the target must not be dead. Enforcement points:
+Automated combat checks these invariants up front and aborts (with a player-facing UI notification) on any violation — both participants must be combatants in the same active combat, the attacker must not be incapacitated/defeated/dead, and the target must not be dead. Enforcement points:
 
-- **Attacker + target resolution and the attacker/target status checks:** `resolveAttackContext` (`src/document/actor/foundry/automated-combat.ts`), using `ATTACK_BLOCKING_STATUSES` + `firstStatusIn` from `combat-actions.ts`.
+- **Attacker + target resolution and the attacker/target status checks:** `resolveAttackContext` (`src/document/combatant/logic/SohlCombatantLogic.ts`), using `ATTACK_BLOCKING_STATUSES` + `firstStatusIn` (same file).
 - **Incapacitated defender → Ignore-only:** `gateAutomatedDefenseButtons` (`src/document/chat/chat-card-gating.ts`), using `DEFENSE_DISABLING_STATUSES` + `hasAnyStatus`. Render-time gating removes Dodge/Block/Counterstrike for an incapacitated defender, leaving Ignore.
 
 The status sets and predicates are pure and unit-tested; the resolution/gating that consumes them is Foundry glue.
@@ -140,14 +140,13 @@ The defender's side of a combat exchange.
 
 The full combat exchange — composes AttackResult + DefendResult via opposed test resolution.
 
-| Property       | Type           | Description           |
-| -------------- | -------------- | --------------------- |
-| `attackResult` | `AttackResult` | The attacker's result |
-| `defendResult` | `DefendResult` | The defender's result |
-
-| `margin` | `number` | Victory score `VS` (see below) |
-| `tacticalAdvantages` | `{ side, count }` | TAs awarded by the exchange |
-| `weaponBreakCheck` | `"attacker" \| "defender" \| "none"` | Whose weapon must roll for breakage |
+| Property             | Type                                 | Description                         |
+| -------------------- | ------------------------------------ | ----------------------------------- |
+| `attackResult`       | `AttackResult`                       | The attacker's result               |
+| `defendResult`       | `DefendResult`                       | The defender's result               |
+| `margin`             | `number`                             | Victory score `VS` (see below)      |
+| `tacticalAdvantages` | `{ side, count }`                    | TAs awarded by the exchange         |
+| `weaponBreakCheck`   | `"attacker" \| "defender" \| "none"` | Whose weapon must roll for breakage |
 
 **Determines** (via `opposedTestEvaluate()`):
 
@@ -175,7 +174,7 @@ Tactical Advantages: the winner of a `|VS| >= 2` exchange earns `|VS| − 1` TAs
 (attacker on `VS >= 2`, defender on `VS <= -2`).
 
 **Does NOT determine:** Final damage — that is computed by the impact resolution
-stage (`src/domain/body/InjuryResolution.ts`) using the attack's pre-defense
+stage (`src/entity/body/injury-resolution.ts`) using the attack's pre-defense
 damage, the aspect, and the target's armor/body-location protection.
 
 ### Injury resolution

@@ -41,23 +41,23 @@ sequence; `run-p` runs them in parallel.
 
 ### Build
 
-| Script                | What it does                                                                                                         |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `build`               | Full production build: `npm ci` then `build:noci`. The canonical "build it all" entry.                               |
-| `build:local`         | Same as `build` but `npm i` (allows lockfile updates) instead of `npm ci`.                                           |
-| `build:noci`          | The pipeline without install: `lint:todos → build:types → build:prepare → test:coverage → test:purity → build:code`. |
-| `build:prepare`       | In parallel: `build:css`, `build:db`, `build:system`.                                                                |
-| `build:types`         | TypeScript type-check / compile (`tsc -p tsconfig.json`). No emit beyond `.d.ts`/checking.                           |
-| `build:css`           | Compile `scss/sohl.scss` → `build/stage/css/sohl.css` (Sass).                                                        |
-| `build:system`        | Generate `build/stage/system.json` from the template + `package.json` version (`utils/build-system-json.mjs`).       |
-| `build:assets`        | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`utils/copy-assets.mjs`).     |
-| `build:db`            | `build:assets` then `build:compiledb` — stage assets, then compile packs.                                            |
-| `build:compiledb`     | Compile `assets/packs/*/_source/` JSON → LevelDB packs in `build/stage/packs/`.                                      |
-| `build:unpackdb`      | The reverse: unpack the staged LevelDB packs back to JSON (for inspection).                                          |
-| `build:code`          | Bundle the system with Vite (`vite build --mode release`) → `build/stage/sohl.js`.                                   |
-| `build:icons`         | Rebuild the icon font from SVGs (`utils/build-icon-font.mjs`). Run by hand when icons change.                        |
-| `build:pack-release`  | Zip `build/stage/` → `build/dist/system.zip` and copy `system.json` (`utils/pack-release.mjs`).                      |
-| `clean` / `distclean` | Remove build output (`distclean` also clears caches/`node_modules`-level artifacts).                                 |
+| Script                | What it does                                                                                                                                      |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `build`               | Full production build: `npm ci` then `build:noci`. The canonical "build it all" entry.                                                            |
+| `build:local`         | Same as `build` but `npm i` (allows lockfile updates) instead of `npm ci`.                                                                        |
+| `build:noci`          | The pipeline without install: `lint:todos → lint:docs-index → build:types → lint:dts → build:prepare → test:coverage → test:purity → build:code`. |
+| `build:prepare`       | In parallel: `build:css`, `build:db`, `build:system`.                                                                                             |
+| `build:types`         | TypeScript type-check / compile (`tsc -p tsconfig.json`). No emit beyond `.d.ts`/checking.                                                        |
+| `build:css`           | Compile `scss/sohl.scss` → `build/stage/css/sohl.css` (Sass).                                                                                     |
+| `build:system`        | Generate `build/stage/system.json` from the template + `package.json` version (`utils/build-system-json.mjs`).                                    |
+| `build:assets`        | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`utils/copy-assets.mjs`).                                  |
+| `build:db`            | `build:assets` then `build:compiledb` — stage assets, then compile packs.                                                                         |
+| `build:compiledb`     | Compile `assets/packs/*/_source/` JSON → LevelDB packs in `build/stage/packs/`.                                                                   |
+| `build:unpackdb`      | The reverse: unpack the staged LevelDB packs back to JSON (for inspection).                                                                       |
+| `build:code`          | Bundle the system with Vite (`vite build --mode release`) → `build/stage/sohl.js`.                                                                |
+| `build:icons`         | Rebuild the icon font from SVGs (`utils/build-icon-font.mjs`). Run by hand when icons change.                                                     |
+| `build:pack-release`  | Zip `build/stage/` → `build/dist/system.zip` and copy `system.json` (`utils/pack-release.mjs`).                                                   |
+| `clean` / `distclean` | Remove build output (`distclean` also clears caches/`node_modules`-level artifacts).                                                              |
 
 ### Compendium packs
 
@@ -69,15 +69,18 @@ sequence; `run-p` runs them in parallel.
 
 ### Tests, lint, format
 
-| Script                    | What it does                                               |
-| ------------------------- | ---------------------------------------------------------- |
-| `test`                    | Run the vitest suite once.                                 |
-| `test:watch` / `test:ui`  | Watch mode / the vitest UI.                                |
-| `test:coverage`           | Run with coverage.                                         |
-| `test:purity`             | The Foundry-free purity check (`vitest.purity.config.ts`). |
-| `lint` / `lint:fix`       | ESLint over `src/` (with `--fix`).                         |
-| `lint:todos`              | Fail if any `TODO`/`FIXME` lacks an issue reference.       |
-| `format` / `format:check` | Prettier write / check the whole repo.                     |
+| Script                    | What it does                                                                                                                  |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `test`                    | Run the vitest suite once.                                                                                                    |
+| `test:watch` / `test:ui`  | Watch mode / the vitest UI.                                                                                                   |
+| `test:coverage`           | Run with coverage.                                                                                                            |
+| `test:purity`             | The Foundry-free purity check (`vitest.purity.config.ts`).                                                                    |
+| `test:e2e`                | _(on demand)_ The Cypress integration suite against a licensed Foundry container — not part of CI. See [Testing](testing.md). |
+| `lint` / `lint:fix`       | ESLint over `src/` (with `--fix`).                                                                                            |
+| `lint:todos`              | Fail if any `TODO`/`FIXME` lacks an issue reference.                                                                          |
+| `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                         |
+| `lint:dts`                | Validate the generated public type surface.                                                                                   |
+| `format` / `format:check` | Prettier write / check the whole repo.                                                                                        |
 
 ### Docs
 
@@ -106,13 +109,15 @@ sequence; `run-p` runs them in parallel.
 `npm run build` runs `npm ci` then `build:noci`, which is:
 
 1. **`lint:todos`** — no unlinked `TODO`/`FIXME`.
-2. **`build:types`** — `tsc` type-checks the whole project.
-3. **`build:prepare`** (parallel):
+2. **`lint:docs-index`** — every `docs/` page is linked from its section nav and the README.
+3. **`build:types`** — `tsc` type-checks the whole project.
+4. **`lint:dts`** — the generated public type surface is valid.
+5. **`build:prepare`** (parallel):
     - **`build:css`** — Sass → `build/stage/css/sohl.css`.
     - **`build:db`** — copy assets, then compile packs to `build/stage/packs/`.
     - **`build:system`** — write `build/stage/system.json`.
-4. **`test:coverage`** and **`test:purity`** — the suite must pass.
-5. **`build:code`** — Vite bundles `src/sohl.ts` → `build/stage/sohl.js` (single ES
+6. **`test:coverage`** and **`test:purity`** — the suite must pass.
+7. **`build:code`** — Vite bundles `src/sohl.ts` → `build/stage/sohl.js` (single ES
    module, sourcemap, unminified, with `emptyOutDir: false` so it doesn't wipe the
    staged CSS/assets/packs).
 

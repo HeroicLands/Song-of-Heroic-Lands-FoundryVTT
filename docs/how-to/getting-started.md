@@ -2,7 +2,7 @@
 
 > **Audience:** Someone who just cloned the repo and wants to understand the codebase.
 
-See also: [Architecture Overview](../concepts/architecture.md), [Extension Points](./extension-points.md).
+See also: [Architecture Overview](../concepts/architecture.md), [Extension Points](./extension-points.md), [Expressions and Scripts](../concepts/expressions.md), [Security Model](../concepts/security-model.md).
 
 ## Prerequisites
 
@@ -52,7 +52,7 @@ The design and rationale live in the concept docs — read them there rather tha
 
 - **[Three-class pattern](../concepts/architecture.md#three-class-pattern)** — every actor/item type splits into a Foundry-free Logic class (game rules), a DataModel (persisted schema), and a Sheet (UI), plus how to reach a document's data via `logic.data`.
 - **[Phase-batched lifecycle](../concepts/architecture.md#phase-batched-lifecycle)** and **{@link SohlLogic}** — how `initialize → evaluate → finalize` map onto Foundry's `prepare*` hooks, and the barriers that let sibling items depend on one another.
-- **[Domain objects](../concepts/architecture.md#domain-objects)** — the `src/domain/` value objects (modifiers, results, body, movement, actions), rebuilt from persisted data each preparation cycle.
+- **[Domain objects](../concepts/architecture.md#domain-objects)** — the `src/entity/` value objects (modifiers, results, body, movement, actions), rebuilt from persisted data each preparation cycle.
 - **[FoundryHelpers shim](../concepts/architecture.md#foundryhelpers-shim)** — how Logic stays Foundry-free: the `fvtt` prefix convention, and `sohl.log.uiWarn` / `sohl.log.uiError` for notifications.
 
 ## How to make a change
@@ -71,7 +71,7 @@ See [Extension Points — Item type extension](./extension-points.md#2-actor-and
 
 ### Adding a domain object
 
-Follow the pattern in `src/domain/body/`:
+Follow the pattern in `src/entity/body/`:
 
 1. Create the class with a `Data` interface for the persisted shape.
 2. Construct it during `initialize()` from DataModel data.

@@ -32,7 +32,7 @@ system.bodyStructure
   └── adjacent: string[][]      // pairs of part shortcodes
 ```
 
-At runtime, the data is rebuilt into domain objects in [src/domain/body/](../../src/domain/body/):
+At runtime, the data is rebuilt into domain objects in [src/entity/body/](../../src/entity/body/):
 
 - `BodyStructure` — the root object; provides hit-location resolution and adjacency queries
 - `BodyPart` — one anatomical division
