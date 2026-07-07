@@ -222,7 +222,7 @@ export class SohlSpeaker {
     ): Promise<ChatMessage | undefined> {
         const messageData = await this._prepareChat(data, options);
 
-        messageData.content = toHTMLWithContent(content, data);
+        messageData.content = await toHTMLWithContent(content, data);
         if (messageData.rollMode) {
             fvttApplyRollMode(messageData, messageData.rollMode);
             delete messageData.rollMode;
