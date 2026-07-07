@@ -48,11 +48,15 @@ content or a cross-client message.
 
 Data may only ever carry a **reference** to code that already exists:
 
-| Reference   | For                                                          | Encoding           | Resolves to                                                                               |
-| ----------- | ------------------------------------------------------------ | ------------------ | ----------------------------------------------------------------------------------------- |
-| Function id | Shipped standalone functions that must survive serialization | `__funcref__:<id>` | A code-authored function looked up in the function registry (`src/utils/funcRegistry.ts`) |
-| Class kind  | Domain objects round-tripped through JSON                    | `__kind` tag       | A constructor looked up in `src/utils/kindRegistry.ts`                                    |
-| Macro       | GM-authored "homebrew" behavior created after ship           | Macro UUID         | A Foundry `Macro`, run via `Macro#execute()`                                              |
+| Reference  | For                                                | Encoding     | Resolves to                                            |
+| ---------- | -------------------------------------------------- | ------------ | ------------------------------------------------------ |
+| Class kind | Domain objects round-tripped through JSON          | `__kind` tag | A constructor looked up in `src/utils/kindRegistry.ts` |
+| Method     | A shipped behavior on a Logic class (intrinsic)    | method name  | A bound method on the scoped target logic              |
+| Macro      | GM-authored "homebrew" behavior created after ship | Macro UUID   | A Foundry `Macro`, run via `Macro#execute()`           |
+
+Functions themselves are **never serialized** — not as source, and not as a
+reference. A domain object carries **data plus its `__kind`**, and any behavior
+is re-derived locally on the receiving client from that kind and data.
 
 An attacker can put any value in a reference slot, but the worst they can do is
 _select_ something the system already ships — they can never _introduce_ new
@@ -123,7 +127,30 @@ Rules for using macros:
 > Note: **intrinsic** action executors resolve by method-name lookup on a bound
 > target logic. That is already safe (no compilation, the name is system-authored,
 > and it resolves to an existing method) and is _not_ a `new Function` path — it
-> does not need to become a macro or a funcref.
+> does not need to become a macro.
+
+### Extension points: which tool for which need
+
+The safe extension mechanism depends on two axes — who authors it (shipped in
+code vs. GM post-ship) and how it runs (a synchronous value vs. asynchronous
+imperative behavior):
+
+|                                  | **Shipped (in code)** | **GM-authored (post-ship)**              |
+| -------------------------------- | --------------------- | ---------------------------------------- |
+| **Synchronous, returns a value** | a method / intrinsic  | a {@link SafeExpression} (AST allowlist) |
+| **Asynchronous, imperative**     | a method / intrinsic  | a Foundry **Macro** (`Macro#execute`)    |
+
+Two consequences to internalize:
+
+- **A GM who needs a synchronous computed value uses a `SafeExpression`, not a
+  macro.** `SafeExpression` parses to an AST, allowlists nodes, and evaluates
+  synchronously and safely. Macros are asynchronous (`Macro#execute` returns a
+  `Promise`), so they cannot return a value to a synchronous caller.
+- **Synchronous _imperative_ GM code is intentionally unsupported.** You cannot
+  let an untrusted author supply synchronous side-effecting code without
+  compiling it — which is exactly the RCE this model removes. If you hit this,
+  express the value as a `SafeExpression`, or restructure so the work runs
+  asynchronously (a macro) and the synchronous path reads a cached result.
 
 ## Guardrail: safe serialization
 
@@ -131,22 +158,21 @@ Rules for using macros:
 round-trip for domain objects. Their security contract:
 
 - **`defaultFromJSON` never revives executable code.** There is no
-  `new Function` path. A registered function is carried as `__funcref__:<id>` and
-  resolved to already-defined code; an unknown id resolves to `undefined`, never
-  a compiled function. (The historical `__func__:`/`deserializeFn` path that
-  compiled a string into a function has been removed — do not reintroduce it.)
-- **`defaultToJSON` never emits source.** A function serializes only as a
-  `__funcref__:<id>` reference when it is registered via the function registry;
-  an unregistered function is dropped to `undefined`.
+  `new Function` path and no function-reference path. (The historical
+  `__func__:`/`deserializeFn` path that compiled a string into a function has
+  been removed — do not reintroduce it.)
+- **`defaultToJSON` never emits a function.** Functions are dropped to
+  `undefined` — no source, and no reference. Behavior is not serialized.
 - **Reconstruction of `__kind`-tagged objects** goes through the kind registry
   and should validate/allowlist the tag and the shape — a client can craft the
   JSON, so treat revived data as untrusted input to the constructor.
 - **`buildActionScope`** reads chat-card `data-scope` (fully attacker-controlled)
   and rejects any legacy `__func__:` marker outright as defense-in-depth.
 
-When you add a field that must carry a function across serialization, register
-the function with `registerFunc` and reference it by id. Never store a function
-body, and never `JSON.parse` + evaluate.
+A serialized object carries **data plus its `__kind`**. If the receiving client
+needs a behavior, it re-derives it locally from the kind and data (e.g. a small
+strategy enum resolved to a shipped function on that side) — never by carrying a
+function across the wire, and never by `JSON.parse` + evaluate.
 
 ## Guardrail: HTML rendering / XSS
 
@@ -224,5 +250,5 @@ Treat any of these as a blocker until proven safe against the threat model:
 - The reference-code remediation is tracked under the "eliminate runtime code
   compilation" epic; the XSS and ReDoS hardening under their respective epics.
   Browse `gh issue list --label security`.
-- The function registry: `src/utils/funcRegistry.ts`. The class registry:
-  `src/utils/kindRegistry.ts`. The predicate allowlist: {@link SafeExpression}.
+- The class registry: `src/utils/kindRegistry.ts`. The predicate allowlist:
+  {@link SafeExpression}. GM homebrew runs through Foundry `Macro` documents.
