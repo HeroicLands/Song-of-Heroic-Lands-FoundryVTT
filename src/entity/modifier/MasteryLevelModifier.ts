@@ -566,7 +566,7 @@ export class MasteryLevelModifier extends ValueModifier {
         let allowed = await opposedTestResult.evaluate();
 
         if (allowed && !context.noChat) {
-            opposedTestResult.toChat({
+            void opposedTestResult.toChat({
                 template: "systems/sohl/templates/chat/opposed-result-card.hbs",
                 title: sohl.i18n.format("Opposed Action Result"),
             });

@@ -579,7 +579,7 @@ export class SuccessTestResult extends TestResult {
         const options: PlainObject = {};
         options.roll = await fvttToFoundryRoll(this.roll);
         options.sound = SOHL_SPEAKER_SOUND.DICE;
-        this._speaker.toChat(chatData.template, chatData, options);
+        void this._speaker.toChat(chatData.template, chatData, options);
     }
 }
 
