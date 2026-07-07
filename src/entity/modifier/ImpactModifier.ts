@@ -62,6 +62,8 @@ import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 export class ImpactModifier extends ValueModifier {
     private roll: SimpleRoll | null;
     private aspect: ImpactAspect;
+    private _aimBodyPartCode: string;
+    private _spread: number;
 
     /**
      * Builds an impact modifier, parsing the optional damage roll and resolving
@@ -83,6 +85,21 @@ export class ImpactModifier extends ValueModifier {
             :   null;
         this.aspect =
             isImpactAspect(data.aspect) ? data.aspect : IMPACT_ASPECT.BLUNT;
+        this._aimBodyPartCode = data.aimBodyPartCode ?? "";
+        this._spread = data.spread ?? 0;
+    }
+
+    /** The body part shortcode this attack aims at (empty when unaimed). */
+    get aimBodyPartCode(): string {
+        return this._aimBodyPartCode;
+    }
+
+    /**
+     * Strike spread governing hit-location scatter from {@link aimBodyPartCode}.
+     * `0` when not aimed.
+     */
+    get spread(): number {
+        return this._spread;
     }
 
     /**
@@ -95,6 +112,8 @@ export class ImpactModifier extends ValueModifier {
             ...super.toJSON(),
             roll: this.roll ? this.roll.toJSON() : null,
             aspect: this.aspect,
+            aimBodyPartCode: this._aimBodyPartCode,
+            spread: this._spread,
         };
     }
 
@@ -167,6 +186,10 @@ export namespace ImpactModifier {
         roll: SimpleRoll;
         /** The damage aspect (blunt/edged/piercing/fire); defaults to blunt. */
         aspect: ImpactAspect;
+        /** The body part shortcode this attack aims at (empty when unaimed). */
+        aimBodyPartCode: string;
+        /** Strike spread for hit-location scatter (`0` when unaimed). */
+        spread: number;
     }
 
     export interface Options extends ValueModifier.Options {}

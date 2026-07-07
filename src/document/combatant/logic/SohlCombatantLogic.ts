@@ -1699,7 +1699,14 @@ export function buildAttackResult(input: BuildAttackInput): AttackResult {
         {},
         { parent: input.parent },
     );
-    const impact = input.impact.clone({}, { parent: input.parent });
+    // Embed aim/spread in the impact modifier — the single source of truth (#207).
+    const impact = input.impact.clone(
+        {
+            aimBodyPartCode: input.aimBodyPartCode ?? "",
+            spread: input.spread ?? 0,
+        },
+        { parent: input.parent },
+    );
     return new AttackResult(
         {
             roll: input.roll ?? rollAttackDie(input.parent),
@@ -1707,8 +1714,6 @@ export function buildAttackResult(input: BuildAttackInput): AttackResult {
             impact,
             tokenUuid: input.tokenLogic ?? undefined,
             testType: input.testType,
-            aimBodyPartCode: input.aimBodyPartCode ?? "",
-            spread: input.spread ?? 0,
             title: input.title ?? "",
         } as Partial<AttackResult.Data>,
         { parent: input.parent },
