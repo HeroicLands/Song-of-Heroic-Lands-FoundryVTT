@@ -95,11 +95,46 @@ Primary file: `src/utils/constants.ts`
 
 Changing constants is a high-impact operation: treat as migration-sensitive.
 
+## The grounding rule: reference on the wire, live object in memory
+
+One rule governs how SoHL represents state across the DataModel and Logic/entity
+layers, in **both** directions:
+
+> **The serialized (wire) form of anything shared is a _reference_ — a UUID, id,
+> shortcode, or `PointerData`. The in-memory form is the _resolved live object_ —
+> an entity, an item/actor Logic, a `StrikeMode`, a table — rehydrated by the
+> Logic/entity constructor.**
+
+- **DataModel / `Data` interfaces hold pointers.** A persisted field is a
+  reference: `combatantUuid` (not the live combatant), `heldItemId` on a body
+  part, a cohort member's `shortcode`, a strike mode's `PointerData`, a Foundry
+  document reduced to a `ClientDocument` UUID by `defaultToJSON`.
+- **Logic classes and entities rehydrate those pointers into real objects** in
+  their constructor and hold the live object thereafter: `fvttLogicFromUuidSync`
+  turns a UUID into a Logic; `MeleeStrikeMode.fromPointerData` turns `PointerData`
+  into a live strike mode; `defaultFromJSON` turns a `__kind` tag into the
+  concrete class. The `parent` Logic is supplied on revival (`options.parent`),
+  never carried in the payload.
+
+Two failure modes break the rule — watch for both in review:
+
+1. **A pointer kept in memory** — a runtime field typed as `PointerData`/uuid/id
+   that is never resolved, so consumers can't use it and the real data gets
+   denormalized and stored elsewhere.
+2. **A live object or config put on the wire** — serializing a resolved object,
+   or embedding static config (a table, a function body) in a payload, instead of
+   a reference the receiver resolves locally.
+
+The corollary is **minimality**: store only the reference and the genuinely
+transient data (the dice roll, an evaluated-snapshot success level). Never
+serialize what an in-memory object recomputes — anything calculable is derived on
+read, not stored.
+
 ## Entity serialization contract
 
 Primary files: `src/entity/SohlEntity.ts`, `src/utils/helpers.ts`, `src/utils/kindRegistry.ts`
 
-Domain entities — results (`SuccessTestResult`, `AttackResult`, …), modifiers (`ValueModifier`, `ImpactModifier`, …), and dice (`SimpleRoll`) — all extend `SohlEntity` and share one serialization mechanism. There is no reflective serializer; a class serializes exactly what its `toJSON` emits.
+Domain entities — results (`SuccessTestResult`, `AttackResult`, …), modifiers (`ValueModifier`, `ImpactModifier`, …), and dice (`SimpleRoll`) — all extend `SohlEntity` and share one serialization mechanism. There is no reflective serializer; a class serializes exactly what its `toJSON` emits. This section applies the [grounding rule](#the-grounding-rule-reference-on-the-wire-live-object-in-memory) above to those entities.
 
 - **Ownership.** Every `SohlEntity` requires a `parent` Logic (`options.parent`); the constructor throws `SohlEntity requires a parent` otherwise. `parent` is transient — never serialized — and is re-supplied on revival.
 - **Serialize / revive through `defaultToJSON` / `defaultFromJSON`.** `JSON.stringify(defaultToJSON(entity))` is the wire form; `defaultFromJSON(parsed, { parent })` rebuilds it. `defaultToJSON` honors each object's `toJSON` (and stamps a `__kind` tag through the `SohlEntity` chain); `defaultFromJSON` revives nested `__kind`-tagged children bottom-up, then calls `new Ctor(data, { parent })` via the kind registry.
