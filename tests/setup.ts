@@ -101,6 +101,17 @@ const sohlMock = {
             }
             return out;
         },
+        escapeHTML(s: string): string {
+            return s
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#x27;");
+        },
+        deepClone<T>(obj: T): T {
+            return JSON.parse(JSON.stringify(obj));
+        },
     },
     data: {
         // Minimal real CalendarData mock — supports the timeToComponents /
