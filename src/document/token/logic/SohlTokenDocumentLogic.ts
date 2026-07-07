@@ -159,7 +159,7 @@ export class SohlTokenDocumentLogic<
             sohl.log.uiWarn(
                 `${this.actorName} has no opposed test to resolve.`,
             );
-            return;
+            return undefined;
         }
 
         const candidates = this.opposedItemLogics();
@@ -167,7 +167,7 @@ export class SohlTokenDocumentLogic<
             sohl.log.uiWarn(
                 `${this.actorName} has no usable skill or attribute to respond with.`,
             );
-            return;
+            return undefined;
         }
 
         const choices: Record<string, string> = {};
@@ -194,10 +194,10 @@ export class SohlTokenDocumentLogic<
                 "0",
             );
         }
-        if (!dlgResult) return;
+        if (!dlgResult) return undefined;
 
         const responder = candidates[Number(dlgResult.key)];
-        if (!responder) return;
+        if (!responder) return undefined;
 
         const resumeContext = context.clone();
         resumeContext.scope = {

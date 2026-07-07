@@ -376,7 +376,7 @@ export class MasteryLevelModifier extends ValueModifier {
         });
 
         // A dismissed dialog cancels the test; a bypass always yields values.
-        if (!dlgResult) return;
+        if (!dlgResult) return undefined;
 
         if (dlgResult.situationalModifier) {
             testResult.masteryLevelModifier.add(

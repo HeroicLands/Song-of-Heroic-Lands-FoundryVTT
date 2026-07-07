@@ -393,7 +393,7 @@ export class SohlCombatantLogic<
             sohl.log.uiWarn(
                 `${this.name} automated attack requires a target combatant.`,
             );
-            return;
+            return undefined;
         }
 
         // The attack targets the defender; distance is
@@ -416,10 +416,10 @@ export class SohlCombatantLogic<
             },
             (sm: StrikeModeBase) => sm.attack?.constrainedEffective ?? -1,
         );
-        if (!attackDlgResult) return;
+        if (!attackDlgResult) return undefined;
 
         const attackSM = StrikeModeBase.fromPointerData(attackDlgResult.mode);
-        if (!attackSM) return;
+        if (!attackSM) return undefined;
 
         // Spread is the injury hit-location scatter (for melee) or the missile
         // range band's spread (for missile). Impact range bonus is a flat bonus
@@ -437,7 +437,7 @@ export class SohlCombatantLogic<
                 sohl.log.uiWarn(
                     `${context.target?.name} is beyond direct range (volley is not supported).`,
                 );
-                return;
+                return undefined;
             }
             spread = band.spread;
             impactRangeBonus = band.impactRangeBonus;
@@ -488,7 +488,7 @@ export class SohlCombatantLogic<
         await this.recordAttackMode(attackSM);
 
         // Post the attack card to chat, unless suppressed by `context.noChat`.
-        if (context.noChat) return;
+        if (context.noChat) return undefined;
         const cardData = buildAttackCardData({
             attackResult,
             title: `${attackSM?.name} ${attackSM?.isMelee ? "Melee" : "Missile"} Attack`,
@@ -538,14 +538,14 @@ export class SohlCombatantLogic<
             Partial<AutomatedCombat.DefenseContextScope>
         >,
     ): Promise<PlainObject | undefined> {
-        if (!context.scope.attackResult || !this.actorLogic) return;
+        if (!context.scope.attackResult || !this.actorLogic) return undefined;
 
         const blockableStrikeModes = collectBlockableStrikeModes(
             this.actorLogic,
         );
         if (!blockableStrikeModes.length) {
             sohl.log.uiWarn(`${this.name} has no strike mode able to block.`);
-            return;
+            return undefined;
         }
         const blockChoices: Record<string, string> = {};
         blockableStrikeModes.forEach((sm: MeleeStrikeMode, i) => {
@@ -585,12 +585,12 @@ export class SohlCombatantLogic<
         }
         if (!defenseDlgResult) {
             sohl.log.uiInfo("Block canceled.");
-            return;
+            return undefined;
         }
 
         const blockStrikeMode =
             blockableStrikeModes[Number(defenseDlgResult.key)];
-        if (!blockStrikeMode) return;
+        if (!blockStrikeMode) return undefined;
 
         const defendResult = new DefendResult(
             {
@@ -639,7 +639,7 @@ export class SohlCombatantLogic<
             Partial<AutomatedCombat.DefenseContextScope>
         >,
     ): Promise<PlainObject | undefined> {
-        if (!context.scope.attackResult || !this.actorLogic) return;
+        if (!context.scope.attackResult || !this.actorLogic) return undefined;
 
         const dodgeML = resolveSkillMasteryLevel(
             this.actorLogic,
@@ -647,7 +647,7 @@ export class SohlCombatantLogic<
         );
         if (!dodgeML) {
             sohl.log.uiWarn(`${this.name} has no Dodge skill to defend with.`);
-            return;
+            return undefined;
         }
         const defendResult = new DefendResult(
             {
@@ -697,7 +697,7 @@ export class SohlCombatantLogic<
             sohl.log.uiWarn(
                 `${this.name} automated counterstrike requires an attack result in scope.`,
             );
-            return;
+            return undefined;
         }
         const attackCombatantLogic = SohlCombatantLogic.fromTokenLogic(
             context.scope.attackResult?.speaker?.tokenLogic,
@@ -706,14 +706,14 @@ export class SohlCombatantLogic<
             sohl.log.uiWarn(
                 `${this.name} automated attack requires a target combatant.`,
             );
-            return;
+            return undefined;
         }
 
         if (!this.actorLogic || !attackCombatantLogic) {
             sohl.log.uiWarn(
                 "Counterstrike requires a valid attacker and defender combatant.",
             );
-            return;
+            return undefined;
         }
 
         // The counterstrike targets the original attacker; distance is
@@ -746,10 +746,10 @@ export class SohlCombatantLogic<
                 return meleeSM.defense.counterstrike.constrainedEffective;
             },
         );
-        if (!attackDlgResult) return;
+        if (!attackDlgResult) return undefined;
 
         const attackMode = StrikeModeBase.fromPointerData(attackDlgResult.mode);
-        if (!attackMode) return;
+        if (!attackMode) return undefined;
 
         const meleeSM = attackMode as MeleeStrikeMode;
 
@@ -822,7 +822,7 @@ export class SohlCombatantLogic<
             Partial<AutomatedCombat.DefenseContextScope>
         >,
     ): Promise<PlainObject | undefined> {
-        if (!context.scope?.attackResult) return;
+        if (!context.scope?.attackResult) return undefined;
 
         const defendResult = new DefendResult(
             {
@@ -1338,7 +1338,7 @@ async function commonAttack(
 ): Promise<AttackDialogResult | undefined> {
     if (!isA(attackerLogic?.actorLogic, ACTOR_KIND.BEING)) {
         sohl.log.uiWarn(`${form} requires a valid attacker combatant.`);
-        return;
+        return undefined;
     }
 
     const targetCombatantLogic = SohlCombatantLogic.fromTokenLogic(
@@ -1347,7 +1347,7 @@ async function commonAttack(
 
     if (!targetCombatantLogic) {
         sohl.log.uiWarn(`${form} requires a valid defender combatant.`);
-        return;
+        return undefined;
     }
 
     const availStrikeModes: StrikeModeBase[] = Array.from(
@@ -1359,7 +1359,7 @@ async function commonAttack(
         sohl.log.uiWarn(
             `${attackerLogic.name} has no usable strike mode to ${form} with.`,
         );
-        return;
+        return undefined;
     }
 
     // Determine the default strike mode index: the prior attack result's mode if
@@ -1391,7 +1391,7 @@ async function commonAttack(
         Object.keys(aimChoices).at(0);
     if (!defaultAim) {
         sohl.log.uiWarn(`${targetCombatantLogic.name} has no aim choices.`);
-        return;
+        return undefined;
     }
 
     let attackDlgResult: AttackDialogResult | null;
@@ -1415,7 +1415,7 @@ async function commonAttack(
     }
     if (!attackDlgResult) {
         sohl.log.uiInfo(`${form} canceled.`);
-        return;
+        return undefined;
     }
 
     return attackDlgResult;
