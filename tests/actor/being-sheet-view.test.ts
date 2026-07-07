@@ -19,8 +19,12 @@ import {
     buildBodyPartLozenges,
     clampHealthPct,
     splitWeaponsByRange,
+    selectStrikeModeModifier,
 } from "@src/document/actor/logic/being-sheet-view";
-import { STATUS_EFFECT } from "@src/utils/constants";
+import { STATUS_EFFECT, ITEM_KIND, IMPACT_ASPECT } from "@src/utils/constants";
+import { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
+import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
+import { makeItemLogic } from "@tests/mocks/logicHarness";
 
 describe("being-sheet-view", () => {
     describe("groupBySubType", () => {
@@ -227,6 +231,72 @@ describe("being-sheet-view", () => {
             const split = splitWeaponsByRange([w], modes);
             expect(split.meleeWeapons).toEqual([]);
             expect(split.missileWeapons).toEqual([]);
+        });
+    });
+
+    describe("selectStrikeModeModifier (#178)", () => {
+        function makeMeleeMode(blockMod = 0, cxMod = 0): MeleeStrikeMode {
+            const logic = makeItemLogic(WeaponGearLogic, ITEM_KIND.WEAPONGEAR, {
+                quantity: 1,
+                weightBase: 2,
+                valueBase: 10,
+                isCarried: true,
+                isEquipped: true,
+                qualityBase: 10,
+                durabilityBase: 10,
+                sharedWithCohortIds: [],
+                containerId: null,
+                encumbrance: 1,
+                heftBase: 5,
+                strikeModes: {
+                    m1: {
+                        type: "melee",
+                        name: "Cut",
+                        minParts: 1,
+                        assocSkillCode: "swd",
+                        lengthBase: 3,
+                        attack: { disabled: false, spread: 10, modifier: 5 },
+                        impactBase: {
+                            numDice: 1,
+                            die: 6,
+                            modifier: 0,
+                            aspect: IMPACT_ASPECT.EDGED,
+                        },
+                        traits: {},
+                        defense: {
+                            block: { modifier: blockMod },
+                            counterstrike: { modifier: cxMod },
+                        },
+                    },
+                },
+            });
+            logic.initialize();
+            logic.evaluate();
+            return logic.strikeModes[0] as MeleeStrikeMode;
+        }
+
+        it("attack → sm.attack", () => {
+            const sm = makeMeleeMode(2, 3);
+            expect(selectStrikeModeModifier(sm, "attack")).toBe(sm.attack);
+        });
+
+        it("block → sm.defense.block (not sm.attack)", () => {
+            const sm = makeMeleeMode(2, 3);
+            const mod = selectStrikeModeModifier(sm, "block");
+            expect(mod).toBe(sm.defense.block);
+            expect(mod).not.toBe(sm.attack);
+        });
+
+        it("counterstrike → sm.defense.counterstrike (not sm.attack)", () => {
+            const sm = makeMeleeMode(2, 3);
+            const mod = selectStrikeModeModifier(sm, "counterstrike");
+            expect(mod).toBe(sm.defense.counterstrike);
+            expect(mod).not.toBe(sm.attack);
+        });
+
+        it("unknown kind → undefined", () => {
+            const sm = makeMeleeMode();
+            expect(selectStrikeModeModifier(sm, "impact")).toBeUndefined();
         });
     });
 });

@@ -24,6 +24,9 @@
  */
 
 import { STATUS_EFFECT } from "@src/utils/constants";
+import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
+import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
+import type { CombatModifier } from "@src/entity/modifier/CombatModifier";
 
 /* -------------------------------------------- */
 /*  Grouping                                    */
@@ -253,4 +256,30 @@ export function splitWeaponsByRange<
             missileWeapons.push({ weapon, strikeModes: missile });
     }
     return { meleeWeapons, missileWeapons };
+}
+
+/* -------------------------------------------- */
+/*  Strike-mode modifier selection              */
+/* -------------------------------------------- */
+
+/**
+ * Return the {@link CombatModifier} that corresponds to a `data-test-kind`
+ * attribute on a Being-sheet strike-mode cell.
+ *
+ * - `"attack"` → `sm.attack` (all strike modes)
+ * - `"block"` → `sm.defense.block` (melee only)
+ * - `"counterstrike"` → `sm.defense.counterstrike` (melee only)
+ *
+ * Returns `undefined` for an unrecognised kind or when a defense kind is
+ * requested but the mode is not a {@link MeleeStrikeMode}.
+ */
+export function selectStrikeModeModifier(
+    sm: StrikeModeBase,
+    testKind: string,
+): CombatModifier | undefined {
+    if (testKind === "block") return (sm as MeleeStrikeMode).defense?.block;
+    if (testKind === "counterstrike")
+        return (sm as MeleeStrikeMode).defense?.counterstrike;
+    if (testKind === "attack") return sm.attack;
+    return undefined;
 }
