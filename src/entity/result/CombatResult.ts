@@ -88,12 +88,6 @@ export interface TacticalAdvantages {
  *   (and thus whose impact may be calculated) from the resolved exchange.
  */
 export class CombatResult extends OpposedTestResult {
-    /** The result of the attack test in this combat. */
-    attackResult: AttackResult;
-    /**
-     * The defender's response. Its **class** encodes the kind of defense
-     */
-    defendResult: AttackResult | DefendResult;
     /** Victory score: `attacker.normSuccessLevel − defender.normSuccessLevel`. */
     margin: number;
     /** Tactical Advantages awarded by the exchange (display-only). */
@@ -125,37 +119,49 @@ export class CombatResult extends OpposedTestResult {
         data: Partial<CombatResult.Data>,
         options: Partial<CombatResult.Options> = {},
     ) {
-        if (!data.attackResult || !data.defendResult) {
-            throw new Error(
-                "CombatResult requires both attackResult and defendResult",
-            );
+        // Accept either the domain names (attackResult/defendResult) or the
+        // inherited names (sourceTestResult/targetTestResult) so the constructor
+        // works both at build-time and when defaultFromJSON revives from JSON
+        // that only carries the serialized sourceTestResult/targetTestResult keys.
+        const attackResult =
+            data.attackResult ??
+            (data.sourceTestResult as AttackResult | undefined);
+        const defendResult =
+            data.defendResult ??
+            (data.targetTestResult as
+                | (AttackResult | DefendResult)
+                | undefined);
+        if (!attackResult) {
+            throw new Error("CombatResult requires attackResult");
         }
-        super(data, options);
-        this.attackResult = data.attackResult;
-        this.defendResult = data.defendResult;
+        if (!defendResult) {
+            throw new Error("CombatResult requires defendResult");
+        }
+        super(
+            {
+                ...data,
+                sourceTestResult: attackResult,
+                targetTestResult: defendResult,
+            },
+            options,
+        );
         this.margin = 0;
         this.tacticalAdvantages = { side: "none", count: 0 };
         this.weaponBreakCheck = "none";
     }
 
+    /** The result of the attack test — aliases {@link sourceTestResult}. */
+    get attackResult(): AttackResult {
+        return this.sourceTestResult as AttackResult;
+    }
+
     /**
-     * Serialize to a plain object satisfying {@link CombatResult.Data}: the
-     * inherited {@link OpposedTestResult} fields plus the attack and defense
-     * results.
-     *
-     * @remarks
-     * The derived resolution state (margin, Tactical Advantages, weapon-break
-     * check, rolled impacts) is *not* part of {@link CombatResult.Data} — the
-     * constructor re-seeds it and {@link opposedTestEvaluate} recomputes it, so
-     * it is intentionally omitted here.
-     * @returns The plain-object representation.
+     * The defender's response — aliases {@link targetTestResult}. Its **class**
+     * encodes the kind of defense chosen (block/dodge → {@link DefendResult};
+     * counterstrike → {@link AttackResult}).
      */
-    override toJSON(): PlainObject {
-        return {
-            ...super.toJSON(),
-            attackResult: this.attackResult.toJSON(),
-            defendResult: this.defendResult.toJSON(),
-        };
+    get defendResult(): AttackResult | DefendResult {
+        return this.targetTestResult as AttackResult | DefendResult;
     }
 
     /**
@@ -295,12 +301,16 @@ export namespace CombatResult {
 
     /** Construction data for a {@link CombatResult}. */
     export interface Data extends OpposedTestResult.Data {
-        /** The attacker's evaluated {@link AttackResult}. */
-        attackResult: AttackResult;
         /**
-         * The defender's evaluated {@link DefendResult} or {@link AttackResult} (for counterstrikes).
+         * The attacker's evaluated {@link AttackResult}. Optional alias for
+         * `sourceTestResult` — supply one or the other (or both).
          */
-        defendResult: AttackResult | DefendResult;
+        attackResult?: AttackResult;
+        /**
+         * The defender's evaluated {@link DefendResult} or {@link AttackResult}
+         * (for counterstrikes). Optional alias for `targetTestResult`.
+         */
+        defendResult?: AttackResult | DefendResult;
     }
 
     /** Options for a {@link CombatResult}; see {@link OpposedTestResult.Options}. */

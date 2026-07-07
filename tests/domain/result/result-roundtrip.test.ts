@@ -373,8 +373,6 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
                 {
                     attackResult: attack,
                     defendResult: defend,
-                    sourceTestResult: attack,
-                    targetTestResult: defend,
                 } as any,
                 { parent },
             );
