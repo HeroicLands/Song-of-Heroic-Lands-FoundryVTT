@@ -38,7 +38,7 @@ The `updateWorldTime` hook fires after every world-time change — this is the u
 
 ### Three formatters
 
-Registered into `CONFIG.time.formatters` in `src/core/SohlSystem.ts` under the `sohl.*` namespace (to guarantee no collision with built-in or module formatter names) and callable via `game.time.calendar.format(worldTime, name)`:
+Registered into `CONFIG.time.formatters` in `src/core/logic/SohlSystem.ts` under the `sohl.*` namespace (to guarantee no collision with built-in or module formatter names) and callable via `game.time.calendar.format(worldTime, name)`:
 
 | Name               | SoHL calendar                                        | Foreign calendar                                                               | When to use                                               |
 | ------------------ | ---------------------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------- |
@@ -65,7 +65,7 @@ Two world settings drive the GM-facing workflow:
 | `sohl.activeCalendar`    | ID of the currently active calendar. Default `"sohl-default"`. Its `onChange` handler calls `SohlSystem.applyCalendar`, which re-initializes `game.time` — no reload required. |
 | `sohl.importedCalendars` | Map of imported calendar configs persisted across sessions.                                                                                                                    |
 
-The `Calendar Settings` menu (`src/apps/CalendarSettingsMenu.ts`) lets the GM:
+The `Calendar Settings` menu (`src/apps/foundry/CalendarSettingsMenu.ts`) lets the GM:
 
 - Select the active calendar from the registry
 - Import a calendar from a JSON file (the file's `name` becomes the registry label; an ID is slugified from it)
@@ -88,7 +88,7 @@ An imported calendar JSON should match the union of Foundry's `CalendarConfig` s
 
 SoHL is deliberately a polite citizen here. Modules override the calendar by setting the same `CONFIG.time.*` slots — whoever writes last, wins. Since module `init` hooks generally fire after system `init` hooks (or in a `setup` hook), an active calendar module will typically end up in control of `game.time.calendar`.
 
-That is fine. Any SoHL code that wants a formatted date calls `sohl.calendar.format(worldTime, "sohl.default")` and accepts whatever string comes back. SoHL must **not** assume `sohl.calendar instanceof SohlCalendarData` in production code paths. As of this writing, no code outside `src/core/foundry/SohlCalendar.ts` and `src/core/SohlSystem.ts` reads the SoHL-specific surface — verified by grepping `SohlCalendarData` across `src/`.
+That is fine. Any SoHL code that wants a formatted date calls `sohl.calendar.format(worldTime, "sohl.default")` and accepts whatever string comes back. SoHL must **not** assume `sohl.calendar instanceof SohlCalendarData` in production code paths. As of this writing, no code outside `src/core/foundry/SohlCalendar.ts` and `src/core/logic/SohlSystem.ts` reads the SoHL-specific surface — verified by grepping `SohlCalendarData` across `src/`.
 
 ### Formatter safety under module override
 
@@ -160,7 +160,7 @@ _None tracked at present. Add entries here as they surface._
 
 ## References
 
-- Source: `src/core/foundry/SohlCalendar.ts`, `src/core/SohlSystem.ts`, `src/apps/CalendarSettingsMenu.ts`, `src/sohl.ts`, `src/utils/constants.ts` (`SOHL_DEFAULT_CALENDAR_CONFIG`)
+- Source: `src/core/foundry/SohlCalendar.ts`, `src/core/logic/SohlSystem.ts`, `src/apps/foundry/CalendarSettingsMenu.ts`, `src/sohl.ts`, `src/utils/constants.ts` (`SOHL_DEFAULT_CALENDAR_CONFIG`)
 - Tests: `tests/core/foundry/SohlCalendar.test.ts`
 - Foundry v14: `client/helpers/time.mjs` (`GameTime`, `initializeCalendar`), `client/data/calendar.mjs` (`CalendarData`), `client/game.mjs` (`Game#initializeGame` and `Game#setupGame`)
 - Foundry TS types: `node_modules/fvtt-types/src/foundry/client/data/calendar.d.mts`

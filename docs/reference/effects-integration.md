@@ -2,12 +2,12 @@
 
 > **Audience:** Developers extending Active Effect behavior and UI wiring.
 
-See also: [Modifier Model](./modifier-model.md), [Extension Points](../how-to/extension-points.md).
+See also: [Modifier Model](./modifier-model.md), [Extension Points](../how-to/extension-points.md), [Security Model](../concepts/security-model.md).
 
 ## Core implementation files
 
-- Effect document wrapper: `src/document/effect/SohlActiveEffect.ts`
-- Shared sheet context wiring: `src/core/SohlDataModel.ts`
+- Effect document wrapper: `src/document/effect/foundry/SohlActiveEffect.ts`
+- Shared sheet context wiring: `src/core/foundry/SohlDataModel.ts`
 
 ## Document and logic layering
 
@@ -177,7 +177,7 @@ SoHL ships its own dispatcher for document-level subscriptions ([`sohl.events`](
 | `turnStart`       | `combat, combatant, turn, round, skipped` | `combatTurn` (derived)  |
 | `turnEnd`         | `combat, combatant, turn, round, skipped` | `combatTurn` (derived)  |
 
-`roundEnd` / `turnEnd` are synthesised in [`SohlHookBridge`](../../src/core/SohlHookBridge.ts) by tracking the prior state per combat across `combatRound` / `combatTurn` fires.
+`roundEnd` / `turnEnd` are synthesised in [`SohlHookBridge`](../../src/core/logic/SohlHookBridge.ts) by tracking the prior state per combat across `combatRound` / `combatTurn` fires.
 
 ### Custom triggers
 
@@ -187,7 +187,7 @@ Use `registerSohlTrigger(name, label)` to add a custom trigger name to both Foun
 import {
     registerSohlTrigger,
     fireSohlTrigger,
-} from "@src/entity/event/SohlEventTrigger";
+} from "@src/entity/event/event-trigger";
 
 registerSohlTrigger("sohlInjuryHealed", "SOHL.Trigger.InjuryHealed");
 ```
@@ -202,7 +202,7 @@ await fireSohlTrigger({ name: "sohlInjuryHealed", injury, actor });
 
 To keep the two dispatchers from drifting:
 
-- **Never call `Hooks.on(...)` for trigger dispatch outside [`SohlHookBridge`](../../src/core/SohlHookBridge.ts).**
+- **Never call `Hooks.on(...)` for trigger dispatch outside [`SohlHookBridge`](../../src/core/logic/SohlHookBridge.ts).**
 - **Never call `ActiveEffect.registry.refresh(...)` for custom triggers outside `fireSohlTrigger`.**
 - **Never call `sohl.events.fire(...)` for custom triggers outside `fireSohlTrigger`** — use `fireSohlTrigger` so both consumers receive the event.
 

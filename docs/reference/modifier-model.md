@@ -6,11 +6,11 @@ See also: [Combat Resolution Pipeline](./combat-resolution-pipeline.md), [Extens
 
 ## Core types
 
-- `ValueDelta`: `src/domain/modifier/ValueDelta.ts`
-- `ValueModifier`: `src/domain/modifier/ValueModifier.ts`
-- `MasteryLevelModifier`: `src/domain/modifier/MasteryLevelModifier.ts`
-- `CombatModifier`: `src/domain/modifier/CombatModifier.ts`
-- `ImpactModifier`: `src/domain/modifier/ImpactModifier.ts`
+- `ValueDelta`: `src/entity/modifier/ValueDelta.ts`
+- `ValueModifier`: `src/entity/modifier/ValueModifier.ts`
+- `MasteryLevelModifier`: `src/entity/modifier/MasteryLevelModifier.ts`
+- `CombatModifier`: `src/entity/modifier/CombatModifier.ts`
+- `ImpactModifier`: `src/entity/modifier/ImpactModifier.ts`
 
 ## How ValueModifier works
 

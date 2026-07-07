@@ -21,6 +21,31 @@ defines them:
   and the barrier guarantees — is in
   {@link SohlLogic}.
 
+## Minimal example
+
+Hook names are `sohl.<itemType>.<phase>` (and `sohl.actor.<actorType>.<phase>`),
+where `<phase>` is `preInitialize`/`postInitialize`, `preEvaluate`/`postEvaluate`,
+or `preFinalize`/`postFinalize`.
+
+```js
+// Augment: run after every mystical ability finishes evaluating.
+Hooks.on("sohl.mysticalability.postEvaluate", (item, ctx) => {
+    // item = the mysticalability item; ctx = SohlActionContext
+    // read/adjust derived state here (not persisted)
+});
+
+// Replace: cancel the default initialize phase for a specific item.
+Hooks.on("sohl.mysticalability.preInitialize", (item, ctx) => {
+    if (item.system.shortcode !== "curse") return; // leave others alone
+    // ...do the replacement work...
+    return false; // returning false from a pre* hook cancels the phase
+});
+```
+
+For persistent writes, guard them (next section). For a fuller worked example
+including a world-setting toggle, see
+[House Rules Cookbook — Recipe 2](./house-rules-cookbook.md#recipe-2-apply-a-rule-to-many-spells-module).
+
 ## Guarding persistent side effects
 
 When a hook writes persistent state (documents, world settings), gate it behind a

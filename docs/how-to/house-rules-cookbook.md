@@ -15,16 +15,32 @@ This page gives quick, practical patterns for choosing and implementing house ru
 
 Goal: change only the `Curse` mystical ability's behavior after initialize.
 
-1. Open the `Curse` mystical ability item.
-2. Add a **Script Action** whose **shortcode** is the lifecycle stage you want to
-   hook — `postInitialize` (likewise `postEvaluate` or `postFinalize`). After each
-   phase, the system runs the item's action whose shortcode matches that stage. The
-   action is attached to this item, so it runs only for `Curse` — no item-type or
-   shortcode prefix is needed in the name.
-3. Set Action fields as needed (`scope`, `isAsync`, `trigger`/`visible`, etc.).
-4. Put your logic in the Action executor.
+A **Script Action** does not store code — its `executor` is the **UUID of a
+Foundry `Macro`**, run via `Macro#execute` (GM-only, permission-gated). No code
+is ever compiled from the item's data; see the
+[Security Model](../concepts/security-model.md#the-core-principle-reference-code-never-compile-it-from-data).
 
-Result: only the `Curse` item runs this logic during its lifecycle.
+1. **Author the behavior as a script Macro.** Create a Foundry Macro (type
+   _script_) with your logic. It receives `actor`, `token`, and the action
+   context in scope; reach SoHL state through `actor.logic` / `item.logic` and
+   the `sohl` surface. (Authoring a script Macro requires the `MACRO_SCRIPT`
+   permission — GMs have it by default.)
+2. **Add a Script Action to the `Curse` item** whose **shortcode** is the
+   lifecycle stage you want to hook — `postInitialize` (likewise `postEvaluate`
+   or `postFinalize`). After each phase, the system runs the item's action whose
+   shortcode matches that stage. Because the action is attached to this item, it
+   runs only for `Curse`.
+3. Set the action's `scope` (`SELF` / `ITEM` / `ACTOR`) and, if needed,
+   `trigger` / `visible` predicates (each a
+   [`SafeExpression`](../concepts/security-model.md) string).
+4. **Set the action's `executor` to your Macro's UUID.** That reference is the
+   whole link — running the action executes that Macro.
+
+Result: only the `Curse` item runs this Macro during its lifecycle.
+
+> Need a _synchronous computed value_ (not imperative behavior)? Use a
+> `SafeExpression` field instead — Macros are asynchronous. See the
+> [extension-point matrix](../concepts/security-model.md#extension-points-which-tool-for-which-need).
 
 ## Recipe 2: Apply a rule to many spells (Module)
 

@@ -42,8 +42,25 @@ SoHL is a Foundry **system** with id `sohl` (see `system.json`), requiring Found
 }
 ```
 
-(See Foundry's module-development.md documentation for the full manifest schema.)
-Your module's entry script then hooks into the system at runtime, as below.
+(See Foundry's [Module Development](https://foundryvtt.com/article/module-development/)
+article for the full manifest schema.) Your module's `esmodules` entry script
+then hooks into the system at runtime — a minimal skeleton:
+
+```js
+// scripts/my-module.js
+Hooks.once("init", () => {
+    console.log("my-module | init");
+    // Register settings, keybindings, etc. here.
+});
+
+Hooks.once("ready", () => {
+    // `sohl` and every document's `.logic` are available from here on.
+    // Extend behavior with SoHL lifecycle hooks (see below) — never edit core.
+    Hooks.on("sohl.mysticalability.postFinalize", (item, ctx) => {
+        // your house rule
+    });
+});
+```
 
 ## Reaching the SoHL API
 

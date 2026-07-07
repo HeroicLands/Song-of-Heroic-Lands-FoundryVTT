@@ -6,7 +6,7 @@ See also: [SoHL Architecture (Overview)](../concepts/architecture.md), [Combat R
 
 ## Token utilities
 
-Primary file: `src/document/token/SohlTokenDocument.ts`
+Primary file: `src/document/token/foundry/SohlTokenDocument.ts`
 
 `SohlTokenDocument` provides static helpers used throughout action/combat flows:
 
@@ -24,7 +24,7 @@ Current distance behavior:
 
 Primary file:
 
-- `src/document/combatant/SohlCombatant.ts`
+- `src/document/combatant/foundry/SohlCombatant.ts`
 
 ### Initiative contract
 
@@ -53,16 +53,8 @@ Base-move values live on the actor's Lineage item as a `moveBase: { terrestrial,
 
 ## Calendar
 
-Primary file:
-
-- `src/core/foundry/SohlCalendar.ts`
-
-`SohlCalendarData` extends Foundry calendar data with era metadata and formatting helpers:
-
-- world date component conversion,
-- absolute timestamp formatting,
-- default in-world date formatting,
-- relative-time formatting.
+The in-world calendar is a separate subsystem — see the dedicated
+[Calendar reference](./calendar.md) (`src/core/foundry/SohlCalendar.ts`).
 
 ## Extension guidance
 
