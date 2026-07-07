@@ -26,8 +26,6 @@
     "SOHL.Action.FIELDS.group.label": "Menu Group",
     "SOHL.Action.FIELDS.iconFAClass.hint": "FontAwesome CSS class for the action's icon",
     "SOHL.Action.FIELDS.iconFAClass.label": "Icon",
-    "SOHL.Action.FIELDS.isAsync.hint": "Whether this action executes asynchronously",
-    "SOHL.Action.FIELDS.isAsync.label": "Asynchronous",
     "SOHL.Action.FIELDS.isEnabled.label": "Is Enabled",
     "SOHL.Action.FIELDS.minActorOwnership.hint": "Minimum Foundry ownership level on the parent actor required to execute this action",
     "SOHL.Action.FIELDS.minActorOwnership.label": "Minimum Actor Ownership",
