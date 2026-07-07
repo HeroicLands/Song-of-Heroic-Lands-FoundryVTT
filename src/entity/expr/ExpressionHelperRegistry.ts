@@ -36,6 +36,26 @@ export interface HelperSource {
 const MAX_PATTERN_LENGTH = 200;
 
 /**
+ * Return true when `source` contains constructs known to cause catastrophic
+ * backtracking: backreferences (`\1`–`\9`) or a capturing/non-capturing group
+ * that contains a quantifier and is itself followed by a quantifier
+ * (`(a+)+`, `(.*)* `, `([a-z]+\d)+`, etc.).
+ */
+function hasCatastrophicPattern(source: string): boolean {
+    // Backreferences (\1–\9) cause exponential backtracking.
+    if (/\\[1-9]/.test(source)) return true;
+
+    // Nested quantifiers: `\(…+…\)[+*{]` or `\(…*…\)[+*{]`.
+    // Matches a group whose body contains `+` or `*` (inner quantifier) and
+    // whose close-paren is immediately followed by `+`, `*`, `?`, or `{`
+    // (outer quantifier). `[^)]*` skips over everything inside except `)`,
+    // so nested parens are handled by substring matching.
+    if (/\([^)]*[+*][^)]*\)[+*?{]/.test(source)) return true;
+
+    return false;
+}
+
+/**
  * Count the elements of an array/string or the own keys of an object.
  * @param value The collection to measure.
  * @returns The element/key count; 0 for `null`, `undefined`, or non-collections.
@@ -154,6 +174,11 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
         if (source.length > MAX_PATTERN_LENGTH) {
             throw new SafeExpressionError(
                 "matches(): regular-expression pattern is too long",
+            );
+        }
+        if (hasCatastrophicPattern(source)) {
+            throw new SafeExpressionError(
+                "matches(): pattern contains nested quantifiers or backreferences that may cause catastrophic backtracking",
             );
         }
         let regex: RegExp;
