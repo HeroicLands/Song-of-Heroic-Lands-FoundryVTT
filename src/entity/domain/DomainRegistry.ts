@@ -207,6 +207,7 @@ export class DomainRegistry {
      * may be removed; attempts to remove a system or module entry throw.
      * Removing a missing shortcode is a no-op.
      * @param shortcode - The shortcode of the entry to remove.
+     * @throws {Error} If the entry exists but its source is not `"world"`.
      */
     static async remove(shortcode: string): Promise<void> {
         const store = readStore();

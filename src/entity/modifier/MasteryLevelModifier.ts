@@ -289,6 +289,7 @@ export class MasteryLevelModifier extends ValueModifier {
      * @param context - The context in which to perform the test.
      * @returns A Promise resolving to `undefined` if the test was cancelled, `false`
      * if there was an error during the test, or the result of the success test.
+     * @throws {Error} If `SuccessTestResult` construction fails (internal error).
      */
     async successTest(
         context: SohlActionContext<Partial<SuccessTestResult.ContextScope>>,
