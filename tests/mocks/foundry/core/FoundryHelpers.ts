@@ -72,6 +72,13 @@ export async function fvttResolveUuidAsync(uuid: string): Promise<any> {
     return (await (globalThis as any).fromUuid?.(uuid)) ?? null;
 }
 
+export async function fvttExecuteMacro(
+    _uuid: string,
+    _scope: Record<string, unknown>,
+): Promise<unknown> {
+    return undefined;
+}
+
 // ---------------------------------------------------------------------------
 // Dice
 // ---------------------------------------------------------------------------

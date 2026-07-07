@@ -37,16 +37,23 @@ one-offs.
 ## Script Actions
 
 A **Script Action** is, in effect, **a macro attached to a document**: instead of
-sitting on the macro bar, it's stored on a specific actor or item and runs from that
-document's **context menu**, with the document as its context. They're **GM-only**
-to author (there's no end-user authoring UI today).
+sitting on the macro bar, it runs from a specific actor's or item's **context
+menu**, with the document as its context. They're **GM-only** to author (there's
+no end-user authoring UI today).
 
-That's the bridge from macros — the full explanation lives on the class. The two
-flavors, the configurable fields (`scope`, `trigger`/`visible`, `executor`,
-`isAsync`), the {@link SafeExpression} predicates, the {@link textToFunction}
-sandbox, and a worked example are all documented on **{@link SohlAction}** (and
-{@link SohlAction.Data}). If a body needs what the sandbox forbids (DOM, network,
-timers), use a [module](../contributing/module-development.md) instead.
+A Script Action does not store code. Its `executor` is the **UUID of a Foundry
+`Macro`** — the GM authors an ordinary script Macro (getting Foundry's editor,
+`MACRO_SCRIPT` permission gate, and ownership for free), and the action runs it
+via `Macro#execute`. No JavaScript is ever compiled from document data; this is
+the reference-not-compile rule from the
+[Security Model](security-model.md#the-core-principle-reference-code-never-compile-it-from-data).
+Because macros are asynchronous, a Script Action always runs asynchronously — a
+GM who needs a _synchronous computed value_ uses a {@link SafeExpression} field
+(the safe, synchronous expression evaluator) instead.
+
+The configurable fields (`scope`, `trigger`/`visible`, `executor`), the
+{@link SafeExpression} predicates, and a worked example are documented on
+**{@link SohlAction}** (and {@link SohlAction.Data}).
 
 ## How SoHL uses this internally: intrinsic actions
 
@@ -54,7 +61,8 @@ The same mechanism powers SoHL's own built-in behaviors. **Every** action — a 
 Script Action or a system-provided one — is a {@link SohlAction} surfaced on a
 document's context menu. The only difference is where the `executor` comes from:
 
-- A **Script Action**'s executor is the GM-authored script body (above).
+- A **Script Action**'s executor is a **Foundry Macro UUID**, run via
+  `Macro#execute` (above).
 - An **intrinsic action**'s executor is the **name of a method on the Logic class**,
   defined in code. SoHL's Logic classes declare their intrinsic actions in a static
   {@link SohlLogic.defineIntrinsicActions} — e.g. a Mystery's `useMystery`, a
