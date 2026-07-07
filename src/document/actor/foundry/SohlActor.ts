@@ -237,7 +237,7 @@ export class SohlActor extends Actor {
                 fvttCallHook(`sohl.${item.type}.postInitialize`, item, ctx);
 
                 const postInitialize = item.logic.actions.get("postInitialize");
-                postInitialize?.execute(ctx);
+                void postInitialize?.execute(ctx);
             }
         });
 
@@ -253,7 +253,7 @@ export class SohlActor extends Actor {
             this.logic.evaluate();
             fvttCallHook(`sohl.actor.${this.type}.postEvaluate`, this, ctx);
             const postEvaluate = this.logic.actions.get("postEvaluate");
-            postEvaluate?.execute(ctx);
+            void postEvaluate?.execute(ctx);
         }
 
         // Next, perform the evaluate phase for all embedded items
@@ -263,7 +263,7 @@ export class SohlActor extends Actor {
                 fvttCallHook(`sohl.${it.type}.postEvaluate`, it, ctx);
 
                 const postEvaluate = it.logic.actions.get("postEvaluate");
-                postEvaluate?.execute(ctx);
+                void postEvaluate?.execute(ctx);
             }
         });
 
@@ -274,7 +274,7 @@ export class SohlActor extends Actor {
                 fvttCallHook(`sohl.${it.type}.postFinalize`, it, ctx);
 
                 const postFinalize = it.logic.actions.get("postFinalize");
-                postFinalize?.execute(ctx);
+                void postFinalize?.execute(ctx);
             }
         });
 
@@ -285,7 +285,7 @@ export class SohlActor extends Actor {
             this.logic.finalize();
             fvttCallHook(`sohl.actor.${this.type}.postFinalize`, this, ctx);
             const postFinalize = this.logic.actions.get("postFinalize");
-            postFinalize?.execute(ctx);
+            void postFinalize?.execute(ctx);
         }
     }
 

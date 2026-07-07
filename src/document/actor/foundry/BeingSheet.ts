@@ -241,7 +241,7 @@ export class BeingSheet extends SohlActorSheetBase {
         context: any,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<void> {
-        super._onRender(context, options);
+        await super._onRender(context, options);
 
         // Rebind all search filters
         this._filters.forEach((filter) => filter.bind((this as any).element));
@@ -287,7 +287,7 @@ export class BeingSheet extends SohlActorSheetBase {
         // Re-render so the pill's `active` highlight reflects the new state —
         // the embedded ActiveEffect change does not reliably re-render the
         // header part on its own.
-        this.render();
+        void this.render();
     }
 
     /**
@@ -377,7 +377,7 @@ export class BeingSheet extends SohlActorSheetBase {
                 impactModifier: impactMod,
             },
         });
-        actorLogic.executeAction("calcImpact", calcImpactContext);
+        void actorLogic.executeAction("calcImpact", calcImpactContext);
     }
 
     /**

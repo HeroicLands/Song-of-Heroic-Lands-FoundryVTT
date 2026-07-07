@@ -186,7 +186,7 @@ export class SkillLogic<
                 (fateItem.system.charges?.value ?? 0) - 1,
                 0,
             );
-            fateItem.update(updateData);
+            void fateItem.update(updateData);
         }
     }
 
@@ -423,7 +423,7 @@ export class SkillLogic<
             sdrIncr: this.sdrIncr,
         };
 
-        context.speaker.toChat(chatTemplate, chatTemplateData);
+        void context.speaker.toChat(chatTemplate, chatTemplateData);
     }
 
     /**

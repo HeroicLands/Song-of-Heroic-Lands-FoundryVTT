@@ -322,7 +322,7 @@ export abstract class SohlLogic<
                 const ctx = new SohlActionContext({
                     speaker: actor?.getSpeaker(),
                 } as any);
-                action.execute(ctx);
+                void action.execute(ctx);
             };
             entries.push(
                 new ContextMenuEntry({
