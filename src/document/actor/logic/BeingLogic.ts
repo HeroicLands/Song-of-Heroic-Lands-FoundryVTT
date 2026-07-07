@@ -231,7 +231,26 @@ export class BeingLogic<
             meleeAllowed: true,
         },
     ): StrikeModeBase[] {
-        return [];
+        return this.availableStrikeModes.filter((sm) => {
+            if (sm.attack?.disabled) return false;
+            if (sm.isMelee) {
+                if (!meleeAllowed) return false;
+                return (
+                    distanceToTarget <=
+                    ((sm as MeleeStrikeMode).reach?.effective ?? 0)
+                );
+            }
+            if (sm.isMissile) {
+                const missile = sm as MissileStrikeMode;
+                const inRange =
+                    distanceToTarget <= (missile.baseRange?.effective ?? 0);
+                if (!inRange) return false;
+                const canDirect = directAllowed;
+                const canVolley = volleyAllowed && missile.maxVolleyMult > 0;
+                return canDirect || canVolley;
+            }
+            return false;
+        });
     }
 
     /**
