@@ -184,6 +184,9 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
         existing?: DomainEntry;
     }): Promise<DomainEntry | null> {
         const existing = opts.existing;
+        const esc = (v: string | number | null | undefined) =>
+            foundry.utils.escapeHTML(String(v ?? ""));
+
         const familyOptions = DomainFamilies.map((f) => {
             const familyKey = Object.entries(DOMAIN_FAMILY).find(
                 ([, v]) => v === f,
@@ -207,14 +210,14 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
                         "SOHL.DomainEntry.shortcode.label",
                     )}</label>
                     <input type="text" name="shortcode"
-                        value="${existing?.shortcode ?? "world."}"
+                        value="${esc(existing?.shortcode ?? "world.")}"
                         ${opts.isNew ? "" : "readonly"} required />
                 </div>
                 <div class="form-group">
                     <label>${game.i18n.localize(
                         "SOHL.DomainEntry.label.label",
                     )}</label>
-                    <input type="text" name="label" value="${existing?.label ?? ""}" required />
+                    <input type="text" name="label" value="${esc(existing?.label)}" required />
                 </div>
                 <div class="form-group">
                     <label>${game.i18n.localize(
@@ -226,25 +229,25 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
                     <label>${game.i18n.localize(
                         "SOHL.DomainEntry.iconFAClass.label",
                     )}</label>
-                    <input type="text" name="iconFAClass" value="${existing?.iconFAClass ?? ""}" />
+                    <input type="text" name="iconFAClass" value="${esc(existing?.iconFAClass)}" />
                 </div>
                 <div class="form-group">
                     <label>${game.i18n.localize(
                         "SOHL.DomainEntry.img.label",
                     )}</label>
-                    <input type="text" name="img" value="${existing?.img ?? ""}" />
+                    <input type="text" name="img" value="${esc(existing?.img)}" />
                 </div>
                 <div class="form-group">
                     <label>${game.i18n.localize(
                         "SOHL.DomainEntry.sort.label",
                     )}</label>
-                    <input type="number" name="sort" value="${existing?.sort ?? 0}" />
+                    <input type="number" name="sort" value="${esc(existing?.sort ?? 0)}" />
                 </div>
                 <div class="form-group">
                     <label>${game.i18n.localize(
                         "SOHL.DomainEntry.description.label",
                     )}</label>
-                    <textarea name="description" rows="4">${existing?.description ?? ""}</textarea>
+                    <textarea name="description" rows="4">${esc(existing?.description)}</textarea>
                 </div>
             </form>
         `;
