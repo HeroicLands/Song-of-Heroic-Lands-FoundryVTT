@@ -347,6 +347,8 @@ export class SohlActor extends Actor {
      * artwork.
      * @param createData - The pending actor source data.
      * @param options - Document creation options.
+     * @param options.cloneActorUuid - When creating a duplicate, the UUID of
+     *   the source actor whose data and artwork are copied.
      * @param user - The user requesting creation.
      * @returns `false` to veto creation, otherwise `true`.
      */
@@ -669,7 +671,9 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
 
     /**
      * Register the actor sheet's render parts: `header`, `tabs`, and `facade`.
+     *
      * @param options - The render options to populate with the sheet parts.
+     * @param options.parts - Populated in place with the registered part ids.
      */
     protected override _configureRenderOptions(
         options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
