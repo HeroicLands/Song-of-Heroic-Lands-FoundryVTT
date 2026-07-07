@@ -183,10 +183,15 @@ export const CommonActorDataModels: ActorDMMap[keyof ActorDMMap][] =
  * per-kind logic instance type {@link ActorLogicByKind} can be derived from it.
  */
 export const ACTOR_LOGIC_DEF = {
+    /** Logic class for being (humanoid/creature) actors. */
     [ACTOR_KIND.BEING]: BeingLogic,
+    /** Logic class for assembly actors (composed of nested beings). */
     [ACTOR_KIND.ASSEMBLY]: AssemblyLogic,
+    /** Logic class for cohort actors (group of beings). */
     [ACTOR_KIND.COHORT]: CohortLogic,
+    /** Logic class for structure actors (buildings, fortifications). */
     [ACTOR_KIND.STRUCTURE]: StructureLogic,
+    /** Logic class for vehicle actors (wagons, ships, etc.). */
     [ACTOR_KIND.VEHICLE]: VehicleLogic,
 };
 
@@ -198,11 +203,18 @@ const _ensureActorLogicCoversAllKinds: Record<ActorKind, unknown> =
  * Actor-kind → concrete Logic *instance* type, derived from
  * {@link ACTOR_LOGIC_DEF} — e.g. `ActorLogicByKind["being"]` is `BeingLogic`.
  */
-export type ActorLogicByKind = {
-    [K in keyof typeof ACTOR_LOGIC_DEF]: InstanceType<
-        (typeof ACTOR_LOGIC_DEF)[K]
-    >;
-};
+export interface ActorLogicByKind {
+    /** Logic instance for being (humanoid/creature) actors. */
+    being: BeingLogic;
+    /** Logic instance for assembly actors (composed of nested beings). */
+    assembly: AssemblyLogic;
+    /** Logic instance for cohort actors (group of beings). */
+    cohort: CohortLogic;
+    /** Logic instance for structure actors (buildings, fortifications). */
+    structure: StructureLogic;
+    /** Logic instance for vehicle actors (wagons, ships, etc.). */
+    vehicle: VehicleLogic;
+}
 
 export const {
     /** The actor-kind → Logic-class registry map. */
@@ -295,21 +307,37 @@ export const CommonItemDataModels: ItemDMMap[keyof ItemDMMap][] = Object.values(
  * preserve string-keyed indexing by consumers such as `SohlDataModel.create`.
  */
 export const ITEM_LOGIC_DEF = {
+    /** Logic class for affiliation items (factions, organizations). */
     [ITEM_KIND.AFFILIATION]: AffiliationLogic,
+    /** Logic class for affliction items (disease, poison, injuries). */
     [ITEM_KIND.AFFLICTION]: AfflictionLogic,
+    /** Logic class for armor gear items. */
     [ITEM_KIND.ARMORGEAR]: ArmorGearLogic,
+    /** Logic class for attribute items (strength, agility, etc.). */
     [ITEM_KIND.ATTRIBUTE]: AttributeLogic,
+    /** Logic class for combat technique items (fighting styles). */
     [ITEM_KIND.COMBATTECHNIQUE]: CombatTechniqueLogic,
+    /** Logic class for concoction gear items (potions, poisons). */
     [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearLogic,
+    /** Logic class for container gear items (bags, chests). */
     [ITEM_KIND.CONTAINERGEAR]: ContainerGearLogic,
+    /** Logic class for lineage items (ancestry, bloodlines). */
     [ITEM_KIND.LINEAGE]: LineageLogic,
+    /** Logic class for trauma items (wounds, injuries). */
     [ITEM_KIND.TRAUMA]: TraumaLogic,
+    /** Logic class for miscellaneous gear items. */
     [ITEM_KIND.MISCGEAR]: MiscGearLogic,
+    /** Logic class for mystery items (magic schools, arcane traditions). */
     [ITEM_KIND.MYSTERY]: MysteryLogic,
+    /** Logic class for mystical ability items (spells, powers). */
     [ITEM_KIND.MYSTICALABILITY]: MysticalAbilityLogic,
+    /** Logic class for projectile gear items (arrows, bolts). */
     [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearLogic,
+    /** Logic class for skill items (combat, crafting, social, etc.). */
     [ITEM_KIND.SKILL]: SkillLogic,
+    /** Logic class for trait items (personality traits, advantages). */
     [ITEM_KIND.TRAIT]: TraitLogic,
+    /** Logic class for weapon gear items. */
     [ITEM_KIND.WEAPONGEAR]: WeaponGearLogic,
 };
 
@@ -327,11 +355,85 @@ const _ensureItemLogicCoversAllKinds: Record<ItemKind, unknown> =
  * `SohlActor.getItemLogic` to return a concrete logic type from the item kind
  * passed at the call site.
  */
-export type ItemLogicByKind = {
-    [K in keyof typeof ITEM_LOGIC_DEF]: InstanceType<
-        (typeof ITEM_LOGIC_DEF)[K]
-    >;
-};
+export interface ItemLogicByKind {
+    /** Logic instance for affiliation items (factions, organizations). */
+    affiliation: AffiliationLogic;
+    /** Logic instance for affliction items (disease, poison, injuries). */
+    affliction: AfflictionLogic;
+    /** Logic instance for armor gear items. */
+    armorgear: ArmorGearLogic;
+    /** Logic instance for attribute items (strength, agility, etc.). */
+    attribute: AttributeLogic;
+    /** Logic instance for combat technique items (fighting styles). */
+    combattechnique: CombatTechniqueLogic;
+    /** Logic instance for concoction gear items (potions, poisons). */
+    concoctiongear: ConcoctionGearLogic;
+    /** Logic instance for container gear items (bags, chests). */
+    containergear: ContainerGearLogic;
+    /** Logic instance for lineage items (ancestry, bloodlines). */
+    lineage: LineageLogic;
+    /** Logic instance for trauma items (wounds, injuries). */
+    trauma: TraumaLogic;
+    /** Logic instance for miscellaneous gear items. */
+    miscgear: MiscGearLogic;
+    /** Logic instance for mystery items (magic schools, arcane traditions). */
+    mystery: MysteryLogic;
+    /** Logic instance for mystical ability items (spells, powers). */
+    mysticalability: MysticalAbilityLogic;
+    /** Logic instance for projectile gear items (arrows, bolts). */
+    projectilegear: ProjectileGearLogic;
+    /** Logic instance for skill items (combat, crafting, social, etc.). */
+    skill: SkillLogic;
+    /** Logic instance for trait items (personality traits, advantages). */
+    trait: TraitLogic;
+    /** Logic instance for weapon gear items. */
+    weapongear: WeaponGearLogic;
+}
+
+/**
+ * Per-kind arrays of logic instances — the shape returned by the
+ * {@link SohlActorLogic.logicTypes} getter. Each property holds every embedded
+ * item of that kind on the actor, in document order.
+ *
+ * @example
+ * ```ts
+ * const skills = actor.logic.logicTypes.skill; // SkillLogic[]
+ * ```
+ */
+export interface ItemLogicArrayByKind {
+    /** All affiliation logic instances on this actor. */
+    affiliation: AffiliationLogic[];
+    /** All affliction logic instances on this actor. */
+    affliction: AfflictionLogic[];
+    /** All armor gear logic instances on this actor. */
+    armorgear: ArmorGearLogic[];
+    /** All attribute logic instances on this actor. */
+    attribute: AttributeLogic[];
+    /** All combat technique logic instances on this actor. */
+    combattechnique: CombatTechniqueLogic[];
+    /** All concoction gear logic instances on this actor. */
+    concoctiongear: ConcoctionGearLogic[];
+    /** All container gear logic instances on this actor. */
+    containergear: ContainerGearLogic[];
+    /** All lineage logic instances on this actor. */
+    lineage: LineageLogic[];
+    /** All trauma logic instances on this actor. */
+    trauma: TraumaLogic[];
+    /** All miscellaneous gear logic instances on this actor. */
+    miscgear: MiscGearLogic[];
+    /** All mystery logic instances on this actor. */
+    mystery: MysteryLogic[];
+    /** All mystical ability logic instances on this actor. */
+    mysticalability: MysticalAbilityLogic[];
+    /** All projectile gear logic instances on this actor. */
+    projectilegear: ProjectileGearLogic[];
+    /** All skill logic instances on this actor. */
+    skill: SkillLogic[];
+    /** All trait logic instances on this actor. */
+    trait: TraitLogic[];
+    /** All weapon gear logic instances on this actor. */
+    weapongear: WeaponGearLogic[];
+}
 
 export const {
     /** The item-kind → Logic-class registry map. */

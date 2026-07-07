@@ -84,10 +84,12 @@ export class SohlSpeaker {
      * @param data - Speaker source data.
      * @param data.rollMode - The roll mode to use.
      * @param data.user - The user ID.
-     * @param data.token - The token ID.
-     * @param data.actor - The actor ID.
+     * @param data.token - The token ID; requires an initialized canvas.
+     * @param data.actor - The actor ID; used only when no token is provided.
      * @param data.scene - The scene ID.
-     * @param data.alias - The alias to use.
+     * @param data.alias - The explicit display name, overriding all resolved names.
+     * @throws {Error} If `data.token` is set but the Foundry canvas is not yet
+     *   initialized.
      */
     constructor(data: Partial<SohlSpeaker.Data> = {}) {
         this.rollMode =
@@ -168,8 +170,10 @@ export class SohlSpeaker {
      * content. The speaker's roll mode is applied automatically.
      *
      * @param input - A template path or inline HTML content.
-     * @param data - Render data / message data.
-     * @param options - Chat options (flavor, sound, rolls, style, user).
+     * @param data - Template context data — forwarded to the template or
+     *   content renderer without property access.
+     * @param options - Chat options; see {@link SohlSpeaker.ChatOptions} for
+     *   supported fields.
      * @returns The created `ChatMessage`, or `undefined` if none was created.
      */
     toChat(
@@ -185,10 +189,12 @@ export class SohlSpeaker {
     }
 
     /**
-     * Sends a chat message using a template.
-     * @param template The template to use.
-     * @param data The data for the message.
-     * @param options The options for the message.
+     * Sends a chat message using a Handlebars template.
+     *
+     * @param template - Path to the Handlebars template to render.
+     * @param data - Template render context — forwarded to the renderer
+     *   without property access.
+     * @param options - Chat options; see {@link SohlSpeaker.ChatOptions}.
      * @returns The created `ChatMessage`, or `undefined` if none was created.
      */
     protected async _toChatWithTemplate(
@@ -209,10 +215,12 @@ export class SohlSpeaker {
     }
 
     /**
-     * Sends a chat message with content.
-     * @param content The HTML content of the message.
-     * @param data The data for the message.
-     * @param options The options for the message.
+     * Sends a chat message with inline HTML content.
+     *
+     * @param content - The HTML content of the message.
+     * @param data - Template context data — forwarded to the renderer
+     *   without property access.
+     * @param options - Chat options; see {@link SohlSpeaker.ChatOptions}.
      * @returns The created `ChatMessage`, or `undefined` if none was created.
      */
     protected async _toChatWithContent(
@@ -234,10 +242,18 @@ export class SohlSpeaker {
     }
 
     /**
-     * Prepares chat message data.
-     * @param data - The data for the message.
-     * @param options - The options for the message.
-     * @returns The prepared message data.
+     * Assembles the raw `ChatMessage` data object that Foundry will persist.
+     *
+     * Spreads `data` into the message payload, then applies speaker attribution,
+     * optional rolls, and the active roll mode.
+     *
+     * @param data - Template context data spread into the message payload.
+     * @param options - Chat-message configuration.
+     * @param options.user - Id of the user posting the message.
+     * @param options.rolls - {@link SimpleRoll} instances to attach to the
+     *   message; each is converted to a Foundry Roll before being added.
+     * @param options.rollMode - Visibility mode applied to the message.
+     * @returns The assembled message data ready for `ChatMessage.create`.
      */
     protected async _prepareChat(
         data: PlainObject = {},

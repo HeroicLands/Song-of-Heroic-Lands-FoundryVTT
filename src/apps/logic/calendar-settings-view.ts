@@ -44,6 +44,14 @@ export interface ImportedCalendarRow {
     label: string;
 }
 
+/** View-model returned by {@link buildCalendarViewModel}. */
+export interface CalendarViewModel {
+    /** All calendars as dropdown rows, with the active one flagged. */
+    calendars: CalendarRow[];
+    /** Non-builtin calendars that can be deleted via the settings UI. */
+    imported: ImportedCalendarRow[];
+}
+
 /**
  * Build the calendar settings view model in a single pass: every calendar as a
  * dropdown row (with the active one flagged), and the non-builtin calendars as
@@ -58,7 +66,7 @@ export function buildCalendarViewModel(
     calendars: Iterable<[string, CalendarRegEntry]>,
     activeId: string,
     localize: (key: string) => string,
-): { calendars: CalendarRow[]; imported: ImportedCalendarRow[] } {
+): CalendarViewModel {
     const rows: CalendarRow[] = [];
     const imported: ImportedCalendarRow[] = [];
     for (const [id, reg] of calendars) {

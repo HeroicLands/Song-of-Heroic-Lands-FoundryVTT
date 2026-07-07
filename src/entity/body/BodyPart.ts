@@ -206,6 +206,7 @@ export namespace BodyPart {
         locations: BodyLocation.Data[];
     }
 
+    /** Construction options for a {@link BodyPart} instance. */
     export interface Options extends SohlEntity.Options {
         /** Owning body structure (supplies actor and lineage logic). */
         bodyStructure: BodyStructure;

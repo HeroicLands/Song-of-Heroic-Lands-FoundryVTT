@@ -258,6 +258,7 @@ export class SohlArray<T> {
      *
      * @param index - The index in the array to replace.
      * @param value - The new value to assign to the index.
+     * @throws {RangeError} If `index` exceeds the current array length.
      *
      * @example
      * const arr = new SohlArray<ValueModifier>();
