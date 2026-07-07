@@ -21,6 +21,8 @@ import {
     TRAUMA_SUBTYPE,
     TraumaSubType,
     TraumaSubTypes,
+    TraumaSubTypeChoices,
+    ImpactAspectChoices,
 } from "@src/utils/constants";
 const { NumberField, BooleanField, StringField } = foundry.data.fields;
 
@@ -35,7 +37,7 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         ...SohlItemDataModel.defineSchema(),
         subType: new StringField({
             initial: TRAUMA_SUBTYPE.PHYSICAL,
-            choices: TraumaSubTypes,
+            choices: TraumaSubTypeChoices,
         }),
         levelBase: new NumberField({
             integer: true,
@@ -49,7 +51,7 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         }),
         aspect: new StringField({
             initial: IMPACT_ASPECT.BLUNT,
-            choices: ImpactAspects,
+            choices: ImpactAspectChoices,
         }),
         isTreated: new BooleanField({ initial: false }),
         isBleeding: new BooleanField({ initial: false }),

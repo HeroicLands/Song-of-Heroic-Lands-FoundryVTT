@@ -24,6 +24,7 @@ import {
     PROJECTILEGEAR_SUBTYPE,
     ProjectileGearSubType,
     ProjectileGearSubTypes,
+    ProjectileGearSubTypeChoices,
 } from "@src/utils/constants";
 const { NumberField, StringField, SchemaField, BooleanField } =
     foundry.data.fields;
@@ -37,7 +38,7 @@ function defineProjectileGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
         subType: new StringField({
-            choices: ProjectileGearSubTypes,
+            choices: ProjectileGearSubTypeChoices,
             required: true,
             initial: PROJECTILEGEAR_SUBTYPE.NONE,
         }),
