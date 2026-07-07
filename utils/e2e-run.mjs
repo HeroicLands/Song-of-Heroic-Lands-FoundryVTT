@@ -141,10 +141,16 @@ async function main() {
         console.log(
             `World active at http://localhost:${port}. Running Cypress (${mode}) …`,
         );
+        // Strip ELECTRON_RUN_AS_NODE from the child env: some IDE-integrated
+        // terminals (notably VS Code) export it, which makes Cypress's bundled
+        // Electron launch as plain Node and reject its own flags ("bad option:
+        // --no-sandbox"), surfacing as a cryptic MODULE_NOT_FOUND. Cypress must
+        // run its real Electron binary.
+        const { ELECTRON_RUN_AS_NODE, ...cypressEnv } = process.env;
         const cy = spawnSync(npx, ["cypress", mode], {
             stdio: "inherit",
             cwd: repoRoot,
-            env: process.env,
+            env: cypressEnv,
         });
         cypressStatus = cy.status ?? 1;
     } finally {

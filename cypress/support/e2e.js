@@ -13,3 +13,30 @@
 
 // Loaded before every spec. Registers custom commands (e.g. cy.login()).
 import "./commands.js";
+import "./commands/documents.js";
+import "./commands/import.js";
+import "./logic.js";
+import "./commands/sheets.js";
+import "./commands/scene.js";
+import "./commands/combat.js";
+
+/**
+ * Ignore known-benign async exceptions thrown by Foundry CORE (foundry.mjs) that
+ * originate from UI rendering in the headless test browser (no canvas/viewport),
+ * not from system behavior under test. Kept to an explicit allowlist of exact
+ * messages so any other uncaught error still fails the spec.
+ *
+ * - CombatTracker._onRender: "Cannot use 'in' operator to search for 'turn' in
+ *   undefined" — the sidebar combat tracker re-renders on combat changes but has
+ *   no active viewport in headless runs. Unrelated to combat data/logic.
+ */
+const IGNORED_APP_ERRORS = [
+    /Cannot use 'in' operator to search for 'turn' in undefined/,
+];
+
+Cypress.on("uncaught:exception", (err) => {
+    if (IGNORED_APP_ERRORS.some((re) => re.test(err?.message ?? ""))) {
+        return false; // do not fail the test
+    }
+    return true;
+});
