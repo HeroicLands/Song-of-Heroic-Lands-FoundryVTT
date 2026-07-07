@@ -805,7 +805,8 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     ): void {
         if (!content) return;
 
-        const rows = content.querySelectorAll<HTMLElement>(".item");
+        const rows =
+            content.querySelectorAll<HTMLElement>("[data-search-name]");
 
         if (!query.trim()) {
             rows.forEach((el) => el.classList.remove("hidden"));
@@ -818,7 +819,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
             });
             rows.forEach((el) => {
                 const name = sohl.i18n.normalizeText(
-                    (el.dataset.itemName ?? "").trim(),
+                    (el.dataset.searchName ?? "").trim(),
                     {
                         caseInsensitive: true,
                         ascii: true,
