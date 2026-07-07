@@ -210,3 +210,77 @@ src/domain/body/BodyStructure.ts  →  tests/domain/body/BodyStructure.test.ts
 src/domain/modifier/ValueModifier.ts  →  tests/domain/modifier/ValueModifier.test.ts
 src/document/item/logic/SkillLogic.ts  →  tests/item/Skill.test.ts
 ```
+
+## Browser end-to-end tests (Cypress)
+
+The vitest suites above cover the Foundry-free logic layer. To exercise the
+_running_ system in a real Foundry instance — sheets, hooks, the full client —
+there is a Cypress harness that seeds a throwaway world, serves it in Docker,
+logs in as a GM, and drives the browser.
+
+```bash
+npm run test:e2e        # headless: seed → serve → cypress run → tear down
+npm run test:e2e:open   # interactive: seed → serve → cypress open (leaves it up)
+```
+
+Both assume you have already built (`npm run build`). The harness is fully
+isolated from your dev/qa worlds:
+
+| Piece                             | Role                                                                                                                              |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `FOUNDRYVTT_TEST_DATA`            | A **fresh, empty** data root for tests (set in `.env.local`).                                                                     |
+| `utils/seed-test-world.mjs`       | Writes `Data/worlds/sohl-e2e/` — `world.json` + a `users` LevelDB with a GM whose password is known. Idempotent (wiped each run). |
+| `container:test` (port 30003)     | Runs the seeded world with `FOUNDRY_WORLD=sohl-e2e` (the `test` stage of the container script).                                   |
+| `utils/e2e-run.mjs`               | Recreates the container, waits for the world to **activate**, runs Cypress, tears down.                                           |
+| `cypress/` + `cypress.config.mjs` | `cy.login()` authenticates via `/join` with the seeded GM; `cypress/e2e/smoke.cy.js` asserts the world + `sohl` system loaded.    |
+
+Override the seed via `.env.local` (`SOHL_E2E_WORLD_ID`, `SOHL_E2E_GM_NAME`,
+`SOHL_E2E_GM_PASSWORD`, …); `cypress.config.mjs` reads the same values so
+`cy.login()` stays in sync — a spec just calls `cy.login()`.
+
+🔧 **Foundry license (required).** The `test` container needs its own Foundry
+license. A license signed for one installation does **not** transfer to another
+(a copied `license.json` won't verify), and each license is **single-seat** (one
+running instance at a time). So **dedicate a spare license to the test stage** —
+then `dev` and `test` can run at once with no churn:
+
+```bash
+# .env.local
+FOUNDRYVTT_TEST_DATA=/Users/you/Games/fvtt/data-e2e   # separate, EMPTY dir
+FOUNDRYVTT_TEST_LICENSE_KEY=XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX  # different key than dev
+FOUNDRY_USERNAME=your-foundry-account     # account-wide; lets felddy SIGN the key
+FOUNDRY_PASSWORD=your-foundry-password    # (a bare key stays unsigned)
+```
+
+`FOUNDRYVTT_<STAGE>_LICENSE_KEY` overrides the license for that stage's
+container. A bare key is _applied but unsigned_ ("license requires signature");
+`FOUNDRY_USERNAME`/`FOUNDRY_PASSWORD` (account-wide) let felddy fetch a **signed**
+license — or sign once in a browser at `http://localhost:30003/setup`. Foundry
+binds the signed license to the **container hostname**, so the container script
+pins a stable one (`sohl-foundry-<stage>`); the signed `license.json` then
+persists across recreates (the seed wipes only the world, not `Config`). Without
+that pin Foundry would revert to "requires signature" on every run.
+
+`FOUNDRYVTT_TEST_DATA` must be a **separate, empty** dir — not your dev/qa root.
+If it points at a dir with an existing `Config/license.json`, felddy reuses that
+file and ignores the key (the seed also errors out on this to prevent
+world/license clobbering).
+
+If instead you **share** one license, stop your `dev`/`qa` container before the
+run (single-seat); the harness warns when another `sohl-foundry-*` container is
+up. See
+[Build & Deployment §6 — running a build in a container](build-and-deployment.md#6-deploying-to-a-foundry-instance)
+for the container details and download cache.
+
+Writing specs: build on `cy.login()` (defined in `cypress/support/commands.js`),
+which logs in as the GM and waits for `game.ready`, then drive the world through
+`cy.window().its("game")`. Cypress run artifacts (`cypress/videos`,
+`cypress/screenshots`) are gitignored; the config, support, and specs are
+committed.
+
+🔧 **Cypress version matters.** Foundry v14's client uses ES2024 `Set`
+methods (`Set.prototype.difference`), so Cypress must bundle **Chromium ≥ 122**
+— otherwise the app throws `.difference is not a function` on load and every
+spec fails. Cypress 15 (Electron 37 / Chromium 138) is fine; do not downgrade
+below the pinned major. If specs suddenly fail with a `foundry.mjs`
+`<static_initializer>` error, suspect an out-of-date bundled browser first.
