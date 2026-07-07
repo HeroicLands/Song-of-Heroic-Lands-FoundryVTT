@@ -30,10 +30,6 @@ import {
     getStatic,
 } from "@src/utils/helpers";
 import { fvttResolveUuid } from "@src/core/FoundryHelpers";
-import {
-    registerFunc,
-    _clearFuncRegistryForTests,
-} from "@src/utils/funcRegistry";
 
 describe("romanize", () => {
     it("converts 1 to I", () => {
@@ -761,48 +757,10 @@ describe("defaultFromJSON — ClientDocument revival via registered resolver", (
     });
 });
 
-describe("defaultToJSON / defaultFromJSON — funcref", () => {
-    beforeEach(() => {
-        _clearFuncRegistryForTests();
-    });
-
-    it("serializes a registered function to its __funcref__ id", () => {
-        const fn = (n: number) => n + 1;
-        registerFunc("test.increment", fn);
-        expect(defaultToJSON(fn)).toBe("__funcref__:test.increment");
-    });
-
-    it("revives a __funcref__ id back to the identical function", () => {
-        const fn = (n: number) => n + 1;
-        registerFunc("test.increment", fn);
-        const restored = defaultFromJSON(defaultToJSON(fn));
-        expect(restored).toBe(fn);
-        expect((restored as (n: number) => number)(41)).toBe(42);
-    });
-
-    it("round-trips a registered function nested in an object and array", () => {
-        const fn = () => "hi";
-        registerFunc("test.greet", fn);
-        const serialized = defaultToJSON({ cb: fn, list: [fn] });
-        // JSON-safe: survives an actual stringify/parse boundary
-        const revived = defaultFromJSON(
-            JSON.parse(JSON.stringify(serialized)),
-        ) as { cb: unknown; list: unknown[] };
-        expect(revived.cb).toBe(fn);
-        expect(revived.list[0]).toBe(fn);
-    });
-
-    it("still drops an UNregistered function to undefined (unchanged behavior)", () => {
+describe("defaultToJSON / defaultFromJSON — functions are dropped", () => {
+    it("drops a function (no source, no reference)", () => {
         expect(defaultToJSON(() => {})).toBeUndefined();
         expect(defaultToJSON({ cb: () => {}, keep: 1 })).toEqual({ keep: 1 });
-    });
-
-    it("revives an unknown __funcref__ id to undefined without throwing", () => {
-        expect(defaultFromJSON("__funcref__:no.such.func")).toBeUndefined();
-    });
-
-    it("revives a bare __funcref__: (empty id) to undefined", () => {
-        expect(defaultFromJSON("__funcref__:")).toBeUndefined();
     });
 });
 
@@ -852,78 +810,12 @@ describe("buildActionScope — rejects legacy code payloads", () => {
     });
 });
 
-describe("defaultToJSON / defaultFromJSON — funcref adversarial", () => {
-    beforeEach(() => {
-        _clearFuncRegistryForTests();
-    });
-
-    it("NEVER emits executable source — output is a funcref tag or dropped", () => {
-        // A registered function serializes only to its reference tag; the tag
-        // must not contain the function body.
-        const fn = () => {
-            return "secret-body-marker";
-        };
-        registerFunc("test.marker", fn);
-        const out = defaultToJSON(fn);
-        expect(out).toBe("__funcref__:test.marker");
-        expect(String(out)).not.toContain("secret-body-marker");
-        expect(String(out)).not.toContain("=>");
-        expect(String(out)).not.toContain("function");
-    });
-
-    it("does not compile a __funcref__ payload — an unknown id never yields a function", () => {
-        const revived = defaultFromJSON(
-            "__funcref__:[]return globalThis.EVIL=1",
-        );
+describe("defaultFromJSON — a legacy __funcref__ string is inert data", () => {
+    it("returns an unknown __funcref__ string verbatim (never a function)", () => {
+        // The registry is gone; there is no funcref revival. Such a string is
+        // just data now.
+        const revived = defaultFromJSON("__funcref__:whatever");
         expect(typeof revived).not.toBe("function");
-        expect(revived).toBeUndefined();
-        expect((globalThis as Record<string, unknown>).EVIL).toBeUndefined();
-    });
-
-    it("resists hostile prototype-chain ids in a __funcref__ payload", () => {
-        for (const id of [
-            "__proto__",
-            "constructor",
-            "prototype",
-            "toString",
-        ]) {
-            expect(defaultFromJSON(`__funcref__:${id}`)).toBeUndefined();
-        }
-    });
-
-    it("only SELECTS an already-registered function, never introduces one", () => {
-        const allowed = () => "allowed";
-        registerFunc("test.allowed", allowed);
-        // Attacker-supplied scope can reference the registered id (selection)…
-        expect(defaultFromJSON("__funcref__:test.allowed")).toBe(allowed);
-        // …but any id the system did not register resolves to nothing.
-        expect(defaultFromJSON("__funcref__:test.attacker")).toBeUndefined();
-    });
-
-    it("resolves an unknown __funcref__ id to undefined without throwing", () => {
-        expect(() =>
-            defaultFromJSON("__funcref__:definitely-not-registered"),
-        ).not.toThrow();
-        expect(
-            defaultFromJSON("__funcref__:definitely-not-registered"),
-        ).toBeUndefined();
-    });
-
-    it("bounds and de-control-chars the unknown-id warning (no log flood/injection)", () => {
-        const warn = vi
-            .spyOn(console, "warn")
-            .mockImplementation(() => undefined);
-        try {
-            const hostileId = "a".repeat(500) + "\n[fake] injected line";
-            expect(defaultFromJSON(`__funcref__:${hostileId}`)).toBeUndefined();
-            expect(warn).toHaveBeenCalledTimes(1);
-            const logged = String(warn.mock.calls[0][0]);
-            expect(logged).not.toContain("\n");
-            // The interpolated id portion is capped (64 chars), so the crafted
-            // 500-char payload cannot bloat the log line.
-            expect(logged).not.toContain("a".repeat(65));
-        } finally {
-            warn.mockRestore();
-        }
+        expect(revived).toBe("__funcref__:whatever");
     });
 });
