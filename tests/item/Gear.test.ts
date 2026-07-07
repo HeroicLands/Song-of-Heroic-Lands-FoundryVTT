@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { MiscGearLogic } from "@src/document/item/logic/MiscGearLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { ITEM_KIND } from "@src/utils/constants";
@@ -136,6 +136,136 @@ describe("GearLogic (via MiscGearLogic)", () => {
             await logic.setNotCarried({} as any);
             expect(logic.item.update).toHaveBeenCalledWith({
                 "system.isCarried": false,
+            });
+        });
+
+        describe("setEquipped / setNotEquipped (#179)", () => {
+            it("setEquipped writes system.isEquipped: true", async () => {
+                const logic = makeGear({ isEquipped: false });
+                await logic.setEquipped({} as any);
+                expect(logic.item.update).toHaveBeenCalledWith({
+                    "system.isEquipped": true,
+                });
+            });
+
+            it("setNotEquipped writes system.isEquipped: false", async () => {
+                const logic = makeGear({ isEquipped: true });
+                await logic.setNotEquipped({} as any);
+                expect(logic.item.update).toHaveBeenCalledWith({
+                    "system.isEquipped": false,
+                });
+            });
+
+            it("defineIntrinsicActions includes setEquipped and setNotEquipped", () => {
+                const logic = makeGear();
+                expect(logic.actions.has("setEquipped")).toBe(true);
+                expect(logic.actions.has("setNotEquipped")).toBe(true);
+            });
+        });
+
+        describe("holdItem / releaseItem (#179)", () => {
+            function makeGearWithParts(
+                partDefs: Array<{
+                    canHoldItem: boolean;
+                    heldItemId: string | null;
+                }> = [],
+            ) {
+                const actor = makeMockActor();
+                const lineageUpdate = vi.fn(async (d: any) => d);
+                const gearId = "item0000000mock";
+                const parts = partDefs.map((p, i) => ({
+                    canHoldItem: p.canHoldItem,
+                    heldItem: p.heldItemId ? { id: p.heldItemId } : undefined,
+                    index: i,
+                }));
+                const mockLineageLogic = {
+                    bodyStructure: { parts },
+                    data: { update: lineageUpdate },
+                };
+                actor.logic = {
+                    logicTypes: { [ITEM_KIND.LINEAGE]: [mockLineageLogic] },
+                };
+                const logic = makeGear({}, { actor, id: gearId });
+                logic.initialize();
+                return { logic, lineageUpdate, gearId };
+            }
+
+            it("holdItem assigns the first free canHoldItem part", async () => {
+                const { logic, lineageUpdate, gearId } = makeGearWithParts([
+                    { canHoldItem: true, heldItemId: null },
+                    { canHoldItem: true, heldItemId: null },
+                ]);
+                await logic.holdItem({} as any);
+                expect(lineageUpdate).toHaveBeenCalledWith({
+                    "system.bodyStructure.parts.0.heldItemId": gearId,
+                });
+            });
+
+            it("holdItem skips parts where canHoldItem is false", async () => {
+                const { logic, lineageUpdate, gearId } = makeGearWithParts([
+                    { canHoldItem: false, heldItemId: null },
+                    { canHoldItem: true, heldItemId: null },
+                ]);
+                await logic.holdItem({} as any);
+                expect(lineageUpdate).toHaveBeenCalledWith({
+                    "system.bodyStructure.parts.1.heldItemId": gearId,
+                });
+            });
+
+            it("holdItem does nothing when no free parts exist", async () => {
+                const { lineageUpdate } = makeGearWithParts([
+                    { canHoldItem: true, heldItemId: "other-item-000" },
+                ]);
+                const logic = makeGearWithParts([
+                    { canHoldItem: true, heldItemId: "other-item-000" },
+                ]).logic;
+                await logic.holdItem({} as any);
+                expect(lineageUpdate).not.toHaveBeenCalled();
+            });
+
+            it("holdItem does nothing when actor has no lineage", async () => {
+                const actor = makeMockActor();
+                actor.logic = { logicTypes: {} };
+                const logic = makeGear({}, { actor });
+                logic.initialize();
+                await logic.holdItem({} as any);
+                expect(logic.item.update).not.toHaveBeenCalled();
+            });
+
+            it("releaseItem clears heldItemId on all parts holding this gear", async () => {
+                const ownId = "item0000000mock";
+                const { logic, lineageUpdate } = makeGearWithParts([
+                    { canHoldItem: true, heldItemId: ownId },
+                    { canHoldItem: true, heldItemId: ownId },
+                ]);
+                await logic.releaseItem({} as any);
+                expect(lineageUpdate).toHaveBeenCalledWith({
+                    "system.bodyStructure.parts.0.heldItemId": null,
+                    "system.bodyStructure.parts.1.heldItemId": null,
+                });
+            });
+
+            it("releaseItem does nothing when no parts hold this item", async () => {
+                const { logic, lineageUpdate } = makeGearWithParts([
+                    { canHoldItem: true, heldItemId: null },
+                ]);
+                await logic.releaseItem({} as any);
+                expect(lineageUpdate).not.toHaveBeenCalled();
+            });
+
+            it("releaseItem does nothing when actor has no lineage", async () => {
+                const actor = makeMockActor();
+                actor.logic = { logicTypes: {} };
+                const logic = makeGear({}, { actor });
+                logic.initialize();
+                await logic.releaseItem({} as any);
+                expect(logic.item.update).not.toHaveBeenCalled();
+            });
+
+            it("defineIntrinsicActions includes holdItem and releaseItem", () => {
+                const logic = makeGear();
+                expect(logic.actions.has("holdItem")).toBe(true);
+                expect(logic.actions.has("releaseItem")).toBe(true);
             });
         });
     });
