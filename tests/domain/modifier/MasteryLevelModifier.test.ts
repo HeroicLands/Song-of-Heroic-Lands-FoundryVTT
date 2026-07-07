@@ -2,7 +2,9 @@ import {
     MasteryLevelModifier,
     getStandardSuccessValueTable,
 } from "@src/entity/modifier/MasteryLevelModifier";
-import { vi, afterEach } from "vitest";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { defaultToJSON, defaultFromJSON } from "@src/utils/helpers";
 import { BRAND } from "@src/utils/constants";
 
@@ -108,6 +110,60 @@ describe("MasteryLevelModifier", () => {
     describe("inherited ValueModifier behavior", () => {
         it.todo("add, multiply, set, floor, ceiling still work correctly");
         it.todo("effective value calculation includes base and deltas");
+    });
+
+    describe("successValueTest (#78)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        function makeContext(): SohlActionContext {
+            return new SohlActionContext({
+                speaker: new SohlSpeaker({ alias: "Tester" }),
+            });
+        }
+
+        function makeML(): MasteryLevelModifier {
+            return new MasteryLevelModifier({ baseValue: 50 } as any, {
+                parent,
+            });
+        }
+
+        it("calls successTest with the svTestContext (svTable in scope), not the original context", async () => {
+            const ml = makeML();
+            const spy = vi
+                .spyOn(ml, "successTest")
+                .mockResolvedValue(undefined);
+            const original = makeContext();
+            await ml.successValueTest(original);
+            expect(spy).toHaveBeenCalledTimes(1);
+            const calledCtx = spy.mock.calls[0][0];
+            // Must pass a different context object (svTestContext), not original
+            expect(calledCtx).not.toBe(original);
+            // The scope must reference the sv-specific table
+            expect(calledCtx.scope?.successStarTable).toBe(ml.svTable);
+        });
+
+        it("svTestContext.scope.targetValueFunc applies index-offset to the success level", async () => {
+            // baseValue=50 → index=5; targetValueFunc(sl) = index + sl - 1
+            const ml = makeML();
+            const spy = vi
+                .spyOn(ml, "successTest")
+                .mockResolvedValue(undefined);
+            await ml.successValueTest(makeContext());
+            const calledCtx = spy.mock.calls[0][0];
+            const fn = calledCtx.scope?.targetValueFunc as (
+                sl: number,
+            ) => number;
+            // index(5) + successLevel(2) - 1 = 6
+            expect(fn(2)).toBe(6);
+        });
+
+        it("returns undefined/false when successTest returns undefined/false", async () => {
+            const ml = makeML();
+            vi.spyOn(ml, "successTest").mockResolvedValue(false);
+            expect(await ml.successValueTest(makeContext())).toBe(false);
+            vi.spyOn(ml, "successTest").mockResolvedValue(undefined);
+            expect(await ml.successValueTest(makeContext())).toBeUndefined();
+        });
     });
 });
 
