@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { StrikeModeBase } from "../strikemode/StrikeModeBase";
+import { StrikeModeBase } from "../strikemode/StrikeModeBase";
 import type { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { registerKind } from "@src/utils/kindRegistry";
 import {
@@ -47,7 +47,14 @@ import { fvttLogicFromUuidSync } from "@src/core/FoundryHelpers";
 export class AttackResult extends SuccessTestResult {
     combatant: SohlCombatantLogic;
 
-    mode: StrikeModeBase.PointerData;
+    /**
+     * The live strike mode for this attack (pointer-on-wire, live-in-memory).
+     * `undefined` when the weapon is not present on the current client (e.g.
+     * the defending client during cross-client combat resolution).
+     */
+    mode: StrikeModeBase | undefined;
+
+    private readonly _modePointer: StrikeModeBase.PointerData;
 
     /**
      * The impact (damage) **formula/capability** for this attack, e.g. 2d6+5
@@ -101,7 +108,8 @@ export class AttackResult extends SuccessTestResult {
             );
         }
         this.impact = data.impact ?? new ImpactModifier();
-        this.mode = data.mode;
+        this._modePointer = data.mode;
+        this.mode = StrikeModeBase.fromPointerData(data.mode);
         this.label = data.label ?? "Attack";
         const combatant = fvttLogicFromUuidSync<SohlCombatantLogic>(
             data.combatantUuid,
@@ -137,7 +145,7 @@ export class AttackResult extends SuccessTestResult {
         return {
             ...super.toJSON(),
             combatantUuid: this.combatant.uuid,
-            mode: this.mode,
+            mode: this._modePointer,
             impact: this.impact.toJSON(),
             label: this.label,
         };
