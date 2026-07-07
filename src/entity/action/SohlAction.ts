@@ -21,8 +21,7 @@ import {
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
-import { textToFunction } from "@src/utils/helpers";
-import { fvttCurrentUser } from "@src/core/FoundryHelpers";
+import { fvttCurrentUser, fvttExecuteMacro } from "@src/core/FoundryHelpers";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import {
     resolveContextActor,
@@ -102,10 +101,12 @@ export class SohlAction extends SohlEntity {
     data: SohlAction.Data;
 
     /**
-     * The callable that performs the action. For Intrinsic actions, the
-     * named method on the scoped target logic, bound to that target; for
-     * Script actions, the compiled executor source. A no-op resolving to
-     * `undefined` when no executor is defined. See {@link ActionExecutorFn}.
+     * The callable that performs the action. For Intrinsic actions, the named
+     * method on the scoped target logic, bound to that target; for Script
+     * actions, a thunk that runs the referenced Foundry Macro via
+     * `Macro#execute` (permission-gated; no code is compiled from data). A
+     * no-op resolving to `undefined` when no executor is defined. See
+     * {@link ActionExecutorFn}.
      */
     executor: ActionExecutorFn;
     /**
@@ -145,9 +146,10 @@ export class SohlAction extends SohlEntity {
      * The executor is resolved against the target logic selected by
      * `data.scope` (SELF → this data model's logic, ITEM → the parent item's
      * logic, ACTOR → the owning actor's logic). For Intrinsic actions the
-     * executor is the named method on that target (bound to it); for other
-     * subtypes it is compiled from `data.executor` source. When no executor
-     * is supplied, a no-op resolving to `undefined` is used.
+     * executor is the named method on that target (bound to it); for Script
+     * actions it runs the Foundry Macro named by `data.executor` (a UUID) via
+     * `Macro#execute`. When no executor is supplied, a no-op resolving to
+     * `undefined` is used.
      * @param data - The action definition.
      * @param options - Construction options; `options.parent` is the data
      *   model the action belongs to and supplies the logic targets used to
@@ -173,7 +175,6 @@ export class SohlAction extends SohlEntity {
             shortcode: "",
             subType: ACTION_SUBTYPE.INTRINSIC,
             title: "",
-            isAsync: false,
             scope: SOHL_ACTION_SCOPE.SELF,
             executor: "",
             trigger: "true",
@@ -222,10 +223,20 @@ export class SohlAction extends SohlEntity {
 
                 this.executor = func.bind(target);
             } else {
-                func = textToFunction(this.data.executor ?? "", ["context"], {
-                    isAsync: this.data.isAsync,
-                });
-                this.executor = func.bind(target);
+                // Script actions reference a Foundry Macro by UUID (GM-authored
+                // "homebrew"). The macro runs through Macro#execute, which
+                // enforces MACRO_SCRIPT + ownership; no code is ever compiled
+                // from data. See docs/concepts/security-model.md.
+                const macroUuid = this.data.executor ?? "";
+                this.executor = (ctx: SohlActionContext) => {
+                    const { item, actor } = this.resolveContext();
+                    return fvttExecuteMacro(macroUuid, {
+                        actor,
+                        item,
+                        speaker: ctx?.speaker,
+                        scope: ctx,
+                    });
+                };
             }
         } else {
             this.executor = (ctx: SohlActionContext) => Promise.resolve();
@@ -246,30 +257,7 @@ export class SohlAction extends SohlEntity {
     }
 
     /**
-     * Executes the action synchronously.
-     *
-     * @param actionContext - The context in which to execute the action, including any additional data.
-     * @returns The result of the function call.
-     * @throws If execution returns a Thenable (e.g., Promise), which is unsupported.
-     * @see {@link execute} for the asynchronous version of this method.
-     */
-    executeSync(actionContext: SohlActionContext): unknown {
-        if (this.data.isAsync) {
-            throw new Error(
-                "Synchronous execution is not supported for this action.",
-            );
-        }
-        const r = this.execute(actionContext);
-        if (r && typeof (r as any).then === "function") {
-            throw new Error(
-                "Thenable returned when synchronous execution expected.",
-            );
-        }
-        return r;
-    }
-
-    /**
-     * Executes the action asynchronously.
+     * Executes the action.
      *
      * Gating, in order: for `SCRIPT` only, the current user must
      * satisfy `data.minActorOwnership` (see
@@ -335,16 +323,14 @@ export namespace SohlAction {
         /** Display title for this action */
         title: string;
 
-        /**
-         * Whether this action executes asynchronously — set when the executor
-         * body uses `await`. See {@link textToFunction}.
-         */
-        isAsync: boolean;
-
         /** Execution context: Self, Parent Item, or Owning Actor */
         scope: string;
 
-        /** Function name or JS code that performs the action */
+        /**
+         * Reference to the code that performs the action — **never** inline
+         * code. For an intrinsic action, the name of a method on the scoped
+         * target logic; for a Script action, the UUID of a Foundry `Macro`.
+         */
         executor: string;
 
         /**

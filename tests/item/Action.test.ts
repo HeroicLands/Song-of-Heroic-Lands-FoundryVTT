@@ -31,7 +31,6 @@ function makeActionData(
     return {
         subType: "intrinsic",
         title: "test-action",
-        isAsync: false,
         scope: "self",
         executor: "",
         trigger: "true",
@@ -362,6 +361,73 @@ describe("SohlAction.execute gates on permission then trigger", () => {
     });
 });
 
+describe("SohlAction SCRIPT action runs a referenced Macro (no compiled code)", () => {
+    let infoSpy: ReturnType<typeof vi.spyOn>;
+    beforeEach(() => {
+        infoSpy = vi
+            .spyOn(sohl.log, "info" as any)
+            .mockImplementation(() => {});
+    });
+    afterEach(() => {
+        infoSpy.mockRestore();
+        vi.restoreAllMocks();
+    });
+
+    const MACRO_UUID = "Macro.abcdef0123456789";
+
+    it("executes the referenced Macro via the shim, passing the action scope", async () => {
+        const macroSpy = vi
+            .spyOn(FoundryHelpers, "fvttExecuteMacro")
+            .mockResolvedValue("macro-ran");
+        const actor = stubActor(true);
+        const action = makeActionOnActor(actor, {
+            subType: ACTION_SUBTYPE.SCRIPT,
+            executor: MACRO_UUID,
+            trigger: "true",
+            minActorOwnership: OWNERSHIP.OWNER,
+        });
+        const ctx = { speaker: { alias: "Gwen" } } as any;
+        const result = await action.execute(ctx);
+
+        expect(macroSpy).toHaveBeenCalledTimes(1);
+        const [uuidArg, scopeArg] = macroSpy.mock.calls[0];
+        expect(uuidArg).toBe(MACRO_UUID);
+        expect(scopeArg).toEqual(
+            expect.objectContaining({ actor, scope: ctx }),
+        );
+        expect(result).toBe("macro-ran");
+    });
+
+    it("never compiles the executor string as code — an invalid-JS executor does not throw at construction", () => {
+        // The old textToFunction path threw when compiling invalid JS. A macro
+        // reference is opaque data, so construction must not parse it as code.
+        expect(() =>
+            makeAction({
+                subType: ACTION_SUBTYPE.SCRIPT,
+                executor: "}{ this is not valid javascript (",
+            }),
+        ).not.toThrow();
+    });
+
+    it("still enforces execute permission before running the macro", async () => {
+        const macroSpy = vi
+            .spyOn(FoundryHelpers, "fvttExecuteMacro")
+            .mockResolvedValue(undefined);
+        const action = makeActionOnActor(stubActor(false), {
+            subType: ACTION_SUBTYPE.SCRIPT,
+            executor: MACRO_UUID,
+            trigger: "true",
+            minActorOwnership: OWNERSHIP.OWNER,
+        });
+        const result = await action.execute({ speaker: {} } as any);
+        expect(result).toBeUndefined();
+        expect(macroSpy).not.toHaveBeenCalled();
+        expect(infoSpy).toHaveBeenCalledWith(
+            expect.stringContaining("blocked by execute permission"),
+        );
+    });
+});
+
 describe("userMeetsExecutePermission", () => {
     it("returns false when actor is null", () => {
         expect(userMeetsExecutePermission(makeActionData(), null)).toBe(false);
@@ -496,12 +562,6 @@ describe("ActionLogic", () => {
         });
     });
 
-    describe("executeSync", () => {
-        it.todo("throws if action is async");
-        it.todo("throws if executor returns a Thenable");
-        it.todo("returns the result of the executor for synchronous actions");
-    });
-
     describe("execute", () => {
         it.todo("calls executor with the provided action context");
         it.todo("returns a Promise wrapping the executor result");
@@ -521,7 +581,7 @@ describe("ActionLogic", () => {
         );
         it.todo("throws when intrinsic action method does not exist on target");
         it.todo(
-            "creates custom executor from textToFunction for custom actions",
+            "runs the referenced Foundry Macro for a Script action's executor",
         );
         it.todo("sets executor to a no-op when data.executor is empty");
     });
@@ -540,7 +600,6 @@ describe("ActionDataModel", () => {
         it.todo("includes SohlItemDataModel base schema fields");
         it.todo("defines subType as a StringField with ActionSubTypes choices");
         it.todo("defines title as a StringField");
-        it.todo("defines isAsync as a BooleanField defaulting to false");
         it.todo("defines scope as a StringField with SohlActionScopes choices");
         it.todo("defines executor as a StringField");
         it.todo("defines trigger as a StringField");

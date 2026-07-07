@@ -47,20 +47,11 @@ Cypress.Commands.add("hasAction", (doc, name) =>
 );
 
 /**
- * Run a named intrinsic action synchronously (`executeSync`) and yield its
- * result. Context defaults to the logic's own `_getContext()`.
+ * Run a named action (`execute`) and yield its result. Actions are always
+ * asynchronous — intrinsics may return a promise, and Script actions run a
+ * Foundry Macro. Context defaults to the logic's own `_getContext()`.
  */
 Cypress.Commands.add("runAction", (doc, name, ctx) =>
-    cy.foundry((win) => {
-        const d = resolveDoc(win, doc);
-        const action = d?.logic?.actions?.get(name);
-        if (!action) throw new Error(`No action '${name}' on ${d?.name}`);
-        return action.executeSync(ctx ?? d.logic._getContext());
-    }),
-);
-
-/** Run a named intrinsic action asynchronously (`execute`) and yield its result. */
-Cypress.Commands.add("runActionAsync", (doc, name, ctx) =>
     cy.foundry(async (win) => {
         const d = resolveDoc(win, doc);
         const action = d?.logic?.actions?.get(name);
