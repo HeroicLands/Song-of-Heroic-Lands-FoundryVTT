@@ -497,7 +497,9 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     /**
      * Selects which sheet parts to render: always the header and tabs, plus
      * the remaining tabs unless the document is in limited-view mode.
+     *
      * @param options - Render options whose `parts` array is populated in place.
+     * @param options.parts - Populated with the list of sheet part ids to render.
      */
     protected override _configureRenderOptions(
         options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,

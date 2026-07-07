@@ -538,6 +538,7 @@ function registerHandlebarsHelpers() {
      * @param {string} [options.blank]             Add a blank option as the first option with this label
      * @param {boolean} [options.sort]             Sort the options by their label after localization
      * @returns {Handlebars.SafeString}
+     * @throws {Error} If `choices` is not an Array.
      *
      * @example The provided input data
      * ```js

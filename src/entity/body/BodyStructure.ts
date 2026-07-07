@@ -326,5 +326,6 @@ export namespace BodyStructure {
         adjacent: string[][];
     }
 
+    /** Construction options for a {@link BodyStructure} instance; inherits all {@link SohlEntity.Options}. */
     export interface Options extends SohlEntity.Options {}
 }

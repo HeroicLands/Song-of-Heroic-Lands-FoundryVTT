@@ -367,7 +367,9 @@ export class SohlCombatant<
      * Seed the displayed movement medium from the actor's lineage default
      * when the creating user did not set one explicitly.
      * @param data - The pending creation data.
-     * @param options - The creation options.
+     * @param data.system.displayedMedium - Movement medium explicitly chosen by
+     *   the creating user; if absent, the lineage default is applied.
+     * @param options - The creation options — forwarded to `super._preCreate`.
      * @param user - The user performing the creation.
      * @returns `false` to veto creation, otherwise nothing.
      */

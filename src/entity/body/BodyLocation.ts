@@ -202,6 +202,7 @@ export namespace BodyLocation {
         };
     }
 
+    /** Construction options for a {@link BodyLocation} instance. */
     export interface Options extends SohlEntity.Options {
         /** Zero-based index of this location within its body part's locations array. */
         index: number;

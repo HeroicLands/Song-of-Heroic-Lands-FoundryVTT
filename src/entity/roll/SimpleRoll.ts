@@ -97,7 +97,9 @@ export class SimpleRoll extends SohlEntity {
 
     /**
      * Set specific results for the dice instead of rolling randomly.
+     *
      * @param values - The array of die results to use.
+     * @throws {Error} If `values.length` does not equal {@link numDice}.
      */
     setRolls(values: number[]): void {
         if (values.length !== this.numDice) {
