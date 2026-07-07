@@ -105,7 +105,7 @@ export class SohlLogger {
                 throw new Error(`Failed to load source map ${sourceMapUrl}`);
 
             const rawMap = await response.json();
-            SohlLogger.sourceMapConsumer = await new SourceMapConsumer(rawMap);
+            SohlLogger.sourceMapConsumer = new SourceMapConsumer(rawMap);
 
             console.info("✅ Source map loaded for SohlLogger.");
         } catch (error) {

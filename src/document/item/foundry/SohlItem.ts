@@ -733,9 +733,9 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         // If the item has the "isCarried" property, it is gear
         // otherwise it is not gear
         if (Object.hasOwn(droppedItem.system, "isCarried")) {
-            this._onDropGear(event, droppedItem);
+            void this._onDropGear(event, droppedItem);
         } else {
-            this._onDropNonGear(event, droppedItem);
+            void this._onDropNonGear(event, droppedItem);
         }
     }
 

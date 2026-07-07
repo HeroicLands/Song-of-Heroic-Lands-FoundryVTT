@@ -479,7 +479,7 @@ export namespace SohlDataModel {
                 context: PlainObject,
                 options: PlainObject,
             ): Promise<void> {
-                super._onRender(context, options);
+                await super._onRender(context, options);
                 this._dragDrop.forEach((d: DragDrop) => d.bind(this.element));
             }
 
@@ -740,18 +740,18 @@ export namespace SohlDataModel {
                     const document = await documentClass.fromDropData(data);
                     switch (document.documentName) {
                         case "ActiveEffect":
-                            this._onDropActiveEffect(event, document);
+                            void this._onDropActiveEffect(event, document);
                             break;
 
                         case "Actor":
-                            this._onDropActor(event, document);
+                            void this._onDropActor(event, document);
                             break;
 
                         case "Item":
-                            this._onDropItem(event, document);
+                            void this._onDropItem(event, document);
                             break;
                         case "Folder":
-                            this._onDropFolder(event, document);
+                            void this._onDropFolder(event, document);
                             break;
                     }
                 }
@@ -895,7 +895,7 @@ export namespace SohlDataModel {
                 newArray.push(dlgResult);
                 const updateData = { [dataset.array]: newArray };
                 const result = await (this.document as any).update(updateData);
-                if (result) this.render();
+                if (result) void this.render();
             }
 
             /**
@@ -1111,7 +1111,7 @@ export namespace SohlDataModel {
                 );
                 const updateData = { [dataset.array]: array };
                 await (this.document as any).update(updateData);
-                this.render();
+                void this.render();
             }
 
             /**
@@ -1137,7 +1137,7 @@ export namespace SohlDataModel {
                         allowDuplicates: dataset.allowDuplicates === "true",
                     });
                 }
-                this.render();
+                void this.render();
             }
 
             /**
@@ -1159,7 +1159,7 @@ export namespace SohlDataModel {
                 const result = await (this.document as any).update({
                     [dataset.array]: array,
                 });
-                if (result) this.render();
+                if (result) void this.render();
             }
 
             /**
@@ -1227,7 +1227,7 @@ export namespace SohlDataModel {
                 object[dlgResult.key] = dlgResult.value;
                 const updateData = { [dataset.object]: object };
                 const result = await (this.document as any).update(updateData);
-                if (result) this.render();
+                if (result) void this.render();
             }
 
             //     activateListeners(element: HTMLElement): void {
