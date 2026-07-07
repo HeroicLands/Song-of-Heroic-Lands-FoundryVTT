@@ -441,10 +441,7 @@ export async function toHTMLWithContent(
     data: PlainObject = {},
 ): Promise<HTMLString> {
     const compiled = Handlebars.compile(content);
-    const result = compiled(data, {
-        allowProtoMethodsByDefault: true,
-        allowProtoPropertiesByDefault: true,
-    });
+    const result = compiled(data);
     return toSanitizedHTML(result);
 }
 

@@ -591,8 +591,9 @@ function registerHandlebarsHelpers() {
         let fragHtml = "";
         for (const option of selectOptions) {
             const label = Handlebars.escapeExpression(option.label);
+            const value = Handlebars.escapeExpression(option.value);
             const isSelected = selected.includes(option.value);
-            fragHtml += `<option value="${option.value}" ${isSelected ? "selected" : ""}>${label}</option>`;
+            fragHtml += `<option value="${value}" ${isSelected ? "selected" : ""}>${label}</option>`;
         }
         return new Handlebars.SafeString(fragHtml);
     });
