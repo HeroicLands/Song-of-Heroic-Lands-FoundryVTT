@@ -814,17 +814,16 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             sourceName: "",
         };
 
-        const compiled = Handlebars.compile(`<form id="items-to-move">
-            <p>Moving ${dlgData.itemName} from ${dlgData.sourceName} to ${dlgData.targetName}</p>
+        const compiled = Handlebars.compile(
+            `<form id="items-to-move">
+            <p>Moving {{itemName}} from {{sourceName}} to {{targetName}}</p>
             <div class="form-group">
-                <label>How many (0-${dlgData.maxItems})?</label>
-                {{numberInput ${dlgData.maxItems} name="itemstomove" step=1 min=0 max=${dlgData.maxItems}}}
+                <label>How many (0-{{maxItems}})?</label>
+                {{numberInput maxItems name="itemstomove" step=1 min=0 max=maxItems}}
             </div>
-            </form>`);
-        const dlgHtml = compiled(dlgData, {
-            allowProtoMethodsByDefault: true,
-            allowProtoPropertiesByDefault: true,
-        });
+            </form>`,
+        );
+        const dlgHtml = compiled(dlgData);
 
         // Create the dialog window
         const result = await Dialog.prompt({
