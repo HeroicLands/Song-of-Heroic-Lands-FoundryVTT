@@ -369,7 +369,7 @@ export class BeingLogic<
                 sohl.log.error(
                     "calcImpact requires an ImpactResult in the action context scope",
                 );
-                return;
+                return undefined;
             }
             impactResult = new ImpactResult(context.scope, { parent: this });
             await impactResult.evaluate();

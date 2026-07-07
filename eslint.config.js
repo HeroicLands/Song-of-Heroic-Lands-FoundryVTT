@@ -90,11 +90,10 @@ export default [
         files: ["src/**/*.ts", "tests/**/*.ts"],
         languageOptions: {
             parser: tsParser,
-            // No `parserOptions.project`: none of the configured rules
-            // (no-restricted-imports, jsdoc) need type information, so we
-            // avoid type-aware linting — it is slower and breaks when the
-            // repo is reached through a symlinked path the TSConfig's file
-            // list doesn't match.
+            parserOptions: {
+                project: true,
+                tsconfigRootDir: import.meta.dirname,
+            },
             ecmaVersion: "latest",
             sourceType: "module",
             globals: {
@@ -112,6 +111,13 @@ export default [
             // `null` and `undefined` in one check. See the null/undefined
             // convention in docs/contributing/system-development.md.
             eqeqeq: ["error", "always", { null: "ignore" }],
+            // A bare `return` is fine in a `void`/`Promise<void>` function,
+            // but when the signature admits `undefined` as a real value it
+            // must be written `return undefined` so the intent is explicit.
+            // The type-aware version knows the difference; the base rule is
+            // type-blind and false-positives on void returns.
+            "consistent-return": "off",
+            "@typescript-eslint/consistent-return": "error",
             // Recommended JSDoc rules
             "jsdoc/require-jsdoc": [
                 "warn",
