@@ -261,6 +261,7 @@ export class BeingSheet extends SohlActorSheetBase {
         actions: {
             rollStrikeModeTest: BeingSheet._onRollStrikeModeTest,
             rollStrikeModeImpact: BeingSheet._onRollStrikeModeImpact,
+            rollSkillTest: BeingSheet._onRollSkillTest,
             addInjury: BeingSheet._onAddInjury,
             toggleStatus: BeingSheet._onToggleStatus,
         },
@@ -376,6 +377,39 @@ export class BeingSheet extends SohlActorSheetBase {
             },
         });
         actorLogic.executeAction("calcImpact", calcImpactContext);
+    }
+
+    /**
+     * Handle clicks on a skill's ML cell in the Skills tab. Runs a success
+     * test against that skill's mastery level and posts the result to chat.
+     * Hold Shift to skip the dialog.
+     *
+     * @param event - The triggering pointer event.
+     * @param target - The clicked ML cell, on or inside an element carrying
+     *   `data-item-id`.
+     */
+    protected static async _onRollSkillTest(
+        this: BeingSheet,
+        event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const row = target.closest("[data-item-id]");
+        if (!row) return;
+        const itemId = row.getAttribute("data-item-id");
+        if (!itemId) return;
+
+        const actor = this.document;
+        const item = actor.items.get(itemId);
+        const skillLogic = item?.logic as any;
+        if (!skillLogic?.masteryLevel) return;
+
+        const context = new SohlActionContext({
+            speaker: (actor as any).getSpeaker(),
+            type: `skill-${item!.name}-test`,
+            title: `${item!.name} – Test`,
+            skipDialog: event.shiftKey,
+        });
+        await skillLogic.successTest(context);
     }
 
     /* -------------------------------------------- */
