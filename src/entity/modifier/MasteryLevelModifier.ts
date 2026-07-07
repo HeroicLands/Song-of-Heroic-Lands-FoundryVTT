@@ -399,17 +399,11 @@ export class MasteryLevelModifier extends ValueModifier {
      * @returns The evaluated {@link SuccessTestResult}, `null` if cancelled, or
      *   `false` on error.
      */
-    // TODO(#78): the locally-built success-value scope (svTable / targetValueFunc)
-    // is not currently passed into successTest — confirm the intended wiring.
     async successValueTest(
         context: SohlActionContext,
     ): Promise<SuccessTestResult | undefined | false> {
-        const scope: Partial<SuccessTestResult.ContextScope> = {
-            ...(context.scope ?? {}),
-            targetValueFunc: (sl: number) => sl,
-            successStarTable: this.testDescTable,
-        };
-
+        const callerScope =
+            context.scope as Partial<SuccessTestResult.ContextScope>;
         const svTestContext = new SohlActionContext({
             speaker: context.speaker,
             type: `${this.parent.data.kind}-${this.parent.name}-success-value-test`,
@@ -421,18 +415,15 @@ export class MasteryLevelModifier extends ValueModifier {
             ),
             noChat: true,
             scope: {
-                situationalModifier: 0,
+                ...callerScope,
+                situationalModifier: callerScope.situationalModifier ?? 0,
                 targetValueFunc: (successLevel: number) =>
                     this.index + successLevel - 1,
                 successStarTable: this.svTable,
             },
         });
 
-        const svTestResult: SuccessTestResult | undefined | false =
-            await this.successTest(context);
-        if (!svTestResult) return svTestResult;
-
-        return svTestResult;
+        return this.successTest(svTestContext);
     }
 
     /**
