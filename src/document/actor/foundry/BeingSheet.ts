@@ -33,6 +33,7 @@ import {
     buildBodyPartLozenges,
     clampHealthPct,
     splitWeaponsByRange,
+    selectStrikeModeModifier,
 } from "@src/document/actor/logic/being-sheet-view";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
@@ -327,7 +328,8 @@ export class BeingSheet extends SohlActorSheetBase {
             (m: any) => m.id === smId,
         ) as StrikeModeBase | undefined;
         if (!item || !sm) return;
-        const mlMod = sm.attack;
+        const mlMod = selectStrikeModeModifier(sm, testKind);
+        if (!mlMod) return;
         const context = new SohlActionContext({
             speaker: (actor as any).getSpeaker(),
             type: `strike-${testKind}`,
