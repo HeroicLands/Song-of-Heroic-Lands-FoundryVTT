@@ -20,6 +20,7 @@ import {
     clampHealthPct,
     splitWeaponsByRange,
     selectStrikeModeModifier,
+    filterHeldWeapons,
 } from "@src/document/actor/logic/being-sheet-view";
 import { STATUS_EFFECT, ITEM_KIND, IMPACT_ASPECT } from "@src/utils/constants";
 import { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
@@ -297,6 +298,41 @@ describe("being-sheet-view", () => {
         it("unknown kind → undefined", () => {
             const sm = makeMeleeMode();
             expect(selectStrikeModeModifier(sm, "impact")).toBeUndefined();
+        });
+    });
+
+    describe("filterHeldWeapons (#180)", () => {
+        function weapon(heldBy: unknown[]) {
+            return { logic: { heldBy } };
+        }
+
+        it("includes weapons held by at least one part", () => {
+            const w = weapon([{}]);
+            expect(
+                filterHeldWeapons([w], (x) => (x as any).logic.heldBy),
+            ).toEqual([w]);
+        });
+
+        it("excludes weapons with an empty heldBy array", () => {
+            const w = weapon([]);
+            expect(
+                filterHeldWeapons([w], (x) => (x as any).logic.heldBy),
+            ).toEqual([]);
+        });
+
+        it("returns only held weapons from a mixed list", () => {
+            const held = weapon([{}]);
+            const unheld = weapon([]);
+            expect(
+                filterHeldWeapons(
+                    [held, unheld],
+                    (x) => (x as any).logic.heldBy,
+                ),
+            ).toEqual([held]);
+        });
+
+        it("returns empty array when input is empty", () => {
+            expect(filterHeldWeapons([], () => [])).toEqual([]);
         });
     });
 });

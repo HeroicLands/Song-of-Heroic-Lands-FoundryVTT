@@ -99,10 +99,13 @@ function makeArmorItem(
         fire: number;
     },
     locations: { flexible?: string[]; rigid?: string[] },
+    isEquipped = true,
 ): any {
     return {
         logic: {
             data: {
+                kind: ITEM_KIND.ARMORGEAR,
+                isEquipped,
                 material,
                 locations: {
                     flexible: locations.flexible ?? [],
@@ -646,6 +649,82 @@ describe("BeingLogic", () => {
         it.todo("health - is a ValueModifier after initialize");
         it.todo("healingBase - is a ValueModifier after initialize");
         it.todo("shockState - tracks current shock state");
+    });
+
+    describe("aggregateArmorProtection (#180)", () => {
+        function makeArmorStub(
+            isEquipped: boolean,
+            blunt = 3,
+            locations = {
+                flexible: ["head"],
+                rigid: [] as string[],
+            },
+        ) {
+            return {
+                data: {
+                    kind: ITEM_KIND.ARMORGEAR,
+                    isEquipped,
+                    material: "leather",
+                    locations,
+                },
+                protection: {
+                    blunt: { effective: blunt },
+                    edged: { effective: 2 },
+                    piercing: { effective: 2 },
+                    fire: { effective: 0 },
+                },
+            };
+        }
+
+        function makeHeadLoc() {
+            return {
+                shortcode: "head",
+                armorProtection: { blunt: 0, edged: 0, piercing: 0, fire: 0 },
+                isRigid: false,
+                armorType: "",
+            };
+        }
+
+        function setup(
+            armorStub: ReturnType<typeof makeArmorStub>,
+            headLoc: ReturnType<typeof makeHeadLoc>,
+        ) {
+            const logic = makeBeing();
+            const actor = logic.actor as any;
+            actor.items.set("lin1", {
+                id: "lin1",
+                type: ITEM_KIND.LINEAGE,
+                logic: {
+                    data: { kind: ITEM_KIND.LINEAGE },
+                    bodyStructure: {
+                        getAllLocations: () => [headLoc],
+                        parts: [],
+                    },
+                },
+            });
+            actor.items.set("arm1", {
+                id: "arm1",
+                type: ITEM_KIND.ARMORGEAR,
+                logic: armorStub,
+            });
+            return logic;
+        }
+
+        it("ignores unequipped armor — body location gets no protection", () => {
+            const headLoc = makeHeadLoc();
+            const logic = setup(makeArmorStub(false), headLoc);
+            logic.initialize();
+            logic.evaluate();
+            expect(headLoc.armorProtection.blunt).toBe(0);
+        });
+
+        it("applies equipped armor — body location receives the protection", () => {
+            const headLoc = makeHeadLoc();
+            const logic = setup(makeArmorStub(true, 5), headLoc);
+            logic.initialize();
+            logic.evaluate();
+            expect(headLoc.armorProtection.blunt).toBe(5);
+        });
     });
 });
 

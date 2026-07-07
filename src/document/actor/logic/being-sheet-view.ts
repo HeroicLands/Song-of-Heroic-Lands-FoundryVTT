@@ -259,6 +259,24 @@ export function splitWeaponsByRange<
 }
 
 /* -------------------------------------------- */
+/*  Combat: held-weapon filter                  */
+/* -------------------------------------------- */
+
+/**
+ * Filter weapons to only those currently held (gripped) by the actor.
+ *
+ * @param weapons - All weapon items.
+ * @param getHeldBy - Resolves the body parts holding the weapon.
+ * @returns The subset of weapons with at least one holding part.
+ */
+export function filterHeldWeapons<W>(
+    weapons: readonly W[],
+    getHeldBy: (weapon: W) => readonly unknown[],
+): W[] {
+    return weapons.filter((w) => getHeldBy(w).length > 0);
+}
+
+/* -------------------------------------------- */
 /*  Strike-mode modifier selection              */
 /* -------------------------------------------- */
 

@@ -719,7 +719,9 @@ export class BeingLogic<
         if (!bodyStructure) return;
 
         const layers: ArmorLayer[] = [];
-        for (const logic of lt[ITEM_KIND.ARMORGEAR]) {
+        for (const logic of lt[ITEM_KIND.ARMORGEAR].filter(
+            (a) => (a.data as any).isEquipped,
+        )) {
             layers.push({
                 material: (logic.data as any).material ?? "",
                 protection: {
