@@ -155,8 +155,99 @@ export abstract class GearLogic<
     }
 
     /**
+     * Marks this gear as equipped (worn/wielded, not just carried).
+     *
+     * Intrinsic-action executor for the `setEquipped` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async setEquipped(_context: SohlActionContext): Promise<void> {
+        await this.data.update({ "system.isEquipped": true });
+    }
+
+    /**
+     * Marks this gear as not equipped (stowed, not actively worn/wielded).
+     *
+     * Intrinsic-action executor for the `setNotEquipped` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async setNotEquipped(_context: SohlActionContext): Promise<void> {
+        await this.data.update({ "system.isEquipped": false });
+    }
+
+    /**
+     * The minimum number of free hold-capable limbs required to grip this
+     * item. Defaults to 1; subclasses (e.g. WeaponGearLogic) may override
+     * to reflect the item's actual grip requirement.
+     */
+    protected get minPartsToHold(): number {
+        return 1;
+    }
+
+    /**
+     * Assigns the first free hold-capable body part(s) on the owning actor
+     * to grip this item. Does nothing if the actor has no lineage or there
+     * are fewer free limbs than {@link minPartsToHold}.
+     *
+     * Intrinsic-action executor for the `holdItem` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the lineage update completes (or immediately if
+     *   no update is needed).
+     */
+    async holdItem(_context: SohlActionContext): Promise<void> {
+        const lineage = (this.actorLogic as BeingLogic)?.logicTypes?.[
+            ITEM_KIND.LINEAGE
+        ]?.[0];
+        if (!lineage) return;
+        const freeParts = lineage.bodyStructure.parts.filter(
+            (p: any) => p.canHoldItem && !p.heldItem,
+        );
+        const needed = this.minPartsToHold;
+        if (freeParts.length < needed) return;
+        const payload: PlainObject = {};
+        for (let i = 0; i < needed; i++) {
+            payload[
+                `system.bodyStructure.parts.${freeParts[i].index}.heldItemId`
+            ] = this.id;
+        }
+        await lineage.data.update(payload);
+    }
+
+    /**
+     * Clears `heldItemId` on every body part currently gripping this item,
+     * releasing it from the actor's grip. Does nothing if the actor has no
+     * lineage or no part holds this item.
+     *
+     * Intrinsic-action executor for the `releaseItem` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the lineage update completes (or immediately if
+     *   no update is needed).
+     */
+    async releaseItem(_context: SohlActionContext): Promise<void> {
+        const lineage = (this.actorLogic as BeingLogic)?.logicTypes?.[
+            ITEM_KIND.LINEAGE
+        ]?.[0];
+        if (!lineage) return;
+        const holdingParts = lineage.bodyStructure.parts.filter(
+            (p: any) => p.canHoldItem && p.heldItem?.id === this.id,
+        );
+        if (!holdingParts.length) return;
+        const payload: PlainObject = {};
+        for (const part of holdingParts) {
+            payload[`system.bodyStructure.parts.${part.index}.heldItemId`] =
+                null;
+        }
+        await lineage.data.update(payload);
+    }
+
+    /**
      * Define and return all intrinsic actions for this logic type.
-     * @returns The base item actions plus the gear carried/not-carried actions.
+     * @returns The base item actions plus gear equip/carry/hold actions.
      */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
@@ -178,6 +269,46 @@ export abstract class GearLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "sohl-round-star-unfilled",
                 executor: "setNotCarried",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "setEquipped",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Gear.Action.setEquipped",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-chest-armor",
+                executor: "setEquipped",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "setNotEquipped",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Gear.Action.setNotEquipped",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-chest-armor",
+                executor: "setNotEquipped",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "holdItem",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Gear.Action.holdItem",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-hand-grab",
+                executor: "holdItem",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "releaseItem",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Gear.Action.releaseItem",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-hand-open",
+                executor: "releaseItem",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
