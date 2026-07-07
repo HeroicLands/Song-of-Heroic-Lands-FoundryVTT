@@ -214,9 +214,13 @@ src/document/item/logic/SkillLogic.ts  →  tests/item/Skill.test.ts
 ## Browser end-to-end tests (Cypress)
 
 The vitest suites above cover the Foundry-free logic layer. To exercise the
-_running_ system in a real Foundry instance — sheets, hooks, the full client —
-there is a Cypress harness that seeds a throwaway world, serves it in Docker,
-logs in as a GM, and drives the browser.
+_running_ system in a real Foundry instance — sheets, hooks, documents, the full
+client — there is a Cypress suite that seeds a throwaway world, serves it in
+Docker, logs in as a GM, and drives the browser. It doubles as an **executable
+specification** (integration TDD): specs describe the desired behavior and mark
+not-yet-implemented capabilities as skipped RED, so the skip list is a backlog.
+See [Writing specs](#writing-specs) and [Gotchas](#gotchas-non-obvious) below
+once you can run it.
 
 ```bash
 npm run test:e2e        # headless: seed → serve → cypress run → tear down
@@ -272,9 +276,9 @@ up. See
 [Build & Deployment §6 — running a build in a container](build-and-deployment.md#6-deploying-to-a-foundry-instance)
 for the container details and download cache.
 
-Writing specs: build on `cy.login()` (defined in `cypress/support/commands.js`),
-which logs in as the GM and waits for `game.ready`, then drive the world through
-`cy.window().its("game")`. Cypress run artifacts (`cypress/videos`,
+Every spec builds on `cy.login()` (in `cypress/support/commands.js`), which logs
+in as the GM and waits for `game.ready`. From there, see [Writing
+specs](#writing-specs). Cypress run artifacts (`cypress/videos`,
 `cypress/screenshots`) are gitignored; the config, support, and specs are
 committed.
 
@@ -284,3 +288,164 @@ methods (`Set.prototype.difference`), so Cypress must bundle **Chromium ≥ 122*
 spec fails. Cypress 15 (Electron 37 / Chromium 138) is fine; do not downgrade
 below the pinned major. If specs suddenly fail with a `foundry.mjs`
 `<static_initializer>` error, suspect an out-of-date bundled browser first.
+
+### Fast iteration: the build → deploy cycle
+
+`npm run test:e2e` recreates the container every run (~a minute of setup). While
+authoring specs, keep the container up and re-run Cypress directly against it:
+
+```bash
+# one-time: bring the container up
+FOUNDRY_WORLD=sohl-e2e node utils/foundry-container.mjs test recreate
+# wait until the world is active, then re-run at will:
+env -u ELECTRON_RUN_AS_NODE npx cypress run --spec cypress/e2e/<name>.cy.js
+```
+
+**`env -u ELECTRON_RUN_AS_NODE` is mandatory for a direct `npx cypress` run** if
+your shell exports that variable — VS Code's integrated terminal and many
+agent/CI shells do. With it set, Cypress's bundled Electron launches as plain
+Node, rejects its own flags (`bad option: --no-sandbox`), and dies with a cryptic
+`MODULE_NOT_FOUND`. `npm run test:e2e` already strips it in `utils/e2e-run.mjs`,
+so only direct `npx cypress` runs need the prefix.
+
+The container serves the **built** system from `FOUNDRYVTT_TEST_DATA`, not your
+`src/` — so a source change is only visible after a rebuild **and** `push:test`:
+
+| You changed…                              | Rebuild with           | Then                                             |
+| ----------------------------------------- | ---------------------- | ------------------------------------------------ |
+| TypeScript (`src/**`)                     | `npm run build:code`   | `npm run push:test`                              |
+| Handlebars template (`templates/**`)      | `npm run build:assets` | `npm run push:test`                              |
+| `system.json` (`documentTypes`, packs, …) | `npm run build:system` | `npm run push:test` **+ recreate the container** |
+
+`system.json` is read only at world launch, so a `documentTypes` change needs a
+recreate: `docker rm -f sohl-foundry-test`, delete any `*.lock` under
+`FOUNDRYVTT_TEST_DATA` (a killed container leaves one and the next start refuses
+with "directory is already locked"), then `node utils/foundry-container.mjs test
+recreate`. After deploying, the next `cy.login()` (which re-visits `/game`) picks
+up new code — there is no browser cache to clear.
+
+### Test layout
+
+```
+cypress/
+  support/
+    e2e.js               # loads commands; scoped uncaught:exception allowlist
+    commands.js          # cy.login()
+    commands/
+      documents.js       # createActor/createWorldItem/createItemOn/cleanupWorld/foundry
+      import.js          # importActor (Basic Folk), importItem, findPackEntry
+      sheets.js          # openSheet/switchTab/closeAllSheets/editSheetField
+      scene.js           # createScene/placeToken/placeAdjacentTokens
+      combat.js          # createCombatWith/advanceTurn/advanceRound
+    logic.js             # actorLogic/itemLogic/hasAction/runAction/prepare
+    resolve.js           # resolveDoc(win, ref), toRealm(win, data)
+    factories/
+      ids.js             # RUN_TAG, tagName, isE2EArtifact (per-run tag isolation)
+      actorFactory.js    # ACTOR_KINDS + minimal create payloads
+      itemFactory.js     # ITEM_KINDS + payloads (valid required-subType defaults)
+      basicFolk.js       # BASIC_FOLK — the starter being in the sohl.actors pack
+    itemSheetSuite.js    # parameterized suite shared by every item-sheet spec
+  e2e/
+    smoke.cy.js, actor-crud.cy.js, being-import.cy.js, scene-tokens.cy.js,
+    being-sheet.cy.js, item-sheet-<kind>.cy.js (×16), combat-setup.cy.js,
+    effects.cy.js, datamodel-choices.cy.js, …
+```
+
+Specs `import` factories/helpers from `../support/**` and call the custom `cy.*`
+commands. Repeated shapes (all 16 item sheets) are parameterized — e.g.
+`item-sheet-weapongear.cy.js` is one line: `itemSheetSuite("weapongear")`.
+
+### Writing specs
+
+A spec `cy.login()`s once (in `before`), then drives the live client through two
+seams:
+
+- **The programmatic surface** via `cy.foundry(fn)` — run any code against the
+  game window and get the result back through the command queue. Standard Foundry
+  APIs (`Actor.create`, `createEmbeddedDocuments`, `game.packs`) plus each SoHL
+  document's Foundry-free `.logic` (computed state, `.actions`). Prefer this for
+  setup and state assertions; it reaches what the DOM can't.
+- **The DOM** — render a sheet with `cy.openSheet` and assert what only the DOM
+  proves: a row renders, a tab activates, a field persists on blur.
+
+```js
+describe("gear on a being", () => {
+    before(() => cy.login().then(() => cy.cleanupWorld()));
+    afterEach(() => cy.cleanupWorld());
+
+    it("adds a weapon and shows it on the combat tab", () => {
+        cy.importActor().as("actor"); // Basic Folk, fully populated
+        cy.then(function () {
+            cy.createItemOn(this.actor, "weapongear", { name: "Dagger" });
+            cy.openSheet(this.actor);
+            cy.switchTab("combat", "primary");
+            cy.get('section.tab[data-tab="combat"]').contains("Dagger");
+        });
+    });
+});
+```
+
+Isolation is by **run tag**, not by page reset: `cy.createActor` /
+`createWorldItem` / `createScene` prefix each name with a per-run tag, and
+`cy.cleanupWorld()` deletes exactly the tagged documents (plus all
+combats/messages). Call it in `afterEach`. The seeded world holds only a GM, so
+nothing you create leaks between specs.
+
+**Integration-TDD convention.** Where a capability isn't implemented yet, still
+write the test and `it.skip(...)` / `describe.skip(...)` it with a
+`// RED — blocked by #NN: <gap>` comment (or `itemSheetSuite`'s `persistRed` /
+`red` options). CI stays green; the skip list is the capability backlog. Flip it
+to `it(...)` when the gap closes.
+
+### Gotchas (non-obvious)
+
+These cost real debugging time; they are not apparent from the code.
+
+- **Cross-realm objects.** A plain object literal built in a spec belongs to the
+  Cypress bundle's JS realm, not the game window's, so Foundry rejects it
+  (`must be constructed with a DataModel or Object`; `mergeObject` throws
+  `One of original or other are not Objects`). **Clone any payload into the game
+  realm before handing it to Foundry** — `toRealm(win, data)` (a `win.JSON`
+  round-trip). The `cy.create*` commands already do this; do it yourself in raw
+  `cy.foundry` calls. Likewise never test `x instanceof Map` across the boundary
+  — it is always false; duck-type (`typeof x.values === "function"`).
+- **`testIsolation` is off** (`cypress.config.mjs`). Specs keep the login and the
+  loaded world across their tests; reset _state_ with `cy.cleanupWorld()`, not a
+  page reload. Log in once in `before`.
+- **Sheet field edits persist via `submitOnChange`, not a save button** —
+  Cypress `.type().blur()` is unreliable for it. Use
+  `cy.editSheetField(doc, name, value)`, which sets the value and dispatches a
+  native `change` on the element **inside the sheet's own element** (a
+  document-level `cy.get` can match a detached or duplicated node).
+- **Group seeding is async.** `SohlCombat` seeds combatant groups in a
+  fire-and-forget hook, so a combatant's `groupId` is not set the instant
+  `createEmbeddedDocuments` resolves — poll for it before asserting.
+- **Viewport-dependent accessors are empty headless.** `game.combat` and
+  `sohl.currentCombatCombatantLogics` read the _viewed_ combat, which needs a
+  canvas — assert on the combat document and each combatant's `.logic` directly.
+- **Benign core render errors.** Foundry's sidebar `CombatTracker` throws an async
+  render error in headless runs; `support/e2e.js` keeps a narrow, exact-message
+  `uncaught:exception` allowlist for it. Extend that list only for _known_
+  environment-specific core errors — never to mask a real failure.
+
+The following are system-authoring facts the suite surfaced — you'll meet them
+when a spec touches these areas:
+
+- **A subtype must be declared in `system.json` `documentTypes`, not just
+  `CONFIG`.** A data model registered in `CONFIG` under a subtype that
+  `documentTypes` doesn't declare is rejected at create (`… is not a valid type`),
+  and the document silently falls back to the typeless `base` model with no system
+  data. Single-model documents (Scene, Combatant) register their model under
+  `base`; multi-subtype documents (Item, ActiveEffect) declare each subtype in
+  `documentTypes`.
+- **`StringField({ choices })` must be a value-keyed object, not the enum values
+  array.** Foundry builds `<option>` values from `Object.entries(choices)`, so an
+  array yields index option values (`0,1,2,…`); the select then submits an invalid
+  choice and the whole form update is rejected. Enums built with `defineType`
+  expose a value-keyed `choices` map for exactly this.
+- **A discriminated `TypedSchemaField`** (e.g. a combat technique's `strikeMode`)
+  stores flat as `{ type, …fields }`. `formField` resolves its sub-fields under
+  the type segment (`system.strikeMode.melee.name`), which does not match storage
+  (`system.strikeMode.name`) — those edits silently drop. Edit at the flat
+  `system.<field>.<sub>` path, with a hidden `type` input so the discriminated
+  update validates.
