@@ -6,10 +6,13 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { gateAutomatedDefenseButtons } from "@src/document/chat/chat-card-gating";
+import {
+    gateAutomatedDefenseButtons,
+    hasUsableDodgeSkill,
+} from "@src/document/chat/chat-card-gating";
 import * as CombatantLogic from "@src/document/combatant/logic/SohlCombatantLogic";
 import { DEFENSE_DISABLING_STATUSES } from "@src/document/combatant/logic/SohlCombatantLogic";
-import { ITEM_KIND } from "@src/utils/constants";
+import { ITEM_KIND, SKILL_CODE } from "@src/utils/constants";
 
 const ACTIONS = {
     dodge: "automatedDodgeResume",
@@ -68,7 +71,8 @@ function makeDefender(
     {
         statuses = [],
         hasMelee = true,
-    }: { statuses?: string[]; hasMelee?: boolean } = {},
+        hasDodge = true,
+    }: { statuses?: string[]; hasMelee?: boolean; hasDodge?: boolean } = {},
 ): any {
     const meleeMode = { isMelee: true, attack: {} };
     return {
@@ -80,11 +84,42 @@ function makeDefender(
                     [ITEM_KIND.WEAPONGEAR]:
                         hasMelee ? [{ strikeModes: [meleeMode] }] : [],
                     [ITEM_KIND.COMBATTECHNIQUE]: [],
+                    [ITEM_KIND.SKILL]:
+                        hasDodge ?
+                            [{ data: { shortcode: SKILL_CODE.DODGE } }]
+                        :   [],
                 },
             },
         },
     };
 }
+
+describe("hasUsableDodgeSkill (#64)", () => {
+    it("returns true when the actor has a Dodge skill", () => {
+        const actorLogic: any = {
+            logicTypes: {
+                [ITEM_KIND.SKILL]: [{ data: { shortcode: SKILL_CODE.DODGE } }],
+            },
+        };
+        expect(hasUsableDodgeSkill(actorLogic)).toBe(true);
+    });
+
+    it("returns false when the actor has no skills at all", () => {
+        const actorLogic: any = {
+            logicTypes: { [ITEM_KIND.SKILL]: [] },
+        };
+        expect(hasUsableDodgeSkill(actorLogic)).toBe(false);
+    });
+
+    it("returns false when the actor has other skills but not Dodge", () => {
+        const actorLogic: any = {
+            logicTypes: {
+                [ITEM_KIND.SKILL]: [{ data: { shortcode: "swd" } }],
+            },
+        };
+        expect(hasUsableDodgeSkill(actorLogic)).toBe(false);
+    });
+});
 
 describe("gateAutomatedDefenseButtons", () => {
     let canBlock: any;
@@ -154,6 +189,25 @@ describe("gateAutomatedDefenseButtons", () => {
         for (const key of Object.values(ACTIONS)) {
             expect(buttons[key].remove).not.toHaveBeenCalled();
         }
+    });
+
+    it("removes Dodge (only) when an owned, healthy defender has no Dodge skill (#64)", () => {
+        const buttons = allButtons();
+        gateAutomatedDefenseButtons(makeElement(buttons), () =>
+            makeDefender(true, { hasDodge: false }),
+        );
+        expect(buttons[ACTIONS.dodge].remove).toHaveBeenCalled();
+        expect(buttons[ACTIONS.block].remove).not.toHaveBeenCalled();
+        expect(buttons[ACTIONS.counter].remove).not.toHaveBeenCalled();
+        expect(buttons[ACTIONS.ignore].remove).not.toHaveBeenCalled();
+    });
+
+    it("keeps Dodge for an owned, healthy defender that has a Dodge skill (#64)", () => {
+        const buttons = allButtons();
+        gateAutomatedDefenseButtons(makeElement(buttons), () =>
+            makeDefender(true, { hasDodge: true }),
+        );
+        expect(buttons[ACTIONS.dodge].remove).not.toHaveBeenCalled();
     });
 
     it("removes a .card-buttons container left empty after gating", () => {

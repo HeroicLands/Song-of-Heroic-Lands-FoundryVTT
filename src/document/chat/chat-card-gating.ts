@@ -14,7 +14,7 @@
 import { collectBlockableStrikeModes } from "@src/document/combatant/logic/SohlCombatantLogic";
 import type { SohlActorLogic } from "../actor/logic/SohlActorBaseLogic";
 import { DEFENSE_DISABLING_STATUSES } from "../combatant/logic/SohlCombatantLogic";
-import { ITEM_KIND } from "@src/utils/constants";
+import { ITEM_KIND, SKILL_CODE } from "@src/utils/constants";
 
 /**
  * Render-time gating for an attack card's defender-response buttons.
@@ -80,7 +80,10 @@ export function gateAutomatedDefenseButtons(
         // Incapacitated defender: Ignore is the only viable defense.
         for (const b of [dodge, counter, block]) b?.remove();
     } else {
-        // Owner: keep Dodge + Ignore; gate Block + Counterstrike by capability.
+        // Owner: gate Dodge / Block / Counterstrike by capability; keep Ignore.
+        if (dodge && (!actorLogic || !hasUsableDodgeSkill(actorLogic))) {
+            dodge.remove();
+        }
         if (
             block &&
             (!actorLogic ||
@@ -120,6 +123,19 @@ export function hasMeleeAttackStrikeMode(
         if (usable(logic.strikeMode)) return true;
     }
     return false;
+}
+
+/**
+ * Whether the actor has a Dodge skill (shortcode `"dge"`) in its skill
+ * logicTypes — the capability gate for showing the Dodge button. Pure and
+ * Foundry-free.
+ * @param actorLogic - The actor's logic; its skills are scanned via logicTypes.
+ * @returns `true` if the actor has a Dodge skill.
+ */
+export function hasUsableDodgeSkill(actorLogic: SohlActorLogic<any>): boolean {
+    return (actorLogic.logicTypes[ITEM_KIND.SKILL] ?? []).some(
+        (skill: any) => skill.data?.shortcode === SKILL_CODE.DODGE,
+    );
 }
 
 /**
