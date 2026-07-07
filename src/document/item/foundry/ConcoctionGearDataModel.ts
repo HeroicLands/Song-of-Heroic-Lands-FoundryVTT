@@ -19,6 +19,7 @@ import {
 import {
     CONCOCTIONGEAR_POTENCY,
     ConcoctionGearPotency,
+    ConcoctionGearPotencyChoices,
     ConcoctionGearSubType,
     ConcoctionGearSubTypes,
     ITEM_KIND,
@@ -39,7 +40,7 @@ function defineConcoctionGearSchema(): foundry.data.fields.DataSchema {
         potency: new StringField({
             initial: CONCOCTIONGEAR_POTENCY.NOT_APPLICABLE,
             required: true,
-            choices: Object.values(CONCOCTIONGEAR_POTENCY),
+            choices: ConcoctionGearPotencyChoices,
         }),
         strength: new NumberField({
             integer: true,

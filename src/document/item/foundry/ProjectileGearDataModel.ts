@@ -19,7 +19,7 @@ import {
 import {
     IMPACT_ASPECT,
     ImpactAspect,
-    ImpactAspects,
+    ImpactAspectChoices,
     ITEM_KIND,
     PROJECTILEGEAR_SUBTYPE,
     ProjectileGearSubType,
@@ -64,7 +64,7 @@ function defineProjectileGearSchema(): foundry.data.fields.DataSchema {
             aspect: new StringField({
                 initial: IMPACT_ASPECT.BLUNT,
                 required: true,
-                choices: ImpactAspects,
+                choices: ImpactAspectChoices,
             }),
         }),
     };

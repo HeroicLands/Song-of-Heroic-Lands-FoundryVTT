@@ -13,6 +13,8 @@
 
 import { itemSheetSuite } from "../support/itemSheetSuite.js";
 
-// RED — blocked by #141: combattechnique has no properties template and its
-// strikeMode (TypedSchemaField) creation is not wired; the sheet is unusable.
-itemSheetSuite("combattechnique", { red: "#141" });
+// RED — blocked by #147: the sheet references a strike-mode properties template
+// (`combattechniquestrikemode-properties.hbs`) that does not exist, so the sheet
+// fails to render. Its `strikeMode` is a melee/missile discriminated union that
+// needs a purpose-built form. Enable once that template lands.
+itemSheetSuite("combattechnique", { red: "#147" });
