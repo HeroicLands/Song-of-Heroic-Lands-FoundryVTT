@@ -22,7 +22,6 @@ import { ITEM_KIND, KIND_KEY } from "@src/utils/constants";
 type MasteryLevelData = MysticalAbilityData | SkillData | TraitData;
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import { getCtorForKind } from "@src/utils/kindRegistry";
-import { getFunc, getIdForFunc } from "@src/utils/funcRegistry";
 
 /**
  * Resolver used by {@link defaultFromJSON} to revive a `ClientDocument`
@@ -741,14 +740,13 @@ export function hashToId(input: string): string {
  *
  * @remarks
  * Handles the encoding tags produced by {@link defaultToJSON}: `__bigint__:`,
- * `__date__:`, `__url__:`, and `__funcref__:` (a reference to a registered
- * function, resolved via {@link getFunc}; unknown ids revive to `undefined`)
- * string prefixes, and `__type`-tagged objects for
+ * `__date__:`, and `__url__:` string prefixes, and `__type`-tagged objects for
  * `SohlMap`/`Map`/`Set`/`RegExp`/`Error`/`URL`/`ClientDocument`.
  *
- * Executable code is never revived: there is no `__func__:`/`new Function`
- * path. A legacy `__func__:` string (which no current writer emits) is returned
- * verbatim as an inert string, so untrusted data cannot introduce code.
+ * Executable code is never revived: there is no `new Function` path, and no
+ * function-reference path. Behavior is not serialized — it travels as data plus
+ * a `__kind` tag and is re-derived on the receiving client, so untrusted data
+ * cannot introduce code.
  * Objects carrying a registered-kind marker ({@link KIND_KEY}) are reconstructed
  * to their concrete class via {@link getCtorForKind}, with children revived
  * bottom-up and the owning logic supplied through `ctx.parent`.
@@ -771,21 +769,6 @@ export function defaultFromJSON(
         }
         if (value.startsWith("__url__:")) {
             return new URL(value.slice("__url__:".length));
-        }
-        if (value.startsWith("__funcref__:")) {
-            // Resolve a function *reference* to the code-authored function
-            // registered under this id. Unknown ids revive to `undefined`
-            // (never compiled) — corrupt or hostile data cannot introduce code.
-            const id = value.slice("__funcref__:".length);
-            const fn = getFunc(id);
-            if (fn === undefined) {
-                // `id` can be attacker-controlled (untrusted cross-client
-                // data-scope / world content). Bound and de-control-char the
-                // logged value so a crafted id cannot flood or forge log lines.
-                const shown = id.replace(/[\n\r\t]+/g, " ").slice(0, 64);
-                console.warn(`defaultFromJSON: unknown funcref id "${shown}"`);
-            }
-            return fn;
         }
         return value;
     }
@@ -959,9 +942,8 @@ function nullifyUndefined(value: JsonValue | undefined): JsonValue | undefined {
  * Scalars pass through; `bigint`, `Date`, `URL`, `SohlMap`, `Map`, `Set`,
  * `RegExp`, and `Error` are encoded with tagged forms. Foundry documents (those
  * with a `documentName`) are reduced to a `ClientDocument` reference by UUID.
- * A function registered via {@link getIdForFunc | the function registry} is
- * encoded as a `__funcref__:<id>` reference (never as source); an unregistered function,
- * along with symbols and `undefined`, is dropped (return `undefined`). Objects
+ * Functions, symbols, and `undefined` are dropped (return `undefined`) — no
+ * executable source and no function reference is ever emitted. Objects
  * with a `toJSON` method delegate to it, with nested `undefined` canonicalized to
  * `null` (see `nullifyUndefined`); other objects are serialized key by key
  * (omitting keys whose values serialize to `undefined`).
@@ -1035,16 +1017,14 @@ export function defaultToJSON(value: any): JsonValue | undefined {
         } as JsonValue;
     }
 
-    if (typeof value === "function") {
-        // A function survives serialization only as a *reference* to a
-        // registered function (a `__funcref__:<id>` tag revived by
-        // defaultFromJSON via the funcRegistry). Never emit executable source.
-        // Unregistered functions are dropped, exactly as before.
-        const id = getIdForFunc(value as (...args: any[]) => any);
-        return id !== undefined ? `__funcref__:${id}` : undefined;
-    }
-
-    if (typeof value === "symbol" || value === undefined) {
+    if (
+        typeof value === "function" ||
+        typeof value === "symbol" ||
+        value === undefined
+    ) {
+        // Functions are never serialized — no executable source, and no
+        // reference either. Behavior travels as data + a `__kind` tag and is
+        // re-derived on the receiving client. See docs/concepts/security-model.md.
         return undefined;
     }
 

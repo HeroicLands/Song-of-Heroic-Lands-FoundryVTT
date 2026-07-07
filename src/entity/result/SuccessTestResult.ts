@@ -180,10 +180,11 @@ export class SuccessTestResult extends TestResult {
                 token: this._tokenLogic?.id ?? undefined,
             });
         }
-        // Only accept an actual function (locally supplied, or a `__funcref__`
-        // resolved from the registry). A non-function value — e.g. a string
-        // that arrived via untrusted serialized data — falls back to identity,
-        // so revived data can never turn into a callable code payload.
+        // Only accept an actual function, supplied locally when this result is
+        // built (never through serialization — functions are dropped on the
+        // wire). A non-function value, e.g. a string smuggled in via untrusted
+        // serialized data, falls back to identity so revived data can never turn
+        // into a callable code payload.
         this._targetValueFunc =
             typeof data.targetValueFunc === "function" ?
                 data.targetValueFunc

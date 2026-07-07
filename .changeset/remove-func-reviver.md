@@ -10,8 +10,8 @@ The `__func__:` revive branch and the `serializeFn`/`deserializeFn` helpers
 This closes the cross-client remote-code-execution path where a crafted chat
 card `data-scope` — or persisted document data — could carry a `__func__:`
 payload that was revived into a live function and later invoked. Part of the
-"reference code, don't compile it" remediation (epic #154); functions now
-travel only as `__funcref__:<id>` references (#155).
+"reference code, don't compile it" remediation (epic #154); functions are never
+revived from serialized data.
 
 - `defaultFromJSON`: the `__func__:` branch is gone. Such a string (which no
   current writer emits) is returned verbatim as an inert string; there is no
