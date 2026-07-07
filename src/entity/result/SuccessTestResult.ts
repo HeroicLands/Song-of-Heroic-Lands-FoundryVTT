@@ -46,6 +46,7 @@ import {
     SuccessTestResultMishaps,
     SohlSpeakerRollModes,
     isSohlSpeakerRollMode,
+    isSuccessTestResultMovement,
     SohlSpeakerRollMode,
     TestType,
 } from "@src/utils/constants";
@@ -441,14 +442,12 @@ export class SuccessTestResult extends TestResult {
                     throw new Error(`Invalid roll mode "${formData.rollMode}"`);
                 }
 
-                // FIXME(#75)
-                // if (isMovement(data.targetMovement)) {
-                //     this.targetMovement = data.targetMovement;
-                // } else {
-                //     throw new Error(
-                //         `Invalid target movement "${data.targetMovement}"`,
-                //     );
-                // }
+                const rawMovement = String(formData.targetMovement);
+                if (isSuccessTestResultMovement(rawMovement)) {
+                    this._movement = rawMovement;
+                } else {
+                    throw new Error(`Invalid target movement "${rawMovement}"`);
+                }
 
                 if (callback) callback.call(this, formData);
                 return Promise.resolve(true);

@@ -1,3 +1,44 @@
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
+import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { SUCCESS_TEST_RESULT_MOVEMENT } from "@src/utils/constants";
+import * as FoundryHelpers from "@src/core/FoundryHelpers";
+
+/** Minimal parent stub sufficient for SuccessTestResult + MasteryLevelModifier. */
+const parent = {
+    id: "actor0000000001",
+    name: "Hero",
+    label: "Hero",
+    data: { kind: "skill" },
+    item: { logic: { availableFate: [] } },
+} as any;
+
+function makeResult(): SuccessTestResult {
+    const mlMod = new MasteryLevelModifier({ baseValue: 50 } as any, {
+        parent,
+    });
+    return new SuccessTestResult({ masteryLevelModifier: mlMod } as any, {
+        parent,
+    });
+}
+
+/**
+ * Mock inputDialog to call its config.callback with a fake fd.object,
+ * simulating what DialogV2.input does when the user submits the form.
+ */
+function mockDialogSubmit(formValues: Record<string, string | number>) {
+    return vi
+        .spyOn(FoundryHelpers, "inputDialog")
+        .mockImplementation(async (config?: any) => {
+            if (config?.callback) {
+                await config.callback({ object: formValues });
+            }
+            return null;
+        });
+}
+
+afterEach(() => vi.restoreAllMocks());
+
 describe("SuccessTestResult", () => {
     describe("constructor", () => {
         it.todo("creates an instance with default values");
@@ -64,6 +105,51 @@ describe("SuccessTestResult", () => {
         it.todo("renders a dialog with test data");
         it.todo("applies situational modifier from form data");
         it.todo("sets rollMode from form data");
+
+        describe("targetMovement (#75)", () => {
+            it("records 'moving' from form data onto movement", async () => {
+                const result = makeResult();
+                mockDialogSubmit({
+                    targetMovement:
+                        SUCCESS_TEST_RESULT_MOVEMENT.MOVING as string,
+                    rollMode: "roll",
+                    situationalModifier: 0,
+                    successLevelMod: 0,
+                });
+                await result.testDialog({}, () => {});
+                expect(result.movement).toBe(
+                    SUCCESS_TEST_RESULT_MOVEMENT.MOVING,
+                );
+            });
+
+            it("records 'stationary' from form data onto movement", async () => {
+                const result = makeResult();
+                mockDialogSubmit({
+                    targetMovement:
+                        SUCCESS_TEST_RESULT_MOVEMENT.STATIONARY as string,
+                    rollMode: "roll",
+                    situationalModifier: 0,
+                    successLevelMod: 0,
+                });
+                await result.testDialog({}, () => {});
+                expect(result.movement).toBe(
+                    SUCCESS_TEST_RESULT_MOVEMENT.STATIONARY,
+                );
+            });
+
+            it("throws when targetMovement is not a valid movement value", async () => {
+                const result = makeResult();
+                mockDialogSubmit({
+                    targetMovement: "flying",
+                    rollMode: "roll",
+                    situationalModifier: 0,
+                    successLevelMod: 0,
+                });
+                await expect(result.testDialog({}, () => {})).rejects.toThrow(
+                    /Invalid target movement "flying"/,
+                );
+            });
+        });
     });
 
     describe("toChat()", () => {
