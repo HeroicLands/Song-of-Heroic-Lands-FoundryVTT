@@ -12,7 +12,12 @@
  */
 
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
-import { maxPrecision, cloneInstance, defaultToJSON } from "@src/utils/helpers";
+import {
+    maxPrecision,
+    cloneInstance,
+    defaultToJSON,
+    escapeHTML,
+} from "@src/utils/helpers";
 import { ValueDelta } from "@src/entity/modifier/ValueDelta";
 import { registerKind } from "@src/utils/kindRegistry";
 import {
@@ -626,12 +631,12 @@ export class ValueModifier extends SohlEntity {
         const fragHtml = `<div class="adjustment">
         <div class="flexrow">
             <span class="label adj-name">${sohl.i18n.format("SOHL.ValueModifier.Adjustment")}</span>
-            <span class="label adj-value">${sohl.i18n.format("SOHL.ValueModifier.Value")}</span>    
+            <span class="label adj-value">${sohl.i18n.format("SOHL.ValueModifier.Value")}</span>
         </div>${this.deltas
             .map((m) => {
                 return `<div class="flexrow">
-            <span class="adj-name">${m.name}</span>
-            <span class="adj-value">${getValue(m)}</span></div>`;
+            <span class="adj-name">${escapeHTML(m.name)}</span>
+            <span class="adj-value">${escapeHTML(getValue(m))}</span></div>`;
             })
             .join("")}</div>`;
 

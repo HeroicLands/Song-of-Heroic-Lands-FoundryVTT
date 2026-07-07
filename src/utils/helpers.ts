@@ -473,6 +473,24 @@ export function toHTMLString(value: string): HTMLString {
 }
 
 /**
+ * Escape the five HTML special characters so a string renders as inert text
+ * in any HTML context (element body or attribute value).
+ *
+ * Pure string operation — no DOM dependency.
+ *
+ * @param s - The string to escape.
+ * @returns The HTML-escaped string.
+ */
+export function escapeHTML(s: string): string {
+    return s
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#x27;");
+}
+
+/**
  * Convert a string or {@link HTMLString} into a sanitized {@link HTMLString}.
  * Plain text is wrapped in the given element; markup is parsed and stripped of
  * disallowed tags (`script`, `iframe`, etc.), `on*` event-handler attributes,
