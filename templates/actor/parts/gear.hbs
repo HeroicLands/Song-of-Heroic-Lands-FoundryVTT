@@ -33,7 +33,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </header>
         <ol class="list__items">
             {{#each onBodyItems as |item|}}
-            <li class="item flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}" data-search-name="{{item.name}}">
+            <li class="item flexrow" data-search-name="{{item.name}}" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}">
                 <div class="list__name flexrow">
                     <div class="list__image" style="background-image: url('{{item.img}}')"></div>
                     <h4>{{item.name}}</h4>
@@ -71,7 +71,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </header>
         <ol class="list__items">
             {{#each entry.items as |item|}}
-            <li class="item flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}" data-search-name="{{item.name}}">
+            <li class="item flexrow" data-search-name="{{item.name}}" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}">
                 <div class="list__name flexrow">
                     <div class="list__image" style="background-image: url('{{item.img}}')"></div>
                     <h4>{{item.name}}</h4>
