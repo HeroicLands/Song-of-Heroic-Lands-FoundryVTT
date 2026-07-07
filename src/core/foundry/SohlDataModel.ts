@@ -913,21 +913,16 @@ export namespace SohlDataModel {
                         []) as any[]
                 ).concat();
                 const choices: string[] = dataset.choices.split(";");
-                let formTemplate =
+                let formHtml =
                     '<form id="get-choice"><div class="form-group"><select name="choice">';
                 choices.forEach((c) => {
-                    let [label, val] = c.split(":").map((v) => v.trim());
-                    formTemplate += `<option name="${val}">${label}</option>`;
+                    const [label, val] = c.split(":").map((v) => v.trim());
+                    const escapedVal = Handlebars.escapeExpression(val);
+                    const escapedLabel = Handlebars.escapeExpression(label);
+                    formHtml += `<option value="${escapedVal}">${escapedLabel}</option>`;
                 });
-                formTemplate += `</select></div></form>`;
-                const compiled = Handlebars.compile(formTemplate);
-                const dlgHtml = compiled(
-                    {},
-                    {
-                        allowProtoMethodsByDefault: true,
-                        allowProtoPropertiesByDefault: true,
-                    },
-                );
+                formHtml += `</select></div></form>`;
+                const dlgHtml = formHtml;
 
                 const dlgResult = await Dialog.prompt({
                     title: dataset.title,
