@@ -31,7 +31,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <ol class="effects__items">
             {{#each effects as |effect|}}
             <li class="effects__row {{#if effect.disabled}}disabled{{/if}} flexrow"
-                data-effect-name="{{effect.name}}" data-effect-id="{{effect.id}}"
+                data-effect-name="{{effect.name}}" data-effect-id="{{effect.id}}" data-search-name="{{effect.name}}"
                 data-effect-parent-uuid="{{effect.parent.uuid}}">
                 <div class="name">
                     <div class="image" style="background-image: url('{{effect.img}}')"></div>
@@ -63,7 +63,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <ol class="effects__items">
             {{#each trxEffects as |effect|}}
             <li class="effects__row {{#if effect.disabled}}disabled{{/if}} flexrow"
-                data-effect-name="{{effect.name}}" data-effect-id="{{effect.id}}">
+                data-effect-name="{{effect.name}}" data-effect-id="{{effect.id}}" data-search-name="{{effect.name}}">
                 <div class="name">
                     <div class="image" style="background-image: url('{{effect.img}}')"></div>
                     <h4 data-tooltip="{{effect.name}}">{{effect.name}}</h4>
