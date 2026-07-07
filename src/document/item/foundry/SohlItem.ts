@@ -12,6 +12,7 @@
  */
 
 import { buildActionScope } from "@src/utils/helpers";
+import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
 import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
@@ -276,8 +277,8 @@ export class SohlItem extends Item {
      * @param btn The button element that was clicked.
      */
     async onChatCardEditAction(btn: HTMLElement): Promise<void> {
-        // TODO(#66): Handle chat card edit actions here
-        console.log("Edit action clicked:", btn);
+        if (!this.isOwner) return;
+        await dispatchChatCardAction(this.logic, btn);
     }
 
     /**

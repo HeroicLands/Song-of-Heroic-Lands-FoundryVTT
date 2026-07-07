@@ -11,6 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
+import { buildActionScope } from "@src/utils/helpers";
+
 /**
  * Resolve the UUID of the document that should handle a chat-card button or
  * edit-action click.
@@ -49,14 +53,55 @@ export function resolveChatCardHandlerUuid(
 }
 
 /**
- * Process a chat-card button click.
- * @param btn The HTMLButtonElement that represents the clicked button
+ * Dispatch a chat-card action — either a button click or an edit-action link
+ * click — to the given logic. Reads `btn.dataset.action`, builds an
+ * {@link SohlActionContext}, then dispatches through `logic.actions` (by name,
+ * executor id, or title) before falling back to a direct method call on the
+ * logic. Warns via `sohl.log.warn` when no handler is found.
+ *
+ * Pure dispatch path — callers are responsible for the ownership check before
+ * calling this function.
+ *
+ * @param logic - The logic instance that should handle the action.
+ * @param btn - The clicked element (button or anchor); `dataset.action` names
+ *   the action to dispatch.
  */
-export function onChatCardButton(btn: HTMLButtonElement): void {}
+export async function dispatchChatCardAction(
+    logic: SohlLogic,
+    btn: HTMLElement,
+): Promise<void> {
+    const actionName = btn.dataset.action;
+    if (!actionName) return;
 
-/**
- * Process a chat-card edit link click (to modify the parameters of certain
- * chat cards).
- * @param edit The HTMLElement that represents the clicked element
- */
-export function onChatCardEditAction(edit: HTMLElement): void {}
+    const context = new SohlActionContext({
+        speaker: (logic as any).speaker,
+        type: actionName,
+        title: btn.textContent?.trim() ?? actionName,
+        scope: buildActionScope(
+            btn.dataset,
+            (logic as any).actorLogic ?? logic,
+        ),
+    });
+
+    const action =
+        logic.actions.get(actionName) ??
+        [...logic.actions.values()].find(
+            (act) =>
+                act.data.executor === actionName ||
+                act.data.title === actionName,
+        );
+
+    if (action) {
+        await action.execute(context);
+        return;
+    }
+
+    const fn = (logic as any)[actionName];
+    if (typeof fn === "function") {
+        await fn.call(logic, context);
+    } else {
+        sohl.log.warn(
+            `Chat-card action "${actionName}" not found on logic "${(logic as any).item?.name ?? logic.constructor.name}".`,
+        );
+    }
+}
