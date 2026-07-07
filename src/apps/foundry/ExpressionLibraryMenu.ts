@@ -104,7 +104,7 @@ export class ExpressionLibraryMenu extends (ExpressionLibraryMenu_Base as typeof
         _event: Event,
         _target: HTMLElement,
     ): Promise<void> {
-        new FilePicker({
+        void new FilePicker({
             type: "any" as any,
             callback: async (path: string) => {
                 if (!path.endsWith(".json")) {
@@ -167,7 +167,7 @@ export class ExpressionLibraryMenu extends (ExpressionLibraryMenu_Base as typeof
                             ),
                         );
                     }
-                    this.render();
+                    void this.render();
                 } catch (err: any) {
                     ui.notifications.error(
                         game.i18n.format(
@@ -204,6 +204,6 @@ export class ExpressionLibraryMenu extends (ExpressionLibraryMenu_Base as typeof
         expressionHelpers.clearCustom();
         await game.settings.set("sohl", "expressionHelpers", {});
         await game.settings.set("sohl", "expressionHelpersPath", "");
-        this.render();
+        void this.render();
     }
 }

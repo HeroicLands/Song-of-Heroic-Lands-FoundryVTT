@@ -101,7 +101,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
         _event: Event,
         _target: HTMLElement,
     ): Promise<void> {
-        new FilePicker({
+        void new FilePicker({
             type: "any" as any,
             callback: async (path: string) => {
                 if (!path.endsWith(".json")) {
@@ -168,7 +168,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
                     );
 
                     // Re-render to show the new calendar
-                    this.render();
+                    void this.render();
                 } catch (err: any) {
                     ui.notifications.error(
                         game.i18n.format("SOHL.CalendarSettings.import.error", {
@@ -236,7 +236,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
         }
 
         // Re-render
-        this.render();
+        void this.render();
     }
 
     /**

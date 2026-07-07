@@ -118,6 +118,12 @@ export default [
             // type-blind and false-positives on void returns.
             "consistent-return": "off",
             "@typescript-eslint/consistent-return": "error",
+            // Catch unhandled Promise rejections: every Promise must be
+            // awaited, returned, or explicitly void-cast.
+            "@typescript-eslint/no-floating-promises": "error",
+            // Catch `await` applied to a non-thenable value, which is
+            // always a logic bug.
+            "@typescript-eslint/await-thenable": "error",
             // Recommended JSDoc rules
             "jsdoc/require-jsdoc": [
                 "warn",

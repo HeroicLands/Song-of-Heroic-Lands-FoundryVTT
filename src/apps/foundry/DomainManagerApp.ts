@@ -102,7 +102,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
         });
         if (!result) return;
         await DomainRegistry.register(result, "world");
-        this.render();
+        void this.render();
     }
 
     /**
@@ -130,7 +130,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
         });
         if (!result) return;
         await DomainRegistry.register(result);
-        this.render();
+        void this.render();
     }
 
     /**
@@ -167,7 +167,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
         } as any);
         if (!confirmed) return;
         await DomainRegistry.remove(shortcode);
-        this.render();
+        void this.render();
     }
 
     /**
