@@ -32,6 +32,7 @@ import {
     buildStatusPills,
     buildBodyPartLozenges,
     clampHealthPct,
+    filterHeldWeapons,
     splitWeaponsByRange,
     selectStrikeModeModifier,
 } from "@src/document/actor/logic/being-sheet-view";
@@ -678,8 +679,13 @@ export class BeingSheet extends SohlActorSheetBase {
         const actor = this.document;
         const logic = actor.logic as BeingLogic;
 
-        // Weapons split into melee/missile by their strike mode domain objects
-        const weapons = actor.itemTypes[ITEM_KIND.WEAPONGEAR] ?? [];
+        // Weapons split into melee/missile by their strike mode domain objects;
+        // only weapons currently held (gripped by a body part) appear in combat.
+        const allWeapons = actor.itemTypes[ITEM_KIND.WEAPONGEAR] ?? [];
+        const weapons = filterHeldWeapons(
+            allWeapons,
+            (weapon: SohlItem) => (weapon.logic as any)?.heldBy ?? [],
+        );
         const { meleeWeapons, missileWeapons } = splitWeaponsByRange(
             weapons,
             (weapon) => (weapon.logic as any)?.strikeModes ?? [],
