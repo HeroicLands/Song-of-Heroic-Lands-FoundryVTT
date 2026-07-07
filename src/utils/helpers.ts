@@ -741,10 +741,14 @@ export function hashToId(input: string): string {
  *
  * @remarks
  * Handles the encoding tags produced by {@link defaultToJSON}: `__bigint__:`,
- * `__date__:`, `__url__:`, `__funcref__:` (a reference to a registered function,
- * resolved via {@link getFunc}; unknown ids revive to `undefined`), and the
- * legacy `__func__:` string prefixes, and `__type`-tagged
- * objects for `SohlMap`/`Map`/`Set`/`RegExp`/`Error`/`URL`/`ClientDocument`.
+ * `__date__:`, `__url__:`, and `__funcref__:` (a reference to a registered
+ * function, resolved via {@link getFunc}; unknown ids revive to `undefined`)
+ * string prefixes, and `__type`-tagged objects for
+ * `SohlMap`/`Map`/`Set`/`RegExp`/`Error`/`URL`/`ClientDocument`.
+ *
+ * Executable code is never revived: there is no `__func__:`/`new Function`
+ * path. A legacy `__func__:` string (which no current writer emits) is returned
+ * verbatim as an inert string, so untrusted data cannot introduce code.
  * Objects carrying a registered-kind marker ({@link KIND_KEY}) are reconstructed
  * to their concrete class via {@link getCtorForKind}, with children revived
  * bottom-up and the owning logic supplied through `ctx.parent`.
@@ -782,9 +786,6 @@ export function defaultFromJSON(
                 console.warn(`defaultFromJSON: unknown funcref id "${shown}"`);
             }
             return fn;
-        }
-        if (value.startsWith("__func__:")) {
-            return deserializeFn(value);
         }
         return value;
     }
@@ -905,6 +906,14 @@ export function buildActionScope(
 ): UnknownObject {
     const scopeJson = dataset.scope;
     if (!scopeJson) return {};
+    // Defense-in-depth on the untrusted cross-client path: `defaultFromJSON`
+    // no longer revives code, but reject a legacy `__func__:` code payload
+    // outright rather than silently carrying it as an inert string.
+    if (scopeJson.includes("__func__:")) {
+        throw new Error(
+            "Rejected chat-card scope payload containing a legacy code marker",
+        );
+    }
     return defaultFromJSON(JSON.parse(scopeJson), { parent }) as UnknownObject;
 }
 
@@ -1144,107 +1153,6 @@ export function cloneInstance<T>(
         ...options,
         parent,
     }) as T;
-}
-
-/**
- * Serialize a function into the portable `"__func__:[args]body"` string consumed
- * by {@link deserializeFn}.
- *
- * @remarks
- * Supports standard function declarations and arrow functions with either block
- * or expression bodies; expression-body arrows are wrapped in a `return`.
- * Closures over variables are not captured — only the source text is preserved.
- *
- * @param fn - The function to serialize.
- * @returns The serialized function string.
- * @throws Error if the function's source form is unsupported.
- */
-export function serializeFn(fn: (...args: any[]) => any): string {
-    /**
-     * Strip the surrounding parentheses from an arrow function's parameter
-     * source, leaving a bare comma-separated parameter list.
-     * @param paramSrc - The raw parameter source text.
-     * @returns The parameter list without enclosing parentheses.
-     */
-    function normalizeArrowParams(paramSrc: string): string {
-        const s = paramSrc.trim();
-        if (s.startsWith("(") && s.endsWith(")")) {
-            return s.slice(1, -1).trim();
-        }
-        return s;
-    }
-    const src = fn.toString().trim();
-
-    let argList = "";
-    let body = "";
-
-    // 1. Try standard function form: function name(a, b) { body }
-    let match = src.match(/^function\s*[^(]*\(([^)]*)\)\s*{([\s\S]*)}$/);
-    if (match) {
-        argList = match[1].trim();
-        body = match[2].trim();
-    } else {
-        // 2. Try arrow with block body: (a, b) => { body }  OR  a => { body }
-        match = src.match(
-            /^(\([^)]*\)|[a-zA-Z_$][0-9a-zA-Z_$]*)\s*=>\s*{([\s\S]*)}$/,
-        );
-        if (match) {
-            argList = normalizeArrowParams(match[1]);
-            body = match[2].trim();
-        } else {
-            // 3. Arrow with expression body: (a, b) => expr  OR  a => expr
-            match = src.match(
-                /^(\([^)]*\)|[a-zA-Z_$][0-9a-zA-Z_$]*)\s*=>\s*([\s\S]*)$/,
-            );
-            if (!match) {
-                throw new Error(
-                    "Unsupported function format for serialization.",
-                );
-            }
-            argList = normalizeArrowParams(match[1]);
-            // Expression arrow body needs a return statement
-            body = `return (${match[2].trim()})`;
-        }
-    }
-
-    // Normalize args into "a,b,c"
-    const args = argList
-        .split(",")
-        .map((a) => a.trim())
-        .filter((a) => a.length > 0)
-        .join(",");
-
-    return `__func__:[${args}]${body}`;
-}
-
-/**
- * Deserialize a serialized function string in the format:
- *   "__func__:[arg1,arg2,...]body"
- * back into a live Function object.
- *
- * @param serialized - The serialized function string to revive.
- * @returns The reconstructed function.
- * @throws Error if the string is not a well-formed serialized function.
- */
-export function deserializeFn(serialized: string): (...args: any[]) => any {
-    if (!serialized.startsWith("__func__:"))
-        throw new Error("Invalid serialized function format.");
-
-    // Extract argument list and body
-    const match = serialized.match(/^__func__:\[([^\]]*)\](.*)$/s);
-    if (!match) throw new Error("Malformed serialized function string.");
-
-    const args = match[1].trim();
-    const body = match[2].trim();
-
-    // Construct the function
-    try {
-        return new Function(args, body) as (...args: any[]) => any;
-    } catch (err) {
-        throw new Error(
-            `Failed to deserialize function: ${(err as Error).message}`,
-        );
-    }
 }
 
 /**
