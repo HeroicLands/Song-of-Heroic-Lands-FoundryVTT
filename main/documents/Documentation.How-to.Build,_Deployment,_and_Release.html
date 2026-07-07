@@ -340,6 +340,115 @@ locks and won't pick up code changes until reloaded.</li>
 <li>After the deploy completes, <strong>reload/restart</strong> Foundry to load the new system.</li>
 <li>The first time you use it in a world, select <strong>SoHL</strong> as the world's game system.</li>
 </ul>
+<a id="running-a-build-in-a-container" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Running a build in a container<a href="#running-a-build-in-a-container" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>To smoke-test a build in a real Foundry instance without maintaining a
+hand-run server, <code>container:&lt;stage&gt;</code> runs Foundry in Docker against the same
+<code>FOUNDRYVTT_&lt;STAGE&gt;_DATA</code> root the push scripts deploy into:</p>
+<pre><code class="bash"><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">build</span><span class="hl-1"> &amp;&amp; </span><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">push:dev</span><span class="hl-1"> &amp;&amp; </span><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">container:dev</span><span class="hl-1"> </span><span class="hl-9">start</span><span class="hl-1">   </span><span class="hl-5"># bring it up</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">container:dev</span><span class="hl-1"> </span><span class="hl-9">stop</span><span class="hl-1">                                          </span><span class="hl-5"># tear it down</span>
+</code><button type="button">Copy</button></pre>
+
+<p>The commands (<code>node utils/foundry-container.mjs &lt;stage&gt; &lt;command&gt;</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>start</code></td>
+<td>Create (or restart) <code>sohl-foundry-&lt;stage&gt;</code> and serve <code>/data</code>.</td>
+</tr>
+<tr>
+<td><code>stop</code></td>
+<td>Stop the container (state is kept for a fast <code>start</code>).</td>
+</tr>
+<tr>
+<td><code>restart</code></td>
+<td>Restart the container.</td>
+</tr>
+<tr>
+<td><code>recreate</code></td>
+<td>Remove and re-create the container so changed <code>FOUNDRY_*</code>/<code>CONTAINER_*</code> env applies.</td>
+</tr>
+<tr>
+<td><code>rm</code></td>
+<td>Stop and remove the container.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Show the container's <code>docker ps -a</code> row.</td>
+</tr>
+<tr>
+<td><code>logs</code></td>
+<td>Follow the container log (watch first-run install / boot here).</td>
+</tr>
+<tr>
+<td><code>pull</code></td>
+<td>Pull the latest image.</td>
+</tr>
+</tbody>
+</table>
+<p>The data root is bind-mounted at <code>/data</code>, so the system pushed to
+<code>&lt;root&gt;/Data/systems/sohl/</code> is served directly — the value <strong>must be a local
+path</strong> (a remote SFTP target can't be mounted and is rejected). Foundry itself
+runs from the community <a href="https://hub.docker.com/r/felddy/foundryvtt"><code>felddy/foundryvtt</code></a>
+image, which downloads the correct build inside the container (a local Foundry
+install can't be reused across platforms — its bundled native modules are
+platform-specific).</p>
+<p>Configuration lives in <code>.env.local</code> (all optional):</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FOUNDRYVTT_CONTAINER_IMAGE</code></td>
+<td><code>felddy/foundryvtt:14</code></td>
+<td>Image tag to run (<code>:14</code> matches <code>system.json</code> <code>minimum</code>).</td>
+</tr>
+<tr>
+<td><code>FOUNDRYVTT_&lt;STAGE&gt;_PORT</code></td>
+<td>30000 / 30001 / 30002</td>
+<td>Published host port (distinct per stage so all three can coexist).</td>
+</tr>
+<tr>
+<td><code>FOUNDRYVTT_CACHE</code></td>
+<td>—</td>
+<td>Host dir with a pre-downloaded Foundry zip (see cache note below).</td>
+</tr>
+<tr>
+<td><code>FOUNDRY_*</code> / <code>CONTAINER_*</code></td>
+<td>—</td>
+<td>Passed through to the image (licensing, cache, tuning — see below).</td>
+</tr>
+</tbody>
+</table>
+<p>🔧 <strong>First-run licensing.</strong> felddy needs to fetch Foundry once. Supply your
+Foundry credentials (<code>FOUNDRY_USERNAME</code> / <code>FOUNDRY_PASSWORD</code> [+ <code>FOUNDRY_LICENSE_KEY</code>]),
+a timed <code>FOUNDRY_RELEASE_URL</code>, or a pre-seeded cache (below) — whichever you
+prefer, in <code>.env.local</code>. The download is cached, so subsequent <code>start</code>s are fast
+and need no credentials. Docker must be installed and on <code>PATH</code>.</p>
+<p><strong>Env is baked in at create time.</strong> <code>FOUNDRY_*</code>/<code>CONTAINER_*</code> values are fixed
+when the container is first created (<code>docker run</code>); <code>start</code>/<code>restart</code> do <strong>not</strong>
+pick up changes to them. After editing one — e.g. <code>FOUNDRY_WORLD=&lt;world-dir&gt;</code> to
+auto-launch a specific world (felddy regenerates <code>Config/options.json</code> from the
+env on each start, so hand-editing it won't stick), or credentials — run
+<code>npm run container:&lt;stage&gt; recreate</code> to re-create the container with the current
+environment.</p>
+<p><strong>Download cache.</strong> <code>CONTAINER_CACHE</code> in felddy is a path <strong>inside the
+container</strong> (default <code>/data/container_cache</code>). Because the data root is mounted
+at <code>/data</code>, that default is <code>&lt;dataRoot&gt;/container_cache/</code> on your host — so the
+no-config option is to drop <code>foundryvtt-&lt;version&gt;.zip</code> (e.g.
+<code>foundryvtt-14.364.zip</code>) there. If instead the zip lives in a <strong>separate</strong> host
+directory, set <code>FOUNDRYVTT_CACHE</code> to it: the script bind-mounts that directory
+and sets <code>CONTAINER_CACHE</code> to the mount point for you. Do <strong>not</strong> set a raw
+<code>CONTAINER_CACHE</code> to a host path — it names a container path and is not
+forwarded (use <code>FOUNDRYVTT_CACHE</code> instead).</p>
 <a id="7-cutting-a-release" class="tsd-anchor"></a><h2 class="tsd-anchor-link">7. Cutting a release<a href="#7-cutting-a-release" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>A release is cut by <strong>merging the auto-generated &quot;Version Packages&quot; PR</strong>; the
 <code>Version and Release</code> GitHub Actions workflow (<code>.github/workflows/release.yml</code>)
 does the build, tag, GitHub Release, and asset upload. The only command you
@@ -493,6 +602,10 @@ and how to invoke it — read the file itself for the authoritative detail. In b
 <td>deploy <code>build/stage/</code> to a Foundry instance (<code>dev</code>/<code>qa</code>/<code>prod</code>).</td>
 </tr>
 <tr>
+<td><code>foundry-container.mjs</code></td>
+<td>run a build in a Foundry Docker container (<code>&lt;stage&gt; start|stop|…</code>).</td>
+</tr>
+<tr>
 <td><code>release.mjs</code></td>
 <td>Legacy local release path; authenticate with <code>gh auth login</code> (CI normally cuts releases).</td>
 </tr>
@@ -530,4 +643,4 @@ contributing and the PR workflow.</li>
 for the changelog and release.</li>
 <li><a href="Documentation.How-to.Testing.html">Testing</a> — the test tooling and patterns.</li>
 </ul>
-</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#build-deployment-and-release"><span>Build, <wbr/>Deployment, and <wbr/>Release</span></a><ul><li><a href="#1-first-time-setup"><span>1. <wbr/>First-<wbr/>time setup</span></a></li><li><a href="#2-npm-scripts"><span>2. npm scripts</span></a></li><li><ul><li><a href="#build"><span>Build</span></a></li><li><a href="#compendium-packs"><span>Compendium packs</span></a></li><li><a href="#tests-lint-format"><span>Tests, lint, format</span></a></li><li><a href="#docs"><span>Docs</span></a></li><li><a href="#deploy-and-release"><span>Deploy and release</span></a></li></ul></li><li><a href="#3-the-build-pipeline"><span>3. <wbr/>The build pipeline</span></a></li><li><a href="#4-the-build-directory-layout"><span>4. <wbr/>The build/ directory layout</span></a></li><li><a href="#5-compendium-packs-and-the-obsidian-vault"><span>5. <wbr/>Compendium packs and the <wbr/>Obsidian vault</span></a></li><li><ul><li><a href="#design-decision--committed-pack-sources"><span>Design decision — committed pack sources</span></a></li><li><a href="#authoring-content-in-the-heroiclands-vault"><span>Authoring content in the <wbr/>Heroic<wbr/>Lands vault</span></a></li></ul></li><li><a href="#6-deploying-to-a-foundry-instance"><span>6. <wbr/>Deploying to a <wbr/>Foundry instance</span></a></li><li><a href="#7-cutting-a-release"><span>7. <wbr/>Cutting a release</span></a></li><li><ul><li><a href="#while-developing"><span>While developing</span></a></li><li><a href="#to-cut-the-release-maintainer"><span>To cut the release (maintainer)</span></a></li></ul></li><li><a href="#8-the-build-utility-scripts"><span>8. <wbr/>The build utility scripts</span></a></li><li><a href="#see-also"><span>See also</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#build-deployment-and-release"><span>Build, <wbr/>Deployment, and <wbr/>Release</span></a><ul><li><a href="#1-first-time-setup"><span>1. <wbr/>First-<wbr/>time setup</span></a></li><li><a href="#2-npm-scripts"><span>2. npm scripts</span></a></li><li><ul><li><a href="#build"><span>Build</span></a></li><li><a href="#compendium-packs"><span>Compendium packs</span></a></li><li><a href="#tests-lint-format"><span>Tests, lint, format</span></a></li><li><a href="#docs"><span>Docs</span></a></li><li><a href="#deploy-and-release"><span>Deploy and release</span></a></li></ul></li><li><a href="#3-the-build-pipeline"><span>3. <wbr/>The build pipeline</span></a></li><li><a href="#4-the-build-directory-layout"><span>4. <wbr/>The build/ directory layout</span></a></li><li><a href="#5-compendium-packs-and-the-obsidian-vault"><span>5. <wbr/>Compendium packs and the <wbr/>Obsidian vault</span></a></li><li><ul><li><a href="#design-decision--committed-pack-sources"><span>Design decision — committed pack sources</span></a></li><li><a href="#authoring-content-in-the-heroiclands-vault"><span>Authoring content in the <wbr/>Heroic<wbr/>Lands vault</span></a></li></ul></li><li><a href="#6-deploying-to-a-foundry-instance"><span>6. <wbr/>Deploying to a <wbr/>Foundry instance</span></a></li><li><ul><li><a href="#running-a-build-in-a-container"><span>Running a build in a container</span></a></li></ul></li><li><a href="#7-cutting-a-release"><span>7. <wbr/>Cutting a release</span></a></li><li><ul><li><a href="#while-developing"><span>While developing</span></a></li><li><a href="#to-cut-the-release-maintainer"><span>To cut the release (maintainer)</span></a></li></ul></li><li><a href="#8-the-build-utility-scripts"><span>8. <wbr/>The build utility scripts</span></a></li><li><a href="#see-also"><span>See also</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>

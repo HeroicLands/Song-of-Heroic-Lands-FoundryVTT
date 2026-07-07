@@ -71,4 +71,82 @@
 <pre><code><span class="hl-0">src</span><span class="hl-1">/</span><span class="hl-0">domain</span><span class="hl-1">/</span><span class="hl-0">body</span><span class="hl-1">/</span><span class="hl-0">BodyStructure</span><span class="hl-1">.</span><span class="hl-0">ts</span><span class="hl-1">  →  </span><span class="hl-0">tests</span><span class="hl-1">/</span><span class="hl-0">domain</span><span class="hl-1">/</span><span class="hl-0">body</span><span class="hl-1">/</span><span class="hl-0">BodyStructure</span><span class="hl-1">.</span><span class="hl-0">test</span><span class="hl-1">.</span><span class="hl-0">ts</span><br/><span class="hl-0">src</span><span class="hl-1">/</span><span class="hl-0">domain</span><span class="hl-1">/</span><span class="hl-0">modifier</span><span class="hl-1">/</span><span class="hl-0">ValueModifier</span><span class="hl-1">.</span><span class="hl-0">ts</span><span class="hl-1">  →  </span><span class="hl-0">tests</span><span class="hl-1">/</span><span class="hl-0">domain</span><span class="hl-1">/</span><span class="hl-0">modifier</span><span class="hl-1">/</span><span class="hl-0">ValueModifier</span><span class="hl-1">.</span><span class="hl-0">test</span><span class="hl-1">.</span><span class="hl-0">ts</span><br/><span class="hl-0">src</span><span class="hl-1">/</span><span class="hl-0">document</span><span class="hl-1">/</span><span class="hl-0">item</span><span class="hl-1">/</span><span class="hl-0">logic</span><span class="hl-1">/</span><span class="hl-0">SkillLogic</span><span class="hl-1">.</span><span class="hl-0">ts</span><span class="hl-1">  →  </span><span class="hl-0">tests</span><span class="hl-1">/</span><span class="hl-0">item</span><span class="hl-1">/</span><span class="hl-0">Skill</span><span class="hl-1">.</span><span class="hl-0">test</span><span class="hl-1">.</span><span class="hl-0">ts</span>
 </code><button>Copy</button></pre>
 
-</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#testing"><span>Testing</span></a><ul><li><a href="#running-tests"><span>Running tests</span></a></li><li><a href="#tdd-workflow"><span>TDD workflow</span></a></li><li><a href="#scope-the-logic-layer"><span>Scope: the logic layer</span></a></li><li><a href="#adding-new-shim-functions"><span>Adding new shim functions</span></a></li><li><a href="#writing-tests-for-logic-classes"><span>Writing tests for <wbr/>Logic classes</span></a></li><li><a href="#logic-layer-purity-smoke-test"><span>Logic-<wbr/>layer purity smoke test</span></a></li><li><a href="#end-to-end-example-testing-a-domain-object"><span>End-<wbr/>to-<wbr/>end example: testing a domain object</span></a></li><li><ul><li><a href="#1-write-the-test-first"><span>1. <wbr/>Write the test first</span></a></li><li><a href="#2-run-the-test--it-should-fail-or-pass-if-code-exists"><span>2. <wbr/>Run the test — it should fail (or pass if code exists)</span></a></li><li><a href="#3-key-patterns-for-mocking"><span>3. <wbr/>Key patterns for mocking</span></a></li><li><a href="#4-test-file-organization"><span>4. <wbr/>Test file organization</span></a></li></ul></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>
+<a id="browser-end-to-end-tests-cypress" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Browser end-to-end tests (Cypress)<a href="#browser-end-to-end-tests-cypress" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The vitest suites above cover the Foundry-free logic layer. To exercise the
+<em>running</em> system in a real Foundry instance — sheets, hooks, the full client —
+there is a Cypress harness that seeds a throwaway world, serves it in Docker,
+logs in as a GM, and drives the browser.</p>
+<pre><code class="bash"><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">test:e2e</span><span class="hl-1">        </span><span class="hl-5"># headless: seed → serve → cypress run → tear down</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">test:e2e:open</span><span class="hl-1">   </span><span class="hl-5"># interactive: seed → serve → cypress open (leaves it up)</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Both assume you have already built (<code>npm run build</code>). The harness is fully
+isolated from your dev/qa worlds:</p>
+<table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FOUNDRYVTT_TEST_DATA</code></td>
+<td>A <strong>fresh, empty</strong> data root for tests (set in <code>.env.local</code>).</td>
+</tr>
+<tr>
+<td><code>utils/seed-test-world.mjs</code></td>
+<td>Writes <code>Data/worlds/sohl-e2e/</code> — <code>world.json</code> + a <code>users</code> LevelDB with a GM whose password is known. Idempotent (wiped each run).</td>
+</tr>
+<tr>
+<td><code>container:test</code> (port 30003)</td>
+<td>Runs the seeded world with <code>FOUNDRY_WORLD=sohl-e2e</code> (the <code>test</code> stage of the container script).</td>
+</tr>
+<tr>
+<td><code>utils/e2e-run.mjs</code></td>
+<td>Recreates the container, waits for the world to <strong>activate</strong>, runs Cypress, tears down.</td>
+</tr>
+<tr>
+<td><code>cypress/</code> + <code>cypress.config.mjs</code></td>
+<td><code>cy.login()</code> authenticates via <code>/join</code> with the seeded GM; <code>cypress/e2e/smoke.cy.js</code> asserts the world + <code>sohl</code> system loaded.</td>
+</tr>
+</tbody>
+</table>
+<p>Override the seed via <code>.env.local</code> (<code>SOHL_E2E_WORLD_ID</code>, <code>SOHL_E2E_GM_NAME</code>,
+<code>SOHL_E2E_GM_PASSWORD</code>, …); <code>cypress.config.mjs</code> reads the same values so
+<code>cy.login()</code> stays in sync — a spec just calls <code>cy.login()</code>.</p>
+<p>🔧 <strong>Foundry license (required).</strong> The <code>test</code> container needs its own Foundry
+license. A license signed for one installation does <strong>not</strong> transfer to another
+(a copied <code>license.json</code> won't verify), and each license is <strong>single-seat</strong> (one
+running instance at a time). So <strong>dedicate a spare license to the test stage</strong> —
+then <code>dev</code> and <code>test</code> can run at once with no churn:</p>
+<pre><code class="bash"><span class="hl-5"># .env.local</span><br/><span class="hl-0">FOUNDRYVTT_TEST_DATA</span><span class="hl-1">=</span><span class="hl-9">/Users/you/Games/fvtt/data-e2e</span><span class="hl-1">   </span><span class="hl-5"># separate, EMPTY dir</span><br/><span class="hl-0">FOUNDRYVTT_TEST_LICENSE_KEY</span><span class="hl-1">=</span><span class="hl-9">XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX</span><span class="hl-1">  </span><span class="hl-5"># different key than dev</span><br/><span class="hl-0">FOUNDRY_USERNAME</span><span class="hl-1">=</span><span class="hl-9">your-foundry-account</span><span class="hl-1">     </span><span class="hl-5"># account-wide; lets felddy SIGN the key</span><br/><span class="hl-0">FOUNDRY_PASSWORD</span><span class="hl-1">=</span><span class="hl-9">your-foundry-password</span><span class="hl-1">    </span><span class="hl-5"># (a bare key stays unsigned)</span>
+</code><button type="button">Copy</button></pre>
+
+<p><code>FOUNDRYVTT_&lt;STAGE&gt;_LICENSE_KEY</code> overrides the license for that stage's
+container. A bare key is <em>applied but unsigned</em> (&quot;license requires signature&quot;);
+<code>FOUNDRY_USERNAME</code>/<code>FOUNDRY_PASSWORD</code> (account-wide) let felddy fetch a <strong>signed</strong>
+license — or sign once in a browser at <code>http://localhost:30003/setup</code>. Foundry
+binds the signed license to the <strong>container hostname</strong>, so the container script
+pins a stable one (<code>sohl-foundry-&lt;stage&gt;</code>); the signed <code>license.json</code> then
+persists across recreates (the seed wipes only the world, not <code>Config</code>). Without
+that pin Foundry would revert to &quot;requires signature&quot; on every run.</p>
+<p><code>FOUNDRYVTT_TEST_DATA</code> must be a <strong>separate, empty</strong> dir — not your dev/qa root.
+If it points at a dir with an existing <code>Config/license.json</code>, felddy reuses that
+file and ignores the key (the seed also errors out on this to prevent
+world/license clobbering).</p>
+<p>If instead you <strong>share</strong> one license, stop your <code>dev</code>/<code>qa</code> container before the
+run (single-seat); the harness warns when another <code>sohl-foundry-*</code> container is
+up. See
+<a href="Documentation.How-to.Build,_Deployment,_and_Release.html#6-deploying-to-a-foundry-instance">Build &amp; Deployment §6 — running a build in a container</a>
+for the container details and download cache.</p>
+<p>Writing specs: build on <code>cy.login()</code> (defined in <code>cypress/support/commands.js</code>),
+which logs in as the GM and waits for <code>game.ready</code>, then drive the world through
+<code>cy.window().its(&quot;game&quot;)</code>. Cypress run artifacts (<code>cypress/videos</code>,
+<code>cypress/screenshots</code>) are gitignored; the config, support, and specs are
+committed.</p>
+<p>🔧 <strong>Cypress version matters.</strong> Foundry v14's client uses ES2024 <code>Set</code>
+methods (<code>Set.prototype.difference</code>), so Cypress must bundle <strong>Chromium ≥ 122</strong>
+— otherwise the app throws <code>.difference is not a function</code> on load and every
+spec fails. Cypress 15 (Electron 37 / Chromium 138) is fine; do not downgrade
+below the pinned major. If specs suddenly fail with a <code>foundry.mjs</code>
+<code>&lt;static_initializer&gt;</code> error, suspect an out-of-date bundled browser first.</p>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#testing"><span>Testing</span></a><ul><li><a href="#running-tests"><span>Running tests</span></a></li><li><a href="#tdd-workflow"><span>TDD workflow</span></a></li><li><a href="#scope-the-logic-layer"><span>Scope: the logic layer</span></a></li><li><a href="#adding-new-shim-functions"><span>Adding new shim functions</span></a></li><li><a href="#writing-tests-for-logic-classes"><span>Writing tests for <wbr/>Logic classes</span></a></li><li><a href="#logic-layer-purity-smoke-test"><span>Logic-<wbr/>layer purity smoke test</span></a></li><li><a href="#end-to-end-example-testing-a-domain-object"><span>End-<wbr/>to-<wbr/>end example: testing a domain object</span></a></li><li><ul><li><a href="#1-write-the-test-first"><span>1. <wbr/>Write the test first</span></a></li><li><a href="#2-run-the-test--it-should-fail-or-pass-if-code-exists"><span>2. <wbr/>Run the test — it should fail (or pass if code exists)</span></a></li><li><a href="#3-key-patterns-for-mocking"><span>3. <wbr/>Key patterns for mocking</span></a></li><li><a href="#4-test-file-organization"><span>4. <wbr/>Test file organization</span></a></li></ul></li><li><a href="#browser-end-to-end-tests-cypress"><span>Browser end-<wbr/>to-<wbr/>end tests (<wbr/>Cypress)</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>
