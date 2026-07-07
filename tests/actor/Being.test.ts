@@ -524,6 +524,122 @@ describe("BeingLogic", () => {
         });
     });
 
+    describe("getUsableStrikeModes (#177)", () => {
+        function makeMeleeWithReach(
+            parentLogic: any,
+            reachEffective: number,
+            disabled = false,
+            id = "sm1",
+        ): MeleeStrikeMode {
+            const sm = makeMeleeMode(
+                parentLogic,
+                { attack: { disabled, spread: 2, modifier: 5 } },
+                id,
+            );
+            // Override reach.effective without going through full evaluate
+            Object.defineProperty(sm.reach, "effective", {
+                get: () => reachEffective,
+                configurable: true,
+            });
+            return sm;
+        }
+
+        it("returns [] when there are no available strike modes", () => {
+            const logic = makeBeing();
+            (logic.actor as any).itemTypes = {};
+            expect(
+                logic.getUsableStrikeModes({
+                    distanceToTarget: 5,
+                    volleyAllowed: false,
+                    directAllowed: true,
+                    meleeAllowed: true,
+                }),
+            ).toEqual([]);
+        });
+
+        it("returns a melee mode within reach when meleeAllowed", () => {
+            const logic = makeBeing();
+            const sm = makeMeleeWithReach(logic, 6);
+            const ct = makeTechniqueItem(logic.actor as any);
+            (logic.actor as any).itemTypes = {
+                [ITEM_KIND.COMBATTECHNIQUE]: [ct],
+                [ITEM_KIND.WEAPONGEAR]: [
+                    {
+                        id: "wpn1",
+                        logic: { strikeModes: [sm], heldBy: [{}] },
+                    },
+                ],
+            };
+            const result = logic.getUsableStrikeModes({
+                distanceToTarget: 5,
+                volleyAllowed: false,
+                directAllowed: true,
+                meleeAllowed: true,
+            });
+            expect(result).toContain(sm);
+        });
+
+        it("excludes a melee mode out of reach", () => {
+            const logic = makeBeing();
+            const sm = makeMeleeWithReach(logic, 3);
+            (logic.actor as any).itemTypes = {
+                [ITEM_KIND.WEAPONGEAR]: [
+                    {
+                        id: "wpn1",
+                        logic: { strikeModes: [sm], heldBy: [{}] },
+                    },
+                ],
+            };
+            const result = logic.getUsableStrikeModes({
+                distanceToTarget: 5,
+                volleyAllowed: false,
+                directAllowed: true,
+                meleeAllowed: true,
+            });
+            expect(result).not.toContain(sm);
+        });
+
+        it("excludes a melee mode when meleeAllowed is false", () => {
+            const logic = makeBeing();
+            const sm = makeMeleeWithReach(logic, 10);
+            (logic.actor as any).itemTypes = {
+                [ITEM_KIND.WEAPONGEAR]: [
+                    {
+                        id: "wpn1",
+                        logic: { strikeModes: [sm], heldBy: [{}] },
+                    },
+                ],
+            };
+            const result = logic.getUsableStrikeModes({
+                distanceToTarget: 5,
+                volleyAllowed: false,
+                directAllowed: true,
+                meleeAllowed: false,
+            });
+            expect(result).not.toContain(sm);
+        });
+
+        it("excludes a mode with attack.disabled", () => {
+            const logic = makeBeing();
+            const sm = makeMeleeWithReach(logic, 10, true);
+            (logic.actor as any).itemTypes = {
+                [ITEM_KIND.WEAPONGEAR]: [
+                    {
+                        id: "wpn1",
+                        logic: { strikeModes: [sm], heldBy: [{}] },
+                    },
+                ],
+            };
+            const result = logic.getUsableStrikeModes({
+                distanceToTarget: 5,
+                volleyAllowed: false,
+                directAllowed: true,
+                meleeAllowed: true,
+            });
+            expect(result).not.toContain(sm);
+        });
+    });
+
     describe("properties", () => {
         // health / healingBase / shockState are declared on BeingLogic but
         // never assigned by any lifecycle phase yet.
