@@ -205,7 +205,7 @@ export class BeingLogic<
      * the item is currently readied, how many body parts are holding the weapon,
      * and other conditions including heft, pull, and similar considerations.
      *
-     * @param options
+     * @param options - Filter criteria for the strike mode query.
      * @param options.distanceToTarget if specified, the distance from the weapon holder
      * to the target, used to consider reach and/or range.
      * @param options.volleyAllowed if `true`, volley strike modes are allowed, otherwise not.

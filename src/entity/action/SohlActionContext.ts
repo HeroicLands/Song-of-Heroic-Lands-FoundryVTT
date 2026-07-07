@@ -91,6 +91,19 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
      * (for an actor, its first active token).
      *
      * @param data - Initial context values; all but `speaker` are optional.
+     * @param data.speaker - The speaker who initiated this action (required).
+     *   A plain data object is automatically wrapped in a {@link SohlSpeaker}.
+     * @param data.target - The token or actor that is the action's target;
+     *   normalized to a {@link SohlTokenDocument}. Defaults to `null`.
+     * @param data.skipDialog - When `true`, bypass any interactive dialog and
+     *   use values from `scope` directly. Defaults to `false`.
+     * @param data.noChat - When `true`, suppress the resulting chat card.
+     *   Defaults to `false`.
+     * @param data.type - A string type label for the action. Defaults to `""`.
+     * @param data.title - A human-readable title for the action dialog/card.
+     *   Defaults to `""`.
+     * @param data.scope - Action-specific scope values (e.g. modifiers, results).
+     *   Defaults to `{}`.
      * @throws Error if no `speaker` is provided, or if `target` is neither a
      *   token nor an actor.
      */

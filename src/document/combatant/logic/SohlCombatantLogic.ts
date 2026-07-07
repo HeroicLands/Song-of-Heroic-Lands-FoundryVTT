@@ -1439,6 +1439,8 @@ export interface CombatCardData {
  * action (assisted). Counterstrike can land both sides at once.
  * @param combatResult The resolved combat exchange.
  * @returns The render context for `attack-result-card.hbs`.
+ * @throws {Error} If `combatResult.attackResult` is missing.
+ * @throws {Error} If `combatResult.defendResult` is missing.
  */
 export function buildCombatCardData(
     combatResult: CombatResult,
