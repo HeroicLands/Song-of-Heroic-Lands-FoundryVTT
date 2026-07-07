@@ -80,6 +80,13 @@ new keys instead.</li>
 <li><strong>The logic layer stays Foundry-free.</strong> All Foundry API access goes through
 <code>src/core/FoundryHelpers.ts</code> (see <a href="#architectural-boundaries">Architectural boundaries</a>).</li>
 <li><strong>Test-driven development.</strong> Write the test before the code it verifies.</li>
+<li><strong>Never compile data into code.</strong> No <code>eval</code>, <code>new Function</code>, or
+<code>Handlebars.compile</code> of data-derived strings; never revive functions from
+serialized data. Data carries only <em>references</em> (a funcref id, a <code>__kind</code>
+tag, a Foundry Macro UUID). Never build HTML by interpolating data into
+template source, and remember that client-side gating is not authorization.
+Read <a href="../media/security-model.md">Security Model &amp; Guardrails</a> before
+touching serialization, HTML rendering, actions, or cross-client flows.</li>
 </ol>
 <a id="development-workflow" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Development workflow<a href="#development-workflow" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="issue-first" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Issue first<a href="#issue-first" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>No repository change lands without a tracking GitHub issue — <strong>except</strong> pure
 <code>cleanup/*</code>, <code>docs/*</code>, and <code>chore/*</code> work (housekeeping, documentation, and
