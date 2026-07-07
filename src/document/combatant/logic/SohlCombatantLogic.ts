@@ -1439,6 +1439,11 @@ export function buildCombatCardData(combatResult: CombatResult): {
             injuryButton(combatResult.attackerImpact, defResult.token.uuid)
         :   null;
 
+    let atkInjury =
+        combatResult.cxImpact && atkResult.token ?
+            injuryButton(combatResult.cxImpact, atkResult.token.uuid)
+        :   null;
+
     let atkWeapon =
         atkResult ?
             StrikeModeBase.fromPointerData(atkResult.mode)?.parent
@@ -1498,10 +1503,10 @@ export function buildCombatCardData(combatResult: CombatResult): {
                 (defResult?.mishaps?.has(DEFEND_MISHAP.STUMBLE_TEST) ?? false)
             :   false,
         // Injury buttons (createInjury, assisted) — one per landing side.
-        hasAttackInjury: false,
-        attackInjuryHandlerUuid: "",
-        attackInjuryTargetName: "",
-        attackInjuryScope: {},
+        hasAttackInjury: !!atkInjury,
+        attackInjuryHandlerUuid: atkInjury?.handlerUuid ?? "",
+        attackInjuryTargetName: atkInjury?.targetName ?? "",
+        attackInjuryScope: atkInjury?.scopeData ?? {},
         hasDefendInjury: !!defInjury,
         defendInjuryHandlerUuid: defInjury?.handlerUuid ?? "",
         defendInjuryTargetName: defInjury?.targetName ?? "",
@@ -1513,6 +1518,15 @@ export function buildCombatCardData(combatResult: CombatResult): {
         defInjury =
             combatResult.attackerImpact && defResult.token ?
                 injuryButton(combatResult.attackerImpact, defResult.token.uuid)
+            :   null;
+        // On the CX card the original attacker is the "defender", so their
+        // injury comes from cxImpact (the CX blow landing on them).
+        atkInjury =
+            combatResult.cxImpact && combatResult.attackResult.token ?
+                injuryButton(
+                    combatResult.cxImpact,
+                    combatResult.attackResult.token.uuid,
+                )
             :   null;
 
         atkWeapon =
@@ -1560,10 +1574,10 @@ export function buildCombatCardData(combatResult: CombatResult): {
             isDefFumbleTest: false,
             isDefStumbleTest: false,
             // Injury buttons (createInjury, assisted) — one per landing side.
-            hasAttackInjury: false,
-            attackInjuryHandlerUuid: "",
-            attackInjuryTargetName: "",
-            attackInjuryScope: {},
+            hasAttackInjury: !!atkInjury,
+            attackInjuryHandlerUuid: atkInjury?.handlerUuid ?? "",
+            attackInjuryTargetName: atkInjury?.targetName ?? "",
+            attackInjuryScope: atkInjury?.scopeData ?? {},
             hasDefendInjury: !!defInjury,
             defendInjuryHandlerUuid: defInjury?.handlerUuid ?? "",
             defendInjuryTargetName: defInjury?.targetName ?? "",
