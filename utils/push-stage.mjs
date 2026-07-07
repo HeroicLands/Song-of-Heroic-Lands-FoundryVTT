@@ -66,6 +66,7 @@ const STAGE_ENV_MAP = {
     dev: "FOUNDRYVTT_DEV_DATA",
     qa: "FOUNDRYVTT_QA_DATA",
     prod: "FOUNDRYVTT_PROD_DATA",
+    test: "FOUNDRYVTT_TEST_DATA",
 };
 
 function resolveStage(stageArg) {
@@ -185,7 +186,7 @@ async function deployRemote(conn, srcAbs, remoteDir) {
 async function main() {
     const stage = resolveStage(process.argv[2]);
     if (!stage) {
-        console.error("Usage: node utils/push-stage.mjs <dev|qa|prod>");
+        console.error("Usage: node utils/push-stage.mjs <dev|qa|prod|test>");
         process.exit(1);
     }
 

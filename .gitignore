@@ -60,6 +60,11 @@ Session.vim
 /coverage/
 /css/
 
+# Cypress run artifacts (specs/support/config are committed)
+/cypress/videos/
+/cypress/screenshots/
+/cypress/downloads/
+
 # Hidden files
 /nogit/
 *.wip
