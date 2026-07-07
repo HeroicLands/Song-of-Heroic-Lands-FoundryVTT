@@ -235,7 +235,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </header>
             <ol class="list__items bodylocations-list">
                 {{#each part.locations as |loc|}}
-                <li class="item bodylocation flexrow" data-part-index="{{part.index}}" data-loc-index="{{loc.index}}">
+                <li class="item bodylocation flexrow" data-part-index="{{part.index}}" data-loc-index="{{loc.index}}" data-search-name="{{loc.shortcode}}">
                     <div class="body-drop"></div>
                     <div class="body-drop"></div>
                     <div class="list__name default-action flexrow">
