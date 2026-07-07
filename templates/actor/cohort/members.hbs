@@ -49,7 +49,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="list__detail">Role</div>
             </li>
             {{#each members as |member|}}
-            <li class="item flexrow" data-item-id="{{member.id}}" data-item-name="{{member.name}}">
+            <li class="item flexrow" data-item-id="{{member.id}}" data-item-name="{{member.name}}" data-search-name="{{member.name}}">
                 <div class="list__name default-action flexrow">
                     <h4 data-tooltip="{{member.name}}">{{member.name}}</h4>
                 </div>
