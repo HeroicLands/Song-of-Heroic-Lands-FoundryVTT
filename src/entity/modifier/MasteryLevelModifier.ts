@@ -29,73 +29,78 @@ import {
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlEntity } from "../SohlEntity";
 
-// TODO(#70): This needs to be internationalized
-const STANDARD_SUCCESS_VALUE_TABLE: SuccessTestResult.LimitedDescription[] = [
-    {
-        maxValue: 0,
-        label: "No Value",
-        description: "Test fails to produce a usable result.",
-        lastDigits: [],
-        success: false,
-        result: 0,
-    },
-    {
-        maxValue: 2,
-        label: "Little Value",
-        description: "Test produces a limited or flawed result.",
-        lastDigits: [],
-        success: true,
-        result: 0,
-    },
-    {
-        maxValue: 4,
-        label: "Base Value",
-        description: "Test produces an average result.",
-        lastDigits: [],
-        success: true,
-        result: 0,
-    },
-    {
-        maxValue: 5,
-        label: "Bonus Value",
-        description: "Test produces a one-star superior result.",
-        lastDigits: [],
-        success: true,
-        result: 1,
-    },
-    {
-        maxValue: 6,
-        label: "Bonus Value",
-        description: "Test produces a two-star superior result.",
-        lastDigits: [],
-        success: true,
-        result: 2,
-    },
-    {
-        maxValue: 7,
-        label: "Bonus Value",
-        description: "Test produces a three-star superior result.",
-        lastDigits: [],
-        success: true,
-        result: 3,
-    },
-    {
-        maxValue: 8,
-        label: "Bonus Value",
-        description: "Test produces a four-star superior result.",
-        lastDigits: [],
-        success: true,
-        result: 4,
-    },
-    {
-        maxValue: Number.MAX_SAFE_INTEGER,
-        label: "Bonus Value",
-        description: "Test produces a five-star superior result.",
-        lastDigits: [],
-        success: true,
-        result: 5,
-    },
-] as const;
+/** Returns the standard success-value table with labels/descriptions resolved from i18n. */
+export function getStandardSuccessValueTable(): SuccessTestResult.LimitedDescription[] {
+    const loc = (key: string) => sohl.i18n.localize(key);
+    return [
+        {
+            maxValue: 0,
+            label: loc("SOHL.MasteryLevel.SvTable.noValue.label"),
+            description: loc("SOHL.MasteryLevel.SvTable.noValue.description"),
+            lastDigits: [],
+            success: false,
+            result: 0,
+        },
+        {
+            maxValue: 2,
+            label: loc("SOHL.MasteryLevel.SvTable.littleValue.label"),
+            description: loc(
+                "SOHL.MasteryLevel.SvTable.littleValue.description",
+            ),
+            lastDigits: [],
+            success: true,
+            result: 0,
+        },
+        {
+            maxValue: 4,
+            label: loc("SOHL.MasteryLevel.SvTable.baseValue.label"),
+            description: loc("SOHL.MasteryLevel.SvTable.baseValue.description"),
+            lastDigits: [],
+            success: true,
+            result: 0,
+        },
+        {
+            maxValue: 5,
+            label: loc("SOHL.MasteryLevel.SvTable.bonus1.label"),
+            description: loc("SOHL.MasteryLevel.SvTable.bonus1.description"),
+            lastDigits: [],
+            success: true,
+            result: 1,
+        },
+        {
+            maxValue: 6,
+            label: loc("SOHL.MasteryLevel.SvTable.bonus2.label"),
+            description: loc("SOHL.MasteryLevel.SvTable.bonus2.description"),
+            lastDigits: [],
+            success: true,
+            result: 2,
+        },
+        {
+            maxValue: 7,
+            label: loc("SOHL.MasteryLevel.SvTable.bonus3.label"),
+            description: loc("SOHL.MasteryLevel.SvTable.bonus3.description"),
+            lastDigits: [],
+            success: true,
+            result: 3,
+        },
+        {
+            maxValue: 8,
+            label: loc("SOHL.MasteryLevel.SvTable.bonus4.label"),
+            description: loc("SOHL.MasteryLevel.SvTable.bonus4.description"),
+            lastDigits: [],
+            success: true,
+            result: 4,
+        },
+        {
+            maxValue: Number.MAX_SAFE_INTEGER,
+            label: loc("SOHL.MasteryLevel.SvTable.bonus5.label"),
+            description: loc("SOHL.MasteryLevel.SvTable.bonus5.description"),
+            lastDigits: [],
+            success: true,
+            result: 5,
+        },
+    ];
+}
 
 const STANDARD_SUCCESS_DESCRIPTION_TABLE: SuccessTestResult.LimitedDescription[] =
     [
@@ -228,7 +233,7 @@ export class MasteryLevelModifier extends ValueModifier {
         this.critSuccessDigits = data.critSuccessDigits ?? [];
         this.testDescTable =
             data.testDescTable ?? STANDARD_SUCCESS_DESCRIPTION_TABLE;
-        this.svTable = data.svTable ?? STANDARD_SUCCESS_VALUE_TABLE;
+        this.svTable = data.svTable ?? getStandardSuccessValueTable();
         this.type =
             data.type ?? `${this.parent.data.kind}-${this.parent.name}-test`;
         this.title =
