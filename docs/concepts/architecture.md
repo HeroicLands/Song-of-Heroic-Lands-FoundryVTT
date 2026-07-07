@@ -58,6 +58,8 @@ Logic classes handle game rules, calculations, and actions — separated from Fo
 
 Logic/domain code may also _reference_ Foundry-coupled classes (`SohlItem`, `SohlActor`, `SohlTokenDocument`) with **`import type` only** — type imports are erased at compile time and create no runtime dependency.
 
+Persisted `*Data` fields are **references** (a UUID, id, or shortcode); the logic layer resolves them to **live objects**. This "reference on the wire, live object in memory" rule spans the whole system and is the canonical serialization contract — see [Runtime Contracts → the grounding rule](../reference/runtime-contracts.md#the-grounding-rule-reference-on-the-wire-live-object-in-memory).
+
 This isolation is precisely what makes the logic layer **unit-testable with no Foundry running**: both channels are replaced with test doubles (see [Testing](../how-to/testing.md)). It is enforced two ways:
 
 - An ESLint rule (`@typescript-eslint/no-restricted-imports` in `eslint.config.js`) forbids value imports of Foundry-coupled modules from the Foundry-free zones.
