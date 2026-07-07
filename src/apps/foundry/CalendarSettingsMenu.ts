@@ -159,7 +159,11 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
                     ui.notifications.info(
                         game.i18n.format(
                             "SOHL.CalendarSettings.import.success",
-                            { name: calendarConfig.name },
+                            {
+                                name: foundry.utils.escapeHTML(
+                                    calendarConfig.name,
+                                ),
+                            },
                         ),
                     );
 
@@ -198,7 +202,11 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
             window: { title: "SOHL.CalendarSettings.delete.label" },
             content: `<p>${game.i18n.format(
                 "SOHL.CalendarSettings.delete.confirm",
-                { name: game.i18n.localize(cal.label) },
+                {
+                    name: foundry.utils.escapeHTML(
+                        game.i18n.localize(cal.label),
+                    ),
+                },
             )}</p>`,
         });
         if (!confirmed) return;
