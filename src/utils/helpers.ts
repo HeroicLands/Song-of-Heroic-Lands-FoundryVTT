@@ -408,7 +408,7 @@ export type FilePath = string & {
 
 /** Regular expression accepting common file-path forms (POSIX, Windows, `file://`). */
 export const FILE_PATH_REGEX =
-    /^(file:\/\/\/?|[a-zA-Z]:[\\/]|[\\/])?[^<>:"|?*\n\r]+(?:[\\/][^<>:"|?*\n\r]+)*$/;
+    /^(file:\/\/\/?|[a-zA-Z]:[\\/]|[\\/])?[^<>:"|?*\n\r\\/]+(?:[\\/][^<>:"|?*\n\r\\/]+)*$/;
 
 /**
  * Type guard narrowing `value` to a {@link FilePath} via {@link FILE_PATH_REGEX}.
