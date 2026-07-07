@@ -443,7 +443,8 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         tabs: {
             id: "tabs",
             classes: ["tabs"],
-            template: "systems/sohl/templates/item/parts/tabs.hbs",
+            // Core template renders the <nav> from `context.tabs` (see BeingSheet).
+            template: "templates/generic/tab-navigation.hbs",
         },
         description: {
             container: { classes: ["tab-body"], id: "tabs" },
@@ -462,17 +463,14 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         },
     };
 
+    // v13 ApplicationTabsConfiguration (mirrors BeingSheet). The v1-style
+    // `navSelector`/`contentSelector` keys are not read by ApplicationV2 and left
+    // `context.tabs` unpopulated, so the `tabs` part rendered nothing.
     static override TABS = {
         sheet: {
-            navSelector: ".tabs[data-group='sheet']",
-            contentSelector: ".content[data-group='sheet']",
             initial: "properties",
             tabs: [
-                {
-                    id: "properties",
-                    // icon: "sohl-person",
-                    label: "SOHL.Item.tab.properties",
-                },
+                { id: "properties", label: "SOHL.Item.tab.properties" },
                 { id: "description", label: "SOHL.Item.tab.description" },
                 { id: "actions", label: "SOHL.Item.tab.actions" },
                 { id: "effects", label: "SOHL.Item.tab.effects" },
@@ -546,6 +544,9 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         // _preparePartContext is called for each part with the specific partId
         // This is where you prepare part-specific data
         const type = this.document.type;
+        // Expose the prepared tab descriptor for this part so content sections
+        // can resolve their `active` state and tab group (see BeingSheet).
+        (context as any).tab = (context as any).tabs?.[partId];
         switch (partId) {
             case "properties":
                 context = await this._preparePropertiesContext(

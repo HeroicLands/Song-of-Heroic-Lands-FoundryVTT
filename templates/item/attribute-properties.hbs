@@ -11,7 +11,7 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
-<section class="tab properties" data-tab="properties">
+<section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="grid grid-3col">
         {{formField fields.shortcode rootId="attribute-shortcode" classes="text-field" stacked=true value=system.shortcode}}
         {{formField fields.scoreBase rootId="attribute-scorebase" classes="text-field" stacked=true value=system.scoreBase}}
