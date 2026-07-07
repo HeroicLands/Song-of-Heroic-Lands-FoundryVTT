@@ -228,6 +228,14 @@ export interface WeaponRangeSplit<W, SM> {
     missileWeapons: WeaponStrikeGroup<W, SM>[];
 }
 
+/** The range-classification fields that {@link splitWeaponsByRange} inspects on each strike mode. */
+export interface StrikeModeRangeInfo {
+    /** Whether this is a melee-range strike mode. */
+    isMelee: boolean;
+    /** Whether this is a missile-range strike mode. */
+    isMissile: boolean;
+}
+
 /**
  * Partition weapons into melee and missile lists by their strike modes. A
  * weapon appears in a list only when it has at least one mode for that range
@@ -238,10 +246,7 @@ export interface WeaponRangeSplit<W, SM> {
  * @param getStrikeModes - Resolves a weapon's strike modes.
  * @returns The melee and missile weapon groups, in input order.
  */
-export function splitWeaponsByRange<
-    W,
-    SM extends { isMelee?: boolean; isMissile?: boolean },
->(
+export function splitWeaponsByRange<W, SM extends Partial<StrikeModeRangeInfo>>(
     weapons: readonly W[],
     getStrikeModes: (weapon: W) => readonly SM[],
 ): WeaponRangeSplit<W, SM> {
@@ -290,6 +295,11 @@ export function filterHeldWeapons<W>(
  *
  * Returns `undefined` for an unrecognised kind or when a defense kind is
  * requested but the mode is not a {@link MeleeStrikeMode}.
+ *
+ * @param sm - The strike mode to read the modifier from.
+ * @param testKind - The `data-test-kind` string: `"attack"`, `"block"`, or
+ *   `"counterstrike"`.
+ * @returns The matching {@link CombatModifier}, or `undefined`.
  */
 export function selectStrikeModeModifier(
     sm: StrikeModeBase,

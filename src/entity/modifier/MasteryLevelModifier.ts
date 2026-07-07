@@ -29,7 +29,12 @@ import {
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlEntity } from "../SohlEntity";
 
-/** Returns the standard success-value table with labels/descriptions resolved from i18n. */
+/**
+ * Returns the standard success-value table with labels/descriptions resolved from i18n.
+ *
+ * @returns Array of {@link SuccessTestResult.LimitedDescription} entries covering
+ *   every success level from "no value" through "critical success".
+ */
 export function getStandardSuccessValueTable(): SuccessTestResult.LimitedDescription[] {
     const loc = (key: string) => sohl.i18n.localize(key);
     return [
@@ -284,6 +289,7 @@ export class MasteryLevelModifier extends ValueModifier {
      * @param context - The context in which to perform the test.
      * @returns A Promise resolving to `undefined` if the test was cancelled, `false`
      * if there was an error during the test, or the result of the success test.
+     * @throws {Error} If `SuccessTestResult` construction fails (internal error).
      */
     async successTest(
         context: SohlActionContext<Partial<SuccessTestResult.ContextScope>>,

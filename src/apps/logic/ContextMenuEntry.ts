@@ -271,6 +271,8 @@ export class ContextMenuEntry {
      * @param data.condition The safe-expression source determining whether the entry is shown.
      * @param data.callback The callback function to call when the entry is clicked.
      * @param data.group The group to which the entry belongs.
+     * @throws {Error} If neither `data.icon` nor `data.iconFAClass` is provided.
+     * @throws {Error} If neither `data.callback` nor `data.functionName` is provided.
      */
     constructor(data: ContextMenuEntryContext) {
         if (!(data.icon || data.iconFAClass)) {

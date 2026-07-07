@@ -100,6 +100,16 @@ export const DEFENSE_DISABLING_STATUSES: readonly string[] = [
     STATUS_EFFECT.INCAPACITATED,
 ];
 
+/** Canvas coordinates and elevation captured at the start of a combat turn. */
+export interface CombatantStartLocation {
+    /** Pixel x-coordinate on the canvas at turn start. */
+    x: number;
+    /** Pixel y-coordinate on the canvas at turn start. */
+    y: number;
+    /** Elevation (in grid units) at turn start. */
+    elevation: number;
+}
+
 /**
  * The Foundry-free data contract for a SoHL combatant — the
  * {@link SohlLogicData} port specialized for {@link SohlCombatant}, plus the
@@ -107,8 +117,12 @@ export const DEFENSE_DISABLING_STATUSES: readonly string[] = [
  * `SohlCombatantDataModel`.
  */
 export interface SohlCombatantData extends SohlLogicData<SohlCombatant> {
-    /** Turn-start location used to measure spaces moved this turn. */
-    startLocation: { x: number; y: number; elevation: number };
+    /**
+     * Turn-start location used to measure spaces moved this turn.
+     * Captured at the start of each round and compared to the current
+     * token position to compute {@link SohlCombatantLogic.spacesMoved}.
+     */
+    startLocation: CombatantStartLocation;
     /** Whether this combatant has acted this turn. */
     didAction: boolean;
     /** GM situational multiplier on computed move (run, terrain, …). */
@@ -1407,6 +1421,14 @@ async function commonAttack(
     return attackDlgResult;
 }
 
+/** Render context returned by {@link buildCombatCardData} for `attack-result-card.hbs`. */
+export interface CombatCardData {
+    /** Render context for the attacker's result column. */
+    atkCardData: Record<string, unknown>;
+    /** Render context for the counterstrike column, or `undefined` when not applicable. */
+    cxCardData: Record<string, unknown> | undefined;
+}
+
 /**
  * Build the render context for `attack-result-card.hbs` from a resolved
  * {@link CombatResult}. Pure and Foundry-free.
@@ -1417,11 +1439,12 @@ async function commonAttack(
  * action (assisted). Counterstrike can land both sides at once.
  * @param combatResult The resolved combat exchange.
  * @returns The render context for `attack-result-card.hbs`.
+ * @throws {Error} If `combatResult.attackResult` is missing.
+ * @throws {Error} If `combatResult.defendResult` is missing.
  */
-export function buildCombatCardData(combatResult: CombatResult): {
-    atkCardData: Record<string, unknown>;
-    cxCardData: Record<string, unknown> | undefined;
-} {
+export function buildCombatCardData(
+    combatResult: CombatResult,
+): CombatCardData {
     if (!combatResult.attackResult)
         throw new Error("Attack result is missing.");
     if (!combatResult.defendResult)

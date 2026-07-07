@@ -347,6 +347,8 @@ export class SohlActor extends Actor {
      * artwork.
      * @param createData - The pending actor source data.
      * @param options - Document creation options.
+     * @param options.cloneActorUuid - When creating a duplicate, the UUID of
+     *   the source actor whose data and artwork are copied.
      * @param user - The user requesting creation.
      * @returns `false` to veto creation, otherwise `true`.
      */
@@ -669,7 +671,9 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
 
     /**
      * Register the actor sheet's render parts: `header`, `tabs`, and `facade`.
+     *
      * @param options - The render options to populate with the sheet parts.
+     * @param options.parts - Populated in place with the registered part ids.
      */
     protected override _configureRenderOptions(
         options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
@@ -793,7 +797,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     /**
      * Show or hide item rows in the sheet content based on a search query,
      * matching each row's normalized item name against the query or regex.
-     * @param event - The triggering keyboard event, if any.
+     * @param _event - The triggering keyboard event, if any.
      * @param query - The raw search query text.
      * @param rgx - The regular expression to match item names against.
      * @param content - The container element holding the item rows.

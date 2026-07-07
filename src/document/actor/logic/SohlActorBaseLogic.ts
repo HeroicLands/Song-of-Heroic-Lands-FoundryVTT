@@ -18,7 +18,10 @@ import { BRAND, ItemKinds, type ItemKind } from "@src/utils/constants";
 import type { FilePath, HTMLString } from "@src/utils/helpers";
 import { SohlTriggerContext } from "@src/entity/event/event-trigger";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
-import type { ItemLogicByKind } from "@src/core/foundry/sohl-config";
+import type {
+    ItemLogicByKind,
+    ItemLogicArrayByKind,
+} from "@src/core/foundry/sohl-config";
 
 /**
  * The Foundry-free foundation of the actor logic layer.
@@ -64,7 +67,7 @@ export interface SohlActorLogic<
     readonly allLogics: SohlItemLogic<any>[];
 
     /** Every item's logic instance grouped by item kind. */
-    readonly logicTypes: { [K in ItemKind]: ItemLogicByKind[K][] };
+    readonly logicTypes: ItemLogicArrayByKind;
 
     /** Whether the actor is owned by at least one player (non-GM) user. */
     readonly hasPlayerOwner: boolean;
@@ -152,9 +155,13 @@ export class SohlActorBaseLogic<
     getItemLogic(id: string): SohlItemLogic<any> | undefined;
 
     /**
+     * Implementation overload — dispatches to the shortcode+type or id-only
+     * lookup based on whether `type` is provided.
      *
-     * @param idOrShortcode
-     * @param type
+     * @inheritDoc
+     * @param idOrShortcode - Item id (no `type`) or shortcode (with `type`).
+     * @param type - The item kind to filter by; omit for id-based lookup.
+     * @returns The matching logic instance, or `undefined` if not found.
      */
     getItemLogic(
         idOrShortcode: string,
@@ -193,7 +200,7 @@ export class SohlActorBaseLogic<
      *
      * @returns A record of item kind → that kind's logic instances.
      */
-    get logicTypes(): { [K in ItemKind]: ItemLogicByKind[K][] } {
+    get logicTypes(): ItemLogicArrayByKind {
         const result = {} as Record<ItemKind, SohlItemLogic<any>[]>;
         for (const kind of ItemKinds) {
             result[kind] = [];
@@ -201,7 +208,7 @@ export class SohlActorBaseLogic<
         for (const logic of this.data.itemLogics) {
             result[logic.data.kind as ItemKind]?.push(logic);
         }
-        return result as { [K in ItemKind]: ItemLogicByKind[K][] };
+        return result as unknown as ItemLogicArrayByKind;
     }
 
     /** Whether the actor is owned by at least one player (non-GM) user. */

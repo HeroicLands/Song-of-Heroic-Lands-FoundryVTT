@@ -189,7 +189,9 @@ export class CohortDataModel<
      * Used both by the canvas drop hook and by encounter spawning.
      *
      * @param actor - The Cohort actor to place
-     * @param data - Object with at least `x` and `y` drop coordinates
+     * @param data - Drop event data with canvas coordinates.
+     * @param data.x - Canvas x-coordinate of the drop target.
+     * @param data.y - Canvas y-coordinate of the drop target.
      */
     static async handleCohortDrop(actor: any, data: any): Promise<void> {
         const dropX = data.x ?? 0;

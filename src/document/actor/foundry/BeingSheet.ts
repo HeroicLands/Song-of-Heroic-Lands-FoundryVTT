@@ -161,6 +161,7 @@ export class BeingSheet extends SohlActorSheetBase {
      * actor is only viewable with limited permission.
      *
      * @param options - The render options whose `parts` list is populated.
+     * @param options.parts - Populated with the list of sheet part ids to render.
      */
     protected override _configureRenderOptions(
         options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,

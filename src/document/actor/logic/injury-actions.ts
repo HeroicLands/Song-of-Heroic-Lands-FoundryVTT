@@ -172,6 +172,12 @@ export interface InjuryCardContext {
  * the {@link InjuryCardContext} and posts the result via {@link SohlSpeaker}.
  * @param injury - The resolved injury to render.
  * @param ctx - Foundry-supplied context the card needs beyond the injury.
+ * @param ctx.actorId - The Foundry id of the actor that received the injury.
+ * @param ctx.handlerActorUuid - UUID of the actor responsible for handling the
+ *   injury (may differ from the injured actor in assisted-combat scenarios).
+ * @param ctx.name - Display name shown in the injury card header.
+ * @param ctx.addToCharSheet - When true the injury should be written to the
+ *   character sheet as a persistent trauma entry.
  * @returns The render context for `injury-card.hbs`.
  */
 export function buildInjuryCardData(

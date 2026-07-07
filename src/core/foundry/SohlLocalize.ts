@@ -114,12 +114,13 @@ export class SohlLocalize {
     }
     /**
      * Locale-aware string comparison.
-     * @param {string} first - The first string to compare.
-     * @param {string} second - The second string to compare.
+     * @param first - The first string to compare.
+     * @param second - The second string to compare.
      * @param options - Normalization flags applied to both strings; both default to `false`.
      * @param options.caseInsensitive - Lowercase both strings before comparing when `true`.
      * @param options.ascii - Fold accents and non-ASCII characters before comparing when `true`.
-     * @returns {number} A negative number if first < second, 0 if equal, positive if first > second.
+     * @returns A negative number if first < second, 0 if equal, positive if first > second.
+     * @throws {Error} If `first` or `second` is not a string.
      */
     compare(
         first: string,
