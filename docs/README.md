@@ -15,6 +15,7 @@ This documentation is **developer- and API-facing only**. Player- and GM-facing 
 Design and rationale — how and why the system is built the way it is.
 
 - [Architecture Overview](concepts/architecture.md)
+- [Security Model & Guardrails](concepts/security-model.md) — the threat model and the standing rules every change must respect. **Read before touching serialization, HTML rendering, actions, or cross-client flows.**
 - [Macros and Actions](concepts/macros-and-actions.md)
 - [The SoHL API](concepts/sohl-api.md)
 - [CSS Architecture & Styleguide](concepts/css-architecture.md)
