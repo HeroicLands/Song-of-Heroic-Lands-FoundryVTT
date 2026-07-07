@@ -367,7 +367,7 @@ export abstract class SohlLogic<
             console.warn(
                 `SoHL | ${this.name} (Actor) has no actor to execute action "${shortcode}"`,
             );
-            return;
+            return undefined;
         }
         context ??= actorLogic._getContext();
         const action = this.actions.get(shortcode);
@@ -375,7 +375,7 @@ export abstract class SohlLogic<
             console.warn(
                 `SoHL | ${this.name} (Actor) has no action "${shortcode}"`,
             );
-            return;
+            return undefined;
         }
         return action.execute(context);
     }

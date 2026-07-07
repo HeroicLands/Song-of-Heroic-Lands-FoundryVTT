@@ -454,6 +454,7 @@ export class SohlActor extends Actor {
                 return false;
             }
         }
+        return undefined;
     }
 
     /**

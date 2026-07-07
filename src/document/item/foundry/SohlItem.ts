@@ -132,6 +132,7 @@ export class SohlItem extends Item {
                 return false;
             }
         }
+        return undefined;
     }
 
     /**
