@@ -18,9 +18,8 @@ import {
     combine,
     createUniqueName,
     asyncForEach,
-    serializeFn,
-    deserializeFn,
     textToFunction,
+    buildActionScope,
     secondaryModifier,
     index,
     defaultToJSON,
@@ -415,31 +414,6 @@ describe("asyncForEach", () => {
     });
 });
 
-describe("serializeFn / deserializeFn", () => {
-    it("round-trips a simple arrow function", () => {
-        const fn = (a: number, b: number) => a + b;
-        const serialized = serializeFn(fn);
-        expect(serialized).toMatch(/^__func__:/);
-        const restored = deserializeFn(serialized);
-        expect(restored(2, 3)).toBe(5);
-    });
-
-    it("round-trips a function declaration style", () => {
-        const fn = function (x: number) {
-            return x * 2;
-        };
-        const serialized = serializeFn(fn);
-        const restored = deserializeFn(serialized);
-        expect(restored(5)).toBe(10);
-    });
-
-    it("deserializeFn throws on invalid format", () => {
-        expect(() => deserializeFn("not a function")).toThrow(
-            "Invalid serialized function format",
-        );
-    });
-});
-
 describe("textToFunction", () => {
     it("creates a function from a simple expression", () => {
         const fn = textToFunction("a + b", ["a", "b"]) as Function;
@@ -827,11 +801,54 @@ describe("defaultToJSON / defaultFromJSON — funcref", () => {
         expect(defaultFromJSON("__funcref__:no.such.func")).toBeUndefined();
     });
 
-    it("does not treat a __func__ (legacy code body) as a funcref", () => {
-        // The legacy __func__ path is unchanged in this slice; only assert the
-        // funcref branch does not intercept it.
-        const revived = defaultFromJSON("__funcref__:");
-        expect(revived).toBeUndefined();
+    it("revives a bare __funcref__: (empty id) to undefined", () => {
+        expect(defaultFromJSON("__funcref__:")).toBeUndefined();
+    });
+});
+
+describe("defaultFromJSON — legacy __func__ code payload is inert (no RCE)", () => {
+    it("never compiles a __func__ string; returns it as an inert string", () => {
+        (globalThis as Record<string, unknown>).PWNED = undefined;
+        const payload = "__func__:[]globalThis.PWNED=1;return 1";
+        const revived = defaultFromJSON(payload);
+        // No deserializeFn / new Function path remains: the string is returned
+        // verbatim, never turned into a callable.
+        expect(typeof revived).not.toBe("function");
+        expect(revived).toBe(payload);
+        expect((globalThis as Record<string, unknown>).PWNED).toBeUndefined();
+    });
+
+    it("does not revive a __func__ string nested in an object", () => {
+        const revived = defaultFromJSON({
+            cb: "__func__:[]return 1",
+        }) as Record<string, unknown>;
+        expect(typeof revived.cb).not.toBe("function");
+        expect(revived.cb).toBe("__func__:[]return 1");
+    });
+});
+
+describe("buildActionScope — rejects legacy code payloads", () => {
+    it("throws when the scope JSON contains a __func__ marker", () => {
+        const dataset = {
+            scope: JSON.stringify({ cb: "__func__:[]return 1" }),
+        } as unknown as DOMStringMap;
+        expect(() => buildActionScope(dataset, undefined)).toThrow(
+            /legacy code marker/i,
+        );
+    });
+
+    it("revives a normal scope payload unchanged", () => {
+        const dataset = {
+            scope: JSON.stringify({ a: 1, b: "two" }),
+        } as unknown as DOMStringMap;
+        expect(buildActionScope(dataset, undefined)).toEqual({
+            a: 1,
+            b: "two",
+        });
+    });
+
+    it("returns an empty object when no scope is present", () => {
+        expect(buildActionScope({} as DOMStringMap, undefined)).toEqual({});
     });
 });
 
@@ -883,12 +900,13 @@ describe("defaultToJSON / defaultFromJSON — funcref adversarial", () => {
         expect(defaultFromJSON("__funcref__:test.attacker")).toBeUndefined();
     });
 
-    it("a __funcref__ string is not routed to the legacy deserializeFn path", () => {
-        // deserializeFn throws on a malformed __func__ string; a __funcref__
-        // string must be handled by the funcref branch and never reach it.
+    it("resolves an unknown __funcref__ id to undefined without throwing", () => {
         expect(() =>
             defaultFromJSON("__funcref__:definitely-not-registered"),
         ).not.toThrow();
+        expect(
+            defaultFromJSON("__funcref__:definitely-not-registered"),
+        ).toBeUndefined();
     });
 
     it("bounds and de-control-chars the unknown-id warning (no log flood/injection)", () => {
