@@ -23,6 +23,9 @@ import {
     SkillSubType,
     SKILL_SUBTYPE,
     ITEM_KIND,
+    SkillSubTypeChoices,
+    SkillCombatCategoryChoices,
+    BodyRoleChoices,
 } from "@src/utils/constants";
 import { SohlItemDataModel } from "./SohlItem";
 const { ArrayField, NumberField, StringField, BooleanField } =
@@ -41,7 +44,7 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
         subType: new StringField({
             initial: SKILL_SUBTYPE.SOCIAL,
             required: true,
-            choices: SkillSubTypes,
+            choices: SkillSubTypeChoices,
         }),
         skillBaseFormula: new StringField({ initial: "" }),
         masteryLevelBase: new NumberField({
@@ -52,7 +55,7 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
         combatCategory: new StringField({
             initial: SKILL_COMBAT_CATEGORY.NONE,
             blank: false,
-            choices: SkillCombatCategories,
+            choices: SkillCombatCategoryChoices,
         }),
         parentSkillCode: new StringField({ initial: "" }),
         initSkillMult: new NumberField({
@@ -67,7 +70,7 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
          * See BodyRole in constants for semantics.
          */
         impairedByRoles: new ArrayField(
-            new StringField({ blank: false, choices: BodyRoles }),
+            new StringField({ blank: false, choices: BodyRoleChoices }),
             { initial: [] },
         ),
     };
