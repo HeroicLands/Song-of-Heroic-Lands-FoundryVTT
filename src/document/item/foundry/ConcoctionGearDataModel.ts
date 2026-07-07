@@ -23,6 +23,7 @@ import {
     ConcoctionGearSubType,
     ConcoctionGearSubTypes,
     ITEM_KIND,
+    ConcoctionGearSubTypeChoices,
 } from "@src/utils/constants";
 const { NumberField, StringField } = foundry.data.fields;
 
@@ -34,7 +35,7 @@ function defineConcoctionGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
         subType: new StringField({
-            choices: ConcoctionGearSubTypes,
+            choices: ConcoctionGearSubTypeChoices,
             required: true,
         }),
         potency: new StringField({

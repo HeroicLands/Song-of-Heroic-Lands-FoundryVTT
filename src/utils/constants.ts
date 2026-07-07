@@ -344,6 +344,8 @@ export const {
     kind: MOVEMENT_MEDIUM,
     /** All movement-medium values, as an array. */
     values: MovementMediums,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: MovementMediumChoices,
     /** Type guard for movement-medium values. */
     isValue: isMovementMedium,
     /** Localization keys per movement medium. */
@@ -377,6 +379,8 @@ export const {
     kind: BLEEDING_SUSCEPTIBILITY,
     /** All bleeding-susceptibility values, as an array. */
     values: BleedingSusceptibilities,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: BleedingSusceptibilityChoices,
     /** Type guard for bleeding-susceptibility values. */
     isValue: isBleedingSusceptibility,
     /** Localization keys per bleeding-susceptibility tier. */
@@ -408,6 +412,8 @@ export const {
     kind: AMPUTABILITY,
     /** All amputability values, as an array. */
     values: Amputabilities,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: AmputabilityChoices,
     /** Type guard for amputability values. */
     isValue: isAmputability,
     /** Localization keys per amputability tier. */
@@ -454,6 +460,8 @@ export const {
     kind: BODY_ROLE,
     /** All body-role values, as an array. */
     values: BodyRoles,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: BodyRoleChoices,
     /** Type guard for body-role values. */
     isValue: isBodyRole,
     /** Localization keys per body role. */
@@ -472,6 +480,8 @@ export const {
     kind: COHORT_MEMBER_ROLE,
     /** All cohort-member-role values, as an array. */
     values: CohortMemberRoles,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: CohortMemberRoleChoices,
     /** Type guard for cohort-member-role values. */
     isValue: isCohortMemberRole,
     /** Localization keys per cohort member role. */
@@ -1181,6 +1191,8 @@ export const {
     kind: AFFLICTION_SUBTYPE,
     /** All affliction-subtype values, as an array. */
     values: AfflictionSubTypes,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: AfflictionSubTypeChoices,
     /** Type guard for affliction-subtype values. */
     isValue: isAfflictionSubType,
     /** Localization keys per affliction subtype. */
@@ -1310,6 +1322,8 @@ export const {
     kind: CONCOCTIONGEAR_SUBTYPE,
     /** All concoction-gear subtype values, as an array. */
     values: ConcoctionGearSubTypes,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: ConcoctionGearSubTypeChoices,
     /** Type guard for concoction-gear subtype values. */
     isValue: isConcoctionGearSubType,
 } = defineType("SOHL.ConcoctionGear.SubType", {
@@ -1378,6 +1392,8 @@ export const {
     kind: MYSTERY_SUBTYPE,
     /** All mystery-subtype values, as an array. */
     values: MysterySubTypes,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: MysterySubTypeChoices,
     /** Type guard for mystery-subtype values. */
     isValue: isMysterySubType,
 } = defineType("SOHL.Mystery.SubType", {
@@ -1394,6 +1410,8 @@ export const {
     kind: MYSTICALABILITY_SUBTYPE,
     /** All mystical-ability subtype values, as an array. */
     values: MysticalAbilitySubTypes,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: MysticalAbilitySubTypeChoices,
     /** Type guard for mystical-ability subtype values. */
     isValue: isMysticalAbilitySubType,
 } = defineType("SOHL.MysticalAbility.SubType", {
@@ -1419,6 +1437,8 @@ export const {
     kind: PROJECTILEGEAR_SUBTYPE,
     /** All projectile-gear subtype values, as an array. */
     values: ProjectileGearSubTypes,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: ProjectileGearSubTypeChoices,
     /** Type guard for projectile-gear subtype values. */
     isValue: isProjectileGearSubType,
 } = defineType("SOHL.ProjectileGear.SubType", {
@@ -1453,6 +1473,8 @@ export const {
     kind: SKILL_SUBTYPE,
     /** All skill-subtype values, as an array. */
     values: SkillSubTypes,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: SkillSubTypeChoices,
     /** Type guard for skill-subtype values. */
     isValue: isSkillSubType,
 } = defineType("SOHL.Skill.SubType", {
@@ -1474,6 +1496,8 @@ export const {
     kind: SKILL_COMBAT_CATEGORY,
     /** All skill-combat-category values, as an array. */
     values: SkillCombatCategories,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: SkillCombatCategoryChoices,
     /** Type guard for skill-combat-category values. */
     isValue: isSkillCombatCategory,
 } = defineType("SOHL.Skill.Combat", {
@@ -1916,6 +1940,8 @@ export const {
     kind: TRAUMA_SUBTYPE,
     /** All trauma-subtype values, as an array. */
     values: TraumaSubTypes,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: TraumaSubTypeChoices,
     /** Type guard for trauma-subtype values. */
     isValue: isTraumaSubType,
 } = defineType("SOHL.Trauma.SubType", {
@@ -1961,6 +1987,8 @@ export const {
     kind: VEHICLE_OCCUPANT_ROLE,
     /** All vehicle-occupant-role values, as an array. */
     values: VehicleOccupantRoles,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: VehicleOccupantRoleChoices,
     /** Type guard for vehicle-occupant-role values. */
     isValue: isVehicleOccupantRole,
 } = defineType("SOHL.Vehicle.Occupant.Role", {

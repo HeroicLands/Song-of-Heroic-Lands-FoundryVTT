@@ -21,6 +21,7 @@ import {
     MYSTERY_SUBTYPE,
     MysterySubTypes,
     type MysterySubType,
+    MysterySubTypeChoices,
 } from "@src/utils/constants";
 const { SchemaField, NumberField, BooleanField, StringField } =
     foundry.data.fields;
@@ -38,7 +39,7 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
         subType: new StringField({
             initial: MYSTERY_SUBTYPE.OTHER,
             required: true,
-            choices: MysterySubTypes,
+            choices: MysterySubTypeChoices,
         }),
         // Note: if levelBase is null, then there is no defined level
         levelBase: new NumberField({

@@ -16,6 +16,7 @@ import {
     ACTOR_KIND,
     VEHICLE_OCCUPANT_ROLE,
     VehicleOccupantRoles,
+    VehicleOccupantRoleChoices,
 } from "@src/utils/constants";
 import type { VehicleData } from "@src/document/actor/logic/VehicleLogic";
 import { VehicleLogic } from "@src/document/actor/logic/VehicleLogic";
@@ -72,7 +73,7 @@ function defineVehicleDataSchema(): foundry.data.fields.DataSchema {
                 name: new StringField({ blank: false, initial: "" }),
                 role: new StringField({
                     required: true,
-                    choices: VehicleOccupantRoles,
+                    choices: VehicleOccupantRoleChoices,
                     initial: VEHICLE_OCCUPANT_ROLE.PASSENGER,
                 }),
                 title: new StringField({ blank: false, initial: "" }),
