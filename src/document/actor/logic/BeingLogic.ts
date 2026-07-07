@@ -75,6 +75,7 @@ import {
     defaultToJSON,
     buildActionScope,
 } from "@src/utils/helpers";
+import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
 import {
     ResolvedInjury,
     resolveInjury,
@@ -963,8 +964,8 @@ export class BeingLogic<
      * @param btn The button element that was clicked.
      */
     async onChatCardEditAction(btn: HTMLElement): Promise<void> {
-        // TODO(#66): Handle chat card edit actions here
-        console.log("Edit action clicked:", btn);
+        if (!this.actor?.isOwner) return;
+        await dispatchChatCardAction(this, btn);
     }
 }
 
