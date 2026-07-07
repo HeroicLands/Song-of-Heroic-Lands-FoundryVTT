@@ -38,7 +38,7 @@ SoHL's trigger names are **identical to Foundry's `CONFIG.ActiveEffect.expiryEve
 | `turnStart`       | `{ name, combat, combatant, turn, round, skipped }` |
 | `turnEnd`         | `{ name, combat, combatant, turn, round, skipped }` |
 
-`combatEnd` is dispatched when Foundry fires `deleteCombat` (combat document deletion). `roundEnd` / `turnEnd` are derived in [`SohlHookBridge`](../../src/core/SohlHookBridge.ts) by tracking the prior state per-combat across `combatRound` / `combatTurn` invocations.
+`combatEnd` is dispatched when Foundry fires `deleteCombat` (combat document deletion). `roundEnd` / `turnEnd` are derived in [`SohlHookBridge`](../../src/core/logic/SohlHookBridge.ts) by tracking the prior state per-combat across `combatRound` / `combatTurn` invocations.
 
 Custom triggers are registered via [`registerSohlTrigger`](#custom-triggers).
 
@@ -60,7 +60,7 @@ Every **GM** client maintains its own copy of the queue, populated by its own do
 
 ### Hook integration
 
-All Foundry hook wiring lives in a single module, [`SohlHookBridge`](../../src/core/SohlHookBridge.ts). It listens to `updateWorldTime`, `combatStart`, `deleteCombat`, `combatRound`, and `combatTurn`, and translates each into one or more `queue.fire(ctx)` calls. **Do not call `Hooks.on(...)` from elsewhere for trigger dispatch.** Adding a new built-in trigger means editing one file.
+All Foundry hook wiring lives in a single module, [`SohlHookBridge`](../../src/core/logic/SohlHookBridge.ts). It listens to `updateWorldTime`, `combatStart`, `deleteCombat`, `combatRound`, and `combatTurn`, and translates each into one or more `queue.fire(ctx)` calls. **Do not call `Hooks.on(...)` from elsewhere for trigger dispatch.** Adding a new built-in trigger means editing one file.
 
 `SohlHookBridge` is wired during system init from [`sohl.ts`](../../src/sohl.ts):
 
@@ -219,7 +219,7 @@ To add a SoHL-specific trigger (e.g. `"sohlInjuryHealed"`):
 import {
     registerSohlTrigger,
     fireSohlTrigger,
-} from "@src/entity/event/SohlEventTrigger";
+} from "@src/entity/event/event-trigger";
 
 // During system init — adds the name to CONFIG.ActiveEffect.expiryEvents
 // so it appears in the effect-config UI's duration→expiry dropdown.

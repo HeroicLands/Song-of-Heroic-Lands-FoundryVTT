@@ -2,13 +2,13 @@
 
 > **Audience:** Maintainers working on system startup, registration, and core object construction.
 
-See also: [Architecture Overview](../concepts/architecture.md), [Extension Points](../how-to/extension-points.md).
+See also: [Architecture Overview](../concepts/architecture.md), [Extension Points](../how-to/extension-points.md), [Security Model](../concepts/security-model.md).
 
 This page is the canonical reference for runtime contracts and invariants. If guidance here conflicts with narrative/how-to pages, this page is authoritative.
 
 ## System-level contracts (`SohlSystem`)
 
-Primary file: `src/core/SohlSystem.ts`
+Primary file: `src/core/logic/SohlSystem.ts`
 
 - `globalThis.sohl` is assigned during init (`src/sohl.ts`) and provides the runtime system instance.
 - Core config surface (`CONFIG`) exposes document classes, data models, sheets, and result/modifier constructors.
@@ -48,7 +48,7 @@ Primary file: `src/core/SohlSystem.ts`
 
 ## Data model contract (`SohlDataModel`)
 
-Primary file: `src/core/SohlDataModel.ts`
+Primary file: `src/core/foundry/SohlDataModel.ts`
 
 `SohlDataModel` is the typed data-layer wrapper over Foundry `TypeDataModel`.
 

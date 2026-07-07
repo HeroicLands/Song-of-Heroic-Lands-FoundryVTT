@@ -38,36 +38,19 @@ maps directly to a group here:
 
 ## Guides
 
-### Concepts — how and why the system is built
+The full guide set is in the sidebar under **[Documentation](documentation.md)**,
+grouped into four sections (the individual pages are listed there, so this page
+does not duplicate them):
 
-- [Architecture Overview](concepts/architecture.md)
-- [Macros and Actions](concepts/macros-and-actions.md)
-- [The SoHL API](concepts/sohl-api.md)
-
-### How-to — task-oriented guides
-
-- [Getting Started](how-to/getting-started.md)
-- [Extension Points](how-to/extension-points.md)
-- [Lifecycle Hooks](how-to/lifecycle-hooks.md)
-- [House Rules Cookbook](how-to/house-rules-cookbook.md)
-- [Testing](how-to/testing.md)
-
-### Reference — contracts and catalogs
-
-- [Type Catalog](reference/type-catalog.md)
-- [Modifier Model](reference/modifier-model.md)
-- [Combat Resolution Pipeline](reference/combat-resolution-pipeline.md)
-- [Body Structure](reference/body-structure.md)
-- [Effects Integration](reference/effects-integration.md)
-- [Runtime Contracts](reference/runtime-contracts.md)
-- [Scene, Token, and Combatant Systems](reference/scene-token-combatant.md)
-- [Calendar](reference/calendar.md)
-- [Event Queue](reference/event-queue.md)
-
-### Contributing — standards and how to contribute
-
-- [System Development](contributing/system-development.md)
-- [API Docs Hosting](contributing/api-docs-hosting.md)
+- **[Concepts](concepts/concepts.md)** — the mental model, the API surfaces,
+  actions, expressions/scripts, the security model, and CSS architecture.
+- **[How-to](how-to/how-to.md)** — setup, extension points, lifecycle hooks,
+  house rules, testing, and build/deployment.
+- **[Reference](reference/reference.md)** — contracts and catalogs: types, the
+  modifier model, combat pipeline, body structure, effects, runtime contracts,
+  scene/token/combatant, calendar, and the event queue.
+- **[Contributing](contributing/contributing.md)** — how to contribute:
+  standards, the development workflow, modules, changesets, and docs hosting.
 
 ---
 

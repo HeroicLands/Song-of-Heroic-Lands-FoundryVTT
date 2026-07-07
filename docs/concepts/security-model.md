@@ -81,10 +81,23 @@ independent ways, each verified by execution:
 
 These are not patchable one at a time. The only sound options are an **AST
 allowlist** (parse, then permit a fixed set of nodes/identifiers — this is what
-`SafeExpression` does for predicates and why it is safe) or **not compiling at
-all** (the reference model above). SoHL chose _not compiling at all_ for
-behavior; `SafeExpression` remains the only string→logic path, and it is an
-allowlist, not a denylist.
+{@link SafeExpression} does for predicates and why it is safe) or **not
+compiling at all** (the reference model above). For behavior driven by
+_untrusted_ data — installed content and cross-client messages — SoHL chose not
+compiling at all: `SafeExpression` (`src/entity/expr/SafeExpression.ts`) is the
+only string→logic path on that surface, and it is an allowlist, not a denylist.
+
+**The one sanctioned exception: the GM Expression Library.** `textToFunction`
+(the old denylist screen) still ships, used by the expression-helper registry
+(`src/entity/expr/ExpressionHelperRegistry.ts`) to compile helper bodies loaded
+from a **GM-chosen JSON file** (the Expression Library settings menu). This is a
+_different trust tier_: the GM deliberately selects a local file, exactly as
+they would install a module — it is not installed-package or cross-client data,
+and the screen is documented as "a sandbox, not a hard security boundary." So it
+is acceptable there and only there. Do **not** route any untrusted or
+cross-client input through `textToFunction`, and do not add new callers of it —
+if you need author-supplied logic on the untrusted surface, use `SafeExpression`
+(sync values) or a Macro (async behavior).
 
 ### Why not digital signatures?
 
@@ -230,8 +243,11 @@ A regex driven by attacker-influenced input can hang the client tab.
 
 Treat any of these as a blocker until proven safe against the threat model:
 
-- `eval(`, `new Function(`, `Function(`, `AsyncFunction`, or reintroducing a
-  `textToFunction`/`deserializeFn`-style "compile a string" path.
+- `eval(`, `new Function(`, `Function(`, `AsyncFunction`, or a
+  `deserializeFn`-style "compile a string" path. `textToFunction` has exactly
+  one sanctioned caller — the GM Expression Library (above); a **new** caller,
+  or any `textToFunction` reachable from untrusted/cross-client data, is a
+  blocker.
 - `Handlebars.compile(` on a string built by interpolating data.
 - `.innerHTML =` / `insertAdjacentHTML` / `{{{ }}}` / `new Handlebars.SafeString`
   with a value that could come from data.
@@ -243,7 +259,8 @@ Treat any of these as a blocker until proven safe against the threat model:
   `isOwner`/`canUserModify`/`isGM` check.
 - A `RegExp` built from, or matched against, attacker-influenced data without a
   backtracking bound.
-- A new string→function or string→predicate path that is not `SafeExpression`.
+- A new string→function or string→predicate path (other than `SafeExpression`,
+  or the single sanctioned GM Expression Library caller of `textToFunction`).
 
 ## Tracking
 

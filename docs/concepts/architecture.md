@@ -14,16 +14,18 @@ Song of Heroic Lands (SoHL) is a Foundry VTT game system implementing HârnMaste
 
 ```
 src/
-├── core/        Foundry-layer foundations: system registration, the DataModel
-│                and Logic base classes, the FoundryHelpers shim, calendar, events.
-├── domain/      Pure, Foundry-free game-mechanics objects: modifiers, test
-│                results, body structure, actions, movement, skill base.
+├── core/        System foundations, split into logic/ (Foundry-free: system
+│                registration, the Logic base, event queue, hook bridge) and
+│                foundry/ (the DataModel base, calendar) plus the FoundryHelpers shim.
+├── entity/      Pure, Foundry-free game-mechanics objects: modifier/, result/,
+│                body/, movement/, action/, roll/, event/, expr/ (SafeExpression),
+│                strikemode/, domain/ (the DomainRegistry game concept), skill base.
 ├── document/    Foundry document classes, grouped by kind:
 │   ├── actor/       actors — foundry/ holds DataModel + Sheet, logic/ holds Logic + Data
 │   ├── item/        items  — same foundry/ + logic/ split
 │   └── effect/ · combat/ · combatant/ · token/ · scene/   the other document kinds
-├── apps/        Standalone Foundry application windows.
-├── utils/       Shared utilities: constants/enums, helpers, dice, context menus, logging.
+├── apps/        Standalone Foundry application windows (foundry/ + logic/ split).
+├── utils/       Shared utilities: constants/enums, helpers, collections, logging.
 └── sohl.ts      Entry point: Foundry hooks and system registration.
 
 templates/       Handlebars (.hbs) templates: actor, item, chat, dialog, effect.
@@ -43,7 +45,7 @@ The generated [API reference](https://api.heroiclands.org/latest) mirrors this d
 
 ### Foundry layer
 
-Document classes (`SohlActor`, `SohlItem`, `SohlActiveEffect`) handle Foundry VTT integration: persistence, data preparation lifecycle, sheet rendering, and document operations. These live in `src/document/*/foundry/` and `src/core/`.
+Document classes (`SohlActor`, `SohlItem`, `SohlActiveEffect`) handle Foundry VTT integration: persistence, data preparation lifecycle, sheet rendering, and document operations. These live in `src/document/*/foundry/`, `src/core/foundry/`, `src/apps/foundry/`, and the one boundary shim `src/core/FoundryHelpers.ts` — the **only** module that touches Foundry globals on behalf of the logic layer.
 
 ### Logic layer
 
@@ -63,7 +65,9 @@ This isolation is precisely what makes the logic layer **unit-testable with no F
 
 ### Domain layer
 
-Pure game-mechanics objects in `src/domain/` — modifiers, test results, body structure, move-base helpers, skill base computation. These have no Foundry dependency at all and are fully unit-testable.
+Pure game-mechanics objects in `src/entity/` — modifiers, test results, body structure, move-base helpers, skill base computation. These have no Foundry dependency at all and are fully unit-testable.
+
+> **The Foundry-free zone** is larger than one directory. It spans `src/entity/`, every `src/**/logic/` folder (`src/core/logic/`, `src/document/*/logic/`, `src/apps/logic/`), and **all of `src/utils/`** — the shared utilities (helpers, collections, constants, logging) are pure and carry no Foundry dependency. Only `src/core/FoundryHelpers.ts` and the `src/**/foundry/` folders are Foundry-coupled. The ESLint rule and purity test above police this whole zone, not just `entity/`.
 
 ### Presentation layer
 
@@ -122,7 +126,7 @@ See {@link SohlLogic} for the full rationale and rules.
 
 ## Domain objects
 
-Game-mechanics value objects in `src/domain/` are rebuilt from persisted data each preparation cycle. They may be mutated during the lifecycle (e.g., active effects adding modifiers), but mutations are not persisted.
+Game-mechanics value objects in `src/entity/` are rebuilt from persisted data each preparation cycle. They may be mutated during the lifecycle (e.g., active effects adding modifiers), but mutations are not persisted.
 
 | Directory             | Purpose                                                             |
 | --------------------- | ------------------------------------------------------------------- |
@@ -193,16 +197,19 @@ This already underlies automated combat: defense buttons dispatch to the _defend
 
 ## Where to learn more
 
-| Topic             | Document                                                                 |
-| ----------------- | ------------------------------------------------------------------------ |
-| Lifecycle phases  | {@link SohlLogic}                                                        |
-| Extending SoHL    | [Extension Points](../how-to/extension-points.md)                        |
-| Lifecycle hooks   | [Lifecycle Hooks](../how-to/lifecycle-hooks.md)                          |
-| Actions           | [Macros and Actions](./macros-and-actions.md)                            |
-| Combat resolution | [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md) |
-| Modifier system   | [Modifier Model](../reference/modifier-model.md)                         |
-| Body anatomy      | [Body Structure](../reference/body-structure.md)                         |
-| Active effects    | [Effects Integration](../reference/effects-integration.md)               |
-| Testing           | [Testing Guide](../how-to/testing.md)                                    |
-| Type catalog      | [Type Catalog](../reference/type-catalog.md)                             |
-| Runtime contracts | [Runtime Contracts](../reference/runtime-contracts.md)                   |
+| Topic                 | Document                                                                 |
+| --------------------- | ------------------------------------------------------------------------ |
+| Lifecycle phases      | {@link SohlLogic}                                                        |
+| Extending SoHL        | [Extension Points](../how-to/extension-points.md)                        |
+| Lifecycle hooks       | [Lifecycle Hooks](../how-to/lifecycle-hooks.md)                          |
+| Actions               | [Macros and Actions](./macros-and-actions.md)                            |
+| Expressions/scripts   | [Expressions and Scripts](./expressions.md)                              |
+| Security & guardrails | [Security Model](./security-model.md)                                    |
+| Combat resolution     | [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md) |
+| Modifier system       | [Modifier Model](../reference/modifier-model.md)                         |
+| Body anatomy          | [Body Structure](../reference/body-structure.md)                         |
+| Active effects        | [Effects Integration](../reference/effects-integration.md)               |
+| CSS/styling           | [CSS Architecture](./css-architecture.md)                                |
+| Testing               | [Testing Guide](../how-to/testing.md)                                    |
+| Type catalog          | [Type Catalog](../reference/type-catalog.md)                             |
+| Runtime contracts     | [Runtime Contracts](../reference/runtime-contracts.md)                   |

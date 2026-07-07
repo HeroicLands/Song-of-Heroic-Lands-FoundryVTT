@@ -2,8 +2,10 @@
 title: Concepts
 children:
     Architecture Overview: ./architecture.md
-    Macros and Actions: ./macros-and-actions.md
     The SoHL API: ./sohl-api.md
+    Macros and Actions: ./macros-and-actions.md
+    Expressions and Scripts: ./expressions.md
+    Security Model & Guardrails: ./security-model.md
     CSS Architecture & Styleguide: ./css-architecture.md
 ---
 
