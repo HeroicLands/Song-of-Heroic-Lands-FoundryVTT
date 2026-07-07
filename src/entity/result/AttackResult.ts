@@ -56,18 +56,24 @@ export class AttackResult extends SuccessTestResult {
      */
     impact: ImpactModifier;
 
-    /** Shortcode of the body part this attack aims at (empty if unaimed). */
-    aimBodyPartCode: string;
-
-    /**
-     * Strike spread governing hit-location scatter from {@link aimBodyPartCode}
-     * during injury resolution. Melee uses the strike mode's `spread`; missile
-     * uses 6 (point blank) or 8 (normal direct).
-     */
-    spread: number;
-
     /** The label for the weapon or form of attack result (shown on card). */
     label: string;
+
+    /**
+     * The body part shortcode this attack aims at (empty when unaimed).
+     * Read-through to {@link impact} — the single source of truth.
+     */
+    get aimBodyPartCode(): string {
+        return this.impact.aimBodyPartCode;
+    }
+
+    /**
+     * Strike spread governing hit-location scatter from {@link aimBodyPartCode}.
+     * Read-through to {@link impact} — the single source of truth.
+     */
+    get spread(): number {
+        return this.impact.spread;
+    }
 
     /**
      * Builds an attack result, defaulting the impact modifier, aimed body part,
@@ -95,8 +101,6 @@ export class AttackResult extends SuccessTestResult {
             );
         }
         this.impact = data.impact ?? new ImpactModifier();
-        this.aimBodyPartCode = data.aimBodyPartCode ?? "";
-        this.spread = data.spread ?? 0;
         this.mode = data.mode;
         this.label = data.label ?? "Attack";
         const combatant = fvttLogicFromUuidSync<SohlCombatantLogic>(
@@ -135,8 +139,6 @@ export class AttackResult extends SuccessTestResult {
             combatantUuid: this.combatant.uuid,
             mode: this.mode,
             impact: this.impact.toJSON(),
-            aimBodyPartCode: this.aimBodyPartCode,
-            spread: this.spread,
             label: this.label,
         };
     }
@@ -265,10 +267,6 @@ export namespace AttackResult {
         mode: StrikeModeBase.PointerData;
         /** The impact (damage) formula/capability for this attack. */
         impact: ImpactModifier;
-        /** The body part shortcode targeted by this attack, if any */
-        aimBodyPartCode: string;
-        /** Strike spread for hit-location scatter (melee `spread`; missile 6/8). */
-        spread: number;
         /** The label for this attack result (shown on card). */
         label: string;
         /** The player-entered situational modifier from the attack dialog. */
