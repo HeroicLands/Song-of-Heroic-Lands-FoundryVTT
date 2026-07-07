@@ -1,6 +1,7 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
-import { instanceFromJSON } from "@src/utils/helpers";
+import { instanceFromJSON, HTMLString } from "@src/utils/helpers";
+import * as FoundryHelpers from "@src/core/FoundryHelpers";
 
 describe("SohlSpeaker serialization round-trip", () => {
     it("tags its toJSON with the kind so it can be revived", () => {
@@ -68,7 +69,26 @@ describe("SohlSpeaker", () => {
     });
 
     describe("_toChatWithContent", () => {
-        it.todo("prepares chat data with direct HTML content");
+        it("resolves HTML before posting — content is a string, not a Promise", async () => {
+            const captured: any[] = [];
+            vi.spyOn(
+                FoundryHelpers,
+                "fvttCreateChatMessage",
+            ).mockImplementation(async (data: any) => {
+                captured.push(data);
+                return null;
+            });
+
+            const speaker = new SohlSpeaker({ alias: "Test" });
+            // HTMLString cast — <p> tag ensures isFilePath returns false
+            await speaker.toChat("<p>Hello</p>" as HTMLString);
+
+            expect(captured).toHaveLength(1);
+            expect(typeof captured[0].content).toBe("string");
+            expect(captured[0].content).toBe("<p>Hello</p>");
+
+            vi.restoreAllMocks();
+        });
         it.todo("applies roll mode to the message");
         it.todo("creates a chat message via fvttCreateChatMessage");
     });
