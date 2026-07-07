@@ -92,6 +92,13 @@ content will be removed immediately.
 7. **The logic layer stays Foundry-free.** All Foundry API access goes through
    `src/core/FoundryHelpers.ts` (see [Architectural boundaries](#architectural-boundaries)).
 8. **Test-driven development.** Write the test before the code it verifies.
+9. **Never compile data into code.** No `eval`, `new Function`, or
+   `Handlebars.compile` of data-derived strings; never revive functions from
+   serialized data. Data carries only _references_ (a funcref id, a `__kind`
+   tag, a Foundry Macro UUID). Never build HTML by interpolating data into
+   template source, and remember that client-side gating is not authorization.
+   Read [Security Model & Guardrails](../concepts/security-model.md) before
+   touching serialization, HTML rendering, actions, or cross-client flows.
 
 ## Development workflow
 
