@@ -45,7 +45,7 @@ const { HTMLField, FilePathField } = foundry.data.fields;
  * without editing system source. Two families are emitted:
  *
  * - **Item hooks** — `sohl.<itemType>.{pre,post}{Initialize,Evaluate,Finalize}`,
- *   once per embedded item (from {@link prepareEmbeddedData}). Args `(item, ctx)`.
+ *   once per embedded item (from {@link prepareEmbeddedDocuments}). Args `(item, ctx)`.
  * - **Actor hooks** — `sohl.actor.<actorType>.{pre,post}{Initialize,Evaluate,Finalize}`,
  *   for the actor itself (the init pair from {@link prepareBaseData}, evaluate and
  *   finalize from {@link prepareDerivedData}). Args `(actor, ctx)` — `ctx` is
@@ -199,10 +199,8 @@ export class SohlActor extends Actor {
      * Because of this, items' own `prepare*` methods must not be overridden. See
      * the Lifecycle Model documentation.
      */
-    prepareEmbeddedData(): void {
-        // @ts-expect-error - prepareEmbeddedData exists in FoundryVTT V13 Actor but is missing from foundry-vtt-types
-        // It's called between prepareBaseData() and prepareDerivedData() in the data preparation lifecycle
-        super.prepareEmbeddedData();
+    override prepareEmbeddedDocuments(): void {
+        super.prepareEmbeddedDocuments();
 
         const ctx = (this.logic as any)._getContext();
 
