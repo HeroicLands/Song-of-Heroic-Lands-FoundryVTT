@@ -396,6 +396,7 @@ export class SohlCombatant<
                 "system.displayedMedium": chosen,
             });
         }
+        return undefined;
     }
 
     /**

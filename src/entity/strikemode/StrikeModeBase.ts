@@ -285,7 +285,7 @@ export abstract class StrikeModeBase extends SohlEntity {
             sohl.log.uiWarn(
                 `${this.name} cannot start automated combat: its actor is not in the active combat.`,
             );
-            return;
+            return undefined;
         }
         (context.scope ??=
             {} as Partial<AutomatedCombat.AttackContextScope>).mode =
