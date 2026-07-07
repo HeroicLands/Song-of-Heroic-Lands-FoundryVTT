@@ -26,6 +26,12 @@ export default defineConfig({
         baseUrl: `http://localhost:${port}`,
         supportFile: "cypress/support/e2e.js",
         specPattern: "cypress/e2e/**/*.cy.js",
+        // Specs log in once (in `before`) and persist the game session across
+        // their tests, resetting world state (documents) rather than the page
+        // between tests. The default (true) would reload to about:blank between
+        // tests, dropping `game`/login. Isolation across SPECS still holds — each
+        // spec file gets a fresh browser context.
+        testIsolation: false,
         // Foundry is a live server driven through the browser; fixtures/videos
         // add little here, and specs share login state within a run.
         fixturesFolder: false,
