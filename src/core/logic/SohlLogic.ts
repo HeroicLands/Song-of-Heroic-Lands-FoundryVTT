@@ -48,11 +48,11 @@ import { SohlMap } from "@src/utils/collection/SohlMap";
  * ## Phase-batched lifecycle
  *
  * Foundry VTT's default behavior processes each embedded item fully
- * (`prepareBaseData` → `prepareEmbeddedData` → `prepareDerivedData`) before
+ * (`prepareBaseData` → `prepareEmbeddedDocuments` → `prepareDerivedData`) before
  * moving to the next item. This means sibling items cannot depend on each
  * other — when Item B prepares, Item A may or may not be ready.
  *
- * SoHL overrides this in {@link SohlActor.prepareEmbeddedData} to run three
+ * SoHL overrides this in {@link SohlActor.prepareEmbeddedDocuments} to run three
  * phases across **all** items with barriers between them:
  *
  * 1. **{@link initialize}** — Set up base state from persisted data: create
@@ -73,7 +73,7 @@ import { SohlMap } from "@src/utils/collection/SohlMap";
  * ```text
  * Foundry calls:            SoHL runs:
  * prepareBaseData()     →   actor.logic.initialize()
- * prepareEmbeddedData() →   per item: initialize()  ═ barrier ═  evaluate()  ═ barrier ═  finalize()
+ * prepareEmbeddedDocuments() →   per item: initialize()  ═ barrier ═  evaluate()  ═ barrier ═  finalize()
  * prepareDerivedData()  →   actor.logic.evaluate(), then actor.logic.finalize()
  * ```
  *
@@ -401,7 +401,7 @@ export abstract class SohlLogic<
 
     /*
      * Phase-batched lifecycle methods, called by
-     * SohlActor.prepareEmbeddedData() in three barrier-separated passes across
+     * SohlActor.prepareEmbeddedDocuments() in three barrier-separated passes across
      * ALL items, NOT per-item like Foundry's default. See the class-level JSDoc
      * and docs/concepts/lifecycle-model.md.
      */
