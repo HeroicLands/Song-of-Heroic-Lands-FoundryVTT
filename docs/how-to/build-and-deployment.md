@@ -244,6 +244,71 @@ contains `Data/`), not at `systems/` — the deploy appends the rest.
 - After the deploy completes, **reload/restart** Foundry to load the new system.
 - The first time you use it in a world, select **SoHL** as the world's game system.
 
+### Running a build in a container
+
+To smoke-test a build in a real Foundry instance without maintaining a
+hand-run server, `container:<stage>` runs Foundry in Docker against the same
+`FOUNDRYVTT_<STAGE>_DATA` root the push scripts deploy into:
+
+```bash
+npm run build && npm run push:dev && npm run container:dev start   # bring it up
+npm run container:dev stop                                          # tear it down
+```
+
+The commands (`node utils/foundry-container.mjs <stage> <command>`):
+
+| Command    | Effect                                                                               |
+| ---------- | ------------------------------------------------------------------------------------ |
+| `start`    | Create (or restart) `sohl-foundry-<stage>` and serve `/data`.                        |
+| `stop`     | Stop the container (state is kept for a fast `start`).                               |
+| `restart`  | Restart the container.                                                               |
+| `recreate` | Remove and re-create the container so changed `FOUNDRY_*`/`CONTAINER_*` env applies. |
+| `rm`       | Stop and remove the container.                                                       |
+| `status`   | Show the container's `docker ps -a` row.                                             |
+| `logs`     | Follow the container log (watch first-run install / boot here).                      |
+| `pull`     | Pull the latest image.                                                               |
+
+The data root is bind-mounted at `/data`, so the system pushed to
+`<root>/Data/systems/sohl/` is served directly — the value **must be a local
+path** (a remote SFTP target can't be mounted and is rejected). Foundry itself
+runs from the community [`felddy/foundryvtt`](https://hub.docker.com/r/felddy/foundryvtt)
+image, which downloads the correct build inside the container (a local Foundry
+install can't be reused across platforms — its bundled native modules are
+platform-specific).
+
+Configuration lives in `.env.local` (all optional):
+
+| Variable                     | Default                | Purpose                                                             |
+| ---------------------------- | ---------------------- | ------------------------------------------------------------------- |
+| `FOUNDRYVTT_CONTAINER_IMAGE` | `felddy/foundryvtt:14` | Image tag to run (`:14` matches `system.json` `minimum`).           |
+| `FOUNDRYVTT_<STAGE>_PORT`    | 30000 / 30001 / 30002  | Published host port (distinct per stage so all three can coexist).  |
+| `FOUNDRYVTT_CACHE`           | —                      | Host dir with a pre-downloaded Foundry zip (see cache note below).  |
+| `FOUNDRY_*` / `CONTAINER_*`  | —                      | Passed through to the image (licensing, cache, tuning — see below). |
+
+🔧 **First-run licensing.** felddy needs to fetch Foundry once. Supply your
+Foundry credentials (`FOUNDRY_USERNAME` / `FOUNDRY_PASSWORD` [+ `FOUNDRY_LICENSE_KEY`]),
+a timed `FOUNDRY_RELEASE_URL`, or a pre-seeded cache (below) — whichever you
+prefer, in `.env.local`. The download is cached, so subsequent `start`s are fast
+and need no credentials. Docker must be installed and on `PATH`.
+
+**Env is baked in at create time.** `FOUNDRY_*`/`CONTAINER_*` values are fixed
+when the container is first created (`docker run`); `start`/`restart` do **not**
+pick up changes to them. After editing one — e.g. `FOUNDRY_WORLD=<world-dir>` to
+auto-launch a specific world (felddy regenerates `Config/options.json` from the
+env on each start, so hand-editing it won't stick), or credentials — run
+`npm run container:<stage> recreate` to re-create the container with the current
+environment.
+
+**Download cache.** `CONTAINER_CACHE` in felddy is a path **inside the
+container** (default `/data/container_cache`). Because the data root is mounted
+at `/data`, that default is `<dataRoot>/container_cache/` on your host — so the
+no-config option is to drop `foundryvtt-<version>.zip` (e.g.
+`foundryvtt-14.364.zip`) there. If instead the zip lives in a **separate** host
+directory, set `FOUNDRYVTT_CACHE` to it: the script bind-mounts that directory
+and sets `CONTAINER_CACHE` to the mount point for you. Do **not** set a raw
+`CONTAINER_CACHE` to a host path — it names a container path and is not
+forwarded (use `FOUNDRYVTT_CACHE` instead).
+
 ## 7. Cutting a release
 
 A release is cut by **merging the auto-generated "Version Packages" PR**; the
@@ -334,6 +399,7 @@ and how to invoke it — read the file itself for the authoritative detail. In b
 | `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                                   |
 | `pack-release.mjs`                  | Zip `build/stage/` into the release `system.zip` + `system.json`.                         |
 | `push-stage.mjs`                    | deploy `build/stage/` to a Foundry instance (`dev`/`qa`/`prod`).                          |
+| `foundry-container.mjs`             | run a build in a Foundry Docker container (`<stage> start\|stop\|…`).                     |
 | `release.mjs`                       | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases). |
 | `packs/build-compendiums.mjs`       | Compile/unpack `_source/` ↔ LevelDB packs (Foundry CLI).                                  |
 | `packs/export.mjs`                  | Vault → `_source/` export orchestrator.                                                   |
