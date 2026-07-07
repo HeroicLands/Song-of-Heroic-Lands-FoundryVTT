@@ -394,4 +394,61 @@ describe("ValueModifier", () => {
             expect(vm.index).toBe(0);
         });
     });
+
+    describe("chatHtml (#162 security)", () => {
+        function pushNamedDelta(
+            vm: ValueModifier,
+            name: string,
+            value: string | number = 5,
+        ): void {
+            vm.deltas.push(
+                new ValueDelta(
+                    {
+                        name,
+                        shortcode: "test",
+                        op: VALUE_DELTA_OPERATOR.ADD,
+                        value: String(value),
+                    },
+                    { parent: mockParent },
+                ),
+            );
+            (vm as any).dirty = true;
+        }
+
+        it("escapes XSS in delta name", () => {
+            const vm = createVM();
+            pushNamedDelta(vm, "<img src=x onerror=alert(1)>", 5);
+            const html = vm.chatHtml;
+            expect(html).not.toContain("<img");
+            expect(html).toContain("&lt;img");
+        });
+
+        it("escapes XSS in CUSTOM delta value (no numeric validation)", () => {
+            const vm = createVM();
+            // CUSTOM operator does not enforce numeric values, so an attacker
+            // can embed markup in `value`. The chatHtml getter must escape it.
+            vm.deltas.push(
+                new ValueDelta(
+                    {
+                        name: "SOHL.INFO.test",
+                        shortcode: "test",
+                        op: VALUE_DELTA_OPERATOR.CUSTOM,
+                        value: "<script>alert(1)</script>",
+                    },
+                    { parent: mockParent },
+                ),
+            );
+            (vm as any).dirty = true;
+            const html = vm.chatHtml;
+            expect(html).not.toContain("<script");
+            expect(html).toContain("&lt;script&gt;");
+        });
+
+        it("renders inert text for a crafted name — not live HTML", () => {
+            const vm = createVM();
+            pushNamedDelta(vm, '</span><img src=x onerror="alert(1)">', 3);
+            const html = vm.chatHtml;
+            expect(html).not.toMatch(/<img\s/);
+        });
+    });
 });
