@@ -24,7 +24,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="list__detail">Notes</div>
             </li>
             {{#each mysteries as |mystery|}}
-            <li class="item flexrow" data-item-id="{{mystery.id}}" data-item-name="{{mystery.name}}" data-search-name="{{mystery.name}}">
+            <li class="item flexrow" data-search-name="{{mystery.name}}" data-item-id="{{mystery.id}}" data-item-name="{{mystery.name}}">
                 <div class="list__name default-action flexrow">
                     <div class="list__image" style="background-image: url('{{mystery.img}}')"></div>
                     <h4 data-tooltip="{{mystery.name}}">{{mystery.name}}</h4>
@@ -65,7 +65,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="list__detail">Notes</div>
             </li>
             {{#each abilities as |ability|}}
-            <li class="item flexrow" data-item-id="{{ability.id}}" data-item-name="{{ability.name}}" data-search-name="{{ability.name}}">
+            <li class="item flexrow" data-search-name="{{ability.name}}" data-item-id="{{ability.id}}" data-item-name="{{ability.name}}">
                 <div class="list__name default-action flexrow">
                     <div class="list__image" style="background-image: url('{{ability.img}}')"></div>
                     <h4 data-tooltip="{{ability.name}}">{{ability.name}}</h4>

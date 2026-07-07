@@ -39,7 +39,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="list__detail" data-tooltip="Bleeding">Bld</div>
             </li>
             {{#each traumas as |injury|}}
-            <li class="item flexrow" data-item-id="{{injury.id}}" data-item-name="{{injury.name}}" data-search-name="{{injury.name}}">
+            <li class="item flexrow" data-search-name="{{injury.name}}" data-item-id="{{injury.id}}" data-item-name="{{injury.name}}">
                 <div class="list__name default-action flexrow">
                     <div class="list__image" style="background-image: url('{{injury.img}}')"></div>
                     <h4 data-tooltip="{{injury.name}}">{{injury.name}}</h4>
@@ -92,7 +92,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="list__detail" data-tooltip="Healing Rate">HR</div>
             </li>
             {{#each afflictions as |aff|}}
-            <li class="item flexrow" data-item-id="{{aff.id}}" data-item-name="{{aff.name}}" data-search-name="{{aff.name}}">
+            <li class="item flexrow" data-search-name="{{aff.name}}" data-item-id="{{aff.id}}" data-item-name="{{aff.name}}">
                 <div class="list__name default-action flexrow">
                     <div class="list__image" style="background-image: url('{{aff.img}}')"></div>
                     <h4 data-tooltip="{{aff.name}}">{{aff.name}}</h4>
