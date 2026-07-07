@@ -117,6 +117,34 @@ export async function fvttResolveUuidAsync(
 }
 
 /**
+ * Resolve a Foundry Macro by UUID and run it via `Macro#execute`.
+ *
+ * @remarks
+ * This is the sanctioned way to run author-supplied ("homebrew") behavior: the
+ * command lives in a permission-gated `Macro` document, never in system data,
+ * and `Macro#execute` enforces `canUserExecute` (ownership **and** the
+ * `MACRO_SCRIPT` user permission) before running. No code is ever compiled from
+ * serialized data. See {@link SohlAction} and the Security Model doc.
+ *
+ * @param uuid - The Macro document UUID referenced by a Script action.
+ * @param scope - Variables passed to the macro body (Foundry spreads these as
+ *   `{ speaker, actor, token, ...scope }`).
+ * @returns The macro's result, or `undefined` if the UUID does not resolve to a
+ *   Macro (a non-Macro or missing document is ignored, not executed).
+ */
+export async function fvttExecuteMacro(
+    uuid: string,
+    scope: Record<string, unknown>,
+): Promise<unknown> {
+    const macro = await fromUuid(uuid);
+    if (!macro || (macro as any).documentName !== "Macro") {
+        sohl.log.warn(`fvttExecuteMacro: no Macro at uuid "${uuid}"`);
+        return undefined;
+    }
+    return (macro as any).execute(scope);
+}
+
+/**
  * Resolve a document UUID to its SoHL logic instance, synchronously.
  *
  * @remarks The logic-layer counterpart of `fromUuidSync`: it hides the Foundry
