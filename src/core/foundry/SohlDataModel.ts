@@ -345,6 +345,12 @@ export namespace SohlDataModel {
         return class SMix extends HandlebarsApplicationMixin(Base) {
             static override DEFAULT_OPTIONS: PlainObject = {
                 classes: ["sohl"],
+                // Persist field edits: DocumentSheetV2 submits (updating the
+                // document via its default form handler) whenever a form field
+                // changes. Without this, typing in a sheet field never saves.
+                form: {
+                    submitOnChange: true,
+                },
             };
             protected _dragDrop: DragDrop[];
 
