@@ -1351,9 +1351,11 @@ async function commonAttack(
     // Determine the default strike mode index: the prior attack result's mode if
     // it is available, otherwise the most-recently-used mode, and if
     // neither is available, the best-chance mode (highest effective ML).
-    let defaultStrikeModeIdx: number = availStrikeModes.findIndex(
-        (sm) => !sm.compareTo(context.scope.priorAttackResult?.mode),
-    );
+    const priorMode = context.scope.priorAttackResult?.mode;
+    let defaultStrikeModeIdx: number =
+        priorMode ?
+            availStrikeModes.findIndex((sm) => !sm.compareTo(priorMode))
+        :   -1;
     if (defaultStrikeModeIdx < 0 && attackerLogic.lastAttackMode) {
         defaultStrikeModeIdx = availStrikeModes.findIndex(
             (sm) => !sm.compareTo(attackerLogic.lastAttackMode!),
@@ -1442,10 +1444,7 @@ export function buildCombatCardData(combatResult: CombatResult): {
             injuryButton(combatResult.cxImpact, atkResult.token.uuid)
         :   null;
 
-    let atkWeapon =
-        atkResult ?
-            StrikeModeBase.fromPointerData(atkResult.mode)?.parent
-        :   undefined;
+    let atkWeapon = atkResult?.mode?.parent;
 
     let cxCardData: Record<string, unknown> | undefined;
     const atkCardData: Record<string, unknown> = {
@@ -1527,10 +1526,7 @@ export function buildCombatCardData(combatResult: CombatResult): {
                 )
             :   null;
 
-        atkWeapon =
-            atkResult ?
-                StrikeModeBase.fromPointerData(atkResult.mode)?.parent
-            :   undefined;
+        atkWeapon = atkResult?.mode?.parent;
 
         cxCardData = {
             actorId: atkResult.combatant.actorLogic!.id,
