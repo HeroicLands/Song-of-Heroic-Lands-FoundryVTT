@@ -16,10 +16,10 @@ import {
     ITEM_KIND,
     TRAIT_INTENSITY,
     TRAIT_SUBTYPE,
-    TraitIntensities,
+    TraitIntensityChoices,
     TraitIntensity,
     TraitSubType,
-    TraitSubTypes,
+    TraitSubTypeChoices,
 } from "@src/utils/constants";
 import { SohlItemDataModel } from "./SohlItem";
 const {
@@ -42,7 +42,7 @@ function defineTraitSchema(): foundry.data.fields.DataSchema {
         subType: new StringField({
             initial: TRAIT_SUBTYPE.PHYSIQUE,
             required: true,
-            choices: TraitSubTypes,
+            choices: TraitSubTypeChoices,
         }),
         isNumeric: new BooleanField({ initial: false }),
         textValue: new StringField({ initial: "" }),
@@ -60,7 +60,7 @@ function defineTraitSchema(): foundry.data.fields.DataSchema {
         intensity: new StringField({
             initial: TRAIT_INTENSITY.TRAIT,
             required: true,
-            choices: TraitIntensities,
+            choices: TraitIntensityChoices,
         }),
         valueDesc: new ArrayField(
             new SchemaField({
