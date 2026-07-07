@@ -40,6 +40,36 @@ describe("ExpressionHelperRegistry", () => {
         });
     });
 
+    describe("hasUsableSkill (#64)", () => {
+        const fn = () => STANDARD_HELPERS.hasUsableSkill;
+
+        it("returns true when the actor logic has a skill with the given shortcode", () => {
+            const actor = {
+                logic: {
+                    logicTypes: {
+                        skill: [{ data: { shortcode: "dge" } }],
+                    },
+                },
+            };
+            expect(fn()(actor, "dge")).toBe(true);
+        });
+
+        it("returns false when no skill matches the shortcode", () => {
+            const actor = {
+                logic: {
+                    logicTypes: { skill: [{ data: { shortcode: "swd" } }] },
+                },
+            };
+            expect(fn()(actor, "dge")).toBe(false);
+        });
+
+        it("returns false when the actor has no logic", () => {
+            expect(fn()(null, "dge")).toBe(false);
+            expect(fn()(undefined, "dge")).toBe(false);
+            expect(fn()({}, "dge")).toBe(false);
+        });
+    });
+
     describe("custom function helpers", () => {
         it("registers and invokes a function helper", () => {
             reg.register("double", (n) => (n as number) * 2);
