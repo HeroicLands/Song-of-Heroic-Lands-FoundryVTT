@@ -980,10 +980,10 @@ export interface BeingData<
     TLogic extends SohlActorLogic<BeingData> = SohlActorLogic<any>,
 > extends SohlActorData<TLogic> {}
 
-/**
- * Representation of a single available strike mode
- */
+/** A weapon (or combat technique) paired with its usable strike modes for a combat encounter. */
 export interface BeingCombatMode {
+    /** The available strike modes for this weapon entry. */
     strikeMode: StrikeModeBase[];
+    /** The weapon gear or combat technique that owns these strike modes. */
     weapon: WeaponGearLogic | CombatTechniqueLogic;
 }

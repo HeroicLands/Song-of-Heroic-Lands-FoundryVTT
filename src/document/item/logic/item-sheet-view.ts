@@ -38,15 +38,23 @@ export function localizeSubType(subType: string, kind: string): string {
     return localized !== locKey ? localized : subType;
 }
 
+/** The fields that {@link keyTransferredEffects} requires on each effect. */
+export interface TransferableEffect {
+    /** The effect's unique id, used as the map key. */
+    id: string;
+    /** When `true` the effect is excluded from the result. */
+    disabled?: boolean;
+}
+
 /**
  * Key an item's transferred active effects by id, excluding disabled effects.
  *
  * @param transferredEffects - The transferred effects, or `null`/`undefined`.
  * @returns A map of effect id → effect for each enabled effect, in input order.
  */
-export function keyTransferredEffects<
-    T extends { id: string; disabled?: boolean },
->(transferredEffects: Iterable<T> | null | undefined): Record<string, T> {
+export function keyTransferredEffects<T extends TransferableEffect>(
+    transferredEffects: Iterable<T> | null | undefined,
+): Record<string, T> {
     const trxEffects: Record<string, T> = {};
     for (const effect of transferredEffects ?? []) {
         if (!effect.disabled) trxEffects[effect.id] = effect;
@@ -61,7 +69,10 @@ export interface ItemMatchKey {
     /** The item type. */
     type: string;
     /** The item system data, carrying its subtype. */
-    system: { subType?: unknown };
+    system: {
+        /** Optional subtype string for items that support subtypes. */
+        subType?: unknown;
+    };
 }
 
 /**

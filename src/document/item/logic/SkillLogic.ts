@@ -39,7 +39,12 @@ import {
 import { AttributeLogic } from "./AttributeLogic";
 import { SohlAction } from "@src/entity/action/SohlAction";
 
-/** Returns the fate-test description table with labels/descriptions resolved from i18n. */
+/**
+ * Returns the fate-test description table with labels/descriptions resolved from i18n.
+ *
+ * @returns Array of {@link SuccessTestResult.LimitedDescription} entries covering
+ *   all fate outcomes from "lose fate — no effect" through "permanent gain".
+ */
 export function getFateDescTable(): SuccessTestResult.LimitedDescription[] {
     const loc = (key: string) => sohl.i18n.localize(key);
     return [
@@ -708,6 +713,12 @@ export function calcSkillBase(
     return Math.max(0, average + birthsignBonus + modifier);
 }
 
+/**
+ * The mastery-level bonus applied at each ML tier for the base-skill calculation.
+ *
+ * @param ml - The mastery level (0–100+).
+ * @returns The bonus to add: 10 at ML ≤ 39, decreasing to 3 at ML > 99.
+ */
 function calcMasteryBoost(ml: number): number {
     if (ml <= 39) return 10;
     else if (ml <= 44) return 9;

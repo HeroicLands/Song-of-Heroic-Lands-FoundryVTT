@@ -286,5 +286,6 @@ export namespace SohlContextMenu {
      * @see {@link ContextMenuEntry}
      */
     export const Entry = ContextMenuEntry;
+    /** Type alias for a single context-menu entry. @see {@link ContextMenuEntry} */
     export type Entry = ContextMenuEntry;
 }

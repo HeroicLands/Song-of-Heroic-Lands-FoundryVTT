@@ -793,7 +793,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     /**
      * Show or hide item rows in the sheet content based on a search query,
      * matching each row's normalized item name against the query or regex.
-     * @param event - The triggering keyboard event, if any.
+     * @param _event - The triggering keyboard event, if any.
      * @param query - The raw search query text.
      * @param rgx - The regular expression to match item names against.
      * @param content - The container element holding the item rows.

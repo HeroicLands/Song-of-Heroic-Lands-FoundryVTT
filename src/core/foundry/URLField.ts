@@ -27,7 +27,15 @@ export class URLField extends foundry.data.fields.StringField {
         });
     }
 
-    /** @override */
+    /**
+     * Validate that `value` is a well-formed `http(s)` URL, in addition to the
+     * base {@link foundry.data.fields.StringField} checks.
+     *
+     * @param value - The string to validate.
+     * @param options - Forwarded to `super._validateType`.
+     * @throws {Error} If `value` is not a valid URL.
+     * @throws {Error} If the URL's protocol is not `http:` or `https:`.
+     */
     protected override _validateType(
         value: string,
         options?: foundry.data.fields.DataField.ValidateOptions<this>,
