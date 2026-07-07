@@ -30,6 +30,12 @@ export class CombatTechniqueSheet extends SohlItemSheetBase {
 
     /**
      * Adds combat-technique strike-mode fields to the properties tab context.
+     *
+     * `strikeMode` is a discriminated `TypedSchemaField` (melee/missile), so its
+     * concrete sub-fields depend on the stored `type`. Expose the resolved
+     * sub-field schema (`smFields`) and the strike-mode value (`sm`) so the
+     * template can render/edit the correct fields for the current type.
+     *
      * @param context - The render context to augment.
      * @param options - Sheet render options.
      * @returns The context extended with strike-mode properties.
@@ -42,13 +48,13 @@ export class CombatTechniqueSheet extends SohlItemSheetBase {
     > {
         await super._preparePropertiesContext(context, options);
         const system = this.document.system as any;
+        const sm = system.strikeMode ?? {};
+        const smType = sm.type ?? "melee";
         return Object.assign(context, {
-            mode: system.mode,
-            minParts: system.minParts,
-            assocSkillName: system.assocSkillName,
-            impactBase: system.impactBase,
-            group: system.group,
-            lengthBase: system.lengthBase,
+            sm,
+            smType,
+            isMelee: smType === "melee",
+            isMissile: smType === "missile",
         });
     }
 }
