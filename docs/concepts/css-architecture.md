@@ -5,12 +5,14 @@
 
 See also: [Architecture Overview](./architecture.md), [Effects Integration](../reference/effects-integration.md).
 
-This page is the **decision record and conventions** for the system's stylesheets.
-It is the foundation ratified by [epic #95](https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/issues/95)
-before any code moves; the migration itself happens in its child issues (#90–#94).
-Until those land, the source under `scss/` does **not** yet match every rule below —
-this document describes the _target_, and is the contract migrations are measured
-against.
+This page is the **decision record and conventions** for the system's stylesheets,
+ratified by [epic #95](https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/issues/95)
+and carried out in its child issues (#90–#94). Much of it has landed — the
+`scss/` folder structure (§2: `abstracts/`, `base/`, `layout/`, `components/`,
+`utilities/`), the `@layer` ordering (§5), and the design tokens (§4) are in
+place. Some residual migration remains (notably BEM renaming, #94, and the
+`apps/` split); where the code still lags a rule below, **this document is the
+target** and the code is what needs migrating.
 
 > **Why this exists.** [#87](https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/pull/87)
 > uncovered a whole block of sheet-layout CSS that was silently dead: `.sohl .sheet`
@@ -261,5 +263,5 @@ This page is decisions only. The implementation is sequenced across epic #95:
 - **#93** — extract reusable component partials (list/header/field).
 - **#94** — apply BEM naming (§3) and sync templates/`src/` selectors.
 
-Until each lands, expect `scss/` to lag this document. When they conflict, **this
-document is the target** and the code is what still needs migrating.
+Where any of these still lag, **this document is the target** and the code is what
+needs migrating.

@@ -46,7 +46,7 @@ export type ActionVisibilityFn = (element: HTMLElement) => boolean;
 /**
  * The callable that performs an action, given a {@link SohlActionContext}.
  * For Intrinsic actions this is a bound logic method; for Script actions it
- * is compiled from the action's executor source.
+ * runs the referenced Foundry Macro via `Macro#execute`.
  */
 export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
 
@@ -68,10 +68,12 @@ export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
  *   `defineIntrinsicActions()`. The `executor` is the *name of a method* on the
  *   scoped target logic (e.g. `useMystery` on a Mystery), looked up and bound at
  *   construction. This is how the system ships its built-in actions.
- * - **Script actions** — GM-authored. The `executor` is a JavaScript body
- *   compiled in a sandbox by {@link textToFunction} (no DOM, network, timers, or
- *   prototype escapes) and called with a {@link SohlActionContext} as its
- *   `context` parameter. Stored per-document and permission-gated; there is no
+ * - **Script actions** — GM-authored. The `executor` is the **UUID of a
+ *   Foundry `Macro`**; running the action invokes `Macro#execute` (which
+ *   enforces the `MACRO_SCRIPT` permission and ownership) with a
+ *   {@link SohlActionContext}-derived scope. No code is stored on, or compiled
+ *   from, the document — see the security model's "reference code, never
+ *   compile it" rule. Stored per-document and permission-gated; there is no
  *   end-user authoring UI.
  *
  * Either way, an action carries:
@@ -87,14 +89,21 @@ export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
  * {@link execute}. See {@link SohlLogic.getContextOptions} for how actions become
  * context-menu entries.
  *
- * If a Script action's body needs capabilities the sandbox forbids (DOM, network,
- * timers), reach for a Foundry **module** instead.
+ * A Script action's Macro is an ordinary Foundry script Macro, so it can use
+ * the full client API (`actor`, `token`, and the SoHL `sohl`/`.logic` surfaces
+ * are passed in scope). If the behavior outgrows a single Macro, reach for a
+ * Foundry **module** instead.
  *
  * @example
- * // A Script action body, scope = ACTOR: `this` is the actor's logic and
- * // `context` carries the speaker.
- * const health = this.health?.effective ?? 0;
- * sohl.log.info(`${context.speaker?.alias}: ${health}% health`);
+ * // An intrinsic action definition (from a Logic class's
+ * // defineIntrinsicActions): the executor is the name of a method on the
+ * // scoped target logic, bound at construction.
+ * { subType: "intrinsic", scope: "self", executor: "useMystery", trigger: "true" }
+ *
+ * @example
+ * // A Script action references a GM-authored Macro by UUID; the Macro body is
+ * // where the GM's code lives (never on the action).
+ * { subType: "script", scope: "actor", executor: "Macro.p8f2c1a0d9e7b6a5" }
  */
 export class SohlAction extends SohlEntity {
     /** The persisted action definition (see {@link SohlAction.Data}). */

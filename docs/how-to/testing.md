@@ -2,7 +2,23 @@
 
 See also: [Architecture Overview](../concepts/architecture.md), [Extension Points](./extension-points.md)
 
-SoHL uses **test-driven development (TDD)**. Tests are written before the code they verify. This ensures that every new feature, bug fix, or refactor starts with a clear specification of expected behavior, and that regressions are caught immediately.
+SoHL uses **test-driven development (TDD)**. Tests are written before the code they verify, so every feature, bug fix, or refactor starts with a clear specification and regressions are caught immediately.
+
+## Two kinds of tests
+
+SoHL has two complementary test suites with very different scope and cadence:
+
+|                  | **Unit tests (vitest)**                                                                                           | **Integration tests (Cypress)**                                                                                   |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **Scope**        | The Foundry-free **logic layer** — Logic classes and domain objects, in Node                                      | The **running system** in a real Foundry instance — sheets, hooks, documents, the full client                     |
+| **Needs**        | Just `npm` (no Foundry, no browser)                                                                               | Foundry (Docker/felddy container) **+ a Foundry license**                                                         |
+| **When it runs** | **Every CI build** — unit tests (plus the purity smoke test) are part of the build pipeline and gate every change | **On demand only** — run locally with `npm run test:e2e`; not part of standard CI (it needs a licensed container) |
+| **Speed**        | Seconds                                                                                                           | Minutes (seeds a world, serves it, drives a browser)                                                              |
+| **Guide**        | [Running tests](#running-tests) and below                                                                         | [Browser end-to-end tests (Cypress)](#browser-end-to-end-tests-cypress) (near the end)                            |
+
+The rule of thumb: **push as much logic as possible into the Foundry-free layer so it can be unit-tested**, and reserve the integration suite for what only a live client can prove (rendering, persistence, cross-document flows). Both suites are written test-first; the Cypress suite doubles as an executable specification (see below).
+
+Everything from here down to _Browser end-to-end tests_ is about the **vitest unit suite**; the Cypress integration suite is documented in its own section at the end.
 
 ## Running tests
 
@@ -18,30 +34,31 @@ Tests live in `tests/` mirroring the `src/` directory structure:
 ```
 tests/
   setup.ts                          # Global test setup (runs before all tests)
-  mocks/foundry/core/
-    FoundryHelpers.ts               # Mock of the Foundry runtime shim
+  mocks/
+    foundry/core/FoundryHelpers.ts  # Mock of the Foundry runtime shim
+    logicHarness.ts                 # Builders for Logic instances (no Foundry)
   utils/
     helpers.test.ts                 # Tests for src/utils/helpers.ts
-    SimpleRoll.test.ts              # Tests for src/utils/SimpleRoll.ts
-    ...
-  common/
-    modifier/
-      ValueDelta.test.ts
-      ValueModifier.test.ts
-      ...
-    result/
-      SuccessTestResult.test.ts
-      ...
-    item/
-      Action.test.ts
-      ...
-    actor/
-      Being.test.ts
-      ...
-    SkillBase.test.ts
+    SimpleRoll.test.ts              # Tests for src/entity/roll/SimpleRoll.ts
+  domain/                           # Pure entity/domain objects (src/entity/*)
+    modifier/ValueModifier.test.ts
+    result/SuccessTestResult.test.ts
+    body/BodyPart.test.ts
+  item/                             # Item Logic classes (src/document/item/logic/*)
+    Action.test.ts
+    Skill.test.ts
+  actor/Being.test.ts               # Actor Logic classes
+  core/                             # Foundry-free core (src/core/logic/*)
     SohlLogic.test.ts
-    ...
+    SohlActionContext.test.ts
+  document/                         # Per-document logic (actor, combat, effect, …)
+  entity/expr/                      # SafeExpression / expression subsystem
+  purity/                           # Logic-layer purity smoke test (see below)
 ```
+
+> The tree mirrors the source it exercises, but not one-to-one: `tests/domain/`
+> holds the pure `src/entity/*` object tests, `tests/item/` and `tests/actor/`
+> hold Logic-class tests, and `tests/core/` holds the Foundry-free core tests.
 
 ## TDD workflow
 
@@ -110,7 +127,7 @@ Additional patterns:
 
 ## Logic-layer purity smoke test
 
-`npm run test:purity` (part of `build:noci`) runs `tests/purity/logic-imports.purity.ts` under `vitest.purity.config.ts` — a config with **no** `tests/setup.ts`, so no Foundry global stubs exist. It dynamically imports every module in the Foundry-free zones (`src/document/*/logic/`, `src/domain/`, the pure core files, `src/utils/ContextMenuEntry.ts`); any module-level `foundry.*`/`game.*` access throws and fails the suite. This is one of the two boundary guards — see [Architecture → Logic layer](../concepts/architecture.md#logic-layer) for what they enforce and the complementary ESLint rule.
+`npm run test:purity` (part of `build:noci`) runs `tests/purity/logic-imports.purity.ts` under `vitest.purity.config.ts` — a config with **no** `tests/setup.ts`, so no Foundry global stubs exist. It dynamically imports every module in the Foundry-free zones (`src/document/*/logic/`, `src/entity/`, the pure core files, `src/apps/logic/ContextMenuEntry.ts`); any module-level `foundry.*`/`game.*` access throws and fails the suite. This is one of the two boundary guards — see [Architecture → Logic layer](../concepts/architecture.md#logic-layer) for what they enforce and the complementary ESLint rule.
 
 ## End-to-end example: testing a domain object
 
@@ -206,8 +223,8 @@ expect(parts[2].shortcode).toBe("larm");
 Mirror the `src/` structure in `tests/`:
 
 ```
-src/domain/body/BodyStructure.ts  →  tests/domain/body/BodyStructure.test.ts
-src/domain/modifier/ValueModifier.ts  →  tests/domain/modifier/ValueModifier.test.ts
+src/entity/body/BodyStructure.ts  →  tests/domain/body/BodyStructure.test.ts
+src/entity/modifier/ValueModifier.ts  →  tests/domain/modifier/ValueModifier.test.ts
 src/document/item/logic/SkillLogic.ts  →  tests/item/Skill.test.ts
 ```
 

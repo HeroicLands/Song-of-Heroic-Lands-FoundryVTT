@@ -3,7 +3,7 @@
 > **Audience:** Developers maintaining or extending SoHL.
 > **Goal:** Identify the safest places to add features with minimal risk.
 
-See also: [Architecture Overview](../concepts/architecture.md), [House Rules Cookbook](./house-rules-cookbook.md).
+See also: [Architecture Overview](../concepts/architecture.md), [House Rules Cookbook](./house-rules-cookbook.md), [Security Model](../concepts/security-model.md).
 
 ## Choosing extension scope
 
@@ -28,7 +28,7 @@ When in doubt:
 
 ## 1) System initialization & registration
 
-Primary files: `src/sohl.ts`, `src/core/SohlSystem.ts`
+Primary files: `src/sohl.ts`, `src/core/logic/SohlSystem.ts`
 
 Common extension needs: register new settings, sheets, hooks, or document classes.
 
@@ -68,8 +68,8 @@ This is the canonical "add a type" procedure — the [Runtime Contracts](../refe
 
 Core components:
 
-- `src/domain/result/*` — test and combat result classes
-- `src/domain/modifier/*` — value tracking and modification
+- `src/entity/result/*` — test and combat result classes
+- `src/entity/modifier/*` — value tracking and modification
 - `src/document/combatant/` — combatant tracking
 - `src/entity/action/SohlActionContext.ts` — request context
 
@@ -145,7 +145,7 @@ Render-time gating makes the button appear only to the responding actor's owner 
 
 ## 7) System registries
 
-`src/core/SohlSystem.ts` — the central registry for CONFIG mappings.
+`src/core/logic/SohlSystem.ts` — the central registry for CONFIG mappings.
 
 **Rules:**
 
