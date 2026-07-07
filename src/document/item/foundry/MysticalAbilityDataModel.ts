@@ -19,6 +19,7 @@ import {
     ITEM_KIND,
     MysticalAbilitySubType,
     MysticalAbilitySubTypes,
+    MysticalAbilitySubTypeChoices,
 } from "@src/utils/constants";
 import { SohlItemDataModel } from "./SohlItem";
 const { SchemaField, NumberField, StringField, BooleanField, DocumentIdField } =
@@ -34,7 +35,7 @@ function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
         subType: new StringField({
-            choices: MysticalAbilitySubTypes,
+            choices: MysticalAbilitySubTypeChoices,
             required: true,
         }),
         assocSkillCode: new StringField({

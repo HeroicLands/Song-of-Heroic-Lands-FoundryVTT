@@ -16,6 +16,7 @@ import {
     ACTOR_KIND,
     COHORT_MEMBER_ROLE,
     CohortMemberRoles,
+    CohortMemberRoleChoices,
 } from "@src/utils/constants";
 import type { CohortData } from "@src/document/actor/logic/CohortLogic";
 import { CohortLogic } from "@src/document/actor/logic/CohortLogic";
@@ -43,7 +44,7 @@ function defineCohortDataSchema(): foundry.data.fields.DataSchema {
                     required: true,
                 }),
                 role: new StringField({
-                    choices: CohortMemberRoles,
+                    choices: CohortMemberRoleChoices,
                     initial: COHORT_MEMBER_ROLE.MEMBER,
                 }),
             }),

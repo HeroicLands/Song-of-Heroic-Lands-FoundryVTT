@@ -30,6 +30,7 @@ import {
     MOVEMENT_MEDIUM,
     MovementMedium,
     MovementMediums,
+    MovementMediumChoices,
 } from "@src/utils/constants";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 
@@ -485,7 +486,7 @@ function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
          */
         displayedMedium: new foundry.data.fields.StringField({
             required: true,
-            choices: MovementMediums,
+            choices: MovementMediumChoices,
             initial: MOVEMENT_MEDIUM.TERRESTRIAL,
         }),
         /**

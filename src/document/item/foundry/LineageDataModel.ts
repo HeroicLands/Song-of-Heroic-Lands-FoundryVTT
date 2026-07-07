@@ -28,6 +28,10 @@ import {
     MOVEMENT_MEDIUM,
     MovementMedium,
     MovementMediums,
+    BodyRoleChoices,
+    BleedingSusceptibilityChoices,
+    AmputabilityChoices,
+    MovementMediumChoices,
 } from "@src/utils/constants";
 const {
     StringField,
@@ -63,7 +67,7 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
                     roles: new ArrayField(
                         new StringField({
                             blank: false,
-                            choices: BodyRoles,
+                            choices: BodyRoleChoices,
                         }),
                         { initial: [] },
                     ),
@@ -103,7 +107,7 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
                              */
                             bleedingSusceptibility: new StringField({
                                 blank: false,
-                                choices: BleedingSusceptibilities,
+                                choices: BleedingSusceptibilityChoices,
                                 initial: BLEEDING_SUSCEPTIBILITY.NONE,
                             }),
                             /**
@@ -115,7 +119,7 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
                              */
                             amputability: new StringField({
                                 blank: false,
-                                choices: Amputabilities,
+                                choices: AmputabilityChoices,
                                 initial: AMPUTABILITY.NONE,
                             }),
                             shockValue: new NumberField({
@@ -214,7 +218,7 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
          */
         defaultMoveMedium: new StringField({
             required: true,
-            choices: MovementMediums,
+            choices: MovementMediumChoices,
             initial: MOVEMENT_MEDIUM.TERRESTRIAL,
         }),
         /** Represents the number of pounds of gear that equates to 1 unit of encumbrance */

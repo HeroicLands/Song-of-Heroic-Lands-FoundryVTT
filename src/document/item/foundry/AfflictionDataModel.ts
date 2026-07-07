@@ -24,6 +24,7 @@ import {
     AfflictionTransmission,
     AfflictionTransmissionChoices,
     ITEM_KIND,
+    AfflictionSubTypeChoices,
 } from "@src/utils/constants";
 const { StringField, BooleanField, NumberField } = foundry.data.fields;
 
@@ -37,7 +38,7 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
         subType: new StringField({
-            choices: AfflictionSubTypes,
+            choices: AfflictionSubTypeChoices,
             required: true,
         }),
         category: new StringField({ initial: "" }),

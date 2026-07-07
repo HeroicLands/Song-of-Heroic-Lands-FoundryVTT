@@ -19,6 +19,7 @@ import {
     StrikeModeTypes,
     type ImpactAspect,
     type StrikeModeType,
+    ImpactAspectChoices,
 } from "@src/utils/constants";
 import { CombatModifier } from "@src/entity/modifier/CombatModifier";
 import { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
@@ -243,7 +244,7 @@ export abstract class StrikeModeBase extends SohlEntity {
                 }),
                 aspect: new StringField({
                     blank: false,
-                    choices: ImpactAspects,
+                    choices: ImpactAspectChoices,
                     initial: IMPACT_ASPECT.BLUNT,
                 }),
             }),
