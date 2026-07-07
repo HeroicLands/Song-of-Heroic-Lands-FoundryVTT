@@ -49,14 +49,8 @@ import {
 } from "@src/core/foundry/sohl-config";
 import { URLField } from "./URLField";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
-const {
-    StringField,
-    BooleanField,
-    SchemaField,
-    NumberField,
-    ArrayField,
-    JavaScriptField,
-} = foundry.data.fields;
+const { StringField, SchemaField, NumberField, ArrayField, JavaScriptField } =
+    foundry.data.fields;
 
 /**
  * Builds the Foundry data schema shared by every SoHL data model (shortcode,
@@ -76,13 +70,15 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                     required: true,
                 }),
                 title: new StringField({ initial: "" }),
-                isAsync: new BooleanField({ initial: false }),
                 scope: new StringField({
                     choices: SohlActionScopes,
                     required: true,
                     initial: SOHL_ACTION_SCOPE.SELF,
                 }),
-                executor: new JavaScriptField(),
+                // A reference, never code: an intrinsic method name or a
+                // Foundry Macro UUID (see SohlAction). Not a JavaScriptField —
+                // no executable source is stored on a document.
+                executor: new StringField({ initial: "" }),
                 trigger: new JavaScriptField({ initial: "true" }),
                 visible: new JavaScriptField({ initial: "true" }),
                 iconFAClass: new StringField({
