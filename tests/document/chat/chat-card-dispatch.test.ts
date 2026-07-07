@@ -5,8 +5,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { describe, it, expect } from "vitest";
-import { resolveChatCardHandlerUuid } from "@src/document/chat/chat-card-dispatch";
+import { describe, it, expect, vi } from "vitest";
+import {
+    resolveChatCardHandlerUuid,
+    dispatchChatCardAction,
+} from "@src/document/chat/chat-card-dispatch";
 
 // The runtime value is a DOMStringMap, but for a pure unit test a plain
 // record with the same camelCased keys behaves identically.
@@ -87,5 +90,64 @@ describe("resolveChatCardHandlerUuid", () => {
 
     it("returns null for an empty dataset", () => {
         expect(resolveChatCardHandlerUuid(dataset({}))).toBe(null);
+    });
+});
+
+describe("dispatchChatCardAction (#66)", () => {
+    function btn(
+        action?: string,
+        extra: Record<string, string> = {},
+    ): HTMLElement {
+        return {
+            dataset: {
+                ...(action ? { action } : {}),
+                ...extra,
+            } as DOMStringMap,
+            textContent: action ?? null,
+        } as unknown as HTMLElement;
+    }
+
+    it("does nothing when dataset.action is absent", async () => {
+        const execute = vi.fn();
+        const logic: any = {
+            speaker: {},
+            actions: new Map([["someAction", { data: {}, execute }]]),
+        };
+        await dispatchChatCardAction(logic, btn());
+        expect(execute).not.toHaveBeenCalled();
+    });
+
+    it("executes the action from logic.actions when found by name", async () => {
+        const execute = vi.fn();
+        const logic: any = {
+            speaker: {},
+            actions: new Map([["successTest", { data: {}, execute }]]),
+        };
+        await dispatchChatCardAction(logic, btn("successTest"));
+        expect(execute).toHaveBeenCalledOnce();
+    });
+
+    it("falls back to calling a method on logic when not in actions", async () => {
+        const successTest = vi.fn();
+        const logic: any = {
+            speaker: {},
+            actions: new Map(),
+            successTest,
+        };
+        await dispatchChatCardAction(logic, btn("successTest"));
+        expect(successTest).toHaveBeenCalledOnce();
+    });
+
+    it("warns when action not in actions map and not a method", async () => {
+        const warn = vi.fn();
+        const logic: any = {
+            speaker: {},
+            actions: new Map(),
+            log: { warn },
+        };
+        (globalThis as any).sohl = { log: { warn } };
+        await dispatchChatCardAction(logic, btn("nonexistent"));
+        expect(warn).toHaveBeenCalled();
+        delete (globalThis as any).sohl;
     });
 });
