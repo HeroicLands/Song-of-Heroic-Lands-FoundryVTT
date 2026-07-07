@@ -815,6 +815,8 @@ export const {
     values: ImpactAspects,
     /** Type guard for impact-aspect values. */
     isValue: isImpactAspect,
+    /** Value-keyed label map for `StringField({ choices })`. */
+    choices: ImpactAspectChoices,
 } = defineType("SOHL.ImpactModifier.Aspect", {
     BLUNT: "blunt",
     EDGED: "edged",
@@ -1207,6 +1209,8 @@ export const {
     isValue: isAfflictionTransmission,
     /** Localization keys per affliction transmission mode. */
     labels: AfflictionTransmissionLabels,
+    /** Value-keyed label map for `StringField({ choices })`. */
+    choices: AfflictionTransmissionChoices,
 } = defineType("SOHL.Affliction.Transmission", {
     NONE: "none",
     AIRBORNE: "airborne",
@@ -1324,6 +1328,8 @@ export const {
     values: ConcoctionGearPotencies,
     /** Type guard for concoction-gear potency values. */
     isValue: isConcoctionGearPotency,
+    /** Value-keyed label map for `StringField({ choices })`. */
+    choices: ConcoctionGearPotencyChoices,
 } = defineType("SOHL.ConcoctionGear.Potency", {
     NOT_APPLICABLE: "na",
     MILD: "mild",
@@ -1896,6 +1902,8 @@ export const {
     values: TraitSubTypes,
     /** Type guard for trait-subtype values. */
     isValue: isTraitSubType,
+    /** Value-keyed label map for `StringField({ choices })`. */
+    choices: TraitSubTypeChoices,
 } = defineType("SOHL.Trait.SubType", {
     PHYSIQUE: "physique",
     PERSONALITY: "personality",
@@ -1936,6 +1944,8 @@ export const {
     values: TraitIntensities,
     /** Type guard for trait-intensity values. */
     isValue: isTraitIntensity,
+    /** Value-keyed label map for `StringField({ choices })`. */
+    choices: TraitIntensityChoices,
 } = defineType("SOHL.Trait.Intensity", {
     TRAIT: "trait",
     BENIGN: "benign",
@@ -2481,11 +2491,20 @@ export function defineType<const T extends Record<string, unknown>>(
         Object.entries(def).map(([k]) => [k, `${prefix}.${k}`]),
     ) as Record<StringKeys, string>;
 
+    // A value-keyed label map for DataModel `StringField({ choices })`. Foundry
+    // builds `<option>` values from `Object.entries(choices)`, so `choices` MUST
+    // be an object keyed by the stored value (not the `values` array, which would
+    // render option values as array indices `0,1,2,…` and break form submission).
+    const choices = Object.fromEntries(
+        Object.entries(def).map(([k, v]) => [v, `${prefix}.${k}`]),
+    ) as Record<KindValue & string, string>;
+
     return {
         kind: def,
         values,
         isValue,
         labels,
+        choices,
         Type: null as unknown as KindValue,
     };
 }

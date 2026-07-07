@@ -13,6 +13,4 @@
 
 import { itemSheetSuite } from "../support/itemSheetSuite.js";
 
-// RED — blocked by #141: whole-form submit rejected (required subType field
-// leaves the update invalid), so field edits do not persist on this kind.
-itemSheetSuite("projectilegear", { persistRed: "#141" });
+itemSheetSuite("projectilegear");

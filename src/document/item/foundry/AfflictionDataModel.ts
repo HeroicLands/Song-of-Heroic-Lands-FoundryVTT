@@ -22,7 +22,7 @@ import {
     AfflictionSubType,
     AfflictionSubTypes,
     AfflictionTransmission,
-    AfflictionTransmissions,
+    AfflictionTransmissionChoices,
     ITEM_KIND,
 } from "@src/utils/constants";
 const { StringField, BooleanField, NumberField } = foundry.data.fields;
@@ -65,7 +65,7 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         transmission: new StringField({
             initial: AFFLICTION_TRANSMISSION.NONE,
             required: true,
-            choices: AfflictionTransmissions,
+            choices: AfflictionTransmissionChoices,
         }),
     };
 }
