@@ -855,8 +855,6 @@ export class SohlCombatantLogic<
             {
                 attackResult,
                 defendResult,
-                sourceTestResult: attackResult,
-                targetTestResult: defendResult,
                 speaker: context.speaker,
             } as any,
             { parent: this },

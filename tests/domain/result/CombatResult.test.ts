@@ -40,6 +40,7 @@ function makeSide(opts: {
         testType: opts.testType,
         roll: { total: opts.rollTotal ?? 50 },
         mishaps: new Set<string>(),
+        toJSON: () => ({}),
     };
     if (opts.withImpact) {
         // Duck-typed ImpactModifier (CombatResult only reads diceFormula +
@@ -60,9 +61,7 @@ function makeCombat(attacker: any, defender: any): CombatResult {
         {
             attackResult: attacker,
             defendResult: defender,
-            sourceTestResult: attacker,
-            targetTestResult: defender,
-            speaker: {} as any,
+            speaker: { toJSON: () => ({}) } as any,
         } as any,
         { parent: {} as any },
     );
@@ -371,5 +370,43 @@ describe("evaluate — snapshot attacker, evaluate only the defender", () => {
         expect(ok).toBe(false);
         expect(atk.evaluated).toBe(false);
         expect(cr.margin).toBe(0); // opposedTestEvaluate never ran
+    });
+});
+
+describe("CombatResult deduplication (#203)", () => {
+    it("attackResult getter aliases sourceTestResult", () => {
+        const atk = makeSide({ level: 1 });
+        const def = makeSide({ level: 0 });
+        const cr = makeCombat(atk, def);
+        expect(cr.attackResult).toBe(cr.sourceTestResult);
+    });
+
+    it("defendResult getter aliases targetTestResult", () => {
+        const atk = makeSide({ level: 1 });
+        const def = makeSide({ level: 0 });
+        const cr = makeCombat(atk, def);
+        expect(cr.defendResult).toBe(cr.targetTestResult);
+    });
+
+    it("toJSON() does not emit redundant attackResult or defendResult keys", () => {
+        const atk = makeSide({ level: 1 });
+        const def = makeSide({ level: 0 });
+        const cr = makeCombat(atk, def);
+        const json = JSON.parse(JSON.stringify(cr.toJSON()));
+        expect(json).not.toHaveProperty("attackResult");
+        expect(json).not.toHaveProperty("defendResult");
+        expect(json).toHaveProperty("sourceTestResult");
+        expect(json).toHaveProperty("targetTestResult");
+    });
+
+    it("construction with only attackResult/defendResult — no sourceTestResult needed", () => {
+        const atk = makeSide({ level: 1 });
+        const def = makeSide({ level: 0 });
+        const cr = new CombatResult(
+            { attackResult: atk, defendResult: def } as any,
+            { parent: {} as any },
+        );
+        expect(cr.attackResult).toBe(atk);
+        expect(cr.defendResult).toBe(def);
     });
 });
