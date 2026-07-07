@@ -15,7 +15,7 @@ import {
     AttributeLogic,
     AttributeData,
 } from "@src/document/item/logic/AttributeLogic";
-import { BodyRoles, ITEM_KIND } from "@src/utils/constants";
+import { BodyRoles, ITEM_KIND, BodyRoleChoices } from "@src/utils/constants";
 import { SohlItemDataModel } from "./SohlItem";
 const { ArrayField, SchemaField, NumberField, StringField } =
     foundry.data.fields;
@@ -55,7 +55,7 @@ function defineAttributeSchema(): foundry.data.fields.DataSchema {
          * list the roles whose injury degrades them.
          */
         impairedByRoles: new ArrayField(
-            new StringField({ blank: false, choices: BodyRoles }),
+            new StringField({ blank: false, choices: BodyRoleChoices }),
             { initial: [] },
         ),
     };
