@@ -11,6 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { applySearchFilter } from "@src/document/actor/logic/display-filter";
 import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
 import { isScriptActionMutationAllowed } from "@src/entity/action/SohlAction";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
@@ -798,37 +799,11 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
      * @param content - The container element holding the item rows.
      */
     protected _displayFilteredResults(
-        event: KeyboardEvent | null,
+        _event: KeyboardEvent | null,
         query: string,
         rgx: RegExp,
         content: HTMLElement | null,
     ): void {
-        if (!content) return;
-
-        const rows =
-            content.querySelectorAll<HTMLElement>("[data-search-name]");
-
-        if (!query.trim()) {
-            rows.forEach((el) => el.classList.remove("hidden"));
-        } else {
-            if (rgx && (rgx as any).global) rgx.lastIndex = 0;
-
-            const q = sohl.i18n.normalizeText(query.trim(), {
-                caseInsensitive: true,
-                ascii: true,
-            });
-            rows.forEach((el) => {
-                const name = sohl.i18n.normalizeText(
-                    (el.dataset.searchName ?? "").trim(),
-                    {
-                        caseInsensitive: true,
-                        ascii: true,
-                    },
-                );
-                const match = rgx ? rgx.test(name) : name.includes(q);
-                el.classList.toggle("hidden", !match);
-                if (rgx && (rgx as any).global) rgx.lastIndex = 0;
-            });
-        }
+        applySearchFilter(query, rgx, content);
     }
 }
