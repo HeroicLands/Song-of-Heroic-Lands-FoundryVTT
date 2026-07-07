@@ -39,43 +39,46 @@ import {
 import { AttributeLogic } from "./AttributeLogic";
 import { SohlAction } from "@src/entity/action/SohlAction";
 
-// TODO(#70): This needs to be internationalized
-const FATE_DESC_TABLE: SuccessTestResult.LimitedDescription[] = [
-    {
-        maxValue: -1,
-        label: "No Fate Effect",
-        description: "No effect and character loses one Fate point.",
-        lastDigits: [],
-        success: false,
-        result: 0,
-    },
-    {
-        maxValue: 0,
-        label: "No Fate Effect",
-        description: "No effect, no Fate point loss.",
-        lastDigits: [],
-        success: false,
-        result: 0,
-    },
-    {
-        maxValue: 1,
-        label: "Fate Test Success",
-        description:
-            "+1 success level to test and character loses 1 fate point.",
-        lastDigits: [],
-        success: true,
-        result: 0,
-    },
-    {
-        maxValue: 999,
-        label: "Fate Test Critical Success",
-        description:
-            "Player's choice: +1 success level to test and no Fate point loss, or +2 success level to test and loss of 1 fate point.",
-        lastDigits: [],
-        success: true,
-        result: 0,
-    },
-] as const;
+/** Returns the fate-test description table with labels/descriptions resolved from i18n. */
+export function getFateDescTable(): SuccessTestResult.LimitedDescription[] {
+    const loc = (key: string) => sohl.i18n.localize(key);
+    return [
+        {
+            maxValue: -1,
+            label: loc("SOHL.Skill.FateDesc.loseFateNoEffect.label"),
+            description: loc(
+                "SOHL.Skill.FateDesc.loseFateNoEffect.description",
+            ),
+            lastDigits: [],
+            success: false,
+            result: 0,
+        },
+        {
+            maxValue: 0,
+            label: loc("SOHL.Skill.FateDesc.noLossNoEffect.label"),
+            description: loc("SOHL.Skill.FateDesc.noLossNoEffect.description"),
+            lastDigits: [],
+            success: false,
+            result: 0,
+        },
+        {
+            maxValue: 1,
+            label: loc("SOHL.Skill.FateDesc.success.label"),
+            description: loc("SOHL.Skill.FateDesc.success.description"),
+            lastDigits: [],
+            success: true,
+            result: 0,
+        },
+        {
+            maxValue: 999,
+            label: loc("SOHL.Skill.FateDesc.critSuccess.label"),
+            description: loc("SOHL.Skill.FateDesc.critSuccess.description"),
+            lastDigits: [],
+            success: true,
+            result: 0,
+        },
+    ];
+}
 
 /**
  * A trained capability with a mastery level.
@@ -166,7 +169,7 @@ export class SkillLogic<
             scope: {
                 situationalModifier: 0,
                 targetValueFunc: (successLevel: number) => successLevel,
-                successStarTable: FATE_DESC_TABLE,
+                successStarTable: getFateDescTable(),
             },
         });
 
@@ -495,7 +498,7 @@ export class SkillLogic<
         ).setBase(this.data.masteryLevelBase);
         this.fateMasteryLevel = new MasteryLevelModifier(
             {
-                testDescTable: FATE_DESC_TABLE,
+                testDescTable: getFateDescTable(),
                 type: `${this.data.kind}-${this.name}-fate-test`,
                 title: `${this.label} Fate Test`,
             },

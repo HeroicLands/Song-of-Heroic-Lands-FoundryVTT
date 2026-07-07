@@ -1,5 +1,8 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import {
+    SkillLogic,
+    getFateDescTable,
+} from "@src/document/item/logic/SkillLogic";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { ITEM_KIND } from "@src/utils/constants";
@@ -411,4 +414,34 @@ describe("SkillDataModel", () => {
     it.todo(
         "has correct LOCALIZATION_PREFIXES including Skill, MasteryLevel, and Item",
     );
+});
+
+describe("getFateDescTable (#70)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    it("calls sohl.i18n.localize with SOHL.Skill.FateDesc.* keys", () => {
+        const localize = vi.spyOn(sohl.i18n, "localize").mockReturnValue("loc");
+        getFateDescTable();
+        expect(localize).toHaveBeenCalledWith(
+            expect.stringMatching(/^SOHL\.Skill\.FateDesc\./),
+        );
+    });
+
+    it("returns table entries whose label and description come from i18n", () => {
+        vi.spyOn(sohl.i18n, "localize").mockReturnValue("translated");
+        const table = getFateDescTable();
+        expect(table.length).toBeGreaterThan(0);
+        expect(table.every((e) => e.label === "translated")).toBe(true);
+        expect(table.every((e) => e.description === "translated")).toBe(true);
+    });
+
+    it("returns entries with required LimitedDescription shape", () => {
+        const table = getFateDescTable();
+        for (const entry of table) {
+            expect(typeof entry.maxValue).toBe("number");
+            expect(Array.isArray(entry.lastDigits)).toBe(true);
+            expect(typeof entry.success).toBe("boolean");
+            expect(typeof entry.result).toBe("number");
+        }
+    });
 });
