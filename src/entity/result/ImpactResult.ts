@@ -45,16 +45,24 @@ export class ImpactResult extends TestResult {
     impactModifier: ImpactModifier;
     /** The rolled impact dice. */
     roll: SimpleRoll;
-    /** The targeted body part shortcode, or `""` when unaimed (e.g. a fall). */
-    aimBodyPartCode: string;
-    /**
-     * Strike spread governing hit-location scatter from {@link aimBodyPartCode}.
-     * `0` when not aimed. With a non-empty aim it lets injury resolution pick the
-     * location automatically (melee `spread`; missile 6/8).
-     */
-    spread: number;
     /** A label for what caused the impact (weapon name, `"fall"`, `"spell"`, …). */
     label: string;
+
+    /**
+     * The body part shortcode this impact aims at (empty when unaimed).
+     * Read-through to {@link impactModifier} — the single source of truth.
+     */
+    get aimBodyPartCode(): string {
+        return this.impactModifier.aimBodyPartCode;
+    }
+
+    /**
+     * Strike spread governing hit-location scatter from {@link aimBodyPartCode}.
+     * Read-through to {@link impactModifier} — the single source of truth.
+     */
+    get spread(): number {
+        return this.impactModifier.spread;
+    }
 
     /**
      * Rolls the impact on construction (the impact has occurred). A pre-rolled
@@ -87,8 +95,6 @@ export class ImpactResult extends TestResult {
             );
             this.roll.roll();
         }
-        this.aimBodyPartCode = data.aimBodyPartCode ?? "";
-        this.spread = data.spread ?? 0;
         this.label = data.label ?? "";
     }
 
@@ -103,8 +109,6 @@ export class ImpactResult extends TestResult {
             ...super.toJSON(),
             impactModifier: this.impactModifier.toJSON(),
             roll: this.roll.toJSON(),
-            aimBodyPartCode: this.aimBodyPartCode,
-            spread: this.spread,
             label: this.label,
         };
     }
@@ -140,10 +144,6 @@ export namespace ImpactResult {
         impactModifier: ImpactModifier;
         /** A pre-rolled impact roll (omit to roll on construction). */
         roll: SimpleRoll;
-        /** The targeted body part shortcode, or `""` when unaimed. */
-        aimBodyPartCode: string;
-        /** Strike spread for hit-location scatter (`0` when unaimed). */
-        spread: number;
         /** A label for what caused the impact (weapon name, "fall", "spell", …). */
         label: string;
     }

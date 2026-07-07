@@ -239,6 +239,7 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
                         rolls: [3, 4],
                     },
                     aspect: "edged",
+                    aimBodyPartCode: "head",
                 } as any,
                 { parent },
             );
@@ -257,7 +258,6 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
                         { parent },
                     ),
                     impact,
-                    aimBodyPartCode: "head",
                     mode: { itemUuid: "Item.mode", smId: "sm1" },
                     combatantUuid: "Combatant.c1",
                 } as any,
@@ -345,10 +345,10 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
                         {
                             roll: { numDice: 2, dieFaces: 6 },
                             aspect: "edged",
+                            aimBodyPartCode: "head",
                         } as any,
                         { parent },
                     ),
-                    aimBodyPartCode: "head",
                     mode: { itemUuid: "Item.mode", smId: "sm1" },
                     combatantUuid: "Combatant.atk",
                 } as any,

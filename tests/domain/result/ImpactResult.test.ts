@@ -19,11 +19,13 @@ const parent = {
     item: { logic: { availableFate: [] } },
 } as any;
 
-function makeImpactMod(): ImpactModifier {
+function makeImpactMod(aimBodyPartCode = "", spread = 0): ImpactModifier {
     return new ImpactModifier(
         {
             roll: { numDice: 2, dieFaces: 6, modifier: 5 },
             aspect: IMPACT_ASPECT.EDGED,
+            aimBodyPartCode,
+            spread,
         } as any,
         { parent },
     );
@@ -39,7 +41,7 @@ describe("ImpactResult", () => {
     it("exposes total and aspect from the (injected) roll + modifier", () => {
         const r = new ImpactResult(
             {
-                impactModifier: makeImpactMod(),
+                impactModifier: makeImpactMod("head"),
                 roll: new SimpleRoll(
                     {
                         numDice: 2,
@@ -49,7 +51,6 @@ describe("ImpactResult", () => {
                     },
                     { parent },
                 ),
-                aimBodyPartCode: "head",
                 label: "Broadsword",
             } as any,
             { parent },
@@ -96,7 +97,7 @@ describe("ImpactResult", () => {
     it("round-trips through instanceFromJSON (kind-stamped)", () => {
         const r = new ImpactResult(
             {
-                impactModifier: makeImpactMod(),
+                impactModifier: makeImpactMod("head"),
                 roll: new SimpleRoll(
                     {
                         numDice: 2,
@@ -106,7 +107,6 @@ describe("ImpactResult", () => {
                     },
                     { parent },
                 ),
-                aimBodyPartCode: "head",
                 label: "fall",
             } as any,
             { parent },

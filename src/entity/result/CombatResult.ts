@@ -232,8 +232,6 @@ export class CombatResult extends OpposedTestResult {
             {
                 speaker: ar.speaker,
                 impactModifier: ar.impact,
-                aimBodyPartCode: ar.aimBodyPartCode,
-                spread: ar.spread,
                 label: ar.title,
             },
             { parent: ar.parent },
