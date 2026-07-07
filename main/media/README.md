@@ -14,10 +14,11 @@ This documentation is **developer- and API-facing only**. Player- and GM-facing 
 
 Design and rationale — how and why the system is built the way it is.
 
-- [Architecture Overview](concepts/architecture.md)
-- [Security Model & Guardrails](concepts/security-model.md) — the threat model and the standing rules every change must respect. **Read before touching serialization, HTML rendering, actions, or cross-client flows.**
-- [Macros and Actions](concepts/macros-and-actions.md)
+- [Architecture Overview](concepts/architecture.md) — the mental model and a map of the `src/` tree. **Read this first.**
 - [The SoHL API](concepts/sohl-api.md)
+- [Macros and Actions](concepts/macros-and-actions.md)
+- [Expressions and Scripts](concepts/expressions.md) — the ways author-supplied logic runs: `SafeExpression`, Macros, and the Expression Library.
+- [Security Model & Guardrails](concepts/security-model.md) — the threat model and the standing rules every change must respect. **Read before touching serialization, HTML rendering, actions, or cross-client flows.**
 - [CSS Architecture & Styleguide](concepts/css-architecture.md)
 
 ## How-to
@@ -29,6 +30,7 @@ Task-oriented guides for getting something done.
 - [Lifecycle Hooks](how-to/lifecycle-hooks.md)
 - [House Rules Cookbook](how-to/house-rules-cookbook.md)
 - [Testing](how-to/testing.md)
+- [Build, Deployment, and Release](how-to/build-and-deployment.md)
 
 ## Reference
 
@@ -49,6 +51,8 @@ Contracts, catalogs, and specifications.
 How to contribute: standards, the development workflow, and maintainer/project-meta.
 
 - [System Development](contributing/system-development.md) — standards, the rules of development, and how to submit a change.
+- [Writing Modules](contributing/module-development.md) — build a Foundry module that extends SoHL without forking.
+- [Writing Changesets](contributing/writing-changesets.md) — record a change for the changelog and release notes.
 - [API Docs Hosting (api.heroiclands.org)](contributing/api-docs-hosting.md)
 
 ## Player & GM rules (external)

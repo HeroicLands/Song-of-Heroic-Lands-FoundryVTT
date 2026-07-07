@@ -15,13 +15,13 @@ issue rules. Keep the changeset <strong>current as the work evolves</strong> —
 make a decision, fix a bug, or introduce a breaking change, not only at the end.</p>
 <a id="creating-one-command-line" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Creating one (command line)<a href="#creating-one-command-line" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Interactive — prompts for the bump type and a summary, then writes a
 randomly-named file under <code>.changeset/</code>:</p>
-<pre><code class="bash"><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">changeset</span>
+<pre><code class="bash"><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-6">run</span><span class="hl-1"> </span><span class="hl-6">changeset</span>
 </code><button type="button">Copy</button></pre>
 
 <p>Or write the file by hand (often easier to match our formatting): create
 <code>.changeset/&lt;short-kebab-name&gt;.md</code> with the frontmatter and summary shown below.</p>
 <p>Verify a pending changeset exists before you push:</p>
-<pre><code class="bash"><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">changeset:check</span>
+<pre><code class="bash"><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-6">run</span><span class="hl-1"> </span><span class="hl-6">changeset:check</span>
 </code><button type="button">Copy</button></pre>
 
 <p><code>npm run changeset:version</code> (which bumps the version and rewrites <code>CHANGELOG.md</code>) is

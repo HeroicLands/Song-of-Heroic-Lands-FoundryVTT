@@ -2,7 +2,7 @@
 <p><strong>Audience:</strong> Developers working with tactical targeting, initiative, and combatant state.</p>
 </blockquote>
 <p>See also: <a href="Documentation.Concepts.Architecture_Overview.html">SoHL Architecture (Overview)</a>, <a href="Documentation.Reference.Combat_Resolution_Pipeline.html">Combat Resolution Pipeline</a>.</p>
-<a id="token-utilities" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Token utilities<a href="#token-utilities" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Primary file: <code>src/document/token/SohlTokenDocument.ts</code></p>
+<a id="token-utilities" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Token utilities<a href="#token-utilities" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Primary file: <code>src/document/token/foundry/SohlTokenDocument.ts</code></p>
 <p><code>SohlTokenDocument</code> provides static helpers used throughout action/combat flows:</p>
 <ul>
 <li><code>getTargetedTokens(single?)</code></li>
@@ -17,7 +17,7 @@
 </ul>
 <a id="combatant-model" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Combatant model<a href="#combatant-model" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Primary file:</p>
 <ul>
-<li><code>src/document/combatant/SohlCombatant.ts</code></li>
+<li><code>src/document/combatant/foundry/SohlCombatant.ts</code></li>
 </ul>
 <a id="initiative-contract" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Initiative contract<a href="#initiative-contract" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><code>SohlCombatant._getInitiativeFormula()</code> returns the actor's <code>init</code> skill mastery value (stringified), not a random dice formula.</p>
 <a id="relationship-state" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Relationship state<a href="#relationship-state" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><code>SohlCombatantData</code> tracks ally/threatened relationships:</p>
@@ -34,17 +34,8 @@
 </ul>
 <p><code>combatant.computedMove(medium)</code> returns <code>effectiveBaseMove(medium) × moveFactor</code> (or <code>null</code> when the actor cannot move in that medium). <code>combatant.displayedMove</code> is the convenience getter the combat tracker reads.</p>
 <p>Base-move values live on the actor's Lineage item as a <code>moveBase: { terrestrial, aquatic, aerial, burrowing, astral }</code> dict. Active Effects target individual entries (e.g. <code>system.moveBase.terrestrial</code>) directly. Nothing else — overland speed, weather, terrain, encumbrance — is modeled by the system.</p>
-<a id="calendar" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Calendar<a href="#calendar" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Primary file:</p>
-<ul>
-<li><code>src/core/foundry/SohlCalendar.ts</code></li>
-</ul>
-<p><code>SohlCalendarData</code> extends Foundry calendar data with era metadata and formatting helpers:</p>
-<ul>
-<li>world date component conversion,</li>
-<li>absolute timestamp formatting,</li>
-<li>default in-world date formatting,</li>
-<li>relative-time formatting.</li>
-</ul>
+<a id="calendar" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Calendar<a href="#calendar" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The in-world calendar is a separate subsystem — see the dedicated
+<a href="Documentation.Reference.Calendar.html">Calendar reference</a> (<code>src/core/foundry/SohlCalendar.ts</code>).</p>
 <a id="extension-guidance" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Extension guidance<a href="#extension-guidance" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
 <li>A combatant (with its token and actor) mutates only <strong>itself</strong> — see <a href="Documentation.Concepts.Architecture_Overview.html#actor-state-sovereignty">Actor state sovereignty</a>. Cross-actor effects go through a target-addressed chat acknowledge button, never a direct write to another combatant/token/actor.</li>
 <li>Use token helper methods instead of duplicating target/selection/range logic.</li>

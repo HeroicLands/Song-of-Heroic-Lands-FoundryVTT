@@ -2,7 +2,7 @@
 <p><strong>Audience:</strong> Developers maintaining or extending SoHL.
 <strong>Goal:</strong> Identify the safest places to add features with minimal risk.</p>
 </blockquote>
-<p>See also: <a href="Documentation.Concepts.Architecture_Overview.html">Architecture Overview</a>, <a href="Documentation.How-to.House_Rules_Cookbook.html">House Rules Cookbook</a>.</p>
+<p>See also: <a href="Documentation.Concepts.Architecture_Overview.html">Architecture Overview</a>, <a href="Documentation.How-to.House_Rules_Cookbook.html">House Rules Cookbook</a>, <a href="Documentation.Concepts.Security_Model___Guardrails.html">Security Model</a>.</p>
 <a id="choosing-extension-scope" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Choosing extension scope<a href="#choosing-extension-scope" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
 <li>Use a <strong>Module hook</strong> for additive behavior without modifying SoHL source — best for house rules that affect many items or actors.</li>
 <li>Use <strong>actions</strong> (context-menu entries on a document) for single-item behavior overrides (e.g., one specific spell).</li>
@@ -16,7 +16,7 @@
 <li>Replicate the pattern.</li>
 <li>Change the minimum.</li>
 </ol>
-<a id="1-system-initialization--registration" class="tsd-anchor"></a><h2 class="tsd-anchor-link">1) System initialization &amp; registration<a href="#1-system-initialization--registration" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Primary files: <code>src/sohl.ts</code>, <code>src/core/SohlSystem.ts</code></p>
+<a id="1-system-initialization--registration" class="tsd-anchor"></a><h2 class="tsd-anchor-link">1) System initialization &amp; registration<a href="#1-system-initialization--registration" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Primary files: <code>src/sohl.ts</code>, <code>src/core/logic/SohlSystem.ts</code></p>
 <p>Common extension needs: register new settings, sheets, hooks, or document classes.</p>
 <p><strong>Guidelines:</strong> Keep registration logic explicit and centralized. Avoid side-effect imports.</p>
 <p>Registration runs in <code>Hooks.once(&quot;init&quot;)</code> (settings, system config, calendars, hooks, combat/time defaults, sheet registration), then <code>Hooks.once(&quot;ready&quot;)</code> (Handlebars helpers, then <code>SohlSystem.ready = true</code>). Read <code>src/sohl.ts</code> for the authoritative order, and add new registration alongside the existing calls there and in <a href="../classes/API_Reference.SohlSystem.html" class="tsd-kind-class"> SohlSystem</a>.</p>
@@ -37,8 +37,8 @@
 <p><strong>Avoid:</strong> Adding <code>if type === X</code> branches in base classes; prefer polymorphism.</p>
 <a id="3-combat--tests--resolution-pipeline" class="tsd-anchor"></a><h2 class="tsd-anchor-link">3) Combat / tests / resolution pipeline<a href="#3-combat--tests--resolution-pipeline" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Core components:</p>
 <ul>
-<li><code>src/domain/result/*</code> — test and combat result classes</li>
-<li><code>src/domain/modifier/*</code> — value tracking and modification</li>
+<li><code>src/entity/result/*</code> — test and combat result classes</li>
+<li><code>src/entity/modifier/*</code> — value tracking and modification</li>
 <li><code>src/document/combatant/</code> — combatant tracking</li>
 <li><code>src/entity/action/SohlActionContext.ts</code> — request context</li>
 </ul>
@@ -95,7 +95,7 @@ and the <a href="Documentation.Reference.Runtime_Contracts.html#entity-serializa
 <li>Never rename keys (breaks translations and downstream consumers).</li>
 <li>Add new keys; deprecate old keys slowly if needed.</li>
 </ul>
-<a id="7-system-registries" class="tsd-anchor"></a><h2 class="tsd-anchor-link">7) System registries<a href="#7-system-registries" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><code>src/core/SohlSystem.ts</code> — the central registry for CONFIG mappings.</p>
+<a id="7-system-registries" class="tsd-anchor"></a><h2 class="tsd-anchor-link">7) System registries<a href="#7-system-registries" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><code>src/core/logic/SohlSystem.ts</code> — the central registry for CONFIG mappings.</p>
 <p><strong>Rules:</strong></p>
 <ul>
 <li>Keep mappings explicit.</li>

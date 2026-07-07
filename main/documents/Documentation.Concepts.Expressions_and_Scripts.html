@@ -1,0 +1,103 @@
+<!DOCTYPE html><html class="default" lang="en" data-base=".."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Expressions and Scripts | Song of Heroic Lands API - v0.7.0</title><meta name="description" content="Documentation for Song of Heroic Lands API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><link rel="stylesheet" href="../assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">Song of Heroic Lands API - v0.7.0</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb"><li><a href="../modules.html">Song of Heroic Lands API</a></li><li><a href="Documentation.html">Documentation</a></li><li><a href="Documentation.Concepts.html">Concepts</a></li><li><a href="Documentation.Concepts.Expressions_and_Scripts.html">Expressions and Scripts</a></li></ul></div><div class="tsd-panel tsd-typography"><a id="expressions-and-scripts" class="tsd-anchor"></a><h1 class="tsd-anchor-link">Expressions and Scripts<a href="#expressions-and-scripts" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1><p>SoHL lets content authors and GMs drive behavior from <strong>data</strong> — an effect's
+targeting predicate, an action's availability check, a house-rule script. That
+data is untrusted (see the <a href="Documentation.Concepts.Security_Model___Guardrails.html">Security Model</a>), so the system
+never turns it into arbitrary code. Instead there are three distinct mechanisms,
+each matched to a different need. This page explains what they are and when to
+reach for each; the grammar and API details live in the linked source symbols.</p>
+<a id="the-three-mechanisms-at-a-glance" class="tsd-anchor"></a><h2 class="tsd-anchor-link">The three mechanisms at a glance<a href="#the-three-mechanisms-at-a-glance" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>Runs</th>
+<th>Authored by</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../modules/API_Reference.SafeExpression.html" class="tsd-kind-namespace"> SafeExpression</a></td>
+<td><strong>synchronously</strong>, safe</td>
+<td>content or GM</td>
+<td>predicates and computed values (from any data field)</td>
+</tr>
+<tr>
+<td>Foundry <strong>Macro</strong></td>
+<td><strong>asynchronously</strong></td>
+<td>GM (<code>MACRO_SCRIPT</code>)</td>
+<td>imperative &quot;do something&quot; behavior (Script actions)</td>
+</tr>
+<tr>
+<td>Intrinsic <strong>method</strong></td>
+<td>sync or async</td>
+<td>the system (code)</td>
+<td>built-in behavior on a Logic class</td>
+</tr>
+</tbody>
+</table>
+<p>The dividing lines are <em>who authors it</em> and <em>how it runs</em> — see the
+<a href="Documentation.Concepts.Security_Model___Guardrails.html#extension-points-which-tool-for-which-need">extension-point matrix</a>
+in the security model. The one rule that governs all three: <strong>data carries a
+reference to, or a safely-evaluated expression of, logic — never compiled
+imperative code.</strong></p>
+<a id="safeexpression--the-safe-synchronous-evaluator" class="tsd-anchor"></a><h2 class="tsd-anchor-link">SafeExpression — the safe, synchronous evaluator<a href="#safeexpression--the-safe-synchronous-evaluator" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><a href="../modules/API_Reference.SafeExpression.html" class="tsd-kind-namespace"> SafeExpression</a> (<code>src/entity/expr/SafeExpression.ts</code>) is the workhorse for
+turning a short author-supplied string into a value or boolean, safely and
+synchronously. It parses the string with <a href="https://github.com/EricSmekens/jsep">jsep</a>
+into an AST, <strong>statically validates that AST against a strict allowlist</strong>, then
+evaluates it by walking the tree by hand — it never calls <code>eval</code>/<code>new Function</code>.
+This is an <em>allowlist</em>, not a denylist, which is why it is a real security
+boundary (unlike the removed <code>textToFunction</code> sandbox — see the
+<a href="Documentation.Concepts.Security_Model___Guardrails.html#why-not-a-sandbox--denylist">security model</a>).</p>
+<p>Properties worth knowing:</p>
+<ul>
+<li><strong>Build once, evaluate many.</strong> <code>new SafeExpression({ source }, { parent })</code>
+parses and validates immediately and throws a <code>SafeExpressionError</code> on
+anything unsupported, so a bad predicate fails at construction, not deep in a
+lifecycle. Only its <code>source</code> string is persisted.</li>
+<li><strong>No arbitrary property access.</strong> Member access is allowed, but the keys
+<code>constructor</code>, <code>__proto__</code>, and <code>prototype</code> are denied — even when reached
+through a computed key — so an expression cannot climb the prototype chain to
+the <code>Function</code> constructor.</li>
+<li><strong>No arbitrary calls.</strong> The only callables are the registered
+<a href="#extending-the-helpers-the-expression-library">expression helpers</a> (built-ins
+plus any GM-loaded ones); an expression cannot call methods on the objects it
+is handed.</li>
+<li><strong>Bound variables depend on the call site</strong> — e.g. an action's <code>trigger</code>/
+<code>visible</code> predicates see <code>item</code>, <code>actor</code>, <code>element</code>, and <code>isGM</code>; an active
+effect's <code>test</code>/<code>strikeModePredicate</code> see <code>item</code> / <code>sm</code>.</li>
+</ul>
+<p>Where SafeExpression predicates are used today: action <code>trigger</code>/<code>visible</code>
+(<a href="../modules/API_Reference.SohlAction.html" class="tsd-kind-namespace"> SohlAction</a>), active-effect <code>test</code>/<code>strikeModePredicate</code>
+(<code>SohlActiveEffect</code>), and context-menu <code>condition</code>/<code>visible</code>
+(<code>ContextMenuEntry</code>). Reach for a SafeExpression whenever a GM or content author
+needs a <strong>synchronous computed value or condition</strong> from a data field.</p>
+<a id="macros--asynchronous-imperative-gm-behavior" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Macros — asynchronous, imperative GM behavior<a href="#macros--asynchronous-imperative-gm-behavior" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>When a GM needs to <em>do</em> something (create documents, post chat, run a dialog),
+not compute a value, the vehicle is a Foundry <strong>Macro</strong>. A
+<a href="Documentation.Concepts.Macros_and_Actions.html">Script action</a>'s <code>executor</code> is the <strong>UUID of a Macro</strong>,
+run via <code>Macro#execute</code> — which enforces the <code>MACRO_SCRIPT</code> permission and
+ownership. No code is stored on, or compiled from, the document. Macros are
+inherently <strong>asynchronous</strong>, so they cannot return a value to a synchronous
+caller — for that, use a SafeExpression. See
+<a href="Documentation.Concepts.Macros_and_Actions.html">Macros and Actions</a> and the security model's
+<a href="Documentation.Concepts.Security_Model___Guardrails.html#gm-homebrew-use-foundry-macros-not-a-bespoke-sandbox">GM-homebrew section</a>.</p>
+<a id="intrinsic-methods--the-systems-own-behavior" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Intrinsic methods — the system's own behavior<a href="#intrinsic-methods--the-systems-own-behavior" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>An <strong>intrinsic action</strong>'s <code>executor</code> is the <em>name of a method</em> on the scoped
+target Logic class, looked up and bound at construction (see
+<a href="../modules/API_Reference.SohlAction.html" class="tsd-kind-namespace"> SohlAction</a>). This is how SoHL ships its built-in behaviors; it is code,
+not data, so it carries no compilation risk. New built-in behavior is added this
+way — see <a href="Documentation.How-to.Extension_Points.html">Extension Points</a>.</p>
+<a id="extending-the-helpers-the-expression-library" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Extending the helpers: the Expression Library<a href="#extending-the-helpers-the-expression-library" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The functions a SafeExpression may call come from the expression-helper registry
+(<code>src/entity/expr/ExpressionHelperRegistry.ts</code>) — built-ins plus any a GM loads
+via the <strong>Expression Library</strong> settings menu. A GM chooses a JSON file mapping helper
+names to <code>{ args, body }</code> entries; the bodies are compiled with the legacy
+<code>textToFunction</code> screen and registered so predicates can call them.</p>
+<p>This is the <strong>one sanctioned use of <code>textToFunction</code></strong>, and it is a deliberately
+different trust tier: the GM selects a <em>local file</em>, exactly as they would
+install a module. It is not installed-package or cross-client data, and the
+screen is explicitly &quot;a sandbox, not a hard security boundary.&quot; Do <strong>not</strong> route
+untrusted or cross-client input through this path or add new callers of
+<code>textToFunction</code> — see the <a href="Documentation.Concepts.Security_Model___Guardrails.html#the-core-principle-reference-code-never-compile-it-from-data">security model</a>.</p>
+<a id="see-also" class="tsd-anchor"></a><h2 class="tsd-anchor-link">See also<a href="#see-also" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li><a href="Documentation.Concepts.Macros_and_Actions.html">Macros and Actions</a> — macros vs. document-attached actions.</li>
+<li><a href="Documentation.Concepts.Security_Model___Guardrails.html">Security Model &amp; Guardrails</a> — why these mechanisms are shaped this way.</li>
+<li><a href="Documentation.Reference.Effects_Integration.html">Effects Integration</a> — where effect predicates use SafeExpression.</li>
+</ul>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#expressions-and-scripts"><span>Expressions and <wbr/>Scripts</span></a><ul><li><a href="#the-three-mechanisms-at-a-glance"><span>The three mechanisms at a glance</span></a></li><li><a href="#safeexpression--the-safe-synchronous-evaluator"><span>Safe<wbr/>Expression — the safe, synchronous evaluator</span></a></li><li><a href="#macros--asynchronous-imperative-gm-behavior"><span>Macros — asynchronous, imperative GM behavior</span></a></li><li><a href="#intrinsic-methods--the-systems-own-behavior"><span>Intrinsic methods — the system&#39;s own behavior</span></a></li><li><a href="#extending-the-helpers-the-expression-library"><span>Extending the helpers: the <wbr/>Expression <wbr/>Library</span></a></li><li><a href="#see-also"><span>See also</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>

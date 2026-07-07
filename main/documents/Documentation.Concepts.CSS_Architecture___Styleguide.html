@@ -3,12 +3,14 @@
 contributors and variant-module authors.</p>
 </blockquote>
 <p>See also: <a href="Documentation.Concepts.Architecture_Overview.html">Architecture Overview</a>, <a href="Documentation.Reference.Effects_Integration.html">Effects Integration</a>.</p>
-<p>This page is the <strong>decision record and conventions</strong> for the system's stylesheets.
-It is the foundation ratified by <a href="https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/issues/95">epic #95</a>
-before any code moves; the migration itself happens in its child issues (#90–#94).
-Until those land, the source under <code>scss/</code> does <strong>not</strong> yet match every rule below —
-this document describes the <em>target</em>, and is the contract migrations are measured
-against.</p>
+<p>This page is the <strong>decision record and conventions</strong> for the system's stylesheets,
+ratified by <a href="https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/issues/95">epic #95</a>
+and carried out in its child issues (#90–#94). Much of it has landed — the
+<code>scss/</code> folder structure (§2: <code>abstracts/</code>, <code>base/</code>, <code>layout/</code>, <code>components/</code>,
+<code>utilities/</code>), the <code>@layer</code> ordering (§5), and the design tokens (§4) are in
+place. Some residual migration remains (notably BEM renaming, #94, and the
+<code>apps/</code> split); where the code still lags a rule below, <strong>this document is the
+target</strong> and the code is what needs migrating.</p>
 <blockquote>
 <p><strong>Why this exists.</strong> <a href="https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/pull/87">#87</a>
 uncovered a whole block of sheet-layout CSS that was silently dead: <code>.sohl .sheet</code>
@@ -193,7 +195,7 @@ core UI picks up our palette. Those use Foundry's <code>--color-*</code> namespa
 and are <em>not</em> part of the <code>--sohl-*</code> token set; don't merge the two.</p>
 <a id="5-cascade-layers-layer" class="tsd-anchor"></a><h2 class="tsd-anchor-link">5. Cascade layers (<code>@layer</code>)<a href="#5-cascade-layers-layer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><strong>Decision: wrap system output in named cascade layers with a documented order.</strong></p>
 <p>Foundry v14 core wraps <strong>all</strong> of its own CSS in a declared layer stack:</p>
-<pre><code class="css"><span class="hl-8">@layer</span><span class="hl-1"> reset, variables, elements, blocks, applications, compatibility, layouts, system, modules, exceptions;</span>
+<pre><code class="css"><span class="hl-9">@layer</span><span class="hl-1"> reset, variables, elements, blocks, applications, compatibility, layouts, system, modules, exceptions;</span>
 </code><button type="button">Copy</button></pre>
 
 <p>Two facts drive our approach. First, <strong>unlayered styles beat every layered style of the
@@ -268,6 +270,6 @@ fully scoped (BEM block under the namespace) and is pulled in with <code>@use</c
 <li><strong>#93</strong> — extract reusable component partials (list/header/field).</li>
 <li><strong>#94</strong> — apply BEM naming (§3) and sync templates/<code>src/</code> selectors.</li>
 </ul>
-<p>Until each lands, expect <code>scss/</code> to lag this document. When they conflict, <strong>this
-document is the target</strong> and the code is what still needs migrating.</p>
+<p>Where any of these still lag, <strong>this document is the target</strong> and the code is what
+needs migrating.</p>
 </div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#css-architecture--styleguide"><span>CSS <wbr/>Architecture &amp; <wbr/>Styleguide</span></a><ul><li><a href="#1-tooling--stay-on-scss-dart-sass"><span>1. <wbr/>Tooling — stay on SCSS (<wbr/>Dart <wbr/>Sass)</span></a></li><li><a href="#2-folder-architecture-itcss-inspired--7-1"><span>2. <wbr/>Folder architecture (ITCSS-<wbr/>inspired / 7-<wbr/>1)</span></a></li><li><a href="#3-naming--bem-under-the-sohl-namespace"><span>3. <wbr/>Naming — BEM under the .sohl namespace</span></a></li><li><a href="#4-design-tokens-as-css-custom-properties"><span>4. <wbr/>Design tokens as CSS custom properties</span></a></li><li><a href="#5-cascade-layers-layer"><span>5. <wbr/>Cascade layers (@layer)</span></a></li><li><a href="#6-scoping-rule--the-87-lesson-written-down"><span>6. <wbr/>Scoping rule — the #87 lesson, written down</span></a></li><li><a href="#7-module-loading--useforward-with-metaload-css-only-for-scoped-output"><span>7. <wbr/>Module loading — @use/@forward, with meta.load-<wbr/>css only for scoped output</span></a></li><li><a href="#8-migration"><span>8. <wbr/>Migration</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>

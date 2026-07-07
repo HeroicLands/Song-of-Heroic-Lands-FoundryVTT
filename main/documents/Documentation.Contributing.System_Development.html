@@ -85,7 +85,7 @@ new keys instead.</li>
 serialized data. Data carries only <em>references</em> (a <code>__kind</code> tag, an intrinsic
 method name, or a Foundry Macro UUID). Never build HTML by interpolating data into
 template source, and remember that client-side gating is not authorization.
-Read <a href="../media/security-model.md">Security Model &amp; Guardrails</a> before
+Read <a href="Documentation.Concepts.Security_Model___Guardrails.html">Security Model &amp; Guardrails</a> before
 touching serialization, HTML rendering, actions, or cross-client flows.</li>
 </ol>
 <a id="development-workflow" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Development workflow<a href="#development-workflow" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="issue-first" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Issue first<a href="#issue-first" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>No repository change lands without a tracking GitHub issue — <strong>except</strong> pure
@@ -125,7 +125,7 @@ shows up as unformatted, stop and ask — do not run <code>format</code> blind, 
 your commit. Once only your files are flagged, run <code>npm run format</code>, then <code>git add</code>
 only your files.</p>
 <a id="submitting-a-pull-request" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Submitting a pull request<a href="#submitting-a-pull-request" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Before opening the PR, both of these must pass without errors:</p>
-<pre><code class="bash"><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">build</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-9">run</span><span class="hl-1"> </span><span class="hl-9">docs</span>
+<pre><code class="bash"><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-6">run</span><span class="hl-1"> </span><span class="hl-6">build</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-6">run</span><span class="hl-1"> </span><span class="hl-6">docs</span>
 </code><button type="button">Copy</button></pre>
 
 <p>Submit with a clear description of what changed and why.</p>

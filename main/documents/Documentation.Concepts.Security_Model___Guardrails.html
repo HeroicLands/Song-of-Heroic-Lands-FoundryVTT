@@ -1,0 +1,278 @@
+<!DOCTYPE html><html class="default" lang="en" data-base=".."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Security Model &amp; Guardrails | Song of Heroic Lands API - v0.7.0</title><meta name="description" content="Documentation for Song of Heroic Lands API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><link rel="stylesheet" href="../assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">Song of Heroic Lands API - v0.7.0</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb"><li><a href="../modules.html">Song of Heroic Lands API</a></li><li><a href="Documentation.html">Documentation</a></li><li><a href="Documentation.Concepts.html">Concepts</a></li><li><a href="Documentation.Concepts.Security_Model___Guardrails.html">Security Model &amp; Guardrails</a></li></ul></div><div class="tsd-panel tsd-typography"><a id="security-model--guardrails" class="tsd-anchor"></a><h1 class="tsd-anchor-link">Security Model &amp; Guardrails<a href="#security-model--guardrails" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1><p>This document is the security mental model for the SoHL system and the standing
+guardrails every change must respect. It is written for both human and AI
+developers: if you are adding a feature, reviewing a PR, or letting an agent
+touch this codebase, read this first.</p>
+<p>It is derived from a full security review of the system (see the epics linked in
+<a href="#tracking">Tracking</a>). The findings themselves live in the issue tracker; this
+document distills the <em>durable rules and decisions</em> so we do not reintroduce the
+same classes of bug.</p>
+<a id="threat-model" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Threat model<a href="#threat-model" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>SoHL is a <strong>FoundryVTT game system</strong>. The code runs in players' and GMs'
+browsers. The attacker-controlled inputs that matter are:</p>
+<ol>
+<li><strong>Installed content</strong> — world save files, modules, and shared compendium
+packs. Their item/actor/effect fields, action definitions, expression
+strings, domain-registry entries, and imported JSON are authored by whoever
+produced the package, and are then rendered or executed on the client of
+<strong>every user who installs the content</strong>, including the GM.</li>
+<li><strong>Chat messages and their flags</strong> — these propagate to every connected client
+and are re-rendered on each. Any client, including a non-GM player, can craft
+message content and <code>data-*</code> attribute values.</li>
+</ol>
+<p>The high-consequence outcomes we defend against:</p>
+<ul>
+<li><strong>Arbitrary code execution</strong> in a victim's browser (full Foundry API access
+with their session and world) via a compiled string or unsafe deserialization.</li>
+<li><strong>Stored/DOM XSS</strong> via HTML built from data and rendered into sheets, dialogs,
+or chat.</li>
+<li><strong>Client-side denial of service</strong> via catastrophic-backtracking regexes.</li>
+<li><strong>Cross-actor state corruption</strong> via a client acting on documents it does not
+own.</li>
+</ul>
+<p>The load-bearing consequence: <strong>untrusted <em>data</em> is the primary attack surface,
+not untrusted <em>code</em>.</strong> A malicious module author already runs code; our job is
+to ensure that <em>data</em> — a chat flag, an effect field, a serialized payload —
+can never <em>become</em> code or script on someone else's machine.</p>
+<a id="the-core-principle-reference-code-never-compile-it-from-data" class="tsd-anchor"></a><h2 class="tsd-anchor-link">The core principle: reference code, never compile it from data<a href="#the-core-principle-reference-code-never-compile-it-from-data" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><strong>Never turn data into executable code.</strong> No <code>eval</code>, no <code>new Function</code>, no
+<code>Function</code>/<code>AsyncFunction</code> constructor, no <code>Handlebars.compile</code> of
+data-derived source — anywhere a value could have originated from installed
+content or a cross-client message.</p>
+<p>Data may only ever carry a <strong>reference</strong> to code that already exists:</p>
+<table>
+<thead>
+<tr>
+<th>Reference</th>
+<th>For</th>
+<th>Encoding</th>
+<th>Resolves to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Class kind</td>
+<td>Domain objects round-tripped through JSON</td>
+<td><code>__kind</code> tag</td>
+<td>A constructor looked up in <code>src/utils/kindRegistry.ts</code></td>
+</tr>
+<tr>
+<td>Method</td>
+<td>A shipped behavior on a Logic class (intrinsic)</td>
+<td>method name</td>
+<td>A bound method on the scoped target logic</td>
+</tr>
+<tr>
+<td>Macro</td>
+<td>GM-authored &quot;homebrew&quot; behavior created after ship</td>
+<td>Macro UUID</td>
+<td>A Foundry <code>Macro</code>, run via <code>Macro#execute()</code></td>
+</tr>
+</tbody>
+</table>
+<p>Functions themselves are <strong>never serialized</strong> — not as source, and not as a
+reference. A domain object carries <strong>data plus its <code>__kind</code></strong>, and any behavior
+is re-derived locally on the receiving client from that kind and data.</p>
+<p>An attacker can put any value in a reference slot, but the worst they can do is
+<em>select</em> something the system already ships — they can never <em>introduce</em> new
+code. This makes the dangerous state unrepresentable rather than merely screened.</p>
+<a id="why-not-a-sandbox--denylist" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Why not a sandbox / denylist?<a href="#why-not-a-sandbox--denylist" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The system previously screened author-supplied script with a regex denylist
+(<code>textToFunction</code>) before compiling it with <code>new Function</code>. <strong>A denylist over
+source text is not a security boundary.</strong> During review it was defeated four
+independent ways, each verified by execution:</p>
+<ul>
+<li><strong>Unicode identifier escapes</strong> — <code>fetch</code> is the identifier <code>fetch</code>; the
+literal substring never appears in the source, so a <code>\bfetch\b</code> scan misses it.</li>
+<li><strong>Function-constructor by string concatenation</strong> —
+<code>(()=&gt;{})['con'+'structor']('return this')()</code> reaches <code>globalThis</code>; the word
+<code>constructor</code> never appears as one literal.</li>
+<li><strong>Template-literal interpolation</strong> — a comment/string stripper deletes
+<code>`${...}`</code> before scanning, but it still executes at runtime.</li>
+<li><strong>Comment interposition</strong> — <code>x./**/constructor</code> slips past a <code>\.\s*constructor</code>
+pattern.</li>
+</ul>
+<p>These are not patchable one at a time. The only sound options are an <strong>AST
+allowlist</strong> (parse, then permit a fixed set of nodes/identifiers — this is what
+<a href="../modules/API_Reference.SafeExpression.html" class="tsd-kind-namespace"> SafeExpression</a> does for predicates and why it is safe) or <strong>not
+compiling at all</strong> (the reference model above). For behavior driven by
+<em>untrusted</em> data — installed content and cross-client messages — SoHL chose not
+compiling at all: <code>SafeExpression</code> (<code>src/entity/expr/SafeExpression.ts</code>) is the
+only string→logic path on that surface, and it is an allowlist, not a denylist.</p>
+<p><strong>The one sanctioned exception: the GM Expression Library.</strong> <code>textToFunction</code>
+(the old denylist screen) still ships, used by the expression-helper registry
+(<code>src/entity/expr/ExpressionHelperRegistry.ts</code>) to compile helper bodies loaded
+from a <strong>GM-chosen JSON file</strong> (the Expression Library settings menu). This is a
+<em>different trust tier</em>: the GM deliberately selects a local file, exactly as
+they would install a module — it is not installed-package or cross-client data,
+and the screen is documented as &quot;a sandbox, not a hard security boundary.&quot; So it
+is acceptable there and only there. Do <strong>not</strong> route any untrusted or
+cross-client input through <code>textToFunction</code>, and do not add new callers of it —
+if you need author-supplied logic on the untrusted surface, use <code>SafeExpression</code>
+(sync values) or a Macro (async behavior).</p>
+<a id="why-not-digital-signatures" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Why not digital signatures?<a href="#why-not-digital-signatures" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Signing serialized code was considered and rejected. A <strong>symmetric MAC cannot
+work</strong> in a client-only Foundry system: there is no server-side secret, so any
+client that can verify a signature can also forge one — and the attacker is one
+of those clients. <strong>Asymmetric signing</strong> would only help a hypothetical &quot;signed
+content pack&quot; feature, and even then verifies <em>provenance</em>, not <em>safety</em>. Foundry
+macros give us provenance for free and at <em>write</em> time (see below), with no key
+to distribute or leak. Prefer the reference model; reach for signatures only if a
+future feature genuinely must move novel code across the trust boundary, and then
+only with asymmetric keys plus an AST allowlist.</p>
+<a id="gm-homebrew-use-foundry-macros-not-a-bespoke-sandbox" class="tsd-anchor"></a><h3 class="tsd-anchor-link">GM &quot;homebrew&quot;: use Foundry macros, not a bespoke sandbox<a href="#gm-homebrew-use-foundry-macros-not-a-bespoke-sandbox" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Post-ship, GM-authored behavior runs through <strong>Foundry <code>Macro</code> documents</strong>,
+referenced by UUID and executed with <code>Macro#execute()</code>. This inherits Foundry's
+own, audited permission model:</p>
+<ul>
+<li>Creating or importing a <em>script</em> macro is blocked unless the user holds the
+<code>MACRO_SCRIPT</code> permission (<code>common/documents/macro.mjs</code>). A malicious
+compendium cannot land auto-running script on a player who lacks it.</li>
+<li><code>Macro#execute()</code> re-checks <code>canUserExecute</code> (ownership <strong>and</strong>
+<code>MACRO_SCRIPT</code>) before running, and passes <code>{ speaker, actor, token, ...scope }</code>.</li>
+</ul>
+<p>Rules for using macros:</p>
+<ul>
+<li><strong>Only ever execute via <code>Macro#execute()</code></strong>, never by reading a macro's
+<code>command</code> into your own compiler.</li>
+<li><strong>Only invoke on the client that owns the acting document</strong> — keep the
+target-addressed acknowledge model (a defense runs because the <em>defender's</em>
+user clicked, on the defender's client). A player-authored chat flag must never
+cause a macro to run on the GM's client without the GM's action.</li>
+<li>Understand the trade-off: a macro runs with full page authority. This is
+<strong>authorization, not isolation</strong> — the same trust decision as installing a
+module, but gated and explicit rather than silent. True isolation of shared
+homebrew (Realm/iframe/worker with a brokered API) is a separate, much larger
+effort and is out of scope.</li>
+</ul>
+<blockquote>
+<p>Note: <strong>intrinsic</strong> action executors resolve by method-name lookup on a bound
+target logic. That is already safe (no compilation, the name is system-authored,
+and it resolves to an existing method) and is <em>not</em> a <code>new Function</code> path — it
+does not need to become a macro.</p>
+</blockquote>
+<a id="extension-points-which-tool-for-which-need" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Extension points: which tool for which need<a href="#extension-points-which-tool-for-which-need" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The safe extension mechanism depends on two axes — who authors it (shipped in
+code vs. GM post-ship) and how it runs (a synchronous value vs. asynchronous
+imperative behavior):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Shipped (in code)</strong></th>
+<th><strong>GM-authored (post-ship)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Synchronous, returns a value</strong></td>
+<td>a method / intrinsic</td>
+<td>a <a href="../modules/API_Reference.SafeExpression.html" class="tsd-kind-namespace"> SafeExpression</a> (AST allowlist)</td>
+</tr>
+<tr>
+<td><strong>Asynchronous, imperative</strong></td>
+<td>a method / intrinsic</td>
+<td>a Foundry <strong>Macro</strong> (<code>Macro#execute</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Two consequences to internalize:</p>
+<ul>
+<li><strong>A GM who needs a synchronous computed value uses a <code>SafeExpression</code>, not a
+macro.</strong> <code>SafeExpression</code> parses to an AST, allowlists nodes, and evaluates
+synchronously and safely. Macros are asynchronous (<code>Macro#execute</code> returns a
+<code>Promise</code>), so they cannot return a value to a synchronous caller.</li>
+<li><strong>Synchronous <em>imperative</em> GM code is intentionally unsupported.</strong> You cannot
+let an untrusted author supply synchronous side-effecting code without
+compiling it — which is exactly the RCE this model removes. If you hit this,
+express the value as a <code>SafeExpression</code>, or restructure so the work runs
+asynchronously (a macro) and the synchronous path reads a cached result.</li>
+</ul>
+<a id="guardrail-safe-serialization" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Guardrail: safe serialization<a href="#guardrail-safe-serialization" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><code>defaultToJSON</code> / <code>defaultFromJSON</code> in <code>src/utils/helpers.ts</code> are the JSON
+round-trip for domain objects. Their security contract:</p>
+<ul>
+<li><strong><code>defaultFromJSON</code> never revives executable code.</strong> There is no
+<code>new Function</code> path and no function-reference path. (The historical
+<code>__func__:</code>/<code>deserializeFn</code> path that compiled a string into a function has
+been removed — do not reintroduce it.)</li>
+<li><strong><code>defaultToJSON</code> never emits a function.</strong> Functions are dropped to
+<code>undefined</code> — no source, and no reference. Behavior is not serialized.</li>
+<li><strong>Reconstruction of <code>__kind</code>-tagged objects</strong> goes through the kind registry
+and should validate/allowlist the tag and the shape — a client can craft the
+JSON, so treat revived data as untrusted input to the constructor.</li>
+<li><strong><code>buildActionScope</code></strong> reads chat-card <code>data-scope</code> (fully attacker-controlled)
+and rejects any legacy <code>__func__:</code> marker outright as defense-in-depth.</li>
+</ul>
+<p>A serialized object carries <strong>data plus its <code>__kind</code></strong>. If the receiving client
+needs a behavior, it re-derives it locally from the kind and data (e.g. a small
+strategy enum resolved to a shipped function on that side) — never by carrying a
+function across the wire, and never by <code>JSON.parse</code> + evaluate.</p>
+<a id="guardrail-html-rendering--xss" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Guardrail: HTML rendering / XSS<a href="#guardrail-html-rendering--xss" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Author-controlled strings (item/actor/effect names and descriptions, domain and
+calendar names, modifier breakdowns) reach dialogs, sheets, and chat cards.</p>
+<ul>
+<li><strong>Never interpolate data into Handlebars <em>template source</em>.</strong> Building a
+template string with <code>`...${item.name}...`</code> and then <code>Handlebars.compile</code>
+turns the name into markup — stored XSS, and with prototype access enabled, a
+template-injection code-execution primitive. Put values in the <strong>data context</strong>
+(<code>{{name}}</code>, auto-escaped) or build inputs with the
+<code>foundry.applications.fields.*</code> DOM factories.</li>
+<li><strong>Do not enable <code>allowProtoMethodsByDefault</code> / <code>allowProtoPropertiesByDefault</code></strong>
+when the Handlebars context could carry non-plain objects; they disable the
+prototype-access guard.</li>
+<li><strong>Escape data destined for raw-HTML sinks</strong> (<code>DialogV2</code>/<code>Dialog</code> content,
+<code>innerHTML</code>) with <code>foundry.utils.escapeHTML</code>, or render through a template.
+<code>i18n.localize</code>/<code>format</code> do <strong>not</strong> escape.</li>
+<li><strong>Do not <code>{{{triple-mustache}}}</code> untrusted or data-derived HTML.</strong> If a value
+is assembled from data (e.g. a modifier breakdown), escape at the source or use
+double-mustache.</li>
+<li><strong>Prefer an allowlist sanitizer</strong> (DOMPurify or
+<code>foundry.applications.ux.TextEditor.cleanHTML</code>) over a hand-rolled tag/attribute
+denylist. Denylist sanitizers miss whitespace/entity-obfuscated <code>javascript:</code>,
+<code>data:</code> URLs, <code>&lt;base&gt;</code>, SVG <code>xlink:href</code>, surviving <code>style</code>, and mXSS.</li>
+</ul>
+<a id="guardrail-cross-client-authorization" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Guardrail: cross-client authorization<a href="#guardrail-cross-client-authorization" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li><strong>Client-side gating is UX, not authorization.</strong> Removing a button at render
+time (e.g. gating automated-defense buttons by <code>actor.isOwner</code>) only changes
+what a cooperating client shows. A malicious client can call the handler
+directly. The <strong>real</strong> authorization boundary is Foundry's document-ownership
+check at <em>write</em> time — a client can only update documents it owns.</li>
+<li><strong>Chat-card handlers must verify authority before acting.</strong> An <code>onChatCardButton</code>
+handler that resolves a target document by UUID from the dataset must confirm
+the current user owns it (or is GM) before executing — for intrinsic actions as
+well as gated ones — rather than relying on render-time DOM removal.</li>
+<li><strong>Actor-state sovereignty.</strong> An actor mutates only itself. Cross-actor effects
+go through a target-addressed chat acknowledge button, resolved on the target's
+own client. See <a href="Documentation.Concepts.Architecture_Overview.html">Architecture</a> and
+<a href="Documentation.How-to.Extension_Points.html">Extension Points</a>.</li>
+</ul>
+<a id="guardrail-no-unbounded-regex-on-data-redos" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Guardrail: no unbounded regex on data (ReDoS)<a href="#guardrail-no-unbounded-regex-on-data-redos" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>A regex driven by attacker-influenced input can hang the client tab.</p>
+<ul>
+<li><strong>Length caps are not a ReDoS guard.</strong> A short pattern with nested quantifiers
+still backtracks catastrophically.</li>
+<li><strong>Remove quantifier ambiguity</strong> (do not let a character class overlap the
+separator that starts a repeated group; use atomic/possessive forms).</li>
+<li>For user-influenced patterns, use a non-backtracking matcher, an evaluation
+timeout, or restricted regex features.</li>
+</ul>
+<a id="red-flag-checklist-for-reviewers-and-ai-agents" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Red-flag checklist (for reviewers and AI agents)<a href="#red-flag-checklist-for-reviewers-and-ai-agents" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Treat any of these as a blocker until proven safe against the threat model:</p>
+<ul>
+<li><code>eval(</code>, <code>new Function(</code>, <code>Function(</code>, <code>AsyncFunction</code>, or a
+<code>deserializeFn</code>-style &quot;compile a string&quot; path. <code>textToFunction</code> has exactly
+one sanctioned caller — the GM Expression Library (above); a <strong>new</strong> caller,
+or any <code>textToFunction</code> reachable from untrusted/cross-client data, is a
+blocker.</li>
+<li><code>Handlebars.compile(</code> on a string built by interpolating data.</li>
+<li><code>.innerHTML =</code> / <code>insertAdjacentHTML</code> / <code>{{{ }}}</code> / <code>new Handlebars.SafeString</code>
+with a value that could come from data.</li>
+<li><code>allowProtoMethodsByDefault</code> / <code>allowProtoPropertiesByDefault</code>.</li>
+<li>A hand-rolled HTML sanitizer (tag/attribute denylist).</li>
+<li>A <code>data-*</code> attribute or chat flag passed to <code>defaultFromJSON</code> /
+<code>JSON.parse</code> + evaluate.</li>
+<li>A document <code>update</code>/<code>delete</code> in a socket/hook/chat handler with no
+<code>isOwner</code>/<code>canUserModify</code>/<code>isGM</code> check.</li>
+<li>A <code>RegExp</code> built from, or matched against, attacker-influenced data without a
+backtracking bound.</li>
+<li>A new string→function or string→predicate path (other than <code>SafeExpression</code>,
+or the single sanctioned GM Expression Library caller of <code>textToFunction</code>).</li>
+</ul>
+<a id="tracking" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Tracking<a href="#tracking" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li>The reference-code remediation is tracked under the &quot;eliminate runtime code
+compilation&quot; epic; the XSS and ReDoS hardening under their respective epics.
+Browse <code>gh issue list --label security</code>.</li>
+<li>The class registry: <code>src/utils/kindRegistry.ts</code>. The predicate allowlist:
+<a href="../modules/API_Reference.SafeExpression.html" class="tsd-kind-namespace"> SafeExpression</a>. GM homebrew runs through Foundry <code>Macro</code> documents.</li>
+</ul>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#security-model--guardrails"><span>Security <wbr/>Model &amp; <wbr/>Guardrails</span></a><ul><li><a href="#threat-model"><span>Threat model</span></a></li><li><a href="#the-core-principle-reference-code-never-compile-it-from-data"><span>The core principle: reference code, never compile it from data</span></a></li><li><ul><li><a href="#why-not-a-sandbox--denylist"><span>Why not a sandbox / denylist?</span></a></li><li><a href="#why-not-digital-signatures"><span>Why not digital signatures?</span></a></li><li><a href="#gm-homebrew-use-foundry-macros-not-a-bespoke-sandbox"><span>GM &quot;homebrew&quot;: use <wbr/>Foundry macros, not a bespoke sandbox</span></a></li><li><a href="#extension-points-which-tool-for-which-need"><span>Extension points: which tool for which need</span></a></li></ul></li><li><a href="#guardrail-safe-serialization"><span>Guardrail: safe serialization</span></a></li><li><a href="#guardrail-html-rendering--xss"><span>Guardrail: HTML rendering / XSS</span></a></li><li><a href="#guardrail-cross-client-authorization"><span>Guardrail: cross-<wbr/>client authorization</span></a></li><li><a href="#guardrail-no-unbounded-regex-on-data-redos"><span>Guardrail: no unbounded regex on data (<wbr/>Re<wbr/>Do<wbr/>S)</span></a></li><li><a href="#red-flag-checklist-for-reviewers-and-ai-agents"><span>Red-<wbr/>flag checklist (for reviewers and AI agents)</span></a></li><li><a href="#tracking"><span>Tracking</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>
