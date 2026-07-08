@@ -220,6 +220,15 @@ Chat-card buttons (inside `.card-buttons`) and `a.edit-action` links are routed 
 
 The resolved document's `onChatCardButton(btn)` (or `onChatCardEditAction`) is then invoked; handlers switch on `btn.dataset.action`. New card buttons must emit one of the attributes above and add an `action` case rather than introducing a new attribute name. For the procedure, see [Extension Points — Adding a chat-card button](../how-to/extension-points.md#adding-a-chat-card-button).
 
+### Authorization: the handler document's owner acts
+
+**A chat-card action is _handled by the actor it addresses_, and only a client that owns that actor may run it** (a GM owns all). Buttons that drive a flow — roll damage, respond to an attack, resume an opposed test — mutate the handler's own actor state, so under [actor-state sovereignty](../concepts/architecture.md#actor-state-sovereignty) authorization is exactly document ownership. This rule has **two sides**, both keyed on the resolved handler document's `isOwner`:
+
+- **Render-time (visibility).** When a card renders, `gateAutomatedDefenseButtons` (`src/document/chat/chat-card-gating.ts`) resolves each defender-response button's `data-handler-actor-uuid` and **removes the buttons a non-owner can't use** (and, for the owner, gates by capability/incapacitation). This is **UX only** — a per-client cosmetic filter.
+- **Click-time (authorization).** The render gate is trivially bypassed by a synthesized click or a direct `doc.onChatCardButton(...)` call, so the **real boundary** is at dispatch: `resolveAuthorizedChatCardHandler(dataset, resolveDoc)` (`chat-card-dispatch.ts`) resolves the handler document and returns it **only if `doc.isOwner`** — otherwise the click is ignored, before any dialog, `buildActionScope` revival, or intrinsic logic runs. Each `onChatCardButton` handler additionally re-checks `this.isOwner` on entry, so a direct call is refused too (defense-in-depth). This closes issue #167.
+
+Foundry's own document-ownership check still guards the final _persisted write_; the authorization gate exists to refuse _entering_ the pre-write flow (dialogs, scope revival, intrinsic actions) for an unauthorized client. Both `resolveAuthorizedChatCardHandler` and the render gate take the Foundry lookup (`fromUuidSync`) as an injected parameter, so the authorization logic is Foundry-free and unit-tested.
+
 A card button carries three kinds of data, and only the first two are flat attributes:
 
 1. **Display fields** — rendered into the card body; never read by dispatch.

@@ -219,10 +219,15 @@ calendar names, modifier breakdowns) reach dialogs, sheets, and chat cards.
   what a cooperating client shows. A malicious client can call the handler
   directly. The **real** authorization boundary is Foundry's document-ownership
   check at _write_ time — a client can only update documents it owns.
-- **Chat-card handlers must verify authority before acting.** An `onChatCardButton`
-  handler that resolves a target document by UUID from the dataset must confirm
-  the current user owns it (or is GM) before executing — for intrinsic actions as
-  well as gated ones — rather than relying on render-time DOM removal.
+- **Chat-card clicks are authorized by the handler document's ownership.** A card
+  addresses each button to the actor that should _handle_ it; running the action
+  mutates that actor's own state, so authorization is document ownership. The
+  dispatch resolves the handler and honors the click **only if `doc.isOwner`**
+  (`resolveAuthorizedChatCardHandler`, a GM owns all) — for **intrinsic** actions
+  as well as `SCRIPT` — before any dialog, `buildActionScope` revival, or logic
+  runs; each `onChatCardButton` also re-checks `this.isOwner` so a direct call is
+  refused too. The render-time `gateAutomatedDefenseButtons` is UX only. See the
+  [Chat-card dispatch contract — Authorization](../reference/runtime-contracts.md#authorization-the-handler-documents-owner-acts).
 - **Actor-state sovereignty.** An actor mutates only itself. Cross-actor effects
   go through a target-addressed chat acknowledge button, resolved on the target's
   own client. See [Architecture](architecture.md) and
