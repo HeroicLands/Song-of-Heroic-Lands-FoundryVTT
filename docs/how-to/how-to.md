@@ -4,6 +4,7 @@ children:
     Getting Started: ./getting-started.md
     Build, Deployment, and Release: ./build-and-deployment.md
     Extension Points: ./extension-points.md
+    API Access Map: ./api-access-map.md
     Lifecycle Hooks: ./lifecycle-hooks.md
     House Rules Cookbook: ./house-rules-cookbook.md
     Testing: ./testing.md
