@@ -373,6 +373,31 @@ export async function fvttCreateChatMessage(data: object): Promise<any> {
     return foundry.documents.ChatMessage.create(data);
 }
 
+// ---------------------------------------------------------------------------
+// Embedded documents
+// ---------------------------------------------------------------------------
+
+/**
+ * Create embedded `Item` documents on an actor, addressed through its *logic*.
+ *
+ * @remarks The Foundry-free way for the logic layer to add items to an actor:
+ * the caller passes an actor logic (or any logic that resolves to an owning
+ * actor via {@link SohlLogic.actor}) and plain item-creation data; this boundary
+ * resolves the Foundry actor and performs the write. No-op when the logic has no
+ * owning actor.
+ * @param actorLogic - The actor's logic (or a logic whose `.actor` resolves it).
+ * @param itemsData - Plain item-creation data objects.
+ * @returns A promise resolving to the created items (empty when there is no actor).
+ */
+export async function fvttCreateEmbeddedItems(
+    actorLogic: any,
+    itemsData: object[],
+): Promise<any[]> {
+    const actor = actorLogic?.actor;
+    if (!actor) return [];
+    return (await actor.createEmbeddedDocuments("Item", itemsData)) as any[];
+}
+
 /**
  * Apply the specified roll mode to chat message data.
  * @param data - The chat message data to mutate in place.

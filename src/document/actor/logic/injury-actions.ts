@@ -23,6 +23,7 @@ import {
     isImpactAspect,
     type ImpactAspect,
 } from "@src/utils/constants";
+import { fvttCreateEmbeddedItems } from "@src/core/FoundryHelpers";
 
 /**
  * The forward-carried payload of a chat-card `createInjury` button
@@ -257,15 +258,15 @@ export function getActorBodyStructure(logic: any): BodyStructure | undefined {
 /**
  * Create a physical Trauma item on the actor from a resolved injury. Only
  * call this for an actual wound (`injury.level >= 1`); a glancing blow or
- * no-injury result must not create a Trauma. Foundry-facing.
- * @param actor - The actor to receive the Trauma item.
+ * no-injury result must not create a Trauma.
+ * @param logic - The actor's logic (its `.actor` receives the Trauma item).
  * @param injury - The resolved injury to record.
  */
 export async function createTraumaFromInjury(
-    actor: any,
+    logic: any,
     injury: ResolvedInjury,
 ): Promise<void> {
-    await actor.createEmbeddedDocuments("Item", [
+    await fvttCreateEmbeddedItems(logic, [
         {
             type: ITEM_KIND.TRAUMA,
             name: `${injury.levelCode} ${injury.location.name}`,
