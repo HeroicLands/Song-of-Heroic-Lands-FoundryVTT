@@ -14,36 +14,46 @@
 /**
  * Impact → injury → trauma.
  *
- * The intended flow: the Add Injury dialog (`BeingLogic.addInjuryViaDialog`, from
- * the sheet's `addInjury` action or the assisted-combat `createInjury` path)
- * resolves a blow through the pure `resolveInjury` pipeline and records a `trauma`
- * item for a wound of level ≥ 1.
+ * `BeingLogic.addInjuryViaDialog` (the sheet's `addInjury` action and the
+ * assisted-combat `createInjury` path) opens the Add Injury dialog, resolves the
+ * blow through the pure `resolveInjury` pipeline, posts an injury card, and — for
+ * a wound of level ≥ 1 with "add to character sheet" — records a `trauma` item.
+ * The automated combat path (`onCreateInjury` with an aimed `targetPart` +
+ * `spread`) resolves and records with no dialog.
  *
- * **State today (verified against the live container):** the *creation* flow is
- * broken end-to-end and is RED, blocked by newly-filed bugs:
- *
- * - #268 — `getActorBodyStructure(this)` in `addInjuryViaDialog`/`onCreateInjury`
- *   receives the `BeingLogic` (which has no `itemTypes`), so it returns
- *   `undefined` and the flow aborts; and `BeingSheet._onAddInjury` calls
- *   `this.document.addInjuryViaDialog()`, which the actor does not define.
- * - #267 — the resulting "no body structure" `uiWarn` hits `SohlLogger.uiWarn`'s
- *   infinite recursion (stack overflow), crashing the tab.
- *
- * The pure resolution *math* — level bands (M1/S2/S3/G4/G5), shock index, the
- * glancing-blow rule, and bleeder/amputation flags — is exhaustively covered by
- * the unit suite (`tests/domain/body/InjuryResolution.test.ts`,
- * `tests/document/actor/injury-actions.test.ts`) and is not reachable from the
- * client, so it is asserted there rather than re-driven here.
+ * These cases drive the dialog end to end (open → submit via `cy.submitDialog`)
+ * and assert the recorded trauma. The pure resolution *math* — level bands
+ * (M1/S2/S3/G4/G5), shock index, the glancing-blow rule, and bleeder/amputation
+ * flags — is exhaustively covered by the unit suite
+ * (`tests/domain/body/InjuryResolution.test.ts`,
+ * `tests/document/actor/injury-actions.test.ts`) and is asserted there.
  */
 
 describe("impact → injury → trauma", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
-    beforeEach(() => cy.closeAllSheets());
+    beforeEach(() => {
+        cy.closeAllSheets();
+        // closeAllSheets skips DialogV2s (no `.document`); close any lingering
+        // dialog so a prior test's window can't shadow this test's.
+        cy.foundry(async (win) => {
+            for (const app of Array.from(
+                win.foundry.applications.instances.values(),
+            )) {
+                if (/dialog/i.test(app.constructor.name)) {
+                    try {
+                        await app.close({ animate: false });
+                    } catch {
+                        /* already closing */
+                    }
+                }
+            }
+            return true;
+        });
+    });
     afterEach(() => cy.cleanupWorld());
 
     // The precondition the whole injury pipeline targets: the being's lineage
-    // supplies a body structure with defined hit locations. (The resolution that
-    // consumes it is RED below.)
+    // supplies a body structure with defined hit locations.
     it("the being's lineage exposes a body structure with hit locations", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
@@ -68,20 +78,93 @@ describe("impact → injury → trauma", () => {
         });
     });
 
-    // RED — blocked by #268 (Add Injury flow broken) + #267 (uiWarn recursion):
-    // addInjuryViaDialog resolves the body via getActorBodyStructure(this), where
-    // `this` is the BeingLogic (no `itemTypes`) → undefined → the flow warns and
-    // aborts, and the warn hits the uiWarn stack overflow. Un-skip and assert a
-    // level-≥1 blow records exactly one trauma once #268/#267 land.
-    it.skip("Add Injury dialog records a trauma for a level ≥ 1 blow (#268, #267)", () => {});
+    it("Add Injury dialog records a trauma for a level ≥ 1 blow", () => {
+        cy.importActor().then((actor) => {
+            cy.prepare(actor);
+            cy.foundry((win) => {
+                const a = win.game.actors.get(actor.id);
+                const loc =
+                    a.itemTypes.lineage[0].logic.bodyStructure.getAllLocations()[0]
+                        .shortcode;
+                // Fire the dialog and stash its promise so we can await the whole
+                // flow (dialog → resolve → post card → record trauma).
+                win.__injury = a.logic.addInjuryViaDialog({
+                    location: loc,
+                    aspect: "blunt",
+                    impact: 20,
+                });
+                return null;
+            });
+            cy.submitDialog("ok");
+            cy.foundry((win) =>
+                win.__injury.then(() =>
+                    win.game.actors
+                        .get(actor.id)
+                        .itemTypes.trauma.map((t) => t.name),
+                ),
+            ).should((names) => {
+                expect(names, "one trauma recorded").to.have.length(1);
+            });
+        });
+    });
 
-    // RED — blocked by #268/#267: a level-0 (no-injury / glancing) blow should
-    // post the injury card but record no trauma.
-    it.skip("Add Injury dialog records no trauma for a level-0 blow (#268, #267)", () => {});
+    it("Add Injury dialog records no trauma for a level-0 blow", () => {
+        cy.importActor().then((actor) => {
+            cy.prepare(actor);
+            cy.foundry((win) => {
+                const a = win.game.actors.get(actor.id);
+                const loc =
+                    a.itemTypes.lineage[0].logic.bodyStructure.getAllLocations()[0]
+                        .shortcode;
+                // A zero-impact blow resolves to no injury (band: ≤0 → none):
+                // the card posts but no trauma is recorded.
+                win.__injury = a.logic.addInjuryViaDialog({
+                    location: loc,
+                    aspect: "blunt",
+                    impact: 0,
+                });
+                return null;
+            });
+            cy.submitDialog("ok");
+            cy.foundry((win) =>
+                win.__injury.then(
+                    () => win.game.actors.get(actor.id).itemTypes.trauma.length,
+                ),
+            ).should("eq", 0);
+        });
+    });
 
-    // RED — blocked by #268/#267: an aimed landed blow (targetPart + spread)
-    // should resolve automatically (no dialog) and record a trauma.
-    it.skip("automated aimed blow records a trauma with no dialog (#268, #267)", () => {});
+    it("automated aimed blow records a trauma with no dialog", () => {
+        cy.importActor().then((actor) => {
+            cy.prepare(actor);
+            cy.foundry((win) => {
+                const a = win.game.actors.get(actor.id);
+                const loc =
+                    a.itemTypes.lineage[0].logic.bodyStructure.getAllLocations()[0]
+                        .shortcode;
+                // An aimed request (targetPart + spread) resolves automatically;
+                // the explicit location override keeps it deterministic (no
+                // scatter roll). The createInjury button carries it as data-scope.
+                const btn = win.document.createElement("button");
+                btn.dataset.scope = JSON.stringify({
+                    impact: 20,
+                    aspect: "edged",
+                    targetPart: "head",
+                    spread: 0,
+                    location: loc,
+                });
+                return a.logic.onCreateInjury(btn).then(() => ({
+                    dialogs: Array.from(
+                        win.foundry.applications.instances.values(),
+                    ).filter((x) => /dialog/i.test(x.constructor.name)).length,
+                    traumaCount: a.itemTypes.trauma.length,
+                }));
+            }).should((r) => {
+                expect(r.dialogs, "no dialog opened").to.eq(0);
+                expect(r.traumaCount, "one trauma recorded").to.eq(1);
+            });
+        });
+    });
 
     // RED — blocked by #186: the attacker's landing (non-counterstrike) blow
     // should emit a createInjury button, but buildCombatCardData hard-codes
