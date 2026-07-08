@@ -23,8 +23,12 @@ import {
     ActorKinds,
     ItemKinds,
     SOHL_DEFAULT_CALENDAR_CONFIG,
+    type ActorKind,
+    type ItemKind,
 } from "@src/utils/constants";
 import {
+    COMMON_ACTOR_LOGIC,
+    COMMON_ITEM_LOGIC,
     COMMON_ACTOR_SHEETS,
     COMMON_ITEM_SHEETS,
     SOHLCONFIG,
@@ -228,6 +232,81 @@ export class SohlSystem {
             getActiveCombat()?.combatants.map((c: any) => (c as any).logic) ??
             []
         );
+    }
+
+    /* -------------------------------------------- */
+    /*  Logic-class registry                        */
+    /* -------------------------------------------- */
+
+    /**
+     * The actor-kind → base Logic-class map (`sohl.actorLogicClasses`). Exposes
+     * the SoHL base classes so a variant module can subclass one before
+     * registering the override. Reads reflect any registered override.
+     *
+     * @example
+     * class MyBeing extends sohl.actorLogicClasses.being {}
+     */
+    get actorLogicClasses(): Record<
+        ActorKind,
+        Constructor<SohlActorLogic<any>>
+    > {
+        return COMMON_ACTOR_LOGIC as Record<
+            ActorKind,
+            Constructor<SohlActorLogic<any>>
+        >;
+    }
+
+    /**
+     * The item-kind → base Logic-class map (`sohl.itemLogicClasses`). Exposes the
+     * SoHL base classes for subclassing. Reads reflect any registered override.
+     */
+    get itemLogicClasses(): Record<ItemKind, Constructor<SohlItemLogic<any>>> {
+        return COMMON_ITEM_LOGIC as Record<
+            ItemKind,
+            Constructor<SohlItemLogic<any>>
+        >;
+    }
+
+    /**
+     * Register an actor Logic class for a kind, overriding the SoHL default.
+     *
+     * Call from a module's `init`/`setup` hook — before the first `.logic` for
+     * that kind is constructed. No construction-site changes are needed: the
+     * resolution path (`SohlDataModel.create`) reads this map, so every document
+     * of that kind built afterward uses the registered class.
+     *
+     * @param kind - The actor kind whose Logic class to override.
+     * @param cls - The replacement Logic class (a {@link SohlActorLogic} subclass).
+     */
+    registerActorLogic(
+        kind: ActorKind,
+        cls: Constructor<SohlActorLogic<any>>,
+    ): void {
+        (
+            COMMON_ACTOR_LOGIC as Record<
+                ActorKind,
+                Constructor<SohlActorLogic<any>>
+            >
+        )[kind] = cls;
+    }
+
+    /**
+     * Register an item Logic class for a kind, overriding the SoHL default. See
+     * {@link registerActorLogic} for the calling contract.
+     *
+     * @param kind - The item kind whose Logic class to override.
+     * @param cls - The replacement Logic class (a {@link SohlItemLogic} subclass).
+     */
+    registerItemLogic(
+        kind: ItemKind,
+        cls: Constructor<SohlItemLogic<any>>,
+    ): void {
+        (
+            COMMON_ITEM_LOGIC as Record<
+                ItemKind,
+                Constructor<SohlItemLogic<any>>
+            >
+        )[kind] = cls;
     }
 
     /**
