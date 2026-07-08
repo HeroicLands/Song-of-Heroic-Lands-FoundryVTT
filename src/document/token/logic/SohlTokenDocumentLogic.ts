@@ -58,7 +58,7 @@ interface OpposedItemLogic {
  * source token (the actor derived from it) and the responder side is dispatched
  * to the **target** token from the opposed-request chat card.
  *
- * The structure parallels {@link CombatantLogic}'s automated-combat actions: a
+ * The structure parallels {@link SohlCombatantLogic}'s automated-combat actions: a
  * canonical {@link opposedTestStart} action (which the skill/attribute item
  * logics delegate into, passing their `logicUuid`) and an
  * {@link opposedTestResume} action (the card handler on the target token). The

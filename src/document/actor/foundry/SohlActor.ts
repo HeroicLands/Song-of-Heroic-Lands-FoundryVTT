@@ -38,7 +38,7 @@ import {
  *   once per embedded item (from {@link prepareEmbeddedDocuments}). Args `(item, ctx)`.
  * - **Actor hooks** — `sohl.actor.<actorType>.{pre,post}{Initialize,Evaluate,Finalize}`,
  *   for the actor itself (the init pair from {@link prepareBaseData}, evaluate and
- *   finalize from {@link prepareDerivedData}). Args `(actor, ctx)` — `ctx` is
+ *   finalize from `prepareDerivedData`). Args `(actor, ctx)` — `ctx` is
  *   omitted for the init pair.
  *
  * `ctx` is a {@link SohlActionContext}; `<itemType>`/`<actorType>` are the type

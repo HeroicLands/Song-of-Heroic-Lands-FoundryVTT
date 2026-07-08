@@ -295,7 +295,7 @@ export abstract class StrikeModeBase extends SohlEntity {
 
     /**
      * Begin automated combat with this weapon. Delegates into the attacker's
-     * {@link CombatantLogic.automatedCombatStart} action — the single combat-start
+     * {@link StrikeModeBase.automatedCombatStart} action — the single combat-start
      * entry point — passing this weapon's `logicUuid` (and any `smId` already in
      * scope) so only this weapon's in-range strike modes are offered.
      *

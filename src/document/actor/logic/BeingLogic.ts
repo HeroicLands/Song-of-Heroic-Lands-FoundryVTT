@@ -76,6 +76,10 @@ import {
     defaultToJSON,
     buildActionScope,
 } from "@src/utils/helpers";
+// `chat-card-dispatch` is a pure, Foundry-free module (no `foundry.*`/`game.*`);
+// the logic layer may depend on it. The path-based boundary rule can't tell it
+// apart from the Foundry-coupled files under `document/chat/`, so allow this one.
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
 import {
     ResolvedInjury,
@@ -357,8 +361,8 @@ export class BeingLogic<
      * location and damage. If armor or other defenses are unable to fully mitigate the impact,
      * this will return the resulting damage and location so it can then be used
      * to apply damage to the being's body roles and parts.
-     * @param context - Action context carrying the impact result in its scope.
-     * @param [context.scope.ImpactResult] The ImpactResult representing the result of the attack or effect.
+     * @param context - Action context carrying the impact result in its scope
+     *   (`scope.priorTestResult` / `scope.impactModifier`).
      * @returns The impact result, or null if no impact occurred.
      */
     async calcImpact(
