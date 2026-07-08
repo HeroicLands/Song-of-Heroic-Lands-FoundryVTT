@@ -32,7 +32,7 @@ system.bodyStructure
   └── adjacent: string[][]      // pairs of part shortcodes
 ```
 
-At runtime, the data is rebuilt into domain objects in [src/entity/body/](../../src/entity/body/):
+At runtime, the data is rebuilt into domain objects in `src/entity/body/`:
 
 - `BodyStructure` — the root object; provides hit-location resolution and adjacency queries
 - `BodyPart` — one anatomical division
@@ -138,7 +138,7 @@ When authoring a new lineage, set the literal `name` field and add the correspon
 
 ## Reference: Human lineage
 
-The only lineage shipped today is **Human** ([assets/packs/items/\_source/Human_R0F5737O8cfOraMc.json](../../assets/packs/items/_source/Human_R0F5737O8cfOraMc.json)). Its body structure:
+The only lineage shipped today is **Human** (`assets/packs/items/_source/Human_R0F5737O8cfOraMc.json`). Its body structure:
 
 | Part shortcode | Name      | Roles         | `combatArea` | Can hold |
 | -------------- | --------- | ------------- | -----------: | -------- |

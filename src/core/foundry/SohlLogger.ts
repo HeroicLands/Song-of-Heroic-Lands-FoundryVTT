@@ -78,7 +78,7 @@ export class SohlLogger {
     /**
      * Private to enforce singleton access via {@link getInstance}. Kicks off
      * asynchronous source-map loading on first construction.
-     * @param threshold The initial log threshold; defaults to `INFO`.
+     * @param threshold - The initial log threshold; defaults to `INFO`.
      * @internal
      */
     private constructor(threshold: LogLevel = LOGLEVEL.INFO) {
@@ -95,7 +95,7 @@ export class SohlLogger {
     /**
      * Fetch and parse the system's source map so log call sites can be mapped
      * back to original source positions. Failures are logged and ignored.
-     * @param sourceMapUrl URL of the `.js.map` source map to load.
+     * @param sourceMapUrl - URL of the `.js.map` source map to load.
      * @internal
      */
     private static async loadSourceMap(sourceMapUrl: string): Promise<void> {
@@ -115,7 +115,7 @@ export class SohlLogger {
 
     /**
      * Return the shared singleton logger, creating it on first access.
-     * @param threshold The initial threshold used only when first creating the
+     * @param threshold - The initial threshold used only when first creating the
      *   instance; defaults to `INFO`.
      * @returns The {@link SohlLogger} singleton.
      */
@@ -129,7 +129,7 @@ export class SohlLogger {
     /**
      * Set the minimum severity to emit. Invalid levels are rejected with a
      * console warning and leave the current threshold unchanged.
-     * @param level The desired log level (or its string value).
+     * @param level - The desired log level (or its string value).
      */
     setLogThreshold(level: LogLevel | string) {
         if (isLogLevel(level)) {
@@ -150,7 +150,7 @@ export class SohlLogger {
 
     /**
      * Whether a message at `level` passes the current threshold.
-     * @param level The severity to test.
+     * @param level - The severity to test.
      * @returns `true` if the message should be emitted.
      * @internal
      */
@@ -167,9 +167,9 @@ export class SohlLogger {
     /**
      * Map a bundled `(file, line, column)` position to its original source
      * position using the loaded source map.
-     * @param file The bundled file path.
-     * @param line The line number in the bundle.
-     * @param column The column number in the bundle.
+     * @param file - The bundled file path.
+     * @param line - The line number in the bundle.
+     * @param column - The column number in the bundle.
      * @returns The original `{ source, line, column }`, or `null` if no source
      *   map is loaded or the position cannot be mapped.
      * @internal
@@ -256,9 +256,9 @@ export class SohlLogger {
      * prefix, optionally reports an associated error (directly or via
      * `Hooks.onError`), then — if the message passes the threshold and a
      * `notifyLevel` is set — surfaces a Foundry UI notification.
-     * @param message The message key or text (localized and interpolated with
+     * @param message - The message key or text (localized and interpolated with
      *   any extra `options` keys).
-     * @param options Logging options; see `LogOptions`. Defaults to an
+     * @param options - Logging options; see `LogOptions`. Defaults to an
      *   `INFO`-level console-only message.
      */
     log(message: string = "", options: Partial<LogOptions> = {}): void {
@@ -345,8 +345,8 @@ export class SohlLogger {
 
     /**
      * Log a message at `INFO` severity.
-     * @param message The message key or text.
-     * @param data Optional interpolation values.
+     * @param message - The message key or text.
+     * @param data - Optional interpolation values.
      */
     info(message: string, data?: PlainObject): void {
         this.log(message, { ...data, logLevel: LOGLEVEL.INFO });
@@ -354,8 +354,8 @@ export class SohlLogger {
 
     /**
      * Log a message at `WARN` severity.
-     * @param message The message key or text.
-     * @param data Optional interpolation values.
+     * @param message - The message key or text.
+     * @param data - Optional interpolation values.
      */
     warn(message: string, data?: PlainObject): void {
         this.log(message, { ...data, logLevel: LOGLEVEL.WARN });
@@ -363,8 +363,8 @@ export class SohlLogger {
 
     /**
      * Log a message at `ERROR` severity.
-     * @param message The message key or text.
-     * @param data Optional interpolation values.
+     * @param message - The message key or text.
+     * @param data - Optional interpolation values.
      */
     error(message: string, data?: PlainObject): void {
         this.log(message, { ...data, logLevel: LOGLEVEL.ERROR });
@@ -372,8 +372,8 @@ export class SohlLogger {
 
     /**
      * Log a message at `DEBUG` severity.
-     * @param message The message key or text.
-     * @param data Optional interpolation values.
+     * @param message - The message key or text.
+     * @param data - Optional interpolation values.
      */
     debug(message: string, data?: PlainObject): void {
         this.log(message, { ...data, logLevel: LOGLEVEL.DEBUG });
@@ -381,8 +381,8 @@ export class SohlLogger {
 
     /**
      * Log at `INFO` severity and also show an `INFO` Foundry UI notification.
-     * @param message The message key or text.
-     * @param data Optional interpolation values.
+     * @param message - The message key or text.
+     * @param data - Optional interpolation values.
      */
     uiInfo(message: string, data?: PlainObject): void {
         this.log(message, {
@@ -394,8 +394,8 @@ export class SohlLogger {
 
     /**
      * Log at `WARN` severity and also show a `WARN` Foundry UI notification.
-     * @param message The message key or text.
-     * @param data Optional interpolation values.
+     * @param message - The message key or text.
+     * @param data - Optional interpolation values.
      */
     uiWarn(message: string, data?: PlainObject): void {
         this.log(message, {
@@ -406,8 +406,8 @@ export class SohlLogger {
     }
     /**
      * Log at `ERROR` severity and also show an `ERROR` Foundry UI notification.
-     * @param message The message key or text.
-     * @param data Optional interpolation values.
+     * @param message - The message key or text.
+     * @param data - Optional interpolation values.
      */
     uiError(message: string, data?: PlainObject): void {
         this.log(message, {
@@ -418,8 +418,8 @@ export class SohlLogger {
     }
     /**
      * Log at `DEBUG` severity and also request a `DEBUG` UI notification.
-     * @param message The message key or text.
-     * @param data Optional interpolation values.
+     * @param message - The message key or text.
+     * @param data - Optional interpolation values.
      */
     uiDebug(message: string, data?: PlainObject): void {
         this.log(message, {

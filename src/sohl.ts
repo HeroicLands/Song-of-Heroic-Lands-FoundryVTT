@@ -534,12 +534,12 @@ function registerHandlebarsHelpers() {
      * A helper to create a set of &lt;option> elements in a &lt;select> block based on a provided array.
      * This helper supports both single-select as well as multi-select input fields.
      *
-     * @param {object|Array<object>>} choices      An array containing the choices
-     * @param {object} options                     Helper options
-     * @param {string|string[]} [options.selected] Which key is currently selected?
-     * @param {string} [options.blank]             Add a blank option as the first option with this label
-     * @param {boolean} [options.sort]             Sort the options by their label after localization
-     * @returns {Handlebars.SafeString}
+     * @param choices - An array containing the choices
+     * @param options - Helper options
+     * @param options.selected - Which key is currently selected?
+     * @param options.blank - Add a blank option as the first option with this label
+     * @param options.sort - Sort the options by their label after localization
+     * @returns
      * @throws {Error} If `choices` is not an Array.
      *
      * @example The provided input data

@@ -158,7 +158,7 @@ export async function asyncForEach<T>(
  * an ID, but such that the same input string will produce the same output
  * every time.
  *
- * @param {string} str Input string to convert to hash
+ * @param str - Input string to convert to hash
  * @returns Sequence of 16 hexadecimal digits as a string
  */
 export function createHash16(str: string): string {
@@ -229,8 +229,8 @@ export function* combine<T>(...iterators: Iterable<T>[]): Generator<T> {
  * Largely inspired by MurmurHash2/3, but with a focus on speed/simplicity.
  * https://github.com/bryc/code/blob/master/jshash/experimental/cyrb53.js
  *
- * @param str The string to hash.
- * @param seed An optional seed value to initialize the hash.
+ * @param str - The string to hash.
+ * @param seed - An optional seed value to initialize the hash.
  * @returns A 53-bit integer hash of the input string.
  * @example
  * const hash = cyrb53("Hello, world!");
@@ -258,8 +258,8 @@ export function cyrb53(str: string, seed = 0): number {
  * the specified precision, then rounds the value to the specified precision.  If
  * the value has less than or equal to the specified precision, the value is unchanged.
  *
- * @param value Source value to be evaluated
- * @param precision Maximum number of characters after decimal point
+ * @param value - Source value to be evaluated
+ * @param precision - Maximum number of characters after decimal point
  * @returns value rounded to the specified precision
  */
 export function maxPrecision(value: number, precision: number = 0): number {

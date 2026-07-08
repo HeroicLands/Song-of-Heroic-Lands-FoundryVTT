@@ -102,12 +102,12 @@ export class BodyLocation extends SohlEntity {
      * Builds a single armor body location from its persisted data, binding it to
      * its owning body part.
      *
-     * @param data Persisted location data.
-     * @param data.shortcode Unique location identifier within its part.
-     * @param options Options for constructing the body location, including parent and body part references.
-     * @param options.parent The parent logic instance (e.g., {@link SohlActorLogic}) that owns this location.
-     * @param options.bodyPart The owning {@link BodyPart} instance for this location.
-     * @param options.index The zero-based index of this location within its body part's locations array.
+     * @param data - Persisted location data.
+     * @param data.shortcode - Unique location identifier within its part.
+     * @param options - Options for constructing the body location, including parent and body part references.
+     * @param options.parent - The parent logic instance (e.g., {@link SohlActorLogic}) that owns this location.
+     * @param options.bodyPart - The owning {@link BodyPart} instance for this location.
+     * @param options.index - The zero-based index of this location within its body part's locations array.
      * @throws If required fields are missing from `data` or `options`.
      */
     constructor(data: BodyLocation.Data, options: BodyLocation.Options) {

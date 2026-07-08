@@ -135,8 +135,8 @@ from the clicked element's dataset and invokes its `onChatCardButton(btn)` (or
 
 When adding a new button: **emit one of the recognized dataset attributes** (do not
 introduce a new attribute name), and **add an `action` case** to the resolved
-document's handler — e.g. {@link SohlActor.onChatCardButton}, which switches on
-`btn.dataset.action` (today it handles `createInjury`).
+document's handler — e.g. {@link SohlItem.onChatCardButton}, which switches on
+`btn.dataset.action`.
 
 To pass **data** to the action — a result, a request object — do not invent a new
 `data-*-json` attribute; put the whole payload in one `data-scope`. The card-creation

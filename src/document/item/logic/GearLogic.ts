@@ -191,7 +191,7 @@ export abstract class GearLogic<
     /**
      * Assigns the first free hold-capable body part(s) on the owning actor
      * to grip this item. Does nothing if the actor has no lineage or there
-     * are fewer free limbs than {@link minPartsToHold}.
+     * are fewer free limbs than `minPartsToHold`.
      *
      * Intrinsic-action executor for the `holdItem` action.
      *

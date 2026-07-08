@@ -121,7 +121,7 @@ export interface SohlCombatantData extends SohlLogicData<SohlCombatant> {
     /**
      * Turn-start location used to measure spaces moved this turn.
      * Captured at the start of each round and compared to the current
-     * token position to compute {@link SohlCombatantLogic.spacesMoved}.
+     * token position to compute {@link SohlCombatantLogic.spacesMovedThisTurn}.
      */
     startLocation: CombatantStartLocation;
     /** Whether this combatant has acted this turn. */
@@ -382,9 +382,8 @@ export class SohlCombatantLogic<
 
     /**
      * Begin an automated attack — the **single entry point** for combat start.
-     * @param context - Action context (supplies the target, scope, and chat options).
-     * @param context.scope
-     * @param context.scope.mode Strike mode to use (asks if not provided)
+     * @param context - Action context (supplies the target, scope, and chat
+     *   options); `scope.mode` selects the strike mode (asks if not provided).
      * @returns The attack result or `undefined` if cancelled.
      */
     async startAutomatedAttack(
@@ -1438,7 +1437,7 @@ export interface CombatCardData {
  * defender did not contest, so its column is dashed. Each side that lands a
  * blow gets a "Calculate <Token> Injury" button wired to the `createInjury`
  * action (assisted). Counterstrike can land both sides at once.
- * @param combatResult The resolved combat exchange.
+ * @param combatResult - The resolved combat exchange.
  * @returns The render context for `attack-result-card.hbs`.
  * @throws {Error} If `combatResult.attackResult` is missing.
  * @throws {Error} If `combatResult.defendResult` is missing.
@@ -1613,8 +1612,8 @@ export function buildCombatCardData(
  * …) to roll against the right skill. Returns `null` when the actor has no skill
  * with that shortcode.
  *
- * @param actorLogic The actor's logic, whose skill is resolved via `getItemLogic`.
- * @param shortcode The skill's `system.shortcode` (e.g. `"dge"`).
+ * @param actorLogic - The actor's logic, whose skill is resolved via `getItemLogic`.
+ * @param shortcode - The skill's `system.shortcode` (e.g. `"dge"`).
  * @returns The skill's mastery-level modifier, or `null` if no skill matches.
  */
 export function resolveSkillMasteryLevel(
@@ -1779,7 +1778,7 @@ export interface DamageCardTarget {
     actorUuid: string;
 }
 
-/** Inputs for {@link buildDamageCardData}. */
+/** Inputs for building a damage chat card (`buildDamageCardData`). */
 export interface DamageCardInput {
     /** Card title, e.g. "Broadsword – Cut". */
     title: string;
@@ -1928,7 +1927,7 @@ export function collectBlockableStrikeModes(
 /**
  * Build the assisted-injury button payload for a landing side, or `null` when
  * the side did not land (no `ImpactResult`) or has no target. Mirrors
- * {@link buildDamageCardData}: the `createInjury` handler opens the Add Injury
+ * the damage-card builder: the `createInjury` handler opens the Add Injury
  * dialog from `{ impact, aspect }` (no aim forwarded yet → assisted, not
  * automated).
  * @param impactResult - The landing side's impact result, or `undefined` if it missed.

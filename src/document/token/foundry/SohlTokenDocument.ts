@@ -174,7 +174,7 @@ export class SohlTokenDocument extends TokenDocument {
      * @param sourceToken - The source token.
      * @param targetToken - The target token.
      * @param gridUnits - Whether to return in grid units; defaults to false.
-     * @returns {number|undefined} The distance, or `undefined` if not calculable.
+     * @returns The distance, or `undefined` if not calculable.
      */
     static rangeToTarget(
         sourceToken: SohlTokenDocument,
