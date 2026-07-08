@@ -17,6 +17,7 @@ import { MOVEMENT_MEDIUM, movementMediumLabels } from "@src/utils/constants";
 
 /** @internal */
 export class LineageSheet extends SohlItemSheetBase {
+    /** @inheritDoc */
     static override PARTS = {
         ...super.PARTS,
         properties: {

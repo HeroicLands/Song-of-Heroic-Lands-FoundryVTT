@@ -89,11 +89,13 @@ export class TraitDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements TraitData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.Trait",
         "SOHL.MasteryLevel",
         "SOHL.Item",
     ];
+    /** @inheritDoc */
     static override readonly kind = ITEM_KIND.TRAIT;
     subType!: TraitSubType;
     isNumeric!: boolean;

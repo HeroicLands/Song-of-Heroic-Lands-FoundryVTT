@@ -15,6 +15,7 @@ import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBa
 
 /** @internal */
 export class VehicleSheet extends SohlActorSheetBase {
+    /** @inheritDoc */
     static override DEFAULT_OPTIONS: PlainObject = {
         id: "vehicle-sheet",
         tag: "form",
@@ -32,6 +33,7 @@ export class VehicleSheet extends SohlActorSheetBase {
         effects: { template: "systems/sohl/templates/actor/parts/effects.hbs" },
     } as const;
 
+    /** @inheritDoc */
     static override TABS = {
         primary: {
             initial: "facade",

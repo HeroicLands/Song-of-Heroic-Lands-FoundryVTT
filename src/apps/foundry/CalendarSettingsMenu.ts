@@ -30,6 +30,7 @@ const CalendarSettingsMenu_Base: any =
  * @internal Foundry settings-menu UI binding; not part of the public API.
  */
 export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof foundry.applications.api.ApplicationV2) {
+    /** @inheritDoc */
     static override DEFAULT_OPTIONS = {
         id: "sohl-calendar-settings",
         classes: ["sohl", "calendar-settings"],

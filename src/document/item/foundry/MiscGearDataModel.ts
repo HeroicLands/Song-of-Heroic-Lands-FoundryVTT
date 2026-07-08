@@ -39,11 +39,13 @@ export class MiscGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements MiscGearData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.MiscGear",
         "SOHL.Gear",
         "SOHL.Item",
     ];
+    /** @inheritDoc */
     static override readonly kind = ITEM_KIND.MISCGEAR;
 
     /**

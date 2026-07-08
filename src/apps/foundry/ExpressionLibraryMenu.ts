@@ -36,6 +36,7 @@ const ExpressionLibraryMenu_Base: any =
  * @internal Foundry settings-menu UI binding; not part of the public API.
  */
 export class ExpressionLibraryMenu extends (ExpressionLibraryMenu_Base as typeof foundry.applications.api.ApplicationV2) {
+    /** @inheritDoc */
     static override DEFAULT_OPTIONS = {
         id: "sohl-expression-library",
         classes: ["sohl", "expression-library"],

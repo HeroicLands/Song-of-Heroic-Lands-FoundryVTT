@@ -343,6 +343,7 @@ export namespace SohlDataModel {
         TBase extends foundry.applications.api.DocumentSheetV2.AnyConstructor,
     >(Base: TBase): TBase {
         return class SMix extends HandlebarsApplicationMixin(Base) {
+            /** @inheritDoc */
             static override DEFAULT_OPTIONS: PlainObject = {
                 classes: ["sohl"],
                 // Persist field edits: DocumentSheetV2 submits (updating the

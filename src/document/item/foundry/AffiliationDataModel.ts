@@ -55,10 +55,12 @@ export class AffiliationDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements AffiliationData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.Affiliation",
         "SOHL.Item",
     ];
+    /** @inheritDoc */
     static override readonly kind = ITEM_KIND.AFFILIATION;
     society!: string;
     office!: string;

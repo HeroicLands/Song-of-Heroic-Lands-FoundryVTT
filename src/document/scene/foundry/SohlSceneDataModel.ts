@@ -44,6 +44,7 @@ export class SohlSceneDataModel<
     TSchema,
     SohlScene & foundry.abstract.Document.Any
 > {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Scene"];
     static readonly kind = "sohlscenedata";
 

@@ -82,10 +82,12 @@ export class AfflictionDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements AfflictionData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.Affliction",
         "SOHL.Item",
     ];
+    /** @inheritDoc */
     static override readonly kind = ITEM_KIND.AFFLICTION;
     subType!: AfflictionSubType;
     category!: string;
