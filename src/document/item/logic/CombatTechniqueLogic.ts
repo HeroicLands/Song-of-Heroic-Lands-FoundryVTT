@@ -11,10 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
 import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
-import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
+import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import {
     ACTION_SUBTYPE,
     ITEM_KIND,
@@ -68,8 +69,12 @@ export class CombatTechniqueLogic<
         const d = this.data.strikeMode;
         this.strikeMode =
             d.type === STRIKE_MODE_TYPE.MELEE ?
-                new MeleeStrikeMode(d as MeleeStrikeMode.Data, this, this.id)
-            :   new MissileStrikeMode(
+                new entity.MeleeStrikeMode(
+                    d as MeleeStrikeMode.Data,
+                    this,
+                    this.id,
+                )
+            :   new entity.MissileStrikeMode(
                     d as MissileStrikeMode.Data,
                     this,
                     this.id,

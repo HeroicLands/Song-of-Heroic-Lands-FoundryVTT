@@ -71,6 +71,38 @@ const FOUNDRY_FREE_ZONES = [
     "src/core/logic/SohlSpeaker.ts",
 ];
 
+/**
+ * The registered entity classes (`src/entity/entityRegistry.ts`) — the classes a
+ * variant module may override via `sohl.entity.register(...)`. A bare `new X(...)`
+ * of any of these bypasses the registry and always builds the base class, even
+ * after an override is registered, so it is banned (issue #83): inside SoHL
+ * construct through `new entity.X(...)` (`import { entity }` from
+ * `@src/entity/registry`, or the cycle-free leaf `@src/entity/entityRegistry` for
+ * a base class); outside SoHL use `new sohl.entity.X(...)`. Keep this list in sync
+ * with the registry membership in `src/entity/entityRegistry.ts`.
+ */
+const REGISTERED_ENTITY_CLASSES = [
+    "ValueModifier",
+    "ValueDelta",
+    "CombatModifier",
+    "ImpactModifier",
+    "MasteryLevelModifier",
+    "TestResult",
+    "SuccessTestResult",
+    "OpposedTestResult",
+    "ImpactResult",
+    "AttackResult",
+    "DefendResult",
+    "CombatResult",
+    "StrikeModeBase",
+    "MeleeStrikeMode",
+    "MissileStrikeMode",
+    "SohlAction",
+    "BodyStructure",
+    "BodyPart",
+    "BodyLocation",
+];
+
 export default [
     {
         ignores: ["build/**", "node_modules/**", "docs/**", "nogit/**"],
@@ -150,6 +182,27 @@ export default [
             "jsdoc/require-description": "off",
             "jsdoc/require-param": "off",
             "jsdoc/require-returns": "off",
+        },
+    },
+    {
+        // Construction-indirection rule (issue #83): a registered entity class
+        // must never be built with a bare `new` — that bypasses the registry and
+        // ignores any override. Only `src/` production code is constrained; tests
+        // construct the concrete classes directly to exercise them. The selector
+        // matches an `Identifier` callee only, so the blessed member-expression
+        // forms `new entity.X(...)` and `new sohl.entity.X(...)` pass.
+        files: ["src/**/*.ts"],
+        rules: {
+            "no-restricted-syntax": [
+                "error",
+                {
+                    selector: `NewExpression[callee.type='Identifier'][callee.name=/^(${REGISTERED_ENTITY_CLASSES.join(
+                        "|",
+                    )})$/]`,
+                    message:
+                        'Do not bare-`new` a registered entity class: it bypasses the entity registry and ignores overrides. Inside SoHL use `new entity.X(...)` (import { entity } from "@src/entity/registry", or "@src/entity/entityRegistry" for a base class); outside SoHL use `new sohl.entity.X(...)`. See docs/reference/runtime-contracts.md (Entity class registry).',
+                },
+            ],
         },
     },
     {

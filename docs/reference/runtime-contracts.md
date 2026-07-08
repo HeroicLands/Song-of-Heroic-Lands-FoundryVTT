@@ -174,6 +174,41 @@ Domain entities — results (`SuccessTestResult`, `AttackResult`, …), modifier
 - **Cloning is explicit.** `entity.clone(parent)` deep-copies and re-parents; there is no implicit "reuse my parent". Use `entity.clone(entity.parent)` for a same-owner copy; cloning without a resolvable parent throws (a `SohlEntity` must have one).
 - **A Logic is a reference, not a payload.** `SohlLogic.toJSON` emits a compact `{ uuid, name, kind }` reference. A logic wraps a live Foundry document and is re-resolved by uuid (`fvttLogicFromUuidSync`), never revived from its own JSON — which is why an entity's owning `parent` is supplied on revival rather than serialized.
 
+## Entity class registry
+
+Primary files: `src/entity/entityRegistry.ts` (the registry), `src/entity/registry.ts` (the eager-load barrel).
+
+The curated set of constructable entity-layer classes — modifiers (`ValueModifier`, `ValueDelta`, `CombatModifier`, `ImpactModifier`, `MasteryLevelModifier`), results (`TestResult`, `SuccessTestResult`, `OpposedTestResult`, `ImpactResult`, `AttackResult`, `DefendResult`, `CombatResult`), strike modes (`StrikeModeBase`, `MeleeStrikeMode`, `MissileStrikeMode`), `SohlAction`, and body modeling (`BodyStructure`, `BodyPart`, `BodyLocation`) — is **overridable**. A variant module can subclass any of them and swap in its subclass, and every construction across the system then produces the subclass.
+
+Overridability is **all-or-nothing on construction discipline**: a class is overridable only where _every_ construction site resolves it through the registry rather than a bare `new`. A single stray `new SuccessTestResult(...)` would silently produce the base class even after a module registered an override, so the discipline is enforced by an ESLint rule (below), not left to convention.
+
+### The registry surface
+
+The `entity` surface is a frozen, getter-backed view over a module-private backing record, exposed the same way inside and outside SoHL:
+
+- `entity.<ClassName>` — a getter returning the **currently-registered** class (the override if one was registered, else the canonical SoHL base). Because it is a getter, every access and every construction site routed through it picks up a later override automatically.
+- `entity.register(name, cls)` — install an override. `cls` must extend (or be) the canonical base for `name`; the call throws on an unknown name, a class that does not extend the base, or a canonical base that has not yet loaded. Call it from a module's `init`/`setup` hook, **before the first construction** of that class.
+- `entity.base(name)` — the canonical SoHL base for `name`, ignoring any override. Useful for a module that wants to `extends entity.base("SuccessTestResult")` rather than whatever is currently registered.
+
+`register`/`base` are non-enumerable, so `Object.keys(entity)` lists only class names.
+
+Classes populate the registry by **self-registration**: each class module calls `registerEntity("MyClass", MyClass)` at the bottom (mirroring `registerKind` for serialization). The backing leaf `entityRegistry.ts` value-imports **none** of the classes — it only `import type`s them for the surface's types — which is what keeps it free of load cycles. The first registration for a name is captured as the canonical base; `register` overrides only the _current_ binding.
+
+### The two construction mechanisms
+
+Which one to use depends on _whether you are inside or outside SoHL_:
+
+1. **Inside SoHL** — `import { entity } from "@src/entity/registry"` (or, for the few base classes below, from the leaf `@src/entity/entityRegistry`), then `new entity.X(...)`. A static import, so it resolves purely through the module graph — no reliance on any runtime global, which is what lets unit tests construct these classes with no `sohl.entity` wired.
+2. **Outside SoHL** (macros, variant modules) — the same surface is published on the runtime global as `sohl.entity`. Construct with `new sohl.entity.X(...)`, subclass with `class Y extends sohl.entity.X {}`, and override with `sohl.entity.register(...)`.
+
+Both mechanisms read the identical backing record, so an override registered via `sohl.entity.register` is honored no matter which one constructs the object.
+
+**The barrel vs. the leaf.** `registry.ts` is an _eager-load barrel_: its side-effect imports pull in every class module so all self-register, and it re-exports the surface. Most internal code imports `entity` from the barrel. But a class that is _itself the base of a registered class_ cannot import the barrel — the barrel eagerly imports that class's own subclasses, so a re-entrant load would evaluate `class Sub extends Base` while `Base` is still mid-load → `TypeError: Class extends value undefined`. Those base classes (`ValueModifier`, `MasteryLevelModifier`, `SuccessTestResult`, `OpposedTestResult`, `StrikeModeBase`) import `entity` from the **cycle-free leaf** `entityRegistry.ts` instead, and add a bare side-effect `import` of each class they construct so those targets self-register even when the barrel has not been loaded (e.g. in a bare unit test). Each carries a header block explaining this.
+
+### Enforcement
+
+An ESLint `no-restricted-syntax` rule (scoped to `src/**/*.ts` in `eslint.config.js`) flags a bare `new X(...)` for any registered class name and steers to `new entity.X` / `new sohl.entity.X`. Member-expression callees (`entity.X`, `sohl.entity.X`) are not matched, so the two blessed forms pass. Tests are exempt — they construct the concrete classes directly to exercise them.
+
 ## Chat-card dispatch contract
 
 Chat-card buttons (inside `.card-buttons`) and `a.edit-action` links are routed by the `renderChatMessageHTML` hook in `src/sohl.ts`. The handler document is resolved from the clicked element's dataset by `resolveChatCardHandlerUuid(dataset)` (`src/document/chat/chat-card-dispatch.ts`), which normalizes the differing attribute conventions across cards with this precedence:

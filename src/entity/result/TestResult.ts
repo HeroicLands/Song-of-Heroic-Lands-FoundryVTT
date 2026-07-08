@@ -12,6 +12,7 @@
  */
 
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
+import { registerEntity } from "@src/entity/entityRegistry";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import { SohlEntity } from "../SohlEntity";
 
@@ -146,3 +147,4 @@ export namespace TestResult {
     /** Options common to every {@link TestResult}. */
     export interface Options extends SohlEntity.Options {}
 }
+registerEntity("TestResult", TestResult);

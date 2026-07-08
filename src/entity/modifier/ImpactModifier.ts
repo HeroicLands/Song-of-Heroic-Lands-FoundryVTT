@@ -12,6 +12,7 @@
  */
 
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { registerEntity } from "@src/entity/entityRegistry";
 import { registerKind } from "@src/utils/kindRegistry";
 import {
     IMPACT_ASPECT,
@@ -196,3 +197,4 @@ export namespace ImpactModifier {
 }
 
 registerKind(ImpactModifier.Kind, ImpactModifier);
+registerEntity("ImpactModifier", ImpactModifier);

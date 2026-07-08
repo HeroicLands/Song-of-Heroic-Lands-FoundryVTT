@@ -11,12 +11,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
+import { registerEntity } from "@src/entity/entityRegistry";
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
-import { BodyLocation } from "@src/entity/body/BodyLocation";
+import type { BodyLocation } from "@src/entity/body/BodyLocation";
 import { weightedRandom } from "@src/entity/body/weighted-random";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { BODY_ROLE, isA, ITEM_KIND } from "@src/utils/constants";
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { SohlEntity } from "../SohlEntity";
 
 /**
@@ -99,7 +101,7 @@ export class BodyPart extends SohlEntity {
                     | SohlItem
                     | undefined) ?? undefined)
             :   undefined;
-        this.probWeight = new ValueModifier(
+        this.probWeight = new entity.ValueModifier(
             {},
             { parent: this.parent },
         ).setBase(data.probWeight);
@@ -107,7 +109,7 @@ export class BodyPart extends SohlEntity {
         this.bodyStructure = options.bodyStructure;
         this.locations = data.locations.map(
             (d, i) =>
-                new BodyLocation(d, {
+                new entity.BodyLocation(d, {
                     parent: this.parent,
                     bodyPart: this,
                     index: i,
@@ -226,3 +228,4 @@ export namespace BodyPart {
         index: number;
     }
 }
+registerEntity("BodyPart", BodyPart);

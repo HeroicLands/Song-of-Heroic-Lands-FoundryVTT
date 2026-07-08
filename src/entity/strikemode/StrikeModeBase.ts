@@ -12,6 +12,7 @@
  */
 
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
+import { entity, registerEntity } from "@src/entity/entityRegistry";
 import {
     IMPACT_ASPECT,
     ImpactAspects,
@@ -21,9 +22,14 @@ import {
     type StrikeModeType,
     ImpactAspectChoices,
 } from "@src/utils/constants";
-import { CombatModifier } from "@src/entity/modifier/CombatModifier";
-import { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
-import { ValueModifier } from "../modifier/ValueModifier";
+import type { CombatModifier } from "@src/entity/modifier/CombatModifier";
+import type { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
+import type { ValueModifier } from "../modifier/ValueModifier";
+// Side-effect imports so the modifier classes self-register — this base class
+// reaches the registry by import, not the runtime global (see header note).
+import "@src/entity/modifier/ValueModifier";
+import "@src/entity/modifier/CombatModifier";
+import "@src/entity/modifier/ImpactModifier";
 import {
     fvttActiveCombatantForActor,
     fvttLogicFromUuid,
@@ -34,6 +40,24 @@ import { CombatTechniqueLogic } from "@src/document/item/logic/CombatTechniqueLo
 import { AutomatedCombat } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { SohlActionContext } from "../action/SohlActionContext";
 import { SohlEntity } from "../SohlEntity";
+
+/*
+ * ── Construction indirection: base class (#83) ───────────────────────────────
+ * Registered entity classes are constructed through the registry so a variant
+ * module can override them:
+ *   - Inside SoHL:            `import { entity }` then `new entity.X(...)`
+ *   - Outside SoHL (macros):  `new sohl.entity.X(...)`
+ *
+ * StrikeModeBase is a BASE class of other registered classes (MeleeStrikeMode,
+ * MissileStrikeMode), so it imports the registry from the cycle-free leaf
+ * `@src/entity/entityRegistry` (never the `registry.ts` barrel, which eagerly
+ * loads the subclass tree and would evaluate `class MeleeStrikeMode extends
+ * StrikeModeBase` mid-load → `TypeError: Class extends value undefined`). The
+ * bare side-effect imports above guarantee the modifier classes self-register so
+ * `entity.ValueModifier` etc. resolve even in a bare unit test. See the "Entity
+ * class registry" section of docs/reference/runtime-contracts.md.
+ * ────────────────────────────────────────────────────────────────────────────
+ */
 
 /**
  * Base class for all strike modes — a specific way a weapon or combat
@@ -92,10 +116,11 @@ export abstract class StrikeModeBase extends SohlEntity {
         this.name = data.name;
         this.minParts = data.minParts;
         this.assocSkillCode = data.assocSkillCode;
-        this.spread = new ValueModifier({}, { parent: parentLogic }).setBase(
-            data.attack.spread ?? 0,
-        );
-        this.attack = new CombatModifier({}, { parent: parentLogic });
+        this.spread = new entity.ValueModifier(
+            {},
+            { parent: parentLogic },
+        ).setBase(data.attack.spread ?? 0);
+        this.attack = new entity.CombatModifier({}, { parent: parentLogic });
         if (data.attack.modifier) {
             this.attack.add("Attack Modifier", "AtkMod", data.attack.modifier);
         }
@@ -103,7 +128,7 @@ export abstract class StrikeModeBase extends SohlEntity {
             this.attack.disabledReason =
                 "This strike mode cannot be used for attacking.";
         }
-        this.impact = new ImpactModifier(
+        this.impact = new entity.ImpactModifier(
             {
                 roll: {
                     numDice: data.impactBase.numDice,
@@ -352,3 +377,4 @@ export namespace StrikeModeBase {
         traits: PlainObject;
     }
 }
+registerEntity("StrikeModeBase", StrikeModeBase);

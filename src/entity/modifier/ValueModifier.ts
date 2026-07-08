@@ -12,13 +12,17 @@
  */
 
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
+import { entity, registerEntity } from "@src/entity/entityRegistry";
 import {
     maxPrecision,
     cloneInstance,
     defaultToJSON,
     escapeHTML,
 } from "@src/utils/helpers";
-import { ValueDelta } from "@src/entity/modifier/ValueDelta";
+import type { ValueDelta } from "@src/entity/modifier/ValueDelta";
+// Side-effect import so ValueDelta self-registers — this base class reaches the
+// registry by import, not the runtime global (see header note).
+import "@src/entity/modifier/ValueDelta";
 import { registerKind } from "@src/utils/kindRegistry";
 import {
     SYMBOL,
@@ -31,6 +35,24 @@ import {
     isValueDeltaOperator,
 } from "@src/utils/constants";
 import { SohlEntity } from "../SohlEntity";
+
+/*
+ * ── Construction indirection: base class (#83) ───────────────────────────────
+ * Registered entity classes are constructed through the registry so a variant
+ * module can override them:
+ *   - Inside SoHL:            `import { entity }` then `new entity.X(...)`
+ *   - Outside SoHL (macros):  `new sohl.entity.X(...)`
+ *
+ * ValueModifier is a BASE class of other registered classes (ImpactModifier,
+ * MasteryLevelModifier), so it imports the registry from the cycle-free leaf
+ * `@src/entity/entityRegistry` (never the `registry.ts` barrel, which eagerly
+ * loads the subclass tree and would evaluate a subclass's `extends ValueModifier`
+ * mid-load → `TypeError: Class extends value undefined`). The bare side-effect
+ * import above guarantees ValueDelta self-registers so `entity.ValueDelta`
+ * resolves even in a bare unit test. See the "Entity class registry" section of
+ * docs/reference/runtime-contracts.md.
+ * ────────────────────────────────────────────────────────────────────────────
+ */
 
 /**
  * A tracked numeric value composed of a **base** plus zero or more
@@ -375,7 +397,7 @@ export class ValueModifier extends SohlEntity {
                 if (existingOverride.numValue !== 0) {
                     // If this ValueModifier is being overriden, throw out all other modifications
                     this.deltas = [
-                        new ValueDelta(
+                        new entity.ValueDelta(
                             { name, shortcode, op, value },
                             { parent: this.parent },
                         ),
@@ -385,7 +407,7 @@ export class ValueModifier extends SohlEntity {
         } else {
             this.deltas = this.deltas.filter((m) => m.shortcode !== shortcode);
             this.deltas.push(
-                new ValueDelta(
+                new entity.ValueDelta(
                     { name, shortcode, op, value },
                     { parent: this.parent },
                 ),
@@ -714,3 +736,4 @@ export namespace ValueModifier {
 }
 
 registerKind(ValueModifier.Kind, ValueModifier);
+registerEntity("ValueModifier", ValueModifier);
