@@ -724,6 +724,9 @@ export function hashToId(input: string): string {
  * @param ctx - Reconstruction context.
  * @param ctx.parent - The owning logic for any revived registered instances.
  * @returns The revived value.
+ * @throws Error when reviving a `ClientDocument` reference if no UUID resolver
+ *   has been registered (via `setUuidResolver` — the `FoundryHelpers` shim
+ *   registers one at load, so this indicates the shim was not initialized).
  */
 export function defaultFromJSON(
     value: unknown,
@@ -851,6 +854,10 @@ export function instanceFromJSON<T>(
  * @param dataset - The clicked element's `dataset`.
  * @param parent - The owning logic supplied to revived registered instances.
  * @returns The revived `data-scope` payload (empty object when absent).
+ * @throws Error if `data-scope` contains a legacy `__func__:` code marker —
+ *   rejected outright as defense-in-depth on this untrusted cross-client path
+ *   (see the Security Model). May also propagate a `JSON.parse` error for a
+ *   malformed blob.
  */
 export function buildActionScope(
     dataset: DOMStringMap,

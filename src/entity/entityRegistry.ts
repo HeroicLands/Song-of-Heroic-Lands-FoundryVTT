@@ -56,28 +56,48 @@ import type { BodyLocation } from "@src/entity/body/BodyLocation";
  * class constructor itself (`typeof ClassName`), so `new sohl.entity.X(...)` and
  * `class Y extends sohl.entity.X {}` both type-check. Hand-declared (rather than
  * `typeof someObjectLiteral`) because the backing is populated dynamically by
- * self-registration, not a literal — keep it in sync with {@link ENTITY_NAMES}
- * and the `registerEntity` call in each class module.
+ * self-registration, not a literal — keep it in sync with the `ENTITY_NAMES`
+ * list and the `registerEntity` call in each class module. Each property is the
+ * class **constructor** (`typeof X`), not an instance.
  */
 export interface SohlEntityRegistry {
+    /** Auditable base-plus-ordered-deltas value tracker. See {@link ValueModifier}. */
     ValueModifier: typeof ValueModifier;
+    /** One operator-tagged delta applied by a {@link ValueModifier}. See {@link ValueDelta}. */
     ValueDelta: typeof ValueDelta;
+    /** Combat-tagged mastery-level modifier (attack/defense tests). See {@link CombatModifier}. */
     CombatModifier: typeof CombatModifier;
+    /** Damage/impact modifier — dice plus aspect. See {@link ImpactModifier}. */
     ImpactModifier: typeof ImpactModifier;
+    /** {@link ValueModifier} specialized for d100 roll-under mastery tests. See {@link MasteryLevelModifier}. */
     MasteryLevelModifier: typeof MasteryLevelModifier;
+    /** Abstract base for test/combat resolution outcomes. See {@link TestResult}. */
     TestResult: typeof TestResult;
+    /** Single d100 roll-under mastery test outcome. See {@link SuccessTestResult}. */
     SuccessTestResult: typeof SuccessTestResult;
+    /** Two success tests compared to determine a winner. See {@link OpposedTestResult}. */
     OpposedTestResult: typeof OpposedTestResult;
+    /** Resolved impact/damage outcome. See {@link ImpactResult}. */
     ImpactResult: typeof ImpactResult;
+    /** The attacker's side of a combat exchange. See {@link AttackResult}. */
     AttackResult: typeof AttackResult;
+    /** The defender's side of a combat exchange. See {@link DefendResult}. */
     DefendResult: typeof DefendResult;
+    /** Full attack-vs-defense exchange outcome. See {@link CombatResult}. */
     CombatResult: typeof CombatResult;
+    /** Abstract base for a weapon/technique's mode of use in combat. See {@link StrikeModeBase}. */
     StrikeModeBase: typeof StrikeModeBase;
+    /** A melee strike mode. See {@link MeleeStrikeMode}. */
     MeleeStrikeMode: typeof MeleeStrikeMode;
+    /** A missile (ranged) strike mode. See {@link MissileStrikeMode}. */
     MissileStrikeMode: typeof MissileStrikeMode;
+    /** Executable action — a context-menu entry / chat-card button. See {@link SohlAction}. */
     SohlAction: typeof SohlAction;
+    /** Root anatomy: parts, adjacency, and hit-location resolution. See {@link BodyStructure}. */
     BodyStructure: typeof BodyStructure;
+    /** One anatomical division (head, torso, a limb). See {@link BodyPart}. */
     BodyPart: typeof BodyPart;
+    /** One hit location within a {@link BodyPart}. See {@link BodyLocation}. */
     BodyLocation: typeof BodyLocation;
 }
 

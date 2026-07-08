@@ -126,9 +126,11 @@ export class SohlSystem {
     }
 
     /**
-     * Remove a calendar registration. Throws if the calendar is builtin.
+     * Remove a calendar registration. A no-op if `id` is not registered.
      *
      * @param id - The identifier of the calendar to remove.
+     * @throws Error if `id` names a **built-in** calendar — built-ins cannot be
+     *   deleted, only imported calendars can.
      */
     static unregisterCalendar(id: string): void {
         const cal = this._calendars.get(id);
@@ -162,6 +164,8 @@ export class SohlSystem {
      * during the `init` hook before game.time exists.
      *
      * @param id - The identifier of the registered calendar to apply.
+     * @throws Error if no calendar is registered under `id` (the message lists
+     *   the available ids).
      */
     static applyCalendar(id: string): void {
         const cal = this._calendars.get(id);
