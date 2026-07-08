@@ -16,26 +16,45 @@ import { KIND_KEY, isA } from "@src/utils/constants";
 import { cloneInstance } from "@src/utils/helpers";
 
 /**
- * Base class for all SoHL domain entities (results, modifiers, rolls). Provides
- * a `kind` property for serialization and deserialization via
- * {@link defaultToJSON} / {@link defaultFromJSON}.
+ * Abstract base class for all SoHL domain entities — test/combat results
+ * ({@link SuccessTestResult}, {@link AttackResult}, …), modifiers
+ * ({@link ValueModifier}, …), strike modes, and dice. It establishes the shapes
+ * and machinery every entity shares: a constructor-input
+ * {@link SohlEntity.Data | Data} bag, an {@link SohlEntity.Options | Options} bag
+ * carrying the owning `parent`, the `kind` discriminator, and the `toJSON` /
+ * {@link clone} round-trip used by {@link defaultToJSON} / {@link defaultFromJSON}.
  *
- * Subclasses must override the static `Kind` property with a unique string.
+ * Two invariants every subclass inherits:
+ *
+ * - **The `parent` Logic is required and transient.** The constructor throws
+ *   without `options.parent`; `parent` is never serialized (it is not emitted by
+ *   {@link toJSON}) and is re-supplied on revival. This is the "reference on the
+ *   wire, live object in memory" rule — see the Entity serialization contract in
+ *   the Runtime Contracts reference.
+ * - **`Kind` identifies the concrete class for revival.** Each subclass
+ *   overrides the static {@link SohlEntity.Kind | Kind} with a unique string and
+ *   self-registers it (`registerKind(X.Kind, X)`); without that,
+ *   {@link defaultFromJSON} leaves the serialized form as inert data instead of
+ *   reviving the concrete class.
  */
 export abstract class SohlEntity {
     /** The Logic that owns this entity. */
     private _parent: SohlLogic<any>;
 
     /**
-     * The "kind" tag used to serialize this class to JSON. Subclasses must
-     * override this with a unique string.
+     * The serialization discriminator for this instance — the concrete class's
+     * static {@link SohlEntity.Kind | Kind}. Written into the JSON by
+     * {@link toJSON} under the kind key and read back by {@link defaultFromJSON}
+     * to select the constructor. Derived from the class, never stored per-instance.
      */
     get kind(): string {
         return (this.constructor as typeof SohlEntity).Kind;
     }
 
     /**
-     * The Logic that owns this entity.
+     * The Logic that owns this entity. Always present (the constructor rejects a
+     * missing parent) and transient — it is not serialized and is re-supplied
+     * when the entity is revived or {@link clone | cloned}.
      */
     get parent(): SohlLogic<any> {
         return this._parent;
@@ -45,11 +64,14 @@ export abstract class SohlEntity {
      * Serialize this instance to a plain object suitable for JSON serialization.
      *
      * @remarks
-     * Subclasses should override this method. This method should generate an
-     * object consistent with the `Data` interface of the subclass, which represents
-     * the serializable state of the instance.
+     * The base emits only the {@link kind} tag. A subclass that adds state
+     * overrides this, chaining `...super.toJSON()`, and emits keys matching its
+     * own `Data` interface in **persisted** form (a uuid/shortcode where the live
+     * object holds a resolved reference). The governing rule: `toJSON()` output
+     * must be valid `data` for the constructor. The transient {@link parent} is
+     * deliberately **not** emitted — it is re-supplied on revival.
      * @returns A plain object representing this instance, consistent with the
-     * `Data` interface of the subclass.
+     *   `Data` interface of the subclass.
      */
     toJSON(): PlainObject {
         const result: PlainObject = {
@@ -100,9 +122,15 @@ export abstract class SohlEntity {
     }
 
     /**
-     * Construct a new SohlEntity instance. Subclasses should call `super(data, options)` in their constructors.
-     * @param data - The data to initialize the instance with.
-     * @param options - Optional options, including a `parent` reference.
+     * Construct a new SohlEntity instance. Subclasses call `super(data, options)`
+     * first, then rehydrate their own fields from `data`.
+     * @param data - Persisted state for the instance; every field is optional and
+     *   defaulted (the base reads none of it — the `kind` tag is derived, not
+     *   supplied). Subclasses interpret it per their own `Data` interface.
+     * @param options - Construction options; `options.parent` (the owning Logic)
+     *   is **required**.
+     * @throws Error if `options.parent` is missing — every entity must have an
+     *   owning Logic.
      */
     constructor(
         data: Partial<SohlEntity.Data> = {},
@@ -123,10 +151,25 @@ export namespace SohlEntity {
      */
     export const Kind: string = "SohlEntity";
 
+    /**
+     * Construction/revival options shared by every {@link SohlEntity}, and the
+     * base each subclass's own `Options` extends. Carries the transient owning
+     * Logic — supplied at construction and again on revival, never serialized.
+     */
     export interface Options {
+        /**
+         * The Logic that owns the entity. Required (the constructor throws
+         * without it) and transient — held in memory, never written to JSON.
+         */
         parent: SohlLogic<any>;
     }
 
+    /**
+     * The serialized shape shared by every {@link SohlEntity}, and the base each
+     * subclass's own `Data` extends. An entity's `toJSON()` output is valid
+     * `Data` for its constructor, so `new Ctor(x.toJSON(), { parent })`
+     * reconstructs `x`.
+     */
     export interface Data {
         /**
          * Discriminator kind, written on serialization ({@link SohlEntity.toJSON})
