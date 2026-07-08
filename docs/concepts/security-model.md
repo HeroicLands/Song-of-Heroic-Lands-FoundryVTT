@@ -39,6 +39,22 @@ not untrusted _code_.** A malicious module author already runs code; our job is
 to ensure that _data_ — a chat flag, an effect field, a serialized payload —
 can never _become_ code or script on someone else's machine.
 
+## The guardrails at a glance
+
+Six standing rules follow, in priority order. **The first — _reference code,
+never compile it from data_ — is the keystone**: it was the top finding of the
+security review, and holding it is what makes the rest tractable. Each rule links
+to its full statement below and to where the contract is specified/enforced.
+
+| #     | Guardrail                                                                                         | The rule in one line                                                                                                                        | Specified / enforced in                                                                                                                                                                       |
+| ----- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **1** | [Reference code, never compile it](#the-core-principle-reference-code-never-compile-it-from-data) | Data carries a _reference_ (`__kind`, an intrinsic **method name**, or a **Macro UUID**) — never source; **functions are never serialized** | [Entity serialization contract](../reference/runtime-contracts.md#entity-serialization-contract) · [Expressions](./expressions.md) · [Macros and Actions](./macros-and-actions.md)            |
+| 2     | [Safe serialization](#guardrail-safe-serialization)                                               | `defaultFromJSON` revives no code and `defaultToJSON` emits no function; revived `__kind` data is untrusted constructor input               | [Entity serialization contract](../reference/runtime-contracts.md#entity-serialization-contract)                                                                                              |
+| 3     | [HTML rendering / XSS](#guardrail-html-rendering--xss)                                            | Escaped data binding + an allowlist sanitizer; never interpolate data into template _source_                                                | [Chat-card dispatch contract](../reference/runtime-contracts.md#chat-card-dispatch-contract)                                                                                                  |
+| 4     | [Cross-client authorization](#guardrail-cross-client-authorization)                               | Client-side gating is UX; the real boundary is document ownership — at _write_ time and at chat-card dispatch                               | [Chat-card dispatch → Authorization](../reference/runtime-contracts.md#authorization-the-handler-documents-owner-acts) · [Actor state sovereignty](./architecture.md#actor-state-sovereignty) |
+| 5     | [No unbounded regex (ReDoS)](#guardrail-no-unbounded-regex-on-data-redos)                         | Remove quantifier ambiguity; a length cap is not a ReDoS guard                                                                              | —                                                                                                                                                                                             |
+| 6     | [Red-flag checklist](#red-flag-checklist-for-reviewers-and-ai-agents)                             | The grep-able patterns that block a PR until proven safe                                                                                    | —                                                                                                                                                                                             |
+
 ## The core principle: reference code, never compile it from data
 
 **Never turn data into executable code.** No `eval`, no `new Function`, no
@@ -61,6 +77,17 @@ is re-derived locally on the receiving client from that kind and data.
 An attacker can put any value in a reference slot, but the worst they can do is
 _select_ something the system already ships — they can never _introduce_ new
 code. This makes the dangerous state unrepresentable rather than merely screened.
+
+**Where this is enforced.** The JSON round-trip that drops functions on the way
+out and revives no code on the way in is the
+[Entity serialization contract](../reference/runtime-contracts.md#entity-serialization-contract);
+the action executor model — an intrinsic **method name** or a **Macro UUID**,
+never a code body — is {@link SohlAction} and
+[Macros and Actions](./macros-and-actions.md); the class registry is
+`src/utils/kindRegistry.ts`; and the only string→value path permitted on
+untrusted data is the AST-allowlist {@link SafeExpression}. There is deliberately
+**no** function-id/`__funcref__` registry: nothing that needs to survive a
+round-trip is a function, so none is serialized at all.
 
 ### Why not a sandbox / denylist?
 
