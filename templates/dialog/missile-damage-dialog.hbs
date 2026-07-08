@@ -35,9 +35,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="form-group">
         <label for="range">Range (&plus; Impact):</label>
         <select name="range">
-            {{#select weaponAspect}} {{#each ranges as |value key|}}
-            <option value="{{key}}">{{key}} ({{value}})</option>
-            {{/each}} {{/select}}
+            {{#each ranges as |value key|}}
+            <option
+                value="{{key}}"
+                {{#if (eq key ../weaponAspect)}}selected{{/if}}
+            >
+                {{key}} ({{value}})
+            </option>
+            {{/each}}
         </select>
     </div>
     <div class="form-group">
