@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { entity } from "@src/entity/registry";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { CombatResult } from "@src/entity/result/CombatResult";
@@ -81,7 +82,7 @@ import {
     resolveInjury,
 } from "@src/entity/body/injury-resolution";
 import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
-import { ImpactResult } from "@src/entity/result/ImpactResult";
+import type { ImpactResult } from "@src/entity/result/ImpactResult";
 import { DamageCardInput } from "@src/document/combatant/logic/SohlCombatantLogic";
 
 /**
@@ -144,7 +145,7 @@ export class BeingLogic<
     effectiveBaseMove(medium: MovementMedium): ValueModifier {
         const lineageLogic = this.logicTypes[ITEM_KIND.LINEAGE][0];
         const base = readBaseMove(lineageLogic?.moveBase, medium);
-        return new ValueModifier({}, { parent: this }).setBase(base);
+        return new entity.ValueModifier({}, { parent: this }).setBase(base);
     }
 
     /**
@@ -371,7 +372,9 @@ export class BeingLogic<
                 );
                 return undefined;
             }
-            impactResult = new ImpactResult(context.scope, { parent: this });
+            impactResult = new entity.ImpactResult(context.scope, {
+                parent: this,
+            });
             await impactResult.evaluate();
         } else {
             impactResult = context.scope.priorTestResult;

@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import { ValueDelta } from "@src/entity/modifier/ValueDelta";
 import {
     VALUE_DELTA_OPERATOR,
     type ValueDeltaOperator,
@@ -68,7 +68,7 @@ export function pushDeltaToValueModifier(vm: ValueModifier, change: any): void {
     const effectName = change?.effect?.name ?? "Active Effect";
     const shortcode = effectName.slice(0, 16);
     try {
-        const delta = new ValueDelta(
+        const delta = new entity.ValueDelta(
             {
                 name: "SOHL.INFO.ActiveEffect",
                 shortcode,

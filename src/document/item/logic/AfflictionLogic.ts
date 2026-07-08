@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { entity } from "@src/entity/registry";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { TraumaData } from "@src/document/item/logic/TraumaLogic";
@@ -511,23 +512,23 @@ export class AfflictionLogic<
         super.initialize();
         this.isDormant = false;
         this.isTreated = false;
-        this.diagnosisBonus = new ValueModifier({}, { parent: this });
-        this.level = new ValueModifier({}, { parent: this });
-        this.healingRate = new ValueModifier({}, { parent: this });
-        this.contagionIndex = new ValueModifier({}, { parent: this });
+        this.diagnosisBonus = new entity.ValueModifier({}, { parent: this });
+        this.level = new entity.ValueModifier({}, { parent: this });
+        this.healingRate = new entity.ValueModifier({}, { parent: this });
+        this.contagionIndex = new entity.ValueModifier({}, { parent: this });
         this.transmission = AFFLICTION_TRANSMISSION.NONE;
 
-        this.healingRate = new ValueModifier({}, { parent: this });
+        this.healingRate = new entity.ValueModifier({}, { parent: this });
         if (this.data.healingRateBase === -1) {
             this.healingRate.disabled = "No Healing Rate";
         } else {
             this.healingRate.base = this.data.healingRateBase;
         }
-        this.contagionIndex = new ValueModifier(
+        this.contagionIndex = new entity.ValueModifier(
             { baseValue: this.data.contagionIndexBase },
             { parent: this },
         );
-        this.level = new ValueModifier(
+        this.level = new entity.ValueModifier(
             { baseValue: this.data.levelBase },
             { parent: this },
         );

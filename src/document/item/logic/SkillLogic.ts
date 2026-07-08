@@ -11,10 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
 import type { MysteryLogic } from "./MysteryLogic";
 import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
-import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
 import {
@@ -497,11 +498,11 @@ export class SkillLogic<
         super.initialize();
         this.parentSkill = null;
         this.boosts = 0;
-        this.masteryLevel = new MasteryLevelModifier(
+        this.masteryLevel = new entity.MasteryLevelModifier(
             {},
             { parent: this },
         ).setBase(this.data.masteryLevelBase);
-        this.fateMasteryLevel = new MasteryLevelModifier(
+        this.fateMasteryLevel = new entity.MasteryLevelModifier(
             {
                 testDescTable: getFateDescTable(),
                 type: `${this.data.kind}-${this.name}-fate-test`,

@@ -11,12 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { BodyLocation } from "@src/entity/body/BodyLocation";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     ACTION_SUBTYPE,
     defineType,
@@ -160,12 +161,13 @@ export class TraumaLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.level = new ValueModifier({}, { parent: this }).setBase(
+        this.level = new entity.ValueModifier({}, { parent: this }).setBase(
             this.data.levelBase,
         );
-        this.healingRate = new ValueModifier({}, { parent: this }).setBase(
-            this.data.healingRateBase,
-        );
+        this.healingRate = new entity.ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.healingRateBase);
         this.bodyLocation = undefined;
     }
 

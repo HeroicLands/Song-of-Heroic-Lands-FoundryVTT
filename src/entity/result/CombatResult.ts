@@ -11,11 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
+import { registerEntity } from "@src/entity/entityRegistry";
 import { fvttLogicFromUuidSync } from "@src/core/FoundryHelpers";
 import { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { AttackResult } from "@src/entity/result/AttackResult";
 import { DefendResult } from "@src/entity/result/DefendResult";
-import { ImpactResult } from "@src/entity/result/ImpactResult";
+import type { ImpactResult } from "@src/entity/result/ImpactResult";
 import { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
 import { TEST_TYPE } from "@src/utils/constants";
 import { registerKind } from "@src/utils/kindRegistry";
@@ -228,7 +230,7 @@ export class CombatResult extends OpposedTestResult {
      * @returns The rolled impact result for that attack.
      */
     private rollImpact(ar: AttackResult): ImpactResult {
-        return new ImpactResult(
+        return new entity.ImpactResult(
             {
                 speaker: ar.speaker,
                 impactModifier: ar.impact,
@@ -324,3 +326,4 @@ export namespace CombatResult {
 }
 
 registerKind(CombatResult.Kind, CombatResult);
+registerEntity("CombatResult", CombatResult);

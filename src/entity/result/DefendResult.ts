@@ -17,6 +17,7 @@ import {
     VALUE_DELTA_INFO,
 } from "@src/utils/constants";
 import { SuccessTestResult } from "./SuccessTestResult";
+import { registerEntity } from "@src/entity/entityRegistry";
 import { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { StrikeModeBase } from "../strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "../strikemode/MeleeStrikeMode";
@@ -186,3 +187,4 @@ export namespace DefendResult {
 }
 
 registerKind(DefendResult.Kind, DefendResult);
+registerEntity("DefendResult", DefendResult);

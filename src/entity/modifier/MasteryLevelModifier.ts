@@ -17,9 +17,14 @@ import {
     fvttGetTargetedTokens,
 } from "@src/core/FoundryHelpers";
 import { registerKind } from "@src/utils/kindRegistry";
+import { entity, registerEntity } from "@src/entity/entityRegistry";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
-import { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
+import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
+import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
+// Side-effect imports so the result classes self-register — this base class
+// reaches the registry by import, not the runtime global (see header note).
+import "@src/entity/result/SuccessTestResult";
+import "@src/entity/result/OpposedTestResult";
 import { FilePath, toFilePath } from "@src/utils/helpers";
 import {
     SOHL_SPEAKER_ROLL_MODE,
@@ -145,6 +150,23 @@ const STANDARD_SUCCESS_DESCRIPTION_TABLE: SuccessTestResult.LimitedDescription[]
         },
     ] as const;
 
+/*
+ * ── Construction indirection: base class (#83) ───────────────────────────────
+ * Registered entity classes are constructed through the registry so a variant
+ * module can override them. Inside SoHL that means `import { entity }` then
+ * `new entity.X(...)`; outside SoHL it is `new sohl.entity.X(...)`.
+ *
+ * MasteryLevelModifier is a BASE class of another registered class
+ * (CombatModifier) and extends the registered ValueModifier, so it imports the
+ * registry from the cycle-free leaf `@src/entity/entityRegistry` (never the
+ * `registry.ts` barrel, which eagerly loads the subclass tree and would evaluate
+ * a subclass's `extends` mid-load → `TypeError: Class extends value undefined`).
+ * The bare side-effect imports above guarantee the result classes self-register
+ * so `entity.SuccessTestResult` / `entity.OpposedTestResult` resolve even in a
+ * bare unit test. See the "Entity class registry" section of
+ * docs/reference/runtime-contracts.md.
+ * ────────────────────────────────────────────────────────────────────────────
+ */
 /**
  * A {@link ValueModifier} specialized for mastery level tests — the primary
  * resolution mechanic in SoHL.
@@ -300,7 +322,7 @@ export class MasteryLevelModifier extends ValueModifier {
 
         const testResult: SuccessTestResult =
             context.scope.priorTestResult ??
-            new SuccessTestResult(
+            new entity.SuccessTestResult(
                 {
                     speaker: this.parent.speaker,
                     testType: (context.type ?? this.type) as TestType,
@@ -495,7 +517,7 @@ export class MasteryLevelModifier extends ValueModifier {
 
         if (!sourceTestResult) return null;
 
-        const result: OpposedTestResult = new OpposedTestResult(
+        const result: OpposedTestResult = new entity.OpposedTestResult(
             {
                 sourceTestResult,
                 targetTestResult: undefined,
@@ -610,3 +632,4 @@ export namespace MasteryLevelModifier {
 }
 
 registerKind(MasteryLevelModifier.Kind, MasteryLevelModifier);
+registerEntity("MasteryLevelModifier", MasteryLevelModifier);
