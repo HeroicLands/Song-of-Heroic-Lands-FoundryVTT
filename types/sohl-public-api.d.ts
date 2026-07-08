@@ -14,133 +14,175 @@
 /**
  * Public API type declarations for Song of Heroic Lands.
  *
- * This file declares the types available to extension modules
- * via `globalThis.sohl.classes`.
+ * This file is **types-only**: it re-exports the interfaces and class types
+ * that a macro or extension module needs for annotations. It declares no
+ * runtime values. Runtime binding is always through the live `sohl` global,
+ * never through this file.
  *
- * Usage in a module project:
- *   1. Copy this file into your module's types/ directory
- *   2. Reference it in your tsconfig.json: "types": ["./types/sohl-public-api"]
- *   3. Access classes via: const { BeingLogic } = sohl.classes;
+ * ## Access model
  *
- * The classes are available at runtime on globalThis.sohl.classes after
- * the SoHL system's init hook completes.
+ * - **Documents (actors/items):** reach a document through Foundry's
+ *   collections — `game.actors` / `game.items` — then use the `.logic` getter
+ *   to get the typed rules surface. `document.logic` (equivalently
+ *   `document.system.logic`) is the object typed by the `*Logic` interfaces
+ *   re-exported below.
+ * - **System services:** available on the `sohl` global — `sohl.log`,
+ *   `sohl.i18n`, `sohl.events`, `sohl.utils`, `sohl.constants`, `sohl.CONFIG`.
+ * - **Constructable domain classes:** available at runtime via
+ *   `sohl.domain.<ClassName>` — e.g. `new sohl.domain.ValueModifier(...)` or
+ *   `class X extends sohl.domain.SuccessTestResult {}`. The corresponding class
+ *   types are re-exported below so they can be used in annotations.
+ *
+ * ## Usage in a module project
+ *
+ *   1. Copy this file into your module's `types/` directory.
+ *   2. Reference it in your `tsconfig.json`:
+ *      `"types": ["./types/sohl-public-api"]`.
+ *   3. Import the types you need for annotations, and bind to values at runtime
+ *      through the `sohl` global, e.g.:
+ *
+ *      ```ts
+ *      import type { ValueModifier } from "./types/sohl-public-api";
+ *      const mod: ValueModifier = new sohl.domain.ValueModifier(...);
+ *      ```
  */
 
-// Re-export key types that modules will need for type annotations
-// Modules access classes at runtime via sohl.CONFIG.base.*
-export type { SohlSystem } from "../src/common/SohlSystem";
-export type { SohlLogic } from "../src/common/SohlLogic";
-export type { SohlActionContext } from "../src/common/SohlActionContext";
-export type { SohlSpeaker } from "../src/common/SohlSpeaker";
+// ---------------------------------------------------------------------------
+// Core
+// ---------------------------------------------------------------------------
+export type { SohlSystem } from "../src/core/logic/SohlSystem";
+export type { SohlLogic } from "../src/core/logic/SohlLogic";
+export type { SohlActionContext } from "../src/entity/action/SohlActionContext";
+export type { SohlSpeaker } from "../src/core/logic/SohlSpeaker";
 
-// Actor types
+// ---------------------------------------------------------------------------
+// Actors — the typed `document.logic` surface for each actor type
+// ---------------------------------------------------------------------------
 export type {
     BeingLogic,
     BeingData,
-} from "../src/common/actor/logic/BeingLogic";
+} from "../src/document/actor/logic/BeingLogic";
 export type {
     AssemblyLogic,
     AssemblyData,
-} from "../src/common/actor/logic/AssemblyLogic";
+} from "../src/document/actor/logic/AssemblyLogic";
 export type {
     CohortLogic,
     CohortData,
-} from "../src/common/actor/logic/CohortLogic";
+} from "../src/document/actor/logic/CohortLogic";
 export type {
     StructureLogic,
     StructureData,
-} from "../src/common/actor/logic/StructureLogic";
+} from "../src/document/actor/logic/StructureLogic";
 export type {
     VehicleLogic,
     VehicleData,
-} from "../src/common/actor/logic/VehicleLogic";
+} from "../src/document/actor/logic/VehicleLogic";
 
-// Item types — base classes
-export type { GearLogic, GearData } from "../src/common/item/logic/GearLogic";
-export type {
-    MasteryLevelLogic,
-    MasteryLevelData,
-} from "../src/common/item/logic/MasteryLevelLogic";
-
-// Item types — concrete
-export type {
-    ActionLogic,
-    ActionData,
-} from "../src/common/item/logic/ActionLogic";
+// ---------------------------------------------------------------------------
+// Items — the typed `document.logic` surface for each item type
+// ---------------------------------------------------------------------------
+export type { GearLogic, GearData } from "../src/document/item/logic/GearLogic";
 export type {
     AffiliationLogic,
     AffiliationData,
-} from "../src/common/item/logic/AffiliationLogic";
+} from "../src/document/item/logic/AffiliationLogic";
 export type {
     AfflictionLogic,
     AfflictionData,
-} from "../src/common/item/logic/AfflictionLogic";
+} from "../src/document/item/logic/AfflictionLogic";
 export type {
     ArmorGearLogic,
     ArmorGearData,
-} from "../src/common/item/logic/ArmorGearLogic";
+} from "../src/document/item/logic/ArmorGearLogic";
+export type {
+    AttributeLogic,
+    AttributeData,
+} from "../src/document/item/logic/AttributeLogic";
 export type {
     CombatTechniqueLogic,
     CombatTechniqueData,
-} from "../src/common/item/logic/CombatTechniqueLogic";
+} from "../src/document/item/logic/CombatTechniqueLogic";
 export type {
     ConcoctionGearLogic,
     ConcoctionGearData,
-} from "../src/common/item/logic/ConcoctionGearLogic";
+} from "../src/document/item/logic/ConcoctionGearLogic";
 export type {
     ContainerGearLogic,
     ContainerGearData,
-} from "../src/common/item/logic/ContainerGearLogic";
+} from "../src/document/item/logic/ContainerGearLogic";
 export type {
-    TraumaLogic,
-    TraumaData,
-} from "../src/common/item/logic/TraumaLogic";
+    LineageLogic,
+    LineageData,
+} from "../src/document/item/logic/LineageLogic";
 export type {
     MiscGearLogic,
     MiscGearData,
-} from "../src/common/item/logic/MiscGearLogic";
+} from "../src/document/item/logic/MiscGearLogic";
 export type {
     MysteryLogic,
     MysteryData,
-} from "../src/common/item/logic/MysteryLogic";
+} from "../src/document/item/logic/MysteryLogic";
 export type {
     MysticalAbilityLogic,
     MysticalAbilityData,
-} from "../src/common/item/logic/MysticalAbilityLogic";
+} from "../src/document/item/logic/MysticalAbilityLogic";
 export type {
     ProjectileGearLogic,
     ProjectileGearData,
-} from "../src/common/item/logic/ProjectileGearLogic";
+} from "../src/document/item/logic/ProjectileGearLogic";
 export type {
     SkillLogic,
     SkillData,
-} from "../src/common/item/logic/SkillLogic";
+} from "../src/document/item/logic/SkillLogic";
 export type {
     TraitLogic,
     TraitData,
-} from "../src/common/item/logic/TraitLogic";
+} from "../src/document/item/logic/TraitLogic";
+export type {
+    TraumaLogic,
+    TraumaData,
+} from "../src/document/item/logic/TraumaLogic";
 export type {
     WeaponGearLogic,
     WeaponGearData,
-} from "../src/common/item/logic/WeaponGearLogic";
+} from "../src/document/item/logic/WeaponGearLogic";
 
-// Modifier types
-export type { ValueModifier } from "../src/common/modifier/ValueModifier";
-export type { ValueDelta } from "../src/common/modifier/ValueDelta";
-export type { CombatModifier } from "../src/common/modifier/CombatModifier";
-export type { ImpactModifier } from "../src/common/modifier/ImpactModifier";
-export type { MasteryLevelModifier } from "../src/common/modifier/MasteryLevelModifier";
+// ---------------------------------------------------------------------------
+// Domain classes — constructable via `sohl.domain.<ClassName>` at runtime
+// ---------------------------------------------------------------------------
 
-// Result types
-export type { TestResult } from "../src/common/result/TestResult";
-export type { SuccessTestResult } from "../src/common/result/SuccessTestResult";
-export type { OpposedTestResult } from "../src/common/result/OpposedTestResult";
-export type { ImpactResult } from "../src/common/result/ImpactResult";
-export type { AttackResult } from "../src/common/result/AttackResult";
-export type { DefendResult } from "../src/common/result/DefendResult";
-export type { CombatResult } from "../src/common/result/CombatResult";
+// Modifiers
+export type { ValueModifier } from "../src/entity/modifier/ValueModifier";
+export type { ValueDelta } from "../src/entity/modifier/ValueDelta";
+export type { CombatModifier } from "../src/entity/modifier/CombatModifier";
+export type { ImpactModifier } from "../src/entity/modifier/ImpactModifier";
+export type { MasteryLevelModifier } from "../src/entity/modifier/MasteryLevelModifier";
 
-// Utility types
-export type { SimpleRoll } from "../src/utils/SimpleRoll";
+// Results
+export type { TestResult } from "../src/entity/result/TestResult";
+export type { SuccessTestResult } from "../src/entity/result/SuccessTestResult";
+export type { OpposedTestResult } from "../src/entity/result/OpposedTestResult";
+export type { ImpactResult } from "../src/entity/result/ImpactResult";
+export type { AttackResult } from "../src/entity/result/AttackResult";
+export type { DefendResult } from "../src/entity/result/DefendResult";
+export type { CombatResult } from "../src/entity/result/CombatResult";
+
+// Strike modes
+export type { StrikeModeBase } from "../src/entity/strikemode/StrikeModeBase";
+export type { MeleeStrikeMode } from "../src/entity/strikemode/MeleeStrikeMode";
+export type { MissileStrikeMode } from "../src/entity/strikemode/MissileStrikeMode";
+
+// Action
+export type { SohlAction } from "../src/entity/action/SohlAction";
+
+// Body
+export type { BodyStructure } from "../src/entity/body/BodyStructure";
+export type { BodyPart } from "../src/entity/body/BodyPart";
+export type { BodyLocation } from "../src/entity/body/BodyLocation";
+
+// ---------------------------------------------------------------------------
+// Utils
+// ---------------------------------------------------------------------------
+export type { SimpleRoll } from "../src/entity/roll/SimpleRoll";
 export type { SohlMap } from "../src/utils/collection/SohlMap";
-export type { SkillBase } from "../src/common/SkillBase";
