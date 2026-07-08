@@ -47,10 +47,10 @@ The `sohl` global exposes the shared services:
 | `sohl.constants` | System constants                              |
 | `sohl.CONFIG`    | System configuration                          |
 
-## Constructable domain classes
+## Constructable entity classes
 
 The value objects meant to be `new`ed or subclassed are exposed through the
-getter-backed registry at `sohl.domain.<ClassName>`. Reaching them through the
+getter-backed registry at `sohl.entity.<ClassName>`. Reaching them through the
 registry (rather than importing the source) means module overrides are picked up
 automatically. Categories:
 
@@ -65,13 +65,13 @@ automatically. Categories:
 Construct one:
 
 ```js
-const mod = new sohl.domain.ValueModifier(data, { parent });
+const mod = new sohl.entity.ValueModifier(data, { parent });
 ```
 
 Subclass one (e.g. in a variant module):
 
 ```js
-class MyResult extends sohl.domain.SuccessTestResult {
+class MyResult extends sohl.entity.SuccessTestResult {
     // override rules here
 }
 ```
