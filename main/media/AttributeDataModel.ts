@@ -72,11 +72,13 @@ export class AttributeDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements AttributeData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.Attribute",
         "SOHL.MasteryLevel",
         "SOHL.Item",
     ];
+    /** @inheritDoc */
     static override readonly kind = ITEM_KIND.ATTRIBUTE;
     scoreBase!: number;
     valueDesc!: {
