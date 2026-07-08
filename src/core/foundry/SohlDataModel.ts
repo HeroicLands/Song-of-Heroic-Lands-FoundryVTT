@@ -17,12 +17,7 @@ import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEf
 import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import type { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
 import type { SohlAction } from "@src/entity/action/SohlAction";
-import {
-    DialogButtonCallback,
-    inputDialog,
-    okDialog,
-    fvttResolveUuid,
-} from "@src/core/FoundryHelpers";
+import { dialog, fvttResolveUuid } from "@src/core/FoundryHelpers";
 import {
     ActionSubType,
     ActionSubTypes,
@@ -863,28 +858,28 @@ export namespace SohlDataModel {
                 </div>
                 </form>`);
 
-                const dlgResult = await okDialog({
+                const dlgResult = await dialog({
                     title: dataset.title,
                     content: dlgHtml,
                     data: dialogData,
-                    ok: {
-                        label: `Add ${dataset.title}`,
-                        callback: (_event: any, button: HTMLButtonElement) => {
-                            const form = button.querySelector("form");
-                            const fd = new (
-                                foundry.applications as any
-                            ).ux.FormDataExtended(form);
-                            const formData = foundry.utils.expandObject(
-                                fd.object,
-                            ) as PlainObject;
-                            let formValue = formData.newValue;
-                            if (datatype === "Number") {
-                                formValue = Number.parseFloat(formValue);
-                                if (Number.isNaN(formValue))
-                                    formValue = dataset.defaultValue;
-                            }
-                            return formValue;
+                    buttons: [
+                        {
+                            action: "ok",
+                            label: `Add ${dataset.title}`,
+                            default: true,
                         },
+                    ],
+                    callback: (formData: PlainObject) => {
+                        const expanded = foundry.utils.expandObject(
+                            formData,
+                        ) as PlainObject;
+                        let formValue = expanded.newValue;
+                        if (datatype === "Number") {
+                            formValue = Number.parseFloat(formValue);
+                            if (Number.isNaN(formValue))
+                                formValue = dataset.defaultValue;
+                        }
+                        return formValue;
                     },
                     rejectClose: false,
                 });
@@ -1191,23 +1186,13 @@ export namespace SohlDataModel {
                     "systems/sohl/templates/dialog/keyvalue-dialog.hbs",
                 );
 
-                const dlgResult = await inputDialog({
+                const dlgResult = await dialog({
                     title: dataset.title,
                     template: dlgTemplate,
                     data: dialogData,
-                    callback: ((
-                        _event: PointerEvent | SubmitEvent,
-                        _button: HTMLButtonElement,
-                        dialog: HTMLDialogElement,
-                    ): Promise<any> => {
-                        const form = dialog.querySelector(
-                            "form",
-                        ) as HTMLFormElement;
-                        const fd = new (
-                            foundry.applications as any
-                        ).ux.FormDataExtended(form);
+                    callback: (rawForm: PlainObject) => {
                         const formData = foundry.utils.expandObject(
-                            fd.object,
+                            rawForm,
                         ) as PlainObject;
                         let formKey = formData.newKey;
                         let formValue = formData.newValue;
@@ -1218,8 +1203,8 @@ export namespace SohlDataModel {
                             else if (formValue === "null") value = 0;
                             else value = formValue;
                         }
-                        return Promise.resolve({ key: formKey, value: value });
-                    }) as DialogButtonCallback,
+                        return { key: formKey, value: value };
+                    },
                     rejectClose: false,
                 });
 
