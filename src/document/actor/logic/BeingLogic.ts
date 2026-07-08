@@ -42,8 +42,7 @@ import {
 import {
     getActiveScene,
     getActiveCombat,
-    inputDialog,
-    DialogButtonCallback,
+    dialog,
 } from "@src/core/FoundryHelpers";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
@@ -847,26 +846,16 @@ export class BeingLogic<
             askRecordInjury: true,
         };
 
-        const result = await inputDialog({
+        const form = (await dialog({
             title: `${this.name}: Add Injury`,
             template: toFilePath(
                 "systems/sohl/templates/dialog/injury-dialog.hbs",
             ),
             data: dialogData,
-            callback: ((
-                _event: PointerEvent | SubmitEvent,
-                button: HTMLButtonElement,
-            ): Promise<InjuryDialogForm | null> => {
-                const form = button.querySelector("form");
-                if (!form) return Promise.resolve(null);
-                const fd = new FormDataExtended(form);
-                return Promise.resolve(readInjuryDialogForm(fd.object));
-            }) as DialogButtonCallback,
+            callback: (data: PlainObject) => readInjuryDialogForm(data),
             rejectClose: false,
-        });
-        if (!result) return;
-
-        const form = result as InjuryDialogForm;
+        })) as InjuryDialogForm | null;
+        if (!form) return;
         const location = body
             .getAllLocations()
             .find((l) => l.shortcode === form.locationCode);

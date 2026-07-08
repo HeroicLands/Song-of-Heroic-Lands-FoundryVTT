@@ -12,36 +12,29 @@ import { setUuidResolver } from "@src/utils/helpers";
 // Dialog types (re-exported for consumers)
 // ---------------------------------------------------------------------------
 
-export type DialogButtonCallback = (...args: any[]) => Promise<any>;
-export interface DialogButton {
+export interface DialogButtonSpec {
     action: string;
-    label: string;
-    icon: string;
-    class: string;
+    label?: string;
+    icon?: string;
     default?: boolean;
-    callback: DialogButtonCallback;
 }
-export type DialogRenderCallback = (...args: any[]) => Promise<void>;
-export type DialogCloseCallback = (...args: any[]) => Promise<void>;
-export type DialogSubmitCallback = (result: any) => Promise<void>;
-export interface DialogConfig {
-    template?: string;
+export type DialogResultCallback = (
+    formData: Record<string, any>,
+    action: string,
+) => unknown | Promise<unknown>;
+export type DialogRenderCallback = (
+    element: HTMLElement,
+) => void | Promise<void>;
+export interface DialogSpec {
     title?: string;
+    template?: string;
     content?: string;
     data?: Record<string, any>;
+    buttons?: DialogButtonSpec[];
     modal?: boolean;
     rejectClose?: boolean;
+    callback?: DialogResultCallback;
     render?: DialogRenderCallback;
-    close?: DialogCloseCallback;
-    submit?: DialogSubmitCallback;
-    ok?: Partial<DialogButton>;
-    yes?: Partial<DialogButton>;
-    no?: Partial<DialogButton>;
-    buttons?: Partial<DialogButton>[];
-}
-export interface AwaitDialogResult {
-    value: any;
-    action: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -246,19 +239,7 @@ export async function toHTMLWithContent(
 // Dialogs
 // ---------------------------------------------------------------------------
 
-export async function yesNoDialog(_config?: any): Promise<any> {
-    return null;
-}
-
-export async function okDialog(_config?: any): Promise<any> {
-    return null;
-}
-
-export async function inputDialog(_config?: any): Promise<any> {
-    return null;
-}
-
-export async function awaitDialog(_config?: any): Promise<any> {
+export async function dialog(_spec?: any): Promise<any> {
     return null;
 }
 
