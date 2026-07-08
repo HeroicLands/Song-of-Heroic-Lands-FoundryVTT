@@ -8,7 +8,7 @@ The core discipline is simple — four axes, each answering a different question
 - **Type** — _"what shape of work is this?"_ One per issue, from a closed set of five.
 - **Priority** — _"how soon and how badly does this need doing?"_ A GitHub Projects field, one value, defaults to Medium.
 - **Labels** — _"what is this about?"_ Categorization only, chosen **only** from the registry below. Never invent a label.
-- **Milestone** — _"which capability gate does this advance?"_ A native GitHub milestone (no due date), at most one, selected from a human-curated set (see §4).
+- **Milestone** — _"which capability gate does this advance?"_ A native GitHub milestone (no due date), at most one, selected from a curated set (see §4).
 
 Type, priority, and milestone are structured single values (one each). Labels
 stack. Keep the roles separate: do not encode priority, urgency, or work-shape as a
@@ -68,9 +68,9 @@ in the registry is deleted on sync). `npm run lint` fails if the two disagree
 (`check-labels`), so they cannot drift.
 
 > **MUST NOT invent, rename, or improvise labels.** If no existing label fits, add
-> none and (if it matters) note the gap in the issue body for a human to decide.
-> Extending this registry is a human decision made by editing **both** this table
-> and `.github/labels.yml`, not something an agent does at filing time.
+> none and (if it matters) note the gap in the issue body for a maintainer to decide.
+> Extending this registry is a deliberate decision made by editing **both** this
+> table and `.github/labels.yml`, not something done at filing time.
 
 | Label             | Scope                                                                                                                                   |
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
@@ -143,7 +143,7 @@ thumb:** every major capability gets a **milestone**; add an **epic** only for a
 big enough to need its own sub-issue tree. A gate reached with a handful of loose
 issues needs the milestone but no epic.
 
-**The milestone set is human-curated, like the label registry** — agents select from
+**The milestone set is curated, like the label registry** — select from
 existing gates and never invent one.
 
 Because gates are capability-based, their mapping is usually inferable
@@ -282,8 +282,8 @@ If an issue would be labelled `security` **and** describes an exploitable weakne
 (not merely hardening), **do not open a public issue**. Use GitHub's private
 security advisories / vulnerability reporting instead. SoHL ships into users'
 Foundry instances, so a disclosed macro-injection or data-execution path has a
-real (if small) attack surface. When in doubt, disclose privately and let a human
-decide whether to make it public.
+real (if small) attack surface. When in doubt, disclose privately and let a
+maintainer decide whether to make it public.
 
 ## 8. Worked examples
 

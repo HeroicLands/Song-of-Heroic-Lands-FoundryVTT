@@ -8,7 +8,7 @@
 # GitHub's labels are reconciled to this file by `utils/sync-labels.mjs`, run by
 # .github/workflows/labels-sync.yml. The set is CLOSED: any label on GitHub that
 # is not listed here is deleted on sync. Do not invent labels — extending the
-# registry is a deliberate human edit to this file and §3.
+# registry is a deliberate edit to this file and §3.
 
 - name: system
   color: "f4f37c"

@@ -14,7 +14,7 @@
 /**
  * CI guard: the label registry has two faces that MUST agree —
  * `.github/labels.yml` (the machine source synced to GitHub) and the §3 table in
- * `docs/how-to/issue-reporting.md` (the human reference). This asserts the set of
+ * `docs/how-to/issue-reporting.md` (the documented reference). This asserts the set of
  * label names is identical in both, so neither can drift or "invent" a label the
  * other doesn't have.
  *
