@@ -21,7 +21,7 @@ import {
     TraitSubType,
     TraitSubTypeChoices,
 } from "@src/utils/constants";
-import { SohlItemDataModel } from "./SohlItem";
+import { SohlItemDataModel } from "./SohlItemDataModel";
 const {
     ArrayField,
     ObjectField,

@@ -21,7 +21,7 @@ import {
     MysticalAbilitySubTypes,
     MysticalAbilitySubTypeChoices,
 } from "@src/utils/constants";
-import { SohlItemDataModel } from "./SohlItem";
+import { SohlItemDataModel } from "./SohlItemDataModel";
 const { SchemaField, NumberField, StringField, BooleanField, DocumentIdField } =
     foundry.data.fields;
 

@@ -44,8 +44,8 @@ import { SohlCalendarData } from "./SohlCalendar";
 import {
     SohlActor,
     SohlActorLogic,
-    SohlActorSheetBase,
 } from "@src/document/actor/foundry/SohlActor";
+import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBase";
 
 // Actor logic
 import { BeingLogic } from "@src/document/actor/logic/BeingLogic";
@@ -85,11 +85,8 @@ import { TraitLogic } from "@src/document/item/logic/TraitLogic";
 import { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
 
 // Item foundry
-import {
-    SohlItem,
-    SohlItemLogic,
-    SohlItemSheetBase,
-} from "@src/document/item/foundry/SohlItem";
+import { SohlItem, SohlItemLogic } from "@src/document/item/foundry/SohlItem";
+import { SohlItemSheetBase } from "@src/document/item/foundry/SohlItemSheetBase";
 import { AffiliationDataModel } from "@src/document/item/foundry/AffiliationDataModel";
 import { AffiliationSheet } from "@src/document/item/foundry/AffiliationSheet";
 import { AfflictionDataModel } from "@src/document/item/foundry/AfflictionDataModel";

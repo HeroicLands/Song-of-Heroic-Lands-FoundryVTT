@@ -16,7 +16,7 @@ import {
     CombatTechniqueData,
 } from "@src/document/item/logic/CombatTechniqueLogic";
 import { ITEM_KIND, STRIKE_MODE_TYPE } from "@src/utils/constants";
-import { SohlItemDataModel } from "@src/document/item/foundry/SohlItem";
+import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
