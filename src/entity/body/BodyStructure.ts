@@ -11,8 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
+import { registerEntity } from "@src/entity/entityRegistry";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
-import { BodyPart } from "@src/entity/body/BodyPart";
+import type { BodyPart } from "@src/entity/body/BodyPart";
 import { BodyLocation } from "@src/entity/body/BodyLocation";
 import { weightedRandom } from "@src/entity/body/weighted-random";
 import { SohlEntity } from "../SohlEntity";
@@ -74,7 +76,7 @@ export class BodyStructure extends SohlEntity {
         super(data, options);
         this.parts = data.parts.map(
             (d, i) =>
-                new BodyPart(d, {
+                new entity.BodyPart(d, {
                     parent: this.parent,
                     bodyStructure: this,
                     index: i,
@@ -363,3 +365,4 @@ export namespace BodyStructure {
     /** Construction options for a {@link BodyStructure} instance; inherits all {@link SohlEntity.Options}. */
     export interface Options extends SohlEntity.Options {}
 }
+registerEntity("BodyStructure", BodyStructure);

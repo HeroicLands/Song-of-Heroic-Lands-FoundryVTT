@@ -11,8 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { ImpactAspects } from "@src/utils/constants";
 
 /**
@@ -110,22 +111,23 @@ export class ArmorGearLogic<
     override initialize(): void {
         super.initialize();
         this.protection = {
-            blunt: new ValueModifier({}, { parent: this }).setBase(
+            blunt: new entity.ValueModifier({}, { parent: this }).setBase(
                 this.data.protectionBase.blunt,
             ),
-            edged: new ValueModifier({}, { parent: this }).setBase(
+            edged: new entity.ValueModifier({}, { parent: this }).setBase(
                 this.data.protectionBase.edged,
             ),
-            piercing: new ValueModifier({}, { parent: this }).setBase(
+            piercing: new entity.ValueModifier({}, { parent: this }).setBase(
                 this.data.protectionBase.piercing,
             ),
-            fire: new ValueModifier({}, { parent: this }).setBase(
+            fire: new entity.ValueModifier({}, { parent: this }).setBase(
                 this.data.protectionBase.fire,
             ),
         };
-        this.encumbrance = new ValueModifier({}, { parent: this }).setBase(
-            this.data.encumbrance,
-        );
+        this.encumbrance = new entity.ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.encumbrance);
         this.traits = {};
     }
 

@@ -1,6 +1,7 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, afterEach } from "vitest";
 import { entity, type SohlEntityName } from "@src/entity/registry";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { ValueDelta } from "@src/entity/modifier/ValueDelta";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { SohlAction } from "@src/entity/action/SohlAction";
@@ -66,5 +67,74 @@ describe("sohl.entity registry", () => {
         class MyResult extends entity.SuccessTestResult {}
         expect(Object.getPrototypeOf(MyResult)).toBe(SuccessTestResult);
         expect(MyResult.prototype).toBeInstanceOf(SuccessTestResult);
+    });
+
+    describe("two-mechanism construction (#83)", () => {
+        // The inside-SoHL mechanism resolves the registry through the import
+        // graph (classes self-register), so construction must work with NO
+        // `sohl.entity` runtime global — the whole point of not forcing tests to
+        // wire one. This locks that invariant against a regression that
+        // reintroduces a runtime-global dependency in a construction path.
+        it("resolves nested construction with no `sohl.entity` global wired", () => {
+            expect(
+                (globalThis as { sohl: { entity?: unknown } }).sohl.entity,
+            ).toBeUndefined();
+
+            const parent = { id: "p", name: "P", label: "P" } as never;
+            const vm = new entity.ValueModifier({}, { parent })
+                .setBase(5)
+                .add("Bonus", "BON", 3);
+
+            // `.add` builds a ValueDelta via `entity.ValueDelta` — resolved by
+            // the base class through the cycle-free leaf, not the global.
+            expect(vm.deltas[0]).toBeInstanceOf(ValueDelta);
+            expect(vm.effective).toBe(8);
+        });
+    });
+
+    describe("register / base", () => {
+        // Restore the canonical class after each test so the shared registry is
+        // left untouched for other suites.
+        afterEach(() => {
+            entity.register(
+                "SuccessTestResult",
+                entity.base("SuccessTestResult"),
+            );
+        });
+
+        it("register swaps the class returned by the getter", () => {
+            class MyResult extends SuccessTestResult {}
+            expect(entity.SuccessTestResult).toBe(SuccessTestResult);
+            entity.register("SuccessTestResult", MyResult);
+            expect(entity.SuccessTestResult).toBe(MyResult);
+        });
+
+        it("base returns the canonical class, ignoring any override", () => {
+            class MyResult extends SuccessTestResult {}
+            entity.register("SuccessTestResult", MyResult);
+            expect(entity.base("SuccessTestResult")).toBe(SuccessTestResult);
+            expect(entity.SuccessTestResult).toBe(MyResult);
+        });
+
+        it("register rejects a class that does not extend the canonical base", () => {
+            class Unrelated {}
+            expect(() =>
+                entity.register("SuccessTestResult", Unrelated as never),
+            ).toThrow(/must extend/);
+        });
+
+        it("register rejects an unknown class name", () => {
+            expect(() =>
+                entity.register(
+                    "NotARealClass" as SohlEntityName,
+                    SuccessTestResult,
+                ),
+            ).toThrow(/unknown class/);
+        });
+
+        it("register / base are non-enumerable (not listed as class names)", () => {
+            expect(Object.keys(entity)).not.to.include("register");
+            expect(Object.keys(entity)).not.to.include("base");
+        });
     });
 });

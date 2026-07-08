@@ -11,7 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
+import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
+// Side-effect import so SuccessTestResult self-registers — see the header note
+// on why this base class reaches the registry by import, not the runtime global.
+import "@src/entity/result/SuccessTestResult";
+import { entity, registerEntity } from "@src/entity/entityRegistry";
 import { defaultToJSON } from "@src/utils/helpers";
 import { registerKind } from "@src/utils/kindRegistry";
 import { TestResult } from "@src/entity/result/TestResult";
@@ -22,6 +26,22 @@ import {
     TestType,
 } from "@src/utils/constants";
 
+/*
+ * ── Construction indirection: base class (#83) ───────────────────────────────
+ * Registered entity classes are constructed through the registry so a variant
+ * module can override them. Inside SoHL that means `import { entity }` then
+ * `new entity.X(...)`; outside SoHL it is `new sohl.entity.X(...)`.
+ *
+ * OpposedTestResult is a BASE class of another registered class (CombatResult),
+ * so it imports the registry from the cycle-free leaf `@src/entity/entityRegistry`
+ * (never the `registry.ts` barrel, which eagerly loads the subclass tree and
+ * would evaluate `class CombatResult extends OpposedTestResult` mid-load →
+ * `TypeError: Class extends value undefined`). The bare side-effect import above
+ * guarantees SuccessTestResult self-registers so `entity.SuccessTestResult`
+ * resolves even in a bare unit test. See the "Entity class registry" section of
+ * docs/reference/runtime-contracts.md.
+ * ────────────────────────────────────────────────────────────────────────────
+ */
 /**
  * The result of an **opposed test** — two actors directly competing via
  * their respective {@link SuccessTestResult | success tests}.
@@ -98,7 +118,7 @@ export class OpposedTestResult extends TestResult {
 
         this.targetTestResult =
             data.targetTestResult ??
-            new SuccessTestResult(
+            new entity.SuccessTestResult(
                 {
                     tokenUuid: data.targetToken?.uuid ?? undefined,
                 },
@@ -290,3 +310,4 @@ export namespace OpposedTestResult {
 }
 
 registerKind(OpposedTestResult.Kind, OpposedTestResult);
+registerEntity("OpposedTestResult", OpposedTestResult);

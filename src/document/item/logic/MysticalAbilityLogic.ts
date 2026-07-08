@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { entity } from "@src/entity/registry";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import {
@@ -155,38 +156,40 @@ export class MysticalAbilityLogic<
     override initialize(): void {
         super.initialize();
         this.charges = {
-            value: new ValueModifier({}, { parent: this }).setBase(
+            value: new entity.ValueModifier({}, { parent: this }).setBase(
                 this.data.charges.value,
             ),
-            max: new ValueModifier({}, { parent: this }).setBase(
+            max: new entity.ValueModifier({}, { parent: this }).setBase(
                 this.data.charges.max,
             ),
         };
 
         if (this.data.levelBase > 0) {
-            this.level = new ValueModifier({}, { parent: this }).setBase(
+            this.level = new entity.ValueModifier({}, { parent: this }).setBase(
                 this.data.levelBase,
             );
         } else {
-            this.level = new ValueModifier({}, { parent: this }).setDisabled(
-                "This mystical ability doesn't have a level",
-            );
+            this.level = new entity.ValueModifier(
+                {},
+                { parent: this },
+            ).setDisabled("This mystical ability doesn't have a level");
         }
 
         if (!this.data.assocSkillCode) {
             // If there's no associated skill, this ability uses its own mastery level.
-            this.masteryLevel = new ValueModifier({}, { parent: this }).setBase(
-                this.data.masteryLevelBase,
-            );
+            this.masteryLevel = new entity.ValueModifier(
+                {},
+                { parent: this },
+            ).setBase(this.data.masteryLevelBase);
         } else {
             // If there is an associated skill, the mastery level will eventually be determined by that skill.
             // But we will need to wait until much later to merge that skill's mastery leel modifier into this one,
             // in case there are modifiers to that skill's mastery level that need to be applied first.
             // On the other hand, we may need to add our own modifiers to this Mystical Ability's mastery level before then,
             // so we need to initialize the masteryLevel modifier now, even though it will be effectively empty for a while.
-            this.masteryLevel = new ValueModifier({}, { parent: this });
+            this.masteryLevel = new entity.ValueModifier({}, { parent: this });
         }
-        this.level = new ValueModifier({}, { parent: this }).setBase(
+        this.level = new entity.ValueModifier({}, { parent: this }).setBase(
             this.data.levelBase,
         );
     }

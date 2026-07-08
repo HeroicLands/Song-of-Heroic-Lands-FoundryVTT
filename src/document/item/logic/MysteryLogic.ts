@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { entity } from "@src/entity/registry";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import {
     SohlItemBaseLogic,
@@ -128,32 +129,34 @@ export class MysteryLogic<
         super.initialize();
 
         if (this.data.levelBase !== null) {
-            this.level = new ValueModifier({}, { parent: this }).setBase(
+            this.level = new entity.ValueModifier({}, { parent: this }).setBase(
                 this.data.levelBase,
             );
         } else {
-            this.level = new ValueModifier({}, { parent: this }).setDisabled(
-                "This mystery doesn't have a level",
-            );
+            this.level = new entity.ValueModifier(
+                {},
+                { parent: this },
+            ).setDisabled("This mystery doesn't have a level");
         }
         if (this.data.charges.max !== null) {
             this.charges = {
                 // `charges.value === null` means infinite charges remaining;
                 // normalize to `undefined` (no base) for the ValueModifier,
                 // which rejects `null`.
-                value: new ValueModifier({}, { parent: this }).setBase(
+                value: new entity.ValueModifier({}, { parent: this }).setBase(
                     this.data.charges.value ?? undefined,
                 ),
-                max: new ValueModifier({}, { parent: this }).setBase(
+                max: new entity.ValueModifier({}, { parent: this }).setBase(
                     this.data.charges.max,
                 ),
             };
         } else {
             this.charges = {
-                value: new ValueModifier({}, { parent: this }).setDisabled(
-                    "This mystery doesn't use charges",
-                ),
-                max: new ValueModifier({}, { parent: this }).setDisabled(
+                value: new entity.ValueModifier(
+                    {},
+                    { parent: this },
+                ).setDisabled("This mystery doesn't use charges"),
+                max: new entity.ValueModifier({}, { parent: this }).setDisabled(
                     "This mystery doesn't use charges",
                 ),
             };

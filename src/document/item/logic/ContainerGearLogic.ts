@@ -11,8 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 
 /**
  * Storage for other items.
@@ -45,9 +46,10 @@ export class ContainerGearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.maxCapacity = new ValueModifier({}, { parent: this }).setBase(
-            this.data.maxCapacityBase,
-        );
+        this.maxCapacity = new entity.ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.maxCapacityBase);
     }
 
     /** @inheritdoc */

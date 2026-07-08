@@ -11,6 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
@@ -30,7 +31,7 @@ import {
     resolveContextItem,
 } from "@src/apps/logic/ContextMenuEntry";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
-import { SohlAction } from "@src/entity/action/SohlAction";
+import type { SohlAction } from "@src/entity/action/SohlAction";
 import { SohlMap } from "@src/utils/collection/SohlMap";
 
 /**
@@ -261,7 +262,7 @@ export abstract class SohlLogic<
         const actns = [
             ...(this.constructor as any).defineIntrinsicActions(),
             ...this.data.actionDefs,
-        ].map((data) => new SohlAction(data, { parent: this }));
+        ].map((data) => new entity.SohlAction(data, { parent: this }));
 
         // Set the default action based on the parent's settings
         // and generate a map from the array of actions.

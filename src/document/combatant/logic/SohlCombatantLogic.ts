@@ -11,6 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
 import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import type { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import type { ImpactResult } from "@src/entity/result/ImpactResult";
@@ -26,9 +27,9 @@ import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogi
 import type { SohlAction } from "@src/entity/action/SohlAction";
 
 import { defaultToJSON } from "@src/utils/helpers";
-import { AttackResult } from "@src/entity/result/AttackResult";
-import { CombatResult } from "@src/entity/result/CombatResult";
-import { DefendResult } from "@src/entity/result/DefendResult";
+import type { AttackResult } from "@src/entity/result/AttackResult";
+import type { CombatResult } from "@src/entity/result/CombatResult";
+import type { DefendResult } from "@src/entity/result/DefendResult";
 import { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
@@ -592,7 +593,7 @@ export class SohlCombatantLogic<
             blockableStrikeModes[Number(defenseDlgResult.key)];
         if (!blockStrikeMode) return undefined;
 
-        const defendResult = new DefendResult(
+        const defendResult = new entity.DefendResult(
             {
                 testType: TEST_TYPE.BLOCK.id,
                 masteryLevelModifier: blockStrikeMode.defense.block.clone(
@@ -649,7 +650,7 @@ export class SohlCombatantLogic<
             sohl.log.uiWarn(`${this.name} has no Dodge skill to defend with.`);
             return undefined;
         }
-        const defendResult = new DefendResult(
+        const defendResult = new entity.DefendResult(
             {
                 testType: TEST_TYPE.DODGE.id,
                 masteryLevelModifier: dodgeML.clone({}, { parent: this }),
@@ -824,7 +825,7 @@ export class SohlCombatantLogic<
     ): Promise<PlainObject | undefined> {
         if (!context.scope?.attackResult) return undefined;
 
-        const defendResult = new DefendResult(
+        const defendResult = new entity.DefendResult(
             {
                 testType: TEST_TYPE.IGNORE.id,
                 situationalModifier: 0,
@@ -865,7 +866,7 @@ export class SohlCombatantLogic<
         defendResult: AttackResult | DefendResult,
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
     ): CombatResult {
-        return new CombatResult(
+        return new entity.CombatResult(
             {
                 attackResult,
                 defendResult,
@@ -1726,7 +1727,7 @@ export function buildAttackResult(input: BuildAttackInput): AttackResult {
         },
         { parent: input.parent },
     );
-    return new AttackResult(
+    return new entity.AttackResult(
         {
             roll: input.roll ?? rollAttackDie(input.parent),
             masteryLevelModifier,

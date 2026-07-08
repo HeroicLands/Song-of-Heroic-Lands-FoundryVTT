@@ -11,7 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+// Side-effect import so MasteryLevelModifier self-registers — see the header
+// note on why this base class reaches the registry by import, not the global.
+import "@src/entity/modifier/MasteryLevelModifier";
+import { entity, registerEntity } from "@src/entity/entityRegistry";
 import { registerKind } from "@src/utils/kindRegistry";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
@@ -52,6 +56,23 @@ import {
 } from "@src/utils/constants";
 import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
 
+/*
+ * ── Construction indirection: base class (#83) ───────────────────────────────
+ * Registered entity classes are constructed through the registry so a variant
+ * module can override them. Inside SoHL that means `import { entity }` then
+ * `new entity.X(...)`; outside SoHL it is `new sohl.entity.X(...)`.
+ *
+ * SuccessTestResult is a BASE class of other registered classes (AttackResult,
+ * DefendResult), so it imports the registry from the cycle-free leaf
+ * `@src/entity/entityRegistry` (never the `registry.ts` barrel, which eagerly
+ * loads the subclass tree and would evaluate a subclass's
+ * `extends SuccessTestResult` mid-load → `TypeError: Class extends value
+ * undefined`). The bare side-effect import above guarantees MasteryLevelModifier
+ * self-registers so `entity.MasteryLevelModifier` resolves even in a bare unit
+ * test. See the "Entity class registry" section of
+ * docs/reference/runtime-contracts.md.
+ * ────────────────────────────────────────────────────────────────────────────
+ */
 /**
  * The result of a **d100 roll-under mastery level test** — the most common
  * resolution mechanic in SoHL.
@@ -134,7 +155,7 @@ export class SuccessTestResult extends TestResult {
         if (options.mlMod)
             this._masteryLevelModifier =
                 data.masteryLevelModifier ??
-                new MasteryLevelModifier({}, { parent: this.parent });
+                new entity.MasteryLevelModifier({}, { parent: this.parent });
         this.resultText = data.resultText ?? "";
         this.resultDesc = data.resultDesc ?? "";
         // Restore a previously-evaluated success level so a result can cross to
@@ -150,7 +171,7 @@ export class SuccessTestResult extends TestResult {
         }
         this._masteryLevelModifier =
             data.masteryLevelModifier ??
-            new MasteryLevelModifier(
+            new entity.MasteryLevelModifier(
                 {},
                 {
                     parent: this.parent,
@@ -747,3 +768,4 @@ function handleLimitedDescription(
 }
 
 registerKind(SuccessTestResult.Kind, SuccessTestResult);
+registerEntity("SuccessTestResult", SuccessTestResult);

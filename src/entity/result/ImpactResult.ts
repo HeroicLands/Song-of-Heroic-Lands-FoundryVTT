@@ -12,6 +12,7 @@
  */
 
 import { TestResult } from "@src/entity/result/TestResult";
+import { registerEntity } from "@src/entity/entityRegistry";
 import { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { registerKind } from "@src/utils/kindRegistry";
@@ -168,3 +169,4 @@ export namespace ImpactResult {
 }
 
 registerKind(ImpactResult.Kind, ImpactResult);
+registerEntity("ImpactResult", ImpactResult);
