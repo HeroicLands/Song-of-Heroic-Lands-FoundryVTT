@@ -65,10 +65,12 @@ export class CohortDataModel<
     extends SohlActorDataModel<TSchema, TLogic>
     implements CohortData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.Cohort",
         "SOHL.Actor",
     ];
+    /** @inheritDoc */
     static override readonly kind = ACTOR_KIND.COHORT;
     leaderName!: string;
     moveRepName!: string;

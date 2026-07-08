@@ -30,6 +30,7 @@ const BaseAEConfig = foundry.applications.sheets.ActiveEffectConfig;
  * @internal
  */
 export class SohlActiveEffectSheet extends BaseAEConfig {
+    /** @inheritDoc */
     static override PARTS = {
         header: { template: "templates/sheets/active-effect/header.hbs" },
         tabs: { template: "templates/generic/tab-navigation.hbs" },

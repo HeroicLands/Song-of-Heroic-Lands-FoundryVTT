@@ -40,10 +40,12 @@ export class BeingDataModel<
     extends SohlActorDataModel<TSchema, TLogic>
     implements BeingData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.Being",
         "SOHL.Actor",
     ];
+    /** @inheritDoc */
     static override readonly kind = ACTOR_KIND.BEING;
 
     /**

@@ -155,9 +155,6 @@ export class SohlActorBaseLogic<
     getItemLogic(id: string): SohlItemLogic<any> | undefined;
 
     /**
-     * Implementation overload — dispatches to the shortcode+type or id-only
-     * lookup based on whether `type` is provided.
-     *
      * @inheritDoc
      * @param idOrShortcode - Item id (no `type`) or shortcode (with `type`).
      * @param type - The item kind to filter by; omit for id-based lookup.
@@ -243,10 +240,10 @@ export class SohlActorBaseLogic<
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 
-    /** Initialize-phase hook; base actor logic does nothing. */
+    /** @inheritDoc */
     override initialize(): void {}
-    /** Evaluate-phase hook; base actor logic does nothing. */
+    /** @inheritDoc */
     override evaluate(): void {}
-    /** Finalize-phase hook; base actor logic does nothing. */
+    /** @inheritDoc */
     override finalize(): void {}
 }

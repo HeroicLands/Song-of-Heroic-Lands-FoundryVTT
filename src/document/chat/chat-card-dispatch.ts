@@ -81,8 +81,17 @@ export function resolveChatCardHandlerUuid(
  */
 export function resolveAuthorizedChatCardHandler(
     dataset: DOMStringMap,
-    resolveDoc: (uuid: string) => { isOwner?: boolean } | null | undefined,
-): { isOwner?: boolean } | null {
+    resolveDoc: (uuid: string) =>
+        | {
+              /** Whether the current client owns the document (a GM owns all). */
+              isOwner?: boolean;
+          }
+        | null
+        | undefined,
+): {
+    /** Whether the current client owns the document (a GM owns all). */
+    isOwner?: boolean;
+} | null {
     const uuid = resolveChatCardHandlerUuid(dataset);
     if (!uuid) return null;
     const doc = resolveDoc(uuid);
