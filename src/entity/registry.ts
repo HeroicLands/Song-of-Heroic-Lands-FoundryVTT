@@ -32,12 +32,12 @@ import { BodyPart } from "@src/entity/body/BodyPart";
 import { BodyLocation } from "@src/entity/body/BodyLocation";
 
 /**
- * The backing record of currently-registered domain classes, seeded with the
- * SoHL base classes.
+ * The backing record of currently-registered entity-layer classes, seeded with
+ * the SoHL base classes.
  *
- * The {@link domain} surface reads from this record through per-name getters, so
- * that when `sohl.domain.register()` (issue #83) swaps an entry here, every
- * `sohl.domain.X` access — and every construction site routed through it — picks
+ * The {@link entity} surface reads from this record through per-name getters, so
+ * that when `sohl.entity.register()` (issue #83) swaps an entry here, every
+ * `sohl.entity.X` access — and every construction site routed through it — picks
  * up the override automatically. This record is intentionally mutable and
  * module-private; it is never exported directly.
  *
@@ -75,17 +75,17 @@ const registry = {
 };
 
 /**
- * The set of overridable domain classes, keyed by class name. Each value is the
- * class constructor itself (`typeof ClassName`), so `new sohl.domain.X(...)` and
- * `class Y extends sohl.domain.X {}` both type-check.
+ * The set of overridable entity-layer classes, keyed by class name. Each value
+ * is the class constructor itself (`typeof ClassName`), so `new sohl.entity.X(...)`
+ * and `class Y extends sohl.entity.X {}` both type-check.
  */
-export type SohlDomainRegistry = typeof registry;
+export type SohlEntityRegistry = typeof registry;
 
 /** The registrable class names (`keyof` the registry). */
-export type SohlDomainName = keyof SohlDomainRegistry;
+export type SohlEntityName = keyof SohlEntityRegistry;
 
 /**
- * The getter-backed domain access surface exposed as `sohl.domain`.
+ * The getter-backed entity-class access surface exposed as `sohl.entity`.
  *
  * Each property is a getter returning the currently-registered class from
  * {@link registry}; the object itself is frozen so the getters cannot be
@@ -93,15 +93,15 @@ export type SohlDomainName = keyof SohlDomainRegistry;
  * `register()` API added in #83), never by writing to this surface.
  *
  * @example
- * const vm = new sohl.domain.ValueModifier({}, { parent });
- * class MyResult extends sohl.domain.SuccessTestResult {}
+ * const vm = new sohl.entity.ValueModifier({}, { parent });
+ * class MyResult extends sohl.entity.SuccessTestResult {}
  */
-export const domain: SohlDomainRegistry = Object.freeze(
-    (Object.keys(registry) as SohlDomainName[]).reduce((surface, name) => {
+export const entity: SohlEntityRegistry = Object.freeze(
+    (Object.keys(registry) as SohlEntityName[]).reduce((surface, name) => {
         Object.defineProperty(surface, name, {
             get: () => registry[name],
             enumerable: true,
         });
         return surface;
-    }, {} as SohlDomainRegistry),
+    }, {} as SohlEntityRegistry),
 );
