@@ -1,0 +1,63 @@
+name: Spike
+description: A timeboxed investigation whose deliverable is a decision, answer, or recommendation — not shipped code.
+title: ""
+type: Spike
+labels: []
+body:
+    - type: markdown
+      attributes:
+          value: |
+              A **spike** answers a question whose outcome is genuinely uncertain; it produces a _conclusion_, not production code, and typically spawns follow-up issues. If the steps are already known, it's a **Task**. See the [issue-reporting standard](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/docs/how-to/issue-reporting.md).
+    - type: textarea
+      id: question
+      attributes:
+          label: Question
+          description: The specific thing we need to decide or learn.
+      validations:
+          required: true
+    - type: input
+      id: timebox
+      attributes:
+          label: Timebox
+          description: e.g. 1 day / 4 hours. Required.
+      validations:
+          required: true
+    - type: textarea
+      id: deliverable
+      attributes:
+          label: Deliverable
+          description: The form of the answer — a decision, recommendation, written finding, or throwaway prototype. NOT production code.
+      validations:
+          required: true
+    - type: textarea
+      id: follow-up
+      attributes:
+          label: Follow-up
+          description: Note that follow-up feature/task/bug issues will be filed from the outcome.
+      validations:
+          required: false
+    - type: dropdown
+      id: priority
+      attributes:
+          label: Priority (proposed)
+          description: Set on the project board; this is your proposal. Default Medium; justify anything higher in the body.
+          options: [Urgent, High, Medium, Low]
+          default: 2
+      validations:
+          required: true
+    - type: dropdown
+      id: labels
+      attributes:
+          label: Labels (proposed)
+          description: Categorization only, from the registry. A maintainer applies them.
+          multiple: true
+          options:
+              - system
+              - documentation
+              - content
+              - thalorna
+              - site
+              - devops
+              - tests
+              - security
+              - tech-debt

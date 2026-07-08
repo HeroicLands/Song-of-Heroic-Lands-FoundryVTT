@@ -1,0 +1,71 @@
+# Authoritative label registry for the Song of Heroic Lands repositories.
+#
+# This file is the machine-readable source of truth for §3 of
+# docs/how-to/issue-reporting.md — the two are kept in sync by
+# `utils/check-labels.mjs` (run as part of `npm run lint`). Editing the registry
+# means editing BOTH: this file (name/color/description) and the §3 table.
+#
+# GitHub's labels are reconciled to this file by `utils/sync-labels.mjs`, run by
+# .github/workflows/labels-sync.yml. The set is CLOSED: any label on GitHub that
+# is not listed here is deleted on sync. Do not invent labels — extending the
+# registry is a deliberate edit to this file and §3.
+
+- name: system
+  color: "f4f37c"
+  description: The Foundry VTT game system code (TypeScript, data model, sheets, logic).
+
+- name: documentation
+  color: "0075ca"
+  description: The Foundry VTT game system documents (dev, api, user docs, rules content, etc.).
+
+- name: content
+  color: "58ec8d"
+  description: Non-documentation assets — images, compendium packs, actors, items, journals, or other content.
+
+- name: thalorna
+  color: "ce10df"
+  description: Thalorna setting material.
+
+- name: site
+  color: "24bdb0"
+  description: heroiclands.org — Hugo site, Cloudflare Pages, CDN.
+
+- name: devops
+  color: "e07b31"
+  description: Build, tooling, release pipeline, repo config.
+
+- name: tests
+  color: "44e6ce"
+  description: Vitest, Quench, or Playwright test suites and harness.
+
+- name: security
+  color: "b60205"
+  description: "Touches an attack surface: auth, data integrity, macro/script execution, injection, or anything warranting private disclosure."
+
+- name: tech-debt
+  color: "68691b"
+  description: Restructuring or cleanup of working code; refactors.
+
+- name: regression
+  color: "d93f0b"
+  description: Something that previously worked and stopped. Pairs with type bug.
+
+- name: breaking-change
+  color: "8d0f09"
+  description: Alters a public API, data schema, or save compatibility.
+
+- name: blocked
+  color: "c5702e"
+  description: Cannot proceed until an external dependency or another issue clears.
+
+- name: duplicate
+  color: "cfd3d7"
+  description: This issue or pull request already exists.
+
+- name: question
+  color: "0f5594"
+  description: Further information is requested.
+
+- name: wontfix
+  color: "ffffff"
+  description: This will not be worked on.

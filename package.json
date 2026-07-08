@@ -87,11 +87,12 @@
         "test:e2e:open": "run-s push:test test:e2e:seed test:e2e:openrun",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
-        "lint": "run-s lint:todos lint:docs-index lint:eslint lint:dts",
+        "lint": "run-s lint:todos lint:docs-index lint:labels lint:eslint lint:dts",
         "lint:eslint": "eslint src/",
         "lint:fix": "eslint src/ --fix",
         "lint:todos": "node utils/check-todos.mjs",
         "lint:docs-index": "node utils/check-docs-index.mjs",
+        "lint:labels": "node utils/check-labels.mjs",
         "lint:dts": "node utils/check-dts.mjs",
         "changeset": "changeset",
         "changeset:version": "changeset version",
@@ -139,7 +140,8 @@
         "unidecode": "^1.1.0",
         "vite": "^6.2.3",
         "vite-plugin-banner": "^0.8.0",
-        "vitest": "^3.1.2"
+        "vitest": "^3.1.2",
+        "yaml": "^2.8.1"
     },
     "dependencies": {
         "jsep": "^1.4.0"
