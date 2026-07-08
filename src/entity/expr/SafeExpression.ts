@@ -155,7 +155,7 @@ export class SafeExpression extends SohlEntity {
      * @throws {SafeExpressionError} If `data.source` is not a string, if jsep
      *   cannot parse it, or if static validation rejects it — a disallowed
      *   operator, a denied property key, a method or non-helper call, or an
-     *   unsupported node type (see {@link validate}).
+     *   unsupported node type (see `validate`).
      */
     constructor(
         data: Partial<SafeExpression.Data> = {},
@@ -322,7 +322,7 @@ export class SafeExpression extends SohlEntity {
      * @param context Variable bindings available to the expression.
      * @returns The node's value.
      * @throws {SafeExpressionError} If the node type is unsupported (unreachable
-     *   after {@link validate}) or a delegated evaluator rejects the node.
+     *   after `validate`) or a delegated evaluator rejects the node.
      */
     private evalNode(
         node: jsep.Expression,

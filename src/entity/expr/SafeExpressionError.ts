@@ -18,7 +18,7 @@
  * of this class.
  *
  * It lives in its own module so that both {@link SafeExpression} and the
- * {@link ExpressionHelperRegistry} can throw it without forming an import cycle
+ * `ExpressionHelperRegistry` can throw it without forming an import cycle
  * (the registry is consulted by `SafeExpression`, so it must not import back
  * from it).
  */
