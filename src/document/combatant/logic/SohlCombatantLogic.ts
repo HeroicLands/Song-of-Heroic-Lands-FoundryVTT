@@ -974,11 +974,11 @@ export class SohlCombatantLogic<
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 
-    /** Initialize-phase hook; base combatant logic does nothing. */
+    /** @inheritDoc */
     override initialize(): void {}
-    /** Evaluate-phase hook; base combatant logic does nothing. */
+    /** @inheritDoc */
     override evaluate(): void {}
-    /** Finalize-phase hook; base combatant logic does nothing. */
+    /** @inheritDoc */
     override finalize(): void {}
 }
 
