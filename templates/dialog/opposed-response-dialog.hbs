@@ -30,9 +30,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="form-group" id="nogood">
         <label>Opposed Item:</label>
         <select name="opposedItemUuid">
-            {{#select opposedItemUuid}} {{#each opposedItems}}
-            <option value="{{this.value}}">{{this.name}}</option>
-            {{/each}} {{/select}}
+            {{selectOptions opposedItems selected=opposedItemUuid
+            valueAttr="value" labelAttr="name"}}
         </select>
     </div>
 

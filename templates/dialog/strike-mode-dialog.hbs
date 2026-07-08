@@ -53,9 +53,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <div class="form-group">
             <label>Zone Die:</label>
             <select name="zoneDie">
-                {{#select zoneDie}} {{#each const.ZONEDICE}}
-                <option value="{{this}}">d{{this}}</option>
-                {{/each}} {{/select}}
+                {{#each const.ZONEDICE}}
+                <option
+                    value="{{this}}"
+                    {{#if (eq this ../zoneDie)}}selected{{/if}}
+                >
+                    d{{this}}
+                </option>
+                {{/each}}
             </select>
         </div>
     </div>
@@ -65,9 +70,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="form-group">
                 <label>Projectile Type:</label>
                 <select name="projectileType">
-                    {{#select projectileType}} {{#each const.PROJECTILETYPE}}
-                    <option value="{{this}}">{{this}}</option>
-                    {{/each}} {{/select}}
+                    {{#each const.PROJECTILETYPE}}
+                    <option
+                        value="{{this}}"
+                        {{#if (eq this ../projectileType)}}selected{{/if}}
+                    >
+                        {{this}}
+                    </option>
+                    {{/each}}
                 </select>
             </div>
             <div class="form-group">
@@ -102,18 +112,28 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="form-group">
                 <label>Aspect:</label>
                 <select name="impactAspect">
-                    {{#select impactAspect}} {{#each const.ASPECTTYPES}}
-                    <option value="{{this}}">{{this}}</option>
-                    {{/each}} {{/select}}
+                    {{#each const.ASPECTTYPES}}
+                    <option
+                        value="{{this}}"
+                        {{#if (eq this ../impactAspect)}}selected{{/if}}
+                    >
+                        {{this}}
+                    </option>
+                    {{/each}}
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Die:</label>
                 <select name="impactDie">
-                    {{#select impactDie}} {{#each const.IMPACTDICE}}
-                    <option value="{{this}}">d{{this}}</option>
-                    {{/each}} {{/select}}
+                    {{#each const.IMPACTDICE}}
+                    <option
+                        value="{{this}}"
+                        {{#if (eq this ../impactDie)}}selected{{/if}}
+                    >
+                        d{{this}}
+                    </option>
+                    {{/each}}
                 </select>
             </div>
 
