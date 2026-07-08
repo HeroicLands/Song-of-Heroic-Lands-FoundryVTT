@@ -15,9 +15,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="form-group">
         <label>Location:</label>
         <select name="location">
-            {{#select location}} {{#each hitLocations}}
-            <option value="{{this.code}}">{{this.name}}</option>
-            {{/each}} {{/select}}
+            {{selectOptions hitLocations selected=location valueAttr="code"
+            labelAttr="name"}}
         </select>
     </div>
 
@@ -29,9 +28,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <input type="hidden" name="aspect" value="{{aspect}}" />
             {{else}}
             <select name="aspect">
-                {{#select aspect}} {{#each aspectChoices}}
-                <option value="{{this}}">{{this}}</option>
-                {{/each}} {{/select}}
+                {{#each aspectChoices}}
+                <option
+                    value="{{this}}"
+                    {{#if (eq this ../aspect)}}selected{{/if}}
+                >
+                    {{this}}
+                </option>
+                {{/each}}
             </select>
             {{/if}}
         </div>

@@ -30,9 +30,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="form-group">
         <label>Weapon:</label>
         <select name="weaponUuid">
-            {{#select weaponUuid}} {{#each weapons}}
-            <option value="{{this.uuid}}">{{this.name}}</option>
-            {{/each}} {{/select}}
+            {{selectOptions weapons selected=weaponUuid valueAttr="uuid"
+            labelAttr="name"}}
         </select>
     </div>
 </form>
