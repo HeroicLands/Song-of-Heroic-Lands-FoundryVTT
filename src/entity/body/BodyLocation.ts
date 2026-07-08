@@ -11,6 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
+import { registerEntity } from "@src/entity/entityRegistry";
 import {
     AMPUTABILITY,
     BLEEDING_SUSCEPTIBILITY,
@@ -19,7 +21,7 @@ import {
     type ImpactAspect,
 } from "@src/utils/constants";
 import type { BodyPart } from "@src/entity/body/BodyPart";
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { SohlEntity } from "../SohlEntity";
 
 /**
@@ -131,27 +133,31 @@ export class BodyLocation extends SohlEntity {
         this.armorProtection = { blunt: 0, edged: 0, piercing: 0, fire: 0 };
         this.isRigid = false;
         this.armorType = "";
-        this.shockValue = new ValueModifier(
+        this.shockValue = new entity.ValueModifier(
             {},
             { parent: options.parent },
         ).setBase(data.shockValue);
-        this.probWeight = new ValueModifier(
+        this.probWeight = new entity.ValueModifier(
             {},
             { parent: options.parent },
         ).setBase(data.probWeight);
         this.protectionBase = {
-            blunt: new ValueModifier({}, { parent: options.parent }).setBase(
-                data.protectionBase.blunt,
-            ),
-            edged: new ValueModifier({}, { parent: options.parent }).setBase(
-                data.protectionBase.edged,
-            ),
-            piercing: new ValueModifier({}, { parent: options.parent }).setBase(
-                data.protectionBase.piercing,
-            ),
-            fire: new ValueModifier({}, { parent: options.parent }).setBase(
-                data.protectionBase.fire,
-            ),
+            blunt: new entity.ValueModifier(
+                {},
+                { parent: options.parent },
+            ).setBase(data.protectionBase.blunt),
+            edged: new entity.ValueModifier(
+                {},
+                { parent: options.parent },
+            ).setBase(data.protectionBase.edged),
+            piercing: new entity.ValueModifier(
+                {},
+                { parent: options.parent },
+            ).setBase(data.protectionBase.piercing),
+            fire: new entity.ValueModifier(
+                {},
+                { parent: options.parent },
+            ).setBase(data.protectionBase.fire),
         };
         this.bodyPart = options.bodyPart;
         this.index = options.index;
@@ -210,3 +216,4 @@ export namespace BodyLocation {
         bodyPart: BodyPart;
     }
 }
+registerEntity("BodyLocation", BodyLocation);

@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { entity } from "@src/entity/registry";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { TraitIntensity, TraitSubType } from "@src/utils/constants";
 import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
 
@@ -90,7 +91,7 @@ export class TraitLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.score = new ValueModifier({}, { parent: this });
+        this.score = new entity.ValueModifier({}, { parent: this });
         if (this.data.isNumeric) {
             this.score.setBase(this.data.score?.value ?? 0);
         } else {

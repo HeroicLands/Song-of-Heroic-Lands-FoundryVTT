@@ -11,6 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
+import { registerEntity } from "@src/entity/entityRegistry";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
@@ -145,7 +147,7 @@ export class SohlAction extends SohlEntity {
         options: Partial<SohlAction.Options>,
     ): SohlAction {
         options.parent = actor.logic;
-        return new SohlAction(data, options);
+        return new entity.SohlAction(data, options);
     }
 
     /**
@@ -539,3 +541,4 @@ export function isScriptActionMutationAllowed(
         );
     return pickScripts(oldActionDefs) === pickScripts(newActionDefs);
 }
+registerEntity("SohlAction", SohlAction);

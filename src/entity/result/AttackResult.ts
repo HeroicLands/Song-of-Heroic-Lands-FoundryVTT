@@ -11,6 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
+import { registerEntity } from "@src/entity/entityRegistry";
 import { StrikeModeBase } from "../strikemode/StrikeModeBase";
 import type { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { registerKind } from "@src/utils/kindRegistry";
@@ -20,7 +22,7 @@ import {
     VALUE_DELTA_INFO,
 } from "@src/utils/constants";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
-import { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
+import type { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
 import { fvttLogicFromUuidSync } from "@src/core/FoundryHelpers";
 
 /**
@@ -107,7 +109,7 @@ export class AttackResult extends SuccessTestResult {
                 "AttackResult requires a combatant UUID (data.combatantUuid) to be provided.",
             );
         }
-        this.impact = data.impact ?? new ImpactModifier();
+        this.impact = data.impact ?? new entity.ImpactModifier();
         this._modePointer = data.mode;
         this.mode = StrikeModeBase.fromPointerData(data.mode);
         this.label = data.label ?? "Attack";
@@ -292,3 +294,4 @@ export namespace AttackResult {
 }
 
 registerKind(AttackResult.Kind, AttackResult);
+registerEntity("AttackResult", AttackResult);

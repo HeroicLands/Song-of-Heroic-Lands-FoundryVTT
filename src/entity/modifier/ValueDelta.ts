@@ -12,6 +12,7 @@
  */
 
 import { registerKind } from "@src/utils/kindRegistry";
+import { registerEntity } from "@src/entity/entityRegistry";
 import {
     VALUE_DELTA_OPERATOR,
     ValueDeltaOperator,
@@ -170,3 +171,4 @@ export namespace ValueDelta {
 }
 
 registerKind(ValueDelta.Kind, ValueDelta);
+registerEntity("ValueDelta", ValueDelta);

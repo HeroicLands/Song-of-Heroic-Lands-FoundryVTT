@@ -12,8 +12,10 @@
  */
 
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import { CombatModifier } from "@src/entity/modifier/CombatModifier";
+import { registerEntity } from "@src/entity/entityRegistry";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { entity } from "@src/entity/registry";
+import type { CombatModifier } from "@src/entity/modifier/CombatModifier";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { STRIKE_MODE_TYPE } from "@src/utils/constants";
 
@@ -60,12 +62,18 @@ export class MeleeStrikeMode extends StrikeModeBase {
         super(data, parentLogic, id);
         // Reach is seeded from the weapon's length; the wielder's lineage
         // reach is layered on during the owning logic's evaluate phase.
-        this.reach = new ValueModifier({}, { parent: parentLogic }).setBase(
-            data.lengthBase,
-        );
+        this.reach = new entity.ValueModifier(
+            {},
+            {
+                parent: parentLogic,
+            },
+        ).setBase(data.lengthBase);
         this.defense = {
-            block: new CombatModifier({}, { parent: parentLogic }),
-            counterstrike: new CombatModifier({}, { parent: parentLogic }),
+            block: new entity.CombatModifier({}, { parent: parentLogic }),
+            counterstrike: new entity.CombatModifier(
+                {},
+                { parent: parentLogic },
+            ),
         };
         if (data.defense.block.modifier) {
             this.defense.block.add(
@@ -175,3 +183,4 @@ export namespace MeleeStrikeMode {
         };
     }
 }
+registerEntity("MeleeStrikeMode", MeleeStrikeMode);

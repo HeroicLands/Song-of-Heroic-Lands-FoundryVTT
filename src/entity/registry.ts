@@ -11,35 +11,23 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import { ValueDelta } from "@src/entity/modifier/ValueDelta";
-import { CombatModifier } from "@src/entity/modifier/CombatModifier";
-import { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
-import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
-import { TestResult } from "@src/entity/result/TestResult";
-import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
-import { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
-import { ImpactResult } from "@src/entity/result/ImpactResult";
-import { AttackResult } from "@src/entity/result/AttackResult";
-import { DefendResult } from "@src/entity/result/DefendResult";
-import { CombatResult } from "@src/entity/result/CombatResult";
-import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
-import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
-import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
-import { SohlAction } from "@src/entity/action/SohlAction";
-import { BodyStructure } from "@src/entity/body/BodyStructure";
-import { BodyPart } from "@src/entity/body/BodyPart";
-import { BodyLocation } from "@src/entity/body/BodyLocation";
-
 /**
- * The backing record of currently-registered entity-layer classes, seeded with
- * the SoHL base classes.
+ * The entity-class registry barrel.
  *
- * The {@link entity} surface reads from this record through per-name getters, so
- * that when `sohl.entity.register()` (issue #83) swaps an entry here, every
- * `sohl.entity.X` access — and every construction site routed through it — picks
- * up the override automatically. This record is intentionally mutable and
- * module-private; it is never exported directly.
+ * The registry itself — the backing record, the `entity` access surface, and the
+ * `register`/`base` override API — lives in the cycle-free leaf
+ * {@link entity | @src/entity/entityRegistry}, which value-imports none of the
+ * classes. This module is the **eager-load entrypoint**: the side-effect imports
+ * below pull in every registered class module, and each self-registers
+ * (`registerEntity("X", X)`) as it loads, so importing this barrel guarantees a
+ * fully-populated surface.
+ *
+ * `SohlSystem` imports this at init to publish the complete `sohl.entity` global.
+ * Ordinary internal code just does `import { entity } from "@src/entity/registry"`
+ * (this barrel), which both populates and exposes the surface. The handful of
+ * base classes that can't import the barrel without a load cycle import the leaf
+ * directly instead — see the "Entity class registry" section of
+ * docs/reference/runtime-contracts.md.
  *
  * Curated to the classes meant to be `new`ed or subclassed by macros and variant
  * modules: modifiers, test/combat results, strike modes, {@link SohlAction}, and
@@ -47,61 +35,32 @@ import { BodyLocation } from "@src/entity/body/BodyLocation";
  * helpers, weighted-random) and non-constructable helpers (`calcSkillBase`) are
  * deliberately excluded.
  */
-const registry = {
-    // Modifiers
-    ValueModifier,
-    ValueDelta,
-    CombatModifier,
-    ImpactModifier,
-    MasteryLevelModifier,
-    // Results
-    TestResult,
-    SuccessTestResult,
-    OpposedTestResult,
-    ImpactResult,
-    AttackResult,
-    DefendResult,
-    CombatResult,
-    // Strike modes
-    StrikeModeBase,
-    MeleeStrikeMode,
-    MissileStrikeMode,
-    // Action
-    SohlAction,
-    // Body modeling
-    BodyStructure,
-    BodyPart,
-    BodyLocation,
-};
 
-/**
- * The set of overridable entity-layer classes, keyed by class name. Each value
- * is the class constructor itself (`typeof ClassName`), so `new sohl.entity.X(...)`
- * and `class Y extends sohl.entity.X {}` both type-check.
- */
-export type SohlEntityRegistry = typeof registry;
+// Side-effect imports: load every registered class so its `registerEntity`
+// call runs. Keep in sync with the registry membership in `entityRegistry.ts`.
+import "@src/entity/modifier/ValueModifier";
+import "@src/entity/modifier/ValueDelta";
+import "@src/entity/modifier/CombatModifier";
+import "@src/entity/modifier/ImpactModifier";
+import "@src/entity/modifier/MasteryLevelModifier";
+import "@src/entity/result/TestResult";
+import "@src/entity/result/SuccessTestResult";
+import "@src/entity/result/OpposedTestResult";
+import "@src/entity/result/ImpactResult";
+import "@src/entity/result/AttackResult";
+import "@src/entity/result/DefendResult";
+import "@src/entity/result/CombatResult";
+import "@src/entity/strikemode/StrikeModeBase";
+import "@src/entity/strikemode/MeleeStrikeMode";
+import "@src/entity/strikemode/MissileStrikeMode";
+import "@src/entity/action/SohlAction";
+import "@src/entity/body/BodyStructure";
+import "@src/entity/body/BodyPart";
+import "@src/entity/body/BodyLocation";
 
-/** The registrable class names (`keyof` the registry). */
-export type SohlEntityName = keyof SohlEntityRegistry;
-
-/**
- * The getter-backed entity-class access surface exposed as `sohl.entity`.
- *
- * Each property is a getter returning the currently-registered class from
- * {@link registry}; the object itself is frozen so the getters cannot be
- * reassigned. Overrides are applied by mutating the backing record (via the
- * `register()` API added in #83), never by writing to this surface.
- *
- * @example
- * const vm = new sohl.entity.ValueModifier({}, { parent });
- * class MyResult extends sohl.entity.SuccessTestResult {}
- */
-export const entity: SohlEntityRegistry = Object.freeze(
-    (Object.keys(registry) as SohlEntityName[]).reduce((surface, name) => {
-        Object.defineProperty(surface, name, {
-            get: () => registry[name],
-            enumerable: true,
-        });
-        return surface;
-    }, {} as SohlEntityRegistry),
-);
+export { entity } from "@src/entity/entityRegistry";
+export type {
+    SohlEntityRegistry,
+    SohlEntityName,
+    SohlEntitySurface,
+} from "@src/entity/entityRegistry";

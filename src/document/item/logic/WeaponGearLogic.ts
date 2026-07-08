@@ -11,6 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
 import {
     ACTION_SUBTYPE,
@@ -20,10 +21,10 @@ import {
     SOHL_CONTEXT_MENU_SORT_GROUP,
     STRIKE_MODE_TYPE,
 } from "@src/utils/constants";
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
-import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
+import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { CombatResult } from "@src/entity/result/CombatResult";
@@ -202,14 +203,19 @@ export class WeaponGearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.encumbrance = new ValueModifier({}, { parent: this }).setBase(
-            this.data.encumbrance,
-        );
+        this.encumbrance = new entity.ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.encumbrance);
         this.strikeModes = Object.entries(this.data.strikeModes ?? {}).map(
             ([id, d]) =>
                 d.type === STRIKE_MODE_TYPE.MELEE ?
-                    new MeleeStrikeMode(d as MeleeStrikeMode.Data, this, id)
-                :   new MissileStrikeMode(
+                    new entity.MeleeStrikeMode(
+                        d as MeleeStrikeMode.Data,
+                        this,
+                        id,
+                    )
+                :   new entity.MissileStrikeMode(
                         d as MissileStrikeMode.Data,
                         this,
                         id,

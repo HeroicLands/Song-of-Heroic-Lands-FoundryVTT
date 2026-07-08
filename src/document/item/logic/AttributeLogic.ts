@@ -11,9 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { entity } from "@src/entity/registry";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
-import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
 import { SohlAction } from "@src/entity/action/SohlAction";
@@ -148,8 +149,11 @@ export class AttributeLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.masteryLevel = new MasteryLevelModifier({}, { parent: this });
-        this.score = new ValueModifier({}, { parent: this }).setBase(
+        this.masteryLevel = new entity.MasteryLevelModifier(
+            {},
+            { parent: this },
+        );
+        this.score = new entity.ValueModifier({}, { parent: this }).setBase(
             this.data.scoreBase,
         );
     }

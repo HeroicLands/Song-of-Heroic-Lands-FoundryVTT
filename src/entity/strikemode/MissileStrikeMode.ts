@@ -11,8 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entity } from "@src/entity/registry";
+import { registerEntity } from "@src/entity/entityRegistry";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { STRIKE_MODE_TYPE } from "@src/utils/constants";
 
@@ -50,12 +52,14 @@ export class MissileStrikeMode extends StrikeModeBase {
         super(data, parentLogic, id);
         this.projectileType = data.projectileType;
         this.maxVolleyMult = data.maxVolleyMult;
-        this.baseRange = new ValueModifier({}, { parent: parentLogic }).setBase(
-            data.baseRangeBase,
-        );
-        this.draw = new ValueModifier({}, { parent: parentLogic }).setBase(
-            data.drawBase,
-        );
+        this.baseRange = new entity.ValueModifier(
+            {},
+            { parent: parentLogic },
+        ).setBase(data.baseRangeBase);
+        this.draw = new entity.ValueModifier(
+            {},
+            { parent: parentLogic },
+        ).setBase(data.drawBase);
     }
 
     /**
@@ -115,3 +119,4 @@ export namespace MissileStrikeMode {
         drawBase: number;
     }
 }
+registerEntity("MissileStrikeMode", MissileStrikeMode);

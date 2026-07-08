@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { entity } from "@src/entity/registry";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     SohlItemBaseLogic,
     type SohlItemData,
@@ -327,18 +328,19 @@ export abstract class GearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.weight = new ValueModifier({}, { parent: this }).setBase(
+        this.weight = new entity.ValueModifier({}, { parent: this }).setBase(
             this.data.weightBase,
         );
-        this.value = new ValueModifier({}, { parent: this }).setBase(
+        this.value = new entity.ValueModifier({}, { parent: this }).setBase(
             this.data.valueBase,
         );
-        this.quality = new ValueModifier({}, { parent: this }).setBase(
+        this.quality = new entity.ValueModifier({}, { parent: this }).setBase(
             this.data.qualityBase,
         );
-        this.durability = new ValueModifier({}, { parent: this }).setBase(
-            this.data.durabilityBase,
-        );
+        this.durability = new entity.ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.durabilityBase);
         this.sharedWithCohorts = (this.data.sharedWithCohortIds ?? [])
             .map((id) => fvttGetActor(id) as SohlActor | undefined)
             .filter((a): a is SohlActor => a != null);

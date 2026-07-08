@@ -12,6 +12,7 @@
  */
 
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { registerEntity } from "@src/entity/entityRegistry";
 import { registerKind } from "@src/utils/kindRegistry";
 
 /**
@@ -68,3 +69,4 @@ export namespace CombatModifier {
 }
 
 registerKind(CombatModifier.Kind, CombatModifier);
+registerEntity("CombatModifier", CombatModifier);
