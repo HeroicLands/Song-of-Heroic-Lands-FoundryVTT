@@ -16,7 +16,7 @@ import { SohlCalendarData } from "@src/core/foundry/SohlCalendar";
 import { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
 import * as utils from "@src/utils/helpers";
 import * as constants from "@src/utils/constants";
-import { domain, type SohlDomainRegistry } from "@src/domain/registry";
+import { entity, type SohlEntityRegistry } from "@src/entity/registry";
 import { SohlLocalize } from "@src/core/foundry/SohlLocalize";
 import { SohlLogger } from "@src/core/foundry/SohlLogger";
 import {
@@ -87,8 +87,8 @@ export class SohlSystem {
     static readonly utils: typeof utils = utils;
     /** The {@link constants} module (static access). */
     static readonly constants: typeof constants = constants;
-    /** The {@link domain} class registry (static access). */
-    static readonly domain: SohlDomainRegistry = domain;
+    /** The {@link entity} class registry (static access). */
+    static readonly entity: SohlEntityRegistry = entity;
     /** Set true once the system has finished its `ready`-hook setup. */
     static ready: boolean = false;
     /** Localization helper (`sohl.i18n`). */
@@ -189,13 +189,13 @@ export class SohlSystem {
     }
 
     /**
-     * The constructable domain-class registry (`sohl.domain`) — named entry
-     * points to `new` or subclass the SoHL domain classes (modifiers, results,
-     * strike modes, {@link SohlAction}, body modeling). Each entry is a getter,
-     * so a future `register()` override is picked up automatically.
+     * The constructable entity-class registry (`sohl.entity`) — named entry
+     * points to `new` or subclass the SoHL entity-layer classes (modifiers,
+     * results, strike modes, {@link SohlAction}, body modeling). Each entry is a
+     * getter, so a future `register()` override is picked up automatically.
      */
-    get domain(): SohlDomainRegistry {
-        return (this.constructor as any).domain;
+    get entity(): SohlEntityRegistry {
+        return (this.constructor as any).entity;
     }
 
     /**
