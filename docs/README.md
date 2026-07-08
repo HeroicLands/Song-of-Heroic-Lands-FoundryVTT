@@ -27,6 +27,7 @@ Task-oriented guides for getting something done.
 
 - [Getting Started (New Developer Guide)](how-to/getting-started.md)
 - [Extension Points](how-to/extension-points.md)
+- [API Access Map](how-to/api-access-map.md)
 - [Lifecycle Hooks](how-to/lifecycle-hooks.md)
 - [House Rules Cookbook](how-to/house-rules-cookbook.md)
 - [Testing](how-to/testing.md)
