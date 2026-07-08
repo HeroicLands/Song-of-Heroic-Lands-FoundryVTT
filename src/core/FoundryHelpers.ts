@@ -19,15 +19,7 @@ import {
     escapeHTML,
     setUuidResolver,
 } from "@src/utils/helpers";
-import type {
-    DialogButtonCallback,
-    DialogButton,
-    DialogRenderCallback,
-    DialogCloseCallback,
-    DialogSubmitCallback,
-    DialogConfig,
-    AwaitDialogResult,
-} from "@src/utils/types";
+import type { DialogSpec } from "@src/utils/types";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlScene } from "@src/document/scene/foundry/SohlScene";
@@ -55,17 +47,13 @@ import { SohlCombat } from "@src/document/combat/foundry/SohlCombat";
 // ---------------------------------------------------------------------------
 
 // The dialog types are pure (Foundry-free) declarations and live in the shared
-// util types module. They are re-exported here so the dialog helpers below and
-// existing consumers can keep importing them from the FoundryHelpers surface.
+// util types module. They are re-exported here so the `dialog` boundary below
+// and its consumers can keep importing them from the FoundryHelpers surface.
 export type {
-    DialogButtonCallback,
-    DialogButton,
-    DialogRenderCallback,
-    DialogCloseCallback,
-    DialogSubmitCallback,
-    DialogConfig,
-    AwaitDialogResult,
-};
+    DialogSpec,
+    DialogButtonSpec,
+    DialogResultCallback,
+} from "@src/utils/types";
 
 // ---------------------------------------------------------------------------
 // Utilities
@@ -509,95 +497,72 @@ export async function toHTMLWithContent(
 // ---------------------------------------------------------------------------
 
 /**
- * Create a dialog with a yes/no option.
+ * The single, logic-level dialog primitive.
  *
- * If the user clicks yes, the promise resolves to `true`. If no, `false`.
- * If the user dismisses the dialog, the promise resolves to `null`, or
- * rejects with an error if `rejectClose` is `true`.
- * @param config - The dialog configuration; supply either `content` or `template`.
- * @returns The user's choice (`true`/`false`), or `null` if dismissed.
- * @throws Error if the config supplies neither `content` nor `template`.
+ * Renders `template` (or `content`) with `data`, shows the buttons (a single
+ * confirming `ok` button by default), and resolves to:
+ * - the `callback` return value, when a `callback` is provided;
+ * - otherwise `{ action, data }` — the pressed button's action plus the parsed
+ *   form data;
+ * - `null` if the dialog is dismissed (unless `rejectClose` is set, which
+ *   rejects instead).
+ *
+ * All Foundry/DOM work — template rendering, `FormDataExtended` form parsing,
+ * and `DialogV2` — lives here at the boundary, so callers in the logic layer
+ * describe the dialog purely and receive a plain-object result.
+ * @param spec - The dialog specification.
+ * @returns The dialog result (see above), or `null` if dismissed.
+ * @throws Error if the spec supplies neither `content` nor `template`.
  */
-export async function yesNoDialog(
-    config: Partial<DialogConfig> = {},
-): Promise<any | null> {
-    if (!config.template) {
-        if (!config.content) {
-            throw new Error("Dialog content or template is required");
-        }
-        config.content = await toHTMLWithContent(config.content, config.data);
+export async function dialog(spec: DialogSpec = {}): Promise<any> {
+    let content: HTMLString;
+    if (spec.template) {
+        content = await toHTMLWithTemplate(spec.template, spec.data);
+    } else if (spec.content) {
+        content = await toHTMLWithContent(spec.content, spec.data);
     } else {
-        config.content = await toHTMLWithTemplate(config.template, config.data);
+        throw new Error("Dialog content or template is required");
     }
-    return await foundry.applications.api.DialogV2.confirm(config as any);
-}
 
-/**
- * Create a dialog with an OK button.
- *
- * If the user clicks OK, the promise resolves to `true`. If dismissed,
- * resolves to `null`, or rejects if `rejectClose` is `true`.
- * @param config - The dialog configuration; supply either `content` or `template`.
- * @returns `true` if OK was clicked, or `null` if dismissed.
- * @throws Error if the config supplies neither `content` nor `template`.
- */
-export async function okDialog(
-    config: Partial<DialogConfig> = {},
-): Promise<any | null> {
-    if (!config.template) {
-        if (!config.content) {
-            throw new Error("Dialog content or template is required");
-        }
-        config.content = await toHTMLWithContent(config.content, config.data);
-    } else {
-        config.content = await toHTMLWithTemplate(config.template, config.data);
-    }
-    return await (foundry.applications.api.DialogV2 as any).ok(config);
-}
+    const buttonSpecs =
+        spec.buttons && spec.buttons.length > 0 ?
+            spec.buttons
+        :   [{ action: "ok", label: "OK", default: true }];
 
-/**
- * Create a dialog with input fields to collect user input.
- *
- * When OK is clicked, resolves to a FormDataExtended object. If dismissed,
- * resolves to `null`, or rejects if `rejectClose` is `true`.
- * @param config - The dialog configuration plus an optional submit `callback`.
- * @returns The collected form data, or `null` if dismissed.
- * @throws Error if the config supplies neither `content` nor `template`.
- */
-export async function inputDialog(
-    config: Partial<DialogConfig & { callback: DialogButtonCallback }> = {},
-): Promise<PlainObject | null> {
-    if (!config.template) {
-        if (!config.content) {
-            throw new Error("Dialog content or template is required");
-        }
-        config.content = await toHTMLWithContent(config.content, config.data);
-    } else {
-        config.content = await toHTMLWithTemplate(config.template, config.data);
-    }
-    return await (foundry.applications.api.DialogV2 as any).input(config);
-}
+    const buttons = buttonSpecs.map((b) => ({
+        action: b.action,
+        label: b.label ?? b.action,
+        icon: b.icon,
+        default: b.default ?? false,
+        // Boundary: parse the rendered form into a plain object, then hand it to
+        // the caller's pure `callback`. Callers never touch the DOM/DialogV2.
+        callback: (_event: unknown, _button: unknown, dlg: any): unknown => {
+            const form: HTMLFormElement | null =
+                dlg?.element?.querySelector?.("form") ?? null;
+            const formData = (
+                form ?
+                    new (foundry.applications as any).ux.FormDataExtended(form)
+                        .object
+                :   {}) as PlainObject;
+            return spec.callback ?
+                    spec.callback(formData, b.action)
+                :   { action: b.action, data: formData };
+        },
+    }));
 
-/**
- * Create a dialog with a set of buttons.
- *
- * Resolves to the identifier of the clicked button or the value returned
- * by its callback. If dismissed, resolves to `null`, or rejects if
- * `rejectClose` is `true`.
- * @param config - The dialog configuration; supply either `content` or `template`.
- * @returns The clicked button's identifier or callback value, or `null` if dismissed.
- * @throws Error if the config supplies neither `content` nor `template`.
- */
-export async function awaitDialog(config: Partial<DialogConfig>): Promise<any> {
-    if (!config.template) {
-        if (!config.content) {
-            throw new Error("Dialog content or template is required");
-        }
-        config.content = await toHTMLWithContent(config.content, config.data);
-    } else {
-        config.content = await toHTMLWithTemplate(config.template, config.data);
-    }
-    return await foundry.applications.api.DialogV2.wait(config as any);
+    return await (foundry.applications.api.DialogV2 as any).wait({
+        window: { title: spec.title },
+        content,
+        modal: spec.modal ?? false,
+        rejectClose: spec.rejectClose ?? false,
+        // Foundry fires "render" on the initial render and every re-render; hand
+        // the caller the dialog's root element for dynamic form behaviour.
+        render:
+            spec.render ?
+                (_event: unknown, dlg: any) => spec.render!(dlg.element)
+            :   undefined,
+        buttons,
+    });
 }
 
 // ---------------------------------------------------------------------------

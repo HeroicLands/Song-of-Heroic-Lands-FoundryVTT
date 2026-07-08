@@ -11,11 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    DialogButtonCallback,
-    inputDialog,
-    fvttGetTargetedTokens,
-} from "@src/core/FoundryHelpers";
+import { dialog, fvttGetTargetedTokens } from "@src/core/FoundryHelpers";
 import { registerKind } from "@src/utils/kindRegistry";
 import { entity, registerEntity } from "@src/entity/entityRegistry";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
@@ -364,36 +360,19 @@ export class MasteryLevelModifier extends ValueModifier {
                 label: v,
             })),
         };
-        const dlgResult = await inputDialog({
+        const dlgResult = await dialog({
             title: sohl.i18n.format(
                 "SOHL.MasteryLevelModifier.successTest.dialogLabel",
             ),
             template: dlgTemplate,
             data: dialogData,
-            callback: ((
-                _event: PointerEvent | SubmitEvent,
-                button: HTMLButtonElement,
-                _dialog: HTMLDialogElement,
-            ): Promise<
-                | {
-                      situationalModifier: number;
-                      successLevelMod: number;
-                      rollMode: string;
-                  }
-                | undefined
-            > => {
-                const form = button.querySelector("form");
-                if (!form) return Promise.resolve(undefined);
-                const fd = new FormDataExtended(form);
-                const formData = fd.object;
-                return Promise.resolve({
-                    situationalModifier:
-                        parseInt(String(formData.situationalModifier), 10) || 0,
-                    successLevelMod:
-                        parseInt(String(formData.successLevelMod), 10) || 0,
-                    rollMode: String(formData.rollMode),
-                });
-            }) as DialogButtonCallback,
+            callback: (formData: PlainObject) => ({
+                situationalModifier:
+                    parseInt(String(formData.situationalModifier), 10) || 0,
+                successLevelMod:
+                    parseInt(String(formData.successLevelMod), 10) || 0,
+                rollMode: String(formData.rollMode),
+            }),
             rejectClose: false,
         });
 

@@ -191,10 +191,10 @@ describe("MasteryLevelModifier", () => {
     describe("successTest (dialog-driven flow)", () => {
         /*
          * The current source always drives the standard-test dialog: it builds
-         * the dialog data and awaits FoundryHelpers.inputDialog, then applies
+         * the dialog data and awaits FoundryHelpers.dialog, then applies
          * the returned situational modifier / success-level mod / roll mode to a
          * cloned MasteryLevelModifier. A dismissed dialog (falsy return) cancels
-         * the test. We exercise that flow by stubbing inputDialog's return.
+         * the test. We exercise that flow by stubbing dialog's return.
          */
         function ctx(scope: Record<string, unknown> = {}) {
             return { scope } as any;
@@ -209,7 +209,7 @@ describe("MasteryLevelModifier", () => {
             } | null,
         ) {
             return vi
-                .spyOn(FoundryHelpers, "inputDialog")
+                .spyOn(FoundryHelpers, "dialog")
                 .mockResolvedValue(values as any);
         }
 
@@ -313,7 +313,7 @@ describe("MasteryLevelModifier", () => {
         });
 
         it("returns undefined when the dialog is dismissed", async () => {
-            // A falsy inputDialog return cancels the test; the source bare-returns
+            // A falsy dialog return cancels the test; the source bare-returns
             // (undefined), not null.
             const { evaluate } = stubResult(true);
             mockDialog(null);
