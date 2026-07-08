@@ -192,6 +192,13 @@ export async function fvttCreateChatMessage(_data: object): Promise<any> {
     return null;
 }
 
+export async function fvttCreateEmbeddedItems(
+    _actorLogic: any,
+    _itemsData: object[],
+): Promise<any[]> {
+    return [];
+}
+
 export function fvttApplyRollMode(_data: object, _mode: string): void {}
 
 // ---------------------------------------------------------------------------
