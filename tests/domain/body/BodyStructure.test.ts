@@ -337,8 +337,52 @@ describe("BodyStructure", () => {
         });
     });
 
+    // Regression guard (#247): partial `parts.${i}.field` writes corrupt the
+    // whole parts array under Foundry. Every part-field mutation must emit a
+    // COMPLETE `system.bodyStructure.parts` array, never a by-index key.
+    describe("setPartFieldsUpdate", () => {
+        it("rewrites the complete parts array, changing only the target part", () => {
+            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+            const update = body.setPartFieldsUpdate([
+                { index: 1, changes: { heldItemId: "aaaaaaaaaaaaaaaa" } },
+            ]);
+            // Only the full-array key is present — no by-index key.
+            expect(Object.keys(update)).toEqual(["system.bodyStructure.parts"]);
+            const parts = update["system.bodyStructure.parts"];
+            expect(parts).toHaveLength(2);
+            // Untouched part keeps every field.
+            expect(parts[0]).toEqual(SAMPLE_DATA.parts[0]);
+            // Target part gets the change, retaining its other fields.
+            expect(parts[1].heldItemId).toBe("aaaaaaaaaaaaaaaa");
+            expect(parts[1].shortcode).toBe("thorax");
+            expect(parts[1].locations).toEqual(SAMPLE_DATA.parts[1].locations);
+        });
+
+        it("applies changes to several parts at once", () => {
+            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+            const update = body.setPartFieldsUpdate([
+                { index: 0, changes: { heldItemId: "0000000000000000" } },
+                { index: 1, changes: { heldItemId: "1111111111111111" } },
+            ]);
+            const parts = update["system.bodyStructure.parts"];
+            expect(parts).toHaveLength(2);
+            expect(parts[0].heldItemId).toBe("0000000000000000");
+            expect(parts[1].heldItemId).toBe("1111111111111111");
+        });
+
+        it("ignores out-of-range indices and returns {} when nothing applies", () => {
+            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+            expect(
+                body.setPartFieldsUpdate([
+                    { index: 99, changes: { heldItemId: "x" } },
+                ]),
+            ).toEqual({});
+            expect(body.setPartFieldsUpdate([])).toEqual({});
+        });
+    });
+
     describe("addLocationUpdate", () => {
-        it("returns update payload with new location appended to part", () => {
+        it("emits a complete parts array with the location appended", () => {
             const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
             const newLoc: BodyLocation.Data = {
                 shortcode: "neck",
@@ -350,28 +394,35 @@ describe("BodyStructure", () => {
             };
             const part = body.getPartByCode("head")!;
             const update = part.addLocationUpdate(newLoc);
-            const locs = update["system.bodyStructure.parts.0.locations"];
-            expect(locs).toHaveLength(3);
-            expect(locs[2].shortcode).toBe("neck");
+            // Full-array write only — no `parts.0.locations` by-index key (#247).
+            expect(Object.keys(update)).toEqual(["system.bodyStructure.parts"]);
+            const parts = update["system.bodyStructure.parts"];
+            expect(parts).toHaveLength(2);
+            expect(parts[1]).toEqual(SAMPLE_DATA.parts[1]); // sibling intact
+            expect(parts[0].locations).toHaveLength(3);
+            expect(parts[0].locations[2].shortcode).toBe("neck");
         });
     });
 
     describe("removeLocationUpdate", () => {
-        it("returns update payload with location removed by name", () => {
+        it("emits a complete parts array with the location removed", () => {
             const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
             const part = body.getPartByCode("head")!;
             const update = part.removeLocationUpdate("skull");
-            const locs = update["system.bodyStructure.parts.0.locations"];
-            expect(locs).toHaveLength(1);
-            expect(locs[0].shortcode).toBe("face");
+            expect(Object.keys(update)).toEqual(["system.bodyStructure.parts"]);
+            const parts = update["system.bodyStructure.parts"];
+            expect(parts).toHaveLength(2);
+            expect(parts[1]).toEqual(SAMPLE_DATA.parts[1]); // sibling intact
+            expect(parts[0].locations).toHaveLength(1);
+            expect(parts[0].locations[0].shortcode).toBe("face");
         });
 
-        it("returns unchanged array if name not found", () => {
+        it("returns unchanged locations if name not found", () => {
             const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
             const part = body.getPartByCode("head")!;
             const update = part.removeLocationUpdate("nonexistent");
-            const locs = update["system.bodyStructure.parts.0.locations"];
-            expect(locs).toHaveLength(2);
+            const parts = update["system.bodyStructure.parts"];
+            expect(parts[0].locations).toHaveLength(2);
         });
     });
 

@@ -261,6 +261,40 @@ export class BodyStructure extends SohlEntity {
     }
 
     /**
+     * Build an `update()` payload that sets fields on one or more parts,
+     * addressed by index, by rewriting the **entire** `parts` array.
+     *
+     * Never write a single array element by index (`parts.${i}.field`):
+     * Foundry expands the dotted key to `{ parts: { i: {…} } }` and rebuilds
+     * the array field from that sparse map, **truncating it and default-filling
+     * every other element** — silently destroying every part but the one
+     * touched (issue #247). Sourcing the full canonical array and replacing the
+     * target element(s) makes the write a complete-array replacement, which
+     * Foundry applies faithfully.
+     *
+     * @param updates - One `{ index, changes }` per part to modify; `changes`
+     *   is a partial of that part's persisted fields. Out-of-range indices are
+     *   ignored.
+     * @returns A complete-array `update()` payload, or `{}` if nothing applies.
+     */
+    setPartFieldsUpdate(
+        updates: { index: number; changes: Partial<BodyPart.Data> }[],
+    ): PlainObject {
+        const canonical: BodyPart.Data[] = this.parent.data.bodyStructure.parts;
+        const byIndex = new Map(
+            updates
+                .filter((u) => u.index >= 0 && u.index < canonical.length)
+                .map((u) => [u.index, u.changes]),
+        );
+        if (!byIndex.size) return {};
+        return {
+            "system.bodyStructure.parts": canonical.map((p, i) =>
+                byIndex.has(i) ? { ...p, ...byIndex.get(i) } : p,
+            ),
+        };
+    }
+
+    /**
      * Check whether an adjacency edge exists between two parts.
      * Order does not matter — edges are bidirectional.
      *
