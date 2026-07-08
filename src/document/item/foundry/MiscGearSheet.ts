@@ -11,10 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    SohlItem,
-    SohlItemSheetBase,
-} from "@src/document/item/foundry/SohlItem";
+import { SohlItem } from "@src/document/item/foundry/SohlItem";
+import { SohlItemSheetBase } from "@src/document/item/foundry/SohlItemSheetBase";
 
 /** @internal */
 export class MiscGearSheet extends SohlItemSheetBase {

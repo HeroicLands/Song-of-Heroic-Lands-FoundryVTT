@@ -16,7 +16,7 @@ import {
     AttributeData,
 } from "@src/document/item/logic/AttributeLogic";
 import { BodyRoles, ITEM_KIND, BodyRoleChoices } from "@src/utils/constants";
-import { SohlItemDataModel } from "./SohlItem";
+import { SohlItemDataModel } from "./SohlItemDataModel";
 const { ArrayField, SchemaField, NumberField, StringField } =
     foundry.data.fields;
 

@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActor";
+import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBase";
 
 /** @internal */
 export class CohortSheet extends SohlActorSheetBase {

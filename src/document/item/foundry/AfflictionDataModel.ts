@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@src/document/item/foundry/SohlItem";
+import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel";
 import {
     AfflictionLogic,
     AfflictionData,

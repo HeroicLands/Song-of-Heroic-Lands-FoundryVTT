@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlActorDataModel } from "@src/document/actor/foundry/SohlActor";
+import { SohlActorDataModel } from "@src/document/actor/foundry/SohlActorDataModel";
 import { ACTOR_KIND } from "@src/utils/constants";
 import type { AssemblyData } from "@src/document/actor/logic/AssemblyLogic";
 import { AssemblyLogic } from "@src/document/actor/logic/AssemblyLogic";
