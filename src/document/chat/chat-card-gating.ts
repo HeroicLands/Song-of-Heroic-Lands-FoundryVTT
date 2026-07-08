@@ -40,8 +40,8 @@ import { ITEM_KIND, SKILL_CODE } from "@src/utils/constants";
  * dependency and is unit-testable with a stub element + stub defender. A no-op
  * on any card without these buttons.
  *
- * @param element The chat message's rendered root element.
- * @param resolveDefender Resolves the defender document from a button's
+ * @param element - The chat message's rendered root element.
+ * @param resolveDefender - Resolves the defender document from a button's
  *   `data-handler-actor-uuid` (the caller supplies the Foundry lookup).
  */
 export function gateAutomatedDefenseButtons(

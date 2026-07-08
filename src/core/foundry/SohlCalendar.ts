@@ -42,6 +42,20 @@ export interface SohlCalendarComponents
  */
 export class SohlCalendarData extends foundry.data
     .CalendarData<foundry.data.CalendarData.TimeComponents> {
+    /**
+     * Delegates to Foundry's {@link foundry.data.CalendarData} constructor —
+     * SoHL adds no construction behavior. Hidden from the API docs because the
+     * model is instantiated by Foundry from calendar config, never directly.
+     *
+     * @param args - Forwarded verbatim to the base `CalendarData` constructor.
+     * @hidden
+     */
+    constructor(
+        ...args: ConstructorParameters<typeof foundry.data.CalendarData>
+    ) {
+        super(...args);
+    }
+
     /** Calendar display name. */
     declare name: string;
     /** Calendar description. */

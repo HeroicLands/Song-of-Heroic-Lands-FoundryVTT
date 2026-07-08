@@ -406,7 +406,7 @@ export namespace SohlDataModel {
 
             /**
              * Define whether a user is able to begin a dragstart workflow for a given drag selector
-             * @param selector       The candidate HTML selector for dragging
+             * @param selector - The candidate HTML selector for dragging
              * @returns Can the current user drag this selector?
              */
             protected _canDragStart(selector: string): boolean {
@@ -415,7 +415,7 @@ export namespace SohlDataModel {
 
             /**
              * Define whether a user is able to conclude a drag-and-drop workflow for a given drop selector
-             * @param selector       The candidate HTML selector for the drop target
+             * @param selector - The candidate HTML selector for the drop target
              * @returns  Can the current user drop on this selector?
              */
             protected _canDragDrop(selector: string): boolean {
@@ -474,8 +474,8 @@ export namespace SohlDataModel {
             /**
              * Actions performed after any render of the Application.
              * Post-render steps are not awaited by the render process.
-             * @param {ApplicationRenderContext} context      Prepared context data
-             * @param {RenderOptions} options                 Provided render options
+             * @param context - Prepared context data
+             * @param options - Provided render options
              */
             protected override async _onRender(
                 context: PlainObject,
@@ -612,8 +612,8 @@ export namespace SohlDataModel {
              * Retrieve the context options for the given item. Sort the menu items based on groups, with items having no group at the top, items in the 'primary' group in the middle, and items in the 'secondary' group at the bottom.
              *
              * @static
-             * @param {*} doc
-             * @returns {*}
+             * @param doc
+             * @returns
              */
             protected static _getContextOptions(
                 doc: SohlDocument,
@@ -691,7 +691,7 @@ export namespace SohlDataModel {
 
             /**
              * Callback actions which occur at the beginning of a drag start workflow.
-             * @param event       The originating DragEvent
+             * @param event - The originating DragEvent
              */
             protected _onDragStart(event: DragEvent): void {
                 const li = event.currentTarget as HTMLElement;
@@ -725,13 +725,13 @@ export namespace SohlDataModel {
 
             /**
              * Callback actions which occur when a dragged element is over a drop target.
-             * @param event       The originating DragEvent
+             * @param event - The originating DragEvent
              */
             protected _onDragOver(event: DragEvent): void {}
 
             /**
              * Callback actions which occur when a dragged element is dropped on a target.
-             * @param event       The originating DragEvent
+             * @param event - The originating DragEvent
              */
             protected async _onDrop(event: DragEvent): Promise<void> {
                 const data = JSON.parse(

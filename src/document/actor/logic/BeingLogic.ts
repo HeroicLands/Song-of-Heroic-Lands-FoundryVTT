@@ -76,6 +76,10 @@ import {
     defaultToJSON,
     buildActionScope,
 } from "@src/utils/helpers";
+// `chat-card-dispatch` is a pure, Foundry-free module (no `foundry.*`/`game.*`);
+// the logic layer may depend on it. The path-based boundary rule can't tell it
+// apart from the Foundry-coupled files under `document/chat/`, so allow this one.
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
 import {
     ResolvedInjury,
@@ -100,8 +104,6 @@ export class BeingLogic<
 > extends SohlActorBaseLogic<TData> {
     /**
      * Overall health state, derived from injury levels across body roles
-     *
-     * @type {ValueModifier}
      */
     health!: ValueModifier;
 
@@ -112,15 +114,11 @@ export class BeingLogic<
 
     /**
      * Current shock state, derived from accumulated injuries and other factors.
-     *
-     * @type {number}
      */
     shockState!: number;
 
     /**
      * The being's pull score, determining whether it can draw certain bow weapons.
-     *
-     * @type {ValueModifier}
      */
     pull!: ValueModifier;
 
@@ -207,11 +205,11 @@ export class BeingLogic<
      * and other conditions including heft, pull, and similar considerations.
      *
      * @param options - Filter criteria for the strike mode query.
-     * @param options.distanceToTarget if specified, the distance from the weapon holder
+     * @param options.distanceToTarget - if specified, the distance from the weapon holder
      * to the target, used to consider reach and/or range.
-     * @param options.volleyAllowed if `true`, volley strike modes are allowed, otherwise not.
-     * @param options.directAllowed if `true`, direct strike modes are allowed, otherwise not.
-     * @param options.meleeAllowed if `true`, melee strike modes are allowed, otherwise not.
+     * @param options.volleyAllowed - if `true`, volley strike modes are allowed, otherwise not.
+     * @param options.directAllowed - if `true`, direct strike modes are allowed, otherwise not.
+     * @param options.meleeAllowed - if `true`, melee strike modes are allowed, otherwise not.
      * @returns array of strike modes on this weapon that are currently usable that
      * meet the criteria.
      */
@@ -357,8 +355,8 @@ export class BeingLogic<
      * location and damage. If armor or other defenses are unable to fully mitigate the impact,
      * this will return the resulting damage and location so it can then be used
      * to apply damage to the being's body roles and parts.
-     * @param context - Action context carrying the impact result in its scope.
-     * @param [context.scope.ImpactResult] The ImpactResult representing the result of the attack or effect.
+     * @param context - Action context carrying the impact result in its scope
+     *   (`scope.priorTestResult` / `scope.impactModifier`).
      * @returns The impact result, or null if no impact occurred.
      */
     async calcImpact(
@@ -908,8 +906,8 @@ export class BeingLogic<
 
     /**
      * Helper method to handle chat card button clicks.
-     * @param btn The button element that was clicked.
-     * @param logic The action logic to use
+     * @param btn - The button element that was clicked.
+     * @param logic - The action logic to use
      */
     static async onChatCardButton(
         btn: HTMLElement,
@@ -964,7 +962,7 @@ export class BeingLogic<
 
     /**
      * Helper method to handle chat card edit actions.
-     * @param btn The button element that was clicked.
+     * @param btn - The button element that was clicked.
      */
     async onChatCardEditAction(btn: HTMLElement): Promise<void> {
         if (!this.actor?.isOwner) return;

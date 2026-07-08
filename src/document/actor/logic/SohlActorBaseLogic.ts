@@ -46,8 +46,8 @@ export interface SohlActorLogic<
     /**
      * Find an embedded item's logic by its `shortcode` and item kind.
      * @typeParam K The item kind, inferred from the `type` argument.
-     * @param shortcode The item's `system.shortcode`.
-     * @param type The {@link ItemKind} to match (e.g. `ITEM_KIND.SKILL`).
+     * @param shortcode - The item's `system.shortcode`.
+     * @param type - The {@link ItemKind} to match (e.g. `ITEM_KIND.SKILL`).
      * @returns The matching item's logic typed for `type`, or `undefined`.
      */
     getItemLogic<K extends ItemKind>(
@@ -58,7 +58,7 @@ export interface SohlActorLogic<
     /**
      * Find an embedded item's logic by its `shortcode` and item kind.
      * @typeParam K The item kind, inferred from the `type` argument.
-     * @param id The item's id.
+     * @param id - The item's id.
      * @returns The matching item's logic typed for `type`, or `undefined`.
      */
     getItemLogic(id: string): SohlItemLogic<any> | undefined;
@@ -136,8 +136,8 @@ export class SohlActorBaseLogic<
      * ```
      *
      * @typeParam K The item kind, inferred from the `type` argument.
-     * @param shortcode The item's `system.shortcode`.
-     * @param type The {@link ItemKind} to match (e.g. `ITEM_KIND.SKILL`).
+     * @param shortcode - The item's `system.shortcode`.
+     * @param type - The {@link ItemKind} to match (e.g. `ITEM_KIND.SKILL`).
      * @returns The matching item's logic typed for `type`, or `undefined` if
      *   no item matches.
      */
@@ -149,7 +149,7 @@ export class SohlActorBaseLogic<
     /**
      * Find an embedded item's logic by its `id`.
      *
-     * @param id The item's id.
+     * @param id - The item's id.
      * @returns The matching item's logic or `undefined` if no item matches.
      */
     getItemLogic(id: string): SohlItemLogic<any> | undefined;
@@ -215,7 +215,7 @@ export class SohlActorBaseLogic<
 
     /**
      * Sets up the intrinsic actions for this actor.
-     * @param context The action context to use for setup.
+     * @param context - The action context to use for setup.
      */
     setupIntrinsicActions(context: SohlActionContext): void {}
 

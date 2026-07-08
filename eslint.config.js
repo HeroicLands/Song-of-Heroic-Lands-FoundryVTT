@@ -171,6 +171,16 @@ export default [
             // A getter's prose description is its return documentation;
             // don't also demand a redundant @returns on it.
             "jsdoc/require-returns": ["warn", { checkGetters: false }],
+            // TSDoc-format enforcement (keeps the doc style consistent so it
+            // stays usable as an example of good practice):
+            // - every `@param name` is followed by ` - ` before its description.
+            // - no old-JSDoc `{Type}` annotations in any tag; the TypeScript
+            //   signature is the single source of truth for types, and TSDoc
+            //   reserves `{}` for inline tags/links.
+            // These are errors (not warnings) because the codebase is clean of
+            // them today and we want regressions blocked, not merely noted.
+            "jsdoc/require-hyphen-before-param-description": ["error", "always"],
+            "jsdoc/no-types": "error",
         },
     },
     {

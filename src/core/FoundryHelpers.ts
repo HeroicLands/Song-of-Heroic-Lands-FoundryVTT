@@ -900,7 +900,7 @@ export function fvttGetTargetedTokens(
  * @param sourceToken - The source token logic.
  * @param targetToken - The target token logic.
  * @param gridUnits - Whether to return the distance in grid units rather than scene units.
- * @returns {number|undefined} The distance, or `undefined` if not calculable.
+ * @returns The distance, or `undefined` if not calculable.
  */
 export function fvttRangeToTarget(
     sourceToken: SohlTokenDocumentLogic,

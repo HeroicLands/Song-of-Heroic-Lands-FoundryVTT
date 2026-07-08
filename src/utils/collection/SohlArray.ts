@@ -14,7 +14,7 @@
 import { Itr } from "@src/utils/Itr";
 
 /**
- * @summary A tracked array that participates in the SoHL data lifecycle.
+ * A tracked array that participates in the SoHL data lifecycle.
  *
  * `SohlArray<T>` is an extension of the native `Array<T>` that supports automatic tracking of parent context and persistence.
  * It is used to hold ordered collections of objects such as Effects or Logic items.

@@ -405,7 +405,7 @@ export class SohlCombatant<
 
     /**
      * The default dice formula which should be used for initiative for this combatant.
-     * @remark
+     * @remarks
      * The SOHL system uses a different approach to initiative than the default Foundry VTT system.
      * Initiative is determined by the character's initiative skill, not a random die roll.
      * So, the roll object returned by this method will always evaluate to the actor's initiative skill,

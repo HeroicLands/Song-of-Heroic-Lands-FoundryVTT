@@ -193,7 +193,7 @@ export class SohlActiveEffect extends ActiveEffect {
 
     /**
      * Get the context menu options for a specific SohlActiveEffect document.
-     * @param doc The active-effect document to get context options for.
+     * @param doc - The active-effect document to get context options for.
      * @returns The context menu options for the specified document.
      */
     protected static _getContextOptions(

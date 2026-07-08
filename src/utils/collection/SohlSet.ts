@@ -14,8 +14,8 @@
 import { Itr } from "@src/utils/Itr";
 
 /**
- * @summary A Set-like collection with SoHL tracking and iterable enhancements.
- * @description
+ * A Set-like collection with SoHL tracking and iterable enhancements.
+ *
  * `SohlSet<T>` behaves like a native `Set<T>` but supports parent linkage and persistence signaling.
  * All iteration methods return `Itr<T>` for compatibility with functional helpers.
  *

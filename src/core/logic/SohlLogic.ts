@@ -341,8 +341,8 @@ export abstract class SohlLogic<
 
     /**
      * Returns the {@link SohlActionContext} for this actor.
-     * @param token The token to use for context, if any.
-     * @param data Additional context data to merge into the action context.
+     * @param token - The token to use for context, if any.
+     * @param data - Additional context data to merge into the action context.
      * @returns The action context for this actor.
      */
     protected _getContext(

@@ -279,7 +279,7 @@ export abstract class StrikeModeBase extends SohlEntity {
 
     /**
      * Compares this strike mode to another for sorting purposes.
-     * @param other The strike mode to compare to.
+     * @param other - The strike mode to compare to.
      * @returns A negative number if this comes before other, positive if
      * after, or 0 if equal.
      */
@@ -295,7 +295,7 @@ export abstract class StrikeModeBase extends SohlEntity {
 
     /**
      * Begin automated combat with this weapon. Delegates into the attacker's
-     * {@link CombatantLogic.automatedCombatStart} action — the single combat-start
+     * {@link StrikeModeBase.automatedCombatStart} action — the single combat-start
      * entry point — passing this weapon's `logicUuid` (and any `smId` already in
      * scope) so only this weapon's in-range strike modes are offered.
      *

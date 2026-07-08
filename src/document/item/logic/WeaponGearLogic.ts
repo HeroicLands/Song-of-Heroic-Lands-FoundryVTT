@@ -115,7 +115,7 @@ export class WeaponGearLogic<
      *
      * @param _context - The action context driving the attack.
      * @remarks Not yet implemented; warns and returns. The automated combat
-     *   flow ({@link automatedCombatStart}) is the supported entry point.
+     *   flow ({@link StrikeModeBase.automatedCombatStart}) is the supported entry point.
      */
     async attack(_context: SohlActionContext): Promise<void> {
         // TODO(#69) - Weapon direct attack
