@@ -29,9 +29,9 @@ export interface TokenActorRef {
  * - A **world** (linked) actor is represented by every linked token on the
  *   active scene whose `actorId` matches. Pass `embeddedToken` as `null`.
  *
- * @param sceneTokens The active scene's token documents.
- * @param actorId The world actor's id (used only for the linked case).
- * @param embeddedToken The synthetic actor's own token, or `null` for a world actor.
+ * @param sceneTokens - The active scene's token documents.
+ * @param actorId - The world actor's id (used only for the linked case).
+ * @param embeddedToken - The synthetic actor's own token, or `null` for a world actor.
  * @returns The matching tokens (empty array when none match).
  */
 export function selectActorTokens<T extends TokenActorRef>(
@@ -58,8 +58,8 @@ export interface CombatantTokenRef {
  * `tokenIds`, or `null` when none match. Combatants with a `null` tokenId are
  * skipped.
  *
- * @param combatants The combat's combatants, in turn order.
- * @param tokenIds The ids of the actor's tokens (see {@link selectActorTokens}).
+ * @param combatants - The combat's combatants, in turn order.
+ * @param tokenIds - The ids of the actor's tokens (see {@link selectActorTokens}).
  * @returns The first matching combatant, or `null`.
  */
 export function selectActorCombatant<T extends CombatantTokenRef>(

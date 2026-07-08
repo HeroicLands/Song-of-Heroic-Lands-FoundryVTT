@@ -398,10 +398,10 @@ export namespace SohlAction {
  *
  * Parse and evaluation errors are caught and logged; the action is
  * treated as hidden rather than allowed to bubble.
- * @param data The full action data; used for source, title, subType, and
+ * @param data - The full action data; used for source, title, subType, and
  *   `minActorOwnership`.
- * @param trigger The compiled trigger predicate to compose with.
- * @param parent The owning action's logic, used as the expression's parent.
+ * @param trigger - The compiled trigger predicate to compose with.
+ * @param parent - The owning action's logic, used as the expression's parent.
  * @returns A visibility predicate.
  */
 function compileVisibility(
@@ -454,10 +454,10 @@ function compileVisibility(
  * than resolved from an element. Parse and evaluation errors are caught
  * and logged; the action is treated as inactive rather than allowed to
  * bubble.
- * @param source The safe-expression source from `data.trigger`. Treated as
+ * @param source - The safe-expression source from `data.trigger`. Treated as
  *   `"true"` if blank/missing.
- * @param title The owning action's title, used in log output.
- * @param parent The owning action's logic, used as the expression's parent.
+ * @param title - The owning action's title, used in log output.
+ * @param parent - The owning action's logic, used as the expression's parent.
  * @returns A trigger predicate that accepts `item` and `actor` bindings.
  */
 function compileTrigger(
@@ -501,8 +501,8 @@ function compileTrigger(
  * etc.) must run on every browser regardless of who owns the document.
  * Callers are responsible for confining this check to the subtypes
  * where it applies.
- * @param data The action data to read `minActorOwnership` from.
- * @param actor The actor to test ownership against.
+ * @param data - The action data to read `minActorOwnership` from.
+ * @param actor - The actor to test ownership against.
  * @returns Whether the current user is permitted to execute the action.
  */
 export function userMeetsExecutePermission(
@@ -524,9 +524,9 @@ export function userMeetsExecutePermission(
  * Returns `true` to allow the update, `false` to block it. Callers (typically
  * `_preUpdate` hooks on `SohlActor` and `SohlItem`) should `return false`
  * from the lifecycle hook to cancel the persist.
- * @param oldActionDefs The pre-update actionDefs (from the live document).
- * @param newActionDefs The post-update actionDefs (from the `changes` payload).
- * @param user The user attempting the update.
+ * @param oldActionDefs - The pre-update actionDefs (from the live document).
+ * @param newActionDefs - The post-update actionDefs (from the `changes` payload).
+ * @param user - The user attempting the update.
  * @returns Whether the mutation is permitted.
  */
 export function isScriptActionMutationAllowed(

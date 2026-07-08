@@ -59,7 +59,7 @@ function hasCatastrophicPattern(source: string): boolean {
 
 /**
  * Count the elements of an array/string or the own keys of an object.
- * @param value The collection to measure.
+ * @param value - The collection to measure.
  * @returns The element/key count; 0 for `null`, `undefined`, or non-collections.
  */
 function collectionSize(value: unknown): number {
@@ -82,8 +82,8 @@ function collectionSize(value: unknown): number {
 export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
     /**
      * Test membership: array element, or own key of an object.
-     * @param value The value (or key) to look for.
-     * @param collection The array or object to search.
+     * @param value - The value (or key) to look for.
+     * @param collection - The array or object to search.
      * @returns Whether `value` is in `collection`.
      */
     has(value: unknown, collection: unknown): boolean {
@@ -99,7 +99,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Element/key count of a collection.
-     * @param collection An array, string, or object.
+     * @param collection - An array, string, or object.
      * @returns The count, or 0 for nullish/non-collection values.
      */
     len(collection: unknown): number {
@@ -108,7 +108,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Whether a collection has no elements/keys.
-     * @param collection An array, string, or object.
+     * @param collection - An array, string, or object.
      * @returns `true` when empty or nullish.
      */
     empty(collection: unknown): boolean {
@@ -117,7 +117,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Lowercase a value's string form.
-     * @param value The value to lowercase.
+     * @param value - The value to lowercase.
      * @returns The lowercased string.
      */
     lower(value: unknown): string {
@@ -126,7 +126,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Uppercase a value's string form.
-     * @param value The value to uppercase.
+     * @param value - The value to uppercase.
      * @returns The uppercased string.
      */
     upper(value: unknown): string {
@@ -135,8 +135,8 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Whether a string starts with a prefix.
-     * @param value The string to test.
-     * @param prefix The prefix to look for.
+     * @param value - The string to test.
+     * @param prefix - The prefix to look for.
      * @returns Whether `value` starts with `prefix`.
      */
     startsWith(value: unknown, prefix: unknown): boolean {
@@ -145,8 +145,8 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Whether a string ends with a suffix.
-     * @param value The string to test.
-     * @param suffix The suffix to look for.
+     * @param value - The string to test.
+     * @param suffix - The suffix to look for.
      * @returns Whether `value` ends with `suffix`.
      */
     endsWith(value: unknown, suffix: unknown): boolean {
@@ -155,8 +155,8 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Whether a string contains a substring.
-     * @param value The string to search.
-     * @param sub The substring to look for.
+     * @param value - The string to search.
+     * @param sub - The substring to look for.
      * @returns Whether `value` contains `sub`.
      */
     contains(value: unknown, sub: unknown): boolean {
@@ -165,9 +165,9 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Test a string against a regular expression supplied as a string.
-     * @param value The string to test.
-     * @param pattern The regular-expression pattern (a string).
-     * @param flags Optional regular-expression flags.
+     * @param value - The string to test.
+     * @param pattern - The regular-expression pattern (a string).
+     * @param flags - Optional regular-expression flags.
      * @returns Whether the pattern matches.
      * @throws {SafeExpressionError} If the pattern is too long or invalid.
      */
@@ -200,7 +200,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Smallest of the given numbers.
-     * @param values The numbers to compare.
+     * @param values - The numbers to compare.
      * @returns The minimum value.
      */
     min(...values: unknown[]): number {
@@ -209,7 +209,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Largest of the given numbers.
-     * @param values The numbers to compare.
+     * @param values - The numbers to compare.
      * @returns The maximum value.
      */
     max(...values: unknown[]): number {
@@ -218,7 +218,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Round a number to the nearest integer.
-     * @param value The number to round.
+     * @param value - The number to round.
      * @returns The rounded value.
      */
     round(value: unknown): number {
@@ -227,7 +227,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Round a number down to an integer.
-     * @param value The number to floor.
+     * @param value - The number to floor.
      * @returns The floored value.
      */
     floor(value: unknown): number {
@@ -236,7 +236,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Round a number up to an integer.
-     * @param value The number to ceil.
+     * @param value - The number to ceil.
      * @returns The ceiled value.
      */
     ceil(value: unknown): number {
@@ -245,7 +245,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Absolute value of a number.
-     * @param value The number.
+     * @param value - The number.
      * @returns The absolute value.
      */
     abs(value: unknown): number {
@@ -254,7 +254,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Whether a value is a real number (not `NaN`).
-     * @param value The value to test.
+     * @param value - The value to test.
      * @returns Whether `value` is a number.
      */
     isNumber(value: unknown): boolean {
@@ -263,7 +263,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Whether a value is a string.
-     * @param value The value to test.
+     * @param value - The value to test.
      * @returns Whether `value` is a string.
      */
     isString(value: unknown): boolean {
@@ -272,7 +272,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Whether a value is an array.
-     * @param value The value to test.
+     * @param value - The value to test.
      * @returns Whether `value` is an array.
      */
     isArray(value: unknown): boolean {
@@ -281,7 +281,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
 
     /**
      * Whether a value is neither `undefined` nor `null`.
-     * @param value The value to test.
+     * @param value - The value to test.
      * @returns Whether `value` is defined.
      */
     defined(value: unknown): boolean {
@@ -291,8 +291,8 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
     /**
      * Whether a SohlActor has a skill with the given shortcode in its logic.
      * Used in context-menu conditions to gate skill-dependent actions.
-     * @param actor The SohlActor (as exposed by the condition context).
-     * @param shortcode The skill shortcode to look for (e.g. `"dge"` for Dodge).
+     * @param actor - The SohlActor (as exposed by the condition context).
+     * @param shortcode - The skill shortcode to look for (e.g. `"dge"` for Dodge).
      * @returns Whether the actor has a skill with that shortcode.
      */
     hasUsableSkill(actor: unknown, shortcode: unknown): boolean {
@@ -341,7 +341,7 @@ function resetToBuiltins(): void {
 export const expressionHelpers = {
     /**
      * Look up a helper by name.
-     * @param name The helper name.
+     * @param name - The helper name.
      * @returns The helper function, or `undefined` if not registered.
      */
     get(name: string): ExpressionHelper | undefined {
@@ -350,7 +350,7 @@ export const expressionHelpers = {
 
     /**
      * Whether a helper with the given name is registered.
-     * @param name The helper name.
+     * @param name - The helper name.
      * @returns `true` if the helper exists.
      */
     has(name: string): boolean {
@@ -367,8 +367,8 @@ export const expressionHelpers = {
 
     /**
      * Install a helper implementation directly.
-     * @param name The helper name (as called from an expression).
-     * @param fn The helper implementation.
+     * @param name - The helper name (as called from an expression).
+     * @param fn - The helper implementation.
      */
     register(name: string, fn: ExpressionHelper): void {
         registry.set(name, fn);
@@ -380,8 +380,8 @@ export const expressionHelpers = {
      * The body is compiled with {@link textToFunction}, which applies static
      * safety screening but is a sandbox, not a hard security boundary — the
      * source is expected to come from a GM-chosen (trusted) world file.
-     * @param name The helper name (as called from an expression).
-     * @param source The helper's parameter names and function body.
+     * @param name - The helper name (as called from an expression).
+     * @param source - The helper's parameter names and function body.
      * @throws If a parameter name is invalid or the body fails safety screening.
      */
     registerSource(name: string, source: HelperSource): void {
@@ -399,7 +399,7 @@ export const expressionHelpers = {
      * Invalid or unsafe entries are skipped (not thrown) so one bad helper
      * cannot block the rest; the result reports what installed and what did
      * not. Call whenever the world's helper file changes.
-     * @param raw The parsed library: a map of helper name to {@link HelperSource}.
+     * @param raw - The parsed library: a map of helper name to {@link HelperSource}.
      * @returns Which helpers installed and which were skipped (with reasons).
      */
     loadLibrary(raw: unknown): LoadLibraryResult {

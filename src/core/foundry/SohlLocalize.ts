@@ -75,7 +75,7 @@ export class SohlLocalize {
 
     /**
      * Get the current language.
-     * @returns {string} The current language code.
+     * @returns The current language code.
      */
     get lang(): string {
         return (game as any).i18n?.lang || "en";
@@ -87,10 +87,10 @@ export class SohlLocalize {
      * With `ascii` enabled, strips combining diacritics (NFD decomposition)
      * and collapses non-printable/non-ASCII characters to spaces; with
      * `caseInsensitive` enabled, lowercases the result.
-     * @param str The string to normalize.
-     * @param options Normalization flags; both default to `true`.
-     * @param options.caseInsensitive Lowercase the string when `true`.
-     * @param options.ascii Fold accents and non-ASCII characters when `true`.
+     * @param str - The string to normalize.
+     * @param options - Normalization flags; both default to `true`.
+     * @param options.caseInsensitive - Lowercase the string when `true`.
+     * @param options.ascii - Fold accents and non-ASCII characters when `true`.
      * @returns The normalized string, or `""` for falsy input.
      */
     normalizeText(
@@ -146,8 +146,8 @@ export class SohlLocalize {
 
     /**
      * Sort an array of objects by a property using locale-aware string comparison.
-     * @param {Record<string, any>[]} objects - The array of objects to sort.
-     * @param {string} key - The key to sort by (dot-separated path).
+     * @param objects - The array of objects to sort.
+     * @param key - The key to sort by (dot-separated path).
      * @returns The sorted array.
      */
     sortObjects(objects: PlainObject[], key: string): PlainObject[] {
@@ -173,8 +173,8 @@ export class SohlLocalize {
     /**
      * Format a duration object into a compact string (e.g., "2y 3m 5d").
      * Fallback to English formatting for unsupported languages.
-     * @param {DurationValue} value - An object with time fields to format.
-     * @returns {string} A formatted string.
+     * @param value - An object with time fields to format.
+     * @returns A formatted string.
      */
     formatDuration(value: DurationValue): string {
         switch (this.lang) {
@@ -197,7 +197,7 @@ export class SohlLocalize {
     /**
      * Internal formatter for English duration strings.
      * Outputs a space-separated string of abbreviated time parts.
-     * @param {DurationValue} value - Duration components.
+     * @param value - Duration components.
      * @returns Formatted string like "2y 3m 4d"
      */
     protected static _formatDurationEn(value: DurationValue): string {
@@ -222,8 +222,8 @@ export class SohlLocalize {
 
     /**
      * Format a duration object into a compact string in Finnish.
-     * @param {DurationValue} value - Duration components.
-     * @returns {string} Formatted string like "2v 3kk 4pv"
+     * @param value - Duration components.
+     * @returns Formatted string like "2v 3kk 4pv"
      */
     protected static _formatDurationFi(value: DurationValue): string {
         if (value?.direction !== TemporalDirection.NOW) {
@@ -247,8 +247,8 @@ export class SohlLocalize {
 
     /**
      * Format a duration object into a compact string in German.
-     * @param {DurationValue} value - Duration components.
-     * @returns {string} Formatted string like "2J 3M 4T"
+     * @param value - Duration components.
+     * @returns Formatted string like "2J 3M 4T"
      */
     protected static _formatDurationDe(value: DurationValue): string {
         if (value?.direction !== TemporalDirection.NOW) {
@@ -272,8 +272,8 @@ export class SohlLocalize {
 
     /**
      * Format a duration object into a compact string in Swedish.
-     * @param {DurationValue} value - Duration components.
-     * @returns {string} Formatted string like "2år 3mån 4v"
+     * @param value - Duration components.
+     * @returns Formatted string like "2år 3mån 4v"
      */
     protected static _formatDurationSv(value: DurationValue): string {
         if (value?.direction !== TemporalDirection.NOW) {
@@ -297,8 +297,8 @@ export class SohlLocalize {
 
     /**
      * Format a duration object into a compact string in French.
-     * @param {DurationValue} value - Duration components.
-     * @returns {string} Formatted string like "2a 3mo 4j"
+     * @param value - Duration components.
+     * @returns Formatted string like "2a 3mo 4j"
      */
     protected static _formatDurationFr(value: DurationValue): string {
         if (value?.direction !== TemporalDirection.NOW) {
@@ -322,8 +322,8 @@ export class SohlLocalize {
 
     /**
      * Format a duration object into a compact string in Spanish.
-     * @param {DurationValue} value - Duration components.
-     * @returns {string} Formatted string like "2a 3m 4s"
+     * @param value - Duration components.
+     * @returns Formatted string like "2a 3m 4s"
      */
     protected static _formatDurationEs(value: DurationValue): string {
         if (value?.direction !== TemporalDirection.NOW) {

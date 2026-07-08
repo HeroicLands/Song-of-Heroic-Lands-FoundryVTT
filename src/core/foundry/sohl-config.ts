@@ -496,7 +496,7 @@ export interface ConfigStatusEffect {
     img: string;
 }
 
-/** Per-document-type registration block within {@link Config}. */
+/** Per-document-type registration block within {@link SohlConfig}. */
 export interface DocumentConfig {
     /** The document subclass Foundry should instantiate. */
     documentClass: any;
@@ -594,7 +594,7 @@ export interface SohlConfig {
  * The system's registration config, merged into Foundry's `CONFIG` at init.
  * It declares status effects, the world-time calendar, and — per document
  * type — the document/sheet/DataModel classes, plus the modifier and result
- * class registries. See {@link SohlSystem.Config} for the shape.
+ * class registries. See {@link SohlConfig} for the shape.
  */
 export const SOHLCONFIG: SohlConfig = {
     // `mergeObject` replaces arrays wholesale, so we must spread

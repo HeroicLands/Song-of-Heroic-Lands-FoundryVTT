@@ -50,5 +50,26 @@
     "name": "Song of Heroic Lands API",
     "exclude": [],
     "skipErrorChecking": true,
-    "excludeProtected": true
+    "excludeProtected": true,
+    "treatWarningsAsErrors": true,
+    "suppressCommentWarningsInDeclarationFiles": true,
+    "highlightLanguages": [
+        "bash",
+        "css",
+        "handlebars",
+        "hbs",
+        "html",
+        "javascript",
+        "js",
+        "json",
+        "jsonc",
+        "markdown",
+        "scss",
+        "text",
+        "ts",
+        "typescript"
+    ],
+    "validation": {
+        "notExported": false
+    }
 }

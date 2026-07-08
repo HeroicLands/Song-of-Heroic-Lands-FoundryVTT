@@ -133,7 +133,7 @@ export interface TraitData<
     intensity: TraitIntensity;
     /** Labels mapping numeric value ranges to descriptive names */
     valueDesc: {
-        /** Descriptive label for values up to {@link maxValue}. */
+        /** Descriptive label for values up to `maxValue`. */
         label: string;
         /** Upper bound (inclusive) of the value range this label covers. */
         maxValue: number;

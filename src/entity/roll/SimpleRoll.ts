@@ -42,9 +42,9 @@ export class SimpleRoll extends SohlEntity {
     /**
      * Construct a roll from partial data; any omitted field defaults to `0`
      * (or `[]` for `rolls`).
-     * @param data Partial roll definition (`numDice`, `dieFaces`, `modifier`,
+     * @param data - Partial roll definition (`numDice`, `dieFaces`, `modifier`,
      *   `rolls`).
-     * @param options Must provide `options.parent`, the owning Logic (base
+     * @param options - Must provide `options.parent`, the owning Logic (base
      *   {@link SohlEntity}).
      * @throws If no `parent` is provided.
      */
@@ -113,7 +113,7 @@ export class SimpleRoll extends SohlEntity {
     /**
      * Returns the statistical median roll. Result is an integer.
      *
-     * @returns {number} an integer representing the median impact
+     * @returns an integer representing the median impact
      */
     get median(): number {
         let diceMedian = 0;
@@ -181,8 +181,8 @@ export class SimpleRoll extends SohlEntity {
      * Accepts forms like `"2d6+3"`, `"1d100"`, `"d20"` (implicit one die),
      * `"-2"` (modifier only), with optional whitespace around the modifier
      * sign.
-     * @param formula The dice formula to parse.
-     * @param parent The Logic that owns the resulting roll.
+     * @param formula - The dice formula to parse.
+     * @param parent - The Logic that owns the resulting roll.
      * @returns A new {@link SimpleRoll} with no dice rolled yet.
      * @throws Error if `formula` does not match the `NdM+K` grammar.
      */

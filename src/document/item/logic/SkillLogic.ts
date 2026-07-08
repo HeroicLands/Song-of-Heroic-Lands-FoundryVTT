@@ -606,7 +606,7 @@ export class SkillLogic<
 /**
  * Calculates the mastery boost based on the given mastery level. Returns different boost values based on different ranges of mastery levels.
  *
- * @param ml The current Mastery Level
+ * @param ml - The current Mastery Level
  * @returns The calculated Mastery Boost
  */
 /**
