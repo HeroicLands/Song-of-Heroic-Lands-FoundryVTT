@@ -229,10 +229,15 @@ time (e.g. gating automated-defense buttons by <code>actor.isOwner</code>) only 
 what a cooperating client shows. A malicious client can call the handler
 directly. The <strong>real</strong> authorization boundary is Foundry's document-ownership
 check at <em>write</em> time — a client can only update documents it owns.</li>
-<li><strong>Chat-card handlers must verify authority before acting.</strong> An <code>onChatCardButton</code>
-handler that resolves a target document by UUID from the dataset must confirm
-the current user owns it (or is GM) before executing — for intrinsic actions as
-well as gated ones — rather than relying on render-time DOM removal.</li>
+<li><strong>Chat-card clicks are authorized by the handler document's ownership.</strong> A card
+addresses each button to the actor that should <em>handle</em> it; running the action
+mutates that actor's own state, so authorization is document ownership. The
+dispatch resolves the handler and honors the click <strong>only if <code>doc.isOwner</code></strong>
+(<code>resolveAuthorizedChatCardHandler</code>, a GM owns all) — for <strong>intrinsic</strong> actions
+as well as <code>SCRIPT</code> — before any dialog, <code>buildActionScope</code> revival, or logic
+runs; each <code>onChatCardButton</code> also re-checks <code>this.isOwner</code> so a direct call is
+refused too. The render-time <code>gateAutomatedDefenseButtons</code> is UX only. See the
+<a href="Documentation.Reference.Runtime_Contracts.html#authorization-the-handler-documents-owner-acts">Chat-card dispatch contract — Authorization</a>.</li>
 <li><strong>Actor-state sovereignty.</strong> An actor mutates only itself. Cross-actor effects
 go through a target-addressed chat acknowledge button, resolved on the target's
 own client. See <a href="Documentation.Concepts.Architecture_Overview.html">Architecture</a> and
