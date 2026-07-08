@@ -27,7 +27,7 @@ import {
     SkillCombatCategoryChoices,
     BodyRoleChoices,
 } from "@src/utils/constants";
-import { SohlItemDataModel } from "./SohlItem";
+import { SohlItemDataModel } from "./SohlItemDataModel";
 const { ArrayField, NumberField, StringField, BooleanField } =
     foundry.data.fields;
 

@@ -11,10 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    SohlActor,
-    SohlActorSheetBase,
-} from "@src/document/actor/foundry/SohlActor";
+import { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBase";
 import { fvttCallHook } from "@src/core/FoundryHelpers";
 import {
     ITEM_KIND,
