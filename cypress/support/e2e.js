@@ -19,6 +19,7 @@ import "./logic.js";
 import "./commands/sheets.js";
 import "./commands/scene.js";
 import "./commands/combat.js";
+import "./commands/dialogs.js";
 
 /**
  * Ignore known-benign async exceptions thrown by Foundry CORE (foundry.mjs) that
