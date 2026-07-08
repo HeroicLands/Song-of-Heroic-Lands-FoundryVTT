@@ -187,6 +187,8 @@ export async function fvttLogicFromUuid<
  * display them in chat without re-rolling.
  * @param simpleRoll - The {@link SimpleRoll} to convert.
  * @returns A promise resolving to the equivalent Foundry {@link foundry.dice.Roll}.
+ * @throws Error if the SimpleRoll's recorded results do not match its dice terms
+ *   (the count of rolled values differs from the number of dice to seed).
  */
 export async function fvttToFoundryRoll(
     simpleRoll: SimpleRoll,
@@ -514,6 +516,7 @@ export async function toHTMLWithContent(
  * rejects with an error if `rejectClose` is `true`.
  * @param config - The dialog configuration; supply either `content` or `template`.
  * @returns The user's choice (`true`/`false`), or `null` if dismissed.
+ * @throws Error if the config supplies neither `content` nor `template`.
  */
 export async function yesNoDialog(
     config: Partial<DialogConfig> = {},
@@ -536,6 +539,7 @@ export async function yesNoDialog(
  * resolves to `null`, or rejects if `rejectClose` is `true`.
  * @param config - The dialog configuration; supply either `content` or `template`.
  * @returns `true` if OK was clicked, or `null` if dismissed.
+ * @throws Error if the config supplies neither `content` nor `template`.
  */
 export async function okDialog(
     config: Partial<DialogConfig> = {},
@@ -558,6 +562,7 @@ export async function okDialog(
  * resolves to `null`, or rejects if `rejectClose` is `true`.
  * @param config - The dialog configuration plus an optional submit `callback`.
  * @returns The collected form data, or `null` if dismissed.
+ * @throws Error if the config supplies neither `content` nor `template`.
  */
 export async function inputDialog(
     config: Partial<DialogConfig & { callback: DialogButtonCallback }> = {},
@@ -581,6 +586,7 @@ export async function inputDialog(
  * `rejectClose` is `true`.
  * @param config - The dialog configuration; supply either `content` or `template`.
  * @returns The clicked button's identifier or callback value, or `null` if dismissed.
+ * @throws Error if the config supplies neither `content` nor `template`.
  */
 export async function awaitDialog(config: Partial<DialogConfig>): Promise<any> {
     if (!config.template) {
