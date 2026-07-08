@@ -1437,7 +1437,7 @@ export interface CombatCardData {
  * defender did not contest, so its column is dashed. Each side that lands a
  * blow gets a "Calculate <Token> Injury" button wired to the `createInjury`
  * action (assisted). Counterstrike can land both sides at once.
- * @param combatResult The resolved combat exchange.
+ * @param combatResult - The resolved combat exchange.
  * @returns The render context for `attack-result-card.hbs`.
  * @throws {Error} If `combatResult.attackResult` is missing.
  * @throws {Error} If `combatResult.defendResult` is missing.
@@ -1612,8 +1612,8 @@ export function buildCombatCardData(
  * …) to roll against the right skill. Returns `null` when the actor has no skill
  * with that shortcode.
  *
- * @param actorLogic The actor's logic, whose skill is resolved via `getItemLogic`.
- * @param shortcode The skill's `system.shortcode` (e.g. `"dge"`).
+ * @param actorLogic - The actor's logic, whose skill is resolved via `getItemLogic`.
+ * @param shortcode - The skill's `system.shortcode` (e.g. `"dge"`).
  * @returns The skill's mastery-level modifier, or `null` if no skill matches.
  */
 export function resolveSkillMasteryLevel(

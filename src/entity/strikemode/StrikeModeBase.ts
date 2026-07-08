@@ -279,7 +279,7 @@ export abstract class StrikeModeBase extends SohlEntity {
 
     /**
      * Compares this strike mode to another for sorting purposes.
-     * @param other The strike mode to compare to.
+     * @param other - The strike mode to compare to.
      * @returns A negative number if this comes before other, positive if
      * after, or 0 if equal.
      */

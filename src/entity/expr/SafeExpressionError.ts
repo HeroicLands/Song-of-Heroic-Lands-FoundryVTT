@@ -25,9 +25,9 @@
 export class SafeExpressionError extends Error {
     /**
      * Create a SafeExpressionError.
-     * @param message Human-readable description of the failure.
-     * @param options Optional error options, e.g. the underlying `cause`.
-     * @param options.cause The underlying error that triggered this failure.
+     * @param message - Human-readable description of the failure.
+     * @param options - Optional error options, e.g. the underlying `cause`.
+     * @param options.cause - The underlying error that triggered this failure.
      */
     constructor(message: string, options?: { cause?: unknown }) {
         super(message, options);
@@ -37,7 +37,7 @@ export class SafeExpressionError extends Error {
 
 /**
  * Extract a readable message from an unknown thrown value.
- * @param err The caught value.
+ * @param err - The caught value.
  * @returns A human-readable message.
  */
 export function errorMessage(err: unknown): string {

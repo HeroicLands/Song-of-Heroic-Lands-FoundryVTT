@@ -58,10 +58,10 @@ export class SohlContextMenu
      * default one is generated that resolves the context item, builds a
      * SohlActionContext, and invokes the named `functionName` on the
      * item's logic object.
-     * @param container The DOM element the menu is bound to.
-     * @param selector CSS selector identifying the rows the menu attaches to.
-     * @param menuItems The SoHL entry definitions to display.
-     * @param options Optional context-menu configuration.
+     * @param container - The DOM element the menu is bound to.
+     * @param selector - CSS selector identifying the rows the menu attaches to.
+     * @param menuItems - The SoHL entry definitions to display.
+     * @param options - Optional context-menu configuration.
      * @throws Error if an entry has neither a `callback` nor a `functionName`.
      */
     constructor(
@@ -151,9 +151,9 @@ export class SohlContextMenu
      * chooses whether to expand upward or downward based on available space
      * before setting its final coordinates. Toggles the `expand-up`/
      * `expand-down` classes and marks the target with the `context` class.
-     * @param element The menu's root DOM element to position.
-     * @param target The element the menu was triggered on.
-     * @param options Render options; must include the originating mouse
+     * @param element - The menu's root DOM element to position.
+     * @param target - The element the menu was triggered on.
+     * @param options - Render options; must include the originating mouse
      *   `event` (used to derive cursor coordinates).
      * @throws Error if no mouse event is supplied or no `div.app` container is
      *   found.

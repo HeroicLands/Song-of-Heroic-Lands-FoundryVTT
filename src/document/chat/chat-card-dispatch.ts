@@ -37,7 +37,7 @@ import { buildActionScope } from "@src/utils/helpers";
  *   3. `data-handler-actor-uuid`  (attack-card defender responder)
  *   4. `data-action-handler-uuid` (opposed-request / opposed-result cards)
  *
- * @param dataset The `dataset` of the clicked button or anchor element.
+ * @param dataset - The `dataset` of the clicked button or anchor element.
  * @returns The resolved document UUID, or `null` if none is present.
  */
 export function resolveChatCardHandlerUuid(

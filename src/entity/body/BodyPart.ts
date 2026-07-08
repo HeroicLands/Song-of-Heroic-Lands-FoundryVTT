@@ -74,11 +74,11 @@ export class BodyPart extends SohlEntity {
      * Builds a single body part from its persisted data, resolving its held
      * item and probability weight and constructing its child locations.
      *
-     * @param data Persisted part data.
-     * @param options Construction options
-     * @param options.parent Owning {@link LineageLogic} for this part.
-     * @param options.bodyStructure Owning {@link BodyStructure} for this part.
-     * @param options.index Zero-based index of this part within {@link BodyStructure.parts}.
+     * @param data - Persisted part data.
+     * @param options - Construction options
+     * @param options.parent - Owning {@link LineageLogic} for this part.
+     * @param options.bodyStructure - Owning {@link BodyStructure} for this part.
+     * @param options.index - Zero-based index of this part within {@link BodyStructure.parts}.
      * @throws If required fields are missing from `data` or `options`.
      */
     constructor(data: BodyPart.Data, options: BodyPart.Options) {
@@ -127,7 +127,7 @@ export class BodyPart extends SohlEntity {
 
     /**
      * Find a location by shortcode, or undefined if not found.
-     * @param shortcode Shortcode of the location to find.
+     * @param shortcode - Shortcode of the location to find.
      * @returns The matching location, or undefined if none matches.
      */
     getLocationByCode(shortcode: string): BodyLocation | undefined {
@@ -136,7 +136,7 @@ export class BodyPart extends SohlEntity {
 
     /**
      * Find a location by its zero-based index, or undefined if out of range.
-     * @param index Zero-based index of the location within this part.
+     * @param index - Zero-based index of the location within this part.
      * @returns The location at that index, or undefined if out of range.
      */
     getLocationByIndex(index: number): BodyLocation | undefined {
@@ -157,7 +157,7 @@ export class BodyPart extends SohlEntity {
      * part's persisted locations array. Sources the current array from
      * the canonical DataModel data, not from the (possibly mutated)
      * domain objects.
-     * @param locationData Persisted data for the location to append.
+     * @param locationData - Persisted data for the location to append.
      * @returns An update payload appending the location to this part.
      */
     addLocationUpdate(locationData: BodyLocation.Data): PlainObject {
@@ -178,7 +178,7 @@ export class BodyPart extends SohlEntity {
      * Build an `update()` payload that removes a location by shortcode from
      * this part's persisted locations array. Sources the current array
      * from the canonical DataModel data.
-     * @param shortcode Shortcode of the location to remove.
+     * @param shortcode - Shortcode of the location to remove.
      * @returns An update payload with the location filtered out of this part.
      */
     removeLocationUpdate(shortcode: string): PlainObject {

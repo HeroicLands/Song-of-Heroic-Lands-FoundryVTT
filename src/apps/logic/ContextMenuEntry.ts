@@ -80,8 +80,8 @@ export interface ContextMenuEntryContext {
 /**
  * Build a callback that resolves the context item from the DOM and invokes
  * the named method on the item's logic object.
- * @param functionName The logic method to invoke.
- * @param entryName The owning entry's display name, used in log output.
+ * @param functionName - The logic method to invoke.
+ * @param entryName - The owning entry's display name, used in log output.
  * @returns A context-menu callback delegating to the logic method.
  */
 export function makeLogicMethodCallback(
@@ -112,10 +112,10 @@ export function makeLogicMethodCallback(
  * SafeExpressions. Parse errors and evaluation errors on the string
  * form are caught and logged; the entry is treated as hidden
  * (predicate returns `false`) rather than allowed to bubble.
- * @param source The condition source (string SafeExpression or a
+ * @param source - The condition source (string SafeExpression or a
  *   ready-made predicate function).
- * @param entryName The owning entry's display name, used in log output.
- * @param parent The owning document's logic, used as the compiled
+ * @param entryName - The owning entry's display name, used in log output.
+ * @param parent - The owning document's logic, used as the compiled
  *   expression's parent. Required to compile a string condition; a string
  *   condition without a parent is treated as hidden.
  * @returns A predicate that evaluates the condition against a target.
@@ -172,7 +172,7 @@ export function compileCondition(
  *
  * `item` and `actor` are getters, so the DOM walk and lookup happen only
  * when the condition actually references them.
- * @param target The HTMLElement the context menu was opened on.
+ * @param target - The HTMLElement the context menu was opened on.
  * @returns A context object with `target`, `item`, and `actor` bindings.
  */
 export function makeConditionContext(
@@ -193,7 +193,7 @@ export function makeConditionContext(
  * Resolve the SohlItem indicated by the closest `[data-item-id]`
  * ancestor of `target`. Lookup goes through the resolved actor's
  * embedded items so it works whether or not the sheet uses UUIDs.
- * @param target The HTMLElement the context menu was opened on.
+ * @param target - The HTMLElement the context menu was opened on.
  * @returns The resolved item, or `undefined`.
  */
 export function resolveContextItem(target: HTMLElement): SohlItem | undefined {
@@ -207,7 +207,7 @@ export function resolveContextItem(target: HTMLElement): SohlItem | undefined {
 /**
  * Resolve the SohlActor indicated by the closest `[data-actor-id]`
  * ancestor of `target`.
- * @param target The HTMLElement the context menu was opened on.
+ * @param target - The HTMLElement the context menu was opened on.
  * @returns The resolved actor, or `undefined`.
  */
 export function resolveContextActor(
@@ -262,15 +262,15 @@ export class ContextMenuEntry {
 
     /**
      * Creates an instance of the context menu entry.
-     * @param data The data for the context menu entry.
-     * @param data.id The unique identifier for the entry.
-     * @param data.name The name of the entry.
-     * @param data.icon The HTML Icon element for the entry.
-     * @param data.iconFAClass The Font-Awesome CSS class for the entry.
-     * @param data.functionName The function name to call when the entry is clicked.
-     * @param data.condition The safe-expression source determining whether the entry is shown.
-     * @param data.callback The callback function to call when the entry is clicked.
-     * @param data.group The group to which the entry belongs.
+     * @param data - The data for the context menu entry.
+     * @param data.id - The unique identifier for the entry.
+     * @param data.name - The name of the entry.
+     * @param data.icon - The HTML Icon element for the entry.
+     * @param data.iconFAClass - The Font-Awesome CSS class for the entry.
+     * @param data.functionName - The function name to call when the entry is clicked.
+     * @param data.condition - The safe-expression source determining whether the entry is shown.
+     * @param data.callback - The callback function to call when the entry is clicked.
+     * @param data.group - The group to which the entry belongs.
      * @throws {Error} If neither `data.icon` nor `data.iconFAClass` is provided.
      * @throws {Error} If neither `data.callback` nor `data.functionName` is provided.
      */

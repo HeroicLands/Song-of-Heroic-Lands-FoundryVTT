@@ -92,7 +92,7 @@ export class SohlActor extends Actor {
 
     /**
      * Returns a SohlSpeaker for this actor, optionally using a specific token if provided.
-     * @param token The token to use for the speaker, if any.
+     * @param token - The token to use for the speaker, if any.
      * @returns The SohlSpeaker for this actor.
      */
     getSpeaker(token?: TokenDocument): SohlSpeaker {
