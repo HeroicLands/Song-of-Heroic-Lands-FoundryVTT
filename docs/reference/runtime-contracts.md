@@ -58,6 +58,37 @@ Key contracts:
 - Logic object is created lazily through `create(...)` + `logic` accessor.
 - `fromData(...)` resolves model class by `kind` across configured document families and normalizes serialized JSON forms.
 
+### Updating array fields: write the whole array, never an element by index
+
+**Never** target a single element of an `ArrayField` by index in an `update()`
+payload — e.g. `update({ "system.bodyStructure.parts.2.heldItemId": id })`.
+Foundry expands the dotted key to `{ parts: { 2: {…} } }` and rebuilds the array
+field from that sparse map, **truncating the array and default-filling every
+element that wasn't named**. A partial write meant to touch one field of one
+element silently destroys every other element (e.g. wiping every body part's
+`shortcode`, `canHoldItem`, and `locations`). This corrupted persisted anatomy
+in production; see issue #247.
+
+To change a subset of an array's elements, **source the full canonical array
+from the DataModel and write it back whole**, with only the target element(s)
+modified. The `BodyStructure` update-builders are the template:
+{@link BodyStructure.addPartUpdate}, {@link BodyStructure.removePartUpdate}, and
+the general {@link BodyStructure.setPartFieldsUpdate} (used by
+{@link GearLogic.holdItem}/`releaseItem` and `BodyPart.addLocationUpdate`/
+`removeLocationUpdate`).
+
+Two reasons this is easy to miss:
+
+- **A valid value is required to trigger it.** If the written value fails field
+  validation (e.g. an invalid `DocumentIdField` id), Foundry drops that field and
+  the update becomes a no-op, leaving the array intact — so ad-hoc tests with
+  placeholder ids look fine while real ids corrupt.
+- **Form submission is unaffected.** Sheets serialize the _complete_ array (every
+  element, every field), so `parts` is always replaced wholesale. Only hand-built
+  partial updates outside a form hit this. `ObjectField` dicts keyed by id (e.g.
+  `system.strikeModes.<id>.<field>`) are also safe — object partial-merge is fine;
+  the hazard is arrays specifically.
+
 ## Document/DataModel/Logic contract
 
 SoHL separates persistence from behavior:
