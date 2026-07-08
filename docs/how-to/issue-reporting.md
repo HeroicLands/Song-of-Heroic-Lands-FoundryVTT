@@ -61,13 +61,16 @@ priority answers "when I next sit down, what deserves my time?" not "what is due
 
 ## 3. Labels — the closed registry
 
-Labels are for **categorization only**. The list below is the **complete,
-authoritative set**.
+Labels are for **categorization only**. The table below is the **complete,
+authoritative set**. Its machine-readable twin is `.github/labels.yml`, which the
+`labels-sync` workflow reconciles onto GitHub (the set is _closed_ — a label not
+in the registry is deleted on sync). `npm run lint` fails if the two disagree
+(`check-labels`), so they cannot drift.
 
 > **MUST NOT invent, rename, or improvise labels.** If no existing label fits, add
 > none and (if it matters) note the gap in the issue body for a human to decide.
-> Extending this registry is a human decision made by editing this file, not
-> something an agent does at filing time.
+> Extending this registry is a human decision made by editing **both** this table
+> and `.github/labels.yml`, not something an agent does at filing time.
 
 | Label             | Scope                                                                                                                                   |
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------- |

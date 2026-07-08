@@ -1,0 +1,32 @@
+name: Sync labels
+
+# Reconcile the repository's GitHub labels to the authoritative registry in
+# .github/labels.yml (utils/sync-labels.mjs). Runs when the registry changes on
+# main, or on demand. The set is closed: labels not in the registry are deleted.
+
+on:
+    push:
+        branches: [main]
+        paths: [".github/labels.yml"]
+    workflow_dispatch:
+
+permissions:
+    issues: write
+
+concurrency:
+    group: labels-sync
+    cancel-in-progress: false
+
+jobs:
+    sync:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: npm
+            - run: npm ci
+            - run: node utils/sync-labels.mjs
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,68 @@
+name: Epic
+description: A large body of work that only makes sense decomposed into multiple linked sub-issues.
+title: ""
+type: Epic
+labels: []
+body:
+    - type: markdown
+      attributes:
+          value: |
+              An **epic** coordinates a tree of sub-issues and carries little implementation detail of its own. If it has no sub-issues, it is **not** an epic — file a feature or task instead. See the [issue-reporting standard](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/docs/how-to/issue-reporting.md).
+    - type: textarea
+      id: goal
+      attributes:
+          label: Goal
+          description: The outcome this initiative delivers.
+      validations:
+          required: true
+    - type: textarea
+      id: scope
+      attributes:
+          label: Scope
+          placeholder: |
+              In scope: …
+              Out of scope: …
+      validations:
+          required: true
+    - type: textarea
+      id: sub-issues
+      attributes:
+          label: Sub-issues
+          description: Link them as native GitHub sub-issues; mirror the list here.
+          placeholder: |
+              - [ ] #…
+              - [ ] #…
+      validations:
+          required: true
+    - type: textarea
+      id: done-when
+      attributes:
+          label: Done when
+          description: The condition for closing — typically "all sub-issues closed and integration verified."
+      validations:
+          required: true
+    - type: dropdown
+      id: priority
+      attributes:
+          label: Priority (proposed)
+          description: The initiative's importance, not the max of its children. Default Medium; justify higher in the body.
+          options: [Urgent, High, Medium, Low]
+          default: 2
+      validations:
+          required: true
+    - type: dropdown
+      id: labels
+      attributes:
+          label: Labels (proposed)
+          description: Categorization only, from the registry. A maintainer applies them.
+          multiple: true
+          options:
+              - system
+              - documentation
+              - content
+              - thalorna
+              - site
+              - devops
+              - tests
+              - security
+              - tech-debt
