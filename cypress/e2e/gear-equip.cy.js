@@ -14,17 +14,77 @@
 /**
  * Gear equip / hold → combat-tab display.
  *
- * Tests the carry-state toggle (`setCarried` / `setNotCarried` intrinsic
- * actions) and the combat-tab strike-mode display for embedded weapongear.
- * Display is NOT gated by equip/hold today — strike modes appear regardless
- * of whether the weapon is held or equipped.
+ * Covers the three inventory-state toggles and their downstream effects:
+ * - carry state (`setCarried` / `setNotCarried`)
+ * - equip state (`setEquipped` / `setNotEquipped`) and its armor-protection gate
+ * - hold state (`holdItem` / `releaseItem`) and the combat-tab strike-mode gate
  *
- * RED skips mark two gaps tracked in #179 and #180.
+ * The equip/hold write paths landed in #179; the display + aggregation gating in
+ * #180; the hold roundtrip depends on the parts-array fix in #247.
+ *
+ * Compendium weapongear cannot be embedded here: every weapon in `sohl.items`
+ * still stores `strikeModes.defense` in the old flat schema, which throws in
+ * `MeleeStrikeMode` during `prepareData()` (#246). Hold / combat-tab tests
+ * therefore use an inline weapon with the correct nested defense schema.
+ * Likewise, compendium armor stores covered locations as names rather than
+ * shortcodes (#249), so the armor-gating test uses inline armor keyed to a real
+ * body-location shortcode; the compendium path is a RED skip below.
  */
 
 // sohl.items compendium IDs
-const MAIL_SHIRT_ID = "0S3xT8nBEex8PZJC"; // armorgear
-const DAGGER_ID = "9ijT9drcTK805O5F"; // weapongear — melee impale strike mode
+const MAIL_SHIRT_ID = "0S3xT8nBEex8PZJC"; // armorgear (carry & equip toggles)
+
+/** Minimal weapongear with the correct nested defense schema (avoids #246). */
+const INLINE_WEAPON = {
+    name: "Test Sword",
+    system: {
+        strikeModes: {
+            strike: {
+                type: "melee",
+                name: "Strike",
+                assocSkillCode: "melee",
+                minParts: 1,
+                attack: { spread: 0, modifier: 0 },
+                impactBase: {
+                    numDice: 1,
+                    die: 6,
+                    modifier: 0,
+                    aspect: "blunt",
+                },
+                traits: {},
+                lengthBase: 3,
+                defense: {
+                    block: { disabled: false, modifier: 0, successLevelMod: 0 },
+                    counterstrike: {
+                        disabled: false,
+                        modifier: 0,
+                        successLevelMod: 0,
+                    },
+                },
+            },
+        },
+    },
+};
+
+/** Inline armor covering the thorax by shortcode (avoids the #249 data gap). */
+const INLINE_ARMOR = {
+    name: "Test Cuirass",
+    system: {
+        material: "Steel",
+        protectionBase: { blunt: 4, edged: 8, piercing: 5, fire: 0 },
+        locations: { flexible: [], rigid: ["thrxloc"] },
+    },
+};
+
+/** The thorax location's aggregated edged armor protection for `actor`. */
+function thoraxEdgedProtection(win, actorId) {
+    const a = win.game.actors.get(actorId);
+    const lineage = a.items.find((i) => i.type === "lineage");
+    const thrx = lineage.logic.bodyStructure
+        .getAllLocations()
+        .find((l) => l.shortcode === "thrxloc");
+    return thrx.armorProtection.edged;
+}
 
 describe("gear equip / hold → combat-tab display", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
@@ -46,14 +106,12 @@ describe("gear equip / hold → combat-tab display", () => {
                         return a.items.get(armor.id).system.isCarried;
                     }).should("be.true");
 
-                    // Drop it
                     cy.runAction(armor, "setNotCarried");
                     cy.foundry((win) => {
                         const a = win.game.actors.get(actor.id);
                         return a.items.get(armor.id).system.isCarried;
                     }).should("be.false");
 
-                    // Pick it back up
                     cy.runAction(armor, "setCarried");
                     cy.foundry((win) => {
                         const a = win.game.actors.get(actor.id);
@@ -64,34 +122,135 @@ describe("gear equip / hold → combat-tab display", () => {
         });
     });
 
+    // ------------------------------------------------------------------ equip state
+
+    it("setEquipped sets isEquipped true; setNotEquipped clears it", () => {
+        cy.createActor("being", { name: "Equip Being" }).then((actor) => {
+            cy.importItem("sohl.items", MAIL_SHIRT_ID, { actor }).then(
+                (armor) => {
+                    // Default: isEquipped = false
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.items.get(armor.id).system.isEquipped;
+                    }).should("be.false");
+
+                    cy.runAction(armor, "setEquipped");
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.items.get(armor.id).system.isEquipped;
+                    }).should("be.true");
+
+                    cy.runAction(armor, "setNotEquipped");
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.items.get(armor.id).system.isEquipped;
+                    }).should("be.false");
+                },
+            );
+        });
+    });
+
+    it("armor protection aggregates only while equipped (#180 gate)", () => {
+        cy.importActor().then((actor) => {
+            cy.createItemOn(actor, "armorgear", INLINE_ARMOR).then((armor) => {
+                // Not equipped by default → no protection on the thorax.
+                cy.prepare(actor);
+                cy.foundry((win) =>
+                    thoraxEdgedProtection(win, actor.id),
+                ).should("eq", 0);
+
+                // Equipping folds the armor's edged protection onto the thorax.
+                cy.runAction(armor, "setEquipped");
+                cy.prepare(actor);
+                cy.foundry((win) =>
+                    thoraxEdgedProtection(win, actor.id),
+                ).should("eq", 8);
+
+                // Unequipping removes it again.
+                cy.runAction(armor, "setNotEquipped");
+                cy.prepare(actor);
+                cy.foundry((win) =>
+                    thoraxEdgedProtection(win, actor.id),
+                ).should("eq", 0);
+            });
+        });
+    });
+
+    // ------------------------------------------------------------------ hold state
+
+    it("holdItem makes heldBy.length > 0; releaseItem clears it", () => {
+        // Basic Folk has a lineage with Right Arm / Left Arm (canHoldItem).
+        cy.importActor().then((actor) => {
+            cy.createItemOn(actor, "weapongear", INLINE_WEAPON).then(
+                (weapon) => {
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.items.get(weapon.id).logic.heldBy.length;
+                    }).should("eq", 0);
+
+                    cy.runAction(weapon, "holdItem");
+                    cy.prepare(actor);
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.items.get(weapon.id).logic.heldBy.length;
+                    }).should("be.greaterThan", 0);
+
+                    cy.runAction(weapon, "releaseItem");
+                    cy.prepare(actor);
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.items.get(weapon.id).logic.heldBy.length;
+                    }).should("eq", 0);
+                },
+            );
+        });
+    });
+
+    // ------------------------------------------------------------------ combat tab
+
+    it("combat tab shows [data-sm-id] strike-mode rows only after holdItem", () => {
+        cy.importActor().then((actor) => {
+            cy.createItemOn(actor, "weapongear", INLINE_WEAPON).then(
+                (weapon) => {
+                    // Not held: filterHeldWeapons excludes it, so no rows render.
+                    cy.openSheet(actor);
+                    cy.switchTab("combat", "primary");
+                    cy.get(
+                        'section.tab[data-tab="combat"] [data-sm-id]',
+                    ).should("not.exist");
+                    cy.closeAllSheets();
+
+                    // Held: the weapon's strike mode appears on the combat tab.
+                    cy.runAction(weapon, "holdItem");
+                    cy.prepare(actor);
+                    cy.openSheet(actor);
+                    cy.switchTab("combat", "primary");
+                    cy.get(
+                        'section.tab[data-tab="combat"] [data-sm-id]',
+                    ).should("exist");
+                },
+            );
+        });
+    });
+
     // ------------------------------------------------------------------ RED
 
-    it.skip("combat tab shows weapongear strike modes when weapon is held", () => {
-        // RED — blocked by #179: filterHeldWeapons (BeingSheet.ts:720) only
-        // includes weapons where weaponLogic.heldBy.length > 0. A freshly
-        // imported weapon is never held, so [data-sm-id] rows never render.
-        // Once #179 adds a hold/ready action, drive it and then assert:
-        //   cy.get('section.tab[data-tab="combat"] [data-sm-id]').should("exist")
-    });
-
-    it.skip("equip armor — sets isEquipped true via intrinsic action", () => {
-        // RED — blocked by #179: no writer for system.isEquipped exists.
-        // GearLogic.ts:139-142 writes isCarried but GearLogic.ts:166 writes
-        // isEquipped; however no equip action shortcode is wired up on armor.
-        // Once #179 adds the action, drive it via cy.runAction(armor, "equip")
-        // and assert system.isEquipped === true.
-    });
-
-    it.skip("hold weapon in a hand — heldBy.length > 0", () => {
-        // RED — blocked by #179: bodyPart.heldItemId is only read
-        // (BodyPart.ts:97), never written; no hold/ready action exists.
-        // Once #179 adds hold/ready, drive it and assert
-        // weaponLogic.heldBy.length > 0 (GearLogic.ts:85-95).
-    });
-
-    it.skip("unequipped armor contributes no protection", () => {
-        // RED — blocked by #180: aggregateArmorProtection (BeingLogic.ts:697-719)
-        // ignores isEquipped — all armor counts regardless. A test would assert
-        // that protection is 0 when armor is not equipped. Fails today.
+    it.skip("equipped compendium Mail Shirt aggregates protection onto covered locations", () => {
+        // RED — blocked by #249: compendium ArmorGear stores locations.rigid as
+        // display names ("Thorax") while aggregateArmor matches body-location
+        // shortcodes ("thrxloc"), so worn compendium armor aggregates zero
+        // protection. Once the compendium data is migrated to shortcodes this
+        // becomes GREEN as written.
+        cy.importActor().then((actor) => {
+            cy.importItem("sohl.items", MAIL_SHIRT_ID, { actor }).then(
+                (armor) => {
+                    cy.runAction(armor, "setEquipped");
+                    cy.prepare(actor);
+                    cy.foundry((win) =>
+                        thoraxEdgedProtection(win, actor.id),
+                    ).should("be.greaterThan", 0);
+                },
+            );
+        });
     });
 });
