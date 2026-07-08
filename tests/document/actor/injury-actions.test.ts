@@ -14,9 +14,11 @@ import {
     buildInjuryCardData,
     resolveAutomatedInjury,
     getActorBodyStructure,
+    createTraumaFromInjury,
 } from "@src/document/actor/logic/injury-actions";
 import { resolveInjury } from "@src/entity/body/injury-resolution";
 import { IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
+import * as FoundryHelpers from "@src/core/FoundryHelpers";
 
 const SKULL_LOC = {
     shortcode: "skull",
@@ -257,5 +259,38 @@ describe("getActorBodyStructure (#268)", () => {
             getActorBodyStructure({ logicTypes: { [ITEM_KIND.LINEAGE]: [] } }),
         ).toBeUndefined();
         expect(getActorBodyStructure(undefined)).toBeUndefined();
+    });
+});
+
+describe("createTraumaFromInjury (#286)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    it("creates the trauma via the actor logic through the boundary (not on the logic directly)", async () => {
+        const spy = vi
+            .spyOn(FoundryHelpers, "fvttCreateEmbeddedItems")
+            .mockResolvedValue([]);
+        // A logic instance — deliberately WITHOUT createEmbeddedDocuments — to
+        // prove the write is routed through the boundary, not called on `logic`.
+        const logic = { name: "Hero" } as any;
+        const body = makeBody();
+        const neck = body
+            .getAllLocations()
+            .find((l) => l.shortcode === "neck")!;
+        const injury = resolveInjury({
+            impact: 22,
+            aspect: IMPACT_ASPECT.EDGED,
+            body,
+            location: neck,
+        });
+
+        await createTraumaFromInjury(logic, injury);
+
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(spy).toHaveBeenCalledWith(logic, [
+            expect.objectContaining({
+                type: ITEM_KIND.TRAUMA,
+                name: expect.stringContaining("Neck"),
+            }),
+        ]);
     });
 });
