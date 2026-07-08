@@ -8,6 +8,7 @@
 import { describe, it, expect, vi } from "vitest";
 import {
     resolveChatCardHandlerUuid,
+    resolveAuthorizedChatCardHandler,
     dispatchChatCardAction,
 } from "@src/document/chat/chat-card-dispatch";
 
@@ -90,6 +91,57 @@ describe("resolveChatCardHandlerUuid", () => {
 
     it("returns null for an empty dataset", () => {
         expect(resolveChatCardHandlerUuid(dataset({}))).toBe(null);
+    });
+});
+
+describe("resolveAuthorizedChatCardHandler (#167)", () => {
+    it("returns the handler document when the current client owns it", () => {
+        const owned = { isOwner: true, name: "Defender" };
+        const resolve = vi.fn(() => owned);
+        expect(
+            resolveAuthorizedChatCardHandler(
+                dataset({ handlerActorUuid: "Actor.def" }),
+                resolve,
+            ),
+        ).toBe(owned);
+        // Authorization keys on the resolved handler document's uuid.
+        expect(resolve).toHaveBeenCalledWith("Actor.def");
+    });
+
+    it("treats a GM as owner (Foundry `isOwner` is true for a GM)", () => {
+        const gmOwned = { isOwner: true };
+        expect(
+            resolveAuthorizedChatCardHandler(
+                dataset({ handlerActorUuid: "Actor.any" }),
+                () => gmOwned,
+            ),
+        ).toBe(gmOwned);
+    });
+
+    it("refuses (returns null) when the client does not own the handler", () => {
+        expect(
+            resolveAuthorizedChatCardHandler(
+                dataset({ handlerActorUuid: "Actor.other" }),
+                () => ({ isOwner: false }),
+            ),
+        ).toBe(null);
+    });
+
+    it("returns null when no handler uuid is present", () => {
+        const resolve = vi.fn(() => ({ isOwner: true }));
+        expect(
+            resolveAuthorizedChatCardHandler(dataset({ action: "x" }), resolve),
+        ).toBe(null);
+        expect(resolve).not.toHaveBeenCalled();
+    });
+
+    it("returns null when the uuid does not resolve to a document", () => {
+        expect(
+            resolveAuthorizedChatCardHandler(
+                dataset({ handlerActorUuid: "Actor.missing" }),
+                () => null,
+            ),
+        ).toBe(null);
     });
 });
 
