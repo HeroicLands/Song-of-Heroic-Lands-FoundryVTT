@@ -273,8 +273,8 @@ export class SohlEventQueue {
      * triggers, dispatches each matching subscription once.
      *
      * @param ctx - The trigger context describing the event being fired; its
-     *   `name` is routed to {@link fireWorldTime} when `"updateWorldTime"`,
-     *   otherwise dispatched via {@link fireDiscrete}.
+     *   `name` is routed to `fireWorldTime` when `"updateWorldTime"`,
+     *   otherwise dispatched via `fireDiscrete`.
      */
     async fire(ctx: SohlTriggerContext): Promise<void> {
         if (!fvttIsActiveGM()) return;
