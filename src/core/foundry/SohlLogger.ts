@@ -283,10 +283,15 @@ export class SohlLogger {
             // Ignore errors in i18n formatting
         }
         const callerInfo = this.getCallerInfo();
-        const fallbackMessage = sohl.i18n.format(message, {
-            ...data,
-            useFallback: true,
-        });
+        let fallbackMessage: string;
+        try {
+            fallbackMessage = sohl.i18n.format(message, {
+                ...data,
+                useFallback: true,
+            });
+        } catch {
+            fallbackMessage = message;
+        }
 
         let logMessage;
         switch (logLevel) {
@@ -326,18 +331,27 @@ export class SohlLogger {
 
         if (!SohlLogger.shouldLog(logLevel)) return;
 
-        const localMessage = sohl.i18n.format(message, data);
+        let localMessage: string;
+        try {
+            localMessage = sohl.i18n.format(message, data);
+        } catch {
+            localMessage = message;
+        }
 
+        // Surface the notification directly through Foundry's notification
+        // manager. This must NOT call back into `uiInfo`/`uiWarn`/`uiError`,
+        // which re-enter `log()` with the same `notifyLevel` and recurse without
+        // bound, blowing the stack (#267).
         if (notifyLevel && message) {
             switch (notifyLevel) {
                 case LOGLEVEL.INFO:
-                    this.uiInfo(localMessage);
+                    ui.notifications?.info(localMessage);
                     break;
                 case LOGLEVEL.WARN:
-                    this.uiWarn(localMessage);
+                    ui.notifications?.warn(localMessage);
                     break;
                 case LOGLEVEL.ERROR:
-                    this.uiError(localMessage);
+                    ui.notifications?.error(localMessage);
                     break;
             }
         }
