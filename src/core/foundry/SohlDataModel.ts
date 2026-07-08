@@ -177,7 +177,11 @@ export abstract class SohlDataModel<
         return this._logic;
     }
 
-    /** This data model's kind identifier, read from its constructor. */
+    /**
+     * This data model's kind identifier, read from its constructor's static
+     * `kind`.
+     * @throws Error if the concrete data-model class defines no static `kind`.
+     */
     get kind(): string {
         const kind: string = (this.constructor as any).kind;
         if (!kind) {

@@ -40,6 +40,8 @@ const MAX_PATTERN_LENGTH = 200;
  * backtracking: backreferences (`\1`–`\9`) or a capturing/non-capturing group
  * that contains a quantifier and is itself followed by a quantifier
  * (`(a+)+`, `(.*)* `, `([a-z]+\d)+`, etc.).
+ * @param source - The regular-expression source text to screen.
+ * @returns `true` if a ReDoS-prone construct is present.
  */
 function hasCatastrophicPattern(source: string): boolean {
     // Backreferences (\1–\9) cause exponential backtracking.
@@ -306,7 +308,12 @@ export interface LoadLibraryResult {
     /** Names of helpers successfully installed. */
     installed: string[];
     /** Entries that were skipped, each with a reason. */
-    skipped: { name: string; reason: string }[];
+    skipped: {
+        /** The helper name of the skipped entry. */
+        name: string;
+        /** Why it was skipped (e.g. an invalid or unsafe definition). */
+        reason: string;
+    }[];
 }
 
 /** The live registry: built-ins plus any custom helpers installed at runtime. */

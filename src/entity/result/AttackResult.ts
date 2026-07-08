@@ -47,6 +47,11 @@ import { fvttLogicFromUuidSync } from "@src/core/FoundryHelpers";
  * when the blow lands).
  */
 export class AttackResult extends SuccessTestResult {
+    /**
+     * The attacking combatant's logic, resolved in the constructor from the
+     * persisted `data.combatantUuid` (a uuid on the wire, the live logic in
+     * memory).
+     */
     combatant: SohlCombatantLogic;
 
     /**
