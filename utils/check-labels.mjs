@@ -25,9 +25,28 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { parse } from "yaml";
 
-/** Label names declared in the machine registry. */
+/** GitHub caps a label description at 100 characters (API 422 beyond that). */
+const MAX_DESCRIPTION = 100;
+
+/**
+ * Label names declared in the machine registry. Also validates each entry's
+ * description length, so an over-long description fails `npm run lint` here
+ * rather than mid-sync against the GitHub API.
+ */
 function registryNames() {
     const list = parse(readFileSync(resolve(".github/labels.yml"), "utf8"));
+    const tooLong = list.filter(
+        (l) => (l.description ?? "").length > MAX_DESCRIPTION,
+    );
+    if (tooLong.length) {
+        console.error(
+            `check-labels: label description exceeds ${MAX_DESCRIPTION} chars (GitHub's limit):`,
+        );
+        for (const l of tooLong) {
+            console.error(`  ${l.name} — ${l.description.length} chars`);
+        }
+        process.exit(1);
+    }
     return new Set(list.map((l) => l.name));
 }
 

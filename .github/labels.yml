@@ -40,7 +40,7 @@
 
 - name: security
   color: "b60205"
-  description: "Touches an attack surface: auth, data integrity, macro/script execution, injection, or anything warranting private disclosure."
+  description: "Attack surface: auth, data integrity, script execution, injection, or private-disclosure risk."
 
 - name: tech-debt
   color: "68691b"
