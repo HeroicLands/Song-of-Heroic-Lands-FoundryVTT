@@ -1,0 +1,49 @@
+name: Task
+description: Necessary work that is neither a defect nor a new capability — a chore, refactor, tooling, docs, or release.
+title: ""
+type: Task
+labels: []
+body:
+    - type: markdown
+      attributes:
+          value: |
+              A **task** is maintenance/chore work (a defect is a **Bug**; new capability is a **Feature**; exploratory work with an uncertain outcome is a **Spike**). A behavior-preserving refactor is a task tagged `tech-debt`. See the [issue-reporting standard](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/docs/how-to/issue-reporting.md).
+    - type: textarea
+      id: what
+      attributes:
+          label: What
+          description: The work to be done.
+      validations:
+          required: true
+    - type: textarea
+      id: why
+      attributes:
+          label: Why
+          description: The reason it's needed (keeps chores from looking arbitrary).
+      validations:
+          required: true
+    - type: dropdown
+      id: priority
+      attributes:
+          label: Priority (proposed)
+          description: Set on the project board; this is your proposal. Default Medium; justify anything higher in the body.
+          options: [Urgent, High, Medium, Low]
+          default: 2
+      validations:
+          required: true
+    - type: dropdown
+      id: labels
+      attributes:
+          label: Labels (proposed)
+          description: Categorization only, from the registry. A maintainer applies them.
+          multiple: true
+          options:
+              - system
+              - documentation
+              - content
+              - thalorna
+              - site
+              - devops
+              - tests
+              - security
+              - tech-debt
