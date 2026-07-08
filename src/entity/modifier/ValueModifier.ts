@@ -366,6 +366,8 @@ export class ValueModifier extends SohlEntity {
      * @param data - Extra delta data; supplies a fallback `shortcode` when one
      *   is not given.
      * @returns `this`, for chaining.
+     * @throws TypeError if `op` is not a valid operator, or if `op` is `CUSTOM`
+     *   but no custom function has been set on this modifier.
      * @internal
      */
     protected _oper(
@@ -471,6 +473,8 @@ export class ValueModifier extends SohlEntity {
      *
      * @param args - The operator arguments, in either of the two forms above.
      * @returns The resolved `{ name, shortcode, value }` triple.
+     * @throws Error if the two-argument `(shortcode, value)` form is given a
+     *   shortcode that is not a registered `VALUE_DELTA_INFO` value.
      * @internal
      */
     private _resolveDeltaArgs(args: unknown[]): {
