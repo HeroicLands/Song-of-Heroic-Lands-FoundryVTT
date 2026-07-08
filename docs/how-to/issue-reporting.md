@@ -6,7 +6,7 @@ Song of Heroic Lands (SoHL) repositories.
 The core discipline is simple — four axes, each answering a different question:
 
 - **Type** — _"what shape of work is this?"_ One per issue, from a closed set of five.
-- **Priority** — _"how soon and how badly does this need doing?"_ A GitHub Projects field, one value, defaults to Medium.
+- **Priority** — _"how soon and how badly does this need doing?"_ A GitHub issue field, one value, defaults to Medium.
 - **Labels** — _"what is this about?"_ Categorization only, chosen **only** from the registry below. Never invent a label.
 - **Milestone** — _"which capability gate does this advance?"_ A native GitHub milestone (no due date), at most one, selected from a curated set (see §4).
 
@@ -36,11 +36,13 @@ doubt. Do not leave an issue untyped.
 - A **spike** MUST state (a) the question it answers and (b) its timebox. It closes when the question is answered, and it typically _spawns_ follow-up feature/task/bug issues rather than doing the work itself.
 - A **refactor** that changes no external behavior is a **task**, tagged `tech-debt` — it is not a feature and not a bug.
 
-## 2. Priority (GitHub Projects field)
+## 2. Priority (GitHub issue field)
 
-Priority is a GitHub **Priority** field on the project board (a Projects v2
-single-select), **not** an issue label — so an issue must be on the project to
-carry one. One value per issue, from: **Urgent · High · Medium · Low**.
+Priority is a native **Priority** field on the issue itself — an
+organization-level issue field, **not** a label and **not** tied to a Project. Set
+it in the issue sidebar; the repo issue list filters on it
+(`field.priority:high,medium`), and it is read/written through the GitHub issue
+API. One value per issue, from: **Urgent · High · Medium · Low**.
 
 Priority is about attention, not schedule — this project has no deadlines, so
 priority answers "when I next sit down, what deserves my time?" not "what is due."
