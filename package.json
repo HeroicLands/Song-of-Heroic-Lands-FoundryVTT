@@ -33,7 +33,7 @@
         "distclean": "node utils/clean.mjs --distclean",
         "build": "npm ci && npm run build:noci",
         "build:local": "npm i && npm run build:noci",
-        "build:noci": "run-s lint:todos lint:docs-index build:types lint:dts build:prepare test:coverage test:purity build:code",
+        "build:noci": "run-s lint:todos lint:docs-index lint build:types lint:dts build:prepare test:coverage test:purity build:code",
         "build:prepare": "run-p build:css build:db build:system",
         "build:db": "run-s build:assets build:compiledb",
         "build:types": "tsc -p tsconfig.json",
