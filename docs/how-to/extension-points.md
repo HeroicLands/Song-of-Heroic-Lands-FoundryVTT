@@ -64,6 +64,31 @@ This is the canonical "add a type" procedure — the [Runtime Contracts](../refe
 
 **Avoid:** Adding `if type === X` branches in base classes; prefer polymorphism.
 
+### Overriding a Logic class from a module (runtime)
+
+The steps above add a kind in-system. A **variant module** instead overrides an
+existing kind's Logic class at runtime — no source edits. The base classes are
+exposed on the `sohl` global as `sohl.actorLogicClasses` / `sohl.itemLogicClasses`
+(kind → base class), and {@link SohlSystem.registerActorLogic} /
+{@link SohlSystem.registerItemLogic} swap the class used to build every document
+of that kind. The resolution path (`SohlDataModel.create`) already reads that
+registry, so no construction sites change.
+
+Register during the module's `init`/`setup` hook, before the first `.logic` for
+that kind is built:
+
+```js
+Hooks.once("setup", () => {
+    class MyBeing extends sohl.actorLogicClasses.being {
+        // override rules here
+    }
+    sohl.registerActorLogic("being", MyBeing);
+});
+```
+
+Every being actor prepared afterward uses `MyBeing`. `registerItemLogic(kind,
+cls)` is the item-side equivalent, keyed by `ITEM_KIND`.
+
 ## 3) Combat / tests / resolution pipeline
 
 Core components:
