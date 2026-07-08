@@ -39,6 +39,7 @@ Task-oriented guides for getting something done.
 - [House Rules Cookbook](how-to/house-rules-cookbook.md)
 - [Testing](how-to/testing.md)
 - [Build, Deployment, and Release](how-to/build-and-deployment.md)
+- [Issue Reporting](how-to/issue-reporting.md) — how issues are typed, prioritized, labeled, and tied to capability milestones.
 
 ## Reference
 

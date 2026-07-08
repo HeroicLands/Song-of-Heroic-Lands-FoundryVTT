@@ -1,0 +1,357 @@
+<!DOCTYPE html><html class="default" lang="en" data-base=".."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Issue Reporting | Song of Heroic Lands API - v0.7.0</title><meta name="description" content="Documentation for Song of Heroic Lands API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><link rel="stylesheet" href="../assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">Song of Heroic Lands API - v0.7.0</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb"><li><a href="../modules.html">Song of Heroic Lands API</a></li><li><a href="Documentation.html">Documentation</a></li><li><a href="Documentation.How-to.html">How-to</a></li><li><a href="Documentation.How-to.Issue_Reporting.html">Issue Reporting</a></li></ul></div><div class="tsd-panel tsd-typography"><a id="issue-reporting" class="tsd-anchor"></a><h1 class="tsd-anchor-link">Issue Reporting<a href="#issue-reporting" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1><p>This document defines how issues are created and classified in the <code>heroic-lands</code>
+Song of Heroic Lands (SoHL) repositories.</p>
+<p>The core discipline is simple — four axes, each answering a different question:</p>
+<ul>
+<li><strong>Type</strong> — <em>&quot;what shape of work is this?&quot;</em> One per issue, from a closed set of five.</li>
+<li><strong>Priority</strong> — <em>&quot;how soon and how badly does this need doing?&quot;</em> A GitHub Projects field, one value, defaults to Medium.</li>
+<li><strong>Labels</strong> — <em>&quot;what is this about?&quot;</em> Categorization only, chosen <strong>only</strong> from the registry below. Never invent a label.</li>
+<li><strong>Milestone</strong> — <em>&quot;which capability gate does this advance?&quot;</em> A native GitHub milestone (no due date), at most one, selected from a curated set (see §4).</li>
+</ul>
+<p>Type, priority, and milestone are structured single values (one each). Labels
+stack. Keep the roles separate: do not encode priority, urgency, or work-shape as a
+label; do not encode subject matter as a type; and do not encode a capability gate
+as a label when a milestone is its proper home.</p>
+<a id="1-issue-types" class="tsd-anchor"></a><h2 class="tsd-anchor-link">1. Issue types<a href="#1-issue-types" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Exactly <strong>one</strong> type per issue. Choose using the decision procedure in §5 when in
+doubt. Do not leave an issue untyped.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Use it when…</th>
+<th>Do <strong>not</strong> use it for…</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>bug</strong></td>
+<td>Existing, shipped behavior is wrong or broken relative to what it should do — an error, crash, incorrect result, or regression.</td>
+<td>Missing capability (that's a <em>feature</em>); known-incomplete work in progress; a chore.</td>
+</tr>
+<tr>
+<td><strong>feature</strong></td>
+<td>A new capability or enhancement that does not exist yet, deliverable as one shippable unit of value.</td>
+<td>Anything broken (<em>bug</em>); work large enough to need many sub-issues (<em>epic</em>); pure maintenance (<em>task</em>).</td>
+</tr>
+<tr>
+<td><strong>epic</strong></td>
+<td>A large body of work that only makes sense decomposed into multiple sub-issues; a coordinating container tracked by its children.</td>
+<td>Anything you can ship as a single issue. If it has no sub-issues, it is not an epic.</td>
+</tr>
+<tr>
+<td><strong>task</strong></td>
+<td>Necessary work that is neither a defect nor a new capability: chores, maintenance, refactors, dependency bumps, tooling, docs, releases. May or may not touch code.</td>
+<td>Work whose outcome is uncertain and exploratory (<em>spike</em>); a defect (<em>bug</em>).</td>
+</tr>
+<tr>
+<td><strong>spike</strong></td>
+<td>A <strong>timeboxed</strong> investigation whose deliverable is a <em>decision, answer, or recommendation</em> — not shipped code. Outcome is genuinely uncertain going in.</td>
+<td>Work whose steps are already known (that's a <em>task</em>). A spike that produces code instead of a conclusion was mistyped.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Type rules</strong></p>
+<ul>
+<li><strong>MUST</strong> assign exactly one type.</li>
+<li>A <strong>bug</strong> is <em>broken</em>; a <strong>feature</strong> is <em>missing</em>. That distinction resolves most ambiguity — decide which word fits before anything else.</li>
+<li>An <strong>epic</strong> MUST link its sub-issues (native GitHub sub-issues; see §6) and SHOULD carry little implementation detail of its own. Its acceptance is &quot;all sub-issues closed and the whole verified together.&quot;</li>
+<li>A <strong>spike</strong> MUST state (a) the question it answers and (b) its timebox. It closes when the question is answered, and it typically <em>spawns</em> follow-up feature/task/bug issues rather than doing the work itself.</li>
+<li>A <strong>refactor</strong> that changes no external behavior is a <strong>task</strong>, tagged <code>tech-debt</code> — it is not a feature and not a bug.</li>
+</ul>
+<a id="2-priority-github-projects-field" class="tsd-anchor"></a><h2 class="tsd-anchor-link">2. Priority (GitHub Projects field)<a href="#2-priority-github-projects-field" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Priority is a GitHub <strong>Priority</strong> field on the project board (a Projects v2
+single-select), <strong>not</strong> an issue label — so an issue must be on the project to
+carry one. One value per issue, from: <strong>Urgent · High · Medium · Low</strong>.</p>
+<p>Priority is about attention, not schedule — this project has no deadlines, so
+priority answers &quot;when I next sit down, what deserves my time?&quot; not &quot;what is due.&quot;</p>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Meaning</th>
+<th>Typical triggers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Urgent</strong></td>
+<td>Do it next session. Active harm or a hard blocker.</td>
+<td>Data loss or corruption; a security issue being exploited; the system fails to load in a supported Foundry version; blocks the current capability gate.</td>
+</tr>
+<tr>
+<td><strong>High</strong></td>
+<td>Wanted soon; the current gate leans on it.</td>
+<td>Broken capability with no workaround; work the active milestone depends on.</td>
+</tr>
+<tr>
+<td><strong>Medium</strong></td>
+<td><strong>Default.</strong> Should get done; not blocking the current gate.</td>
+<td>Most features and tasks; bugs with a workaround.</td>
+</tr>
+<tr>
+<td><strong>Low</strong></td>
+<td>Deferrable indefinitely with little cost.</td>
+<td>Cosmetic issues; nice-to-haves; long-tail edge cases; opportunistic cleanup.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Priority rules</strong></p>
+<ul>
+<li><strong>MUST</strong> set a priority on every issue.</li>
+<li><strong>Default to Medium.</strong> Anything higher MUST be justified in the body (one line: why the impact warrants it). Do not inflate — not everything is High.</li>
+<li>Priority is independent of type, labels, <strong>and</strong> milestone. A <code>security</code>-labelled issue is <strong>not</strong> automatically Urgent: a hardening task with no known exploit can be Low; an exploit in the wild is Urgent. Judge impact, not the topic.</li>
+<li>An <strong>epic</strong>'s priority reflects the initiative's importance, not the max of its children.</li>
+</ul>
+<a id="3-labels--the-closed-registry" class="tsd-anchor"></a><h2 class="tsd-anchor-link">3. Labels — the closed registry<a href="#3-labels--the-closed-registry" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Labels are for <strong>categorization only</strong>. The table below is the <strong>complete,
+authoritative set</strong>. Its machine-readable twin is <code>.github/labels.yml</code>, which the
+<code>labels-sync</code> workflow reconciles onto GitHub (the set is <em>closed</em> — a label not
+in the registry is deleted on sync). <code>npm run lint</code> fails if the two disagree
+(<code>check-labels</code>), so they cannot drift.</p>
+<blockquote>
+<p><strong>MUST NOT invent, rename, or improvise labels.</strong> If no existing label fits, add
+none and (if it matters) note the gap in the issue body for a maintainer to decide.
+Extending this registry is a deliberate decision made by editing <strong>both</strong> this
+table and <code>.github/labels.yml</code>, not something done at filing time.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Label</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>system</code></td>
+<td>The Foundry VTT game system code (TypeScript, data model, sheets, logic).</td>
+</tr>
+<tr>
+<td><code>documentation</code></td>
+<td>The Foundry VTT game system documents (dev, api, user docs, rules content, etc.)</td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td>Non-documentation assets, such as new or modified images, compendium packs, actors, items, journals, or other content</td>
+</tr>
+<tr>
+<td><code>thalorna</code></td>
+<td>Thalorna setting material.</td>
+</tr>
+<tr>
+<td><code>site</code></td>
+<td><a href="http://heroiclands.org">heroiclands.org</a> — Hugo site, Cloudflare Pages, CDN.</td>
+</tr>
+<tr>
+<td><code>devops</code></td>
+<td>Build, tooling, release pipeline, repo config.</td>
+</tr>
+<tr>
+<td><code>tests</code></td>
+<td>Vitest, Quench, or Playwright test suites and harness.</td>
+</tr>
+<tr>
+<td><code>security</code></td>
+<td>Touches an attack surface: auth, data integrity, macro/script execution, injection, or anything warranting private disclosure (see §7).</td>
+</tr>
+<tr>
+<td><code>tech-debt</code></td>
+<td>Restructuring or cleanup of working code; refactors.</td>
+</tr>
+<tr>
+<td><code>regression</code></td>
+<td>Something that previously worked and stopped. Pairs with type <code>bug</code>.</td>
+</tr>
+<tr>
+<td><code>breaking-change</code></td>
+<td>Alters a public API, data schema, or save compatibility.</td>
+</tr>
+<tr>
+<td><code>blocked</code></td>
+<td>Cannot proceed until an external dependency or another issue clears.</td>
+</tr>
+<tr>
+<td><code>duplicate</code></td>
+<td>This issue or pull request already exists</td>
+</tr>
+<tr>
+<td><code>question</code></td>
+<td>Further information is requested</td>
+</tr>
+<tr>
+<td><code>wontfix</code></td>
+<td>This will not be worked on</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>No capability-gate labels.</strong> Progress toward a capability is tracked by
+<strong>milestones</strong> (§4), not labels. Do not add <code>combat</code>-style or <code>v3.0</code>-style labels
+to mark what a milestone already carries.</p>
+</blockquote>
+<p><strong>Label rules</strong></p>
+<ul>
+<li>Choose labels <strong>only</strong> from this file. No exceptions.</li>
+<li>Labels are additive and orthogonal — <code>security</code> + <code>system</code> + <code>regression</code> on one bug is fine.</li>
+<li>Do not use a label to express something a type, the priority field, or a milestone already expresses.</li>
+</ul>
+<a id="4-milestones--capability-gates" class="tsd-anchor"></a><h2 class="tsd-anchor-link">4. Milestones — capability gates<a href="#4-milestones--capability-gates" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Milestones here are <strong>capability gates, not calendar dates.</strong> Each milestone is a
+demonstrable threshold the system crosses — a state you can point at and say &quot;it does
+this now&quot; — and <strong>crossing a gate is what triggers a release</strong> (see &quot;Milestones and
+releases&quot; below). This project is not date-driven and has no deadlines, and GitHub
+supports that directly: <strong>a milestone's due date is optional, and its progress bar is
+computed from the ratio of closed to open issues, not from any date.</strong> Leave due dates
+blank.</p>
+<p><strong>Name milestones by the capability reached,</strong> phrased as a state of the system:</p>
+<ul>
+<li><code>Holds a character</code> — can create and persist a character.</li>
+<li><code>Combat-capable</code> — can resolve combat between characters.</li>
+<li><code>Automated combat</code> — can run combat between characters automatically.</li>
+</ul>
+<p>…and so on. These form a natural progression — later gates depend on earlier ones.
+GitHub does not model milestone dependencies, so if you want the order explicit,
+encode it in the name (<code>M1 · Holds a character</code>, <code>M2 · Combat-capable</code>, …); otherwise
+let the list carry it.</p>
+<p><strong>An issue's milestone is the gate its work advances.</strong> When every issue in a
+milestone is closed, the system has crossed that gate. One milestone per issue
+(GitHub enforces this); if an issue seems to serve two gates, it usually belongs to
+the earlier one or is scoped too large.</p>
+<p><strong>Milestone vs. epic — different lenses, keep them straight:</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Epic</strong> (a type)</th>
+<th><strong>Milestone</strong> (a gate)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Groups by</td>
+<td>work breakdown — a tree of sub-issues</td>
+<td>outcome — a capability the system gains</td>
+</tr>
+<tr>
+<td>Answers</td>
+<td>&quot;what are all the pieces of <em>this build</em>?&quot;</td>
+<td>&quot;how close is the system to <em>doing this thing</em>?&quot;</td>
+</tr>
+<tr>
+<td>Done when</td>
+<td>all its sub-issues are closed</td>
+<td>all issues tagged to it are closed</td>
+</tr>
+<tr>
+<td>Shape</td>
+<td>vertical: one initiative, decomposed</td>
+<td>horizontal: a slice across the whole system</td>
+</tr>
+</tbody>
+</table>
+<p>A milestone can contain several epics plus loose issues; an epic serves a milestone.
+The <code>Combat-capable</code> <strong>milestone</strong> might hold the <code>Core combat resolution</code> <strong>epic</strong>
+(with its sub-issues), a <code>Wound model</code> <strong>epic</strong>, a loose &quot;add combat log panel&quot; task,
+and a stray bug found along the way — all rolling into one progress bar. <strong>Rule of
+thumb:</strong> every major capability gets a <strong>milestone</strong>; add an <strong>epic</strong> only for a chunk
+big enough to need its own sub-issue tree. A gate reached with a handful of loose
+issues needs the milestone but no epic.</p>
+<p><strong>The milestone set is curated, like the label registry</strong> — select from
+existing gates and never invent one.</p>
+<p>Because gates are capability-based, their mapping is usually inferable
+from an issue's content:</p>
+<ul>
+<li>You MAY assign an issue to a milestone when its work <strong>unambiguously advances exactly one existing gate</strong>.</li>
+<li>Leave the milestone <strong>unset</strong> when the issue advances none of the current gates (it is future/backlog), spans several, or the mapping is unclear. An unset milestone is a normal, correct state.</li>
+<li>You MUST NOT create a new milestone. If no gate fits and one seems warranted, note it in the body and raise it for awareness.</li>
+</ul>
+<a id="milestones-and-releases" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Milestones and releases<a href="#milestones-and-releases" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><strong>Reaching a gate is what cuts a release.</strong> When every issue in a milestone is
+closed, the system has demonstrably gained that capability — and that is the
+trigger to cut a new release, versioned for the capability reached, not for any
+date. There is no release calendar and no due dates: releases are <strong>paced by
+capability</strong>, so the milestone progress bar (closed vs. open issues) is the only
+schedule the project keeps. Leave every milestone's due date blank.</p>
+<a id="5-choosing-the-type--decision-procedure" class="tsd-anchor"></a><h2 class="tsd-anchor-link">5. Choosing the type — decision procedure<a href="#5-choosing-the-type--decision-procedure" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Walk this in order; take the first match.</p>
+<ol>
+<li>Is something <strong>broken</strong> relative to intended behavior? → <strong>bug</strong> (add <code>regression</code> if it used to work).</li>
+<li>Is the outcome <strong>genuinely uncertain</strong> and the deliverable a <strong>decision/answer</strong>? → <strong>spike</strong> (state question + timebox).</li>
+<li>Is this too large to ship as one issue, needing <strong>multiple sub-issues</strong> to coordinate? → <strong>epic</strong>.</li>
+<li>Is it a <strong>new capability or enhancement</strong> that doesn't exist yet? → <strong>feature</strong>.</li>
+<li>Otherwise — chore, maintenance, refactor, docs, tooling, release? → <strong>task</strong>.</li>
+</ol>
+<p>Then, regardless of type: set <strong>priority</strong> (default Medium; justify higher), apply
+any <strong>labels</strong> from §3 that categorize it, and set a <strong>milestone</strong> only when the issue
+clearly advances one existing capability gate (§4) — otherwise leave it unset.</p>
+<a id="6-body-structure-by-type" class="tsd-anchor"></a><h2 class="tsd-anchor-link">6. Body structure by type<a href="#6-body-structure-by-type" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Titles: imperative and specific. &quot;Fix stamina regen ignoring encumbrance,&quot; not
+&quot;stamina bug.&quot; No trailing punctuation.</p>
+<p>Every issue body should give enough context that someone with repo familiarity but
+no memory of the conversation can act on it. Use the shape for its type:</p>
+<a id="bug" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Bug<a href="#bug" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Bugs should describe the problem as fully as possible, so it may be easily reproduced. However, the description should NOT contain a description of how to fix the issue. Suggestions for fixes or approaches may be placed in comments.</p>
+<p><strong>Acceptance criteria</strong> is optional.</p>
+<pre><code><span class="hl-1">## </span><span class="hl-0">Summary</span><br/><span class="hl-0">One</span><span class="hl-1"> </span><span class="hl-2">sentence</span><span class="hl-1">: </span><span class="hl-0">what</span><span class="hl-6">&#39;s wrong</span><span class="hl-14">.</span><br/><br/><span class="hl-1">## </span><span class="hl-0">Steps</span><span class="hl-1"> </span><span class="hl-0">to</span><span class="hl-1"> </span><span class="hl-0">reproduce</span><br/><span class="hl-8">1.</span><span class="hl-1"> …</span><br/><span class="hl-8">2.</span><span class="hl-1"> …</span><br/><br/><span class="hl-1">## </span><span class="hl-0">Expected</span><span class="hl-1"> </span><span class="hl-0">vs</span><span class="hl-1">. </span><span class="hl-0">actual</span><br/><span class="hl-2">Expected</span><span class="hl-1">: …</span><br/><span class="hl-2">Actual</span><span class="hl-1">: …</span><br/><br/><span class="hl-1">## </span><span class="hl-0">Acceptance</span><span class="hl-1"> </span><span class="hl-0">criteria</span><br/><span class="hl-1">- [ ] </span><span class="hl-0">Observable</span><span class="hl-1"> </span><span class="hl-0">condition</span><span class="hl-1"> </span><span class="hl-8">1</span><br/><span class="hl-1">- [ ] </span><span class="hl-0">Observable</span><span class="hl-1"> </span><span class="hl-0">condition</span><span class="hl-1"> </span><span class="hl-8">2</span><br/><br/><span class="hl-1">## </span><span class="hl-0">Environment</span><br/><span class="hl-0">Foundry</span><span class="hl-1"> </span><span class="hl-0">version</span><span class="hl-1"> · </span><span class="hl-0">SoHL</span><span class="hl-1"> </span><span class="hl-0">system</span><span class="hl-1"> </span><span class="hl-0">version</span><span class="hl-1"> · </span><span class="hl-0">browser</span><span class="hl-1">/</span><span class="hl-4">OS</span><span class="hl-1"> </span><span class="hl-9">if</span><span class="hl-1"> </span><span class="hl-0">relevant</span><br/><br/><span class="hl-1">## </span><span class="hl-0">Notes</span><br/><span class="hl-0">Stack</span><span class="hl-1"> </span><span class="hl-0">traces</span><span class="hl-1">, </span><span class="hl-0">console</span><span class="hl-1"> </span><span class="hl-0">output</span><span class="hl-1">, </span><span class="hl-0">suspected</span><span class="hl-1"> </span><span class="hl-0">cause</span><span class="hl-1">.</span>
+</code><button>Copy</button></pre>
+
+<a id="feature" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Feature<a href="#feature" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>A feature should describe the problem to be solved or gap addressed, and possibly provide justification or benefit analysis.</p>
+<pre><code><span class="hl-1">## </span><span class="hl-0">Problem</span><span class="hl-1"> / </span><span class="hl-0">motivation</span><br/><span class="hl-0">What</span><span class="hl-1"> </span><span class="hl-0">need</span><span class="hl-1"> </span><span class="hl-0">or</span><span class="hl-1"> </span><span class="hl-0">gap</span><span class="hl-1"> </span><span class="hl-5">this</span><span class="hl-1"> </span><span class="hl-0">addresses</span><span class="hl-1">.</span><br/><br/><span class="hl-1">## </span><span class="hl-0">Proposed</span><span class="hl-1"> </span><span class="hl-0">solution</span><br/><span class="hl-0">What</span><span class="hl-1"> </span><span class="hl-0">to</span><span class="hl-1"> </span><span class="hl-0">build</span><span class="hl-1">. </span><span class="hl-0">Sketch</span><span class="hl-1"> </span><span class="hl-0">the</span><span class="hl-1"> </span><span class="hl-0">approach</span><span class="hl-1"> </span><span class="hl-9">if</span><span class="hl-1"> </span><span class="hl-0">known</span><span class="hl-1">.</span><br/><br/><span class="hl-1">## </span><span class="hl-0">Acceptance</span><span class="hl-1"> </span><span class="hl-0">criteria</span><br/><span class="hl-1">- [ ] </span><span class="hl-0">Observable</span><span class="hl-1"> </span><span class="hl-0">condition</span><span class="hl-1"> </span><span class="hl-8">1</span><br/><span class="hl-1">- [ ] </span><span class="hl-0">Observable</span><span class="hl-1"> </span><span class="hl-0">condition</span><span class="hl-1"> </span><span class="hl-8">2</span>
+</code><button>Copy</button></pre>
+
+<a id="epic" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Epic<a href="#epic" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>An epic should provide an overall explanation covering an area described by one or more issues (which may or may not yet exist). Deciding at what point an issue should be an epic is an art, but certainly if you anticipate more than one PR, or if the work involves multiple domains, the issue should probably be an epic.</p>
+<pre><code><span class="hl-1">## </span><span class="hl-0">Goal</span><br/><span class="hl-0">The</span><span class="hl-1"> </span><span class="hl-0">outcome</span><span class="hl-1"> </span><span class="hl-5">this</span><span class="hl-1"> </span><span class="hl-0">initiative</span><span class="hl-1"> </span><span class="hl-0">delivers</span><span class="hl-1">.</span><br/><br/><span class="hl-1">## </span><span class="hl-0">Scope</span><br/><span class="hl-0">In</span><span class="hl-1"> </span><span class="hl-0">scope</span><span class="hl-1"> / </span><span class="hl-0">out</span><span class="hl-1"> </span><span class="hl-5">of</span><span class="hl-1"> </span><span class="hl-0">scope</span><span class="hl-1">.</span><br/><br/><span class="hl-1">## </span><span class="hl-0">Sub</span><span class="hl-1">-</span><span class="hl-0">issues</span><br/><span class="hl-1">(</span><span class="hl-0">Linked</span><span class="hl-1"> </span><span class="hl-9">as</span><span class="hl-1"> </span><span class="hl-13">native</span><span class="hl-1"> </span><span class="hl-13">sub</span><span class="hl-1">-</span><span class="hl-0">issues</span><span class="hl-1">; </span><span class="hl-0">list</span><span class="hl-1"> </span><span class="hl-0">mirrors</span><span class="hl-1"> </span><span class="hl-0">them</span><span class="hl-1">.)</span><br/><span class="hl-1">- [ ] #…</span><br/><span class="hl-1">- [ ] #…</span><br/><br/><span class="hl-1">## </span><span class="hl-0">Done</span><span class="hl-1"> </span><span class="hl-0">when</span><br/><span class="hl-0">All</span><span class="hl-1"> </span><span class="hl-0">sub</span><span class="hl-1">-</span><span class="hl-0">issues</span><span class="hl-1"> </span><span class="hl-0">closed</span><span class="hl-1"> </span><span class="hl-0">and</span><span class="hl-1"> </span><span class="hl-0">integration</span><span class="hl-1"> </span><span class="hl-0">verified</span><span class="hl-1">.</span>
+</code><button>Copy</button></pre>
+
+<a id="task" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Task<a href="#task" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><pre><code><span class="hl-1">## </span><span class="hl-0">What</span><br/><span class="hl-0">The</span><span class="hl-1"> </span><span class="hl-0">work</span><span class="hl-1"> </span><span class="hl-0">to</span><span class="hl-1"> </span><span class="hl-0">be</span><span class="hl-1"> </span><span class="hl-0">done</span><span class="hl-1">.</span><br/><br/><span class="hl-1">## </span><span class="hl-0">Why</span><br/><span class="hl-0">The</span><span class="hl-1"> </span><span class="hl-0">reason</span><span class="hl-1"> </span><span class="hl-0">it</span><span class="hl-6">&#39;s needed (keeps chores from looking arbitrary)</span><span class="hl-14">.</span>
+</code><button>Copy</button></pre>
+
+<a id="spike" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Spike<a href="#spike" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><pre><code><span class="hl-1">## </span><span class="hl-0">Question</span><br/><span class="hl-0">The</span><span class="hl-1"> </span><span class="hl-0">specific</span><span class="hl-1"> </span><span class="hl-0">thing</span><span class="hl-1"> </span><span class="hl-0">we</span><span class="hl-1"> </span><span class="hl-0">need</span><span class="hl-1"> </span><span class="hl-0">to</span><span class="hl-1"> </span><span class="hl-0">decide</span><span class="hl-1"> </span><span class="hl-0">or</span><span class="hl-1"> </span><span class="hl-0">learn</span><span class="hl-1">.</span><br/><br/><span class="hl-1">## </span><span class="hl-0">Timebox</span><br/><span class="hl-0">e</span><span class="hl-1">.</span><span class="hl-0">g</span><span class="hl-1">. </span><span class="hl-8">1</span><span class="hl-1"> </span><span class="hl-0">day</span><span class="hl-1"> / </span><span class="hl-8">4</span><span class="hl-1"> </span><span class="hl-0">hours</span><span class="hl-1">. </span><span class="hl-4">MUST</span><span class="hl-1"> </span><span class="hl-0">be</span><span class="hl-1"> </span><span class="hl-0">present</span><span class="hl-1">.</span><br/><br/><span class="hl-1">## </span><span class="hl-0">Deliverable</span><br/><span class="hl-0">The</span><span class="hl-1"> </span><span class="hl-0">form</span><span class="hl-1"> </span><span class="hl-5">of</span><span class="hl-1"> </span><span class="hl-0">the</span><span class="hl-1"> </span><span class="hl-2">answer</span><span class="hl-1">: </span><span class="hl-0">a</span><span class="hl-1"> </span><span class="hl-0">decision</span><span class="hl-1">, </span><span class="hl-0">a</span><span class="hl-1"> </span><span class="hl-0">recommendation</span><span class="hl-1">, </span><span class="hl-0">a</span><span class="hl-1"> </span><span class="hl-0">written</span><span class="hl-1"> </span><span class="hl-0">finding</span><span class="hl-1">,</span><br/><span class="hl-0">a</span><span class="hl-1"> </span><span class="hl-0">prototype</span><span class="hl-1">-</span><span class="hl-0">to</span><span class="hl-1">-</span><span class="hl-9">throw</span><span class="hl-1">-</span><span class="hl-0">away</span><span class="hl-1">. </span><span class="hl-4">NOT</span><span class="hl-1"> </span><span class="hl-0">production</span><span class="hl-1"> </span><span class="hl-0">code</span><span class="hl-1">.</span><br/><br/><span class="hl-1">## </span><span class="hl-0">Follow</span><span class="hl-1">-</span><span class="hl-0">up</span><br/><span class="hl-0">Note</span><span class="hl-1"> </span><span class="hl-0">that</span><span class="hl-1"> </span><span class="hl-0">follow</span><span class="hl-1">-</span><span class="hl-0">up</span><span class="hl-1"> </span><span class="hl-0">feature</span><span class="hl-1">/</span><span class="hl-0">task</span><span class="hl-1">/</span><span class="hl-0">bug</span><span class="hl-1"> </span><span class="hl-0">issues</span><span class="hl-1"> </span><span class="hl-0">will</span><span class="hl-1"> </span><span class="hl-0">be</span><span class="hl-1"> </span><span class="hl-0">filed</span><span class="hl-1"> </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-0">the</span><span class="hl-1"> </span><span class="hl-0">outcome</span><span class="hl-1">.</span>
+</code><button>Copy</button></pre>
+
+<a id="7-security-issues--special-handling" class="tsd-anchor"></a><h2 class="tsd-anchor-link">7. Security issues — special handling<a href="#7-security-issues--special-handling" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>If an issue would be labelled <code>security</code> <strong>and</strong> describes an exploitable weakness
+(not merely hardening), <strong>do not open a public issue</strong>. Use GitHub's private
+security advisories / vulnerability reporting instead. SoHL ships into users'
+Foundry instances, so a disclosed macro-injection or data-execution path has a
+real (if small) attack surface. When in doubt, disclose privately and let a
+maintainer decide whether to make it public.</p>
+<a id="8-worked-examples" class="tsd-anchor"></a><h2 class="tsd-anchor-link">8. Worked examples<a href="#8-worked-examples" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><strong>Bug, High, regression</strong></p>
+<blockquote>
+<p><strong>Title:</strong> Fix character sheet failing to render after v14 migration
+<strong>Type:</strong> bug · <strong>Priority:</strong> High · <strong>Labels:</strong> <code>system</code>, <code>regression</code> · <strong>Milestone:</strong> <em>(unset — maintenance on an already-crossed gate)</em>
+Body: reproduces on Foundry v14; sheet threw before the migration didn't. No workaround → High.</p>
+</blockquote>
+<p><strong>Feature, Medium</strong></p>
+<blockquote>
+<p><strong>Title:</strong> Add wound tracking to combat resolution
+<strong>Type:</strong> feature · <strong>Priority:</strong> Medium · <strong>Labels:</strong> <code>system</code> · <strong>Milestone:</strong> <code>Combat-capable</code> (advances exactly this gate)
+Body: new capability, single shippable unit, not blocking → Medium.</p>
+</blockquote>
+<p><strong>Epic, Medium</strong></p>
+<blockquote>
+<p><strong>Title:</strong> Core combat resolution
+<strong>Type:</strong> epic · <strong>Priority:</strong> Medium · <strong>Labels:</strong> <code>system</code> · <strong>Milestone:</strong> <code>Combat-capable</code>
+Body: coordinates ~8 sub-issues (initiative, attack rolls, damage, defense, …), each filed separately and linked. Serves the <code>Combat-capable</code> gate alongside other work.</p>
+</blockquote>
+<p><strong>Task, Low</strong></p>
+<blockquote>
+<p><strong>Title:</strong> Bump Vitest to latest and refresh snapshots
+<strong>Type:</strong> task · <strong>Priority:</strong> Low · <strong>Labels:</strong> <code>tests</code>, <code>devops</code> · <strong>Milestone:</strong> <em>(unset — serves no gate)</em>
+Body: routine maintenance, deferrable → Low.</p>
+</blockquote>
+<p><strong>Spike, Medium</strong></p>
+<blockquote>
+<p><strong>Title:</strong> Evaluate migrating data model to Foundry v14 DataModel API
+<strong>Type:</strong> spike · <strong>Priority:</strong> Medium · <strong>Labels:</strong> <code>system</code> · <strong>Milestone:</strong> <em>(unset — informs future work)</em>
+Body: <strong>Question</strong> — is the v14 DataModel API worth adopting now? <strong>Timebox</strong> — 1 day. <strong>Deliverable</strong> — written recommendation + rough migration cost. Follow-up issues to be filed from the finding.</p>
+</blockquote>
+<p><strong>Security, Urgent</strong></p>
+<blockquote>
+<p><strong>Title:</strong> (private advisory) Sanitize macro input in item description renderer
+<strong>Type:</strong> bug · <strong>Priority:</strong> Urgent · <strong>Labels:</strong> <code>security</code>, <code>system</code>
+Filed as a <strong>private advisory</strong>, not a public issue, because it's exploitable.</p>
+</blockquote>
+<a id="self-check-before-filing" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Self-check before filing<a href="#self-check-before-filing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>You should confirm all of these before submitting an issue:</p>
+<ul>
+<li>[ ] Exactly <strong>one type</strong> assigned, chosen via the §5 procedure.</li>
+<li>[ ] A <strong>priority</strong> is set. If above Medium, the body justifies it in one line.</li>
+<li>[ ] Every label comes from the §3 registry. <strong>Zero</strong> invented labels.</li>
+<li>[ ] No label duplicates what the type, priority field, or milestone already says.</li>
+<li>[ ] <strong>Milestone</strong> set only when the issue clearly advances one existing capability gate (§4); otherwise unset. <strong>Never</strong> invented.</li>
+<li>[ ] Title is imperative and specific; body follows the §6 shape for its type. Title should not encode labels or other field information.</li>
+<li>[ ] If <code>security</code> + exploitable → routed to <strong>private advisory</strong>, not a public issue (§7).</li>
+<li>[ ] If <strong>epic</strong> → sub-issues are linked. If <strong>spike</strong> → question and timebox are present.</li>
+</ul>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#issue-reporting"><span>Issue <wbr/>Reporting</span></a><ul><li><a href="#1-issue-types"><span>1. <wbr/>Issue types</span></a></li><li><a href="#2-priority-github-projects-field"><span>2. <wbr/>Priority (<wbr/>Git<wbr/>Hub <wbr/>Projects field)</span></a></li><li><a href="#3-labels--the-closed-registry"><span>3. <wbr/>Labels — the closed registry</span></a></li><li><a href="#4-milestones--capability-gates"><span>4. <wbr/>Milestones — capability gates</span></a></li><li><ul><li><a href="#milestones-and-releases"><span>Milestones and releases</span></a></li></ul></li><li><a href="#5-choosing-the-type--decision-procedure"><span>5. <wbr/>Choosing the type — decision procedure</span></a></li><li><a href="#6-body-structure-by-type"><span>6. <wbr/>Body structure by type</span></a></li><li><ul><li><a href="#bug"><span>Bug</span></a></li><li><a href="#feature"><span>Feature</span></a></li><li><a href="#epic"><span>Epic</span></a></li><li><a href="#task"><span>Task</span></a></li><li><a href="#spike"><span>Spike</span></a></li></ul></li><li><a href="#7-security-issues--special-handling"><span>7. <wbr/>Security issues — special handling</span></a></li><li><a href="#8-worked-examples"><span>8. <wbr/>Worked examples</span></a></li><li><a href="#self-check-before-filing"><span>Self-<wbr/>check before filing</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>
