@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { MiscGearLogic } from "@src/document/item/logic/MiscGearLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { BodyStructure } from "@src/entity/body/BodyStructure";
 import { ITEM_KIND } from "@src/utils/constants";
 import {
     makeItemLogic,
@@ -164,6 +165,10 @@ describe("GearLogic (via MiscGearLogic)", () => {
         });
 
         describe("holdItem / releaseItem (#179)", () => {
+            // The full-array write (#247) sources canonical part data from
+            // `lineage.data.bodyStructure.parts` and routes through the real
+            // BodyStructure.setPartFieldsUpdate, so the mock provides both the
+            // domain parts (for filtering) and canonical persisted parts.
             function makeGearWithParts(
                 partDefs: Array<{
                     canHoldItem: boolean;
@@ -173,32 +178,60 @@ describe("GearLogic (via MiscGearLogic)", () => {
                 const actor = makeMockActor();
                 const lineageUpdate = vi.fn(async (d: any) => d);
                 const gearId = "item0000000mock";
+                const canonicalParts = partDefs.map((p, i) => ({
+                    shortcode: `part${i}`,
+                    roles: [],
+                    canHoldItem: p.canHoldItem,
+                    heldItemId: p.heldItemId,
+                    probWeight: 1,
+                    locations: [],
+                }));
                 const parts = partDefs.map((p, i) => ({
                     canHoldItem: p.canHoldItem,
                     heldItem: p.heldItemId ? { id: p.heldItemId } : undefined,
                     index: i,
                 }));
-                const mockLineageLogic = {
-                    bodyStructure: { parts },
-                    data: { update: lineageUpdate },
+                const mockLineageLogic: any = {
+                    data: {
+                        update: lineageUpdate,
+                        bodyStructure: { parts: canonicalParts },
+                    },
+                };
+                mockLineageLogic.bodyStructure = {
+                    parts,
+                    parent: mockLineageLogic,
+                    setPartFieldsUpdate:
+                        BodyStructure.prototype.setPartFieldsUpdate,
                 };
                 actor.logic = {
                     logicTypes: { [ITEM_KIND.LINEAGE]: [mockLineageLogic] },
                 };
                 const logic = makeGear({}, { actor, id: gearId });
                 logic.initialize();
-                return { logic, lineageUpdate, gearId };
+                return { logic, lineageUpdate, gearId, canonicalParts };
             }
 
-            it("holdItem assigns the first free canHoldItem part", async () => {
+            /** The parts array from a full-array `system.bodyStructure.parts` write. */
+            function writtenParts(lineageUpdate: any): any[] {
+                expect(lineageUpdate).toHaveBeenCalledTimes(1);
+                const payload = lineageUpdate.mock.calls[0][0];
+                expect(Object.keys(payload)).toEqual([
+                    "system.bodyStructure.parts",
+                ]);
+                return payload["system.bodyStructure.parts"];
+            }
+
+            it("holdItem assigns the first free canHoldItem part (whole array preserved)", async () => {
                 const { logic, lineageUpdate, gearId } = makeGearWithParts([
                     { canHoldItem: true, heldItemId: null },
                     { canHoldItem: true, heldItemId: null },
                 ]);
                 await logic.holdItem({} as any);
-                expect(lineageUpdate).toHaveBeenCalledWith({
-                    "system.bodyStructure.parts.0.heldItemId": gearId,
-                });
+                const parts = writtenParts(lineageUpdate);
+                expect(parts).toHaveLength(2);
+                expect(parts[0].heldItemId).toBe(gearId);
+                expect(parts[0].shortcode).toBe("part0"); // fields retained
+                expect(parts[1].heldItemId).toBe(null); // sibling untouched
             });
 
             it("holdItem skips parts where canHoldItem is false", async () => {
@@ -207,9 +240,10 @@ describe("GearLogic (via MiscGearLogic)", () => {
                     { canHoldItem: true, heldItemId: null },
                 ]);
                 await logic.holdItem({} as any);
-                expect(lineageUpdate).toHaveBeenCalledWith({
-                    "system.bodyStructure.parts.1.heldItemId": gearId,
-                });
+                const parts = writtenParts(lineageUpdate);
+                expect(parts).toHaveLength(2);
+                expect(parts[0].heldItemId).toBe(null);
+                expect(parts[1].heldItemId).toBe(gearId);
             });
 
             it("holdItem does nothing when no free parts exist", async () => {
@@ -239,10 +273,11 @@ describe("GearLogic (via MiscGearLogic)", () => {
                     { canHoldItem: true, heldItemId: ownId },
                 ]);
                 await logic.releaseItem({} as any);
-                expect(lineageUpdate).toHaveBeenCalledWith({
-                    "system.bodyStructure.parts.0.heldItemId": null,
-                    "system.bodyStructure.parts.1.heldItemId": null,
-                });
+                const parts = writtenParts(lineageUpdate);
+                expect(parts).toHaveLength(2);
+                expect(parts[0].heldItemId).toBe(null);
+                expect(parts[1].heldItemId).toBe(null);
+                expect(parts[0].shortcode).toBe("part0"); // fields retained
             });
 
             it("releaseItem does nothing when no parts hold this item", async () => {

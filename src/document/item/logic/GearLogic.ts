@@ -208,13 +208,15 @@ export abstract class GearLogic<
         );
         const needed = this.minPartsToHold;
         if (freeParts.length < needed) return;
-        const payload: PlainObject = {};
-        for (let i = 0; i < needed; i++) {
-            payload[
-                `system.bodyStructure.parts.${freeParts[i].index}.heldItemId`
-            ] = this.id;
-        }
-        await lineage.data.update(payload);
+        // Full-array write — a partial `parts.${i}.heldItemId` update corrupts
+        // the whole parts array (#247). See BodyStructure.setPartFieldsUpdate.
+        const payload = lineage.bodyStructure.setPartFieldsUpdate(
+            freeParts.slice(0, needed).map((p: any) => ({
+                index: p.index,
+                changes: { heldItemId: this.id },
+            })),
+        );
+        if (Object.keys(payload).length) await lineage.data.update(payload);
     }
 
     /**
@@ -237,12 +239,15 @@ export abstract class GearLogic<
             (p: any) => p.canHoldItem && p.heldItem?.id === this.id,
         );
         if (!holdingParts.length) return;
-        const payload: PlainObject = {};
-        for (const part of holdingParts) {
-            payload[`system.bodyStructure.parts.${part.index}.heldItemId`] =
-                null;
-        }
-        await lineage.data.update(payload);
+        // Full-array write — a partial `parts.${i}.heldItemId` update corrupts
+        // the whole parts array (#247). See BodyStructure.setPartFieldsUpdate.
+        const payload = lineage.bodyStructure.setPartFieldsUpdate(
+            holdingParts.map((part: any) => ({
+                index: part.index,
+                changes: { heldItemId: null },
+            })),
+        );
+        if (Object.keys(payload).length) await lineage.data.update(payload);
     }
 
     /**
