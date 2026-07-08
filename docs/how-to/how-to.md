@@ -8,6 +8,7 @@ children:
     Lifecycle Hooks: ./lifecycle-hooks.md
     House Rules Cookbook: ./house-rules-cookbook.md
     Testing: ./testing.md
+    Issue Reporting: ./issue-reporting.md
 ---
 
 # How-to
