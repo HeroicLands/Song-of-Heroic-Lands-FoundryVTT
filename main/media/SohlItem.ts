@@ -45,7 +45,7 @@ export class SohlItem extends Item {
 
     /**
      * Get the context menu options for a specific SohlItem document.
-     * @param doc The SohlItem document to get context options for.
+     * @param doc - The SohlItem document to get context options for.
      * @returns The context menu options for the specified SohlItem document.
      */
     protected static _getContextOptions(
@@ -214,7 +214,7 @@ export class SohlItem extends Item {
 
     /**
      * Helper method to handle chat card button clicks.
-     * @param btn The button element that was clicked.
+     * @param btn - The button element that was clicked.
      */
     async onChatCardButton(btn: HTMLElement): Promise<void> {
         // Only an owner of this item (a GM owns all) may run a chat-card action
@@ -258,7 +258,7 @@ export class SohlItem extends Item {
 
     /**
      * Helper method to handle chat card edit actions.
-     * @param btn The button element that was clicked.
+     * @param btn - The button element that was clicked.
      */
     async onChatCardEditAction(btn: HTMLElement): Promise<void> {
         if (!this.isOwner) return;

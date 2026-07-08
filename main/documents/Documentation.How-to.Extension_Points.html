@@ -44,7 +44,7 @@ of that kind. The resolution path (<code>SohlDataModel.create</code>) already re
 registry, so no construction sites change.</p>
 <p>Register during the module's <code>init</code>/<code>setup</code> hook, before the first <code>.logic</code> for
 that kind is built:</p>
-<pre><code class="js"><span class="hl-0">Hooks</span><span class="hl-1">.</span><span class="hl-3">once</span><span class="hl-1">(</span><span class="hl-6">&quot;setup&quot;</span><span class="hl-1">, () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-5">class</span><span class="hl-1"> </span><span class="hl-11">MyBeing</span><span class="hl-1"> </span><span class="hl-5">extends</span><span class="hl-1"> </span><span class="hl-11">sohl</span><span class="hl-1">.</span><span class="hl-11">actorLogicClasses</span><span class="hl-1">.</span><span class="hl-11">being</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-7">// override rules here</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">    </span><span class="hl-0">sohl</span><span class="hl-1">.</span><span class="hl-3">registerActorLogic</span><span class="hl-1">(</span><span class="hl-6">&quot;being&quot;</span><span class="hl-1">, </span><span class="hl-0">MyBeing</span><span class="hl-1">);</span><br/><span class="hl-1">});</span>
+<pre><code class="js"><span class="hl-0">Hooks</span><span class="hl-1">.</span><span class="hl-3">once</span><span class="hl-1">(</span><span class="hl-6">&quot;setup&quot;</span><span class="hl-1">, () </span><span class="hl-5">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-5">class</span><span class="hl-1"> </span><span class="hl-13">MyBeing</span><span class="hl-1"> </span><span class="hl-5">extends</span><span class="hl-1"> </span><span class="hl-13">sohl</span><span class="hl-1">.</span><span class="hl-13">actorLogicClasses</span><span class="hl-1">.</span><span class="hl-13">being</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-7">// override rules here</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">    </span><span class="hl-0">sohl</span><span class="hl-1">.</span><span class="hl-3">registerActorLogic</span><span class="hl-1">(</span><span class="hl-6">&quot;being&quot;</span><span class="hl-1">, </span><span class="hl-0">MyBeing</span><span class="hl-1">);</span><br/><span class="hl-1">});</span>
 </code><button type="button">Copy</button></pre>
 
 <p>Every being actor prepared afterward uses <code>MyBeing</code>. <code>registerItemLogic(kind, cls)</code> is the item-side equivalent, keyed by <code>ITEM_KIND</code>.</p>
@@ -82,8 +82,8 @@ from the clicked element's dataset and invokes its <code>onChatCardButton(btn)</
 <a href="Documentation.Reference.Runtime_Contracts.html#chat-card-dispatch-contract">Chat-card dispatch contract</a>.</p>
 <p>When adding a new button: <strong>emit one of the recognized dataset attributes</strong> (do not
 introduce a new attribute name), and <strong>add an <code>action</code> case</strong> to the resolved
-document's handler — e.g.  SohlActor.onChatCardButton, which switches on
-<code>btn.dataset.action</code> (today it handles <code>createInjury</code>).</p>
+document's handler — e.g. <a href="../classes/API_Reference.SohlItem.html#onchatcardbutton" class="tsd-kind-method"> SohlItem.onChatCardButton</a>, which switches on
+<code>btn.dataset.action</code>.</p>
 <p>To pass <strong>data</strong> to the action — a result, a request object — do not invent a new
 <code>data-*-json</code> attribute; put the whole payload in one <code>data-scope</code>. The card-creation
 logic sets a scope field (<code>scopeData: defaultToJSON(scope)</code>) and the template renders

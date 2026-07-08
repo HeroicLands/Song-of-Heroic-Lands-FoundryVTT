@@ -157,27 +157,10 @@ maps.</strong></p>
 e.g. <code>--sohl-radius-*</code>, <code>--sohl-shadow-*</code>). Generate them from SCSS maps using the same
 map-driven pattern already proven by <code>$typography-scale</code> / <code>type-style()</code> in
 <code>scss/utils/_typography.scss</code>:</p>
-<pre><code class="scss">// abstracts/_tokens.scss
-$space: (
-    "xs": 2px,
-    "sm": 5px,
-    "md": 10px,
-    "lg": 20px,
-);
-
-@mixin emit-tokens {
-    :root {
-        @each $name, $value in $space {
-            --sohl-space-#{$name}: #{$value};
-        }
-    }
-}
+<pre><code class="scss"><span class="hl-7">// abstracts/_tokens.scss</span><br/><span class="hl-11">$space</span><span class="hl-1">: (</span><br/><span class="hl-1">    </span><span class="hl-6">&quot;xs&quot;</span><span class="hl-1">: </span><span class="hl-8">2px</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-6">&quot;sm&quot;</span><span class="hl-1">: </span><span class="hl-8">5px</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-6">&quot;md&quot;</span><span class="hl-1">: </span><span class="hl-8">10px</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-6">&quot;lg&quot;</span><span class="hl-1">: </span><span class="hl-8">20px</span><span class="hl-1">,</span><br/><span class="hl-1">);</span><br/><br/><span class="hl-9">@mixin</span><span class="hl-1"> </span><span class="hl-3">emit-tokens</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-12">:root</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-9">@each</span><span class="hl-1"> </span><span class="hl-11">$name</span><span class="hl-1">, </span><span class="hl-11">$value</span><span class="hl-1"> </span><span class="hl-9">in</span><span class="hl-1"> </span><span class="hl-11">$space</span><span class="hl-1"> {</span><br/><span class="hl-1">            </span><span class="hl-11">--sohl-space</span><span class="hl-1">-</span><span class="hl-11">#{$name}</span><span class="hl-1">: </span><span class="hl-11">#{$value}</span><span class="hl-1">;</span><br/><span class="hl-1">        }</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">}</span>
 </code><button type="button">Copy</button></pre>
 
-<pre><code class="scss">// consumed in a component
-.sohl-list__item {
-    padding: var(--sohl-space-sm) var(--sohl-space-md);
-}
+<pre><code class="scss"><span class="hl-7">// consumed in a component</span><br/><span class="hl-12">.sohl-list__item</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-11">padding</span><span class="hl-1">: </span><span class="hl-3">var</span><span class="hl-1">(</span><span class="hl-11">--sohl-space-sm</span><span class="hl-1">) </span><span class="hl-3">var</span><span class="hl-1">(</span><span class="hl-11">--sohl-space-md</span><span class="hl-1">);</span><br/><span class="hl-1">}</span>
 </code><button type="button">Copy</button></pre>
 
 <p>Why custom properties (not just SCSS variables): they live at <strong>runtime</strong>, so a theme
@@ -206,7 +189,7 @@ declare is registered <em>after</em> Foundry's entire stack. So SoHL's own <code
 above <code>reset … system … exceptions</code>, and <strong>every <code>sohl</code> layer beats Foundry core without
 <code>!important</code> or deep nesting.</strong></p>
 <p>Declare the order once, at the top of the entry stylesheet:</p>
-<pre><code class="scss">@layer sohl.base, sohl.layout, sohl.components, sohl.apps, sohl.utilities;
+<pre><code class="scss"><span class="hl-1">@layer sohl</span><span class="hl-12">.base</span><span class="hl-1">, sohl</span><span class="hl-12">.layout</span><span class="hl-1">, sohl</span><span class="hl-12">.components</span><span class="hl-1">, sohl</span><span class="hl-12">.apps</span><span class="hl-1">, sohl</span><span class="hl-12">.utilities</span><span class="hl-1">;</span>
 </code><button type="button">Copy</button></pre>
 
 <p>Order rationale (earlier = lower priority): <code>base</code> (resets/overrides) → <code>layout</code>
@@ -228,19 +211,13 @@ element</strong>. So for a sheet whose classes are <code>sohl sheet</code>:</p>
 <p><strong>Rule: target frame/option classes with a compound selector, never a descendant.</strong>
 The live example is the entry stylesheet, where sheet-frame layout is loaded under the
 compound selector precisely for this reason (<code>scss/sohl.scss</code>):</p>
-<pre><code class="scss">/* Loaded under the COMPOUND `.sohl.sheet` selector because ApplicationV2 puts
-   `sohl` and `sheet` on the same frame element. */
-.sohl.sheet {
-    @include meta.load-css("components/sheet");
-}
+<pre><code class="scss"><span class="hl-7">/* Loaded under the COMPOUND `.sohl.sheet` selector because ApplicationV2 puts</span><br/><span class="hl-7">   `sohl` and `sheet` on the same frame element. */</span><br/><span class="hl-12">.sohl.sheet</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-9">@include</span><span class="hl-1"> </span><span class="hl-11">meta</span><span class="hl-1">.</span><span class="hl-3">load-css</span><span class="hl-1">(</span><span class="hl-6">&quot;components/sheet&quot;</span><span class="hl-1">);</span><br/><span class="hl-1">}</span>
 </code><button type="button">Copy</button></pre>
 
 <p><strong>Keep specificity low with <code>:where()</code>.</strong> When scoping by namespace but not trying to
 out-specify anything, wrap the namespace in <code>:where()</code> so it contributes zero
 specificity and stays easy to override:</p>
-<pre><code class="scss">:where(.sohl) .sohl-list__item {
-    /* low-specificity, easy to theme */
-}
+<pre><code class="scss"><span class="hl-12">:where</span><span class="hl-1">(</span><span class="hl-12">.sohl</span><span class="hl-1">) </span><span class="hl-12">.sohl-list__item</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-7">/* low-specificity, easy to theme */</span><br/><span class="hl-1">}</span>
 </code><button type="button">Copy</button></pre>
 
 <p>Reserve plain <code>.sohl</code> (specificity-bearing) for rules that must actually win against
