@@ -23,17 +23,19 @@ function makeResult(): SuccessTestResult {
 }
 
 /**
- * Mock inputDialog to call its config.callback with a fake fd.object,
- * simulating what DialogV2.input does when the user submits the form.
+ * Mock the `dialog` boundary to invoke its callback with the given form values
+ * (a plain object) and resolve to the callback's return — mirroring what the
+ * real boundary does when the user submits the form.
  */
 function mockDialogSubmit(formValues: Record<string, string | number>) {
     return vi
-        .spyOn(FoundryHelpers, "inputDialog")
-        .mockImplementation(async (config?: any) => {
-            if (config?.callback) {
-                await config.callback({ object: formValues });
-            }
-            return null;
+        .spyOn(FoundryHelpers, "dialog")
+        .mockImplementation(async (spec?: any) => {
+            // Mirror the real boundary: hand the callback the parsed form data
+            // (a plain object) and resolve to whatever it returns.
+            return spec?.callback ?
+                    await spec.callback(formValues, "ok")
+                :   null;
         });
 }
 

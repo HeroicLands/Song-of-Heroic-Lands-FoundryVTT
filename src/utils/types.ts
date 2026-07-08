@@ -44,98 +44,73 @@ export type SohlSettingValue =
 // ---------------------------------------------------------------------------
 
 /**
- * Handler invoked when a {@link DialogButton} is clicked.
+ * A button in the generic `dialog` primitive.
  *
- * @param event - The pointer or submit event that triggered the button.
- * @param button - The clicked button element.
- * @param dialog - The host dialog element.
- * @returns A promise resolving to the value the dialog should yield.
+ * Pure, Foundry-free description of a dialog button — the `dialog` boundary
+ * function maps it onto the underlying Foundry dialog implementation.
  */
-export type DialogButtonCallback = (
-    event: PointerEvent | SubmitEvent,
-    button: HTMLButtonElement,
-    dialog: HTMLDialogElement,
-) => Promise<any>;
-
-/** Definition of a single button rendered in a dialog. */
-export interface DialogButton {
-    /** Unique action identifier returned when this button is selected. */
+export interface DialogButtonSpec {
+    /** Identifier returned as the `action` when this button is pressed. */
     action: string;
-    /** Human-readable label shown on the button. */
-    label: string;
-    /** Icon (e.g. a Font Awesome class) displayed on the button. */
-    icon: string;
-    /** CSS class(es) applied to the button. */
-    class: string;
+    /** Button label (defaults to `action`). */
+    label?: string;
+    /** Optional icon class (e.g. a Font Awesome class). */
+    icon?: string;
     /** Whether this button is the default (activated on Enter). */
     default?: boolean;
-    /** Handler invoked when the button is clicked. */
-    callback: DialogButtonCallback;
 }
 
 /**
- * Handler invoked after a dialog's content is rendered.
+ * Result-builder for the generic `dialog` primitive.
  *
- * @param event - The render event.
- * @param dialogElement - The rendered dialog element.
+ * Invoked at the Foundry boundary when a button is pressed. Receives the parsed
+ * form data as a **plain object** (the boundary owns `FormDataExtended` and the
+ * DOM) and the pressed button's `action`; its return value becomes the dialog's
+ * result. This keeps callers in the logic layer free of any Foundry/DOM code.
  */
-export type DialogRenderCallback = (
-    event: Event,
-    dialogElement: HTMLDialogElement,
-) => Promise<void>;
+export type DialogResultCallback = (
+    formData: PlainObject,
+    action: string,
+) => unknown | Promise<unknown>;
 
 /**
- * Handler invoked when a dialog is closed.
- *
- * @param event - The close event.
- * @param dialog - The dialog instance being closed.
+ * Configuration for the single generic `dialog` boundary function — the one
+ * logic-level dialog primitive (supersedes the former per-shape helpers).
  */
-export type DialogCloseCallback = (
-    event: Event,
-    dialog: Record<string, any>,
-) => Promise<void>;
-
-/**
- * Handler invoked when a dialog is submitted.
- *
- * @param result - The value produced by the dialog's selected action.
- */
-export type DialogSubmitCallback = (result: any) => Promise<void>;
-
-/** Configuration options shared by the dialog helper functions in `FoundryHelpers.ts`. */
-export interface DialogConfig {
-    /** Path to a Handlebars template rendered for the dialog body. Takes precedence over {@link DialogConfig.content}. */
-    template?: FilePath;
-    /** Title displayed in the dialog window header. */
+export interface DialogSpec {
+    /** Dialog window title. */
     title?: string;
-    /** Inline HTML used as the dialog body when no {@link DialogConfig.template} is given. */
+    /** Handlebars template rendered for the body (takes precedence over `content`). */
+    template?: FilePath;
+    /** Inline HTML body used when no `template` is given. */
     content?: HTMLString;
-    /** Data passed to the template or inline content during rendering. */
+    /** Data passed to the template/content during rendering. */
     data?: PlainObject;
+    /** Buttons to show; defaults to a single confirming `ok` button. */
+    buttons?: DialogButtonSpec[];
     /** Whether the dialog blocks interaction with the rest of the UI. */
     modal?: boolean;
-    /** Whether dismissing the dialog rejects the promise instead of resolving to `null`. */
+    /** Whether dismissal rejects instead of resolving to `null`. */
     rejectClose?: boolean;
-    /** Handler invoked after the dialog content is rendered. */
+    /** Pure result-builder; see {@link DialogResultCallback}. */
+    callback?: DialogResultCallback;
+    /**
+     * Invoked after the dialog renders and on every re-render; see
+     * {@link DialogRenderCallback}. Use it to wire dynamic form behaviour, e.g.
+     * recomputing dependent fields when a dropdown value changes.
+     */
     render?: DialogRenderCallback;
-    /** Handler invoked when the dialog is closed. */
-    close?: DialogCloseCallback;
-    /** Handler invoked when the dialog is submitted. */
-    submit?: DialogSubmitCallback;
-    /** Overrides for the OK button (used by `okDialog`). */
-    ok?: Partial<DialogButton>;
-    /** Overrides for the Yes button (used by `yesNoDialog`). */
-    yes?: Partial<DialogButton>;
-    /** Overrides for the No button (used by `yesNoDialog`). */
-    no?: Partial<DialogButton>;
-    /** Custom set of buttons (used by `awaitDialog`). */
-    buttons?: Partial<DialogButton>[];
 }
 
-/** Result returned from an awaited dialog interaction. */
-export interface AwaitDialogResult {
-    /** The value produced by the selected button's callback. */
-    value: any;
-    /** The action identifier of the selected button. */
-    action: string;
-}
+/**
+ * Handler invoked after a dialog's content is rendered — and again on every
+ * re-render. Receives the dialog's root element so dynamic behaviour (for
+ * example, updating dependent fields when a dropdown changes) can read and
+ * modify the rendered form. This is the one dialog hook that is inherently a
+ * DOM hook; everything else stays plain-object.
+ *
+ * @param element - The dialog's rendered root element.
+ */
+export type DialogRenderCallback = (
+    element: HTMLElement,
+) => void | Promise<void>;

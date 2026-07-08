@@ -28,8 +28,7 @@ import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { TestResult } from "@src/entity/result/TestResult";
 import { toFilePath } from "@src/utils/helpers";
 import {
-    inputDialog,
-    DialogButtonCallback,
+    dialog,
     fvttMergeObject,
     fvttToFoundryRoll,
     fvttLogicFromUuid,
@@ -440,12 +439,11 @@ export class SuccessTestResult extends TestResult {
         fvttMergeObject(testData, data);
 
         // Create the dialog window
-        return await inputDialog({
+        return await dialog({
             title: "SOHL.SuccessTestResult.testDialog.title",
             template: testData.template,
             data,
-            callback: ((fd: PlainObject) => {
-                const formData = fd.object;
+            callback: (formData: PlainObject) => {
                 const formSituationalModifier = formData.situationalModifier;
                 if (formSituationalModifier) {
                     this.masteryLevelModifier.add(
@@ -471,8 +469,8 @@ export class SuccessTestResult extends TestResult {
                 }
 
                 if (callback) callback.call(this, formData);
-                return Promise.resolve(true);
-            }) as DialogButtonCallback,
+                return true;
+            },
         });
     }
 

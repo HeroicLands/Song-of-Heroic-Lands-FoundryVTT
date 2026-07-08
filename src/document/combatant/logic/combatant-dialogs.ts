@@ -12,10 +12,7 @@
  */
 
 import { toHTMLString, toFilePath } from "@src/utils/helpers";
-import {
-    inputDialog,
-    type DialogButtonCallback,
-} from "@src/core/FoundryHelpers";
+import { dialog } from "@src/core/FoundryHelpers";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 
 /**
@@ -80,7 +77,7 @@ export function showAttackDialog(
     const modeChoices: Record<string, string> = Object.fromEntries(
         Object.entries(modes).map(([key, sm]) => [key, sm.id]),
     );
-    return inputDialog({
+    return dialog({
         title,
         template: toFilePath("systems/sohl/templates/dialog/attack-dialog.hbs"),
         data: {
@@ -90,19 +87,14 @@ export function showAttackDialog(
             defaultModeIdx,
             situationalModifier: 0,
         },
-        callback: ((_event, button: HTMLButtonElement): Promise<any> => {
-            const form = button.querySelector("form");
-            if (!form) return Promise.resolve(null);
-            const fd = new FormDataExtended(form);
-            const f = fd.object as PlainObject;
-            return Promise.resolve({
+        callback: (f: PlainObject) =>
+            ({
                 aim: String(f.aim ?? defaultAim),
                 situationalModifier:
                     Number.parseInt(String(f.situationalModifier), 10) || 0,
-                mode: modes[f.modeIdx].pointerData,
+                mode: modes[f.modeIdx as string].pointerData,
                 spread: Number.parseInt(String(f.spread), 10) || 0,
-            } satisfies AttackDialogResult);
-        }) as DialogButtonCallback,
+            }) satisfies AttackDialogResult,
         rejectClose: false,
     }) as Promise<AttackDialogResult | null>;
 }
@@ -122,19 +114,12 @@ export function pickChoice(
     choices: Record<string, string>,
     defaultKey: string,
 ): Promise<string | null> {
-    return inputDialog({
+    return dialog({
         title,
         content: toHTMLString(
             `<form><div class="form-group"><label>${label}</label><select name="choice">${renderOptions(choices, defaultKey)}</select></div></form>`,
         ),
-        callback: ((_event, button: HTMLButtonElement): Promise<any> => {
-            const form = button.querySelector("form");
-            if (!form) return Promise.resolve(null);
-            const fd = new FormDataExtended(form);
-            return Promise.resolve(
-                String((fd.object as PlainObject).choice ?? defaultKey),
-            );
-        }) as DialogButtonCallback,
+        callback: (f: PlainObject) => String(f.choice ?? defaultKey),
         rejectClose: false,
     }) as Promise<string | null>;
 }
@@ -163,7 +148,7 @@ export function showDefenseDialog(
       }
     | undefined
 > {
-    return inputDialog({
+    return dialog({
         title,
         content: toHTMLString(
             `<form>` +
@@ -173,17 +158,11 @@ export function showDefenseDialog(
                 `<input type="number" name="situationalModifier" value="0" /></div>` +
                 `</form>`,
         ),
-        callback: ((_event, button: HTMLButtonElement): Promise<any> => {
-            const form = button.querySelector("form");
-            if (!form) return Promise.resolve(null);
-            const fd = new FormDataExtended(form);
-            const f = fd.object as PlainObject;
-            return Promise.resolve({
-                key: String(f.choice ?? defaultKey),
-                situationalModifier:
-                    Number.parseInt(String(f.situationalModifier), 10) || 0,
-            });
-        }) as DialogButtonCallback,
+        callback: (f: PlainObject) => ({
+            key: String(f.choice ?? defaultKey),
+            situationalModifier:
+                Number.parseInt(String(f.situationalModifier), 10) || 0,
+        }),
         rejectClose: false,
     }) as Promise<{ key: string; situationalModifier: number } | undefined>;
 }
