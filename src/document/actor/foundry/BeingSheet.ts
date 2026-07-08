@@ -302,7 +302,9 @@ export class BeingSheet extends SohlActorSheetBase {
         _event: PointerEvent,
         _target: HTMLElement,
     ): Promise<void> {
-        await (this.document as any).addInjuryViaDialog();
+        // `addInjuryViaDialog` lives on the actor's BeingLogic, not the actor
+        // document itself — route through `.logic` (#268).
+        await (this.document as any).logic.addInjuryViaDialog();
     }
 
     /**

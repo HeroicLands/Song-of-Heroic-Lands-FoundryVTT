@@ -243,13 +243,15 @@ export function resolveAutomatedInjury(
 
 /**
  * The body structure of an actor's Lineage, or `undefined` when the actor has
- * no Lineage (and therefore no anatomy to injure).
- * @param actor - The actor whose body structure to retrieve.
+ * no Lineage (and therefore no anatomy to injure). Resolved through the actor
+ * *logic*'s `logicTypes` — the callers pass the `BeingLogic` (`this`), which
+ * exposes `logicTypes` rather than the Foundry actor's `itemTypes`.
+ * @param logic - The actor logic whose body structure to retrieve.
  * @returns The body structure, or `undefined` if the actor has no Lineage.
  */
-export function getActorBodyStructure(actor: any): BodyStructure | undefined {
-    const lineage = actor?.itemTypes?.[ITEM_KIND.LINEAGE]?.[0];
-    return lineage?.logic?.bodyStructure as BodyStructure | undefined;
+export function getActorBodyStructure(logic: any): BodyStructure | undefined {
+    const lineageLogic = logic?.logicTypes?.[ITEM_KIND.LINEAGE]?.[0];
+    return lineageLogic?.bodyStructure as BodyStructure | undefined;
 }
 
 /**

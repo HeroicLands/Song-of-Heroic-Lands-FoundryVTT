@@ -13,9 +13,10 @@ import {
     readInjuryDialogForm,
     buildInjuryCardData,
     resolveAutomatedInjury,
+    getActorBodyStructure,
 } from "@src/document/actor/logic/injury-actions";
 import { resolveInjury } from "@src/entity/body/injury-resolution";
-import { IMPACT_ASPECT } from "@src/utils/constants";
+import { IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
 
 const SKULL_LOC = {
     shortcode: "skull",
@@ -237,5 +238,24 @@ describe("buildInjuryCardData", () => {
             canAmputate: true,
             addToCharSheet: true,
         });
+    });
+});
+
+describe("getActorBodyStructure (#268)", () => {
+    it("resolves the body structure from the actor logic's logicTypes", () => {
+        // The callers pass the BeingLogic (`this`), which exposes `logicTypes`,
+        // not the Foundry actor's `itemTypes`. The helper must read the former.
+        const body = {} as BodyStructure;
+        const logic = {
+            logicTypes: { [ITEM_KIND.LINEAGE]: [{ bodyStructure: body }] },
+        };
+        expect(getActorBodyStructure(logic)).toBe(body);
+    });
+
+    it("returns undefined when there is no lineage logic", () => {
+        expect(
+            getActorBodyStructure({ logicTypes: { [ITEM_KIND.LINEAGE]: [] } }),
+        ).toBeUndefined();
+        expect(getActorBodyStructure(undefined)).toBeUndefined();
     });
 });
