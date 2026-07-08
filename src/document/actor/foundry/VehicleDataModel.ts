@@ -95,10 +95,12 @@ export class VehicleDataModel<
     TSchema extends foundry.data.fields.DataSchema = VehicleDataSchema,
     TLogic extends VehicleLogic<VehicleData> = VehicleLogic<VehicleData>,
 > extends SohlActorDataModel<TSchema, TLogic> {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.Vehicle",
         "SOHL.Actor",
     ];
+    /** @inheritDoc */
     static override readonly kind = ACTOR_KIND.VEHICLE;
     occupants!: string[];
 

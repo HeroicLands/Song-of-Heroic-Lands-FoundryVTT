@@ -86,7 +86,9 @@ export class SkillDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements SkillData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly kind = ITEM_KIND.SKILL;
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.Skill",
         "SOHL.MasteryLevel",

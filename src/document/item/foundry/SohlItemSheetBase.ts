@@ -66,6 +66,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     // v13 ApplicationTabsConfiguration (mirrors BeingSheet). The v1-style
     // `navSelector`/`contentSelector` keys are not read by ApplicationV2 and left
     // `context.tabs` unpopulated, so the `tabs` part rendered nothing.
+    /** @inheritDoc */
     static override TABS = {
         sheet: {
             initial: "properties",

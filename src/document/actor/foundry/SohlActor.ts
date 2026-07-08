@@ -443,12 +443,7 @@ export class SohlActor extends Actor {
         return undefined;
     }
 
-    /**
-     * Post-creation hook; delegates to Foundry's base `_onCreate`.
-     * @param data - The created actor source data.
-     * @param options - Document creation options.
-     * @param userId - The id of the user that created the actor.
-     */
+    /** @inheritDoc */
     protected override _onCreate(
         data: PlainObject,
         options: any,

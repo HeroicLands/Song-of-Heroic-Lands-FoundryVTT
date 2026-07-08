@@ -64,11 +64,13 @@ export class CombatTechniqueDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements CombatTechniqueData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.CombatTechnique",
         "SOHL.StrikeMode",
         "SOHL.Item",
     ];
+    /** @inheritDoc */
     static override readonly kind = ITEM_KIND.COMBATTECHNIQUE;
     group!: string;
     strikeMode!: MeleeStrikeMode.Data | MissileStrikeMode.Data;

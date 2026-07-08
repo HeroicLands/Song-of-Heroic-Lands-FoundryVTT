@@ -92,6 +92,7 @@ export class BeingSheet extends SohlActorSheetBase {
         },
     } as const;
 
+    /** @inheritDoc */
     static override TABS = {
         primary: {
             initial: "facade",
@@ -245,6 +246,7 @@ export class BeingSheet extends SohlActorSheetBase {
         this._filters.forEach((filter) => filter.bind((this as any).element));
     }
 
+    /** @inheritDoc */
     static override DEFAULT_OPTIONS = {
         classes: ["being"],
         window: {

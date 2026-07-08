@@ -69,10 +69,12 @@ export class TraumaDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements TraumaData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.Trauma",
         "SOHL.Item",
     ];
+    /** @inheritDoc */
     static override readonly kind = ITEM_KIND.TRAUMA;
     subType!: TraumaSubType;
     levelBase!: number;

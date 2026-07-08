@@ -132,6 +132,7 @@ type SohlCombatDataSchema = ReturnType<typeof defineSohlCombatDataSchema>;
 export class SohlCombatDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlCombatDataSchema,
 > extends foundry.abstract.TypeDataModel<TSchema, SohlCombat> {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Combat"];
     static readonly kind = "sohlcombatdata";
 

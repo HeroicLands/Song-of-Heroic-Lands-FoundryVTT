@@ -343,6 +343,7 @@ export namespace SohlDataModel {
         TBase extends foundry.applications.api.DocumentSheetV2.AnyConstructor,
     >(Base: TBase): TBase {
         return class SMix extends HandlebarsApplicationMixin(Base) {
+            /** @inheritDoc */
             static override DEFAULT_OPTIONS: PlainObject = {
                 classes: ["sohl"],
                 // Persist field edits: DocumentSheetV2 submits (updating the
@@ -372,10 +373,7 @@ export namespace SohlDataModel {
                 return super.document as TDocument;
             }
 
-            /**
-             * Configure the options used for a render pass, delegating to the base class.
-             * @param options - The render options to configure.
-             */
+            /** @inheritDoc */
             protected override _configureRenderOptions(
                 options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
             ): void {

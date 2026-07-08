@@ -87,11 +87,13 @@ export class MysticalAbilityDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements MysticalAbilityData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.MysticalAbility",
         "SOHL.MasteryLevel",
         "SOHL.Item",
     ];
+    /** @inheritDoc */
     static override readonly kind = ITEM_KIND.MYSTICALABILITY;
     subType!: MysticalAbilitySubType;
     assocSkillCode!: string;
