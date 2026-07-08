@@ -82,11 +82,13 @@ export class ProjectileGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements ProjectileGearData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.ProjectileGear",
         "SOHL.Gear",
         "SOHL.Item",
     ];
+    /** @inheritDoc */
     static override readonly kind = ITEM_KIND.PROJECTILEGEAR;
     subType!: ProjectileGearSubType;
     shortName!: string;

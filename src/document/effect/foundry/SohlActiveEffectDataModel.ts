@@ -80,6 +80,7 @@ type SohlActiveEffectDataSchema = ReturnType<
 export class SohlActiveEffectDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlActiveEffectDataSchema,
 > extends foundry.abstract.TypeDataModel<TSchema, SohlActiveEffect> {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.ActiveEffect"];
     static readonly kind = "sohleffectdata";
     scope!: string;

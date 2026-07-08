@@ -62,11 +62,13 @@ export class ConcoctionGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements ConcoctionGearData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.ConcoctionGear",
         "SOHL.Gear",
         "SOHL.Item",
     ];
+    /** @inheritDoc */
     static override readonly kind: string = ITEM_KIND.CONCOCTIONGEAR;
     subType!: ConcoctionGearSubType;
     potency!: ConcoctionGearPotency;

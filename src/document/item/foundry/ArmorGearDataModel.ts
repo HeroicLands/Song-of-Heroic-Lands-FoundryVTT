@@ -55,11 +55,13 @@ export class ArmorGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements ArmorGearData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.ArmorGear",
         "SOHL.Gear",
         "SOHL.Item",
     ];
+    /** @inheritDoc */
     static override readonly kind = ITEM_KIND.ARMORGEAR;
     material!: string;
     locations!: { flexible: string[]; rigid: string[] };

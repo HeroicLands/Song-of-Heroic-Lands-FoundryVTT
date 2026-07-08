@@ -16,6 +16,7 @@ import { SohlItemSheetBase } from "@src/document/item/foundry/SohlItemSheetBase"
 
 /** @internal */
 export class WeaponGearSheet extends SohlItemSheetBase {
+    /** @inheritDoc */
     static override PARTS = {
         ...super.PARTS,
         properties: {

@@ -38,6 +38,7 @@ const DomainManagerApp_Base: any =
  * @internal Foundry settings-app UI binding; not part of the public API.
  */
 export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.applications.api.ApplicationV2) {
+    /** @inheritDoc */
     static override DEFAULT_OPTIONS = {
         id: "sohl-domain-manager",
         classes: ["sohl", "domain-manager"],

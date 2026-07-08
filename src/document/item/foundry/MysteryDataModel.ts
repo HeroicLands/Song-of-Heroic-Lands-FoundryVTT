@@ -79,10 +79,12 @@ export class MysteryDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements MysteryData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.Mystery",
         "SOHL.Item",
     ];
+    /** @inheritDoc */
     static override readonly kind = ITEM_KIND.MYSTERY;
     subType!: MysterySubType;
     levelBase!: number;

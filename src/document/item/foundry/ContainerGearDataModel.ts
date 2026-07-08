@@ -46,11 +46,13 @@ export class ContainerGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements ContainerGearData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.ContainerGear",
         "SOHL.Gear",
         "SOHL.Item",
     ];
+    /** @inheritDoc */
     static override readonly kind = ITEM_KIND.CONTAINERGEAR;
     maxCapacityBase!: number;
 

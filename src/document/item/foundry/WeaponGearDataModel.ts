@@ -44,11 +44,13 @@ export class WeaponGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements WeaponGearData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.WeaponGear",
         "SOHL.Gear",
         "SOHL.Item",
     ];
+    /** @inheritDoc */
     static override readonly kind = ITEM_KIND.WEAPONGEAR;
     encumbrance!: number;
     heftBase!: number;

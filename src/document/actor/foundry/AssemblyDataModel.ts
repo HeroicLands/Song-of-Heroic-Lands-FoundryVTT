@@ -43,10 +43,12 @@ export class AssemblyDataModel<
     extends SohlActorDataModel<TSchema, TLogic>
     implements AssemblyData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.Assembly",
         "SOHL.Actor",
     ];
+    /** @inheritDoc */
     static override readonly kind = ACTOR_KIND.ASSEMBLY;
 
     /**

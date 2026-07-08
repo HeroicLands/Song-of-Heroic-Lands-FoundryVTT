@@ -260,10 +260,12 @@ export class LineageDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements LineageData<TLogic>
 {
+    /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
         "SOHL.Lineage",
         "SOHL.Item",
     ];
+    /** @inheritDoc */
     static override readonly kind = ITEM_KIND.LINEAGE;
     bodyStructure!: BodyStructure.Data;
     moveBase!: MoveBaseDict;
