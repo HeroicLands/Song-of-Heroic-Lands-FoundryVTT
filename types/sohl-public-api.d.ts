@@ -28,9 +28,9 @@
  *   re-exported below.
  * - **System services:** available on the `sohl` global — `sohl.log`,
  *   `sohl.i18n`, `sohl.events`, `sohl.utils`, `sohl.constants`, `sohl.CONFIG`.
- * - **Constructable domain classes:** available at runtime via
- *   `sohl.domain.<ClassName>` — e.g. `new sohl.domain.ValueModifier(...)` or
- *   `class X extends sohl.domain.SuccessTestResult {}`. The corresponding class
+ * - **Constructable entity classes:** available at runtime via
+ *   `sohl.entity.<ClassName>` — e.g. `new sohl.entity.ValueModifier(...)` or
+ *   `class X extends sohl.entity.SuccessTestResult {}`. The corresponding class
  *   types are re-exported below so they can be used in annotations.
  *
  * ## Usage in a module project
@@ -43,7 +43,7 @@
  *
  *      ```ts
  *      import type { ValueModifier } from "./types/sohl-public-api";
- *      const mod: ValueModifier = new sohl.domain.ValueModifier(...);
+ *      const mod: ValueModifier = new sohl.entity.ValueModifier(...);
  *      ```
  */
 
@@ -149,7 +149,7 @@ export type {
 } from "../src/document/item/logic/WeaponGearLogic";
 
 // ---------------------------------------------------------------------------
-// Domain classes — constructable via `sohl.domain.<ClassName>` at runtime
+// Entity classes — constructable via `sohl.entity.<ClassName>` at runtime
 // ---------------------------------------------------------------------------
 
 // Modifiers
