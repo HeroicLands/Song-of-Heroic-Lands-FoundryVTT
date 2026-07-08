@@ -53,6 +53,43 @@ export function resolveChatCardHandlerUuid(
 }
 
 /**
+ * Resolve the handler document for a chat-card click **and authorize it** — the
+ * current client is only allowed to act if it owns that document (a GM owns
+ * all). Returns the document when authorized, or `null` when the click must be
+ * ignored (no handler uuid, the uuid does not resolve, or the client is not an
+ * owner).
+ *
+ * Chat cards address their buttons to the actor that should *handle* the click
+ * (via {@link resolveChatCardHandlerUuid}'s attributes — most explicitly
+ * `data-handler-actor-uuid`). An action run from a card mutates that actor's own
+ * state, so — under actor-state sovereignty — only a client that owns the actor
+ * may run it. This is the **click-time** half of that rule; the render-time half
+ * (`gateAutomatedDefenseButtons`) hides buttons the client can't use. The
+ * render-time gate is UX only and is bypassable by a synthesized click or a
+ * direct handler call, so this authorization gate is the real boundary before
+ * any dialog, scope revival, or intrinsic logic runs (issue #167).
+ *
+ * Pure: Foundry document resolution is injected via `resolveDoc` (the caller
+ * passes `foundry.utils.fromUuidSync`), so this stays Foundry-free and
+ * unit-testable, mirroring `gateAutomatedDefenseButtons`.
+ *
+ * @param dataset - The clicked element's `dataset`.
+ * @param resolveDoc - Resolves a document from its uuid (the caller supplies the
+ *   Foundry lookup).
+ * @returns The authorized handler document, or `null` if the click is not
+ *   authorized and must be ignored.
+ */
+export function resolveAuthorizedChatCardHandler(
+    dataset: DOMStringMap,
+    resolveDoc: (uuid: string) => { isOwner?: boolean } | null | undefined,
+): { isOwner?: boolean } | null {
+    const uuid = resolveChatCardHandlerUuid(dataset);
+    if (!uuid) return null;
+    const doc = resolveDoc(uuid);
+    return doc?.isOwner ? doc : null;
+}
+
+/**
  * Dispatch a chat-card action — either a button click or an edit-action link
  * click — to the given logic. Reads `btn.dataset.action`, builds an
  * {@link SohlActionContext}, then dispatches through `logic.actions` (by name,

@@ -73,6 +73,10 @@ export class SohlTokenDocument extends TokenDocument {
      * @param btn - The clicked chat-card button element.
      */
     async onChatCardButton(btn: HTMLElement): Promise<void> {
+        // Only an owner of this token (a GM owns all) may run a chat-card action
+        // against it; the render-time gate is UX only and a direct or
+        // synthesized call bypasses it (issue #167).
+        if (!this.isOwner) return;
         const actionName = btn.dataset.action;
         if (!actionName) return;
 

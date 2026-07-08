@@ -15,7 +15,7 @@ import { SOHLCONFIG } from "@src/core/foundry/sohl-config";
 import { SohlSystem } from "@src/core/logic/SohlSystem";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
-import { resolveChatCardHandlerUuid } from "@src/document/chat/chat-card-dispatch";
+import { resolveAuthorizedChatCardHandler } from "@src/document/chat/chat-card-dispatch";
 import { gateAutomatedDefenseButtons } from "@src/document/chat/chat-card-gating";
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 import { registerCombatTrackerHooks } from "@src/document/combat/combat-tracker-hooks";
@@ -407,39 +407,41 @@ function registerSystemHooks() {
                 foundry.utils.fromUuidSync(uuid),
             );
 
+            // Authorize the click by the resolved handler document's ownership
+            // (a GM owns all) before running anything — the render gate above is
+            // UX only and is bypassable (issue #167).
+            const resolveDoc = (uuid: string) =>
+                foundry.utils.fromUuidSync(uuid) as {
+                    isOwner?: boolean;
+                } | null;
             element.addEventListener("click", (ev) => {
                 const btn: HTMLButtonElement | null = (
                     ev.target as HTMLElement
                 )?.closest("button");
                 if (btn?.closest(".card-buttons")) {
-                    const docUuid = resolveChatCardHandlerUuid(btn.dataset);
-                    if (docUuid) {
-                        const doc = foundry.utils.fromUuidSync(docUuid);
-                        if (
-                            doc &&
-                            "onChatCardButton" in doc &&
-                            typeof doc.onChatCardButton === "function"
-                        ) {
-                            doc.onChatCardButton(btn);
-                        }
+                    const doc = resolveAuthorizedChatCardHandler(
+                        btn.dataset,
+                        resolveDoc,
+                    ) as any;
+                    if (typeof doc?.onChatCardButton === "function") {
+                        doc.onChatCardButton(btn);
                     }
                 } else {
                     const edit: HTMLElement | null = (
                         ev.target as HTMLElement
                     )?.closest("a.edit-action");
-                    const docUuid =
+                    const doc =
                         edit?.dataset ?
-                            resolveChatCardHandlerUuid(edit.dataset)
+                            (resolveAuthorizedChatCardHandler(
+                                edit.dataset,
+                                resolveDoc,
+                            ) as any)
                         :   null;
-                    if (docUuid) {
-                        const doc = foundry.utils.fromUuidSync(docUuid);
-                        if (
-                            doc &&
-                            "onChatCardEditAction" in doc &&
-                            typeof doc.onChatCardEditAction === "function"
-                        ) {
-                            doc.onChatCardEditAction(edit);
-                        }
+                    if (
+                        edit &&
+                        typeof doc?.onChatCardEditAction === "function"
+                    ) {
+                        doc.onChatCardEditAction(edit);
                     }
                 }
             });
