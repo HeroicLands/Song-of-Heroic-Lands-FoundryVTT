@@ -152,8 +152,10 @@ export class SafeExpression extends SohlEntity {
      * @param data The expression data.
      * @param data.source The expression text.
      * @param options Entity options, including the owning `parent` logic.
-     * @throws {SafeExpressionError} If the expression cannot be parsed or
-     *   contains unsupported or unsafe syntax.
+     * @throws {SafeExpressionError} If `data.source` is not a string, if jsep
+     *   cannot parse it, or if static validation rejects it — a disallowed
+     *   operator, a denied property key, a method or non-helper call, or an
+     *   unsupported node type (see {@link validate}).
      */
     constructor(
         data: Partial<SafeExpression.Data> = {},
@@ -194,7 +196,9 @@ export class SafeExpression extends SohlEntity {
      * @param context Variable bindings available to the expression.
      * @returns The value the expression evaluates to.
      * @throws {SafeExpressionError} If evaluation references an unknown
-     *   identifier, extracts a method, or otherwise fails.
+     *   identifier, references a helper without calling it, accesses a denied
+     *   key, reads a method (function-valued property), or a called helper
+     *   throws. Any non-`SafeExpressionError` is wrapped as one.
      */
     evaluate(context: Record<string, unknown> = {}): unknown {
         try {
@@ -212,7 +216,10 @@ export class SafeExpression extends SohlEntity {
      * Recursively reject any node type, operator, callee, or property name
      * that is not part of the safe expression language.
      * @param node The AST node to check.
-     * @throws {SafeExpressionError} If the node is unsupported or unsafe.
+     * @throws {SafeExpressionError} If the node uses a unary or binary operator
+     *   outside the allowlist, accesses a denied key (`constructor`,
+     *   `__proto__`, `prototype`) by dot or computed access, calls anything but a
+     *   registered helper referenced by bare name, or is an unsupported node type.
      */
     private validate(node: jsep.Expression): void {
         switch (node.type) {
@@ -314,7 +321,8 @@ export class SafeExpression extends SohlEntity {
      * @param node The node to evaluate.
      * @param context Variable bindings available to the expression.
      * @returns The node's value.
-     * @throws {SafeExpressionError} If the node cannot be evaluated safely.
+     * @throws {SafeExpressionError} If the node type is unsupported (unreachable
+     *   after {@link validate}) or a delegated evaluator rejects the node.
      */
     private evalNode(
         node: jsep.Expression,
@@ -474,7 +482,9 @@ export class SafeExpression extends SohlEntity {
      * @param node The member expression node.
      * @param context Variable bindings available to the expression.
      * @returns The property value.
-     * @throws {SafeExpressionError} If the access is unsafe.
+     * @throws {SafeExpressionError} If the property key is denied (`constructor`,
+     *   `__proto__`, `prototype`), the object being accessed is itself a
+     *   function, or the resolved property is a method (function-valued).
      */
     private evalMember(
         node: jsep.MemberExpression,
