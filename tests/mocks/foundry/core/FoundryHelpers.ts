@@ -210,6 +210,21 @@ export async function fvttEnrichHTML(content: string): Promise<string> {
 }
 
 // ---------------------------------------------------------------------------
+// HTML sanitization
+// ---------------------------------------------------------------------------
+
+export function fvttCleanHTML(raw: string): string {
+    return raw;
+}
+
+export function toSanitizedHTML(
+    value: string,
+    _wrapperTag: "p" | "div" | "span" = "p",
+): string {
+    return fvttCleanHTML(value);
+}
+
+// ---------------------------------------------------------------------------
 // Template rendering
 // ---------------------------------------------------------------------------
 

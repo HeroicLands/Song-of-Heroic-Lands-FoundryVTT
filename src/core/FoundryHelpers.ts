@@ -14,8 +14,9 @@
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import {
     FilePath,
-    toSanitizedHTML,
     HTMLString,
+    isHTMLString,
+    escapeHTML,
     setUuidResolver,
 } from "@src/utils/helpers";
 import type {
@@ -404,6 +405,62 @@ export async function fvttEnrichHTML(content: string): Promise<string> {
     return foundry.applications.ux.TextEditor.implementation.enrichHTML(
         content,
     );
+}
+
+// ---------------------------------------------------------------------------
+// HTML sanitization
+// ---------------------------------------------------------------------------
+
+/**
+ * Sanitize a raw HTML string with Foundry's built-in **allowlist** sanitizer,
+ * `foundry.utils.cleanHTML` — the same sanitizer Foundry applies to dialog and
+ * journal-entry HTML. It rebuilds the fragment through the browser parser and
+ * keeps only tags in `ALLOWED_HTML_TAGS` and attributes in
+ * `ALLOWED_HTML_ATTRIBUTES`, and validates URL-bearing attributes (`href`,
+ * `src`, …) against `ALLOWED_URL_SCHEMES` via `URL.parse`. This neutralizes
+ * `<script>`, `on*` event handlers, whitespace/entity-obfuscated `javascript:`
+ * URLs, `<base>`, SVG `xlink:href`, surviving inline `style`, and the
+ * sanitize→serialize→reparse mutation-XSS (mXSS) that a tag/attribute denylist
+ * misses (issue #161).
+ *
+ * `foundry.utils.cleanHTML` is a real client-side v14 API but is currently
+ * absent from `fvtt-types`, so it is reached through an explicit cast here — the
+ * one sanctioned place to touch the Foundry global.
+ *
+ * Note: `ALLOWED_URL_SCHEMES` includes `data`, so `data:` URLs are permitted,
+ * matching Foundry's system-wide stance rather than being additionally blocked.
+ * See the HTML-rendering guardrail in docs/concepts/security-model.md.
+ *
+ * @param raw - Untrusted HTML markup to sanitize.
+ * @returns The sanitized HTML markup.
+ */
+export function fvttCleanHTML(raw: string): string {
+    return (
+        foundry.utils as unknown as { cleanHTML(raw: string): string }
+    ).cleanHTML(raw);
+}
+
+/**
+ * Convert a string or {@link HTMLString} into a sanitized {@link HTMLString}.
+ * Plain text (anything {@link isHTMLString} does not recognize as markup) is
+ * HTML-escaped and wrapped in `wrapperTag`; markup is passed through Foundry's
+ * allowlist sanitizer ({@link fvttCleanHTML}), which drops every disallowed tag
+ * and attribute. This is the single HTML sanitizer for chat-card and dialog
+ * content, reached via {@link toHTMLWithTemplate} / {@link toHTMLWithContent}.
+ *
+ * @param value - Plain text or HTML markup to sanitize.
+ * @param wrapperTag - Element used to wrap plain-text input (default `"p"`).
+ * @returns The sanitized HTML markup.
+ */
+export function toSanitizedHTML(
+    value: string | HTMLString,
+    wrapperTag: "p" | "div" | "span" = "p",
+): HTMLString {
+    const raw =
+        isHTMLString(value) ? value : (
+            `<${wrapperTag}>${escapeHTML(value)}</${wrapperTag}>`
+        );
+    return fvttCleanHTML(raw) as HTMLString;
 }
 
 // ---------------------------------------------------------------------------

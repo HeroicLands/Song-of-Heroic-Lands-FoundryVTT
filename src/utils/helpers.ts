@@ -490,58 +490,9 @@ export function escapeHTML(s: string): string {
         .replace(/'/g, "&#x27;");
 }
 
-/**
- * Convert a string or {@link HTMLString} into a sanitized {@link HTMLString}.
- * Plain text is wrapped in the given element; markup is parsed and stripped of
- * disallowed tags (`script`, `iframe`, etc.), `on*` event-handler attributes,
- * and `javascript:` attribute values.
- *
- * @param value - Plain text or HTML markup to sanitize.
- * @param wrapperTag - Element used to wrap plain text input (default `"p"`).
- * @returns The sanitized HTML markup.
- */
-export function toSanitizedHTML(
-    value: string | HTMLString,
-    wrapperTag: "p" | "div" | "span" = "p",
-): HTMLString {
-    let raw: string;
-
-    if (isHTMLString(value)) {
-        raw = value;
-    } else {
-        const wrapper = document.createElement(wrapperTag);
-        wrapper.textContent = value;
-        raw = wrapper.outerHTML;
-    }
-
-    // DOM-based sanitization
-    const template = document.createElement("template");
-    template.innerHTML = raw;
-
-    const disallowedTags = ["script", "iframe", "object", "embed", "style"];
-    disallowedTags.forEach((tag) => {
-        const elements = template.content.querySelectorAll(tag);
-        elements.forEach((el) => el.remove());
-    });
-
-    const walker = document.createTreeWalker(
-        template.content,
-        NodeFilter.SHOW_ELEMENT,
-    );
-    while (walker.nextNode()) {
-        const el = walker.currentNode as HTMLElement;
-        for (const attr of Array.from(el.attributes)) {
-            if (
-                attr.name.startsWith("on") ||
-                attr.value.toLowerCase().startsWith("javascript:")
-            ) {
-                el.removeAttribute(attr.name);
-            }
-        }
-    }
-
-    return template.innerHTML as HTMLString;
-}
+// HTML sanitization lives in the Foundry-coupled shim
+// (`FoundryHelpers.toSanitizedHTML`), since it delegates to Foundry's
+// allowlist sanitizer `foundry.utils.cleanHTML` (issue #161).
 
 const DISALLOWED_KEYWORDS = [
     "window",
