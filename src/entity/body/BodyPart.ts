@@ -162,9 +162,14 @@ export class BodyPart extends SohlEntity {
         const canonical: BodyLocation.Data[] =
             this.bodyStructure.parent.data.bodyStructure.parts[this.index]
                 .locations;
-        return {
-            [`${this.updatePath}.locations`]: [...canonical, locationData],
-        };
+        // Full-array write — a partial `parts.${index}.locations` update
+        // corrupts the whole parts array (#247). See setPartFieldsUpdate.
+        return this.bodyStructure.setPartFieldsUpdate([
+            {
+                index: this.index,
+                changes: { locations: [...canonical, locationData] },
+            },
+        ]);
     }
 
     /**
@@ -178,11 +183,18 @@ export class BodyPart extends SohlEntity {
         const canonical: BodyLocation.Data[] =
             this.bodyStructure.parent.data.bodyStructure.parts[this.index]
                 .locations;
-        return {
-            [`${this.updatePath}.locations`]: canonical.filter(
-                (l: BodyLocation.Data) => l.shortcode !== shortcode,
-            ),
-        };
+        // Full-array write — a partial `parts.${index}.locations` update
+        // corrupts the whole parts array (#247). See setPartFieldsUpdate.
+        return this.bodyStructure.setPartFieldsUpdate([
+            {
+                index: this.index,
+                changes: {
+                    locations: canonical.filter(
+                        (l: BodyLocation.Data) => l.shortcode !== shortcode,
+                    ),
+                },
+            },
+        ]);
     }
 }
 

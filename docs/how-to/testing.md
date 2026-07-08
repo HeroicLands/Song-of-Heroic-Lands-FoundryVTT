@@ -466,3 +466,10 @@ when a spec touches these areas:
   (`system.strikeMode.name`) — those edits silently drop. Edit at the flat
   `system.<field>.<sub>` path, with a hidden `type` input so the discriminated
   update validates.
+- **Updating one element of an array field by index corrupts the whole array.**
+  `update({ "system.…parts.2.field": value })` makes Foundry rebuild the array
+  from a sparse map, truncating and default-filling every other element. Write
+  the _complete_ array back instead (see
+  [Runtime Contracts → Updating array fields](../reference/runtime-contracts.md#updating-array-fields-write-the-whole-array-never-an-element-by-index)).
+  Note a valid field value is needed to trigger it — an invalid one is dropped and
+  the update no-ops, so placeholder-id tests hide the bug.
