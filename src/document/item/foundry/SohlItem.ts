@@ -217,6 +217,10 @@ export class SohlItem extends Item {
      * @param btn The button element that was clicked.
      */
     async onChatCardButton(btn: HTMLElement): Promise<void> {
+        // Only an owner of this item (a GM owns all) may run a chat-card action
+        // against it; the render-time gate is UX only and a direct or
+        // synthesized call bypasses it (issue #167). Mirrors onChatCardEditAction.
+        if (!this.isOwner) return;
         const actionName = btn.dataset.action;
         if (!actionName) return;
 
