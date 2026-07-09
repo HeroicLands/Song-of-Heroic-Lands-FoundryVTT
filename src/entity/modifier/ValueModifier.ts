@@ -532,9 +532,10 @@ export class ValueModifier extends SohlEntity {
      * layer its own deltas on top.
      *
      * Deltas are **additive** — `other`'s are appended to whatever this modifier
-     * already carries (each replayed through {@link _oper}, so same-shortcode
-     * replacement and OVERRIDE semantics apply, and the clones are re-parented
-     * to this modifier). The **base is not additive** — a modifier has exactly
+     * already carries (each replayed through the internal `_oper`, so
+     * same-shortcode replacement and OVERRIDE semantics apply, and the clones
+     * are re-parented to this modifier). The **base is not additive** — a
+     * modifier has exactly
      * one base — so `other`'s base is adopted only when `includeBase` is set,
      * and it *replaces* any existing base rather than adding to it. Omit
      * `includeBase` to take `other`'s modifiers while keeping this modifier's
