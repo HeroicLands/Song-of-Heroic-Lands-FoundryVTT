@@ -4,8 +4,9 @@ import {
     getFateDescTable,
 } from "@src/document/item/logic/SkillLogic";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
-import { ITEM_KIND } from "@src/utils/constants";
+import { IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import {
     makeItemLogic,
@@ -390,6 +391,141 @@ describe("SkillLogic", () => {
             expect(logic.canImprove).toBe(true);
             logic.masteryLevel.setDisabled("nope");
             expect(logic.canImprove).toBe(false);
+        });
+    });
+
+    describe("combattechnique strike mode", () => {
+        /** A persisted melee strike-mode payload for a technique skill. */
+        function meleeSM(overrides: Record<string, unknown> = {}) {
+            return {
+                type: "melee",
+                name: "Punch",
+                minParts: 1,
+                assocSkillCode: "",
+                lengthBase: 1,
+                attack: { disabled: false, spread: 2, modifier: 5 },
+                impactBase: {
+                    numDice: 1,
+                    die: 6,
+                    modifier: 0,
+                    aspect: IMPACT_ASPECT.BLUNT,
+                },
+                traits: {},
+                defense: {
+                    block: { modifier: 3 },
+                    counterstrike: { modifier: -2 },
+                },
+                ...overrides,
+            };
+        }
+
+        it("builds a strike mode for the combattechnique subtype", () => {
+            const logic = makeSkill({
+                subType: "combattechnique",
+                strikeMode: meleeSM(),
+            });
+            logic.initialize();
+            expect(logic.strikeMode).toBeInstanceOf(MeleeStrikeMode);
+            expect(logic.strikeModes).toHaveLength(1);
+        });
+
+        it("builds no strike mode for a non-technique subtype", () => {
+            const logic = makeSkill({
+                subType: "social",
+                strikeMode: meleeSM(),
+            });
+            logic.initialize();
+            expect(logic.strikeMode).toBeUndefined();
+            expect(logic.strikeModes).toEqual([]);
+        });
+
+        it("drives Atk/Blk/CX from the skill's own mastery level by default", () => {
+            const logic = makeSkill({
+                subType: "combattechnique",
+                masteryLevelBase: 40,
+                strikeMode: meleeSM(),
+            });
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+            const sm = logic.strikeMode as MeleeStrikeMode;
+            expect(sm.attack.base).toBe(40); // adopted from the skill ML
+            expect(sm.attack.effective).toBe(45); // 40 ML + 5 AtkMod
+            expect(sm.defense.block.effective).toBe(43); // 40 + 3
+            expect(sm.defense.counterstrike.effective).toBe(38); // 40 - 2
+        });
+
+        it("keeps the technique's own attack modifier in the derivation", () => {
+            const logic = makeSkill({
+                subType: "combattechnique",
+                masteryLevelBase: 40,
+                strikeMode: meleeSM(),
+            });
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+            expect(
+                (logic.strikeMode as MeleeStrikeMode).attack.has("AtkMod"),
+            ).toBe(true);
+        });
+
+        it("uses an override skill's mastery level when assocSkillCode is set", () => {
+            const actor = makeMockActor();
+            const logic = makeSkill(
+                {
+                    subType: "combattechnique",
+                    masteryLevelBase: 40,
+                    strikeMode: meleeSM({ assocSkillCode: "sword" }),
+                },
+                { actor },
+            );
+            const overrideML = new MasteryLevelModifier(
+                {},
+                { parent: logic },
+            ).setBase(60);
+            vi.spyOn(actor.logic, "getItemLogic").mockReturnValue({
+                masteryLevel: overrideML,
+            } as any);
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+            const sm = logic.strikeMode as MeleeStrikeMode;
+            expect(sm.attack.base).toBe(60);
+            expect(sm.attack.effective).toBe(65); // 60 + 5 AtkMod
+        });
+
+        it("disables the derived rolls when the governing ML is disabled", () => {
+            const logic = makeSkill({
+                subType: "combattechnique",
+                masteryLevelBase: 40,
+                strikeMode: meleeSM(),
+            });
+            logic.initialize();
+            logic.evaluate();
+            logic.masteryLevel.setDisabled("SOHL.Test.disabled");
+            logic.finalize();
+            const sm = logic.strikeMode as MeleeStrikeMode;
+            expect(sm.attack.disabled).toBeTruthy();
+            expect(sm.attack.effective).toBe(0);
+        });
+
+        it("adds lineage reach to the technique's melee strike mode", () => {
+            const actor = makeMockActor();
+            actor.itemTypes = {
+                [ITEM_KIND.LINEAGE]: [{ logic: { reach: { effective: 2 } } }],
+            };
+            const logic = makeSkill(
+                {
+                    subType: "combattechnique",
+                    strikeMode: meleeSM({ lengthBase: 1 }),
+                },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect((logic.strikeMode as MeleeStrikeMode).reach.effective).toBe(
+                3,
+            );
         });
     });
 });
