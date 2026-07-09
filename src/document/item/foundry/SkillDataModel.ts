@@ -139,4 +139,41 @@ export class SkillDataModel<
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineSkillSchema();
     }
+
+    /**
+     * Seed a default melee strike mode when a new `combattechnique` skill is
+     * created without one, so the item is immediately valid and usable (a
+     * combat technique's Atk/Blk/CX derive from this skill's own mastery level;
+     * the strike mode is refined afterward on the skill sheet). Every other
+     * skill subtype keeps a null strike mode.
+     *
+     * @param data - The creation source data.
+     * @param options - The creation options.
+     * @param user - The requesting user.
+     * @returns `false` to veto creation, otherwise void.
+     */
+    protected override async _preCreate(
+        data: PlainObject,
+        options: PlainObject,
+        user: User,
+    ): Promise<boolean | void> {
+        const allowed = await super._preCreate(
+            data as any,
+            options as any,
+            user as any,
+        );
+        if (allowed === false) return false;
+        if (
+            this.subType === SKILL_SUBTYPE.COMBATTECHNIQUE &&
+            !this.strikeMode
+        ) {
+            this.updateSource({
+                strikeMode: {
+                    type: STRIKE_MODE_TYPE.MELEE,
+                    name: this.parent?.name || "Strike",
+                },
+            } as any);
+        }
+        return undefined;
+    }
 }
