@@ -881,14 +881,6 @@ export class BeingSheet extends SohlActorSheetBase {
             (weapon) => (weapon.logic as any)?.strikeModes ?? [],
         );
 
-        // Combat techniques with their strike mode domain objects
-        const combatTechniques = (
-            actor.itemTypes[ITEM_KIND.COMBATTECHNIQUE] ?? []
-        ).map((ct: SohlItem) => ({
-            item: ct,
-            strikeModes: (ct.logic as any)?.strikeModes ?? [],
-        }));
-
         // Body structure for anatomy display — sourced from the actor's Lineage item
         const lineageItem = (actor.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0];
         const lineageLogic = lineageItem?.logic as LineageLogic | undefined;
@@ -897,7 +889,6 @@ export class BeingSheet extends SohlActorSheetBase {
         return Object.assign(context, {
             meleeWeapons,
             missileWeapons,
-            combatTechniques,
             bodyStructure,
             defaultCombatGroup: (actor.system as any).defaultCombatGroup ?? "",
             isGM: !!(game as any).user?.isGM,

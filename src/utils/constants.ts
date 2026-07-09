@@ -128,7 +128,6 @@ export const {
     AFFLICTION: "affliction",
     ARMORGEAR: "armorgear",
     ATTRIBUTE: "attribute",
-    COMBATTECHNIQUE: "combattechnique",
     CONCOCTIONGEAR: "concoctiongear",
     CONTAINERGEAR: "containergear",
     TRAUMA: "trauma",
@@ -211,11 +210,6 @@ export const {
     [ITEM_KIND.ATTRIBUTE]: {
         IconCssClass: "sohl-user-gear",
         Image: "systems/sohl/assets/icons/user-gear.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.COMBATTECHNIQUE]: {
-        IconCssClass: "sohl-punch",
-        Image: "systems/sohl/assets/icons/punch.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.CONCOCTIONGEAR]: {
@@ -936,24 +930,6 @@ export const {
 /** Union of all armor-gear effect-key change paths. */
 export type ArmorGearEffectKey =
     (typeof ARMORGEAR_EFFECT_KEY)[keyof typeof ARMORGEAR_EFFECT_KEY];
-
-export const {
-    /** Map of combat-technique effect-key name → change path. */
-    kind: COMBATTECHNIQUE_EFFECT_KEY,
-    /** All combat-technique effect-key change paths, as an array. */
-    values: CombatTechniqueEffectKeys,
-    /** Type guard for combat-technique effect-key change paths. */
-    isValue: isCombatTechniqueEffectKey,
-    /** Localization keys per combat-technique effect key. */
-    labels: combatTechniqueEffectKeyLabels,
-} = defineType(`SOHL.CombatTechnique.EffectKey`, {
-    ATTACK: "mod:logic.strikeMode.attack",
-    IMPACT: "mod:logic.strikeMode.impact",
-    SPREAD: "mod:logic.strikeMode.spread",
-});
-/** Union of all combat-technique effect-key change paths. */
-export type CombatTechniqueEffectKey =
-    (typeof COMBATTECHNIQUE_EFFECT_KEY)[keyof typeof COMBATTECHNIQUE_EFFECT_KEY];
 
 export const {
     /** Map of mystery effect-key name → change path. */

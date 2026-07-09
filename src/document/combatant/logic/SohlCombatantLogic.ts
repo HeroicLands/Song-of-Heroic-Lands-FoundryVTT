@@ -17,7 +17,7 @@ import type { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import type { ImpactResult } from "@src/entity/result/ImpactResult";
 import type { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
 import type { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
-import type { CombatTechniqueLogic } from "@src/document/item/logic/CombatTechniqueLogic";
+import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
@@ -1313,8 +1313,8 @@ export function collectAttackableStrikeModes(
     for (const logic of lt[ITEM_KIND.WEAPONGEAR]) {
         for (const sm of logic.strikeModes ?? []) consider(logic, sm);
     }
-    for (const logic of lt[ITEM_KIND.COMBATTECHNIQUE]) {
-        consider(logic, logic.strikeMode);
+    for (const logic of lt[ITEM_KIND.SKILL]) {
+        if (logic.strikeMode) consider(logic, logic.strikeMode);
     }
     return out;
 }
@@ -1905,11 +1905,9 @@ export function collectBlockableStrikeModes(
         (acc: MeleeStrikeMode[], logic) => {
             if (
                 isA(logic, ITEM_KIND.WEAPONGEAR) ||
-                isA(logic, ITEM_KIND.COMBATTECHNIQUE)
+                isA(logic, ITEM_KIND.SKILL)
             ) {
-                const combatLogic = logic as
-                    | WeaponGearLogic
-                    | CombatTechniqueLogic;
+                const combatLogic = logic as WeaponGearLogic | SkillLogic;
                 const meleeStrikeModes = combatLogic.strikeModes.filter(
                     (sm) =>
                         sm.isMelee &&

@@ -100,10 +100,6 @@ export type {
     AttributeData,
 } from "../src/document/item/logic/AttributeLogic";
 export type {
-    CombatTechniqueLogic,
-    CombatTechniqueData,
-} from "../src/document/item/logic/CombatTechniqueLogic";
-export type {
     ConcoctionGearLogic,
     ConcoctionGearData,
 } from "../src/document/item/logic/ConcoctionGearLogic";

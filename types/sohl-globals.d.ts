@@ -31,7 +31,6 @@ import type { LineageDataModel } from "@src/document/item/foundry/LineageDataMod
 import type { AffiliationDataModel } from "@src/document/item/foundry/AffiliationDataModel";
 import type { AfflictionDataModel } from "@src/document/item/foundry/AfflictionDataModel";
 import type { ArmorGearDataModel } from "@src/document/item/foundry/ArmorGearDataModel";
-import type { CombatTechniqueDataModel } from "@src/document/item/foundry/CombatTechniqueDataModel";
 import type { ConcoctionGearDataModel } from "@src/document/item/foundry/ConcoctionGearDataModel";
 import type { ContainerGearDataModel } from "@src/document/item/foundry/ContainerGearDataModel";
 import type { TraumaDataModel } from "@src/document/item/foundry/TraumaDataModel";
@@ -259,7 +258,6 @@ declare module "fvtt-types/configuration" {
             affiliation: Constructor<AffiliationDataModel<any, any>>;
             affliction: Constructor<AfflictionDataModel<any, any>>;
             armorgear: Constructor<ArmorGearDataModel<any, any>>;
-            combattechnique: Constructor<CombatTechniqueDataModel<any, any>>;
             concoctiongear: Constructor<ConcoctionGearDataModel<any, any>>;
             containergear: Constructor<ContainerGearDataModel<any, any>>;
             trauma: Constructor<TraumaDataModel<any, any>>;

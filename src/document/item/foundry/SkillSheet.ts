@@ -42,9 +42,9 @@ export class SkillSheet extends SohlItemSheetBase {
         await super._preparePropertiesContext(context, options);
         const system = this.document.system as any;
         // A `combattechnique` skill carries an embedded strike mode, edited via
-        // the strike-mode section shown only for that subtype. Mirrors
-        // CombatTechniqueSheet's context (flat `system.strikeMode.<field>` paths,
-        // plus a hidden `type` to keep the discriminated update valid).
+        // the strike-mode section shown only for that subtype. The context uses
+        // flat `system.strikeMode.<field>` paths, plus a hidden `type` to keep
+        // the discriminated update valid.
         const isCombatTechnique =
             system.subType === SKILL_SUBTYPE.COMBATTECHNIQUE;
         const sm = system.strikeMode ?? {};

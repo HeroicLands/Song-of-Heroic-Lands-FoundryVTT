@@ -29,7 +29,6 @@ Sheet) see **Documents → Actor** and **Documents → Item** in the API referen
 | Affliction | `affliction` | An ongoing condition affecting a character. |
 | Armor | `armorgear` | Wearable protective equipment. |
 | Attribute | `attribute` | An innate characteristic. |
-| Combat Technique | `combattechnique` | A specialized combat maneuver or fighting style not tied to a specific weapon. |
 | Concoction | `concoctiongear` | A consumable alchemical mixture. |
 | Container | `containergear` | Storage for other items. |
 | Trauma | `trauma` | An instance of harm to a character. |
