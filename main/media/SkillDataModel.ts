@@ -87,7 +87,7 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
          * `combattechnique` subtype (a trained fighting maneuver — grapple,
          * unarmed strike, etc. — whose Atk/Blk/CX derive from this skill's own
          * mastery level). Null for every other skill subtype. A discriminated
-         * melee/missile union, mirroring `CombatTechniqueDataModel.strikeMode`.
+         * melee/missile union.
          */
         strikeMode: new TypedSchemaField(
             {
