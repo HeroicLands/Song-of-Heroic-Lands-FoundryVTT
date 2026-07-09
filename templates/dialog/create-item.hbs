@@ -36,7 +36,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" id="type-group"{{#unless askType}} style="display:none"{{/unless}}>
         <label>Type</label>
         <div class="form-fields">
             <select name="type">
@@ -57,14 +57,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
     {{/if}}
 
-    <div class="form-group" id="subtypes">
+    <div class="form-group" id="subtypes"{{#unless hasSubtypes}} style="display:none"{{/unless}}>
         <label>Subtypes</label>
-        <select
-            class="resource-value"
-            id="subtype-select"
-            name="subtype"
-            data-dtype="String">
-            {{selectOptions subtypes selected=subtype}}
-        </select>
+        <div class="form-fields">
+            <select
+                class="resource-value"
+                id="subtype-select"
+                name="subtype"
+                data-dtype="String">
+                {{selectOptions subtypes selected=subtype}}
+            </select>
+        </div>
     </div>
 </form>

@@ -1282,3 +1282,40 @@ export function index(value: number): number {
     if (value <= 0) return 0;
     return Math.trunc(value / 10);
 }
+
+/**
+ * A single option in a create-dialog `<select>`: the stored `value` and the
+ * (already-localized) display `label`.
+ */
+export interface SubTypeOption {
+    /** The stored field value. */
+    value: string;
+    /** The display label for the option. */
+    label: string;
+}
+
+/**
+ * Map a DataModel `subType` field's `choices` (a `{ value: localizationKey }`
+ * map, as produced by {@link getChoicesMap} / `defineType`) to an array of
+ * create-dialog options, localizing each label via `localize`.
+ *
+ * Pure and Foundry-free: the caller supplies the choices map (read at the
+ * boundary from `CONFIG.Item.dataModels[type].schema`) and a localizer. A
+ * missing/empty choices map yields an empty array — the signal that the type
+ * has no subtypes to ask for.
+ *
+ * @param choices - The field's `{ value: localizationKey }` choice map, or
+ *   `undefined` when the type has no `subType` field.
+ * @param localize - Localizer applied to each choice's label key.
+ * @returns The subtype options, in the choice map's insertion order.
+ */
+export function subTypeOptionsFromChoices(
+    choices: StrictObject<string> | undefined,
+    localize: (key: string) => string = (key) => key,
+): SubTypeOption[] {
+    if (!choices) return [];
+    return Object.entries(choices).map(([value, key]) => ({
+        value,
+        label: localize(key),
+    }));
+}
