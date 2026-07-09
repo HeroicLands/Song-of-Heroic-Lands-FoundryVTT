@@ -1487,6 +1487,7 @@ export const {
     MYSTICAL: "mystical",
     PHYSICAL: "physical",
     COMBAT: "combat",
+    COMBATTECHNIQUE: "combattechnique",
 });
 /** Union of all skill-subtype values. */
 export type SkillSubType = (typeof SKILL_SUBTYPE)[keyof typeof SKILL_SUBTYPE];
