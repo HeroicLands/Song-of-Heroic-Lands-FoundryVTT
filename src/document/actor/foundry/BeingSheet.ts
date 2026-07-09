@@ -31,6 +31,7 @@ import {
     groupBySubType,
     attributeDescriptor,
     buildTraitGroups,
+    buildAffiliationRows,
     buildContainerTree,
     buildStatusPills,
     buildBodyPartLozenges,
@@ -717,7 +718,21 @@ export class BeingSheet extends SohlActorSheetBase {
                 ),
         );
 
-        const affiliations = actor.itemTypes[ITEM_KIND.AFFILIATION] ?? [];
+        const affiliations = buildAffiliationRows(
+            (actor.itemTypes[ITEM_KIND.AFFILIATION] ?? []).map((aff) => {
+                const sys = aff.system as any;
+                return {
+                    id: aff.id ?? "",
+                    uuid: aff.uuid,
+                    name: aff.name,
+                    level: sys.level ?? 0,
+                    society: sys.society ?? "",
+                    office: sys.office ?? "",
+                    title: sys.title ?? "",
+                    notes: sys.notes ?? "",
+                };
+            }),
+        );
 
         const logic = actor.logic as BeingLogic | undefined;
         const movement: {
