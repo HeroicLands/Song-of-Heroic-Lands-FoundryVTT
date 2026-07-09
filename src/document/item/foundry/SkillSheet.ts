@@ -13,6 +13,7 @@
 
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { SohlItemSheetBase } from "@src/document/item/foundry/SohlItemSheetBase";
+import { SKILL_SUBTYPE } from "@src/utils/constants";
 
 /** @internal */
 export class SkillSheet extends SohlItemSheetBase {
@@ -40,6 +41,14 @@ export class SkillSheet extends SohlItemSheetBase {
     > {
         await super._preparePropertiesContext(context, options);
         const system = this.document.system as any;
+        // A `combattechnique` skill carries an embedded strike mode, edited via
+        // the strike-mode section shown only for that subtype. Mirrors
+        // CombatTechniqueSheet's context (flat `system.strikeMode.<field>` paths,
+        // plus a hidden `type` to keep the discriminated update valid).
+        const isCombatTechnique =
+            system.subType === SKILL_SUBTYPE.COMBATTECHNIQUE;
+        const sm = system.strikeMode ?? {};
+        const smType = sm.type ?? "melee";
         return Object.assign(context, {
             skillBaseFormula: system.skillBaseFormula,
             masteryLevelBase: system.masteryLevelBase,
@@ -48,6 +57,11 @@ export class SkillSheet extends SohlItemSheetBase {
             weaponGroup: system.weaponGroup,
             baseSkill: system.baseSkill,
             domainCode: system.domainCode,
+            isCombatTechnique,
+            sm,
+            smType,
+            isMelee: smType === "melee",
+            isMissile: smType === "missile",
         });
     }
 }
