@@ -42,12 +42,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="list__detail">{{item.system.quantity}}</div>
                 <div class="list__detail">{{item.system.weightBase}}</div>
                 <div class="list__controls">
+                    {{#if (eq item.type "weapongear")}}
+                    <a class="list__control item-held" data-action="toggleHeld" title="Held">
+                        <i class="sohl-grab-hold {{#unless item.logic.heldBy.length}}disabled{{/unless}}"></i>
+                    </a>
+                    {{/if}}
                     {{#if (eq item.type "armorgear")}}
-                    <a class="list__control item-worn" title="Worn">
+                    <a class="list__control item-worn" data-action="toggleEquipped" title="Worn">
                         <i class="sohl-chest-armor {{#unless item.system.isEquipped}}disabled{{/unless}}"></i>
                     </a>
                     {{/if}}
-                    <a class="list__control item-carried" title="Carried">
+                    <a class="list__control item-carried" data-action="toggleCarried" title="Carried">
                         <i class="sohl-sack {{#unless item.system.isCarried}}disabled{{/unless}}"></i>
                     </a>
                     <a class="list__control item-contextmenu" title="Menu">

@@ -276,6 +276,9 @@ export class BeingSheet extends SohlActorSheetBase {
             addInjury: BeingSheet._onAddInjury,
             toggleStatus: BeingSheet._onToggleStatus,
             toggleImproveFlag: BeingSheet._onToggleImproveFlag,
+            toggleCarried: BeingSheet._onToggleCarried,
+            toggleEquipped: BeingSheet._onToggleEquipped,
+            toggleHeld: BeingSheet._onToggleHeld,
             createItem: BeingSheet._onCreateItem,
         },
     };
@@ -347,6 +350,84 @@ export class BeingSheet extends SohlActorSheetBase {
         await item.update({
             "system.improveFlag": !(item.system as any).improveFlag,
         } as PlainObject);
+    }
+
+    /**
+     * Resolve the gear item for a state-toggle control from the nearest
+     * ancestor carrying `data-item-id`.
+     *
+     * @param target - The clicked control.
+     * @returns The gear item, or `undefined` when none resolves.
+     */
+    private _gearFromControl(target: HTMLElement): SohlItem | undefined {
+        const itemId = target
+            .closest("[data-item-id]")
+            ?.getAttribute("data-item-id");
+        return itemId ? this.document.items.get(itemId) : undefined;
+    }
+
+    /**
+     * Toggle a gear item's **carried** state (on the character's person).
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, within a `data-item-id` row.
+     */
+    protected static async _onToggleCarried(
+        this: BeingSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const item = this._gearFromControl(target);
+        if (!item) return;
+        await item.update({
+            "system.isCarried": !(item.system as any).isCarried,
+        } as PlainObject);
+    }
+
+    /**
+     * Toggle a gear item's **equipped** (worn/wielded) state — feeds worn-armor
+     * protection totals for armor.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, within a `data-item-id` row.
+     */
+    protected static async _onToggleEquipped(
+        this: BeingSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const item = this._gearFromControl(target);
+        if (!item) return;
+        await item.update({
+            "system.isEquipped": !(item.system as any).isEquipped,
+        } as PlainObject);
+    }
+
+    /**
+     * Toggle a gear item's **held** state: grip it with the first free
+     * hold-capable body part(s) (multi-part for two-handed items), or release it
+     * from every part currently holding it. Held weapons feed the strike-mode
+     * sections. Delegates to {@link GearLogic.holdItem}/`releaseItem`, which own
+     * the body-part assignment.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, within a `data-item-id` row.
+     */
+    protected static async _onToggleHeld(
+        this: BeingSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const item = this._gearFromControl(target);
+        if (!item) return;
+        const logic = item.logic as any;
+        const context = new SohlActionContext({
+            speaker: (this.document as any).getSpeaker(),
+            type: "toggleHeld",
+            title: item.name,
+        });
+        if (logic?.heldBy?.length) await logic.releaseItem(context);
+        else await logic?.holdItem(context);
     }
 
     /**
