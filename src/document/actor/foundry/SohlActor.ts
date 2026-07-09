@@ -316,13 +316,13 @@ export class SohlActor extends Actor {
         this: any,
         data: PlainObject = {},
         createOptions: PlainObject = {},
-        { types, ...options }: { types?: string[]; [k: string]: any } = {},
+        options: { types?: string[]; [k: string]: any } = {},
     ): Promise<any> {
         return sohlCreateDialog(
             this as any,
             data,
             { ...createOptions, parent: null },
-            { types, ...options },
+            options,
         );
     }
 
