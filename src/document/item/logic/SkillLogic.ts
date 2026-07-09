@@ -16,14 +16,19 @@ import type { MysteryLogic } from "./MysteryLogic";
 import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
+import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
+import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
 import {
     ACTION_SUBTYPE,
     ITEM_KIND,
     MYSTERY_SUBTYPE,
+    SKILL_SUBTYPE,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    STRIKE_MODE_TYPE,
     VALUE_DELTA_ID,
     VALUE_DELTA_INFO,
     type SkillSubType,
@@ -146,6 +151,25 @@ export class SkillLogic<
      * the `optionFate` setting; disabled when fate does not apply.
      */
     fateMasteryLevel!: MasteryLevelModifier;
+
+    /**
+     * The runtime strike-mode instance for a `combattechnique` skill, built in
+     * {@link initialize} from {@link SkillData.strikeMode}. `undefined` for every
+     * other skill subtype. Its attack/defense modifiers are driven by the
+     * governing mastery level in {@link finalize} (this skill's own by default,
+     * or an override skill named by the strike mode's `assocSkillCode`).
+     */
+    strikeMode?: StrikeModeBase;
+
+    /**
+     * The runtime strike modes for this skill: the single {@link strikeMode}
+     * when this is a `combattechnique` skill, otherwise empty. Lets combat code
+     * aggregate technique strike modes uniformly with weapon strike modes.
+     * @returns The strike-mode instances (zero or one).
+     */
+    get strikeModes(): StrikeModeBase[] {
+        return this.strikeMode ? [this.strikeMode] : [];
+    }
 
     /**
      * Performs a fate test for this skill, consuming a charge from an
@@ -545,6 +569,26 @@ export class SkillLogic<
             this.data.skillBaseFormula,
             this.actorLogic,
         );
+
+        // A combat-technique skill carries an embedded strike mode (a trained
+        // maneuver such as an unarmed strike or grapple). Build the runtime
+        // instance from the persisted data; its Atk/Blk/CX are wired to the
+        // governing mastery level in `finalize`.
+        const smData = this.data.strikeMode;
+        if (this.data.subType === SKILL_SUBTYPE.COMBATTECHNIQUE && smData) {
+            this.strikeMode =
+                smData.type === STRIKE_MODE_TYPE.MELEE ?
+                    new entity.MeleeStrikeMode(
+                        smData as MeleeStrikeMode.Data,
+                        this,
+                        this.id,
+                    )
+                :   new entity.MissileStrikeMode(
+                        smData as MissileStrikeMode.Data,
+                        this,
+                        this.id,
+                    );
+        }
     }
 
     /** @inheritdoc */
@@ -578,6 +622,16 @@ export class SkillLogic<
             this.fateMasteryLevel.disabled =
                 "SOHL.MasteryLevel.AuraBasedNoFate";
         }
+
+        // A melee technique's reach is its base length plus the wielder's
+        // lineage reach (0 for a non-Being or no lineage) — mirrors weapon and
+        // combat-technique reach handling.
+        if (this.strikeMode instanceof MeleeStrikeMode) {
+            const lineageReach =
+                this.actorLogic?.logicTypes[ITEM_KIND.LINEAGE][0]?.reach
+                    .effective ?? 0;
+            this.strikeMode.reach.add("SOHL.INFO.Reach", "Size", lineageReach);
+        }
     }
 
     /** @inheritdoc */
@@ -598,6 +652,38 @@ export class SkillLogic<
             if (!this.availableFate.length) {
                 this.fateMasteryLevel.disabled =
                     "SOHL.MasteryLevel.NoFateAvailable";
+            }
+        }
+
+        // Drive a combat-technique strike mode's Atk/Blk/CX from its governing
+        // mastery level: this skill's own by default, or an override skill named
+        // by the strike mode's `assocSkillCode` (falling back to self if that
+        // code resolves to nothing). `addVM({ includeBase: true })` folds in the
+        // governing ML's base and its labeled deltas, so the technique's own
+        // attack/defense modifiers layer on top with the full derivation intact.
+        // A disabled governing ML disables the derived rolls (rendered as ✕).
+        if (this.strikeMode) {
+            const overrideCode = this.strikeMode.assocSkillCode;
+            const governing =
+                (overrideCode ?
+                    (
+                        this.actorLogic?.getItemLogic(
+                            overrideCode,
+                            ITEM_KIND.SKILL,
+                        ) as SkillLogic | undefined
+                    )?.masteryLevel
+                :   undefined) ?? this.masteryLevel;
+
+            const derived: MasteryLevelModifier[] = [this.strikeMode.attack];
+            if (this.strikeMode instanceof MeleeStrikeMode) {
+                derived.push(
+                    this.strikeMode.defense.block,
+                    this.strikeMode.defense.counterstrike,
+                );
+            }
+            for (const mod of derived) {
+                mod.addVM(governing, { includeBase: true });
+                if (governing.disabled) mod.disabled = governing.disabled;
             }
         }
     }
@@ -751,4 +837,9 @@ export interface SkillData<
     parentSkillCode: string;
     /** Multiplier applied to skill base when initializing a new character */
     initSkillMult: number;
+    /**
+     * Optional embedded strike mode, present only for the `combattechnique`
+     * subtype; `null` for all other skills.
+     */
+    strikeMode?: MeleeStrikeMode.Data | MissileStrikeMode.Data | null;
 }
