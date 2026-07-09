@@ -12,89 +12,169 @@
  */
 
 /**
- * Gear state controls on the Being Gear tab (#294).
+ * Gear state controls (#294).
  *
- * Per-row toggles drive a gear item's state: **carried** (`isCarried`),
- * **worn/equipped** (`isEquipped`, armor), and **held** (grip with a
- * hold-capable body part, via `GearLogic.holdItem`/`releaseItem`). Held weapons
- * feed the strike-mode sections; worn armor feeds the body-location totals.
+ * - **Gear tab** per-row toggles: **carried** (`isCarried`) and **worn**
+ *   (`isEquipped`, armor).
+ * - **Combat tab** Held Items section: one dropdown per hold-capable limb,
+ *   listing the actor's holdable gear (weapons + misc gear not in a container).
+ *   Selecting an item sets that limb's `heldItemId`; a two-handed weapon is held
+ *   by selecting it in both limbs.
  */
 describe("gear state controls", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
     Cypress.on("uncaught:exception", () => false);
 
-    /** Click a row control (by `data-action`) on the open sheet. */
-    function click(win, actorId, itemId, action) {
-        const el = win.game.actors
-            .get(actorId)
-            .sheet.element.querySelector(
-                `li[data-item-id="${itemId}"] [data-action="${action}"]`,
-            );
-        expect(el, `${action} control on ${itemId}`).to.exist;
-        el.click();
-        return null;
-    }
+    describe("Gear tab: carried / worn toggles", () => {
+        /** Click a row control (by `data-action`) on the open sheet. */
+        function click(win, actorId, itemId, action) {
+            const el = win.game.actors
+                .get(actorId)
+                .sheet.element.querySelector(
+                    `li[data-item-id="${itemId}"] [data-action="${action}"]`,
+                );
+            expect(el, `${action} control on ${itemId}`).to.exist;
+            el.click();
+            return null;
+        }
 
-    it("toggles carried, worn, and held from the Gear tab", () => {
-        cy.importActor().then((actor) => {
-            cy.createItemOn(actor, "weapongear", { name: "Sword" }).then((w) =>
-                cy.wrap(w.id).as("wid"),
-            );
-            cy.createItemOn(actor, "armorgear", { name: "Mail" }).then((a) =>
-                cy.wrap(a.id).as("aid"),
-            );
-            cy.then(function () {
-                const { wid, aid } = this;
-                cy.prepare(actor);
-                cy.openSheet(actor);
-                cy.switchTab("gear");
-                cy.wait(400);
+        it("toggles carried and worn from the Gear tab", () => {
+            cy.importActor().then((actor) => {
+                cy.createItemOn(actor, "weapongear", { name: "Sword" }).then(
+                    (w) => cy.wrap(w.id).as("wid"),
+                );
+                cy.createItemOn(actor, "armorgear", { name: "Mail" }).then(
+                    (a) => cy.wrap(a.id).as("aid"),
+                );
+                cy.then(function () {
+                    const { wid, aid } = this;
+                    cy.prepare(actor);
+                    cy.openSheet(actor);
+                    cy.switchTab("gear");
+                    cy.wait(400);
 
-                const state = (win) => {
-                    const A = win.game.actors.get(actor.id);
-                    return {
-                        held: A.items.get(wid).logic.heldBy.length,
-                        worn: A.items.get(aid).system.isEquipped,
-                        carried: A.items.get(wid).system.isCarried,
+                    const state = (win) => {
+                        const A = win.game.actors.get(actor.id);
+                        return {
+                            worn: A.items.get(aid).system.isEquipped,
+                            carried: A.items.get(wid).system.isCarried,
+                        };
                     };
-                };
 
-                cy.foundry(state).should((s) => {
-                    expect(s.held).to.equal(0);
-                    expect(s.worn).to.be.false;
-                    expect(s.carried).to.be.true; // gear defaults to carried
+                    cy.foundry(state).should((s) => {
+                        expect(s.worn).to.be.false;
+                        expect(s.carried).to.be.true; // gear defaults to carried
+                    });
+
+                    cy.foundry((win) =>
+                        click(win, actor.id, aid, "toggleEquipped"),
+                    );
+                    cy.wait(400);
+                    cy.foundry(state).should(
+                        (s) => expect(s.worn, "armor worn").to.be.true,
+                    );
+
+                    cy.foundry((win) =>
+                        click(win, actor.id, wid, "toggleCarried"),
+                    );
+                    cy.wait(400);
+                    cy.foundry(state).should(
+                        (s) =>
+                            expect(s.carried, "weapon not carried").to.be.false,
+                    );
                 });
+            });
+        });
+    });
 
-                // Hold the weapon → a hold-capable body part grips it.
-                cy.foundry((win) => click(win, actor.id, wid, "toggleHeld"));
-                cy.wait(400);
-                cy.foundry(state).should((s) =>
-                    expect(s.held, "weapon held").to.be.at.least(1),
+    describe("Combat tab: Held Items dropdowns", () => {
+        /** Set a limb dropdown (nth `select.held-item-select`) to an item id. */
+        function pick(win, actorId, nth, itemId) {
+            const selects = win.game.actors
+                .get(actorId)
+                .sheet.element.querySelectorAll(
+                    'section[data-tab="combat"] select.held-item-select',
                 );
+            const sel = selects[nth];
+            expect(sel, `limb dropdown #${nth}`).to.exist;
+            sel.value = itemId;
+            sel.dispatchEvent(new win.Event("change", { bubbles: true }));
+            return { limbCount: selects.length };
+        }
 
-                // Release it again.
-                cy.foundry((win) => click(win, actor.id, wid, "toggleHeld"));
-                cy.wait(400);
-                cy.foundry(state).should((s) =>
-                    expect(s.held, "weapon released").to.equal(0),
+        it("selecting a weapon in a limb dropdown holds it; blank releases it", () => {
+            cy.importActor().then((actor) => {
+                cy.createItemOn(actor, "weapongear", { name: "Sword" }).then(
+                    (w) => cy.wrap(w.id).as("wid"),
                 );
+                cy.then(function () {
+                    const wid = this.wid;
+                    cy.prepare(actor);
+                    cy.openSheet(actor);
+                    cy.switchTab("combat", "primary");
+                    cy.wait(400);
+                    const held = (win) =>
+                        win.game.actors.get(actor.id).items.get(wid).logic
+                            .heldBy.length;
 
-                // Wear the armor.
-                cy.foundry((win) =>
-                    click(win, actor.id, aid, "toggleEquipped"),
-                );
-                cy.wait(400);
-                cy.foundry(state).should(
-                    (s) => expect(s.worn, "armor worn").to.be.true,
-                );
+                    // At least one hold-capable limb dropdown exists.
+                    cy.foundry((win) => pick(win, actor.id, 0, wid)).should(
+                        (r) =>
+                            expect(
+                                r.limbCount,
+                                "limb dropdowns",
+                            ).to.be.at.least(1),
+                    );
+                    cy.wait(400);
+                    cy.foundry(held).should((n) =>
+                        expect(n, "weapon held").to.be.at.least(1),
+                    );
 
-                // Stop carrying the weapon.
-                cy.foundry((win) => click(win, actor.id, wid, "toggleCarried"));
-                cy.wait(400);
-                cy.foundry(state).should(
-                    (s) => expect(s.carried, "weapon not carried").to.be.false,
-                );
+                    // Blank the same limb → released.
+                    cy.foundry((win) => pick(win, actor.id, 0, ""));
+                    cy.wait(400);
+                    cy.foundry(held).should((n) =>
+                        expect(n, "weapon released").to.equal(0),
+                    );
+                });
+            });
+        });
+
+        it("holds a weapon in two limbs (two-handed)", () => {
+            cy.importActor().then((actor) => {
+                cy.createItemOn(actor, "weapongear", {
+                    name: "Greatsword",
+                }).then((w) => cy.wrap(w.id).as("wid"));
+                cy.then(function () {
+                    const wid = this.wid;
+                    cy.prepare(actor);
+                    cy.openSheet(actor);
+                    cy.switchTab("combat", "primary");
+                    cy.wait(400);
+                    cy.foundry((win) => {
+                        const n = win.game.actors
+                            .get(actor.id)
+                            .sheet.element.querySelectorAll(
+                                'section[data-tab="combat"] select.held-item-select',
+                            ).length;
+                        // Only meaningful with >= 2 limbs (Basic Folk has two arms).
+                        return n;
+                    }).then((n) => {
+                        if (n < 2) return; // skip on single-limb bodies
+                        cy.foundry((win) => pick(win, actor.id, 0, wid));
+                        cy.wait(300);
+                        cy.foundry((win) => pick(win, actor.id, 1, wid));
+                        cy.wait(400);
+                        cy.foundry(
+                            (win) =>
+                                win.game.actors.get(actor.id).items.get(wid)
+                                    .logic.heldBy.length,
+                        ).should((held) =>
+                            expect(held, "held by both limbs").to.equal(2),
+                        );
+                    });
+                });
             });
         });
     });

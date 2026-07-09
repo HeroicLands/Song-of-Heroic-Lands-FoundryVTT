@@ -195,6 +195,42 @@ export function buildTraitGroups(
 }
 
 /* -------------------------------------------- */
+/*  Held items                                   */
+/* -------------------------------------------- */
+
+/** An option in a body part's "Item Held" dropdown. */
+export interface HoldableOption {
+    /** The gear item's id (the option value). */
+    id: string;
+    /** The gear item's display name. */
+    name: string;
+}
+
+/**
+ * Build the list of gear items a body part may hold: only items whose kind is
+ * in `holdableKinds` **and** that are not stowed inside a container (you cannot
+ * grip a weapon sitting in a bag). Order is preserved.
+ *
+ * @param gear - Candidate gear items (typically the actor's weapons + misc gear).
+ * @param getKind - Resolves an item's kind.
+ * @param getContainerId - Resolves the container id an item is stowed in (empty/undefined = loose).
+ * @param holdableKinds - The kinds eligible to be held.
+ * @returns The holdable options, in input order.
+ */
+export function buildHoldableGear<T extends HoldableOption>(
+    gear: readonly T[],
+    getKind: (item: T) => string,
+    getContainerId: (item: T) => string | null | undefined,
+    holdableKinds: ReadonlySet<string>,
+): HoldableOption[] {
+    return gear
+        .filter(
+            (item) => holdableKinds.has(getKind(item)) && !getContainerId(item),
+        )
+        .map((item) => ({ id: item.id, name: item.name }));
+}
+
+/* -------------------------------------------- */
 /*  Affiliations                                 */
 /* -------------------------------------------- */
 

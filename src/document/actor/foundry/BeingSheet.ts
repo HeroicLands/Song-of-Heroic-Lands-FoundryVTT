@@ -36,6 +36,7 @@ import {
     buildTraitGroups,
     buildSkillGroups,
     buildAffiliationRows,
+    buildHoldableGear,
     buildContainerTree,
     buildStatusPills,
     buildBodyPartLozenges,
@@ -254,6 +255,16 @@ export class BeingSheet extends SohlActorSheetBase {
 
         // Rebind all search filters
         this._filters.forEach((filter) => filter.bind((this as any).element));
+
+        // Held Items section: a `<select>` change assigns a body part's held
+        // item (not a click action, so it is wired here).
+        (this as any).element
+            ?.querySelectorAll("select.held-item-select")
+            .forEach((select: HTMLSelectElement) =>
+                select.addEventListener("change", (event: Event) =>
+                    this._onSetHeldItem(event),
+                ),
+            );
     }
 
     /** @inheritDoc */
@@ -278,7 +289,6 @@ export class BeingSheet extends SohlActorSheetBase {
             toggleImproveFlag: BeingSheet._onToggleImproveFlag,
             toggleCarried: BeingSheet._onToggleCarried,
             toggleEquipped: BeingSheet._onToggleEquipped,
-            toggleHeld: BeingSheet._onToggleHeld,
             createItem: BeingSheet._onCreateItem,
         },
     };
@@ -404,30 +414,30 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Toggle a gear item's **held** state: grip it with the first free
-     * hold-capable body part(s) (multi-part for two-handed items), or release it
-     * from every part currently holding it. Held weapons feed the strike-mode
-     * sections. Delegates to {@link GearLogic.holdItem}/`releaseItem`, which own
-     * the body-part assignment.
+     * Assign the item held by a hold-capable body part, from the Held Items
+     * section's per-limb dropdown. Writes the chosen item's id (or `null` for
+     * the blank option) to that part's `heldItemId` on the lineage's body
+     * structure. A weapon held in two parts (two-handed) is expressed by
+     * selecting it in both limbs' dropdowns.
      *
-     * @param _event - The triggering pointer event (unused).
-     * @param target - The clicked control, within a `data-item-id` row.
+     * Bound as a `change` listener in {@link _onRender} (a `<select>` change,
+     * not a click action).
+     *
+     * @param event - The select's change event.
      */
-    protected static async _onToggleHeld(
-        this: BeingSheet,
-        _event: PointerEvent,
-        target: HTMLElement,
-    ): Promise<void> {
-        const item = this._gearFromControl(target);
-        if (!item) return;
-        const logic = item.logic as any;
-        const context = new SohlActionContext({
-            speaker: (this.document as any).getSpeaker(),
-            type: "toggleHeld",
-            title: item.name,
-        });
-        if (logic?.heldBy?.length) await logic.releaseItem(context);
-        else await logic?.holdItem(context);
+    private async _onSetHeldItem(event: Event): Promise<void> {
+        const select = event.target as HTMLSelectElement;
+        const partIndex = Number(select.dataset.partIndex);
+        if (Number.isNaN(partIndex)) return;
+        const itemId = select.value || null;
+        const lineage = (this.document.logic as BeingLogic)?.logicTypes?.[
+            ITEM_KIND.LINEAGE
+        ]?.[0];
+        if (!lineage) return;
+        const payload = lineage.bodyStructure.setPartFieldsUpdate([
+            { index: partIndex, changes: { heldItemId: itemId } },
+        ]);
+        if (Object.keys(payload).length) await lineage.data.update(payload);
     }
 
     /**
@@ -972,12 +982,40 @@ export class BeingSheet extends SohlActorSheetBase {
         // radius (`{n}`, column "Spr"). Same underlying `spread.effective` value.
         const useZoneDie = !!fvttGetSetting("sohl", "useZoneDie");
 
+        // Held Items: one dropdown per hold-capable body part, each listing the
+        // actor's holdable gear (weapons + misc gear not stowed in a container).
+        // Selecting an item sets that part's `heldItemId`; a two-handed weapon is
+        // held by selecting it in both limbs.
+        const holdableItems = buildHoldableGear(
+            [
+                ...(actor.itemTypes[ITEM_KIND.WEAPONGEAR] ?? []),
+                ...(actor.itemTypes[ITEM_KIND.MISCGEAR] ?? []),
+            ].map((it) => ({
+                id: it.id ?? "",
+                name: it.name,
+                kind: it.type,
+                containerId: (it.system as any).containerId,
+            })),
+            (it) => it.kind,
+            (it) => it.containerId,
+            new Set<string>([ITEM_KIND.WEAPONGEAR, ITEM_KIND.MISCGEAR]),
+        );
+        const heldItemLimbs = (bodyStructure?.parts ?? [])
+            .filter((part: any) => part.canHoldItem)
+            .map((part: any) => ({
+                index: part.index,
+                label: part.shortcode,
+                heldItemId: part.heldItem?.id ?? "",
+            }));
+
         return Object.assign(context, {
             meleeWeapons,
             missileWeapons,
             bodyStructure,
             useZoneDie,
             spreadLabel: useZoneDie ? "ZD" : "Spr",
+            holdableItems,
+            heldItemLimbs,
             defaultCombatGroup: (actor.system as any).defaultCombatGroup ?? "",
             isGM: !!(game as any).user?.isGM,
         });

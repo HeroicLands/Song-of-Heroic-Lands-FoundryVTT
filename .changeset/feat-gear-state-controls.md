@@ -2,12 +2,9 @@
 "sohl": minor
 ---
 
-**Gear state controls on the Being Gear tab**
+**Gear state controls: carried / worn toggles and per-limb Held Items**
 
-Per-row controls on the Gear tab now toggle a gear item's state:
+Two ways to set a Being's gear state:
 
-- **Carried** (sack icon) — flips `isCarried`, on every gear row.
-- **Worn** (armor icon) — flips `isEquipped` on armor; feeds worn-armor protection totals.
-- **Held** (grip icon) — grips a weapon with the first free hold-capable body part(s), or releases it, via `GearLogic.holdItem`/`releaseItem`; held weapons feed the strike-mode sections. The grip supports multiple parts (the hold mechanism claims `minPartsToHold` limbs).
-
-The controls previously rendered as state indicators only; they now dispatch `toggleCarried` / `toggleEquipped` / `toggleHeld` sheet actions.
+- **Carried** (sack) and **Worn** (armor icon) per-row toggles on the Gear tab flip `isCarried` / `isEquipped` (worn armor feeds body-location protection totals). These controls previously rendered as indicators only; they now dispatch actions.
+- A **Held Items** section on the Combat tab (below the strike modes) with **one dropdown per hold-capable limb**. Each dropdown lists the actor's holdable gear — weapons and misc gear that are **not** stowed inside a container — plus a blank option. Selecting an item makes that limb hold it; blank releases it. A **two-handed** weapon is held by selecting it in **both** limbs' dropdowns. Held weapons feed the strike-mode sections.
