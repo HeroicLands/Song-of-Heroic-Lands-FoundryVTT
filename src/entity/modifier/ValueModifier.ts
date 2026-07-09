@@ -525,11 +525,25 @@ export class ValueModifier extends SohlEntity {
     }
 
     /**
-     * Fold another modifier into this one.
+     * Fold another modifier into this one, preserving the full auditable
+     * derivation: every labeled delta from `other` (its name, shortcode,
+     * operator, and value) is replayed onto this modifier, so the merged result
+     * keeps each source justification in its tooltip and this modifier can then
+     * layer its own deltas on top.
+     *
+     * Deltas are **additive** — `other`'s are appended to whatever this modifier
+     * already carries (each replayed through {@link _oper}, so same-shortcode
+     * replacement and OVERRIDE semantics apply, and the clones are re-parented
+     * to this modifier). The **base is not additive** — a modifier has exactly
+     * one base — so `other`'s base is adopted only when `includeBase` is set,
+     * and it *replaces* any existing base rather than adding to it. Omit
+     * `includeBase` to take `other`'s modifiers while keeping this modifier's
+     * own base.
      *
      * @param other - The modifier to merge from.
      * @param options - Merge options.
-     * @param options.includeBase - When set, adopt `other`'s base value.
+     * @param options.includeBase - When set, replace this modifier's base with
+     *   `other`'s base.
      * @returns `this`, for chaining.
      */
     addVM(
@@ -537,6 +551,9 @@ export class ValueModifier extends SohlEntity {
         { includeBase }: { includeBase?: boolean } = {},
     ): ValueModifier {
         if (includeBase) this.base = other.base;
+        for (const delta of other.deltas) {
+            this._oper(delta.name, delta.shortcode, delta.value, delta.op);
+        }
         return this;
     }
 
