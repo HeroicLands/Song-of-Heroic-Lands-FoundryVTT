@@ -276,6 +276,119 @@ export function buildAffiliationRows(
 }
 
 /* -------------------------------------------- */
+/*  Skill groups                                 */
+/* -------------------------------------------- */
+
+/** A single skill row as consumed by the skills template. */
+export interface SkillRow {
+    /** The skill item id. */
+    id: string;
+    /** The skill item uuid. */
+    uuid: string;
+    /** The skill's display name. */
+    name: string;
+    /** Skill Base — the derived attribute-driven base score. */
+    sb: number;
+    /** Mastery Level — the base mastery level. */
+    ml: number;
+    /** The mastery-level index (a coarse band derived from the ML). */
+    index: number;
+    /** Effective Mastery Level — the ML after modifiers. */
+    eml: number;
+    /** Fate Mastery Level — the effective fate ML. */
+    fate: number;
+    /** Whether the mastery level is disabled (renders an ✕ in place of numbers). */
+    disabled: boolean;
+    /** Whether the skill is currently eligible for Skill Development. */
+    canImprove: boolean;
+    /** Whether the skill is flagged for improvement (the SDR star). */
+    improveFlag: boolean;
+}
+
+/** A subtype-labeled group of skills, ready to render. */
+export interface SkillGroup {
+    /** The subtype key (e.g. `"social"`), used to seed new items. */
+    subType: string;
+    /** Localized subtype label shown in the group legend. */
+    label: string;
+    /** The skills in this group, in the order supplied. */
+    skills: SkillRow[];
+}
+
+/** The minimal shape a skill must expose to be grouped for display. */
+export interface SkillLike {
+    id: string;
+    uuid: string;
+    name: string;
+    subType: string | undefined;
+    sb: number;
+    ml: number;
+    index: number;
+    eml: number;
+    fate: number;
+    disabled: boolean;
+    canImprove: boolean;
+    improveFlag: boolean;
+}
+
+/**
+ * Build the ordered, subtype-labeled skill groups for the Skills tab. Every
+ * subtype in `order` (the display subtype order) is emitted — including empty
+ * ones, so each defined subtype always offers its "+ Add" control. Subtypes
+ * present on skills but absent from `order` are appended after the ordered ones,
+ * in first-seen order, so nothing is silently dropped.
+ *
+ * Labels are resolved through the supplied callback so this stays Foundry-free
+ * (the sheet passes a `game.i18n`-backed resolver).
+ *
+ * @param skills - The skills to group, in display order.
+ * @param order - The subtype keys in their canonical display order.
+ * @param subTypeLabel - Resolves a subtype key to its display label.
+ * @returns The ordered skill groups.
+ */
+export function buildSkillGroups(
+    skills: readonly SkillLike[],
+    order: readonly string[],
+    subTypeLabel: (subType: string) => string,
+): SkillGroup[] {
+    const buckets = groupBySubType(skills, (skill) => skill.subType);
+    const toRow = (skill: SkillLike): SkillRow => ({
+        id: skill.id,
+        uuid: skill.uuid,
+        name: skill.name,
+        sb: skill.sb,
+        ml: skill.ml,
+        index: skill.index,
+        eml: skill.eml,
+        fate: skill.fate,
+        disabled: skill.disabled,
+        canImprove: skill.canImprove,
+        improveFlag: skill.improveFlag,
+    });
+
+    const seen = new Set<string>();
+    const groups: SkillGroup[] = [];
+    for (const subType of order) {
+        const bucket = buckets[subType];
+        seen.add(subType);
+        groups.push({
+            subType,
+            label: subTypeLabel(subType),
+            skills: (bucket ?? []).map(toRow),
+        });
+    }
+    for (const [subType, bucket] of Object.entries(buckets)) {
+        if (seen.has(subType) || !bucket.length) continue;
+        groups.push({
+            subType,
+            label: subTypeLabel(subType),
+            skills: bucket.map(toRow),
+        });
+    }
+    return groups;
+}
+
+/* -------------------------------------------- */
 /*  Gear container hierarchy                     */
 /* -------------------------------------------- */
 
