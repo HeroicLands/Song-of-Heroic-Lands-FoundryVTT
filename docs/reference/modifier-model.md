@@ -142,7 +142,7 @@ All test methods accept a `priorTestResult` in `context.scope`. When provided, t
 
 `CombatModifier` extends `MasteryLevelModifier` with no additional properties or methods. Its purpose is **type discrimination**: combat-specific modifiers (attack rolls, defense rolls, combat technique tests) can be identified and filtered separately from general mastery level modifiers.
 
-Created by `CombatTechniqueLogic` for each strike mode's attack and defense modifiers:
+Created by the combat-technique `SkillLogic` for each strike mode's attack and defense modifiers:
 
 ```typescript
 this.defense = {

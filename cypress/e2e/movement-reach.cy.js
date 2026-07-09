@@ -27,11 +27,16 @@
  * inline combat technique / weapon.
  */
 
-/** A combat technique carrying a single melee strike mode of the given length. */
+/**
+ * A combat technique carrying a single melee strike mode of the given length.
+ * Combat techniques are a `combattechnique`-subtype skill; the strike mode lives
+ * under `system.strikeMode`.
+ */
 function meleeTechnique(lengthBase, name = "Test Technique") {
     return {
         name,
         system: {
+            subType: "combattechnique",
             strikeMode: {
                 type: "melee",
                 name,
@@ -275,42 +280,38 @@ describe("movement + reach read paths", () => {
 
     it("reach equals a combat technique's melee mode length", () => {
         cy.importActor().then((actor) => {
-            cy.createItemOn(actor, "combattechnique", meleeTechnique(5)).then(
-                () => {
-                    cy.prepare(actor);
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        return a.logic.reach;
-                    }).should("eq", 5);
-                },
-            );
+            cy.createItemOn(actor, "skill", meleeTechnique(5)).then(() => {
+                cy.prepare(actor);
+                cy.foundry((win) => {
+                    const a = win.game.actors.get(actor.id);
+                    return a.logic.reach;
+                }).should("eq", 5);
+            });
         });
     });
 
     it("holding a longer weapon extends reach beyond the unarmed technique", () => {
         cy.importActor().then((actor) => {
-            cy.createItemOn(actor, "combattechnique", meleeTechnique(5)).then(
-                () => {
-                    cy.createItemOn(actor, "weapongear", meleeWeapon(8)).then(
-                        (weapon) => {
-                            // Not held yet: only the technique's reach counts.
-                            cy.prepare(actor);
-                            cy.foundry((win) => {
-                                const a = win.game.actors.get(actor.id);
-                                return a.logic.reach;
-                            }).should("eq", 5);
+            cy.createItemOn(actor, "skill", meleeTechnique(5)).then(() => {
+                cy.createItemOn(actor, "weapongear", meleeWeapon(8)).then(
+                    (weapon) => {
+                        // Not held yet: only the technique's reach counts.
+                        cy.prepare(actor);
+                        cy.foundry((win) => {
+                            const a = win.game.actors.get(actor.id);
+                            return a.logic.reach;
+                        }).should("eq", 5);
 
-                            // Held: the longer weapon mode becomes available.
-                            cy.runAction(weapon, "holdItem");
-                            cy.prepare(actor);
-                            cy.foundry((win) => {
-                                const a = win.game.actors.get(actor.id);
-                                return a.logic.reach;
-                            }).should("eq", 8);
-                        },
-                    );
-                },
-            );
+                        // Held: the longer weapon mode becomes available.
+                        cy.runAction(weapon, "holdItem");
+                        cy.prepare(actor);
+                        cy.foundry((win) => {
+                            const a = win.game.actors.get(actor.id);
+                            return a.logic.reach;
+                        }).should("eq", 8);
+                    },
+                );
+            });
         });
     });
 });

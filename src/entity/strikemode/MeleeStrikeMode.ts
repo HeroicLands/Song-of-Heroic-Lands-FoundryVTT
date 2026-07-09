@@ -27,7 +27,7 @@ export class MeleeStrikeMode extends StrikeModeBase {
     /**
      * Effective melee engagement range (feet). Seeded from the weapon's
      * `lengthBase`; the wielder's lineage reach is added on top during the
-     * owning logic's evaluate phase (see `WeaponGearLogic`/`CombatTechniqueLogic`).
+     * owning logic's evaluate phase (see `WeaponGearLogic`/`SkillLogic`).
      */
     reach: ValueModifier;
     /** Defense modifiers for block and counterstrike. */
@@ -104,7 +104,7 @@ export class MeleeStrikeMode extends StrikeModeBase {
 
     /**
      * SchemaField definition for melee strike modes — used as one branch
-     * of the TypedSchemaField on `CombatTechniqueDataModel.strikeMode`.
+     * of the TypedSchemaField on the combat-technique `SkillDataModel.strikeMode`.
      * @returns The data schema describing a melee strike mode.
      */
     static schemaFields(): foundry.data.fields.DataSchema {

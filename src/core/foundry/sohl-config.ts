@@ -72,7 +72,6 @@ import { AfflictionLogic } from "@src/document/item/logic/AfflictionLogic";
 import { ArmorGearLogic } from "@src/document/item/logic/ArmorGearLogic";
 import { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
 import { LineageLogic } from "@src/document/item/logic/LineageLogic";
-import { CombatTechniqueLogic } from "@src/document/item/logic/CombatTechniqueLogic";
 import { ConcoctionGearLogic } from "@src/document/item/logic/ConcoctionGearLogic";
 import { ContainerGearLogic } from "@src/document/item/logic/ContainerGearLogic";
 import { TraumaLogic } from "@src/document/item/logic/TraumaLogic";
@@ -97,8 +96,6 @@ import { AttributeDataModel } from "@src/document/item/foundry/AttributeDataMode
 import { AttributeSheet } from "@src/document/item/foundry/AttributeSheet";
 import { LineageDataModel } from "@src/document/item/foundry/LineageDataModel";
 import { LineageSheet } from "@src/document/item/foundry/LineageSheet";
-import { CombatTechniqueDataModel } from "@src/document/item/foundry/CombatTechniqueDataModel";
-import { CombatTechniqueSheet } from "@src/document/item/foundry/CombatTechniqueSheet";
 import { ConcoctionGearDataModel } from "@src/document/item/foundry/ConcoctionGearDataModel";
 import { ConcoctionGearSheet } from "@src/document/item/foundry/ConcoctionGearSheet";
 import { ContainerGearDataModel } from "@src/document/item/foundry/ContainerGearDataModel";
@@ -260,7 +257,6 @@ export const ITEM_DM_DEF: ItemDMMap = {
     [ITEM_KIND.AFFLICTION]: AfflictionDataModel,
     [ITEM_KIND.ARMORGEAR]: ArmorGearDataModel,
     [ITEM_KIND.ATTRIBUTE]: AttributeDataModel,
-    [ITEM_KIND.COMBATTECHNIQUE]: CombatTechniqueDataModel,
     [ITEM_KIND.LINEAGE]: LineageDataModel,
     [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearDataModel,
     [ITEM_KIND.CONTAINERGEAR]: ContainerGearDataModel,
@@ -312,8 +308,6 @@ export const ITEM_LOGIC_DEF = {
     [ITEM_KIND.ARMORGEAR]: ArmorGearLogic,
     /** Logic class for attribute items (strength, agility, etc.). */
     [ITEM_KIND.ATTRIBUTE]: AttributeLogic,
-    /** Logic class for combat technique items (fighting styles). */
-    [ITEM_KIND.COMBATTECHNIQUE]: CombatTechniqueLogic,
     /** Logic class for concoction gear items (potions, poisons). */
     [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearLogic,
     /** Logic class for container gear items (bags, chests). */
@@ -361,8 +355,6 @@ export interface ItemLogicByKind {
     armorgear: ArmorGearLogic;
     /** Logic instance for attribute items (strength, agility, etc.). */
     attribute: AttributeLogic;
-    /** Logic instance for combat technique items (fighting styles). */
-    combattechnique: CombatTechniqueLogic;
     /** Logic instance for concoction gear items (potions, poisons). */
     concoctiongear: ConcoctionGearLogic;
     /** Logic instance for container gear items (bags, chests). */
@@ -406,8 +398,6 @@ export interface ItemLogicArrayByKind {
     armorgear: ArmorGearLogic[];
     /** All attribute logic instances on this actor. */
     attribute: AttributeLogic[];
-    /** All combat technique logic instances on this actor. */
-    combattechnique: CombatTechniqueLogic[];
     /** All concoction gear logic instances on this actor. */
     concoctiongear: ConcoctionGearLogic[];
     /** All container gear logic instances on this actor. */
@@ -460,7 +450,6 @@ export const {
     [ITEM_KIND.AFFLICTION]: AfflictionSheet,
     [ITEM_KIND.ARMORGEAR]: ArmorGearSheet,
     [ITEM_KIND.ATTRIBUTE]: AttributeSheet,
-    [ITEM_KIND.COMBATTECHNIQUE]: CombatTechniqueSheet,
     [ITEM_KIND.LINEAGE]: LineageSheet,
     [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearSheet,
     [ITEM_KIND.CONTAINERGEAR]: ContainerGearSheet,

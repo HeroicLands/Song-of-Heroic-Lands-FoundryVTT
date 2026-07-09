@@ -119,7 +119,7 @@ export function hasMeleeAttackStrikeMode(
     for (const logic of lt[ITEM_KIND.WEAPONGEAR]) {
         for (const sm of logic.strikeModes ?? []) if (usable(sm)) return true;
     }
-    for (const logic of lt[ITEM_KIND.COMBATTECHNIQUE]) {
+    for (const logic of lt[ITEM_KIND.SKILL]) {
         if (usable(logic.strikeMode)) return true;
     }
     return false;

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
-import { CombatTechniqueLogic } from "@src/document/item/logic/CombatTechniqueLogic";
+import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
@@ -56,8 +56,9 @@ function makeMeleeMode(
 }
 
 /**
- * Embed a real CombatTechniqueLogic on the actor and return its item doc
- * (BeingLogic reads strike modes through `actor.itemTypes`).
+ * Embed a real `combattechnique`-subtype SkillLogic on the actor and return its
+ * item doc (BeingLogic reads technique strike modes through `actor.itemTypes`,
+ * off each skill's `strikeMode`). Combat techniques now live as skills.
  */
 function makeTechniqueItem(
     actor: any,
@@ -65,9 +66,18 @@ function makeTechniqueItem(
     opts: Record<string, unknown> = {},
 ): any {
     const logic = makeItemLogic(
-        CombatTechniqueLogic,
-        ITEM_KIND.COMBATTECHNIQUE,
-        { group: "Pugilism", strikeMode: meleeModeData(strikeModeOverrides) },
+        SkillLogic,
+        ITEM_KIND.SKILL,
+        {
+            subType: "combattechnique",
+            skillBaseFormula: "",
+            masteryLevelBase: 0,
+            improveFlag: false,
+            combatCategory: "none",
+            parentSkillCode: "",
+            initSkillMult: 1,
+            strikeMode: meleeModeData(strikeModeOverrides),
+        },
         { actor, ...opts },
     );
     logic.initialize();
@@ -212,7 +222,7 @@ describe("BeingLogic", () => {
             const logic = makeBeing();
             const actor: any = logic.actor;
             const ct = makeTechniqueItem(actor, { lengthBase: 4 });
-            actor.itemTypes = { [ITEM_KIND.COMBATTECHNIQUE]: [ct] };
+            actor.itemTypes = { [ITEM_KIND.SKILL]: [ct] };
             expect(logic.reach).toBe(4);
         });
 
@@ -229,7 +239,7 @@ describe("BeingLogic", () => {
                 [ITEM_KIND.LINEAGE]: [
                     { logic: { bodyStructure: { limbsHolding } } },
                 ],
-                [ITEM_KIND.COMBATTECHNIQUE]: [ct],
+                [ITEM_KIND.SKILL]: [ct],
                 [ITEM_KIND.WEAPONGEAR]: [
                     { id: "wpn1", logic: { strikeModes: [weaponMode] } },
                 ],
@@ -250,7 +260,7 @@ describe("BeingLogic", () => {
                 [ITEM_KIND.LINEAGE]: [
                     { logic: { bodyStructure: { limbsHolding: () => 1 } } },
                 ],
-                [ITEM_KIND.COMBATTECHNIQUE]: [ct],
+                [ITEM_KIND.SKILL]: [ct],
                 [ITEM_KIND.WEAPONGEAR]: [
                     { id: "wpn1", logic: { strikeModes: [weaponMode] } },
                 ],
@@ -275,7 +285,7 @@ describe("BeingLogic", () => {
             // Held in one limb → the minParts:1 mode is available.
             actor.itemTypes = {
                 [ITEM_KIND.LINEAGE]: [{ logic: { bodyStructure: {} } }],
-                [ITEM_KIND.COMBATTECHNIQUE]: [ct],
+                [ITEM_KIND.SKILL]: [ct],
                 [ITEM_KIND.WEAPONGEAR]: [
                     {
                         id: "wpn1",
@@ -565,7 +575,7 @@ describe("BeingLogic", () => {
             const sm = makeMeleeWithReach(logic, 6);
             const ct = makeTechniqueItem(logic.actor as any);
             (logic.actor as any).itemTypes = {
-                [ITEM_KIND.COMBATTECHNIQUE]: [ct],
+                [ITEM_KIND.SKILL]: [ct],
                 [ITEM_KIND.WEAPONGEAR]: [
                     {
                         id: "wpn1",

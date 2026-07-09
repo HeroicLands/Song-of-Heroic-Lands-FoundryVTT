@@ -83,7 +83,6 @@ function makeDefender(
                 logicTypes: {
                     [ITEM_KIND.WEAPONGEAR]:
                         hasMelee ? [{ strikeModes: [meleeMode] }] : [],
-                    [ITEM_KIND.COMBATTECHNIQUE]: [],
                     [ITEM_KIND.SKILL]:
                         hasDodge ?
                             [{ data: { shortcode: SKILL_CODE.DODGE } }]
