@@ -84,8 +84,9 @@ export async function sohlCreateDialog(
     cls: any,
     data: PlainObject = {},
     createOptions: PlainObject = {},
-    { types }: { types?: string[]; [k: string]: any } = {},
+    options: { types?: string[]; [k: string]: any } = {},
 ): Promise<any> {
+    const { types } = options;
     const documentName: string = cls.documentName;
     const baseType = (foundry as any).CONST?.BASE_DOCUMENT_TYPE ?? "base";
 
@@ -293,12 +294,9 @@ export class SohlItem extends Item {
         this: any,
         data: PlainObject = {},
         createOptions: PlainObject = {},
-        { types, ...options }: { types?: string[]; [k: string]: any } = {},
+        options: { types?: string[]; [k: string]: any } = {},
     ): Promise<any> {
-        return sohlCreateDialog(this as any, data, createOptions, {
-            types,
-            ...options,
-        });
+        return sohlCreateDialog(this as any, data, createOptions, options);
     }
 
     /**
