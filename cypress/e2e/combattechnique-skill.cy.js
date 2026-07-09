@@ -112,4 +112,55 @@ describe("combattechnique skill", () => {
             });
         });
     });
+
+    it("shows the strike-mode editor on the skill sheet only for the technique subtype (#324)", () => {
+        cy.createActor("being", { name: "Sheet Being" }).then((actor) => {
+            const editorSel = 'input[name="system.strikeMode.name"]';
+            // combattechnique → editor present, reflecting the seeded strike mode
+            cy.createItemOn(actor, "skill", {
+                name: "Judo",
+                system: { subType: "combattechnique", masteryLevelBase: 30 },
+            }).then((ct) => {
+                cy.foundry((win) =>
+                    Cypress.Promise.resolve(
+                        win.fromUuidSync(ct.uuid).sheet.render(true),
+                    ).then(() => null),
+                );
+                cy.wait(400);
+                cy.foundry((win) => {
+                    const el = win.fromUuidSync(ct.uuid).sheet.element;
+                    return {
+                        hasEditor: !!el.querySelector(editorSel),
+                        name: el.querySelector(editorSel)?.value,
+                        type: el.querySelector(
+                            'input[name="system.strikeMode.type"]',
+                        )?.value,
+                    };
+                }).should((r) => {
+                    expect(r.hasEditor).to.be.true;
+                    expect(r.name).to.equal("Judo");
+                    expect(r.type).to.equal("melee");
+                });
+            });
+            // social → no editor
+            cy.createItemOn(actor, "skill", {
+                name: "Oratory",
+                system: { subType: "social", masteryLevelBase: 30 },
+            }).then((soc) => {
+                cy.foundry((win) =>
+                    Cypress.Promise.resolve(
+                        win.fromUuidSync(soc.uuid).sheet.render(true),
+                    ).then(() => null),
+                );
+                cy.wait(400);
+                cy.foundry((win) => ({
+                    hasEditor: !!win
+                        .fromUuidSync(soc.uuid)
+                        .sheet.element.querySelector(editorSel),
+                })).should((r) => {
+                    expect(r.hasEditor).to.be.false;
+                });
+            });
+        });
+    });
 });
