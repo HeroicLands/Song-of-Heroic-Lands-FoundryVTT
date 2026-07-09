@@ -65,6 +65,39 @@ export function groupBySubType<T>(
 }
 
 /* -------------------------------------------- */
+/*  Attribute descriptor                         */
+/* -------------------------------------------- */
+
+/** A value-description band: a label applying up to (and including) `maxValue`. */
+export interface ValueDescBand {
+    /** Descriptive name for this score band. */
+    label: string;
+    /** Highest score (inclusive) covered by this band. */
+    maxValue: number;
+}
+
+/**
+ * Resolve the descriptor label for an attribute score against its
+ * value-description bands. Bands are considered in ascending `maxValue` order;
+ * the descriptor is the label of the first band whose `maxValue` is at least
+ * the score. When the score exceeds every band, the highest band's label is
+ * used; when there are no bands, the descriptor is the empty string.
+ *
+ * @param score - The effective attribute score.
+ * @param bands - The attribute's `valueDesc` bands (any order).
+ * @returns The matching descriptor label, or `""` when no bands are defined.
+ */
+export function attributeDescriptor(
+    score: number,
+    bands: readonly ValueDescBand[],
+): string {
+    if (bands.length === 0) return "";
+    const sorted = [...bands].sort((a, b) => a.maxValue - b.maxValue);
+    const match = sorted.find((band) => band.maxValue >= score);
+    return (match ?? sorted[sorted.length - 1]).label;
+}
+
+/* -------------------------------------------- */
 /*  Gear container hierarchy                     */
 /* -------------------------------------------- */
 
