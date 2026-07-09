@@ -1163,6 +1163,7 @@
     "SOHL.Skill.FIELDS.weaponGroup.hint": "Combat category this skill applies to, if any",
     "SOHL.Skill.FIELDS.weaponGroup.label": "Weapon Group",
     "SOHL.Skill.SubType.COMBAT": "Combat",
+    "SOHL.Skill.SubType.COMBATTECHNIQUE": "Combat Technique",
     "SOHL.Skill.SubType.CRAFT": "Craft",
     "SOHL.Skill.SubType.LANGUAGE": "Language",
     "SOHL.Skill.SubType.LORE": "Lore",
