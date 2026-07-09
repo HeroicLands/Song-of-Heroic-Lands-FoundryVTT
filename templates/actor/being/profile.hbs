@@ -27,12 +27,22 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <section class="tab profile{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="profile">
     {{!-- Attributes --}}
     <fieldset>
-        <legend>Attributes</legend>
-        <div class="grid grid-4col">
+        <legend>
+            Attributes
+            <a class="item-create" data-action="createItem" data-tooltip="Add Attribute" data-type="attribute">
+                <i class="sohl-file-create"></i>
+            </a>
+        </legend>
+        <div class="grid grid-4col attribute-scores">
             {{#each attributes as |attr|}}
-            <div class="attribute item" data-item-id="{{attr.id}}">
-                <span class="attr-name">{{attr.name}}</span>
-                <span class="attr-value">{{attr.system.masteryLevelBase}}</span>
+            <div class="attribute-score item" data-item-id="{{attr.id}}" data-uuid="{{attr.uuid}}" data-item-name="{{attr.name}}">
+                <div class="attribute-score__header flexrow">
+                    <h4 class="attribute-score__name">{{attr.name}}</h4>
+                    <a class="item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                </div>
+                <div class="attribute-score__value">{{attr.score}}</div>
+                <div class="attribute-score__descriptor">{{attr.descriptor}}</div>
+                <div class="attribute-score__tl">TL: {{attr.tl}}</div>
             </div>
             {{/each}}
         </div>
