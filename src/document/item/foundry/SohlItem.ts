@@ -11,7 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { buildActionScope } from "@src/utils/helpers";
+import {
+    buildActionScope,
+    subTypeOptionsFromChoices,
+    type SubTypeOption,
+} from "@src/utils/helpers";
+import { toFilePath } from "@src/utils/helpers";
+import { dialog } from "@src/core/FoundryHelpers";
 import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
@@ -19,6 +25,229 @@ import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SohlTriggerContext } from "@src/entity/event/event-trigger";
 import { isScriptActionMutationAllowed } from "@src/entity/action/SohlAction";
+
+/**
+ * Path to the shared create-document dialog template used by
+ * {@link SohlItem.createDialog} (and the actor counterpart).
+ */
+const CREATE_ITEM_TEMPLATE = toFilePath(
+    "systems/sohl/templates/dialog/create-item.hbs",
+);
+
+/**
+ * Read the localized subtype options for a document `type` from its registered
+ * DataModel. The type's DataModel `subType` field (when present) carries a
+ * `{ value: localizationKey }` `choices` map; this resolves that map through the
+ * pure {@link subTypeOptionsFromChoices} and localizes each label. Types without
+ * a `subType` field yield an empty array — the signal that no subtype is asked.
+ *
+ * Foundry-boundary: reads `CONFIG.<documentName>.dataModels[type].schema` and
+ * `sohl.i18n`; the mapping itself is delegated to the pure helper.
+ * @param documentName - The document class name (e.g. `"Item"`, `"Actor"`).
+ * @param type - The document subtype whose DataModel to inspect.
+ * @returns The localized subtype options (empty when the type has no subtypes).
+ */
+export function subTypeOptionsForType(
+    documentName: string,
+    type: string,
+): SubTypeOption[] {
+    const model = (CONFIG as any)?.[documentName]?.dataModels?.[type];
+    const field = model?.schema?.fields?.subType;
+    const choices = field?.choices as
+        | Record<string, string>
+        | undefined
+        | null;
+    if (!choices || typeof choices !== "object") return [];
+    return subTypeOptionsFromChoices(choices, (key) =>
+        sohl.i18n.localize(key),
+    );
+}
+
+/**
+ * Shared `createDialog` implementation for {@link SohlItem} and `SohlActor`.
+ *
+ * Computes the allowed types (excluding the base document type, honoring an
+ * optional `types` restriction), decides whether to ask for the type and the
+ * subtype (a valid pre-seeded value locks/hides its field), renders the shared
+ * create dialog through the {@link dialog} boundary — wiring progressive
+ * subtypes via the render hook — and on confirm creates the document and opens
+ * its sheet.
+ *
+ * @param cls - The concrete document class (`SohlItem` / `SohlActor`).
+ * @param data - Creation data; `type` / `system.subType` pre-seed and lock.
+ * @param createOptions - Document creation options forwarded to `create`.
+ * @param options - Dialog options.
+ * @param options.types - A restriction of the creatable document types.
+ * @returns The created document, or `null` if the dialog was dismissed.
+ */
+export async function sohlCreateDialog(
+    cls: any,
+    data: PlainObject = {},
+    createOptions: PlainObject = {},
+    { types }: { types?: string[]; [k: string]: any } = {},
+): Promise<any> {
+    const documentName: string = cls.documentName;
+    const baseType = (foundry as any).CONST?.BASE_DOCUMENT_TYPE ?? "base";
+
+    // Allowed types: every registered type except the base, filtered by `types`.
+    const allTypes: string[] = (cls.TYPES as string[]) ?? [];
+    if (types && types.length === 0) {
+        throw new Error(
+            "The array of sub-types to restrict to must not be empty",
+        );
+    }
+    const typeLabels = (CONFIG as any)?.[documentName]?.typeLabels ?? {};
+    const documentTypes = allTypes
+        .filter((t) => t !== baseType && (!types || types.includes(t)))
+        .map((value) => ({
+            value,
+            label: sohl.i18n.localize(typeLabels[value] ?? value),
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label));
+
+    if (!documentTypes.length) {
+        throw new Error("No document types were permitted to be created");
+    }
+
+    // A valid pre-seeded type means we do not ask for (and lock) the type.
+    const preType = data.type as string | undefined;
+    const typeIsValid =
+        !!preType && documentTypes.some((t) => t.value === preType);
+    const askType = !typeIsValid;
+    let type = typeIsValid ? preType! : documentTypes[0].value;
+
+    const subTypeOptions = subTypeOptionsForType(documentName, type);
+    const preSubType = (data.system as PlainObject | undefined)?.subType as
+        | string
+        | undefined;
+    const subTypeIsValid =
+        !!preSubType && subTypeOptions.some((s) => s.value === preSubType);
+    // Only lock the subtype if the type is also locked (a locked type keeps the
+    // pre-seeded subtype meaningful); asking the type re-derives subtypes.
+    const askSubType = askType || !subTypeIsValid;
+    let subType =
+        subTypeIsValid ? preSubType!
+        : subTypeOptions.length ? subTypeOptions[0].value
+        : "";
+
+    const label = sohl.i18n.localize(cls.metadata?.label ?? documentName);
+    const title = sohl.i18n.format("DOCUMENT.Create", { type: label });
+
+    const result = await dialog({
+        title,
+        template: CREATE_ITEM_TEMPLATE,
+        data: {
+            name: (data.name as string) ?? "",
+            defaultName: cls.defaultName?.({ type }) ?? "",
+            type,
+            types: Object.fromEntries(
+                documentTypes.map((t) => [t.value, t.label]),
+            ),
+            askType,
+            subtype: subType,
+            subtypes: Object.fromEntries(
+                subTypeOptions.map((s) => [s.value, s.label]),
+            ),
+            hasSubtypes: subTypeOptions.length > 0,
+            askSubType,
+            hasFolders: false,
+            folders: {},
+        },
+        buttons: [
+            {
+                action: "create",
+                label: title,
+                icon: "fa-solid fa-check",
+                default: true,
+            },
+        ],
+        render: (element: HTMLElement) => {
+            const typeSelect = element.querySelector<HTMLSelectElement>(
+                'select[name="type"]',
+            );
+            if (!typeSelect) return;
+            typeSelect.addEventListener("change", (ev) => {
+                const chosen = (ev.target as HTMLSelectElement).value;
+                repopulateSubtypes(element, documentName, chosen);
+            });
+            // Ensure the subtype control matches the currently-selected type on
+            // first render too (covers the pre-seeded-and-locked case).
+            repopulateSubtypes(element, documentName, typeSelect.value);
+        },
+        callback: (formData: PlainObject) => {
+            const chosenType =
+                askType ? ((formData.type as string) || type) : type;
+            const options = subTypeOptionsForType(documentName, chosenType);
+            let chosenSubType =
+                askSubType ?
+                    ((formData.subtype as string) ?? "")
+                :   subType;
+            if (!options.some((s) => s.value === chosenSubType)) {
+                chosenSubType = options[0]?.value ?? "";
+            }
+            const name = ((formData.name as string) ?? "").trim();
+            const folder = (formData.folder as string) || undefined;
+            return {
+                name,
+                type: chosenType,
+                subType: chosenSubType,
+                folder,
+            };
+        },
+    });
+
+    if (!result) return null;
+
+    type = result.type;
+    subType = result.subType;
+    const createData: PlainObject = {
+        name: result.name || (cls.defaultName?.({ type }) ?? "New Item"),
+        type,
+    };
+    if (subType) createData.system = { subType };
+    if (result.folder) createData.folder = result.folder;
+
+    const created = await cls.create(createData, {
+        parent: (createOptions as PlainObject).parent ?? null,
+        ...createOptions,
+    });
+    (created as any)?.sheet?.render(true);
+    return created ?? null;
+}
+
+/**
+ * Rebuild the create-dialog's `#subtype-select` options from `type`'s DataModel
+ * subtype choices and toggle the subtype form-group's visibility. Called on
+ * initial render and on every type change.
+ * @param element - The dialog root element.
+ * @param documentName - The document class name (`"Item"` / `"Actor"`).
+ * @param type - The currently-selected document type.
+ */
+function repopulateSubtypes(
+    element: HTMLElement,
+    documentName: string,
+    type: string,
+): void {
+    const group = element.querySelector<HTMLElement>("#subtypes");
+    const select = element.querySelector<HTMLSelectElement>("#subtype-select");
+    if (!group || !select) return;
+    const options = subTypeOptionsForType(documentName, type);
+    if (!options.length) {
+        group.style.display = "none";
+        select.innerHTML = "";
+        return;
+    }
+    group.style.display = "";
+    const previous = select.value;
+    select.innerHTML = "";
+    for (const opt of options) {
+        const el = document.createElement("option");
+        el.value = opt.value;
+        el.textContent = opt.label;
+        select.appendChild(el);
+    }
+    if (options.some((o) => o.value === previous)) select.value = previous;
+}
 
 // NOTE: The Foundry-free contracts (SohlItemLogic, SohlItemData, SohlItemBaseLogic)
 // now live in src/document/item/logic/SohlItemBaseLogic.ts and are re-exported here.
@@ -41,6 +270,35 @@ export class SohlItem extends Item {
      */
     get logic(): SohlItemLogic<any> {
         return (this.system as any).logic as SohlItemLogic<any>;
+    }
+
+    /**
+     * Present a dialog to create a new Item, adapted from Foundry's
+     * `Item.createDialog` for the SoHL progressive type → subtype flow.
+     *
+     * The clicked control's `data-type` / `data-sub-type` pre-seed `data.type`
+     * and `data.system.subType`; a pre-seeded, valid value locks (hides) that
+     * field so the dialog only asks for what is not already known. The subtype
+     * list is repopulated from the chosen type's DataModel `subType` choices
+     * whenever the type changes (wired via the `dialog` render hook). On
+     * confirm the item is created and its sheet opened.
+     *
+     * @param data - Document creation data; `type` and `system.subType` pre-seed.
+     * @param createOptions - Document creation options (`parent`, `pack`, …).
+     * @param options - Dialog options; `types` restricts the selectable subtypes.
+     * @param options.types - A restriction of the creatable document types.
+     * @returns The created item, or `null` if the dialog was dismissed.
+     */
+    static override async createDialog(
+        this: any,
+        data: PlainObject = {},
+        createOptions: PlainObject = {},
+        { types, ...options }: { types?: string[]; [k: string]: any } = {},
+    ): Promise<any> {
+        return sohlCreateDialog(this as any, data, createOptions, {
+            types,
+            ...options,
+        });
     }
 
     /**

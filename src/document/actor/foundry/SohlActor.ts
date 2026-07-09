@@ -15,6 +15,7 @@ import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEf
 import { isScriptActionMutationAllowed } from "@src/entity/action/SohlAction";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import { sohlCreateDialog } from "@src/document/item/foundry/SohlItem";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlLogic } from "@src/core/logic/SohlLogic";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
@@ -296,32 +297,34 @@ export class SohlActor extends Actor {
         return name;
     }
 
-    // /**
-    //  * Present a Dialog form to create a new Actor.
-    //  * Choose a name and a type from a select menu of types.
-    //  * @param data                Document creation data
-    //  * @param createOptions  Document creation options.
-    //  * @param options        Options forwarded to DialogV2.prompt
-    //  * @param options.folders Available folders in which the new Document can be place
-    //  * @param options.types   A restriction of the selectable sub-types of the Dialog.
-    //  * @param options.template  A template to use for the dialog contents instead of the default.
-    //  * @param options.context   Additional render context to provide to the template.
-    //  * @returns A Promise which resolves to the created Document, or null if the dialog was closed.
-    //  */
-    // static async createDialog(
-    //     data: PlainObject,
-    //     createOptions: PlainObject = {},
-    //     options: {
-    //         folders?: { id: string; name: string }[];
-    //         types?: string[];
-    //         template?: string;
-    //         context?: PlainObject;
-    //         [key: string]: any;
-    //     } = {},
-    // ): Promise<SohlActor | null> {
-    //     const { folders, types, template, context, ...dialogOptions } = options;
-    //     // Function body here
-    // }
+    /**
+     * Present a dialog to create a new Actor, mirroring
+     * {@link SohlItem.createDialog}'s progressive type → subtype flow.
+     *
+     * World actors have no parent, so the created document always has
+     * `parent: null`. Actor types currently declare no `subType` field, so the
+     * subtype control stays hidden — but the flow is shared with the item path,
+     * so any future actor subtype is picked up automatically.
+     *
+     * @param data - Document creation data; `type` pre-seeds and locks.
+     * @param createOptions - Document creation options.
+     * @param options - Dialog options; `types` restricts the creatable types.
+     * @param options.types - A restriction of the creatable document types.
+     * @returns The created actor, or `null` if the dialog was dismissed.
+     */
+    static override async createDialog(
+        this: any,
+        data: PlainObject = {},
+        createOptions: PlainObject = {},
+        { types, ...options }: { types?: string[]; [k: string]: any } = {},
+    ): Promise<any> {
+        return sohlCreateDialog(
+            this as any,
+            data,
+            { ...createOptions, parent: null },
+            { types, ...options },
+        );
+    }
 
     /**
      * Pre-creation hook: de-duplicate the name and seed cloned-actor data.

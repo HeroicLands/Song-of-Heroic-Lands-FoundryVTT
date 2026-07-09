@@ -28,6 +28,7 @@ import {
     setUuidResolver,
     sortStrings,
     getStatic,
+    subTypeOptionsFromChoices,
 } from "@src/utils/helpers";
 import { fvttResolveUuid } from "@src/core/FoundryHelpers";
 
@@ -807,6 +808,34 @@ describe("buildActionScope — rejects legacy code payloads", () => {
 
     it("returns an empty object when no scope is present", () => {
         expect(buildActionScope({} as DOMStringMap, undefined)).toEqual({});
+    });
+});
+
+describe("subTypeOptionsFromChoices", () => {
+    it("maps a { value: localizationKey } choices map to localized options", () => {
+        const choices = { social: "SOHL.Skill.SubType.social" };
+        const localize = (key: string) => `L(${key})`;
+        expect(subTypeOptionsFromChoices(choices, localize)).toEqual([
+            { value: "social", label: "L(SOHL.Skill.SubType.social)" },
+        ]);
+    });
+
+    it("preserves the choice map insertion order", () => {
+        const choices = { c: "kc", a: "ka", b: "kb" };
+        expect(
+            subTypeOptionsFromChoices(choices).map((o) => o.value),
+        ).toEqual(["c", "a", "b"]);
+    });
+
+    it("defaults the localizer to identity on the label key", () => {
+        expect(subTypeOptionsFromChoices({ x: "key.x" })).toEqual([
+            { value: "x", label: "key.x" },
+        ]);
+    });
+
+    it("returns an empty array when there are no choices (no subtypes)", () => {
+        expect(subTypeOptionsFromChoices(undefined)).toEqual([]);
+        expect(subTypeOptionsFromChoices({})).toEqual([]);
     });
 });
 

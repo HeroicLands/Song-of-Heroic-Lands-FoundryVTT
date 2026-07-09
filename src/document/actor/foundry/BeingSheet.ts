@@ -21,7 +21,7 @@ import {
     movementMediumLabels,
     TRAIT_INTENSITY,
 } from "@src/utils/constants";
-import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import {
@@ -265,8 +265,31 @@ export class BeingSheet extends SohlActorSheetBase {
             rollSkillTest: BeingSheet._onRollSkillTest,
             addInjury: BeingSheet._onAddInjury,
             toggleStatus: BeingSheet._onToggleStatus,
+            createItem: BeingSheet._onCreateItem,
         },
     };
+
+    /**
+     * Handle clicks on an item-create control (class `item-create`,
+     * `data-action="createItem"`). Reads the control's `data-type` and
+     * `data-sub-type` (or `data-subtype`) to pre-seed the create dialog, then
+     * opens {@link SohlItem.createDialog} parented to this being.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, carrying `data-type` / `data-sub-type`.
+     */
+    protected static async _onCreateItem(
+        this: BeingSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const type = target.dataset.type;
+        const subType = target.dataset.subType ?? target.dataset.subtype;
+        const data: PlainObject = {};
+        if (type) data.type = type;
+        if (subType) data.system = { subType };
+        await SohlItem.createDialog(data, { parent: this.document });
+    }
 
     /**
      * Toggle a status effect from the header status pills. Creates the active
