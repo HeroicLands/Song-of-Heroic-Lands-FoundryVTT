@@ -42,8 +42,16 @@
  *
  * Configuration (all optional, resolved from the environment / `.env.local`):
  *   - image:      `FOUNDRYVTT_CONTAINER_IMAGE` (default `felddy/foundryvtt:14`)
+ *   - version:    `FOUNDRYVTT_<STAGE>_VERSION` pins the exact Foundry build
+ *                 (e.g. `FOUNDRYVTT_TEST_VERSION=14.364`,
+ *                 `FOUNDRYVTT_LEG_VERSION=12.331`) — passed to felddy as
+ *                 `FOUNDRY_VERSION` and used to pick the matching major image tag
+ *                 when `FOUNDRYVTT_CONTAINER_IMAGE` is not set.
  *   - host port:  `FOUNDRYVTT_<STAGE>_PORT` (defaults dev 30000, qa 30001,
- *                 prod 30002 — distinct so stages can run at the same time)
+ *                 prod 30002, test 30003, leg 30000 — distinct except leg/dev)
+ *   - world:      `FOUNDRYVTT_<STAGE>_WORLD` selects the auto-launched world
+ *                 (overrides a global `FOUNDRY_WORLD`); the `leg` stage always
+ *                 leaves the world null (managed by hand).
  *   - cache dir:  `FOUNDRYVTT_CACHE` (host dir with a pre-downloaded zip)
  *   - license:    `FOUNDRYVTT_<STAGE>_LICENSE_KEY` dedicates a license to a
  *                 stage (overrides a global `FOUNDRY_LICENSE_KEY`) — so e.g.
@@ -65,7 +73,8 @@
  *   npm run container:dev stop
  *   npm run container:dev recreate         // apply changed FOUNDRY_ / CONTAINER_ env
  *   npm run container:dev <start|stop|restart|recreate|rm|status|logs|pull>
- *   node utils/foundry-container.mjs <dev|qa|prod> <command>
+ *   npm run container:leg start            // legacy (old system, pinned Foundry, no world)
+ *   node utils/foundry-container.mjs <dev|qa|prod|test|leg> <command>
  */
 
 import path from "path";
@@ -88,15 +97,85 @@ const STAGE_ENV_MAP = {
     qa: "FOUNDRYVTT_QA_DATA",
     prod: "FOUNDRYVTT_PROD_DATA",
     test: "FOUNDRYVTT_TEST_DATA",
+    // The `leg` (legacy) stage runs the previous, pre-TypeScript system on an
+    // older Foundry (e.g. 12.331) from its own data root. It never auto-launches
+    // a world (the world is managed by hand — see stageWorldArgs).
+    leg: "FOUNDRYVTT_LEG_DATA",
 };
 
-/** Default host port per stage, chosen so stages can run concurrently. */
-const DEFAULT_PORT = { dev: 30000, qa: 30001, prod: 30002, test: 30003 };
+/**
+ * Default host port per stage, chosen so stages can run concurrently. `leg`
+ * defaults to 30000 (matching the usual legacy setup); it shares dev's default,
+ * so run one of dev/leg at a time or set `FOUNDRYVTT_LEG_PORT`.
+ */
+const DEFAULT_PORT = {
+    dev: 30000,
+    qa: 30001,
+    prod: 30002,
+    test: 30003,
+    leg: 30000,
+};
 
 const DEFAULT_IMAGE = "felddy/foundryvtt:14";
 
 /** The port Foundry listens on inside the container. */
 const CONTAINER_PORT = 30000;
+
+/**
+ * The exact Foundry version pinned for a stage, from
+ * `FOUNDRYVTT_<STAGE>_VERSION` (e.g. `FOUNDRYVTT_TEST_VERSION=14.364`,
+ * `FOUNDRYVTT_LEG_VERSION=12.331`). Returns `null` when unset.
+ * @param {string} stage
+ * @returns {string|null}
+ */
+function resolveVersion(stage) {
+    return (
+        process.env[`FOUNDRYVTT_${stage.toUpperCase()}_VERSION`]?.trim() || null
+    );
+}
+
+/**
+ * The image to run for a stage. An explicit `FOUNDRYVTT_CONTAINER_IMAGE` wins;
+ * otherwise, if a pinned version is set, use felddy's matching major tag
+ * (`14.364` → `felddy/foundryvtt:14`); else the default image.
+ * @param {string} stage
+ * @returns {string}
+ */
+function resolveImage(stage) {
+    const explicit = process.env.FOUNDRYVTT_CONTAINER_IMAGE?.trim();
+    if (explicit) return explicit;
+    const version = resolveVersion(stage);
+    if (version) return `felddy/foundryvtt:${version.split(".")[0]}`;
+    return DEFAULT_IMAGE;
+}
+
+/**
+ * Pass the pinned exact version to felddy as `FOUNDRY_VERSION` so it downloads
+ * that specific build (not just the latest of the major tag). Empty when unset.
+ * @param {string} stage
+ * @returns {string[]}
+ */
+function versionEnvArgs(stage) {
+    const version = resolveVersion(stage);
+    return version ? ["--env", `FOUNDRY_VERSION=${version}`] : [];
+}
+
+/**
+ * Per-stage world selection, overriding any global `FOUNDRY_WORLD` passthrough.
+ * `FOUNDRYVTT_<STAGE>_WORLD` sets an explicit world; the `leg` stage always
+ * forces an empty `FOUNDRY_WORLD` (never auto-launch — the legacy world is
+ * managed by hand). Placed after the env passthrough so it takes precedence.
+ * @param {string} stage
+ * @returns {string[]}
+ */
+function stageWorldArgs(stage) {
+    const perStage = process.env[`FOUNDRYVTT_${stage.toUpperCase()}_WORLD`];
+    if (perStage !== undefined) {
+        return ["--env", `FOUNDRY_WORLD=${perStage.trim()}`];
+    }
+    if (stage === "leg") return ["--env", "FOUNDRY_WORLD="];
+    return [];
+}
 
 /**
  * Container mount point for a host-provided download cache. When
@@ -288,7 +367,7 @@ function start(stage, name, dataRoot) {
         process.env[`FOUNDRYVTT_${stage.toUpperCase()}_PORT`] ??
             DEFAULT_PORT[stage],
     );
-    const image = process.env.FOUNDRYVTT_CONTAINER_IMAGE || DEFAULT_IMAGE;
+    const image = resolveImage(stage);
     const url = `http://localhost:${port}`;
 
     if (containerExists(name)) {
@@ -316,6 +395,8 @@ function start(stage, name, dataRoot) {
         `${dataRoot}:/data`,
         ...cacheArgs(),
         ...passthroughEnvArgs(),
+        ...versionEnvArgs(stage),
+        ...stageWorldArgs(stage),
         ...stageLicenseArgs(stage),
         image,
     ]);
@@ -352,7 +433,7 @@ function main() {
             `Invalid stage '${process.argv[2] ?? ""}'. Valid stages: ${Object.keys(STAGE_ENV_MAP).join(", ")}.`,
         );
         console.error(
-            "Usage: node utils/foundry-container.mjs <dev|qa|prod|test> <start|stop|restart|recreate|rm|status|logs|pull>",
+            "Usage: node utils/foundry-container.mjs <dev|qa|prod|test|leg> <start|stop|restart|recreate|rm|status|logs|pull>",
         );
         process.exit(1);
     }
@@ -402,8 +483,7 @@ function main() {
             break;
         }
         case "pull": {
-            const image =
-                process.env.FOUNDRYVTT_CONTAINER_IMAGE || DEFAULT_IMAGE;
+            const image = resolveImage(stage);
             const result = docker(["pull", image]);
             process.exit(result.status ?? 0);
             break;
