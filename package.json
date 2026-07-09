@@ -57,6 +57,7 @@
         "container:qa": "node utils/foundry-container.mjs qa",
         "container:prod": "node utils/foundry-container.mjs prod",
         "container:test": "node utils/foundry-container.mjs test",
+        "container:leg": "node utils/foundry-container.mjs leg",
         "deploy:local": "npm run deploy:qa",
         "deploy:qa": "run-s build push:qa",
         "deploy:dev": "run-s build push:dev",
