@@ -45,7 +45,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <h3 class="list__name">Strike Mode</h3>
                     <div class="list__detail" data-tooltip="Heft">HFT</div>
                     <div class="list__detail" data-tooltip="Reach">RCH</div>
-                    <div class="list__detail" data-tooltip="Spread">Spr</div>
+                    <div class="list__detail" data-tooltip="{{#if @root.useZoneDie}}Zone Dice{{else}}Spread{{/if}}">{{@root.spreadLabel}}</div>
                     <div class="list__detail" data-tooltip="Impact">Impact</div>
                     <div class="list__detail" data-tooltip="Attack ML">Atk</div>
                     <div class="list__detail" data-tooltip="Block ML">Blk</div>
@@ -58,7 +58,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     <div class="list__detail">{{sm.length.effective}}</div>
                     <div class="list__detail">{{sm.reach.effective}}</div>
-                    <div class="list__detail">{{sm.spread.effective}}</div>
+                    <div class="list__detail">{{#if @root.useZoneDie}}d{{/if}}{{sm.spread.effective}}</div>
                     {{#unless sm.impact.disabled}}
                     <div class="list__detail rollable" data-action="rollStrikeModeImpact" data-tooltip="Roll impact">
                         {{sm.impact.label}}
