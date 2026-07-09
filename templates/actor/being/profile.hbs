@@ -83,15 +83,31 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{/each}}
 
     {{!-- Affiliations --}}
-    {{#if affiliations.length}}
     <fieldset>
-        <legend>Affiliations</legend>
-        <ol class="list__items">
+        <legend>
+            {{localize "TYPES.Item.affiliationPl"}}
+            <a class="item-create" data-action="createItem" data-tooltip="Add Affiliation" data-type="affiliation">
+                <i class="sohl-file-create"></i>
+            </a>
+        </legend>
+        <ol class="list__items affiliations">
+            <li class="list__header flexrow">
+                <div class="list__name">{{localize "TYPES.Item.affiliation"}}</div>
+                <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.level.label"}}</div>
+                <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.society.label"}}</div>
+                <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.office.label"}}</div>
+                <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.title.label"}}</div>
+                <div class="list__detail">{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
+                <div class="list__controls"></div>
+            </li>
             {{#each affiliations as |aff|}}
-            <li class="item flexrow" data-item-id="{{aff.id}}">
-                <div class="list__name"><h4>{{aff.name}}</h4></div>
-                <div class="list__detail">{{aff.system.society}}</div>
-                <div class="list__detail">{{aff.system.title}}</div>
+            <li class="item flexrow" data-search-name="{{aff.name}}" data-item-id="{{aff.id}}" data-uuid="{{aff.uuid}}" data-item-name="{{aff.name}}">
+                <div class="list__name flexrow"><h4>{{aff.name}}</h4></div>
+                <div class="list__detail">{{aff.level}}</div>
+                <div class="list__detail">{{aff.society}}</div>
+                <div class="list__detail">{{aff.office}}</div>
+                <div class="list__detail">{{aff.title}}</div>
+                <div class="list__detail">{{aff.notes}}</div>
                 <div class="list__controls">
                     <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
@@ -99,7 +115,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{/each}}
         </ol>
     </fieldset>
-    {{/if}}
 
     {{!-- Movement --}}
     {{#if movement.length}}
