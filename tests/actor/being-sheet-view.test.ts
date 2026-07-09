@@ -14,6 +14,7 @@
 import { describe, it, expect } from "vitest";
 import {
     groupBySubType,
+    attributeDescriptor,
     buildContainerTree,
     buildStatusPills,
     buildBodyPartLozenges,
@@ -69,6 +70,42 @@ describe("being-sheet-view", () => {
 
         it("returns an empty object for empty input", () => {
             expect(groupBySubType([] as Item[], sub)).toEqual({});
+        });
+    });
+
+    describe("attributeDescriptor", () => {
+        const bands = [
+            { label: "Poor", maxValue: 8 },
+            { label: "Average", maxValue: 12 },
+            { label: "Good", maxValue: 16 },
+        ];
+
+        it("returns '' when there are no bands", () => {
+            expect(attributeDescriptor(14, [])).toBe("");
+        });
+
+        it("picks the first band whose maxValue >= score", () => {
+            expect(attributeDescriptor(14, bands)).toBe("Good");
+            expect(attributeDescriptor(10, bands)).toBe("Average");
+            expect(attributeDescriptor(5, bands)).toBe("Poor");
+        });
+
+        it("matches on the band's inclusive maxValue", () => {
+            expect(attributeDescriptor(8, bands)).toBe("Poor");
+            expect(attributeDescriptor(12, bands)).toBe("Average");
+        });
+
+        it("falls back to the highest band when the score exceeds all bands", () => {
+            expect(attributeDescriptor(99, bands)).toBe("Good");
+        });
+
+        it("sorts bands by maxValue regardless of input order", () => {
+            const unordered = [
+                { label: "Good", maxValue: 16 },
+                { label: "Poor", maxValue: 8 },
+                { label: "Average", maxValue: 12 },
+            ];
+            expect(attributeDescriptor(10, unordered)).toBe("Average");
         });
     });
 

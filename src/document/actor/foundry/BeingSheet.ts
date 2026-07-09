@@ -24,8 +24,10 @@ import {
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
+import type { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
 import {
     groupBySubType,
+    attributeDescriptor,
     buildContainerTree,
     buildStatusPills,
     buildBodyPartLozenges,
@@ -653,10 +655,30 @@ export class BeingSheet extends SohlActorSheetBase {
     ): Promise<RenderContext> {
         const actor = this.document;
 
-        const attributes: SohlItem[] = [];
-        for (const attr of attributes) {
-            attributes.push(attr);
-        }
+        // Attribute score boxes. Sort stably by the Foundry `sort` field,
+        // falling back to name. Read each attribute's `logic` (permitted here —
+        // the sheet is a Foundry-boundary class) for the effective score and
+        // mastery level, and compute the descriptor band from `valueDesc`.
+        const attributeItems = [
+            ...(actor.itemTypes[ITEM_KIND.ATTRIBUTE] ?? []),
+        ].sort(
+            (a, b) =>
+                ((a as any).sort ?? 0) - ((b as any).sort ?? 0) ||
+                a.name.localeCompare(b.name),
+        );
+        const attributes = attributeItems.map((attr) => {
+            const attrLogic = attr.logic as AttributeLogic | undefined;
+            const score = attrLogic?.score.effective ?? 0;
+            const bands = (attr.system as any).valueDesc ?? [];
+            return {
+                id: attr.id,
+                uuid: attr.uuid,
+                name: attr.name,
+                score,
+                descriptor: attributeDescriptor(score, bands),
+                tl: attrLogic?.masteryLevel.effective ?? 0,
+            };
+        });
 
         const traits = actor.itemTypes[ITEM_KIND.TRAIT] ?? [];
         const traitGroups = groupBySubType(
