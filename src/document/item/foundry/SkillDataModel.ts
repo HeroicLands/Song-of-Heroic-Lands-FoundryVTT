@@ -23,13 +23,22 @@ import {
     SkillSubType,
     SKILL_SUBTYPE,
     ITEM_KIND,
+    STRIKE_MODE_TYPE,
     SkillSubTypeChoices,
     SkillCombatCategoryChoices,
     BodyRoleChoices,
 } from "@src/utils/constants";
 import { SohlItemDataModel } from "./SohlItemDataModel";
-const { ArrayField, NumberField, StringField, BooleanField } =
-    foundry.data.fields;
+import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
+import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
+const {
+    ArrayField,
+    NumberField,
+    StringField,
+    BooleanField,
+    SchemaField,
+    TypedSchemaField,
+} = foundry.data.fields;
 
 /**
  * Builds the Skill data schema, extending the base item schema with skill
@@ -73,6 +82,24 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
             new StringField({ blank: false, choices: BodyRoleChoices }),
             { initial: [] },
         ),
+        /**
+         * Optional embedded strike mode, populated only for the
+         * `combattechnique` subtype (a trained fighting maneuver — grapple,
+         * unarmed strike, etc. — whose Atk/Blk/CX derive from this skill's own
+         * mastery level). Null for every other skill subtype. A discriminated
+         * melee/missile union.
+         */
+        strikeMode: new TypedSchemaField(
+            {
+                [STRIKE_MODE_TYPE.MELEE]: new SchemaField(
+                    MeleeStrikeMode.schemaFields(),
+                ),
+                [STRIKE_MODE_TYPE.MISSILE]: new SchemaField(
+                    MissileStrikeMode.schemaFields(),
+                ),
+            },
+            { required: false, nullable: true, initial: null },
+        ),
     };
 }
 
@@ -102,6 +129,7 @@ export class SkillDataModel<
     parentSkillCode!: string;
     initSkillMult!: number;
     impairedByRoles!: string[];
+    strikeMode!: MeleeStrikeMode.Data | MissileStrikeMode.Data | null;
 
     /**
      * Returns the Skill data schema.
@@ -110,5 +138,42 @@ export class SkillDataModel<
      */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineSkillSchema();
+    }
+
+    /**
+     * Seed a default melee strike mode when a new `combattechnique` skill is
+     * created without one, so the item is immediately valid and usable (a
+     * combat technique's Atk/Blk/CX derive from this skill's own mastery level;
+     * the strike mode is refined afterward on the skill sheet). Every other
+     * skill subtype keeps a null strike mode.
+     *
+     * @param data - The creation source data.
+     * @param options - The creation options.
+     * @param user - The requesting user.
+     * @returns `false` to veto creation, otherwise void.
+     */
+    protected override async _preCreate(
+        data: PlainObject,
+        options: PlainObject,
+        user: User,
+    ): Promise<boolean | void> {
+        const allowed = await super._preCreate(
+            data as any,
+            options as any,
+            user as any,
+        );
+        if (allowed === false) return false;
+        if (
+            this.subType === SKILL_SUBTYPE.COMBATTECHNIQUE &&
+            !this.strikeMode
+        ) {
+            this.updateSource({
+                strikeMode: {
+                    type: STRIKE_MODE_TYPE.MELEE,
+                    name: this.parent?.name || "Strike",
+                },
+            } as any);
+        }
+        return undefined;
     }
 }

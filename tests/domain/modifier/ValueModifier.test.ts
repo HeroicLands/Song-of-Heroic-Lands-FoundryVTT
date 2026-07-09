@@ -269,6 +269,71 @@ describe("ValueModifier", () => {
         });
     });
 
+    describe("addVM()", () => {
+        it("copies the source's labeled deltas onto this modifier", () => {
+            const src = createVM();
+            pushDelta(src, "SKA", VALUE_DELTA_OPERATOR.ADD, 30);
+            pushDelta(src, "INJ", VALUE_DELTA_OPERATOR.ADD, -5);
+            const dst = createVM();
+            dst.addVM(src);
+            expect(dst.effective).toBe(25);
+            expect(dst.has("SKA")).toBe(true);
+            expect(dst.has("INJ")).toBe(true);
+        });
+
+        it("preserves each copied delta's name/shortcode/operator/value", () => {
+            const src = createVM();
+            pushDelta(src, "SKA", VALUE_DELTA_OPERATOR.MULTIPLY, 2);
+            const dst = createVM();
+            dst.addVM(src);
+            const copied = dst.get("SKA")!;
+            expect(copied.op).toBe(VALUE_DELTA_OPERATOR.MULTIPLY);
+            expect(copied.numValue).toBe(2);
+            expect(copied.name).toBe("SOHL.INFO.test");
+        });
+
+        it("layers the target's own deltas on top of the copied ones", () => {
+            const src = createVM();
+            pushDelta(src, "SKA", VALUE_DELTA_OPERATOR.ADD, 30);
+            const dst = createVM();
+            pushDelta(dst, "ATK", VALUE_DELTA_OPERATOR.ADD, 5);
+            dst.addVM(src);
+            expect(dst.effective).toBe(35);
+            expect(dst.has("ATK")).toBe(true);
+            expect(dst.has("SKA")).toBe(true);
+        });
+
+        it("replaces the base only when includeBase is set", () => {
+            const src = createVM({ baseValue: 40 });
+            pushDelta(src, "SKA", VALUE_DELTA_OPERATOR.ADD, 2);
+
+            const withoutBase = createVM({ baseValue: 10 });
+            withoutBase.addVM(src);
+            expect(withoutBase.base).toBe(10);
+            expect(withoutBase.effective).toBe(12); // own base 10 + copied +2
+
+            const withBase = createVM({ baseValue: 10 });
+            withBase.addVM(src, { includeBase: true });
+            expect(withBase.base).toBe(40); // replaced, not added
+            expect(withBase.effective).toBe(42); // adopted base 40 + copied +2
+        });
+
+        it("propagates a source OVERRIDE delta", () => {
+            const src = createVM();
+            pushDelta(src, "OVR", VALUE_DELTA_OPERATOR.OVERRIDE, 7);
+            const dst = createVM();
+            pushDelta(dst, "ATK", VALUE_DELTA_OPERATOR.ADD, 99);
+            dst.addVM(src);
+            expect(dst.effective).toBe(7);
+        });
+
+        it("returns this for chaining", () => {
+            const src = createVM();
+            const dst = createVM();
+            expect(dst.addVM(src)).toBe(dst);
+        });
+    });
+
     describe("empty", () => {
         it("returns true when no deltas", () => {
             const vm = createVM();

@@ -45,7 +45,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <h3 class="list__name">Strike Mode</h3>
                     <div class="list__detail" data-tooltip="Heft">HFT</div>
                     <div class="list__detail" data-tooltip="Reach">RCH</div>
-                    <div class="list__detail" data-tooltip="Spread">Spr</div>
+                    <div class="list__detail" data-tooltip="{{#if @root.useZoneDie}}Zone Dice{{else}}Spread{{/if}}">{{@root.spreadLabel}}</div>
                     <div class="list__detail" data-tooltip="Impact">Impact</div>
                     <div class="list__detail" data-tooltip="Attack ML">Atk</div>
                     <div class="list__detail" data-tooltip="Block ML">Blk</div>
@@ -58,7 +58,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     <div class="list__detail">{{sm.length.effective}}</div>
                     <div class="list__detail">{{sm.reach.effective}}</div>
-                    <div class="list__detail">{{sm.spread.effective}}</div>
+                    <div class="list__detail">{{#if @root.useZoneDie}}d{{/if}}{{sm.spread.effective}}</div>
                     {{#unless sm.impact.disabled}}
                     <div class="list__detail rollable" data-action="rollStrikeModeImpact" data-tooltip="Roll impact">
                         {{sm.impact.label}}
@@ -139,75 +139,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     {{else}}
                     <div class="list__detail"><i class="sohl-xmark"></i></div>
                     {{/unless}}
-                    <div class="list__controls">
-                        <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
-                    </div>
-                </li>
-                {{/each}}
-            </ol>
-        </div>
-        {{/each}}
-    </fieldset>
-    {{/if}}
-
-    {{!-- Combat Techniques --}}
-    {{#if combatTechniques.length}}
-    <fieldset>
-        <legend>Combat Techniques</legend>
-        {{#each combatTechniques as |entry|}}
-        <div class="list">
-            <header class="list__header flexrow">
-                <h3 class="list__name name">{{entry.item.name}}</h3>
-                <div class="list__controls">
-                    <a class="list__control item-contextmenu" title="Menu" data-item-id="{{entry.item.id}}"><i class="sohl-ellipsis-vertical"></i></a>
-                </div>
-            </header>
-            <ol class="list__items">
-                <li class="list__header flexrow">
-                    <h3 class="list__name">Strike Mode</h3>
-                    <div class="list__detail" data-tooltip="Spread">Spr</div>
-                    <div class="list__detail" data-tooltip="Impact">Impact</div>
-                    <div class="list__detail" data-tooltip="Attack ML">Atk</div>
-                    <div class="list__detail" data-tooltip="Block ML">Blk</div>
-                    <div class="list__detail" data-tooltip="Counterstrike ML">CX</div>
-                </li>
-                {{#each entry.strikeModes as |sm|}}
-                <li class="item flexrow" data-sm-id="{{sm.id}}" data-item-id="{{entry.item.id}}">
-                    <div class="list__name default-action flexrow">
-                        <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
-                    </div>
-                    <div class="list__detail">
-                        {{#if sm.isMelee}}{{sm.spread.effective}}{{/if}}
-                    </div>
-                    {{#unless sm.impact.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeImpact" data-tooltip="Roll impact">
-                        {{sm.impact.label}}
-                    </div>
-                    {{else}}
-                    <div class="list__detail">
-                        <i class="sohl-xmark"></i>
-                    </div>
-                    {{/unless}}
-                    {{#unless sm.attack.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
-                    {{else}}
-                    <div class="list__detail"><i class="sohl-xmark"></i></div>
-                    {{/unless}}
-                    {{#if sm.isMelee}}
-                        {{#unless sm.defense.block.disabled}}
-                        <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="block" data-tooltip="Roll block (shift-click to skip dialog)">{{sm.defense.block.effective}}</div>
-                        {{else}}
-                        <div class="list__detail"><i class="sohl-xmark"></i></div>
-                        {{/unless}}
-                        {{#unless sm.defense.counterstrike.disabled}}
-                        <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike" data-tooltip="Roll counterstrike (shift-click to skip dialog)">{{sm.defense.counterstrike.effective}}</div>
-                        {{else}}
-                        <div class="list__detail"><i class="sohl-xmark"></i></div>
-                        {{/unless}}
-                    {{else}}
-                        <div class="list__detail"></div>
-                        <div class="list__detail"></div>
-                    {{/if}}
                     <div class="list__controls">
                         <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                     </div>

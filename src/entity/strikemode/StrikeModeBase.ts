@@ -36,7 +36,7 @@ import {
     fvttLogicFromUuidSync,
 } from "@src/core/FoundryHelpers";
 import { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
-import { CombatTechniqueLogic } from "@src/document/item/logic/CombatTechniqueLogic";
+import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { AutomatedCombat } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { SohlActionContext } from "../action/SohlActionContext";
 import { SohlEntity } from "../SohlEntity";
@@ -173,7 +173,7 @@ export abstract class StrikeModeBase extends SohlEntity {
 
     /**
      * A pointer to this strike mode within its parent logic (weapon or
-     * combattechnique).
+     * combat-technique skill).
      * @returns A serializable object referring to this strike mode
      */
     get pointerData(): StrikeModeBase.PointerData {
@@ -200,11 +200,13 @@ export abstract class StrikeModeBase extends SohlEntity {
                 return (itemLogic as WeaponGearLogic).strikeModes.find(
                     (sm) => sm.id === data.smId,
                 );
-            case "combattechnique":
-                return (itemLogic as CombatTechniqueLogic).strikeMode;
+            case "skill":
+                return (itemLogic as SkillLogic).strikeModes.find(
+                    (sm) => sm.id === data.smId,
+                );
             default:
                 console.warn(
-                    `Expected WeaponGear or CombatTechnique; instead got kind ${itemLogic.kind} with UUID ${data.itemUuid}.`,
+                    `Expected WeaponGear or combat-technique Skill; instead got kind ${itemLogic.kind} with UUID ${data.itemUuid}.`,
                 );
                 return undefined;
         }

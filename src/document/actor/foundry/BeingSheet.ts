@@ -13,7 +13,7 @@
 
 import { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBase";
-import { fvttCallHook } from "@src/core/FoundryHelpers";
+import { fvttCallHook, fvttGetSetting } from "@src/core/FoundryHelpers";
 import {
     ITEM_KIND,
     MOVEMENT_MEDIUM,
@@ -22,15 +22,19 @@ import {
     TraitSubTypes,
     TraitSubTypeChoices,
     TraitIntensityChoices,
+    SKILL_SUBTYPE,
+    SkillSubTypeChoices,
 } from "@src/utils/constants";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import type { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
+import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import {
     groupBySubType,
     attributeDescriptor,
     buildTraitGroups,
+    buildSkillGroups,
     buildAffiliationRows,
     buildContainerTree,
     buildStatusPills,
@@ -271,6 +275,7 @@ export class BeingSheet extends SohlActorSheetBase {
             rollSkillTest: BeingSheet._onRollSkillTest,
             addInjury: BeingSheet._onAddInjury,
             toggleStatus: BeingSheet._onToggleStatus,
+            toggleImproveFlag: BeingSheet._onToggleImproveFlag,
             createItem: BeingSheet._onCreateItem,
         },
     };
@@ -317,6 +322,31 @@ export class BeingSheet extends SohlActorSheetBase {
         // the embedded ActiveEffect change does not reliably re-render the
         // header part on its own.
         void this.render();
+    }
+
+    /**
+     * Toggle a skill's Skill Development (improve) flag from the Skills tab
+     * star. Reads the row's `data-item-id`, resolves the embedded skill, and
+     * flips `system.improveFlag`; the resulting item update re-renders the
+     * sheet, so no manual re-render is needed.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked star, on or inside an element carrying
+     *   `data-item-id`.
+     */
+    protected static async _onToggleImproveFlag(
+        this: BeingSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const row = target.closest("[data-item-id]");
+        const itemId = row?.getAttribute("data-item-id");
+        if (!itemId) return;
+        const item = this.document.items.get(itemId);
+        if (!item) return;
+        await item.update({
+            "system.improveFlag": !(item.system as any).improveFlag,
+        } as PlainObject);
     }
 
     /**
@@ -782,11 +812,43 @@ export class BeingSheet extends SohlActorSheetBase {
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
+        // Skills grouped by subtype, in the display subtype order, with
+        // localized subtype legends. Reading each skill's `logic` here is fine —
+        // the sheet is a Foundry-boundary class (the Attributes section reads
+        // `attr.logic` the same way); the grouping stays in the pure helper.
         const skills = this.document.itemTypes[ITEM_KIND.SKILL] ?? [];
-        const skillGroups = groupBySubType(
-            skills,
-            (skill) => (skill.system as any).subType,
-            (a, b) => a.name.localeCompare(b.name),
+        const skillGroups = buildSkillGroups(
+            skills.map((skill) => {
+                const sys = skill.system as any;
+                const skillLogic = skill.logic as SkillLogic | undefined;
+                return {
+                    id: skill.id ?? "",
+                    uuid: skill.uuid,
+                    name: skill.name,
+                    subType: sys.subType,
+                    sb: skillLogic?.skillBase ?? 0,
+                    ml: skillLogic?.masteryLevel.base ?? 0,
+                    index: skillLogic?.masteryLevel.index ?? 0,
+                    eml: skillLogic?.masteryLevel.effective ?? 0,
+                    fate: skillLogic?.fateMasteryLevel.effective ?? 0,
+                    disabled: !!skillLogic?.masteryLevel.disabled,
+                    canImprove: !!skillLogic?.canImprove,
+                    improveFlag: !!sys.improveFlag,
+                };
+            }),
+            [
+                SKILL_SUBTYPE.SOCIAL,
+                SKILL_SUBTYPE.NATURE,
+                SKILL_SUBTYPE.CRAFT,
+                SKILL_SUBTYPE.LORE,
+                SKILL_SUBTYPE.LANGUAGE,
+                SKILL_SUBTYPE.SCRIPT,
+            ],
+            (subType) =>
+                game.i18n.localize(
+                    (SkillSubTypeChoices as Record<string, string>)[subType] ??
+                        subType,
+                ),
         );
 
         return Object.assign(context, { skillGroups });
@@ -819,24 +881,22 @@ export class BeingSheet extends SohlActorSheetBase {
             (weapon) => (weapon.logic as any)?.strikeModes ?? [],
         );
 
-        // Combat techniques with their strike mode domain objects
-        const combatTechniques = (
-            actor.itemTypes[ITEM_KIND.COMBATTECHNIQUE] ?? []
-        ).map((ct: SohlItem) => ({
-            item: ct,
-            strikeModes: (ct.logic as any)?.strikeModes ?? [],
-        }));
-
         // Body structure for anatomy display — sourced from the actor's Lineage item
         const lineageItem = (actor.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0];
         const lineageLogic = lineageItem?.logic as LineageLogic | undefined;
         const bodyStructure = lineageLogic?.bodyStructure;
 
+        // HMK compatibility: the "Use Zone Die" world setting presents a strike
+        // mode's spread as a Zone Die (`d{n}`, column "ZD") instead of a Spread
+        // radius (`{n}`, column "Spr"). Same underlying `spread.effective` value.
+        const useZoneDie = !!fvttGetSetting("sohl", "useZoneDie");
+
         return Object.assign(context, {
             meleeWeapons,
             missileWeapons,
-            combatTechniques,
             bodyStructure,
+            useZoneDie,
+            spreadLabel: useZoneDie ? "ZD" : "Spr",
             defaultCombatGroup: (actor.system as any).defaultCombatGroup ?? "",
             isGM: !!(game as any).user?.isGM,
         });

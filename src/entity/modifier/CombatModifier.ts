@@ -28,7 +28,7 @@ import { registerKind } from "@src/utils/kindRegistry";
  *
  * ## Usage
  *
- * Created by {@link CombatTechniqueLogic} during initialize for each
+ * Created by the combat-technique {@link SkillLogic} during initialize for each
  * strike mode's attack and defense (block/counterstrike) modifiers:
  *
  * ```typescript

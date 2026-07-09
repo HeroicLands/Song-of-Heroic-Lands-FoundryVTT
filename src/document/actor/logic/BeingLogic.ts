@@ -23,7 +23,7 @@ import {
 } from "@src/document/actor/logic/SohlActorBaseLogic";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import type { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
-import type { CombatTechniqueLogic } from "@src/document/item/logic/CombatTechniqueLogic";
+import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import type { ArmorGearLogic } from "@src/document/item/logic/ArmorGearLogic";
 import {
@@ -165,9 +165,10 @@ export class BeingLogic<
 
         const options: MeleeReachOption[] = [];
 
-        // Combat techniques: intrinsic, always available.
-        for (const ct of lt[ITEM_KIND.COMBATTECHNIQUE]) {
-            const sm = ct.strikeMode;
+        // Combat techniques (combattechnique-subtype skills): intrinsic, always
+        // available.
+        for (const skill of lt[ITEM_KIND.SKILL]) {
+            const sm = skill.strikeMode;
             if (sm instanceof MeleeStrikeMode) {
                 options.push({
                     reach: sm.reach.effective,
@@ -270,9 +271,9 @@ export class BeingLogic<
 
         let resultStrikeModes: StrikeModeBase[] = [];
 
-        // Add Combat Technique strike modes
-        for (const ct of this.logicTypes[ITEM_KIND.COMBATTECHNIQUE]) {
-            resultStrikeModes.push(ct.strikeMode);
+        // Add Combat Technique strike modes (combattechnique-subtype skills)
+        for (const skill of this.logicTypes[ITEM_KIND.SKILL]) {
+            if (skill.strikeMode) resultStrikeModes.push(skill.strikeMode);
         }
 
         // Add all appropriate weapon strike modes
@@ -970,10 +971,10 @@ export interface BeingData<
     TLogic extends SohlActorLogic<BeingData> = SohlActorLogic<any>,
 > extends SohlActorData<TLogic> {}
 
-/** A weapon (or combat technique) paired with its usable strike modes for a combat encounter. */
+/** A weapon (or combat-technique skill) paired with its usable strike modes for a combat encounter. */
 export interface BeingCombatMode {
     /** The available strike modes for this weapon entry. */
     strikeMode: StrikeModeBase[];
-    /** The weapon gear or combat technique that owns these strike modes. */
-    weapon: WeaponGearLogic | CombatTechniqueLogic;
+    /** The weapon gear or combat-technique skill that owns these strike modes. */
+    weapon: WeaponGearLogic | SkillLogic;
 }
