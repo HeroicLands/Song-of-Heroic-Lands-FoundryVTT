@@ -64,7 +64,7 @@ export class MissileStrikeMode extends StrikeModeBase {
 
     /**
      * SchemaField definition for missile strike modes — used as one branch
-     * of the TypedSchemaField on `CombatTechniqueDataModel.strikeMode`.
+     * of the TypedSchemaField on the combat-technique `SkillDataModel.strikeMode`.
      *
      * @returns The data schema describing a missile strike mode.
      */

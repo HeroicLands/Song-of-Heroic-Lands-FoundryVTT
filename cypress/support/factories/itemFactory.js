@@ -34,7 +34,6 @@ export const ITEM_KINDS = [
     "attribute",
     "affiliation",
     "affliction",
-    "combattechnique",
     "lineage",
     "mystery",
     "mysticalability",
@@ -62,11 +61,10 @@ const KIND_DEFAULTS = {
     trait: { isNumeric: false },
     // These kinds declare a `required` field with no `initial`, so a bare create
     // fails validation — a valid document must supply it. `subType` picks the
-    // first valid choice; `combattechnique` needs a typed strike mode.
+    // first valid choice.
     concoctiongear: { quantity: 1, subType: "mundane" },
     affliction: { subType: "privation" },
     mysticalability: { subType: "shamanicrite" },
-    combattechnique: { strikeMode: { type: "melee" } },
 };
 
 /**

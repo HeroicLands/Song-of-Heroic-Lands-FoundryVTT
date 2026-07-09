@@ -137,16 +137,20 @@ describe("collectBlockableStrikeModes", () => {
                     logic: { strikeModes: [{ id: "shoot", name: "Shoot" }] },
                 },
             ],
-            combattechnique: [
+            // Combat techniques now source from combattechnique-subtype skills.
+            skill: [
                 {
                     id: "ct",
                     name: "Brawling",
                     logic: {
-                        strikeMode: {
-                            id: "ct",
-                            name: "Punch",
-                            defense: { block: noBlk }, // noBlock → excluded
-                        },
+                        strikeModes: [
+                            {
+                                id: "ct",
+                                name: "Punch",
+                                isMelee: true,
+                                defense: { block: noBlk }, // noBlock → excluded
+                            },
+                        ],
                     },
                 },
             ],
@@ -182,7 +186,8 @@ describe("hasMeleeAttackStrikeMode", () => {
     it("true via a combat technique's melee mode", () => {
         const a = {
             itemTypes: {
-                combattechnique: [
+                // Combat techniques now source from combattechnique-subtype skills.
+                skill: [
                     {
                         id: "ct",
                         name: "Brawl",
