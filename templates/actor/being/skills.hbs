@@ -29,23 +29,38 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <input class="search-criteria" type="search" name="search-skills" value=""
             aria-label="Search Skills" placeholder="Search Skills" autocomplete="off" />
     </div>
-    {{#each skillGroups as |skills groupName|}}
+    {{#each skillGroups as |group|}}
     <fieldset>
-        <legend>{{@key}}</legend>
+        <legend>
+            {{group.label}}
+            <a class="item-create" data-action="createItem" data-tooltip="Add Skill" data-type="skill" data-sub-type="{{group.subType}}">
+                <i class="sohl-file-create"></i>
+            </a>
+        </legend>
         <ol class="list__items skills-list">
             <li class="list__header flexrow">
-                <h3 class="list__name">Skill</h3>
-                <div class="list__detail">SB</div>
-                <div class="list__detail">ML</div>
+                <div class="list__name">Name</div>
+                <div class="list__detail" data-tooltip="Skill Base">SB</div>
+                <div class="list__detail" data-tooltip="Mastery Level">ML</div>
+                <div class="list__detail" data-tooltip="Index">Index</div>
+                <div class="list__detail" data-tooltip="Effective Mastery Level">EML</div>
+                <div class="list__detail" data-tooltip="Fate Mastery Level">Fate</div>
+                <div class="list__controls"></div>
             </li>
-            {{#each skills as |skill|}}
-            <li class="item flexrow" data-search-name="{{skill.name}}" data-item-id="{{skill.id}}" data-item-name="{{skill.name}}">
-                <div class="list__name default-action flexrow">
+            {{#each group.skills as |skill|}}
+            <li class="item flexrow" data-search-name="{{skill.name}}" data-item-id="{{skill.id}}" data-uuid="{{skill.uuid}}" data-item-name="{{skill.name}}">
+                <div class="list__name flexrow">
                     <h4>{{skill.name}}</h4>
                 </div>
-                <div class="list__detail">{{skill.system.skillBaseFormula}}</div>
-                <div class="list__detail rollable" data-action="rollSkillTest" data-tooltip="Roll test (shift-click to skip dialog)">{{skill.system.masteryLevelBase}}</div>
+                <div class="list__detail">{{skill.sb}}</div>
+                <div class="list__detail rollable" data-action="rollSkillTest" data-tooltip="Roll test (shift-click to skip dialog)">{{skill.ml}}</div>
+                <div class="list__detail">{{#if skill.disabled}}<i class="sohl-xmark"></i>{{else}}{{skill.index}}{{/if}}</div>
+                <div class="list__detail">{{#if skill.disabled}}<i class="sohl-xmark"></i>{{else}}{{skill.eml}}{{/if}}</div>
+                <div class="list__detail">{{skill.fate}}</div>
                 <div class="list__controls">
+                    {{#if skill.canImprove}}
+                    <a class="list__control toggle-improve-flag" data-action="toggleImproveFlag" title="Improve"><i class="{{#if skill.improveFlag}}sohl-round-star-filled{{else}}sohl-round-star-unfilled{{/if}}"></i></a>
+                    {{/if}}
                     <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
             </li>
