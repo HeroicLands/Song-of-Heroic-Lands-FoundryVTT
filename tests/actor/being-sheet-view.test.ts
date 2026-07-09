@@ -16,6 +16,7 @@ import {
     groupBySubType,
     attributeDescriptor,
     buildTraitGroups,
+    buildSkillGroups,
     buildAffiliationRows,
     htmlToPlainText,
     buildContainerTree,
@@ -189,6 +190,80 @@ describe("being-sheet-view", () => {
                 "personality",
                 "mystery",
             ]);
+        });
+    });
+
+    describe("buildSkillGroups", () => {
+        const order = ["social", "nature"];
+        const subLabel = (s: string) => `sub:${s}`;
+        const skill = (over: Record<string, unknown> = {}) => ({
+            id: "s1",
+            uuid: "Item.s1",
+            name: "Climbing",
+            subType: "social",
+            sb: 5,
+            ml: 40,
+            index: 4,
+            eml: 42,
+            fate: 50,
+            disabled: false,
+            canImprove: true,
+            improveFlag: false,
+            ...over,
+        });
+
+        it("emits groups in the supplied subtype order with localized labels", () => {
+            const a = skill({ id: "a", subType: "nature" });
+            const b = skill({ id: "b", subType: "social" });
+            const groups = buildSkillGroups([a, b], order, subLabel);
+            expect(groups.map((g) => g.subType)).toEqual(["social", "nature"]);
+            expect(groups[0].label).toBe("sub:social");
+        });
+
+        it("always emits every ordered subtype, even when empty", () => {
+            const a = skill({ subType: "social" });
+            const groups = buildSkillGroups([a], order, subLabel);
+            expect(groups.map((g) => g.subType)).toEqual(["social", "nature"]);
+            const nature = groups.find((g) => g.subType === "nature");
+            expect(nature?.skills).toEqual([]);
+        });
+
+        it("appends unordered subtypes after the ordered ones", () => {
+            const a = skill({ subType: "social" });
+            const b = skill({ subType: "craft" });
+            const groups = buildSkillGroups([a, b], order, subLabel);
+            expect(groups.map((g) => g.subType)).toEqual([
+                "social",
+                "nature",
+                "craft",
+            ]);
+        });
+
+        it("maps every row field", () => {
+            const a = skill({
+                sb: 6,
+                ml: 55,
+                index: 5,
+                eml: 58,
+                fate: 60,
+                disabled: true,
+                canImprove: false,
+                improveFlag: true,
+            });
+            const [group] = buildSkillGroups([a], order, subLabel);
+            expect(group.skills[0]).toEqual({
+                id: "s1",
+                uuid: "Item.s1",
+                name: "Climbing",
+                sb: 6,
+                ml: 55,
+                index: 5,
+                eml: 58,
+                fate: 60,
+                disabled: true,
+                canImprove: false,
+                improveFlag: true,
+            });
         });
     });
 
