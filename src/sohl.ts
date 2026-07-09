@@ -121,6 +121,14 @@ function registerSystemSettings() {
         type: Boolean,
         default: false,
     });
+    game.settings.register("sohl", "useZoneDie", {
+        name: "SOHL.Settings.useZoneDie.label",
+        hint: "SOHL.Settings.useZoneDie.hint",
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: false,
+    });
     game.settings.register("sohl", "optionFate", {
         name: "SOHL.Settings.optionFate.label",
         hint: "SOHL.Settings.optionFate.hint",
