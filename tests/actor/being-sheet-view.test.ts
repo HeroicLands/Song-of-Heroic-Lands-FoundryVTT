@@ -16,6 +16,8 @@ import {
     groupBySubType,
     attributeDescriptor,
     buildTraitGroups,
+    buildAffiliationRows,
+    htmlToPlainText,
     buildContainerTree,
     buildStatusPills,
     buildBodyPartLozenges,
@@ -187,6 +189,66 @@ describe("being-sheet-view", () => {
                 "personality",
                 "mystery",
             ]);
+        });
+    });
+
+    describe("htmlToPlainText", () => {
+        it("strips tags and collapses whitespace", () => {
+            expect(
+                htmlToPlainText("<p>Knight  of\n the <b>Realm</b></p>"),
+            ).toBe("Knight of the Realm");
+        });
+
+        it("unescapes the common entities Foundry emits", () => {
+            expect(
+                htmlToPlainText("Curia &amp; Council &nbsp;&quot;x&quot;"),
+            ).toBe('Curia & Council "x"');
+        });
+
+        it("returns '' for empty/undefined input", () => {
+            expect(htmlToPlainText("")).toBe("");
+            expect(htmlToPlainText(undefined as unknown as string)).toBe("");
+        });
+    });
+
+    describe("buildAffiliationRows", () => {
+        const aff = (over: Record<string, unknown> = {}) => ({
+            id: "a1",
+            uuid: "Item.a1",
+            name: "Knights",
+            level: 3,
+            society: "Order",
+            office: "Marshal",
+            title: "Sir",
+            notes: "<p>brave</p>",
+            ...over,
+        });
+
+        it("maps each affiliation to a row in input order", () => {
+            const rows = buildAffiliationRows([
+                aff({ id: "a", name: "A" }),
+                aff({ id: "b", name: "B" }),
+            ]);
+            expect(rows.map((r) => r.name)).toEqual(["A", "B"]);
+            expect(rows[0]).toMatchObject({
+                id: "a",
+                uuid: "Item.a1",
+                level: 3,
+                society: "Order",
+                office: "Marshal",
+                title: "Sir",
+            });
+        });
+
+        it("reduces notes to a plain-text snippet", () => {
+            const [row] = buildAffiliationRows([
+                aff({ notes: "<p>Sworn  <em>oath</em></p>" }),
+            ]);
+            expect(row.notes).toBe("Sworn oath");
+        });
+
+        it("returns an empty array for no affiliations", () => {
+            expect(buildAffiliationRows([])).toEqual([]);
         });
     });
 

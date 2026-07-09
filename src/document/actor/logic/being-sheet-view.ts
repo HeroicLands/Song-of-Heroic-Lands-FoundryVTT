@@ -195,6 +195,87 @@ export function buildTraitGroups(
 }
 
 /* -------------------------------------------- */
+/*  Affiliations                                 */
+/* -------------------------------------------- */
+
+/** A single affiliation row as consumed by the profile template. */
+export interface AffiliationRow {
+    /** The affiliation item id. */
+    id: string;
+    /** The affiliation item uuid. */
+    uuid: string;
+    /** The affiliation's display name. */
+    name: string;
+    /** Standing/rank within the organization. */
+    level: number;
+    /** Subdivision or branch of the organization. */
+    society: string;
+    /** Specific position held within the organization. */
+    office: string;
+    /** Formal title granted by the organization. */
+    title: string;
+    /** Notes, reduced to a plain-text snippet for the table cell. */
+    notes: string;
+}
+
+/** The minimal shape an affiliation must expose to be rendered. */
+export interface AffiliationLike {
+    id: string;
+    uuid: string;
+    name: string;
+    level: number;
+    society: string;
+    office: string;
+    title: string;
+    notes: string;
+}
+
+/**
+ * Reduce an HTML string to a trimmed, single-line plain-text snippet: strip
+ * tags, unescape the handful of entities Foundry's editor emits, and collapse
+ * whitespace. Keeps the rich-text `notes` field legible in a narrow table cell.
+ *
+ * @param html - The (possibly HTML) notes string.
+ * @returns The plain-text snippet.
+ */
+export function htmlToPlainText(html: string): string {
+    return (html ?? "")
+        .replace(/<[^>]*>/g, " ")
+        .replace(/&nbsp;/g, " ")
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, '"')
+        .replace(/&#(?:39|x27);/g, "'")
+        .replace(/\s+/g, " ")
+        .trim();
+}
+
+/**
+ * Build the affiliation rows for the profile Affiliations section, in the
+ * supplied order. Each row carries the display fields plus a plain-text `notes`
+ * snippet (see {@link htmlToPlainText}) so rich-text notes render cleanly in the
+ * table. Pure — no Foundry dependency.
+ *
+ * @param affiliations - The affiliation items, in display order.
+ * @returns The affiliation rows.
+ */
+export function buildAffiliationRows(
+    affiliations: readonly AffiliationLike[],
+): AffiliationRow[] {
+    return affiliations.map((aff) => ({
+        id: aff.id,
+        uuid: aff.uuid,
+        name: aff.name,
+        level: aff.level,
+        society: aff.society,
+        office: aff.office,
+        title: aff.title,
+        notes: htmlToPlainText(aff.notes),
+    }));
+}
+
+/* -------------------------------------------- */
 /*  Gear container hierarchy                     */
 /* -------------------------------------------- */
 
