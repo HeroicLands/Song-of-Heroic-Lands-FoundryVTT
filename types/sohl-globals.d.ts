@@ -195,6 +195,7 @@ declare module "fvtt-types/configuration" {
         "sohl.recordTrauma": string;
         "sohl.healingSeconds": number;
         "sohl.optionProjectileTracking": boolean;
+        "sohl.useZoneDie": boolean;
         "sohl.optionFate": string;
         "sohl.optionGearDamage": boolean;
         "sohl.biomeSpeedFactors": number[];

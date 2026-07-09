@@ -13,7 +13,7 @@
 
 import { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBase";
-import { fvttCallHook } from "@src/core/FoundryHelpers";
+import { fvttCallHook, fvttGetSetting } from "@src/core/FoundryHelpers";
 import {
     ITEM_KIND,
     MOVEMENT_MEDIUM,
@@ -886,10 +886,17 @@ export class BeingSheet extends SohlActorSheetBase {
         const lineageLogic = lineageItem?.logic as LineageLogic | undefined;
         const bodyStructure = lineageLogic?.bodyStructure;
 
+        // HMK compatibility: the "Use Zone Die" world setting presents a strike
+        // mode's spread as a Zone Die (`d{n}`, column "ZD") instead of a Spread
+        // radius (`{n}`, column "Spr"). Same underlying `spread.effective` value.
+        const useZoneDie = !!fvttGetSetting("sohl", "useZoneDie");
+
         return Object.assign(context, {
             meleeWeapons,
             missileWeapons,
             bodyStructure,
+            useZoneDie,
+            spreadLabel: useZoneDie ? "ZD" : "Spr",
             defaultCombatGroup: (actor.system as any).defaultCombatGroup ?? "",
             isGM: !!(game as any).user?.isGM,
         });
