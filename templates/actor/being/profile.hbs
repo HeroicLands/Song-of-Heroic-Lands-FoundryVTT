@@ -49,18 +49,30 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </fieldset>
 
     {{!-- Traits --}}
-    {{#each traitGroups as |traits groupName|}}
+    {{#each traitGroups as |group|}}
     <fieldset>
-        <legend>{{@key}}</legend>
+        <legend>
+            {{group.label}}
+            <a class="item-create" data-action="createItem" data-tooltip="Add Trait" data-type="trait" data-sub-type="{{group.subType}}">
+                <i class="sohl-file-create"></i>
+            </a>
+        </legend>
         <ol class="list__items traits">
-            {{#each traits as |trait|}}
-            <li class="item flexrow" data-search-name="{{trait.name}}" data-item-id="{{trait.id}}" data-item-name="{{trait.name}}">
+            <li class="list__header flexrow">
+                <div class="list__name">Name</div>
+                <div class="list__detail">Intensity</div>
+                <div class="list__detail">Value</div>
+                <div class="list__detail">Notes</div>
+                <div class="list__controls"></div>
+            </li>
+            {{#each group.traits as |trait|}}
+            <li class="item flexrow" data-search-name="{{trait.name}}" data-item-id="{{trait.id}}" data-uuid="{{trait.uuid}}" data-item-name="{{trait.name}}">
                 <div class="list__name flexrow">
                     <h4>{{trait.name}}</h4>
                 </div>
-                <div class="list__detail">
-                    {{#if trait.system.isNumeric}}{{trait.system.masteryLevelBase}}{{else}}{{trait.system.textValue}}{{/if}}
-                </div>
+                <div class="list__detail">{{trait.intensity}}</div>
+                <div class="list__detail">{{trait.value}}</div>
+                <div class="list__detail">{{trait.notes}}</div>
                 <div class="list__controls">
                     <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>

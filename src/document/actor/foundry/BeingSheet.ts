@@ -19,7 +19,9 @@ import {
     MOVEMENT_MEDIUM,
     MovementMedium,
     movementMediumLabels,
-    TRAIT_INTENSITY,
+    TraitSubTypes,
+    TraitSubTypeChoices,
+    TraitIntensityChoices,
 } from "@src/utils/constants";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
@@ -28,6 +30,7 @@ import type { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
 import {
     groupBySubType,
     attributeDescriptor,
+    buildTraitGroups,
     buildContainerTree,
     buildStatusPills,
     buildBodyPartLozenges,
@@ -680,10 +683,38 @@ export class BeingSheet extends SohlActorSheetBase {
             };
         });
 
+        // Traits grouped by subtype, in the subtype definition order, with
+        // localized subtype legends and per-trait intensity labels. Reading
+        // `system` and `game.i18n` here is fine — the sheet is a
+        // Foundry-boundary class; the shaping stays in the pure helper.
         const traits = actor.itemTypes[ITEM_KIND.TRAIT] ?? [];
-        const traitGroups = groupBySubType(
-            traits,
-            (trait) => (trait.system as any).subType,
+        const traitGroups = buildTraitGroups(
+            traits.map((trait) => {
+                const sys = trait.system as any;
+                return {
+                    id: trait.id ?? "",
+                    uuid: trait.uuid,
+                    name: trait.name,
+                    subType: sys.subType,
+                    isNumeric: !!sys.isNumeric,
+                    masteryLevelBase: sys.masteryLevelBase ?? 0,
+                    textValue: sys.textValue ?? "",
+                    intensity: sys.intensity,
+                    notes: sys.notes ?? "",
+                };
+            }),
+            TraitSubTypes,
+            (subType) =>
+                game.i18n.localize(
+                    (TraitSubTypeChoices as Record<string, string>)[subType] ??
+                        subType,
+                ),
+            (intensity) =>
+                game.i18n.localize(
+                    (TraitIntensityChoices as Record<string, string>)[
+                        intensity
+                    ] ?? intensity,
+                ),
         );
 
         const affiliations = actor.itemTypes[ITEM_KIND.AFFILIATION] ?? [];
