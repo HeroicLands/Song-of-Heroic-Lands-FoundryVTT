@@ -61,17 +61,19 @@ describe("being sheet", () => {
 
     it("edits the actor name and persists it", () => {
         cy.importActor().then((actor) => {
-            cy.openSheet(actor);
-            // force: the input can be visually covered by header layout; we
-            // assert the edit persists (behavior), not that it is clickable (UI).
-            // The sheet now submits on change (SheetMixin form.submitOnChange).
-            cy.get(".sohl.being input[name='name']")
-                .clear({ force: true })
-                .type("Renamed Hero", { force: true })
-                .blur();
+            // The sheet submits on change (SheetMixin form.submitOnChange), so a
+            // native `change` (via editSheetField) is required — Cypress
+            // `.type().blur()` does not reliably trigger it. (#349)
+            cy.editSheetField(actor, "name", "Renamed Hero");
             cy.foundry((win) => win.game.actors.get(actor.id).name).should(
                 "eq",
                 "Renamed Hero",
+            );
+            // Renaming detaches the run tag, so cleanupWorld (tag-based) can no
+            // longer reclaim this actor — delete it by id to avoid leaking it
+            // into the persistent e2e world.
+            cy.foundry((win) =>
+                win.Actor.deleteDocuments([actor.id]).then(() => null),
             );
         });
     });

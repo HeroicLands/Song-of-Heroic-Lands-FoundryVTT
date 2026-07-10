@@ -65,6 +65,11 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
         docUrl: new URLField(),
         actionDefs: new ArrayField(
             new SchemaField({
+                // Unique code identifying this action on its Logic instance —
+                // the key `logic.actions` is built under. Without it a stored
+                // (e.g. Script) action persists with no shortcode and can never
+                // be looked up via `actions.get(...)`. See SohlAction.Data.
+                shortcode: new StringField({ initial: "" }),
                 subType: new StringField({
                     choices: ActionSubTypes,
                     required: true,
