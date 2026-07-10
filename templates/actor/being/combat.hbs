@@ -28,11 +28,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </fieldset>
     {{/if}}
 
-    {{!-- Melee Weapons --}}
-    {{#if meleeWeapons.length}}
+    {{!-- Melee Strike Modes: combat techniques + held melee weapons --}}
+    {{#if meleeStrikeModes.length}}
     <fieldset>
-        <legend>Melee Weapons</legend>
-        {{#each meleeWeapons as |entry|}}
+        <legend>Melee Strike Modes</legend>
+        {{#each meleeStrikeModes as |entry|}}
         <div class="list">
             <header class="list__header flexrow">
                 <h3 class="list__name name">{{entry.weapon.name}}</h3>
@@ -94,11 +94,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </fieldset>
     {{/if}}
 
-    {{!-- Missile Weapons --}}
-    {{#if missileWeapons.length}}
+    {{!-- Missile Strike Modes: combat techniques + held missile weapons --}}
+    {{#if missileStrikeModes.length}}
     <fieldset>
-        <legend>Ranged Weapons</legend>
-        {{#each missileWeapons as |entry|}}
+        <legend>Missile Strike Modes</legend>
+        {{#each missileStrikeModes as |entry|}}
         <div class="list">
             <header class="list__header flexrow">
                 <h3 class="list__name name">{{entry.weapon.name}}</h3>
