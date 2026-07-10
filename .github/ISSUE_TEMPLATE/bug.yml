@@ -1,85 +1,32 @@
 name: Bug
 description: Existing behavior is broken — an error, crash, wrong result, or regression.
-title: ""
 type: Bug
-labels: []
 body:
-    - type: markdown
+    - type: textarea
+      id: description
       attributes:
+          label: Description
+          description: Describe the problem fully so it can be reproduced. Do not propose a fix here — put fix ideas in a comment. Exploitable weaknesses must be reported privately, never as a public issue.
           value: |
-              A **bug** is _broken_ behavior (something _missing_ is a **Feature**). Describe the problem fully so it can be reproduced — do **not** propose a fix here; put fix ideas in a comment. See the [issue-reporting standard](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/docs/how-to/issue-reporting.md).
+              ## Summary
+              One sentence: what's wrong.
 
-              **Security:** if this is an _exploitable_ weakness, stop and report it as a [private advisory](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/security/advisories/new), not a public issue.
-    - type: textarea
-      id: summary
-      attributes:
-          label: Summary
-          description: One sentence — what's wrong.
-      validations:
-          required: true
-    - type: textarea
-      id: repro
-      attributes:
-          label: Steps to reproduce
-          placeholder: |
+              ## Steps to reproduce
               1. …
               2. …
-      validations:
-          required: true
-    - type: textarea
-      id: expected-actual
-      attributes:
-          label: Expected vs. actual
-          placeholder: |
+
+              ## Expected vs. actual
               Expected: …
               Actual: …
+
+              ## Acceptance criteria
+              - [ ] Observable condition 1
+              - [ ] Observable condition 2
+
+              ## Environment
+              Foundry version · SoHL system version · browser/OS if relevant
+
+              ## Notes
+              Stack traces, console output, suspected cause.
       validations:
           required: true
-    - type: input
-      id: environment
-      attributes:
-          label: Environment
-          description: Foundry version · SoHL system version · browser/OS if relevant.
-      validations:
-          required: true
-    - type: textarea
-      id: notes
-      attributes:
-          label: Notes
-          description: Stack traces, console output, suspected cause.
-      validations:
-          required: false
-    - type: textarea
-      id: acceptance
-      attributes:
-          label: Acceptance criteria (optional)
-          description: Observable conditions that mean this is fixed.
-      validations:
-          required: false
-    - type: dropdown
-      id: priority
-      attributes:
-          label: Priority (proposed)
-          description: Set on the project board; this is your proposal. Default Medium; justify anything higher in the body.
-          options: [Urgent, High, Medium, Low]
-          default: 2
-      validations:
-          required: true
-    - type: dropdown
-      id: labels
-      attributes:
-          label: Labels (proposed)
-          description: Categorization only, from the registry. A maintainer applies them.
-          multiple: true
-          options:
-              - system
-              - documentation
-              - content
-              - thalorna
-              - site
-              - devops
-              - tests
-              - security
-              - tech-debt
-              - regression
-              - breaking-change

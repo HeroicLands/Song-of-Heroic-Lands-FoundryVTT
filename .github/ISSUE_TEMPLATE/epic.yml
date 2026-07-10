@@ -1,8 +1,6 @@
 name: Epic
 description: A large body of work that only makes sense decomposed into multiple linked sub-issues.
-title: ""
 type: Epic
-labels: []
 body:
     - type: markdown
       attributes:

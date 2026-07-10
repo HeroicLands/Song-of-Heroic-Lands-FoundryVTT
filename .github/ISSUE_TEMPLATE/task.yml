@@ -1,8 +1,6 @@
 name: Task
 description: Necessary work that is neither a defect nor a new capability — a chore, refactor, tooling, docs, or release.
-title: ""
 type: Task
-labels: []
 body:
     - type: markdown
       attributes:
