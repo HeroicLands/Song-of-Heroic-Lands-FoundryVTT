@@ -350,6 +350,7 @@ cypress/
     commands.js          # cy.login()
     commands/
       documents.js       # createActor/createWorldItem/createItemOn/cleanupWorld/foundry
+                         #   + getFromCompendium/dropOnActor/dropOnItem (reuse compendium content)
       import.js          # importActor (Basic Folk), importItem, findPackEntry
       sheets.js          # openSheet/switchTab/closeAllSheets/editSheetField
       scene.js           # createScene/placeToken/placeAdjacentTokens
