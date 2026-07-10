@@ -994,16 +994,25 @@ export class BeingSheet extends SohlActorSheetBase {
         const actor = this.document;
         const logic = actor.logic as BeingLogic;
 
-        // Weapons split into melee/missile by their strike mode domain objects;
-        // only weapons currently held (gripped by a body part) appear in combat.
-        const allWeapons = actor.itemTypes[ITEM_KIND.WEAPONGEAR] ?? [];
-        const weapons = filterHeldWeapons(
-            allWeapons,
+        // Derived Strike Mode sections: aggregate strike modes from combat
+        // techniques and held weapons, split into melee/missile and grouped by
+        // their source item. Combat-technique skills are always available (they
+        // belong to the being); weapons contribute only while held (gripped by a
+        // body part). The shared `rollStrikeModeTest`/`Impact` handlers resolve
+        // the source by `data-item-id`, so skill and weapon sources roll alike.
+        const heldWeapons = filterHeldWeapons(
+            actor.itemTypes[ITEM_KIND.WEAPONGEAR] ?? [],
             (weapon: SohlItem) => (weapon.logic as any)?.heldBy ?? [],
         );
-        const { meleeWeapons, missileWeapons } = splitWeaponsByRange(
-            weapons,
-            (weapon) => (weapon.logic as any)?.strikeModes ?? [],
+        const techniqueSkills = (actor.itemTypes[ITEM_KIND.SKILL] ?? []).filter(
+            (skill: SohlItem) => !!(skill.logic as any)?.strikeMode,
+        );
+        const {
+            meleeWeapons: meleeStrikeModes,
+            missileWeapons: missileStrikeModes,
+        } = splitWeaponsByRange(
+            [...techniqueSkills, ...heldWeapons],
+            (source) => (source.logic as any)?.strikeModes ?? [],
         );
 
         // Body structure for anatomy display — sourced from the actor's Lineage
@@ -1075,8 +1084,8 @@ export class BeingSheet extends SohlActorSheetBase {
         );
 
         return Object.assign(context, {
-            meleeWeapons,
-            missileWeapons,
+            meleeStrikeModes,
+            missileStrikeModes,
             lineage: lineageItem,
             bodyStructure,
             bodyParts,
