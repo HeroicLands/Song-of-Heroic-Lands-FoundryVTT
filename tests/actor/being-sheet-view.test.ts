@@ -19,6 +19,7 @@ import {
     buildSkillGroups,
     buildAffiliationRows,
     buildHoldableGear,
+    buildBodyLocationTree,
     htmlToPlainText,
     buildContainerTree,
     buildStatusPills,
@@ -284,6 +285,88 @@ describe("being-sheet-view", () => {
         it("returns '' for empty/undefined input", () => {
             expect(htmlToPlainText("")).toBe("");
             expect(htmlToPlainText(undefined as unknown as string)).toBe("");
+        });
+    });
+
+    describe("buildBodyLocationTree", () => {
+        const loc = (over: Record<string, unknown> = {}) => ({
+            name: "Skull",
+            layers: "",
+            prob: 5,
+            base: { blunt: 2, edged: 3, piercing: 1, fire: 1 },
+            armor: { blunt: 0, edged: 0, piercing: 0, fire: 0 },
+            shock: 5,
+            impair: 0,
+            ...over,
+        });
+
+        it("sums natural base + equipped armor per aspect", () => {
+            const tree = buildBodyLocationTree([
+                {
+                    label: "Head",
+                    held: "",
+                    locations: [
+                        loc({
+                            layers: "Padded, Plate",
+                            base: { blunt: 2, edged: 4, piercing: 3, fire: 3 },
+                            armor: {
+                                blunt: 6,
+                                edged: 12,
+                                piercing: 7,
+                                fire: 7,
+                            },
+                        }),
+                    ],
+                },
+            ]);
+            const row = tree[0].locations[0];
+            expect(row).toMatchObject({
+                name: "Skull",
+                layers: "Padded, Plate",
+                prob: 5,
+                blunt: 8, // 2 + 6
+                edged: 16, // 4 + 12
+                piercing: 10, // 3 + 7
+                fire: 10, // 3 + 7
+                shock: 5,
+                impair: 0,
+            });
+        });
+
+        it("leaves totals at the natural base when no armor covers a location", () => {
+            const [part] = buildBodyLocationTree([
+                { label: "Head", held: "", locations: [loc()] },
+            ]);
+            expect(part.locations[0]).toMatchObject({
+                blunt: 2,
+                edged: 3,
+                piercing: 1,
+                fire: 1,
+                layers: "",
+            });
+        });
+
+        it("carries the part label, held item, and location order", () => {
+            const tree = buildBodyLocationTree([
+                {
+                    label: "Right Arm",
+                    held: "Broadsword",
+                    locations: [
+                        loc({ name: "Shoulder" }),
+                        loc({ name: "Elbow" }),
+                    ],
+                },
+            ]);
+            expect(tree[0].label).toBe("Right Arm");
+            expect(tree[0].held).toBe("Broadsword");
+            expect(tree[0].locations.map((l) => l.name)).toEqual([
+                "Shoulder",
+                "Elbow",
+            ]);
+        });
+
+        it("returns an empty array for no parts", () => {
+            expect(buildBodyLocationTree([])).toEqual([]);
         });
     });
 

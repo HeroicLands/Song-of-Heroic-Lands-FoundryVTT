@@ -195,6 +195,102 @@ export function buildTraitGroups(
 }
 
 /* -------------------------------------------- */
+/*  Body locations tree                          */
+/* -------------------------------------------- */
+
+/** Per-aspect protection values (blunt / edged / piercing / fire). */
+export interface AspectProtection {
+    blunt: number;
+    edged: number;
+    piercing: number;
+    fire: number;
+}
+
+/** A body location as consumed by the combat-tab Body Locations tree. */
+export interface BodyLocationRow {
+    /** The location's display name (e.g. "Skull"). */
+    name: string;
+    /** Comma-joined covering armor materials (`armorType`), empty when bare. */
+    layers: string;
+    /** Hit-probability weight. */
+    prob: number;
+    /** Total blunt protection — natural base plus equipped armor. */
+    blunt: number;
+    /** Total edged protection. */
+    edged: number;
+    /** Total piercing protection. */
+    piercing: number;
+    /** Total fire protection. */
+    fire: number;
+    /** Shock value. */
+    shock: number;
+    /** Impairment value (not yet modeled; 0 for now). */
+    impair: number;
+}
+
+/** A body part paired with its hit locations, for the Body Locations tree. */
+export interface BodyPartNode {
+    /** The part's display label. */
+    label: string;
+    /** The name of the item held by this part, or empty. */
+    held: string;
+    /** The part's hit locations, in order. */
+    locations: BodyLocationRow[];
+}
+
+/** The minimal per-location shape the tree builder consumes. */
+export interface BodyLocationLike {
+    name: string;
+    layers: string;
+    prob: number;
+    /** Natural per-aspect protection (a location's `protectionBase`, resolved). */
+    base: AspectProtection;
+    /** Equipped-armor per-aspect protection (a location's `armorProtection`). */
+    armor: AspectProtection;
+    shock: number;
+    impair: number;
+}
+
+/** The minimal per-part shape the tree builder consumes. */
+export interface BodyPartLike {
+    label: string;
+    held: string;
+    locations: readonly BodyLocationLike[];
+}
+
+/**
+ * Build the read-only Body Locations tree for the Combat tab: each body part
+ * with its hit locations, and per-location protection totals computed as
+ * **natural base + equipped armor** for every aspect (blunt/edged/piercing/fire).
+ * The armor contribution comes from the actor's worn armor aggregated onto the
+ * body structure (see `aggregateArmor`); natural `protectionBase` is left
+ * untouched, so the sum is the effective protection shown per location. Pure —
+ * no Foundry dependency.
+ *
+ * @param parts - The body parts with their locations' base/armor values.
+ * @returns The parts with per-location totals, in input order.
+ */
+export function buildBodyLocationTree(
+    parts: readonly BodyPartLike[],
+): BodyPartNode[] {
+    return parts.map((part) => ({
+        label: part.label,
+        held: part.held,
+        locations: part.locations.map((loc) => ({
+            name: loc.name,
+            layers: loc.layers,
+            prob: loc.prob,
+            blunt: loc.base.blunt + loc.armor.blunt,
+            edged: loc.base.edged + loc.armor.edged,
+            piercing: loc.base.piercing + loc.armor.piercing,
+            fire: loc.base.fire + loc.armor.fire,
+            shock: loc.shock,
+            impair: loc.impair,
+        })),
+    }));
+}
+
+/* -------------------------------------------- */
 /*  Held items                                   */
 /* -------------------------------------------- */
 

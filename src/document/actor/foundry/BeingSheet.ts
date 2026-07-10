@@ -37,6 +37,7 @@ import {
     buildSkillGroups,
     buildAffiliationRows,
     buildHoldableGear,
+    buildBodyLocationTree,
     buildContainerTree,
     buildStatusPills,
     buildBodyPartLozenges,
@@ -1043,11 +1044,42 @@ export class BeingSheet extends SohlActorSheetBase {
                 heldItemId: part.heldItem?.id ?? "",
             }));
 
+        // Read-only Body Locations tree: each part with its locations' effective
+        // protection (natural `protectionBase` + worn-armor `armorProtection`,
+        // aggregated during the actor's evaluate phase), the covering material
+        // layers, shock, and the held item on the part.
+        const bodyParts = buildBodyLocationTree(
+            (bodyStructure?.parts ?? []).map((part: any) => ({
+                label: part.name ?? part.shortcode,
+                held: part.heldItem?.name ?? "",
+                locations: (part.locations ?? []).map((loc: any) => ({
+                    name: loc.name,
+                    layers: loc.armorType ?? "",
+                    prob: loc.probWeight?.effective ?? 0,
+                    base: {
+                        blunt: loc.protectionBase.blunt.effective,
+                        edged: loc.protectionBase.edged.effective,
+                        piercing: loc.protectionBase.piercing.effective,
+                        fire: loc.protectionBase.fire.effective,
+                    },
+                    armor: {
+                        blunt: loc.armorProtection?.blunt ?? 0,
+                        edged: loc.armorProtection?.edged ?? 0,
+                        piercing: loc.armorProtection?.piercing ?? 0,
+                        fire: loc.armorProtection?.fire ?? 0,
+                    },
+                    shock: loc.shockValue?.effective ?? 0,
+                    impair: 0,
+                })),
+            })),
+        );
+
         return Object.assign(context, {
             meleeWeapons,
             missileWeapons,
             lineage: lineageItem,
             bodyStructure,
+            bodyParts,
             useZoneDie,
             spreadLabel: useZoneDie ? "ZD" : "Spr",
             holdableItems,
