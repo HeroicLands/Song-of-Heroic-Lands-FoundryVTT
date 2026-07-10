@@ -15,8 +15,9 @@ import type { SohlActor } from "./SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { applySearchFilter } from "@src/document/actor/logic/display-filter";
 import { SohlDataModel } from "@src/core/foundry/SohlDataModel";
-import { fvttCallHook } from "@src/core/FoundryHelpers";
-import { ITEM_KIND } from "@src/utils/constants";
+import { fvttCallHook, dialog } from "@src/core/FoundryHelpers";
+import { ITEM_KIND, GearKinds } from "@src/utils/constants";
+import { toHTMLString } from "@src/utils/helpers";
 
 // Define the base type for the sheet
 const SohlActorSheetBase_Base = SohlDataModel.SheetMixin<
@@ -47,24 +48,32 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
      * own `_onDropItem` is a no-op; the item sheet overrides it for container
      * drops, and the actor sheet overrides it here).
      *
-     * A dropped **compendium** or **world** item is created as an embedded
-     * **clone** on this actor (all kinds). An item already embedded on this
-     * actor is ignored (no duplicate; reordering is out of scope). Lineage is a
-     * singleton, so a second lineage drop is refused (the hard data-layer guard
-     * is #338).
+     * Semantics by source:
+     * - **Compendium / world** item → created as an embedded **clone** (all kinds).
+     * - **Another actor** → **moved** here (created, then removed from the
+     *   source). Non-gear moves the instance; physical **gear** moves with
+     *   quantity — a "How Many?" prompt for stacks > 1, skipped for a single item
+     *   or a shift-drag (which moves the whole stack). Moving needs source
+     *   ownership.
+     * - **Already on this actor** → ignored (no self-duplicate).
      *
-     * @param _event - The originating drop event (unused).
+     * Lineage is a singleton, so a second lineage drop is refused (the hard
+     * data-layer guard is #338).
+     *
+     * @param event - The originating drop event (its `shiftKey` selects move-all).
      * @param droppedItem - The resolved dropped item.
      */
     protected async _onDropItem(
-        _event: DragEvent,
+        event: DragEvent,
         droppedItem: SohlItem,
     ): Promise<void> {
         const actor = this.document;
         if (!actor.isOwner || !droppedItem) return;
 
-        // Already embedded on this actor: don't clone a duplicate of itself.
-        if (droppedItem.parent?.id === actor.id) return;
+        const sourceActor = droppedItem.actor;
+
+        // Already embedded on this actor: don't duplicate it onto itself.
+        if (sourceActor?.id === actor.id) return;
 
         // Lineage singleton: refuse a second one.
         if (
@@ -77,11 +86,83 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
             return;
         }
 
-        // Compendium/world Item → actor: create an embedded clone. Drop the
-        // source id so Foundry assigns a fresh one.
+        // Source discriminates the semantics: an item embedded on another actor
+        // is **moved** (created here, removed there); a compendium/world item is
+        // **cloned**. Moving requires owning the source (to delete/decrement it).
+        const isMove = !!sourceActor;
+        if (isMove && !droppedItem.isOwner) {
+            (globalThis as any).ui?.notifications?.warn(
+                "You don't own the source item, so it can't be moved.",
+            );
+            return;
+        }
+
         const data = droppedItem.toObject();
         delete (data as any)._id;
+
+        if (isMove && GearKinds.includes(droppedItem.type as any)) {
+            // Physical gear between actors: move with quantity. The "How Many?"
+            // dialog fires only when there's more than one and the drag is not
+            // shift-held; shift-drag (or a single item) moves the whole stack.
+            const qty = Math.max(1, (droppedItem.system as any).quantity ?? 1);
+            let moveQty = qty;
+            if (qty > 1 && !event.shiftKey) {
+                const chosen = await this._promptMoveQuantity(
+                    droppedItem.name,
+                    qty,
+                );
+                if (chosen === undefined) return; // cancelled
+                moveQty = chosen;
+            }
+            (data.system as any).quantity = moveQty;
+            await actor.createEmbeddedDocuments("Item", [data]);
+            if (moveQty >= qty) await droppedItem.delete();
+            else
+                await droppedItem.update({
+                    "system.quantity": qty - moveQty,
+                } as any);
+            return;
+        }
+
+        // Non-gear move between actors: recreate here, remove from the source.
+        // Compendium/world (no source actor): plain clone.
         await actor.createEmbeddedDocuments("Item", [data]);
+        if (isMove) await droppedItem.delete();
+    }
+
+    /**
+     * Prompt for how many of a stacked gear item to move (1..max). Yields the
+     * chosen count, or `undefined` if the dialog was cancelled or dismissed.
+     *
+     * @param name - The item's name, shown in the dialog title.
+     * @param max - The source stack size (the upper bound and default).
+     * @returns The chosen quantity, or `undefined` when cancelled.
+     */
+    private async _promptMoveQuantity(
+        name: string,
+        max: number,
+    ): Promise<number | undefined> {
+        const result = await dialog({
+            title: `Move ${name}`,
+            content: toHTMLString(
+                `<div class="form-group">
+                <label>How many to move? (1–${max})</label>
+                <input type="number" name="qty" value="${max}" min="1" max="${max}" step="1" autofocus />
+            </div>`,
+            ),
+            buttons: [
+                { action: "move", label: "Move", default: true },
+                { action: "cancel", label: "Cancel" },
+            ],
+            callback: (formData: any, action: string) => {
+                if (action !== "move") return undefined;
+                const n = Math.trunc(Number(formData?.qty));
+                return Number.isFinite(n) ?
+                        Math.min(max, Math.max(1, n))
+                    :   undefined;
+            },
+        });
+        return typeof result === "number" ? result : undefined;
     }
 
     /**
