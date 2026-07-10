@@ -13,7 +13,9 @@
 
 import {
     buildActionScope,
+    slugifyShortcode,
     subTypeOptionsFromChoices,
+    uniqueShortcode,
     type SubTypeOption,
 } from "@src/utils/helpers";
 import { toFilePath } from "@src/utils/helpers";
@@ -53,14 +55,36 @@ export function subTypeOptionsForType(
 ): SubTypeOption[] {
     const model = (CONFIG as any)?.[documentName]?.dataModels?.[type];
     const field = model?.schema?.fields?.subType;
-    const choices = field?.choices as
-        | Record<string, string>
-        | undefined
-        | null;
+    const choices = field?.choices as Record<string, string> | undefined | null;
     if (!choices || typeof choices !== "object") return [];
-    return subTypeOptionsFromChoices(choices, (key) =>
-        sohl.i18n.localize(key),
-    );
+    return subTypeOptionsFromChoices(choices, (key) => sohl.i18n.localize(key));
+}
+
+/**
+ * Collect the shortcodes already used by same-type documents in the scope where
+ * a new one must be unique: the parent actor's items for an owned item, the
+ * world item directory for a world item, or the world actor directory for an
+ * actor. Used to suggest and finalize a unique `shortcode` in the create dialog.
+ *
+ * @param documentName - `"Item"` or `"Actor"`.
+ * @param parent - The parent actor for an owned item, else `null`.
+ * @param type - The document type whose siblings share the key namespace.
+ * @returns The set of taken shortcodes.
+ */
+function takenShortcodesFor(
+    documentName: string,
+    parent: any,
+    type: string,
+): Set<string> {
+    const taken = new Set<string>();
+    const collection =
+        documentName === "Actor" ? (game as any).actors
+        : parent ? parent.items
+        : (game as any).items;
+    for (const doc of collection ?? []) {
+        if (doc.type === type) taken.add((doc.system as any)?.shortcode);
+    }
+    return taken;
 }
 
 /**
@@ -88,6 +112,7 @@ export async function sohlCreateDialog(
 ): Promise<any> {
     const { types } = options;
     const documentName: string = cls.documentName;
+    const parent = (createOptions as PlainObject).parent ?? null;
     const baseType = (foundry as any).CONST?.BASE_DOCUMENT_TYPE ?? "base";
 
     // Allowed types: every registered type except the base, filtered by `types`.
@@ -134,12 +159,24 @@ export async function sohlCreateDialog(
     const label = sohl.i18n.localize(cls.metadata?.label ?? documentName);
     const title = sohl.i18n.format("DOCUMENT.Create", { type: label });
 
+    // Suggest a unique shortcode from any pre-seeded name (the render hook keeps
+    // it in sync as the user types, until they edit the field by hand).
+    const initialShortcode =
+        data.name ?
+            uniqueShortcode(
+                slugifyShortcode(data.name as string),
+                takenShortcodesFor(documentName, parent, type),
+            )
+        :   "";
+
     const result = await dialog({
         title,
         template: CREATE_ITEM_TEMPLATE,
         data: {
             name: (data.name as string) ?? "",
             defaultName: cls.defaultName?.({ type }) ?? "",
+            showShortcode: true,
+            shortcode: initialShortcode,
             type,
             types: Object.fromEntries(
                 documentTypes.map((t) => [t.value, t.label]),
@@ -166,32 +203,60 @@ export async function sohlCreateDialog(
             const typeSelect = element.querySelector<HTMLSelectElement>(
                 'select[name="type"]',
             );
-            if (!typeSelect) return;
-            typeSelect.addEventListener("change", (ev) => {
-                const chosen = (ev.target as HTMLSelectElement).value;
-                repopulateSubtypes(element, documentName, chosen);
+            const nameInput =
+                element.querySelector<HTMLInputElement>('input[name="name"]');
+            const shortcodeInput = element.querySelector<HTMLInputElement>(
+                'input[name="shortcode"]',
+            );
+
+            // Keep the shortcode in sync with the name (and the selected type's
+            // uniqueness scope) until the user edits the shortcode by hand.
+            let shortcodeEdited = false;
+            const syncShortcode = () => {
+                if (!shortcodeInput || shortcodeEdited) return;
+                const curType = typeSelect?.value || type;
+                const base = slugifyShortcode(nameInput?.value ?? "");
+                shortcodeInput.value =
+                    base ?
+                        uniqueShortcode(
+                            base,
+                            takenShortcodesFor(documentName, parent, curType),
+                        )
+                    :   "";
+            };
+            shortcodeInput?.addEventListener("input", () => {
+                shortcodeEdited = true;
             });
-            // Ensure the subtype control matches the currently-selected type on
-            // first render too (covers the pre-seeded-and-locked case).
-            repopulateSubtypes(element, documentName, typeSelect.value);
+            nameInput?.addEventListener("input", syncShortcode);
+
+            if (typeSelect) {
+                typeSelect.addEventListener("change", (ev) => {
+                    const chosen = (ev.target as HTMLSelectElement).value;
+                    repopulateSubtypes(element, documentName, chosen);
+                    syncShortcode();
+                });
+                // Ensure the subtype control matches the currently-selected type
+                // on first render too (covers the pre-seeded-and-locked case).
+                repopulateSubtypes(element, documentName, typeSelect.value);
+            }
         },
         callback: (formData: PlainObject) => {
             const chosenType =
-                askType ? ((formData.type as string) || type) : type;
+                askType ? (formData.type as string) || type : type;
             const options = subTypeOptionsForType(documentName, chosenType);
             let chosenSubType =
-                askSubType ?
-                    ((formData.subtype as string) ?? "")
-                :   subType;
+                askSubType ? ((formData.subtype as string) ?? "") : subType;
             if (!options.some((s) => s.value === chosenSubType)) {
                 chosenSubType = options[0]?.value ?? "";
             }
             const name = ((formData.name as string) ?? "").trim();
+            const shortcode = ((formData.shortcode as string) ?? "").trim();
             const folder = (formData.folder as string) || undefined;
             return {
                 name,
                 type: chosenType,
                 subType: chosenSubType,
+                shortcode,
                 folder,
             };
         },
@@ -201,11 +266,26 @@ export async function sohlCreateDialog(
 
     type = result.type;
     subType = result.subType;
+
+    // Finalize the `(type, shortcode)` key: derive from the name (then the type)
+    // when left blank, and make it unique in scope. `_preCreate` is the backstop,
+    // but resolving it here keeps the human create flow off the reject path.
+    let shortcode = slugifyShortcode(result.shortcode || result.name);
+    if (!shortcode) {
+        shortcode = slugifyShortcode(cls.defaultName?.({ type }) ?? "") || type;
+    }
+    shortcode = uniqueShortcode(
+        shortcode,
+        takenShortcodesFor(documentName, parent, type),
+    );
+
     const createData: PlainObject = {
         name: result.name || (cls.defaultName?.({ type }) ?? "New Item"),
         type,
     };
-    if (subType) createData.system = { subType };
+    const system: PlainObject = { shortcode };
+    if (subType) system.subType = subType;
+    createData.system = system;
     if (result.folder) createData.folder = result.folder;
 
     const created = await cls.create(createData, {

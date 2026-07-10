@@ -56,10 +56,9 @@ describe("Use Zone Die setting", () => {
     /** Import Basic Folk with a held spear, open its Combat tab. Yields the actor. */
     function beingWithSpear() {
         return cy.importActor().then((actor) => {
-            cy.createItemOn(actor, "skill", {
-                name: "Melee",
-                system: { shortcode: "melee", masteryLevelBase: 50 },
-            });
+            // Basic Folk already owns `melee`; raise its ML instead of adding a
+            // colliding duplicate (the `(type, shortcode)` key is unique).
+            cy.ensureSkillML(actor, "melee", 50);
             cy.createItemOn(actor, "weapongear", spearWeapon()).then(
                 (weapon) => {
                     cy.runAction(weapon, "holdItem");

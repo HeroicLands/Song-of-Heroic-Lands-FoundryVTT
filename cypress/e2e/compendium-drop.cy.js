@@ -63,7 +63,10 @@ describe("drop item onto actor", () => {
     });
 
     it("clones a compendium item onto the actor", () => {
-        cy.importActor().then((actor) => {
+        // Bare being (empty) so the dropped compendium item is always a fresh
+        // `(type, shortcode)` key: Basic Folk already owns most authored items,
+        // and a same-key general drop is now rejected by the key invariant (#347).
+        cy.createActor("being", { name: "Recipient" }).then((actor) => {
             cy.prepare(actor);
             cy.openSheet(actor);
             cy.wait(300);
@@ -95,7 +98,9 @@ describe("drop item onto actor", () => {
     });
 
     it("cy.getFromCompendium + cy.dropOnActor place authored content on an actor", () => {
-        cy.importActor().then((actor) => {
+        // Bare being so the authored item is a fresh key on the recipient (see
+        // the same-key note above); the drop must preserve the source shortcode.
+        cy.createActor("being", { name: "Recipient" }).then((actor) => {
             cy.prepare(actor);
             cy.openSheet(actor);
             cy.wait(300);

@@ -88,10 +88,9 @@ describe("derived strike mode sections", () => {
                 },
             });
             // A weapon skill for the held weapon's assocSkillCode, and the weapon.
-            cy.createItemOn(actor, "skill", {
-                name: "Melee",
-                system: { shortcode: "melee", masteryLevelBase: 50 },
-            });
+            // Basic Folk already owns `melee`; raise its ML instead of adding a
+            // colliding duplicate (the `(type, shortcode)` key is unique).
+            cy.ensureSkillML(actor, "melee", 50);
             cy.createItemOn(actor, "weapongear", meleeWeapon("Sword")).then(
                 (w) => {
                     cy.runAction(w, "holdItem");
@@ -149,10 +148,9 @@ describe("derived strike mode sections", () => {
 
     it("drops a weapon's strike modes when it is no longer held", () => {
         cy.importActor().then((actor) => {
-            cy.createItemOn(actor, "skill", {
-                name: "Melee",
-                system: { shortcode: "melee", masteryLevelBase: 50 },
-            });
+            // Basic Folk already owns `melee`; raise its ML instead of adding a
+            // colliding duplicate (the `(type, shortcode)` key is unique).
+            cy.ensureSkillML(actor, "melee", 50);
             cy.createItemOn(actor, "weapongear", meleeWeapon("Mace")).then(
                 (w) => {
                     cy.runAction(w, "holdItem");
