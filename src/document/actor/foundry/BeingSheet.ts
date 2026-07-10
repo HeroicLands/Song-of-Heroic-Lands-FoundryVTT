@@ -289,6 +289,8 @@ export class BeingSheet extends SohlActorSheetBase {
             toggleImproveFlag: BeingSheet._onToggleImproveFlag,
             toggleCarried: BeingSheet._onToggleCarried,
             toggleEquipped: BeingSheet._onToggleEquipped,
+            editItem: BeingSheet._onEditItem,
+            deleteItem: BeingSheet._onDeleteItem,
             createItem: BeingSheet._onCreateItem,
         },
     };
@@ -363,17 +365,48 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Resolve the gear item for a state-toggle control from the nearest
-     * ancestor carrying `data-item-id`.
+     * Resolve the embedded item for a row control from the nearest ancestor
+     * carrying `data-item-id`.
      *
      * @param target - The clicked control.
-     * @returns The gear item, or `undefined` when none resolves.
+     * @returns The item, or `undefined` when none resolves.
      */
-    private _gearFromControl(target: HTMLElement): SohlItem | undefined {
+    private _itemFromControl(target: HTMLElement): SohlItem | undefined {
         const itemId = target
             .closest("[data-item-id]")
             ?.getAttribute("data-item-id");
         return itemId ? this.document.items.get(itemId) : undefined;
+    }
+
+    /**
+     * Open an embedded item's sheet — the Edit anchor (e.g. the Lineage row).
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, within a `data-item-id` row.
+     */
+    protected static async _onEditItem(
+        this: BeingSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        void this._itemFromControl(target)?.sheet?.render(true);
+    }
+
+    /**
+     * Delete an embedded item after confirmation — the Delete anchor (e.g. the
+     * Lineage row; deleting the lineage returns the being to its no-body state).
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, within a `data-item-id` row.
+     */
+    protected static async _onDeleteItem(
+        this: BeingSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const item = this._itemFromControl(target);
+        if (!item) return;
+        await (item as any).deleteDialog();
     }
 
     /**
@@ -387,7 +420,7 @@ export class BeingSheet extends SohlActorSheetBase {
         _event: PointerEvent,
         target: HTMLElement,
     ): Promise<void> {
-        const item = this._gearFromControl(target);
+        const item = this._itemFromControl(target);
         if (!item) return;
         await item.update({
             "system.isCarried": !(item.system as any).isCarried,
@@ -406,7 +439,7 @@ export class BeingSheet extends SohlActorSheetBase {
         _event: PointerEvent,
         target: HTMLElement,
     ): Promise<void> {
-        const item = this._gearFromControl(target);
+        const item = this._itemFromControl(target);
         if (!item) return;
         await item.update({
             "system.isEquipped": !(item.system as any).isEquipped,
@@ -972,7 +1005,9 @@ export class BeingSheet extends SohlActorSheetBase {
             (weapon) => (weapon.logic as any)?.strikeModes ?? [],
         );
 
-        // Body structure for anatomy display — sourced from the actor's Lineage item
+        // Body structure for anatomy display — sourced from the actor's Lineage
+        // item. The Lineage is a singleton (0 or 1): `lineage` drives the Combat
+        // tab's Lineage row (+ Add disabled when one exists; Edit/Delete anchors).
         const lineageItem = (actor.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0];
         const lineageLogic = lineageItem?.logic as LineageLogic | undefined;
         const bodyStructure = lineageLogic?.bodyStructure;
@@ -1011,6 +1046,7 @@ export class BeingSheet extends SohlActorSheetBase {
         return Object.assign(context, {
             meleeWeapons,
             missileWeapons,
+            lineage: lineageItem,
             bodyStructure,
             useZoneDie,
             spreadLabel: useZoneDie ? "ZD" : "Spr",
