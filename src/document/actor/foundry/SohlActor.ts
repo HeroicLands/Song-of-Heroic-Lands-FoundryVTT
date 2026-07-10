@@ -24,6 +24,7 @@ import {
     fvttCallHookCancel,
     fvttResolveUuidAsync,
 } from "@src/core/FoundryHelpers";
+import { ITEM_KIND } from "@src/utils/constants";
 
 /**
  * Base class for all Actor documents in the SoHL system, including
@@ -460,6 +461,25 @@ export class SohlActor extends Actor {
             options as any,
             userId as any,
         );
+
+        // Lineage singleton — batch case. The per-lineage `_preCreate` guard
+        // blocks adding a second lineage to an existing actor, but cannot catch
+        // an actor *created with* multiple lineages at once (the bundled embedded
+        // items are created together, and the parent's `_preCreate` cannot filter
+        // them). Once the actor exists, prune every lineage after the first. Only
+        // the acting user performs the delete.
+        if (userId === (game as any).user?.id) {
+            const lineages = this.itemTypes[ITEM_KIND.LINEAGE] ?? [];
+            if (lineages.length > 1) {
+                void this.deleteEmbeddedDocuments(
+                    "Item",
+                    lineages.slice(1).map((l: SohlItem) => l.id!),
+                );
+                (globalThis as any).ui?.notifications?.warn(
+                    "A being may have only one lineage; extra lineages were removed.",
+                );
+            }
+        }
         //        this.updateEffectsOrigin();
     }
 
