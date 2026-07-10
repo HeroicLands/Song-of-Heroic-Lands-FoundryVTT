@@ -16,7 +16,8 @@ const OWNERSHIP = { NONE: 0, LIMITED: 1, OBSERVER: 2, OWNER: 3 } as const;
 /**
  * Build a stub actor whose `testUserPermission` returns the given result
  * regardless of arguments. The default `documentName: "Actor"` lets the
- * stub serve as `this.parent.parent` for `SohlAction.resolveContext`.
+ * stub serve as the owning document `SohlAction.resolveContext` walks to
+ * (action → logic → data model → document).
  */
 function stubActor(allow: boolean): any {
     return {
@@ -43,12 +44,13 @@ function makeActionData(
 }
 
 /**
- * Build a stub parent Logic for a {@link SohlAction}. `resolveContext()`
- * reads `this.parent.parent` to find the owning document, so the optional
- * `doc` becomes the Logic's backing document.
+ * Build a stub parent Logic for a {@link SohlAction}. `resolveContext()` walks
+ * action → logic → data model → document, so the owning `doc` sits two levels
+ * below the Logic: `logic.parent` is the data model, whose `.parent` is the
+ * document.
  */
 function stubLogic(doc?: any): any {
-    return { parent: doc };
+    return { parent: { parent: doc } };
 }
 
 function makeAction(overrides: Partial<SohlAction.Data> = {}): SohlAction {
@@ -392,8 +394,10 @@ describe("SohlAction SCRIPT action runs a referenced Macro (no compiled code)", 
         expect(macroSpy).toHaveBeenCalledTimes(1);
         const [uuidArg, scopeArg] = macroSpy.mock.calls[0];
         expect(uuidArg).toBe(MACRO_UUID);
+        // The action context is exposed to the macro as `sohlContext`, not
+        // `scope` — the latter collides with Foundry's fixed macro parameter.
         expect(scopeArg).toEqual(
-            expect.objectContaining({ actor, scope: ctx }),
+            expect.objectContaining({ actor, sohlContext: ctx }),
         );
         expect(result).toBe("macro-ran");
     });

@@ -238,6 +238,12 @@ export class SohlAction extends SohlEntity {
                 // "homebrew"). The macro runs through Macro#execute, which
                 // enforces MACRO_SCRIPT + ownership; no code is ever compiled
                 // from data. See docs/concepts/security-model.md.
+                //
+                // The SohlActionContext is exposed to the macro as `sohlContext`,
+                // NOT `scope`: Foundry's `Macro##executeScript` already declares a
+                // fixed `scope` parameter, so passing a `scope` scope-key builds
+                // an AsyncFunction with a duplicate parameter name (SyntaxError),
+                // silently swallowing the macro's return value.
                 const macroUuid = this.data.executor ?? "";
                 this.executor = (ctx: SohlActionContext) => {
                     const { item, actor } = this.resolveContext();
@@ -245,7 +251,7 @@ export class SohlAction extends SohlEntity {
                         actor,
                         item,
                         speaker: ctx?.speaker,
-                        scope: ctx,
+                        sohlContext: ctx,
                     });
                 };
             }
@@ -308,7 +314,13 @@ export class SohlAction extends SohlEntity {
         item: SohlItem | undefined;
         actor: SohlActor | undefined;
     } {
-        const parentDoc = (this.parent as any)?.parent;
+        // Walk action → logic → data model → document. `this.parent` is the
+        // owning SohlLogic, whose `.parent` is the data model, whose `.parent`
+        // is the Foundry document — the level that actually carries
+        // `documentName` / `type`. (A data model has neither, so stopping one
+        // level short yielded an undefined item/actor, which then failed the
+        // SCRIPT execute-permission gate.)
+        const parentDoc = (this.parent as any)?.parent?.parent;
         const documentName = parentDoc?.documentName;
         const item: SohlItem | undefined =
             documentName === "Item" ? (parentDoc as SohlItem) : undefined;
