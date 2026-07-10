@@ -1,8 +1,6 @@
 name: Spike
 description: A timeboxed investigation whose deliverable is a decision, answer, or recommendation — not shipped code.
-title: ""
 type: Spike
-labels: []
 body:
     - type: markdown
       attributes:
