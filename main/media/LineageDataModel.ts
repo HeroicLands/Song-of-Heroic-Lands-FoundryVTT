@@ -281,4 +281,38 @@ export class LineageDataModel<
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineLineageDataSchema();
     }
+
+    /**
+     * Enforce the Lineage singleton: refuse to create a lineage on an actor that
+     * already has one. (Zero lineages — the degenerate no-body case — is allowed;
+     * more than one never is.) Covers every embed path — drag-drop, paste, and
+     * `createEmbeddedDocuments` — since the document's `_preCreate` runs for all
+     * of them. A non-embedded (world/compendium) lineage has no owning actor and
+     * is unaffected.
+     *
+     * @param data - The creation source data.
+     * @param options - The creation options.
+     * @param user - The requesting user.
+     * @returns `false` to veto the creation, otherwise void.
+     */
+    protected override async _preCreate(
+        data: PlainObject,
+        options: PlainObject,
+        user: User,
+    ): Promise<boolean | void> {
+        const allowed = await super._preCreate(
+            data as any,
+            options as any,
+            user as any,
+        );
+        if (allowed === false) return false;
+        const actor = (this.parent as any)?.actor;
+        if (actor && (actor.itemTypes?.[ITEM_KIND.LINEAGE]?.length ?? 0) > 0) {
+            (globalThis as any).ui?.notifications?.warn(
+                "This being already has a lineage; delete the current one first.",
+            );
+            return false;
+        }
+        return undefined;
+    }
 }
