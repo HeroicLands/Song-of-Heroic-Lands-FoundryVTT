@@ -12,9 +12,11 @@
  */
 
 import type { SohlActor } from "./SohlActor";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { applySearchFilter } from "@src/document/actor/logic/display-filter";
 import { SohlDataModel } from "@src/core/foundry/SohlDataModel";
 import { fvttCallHook } from "@src/core/FoundryHelpers";
+import { ITEM_KIND } from "@src/utils/constants";
 
 // Define the base type for the sheet
 const SohlActorSheetBase_Base = SohlDataModel.SheetMixin<
@@ -37,6 +39,49 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     /** The {@link SohlActor} this sheet renders, or `null`. */
     get actor(): SohlActor | null {
         return (this.document as any).actor;
+    }
+
+    /**
+     * Handle an Item dropped onto the actor sheet. The base mixin's `_onDrop`
+     * resolves the drag payload and routes `Item` documents here (the mixin's
+     * own `_onDropItem` is a no-op; the item sheet overrides it for container
+     * drops, and the actor sheet overrides it here).
+     *
+     * A dropped **compendium** or **world** item is created as an embedded
+     * **clone** on this actor (all kinds). An item already embedded on this
+     * actor is ignored (no duplicate; reordering is out of scope). Lineage is a
+     * singleton, so a second lineage drop is refused (the hard data-layer guard
+     * is #338).
+     *
+     * @param _event - The originating drop event (unused).
+     * @param droppedItem - The resolved dropped item.
+     */
+    protected async _onDropItem(
+        _event: DragEvent,
+        droppedItem: SohlItem,
+    ): Promise<void> {
+        const actor = this.document;
+        if (!actor.isOwner || !droppedItem) return;
+
+        // Already embedded on this actor: don't clone a duplicate of itself.
+        if (droppedItem.parent?.id === actor.id) return;
+
+        // Lineage singleton: refuse a second one.
+        if (
+            droppedItem.type === ITEM_KIND.LINEAGE &&
+            (actor.itemTypes[ITEM_KIND.LINEAGE]?.length ?? 0) > 0
+        ) {
+            (globalThis as any).ui?.notifications?.warn(
+                "This being already has a lineage; delete the current one first.",
+            );
+            return;
+        }
+
+        // Compendium/world Item → actor: create an embedded clone. Drop the
+        // source id so Foundry assigns a fresh one.
+        const data = droppedItem.toObject();
+        delete (data as any)._id;
+        await actor.createEmbeddedDocuments("Item", [data]);
     }
 
     /**
