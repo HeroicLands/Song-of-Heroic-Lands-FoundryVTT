@@ -13,7 +13,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="grid grid-3col">
-        {{formField fields.shortcode rootId="trauma-shortcode" classes="text-field" stacked=true value=system.shortcode}}
         {{formField fields.subType rootId="trauma-subtype" classes="text-field" stacked=true value=system.subType}}
         {{formField fields.levelBase rootId="trauma-level" classes="text-field" stacked=true value=system.levelBase}}
         {{formField fields.healingRateBase rootId="trauma-hr" classes="text-field" stacked=true value=system.healingRateBase}}

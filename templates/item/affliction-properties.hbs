@@ -13,7 +13,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="grid grid-3col">
-        {{formField fields.shortcode rootId="ail-shortcode" classes="text-field" stacked=true value=system.shortcode}}
         {{formField fields.category rootId="ail-category" classes="text-field" stacked=true value=system.category}}
         {{formField fields.transmission rootId="ail-trx" classes="text-field" stacked=true value=system.transmission}}
         {{formField fields.isDormant rootId="ail-dormant" classes="text-field" stacked=true value=system.isDormant}}

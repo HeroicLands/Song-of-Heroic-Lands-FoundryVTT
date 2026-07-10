@@ -110,6 +110,18 @@ span.sep {
         }
     }
 
+    // Shortcode input — sits directly beneath the name, deliberately compact and
+    // subdued (a short unique code, not the headline). Normal input size.
+    .sheet-header__shortcode {
+        display: block;
+        width: auto;
+        max-width: 180px;
+        margin: 0 0 4px 5px;
+        padding: 2px 5px;
+        font-size: 14px;
+        font-weight: 400;
+    }
+
     img.sheet-header__portrait {
         flex: 0 0 100px;
         max-width: 100px;
