@@ -19,11 +19,8 @@ import { sohlCreateDialog } from "@src/document/item/foundry/SohlItem";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlLogic } from "@src/core/logic/SohlLogic";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
-import {
-    fvttCallHook,
-    fvttCallHookCancel,
-    fvttResolveUuidAsync,
-} from "@src/core/FoundryHelpers";
+import { fvttCallHook, fvttCallHookCancel } from "@src/core/FoundryHelpers";
+import { resolveShortcodeKey } from "@src/utils/helpers";
 import { ITEM_KIND } from "@src/utils/constants";
 
 /**
@@ -328,17 +325,18 @@ export class SohlActor extends Actor {
     }
 
     /**
-     * Pre-creation hook: de-duplicate the name and seed cloned-actor data.
+     * Pre-creation hook: de-duplicate the name and resolve the actor key.
      *
      * @remarks
      * Renames the actor via {@link createUniqueName} when a same-type, same-name
-     * world actor already exists; and, when created with items (a duplicate) and
-     * an `options.cloneActorUuid`, copies the source actor's data and default
-     * artwork.
+     * world actor already exists (the name is a nicety, not the key), then
+     * resolves the world-unique `(type, shortcode)` key: a general create that
+     * collides is rejected, while an explicit duplicate (Foundry stamps
+     * `_stats.duplicateSource`) auto-bumps the shortcode so the copy is created.
+     * See {@link resolveShortcodeKey}. Foundry's native duplicate carries the
+     * source actor's data, so no manual clone copy is performed here.
      * @param createData - The pending actor source data.
      * @param options - Document creation options.
-     * @param options.cloneActorUuid - When creating a duplicate, the UUID of
-     *   the source actor whose data and artwork are copied.
      * @param user - The user requesting creation.
      * @returns `false` to veto creation, otherwise `true`.
      */
@@ -353,7 +351,7 @@ export class SohlActor extends Actor {
             user,
         );
         if (allowed === false) return false;
-        let updateData: PlainObject = {};
+        const updateData: PlainObject = {};
 
         const similarActorExists =
             !this.pack &&
@@ -366,36 +364,38 @@ export class SohlActor extends Actor {
             updateData["name"] = SohlActor.createUniqueName(createData.name);
         }
 
-        // If the created actor has items (only applicable to duplicated actors) bypass the new actor creation logic
-        if (createData.items) {
-            if (options.cloneActorUuid) {
-                const cloneActor = await fvttResolveUuidAsync(
-                    options.cloneActorUuid,
-                );
-                if (cloneActor) {
-                    let newData = cloneActor.toObject();
-                    delete newData._id;
-                    delete newData.folder;
-                    delete newData.sort;
-                    delete newData.pack;
-                    if ("ownership" in newData) {
-                        newData.ownership = {
-                            default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
-                            [(game as any).user.id]:
-                                CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
-                        };
-                    }
-
-                    updateData = foundry.utils.mergeObject(newData, createData);
+        // World-unique `(type, shortcode)` key. A synthetic token actor is the
+        // sole actor of its token (trivially unique); compendium-pack actors
+        // keep their source key — so only world actors are resolved here.
+        if (!this.pack) {
+            const type = createData.type;
+            const desired = (this.system as any)?.shortcode ?? "";
+            const taken = new Set<string>();
+            for (const actor of (game as any).actors) {
+                if (actor.id !== this.id && actor.type === type) {
+                    taken.add((actor.system as any)?.shortcode);
                 }
             }
-
-            const artwork = (this.constructor as any).getDefaultArtwork?.(
-                this.toObject(),
+            const isDuplicate = !!(
+                (createData as any)?._stats?.duplicateSource ??
+                (this as any)?._stats?.duplicateSource
             );
-            if (!this.img) updateData["img"] = artwork?.img;
-            if (!this.prototypeToken.texture.src)
-                updateData["prototypeToken.texture.src"] = artwork?.texture.src;
+            const resolved = resolveShortcodeKey(
+                desired,
+                (createData.name as string) ?? (this as any).name ?? "",
+                type,
+                taken,
+                isDuplicate,
+            );
+            if ("reject" in resolved) {
+                (globalThis as any).ui?.notifications?.warn(
+                    `A ${type} actor with shortcode "${desired}" already exists.`,
+                );
+                return false;
+            }
+            if (resolved.shortcode !== desired) {
+                updateData["system.shortcode"] = resolved.shortcode;
+            }
         }
 
         this.updateSource(updateData);
