@@ -150,6 +150,28 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </fieldset>
     {{/if}}
 
+    {{!-- Held Items — one dropdown per hold-capable limb --}}
+    {{#if heldItemLimbs.length}}
+    <fieldset>
+        <legend>Held Items</legend>
+        <ol class="list__items held-items">
+            {{#each heldItemLimbs as |limb|}}
+            <li class="item flexrow" data-part-index="{{limb.index}}">
+                <div class="list__name"><h4>{{limb.label}}</h4></div>
+                <div class="list__detail">
+                    <select class="held-item-select" data-part-index="{{limb.index}}">
+                        <option value="">—</option>
+                        {{#each @root.holdableItems as |it|}}
+                        <option value="{{it.id}}" {{#if (eq it.id limb.heldItemId)}}selected{{/if}}>{{it.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </fieldset>
+    {{/if}}
+
     {{!-- Anatomy --}}
     {{#if bodyStructure}}
     <fieldset>

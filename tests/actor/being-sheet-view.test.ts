@@ -18,6 +18,7 @@ import {
     buildTraitGroups,
     buildSkillGroups,
     buildAffiliationRows,
+    buildHoldableGear,
     htmlToPlainText,
     buildContainerTree,
     buildStatusPills,
@@ -283,6 +284,65 @@ describe("being-sheet-view", () => {
         it("returns '' for empty/undefined input", () => {
             expect(htmlToPlainText("")).toBe("");
             expect(htmlToPlainText(undefined as unknown as string)).toBe("");
+        });
+    });
+
+    describe("buildHoldableGear", () => {
+        const HOLDABLE = new Set(["weapongear", "miscgear"]);
+        const g = (over: Record<string, unknown> = {}) => ({
+            id: "g1",
+            name: "Sword",
+            kind: "weapongear",
+            containerId: "",
+            ...over,
+        });
+        const kind = (x: any) => x.kind;
+        const cid = (x: any) => x.containerId;
+
+        it("keeps holdable-kind items that are not in a container", () => {
+            const out = buildHoldableGear(
+                [
+                    g({ id: "a", name: "Sword", kind: "weapongear" }),
+                    g({ id: "b", name: "Torch", kind: "miscgear" }),
+                ],
+                kind,
+                cid,
+                HOLDABLE,
+            );
+            expect(out).toEqual([
+                { id: "a", name: "Sword" },
+                { id: "b", name: "Torch" },
+            ]);
+        });
+
+        it("excludes items stowed inside a container (can't hold a bagged weapon)", () => {
+            const out = buildHoldableGear(
+                [
+                    g({ id: "a", kind: "weapongear", containerId: "" }),
+                    g({ id: "b", kind: "weapongear", containerId: "pack1" }),
+                ],
+                kind,
+                cid,
+                HOLDABLE,
+            );
+            expect(out.map((o) => o.id)).toEqual(["a"]);
+        });
+
+        it("excludes non-holdable kinds (e.g. armor)", () => {
+            const out = buildHoldableGear(
+                [
+                    g({ id: "a", kind: "armorgear" }),
+                    g({ id: "b", kind: "miscgear" }),
+                ],
+                kind,
+                cid,
+                HOLDABLE,
+            );
+            expect(out.map((o) => o.id)).toEqual(["b"]);
+        });
+
+        it("returns an empty array when nothing qualifies", () => {
+            expect(buildHoldableGear([], kind, cid, HOLDABLE)).toEqual([]);
         });
     });
 
