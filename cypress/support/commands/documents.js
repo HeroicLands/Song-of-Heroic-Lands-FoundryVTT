@@ -78,6 +78,39 @@ Cypress.Commands.add("createItemOn", (actor, kind, overrides = {}) => {
 });
 
 /**
+ * Ensure `actor` has a skill keyed by `shortcode` at `masteryLevelBase`. Because
+ * `(type, shortcode)` is a unique per-actor key, a compendium actor (Basic Folk)
+ * that already owns e.g. the `melee` skill cannot receive a second — so this
+ * updates the existing skill when present and creates it otherwise. Yields the
+ * skill document. Use in place of `createItemOn(actor, "skill", …)` whenever the
+ * target may already own that skill.
+ */
+Cypress.Commands.add("ensureSkillML", (actor, shortcode, masteryLevelBase) =>
+    cy.foundry(async (win) => {
+        const a = actorRef(win, actor);
+        const existing = a.items.find(
+            (i) => i.type === "skill" && i.system?.shortcode === shortcode,
+        );
+        if (existing) {
+            await existing.update(
+                toRealm(win, {
+                    "system.masteryLevelBase": masteryLevelBase,
+                }),
+            );
+            return existing;
+        }
+        const data = itemFactory("skill", {
+            name: shortcode,
+            system: { shortcode, masteryLevelBase },
+        });
+        const [created] = await a.createEmbeddedDocuments("Item", [
+            toRealm(win, data),
+        ]);
+        return created;
+    }),
+);
+
+/**
  * Create several embedded items on `actor`. `items` is an array of
  * `{ kind, name?, system? }`. Yields the array of created Item documents.
  */

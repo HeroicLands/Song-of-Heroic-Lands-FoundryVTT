@@ -56,6 +56,11 @@ const { StringField, SchemaField, NumberField, ArrayField, JavaScriptField } =
  */
 export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
     return {
+        // Shortcode is present on every SoHL data model, but only items and
+        // actors treat `(type, shortcode)` as a required, unique key — their
+        // schemas override this field to `required, blank: false` and enforce
+        // uniqueness in `_preCreate`. Other documents (combatant, …) keep it
+        // optional, so the base leaves it blank-defaulted.
         shortcode: new StringField({ initial: "" }),
         docUrl: new URLField(),
         actionDefs: new ArrayField(

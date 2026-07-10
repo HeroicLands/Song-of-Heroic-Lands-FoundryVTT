@@ -36,6 +36,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
     </div>
 
+    {{#if showShortcode}}
+    <div class="form-group" id="shortcode-group">
+        <label>Shortcode</label>
+        <div class="form-fields">
+            <input
+                type="text"
+                name="shortcode"
+                value="{{shortcode}}"
+                data-tooltip="A short, unique code (auto-filled from the name; editable)." />
+        </div>
+    </div>
+    {{/if}}
+
     <div class="form-group" id="type-group"{{#unless askType}} style="display:none"{{/unless}}>
         <label>Type</label>
         <div class="form-fields">

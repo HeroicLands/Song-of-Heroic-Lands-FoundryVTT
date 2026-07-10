@@ -29,6 +29,9 @@ import {
     sortStrings,
     getStatic,
     subTypeOptionsFromChoices,
+    resolveShortcodeKey,
+    slugifyShortcode,
+    uniqueShortcode,
 } from "@src/utils/helpers";
 import { fvttResolveUuid } from "@src/core/FoundryHelpers";
 
@@ -822,9 +825,11 @@ describe("subTypeOptionsFromChoices", () => {
 
     it("preserves the choice map insertion order", () => {
         const choices = { c: "kc", a: "ka", b: "kb" };
-        expect(
-            subTypeOptionsFromChoices(choices).map((o) => o.value),
-        ).toEqual(["c", "a", "b"]);
+        expect(subTypeOptionsFromChoices(choices).map((o) => o.value)).toEqual([
+            "c",
+            "a",
+            "b",
+        ]);
     });
 
     it("defaults the localizer to identity on the label key", () => {
@@ -846,5 +851,88 @@ describe("defaultFromJSON — a legacy __funcref__ string is inert data", () => 
         const revived = defaultFromJSON("__funcref__:whatever");
         expect(typeof revived).not.toBe("function");
         expect(revived).toBe("__funcref__:whatever");
+    });
+});
+
+describe("slugifyShortcode", () => {
+    it("lowercases and strips non-alphanumerics", () => {
+        expect(slugifyShortcode("Long Sword")).toBe("longsword");
+        expect(slugifyShortcode("Arrow, Broadhead")).toBe("arrowbroadhead");
+        expect(slugifyShortcode("Fletcher's Kit")).toBe("fletcherskit");
+    });
+
+    it("returns '' for a name with no alphanumerics", () => {
+        expect(slugifyShortcode("—")).toBe("");
+        expect(slugifyShortcode("")).toBe("");
+    });
+});
+
+describe("uniqueShortcode", () => {
+    it("returns the base when it is free", () => {
+        expect(uniqueShortcode("arrow", new Set())).toBe("arrow");
+        expect(uniqueShortcode("arrow", new Set(["bolt"]))).toBe("arrow");
+    });
+
+    it("appends an incrementing suffix when taken", () => {
+        expect(uniqueShortcode("arrow", new Set(["arrow"]))).toBe("arrow2");
+        expect(uniqueShortcode("arrow", new Set(["arrow", "arrow2"]))).toBe(
+            "arrow3",
+        );
+    });
+});
+
+describe("resolveShortcodeKey", () => {
+    const P = "projectilegear";
+    it("passes a free explicit shortcode through unchanged on any path", () => {
+        expect(
+            resolveShortcodeKey("arrow", "Arrow", P, new Set(["bolt"]), false),
+        ).toEqual({ shortcode: "arrow" });
+        expect(
+            resolveShortcodeKey("arrow", "Arrow", P, new Set(["bolt"]), true),
+        ).toEqual({ shortcode: "arrow" });
+    });
+
+    it("rejects an explicit collision on a general create", () => {
+        expect(
+            resolveShortcodeKey("arrow", "Arrow", P, new Set(["arrow"]), false),
+        ).toEqual({ reject: true });
+    });
+
+    it("auto-uniquifies an explicit collision on a duplicate", () => {
+        expect(
+            resolveShortcodeKey("arrow", "Arrow", P, new Set(["arrow"]), true),
+        ).toEqual({ shortcode: "arrow2" });
+        expect(
+            resolveShortcodeKey(
+                "arrow",
+                "Arrow",
+                P,
+                new Set(["arrow", "arrow2"]),
+                true,
+            ),
+        ).toEqual({ shortcode: "arrow3" });
+    });
+
+    it("derives from the name and always uniquifies when no shortcode is supplied", () => {
+        // Blank shortcode → derive from name, uniquify — never reject, even on a
+        // general create (the system-generated / ad-hoc path).
+        expect(
+            resolveShortcodeKey("", "Deep Wound", "trauma", new Set(), false),
+        ).toEqual({ shortcode: "deepwound" });
+        expect(
+            resolveShortcodeKey(
+                "  ",
+                "Deep Wound",
+                "trauma",
+                new Set(["deepwound"]),
+                false,
+            ),
+        ).toEqual({ shortcode: "deepwound2" });
+    });
+
+    it("falls back to the type when the name has no usable slug", () => {
+        expect(
+            resolveShortcodeKey("", "—", "skill", new Set(["skill"]), false),
+        ).toEqual({ shortcode: "skill2" });
     });
 });

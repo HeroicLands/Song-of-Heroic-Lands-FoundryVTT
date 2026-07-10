@@ -293,6 +293,82 @@ export function createUniqueName<
     return name;
 }
 
+/**
+ * Reduce a name to a shortcode token: lowercased, ASCII-alphanumeric only
+ * (spaces and punctuation dropped). Used to suggest a default `shortcode` from
+ * an item's name. A name with no alphanumerics yields `""` (the caller supplies
+ * a fallback).
+ *
+ * @param name - The source name.
+ * @returns The slug token (possibly empty).
+ */
+export function slugifyShortcode(name: string): string {
+    return (name ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
+/**
+ * Make a shortcode unique against a set of taken shortcodes by appending an
+ * incrementing numeric suffix (`base`, `base2`, `base3`, …). Returns `base`
+ * unchanged when it is not already taken.
+ *
+ * @param base - The desired shortcode.
+ * @param taken - The shortcodes already in use.
+ * @returns A shortcode not present in `taken`.
+ */
+export function uniqueShortcode(
+    base: string,
+    taken: ReadonlySet<string>,
+): string {
+    let sc = base;
+    let i = 1;
+    while (taken.has(sc)) sc = `${base}${++i}`;
+    return sc;
+}
+
+/**
+ * Resolve the `(type, shortcode)` key on create, honoring the create path.
+ *
+ * `(type, shortcode)` is a unique key (per owning actor for embedded items;
+ * per world for world actors/items). How the key is resolved depends on what the
+ * caller supplied and how the create was initiated:
+ *
+ * - **No shortcode supplied** (`desired` blank) — a system-generated or ad-hoc
+ *   create (a trauma from an injury, an API create) that names no key. Derive one
+ *   from the name (falling back to the type) and **always uniquify**, so
+ *   programmatic creation can never fail on the key. This is the same fill +
+ *   uniquify the create dialog offers a human, applied to every path.
+ * - **Explicit shortcode + duplicate** — an explicit "copy this document"
+ *   (Foundry stamps `_stats.duplicateSource`). A collision is expected, so
+ *   auto-uniquify (`arrow` → `arrow2`) and let the copy through.
+ * - **Explicit shortcode + general create** (dialog, drag, API) — the caller
+ *   asked for that specific code; if it collides, intent is unknown (they may be
+ *   unaware it is taken), so the create is **rejected**.
+ *
+ * @param desired - The requested shortcode (blank/whitespace ⇒ "not supplied").
+ * @param fallbackName - The document name a blank shortcode is derived from.
+ * @param type - The document type, the last-resort base for a blank shortcode.
+ * @param taken - Shortcodes already used by same-type siblings, excluding self.
+ * @param isDuplicate - Whether this create is an explicit duplicate.
+ * @returns `{ shortcode }` with the code to use, or `{ reject: true }` when an
+ *   explicitly-requested shortcode collides on a general create.
+ */
+export function resolveShortcodeKey(
+    desired: string,
+    fallbackName: string,
+    type: string,
+    taken: ReadonlySet<string>,
+    isDuplicate: boolean,
+): { shortcode: string } | { reject: true } {
+    const trimmed = (desired ?? "").trim();
+    if (!trimmed) {
+        const base = slugifyShortcode(fallbackName) || type;
+        return { shortcode: uniqueShortcode(base, taken) };
+    }
+    if (!taken.has(trimmed)) return { shortcode: trimmed };
+    if (isDuplicate) return { shortcode: uniqueShortcode(trimmed, taken) };
+    return { reject: true };
+}
+
 /** Error thrown when a value fails HTML validation. */
 export class InvalidHtmlError extends Error {
     /**

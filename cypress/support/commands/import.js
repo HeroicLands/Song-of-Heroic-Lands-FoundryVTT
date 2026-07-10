@@ -21,6 +21,32 @@ import { tagName } from "../factories/ids.js";
 import { BASIC_FOLK } from "../factories/basicFolk.js";
 
 /**
+ * Give an imported document a world-unique `(type, shortcode)` key. A compendium
+ * document carries a fixed `system.shortcode`, but that key is world-unique, so
+ * importing the same document (or importing while a prior import lingers in the
+ * world) would collide and be rejected. Bump the shortcode against the documents
+ * **actually present** in the destination collection — resilient to repeat
+ * imports and to leaked/renamed artifacts, unlike a blind counter. (Embedded
+ * imports keep their source shortcode: they are unique within their new owner.)
+ *
+ * @param {object} data - The `toObject()` create payload (mutated in place).
+ * @param {Iterable} existing - The destination world collection (`game.actors` /
+ *   `game.items`).
+ */
+function uniquifyImportShortcode(data, existing) {
+    if (!data.system) return;
+    const taken = new Set();
+    for (const doc of existing) {
+        if (doc.type === data.type) taken.add(doc.system?.shortcode);
+    }
+    const base = data.system.shortcode || "doc";
+    let sc = base;
+    let i = 1;
+    while (taken.has(sc)) sc = `${base}${++i}`;
+    data.system.shortcode = sc;
+}
+
+/**
  * Import an actor from a compendium pack into the world.
  *
  * @param {string} [packId] - pack id (default `sohl.actors`).
@@ -38,6 +64,7 @@ Cypress.Commands.add(
             const src = await pack.getDocument(docId);
             if (!src) throw new Error(`No document '${docId}' in '${packId}'`);
             const data = src.toObject();
+            uniquifyImportShortcode(data, win.game.actors);
             if (opts.tag !== false) data.name = tagName(data.name);
             return win.Actor.create(data);
         }),
@@ -64,6 +91,7 @@ Cypress.Commands.add("importItem", (packId, docId, opts = {}) =>
             const [created] = await a.createEmbeddedDocuments("Item", [data]);
             return created;
         }
+        uniquifyImportShortcode(data, win.game.items);
         data.name = tagName(data.name);
         return win.Item.create(data);
     }),

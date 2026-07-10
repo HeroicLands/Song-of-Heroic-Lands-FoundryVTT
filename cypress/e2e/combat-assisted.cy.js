@@ -109,11 +109,9 @@ describe("assisted combat (sheet strike-mode cells)", () => {
         return cy.importActor().then((actor) => {
             // The weapon's `assocSkillCode` must resolve to a usable skill so the
             // attack/block/counterstrike modifier is not disabled (else
-            // successTest aborts with no card).
-            cy.createItemOn(actor, "skill", {
-                name: "Melee",
-                system: { shortcode: "melee", masteryLevelBase: 50 },
-            });
+            // successTest aborts with no card). Basic Folk already owns `melee`,
+            // so raise its ML rather than add a colliding duplicate.
+            cy.ensureSkillML(actor, "melee", 50);
             cy.createItemOn(actor, "weapongear", meleeWeapon()).then(
                 (weapon) => {
                     cy.runAction(weapon, "holdItem");

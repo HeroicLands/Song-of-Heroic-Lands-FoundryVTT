@@ -67,6 +67,9 @@ const KIND_DEFAULTS = {
     mysticalability: { subType: "shamanicrite" },
 };
 
+/** Monotonic per-run counter making every auto-derived shortcode unique. */
+let shortcodeSeq = 0;
+
 /**
  * @param {string} kind - one of {@link ITEM_KINDS}.
  * @param {object} [overrides] - `{ name?, system?, ...rest }` merged over defaults.
@@ -76,10 +79,20 @@ export function itemFactory(kind, overrides = {}) {
     const { name, system, ...rest } = overrides;
     const base =
         KIND_DEFAULTS[kind] ?? (GEAR_KINDS.has(kind) ? { quantity: 1 } : {});
+    const finalName = name ?? `${kind} item`;
+    const finalSystem = { ...base, ...(system ?? {}) };
+    // `(type, shortcode)` is a required, unique-per-actor item key. When a spec
+    // doesn't set a shortcode, derive a unique one from the name (or the kind)
+    // plus a counter, so batches and same-named items never collide. Specs that
+    // assert on a specific shortcode set it explicitly (which wins here).
+    if (!finalSystem.shortcode) {
+        const slug = finalName.toLowerCase().replace(/[^a-z0-9]+/g, "") || kind;
+        finalSystem.shortcode = `${slug}${++shortcodeSeq}`;
+    }
     return {
-        name: name ?? `${kind} item`,
+        name: finalName,
         type: kind,
-        system: { ...base, ...(system ?? {}) },
+        system: finalSystem,
         ...rest,
     };
 }

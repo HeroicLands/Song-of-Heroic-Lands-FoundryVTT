@@ -47,7 +47,9 @@ describe("being import — Basic Folk", () => {
 
     it("renames a duplicate import to a unique name (_preCreate)", () => {
         // Import untagged twice so SohlActor._preCreate's same-name uniqueness
-        // fires; this test cleans up its own (untagged) artifacts.
+        // fires. Each import gets a distinct shortcode (importActor uniquifies
+        // the `(type, shortcode)` key), so only the name collides — isolating the
+        // name-uniquify path. This test cleans up its own (untagged) artifacts.
         cy.importActor(BASIC_FOLK.pack, BASIC_FOLK.id, { tag: false }).then(
             (a1) => {
                 cy.importActor(BASIC_FOLK.pack, BASIC_FOLK.id, {
