@@ -200,42 +200,51 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{/if}}
     </fieldset>
 
-    {{!-- Anatomy --}}
+    {{!-- Body Locations: read-only Part → Location tree with effective armor
+         totals (natural protection + worn armor) per location. --}}
     {{#if bodyStructure}}
     <fieldset>
-        <legend>Anatomy</legend>
-        {{#each bodyStructure.parts as |part|}}
-        <div class="list bodypart">
-            <header class="list__header flexrow">
-                <div class="body-drop"><i class="fas fa-chevron-right"></i></div>
-                <h3 class="list__name name">{{part.shortcode}}</h3>
-                <div class="list__detail">Wt: {{part.probWeight.effective}}</div>
-                <div class="list__controls">
-                    <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
-                </div>
-            </header>
-            <ol class="list__items bodylocations-list">
-                {{#each part.locations as |loc|}}
-                <li class="item bodylocation flexrow" data-search-name="{{loc.shortcode}}" data-part-index="{{part.index}}" data-loc-index="{{loc.index}}">
-                    <div class="body-drop"></div>
-                    <div class="body-drop"></div>
-                    <div class="list__name default-action flexrow">
-                        <h4>{{loc.shortcode}}</h4>
-                    </div>
-                    <div class="list__detail" data-tooltip="Probability">{{loc.probWeight.effective}}</div>
-                    <div class="list__detail" data-tooltip="Blunt">B:{{loc.protectionBase.blunt.effective}}</div>
-                    <div class="list__detail" data-tooltip="Edged">E:{{loc.protectionBase.edged.effective}}</div>
-                    <div class="list__detail" data-tooltip="Piercing">P:{{loc.protectionBase.piercing.effective}}</div>
-                    <div class="list__detail" data-tooltip="Fire">F:{{loc.protectionBase.fire.effective}}</div>
-                    <div class="list__detail" data-tooltip="Shock">{{loc.shockValue.effective}}</div>
-                    <div class="list__controls">
-                        <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
-                    </div>
-                </li>
-                {{/each}}
-            </ol>
+        <legend>Body Locations</legend>
+        <div class="search-items">
+            <input class="search-criteria" type="search" name="search-bodylocations" value=""
+                aria-label="Search Body Locations" placeholder="Search Body Locations" autocomplete="off" />
         </div>
-        {{/each}}
+        <div class="bodylocations-list">
+            <header class="list__header flexrow">
+                <h3 class="list__name">Location</h3>
+                <div class="list__detail">Layers</div>
+                <div class="list__detail" data-tooltip="Probability">Prob</div>
+                <div class="list__detail" data-tooltip="Blunt">B</div>
+                <div class="list__detail" data-tooltip="Edged">E</div>
+                <div class="list__detail" data-tooltip="Piercing">P</div>
+                <div class="list__detail" data-tooltip="Fire">F</div>
+                <div class="list__detail" data-tooltip="Shock">Shock</div>
+                <div class="list__detail" data-tooltip="Impairment">Impair</div>
+            </header>
+            {{#each bodyParts as |part|}}
+            <div class="list bodypart">
+                <header class="list__header bodypart__header flexrow">
+                    <h4 class="list__name">{{part.label}}</h4>
+                    {{#if part.held}}<div class="list__detail bodypart__held">Held: {{part.held}}</div>{{/if}}
+                </header>
+                <ol class="list__items">
+                    {{#each part.locations as |loc|}}
+                    <li class="item bodylocation flexrow" data-search-name="{{loc.name}}">
+                        <div class="list__name"><h4>{{loc.name}}</h4></div>
+                        <div class="list__detail bodylocation__layers">{{loc.layers}}</div>
+                        <div class="list__detail">{{loc.prob}}</div>
+                        <div class="list__detail">{{loc.blunt}}</div>
+                        <div class="list__detail">{{loc.edged}}</div>
+                        <div class="list__detail">{{loc.piercing}}</div>
+                        <div class="list__detail">{{loc.fire}}</div>
+                        <div class="list__detail">{{loc.shock}}</div>
+                        <div class="list__detail">{{loc.impair}}</div>
+                    </li>
+                    {{/each}}
+                </ol>
+            </div>
+            {{/each}}
+        </div>
     </fieldset>
     {{/if}}
 </section>
