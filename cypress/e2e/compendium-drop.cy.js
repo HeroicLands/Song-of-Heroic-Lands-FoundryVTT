@@ -94,6 +94,50 @@ describe("drop item onto actor", () => {
         });
     });
 
+    it("cy.getFromCompendium + cy.dropOnActor place authored content on an actor", () => {
+        cy.importActor().then((actor) => {
+            cy.prepare(actor);
+            cy.openSheet(actor);
+            cy.wait(300);
+            // Discover a real (non-lineage) compendium item to avoid a brittle
+            // hardcoded shortcode.
+            cy.foundry(async (win) => {
+                const pack = [...win.game.packs].find(
+                    (p) => p.documentName === "Item",
+                );
+                const index = await pack.getIndex({
+                    fields: ["system.shortcode"],
+                });
+                const entry = index.find(
+                    (e) => e.type !== "lineage" && e.system?.shortcode,
+                );
+                return {
+                    pack: pack.collection,
+                    type: entry.type,
+                    sc: entry.system.shortcode,
+                };
+            }).then((ref) => {
+                cy.getFromCompendium(ref.pack, ref.type, ref.sc).then((src) => {
+                    expect(src, "compendium doc resolved").to.exist;
+                    cy.dropOnActor(actor, src).then((embedded) => {
+                        expect(embedded, "embedded clone yielded").to.exist;
+                        cy.foundry((win) => ({
+                            onActor: !!win.game.actors
+                                .get(actor.id)
+                                .items.get(embedded.id),
+                            type: embedded.type,
+                            sc: embedded.system?.shortcode,
+                        })).should((r) => {
+                            expect(r.onActor, "clone on the actor").to.be.true;
+                            expect(r.type).to.equal(ref.type);
+                            expect(r.sc).to.equal(ref.sc);
+                        });
+                    });
+                });
+            });
+        });
+    });
+
     it("refuses a second lineage but allows the first", () => {
         cy.createWorldItem("lineage", { name: "Dropped Lineage" }).then(
             (li) => {
