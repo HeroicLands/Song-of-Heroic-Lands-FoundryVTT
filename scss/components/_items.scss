@@ -177,3 +177,18 @@
         }
     }
 }
+
+// Gear tab: the per-section Capacity readout sits at the right edge of the
+// section header, and the Notes column takes the remaining width.
+.gear-list {
+    .list__header .list__capacity {
+        margin-left: auto;
+        padding: 0 10px;
+        white-space: nowrap;
+    }
+
+    .list__notes {
+        flex: 1 1 auto;
+        text-align: left;
+    }
+}
