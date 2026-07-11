@@ -15,14 +15,6 @@ import { describe, it, expect } from "vitest";
 import { chooseInitialDisplayedMedium } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { MOVEMENT_MEDIUM } from "@src/utils/constants";
 
-function fakeBeingLogic(moveBase: Record<string, number>) {
-    return {
-        effectiveBaseMove(medium: string) {
-            return { effective: moveBase[medium] ?? 0 };
-        },
-    };
-}
-
 describe("chooseInitialDisplayedMedium", () => {
     it("returns the user-set medium when explicitly provided", () => {
         expect(

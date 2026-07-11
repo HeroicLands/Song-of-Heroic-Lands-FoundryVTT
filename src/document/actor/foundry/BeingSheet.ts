@@ -16,9 +16,8 @@ import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBa
 import { fvttCallHook, fvttGetSetting } from "@src/core/FoundryHelpers";
 import {
     ITEM_KIND,
-    MOVEMENT_MEDIUM,
     MovementMedium,
-    movementMediumLabels,
+    MovementMediumChoices,
     TraitSubTypes,
     TraitSubTypeChoices,
     TraitIntensityChoices,
@@ -899,24 +898,18 @@ export class BeingSheet extends SohlActorSheetBase {
             label: string;
             value: number;
         }[] = [];
-        if (logic?.effectiveBaseMove) {
-            const mediumKeys: (keyof typeof MOVEMENT_MEDIUM)[] = [
-                "TERRESTRIAL",
-                "AQUATIC",
-                "AERIAL",
-                "BURROWING",
-                "ASTRAL",
-            ];
-            for (const key of mediumKeys) {
-                const medium = MOVEMENT_MEDIUM[key];
-                const value = logic.effectiveBaseMove(medium).effective;
-                if (value > 0) {
-                    movement.push({
-                        medium,
-                        label: movementMediumLabels[key],
-                        value,
-                    });
-                }
+        // A being has 0 or 1 lineage, which carries its single active movement
+        // profile; show that medium's tactical move (feet/round).
+        const lineage = logic?.lineage;
+        if (lineage && !lineage.moveProfile.disabled) {
+            const medium = lineage.moveProfile.medium;
+            const value = lineage.feetPerRound.effective;
+            if (value > 0) {
+                movement.push({
+                    medium,
+                    label: MovementMediumChoices[medium],
+                    value,
+                });
             }
         }
 

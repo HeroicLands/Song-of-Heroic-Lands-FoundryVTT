@@ -283,7 +283,7 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
         /**
          * The being's body weight (not including gear). Either a fixed `base`
          * (pounds) or, when `base` is null, a {@link SafeExpression} `calc` of the
-         * being's strength (`str`). See {@link LineageLogic.baseWeight}.
+         * being's strength (`str`). Seeds {@link LineageLogic.bodyWeight}.
          */
         bodyWeight: new SchemaField({
             /** Fixed body weight in pounds; null to compute from `calc`. */

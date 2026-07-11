@@ -21,18 +21,23 @@ import {
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { MoveBaseDict } from "@src/entity/movement/move-helpers";
-import { ITEM_KIND, type MovementMedium } from "@src/utils/constants";
+import {
+    ITEM_KIND,
+    MOVEMENT_MEDIUM,
+    type MovementMedium,
+} from "@src/utils/constants";
 
 /**
  * Anatomical and movement template for a being's lineage (species / heritage).
  *
  * A Lineage defines the physical baseline shared by creatures of a kind: the
  * {@link BodyStructure | body structure} (body parts, hit locations, and
- * adjacency), body weight, melee reach, per-medium movement profiles, and the
- * encumbrance/fatigue expressions. The Logic exposes the scalar baselines as
- * {@link ValueModifier}s — seeded from {@link LineageLogic.baseWeight}, `reachBase`,
- * and `moveBase` — so runtime effects (size changes, haste, encumbrance) can
- * layer on.
+ * adjacency), body weight, melee reach, and per-medium movement profiles. The
+ * Logic exposes these as {@link ValueModifier}s — `bodyWeight`, `reach`, and the
+ * active profile's `feetPerRound` / `leaguesPerWatch` / `encumbrance` /
+ * `strengthModifier` — so runtime effects (size changes, haste, encumbrance) can
+ * layer on. The active profile is selected by the owning being's
+ * `movementMedium` during {@link initialize}.
  *
  * @typeParam TData - The Lineage data interface.
  */
@@ -47,8 +52,9 @@ export class LineageLogic<
     bodyStructure!: BodyStructure;
 
     /**
-     * The being's body weight as a {@link ValueModifier}, seeded from
-     * {@link LineageLogic.baseWeight}.
+     * The being's body weight as a {@link ValueModifier}, seeded during
+     * {@link initialize} from `bodyWeight.base` (when set) or the `bodyWeight.calc`
+     * `SafeExpression` of strength.
      */
     bodyWeight!: ValueModifier;
 
@@ -61,67 +67,47 @@ export class LineageLogic<
     reach!: ValueModifier;
 
     /**
-     * Per-medium effective move, each a {@link ValueModifier} seeded from the
-     * corresponding entry of {@link LineageData.moveBase}, so runtime modifiers
-     * (haste, encumbrance, etc.) can layer on.
+     * The creature's tactical move (feet per combat round), exposed as a `ValueModifier`
+     * so runtime modifiers (haste, encumbrance, etc.) can layer on.
      */
-    move!: {
-        /** Movement over land. */
-        terrestrial: ValueModifier;
-        /** Movement through water. */
-        aquatic: ValueModifier;
-        /** Movement through the air. */
-        aerial: ValueModifier;
-        /** Movement through earth. */
-        burrowing: ValueModifier;
-        /** Movement on the astral plane. */
-        astral: ValueModifier;
-    };
+    feetPerRound!: ValueModifier;
 
     /**
-     * Per-medium base move (feet per combat round) for creatures of this
-     * lineage. A value of 0 means the creature cannot move in that medium.
-     * Active Effects can target individual entries (e.g.
-     * `system.moveBase.terrestrial`) to apply haste, encumbrance, etc.
+     * The creature's overland travel speed (leagues per watch), exposed as a `ValueModifier`
+     * so runtime modifiers (haste, encumbrance, etc.) can layer on.
      */
-    get moveBase(): MoveBaseDict {
-        return this.data.moveBase;
-    }
+    leaguesPerWatch!: ValueModifier;
 
     /**
-     * The medium shown by default in the combat tracker for creatures of
-     * this lineage. Seeded onto each new combatant at creation time.
+     * The creature's encumbrance, exposed as a `ValueModifier` so runtime modifiers
+     * (carried weight, strength effects, etc.) can layer on.
      */
-    get defaultMoveMedium(): MovementMedium {
-        return this.data.defaultMoveMedium;
-    }
+    encumbrance!: ValueModifier;
 
     /**
-     * The being's base body weight (pounds), not including gear.
-     *
-     * Returns {@link LineageData.bodyWeight | `bodyWeight.base`} verbatim when it
-     * is set (non-null). Otherwise evaluates the `bodyWeight.calc`
-     * {@link SafeExpression} against the owning being's strength (`str`) — so a
-     * lineage can express weight as a function of Strength (e.g. `(9 * str) + 50`).
-     * Falls back to 0 when there is no owning being, no strength attribute, or the
-     * expression fails to produce a number.
+     * The creature's strength modifier, exposed as a `ValueModifier` so runtime modifiers
+     * (effects that alter strength, etc.) can layer on.
      */
-    get baseWeight(): number {
-        const bodyWeight = this.data.bodyWeight;
-        if (bodyWeight.base != null) return bodyWeight.base;
-        const str =
-            this.actorLogic?.logicTypes[ITEM_KIND.ATTRIBUTE].find(
-                (a) => a.data?.shortcode === "str",
-            )?.score.effective ?? 0;
-        try {
-            const value = new SafeExpression(
-                { source: bodyWeight.calc },
-                { parent: this },
-            ).evaluate({ str });
-            return typeof value === "number" ? value : 0;
-        } catch {
-            return 0;
-        }
+    strengthModifier!: ValueModifier;
+
+    /**
+     * The creature's movement profile, containing per-medium move data and related modifiers.
+     */
+    moveProfile!: MovementProfile;
+
+    /**
+     * The owning being's total carried-gear weight, read from the being's
+     * `carriedWeight` {@link ValueModifier} (accumulated ground-up during item
+     * preparation — each carried gear adds a delta). 0 when there is no owning
+     * being (or the actor exposes no carried weight).
+     * @returns The total carried-gear weight in pounds, or 0.
+     */
+    private get carriedWeight(): number {
+        const actorLogic = this.actorLogic as {
+            carriedWeight?: { effective?: number };
+        } | null;
+        const effective = actorLogic?.carriedWeight?.effective;
+        return typeof effective === "number" ? effective : 0;
     }
 
     /* --------------------------------------------- */
@@ -131,43 +117,89 @@ export class LineageLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
+        // Register with the owning being so it can reach its lineage directly
+        // (a being has 0 or 1). Duck-typed to avoid coupling to BeingLogic.
+        (
+            this.actorLogic as {
+                registerLineage?(l: LineageLogic): void;
+            } | null
+        )?.registerLineage?.(this);
         this.bodyStructure = new entity.BodyStructure(this.data.bodyStructure, {
             parent: this,
         });
-        this.bodyWeight = new entity.ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.baseWeight);
+        this.bodyWeight = new entity.ValueModifier(this);
+        if (this.data.bodyWeight.base !== null) {
+            this.bodyWeight.setBase(this.data.bodyWeight.base);
+        } else {
+            const bodyWeightCalc = new SafeExpression(
+                { source: this.data.bodyWeight.calc },
+                { parent: this },
+            );
+            this.bodyWeight.setBase(
+                (bodyWeightCalc.evaluate({
+                    str:
+                        this.actorLogic?.getItemLogic(
+                            "str",
+                            ITEM_KIND.ATTRIBUTE,
+                        )?.score.effective ?? 0,
+                }) as number) ?? 0,
+            );
+        }
         this.reach = new entity.ValueModifier(this).setBase(
             this.data.reachBase,
         );
-        this.move = {
-            terrestrial: new entity.ValueModifier(this).setBase(
-                this.data.moveBase.terrestrial,
-            ),
-            aquatic: new entity.ValueModifier(this).setBase(
-                this.data.moveBase.aquatic,
-            ),
-            aerial: new entity.ValueModifier(this).setBase(
-                this.data.moveBase.aerial,
-            ),
-            burrowing: new entity.ValueModifier(this).setBase(
-                this.data.moveBase.burrowing,
-            ),
-            astral: new entity.ValueModifier(this).setBase(
-                this.data.moveBase.astral,
-            ),
-        };
+        this.feetPerRound = new entity.ValueModifier(this);
+        this.leaguesPerWatch = new entity.ValueModifier(this);
+        this.encumbrance = new entity.ValueModifier(this);
+        this.strengthModifier = new entity.ValueModifier(this);
+        this.moveProfile =
+            this.data.movementProfiles?.find(
+                (profile) =>
+                    profile.medium === this.actorLogic?.data.movementMedium,
+            ) ??
+            ({
+                medium: MOVEMENT_MEDIUM.TERRESTRIAL,
+                feetPerRound: 0,
+                leaguesPerWatch: 0,
+                encumbrance: "0",
+                strMod: "0",
+                disabled: true,
+            } as MovementProfile);
+
+        if (!this.moveProfile.disabled) {
+            this.feetPerRound.setBase(this.moveProfile.feetPerRound);
+            this.leaguesPerWatch.setBase(this.moveProfile.leaguesPerWatch);
+        }
     }
 
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
+        const strModExpr = new SafeExpression(
+            { source: this.moveProfile.strMod },
+            { parent: this },
+        );
+        const strAttrLogic = this.actorLogic?.getItemLogic(
+            "str",
+            ITEM_KIND.ATTRIBUTE,
+        );
+        this.strengthModifier.setBase(
+            strModExpr.evaluate({
+                str: strAttrLogic?.score.effective ?? 0,
+            }) as number,
+        );
     }
 
     /** @inheritdoc */
     override finalize(): void {
         super.finalize();
+        const encExpr = new SafeExpression(
+            { source: this.moveProfile.encumbrance },
+            { parent: this },
+        );
+        this.encumbrance.setBase(
+            encExpr.evaluate({ wt: this.carriedWeight }) as number,
+        );
     }
 }
 
@@ -210,8 +242,8 @@ export interface LineageData<
     movementProfiles: MovementProfile[];
     /**
      * Body weight (pounds), not including gear: a fixed `base`, or a
-     * `SafeExpression` `calc` of strength (`str`) when `base` is null. See
-     * {@link LineageLogic.baseWeight}.
+     * `SafeExpression` `calc` of strength (`str`) when `base` is null. Seeds the
+     * {@link LineageLogic.bodyWeight} modifier during `initialize`.
      */
     bodyWeight: {
         /** Fixed body weight in pounds; null to compute from `calc`. */

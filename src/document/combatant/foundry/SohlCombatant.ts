@@ -345,18 +345,16 @@ export class SohlCombatant<
     }
 
     /**
-     * The computed tactical move for this combatant in the given medium,
-     * accounting for the combatant's situational `moveFactor` scalar.
+     * The computed tactical move (feet per combat round) for this combatant,
+     * read from its being's lineage for the being's active movement medium.
      *
      * Returns `null` when the combatant's actor has no `BeingLogic`
-     * (e.g. a Vehicle, which has no movement model) or when the actor's
-     * base move in this medium is 0.
+     * (e.g. a Vehicle, which has no movement model) or has no lineage.
      *
-     * @param medium - The movement medium to compute for.
      * @returns The tactical move, or `null` when movement is unavailable.
      */
-    computedMove(medium: MovementMedium): number | null {
-        return this.logic.computedMove(medium);
+    computedMove(): number | null {
+        return this.logic.computedMove();
     }
 
     /**
@@ -390,7 +388,7 @@ export class SohlCombatant<
             ITEM_KIND.LINEAGE
         ]?.[0];
         const lineageDefault = (lineageItem?.logic as LineageLogic | undefined)
-            ?.defaultMoveMedium;
+            ?.data?.defaultMoveMedium;
         const chosen = chooseInitialDisplayedMedium(
             userSetMedium,
             lineageDefault,

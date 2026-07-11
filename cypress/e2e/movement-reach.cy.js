@@ -14,17 +14,18 @@
 /**
  * Movement + reach read paths.
  *
- * Movement: `SohlCombatantLogic.computedMove(medium)` / `displayedMove` read the
- * being's per-medium base move off the lineage. Reach: `BeingLogic.reach` is the
- * greatest reach among currently-available melee modes — combat techniques are
- * always available; a weapon's mode counts only when the weapon is held in at
- * least `minParts` limbs (the hold path landed in #179 and was made
- * corruption-safe in #247).
+ * Movement: `SohlCombatantLogic.computedMove()` / `displayedMove` read the being's
+ * tactical move off its lineage's active movement profile
+ * (`LineageLogic.feetPerRound`, for the being's `movementMedium`). Reach:
+ * `BeingLogic.reach` is the greatest reach among currently-available melee modes —
+ * combat techniques are always available; a weapon's mode counts only when the
+ * weapon is held in at least `minParts` limbs (the hold path landed in #179 and
+ * was made corruption-safe in #247).
  *
- * Basic Folk's lineage still uses the legacy `movementProfiles` format with no
- * `moveBase` / `reachBase` (#242), so both derive to 0 on a bare import; the
- * movement tests seed `moveBase` on the lineage, and reach is exercised with an
- * inline combat technique / weapon.
+ * The imported Human Folk lineage carries a terrestrial movement profile
+ * (`feetPerRound` 50); a being's `movementMedium` defaults to terrestrial, so the
+ * movement tests read 50 directly. Reach is exercised with an inline combat
+ * technique / weapon.
  */
 
 /**
@@ -102,13 +103,6 @@ function meleeWeapon(lengthBase, name = "Test Spear") {
     };
 }
 
-/** Set a nested field on the actor's lineage item (realm-safe). */
-function setLineageField(win, actorId, path, value) {
-    const a = win.game.actors.get(actorId);
-    const lineage = a.items.find((i) => i.type === "lineage");
-    return lineage.update(win.JSON.parse(JSON.stringify({ [path]: value })));
-}
-
 /** The SohlCombatantLogic for `actorId` in `combatId`. */
 function combatantLogic(win, combatId, actorId) {
     const combat = win.game.combats.get(combatId);
@@ -121,17 +115,12 @@ describe("movement + reach read paths", () => {
 
     // ------------------------------------------------------------------ movement
 
-    it("computedMove reads the lineage base move for the medium", () => {
+    // Human Folk's terrestrial movement profile is feetPerRound 50 (vault
+    // export); a being's movementMedium defaults to terrestrial, so the lineage's
+    // active feetPerRound resolves to 50 — which computedMove reads directly.
+    it("computedMove reads the lineage's active feetPerRound", () => {
         cy.createScene().then((scene) => {
             cy.importActor().then((actor) => {
-                cy.foundry((win) =>
-                    setLineageField(
-                        win,
-                        actor.id,
-                        "system.moveBase.terrestrial",
-                        10,
-                    ),
-                );
                 cy.prepare(actor);
                 cy.placeToken(scene, actor).then((token) => {
                     cy.createCombatWith([token]).then((combat) => {
@@ -140,25 +129,17 @@ describe("movement + reach read paths", () => {
                                 win,
                                 combat.id,
                                 actor.id,
-                            ).computedMove("terrestrial"),
-                        ).should("eq", 10);
+                            ).computedMove(),
+                        ).should("eq", 50);
                     });
                 });
             });
         });
     });
 
-    it("displayedMove reads computedMove for the seeded displayedMedium", () => {
+    it("displayedMove equals computedMove", () => {
         cy.createScene().then((scene) => {
             cy.importActor().then((actor) => {
-                cy.foundry((win) =>
-                    setLineageField(
-                        win,
-                        actor.id,
-                        "system.moveBase.terrestrial",
-                        12,
-                    ),
-                );
                 cy.prepare(actor);
                 cy.placeToken(scene, actor).then((token) => {
                     cy.createCombatWith([token]).then((combat) => {
@@ -169,16 +150,12 @@ describe("movement + reach read paths", () => {
                                 actor.id,
                             );
                             return {
-                                medium: cbt.data.displayedMedium,
                                 displayed: cbt.displayedMove,
-                                computed: cbt.computedMove("terrestrial"),
+                                computed: cbt.computedMove(),
                             };
                         }).should((r) => {
-                            expect(r.medium, "seeded displayedMedium").to.eq(
-                                "terrestrial",
-                            );
                             expect(r.displayed).to.eq(r.computed);
-                            expect(r.displayed).to.eq(12);
+                            expect(r.displayed).to.eq(50);
                         });
                     });
                 });
@@ -191,14 +168,6 @@ describe("movement + reach read paths", () => {
     it("computedMove currently ignores moveFactor (#252)", () => {
         cy.createScene().then((scene) => {
             cy.importActor().then((actor) => {
-                cy.foundry((win) =>
-                    setLineageField(
-                        win,
-                        actor.id,
-                        "system.moveBase.terrestrial",
-                        10,
-                    ),
-                );
                 cy.prepare(actor);
                 cy.placeToken(scene, actor).then((token) => {
                     cy.createCombatWith([token]).then((combat) => {
@@ -215,14 +184,14 @@ describe("movement + reach read paths", () => {
                             // Re-read the freshly-prepared logic post-update.
                             return {
                                 moveFactor: cbt.logic.data.moveFactor,
-                                computed: cbt.logic.computedMove("terrestrial"),
+                                computed: cbt.logic.computedMove(),
                             };
                         }).should((r) => {
                             expect(r.moveFactor, "moveFactor persisted").to.eq(
                                 2,
                             );
-                            // Base 10 returned unscaled — moveFactor dropped.
-                            expect(r.computed).to.eq(10);
+                            // feetPerRound 50 returned unscaled — moveFactor dropped.
+                            expect(r.computed).to.eq(50);
                         });
                     });
                 });
@@ -231,20 +200,12 @@ describe("movement + reach read paths", () => {
     });
 
     it.skip("computedMove scales base move by moveFactor", () => {
-        // RED — blocked by #252: computedMove returns effectiveBaseMove()
+        // RED — blocked by #252: computedMove returns the lineage's feetPerRound
         // verbatim and never reads moveFactor, though its docstring says it
         // "accounts for the combatant's situational moveFactor scalar." Once
         // computedMove applies the scalar this asserts the product.
         cy.createScene().then((scene) => {
             cy.importActor().then((actor) => {
-                cy.foundry((win) =>
-                    setLineageField(
-                        win,
-                        actor.id,
-                        "system.moveBase.terrestrial",
-                        10,
-                    ),
-                );
                 cy.prepare(actor);
                 cy.placeToken(scene, actor).then((token) => {
                     cy.createCombatWith([token]).then((combat) => {
@@ -258,8 +219,8 @@ describe("movement + reach read paths", () => {
                                     JSON.stringify({ "system.moveFactor": 2 }),
                                 ),
                             );
-                            return cbt.logic.computedMove("terrestrial");
-                        }).should("eq", 20); // 10 base × 2 moveFactor
+                            return cbt.logic.computedMove();
+                        }).should("eq", 100); // feetPerRound 50 × 2 moveFactor
                     });
                 });
             });

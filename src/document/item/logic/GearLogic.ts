@@ -354,6 +354,16 @@ export abstract class GearLogic<
                 (logic) => logic.id === this.data.containerId,
             ) as GearLogic | undefined;
         }
+        // Ground-up carried-weight accumulation: contribute this item's
+        // weight × quantity to the owning being while it evaluates, so the
+        // being's total is complete by the time anything reads it.
+        if (this.data.isCarried && this.actorLogic instanceof BeingLogic) {
+            this.actorLogic.carriedWeight.add(
+                `${this.data.shortcode}Wt`,
+                `${this.name} Weight`,
+                this.weight.effective * (this.data.quantity ?? 1),
+            );
+        }
     }
 
     /** @inheritdoc */
