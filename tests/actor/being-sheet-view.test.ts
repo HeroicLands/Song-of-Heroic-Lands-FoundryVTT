@@ -811,7 +811,7 @@ describe("being-sheet-view", () => {
             notes: "<p>shivering</p>",
             ...over,
         });
-        const label = (s) => s.toUpperCase();
+        const label = (s: string) => s.toUpperCase();
 
         it("groups by subtype in the given order with labels and rows", () => {
             const groups = buildAfflictionGroups(
