@@ -861,3 +861,106 @@ export function buildTraumaRows(
         notes: htmlToPlainText(t.notes),
     }));
 }
+
+/**
+ * Pre-extracted values for one affliction item, sourced by the sheet from the
+ * item's logic and system data — the Foundry-free surface {@link buildAfflictionGroups}
+ * groups and formats for the Trauma tab's afflictions list. `level` and `source`
+ * arrive already localized (the logic exposes qualitative `levelLabel` /
+ * `categoryLabel`).
+ */
+export interface AfflictionLike {
+    id: string;
+    uuid: string;
+    name: string;
+    img: string;
+    subType: string | undefined;
+    /** Localized qualitative level label. */
+    levelLabel: string;
+    /** Effective healing rate. */
+    healingRate: number;
+    /** Whether the healing rate is disabled (no natural recovery). */
+    healingRateDisabled: boolean;
+    /** Localized source/category label. */
+    source: string;
+    /** Raw notes HTML. */
+    notes: string;
+}
+
+/** A formatted affliction row for the afflictions list. */
+export interface AfflictionRow {
+    id: string;
+    uuid: string;
+    name: string;
+    img: string;
+    /** Localized level label. */
+    level: string;
+    healingRate: number;
+    healingRateDisabled: boolean;
+    source: string;
+    /** Plain-text notes (HTML stripped). */
+    notes: string;
+}
+
+/** A subtype-labeled group of afflictions, ready to render. */
+export interface AfflictionGroup {
+    /** The subtype key (e.g. `"fatigue"`), used to seed new items. */
+    subType: string;
+    /** Localized subtype label shown in the group legend. */
+    label: string;
+    /** The afflictions in this group. */
+    afflictions: AfflictionRow[];
+}
+
+/**
+ * Build the subtype-labeled affliction groups for the Trauma tab's afflictions
+ * list. Only **non-empty** groups are emitted (afflictions are created from a
+ * single section control, so empty subtype groups would be noise): ordered
+ * groups first — in `order` — then any remaining populated subtypes in first-seen
+ * order, so nothing is silently dropped.
+ *
+ * @param afflictions - The pre-extracted affliction values.
+ * @param order - The subtype keys in their canonical display order.
+ * @param subTypeLabel - Resolves a subtype key to its display label.
+ * @returns The populated affliction groups.
+ */
+export function buildAfflictionGroups(
+    afflictions: readonly AfflictionLike[],
+    order: readonly string[],
+    subTypeLabel: (subType: string) => string,
+): AfflictionGroup[] {
+    const buckets = groupBySubType(afflictions, (a) => a.subType);
+    const toRow = (a: AfflictionLike): AfflictionRow => ({
+        id: a.id,
+        uuid: a.uuid,
+        name: a.name,
+        img: a.img,
+        level: a.levelLabel,
+        healingRate: a.healingRate,
+        healingRateDisabled: a.healingRateDisabled,
+        source: a.source,
+        notes: htmlToPlainText(a.notes),
+    });
+
+    const seen = new Set<string>();
+    const groups: AfflictionGroup[] = [];
+    for (const subType of order) {
+        seen.add(subType);
+        const bucket = buckets[subType];
+        if (!bucket?.length) continue;
+        groups.push({
+            subType,
+            label: subTypeLabel(subType),
+            afflictions: bucket.map(toRow),
+        });
+    }
+    for (const [subType, bucket] of Object.entries(buckets)) {
+        if (seen.has(subType) || !bucket.length) continue;
+        groups.push({
+            subType,
+            label: subTypeLabel(subType),
+            afflictions: bucket.map(toRow),
+        });
+    }
+    return groups;
+}

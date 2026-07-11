@@ -24,6 +24,8 @@ import {
     TraitIntensityChoices,
     SKILL_SUBTYPE,
     SkillSubTypeChoices,
+    AfflictionSubTypes,
+    AfflictionSubTypeChoices,
 } from "@src/utils/constants";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
@@ -36,6 +38,7 @@ import {
     buildTraitGroups,
     buildSkillGroups,
     buildTraumaRows,
+    buildAfflictionGroups,
     buildAffiliationRows,
     buildHoldableGear,
     buildBodyLocationTree,
@@ -1138,12 +1141,33 @@ export class BeingSheet extends SohlActorSheetBase {
                 sohl.i18n.localize(`SOHL.ImpactModifier.ASPECT.${aspect}`),
         );
 
-        const afflictions = actor.itemTypes[ITEM_KIND.AFFLICTION] ?? [];
-
-        // Group afflictions by subType
-        const afflictionGroups = groupBySubType(
-            afflictions,
-            (affliction) => (affliction.system as any).subType,
+        // Afflictions, grouped by subtype: extract each item's display values
+        // from its logic (localized level/source labels) and system data.
+        const afflictionGroups = buildAfflictionGroups(
+            (actor.itemTypes[ITEM_KIND.AFFLICTION] ?? []).map((item) => {
+                const al = item.logic as any;
+                const sys = item.system as any;
+                return {
+                    id: item.id!,
+                    uuid: item.uuid,
+                    name: item.name,
+                    img: item.img ?? "",
+                    subType: sys.subType,
+                    levelLabel:
+                        al?.levelLabel ?? String(al?.level?.effective ?? 0),
+                    healingRate: al?.healingRate?.effective ?? 0,
+                    healingRateDisabled: !!al?.healingRate?.disabled,
+                    source: al?.categoryLabel ?? "",
+                    notes: sys.notes,
+                };
+            }),
+            AfflictionSubTypes,
+            (subType) =>
+                game.i18n.localize(
+                    (AfflictionSubTypeChoices as Record<string, string>)[
+                        subType
+                    ] ?? subType,
+                ),
         );
 
         return Object.assign(context, {
