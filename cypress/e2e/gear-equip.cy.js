@@ -234,10 +234,6 @@ describe("gear equip / hold → combat-tab display", () => {
     });
 
     it("equipped compendium Mail Shirt aggregates protection onto covered locations", () => {
-        // Was RED (#249): compendium ArmorGear stored locations.rigid as display
-        // names ("Thorax") while aggregateArmor matches body-location shortcodes
-        // ("thrxloc"), so worn compendium armor aggregated zero protection. The
-        // compendium data was migrated to shortcodes (#358), so this is now GREEN.
         cy.importActor().then((actor) => {
             cy.importItem("sohl.items", MAIL_SHIRT_ID, { actor }).then(
                 (armor) => {
