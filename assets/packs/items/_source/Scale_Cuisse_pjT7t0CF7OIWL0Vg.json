@@ -22,10 +22,10 @@
     "locations": {
       "flexible": [],
       "rigid": [
-        "Left Thigh",
-        "Right Thigh",
-        "Left Knee",
-        "Right Knee"
+        "lthghloc",
+        "rthghloc",
+        "lkneeloc",
+        "rkneeloc"
       ]
     },
     "protectionBase": {

@@ -21,8 +21,8 @@
     "material": "Padded",
     "locations": {
       "flexible": [
-        "Skull",
-        "Neck"
+        "skullloc",
+        "neckloc"
       ],
       "rigid": []
     },

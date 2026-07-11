@@ -22,9 +22,9 @@
     "locations": {
       "flexible": [],
       "rigid": [
-        "Skull",
-        "Right Ear",
-        "Left Ear"
+        "skullloc",
+        "rearloc",
+        "learloc"
       ]
     },
     "protectionBase": {

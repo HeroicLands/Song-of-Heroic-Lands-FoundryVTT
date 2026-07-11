@@ -21,14 +21,14 @@
     "material": "Gambeson",
     "locations": {
       "flexible": [
-        "Neck",
-        "Left Shoulder",
-        "Right Shoulder"
+        "neckloc",
+        "lshldloc",
+        "rshldloc"
       ],
       "rigid": [
-        "Thorax",
-        "Abdomen",
-        "Pelvis"
+        "thrxloc",
+        "abdmnloc",
+        "plvisloc"
       ]
     },
     "protectionBase": {

@@ -21,8 +21,8 @@
     "material": "Cloth",
     "locations": {
       "flexible": [
-        "Thorax",
-        "Abdomen"
+        "thrxloc",
+        "abdmnloc"
       ],
       "rigid": []
     },

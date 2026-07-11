@@ -21,17 +21,17 @@
     "material": "Quilted",
     "locations": {
       "flexible": [
-        "Left Shoulder",
-        "Right Shoulder",
-        "Thorax",
-        "Abdomen",
-        "Pelvis",
-        "Left Thigh",
-        "Right Thigh",
-        "Left Knee",
-        "Right Knee",
-        "Left Calf",
-        "Right Calf"
+        "lshldloc",
+        "rshldloc",
+        "thrxloc",
+        "abdmnloc",
+        "plvisloc",
+        "lthghloc",
+        "rthghloc",
+        "lkneeloc",
+        "rkneeloc",
+        "lcalfloc",
+        "rcalfloc"
       ],
       "rigid": []
     },

@@ -21,8 +21,8 @@
     "material": "Padded",
     "locations": {
       "flexible": [
-        "Thorax",
-        "Abdomen"
+        "thrxloc",
+        "abdmnloc"
       ],
       "rigid": []
     },

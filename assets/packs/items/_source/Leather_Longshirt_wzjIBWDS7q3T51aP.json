@@ -21,16 +21,16 @@
     "material": "Leather",
     "locations": {
       "flexible": [
-        "Left Shoulder",
-        "Right Shoulder",
-        "Left Upper Arm",
-        "Right Upper Arm",
-        "Left Elbow",
-        "Right Elbow",
-        "Left Forearm",
-        "Right Forearm",
-        "Thorax",
-        "Abdomen"
+        "lshldloc",
+        "rshldloc",
+        "lupaloc",
+        "rupaloc",
+        "lelbloc",
+        "relbloc",
+        "lfraloc",
+        "rfraloc",
+        "thrxloc",
+        "abdmnloc"
       ],
       "rigid": []
     },

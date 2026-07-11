@@ -21,7 +21,7 @@
     "material": "Cloth",
     "locations": {
       "flexible": [
-        "Pelvis"
+        "plvisloc"
       ],
       "rigid": []
     },

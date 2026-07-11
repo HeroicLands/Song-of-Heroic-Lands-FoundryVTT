@@ -21,11 +21,11 @@
     "material": "Cloth",
     "locations": {
       "flexible": [
-        "Pelvis",
-        "Left Thigh",
-        "Right Thigh",
-        "Left Knee",
-        "Right Knee"
+        "plvisloc",
+        "lthghloc",
+        "rthghloc",
+        "lkneeloc",
+        "rkneeloc"
       ],
       "rigid": []
     },

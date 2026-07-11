@@ -21,12 +21,12 @@
     "material": "Leather",
     "locations": {
       "flexible": [
-        "Left Knee",
-        "Right Knee",
-        "Left Calf",
-        "Right Calf",
-        "Left Foot",
-        "Right Foot"
+        "lkneeloc",
+        "rkneeloc",
+        "lcalfloc",
+        "rcalfloc",
+        "lfootloc",
+        "rfootloc"
       ],
       "rigid": []
     },

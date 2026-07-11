@@ -21,8 +21,8 @@
     "material": "Quilted",
     "locations": {
       "flexible": [
-        "Skull",
-        "Neck"
+        "skullloc",
+        "neckloc"
       ],
       "rigid": []
     },

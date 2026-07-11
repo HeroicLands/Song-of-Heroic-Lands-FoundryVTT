@@ -21,8 +21,8 @@
     "material": "Leather",
     "locations": {
       "flexible": [
-        "Left Forearm",
-        "Right Forearm"
+        "lfraloc",
+        "rfraloc"
       ],
       "rigid": []
     },

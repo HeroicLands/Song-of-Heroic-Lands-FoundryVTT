@@ -21,8 +21,8 @@
     "material": "Leather",
     "locations": {
       "flexible": [
-        "Left Hand",
-        "Right Hand"
+        "lhandloc",
+        "rhandloc"
       ],
       "rigid": []
     },
