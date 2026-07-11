@@ -53,6 +53,7 @@ import {
     IMPACT_ASPECT,
     ITEM_KIND,
     MovementMedium,
+    MovementMediums,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     TEST_TYPE,
@@ -143,6 +144,31 @@ export class BeingLogic<
         const lineageLogic = this.logicTypes[ITEM_KIND.LINEAGE][0];
         const base = readBaseMove(lineageLogic?.moveBase, medium);
         return new entity.ValueModifier({}, { parent: this }).setBase(base);
+    }
+
+    /**
+     * The maximum weight this being can carry, derived from its base move rate
+     * and its lineage's encumbrance rate. Each `encumbranceRate` pounds of gear
+     * costs one unit of encumbrance; a being tolerates `moveBase - 5` units
+     * before its move is affected, so the limit is the weight one point shy of
+     * the next encumbrance step past that threshold.
+     *
+     * `moveBase` is the being's greatest base move across all media. Read after
+     * item preparation. A being without a lineage has no encumbrance rate, so
+     * this returns a degenerate value — callers (the sheet) treat a lineage-less
+     * being as having 0 capacity.
+     *
+     * @returns The maximum carry weight.
+     */
+    get maxCarryWeight(): number {
+        const moveBase = Math.max(
+            0,
+            ...MovementMediums.map((m) => this.effectiveBaseMove(m).effective),
+        );
+        const encRate =
+            this.logicTypes[ITEM_KIND.LINEAGE][0]?.data?.encumbranceRate ?? 0;
+        const encThreshold = Math.max(0, moveBase - 5);
+        return encRate * (encThreshold + 1) - 1;
     }
 
     /**

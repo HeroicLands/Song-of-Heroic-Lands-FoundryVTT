@@ -212,6 +212,40 @@ describe("BeingLogic", () => {
         });
     });
 
+    describe("maxCarryWeight", () => {
+        it("derives capacity from base move and lineage encumbrance rate", () => {
+            const logic = makeBeing();
+            (logic.actor as any).itemTypes = {
+                [ITEM_KIND.LINEAGE]: [
+                    {
+                        logic: {
+                            moveBase: { terrestrial: 50 },
+                            data: { encumbranceRate: 4 },
+                        },
+                    },
+                ],
+            };
+            // move 50 → encThreshold 45 → 4 * (45 + 1) - 1 = 183
+            expect(logic.maxCarryWeight).toBe(183);
+        });
+
+        it("uses the greatest base move across media", () => {
+            const logic = makeBeing();
+            (logic.actor as any).itemTypes = {
+                [ITEM_KIND.LINEAGE]: [
+                    {
+                        logic: {
+                            moveBase: { terrestrial: 30, aerial: 60 },
+                            data: { encumbranceRate: 2 },
+                        },
+                    },
+                ],
+            };
+            // max move 60 → encThreshold 55 → 2 * (55 + 1) - 1 = 111
+            expect(logic.maxCarryWeight).toBe(111);
+        });
+    });
+
     describe("reach", () => {
         it("is 0 when the being has no strike modes", () => {
             const logic = makeBeing();

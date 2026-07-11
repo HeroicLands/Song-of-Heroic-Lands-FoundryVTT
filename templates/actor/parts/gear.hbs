@@ -22,33 +22,41 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
     </div>
 
-    {{!-- On Body (ungrouped gear) --}}
-    {{#if onBodyItems.length}}
-    <div class="list gear-list">
+    {{!-- One gear section (On Body or a container): a capacity readout plus the
+          Type / Qty / Weight / Qual / Dur / Notes columns. --}}
+    {{#*inline "gearSection"}}
+    <div class="list gear-list"{{#if id}} data-container-id="{{id}}"{{/if}}>
         <header class="list__header flexrow">
-            <h3 class="list__name">On Body</h3>
+            <h3 class="list__name">{{title}}</h3>
             <div class="list__detail">Type</div>
-            <div class="list__detail">Qty</div>
-            <div class="list__detail">Wt</div>
+            <div class="list__detail" data-tooltip="Quantity">Qty</div>
+            <div class="list__detail">Weight</div>
+            <div class="list__detail" data-tooltip="Quality">Qual</div>
+            <div class="list__detail" data-tooltip="Durability">Dur</div>
+            <div class="list__detail list__notes">Notes</div>
+            <div class="list__capacity" data-tooltip="Weight carried / capacity">Capacity: {{capacity.used}}/{{capacity.max}}</div>
         </header>
         <ol class="list__items">
-            {{#each onBodyItems as |item|}}
+            {{#each items as |item|}}
             <li class="item flexrow" data-search-name="{{item.name}}" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}">
                 <div class="list__name flexrow">
                     <div class="list__image" style="background-image: url('{{item.img}}')"></div>
-                    <h4>{{item.name}}</h4>
+                    <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
                 </div>
-                <div class="list__detail">{{item.type}}</div>
-                <div class="list__detail">{{item.system.quantity}}</div>
-                <div class="list__detail">{{item.system.weightBase}}</div>
+                <div class="list__detail">{{item.typeLabel}}</div>
+                <div class="list__detail">{{item.quantity}}</div>
+                <div class="list__detail">{{item.weight}}</div>
+                <div class="list__detail">{{item.quality}}</div>
+                <div class="list__detail">{{item.durability}}</div>
+                <div class="list__detail list__notes" data-tooltip="{{item.notes}}">{{item.notes}}</div>
                 <div class="list__controls">
-                    {{#if (eq item.type "armorgear")}}
+                    {{#if item.isArmor}}
                     <a class="list__control item-worn" data-action="toggleEquipped" title="Worn">
-                        <i class="sohl-chest-armor {{#unless item.system.isEquipped}}disabled{{/unless}}"></i>
+                        <i class="sohl-chest-armor {{#unless item.isEquipped}}disabled{{/unless}}"></i>
                     </a>
                     {{/if}}
                     <a class="list__control item-carried" data-action="toggleCarried" title="Carried">
-                        <i class="sohl-sack {{#unless item.system.isCarried}}disabled{{/unless}}"></i>
+                        <i class="sohl-sack {{#unless item.isCarried}}disabled{{/unless}}"></i>
                     </a>
                     <a class="list__control item-contextmenu" title="Menu">
                         <i class="sohl-ellipsis-vertical"></i>
@@ -58,35 +66,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{/each}}
         </ol>
     </div>
-    {{/if}}
+    {{/inline}}
 
-    {{!-- Containers --}}
-    {{#each containers as |entry|}}
-    <div class="list gear-list" data-container-id="{{entry.container.id}}">
-        <header class="list__header flexrow">
-            <h3 class="list__name">{{entry.container.name}}</h3>
-            <div class="list__detail">Type</div>
-            <div class="list__detail">Qty</div>
-            <div class="list__detail">Wt</div>
-        </header>
-        <ol class="list__items">
-            {{#each entry.items as |item|}}
-            <li class="item flexrow" data-search-name="{{item.name}}" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}">
-                <div class="list__name flexrow">
-                    <div class="list__image" style="background-image: url('{{item.img}}')"></div>
-                    <h4>{{item.name}}</h4>
-                </div>
-                <div class="list__detail">{{item.type}}</div>
-                <div class="list__detail">{{item.system.quantity}}</div>
-                <div class="list__detail">{{item.system.weightBase}}</div>
-                <div class="list__controls">
-                    <a class="list__control item-contextmenu" title="Menu">
-                        <i class="sohl-ellipsis-vertical"></i>
-                    </a>
-                </div>
-            </li>
-            {{/each}}
-        </ol>
-    </div>
+    {{!-- On Body (loose gear) --}}
+    {{> gearSection title="On Body" items=onBody.items capacity=onBody.capacity}}
+
+    {{!-- Each container as its own section --}}
+    {{#each containers as |section|}}
+    {{> gearSection title=section.name id=section.id items=section.items capacity=section.capacity}}
     {{/each}}
 </section>

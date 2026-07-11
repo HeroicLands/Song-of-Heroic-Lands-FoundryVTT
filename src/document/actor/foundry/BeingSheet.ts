@@ -43,6 +43,7 @@ import {
     buildHoldableGear,
     buildBodyLocationTree,
     buildContainerTree,
+    htmlToPlainText,
     buildStatusPills,
     buildBodyPartLozenges,
     clampHealthPct,
@@ -1223,6 +1224,7 @@ export class BeingSheet extends SohlActorSheetBase {
         _options: RenderOptions,
     ): Promise<RenderContext> {
         const actor = this.document;
+        const logic = actor.logic as BeingLogic;
 
         const containerGear = actor.itemTypes[ITEM_KIND.CONTAINERGEAR] ?? [];
 
@@ -1241,17 +1243,72 @@ export class BeingSheet extends SohlActorSheetBase {
             allGear.push(...(actor.itemTypes[type] ?? []));
         }
 
-        const { containers, onBodyItems } = buildContainerTree(
+        const tree = buildContainerTree(
             containerGear,
             allGear,
             (item) => item.id,
             (item) => (item.system as any).containerId,
         );
 
-        return Object.assign(context, {
-            containers,
-            onBodyItems,
-        });
+        // Map a gear item to a compact display row.
+        const toRow = (item: SohlItem) => {
+            const gl = item.logic as any;
+            const sys = item.system as any;
+            const q = sys.qualityBase ?? 0;
+            return {
+                id: item.id,
+                uuid: item.uuid,
+                name: item.name,
+                img: item.img ?? "",
+                type: item.type,
+                typeLabel: game.i18n.localize(`TYPES.Item.${item.type}`),
+                quantity: sys.quantity ?? 1,
+                weight: gl?.weight?.effective ?? sys.weightBase ?? 0,
+                quality: `${q >= 0 ? "+" : ""}${q}`,
+                durability: sys.durabilityBase ?? 0,
+                notes: htmlToPlainText(sys.notes ?? ""),
+                isCarried: !!sys.isCarried,
+                isEquipped: !!sys.isEquipped,
+                isArmor: item.type === ITEM_KIND.ARMORGEAR,
+            };
+        };
+        // Total weight of a set of gear items (per-unit effective weight × qty).
+        const round1 = (n: number) => Math.round(n * 10) / 10;
+        const usedWeight = (items: SohlItem[]) =>
+            round1(
+                items.reduce((total, it) => {
+                    const gl = it.logic as any;
+                    const sys = it.system as any;
+                    const w = gl?.weight?.effective ?? sys.weightBase ?? 0;
+                    return total + w * (sys.quantity ?? 1);
+                }, 0),
+            );
+
+        // On Body max capacity comes from the being's derived carry weight; a
+        // being with no lineage has no carry capacity. (BeingLogic.maxCarryWeight
+        // reads moveBase, which is 0 for compendium lineages until the pack-export
+        // bug #362 is fixed and the data re-exported.)
+        const hasLineage =
+            (actor.itemTypes[ITEM_KIND.LINEAGE]?.length ?? 0) > 0;
+
+        const onBody = {
+            items: tree.onBodyItems.map(toRow),
+            capacity: {
+                used: usedWeight(tree.onBodyItems),
+                max: hasLineage ? logic.maxCarryWeight : 0,
+            },
+        };
+        const containers = tree.containers.map((node) => ({
+            id: node.container.id,
+            name: node.container.name,
+            items: node.items.map(toRow),
+            capacity: {
+                used: usedWeight(node.items),
+                max: (node.container.logic as any)?.maxCapacity?.effective ?? 0,
+            },
+        }));
+
+        return Object.assign(context, { onBody, containers });
     }
 
     /**
