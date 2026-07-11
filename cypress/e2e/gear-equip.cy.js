@@ -25,10 +25,10 @@
  * Compendium weapongear cannot be embedded here: every weapon in `sohl.items`
  * still stores `strikeModes.defense` in the old flat schema, which throws in
  * `MeleeStrikeMode` during `prepareData()` (#246). Hold / combat-tab tests
- * therefore use an inline weapon with the correct nested defense schema.
- * Likewise, compendium armor stores covered locations as names rather than
- * shortcodes (#249), so the armor-gating test uses inline armor keyed to a real
- * body-location shortcode; the compendium path is a RED skip below.
+ * therefore use an inline weapon with the correct nested defense schema. The
+ * armor-gating test uses inline armor keyed to a body-location shortcode for a
+ * controlled input; the compendium-armor path is now exercised too (the covered
+ * locations were migrated from names to shortcodes in #358, closing #249).
  */
 
 // sohl.items compendium IDs
@@ -66,7 +66,7 @@ const INLINE_WEAPON = {
     },
 };
 
-/** Inline armor covering the thorax by shortcode (avoids the #249 data gap). */
+/** Inline armor covering the thorax by shortcode — a controlled aggregation input. */
 const INLINE_ARMOR = {
     name: "Test Cuirass",
     system: {
@@ -233,14 +233,11 @@ describe("gear equip / hold → combat-tab display", () => {
         });
     });
 
-    // ------------------------------------------------------------------ RED
-
-    it.skip("equipped compendium Mail Shirt aggregates protection onto covered locations", () => {
-        // RED — blocked by #249: compendium ArmorGear stores locations.rigid as
-        // display names ("Thorax") while aggregateArmor matches body-location
-        // shortcodes ("thrxloc"), so worn compendium armor aggregates zero
-        // protection. Once the compendium data is migrated to shortcodes this
-        // becomes GREEN as written.
+    it("equipped compendium Mail Shirt aggregates protection onto covered locations", () => {
+        // Was RED (#249): compendium ArmorGear stored locations.rigid as display
+        // names ("Thorax") while aggregateArmor matches body-location shortcodes
+        // ("thrxloc"), so worn compendium armor aggregated zero protection. The
+        // compendium data was migrated to shortcodes (#358), so this is now GREEN.
         cy.importActor().then((actor) => {
             cy.importItem("sohl.items", MAIL_SHIRT_ID, { actor }).then(
                 (armor) => {
