@@ -19,6 +19,7 @@ import {
     buildSkillGroups,
     buildTraumaRows,
     traumaSeverityLabel,
+    buildAfflictionGroups,
     buildAffiliationRows,
     buildHoldableGear,
     buildBodyLocationTree,
@@ -793,6 +794,62 @@ describe("being-sheet-view", () => {
             );
             expect(row.healingRateDisabled).toBe(true);
             expect(row.isBleeding).toBe(true);
+        });
+    });
+
+    describe("buildAfflictionGroups", () => {
+        const aff = (over = {}) => ({
+            id: "a1",
+            uuid: "Item.a1",
+            name: "Winter Chill",
+            img: "icons/x.svg",
+            subType: "fatigue",
+            levelLabel: "Weary",
+            healingRate: 4,
+            healingRateDisabled: false,
+            source: "Cold",
+            notes: "<p>shivering</p>",
+            ...over,
+        });
+        const label = (s) => s.toUpperCase();
+
+        it("groups by subtype in the given order with labels and rows", () => {
+            const groups = buildAfflictionGroups(
+                [aff({ subType: "privation" }), aff({ subType: "fatigue" })],
+                ["fatigue", "privation"],
+                label,
+            );
+            expect(groups.map((g) => g.subType)).toEqual([
+                "fatigue",
+                "privation",
+            ]);
+            expect(groups[0].label).toBe("FATIGUE");
+        });
+
+        it("formats a row: level, source, and plain-text notes", () => {
+            const [group] = buildAfflictionGroups([aff()], ["fatigue"], label);
+            const [row] = group.afflictions;
+            expect(row.level).toBe("Weary");
+            expect(row.source).toBe("Cold");
+            expect(row.notes).toBe("shivering");
+        });
+
+        it("emits only non-empty groups", () => {
+            const groups = buildAfflictionGroups(
+                [aff({ subType: "fatigue" })],
+                ["fear", "fatigue", "privation"],
+                label,
+            );
+            expect(groups.map((g) => g.subType)).toEqual(["fatigue"]);
+        });
+
+        it("appends populated subtypes not present in the order", () => {
+            const groups = buildAfflictionGroups(
+                [aff({ subType: "mystery-subtype" })],
+                ["fatigue"],
+                label,
+            );
+            expect(groups.map((g) => g.subType)).toEqual(["mystery-subtype"]);
         });
     });
 });
