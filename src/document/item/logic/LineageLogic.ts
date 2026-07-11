@@ -262,23 +262,23 @@ export class LineageLogic<
             {},
             { parent: this },
         ).setBase(this.baseWeight);
-        this.reach = new entity.ValueModifier({}, { parent: this }).setBase(
+        this.reach = new entity.ValueModifier(this).setBase(
             this.data.reachBase,
         );
         this.move = {
-            terrestrial: new entity.ValueModifier({}, { parent: this }).setBase(
+            terrestrial: new entity.ValueModifier(this).setBase(
                 this.data.moveBase.terrestrial,
             ),
-            aquatic: new entity.ValueModifier({}, { parent: this }).setBase(
+            aquatic: new entity.ValueModifier(this).setBase(
                 this.data.moveBase.aquatic,
             ),
-            aerial: new entity.ValueModifier({}, { parent: this }).setBase(
+            aerial: new entity.ValueModifier(this).setBase(
                 this.data.moveBase.aerial,
             ),
-            burrowing: new entity.ValueModifier({}, { parent: this }).setBase(
+            burrowing: new entity.ValueModifier(this).setBase(
                 this.data.moveBase.burrowing,
             ),
-            astral: new entity.ValueModifier({}, { parent: this }).setBase(
+            astral: new entity.ValueModifier(this).setBase(
                 this.data.moveBase.astral,
             ),
         };

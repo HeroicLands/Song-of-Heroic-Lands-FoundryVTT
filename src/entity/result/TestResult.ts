@@ -53,19 +53,41 @@ export abstract class TestResult extends SohlEntity {
     protected _description: string;
 
     /**
+     * Construct an empty test result owned by `parent` — shorthand for
+     * `new (subclass)({}, { parent })`.
+     * @param parent - The initiating {@link SohlLogic}.
+     */
+    constructor(parent: SohlLogic<any>);
+    /**
      * Construct a test result, capturing the speaker and display metadata and
      * binding it to the initiating Logic.
      *
      * @param data - Common result data (speaker, name, title, description); all
      *   fields are optional and defaulted.
      * @param options - Must provide `options.parent`, the initiating Logic.
-     * @throws If `options.parent` is missing.
      */
     constructor(
         data: Partial<TestResult.Data>,
+        options: Partial<TestResult.Options>,
+    );
+    /**
+     * Implementation backing the constructor overloads: normalizes the
+     * `(parent)` shorthand and requires a resolved parent.
+     * @param dataOrParent - Common result data, or the initiating parent Logic
+     *   (shorthand).
+     * @param options - Construction options; `options.parent` is required in the
+     *   data form.
+     * @throws If `options.parent` is missing.
+     */
+    constructor(
+        dataOrParent: SohlEntity.DataOrParent<TestResult.Data> = {},
         options: Partial<TestResult.Options> = {},
     ) {
-        super(data, options);
+        super(
+            SohlEntity.dataOf<TestResult.Data>(dataOrParent),
+            SohlEntity.optionsOf<TestResult.Options>(dataOrParent, options),
+        );
+        const data = SohlEntity.dataOf<TestResult.Data>(dataOrParent);
         this._speaker = data.speaker ?? new SohlSpeaker();
         this._name = data.name ?? "";
         this._title = data.title ?? "";

@@ -91,7 +91,7 @@ export class TraitLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.score = new entity.ValueModifier({}, { parent: this });
+        this.score = new entity.ValueModifier(this);
         if (this.data.isNumeric) {
             this.score.setBase(this.data.score?.value ?? 0);
         } else {

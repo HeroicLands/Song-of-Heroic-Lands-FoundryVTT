@@ -4,7 +4,7 @@ import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 // pure dice-primitive unit tests, so a minimal stand-in parent suffices.
 const parent = { kind: "test-parent" } as any;
 const sr = (data?: Partial<SimpleRoll.Data>) =>
-    new SimpleRoll(data, { parent });
+    new SimpleRoll(data ?? {}, { parent });
 const srf = (formula: string) => SimpleRoll.fromFormula(formula, parent);
 
 describe("SimpleRoll", () => {

@@ -39,7 +39,7 @@ The calculation runs lazily when `effective` is accessed:
 ### Example
 
 ```typescript
-const vm = new ValueModifier({}, { parent: logic });
+const vm = new ValueModifier(logic); // (parent) shorthand for an empty modifier
 vm.setBase(50); // base = 50
 vm.add("SOHL.MOD.bonus", "bon", 10); // +10
 vm.multiply("SOHL.MOD.penalty", "pen", 0.5); // ×0.5
@@ -80,7 +80,8 @@ Deltas are never persisted. To change the base value permanently, update the und
 
 | Method                                | Description                                                            |
 | ------------------------------------- | ---------------------------------------------------------------------- |
-| `new ValueModifier(data, { parent })` | Create with a parent Logic instance (required)                         |
+| `new ValueModifier(parent)`           | Shorthand: an empty modifier owned by `parent` (a Logic instance)      |
+| `new ValueModifier(data, { parent })` | Create from persisted `data` with a parent Logic instance (required)   |
 | `setBase(value)`                      | Set the base value (number or undefined). Returns `this` for chaining. |
 | `base`                                | Get the current base value (0 if unset)                                |
 | `hasBase`                             | Whether a base has been explicitly set                                 |
@@ -146,8 +147,8 @@ Created by the combat-technique `SkillLogic` for each strike mode's attack and d
 
 ```typescript
 this.defense = {
-    block: new CombatModifier({}, { parent: this }),
-    counterstrike: new CombatModifier({}, { parent: this }),
+    block: new CombatModifier(this), // (parent) shorthand
+    counterstrike: new CombatModifier(this),
 };
 ```
 

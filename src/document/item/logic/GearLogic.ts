@@ -328,13 +328,13 @@ export abstract class GearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.weight = new entity.ValueModifier({}, { parent: this }).setBase(
+        this.weight = new entity.ValueModifier(this).setBase(
             this.data.weightBase,
         );
-        this.value = new entity.ValueModifier({}, { parent: this }).setBase(
+        this.value = new entity.ValueModifier(this).setBase(
             this.data.valueBase,
         );
-        this.quality = new entity.ValueModifier({}, { parent: this }).setBase(
+        this.quality = new entity.ValueModifier(this).setBase(
             this.data.qualityBase,
         );
         this.durability = new entity.ValueModifier(

@@ -45,7 +45,7 @@ afterEach(() => {
 describe("MasteryLevelModifier", () => {
     describe("constructor", () => {
         it("throws when constructed without a parent", () => {
-            expect(() => new MasteryLevelModifier({})).toThrow(
+            expect(() => new MasteryLevelModifier({}, {} as any)).toThrow(
                 "SohlEntity requires a parent",
             );
         });

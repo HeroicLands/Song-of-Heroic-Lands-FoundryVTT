@@ -111,16 +111,16 @@ export class ArmorGearLogic<
     override initialize(): void {
         super.initialize();
         this.protection = {
-            blunt: new entity.ValueModifier({}, { parent: this }).setBase(
+            blunt: new entity.ValueModifier(this).setBase(
                 this.data.protectionBase.blunt,
             ),
-            edged: new entity.ValueModifier({}, { parent: this }).setBase(
+            edged: new entity.ValueModifier(this).setBase(
                 this.data.protectionBase.edged,
             ),
-            piercing: new entity.ValueModifier({}, { parent: this }).setBase(
+            piercing: new entity.ValueModifier(this).setBase(
                 this.data.protectionBase.piercing,
             ),
-            fire: new entity.ValueModifier({}, { parent: this }).setBase(
+            fire: new entity.ValueModifier(this).setBase(
                 this.data.protectionBase.fire,
             ),
         };
