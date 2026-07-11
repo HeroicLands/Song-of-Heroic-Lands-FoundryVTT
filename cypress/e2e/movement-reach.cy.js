@@ -278,14 +278,14 @@ describe("movement + reach read paths", () => {
         });
     });
 
-    it("reach equals a combat technique's melee mode length", () => {
+    it("reach equals a melee mode's length plus the lineage reachBase", () => {
         cy.importActor().then((actor) => {
             cy.createItemOn(actor, "skill", meleeTechnique(5)).then(() => {
                 cy.prepare(actor);
                 cy.foundry((win) => {
                     const a = win.game.actors.get(actor.id);
                     return a.logic.reach;
-                }).should("eq", 5);
+                }).should("eq", 6); // 5 (mode length) + 1 (Human Folk reachBase)
             });
         });
     });
@@ -296,19 +296,21 @@ describe("movement + reach read paths", () => {
                 cy.createItemOn(actor, "weapongear", meleeWeapon(8)).then(
                     (weapon) => {
                         // Not held yet: only the technique's reach counts.
+                        // 5 (mode length) + 1 (Human Folk reachBase).
                         cy.prepare(actor);
                         cy.foundry((win) => {
                             const a = win.game.actors.get(actor.id);
                             return a.logic.reach;
-                        }).should("eq", 5);
+                        }).should("eq", 6);
 
                         // Held: the longer weapon mode becomes available.
+                        // 8 (mode length) + 1 (Human Folk reachBase).
                         cy.runAction(weapon, "holdItem");
                         cy.prepare(actor);
                         cy.foundry((win) => {
                             const a = win.game.actors.get(actor.id);
                             return a.logic.reach;
-                        }).should("eq", 8);
+                        }).should("eq", 9);
                     },
                 );
             });

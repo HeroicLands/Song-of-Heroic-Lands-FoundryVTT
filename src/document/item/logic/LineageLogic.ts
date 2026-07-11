@@ -12,6 +12,7 @@
  */
 
 import { entity } from "@src/entity/registry";
+import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import {
     SohlItemBaseLogic,
     type SohlItemData,
@@ -20,16 +21,17 @@ import {
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { MoveBaseDict } from "@src/entity/movement/move-helpers";
-import type { MovementMedium } from "@src/utils/constants";
+import { ITEM_KIND, type MovementMedium } from "@src/utils/constants";
 
 /**
  * Anatomical and movement template for a being's lineage (species / heritage).
  *
  * A Lineage defines the physical baseline shared by creatures of a kind: the
  * {@link BodyStructure | body structure} (body parts, hit locations, and
- * adjacency), base body weight, melee reach, and per-medium movement rates.
- * The Logic exposes these as {@link ValueModifier}s — seeded from the data's
- * `*Base` fields — so runtime effects (size changes, haste, encumbrance) can
+ * adjacency), body weight, melee reach, per-medium movement profiles, and the
+ * encumbrance/fatigue expressions. The Logic exposes the scalar baselines as
+ * {@link ValueModifier}s — seeded from {@link LineageLogic.baseWeight}, `reachBase`,
+ * and `moveBase` — so runtime effects (size changes, haste, encumbrance) can
  * layer on.
  *
  * @typeParam TData - The Lineage data interface.
@@ -46,7 +48,7 @@ export class LineageLogic<
 
     /**
      * The being's body weight as a {@link ValueModifier}, seeded from
-     * {@link LineageData.bodyWeightBase}.
+     * {@link LineageLogic.baseWeight}.
      */
     bodyWeight!: ValueModifier;
 
@@ -94,6 +96,34 @@ export class LineageLogic<
         return this.data.defaultMoveMedium;
     }
 
+    /**
+     * The being's base body weight (pounds), not including gear.
+     *
+     * Returns {@link LineageData.bodyWeight | `bodyWeight.base`} verbatim when it
+     * is set (non-null). Otherwise evaluates the `bodyWeight.calc`
+     * {@link SafeExpression} against the owning being's strength (`str`) — so a
+     * lineage can express weight as a function of Strength (e.g. `(9 * str) + 50`).
+     * Falls back to 0 when there is no owning being, no strength attribute, or the
+     * expression fails to produce a number.
+     */
+    get baseWeight(): number {
+        const bodyWeight = this.data.bodyWeight;
+        if (bodyWeight.base != null) return bodyWeight.base;
+        const str =
+            this.actorLogic?.logicTypes[ITEM_KIND.ATTRIBUTE].find(
+                (a) => a.data?.shortcode === "str",
+            )?.score.effective ?? 0;
+        try {
+            const value = new SafeExpression(
+                { source: bodyWeight.calc },
+                { parent: this },
+            ).evaluate({ str });
+            return typeof value === "number" ? value : 0;
+        } catch {
+            return 0;
+        }
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
@@ -107,7 +137,7 @@ export class LineageLogic<
         this.bodyWeight = new entity.ValueModifier(
             {},
             { parent: this },
-        ).setBase(this.data.bodyWeightBase);
+        ).setBase(this.baseWeight);
         this.reach = new entity.ValueModifier({}, { parent: this }).setBase(
             this.data.reachBase,
         );
@@ -142,6 +172,27 @@ export class LineageLogic<
 }
 
 /**
+ * A single per-medium movement profile persisted on a lineage. Bundles the
+ * being's speeds in one {@link MovementMedium} with the {@link SafeExpression}s
+ * (stored as source strings) that turn carried weight into encumbrance and shift
+ * it by strength.
+ */
+export interface MovementProfile {
+    /** The movement medium this profile describes. */
+    medium: MovementMedium;
+    /** Tactical move (feet per combat round) in this medium. */
+    feetPerRound: number;
+    /** Overland travel speed (leagues per watch) in this medium. */
+    leaguesPerWatch: number;
+    /** `SafeExpression` source of carried weight (`wt`) → encumbrance units. */
+    encumbrance: string;
+    /** `SafeExpression` source of strength (`str`) → encumbrance shift. */
+    strMod: string;
+    /** Whether this movement profile is disabled. */
+    disabled: boolean;
+}
+
+/**
  * @remarks The shape of `system` on a `lineage` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "lineage"`. The backing DataModel implements this interface.
  */
 export interface LineageData<
@@ -153,10 +204,21 @@ export interface LineageData<
     moveBase: MoveBaseDict;
     /** The medium shown by default in the combat tracker for this lineage. */
     defaultMoveMedium: MovementMedium;
-    /** Rate at which carried weight contributes to encumbrance. */
-    encumbranceRate: number;
-    /** Base body weight for beings of this lineage. */
-    bodyWeightBase: number;
+    /** `SafeExpression` source of encumbrance (`enc`) → personal fatigue. */
+    personalFatigue: string;
+    /** Per-medium movement profiles (speeds + encumbrance expressions). */
+    movementProfiles: MovementProfile[];
+    /**
+     * Body weight (pounds), not including gear: a fixed `base`, or a
+     * `SafeExpression` `calc` of strength (`str`) when `base` is null. See
+     * {@link LineageLogic.baseWeight}.
+     */
+    bodyWeight: {
+        /** Fixed body weight in pounds; null to compute from `calc`. */
+        base: number | null;
+        /** `SafeExpression` source of `str` → body weight (used when `base` is null). */
+        calc: string;
+    };
     /** Base melee reach (feet) for beings of this lineage. */
     reachBase: number;
 }

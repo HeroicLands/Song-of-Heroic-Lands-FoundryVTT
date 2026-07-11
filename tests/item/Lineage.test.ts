@@ -7,7 +7,7 @@ import {
     MOVEMENT_MEDIUM,
     MovementMediums,
 } from "@src/utils/constants";
-import { makeItemLogic } from "@tests/mocks/logicHarness";
+import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 
 /** Minimal persisted body structure: a head (skull) and a thorax (chest). */
 const BODY_STRUCTURE_DATA: BodyStructure.Data = {
@@ -72,8 +72,18 @@ function lineageFields(overrides: Record<string, unknown> = {}) {
             astral: 0,
         },
         defaultMoveMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
-        encumbranceRate: 1,
-        bodyWeightBase: 150,
+        personalFatigue: "enc + 5",
+        movementProfiles: [
+            {
+                medium: MOVEMENT_MEDIUM.TERRESTRIAL,
+                feetPerRound: 50,
+                leaguesPerWatch: 5,
+                encumbrance: "floor(wt / 4)",
+                strMod: "-5 * floor((str - 10) / 2)",
+                disabled: false,
+            },
+        ],
+        bodyWeight: { base: null, calc: "(9 * str) + 50" },
         reachBase: 5,
         ...overrides,
     };
@@ -89,6 +99,28 @@ function makeLineage(
         lineageFields(overrides),
         { name: "Human", ...opts },
     );
+}
+
+/**
+ * A lineage embedded on a being that owns a `str` attribute of the given score,
+ * so `bodyWeight.calc` (a SafeExpression of `str`) can be evaluated.
+ */
+function makeLineageWithStr(
+    str: number,
+    overrides: Record<string, unknown> = {},
+) {
+    const actor = makeMockActor({ kind: "being" });
+    actor.itemTypes = {
+        [ITEM_KIND.ATTRIBUTE]: [
+            {
+                logic: {
+                    data: { shortcode: "str" },
+                    score: { effective: str },
+                },
+            },
+        ],
+    };
+    return makeLineage(overrides, { actor });
 }
 
 afterEach(() => {
@@ -119,12 +151,23 @@ describe("LineageLogic", () => {
             expect(logic.bodyStructure.parent).toBe(logic);
         });
 
-        it("seeds bodyWeight from bodyWeightBase", () => {
-            const logic = makeLineage({ bodyWeightBase: 200 });
+        it("seeds bodyWeight from baseWeight (fixed base)", () => {
+            const logic = makeLineage({
+                bodyWeight: { base: 200, calc: "0" },
+            });
             logic.initialize();
             expect(logic.bodyWeight).toBeInstanceOf(ValueModifier);
             expect(logic.bodyWeight.base).toBe(200);
             expect(logic.bodyWeight.effective).toBe(200);
+        });
+
+        it("seeds bodyWeight from baseWeight (computed from strength)", () => {
+            const logic = makeLineageWithStr(13, {
+                bodyWeight: { base: null, calc: "(9 * str) + 50" },
+            });
+            logic.initialize();
+            // (9 * 13) + 50 = 167
+            expect(logic.bodyWeight.base).toBe(167);
         });
 
         it("seeds reach from reachBase", () => {
@@ -202,6 +245,41 @@ describe("LineageLogic", () => {
             expect(logic.defaultMoveMedium).toBe(MOVEMENT_MEDIUM.AQUATIC);
         });
     });
+
+    describe("baseWeight", () => {
+        it("returns bodyWeight.base verbatim when it is set", () => {
+            const logic = makeLineageWithStr(18, {
+                bodyWeight: { base: 150, calc: "(9 * str) + 50" },
+            });
+            // base wins over calc even when a strength attribute is present
+            expect(logic.baseWeight).toBe(150);
+        });
+
+        it("evaluates bodyWeight.calc against the being's strength when base is null", () => {
+            const logic = makeLineageWithStr(20, {
+                bodyWeight: { base: null, calc: "(9 * str) + 50" },
+            });
+            // (9 * 20) + 50 = 230
+            expect(logic.baseWeight).toBe(230);
+        });
+
+        it("falls back to str = 0 when there is no owning being", () => {
+            const logic = makeLineage({
+                bodyWeight: { base: null, calc: "(9 * str) + 50" },
+            });
+            // no actor → no str attribute → str defaults to 0 → 50
+            expect(logic.baseWeight).toBe(50);
+        });
+
+        it("returns 0 when calc cannot produce a number", () => {
+            const logic = makeLineage({
+                bodyWeight: { base: null, calc: "str" },
+            });
+            // str is a number (0), so this is 0 — a genuinely non-numeric
+            // result would also clamp to 0
+            expect(logic.baseWeight).toBe(0);
+        });
+    });
 });
 
 describe("LineageDataModel", () => {
@@ -219,8 +297,13 @@ describe("LineageDataModel", () => {
         it.todo(
             "defines defaultMoveMedium with MovementMediums choices defaulting to TERRESTRIAL",
         );
-        it.todo("defines encumbranceRate as NumberField with min 0");
-        it.todo("defines bodyWeightBase as NumberField with min 0");
+        it.todo("defines personalFatigue as a JavaScriptField");
+        it.todo(
+            "defines movementProfiles as an ArrayField of per-medium profiles (medium, feetPerRound, leaguesPerWatch, encumbrance, strMod, disabled)",
+        );
+        it.todo(
+            "defines bodyWeight as a SchemaField of base (nullable NumberField) and calc (JavaScriptField)",
+        );
         it.todo("defines reachBase as NumberField with min 0");
     });
 
