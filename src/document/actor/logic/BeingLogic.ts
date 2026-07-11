@@ -15,17 +15,14 @@ import { entity } from "@src/entity/registry";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
-import { CombatResult } from "@src/entity/result/CombatResult";
 import {
     SohlActorBaseLogic,
     type SohlActorData,
     type SohlActorLogic,
 } from "@src/document/actor/logic/SohlActorBaseLogic";
-import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import type { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
-import type { ArmorGearLogic } from "@src/document/item/logic/ArmorGearLogic";
 import {
     aggregateArmor,
     type ArmorLayer,
@@ -49,17 +46,13 @@ import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatan
 import { readBaseMove } from "@src/entity/movement/move-helpers";
 import {
     ACTION_SUBTYPE,
-    defineType,
     IMPACT_ASPECT,
     ITEM_KIND,
     MovementMedium,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
-    TEST_TYPE,
 } from "@src/utils/constants";
 import { SohlAction } from "@src/entity/action/SohlAction";
-import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
-import { SohlLogic } from "@src/core/logic/SohlLogic";
 import {
     buildInjuryCardData,
     createTraumaFromInjury,
@@ -128,25 +121,7 @@ export class BeingLogic<
      * and fully populated by the time the being's own `evaluate()`/`finalize()`
      * and the sheet read {@link carriedWeight}.
      */
-    private _carriedWeight = 0;
-
-    /**
-     * The being's total carried-gear weight (pounds). Summed ground-up from every
-     * carried gear item during item preparation; read after preparation.
-     * @returns The accumulated carried-gear weight.
-     */
-    get carriedWeight(): number {
-        return this._carriedWeight;
-    }
-
-    /**
-     * Add a gear item's contribution to {@link carriedWeight}. Called by
-     * {@link GearLogic.evaluate} for each carried item; not intended for direct use.
-     * @param weight - The item's `weight × quantity` contribution (pounds).
-     */
-    addCarriedWeight(weight: number): void {
-        this._carriedWeight += weight;
-    }
+    carriedWeight!: ValueModifier;
 
     /**
      * The effective base move (feet per combat round) for this being in
@@ -729,7 +704,10 @@ export class BeingLogic<
         super.initialize();
         // Reset the ground-up accumulator before any gear item's evaluate()
         // adds to it (all item initialize()/evaluate() run after this).
-        this._carriedWeight = 0;
+        this.carriedWeight = new sohl.entity.ValueModifier(
+            {},
+            { parent: this },
+        );
     }
 
     /** @inheritdoc */
