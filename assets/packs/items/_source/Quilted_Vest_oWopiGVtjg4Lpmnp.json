@@ -21,8 +21,8 @@
     "material": "Quilted",
     "locations": {
       "flexible": [
-        "Thorax",
-        "Abdomen"
+        "thrxloc",
+        "abdmnloc"
       ],
       "rigid": []
     },

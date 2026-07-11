@@ -21,17 +21,17 @@
     "material": "Ring",
     "locations": {
       "flexible": [
-        "Left Shoulder",
-        "Right Shoulder",
-        "Left Upper Arm",
-        "Right Upper Arm",
-        "Left Elbow",
-        "Right Elbow",
-        "Thorax",
-        "Abdomen",
-        "Pelvis",
-        "Left Thigh",
-        "Right Thigh"
+        "lshldloc",
+        "rshldloc",
+        "lupaloc",
+        "rupaloc",
+        "lelbloc",
+        "relbloc",
+        "thrxloc",
+        "abdmnloc",
+        "plvisloc",
+        "lthghloc",
+        "rthghloc"
       ],
       "rigid": []
     },

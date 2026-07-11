@@ -21,19 +21,19 @@
     "material": "Cloth",
     "locations": {
       "flexible": [
-        "Left Shoulder",
-        "Right Shoulder",
-        "Left Upper Arm",
-        "Right Upper Arm",
-        "Left Elbow",
-        "Right Elbow",
-        "Left Forearm",
-        "Right Forearm",
-        "Thorax",
-        "Abdomen",
-        "Pelvis",
-        "Left Thigh",
-        "Right Thigh"
+        "lshldloc",
+        "rshldloc",
+        "lupaloc",
+        "rupaloc",
+        "lelbloc",
+        "relbloc",
+        "lfraloc",
+        "rfraloc",
+        "thrxloc",
+        "abdmnloc",
+        "plvisloc",
+        "lthghloc",
+        "rthghloc"
       ],
       "rigid": []
     },

@@ -21,8 +21,8 @@
     "material": "Ring",
     "locations": {
       "flexible": [
-        "Thorax",
-        "Abdomen"
+        "thrxloc",
+        "abdmnloc"
       ],
       "rigid": []
     },

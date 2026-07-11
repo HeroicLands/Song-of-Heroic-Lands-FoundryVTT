@@ -22,12 +22,12 @@
     "locations": {
       "flexible": [],
       "rigid": [
-        "Left Shoulder",
-        "Right Shoulder",
-        "Left Upper Arm",
-        "Right Upper Arm",
-        "Thorax",
-        "Abdomen"
+        "lshldloc",
+        "rshldloc",
+        "lupaloc",
+        "rupaloc",
+        "thrxloc",
+        "abdmnloc"
       ]
     },
     "protectionBase": {

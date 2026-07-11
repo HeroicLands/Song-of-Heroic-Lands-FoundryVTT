@@ -21,8 +21,8 @@
     "material": "Cloth",
     "locations": {
       "flexible": [
-        "Left Foot",
-        "Right Foot"
+        "lfootloc",
+        "rfootloc"
       ],
       "rigid": []
     },

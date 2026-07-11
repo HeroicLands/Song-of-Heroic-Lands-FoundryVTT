@@ -22,8 +22,8 @@
     "locations": {
       "flexible": [],
       "rigid": [
-        "Left Knee",
-        "Right Knee"
+        "lkneeloc",
+        "rkneeloc"
       ]
     },
     "protectionBase": {

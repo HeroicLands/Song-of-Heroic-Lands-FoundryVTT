@@ -21,8 +21,8 @@
     "material": "Ring",
     "locations": {
       "flexible": [
-        "Left Hand",
-        "Right Hand"
+        "lhandloc",
+        "rhandloc"
       ],
       "rigid": []
     },

@@ -22,8 +22,8 @@
     "locations": {
       "flexible": [],
       "rigid": [
-        "Left Upper Arm",
-        "Right Upper Arm"
+        "lupaloc",
+        "rupaloc"
       ]
     },
     "protectionBase": {

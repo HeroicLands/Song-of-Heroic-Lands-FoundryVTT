@@ -21,8 +21,8 @@
     "material": "Padded",
     "locations": {
       "flexible": [
-        "Left Hand",
-        "Right Hand"
+        "lhandloc",
+        "rhandloc"
       ],
       "rigid": []
     },

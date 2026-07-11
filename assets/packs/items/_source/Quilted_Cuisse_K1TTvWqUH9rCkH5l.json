@@ -21,10 +21,10 @@
     "material": "Quilted",
     "locations": {
       "flexible": [
-        "Left Thigh",
-        "Right Thigh",
-        "Left Knee",
-        "Right Knee"
+        "lthghloc",
+        "rthghloc",
+        "lkneeloc",
+        "rkneeloc"
       ],
       "rigid": []
     },

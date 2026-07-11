@@ -22,15 +22,15 @@
     "locations": {
       "flexible": [],
       "rigid": [
-        "Skull",
-        "Nose",
-        "Right Cheek",
-        "Left Cheek",
-        "Right Ear",
-        "Left Ear",
-        "Mouth",
-        "Jaw",
-        "Neck"
+        "skullloc",
+        "noseloc",
+        "rcheekloc",
+        "lcheekloc",
+        "rearloc",
+        "learloc",
+        "mouthloc",
+        "jawloc",
+        "neckloc"
       ]
     },
     "protectionBase": {

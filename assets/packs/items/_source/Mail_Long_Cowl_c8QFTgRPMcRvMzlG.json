@@ -22,8 +22,8 @@
     "locations": {
       "flexible": [],
       "rigid": [
-        "Skull",
-        "Neck"
+        "skullloc",
+        "neckloc"
       ]
     },
     "protectionBase": {

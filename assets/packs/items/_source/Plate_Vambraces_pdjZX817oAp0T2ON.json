@@ -22,8 +22,8 @@
     "locations": {
       "flexible": [],
       "rigid": [
-        "Left Forearm",
-        "Right Forearm"
+        "lfraloc",
+        "rfraloc"
       ]
     },
     "protectionBase": {

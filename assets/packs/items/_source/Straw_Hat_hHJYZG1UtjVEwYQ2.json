@@ -21,7 +21,7 @@
     "material": "Cloth",
     "locations": {
       "flexible": [
-        "Skull"
+        "skullloc"
       ],
       "rigid": []
     },

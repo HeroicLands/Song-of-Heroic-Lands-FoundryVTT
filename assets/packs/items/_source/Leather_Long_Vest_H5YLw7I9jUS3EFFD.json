@@ -21,12 +21,12 @@
     "material": "Leather",
     "locations": {
       "flexible": [
-        "Neck",
-        "Left Shoulder",
-        "Right Shoulder",
-        "Thorax",
-        "Abdomen",
-        "Pelvis"
+        "neckloc",
+        "lshldloc",
+        "rshldloc",
+        "thrxloc",
+        "abdmnloc",
+        "plvisloc"
       ],
       "rigid": []
     },
