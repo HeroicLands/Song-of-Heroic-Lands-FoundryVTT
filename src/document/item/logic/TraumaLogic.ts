@@ -161,7 +161,7 @@ export class TraumaLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.level = new entity.ValueModifier({}, { parent: this }).setBase(
+        this.level = new entity.ValueModifier(this).setBase(
             this.data.levelBase,
         );
         this.healingRate = new entity.ValueModifier(

@@ -111,18 +111,36 @@ export class ValueModifier extends SohlEntity {
     deltas!: ValueDelta[];
 
     /**
-     * Construct a modifier from optional initial state and apply it.
-     *
+     * Construct an empty modifier owned by `parent` — shorthand for
+     * `new ValueModifier({}, { parent })`.
+     * @param parent - The owning {@link SohlLogic}.
+     */
+    constructor(parent: SohlLogic<any>);
+    /**
+     * Construct a modifier from initial state and apply it.
      * @param data - Data to construct the modifier.
-     * @param options - Options to construct the modifier.
-     * @param options.parent - The owning {@link SohlLogic}.
-     * @throws If required parameters are not provided.
+     * @param options - Options to construct the modifier (carrying `parent`).
      */
     constructor(
-        data: Partial<ValueModifier.Data> = {},
+        data: Partial<ValueModifier.Data>,
+        options: Partial<ValueModifier.Options>,
+    );
+    /**
+     * Implementation backing the constructor overloads: normalizes the
+     * `(parent)` shorthand and requires a resolved parent.
+     * @param dataOrParent - Initial state, or the owning parent Logic (shorthand).
+     * @param options - Options to construct the modifier.
+     * @throws If no `parent` resolves.
+     */
+    constructor(
+        dataOrParent: SohlEntity.DataOrParent<ValueModifier.Data> = {},
         options: Partial<ValueModifier.Options> = {},
     ) {
-        super(data, options);
+        super(
+            SohlEntity.dataOf<ValueModifier.Data>(dataOrParent),
+            SohlEntity.optionsOf<ValueModifier.Options>(dataOrParent, options),
+        );
+        const data = SohlEntity.dataOf<ValueModifier.Data>(dataOrParent);
         this.disabledReason = data.disabledReason ?? "";
         this.baseValue = data.baseValue ?? undefined;
         this.customFunction = data.customFunction ?? undefined;

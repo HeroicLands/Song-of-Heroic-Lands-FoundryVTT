@@ -40,19 +40,41 @@ export class SimpleRoll extends SohlEntity {
     rolls: number[];
 
     /**
+     * Construct an empty roll owned by `parent` — shorthand for
+     * `new SimpleRoll({}, { parent })` (all fields default to `0`/`[]`).
+     * @param parent - The owning {@link SohlLogic}.
+     */
+    constructor(parent: SohlLogic<any>);
+    /**
      * Construct a roll from partial data; any omitted field defaults to `0`
      * (or `[]` for `rolls`).
      * @param data - Partial roll definition (`numDice`, `dieFaces`, `modifier`,
      *   `rolls`).
      * @param options - Must provide `options.parent`, the owning Logic (base
      *   {@link SohlEntity}).
-     * @throws If no `parent` is provided.
      */
     constructor(
-        data: Partial<SimpleRoll.Data> = {},
+        data: Partial<SimpleRoll.Data>,
+        options: Partial<SimpleRoll.Options>,
+    );
+    /**
+     * Implementation backing the constructor overloads: normalizes the
+     * `(parent)` shorthand and requires a resolved parent.
+     * @param dataOrParent - Partial roll data, or the owning parent Logic
+     *   (shorthand).
+     * @param options - Construction options; `options.parent` is required in the
+     *   data form.
+     * @throws If no `parent` resolves.
+     */
+    constructor(
+        dataOrParent: SohlEntity.DataOrParent<SimpleRoll.Data> = {},
         options: Partial<SimpleRoll.Options> = {},
     ) {
-        super(data, options);
+        super(
+            SohlEntity.dataOf<SimpleRoll.Data>(dataOrParent),
+            SohlEntity.optionsOf<SimpleRoll.Options>(dataOrParent, options),
+        );
+        const data = SohlEntity.dataOf<SimpleRoll.Data>(dataOrParent);
         this.numDice = data.numDice ?? 0;
         this.dieFaces = data.dieFaces ?? 0;
         this.modifier = data.modifier ?? 0;

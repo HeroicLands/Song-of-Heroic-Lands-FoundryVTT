@@ -512,13 +512,13 @@ export class AfflictionLogic<
         super.initialize();
         this.isDormant = false;
         this.isTreated = false;
-        this.diagnosisBonus = new entity.ValueModifier({}, { parent: this });
-        this.level = new entity.ValueModifier({}, { parent: this });
-        this.healingRate = new entity.ValueModifier({}, { parent: this });
-        this.contagionIndex = new entity.ValueModifier({}, { parent: this });
+        this.diagnosisBonus = new entity.ValueModifier(this);
+        this.level = new entity.ValueModifier(this);
+        this.healingRate = new entity.ValueModifier(this);
+        this.contagionIndex = new entity.ValueModifier(this);
         this.transmission = AFFLICTION_TRANSMISSION.NONE;
 
-        this.healingRate = new entity.ValueModifier({}, { parent: this });
+        this.healingRate = new entity.ValueModifier(this);
         if (this.data.healingRateBase === -1) {
             this.healingRate.disabled = "No Healing Rate";
         } else {
