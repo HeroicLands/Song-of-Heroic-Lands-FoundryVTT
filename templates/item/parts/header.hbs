@@ -17,6 +17,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <h1 class="list__name">
             <input name="name" type="text" value="{{itemName}}" placeholder="{{localize 'Name'}}" />
         </h1>
+        <input class="sheet-header__shortcode" name="system.shortcode" type="text"
+            value="{{document.system.shortcode}}" placeholder="shortcode" />
         <div class="item-subtitle">
             {{typeLabel}}
             {{#if subTypeLabel}}
