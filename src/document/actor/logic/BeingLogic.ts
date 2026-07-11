@@ -88,6 +88,15 @@ import { DamageCardInput } from "@src/document/combatant/logic/SohlCombatantLogi
  * skills, traits, injuries, afflictions, gear, and mystical abilities. Beings
  * are the primary participants in combat, skill tests, and social interactions.
  *
+ * The being's **physical baseline — anatomy, body weight, reach, and movement —
+ * lives on its {@link LineageLogic}, not here.** `BeingLogic` holds being-owned
+ * derived state ({@link health}, {@link healingBase}, {@link shockState},
+ * {@link pull}, {@link carriedWeight}); anatomy/weight/reach/movement
+ * (`bodyStructure`, `bodyWeight`, `reach`, `feetPerRound`, `leaguesPerWatch`,
+ * `encumbrance`, `strengthModifier`) are reached through the
+ * {@link BeingLogic.lineage} pointer. See the architecture reference, "Not all of
+ * a being's derived state lives on `BeingLogic`".
+ *
  * @typeParam TData - The Being data interface.
  */
 export class BeingLogic<
@@ -137,7 +146,7 @@ export class BeingLogic<
     /**
      * Register a {@link LineageLogic} as this being's lineage. Called by the
      * lineage's own `initialize()` (which runs after the being's), so
-     * {@link lineage} is populated before any consumer reads it.
+     * {@link BeingLogic.lineage} is populated before any consumer reads it.
      * @param lineage - The owning being's lineage logic.
      */
     registerLineage(lineage: LineageLogic): void {

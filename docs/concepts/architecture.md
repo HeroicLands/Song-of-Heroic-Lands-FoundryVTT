@@ -106,6 +106,22 @@ For typed, documented access, prefer **`document.logic.data`**. `SohlLogic.data`
 
 So to discover what's available on a document, read its `*Data` interface (the shape of `system` / `logic.data`) and its Logic class (computed properties, intrinsic actions). The DataModel and Sheet classes are Foundry binding and are intentionally absent from the API docs.
 
+### Not all of a being's derived state lives on `BeingLogic`
+
+A being's physical baseline — **anatomy, body weight, reach, and movement** — is defined by its **Lineage** item, so that derived state lives on **`LineageLogic`, not `BeingLogic`**. A being has 0 or 1 lineage; during preparation the lineage registers itself on the being, exposed as the **`BeingLogic.lineage`** pointer (`undefined` when the being has no lineage). Reach lineage-owned state through it:
+
+- On **`BeingLogic`** directly: `health`, `healingBase`, `shockState`, `pull`, and `carriedWeight` (the ground-up total of carried gear).
+- On **`BeingLogic.lineage`** (a `LineageLogic`): `bodyStructure`, `bodyWeight`, `reach`, and the active movement profile as `feetPerRound` / `leaguesPerWatch` / `encumbrance` / `strengthModifier` (plus `moveProfile`, the resolved profile for the being's `movementMedium`).
+
+```ts
+const being = actor.logic; // BeingLogic
+being.carriedWeight.effective; // carried gear weight — on the being
+being.lineage?.feetPerRound.effective; // tactical move — on the lineage
+being.lineage?.bodyStructure; // anatomy — on the lineage (undefined if no lineage)
+```
+
+The same split shows up at the data layer: the movement/anatomy/weight/reach **schema is on `LineageDataModel`**, not `BeingDataModel` (see [Body Structure → Where the data lives](../reference/body-structure.md#where-the-data-lives)). When you can't find a physical attribute on the Being, look to its Lineage.
+
 ## Document types
 
 SoHL defines several **actor** and **item** types, each following the three-class pattern above. The exact set drifts as types are added or renamed, so this page does not enumerate them — consult the authoritative sources instead:

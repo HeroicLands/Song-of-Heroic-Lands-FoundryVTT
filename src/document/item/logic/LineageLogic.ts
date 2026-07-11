@@ -32,11 +32,12 @@ import {
  *
  * A Lineage defines the physical baseline shared by creatures of a kind: the
  * {@link BodyStructure | body structure} (body parts, hit locations, and
- * adjacency), body weight, melee reach, per-medium movement profiles, and the
- * encumbrance/fatigue expressions. The Logic exposes the scalar baselines as
- * {@link ValueModifier}s — seeded from {@link LineageLogic.baseWeight}, `reachBase`,
- * and `moveBase` — so runtime effects (size changes, haste, encumbrance) can
- * layer on.
+ * adjacency), body weight, melee reach, and per-medium movement profiles. The
+ * Logic exposes these as {@link ValueModifier}s — `bodyWeight`, `reach`, and the
+ * active profile's `feetPerRound` / `leaguesPerWatch` / `encumbrance` /
+ * `strengthModifier` — so runtime effects (size changes, haste, encumbrance) can
+ * layer on. The active profile is selected by the owning being's
+ * `movementMedium` during {@link initialize}.
  *
  * @typeParam TData - The Lineage data interface.
  */
@@ -51,8 +52,9 @@ export class LineageLogic<
     bodyStructure!: BodyStructure;
 
     /**
-     * The being's body weight as a {@link ValueModifier}, seeded from
-     * {@link LineageLogic.baseWeight}.
+     * The being's body weight as a {@link ValueModifier}, seeded during
+     * {@link initialize} from `bodyWeight.base` (when set) or the `bodyWeight.calc`
+     * `SafeExpression` of strength.
      */
     bodyWeight!: ValueModifier;
 
@@ -240,8 +242,8 @@ export interface LineageData<
     movementProfiles: MovementProfile[];
     /**
      * Body weight (pounds), not including gear: a fixed `base`, or a
-     * `SafeExpression` `calc` of strength (`str`) when `base` is null. See
-     * {@link LineageLogic.baseWeight}.
+     * `SafeExpression` `calc` of strength (`str`) when `base` is null. Seeds the
+     * {@link LineageLogic.bodyWeight} modifier during `initialize`.
      */
     bodyWeight: {
         /** Fixed body weight in pounds; null to compute from `calc`. */
