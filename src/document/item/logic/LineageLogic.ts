@@ -20,7 +20,10 @@ import {
 } from "@src/document/item/logic/SohlItemBaseLogic";
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import type { MoveBaseDict } from "@src/entity/movement/move-helpers";
+import {
+    readBaseMove,
+    type MoveBaseDict,
+} from "@src/entity/movement/move-helpers";
 import { ITEM_KIND, type MovementMedium } from "@src/utils/constants";
 
 /**
@@ -109,19 +112,140 @@ export class LineageLogic<
     get baseWeight(): number {
         const bodyWeight = this.data.bodyWeight;
         if (bodyWeight.base != null) return bodyWeight.base;
-        const str =
-            this.actorLogic?.logicTypes[ITEM_KIND.ATTRIBUTE].find(
-                (a) => a.data?.shortcode === "str",
-            )?.score.effective ?? 0;
+        return this.evalExpression(bodyWeight.calc);
+    }
+
+    /* --------------------------------------------- */
+    /* Per-medium data accessors                     */
+    /* --------------------------------------------- */
+
+    /**
+     * The persisted per-medium base move (feet per combat round) — the
+     * Active-Effect-targetable `moveBase` scalar, mirrored from the matching
+     * movement profile's `feetPerRound` at export time.
+     *
+     * @param medium - The movement medium; defaults to {@link defaultMoveMedium}.
+     * @returns The base move, or 0 when the lineage has no value for the medium.
+     */
+    getMoveBase(medium?: MovementMedium): number {
+        return readBaseMove(
+            this.data.moveBase,
+            medium ?? this.defaultMoveMedium,
+        );
+    }
+
+    /**
+     * The tactical move (feet per combat round) authored on the matching
+     * movement profile.
+     *
+     * @param medium - The movement medium; defaults to {@link defaultMoveMedium}.
+     * @returns The profile's `feetPerRound`, or 0 when there is no such profile.
+     */
+    getFeetPerRound(medium?: MovementMedium): number {
+        return this.profileFor(medium)?.feetPerRound ?? 0;
+    }
+
+    /**
+     * The overland travel speed (leagues per watch) authored on the matching
+     * movement profile.
+     *
+     * @param medium - The movement medium; defaults to {@link defaultMoveMedium}.
+     * @returns The profile's `leaguesPerWatch`, or 0 when there is no such profile.
+     */
+    getLeaguesPerWatch(medium?: MovementMedium): number {
+        return this.profileFor(medium)?.leaguesPerWatch ?? 0;
+    }
+
+    /**
+     * The encumbrance the being incurs in the given medium: the matching
+     * profile's `encumbrance` {@link SafeExpression} evaluated against the
+     * owning being's context (carried weight `wt` and strength `str`).
+     *
+     * @param medium - The movement medium; defaults to {@link defaultMoveMedium}.
+     * @returns The encumbrance units, or 0 when there is no profile or the
+     *   expression cannot produce a number.
+     */
+    getEncumbrance(medium?: MovementMedium): number {
+        return this.evalExpression(this.profileFor(medium)?.encumbrance);
+    }
+
+    /**
+     * The strength-driven encumbrance shift in the given medium: the matching
+     * profile's `strMod` {@link SafeExpression} evaluated against the owning
+     * being's context (strength `str`).
+     *
+     * @param medium - The movement medium; defaults to {@link defaultMoveMedium}.
+     * @returns The strength modifier, or 0 when there is no profile or the
+     *   expression cannot produce a number.
+     */
+    getStrMod(medium?: MovementMedium): number {
+        return this.evalExpression(this.profileFor(medium)?.strMod);
+    }
+
+    /**
+     * The movement profile for a medium, or `undefined` when the lineage has no
+     * profile for it. Omitting `medium` uses {@link defaultMoveMedium}.
+     * @param medium - The movement medium; defaults to {@link defaultMoveMedium}.
+     * @returns The matching {@link MovementProfile}, or `undefined`.
+     */
+    private profileFor(medium?: MovementMedium): MovementProfile | undefined {
+        const target = medium ?? this.defaultMoveMedium;
+        return this.data.movementProfiles.find((p) => p.medium === target);
+    }
+
+    /**
+     * Evaluate a lineage {@link SafeExpression} source against the owning being's
+     * context. Returns 0 for an empty source, a missing/failed evaluation, or a
+     * non-numeric result — the accessors never throw.
+     * @param source - The `SafeExpression` source string (may be empty/undefined).
+     * @returns The numeric result, or 0.
+     */
+    private evalExpression(source: string | undefined): number {
+        if (!source) return 0;
         try {
             const value = new SafeExpression(
-                { source: bodyWeight.calc },
+                { source },
                 { parent: this },
-            ).evaluate({ str });
+            ).evaluate(this.exprContext());
             return typeof value === "number" ? value : 0;
         } catch {
             return 0;
         }
+    }
+
+    /**
+     * The variable bindings lineage expressions may reference, drawn from the
+     * owning being: `str` (strength score) and `wt` (total carried-gear weight).
+     * Both default to 0 when there is no owning actor (or no strength attribute).
+     * @returns The `{ str, wt }` context object.
+     */
+    private exprContext(): { str: number; wt: number } {
+        return { str: this.actorStr, wt: this.carriedWeight };
+    }
+
+    /**
+     * The owning being's strength score, or 0 when unavailable.
+     * @returns The effective `str` score, or 0.
+     */
+    private get actorStr(): number {
+        return (
+            this.actorLogic?.logicTypes[ITEM_KIND.ATTRIBUTE].find(
+                (a) => a.data?.shortcode === "str",
+            )?.score.effective ?? 0
+        );
+    }
+
+    /**
+     * The owning being's total carried-gear weight, read from the being's
+     * `carriedWeight` (accumulated ground-up during item preparation). 0 when
+     * there is no owning being (or the actor exposes no carried weight).
+     * @returns The total carried-gear weight in pounds, or 0.
+     */
+    private get carriedWeight(): number {
+        const actorLogic = this.actorLogic as { carriedWeight?: number } | null;
+        return typeof actorLogic?.carriedWeight === "number" ?
+                actorLogic.carriedWeight
+            :   0;
     }
 
     /* --------------------------------------------- */

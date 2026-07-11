@@ -2,6 +2,7 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import { MiscGearLogic } from "@src/document/item/logic/MiscGearLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
@@ -209,6 +210,68 @@ describe("BeingLogic", () => {
             expect(
                 logic.effectiveBaseMove(MOVEMENT_MEDIUM.AERIAL).effective,
             ).toBe(0);
+        });
+    });
+
+    describe("carriedWeight", () => {
+        /** Full gear field set (mirrors tests/item/Gear.test.ts). */
+        function gearFields(overrides: Record<string, unknown> = {}) {
+            return {
+                quantity: 1,
+                weightBase: 2.5,
+                valueBase: 10,
+                isCarried: true,
+                isEquipped: false,
+                qualityBase: 9,
+                durabilityBase: 12,
+                sharedWithCohortIds: [] as string[],
+                containerId: null as string | null,
+                ...overrides,
+            };
+        }
+
+        it("starts at 0 and accumulates via addCarriedWeight", () => {
+            const logic = makeBeing();
+            expect(logic.carriedWeight).toBe(0);
+            logic.addCarriedWeight(10);
+            logic.addCarriedWeight(5.5);
+            expect(logic.carriedWeight).toBe(15.5);
+        });
+
+        it("resets to 0 on initialize (rebuilt each prepare cycle)", () => {
+            const logic = makeBeing();
+            logic.addCarriedWeight(20);
+            expect(logic.carriedWeight).toBe(20);
+            logic.initialize();
+            expect(logic.carriedWeight).toBe(0);
+        });
+
+        it("sums a carried gear item's weight × quantity during its evaluate", () => {
+            const being = makeBeing();
+            being.initialize();
+            const gear = makeItemLogic(
+                MiscGearLogic,
+                ITEM_KIND.MISCGEAR,
+                gearFields({ quantity: 2, weightBase: 5, isCarried: true }),
+                { actor: being.actor },
+            );
+            gear.initialize();
+            gear.evaluate();
+            expect(being.carriedWeight).toBe(10);
+        });
+
+        it("ignores gear that is not carried", () => {
+            const being = makeBeing();
+            being.initialize();
+            const gear = makeItemLogic(
+                MiscGearLogic,
+                ITEM_KIND.MISCGEAR,
+                gearFields({ quantity: 3, weightBase: 4, isCarried: false }),
+                { actor: being.actor },
+            );
+            gear.initialize();
+            gear.evaluate();
+            expect(being.carriedWeight).toBe(0);
         });
     });
 

@@ -122,6 +122,33 @@ export class BeingLogic<
     pull!: ValueModifier;
 
     /**
+     * Running total of carried-gear weight (pounds), accumulated ground-up: each
+     * carried gear item adds its `weight × quantity` during its own `evaluate()`
+     * phase (see {@link addCarriedWeight}). Reset at the start of {@link initialize}
+     * and fully populated by the time the being's own `evaluate()`/`finalize()`
+     * and the sheet read {@link carriedWeight}.
+     */
+    private _carriedWeight = 0;
+
+    /**
+     * The being's total carried-gear weight (pounds). Summed ground-up from every
+     * carried gear item during item preparation; read after preparation.
+     * @returns The accumulated carried-gear weight.
+     */
+    get carriedWeight(): number {
+        return this._carriedWeight;
+    }
+
+    /**
+     * Add a gear item's contribution to {@link carriedWeight}. Called by
+     * {@link GearLogic.evaluate} for each carried item; not intended for direct use.
+     * @param weight - The item's `weight × quantity` contribution (pounds).
+     */
+    addCarriedWeight(weight: number): void {
+        this._carriedWeight += weight;
+    }
+
+    /**
      * The effective base move (feet per combat round) for this being in
      * the given medium, exposed as a `ValueModifier` so additional runtime
      * modifiers (injury impairment, encumbrance overlays from items, etc.)
@@ -700,6 +727,9 @@ export class BeingLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
+        // Reset the ground-up accumulator before any gear item's evaluate()
+        // adds to it (all item initialize()/evaluate() run after this).
+        this._carriedWeight = 0;
     }
 
     /** @inheritdoc */
