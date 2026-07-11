@@ -17,6 +17,8 @@ import {
     attributeDescriptor,
     buildTraitGroups,
     buildSkillGroups,
+    buildTraumaRows,
+    traumaSeverityLabel,
     buildAffiliationRows,
     buildHoldableGear,
     buildBodyLocationTree,
@@ -731,6 +733,66 @@ describe("being-sheet-view", () => {
 
         it("returns empty array when input is empty", () => {
             expect(filterHeldWeapons([], () => [])).toEqual([]);
+        });
+    });
+
+    describe("traumaSeverityLabel", () => {
+        it("maps a level to its band label (M/S/G + level)", () => {
+            expect(traumaSeverityLabel(1)).toBe("M1");
+            expect(traumaSeverityLabel(2)).toBe("S2");
+            expect(traumaSeverityLabel(3)).toBe("S3");
+            expect(traumaSeverityLabel(4)).toBe("G4");
+            expect(traumaSeverityLabel(5)).toBe("G5");
+        });
+    });
+
+    describe("buildTraumaRows", () => {
+        const base = {
+            id: "t1",
+            uuid: "Item.t1",
+            name: "Left Arm Crush",
+            img: "icons/x.svg",
+            level: 2,
+            healingRate: 6,
+            healingRateDisabled: false,
+            isTreated: false,
+            isBleeding: false,
+            aspect: "blunt",
+            area: "Left Forearm" as string | undefined,
+            notes: "<p>bruised</p>",
+        };
+        const label = (a: string) => a.toUpperCase();
+
+        it("formats severity, aspect label, area, and plain-text notes", () => {
+            const [row] = buildTraumaRows([base], label);
+            expect(row.healed).toBe(false);
+            expect(row.severity).toBe("S2");
+            expect(row.aspect).toBe("BLUNT");
+            expect(row.area).toBe("Left Forearm");
+            expect(row.notes).toBe("bruised");
+        });
+
+        it("marks a healed trauma (level ≤ 0) with an empty severity", () => {
+            const [row] = buildTraumaRows([{ ...base, level: 0 }], label);
+            expect(row.healed).toBe(true);
+            expect(row.severity).toBe("");
+        });
+
+        it("defaults a missing body location to an em dash", () => {
+            const [row] = buildTraumaRows(
+                [{ ...base, area: undefined }],
+                label,
+            );
+            expect(row.area).toBe("—");
+        });
+
+        it("passes through healing-rate and treated/bleeding flags", () => {
+            const [row] = buildTraumaRows(
+                [{ ...base, healingRateDisabled: true, isBleeding: true }],
+                label,
+            );
+            expect(row.healingRateDisabled).toBe(true);
+            expect(row.isBleeding).toBe(true);
         });
     });
 });

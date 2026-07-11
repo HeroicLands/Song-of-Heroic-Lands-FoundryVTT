@@ -35,6 +35,7 @@ import {
     attributeDescriptor,
     buildTraitGroups,
     buildSkillGroups,
+    buildTraumaRows,
     buildAffiliationRows,
     buildHoldableGear,
     buildBodyLocationTree,
@@ -1112,7 +1113,31 @@ export class BeingSheet extends SohlActorSheetBase {
         const actor = this.document;
         const logic = actor.logic as BeingLogic;
 
-        const traumas = actor.itemTypes[ITEM_KIND.TRAUMA] ?? [];
+        // Traumas (injuries): extract each item's display values from its logic
+        // and system data, then format into compact rows for the list.
+        const traumas = buildTraumaRows(
+            (actor.itemTypes[ITEM_KIND.TRAUMA] ?? []).map((item) => {
+                const tl = item.logic as any;
+                const sys = item.system as any;
+                return {
+                    id: item.id!,
+                    uuid: item.uuid,
+                    name: item.name,
+                    img: item.img ?? "",
+                    level: tl?.level?.effective ?? 0,
+                    healingRate: tl?.healingRate?.effective ?? 0,
+                    healingRateDisabled: !!tl?.healingRate?.disabled,
+                    isTreated: !!sys.isTreated,
+                    isBleeding: !!sys.isBleeding,
+                    aspect: sys.aspect,
+                    area: tl?.bodyLocation?.name,
+                    notes: sys.notes,
+                };
+            }),
+            (aspect) =>
+                sohl.i18n.localize(`SOHL.ImpactModifier.ASPECT.${aspect}`),
+        );
+
         const afflictions = actor.itemTypes[ITEM_KIND.AFFLICTION] ?? [];
 
         // Group afflictions by subType
