@@ -12,6 +12,8 @@
  */
 
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { SohlEntity } from "@src/entity/SohlEntity";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import { registerEntity } from "@src/entity/entityRegistry";
 import { registerKind } from "@src/utils/kindRegistry";
 import {
@@ -67,19 +69,40 @@ export class ImpactModifier extends ValueModifier {
     private _spread: number;
 
     /**
+     * Construct an empty impact modifier owned by `parent` — shorthand for
+     * `new ImpactModifier({}, { parent })` (aspect defaults to blunt).
+     * @param parent - The owning {@link SohlLogic}.
+     */
+    constructor(parent: SohlLogic<any>);
+    /**
      * Builds an impact modifier, parsing the optional damage roll and resolving
      * the aspect (defaulting to blunt when none is supplied).
      *
      * @param data - Impact data; `roll` (the dice) and `aspect` are optional —
      *   aspect defaults to blunt.
      * @param options - Must provide `options.parent` (base {@link ValueModifier}).
-     * @throws If no `parent` is provided.
      */
     constructor(
-        data: Partial<ImpactModifier.Data> = {},
+        data: Partial<ImpactModifier.Data>,
+        options: Partial<ImpactModifier.Options>,
+    );
+    /**
+     * Implementation backing the constructor overloads: normalizes the
+     * `(parent)` shorthand and requires a resolved parent.
+     * @param dataOrParent - Impact data, or the owning parent Logic (shorthand).
+     * @param options - Construction options; `options.parent` is required in the
+     *   data form.
+     * @throws If no `parent` resolves.
+     */
+    constructor(
+        dataOrParent: SohlEntity.DataOrParent<ImpactModifier.Data> = {},
         options: Partial<ImpactModifier.Options> = {},
     ) {
-        super(data, options);
+        super(
+            SohlEntity.dataOf<ImpactModifier.Data>(dataOrParent),
+            SohlEntity.optionsOf<ImpactModifier.Options>(dataOrParent, options),
+        );
+        const data = SohlEntity.dataOf<ImpactModifier.Data>(dataOrParent);
         this.roll =
             data.roll ?
                 new SimpleRoll(data.roll, { parent: this.parent })

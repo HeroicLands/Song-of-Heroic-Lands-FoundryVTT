@@ -114,7 +114,7 @@ export class AttackResult extends SuccessTestResult {
                 "AttackResult requires a combatant UUID (data.combatantUuid) to be provided.",
             );
         }
-        this.impact = data.impact ?? new entity.ImpactModifier();
+        this.impact = data.impact ?? new entity.ImpactModifier(this.parent);
         this._modePointer = data.mode;
         this.mode = StrikeModeBase.fromPointerData(data.mode);
         this.label = data.label ?? "Attack";

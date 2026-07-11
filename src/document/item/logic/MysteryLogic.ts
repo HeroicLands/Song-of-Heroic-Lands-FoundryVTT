@@ -129,7 +129,7 @@ export class MysteryLogic<
         super.initialize();
 
         if (this.data.levelBase !== null) {
-            this.level = new entity.ValueModifier({}, { parent: this }).setBase(
+            this.level = new entity.ValueModifier(this).setBase(
                 this.data.levelBase,
             );
         } else {
@@ -143,10 +143,10 @@ export class MysteryLogic<
                 // `charges.value === null` means infinite charges remaining;
                 // normalize to `undefined` (no base) for the ValueModifier,
                 // which rejects `null`.
-                value: new entity.ValueModifier({}, { parent: this }).setBase(
+                value: new entity.ValueModifier(this).setBase(
                     this.data.charges.value ?? undefined,
                 ),
-                max: new entity.ValueModifier({}, { parent: this }).setBase(
+                max: new entity.ValueModifier(this).setBase(
                     this.data.charges.max,
                 ),
             };
@@ -156,7 +156,7 @@ export class MysteryLogic<
                     {},
                     { parent: this },
                 ).setDisabled("This mystery doesn't use charges"),
-                max: new entity.ValueModifier({}, { parent: this }).setDisabled(
+                max: new entity.ValueModifier(this).setDisabled(
                     "This mystery doesn't use charges",
                 ),
             };

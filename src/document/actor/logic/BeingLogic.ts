@@ -142,7 +142,7 @@ export class BeingLogic<
     effectiveBaseMove(medium: MovementMedium): ValueModifier {
         const lineageLogic = this.logicTypes[ITEM_KIND.LINEAGE][0];
         const base = readBaseMove(lineageLogic?.moveBase, medium);
-        return new entity.ValueModifier({}, { parent: this }).setBase(base);
+        return new entity.ValueModifier(this).setBase(base);
     }
 
     /**

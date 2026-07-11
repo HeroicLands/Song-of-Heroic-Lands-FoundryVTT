@@ -156,16 +156,14 @@ export class MysticalAbilityLogic<
     override initialize(): void {
         super.initialize();
         this.charges = {
-            value: new entity.ValueModifier({}, { parent: this }).setBase(
+            value: new entity.ValueModifier(this).setBase(
                 this.data.charges.value,
             ),
-            max: new entity.ValueModifier({}, { parent: this }).setBase(
-                this.data.charges.max,
-            ),
+            max: new entity.ValueModifier(this).setBase(this.data.charges.max),
         };
 
         if (this.data.levelBase > 0) {
-            this.level = new entity.ValueModifier({}, { parent: this }).setBase(
+            this.level = new entity.ValueModifier(this).setBase(
                 this.data.levelBase,
             );
         } else {
@@ -187,9 +185,9 @@ export class MysticalAbilityLogic<
             // in case there are modifiers to that skill's mastery level that need to be applied first.
             // On the other hand, we may need to add our own modifiers to this Mystical Ability's mastery level before then,
             // so we need to initialize the masteryLevel modifier now, even though it will be effectively empty for a while.
-            this.masteryLevel = new entity.ValueModifier({}, { parent: this });
+            this.masteryLevel = new entity.ValueModifier(this);
         }
-        this.level = new entity.ValueModifier({}, { parent: this }).setBase(
+        this.level = new entity.ValueModifier(this).setBase(
             this.data.levelBase,
         );
     }
