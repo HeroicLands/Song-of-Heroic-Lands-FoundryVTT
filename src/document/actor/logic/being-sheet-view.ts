@@ -767,3 +767,97 @@ export function selectStrikeModeModifier(
     if (testKind === "attack") return sm.attack;
     return undefined;
 }
+
+/**
+ * Pre-extracted values for one trauma (injury) item, sourced by the sheet from
+ * the item's logic and system data — the Foundry-free surface {@link buildTraumaRows}
+ * formats for the Trauma tab's injuries list.
+ */
+export interface TraumaLike {
+    id: string;
+    uuid: string;
+    name: string;
+    img: string;
+    /** Effective severity level (0 or below ⇒ healed). */
+    level: number;
+    /** Effective healing rate. */
+    healingRate: number;
+    /** Whether the healing rate is disabled (no natural recovery). */
+    healingRateDisabled: boolean;
+    isTreated: boolean;
+    isBleeding: boolean;
+    /** Impact-aspect enum value (e.g. `"blunt"`). */
+    aspect: string;
+    /** Resolved body-location name, or `undefined` for a whole-body trauma. */
+    area: string | undefined;
+    /** Raw notes HTML. */
+    notes: string;
+}
+
+/** A formatted trauma row for the injuries list. */
+export interface TraumaRow {
+    id: string;
+    uuid: string;
+    name: string;
+    img: string;
+    /** True when the trauma has healed (level ≤ 0); the list shows an icon. */
+    healed: boolean;
+    /** Severity band label (`M1`, `S2`, `S3`, `G4`, `G5`); empty when healed. */
+    severity: string;
+    healingRate: number;
+    healingRateDisabled: boolean;
+    isTreated: boolean;
+    isBleeding: boolean;
+    /** Localized impact-aspect label. */
+    aspect: string;
+    /** Body-location name, or `"—"` when whole-body. */
+    area: string;
+    /** Plain-text notes (HTML stripped). */
+    notes: string;
+}
+
+/**
+ * Format a trauma severity level as its band label: `M1` (minor), `S2`/`S3`
+ * (serious), `G4`/`G5` (grievous) — the band letter by level, suffixed with the
+ * level number, matching the SoHL injury scale.
+ *
+ * @param level - The effective severity level.
+ * @returns The band label (e.g. `"S2"`).
+ */
+export function traumaSeverityLabel(level: number): string {
+    const band =
+        level <= 1 ? "M"
+        : level <= 3 ? "S"
+        : "G";
+    return `${band}${level}`;
+}
+
+/**
+ * Build compact display rows for the Trauma tab's injuries list — computing the
+ * severity band label, localizing the impact aspect, defaulting the body
+ * location, and reducing notes to plain text.
+ *
+ * @param traumas - The pre-extracted trauma values.
+ * @param aspectLabel - Localizer mapping an aspect enum value to its label.
+ * @returns The formatted trauma rows, in input order.
+ */
+export function buildTraumaRows(
+    traumas: readonly TraumaLike[],
+    aspectLabel: (aspect: string) => string,
+): TraumaRow[] {
+    return traumas.map((t) => ({
+        id: t.id,
+        uuid: t.uuid,
+        name: t.name,
+        img: t.img,
+        healed: t.level <= 0,
+        severity: t.level <= 0 ? "" : traumaSeverityLabel(t.level),
+        healingRate: t.healingRate,
+        healingRateDisabled: t.healingRateDisabled,
+        isTreated: t.isTreated,
+        isBleeding: t.isBleeding,
+        aspect: aspectLabel(t.aspect),
+        area: t.area ?? "—",
+        notes: htmlToPlainText(t.notes),
+    }));
+}

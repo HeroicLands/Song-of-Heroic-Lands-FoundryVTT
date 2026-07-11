@@ -19,24 +19,27 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
     {{/if}}
 
-    {{!-- Injuries --}}
+    {{!-- Injuries (trauma items) --}}
     <fieldset>
         <legend>
             Injuries
-            {{#if editable}}
-            <a class="list__control" data-action="addInjury" data-tooltip="Add Injury">
+            <a class="item-create" data-action="createItem" data-type="trauma" data-tooltip="Create Trauma">
+                <i class="sohl-file-create"></i>
+            </a>
+            <a class="list__control" data-action="addInjury" data-tooltip="Add Injury (roll)">
                 <i class="sohl-plus"></i>
             </a>
-            {{/if}}
         </legend>
         <ol class="list__items">
             <li class="list__header flexrow">
                 <h3 class="list__name">Injury</h3>
-                <div class="list__detail" data-tooltip="Injury Level">Sev</div>
-                <div class="list__detail" data-tooltip="Healing Rate">HR</div>
+                <div class="list__detail" data-tooltip="Injury Severity">Sev</div>
+                <div class="list__detail" data-tooltip="Healing Rate (NT = not treated)">HR</div>
                 <div class="list__detail">Aspect</div>
-                <div class="list__detail" data-tooltip="Treated">Trt</div>
+                <div class="list__detail">Area</div>
                 <div class="list__detail" data-tooltip="Bleeding">Bld</div>
+                <div class="list__detail list__notes">Notes</div>
+                <div class="list__controls"></div>
             </li>
             {{#each traumas as |injury|}}
             <li class="item flexrow" data-search-name="{{injury.name}}" data-item-id="{{injury.id}}" data-item-name="{{injury.name}}">
@@ -44,35 +47,30 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="list__image" style="background-image: url('{{injury.img}}')"></div>
                     <h4 data-tooltip="{{injury.name}}">{{injury.name}}</h4>
                 </div>
-                <div class="list__detail">
-                    {{#if (lte injury.logic.level.effective 0)}}
-                    <i class="sohl-heart-plus"></i>
+                <div class="list__detail" data-tooltip="Severity">
+                    {{#if injury.healed}}
+                    <i class="sohl-heart-plus" data-tooltip="Healed"></i>
                     {{else}}
-                    {{injury.logic.level.effective}}
+                    {{injury.severity}}
                     {{/if}}
                 </div>
-                <div class="list__detail">
-                    {{#if injury.logic.healingRate.disabled}}
+                <div class="list__detail" data-tooltip="Healing Rate">
+                    {{#if injury.healingRateDisabled}}
                     <i class="sohl-xmark"></i>
                     {{else}}
-                    {{injury.logic.healingRate.effective}}
+                    {{#unless injury.isTreated}}NT{{/unless}}{{injury.healingRate}}
                     {{/if}}
                 </div>
-                <div class="list__detail">{{injury.system.aspect}}</div>
+                <div class="list__detail">{{injury.aspect}}</div>
+                <div class="list__detail">{{injury.area}}</div>
                 <div class="list__detail">
-                    {{#if injury.system.isTreated}}
-                    <i class="sohl-check"></i>
+                    {{#if injury.isBleeding}}
+                    <span class="danger">Yes</span>
                     {{else}}
-                    <i class="sohl-xmark"></i>
+                    No
                     {{/if}}
                 </div>
-                <div class="list__detail">
-                    {{#if injury.system.isBleeding}}
-                    <i class="sohl-drop danger"></i>
-                    {{else}}
-                    <i class="sohl-xmark"></i>
-                    {{/if}}
-                </div>
+                <div class="list__detail list__notes" data-tooltip="{{injury.notes}}">{{injury.notes}}</div>
                 <div class="list__controls">
                     <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
