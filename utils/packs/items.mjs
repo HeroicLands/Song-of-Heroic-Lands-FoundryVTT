@@ -258,6 +258,7 @@ function buildLineage(fm) {
         }),
         movementProfiles: sohlField(fm, "movementProfiles", []),
         encumbranceRate: Number(sohlField(fm, "encumbranceRate", 0)) || 0,
+        encMod: sohlField(fm, "encMod", "-5 * floor((str - 10) / 2)"),
         bodyWeightBase: Number(sohlField(fm, "bodyWeightBase", 0)) || 0,
     };
 }

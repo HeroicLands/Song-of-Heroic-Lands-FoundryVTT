@@ -40,6 +40,7 @@ const {
     DocumentIdField,
     SchemaField,
     ArrayField,
+    JavaScriptField,
 } = foundry.data.fields;
 
 /**
@@ -227,6 +228,14 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
             initial: 0,
             min: 0,
         }),
+        /**
+         * Encumbrance modifier — a {@link SafeExpression} of the being's strength
+         * (`str`) that shifts its carry capacity (see `BeingLogic.maxCarryWeight`).
+         * The default is the standard human curve: stronger beings carry more.
+         */
+        encMod: new JavaScriptField({
+            initial: "-5 * floor((str - 10) / 2)",
+        }),
         /** The weight of the being's body not including any gear */
         bodyWeightBase: new NumberField({
             integer: true,
@@ -271,6 +280,7 @@ export class LineageDataModel<
     moveBase!: MoveBaseDict;
     defaultMoveMedium!: MovementMedium;
     encumbranceRate!: number;
+    encMod!: string;
     bodyWeightBase!: number;
     reachBase!: number;
 

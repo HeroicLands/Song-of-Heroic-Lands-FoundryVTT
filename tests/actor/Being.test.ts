@@ -213,19 +213,25 @@ describe("BeingLogic", () => {
     });
 
     describe("maxCarryWeight", () => {
-        it("derives capacity from base move and lineage encumbrance rate", () => {
+        const ENC_MOD = "-5 * floor((str - 10) / 2)";
+        const strAttr = (score: number) => ({
+            logic: { data: { shortcode: "str" }, score: { effective: score } },
+        });
+
+        it("derives capacity from base move, encumbrance rate, and encMod", () => {
             const logic = makeBeing();
             (logic.actor as any).itemTypes = {
                 [ITEM_KIND.LINEAGE]: [
                     {
                         logic: {
                             moveBase: { terrestrial: 50 },
-                            data: { encumbranceRate: 4 },
+                            data: { encumbranceRate: 4, encMod: ENC_MOD },
                         },
                     },
                 ],
+                [ITEM_KIND.ATTRIBUTE]: [strAttr(10)],
             };
-            // move 50 → encThreshold 45 → 4 * (45 + 1) - 1 = 183
+            // str 10 → encMod 0; maxEnc 45 → 4 * (45 - 0 + 1) - 1 = 183
             expect(logic.maxCarryWeight).toBe(183);
         });
 
@@ -236,13 +242,37 @@ describe("BeingLogic", () => {
                     {
                         logic: {
                             moveBase: { terrestrial: 30, aerial: 60 },
-                            data: { encumbranceRate: 2 },
+                            data: { encumbranceRate: 2, encMod: ENC_MOD },
                         },
                     },
                 ],
+                [ITEM_KIND.ATTRIBUTE]: [strAttr(10)],
             };
-            // max move 60 → encThreshold 55 → 2 * (55 + 1) - 1 = 111
+            // max move 60 → maxEnc 55 → 2 * (55 - 0 + 1) - 1 = 111
             expect(logic.maxCarryWeight).toBe(111);
+        });
+
+        it("shifts capacity by the lineage's strength-driven encMod", () => {
+            const logic = makeBeing();
+            (logic.actor as any).itemTypes = {
+                [ITEM_KIND.LINEAGE]: [
+                    {
+                        logic: {
+                            moveBase: { terrestrial: 50 },
+                            data: { encumbranceRate: 4, encMod: ENC_MOD },
+                        },
+                    },
+                ],
+                [ITEM_KIND.ATTRIBUTE]: [strAttr(14)],
+            };
+            // str 14 → encMod -10; maxEnc 45 → 4 * (45 - (-10) + 1) - 1 = 223
+            expect(logic.maxCarryWeight).toBe(223);
+        });
+
+        it("is 0 for a being with no lineage", () => {
+            const logic = makeBeing();
+            (logic.actor as any).itemTypes = {};
+            expect(logic.maxCarryWeight).toBe(0);
         });
     });
 

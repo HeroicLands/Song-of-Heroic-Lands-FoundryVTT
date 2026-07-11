@@ -155,6 +155,8 @@ export interface LineageData<
     defaultMoveMedium: MovementMedium;
     /** Rate at which carried weight contributes to encumbrance. */
     encumbranceRate: number;
+    /** SafeExpression of `str` giving the encumbrance modifier for carry capacity. */
+    encMod: string;
     /** Base body weight for beings of this lineage. */
     bodyWeightBase: number;
     /** Base melee reach (feet) for beings of this lineage. */

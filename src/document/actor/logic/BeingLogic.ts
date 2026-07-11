@@ -12,6 +12,7 @@
  */
 
 import { entity } from "@src/entity/registry";
+import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -147,28 +148,51 @@ export class BeingLogic<
     }
 
     /**
-     * The maximum weight this being can carry, derived from its base move rate
-     * and its lineage's encumbrance rate. Each `encumbranceRate` pounds of gear
-     * costs one unit of encumbrance; a being tolerates `moveBase - 5` units
-     * before its move is affected, so the limit is the weight one point shy of
-     * the next encumbrance step past that threshold.
+     * The being's encumbrance modifier: the lineage's `encMod`
+     * {@link SafeExpression} evaluated against the being's strength score
+     * (`str`). Shifts carry capacity — a stronger being carries more. Returns 0
+     * when there is no lineage, no expression, or no strength attribute.
+     */
+    get encMod(): number {
+        const source = this.logicTypes[ITEM_KIND.LINEAGE][0]?.data?.encMod;
+        if (!source) return 0;
+        const str =
+            this.logicTypes[ITEM_KIND.ATTRIBUTE].find(
+                (a) => a.data?.shortcode === "str",
+            )?.score.effective ?? 0;
+        try {
+            const value = new SafeExpression(
+                { source },
+                { parent: this },
+            ).evaluate({ str });
+            return typeof value === "number" ? value : 0;
+        } catch {
+            return 0;
+        }
+    }
+
+    /**
+     * The maximum weight this being can carry and still move, derived from its
+     * greatest base move rate, its lineage's encumbrance rate, and its strength
+     * ({@link encMod}). Each `encumbranceRate` pounds of gear costs one unit of
+     * encumbrance; the being tolerates `maxMoveRate - 5` units (adjusted by
+     * `encMod`) before its move is affected.
      *
-     * `moveBase` is the being's greatest base move across all media. Read after
-     * item preparation. A being without a lineage has no encumbrance rate, so
-     * this returns a degenerate value — callers (the sheet) treat a lineage-less
-     * being as having 0 capacity.
+     * Read after item preparation. A being without a lineage has no encumbrance
+     * rate, so this is 0 — callers (the sheet) should still guard for a
+     * lineage-less being.
      *
-     * @returns The maximum carry weight.
+     * @returns The maximum carry weight (never negative).
      */
     get maxCarryWeight(): number {
-        const moveBase = Math.max(
+        const maxMoveRate = Math.max(
             0,
             ...MovementMediums.map((m) => this.effectiveBaseMove(m).effective),
         );
         const encRate =
             this.logicTypes[ITEM_KIND.LINEAGE][0]?.data?.encumbranceRate ?? 0;
-        const encThreshold = Math.max(0, moveBase - 5);
-        return encRate * (encThreshold + 1) - 1;
+        const maxEnc = Math.max(0, maxMoveRate - 5);
+        return Math.max(0, encRate * (maxEnc - this.encMod + 1) - 1);
     }
 
     /**
