@@ -21,6 +21,7 @@ import {
     type SohlActorLogic,
 } from "@src/document/actor/logic/SohlActorBaseLogic";
 import type { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
+import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import {
@@ -43,12 +44,10 @@ import {
 } from "@src/core/FoundryHelpers";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
-import { readBaseMove } from "@src/entity/movement/move-helpers";
 import {
     ACTION_SUBTYPE,
     IMPACT_ASPECT,
     ITEM_KIND,
-    MovementMedium,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
@@ -125,27 +124,24 @@ export class BeingLogic<
     carriedWeight!: ValueModifier;
 
     /**
-     * The effective base move (feet per combat round) for this being in
-     * the given medium, exposed as a `ValueModifier` so additional runtime
-     * modifiers (injury impairment, encumbrance overlays from items, etc.)
-     * can layer on through the standard channel.
-     *
-     * The base is sourced from the actor's `Lineage` item — specifically
-     * `lineage.system.moveBase[medium]`. Foundry has already applied any
-     * Active Effects targeting that persisted path by the time this is
-     * called, so a haste AE multiplying `system.moveBase.terrestrial` × 2
-     * is reflected in the base value transparently.
-     *
-     * Returns a ValueModifier with base 0 if the actor has no lineage or
-     * the lineage has no value for this medium.
-     *
-     * @param medium - The movement medium (e.g. terrestrial, aquatic) to read.
-     * @returns A `ValueModifier` seeded with the lineage's base move for the medium.
+     * The being's {@link LineageLogic | Lineage} logic, or `undefined` when it has
+     * none. A being has 0 or 1 lineage; rather than re-scan `logicTypes` on every
+     * lookup, the lineage registers itself here from its own `initialize()` (via
+     * {@link registerLineage}). Reset at the start of {@link initialize} — before
+     * any item's `initialize()` runs — so it reflects the current prepare cycle.
+     * The lineage carries the being's movement ({@link LineageLogic.feetPerRound} /
+     * {@link LineageLogic.leaguesPerWatch}), body structure, weight, and reach.
      */
-    effectiveBaseMove(medium: MovementMedium): ValueModifier {
-        const lineageLogic = this.logicTypes[ITEM_KIND.LINEAGE][0];
-        const base = readBaseMove(lineageLogic?.moveBase, medium);
-        return new entity.ValueModifier(this).setBase(base);
+    lineage: LineageLogic | undefined;
+
+    /**
+     * Register a {@link LineageLogic} as this being's lineage. Called by the
+     * lineage's own `initialize()` (which runs after the being's), so
+     * {@link lineage} is populated before any consumer reads it.
+     * @param lineage - The owning being's lineage logic.
+     */
+    registerLineage(lineage: LineageLogic): void {
+        this.lineage = lineage;
     }
 
     /**
@@ -706,6 +702,9 @@ export class BeingLogic<
         // Reset the ground-up accumulator before any gear item's evaluate()
         // adds to it (all item initialize()/evaluate() run after this).
         this.carriedWeight = new entity.ValueModifier(this);
+        // Cleared before item initialize() runs; the lineage re-registers itself
+        // via registerLineage() during its own initialize().
+        this.lineage = undefined;
     }
 
     /** @inheritdoc */

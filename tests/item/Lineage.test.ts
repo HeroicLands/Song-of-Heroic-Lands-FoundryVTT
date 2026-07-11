@@ -5,7 +5,7 @@ import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     ITEM_KIND,
     MOVEMENT_MEDIUM,
-    MovementMediums,
+    type MovementMedium,
 } from "@src/utils/constants";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 
@@ -124,14 +124,24 @@ function makeLineageWithStr(
 }
 
 /**
- * A lineage embedded on a being with a `str` attribute and a stubbed
- * `carriedWeight`, so the expression accessors (`getStrMod`, `getEncumbrance`)
- * can be evaluated against `str` and `wt`. (`carriedWeight` is a `ValueModifier`
- * accumulated ground-up by `BeingLogic`; the LineageLogic accessor reads its
- * `.effective`, so the unit test stubs a modifier-shaped `{ effective }`.)
+ * A lineage embedded on a being with a `str` attribute, a chosen
+ * `movementMedium`, and a stubbed `carriedWeight`, so the derived movement VMs
+ * (`strengthModifier`, `encumbrance`) can be evaluated against `str` and `wt`.
+ * (`carriedWeight` is a `ValueModifier` accumulated ground-up by `BeingLogic`;
+ * `LineageLogic` reads its `.effective`, so the unit test stubs a
+ * modifier-shaped `{ effective }`. `movementMedium` is read off the being's data
+ * to select the active movement profile.)
  */
 function makeLineageWithActor(
-    { str = 0, carriedWeight = 0 } = {},
+    {
+        str = 0,
+        carriedWeight = 0,
+        movementMedium = MOVEMENT_MEDIUM.TERRESTRIAL,
+    }: {
+        str?: number;
+        carriedWeight?: number;
+        movementMedium?: MovementMedium;
+    } = {},
     overrides: Record<string, unknown> = {},
 ) {
     const actor = makeMockActor({ kind: "being" });
@@ -146,6 +156,7 @@ function makeLineageWithActor(
         ],
     };
     actor.logic.carriedWeight = { effective: carriedWeight };
+    actor.system.movementMedium = movementMedium;
     return makeLineage(overrides, { actor });
 }
 
@@ -185,6 +196,15 @@ describe("LineageLogic", () => {
             const logic = makeLineage();
             expect(logic.actions.has("postfinalize")).toBe(true);
         });
+
+        it("registers itself on the owning being during initialize", () => {
+            const actor = makeMockActor({ kind: "being" });
+            const registered: unknown[] = [];
+            actor.logic.registerLineage = (l: unknown) => registered.push(l);
+            const logic = makeLineage({}, { actor });
+            logic.initialize();
+            expect(registered).toEqual([logic]);
+        });
     });
 
     describe("initialize", () => {
@@ -197,7 +217,7 @@ describe("LineageLogic", () => {
             expect(logic.bodyStructure.parent).toBe(logic);
         });
 
-        it("seeds bodyWeight from baseWeight (fixed base)", () => {
+        it("seeds bodyWeight from a fixed bodyWeight.base", () => {
             const logic = makeLineage({
                 bodyWeight: { base: 200, calc: "0" },
             });
@@ -207,7 +227,7 @@ describe("LineageLogic", () => {
             expect(logic.bodyWeight.effective).toBe(200);
         });
 
-        it("seeds bodyWeight from baseWeight (computed from strength)", () => {
+        it("computes bodyWeight from strength when bodyWeight.base is null", () => {
             const logic = makeLineageWithStr(13, {
                 bodyWeight: { base: null, calc: "(9 * str) + 50" },
             });
@@ -233,28 +253,6 @@ describe("LineageLogic", () => {
             expect(logic.reach.modifier).toBe(3);
         });
 
-        it("seeds one move ValueModifier per medium from moveBase", () => {
-            const moveBase = {
-                terrestrial: 60,
-                aquatic: 10,
-                aerial: 120,
-                burrowing: 0,
-                astral: 0,
-            };
-            const logic = makeLineage({ moveBase });
-            logic.initialize();
-            for (const medium of MovementMediums) {
-                const vm = logic.move[medium as keyof typeof logic.move];
-                expect(vm, medium).toBeInstanceOf(ValueModifier);
-                expect(vm.base, medium).toBe(
-                    moveBase[medium as keyof typeof moveBase],
-                );
-                expect(vm.effective, medium).toBe(
-                    moveBase[medium as keyof typeof moveBase],
-                );
-            }
-        });
-
         it("rebuilds modifiers on a fresh initialize (deltas are not persisted)", () => {
             const logic = makeLineage({ reachBase: 5 });
             logic.initialize();
@@ -277,148 +275,119 @@ describe("LineageLogic", () => {
         });
     });
 
-    describe("derived properties", () => {
-        it("moveBase mirrors data.moveBase", () => {
+    describe("movement profile", () => {
+        it("resolves the active moveProfile from the being's movementMedium and seeds move VMs", () => {
+            const logic = makeLineageWithActor({
+                movementMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
+            });
+            logic.initialize();
+            expect(logic.moveProfile.medium).toBe(MOVEMENT_MEDIUM.TERRESTRIAL);
+            expect(logic.moveProfile.disabled).toBe(false);
+            expect(logic.feetPerRound.effective).toBe(50);
+            expect(logic.leaguesPerWatch.effective).toBe(5);
+        });
+
+        it("picks the profile matching the chosen movementMedium", () => {
+            const logic = makeLineageWithActor(
+                { movementMedium: MOVEMENT_MEDIUM.AQUATIC },
+                { movementProfiles: TWO_MEDIUM_PROFILES },
+            );
+            logic.initialize();
+            expect(logic.moveProfile.medium).toBe(MOVEMENT_MEDIUM.AQUATIC);
+            expect(logic.feetPerRound.effective).toBe(10);
+            expect(logic.leaguesPerWatch.effective).toBe(1);
+        });
+
+        it("falls back to a disabled profile when no medium matches", () => {
+            const logic = makeLineageWithActor({
+                movementMedium: MOVEMENT_MEDIUM.AERIAL,
+            });
+            logic.initialize();
+            expect(logic.moveProfile.disabled).toBe(true);
+            expect(logic.feetPerRound.effective).toBe(0);
+            expect(logic.leaguesPerWatch.effective).toBe(0);
+        });
+
+        it("falls back to a disabled profile when there is no owning being", () => {
             const logic = makeLineage();
-            expect(logic.moveBase).toBe(logic.data.moveBase);
-            expect(logic.moveBase.terrestrial).toBe(60);
-        });
-
-        it("defaultMoveMedium mirrors data.defaultMoveMedium", () => {
-            const logic = makeLineage({
-                defaultMoveMedium: MOVEMENT_MEDIUM.AQUATIC,
-            });
-            expect(logic.defaultMoveMedium).toBe(MOVEMENT_MEDIUM.AQUATIC);
+            logic.initialize();
+            expect(logic.moveProfile.disabled).toBe(true);
+            expect(logic.feetPerRound.effective).toBe(0);
         });
     });
 
-    describe("baseWeight", () => {
-        it("returns bodyWeight.base verbatim when it is set", () => {
-            const logic = makeLineageWithStr(18, {
-                bodyWeight: { base: 150, calc: "(9 * str) + 50" },
+    describe("strengthModifier", () => {
+        it("evaluates the active profile's strMod against the being's strength (after evaluate)", () => {
+            // str 14, terrestrial strMod "-5 * floor((str - 10) / 2)" = -10
+            const logic = makeLineageWithActor({
+                str: 14,
+                movementMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
             });
-            // base wins over calc even when a strength attribute is present
-            expect(logic.baseWeight).toBe(150);
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.strengthModifier.effective).toBe(-10);
         });
 
-        it("evaluates bodyWeight.calc against the being's strength when base is null", () => {
-            const logic = makeLineageWithStr(20, {
-                bodyWeight: { base: null, calc: "(9 * str) + 50" },
+        it("is 0 for the disabled fallback profile (strMod '0')", () => {
+            const logic = makeLineageWithActor({
+                str: 14,
+                movementMedium: MOVEMENT_MEDIUM.AERIAL,
             });
-            // (9 * 20) + 50 = 230
-            expect(logic.baseWeight).toBe(230);
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.strengthModifier.effective).toBe(0);
         });
 
-        it("falls back to str = 0 when there is no owning being", () => {
-            const logic = makeLineage({
-                bodyWeight: { base: null, calc: "(9 * str) + 50" },
-            });
-            // no actor → no str attribute → str defaults to 0 → 50
-            expect(logic.baseWeight).toBe(50);
-        });
-
-        it("returns 0 when calc cannot produce a number", () => {
-            const logic = makeLineage({
-                bodyWeight: { base: null, calc: "str" },
-            });
-            // str is a number (0), so this is 0 — a genuinely non-numeric
-            // result would also clamp to 0
-            expect(logic.baseWeight).toBe(0);
+        it("defaults str to 0 when the being has no strength attribute (no NaN)", () => {
+            // Active terrestrial profile but no `str` attribute on the being:
+            // str defaults to 0 → -5 * floor((0 - 10) / 2) = 25 (not NaN).
+            const actor = makeMockActor({ kind: "being" });
+            actor.itemTypes = {};
+            actor.system.movementMedium = MOVEMENT_MEDIUM.TERRESTRIAL;
+            const logic = makeLineage({}, { actor });
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.strengthModifier.effective).toBe(25);
         });
     });
 
-    describe("per-medium accessors", () => {
-        describe("getMoveBase", () => {
-            it("reads the moveBase scalar for the default medium", () => {
-                // default fixture: moveBase.terrestrial = 60 (distinct from the
-                // profile's feetPerRound = 50, so the two accessors are told apart)
-                expect(makeLineage().getMoveBase()).toBe(60);
+    describe("encumbrance", () => {
+        it("evaluates the active profile's encumbrance against carried weight (after finalize)", () => {
+            // carriedWeight 10, terrestrial encumbrance "floor(wt / 4)" = 2
+            const logic = makeLineageWithActor({
+                carriedWeight: 10,
+                movementMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
             });
-
-            it("reads the moveBase scalar for an explicit medium", () => {
-                expect(makeLineage().getMoveBase(MOVEMENT_MEDIUM.AQUATIC)).toBe(
-                    10,
-                );
-            });
-
-            it("is 0 for a medium the lineage cannot use", () => {
-                expect(makeLineage().getMoveBase(MOVEMENT_MEDIUM.AERIAL)).toBe(
-                    0,
-                );
-            });
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+            expect(logic.encumbrance.effective).toBe(2);
         });
 
-        describe("getFeetPerRound / getLeaguesPerWatch", () => {
-            it("read the default medium's profile", () => {
-                const logic = makeLineage();
-                expect(logic.getFeetPerRound()).toBe(50);
-                expect(logic.getLeaguesPerWatch()).toBe(5);
-            });
-
-            it("read an explicit medium's profile", () => {
-                const logic = makeLineage({
-                    movementProfiles: TWO_MEDIUM_PROFILES,
-                });
-                expect(logic.getFeetPerRound(MOVEMENT_MEDIUM.AQUATIC)).toBe(10);
-                expect(logic.getLeaguesPerWatch(MOVEMENT_MEDIUM.AQUATIC)).toBe(
-                    1,
-                );
-            });
-
-            it("are 0 when there is no profile for the medium", () => {
-                const logic = makeLineage();
-                expect(logic.getFeetPerRound(MOVEMENT_MEDIUM.AERIAL)).toBe(0);
-                expect(logic.getLeaguesPerWatch(MOVEMENT_MEDIUM.AERIAL)).toBe(
-                    0,
-                );
-            });
-        });
-
-        describe("getStrMod", () => {
-            it("evaluates the profile's strMod against the being's strength", () => {
-                // str 14 → -5 * floor((14 - 10) / 2) = -5 * 2 = -10
-                const logic = makeLineageWithActor({ str: 14 });
-                expect(logic.getStrMod()).toBe(-10);
-            });
-
-            it("defaults str to 0 when there is no owning being", () => {
-                // no actor → str 0 → -5 * floor((0 - 10) / 2) = -5 * -5 = 25
-                expect(makeLineage().getStrMod()).toBe(25);
-            });
-
-            it("is 0 when the medium has no profile", () => {
-                const logic = makeLineageWithActor({ str: 14 });
-                expect(logic.getStrMod(MOVEMENT_MEDIUM.AERIAL)).toBe(0);
-            });
-        });
-
-        describe("getEncumbrance", () => {
-            it("evaluates the profile's encumbrance against the being's carried weight (wt)", () => {
-                // carriedWeight 10 → floor(10 / 4) = 2
-                const logic = makeLineageWithActor({
-                    str: 10,
+        it("uses the active medium's own encumbrance expression", () => {
+            // aquatic: "floor(wt / 2)" with wt 10 → 5
+            const logic = makeLineageWithActor(
+                {
                     carriedWeight: 10,
-                });
-                expect(logic.getEncumbrance()).toBe(2);
-            });
+                    movementMedium: MOVEMENT_MEDIUM.AQUATIC,
+                },
+                { movementProfiles: TWO_MEDIUM_PROFILES },
+            );
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+            expect(logic.encumbrance.effective).toBe(5);
+        });
 
-            it("uses the requested medium's own encumbrance expression", () => {
-                // aquatic: floor(wt / 2) with wt 10 → 5
-                const logic = makeLineageWithActor(
-                    { str: 10, carriedWeight: 10 },
-                    { movementProfiles: TWO_MEDIUM_PROFILES },
-                );
-                expect(logic.getEncumbrance(MOVEMENT_MEDIUM.AQUATIC)).toBe(5);
+        it("is 0 with no carried weight (wt 0)", () => {
+            const logic = makeLineageWithActor({
+                carriedWeight: 0,
+                movementMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
             });
-
-            it("is 0 with no carried weight (wt 0)", () => {
-                const logic = makeLineageWithActor({ str: 10 });
-                expect(logic.getEncumbrance()).toBe(0);
-            });
-
-            it("is 0 when there is no owning being", () => {
-                expect(makeLineage().getEncumbrance()).toBe(0);
-            });
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+            expect(logic.encumbrance.effective).toBe(0);
         });
     });
 });

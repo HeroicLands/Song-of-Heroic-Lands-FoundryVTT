@@ -98,12 +98,12 @@ describe("being build — manual character-build chain", () => {
         });
     });
 
-    it("without lineage — effectiveBaseMove('terrestrial') is 0", () => {
+    it("without lineage — the being has no lineage pointer (no movement)", () => {
         cy.createActor("being", { name: "No Lineage Being" }).then((actor) => {
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
-                return a.logic.effectiveBaseMove("terrestrial").effective;
-            }).should("eq", 0);
+                return a.logic.lineage ?? null;
+            }).should("eq", null);
         });
     });
 
@@ -120,12 +120,10 @@ describe("being build — manual character-build chain", () => {
                     return {
                         reach: lineage.logic.reach.effective,
                         hasBod: !!lineage.logic.bodyStructure,
-                        terrestrial:
-                            a.logic.effectiveBaseMove("terrestrial").effective,
+                        // Move now lives on the lineage's active movement profile.
+                        terrestrial: a.logic.lineage.feetPerRound.effective,
                     };
                 }).should((r) => {
-                    // TODO(#242): change both to greaterThan(0) once Basic Folk
-                    // lineage is migrated to moveBase/reachBase fields
                     expect(r.reach, "reach is numeric").to.be.a("number");
                     expect(r.hasBod, "bodyStructure present").to.be.true;
                     expect(

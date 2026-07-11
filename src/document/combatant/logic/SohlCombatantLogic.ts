@@ -286,20 +286,20 @@ export class SohlCombatantLogic<
     }
 
     /**
-     * The computed tactical move for this combatant in the given medium,
-     * accounting for the combatant's situational `moveFactor` scalar.
-     * `null` when the actor has no movement model (e.g. a Vehicle).
-     * @param medium - The movement medium to compute for.
+     * The computed tactical move (feet per combat round) for this combatant,
+     * read from its being's {@link LineageLogic.feetPerRound} for the being's
+     * active movement medium. `null` when the actor has no movement model (no
+     * lineage, or a non-being such as a Vehicle).
      * @returns The tactical move, or `null` when unavailable.
      */
-    computedMove(medium: MovementMedium): number | null {
-        return (this.actorLogic as BeingLogic)?.effectiveBaseMove(medium)
-            .effective;
+    computedMove(): number | null {
+        const being = this.actorLogic as BeingLogic | null;
+        return being?.lineage ? being.lineage.feetPerRound.effective : null;
     }
 
     /** The computed move for the combat-tracker's displayed medium. */
     get displayedMove(): number | null {
-        return this.computedMove(this.data.displayedMedium as MovementMedium);
+        return this.computedMove();
     }
 
     // --- Relational / spatial (scene-coupled edge) ---------------------------

@@ -5,12 +5,7 @@ import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { MiscGearLogic } from "@src/document/item/logic/MiscGearLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import {
-    ACTOR_KIND,
-    IMPACT_ASPECT,
-    ITEM_KIND,
-    MOVEMENT_MEDIUM,
-} from "@src/utils/constants";
+import { ACTOR_KIND, IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import { makeActorLogic, makeItemLogic } from "@tests/mocks/logicHarness";
 
@@ -176,40 +171,19 @@ describe("BeingLogic", () => {
         });
     });
 
-    describe("effectiveBaseMove", () => {
-        it("returns a ValueModifier with base 0 when the being has no lineage", () => {
-            const logic = makeBeing();
-            const move = logic.effectiveBaseMove(MOVEMENT_MEDIUM.TERRESTRIAL);
-            expect(move).toBeInstanceOf(ValueModifier);
-            expect(move.base).toBe(0);
-            expect(move.effective).toBe(0);
+    describe("lineage pointer", () => {
+        it("is undefined by default", () => {
+            expect(makeBeing().lineage).toBeUndefined();
         });
 
-        it("reads the lineage's moveBase for the requested medium", () => {
-            const logic = makeBeing();
-            (logic.actor as any).itemTypes = {
-                [ITEM_KIND.LINEAGE]: [
-                    { logic: { moveBase: { terrestrial: 60, aquatic: 20 } } },
-                ],
-            };
-            expect(
-                logic.effectiveBaseMove(MOVEMENT_MEDIUM.TERRESTRIAL).effective,
-            ).toBe(60);
-            expect(
-                logic.effectiveBaseMove(MOVEMENT_MEDIUM.AQUATIC).effective,
-            ).toBe(20);
-        });
-
-        it("returns base 0 for a medium the lineage has no value for", () => {
-            const logic = makeBeing();
-            (logic.actor as any).itemTypes = {
-                [ITEM_KIND.LINEAGE]: [
-                    { logic: { moveBase: { terrestrial: 60 } } },
-                ],
-            };
-            expect(
-                logic.effectiveBaseMove(MOVEMENT_MEDIUM.AERIAL).effective,
-            ).toBe(0);
+        it("registerLineage sets the pointer; initialize clears it", () => {
+            const being = makeBeing();
+            const fakeLineage = { id: "lin" } as any;
+            being.registerLineage(fakeLineage);
+            expect(being.lineage).toBe(fakeLineage);
+            // Reset before item initialize() runs each prepare cycle.
+            being.initialize();
+            expect(being.lineage).toBeUndefined();
         });
     });
 
