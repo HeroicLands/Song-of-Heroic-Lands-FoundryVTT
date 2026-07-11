@@ -222,25 +222,82 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
             choices: MovementMediumChoices,
             initial: MOVEMENT_MEDIUM.TERRESTRIAL,
         }),
-        /** Represents the number of pounds of gear that equates to 1 unit of encumbrance */
-        encumbranceRate: new NumberField({
-            integer: false,
-            initial: 0,
-            min: 0,
+        /**
+         * Personal fatigue as a {@link SafeExpression} of the being's current
+         * encumbrance (`enc`). Evaluated after encumbrance is known to yield the
+         * fatigue penalty the being suffers from the weight it carries.
+         */
+        personalFatigue: new JavaScriptField({
+            blank: false,
+            initial: "enc",
         }),
         /**
-         * Encumbrance modifier — a {@link SafeExpression} of the being's strength
-         * (`str`) that shifts its carry capacity (see `BeingLogic.maxCarryWeight`).
-         * The default is the standard human curve: stronger beings carry more.
+         * Per-medium movement profiles. Each entry describes how the being moves
+         * in one {@link MovementMedium}: its tactical and travel speeds, and the
+         * {@link SafeExpression}s that turn carried weight into encumbrance
+         * (`encumbrance`, of `wt`) and shift it by strength (`strMod`, of `str`).
+         * `moveBase[medium]` mirrors the matching entry's `feetPerRound` so Active
+         * Effects and the movement system keep a stable per-medium scalar to read.
          */
-        encMod: new JavaScriptField({
-            initial: "-5 * floor((str - 10) / 2)",
-        }),
-        /** The weight of the being's body not including any gear */
-        bodyWeightBase: new NumberField({
-            integer: true,
-            initial: 0,
-            min: 0,
+        movementProfiles: new ArrayField(
+            new SchemaField({
+                /** The movement medium this profile describes. */
+                medium: new StringField({
+                    required: true,
+                    choices: MovementMediumChoices,
+                    initial: MOVEMENT_MEDIUM.TERRESTRIAL,
+                }),
+                /** Tactical move (feet per combat round) in this medium. */
+                feetPerRound: new NumberField({
+                    integer: true,
+                    min: 0,
+                    initial: 0,
+                }),
+                /** Overland travel speed (leagues per watch) in this medium. */
+                leaguesPerWatch: new NumberField({
+                    integer: false,
+                    min: 0,
+                    initial: 0,
+                }),
+                /**
+                 * A {@link SafeExpression} of the being's carried weight (`wt`)
+                 * giving the encumbrance units it costs in this medium.
+                 */
+                encumbrance: new JavaScriptField({
+                    blank: false,
+                    initial: "0",
+                }),
+                /**
+                 * Strength modifier — a {@link SafeExpression} of the being's
+                 * strength (`str`) that shifts its encumbrance in this medium.
+                 */
+                strMod: new JavaScriptField({
+                    blank: false,
+                    initial: "0",
+                }),
+                /** Whether this movement profile is disabled. */
+                disabled: new BooleanField({ initial: false }),
+            }),
+            { initial: [] },
+        ),
+        /**
+         * The being's body weight (not including gear). Either a fixed `base`
+         * (pounds) or, when `base` is null, a {@link SafeExpression} `calc` of the
+         * being's strength (`str`). Seeds {@link LineageLogic.bodyWeight}.
+         */
+        bodyWeight: new SchemaField({
+            /** Fixed body weight in pounds; null to compute from `calc`. */
+            base: new NumberField({
+                integer: true,
+                min: 0,
+                nullable: true,
+                initial: null,
+            }),
+            /** A {@link SafeExpression} of `str` giving body weight when `base` is null. */
+            calc: new JavaScriptField({
+                blank: false,
+                initial: "0",
+            }),
         }),
         /**
          * Base melee reach (feet) for creatures of this lineage, reflecting
@@ -279,9 +336,9 @@ export class LineageDataModel<
     bodyStructure!: BodyStructure.Data;
     moveBase!: MoveBaseDict;
     defaultMoveMedium!: MovementMedium;
-    encumbranceRate!: number;
-    encMod!: string;
-    bodyWeightBase!: number;
+    personalFatigue!: string;
+    movementProfiles!: LineageData["movementProfiles"];
+    bodyWeight!: LineageData["bodyWeight"];
     reachBase!: number;
 
     /**

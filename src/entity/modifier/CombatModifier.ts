@@ -12,6 +12,8 @@
  */
 
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { SohlEntity } from "@src/entity/SohlEntity";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import { registerEntity } from "@src/entity/entityRegistry";
 import { registerKind } from "@src/utils/kindRegistry";
 
@@ -33,8 +35,8 @@ import { registerKind } from "@src/utils/kindRegistry";
  *
  * ```typescript
  * this.defense = {
- *     block: new CombatModifier({}, { parent: this }),
- *     counterstrike: new CombatModifier({}, { parent: this }),
+ *     block: new CombatModifier(this),
+ *     counterstrike: new CombatModifier(this),
  * };
  * ```
  *
@@ -43,17 +45,38 @@ import { registerKind } from "@src/utils/kindRegistry";
  */
 export class CombatModifier extends MasteryLevelModifier {
     /**
+     * Construct an empty combat modifier owned by `parent` — shorthand for
+     * `new CombatModifier({}, { parent })`.
+     * @param parent - The owning {@link SohlLogic}.
+     */
+    constructor(parent: SohlLogic<any>);
+    /**
      * Constructs a combat modifier, delegating to the mastery-level base.
      * @param data - Combat-modifier data (same shape as
      *   {@link MasteryLevelModifier.Data}).
      * @param options - Must provide `options.parent`.
-     * @throws If no `parent` is provided.
      */
     constructor(
-        data: Partial<CombatModifier.Data> = {},
+        data: Partial<CombatModifier.Data>,
+        options: Partial<CombatModifier.Options>,
+    );
+    /**
+     * Implementation backing the constructor overloads: normalizes the
+     * `(parent)` shorthand and requires a resolved parent.
+     * @param dataOrParent - Combat-modifier data, or the owning parent Logic
+     *   (shorthand).
+     * @param options - Construction options; `options.parent` is required in the
+     *   data form.
+     * @throws If no `parent` resolves.
+     */
+    constructor(
+        dataOrParent: SohlEntity.DataOrParent<CombatModifier.Data> = {},
         options: Partial<CombatModifier.Options> = {},
     ) {
-        super(data, options);
+        super(
+            SohlEntity.dataOf<CombatModifier.Data>(dataOrParent),
+            SohlEntity.optionsOf<CombatModifier.Options>(dataOrParent, options),
+        );
     }
 }
 

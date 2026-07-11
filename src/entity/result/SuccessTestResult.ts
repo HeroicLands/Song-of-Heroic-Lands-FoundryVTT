@@ -26,6 +26,8 @@ import type {
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { TestResult } from "@src/entity/result/TestResult";
+import { SohlEntity } from "@src/entity/SohlEntity";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import { toFilePath } from "@src/utils/helpers";
 import {
     dialog,
@@ -129,6 +131,13 @@ export class SuccessTestResult extends TestResult {
     protected _successStarTable: SuccessTestResult.LimitedDescription[];
 
     /**
+     * Construct an empty success-test result owned by `parent` — shorthand for
+     * `new SuccessTestResult({}, { parent })` (skips the `options.testResult`
+     * merge).
+     * @param parent - The owning {@link SohlLogic}.
+     */
+    constructor(parent: SohlLogic<any>);
+    /**
      * Constructs a success-test result, seeding state from the given data and
      * options (and from a prior serialized result when one is provided).
      *
@@ -139,22 +148,40 @@ export class SuccessTestResult extends TestResult {
      * @param options - Result options; `options.parent` is required (base
      *   {@link TestResult}). `options.testResult`, `options.mlMod`, and
      *   `options.chatSpeaker` seed the corresponding fields when present.
-     * @throws If no `parent` is provided.
      */
     constructor(
-        data: Partial<SuccessTestResult.Data> = {},
+        data: Partial<SuccessTestResult.Data>,
+        options: Partial<SuccessTestResult.Options>,
+    );
+    /**
+     * Implementation backing the constructor overloads: normalizes the
+     * `(parent)` shorthand and requires a resolved parent.
+     * @param dataOrParent - Test data, or the owning parent Logic (shorthand).
+     * @param options - Result options; `options.parent` is required in the data
+     *   form.
+     * @throws If no `parent` resolves.
+     */
+    constructor(
+        dataOrParent: SohlEntity.DataOrParent<SuccessTestResult.Data> = {},
         options: Partial<SuccessTestResult.Options> = {},
     ) {
+        let data = SohlEntity.dataOf<SuccessTestResult.Data>(dataOrParent);
         if (options.testResult) {
             data = fvttMergeObject(options.testResult.toJSON(), data, {
                 inplace: false,
             }) as Partial<SuccessTestResult.Data>;
         }
-        super(data, options);
+        super(
+            data,
+            SohlEntity.optionsOf<SuccessTestResult.Options>(
+                dataOrParent,
+                options,
+            ),
+        );
         if (options.mlMod)
             this._masteryLevelModifier =
                 data.masteryLevelModifier ??
-                new entity.MasteryLevelModifier({}, { parent: this.parent });
+                new entity.MasteryLevelModifier(this.parent);
         this.resultText = data.resultText ?? "";
         this.resultDesc = data.resultDesc ?? "";
         // Restore a previously-evaluated success level so a result can cross to

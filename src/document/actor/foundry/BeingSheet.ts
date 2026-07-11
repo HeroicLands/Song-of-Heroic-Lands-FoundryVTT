@@ -16,9 +16,8 @@ import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBa
 import { fvttCallHook, fvttGetSetting } from "@src/core/FoundryHelpers";
 import {
     ITEM_KIND,
-    MOVEMENT_MEDIUM,
     MovementMedium,
-    movementMediumLabels,
+    MovementMediumChoices,
     TraitSubTypes,
     TraitSubTypeChoices,
     TraitIntensityChoices,
@@ -900,24 +899,18 @@ export class BeingSheet extends SohlActorSheetBase {
             label: string;
             value: number;
         }[] = [];
-        if (logic?.effectiveBaseMove) {
-            const mediumKeys: (keyof typeof MOVEMENT_MEDIUM)[] = [
-                "TERRESTRIAL",
-                "AQUATIC",
-                "AERIAL",
-                "BURROWING",
-                "ASTRAL",
-            ];
-            for (const key of mediumKeys) {
-                const medium = MOVEMENT_MEDIUM[key];
-                const value = logic.effectiveBaseMove(medium).effective;
-                if (value > 0) {
-                    movement.push({
-                        medium,
-                        label: movementMediumLabels[key],
-                        value,
-                    });
-                }
+        // A being has 0 or 1 lineage, which carries its single active movement
+        // profile; show that medium's tactical move (feet/round).
+        const lineage = logic?.lineage;
+        if (lineage && !lineage.moveProfile.disabled) {
+            const medium = lineage.moveProfile.medium;
+            const value = lineage.feetPerRound.effective;
+            if (value > 0) {
+                movement.push({
+                    medium,
+                    label: MovementMediumChoices[medium],
+                    value,
+                });
             }
         }
 
@@ -1284,18 +1277,17 @@ export class BeingSheet extends SohlActorSheetBase {
                 }, 0),
             );
 
-        // On Body max capacity comes from the being's derived carry weight; a
-        // being with no lineage has no carry capacity. (BeingLogic.maxCarryWeight
-        // reads moveBase, which is 0 for compendium lineages until the pack-export
-        // bug #362 is fixed and the data re-exported.)
-        const hasLineage =
-            (actor.itemTypes[ITEM_KIND.LINEAGE]?.length ?? 0) > 0;
-
+        // On Body has no hard capacity cap; it summarizes the being's overall
+        // load — its total carried-gear weight (accumulated ground-up on
+        // `BeingLogic.carriedWeight`) and the resulting encumbrance for its active
+        // movement medium (`lineage.encumbrance`, 0 when the being has no lineage,
+        // e.g. an incorporeal being).
         const onBody = {
             items: tree.onBodyItems.map(toRow),
             capacity: {
-                used: usedWeight(tree.onBodyItems),
-                max: hasLineage ? logic.maxCarryWeight : 0,
+                isEncumbrance: true,
+                used: round1(logic.carriedWeight?.effective ?? 0),
+                encumbrance: logic.lineage?.encumbrance.effective ?? 0,
             },
         };
         const containers = tree.containers.map((node) => ({

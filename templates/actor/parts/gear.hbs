@@ -34,7 +34,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="list__detail" data-tooltip="Quality">Qual</div>
             <div class="list__detail" data-tooltip="Durability">Dur</div>
             <div class="list__detail list__notes">Notes</div>
+            {{#if capacity.isEncumbrance}}
+            <div class="list__capacity" data-tooltip="Total carried weight and resulting encumbrance">Carried: {{capacity.used}} lb &middot; Enc {{capacity.encumbrance}}</div>
+            {{else}}
             <div class="list__capacity" data-tooltip="Weight carried / capacity">Capacity: {{capacity.used}}/{{capacity.max}}</div>
+            {{/if}}
         </header>
         <ol class="list__items">
             {{#each items as |item|}}

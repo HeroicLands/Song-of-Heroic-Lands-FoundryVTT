@@ -251,15 +251,39 @@ function buildMysticalAbility(fm) {
 }
 
 function buildLineage(fm) {
+    const movementProfiles = (sohlField(fm, "movementProfiles", []) || []).map(
+        (p) => ({
+            medium: String(p.medium ?? "terrestrial"),
+            feetPerRound: Number(p.feetPerRound ?? 0) || 0,
+            leaguesPerWatch: Number(p.leaguesPerWatch ?? 0) || 0,
+            encumbrance: String(p.encumbrance ?? "0"),
+            strMod: String(p.strMod ?? "0"),
+            disabled: Boolean(p.disabled ?? false),
+        }),
+    );
+    // Mirror each profile's tactical speed onto the per-medium `moveBase` scalar
+    // the movement system reads and Active Effects target (see #362).
+    const moveBase = {};
+    for (const p of movementProfiles) {
+        if (p.medium) moveBase[p.medium] = p.feetPerRound;
+    }
+    const bodyWeight = sohlField(fm, "bodyWeight", {}) || {};
     return {
         bodyStructure: sohlField(fm, "bodyStructure", {
             parts: [],
             adjacent: [],
         }),
-        movementProfiles: sohlField(fm, "movementProfiles", []),
-        encumbranceRate: Number(sohlField(fm, "encumbranceRate", 0)) || 0,
-        encMod: sohlField(fm, "encMod", "-5 * floor((str - 10) / 2)"),
-        bodyWeightBase: Number(sohlField(fm, "bodyWeightBase", 0)) || 0,
+        moveBase,
+        defaultMoveMedium: String(
+            sohlField(fm, "defaultMoveMedium", "terrestrial"),
+        ),
+        personalFatigue: String(sohlField(fm, "personalFatigue", "enc")),
+        movementProfiles,
+        bodyWeight: {
+            base: bodyWeight.base == null ? null : Number(bodyWeight.base),
+            calc: String(bodyWeight.calc ?? "0"),
+        },
+        reachBase: Number(sohlField(fm, "reachBase", 0)) || 0,
     };
 }
 

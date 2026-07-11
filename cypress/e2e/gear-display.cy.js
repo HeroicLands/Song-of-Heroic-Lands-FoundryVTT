@@ -13,34 +13,21 @@
 
 /**
  * Being Gear tab display (#302): gear listed under On Body and under each
- * container as its own section, each with a Capacity (used/max) readout and the
- * Type / Qty / Weight / Qual / Dur / Notes columns.
+ * container as its own section, with the Type / Qty / Weight / Qual / Dur / Notes
+ * columns.
  *
- * The On Body capacity max is the being's derived carry weight
- * (BeingLogic.maxCarryWeight = maxCarryWeight(moveBase, encumbranceRate)). The
- * compendium lineage `moveBase` is empty pending #362, so the test seeds it.
+ * On Body shows the being's overall load — total carried-gear weight and the
+ * resulting encumbrance (`lineage.encumbrance` for the active medium). Human
+ * Folk's terrestrial profile encumbrance is `floor(wt / 4)`, so 10 lb carried
+ * reads "Carried: 10 lb · Enc 2". Containers show their own used/max capacity.
  */
 describe("Being Gear tab: display (#302)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
     Cypress.on("uncaught:exception", () => false);
 
-    it("On Body section: columns and a carry-capacity readout", () => {
+    it("On Body section: columns and a carried-weight / encumbrance readout", () => {
         cy.importActor().then((actor) => {
-            // Seed the lineage's base move so carry capacity computes (#362).
-            cy.foundry((win) => {
-                const lin = win.game.actors.get(actor.id).itemTypes.lineage[0];
-                return lin
-                    .update(
-                        win.JSON.parse(
-                            JSON.stringify({
-                                "system.moveBase.terrestrial": 50,
-                                "system.encumbranceRate": 4,
-                            }),
-                        ),
-                    )
-                    .then(() => null);
-            });
             cy.createItemOn(actor, "miscgear", {
                 name: "Heavy Rock",
                 system: {
@@ -55,8 +42,9 @@ describe("Being Gear tab: display (#302)", () => {
             cy.switchTab("gear");
             cy.get('section.tab[data-tab="gear"]').within(() => {
                 cy.contains(".list__name", "On Body");
-                // moveBase 50, encRate 4 → maxCarryWeight = 4*(45+1)-1 = 183.
-                cy.contains(".list__capacity", "/183");
+                // Heavy Rock: 5 lb × 2 = 10 lb carried → floor(10 / 4) = Enc 2.
+                cy.contains(".list__capacity", "Carried: 10 lb");
+                cy.contains(".list__capacity", "Enc 2");
                 cy.contains(".item", "Heavy Rock").within(() => {
                     cy.contains(".list__detail", "Misc Gear"); // type label
                     cy.contains(".list__detail", "2"); // quantity

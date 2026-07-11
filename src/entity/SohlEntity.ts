@@ -122,28 +122,95 @@ export abstract class SohlEntity {
     }
 
     /**
-     * Construct a new SohlEntity instance. Subclasses call `super(data, options)`
-     * first, then rehydrate their own fields from `data`.
+     * Normalize the overloaded first constructor/`clone` argument to a **data**
+     * bag: an empty object when it is a parent Logic (the `(parent)` shorthand),
+     * otherwise the data object itself. Generic so a subclass recovers its own
+     * `Data` type. Uses the {@link isA} symbol-brand guard, so a plain data bag
+     * that merely carries a `parent` **key** is not mistaken for a Logic.
+     *
+     * @param dataOrParent - Either a data bag or a parent Logic.
+     * @returns The data bag (`{}` in the shorthand form).
+     */
+    protected static dataOf<D extends SohlEntity.Data = SohlEntity.Data>(
+        dataOrParent: SohlEntity.DataOrParent<D>,
+    ): Partial<D> {
+        return isA(dataOrParent, "SohlLogic") ?
+                ({} as Partial<D>)
+            :   (dataOrParent as Partial<D>);
+    }
+
+    /**
+     * Normalize the overloaded constructor/`clone` arguments to an **options**
+     * bag: when the first argument is a parent Logic (the `(parent)` shorthand),
+     * inject it as `options.parent`; otherwise return `options` unchanged.
+     * Generic so a subclass recovers its own `Options` type.
+     *
+     * @param dataOrParent - Either a data bag or a parent Logic.
+     * @param options - The explicit options bag (empty in the shorthand form).
+     * @returns The options bag, with `parent` injected in the shorthand form.
+     */
+    protected static optionsOf<
+        O extends SohlEntity.Options = SohlEntity.Options,
+    >(
+        dataOrParent: SohlEntity.DataOrParent<SohlEntity.Data>,
+        options: Partial<O>,
+    ): Partial<O> {
+        return isA(dataOrParent, "SohlLogic") ?
+                ({ ...options, parent: dataOrParent } as Partial<O>)
+            :   options;
+    }
+
+    /**
+     * Construct an empty entity owned by `parent` — shorthand for
+     * `new X({}, { parent })`. The second argument must be absent.
+     * @param parent - The Logic that owns the entity.
+     */
+    constructor(parent: SohlLogic<any>);
+    /**
+     * Construct a new SohlEntity instance from persisted state. Subclasses call
+     * `super(data, options)` first, then rehydrate their own fields from `data`.
      * @param data - Persisted state for the instance; every field is optional and
      *   defaulted (the base reads none of it — the `kind` tag is derived, not
      *   supplied). Subclasses interpret it per their own `Data` interface.
      * @param options - Construction options; `options.parent` (the owning Logic)
      *   is **required**.
-     * @throws Error if `options.parent` is missing — every entity must have an
-     *   owning Logic.
      */
     constructor(
-        data: Partial<SohlEntity.Data> = {},
+        data: Partial<SohlEntity.Data>,
+        options: Partial<SohlEntity.Options>,
+    );
+    /**
+     * Implementation backing the constructor overloads: normalizes the
+     * `(parent)` shorthand and requires a resolved parent.
+     * @param dataOrParent - Either persisted state, or the owning parent Logic
+     *   (the `(parent)` shorthand).
+     * @param options - Construction options; `options.parent` is **required** in
+     *   the data form.
+     * @throws Error if no `parent` resolves — every entity must have an owning Logic.
+     */
+    constructor(
+        dataOrParent: SohlEntity.DataOrParent<SohlEntity.Data> = {},
         options: Partial<SohlEntity.Options> = {},
     ) {
-        if (!options.parent) {
+        const opts = SohlEntity.optionsOf(dataOrParent, options);
+        if (!opts.parent) {
             throw new Error("SohlEntity requires a parent");
         }
-        this._parent = options.parent;
+        this._parent = opts.parent;
     }
 }
 
 export namespace SohlEntity {
+    /**
+     * The overloaded first argument accepted by the {@link SohlEntity}
+     * constructor (and {@link SohlEntity.clone | clone}): either a data bag of
+     * type `D`, or a parent Logic (the `(parent)` shorthand). Subclasses pass
+     * their own `Data` type as `D`.
+     */
+    export type DataOrParent<D extends SohlEntity.Data = SohlEntity.Data> =
+        | Partial<D>
+        | SohlLogic<any>;
+
     /**
      * Kind tag used by the kind registry and serialization. Typed as `string`
      * (not the `"SohlEntity"` literal) so subclasses can override it with their

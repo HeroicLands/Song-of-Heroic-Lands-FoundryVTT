@@ -29,6 +29,7 @@ import {
 } from "@src/utils/constants";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlEntity } from "../SohlEntity";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
 
 /**
  * Returns the standard success-value table with labels/descriptions resolved from i18n.
@@ -236,19 +237,43 @@ export class MasteryLevelModifier extends ValueModifier {
     }
 
     /**
+     * Construct an empty mastery level modifier owned by `parent` — shorthand
+     * for `new MasteryLevelModifier({}, { parent })`.
+     * @param parent - The owning {@link SohlLogic}.
+     */
+    constructor(parent: SohlLogic<any>);
+    /**
      * Builds a mastery level modifier, applying defaults for target bounds,
      * crit-digit lists, success/value tables, and the test type and title.
      *
      * @param data - Test data; targets default to unbounded, crit-digit lists to
      *   empty, and the description/value tables to the standard ones.
      * @param options - Must provide `options.parent` (base {@link ValueModifier}).
-     * @throws If no `parent` is provided.
      */
     constructor(
-        data: Partial<MasteryLevelModifier.Data> = {},
+        data: Partial<MasteryLevelModifier.Data>,
+        options: Partial<MasteryLevelModifier.Options>,
+    );
+    /**
+     * Implementation backing the constructor overloads: normalizes the
+     * `(parent)` shorthand and requires a resolved parent.
+     * @param dataOrParent - Test data, or the owning parent Logic (shorthand).
+     * @param options - Construction options; `options.parent` is required in the
+     *   data form.
+     * @throws If no `parent` resolves.
+     */
+    constructor(
+        dataOrParent: SohlEntity.DataOrParent<MasteryLevelModifier.Data> = {},
         options: Partial<MasteryLevelModifier.Options> = {},
     ) {
-        super(data, options);
+        super(
+            SohlEntity.dataOf<MasteryLevelModifier.Data>(dataOrParent),
+            SohlEntity.optionsOf<MasteryLevelModifier.Options>(
+                dataOrParent,
+                options,
+            ),
+        );
+        const data = SohlEntity.dataOf<MasteryLevelModifier.Data>(dataOrParent);
         this.minTarget = data.minTarget ?? Number.MIN_SAFE_INTEGER;
         this.maxTarget = data.maxTarget ?? Number.MAX_SAFE_INTEGER;
         this.successLevelMod = data.successLevelMod ?? 0;

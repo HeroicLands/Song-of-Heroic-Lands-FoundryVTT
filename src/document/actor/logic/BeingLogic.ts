@@ -12,21 +12,18 @@
  */
 
 import { entity } from "@src/entity/registry";
-import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
-import { CombatResult } from "@src/entity/result/CombatResult";
 import {
     SohlActorBaseLogic,
     type SohlActorData,
     type SohlActorLogic,
 } from "@src/document/actor/logic/SohlActorBaseLogic";
-import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import type { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
+import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
-import type { ArmorGearLogic } from "@src/document/item/logic/ArmorGearLogic";
 import {
     aggregateArmor,
     type ArmorLayer,
@@ -47,21 +44,14 @@ import {
 } from "@src/core/FoundryHelpers";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
-import { readBaseMove } from "@src/entity/movement/move-helpers";
 import {
     ACTION_SUBTYPE,
-    defineType,
     IMPACT_ASPECT,
     ITEM_KIND,
-    MovementMedium,
-    MovementMediums,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
-    TEST_TYPE,
 } from "@src/utils/constants";
 import { SohlAction } from "@src/entity/action/SohlAction";
-import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
-import { SohlLogic } from "@src/core/logic/SohlLogic";
 import {
     buildInjuryCardData,
     createTraumaFromInjury,
@@ -98,6 +88,15 @@ import { DamageCardInput } from "@src/document/combatant/logic/SohlCombatantLogi
  * skills, traits, injuries, afflictions, gear, and mystical abilities. Beings
  * are the primary participants in combat, skill tests, and social interactions.
  *
+ * The being's **physical baseline — anatomy, body weight, reach, and movement —
+ * lives on its {@link LineageLogic}, not here.** `BeingLogic` holds being-owned
+ * derived state ({@link health}, {@link healingBase}, {@link shockState},
+ * {@link pull}, {@link carriedWeight}); anatomy/weight/reach/movement
+ * (`bodyStructure`, `bodyWeight`, `reach`, `feetPerRound`, `leaguesPerWatch`,
+ * `encumbrance`, `strengthModifier`) are reached through the
+ * {@link BeingLogic.lineage} pointer. See the architecture reference, "Not all of
+ * a being's derived state lives on `BeingLogic`".
+ *
  * @typeParam TData - The Being data interface.
  */
 export class BeingLogic<
@@ -124,75 +123,34 @@ export class BeingLogic<
     pull!: ValueModifier;
 
     /**
-     * The effective base move (feet per combat round) for this being in
-     * the given medium, exposed as a `ValueModifier` so additional runtime
-     * modifiers (injury impairment, encumbrance overlays from items, etc.)
-     * can layer on through the standard channel.
-     *
-     * The base is sourced from the actor's `Lineage` item — specifically
-     * `lineage.system.moveBase[medium]`. Foundry has already applied any
-     * Active Effects targeting that persisted path by the time this is
-     * called, so a haste AE multiplying `system.moveBase.terrestrial` × 2
-     * is reflected in the base value transparently.
-     *
-     * Returns a ValueModifier with base 0 if the actor has no lineage or
-     * the lineage has no value for this medium.
-     *
-     * @param medium - The movement medium (e.g. terrestrial, aquatic) to read.
-     * @returns A `ValueModifier` seeded with the lineage's base move for the medium.
+     * Running total of carried-gear weight (pounds) as a {@link ValueModifier},
+     * accumulated ground-up: each carried gear item adds a delta of its
+     * `weight × quantity` during its own `evaluate()` phase (see
+     * {@link GearLogic.evaluate}). Reset to an empty modifier at the start of
+     * {@link initialize} and fully populated (read via `carriedWeight.effective`)
+     * by the time the being's own `evaluate()`/`finalize()` and the sheet read it.
      */
-    effectiveBaseMove(medium: MovementMedium): ValueModifier {
-        const lineageLogic = this.logicTypes[ITEM_KIND.LINEAGE][0];
-        const base = readBaseMove(lineageLogic?.moveBase, medium);
-        return new entity.ValueModifier({}, { parent: this }).setBase(base);
-    }
+    carriedWeight!: ValueModifier;
 
     /**
-     * The being's encumbrance modifier: the lineage's `encMod`
-     * {@link SafeExpression} evaluated against the being's strength score
-     * (`str`). Shifts carry capacity — a stronger being carries more. Returns 0
-     * when there is no lineage, no expression, or no strength attribute.
+     * The being's {@link LineageLogic | Lineage} logic, or `undefined` when it has
+     * none. A being has 0 or 1 lineage; rather than re-scan `logicTypes` on every
+     * lookup, the lineage registers itself here from its own `initialize()` (via
+     * {@link registerLineage}). Reset at the start of {@link initialize} — before
+     * any item's `initialize()` runs — so it reflects the current prepare cycle.
+     * The lineage carries the being's movement ({@link LineageLogic.feetPerRound} /
+     * {@link LineageLogic.leaguesPerWatch}), body structure, weight, and reach.
      */
-    get encMod(): number {
-        const source = this.logicTypes[ITEM_KIND.LINEAGE][0]?.data?.encMod;
-        if (!source) return 0;
-        const str =
-            this.logicTypes[ITEM_KIND.ATTRIBUTE].find(
-                (a) => a.data?.shortcode === "str",
-            )?.score.effective ?? 0;
-        try {
-            const value = new SafeExpression(
-                { source },
-                { parent: this },
-            ).evaluate({ str });
-            return typeof value === "number" ? value : 0;
-        } catch {
-            return 0;
-        }
-    }
+    lineage: LineageLogic | undefined;
 
     /**
-     * The maximum weight this being can carry and still move, derived from its
-     * greatest base move rate, its lineage's encumbrance rate, and its strength
-     * ({@link encMod}). Each `encumbranceRate` pounds of gear costs one unit of
-     * encumbrance; the being tolerates `maxMoveRate - 5` units (adjusted by
-     * `encMod`) before its move is affected.
-     *
-     * Read after item preparation. A being without a lineage has no encumbrance
-     * rate, so this is 0 — callers (the sheet) should still guard for a
-     * lineage-less being.
-     *
-     * @returns The maximum carry weight (never negative).
+     * Register a {@link LineageLogic} as this being's lineage. Called by the
+     * lineage's own `initialize()` (which runs after the being's), so
+     * {@link BeingLogic.lineage} is populated before any consumer reads it.
+     * @param lineage - The owning being's lineage logic.
      */
-    get maxCarryWeight(): number {
-        const maxMoveRate = Math.max(
-            0,
-            ...MovementMediums.map((m) => this.effectiveBaseMove(m).effective),
-        );
-        const encRate =
-            this.logicTypes[ITEM_KIND.LINEAGE][0]?.data?.encumbranceRate ?? 0;
-        const maxEnc = Math.max(0, maxMoveRate - 5);
-        return Math.max(0, encRate * (maxEnc - this.encMod + 1) - 1);
+    registerLineage(lineage: LineageLogic): void {
+        this.lineage = lineage;
     }
 
     /**
@@ -750,6 +708,12 @@ export class BeingLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
+        // Reset the ground-up accumulator before any gear item's evaluate()
+        // adds to it (all item initialize()/evaluate() run after this).
+        this.carriedWeight = new entity.ValueModifier(this);
+        // Cleared before item initialize() runs; the lineage re-registers itself
+        // via registerLineage() during its own initialize().
+        this.lineage = undefined;
     }
 
     /** @inheritdoc */

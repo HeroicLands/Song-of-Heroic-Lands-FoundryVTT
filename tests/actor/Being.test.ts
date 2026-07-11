@@ -2,14 +2,10 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import { MiscGearLogic } from "@src/document/item/logic/MiscGearLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import {
-    ACTOR_KIND,
-    IMPACT_ASPECT,
-    ITEM_KIND,
-    MOVEMENT_MEDIUM,
-} from "@src/utils/constants";
+import { ACTOR_KIND, IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import { makeActorLogic, makeItemLogic } from "@tests/mocks/logicHarness";
 
@@ -175,104 +171,84 @@ describe("BeingLogic", () => {
         });
     });
 
-    describe("effectiveBaseMove", () => {
-        it("returns a ValueModifier with base 0 when the being has no lineage", () => {
-            const logic = makeBeing();
-            const move = logic.effectiveBaseMove(MOVEMENT_MEDIUM.TERRESTRIAL);
-            expect(move).toBeInstanceOf(ValueModifier);
-            expect(move.base).toBe(0);
-            expect(move.effective).toBe(0);
+    describe("lineage pointer", () => {
+        it("is undefined by default", () => {
+            expect(makeBeing().lineage).toBeUndefined();
         });
 
-        it("reads the lineage's moveBase for the requested medium", () => {
-            const logic = makeBeing();
-            (logic.actor as any).itemTypes = {
-                [ITEM_KIND.LINEAGE]: [
-                    { logic: { moveBase: { terrestrial: 60, aquatic: 20 } } },
-                ],
-            };
-            expect(
-                logic.effectiveBaseMove(MOVEMENT_MEDIUM.TERRESTRIAL).effective,
-            ).toBe(60);
-            expect(
-                logic.effectiveBaseMove(MOVEMENT_MEDIUM.AQUATIC).effective,
-            ).toBe(20);
-        });
-
-        it("returns base 0 for a medium the lineage has no value for", () => {
-            const logic = makeBeing();
-            (logic.actor as any).itemTypes = {
-                [ITEM_KIND.LINEAGE]: [
-                    { logic: { moveBase: { terrestrial: 60 } } },
-                ],
-            };
-            expect(
-                logic.effectiveBaseMove(MOVEMENT_MEDIUM.AERIAL).effective,
-            ).toBe(0);
+        it("registerLineage sets the pointer; initialize clears it", () => {
+            const being = makeBeing();
+            const fakeLineage = { id: "lin" } as any;
+            being.registerLineage(fakeLineage);
+            expect(being.lineage).toBe(fakeLineage);
+            // Reset before item initialize() runs each prepare cycle.
+            being.initialize();
+            expect(being.lineage).toBeUndefined();
         });
     });
 
-    describe("maxCarryWeight", () => {
-        const ENC_MOD = "-5 * floor((str - 10) / 2)";
-        const strAttr = (score: number) => ({
-            logic: { data: { shortcode: "str" }, score: { effective: score } },
-        });
-
-        it("derives capacity from base move, encumbrance rate, and encMod", () => {
-            const logic = makeBeing();
-            (logic.actor as any).itemTypes = {
-                [ITEM_KIND.LINEAGE]: [
-                    {
-                        logic: {
-                            moveBase: { terrestrial: 50 },
-                            data: { encumbranceRate: 4, encMod: ENC_MOD },
-                        },
-                    },
-                ],
-                [ITEM_KIND.ATTRIBUTE]: [strAttr(10)],
+    describe("carriedWeight", () => {
+        /** Full gear field set (mirrors tests/item/Gear.test.ts). */
+        function gearFields(overrides: Record<string, unknown> = {}) {
+            return {
+                quantity: 1,
+                weightBase: 2.5,
+                valueBase: 10,
+                isCarried: true,
+                isEquipped: false,
+                qualityBase: 9,
+                durabilityBase: 12,
+                sharedWithCohortIds: [] as string[],
+                containerId: null as string | null,
+                ...overrides,
             };
-            // str 10 → encMod 0; maxEnc 45 → 4 * (45 - 0 + 1) - 1 = 183
-            expect(logic.maxCarryWeight).toBe(183);
+        }
+
+        it("is an empty modifier after initialize and accumulates weight deltas", () => {
+            const logic = makeBeing();
+            logic.initialize();
+            expect(logic.carriedWeight).toBeInstanceOf(ValueModifier);
+            expect(logic.carriedWeight.effective).toBe(0);
+            logic.carriedWeight.add("rockWt", "Rock Weight", 10);
+            logic.carriedWeight.add("gemWt", "Gem Weight", 5.5);
+            expect(logic.carriedWeight.effective).toBe(15.5);
         });
 
-        it("uses the greatest base move across media", () => {
+        it("resets to an empty modifier on initialize (rebuilt each prepare cycle)", () => {
             const logic = makeBeing();
-            (logic.actor as any).itemTypes = {
-                [ITEM_KIND.LINEAGE]: [
-                    {
-                        logic: {
-                            moveBase: { terrestrial: 30, aerial: 60 },
-                            data: { encumbranceRate: 2, encMod: ENC_MOD },
-                        },
-                    },
-                ],
-                [ITEM_KIND.ATTRIBUTE]: [strAttr(10)],
-            };
-            // max move 60 → maxEnc 55 → 2 * (55 - 0 + 1) - 1 = 111
-            expect(logic.maxCarryWeight).toBe(111);
+            logic.initialize();
+            logic.carriedWeight.add("rockWt", "Rock Weight", 20);
+            expect(logic.carriedWeight.effective).toBe(20);
+            logic.initialize();
+            expect(logic.carriedWeight.effective).toBe(0);
         });
 
-        it("shifts capacity by the lineage's strength-driven encMod", () => {
-            const logic = makeBeing();
-            (logic.actor as any).itemTypes = {
-                [ITEM_KIND.LINEAGE]: [
-                    {
-                        logic: {
-                            moveBase: { terrestrial: 50 },
-                            data: { encumbranceRate: 4, encMod: ENC_MOD },
-                        },
-                    },
-                ],
-                [ITEM_KIND.ATTRIBUTE]: [strAttr(14)],
-            };
-            // str 14 → encMod -10; maxEnc 45 → 4 * (45 - (-10) + 1) - 1 = 223
-            expect(logic.maxCarryWeight).toBe(223);
+        it("sums a carried gear item's weight × quantity during its evaluate", () => {
+            const being = makeBeing();
+            being.initialize();
+            const gear = makeItemLogic(
+                MiscGearLogic,
+                ITEM_KIND.MISCGEAR,
+                gearFields({ quantity: 2, weightBase: 5, isCarried: true }),
+                { actor: being.actor },
+            );
+            gear.initialize();
+            gear.evaluate();
+            expect(being.carriedWeight.effective).toBe(10);
         });
 
-        it("is 0 for a being with no lineage", () => {
-            const logic = makeBeing();
-            (logic.actor as any).itemTypes = {};
-            expect(logic.maxCarryWeight).toBe(0);
+        it("ignores gear that is not carried", () => {
+            const being = makeBeing();
+            being.initialize();
+            const gear = makeItemLogic(
+                MiscGearLogic,
+                ITEM_KIND.MISCGEAR,
+                gearFields({ quantity: 3, weightBase: 4, isCarried: false }),
+                { actor: being.actor },
+            );
+            gear.initialize();
+            gear.evaluate();
+            expect(being.carriedWeight.effective).toBe(0);
         });
     });
 

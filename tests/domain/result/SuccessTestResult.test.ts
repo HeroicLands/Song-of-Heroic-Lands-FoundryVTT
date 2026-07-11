@@ -1,16 +1,21 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
-import { SUCCESS_TEST_RESULT_MOVEMENT } from "@src/utils/constants";
+import { BRAND, SUCCESS_TEST_RESULT_MOVEMENT } from "@src/utils/constants";
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
 
-/** Minimal parent stub sufficient for SuccessTestResult + MasteryLevelModifier. */
+/**
+ * Minimal parent stub sufficient for SuccessTestResult + MasteryLevelModifier.
+ * Carries the SohlLogic brand so the `(parent)` constructor shorthand recognizes
+ * it as a Logic (not data).
+ */
 const parent = {
     id: "actor0000000001",
     name: "Hero",
     label: "Hero",
     data: { kind: "skill" },
     item: { logic: { availableFate: [] } },
+    [BRAND.SohlLogic]: true,
 } as any;
 
 function makeResult(): SuccessTestResult {
@@ -44,8 +49,38 @@ afterEach(() => vi.restoreAllMocks());
 describe("SuccessTestResult", () => {
     describe("constructor", () => {
         it.todo("creates an instance with default values");
-        it.todo("throws when no parent is provided");
-        it.todo("merges data from options.testResult when provided");
+
+        it("throws when no parent is provided", () => {
+            expect(() => new SuccessTestResult({}, {} as any)).toThrow(
+                "SohlEntity requires a parent",
+            );
+        });
+
+        it("the (parent) shorthand equals ({}, { parent }) and skips the testResult merge", () => {
+            const shorthand = new SuccessTestResult(parent);
+            const longhand = new SuccessTestResult({}, { parent });
+            expect(shorthand.parent).toBe(parent);
+            // No prior result is merged in the shorthand form → default state.
+            expect(shorthand.name).toBe("");
+            expect(shorthand.name).toBe(longhand.name);
+            expect(shorthand.title).toBe(longhand.title);
+        });
+
+        it("merges data from options.testResult when provided (seeds fields from prior)", () => {
+            const prior = new SuccessTestResult(
+                { name: "Prior Test", title: "Prior Title" } as any,
+                { parent },
+            );
+            const revived = new SuccessTestResult({} as any, {
+                parent,
+                testResult: prior,
+            });
+            // The pre-super merge folds prior.toJSON() into data, so the revived
+            // result recovers the prior's serialized fields.
+            expect(revived.name).toBe("Prior Test");
+            expect(revived.title).toBe("Prior Title");
+        });
+
         it.todo(
             "initializes masteryLevelModifier from data or creates default",
         );

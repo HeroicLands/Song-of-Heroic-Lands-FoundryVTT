@@ -561,17 +561,26 @@
         ]
       ]
     },
+    "moveBase": {
+      "terrestrial": 50
+    },
+    "defaultMoveMedium": "terrestrial",
+    "personalFatigue": "enc + 5",
     "movementProfiles": [
       {
         "medium": "terrestrial",
         "feetPerRound": 50,
         "leaguesPerWatch": 5,
-        "factors": [],
+        "encumbrance": "floor(wt/4)",
+        "strMod": "-5 * floor((str - 10) / 2)",
         "disabled": false
       }
     ],
-    "encumbranceRate": 4,
-    "bodyWeightBase": 150
+    "bodyWeight": {
+      "base": null,
+      "calc": "(9 * str) + 50"
+    },
+    "reachBase": 1
   },
   "effects": [],
   "flags": {},

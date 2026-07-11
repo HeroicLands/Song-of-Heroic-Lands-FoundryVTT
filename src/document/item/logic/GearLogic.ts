@@ -328,13 +328,13 @@ export abstract class GearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.weight = new entity.ValueModifier({}, { parent: this }).setBase(
+        this.weight = new entity.ValueModifier(this).setBase(
             this.data.weightBase,
         );
-        this.value = new entity.ValueModifier({}, { parent: this }).setBase(
+        this.value = new entity.ValueModifier(this).setBase(
             this.data.valueBase,
         );
-        this.quality = new entity.ValueModifier({}, { parent: this }).setBase(
+        this.quality = new entity.ValueModifier(this).setBase(
             this.data.qualityBase,
         );
         this.durability = new entity.ValueModifier(
@@ -353,6 +353,16 @@ export abstract class GearLogic<
             this.containedIn = this.actorLogic?.allLogics.find(
                 (logic) => logic.id === this.data.containerId,
             ) as GearLogic | undefined;
+        }
+        // Ground-up carried-weight accumulation: contribute this item's
+        // weight × quantity to the owning being while it evaluates, so the
+        // being's total is complete by the time anything reads it.
+        if (this.data.isCarried && this.actorLogic instanceof BeingLogic) {
+            this.actorLogic.carriedWeight.add(
+                `${this.data.shortcode}Wt`,
+                `${this.name} Weight`,
+                this.weight.effective * (this.data.quantity ?? 1),
+            );
         }
     }
 

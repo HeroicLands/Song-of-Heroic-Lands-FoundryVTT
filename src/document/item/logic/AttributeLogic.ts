@@ -153,7 +153,7 @@ export class AttributeLogic<
             {},
             { parent: this },
         );
-        this.score = new entity.ValueModifier({}, { parent: this }).setBase(
+        this.score = new entity.ValueModifier(this).setBase(
             this.data.scoreBase,
         );
     }
