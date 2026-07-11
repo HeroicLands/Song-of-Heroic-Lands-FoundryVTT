@@ -237,15 +237,17 @@ export class LineageLogic<
 
     /**
      * The owning being's total carried-gear weight, read from the being's
-     * `carriedWeight` (accumulated ground-up during item preparation). 0 when
-     * there is no owning being (or the actor exposes no carried weight).
+     * `carriedWeight` {@link ValueModifier} (accumulated ground-up during item
+     * preparation — each carried gear adds a delta). 0 when there is no owning
+     * being (or the actor exposes no carried weight).
      * @returns The total carried-gear weight in pounds, or 0.
      */
     private get carriedWeight(): number {
-        const actorLogic = this.actorLogic as { carriedWeight?: number } | null;
-        return typeof actorLogic?.carriedWeight === "number" ?
-                actorLogic.carriedWeight
-            :   0;
+        const actorLogic = this.actorLogic as {
+            carriedWeight?: { effective?: number };
+        } | null;
+        const effective = actorLogic?.carriedWeight?.effective;
+        return typeof effective === "number" ? effective : 0;
     }
 
     /* --------------------------------------------- */

@@ -126,9 +126,9 @@ function makeLineageWithStr(
 /**
  * A lineage embedded on a being with a `str` attribute and a stubbed
  * `carriedWeight`, so the expression accessors (`getStrMod`, `getEncumbrance`)
- * can be evaluated against `str` and `wt`. (`carriedWeight` is accumulated
- * ground-up by `BeingLogic`; the LineageLogic accessor just reads it, so the
- * unit test stubs the resolved value directly.)
+ * can be evaluated against `str` and `wt`. (`carriedWeight` is a `ValueModifier`
+ * accumulated ground-up by `BeingLogic`; the LineageLogic accessor reads its
+ * `.effective`, so the unit test stubs a modifier-shaped `{ effective }`.)
  */
 function makeLineageWithActor(
     { str = 0, carriedWeight = 0 } = {},
@@ -145,7 +145,7 @@ function makeLineageWithActor(
             },
         ],
     };
-    actor.logic.carriedWeight = carriedWeight;
+    actor.logic.carriedWeight = { effective: carriedWeight };
     return makeLineage(overrides, { actor });
 }
 

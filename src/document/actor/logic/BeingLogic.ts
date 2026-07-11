@@ -115,11 +115,12 @@ export class BeingLogic<
     pull!: ValueModifier;
 
     /**
-     * Running total of carried-gear weight (pounds), accumulated ground-up: each
-     * carried gear item adds its `weight × quantity` during its own `evaluate()`
-     * phase (see {@link addCarriedWeight}). Reset at the start of {@link initialize}
-     * and fully populated by the time the being's own `evaluate()`/`finalize()`
-     * and the sheet read {@link carriedWeight}.
+     * Running total of carried-gear weight (pounds) as a {@link ValueModifier},
+     * accumulated ground-up: each carried gear item adds a delta of its
+     * `weight × quantity` during its own `evaluate()` phase (see
+     * {@link GearLogic.evaluate}). Reset to an empty modifier at the start of
+     * {@link initialize} and fully populated (read via `carriedWeight.effective`)
+     * by the time the being's own `evaluate()`/`finalize()` and the sheet read it.
      */
     carriedWeight!: ValueModifier;
 
@@ -704,10 +705,7 @@ export class BeingLogic<
         super.initialize();
         // Reset the ground-up accumulator before any gear item's evaluate()
         // adds to it (all item initialize()/evaluate() run after this).
-        this.carriedWeight = new sohl.entity.ValueModifier(
-            {},
-            { parent: this },
-        );
+        this.carriedWeight = new entity.ValueModifier(this);
     }
 
     /** @inheritdoc */

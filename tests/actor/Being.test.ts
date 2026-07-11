@@ -230,20 +230,23 @@ describe("BeingLogic", () => {
             };
         }
 
-        it("starts at 0 and accumulates via addCarriedWeight", () => {
+        it("is an empty modifier after initialize and accumulates weight deltas", () => {
             const logic = makeBeing();
-            expect(logic.carriedWeight).toBe(0);
-            logic.addCarriedWeight(10);
-            logic.addCarriedWeight(5.5);
-            expect(logic.carriedWeight).toBe(15.5);
+            logic.initialize();
+            expect(logic.carriedWeight).toBeInstanceOf(ValueModifier);
+            expect(logic.carriedWeight.effective).toBe(0);
+            logic.carriedWeight.add("rockWt", "Rock Weight", 10);
+            logic.carriedWeight.add("gemWt", "Gem Weight", 5.5);
+            expect(logic.carriedWeight.effective).toBe(15.5);
         });
 
-        it("resets to 0 on initialize (rebuilt each prepare cycle)", () => {
+        it("resets to an empty modifier on initialize (rebuilt each prepare cycle)", () => {
             const logic = makeBeing();
-            logic.addCarriedWeight(20);
-            expect(logic.carriedWeight).toBe(20);
             logic.initialize();
-            expect(logic.carriedWeight).toBe(0);
+            logic.carriedWeight.add("rockWt", "Rock Weight", 20);
+            expect(logic.carriedWeight.effective).toBe(20);
+            logic.initialize();
+            expect(logic.carriedWeight.effective).toBe(0);
         });
 
         it("sums a carried gear item's weight × quantity during its evaluate", () => {
@@ -257,7 +260,7 @@ describe("BeingLogic", () => {
             );
             gear.initialize();
             gear.evaluate();
-            expect(being.carriedWeight).toBe(10);
+            expect(being.carriedWeight.effective).toBe(10);
         });
 
         it("ignores gear that is not carried", () => {
@@ -271,7 +274,7 @@ describe("BeingLogic", () => {
             );
             gear.initialize();
             gear.evaluate();
-            expect(being.carriedWeight).toBe(0);
+            expect(being.carriedWeight.effective).toBe(0);
         });
     });
 
