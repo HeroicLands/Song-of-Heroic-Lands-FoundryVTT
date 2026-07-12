@@ -1,8 +1,39 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { MysteryLogic } from "@src/document/item/logic/MysteryLogic";
+import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { ITEM_KIND } from "@src/utils/constants";
-import { makeItemLogic } from "@tests/mocks/logicHarness";
+import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
+
+/**
+ * Build a mock actor exposing the `itemTypes.skill` list that
+ * MysteryLogic.evaluate() reads for assocSkill resolution.
+ */
+function makeMysteryActor() {
+    const actor = makeMockActor();
+    actor.itemTypes = { skill: [] as any[] };
+    return actor;
+}
+
+/** Embed a real SkillLogic on the actor and register it in itemTypes. */
+function makeSkillOnActor(actor: any, shortcode: string) {
+    const logic = makeItemLogic(
+        SkillLogic,
+        ITEM_KIND.SKILL,
+        {
+            subType: "social",
+            skillBaseFormula: "",
+            masteryLevelBase: 40,
+            improveFlag: false,
+            combatCategory: "none",
+            parentSkillCode: "",
+            initSkillMult: 1,
+        },
+        { actor, shortcode, id: `skill${shortcode}`.padEnd(16, "0") },
+    );
+    actor.itemTypes.skill.push(logic.item);
+    return logic;
+}
 
 /** Default MysteryData fields; override per test. */
 function mysteryFields(overrides: Record<string, unknown> = {}) {
@@ -120,6 +151,30 @@ describe("MysteryLogic", () => {
             expect(logic.charges.value.disabled).toBeFalsy();
             expect(logic.charges.value.base).toBe(1);
         });
+
+        it("disables charges.value (infinite remaining) when value is null but max is set", () => {
+            const logic = makeMystery({
+                charges: { usesCharges: true, value: null, max: 5 },
+            });
+            logic.initialize();
+            // max stays enabled; only value is disabled → sheet shows "∞".
+            expect(logic.charges.max.disabled).toBeFalsy();
+            expect(logic.charges.max.effective).toBe(5);
+            expect(logic.charges.value.disabled).toBe(
+                "Infinite charges remaining",
+            );
+        });
+
+        it("keeps charges.max enabled at 0 (infinite available)", () => {
+            const logic = makeMystery({
+                charges: { usesCharges: true, value: 3, max: 0 },
+            });
+            logic.initialize();
+            // max effective 0 (not disabled) → sheet shows "<value>/∞".
+            expect(logic.charges.max.disabled).toBeFalsy();
+            expect(logic.charges.max.effective).toBe(0);
+            expect(logic.charges.value.effective).toBe(3);
+        });
     });
 
     describe("lifecycle", () => {
@@ -133,17 +188,44 @@ describe("MysteryLogic", () => {
         });
     });
 
+    describe("evaluate (assocSkill resolution)", () => {
+        it("resolves assocSkill from the actor's skills by assocSkillCode", () => {
+            const actor = makeMysteryActor();
+            const skill = makeSkillOnActor(actor, "blessing-skill");
+            const logic = makeMystery(
+                { assocSkillCode: "blessing-skill" },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.assocSkill).toBe(skill);
+        });
+
+        it("leaves assocSkill undefined when assocSkillCode is blank", () => {
+            const actor = makeMysteryActor();
+            makeSkillOnActor(actor, "blessing-skill");
+            const logic = makeMystery({ assocSkillCode: "" }, { actor });
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.assocSkill).toBeUndefined();
+        });
+
+        it("returns early (assocSkill undefined) when the item has no actor", () => {
+            const logic = makeMystery({ assocSkillCode: "blessing-skill" });
+            logic.initialize();
+            expect(() => logic.evaluate()).not.toThrow();
+            expect(logic.assocSkill).toBeUndefined();
+        });
+    });
+
     /*
      * The behaviors below are not present in the current MysteryLogic —
-     * MysteryData no longer carries domain/skills/subType machinery, and no
+     * MysteryData no longer carries domain/skills machinery, and no
      * fieldData/getApplicableFate/fateBonusItems helpers exist on the class.
      * The todos are retained until that functionality is (re)implemented.
      */
     describe("properties", () => {
         it.todo("domain - is undefined initially, resolved during evaluate");
-        it.todo(
-            "skills - is empty array after initialize, resolved during evaluate",
-        );
     });
 
     describe("fieldData", () => {

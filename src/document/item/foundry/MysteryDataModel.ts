@@ -41,6 +41,11 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
             required: true,
             choices: MysterySubTypeChoices,
         }),
+        // Shortcode of the skill this mystery is associated with; blank when
+        // the mystery names no skill (e.g. a birthsign).
+        assocSkillCode: new StringField({
+            initial: "",
+        }),
         // Note: if levelBase is null, then there is no defined level
         levelBase: new NumberField({
             integer: true,
@@ -87,6 +92,7 @@ export class MysteryDataModel<
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.MYSTERY;
     subType!: MysterySubType;
+    assocSkillCode!: string;
     levelBase!: number;
     charges!: {
         usesCharges: boolean;
