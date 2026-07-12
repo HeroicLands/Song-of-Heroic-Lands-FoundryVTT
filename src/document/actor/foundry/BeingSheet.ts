@@ -786,7 +786,8 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Prepare context for the Facade tab: bio image and description.
+     * Prepare context for the Facade tab: the bio image (`system.portrait`) and
+     * the rich-text physical-appearance description (`system.appearance`).
      *
      * @param context - The render context to augment.
      * @param _options - The render options (unused).
@@ -798,9 +799,9 @@ export class BeingSheet extends SohlActorSheetBase {
     ): Promise<RenderContext> {
         const system = this.document.system as any;
         return Object.assign(context, {
-            bioImage: system.bioImage,
-            descriptionHTML: await TextEditor.enrichHTML(
-                system.description ?? "",
+            portrait: system.portrait,
+            appearanceHTML: await TextEditor.enrichHTML(
+                system.appearance ?? "",
             ),
         });
     }
