@@ -807,7 +807,7 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Prepare context for the Profile tab: attributes, traits, affiliations, biography.
+     * Prepare context for the Profile tab: attributes, traits, affiliations, dossier.
      *
      * @param context - The render context to augment.
      * @param _options - The render options (unused).
@@ -921,7 +921,7 @@ export class BeingSheet extends SohlActorSheetBase {
             traitGroups,
             affiliations,
             movement,
-            biographyHTML: await TextEditor.enrichHTML(system.biography ?? ""),
+            dossierHTML: await TextEditor.enrichHTML(system.dossier ?? ""),
         });
     }
 
