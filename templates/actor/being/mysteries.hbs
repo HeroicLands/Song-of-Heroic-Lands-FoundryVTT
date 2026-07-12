@@ -12,24 +12,27 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab mysteries{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="mysteries">
-    {{!-- Mysteries --}}
-    {{#each mysteryGroups as |mysteries groupName|}}
+    {{!-- Mysteries — one section per subtype, header always shown (#310) --}}
+    {{#each mysterySections as |section|}}
     <fieldset>
-        <legend>{{@key}} Mysteries</legend>
-        <ol class="list__items">
+        <legend>{{section.label}} Mysteries</legend>
+        <ol class="list__items mysteries-list">
             <li class="list__header flexrow">
                 <h3 class="list__name">Mystery</h3>
-                <div class="list__detail">Bonus</div>
+                <div class="list__detail">Skill</div>
+                <div class="list__detail">Level</div>
                 <div class="list__detail">Charges</div>
                 <div class="list__detail">Notes</div>
             </li>
-            {{#each mysteries as |mystery|}}
+            {{#each section.items as |mystery|}}
             <li class="item flexrow" data-search-name="{{mystery.name}}" data-item-id="{{mystery.id}}" data-item-name="{{mystery.name}}">
                 <div class="list__name default-action flexrow">
                     <div class="list__image" style="background-image: url('{{mystery.img}}')"></div>
                     <h4 data-tooltip="{{mystery.name}}">{{mystery.name}}</h4>
                 </div>
+                <div class="list__detail">{{#if mystery.logic.assocSkill}}{{mystery.logic.assocSkill.name}}{{/if}}</div>
                 <div class="list__detail">
+                    {{!-- Level: "×" when disabled (levelBase null), else signed value --}}
                     {{#if mystery.logic.level.disabled}}
                     <i class="sohl-xmark"></i>
                     {{else}}
@@ -37,10 +40,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     {{/if}}
                 </div>
                 <div class="list__detail">
-                    {{#if mystery.logic.charges.value.disabled}}
+                    {{!-- Charges display rules (#310), first match wins:
+                          max disabled → "×"; value disabled → "∞";
+                          max 0 → "<value>/∞"; else "<value>/<max>" --}}
+                    {{#if mystery.logic.charges.max.disabled}}
                     <i class="sohl-xmark"></i>
                     {{else}}
-                    {{mystery.logic.charges.value.effective}}{{#if (gt mystery.logic.charges.max.effective 0)}}/{{numberFormat mystery.logic.charges.max.effective}}{{/if}}
+                    {{#if mystery.logic.charges.value.disabled}}
+                    &infin;
+                    {{else}}
+                    {{mystery.logic.charges.value.effective}}/{{#if (eq mystery.logic.charges.max.effective 0)}}&infin;{{else}}{{numberFormat mystery.logic.charges.max.effective}}{{/if}}
+                    {{/if}}
                     {{/if}}
                 </div>
                 <div class="list__detail">{{mystery.system.notes}}</div>
@@ -53,24 +63,29 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </fieldset>
     {{/each}}
 
-    {{!-- Mystical Abilities --}}
-    {{#each abilityGroups as |abilities groupName|}}
+    {{!-- Mystical Abilities — one section per subtype, header always shown (#311) --}}
+    {{#each abilitySections as |section|}}
     <fieldset>
-        <legend>{{@key}} Mystical Abilities</legend>
-        <ol class="list__items">
+        <legend>{{section.label}} Mystical Abilities</legend>
+        <ol class="list__items mysticalabilities-list">
             <li class="list__header flexrow">
                 <h3 class="list__name">Ability</h3>
-                <div class="list__detail">ML</div>
+                <div class="list__detail">Skill</div>
+                <div class="list__detail" data-tooltip="Level">Lvl</div>
+                <div class="list__detail" data-tooltip="Mastery Level">ML</div>
                 <div class="list__detail">Charges</div>
+                <div class="list__detail" data-tooltip="Improve via SDR">Imp</div>
                 <div class="list__detail">Notes</div>
             </li>
-            {{#each abilities as |ability|}}
+            {{#each section.items as |ability|}}
             <li class="item flexrow" data-search-name="{{ability.name}}" data-item-id="{{ability.id}}" data-item-name="{{ability.name}}">
                 <div class="list__name default-action flexrow">
                     <div class="list__image" style="background-image: url('{{ability.img}}')"></div>
                     <h4 data-tooltip="{{ability.name}}">{{ability.name}}</h4>
                 </div>
+                <div class="list__detail">{{#if ability.logic.assocSkill}}{{ability.logic.assocSkill.name}}{{/if}}</div>
                 <div class="list__detail">
+                    {{!-- Level: "×" when disabled (levelBase null), else value --}}
                     {{#if ability.logic.level.disabled}}
                     <i class="sohl-xmark"></i>
                     {{else}}
@@ -78,11 +93,30 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     {{/if}}
                 </div>
                 <div class="list__detail">
-                    {{#if ability.logic.charges.value.disabled}}
+                    {{#if ability.logic.masteryLevel.disabled}}
                     <i class="sohl-xmark"></i>
                     {{else}}
-                    {{ability.logic.charges.value.effective}}{{#if (gt ability.logic.charges.max.effective 0)}}/{{numberFormat ability.logic.charges.max.effective}}{{/if}}
+                    {{ability.logic.masteryLevel.effective}}
                     {{/if}}
+                </div>
+                <div class="list__detail">
+                    {{!-- Charges display rules (#311), first match wins:
+                          max disabled → "×"; value disabled → "∞";
+                          max 0 → "<value>/∞"; else "<value>/<max>" --}}
+                    {{#if ability.logic.charges.max.disabled}}
+                    <i class="sohl-xmark"></i>
+                    {{else}}
+                    {{#if ability.logic.charges.value.disabled}}
+                    &infin;
+                    {{else}}
+                    {{ability.logic.charges.value.effective}}/{{#if (eq ability.logic.charges.max.effective 0)}}&infin;{{else}}{{numberFormat ability.logic.charges.max.effective}}{{/if}}
+                    {{/if}}
+                    {{/if}}
+                </div>
+                <div class="list__detail">
+                    <a class="list__control toggle-improve-flag" data-action="toggleImproveFlag" title="Improve">
+                        <i class="{{#if ability.system.improveFlag}}sohl-round-star-filled{{else}}sohl-round-star-unfilled{{/if}}"></i>
+                    </a>
                 </div>
                 <div class="list__detail">{{ability.system.notes}}</div>
                 <div class="list__controls">

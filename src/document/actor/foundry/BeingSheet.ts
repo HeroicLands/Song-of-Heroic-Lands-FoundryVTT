@@ -18,6 +18,10 @@ import {
     ITEM_KIND,
     MovementMedium,
     MovementMediumChoices,
+    MysterySubTypes,
+    MysterySubTypeChoices,
+    MysticalAbilitySubTypes,
+    MysticalAbilitySubTypeChoices,
     TraitSubTypes,
     TraitSubTypeChoices,
     TraitIntensityChoices,
@@ -1185,23 +1189,42 @@ export class BeingSheet extends SohlActorSheetBase {
     ): Promise<RenderContext> {
         const actor = this.document;
 
-        // Mysteries grouped by subType
+        // Mysteries: one section per subType, always shown (even when empty)
+        // and in declared order, so every mystery category has a header.
         const mysteries = actor.itemTypes[ITEM_KIND.MYSTERY] ?? [];
-        const mysteryGroups = groupBySubType(
+        const mysteryBuckets = groupBySubType(
             mysteries,
             (mystery) => (mystery.system as any).subType,
         );
+        const mysterySections = MysterySubTypes.map((subType) => ({
+            subType,
+            label: game.i18n.localize(
+                (MysterySubTypeChoices as Record<string, string>)[subType] ??
+                    subType,
+            ),
+            items: mysteryBuckets[subType] ?? [],
+        }));
 
-        // Mystical abilities grouped by subType
+        // Mystical abilities: one section per subType, always shown (even when
+        // empty) and in declared order, so every ability category has a header.
         const abilities = actor.itemTypes[ITEM_KIND.MYSTICALABILITY] ?? [];
-        const abilityGroups = groupBySubType(
+        const abilityBuckets = groupBySubType(
             abilities,
             (ability) => (ability.system as any).subType,
         );
+        const abilitySections = MysticalAbilitySubTypes.map((subType) => ({
+            subType,
+            label: game.i18n.localize(
+                (MysticalAbilitySubTypeChoices as Record<string, string>)[
+                    subType
+                ] ?? subType,
+            ),
+            items: abilityBuckets[subType] ?? [],
+        }));
 
         return Object.assign(context, {
-            mysteryGroups,
-            abilityGroups,
+            mysterySections,
+            abilitySections,
         });
     }
 

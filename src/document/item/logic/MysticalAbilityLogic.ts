@@ -13,6 +13,7 @@
 
 import { entity } from "@src/entity/registry";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import {
@@ -57,6 +58,7 @@ import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
  * - Spirit Talent: Intrinsic spell-like spirit powers
  * - Alchemy: Create alchemical elixirs or perform alchemical actions
  * - Divination: Foretell the future
+ * - Birthsign: Intrinsic powers granted by a character's birthsign
  *
  * @typeParam TData - The MysticalAbility data interface.
  */
@@ -78,30 +80,33 @@ export class MysticalAbilityLogic<
     assocMystery?: MysteryLogic;
 
     /**
-     * The mastery level as a {@link ValueModifier}. Seeded from
-     * {@link MysticalAbilityData.masteryLevelBase} when there is no associated
-     * skill; otherwise left empty until {@link finalize} merges in the
-     * {@link assocSkill}'s mastery level.
+     * The mastery level as a {@link MasteryLevelModifier}. When the ability has
+     * no associated skill (blank {@link MysticalAbilityData.assocSkillCode}) it
+     * is seeded from {@link MysticalAbilityData.masteryLevelBase} — the ability's
+     * *internal* mastery level. When a skill is associated, the base is left
+     * empty until {@link finalize} copies the {@link assocSkill}'s mastery level
+     * in via {@link ValueModifier.addVM | addVM} (so the ability's own custom
+     * modifiers still stack on top of the skill's).
      */
-    masteryLevel!: ValueModifier;
+    masteryLevel!: MasteryLevelModifier;
 
     /**
      * The ability's power level as a {@link ValueModifier}, seeded from
-     * {@link MysticalAbilityData.levelBase}.
+     * {@link MysticalAbilityData.levelBase}. Disabled when `levelBase` is `null`
+     * (shown as "×").
      */
     level!: ValueModifier;
 
-    /** The ability's charge tracking. */
+    /**
+     * The ability's charge tracking. Both `value` and `max` are always
+     * {@link ValueModifier}s; a `null` source value leaves the corresponding
+     * modifier **disabled**, driving the ×/∞ display (see the identical rules on
+     * {@link MysteryLogic.charges}).
+     */
     charges!: {
-        /**
-         * Current charges as a {@link ValueModifier}, seeded from
-         * {@link MysticalAbilityData.charges | charges.value}.
-         */
+        /** Current charges; disabled when charges are infinite (`value === null`). */
         value: ValueModifier;
-        /**
-         * Maximum charges as a {@link ValueModifier}, seeded from
-         * {@link MysticalAbilityData.charges | charges.max}.
-         */
+        /** Maximum charges; disabled when the ability does not use charges (`max === null`). */
         max: ValueModifier;
     };
 
@@ -155,41 +160,51 @@ export class MysticalAbilityLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.charges = {
-            value: new entity.ValueModifier(this).setBase(
-                this.data.charges.value,
-            ),
-            max: new entity.ValueModifier(this).setBase(this.data.charges.max),
-        };
 
-        if (this.data.levelBase > 0) {
-            this.level = new entity.ValueModifier(this).setBase(
-                this.data.levelBase,
+        /*
+         * Charges: `value` and `max` are always ValueModifiers; a null source
+         * value leaves the modifier disabled so the sheet can pick the ×/∞
+         * display. A null `max` means the ability does not use charges at all,
+         * so both modifiers are disabled. (Same rules as MysteryLogic.)
+         */
+        this.charges = {
+            value: new entity.ValueModifier(this),
+            max: new entity.ValueModifier(this),
+        };
+        if (this.data.charges.max === null) {
+            this.charges.value.setDisabled("This ability doesn't use charges");
+            this.charges.max.setDisabled("This ability doesn't use charges");
+        } else {
+            this.charges.max.setBase(this.data.charges.max);
+            if (this.data.charges.value === null) {
+                this.charges.value.setDisabled("Infinite charges remaining");
+            } else {
+                this.charges.value.setBase(this.data.charges.value);
+            }
+        }
+
+        // Level: a null base means "no level" and leaves the modifier disabled
+        // (shown as "×"); 0 is a real level and stays enabled.
+        this.level = new entity.ValueModifier(this);
+        if (this.data.levelBase === null) {
+            this.level.setDisabled(
+                "This mystical ability doesn't have a level",
             );
         } else {
-            this.level = new entity.ValueModifier(
-                {},
-                { parent: this },
-            ).setDisabled("This mystical ability doesn't have a level");
+            this.level.setBase(this.data.levelBase);
         }
 
-        if (!this.data.assocSkillCode) {
-            // If there's no associated skill, this ability uses its own mastery level.
-            this.masteryLevel = new entity.ValueModifier(
-                {},
-                { parent: this },
-            ).setBase(this.data.masteryLevelBase);
-        } else {
-            // If there is an associated skill, the mastery level will eventually be determined by that skill.
-            // But we will need to wait until much later to merge that skill's mastery leel modifier into this one,
-            // in case there are modifiers to that skill's mastery level that need to be applied first.
-            // On the other hand, we may need to add our own modifiers to this Mystical Ability's mastery level before then,
-            // so we need to initialize the masteryLevel modifier now, even though it will be effectively empty for a while.
-            this.masteryLevel = new entity.ValueModifier(this);
-        }
-        this.level = new entity.ValueModifier(this).setBase(
-            this.data.levelBase,
+        // Mastery level. With no associated skill, the ability uses its own
+        // internal mastery level (seeded from masteryLevelBase). With a skill,
+        // the base is deferred to finalize(), which copies the skill's mastery
+        // level in via addVM so the ability's own modifiers still stack on top.
+        this.masteryLevel = new entity.MasteryLevelModifier(
+            {},
+            { parent: this },
         );
+        if (!this.data.assocSkillCode) {
+            this.masteryLevel.setBase(this.data.masteryLevelBase);
+        }
     }
 
     /** @inheritdoc */
@@ -235,8 +250,8 @@ export interface MysticalAbilityData<
     assocSkillCode?: string;
     /** Shortcode of the mystery that determines this ability's tradition */
     assocMysteryCode?: string;
-    /** Power level of this ability */
-    levelBase: number;
+    /** Power level of this ability, or `null` when it has no level. */
+    levelBase: number | null;
     /** Mastery level of this mystical ability if assocSkillCode is blank */
     masteryLevelBase: number;
     /** Whether this item is flagged for mastery improvement via SDR */
@@ -245,9 +260,12 @@ export interface MysticalAbilityData<
     charges: {
         /** Whether this ability consumes charges when used. */
         usesCharges: boolean;
-        /** Current number of charges remaining. */
-        value: number;
-        /** Maximum number of charges. */
-        max: number;
+        /** Current number of charges remaining. `null` means infinite. */
+        value: number | null;
+        /**
+         * Maximum number of charges. `0` means no maximum; `null` means the
+         * ability does not use charges.
+         */
+        max: number | null;
     };
 }

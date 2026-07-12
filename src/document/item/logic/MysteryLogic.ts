@@ -20,6 +20,7 @@ import {
 } from "@src/document/item/logic/SohlItemBaseLogic";
 import {
     ACTION_SUBTYPE,
+    ITEM_KIND,
     MysterySubType,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
@@ -63,25 +64,37 @@ export class MysteryLogic<
 > extends SohlItemBaseLogic<TData> {
     /**
      * The mystery's level as a {@link ValueModifier}, seeded from
-     * {@link MysteryData.levelBase}. Disabled when the mystery has no level.
+     * {@link MysteryData.levelBase}. Disabled when the mystery has no level
+     * (`levelBase === null`).
      */
     level!: ValueModifier;
 
-    /** The mystery's charge tracking, present only when it uses charges. */
+    /**
+     * The mystery's charge tracking. Both `value` and `max` are always
+     * {@link ValueModifier}s; a `null` source value leaves the corresponding
+     * modifier **disabled**, which the sheet reads to pick the ×/∞ display:
+     *
+     * - `max` disabled (source `max === null`) → mystery does not use charges,
+     *   shown as "×".
+     * - `value` disabled (source `value === null`) → infinite charges
+     *   remaining, shown as "∞".
+     * - `max.effective === 0` → infinite charges available, shown as
+     *   "`value`/∞".
+     * - otherwise → "`value`/`max`".
+     */
     charges!: {
-        /**
-         * Current charges as a {@link ValueModifier}, seeded from
-         * {@link MysteryData.charges | charges.value}. Disabled when charges
-         * are not used.
-         */
+        /** Current charges; disabled when charges are infinite (`value === null`). */
         value: ValueModifier;
-        /**
-         * Maximum charges as a {@link ValueModifier}, seeded from
-         * {@link MysteryData.charges | charges.max}. Disabled when charges are
-         * not used.
-         */
+        /** Maximum charges; disabled when the mystery does not use charges (`max === null`). */
         max: ValueModifier;
     };
+
+    /**
+     * The associated skill (a {@link SkillLogic}) resolved during
+     * {@link evaluate} from {@link MysteryData.assocSkillCode}, or `undefined`
+     * when the mystery names no skill (e.g. a birthsign).
+     */
+    assocSkill?: SkillLogic;
 
     /* --------------------------------------------- */
     /* Intrinsic Actions                             */
@@ -128,44 +141,53 @@ export class MysteryLogic<
     override initialize(): void {
         super.initialize();
 
-        if (this.data.levelBase !== null) {
-            this.level = new entity.ValueModifier(this).setBase(
-                this.data.levelBase,
-            );
+        // Level: a null base means "no level" and leaves the modifier
+        // disabled (shown as "×"); 0 is a real level and stays enabled.
+        this.level = new entity.ValueModifier(this);
+        if (this.data.levelBase === null) {
+            this.level.setDisabled("This mystery doesn't have a level");
         } else {
-            this.level = new entity.ValueModifier(
-                {},
-                { parent: this },
-            ).setDisabled("This mystery doesn't have a level");
+            this.level.setBase(this.data.levelBase);
         }
-        if (this.data.charges.max !== null) {
-            this.charges = {
-                // `charges.value === null` means infinite charges remaining;
-                // normalize to `undefined` (no base) for the ValueModifier,
-                // which rejects `null`.
-                value: new entity.ValueModifier(this).setBase(
-                    this.data.charges.value ?? undefined,
-                ),
-                max: new entity.ValueModifier(this).setBase(
-                    this.data.charges.max,
-                ),
-            };
+
+        /*
+         * Charges: `value` and `max` are always ValueModifiers; a null source
+         * value leaves the modifier disabled so the sheet can pick the ×/∞
+         * display (see the `charges` field docs). A null `max` means the
+         * mystery does not use charges at all, so both modifiers are disabled.
+         */
+        this.charges = {
+            value: new entity.ValueModifier(this),
+            max: new entity.ValueModifier(this),
+        };
+        if (this.data.charges.max === null) {
+            this.charges.value.setDisabled("This mystery doesn't use charges");
+            this.charges.max.setDisabled("This mystery doesn't use charges");
         } else {
-            this.charges = {
-                value: new entity.ValueModifier(
-                    {},
-                    { parent: this },
-                ).setDisabled("This mystery doesn't use charges"),
-                max: new entity.ValueModifier(this).setDisabled(
-                    "This mystery doesn't use charges",
-                ),
-            };
+            this.charges.max.setBase(this.data.charges.max);
+            if (this.data.charges.value === null) {
+                this.charges.value.setDisabled("Infinite charges remaining");
+            } else {
+                this.charges.value.setBase(this.data.charges.value);
+            }
         }
     }
 
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
+
+        // Resolve the associated skill (e.g. the skill a blessing boosts or a
+        // fate re-roll applies to) from its shortcode, when the actor is known.
+        const actorLogic = this.actorLogic;
+        if (!actorLogic) return;
+        this.assocSkill =
+            this.data.assocSkillCode ?
+                (actorLogic.getItemLogic(
+                    this.data.assocSkillCode,
+                    ITEM_KIND.SKILL,
+                ) as SkillLogic)
+            :   undefined;
     }
 
     /** @inheritdoc */
@@ -185,6 +207,12 @@ export interface MysteryData<
      * {@link SohlItemData.shortcode | shortcode} in skill-base formulas).
      */
     subType: MysterySubType;
+    /**
+     * Shortcode of the skill this mystery is associated with (the skill a
+     * blessing boosts, a fate re-roll applies to, etc.); blank for mysteries
+     * that name no skill (e.g. a birthsign).
+     */
+    assocSkillCode?: string;
     /** The base level of the mystery, or null if not applicable */
     levelBase: number | null;
     /** Usage tracking: current charges and maximum */
