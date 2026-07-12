@@ -1391,17 +1391,29 @@ export const {
     /** Type guard for mystical-ability subtype values. */
     isValue: isMysticalAbilitySubType,
 } = defineType("SOHL.MysticalAbility.SubType", {
+    /** Spirit: a prepared ceremony by which a shaman petitions the spirit world. */
     SHAMANICRITE: "shamanicrite",
+    /** Spirit: a discrete supernatural act performed through an allied or bound spirit. */
     SPIRITACTION: "spiritaction",
+    /** Spirit: a standing power conferred on its bearer by a spirit. */
     SPIRITPOWER: "spiritpower",
+    /** Divine: a minor blessing granted in answer to prayer. */
     BENEDICTION: "benediction",
+    /** Divine: an extended act of worship that earns the favour of a deity. */
     DIVINEDEVOTION: "divinedevotion",
+    /** Divine: a spoken invocation channelling the power of a deity. */
     DIVINEINCANTATION: "divineincantation",
+    /** Arcane: a formally learned spell, invoked by word and gesture. */
     ARCANEINCANTATION: "arcaneincantation",
+    /** Arcane: an innate arcane knack, possessed without formal training. */
     ARCANETALENT: "arcanetalent",
+    /** Spirit: an innate affinity for the spirit world, possessed without training. */
     SPIRITTALENT: "spirittalent",
+    /** The preparation of substances imbued with mystical potency. */
     ALCHEMY: "alchemy",
+    /** The practice of obtaining hidden knowledge or foreknowledge by mystical means. */
     DIVINATION: "divination",
+    /** A passive influence conferred by the celestial sign the being was born under. */
     BIRTHSIGN: "birthsign",
 });
 /** Union of all mystical-ability subtype values. */
