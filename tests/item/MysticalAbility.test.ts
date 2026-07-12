@@ -2,7 +2,8 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { MysticalAbilityLogic } from "@src/document/item/logic/MysticalAbilityLogic";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import { ITEM_KIND } from "@src/utils/constants";
+import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { ITEM_KIND, VALUE_DELTA_INFO } from "@src/utils/constants";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 
 /** Default MysticalAbilityData fields; override per test. */
@@ -114,6 +115,43 @@ describe("MysticalAbilityLogic", () => {
             expect(logic.charges.value.effective).toBe(3);
             expect(logic.charges.max.base).toBe(7);
             expect(logic.charges.max.effective).toBe(7);
+            expect(logic.charges.value.disabled).toBeFalsy();
+            expect(logic.charges.max.disabled).toBeFalsy();
+        });
+
+        it("disables charges when charges.max is null", () => {
+            const logic = makeAbility({
+                charges: { usesCharges: false, value: 0, max: null },
+            });
+            logic.initialize();
+            expect(logic.charges.value.disabled).toBe(
+                "This ability doesn't use charges",
+            );
+            expect(logic.charges.max.disabled).toBe(
+                "This ability doesn't use charges",
+            );
+        });
+
+        it("disables charges.value (infinite remaining) when value is null but max is set", () => {
+            const logic = makeAbility({
+                charges: { usesCharges: true, value: null, max: 5 },
+            });
+            logic.initialize();
+            expect(logic.charges.max.disabled).toBeFalsy();
+            expect(logic.charges.max.effective).toBe(5);
+            expect(logic.charges.value.disabled).toBe(
+                "Infinite charges remaining",
+            );
+        });
+
+        it("keeps charges.max enabled at 0 (infinite available)", () => {
+            const logic = makeAbility({
+                charges: { usesCharges: true, value: 3, max: 0 },
+            });
+            logic.initialize();
+            expect(logic.charges.max.disabled).toBeFalsy();
+            expect(logic.charges.max.effective).toBe(0);
+            expect(logic.charges.value.effective).toBe(3);
         });
 
         it("seeds level from levelBase", () => {
@@ -125,24 +163,29 @@ describe("MysticalAbilityLogic", () => {
             expect(logic.level.disabled).toBeFalsy();
         });
 
-        it("does not disable level when levelBase is 0", () => {
-            // The "levelBase > 0" disabled branch is dead code: initialize()
-            // unconditionally re-assigns this.level from levelBase at the end,
-            // overwriting the disabled modifier. This documents the behavior
-            // as implemented.
+        it("seeds level even when levelBase is 0 (only null disables)", () => {
             const logic = makeAbility({ levelBase: 0 });
             logic.initialize();
             expect(logic.level.disabled).toBeFalsy();
             expect(logic.level.base).toBe(0);
         });
 
-        it("seeds masteryLevel from masteryLevelBase when there is no associated skill", () => {
+        it("disables level when levelBase is null", () => {
+            const logic = makeAbility({ levelBase: null });
+            logic.initialize();
+            expect(logic.level.disabled).toBe(
+                "This mystical ability doesn't have a level",
+            );
+            expect(logic.level.effective).toBe(0);
+        });
+
+        it("seeds masteryLevel (a MasteryLevelModifier) from masteryLevelBase when there is no associated skill", () => {
             const logic = makeAbility({
                 assocSkillCode: "",
                 masteryLevelBase: 35,
             });
             logic.initialize();
-            expect(logic.masteryLevel).toBeInstanceOf(ValueModifier);
+            expect(logic.masteryLevel).toBeInstanceOf(MasteryLevelModifier);
             expect(logic.masteryLevel.base).toBe(35);
             expect(logic.masteryLevel.effective).toBe(35);
         });
@@ -230,6 +273,23 @@ describe("MysticalAbilityLogic", () => {
             logic.evaluate();
             logic.finalize();
             expect(logic.masteryLevel.base).toBe(25);
+        });
+
+        it("stacks the ability's own modifiers on top of the merged skill mastery level (addVM, not replace)", () => {
+            const actor = makeAbilityActor();
+            const skill = makeSkillOnActor(actor, "spellcraft", 45);
+            skill.initialize();
+            const logic = makeAbility(
+                { assocSkillCode: "spellcraft", masteryLevelBase: 0 },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            // A custom modifier added before the skill merge must survive it.
+            logic.masteryLevel.add(VALUE_DELTA_INFO.PLAYER, 10);
+            logic.finalize();
+            // 45 (skill ML base, copied via addVM) + 10 (ability's own delta).
+            expect(logic.masteryLevel.effective).toBe(55);
         });
     });
 });
