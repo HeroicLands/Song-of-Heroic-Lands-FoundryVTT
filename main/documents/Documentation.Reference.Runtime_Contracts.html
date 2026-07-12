@@ -91,7 +91,7 @@
 <li><code>fromData(...)</code> resolves model class by <code>kind</code> across configured document families and normalizes serialized JSON forms.</li>
 </ul>
 <a id="updating-array-fields-write-the-whole-array-never-an-element-by-index" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Updating array fields: write the whole array, never an element by index<a href="#updating-array-fields-write-the-whole-array-never-an-element-by-index" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><strong>Never</strong> target a single element of an <code>ArrayField</code> by index in an <code>update()</code>
-payload — e.g. <code>update({ &quot;system.bodyStructure.parts.2.heldItemId&quot;: id })</code>.
+payload — e.g. <code>update({ &quot;system.structure.parts.2.heldItemId&quot;: id })</code>.
 Foundry expands the dotted key to <code>{ parts: { 2: {…} } }</code> and rebuilds the array
 field from that sparse map, <strong>truncating the array and default-filling every
 element that wasn't named</strong>. A partial write meant to touch one field of one
