@@ -57,6 +57,7 @@ import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
  * - Spirit Talent: Intrinsic spell-like spirit powers
  * - Alchemy: Create alchemical elixirs or perform alchemical actions
  * - Divination: Foretell the future
+ * - Birthsign: Intrinsic powers granted by a character's birthsign
  *
  * @typeParam TData - The MysticalAbility data interface.
  */

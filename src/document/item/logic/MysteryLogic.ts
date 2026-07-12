@@ -68,19 +68,19 @@ export class MysteryLogic<
     level!: ValueModifier;
 
     /** The mystery's charge tracking, present only when it uses charges. */
-    charges!: {
+    charges?: {
         /**
          * Current charges as a {@link ValueModifier}, seeded from
          * {@link MysteryData.charges | charges.value}. Disabled when charges
          * are not used.
          */
-        value: ValueModifier;
+        value?: ValueModifier;
         /**
          * Maximum charges as a {@link ValueModifier}, seeded from
          * {@link MysteryData.charges | charges.max}. Disabled when charges are
          * not used.
          */
-        max: ValueModifier;
+        max?: ValueModifier;
     };
 
     /* --------------------------------------------- */
@@ -133,33 +133,39 @@ export class MysteryLogic<
                 this.data.levelBase,
             );
         } else {
-            this.level = new entity.ValueModifier(
-                {},
-                { parent: this },
-            ).setDisabled("This mystery doesn't have a level");
+            this.level = new entity.ValueModifier(this).setDisabled(
+                "This mystery doesn't have a level",
+            );
         }
+
+        /*
+         * Initialize the charges for this mystery. If max is null, then
+         * charges do not apply (displayed as "x"). If max is a number, but
+         * is 0, then there are infinite charges available, and only the value
+         * will be displayed as "<value>". If max > 0, then a ValueModifier will be created
+         * and the maximum number of charges will be displayed as "/<max>". If
+         * value is null, it indicates infinite charges remaining, and will be
+         * displayed as "∞". If the maximum number of charges is defined,
+         * create ValueModifiers for both the current value and the maximum, and the
+         * value is displayed as "<value>/<max>".
+         */
         if (this.data.charges.max !== null) {
             this.charges = {
-                // `charges.value === null` means infinite charges remaining;
-                // normalize to `undefined` (no base) for the ValueModifier,
-                // which rejects `null`.
-                value: new entity.ValueModifier(this).setBase(
-                    this.data.charges.value ?? undefined,
-                ),
-                max: new entity.ValueModifier(this).setBase(
-                    this.data.charges.max,
-                ),
+                value:
+                    this.data.charges.value === null ?
+                        undefined
+                    :   new entity.ValueModifier(this).setBase(
+                            this.data.charges.value,
+                        ),
+                max:
+                    this.data.charges.max === 0 ?
+                        undefined
+                    :   new entity.ValueModifier(this).setBase(
+                            this.data.charges.max,
+                        ),
             };
         } else {
-            this.charges = {
-                value: new entity.ValueModifier(
-                    {},
-                    { parent: this },
-                ).setDisabled("This mystery doesn't use charges"),
-                max: new entity.ValueModifier(this).setDisabled(
-                    "This mystery doesn't use charges",
-                ),
-            };
+            this.charges = undefined;
         }
     }
 
