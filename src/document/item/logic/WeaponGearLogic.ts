@@ -227,14 +227,14 @@ export class WeaponGearLogic<
     override evaluate(): void {
         super.evaluate();
         // A melee mode's reach is its weapon length (the reach base) plus the
-        // wielder's lineage reach. A non-Being wielder (or none) has no
-        // lineage, so reach stays at length alone.
-        const lineageReach =
-            this.actorLogic?.logicTypes[ITEM_KIND.LINEAGE][0]?.reach
-                .effective ?? 0;
+        // wielder's corpus reach. A non-Being wielder (or none) has no
+        // corpus, so reach stays at length alone.
+        const corpusReach =
+            this.actorLogic?.logicTypes[ITEM_KIND.CORPUS][0]?.reach.effective ??
+            0;
         for (const sm of this.strikeModes) {
             if (sm instanceof MeleeStrikeMode) {
-                sm.reach.add("SOHL.INFO.Reach", "Size", lineageReach);
+                sm.reach.add("SOHL.INFO.Reach", "Size", corpusReach);
             }
         }
     }

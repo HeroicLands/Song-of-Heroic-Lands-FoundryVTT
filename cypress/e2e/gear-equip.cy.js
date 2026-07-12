@@ -79,8 +79,8 @@ const INLINE_ARMOR = {
 /** The thorax location's aggregated edged armor protection for `actor`. */
 function thoraxEdgedProtection(win, actorId) {
     const a = win.game.actors.get(actorId);
-    const lineage = a.items.find((i) => i.type === "lineage");
-    const thrx = lineage.logic.bodyStructure
+    const corpus = a.items.find((i) => i.type === "corpus");
+    const thrx = corpus.logic.structure
         .getAllLocations()
         .find((l) => l.shortcode === "thrxloc");
     return thrx.armorProtection.edged;
@@ -179,7 +179,7 @@ describe("gear equip / hold → combat-tab display", () => {
     // ------------------------------------------------------------------ hold state
 
     it("holdItem makes heldBy.length > 0; releaseItem clears it", () => {
-        // Basic Folk has a lineage with Right Arm / Left Arm (canHoldItem).
+        // Basic Folk has a corpus with Right Arm / Left Arm (canHoldItem).
         cy.importActor().then((actor) => {
             cy.createItemOn(actor, "weapongear", INLINE_WEAPON).then(
                 (weapon) => {

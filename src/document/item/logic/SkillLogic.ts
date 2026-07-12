@@ -624,13 +624,13 @@ export class SkillLogic<
         }
 
         // A melee technique's reach is its base length plus the wielder's
-        // lineage reach (0 for a non-Being or no lineage) — mirrors weapon and
+        // corpus reach (0 for a non-Being or no corpus) — mirrors weapon and
         // combat-technique reach handling.
         if (this.strikeMode instanceof MeleeStrikeMode) {
-            const lineageReach =
-                this.actorLogic?.logicTypes[ITEM_KIND.LINEAGE][0]?.reach
+            const corpusReach =
+                this.actorLogic?.logicTypes[ITEM_KIND.CORPUS][0]?.reach
                     .effective ?? 0;
-            this.strikeMode.reach.add("SOHL.INFO.Reach", "Size", lineageReach);
+            this.strikeMode.reach.add("SOHL.INFO.Reach", "Size", corpusReach);
         }
     }
 

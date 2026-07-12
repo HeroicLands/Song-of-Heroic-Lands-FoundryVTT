@@ -25,19 +25,19 @@ describe("chooseInitialDisplayedMedium", () => {
         ).toBe(MOVEMENT_MEDIUM.AQUATIC);
     });
 
-    it("returns the lineage default when user didn't set a medium", () => {
+    it("returns the corpus default when user didn't set a medium", () => {
         expect(
             chooseInitialDisplayedMedium(undefined, MOVEMENT_MEDIUM.AERIAL),
         ).toBe(MOVEMENT_MEDIUM.AERIAL);
     });
 
-    it("returns the lineage default for burrowing creature", () => {
+    it("returns the corpus default for burrowing creature", () => {
         expect(
             chooseInitialDisplayedMedium(undefined, MOVEMENT_MEDIUM.BURROWING),
         ).toBe(MOVEMENT_MEDIUM.BURROWING);
     });
 
-    it("returns null when neither user-set nor lineage-default is available", () => {
+    it("returns null when neither user-set nor corpus-default is available", () => {
         expect(chooseInitialDisplayedMedium(undefined, undefined)).toBeNull();
         expect(chooseInitialDisplayedMedium(null, null)).toBeNull();
     });

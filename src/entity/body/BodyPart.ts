@@ -51,7 +51,7 @@ export class BodyPart extends SohlEntity {
     /** Hit locations contained within this part. */
     readonly locations: BodyLocation[];
     /** Back-reference to the owning {@link BodyStructure}. */
-    readonly bodyStructure: BodyStructure;
+    readonly structure: BodyStructure;
     /** Zero-based index of this part within {@link BodyStructure.parts}. */
     readonly index: number;
 
@@ -76,17 +76,17 @@ export class BodyPart extends SohlEntity {
      *
      * @param data - Persisted part data.
      * @param options - Construction options
-     * @param options.parent - Owning {@link LineageLogic} for this part.
-     * @param options.bodyStructure - Owning {@link BodyStructure} for this part.
+     * @param options.parent - Owning {@link CorpusLogic} for this part.
+     * @param options.structure - Owning {@link BodyStructure} for this part.
      * @param options.index - Zero-based index of this part within {@link BodyStructure.parts}.
      * @throws If required fields are missing from `data` or `options`.
      */
     constructor(data: BodyPart.Data, options: BodyPart.Options) {
-        if (!isA(options.parent, ITEM_KIND.LINEAGE)) {
-            throw new Error("Requires a Lineage parent");
+        if (!isA(options.parent, ITEM_KIND.CORPUS)) {
+            throw new Error("Requires a Corpus parent");
         }
-        if (!options.bodyStructure) {
-            throw new Error("BodyPart requires a bodyStructure");
+        if (!options.structure) {
+            throw new Error("BodyPart requires a structure");
         }
         if (options.index === undefined) {
             throw new Error("BodyPart requires an index");
@@ -106,7 +106,7 @@ export class BodyPart extends SohlEntity {
             { parent: this.parent },
         ).setBase(data.probWeight);
         this.index = options.index;
-        this.bodyStructure = options.bodyStructure;
+        this.structure = options.structure;
         this.locations = data.locations.map(
             (d, i) =>
                 new entity.BodyLocation(d, {
@@ -119,10 +119,10 @@ export class BodyPart extends SohlEntity {
 
     /**
      * The dot-notation path prefix for Foundry `update()` calls targeting
-     * this part's persisted fields, e.g. `"system.bodyStructure.parts.2"`.
+     * this part's persisted fields, e.g. `"system.structure.parts.2"`.
      */
     get updatePath(): string {
-        return `system.bodyStructure.parts.${this.index}`;
+        return `system.structure.parts.${this.index}`;
     }
 
     /**
@@ -162,11 +162,10 @@ export class BodyPart extends SohlEntity {
      */
     addLocationUpdate(locationData: BodyLocation.Data): PlainObject {
         const canonical: BodyLocation.Data[] =
-            this.bodyStructure.parent.data.bodyStructure.parts[this.index]
-                .locations;
+            this.structure.parent.data.structure.parts[this.index].locations;
         // Full-array write — a partial `parts.${index}.locations` update
         // corrupts the whole parts array (#247). See setPartFieldsUpdate.
-        return this.bodyStructure.setPartFieldsUpdate([
+        return this.structure.setPartFieldsUpdate([
             {
                 index: this.index,
                 changes: { locations: [...canonical, locationData] },
@@ -183,11 +182,10 @@ export class BodyPart extends SohlEntity {
      */
     removeLocationUpdate(shortcode: string): PlainObject {
         const canonical: BodyLocation.Data[] =
-            this.bodyStructure.parent.data.bodyStructure.parts[this.index]
-                .locations;
+            this.structure.parent.data.structure.parts[this.index].locations;
         // Full-array write — a partial `parts.${index}.locations` update
         // corrupts the whole parts array (#247). See setPartFieldsUpdate.
-        return this.bodyStructure.setPartFieldsUpdate([
+        return this.structure.setPartFieldsUpdate([
             {
                 index: this.index,
                 changes: {
@@ -222,8 +220,8 @@ export namespace BodyPart {
 
     /** Construction options for a {@link BodyPart} instance. */
     export interface Options extends SohlEntity.Options {
-        /** Owning body structure (supplies actor and lineage logic). */
-        bodyStructure: BodyStructure;
+        /** Owning body structure (supplies actor and corpus logic). */
+        structure: BodyStructure;
         /** Zero-based index of this part within {@link BodyStructure.parts}. */
         index: number;
     }

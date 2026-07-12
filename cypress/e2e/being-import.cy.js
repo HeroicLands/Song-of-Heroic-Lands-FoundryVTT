@@ -23,14 +23,14 @@ describe("being import — Basic Folk", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
 
-    it("imports Basic Folk fully populated (attributes, lineage, skills)", () => {
+    it("imports Basic Folk fully populated (attributes, corpus, skills)", () => {
         cy.importActor().then((actor) => {
             expect(actor.type).to.eq("being");
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
                 return {
                     items: a.items.size,
-                    hasLineage: a.items.some((i) => i.type === "lineage"),
+                    hasCorpus: a.items.some((i) => i.type === "corpus"),
                     attrs: a.items.filter((i) => i.type === "attribute").length,
                     skills: a.items.filter((i) => i.type === "skill").length,
                     hasLogic: !!a.logic,
@@ -38,7 +38,7 @@ describe("being import — Basic Folk", () => {
             }).should((r) => {
                 expect(r.hasLogic, "being .logic").to.be.true;
                 expect(r.items, "embedded item count").to.be.greaterThan(40);
-                expect(r.hasLineage, "has a lineage").to.be.true;
+                expect(r.hasCorpus, "has a corpus").to.be.true;
                 expect(r.attrs, "14 attributes").to.eq(14);
                 expect(r.skills, "skills present").to.be.greaterThan(20);
             });

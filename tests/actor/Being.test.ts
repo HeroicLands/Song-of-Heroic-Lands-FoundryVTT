@@ -85,7 +85,7 @@ function makeToken(id: string, actorId: string | null, actorLink = true): any {
     return { id, actorId, actorLink, name: `token-${id}` };
 }
 
-/** A fresh body-location object as the lineage rebuilds them each cycle. */
+/** A fresh body-location object as the corpus rebuilds them each cycle. */
 function makeLocation(shortcode: string): any {
     return {
         shortcode,
@@ -171,19 +171,19 @@ describe("BeingLogic", () => {
         });
     });
 
-    describe("lineage pointer", () => {
+    describe("corpus pointer", () => {
         it("is undefined by default", () => {
-            expect(makeBeing().lineage).toBeUndefined();
+            expect(makeBeing().corpus).toBeUndefined();
         });
 
-        it("registerLineage sets the pointer; initialize clears it", () => {
+        it("registerCorpus sets the pointer; initialize clears it", () => {
             const being = makeBeing();
-            const fakeLineage = { id: "lin" } as any;
-            being.registerLineage(fakeLineage);
-            expect(being.lineage).toBe(fakeLineage);
+            const fakeCorpus = { id: "lin" } as any;
+            being.registerCorpus(fakeCorpus);
+            expect(being.corpus).toBe(fakeCorpus);
             // Reset before item initialize() runs each prepare cycle.
             being.initialize();
-            expect(being.lineage).toBeUndefined();
+            expect(being.corpus).toBeUndefined();
         });
     });
 
@@ -276,8 +276,8 @@ describe("BeingLogic", () => {
             });
             const limbsHolding = vi.fn(() => 2);
             actor.itemTypes = {
-                [ITEM_KIND.LINEAGE]: [
-                    { logic: { bodyStructure: { limbsHolding } } },
+                [ITEM_KIND.CORPUS]: [
+                    { logic: { structure: { limbsHolding } } },
                 ],
                 [ITEM_KIND.SKILL]: [ct],
                 [ITEM_KIND.WEAPONGEAR]: [
@@ -297,8 +297,8 @@ describe("BeingLogic", () => {
                 minParts: 2,
             });
             actor.itemTypes = {
-                [ITEM_KIND.LINEAGE]: [
-                    { logic: { bodyStructure: { limbsHolding: () => 1 } } },
+                [ITEM_KIND.CORPUS]: [
+                    { logic: { structure: { limbsHolding: () => 1 } } },
                 ],
                 [ITEM_KIND.SKILL]: [ct],
                 [ITEM_KIND.WEAPONGEAR]: [
@@ -324,7 +324,7 @@ describe("BeingLogic", () => {
             // weapon off the weapon logic's `heldBy` getter (GearLogic.heldBy).
             // Held in one limb → the minParts:1 mode is available.
             actor.itemTypes = {
-                [ITEM_KIND.LINEAGE]: [{ logic: { bodyStructure: {} } }],
+                [ITEM_KIND.CORPUS]: [{ logic: { structure: {} } }],
                 [ITEM_KIND.SKILL]: [ct],
                 [ITEM_KIND.WEAPONGEAR]: [
                     {
@@ -486,10 +486,10 @@ describe("BeingLogic", () => {
             const thorax = makeLocation("thorax");
             const skull = makeLocation("skull");
             (logic.actor as any).itemTypes = {
-                [ITEM_KIND.LINEAGE]: [
+                [ITEM_KIND.CORPUS]: [
                     {
                         logic: {
-                            bodyStructure: {
+                            structure: {
                                 getAllLocations: () => [thorax, skull],
                             },
                         },
@@ -532,10 +532,10 @@ describe("BeingLogic", () => {
             const logic = makeBeing();
             const thorax = makeLocation("thorax");
             const itemTypes: any = {
-                [ITEM_KIND.LINEAGE]: [
+                [ITEM_KIND.CORPUS]: [
                     {
                         logic: {
-                            bodyStructure: {
+                            structure: {
                                 getAllLocations: () => [thorax],
                             },
                         },
@@ -557,19 +557,17 @@ describe("BeingLogic", () => {
             expect(thorax.armorType).toBe("Mail");
         });
 
-        it("finalize warns when the being has no Lineage item", () => {
+        it("finalize does not warn when the being has no Corpus item (incorporeal is valid)", () => {
             const logic = makeBeing();
             const warn = vi.spyOn(sohl.log, "warn");
             logic.finalize();
-            expect(warn).toHaveBeenCalledWith(
-                expect.stringMatching(/no Lineage item/),
-            );
+            expect(warn).not.toHaveBeenCalled();
         });
 
-        it("finalize does not warn when a Lineage item is present", () => {
+        it("finalize does not warn when a Corpus item is present", () => {
             const logic = makeBeing();
             (logic.actor as any).itemTypes = {
-                [ITEM_KIND.LINEAGE]: [{ logic: {} }],
+                [ITEM_KIND.CORPUS]: [{ logic: {} }],
             };
             const warn = vi.spyOn(sohl.log, "warn");
             logic.finalize();
@@ -743,10 +741,10 @@ describe("BeingLogic", () => {
             const actor = logic.actor as any;
             actor.items.set("lin1", {
                 id: "lin1",
-                type: ITEM_KIND.LINEAGE,
+                type: ITEM_KIND.CORPUS,
                 logic: {
-                    data: { kind: ITEM_KIND.LINEAGE },
-                    bodyStructure: {
+                    data: { kind: ITEM_KIND.CORPUS },
+                    structure: {
                         getAllLocations: () => [headLoc],
                         parts: [],
                     },

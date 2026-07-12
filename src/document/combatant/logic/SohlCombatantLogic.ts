@@ -287,14 +287,14 @@ export class SohlCombatantLogic<
 
     /**
      * The computed tactical move (feet per combat round) for this combatant,
-     * read from its being's {@link LineageLogic.feetPerRound} for the being's
+     * read from its being's {@link CorpusLogic.feetPerRound} for the being's
      * active movement medium. `null` when the actor has no movement model (no
-     * lineage, or a non-being such as a Vehicle).
+     * corpus, or a non-being such as a Vehicle).
      * @returns The tactical move, or `null` when unavailable.
      */
     computedMove(): number | null {
         const being = this.actorLogic as BeingLogic | null;
-        return being?.lineage ? being.lineage.feetPerRound.effective : null;
+        return being?.corpus ? being.corpus.feetPerRound.effective : null;
     }
 
     /** The computed move for the combat-tracker's displayed medium. */
@@ -1059,19 +1059,19 @@ export const THREAT_NEGATING_STATUSES = [
  * Decide which medium a newly created combatant should display in the combat
  * tracker.
  *
- * Precedence: an explicit user-set medium > the actor's lineage default >
+ * Precedence: an explicit user-set medium > the actor's corpus default >
  * nothing (caller keeps the schema default).
  *
  * @param userSetMedium - An explicitly user-selected medium, if any.
- * @param lineageDefault - The actor's lineage default medium, if any.
+ * @param corpusDefault - The actor's corpus default medium, if any.
  * @returns The medium to display, or `null` to keep the schema default.
  */
 export function chooseInitialDisplayedMedium(
     userSetMedium: string | undefined | null,
-    lineageDefault: string | undefined | null,
+    corpusDefault: string | undefined | null,
 ): string | null {
     if (userSetMedium) return userSetMedium;
-    if (lineageDefault) return lineageDefault;
+    if (corpusDefault) return corpusDefault;
     return null;
 }
 
@@ -1213,14 +1213,14 @@ function combatantStatuses(combatant: SohlCombatant): Set<string> {
 
 /**
  * Build the Aim select options (a `{ shortcode: label }` map) from the
- * defender's body parts. Empty when the defender has no lineage / body structure.
+ * defender's body parts. Empty when the defender has no corpus / body structure.
  * @param defenderActor - The actor being aimed at.
  * @returns A map of body-part shortcode to display label.
  */
 export function buildAimChoices(defenderActor: any): Record<string, string> {
-    const lineageLogic = defenderActor?.itemTypes?.[ITEM_KIND.LINEAGE]?.[0]
+    const corpusLogic = defenderActor?.itemTypes?.[ITEM_KIND.CORPUS]?.[0]
         ?.logic as any;
-    const parts: any[] = lineageLogic?.bodyStructure?.parts ?? [];
+    const parts: any[] = corpusLogic?.structure?.parts ?? [];
     const choices: Record<string, string> = {};
     for (const part of parts) {
         choices[part.shortcode] = part.locations?.[0]?.name ?? part.shortcode;

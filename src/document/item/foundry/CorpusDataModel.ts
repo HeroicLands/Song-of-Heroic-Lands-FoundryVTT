@@ -12,10 +12,7 @@
  */
 
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel";
-import {
-    LineageLogic,
-    LineageData,
-} from "@src/document/item/logic/LineageLogic";
+import { CorpusLogic, CorpusData } from "@src/document/item/logic/CorpusLogic";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { MoveBaseDict } from "@src/entity/movement/move-helpers";
 import {
@@ -44,14 +41,14 @@ const {
 } = foundry.data.fields;
 
 /**
- * Builds the data schema for a lineage item, extending the base item schema
+ * Builds the data schema for a corpus item, extending the base item schema
  * with body structure, movement, encumbrance, body weight, and reach fields.
- * @returns The lineage item data schema.
+ * @returns The corpus item data schema.
  */
-function defineLineageDataSchema(): foundry.data.fields.DataSchema {
+function defineCorpusDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
-        bodyStructure: new SchemaField({
+        structure: new SchemaField({
             parts: new ArrayField(
                 new SchemaField({
                     shortcode: new StringField({ blank: false }),
@@ -214,7 +211,7 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
         }),
         /**
          * The medium that should be shown in the combat tracker by default
-         * for creatures of this lineage. Seeded onto each new combatant at
+         * for creatures of this corpus. Seeded onto each new combatant at
          * combatant creation time.
          */
         defaultMoveMedium: new StringField({
@@ -283,9 +280,9 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
         /**
          * The being's body weight (not including gear). Either a fixed `base`
          * (pounds) or, when `base` is null, a {@link SafeExpression} `calc` of the
-         * being's strength (`str`). Seeds {@link LineageLogic.bodyWeight}.
+         * being's strength (`str`). Seeds {@link CorpusLogic.weight}.
          */
-        bodyWeight: new SchemaField({
+        weight: new SchemaField({
             /** Fixed body weight in pounds; null to compute from `calc`. */
             base: new NumberField({
                 integer: true,
@@ -300,7 +297,7 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
             }),
         }),
         /**
-         * Base melee reach (feet) for creatures of this lineage, reflecting
+         * Base melee reach (feet) for creatures of this corpus, reflecting
          * body size. Medium creatures (e.g. humans) are 0; larger creatures
          * (e.g. a dragon with a large token) are positive — this is how token
          * size is accounted for in melee reach, since combat distance is
@@ -316,45 +313,45 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
     };
 }
 
-type SohlLineageDataSchema = ReturnType<typeof defineLineageDataSchema>;
+type SohlCorpusDataSchema = ReturnType<typeof defineCorpusDataSchema>;
 
 /** @internal */
-export class LineageDataModel<
-    TSchema extends foundry.data.fields.DataSchema = SohlLineageDataSchema,
-    TLogic extends LineageLogic<LineageData> = LineageLogic<LineageData>,
+export class CorpusDataModel<
+    TSchema extends foundry.data.fields.DataSchema = SohlCorpusDataSchema,
+    TLogic extends CorpusLogic<CorpusData> = CorpusLogic<CorpusData>,
 >
     extends SohlItemDataModel<TSchema, TLogic>
-    implements LineageData<TLogic>
+    implements CorpusData<TLogic>
 {
     /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.Lineage",
+        "SOHL.Corpus",
         "SOHL.Item",
     ];
     /** @inheritDoc */
-    static override readonly kind = ITEM_KIND.LINEAGE;
-    bodyStructure!: BodyStructure.Data;
+    static override readonly kind = ITEM_KIND.CORPUS;
+    structure!: BodyStructure.Data;
     moveBase!: MoveBaseDict;
     defaultMoveMedium!: MovementMedium;
     personalFatigue!: string;
-    movementProfiles!: LineageData["movementProfiles"];
-    bodyWeight!: LineageData["bodyWeight"];
+    movementProfiles!: CorpusData["movementProfiles"];
+    weight!: CorpusData["weight"];
     reachBase!: number;
 
     /**
-     * Defines the data schema for the lineage item.
-     * @returns The lineage item data schema.
+     * Defines the data schema for the corpus item.
+     * @returns The corpus item data schema.
      */
     static override defineSchema(): foundry.data.fields.DataSchema {
-        return defineLineageDataSchema();
+        return defineCorpusDataSchema();
     }
 
     /**
-     * Enforce the Lineage singleton: refuse to create a lineage on an actor that
-     * already has one. (Zero lineages — the degenerate no-body case — is allowed;
+     * Enforce the Corpus singleton: refuse to create a corpus on an actor that
+     * already has one. (Zero corpora — the degenerate no-body case — is allowed;
      * more than one never is.) Covers every embed path — drag-drop, paste, and
      * `createEmbeddedDocuments` — since the document's `_preCreate` runs for all
-     * of them. A non-embedded (world/compendium) lineage has no owning actor and
+     * of them. A non-embedded (world/compendium) corpus has no owning actor and
      * is unaffected.
      *
      * @param data - The creation source data.
@@ -374,9 +371,9 @@ export class LineageDataModel<
         );
         if (allowed === false) return false;
         const actor = (this.parent as any)?.actor;
-        if (actor && (actor.itemTypes?.[ITEM_KIND.LINEAGE]?.length ?? 0) > 0) {
+        if (actor && (actor.itemTypes?.[ITEM_KIND.CORPUS]?.length ?? 0) > 0) {
             (globalThis as any).ui?.notifications?.warn(
-                "This being already has a lineage; delete the current one first.",
+                "This being already has a corpus; delete the current one first.",
             );
             return false;
         }

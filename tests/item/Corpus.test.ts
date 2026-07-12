@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { LineageLogic } from "@src/document/item/logic/LineageLogic";
+import { CorpusLogic } from "@src/document/item/logic/CorpusLogic";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
@@ -60,10 +60,10 @@ const BODY_STRUCTURE_DATA: BodyStructure.Data = {
     adjacent: [["head", "thorax"]],
 };
 
-/** Default LineageData fields; override per test. */
-function lineageFields(overrides: Record<string, unknown> = {}) {
+/** Default CorpusData fields; override per test. */
+function corpusFields(overrides: Record<string, unknown> = {}) {
     return {
-        bodyStructure: BODY_STRUCTURE_DATA,
+        structure: BODY_STRUCTURE_DATA,
         moveBase: {
             terrestrial: 60,
             aquatic: 10,
@@ -83,29 +83,29 @@ function lineageFields(overrides: Record<string, unknown> = {}) {
                 disabled: false,
             },
         ],
-        bodyWeight: { base: null, calc: "(9 * str) + 50" },
+        weight: { base: null, calc: "(9 * str) + 50" },
         reachBase: 5,
         ...overrides,
     };
 }
 
-function makeLineage(
+function makeCorpus(
     overrides: Record<string, unknown> = {},
     opts: Record<string, unknown> = {},
 ) {
     return makeItemLogic(
-        LineageLogic,
-        ITEM_KIND.LINEAGE,
-        lineageFields(overrides),
+        CorpusLogic,
+        ITEM_KIND.CORPUS,
+        corpusFields(overrides),
         { name: "Human", ...opts },
     );
 }
 
 /**
- * A lineage embedded on a being that owns a `str` attribute of the given score,
- * so `bodyWeight.calc` (a SafeExpression of `str`) can be evaluated.
+ * A corpus embedded on a being that owns a `str` attribute of the given score,
+ * so `weight.calc` (a SafeExpression of `str`) can be evaluated.
  */
-function makeLineageWithStr(
+function makeCorpusWithStr(
     str: number,
     overrides: Record<string, unknown> = {},
 ) {
@@ -120,19 +120,19 @@ function makeLineageWithStr(
             },
         ],
     };
-    return makeLineage(overrides, { actor });
+    return makeCorpus(overrides, { actor });
 }
 
 /**
- * A lineage embedded on a being with a `str` attribute, a chosen
+ * A corpus embedded on a being with a `str` attribute, a chosen
  * `movementMedium`, and a stubbed `carriedWeight`, so the derived movement VMs
  * (`strengthModifier`, `encumbrance`) can be evaluated against `str` and `wt`.
  * (`carriedWeight` is a `ValueModifier` accumulated ground-up by `BeingLogic`;
- * `LineageLogic` reads its `.effective`, so the unit test stubs a
+ * `CorpusLogic` reads its `.effective`, so the unit test stubs a
  * modifier-shaped `{ effective }`. `movementMedium` is read off the being's data
  * to select the active movement profile.)
  */
-function makeLineageWithActor(
+function makeCorpusWithActor(
     {
         str = 0,
         carriedWeight = 0,
@@ -157,7 +157,7 @@ function makeLineageWithActor(
     };
     actor.logic.carriedWeight = { effective: carriedWeight };
     actor.system.movementMedium = movementMedium;
-    return makeLineage(overrides, { actor });
+    return makeCorpus(overrides, { actor });
 }
 
 /** A two-medium (terrestrial + aquatic) profile set for medium-selection tests. */
@@ -184,24 +184,24 @@ afterEach(() => {
     vi.restoreAllMocks();
 });
 
-describe("LineageLogic", () => {
+describe("CorpusLogic", () => {
     describe("construction", () => {
-        it("constructs against a plain-object LineageData (no Foundry)", () => {
-            const logic = makeLineage();
-            expect(logic).toBeInstanceOf(LineageLogic);
-            expect(logic.data.kind).toBe(ITEM_KIND.LINEAGE);
+        it("constructs against a plain-object CorpusData (no Foundry)", () => {
+            const logic = makeCorpus();
+            expect(logic).toBeInstanceOf(CorpusLogic);
+            expect(logic.data.kind).toBe(ITEM_KIND.CORPUS);
         });
 
         it("builds the intrinsic action map (postfinalize from the base class)", () => {
-            const logic = makeLineage();
+            const logic = makeCorpus();
             expect(logic.actions.has("postfinalize")).toBe(true);
         });
 
         it("registers itself on the owning being during initialize", () => {
             const actor = makeMockActor({ kind: "being" });
             const registered: unknown[] = [];
-            actor.logic.registerLineage = (l: unknown) => registered.push(l);
-            const logic = makeLineage({}, { actor });
+            actor.logic.registerCorpus = (l: unknown) => registered.push(l);
+            const logic = makeCorpus({}, { actor });
             logic.initialize();
             expect(registered).toEqual([logic]);
         });
@@ -209,35 +209,35 @@ describe("LineageLogic", () => {
 
     describe("initialize", () => {
         it("builds the BodyStructure from persisted data", () => {
-            const logic = makeLineage();
+            const logic = makeCorpus();
             logic.initialize();
-            expect(logic.bodyStructure).toBeInstanceOf(BodyStructure);
-            expect(logic.bodyStructure.parts).toHaveLength(2);
-            expect(logic.bodyStructure.parts[0].shortcode).toBe("head");
-            expect(logic.bodyStructure.parent).toBe(logic);
+            expect(logic.structure).toBeInstanceOf(BodyStructure);
+            expect(logic.structure.parts).toHaveLength(2);
+            expect(logic.structure.parts[0].shortcode).toBe("head");
+            expect(logic.structure.parent).toBe(logic);
         });
 
-        it("seeds bodyWeight from a fixed bodyWeight.base", () => {
-            const logic = makeLineage({
-                bodyWeight: { base: 200, calc: "0" },
+        it("seeds weight from a fixed weight.base", () => {
+            const logic = makeCorpus({
+                weight: { base: 200, calc: "0" },
             });
             logic.initialize();
-            expect(logic.bodyWeight).toBeInstanceOf(ValueModifier);
-            expect(logic.bodyWeight.base).toBe(200);
-            expect(logic.bodyWeight.effective).toBe(200);
+            expect(logic.weight).toBeInstanceOf(ValueModifier);
+            expect(logic.weight.base).toBe(200);
+            expect(logic.weight.effective).toBe(200);
         });
 
-        it("computes bodyWeight from strength when bodyWeight.base is null", () => {
-            const logic = makeLineageWithStr(13, {
-                bodyWeight: { base: null, calc: "(9 * str) + 50" },
+        it("computes weight from strength when weight.base is null", () => {
+            const logic = makeCorpusWithStr(13, {
+                weight: { base: null, calc: "(9 * str) + 50" },
             });
             logic.initialize();
             // (9 * 13) + 50 = 167
-            expect(logic.bodyWeight.base).toBe(167);
+            expect(logic.weight.base).toBe(167);
         });
 
         it("seeds reach from reachBase", () => {
-            const logic = makeLineage({ reachBase: 8 });
+            const logic = makeCorpus({ reachBase: 8 });
             logic.initialize();
             expect(logic.reach).toBeInstanceOf(ValueModifier);
             expect(logic.reach.base).toBe(8);
@@ -245,7 +245,7 @@ describe("LineageLogic", () => {
         });
 
         it("reach accepts runtime deltas layered on the base (size effects etc.)", () => {
-            const logic = makeLineage({ reachBase: 5 });
+            const logic = makeCorpus({ reachBase: 5 });
             logic.initialize();
             logic.reach.add("Enlarged", "Enl", 3);
             expect(logic.reach.base).toBe(5);
@@ -254,7 +254,7 @@ describe("LineageLogic", () => {
         });
 
         it("rebuilds modifiers on a fresh initialize (deltas are not persisted)", () => {
-            const logic = makeLineage({ reachBase: 5 });
+            const logic = makeCorpus({ reachBase: 5 });
             logic.initialize();
             logic.reach.add("Enlarged", "Enl", 3);
             expect(logic.reach.effective).toBe(8);
@@ -266,7 +266,7 @@ describe("LineageLogic", () => {
 
     describe("evaluate / finalize", () => {
         it("run without error after initialize", () => {
-            const logic = makeLineage();
+            const logic = makeCorpus();
             logic.initialize();
             expect(() => {
                 logic.evaluate();
@@ -277,7 +277,7 @@ describe("LineageLogic", () => {
 
     describe("movement profile", () => {
         it("resolves the active moveProfile from the being's movementMedium and seeds move VMs", () => {
-            const logic = makeLineageWithActor({
+            const logic = makeCorpusWithActor({
                 movementMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
             });
             logic.initialize();
@@ -288,7 +288,7 @@ describe("LineageLogic", () => {
         });
 
         it("picks the profile matching the chosen movementMedium", () => {
-            const logic = makeLineageWithActor(
+            const logic = makeCorpusWithActor(
                 { movementMedium: MOVEMENT_MEDIUM.AQUATIC },
                 { movementProfiles: TWO_MEDIUM_PROFILES },
             );
@@ -299,7 +299,7 @@ describe("LineageLogic", () => {
         });
 
         it("falls back to a disabled profile when no medium matches", () => {
-            const logic = makeLineageWithActor({
+            const logic = makeCorpusWithActor({
                 movementMedium: MOVEMENT_MEDIUM.AERIAL,
             });
             logic.initialize();
@@ -309,7 +309,7 @@ describe("LineageLogic", () => {
         });
 
         it("falls back to a disabled profile when there is no owning being", () => {
-            const logic = makeLineage();
+            const logic = makeCorpus();
             logic.initialize();
             expect(logic.moveProfile.disabled).toBe(true);
             expect(logic.feetPerRound.effective).toBe(0);
@@ -319,7 +319,7 @@ describe("LineageLogic", () => {
     describe("strengthModifier", () => {
         it("evaluates the active profile's strMod against the being's strength (after evaluate)", () => {
             // str 14, terrestrial strMod "-5 * floor((str - 10) / 2)" = -10
-            const logic = makeLineageWithActor({
+            const logic = makeCorpusWithActor({
                 str: 14,
                 movementMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
             });
@@ -329,7 +329,7 @@ describe("LineageLogic", () => {
         });
 
         it("is 0 for the disabled fallback profile (strMod '0')", () => {
-            const logic = makeLineageWithActor({
+            const logic = makeCorpusWithActor({
                 str: 14,
                 movementMedium: MOVEMENT_MEDIUM.AERIAL,
             });
@@ -344,7 +344,7 @@ describe("LineageLogic", () => {
             const actor = makeMockActor({ kind: "being" });
             actor.itemTypes = {};
             actor.system.movementMedium = MOVEMENT_MEDIUM.TERRESTRIAL;
-            const logic = makeLineage({}, { actor });
+            const logic = makeCorpus({}, { actor });
             logic.initialize();
             logic.evaluate();
             expect(logic.strengthModifier.effective).toBe(25);
@@ -354,7 +354,7 @@ describe("LineageLogic", () => {
     describe("encumbrance", () => {
         it("evaluates the active profile's encumbrance against carried weight (after finalize)", () => {
             // carriedWeight 10, terrestrial encumbrance "floor(wt / 4)" = 2
-            const logic = makeLineageWithActor({
+            const logic = makeCorpusWithActor({
                 carriedWeight: 10,
                 movementMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
             });
@@ -366,7 +366,7 @@ describe("LineageLogic", () => {
 
         it("uses the active medium's own encumbrance expression", () => {
             // aquatic: "floor(wt / 2)" with wt 10 → 5
-            const logic = makeLineageWithActor(
+            const logic = makeCorpusWithActor(
                 {
                     carriedWeight: 10,
                     movementMedium: MOVEMENT_MEDIUM.AQUATIC,
@@ -380,7 +380,7 @@ describe("LineageLogic", () => {
         });
 
         it("is 0 with no carried weight (wt 0)", () => {
-            const logic = makeLineageWithActor({
+            const logic = makeCorpusWithActor({
                 carriedWeight: 0,
                 movementMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
             });
@@ -392,15 +392,13 @@ describe("LineageLogic", () => {
     });
 });
 
-describe("LineageDataModel", () => {
-    // The DataModel is Foundry-layer (implements LineageData via Foundry's
+describe("CorpusDataModel", () => {
+    // The DataModel is Foundry-layer (implements CorpusData via Foundry's
     // schema system); its schema is exercised in Foundry integration, not
     // in unit tests.
     describe("defineSchema", () => {
         it.todo("includes SohlItemDataModel base schema fields");
-        it.todo(
-            "defines bodyStructure as a SchemaField of parts and adjacency",
-        );
+        it.todo("defines structure as a SchemaField of parts and adjacency");
         it.todo(
             "defines moveBase as a SchemaField with one NumberField per medium",
         );
@@ -412,11 +410,11 @@ describe("LineageDataModel", () => {
             "defines movementProfiles as an ArrayField of per-medium profiles (medium, feetPerRound, leaguesPerWatch, encumbrance, strMod, disabled)",
         );
         it.todo(
-            "defines bodyWeight as a SchemaField of base (nullable NumberField) and calc (JavaScriptField)",
+            "defines weight as a SchemaField of base (nullable NumberField) and calc (JavaScriptField)",
         );
         it.todo("defines reachBase as NumberField with min 0");
     });
 
-    it.todo("has kind set to ITEM_KIND.LINEAGE");
-    it.todo("has correct LOCALIZATION_PREFIXES including Lineage and Item");
+    it.todo("has kind set to ITEM_KIND.CORPUS");
+    it.todo("has correct LOCALIZATION_PREFIXES including Corpus and Item");
 });

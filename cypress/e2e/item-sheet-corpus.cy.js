@@ -13,4 +13,4 @@
 
 import { itemSheetSuite } from "../support/itemSheetSuite.js";
 
-itemSheetSuite("lineage");
+itemSheetSuite("corpus");

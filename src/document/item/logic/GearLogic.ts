@@ -85,8 +85,8 @@ export abstract class GearLogic<
      */
     get heldBy(): BodyPart[] {
         const bodyParts = (this.actorLogic as BeingLogic)?.logicTypes[
-            ITEM_KIND.LINEAGE
-        ][0]?.bodyStructure?.parts;
+            ITEM_KIND.CORPUS
+        ][0]?.structure?.parts;
         return (
             bodyParts?.filter((part): part is BodyPart => {
                 const heldItem = part.heldItem;
@@ -190,65 +190,65 @@ export abstract class GearLogic<
 
     /**
      * Assigns the first free hold-capable body part(s) on the owning actor
-     * to grip this item. Does nothing if the actor has no lineage or there
+     * to grip this item. Does nothing if the actor has no corpus or there
      * are fewer free limbs than `minPartsToHold`.
      *
      * Intrinsic-action executor for the `holdItem` action.
      *
      * @param _context - The action context (unused).
-     * @returns Resolves once the lineage update completes (or immediately if
+     * @returns Resolves once the corpus update completes (or immediately if
      *   no update is needed).
      */
     async holdItem(_context: SohlActionContext): Promise<void> {
-        const lineage = (this.actorLogic as BeingLogic)?.logicTypes?.[
-            ITEM_KIND.LINEAGE
+        const corpus = (this.actorLogic as BeingLogic)?.logicTypes?.[
+            ITEM_KIND.CORPUS
         ]?.[0];
-        if (!lineage) return;
-        const freeParts = lineage.bodyStructure.parts.filter(
+        if (!corpus) return;
+        const freeParts = corpus.structure.parts.filter(
             (p: any) => p.canHoldItem && !p.heldItem,
         );
         const needed = this.minPartsToHold;
         if (freeParts.length < needed) return;
         // Full-array write — a partial `parts.${i}.heldItemId` update corrupts
         // the whole parts array (#247). See BodyStructure.setPartFieldsUpdate.
-        const payload = lineage.bodyStructure.setPartFieldsUpdate(
+        const payload = corpus.structure.setPartFieldsUpdate(
             freeParts.slice(0, needed).map((p: any) => ({
                 index: p.index,
                 changes: { heldItemId: this.id },
             })),
         );
-        if (Object.keys(payload).length) await lineage.data.update(payload);
+        if (Object.keys(payload).length) await corpus.data.update(payload);
     }
 
     /**
      * Clears `heldItemId` on every body part currently gripping this item,
      * releasing it from the actor's grip. Does nothing if the actor has no
-     * lineage or no part holds this item.
+     * corpus or no part holds this item.
      *
      * Intrinsic-action executor for the `releaseItem` action.
      *
      * @param _context - The action context (unused).
-     * @returns Resolves once the lineage update completes (or immediately if
+     * @returns Resolves once the corpus update completes (or immediately if
      *   no update is needed).
      */
     async releaseItem(_context: SohlActionContext): Promise<void> {
-        const lineage = (this.actorLogic as BeingLogic)?.logicTypes?.[
-            ITEM_KIND.LINEAGE
+        const corpus = (this.actorLogic as BeingLogic)?.logicTypes?.[
+            ITEM_KIND.CORPUS
         ]?.[0];
-        if (!lineage) return;
-        const holdingParts = lineage.bodyStructure.parts.filter(
+        if (!corpus) return;
+        const holdingParts = corpus.structure.parts.filter(
             (p: any) => p.canHoldItem && p.heldItem?.id === this.id,
         );
         if (!holdingParts.length) return;
         // Full-array write — a partial `parts.${i}.heldItemId` update corrupts
         // the whole parts array (#247). See BodyStructure.setPartFieldsUpdate.
-        const payload = lineage.bodyStructure.setPartFieldsUpdate(
+        const payload = corpus.structure.setPartFieldsUpdate(
             holdingParts.map((part: any) => ({
                 index: part.index,
                 changes: { heldItemId: null },
             })),
         );
-        if (Object.keys(payload).length) await lineage.data.update(payload);
+        if (Object.keys(payload).length) await corpus.data.update(payload);
     }
 
     /**

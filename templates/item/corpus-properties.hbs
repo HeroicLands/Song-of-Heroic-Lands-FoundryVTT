@@ -13,8 +13,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <fieldset class="moveBase">
-        <legend>{{localize "SOHL.Lineage.moveBase.legend"}}</legend>
-        <p class="hint">{{localize "SOHL.Lineage.moveBase.hint"}}</p>
+        <legend>{{localize "SOHL.Corpus.moveBase.legend"}}</legend>
+        <p class="hint">{{localize "SOHL.Corpus.moveBase.hint"}}</p>
         <div class="grid grid-5col">
             <label>
                 <span>{{localize "SOHL.MovementMedium.TERRESTRIAL"}}</span>
@@ -48,7 +48,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </label>
         </div>
         <label class="defaultMoveMedium">
-            <span>{{localize "SOHL.Lineage.defaultMoveMedium.label"}}</span>
+            <span>{{localize "SOHL.Corpus.defaultMoveMedium.label"}}</span>
             <select name="system.defaultMoveMedium">
                 {{selectOptions movementMediumChoices selected=system.defaultMoveMedium localize=true}}
             </select>

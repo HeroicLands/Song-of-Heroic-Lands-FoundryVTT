@@ -559,10 +559,10 @@ describe("being-sheet-view", () => {
 
     describe("buildBodyPartLozenges", () => {
         it("maps each body part to its shortcode", () => {
-            const bodyStructure = {
+            const structure = {
                 parts: [{ shortcode: "HEAD" }, { shortcode: "TORSO" }],
             };
-            expect(buildBodyPartLozenges(bodyStructure)).toEqual([
+            expect(buildBodyPartLozenges(structure)).toEqual([
                 { shortcode: "HEAD" },
                 { shortcode: "TORSO" },
             ]);

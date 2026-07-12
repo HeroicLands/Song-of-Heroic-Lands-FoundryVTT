@@ -597,16 +597,16 @@
     },
     {
       "name": "Human Folk",
-      "type": "lineage",
+      "type": "corpus",
       "img": "systems/sohl/assets/icons/dna.svg",
-      "_id": "9978d46271298792",
+      "_id": "b6fc3b0ce8b1bb85",
       "system": {
         "shortcode": "human-folk",
-        "docUrl": "https://heroiclands.org/sohl/lineage/human/",
+        "docUrl": "https://heroiclands.org/sohl/corpus/human/",
         "actionDefs": [],
         "notes": "",
         "docHtml": "<p>The human is a creature of remarkable adaptability and unremarkable physicality. Humans are neither the fastest nor the strongest, neither perfectly built for any single environment nor specialized for any singular purpose. Yet they thrive everywhere the world offers purchase: in deserts and ice, in mountains and forests, in cities of stone and settlements of leather and thatch. What other lineages inherit through biological perfection, humans achieve through ingenuity, cooperation, and relentless will to persist where other creatures would fail.</p>\n<h2>Description</h2>\n<p>Humans are bipedal primates standing five to six and a half feet tall, weighing one hundred to three hundred pounds, remarkably variable in appearance across their numerous cultural groups and geographic populations. Human adaptability is their defining characteristic—skin coloration ranges from pale to deep brown depending on ancestral adaptation to sunlight exposure; body structure varies from lean and swift to heavily muscled; facial features, hair coloration, and body composition are equally variable. This variation is not weakness but strength—it reflects humanity's capacity to thrive across climates and environments that would specialize other creatures into narrow niches.</p>\n<p>Humans are not biologically perfect for any single purpose. They are not as strong as elephants or dragons, not as swift as onagers, not as naturally armored as insects. Instead, they possess cognitive capacity and social organization that allows them to accomplish collectively what they lack individually.</p>\n<h2>Key Behaviors</h2>\n<p>Humans are social creatures organizing into complex societies ranging from small nomadic bands to sprawling civilizations spanning multiple nations and cultures. They are uniquely capable of abstract thought, long-term planning, and cooperation at scales that exceed any other lineage. They form emotional attachments, develop elaborate systems of morality and belief, create art and philosophy, and pursue knowledge for its own sake. They are capable of genuine compassion and equally capable of profound cruelty, often displaying both simultaneously depending on context and circumstance.</p>\n<p>Humans reproduce relatively rapidly compared to long-lived lineages, reaching adulthood in their mid-teens to early twenties. They are motivated by complex desires—not merely survival but belonging, achievement, legacy, understanding, and meaning. They form permanent pair-bonds more consistently than most creatures, building families and dynasties that span generations.</p>\n<h2>Relations</h2>\n<p>Humans are the dominant lineage of Thalorna, establishing civilizations across most habitable regions and shaping the world through agriculture, construction, warfare, and trade. Most human cultures are pragmatic in their interactions with other lineages—domesticating and breeding creatures for work and food; hunting wild populations; negotiating with sapient creatures when mutual benefit is apparent. Some cultures hold particular lineages sacred—worshipping dragons as divine, respecting the elder races as superior, revering wilderness predators as spiritual embodiments.</p>\n<p>The relationship between humans and the elder races—Sinalë (elves) and Khazári (dwarves)—is complex and historically fraught, involving periods of conflict, alliance, trade, and mutual respect. Humans view dreadspawn and helspawn (undead) as existential threats requiring elimination. Most humans fear or respect dragons depending on regional mythology. Some humans bond with individual creatures of other lineages, forming partnerships that become legendary.</p>\n<h2>Special Abilities</h2>\n<h3>Cultural Diversity</h3>\n<p>Humans possess remarkable capacity to adapt culturally to any environment—developing specialized knowledge, tools, and practices allowing thrival in deserts, mountains, frozen wastes, and dense forests. Different human cultures emphasize different values and practices, collectively demonstrating approaches to nearly every conceivable form of social organization.</p>\n<h3>Cooperative Organization</h3>\n<p>Humans can organize in numbers and complexity that exceed other lineages—coordinating armies, constructing massive projects, pursuing complex goals requiring generations of effort. This organizational capacity allows humans to accomplish feats no individual human could achieve.</p>\n<h3>Adaptability and Innovation</h3>\n<p>Humans are characterized by capacity to develop new tools, techniques, and approaches to problems. They learn from experience, modify behavior based on observed results, and improve on inherited techniques. This adaptive capacity allows humans to thrive in new environments and overcome challenges that would specialize other creatures into failure.</p>\n",
-        "bodyStructure": {
+        "structure": {
           "parts": [
             {
               "name": "Head",
@@ -1173,15 +1173,15 @@
             "disabled": false
           }
         ],
-        "bodyWeight": {
+        "weight": {
           "base": null,
           "calc": "(9 * str) + 50"
         },
-        "reachBase": 1
+        "reachBase": 0
       },
       "effects": [],
       "flags": {},
-      "_key": "!actors.items!ImRkyb5P1KTxECbe.9978d46271298792"
+      "_key": "!actors.items!ImRkyb5P1KTxECbe.b6fc3b0ce8b1bb85"
     },
     {
       "name": "Archery",

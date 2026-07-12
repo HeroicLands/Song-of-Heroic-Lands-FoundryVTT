@@ -640,15 +640,15 @@ export interface BodyPartLozenge {
 }
 
 /**
- * Build the read-only body-location lozenges from a lineage body structure.
+ * Build the read-only body-location lozenges from a corpus body structure.
  *
- * @param bodyStructure - The actor's lineage body structure, or `undefined`.
+ * @param structure - The actor's corpus body structure, or `undefined`.
  * @returns One lozenge per body part, or an empty array when none.
  */
 export function buildBodyPartLozenges(
-    bodyStructure: { parts?: readonly { shortcode: string }[] } | undefined,
+    structure: { parts?: readonly { shortcode: string }[] } | undefined,
 ): BodyPartLozenge[] {
-    return (bodyStructure?.parts ?? []).map((p) => ({
+    return (structure?.parts ?? []).map((p) => ({
         shortcode: p.shortcode,
     }));
 }

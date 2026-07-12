@@ -45,11 +45,11 @@ Helper methods expose and mutate these relations (`addAlly`, `removeAlly`, `addT
 `SohlCombatant` carries two movement-related system fields, both encounter-scoped (created with the combatant, destroyed when removed):
 
 - `moveFactor: number` — situational multiplier the GM sets to express run/sprint/encumbrance/terrain. Defaults to 1.
-- `displayedMedium: MovementMedium` — which medium's computed move is shown in the tracker. Seeded at `_preCreate` time from the actor's lineage `defaultMoveMedium`.
+- `displayedMedium: MovementMedium` — which medium's computed move is shown in the tracker. Seeded at `_preCreate` time from the actor's corpus `defaultMoveMedium`.
 
-`combatant.computedMove()` returns the being's tactical move (feet per combat round) for its active movement medium — read from its Lineage's `feetPerRound` — or `null` when the actor has no lineage (no movement model). `combatant.displayedMove` is the convenience getter the combat tracker reads. (`moveFactor` is stored on the combatant but not yet applied — #252.)
+`combatant.computedMove()` returns the being's tactical move (feet per combat round) for its active movement medium — read from its Corpus's `feetPerRound` — or `null` when the actor has no corpus (no movement model). `combatant.displayedMove` is the convenience getter the combat tracker reads. (`moveFactor` is stored on the combatant but not yet applied — #252.)
 
-Movement lives on the actor's Lineage item as per-medium `movementProfiles` (each with `feetPerRound`, `leaguesPerWatch`, and encumbrance/strength expressions). During preparation the Lineage resolves the being's active profile — selected by the being's `movementMedium` — into `LineageLogic.feetPerRound` / `leaguesPerWatch` `ValueModifier`s that Active Effects can layer on. Nothing else — weather, terrain — is modeled by the system.
+Movement lives on the actor's Corpus item as per-medium `movementProfiles` (each with `feetPerRound`, `leaguesPerWatch`, and encumbrance/strength expressions). During preparation the Corpus resolves the being's active profile — selected by the being's `movementMedium` — into `CorpusLogic.feetPerRound` / `leaguesPerWatch` `ValueModifier`s that Active Effects can layer on. Nothing else — weather, terrain — is modeled by the system.
 
 ## Calendar
 

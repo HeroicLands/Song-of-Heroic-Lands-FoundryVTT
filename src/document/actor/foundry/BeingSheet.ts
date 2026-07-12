@@ -28,7 +28,7 @@ import {
 } from "@src/utils/constants";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
-import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
+import type { CorpusLogic } from "@src/document/item/logic/CorpusLogic";
 import type { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import {
@@ -384,7 +384,7 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Open an embedded item's sheet — the Edit anchor (e.g. the Lineage row).
+     * Open an embedded item's sheet — the Edit anchor (e.g. the Corpus row).
      *
      * @param _event - The triggering pointer event (unused).
      * @param target - The clicked control, within a `data-item-id` row.
@@ -399,7 +399,7 @@ export class BeingSheet extends SohlActorSheetBase {
 
     /**
      * Delete an embedded item after confirmation — the Delete anchor (e.g. the
-     * Lineage row; deleting the lineage returns the being to its no-body state).
+     * Corpus row; deleting the corpus returns the being to its no-body state).
      *
      * @param _event - The triggering pointer event (unused).
      * @param target - The clicked control, within a `data-item-id` row.
@@ -454,7 +454,7 @@ export class BeingSheet extends SohlActorSheetBase {
     /**
      * Assign the item held by a hold-capable body part, from the Held Items
      * section's per-limb dropdown. Writes the chosen item's id (or `null` for
-     * the blank option) to that part's `heldItemId` on the lineage's body
+     * the blank option) to that part's `heldItemId` on the corpus's body
      * structure. A weapon held in two parts (two-handed) is expressed by
      * selecting it in both limbs' dropdowns.
      *
@@ -468,14 +468,14 @@ export class BeingSheet extends SohlActorSheetBase {
         const partIndex = Number(select.dataset.partIndex);
         if (Number.isNaN(partIndex)) return;
         const itemId = select.value || null;
-        const lineage = (this.document.logic as BeingLogic)?.logicTypes?.[
-            ITEM_KIND.LINEAGE
+        const corpus = (this.document.logic as BeingLogic)?.logicTypes?.[
+            ITEM_KIND.CORPUS
         ]?.[0];
-        if (!lineage) return;
-        const payload = lineage.bodyStructure.setPartFieldsUpdate([
+        if (!corpus) return;
+        const payload = corpus.structure.setPartFieldsUpdate([
             { index: partIndex, changes: { heldItemId: itemId } },
         ]);
-        if (Object.keys(payload).length) await lineage.data.update(payload);
+        if (Object.keys(payload).length) await corpus.data.update(payload);
     }
 
     /**
@@ -753,12 +753,12 @@ export class BeingSheet extends SohlActorSheetBase {
         }
         const statusEffects = buildStatusPills(statuses);
 
-        // Read-only body-location lozenges, sourced from the actor's Lineage body
-        // structure (dynamic — varies by lineage).
-        const lineageItem = (actor.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0];
-        const bodyStructure = (lineageItem?.logic as LineageLogic | undefined)
-            ?.bodyStructure;
-        const bodyParts = buildBodyPartLozenges(bodyStructure);
+        // Read-only body-location lozenges, sourced from the actor's Corpus body
+        // structure (dynamic — varies by corpus).
+        const corpusItem = (actor.itemTypes as any)?.[ITEM_KIND.CORPUS]?.[0];
+        const structure = (corpusItem?.logic as CorpusLogic | undefined)
+            ?.structure;
+        const bodyParts = buildBodyPartLozenges(structure);
 
         return Object.assign(context, {
             actorName: actor.name,
@@ -899,12 +899,12 @@ export class BeingSheet extends SohlActorSheetBase {
             label: string;
             value: number;
         }[] = [];
-        // A being has 0 or 1 lineage, which carries its single active movement
+        // A being has 0 or 1 corpus, which carries its single active movement
         // profile; show that medium's tactical move (feet/round).
-        const lineage = logic?.lineage;
-        if (lineage && !lineage.moveProfile.disabled) {
-            const medium = lineage.moveProfile.medium;
-            const value = lineage.feetPerRound.effective;
+        const corpus = logic?.corpus;
+        if (corpus && !corpus.moveProfile.disabled) {
+            const medium = corpus.moveProfile.medium;
+            const value = corpus.feetPerRound.effective;
             if (value > 0) {
                 movement.push({
                     medium,
@@ -1013,12 +1013,12 @@ export class BeingSheet extends SohlActorSheetBase {
             (source) => (source.logic as any)?.strikeModes ?? [],
         );
 
-        // Body structure for anatomy display — sourced from the actor's Lineage
-        // item. The Lineage is a singleton (0 or 1): `lineage` drives the Combat
-        // tab's Lineage row (+ Add disabled when one exists; Edit/Delete anchors).
-        const lineageItem = (actor.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0];
-        const lineageLogic = lineageItem?.logic as LineageLogic | undefined;
-        const bodyStructure = lineageLogic?.bodyStructure;
+        // Body structure for anatomy display — sourced from the actor's Corpus
+        // item. The Corpus is a singleton (0 or 1): `corpus` drives the Combat
+        // tab's Corpus row (+ Add disabled when one exists; Edit/Delete anchors).
+        const corpusItem = (actor.itemTypes as any)?.[ITEM_KIND.CORPUS]?.[0];
+        const corpusLogic = corpusItem?.logic as CorpusLogic | undefined;
+        const structure = corpusLogic?.structure;
 
         // HMK compatibility: the "Use Zone Die" world setting presents a strike
         // mode's spread as a Zone Die (`d{n}`, column "ZD") instead of a Spread
@@ -1043,7 +1043,7 @@ export class BeingSheet extends SohlActorSheetBase {
             (it) => it.containerId,
             new Set<string>([ITEM_KIND.WEAPONGEAR, ITEM_KIND.MISCGEAR]),
         );
-        const heldItemLimbs = (bodyStructure?.parts ?? [])
+        const heldItemLimbs = (structure?.parts ?? [])
             .filter((part: any) => part.canHoldItem)
             .map((part: any) => ({
                 index: part.index,
@@ -1056,7 +1056,7 @@ export class BeingSheet extends SohlActorSheetBase {
         // aggregated during the actor's evaluate phase), the covering material
         // layers, shock, and the held item on the part.
         const bodyParts = buildBodyLocationTree(
-            (bodyStructure?.parts ?? []).map((part: any) => ({
+            (structure?.parts ?? []).map((part: any) => ({
                 label: part.name ?? part.shortcode,
                 held: part.heldItem?.name ?? "",
                 locations: (part.locations ?? []).map((loc: any) => ({
@@ -1084,8 +1084,8 @@ export class BeingSheet extends SohlActorSheetBase {
         return Object.assign(context, {
             meleeStrikeModes,
             missileStrikeModes,
-            lineage: lineageItem,
-            bodyStructure,
+            corpus: corpusItem,
+            structure,
             bodyParts,
             useZoneDie,
             spreadLabel: useZoneDie ? "ZD" : "Spr",
@@ -1280,14 +1280,14 @@ export class BeingSheet extends SohlActorSheetBase {
         // On Body has no hard capacity cap; it summarizes the being's overall
         // load — its total carried-gear weight (accumulated ground-up on
         // `BeingLogic.carriedWeight`) and the resulting encumbrance for its active
-        // movement medium (`lineage.encumbrance`, 0 when the being has no lineage,
+        // movement medium (`corpus.encumbrance`, 0 when the being has no corpus,
         // e.g. an incorporeal being).
         const onBody = {
             items: tree.onBodyItems.map(toRow),
             capacity: {
                 isEncumbrance: true,
                 used: round1(logic.carriedWeight?.effective ?? 0),
-                encumbrance: logic.lineage?.encumbrance.effective ?? 0,
+                encumbrance: logic.corpus?.encumbrance.effective ?? 0,
             },
         };
         const containers = tree.containers.map((node) => ({

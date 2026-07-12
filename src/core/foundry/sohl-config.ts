@@ -71,7 +71,7 @@ import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
 import { AfflictionLogic } from "@src/document/item/logic/AfflictionLogic";
 import { ArmorGearLogic } from "@src/document/item/logic/ArmorGearLogic";
 import { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
-import { LineageLogic } from "@src/document/item/logic/LineageLogic";
+import { CorpusLogic } from "@src/document/item/logic/CorpusLogic";
 import { ConcoctionGearLogic } from "@src/document/item/logic/ConcoctionGearLogic";
 import { ContainerGearLogic } from "@src/document/item/logic/ContainerGearLogic";
 import { TraumaLogic } from "@src/document/item/logic/TraumaLogic";
@@ -94,8 +94,8 @@ import { ArmorGearDataModel } from "@src/document/item/foundry/ArmorGearDataMode
 import { ArmorGearSheet } from "@src/document/item/foundry/ArmorGearSheet";
 import { AttributeDataModel } from "@src/document/item/foundry/AttributeDataModel";
 import { AttributeSheet } from "@src/document/item/foundry/AttributeSheet";
-import { LineageDataModel } from "@src/document/item/foundry/LineageDataModel";
-import { LineageSheet } from "@src/document/item/foundry/LineageSheet";
+import { CorpusDataModel } from "@src/document/item/foundry/CorpusDataModel";
+import { CorpusSheet } from "@src/document/item/foundry/CorpusSheet";
 import { ConcoctionGearDataModel } from "@src/document/item/foundry/ConcoctionGearDataModel";
 import { ConcoctionGearSheet } from "@src/document/item/foundry/ConcoctionGearSheet";
 import { ContainerGearDataModel } from "@src/document/item/foundry/ContainerGearDataModel";
@@ -257,7 +257,7 @@ export const ITEM_DM_DEF: ItemDMMap = {
     [ITEM_KIND.AFFLICTION]: AfflictionDataModel,
     [ITEM_KIND.ARMORGEAR]: ArmorGearDataModel,
     [ITEM_KIND.ATTRIBUTE]: AttributeDataModel,
-    [ITEM_KIND.LINEAGE]: LineageDataModel,
+    [ITEM_KIND.CORPUS]: CorpusDataModel,
     [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearDataModel,
     [ITEM_KIND.CONTAINERGEAR]: ContainerGearDataModel,
     [ITEM_KIND.TRAUMA]: TraumaDataModel,
@@ -312,8 +312,8 @@ export const ITEM_LOGIC_DEF = {
     [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearLogic,
     /** Logic class for container gear items (bags, chests). */
     [ITEM_KIND.CONTAINERGEAR]: ContainerGearLogic,
-    /** Logic class for lineage items (ancestry, bloodlines). */
-    [ITEM_KIND.LINEAGE]: LineageLogic,
+    /** Logic class for corpus items (a being's physical body). */
+    [ITEM_KIND.CORPUS]: CorpusLogic,
     /** Logic class for trauma items (wounds, injuries). */
     [ITEM_KIND.TRAUMA]: TraumaLogic,
     /** Logic class for miscellaneous gear items. */
@@ -359,8 +359,8 @@ export interface ItemLogicByKind {
     concoctiongear: ConcoctionGearLogic;
     /** Logic instance for container gear items (bags, chests). */
     containergear: ContainerGearLogic;
-    /** Logic instance for lineage items (ancestry, bloodlines). */
-    lineage: LineageLogic;
+    /** Logic instance for corpus items (a being's physical body). */
+    corpus: CorpusLogic;
     /** Logic instance for trauma items (wounds, injuries). */
     trauma: TraumaLogic;
     /** Logic instance for miscellaneous gear items. */
@@ -402,8 +402,8 @@ export interface ItemLogicArrayByKind {
     concoctiongear: ConcoctionGearLogic[];
     /** All container gear logic instances on this actor. */
     containergear: ContainerGearLogic[];
-    /** All lineage logic instances on this actor. */
-    lineage: LineageLogic[];
+    /** All corpus logic instances on this actor. */
+    corpus: CorpusLogic[];
     /** All trauma logic instances on this actor. */
     trauma: TraumaLogic[];
     /** All miscellaneous gear logic instances on this actor. */
@@ -450,7 +450,7 @@ export const {
     [ITEM_KIND.AFFLICTION]: AfflictionSheet,
     [ITEM_KIND.ARMORGEAR]: ArmorGearSheet,
     [ITEM_KIND.ATTRIBUTE]: AttributeSheet,
-    [ITEM_KIND.LINEAGE]: LineageSheet,
+    [ITEM_KIND.CORPUS]: CorpusSheet,
     [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearSheet,
     [ITEM_KIND.CONTAINERGEAR]: ContainerGearSheet,
     [ITEM_KIND.TRAUMA]: TraumaSheet,

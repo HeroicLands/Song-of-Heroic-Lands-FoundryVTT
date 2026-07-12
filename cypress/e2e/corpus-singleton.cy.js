@@ -12,45 +12,45 @@
  */
 
 /**
- * Lineage singleton (#338): a Being may embed at most one lineage. The hard
+ * Corpus singleton (#338): a Being may embed at most one corpus. The hard
  * data-layer guard covers every path (not just the sheet UI) — direct
  * `createEmbeddedDocuments` is refused when one exists, and an actor created with
- * multiple lineages is reduced to one.
+ * multiple corpora is reduced to one.
  */
-describe("lineage singleton", () => {
+describe("corpus singleton", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
     Cypress.on("uncaught:exception", () => false);
 
-    it("refuses a second lineage via createEmbeddedDocuments", () => {
-        cy.createWorldItem("lineage", { name: "Src Lineage" }).then((li) => {
+    it("refuses a second corpus via createEmbeddedDocuments", () => {
+        cy.createWorldItem("corpus", { name: "Src Corpus" }).then((li) => {
             cy.importActor().then((actor) => {
                 cy.prepare(actor);
                 cy.foundry((win) => {
                     const a = win.game.actors.get(actor.id);
                     const src = win.fromUuidSync(li.uuid).toObject();
                     delete src._id;
-                    const before = a.itemTypes.lineage.length;
+                    const before = a.itemTypes.corpus.length;
                     return a
                         .createEmbeddedDocuments("Item", [src])
                         .then(() => ({
                             before,
-                            after: a.itemTypes.lineage.length,
+                            after: a.itemTypes.corpus.length,
                         }))
                         .catch(() => ({
                             before,
-                            after: a.itemTypes.lineage.length,
+                            after: a.itemTypes.corpus.length,
                         }));
                 }).should((r) => {
                     expect(r.before, "Basic Folk starts with one").to.equal(1);
-                    expect(r.after, "second lineage refused").to.equal(1);
+                    expect(r.after, "second corpus refused").to.equal(1);
                 });
             });
         });
     });
 
-    it("accepts the first lineage on a bare being", () => {
-        cy.createWorldItem("lineage", { name: "Src Lineage" }).then((li) => {
+    it("accepts the first corpus on a bare being", () => {
+        cy.createWorldItem("corpus", { name: "Src Corpus" }).then((li) => {
             cy.createActor("being", { name: "Bare" }).then((bare) => {
                 cy.prepare(bare);
                 cy.foundry((win) => {
@@ -59,33 +59,33 @@ describe("lineage singleton", () => {
                     delete src._id;
                     return a
                         .createEmbeddedDocuments("Item", [src])
-                        .then(() => ({ n: a.itemTypes.lineage.length }));
+                        .then(() => ({ n: a.itemTypes.corpus.length }));
                 }).should((r) =>
-                    expect(r.n, "first lineage accepted").to.equal(1),
+                    expect(r.n, "first corpus accepted").to.equal(1),
                 );
             });
         });
     });
 
-    it("dedupes an actor created with two lineages to one", () => {
-        cy.createWorldItem("lineage", { name: "Src Lineage" }).then((li) => {
+    it("dedupes an actor created with two corpora to one", () => {
+        cy.createWorldItem("corpus", { name: "Src Corpus" }).then((li) => {
             cy.foundry((win) => {
                 const src = win.fromUuidSync(li.uuid).toObject();
                 delete src._id;
                 return src;
             }).then((srcData) => {
                 cy.createActor("being", {
-                    name: "Two Lineages",
+                    name: "Two Corpora",
                     items: [srcData, srcData],
                 }).then((actor) => {
-                    // The extra lineage is pruned in `_onCreate` (async, after the
+                    // The extra corpus is pruned in `_onCreate` (async, after the
                     // actor + its items exist); give the delete time to settle.
                     cy.wait(1200);
                     cy.foundry((win) => ({
-                        n: win.game.actors.get(actor.id).itemTypes.lineage
+                        n: win.game.actors.get(actor.id).itemTypes.corpus
                             .length,
                     })).then((r) =>
-                        expect(r.n, "deduped to one lineage").to.equal(1),
+                        expect(r.n, "deduped to one corpus").to.equal(1),
                     );
                 });
             });

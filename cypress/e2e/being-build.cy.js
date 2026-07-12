@@ -16,13 +16,13 @@ import { BASIC_FOLK } from "../support/factories/basicFolk.js";
 /**
  * Manual character-build chain.
  *
- * Verifies that each category of embedded item (attributes, lineage, traits,
+ * Verifies that each category of embedded item (attributes, corpus, traits,
  * affiliations, skills) produces the expected logic-layer values when added
  * to a freshly created being, without importing any pre-built compendium
  * character. Each test is independent (afterEach cleanup) so failures are
  * isolated.
  *
- * The "Human Folk" lineage data is loaded once from the Basic Folk compendium
+ * The "Human Folk" corpus data is loaded once from the Basic Folk compendium
  * actor (where it lives as an embedded item) so we can embed it on our own
  * test being without touching the pre-built actor's world state.
  */
@@ -33,22 +33,22 @@ describe("being build — manual character-build chain", () => {
     // ------------------------------------------------------------------ helpers
 
     /**
-     * Fetch the Human Folk lineage toObject() from inside the Basic Folk
+     * Fetch the Human Folk corpus toObject() from inside the Basic Folk
      * compendium actor. Returns a Cypress-queued plain object (spec realm)
      * that must be toRealm()'d before handing to Foundry APIs.
      */
-    function getHumanFolkLineageData() {
+    function getHumanFolkCorpusData() {
         return cy.foundry(async (win) => {
             const pack = win.game.packs.get("sohl.actors");
             const bf = await pack.getDocument(BASIC_FOLK.id);
-            const ln = bf.items.find((i) => i.type === "lineage");
+            const ln = bf.items.find((i) => i.type === "corpus");
             return ln.toObject();
         });
     }
 
     // ------------------------------------------------------------------ tests
 
-    it("empty being — no lineage — BeingLogic constructs without throwing", () => {
+    it("empty being — no corpus — BeingLogic constructs without throwing", () => {
         cy.createActor("being", { name: "Empty Being" }).then((actor) => {
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
@@ -98,34 +98,34 @@ describe("being build — manual character-build chain", () => {
         });
     });
 
-    it("without lineage — the being has no lineage pointer (no movement)", () => {
-        cy.createActor("being", { name: "No Lineage Being" }).then((actor) => {
+    it("without corpus — the being has no corpus pointer (no movement)", () => {
+        cy.createActor("being", { name: "No Corpus Being" }).then((actor) => {
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
-                return a.logic.lineage ?? null;
+                return a.logic.corpus ?? null;
             }).should("eq", null);
         });
     });
 
-    it("Human Folk lineage — bodyStructure present, move and reach are numeric", () => {
-        cy.createActor("being", { name: "Lineage Being" }).then((actor) => {
-            getHumanFolkLineageData().then((lineageData) => {
+    it("Human Folk corpus — structure present, move and reach are numeric", () => {
+        cy.createActor("being", { name: "Corpus Being" }).then((actor) => {
+            getHumanFolkCorpusData().then((corpusData) => {
                 cy.foundry(async (win) => {
                     const a = win.game.actors.get(actor.id);
                     await a.createEmbeddedDocuments("Item", [
-                        win.JSON.parse(win.JSON.stringify(lineageData)),
+                        win.JSON.parse(win.JSON.stringify(corpusData)),
                     ]);
                     a.prepareData();
-                    const lineage = a.items.find((i) => i.type === "lineage");
+                    const corpus = a.items.find((i) => i.type === "corpus");
                     return {
-                        reach: lineage.logic.reach.effective,
-                        hasBod: !!lineage.logic.bodyStructure,
-                        // Move now lives on the lineage's active movement profile.
-                        terrestrial: a.logic.lineage.feetPerRound.effective,
+                        reach: corpus.logic.reach.effective,
+                        hasBod: !!corpus.logic.structure,
+                        // Move now lives on the corpus's active movement profile.
+                        terrestrial: a.logic.corpus.feetPerRound.effective,
                     };
                 }).should((r) => {
                     expect(r.reach, "reach is numeric").to.be.a("number");
-                    expect(r.hasBod, "bodyStructure present").to.be.true;
+                    expect(r.hasBod, "structure present").to.be.true;
                     expect(
                         r.terrestrial,
                         "terrestrial move is numeric",
@@ -211,11 +211,11 @@ describe("being build — manual character-build chain", () => {
 
     // ------------------------------------------------------------------ RED
 
-    it.skip("lineage import — orchestration brings body parts, attributes, and traits from lineage source", () => {
-        // RED — blocked by #181: lineage import/apply orchestration not
-        // implemented; today the lineage is a bare dragged item with no flow
+    it.skip("corpus import — orchestration brings body parts, attributes, and traits from corpus source", () => {
+        // RED — blocked by #181: corpus import/apply orchestration not
+        // implemented; today the corpus is a bare dragged item with no flow
         // to populate derived body parts, attributes, or traits from the
-        // lineage source document.
+        // corpus source document.
     });
 
     it.skip("initSkillMult — opening mastery level is masteryLevelBase × multiplier at char init", () => {

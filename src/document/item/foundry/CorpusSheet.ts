@@ -16,19 +16,19 @@ import { SohlItemSheetBase } from "@src/document/item/foundry/SohlItemSheetBase"
 import { MOVEMENT_MEDIUM, movementMediumLabels } from "@src/utils/constants";
 
 /** @internal */
-export class LineageSheet extends SohlItemSheetBase {
+export class CorpusSheet extends SohlItemSheetBase {
     /** @inheritDoc */
     static override PARTS = {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template: "systems/sohl/templates/item/lineage-properties.hbs",
+            template: "systems/sohl/templates/item/corpus-properties.hbs",
             scrollable: [""],
         },
     };
 
     /**
-     * Prepares the render context for the lineage properties tab, adding the
+     * Prepares the render context for the corpus properties tab, adding the
      * available movement-medium choices for the dropdown.
      * @param context - The sheet render context to augment.
      * @param options - The sheet render options.

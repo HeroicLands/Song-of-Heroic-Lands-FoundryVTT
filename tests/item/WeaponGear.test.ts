@@ -258,10 +258,10 @@ describe("WeaponGearLogic", () => {
         });
 
         describe("evaluate", () => {
-            it("adds the wielder's lineage reach to each melee mode's reach", () => {
+            it("adds the wielder's corpus reach to each melee mode's reach", () => {
                 const actor = makeMockActor();
                 actor.itemTypes = {
-                    [ITEM_KIND.LINEAGE]: [
+                    [ITEM_KIND.CORPUS]: [
                         { logic: { reach: { effective: 3 } } },
                     ],
                 };
@@ -277,10 +277,10 @@ describe("WeaponGearLogic", () => {
                 logic.evaluate();
                 const sm = logic.strikeModes[0] as MeleeStrikeMode;
                 expect(sm.reach.base).toBe(4); // weapon length
-                expect(sm.reach.effective).toBe(7); // + lineage reach
+                expect(sm.reach.effective).toBe(7); // + corpus reach
             });
 
-            it("leaves reach at weapon length when there is no actor/lineage", () => {
+            it("leaves reach at weapon length when there is no actor/corpus", () => {
                 const logic = makeWeapon({
                     strikeModes: { m1: meleeModeData({ lengthBase: 4 }) },
                 });
@@ -293,7 +293,7 @@ describe("WeaponGearLogic", () => {
             it("does not touch missile modes (no reach)", () => {
                 const actor = makeMockActor();
                 actor.itemTypes = {
-                    [ITEM_KIND.LINEAGE]: [
+                    [ITEM_KIND.CORPUS]: [
                         { logic: { reach: { effective: 3 } } },
                     ],
                 };

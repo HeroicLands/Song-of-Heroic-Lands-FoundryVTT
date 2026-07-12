@@ -54,7 +54,7 @@ const ITEM_TYPES = new Set([
     "combattechnique",
     "concoctiongear",
     "containergear",
-    "lineage",
+    "corpus",
     "miscgear",
     "mystery",
     "mysticalability",
@@ -73,7 +73,7 @@ const DEFAULT_IMG = {
     combattechnique: "systems/sohl/assets/icons/crossed-swords.svg",
     concoctiongear: "systems/sohl/assets/icons/flask.svg",
     containergear: "systems/sohl/assets/icons/sack.svg",
-    lineage: "systems/sohl/assets/icons/dna.svg",
+    corpus: "systems/sohl/assets/icons/dna.svg",
     miscgear: "systems/sohl/assets/icons/question-mark.svg",
     mystery: "systems/sohl/assets/icons/sparkles.svg",
     mysticalability: "systems/sohl/assets/icons/hand-sparkles.svg",
@@ -250,7 +250,7 @@ function buildMysticalAbility(fm) {
     };
 }
 
-function buildLineage(fm) {
+function buildCorpus(fm) {
     const movementProfiles = (sohlField(fm, "movementProfiles", []) || []).map(
         (p) => ({
             medium: String(p.medium ?? "terrestrial"),
@@ -267,9 +267,9 @@ function buildLineage(fm) {
     for (const p of movementProfiles) {
         if (p.medium) moveBase[p.medium] = p.feetPerRound;
     }
-    const bodyWeight = sohlField(fm, "bodyWeight", {}) || {};
+    const weight = sohlField(fm, "weight", {}) || {};
     return {
-        bodyStructure: sohlField(fm, "bodyStructure", {
+        structure: sohlField(fm, "structure", {
             parts: [],
             adjacent: [],
         }),
@@ -279,9 +279,9 @@ function buildLineage(fm) {
         ),
         personalFatigue: String(sohlField(fm, "personalFatigue", "enc")),
         movementProfiles,
-        bodyWeight: {
-            base: bodyWeight.base == null ? null : Number(bodyWeight.base),
-            calc: String(bodyWeight.calc ?? "0"),
+        weight: {
+            base: weight.base == null ? null : Number(weight.base),
+            calc: String(weight.calc ?? "0"),
         },
         reachBase: Number(sohlField(fm, "reachBase", 0)) || 0,
     };
@@ -360,7 +360,7 @@ const BUILDERS = {
     combattechnique: buildCombatTechnique,
     concoctiongear: buildConcoctionGear,
     containergear: buildContainerGear,
-    lineage: buildLineage,
+    corpus: buildCorpus,
     miscgear: buildMiscGear,
     mystery: buildMystery,
     mysticalability: buildMysticalAbility,

@@ -16,18 +16,18 @@ const SAMPLE_DATA: BodyLocation.Data = {
 };
 
 const MOCK_PART = {
-    updatePath: "system.bodyStructure.parts.1",
-    bodyStructure: { lineageLogic: { actor: null } },
+    updatePath: "system.structure.parts.1",
+    structure: { corpusLogic: { actor: null } },
 } as any;
 
-// A Lineage-kinded owning logic (the parent every body entity requires).
-const MOCK_LINEAGE = { kind: "lineage", actor: null } as any;
+// A Corpus-kinded owning logic (the parent every body entity requires).
+const MOCK_CORPUS = { kind: "corpus", actor: null } as any;
 
 describe("BodyLocation", () => {
     describe("construction", () => {
         it("creates from data with all properties", () => {
             const loc = new BodyLocation(SAMPLE_DATA, {
-                parent: MOCK_LINEAGE,
+                parent: MOCK_CORPUS,
                 bodyPart: MOCK_PART,
                 index: 0,
             });
@@ -43,13 +43,11 @@ describe("BodyLocation", () => {
     describe("updatePath", () => {
         it("builds dot-notation path from parent part and index", () => {
             const loc = new BodyLocation(SAMPLE_DATA, {
-                parent: MOCK_LINEAGE,
+                parent: MOCK_CORPUS,
                 bodyPart: MOCK_PART,
                 index: 2,
             });
-            expect(loc.updatePath).toBe(
-                "system.bodyStructure.parts.1.locations.2",
-            );
+            expect(loc.updatePath).toBe("system.structure.parts.1.locations.2");
         });
     });
 });

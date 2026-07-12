@@ -462,21 +462,21 @@ export class SohlActor extends Actor {
             userId as any,
         );
 
-        // Lineage singleton — batch case. The per-lineage `_preCreate` guard
-        // blocks adding a second lineage to an existing actor, but cannot catch
-        // an actor *created with* multiple lineages at once (the bundled embedded
+        // Corpus singleton — batch case. The per-corpus `_preCreate` guard
+        // blocks adding a second corpus to an existing actor, but cannot catch
+        // an actor *created with* multiple corpora at once (the bundled embedded
         // items are created together, and the parent's `_preCreate` cannot filter
-        // them). Once the actor exists, prune every lineage after the first. Only
+        // them). Once the actor exists, prune every corpus after the first. Only
         // the acting user performs the delete.
         if (userId === (game as any).user?.id) {
-            const lineages = this.itemTypes[ITEM_KIND.LINEAGE] ?? [];
-            if (lineages.length > 1) {
+            const corpora = this.itemTypes[ITEM_KIND.CORPUS] ?? [];
+            if (corpora.length > 1) {
                 void this.deleteEmbeddedDocuments(
                     "Item",
-                    lineages.slice(1).map((l: SohlItem) => l.id!),
+                    corpora.slice(1).map((l: SohlItem) => l.id!),
                 );
                 (globalThis as any).ui?.notifications?.warn(
-                    "A being may have only one lineage; extra lineages were removed.",
+                    "A being may have only one corpus; extra corpora were removed.",
                 );
             }
         }

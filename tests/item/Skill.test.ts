@@ -509,10 +509,10 @@ describe("SkillLogic", () => {
             expect(sm.attack.effective).toBe(0);
         });
 
-        it("adds lineage reach to the technique's melee strike mode", () => {
+        it("adds corpus reach to the technique's melee strike mode", () => {
             const actor = makeMockActor();
             actor.itemTypes = {
-                [ITEM_KIND.LINEAGE]: [{ logic: { reach: { effective: 2 } } }],
+                [ITEM_KIND.CORPUS]: [{ logic: { reach: { effective: 2 } } }],
             };
             const logic = makeSkill(
                 {

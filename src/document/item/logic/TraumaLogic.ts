@@ -16,7 +16,7 @@ import type { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { BodyLocation } from "@src/entity/body/BodyLocation";
-import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
+import type { CorpusLogic } from "@src/document/item/logic/CorpusLogic";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     ACTION_SUBTYPE,
@@ -77,9 +77,9 @@ export class TraumaLogic<
      */
     healingRate!: ValueModifier;
     /**
-     * The {@link BodyLocation} on the actor's Lineage that this trauma
+     * The {@link BodyLocation} on the actor's Corpus that this trauma
      * affects, resolved from {@link TraumaData.bodyLocationCode}. When the
-     * code is blank — or no matching location exists on the lineage — this
+     * code is blank — or no matching location exists on the corpus — this
      * is `undefined`, indicating the trauma affects the whole body rather
      * than a specific location. Recomputed in {@link evaluate}.
      */
@@ -184,8 +184,8 @@ export class TraumaLogic<
 
     /**
      * Look up the {@link BodyLocation} referenced by `bodyLocationCode`
-     * on the actor's Lineage. Returns `undefined` when the code is blank,
-     * the trauma is not attached to an actor, the actor has no Lineage,
+     * on the actor's Corpus. Returns `undefined` when the code is blank,
+     * the trauma is not attached to an actor, the actor has no Corpus,
      * or no location with that shortcode exists.
      *
      * @returns The matching body location, or `undefined` when none applies.
@@ -193,8 +193,8 @@ export class TraumaLogic<
     private resolveBodyLocation(): BodyLocation | undefined {
         const code = this.data.bodyLocationCode;
         if (!code) return undefined;
-        const lineageLogic = this.actorLogic?.logicTypes[ITEM_KIND.LINEAGE][0];
-        return lineageLogic?.bodyStructure
+        const corpusLogic = this.actorLogic?.logicTypes[ITEM_KIND.CORPUS][0];
+        return corpusLogic?.structure
             ?.getAllLocations()
             .find((loc) => loc.shortcode === code);
     }
@@ -222,7 +222,7 @@ export interface TraumaData<
     /** Whether the wound is actively bleeding */
     isBleeding: boolean;
     /**
-     * Shortcode of the body location on the actor's Lineage where this
+     * Shortcode of the body location on the actor's Corpus where this
      * trauma occurred. Empty string means the trauma is not tied to a
      * specific location (affects the whole body).
      */

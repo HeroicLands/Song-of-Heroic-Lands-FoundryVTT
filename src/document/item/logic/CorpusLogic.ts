@@ -28,35 +28,37 @@ import {
 } from "@src/utils/constants";
 
 /**
- * Anatomical and movement template for a being's lineage (species / heritage).
+ * A being's **corpus** — its physical body. Optional: a being with no corpus is
+ * **incorporeal** (e.g. a spirit), with no body structure, weight, reach, or
+ * movement. A being has 0 or 1 corpus.
  *
- * A Lineage defines the physical baseline shared by creatures of a kind: the
+ * A Corpus defines the physical baseline of a body: the
  * {@link BodyStructure | body structure} (body parts, hit locations, and
  * adjacency), body weight, melee reach, and per-medium movement profiles. The
- * Logic exposes these as {@link ValueModifier}s — `bodyWeight`, `reach`, and the
+ * Logic exposes these as {@link ValueModifier}s — `weight`, `reach`, and the
  * active profile's `feetPerRound` / `leaguesPerWatch` / `encumbrance` /
  * `strengthModifier` — so runtime effects (size changes, haste, encumbrance) can
  * layer on. The active profile is selected by the owning being's
  * `movementMedium` during {@link initialize}.
  *
- * @typeParam TData - The Lineage data interface.
+ * @typeParam TData - The Corpus data interface.
  */
-export class LineageLogic<
-    TData extends LineageData = LineageData,
+export class CorpusLogic<
+    TData extends CorpusData = CorpusData,
 > extends SohlItemBaseLogic<TData> {
     /**
      * The anatomical structure of the being, including body parts,
      * hit locations, and adjacency relationships. Constructed from
      * persisted data during {@link initialize}.
      */
-    bodyStructure!: BodyStructure;
+    structure!: BodyStructure;
 
     /**
      * The being's body weight as a {@link ValueModifier}, seeded during
-     * {@link initialize} from `bodyWeight.base` (when set) or the `bodyWeight.calc`
+     * {@link initialize} from `weight.base` (when set) or the `weight.calc`
      * `SafeExpression` of strength.
      */
-    bodyWeight!: ValueModifier;
+    weight!: ValueModifier;
 
     /**
      * The creature's base melee reach (feet), exposed as a `ValueModifier`
@@ -117,25 +119,25 @@ export class LineageLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        // Register with the owning being so it can reach its lineage directly
+        // Register with the owning being so it can reach its corpus directly
         // (a being has 0 or 1). Duck-typed to avoid coupling to BeingLogic.
         (
             this.actorLogic as {
-                registerLineage?(l: LineageLogic): void;
+                registerCorpus?(l: CorpusLogic): void;
             } | null
-        )?.registerLineage?.(this);
-        this.bodyStructure = new entity.BodyStructure(this.data.bodyStructure, {
+        )?.registerCorpus?.(this);
+        this.structure = new entity.BodyStructure(this.data.structure, {
             parent: this,
         });
-        this.bodyWeight = new entity.ValueModifier(this);
-        if (this.data.bodyWeight.base !== null) {
-            this.bodyWeight.setBase(this.data.bodyWeight.base);
+        this.weight = new entity.ValueModifier(this);
+        if (this.data.weight.base !== null) {
+            this.weight.setBase(this.data.weight.base);
         } else {
             const bodyWeightCalc = new SafeExpression(
-                { source: this.data.bodyWeight.calc },
+                { source: this.data.weight.calc },
                 { parent: this },
             );
-            this.bodyWeight.setBase(
+            this.weight.setBase(
                 (bodyWeightCalc.evaluate({
                     str:
                         this.actorLogic?.getItemLogic(
@@ -204,7 +206,7 @@ export class LineageLogic<
 }
 
 /**
- * A single per-medium movement profile persisted on a lineage. Bundles the
+ * A single per-medium movement profile persisted on a corpus. Bundles the
  * being's speeds in one {@link MovementMedium} with the {@link SafeExpression}s
  * (stored as source strings) that turn carried weight into encumbrance and shift
  * it by strength.
@@ -225,16 +227,16 @@ export interface MovementProfile {
 }
 
 /**
- * @remarks The shape of `system` on a `lineage` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "lineage"`. The backing DataModel implements this interface.
+ * @remarks The shape of `system` on a `corpus` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "corpus"`. The backing DataModel implements this interface.
  */
-export interface LineageData<
-    TLogic extends SohlItemLogic<LineageData> = SohlItemLogic<any>,
+export interface CorpusData<
+    TLogic extends SohlItemLogic<CorpusData> = SohlItemLogic<any>,
 > extends SohlItemData<TLogic> {
     /** Persisted anatomical structure (body parts, hit locations, adjacency). */
-    bodyStructure: BodyStructure.Data;
+    structure: BodyStructure.Data;
     /** Per-medium base move (feet per combat round); 0 means the medium is unavailable. */
     moveBase: MoveBaseDict;
-    /** The medium shown by default in the combat tracker for this lineage. */
+    /** The medium shown by default in the combat tracker for this corpus. */
     defaultMoveMedium: MovementMedium;
     /** `SafeExpression` source of encumbrance (`enc`) → personal fatigue. */
     personalFatigue: string;
@@ -243,14 +245,14 @@ export interface LineageData<
     /**
      * Body weight (pounds), not including gear: a fixed `base`, or a
      * `SafeExpression` `calc` of strength (`str`) when `base` is null. Seeds the
-     * {@link LineageLogic.bodyWeight} modifier during `initialize`.
+     * {@link CorpusLogic.weight} modifier during `initialize`.
      */
-    bodyWeight: {
+    weight: {
         /** Fixed body weight in pounds; null to compute from `calc`. */
         base: number | null;
         /** `SafeExpression` source of `str` → body weight (used when `base` is null). */
         calc: string;
     };
-    /** Base melee reach (feet) for beings of this lineage. */
+    /** Base melee reach (feet) for beings of this corpus. */
     reachBase: number;
 }

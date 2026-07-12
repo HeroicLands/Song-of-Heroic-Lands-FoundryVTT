@@ -111,8 +111,8 @@ export class BodyLocation extends SohlEntity {
      * @throws If required fields are missing from `data` or `options`.
      */
     constructor(data: BodyLocation.Data, options: BodyLocation.Options) {
-        if (!isA(options.parent, ITEM_KIND.LINEAGE)) {
-            throw new Error("Requires a Lineage parent");
+        if (!isA(options.parent, ITEM_KIND.CORPUS)) {
+            throw new Error("Requires a Corpus parent");
         }
         if (!options.bodyPart || options.index === undefined) {
             throw new Error(
@@ -166,7 +166,7 @@ export class BodyLocation extends SohlEntity {
     /**
      * The dot-notation path prefix for Foundry `update()` calls targeting
      * this location's persisted fields, e.g.
-     * `"system.bodyStructure.parts.2.locations.1"`.
+     * `"system.structure.parts.2.locations.1"`.
      */
     get updatePath(): string {
         return `${this.bodyPart.updatePath}.locations.${this.index}`;
