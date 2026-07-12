@@ -34,7 +34,7 @@ export const ITEM_KINDS = [
     "attribute",
     "affiliation",
     "affliction",
-    "lineage",
+    "corpus",
     "mystery",
     "mysticalability",
     "trauma",

@@ -15,14 +15,14 @@
  * Movement + reach read paths.
  *
  * Movement: `SohlCombatantLogic.computedMove()` / `displayedMove` read the being's
- * tactical move off its lineage's active movement profile
- * (`LineageLogic.feetPerRound`, for the being's `movementMedium`). Reach:
+ * tactical move off its corpus's active movement profile
+ * (`CorpusLogic.feetPerRound`, for the being's `movementMedium`). Reach:
  * `BeingLogic.reach` is the greatest reach among currently-available melee modes —
  * combat techniques are always available; a weapon's mode counts only when the
  * weapon is held in at least `minParts` limbs (the hold path landed in #179 and
  * was made corruption-safe in #247).
  *
- * The imported Human Folk lineage carries a terrestrial movement profile
+ * The imported Human Folk corpus carries a terrestrial movement profile
  * (`feetPerRound` 50); a being's `movementMedium` defaults to terrestrial, so the
  * movement tests read 50 directly. Reach is exercised with an inline combat
  * technique / weapon.
@@ -116,9 +116,9 @@ describe("movement + reach read paths", () => {
     // ------------------------------------------------------------------ movement
 
     // Human Folk's terrestrial movement profile is feetPerRound 50 (vault
-    // export); a being's movementMedium defaults to terrestrial, so the lineage's
+    // export); a being's movementMedium defaults to terrestrial, so the corpus's
     // active feetPerRound resolves to 50 — which computedMove reads directly.
-    it("computedMove reads the lineage's active feetPerRound", () => {
+    it("computedMove reads the corpus's active feetPerRound", () => {
         cy.createScene().then((scene) => {
             cy.importActor().then((actor) => {
                 cy.prepare(actor);
@@ -200,7 +200,7 @@ describe("movement + reach read paths", () => {
     });
 
     it.skip("computedMove scales base move by moveFactor", () => {
-        // RED — blocked by #252: computedMove returns the lineage's feetPerRound
+        // RED — blocked by #252: computedMove returns the corpus's feetPerRound
         // verbatim and never reads moveFactor, though its docstring says it
         // "accounts for the combatant's situational moveFactor scalar." Once
         // computedMove applies the scalar this asserts the product.
@@ -239,14 +239,14 @@ describe("movement + reach read paths", () => {
         });
     });
 
-    it("reach equals a melee mode's length plus the lineage reachBase", () => {
+    it("reach equals a melee mode's length plus the corpus reachBase", () => {
         cy.importActor().then((actor) => {
             cy.createItemOn(actor, "skill", meleeTechnique(5)).then(() => {
                 cy.prepare(actor);
                 cy.foundry((win) => {
                     const a = win.game.actors.get(actor.id);
                     return a.logic.reach;
-                }).should("eq", 6); // 5 (mode length) + 1 (Human Folk reachBase)
+                }).should("eq", 5); // 5 (mode length) + 0 (Human Folk reachBase)
             });
         });
     });
@@ -257,21 +257,21 @@ describe("movement + reach read paths", () => {
                 cy.createItemOn(actor, "weapongear", meleeWeapon(8)).then(
                     (weapon) => {
                         // Not held yet: only the technique's reach counts.
-                        // 5 (mode length) + 1 (Human Folk reachBase).
+                        // 5 (mode length) + 0 (Human Folk reachBase).
                         cy.prepare(actor);
                         cy.foundry((win) => {
                             const a = win.game.actors.get(actor.id);
                             return a.logic.reach;
-                        }).should("eq", 6);
+                        }).should("eq", 5);
 
                         // Held: the longer weapon mode becomes available.
-                        // 8 (mode length) + 1 (Human Folk reachBase).
+                        // 8 (mode length) + 0 (Human Folk reachBase).
                         cy.runAction(weapon, "holdItem");
                         cy.prepare(actor);
                         cy.foundry((win) => {
                             const a = win.game.actors.get(actor.id);
                             return a.logic.reach;
-                        }).should("eq", 9);
+                        }).should("eq", 8);
                     },
                 );
             });

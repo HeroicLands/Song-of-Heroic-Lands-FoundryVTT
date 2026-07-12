@@ -32,7 +32,7 @@ describe("readBaseMove", () => {
         expect(readBaseMove(sample, MOVEMENT_MEDIUM.ASTRAL)).toBe(100);
     });
 
-    it("returns 0 when moveBase is undefined (no lineage)", () => {
+    it("returns 0 when moveBase is undefined (no corpus)", () => {
         expect(readBaseMove(undefined, MOVEMENT_MEDIUM.TERRESTRIAL)).toBe(0);
     });
 

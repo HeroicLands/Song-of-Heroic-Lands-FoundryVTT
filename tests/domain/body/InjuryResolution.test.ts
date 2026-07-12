@@ -68,14 +68,14 @@ const SAMPLE_DATA: BodyStructure.Data = {
     adjacent: [["head", "thorax"]],
 } as any;
 
-const MOCK_LINEAGE_LOGIC = {
-    kind: "lineage",
+const MOCK_CORPUS_LOGIC = {
+    kind: "corpus",
     actor: null,
-    data: { bodyStructure: SAMPLE_DATA },
+    data: { structure: SAMPLE_DATA },
 } as any;
 
 function makeBody(): BodyStructure {
-    return new BodyStructure(SAMPLE_DATA, { parent: MOCK_LINEAGE_LOGIC });
+    return new BodyStructure(SAMPLE_DATA, { parent: MOCK_CORPUS_LOGIC });
 }
 
 function loc(body: BodyStructure, code: string) {

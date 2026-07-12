@@ -172,22 +172,22 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </fieldset>
     {{/if}}
 
-    {{!-- Lineage (singleton): row with Edit/Delete; + Add disabled when one exists --}}
+    {{!-- Corpus (singleton): row with Edit/Delete; + Add disabled when one exists --}}
     <fieldset>
         <legend>
-            Lineage
-            {{#if lineage}}
-            <a class="item-create disabled" data-tooltip="A being may have only one lineage"><i class="sohl-file-create"></i></a>
+            Corpus
+            {{#if corpus}}
+            <a class="item-create disabled" data-tooltip="A being may have only one corpus"><i class="sohl-file-create"></i></a>
             {{else}}
-            <a class="item-create" data-action="createItem" data-type="lineage" data-tooltip="Add Lineage"><i class="sohl-file-create"></i></a>
+            <a class="item-create" data-action="createItem" data-type="corpus" data-tooltip="Add Corpus"><i class="sohl-file-create"></i></a>
             {{/if}}
         </legend>
-        {{#if lineage}}
+        {{#if corpus}}
         <ol class="list__items">
-            <li class="item flexrow" data-item-id="{{lineage.id}}" data-uuid="{{lineage.uuid}}" data-item-name="{{lineage.name}}">
+            <li class="item flexrow" data-item-id="{{corpus.id}}" data-uuid="{{corpus.uuid}}" data-item-name="{{corpus.name}}">
                 <div class="list__name flexrow">
-                    <div class="list__image" style="background-image: url('{{lineage.img}}')"></div>
-                    <h4>{{lineage.name}}</h4>
+                    <div class="list__image" style="background-image: url('{{corpus.img}}')"></div>
+                    <h4>{{corpus.name}}</h4>
                 </div>
                 <div class="list__controls">
                     <a class="list__control" data-action="editItem" data-tooltip="Edit"><i class="sohl-edit"></i></a>
@@ -196,13 +196,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </li>
         </ol>
         {{else}}
-        <p class="hint">No lineage — drag one onto this being, or use the + control. A being with no lineage has no body.</p>
+        <p class="hint">No corpus — drag one onto this being, or use the + control. A being with no corpus has no body.</p>
         {{/if}}
     </fieldset>
 
     {{!-- Body Locations: read-only Part → Location tree with effective armor
          totals (natural protection + worn armor) per location. --}}
-    {{#if bodyStructure}}
+    {{#if structure}}
     <fieldset>
         <legend>Body Locations</legend>
         <div class="search-items">

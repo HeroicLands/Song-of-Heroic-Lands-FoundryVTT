@@ -52,7 +52,7 @@ describe("MeleeStrikeMode", () => {
         expect(sm.minParts).toBe(1);
         expect(sm.assocSkillCode).toBe("swd");
         expect(sm.spread.base).toBe(10);
-        // reach is seeded from the weapon length; the wielder's lineage reach
+        // reach is seeded from the weapon length; the wielder's corpus reach
         // is added later by the owning logic's evaluate phase.
         expect(sm.reach.base).toBe(5);
         expect(sm.attack).toBeDefined();
@@ -106,14 +106,14 @@ describe("MeleeStrikeMode", () => {
         expect(sm.spread.base).toBe(0);
     });
 
-    it("reach base is the weapon length, with lineage reach added as a delta", () => {
-        // The owning logic adds the wielder's lineage reach on top of the
+    it("reach base is the weapon length, with corpus reach added as a delta", () => {
+        // The owning logic adds the wielder's corpus reach on top of the
         // length base; here we simulate that addition directly.
         const sm = new MeleeStrikeMode(MELEE_DATA, MOCK_LOGIC, MELEE_ID);
         expect(sm.reach.base).toBe(5); // lengthBase
         expect(sm.reach.effective).toBe(5);
 
-        sm.reach.add("SOHL.INFO.Reach", "Size", 2); // lineage reach (large)
+        sm.reach.add("SOHL.INFO.Reach", "Size", 2); // corpus reach (large)
         expect(sm.reach.effective).toBe(7);
     });
 });

@@ -52,14 +52,14 @@ describe("impact → injury → trauma", () => {
     });
     afterEach(() => cy.cleanupWorld());
 
-    // The precondition the whole injury pipeline targets: the being's lineage
+    // The precondition the whole injury pipeline targets: the being's corpus
     // supplies a body structure with defined hit locations.
-    it("the being's lineage exposes a body structure with hit locations", () => {
+    it("the being's corpus exposes a body structure with hit locations", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
             cy.foundry((win) => {
-                const body = win.game.actors.get(actor.id).itemTypes.lineage[0]
-                    .logic.bodyStructure;
+                const body = win.game.actors.get(actor.id).itemTypes.corpus[0]
+                    .logic.structure;
                 const locations = body?.getAllLocations?.() ?? [];
                 return {
                     hasBody: !!body,
@@ -67,8 +67,7 @@ describe("impact → injury → trauma", () => {
                     hasShortcodes: locations.every((l) => !!l.shortcode),
                 };
             }).should((r) => {
-                expect(r.hasBody, "lineage exposes a body structure").to.be
-                    .true;
+                expect(r.hasBody, "corpus exposes a body structure").to.be.true;
                 expect(r.nLocations, "hit locations defined").to.be.greaterThan(
                     0,
                 );
@@ -84,7 +83,7 @@ describe("impact → injury → trauma", () => {
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
                 const loc =
-                    a.itemTypes.lineage[0].logic.bodyStructure.getAllLocations()[0]
+                    a.itemTypes.corpus[0].logic.structure.getAllLocations()[0]
                         .shortcode;
                 // Fire the dialog and stash its promise so we can await the whole
                 // flow (dialog → resolve → post card → record trauma).
@@ -114,7 +113,7 @@ describe("impact → injury → trauma", () => {
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
                 const loc =
-                    a.itemTypes.lineage[0].logic.bodyStructure.getAllLocations()[0]
+                    a.itemTypes.corpus[0].logic.structure.getAllLocations()[0]
                         .shortcode;
                 // A zero-impact blow resolves to no injury (band: ≤0 → none):
                 // the card posts but no trauma is recorded.
@@ -140,7 +139,7 @@ describe("impact → injury → trauma", () => {
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
                 const loc =
-                    a.itemTypes.lineage[0].logic.bodyStructure.getAllLocations()[0]
+                    a.itemTypes.corpus[0].logic.structure.getAllLocations()[0]
                         .shortcode;
                 // An aimed request (targetPart + spread) resolves automatically;
                 // the explicit location override keeps it deterministic (no

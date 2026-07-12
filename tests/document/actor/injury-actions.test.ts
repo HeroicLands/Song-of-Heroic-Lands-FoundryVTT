@@ -54,14 +54,14 @@ const SAMPLE_DATA: BodyStructure.Data = {
     adjacent: [],
 } as any;
 
-const MOCK_LINEAGE_LOGIC = {
-    kind: "lineage",
+const MOCK_CORPUS_LOGIC = {
+    kind: "corpus",
     actor: null,
-    data: { bodyStructure: SAMPLE_DATA },
+    data: { structure: SAMPLE_DATA },
 } as any;
 
 function makeBody(): BodyStructure {
-    return new BodyStructure(SAMPLE_DATA, { parent: MOCK_LINEAGE_LOGIC });
+    return new BodyStructure(SAMPLE_DATA, { parent: MOCK_CORPUS_LOGIC });
 }
 
 describe("parseInjuryRequest", () => {
@@ -249,14 +249,14 @@ describe("getActorBodyStructure (#268)", () => {
         // not the Foundry actor's `itemTypes`. The helper must read the former.
         const body = {} as BodyStructure;
         const logic = {
-            logicTypes: { [ITEM_KIND.LINEAGE]: [{ bodyStructure: body }] },
+            logicTypes: { [ITEM_KIND.CORPUS]: [{ structure: body }] },
         };
         expect(getActorBodyStructure(logic)).toBe(body);
     });
 
-    it("returns undefined when there is no lineage logic", () => {
+    it("returns undefined when there is no corpus logic", () => {
         expect(
-            getActorBodyStructure({ logicTypes: { [ITEM_KIND.LINEAGE]: [] } }),
+            getActorBodyStructure({ logicTypes: { [ITEM_KIND.CORPUS]: [] } }),
         ).toBeUndefined();
         expect(getActorBodyStructure(undefined)).toBeUndefined();
     });

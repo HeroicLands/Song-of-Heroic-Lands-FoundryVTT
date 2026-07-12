@@ -13,7 +13,7 @@
 
 /**
  * Drag-and-drop an Item onto a Being (#341). A compendium or world item dropped
- * on the actor sheet is created as an embedded clone; a second lineage is
+ * on the actor sheet is created as an embedded clone; a second corpus is
  * refused (singleton).
  */
 describe("drop item onto actor", () => {
@@ -104,7 +104,7 @@ describe("drop item onto actor", () => {
             cy.prepare(actor);
             cy.openSheet(actor);
             cy.wait(300);
-            // Discover a real (non-lineage) compendium item to avoid a brittle
+            // Discover a real (non-corpus) compendium item to avoid a brittle
             // hardcoded shortcode.
             cy.foundry(async (win) => {
                 const pack = [...win.game.packs].find(
@@ -114,7 +114,7 @@ describe("drop item onto actor", () => {
                     fields: ["system.shortcode"],
                 });
                 const entry = index.find(
-                    (e) => e.type !== "lineage" && e.system?.shortcode,
+                    (e) => e.type !== "corpus" && e.system?.shortcode,
                 );
                 return {
                     pack: pack.collection,
@@ -143,45 +143,42 @@ describe("drop item onto actor", () => {
         });
     });
 
-    it("refuses a second lineage but allows the first", () => {
-        cy.createWorldItem("lineage", { name: "Dropped Lineage" }).then(
-            (li) => {
-                // Bare being (no lineage) → accepted
-                cy.createActor("being", { name: "Bare" }).then((bare) => {
-                    cy.prepare(bare);
-                    cy.openSheet(bare);
-                    cy.wait(300);
-                    cy.foundry((win) => drop(win, bare.id, li.uuid));
-                    cy.wait(400);
-                    cy.foundry((win) => ({
-                        n: win.game.actors.get(bare.id).itemTypes.lineage
-                            .length,
-                    })).should((r) =>
-                        expect(r.n, "first lineage accepted").to.equal(1),
-                    );
+    it("refuses a second corpus but allows the first", () => {
+        cy.createWorldItem("corpus", { name: "Dropped Corpus" }).then((li) => {
+            // Bare being (no corpus) → accepted
+            cy.createActor("being", { name: "Bare" }).then((bare) => {
+                cy.prepare(bare);
+                cy.openSheet(bare);
+                cy.wait(300);
+                cy.foundry((win) => drop(win, bare.id, li.uuid));
+                cy.wait(400);
+                cy.foundry((win) => ({
+                    n: win.game.actors.get(bare.id).itemTypes.corpus.length,
+                })).should((r) =>
+                    expect(r.n, "first corpus accepted").to.equal(1),
+                );
+            });
+            // Basic Folk (already has a corpus) → refused
+            cy.importActor().then((actor) => {
+                cy.prepare(actor);
+                cy.openSheet(actor);
+                cy.wait(300);
+                cy.foundry((win) => {
+                    win.__before = win.game.actors.get(
+                        actor.id,
+                    ).itemTypes.corpus.length;
+                    return drop(win, actor.id, li.uuid);
                 });
-                // Basic Folk (already has a lineage) → refused
-                cy.importActor().then((actor) => {
-                    cy.prepare(actor);
-                    cy.openSheet(actor);
-                    cy.wait(300);
-                    cy.foundry((win) => {
-                        win.__before = win.game.actors.get(
-                            actor.id,
-                        ).itemTypes.lineage.length;
-                        return drop(win, actor.id, li.uuid);
-                    });
-                    cy.wait(400);
-                    cy.foundry((win) => ({
-                        before: win.__before,
-                        after: win.game.actors.get(actor.id).itemTypes.lineage
-                            .length,
-                    })).should((r) => {
-                        expect(r.before).to.equal(1);
-                        expect(r.after, "second lineage refused").to.equal(1);
-                    });
+                cy.wait(400);
+                cy.foundry((win) => ({
+                    before: win.__before,
+                    after: win.game.actors.get(actor.id).itemTypes.corpus
+                        .length,
+                })).should((r) => {
+                    expect(r.before).to.equal(1);
+                    expect(r.after, "second corpus refused").to.equal(1);
                 });
-            },
-        );
+            });
+        });
     });
 });

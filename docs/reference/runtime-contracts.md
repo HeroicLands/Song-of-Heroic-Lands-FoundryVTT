@@ -61,7 +61,7 @@ Key contracts:
 ### Updating array fields: write the whole array, never an element by index
 
 **Never** target a single element of an `ArrayField` by index in an `update()`
-payload — e.g. `update({ "system.bodyStructure.parts.2.heldItemId": id })`.
+payload — e.g. `update({ "system.structure.parts.2.heldItemId": id })`.
 Foundry expands the dotted key to `{ parts: { 2: {…} } }` and rebuilds the array
 field from that sparse map, **truncating the array and default-filling every
 element that wasn't named**. A partial write meant to touch one field of one

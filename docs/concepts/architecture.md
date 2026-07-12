@@ -108,19 +108,19 @@ So to discover what's available on a document, read its `*Data` interface (the s
 
 ### Not all of a being's derived state lives on `BeingLogic`
 
-A being's physical baseline — **anatomy, body weight, reach, and movement** — is defined by its **Lineage** item, so that derived state lives on **`LineageLogic`, not `BeingLogic`**. A being has 0 or 1 lineage; during preparation the lineage registers itself on the being, exposed as the **`BeingLogic.lineage`** pointer (`undefined` when the being has no lineage). Reach lineage-owned state through it:
+A being's physical baseline — **anatomy, body weight, reach, and movement** — is defined by its **Corpus** item (its physical body), so that derived state lives on **`CorpusLogic`, not `BeingLogic`**. A being has **0 or 1** corpus; **no corpus means the being is incorporeal** — a spirit, with no body structure, weight, reach, movement, or carry capacity. That is a supported state, not an error. During preparation the corpus registers itself on the being, exposed as the **`BeingLogic.corpus`** pointer (`undefined` for an incorporeal being). Reach corpus-owned state through it:
 
 - On **`BeingLogic`** directly: `health`, `healingBase`, `shockState`, `pull`, and `carriedWeight` (the ground-up total of carried gear).
-- On **`BeingLogic.lineage`** (a `LineageLogic`): `bodyStructure`, `bodyWeight`, `reach`, and the active movement profile as `feetPerRound` / `leaguesPerWatch` / `encumbrance` / `strengthModifier` (plus `moveProfile`, the resolved profile for the being's `movementMedium`).
+- On **`BeingLogic.corpus`** (a `CorpusLogic`): `structure`, `weight`, `reach`, and the active movement profile as `feetPerRound` / `leaguesPerWatch` / `encumbrance` / `strengthModifier` (plus `moveProfile`, the resolved profile for the being's `movementMedium`).
 
 ```ts
 const being = actor.logic; // BeingLogic
 being.carriedWeight.effective; // carried gear weight — on the being
-being.lineage?.feetPerRound.effective; // tactical move — on the lineage
-being.lineage?.bodyStructure; // anatomy — on the lineage (undefined if no lineage)
+being.corpus?.feetPerRound.effective; // tactical move — on the corpus
+being.corpus?.structure; // anatomy — on the corpus (undefined if no corpus)
 ```
 
-The same split shows up at the data layer: the movement/anatomy/weight/reach **schema is on `LineageDataModel`**, not `BeingDataModel` (see [Body Structure → Where the data lives](../reference/body-structure.md#where-the-data-lives)). When you can't find a physical attribute on the Being, look to its Lineage.
+The same split shows up at the data layer: the movement/anatomy/weight/reach **schema is on `CorpusDataModel`**, not `BeingDataModel` (see [Body Structure → Where the data lives](../reference/body-structure.md#where-the-data-lives)). When you can't find a physical attribute on the Being, look to its Corpus.
 
 ## Document types
 

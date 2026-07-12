@@ -184,7 +184,7 @@ npm run test -- tests/domain/modifier/ValueModifier.test.ts
 ```typescript
 const MOCK_BEING_LOGIC = {
     actor: null,
-    data: { bodyStructure: SAMPLE_DATA },
+    data: { structure: SAMPLE_DATA },
 } as any;
 
 const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
@@ -213,7 +213,7 @@ expect(counts["thorax"]).toBeGreaterThan(counts["head"]); // thorax has higher w
 
 ```typescript
 const update = body.addPartUpdate(newPartData);
-const parts = update["system.bodyStructure.parts"];
+const parts = update["system.structure.parts"];
 expect(parts).toHaveLength(3);
 expect(parts[2].shortcode).toBe("larm");
 ```

@@ -12,14 +12,14 @@
  */
 
 /**
- * Lineage movement-profile paradigm (#365): the compendium Human Folk lineage is
+ * Corpus movement-profile paradigm (#365): the compendium Human Folk corpus is
  * authored in the new expression-driven format — per-medium `movementProfiles`,
- * a `personalFatigue` expression, and a `bodyWeight` (base | calc-of-str). This
+ * a `personalFatigue` expression, and a `weight` (base | calc-of-str). This
  * confirms it imports and validates under the new DataModel, that `moveBase`
  * mirrors the terrestrial profile's `feetPerRound`, and that
- * `LineageLogic.baseWeight` evaluates `bodyWeight.calc` against the being's `str`.
+ * `CorpusLogic.baseWeight` evaluates `weight.calc` against the being's `str`.
  */
-describe("Lineage movement-profile format (#365)", () => {
+describe("Corpus movement-profile format (#365)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
     Cypress.on("uncaught:exception", () => false);
@@ -29,29 +29,29 @@ describe("Lineage movement-profile format (#365)", () => {
             cy.prepare(actor);
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
-                const lin = a.itemTypes.lineage[0];
+                const lin = a.itemTypes.corpus[0];
                 const L = lin.logic;
                 const strItem = a.itemTypes.attribute.find(
                     (i) => i.system.shortcode === "str",
                 );
                 const profile = L.data.movementProfiles[0] ?? {};
                 return {
-                    hasLineage: !!lin,
-                    moveTerrestrial: L.moveBase.terrestrial,
+                    hasCorpus: !!lin,
+                    moveTerrestrial: L.data.moveBase.terrestrial,
                     profileCount: L.data.movementProfiles.length,
                     profileMedium: profile.medium,
                     profileFeetPerRound: profile.feetPerRound,
                     profileEncumbrance: profile.encumbrance,
                     profileStrMod: profile.strMod,
                     personalFatigue: L.data.personalFatigue,
-                    bodyWeightBase: L.data.bodyWeight.base,
-                    bodyWeightCalc: L.data.bodyWeight.calc,
-                    baseWeight: L.baseWeight,
+                    bodyWeightBase: L.data.weight.base,
+                    bodyWeightCalc: L.data.weight.calc,
+                    baseWeight: L.weight.effective,
                     reach: L.reach.effective,
                     str: strItem?.logic.score.effective ?? null,
                 };
             }).then((r) => {
-                expect(r.hasLineage, "actor has a lineage").to.be.true;
+                expect(r.hasCorpus, "actor has a corpus").to.be.true;
                 // moveBase mirrors the terrestrial profile's feetPerRound.
                 expect(r.moveTerrestrial).to.eq(50);
                 expect(r.profileCount).to.eq(1);
@@ -60,13 +60,13 @@ describe("Lineage movement-profile format (#365)", () => {
                 expect(r.profileEncumbrance).to.eq("floor(wt/4)");
                 expect(r.profileStrMod).to.eq("-5 * floor((str - 10) / 2)");
                 expect(r.personalFatigue).to.eq("enc + 5");
-                // bodyWeight is computed (base null) from a str expression.
+                // weight is computed (base null) from a str expression.
                 expect(r.bodyWeightBase).to.eq(null);
                 expect(r.bodyWeightCalc).to.eq("(9 * str) + 50");
                 expect(r.str, "str resolved").to.be.a("number");
                 // baseWeight = (9 * str) + 50, evaluated against the being's str.
                 expect(r.baseWeight).to.eq(9 * r.str + 50);
-                expect(r.reach).to.eq(1);
+                expect(r.reach).to.eq(0); // Human Folk (medium) has reachBase 0
             });
         });
     });

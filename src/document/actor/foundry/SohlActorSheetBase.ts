@@ -57,7 +57,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
      *   ownership.
      * - **Already on this actor** → ignored (no self-duplicate).
      *
-     * Lineage is a singleton, so a second lineage drop is refused (the hard
+     * Corpus is a singleton, so a second corpus drop is refused (the hard
      * data-layer guard is #338).
      *
      * @param event - The originating drop event (its `shiftKey` selects move-all).
@@ -75,13 +75,13 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         // Already embedded on this actor: don't duplicate it onto itself.
         if (sourceActor?.id === actor.id) return;
 
-        // Lineage singleton: refuse a second one.
+        // Corpus singleton: refuse a second one.
         if (
-            droppedItem.type === ITEM_KIND.LINEAGE &&
-            (actor.itemTypes[ITEM_KIND.LINEAGE]?.length ?? 0) > 0
+            droppedItem.type === ITEM_KIND.CORPUS &&
+            (actor.itemTypes[ITEM_KIND.CORPUS]?.length ?? 0) > 0
         ) {
             (globalThis as any).ui?.notifications?.warn(
-                "This being already has a lineage; delete the current one first.",
+                "This being already has a corpus; delete the current one first.",
             );
             return;
         }

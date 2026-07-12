@@ -13,7 +13,7 @@
 
 import { entity } from "@src/entity/registry";
 import { registerEntity } from "@src/entity/entityRegistry";
-import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
+import type { CorpusLogic } from "@src/document/item/logic/CorpusLogic";
 import type { BodyPart } from "@src/entity/body/BodyPart";
 import { BodyLocation } from "@src/entity/body/BodyLocation";
 import { weightedRandom } from "@src/entity/body/weighted-random";
@@ -24,7 +24,7 @@ import { isA, ITEM_KIND } from "@src/utils/constants";
  * The complete anatomical structure of a Being — all body parts, their
  * hit locations, and the adjacency relationships between parts.
  *
- * Constructed from persisted data during {@link LineageLogic.initialize}.
+ * Constructed from persisted data during {@link CorpusLogic.initialize}.
  * Provides weighted random selection for hit location determination and
  * adjacency queries for mechanics like bleeding spread or cascading injuries.
  *
@@ -56,12 +56,12 @@ export class BodyStructure extends SohlEntity {
      * @param data.parts - The persisted body parts array
      * @param data.adjacent - The persisted adjacency pairs array
      * @param options - Construction options
-     * @param options.parent - The parent {@link LineageLogic} for this structure
+     * @param options.parent - The parent {@link CorpusLogic} for this structure
      * @throws If required fields are missing from `data` or `options`.
      */
     constructor(data: BodyStructure.Data, options: BodyStructure.Options) {
-        if (!isA(options.parent, ITEM_KIND.LINEAGE)) {
-            throw new Error("Requires a Lineage parent");
+        if (!isA(options.parent, ITEM_KIND.CORPUS)) {
+            throw new Error("Requires a Corpus parent");
         }
         if (!data.parts || !Array.isArray(data.parts)) {
             throw new Error(
@@ -78,7 +78,7 @@ export class BodyStructure extends SohlEntity {
             (d, i) =>
                 new entity.BodyPart(d, {
                     parent: this.parent,
-                    bodyStructure: this,
+                    structure: this,
                     index: i,
                 }),
         );
@@ -239,9 +239,9 @@ export class BodyStructure extends SohlEntity {
      * @returns An `update()` payload appending the part.
      */
     addPartUpdate(partData: BodyPart.Data): PlainObject {
-        const canonical = this.parent.data.bodyStructure.parts;
+        const canonical = this.parent.data.structure.parts;
         return {
-            "system.bodyStructure.parts": [...canonical, partData],
+            "system.structure.parts": [...canonical, partData],
         };
     }
 
@@ -254,9 +254,9 @@ export class BodyStructure extends SohlEntity {
      * @returns An `update()` payload with the part removed.
      */
     removePartUpdate(shortcode: string): PlainObject {
-        const canonical: BodyPart.Data[] = this.parent.data.bodyStructure.parts;
+        const canonical: BodyPart.Data[] = this.parent.data.structure.parts;
         return {
-            "system.bodyStructure.parts": canonical.filter(
+            "system.structure.parts": canonical.filter(
                 (p) => p.shortcode !== shortcode,
             ),
         };
@@ -282,7 +282,7 @@ export class BodyStructure extends SohlEntity {
     setPartFieldsUpdate(
         updates: { index: number; changes: Partial<BodyPart.Data> }[],
     ): PlainObject {
-        const canonical: BodyPart.Data[] = this.parent.data.bodyStructure.parts;
+        const canonical: BodyPart.Data[] = this.parent.data.structure.parts;
         const byIndex = new Map(
             updates
                 .filter((u) => u.index >= 0 && u.index < canonical.length)
@@ -290,7 +290,7 @@ export class BodyStructure extends SohlEntity {
         );
         if (!byIndex.size) return {};
         return {
-            "system.bodyStructure.parts": canonical.map((p, i) =>
+            "system.structure.parts": canonical.map((p, i) =>
                 byIndex.has(i) ? { ...p, ...byIndex.get(i) } : p,
             ),
         };
@@ -321,12 +321,12 @@ export class BodyStructure extends SohlEntity {
      * @returns An `update()` payload adding the edge (unchanged if it exists).
      */
     addEdgeUpdate(partA: string, partB: string): PlainObject {
-        const canonical: string[][] = this.parent.data.bodyStructure.adjacent;
+        const canonical: string[][] = this.parent.data.structure.adjacent;
         const exists = canonical.some(
             (pair) => pair.includes(partA) && pair.includes(partB),
         );
         return {
-            "system.bodyStructure.adjacent":
+            "system.structure.adjacent":
                 exists ? canonical : [...canonical, [partA, partB]],
         };
     }
@@ -341,9 +341,9 @@ export class BodyStructure extends SohlEntity {
      * @returns An `update()` payload with the edge removed.
      */
     removeEdgeUpdate(partA: string, partB: string): PlainObject {
-        const canonical: string[][] = this.parent.data.bodyStructure.adjacent;
+        const canonical: string[][] = this.parent.data.structure.adjacent;
         return {
-            "system.bodyStructure.adjacent": canonical.filter(
+            "system.structure.adjacent": canonical.filter(
                 (pair) => !(pair.includes(partA) && pair.includes(partB)),
             ),
         };

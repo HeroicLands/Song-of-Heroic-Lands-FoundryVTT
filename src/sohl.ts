@@ -12,6 +12,7 @@
  */
 
 import { SOHLCONFIG } from "@src/core/foundry/sohl-config";
+import { migrateWorld } from "@src/core/foundry/migration";
 import { SohlSystem } from "@src/core/logic/SohlSystem";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
@@ -529,6 +530,7 @@ function registerSystemHooks() {
 (Hooks as any).once("ready", () => {
     registerHandlebarsHelpers();
     SohlSystem.ready = true;
+    void migrateWorld();
 });
 
 /*-------------------------------------------------------*/

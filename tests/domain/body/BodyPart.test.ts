@@ -27,20 +27,20 @@ const SAMPLE_DATA: BodyPart.Data = {
     ],
 };
 
-// Minimal mock: lineageLogic with a null actor (no item resolution)
+// Minimal mock: corpusLogic with a null actor (no item resolution)
 const MOCK_BODY_STRUCTURE = {
-    lineageLogic: { actor: null },
+    corpusLogic: { actor: null },
 } as any;
 
-// A Lineage-kinded owning logic (the parent every body entity requires).
-const MOCK_LINEAGE = { kind: "lineage", actor: null } as any;
+// A Corpus-kinded owning logic (the parent every body entity requires).
+const MOCK_CORPUS = { kind: "corpus", actor: null } as any;
 
 describe("BodyPart", () => {
     describe("construction", () => {
         it("creates from data with all properties", () => {
             const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_LINEAGE,
-                bodyStructure: MOCK_BODY_STRUCTURE,
+                parent: MOCK_CORPUS,
+                structure: MOCK_BODY_STRUCTURE,
                 index: 0,
             });
             expect(part.shortcode).toBe("larm");
@@ -55,8 +55,8 @@ describe("BodyPart", () => {
 
         it("constructs BodyLocation instances for each location", () => {
             const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_LINEAGE,
-                bodyStructure: MOCK_BODY_STRUCTURE,
+                parent: MOCK_CORPUS,
+                structure: MOCK_BODY_STRUCTURE,
                 index: 0,
             });
             expect(part.locations).toHaveLength(2);
@@ -66,8 +66,8 @@ describe("BodyPart", () => {
 
         it("assigns sequential indices to locations", () => {
             const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_LINEAGE,
-                bodyStructure: MOCK_BODY_STRUCTURE,
+                parent: MOCK_CORPUS,
+                structure: MOCK_BODY_STRUCTURE,
                 index: 0,
             });
             expect(part.locations[0].index).toBe(0);
@@ -78,19 +78,19 @@ describe("BodyPart", () => {
     describe("updatePath", () => {
         it("builds dot-notation path from index", () => {
             const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_LINEAGE,
-                bodyStructure: MOCK_BODY_STRUCTURE,
+                parent: MOCK_CORPUS,
+                structure: MOCK_BODY_STRUCTURE,
                 index: 3,
             });
-            expect(part.updatePath).toBe("system.bodyStructure.parts.3");
+            expect(part.updatePath).toBe("system.structure.parts.3");
         });
     });
 
     describe("getLocation", () => {
         it("finds a location by name", () => {
             const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_LINEAGE,
-                bodyStructure: MOCK_BODY_STRUCTURE,
+                parent: MOCK_CORPUS,
+                structure: MOCK_BODY_STRUCTURE,
                 index: 0,
             });
             const loc = part.getLocationByCode("lhand");
@@ -100,8 +100,8 @@ describe("BodyPart", () => {
 
         it("returns undefined for unknown name", () => {
             const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_LINEAGE,
-                bodyStructure: MOCK_BODY_STRUCTURE,
+                parent: MOCK_CORPUS,
+                structure: MOCK_BODY_STRUCTURE,
                 index: 0,
             });
             expect(part.getLocationByCode("nonexistent")).toBeUndefined();
@@ -111,8 +111,8 @@ describe("BodyPart", () => {
     describe("getRandomLocation", () => {
         it("returns a location from this part", () => {
             const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_LINEAGE,
-                bodyStructure: MOCK_BODY_STRUCTURE,
+                parent: MOCK_CORPUS,
+                structure: MOCK_BODY_STRUCTURE,
                 index: 0,
             });
             const loc = part.getRandomLocation();
@@ -121,8 +121,8 @@ describe("BodyPart", () => {
 
         it("respects probability weights", () => {
             const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_LINEAGE,
-                bodyStructure: MOCK_BODY_STRUCTURE,
+                parent: MOCK_CORPUS,
+                structure: MOCK_BODY_STRUCTURE,
                 index: 0,
             });
             // Upper Left Arm has weight 15, Left Hand has weight 5

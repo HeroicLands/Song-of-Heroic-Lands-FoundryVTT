@@ -131,7 +131,7 @@ export const {
     CONCOCTIONGEAR: "concoctiongear",
     CONTAINERGEAR: "containergear",
     TRAUMA: "trauma",
-    LINEAGE: "lineage",
+    CORPUS: "corpus",
     MISCGEAR: "miscgear",
     MYSTERY: "mystery",
     MYSTICALABILITY: "mysticalability",
@@ -227,7 +227,7 @@ export const {
         Image: "systems/sohl/assets/icons/injury.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.LINEAGE]: {
+    [ITEM_KIND.CORPUS]: {
         IconCssClass: "sohl-body",
         Image: "systems/sohl/assets/icons/body.svg",
         KeyChoices: [] as StrictObject<string>[],
@@ -445,7 +445,7 @@ export type Amputability = (typeof AMPUTABILITY)[keyof typeof AMPUTABILITY];
  *   MANIPULATOR injury (Serious) → fumble check; (Grievous) → auto fumble.
  *   LOCOMOTOR injury (Serious) → stumble check; (Grievous) → auto stumble.
  *
- * The lowercase string values are persisted on every lineage and on every
+ * The lowercase string values are persisted on every corpus and on every
  * skill/attribute's `impairedByRoles`, so they are the source of truth and
  * must not be renamed without a data migration.
  */
@@ -1029,25 +1029,25 @@ export type ContainerGearEffectKey =
     (typeof CONTAINERGEAR_EFFECT_KEY)[keyof typeof CONTAINERGEAR_EFFECT_KEY];
 
 export const {
-    /** Map of lineage effect-key name → change path. */
-    kind: LINEAGE_EFFECT_KEY,
-    /** All lineage effect-key change paths, as an array. */
-    values: LineageEffectKeys,
-    /** Type guard for lineage effect-key change paths. */
-    isValue: isLineageEffectKey,
-    /** Localization keys per lineage effect key. */
-    labels: lineageEffectKeyLabels,
-} = defineType(`SOHL.Lineage.EffectKey`, {
-    BODY_WEIGHT: "mod:logic.bodyWeight",
+    /** Map of corpus effect-key name → change path. */
+    kind: CORPUS_EFFECT_KEY,
+    /** All corpus effect-key change paths, as an array. */
+    values: CorpusEffectKeys,
+    /** Type guard for corpus effect-key change paths. */
+    isValue: isCorpusEffectKey,
+    /** Localization keys per corpus effect key. */
+    labels: corpusEffectKeyLabels,
+} = defineType(`SOHL.Corpus.EffectKey`, {
+    BODY_WEIGHT: "mod:logic.weight",
     MOVE_TERRESTRIAL: "mod:logic.move.terrestrial",
     MOVE_AQUATIC: "mod:logic.move.aquatic",
     MOVE_AERIAL: "mod:logic.move.aerial",
     MOVE_BURROWING: "mod:logic.move.burrowing",
     MOVE_ASTRAL: "mod:logic.move.astral",
 });
-/** Union of all lineage effect-key change paths. */
-export type LineageEffectKey =
-    (typeof LINEAGE_EFFECT_KEY)[keyof typeof LINEAGE_EFFECT_KEY];
+/** Union of all corpus effect-key change paths. */
+export type CorpusEffectKey =
+    (typeof CORPUS_EFFECT_KEY)[keyof typeof CORPUS_EFFECT_KEY];
 
 export const {
     /** Map of misc-gear effect-key name → change path. */

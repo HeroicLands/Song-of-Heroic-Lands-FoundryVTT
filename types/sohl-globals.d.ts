@@ -27,7 +27,7 @@ import type { StructureDataModel } from "@src/document/actor/foundry/StructureDa
 import type { VehicleDataModel } from "@src/document/actor/foundry/VehicleDataModel";
 // Item data models
 import type { AttributeDataModel } from "@src/document/item/foundry/AttributeDataModel";
-import type { LineageDataModel } from "@src/document/item/foundry/LineageDataModel";
+import type { CorpusDataModel } from "@src/document/item/foundry/CorpusDataModel";
 import type { AffiliationDataModel } from "@src/document/item/foundry/AffiliationDataModel";
 import type { AfflictionDataModel } from "@src/document/item/foundry/AfflictionDataModel";
 import type { ArmorGearDataModel } from "@src/document/item/foundry/ArmorGearDataModel";
@@ -255,7 +255,7 @@ declare module "fvtt-types/configuration" {
         // (as it already was while this file was broken).
         Item: {
             attribute: Constructor<AttributeDataModel<any, any>>;
-            lineage: Constructor<LineageDataModel<any, any>>;
+            corpus: Constructor<CorpusDataModel<any, any>>;
             affiliation: Constructor<AffiliationDataModel<any, any>>;
             affliction: Constructor<AfflictionDataModel<any, any>>;
             armorgear: Constructor<ArmorGearDataModel<any, any>>;

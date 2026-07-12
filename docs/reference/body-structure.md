@@ -18,16 +18,16 @@ audience: Developers and content authors defining creature anatomy.
 
 ## Overview
 
-Every creature (a Being actor) takes its anatomy from a **Lineage** item attached to it. The lineage's body structure determines where blows land, how armor protects, which skills and attributes are impaired by injury, and whether a hit makes the target fumble a weapon or stumble.
+Every creature (a Being actor) takes its anatomy from a **Corpus** item attached to it. The corpus's body structure determines where blows land, how armor protects, which skills and attributes are impaired by injury, and whether a hit makes the target fumble a weapon or stumble.
 
 A body structure has three parts: a list of **body parts**, the **body locations** nested within each part, and an **adjacency graph** describing which parts are next to which. A cross-cutting tag set of **body roles** ties parts to the skills and attributes they affect.
 
 ## Where the data lives
 
-The schema is defined on the Lineage item, not on the Being actor. See [src/document/item/foundry/LineageDataModel.ts](../../src/document/item/foundry/LineageDataModel.ts):
+The schema is defined on the Corpus item, not on the Being actor. See [src/document/item/foundry/CorpusDataModel.ts](../../src/document/item/foundry/CorpusDataModel.ts):
 
 ```
-system.bodyStructure
+system.structure
   ├── parts: BodyPart.Data[]   // each with its locations[]
   └── adjacent: string[][]      // pairs of part shortcodes
 ```
@@ -42,7 +42,7 @@ Domain objects are reconstructed on every preparation cycle. Active effects may 
 
 ## Body parts
 
-A body part is a primary anatomical division — Head, Torso, an arm, a leg, a wing. Persisted fields, from the `defineSchema()` of [LineageDataModel.ts](../../src/document/item/foundry/LineageDataModel.ts):
+A body part is a primary anatomical division — Head, Torso, an arm, a leg, a wing. Persisted fields, from the `defineSchema()` of [CorpusDataModel.ts](../../src/document/item/foundry/CorpusDataModel.ts):
 
 | Field         | Type                  | Purpose                                                                                            |
 | ------------- | --------------------- | -------------------------------------------------------------------------------------------------- |
@@ -59,7 +59,7 @@ A convenience getter {@link BodyPart.affectsMobility} is `true` when the part ha
 
 ## Body locations
 
-A body location is a specific hit point within a part — Skull, Thorax, Right Elbow. Persisted fields, also from the `defineSchema()` of [LineageDataModel.ts](../../src/document/item/foundry/LineageDataModel.ts):
+A body location is a specific hit point within a part — Skull, Thorax, Right Elbow. Persisted fields, also from the `defineSchema()` of [CorpusDataModel.ts](../../src/document/item/foundry/CorpusDataModel.ts):
 
 | Field                    | Type                             | Purpose                                                                                                                                                                                       |
 | ------------------------ | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -134,11 +134,11 @@ Two parallel mechanisms exist:
 - **Literal `name` fields** on each part and location, baked into the compendium JSON in the active language (`"name": "Skull"`). This is what the system reads at runtime.
 - **`SOHL.BodyPart.<bare-shortcode>` and `SOHL.BodyLocation.<bare-shortcode>` keys** in [lang/en.json](../../lang/en.json). Keys use bare names (`SOHL.BodyPart.head`, `SOHL.BodyLocation.skull`) without the `*part` / `*loc` suffix. These keys are used by UI affordances that need to render a label from a shortcode alone; the literal `name` field on the compendium item is preferred when the item is in hand.
 
-When authoring a new lineage, set the literal `name` field and add the corresponding localization key for the bare shortcode.
+When authoring a new corpus, set the literal `name` field and add the corresponding localization key for the bare shortcode.
 
-## Reference: Human lineage
+## Reference: Human corpus
 
-The only lineage shipped today is **Human** (`assets/packs/items/_source/Human_R0F5737O8cfOraMc.json`). Its body structure:
+The only corpus shipped today is **Human** (`assets/packs/items/_source/Human_R0F5737O8cfOraMc.json`). Its body structure:
 
 | Part shortcode | Name      | Roles         | `combatArea` | Can hold |
 | -------------- | --------- | ------------- | -----------: | -------- |
@@ -162,7 +162,7 @@ Locations:
 
 Adjacency: torso is the hub — head, both arms, and both legs all connect to it; head also connects directly to both arms.
 
-## Suggested shortcode conventions for new lineages
+## Suggested shortcode conventions for new corpora
 
 Suffix every part shortcode with `part` and every location shortcode with `loc`. Use `l*` / `r*` prefixes for left/right pairs. Beyond that, the suggestions below are conventions, not shipped data — only Human is in the compendium today.
 
@@ -182,12 +182,12 @@ Suffix every part shortcode with `part` and every location shortcode with `loc`.
 
 `cephalothoraxpart`, `abdomenpart`; legs numbered for clarity when more than two pairs.
 
-## Adding a body part to a lineage
+## Adding a body part to a corpus
 
 Use `BodyStructure.addPartUpdate(partData)` to build the update payload:
 
 ```typescript
-const update = bodyStructure.addPartUpdate({
+const update = structure.addPartUpdate({
     shortcode: "tailpart",
     name: "Tail",
     roles: ["locomotor"],
@@ -199,10 +199,10 @@ const update = bodyStructure.addPartUpdate({
         /* BodyLocation.Data entries */
     ],
 });
-await lineageItem.update(update);
+await corpusItem.update(update);
 ```
 
-To wire it into adjacency: `bodyStructure.addEdgeUpdate("tailpart", "hindquarterspart")` returns the update payload to add the edge.
+To wire it into adjacency: `structure.addEdgeUpdate("tailpart", "hindquarterspart")` returns the update payload to add the edge.
 
 Localization keys for the bare shortcode (`SOHL.BodyPart.tail`, `SOHL.BodyLocation.<each location>`) belong in [lang/en.json](../../lang/en.json).
 

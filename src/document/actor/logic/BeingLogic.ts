@@ -21,7 +21,7 @@ import {
     type SohlActorLogic,
 } from "@src/document/actor/logic/SohlActorBaseLogic";
 import type { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
-import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
+import type { CorpusLogic } from "@src/document/item/logic/CorpusLogic";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import {
@@ -89,12 +89,12 @@ import { DamageCardInput } from "@src/document/combatant/logic/SohlCombatantLogi
  * are the primary participants in combat, skill tests, and social interactions.
  *
  * The being's **physical baseline — anatomy, body weight, reach, and movement —
- * lives on its {@link LineageLogic}, not here.** `BeingLogic` holds being-owned
+ * lives on its {@link CorpusLogic}, not here.** `BeingLogic` holds being-owned
  * derived state ({@link health}, {@link healingBase}, {@link shockState},
  * {@link pull}, {@link carriedWeight}); anatomy/weight/reach/movement
- * (`bodyStructure`, `bodyWeight`, `reach`, `feetPerRound`, `leaguesPerWatch`,
+ * (`structure`, `weight`, `reach`, `feetPerRound`, `leaguesPerWatch`,
  * `encumbrance`, `strengthModifier`) are reached through the
- * {@link BeingLogic.lineage} pointer. See the architecture reference, "Not all of
+ * {@link BeingLogic.corpus} pointer. See the architecture reference, "Not all of
  * a being's derived state lives on `BeingLogic`".
  *
  * @typeParam TData - The Being data interface.
@@ -133,24 +133,24 @@ export class BeingLogic<
     carriedWeight!: ValueModifier;
 
     /**
-     * The being's {@link LineageLogic | Lineage} logic, or `undefined` when it has
-     * none. A being has 0 or 1 lineage; rather than re-scan `logicTypes` on every
-     * lookup, the lineage registers itself here from its own `initialize()` (via
-     * {@link registerLineage}). Reset at the start of {@link initialize} — before
+     * The being's {@link CorpusLogic | Corpus} logic, or `undefined` when it has
+     * none. A being has 0 or 1 corpus; rather than re-scan `logicTypes` on every
+     * lookup, the corpus registers itself here from its own `initialize()` (via
+     * {@link registerCorpus}). Reset at the start of {@link initialize} — before
      * any item's `initialize()` runs — so it reflects the current prepare cycle.
-     * The lineage carries the being's movement ({@link LineageLogic.feetPerRound} /
-     * {@link LineageLogic.leaguesPerWatch}), body structure, weight, and reach.
+     * The corpus carries the being's movement ({@link CorpusLogic.feetPerRound} /
+     * {@link CorpusLogic.leaguesPerWatch}), body structure, weight, and reach.
      */
-    lineage: LineageLogic | undefined;
+    corpus: CorpusLogic | undefined;
 
     /**
-     * Register a {@link LineageLogic} as this being's lineage. Called by the
-     * lineage's own `initialize()` (which runs after the being's), so
-     * {@link BeingLogic.lineage} is populated before any consumer reads it.
-     * @param lineage - The owning being's lineage logic.
+     * Register a {@link CorpusLogic} as this being's corpus. Called by the
+     * corpus's own `initialize()` (which runs after the being's), so
+     * {@link BeingLogic.corpus} is populated before any consumer reads it.
+     * @param corpus - The owning being's corpus logic.
      */
-    registerLineage(lineage: LineageLogic): void {
-        this.lineage = lineage;
+    registerCorpus(corpus: CorpusLogic): void {
+        this.corpus = corpus;
     }
 
     /**
@@ -169,7 +169,7 @@ export class BeingLogic<
      */
     get reach(): number {
         const lt = this.logicTypes;
-        const bodyStructure = lt[ITEM_KIND.LINEAGE][0]?.bodyStructure;
+        const structure = lt[ITEM_KIND.CORPUS][0]?.structure;
 
         const options: MeleeReachOption[] = [];
 
@@ -189,7 +189,7 @@ export class BeingLogic<
         // Weapons: a melee mode is available only if the weapon is held in at
         // least `minParts` limbs.
         for (const weapon of lt[ITEM_KIND.WEAPONGEAR]) {
-            const heldLimbs = bodyStructure?.limbsHolding(weapon.id) ?? 0;
+            const heldLimbs = structure?.limbsHolding(weapon.id) ?? 0;
             for (const sm of weapon.strikeModes ?? []) {
                 if (sm instanceof MeleeStrikeMode) {
                     options.push({
@@ -274,8 +274,7 @@ export class BeingLogic<
      * after item preparation. Returns an empty array when no mode is available.
      */
     get availableStrikeModes(): StrikeModeBase[] {
-        const bodyStructure =
-            this.logicTypes[ITEM_KIND.LINEAGE][0]?.bodyStructure;
+        const structure = this.logicTypes[ITEM_KIND.CORPUS][0]?.structure;
 
         let resultStrikeModes: StrikeModeBase[] = [];
 
@@ -711,9 +710,9 @@ export class BeingLogic<
         // Reset the ground-up accumulator before any gear item's evaluate()
         // adds to it (all item initialize()/evaluate() run after this).
         this.carriedWeight = new entity.ValueModifier(this);
-        // Cleared before item initialize() runs; the lineage re-registers itself
-        // via registerLineage() during its own initialize().
-        this.lineage = undefined;
+        // Cleared before item initialize() runs; the corpus re-registers itself
+        // via registerCorpus() during its own initialize().
+        this.corpus = undefined;
     }
 
     /** @inheritdoc */
@@ -723,16 +722,16 @@ export class BeingLogic<
     }
 
     /**
-     * Fold every worn ArmorGear's protection onto the lineage body locations
+     * Fold every worn ArmorGear's protection onto the corpus body locations
      * it covers, so each location knows its summed armor, whether it is rigid,
      * and the list of covering materials. Runs after `super.evaluate()` so the
      * armor items' protection modifiers are already prepared. No-op when the
-     * being has no lineage (hence no body structure).
+     * being has no corpus (hence no body structure).
      */
     private aggregateArmorProtection(): void {
         const lt = this.logicTypes;
-        const bodyStructure = lt[ITEM_KIND.LINEAGE][0]?.bodyStructure;
-        if (!bodyStructure) return;
+        const structure = lt[ITEM_KIND.CORPUS][0]?.structure;
+        if (!structure) return;
 
         const layers: ArmorLayer[] = [];
         for (const logic of lt[ITEM_KIND.ARMORGEAR].filter(
@@ -752,24 +751,18 @@ export class BeingLogic<
             });
         }
 
-        aggregateArmor(bodyStructure, layers);
+        aggregateArmor(structure, layers);
     }
 
     /** @inheritdoc */
     override finalize(): void {
         super.finalize();
 
-        // A being really has to have a lineage — it supplies body structure,
-        // movement, weight, and reach. Lacking one is not a hard error (we do
-        // not throw), but the being cannot participate in most being actions
-        // (it cannot wield weapons, move, etc.) and should be treated as
-        // unusable. Surface that as a warning so it gets noticed and fixed.
-        const hasLineage = this.logicTypes[ITEM_KIND.LINEAGE].length > 0;
-        if (!hasLineage) {
-            sohl.log.warn(
-                `Being "${this.name}" has no Lineage item; it cannot participate in most being actions (movement, weapons, reach, etc.) and should be considered unusable until a Lineage is added.`,
-            );
-        }
+        // A being with no corpus is a supported, first-class state: it is
+        // **incorporeal** (e.g. a spirit) — no body, so no body structure,
+        // movement, weight, reach, or carry capacity. The corpus-dependent
+        // reads degrade to their "no corpus → 0 / undefined" behavior; this is
+        // not an error and is deliberately not warned about.
     }
 
     /**
@@ -784,7 +777,7 @@ export class BeingLogic<
         const body = getActorBodyStructure(this);
         if (!body) {
             sohl.log.uiWarn(
-                `${this.name} has no Lineage body structure; cannot resolve an injury.`,
+                `${this.name} has no Corpus body structure; cannot resolve an injury.`,
             );
             return;
         }
@@ -842,7 +835,7 @@ export class BeingLogic<
         const body = getActorBodyStructure(this);
         if (!body) {
             sohl.log.uiWarn(
-                `${this.name} has no Lineage body structure; cannot add an injury.`,
+                `${this.name} has no Corpus body structure; cannot add an injury.`,
             );
             return;
         }

@@ -14,7 +14,7 @@
 /**
  * The canonical starter being shipped in the `sohl.actors` compendium.
  *
- * "Basic Folk" is fully populated (14 attributes, the sole "Human Folk" lineage,
+ * "Basic Folk" is fully populated (14 attributes, the sole "Human Folk" corpus,
  * 25 skills with `masteryLevelBase`, 1 mystical ability, 1 misc gear) but ships
  * no weapon, armor, trait, or affiliation. Gear/combat specs import it and add
  * the missing pieces from the `sohl.items` pack.
