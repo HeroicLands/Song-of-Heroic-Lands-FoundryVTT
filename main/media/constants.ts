@@ -1174,15 +1174,28 @@ export const {
     /** Localization keys per affliction subtype. */
     labels: AfflictionSubTypeLabels,
 } = defineType("SOHL.Affliction.SubType", {
+    /** The lack of basic needs or sustenance. */
     PRIVATION: "privation",
+    /** Physical or mental exhaustion resulting from prolonged activity or stress. */
     FATIGUE: "fatigue",
+    /** Illness, parasite, or maladiction affecting the body or mind. */
     DISEASE: "disease",
+    /**
+     * Swelling or inflammation exacerbating an existing condition or injury,
+     * often fatal.
+     */
     INFECTION: "infection",
+    /** Toxic substances or venoms affecting the body. */
     POISONTOXIN: "poisontoxin",
+    /** Emotional response to a perceived threat or danger. */
     FEAR: "fear",
+    /** Emotional state affecting group cohesion and individual morale. */
     MORALE: "morale",
+    /** Influence of existential chaos, death, or life-draining spiritual forces. */
     SHADOW: "shadow",
+    /** Mental and emotional disorder. */
     PSYCHE: "psyche",
+    /** Severe shock to the aura, resulting in temporary loss of aura-related abilities. */
     AURALSHOCK: "auralshock",
 });
 /** Union of all affliction-subtype values. */
@@ -1200,16 +1213,30 @@ export const {
     /** Value-keyed label map for `StringField({ choices })`. */
     choices: AfflictionTransmissionChoices,
 } = defineType("SOHL.Affliction.Transmission", {
+    /** No transmission mode. */
     NONE: "none",
+    /** Transmission through the air, such as via droplets or aerosols. */
     AIRBORNE: "airborne",
+    /** Transmission through direct physical (skin) contact. */
     CONTACT: "contact",
+    /** Transmission through bodily fluids: blood, saliva, etc. */
     BODYFLUID: "bodyfluid",
+    /** Transmission through ingestion of contaminated substances. */
     INJESTED: "injested",
+    /**
+     * Transmission through close proximity to an infected individual, but
+     * separate from airborne or direct contact modes.
+     */
     PROXIMITY: "proximity",
+    /** Transmission through a vector, such as an insect or animal bite. */
     VECTOR: "vector",
+    /** Transmission through sensory perception, such as sight or sound. */
     PERCEPTION: "perception",
+    /** Transmission through arcane means. */
     ARCANE: "arcane",
+    /** Transmission through divine means. */
     DIVINE: "divine",
+    /** Transmission through spiritual means. */
     SPIRIT: "spirit",
 });
 /** Union of all affliction-transmission values. */
@@ -1225,8 +1252,11 @@ export const {
     /** Localization keys per fatigue category. */
     labels: FatigueCategoryLabels,
 } = defineType("SOHL.Affliction.FATIGUE_CATEGORY", {
+    /** Fatigue resulting from great exertion. */
     WINDEDNESS: "windedness",
+    /** Fatigue resulting from prolonged activity or deprivation. */
     WEARINESS: "weariness",
+    /** Fatigue resulting from illness, injury, or other debilitating conditions. */
     WEAKNESS: "weakness",
 });
 /** Union of all fatigue-category values. */
@@ -1243,10 +1273,15 @@ export const {
     /** Localization keys per privation category. */
     labels: PrivationCategoryLabels,
 } = defineType("SOHL.Affliction.PRIVATION_CATEGORY", {
+    /** Lack of sufficient air. */
     ASPHIXIA: "asphixia",
+    /** Lack of sufficient warmth. */
     COLD: "cold",
+    /** Lack of sufficient heat. */
     HEAT: "heat",
+    /** Lack of sufficient food. */
     STARVATION: "starvation",
+    /** Lack of sufficient water. */
     DEHYDRATION: "dehydration",
 });
 /** Union of all privation-category values. */
@@ -1303,8 +1338,18 @@ export const {
     /** Type guard for concoction-gear subtype values. */
     isValue: isConcoctionGearSubType,
 } = defineType("SOHL.ConcoctionGear.SubType", {
+    /**
+     * A concoction that is ordinary and common in everyday use, generally
+     * simple in composition (often a single dried or otherwise prepared ingredient).
+     */
     MUNDANE: "mundane",
+    /**
+     * A complex and valuable concoction, often a mixture of different herbs
+     * and/or chemicals, with medicinal or other unique
+     * properties or effects, but not magical in nature.
+     */
     EXOTIC: "exotic",
+    /** An arcane alchemical concoction of great power. */
     ELIXIR: "elixir",
 });
 /** Union of all concoction-gear subtype values. */
@@ -1321,9 +1366,13 @@ export const {
     /** Value-keyed label map for `StringField({ choices })`. */
     choices: ConcoctionGearPotencyChoices,
 } = defineType("SOHL.ConcoctionGear.Potency", {
+    /** The concoction does not have a potency. */
     NOT_APPLICABLE: "na",
+    /** The concoction has a mild potency. */
     MILD: "mild",
+    /** The concoction has a strong potency. */
     STRONG: "strong",
+    /** The concoction has a great potency. */
     GREAT: "great",
 });
 /** Union of all concoction-gear potency values. */
@@ -1340,7 +1389,9 @@ export const {
     /** Localization keys per action subtype. */
     labels: ActionSubTypeLabels,
 } = defineType("SOHL.Action.SubType", {
+    /** Intrinsic actions are built-in behaviors of the system. */
     INTRINSIC: "intrinsic",
+    /** Script actions are defined by user-provided scripts. */
     SCRIPT: "script",
 });
 /** Union of all action-subtype values. */
@@ -1354,9 +1405,19 @@ export const {
     /** Type guard for action-scope values. */
     isValue: isSohlActionScope,
 } = defineType("SOHL.SohlAction.Scope", {
+    /** The action is targeted at the document that owns the action. */
     SELF: "self",
+    /**
+     * The action is targeted at the item that owns the action, or if the
+     * owner is not an item, then the action has no effect.
+     */
     ITEM: "item",
+    /**
+     * The action is targeted at the actor of the item that owns the action,
+     * or if the owner is an actor, then the actor itself.
+     */
     ACTOR: "actor",
+    /** The action is targeted at something else. */
     OTHER: "other",
 });
 /** Union of all action-scope values. */
@@ -1373,9 +1434,20 @@ export const {
     /** Type guard for mystery-subtype values. */
     isValue: isMysterySubType,
 } = defineType("SOHL.Mystery.SubType", {
-    LEVEL: "level",
+    /** A passive influence conferred by the celestial sign the being was born under. */
+    BIRTHSIGN: "birthsign",
+    /** A mystery that does not fit into the other predefined categories. */
+    BLESSING: "blessing",
+    /** A mystery that represents an enhancement or boon. */
     BUFF: "buff",
+    /** A mystery that represents ability to alter destiny or fate. */
+    FATE: "fate",
+    /** A mystery that represents divine favor. */
+    GRACE: "grace",
+    /** A mystery that does not fit into the other predefined categories. */
     OTHER: "other",
+    /** A mystery that represents devotion to a religion. */
+    PIETY: "piety",
 });
 /** Union of all mystery-subtype values. */
 export type MysterySubType =
@@ -1391,30 +1463,28 @@ export const {
     /** Type guard for mystical-ability subtype values. */
     isValue: isMysticalAbilitySubType,
 } = defineType("SOHL.MysticalAbility.SubType", {
-    /** Spirit: a prepared ceremony by which a shaman petitions the spirit world. */
+    /** A prepared ceremony by which a shaman petitions the spirit world. */
     SHAMANICRITE: "shamanicrite",
-    /** Spirit: a discrete supernatural act performed through an allied or bound spirit. */
+    /** A discrete supernatural act performed through an allied or bound spirit. */
     SPIRITACTION: "spiritaction",
-    /** Spirit: a standing power conferred on its bearer by a spirit. */
+    /** A standing power conferred on its bearer by a spirit. */
     SPIRITPOWER: "spiritpower",
-    /** Divine: a minor blessing granted in answer to prayer. */
+    /** A minor blessing granted in answer to prayer. */
     BENEDICTION: "benediction",
-    /** Divine: an extended act of worship that earns the favour of a deity. */
+    /** An extended act of worship that earns the favour of a deity. */
     DIVINEDEVOTION: "divinedevotion",
-    /** Divine: a spoken invocation channelling the power of a deity. */
+    /** A spoken invocation channelling the power of a deity. */
     DIVINEINCANTATION: "divineincantation",
-    /** Arcane: a formally learned spell, invoked by word and gesture. */
+    /** A formally learned spell, invoked by word and gesture. */
     ARCANEINCANTATION: "arcaneincantation",
-    /** Arcane: an innate arcane knack, possessed without formal training. */
+    /** An innate arcane knack, possessed without formal training. */
     ARCANETALENT: "arcanetalent",
-    /** Spirit: an innate affinity for the spirit world, possessed without training. */
+    /** An innate affinity for the spirit world, possessed without training. */
     SPIRITTALENT: "spirittalent",
     /** The preparation of substances imbued with mystical potency. */
     ALCHEMY: "alchemy",
     /** The practice of obtaining hidden knowledge or foreknowledge by mystical means. */
     DIVINATION: "divination",
-    /** A passive influence conferred by the celestial sign the being was born under. */
-    BIRTHSIGN: "birthsign",
 });
 /** Union of all mystical-ability subtype values. */
 export type MysticalAbilitySubType =
@@ -1918,7 +1988,9 @@ export const {
     /** Value-keyed label map for `StringField({ choices })`. */
     choices: TraitSubTypeChoices,
 } = defineType("SOHL.Trait.SubType", {
+    /** A physical characteristic of the being. */
     PHYSIQUE: "physique",
+    /** A behavioral, temperamental, or disposition characteristic of the being. */
     PERSONALITY: "personality",
 });
 /** Union of all trait-subtype values. */
@@ -1934,9 +2006,13 @@ export const {
     /** Type guard for trauma-subtype values. */
     isValue: isTraumaSubType,
 } = defineType("SOHL.Trauma.SubType", {
+    /** A physical trauma affecting the body. */
     PHYSICAL: "physical",
+    /** A mental or psychological trauma affecting the mind. */
     MENTAL: "mental",
+    /** A spiritual trauma affecting the soul or spirit. */
     SPIRITUAL: "spiritual",
+    /** A trauma caused by existential chaos, death, or life-draining spiritual forces. */
     SHADOW: "shadow",
 });
 /** Union of all trauma-subtype values. */
@@ -1962,9 +2038,13 @@ export const {
     /** Value-keyed label map for `StringField({ choices })`. */
     choices: TraitIntensityChoices,
 } = defineType("SOHL.Trait.Intensity", {
+    /** A non-disruptive trait */
     TRAIT: "trait",
+    /** A trait with minimal impact or significance. */
     BENIGN: "benign",
+    /** A disruptive trait that may override rational thought. */
     IMPULSE: "impulse",
+    /** A severe and persistent trait that manifestly affects functioning. */
     DISORDER: "disorder",
 });
 /** Union of all trait-intensity values. */
