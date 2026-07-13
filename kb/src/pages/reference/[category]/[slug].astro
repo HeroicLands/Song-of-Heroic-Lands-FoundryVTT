@@ -1,24 +1,29 @@
 ---
 import { getCollection, render } from "astro:content";
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
-import WeaponInfobox from "../../../components/WeaponInfobox.astro";
+import Infobox from "../../../components/Infobox.astro";
+import { REFERENCE_TYPES, byType } from "../../../reference/registry";
 
-// Helpers are defined inside getStaticPaths: Astro extracts and runs it in
-// isolation, so it cannot reference module-frontmatter declarations.
 export async function getStaticPaths() {
-    // Route only the SoHL weapongear entries — selected by frontmatter, not folder.
-    const weapons = await getCollection(
+    const cat = new Map(REFERENCE_TYPES.map((t) => [t.type, t.category]));
+    const entries = await getCollection(
         "content",
-        (entry) =>
-            entry.data.type === "weapongear" && entry.data.package === "sohl",
+        (e) => e.data.package === "sohl" && cat.has(e.data.type),
     );
-    return weapons.map((entry) => ({
-        params: { slug: entry.data.slug ?? entry.id.split("/").pop()! },
+    return entries.map((entry) => ({
+        params: {
+            category: cat.get(entry.data.type)!,
+            slug: entry.data.slug ?? entry.id.split("/").pop()!,
+        },
         props: { entry },
     }));
 }
 
 const { entry } = Astro.props;
+const def = byType.get(entry.data.type)!;
+// Validate the entry's sohl block; a malformed entry fails the build.
+const sohl = def.schema.parse(entry.data.sohl);
+const rows = def.rows(sohl as Record<string, unknown>);
 const { Content } = await render(entry);
 ---
 
@@ -33,7 +38,7 @@ const { Content } = await render(entry);
         <div class="ref__body">
             <Content />
         </div>
-        <WeaponInfobox name={entry.data.name.full} sohl={entry.data.sohl} />
+        <Infobox title={def.infoboxTitle} rows={rows} />
     </div>
 </StarlightPage>
 

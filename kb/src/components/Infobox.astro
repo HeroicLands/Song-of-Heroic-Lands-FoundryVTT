@@ -1,30 +1,16 @@
 ---
-import {
-    WeaponSohlSchema,
-    formatPrice,
-    formatWeight,
-} from "../schema/weapon";
+import type { Row } from "../reference/registry";
 
 interface Props {
-    name: string;
-    sohl: Record<string, unknown>;
+    title: string;
+    rows: Row[];
 }
 
-const { name, sohl } = Astro.props;
-// Validate the weapon's data at build time; a malformed weapon fails the build.
-const w = WeaponSohlSchema.parse(sohl);
-
-const rows: Array<[string, string]> = [
-    ["Name", name],
-    ["Price", formatPrice(w.value)],
-    ["Weight", formatWeight(w.weight)],
-    ["Durability", String(w.durability)],
-    ["Heft", String(w.heft)],
-];
+const { title, rows } = Astro.props;
 ---
 
-<aside class="infobox" aria-label="Weapon Profile">
-    <h2 class="infobox__title">Weapon Profile</h2>
+<aside class="infobox" aria-label={title}>
+    <h2 class="infobox__title">{title}</h2>
     <dl class="infobox__grid">
         {
             rows.map(([label, value]) => (

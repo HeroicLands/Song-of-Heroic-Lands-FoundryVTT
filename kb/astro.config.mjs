@@ -42,7 +42,22 @@ export default defineConfig({
                 },
                 {
                     label: "Compendium",
-                    items: [{ label: "Weapons", link: "/reference/weapons/" }],
+                    items: [
+                        { label: "Weapons", link: "/reference/weapons/" },
+                        { label: "Armor", link: "/reference/armor/" },
+                        { label: "Projectiles", link: "/reference/projectiles/" },
+                        { label: "Gear", link: "/reference/gear/" },
+                        { label: "Containers", link: "/reference/containers/" },
+                        { label: "Skills", link: "/reference/skills/" },
+                        { label: "Traits", link: "/reference/traits/" },
+                        { label: "Attributes", link: "/reference/attributes/" },
+                        { label: "Afflictions", link: "/reference/afflictions/" },
+                        {
+                            label: "Mystical Abilities",
+                            link: "/reference/mystical-abilities/",
+                        },
+                        { label: "Corpora", link: "/reference/corpora/" },
+                    ],
                 },
             ],
         }),
