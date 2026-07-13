@@ -11,7 +11,8 @@
     "plugin": [
         "typedoc-plugin-markdown",
         "./utils/typedoc-plugin-datafield-schema.mjs",
-        "./utils/typedoc-plugin-foundry-links.mjs"
+        "./utils/typedoc-plugin-foundry-links.mjs",
+        "./utils/typedoc-plugin-root-namespace.mjs"
     ],
     "theme": "markdown",
     "excludeExternals": true,
