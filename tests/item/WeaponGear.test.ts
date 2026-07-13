@@ -178,12 +178,12 @@ describe("WeaponGearLogic", () => {
                 expect(logic.data.kind).toBe(ITEM_KIND.WEAPONGEAR);
             });
 
-            it("defines the combat intrinsic actions plus inherited gear actions", () => {
+            it("defines the inherited gear intrinsic actions", () => {
+                // Assisted combat (attack/block/counterstrike) is per-strike-mode
+                // on the Combat tab, not weapon-level actions (#69), so weapon
+                // gear only carries the inherited gear/lifecycle actions.
                 const logic = makeWeapon();
                 for (const shortcode of [
-                    "attack",
-                    "block",
-                    "counterstrike",
                     "setCarried",
                     "setNotCarried",
                     "postfinalize",
@@ -192,17 +192,12 @@ describe("WeaponGearLogic", () => {
                 }
             });
 
-            it.each(["attack", "block", "counterstrike"] as const)(
-                "%s — warns (not yet implemented)",
-                async (method) => {
-                    const logic = makeWeapon();
-                    const warn = vi.spyOn(sohl.log, "uiWarn");
-                    await expect(
-                        (logic as any)[method]({} as any),
-                    ).resolves.toBeUndefined();
-                    expect(warn).toHaveBeenCalled();
-                },
-            );
+            it("does not define weapon-level attack/block/counterstrike actions", () => {
+                const logic = makeWeapon();
+                for (const shortcode of ["attack", "block", "counterstrike"]) {
+                    expect(logic.actions.has(shortcode), shortcode).toBe(false);
+                }
+            });
         });
 
         describe("initialize", () => {
