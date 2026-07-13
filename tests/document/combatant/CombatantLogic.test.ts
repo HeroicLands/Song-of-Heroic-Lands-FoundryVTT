@@ -11,6 +11,7 @@ import {
     SohlCombatantLogic,
     attackerBlockingStatus,
     targetInvalidStatus,
+    turnStartCombatantUpdate,
 } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { STATUS_EFFECT } from "@src/utils/constants";
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
@@ -150,6 +151,21 @@ describe("CombatantLogic", () => {
             expect(exec).toHaveBeenCalledTimes(1);
             const ctx = exec.mock.calls[0][0] as any;
             expect(ctx.speaker).toBeTruthy();
+        });
+    });
+
+    describe("turnStartCombatantUpdate (pure)", () => {
+        it("records the position under system.startLocation (#386), not initialLocation", () => {
+            const update = turnStartCombatantUpdate({ x: 120, y: 340 }, 5);
+            expect(update.system.startLocation).toEqual({
+                x: 120,
+                y: 340,
+                elevation: 5,
+            });
+            // The field the updateCombat hook must write is `startLocation`
+            // (the one spacesMovedThisTurn reads) — never `initialLocation`.
+            expect(update.system).not.toHaveProperty("initialLocation");
+            expect(update.system.didAction).toBe(false);
         });
     });
 

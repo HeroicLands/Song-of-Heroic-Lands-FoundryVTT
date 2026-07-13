@@ -178,6 +178,31 @@ export interface CombatantStartLocation {
 }
 
 /**
+ * The combatant update recorded at the start of a combat turn: the current
+ * token position as `system.startLocation` — the field
+ * {@link SohlCombatantLogic.spacesMovedThisTurn} reads — plus a reset of
+ * `system.didAction`. Pure; the `updateCombat` hook supplies the token center
+ * and elevation. Guards against writing the wrong field name (#386).
+ *
+ * @param center - The token's canvas center at turn start.
+ * @param center.x - Pixel x-coordinate of the token center.
+ * @param center.y - Pixel y-coordinate of the token center.
+ * @param elevation - The token's elevation (grid units) at turn start.
+ * @returns The `system` update payload keyed on `startLocation`.
+ */
+export function turnStartCombatantUpdate(
+    center: { x: number; y: number },
+    elevation: number,
+): { system: { startLocation: CombatantStartLocation; didAction: boolean } } {
+    return {
+        system: {
+            startLocation: { x: center.x, y: center.y, elevation },
+            didAction: false,
+        },
+    };
+}
+
+/**
  * The Foundry-free data contract for a SoHL combatant — the
  * {@link SohlLogicData} port specialized for {@link SohlCombatant}, plus the
  * combatant's persisted combat-scoped state. Implemented by
