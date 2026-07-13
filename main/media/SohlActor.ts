@@ -40,12 +40,12 @@ import { ITEM_KIND } from "@src/utils/constants";
  *   finalize from `prepareDerivedData`). Args `(actor, ctx)` — `ctx` is
  *   omitted for the init pair.
  *
- * `ctx` is a {@link SohlActionContext}; `<itemType>`/`<actorType>` are the type
- * strings in {@link ITEM_KIND} / {@link ACTOR_KIND}. The `pre*` hooks are
+ * `ctx` is a {@link sohl.entity.action.SohlActionContext}; `<itemType>`/`<actorType>` are the type
+ * strings in {@link sohl.utils.ITEM_KIND} / {@link sohl.utils.ACTOR_KIND}. The `pre*` hooks are
  * **cancellable**: if any listener returns `false`, that phase's logic method is
  * skipped and its matching `post*` hook is not fired. Phase barriers still hold
  * (every item finishes `initialize` before any `evaluate`, and so on) — see the
- * phase model on {@link SohlLogic}.
+ * phase model on {@link sohl.core.logic.SohlLogic}.
  *
  * @example
  * // Augment every Skill after it evaluates (register from a module's init hook).
@@ -297,7 +297,7 @@ export class SohlActor extends Actor {
 
     /**
      * Present a dialog to create a new Actor, mirroring
-     * {@link SohlItem.createDialog}'s progressive type → subtype flow.
+     * {@link sohl.document.item.foundry.SohlItem.createDialog}'s progressive type → subtype flow.
      *
      * World actors have no parent, so the created document always has
      * `parent: null`. Actor types currently declare no `subType` field, so the

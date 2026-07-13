@@ -63,7 +63,7 @@
 </tr>
 </tbody>
 </table>
-<p>A convenience getter <a href="../classes/API_Reference.BodyPart-1.html#affectsmobility" class="tsd-kind-accessor"> BodyPart.affectsMobility</a> is <code>true</code> when the part has any of the <code>vital</code>, <code>core</code>, or <code>locomotor</code> roles.</p>
+<p>A convenience getter <a href="../classes/sohl.entity.body.BodyPart-1.html#affectsmobility" class="tsd-kind-accessor"> sohl.entity.body.BodyPart.affectsMobility</a> is <code>true</code> when the part has any of the <code>vital</code>, <code>core</code>, or <code>locomotor</code> roles.</p>
 <a id="body-locations" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Body locations<a href="#body-locations" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>A body location is a specific hit point within a part — Skull, Thorax, Right Elbow. Persisted fields, also from the <code>defineSchema()</code> of <a href="../media/CorpusDataModel.ts">CorpusDataModel.ts</a>:</p>
 <table>
 <thead>
@@ -157,7 +157,7 @@
 <pre><code class="json"><span class="hl-7">&quot;adjacent&quot;</span><span class="hl-1">: [</span><br/><span class="hl-1">    [</span><span class="hl-7">&quot;headpart&quot;</span><span class="hl-1">, </span><span class="hl-7">&quot;torsopart&quot;</span><span class="hl-1">],</span><br/><span class="hl-1">    [</span><span class="hl-7">&quot;headpart&quot;</span><span class="hl-1">, </span><span class="hl-7">&quot;rarmpart&quot;</span><span class="hl-1">],</span><br/><span class="hl-1">    [</span><span class="hl-7">&quot;torsopart&quot;</span><span class="hl-1">, </span><span class="hl-7">&quot;rarmpart&quot;</span><span class="hl-1">],</span><br/><span class="hl-1">    [</span><span class="hl-7">&quot;torsopart&quot;</span><span class="hl-1">, </span><span class="hl-7">&quot;rlegpart&quot;</span><span class="hl-1">]</span><br/><span class="hl-1">]</span>
 </code><button type="button">Copy</button></pre>
 
-<p>Each pair is bidirectional. The adjacency graph drives the <strong>aimed-strike drift algorithm</strong> (<a href="../classes/API_Reference.BodyStructure-1.html#getrandompart" class="tsd-kind-method"> BodyStructure.getRandomPart</a>):</p>
+<p>Each pair is bidirectional. The adjacency graph drives the <strong>aimed-strike drift algorithm</strong> (<a href="../classes/sohl.entity.body.BodyStructure-1.html#getrandompart" class="tsd-kind-method"> sohl.entity.body.BodyStructure.getRandomPart</a>):</p>
 <ol>
 <li>Roll <code>1..spread</code>.</li>
 <li>If the roll ≤ the current target part's <code>probWeight</code>, that part is hit.</li>

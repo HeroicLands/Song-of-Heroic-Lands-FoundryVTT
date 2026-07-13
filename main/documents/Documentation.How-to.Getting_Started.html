@@ -47,7 +47,7 @@
 </table>
 <a id="how-to-read-the-codebase" class="tsd-anchor"></a><h2 class="tsd-anchor-link">How to read the codebase<a href="#how-to-read-the-codebase" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="start-here" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Start here<a href="#start-here" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ol>
 <li><strong><a href="Documentation.Concepts.Architecture_Overview.html">Architecture Overview</a></strong> — the mental model. Read this first.</li>
-<li><strong><a href="../classes/API_Reference.SohlLogic.html" class="tsd-kind-class"> SohlLogic</a></strong> — the abstract base for all Logic classes. The
+<li><strong><a href="../classes/sohl.core.logic.SohlLogic.html" class="tsd-kind-class"> sohl.core.logic.SohlLogic</a></strong> — the abstract base for all Logic classes. The
 class-level JSDoc explains the phase-batched lifecycle.</li>
 <li><strong>Pick one item type</strong> and trace through its three classes:
 <ul>
@@ -60,7 +60,7 @@ class-level JSDoc explains the phase-batched lifecycle.</li>
 <a id="the-mental-model" class="tsd-anchor"></a><h3 class="tsd-anchor-link">The mental model<a href="#the-mental-model" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The design and rationale live in the concept docs — read them there rather than duplicated here, so there's a single source of truth that can't drift:</p>
 <ul>
 <li><strong><a href="Documentation.Concepts.Architecture_Overview.html#three-class-pattern">Three-class pattern</a></strong> — every actor/item type splits into a Foundry-free Logic class (game rules), a DataModel (persisted schema), and a Sheet (UI), plus how to reach a document's data via <code>logic.data</code>.</li>
-<li><strong><a href="Documentation.Concepts.Architecture_Overview.html#phase-batched-lifecycle">Phase-batched lifecycle</a></strong> and <strong><a href="../classes/API_Reference.SohlLogic.html" class="tsd-kind-class"> SohlLogic</a></strong> — how <code>initialize → evaluate → finalize</code> map onto Foundry's <code>prepare*</code> hooks, and the barriers that let sibling items depend on one another.</li>
+<li><strong><a href="Documentation.Concepts.Architecture_Overview.html#phase-batched-lifecycle">Phase-batched lifecycle</a></strong> and <strong><a href="../classes/sohl.core.logic.SohlLogic.html" class="tsd-kind-class"> sohl.core.logic.SohlLogic</a></strong> — how <code>initialize → evaluate → finalize</code> map onto Foundry's <code>prepare*</code> hooks, and the barriers that let sibling items depend on one another.</li>
 <li><strong><a href="Documentation.Concepts.Architecture_Overview.html#domain-objects">Domain objects</a></strong> — the <code>src/entity/</code> value objects (modifiers, results, body, movement, actions), rebuilt from persisted data each preparation cycle.</li>
 <li><strong><a href="Documentation.Concepts.Architecture_Overview.html#foundryhelpers-shim">FoundryHelpers shim</a></strong> — how Logic stays Foundry-free: the <code>fvtt</code> prefix convention, and <code>sohl.log.uiWarn</code> / <code>sohl.log.uiError</code> for notifications.</li>
 </ul>

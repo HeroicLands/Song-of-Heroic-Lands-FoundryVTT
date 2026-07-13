@@ -34,27 +34,27 @@ via <code>Macro#execute</code>. No JavaScript is ever compiled from document dat
 the reference-not-compile rule from the
 <a href="Documentation.Concepts.Security_Model___Guardrails.html#the-core-principle-reference-code-never-compile-it-from-data">Security Model</a>.
 Because macros are asynchronous, a Script Action always runs asynchronously — a
-GM who needs a <em>synchronous computed value</em> uses a <a href="../modules/API_Reference.SafeExpression.html" class="tsd-kind-namespace"> SafeExpression</a> field
+GM who needs a <em>synchronous computed value</em> uses a <a href="../modules/sohl.entity.expr.SafeExpression.html" class="tsd-kind-namespace"> sohl.entity.expr.SafeExpression</a> field
 (the safe, synchronous expression evaluator) instead.</p>
 <p>The configurable fields (<code>scope</code>, <code>trigger</code>/<code>visible</code>, <code>executor</code>), the
-<a href="../modules/API_Reference.SafeExpression.html" class="tsd-kind-namespace"> SafeExpression</a> predicates, and a worked example are documented on
-<strong><a href="../modules/API_Reference.SohlAction.html" class="tsd-kind-namespace"> SohlAction</a></strong> (and <a href="../interfaces/API_Reference.SohlAction.Data.html" class="tsd-kind-interface"> SohlAction.Data</a>).</p>
+<a href="../modules/sohl.entity.expr.SafeExpression.html" class="tsd-kind-namespace"> sohl.entity.expr.SafeExpression</a> predicates, and a worked example are documented on
+<strong><a href="../modules/sohl.entity.action.SohlAction.html" class="tsd-kind-namespace"> sohl.entity.action.SohlAction</a></strong> (and <a href="../interfaces/sohl.entity.action.SohlAction.Data.html" class="tsd-kind-interface"> sohl.entity.action.SohlAction.Data</a>).</p>
 <a id="how-sohl-uses-this-internally-intrinsic-actions" class="tsd-anchor"></a><h2 class="tsd-anchor-link">How SoHL uses this internally: intrinsic actions<a href="#how-sohl-uses-this-internally-intrinsic-actions" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The same mechanism powers SoHL's own built-in behaviors. <strong>Every</strong> action — a GM's
-Script Action or a system-provided one — is a <a href="../modules/API_Reference.SohlAction.html" class="tsd-kind-namespace"> SohlAction</a> surfaced on a
+Script Action or a system-provided one — is a <a href="../modules/sohl.entity.action.SohlAction.html" class="tsd-kind-namespace"> sohl.entity.action.SohlAction</a> surfaced on a
 document's context menu. The only difference is where the <code>executor</code> comes from:</p>
 <ul>
 <li>A <strong>Script Action</strong>'s executor is a <strong>Foundry Macro UUID</strong>, run via
 <code>Macro#execute</code> (above).</li>
 <li>An <strong>intrinsic action</strong>'s executor is the <strong>name of a method on the Logic class</strong>,
 defined in code. SoHL's Logic classes declare their intrinsic actions in a static
-<a href="../classes/API_Reference.SohlLogic.html#defineintrinsicactions" class="tsd-kind-method"> SohlLogic.defineIntrinsicActions</a> — e.g. a Mystery's <code>useMystery</code>, a
+<a href="../classes/sohl.core.logic.SohlLogic.html#defineintrinsicactions" class="tsd-kind-method"> sohl.core.logic.SohlLogic.defineIntrinsicActions</a> — e.g. a Mystery's <code>useMystery</code>, a
 Trauma's healing test — and the system binds that named method as the executor.</li>
 </ul>
 <p>So &quot;intrinsic actions&quot; are simply the system doing, in code, what a GM does with a
 Script Action: attaching an executable, context-menu-activated behavior to a
 document. Developers adding a new built-in action define it this way on the relevant
-Logic class — see <a href="Documentation.How-to.Extension_Points.html">Extension Points</a> and <a href="../modules/API_Reference.SohlAction.html" class="tsd-kind-namespace"> SohlAction</a> /
-<a href="../classes/API_Reference.SohlLogic.html" class="tsd-kind-class"> SohlLogic</a> in the API reference. To affect <em>all</em> documents of a type rather
+Logic class — see <a href="Documentation.How-to.Extension_Points.html">Extension Points</a> and <a href="../modules/sohl.entity.action.SohlAction.html" class="tsd-kind-namespace"> sohl.entity.action.SohlAction</a> /
+<a href="../classes/sohl.core.logic.SohlLogic.html" class="tsd-kind-class"> sohl.core.logic.SohlLogic</a> in the API reference. To affect <em>all</em> documents of a type rather
 than attach one action, use <a href="Documentation.How-to.Lifecycle_Hooks.html">Lifecycle Hooks</a>.</p>
 <a id="worked-example-contract-disease" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Worked example: Contract Disease<a href="#worked-example-contract-disease" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><code>BeingLogic</code>'s <code>contractDisease</code> (a <code>SELF</code>-scoped intrinsic action) is a good
 template for an action that touches the Foundry boundary, because it keeps the

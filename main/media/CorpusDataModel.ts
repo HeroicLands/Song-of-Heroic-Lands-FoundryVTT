@@ -220,7 +220,7 @@ function defineCorpusDataSchema(): foundry.data.fields.DataSchema {
             initial: MOVEMENT_MEDIUM.TERRESTRIAL,
         }),
         /**
-         * Personal fatigue as a {@link SafeExpression} of the being's current
+         * Personal fatigue as a {@link sohl.entity.expr.SafeExpression} of the being's current
          * encumbrance (`enc`). Evaluated after encumbrance is known to yield the
          * fatigue penalty the being suffers from the weight it carries.
          */
@@ -231,7 +231,7 @@ function defineCorpusDataSchema(): foundry.data.fields.DataSchema {
         /**
          * Per-medium movement profiles. Each entry describes how the being moves
          * in one {@link MovementMedium}: its tactical and travel speeds, and the
-         * {@link SafeExpression}s that turn carried weight into encumbrance
+         * {@link sohl.entity.expr.SafeExpression}s that turn carried weight into encumbrance
          * (`encumbrance`, of `wt`) and shift it by strength (`strMod`, of `str`).
          * `moveBase[medium]` mirrors the matching entry's `feetPerRound` so Active
          * Effects and the movement system keep a stable per-medium scalar to read.
@@ -257,7 +257,7 @@ function defineCorpusDataSchema(): foundry.data.fields.DataSchema {
                     initial: 0,
                 }),
                 /**
-                 * A {@link SafeExpression} of the being's carried weight (`wt`)
+                 * A {@link sohl.entity.expr.SafeExpression} of the being's carried weight (`wt`)
                  * giving the encumbrance units it costs in this medium.
                  */
                 encumbrance: new JavaScriptField({
@@ -265,7 +265,7 @@ function defineCorpusDataSchema(): foundry.data.fields.DataSchema {
                     initial: "0",
                 }),
                 /**
-                 * Strength modifier — a {@link SafeExpression} of the being's
+                 * Strength modifier — a {@link sohl.entity.expr.SafeExpression} of the being's
                  * strength (`str`) that shifts its encumbrance in this medium.
                  */
                 strMod: new JavaScriptField({
@@ -279,8 +279,8 @@ function defineCorpusDataSchema(): foundry.data.fields.DataSchema {
         ),
         /**
          * The being's body weight (not including gear). Either a fixed `base`
-         * (pounds) or, when `base` is null, a {@link SafeExpression} `calc` of the
-         * being's strength (`str`). Seeds {@link CorpusLogic.weight}.
+         * (pounds) or, when `base` is null, a {@link sohl.entity.expr.SafeExpression} `calc` of the
+         * being's strength (`str`). Seeds {@link sohl.document.item.logic.CorpusLogic.weight}.
          */
         weight: new SchemaField({
             /** Fixed body weight in pounds; null to compute from `calc`. */
@@ -290,7 +290,7 @@ function defineCorpusDataSchema(): foundry.data.fields.DataSchema {
                 nullable: true,
                 initial: null,
             }),
-            /** A {@link SafeExpression} of `str` giving body weight when `base` is null. */
+            /** A {@link sohl.entity.expr.SafeExpression} of `str` giving body weight when `base` is null. */
             calc: new JavaScriptField({
                 blank: false,
                 initial: "0",

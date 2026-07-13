@@ -19,17 +19,17 @@
 <a id="1-system-initialization--registration" class="tsd-anchor"></a><h2 class="tsd-anchor-link">1) System initialization &amp; registration<a href="#1-system-initialization--registration" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Primary files: <code>src/sohl.ts</code>, <code>src/core/logic/SohlSystem.ts</code></p>
 <p>Common extension needs: register new settings, sheets, hooks, or document classes.</p>
 <p><strong>Guidelines:</strong> Keep registration logic explicit and centralized. Avoid side-effect imports.</p>
-<p>Registration runs in <code>Hooks.once(&quot;init&quot;)</code> (settings, system config, calendars, hooks, combat/time defaults, sheet registration), then <code>Hooks.once(&quot;ready&quot;)</code> (Handlebars helpers, then <code>SohlSystem.ready = true</code>). Read <code>src/sohl.ts</code> for the authoritative order, and add new registration alongside the existing calls there and in <a href="../classes/API_Reference.SohlSystem.html" class="tsd-kind-class"> SohlSystem</a>.</p>
+<p>Registration runs in <code>Hooks.once(&quot;init&quot;)</code> (settings, system config, calendars, hooks, combat/time defaults, sheet registration), then <code>Hooks.once(&quot;ready&quot;)</code> (Handlebars helpers, then <code>SohlSystem.ready = true</code>). Read <code>src/sohl.ts</code> for the authoritative order, and add new registration alongside the existing calls there and in <a href="../classes/sohl.core.logic.SohlSystem.html" class="tsd-kind-class"> sohl.core.logic.SohlSystem</a>.</p>
 <a id="2-actor-and-item-type-extension" class="tsd-anchor"></a><h2 class="tsd-anchor-link">2) Actor and Item type extension<a href="#2-actor-and-item-type-extension" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="actors" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Actors<a href="#actors" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Core actor classes: <code>src/document/actor/</code> with base <code>SohlActor</code> in <code>foundry/</code>.</p>
 <p>The per-type split into Document, DataModel, Logic, and Sheet classes — and how they relate — is covered by the <a href="Documentation.Concepts.Architecture_Overview.html#three-layer-architecture">three-layer architecture</a> and <a href="Documentation.Concepts.Architecture_Overview.html#three-class-pattern">three-class pattern</a>; read those rather than re-deriving them here.</p>
-<p><strong>How to extend:</strong> Add logic class in <code>src/document/actor/logic/</code>, data model + sheet in <code>src/document/actor/foundry/</code>, register in <a href="../classes/API_Reference.SohlSystem.html" class="tsd-kind-class"> SohlSystem</a>.</p>
+<p><strong>How to extend:</strong> Add logic class in <code>src/document/actor/logic/</code>, data model + sheet in <code>src/document/actor/foundry/</code>, register in <a href="../classes/sohl.core.logic.SohlSystem.html" class="tsd-kind-class"> sohl.core.logic.SohlSystem</a>.</p>
 <a id="items" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Items<a href="#items" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Core item classes: <code>src/document/item/</code> with base <code>SohlItem</code> in <code>foundry/</code>.</p>
 <p>Same layering as actors.</p>
 <p><strong>Worked example (new Item kind):</strong></p>
 <ol>
 <li>Add the kind constant + metadata in <code>src/utils/constants.ts</code> (<code>ITEM_KIND</code>, <code>*_METADATA</code>).</li>
 <li>Create the logic class in <code>src/document/item/logic/</code> and the data model + sheet in <code>src/document/item/foundry/</code>.</li>
-<li>Register the data model / logic / sheet in <a href="../classes/API_Reference.SohlSystem.html" class="tsd-kind-class"> SohlSystem</a>.</li>
+<li>Register the data model / logic / sheet in <a href="../classes/sohl.core.logic.SohlSystem.html" class="tsd-kind-class"> sohl.core.logic.SohlSystem</a>.</li>
 <li>Add templates and localization keys.</li>
 <li>Verify <code>fromData(...)</code>, drag/drop, sheet rendering, and context-menu behavior resolve; validate startup.</li>
 </ol>
@@ -38,8 +38,8 @@
 <a id="overriding-a-logic-class-from-a-module-runtime" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Overriding a Logic class from a module (runtime)<a href="#overriding-a-logic-class-from-a-module-runtime" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The steps above add a kind in-system. A <strong>variant module</strong> instead overrides an
 existing kind's Logic class at runtime — no source edits. The base classes are
 exposed on the <code>sohl</code> global as <code>sohl.actorLogicClasses</code> / <code>sohl.itemLogicClasses</code>
-(kind → base class), and <a href="../classes/API_Reference.SohlSystem.html#registeractorlogic" class="tsd-kind-method"> SohlSystem.registerActorLogic</a> /
-<a href="../classes/API_Reference.SohlSystem.html#registeritemlogic" class="tsd-kind-method"> SohlSystem.registerItemLogic</a> swap the class used to build every document
+(kind → base class), and <a href="../classes/sohl.core.logic.SohlSystem.html#registeractorlogic" class="tsd-kind-method"> sohl.core.logic.SohlSystem.registerActorLogic</a> /
+<a href="../classes/sohl.core.logic.SohlSystem.html#registeritemlogic" class="tsd-kind-method"> sohl.core.logic.SohlSystem.registerItemLogic</a> swap the class used to build every document
 of that kind. The resolution path (<code>SohlDataModel.create</code>) already reads that
 registry, so no construction sites change.</p>
 <p>Register during the module's <code>init</code>/<code>setup</code> hook, before the first <code>.logic</code> for
@@ -67,7 +67,7 @@ that kind is built:</p>
 <li>Changing success thresholds or resolution order</li>
 </ul>
 <p>See <a href="Documentation.Reference.Combat_Resolution_Pipeline.html">Combat Resolution Pipeline</a> and <a href="Documentation.Reference.Modifier_Model.html">Modifier Model</a>.</p>
-<a id="4-active-effects" class="tsd-anchor"></a><h2 class="tsd-anchor-link">4) Active effects<a href="#4-active-effects" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Core: <a href="../classes/API_Reference.SohlActiveEffect.html" class="tsd-kind-class"> SohlActiveEffect</a>.</p>
+<a id="4-active-effects" class="tsd-anchor"></a><h2 class="tsd-anchor-link">4) Active effects<a href="#4-active-effects" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Core: <a href="../classes/sohl.document.effect.foundry.SohlActiveEffect.html" class="tsd-kind-class"> sohl.document.effect.foundry.SohlActiveEffect</a>.</p>
 <p>SoHL extends Foundry's ActiveEffect with an expanded targeting model (<code>targetType</code> / <code>targetName</code>) so one effect can target self, the owning actor, or sibling items by type. See <a href="Documentation.Concepts.Architecture_Overview.html#active-effects">Active Effects</a> for the model and <a href="Documentation.Reference.Effects_Integration.html">Effects Integration</a> for the full reference.</p>
 <a id="5-ui-templates-and-chat-cards" class="tsd-anchor"></a><h2 class="tsd-anchor-link">5) UI: templates and chat cards<a href="#5-ui-templates-and-chat-cards" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
 <li>Chat cards: <code>templates/chat/*</code></li>
@@ -82,13 +82,13 @@ from the clicked element's dataset and invokes its <code>onChatCardButton(btn)</
 <a href="Documentation.Reference.Runtime_Contracts.html#chat-card-dispatch-contract">Chat-card dispatch contract</a>.</p>
 <p>When adding a new button: <strong>emit one of the recognized dataset attributes</strong> (do not
 introduce a new attribute name), and <strong>add an <code>action</code> case</strong> to the resolved
-document's handler — e.g. <a href="../classes/API_Reference.SohlItem.html#onchatcardbutton" class="tsd-kind-method"> SohlItem.onChatCardButton</a>, which switches on
+document's handler — e.g. <a href="../classes/sohl.document.item.foundry.SohlItem.html#onchatcardbutton" class="tsd-kind-method"> sohl.document.item.foundry.SohlItem.onChatCardButton</a>, which switches on
 <code>btn.dataset.action</code>.</p>
 <p>To pass <strong>data</strong> to the action — a result, a request object — do not invent a new
 <code>data-*-json</code> attribute; put the whole payload in one <code>data-scope</code>. The card-creation
 logic sets a scope field (<code>scopeData: defaultToJSON(scope)</code>) and the template renders
 <code>data-scope=&quot;{{toJSON scopeData}}&quot;</code> (the <code>{{toJSON}}</code> helper stringifies it); the
-handler revives it with <a href="../functions/API_Reference.buildActionScope.html" class="tsd-kind-function"> buildActionScope</a>, so the <code>action</code> case reads <strong>live
+handler revives it with <a href="../functions/sohl.utils.buildActionScope.html" class="tsd-kind-function"> sohl.utils.buildActionScope</a>, so the <code>action</code> case reads <strong>live
 objects</strong> off <code>context.scope</code> (e.g. <code>context.scope.attackResult</code>), never a JSON string.
 See <a href="Documentation.Reference.Runtime_Contracts.html#passing-scope-to-a-button">Chat-card dispatch contract — Passing scope</a>
 and the <a href="Documentation.Reference.Runtime_Contracts.html#entity-serialization-contract">Entity serialization contract</a>.</p>
@@ -128,7 +128,7 @@ format are documented in the
 <a id="deep-dives" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Deep dives<a href="#deep-dives" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
 <li><a href="Documentation.Concepts.Macros_and_Actions.html">Macros and Actions</a></li>
 <li><a href="Documentation.How-to.Lifecycle_Hooks.html">Lifecycle Hooks</a></li>
-<li><a href="../classes/API_Reference.SohlLogic.html" class="tsd-kind-class"> SohlLogic</a></li>
+<li><a href="../classes/sohl.core.logic.SohlLogic.html" class="tsd-kind-class"> sohl.core.logic.SohlLogic</a></li>
 <li><a href="Documentation.Reference.Combat_Resolution_Pipeline.html">Combat Resolution Pipeline</a></li>
 <li><a href="Documentation.Reference.Modifier_Model.html">Modifier Model</a></li>
 <li><a href="Documentation.Reference.Effects_Integration.html">Effects Integration</a></li>

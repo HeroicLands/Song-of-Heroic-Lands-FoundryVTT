@@ -15,7 +15,7 @@ reach for each; the grammar and API details live in the linked source symbols.</
 </thead>
 <tbody>
 <tr>
-<td><a href="../modules/API_Reference.SafeExpression.html" class="tsd-kind-namespace"> SafeExpression</a></td>
+<td><a href="../modules/sohl.entity.expr.SafeExpression.html" class="tsd-kind-namespace"> sohl.entity.expr.SafeExpression</a></td>
 <td><strong>synchronously</strong>, safe</td>
 <td>content or GM</td>
 <td>predicates and computed values (from any data field)</td>
@@ -39,7 +39,7 @@ reach for each; the grammar and API details live in the linked source symbols.</
 in the security model. The one rule that governs all three: <strong>data carries a
 reference to, or a safely-evaluated expression of, logic — never compiled
 imperative code.</strong></p>
-<a id="safeexpression--the-safe-synchronous-evaluator" class="tsd-anchor"></a><h2 class="tsd-anchor-link">SafeExpression — the safe, synchronous evaluator<a href="#safeexpression--the-safe-synchronous-evaluator" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><a href="../modules/API_Reference.SafeExpression.html" class="tsd-kind-namespace"> SafeExpression</a> (<code>src/entity/expr/SafeExpression.ts</code>) is the workhorse for
+<a id="safeexpression--the-safe-synchronous-evaluator" class="tsd-anchor"></a><h2 class="tsd-anchor-link">SafeExpression — the safe, synchronous evaluator<a href="#safeexpression--the-safe-synchronous-evaluator" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><a href="../modules/sohl.entity.expr.SafeExpression.html" class="tsd-kind-namespace"> sohl.entity.expr.SafeExpression</a> (<code>src/entity/expr/SafeExpression.ts</code>) is the workhorse for
 turning a short author-supplied string into a value or boolean, safely and
 synchronously. It parses the string with <a href="https://github.com/EricSmekens/jsep">jsep</a>
 into an AST, <strong>statically validates that AST against a strict allowlist</strong>, then
@@ -95,13 +95,13 @@ computed value</strong> from a data field; these are the call sites today:</p>
 </thead>
 <tbody>
 <tr>
-<td>Action, UI visibility (<a href="../modules/API_Reference.SohlAction.html" class="tsd-kind-namespace"> SohlAction</a>)</td>
+<td>Action, UI visibility (<a href="../modules/sohl.entity.action.SohlAction.html" class="tsd-kind-namespace"> sohl.entity.action.SohlAction</a>)</td>
 <td><code>visible</code></td>
 <td><code>element</code>, <code>item</code>, <code>isGM</code></td>
 <td>boolean</td>
 </tr>
 <tr>
-<td>Action, executability (<a href="../modules/API_Reference.SohlAction.html" class="tsd-kind-namespace"> SohlAction</a>)</td>
+<td>Action, executability (<a href="../modules/sohl.entity.action.SohlAction.html" class="tsd-kind-namespace"> sohl.entity.action.SohlAction</a>)</td>
 <td><code>trigger</code></td>
 <td><code>item</code>, <code>actor</code></td>
 <td>boolean</td>
@@ -138,7 +138,7 @@ strike-mode scopes (<code>meleestrikemode</code> / <code>missilestrikemode</code
 the strike mode as <code>sm</code>.</p>
 <a id="the-standard-helpers" class="tsd-anchor"></a><h3 class="tsd-anchor-link">The standard helpers<a href="#the-standard-helpers" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Because method calls are banned, <strong>helpers</strong> are how behavior is exposed to an
 expression. The built-in <code>STANDARD_HELPERS</code> library — seeded into the global
-<a href="../variables/API_Reference.expressionHelpers.html" class="tsd-kind-variable"> expressionHelpers</a> registry — is always present; worlds may layer more on
+<a href="../variables/sohl.entity.expr.expressionHelpers.html" class="tsd-kind-variable"> sohl.entity.expr.expressionHelpers</a> registry — is always present; worlds may layer more on
 top via the
 <a href="#extending-the-helpers-the-expression-library">Expression Library</a>. All
 built-ins are pure and null-tolerant. Arguments and results are the <em>evaluated</em>
@@ -342,7 +342,7 @@ caller — for that, use a SafeExpression. See
 <a href="Documentation.Concepts.Security_Model___Guardrails.html#gm-homebrew-use-foundry-macros-not-a-bespoke-sandbox">GM-homebrew section</a>.</p>
 <a id="intrinsic-methods--the-systems-own-behavior" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Intrinsic methods — the system's own behavior<a href="#intrinsic-methods--the-systems-own-behavior" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>An <strong>intrinsic action</strong>'s <code>executor</code> is the <em>name of a method</em> on the scoped
 target Logic class, looked up and bound at construction (see
-<a href="../modules/API_Reference.SohlAction.html" class="tsd-kind-namespace"> SohlAction</a>). This is how SoHL ships its built-in behaviors; it is code,
+<a href="../modules/sohl.entity.action.SohlAction.html" class="tsd-kind-namespace"> sohl.entity.action.SohlAction</a>). This is how SoHL ships its built-in behaviors; it is code,
 not data, so it carries no compilation risk. New built-in behavior is added this
 way — see <a href="Documentation.How-to.Extension_Points.html">Extension Points</a>.</p>
 <a id="extending-the-helpers-the-expression-library" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Extending the helpers: the Expression Library<a href="#extending-the-helpers-the-expression-library" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The functions a SafeExpression may call come from the expression-helper registry

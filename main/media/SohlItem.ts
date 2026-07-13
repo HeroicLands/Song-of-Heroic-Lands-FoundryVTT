@@ -338,9 +338,9 @@ function repopulateSubtypes(
  * concoctions), combat techniques, mysteries, mystical abilities, skills,
  * traits, and traumas.
  *
- * Like {@link SohlActor}, the typed game-rules surface lives on the item's
+ * Like {@link sohl.document.actor.foundry.SohlActor}, the typed game-rules surface lives on the item's
  * logic object: prefer `item.logic` (equivalently `item.system.logic`) and the
- * typed `item.logic.data` ({@link SohlItemData}) over reaching into
+ * typed `item.logic.data` ({@link sohl.document.item.logic.SohlItemData}) over reaching into
  * `item.system` directly.
  */
 export class SohlItem extends Item {

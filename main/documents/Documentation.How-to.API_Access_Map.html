@@ -4,7 +4,7 @@ SoHL's rules surface from outside the system source.</p>
 </blockquote>
 <p>See also: <a href="Documentation.How-to.Extension_Points.html">Extension Points</a>, <a href="Documentation.How-to.Lifecycle_Hooks.html">Lifecycle Hooks</a>, <a href="Documentation.How-to.House_Rules_Cookbook.html">House Rules Cookbook</a>.</p>
 <p>Everything is reachable at runtime through Foundry's <code>game</code> global and the SoHL
-<code>sohl</code> global (an instance of <a href="../classes/API_Reference.SohlSystem.html" class="tsd-kind-class"> SohlSystem</a>). This page maps <strong>what you
+<code>sohl</code> global (an instance of <a href="../classes/sohl.core.logic.SohlSystem.html" class="tsd-kind-class"> sohl.core.logic.SohlSystem</a>). This page maps <strong>what you
 want</strong> to <strong>how to reach it</strong>.</p>
 <a id="documents--a-specific-actor-or-item" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Documents — a specific actor or item<a href="#documents--a-specific-actor-or-item" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Reach a document through Foundry's collections, then use the <code>.logic</code> getter to
 get the typed rules surface:</p>
@@ -12,7 +12,7 @@ get the typed rules surface:</p>
 </code><button type="button">Copy</button></pre>
 
 <p><code>document.logic</code> is equivalent to <code>document.system.logic</code>. It is the Foundry-free
-Logic object that carries the game rules for that document (see <a href="../classes/API_Reference.SohlLogic.html" class="tsd-kind-class"> SohlLogic</a>).</p>
+Logic object that carries the game rules for that document (see <a href="../classes/sohl.core.logic.SohlLogic.html" class="tsd-kind-class"> sohl.core.logic.SohlLogic</a>).</p>
 <a id="all-actor--item-logics" class="tsd-anchor"></a><h2 class="tsd-anchor-link">All actor / item logics<a href="#all-actor--item-logics" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Iterate every prepared logic without walking collections yourself:</p>
 <pre><code class="js"><span class="hl-0">sohl</span><span class="hl-1">.</span><span class="hl-0">actorLogics</span><span class="hl-1">; </span><span class="hl-6">// SohlActorLogic[] for all actors in the world</span><br/><span class="hl-0">sohl</span><span class="hl-1">.</span><span class="hl-0">itemLogics</span><span class="hl-1">; </span><span class="hl-6">// SohlItemLogic[] for all world + embedded items</span>
 </code><button type="button">Copy</button></pre>
@@ -62,7 +62,7 @@ automatically. Categories:</p>
 <li><strong>Results</strong> — <code>TestResult</code>, <code>SuccessTestResult</code>, <code>OpposedTestResult</code>,
 <code>ImpactResult</code>, <code>AttackResult</code>, <code>DefendResult</code>, <code>CombatResult</code></li>
 <li><strong>Strike modes</strong> — <code>StrikeModeBase</code>, <code>MeleeStrikeMode</code>, <code>MissileStrikeMode</code></li>
-<li><strong>Action</strong> — <a href="../modules/API_Reference.SohlAction.html" class="tsd-kind-namespace"> SohlAction</a></li>
+<li><strong>Action</strong> — <a href="../modules/sohl.entity.action.SohlAction.html" class="tsd-kind-namespace"> sohl.entity.action.SohlAction</a></li>
 <li><strong>Body modeling</strong> — <code>BodyStructure</code>, <code>BodyPart</code>, <code>BodyLocation</code></li>
 </ul>
 <p>Construct one:</p>
@@ -80,7 +80,7 @@ paths for reference and discovery, but <strong>construct and override through th
 <code>sohl.entity.&lt;ClassName&gt;</code> registry above</strong> — only its getters honor a <code>register()</code>
 override; a namespace path always resolves to the original class.</p>
 <a id="calendar-registration" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Calendar registration<a href="#calendar-registration" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Register a world calendar with the static
-<a href="../classes/API_Reference.SohlSystem.html#registercalendar" class="tsd-kind-method"> SohlSystem.registerCalendar</a> method. See the
+<a href="../classes/sohl.core.logic.SohlSystem.html#registercalendar" class="tsd-kind-method"> sohl.core.logic.SohlSystem.registerCalendar</a> method. See the
 <a href="Documentation.Reference.Calendar.html">Calendar reference</a> for the calendar shape and
 worked examples.</p>
 <pre><code class="js"><span class="hl-0">SohlSystem</span><span class="hl-1">.</span><span class="hl-3">registerCalendar</span><span class="hl-1">(</span><span class="hl-7">&quot;my-calendar&quot;</span><span class="hl-1">, {</span><br/><span class="hl-1">    </span><span class="hl-6">/* calendar definition */</span><br/><span class="hl-1">});</span>
