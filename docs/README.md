@@ -23,6 +23,7 @@ Design and rationale — how and why the system is built the way it is.
 
 - [Architecture Overview](concepts/architecture.md) — the mental model and a map of the `src/` tree. **Read this first.**
 - [The SoHL API](concepts/sohl-api.md)
+- [Combat Model](concepts/combat-model.md) — assisted vs. automated combat, and how the combat flow is wired programmatically (combatants, the exchange workflow, resolution).
 - [Macros and Actions](concepts/macros-and-actions.md)
 - [Expressions and Scripts](concepts/expressions.md) — the ways author-supplied logic runs: `SafeExpression`, Macros, and the Expression Library.
 - [Security Model & Guardrails](concepts/security-model.md) — the threat model and the standing rules every change must respect. **Read before touching serialization, HTML rendering, actions, or cross-client flows.**
