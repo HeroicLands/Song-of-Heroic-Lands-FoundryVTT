@@ -80,6 +80,12 @@ jsep.removeUnaryOp("~");
  * It is a {@link SohlEntity}: only its {@link source} is persisted (via
  * {@link toJSON}); the parsed AST is rebuilt in the constructor on revival.
  *
+ * For a hands-on authoring guide — the grammar, the full standard-helper
+ * reference (exact signatures and return values), the bindings each call site
+ * provides, and worked examples — see the
+ * [Expressions and Scripts](../../../docs/concepts/expressions.md) concept doc.
+ * The summary below covers the essentials.
+ *
  * ## Using it
  *
  * Two steps: build once, then evaluate as often as you like.
@@ -92,14 +98,16 @@ jsep.removeUnaryOp("~");
  * 2. **Evaluate** — `expr.evaluate(context?)` runs the expression against
  *    `context`, a plain object of variable bindings. Every bare identifier in the
  *    expression is looked up by name in `context`. It returns whatever the
- *    expression computes (for a predicate, a boolean).
+ *    expression computes (for a predicate, a boolean; for a computed field, a
+ *    number or string).
  *
- * @example
+ * ```ts
  * // A simple predicate. `level` and `injured` are read from the context object.
  * const expr = new SafeExpression({ source: "level >= 3 && !injured" }, { parent });
  * expr.evaluate({ level: 5, injured: false }); // true
  * expr.evaluate({ level: 2, injured: false }); // false
  * expr.evaluate({ level: 9, injured: true });  // false
+ * ```
  *
  * ## The language
  *
@@ -122,13 +130,14 @@ jsep.removeUnaryOp("~");
  * built-in library plus any world-loaded custom helpers — and are resolved by
  * name when the expression is validated and evaluated.
  *
- * @example
+ * ```ts
  * // `has` and `len` are built-in helpers; the expression may call them by name.
  * const expr = new SafeExpression(
  *     { source: "has('ranged', tags) && len(tags) <= 3" },
  *     { parent },
  * );
  * expr.evaluate({ tags: ["ranged", "magic"] }); // true
+ * ```
  *
  * ## Errors
  *

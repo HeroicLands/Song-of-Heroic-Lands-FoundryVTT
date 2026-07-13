@@ -32,29 +32,159 @@ This is an _allowlist_, not a denylist, which is why it is a real security
 boundary (unlike the removed `textToFunction` sandbox — see the
 [security model](security-model.md#why-not-a-sandbox--denylist)).
 
-Properties worth knowing:
+### How it works
 
-- **Build once, evaluate many.** `new SafeExpression({ source }, { parent })`
-  parses and validates immediately and throws a `SafeExpressionError` on
-  anything unsupported, so a bad predicate fails at construction, not deep in a
-  lifecycle. Only its `source` string is persisted.
+Two steps — build once, evaluate as often as you like:
+
+1. **Construct.** `new SafeExpression({ source }, { parent })` parses `source`
+   with jsep and statically validates the resulting AST. Anything unsupported
+   throws a `SafeExpressionError` **at construction**, so a bad predicate fails
+   loudly at setup time, not deep in a lifecycle. Construction is the costly
+   step; keep the instance and reuse it. Only the `source` string is persisted —
+   the AST is rebuilt on revival.
+2. **Evaluate.** `expr.evaluate(context?)` walks the validated AST against
+   `context`, a plain object of variable bindings. Every bare identifier in the
+   expression is looked up by name in `context`; an unknown identifier throws. It
+   returns whatever the expression computes — a boolean for a predicate, a number
+   or string for a computed field.
+
+Two guardrails make it a real boundary, not a filter:
+
 - **No arbitrary property access.** Member access is allowed, but the keys
-  `constructor`, `__proto__`, and `prototype` are denied — even when reached
-  through a computed key — so an expression cannot climb the prototype chain to
-  the `Function` constructor.
-- **No arbitrary calls.** The only callables are the registered
-  [expression helpers](#extending-the-helpers-the-expression-library) (built-ins
-  plus any GM-loaded ones); an expression cannot call methods on the objects it
-  is handed.
-- **Bound variables depend on the call site** — e.g. an action's `trigger`/
-  `visible` predicates see `item`, `actor`, `element`, and `isGM`; an active
-  effect's `test`/`strikeModePredicate` see `item` / `sm`.
+  `constructor`, `__proto__`, and `prototype` are denied — even through a
+  computed key — so an expression cannot climb the prototype chain to the
+  `Function` constructor.
+- **No arbitrary calls.** The only callable values are the registered
+  [expression helpers](#the-standard-helpers) (built-ins plus any GM-loaded
+  ones). An expression cannot call methods on the objects it is handed — you
+  cannot write `actor.die()`.
 
-Where SafeExpression predicates are used today: action `trigger`/`visible`
-({@link SohlAction}), active-effect `test`/`strikeModePredicate`
-(`SohlActiveEffect`), and context-menu `condition`/`visible`
-(`ContextMenuEntry`). Reach for a SafeExpression whenever a GM or content author
-needs a **synchronous computed value or condition** from a data field.
+### The language
+
+**Allowed:** literals (`3`, `"orc"`, `true`), array literals (`[1, 2]`),
+identifiers resolved from the context, property access by dot or bracket
+(`actor.name`, `tags["ranged"]`), the operators `=== !== < > <= >= + - * / %`,
+the short-circuiting `&&` and `||`, the unary `! - +`, the ternary
+`cond ? a : b`, and calls to **helpers** (below).
+
+**Rejected — at parse/validation time, before anything runs:** assignment (`=`),
+bitwise and loose-equality operators (`& | == !=`), `typeof` / `new` / `delete` /
+`instanceof`, statements (`;`, `if`, `for`), template and regex literals, and —
+importantly — **method calls**.
+
+### Bound variables — what each call site provides
+
+The bindings available to an expression depend on where it is used. Reach for a
+SafeExpression whenever a GM or content author needs a **synchronous condition or
+computed value** from a data field; these are the call sites today:
+
+| Call site                                                 | Field(s)                               | Bindings                  | Result  |
+| --------------------------------------------------------- | -------------------------------------- | ------------------------- | ------- |
+| Action, UI visibility ({@link SohlAction})                | `visible`                              | `element`, `item`, `isGM` | boolean |
+| Action, executability ({@link SohlAction})                | `trigger`                              | `item`, `actor`           | boolean |
+| Active effect, item targeting (`SohlActiveEffect`)        | `test`                                 | `itemLogic`               | boolean |
+| Active effect, strike-mode targeting (`SohlActiveEffect`) | `test`                                 | `itemLogic`, `sm`         | boolean |
+| Context-menu entry (`ContextMenuEntry`)                   | `condition`                            | `target`, `item`, `actor` | boolean |
+| Corpus movement profile (`CorpusLogic`)                   | `strMod`, `encumbrance`, `weight.calc` | `str` or `wt`             | number  |
+
+The same `SohlActiveEffect.test` field is bound differently by the effect's
+scope: item-kind scopes see the candidate item's logic as `itemLogic`; the
+strike-mode scopes (`meleestrikemode` / `missilestrikemode`) additionally bind
+the strike mode as `sm`.
+
+### The standard helpers
+
+Because method calls are banned, **helpers** are how behavior is exposed to an
+expression. The built-in `STANDARD_HELPERS` library — seeded into the global
+{@link expressionHelpers} registry — is always present; worlds may layer more on
+top via the
+[Expression Library](#extending-the-helpers-the-expression-library). All
+built-ins are pure and null-tolerant. Arguments and results are the _evaluated_
+values from the expression.
+
+**Collections**
+
+| Helper                   | Returns   | Description                                                       |
+| ------------------------ | --------- | ----------------------------------------------------------------- |
+| `has(value, collection)` | `boolean` | `value` is an element of the array, or an own key of the object.  |
+| `len(collection)`        | `number`  | Element/key count of an array, string, or object; `0` if nullish. |
+| `empty(collection)`      | `boolean` | `true` when the collection has no elements/keys, or is nullish.   |
+
+**Strings**
+
+| Helper                            | Returns   | Description                                          |
+| --------------------------------- | --------- | ---------------------------------------------------- |
+| `lower(value)`                    | `string`  | The value's string form, lowercased.                 |
+| `upper(value)`                    | `string`  | The value's string form, uppercased.                 |
+| `startsWith(value, prefix)`       | `boolean` | Whether the string starts with `prefix`.             |
+| `endsWith(value, suffix)`         | `boolean` | Whether the string ends with `suffix`.               |
+| `contains(value, sub)`            | `boolean` | Whether the string contains `sub`.                   |
+| `matches(value, pattern, flags?)` | `boolean` | Regex test; `pattern`/`flags` are strings. See note. |
+
+`matches()` throws a `SafeExpressionError` if the pattern is longer than 200
+characters, looks ReDoS-prone (nested quantifiers or backreferences), or is not a
+valid regular expression.
+
+**Numbers**
+
+| Helper           | Returns  | Description                    |
+| ---------------- | -------- | ------------------------------ |
+| `min(...values)` | `number` | Smallest of the given numbers. |
+| `max(...values)` | `number` | Largest of the given numbers.  |
+| `round(value)`   | `number` | Nearest integer.               |
+| `floor(value)`   | `number` | Rounded down to an integer.    |
+| `ceil(value)`    | `number` | Rounded up to an integer.      |
+| `abs(value)`     | `number` | Absolute value.                |
+
+**Type checks**
+
+| Helper            | Returns   | Description                     |
+| ----------------- | --------- | ------------------------------- |
+| `isNumber(value)` | `boolean` | A real number (not `NaN`).      |
+| `isString(value)` | `boolean` | A string.                       |
+| `isArray(value)`  | `boolean` | An array.                       |
+| `defined(value)`  | `boolean` | Neither `undefined` nor `null`. |
+
+**Domain**
+
+| Helper                             | Returns   | Description                                                       |
+| ---------------------------------- | --------- | ----------------------------------------------------------------- |
+| `hasUsableSkill(actor, shortcode)` | `boolean` | Whether the actor has a skill with that shortcode (e.g. `"dge"`). |
+
+### Worked examples
+
+**A predicate — target only high-mastery skills.** An active effect with an
+item-kind scope binds the candidate item's logic as `itemLogic`; the `test`
+matches only skills whose effective mastery level is at least 60:
+
+```text
+itemLogic.masteryLevel.effective >= 60
+```
+
+**A strike-mode predicate — reach and traits.** A strike-mode-scoped effect
+additionally binds the strike mode as `sm`. Match only modes that can reach at
+least 5 feet and are not thrown:
+
+```text
+sm.reach >= 5 && !has('thrown', sm.traits)
+```
+
+**A computed value — encumbrance from carried weight.** A Corpus movement
+profile's `encumbrance` field is a SafeExpression bound with `wt` (the carried
+weight, as a `ValueModifier` — read its `.effective`). It returns a number that
+seeds the encumbrance modifier:
+
+```text
+floor(wt.effective / 10)
+```
+
+**A context-menu condition — gate on a skill.** A context-menu entry's
+`condition` binds `actor`; show a Dodge action only when the actor has the Dodge
+skill:
+
+```text
+hasUsableSkill(actor, 'dge')
+```
 
 ## Macros — asynchronous, imperative GM behavior
 
