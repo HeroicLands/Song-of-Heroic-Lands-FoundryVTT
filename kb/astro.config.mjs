@@ -19,10 +19,29 @@ export default defineConfig({
             sidebar: [
                 {
                     label: "Developer",
-                    items: [{ autogenerate: { directory: "." } }],
+                    items: [
+                        {
+                            label: "Concepts",
+                            items: [{ autogenerate: { directory: "concepts" } }],
+                        },
+                        {
+                            label: "How-to",
+                            items: [{ autogenerate: { directory: "how-to" } }],
+                        },
+                        {
+                            label: "Reference",
+                            items: [{ autogenerate: { directory: "reference" } }],
+                        },
+                        {
+                            label: "Contributing",
+                            items: [
+                                { autogenerate: { directory: "contributing" } },
+                            ],
+                        },
+                    ],
                 },
                 {
-                    label: "Reference",
+                    label: "Compendium",
                     items: [{ label: "Weapons", link: "/reference/weapons/" }],
                 },
             ],
