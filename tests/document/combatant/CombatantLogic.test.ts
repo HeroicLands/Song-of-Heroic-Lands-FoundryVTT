@@ -160,7 +160,9 @@ describe("CombatantLogic", () => {
             return makeCombatantLogic({
                 actor: {
                     name: "Runner",
-                    logic: { corpus: { feetPerRound: { effective: feetPerRound } } },
+                    logic: {
+                        corpus: { feetPerRound: { effective: feetPerRound } },
+                    },
                 },
             });
         }

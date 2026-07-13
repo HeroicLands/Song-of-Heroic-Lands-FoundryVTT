@@ -30,7 +30,8 @@ describe("Being Profile tab (#373)", () => {
                     .get(actor.id)
                     .update(
                         toRealm(win, {
-                            "system.dossier": "<p>Born of the northern clans.</p>",
+                            "system.dossier":
+                                "<p>Born of the northern clans.</p>",
                         }),
                     )
                     .then(() => null),
