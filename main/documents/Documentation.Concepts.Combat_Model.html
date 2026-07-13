@@ -78,29 +78,32 @@ attacker and a defender across clients. The orchestration lives in
 and every stage exchanges an evaluated result through a chat card.</p>
 <a id="requirements" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Requirements<a href="#requirements" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>To <em>start</em> an automated attack:</p>
 <ul>
-<li><strong>The attacker's actor must be a combatant in the active combat.</strong>
+<li><strong>The attacker must be a combatant in the active combat.</strong>
 <code>StrikeModeBase.automatedCombatStart</code> resolves the combatant with
 <code>fvttActiveCombatantForActor(this.parent.actor)</code> and warns/aborts if the actor
-is not in the active combat — this is the &quot;must be a combatant&quot; gate.</li>
-<li><strong>A target is required.</strong> <code>startAutomatedAttack</code> aborts (UI warning) when
-<code>context.target</code> is absent.</li>
+is not in the active combat (the tracker entry is on the combatant itself).</li>
+<li><strong>The attacker must not be out of the fight.</strong> <code>startAutomatedAttack</code> aborts
+when <code>attackerBlockingStatus(this.data.statuses, this.data.isDefeated)</code> (against
+<code>ATTACK_BLOCKING_STATUSES</code> — dead, vanquished, unconscious, sleep, restrained,
+paralyzed, frozen, incapacitated) returns a status.</li>
+<li><strong>A target is required, and must be a valid combatant.</strong>
+<code>startAutomatedAttack</code> aborts when <code>context.target</code> is absent, when it does not
+resolve to a combatant in the active combat, or when
+<code>targetInvalidStatus(...)</code> (against <code>TARGET_INVALID_STATUSES</code> — <code>dead</code> /
+<code>vanquished</code>) reports the target is dead or defeated/surrendered.</li>
 <li><strong>Range</strong> is computed (<code>fvttRangeToTarget</code>) and validated per strike mode
 (melee <code>reach.effective</code>, missile <code>baseRange.effective</code>); missile <em>volley</em>
 beyond base range is explicitly unsupported.</li>
 </ul>
-<p>Defender-side gating <strong>is</strong> fully wired at card-render time (see
+<p>Defender-side gating is likewise fully wired at card-render time (see
 <a href="#cross-client-handoff">Cross-client handoff</a>).</p>
 <blockquote>
-<p><strong>Caveat — attacker status invariants are dormant.</strong> The pure status sets
-<code>ATTACK_BLOCKING_STATUSES</code> / <code>DEFENSE_DISABLING_STATUSES</code> and the helper
-<code>firstStatusIn</code> exist and are unit-tested, but the function that would enforce
-the <em>attacker</em>-side gate, <code>resolveAttackContext</code>, is <strong>currently commented
-out</strong>, and the live <code>startAutomatedAttack</code> enforces only <em>target + range +
-combat membership</em>. So an incapacitated/defeated attacker is <strong>not</strong> presently
-blocked in the wired path, and there is <strong>no &quot;it must be your turn&quot; gate</strong>.
-(The <a href="Documentation.Reference.Combat_Resolution_Pipeline.html#automated-combat-invariants-enforced-before-step-1">pipeline doc</a>
-describes the intended enforcement; treat it as the target state, not current
-behavior.) The <strong>defender</strong> gate, by contrast, is live.</p>
+<p><strong>Note — no turn gate.</strong> There is deliberately <strong>no &quot;it must be your turn&quot;
+gate</strong>: the attacker/target invariants above are enforced, but automated and
+assisted combat can be freely interleaved (a defender may counterstrike out of
+turn, a fight may drop to assisted mid-exchange). The status sets and the
+<code>attackerBlockingStatus</code> / <code>targetInvalidStatus</code> predicates are pure and
+unit-tested.</p>
 </blockquote>
 <a id="entry-points" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Entry points<a href="#entry-points" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Both converge on one executor, <code>SohlCombatantLogic.startAutomatedAttack</code>:</p>
 <ol>
@@ -274,9 +277,9 @@ menu, and renders the group-name and computed-move chips per row.</li>
 <a id="current-gaps-and-caveats" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Current gaps and caveats<a href="#current-gaps-and-caveats" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>For anyone extending combat, the wired state diverges from the intended/documented
 state in a few places (all verified against source):</p>
 <ol>
-<li><strong>Attacker status invariants are dormant</strong> — <code>resolveAttackContext</code> is
-commented out; only target + range + membership gate the attacker path. No
-&quot;your turn&quot; gate exists. (The defender gate <em>is</em> live.)</li>
+<li><strong>No &quot;your turn&quot; gate</strong> — the attacker/target status invariants are enforced
+(#387), but automated combat does not require the acting combatant to be the
+current one; this is intentional so the two modes can be interleaved.</li>
 <li><strong><code>moveFactor</code> is unapplied</strong> (#252) — stored and GM-editable, but
 <code>computedMove()</code>/<code>CorpusLogic.feetPerRound</code> never read it.</li>
 <li><strong><code>displayedMedium</code> is not honored by <code>computedMove</code></strong> — it seeds the tracker
