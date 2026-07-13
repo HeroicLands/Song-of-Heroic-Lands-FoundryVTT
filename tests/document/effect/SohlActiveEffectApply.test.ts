@@ -8,7 +8,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import { ITEM_KIND } from "@src/utils/constants";
+import { ACTIVE_EFFECT_SCOPE } from "@src/utils/constants";
 
 const parent = { _kind: "parent" } as any;
 
@@ -101,92 +101,57 @@ describe("SohlActiveEffect._applyChangeUnguided", () => {
         });
     });
 
-    describe("sm: keys (strike-mode targeting)", () => {
-        const makeWeapon = (modes: any[]) => ({
-            type: ITEM_KIND.WEAPONGEAR,
-            uuid: "W",
-            logic: { strikeModes: modes },
+    describe("strike-mode scope (mod:<path> on matched strike modes)", () => {
+        // The effect supplies the matched strike modes; scope routing keys off
+        // `change.effect.system.scope`. (matchingStrikeModes' own predicate
+        // logic is covered in SohlActiveEffectTargets.test.ts.)
+        const makeEffect = (scope: string, matched: any[]) => ({
+            name: "Test Effect",
+            system: { scope },
+            matchingStrikeModes: () => matched,
         });
+        const smChange = (key: string, value: unknown, effect: any) =>
+            fakeChange(key, value, "add", { effect });
 
-        it("is a no-op on non-WeaponGear targets", () => {
-            const target = {
-                type: "skill",
-                uuid: "S",
-                logic: { strikeModes: [] },
-            };
-            expect(() =>
-                call(target, fakeChange("sm:attack", "1")),
-            ).not.toThrow();
-        });
-
-        it("with empty predicate, applies to every strike mode", () => {
-            const sm1 = { type: "melee", attack: 5 };
-            const sm2 = { type: "missile", attack: 3 };
-            const target = makeWeapon([sm1, sm2]);
-            call(target, fakeChange("sm:attack", "7"));
-            expect(sm1.attack).toBe("7");
-            expect(sm2.attack).toBe("7");
-        });
-
-        it("with predicate, applies only to matching strike modes", () => {
-            const sm1 = { type: "melee", attack: 5 };
-            const sm2 = { type: "missile", attack: 3 };
-            const target = makeWeapon([sm1, sm2]);
-            call(
-                target,
-                fakeChange("sm:attack", "7", "add", {
-                    strikeModePredicate: 'sm.type === "melee"',
-                }),
-            );
-            expect(sm1.attack).toBe("7");
-            expect(sm2.attack).toBe(3); // unchanged
-        });
-
-        it("a predicate that throws on one sm skips that sm only", () => {
-            const sm1 = { type: "melee", attack: 5 };
-            const sm2 = { attack: 3 }; // no .type → sm.type.foo throws
-            const target = makeWeapon([sm2, sm1]);
-            call(
-                target,
-                fakeChange("sm:attack", "9", "add", {
-                    strikeModePredicate: 'sm.type === "melee"',
-                }),
-            );
-            expect(sm1.attack).toBe("9");
-            expect(sm2.attack).toBe(3); // unchanged (predicate false / undefined)
-        });
-    });
-
-    describe("mod:sm: keys (modifier deltas on strike modes)", () => {
-        const makeWeapon = (modes: any[]) => ({
-            type: ITEM_KIND.WEAPONGEAR,
-            uuid: "W",
-            logic: { strikeModes: modes },
-        });
-
-        it("composes: predicate filters, delta pushed into each surviving sm's VM", () => {
-            const sm1 = { type: "melee", attack: newVM(5) };
-            const sm2 = { type: "missile", attack: newVM(3) };
-            const target = makeWeapon([sm1, sm2]);
-            call(
-                target,
-                fakeChange("mod:sm:attack", "2", "add", {
-                    strikeModePredicate: 'sm.type === "melee"',
-                }),
-            );
+        it("pushes a delta onto each matched strike mode's VM at mod:<path>", () => {
+            const sm1 = { attack: newVM(5) };
+            const sm2 = { attack: newVM(3) };
+            const effect = makeEffect(ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE, [
+                sm1,
+                sm2,
+            ]);
+            call({ uuid: "W" }, smChange("mod:attack", "2", effect));
             expect(sm1.attack.effective).toBe(7); // 5 + 2
-            expect(sm2.attack.effective).toBe(3); // unchanged
+            expect(sm2.attack.effective).toBe(5); // 3 + 2
         });
 
-        it("skips strike modes whose path doesn't resolve to a VM", () => {
-            const sm1 = { type: "melee", attack: 99 }; // not a VM
-            const sm2 = { type: "missile", attack: newVM(3) };
-            const target = makeWeapon([sm1, sm2]);
+        it("resolves nested paths (mod:defense.block)", () => {
+            const sm = { defense: { block: newVM(4) } };
+            const effect = makeEffect(ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE, [
+                sm,
+            ]);
+            call({ uuid: "W" }, smChange("mod:defense.block", "3", effect));
+            expect(sm.defense.block.effective).toBe(7);
+        });
+
+        it("warns (no throw) when a path doesn't resolve to a ValueModifier", () => {
+            const sm = { attack: 99 }; // not a VM
+            const effect = makeEffect(ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE, [
+                sm,
+            ]);
             expect(() =>
-                call(target, fakeChange("mod:sm:attack", "2")),
+                call({ uuid: "W" }, smChange("mod:attack", "2", effect)),
             ).not.toThrow();
-            expect(sm1.attack).toBe(99); // unchanged
-            expect(sm2.attack.effective).toBe(5);
+            expect(sm.attack).toBe(99); // unchanged
+        });
+
+        it("is a no-op for a non-mod: key", () => {
+            const sm = { attack: newVM(5) };
+            const effect = makeEffect(ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE, [
+                sm,
+            ]);
+            call({ uuid: "W" }, smChange("attack", "2", effect));
+            expect(sm.attack.effective).toBe(5); // unchanged
         });
     });
 });

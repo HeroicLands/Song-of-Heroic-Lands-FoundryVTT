@@ -25,7 +25,7 @@ const BaseAEConfig = foundry.applications.sheets.ActiveEffectConfig;
 /**
  * SoHL's Active Effect editor. Extends Foundry's `ActiveEffectConfig` (the
  * standard editor application for ActiveEffect documents) with the system's
- * scope, change-key, and strike-mode-predicate fields.
+ * scope (including the strike-mode scopes) and change-key fields.
  *
  * @internal
  */
@@ -80,6 +80,17 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
                 )) {
                     partContext.targetTypes[key] = (clazz as any).typeLabel;
                 }
+                // Strike-mode scopes: target strike-mode entities across the
+                // actor's items, selected by the `test` predicate.
+                partContext.targetTypes[ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE] =
+                    sohl.i18n.localize(
+                        "SOHL.ActiveEffect.Scope.MELEE_STRIKE_MODE",
+                    );
+                partContext.targetTypes[
+                    ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE
+                ] = sohl.i18n.localize(
+                    "SOHL.ActiveEffect.Scope.MISSILE_STRIKE_MODE",
+                );
                 break;
             }
 
@@ -102,6 +113,7 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
                 // determined by `system.scope`:
                 //   - "this": the parent doc's own type
                 //   - "actor": the owning actor's type
+                //   - "meleestrikemode"/"missilestrikemode": the strike-mode keys
                 //   - <itemKind>: that item kind's metadata
                 const scope = (document as any).system?.scope;
                 const metadataType = resolveEffectMetadataType(
@@ -111,9 +123,6 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
                     (document as any).actor?.type,
                 );
                 partContext.keyChoices = resolveEffectKeyChoices(metadataType);
-                // Surface the scope to the template so the strikeModePredicate
-                // row can conditionally render for weapongear scope + sm: keys.
-                partContext.scope = scope;
                 break;
             }
         }
