@@ -249,6 +249,16 @@ against real world data — migrations must never require manual user interventi
 
 - **File headers.** Every `.ts` file carries the GPL-3.0 license header; every
   `.hbs` file carries the HBS license header.
+- **Namespace barrels.** Every `src/` folder that is a namespace — it holds an
+  exporting module, or a subfolder that does — carries a hand-written `index.ts`
+  that re-exports its sibling modules (`export * from "./X"`) and its subfolder
+  namespaces (`export * as sub from "./sub"`), with a `/** … */` description on
+  each `export * as` line (it becomes that namespace's API-doc prose). These
+  barrels form the `sohl.*` tree, so the reference path equals the file location
+  (`sohl.document.effect.foundry.SohlActiveEffect`). Adding a module or folder
+  means updating its barrel; `npm run lint:ns-barrels` (part of `npm run lint`)
+  enforces completeness and descriptions. Side-effect-only modules (no top-level
+  `export`) are not namespace members and are excluded.
 - **JSDoc.** Public-API JSDoc feeds TypeDoc generation — keep it complete and
   lint-clean. PRs that modify behavior update the relevant docs: JSDoc for public
   APIs, [Extension Points](../how-to/extension-points.md) for extension points, and
