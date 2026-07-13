@@ -117,7 +117,8 @@ describe("Being Actions tab (#313)", () => {
                     // The action def is persisted, bound to the Macro's uuid…
                     cy.foundry((win) =>
                         (
-                            win.game.actors.get(actor.id).system.actionDefs ?? []
+                            win.game.actors.get(actor.id).system.actionDefs ??
+                            []
                         ).map((d) => d.executor),
                     ).should("include", macroUuid);
                     // …and appears (titled after the Macro) under Custom Actions.
@@ -191,9 +192,10 @@ describe("Being Actions tab (#313)", () => {
                     // The action def is gone…
                     cy.foundry(
                         (win) =>
-                            (win.game.actors.get(actor.id).system.actionDefs ??
-                                [])
-                                .length,
+                            (
+                                win.game.actors.get(actor.id).system
+                                    .actionDefs ?? []
+                            ).length,
                     ).should("eq", 0);
                     // …but the Macro document still exists.
                     cy.foundry((win) => !!win.fromUuidSync(macroUuid)).should(
