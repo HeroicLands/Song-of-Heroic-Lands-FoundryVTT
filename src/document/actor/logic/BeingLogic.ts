@@ -41,11 +41,19 @@ import {
     getActiveScene,
     getActiveCombat,
     dialog,
+    fvttCreateEmbeddedItems,
 } from "@src/core/FoundryHelpers";
+import type { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
+import {
+    buildContractedAfflictionData,
+    contagionTarget,
+    promptContractDisease,
+} from "@src/document/actor/logic/affliction-contract";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import {
     ACTION_SUBTYPE,
+    ATTRIBUTE_CODE,
     IMPACT_ASPECT,
     ITEM_KIND,
     SOHL_ACTION_SCOPE,
@@ -589,35 +597,57 @@ export class BeingLogic<
     }
 
     /**
-     * Roll the test that determines whether this being contracts an affliction
-     * it has been exposed to. The candidate affliction is supplied through the
-     * action context.
+     * Prompt for a disease — chosen from those found in the world and the Item
+     * compendium packs, or described as a custom one — and roll the contagion
+     * test that determines whether this being contracts it. Only diseases
+     * (afflictions whose subtype is `disease`) can be contracted.
+     *
+     * The contagion roll is a d100 test against `CI × Endurance` (see
+     * {@link contagionTarget}); *failing* it contracts the disease, which is
+     * then created on the being: the chosen source affliction is copied
+     * verbatim, or a fresh `affliction` item is built from the custom name/CI.
      *
      * @param context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @remarks Not yet implemented; currently returns `null`.
+     * @returns The success test result, or `null` if the being has no Endurance
+     *   attribute or the dialog was dismissed.
      */
-    async contractAfflictionTest(
+    async contractDisease(
         context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
-        // let { afflictionObj } = options;
-        // if (!options.testResult) {
-        //     if (!afflictionObj) return null;
-        //     const item = new SohlItem(afflictionObj);
-        //     if (!item) return null;
-        //     options.testResult = new CONFIG.SOHL.class.SuccessTestResult(
-        //         {
-        //             speaker,
-        //             testType: SuccessTestResult.TEST_TYPE.AFFLICTIONCONTRACT,
-        //             mlMod: Utility.deepClone(item.system.$masteryLevel),
-        //         },
-        //         { parent: item.system },
-        //     );
-        // }
-        // options.testResult =
-        //     options.testResult.item.system.successTest(options);
-        // return this._createTestItem(options);
-        return null;
+        const endurance = this.getItemLogic(
+            ATTRIBUTE_CODE.ENDURANCE,
+            ITEM_KIND.ATTRIBUTE,
+        ) as AttributeLogic | undefined;
+        if (!endurance) {
+            sohl.log.uiWarn(
+                `${this.name} has no Endurance attribute; cannot run a Contract Disease test.`,
+            );
+            return null;
+        }
+
+        const choice = await promptContractDisease();
+        if (!choice) return null;
+
+        const mlMod = new entity.MasteryLevelModifier(
+            {
+                type: "contract-disease",
+                title: `${this.name} – Contract ${choice.name}`,
+            },
+            { parent: this },
+        );
+        mlMod.setBase(
+            contagionTarget(choice.contagionIndex, endurance.score.effective),
+        );
+
+        const result = await mlMod.successTest(context);
+        // Failing the contagion roll means the being contracts the disease.
+        if (result && !result.isSuccess) {
+            await fvttCreateEmbeddedItems(this, [
+                buildContractedAfflictionData(choice),
+            ]);
+            sohl.log.uiInfo(`${this.name} contracted ${choice.name}.`);
+        }
+        return result || null;
     }
 
     /**
@@ -688,12 +718,12 @@ export class BeingLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
-                shortcode: "contractAfflictionTest",
+                shortcode: "contractDisease",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Being.Action.contractAfflictionTest",
+                title: "SOHL.Being.Action.contractDisease",
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "sohl-vomiting",
-                executor: "contractAfflictionTest",
+                executor: "contractDisease",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },

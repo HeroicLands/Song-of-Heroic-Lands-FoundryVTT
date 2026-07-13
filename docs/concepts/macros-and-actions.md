@@ -75,6 +75,29 @@ Logic class — see [Extension Points](../how-to/extension-points.md) and {@link
 {@link SohlLogic} in the API reference. To affect _all_ documents of a type rather
 than attach one action, use [Lifecycle Hooks](../how-to/lifecycle-hooks.md).
 
+### Worked example: Contract Disease
+
+`BeingLogic`'s `contractDisease` (a `SELF`-scoped intrinsic action) is a good
+template for an action that touches the Foundry boundary, because it keeps the
+executor Foundry-free and pushes every Foundry call to a `FoundryHelpers` shim:
+
+1. It reads the being's Endurance **attribute** with `getItemLogic("end", ITEM_KIND.ATTRIBUTE)`.
+2. It delegates the world/compendium search **and** the dialog to
+   `promptContractDisease()` — which calls the boundary shims `fvttFindDiseases()`
+   (raw `game.items` / `game.packs` access) and `dialog()`, returning a plain,
+   Foundry-free choice object. Only `disease`-subtype afflictions are offered.
+3. It rolls the contagion test as an ordinary `MasteryLevelModifier.successTest`
+   whose base is `contagionTarget(CI, Endurance)` = `CI × Endurance`. Because a
+   lower CI yields a lower (easier-to-fail) target, a lower CI is more contagious.
+4. On a **failed** roll it creates the affliction with `fvttCreateEmbeddedItems()`,
+   copying the chosen source disease or building a fresh one from the custom
+   name/CI (`buildContractedAfflictionData`).
+
+The pure pieces (`contagionTarget`, `readContractAfflictionForm`,
+`buildContractedAfflictionData`) live in `affliction-contract.ts` and are unit
+tested directly; the executor and shims are the only Foundry-aware parts. This is
+the standard shape: **logic orchestrates, `FoundryHelpers` shims do the I/O.**
+
 ## See also
 
 - [The SoHL API](./sohl-api.md) — the document and `sohl` surfaces these scripts use.

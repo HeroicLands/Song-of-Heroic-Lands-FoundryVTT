@@ -7,7 +7,13 @@ import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { ACTOR_KIND, IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
-import { makeActorLogic, makeItemLogic } from "@tests/mocks/logicHarness";
+import * as AfflictionContract from "@src/document/actor/logic/affliction-contract";
+import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import {
+    makeActorLogic,
+    makeAttributeStub,
+    makeItemLogic,
+} from "@tests/mocks/logicHarness";
 
 /** Construct a BeingLogic against a plain-object BeingData. */
 function makeBeing(
@@ -164,7 +170,7 @@ describe("BeingLogic", () => {
                 "moraleTest",
                 "fearTest",
                 "calcImpact",
-                "contractAfflictionTest",
+                "contractDisease",
             ]) {
                 expect(logic.actions.has(shortcode), shortcode).toBe(true);
             }
@@ -442,7 +448,6 @@ describe("BeingLogic", () => {
             await expect(logic.fumbleTest(ctx)).resolves.toBeNull();
             await expect(logic.moraleTest(ctx)).resolves.toBeNull();
             await expect(logic.fearTest(ctx)).resolves.toBeNull();
-            await expect(logic.contractAfflictionTest(ctx)).resolves.toBeNull();
         });
 
         it("calcImpact returns undefined when the scope has no impact data", async () => {
@@ -465,7 +470,94 @@ describe("BeingLogic", () => {
         it.todo(
             "calcImpact - calculates location and damage from CombatResult",
         );
-        it.todo("contractAfflictionTest - tests contraction of an affliction");
+    });
+
+    describe("contractDisease", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        /** A being with an Endurance attribute of the given score. */
+        function beingWithEndurance(score = 13) {
+            const logic = makeBeing();
+            (logic as any).actor.items.set(
+                "end",
+                makeAttributeStub("end", score),
+            );
+            return logic;
+        }
+
+        const customDisease = {
+            kind: "custom" as const,
+            name: "Rattle Cough",
+            subType: "disease",
+            contagionIndex: 3,
+        };
+
+        it("warns and returns null when the being has no Endurance attribute", async () => {
+            const warn = vi.spyOn(sohl.log, "uiWarn");
+            const logic = makeBeing();
+            await expect(
+                (logic as any).contractDisease({ scope: {} }),
+            ).resolves.toBeNull();
+            expect(warn).toHaveBeenCalledWith(
+                expect.stringMatching(/no Endurance attribute/),
+            );
+        });
+
+        it("returns null when the dialog is dismissed", async () => {
+            vi.spyOn(
+                AfflictionContract,
+                "promptContractDisease",
+            ).mockResolvedValue(null);
+            const logic = beingWithEndurance();
+            await expect(
+                (logic as any).contractDisease({ scope: {} }),
+            ).resolves.toBeNull();
+        });
+
+        it("contracts the disease (creates it) when the contagion roll fails", async () => {
+            vi.spyOn(
+                AfflictionContract,
+                "promptContractDisease",
+            ).mockResolvedValue(customDisease);
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({ isSuccess: false } as any);
+            const create = vi
+                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+                .mockResolvedValue([]);
+            const logic = beingWithEndurance();
+
+            await (logic as any).contractDisease({ scope: {} });
+
+            expect(create).toHaveBeenCalledTimes(1);
+            const itemsData = create.mock.calls[0][1] as any[];
+            expect(itemsData[0]).toMatchObject({
+                type: "affliction",
+                name: "Rattle Cough",
+                system: { subType: "disease", contagionIndexBase: 3 },
+            });
+        });
+
+        it("does NOT contract the disease when the contagion roll succeeds", async () => {
+            vi.spyOn(
+                AfflictionContract,
+                "promptContractDisease",
+            ).mockResolvedValue(customDisease);
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({ isSuccess: true } as any);
+            const create = vi.spyOn(
+                FoundryHelpersMock,
+                "fvttCreateEmbeddedItems",
+            );
+            const logic = beingWithEndurance();
+
+            await (logic as any).contractDisease({ scope: {} });
+
+            expect(create).not.toHaveBeenCalled();
+        });
     });
 
     // Opposed-test resume moved off the actor onto SohlTokenDocumentLogic
