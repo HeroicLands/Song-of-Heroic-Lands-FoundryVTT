@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Padded Cuisse
+    - Padded Cuisse
 tags: []
 name:
-  full: Padded Cuisse
-  aliases: []
+    full: Padded Cuisse
+    aliases: []
 description: "Cushioned thigh protection ideal for wear under heavier armor."
 id: ktY6kGOnimNFKr3U
 slug: padded-cuisse
@@ -13,27 +13,27 @@ shortcode: PCuis
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cuisse
-  detailMaterial: Padded
-  material: Padded
-  durability: 10
-  value: 34
-  weight: 1.4
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: J0Cvy6PVwU9vIHm0
-  flexloc:
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cuisse
+    detailMaterial: Padded
+    material: Padded
+    durability: 10
+    value: 34
+    weight: 1.4
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: J0Cvy6PVwU9vIHm0
+    flexloc:
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 34
 origWeight: 1.4

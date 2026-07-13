@@ -1,13 +1,13 @@
 ---
 aliases:
-  - Piton
+    - Piton
 tags:
-  - expedition
+    - expedition
 name:
-  full: Piton
-  aliases:
-    - "Piton, iron"
-    - "Piton, iron, looped"
+    full: Piton
+    aliases:
+        - "Piton, iron"
+        - "Piton, iron, looped"
 description: "Iron spike with looped eye; ~1 per 10 ft of vertical climb. Consumable — usually left in the rock."
 id: 1Xq1WvC3FzcMGbhG
 slug: piton
@@ -16,10 +16,10 @@ shortcode: piton
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 1
-  weight: 0.5
+    quality: 0
+    durability: 8
+    value: 1
+    weight: 0.5
 folder: FSPVI1eObGEpMVck
 ---
 

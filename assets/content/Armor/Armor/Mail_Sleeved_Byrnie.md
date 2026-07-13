@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Mail Sleeved Byrnie
+    - Mail Sleeved Byrnie
 tags: []
 name:
-  full: Mail Sleeved Byrnie
-  aliases: []
+    full: Mail Sleeved Byrnie
+    aliases: []
 description: "Long sleeved metal ring shirt providing substantial torso and arm protection."
 id: ygNXuXwb1q7MqoUg
 slug: mail-sleeved-byrnie
@@ -13,34 +13,34 @@ shortcode: MSByr
 type: armorgear
 package: sohl
 sohl:
-  armorType: Sleeved Byrnie
-  detailMaterial: Mail
-  material: Mail
-  durability: 13
-  value: 400
-  weight: 22
-  encumbrance: 10
-  perception:
-    value: 0
-    effectId: PgWAI3jymshHLrmM
-  flexloc: []
-  rigidloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - lelbloc
-    - relbloc
-    - lfraloc
-    - rfraloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Sleeved Byrnie
+    detailMaterial: Mail
+    material: Mail
+    durability: 13
+    value: 400
+    weight: 22
+    encumbrance: 10
+    perception:
+        value: 0
+        effectId: PgWAI3jymshHLrmM
+    flexloc: []
+    rigidloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - lelbloc
+        - relbloc
+        - lfraloc
+        - rfraloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 400
 origWeight: 22

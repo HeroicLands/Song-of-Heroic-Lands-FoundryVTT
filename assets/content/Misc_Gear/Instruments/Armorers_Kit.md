@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Armorer's Kit
+    - Armorer's Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Armorer's Kit
-  aliases: []
+    full: Armorer's Kit
+    aliases: []
 description: "Heavy canvas roll with mail pliers, dollies, planishing hammers, rivet set, strap stock; armor fitting and repair."
 id: B8FjTxPq3VnYwKcR
 slug: armorers-kit
@@ -14,10 +14,10 @@ shortcode: armrkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 9
-  value: 140
-  weight: 18
+    quality: 0
+    durability: 9
+    value: 140
+    weight: 18
 folder: xniLjmZWYQZkSxyv
 ---
 

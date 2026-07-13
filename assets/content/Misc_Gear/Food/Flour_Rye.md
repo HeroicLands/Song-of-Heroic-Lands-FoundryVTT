@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Flour, Rye"
+    - "Flour, Rye"
 tags:
-  - food
+    - food
 name:
-  full: "Flour, Rye"
-  aliases: []
+    full: "Flour, Rye"
+    aliases: []
 description: "Coarse dark flour; staple for peasant bread, cheaper than wheat flour."
 id: tiZqPXSHcfOKckEj
 slug: flour-rye
@@ -14,10 +14,10 @@ shortcode: flourrye
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.25
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.25
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

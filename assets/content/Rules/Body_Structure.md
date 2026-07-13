@@ -1,21 +1,22 @@
 ---
 aliases:
-  - Body Structure
-  - Body Parts
-  - Body Locations
-  - Hit Location
-  - Anatomy
-  - Strike Accuracy
+    - Body Structure
+    - Body Parts
+    - Body Locations
+    - Hit Location
+    - Anatomy
+    - Strike Accuracy
 id: IvAKtSOREdEBkSGj
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: Body Structure
-  aliases: []
+    full: Body Structure
+    aliases: []
 slug: sohl-body-structure
 folder: RqKUTBUBN2Y3MHYB
 ---
+
 Every creature in the game is defined by a body structure — a hierarchical anatomy that determines where blows land, how armor protects, and how injuries impair function. The structure has two tiers: body parts and body locations.
 
 ## Body Parts
@@ -90,13 +91,13 @@ The standard humanoid body structure is reproduced here for reference. Non-human
 
 ## Anatomy as Actor Data
 
-A creature's body structure — its complete graph of parts, locations, and their properties — is stored directly on the actor as a single structured field, not as a collection of separate items. This reflects the fact that anatomy is intrinsic to what a creature *is*, not something it possesses. Every actor has exactly one anatomy, and it is always present.
+A creature's body structure — its complete graph of parts, locations, and their properties — is stored directly on the actor as a single structured field, not as a collection of separate items. This reflects the fact that anatomy is intrinsic to what a creature _is_, not something it possesses. Every actor has exactly one anatomy, and it is always present.
 
 The adjacency graph is represented as a set of unordered pairs of part names, where each pair defines a bidirectional edge. For the humanoid layout, the edge set is: {Head, Torso}, {Right Arm, Torso}, {Left Arm, Torso}, {Right Leg, Torso}, {Left Leg, Torso}. Because each edge is defined once at the graph level rather than duplicated on each part, consistency is guaranteed by construction — there is no possibility of one part claiming adjacency that the other does not reciprocate.
 
 Body locations are nested within their parent part's definition. Each part contains a list of its locations together with all location-level properties (probability weight, shock value, bleeding threshold, amputate modifier, fumble/stumble flags). The probability weights for locations within a part can be validated to sum correctly when the anatomy is defined.
 
-Other game elements — injuries, armor, afflictions — are separate items that *reference* body locations by key. An injury records which location it affects; armor records which locations it covers. These items change frequently during play. The anatomy they reference changes almost never; the only common runtime mutation is marking a part as permanently disabled, and even that is rare.
+Other game elements — injuries, armor, afflictions — are separate items that _reference_ body locations by key. An injury records which location it affects; armor records which locations it covers. These items change frequently during play. The anatomy they reference changes almost never; the only common runtime mutation is marking a part as permanently disabled, and even that is rare.
 
 Creating a new creature type is straightforward: duplicate an existing actor with a similar body plan, then adjust the anatomy field — change part areas, modify location weights, add or remove parts, update the edge set. No templates or special item types are needed.
 

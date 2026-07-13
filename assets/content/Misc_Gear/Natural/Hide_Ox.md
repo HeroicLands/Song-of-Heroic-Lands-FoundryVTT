@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Ox"
+    - "Hide, Ox"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Ox"
-  aliases: []
+    full: "Hide, Ox"
+    aliases: []
 description: "Prime even-grained oxhide; strong stock for saddles, breeches, shoe uppers."
 id: 5IEAzTWqu3hyVlbO
 slug: hide-ox
@@ -14,10 +14,10 @@ shortcode: hideox
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 12
-  weight: 7.5
+    quality: 0
+    durability: 3
+    value: 12
+    weight: 7.5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

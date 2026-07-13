@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Jar, ointment, small"
+    - "Jar, ointment, small"
 tags: []
 name:
-  full: "Jar, ointment, small"
-  aliases: []
+    full: "Jar, ointment, small"
+    aliases: []
 description: "Small ceramic ointment jar for salves and medicinal paste samples."
 id: x90D6uKguI7AOZxR
 slug: jar-ointment-small
@@ -13,11 +13,11 @@ shortcode: jarointmen3
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  maxCapacity: 0.0625
-  value: 1
-  weight: 0.4
+    quality: 0
+    durability: 3
+    maxCapacity: 0.0625
+    value: 1
+    weight: 0.4
 folder: dl8lJ729W1mFlDvt
 ---
 

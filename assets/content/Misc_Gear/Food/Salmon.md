@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Salmon
+    - Salmon
 tags:
-  - food
+    - food
 name:
-  full: Salmon
-  aliases: []
+    full: Salmon
+    aliases: []
 description: "Rich orange-fleshed river fish, firm and oily, smoked or salted."
 id: wuOztJyt73Ft5fQY
 slug: salmon
@@ -14,10 +14,10 @@ shortcode: salmon
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 2
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 2
 folder: cHM58zOI1EcSG3cP
 ---
 

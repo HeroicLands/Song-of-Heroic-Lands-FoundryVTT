@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Fetters
+    - Fetters
 tags:
-  - expedition
+    - expedition
 name:
-  full: Fetters
-  aliases: []
+    full: Fetters
+    aliases: []
 description: "Iron leg-shackles joined by short chain with locks; restrains prisoners during transport."
 id: cJPbnYJ8TgGxeYcj
 slug: fetters
@@ -14,10 +14,10 @@ shortcode: fetters
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 10
-  value: 30
-  weight: 5
+    quality: 0
+    durability: 10
+    value: 30
+    weight: 5
 folder: FSPVI1eObGEpMVck
 ---
 

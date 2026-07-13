@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Pan, copper, small"
+    - "Pan, copper, small"
 tags:
-  - cooking
+    - cooking
 name:
-  full: "Pan, copper, small"
-  aliases: []
+    full: "Pan, copper, small"
+    aliases: []
 description: "Small tinned copper pan for warming sauces or cooking for one."
 id: YbkLdPbDx2WE8mED
 slug: pan-copper-small
@@ -14,10 +14,10 @@ shortcode: pancoppers
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 5
-  weight: 2
+    quality: 0
+    durability: 4
+    value: 5
+    weight: 2
 folder: 7TT0OzoIoEn40zfs
 ---
 

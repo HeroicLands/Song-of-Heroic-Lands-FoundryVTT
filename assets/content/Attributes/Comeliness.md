@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Comeliness
-  aliases: []
+    full: Comeliness
+    aliases: []
 id: fgMl4WCIvTTBDUJ8
 slug: comeliness
 img: icons/charm.svg
@@ -11,14 +11,14 @@ shortcode: cml
 type: attribute
 package: sohl
 sohl:
-  scoreBase: 0
-  valueDesc:
-    - Ugly:4
-    - Unattractive:8
-    - Plain:12
-    - Attractive:16
-    - Striking:999
-  initDiceFormula: 3d6
+    scoreBase: 0
+    valueDesc:
+        - Ugly:4
+        - Unattractive:8
+        - Plain:12
+        - Attractive:16
+        - Striking:999
+    initDiceFormula: 3d6
 sort: 60
 folder: FPitxvL8wCmXynax
 ---

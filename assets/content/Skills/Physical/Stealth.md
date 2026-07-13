@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Stealth
-  aliases: []
+    full: Stealth
+    aliases: []
 description: "Moving unseen through shadows, cover, and ambient noise for avoidance."
 id: YU9rN2c3R8eiC6Ih
 slug: stealth
@@ -12,13 +12,13 @@ shortcode: stlth
 type: skill
 package: sohl
 sohl:
-  subType: physical
-  skillBaseFormula: "@agl, @wil"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 3
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: physical
+    skillBaseFormula: "@agl, @wil"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 3
+    masteryLevelBase: 0
+    improveFlag: false
 folder: Yt9THlZ0NT8H6aSK
 ---
 

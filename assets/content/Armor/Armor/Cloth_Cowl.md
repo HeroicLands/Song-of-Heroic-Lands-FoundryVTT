@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Cloth Cowl
+    - Cloth Cowl
 tags: []
 name:
-  full: Cloth Cowl
-  aliases: []
+    full: Cloth Cowl
+    aliases: []
 description: "Simple cloth cowl offering comfort and everyday warmth."
 id: OASgkgSf3zqBWhpI
 slug: cloth-cowl
@@ -13,25 +13,25 @@ shortcode: CCowl
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cowl
-  detailMaterial: Cloth
-  material: Cloth
-  durability: 10
-  value: 6
-  weight: 0.3
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: nAmnccpFeEzkZb24
-  flexloc:
-    - skullloc
-    - neckloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cowl
+    detailMaterial: Cloth
+    material: Cloth
+    durability: 10
+    value: 6
+    weight: 0.3
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: nAmnccpFeEzkZb24
+    flexloc:
+        - skullloc
+        - neckloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 6
 origWeight: 0.3

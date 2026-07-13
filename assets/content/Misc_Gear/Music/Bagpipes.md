@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Bagpipes
+    - Bagpipes
 tags:
-  - music
+    - music
 name:
-  full: Bagpipes
-  aliases: []
+    full: Bagpipes
+    aliases: []
 description: "Sheepskin-covered wooden stock with drones and chanter; penetrating wail for festivals, marches."
 id: FT4NaG85DRpaZZJ1
 slug: bagpipes
@@ -14,10 +14,10 @@ shortcode: bagpipes
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 120
-  weight: 8
+    quality: 0
+    durability: 4
+    value: 120
+    weight: 8
 folder: ncTaRcZt0RFYz0Gq
 ---
 

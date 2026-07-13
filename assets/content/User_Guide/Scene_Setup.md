@@ -5,7 +5,7 @@ type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Scene Setup and Tokens"
+    full: "Scene Setup and Tokens"
 slug: "scene-setup"
 folder: IgwaG8rAUUO9vrtz
 ---

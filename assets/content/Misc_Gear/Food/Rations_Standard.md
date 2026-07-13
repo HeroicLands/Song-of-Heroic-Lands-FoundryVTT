@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Rations, Standard
+    - Rations, Standard
 tags:
-  - food
+    - food
 name:
-  full: Rations, Standard
-  aliases: []
+    full: Rations, Standard
+    aliases: []
 description: "Bread, dried meat, cheese, fruit bundle for traveler's day of moderate labor."
 id: 0jGZS74JTgQ4lTrA
 slug: rations-standard
@@ -14,10 +14,10 @@ shortcode: StdRtns
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 2
-  weight: 3
+    quality: 0
+    durability: 7
+    value: 2
+    weight: 3
 folder: cHM58zOI1EcSG3cP
 ---
 

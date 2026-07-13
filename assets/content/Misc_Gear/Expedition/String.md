@@ -1,11 +1,11 @@
 ---
 aliases:
-  - String
+    - String
 tags:
-  - expedition
+    - expedition
 name:
-  full: String
-  aliases: []
+    full: String
+    aliases: []
 description: "Twisted twine bundled for bundling firewood and lashing bedrolls closed."
 id: ervpGnNKyjyPqrSq
 slug: string
@@ -14,10 +14,10 @@ shortcode: string
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 2
-  weight: 0.1
+    quality: 0
+    durability: 2
+    value: 2
+    weight: 0.1
 folder: FSPVI1eObGEpMVck
 ---
 

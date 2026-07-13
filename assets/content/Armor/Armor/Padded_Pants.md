@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Padded Pants
+    - Padded Pants
 tags: []
 name:
-  full: Padded Pants
-  aliases: []
+    full: Padded Pants
+    aliases: []
 description: "Cushioned leg covering providing warmth under armor or standalone."
 id: xP9cs4kYsLefFPoV
 slug: padded-pants
@@ -13,30 +13,30 @@ shortcode: PPant
 type: armorgear
 package: sohl
 sohl:
-  armorType: Pants
-  detailMaterial: Padded
-  material: Padded
-  durability: 10
-  value: 78
-  weight: 3.1
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: RURqUin6JiV7dhh5
-  flexloc:
-    - plvisloc
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-    - lcalfloc
-    - rcalfloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Pants
+    detailMaterial: Padded
+    material: Padded
+    durability: 10
+    value: 78
+    weight: 3.1
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: RURqUin6JiV7dhh5
+    flexloc:
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 78
 origWeight: 3.1

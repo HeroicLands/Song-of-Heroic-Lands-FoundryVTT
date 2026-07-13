@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Brandy, Pint"
+    - "Brandy, Pint"
 tags:
-  - spirits
+    - spirits
 name:
-  full: "Brandy, Pint"
-  aliases: []
+    full: "Brandy, Pint"
+    aliases: []
 description: "Clear fiery bottle; noble digestif or soldier's wound-cleaner; costs a laborer's wages."
 id: MYZ7pL7EFWGBMogX
 slug: brandy-pint
@@ -14,10 +14,10 @@ shortcode: brdypt
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 5
+    weight: 1
 folder: jLdeIpOIZokm8obv
 ---
 

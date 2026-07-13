@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Jeweler's Kit
+    - Jeweler's Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Jeweler's Kit
-  aliases: []
+    full: Jeweler's Kit
+    aliases: []
 description: "Fine leather roll with graduated files, pin hammer, pliers, loupe, tweezers, drawplate, burnishers; goldsmiths' precision tools."
 id: kJ7rPq2nXmVbY4tL
 slug: jewelers-kit
@@ -14,10 +14,10 @@ shortcode: jewelerskt
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 55
-  weight: 4
+    quality: 0
+    durability: 4
+    value: 55
+    weight: 4
 folder: xniLjmZWYQZkSxyv
 ---
 

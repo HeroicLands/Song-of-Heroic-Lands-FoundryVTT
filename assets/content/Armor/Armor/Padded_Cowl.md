@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Padded Cowl
+    - Padded Cowl
 tags: []
 name:
-  full: Padded Cowl
-  aliases: []
+    full: Padded Cowl
+    aliases: []
 description: "Cushioned head and shoulder covering providing warmth and helmet compatibility."
 id: bwHDcRYABJr1tUnM
 slug: padded-cowl
@@ -13,25 +13,25 @@ shortcode: PCwl
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cowl
-  detailMaterial: Padded
-  material: Padded
-  durability: 10
-  value: 12
-  weight: 0.5
-  encumbrance: 0
-  perception:
-    value: -5
-    effectId: nzSYScwwaYdlx52p
-  flexloc:
-    - skullloc
-    - neckloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cowl
+    detailMaterial: Padded
+    material: Padded
+    durability: 10
+    value: 12
+    weight: 0.5
+    encumbrance: 0
+    perception:
+        value: -5
+        effectId: nzSYScwwaYdlx52p
+    flexloc:
+        - skullloc
+        - neckloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 12
 origWeight: 0.5

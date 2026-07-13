@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Kurbul Halfhelm
-  - Kûrbúl Halfhelm
+    - Kurbul Halfhelm
+    - Kûrbúl Halfhelm
 tags: []
 name:
-  full: Kûrbúl Halfhelm
-  aliases: []
+    full: Kûrbúl Halfhelm
+    aliases: []
 description: "Leather helm covering head and jawline with styled design and reduced weight."
 id: nFjmonyMqDP34iGn
 slug: kurbul-halfhelm
@@ -14,26 +14,26 @@ shortcode: KHlfHelm
 type: armorgear
 package: sohl
 sohl:
-  armorType: Halfhelm
-  detailMaterial: Kûrbúl
-  material: Kûrbúl
-  durability: 13
-  value: 20
-  weight: 3
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: tOyk2y6I3jb3kWRJ
-  flexloc: []
-  rigidloc:
-    - skullloc
-    - rearloc
-    - learloc
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Halfhelm
+    detailMaterial: Kûrbúl
+    material: Kûrbúl
+    durability: 13
+    value: 20
+    weight: 3
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: tOyk2y6I3jb3kWRJ
+    flexloc: []
+    rigidloc:
+        - skullloc
+        - rearloc
+        - learloc
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 20
 origWeight: 3

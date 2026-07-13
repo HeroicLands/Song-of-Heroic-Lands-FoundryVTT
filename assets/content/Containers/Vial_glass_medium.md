@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Vial, glass, medium"
+    - "Vial, glass, medium"
 tags: []
 name:
-  full: "Vial, glass, medium"
-  aliases: []
+    full: "Vial, glass, medium"
+    aliases: []
 description: "Glass vial with stopper for traveling medicine kits and apothecary supplies."
 id: BZqINvr3rbC5BO3J
 slug: vial-glass-medium
@@ -13,11 +13,11 @@ shortcode: vialglassm
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  maxCapacity: 0.25
-  value: 4
-  weight: 0.75
+    quality: 0
+    durability: 2
+    maxCapacity: 0.25
+    value: 4
+    weight: 0.75
 folder: dl8lJ729W1mFlDvt
 ---
 

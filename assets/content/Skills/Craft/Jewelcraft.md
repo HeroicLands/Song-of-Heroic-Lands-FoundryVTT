@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Jewelcraft
-  aliases: []
+    full: Jewelcraft
+    aliases: []
 description: "Gem-cutting, goldsmithing, creating fine ornamental metalwork and jewelry."
 id: pBeZLWzAeAEZAsWt
 slug: jewelcraft
@@ -12,13 +12,13 @@ shortcode: jewl
 type: skill
 package: sohl
 sohl:
-  subType: craft
-  skillBaseFormula: "@per, @dex"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: craft
+    skillBaseFormula: "@per, @dex"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: gqRvjlrWbuCwGy3N
 ---
 

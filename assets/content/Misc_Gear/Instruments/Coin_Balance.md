@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Coin Balance
+    - Coin Balance
 tags:
-  - instruments
+    - instruments
 name:
-  full: Coin Balance
-  aliases: []
+    full: Coin Balance
+    aliases: []
 description: "Bronze hand-scale with shallow pans; merchants detect shaved or debased coins."
 id: vKcv9WiqNLRGihZS
 slug: coin-balance
@@ -14,10 +14,10 @@ shortcode: coinbalanc
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 5
-  value: 30
-  weight: 0.5
+    quality: 0
+    durability: 5
+    value: 30
+    weight: 0.5
 folder: xniLjmZWYQZkSxyv
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Serge Trousers
+    - Serge Trousers
 tags: []
 name:
-  full: Serge Trousers
-  aliases: []
+    full: Serge Trousers
+    aliases: []
 description: "Twilled serge trousers; practical, versatile everyday leg wear."
 id: 7PUBxAvkFCrBdiyZ
 slug: serge-trousers
@@ -13,30 +13,30 @@ shortcode: SgTrsr
 type: armorgear
 package: sohl
 sohl:
-  armorType: Trousers
-  detailMaterial: Serge
-  material: Cloth
-  durability: 7
-  value: 23
-  weight: 1
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: CLP8AQPBbLRaWP0j
-  flexloc:
-    - plvisloc
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-    - lcalfloc
-    - rcalfloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Trousers
+    detailMaterial: Serge
+    material: Cloth
+    durability: 7
+    value: 23
+    weight: 1
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: CLP8AQPBbLRaWP0j
+    flexloc:
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 39
 origWeight: 2

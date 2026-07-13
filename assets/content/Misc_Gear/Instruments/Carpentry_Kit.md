@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Carpentry Kit
+    - Carpentry Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Carpentry Kit
-  aliases: []
+    full: Carpentry Kit
+    aliases: []
 description: "Journeyman's leather roll holding chisels, plane, saw, auger, rules."
 id: U1BA4cq6zPjMSEle
 slug: carpentry-kit
@@ -14,10 +14,10 @@ shortcode: carpentryk
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 60
-  weight: 8
+    quality: 0
+    durability: 7
+    value: 60
+    weight: 8
 folder: xniLjmZWYQZkSxyv
 ---
 

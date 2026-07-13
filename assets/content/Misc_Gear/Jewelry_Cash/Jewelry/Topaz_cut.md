@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Topaz, cut"
+    - "Topaz, cut"
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: "Topaz, cut"
-  aliases: []
+    full: "Topaz, cut"
+    aliases: []
 description: "Golden-yellow brilliant gem; hard and lustrous; throws light like a miniature sun."
 id: XNXZgZyxzNz0vR5M
 slug: topaz-cut
@@ -14,10 +14,10 @@ shortcode: topazcut
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 600
-  weight: 0.0004
+    quality: 0
+    durability: 2
+    value: 600
+    weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

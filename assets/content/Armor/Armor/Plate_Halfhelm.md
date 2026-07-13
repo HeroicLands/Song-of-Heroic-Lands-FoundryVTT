@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Plate Halfhelm
+    - Plate Halfhelm
 tags: []
 name:
-  full: Plate Halfhelm
-  aliases: []
+    full: Plate Halfhelm
+    aliases: []
 description: "Steel helm covering crown and sides; exposes face for visibility."
 id: K4Em43ZVHFbyIXHk
 slug: plate-halfhelm
@@ -13,26 +13,26 @@ shortcode: PlHHelm
 type: armorgear
 package: sohl
 sohl:
-  armorType: Halfhelm
-  detailMaterial: Plate
-  material: Plate
-  durability: 14
-  value: 80
-  weight: 3
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: FNN31dTJvVW540PY
-  flexloc: []
-  rigidloc:
-    - skullloc
-    - rearloc
-    - learloc
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Halfhelm
+    detailMaterial: Plate
+    material: Plate
+    durability: 14
+    value: 80
+    weight: 3
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: FNN31dTJvVW540PY
+    flexloc: []
+    rigidloc:
+        - skullloc
+        - rearloc
+        - learloc
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 80
 origWeight: 3

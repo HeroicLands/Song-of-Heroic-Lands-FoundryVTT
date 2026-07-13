@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Fishing
-  aliases: []
+    full: Fishing
+    aliases: []
 description: "Catching fish using hooks, nets, spears; adapting to local conditions."
 id: cyyEUOoomBDdXda9
 slug: fishing
@@ -12,13 +12,13 @@ shortcode: fish
 type: skill
 package: sohl
 sohl:
-  subType: nature
-  skillBaseFormula: "@per, @wil"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: nature
+    skillBaseFormula: "@per, @wil"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: N5ozne3RRF0qSEdF
 ---
 

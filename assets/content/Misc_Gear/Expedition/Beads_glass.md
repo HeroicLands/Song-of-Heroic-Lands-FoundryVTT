@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Beads, glass"
+    - "Beads, glass"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Beads, glass"
-  aliases: []
+    full: "Beads, glass"
+    aliases: []
 description: "Colored glass beads with swirls; prized for beadwork and fine clothing ornament."
 id: DfqMqQftFiEvNOon
 slug: beads-glass
@@ -14,10 +14,10 @@ shortcode: beadsglass
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 10
-  weight: 0.1
+    quality: 0
+    durability: 2
+    value: 10
+    weight: 0.1
 folder: FSPVI1eObGEpMVck
 ---
 

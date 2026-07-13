@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Drawing
-  aliases: []
+    full: Drawing
+    aliases: []
 description: "Painting, sketching, fresco work; creating artistic and technical designs."
 id: WaeJaU0YihDlJ2pY
 slug: drawing
@@ -12,13 +12,13 @@ shortcode: draw
 type: skill
 package: sohl
 sohl:
-  subType: craft
-  skillBaseFormula: "@dex, @cre"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 2
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: craft
+    skillBaseFormula: "@dex, @cre"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 2
+    masteryLevelBase: 0
+    improveFlag: false
 folder: gqRvjlrWbuCwGy3N
 ---
 

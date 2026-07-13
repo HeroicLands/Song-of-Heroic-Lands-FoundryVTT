@@ -27,11 +27,11 @@
 - name: Rules
   id: RqKUTBUBN2Y3MHYB
   parentFolderId: ""
-  color: '#d35400'
+  color: "#d35400"
 - name: User Guide
   id: IgwaG8rAUUO9vrtz
   parentFolderId: ""
-  color: '#0000ff'
+  color: "#0000ff"
 - name: Actors
   id: sYK1BozT9xFcinXK
   parentFolderId: IgwaG8rAUUO9vrtz

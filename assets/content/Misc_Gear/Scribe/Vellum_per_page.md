@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Vellum, per page"
+    - "Vellum, per page"
 tags:
-  - scribe
+    - scribe
 name:
-  full: "Vellum, per page"
-  aliases: []
+    full: "Vellum, per page"
+    aliases: []
 description: "Calf skin; finest white durable surface for royal charters, illuminated gospels."
 id: Eh1OAhPj4a5okM9U
 slug: vellum-per-page
@@ -14,10 +14,10 @@ shortcode: vellumperp
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 1
-  weight: 0.2
+    quality: 0
+    durability: 3
+    value: 1
+    weight: 0.2
 folder: BYkA5NDQxTXDvsAC
 ---
 

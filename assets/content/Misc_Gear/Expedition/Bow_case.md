@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Bow case
+    - Bow case
 tags:
-  - expedition
+    - expedition
 name:
-  full: Bow case
-  aliases: []
+    full: Bow case
+    aliases: []
 description: "Ash-staved leather case on shoulder strap; protects finished bow during travel."
 id: 3gH2pBgjTsu73xEQ
 slug: bow-case
@@ -14,10 +14,10 @@ shortcode: bowcase
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 18
-  weight: 4.75
+    quality: 0
+    durability: 8
+    value: 18
+    weight: 4.75
 folder: FSPVI1eObGEpMVck
 ---
 

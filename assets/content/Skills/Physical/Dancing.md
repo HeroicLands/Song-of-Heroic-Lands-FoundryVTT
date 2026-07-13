@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Dancing
-  aliases: []
+    full: Dancing
+    aliases: []
 description: "Performing formal and folk dances; elevating social gatherings with grace."
 id: SDwtBltYD0tQAXRG
 slug: dancing
@@ -12,13 +12,13 @@ shortcode: dnce
 type: skill
 package: sohl
 sohl:
-  subType: physical
-  skillBaseFormula: "@agl, @cre"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 2
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: physical
+    skillBaseFormula: "@agl, @cre"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 2
+    masteryLevelBase: 0
+    improveFlag: false
 folder: Yt9THlZ0NT8H6aSK
 ---
 

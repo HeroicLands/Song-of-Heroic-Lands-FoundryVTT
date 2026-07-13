@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Mail Cowl
+    - Mail Cowl
 tags: []
 name:
-  full: Mail Cowl
-  aliases: []
+    full: Mail Cowl
+    aliases: []
 description: "Metal ring head and neck armor providing substantial combat protection."
 id: tzJbA7tfvNNzefZL
 slug: mail-cowl
@@ -13,25 +13,25 @@ shortcode: MCwl
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cowl
-  detailMaterial: Mail
-  material: Mail
-  durability: 13
-  value: 90
-  weight: 2.7
-  encumbrance: 0
-  perception:
-    value: -5
-    effectId: xGUOjaeC7UCnZAVn
-  flexloc: []
-  rigidloc:
-    - skullloc
-    - neckloc
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cowl
+    detailMaterial: Mail
+    material: Mail
+    durability: 13
+    value: 90
+    weight: 2.7
+    encumbrance: 0
+    perception:
+        value: -5
+        effectId: xGUOjaeC7UCnZAVn
+    flexloc: []
+    rigidloc:
+        - skullloc
+        - neckloc
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 90
 origWeight: 2.7

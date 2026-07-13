@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Cohort
+    - Cohort
 id: tPUyGr25ThSmHeoP
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Cohort"
+    full: "Cohort"
 slug: "actor-cohort"
 folder: sYK1BozT9xFcinXK
 ---

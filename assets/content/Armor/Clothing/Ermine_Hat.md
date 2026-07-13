@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Ermine Hat
+    - Ermine Hat
 tags: []
 name:
-  full: Ermine Hat
-  aliases: []
+    full: Ermine Hat
+    aliases: []
 description: "White ermine fur hat signifying high status and elite prestige."
 id: oEQam7EyCZsiIprH
 slug: ermine-hat
@@ -13,24 +13,24 @@ shortcode: EHat
 type: armorgear
 package: sohl
 sohl:
-  armorType: Hat
-  detailMaterial: Ermine
-  material: Leather
-  durability: 7
-  value: 150
-  weight: 0.5
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: WiVzP1XG9h9Bvrsp
-  flexloc:
-    - skullloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Hat
+    detailMaterial: Ermine
+    material: Leather
+    durability: 7
+    value: 150
+    weight: 0.5
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: WiVzP1XG9h9Bvrsp
+    flexloc:
+        - skullloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 25
 origWeight: 0.8

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Chicken
+    - Chicken
 tags:
-  - food
+    - food
 name:
-  full: Chicken
-  aliases: []
+    full: Chicken
+    aliases: []
 description: "Dressed poultry; delicate white meat, spoils quickly unless preserved promptly."
 id: kD9vjtx5obhfT7l7
 slug: chicken
@@ -14,10 +14,10 @@ shortcode: chicken
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1.25
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 1.25
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

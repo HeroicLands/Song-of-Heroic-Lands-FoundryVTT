@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Berries
+    - Berries
 tags:
-  - food
+    - food
 name:
-  full: Berries
-  aliases: []
+    full: Berries
+    aliases: []
 description: "Dried summer berries; tart, bright in winter cooking, keeps seasons."
 id: MBmrjsm1LLKehVcr
 slug: berries
@@ -14,10 +14,10 @@ shortcode: berries
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.75
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.75
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

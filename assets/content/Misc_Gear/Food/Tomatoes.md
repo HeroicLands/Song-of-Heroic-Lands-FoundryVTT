@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Tomatoes
+    - Tomatoes
 tags:
-  - food
+    - food
 name:
-  full: Tomatoes
-  aliases: []
+    full: Tomatoes
+    aliases: []
 description: "Round soft garden fruit, cooked in soups and stews, preserved dried."
 id: huoQnfnCtL7UmHZG
 slug: tomatoes
@@ -14,10 +14,10 @@ shortcode: tomatoes
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.5
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

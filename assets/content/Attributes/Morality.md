@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Morality
-  aliases: []
+    full: Morality
+    aliases: []
 id: qcuatkrxBTDfhOu9
 slug: morality
 img: icons/morality.svg
@@ -11,17 +11,17 @@ shortcode: mor
 type: attribute
 package: sohl
 sohl:
-  scoreBase: 0
-  valueDesc:
-    - Amoral:2
-    - Immoral:4
-    - Hipocritical:7
-    - Unscrupulous:10
-    - Conscientious:13
-    - Principled:16
-    - Virtuous:18
-    - Paragon:999
-  initDiceFormula: 3d6
+    scoreBase: 0
+    valueDesc:
+        - Amoral:2
+        - Immoral:4
+        - Hipocritical:7
+        - Unscrupulous:10
+        - Conscientious:13
+        - Principled:16
+        - Virtuous:18
+        - Paragon:999
+    initDiceFormula: 3d6
 sort: 140
 folder: FPitxvL8wCmXynax
 ---

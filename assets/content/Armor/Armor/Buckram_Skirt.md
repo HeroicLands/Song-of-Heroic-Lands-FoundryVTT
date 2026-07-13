@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Buckram Skirt
+    - Buckram Skirt
 tags: []
 name:
-  full: Buckram Skirt
-  aliases: []
+    full: Buckram Skirt
+    aliases: []
 description: "Stiff buckram skirt offering durability and dependable rigid structure."
 id: 6xB4GGdITq1pypDp
 slug: buckram-skirt
@@ -13,30 +13,30 @@ shortcode: BSkirt
 type: armorgear
 package: sohl
 sohl:
-  armorType: Skirt
-  detailMaterial: Buckram
-  material: Cloth
-  durability: 10
-  value: 40
-  weight: 3
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: XEXea1gHwobF4sQ9
-  flexloc:
-    - plvisloc
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-    - lcalfloc
-    - rcalfloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Skirt
+    detailMaterial: Buckram
+    material: Cloth
+    durability: 10
+    value: 40
+    weight: 3
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: XEXea1gHwobF4sQ9
+    flexloc:
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 40
 origWeight: 3

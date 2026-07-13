@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Sugar
+    - Sugar
 tags:
-  - food
+    - food
 name:
-  full: Sugar
-  aliases: []
+    full: Sugar
+    aliases: []
 description: "Luxury cane crystals from distant tropics, sweetens pastries and preserves."
 id: yYE46mnymIUf3KCR
 slug: sugar
@@ -14,10 +14,10 @@ shortcode: sugar
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 60
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 60
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

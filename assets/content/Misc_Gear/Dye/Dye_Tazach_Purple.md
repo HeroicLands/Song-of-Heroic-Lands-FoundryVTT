@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Dye, Tazach Purple"
+    - "Dye, Tazach Purple"
 tags:
-  - clothing
+    - clothing
 name:
-  full: "Dye, Tazach Purple"
-  aliases: []
+    full: "Dye, Tazach Purple"
+    aliases: []
 description: "Murex shellfish or Tazach lichen; rare purple marking rank and authority."
 id: U6XACrV3KBKOmtTW
 slug: dye-tazach-purple
@@ -14,10 +14,10 @@ shortcode: dyetzch
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 1
-  value: 200
-  weight: 0.0625
+    quality: 0
+    durability: 1
+    value: 200
+    weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

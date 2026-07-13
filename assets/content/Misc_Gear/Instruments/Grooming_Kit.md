@@ -1,14 +1,14 @@
 ---
 aliases:
-  - Grooming Kit
-  - Personal Grooming Kit
-  - Toilet Kit
-tags:
-  - instruments
-name:
-  full: Grooming Kit
-  aliases:
+    - Grooming Kit
+    - Personal Grooming Kit
     - Toilet Kit
+tags:
+    - instruments
+name:
+    full: Grooming Kit
+    aliases:
+        - Toilet Kit
 description: "Leather roll with comb, brush, folding razor, hand mirror, soap, pomade; daily upkeep of hair, beard, and skin."
 id: 7fKpXn4VrMzQbH2L
 slug: grooming-kit
@@ -17,10 +17,10 @@ shortcode: groomkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 5
-  value: 20
-  weight: 1.5
+    quality: 0
+    durability: 5
+    value: 20
+    weight: 1.5
 folder: xniLjmZWYQZkSxyv
 ---
 

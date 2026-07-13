@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Cloth Cap
+    - Cloth Cap
 tags: []
 name:
-  full: Cloth Cap
-  aliases: []
+    full: Cloth Cap
+    aliases: []
 description: "Simple cloth cap offering basic comfort and everyday protection."
 id: p7o5NPXPKcbUmV7U
 slug: cloth-cap
@@ -13,24 +13,24 @@ shortcode: CCap
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cap
-  detailMaterial: Cloth
-  material: Cloth
-  durability: 10
-  value: 4
-  weight: 0.2
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: mP5XqAgdqG6wHgIu
-  flexloc:
-    - skullloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cap
+    detailMaterial: Cloth
+    material: Cloth
+    durability: 10
+    value: 4
+    weight: 0.2
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: mP5XqAgdqG6wHgIu
+    flexloc:
+        - skullloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 4
 origWeight: 0.2

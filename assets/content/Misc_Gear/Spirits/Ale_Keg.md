@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Ale, Keg"
+    - "Ale, Keg"
 tags:
-  - spirits
+    - spirits
 name:
-  full: "Ale, Keg"
-  aliases: []
+    full: "Ale, Keg"
+    aliases: []
 description: "Tarred stave-built keg; pale malty ale for tavern supply, military provisioning."
 id: Ie1wZdi8Z4LgwvGm
 slug: ale-keg
@@ -14,10 +14,10 @@ shortcode: alekeg
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 16
-  weight: 72
+    quality: 0
+    durability: 0
+    value: 16
+    weight: 72
 folder: jLdeIpOIZokm8obv
 ---
 

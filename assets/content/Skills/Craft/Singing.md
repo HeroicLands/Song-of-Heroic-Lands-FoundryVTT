@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Singing
-  aliases: []
+    full: Singing
+    aliases: []
 description: "Vocal performance with control of pitch, tone, and emotional expression."
 id: CCqx4sjkxUIXUyLC
 slug: singing
@@ -12,13 +12,13 @@ shortcode: sing
 type: skill
 package: sohl
 sohl:
-  subType: social
-  skillBaseFormula: "@voi, @cre"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 3
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: social
+    skillBaseFormula: "@voi, @cre"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 3
+    masteryLevelBase: 0
+    improveFlag: false
 folder: gqRvjlrWbuCwGy3N
 ---
 

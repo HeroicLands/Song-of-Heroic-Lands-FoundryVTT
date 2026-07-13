@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Dwarfism
-  aliases: []
+    full: Dwarfism
+    aliases: []
 id: J0u1FakZedt5mCfo
 slug: dwarfism
 img: icons/user-gear.svg
@@ -11,14 +11,14 @@ shortcode: dwarfism
 type: trait
 package: sohl
 sohl:
-  subType: physique
-  intensity: impulse
-  isNumeric: false
-  textValue: ''
-  valueDesc: []
-  score:
-    value: 0
-    max: 0
+    subType: physique
+    intensity: impulse
+    isNumeric: false
+    textValue: ""
+    valueDesc: []
+    score:
+        value: 0
+        max: 0
 folder: 4h8qyMcGHlkrfN1g
 ---
 

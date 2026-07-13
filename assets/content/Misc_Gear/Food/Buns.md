@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Buns
+    - Buns
 tags:
-  - food
+    - food
 name:
-  full: Buns
-  aliases: []
+    full: Buns
+    aliases: []
 description: "Soft, round dough loaves; market fare studded with dried fruit or herbs."
 id: 5D1c2J4bNmXFShnR
 slug: buns
@@ -14,10 +14,10 @@ shortcode: buns
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.5
-  weight: 3
+    quality: 0
+    durability: 0
+    value: 0.5
+    weight: 3
 folder: cHM58zOI1EcSG3cP
 ---
 

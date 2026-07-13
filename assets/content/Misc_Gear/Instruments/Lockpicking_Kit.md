@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Lockpicking Kit
+    - Lockpicking Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Lockpicking Kit
-  aliases: []
+    full: Lockpicking Kit
+    aliases: []
 description: "Concealable wallet of picks, rakes, and tension wrenches; thieves' lock-bypassing kit."
 id: mdYxhGtncuFu700Q
 slug: lockpicking-kit
@@ -14,10 +14,10 @@ shortcode: lkpickkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 45
-  weight: 0.3
+    quality: 0
+    durability: 3
+    value: 45
+    weight: 0.3
 folder: xniLjmZWYQZkSxyv
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Cup Good Wine
+    - Cup Good Wine
 tags:
-  - spirits
+    - spirits
 name:
-  full: Cup Good Wine
-  aliases: []
+    full: Cup Good Wine
+    aliases: []
 description: "Oak-aged fine wine; fuller-bodied, less sour; marks deals and occasions."
 id: U0wZyPsAbeScFO0E
 slug: cup-good-wine
@@ -14,10 +14,10 @@ shortcode: gwinecup
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 2.5
-  weight: 0.5
+    quality: 0
+    durability: 0
+    value: 2.5
+    weight: 0.5
 folder: jLdeIpOIZokm8obv
 ---
 

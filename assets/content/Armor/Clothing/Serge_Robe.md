@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Serge Robe
+    - Serge Robe
 tags: []
 name:
-  full: Serge Robe
-  aliases: []
+    full: Serge Robe
+    aliases: []
 description: "Twilled serge robe; practical, versatile everyday garment."
 id: gYBqXJZ6kZyBZ7yD
 slug: serge-robe
@@ -13,40 +13,40 @@ shortcode: SgRobe
 type: armorgear
 package: sohl
 sohl:
-  armorType: Robe
-  detailMaterial: Serge
-  material: Cloth
-  durability: 7
-  value: 47
-  weight: 2
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: WLhuR5Ai2TSYcF1V
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - lelbloc
-    - relbloc
-    - lfraloc
-    - rfraloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-    - lcalfloc
-    - rcalfloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Robe
+    detailMaterial: Serge
+    material: Cloth
+    durability: 7
+    value: 47
+    weight: 2
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: WLhuR5Ai2TSYcF1V
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - lelbloc
+        - relbloc
+        - lfraloc
+        - rfraloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 79
 origWeight: 4

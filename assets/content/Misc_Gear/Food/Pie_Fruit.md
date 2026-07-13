@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Pie, Fruit"
+    - "Pie, Fruit"
 tags:
-  - food
+    - food
 name:
-  full: "Pie, Fruit"
-  aliases: []
+    full: "Pie, Fruit"
+    aliases: []
 description: "Hand-sized pastry with sweet apple or berry filling from baker."
 id: X61HAUzAzKeR2IW4
 slug: pie-fruit
@@ -14,10 +14,10 @@ shortcode: piefruit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.75
-  weight: 0.5
+    quality: 0
+    durability: 0
+    value: 0.75
+    weight: 0.5
 folder: cHM58zOI1EcSG3cP
 ---
 

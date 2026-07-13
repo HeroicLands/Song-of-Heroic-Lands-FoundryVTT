@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Hideworking
-  aliases: []
+    full: Hideworking
+    aliases: []
 description: "Tanning furs and hides into leather goods; producing armor and equipment."
 id: 79p8qOAYPvErPBrG
 slug: hideworking
@@ -12,13 +12,13 @@ shortcode: hide
 type: skill
 package: sohl
 sohl:
-  subType: craft
-  skillBaseFormula: "@dex, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: craft
+    skillBaseFormula: "@dex, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: gqRvjlrWbuCwGy3N
 ---
 

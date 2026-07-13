@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Bread, Wheat, loaf"
+    - "Bread, Wheat, loaf"
 tags:
-  - food
+    - food
 name:
-  full: "Bread, Wheat, loaf"
-  aliases: []
+    full: "Bread, Wheat, loaf"
+    aliases: []
 description: "Light golden loaf; finer crumb than rye, keeps shorter than peasant bread."
 id: jboGvhE0o9vnH1nH
 slug: bread-wheat-loaf
@@ -14,10 +14,10 @@ shortcode: breadwheat
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.5
-  weight: 1.5
+    quality: 0
+    durability: 0
+    value: 0.5
+    weight: 1.5
 folder: cHM58zOI1EcSG3cP
 ---
 

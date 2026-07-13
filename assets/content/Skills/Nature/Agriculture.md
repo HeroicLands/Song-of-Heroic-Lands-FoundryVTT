@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Agriculture
-  aliases: []
+    full: Agriculture
+    aliases: []
 description: "Cultivating crops, tending orchards, assessing land and harvest value."
 id: 31ZqIOMd9sPbgiqe
 slug: agriculture
@@ -12,13 +12,13 @@ shortcode: agri
 type: skill
 package: sohl
 sohl:
-  subType: nature
-  skillBaseFormula: "@per, @wil"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: nature
+    skillBaseFormula: "@per, @wil"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: N5ozne3RRF0qSEdF
 ---
 

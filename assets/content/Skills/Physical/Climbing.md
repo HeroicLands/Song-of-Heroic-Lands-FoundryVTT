@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Climbing
-  aliases: []
+    full: Climbing
+    aliases: []
 description: "Scaling cliffs, walls, trees using handholds, ropes, body technique."
 id: 4FAPvWAKNoRPbdtz
 slug: climbing
@@ -12,13 +12,13 @@ shortcode: clmb
 type: skill
 package: sohl
 sohl:
-  subType: physical
-  skillBaseFormula: "@agl, @dex"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 3
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: physical
+    skillBaseFormula: "@agl, @dex"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 3
+    masteryLevelBase: 0
+    improveFlag: false
 folder: Yt9THlZ0NT8H6aSK
 ---
 

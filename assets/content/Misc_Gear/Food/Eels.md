@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Eels
+    - Eels
 tags:
-  - food
+    - food
 name:
-  full: Eels
-  aliases: []
+    full: Eels
+    aliases: []
 description: "Fresh freshwater fish; rich fat, distinctive flavor, preserves well smoked."
 id: aZ5oiqIRuMTD0FmL
 slug: eels
@@ -14,10 +14,10 @@ shortcode: eels
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 0.75
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 0.75
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Stone, Marble"
+    - "Stone, Marble"
 tags:
-  - stone
+    - stone
 name:
-  full: "Stone, Marble"
-  aliases: []
+    full: "Stone, Marble"
+    aliases: []
 description: "Banded metamorphic stone; costly beautiful durable; altars, memorials, noble halls."
 id: c5lO1CSxA3cewcXg
 slug: stone-marble
@@ -14,10 +14,10 @@ shortcode: stonemarbl
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 5
-  value: 3
-  weight: 400
+    quality: 0
+    durability: 5
+    value: 3
+    weight: 400
 folder: 7HORJHbbizVSds9r
 ---
 

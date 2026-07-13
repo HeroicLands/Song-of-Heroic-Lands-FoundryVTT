@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Discourse
-  aliases: []
+    full: Discourse
+    aliases: []
 description: "Convincing through reasoned argument, evidence, and rhetorical skill."
 id: 8Bl2wEGbjtG0BIbh
 slug: discourse
@@ -12,13 +12,13 @@ shortcode: dscr
 type: skill
 package: sohl
 sohl:
-  subType: social
-  skillBaseFormula: "@rea, @elo"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 2
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: social
+    skillBaseFormula: "@rea, @elo"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 2
+    masteryLevelBase: 0
+    improveFlag: false
 folder: JBr2U30FsJTs8F3l
 ---
 

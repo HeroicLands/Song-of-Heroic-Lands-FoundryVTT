@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Beans, crate"
+    - "Beans, crate"
 tags:
-  - food
+    - food
 name:
-  full: "Beans, crate"
-  aliases: []
+    full: "Beans, crate"
+    aliases: []
 description: "Dried beans in bushel crate; reliable protein, keep for years dry."
 id: bYYRYvxqr420XOke
 slug: beans-crate
@@ -14,10 +14,10 @@ shortcode: beanscrate
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 6.5
-  weight: 41.25
+    quality: 0
+    durability: 0
+    value: 6.5
+    weight: 41.25
 folder: cHM58zOI1EcSG3cP
 ---
 

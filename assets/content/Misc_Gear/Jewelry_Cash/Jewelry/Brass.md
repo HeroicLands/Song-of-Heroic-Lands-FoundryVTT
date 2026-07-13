@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Brass
+    - Brass
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: Brass
-  aliases: []
+    full: Brass
+    aliases: []
 description: "Copper-and-tin alloy resistant to corrosion; merchants trade ingots by weight."
 id: WzWHnBc0pbb0dbSj
 slug: brass
@@ -14,10 +14,10 @@ shortcode: brass
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 1
-  weight: 0.0625
+    quality: 0
+    durability: 3
+    value: 1
+    weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

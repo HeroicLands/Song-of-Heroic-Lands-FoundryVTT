@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Mineralogy
-  aliases: []
+    full: Mineralogy
+    aliases: []
 description: "Identifying minerals, ores, and deposits for mining and building projects."
 id: TLlhgMM0i7qW1UmG
 slug: mineralogy
@@ -12,13 +12,13 @@ shortcode: mnrl
 type: skill
 package: sohl
 sohl:
-  subType: nature
-  skillBaseFormula: "@rea, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: nature
+    skillBaseFormula: "@rea, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: N5ozne3RRF0qSEdF
 ---
 

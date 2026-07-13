@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Runic
-  aliases: []
+    full: Runic
+    aliases: []
 description: "Reading and writing ancient runic scripts carved into stone and wood."
 id: zhF7K76YOQR30Vfg
 slug: runic
@@ -12,13 +12,13 @@ shortcode: runic
 type: skill
 package: sohl
 sohl:
-  subType: script
-  skillBaseFormula: "@rea, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: script
+    skillBaseFormula: "@rea, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: RgFGiT3LqmNP0uRB
 ---
 

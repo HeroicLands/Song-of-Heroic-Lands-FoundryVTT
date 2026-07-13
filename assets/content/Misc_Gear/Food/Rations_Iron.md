@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Rations, Iron
+    - Rations, Iron
 tags:
-  - food
+    - food
 name:
-  full: Rations, Iron
-  aliases: []
+    full: Rations, Iron
+    aliases: []
 description: "Compact military bundle of hardtack and salt pork, sustains one day."
 id: YFl2U3mTvoV1nzPy
 slug: rations-iron
@@ -14,10 +14,10 @@ shortcode: FRtns
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 3
-  weight: 3
+    quality: 0
+    durability: 7
+    value: 3
+    weight: 3
 folder: cHM58zOI1EcSG3cP
 ---
 

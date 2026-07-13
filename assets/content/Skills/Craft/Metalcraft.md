@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Metalcraft
-  aliases: []
+    full: Metalcraft
+    aliases: []
 description: "Smelting, forging, and finishing metal into tools, armor, and components."
 id: AuTAhJALpmkM0BJL
 slug: metalcraft
@@ -12,13 +12,13 @@ shortcode: mtlc
 type: skill
 package: sohl
 sohl:
-  subType: craft
-  skillBaseFormula: "@dex, @str"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: craft
+    skillBaseFormula: "@dex, @str"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: gqRvjlrWbuCwGy3N
 ---
 

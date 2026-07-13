@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Dye, Black"
+    - "Dye, Black"
 tags:
-  - clothing
+    - clothing
 name:
-  full: "Dye, Black"
-  aliases: []
+    full: "Dye, Black"
+    aliases: []
 description: "Logwood or iron-tannate powder for deep, fast-set black cloth dye."
 id: DhmLhpSReCzBZpYg
 slug: dye-black
@@ -14,10 +14,10 @@ shortcode: dyeblk
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 1
-  value: 36
-  weight: 0.0625
+    quality: 0
+    durability: 1
+    value: 36
+    weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

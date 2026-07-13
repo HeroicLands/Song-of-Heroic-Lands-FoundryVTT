@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Strength
-  aliases: []
+    full: Strength
+    aliases: []
 id: bFJqb8DqPuPr5cwl
 slug: strength
 img: icons/biceps.svg
@@ -11,14 +11,14 @@ shortcode: str
 type: attribute
 package: sohl
 sohl:
-  scoreBase: 0
-  valueDesc:
-    - Feeble:4
-    - Weak:8
-    - Average:12
-    - Forceful:16
-    - Mighty:999
-  initDiceFormula: 3d6
+    scoreBase: 0
+    valueDesc:
+        - Feeble:4
+        - Weak:8
+        - Average:12
+        - Forceful:16
+        - Mighty:999
+    initDiceFormula: 3d6
 sort: 10
 folder: FPitxvL8wCmXynax
 ---

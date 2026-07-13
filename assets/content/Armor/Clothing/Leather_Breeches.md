@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Leather Breeches
+    - Leather Breeches
 tags: []
 name:
-  full: Leather Breeches
-  aliases: []
+    full: Leather Breeches
+    aliases: []
 description: "Lightweight stylish leather leg covering for rugged adventuring or everyday wear."
 id: GZjVef08RE8hsNzh
 slug: leather-breeches
@@ -13,28 +13,28 @@ shortcode: LtBrch
 type: armorgear
 package: sohl
 sohl:
-  armorType: Breeches
-  detailMaterial: Leather
-  material: Leather
-  durability: 9
-  value: 192
-  weight: 2.2
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: vSBA5WiBPUWoD8pP
-  flexloc:
-    - plvisloc
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Breeches
+    detailMaterial: Leather
+    material: Leather
+    durability: 9
+    value: 192
+    weight: 2.2
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: vSBA5WiBPUWoD8pP
+    flexloc:
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 96
 origWeight: 3.6

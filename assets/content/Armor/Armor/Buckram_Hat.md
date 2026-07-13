@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Buckram Hat
+    - Buckram Hat
 tags: []
 name:
-  full: Buckram Hat
-  aliases: []
+    full: Buckram Hat
+    aliases: []
 description: "Stiff buckram hat providing durability and reliable rigid headwear."
 id: ESqC4L6dMv1Tfryy
 slug: buckram-hat
@@ -13,24 +13,24 @@ shortcode: BHat
 type: armorgear
 package: sohl
 sohl:
-  armorType: Hat
-  detailMaterial: Buckram
-  material: Cloth
-  durability: 10
-  value: 15
-  weight: 0.3
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: cGD0OfoPLmfw8vNr
-  flexloc:
-    - skullloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Hat
+    detailMaterial: Buckram
+    material: Cloth
+    durability: 10
+    value: 15
+    weight: 0.3
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: cGD0OfoPLmfw8vNr
+    flexloc:
+        - skullloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 15
 origWeight: 0.3

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Goblet, glass"
+    - "Goblet, glass"
 tags:
-  - cooking
+    - cooking
 name:
-  full: "Goblet, glass"
-  aliases: []
+    full: "Goblet, glass"
+    aliases: []
 description: "Stemmed glass goblet; rare and costly for formal feasts and display."
 id: VvwBlculNE48tMk5
 slug: goblet-glass
@@ -14,10 +14,10 @@ shortcode: gobletglas
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 48
-  weight: 0.5
+    quality: 0
+    durability: 2
+    value: 48
+    weight: 0.5
 folder: 7TT0OzoIoEn40zfs
 ---
 

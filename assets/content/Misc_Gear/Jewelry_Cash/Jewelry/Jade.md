@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Jade
+    - Jade
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: Jade
-  aliases: []
+    full: Jade
+    aliases: []
 description: "Tough green stone, pale celadon to deep forest; carved into amulets."
 id: MwwNWrav3IH8fqtR
 slug: jade
@@ -14,10 +14,10 @@ shortcode: jade
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 500
-  weight: 0.0625
+    quality: 0
+    durability: 3
+    value: 500
+    weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

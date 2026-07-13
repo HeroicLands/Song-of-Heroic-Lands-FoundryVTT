@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Dexterity
-  aliases: []
+    full: Dexterity
+    aliases: []
 id: EXXJU3HJnvd9MatX
 slug: dexterity
 img: icons/juggler.svg
@@ -11,14 +11,14 @@ shortcode: dex
 type: attribute
 package: sohl
 sohl:
-  scoreBase: 0
-  valueDesc:
-    - Uncoordinated:4
-    - Awkward:8
-    - Average:12
-    - Deft:16
-    - Adroit:999
-  initDiceFormula: 3d6
+    scoreBase: 0
+    valueDesc:
+        - Uncoordinated:4
+        - Awkward:8
+        - Average:12
+        - Deft:16
+        - Adroit:999
+    initDiceFormula: 3d6
 sort: 30
 folder: FPitxvL8wCmXynax
 ---

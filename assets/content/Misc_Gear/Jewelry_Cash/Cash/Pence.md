@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Pence
+    - Pence
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: Pence
-  aliases: []
+    full: Pence
+    aliases: []
 description: "Silver coin, everyday currency of trade; durable, standard weight ensures acceptance anywhere."
 id: cIPNCrBR04BqbtqJ
 slug: pence
@@ -14,10 +14,10 @@ shortcode: pence
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 1
-  weight: 0.004
+    quality: 0
+    durability: 3
+    value: 1
+    weight: 0.004
 folder: TV3IMHs8SLZ1L1vv
 ---
 

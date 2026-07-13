@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Otter/Weasel"
+    - "Hide, Otter/Weasel"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Otter/Weasel"
-  aliases: []
+    full: "Hide, Otter/Weasel"
+    aliases: []
 description: "Riverland otter-weasel pelt; dense guard hair sheds water; lining and collar facing."
 id: D4LGD2RO3qkweTSJ
 slug: hide-otter-weasel
@@ -14,10 +14,10 @@ shortcode: hideotterw
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 24
-  weight: 1.5
+    quality: 0
+    durability: 3
+    value: 24
+    weight: 1.5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

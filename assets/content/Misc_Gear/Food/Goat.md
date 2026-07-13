@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Goat
+    - Goat
 tags:
-  - food
+    - food
 name:
-  full: Goat
-  aliases: []
+    full: Goat
+    aliases: []
 description: "Fresh lean meat; pungent, stews or smokes well for travel stores."
 id: Wr7D9EYsKE33xAYY
 slug: goat
@@ -14,10 +14,10 @@ shortcode: goat
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1.5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 1.5
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

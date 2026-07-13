@@ -5,7 +5,7 @@ type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Creating Actors and Items"
+    full: "Creating Actors and Items"
 slug: "creating-actors-items"
 folder: IgwaG8rAUUO9vrtz
 ---

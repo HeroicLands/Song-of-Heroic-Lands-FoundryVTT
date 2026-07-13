@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Lockbox, small"
+    - "Lockbox, small"
 tags: []
 name:
-  full: "Lockbox, small"
-  aliases: []
+    full: "Lockbox, small"
+    aliases: []
 description: "Portable iron-banded lockbox for coin, documents, or letters of credit."
 id: vZpiMCfNn55xTuiy
 slug: lockbox-small
@@ -13,11 +13,11 @@ shortcode: lockboxsma
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  maxCapacity: 5
-  value: 12
-  weight: 3
+    quality: 0
+    durability: 7
+    maxCapacity: 5
+    value: 12
+    weight: 3
 folder: dl8lJ729W1mFlDvt
 ---
 

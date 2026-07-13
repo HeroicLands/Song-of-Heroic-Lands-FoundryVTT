@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Common
-  aliases: []
+    full: Common
+    aliases: []
 description: "The shared trade tongue that carries a traveler across realms — broad in reach, thin in nuance."
 id: N21J8mDOazsflqZR
 slug: common
@@ -12,13 +12,13 @@ shortcode: common
 type: skill
 package: sohl
 sohl:
-  subType: language
-  skillBaseFormula: "@elo, @rea"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: language
+    skillBaseFormula: "@elo, @rea"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: sn9NBuZMZOBqxsYv
 ---
 

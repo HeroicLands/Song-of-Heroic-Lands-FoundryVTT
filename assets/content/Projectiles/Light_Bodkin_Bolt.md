@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Light Bodkin Bolt
+    - Light Bodkin Bolt
 tags: []
 name:
-  full: Light Bodkin Bolt
-  alias: []
+    full: Light Bodkin Bolt
+    alias: []
 description: "Light narrow shaft, small square spike; pierces light mail, flat trajectory."
 type: projectilegear
 package: sohl
@@ -14,18 +14,18 @@ shortcode: BltLBod
 img: icons/arrow.svg
 easyname: Light Bodkin
 sohl:
-  quality: 0
-  durability: 10
-  value: 0.125
-  weight: 1
-  impact:
-    die: 8
-    modifier: -1
-    aspect: piercing
-  traits:
-    ARvalue: 4
-    bleed: false
-  subType: bolt
+    quality: 0
+    durability: 10
+    value: 0.125
+    weight: 1
+    impact:
+        die: 8
+        modifier: -1
+        aspect: piercing
+    traits:
+        ARvalue: 4
+        bleed: false
+    subType: bolt
 folder: ADQPHjgKsdWsJhyy
 ---
 

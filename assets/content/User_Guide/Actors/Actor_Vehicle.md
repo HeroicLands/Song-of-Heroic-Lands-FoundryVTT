@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Vehicle
+    - Vehicle
 id: ptaL9iZjFYLMF1NP
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Vehicle"
+    full: "Vehicle"
 slug: "actor-vehicle"
 folder: sYK1BozT9xFcinXK
 ---
@@ -19,7 +19,7 @@ their own protection ratings and can sustain damage.
 
 See also: [Structures](user-guide/actor-structure.md)
 
-# When to Use a Vehicle 
+# When to Use a Vehicle
 
 Use a Vehicle when:
 

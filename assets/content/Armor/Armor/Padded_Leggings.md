@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Padded Leggings
+    - Padded Leggings
 tags: []
 name:
-  full: Padded Leggings
-  aliases: []
+    full: Padded Leggings
+    aliases: []
 description: "Cushioned leg coverings providing warmth for armor wear."
 id: 53VZLZbt0dYNqcM3
 slug: padded-leggings
@@ -13,32 +13,32 @@ shortcode: PLeg
 type: armorgear
 package: sohl
 sohl:
-  armorType: Leggings
-  detailMaterial: Padded
-  material: Padded
-  durability: 10
-  value: 72
-  weight: 2.9
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: jBvXVBCppcSDDfgh
-  flexloc:
-    - plvisloc
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-    - lcalfloc
-    - rcalfloc
-    - lfootloc
-    - rfootloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Leggings
+    detailMaterial: Padded
+    material: Padded
+    durability: 10
+    value: 72
+    weight: 2.9
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: jBvXVBCppcSDDfgh
+    flexloc:
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
+        - lfootloc
+        - rfootloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 72
 origWeight: 2.9

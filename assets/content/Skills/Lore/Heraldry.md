@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Heraldry
-  aliases: []
+    full: Heraldry
+    aliases: []
 description: "Interpreting coats of arms, crests, badges; revealing lineage and history."
 id: OlbJoKLPzyf04vVN
 slug: heraldry
@@ -12,13 +12,13 @@ shortcode: hrld
 type: skill
 package: sohl
 sohl:
-  subType: lore
-  skillBaseFormula: "@rea, @wil"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: lore
+    skillBaseFormula: "@rea, @wil"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: QlkEHXbk2EXlRiMM
 ---
 

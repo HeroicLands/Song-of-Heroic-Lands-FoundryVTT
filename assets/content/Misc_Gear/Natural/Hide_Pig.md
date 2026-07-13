@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Pig"
+    - "Hide, Pig"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Pig"
-  aliases: []
+    full: "Hide, Pig"
+    aliases: []
 description: "Hog hide thicker than sheep; moderately soft leather for gloves and belts."
 id: zCqREMweeW71xVaL
 slug: hide-pig
@@ -14,10 +14,10 @@ shortcode: hidepig
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 5
-  weight: 1.75
+    quality: 0
+    durability: 3
+    value: 5
+    weight: 1.75
 folder: 0JqxkW5hHZ8XVILm
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Rawhide Gauntlets
+    - Rawhide Gauntlets
 tags: []
 name:
-  full: Rawhide Gauntlets
-  aliases: []
+    full: Rawhide Gauntlets
+    aliases: []
 description: "Thick hide hand-guards; resists abrasion and impact."
 id: O1QZeXl5c7XGVQKp
 slug: rawhide-gauntlets
@@ -13,25 +13,25 @@ shortcode: RhGntl
 type: armorgear
 package: sohl
 sohl:
-  armorType: Gauntlets
-  detailMaterial: Rawhide
-  material: Leather
-  durability: 11
-  value: 30
-  weight: 0.8
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: oMkllnhTfepZFbP8
-  flexloc:
-    - lhandloc
-    - rhandloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Gauntlets
+    detailMaterial: Rawhide
+    material: Leather
+    durability: 11
+    value: 30
+    weight: 0.8
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: oMkllnhTfepZFbP8
+    flexloc:
+        - lhandloc
+        - rhandloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 30
 origWeight: 0.8

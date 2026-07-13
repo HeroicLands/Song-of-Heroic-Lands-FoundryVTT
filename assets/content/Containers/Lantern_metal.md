@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Lantern, metal"
+    - "Lantern, metal"
 tags: []
 name:
-  full: "Lantern, metal"
-  aliases: []
+    full: "Lantern, metal"
+    aliases: []
 description: "Tinned copper lantern with horn panels; protects flame from wind and rain."
 id: O00YwPj1fNyW8V4v
 slug: lantern-metal
@@ -13,11 +13,11 @@ shortcode: lanternmet
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  maxCapacity: 0.125
-  value: 12
-  weight: 1
+    quality: 0
+    durability: 7
+    maxCapacity: 0.125
+    value: 12
+    weight: 1
 folder: dl8lJ729W1mFlDvt
 ---
 

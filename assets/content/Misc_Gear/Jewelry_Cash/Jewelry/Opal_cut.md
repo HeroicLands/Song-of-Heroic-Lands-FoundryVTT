@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Opal, cut"
+    - "Opal, cut"
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: "Opal, cut"
-  aliases: []
+    full: "Opal, cut"
+    aliases: []
 description: "Luminous pale gem with rainbow-color flashes; iridescent, softer and requires gentle handling."
 id: SDgK4slCOttzWflA
 slug: opal-cut
@@ -14,10 +14,10 @@ shortcode: opalcut
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 80
-  weight: 0.0004
+    quality: 0
+    durability: 2
+    value: 80
+    weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Beer, Hogshead"
+    - "Beer, Hogshead"
 tags:
-  - spirits
+    - spirits
 name:
-  full: "Beer, Hogshead"
-  aliases: []
+    full: "Beer, Hogshead"
+    aliases: []
 description: "Weak sour small-beer; cheap garrison drink, prevents tainted water sickness."
 id: qoM0p9s6SZPCOM24
 slug: beer-hogshead
@@ -14,10 +14,10 @@ shortcode: beerhgsh
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 125
-  weight: 440
+    quality: 0
+    durability: 0
+    value: 125
+    weight: 440
 folder: jLdeIpOIZokm8obv
 ---
 

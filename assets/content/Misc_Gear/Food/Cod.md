@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Cod
+    - Cod
 tags:
-  - food
+    - food
 name:
-  full: Cod
-  aliases: []
+    full: Cod
+    aliases: []
 description: "Salt-cured white fish; dried or salted for long trade voyages."
 id: 7V30MlVn5YxtYEQN
 slug: cod
@@ -14,10 +14,10 @@ shortcode: cod
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

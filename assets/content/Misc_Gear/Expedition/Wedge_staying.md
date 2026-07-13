@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Wedge, staying"
+    - "Wedge, staying"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Wedge, staying"
-  aliases: []
+    full: "Wedge, staying"
+    aliases: []
 description: "Small wooden or bone wedge; prevents tent poles and wagon wheels slipping."
 id: SP6UEkt0R3yULAAu
 slug: wedge-staying
@@ -14,10 +14,10 @@ shortcode: wedgestayi
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 225
-  weight: 1
+    quality: 0
+    durability: 8
+    value: 225
+    weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

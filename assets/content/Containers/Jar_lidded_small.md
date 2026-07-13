@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Jar, lidded, small"
+    - "Jar, lidded, small"
 tags: []
 name:
-  full: "Jar, lidded, small"
-  aliases: []
+    full: "Jar, lidded, small"
+    aliases: []
 description: "Compact stoneware jar with tight seal for spices and traveling supplies."
 id: 5v0V3klR1WDCULiF
 slug: jar-lidded-small
@@ -13,11 +13,11 @@ shortcode: jarliddeds
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  maxCapacity: 1
-  value: 3
-  weight: 1.7
+    quality: 0
+    durability: 3
+    maxCapacity: 1
+    value: 3
+    weight: 1.7
 folder: dl8lJ729W1mFlDvt
 ---
 

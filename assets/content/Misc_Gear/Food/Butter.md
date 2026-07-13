@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Butter
+    - Butter
 tags:
-  - food
+    - food
 name:
-  full: Butter
-  aliases: []
+    full: Butter
+    aliases: []
 description: "Pale yellow churned cream; enriches vegetables, fries meat, keeps better salted."
 id: fuq6ux6kOcuTcrZP
 slug: butter
@@ -14,10 +14,10 @@ shortcode: butter
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.5
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

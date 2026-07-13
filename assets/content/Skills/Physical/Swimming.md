@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Swimming
-  aliases: []
+    full: Swimming
+    aliases: []
 description: "Moving through water across rivers, during shipwrecks, or beneath surfaces."
 id: U1qbcjqVcFyiyaDe
 slug: swimming
@@ -12,13 +12,13 @@ shortcode: swim
 type: skill
 package: sohl
 sohl:
-  subType: physical
-  skillBaseFormula: "@agl, @end"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 1
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: physical
+    skillBaseFormula: "@agl, @end"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 1
+    masteryLevelBase: 0
+    improveFlag: false
 folder: Yt9THlZ0NT8H6aSK
 ---
 

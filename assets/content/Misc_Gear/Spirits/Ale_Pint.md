@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Ale, Pint"
+    - "Ale, Pint"
 tags:
-  - spirits
+    - spirits
 name:
-  full: "Ale, Pint"
-  aliases: []
+    full: "Ale, Pint"
+    aliases: []
 description: "Pale ale in cup or horn; staple wage for laborers and soldiers."
 id: GCmXtSfzDMZDpmnX
 slug: ale-pint
@@ -14,10 +14,10 @@ shortcode: alept
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.25
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.25
+    weight: 1
 folder: jLdeIpOIZokm8obv
 ---
 

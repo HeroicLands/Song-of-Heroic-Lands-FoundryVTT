@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Being
+    - Being
 id: NNwX0CWqScS2HGsl
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Being"
+    full: "Being"
 slug: "actor-being"
 folder: sYK1BozT9xFcinXK
 ---

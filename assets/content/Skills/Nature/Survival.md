@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Survival
-  aliases: []
+    full: Survival
+    aliases: []
 description: "Enduring wilderness through shelter, water, foraging, and hazard navigation."
 id: OmfV1VgsGMZ1LJg7
 slug: survival
@@ -12,13 +12,13 @@ shortcode: srvl
 type: skill
 package: sohl
 sohl:
-  subType: nature
-  skillBaseFormula: "@wil, @rea"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 1
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: nature
+    skillBaseFormula: "@wil, @rea"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 1
+    masteryLevelBase: 0
+    improveFlag: false
 folder: N5ozne3RRF0qSEdF
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Plate Ailettes
+    - Plate Ailettes
 tags: []
 name:
-  full: Plate Ailettes
-  aliases: []
+    full: Plate Ailettes
+    aliases: []
 description: "Broad steel shoulder-guards; display heraldic pride and shield upper arms."
 id: ushpz9bwNavj7xxt
 slug: plate-ailettes
@@ -13,25 +13,25 @@ shortcode: PlAil
 type: armorgear
 package: sohl
 sohl:
-  armorType: Ailettes
-  detailMaterial: Plate
-  material: Plate
-  durability: 14
-  value: 60
-  weight: 1.1
-  encumbrance: 1.67
-  perception:
-    value: 0
-    effectId: SXQpRmmKGP8frOKA
-  flexloc: []
-  rigidloc:
-    - lshldloc
-    - rshldloc
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Ailettes
+    detailMaterial: Plate
+    material: Plate
+    durability: 14
+    value: 60
+    weight: 1.1
+    encumbrance: 1.67
+    perception:
+        value: 0
+        effectId: SXQpRmmKGP8frOKA
+    flexloc: []
+    rigidloc:
+        - lshldloc
+        - rshldloc
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 60
 origWeight: 1.1

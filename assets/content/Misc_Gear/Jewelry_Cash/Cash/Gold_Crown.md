@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Gold Crown
+    - Gold Crown
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: Gold Crown
-  aliases: []
+    full: Gold Crown
+    aliases: []
 description: "Royal-sealed gold coin; preferred exchange of merchants, nobles, realm foundation."
 id: dTnBQ2PphwVNdSsu
 slug: gold-crown
@@ -14,10 +14,10 @@ shortcode: gldcrwn
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 240
-  weight: 0.0625
+    quality: 0
+    durability: 7
+    value: 240
+    weight: 0.0625
 folder: TV3IMHs8SLZ1L1vv
 ---
 

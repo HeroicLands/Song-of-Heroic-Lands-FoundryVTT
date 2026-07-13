@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Kip (large calf)"
+    - "Hide, Kip (large calf)"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Kip (large calf)"
-  aliases: []
+    full: "Hide, Kip (large calf)"
+    aliases: []
 description: "Large calf hide between calf and steer; splits into shoe-sole and vamp."
 id: JMK3jZwXrfBiUOD6
 slug: hide-kip-large-calf
@@ -14,10 +14,10 @@ shortcode: hidekiplar
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 0
-  weight: 5
+    quality: 0
+    durability: 3
+    value: 0
+    weight: 5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

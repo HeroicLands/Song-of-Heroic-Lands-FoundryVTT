@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Language
-  aliases: []
+    full: Language
+    aliases: []
 description: "Proficiency in some particular tongue — the generic skill used wherever a named-language entry would overspecify."
 id: 0WMCAQZCegZRDOrJ
 slug: language
@@ -12,13 +12,13 @@ shortcode: lang
 type: skill
 package: sohl
 sohl:
-  subType: language
-  skillBaseFormula: "@elo, @rea"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: language
+    skillBaseFormula: "@elo, @rea"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: sn9NBuZMZOBqxsYv
 ---
 

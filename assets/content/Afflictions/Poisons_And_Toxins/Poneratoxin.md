@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Poneratoxin
-  aliases: []
+    full: Poneratoxin
+    aliases: []
 description: "Ant venom neurotoxin; the most painful insect sting imaginable; lasts 24 hours."
 id: qzCiP0GibDhQ9mcg
 slug: poneratoxin
@@ -12,12 +12,12 @@ shortcode: ponrtxn
 type: affliction
 package: sohl
 sohl:
-  subType: poisontoxin
-  diagnosisBonus: 0
-  levelBase: 1
-  healingRateBase: 3
-  contagionIndex: 3
-  transmission: vector
+    subType: poisontoxin
+    diagnosisBonus: 0
+    levelBase: 1
+    healingRateBase: 3
+    contagionIndex: 3
+    transmission: vector
 folder: ONXsqZAIZr2qzxTb
 ---
 
@@ -28,6 +28,7 @@ Poneratoxin is a powerful neurotoxic peptide. It affects voltage-gated sodium ch
 Intense, burning pain often described as the most painful of insect stings.
 
 ### Progression
+
 Pain can last up to 24 hours, with possible systemic symptoms such as nausea, vomiting, and vertigo (though not typically fatal).
 
 ### Treatment

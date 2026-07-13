@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Garnet, cut"
+    - "Garnet, cut"
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: "Garnet, cut"
-  aliases: []
+    full: "Garnet, cut"
+    aliases: []
 description: "Deep red-purple gem favored for signet rings by the merchant class."
 id: OQWdNqFvZA5BEwUz
 slug: garnet-cut
@@ -14,10 +14,10 @@ shortcode: garnetcut
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 400
-  weight: 0.0004
+    quality: 0
+    durability: 2
+    value: 400
+    weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

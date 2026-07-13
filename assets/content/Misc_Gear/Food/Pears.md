@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Pears
+    - Pears
 tags:
-  - food
+    - food
 name:
-  full: Pears
-  aliases: []
+    full: Pears
+    aliases: []
 description: "Dried autumn fruit, hardened sweet traveler's treat and childhood prize."
 id: 06CogOR280NMNE4P
 slug: pears
@@ -14,10 +14,10 @@ shortcode: pears
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.5
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

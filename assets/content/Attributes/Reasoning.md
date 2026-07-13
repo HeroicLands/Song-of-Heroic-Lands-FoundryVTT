@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Reasoning
-  aliases: []
+    full: Reasoning
+    aliases: []
 id: 6p1Mx0b9iatxBhfm
 slug: reasoning
 img: icons/reasoning.svg
@@ -11,14 +11,14 @@ shortcode: rea
 type: attribute
 package: sohl
 sohl:
-  scoreBase: 0
-  valueDesc:
-    - Dim:4
-    - Dull:8
-    - Average:12
-    - Sharp:16
-    - Brilliant:999
-  initDiceFormula: 3d6
+    scoreBase: 0
+    valueDesc:
+        - Dim:4
+        - Dull:8
+        - Average:12
+        - Sharp:16
+        - Brilliant:999
+    initDiceFormula: 3d6
 sort: 90
 folder: FPitxvL8wCmXynax
 ---

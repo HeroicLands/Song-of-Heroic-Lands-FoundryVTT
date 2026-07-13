@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Masonry
-  aliases: []
+    full: Masonry
+    aliases: []
 description: "Quarrying, cutting, and laying stone for walls, buildings, and fortifications."
 id: kL8SqiGClE8YL98r
 slug: masonry
@@ -12,13 +12,13 @@ shortcode: masn
 type: skill
 package: sohl
 sohl:
-  subType: craft
-  skillBaseFormula: "@dex, @str"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: craft
+    skillBaseFormula: "@dex, @str"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: gqRvjlrWbuCwGy3N
 ---
 

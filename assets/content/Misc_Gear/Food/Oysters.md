@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Oysters
+    - Oysters
 tags:
-  - food
+    - food
 name:
-  full: Oysters
-  aliases: []
+    full: Oysters
+    aliases: []
 description: "Briny shellfish fresh at harbor or preserved in salt and smoke."
 id: bD813ZOIhLFzpMcl
 slug: oysters
@@ -14,10 +14,10 @@ shortcode: oysters
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 0.5
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 0.5
 folder: cHM58zOI1EcSG3cP
 ---
 

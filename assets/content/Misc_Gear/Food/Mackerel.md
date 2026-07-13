@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Mackerel
+    - Mackerel
 tags:
-  - food
+    - food
 name:
-  full: Mackerel
-  aliases: []
+    full: Mackerel
+    aliases: []
 description: "Oily fish gutted fresh or salt-packed; substantial meal, keeps indefinitely."
 id: M81FjO3ceoOIBLWW
 slug: mackerel
@@ -14,10 +14,10 @@ shortcode: mackerel
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 0.25
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 0.25
 folder: cHM58zOI1EcSG3cP
 ---
 

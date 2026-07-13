@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Brandy, Keg"
+    - "Brandy, Keg"
 tags:
-  - spirits
+    - spirits
 name:
-  full: "Brandy, Keg"
-  aliases: []
+    full: "Brandy, Keg"
+    aliases: []
 description: "Distilled wine spirit in sealed keg; merchant treasure, used sparingly as medicine."
 id: rbNAyX38r5CPc715
 slug: brandy-keg
@@ -14,10 +14,10 @@ shortcode: brdykeg
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 360
-  weight: 85
+    quality: 0
+    durability: 0
+    value: 360
+    weight: 85
 folder: jLdeIpOIZokm8obv
 ---
 

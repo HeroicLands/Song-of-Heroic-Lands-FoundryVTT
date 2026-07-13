@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Chisel
+    - Chisel
 tags:
-  - instruments
+    - instruments
 name:
-  full: Chisel
-  aliases: []
+    full: Chisel
+    aliases: []
 description: "Steel blade beveled for stone and wood, driven by hammer."
 id: m9m4D6WR54pjYH1o
 slug: chisel
@@ -14,10 +14,10 @@ shortcode: chisel
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 6
-  weight: 0.75
+    quality: 0
+    durability: 8
+    value: 6
+    weight: 0.75
 folder: xniLjmZWYQZkSxyv
 ---
 

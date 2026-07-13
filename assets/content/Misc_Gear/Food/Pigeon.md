@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Pigeon
+    - Pigeon
 tags:
-  - food
+    - food
 name:
-  full: Pigeon
-  aliases: []
+    full: Pigeon
+    aliases: []
 description: "Mild tender meat from trapped cotes, small carcass rich with fat."
 id: X4s6GgKmwT1iFtNA
 slug: pigeon
@@ -14,10 +14,10 @@ shortcode: pigeon
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1.75
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 1.75
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

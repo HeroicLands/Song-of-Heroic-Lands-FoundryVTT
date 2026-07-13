@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Beer, Pint"
+    - "Beer, Pint"
 tags:
-  - spirits
+    - spirits
 name:
-  full: "Beer, Pint"
-  aliases: []
+    full: "Beer, Pint"
+    aliases: []
 description: "Weak cheap small-beer; laborer's drink; safe, ever-present in garrisons."
 id: cTQH6OPXqP2mentF
 slug: beer-pint
@@ -14,10 +14,10 @@ shortcode: beerpt
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.5
+    weight: 1
 folder: jLdeIpOIZokm8obv
 ---
 

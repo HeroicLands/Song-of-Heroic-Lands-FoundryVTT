@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Charm
-  aliases: []
+    full: Charm
+    aliases: []
 description: "Winning trust and favor through warmth, wit, and emotional persuasion."
 id: ghkiPEyMztj9Xh38
 slug: charm
@@ -12,13 +12,13 @@ shortcode: chrm
 type: skill
 package: sohl
 sohl:
-  subType: social
-  skillBaseFormula: "@cml, @emp"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 3
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: social
+    skillBaseFormula: "@cml, @emp"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 3
+    masteryLevelBase: 0
+    improveFlag: false
 folder: JBr2U30FsJTs8F3l
 ---
 

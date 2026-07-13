@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Self-protective
-  aliases: []
+    full: Self-protective
+    aliases: []
 id: cP6ZEVtkgYYtdXZn
 slug: self-protective
 img: icons/user-gear.svg
@@ -11,14 +11,14 @@ shortcode: self-pro
 type: trait
 package: sohl
 sohl:
-  subType: personality
-  intensity: benign
-  isNumeric: false
-  textValue: ''
-  valueDesc: []
-  score:
-    value: 0
-    max: 0
+    subType: personality
+    intensity: benign
+    isNumeric: false
+    textValue: ""
+    valueDesc: []
+    score:
+        value: 0
+        max: 0
 folder: SpZzOv4eOwtdsMMo
 ---
 

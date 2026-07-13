@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Sundial, bronze"
+    - "Sundial, bronze"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Sundial, bronze"
-  aliases: []
+    full: "Sundial, bronze"
+    aliases: []
 description: "Brass-mounted bronze dial; marks hours on clear days when set true."
 id: kdtcb8rd9CSEa01p
 slug: sundial-bronze
@@ -14,10 +14,10 @@ shortcode: sundialbro
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 6
-  value: 225
-  weight: 50
+    quality: 0
+    durability: 6
+    value: 225
+    weight: 50
 folder: FSPVI1eObGEpMVck
 ---
 

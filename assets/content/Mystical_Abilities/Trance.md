@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Trance
-  aliases: []
+    full: Trance
+    aliases: []
 description: "Deep meditation opening consciousness to astral and spiritual perception."
 id: QUY1z2KG9kreEJTr
 slug: trance
@@ -12,15 +12,15 @@ shortcode: trnc
 type: mysticalability
 package: sohl
 sohl:
-  subType: spiritaction
-  assocSkillCode: ""
-  assocMysteryCode: ""
-  levelBase: 0
-  masteryLevelBase: 0
-  charges:
-    usesCharges: false
-    value: 0
-    max: 0
+    subType: spiritaction
+    assocSkillCode: ""
+    assocMysteryCode: ""
+    levelBase: 0
+    masteryLevelBase: 0
+    charges:
+        usesCharges: false
+        value: 0
+        max: 0
 folder: gpLM4ElXNiI1rN7l
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Seal"
+    - "Hide, Seal"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Seal"
-  aliases: []
+    full: "Hide, Seal"
+    aliases: []
 description: "Coastal oiled hide; waterproof supple leather for sea-boots, deckcloaks."
 id: Swk6M2TL47qKR2fd
 slug: hide-seal
@@ -14,10 +14,10 @@ shortcode: hideseal
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 24
-  weight: 6
+    quality: 0
+    durability: 3
+    value: 24
+    weight: 6
 folder: 0JqxkW5hHZ8XVILm
 ---
 

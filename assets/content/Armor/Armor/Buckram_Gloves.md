@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Buckram Gloves
+    - Buckram Gloves
 tags: []
 name:
-  full: Buckram Gloves
-  aliases: []
+    full: Buckram Gloves
+    aliases: []
 description: "Stiff buckram gloves offering rigid hand covering for structured tasks."
 id: v7RyWCh2YK0l6Ktq
 slug: buckram-gloves
@@ -13,25 +13,25 @@ shortcode: BGlv
 type: armorgear
 package: sohl
 sohl:
-  armorType: Gloves
-  detailMaterial: Buckram
-  material: Cloth
-  durability: 10
-  value: 20
-  weight: 0.3
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: 7TJdUBS1rVDbgU3X
-  flexloc:
-    - lhandloc
-    - rhandloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Gloves
+    detailMaterial: Buckram
+    material: Cloth
+    durability: 10
+    value: 20
+    weight: 0.3
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: 7TJdUBS1rVDbgU3X
+    flexloc:
+        - lhandloc
+        - rhandloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 20
 origWeight: 0.3

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Pewter
+    - Pewter
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: Pewter
-  aliases: []
+    full: Pewter
+    aliases: []
 description: "Soft tin-lead alloy; cheaper than silver; tavern cups and household goods."
 id: Vw7e2EAqBhfPtumB
 slug: pewter
@@ -14,10 +14,10 @@ shortcode: pewter
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 1
-  weight: 0.0625
+    quality: 0
+    durability: 3
+    value: 1
+    weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

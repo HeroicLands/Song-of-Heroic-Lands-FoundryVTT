@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Scallions
+    - Scallions
 tags:
-  - food
+    - food
 name:
-  full: Scallions
-  aliases: []
+    full: Scallions
+    aliases: []
 description: "Young onions with tender greens, fresh or dried, early spring crop."
 id: cQqvNuSYmw0Fs75w
 slug: scallions
@@ -14,10 +14,10 @@ shortcode: scallions
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.25
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.25
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

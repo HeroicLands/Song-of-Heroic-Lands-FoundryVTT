@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Salt, bag"
+    - "Salt, bag"
 tags:
-  - food
+    - food
 name:
-  full: "Salt, bag"
-  aliases: []
+    full: "Salt, bag"
+    aliases: []
 description: "Coarse sea-salt crystals, preserves meat and fish, seasons cooking daily."
 id: gN6DmeE4bFBCn0g8
 slug: salt-bag
@@ -14,10 +14,10 @@ shortcode: saltbag
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.25
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.25
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

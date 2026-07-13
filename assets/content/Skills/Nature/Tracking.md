@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Tracking
-  aliases: []
+    full: Tracking
+    aliases: []
 description: "Reading footprints, vegetation, and signs of passage through environments."
 id: r84g3zzaBmp1zDl4
 slug: tracking
@@ -12,13 +12,13 @@ shortcode: trak
 type: skill
 package: sohl
 sohl:
-  subType: nature
-  skillBaseFormula: "@rea, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: nature
+    skillBaseFormula: "@rea, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: N5ozne3RRF0qSEdF
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Fine Talc
+    - Fine Talc
 tags:
-  - expedition
+    - expedition
 name:
-  full: Fine Talc
-  aliases: []
+    full: Fine Talc
+    aliases: []
 description: "Fine mineral powder; dries sweat, prevents chafing, dusts wounds, and gives grip to the climber's or wrestler's hands."
 id: CBEzsUYOjOuJtBLd
 slug: fine-talc
@@ -14,10 +14,10 @@ shortcode: talc
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 10
-  weight: 0.0625
+    quality: 0
+    durability: 0
+    value: 10
+    weight: 0.0625
 folder: FSPVI1eObGEpMVck
 ---
 

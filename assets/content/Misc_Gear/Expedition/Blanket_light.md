@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Blanket, light
+    - Blanket, light
 tags:
-  - expedition
+    - expedition
 name:
-  full: Blanket, light
-  aliases: []
+    full: Blanket, light
+    aliases: []
 description: "Thin linen or light wool blanket; pocketable and quick-drying for mild seasons."
 id: Jtg9nPvOVYYCQXpe
 slug: blanket-light
@@ -14,10 +14,10 @@ shortcode: LiteBlkt
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 10
-  weight: 3
+    quality: 0
+    durability: 7
+    value: 10
+    weight: 3
 folder: FSPVI1eObGEpMVck
 ---
 

@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Awareness
-  aliases: []
+    full: Awareness
+    aliases: []
 description: "Detecting movement, glint of metal, scents; opposing Stealth in vigilance."
 id: 5aSYfkXwlrZm6xzA
 slug: awareness
@@ -12,13 +12,13 @@ shortcode: awar
 type: skill
 package: sohl
 sohl:
-  subType: physical
-  skillBaseFormula: "@per, @wil"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 3
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: physical
+    skillBaseFormula: "@per, @wil"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 3
+    masteryLevelBase: 0
+    improveFlag: false
 folder: Yt9THlZ0NT8H6aSK
 ---
 

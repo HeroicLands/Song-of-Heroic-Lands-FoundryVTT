@@ -1,18 +1,19 @@
 ---
 aliases:
-  - Healing Roll
-  - Healing Rolls
-  - Healing Base
+    - Healing Roll
+    - Healing Rolls
+    - Healing Base
 id: EUjpntavZTe73ki9
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: Healing Roll
-  aliases: []
+    full: Healing Roll
+    aliases: []
 slug: sohl-healing-roll
 folder: RqKUTBUBN2Y3MHYB
 ---
+
 The Healing Roll is a special d100 test that determines how quickly injuries heal and blood loss is restored. The Mastery Level for a Healing Roll equals the character's Healing Base (HB) multiplied by the Healing Rate (HR) generated from treatment.
 
 ## Healing Base
@@ -27,12 +28,12 @@ The Healing Rate (HR) is a value from 1 to 6, determined by the quality of treat
 
 A patient makes a separate Healing Roll for each injury every five days after the injury was sustained:
 
-| Success Level | Effect |
-|---|---|
-| CF (−1) | No healing this period. If treatment left the chance for infection, the injury also becomes infected. |
-| MF (0) | No healing this period. |
-| MS (1) | Reduce the Injury Level by 1. When reduced to 0 or less, the injury is fully healed. |
-| CS (2) | Reduce the Injury Level by 2. |
+| Success Level | Effect                                                                                                |
+| ------------- | ----------------------------------------------------------------------------------------------------- |
+| CF (−1)       | No healing this period. If treatment left the chance for infection, the injury also becomes infected. |
+| MF (0)        | No healing this period.                                                                               |
+| MS (1)        | Reduce the Injury Level by 1. When reduced to 0 or less, the injury is fully healed.                  |
+| CS (2)        | Reduce the Injury Level by 2.                                                                         |
 
 As injury levels decrease, severity lessens at certain thresholds—from Grievous to Serious, and from Serious to Minor. When severity changes, the effects of the injury (impairment, shock risk) change accordingly.
 

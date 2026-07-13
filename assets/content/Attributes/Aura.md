@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Aura
-  aliases: []
+    full: Aura
+    aliases: []
 id: KmwIUCSi0PJ0Wnay
 slug: aura
 img: icons/aura.svg
@@ -11,14 +11,14 @@ shortcode: aur
 type: attribute
 package: sohl
 sohl:
-  scoreBase: 0
-  valueDesc:
-    - Mundane:4
-    - Shallow:8
-    - Average:12
-    - Deep:16
-    - Profound:999
-  initDiceFormula: 3d6
+    scoreBase: 0
+    valueDesc:
+        - Mundane:4
+        - Shallow:8
+        - Average:12
+        - Deep:16
+        - Profound:999
+    initDiceFormula: 3d6
 sort: 70
 folder: FPitxvL8wCmXynax
 ---

@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Rawhide Cowl
+    - Rawhide Cowl
 tags: []
 name:
-  full: Rawhide Cowl
-  aliases: []
+    full: Rawhide Cowl
+    aliases: []
 description: "Sturdy hide hood; protects head and shoulders."
 id: OTXIPEDtQ2Gqv3Sh
 slug: rawhide-cowl
@@ -13,25 +13,25 @@ shortcode: RhCowl
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cowl
-  detailMaterial: Rawhide
-  material: Leather
-  durability: 11
-  value: 35
-  weight: 1.6
-  encumbrance: 0
-  perception:
-    value: -5
-    effectId: zdRNrctlmnd6fQbJ
-  flexloc:
-    - skullloc
-    - neckloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cowl
+    detailMaterial: Rawhide
+    material: Leather
+    durability: 11
+    value: 35
+    weight: 1.6
+    encumbrance: 0
+    perception:
+        value: -5
+        effectId: zdRNrctlmnd6fQbJ
+    flexloc:
+        - skullloc
+        - neckloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 35
 origWeight: 1.6

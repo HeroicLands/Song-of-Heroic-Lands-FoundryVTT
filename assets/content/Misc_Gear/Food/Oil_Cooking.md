@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Oil, Cooking"
+    - "Oil, Cooking"
 tags:
-  - food
+    - food
 name:
-  full: "Oil, Cooking"
-  aliases: []
+    full: "Oil, Cooking"
+    aliases: []
 description: "Golden neutral vegetable oil for frying and lighting, gallons at markets."
 id: MF8uS4PIx6Ymc7Di
 slug: oil-cooking
@@ -14,10 +14,10 @@ shortcode: oilcook
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 3
-  weight: 12
+    quality: 0
+    durability: 0
+    value: 3
+    weight: 12
 folder: cHM58zOI1EcSG3cP
 ---
 

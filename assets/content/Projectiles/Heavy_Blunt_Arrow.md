@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Heavy Blunt Arrow
+    - Heavy Blunt Arrow
 tags: []
 name:
-  full: Heavy Blunt Arrow
-  alias: []
+    full: Heavy Blunt Arrow
+    alias: []
 description: "Stout ash shaft, wood or bronze knob; breaks bone, stuns boar."
 type: projectilegear
 package: sohl
@@ -14,18 +14,18 @@ shortcode: ArwHBlt
 img: icons/arrow.svg
 easyname: Heavy Blunt
 sohl:
-  subType: arrow
-  quality: 0
-  durability: 10
-  value: 0.22
-  weight: 1.25
-  impact:
-    die: 6
-    modifier: -1
-    aspect: piercing
-  traits:
-    ARvalue: 4
-    bleed: true
+    subType: arrow
+    quality: 0
+    durability: 10
+    value: 0.22
+    weight: 1.25
+    impact:
+        die: 6
+        modifier: -1
+        aspect: piercing
+    traits:
+        ARvalue: 4
+        bleed: true
 folder: ADQPHjgKsdWsJhyy
 ---
 

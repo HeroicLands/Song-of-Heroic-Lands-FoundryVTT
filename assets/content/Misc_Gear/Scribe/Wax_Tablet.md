@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Wax Tablet
+    - Wax Tablet
 tags:
-  - scribe
+    - scribe
 name:
-  full: Wax Tablet
-  aliases: []
+    full: Wax Tablet
+    aliases: []
 description: "Beeswax-faced hinged boards; erasable notes for merchants' quick reckoning."
 id: q5NMKWCl6x6hti9F
 slug: wax-tablet
@@ -14,10 +14,10 @@ shortcode: waxtablet
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 5
-  value: 6
-  weight: 1
+    quality: 0
+    durability: 5
+    value: 6
+    weight: 1
 folder: BYkA5NDQxTXDvsAC
 ---
 

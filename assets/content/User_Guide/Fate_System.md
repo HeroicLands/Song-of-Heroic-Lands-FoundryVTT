@@ -5,7 +5,7 @@ type: doc
 package: sohl
 category: user-guide
 name:
-  full: "The Fate System"
+    full: "The Fate System"
 slug: "fate-system"
 folder: IgwaG8rAUUO9vrtz
 ---

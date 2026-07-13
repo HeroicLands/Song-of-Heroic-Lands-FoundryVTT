@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Scales & Weights"
+    - "Scales & Weights"
 tags:
-  - instruments
+    - instruments
 name:
-  full: "Scales & Weights"
-  aliases: []
+    full: "Scales & Weights"
+    aliases: []
 description: "Brass balance with calibrated weights; merchants weigh goods and settle accounts fairly."
 id: gVjo6m8eh3VxuIuh
 slug: scales-weights
@@ -14,10 +14,10 @@ shortcode: scalesweig
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 144
-  weight: 7.5
+    quality: 0
+    durability: 7
+    value: 144
+    weight: 7.5
 folder: xniLjmZWYQZkSxyv
 ---
 

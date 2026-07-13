@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Schizophrenia
-  aliases: []
+    full: Schizophrenia
+    aliases: []
 id: rd6nkUNkcIou5SBM
 slug: schizophrenia
 img: icons/user-gear.svg
@@ -11,33 +11,38 @@ shortcode: schizop
 type: trait
 package: sohl
 sohl:
-  subType: personality
-  intensity: impulse
-  isNumeric: false
-  textValue: ''
-  valueDesc: []
-  score:
-    value: 0
-    max: 0
+    subType: personality
+    intensity: impulse
+    isNumeric: false
+    textValue: ""
+    valueDesc: []
+    score:
+        value: 0
+        max: 0
 folder: ECrcBb9CUCMX9JeJ
 ---
 
 Schizophrenic refers to an individual experiencing symptoms associated with schizophrenia, a severe mental disorder that affects how a person thinks, feels, and behaves. Schizophrenia often manifests as delusions, hallucinations, disorganized thinking, and a distorted perception of reality. While symptoms vary in intensity, at its worst, schizophrenia can profoundly disrupt an individual's ability to function, leading to social isolation, paranoia, and emotional instability.
 
 ### Impulse
+
 The individual begins to experience mild to moderate symptoms of schizophrenia, such as occasional hallucinations, disorganized thoughts, or paranoid delusions. These symptoms may come and go, but the person can still function in society, although with increasing difficulty. They may begin to withdraw socially, experiencing confusion or fear due to their altered perception of reality. At this stage, they are aware that something feels off but may rationalize or minimize the severity of their experiences.
 **Example:** Lady Isabelle occasionally hears voices that no one else can hear and sees fleeting images that disappear when she tries to focus on them. She becomes more reclusive, avoiding social gatherings because she fears others might notice her strange behavior. While she still maintains some normalcy, her mind is often preoccupied with confusion, and she is becoming more suspicious of those around her, wondering if they are plotting against her.
 
 ### Disorder
+
 As schizophrenia intensifies, the individual becomes fully consumed by severe delusions, hallucinations, and disorganized thoughts. They can no longer distinguish between reality and their distorted perceptions, leading to irrational behavior, fear, or paranoia. At this stage, they may believe in elaborate conspiracies, speak incoherently, or act based on hallucinations. Their ability to function socially and personally is severely impaired, and they may become isolated, unable to engage with others due to their distorted view of the world. Their emotional responses are often inappropriate or flat, and they may lose touch with reality entirely.
 
 ### Physical Symptoms
+
 The individual may exhibit unusual body movements or show a lack of movement (catatonia). They might experience sleeplessness or neglect basic hygiene, as they lose the ability to care for themselves. Their physical health can deteriorate due to self-neglect or fear of the outside world.
 
 ### Intrusive Thoughts
+
 The individual may experience persistent delusions, such as believing they are being persecuted or that they have special powers or messages to deliver. Hallucinations (both auditory and visual) are frequent and intrusive, controlling their thoughts and actions. Disorganized thinking makes it difficult for them to concentrate or follow logical conversations.
 
 ### Emotional Distress
+
 The individual may feel intense fear, confusion, or paranoia as their distorted reality becomes overwhelming. Emotional responses may be flat or inappropriate, leading to social isolation and alienation. They may become distressed or agitated when others do not understand or believe in their delusions.
 
 **Example:** Lady Isabelle is now fully consumed by schizophrenia. She believes that her family is plotting to poison her and that the voices she hears are divine messengers guiding her through a grand conspiracy. She locks herself in her chambers, speaking incoherently to unseen figures, and refuses to eat, convinced that her food is tainted. Her advisors and family can no longer reason with her, as her paranoia and hallucinations dominate her reality. Lady Isabelle's ability to function within her estate is lost, leaving her isolated, terrified, and disconnected from the world around her.

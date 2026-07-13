@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Cage, iron, small"
+    - "Cage, iron, small"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Cage, iron, small"
-  aliases: []
+    full: "Cage, iron, small"
+    aliases: []
 description: "Small iron cage for birds and small animals; lashable to saddle."
 id: LYp5ErpvCKBIVxGk
 slug: cage-iron-small
@@ -14,10 +14,10 @@ shortcode: cageironsm
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 10
-  value: 48
-  weight: 3
+    quality: 0
+    durability: 10
+    value: 48
+    weight: 3
 folder: FSPVI1eObGEpMVck
 ---
 

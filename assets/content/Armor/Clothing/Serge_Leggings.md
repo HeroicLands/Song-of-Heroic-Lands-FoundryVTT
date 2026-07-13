@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Serge Leggings
+    - Serge Leggings
 tags: []
 name:
-  full: Serge Leggings
-  aliases: []
+    full: Serge Leggings
+    aliases: []
 description: "Twilled serge leggings; warm, durable leg covering for daily activities."
 id: nsJ9hxNqyW6CC9i2
 slug: serge-leggings
@@ -13,32 +13,32 @@ shortcode: SgLeg
 type: armorgear
 package: sohl
 sohl:
-  armorType: Leggings
-  detailMaterial: Serge
-  material: Cloth
-  durability: 7
-  value: 22
-  weight: 0.9
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: mdfemxmfYlfGpKP8
-  flexloc:
-    - plvisloc
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-    - lcalfloc
-    - rcalfloc
-    - lfootloc
-    - rfootloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Leggings
+    detailMaterial: Serge
+    material: Cloth
+    durability: 7
+    value: 22
+    weight: 0.9
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: mdfemxmfYlfGpKP8
+    flexloc:
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
+        - lfootloc
+        - rfootloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 36
 origWeight: 1.8

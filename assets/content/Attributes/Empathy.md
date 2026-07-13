@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Empathy
-  aliases: []
+    full: Empathy
+    aliases: []
 id: Pjlvi5DOwr2QLTg3
 slug: empathy
 img: icons/empathy.svg
@@ -11,14 +11,14 @@ shortcode: emp
 type: attribute
 package: sohl
 sohl:
-  scoreBase: 0
-  valueDesc:
-    - Unfeeling:4
-    - Remote:8
-    - Average:12
-    - Understanding:16
-    - Sensitive:999
-  initDiceFormula: 3d6
+    scoreBase: 0
+    valueDesc:
+        - Unfeeling:4
+        - Remote:8
+        - Average:12
+        - Understanding:16
+        - Sensitive:999
+    initDiceFormula: 3d6
 sort: 110
 folder: FPitxvL8wCmXynax
 ---

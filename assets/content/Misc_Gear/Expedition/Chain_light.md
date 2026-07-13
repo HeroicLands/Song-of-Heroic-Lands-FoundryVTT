@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Chain, light"
+    - "Chain, light"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Chain, light"
-  aliases: []
+    full: "Chain, light"
+    aliases: []
 description: "Thinner pliable iron link chain; secures smaller items and restrains prisoners' wrists."
 id: LSS4Y1xoXnM95C5T
 slug: chain-light
@@ -14,10 +14,10 @@ shortcode: chainlight
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 2
-  weight: 1
+    quality: 0
+    durability: 7
+    value: 2
+    weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

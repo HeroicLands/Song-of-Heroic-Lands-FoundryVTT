@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Feathers
+    - Feathers
 tags:
-  - food
+    - food
 name:
-  full: Feathers
-  aliases: []
+    full: Feathers
+    aliases: []
 description: "Down and flight feathers; stuff quilts and padding, used for arrow fletching."
 id: OrnHYMAFuyKFK4RS
 slug: feathers
@@ -14,10 +14,10 @@ shortcode: feathers
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 6
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 6
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

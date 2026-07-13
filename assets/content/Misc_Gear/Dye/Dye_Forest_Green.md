@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Dye, Forest Green"
+    - "Dye, Forest Green"
 tags:
-  - clothing
+    - clothing
 name:
-  full: "Dye, Forest Green"
-  aliases: []
+    full: "Dye, Forest Green"
+    aliases: []
 description: "Woad and madder blend; dark sage green favored by hunters and foresters."
 id: EtTPHsdz6DxWajJV
 slug: dye-forest-green
@@ -14,10 +14,10 @@ shortcode: dyefst
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 1
-  value: 24
-  weight: 0.0625
+    quality: 0
+    durability: 1
+    value: 24
+    weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

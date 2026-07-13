@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Resourceful
-  aliases: []
+    full: Resourceful
+    aliases: []
 id: CfRVLxf00r94m5QN
 slug: resourceful
 img: icons/user-gear.svg
@@ -11,14 +11,14 @@ shortcode: rsrcfl
 type: trait
 package: sohl
 sohl:
-  subType: personality
-  intensity: benign
-  isNumeric: false
-  textValue: ''
-  valueDesc: []
-  score:
-    value: 0
-    max: 0
+    subType: personality
+    intensity: benign
+    isNumeric: false
+    textValue: ""
+    valueDesc: []
+    score:
+        value: 0
+        max: 0
 folder: SpZzOv4eOwtdsMMo
 ---
 

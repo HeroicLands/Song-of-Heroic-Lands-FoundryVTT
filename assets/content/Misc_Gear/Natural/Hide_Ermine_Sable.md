@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Ermine/Sable"
+    - "Hide, Ermine/Sable"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Ermine/Sable"
-  aliases: []
+    full: "Hide, Ermine/Sable"
+    aliases: []
 description: "Small pelt of stoat or marten; snow-white or dark fur for cloak-trim."
 id: MJhFOQ9tHJu3RIoE
 slug: hide-ermine-sable
@@ -14,10 +14,10 @@ shortcode: hideermine
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 45
-  weight: 0.1
+    quality: 0
+    durability: 3
+    value: 45
+    weight: 0.1
 folder: 0JqxkW5hHZ8XVILm
 ---
 

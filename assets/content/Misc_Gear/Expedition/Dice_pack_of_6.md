@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Dice, pack of 6"
+    - "Dice, pack of 6"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Dice, pack of 6"
-  aliases: []
+    full: "Dice, pack of 6"
+    aliases: []
 description: "Six bone or wooden dice; used in taverns and camps for gaming."
 id: J2HDhv9H0bHl8e1u
 slug: dice-pack-of-6
@@ -14,10 +14,10 @@ shortcode: dicepackof
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 5
-  weight: 0.25
+    quality: 0
+    durability: 4
+    value: 5
+    weight: 0.25
 folder: FSPVI1eObGEpMVck
 ---
 

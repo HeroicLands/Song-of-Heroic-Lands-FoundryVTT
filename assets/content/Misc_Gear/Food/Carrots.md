@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Carrots
+    - Carrots
 tags:
-  - food
+    - food
 name:
-  full: Carrots
-  aliases: []
+    full: Carrots
+    aliases: []
 description: "Orange root vegetables; sweet cooked, dried for long-simmering pots."
 id: yO1I60As1vJ13q0L
 slug: carrots
@@ -14,10 +14,10 @@ shortcode: carrots
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.5
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

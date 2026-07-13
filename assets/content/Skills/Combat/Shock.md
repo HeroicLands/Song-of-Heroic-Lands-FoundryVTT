@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Shock
-  aliases: []
+    full: Shock
+    aliases: []
 description: "Physiological resilience to absorb violent blows without incapacitation."
 id: BAHwD5BQSFtfbfGD
 slug: shock
@@ -12,13 +12,13 @@ shortcode: shok
 type: skill
 package: sohl
 sohl:
-  subType: combat
-  skillBaseFormula: "@str, @end"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 3
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: combat
+    skillBaseFormula: "@str, @end"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 3
+    masteryLevelBase: 0
+    improveFlag: false
 folder: EphAMAfFhWBrJxyF
 ---
 

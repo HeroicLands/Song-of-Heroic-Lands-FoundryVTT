@@ -29,203 +29,203 @@
 - name: Possessions
   id: O9ilOMwjidmb04JY
   parentFolderId: ""
-  color: '#8B4513'
+  color: "#8B4513"
 
 - name: Armor
   id: A3lkLw5amU7NmRP4
   parentFolderId: O9ilOMwjidmb04JY
-  color: '#708090'
+  color: "#708090"
 - name: Armor
   id: M4nHcUWOatfVGuh3
   parentFolderId: A3lkLw5amU7NmRP4
-  color: '#4A4A4A'
+  color: "#4A4A4A"
 - name: Clothing
   id: gaC79vNjSo6VO6Ym
   parentFolderId: A3lkLw5amU7NmRP4
-  color: '#DEB887'
+  color: "#DEB887"
 
 - name: Containers
   id: dl8lJ729W1mFlDvt
   parentFolderId: O9ilOMwjidmb04JY
-  color: '#B8860B'
+  color: "#B8860B"
 
 - name: Misc_Gear
   id: xJuw3RXTfrjeQbG8
   parentFolderId: O9ilOMwjidmb04JY
-  color: '#6B8E23'
+  color: "#6B8E23"
 - name: Jewelry_Cash
   id: qhgjZ2XB83LXoBSv
   parentFolderId: xJuw3RXTfrjeQbG8
-  color: '#DAA520'
+  color: "#DAA520"
 - name: Cash
   id: TV3IMHs8SLZ1L1vv
   parentFolderId: qhgjZ2XB83LXoBSv
-  color: '#C0C0C0'
+  color: "#C0C0C0"
 - name: Jewelry
   id: 3YyFU1QkTs2yFq5t
   parentFolderId: qhgjZ2XB83LXoBSv
-  color: '#FFD700'
+  color: "#FFD700"
 - name: Dye
   id: 7r8WTAO2Ac8SF9tf
   parentFolderId: xJuw3RXTfrjeQbG8
-  color: '#C71585'
+  color: "#C71585"
 - name: Cooking
   id: 7TT0OzoIoEn40zfs
   parentFolderId: xJuw3RXTfrjeQbG8
-  color: '#E63946'
+  color: "#E63946"
 - name: Expedition
   id: FSPVI1eObGEpMVck
   parentFolderId: xJuw3RXTfrjeQbG8
-  color: '#2A9D8F'
+  color: "#2A9D8F"
 - name: Food
   id: cHM58zOI1EcSG3cP
   parentFolderId: xJuw3RXTfrjeQbG8
-  color: '#F5DEB3'
+  color: "#F5DEB3"
 - name: Instruments
   id: xniLjmZWYQZkSxyv
   parentFolderId: xJuw3RXTfrjeQbG8
-  color: '#1D3557'
+  color: "#1D3557"
 - name: Lighting
   id: csqutf8WiTRM8oru
   parentFolderId: xJuw3RXTfrjeQbG8
-  color: '#FFA500'
+  color: "#FFA500"
 - name: Music
   id: ncTaRcZt0RFYz0Gq
   parentFolderId: xJuw3RXTfrjeQbG8
-  color: '#9B59B6'
+  color: "#9B59B6"
 - name: Natural
   id: 0JqxkW5hHZ8XVILm
   parentFolderId: xJuw3RXTfrjeQbG8
-  color: '#9ACD32'
+  color: "#9ACD32"
 - name: Religious
   id: 9JkoGqoUGqV8b5aL
   parentFolderId: xJuw3RXTfrjeQbG8
-  color: '#483D8B'
+  color: "#483D8B"
 - name: Scribe
   id: BYkA5NDQxTXDvsAC
   parentFolderId: xJuw3RXTfrjeQbG8
-  color: '#36454F'
+  color: "#36454F"
 - name: Spirits
   id: jLdeIpOIZokm8obv
   parentFolderId: xJuw3RXTfrjeQbG8
-  color: '#722F37'
+  color: "#722F37"
 - name: Stone
   id: 7HORJHbbizVSds9r
   parentFolderId: xJuw3RXTfrjeQbG8
-  color: '#95A5A6'
+  color: "#95A5A6"
 - name: Tack
   id: WTIUTjADwAcpyv0H
   parentFolderId: xJuw3RXTfrjeQbG8
-  color: '#A0522D'
+  color: "#A0522D"
 
 - name: Projectiles
   id: ADQPHjgKsdWsJhyy
   parentFolderId: O9ilOMwjidmb04JY
-  color: '#228B22'
+  color: "#228B22"
 
 - name: Weapons
   id: HXiYHvG6igI3Wlmm
   parentFolderId: O9ilOMwjidmb04JY
-  color: '#8B0000'
+  color: "#8B0000"
 
 # ---- Characteristics tree -----------------------------------------------
 - name: Characteristics
   id: lTBlwwkZ8D1RuH7T
   parentFolderId: ""
-  color: '#2C3E50'
+  color: "#2C3E50"
 
 - name: Afflictions
   id: UIDNPBo3tTxDRwBv
   parentFolderId: lTBlwwkZ8D1RuH7T
-  color: '#8B0000'
+  color: "#8B0000"
 - name: Diseases
   id: 3lobflzDt8Hk6VrN
   parentFolderId: UIDNPBo3tTxDRwBv
-  color: '#654321'
+  color: "#654321"
 - name: Poisons_And_Toxins
   id: ONXsqZAIZr2qzxTb
   parentFolderId: UIDNPBo3tTxDRwBv
-  color: '#006400'
+  color: "#006400"
 - name: Privations
   id: wz4hXqKLntkdXNue
   parentFolderId: UIDNPBo3tTxDRwBv
-  color: '#696969'
+  color: "#696969"
 - name: Fatigue
   id: Y22wv8plMCfPXYBT
   parentFolderId: UIDNPBo3tTxDRwBv
-  color: '#4682B4'
+  color: "#4682B4"
 
 - name: Attributes
   id: FPitxvL8wCmXynax
   parentFolderId: lTBlwwkZ8D1RuH7T
-  color: '#FF8C00'
+  color: "#FF8C00"
 
 - name: Corpora
   id: ey1udC5XHjlJoowT
   parentFolderId: lTBlwwkZ8D1RuH7T
-  color: '#2E8B57'
+  color: "#2E8B57"
 
 - name: Skills
   id: vP5BufUGUOMMlPlB
   parentFolderId: lTBlwwkZ8D1RuH7T
-  color: '#1E5BBA'
+  color: "#1E5BBA"
 - name: Combat
   id: EphAMAfFhWBrJxyF
   parentFolderId: vP5BufUGUOMMlPlB
-  color: '#C0392B'
+  color: "#C0392B"
 - name: Craft
   id: gqRvjlrWbuCwGy3N
   parentFolderId: vP5BufUGUOMMlPlB
-  color: '#CD853F'
+  color: "#CD853F"
 - name: Lore
   id: QlkEHXbk2EXlRiMM
   parentFolderId: vP5BufUGUOMMlPlB
-  color: '#5D3FD3'
+  color: "#5D3FD3"
 - name: Nature
   id: N5ozne3RRF0qSEdF
   parentFolderId: vP5BufUGUOMMlPlB
-  color: '#27AE60'
+  color: "#27AE60"
 - name: Physical
   id: Yt9THlZ0NT8H6aSK
   parentFolderId: vP5BufUGUOMMlPlB
-  color: '#E67E22'
+  color: "#E67E22"
 - name: Social
   id: JBr2U30FsJTs8F3l
   parentFolderId: vP5BufUGUOMMlPlB
-  color: '#FF69B4'
+  color: "#FF69B4"
 - name: Language
   id: sn9NBuZMZOBqxsYv
   parentFolderId: vP5BufUGUOMMlPlB
-  color: '#3498DB'
+  color: "#3498DB"
 - name: Script
   id: RgFGiT3LqmNP0uRB
   parentFolderId: vP5BufUGUOMMlPlB
-  color: '#2F4F4F'
+  color: "#2F4F4F"
 
 - name: Traits
   id: 3P28S6pewSJWziiQ
   parentFolderId: lTBlwwkZ8D1RuH7T
-  color: '#8E44AD'
+  color: "#8E44AD"
 - name: Personality
   id: 1zRbsasdeUFmPhPZ
   parentFolderId: 3P28S6pewSJWziiQ
-  color: '#6A1B9A'
+  color: "#6A1B9A"
 - name: Major_Disorders
   id: ECrcBb9CUCMX9JeJ
   parentFolderId: 1zRbsasdeUFmPhPZ
-  color: '#800000'
+  color: "#800000"
 - name: Minor_Traits
   id: SpZzOv4eOwtdsMMo
   parentFolderId: 1zRbsasdeUFmPhPZ
-  color: '#DAA520'
+  color: "#DAA520"
 - name: Phobias
   id: 0eAg97lKuZbhIoZW
   parentFolderId: 1zRbsasdeUFmPhPZ
-  color: '#4B0082'
+  color: "#4B0082"
 - name: Physique
   id: 4h8qyMcGHlkrfN1g
   parentFolderId: 3P28S6pewSJWziiQ
-  color: '#B22222'
+  color: "#B22222"
 
 - name: Esoteric
   id: oPaj2BHhAX2fvkx6
@@ -234,7 +234,7 @@
 - name: Mystical Skills
   id: IY7snVGTGcpTxofH
   parentFolderId: oPaj2BHhAX2fvkx6
-  color: '#BA55D3'
+  color: "#BA55D3"
 - name: Mystical Abilities
   id: gpLM4ElXNiI1rN7l
   parentFolderId: oPaj2BHhAX2fvkx6

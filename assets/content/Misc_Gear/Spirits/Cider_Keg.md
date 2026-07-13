@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Cider, Keg"
+    - "Cider, Keg"
 tags:
-  - spirits
+    - spirits
 name:
-  full: "Cider, Keg"
-  aliases: []
+    full: "Cider, Keg"
+    aliases: []
 description: "Pressed apple cider, fermented; gentler than ale, spoils in warm weather quickly."
 id: MA3Zirm2Bo8LNinK
 slug: cider-keg
@@ -14,10 +14,10 @@ shortcode: cdrkeg
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 16
-  weight: 72
+    quality: 0
+    durability: 0
+    value: 16
+    weight: 72
 folder: jLdeIpOIZokm8obv
 ---
 

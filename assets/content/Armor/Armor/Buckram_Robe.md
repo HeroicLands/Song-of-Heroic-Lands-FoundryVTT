@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Buckram Robe
+    - Buckram Robe
 tags: []
 name:
-  full: Buckram Robe
-  aliases: []
+    full: Buckram Robe
+    aliases: []
 description: "Stiff buckram robe offering durability and reliable rigid coverage."
 id: uRrqN1cdZ6lfdKtp
 slug: buckram-robe
@@ -13,40 +13,40 @@ shortcode: BRobe
 type: armorgear
 package: sohl
 sohl:
-  armorType: Robe
-  detailMaterial: Buckram
-  material: Cloth
-  durability: 10
-  value: 79
-  weight: 4
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: PvQkWpAo9xMAESGF
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - lelbloc
-    - relbloc
-    - lfraloc
-    - rfraloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-    - lcalfloc
-    - rcalfloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Robe
+    detailMaterial: Buckram
+    material: Cloth
+    durability: 10
+    value: 79
+    weight: 4
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: PvQkWpAo9xMAESGF
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - lelbloc
+        - relbloc
+        - lfraloc
+        - rfraloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 79
 origWeight: 4

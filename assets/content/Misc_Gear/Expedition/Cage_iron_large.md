@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Cage, iron, large"
+    - "Cage, iron, large"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Cage, iron, large"
-  aliases: []
+    full: "Cage, iron, large"
+    aliases: []
 description: "Heavy forged iron cage with riveted bars; confines man or dangerous beasts."
 id: 076bjiCPPRQ8vObv
 slug: cage-iron-large
@@ -14,10 +14,10 @@ shortcode: cageironla
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 10
-  value: 1260
-  weight: 160
+    quality: 0
+    durability: 10
+    value: 1260
+    weight: 160
 folder: FSPVI1eObGEpMVck
 ---
 

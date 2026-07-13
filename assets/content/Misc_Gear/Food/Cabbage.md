@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Cabbage
+    - Cabbage
 tags:
-  - food
+    - food
 name:
-  full: Cabbage
-  aliases: []
+    full: Cabbage
+    aliases: []
 description: "Dense pale head; sweet fresh, soured pickled for winter larder."
 id: XEgL1rxVvEFU3efq
 slug: cabbage
@@ -14,10 +14,10 @@ shortcode: cabbage
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.5
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

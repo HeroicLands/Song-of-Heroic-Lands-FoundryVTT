@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Horn, drinking"
+    - "Horn, drinking"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Horn, drinking"
-  aliases: []
+    full: "Horn, drinking"
+    aliases: []
 description: "Polished steer horn with wooden or horn base; durable for soldiers."
 id: O7r1AjPLKBR7438M
 slug: horn-drinking
@@ -14,10 +14,10 @@ shortcode: horndrinki
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 24
-  weight: 12
+    quality: 0
+    durability: 3
+    value: 24
+    weight: 12
 folder: FSPVI1eObGEpMVck
 ---
 

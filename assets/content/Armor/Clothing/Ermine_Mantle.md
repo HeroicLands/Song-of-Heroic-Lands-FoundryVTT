@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Ermine Mantle
+    - Ermine Mantle
 tags: []
 name:
-  full: Ermine Mantle
-  aliases: []
+    full: Ermine Mantle
+    aliases: []
 description: "White ermine mantle signifying wealth and elite nobility."
 id: 4gHuf1fVjL3Psjp2
 slug: ermine-mantle
@@ -13,28 +13,28 @@ shortcode: EMntl
 type: armorgear
 package: sohl
 sohl:
-  armorType: Mantle
-  detailMaterial: Ermine
-  material: Leather
-  durability: 7
-  value: 444
-  weight: 0.7
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: N5ZWUnToapdSJ7qS
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - thrxloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Mantle
+    detailMaterial: Ermine
+    material: Leather
+    durability: 7
+    value: 444
+    weight: 0.7
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: N5ZWUnToapdSJ7qS
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - thrxloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 74
 origWeight: 1.1

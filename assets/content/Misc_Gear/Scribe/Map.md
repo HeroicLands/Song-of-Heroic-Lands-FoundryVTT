@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Map
+    - Map
 tags:
-  - scribe
+    - scribe
 name:
-  full: Map
-  aliases: []
+    full: Map
+    aliases: []
 description: "Territory sketch on linen or parchment; guarded treasure for merchants, captains."
 id: td1g4CJEHmy2uvIL
 slug: map
@@ -14,10 +14,10 @@ shortcode: map
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 12
-  weight: 0.1
+    quality: 0
+    durability: 2
+    value: 12
+    weight: 0.1
 folder: BYkA5NDQxTXDvsAC
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Sponge
+    - Sponge
 tags:
-  - expedition
+    - expedition
 name:
-  full: Sponge
-  aliases: []
+    full: Sponge
+    aliases: []
 description: "Dried sea sponge; light, absorbent, for bathing, cooking, and healing."
 id: LAsL6mm6ZR5YWIJK
 slug: sponge
@@ -14,10 +14,10 @@ shortcode: sponge
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 5
-  value: 45
-  weight: 0.1
+    quality: 0
+    durability: 5
+    value: 45
+    weight: 0.1
 folder: FSPVI1eObGEpMVck
 ---
 

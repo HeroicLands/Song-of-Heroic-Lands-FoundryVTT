@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Chalk Sticks
+    - Chalk Sticks
 tags:
-  - expedition
+    - expedition
 name:
-  full: Chalk Sticks
-  aliases: []
+    full: Chalk Sticks
+    aliases: []
 description: "Soft mineral sticks; marks stone, parchment, and leather for masons and merchants."
 id: FpuBssXrWr57lcJs
 slug: chalk-sticks
@@ -14,10 +14,10 @@ shortcode: chalkstick
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 1
-  value: 10
-  weight: 1
+    quality: 0
+    durability: 1
+    value: 10
+    weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

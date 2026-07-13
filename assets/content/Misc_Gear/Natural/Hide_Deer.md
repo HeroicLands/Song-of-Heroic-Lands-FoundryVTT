@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Deer"
+    - "Hide, Deer"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Deer"
-  aliases: []
+    full: "Hide, Deer"
+    aliases: []
 description: "Light supple deer hide; used for chamois, fine gloves, soft linings."
 id: LEyEvRRDj4BRr2uC
 slug: hide-deer
@@ -14,10 +14,10 @@ shortcode: hidedeer
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 6
-  weight: 1.5
+    quality: 0
+    durability: 3
+    value: 6
+    weight: 1.5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

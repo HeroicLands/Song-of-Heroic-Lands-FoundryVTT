@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Buttons, pack of 4 (matching)"
+    - "Buttons, pack of 4 (matching)"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Buttons, pack of 4 (matching)"
-  aliases: []
+    full: "Buttons, pack of 4 (matching)"
+    aliases: []
 description: "Four identical bone, horn, or metal buttons; for garment fastening and repairs."
 id: whD3V8FTASjW77RM
 slug: buttons-pack-of-4-matching
@@ -14,10 +14,10 @@ shortcode: buttonspac
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 0.75
-  weight: 0
+    quality: 0
+    durability: 3
+    value: 0.75
+    weight: 0
 folder: FSPVI1eObGEpMVck
 ---
 

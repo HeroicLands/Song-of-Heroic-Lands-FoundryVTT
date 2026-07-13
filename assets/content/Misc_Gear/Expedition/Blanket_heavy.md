@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Blanket, heavy
+    - Blanket, heavy
 tags:
-  - expedition
+    - expedition
 name:
-  full: Blanket, heavy
-  aliases: []
+    full: Blanket, heavy
+    aliases: []
 description: "Thick felted wool blanket; provides substantial winter warmth for sleeping."
 id: SZtXaMgdPUcKmB21
 slug: blanket-heavy
@@ -14,10 +14,10 @@ shortcode: HvyBlkt
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 20
-  weight: 8
+    quality: 0
+    durability: 7
+    value: 20
+    weight: 8
 folder: FSPVI1eObGEpMVck
 ---
 

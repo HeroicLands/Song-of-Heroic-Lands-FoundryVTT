@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Cauldron Tripod, Iron"
+    - "Cauldron Tripod, Iron"
 tags:
-  - cooking
+    - cooking
 name:
-  full: "Cauldron Tripod, Iron"
-  aliases: []
+    full: "Cauldron Tripod, Iron"
+    aliases: []
 description: "Wrought-iron tripod frame for hanging cauldron over open fire."
 id: eOWaXZgPgUFnQeqL
 slug: cauldron-tripod-iron
@@ -14,10 +14,10 @@ shortcode: cauldrontr
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 10
-  value: 10
-  weight: 8
+    quality: 0
+    durability: 10
+    value: 10
+    weight: 8
 folder: 7TT0OzoIoEn40zfs
 ---
 

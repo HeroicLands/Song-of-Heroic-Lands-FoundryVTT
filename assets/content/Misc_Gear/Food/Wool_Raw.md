@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Wool, Raw"
+    - "Wool, Raw"
 tags:
-  - food
+    - food
 name:
-  full: "Wool, Raw"
-  aliases: []
+    full: "Wool, Raw"
+    aliases: []
 description: "Freshly sheared fleece, carded clean, traded by weight for spinning."
 id: oGPBLbmZpa4a0fSN
 slug: wool-raw
@@ -14,10 +14,10 @@ shortcode: woolraw
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 4
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 4
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

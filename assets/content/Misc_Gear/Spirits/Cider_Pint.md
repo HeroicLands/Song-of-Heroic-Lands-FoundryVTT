@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Cider, Pint"
+    - "Cider, Pint"
 tags:
-  - spirits
+    - spirits
 name:
-  full: "Cider, Pint"
-  aliases: []
+    full: "Cider, Pint"
+    aliases: []
 description: "Fermented apple cider; mellow lightly sour; autumn harvest-market drink."
 id: Nub0KfcQtcDjh72P
 slug: cider-pint
@@ -14,10 +14,10 @@ shortcode: cdrpt
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.25
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.25
+    weight: 1
 folder: jLdeIpOIZokm8obv
 ---
 

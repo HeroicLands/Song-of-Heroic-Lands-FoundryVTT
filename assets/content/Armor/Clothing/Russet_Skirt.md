@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Russet Skirt
+    - Russet Skirt
 tags: []
 name:
-  full: Russet Skirt
-  aliases: []
+    full: Russet Skirt
+    aliases: []
 description: "Reddish-brown wool skirt; practical leg-wear for colder climes."
 id: SW4OgVNdC0ukic4h
 slug: russet-skirt
@@ -13,30 +13,30 @@ shortcode: RSkirt
 type: armorgear
 package: sohl
 sohl:
-  armorType: Skirt
-  detailMaterial: Russet
-  material: Cloth
-  durability: 7
-  value: 48
-  weight: 1.5
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: gC5EbebcdCPnKvFh
-  flexloc:
-    - plvisloc
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-    - lcalfloc
-    - rcalfloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Skirt
+    detailMaterial: Russet
+    material: Cloth
+    durability: 7
+    value: 48
+    weight: 1.5
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: gC5EbebcdCPnKvFh
+    flexloc:
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 40
 origWeight: 3

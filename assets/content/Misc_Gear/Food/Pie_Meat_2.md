@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Pie, Meat"
+    - "Pie, Meat"
 tags:
-  - food
+    - food
 name:
-  full: "Pie, Meat"
-  aliases: []
+    full: "Pie, Meat"
+    aliases: []
 description: "Fine wheat crust with seasoned meat and suet, richer tavern fare."
 id: vS9deOmDeUpUJDT9
 slug: pie-meat
@@ -14,10 +14,10 @@ shortcode: piemeat2
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 0.5
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 0.5
 folder: cHM58zOI1EcSG3cP
 ---
 

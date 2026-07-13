@@ -1,19 +1,20 @@
 ---
 aliases:
-  - Success Test
-  - Skill Test
-  - d100 Test
-  - Success Level
+    - Success Test
+    - Skill Test
+    - d100 Test
+    - Success Level
 id: RomveiG4Z5GkOK6h
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: Success Tests
-  aliases: []
+    full: Success Tests
+    aliases: []
 slug: sohl-success-tests
 folder: RqKUTBUBN2Y3MHYB
 ---
+
 # Success Tests
 
 When the outcome of an action is uncertain, the character makes a Success Test by rolling d100 against their Mastery Level (ML) in the relevant skill or attribute. The result is expressed as a **success level**, an integer that measures the degree of success or failure.
@@ -22,12 +23,12 @@ When the outcome of an action is uncertain, the character makes a Success Test b
 
 A result equal to or less than ML is a success; a result greater than ML is a failure. The units digit (the ones place) further refines the outcome: if it is a 5 or 0, the result is critical. This produces a numeric success level:
 
-| Level | Abbreviation | Name | Meaning |
-|---|---|---|---|
-| −1 | CF | Critical Failure | The task fails badly |
-| 0 | MF | Marginal Failure | The task fails |
-| 1 | MS | Marginal Success | The task succeeds |
-| 2 | CS | Critical Success | The task succeeds especially well |
+| Level | Abbreviation | Name             | Meaning                           |
+| ----- | ------------ | ---------------- | --------------------------------- |
+| −1    | CF           | Critical Failure | The task fails badly              |
+| 0     | MF           | Marginal Failure | The task fails                    |
+| 1     | MS           | Marginal Success | The task succeeds                 |
+| 2     | CS           | Critical Success | The task succeeds especially well |
 
 Positive levels represent increasing degrees of success; zero is failure; negative values represent increasing degrees of failure. Some rules or modifiers can shift a success level beyond this base range, producing values of 3 or higher, or −2 or lower. Extended levels are written colloquially by appending the offset to the nearest base level: a success level of 3 is "CS+1", a level of 4 is "CS+2", a level of −2 is "CF−1", and so on.
 
@@ -49,14 +50,14 @@ The Index of a Mastery Level equals one-tenth of ML, rounded down. Index appears
 
 Professional competence is often expressed on a 0–5 star scale:
 
-| Star Rating | ML | Competence |
-|---|---|---|
-| zero | ≤ 49 | Inept |
-| ★ | 50–59 | Novice |
-| ★★ | 60–69 | Aspirant |
-| ★★★ | 70–79 | Professional |
-| ★★★★ | 80–89 | Expert |
-| ★★★★★ | 90+ | Paragon |
+| Star Rating | ML    | Competence   |
+| ----------- | ----- | ------------ |
+| zero        | ≤ 49  | Inept        |
+| ★           | 50–59 | Novice       |
+| ★★          | 60–69 | Aspirant     |
+| ★★★         | 70–79 | Professional |
+| ★★★★        | 80–89 | Expert       |
+| ★★★★★       | 90+   | Paragon      |
 
 ### Assistance
 

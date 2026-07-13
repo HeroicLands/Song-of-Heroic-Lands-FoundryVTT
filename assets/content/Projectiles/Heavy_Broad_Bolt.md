@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Heavy Broad Bolt
+    - Heavy Broad Bolt
 tags: []
 name:
-  full: Heavy Broad Bolt
-  alias: []
+    full: Heavy Broad Bolt
+    alias: []
 description: "Heavy quarrel with wide barbed head; bleeds flesh, unseats mounted rider."
 type: projectilegear
 package: sohl
@@ -14,18 +14,18 @@ shortcode: BltHBrd
 img: icons/arrow.svg
 easyname: Heavy Broad
 sohl:
-  quality: 0
-  durability: 10
-  value: 0.22
-  weight: 1.25
-  impact:
-    die: 12
-    modifier: -1
-    aspect: piercing
-  traits:
-    ARvalue: 4
-    bleed: true
-  subType: bolt
+    quality: 0
+    durability: 10
+    value: 0.22
+    weight: 1.25
+    impact:
+        die: 12
+        modifier: -1
+        aspect: piercing
+    traits:
+        ARvalue: 4
+        bleed: true
+    subType: bolt
 folder: ADQPHjgKsdWsJhyy
 ---
 

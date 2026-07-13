@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Vetches
+    - Vetches
 tags:
-  - food
+    - food
 name:
-  full: Vetches
-  aliases: []
+    full: Vetches
+    aliases: []
 description: "Small legume seeds, peasant porridge when simmered, enriches exhausted soil."
 id: 3rgW85LfdbisolmN
 slug: vetches
@@ -14,10 +14,10 @@ shortcode: vetches
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 4
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 4
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

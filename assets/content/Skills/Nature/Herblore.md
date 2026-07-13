@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Herblore
-  aliases: []
+    full: Herblore
+    aliases: []
 description: "Identifying, gathering, preparing plants for medicinal, culinary, mystical use."
 id: d6bv7kUA4uEgtGOw
 slug: herblore
@@ -12,13 +12,13 @@ shortcode: herb
 type: skill
 package: sohl
 sohl:
-  subType: nature
-  skillBaseFormula: "@rea, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: nature
+    skillBaseFormula: "@rea, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: N5ozne3RRF0qSEdF
 ---
 

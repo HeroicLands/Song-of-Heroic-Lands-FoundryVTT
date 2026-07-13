@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Leather Sleeved Tunic
+    - Leather Sleeved Tunic
 tags: []
 name:
-  full: Leather Sleeved Tunic
-  aliases: []
+    full: Leather Sleeved Tunic
+    aliases: []
 description: "Rugged leather sleeved garment with stylish look and minimal defense."
 id: ove1Vam9zHfh1C0J
 slug: leather-sleeved-tunic
@@ -13,32 +13,32 @@ shortcode: LtSTunic
 type: armorgear
 package: sohl
 sohl:
-  armorType: Sleeved Tunic
-  detailMaterial: Leather
-  material: Leather
-  durability: 9
-  value: 300
-  weight: 4.1
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: uo3TGfmqdXwySamT
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - lelbloc
-    - relbloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Sleeved Tunic
+    detailMaterial: Leather
+    material: Leather
+    durability: 9
+    value: 300
+    weight: 4.1
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: uo3TGfmqdXwySamT
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - lelbloc
+        - relbloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 150
 origWeight: 6.8

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Cream
+    - Cream
 tags:
-  - food
+    - food
 name:
-  full: Cream
-  aliases: []
+    full: Cream
+    aliases: []
 description: "Rich pale cream; enriches sauces and custards, highly perishable, used fresh."
 id: t4Gyk3XDqYNh8Unu
 slug: cream
@@ -14,10 +14,10 @@ shortcode: cream
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 6
-  weight: 8
+    quality: 0
+    durability: 0
+    value: 6
+    weight: 8
 folder: cHM58zOI1EcSG3cP
 ---
 

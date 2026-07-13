@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Lock, door, small"
+    - "Lock, door, small"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Lock, door, small"
-  aliases: []
+    full: "Lock, door, small"
+    aliases: []
 description: "Refined iron lock for chamber doors and cabinet shutters; finely warded."
 id: edmOnI8Ebnye9x9h
 slug: lock-door-small
@@ -14,10 +14,10 @@ shortcode: lockdoorsm
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 45
-  weight: 0.75
+    quality: 0
+    durability: 7
+    value: 45
+    weight: 0.75
 folder: FSPVI1eObGEpMVck
 ---
 

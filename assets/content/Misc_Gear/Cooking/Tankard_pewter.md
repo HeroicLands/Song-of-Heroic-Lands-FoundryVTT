@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Tankard, pewter"
+    - "Tankard, pewter"
 tags:
-  - cooking
+    - cooking
 name:
-  full: "Tankard, pewter"
-  aliases: []
+    full: "Tankard, pewter"
+    aliases: []
 description: "Straight-sided pewter tankard for taverns and barracks serving ale by pint."
 id: hxDHwzHAoXi0gQmA
 slug: tankard-pewter
@@ -14,10 +14,10 @@ shortcode: tankardpew
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 4
-  weight: 1
+    quality: 0
+    durability: 4
+    value: 4
+    weight: 1
 folder: 7TT0OzoIoEn40zfs
 ---
 

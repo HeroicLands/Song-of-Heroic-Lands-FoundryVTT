@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Tackle Block
+    - Tackle Block
 tags:
-  - expedition
+    - expedition
 name:
-  full: Tackle Block
-  aliases: []
+    full: Tackle Block
+    aliases: []
 description: "Single-wheel pulley; multiplies mechanical advantage for hauling cargo safely."
 id: wZ3yYEhnF0xEDhyf
 slug: tackle-block
@@ -14,10 +14,10 @@ shortcode: tacklebloc
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 5
-  weight: 2.5
+    quality: 0
+    durability: 7
+    value: 5
+    weight: 2.5
 folder: FSPVI1eObGEpMVck
 ---
 

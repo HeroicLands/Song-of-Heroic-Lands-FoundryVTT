@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Good Wine, 1 pt."
+    - "Good Wine, 1 pt."
 tags:
-  - spirits
+    - spirits
 name:
-  full: "Good Wine, 1 pt."
-  aliases: []
+    full: "Good Wine, 1 pt."
+    aliases: []
 description: "Oak-aged fine wine in bottle; body and sweetness beyond common vintage."
 id: 6EEm0pAcnGpEeGR4
 slug: good-wine-1-pt
@@ -14,10 +14,10 @@ shortcode: gwinept
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 5
+    weight: 1
 folder: jLdeIpOIZokm8obv
 ---
 

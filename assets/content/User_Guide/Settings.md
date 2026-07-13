@@ -5,7 +5,7 @@ type: doc
 package: sohl
 category: user-guide
 name:
-  full: "System Settings"
+    full: "System Settings"
 slug: "settings"
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -88,6 +88,7 @@ Set to **0** to disable automatic healing entirely. When disabled, the GM
 must trigger healing checks manually.
 
 Common values:
+
 - 86400 = 1 day
 - 432000 = 5 days (default)
 - 864000 = 10 days

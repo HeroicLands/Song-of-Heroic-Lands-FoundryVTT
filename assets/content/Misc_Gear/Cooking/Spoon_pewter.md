@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Spoon, pewter"
+    - "Spoon, pewter"
 tags:
-  - cooking
+    - cooking
 name:
-  full: "Spoon, pewter"
-  aliases: []
+    full: "Spoon, pewter"
+    aliases: []
 description: "Cast pewter spoon with deepened bowl for eating and stirring cooking."
 id: 77Zft2PSqQx6dnif
 slug: spoon-pewter
@@ -14,10 +14,10 @@ shortcode: spoonpewte
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 4
-  weight: 0
+    quality: 0
+    durability: 3
+    value: 4
+    weight: 0
 folder: 7TT0OzoIoEn40zfs
 ---
 

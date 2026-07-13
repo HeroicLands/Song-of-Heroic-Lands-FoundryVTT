@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Spinel, cut"
+    - "Spinel, cut"
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: "Spinel, cut"
-  aliases: []
+    full: "Spinel, cut"
+    aliases: []
 description: "Hard gemstone in red-pink-purple; brilliant and durable; often confused with ruby."
 id: ZDXmV3YMqMqOLoJB
 slug: spinel-cut
@@ -14,10 +14,10 @@ shortcode: spinelcut
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 40
-  weight: 0.0004
+    quality: 0
+    durability: 2
+    value: 40
+    weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Pike
+    - Pike
 tags:
-  - food
+    - food
 name:
-  full: Pike
-  aliases: []
+    full: Pike
+    aliases: []
 description: "Freshwater predator with firm white flaky flesh, salts and smokes well."
 id: pBFiUQptwHpLAMZv
 slug: pike
@@ -14,10 +14,10 @@ shortcode: pike
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

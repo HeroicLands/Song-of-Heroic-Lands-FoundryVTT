@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Mirror, iron, silver-coated"
+    - "Mirror, iron, silver-coated"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Mirror, iron, silver-coated"
-  aliases: []
+    full: "Mirror, iron, silver-coated"
+    aliases: []
 description: "Iron mirror backed with silver; superior reflection for noble and field use."
 id: O8zrZkBgEFcRcRsg
 slug: mirror-iron-silver-coated
@@ -14,10 +14,10 @@ shortcode: mirroriron
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 5
-  value: 20
-  weight: 2
+    quality: 0
+    durability: 5
+    value: 20
+    weight: 2
 folder: FSPVI1eObGEpMVck
 ---
 

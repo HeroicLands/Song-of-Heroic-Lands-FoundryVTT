@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Pen, wood"
+    - "Pen, wood"
 tags:
-  - scribe
+    - scribe
 name:
-  full: "Pen, wood"
-  aliases: []
+    full: "Pen, wood"
+    aliases: []
 description: "Fruitwood or ash charred tip; cheap disposable; suits paper, cloth, tallies."
 id: WKa6OKC8Sus17Gcm
 slug: pen-wood
@@ -14,10 +14,10 @@ shortcode: penwood
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 1
-  weight: 0.1
+    quality: 0
+    durability: 3
+    value: 1
+    weight: 0.1
 folder: BYkA5NDQxTXDvsAC
 ---
 

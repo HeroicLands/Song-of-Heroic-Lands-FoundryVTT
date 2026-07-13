@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Grimoire
+    - Grimoire
 tags:
-  - scribe
+    - scribe
 name:
-  full: Grimoire
-  aliases: []
+    full: Grimoire
+    aliases: []
 description: "Leather-bound vellum tome for spells, catalogs, heraldry, scripture."
 id: Gm4vKzHj8cRyNpFu
 slug: grimoire
@@ -14,10 +14,10 @@ shortcode: grimoire
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 300
-  weight: 18
+    quality: 0
+    durability: 7
+    value: 300
+    weight: 18
 folder: BYkA5NDQxTXDvsAC
 ---
 

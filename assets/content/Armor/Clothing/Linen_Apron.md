@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Linen Apron
+    - Linen Apron
 tags: []
 name:
-  full: Linen Apron
-  aliases: []
+    full: Linen Apron
+    aliases: []
 description: "Breathable linen apron ideal for daily chores and cooking."
 id: CkqXyPvUwTvplO4n
 slug: linen-apron
@@ -13,28 +13,28 @@ shortcode: LApn
 type: armorgear
 package: sohl
 sohl:
-  armorType: Apron
-  detailMaterial: Linen
-  material: Cloth
-  durability: 5
-  value: 5
-  weight: 1.1
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: olNj9gxknBgaKZyR
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Apron
+    detailMaterial: Linen
+    material: Cloth
+    durability: 5
+    value: 5
+    weight: 1.1
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: olNj9gxknBgaKZyR
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 10
 origWeight: 4.4

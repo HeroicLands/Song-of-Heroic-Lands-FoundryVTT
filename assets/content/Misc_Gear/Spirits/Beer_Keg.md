@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Beer, Keg"
+    - "Beer, Keg"
 tags:
-  - spirits
+    - spirits
 name:
-  full: "Beer, Keg"
-  aliases: []
+    full: "Beer, Keg"
+    aliases: []
 description: "Small-beer in bulk; thin, sour, cheap for troops and workforces."
 id: RvLxjeZk2W7F5S2A
 slug: beer-keg
@@ -14,10 +14,10 @@ shortcode: beerkeg
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 25
-  weight: 72
+    quality: 0
+    durability: 0
+    value: 25
+    weight: 72
 folder: jLdeIpOIZokm8obv
 ---
 

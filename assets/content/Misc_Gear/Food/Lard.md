@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Lard
+    - Lard
 tags:
-  - food
+    - food
 name:
-  full: Lard
-  aliases: []
+    full: Lard
+    aliases: []
 description: "Rendered hog fat for cooking and food preservation, a kitchen staple."
 id: Et56QUJ8UzEj3fdI
 slug: lard
@@ -14,10 +14,10 @@ shortcode: lard
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Textilecraft
-  aliases: []
+    full: Textilecraft
+    aliases: []
 description: "Spinning, weaving, dyeing, and sewing fabrics into finished textile goods."
 id: CpzEUUXa7DSyqoEs
 slug: textilecraft
@@ -12,13 +12,13 @@ shortcode: txtl
 type: skill
 package: sohl
 sohl:
-  subType: craft
-  skillBaseFormula: "@dex, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: craft
+    skillBaseFormula: "@dex, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: gqRvjlrWbuCwGy3N
 ---
 

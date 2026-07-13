@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Jar, ointment, medium"
+    - "Jar, ointment, medium"
 tags: []
 name:
-  full: "Jar, ointment, medium"
-  aliases: []
+    full: "Jar, ointment, medium"
+    aliases: []
 description: "Ceramic apothecary jar with wide mouth for creams and medicinal tinctures."
 id: 9lcA7DMJSsq46mBb
 slug: jar-ointment-medium
@@ -13,11 +13,11 @@ shortcode: jarointmen2
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  maxCapacity: 0.125
-  value: 1.5
-  weight: 0.7
+    quality: 0
+    durability: 3
+    maxCapacity: 0.125
+    value: 1.5
+    weight: 0.7
 folder: dl8lJ729W1mFlDvt
 ---
 

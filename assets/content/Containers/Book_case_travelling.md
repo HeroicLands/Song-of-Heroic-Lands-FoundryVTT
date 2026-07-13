@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Book case, travelling"
+    - "Book case, travelling"
 tags: []
 name:
-  full: "Book case, travelling"
-  aliases: []
+    full: "Book case, travelling"
+    aliases: []
 description: "Waxed leather shoulder case; shields travelling book and scribe's kit from weather."
 id: Bc9tDwXyMnVpLhKr
 slug: book-case-travelling
@@ -13,11 +13,11 @@ shortcode: bkcasetrv
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  maxCapacity: 8
-  value: 180
-  weight: 2.5
+    quality: 0
+    durability: 8
+    maxCapacity: 8
+    value: 180
+    weight: 2.5
 folder: dl8lJ729W1mFlDvt
 ---
 

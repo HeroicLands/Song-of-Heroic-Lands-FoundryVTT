@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Lock, door, heavy-duty"
+    - "Lock, door, heavy-duty"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Lock, door, heavy-duty"
-  aliases: []
+    full: "Lock, door, heavy-duty"
+    aliases: []
 description: "Heavy iron triple-warded deadbolt; secures vault doors and fortified manor gates."
 id: gfVeNa5LlA5DuFay
 slug: lock-door-heavy-duty
@@ -14,10 +14,10 @@ shortcode: lockdoorhe
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 30
-  weight: 2
+    quality: 0
+    durability: 8
+    value: 30
+    weight: 2
 folder: FSPVI1eObGEpMVck
 ---
 

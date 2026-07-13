@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Olives
+    - Olives
 tags:
-  - food
+    - food
 name:
-  full: Olives
-  aliases: []
+    full: Olives
+    aliases: []
 description: "Pickled brined relish, luxury trade good, keeps indefinitely under brine."
 id: SG4dZYMvbVaf7vyJ
 slug: olives
@@ -14,10 +14,10 @@ shortcode: olives
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 8
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 8
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

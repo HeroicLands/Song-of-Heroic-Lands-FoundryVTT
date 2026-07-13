@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Quiver, sm (shoulder or hip)"
+    - "Quiver, sm (shoulder or hip)"
 tags: []
 name:
-  full: "Quiver, sm (shoulder or hip)"
-  aliases: []
+    full: "Quiver, sm (shoulder or hip)"
+    aliases: []
 description: "Smaller quiver worn at shoulder or hip for light archery and hunting."
 id: tzDkrKjx1wm85Guw
 slug: quiver-sm-shoulder-or-hip
@@ -13,11 +13,11 @@ shortcode: quiversmsh
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  maxCapacity: 1.5
-  value: 8
-  weight: 3
+    quality: 0
+    durability: 8
+    maxCapacity: 1.5
+    value: 8
+    weight: 3
 folder: dl8lJ729W1mFlDvt
 ---
 

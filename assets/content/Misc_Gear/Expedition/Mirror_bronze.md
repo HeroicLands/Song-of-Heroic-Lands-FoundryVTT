@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Mirror, bronze"
+    - "Mirror, bronze"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Mirror, bronze"
-  aliases: []
+    full: "Mirror, bronze"
+    aliases: []
 description: "Hand-sized bronze mirror for signaling, grooming, and spotting pursuers."
 id: Zw1EroCThMwNkbt6
 slug: mirror-bronze
@@ -14,10 +14,10 @@ shortcode: mirrorbron
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 12
-  weight: 2
+    quality: 0
+    durability: 4
+    value: 12
+    weight: 2
 folder: FSPVI1eObGEpMVck
 ---
 

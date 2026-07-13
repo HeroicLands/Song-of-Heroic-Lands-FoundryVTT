@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Jar, ointment, large"
+    - "Jar, ointment, large"
 tags: []
 name:
-  full: "Jar, ointment, large"
-  aliases: []
+    full: "Jar, ointment, large"
+    aliases: []
 description: "Wide-mouthed ceramic vessel for apothecaries storing balms and salves."
 id: s9DU5CcZBdJb0hHa
 slug: jar-ointment-large
@@ -13,11 +13,11 @@ shortcode: jarointmen
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  maxCapacity: 0.25
-  value: 2
-  weight: 1.1
+    quality: 0
+    durability: 3
+    maxCapacity: 0.25
+    value: 2
+    weight: 1.1
 folder: dl8lJ729W1mFlDvt
 ---
 

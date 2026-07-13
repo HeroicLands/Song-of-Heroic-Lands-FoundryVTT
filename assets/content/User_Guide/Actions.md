@@ -5,10 +5,11 @@ type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Actions"
+    full: "Actions"
 slug: "actions"
 folder: IgwaG8rAUUO9vrtz
 ---
+
 An Action is an executable procedure attached to an actor or nested within
 another item. Actions represent things a character can actively do — making
 a skill test, performing a special maneuver, activating a unique ability,
@@ -76,18 +77,18 @@ multi-line scripts. Use this type when your logic fits in a single expression.
 
 # Key Fields
 
-| Field | Description |
-|-------|-------------|
-| **Name** | What the action is called. Lifecycle-triggered actions must follow a specific naming pattern (see below). |
-| **Type** | `Intrinsic Action`, `Script Action`, or `Basic` — determines how the action executes. |
-| **Scope** | What context `this` refers to when the action runs: `Self` (the action itself), `Item` (the owning item), `Actor` (the owning actor), or `Other`. |
-| **Executor** | For Script/Basic: the JavaScript code to run. For Intrinsic: the method name on the logic class. |
-| **Trigger** | A JavaScript expression that determines whether the action is currently available. If it evaluates to `false`, the action button is disabled. |
-| **Visible** | A JavaScript expression (or `"true"`) controlling whether the action appears in context menus and button lists. |
-| **Async** | Check this if the action code uses `async`/`await`. |
-| **Icon** | FontAwesome CSS class for the context menu icon (e.g., `fas fa-dice`). |
-| **Group** | Where in the context menu the action appears. `Essential` actions appear first; `Hidden` actions never appear in menus (lifecycle-only). |
-| **Permission: Execute** | The minimum Foundry user role required to trigger this action. |
+| Field                   | Description                                                                                                                                       |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**                | What the action is called. Lifecycle-triggered actions must follow a specific naming pattern (see below).                                         |
+| **Type**                | `Intrinsic Action`, `Script Action`, or `Basic` — determines how the action executes.                                                             |
+| **Scope**               | What context `this` refers to when the action runs: `Self` (the action itself), `Item` (the owning item), `Actor` (the owning actor), or `Other`. |
+| **Executor**            | For Script/Basic: the JavaScript code to run. For Intrinsic: the method name on the logic class.                                                  |
+| **Trigger**             | A JavaScript expression that determines whether the action is currently available. If it evaluates to `false`, the action button is disabled.     |
+| **Visible**             | A JavaScript expression (or `"true"`) controlling whether the action appears in context menus and button lists.                                   |
+| **Async**               | Check this if the action code uses `async`/`await`.                                                                                               |
+| **Icon**                | FontAwesome CSS class for the context menu icon (e.g., `fas fa-dice`).                                                                            |
+| **Group**               | Where in the context menu the action appears. `Essential` actions appear first; `Hidden` actions never appear in menus (lifecycle-only).          |
+| **Permission: Execute** | The minimum Foundry user role required to trigger this action.                                                                                    |
 
 # Creating an Action
 
@@ -102,7 +103,7 @@ multi-line scripts. Use this type when your logic fits in a single expression.
 
 The action now appears on the sheet and can be clicked to execute.
 
-# On-Demand vs Lifecycle-Triggered Actions 
+# On-Demand vs Lifecycle-Triggered Actions
 
 Actions can fire in two ways:
 
@@ -123,17 +124,18 @@ follows this pattern:
 ```
 
 Where:
+
 - `{itemType}` is the item type in lowercase (e.g., `skill`, `mysticalability`, `weapongear`)
 - `{shortcode}` is the item's **Shortcode** field value
 - `{phase}` is `Initialize`, `Evaluate`, or `Finalize`
 
 **Examples:**
 
-| Action name | Meaning |
-|-------------|---------|
-| `skill.tactics.postFinalize` | Runs after the Tactics skill finishes its finalize phase |
+| Action name                            | Meaning                                                    |
+| -------------------------------------- | ---------------------------------------------------------- |
+| `skill.tactics.postFinalize`           | Runs after the Tactics skill finishes its finalize phase   |
 | `mysticalability.curse.postInitialize` | Runs after the Curse ability finishes its initialize phase |
-| `weapongear.broadsword.postEvaluate` | Runs after the Broadsword item finishes its evaluate phase |
+| `weapongear.broadsword.postEvaluate`   | Runs after the Broadsword item finishes its evaluate phase |
 
 Lifecycle-triggered actions run automatically during every data-preparation
 cycle. They do **not** need to be visible — set their **Group** to `Hidden`
@@ -141,11 +143,11 @@ to keep them out of context menus.
 
 ### Which phase to use?
 
-| Phase | What it means | Use for |
-|-------|---------------|---------|
-| `Initialize` | Item is being set up; other items may not be ready | Setting initial values on this item only |
-| `Evaluate` | All items have been initialized; first-pass calculations | Computing derived values from multiple items |
-| `Finalize` | All evaluations complete; final cross-item dependencies | Final adjustments that depend on other items' evaluated state |
+| Phase        | What it means                                            | Use for                                                       |
+| ------------ | -------------------------------------------------------- | ------------------------------------------------------------- |
+| `Initialize` | Item is being set up; other items may not be ready       | Setting initial values on this item only                      |
+| `Evaluate`   | All items have been initialized; first-pass calculations | Computing derived values from multiple items                  |
+| `Finalize`   | All evaluations complete; final cross-item dependencies  | Final adjustments that depend on other items' evaluated state |
 
 When in doubt, use `postFinalize` — it runs last and has access to all other
 items' computed values.
@@ -172,14 +174,14 @@ Tactics skill on that actor.
 
 Controls who can trigger the action. Values:
 
-| Level | Who can execute |
-|-------|----------------|
-| 0 — None | Anyone (all users including observers) |
-| 1 — Player | Any player |
-| 2 — Trusted | Trusted players |
-| 3 — Owner | Must own this actor/item |
-| 4 — Assistant | Assistant GMs |
-| 5 — Gamemaster | GM only |
+| Level          | Who can execute                        |
+| -------------- | -------------------------------------- |
+| 0 — None       | Anyone (all users including observers) |
+| 1 — Player     | Any player                             |
+| 2 — Trusted    | Trusted players                        |
+| 3 — Owner      | Must own this actor/item               |
+| 4 — Assistant  | Assistant GMs                          |
+| 5 — Gamemaster | GM only                                |
 
 ## Visible
 
@@ -195,9 +197,9 @@ buttons.
 
 Controls the context menu section:
 
-| Group | Location in menu |
-|-------|-----------------|
+| Group       | Location in menu                  |
+| ----------- | --------------------------------- |
 | `Essential` | Top of the menu; highest priority |
-| `General` | Standard section |
-| `Default` | Default sort position |
-| `Hidden` | Never shown in context menus |
+| `General`   | Standard section                  |
+| `Default`   | Default sort position             |
+| `Hidden`    | Never shown in context menus      |

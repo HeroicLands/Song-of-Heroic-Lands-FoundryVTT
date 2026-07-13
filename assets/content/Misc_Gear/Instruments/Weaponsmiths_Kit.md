@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Weaponsmith's Kit
+    - Weaponsmith's Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Weaponsmith's Kit
-  aliases: []
+    full: Weaponsmith's Kit
+    aliases: []
 description: "Oiled leather roll with files, polishing stones, peening hammer, hilt drifts, grip wrap; weapon finishing and maintenance."
 id: dK6nXvL2PqZy4RmT
 slug: weaponsmiths-kit
@@ -14,10 +14,10 @@ shortcode: wpnsmkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 120
-  weight: 12
+    quality: 0
+    durability: 8
+    value: 120
+    weight: 12
 folder: xniLjmZWYQZkSxyv
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Lambskin"
+    - "Hide, Lambskin"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Lambskin"
-  aliases: []
+    full: "Hide, Lambskin"
+    aliases: []
 description: "Young sheep pelt with wool; light, dyes well; pliant warm leather."
 id: SB3QBYYuA2XYrdEQ
 slug: hide-lambskin
@@ -14,10 +14,10 @@ shortcode: hidelambsk
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 2
-  weight: 0.75
+    quality: 0
+    durability: 3
+    value: 2
+    weight: 0.75
 folder: 0JqxkW5hHZ8XVILm
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Flax
+    - Flax
 tags:
-  - food
+    - food
 name:
-  full: Flax
-  aliases: []
+    full: Flax
+    aliases: []
 description: "Dried stalks; raw material of linen, seeds press for oil and meal."
 id: JM9iO6ZoKdjHWb4h
 slug: flax
@@ -14,10 +14,10 @@ shortcode: flax
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 3
-  weight: 60
+    quality: 0
+    durability: 0
+    value: 3
+    weight: 60
 folder: cHM58zOI1EcSG3cP
 ---
 

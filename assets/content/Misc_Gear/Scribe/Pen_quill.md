@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Pen, quill"
+    - "Pen, quill"
 tags:
-  - scribe
+    - scribe
 name:
-  full: "Pen, quill"
-  aliases: []
+    full: "Pen, quill"
+    aliases: []
 description: "Goose or swan feather; soft flowing strokes, dulls quickly, needs frequent resharpening."
 id: uS0449TrfF7zHqcP
 slug: pen-quill
@@ -14,10 +14,10 @@ shortcode: penquill
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 1
-  value: 1
-  weight: 0.05
+    quality: 0
+    durability: 1
+    value: 1
+    weight: 0.05
 folder: BYkA5NDQxTXDvsAC
 ---
 

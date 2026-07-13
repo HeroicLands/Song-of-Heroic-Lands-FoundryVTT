@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Stone, Rough"
+    - "Stone, Rough"
 tags:
-  - stone
+    - stone
 name:
-  full: "Stone, Rough"
-  aliases: []
+    full: "Stone, Rough"
+    aliases: []
 description: "Unsquared fieldstone blocks; cheap practical; barn walls, boundary fences."
 id: hUTZUVV7ONlgRhH1
 slug: stone-rough
@@ -14,10 +14,10 @@ shortcode: stonerough
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 0.5
-  weight: 400
+    quality: 0
+    durability: 8
+    value: 0.5
+    weight: 400
 folder: 7HORJHbbizVSds9r
 ---
 

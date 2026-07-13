@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Buckram Tunic
+    - Buckram Tunic
 tags: []
 name:
-  full: Buckram Tunic
-  aliases: []
+    full: Buckram Tunic
+    aliases: []
 description: "Stiff buckram tunic offering durability and reliable rigid protection."
 id: dnu16hAs7livrm10
 slug: buckram-tunic
@@ -13,32 +13,32 @@ shortcode: BTunic
 type: armorgear
 package: sohl
 sohl:
-  armorType: Tunic
-  detailMaterial: Buckram
-  material: Cloth
-  durability: 10
-  value: 45
-  weight: 2.3
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: uZ1gC3cpLTss2aeG
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - lelbloc
-    - relbloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Tunic
+    detailMaterial: Buckram
+    material: Cloth
+    durability: 10
+    value: 45
+    weight: 2.3
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: uZ1gC3cpLTss2aeG
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - lelbloc
+        - relbloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 45
 origWeight: 2.3

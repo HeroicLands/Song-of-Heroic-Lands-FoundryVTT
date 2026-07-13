@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Blacksmith's Kit
+    - Blacksmith's Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Blacksmith's Kit
-  aliases: []
+    full: Blacksmith's Kit
+    aliases: []
 description: "Heavy canvas roll with forging hammers, tongs, hardies, fullers, swages, punches, hot chisels; smiths forge iron at the anvil."
 id: nP4wLxQ8rTyBk2Hv
 slug: blacksmiths-kit
@@ -14,10 +14,10 @@ shortcode: blacksmkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 10
-  value: 80
-  weight: 20
+    quality: 0
+    durability: 10
+    value: 80
+    weight: 20
 folder: xniLjmZWYQZkSxyv
 ---
 

@@ -1,17 +1,18 @@
 ---
 aliases:
-  - Song of Herioc Lands Quickstart
-  - SoHL Quickstart
+    - Song of Herioc Lands Quickstart
+    - SoHL Quickstart
 id: sSqTzr1ss9MmduRW
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: Song of Heroic Lands Quickstart
-  alises: []
+    full: Song of Heroic Lands Quickstart
+    alises: []
 slug: "sohl-quickstart"
 folder: IgwaG8rAUUO9vrtz
 ---
+
 This quickstart gets a user from install to first roll with Song of Heroic Lands (SoHL).
 
 # Install and Enable
@@ -45,5 +46,6 @@ duplicate an existing Being, and modify it as needed.
 See [[Combat_Basics|Combat Basics]] for round flow and common checks.
 
 # See Also
+
 - [[Song_of_Heroic_Lands_Rules|Song of Heroic Lands Rules]]
 - [[Song_of_Heroic_Lands_User_Guide|Song of Heroic Lands User Guide]]

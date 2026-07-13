@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Weapon
+    - Weapon
 id: 5wC96tLcOLnPgTvm
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Weapon"
+    full: "Weapon"
 slug: "item-weapongear"
 folder: QtOgPodi8X6gDWL0
 ---
@@ -23,6 +23,7 @@ Weapons appear on the Being sheet's **Gear** and **Combat** tabs. Each Weapon it
 Weapon items are typically added from compendium packs.
 
 # Additional Properties
+
 In addition to the [[Item_Gear|Standard Gear Properties]], the following additional properties are defined for weapons:
 
 - **Encumbrance:** If specified, this overrides the encumbrance based on weight when the weapon is equipped.

@@ -1,13 +1,13 @@
 ---
 aliases:
-  - Safe Expressions
-  - SafeExpression
+    - Safe Expressions
+    - SafeExpression
 id: Kx9mQ2vT7bR4nP1c
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Safe Expressions"
+    full: "Safe Expressions"
 slug: "safe-expressions"
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -32,15 +32,15 @@ misbehaving later.
 
 # Where you use them
 
-| Where | What the expression decides | Page |
-| --- | --- | --- |
-| Active Effect **Target Predicate** | Which candidates an effect applies to | [Effect Targeting](Effect_Targeting.md) |
-| Action **Trigger** | Whether an action is currently available | [Actions](Actions.md) |
-| Action **Visibility** | Whether an action's button/menu entry is shown | [Actions](Actions.md) |
-| **Context-menu condition** | Whether a right-click menu entry is shown | [Actions](Actions.md) |
+| Where                              | What the expression decides                    | Page                                    |
+| ---------------------------------- | ---------------------------------------------- | --------------------------------------- |
+| Active Effect **Target Predicate** | Which candidates an effect applies to          | [Effect Targeting](Effect_Targeting.md) |
+| Action **Trigger**                 | Whether an action is currently available       | [Actions](Actions.md)                   |
+| Action **Visibility**              | Whether an action's button/menu entry is shown | [Actions](Actions.md)                   |
+| **Context-menu condition**         | Whether a right-click menu entry is shown      | [Actions](Actions.md)                   |
 
 In every case the expression should evaluate to `true` or `false` (a
-*predicate*). An empty condition is treated as "always true".
+_predicate_). An empty condition is treated as "always true".
 
 # Writing an expression
 
@@ -68,23 +68,23 @@ language itself, then the variables available in each place.
 - A bare name is looked up in the context you're given: `actor`, `sm`,
   `itemLogic`.
 - Reach into a value with a **dot** or **brackets**:
-  - `itemLogic.name`
-  - `itemLogic.data.shortcode`
-  - `sm.type`
+    - `itemLogic.name`
+    - `itemLogic.data.shortcode`
+    - `sm.type`
 
 ## Operators
 
-| Kind | Operators |
-| --- | --- |
-| Compare | `a === b` (equal), `a !== b` (not equal), `a < b`, `a > b`, `a <= b`, `a >= b` |
-| Arithmetic | `+`, `-`, `*`, `/`, `%` (remainder) |
-| Logic | `&&` (and), <code>&#124;&#124;</code> (or), `!` (not) |
-| Choice | `condition ? valueIfTrue : valueIfFalse` |
+| Kind       | Operators                                                                      |
+| ---------- | ------------------------------------------------------------------------------ |
+| Compare    | `a === b` (equal), `a !== b` (not equal), `a < b`, `a > b`, `a <= b`, `a >= b` |
+| Arithmetic | `+`, `-`, `*`, `/`, `%` (remainder)                                            |
+| Logic      | `&&` (and), <code>&#124;&#124;</code> (or), `!` (not)                          |
+| Choice     | `condition ? valueIfTrue : valueIfFalse`                                       |
 
 Always use `a === b` / `a !== b` for comparisons (the loose `a == b` / `a != b`
 are **not** allowed).
 
-## What is *not* allowed
+## What is _not_ allowed
 
 The language rejects anything that could change state or run code. These all
 fail when you save the expression:
@@ -102,15 +102,15 @@ write `lower(name)`; instead of `list.includes(x)` you write `has(x, list)`.
 
 # Context variables
 
-The variables you can name depend on *where* the expression runs.
+The variables you can name depend on _where_ the expression runs.
 
-| Where | Variables | Notes |
-| --- | --- | --- |
-| Effect predicate — item scope | `itemLogic` | The candidate item's logic |
-| Effect predicate — strike-mode scope | `itemLogic`, `sm` | Owning item's logic + the strike mode |
-| Action trigger | `itemLogic`, `actorLogic` | The owning item's logic and the actor's logic |
-| Action visibility | `itemLogic`, `element`, `isGM` | Owning item's logic, the DOM element, and whether the current user is a GM |
-| Context-menu condition | `itemLogic`, `actorLogic`, `target` | The item/actor logic for the clicked row, and the DOM element the menu opened on |
+| Where                                | Variables                           | Notes                                                                            |
+| ------------------------------------ | ----------------------------------- | -------------------------------------------------------------------------------- |
+| Effect predicate — item scope        | `itemLogic`                         | The candidate item's logic                                                       |
+| Effect predicate — strike-mode scope | `itemLogic`, `sm`                   | Owning item's logic + the strike mode                                            |
+| Action trigger                       | `itemLogic`, `actorLogic`           | The owning item's logic and the actor's logic                                    |
+| Action visibility                    | `itemLogic`, `element`, `isGM`      | Owning item's logic, the DOM element, and whether the current user is a GM       |
+| Context-menu condition               | `itemLogic`, `actorLogic`, `target` | The item/actor logic for the clicked row, and the DOM element the menu opened on |
 
 Some of these variables are resolved from the clicked row and may be **absent**
 when the menu wasn't opened on an item/actor row — guard with `defined(...)`
@@ -135,11 +135,11 @@ parentheses: `has("dge", codes)`. The built-in library:
 
 ## Collections & membership
 
-| Helper | Returns | Description |
-| --- | --- | --- |
+| Helper                   | Returns | Description                                                                                          |
+| ------------------------ | ------- | ---------------------------------------------------------------------------------------------------- |
 | `has(value, collection)` | boolean | `true` if `value` is an element of the array `collection`, or an own key of the object `collection`. |
-| `len(collection)` | number | Number of elements (array/string) or keys (object). `0` for nothing/`null`. |
-| `empty(collection)` | boolean | `true` when the collection has no elements/keys (or is `null`). |
+| `len(collection)`        | number  | Number of elements (array/string) or keys (object). `0` for nothing/`null`.                          |
+| `empty(collection)`      | boolean | `true` when the collection has no elements/keys (or is `null`).                                      |
 
 ```
 has(itemLogic.data.shortcode, ["dge", "init", "awa"])   // one of these skills?
@@ -149,13 +149,13 @@ len(["a", "b", "c"])                                    // 3
 
 ## Text
 
-| Helper | Returns | Description |
-| --- | --- | --- |
-| `lower(value)` | string | Lowercased text form of `value`. |
-| `upper(value)` | string | Uppercased text form of `value`. |
-| `startsWith(value, prefix)` | boolean | Whether the text starts with `prefix`. |
-| `endsWith(value, suffix)` | boolean | Whether the text ends with `suffix`. |
-| `contains(value, sub)` | boolean | Whether the text contains `sub`. |
+| Helper                            | Returns | Description                                                                                                                          |
+| --------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `lower(value)`                    | string  | Lowercased text form of `value`.                                                                                                     |
+| `upper(value)`                    | string  | Uppercased text form of `value`.                                                                                                     |
+| `startsWith(value, prefix)`       | boolean | Whether the text starts with `prefix`.                                                                                               |
+| `endsWith(value, suffix)`         | boolean | Whether the text ends with `suffix`.                                                                                                 |
+| `contains(value, sub)`            | boolean | Whether the text contains `sub`.                                                                                                     |
 | `matches(value, pattern, flags?)` | boolean | Whether `value` matches the regular-expression `pattern` (given as a string). `flags` is optional (e.g. `"i"` for case-insensitive). |
 
 ```
@@ -171,14 +171,14 @@ matches(itemLogic.name, "dagger", "i")                  // case-insensitive
 
 ## Numbers
 
-| Helper | Returns | Description |
-| --- | --- | --- |
-| `min(a, b, …)` | number | Smallest of the given numbers. |
-| `max(a, b, …)` | number | Largest of the given numbers. |
-| `round(value)` | number | Nearest integer. |
-| `floor(value)` | number | Round **down** to an integer. |
-| `ceil(value)` | number | Round **up** to an integer. |
-| `abs(value)` | number | Absolute value. |
+| Helper         | Returns | Description                    |
+| -------------- | ------- | ------------------------------ |
+| `min(a, b, …)` | number  | Smallest of the given numbers. |
+| `max(a, b, …)` | number  | Largest of the given numbers.  |
+| `round(value)` | number  | Nearest integer.               |
+| `floor(value)` | number  | Round **down** to an integer.  |
+| `ceil(value)`  | number  | Round **up** to an integer.    |
+| `abs(value)`   | number  | Absolute value.                |
 
 ```
 max(1, floor(7 / 2))                                    // 3
@@ -187,12 +187,12 @@ abs(sm.reach.effective - 5) <= 1                        // reach within 1 of 5
 
 ## Type checks
 
-| Helper | Returns | Description |
-| --- | --- | --- |
-| `isNumber(value)` | boolean | `true` if `value` is a real number (not `NaN`). |
-| `isString(value)` | boolean | `true` if `value` is text. |
-| `isArray(value)` | boolean | `true` if `value` is a list. |
-| `defined(value)` | boolean | `true` if `value` is neither missing nor `null`. |
+| Helper            | Returns | Description                                      |
+| ----------------- | ------- | ------------------------------------------------ |
+| `isNumber(value)` | boolean | `true` if `value` is a real number (not `NaN`).  |
+| `isString(value)` | boolean | `true` if `value` is text.                       |
+| `isArray(value)`  | boolean | `true` if `value` is a list.                     |
+| `defined(value)`  | boolean | `true` if `value` is neither missing nor `null`. |
 
 ```
 defined(itemLogic.data.subType) && itemLogic.data.subType === "melee"
@@ -200,8 +200,8 @@ defined(itemLogic.data.subType) && itemLogic.data.subType === "melee"
 
 ## Game helpers
 
-| Helper | Returns | Description |
-| --- | --- | --- |
+| Helper                                  | Returns | Description                                                                                                    |
+| --------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------------- |
 | `hasUsableSkill(actorLogic, shortcode)` | boolean | `true` if the actor has a skill with the given shortcode (e.g. `"dge"` for Dodge). Handy in action conditions. |
 
 ```

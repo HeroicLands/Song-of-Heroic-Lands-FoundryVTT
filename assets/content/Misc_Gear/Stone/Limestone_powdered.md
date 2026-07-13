@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Limestone, powdered"
+    - "Limestone, powdered"
 tags:
-  - stone
+    - stone
 name:
-  full: "Limestone, powdered"
-  aliases: []
+    full: "Limestone, powdered"
+    aliases: []
 description: "White caustic powder; mortar, whitewash, soil acidity; kept sealed, handled cautiously."
 id: PHREVvEOewImx9jI
 slug: limestone-powdered
@@ -14,10 +14,10 @@ shortcode: limestonep
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 3
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 3
+    weight: 1
 folder: 7HORJHbbizVSds9r
 ---
 

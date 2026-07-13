@@ -1,22 +1,24 @@
 ---
 aliases:
-  - Song of Heroic Lands Rules
-  - SoHL Rules
+    - Song of Heroic Lands Rules
+    - SoHL Rules
 id: a9IFROJ7EMIJj50c
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: Song of Heroic Lands Rules
-  aliases: []
+    full: Song of Heroic Lands Rules
+    aliases: []
 slug: sohl-rules
 folder: RqKUTBUBN2Y3MHYB
 ---
-The _Song of Heroic Lands_ (SoHL) rules system is intentionally compatible with the [_HârnMaster: Roleplaying in the World of Kethira_](https://www.kelestia.com/hmk-pdf) (HMK) system by Kelestia Productions, Inc. (https://www.kelestia.com/). It is designed so that you may play using those rules with this system. However, note that no content from HMK is present in this work; all content is unique to SoHL.  It is anticipated that additional modules will be published in the future that will provide the skills, spells, monsters, sunsigns, and other content specific to Kethira.
 
-The rules presented here are basic rules necessary to run a game.  For more detailed rules, including those for trekking and other abilities, please consider purchasing HMK from Kelestia.com.
+The _Song of Heroic Lands_ (SoHL) rules system is intentionally compatible with the [_HârnMaster: Roleplaying in the World of Kethira_](https://www.kelestia.com/hmk-pdf) (HMK) system by Kelestia Productions, Inc. (https://www.kelestia.com/). It is designed so that you may play using those rules with this system. However, note that no content from HMK is present in this work; all content is unique to SoHL. It is anticipated that additional modules will be published in the future that will provide the skills, spells, monsters, sunsigns, and other content specific to Kethira.
+
+The rules presented here are basic rules necessary to run a game. For more detailed rules, including those for trekking and other abilities, please consider purchasing HMK from Kelestia.com.
 
 # Core System
+
 The SoHL rules resolve uncertainty through a unified system of d100 and d10 rolls. Every test in the game—swinging a sword, casting a spell, crafting a horseshoe, persuading a lord—uses the same fundamental procedures described below.
 
 ## Dice
@@ -38,6 +40,7 @@ The system emphasizes graduated outcomes over binary pass/fail. A character who 
 Skills improve through use. Characters who test their abilities in play develop them organically, reflecting the principle that practice and experience—not abstract experience points—drive growth.
 
 ## Combat
+
 TBD
 
 - [[Healing_Roll|Healing Roll]]

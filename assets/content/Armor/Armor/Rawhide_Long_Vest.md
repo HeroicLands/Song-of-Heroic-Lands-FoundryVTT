@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Rawhide Long Vest
+    - Rawhide Long Vest
 tags: []
 name:
-  full: Rawhide Long Vest
-  aliases: []
+    full: Rawhide Long Vest
+    aliases: []
 description: "Extended hide vest; tough torso protection without sleeves."
 id: 53XtDmQZDs9ve4ud
 slug: rawhide-long-vest
@@ -13,29 +13,29 @@ shortcode: RhLngVst
 type: armorgear
 package: sohl
 sohl:
-  armorType: Long Vest
-  detailMaterial: Rawhide
-  material: Leather
-  durability: 11
-  value: 148
-  weight: 6.8
-  encumbrance: 5
-  perception:
-    value: 0
-    effectId: adZyigOO7sdCbiDV
-  flexloc:
-    - neckloc
-    - lshldloc
-    - rshldloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Long Vest
+    detailMaterial: Rawhide
+    material: Leather
+    durability: 11
+    value: 148
+    weight: 6.8
+    encumbrance: 5
+    perception:
+        value: 0
+        effectId: adZyigOO7sdCbiDV
+    flexloc:
+        - neckloc
+        - lshldloc
+        - rshldloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 148
 origWeight: 6.8

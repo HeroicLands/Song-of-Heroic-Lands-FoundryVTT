@@ -5,7 +5,7 @@ type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Understanding Sheets"
+    full: "Understanding Sheets"
 slug: "understanding-sheets"
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -53,6 +53,7 @@ containers, miscellaneous items, and their contents. Items can be nested
 hierarchy.
 
 From this tab you can:
+
 - Drag items from compendiums or the world onto the sheet to add them
 - Right-click items for context menu options (edit, delete, equip)
 - Click the equip/carry icon to toggle whether an item is actively worn or carried
@@ -73,6 +74,7 @@ what it modifies.
 ## Profile (Beings only)
 
 The **Profile** tab is unique to Beings. It shows:
+
 - **Attributes** — the core traits (Strength, Dexterity, Intelligence, etc.)
 - **Other Traits** — non-attribute traits grouped by category
 - **Affiliations** — faction memberships and organizational ties

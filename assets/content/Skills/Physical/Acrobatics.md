@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Acrobatics
-  aliases: []
+    full: Acrobatics
+    aliases: []
 description: "Vaulting, balance, tumbling; recovers gracefully from perilous falls."
 id: AsaVT4JV85rFSTvY
 slug: acrobatics
@@ -12,13 +12,13 @@ shortcode: acro
 type: skill
 package: sohl
 sohl:
-  subType: physical
-  skillBaseFormula: "@agl, @end"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: physical
+    skillBaseFormula: "@agl, @end"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: Yt9THlZ0NT8H6aSK
 ---
 

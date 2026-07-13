@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Pilot's Instruments
+    - Pilot's Instruments
 tags:
-  - instruments
+    - instruments
 name:
-  full: Pilot's Instruments
-  aliases: []
+    full: Pilot's Instruments
+    aliases: []
 description: "Brass-bound case with compass, astrolabe, cross-staff, dividers, rule, charts; navigators."
 id: LdIBzlkJ6ZR9uCwA
 slug: pilots-instruments
@@ -14,10 +14,10 @@ shortcode: pilotinstr
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 180
-  weight: 4
+    quality: 0
+    durability: 4
+    value: 180
+    weight: 4
 folder: xniLjmZWYQZkSxyv
 ---
 

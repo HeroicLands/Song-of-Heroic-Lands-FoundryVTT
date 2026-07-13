@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Combat Technique
+    - Combat Technique
 id: GiORHP44fLjhPSDf
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Combat Technique Strike Modes"
+    full: "Combat Technique Strike Modes"
 slug: "item-combattechnique"
 folder: QtOgPodi8X6gDWL0
 ---
@@ -22,7 +22,9 @@ In the case of creatures, these often include biting, raking with claws, piercin
 Combat Techniques appear on the Being sheet's **Combat** tab alongside weapons. This allows characters to always have access to combat mechanisms like unarmed strikes, grapples, or special maneuvers even when they have no weapons. Creatures almost exclusively rely on Combat Techniques and almost never use weapons.
 
 # Additional Properties
+
 Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+
 - **Group** — the nature of the combat maneuver (unarmed strike,
   grapple, trip, disarm, etc.).
 - **Method:** Method of combat, either **Melee** or **Missile**.
@@ -33,9 +35,10 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
 - **Aspect:** Either _Blunt_, _Edged_, _Piercing_, or _Fire_.
 
 If the type of attack is a melee attack, the following additional properties will appear:
+
 - **Strike Accuracy:** Combat attack accuracy of the combat technique
 - **Length Base** — the length of the combat technique, in feet.
 
 If the type of attack is a missile attack, the following additional properties will appear:
-- **Base Range:** Maximum range (in feet) that the missile can be fired using direct-fire rules.
 
+- **Base Range:** Maximum range (in feet) that the missile can be fired using direct-fire rules.

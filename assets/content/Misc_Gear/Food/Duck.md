@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Duck
+    - Duck
 tags:
-  - food
+    - food
 name:
-  full: Duck
-  aliases: []
+    full: Duck
+    aliases: []
 description: "Dark rich meat with fat layer; roasted whole, fat renders for cooking."
 id: BO1IIE7evazQIwFX
 slug: duck
@@ -14,10 +14,10 @@ shortcode: duck
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 2
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 2
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

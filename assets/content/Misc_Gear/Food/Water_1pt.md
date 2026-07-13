@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Water, 1pt."
+    - "Water, 1pt."
 tags:
-  - food
+    - food
 name:
-  full: "Water, 1pt."
-  aliases: []
+    full: "Water, 1pt."
+    aliases: []
 description: "Fresh-drawn well water, sustains traveler for light day, precious rationed."
 id: h7GKfseLjYDhBue2
 slug: water-1pt
@@ -14,12 +14,12 @@ shortcode: Wtr1pt
 type: miscgear
 package: sohl
 hmk:
-  name: "Water, 1pt."
+    name: "Water, 1pt."
 sohl:
-  quality: 0
-  durability: 0
-  value: 0
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

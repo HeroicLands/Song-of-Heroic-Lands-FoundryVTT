@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Millstone
+    - Millstone
 tags:
-  - stone
+    - stone
 name:
-  full: Millstone
-  aliases: []
+    full: Millstone
+    aliases: []
 description: "Large granite or basalt disc with dressed furrows; grinds grain for decades."
 id: qiz4zXbugy79EGLQ
 slug: millstone
@@ -14,10 +14,10 @@ shortcode: millstone
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 10
-  value: 250
-  weight: 50
+    quality: 0
+    durability: 10
+    value: 250
+    weight: 50
 folder: 7HORJHbbizVSds9r
 ---
 

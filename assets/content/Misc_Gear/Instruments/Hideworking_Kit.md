@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Hideworking Kit
+    - Hideworking Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Hideworking Kit
-  aliases: []
+    full: Hideworking Kit
+    aliases: []
 description: "Leather roll with scrapers, stretching pegs, fleshing knife; tanners treat raw hides."
 id: Nljd751DTwKf993p
 slug: hideworking-kit
@@ -14,10 +14,10 @@ shortcode: hdwkkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 24
-  weight: 3
+    quality: 0
+    durability: 7
+    value: 24
+    weight: 3
 folder: xniLjmZWYQZkSxyv
 ---
 

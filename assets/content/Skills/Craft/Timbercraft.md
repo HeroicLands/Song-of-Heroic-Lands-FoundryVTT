@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Timbercraft
-  aliases: []
+    full: Timbercraft
+    aliases: []
 description: "Forest knowledge for selecting timber and managing woodland for sustainable yield."
 id: FHSFFv2uOTjTEhpt
 slug: timbercraft
@@ -12,13 +12,13 @@ shortcode: timb
 type: skill
 package: sohl
 sohl:
-  subType: nature
-  skillBaseFormula: "@per, @rea"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: nature
+    skillBaseFormula: "@per, @rea"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: gqRvjlrWbuCwGy3N
 ---
 

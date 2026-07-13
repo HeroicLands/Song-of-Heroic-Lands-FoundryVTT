@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Theatrics
-  aliases: []
+    full: Theatrics
+    aliases: []
 description: "Performance and disguise through role assumption and identity transformation."
 id: QiXS62ew4oy7fIEq
 slug: theatrics
@@ -12,13 +12,13 @@ shortcode: thtcs
 type: skill
 package: sohl
 sohl:
-  subType: social
-  skillBaseFormula: "@cre, @elo"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 1
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: social
+    skillBaseFormula: "@cre, @elo"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 1
+    masteryLevelBase: 0
+    improveFlag: false
 folder: JBr2U30FsJTs8F3l
 ---
 

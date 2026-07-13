@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Miscellaneous Gear
+    - Miscellaneous Gear
 id: 6JUhgNSwiLv4cIk1
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Miscellaneous Gear"
+    full: "Miscellaneous Gear"
 slug: "item-miscgear"
 folder: QtOgPodi8X6gDWL0
 ---
@@ -25,4 +25,5 @@ it is Misc Gear.
 Misc Gear appears on the Being sheet's **Gear** tab and can optionally be nested inside a Container Gear item to reflect where the character is carrying it. Misc Gear items are commonly added from compendium packs or created manually to represent ad-hoc possessions.
 
 # Additional Properties
+
 There are no additional properties beyond the [[Item_Gear|Standard Gear Properties]].

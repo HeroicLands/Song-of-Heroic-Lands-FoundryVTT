@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Beaver Hat
+    - Beaver Hat
 tags: []
 name:
-  full: Beaver Hat
-  aliases: []
+    full: Beaver Hat
+    aliases: []
 description: "Beaver fur hat combining warmth and opulent comfort for winter months."
 id: gWLA4r3GlnKR6Jvc
 slug: beaver-hat
@@ -13,24 +13,24 @@ shortcode: BvHat
 type: armorgear
 package: sohl
 sohl:
-  armorType: Hat
-  detailMaterial: Beaver
-  material: Leather
-  durability: 9
-  value: 75
-  weight: 0.6
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: LKmTIHwzOclGYpv9
-  flexloc:
-    - skullloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Hat
+    detailMaterial: Beaver
+    material: Leather
+    durability: 9
+    value: 75
+    weight: 0.6
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: LKmTIHwzOclGYpv9
+    flexloc:
+        - skullloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 25
 origWeight: 0.8

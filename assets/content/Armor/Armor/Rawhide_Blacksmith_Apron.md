@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Rawhide Blacksmith Apron
+    - Rawhide Blacksmith Apron
 tags: []
 name:
-  full: Rawhide Blacksmith Apron
-  aliases: []
+    full: Rawhide Blacksmith Apron
+    aliases: []
 description: "Thick hide apron; guards against forge-spark and heat."
 id: 8P1qXxWez6hM15T3
 slug: rawhide-blacksmith-apron
@@ -13,28 +13,28 @@ shortcode: RhApr
 type: armorgear
 package: sohl
 sohl:
-  armorType: Blacksmith Apron
-  detailMaterial: Rawhide
-  material: Leather
-  durability: 11
-  value: 80
-  weight: 5
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: wcplHKIznnCkK7FJ
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Blacksmith Apron
+    detailMaterial: Rawhide
+    material: Leather
+    durability: 11
+    value: 80
+    weight: 5
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: wcplHKIznnCkK7FJ
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 80
 origWeight: 5

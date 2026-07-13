@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Pen, metal"
+    - "Pen, metal"
 tags:
-  - scribe
+    - scribe
 name:
-  full: "Pen, metal"
-  aliases: []
+    full: "Pen, metal"
+    aliases: []
 description: "Steel nib in bone or wood handle; steady line, favored by professionals."
 id: cBLdB6eXyYmTSXxj
 slug: pen-metal
@@ -14,10 +14,10 @@ shortcode: penmetal
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 5
-  value: 4
-  weight: 0.1
+    quality: 0
+    durability: 5
+    value: 4
+    weight: 0.1
 folder: BYkA5NDQxTXDvsAC
 ---
 

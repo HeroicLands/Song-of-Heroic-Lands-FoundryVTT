@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Grapes
+    - Grapes
 tags:
-  - food
+    - food
 name:
-  full: Grapes
-  aliases: []
+    full: Grapes
+    aliases: []
 description: "Fresh plump in season; dried into raisins for merchant wagons and packs."
 id: FkxLqorxMjLcdm9f
 slug: grapes
@@ -14,10 +14,10 @@ shortcode: grapes
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

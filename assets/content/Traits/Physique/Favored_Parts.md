@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Favored Parts
+    - Favored Parts
 tags: []
 name:
-  full: Favored Parts
-  aliases: []
+    full: Favored Parts
+    aliases: []
 id: nBEseUj5nUJMDyHU
 slug: favored-parts
 img: icons/hands.svg
@@ -12,14 +12,14 @@ shortcode: favparts
 type: trait
 package: sohl
 sohl:
-  subType: physique
-  intensity: trait
-  isNumeric: false
-  textValue: Right Arm
-  valueDesc: []
-  score:
-    value: 0
-    max: 0
+    subType: physique
+    intensity: trait
+    isNumeric: false
+    textValue: Right Arm
+    valueDesc: []
+    score:
+        value: 0
+        max: 0
 folder: 4h8qyMcGHlkrfN1g
 ---
 

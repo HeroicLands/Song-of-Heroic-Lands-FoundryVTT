@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Will
-  aliases: []
+    full: Will
+    aliases: []
 id: 5Ujb7yXQ6ULMNIqY
 slug: will
 img: icons/will.svg
@@ -11,14 +11,14 @@ shortcode: wil
 type: attribute
 package: sohl
 sohl:
-  scoreBase: 0
-  valueDesc:
-    - Submissive:4
-    - Indecisive:8
-    - Average:12
-    - Resolute:16
-    - Implacable:999
-  initDiceFormula: 3d6
+    scoreBase: 0
+    valueDesc:
+        - Submissive:4
+        - Indecisive:8
+        - Average:12
+        - Resolute:16
+        - Implacable:999
+    initDiceFormula: 3d6
 sort: 80
 folder: FPitxvL8wCmXynax
 ---

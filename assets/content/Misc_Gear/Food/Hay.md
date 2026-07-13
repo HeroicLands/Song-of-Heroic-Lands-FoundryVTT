@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Hay
+    - Hay
 tags:
-  - food
+    - food
 name:
-  full: Hay
-  aliases: []
+    full: Hay
+    aliases: []
 description: "Sun-dried grasses bundled; feeds horses and livestock through winter reliably."
 id: 0LD7qXrTNv53ZTrf
 slug: hay
@@ -14,10 +14,10 @@ shortcode: hay
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 6
-  weight: 60
+    quality: 0
+    durability: 0
+    value: 6
+    weight: 60
 folder: cHM58zOI1EcSG3cP
 ---
 

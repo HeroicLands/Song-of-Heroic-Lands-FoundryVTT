@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Stick
+    - Stick
 tags: []
 name:
-  full: Stick
-  aliases: []
+    full: Stick
+    aliases: []
 description: "Plain ashwood walking-staff pressed into service by travelers in scuffle."
 id: qYFSh2Fr38UHKT5f
 slug: stick
@@ -13,100 +13,100 @@ shortcode: Stk
 type: weapongear
 package: sohl
 sohl:
-  durability: 8
-  weight: 1
-  value: 6
-  heft: 9
-  weaponType: Club
-  strikeModes:
-    crush:
-      type: melee
-      name: Crush
-      assocSkillCode: melee
-      minParts: 1
-      attack:
-        spread: 4
-        modifier: 0
-      impactBase:
-        numDice: 1
-        die: 6
-        modifier: 0
-        aspect: blunt
-      traits:
-        meleeMod: 0
-        blockSLMod: 0
-        durabilityMod: 0
-        cxSLMod: 0
-        oppDef: -10
-        impTA: 3
-        AR: 0
-        noAttack: false
-        noBlock: false
-        entangle: false
-        envelop: false
-        couched: false
-        long: true
-        onlyInClose: false
-        shieldMod: 0
-        slow: false
-        thrust: false
-        swung: true
-        halfSword: false
-        bleed: false
-        twoHndLen: 0
-        shaft: false
-        pommel: false
-        noStrMod: false
-        halfImpact: false
-        lowAim: false
-      lengthBase: 3
-      defense:
-        blockMod: -10
-        counterstrikeMod: -10
-    pommel:
-      type: melee
-      name: Pommel
-      assocSkillCode: melee
-      minParts: 1
-      attack:
-        spread: 4
-        modifier: 0
-      impactBase:
-        numDice: 1
-        die: 6
-        modifier: 0
-        aspect: blunt
-      traits:
-        meleeMod: 0
-        blockSLMod: 0
-        durabilityMod: 0
-        cxSLMod: 0
-        oppDef: -10
-        impTA: 3
-        AR: 0
-        noAttack: false
-        noBlock: false
-        entangle: false
-        envelop: false
-        couched: false
-        long: true
-        onlyInClose: false
-        shieldMod: 0
-        slow: false
-        thrust: false
-        swung: false
-        halfSword: false
-        bleed: false
-        twoHndLen: 0
-        shaft: false
-        pommel: true
-        noStrMod: false
-        halfImpact: false
-        lowAim: false
-      lengthBase: 3
-      defense:
-        blockMod: -10
-        counterstrikeMod: -10
+    durability: 8
+    weight: 1
+    value: 6
+    heft: 9
+    weaponType: Club
+    strikeModes:
+        crush:
+            type: melee
+            name: Crush
+            assocSkillCode: melee
+            minParts: 1
+            attack:
+                spread: 4
+                modifier: 0
+            impactBase:
+                numDice: 1
+                die: 6
+                modifier: 0
+                aspect: blunt
+            traits:
+                meleeMod: 0
+                blockSLMod: 0
+                durabilityMod: 0
+                cxSLMod: 0
+                oppDef: -10
+                impTA: 3
+                AR: 0
+                noAttack: false
+                noBlock: false
+                entangle: false
+                envelop: false
+                couched: false
+                long: true
+                onlyInClose: false
+                shieldMod: 0
+                slow: false
+                thrust: false
+                swung: true
+                halfSword: false
+                bleed: false
+                twoHndLen: 0
+                shaft: false
+                pommel: false
+                noStrMod: false
+                halfImpact: false
+                lowAim: false
+            lengthBase: 3
+            defense:
+                blockMod: -10
+                counterstrikeMod: -10
+        pommel:
+            type: melee
+            name: Pommel
+            assocSkillCode: melee
+            minParts: 1
+            attack:
+                spread: 4
+                modifier: 0
+            impactBase:
+                numDice: 1
+                die: 6
+                modifier: 0
+                aspect: blunt
+            traits:
+                meleeMod: 0
+                blockSLMod: 0
+                durabilityMod: 0
+                cxSLMod: 0
+                oppDef: -10
+                impTA: 3
+                AR: 0
+                noAttack: false
+                noBlock: false
+                entangle: false
+                envelop: false
+                couched: false
+                long: true
+                onlyInClose: false
+                shieldMod: 0
+                slow: false
+                thrust: false
+                swung: false
+                halfSword: false
+                bleed: false
+                twoHndLen: 0
+                shaft: false
+                pommel: true
+                noStrMod: false
+                halfImpact: false
+                lowAim: false
+            lengthBase: 3
+            defense:
+                blockMod: -10
+                counterstrikeMod: -10
 folder: HXiYHvG6igI3Wlmm
 ---
 

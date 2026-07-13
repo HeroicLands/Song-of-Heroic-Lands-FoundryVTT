@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Plate Cuirass
+    - Plate Cuirass
 tags: []
 name:
-  full: Plate Cuirass
-  aliases: []
+    full: Plate Cuirass
+    aliases: []
 description: "Shaped steel plates protecting torso and ribs."
 id: Dt6MOzT2pJXn6TDC
 slug: plate-cuirass
@@ -13,25 +13,25 @@ shortcode: PlCui
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cuirass
-  detailMaterial: Plate
-  material: Plate
-  durability: 14
-  value: 480
-  weight: 9.1
-  encumbrance: 5
-  perception:
-    value: 0
-    effectId: 1Sfn5MQb5PBumVVd
-  flexloc: []
-  rigidloc:
-    - thrxloc
-    - abdmnloc
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cuirass
+    detailMaterial: Plate
+    material: Plate
+    durability: 14
+    value: 480
+    weight: 9.1
+    encumbrance: 5
+    perception:
+        value: 0
+        effectId: 1Sfn5MQb5PBumVVd
+    flexloc: []
+    rigidloc:
+        - thrxloc
+        - abdmnloc
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 480
 origWeight: 9.1

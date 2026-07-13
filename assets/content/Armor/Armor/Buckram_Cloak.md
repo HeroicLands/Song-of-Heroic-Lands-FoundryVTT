@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Buckram Cloak
+    - Buckram Cloak
 tags: []
 name:
-  full: Buckram Cloak
-  aliases: []
+    full: Buckram Cloak
+    aliases: []
 description: "Stiff, glue-stiffened cloth cloak providing structure and reliable durability."
 id: PicrlTatXdbwbD1u
 slug: buckram-cloak
@@ -13,29 +13,29 @@ shortcode: BClk
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cloak
-  detailMaterial: Buckram
-  material: Cloth
-  durability: 10
-  value: 66
-  weight: 3.3
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: zcK4x9KU1LDZp5bM
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - thrxloc
-    - abdmnloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cloak
+    detailMaterial: Buckram
+    material: Cloth
+    durability: 10
+    value: 66
+    weight: 3.3
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: zcK4x9KU1LDZp5bM
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - thrxloc
+        - abdmnloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 66
 origWeight: 3.3

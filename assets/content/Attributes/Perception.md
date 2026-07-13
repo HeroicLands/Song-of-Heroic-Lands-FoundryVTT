@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Perception
-  aliases: []
+    full: Perception
+    aliases: []
 id: f3RTqhcs0l7npPAY
 slug: perception
 img: icons/awareness.svg
@@ -11,14 +11,14 @@ shortcode: per
 type: attribute
 package: sohl
 sohl:
-  scoreBase: 0
-  valueDesc:
-    - Impaired:4
-    - Dulled:8
-    - Average:12
-    - Sharp:16
-    - Acute:999
-  initDiceFormula: 3d6
+    scoreBase: 0
+    valueDesc:
+        - Impaired:4
+        - Dulled:8
+        - Average:12
+        - Sharp:16
+        - Acute:999
+    initDiceFormula: 3d6
 sort: 50
 folder: FPitxvL8wCmXynax
 ---

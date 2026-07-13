@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Linen Cloak
+    - Linen Cloak
 tags: []
 name:
-  full: Linen Cloak
-  aliases: []
+    full: Linen Cloak
+    aliases: []
 description: "Breathable outer garment protecting from sun without causing overheating."
 id: OtLxvuSKixlMiime
 slug: linen-cloak
@@ -13,29 +13,29 @@ shortcode: LClk
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cloak
-  detailMaterial: Linen
-  material: Cloth
-  durability: 5
-  value: 33
-  weight: 0.8
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: vaLso9citSZ3H3Dc
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - thrxloc
-    - abdmnloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cloak
+    detailMaterial: Linen
+    material: Cloth
+    durability: 5
+    value: 33
+    weight: 0.8
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: vaLso9citSZ3H3Dc
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - thrxloc
+        - abdmnloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 66
 origWeight: 3.3

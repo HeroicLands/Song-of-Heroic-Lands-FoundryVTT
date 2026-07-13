@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Veal
+    - Veal
 tags:
-  - food
+    - food
 name:
-  full: Veal
-  aliases: []
+    full: Veal
+    aliases: []
 description: "Pale tender young calf meat, fine-grained, favored by wealthy households."
 id: 7T3BL80DNW2kEOgs
 slug: veal
@@ -14,10 +14,10 @@ shortcode: veal
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 2
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 2
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

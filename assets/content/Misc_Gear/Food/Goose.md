@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Goose
+    - Goose
 tags:
-  - food
+    - food
 name:
-  full: Goose
-  aliases: []
+    full: Goose
+    aliases: []
 description: "Plucked rich waterfowl; dark robust meat, rendered fat serves kitchen and lamp."
 id: Tz4XWdYgLrCQJFJ5
 slug: goose
@@ -14,10 +14,10 @@ shortcode: goose
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 2
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 2
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Jeweler's Scales"
+    - "Jeweler's Scales"
 tags:
-  - instruments
+    - instruments
 name:
-  full: "Jeweler's Scales"
-  aliases: []
+    full: "Jeweler's Scales"
+    aliases: []
 description: "Brass balance calibrated for carats and ounces; gem-merchants weigh precious metals."
 id: bljtZyai5wpRBuJc
 slug: jewelers-scales
@@ -14,10 +14,10 @@ shortcode: jewelerssc
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 5
-  value: 72
-  weight: 3
+    quality: 0
+    durability: 5
+    value: 72
+    weight: 3
 folder: xniLjmZWYQZkSxyv
 ---
 

@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Script
-  aliases: []
+    full: Script
+    aliases: []
 description: "Reading, writing, and interpreting text in specific writing systems."
 id: nCRpDhazp99DAlf7
 slug: script
@@ -12,13 +12,13 @@ shortcode: script
 type: skill
 package: sohl
 sohl:
-  subType: script
-  skillBaseFormula: "@rea, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: script
+    skillBaseFormula: "@rea, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: RgFGiT3LqmNP0uRB
 ---
 

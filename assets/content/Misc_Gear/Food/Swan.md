@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Swan
+    - Swan
 tags:
-  - food
+    - food
 name:
-  full: Swan
-  aliases: []
+    full: Swan
+    aliases: []
 description: "Dark gamey waterfowl meat, reserved for noble tables, substantial yield."
 id: 8CVuc1Mh08LsbTrC
 slug: swan
@@ -14,10 +14,10 @@ shortcode: swan
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 3
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 3
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

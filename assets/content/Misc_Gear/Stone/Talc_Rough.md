@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Talc, Rough"
+    - "Talc, Rough"
 tags:
-  - stone
+    - stone
 name:
-  full: "Talc, Rough"
-  aliases: []
+    full: "Talc, Rough"
+    aliases: []
 description: "Soft slippery stone chunks; reduces friction, absorbs moisture; fullers, tanners, metalworkers."
 id: MxZC6ppKpVgcbhW8
 slug: talc-rough
@@ -14,10 +14,10 @@ shortcode: talcrough
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 1
-  value: 1
-  weight: 0.06
+    quality: 0
+    durability: 1
+    value: 1
+    weight: 0.06
 folder: 7HORJHbbizVSds9r
 ---
 

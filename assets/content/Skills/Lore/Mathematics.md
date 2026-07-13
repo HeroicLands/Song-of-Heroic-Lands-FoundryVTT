@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Mathematics
-  aliases: []
+    full: Mathematics
+    aliases: []
 description: "Numerical calculation, geometry, and reasoning for engineering and commerce."
 id: SLWaEQlzVIYj4MhH
 slug: mathematics
@@ -12,13 +12,13 @@ shortcode: math
 type: skill
 package: sohl
 sohl:
-  subType: lore
-  skillBaseFormula: "@rea, @cre"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: lore
+    skillBaseFormula: "@rea, @cre"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: QlkEHXbk2EXlRiMM
 ---
 

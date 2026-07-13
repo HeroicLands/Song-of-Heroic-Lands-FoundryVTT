@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Ink, Blue"
+    - "Ink, Blue"
 tags:
-  - scribe
+    - scribe
 name:
-  full: "Ink, Blue"
-  aliases: []
+    full: "Ink, Blue"
+    aliases: []
 description: "Indigo or woad-derived; marks official margins and decorative chapter headings."
 id: xjtcOwEWjGbqwqjE
 slug: ink-blue
@@ -14,10 +14,10 @@ shortcode: inkblu
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 10
-  weight: 2
+    quality: 0
+    durability: 0
+    value: 10
+    weight: 2
 folder: BYkA5NDQxTXDvsAC
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Milk, cow"
+    - "Milk, cow"
 tags:
-  - food
+    - food
 name:
-  full: "Milk, cow"
-  aliases: []
+    full: "Milk, cow"
+    aliases: []
 description: "Fresh dairy, curdles into cheese and butter by afternoon daily."
 id: f0TCfZaCJNETdg2T
 slug: milk-cow
@@ -14,10 +14,10 @@ shortcode: milkcow
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 8
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 8
 folder: cHM58zOI1EcSG3cP
 ---
 

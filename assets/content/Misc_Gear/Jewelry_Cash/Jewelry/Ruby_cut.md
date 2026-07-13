@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Ruby, cut"
+    - "Ruby, cut"
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: "Ruby, cut"
-  aliases: []
+    full: "Ruby, cut"
+    aliases: []
 description: "Rarest gem; deep crimson corundum glowing like fire; marks power and wealth."
 id: LUpuVFSTvoVsXMWW
 slug: ruby-cut
@@ -14,10 +14,10 @@ shortcode: rubycut
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 1000
-  weight: 0.0004
+    quality: 0
+    durability: 2
+    value: 1000
+    weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Lamb
+    - Lamb
 tags:
-  - food
+    - food
 name:
-  full: Lamb
-  aliases: []
+    full: Lamb
+    aliases: []
 description: "Tender pale meat; roasted whole or smoked into jerky for caravans."
 id: JlWBj6jeJ8sPl8id
 slug: lamb
@@ -14,10 +14,10 @@ shortcode: lamb
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 3
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 3
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Quartz, cut"
+    - "Quartz, cut"
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: "Quartz, cut"
-  aliases: []
+    full: "Quartz, cut"
+    aliases: []
 description: "Clear crystalline gem; affordable and common; catches light creating bright glimmer."
 id: fLeWbIE82sDFBdNe
 slug: quartz-cut
@@ -14,10 +14,10 @@ shortcode: quartzcut
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 5
-  weight: 0.0004
+    quality: 0
+    durability: 2
+    value: 5
+    weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

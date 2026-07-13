@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Mason's Kit
+    - Mason's Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Mason's Kit
-  aliases: []
+    full: Mason's Kit
+    aliases: []
 description: "Heavy canvas roll with mallets, pitching tool, chisels, plumb, level; masons shape stone."
 id: 7xP2LkQvNt4wRzBc
 slug: masons-kit
@@ -14,10 +14,10 @@ shortcode: masonkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 9
-  value: 55
-  weight: 15
+    quality: 0
+    durability: 9
+    value: 55
+    weight: 15
 folder: xniLjmZWYQZkSxyv
 ---
 

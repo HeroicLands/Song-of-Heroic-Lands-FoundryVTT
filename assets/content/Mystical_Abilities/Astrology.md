@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Astrology
-  aliases: []
+    full: Astrology
+    aliases: []
 description: "Charting celestial bodies; interpreting alignments to divine fate and truth."
 id: 5oD9W0X60sEkNsqH
 slug: astrology
@@ -12,15 +12,15 @@ shortcode: astr
 type: mysticalability
 package: sohl
 sohl:
-  subType: divination
-  assocSkillCode: ""
-  assocMysteryCode: ""
-  levelBase: 0
-  masteryLevelBase: 0
-  charges:
-    usesCharges: false
-    value: 0
-    max: 0
+    subType: divination
+    assocSkillCode: ""
+    assocMysteryCode: ""
+    levelBase: 0
+    masteryLevelBase: 0
+    charges:
+        usesCharges: false
+        value: 0
+        max: 0
 
 folder: gpLM4ElXNiI1rN7l
 ---

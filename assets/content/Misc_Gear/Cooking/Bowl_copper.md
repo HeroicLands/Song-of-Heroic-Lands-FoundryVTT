@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Bowl, copper"
+    - "Bowl, copper"
 tags:
-  - cooking
+    - cooking
 name:
-  full: "Bowl, copper"
-  aliases: []
+    full: "Bowl, copper"
+    aliases: []
 description: "Tinned copper bowl; conducts heat evenly and suits kitchen and table use."
 id: DbwyosHUJVmhPswZ
 slug: bowl-copper
@@ -14,10 +14,10 @@ shortcode: bowlcopper
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 6
-  weight: 1
+    quality: 0
+    durability: 4
+    value: 6
+    weight: 1
 folder: 7TT0OzoIoEn40zfs
 ---
 

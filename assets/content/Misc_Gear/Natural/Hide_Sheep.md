@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Sheep"
+    - "Hide, Sheep"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Sheep"
-  aliases: []
+    full: "Hide, Sheep"
+    aliases: []
 description: "Sturdy dried hide; yields suede for jerkins or tanned leather bookbindings."
 id: pxsLSXV2Q5yF30EH
 slug: hide-sheep
@@ -14,10 +14,10 @@ shortcode: hidesheep
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 4
-  weight: 1.5
+    quality: 0
+    durability: 3
+    value: 4
+    weight: 1.5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Rye
+    - Rye
 tags:
-  - food
+    - food
 name:
-  full: Rye
-  aliases: []
+    full: Rye
+    aliases: []
 description: "Hardy grain thriving in poor soil, grinds to dark bread flour."
 id: NghszzfexfNkqpw1
 slug: rye
@@ -14,10 +14,10 @@ shortcode: rye
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 6
-  weight: 56
+    quality: 0
+    durability: 0
+    value: 6
+    weight: 56
 folder: cHM58zOI1EcSG3cP
 ---
 

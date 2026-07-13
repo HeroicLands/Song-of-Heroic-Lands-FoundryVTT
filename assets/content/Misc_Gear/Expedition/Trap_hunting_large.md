@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Trap, hunting, large"
+    - "Trap, hunting, large"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Trap, hunting, large"
-  aliases: []
+    full: "Trap, hunting, large"
+    aliases: []
 description: "Heavy iron jaw-trap for deer and boar; set along game trails."
 id: dNOwZeAe8NzLB8aB
 slug: trap-hunting-large
@@ -14,10 +14,10 @@ shortcode: traphuntin
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 40
-  weight: 8
+    quality: 0
+    durability: 8
+    value: 40
+    weight: 8
 folder: FSPVI1eObGEpMVck
 ---
 

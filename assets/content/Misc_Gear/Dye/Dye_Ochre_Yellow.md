@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Dye, Ochre Yellow"
+    - "Dye, Ochre Yellow"
 tags:
-  - clothing
+    - clothing
 name:
-  full: "Dye, Ochre Yellow"
-  aliases: []
+    full: "Dye, Ochre Yellow"
+    aliases: []
 description: "Ground ochre with iron mordants; earthy mustard yellow for peasant cloth."
 id: aySPLmfpdPX3m1AE
 slug: dye-ochre-yellow
@@ -14,10 +14,10 @@ shortcode: dyeochr
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 1
-  value: 30
-  weight: 0.0625
+    quality: 0
+    durability: 1
+    value: 30
+    weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

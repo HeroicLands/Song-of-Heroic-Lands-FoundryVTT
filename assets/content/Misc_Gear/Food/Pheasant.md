@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Pheasant
+    - Pheasant
 tags:
-  - food
+    - food
 name:
-  full: Pheasant
-  aliases: []
+    full: Pheasant
+    aliases: []
 description: "Prized game bird, delicate meat roasts well, smokes into jerky."
 id: cpf4ZBgo5Z40st5B
 slug: pheasant
@@ -14,10 +14,10 @@ shortcode: pheasant
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

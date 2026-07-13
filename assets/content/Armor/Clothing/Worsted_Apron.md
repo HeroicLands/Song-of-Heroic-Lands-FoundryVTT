@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Worsted Apron
+    - Worsted Apron
 tags: []
 name:
-  full: Worsted Apron
-  aliases: []
+    full: Worsted Apron
+    aliases: []
 description: "Tightly-spun wool apron; durable for tasks requiring resilience."
 id: dAj4NC7jP7jp08Xr
 slug: worsted-apron
@@ -13,28 +13,28 @@ shortcode: WApn
 type: armorgear
 package: sohl
 sohl:
-  armorType: Apron
-  detailMaterial: Worsted
-  material: Cloth
-  durability: 9
-  value: 24
-  weight: 3.5
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: i63dB6v1bNnIze8h
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Apron
+    detailMaterial: Worsted
+    material: Cloth
+    durability: 9
+    value: 24
+    weight: 3.5
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: i63dB6v1bNnIze8h
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 10
 origWeight: 4.4

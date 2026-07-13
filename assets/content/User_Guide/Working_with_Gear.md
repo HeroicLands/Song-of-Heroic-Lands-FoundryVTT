@@ -5,7 +5,7 @@ type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Working with Gear and Equipment"
+    full: "Working with Gear and Equipment"
 slug: "working-with-gear"
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -80,14 +80,14 @@ to transfer.
 
 # Gear Types at a Glance {#gear-types}
 
-| Gear Type | Purpose | Usually Contains |
-|-----------|---------|-----------------|
-| **Weapon Gear** | A weapon definition | Strike modes (melee/missile) |
-| **Armor Gear** | Wearable protection | Protection entries per location |
-| **Container Gear** | Holds other items | Any gear type |
-| **Misc Gear** | General equipment | Nothing (standalone) |
-| **Projectile Gear** | Ammunition | Nothing (referenced by missile strike modes) |
-| **Concoction Gear** | Consumables (potions, salves) | Nothing (applies effects when used) |
+| Gear Type           | Purpose                       | Usually Contains                             |
+| ------------------- | ----------------------------- | -------------------------------------------- |
+| **Weapon Gear**     | A weapon definition           | Strike modes (melee/missile)                 |
+| **Armor Gear**      | Wearable protection           | Protection entries per location              |
+| **Container Gear**  | Holds other items             | Any gear type                                |
+| **Misc Gear**       | General equipment             | Nothing (standalone)                         |
+| **Projectile Gear** | Ammunition                    | Nothing (referenced by missile strike modes) |
+| **Concoction Gear** | Consumables (potions, salves) | Nothing (applies effects when used)          |
 
 See the individual item type guides for details on each gear type.
 
