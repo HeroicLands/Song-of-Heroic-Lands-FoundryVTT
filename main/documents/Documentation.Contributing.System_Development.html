@@ -199,6 +199,16 @@ against real world data — migrations must never require manual user interventi
 <a id="conventions" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Conventions<a href="#conventions" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
 <li><strong>File headers.</strong> Every <code>.ts</code> file carries the GPL-3.0 license header; every
 <code>.hbs</code> file carries the HBS license header.</li>
+<li><strong>Namespace barrels.</strong> Every <code>src/</code> folder that is a namespace — it holds an
+exporting module, or a subfolder that does — carries a hand-written <code>index.ts</code>
+that re-exports its sibling modules (<code>export * from &quot;./X&quot;</code>) and its subfolder
+namespaces (<code>export * as sub from &quot;./sub&quot;</code>), with a <code>/** … */</code> description on
+each <code>export * as</code> line (it becomes that namespace's API-doc prose). These
+barrels form the <code>sohl.*</code> tree, so the reference path equals the file location
+(<code>sohl.document.effect.foundry.SohlActiveEffect</code>). Adding a module or folder
+means updating its barrel; <code>npm run lint:ns-barrels</code> (part of <code>npm run lint</code>)
+enforces completeness and descriptions. Side-effect-only modules (no top-level
+<code>export</code>) are not namespace members and are excluded.</li>
 <li><strong>JSDoc.</strong> Public-API JSDoc feeds TypeDoc generation — keep it complete and
 lint-clean. PRs that modify behavior update the relevant docs: JSDoc for public
 APIs, <a href="Documentation.How-to.Extension_Points.html">Extension Points</a> for extension points, and
