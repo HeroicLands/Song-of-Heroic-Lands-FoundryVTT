@@ -17,6 +17,7 @@ import { SohlSystem } from "@src/core/logic/SohlSystem";
 import * as documentNs from "@src/document";
 import * as coreNs from "@src/core";
 import * as appsNs from "@src/apps";
+import * as utilsNs from "@src/utils";
 import { entitySurface } from "@src/entity/surface";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
@@ -518,6 +519,7 @@ function registerSystemHooks() {
     system.document = documentNs;
     system.core = coreNs;
     system.apps = appsNs;
+    system.utils = utilsNs;
     globalThis.sohl = system as unknown as SohlSystem;
 
     registerBuiltinDomains();
