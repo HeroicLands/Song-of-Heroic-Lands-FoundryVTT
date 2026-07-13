@@ -13,20 +13,11 @@
 
 import { entity } from "@src/entity/registry";
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-import {
-    ACTION_SUBTYPE,
-    defineType,
-    ITEM_KIND,
-    SOHL_ACTION_SCOPE,
-    SOHL_CONTEXT_MENU_SORT_GROUP,
-    STRIKE_MODE_TYPE,
-} from "@src/utils/constants";
+import { defineType, ITEM_KIND, STRIKE_MODE_TYPE } from "@src/utils/constants";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
-import { SohlAction } from "@src/entity/action/SohlAction";
-import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { CombatResult } from "@src/entity/result/CombatResult";
 import { fvttActiveCombatantForActor } from "@src/core/FoundryHelpers";
 import { AutomatedCombat } from "@src/document/combatant/logic/SohlCombatantLogic";
@@ -102,98 +93,6 @@ export class WeaponGearLogic<
             update[`system.strikeModes.${id}.${key}`] = value;
         }
         return update;
-    }
-
-    /* --------------------------------------------- */
-    /* Intrinsic Actions                             */
-    /* --------------------------------------------- */
-
-    /**
-     * Make a direct (non-automated) attack with this weapon.
-     *
-     * Intrinsic-action executor for the `attack` action.
-     *
-     * @param _context - The action context driving the attack.
-     * @remarks Not yet implemented; warns and returns. The automated combat
-     *   flow ({@link StrikeModeBase.automatedCombatStart}) is the supported entry point.
-     */
-    async attack(_context: SohlActionContext): Promise<void> {
-        // TODO(#69) - Weapon direct attack
-        sohl.log.uiWarn(
-            `A direct attack with "${this.name}" is not yet implemented.`,
-        );
-    }
-
-    /**
-     * Make a direct (non-automated) block with this weapon.
-     *
-     * Intrinsic-action executor for the `block` action.
-     *
-     * @param _context - The action context driving the block.
-     * @remarks Not yet implemented; warns and returns.
-     */
-    async block(_context: SohlActionContext): Promise<void> {
-        // TODO(#69) - Weapon direct block
-        sohl.log.uiWarn(
-            `A direct block with "${this.name}" is not yet implemented.`,
-        );
-    }
-
-    /**
-     * Make a direct (non-automated) counterstrike with this weapon.
-     *
-     * Intrinsic-action executor for the `counterstrike` action.
-     *
-     * @param _context - The action context driving the counterstrike.
-     * @remarks Not yet implemented; warns and returns.
-     */
-    async counterstrike(_context: SohlActionContext): Promise<void> {
-        // TODO(#69) - Weapon direct counterstrike
-        sohl.log.uiWarn(
-            `A direct counterstrike with "${this.name}" is not yet implemented.`,
-        );
-    }
-
-    /**
-     * Define and return all intrinsic actions for weapon gear logic, adding
-     * the combat actions (attack, automated combat start/resume, etc.) to
-     * those inherited from the base gear logic.
-     * @returns The intrinsic action definitions.
-     */
-    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
-        return [
-            ...GearLogic.defineIntrinsicActions(),
-            {
-                shortcode: "attack",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.WeaponGear.Action.attack",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "sohl-sword",
-                executor: "attack",
-                visible: "false",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-            },
-            {
-                shortcode: "block",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.WeaponGear.Action.block",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "sohl-sheild-reflect",
-                executor: "block",
-                visible: "false",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-            },
-            {
-                shortcode: "counterstrike",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.WeaponGear.Action.counterstrike",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "sohl-riposte",
-                executor: "counterstrike",
-                visible: "false",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-            },
-        ];
     }
 
     /* --------------------------------------------- */

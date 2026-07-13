@@ -30,8 +30,9 @@
  * block→`sm.defense.block`, counterstrike→`sm.defense.counterstrike` — so the
  * #178 "hard-codes sm.attack" defect is no longer present in the source.
  *
- * The weapon **direct** intrinsic actions (attack/block/counterstrike) are still
- * stubbed (RED #69), and there is no assisted **dodge** action (RED #187).
+ * Assisted combat is per-strike-mode only (these cells): there are no weapon-level
+ * attack/block/counterstrike actions (#69), and dodge is a skill rather than a
+ * Combat-tab action (#187).
  */
 
 /** A melee weapongear whose single mode allows attack, block, and counterstrike. */
@@ -182,23 +183,4 @@ describe("assisted combat (sheet strike-mode cells)", () => {
             }).should("be.greaterThan", 0);
         });
     });
-
-    // ------------------------------------------------------------------------ RED
-
-    // RED — blocked by #69: the weapon **direct** (non-assisted) attack / block /
-    // counterstrike intrinsic actions are stubbed (`uiWarn` "not yet
-    // implemented"). Distinct from the sheet cells above, which run the assisted
-    // successTest. Un-skip and assert the direct actions resolve once implemented.
-    it.skip("weapon direct attack/block/counterstrike resolve (#69)", () => {});
-
-    // RED — blocked by #187: there is no assisted **dodge** action/cell — the
-    // combat tab exposes attack/block/counterstrike only. Un-skip and assert a
-    // dodge cell posts a test once the action exists.
-    it.skip("assisted dodge posts a test (#187)", () => {});
-
-    // NOTE: #178 (block/counterstrike cells rolling the attack modifier) is no
-    // longer reproducible — `_onRollStrikeModeTest` selects the modifier via
-    // `selectStrikeModeModifier(sm, testKind)`, which returns `sm.defense.block`
-    // / `sm.defense.counterstrike` for those kinds. The block/counterstrike GREEN
-    // cases above are the regression guard.
 });
