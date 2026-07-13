@@ -44,7 +44,7 @@ import { SohlMap } from "@src/utils/collection/SohlMap";
  *
  * Logic instances are created automatically by the data model's `create()` factory
  * and are accessible via `document.system.logic` (or the convenience `document.logic`
- * accessor on {@link sohl.document.actor.foundry.SohlActor} and {@link sohl.document.item.foundry.SohlItem}).
+ * accessor on `SohlActor` and `SohlItem`).
  *
  * ## Phase-batched lifecycle
  *
@@ -53,7 +53,7 @@ import { SohlMap } from "@src/utils/collection/SohlMap";
  * moving to the next item. This means sibling items cannot depend on each
  * other — when Item B prepares, Item A may or may not be ready.
  *
- * SoHL overrides this in {@link sohl.document.actor.foundry.SohlActor.prepareEmbeddedDocuments} to run three
+ * SoHL overrides this in `SohlActor.prepareEmbeddedDocuments` to run three
  * phases across **all** items with barriers between them:
  *
  * 1. **{@link initialize}** — Set up base state from persisted data: create
@@ -165,7 +165,7 @@ export abstract class SohlLogic<
     }
 
     /**
-     * The owning {@link sohl.document.item.foundry.SohlItem}.
+     * The owning `SohlItem`.
      *
      * @throws If this logic is not embedded in an item.
      */
@@ -178,7 +178,7 @@ export abstract class SohlLogic<
     }
 
     /**
-     * The owning {@link sohl.document.actor.foundry.SohlActor} — the document itself when it is an actor,
+     * The owning `SohlActor` — the document itself when it is an actor,
      * otherwise its owning actor (for an item, combatant, or effect), or `null`.
      */
     get actor(): SohlActor | null {

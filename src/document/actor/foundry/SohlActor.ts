@@ -65,6 +65,9 @@ import { ITEM_KIND } from "@src/utils/constants";
  *
  * NOTE: The Foundry-free contracts (SohlActorLogic, SohlActorData, SohlActorBaseLogic)
  * now live in src/document/actor/logic/SohlActorBaseLogic.ts and are re-exported here.
+ *
+ * @internal The Foundry document layer is an implementation detail; author-facing
+ * code reaches the actor through the logic layer (`sohl.actorLogics`, `actor.logic`).
  */
 export class SohlActor extends Actor {
     protected _speaker?: SohlSpeaker;
@@ -297,7 +300,7 @@ export class SohlActor extends Actor {
 
     /**
      * Present a dialog to create a new Actor, mirroring
-     * {@link sohl.document.item.foundry.SohlItem.createDialog}'s progressive type → subtype flow.
+     * `SohlItem.createDialog`'s progressive type → subtype flow.
      *
      * World actors have no parent, so the created document always has
      * `parent: null`. Actor types currently declare no `subType` field, so the
@@ -508,14 +511,9 @@ export class SohlActor extends Actor {
     // }
 }
 
-/*
- * The Foundry-free logic-layer contracts (SohlActorLogic, SohlActorData,
- * SohlActorBaseLogic) live in the logic layer; they are re-exported here so
- * Foundry-side consumers can keep importing them from this module.
- */
-export {
-    SohlActorBaseLogic,
-    type SohlActorLogic,
-    type SohlActorData,
-} from "@src/document/actor/logic/SohlActorBaseLogic";
+// The Foundry-free logic-layer contracts (SohlActorLogic, SohlActorData,
+// SohlActorBaseLogic) live in the logic layer and are their sole namespace home
+// (`sohl.document.actor.logic.*`). They are imported here for this module's own
+// use only — not re-exported, so the Foundry layer does not become a second,
+// canonical home for them in the API tree.
 import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";

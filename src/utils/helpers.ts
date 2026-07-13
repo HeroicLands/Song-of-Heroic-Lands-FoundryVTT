@@ -1266,7 +1266,7 @@ const GearKinds = [
 ] as string[];
 
 /**
- * Type guard narrowing a {@link sohl.document.item.foundry.SohlItem} to one of the gear item kinds (armor,
+ * Type guard narrowing a `SohlItem` to one of the gear item kinds (armor,
  * concoction, container, misc, projectile, or weapon), exposing its
  * {@link sohl.document.item.logic.GearData} system data.
  *
@@ -1287,7 +1287,7 @@ const MasteryLevelKinds = [
 ] as string[];
 
 /**
- * Type guard narrowing a {@link sohl.document.item.foundry.SohlItem} to a mastery-level item (mystical
+ * Type guard narrowing a `SohlItem` to a mastery-level item (mystical
  * ability, skill, or trait), exposing its `MasteryLevelData` system data.
  *
  * @param item - The item to test.
@@ -1311,7 +1311,7 @@ const ItemSubTypeKinds = [
 ] as string[];
 
 /**
- * Type guard narrowing a {@link sohl.document.item.foundry.SohlItem} to one of the item kinds that carries a
+ * Type guard narrowing a `SohlItem` to one of the item kinds that carries a
  * `subType` field, optionally requiring a specific sub-type value.
  *
  * @param item - The item to test.

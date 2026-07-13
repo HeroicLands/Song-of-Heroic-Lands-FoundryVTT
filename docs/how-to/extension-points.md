@@ -113,7 +113,7 @@ See [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md) and
 
 ## 4) Active effects
 
-Core: {@link sohl.document.effect.foundry.SohlActiveEffect}.
+Core: [SohlActiveEffect](../../src/document/effect/foundry/SohlActiveEffect.ts).
 
 SoHL extends Foundry's ActiveEffect with an expanded targeting model (`targetType` / `targetName`) so one effect can target self, the owning actor, or sibling items by type. See [Active Effects](../concepts/architecture.md#active-effects) for the model and [Effects Integration](../reference/effects-integration.md) for the full reference.
 
@@ -135,7 +135,7 @@ from the clicked element's dataset and invokes its `onChatCardButton(btn)` (or
 
 When adding a new button: **emit one of the recognized dataset attributes** (do not
 introduce a new attribute name), and **add an `action` case** to the resolved
-document's handler — e.g. {@link sohl.document.item.foundry.SohlItem.onChatCardButton}, which switches on
+document's handler — e.g. `SohlItem.onChatCardButton` (see [SohlItem](../../src/document/item/foundry/SohlItem.ts)), which switches on
 `btn.dataset.action`.
 
 To pass **data** to the action — a result, a request object — do not invent a new

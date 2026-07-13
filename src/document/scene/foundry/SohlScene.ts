@@ -21,6 +21,9 @@ import type { SohlSceneLogic } from "@src/document/scene/logic/SohlSceneLogic";
  *
  * Foundry's {@link Scene} is a non-generic document (no subtypes), so this class
  * is non-generic as well.
+ *
+ * @internal The Foundry document layer is an implementation detail; author-facing
+ * code reaches scene state through the logic layer (`scene.logic`).
  */
 export class SohlScene extends Scene {
     /**

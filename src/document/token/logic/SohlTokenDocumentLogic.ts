@@ -29,11 +29,11 @@ import { showDefenseDialog } from "@src/document/combatant/logic/combatant-dialo
 
 /**
  * The Foundry-free data contract for a SoHL token — the {@link sohl.core.logic.SohlLogicData}
- * port specialized for {@link SohlTokenDocument}.
+ * port specialized for `SohlTokenDocument`.
  *
  * Tokens are not typed documents (no `system` DataModel), so unlike actors,
  * items, and combatants this port is not implemented by a `SohlDataModel`;
- * {@link SohlTokenDocument.logic} builds a transient adapter over the live token
+ * `SohlTokenDocument.logic` builds a transient adapter over the live token
  * instead. The token carries no persisted SoHL state — opposed tests live in
  * chat-card JSON, never on the token.
  */

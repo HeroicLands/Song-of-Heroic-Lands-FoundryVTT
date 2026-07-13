@@ -14,7 +14,7 @@ defines them:
 
 - **The hook contract** — the hook names, cancellable semantics, arguments, and
   worked `Hooks.on(...)` examples (listen and cancel) — is documented on
-  {@link sohl.document.actor.foundry.SohlActor}, which fires the hooks during data preparation.
+  [SohlActor](../../src/document/actor/foundry/SohlActor.ts), which fires the hooks during data preparation.
 - **The type strings** in the hook names (`sohl.<itemType>.…` and
   `sohl.actor.<actorType>.…`) are {@link sohl.utils.ITEM_KIND} and {@link sohl.utils.ACTOR_KIND}.
 - **The phase model** — the three phases (`initialize` → `evaluate` → `finalize`)

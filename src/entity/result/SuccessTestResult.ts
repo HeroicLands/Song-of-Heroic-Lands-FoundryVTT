@@ -19,10 +19,8 @@ import { entity, registerEntity } from "@src/entity/entityRegistry";
 import { registerKind } from "@src/utils/kindRegistry";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
-import type {
-    SohlItem,
-    SohlItemLogic,
-} from "@src/document/item/foundry/SohlItem";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { TestResult } from "@src/entity/result/TestResult";

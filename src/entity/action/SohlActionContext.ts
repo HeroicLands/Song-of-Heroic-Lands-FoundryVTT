@@ -11,10 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type {
-    SohlActor,
-    SohlActorLogic,
-} from "@src/document/actor/foundry/SohlActor";
+import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import { isA } from "@src/utils/constants";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
@@ -31,7 +29,7 @@ import type { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlToken
  * - **who is acting** — the {@link sohl.core.logic.SohlSpeaker} (`speaker`), resolved from a
  *   token/actor/user and used as the chat-message speaker;
  * - **what is being acted upon** — the `target` token, if any (a raw
- *   {@link Token}, a {@link SohlTokenDocument}, or a {@link sohl.document.actor.foundry.SohlActor} is normalized
+ *   {@link Token}, a `SohlTokenDocument`, or a `SohlActor` is normalized
  *   to the actor's first active token);
  * - **how to run** — `skipDialog` (bypass the action's configuration dialog)
  *   and `noChat` (suppress the chat-card output);
@@ -87,14 +85,14 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
      *
      * The `speaker` is required: a {@link sohl.core.logic.SohlSpeaker} is used directly, while a
      * plain data object is wrapped in one. A `target` given as a {@link Token},
-     * {@link TokenDocument}, or `Actor` is normalized to a {@link SohlTokenDocument}
+     * {@link TokenDocument}, or `Actor` is normalized to a `SohlTokenDocument`
      * (for an actor, its first active token).
      *
      * @param data - Initial context values; all but `speaker` are optional.
      * @param data.speaker - The speaker who initiated this action (required).
      *   A plain data object is automatically wrapped in a {@link sohl.core.logic.SohlSpeaker}.
      * @param data.target - The token or actor that is the action's target;
-     *   normalized to a {@link SohlTokenDocument}. Defaults to `null`.
+     *   normalized to a `SohlTokenDocument`. Defaults to `null`.
      * @param data.skipDialog - When `true`, bypass any interactive dialog and
      *   use values from `scope` directly. Defaults to `false`.
      * @param data.noChat - When `true`, suppress the resulting chat card.

@@ -40,7 +40,7 @@ export class SohlSceneLogic {
         return this._data;
     }
 
-    /** The owning {@link SohlScene}, or `null` if unattached. */
+    /** The owning `SohlScene`, or `null` if unattached. */
     get scene(): SohlScene | null {
         return (this._data.parent ?? null) as SohlScene | null;
     }
