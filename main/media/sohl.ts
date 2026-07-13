@@ -14,6 +14,10 @@
 import { SOHLCONFIG } from "@src/core/foundry/sohl-config";
 import { migrateWorld } from "@src/core/foundry/migration";
 import { SohlSystem } from "@src/core/logic/SohlSystem";
+import * as documentNs from "@src/document";
+import * as coreNs from "@src/core";
+import * as appsNs from "@src/apps";
+import { entitySurface } from "@src/entity/surface";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import { turnStartCombatantUpdate } from "@src/document/combatant/logic/SohlCombatantLogic";
@@ -505,7 +509,16 @@ function registerSystemHooks() {
 
     registerSystemSettings();
 
-    globalThis.sohl = setupSystem();
+    // Bind the runtime namespace tree onto the `sohl` global. Done here (the
+    // last-loaded module) rather than in SohlSystem so importing these barrels —
+    // which eager-load their whole subtree — introduces no import cycle. Their
+    // types are declared on SohlSystem via `typeof import(...)`.
+    const system = setupSystem() as unknown as Record<string, unknown>;
+    system.entity = entitySurface;
+    system.document = documentNs;
+    system.core = coreNs;
+    system.apps = appsNs;
+    globalThis.sohl = system as unknown as SohlSystem;
 
     registerBuiltinDomains();
     rehydrateCalendars();
