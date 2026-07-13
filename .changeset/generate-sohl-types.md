@@ -16,3 +16,7 @@ still referenced the removed `LineageLogic`) and — being copied with `../src/`
 relative imports — never resolved once copied into a consumer module. The docs
 (`api-access-map.md`, `module-development.md`) now describe the npm package as the
 only consumption path.
+
+The release workflow publishes the package to npm via **Trusted Publishing
+(OIDC)** — no `NPM_TOKEN` — idempotently on each system release (requires a
+Trusted Publisher configured on npm for this repo + `release.yml`).
