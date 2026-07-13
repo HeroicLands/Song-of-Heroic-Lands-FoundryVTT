@@ -66,8 +66,16 @@
         },
         "lengthBase": 5,
         "defense": {
-          "blockMod": -10,
-          "counterstrikeMod": -10
+          "block": {
+            "disabled": false,
+            "modifier": -10,
+            "successLevelMod": 0
+          },
+          "counterstrike": {
+            "disabled": false,
+            "modifier": -10,
+            "successLevelMod": 0
+          }
         }
       },
       "shaft": {
@@ -115,8 +123,16 @@
         },
         "lengthBase": 5,
         "defense": {
-          "blockMod": -10,
-          "counterstrikeMod": -10
+          "block": {
+            "disabled": false,
+            "modifier": -10,
+            "successLevelMod": 0
+          },
+          "counterstrike": {
+            "disabled": false,
+            "modifier": -10,
+            "successLevelMod": 0
+          }
         }
       }
     }

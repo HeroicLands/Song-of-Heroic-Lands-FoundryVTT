@@ -66,8 +66,16 @@
         },
         "lengthBase": 3,
         "defense": {
-          "blockMod": -5,
-          "counterstrikeMod": -5
+          "block": {
+            "disabled": false,
+            "modifier": -5,
+            "successLevelMod": 0
+          },
+          "counterstrike": {
+            "disabled": false,
+            "modifier": -5,
+            "successLevelMod": 0
+          }
         }
       },
       "pommel": {
@@ -115,8 +123,16 @@
         },
         "lengthBase": 3,
         "defense": {
-          "blockMod": -5,
-          "counterstrikeMod": -5
+          "block": {
+            "disabled": false,
+            "modifier": -5,
+            "successLevelMod": 0
+          },
+          "counterstrike": {
+            "disabled": false,
+            "modifier": -5,
+            "successLevelMod": 0
+          }
         }
       }
     }

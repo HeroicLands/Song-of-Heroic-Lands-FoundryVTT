@@ -66,8 +66,16 @@
         },
         "lengthBase": 5,
         "defense": {
-          "blockMod": 0,
-          "counterstrikeMod": 0
+          "block": {
+            "disabled": false,
+            "modifier": 0,
+            "successLevelMod": 0
+          },
+          "counterstrike": {
+            "disabled": false,
+            "modifier": 0,
+            "successLevelMod": 0
+          }
         }
       },
       "impale": {
@@ -115,8 +123,16 @@
         },
         "lengthBase": 5,
         "defense": {
-          "blockMod": 0,
-          "counterstrikeMod": 0
+          "block": {
+            "disabled": false,
+            "modifier": 0,
+            "successLevelMod": 0
+          },
+          "counterstrike": {
+            "disabled": false,
+            "modifier": 0,
+            "successLevelMod": 0
+          }
         }
       },
       "pommel": {
@@ -164,8 +180,16 @@
         },
         "lengthBase": 5,
         "defense": {
-          "blockMod": 0,
-          "counterstrikeMod": 0
+          "block": {
+            "disabled": false,
+            "modifier": 0,
+            "successLevelMod": 0
+          },
+          "counterstrike": {
+            "disabled": false,
+            "modifier": 0,
+            "successLevelMod": 0
+          }
         }
       },
       "halfswordimpale": {
@@ -213,8 +237,16 @@
         },
         "lengthBase": 5,
         "defense": {
-          "blockMod": 0,
-          "counterstrikeMod": 0
+          "block": {
+            "disabled": false,
+            "modifier": 0,
+            "successLevelMod": 0
+          },
+          "counterstrike": {
+            "disabled": false,
+            "modifier": 0,
+            "successLevelMod": 0
+          }
         }
       }
     }
