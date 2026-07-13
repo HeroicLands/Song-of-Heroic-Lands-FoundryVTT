@@ -63,7 +63,10 @@ import {
     getActiveCombat,
 } from "@src/core/FoundryHelpers";
 import { instanceFromJSON, toFilePath } from "@src/utils/helpers";
-import { fvttRangeToTarget } from "@src/core/FoundryHelpers";
+import {
+    fvttRangeToTarget,
+    fvttActiveCombatantForActor,
+} from "@src/core/FoundryHelpers";
 import {
     showAttackDialog,
     showDefenseDialog,
@@ -100,6 +103,69 @@ export const DEFENSE_DISABLING_STATUSES: readonly string[] = [
     STATUS_EFFECT.FROZEN,
     STATUS_EFFECT.INCAPACITATED,
 ];
+
+/**
+ * Statuses that make a combatant an **invalid target** for an automated attack:
+ * a `dead` or `vanquished` (Foundry-DEFEATED — killed, surrendered, or otherwise
+ * out of the fight) combatant can no longer be attacked.
+ */
+export const TARGET_INVALID_STATUSES: readonly string[] = [
+    STATUS_EFFECT.DEAD,
+    STATUS_EFFECT.VANQUISHED,
+];
+
+/**
+ * The first `forbidden` status a combatant currently has, or `null` when none
+ * applies. Foundry's DEFEATED (`isDefeated`) is folded into the set as
+ * `vanquished` so it is tested uniformly alongside the actor's own statuses.
+ * Pure.
+ *
+ * @param statuses - The combatant actor's active status-effect ids.
+ * @param isDefeated - Whether the combatant is Foundry-DEFEATED.
+ * @param forbidden - The status ids to scan for (in priority order).
+ * @returns The first matching status id, or `null`.
+ */
+function firstCombatantStatus(
+    statuses: Iterable<string>,
+    isDefeated: boolean,
+    forbidden: readonly string[],
+): string | null {
+    const set = new Set(statuses);
+    if (isDefeated) set.add(STATUS_EFFECT.VANQUISHED);
+    return forbidden.find((s) => set.has(s)) ?? null;
+}
+
+/**
+ * The reason an attacker may not **initiate** an automated attack — the first
+ * {@link ATTACK_BLOCKING_STATUSES} entry it has — or `null` when unimpaired.
+ * Pure and unit-tested; consumed by {@link SohlCombatantLogic.startAutomatedAttack}.
+ *
+ * @param statuses - The attacker actor's active status-effect ids.
+ * @param isDefeated - Whether the attacker combatant is Foundry-DEFEATED.
+ * @returns The blocking status id, or `null`.
+ */
+export function attackerBlockingStatus(
+    statuses: Iterable<string>,
+    isDefeated: boolean,
+): string | null {
+    return firstCombatantStatus(statuses, isDefeated, ATTACK_BLOCKING_STATUSES);
+}
+
+/**
+ * The reason a combatant is an invalid automated-attack **target** — the first
+ * {@link TARGET_INVALID_STATUSES} entry it has (`dead` / `vanquished`) — or
+ * `null` when it is a valid target. Pure and unit-tested.
+ *
+ * @param statuses - The target actor's active status-effect ids.
+ * @param isDefeated - Whether the target combatant is Foundry-DEFEATED.
+ * @returns The disqualifying status id, or `null`.
+ */
+export function targetInvalidStatus(
+    statuses: Iterable<string>,
+    isDefeated: boolean,
+): string | null {
+    return firstCombatantStatus(statuses, isDefeated, TARGET_INVALID_STATUSES);
+}
 
 /** Canvas coordinates and elevation captured at the start of a combat turn. */
 export interface CombatantStartLocation {
@@ -392,6 +458,40 @@ export class SohlCombatantLogic<
         if (!context.target) {
             sohl.log.uiWarn(
                 `${this.name} automated attack requires a target combatant.`,
+            );
+            return undefined;
+        }
+
+        // Invariant: the attacker must not be incapacitated, defeated, or dead.
+        const blockingStatus = attackerBlockingStatus(
+            this.data.statuses,
+            this.data.isDefeated,
+        );
+        if (blockingStatus) {
+            sohl.log.uiWarn(
+                `${this.name} cannot make an automated attack while ${blockingStatus}.`,
+            );
+            return undefined;
+        }
+
+        // Invariant: the target must be a combatant in the active combat, and
+        // not already out of the fight (dead or vanquished/defeated).
+        const targetCombatant = fvttActiveCombatantForActor(
+            context.target.actorLogic?.actor ?? null,
+        );
+        if (!targetCombatant) {
+            sohl.log.uiWarn(
+                `${context.target.name ?? "The target"} is not a combatant in the current combat.`,
+            );
+            return undefined;
+        }
+        const invalidTarget = targetInvalidStatus(
+            targetCombatant.data.statuses,
+            targetCombatant.data.isDefeated,
+        );
+        if (invalidTarget) {
+            sohl.log.uiWarn(
+                `${context.target.name ?? "The target"} is ${invalidTarget} and cannot be attacked.`,
             );
             return undefined;
         }

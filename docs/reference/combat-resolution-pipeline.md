@@ -50,12 +50,13 @@ Non-combat tests (skill checks, trait tests) use steps 1-2 only, producing a `Su
 
 ### Automated-combat invariants (enforced before step 1)
 
-Automated combat checks these invariants up front and aborts (with a player-facing UI notification) on any violation — both participants must be combatants in the same active combat, the attacker must not be incapacitated/defeated/dead, and the target must not be dead. Enforcement points:
+Automated combat checks these invariants up front and aborts (with a player-facing UI notification) on any violation — both participants must be combatants in the same active combat, the attacker must not be incapacitated/defeated/dead, and the target must not be out of the fight (dead or vanquished/defeated). Enforcement points:
 
-- **Attacker + target resolution and the attacker/target status checks:** `resolveAttackContext` (`src/document/combatant/logic/SohlCombatantLogic.ts`), using `ATTACK_BLOCKING_STATUSES` + `firstStatusIn` (same file).
+- **Attacker status:** `startAutomatedAttack` (`src/document/combatant/logic/SohlCombatantLogic.ts`) aborts when `attackerBlockingStatus(this.data.statuses, this.data.isDefeated)` (matched against `ATTACK_BLOCKING_STATUSES`) returns a status. The attacker's combat membership is guaranteed by the entry point (`StrikeModeBase.automatedCombatStart` resolves the attacker via `fvttActiveCombatantForActor`; the tracker action is on the combatant itself).
+- **Target validity:** `startAutomatedAttack` resolves the target to a combatant (`fvttActiveCombatantForActor(context.target.actorLogic?.actor)`) — aborting if it isn't one — then aborts when `targetInvalidStatus(...)` (matched against `TARGET_INVALID_STATUSES` = `dead` / `vanquished`) returns a status.
 - **Incapacitated defender → Ignore-only:** `gateAutomatedDefenseButtons` (`src/document/chat/chat-card-gating.ts`), using `DEFENSE_DISABLING_STATUSES` + `hasAnyStatus`. Render-time gating removes Dodge/Block/Counterstrike for an incapacitated defender, leaving Ignore.
 
-The status sets and predicates are pure and unit-tested; the resolution/gating that consumes them is Foundry glue.
+The status sets and predicates (`attackerBlockingStatus`, `targetInvalidStatus`, `hasAnyStatus`) are pure and unit-tested; the resolution/gating that consumes them is Foundry glue. There is deliberately **no "current combatant / your turn" gate** — automated and assisted combat can be freely interleaved.
 
 ## Result classes in detail
 

@@ -64,29 +64,32 @@ and every stage exchanges an evaluated result through a chat card.
 
 To _start_ an automated attack:
 
-- **The attacker's actor must be a combatant in the active combat.**
+- **The attacker must be a combatant in the active combat.**
   `StrikeModeBase.automatedCombatStart` resolves the combatant with
   `fvttActiveCombatantForActor(this.parent.actor)` and warns/aborts if the actor
-  is not in the active combat — this is the "must be a combatant" gate.
-- **A target is required.** `startAutomatedAttack` aborts (UI warning) when
-  `context.target` is absent.
+  is not in the active combat (the tracker entry is on the combatant itself).
+- **The attacker must not be out of the fight.** `startAutomatedAttack` aborts
+  when `attackerBlockingStatus(this.data.statuses, this.data.isDefeated)` (against
+  `ATTACK_BLOCKING_STATUSES` — dead, vanquished, unconscious, sleep, restrained,
+  paralyzed, frozen, incapacitated) returns a status.
+- **A target is required, and must be a valid combatant.**
+  `startAutomatedAttack` aborts when `context.target` is absent, when it does not
+  resolve to a combatant in the active combat, or when
+  `targetInvalidStatus(...)` (against `TARGET_INVALID_STATUSES` — `dead` /
+  `vanquished`) reports the target is dead or defeated/surrendered.
 - **Range** is computed (`fvttRangeToTarget`) and validated per strike mode
   (melee `reach.effective`, missile `baseRange.effective`); missile _volley_
   beyond base range is explicitly unsupported.
 
-Defender-side gating **is** fully wired at card-render time (see
+Defender-side gating is likewise fully wired at card-render time (see
 [Cross-client handoff](#cross-client-handoff)).
 
-> **Caveat — attacker status invariants are dormant.** The pure status sets
-> `ATTACK_BLOCKING_STATUSES` / `DEFENSE_DISABLING_STATUSES` and the helper
-> `firstStatusIn` exist and are unit-tested, but the function that would enforce
-> the _attacker_-side gate, `resolveAttackContext`, is **currently commented
-> out**, and the live `startAutomatedAttack` enforces only _target + range +
-> combat membership_. So an incapacitated/defeated attacker is **not** presently
-> blocked in the wired path, and there is **no "it must be your turn" gate**.
-> (The [pipeline doc](../reference/combat-resolution-pipeline.md#automated-combat-invariants-enforced-before-step-1)
-> describes the intended enforcement; treat it as the target state, not current
-> behavior.) The **defender** gate, by contrast, is live.
+> **Note — no turn gate.** There is deliberately **no "it must be your turn"
+> gate**: the attacker/target invariants above are enforced, but automated and
+> assisted combat can be freely interleaved (a defender may counterstrike out of
+> turn, a fight may drop to assisted mid-exchange). The status sets and the
+> `attackerBlockingStatus` / `targetInvalidStatus` predicates are pure and
+> unit-tested.
 
 ### Entry points
 
@@ -216,9 +219,9 @@ fire-and-forget:
 For anyone extending combat, the wired state diverges from the intended/documented
 state in a few places (all verified against source):
 
-1. **Attacker status invariants are dormant** — `resolveAttackContext` is
-   commented out; only target + range + membership gate the attacker path. No
-   "your turn" gate exists. (The defender gate _is_ live.)
+1. **No "your turn" gate** — the attacker/target status invariants are enforced
+   (#387), but automated combat does not require the acting combatant to be the
+   current one; this is intentional so the two modes can be interleaved.
 2. **`moveFactor` is unapplied** (#252) — stored and GM-editable, but
    `computedMove()`/`CorpusLogic.feetPerRound` never read it.
 3. **`displayedMedium` is not honored by `computedMove`** — it seeds the tracker

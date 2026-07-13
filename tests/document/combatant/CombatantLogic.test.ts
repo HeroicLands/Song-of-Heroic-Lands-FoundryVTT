@@ -7,7 +7,12 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { makeCombatantLogic, makeMockActor } from "@tests/mocks/logicHarness";
-import { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
+import {
+    SohlCombatantLogic,
+    attackerBlockingStatus,
+    targetInvalidStatus,
+} from "@src/document/combatant/logic/SohlCombatantLogic";
+import { STATUS_EFFECT } from "@src/utils/constants";
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
 
 describe("CombatantLogic", () => {
@@ -145,6 +150,122 @@ describe("CombatantLogic", () => {
             expect(exec).toHaveBeenCalledTimes(1);
             const ctx = exec.mock.calls[0][0] as any;
             expect(ctx.speaker).toBeTruthy();
+        });
+    });
+
+    describe("attackerBlockingStatus / targetInvalidStatus (pure)", () => {
+        it("attacker: null when unimpaired", () => {
+            expect(attackerBlockingStatus([], false)).toBeNull();
+            expect(attackerBlockingStatus(["stunned"], false)).toBeNull();
+        });
+
+        it("attacker: returns the blocking status when present", () => {
+            expect(
+                attackerBlockingStatus([STATUS_EFFECT.INCAPACITATED], false),
+            ).toBe(STATUS_EFFECT.INCAPACITATED);
+        });
+
+        it("attacker: folds Foundry DEFEATED in as vanquished", () => {
+            expect(attackerBlockingStatus([], true)).toBe(
+                STATUS_EFFECT.VANQUISHED,
+            );
+        });
+
+        it("target: invalid when dead or vanquished/defeated, else null", () => {
+            expect(targetInvalidStatus([], false)).toBeNull();
+            expect(
+                targetInvalidStatus([STATUS_EFFECT.INCAPACITATED], false),
+            ).toBeNull(); // incapacitated is still a valid target
+            expect(targetInvalidStatus([STATUS_EFFECT.DEAD], false)).toBe(
+                STATUS_EFFECT.DEAD,
+            );
+            expect(targetInvalidStatus([], true)).toBe(
+                STATUS_EFFECT.VANQUISHED,
+            );
+        });
+    });
+
+    describe("startAutomatedAttack invariants", () => {
+        let warn: any;
+        beforeEach(() => {
+            warn = vi.spyOn(sohl.log, "uiWarn");
+        });
+        afterEach(() => vi.restoreAllMocks());
+
+        /** A minimal target token-logic stand-in. */
+        const target = () => ({
+            name: "Foe",
+            actorLogic: { actor: { id: "foe" } },
+        });
+        /** Spy the target's combatant resolution to a combatant with `data`. */
+        const stubTargetCombatant = (data: any) =>
+            vi
+                .spyOn(FoundryHelpers, "fvttActiveCombatantForActor")
+                .mockReturnValue(data ? ({ data } as any) : undefined);
+
+        it("refuses (warns, no roll) when there is no target", async () => {
+            const logic = makeCombatantLogic();
+            await expect(
+                logic.startAutomatedAttack({} as any),
+            ).resolves.toBeUndefined();
+            expect(warn).toHaveBeenCalled();
+        });
+
+        it("refuses when the attacker is defeated", async () => {
+            const logic = makeCombatantLogic();
+            logic.data.isDefeated = true;
+            await expect(
+                logic.startAutomatedAttack({ target: target() } as any),
+            ).resolves.toBeUndefined();
+            expect(warn).toHaveBeenCalled();
+        });
+
+        it("refuses when the attacker has a blocking status", async () => {
+            const logic = makeCombatantLogic();
+            logic.data.statuses = new Set([STATUS_EFFECT.INCAPACITATED]);
+            await expect(
+                logic.startAutomatedAttack({ target: target() } as any),
+            ).resolves.toBeUndefined();
+            expect(warn).toHaveBeenCalledWith(
+                expect.stringContaining(STATUS_EFFECT.INCAPACITATED),
+            );
+        });
+
+        it("refuses when the target is not a combatant in the current combat", async () => {
+            const logic = makeCombatantLogic();
+            stubTargetCombatant(null); // not resolvable to a combatant
+            await expect(
+                logic.startAutomatedAttack({ target: target() } as any),
+            ).resolves.toBeUndefined();
+            expect(warn).toHaveBeenCalledWith(
+                expect.stringContaining("not a combatant"),
+            );
+        });
+
+        it("refuses when the target is dead", async () => {
+            const logic = makeCombatantLogic();
+            stubTargetCombatant({
+                statuses: new Set([STATUS_EFFECT.DEAD]),
+                isDefeated: false,
+            });
+            await expect(
+                logic.startAutomatedAttack({ target: target() } as any),
+            ).resolves.toBeUndefined();
+            expect(warn).toHaveBeenCalledWith(expect.stringContaining("dead"));
+        });
+
+        it("refuses when the target is defeated (surrendered/vanquished)", async () => {
+            const logic = makeCombatantLogic();
+            stubTargetCombatant({
+                statuses: new Set<string>(),
+                isDefeated: true,
+            });
+            await expect(
+                logic.startAutomatedAttack({ target: target() } as any),
+            ).resolves.toBeUndefined();
+            expect(warn).toHaveBeenCalledWith(
+                expect.stringContaining(STATUS_EFFECT.VANQUISHED),
+            );
         });
     });
 });
