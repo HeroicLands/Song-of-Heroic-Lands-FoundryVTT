@@ -1,0 +1,30 @@
+{
+    "name": "@heroiclands/sohl-types",
+    "version": "0.0.1",
+    "description": "Type declarations for the Song of Heroic Lands (SoHL) Foundry VTT system. Types only — runtime binds through the live `sohl` global.",
+    "license": "GPL-3.0-or-later",
+    "types": "./index.d.ts",
+    "files": [
+        "index.d.ts",
+        "README.md"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "keywords": [
+        "foundry-vtt",
+        "foundryvtt",
+        "sohl",
+        "song-of-heroic-lands",
+        "types"
+    ],
+    "homepage": "https://heroiclands.org",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT.git",
+        "directory": "packages/sohl-types"
+    },
+    "bugs": {
+        "url": "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues"
+    }
+}
