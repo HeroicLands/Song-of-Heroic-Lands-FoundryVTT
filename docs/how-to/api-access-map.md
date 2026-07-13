@@ -108,24 +108,31 @@ keep them distinct:
   `sohl.document.effect.foundry.SohlActiveEffect`, `sohl.log`, and so on. A module
   **never imports the system's runtime code** — doing so would load a second copy
   of the system.
-- **Types — dev-time only.** For annotations, reference SoHL's **types-only**
-  declaration, [`types/sohl-public-api.d.ts`](../../types/sohl-public-api.d.ts).
-  It re-exports the Logic/Data interfaces and the domain class types (and, once the
-  namespace tree ships to consumers, the `sohl.*` paths); it declares **no runtime
-  values**. Bindings still resolve to the global at runtime.
+- **Types — dev-time only.** Install the types package:
 
-Reference the declaration one of two ways:
+    ```
+    npm install -D @heroiclands/sohl-types
+    ```
 
-- **Copy it** into your module's `types/` directory and add it to your
-  `tsconfig.json` (`"types": ["./types/sohl-public-api"]`).
-- **(Planned — see #407)** install a published types package, e.g.
-  `npm install -D @heroiclands/sohl-types`, and reference it
-  (`"types": ["@heroiclands/sohl-types"]`) — versioned and updatable, no copied
-  file.
+    and reference it in your module's `tsconfig.json`:
+
+    ```json
+    {
+        "compilerOptions": {
+            "types": ["@heroiclands/sohl-types"]
+        }
+    }
+    ```
+
+    It declares **no runtime values** — it exports the Logic/Data interfaces and
+    domain class types for annotations, and types the `sohl` global with the full
+    namespace tree. It is **generated from the SoHL source**, so it never drifts.
+    `fvtt-types` is a **peer dependency** (it supplies Foundry's globals, which these
+    types reference); your module already depends on it for Foundry development.
 
 ```ts
-// dev-time: annotation type from the declaration
-import type { ValueModifier } from "./types/sohl-public-api";
+// dev-time: annotation type from the package
+import type { ValueModifier } from "@heroiclands/sohl-types";
 // runtime: value from the global — never an import of the system
 const mod: ValueModifier = new sohl.entity.ValueModifier(data, { parent });
 ```

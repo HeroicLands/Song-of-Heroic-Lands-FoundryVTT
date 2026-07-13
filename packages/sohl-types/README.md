@@ -31,9 +31,12 @@ Reference it in your module's `tsconfig.json`:
 }
 ```
 
-> **Status:** `0.0.x` is a bootstrap placeholder. The full generated
-> declarations — the Logic/Data interfaces and the `sohl.*` namespace tree — land
-> in a later release. See the SoHL repository for progress.
+The declarations are **generated from the SoHL source** — the Logic/Data
+interfaces, the domain class types, and the full `sohl.*` namespace tree
+(`sohl.document.effect.foundry.SohlActiveEffect`, `sohl.entity.modifier.ValueModifier`,
+…). `fvtt-types` is a **peer dependency** (it provides Foundry's globals, which
+these types reference); install it in your module as you already do for Foundry
+development.
 
 ## License
 

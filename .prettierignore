@@ -13,3 +13,5 @@
 # hand-edited, so keep Prettier from flagging its regenerated output.
 docs/reference/type-catalog.md
 
+
+packages/sohl-types/index.d.ts

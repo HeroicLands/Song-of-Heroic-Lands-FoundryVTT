@@ -68,3 +68,6 @@ Session.vim
 # Hidden files
 /nogit/
 *.wip
+
+# Generated types package declaration (built via `npm run build:sohl-types`)
+/packages/sohl-types/index.d.ts
