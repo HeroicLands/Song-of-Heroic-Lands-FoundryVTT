@@ -24,14 +24,14 @@ import type { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlToken
  * The execution context passed to every SoHL action.
  *
  * Every intrinsic action — the methods discovered via
- * {@link SohlLogic.getContextOptions} and dispatched through the action
+ * {@link sohl.core.logic.SohlLogic.getContextOptions} and dispatched through the action
  * system — receives a `SohlActionContext`. It bundles the four things an
  * action needs to know to run and report its result:
  *
- * - **who is acting** — the {@link SohlSpeaker} (`speaker`), resolved from a
+ * - **who is acting** — the {@link sohl.core.logic.SohlSpeaker} (`speaker`), resolved from a
  *   token/actor/user and used as the chat-message speaker;
  * - **what is being acted upon** — the `target` token, if any (a raw
- *   {@link Token}, a {@link SohlTokenDocument}, or a {@link SohlActor} is normalized
+ *   {@link Token}, a {@link SohlTokenDocument}, or a {@link sohl.document.actor.foundry.SohlActor} is normalized
  *   to the actor's first active token);
  * - **how to run** — `skipDialog` (bypass the action's configuration dialog)
  *   and `noChat` (suppress the chat-card output);
@@ -85,14 +85,14 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
     /**
      * Build a context from {@link SohlActionContext.Data}.
      *
-     * The `speaker` is required: a {@link SohlSpeaker} is used directly, while a
+     * The `speaker` is required: a {@link sohl.core.logic.SohlSpeaker} is used directly, while a
      * plain data object is wrapped in one. A `target` given as a {@link Token},
      * {@link TokenDocument}, or `Actor` is normalized to a {@link SohlTokenDocument}
      * (for an actor, its first active token).
      *
      * @param data - Initial context values; all but `speaker` are optional.
      * @param data.speaker - The speaker who initiated this action (required).
-     *   A plain data object is automatically wrapped in a {@link SohlSpeaker}.
+     *   A plain data object is automatically wrapped in a {@link sohl.core.logic.SohlSpeaker}.
      * @param data.target - The token or actor that is the action's target;
      *   normalized to a {@link SohlTokenDocument}. Defaults to `null`.
      * @param data.skipDialog - When `true`, bypass any interactive dialog and
@@ -179,7 +179,7 @@ export namespace SohlActionContext {
      * @typeParam S - Shape of the {@link scope} payload.
      */
     export interface Data<S extends UnknownObject = UnknownObject> {
-        /** The speaker, as a {@link SohlSpeaker} or its data. */
+        /** The speaker, as a {@link sohl.core.logic.SohlSpeaker} or its data. */
         speaker: SohlSpeaker | Partial<SohlSpeaker.Data>;
         /** The target token/actor; normalized to a token document. */
         target: SohlActorLogic<any>;

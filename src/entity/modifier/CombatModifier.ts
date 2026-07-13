@@ -30,7 +30,7 @@ import { registerKind } from "@src/utils/kindRegistry";
  *
  * ## Usage
  *
- * Created by the combat-technique {@link SkillLogic} during initialize for each
+ * Created by the combat-technique {@link sohl.document.item.logic.SkillLogic} during initialize for each
  * strike mode's attack and defense (block/counterstrike) modifiers:
  *
  * ```typescript
@@ -47,7 +47,7 @@ export class CombatModifier extends MasteryLevelModifier {
     /**
      * Construct an empty combat modifier owned by `parent` — shorthand for
      * `new CombatModifier({}, { parent })`.
-     * @param parent - The owning {@link SohlLogic}.
+     * @param parent - The owning {@link sohl.core.logic.SohlLogic}.
      */
     constructor(parent: SohlLogic<any>);
     /**

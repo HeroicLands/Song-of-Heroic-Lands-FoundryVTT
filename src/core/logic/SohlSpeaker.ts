@@ -42,7 +42,7 @@ import { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
  * A `SohlSpeaker` resolves a loose set of identifiers (token, actor, scene,
  * user ids, or an explicit alias) into the concrete documents an action needs,
  * and knows how to emit chat messages attributed to that speaker. Every
- * {@link SohlActionContext} holds one as its `speaker`, so it is the backbone
+ * {@link sohl.entity.action.SohlActionContext} holds one as its `speaker`, so it is the backbone
  * of action output: results, dialogs, and roll cards are all posted through a
  * speaker.
  *

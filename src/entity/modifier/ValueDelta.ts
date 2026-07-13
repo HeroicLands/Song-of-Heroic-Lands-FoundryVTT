@@ -57,7 +57,7 @@ export class ValueDelta extends SohlEntity {
      * @param data.op - The operator selecting how the delta combines with the value.
      * @param data.value - The delta's value (numeric, or a boolean flag).
      * @param options - Construction options.
-     * @param options.parent - The owning {@link SohlLogic}.
+     * @param options.parent - The owning {@link sohl.core.logic.SohlLogic}.
      * @throws TypeError if a non-`CUSTOM` operator is given a non-numeric value.
      */
     constructor(

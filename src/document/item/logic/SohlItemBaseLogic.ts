@@ -25,13 +25,13 @@ import { BRAND } from "@src/utils/constants";
  * class. The Foundry layer (`foundry/SohlItem.ts`) implements
  * {@link SohlItemData} via `SohlItemDataModel` and re-exports these symbols;
  * logic classes import them from here so they remain loadable without
- * Foundry globals. References to the {@link SohlItem} document type are
+ * Foundry globals. References to the {@link sohl.document.item.foundry.SohlItem} document type are
  * type-only and erased at compile time.
  */
 
 /**
- * Logic interface implemented by all item logic classes — {@link SohlLogic}
- * specialized for {@link SohlItem} data.
+ * Logic interface implemented by all item logic classes — {@link sohl.core.logic.SohlLogic}
+ * specialized for {@link sohl.document.item.foundry.SohlItem} data.
  */
 export interface SohlItemLogic<
     TData extends SohlLogicData<SohlItem>,
@@ -43,7 +43,7 @@ export interface SohlItemLogic<
 export interface SohlItemData<
     TLogic extends SohlLogic<any> = SohlLogic<any>,
 > extends SohlLogicData<SohlItem, TLogic> {
-    /** The owning {@link SohlItem}. */
+    /** The owning {@link sohl.document.item.foundry.SohlItem}. */
     get item(): SohlItem;
     /**
      * The item's display label; with `withName`, includes the item's name, and

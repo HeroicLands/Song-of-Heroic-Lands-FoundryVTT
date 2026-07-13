@@ -115,7 +115,7 @@ export async function fvttResolveUuidAsync(
  * command lives in a permission-gated `Macro` document, never in system data,
  * and `Macro#execute` enforces `canUserExecute` (ownership **and** the
  * `MACRO_SCRIPT` user permission) before running. No code is ever compiled from
- * serialized data. See {@link SohlAction} and the Security Model doc.
+ * serialized data. See {@link sohl.entity.action.SohlAction} and the Security Model doc.
  *
  * @param uuid - The Macro document UUID referenced by a Script action.
  * @param scope - Variables passed to the macro body (Foundry spreads these as
@@ -384,7 +384,7 @@ export async function fvttCreateChatMessage(data: object): Promise<any> {
  *
  * @remarks The Foundry-free way for the logic layer to add items to an actor:
  * the caller passes an actor logic (or any logic that resolves to an owning
- * actor via {@link SohlLogic.actor}) and plain item-creation data; this boundary
+ * actor via {@link sohl.core.logic.SohlLogic.actor}) and plain item-creation data; this boundary
  * resolves the Foundry actor and performs the write. No-op when the logic has no
  * owning actor.
  * @param actorLogic - The actor's logic (or a logic whose `.actor` resolves it).
@@ -692,7 +692,7 @@ export function getActiveCombat(): SohlCombat | undefined {
 }
 
 /**
- * The {@link SohlCombatantLogic} for the given actor's combatant in the active
+ * The {@link sohl.document.combatant.logic.SohlCombatantLogic} for the given actor's combatant in the active
  * combat, or `undefined` when the game is unavailable, no combat is active, or the
  * actor is not a combatant. The actor's active token (when one exists) is used
  * to disambiguate; otherwise the first combatant for the actor is taken.
@@ -719,10 +719,10 @@ export function fvttActiveCombatantForActor(
 }
 
 /**
- * The {@link SohlCombatantLogic} of every combatant in the same combat as the given
+ * The {@link sohl.document.combatant.logic.SohlCombatantLogic} of every combatant in the same combat as the given
  * combatant (including it), or an empty array when it is not in a combat.
  *
- * Lets the Foundry-free {@link SohlCombatantLogic} reach its peers (for ally /
+ * Lets the Foundry-free {@link sohl.document.combatant.logic.SohlCombatantLogic} reach its peers (for ally /
  * threat queries) without walking `combatant.combat.combatants` directly.
  * @param combatant - The combatant whose peers to resolve.
  * @returns The peer combatant logics, or an empty array.
@@ -740,7 +740,7 @@ export function fvttCombatantLogics(
 /**
  * Prompt the GM to move a combatant into a {@link CombatantGroup}, delegating
  * the dialog and group creation/assignment to the document. Lets the
- * Foundry-free {@link SohlCombatantLogic.moveToGroup} action trigger the operation
+ * Foundry-free {@link sohl.document.combatant.logic.SohlCombatantLogic.moveToGroup} action trigger the operation
  * without invoking document methods directly.
  * @param combatant - The combatant to reassign.
  */
@@ -751,7 +751,7 @@ export async function fvttPromptMoveCombatantToGroup(
 }
 
 /**
- * The {@link SohlTokenDocumentLogic} for the given actor's active token on the
+ * The {@link sohl.document.token.logic.SohlTokenDocumentLogic} for the given actor's active token on the
  * canvas, or `undefined` when the game is unavailable or the actor has no token.
  *
  * Lets Foundry-free logic (e.g. skill/attribute item logic) reach the
@@ -859,7 +859,7 @@ export async function getDocumentFromPacks(
 /**
  * Resolve the SohlItem for a context menu target element.
  * @param header - The context menu target element.
- * @returns The resolved {@link SohlItem}, or `undefined` if none could be resolved.
+ * @returns The resolved {@link sohl.document.item.foundry.SohlItem}, or `undefined` if none could be resolved.
  */
 export function getContextItem(header: HTMLElement): SohlItem | undefined {
     const element = header.closest(".item") as HTMLElement;

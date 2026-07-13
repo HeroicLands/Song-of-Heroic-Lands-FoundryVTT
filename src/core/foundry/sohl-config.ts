@@ -144,7 +144,7 @@ export type ActorDMMap = Record<
     string,
     Constructor<SohlDataModel<any, SohlActor, any>>
 >;
-/** Canonical actor-kind → DataModel registry, keyed by {@link ACTOR_KIND}. */
+/** Canonical actor-kind → DataModel registry, keyed by {@link sohl.utils.ACTOR_KIND}. */
 export const ACTOR_DM_DEF: ActorDMMap = {
     [ACTOR_KIND.BEING]: BeingDataModel,
     [ACTOR_KIND.ASSEMBLY]: AssemblyDataModel,
@@ -251,7 +251,7 @@ export type ItemDMMap = Record<
     string,
     Constructor<SohlDataModel<any, SohlItem, any>>
 >;
-/** Canonical item-kind → DataModel registry, keyed by {@link ITEM_KIND}. */
+/** Canonical item-kind → DataModel registry, keyed by {@link sohl.utils.ITEM_KIND}. */
 export const ITEM_DM_DEF: ItemDMMap = {
     [ITEM_KIND.AFFILIATION]: AffiliationDataModel,
     [ITEM_KIND.AFFLICTION]: AfflictionDataModel,
@@ -291,7 +291,7 @@ export const CommonItemDataModels: ItemDMMap[keyof ItemDMMap][] = Object.values(
 );
 
 /**
- * Canonical item-kind → Logic-class registry, keyed by {@link ITEM_KIND}.
+ * Canonical item-kind → Logic-class registry, keyed by {@link sohl.utils.ITEM_KIND}.
  *
  * @remarks
  * Declared as a precise object literal (no widening) so per-kind constructor
@@ -463,7 +463,7 @@ export const {
     [ITEM_KIND.WEAPONGEAR]: WeaponGearSheet,
 } as StrictObject<Constructor<SohlItemSheetBase>>);
 
-/** A calendar entry in the {@link SohlSystem} calendar registry. */
+/** A calendar entry in the {@link sohl.core.logic.SohlSystem} calendar registry. */
 export interface CalendarRegistration {
     /** Display name (localization key or plain text) */
     label: string;
@@ -524,7 +524,7 @@ export interface ClassConfig {
 }
 
 /**
- * Shape of {@link SohlSystem.CONFIG} — the system registration surface
+ * Shape of {@link sohl.core.logic.SohlSystem.CONFIG} — the system registration surface
  * merged into Foundry's `CONFIG`. Member docs are intentionally terse; the
  * authoritative detail lives on the referenced classes.
  */

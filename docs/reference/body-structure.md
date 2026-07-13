@@ -55,7 +55,7 @@ A body part is a primary anatomical division — Head, Torso, an arm, a leg, a w
 | `favoredFlag` | boolean               | Marks the part as favored (off-hand vs. main-hand semantics).                                      |
 | `locations`   | `BodyLocation.Data[]` | The hit locations nested within this part.                                                         |
 
-A convenience getter {@link BodyPart.affectsMobility} is `true` when the part has any of the `vital`, `core`, or `locomotor` roles.
+A convenience getter {@link sohl.entity.body.BodyPart.affectsMobility} is `true` when the part has any of the `vital`, `core`, or `locomotor` roles.
 
 ## Body locations
 
@@ -109,7 +109,7 @@ The adjacency graph defines which parts are next to which, as an array of unorde
 ]
 ```
 
-Each pair is bidirectional. The adjacency graph drives the **aimed-strike drift algorithm** ({@link BodyStructure.getRandomPart}):
+Each pair is bidirectional. The adjacency graph drives the **aimed-strike drift algorithm** ({@link sohl.entity.body.BodyStructure.getRandomPart}):
 
 1. Roll `1..spread`.
 2. If the roll ≤ the current target part's `probWeight`, that part is hit.

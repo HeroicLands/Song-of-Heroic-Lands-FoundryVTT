@@ -37,7 +37,7 @@ import { SohlEntity } from "../SohlEntity";
  *
  * ## Lifecycle
  *
- * 1. Created by a test method (e.g., {@link MasteryLevelModifier.successTest}).
+ * 1. Created by a test method (e.g., {@link sohl.entity.modifier.MasteryLevelModifier.successTest}).
  * 2. {@link evaluate} is called to resolve the outcome (roll dice, compute
  *    success level, etc.). Returns `true` if the result should be displayed.
  * 3. Result is posted to chat and/or consumed by the next stage of the
@@ -55,7 +55,7 @@ export abstract class TestResult extends SohlEntity {
     /**
      * Construct an empty test result owned by `parent` — shorthand for
      * `new (subclass)({}, { parent })`.
-     * @param parent - The initiating {@link SohlLogic}.
+     * @param parent - The initiating {@link sohl.core.logic.SohlLogic}.
      */
     constructor(parent: SohlLogic<any>);
     /**

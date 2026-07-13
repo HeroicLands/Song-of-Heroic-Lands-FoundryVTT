@@ -1,44 +1,17 @@
 {
-    "entryPoints": ["build/docbundle"],
-    "entryPointStrategy": "expand",
+    "entryPoints": ["src/index.ts"],
+    "entryPointStrategy": "resolve",
     "navigation": {
         "includeFolders": false,
         "includeGroups": false,
-        "includeCategories": true
+        "includeCategories": false
     },
-    "categoryOrder": [
-        "Core",
-        "Documents/Actor",
-        "Documents/Item",
-        "Documents/Chat",
-        "Documents/Combat",
-        "Documents/Combatant",
-        "Documents/Effect",
-        "Documents/Scene",
-        "Documents/Token",
-        "Domain/General",
-        "Domain/SkillBase",
-        "Domain/Action",
-        "Domain/Body",
-        "Domain/Modifier",
-        "Domain/Movement",
-        "Domain/Result",
-        "Domain/StrikeMode",
-        "Applications",
-        "Utility/Helpers",
-        "Utility/AI",
-        "Utility/Collection",
-        "Utility/Constants",
-        "*"
-    ],
     "tsconfig": "./tsconfig.docs.json",
     "out": "build/stage/docs",
     "plugin": [
         "typedoc-github-theme",
         "./utils/typedoc-plugin-datafield-schema.mjs",
-        "./utils/typedoc-plugin-source-category.mjs",
-        "./utils/typedoc-plugin-foundry-links.mjs",
-        "./utils/typedoc-plugin-nested-nav.mjs"
+        "./utils/typedoc-plugin-foundry-links.mjs"
     ],
     "theme": "typedoc-github-theme",
     "excludeExternals": true,

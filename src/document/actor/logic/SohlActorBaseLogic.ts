@@ -32,13 +32,13 @@ import type {
  * class. The Foundry layer (`foundry/SohlActor.ts`) implements
  * {@link SohlActorData} via `SohlActorDataModel` and re-exports these
  * symbols; logic classes import them from here so they remain loadable
- * without Foundry globals. References to the {@link SohlActor} document type
+ * without Foundry globals. References to the {@link sohl.document.actor.foundry.SohlActor} document type
  * are type-only and erased at compile time.
  */
 
 /**
- * Logic interface implemented by all actor logic classes — {@link SohlLogic}
- * specialized for {@link SohlActor} data.
+ * Logic interface implemented by all actor logic classes — {@link sohl.core.logic.SohlLogic}
+ * specialized for {@link sohl.document.actor.foundry.SohlActor} data.
  */
 export interface SohlActorLogic<
     TData extends SohlLogicData<SohlActor>,

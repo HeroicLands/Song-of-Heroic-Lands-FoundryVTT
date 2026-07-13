@@ -82,10 +82,10 @@ code. This makes the dangerous state unrepresentable rather than merely screened
 out and revives no code on the way in is the
 [Entity serialization contract](../reference/runtime-contracts.md#entity-serialization-contract);
 the action executor model — an intrinsic **method name** or a **Macro UUID**,
-never a code body — is {@link SohlAction} and
+never a code body — is {@link sohl.entity.action.SohlAction} and
 [Macros and Actions](./macros-and-actions.md); the class registry is
 `src/utils/kindRegistry.ts`; and the only string→value path permitted on
-untrusted data is the AST-allowlist {@link SafeExpression}. There is deliberately
+untrusted data is the AST-allowlist {@link sohl.entity.expr.SafeExpression}. There is deliberately
 **no** function-id/`__funcref__` registry: nothing that needs to survive a
 round-trip is a function, so none is serialized at all.
 
@@ -108,7 +108,7 @@ independent ways, each verified by execution:
 
 These are not patchable one at a time. The only sound options are an **AST
 allowlist** (parse, then permit a fixed set of nodes/identifiers — this is what
-{@link SafeExpression} does for predicates and why it is safe) or **not
+{@link sohl.entity.expr.SafeExpression} does for predicates and why it is safe) or **not
 compiling at all** (the reference model above). For behavior driven by
 _untrusted_ data — installed content and cross-client messages — SoHL chose not
 compiling at all: `SafeExpression` (`src/entity/expr/SafeExpression.ts`) is the
@@ -175,10 +175,10 @@ The safe extension mechanism depends on two axes — who authors it (shipped in
 code vs. GM post-ship) and how it runs (a synchronous value vs. asynchronous
 imperative behavior):
 
-|                                  | **Shipped (in code)** | **GM-authored (post-ship)**              |
-| -------------------------------- | --------------------- | ---------------------------------------- |
-| **Synchronous, returns a value** | a method / intrinsic  | a {@link SafeExpression} (AST allowlist) |
-| **Asynchronous, imperative**     | a method / intrinsic  | a Foundry **Macro** (`Macro#execute`)    |
+|                                  | **Shipped (in code)** | **GM-authored (post-ship)**                               |
+| -------------------------------- | --------------------- | --------------------------------------------------------- |
+| **Synchronous, returns a value** | a method / intrinsic  | a {@link sohl.entity.expr.SafeExpression} (AST allowlist) |
+| **Asynchronous, imperative**     | a method / intrinsic  | a Foundry **Macro** (`Macro#execute`)                     |
 
 Two consequences to internalize:
 
@@ -300,4 +300,4 @@ Treat any of these as a blocker until proven safe against the threat model:
   compilation" epic; the XSS and ReDoS hardening under their respective epics.
   Browse `gh issue list --label security`.
 - The class registry: `src/utils/kindRegistry.ts`. The predicate allowlist:
-  {@link SafeExpression}. GM homebrew runs through Foundry `Macro` documents.
+  {@link sohl.entity.expr.SafeExpression}. GM homebrew runs through Foundry `Macro` documents.

@@ -40,7 +40,7 @@ export type ContextMenuCallback = (target: HTMLElement) => unknown;
  * A context-menu predicate. Two forms are accepted:
  *
  * - **string** — evaluated as a SafeExpression (see
- *   {@link SafeExpression}) against a context with `target` (the
+ *   {@link sohl.entity.expr.SafeExpression}) against a context with `target` (the
  *   triggering HTMLElement) plus lazy `item` and `actor` getters
  *   resolved from the nearest `data-item-id` / `data-actor-id`
  *   ancestor. Examples: `"true"`, `"item.system.canTransmit"`,

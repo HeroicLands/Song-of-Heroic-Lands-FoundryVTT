@@ -2,7 +2,7 @@
 
 > **Audience:** Developers, contributors, and anyone needing a mental model of the system.
 
-See also: [Documentation Hub](../README.md), [Extension Points](../how-to/extension-points.md), {@link SohlLogic}.
+See also: [Documentation Hub](../README.md), [Extension Points](../how-to/extension-points.md), {@link sohl.core.logic.SohlLogic}.
 
 > **New to the codebase? Start here.** Read this page top to bottom for the mental model, then branch out through the [Where to learn more](#where-to-learn-more) index at the end.
 
@@ -140,7 +140,7 @@ Foundry VTT processes each embedded item fully before moving to the next, so sib
 2. **evaluate** — compute derived values using sibling items' initialized state.
 3. **finalize** — resolve cross-item dependencies requiring evaluated state.
 
-See {@link SohlLogic} for the full rationale and rules.
+See {@link sohl.core.logic.SohlLogic} for the full rationale and rules.
 
 ## Domain objects
 
@@ -217,7 +217,7 @@ This already underlies automated combat: defense buttons dispatch to the _defend
 
 | Topic                 | Document                                                                 |
 | --------------------- | ------------------------------------------------------------------------ |
-| Lifecycle phases      | {@link SohlLogic}                                                        |
+| Lifecycle phases      | {@link sohl.core.logic.SohlLogic}                                        |
 | Extending SoHL        | [Extension Points](../how-to/extension-points.md)                        |
 | Lifecycle hooks       | [Lifecycle Hooks](../how-to/lifecycle-hooks.md)                          |
 | Actions               | [Macros and Actions](./macros-and-actions.md)                            |

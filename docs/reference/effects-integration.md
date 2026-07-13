@@ -32,7 +32,7 @@ Foundry's baseline ActiveEffect model operates on the embedded owner document. S
 
 - the embedding document itself,
 - the owning actor,
-- or every item of a given kind on the same actor (optionally narrowed by a {@link SafeExpression} predicate).
+- or every item of a given kind on the same actor (optionally narrowed by a {@link sohl.entity.expr.SafeExpression} predicate).
 
 This behavior is driven by two fields on `SohlActiveEffectDataModel`:
 
@@ -41,7 +41,7 @@ This behavior is driven by two fields on `SohlActiveEffectDataModel`:
     - `"actor"` → apply changes to the owning actor.
     - `<itemKind>` (e.g. `"skill"`, `"trait"`, `"weapongear"`, etc.) → apply to every item of that kind on the owning actor, filtered by the `test` predicate. **Scope determines the EFFECT_KEY namespace shown in the changes UI**, so the set of available keys is always known ahead of time.
 - `test`
-    - Optional {@link SafeExpression}. When `scope` is an item-kind, this predicate narrows the matched items. Variable binding: `item`. Empty `test` matches every item of that kind.
+    - Optional {@link sohl.entity.expr.SafeExpression}. When `scope` is an item-kind, this predicate narrows the matched items. Variable binding: `item`. Empty `test` matches every item of that kind.
 
 `SohlActiveEffect.targets` returns the resolved set of target documents; `SohlActiveEffect.allApplicableEffects()` (on both `SohlItem` and `SohlActor`) composes own self-targeting effects with effects living elsewhere that target this document (the inbound "pull" side, surfaced via `transferredActiveEffects()`).
 
@@ -68,7 +68,7 @@ Standard `system.*` keys fall through to Foundry's stock change application unch
 
 ### Strike-mode predicate (`strikeModePredicate`)
 
-A SoHL extension on the per-change schema, only consulted when the key matches `^(mod:)?sm:`. It's an optional {@link SafeExpression} whose variable `sm` binds to each strike mode candidate. Empty predicate matches every strike mode on the weapon. A predicate that throws on one strike mode skips that strike mode only.
+A SoHL extension on the per-change schema, only consulted when the key matches `^(mod:)?sm:`. It's an optional {@link sohl.entity.expr.SafeExpression} whose variable `sm` binds to each strike mode candidate. Empty predicate matches every strike mode on the weapon. A predicate that throws on one strike mode skips that strike mode only.
 
 ```jsonc
 // Example: "Honed Edge" — +1 attack and +1 impact on all cutting strike modes

@@ -72,9 +72,9 @@ in production; see issue #247.
 To change a subset of an array's elements, **source the full canonical array
 from the DataModel and write it back whole**, with only the target element(s)
 modified. The `BodyStructure` update-builders are the template:
-{@link BodyStructure.addPartUpdate}, {@link BodyStructure.removePartUpdate}, and
-the general {@link BodyStructure.setPartFieldsUpdate} (used by
-{@link GearLogic.holdItem}/`releaseItem` and `BodyPart.addLocationUpdate`/
+{@link sohl.entity.body.BodyStructure.addPartUpdate}, {@link sohl.entity.body.BodyStructure.removePartUpdate}, and
+the general {@link sohl.entity.body.BodyStructure.setPartFieldsUpdate} (used by
+{@link sohl.document.item.logic.GearLogic.holdItem}/`releaseItem` and `BodyPart.addLocationUpdate`/
 `removeLocationUpdate`).
 
 Two reasons this is easy to miss:

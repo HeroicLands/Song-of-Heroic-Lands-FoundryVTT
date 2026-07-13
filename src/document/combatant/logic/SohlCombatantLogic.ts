@@ -204,7 +204,7 @@ export function turnStartCombatantUpdate(
 
 /**
  * The Foundry-free data contract for a SoHL combatant — the
- * {@link SohlLogicData} port specialized for {@link SohlCombatant}, plus the
+ * {@link sohl.core.logic.SohlLogicData} port specialized for {@link sohl.document.combatant.foundry.SohlCombatant}, plus the
  * combatant's persisted combat-scoped state. Implemented by
  * `SohlCombatantDataModel`.
  */
@@ -378,7 +378,7 @@ export class SohlCombatantLogic<
 
     /**
      * The computed tactical move (feet per combat round) for this combatant,
-     * read from its being's {@link CorpusLogic.feetPerRound} for the being's
+     * read from its being's {@link sohl.document.item.logic.CorpusLogic.feetPerRound} for the being's
      * active movement medium and scaled by the combatant's situational
      * {@link SohlCombatantData.moveFactor} (run, difficult terrain, haste, …;
      * defaults to `1`). `null` when the actor has no movement model (no corpus,
@@ -398,7 +398,7 @@ export class SohlCombatantLogic<
 
     // --- Relational / spatial (scene-coupled edge) ---------------------------
 
-    /** The owning {@link SohlCombatant} document — the combatant's scene edge. */
+    /** The owning {@link sohl.document.combatant.foundry.SohlCombatant} document — the combatant's scene edge. */
     get combatant(): SohlCombatant | null {
         return this.data.parent;
     }
@@ -644,7 +644,7 @@ export class SohlCombatantLogic<
     /**
      * Reassign this combatant to a {@link CombatantGroup} — GM-only. The picker
      * dialog and group creation/assignment are Foundry-document work, so this
-     * executor delegates to {@link SohlCombatant.moveToGroup}.
+     * executor delegates to {@link sohl.document.combatant.foundry.SohlCombatant.moveToGroup}.
      * @param _context - The action context (unused; the dialog gathers input).
      */
     async moveToGroup(_context: SohlActionContext): Promise<void> {
@@ -1733,7 +1733,7 @@ export function buildCombatCardData(
 }
 
 /**
- * Resolve the {@link MasteryLevelModifier} of an actor's **skill** identified by
+ * Resolve the {@link sohl.entity.modifier.MasteryLevelModifier} of an actor's **skill** identified by
  * its (static, non-localized) `system.shortcode` — e.g. `"dge"` for Dodge.
  *
  * Pure and Foundry-free. Used by the defender's automated-combat resumes (Dodge,
@@ -1828,7 +1828,7 @@ export interface BuildAttackInput {
 }
 
 /**
- * Assemble an {@link AttackResult} from a strike mode's resolved attack and
+ * Assemble an {@link sohl.entity.result.AttackResult} from a strike mode's resolved attack and
  * impact modifiers. Pure and Foundry-free: it clones the modifiers (so the
  * result is independent of — and serializable without — the live strike mode)
  * and rolls a fresh d100 unless one is supplied.
@@ -1836,7 +1836,7 @@ export interface BuildAttackInput {
  * The result is *not* yet evaluated; the caller runs `evaluate()` (on the
  * attacker's client, which owns the speaker) before posting the attack card.
  * @param input - The resolved attack/impact modifiers and result metadata.
- * @returns A new, unevaluated {@link AttackResult}.
+ * @returns A new, unevaluated {@link sohl.entity.result.AttackResult}.
  */
 export function buildAttackResult(input: BuildAttackInput): AttackResult {
     // Clone so the result is independent of (and serializable without) the live
@@ -1963,12 +1963,12 @@ export interface AttackCardInput {
 
 /**
  * Build the render context for `attack-card.hbs` from an **evaluated**
- * {@link AttackResult}. Pure and Foundry-free.
+ * {@link sohl.entity.result.AttackResult}. Pure and Foundry-free.
  *
  * Transparency-by-design: the attacker's choices (Aim, Aspect) and the
  * resolved Attack Mastery Level are surfaced on the card for everyone to see.
  * The whole `AttackResult` is embedded as `attackResultData` (kind-stamped via
- * its curated {@link AttackResult.toJSON}, driven by {@link defaultToJSON}); the
+ * its curated {@link sohl.entity.result.AttackResult.toJSON}, driven by {@link sohl.utils.defaultToJSON}); the
  * template serializes it with the registered `toJSON` Handlebars helper into
  * `data-attack-result-json`, and the defense resume rehydrates it with
  * `instanceFromJSON`. The aim travels with the result

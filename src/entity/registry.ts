@@ -30,7 +30,7 @@
  * docs/reference/runtime-contracts.md.
  *
  * Curated to the classes meant to be `new`ed or subclassed by macros and variant
- * modules: modifiers, test/combat results, strike modes, {@link SohlAction}, and
+ * modules: modifiers, test/combat results, strike modes, {@link sohl.entity.action.SohlAction}, and
  * body modeling. Function modules (`aggregateArmor`, `move-helpers`, injury
  * helpers, weighted-random) and non-constructable helpers (`calcSkillBase`) are
  * deliberately excluded.

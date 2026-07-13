@@ -101,7 +101,7 @@ export function resolveAuthorizedChatCardHandler(
 /**
  * Dispatch a chat-card action — either a button click or an edit-action link
  * click — to the given logic. Reads `btn.dataset.action`, builds an
- * {@link SohlActionContext}, then dispatches through `logic.actions` (by name,
+ * {@link sohl.entity.action.SohlActionContext}, then dispatches through `logic.actions` (by name,
  * executor id, or title) before falling back to a direct method call on the
  * logic. Warns via `sohl.log.warn` when no handler is found.
  *

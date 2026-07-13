@@ -42,7 +42,7 @@ export class SimpleRoll extends SohlEntity {
     /**
      * Construct an empty roll owned by `parent` — shorthand for
      * `new SimpleRoll({}, { parent })` (all fields default to `0`/`[]`).
-     * @param parent - The owning {@link SohlLogic}.
+     * @param parent - The owning {@link sohl.core.logic.SohlLogic}.
      */
     constructor(parent: SohlLogic<any>);
     /**

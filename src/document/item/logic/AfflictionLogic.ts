@@ -79,7 +79,7 @@ const PRIVATION_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
  * persistent conditions that impair a character over time. Each affliction
  * tracks:
  *
- * - **level** — Severity of the affliction, as a {@link ValueModifier}
+ * - **level** — Severity of the affliction, as a {@link sohl.entity.modifier.ValueModifier}
  * - **healingRate** — Rate of natural recovery (−1 indicates no natural healing)
  * - **contagionIndex** — Risk of transmission to others
  * - **transmission** — Mode of spread (contact, airborne, ingestion, etc.)
@@ -105,22 +105,22 @@ export class AfflictionLogic<
     isTreated!: boolean;
     /**
      * Bonus to treatment tests earned from a successful diagnosis, as a
-     * {@link ValueModifier}, seeded from {@link AfflictionData.diagnosisBonusBase}.
+     * {@link sohl.entity.modifier.ValueModifier}, seeded from {@link AfflictionData.diagnosisBonusBase}.
      */
     diagnosisBonus!: ValueModifier;
     /**
-     * Effective severity of the affliction, as a {@link ValueModifier}, seeded
+     * Effective severity of the affliction, as a {@link sohl.entity.modifier.ValueModifier}, seeded
      * from {@link AfflictionData.levelBase}.
      */
     level!: ValueModifier;
     /**
-     * Rate of natural recovery, as a {@link ValueModifier}, seeded from
+     * Rate of natural recovery, as a {@link sohl.entity.modifier.ValueModifier}, seeded from
      * {@link AfflictionData.healingRateBase}. A base of `-1` disables the
      * modifier, indicating the affliction does not heal naturally.
      */
     healingRate!: ValueModifier;
     /**
-     * Risk of transmitting this affliction to others, as a {@link ValueModifier},
+     * Risk of transmitting this affliction to others, as a {@link sohl.entity.modifier.ValueModifier},
      * seeded from {@link AfflictionData.contagionIndexBase}.
      */
     contagionIndex!: ValueModifier;

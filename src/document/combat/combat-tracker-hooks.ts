@@ -19,7 +19,7 @@ import { SOHL_CONTEXT_MENU_SORT_GROUP } from "@src/utils/constants";
  * The non-HIDDEN combatant intrinsic actions — the skeleton (label/icon) for the
  * combat-tracker context-menu entries. Uniform across combatants, so it is
  * computed once; per-row gating and dispatch route through the specific
- * combatant's {@link SohlCombatant.getContextOptions}.
+ * combatant's {@link sohl.document.combatant.foundry.SohlCombatant.getContextOptions}.
  */
 const COMBATANT_MENU_ACTION_DEFS =
     SohlCombatantLogic.defineIntrinsicActions().filter(
@@ -31,7 +31,7 @@ const COMBATANT_MENU_ACTION_DEFS =
  * document's application):
  *
  * - The combat-tracker row context menu, populated from each combatant's
- *   {@link SohlCombatant.getContextOptions} (Automated Attack, Move to Group…).
+ *   {@link sohl.document.combatant.foundry.SohlCombatant.getContextOptions} (Automated Attack, Move to Group…).
  * - A per-row computed-move chip and combat-group label on the tracker.
  *
  * The per-combatant config-sheet fields live in `combatant-config-hooks.ts`;
@@ -121,7 +121,7 @@ function getCombatant(li: HTMLElement): SohlCombatant | null {
  * Build the combat-tracker row context-menu entries for the combatant's
  * available actions. Each entry is keyed by a non-HIDDEN combatant intrinsic
  * action; its visibility and dispatch route through the row's combatant
- * {@link SohlCombatant.getContextOptions} entry of the same id — so the action
+ * {@link sohl.document.combatant.foundry.SohlCombatant.getContextOptions} entry of the same id — so the action
  * system (and the action's own `visible` predicate, e.g. GM-only Move to Group)
  * drives behavior. Entries are gated on `combatant.isOwner` because the
  * combatant is not part of the action `visible` predicate's scope.

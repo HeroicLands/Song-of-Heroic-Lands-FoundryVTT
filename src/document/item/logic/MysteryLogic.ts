@@ -63,7 +63,7 @@ export class MysteryLogic<
     TData extends MysteryData = MysteryData,
 > extends SohlItemBaseLogic<TData> {
     /**
-     * The mystery's level as a {@link ValueModifier}, seeded from
+     * The mystery's level as a {@link sohl.entity.modifier.ValueModifier}, seeded from
      * {@link MysteryData.levelBase}. Disabled when the mystery has no level
      * (`levelBase === null`).
      */
@@ -71,7 +71,7 @@ export class MysteryLogic<
 
     /**
      * The mystery's charge tracking. Both `value` and `max` are always
-     * {@link ValueModifier}s; a `null` source value leaves the corresponding
+     * {@link sohl.entity.modifier.ValueModifier}s; a `null` source value leaves the corresponding
      * modifier **disabled**, which the sheet reads to pick the ×/∞ display:
      *
      * - `max` disabled (source `max === null`) → mystery does not use charges,

@@ -134,7 +134,7 @@ export class SuccessTestResult extends TestResult {
      * Construct an empty success-test result owned by `parent` — shorthand for
      * `new SuccessTestResult({}, { parent })` (skips the `options.testResult`
      * merge).
-     * @param parent - The owning {@link SohlLogic}.
+     * @param parent - The owning {@link sohl.core.logic.SohlLogic}.
      */
     constructor(parent: SohlLogic<any>);
     /**
@@ -308,7 +308,7 @@ export class SuccessTestResult extends TestResult {
 
     /**
      * The mastery-level modifier rolled against; its
-     * {@link MasteryLevelModifier.constrainedEffective | constrainedEffective}
+     * {@link sohl.entity.modifier.MasteryLevelModifier.constrainedEffective | constrainedEffective}
      * value is the roll-under target for this test.
      */
     get masteryLevelModifier(): MasteryLevelModifier {
@@ -503,7 +503,7 @@ export class SuccessTestResult extends TestResult {
 
     /**
      * Roll the d100 and resolve the outcome against the modifier's
-     * {@link MasteryLevelModifier.constrainedEffective | constrained effective}
+     * {@link sohl.entity.modifier.MasteryLevelModifier.constrainedEffective | constrained effective}
      * mastery level (roll-under: rolling at or below it succeeds).
      *
      * @remarks

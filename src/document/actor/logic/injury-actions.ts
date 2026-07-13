@@ -170,7 +170,7 @@ export interface InjuryCardContext {
 /**
  * Build the render context for `injury-card.hbs` from a resolved injury.
  * Pure and Foundry-free so it can be unit-tested; the Foundry layer supplies
- * the {@link InjuryCardContext} and posts the result via {@link SohlSpeaker}.
+ * the {@link InjuryCardContext} and posts the result via {@link sohl.core.logic.SohlSpeaker}.
  * @param injury - The resolved injury to render.
  * @param ctx - Foundry-supplied context the card needs beyond the injury.
  * @param ctx.actorId - The Foundry id of the actor that received the injury.
