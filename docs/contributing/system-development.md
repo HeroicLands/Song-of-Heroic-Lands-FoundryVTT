@@ -134,6 +134,14 @@ No repository change lands without a tracking GitHub issue — **except** pure
 `chore/*` work (housekeeping and tooling with no shipped-behavior change). File
 or find the issue before you start so you have its number for the branch name.
 
+**Documentation is not a `chore`.** User-visible documentation is a `bug` (what
+is published is wrong, broken, or misleading) or a `feature` (new or expanded
+coverage) — a tracking issue and a changeset, like any other change. This
+includes **JSDoc** (it publishes to the API site) and other user-facing docs (the
+`docs/` pages and the user guide). Only non-published housekeeping — internal
+(non-JSDoc) code comments, build and tooling config, and repo meta — is
+`chore/*`.
+
 When you open an issue, the **body is the problem statement only** — symptoms,
 reproduction, expected vs. actual, and optionally acceptance criteria. Root cause
 and the proposed fix go in a **comment**, not the body.
