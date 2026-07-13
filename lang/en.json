@@ -52,6 +52,8 @@
     "SOHL.Action.TERM.permanent": "Permanent",
     "SOHL.Actions.create": "Create Action",
     "SOHL.Actions.macro.label": "Macro",
+    "SOHL.Actions.name.label": "Action Name",
+    "SOHL.Actions.nameRequired": "Please enter a name for the action.",
     "SOHL.Actions.newMacro": "<New Macro…>",
     "SOHL.Actions.remove": "Remove Action",
     "SOHL.Actions.removeHint": "Remove this action? The bound Macro is not deleted.",

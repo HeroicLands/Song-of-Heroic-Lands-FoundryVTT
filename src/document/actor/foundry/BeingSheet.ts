@@ -408,6 +408,8 @@ export class BeingSheet extends SohlActorSheetBase {
             )
             .join("");
         const content = `<form><div class="form-group"><label>${esc(
+            game.i18n.localize("SOHL.Actions.name.label"),
+        )}</label><input type="text" name="title" autofocus /></div><div class="form-group"><label>${esc(
             game.i18n.localize("SOHL.Actions.macro.label"),
         )}</label><select name="macro"><option value="__new__">${esc(
             game.i18n.localize("SOHL.Actions.newMacro"),
@@ -425,12 +427,33 @@ export class BeingSheet extends SohlActorSheetBase {
                         ).object,
                 },
             },
-        )) as { macro?: string } | null;
+        )) as { title?: string; macro?: string } | null;
         if (!result?.macro) return;
+        const title = String(result.title ?? "").trim();
+        if (!title) {
+            sohl.log.uiWarn(game.i18n.localize("SOHL.Actions.nameRequired"));
+            return;
+        }
 
         let macro: any;
         if (result.macro === "__new__") {
-            macro = await (Macro as any).createDialog({}, {});
+            // Create the Macro ourselves (never via the default create dialog)
+            // so it is guaranteed to be a SCRIPT macro. Name it after the
+            // owner and action, disambiguated against existing Macro names;
+            // the folder is intentionally left to the user's own organization.
+            const base = `${this.document.name} ${title}`;
+            const existing = new Set(
+                (game as any).macros.map((m: any) => m.name),
+            );
+            let name = base;
+            for (let n = 2; existing.has(name); n++) name = `${base} (${n})`;
+            macro = await (Macro as any).create({
+                name,
+                type: "script",
+                command: "",
+            });
+            // Defer authoring the Macro body to Foundry's own Macro sheet.
+            macro?.sheet?.render(true);
         } else {
             macro = await fromUuid(result.macro);
         }
@@ -439,7 +462,7 @@ export class BeingSheet extends SohlActorSheetBase {
         const def = {
             shortcode: foundry.utils.randomID(),
             subType: ACTION_SUBTYPE.SCRIPT,
-            title: macro.name,
+            title,
             scope: SOHL_ACTION_SCOPE.SELF,
             executor: macro.uuid,
             trigger: "true",

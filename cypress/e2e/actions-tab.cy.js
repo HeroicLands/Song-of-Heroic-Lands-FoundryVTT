@@ -65,11 +65,13 @@ describe("Being Actions tab (#313)", () => {
     afterEach(() => {
         cy.closeAllSheets();
         cy.cleanupWorld();
-        // Macros aren't run-tagged; delete the ones these tests create.
+        // Macros aren't run-tagged; delete the ones these tests create. New
+        // macros are named "<actor> <action>", so match any name containing
+        // the "E2E" marker (used in every test's action/macro name).
         cy.foundry((win) =>
             Promise.all(
                 win.game.macros
-                    .filter((m) => m.name.startsWith("E2E "))
+                    .filter((m) => m.name.includes("E2E"))
                     .map((m) => m.delete()),
             ).then(() => null),
         );
@@ -90,29 +92,29 @@ describe("Being Actions tab (#313)", () => {
         });
     });
 
-    it("create: binds a selected Macro and adds it under Custom Actions", () => {
+    /** Fill the create dialog's Action Name + Macro select, then submit. */
+    function fillCreateDialog(title, macroValue) {
+        cy.get('[data-action="createAction"]').click();
+        cy.get('select[name="macro"]', { timeout: 10000 }).should("exist");
+        cy.foundry((win) => {
+            const dlg = [...win.foundry.applications.instances.values()]
+                .reverse()
+                .find((a) => /dialog/i.test(a.constructor.name));
+            dlg.element.querySelector('input[name="title"]').value = title;
+            dlg.element.querySelector('select[name="macro"]').value =
+                macroValue;
+            return null;
+        });
+        cy.submitDialog("ok");
+    }
+
+    it("create: binds a selected Macro under the given Action name", () => {
         cy.importActor().then((actor) => {
             makeMacro("E2E Bind Macro", "console.log('bind');").then(
                 (macroUuid) => {
                     cy.openSheet(actor);
                     cy.switchTab("actions", "primary");
-                    cy.get('[data-action="createAction"]').click();
-                    // The create dialog renders a macro <select>; pick our Macro.
-                    cy.get('select[name="macro"]', { timeout: 10000 }).should(
-                        "exist",
-                    );
-                    cy.foundry((win) => {
-                        const dlg = [
-                            ...win.foundry.applications.instances.values(),
-                        ]
-                            .reverse()
-                            .find((a) => /dialog/i.test(a.constructor.name));
-                        dlg.element.querySelector(
-                            'select[name="macro"]',
-                        ).value = macroUuid;
-                        return null;
-                    });
-                    cy.submitDialog("ok");
+                    fillCreateDialog("E2E Bound Action", macroUuid);
                     cy.wait(700);
                     // The action def is persisted, bound to the Macro's uuid…
                     cy.foundry((win) =>
@@ -121,12 +123,36 @@ describe("Being Actions tab (#313)", () => {
                             []
                         ).map((d) => d.executor),
                     ).should("include", macroUuid);
-                    // …and appears (titled after the Macro) under Custom Actions.
+                    // …titled by the Action name, under Custom Actions.
                     cy.get(ACTIONS)
                         .contains("fieldset", "Custom Actions")
-                        .contains(".item", "E2E Bind Macro");
+                        .contains(".item", "E2E Bound Action");
                 },
             );
+        });
+    });
+
+    it("create <New Macro>: makes a script Macro named '<actor> <action>'", () => {
+        cy.importActor().then((actor) => {
+            cy.openSheet(actor);
+            cy.switchTab("actions", "primary");
+            fillCreateDialog("E2E Fresh Action", "__new__");
+            cy.wait(800);
+            // A SCRIPT macro named "<actor> E2E Fresh Action" was created…
+            cy.foundry((win) => {
+                const actorName = win.game.actors.get(actor.id).name;
+                const m = win.game.macros.getName(
+                    `${actorName} E2E Fresh Action`,
+                );
+                return m ? { type: m.type } : null;
+            }).should((m) => {
+                expect(m, "new macro exists").to.not.be.null;
+                expect(m.type, "macro is a script").to.eq("script");
+            });
+            // …and the action is bound and listed under Custom Actions.
+            cy.get(ACTIONS)
+                .contains("fieldset", "Custom Actions")
+                .contains(".item", "E2E Fresh Action");
         });
     });
 
