@@ -18,7 +18,33 @@
  * Foundry document types) so they run — and are unit-tested — without Foundry.
  */
 
-import { ACTIVE_EFFECT_SCOPE, ITEM_METADATA } from "@src/utils/constants";
+import {
+    ACTIVE_EFFECT_SCOPE,
+    ITEM_METADATA,
+    MELEESTRIKEMODE_EFFECT_KEY,
+    meleeStrikeModeEffectKeyLabels,
+    MISSILESTRIKEMODE_EFFECT_KEY,
+    missileStrikeModeEffectKeyLabels,
+} from "@src/utils/constants";
+
+/**
+ * The dedicated effect-key sets for the strike-mode scopes, keyed by scope
+ * value. Each entry maps effect-key name → change path and effect-key name →
+ * localization key, so the change-key dropdown can be built as value → label.
+ */
+const STRIKE_MODE_EFFECT_KEYS: Record<
+    string,
+    { keys: Record<string, string>; labels: Record<string, string> }
+> = {
+    [ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE]: {
+        keys: MELEESTRIKEMODE_EFFECT_KEY,
+        labels: meleeStrikeModeEffectKeyLabels,
+    },
+    [ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE]: {
+        keys: MISSILESTRIKEMODE_EFFECT_KEY,
+        labels: missileStrikeModeEffectKeyLabels,
+    },
+};
 
 /**
  * Build the localized change-type label map for the change `mode` dropdown from
@@ -71,18 +97,32 @@ export function resolveEffectMetadataType(
 }
 
 /**
- * The `key`-dropdown choices for a resolved metadata type, read from
- * {@link ITEM_METADATA}. Unknown types (e.g. an actor type) have no choices.
+ * The `key`-dropdown choices (change path → localized label) for a resolved
+ * metadata type. Strike-mode scopes use their dedicated effect-key sets; item
+ * kinds read {@link ITEM_METADATA}. Unknown types (e.g. an actor type) have no
+ * choices.
  *
  * @param metadataType - The metadata type from {@link resolveEffectMetadataType}.
- * @returns The key choices, or an empty array when the type has none.
+ * @returns A map of change path → localized label (empty when the type has none).
  */
-export function resolveEffectKeyChoices(metadataType: string): unknown[] {
+export function resolveEffectKeyChoices(
+    metadataType: string,
+): Record<string, string> {
+    // Strike-mode scopes: build value → localized label from the effect-key set.
+    const smSet = STRIKE_MODE_EFFECT_KEYS[metadataType];
+    if (smSet) {
+        const out: Record<string, string> = {};
+        for (const name of Object.keys(smSet.keys)) {
+            out[smSet.keys[name]] = sohl.i18n.localize(smSet.labels[name]);
+        }
+        return out;
+    }
+    // Item kinds: KeyChoices from ITEM_METADATA (currently unpopulated; the
+    // value-keyed map form is used when present, arrays are ignored).
     const itemData =
         metadataType in ITEM_METADATA ?
             ITEM_METADATA[metadataType as keyof typeof ITEM_METADATA]
         :   undefined;
-    return (
-        (itemData as { KeyChoices?: unknown[] } | undefined)?.KeyChoices ?? []
-    );
+    const kc = (itemData as { KeyChoices?: unknown } | undefined)?.KeyChoices;
+    return kc && !Array.isArray(kc) ? (kc as Record<string, string>) : {};
 }

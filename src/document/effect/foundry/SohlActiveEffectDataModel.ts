@@ -28,7 +28,7 @@ const {
 
 /**
  * Builds the SoHL active-effect data schema: scope, a `test` SafeExpression,
- * and a Foundry-compatible `changes` array extended with `strikeModePredicate`.
+ * and a Foundry-compatible `changes` array.
  *
  * @returns The active-effect data schema.
  */
@@ -45,7 +45,6 @@ function defineActiveEffectDataSchema(): foundry.data.fields.DataSchema {
         // (v14). Keep key/type/value/phase/priority verbatim per the upstream
         // doc comment: "A system can override the changes SchemaField but
         // must preserve definitions for type, phase, and priority."
-        // SoHL extension: strikeModePredicate (last field).
         changes: new ArrayField(
             new SchemaField({
                 key: new StringField({ required: true }),
@@ -65,8 +64,6 @@ function defineActiveEffectDataSchema(): foundry.data.fields.DataSchema {
                     initial: "initial",
                 }),
                 priority: new NumberField(),
-                // SoHL extension — only consulted when key matches ^(mod:)?sm:
-                strikeModePredicate: new JavaScriptField({}),
             }),
         ),
     };
@@ -91,7 +88,6 @@ export class SohlActiveEffectDataModel<
         value: unknown;
         phase: string;
         priority?: number | null;
-        strikeModePredicate?: string;
     }>;
 
     /**

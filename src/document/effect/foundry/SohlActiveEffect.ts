@@ -16,14 +16,21 @@ import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 import {
     ACTIVE_EFFECT_SCOPE,
-    ITEM_KIND,
+    STRIKE_MODE_TYPE,
     isItemKind,
     type ItemKind,
     ItemKinds,
 } from "@src/utils/constants";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { pushDeltaToValueModifier } from "@src/document/effect/logic/effect-logic";
+
+/** The two strike-mode scopes, mapped to their `STRIKE_MODE_TYPE`. */
+const STRIKE_MODE_SCOPES: Record<string, string> = {
+    [ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE]: STRIKE_MODE_TYPE.MELEE,
+    [ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE]: STRIKE_MODE_TYPE.MISSILE,
+};
 
 /**
  * SoHL's Active Effect document. Resolves its owning item/actor and applies
@@ -53,11 +60,16 @@ export class SohlActiveEffect extends ActiveEffect {
      *   parent itself if the parent is an actor).
      * - `<itemKind>` (e.g. `"weapongear"`, `"skill"`): every item of that
      *   kind on the owning actor for which the `system.test` predicate
-     *   evaluates truthy. An empty `system.test` matches all items of the
-     *   type. The predicate is a SafeExpression with `item` bound to each
-     *   candidate. Errors compiling the predicate produce a warning and
-     *   no matches; errors evaluating it for an individual item skip that
-     *   item only.
+     *   evaluates truthy. The predicate is a SafeExpression with `itemLogic`
+     *   bound to each candidate's logic.
+     * - `"meleestrikemode"` / `"missilestrikemode"`: every owning-actor item
+     *   that carries at least one strike mode of that type passing the
+     *   `system.test` predicate (bound `itemLogic` + `sm`); the change is then
+     *   applied to each matching strike mode at application time.
+     *
+     * An empty `system.test` matches all candidates. Errors compiling the
+     * predicate produce a warning and no matches; errors evaluating it for an
+     * individual candidate skip that candidate only.
      *
      * @returns Target documents as `SohlItem` and/or `SohlActor`.
      */
@@ -71,6 +83,17 @@ export class SohlActiveEffect extends ActiveEffect {
         if (scope === ACTIVE_EFFECT_SCOPE.ACTOR) {
             return [this.actor];
         }
+        if (scope in STRIKE_MODE_SCOPES) {
+            // The document targets are the items carrying a matching strike
+            // mode; the strike modes themselves are re-selected at apply time.
+            const matched: SohlItem[] = [];
+            for (const item of this.actor.items.values() as Iterable<SohlItem>) {
+                if (this.matchingStrikeModes(item).length > 0) {
+                    matched.push(item);
+                }
+            }
+            return matched;
+        }
         if (isItemKind(scope)) {
             return this._resolveItemTypeTargets(scope as ItemKind);
         }
@@ -82,29 +105,17 @@ export class SohlActiveEffect extends ActiveEffect {
     }
 
     /**
-     * Walk the owning actor's items of the given kind and return those for
-     * which `system.test` (a SafeExpression) evaluates truthy. An empty
-     * `system.test` matches every item of that kind.
+     * Compile `system.test` into a SafeExpression, or `undefined` when the
+     * test is empty (which matches every candidate). Returns `null` when the
+     * source fails to compile (matches nothing), having logged a warning.
      *
-     * @param itemKind - The item kind to filter the actor's items by.
-     * @returns The matching items (all of the kind when no test is set).
+     * @returns The compiled predicate, `undefined` (match all), or `null` (error).
      */
-    protected _resolveItemTypeTargets(itemKind: ItemKind): SohlItem[] {
-        if (!this.actor) return [];
-        const items = this.actor.items.values() as Iterable<SohlItem>;
+    protected _compileTest(): SafeExpression | undefined | null {
         const script = this.system.test;
-        const matched: SohlItem[] = [];
-
-        if (!script) {
-            for (const item of items) {
-                if (item.type === itemKind) matched.push(item);
-            }
-            return matched;
-        }
-
-        let expression: SafeExpression;
+        if (!script) return undefined;
         try {
-            expression = new SafeExpression(
+            return new SafeExpression(
                 { source: script },
                 { parent: this.actor.logic },
             );
@@ -114,17 +125,39 @@ export class SohlActiveEffect extends ActiveEffect {
                 effect: this,
                 error: err,
             });
-            return [];
+            return null;
         }
+    }
+
+    /**
+     * Walk the owning actor's items of the given kind and return those for
+     * which `system.test` (a SafeExpression with `itemLogic` bound to the
+     * item's logic) evaluates truthy. An empty `system.test` matches every
+     * item of that kind.
+     *
+     * @param itemKind - The item kind to filter the actor's items by.
+     * @returns The matching items (all of the kind when no test is set).
+     */
+    protected _resolveItemTypeTargets(itemKind: ItemKind): SohlItem[] {
+        if (!this.actor) return [];
+        const items = this.actor.items.values() as Iterable<SohlItem>;
+        const expression = this._compileTest();
+        if (expression === null) return [];
+        const matched: SohlItem[] = [];
 
         for (const item of items) {
             if (item.type !== itemKind) continue;
+            if (!expression) {
+                matched.push(item);
+                continue;
+            }
             try {
-                if (expression.evaluate({ item })) matched.push(item);
+                if (expression.evaluate({ itemLogic: item.logic }))
+                    matched.push(item);
             } catch (err) {
                 sohl.log.warn(
                     "Test script threw on Active Effect evaluation:",
-                    { test: script, effect: this, item, error: err },
+                    { test: this.system.test, effect: this, item, error: err },
                 );
             }
         }
@@ -132,24 +165,58 @@ export class SohlActiveEffect extends ActiveEffect {
     }
 
     /**
-     * SoHL-specific change dispatcher. Intercepts SoHL-prefixed change keys
-     * (`mod:`, `sm:`, `mod:sm:`) and routes them to the appropriate handler.
-     * Standard `system.*` keys fall through to Foundry's stock implementation.
+     * The strike modes on `item` that this effect targets: those of the
+     * scope's type (`meleestrikemode` → melee, `missilestrikemode` → missile)
+     * for which `system.test` evaluates truthy. The predicate is a
+     * SafeExpression with `itemLogic` (the owning item's logic) and `sm` (the
+     * strike mode) bound. An empty `system.test` matches every strike mode of
+     * the type. Empty when the effect's scope is not a strike-mode scope.
      *
-     * Prefixes are composable:
-     * - `mod:<path>` — push a `ValueDelta` onto the `ValueModifier` at
-     *   `<path>` on `targetDoc.logic`.
-     * - `sm:<path>` — for each strike mode on the target weapon matching
-     *   `change.strikeModePredicate`, set `<path>` on the strike mode using
-     *   the change's mode (raw assignment).
-     * - `mod:sm:<path>` — for each matching strike mode, push a `ValueDelta`
-     *   onto the `ValueModifier` at `<path>` on the strike mode.
+     * @param item - The item whose strike modes to filter.
+     * @returns The matching strike modes.
+     */
+    matchingStrikeModes(item: SohlItem): StrikeModeBase[] {
+        const smType = STRIKE_MODE_SCOPES[this.system.scope];
+        if (!smType) return [];
+        const strikeModes: StrikeModeBase[] =
+            (item.logic as any)?.strikeModes ?? [];
+        if (!strikeModes.length) return [];
+
+        const expression = this._compileTest();
+        if (expression === null) return [];
+        const itemLogic = item.logic;
+        const matched: StrikeModeBase[] = [];
+        for (const sm of strikeModes) {
+            if ((sm as any).type !== smType) continue;
+            if (!expression) {
+                matched.push(sm);
+                continue;
+            }
+            try {
+                if (expression.evaluate({ itemLogic, sm })) matched.push(sm);
+            } catch (err) {
+                sohl.log.warn(
+                    "Test script threw on strike-mode Active Effect evaluation:",
+                    { test: this.system.test, effect: this, sm, error: err },
+                );
+            }
+        }
+        return matched;
+    }
+
+    /**
+     * SoHL-specific change dispatcher. Routes by the effect's scope and key:
      *
-     * `sm:` keys are only meaningful on `WEAPONGEAR` documents; on other
-     * target types the change is silently skipped.
+     * - **Strike-mode scope** (`meleestrikemode` / `missilestrikemode`): the
+     *   change's `mod:<path>` is applied to each strike mode on `targetDoc`
+     *   matching the effect (see {@link matchingStrikeModes}) — a `ValueDelta`
+     *   pushed onto the `ValueModifier` at `<path>` on the strike mode.
+     * - **`mod:<path>`**: push a `ValueDelta` onto the `ValueModifier` at
+     *   `<path>` on `targetDoc` (paths are doc-rooted, e.g. `logic.score`).
+     * - Any other key falls through to Foundry's stock implementation.
      *
      * @param targetDoc - The document the change is being applied to.
-     * @param change - The effect change being applied.
+     * @param change - The effect change being applied (carries `change.effect`).
      * @param changes - Accumulator of applied changes (passed through to stock
      *   Foundry handling for non-SoHL keys).
      * @param opts - Foundry change-application options.
@@ -166,7 +233,16 @@ export class SohlActiveEffect extends ActiveEffect {
         opts: { replacementData?: object; modifyTarget?: boolean } = {},
     ): unknown {
         const rawKey: string = change?.key ?? "";
-        if (!rawKey.startsWith("mod:") && !rawKey.startsWith("sm:")) {
+        const effect: SohlActiveEffect | undefined = change?.effect;
+        const scope: string | undefined = effect?.system?.scope;
+
+        // Strike-mode scope: apply the change to each matching strike mode on
+        // the target item rather than to the item document itself.
+        if (effect && scope && scope in STRIKE_MODE_SCOPES) {
+            return applyStrikeModeChange(effect, targetDoc, change);
+        }
+
+        if (!rawKey.startsWith("mod:")) {
             return (ActiveEffect as any)._applyChangeUnguided.call(
                 this,
                 targetDoc,
@@ -175,20 +251,7 @@ export class SohlActiveEffect extends ActiveEffect {
                 opts,
             );
         }
-
-        let key = rawKey;
-        const useMod = key.startsWith("mod:");
-        if (useMod) key = key.slice(4);
-        const useSm = key.startsWith("sm:");
-        if (useSm) key = key.slice(3);
-
-        if (useSm) {
-            return dispatchStrikeModeChange(targetDoc, change, key, useMod);
-        }
-        if (useMod) {
-            return dispatchModifierChange(targetDoc, change, key);
-        }
-        return undefined;
+        return dispatchModifierChange(targetDoc, change, rawKey.slice(4));
     }
 
     /**
@@ -246,67 +309,32 @@ function dispatchModifierChange(
 }
 
 /**
- * Apply an `sm:<path>` or `mod:sm:<path>` change. For each strike mode on
- * the target weapon matching `change.strikeModePredicate`, either push a
- * delta (`useMod`) or assign the value directly (raw set).
+ * Apply a strike-mode-scoped `mod:<path>` change. For each strike mode on
+ * `targetDoc` matching the effect (its scope's type plus the `system.test`
+ * predicate — see {@link SohlActiveEffect.matchingStrikeModes}), push a
+ * `ValueDelta` onto the `ValueModifier` at `<path>` on that strike mode.
  *
- * Predicate is a SafeExpression with the variable `sm` bound to each
- * candidate strike mode. Empty predicate matches every strike mode.
- * Predicate errors on a single strike mode are logged and that strike mode
- * is skipped; other strike modes continue.
- *
- * @param targetDoc - The target weapon document (must be `WEAPONGEAR`).
- * @param change - The effect change to apply, carrying the strike-mode predicate.
- * @param path - The strike-mode-rooted property path to set or modify.
- * @param useMod - When `true`, push a delta; otherwise assign the value directly.
+ * @param effect - The active effect (supplies the matching strike modes).
+ * @param targetDoc - The target item document carrying the strike modes.
+ * @param change - The effect change to apply; its key must be `mod:<path>`.
  * @returns Always `undefined`; strike modes are mutated in place.
  */
-function dispatchStrikeModeChange(
+function applyStrikeModeChange(
+    effect: SohlActiveEffect,
     targetDoc: any,
     change: any,
-    path: string,
-    useMod: boolean,
 ): unknown {
-    if (targetDoc?.type !== ITEM_KIND.WEAPONGEAR) return undefined;
-
-    const predicateSrc: string | undefined = change?.strikeModePredicate;
-    let predicate: SafeExpression | undefined;
-    if (predicateSrc) {
-        try {
-            predicate = new SafeExpression(
-                { source: predicateSrc },
-                { parent: targetDoc.logic },
-            );
-        } catch (err) {
-            sohl.log.warn("strikeModePredicate failed to compile:", {
-                source: predicateSrc,
-                effect: change?.effect,
-                error: err,
-            });
-            return undefined;
-        }
-    }
-
-    const strikeModes: any[] = targetDoc.logic?.strikeModes ?? [];
-    for (const sm of strikeModes) {
-        if (predicate) {
-            try {
-                if (!predicate.evaluate({ sm })) continue;
-            } catch (err) {
-                sohl.log.warn(
-                    `strikeModePredicate threw on ${targetDoc.uuid}:`,
-                    { source: predicateSrc, error: err },
-                );
-                continue;
-            }
-        }
-        if (useMod) {
-            const node = foundry.utils.getProperty(sm, path);
-            if (node instanceof ValueModifier) {
-                pushDeltaToValueModifier(node, change);
-            }
+    const rawKey: string = change?.key ?? "";
+    if (!rawKey.startsWith("mod:")) return undefined;
+    const path = rawKey.slice(4);
+    for (const sm of effect.matchingStrikeModes(targetDoc)) {
+        const node = foundry.utils.getProperty(sm, path);
+        if (node instanceof ValueModifier) {
+            pushDeltaToValueModifier(node, change);
         } else {
-            foundry.utils.setProperty(sm, path, change.value);
+            sohl.log.warn(
+                `strike-mode change "${change.key}" did not resolve to a ValueModifier on a ${effect.system.scope} of ${targetDoc?.uuid ?? "<unknown>"}`,
+            );
         }
     }
     return undefined;

@@ -26,7 +26,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <li data-index="{{i}}">
             <div class="key">
                 <select name="system.changes.{{i}}.key" data-dtype="String">
-                    {{selectOptions ../keyChoices selected=change.key labelAttr="label"}}
+                    {{selectOptions ../keyChoices selected=change.key}}
                 </select>
             </div>
             <div class="type">
@@ -44,17 +44,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="controls">
                 <button type="button" class="inline-control icon sohl-trash" data-action="deleteChange"></button>
             </div>
-            {{#if (isSmKey ../scope change.key)}}
-            <div class="strike-mode-predicate" style="grid-column: 1 / -1;">
-                <label>
-                    <span>{{localize "SOHL.ActiveEffect.FIELDS.changes.element.strikeModePredicate.label"}}</span>
-                    <textarea name="system.changes.{{i}}.strikeModePredicate"
-                        rows="2"
-                        placeholder="sm.type === 'melee'">{{change.strikeModePredicate}}</textarea>
-                </label>
-                <p class="hint">{{localize "SOHL.ActiveEffect.FIELDS.changes.element.strikeModePredicate.hint"}}</p>
-            </div>
-            {{/if}}
         </li>
         {{/each}}
     </ol>

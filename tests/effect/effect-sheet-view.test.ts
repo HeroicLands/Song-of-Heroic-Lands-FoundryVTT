@@ -17,11 +17,7 @@ import {
     resolveEffectMetadataType,
     resolveEffectKeyChoices,
 } from "@src/document/effect/logic/effect-sheet-view";
-import {
-    ACTIVE_EFFECT_SCOPE,
-    ITEM_KIND,
-    ITEM_METADATA,
-} from "@src/utils/constants";
+import { ACTIVE_EFFECT_SCOPE, ITEM_KIND } from "@src/utils/constants";
 
 afterEach(() => {
     vi.restoreAllMocks();
@@ -108,15 +104,42 @@ describe("effect-sheet-view", () => {
     });
 
     describe("resolveEffectKeyChoices", () => {
-        it("returns the metadata's key choices for a known item kind", () => {
-            expect(resolveEffectKeyChoices(ITEM_KIND.SKILL)).toBe(
-                ITEM_METADATA[ITEM_KIND.SKILL].KeyChoices,
-            );
+        it("returns an empty map for an item kind with no populated key choices", () => {
+            // ITEM_METADATA KeyChoices are currently empty arrays, which are
+            // ignored (only value-keyed maps are usable as select choices).
+            expect(resolveEffectKeyChoices(ITEM_KIND.SKILL)).toEqual({});
         });
 
-        it("returns an empty array for an unknown type", () => {
-            expect(resolveEffectKeyChoices("being")).toEqual([]);
-            expect(resolveEffectKeyChoices("")).toEqual([]);
+        it("returns an empty map for an unknown type", () => {
+            expect(resolveEffectKeyChoices("being")).toEqual({});
+            expect(resolveEffectKeyChoices("")).toEqual({});
+        });
+
+        it("returns the melee strike-mode effect keys (change path → label)", () => {
+            const choices = resolveEffectKeyChoices(
+                ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE,
+            );
+            // localize is identity in tests, so labels are the lang keys.
+            expect(choices["mod:attack"]).toBe(
+                "SOHL.MeleeStrikeMode.EffectKey.ATTACK",
+            );
+            expect(choices["mod:defense.block"]).toBe(
+                "SOHL.MeleeStrikeMode.EffectKey.BLOCK",
+            );
+            // Missile-only keys are absent from the melee set.
+            expect(choices["mod:draw"]).toBeUndefined();
+        });
+
+        it("returns the missile strike-mode effect keys", () => {
+            const choices = resolveEffectKeyChoices(
+                ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE,
+            );
+            expect(choices["mod:baseRange"]).toBe(
+                "SOHL.MissileStrikeMode.EffectKey.BASE_RANGE",
+            );
+            expect(choices["mod:draw"]).toBe(
+                "SOHL.MissileStrikeMode.EffectKey.DRAW",
+            );
         });
     });
 });

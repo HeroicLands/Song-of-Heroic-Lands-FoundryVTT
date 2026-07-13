@@ -34,8 +34,15 @@ function makeEffect(opts: {
     return eff as SohlActiveEffect;
 }
 
-function makeItem(type: string, id: string, system: any = {}): any {
-    return { type, id, system, parent: null };
+function makeItem(
+    type: string,
+    id: string,
+    system: any = {},
+    logic: any = {},
+): any {
+    // Predicates bind `itemLogic` (the item's logic), so tests put the
+    // predicate-visible fields on `logic`.
+    return { type, id, system, logic, parent: null };
 }
 
 function makeActorWithItems(items: any[]): any {
@@ -102,13 +109,13 @@ describe("SohlActiveEffect.targets", () => {
         expect(eff.targets).toEqual([sk1, sk2]);
     });
 
-    it("scope <itemKind> with predicate → only matching items", () => {
-        const sk1 = makeItem(ITEM_KIND.SKILL, "s1", { code: "pyrn" });
-        const sk2 = makeItem(ITEM_KIND.SKILL, "s2", { code: "other" });
+    it("scope <itemKind> with predicate (bound itemLogic) → only matching items", () => {
+        const sk1 = makeItem(ITEM_KIND.SKILL, "s1", {}, { code: "pyrn" });
+        const sk2 = makeItem(ITEM_KIND.SKILL, "s2", {}, { code: "other" });
         const actor = makeActorWithItems([sk1, sk2]);
         const eff = makeEffect({
             scope: ITEM_KIND.SKILL,
-            test: 'item.system.code === "pyrn"',
+            test: 'itemLogic.code === "pyrn"',
             parent: actor,
             actor,
         });
@@ -120,11 +127,66 @@ describe("SohlActiveEffect.targets", () => {
         const actor = makeActorWithItems([sk1]);
         const eff = makeEffect({
             scope: ITEM_KIND.SKILL,
-            test: "item.system.code === ", // syntactically incomplete
+            test: "itemLogic.code === ", // syntactically incomplete
             parent: actor,
             actor,
         });
         expect(eff.targets).toEqual([]);
+    });
+
+    it("strike-mode scope with empty predicate → items carrying a matching strike mode", () => {
+        // sword has a melee strike mode; bow has only a missile one.
+        const sword = makeItem(
+            ITEM_KIND.WEAPONGEAR,
+            "w1",
+            {},
+            { strikeModes: [{ type: "melee", name: "Thrust" }] },
+        );
+        const bow = makeItem(
+            ITEM_KIND.WEAPONGEAR,
+            "w2",
+            {},
+            { strikeModes: [{ type: "missile", name: "Shoot" }] },
+        );
+        const actor = makeActorWithItems([sword, bow]);
+        const eff = makeEffect({
+            scope: ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE,
+            parent: actor,
+            actor,
+        });
+        expect(eff.targets).toEqual([sword]);
+    });
+
+    it("strike-mode scope with predicate (bound itemLogic + sm) → only items with a matching strike mode", () => {
+        const sword = makeItem(
+            ITEM_KIND.WEAPONGEAR,
+            "w1",
+            {},
+            {
+                name: "Sword",
+                strikeModes: [
+                    { type: "melee", name: "Thrust" },
+                    { type: "melee", name: "Swing" },
+                ],
+            },
+        );
+        const dagger = makeItem(
+            ITEM_KIND.WEAPONGEAR,
+            "w2",
+            {},
+            {
+                name: "Dagger",
+                strikeModes: [{ type: "melee", name: "Stab" }],
+            },
+        );
+        const actor = makeActorWithItems([sword, dagger]);
+        const eff = makeEffect({
+            scope: ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE,
+            test: 'itemLogic.name === "Sword" && sm.name === "Thrust"',
+            parent: actor,
+            actor,
+        });
+        expect(eff.targets).toEqual([sword]);
     });
 
     it("unrecognized scope → empty array", () => {
