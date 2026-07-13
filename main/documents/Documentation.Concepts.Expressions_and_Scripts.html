@@ -47,29 +47,290 @@ evaluates it by walking the tree by hand — it never calls <code>eval</code>/<c
 This is an <em>allowlist</em>, not a denylist, which is why it is a real security
 boundary (unlike the removed <code>textToFunction</code> sandbox — see the
 <a href="Documentation.Concepts.Security_Model___Guardrails.html#why-not-a-sandbox--denylist">security model</a>).</p>
-<p>Properties worth knowing:</p>
+<a id="how-it-works" class="tsd-anchor"></a><h3 class="tsd-anchor-link">How it works<a href="#how-it-works" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Two steps — build once, evaluate as often as you like:</p>
+<ol>
+<li><strong>Construct.</strong> <code>new SafeExpression({ source }, { parent })</code> parses <code>source</code>
+with jsep and statically validates the resulting AST. Anything unsupported
+throws a <code>SafeExpressionError</code> <strong>at construction</strong>, so a bad predicate fails
+loudly at setup time, not deep in a lifecycle. Construction is the costly
+step; keep the instance and reuse it. Only the <code>source</code> string is persisted —
+the AST is rebuilt on revival.</li>
+<li><strong>Evaluate.</strong> <code>expr.evaluate(context?)</code> walks the validated AST against
+<code>context</code>, a plain object of variable bindings. Every bare identifier in the
+expression is looked up by name in <code>context</code>; an unknown identifier throws. It
+returns whatever the expression computes — a boolean for a predicate, a number
+or string for a computed field.</li>
+</ol>
+<p>Two guardrails make it a real boundary, not a filter:</p>
 <ul>
-<li><strong>Build once, evaluate many.</strong> <code>new SafeExpression({ source }, { parent })</code>
-parses and validates immediately and throws a <code>SafeExpressionError</code> on
-anything unsupported, so a bad predicate fails at construction, not deep in a
-lifecycle. Only its <code>source</code> string is persisted.</li>
 <li><strong>No arbitrary property access.</strong> Member access is allowed, but the keys
-<code>constructor</code>, <code>__proto__</code>, and <code>prototype</code> are denied — even when reached
-through a computed key — so an expression cannot climb the prototype chain to
-the <code>Function</code> constructor.</li>
-<li><strong>No arbitrary calls.</strong> The only callables are the registered
-<a href="#extending-the-helpers-the-expression-library">expression helpers</a> (built-ins
-plus any GM-loaded ones); an expression cannot call methods on the objects it
-is handed.</li>
-<li><strong>Bound variables depend on the call site</strong> — e.g. an action's <code>trigger</code>/
-<code>visible</code> predicates see <code>item</code>, <code>actor</code>, <code>element</code>, and <code>isGM</code>; an active
-effect's <code>test</code>/<code>strikeModePredicate</code> see <code>item</code> / <code>sm</code>.</li>
+<code>constructor</code>, <code>__proto__</code>, and <code>prototype</code> are denied — even through a
+computed key — so an expression cannot climb the prototype chain to the
+<code>Function</code> constructor.</li>
+<li><strong>No arbitrary calls.</strong> The only callable values are the registered
+<a href="#the-standard-helpers">expression helpers</a> (built-ins plus any GM-loaded
+ones). An expression cannot call methods on the objects it is handed — you
+cannot write <code>actor.die()</code>.</li>
 </ul>
-<p>Where SafeExpression predicates are used today: action <code>trigger</code>/<code>visible</code>
-(<a href="../modules/API_Reference.SohlAction.html" class="tsd-kind-namespace"> SohlAction</a>), active-effect <code>test</code>/<code>strikeModePredicate</code>
-(<code>SohlActiveEffect</code>), and context-menu <code>condition</code>/<code>visible</code>
-(<code>ContextMenuEntry</code>). Reach for a SafeExpression whenever a GM or content author
-needs a <strong>synchronous computed value or condition</strong> from a data field.</p>
+<a id="the-language" class="tsd-anchor"></a><h3 class="tsd-anchor-link">The language<a href="#the-language" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><strong>Allowed:</strong> literals (<code>3</code>, <code>&quot;orc&quot;</code>, <code>true</code>), array literals (<code>[1, 2]</code>),
+identifiers resolved from the context, property access by dot or bracket
+(<code>actor.name</code>, <code>tags[&quot;ranged&quot;]</code>), the operators <code>=== !== &lt; &gt; &lt;= &gt;= + - * / %</code>,
+the short-circuiting <code>&amp;&amp;</code> and <code>||</code>, the unary <code>! - +</code>, the ternary
+<code>cond ? a : b</code>, and calls to <strong>helpers</strong> (below).</p>
+<p><strong>Rejected — at parse/validation time, before anything runs:</strong> assignment (<code>=</code>),
+bitwise and loose-equality operators (<code>&amp; | == !=</code>), <code>typeof</code> / <code>new</code> / <code>delete</code> /
+<code>instanceof</code>, statements (<code>;</code>, <code>if</code>, <code>for</code>), template and regex literals, and —
+importantly — <strong>method calls</strong>.</p>
+<a id="bound-variables--what-each-call-site-provides" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Bound variables — what each call site provides<a href="#bound-variables--what-each-call-site-provides" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The bindings available to an expression depend on where it is used. Reach for a
+SafeExpression whenever a GM or content author needs a <strong>synchronous condition or
+computed value</strong> from a data field; these are the call sites today:</p>
+<table>
+<thead>
+<tr>
+<th>Call site</th>
+<th>Field(s)</th>
+<th>Bindings</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Action, UI visibility (<a href="../modules/API_Reference.SohlAction.html" class="tsd-kind-namespace"> SohlAction</a>)</td>
+<td><code>visible</code></td>
+<td><code>element</code>, <code>item</code>, <code>isGM</code></td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>Action, executability (<a href="../modules/API_Reference.SohlAction.html" class="tsd-kind-namespace"> SohlAction</a>)</td>
+<td><code>trigger</code></td>
+<td><code>item</code>, <code>actor</code></td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>Active effect, item targeting (<code>SohlActiveEffect</code>)</td>
+<td><code>test</code></td>
+<td><code>itemLogic</code></td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>Active effect, strike-mode targeting (<code>SohlActiveEffect</code>)</td>
+<td><code>test</code></td>
+<td><code>itemLogic</code>, <code>sm</code></td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>Context-menu entry (<code>ContextMenuEntry</code>)</td>
+<td><code>condition</code></td>
+<td><code>target</code>, <code>item</code>, <code>actor</code></td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>Corpus movement profile (<code>CorpusLogic</code>)</td>
+<td><code>strMod</code>, <code>encumbrance</code>, <code>weight.calc</code></td>
+<td><code>str</code> or <code>wt</code></td>
+<td>number</td>
+</tr>
+</tbody>
+</table>
+<p>The same <code>SohlActiveEffect.test</code> field is bound differently by the effect's
+scope: item-kind scopes see the candidate item's logic as <code>itemLogic</code>; the
+strike-mode scopes (<code>meleestrikemode</code> / <code>missilestrikemode</code>) additionally bind
+the strike mode as <code>sm</code>.</p>
+<a id="the-standard-helpers" class="tsd-anchor"></a><h3 class="tsd-anchor-link">The standard helpers<a href="#the-standard-helpers" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Because method calls are banned, <strong>helpers</strong> are how behavior is exposed to an
+expression. The built-in <code>STANDARD_HELPERS</code> library — seeded into the global
+<a href="../variables/API_Reference.expressionHelpers.html" class="tsd-kind-variable"> expressionHelpers</a> registry — is always present; worlds may layer more on
+top via the
+<a href="#extending-the-helpers-the-expression-library">Expression Library</a>. All
+built-ins are pure and null-tolerant. Arguments and results are the <em>evaluated</em>
+values from the expression.</p>
+<p><strong>Collections</strong></p>
+<table>
+<thead>
+<tr>
+<th>Helper</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>has(value, collection)</code></td>
+<td><code>boolean</code></td>
+<td><code>value</code> is an element of the array, or an own key of the object.</td>
+</tr>
+<tr>
+<td><code>len(collection)</code></td>
+<td><code>number</code></td>
+<td>Element/key count of an array, string, or object; <code>0</code> if nullish.</td>
+</tr>
+<tr>
+<td><code>empty(collection)</code></td>
+<td><code>boolean</code></td>
+<td><code>true</code> when the collection has no elements/keys, or is nullish.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Strings</strong></p>
+<table>
+<thead>
+<tr>
+<th>Helper</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lower(value)</code></td>
+<td><code>string</code></td>
+<td>The value's string form, lowercased.</td>
+</tr>
+<tr>
+<td><code>upper(value)</code></td>
+<td><code>string</code></td>
+<td>The value's string form, uppercased.</td>
+</tr>
+<tr>
+<td><code>startsWith(value, prefix)</code></td>
+<td><code>boolean</code></td>
+<td>Whether the string starts with <code>prefix</code>.</td>
+</tr>
+<tr>
+<td><code>endsWith(value, suffix)</code></td>
+<td><code>boolean</code></td>
+<td>Whether the string ends with <code>suffix</code>.</td>
+</tr>
+<tr>
+<td><code>contains(value, sub)</code></td>
+<td><code>boolean</code></td>
+<td>Whether the string contains <code>sub</code>.</td>
+</tr>
+<tr>
+<td><code>matches(value, pattern, flags?)</code></td>
+<td><code>boolean</code></td>
+<td>Regex test; <code>pattern</code>/<code>flags</code> are strings. See note.</td>
+</tr>
+</tbody>
+</table>
+<p><code>matches()</code> throws a <code>SafeExpressionError</code> if the pattern is longer than 200
+characters, looks ReDoS-prone (nested quantifiers or backreferences), or is not a
+valid regular expression.</p>
+<p><strong>Numbers</strong></p>
+<table>
+<thead>
+<tr>
+<th>Helper</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>min(...values)</code></td>
+<td><code>number</code></td>
+<td>Smallest of the given numbers.</td>
+</tr>
+<tr>
+<td><code>max(...values)</code></td>
+<td><code>number</code></td>
+<td>Largest of the given numbers.</td>
+</tr>
+<tr>
+<td><code>round(value)</code></td>
+<td><code>number</code></td>
+<td>Nearest integer.</td>
+</tr>
+<tr>
+<td><code>floor(value)</code></td>
+<td><code>number</code></td>
+<td>Rounded down to an integer.</td>
+</tr>
+<tr>
+<td><code>ceil(value)</code></td>
+<td><code>number</code></td>
+<td>Rounded up to an integer.</td>
+</tr>
+<tr>
+<td><code>abs(value)</code></td>
+<td><code>number</code></td>
+<td>Absolute value.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Type checks</strong></p>
+<table>
+<thead>
+<tr>
+<th>Helper</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>isNumber(value)</code></td>
+<td><code>boolean</code></td>
+<td>A real number (not <code>NaN</code>).</td>
+</tr>
+<tr>
+<td><code>isString(value)</code></td>
+<td><code>boolean</code></td>
+<td>A string.</td>
+</tr>
+<tr>
+<td><code>isArray(value)</code></td>
+<td><code>boolean</code></td>
+<td>An array.</td>
+</tr>
+<tr>
+<td><code>defined(value)</code></td>
+<td><code>boolean</code></td>
+<td>Neither <code>undefined</code> nor <code>null</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Domain</strong></p>
+<table>
+<thead>
+<tr>
+<th>Helper</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hasUsableSkill(actor, shortcode)</code></td>
+<td><code>boolean</code></td>
+<td>Whether the actor has a skill with that shortcode (e.g. <code>&quot;dge&quot;</code>).</td>
+</tr>
+</tbody>
+</table>
+<a id="worked-examples" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Worked examples<a href="#worked-examples" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><strong>A predicate — target only high-mastery skills.</strong> An active effect with an
+item-kind scope binds the candidate item's logic as <code>itemLogic</code>; the <code>test</code>
+matches only skills whose effective mastery level is at least 60:</p>
+<pre><code class="text">itemLogic.masteryLevel.effective &gt;= 60
+</code><button type="button">Copy</button></pre>
+
+<p><strong>A strike-mode predicate — reach and traits.</strong> A strike-mode-scoped effect
+additionally binds the strike mode as <code>sm</code>. Match only modes that can reach at
+least 5 feet and are not thrown:</p>
+<pre><code class="text">sm.reach &gt;= 5 &amp;&amp; !has(&#39;thrown&#39;, sm.traits)
+</code><button type="button">Copy</button></pre>
+
+<p><strong>A computed value — encumbrance from carried weight.</strong> A Corpus movement
+profile's <code>encumbrance</code> field is a SafeExpression bound with <code>wt</code> (the carried
+weight, as a <code>ValueModifier</code> — read its <code>.effective</code>). It returns a number that
+seeds the encumbrance modifier:</p>
+<pre><code class="text">floor(wt.effective / 10)
+</code><button type="button">Copy</button></pre>
+
+<p><strong>A context-menu condition — gate on a skill.</strong> A context-menu entry's
+<code>condition</code> binds <code>actor</code>; show a Dodge action only when the actor has the Dodge
+skill:</p>
+<pre><code class="text">hasUsableSkill(actor, &#39;dge&#39;)
+</code><button type="button">Copy</button></pre>
+
 <a id="macros--asynchronous-imperative-gm-behavior" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Macros — asynchronous, imperative GM behavior<a href="#macros--asynchronous-imperative-gm-behavior" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>When a GM needs to <em>do</em> something (create documents, post chat, run a dialog),
 not compute a value, the vehicle is a Foundry <strong>Macro</strong>. A
 <a href="Documentation.Concepts.Macros_and_Actions.html">Script action</a>'s <code>executor</code> is the <strong>UUID of a Macro</strong>,
@@ -100,4 +361,4 @@ untrusted or cross-client input through this path or add new callers of
 <li><a href="Documentation.Concepts.Security_Model___Guardrails.html">Security Model &amp; Guardrails</a> — why these mechanisms are shaped this way.</li>
 <li><a href="Documentation.Reference.Effects_Integration.html">Effects Integration</a> — where effect predicates use SafeExpression.</li>
 </ul>
-</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#expressions-and-scripts"><span>Expressions and <wbr/>Scripts</span></a><ul><li><a href="#the-three-mechanisms-at-a-glance"><span>The three mechanisms at a glance</span></a></li><li><a href="#safeexpression--the-safe-synchronous-evaluator"><span>Safe<wbr/>Expression — the safe, synchronous evaluator</span></a></li><li><a href="#macros--asynchronous-imperative-gm-behavior"><span>Macros — asynchronous, imperative GM behavior</span></a></li><li><a href="#intrinsic-methods--the-systems-own-behavior"><span>Intrinsic methods — the system&#39;s own behavior</span></a></li><li><a href="#extending-the-helpers-the-expression-library"><span>Extending the helpers: the <wbr/>Expression <wbr/>Library</span></a></li><li><a href="#see-also"><span>See also</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#expressions-and-scripts"><span>Expressions and <wbr/>Scripts</span></a><ul><li><a href="#the-three-mechanisms-at-a-glance"><span>The three mechanisms at a glance</span></a></li><li><a href="#safeexpression--the-safe-synchronous-evaluator"><span>Safe<wbr/>Expression — the safe, synchronous evaluator</span></a></li><li><ul><li><a href="#how-it-works"><span>How it works</span></a></li><li><a href="#the-language"><span>The language</span></a></li><li><a href="#bound-variables--what-each-call-site-provides"><span>Bound variables — what each call site provides</span></a></li><li><a href="#the-standard-helpers"><span>The standard helpers</span></a></li><li><a href="#worked-examples"><span>Worked examples</span></a></li></ul></li><li><a href="#macros--asynchronous-imperative-gm-behavior"><span>Macros — asynchronous, imperative GM behavior</span></a></li><li><a href="#intrinsic-methods--the-systems-own-behavior"><span>Intrinsic methods — the system&#39;s own behavior</span></a></li><li><a href="#extending-the-helpers-the-expression-library"><span>Extending the helpers: the <wbr/>Expression <wbr/>Library</span></a></li><li><a href="#see-also"><span>See also</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>
