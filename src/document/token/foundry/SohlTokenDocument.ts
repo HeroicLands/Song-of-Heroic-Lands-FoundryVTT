@@ -22,6 +22,9 @@ import {
 
 /**
  * A helper class for working with TokenDocument instances in the SoHL system.
+ *
+ * @internal The Foundry document layer is an implementation detail; author-facing
+ * code reaches token state through the logic layer.
  */
 export class SohlTokenDocument extends TokenDocument {
     /** Cached transient {@link sohl.document.token.logic.SohlTokenDocumentLogic} for this token. */

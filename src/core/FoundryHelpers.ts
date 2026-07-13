@@ -674,7 +674,7 @@ export function getCanvas(): foundry.canvas.Canvas {
  * The world's currently **active** scene (the one flagged active in the scene
  * navigation), or `undefined` when the game is unavailable or no scene is active.
  *
- * @returns The active {@link SohlScene}, or `undefined` if none is active.
+ * @returns The active `SohlScene`, or `undefined` if none is active.
  */
 export function getActiveScene(): SohlScene | undefined {
     if (!(game instanceof foundry.Game)) return undefined;
@@ -859,7 +859,7 @@ export async function getDocumentFromPacks(
 /**
  * Resolve the SohlItem for a context menu target element.
  * @param header - The context menu target element.
- * @returns The resolved {@link sohl.document.item.foundry.SohlItem}, or `undefined` if none could be resolved.
+ * @returns The resolved `SohlItem`, or `undefined` if none could be resolved.
  */
 export function getContextItem(header: HTMLElement): SohlItem | undefined {
     const element = header.closest(".item") as HTMLElement;

@@ -41,10 +41,8 @@ import {
     STATUS_EFFECT,
 } from "@src/utils/constants";
 import { SohlCalendarData } from "./SohlCalendar";
-import {
-    SohlActor,
-    SohlActorLogic,
-} from "@src/document/actor/foundry/SohlActor";
+import { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBase";
 
 // Actor logic
@@ -84,7 +82,8 @@ import { TraitLogic } from "@src/document/item/logic/TraitLogic";
 import { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
 
 // Item foundry
-import { SohlItem, SohlItemLogic } from "@src/document/item/foundry/SohlItem";
+import { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlItemSheetBase } from "@src/document/item/foundry/SohlItemSheetBase";
 import { AffiliationDataModel } from "@src/document/item/foundry/AffiliationDataModel";
 import { AffiliationSheet } from "@src/document/item/foundry/AffiliationSheet";

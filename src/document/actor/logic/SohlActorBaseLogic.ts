@@ -12,7 +12,7 @@
  */
 
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
-import type { SohlItemLogic } from "@src/document/item/foundry/SohlItem";
+import type { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
 import { BRAND, ItemKinds, type ItemKind } from "@src/utils/constants";
 import type { FilePath, HTMLString } from "@src/utils/helpers";
@@ -32,13 +32,13 @@ import type {
  * class. The Foundry layer (`foundry/SohlActor.ts`) implements
  * {@link SohlActorData} via `SohlActorDataModel` and re-exports these
  * symbols; logic classes import them from here so they remain loadable
- * without Foundry globals. References to the {@link sohl.document.actor.foundry.SohlActor} document type
+ * without Foundry globals. References to the `SohlActor` document type
  * are type-only and erased at compile time.
  */
 
 /**
  * Logic interface implemented by all actor logic classes — {@link sohl.core.logic.SohlLogic}
- * specialized for {@link sohl.document.actor.foundry.SohlActor} data.
+ * specialized for `SohlActor` data.
  */
 export interface SohlActorLogic<
     TData extends SohlLogicData<SohlActor>,

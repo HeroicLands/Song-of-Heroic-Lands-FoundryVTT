@@ -35,16 +35,19 @@ const STRIKE_MODE_SCOPES: Record<string, string> = {
 /**
  * SoHL's Active Effect document. Resolves its owning item/actor and applies
  * effect changes through the system's modifier pipeline.
+ *
+ * @internal The Foundry document layer is an implementation detail; author-facing
+ * code reaches effects through the logic layer.
  */
 export class SohlActiveEffect extends ActiveEffect {
-    /** The owning {@link sohl.document.item.foundry.SohlItem} when the effect is on an item, else `null`. */
+    /** The owning `SohlItem` when the effect is on an item, else `null`. */
     get item(): SohlItem | null {
         return ItemKinds.includes(this.parent?.type as any) ?
                 (this.parent as SohlItem)
             :   null;
     }
 
-    /** The owning {@link sohl.document.actor.foundry.SohlActor} (the item's actor, or the actor parent). */
+    /** The owning `SohlActor` (the item's actor, or the actor parent). */
     get actor(): SohlActor {
         return (this.item?.actor || this.parent) as unknown as SohlActor;
     }
@@ -311,7 +314,7 @@ function dispatchModifierChange(
 /**
  * Apply a strike-mode-scoped `mod:<path>` change. For each strike mode on
  * `targetDoc` matching the effect (its scope's type plus the `system.test`
- * predicate — see {@link SohlActiveEffect.matchingStrikeModes}), push a
+ * predicate — see `SohlActiveEffect.matchingStrikeModes`), push a
  * `ValueDelta` onto the `ValueModifier` at `<path>` on that strike mode.
  *
  * @param effect - The active effect (supplies the matching strike modes).

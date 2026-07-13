@@ -12,10 +12,8 @@
  */
 
 import type { SohlActor } from "./SohlActor";
-import type {
-    SohlItem,
-    SohlItemLogic,
-} from "@src/document/item/foundry/SohlItem";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import type { FilePath, HTMLString } from "@src/utils/helpers";
 import {
     SohlDataModel,
