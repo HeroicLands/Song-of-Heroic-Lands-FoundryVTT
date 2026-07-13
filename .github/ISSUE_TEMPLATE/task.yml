@@ -20,28 +20,3 @@ body:
           description: The reason it's needed (keeps chores from looking arbitrary).
       validations:
           required: true
-    - type: dropdown
-      id: priority
-      attributes:
-          label: Priority (proposed)
-          description: Set on the project board; this is your proposal. Default Medium; justify anything higher in the body.
-          options: [Urgent, High, Medium, Low]
-          default: 2
-      validations:
-          required: true
-    - type: dropdown
-      id: labels
-      attributes:
-          label: Labels (proposed)
-          description: Categorization only, from the registry. A maintainer applies them.
-          multiple: true
-          options:
-              - system
-              - documentation
-              - content
-              - thalorna
-              - site
-              - devops
-              - tests
-              - security
-              - tech-debt
