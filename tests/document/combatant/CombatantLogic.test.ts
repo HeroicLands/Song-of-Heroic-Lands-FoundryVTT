@@ -154,6 +154,37 @@ describe("CombatantLogic", () => {
         });
     });
 
+    describe("computedMove (moveFactor scaling, #252)", () => {
+        /** A combatant whose being's corpus reports the given feet-per-round. */
+        function combatantWithMove(feetPerRound: number) {
+            return makeCombatantLogic({
+                actor: {
+                    name: "Runner",
+                    logic: { corpus: { feetPerRound: { effective: feetPerRound } } },
+                },
+            });
+        }
+
+        it("scales the corpus feetPerRound by the situational moveFactor", () => {
+            const logic = combatantWithMove(50);
+            logic.data.moveFactor = 2;
+            expect(logic.computedMove()).toBe(100);
+        });
+
+        it("returns the unscaled move when moveFactor is the default 1", () => {
+            const logic = combatantWithMove(50);
+            expect(logic.data.moveFactor).toBe(1);
+            expect(logic.computedMove()).toBe(50);
+        });
+
+        it("is null when the actor has no corpus (non-being)", () => {
+            const logic = makeCombatantLogic({
+                actor: { name: "Cart", logic: {} },
+            });
+            expect(logic.computedMove()).toBeNull();
+        });
+    });
+
     describe("turnStartCombatantUpdate (pure)", () => {
         it("records the position under system.startLocation (#386), not initialLocation", () => {
             const update = turnStartCombatantUpdate({ x: 120, y: 340 }, 5);

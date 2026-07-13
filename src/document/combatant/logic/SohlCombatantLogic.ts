@@ -379,13 +379,16 @@ export class SohlCombatantLogic<
     /**
      * The computed tactical move (feet per combat round) for this combatant,
      * read from its being's {@link CorpusLogic.feetPerRound} for the being's
-     * active movement medium. `null` when the actor has no movement model (no
-     * corpus, or a non-being such as a Vehicle).
+     * active movement medium and scaled by the combatant's situational
+     * {@link SohlCombatantData.moveFactor} (run, difficult terrain, haste, …;
+     * defaults to `1`). `null` when the actor has no movement model (no corpus,
+     * or a non-being such as a Vehicle).
      * @returns The tactical move, or `null` when unavailable.
      */
     computedMove(): number | null {
         const being = this.actorLogic as BeingLogic | null;
-        return being?.corpus ? being.corpus.feetPerRound.effective : null;
+        if (!being?.corpus) return null;
+        return being.corpus.feetPerRound.effective * this.data.moveFactor;
     }
 
     /** The computed move for the combat-tracker's displayed medium. */

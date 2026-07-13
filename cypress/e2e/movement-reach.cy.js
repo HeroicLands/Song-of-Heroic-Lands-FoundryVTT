@@ -163,9 +163,9 @@ describe("movement + reach read paths", () => {
         });
     });
 
-    // moveFactor is stored on the combatant but computedMove does not read it
-    // (#252). Guard the current behavior; the intended scaling is RED below.
-    it("computedMove currently ignores moveFactor (#252)", () => {
+    // #252: computedMove scales the corpus feetPerRound by the combatant's
+    // situational moveFactor (run, terrain, haste, …; defaults to 1).
+    it("computedMove scales base move by moveFactor (#252)", () => {
         cy.createScene().then((scene) => {
             cy.importActor().then((actor) => {
                 cy.prepare(actor);
@@ -181,7 +181,6 @@ describe("movement + reach read paths", () => {
                                     JSON.stringify({ "system.moveFactor": 2 }),
                                 ),
                             );
-                            // Re-read the freshly-prepared logic post-update.
                             return {
                                 moveFactor: cbt.logic.data.moveFactor,
                                 computed: cbt.logic.computedMove(),
@@ -190,37 +189,9 @@ describe("movement + reach read paths", () => {
                             expect(r.moveFactor, "moveFactor persisted").to.eq(
                                 2,
                             );
-                            // feetPerRound 50 returned unscaled — moveFactor dropped.
-                            expect(r.computed).to.eq(50);
+                            // feetPerRound 50 × 2 moveFactor.
+                            expect(r.computed).to.eq(100);
                         });
-                    });
-                });
-            });
-        });
-    });
-
-    it.skip("computedMove scales base move by moveFactor", () => {
-        // RED — blocked by #252: computedMove returns the corpus's feetPerRound
-        // verbatim and never reads moveFactor, though its docstring says it
-        // "accounts for the combatant's situational moveFactor scalar." Once
-        // computedMove applies the scalar this asserts the product.
-        cy.createScene().then((scene) => {
-            cy.importActor().then((actor) => {
-                cy.prepare(actor);
-                cy.placeToken(scene, actor).then((token) => {
-                    cy.createCombatWith([token]).then((combat) => {
-                        cy.foundry(async (win) => {
-                            const c = win.game.combats.get(combat.id);
-                            const cbt = c.combatants.find(
-                                (x) => x.actorId === actor.id,
-                            );
-                            await cbt.update(
-                                win.JSON.parse(
-                                    JSON.stringify({ "system.moveFactor": 2 }),
-                                ),
-                            );
-                            return cbt.logic.computedMove();
-                        }).should("eq", 100); // feetPerRound 50 × 2 moveFactor
                     });
                 });
             });
