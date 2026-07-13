@@ -98,8 +98,34 @@ SohlSystem.registerCalendar("my-calendar", {
 
 ## Type declarations for a TypeScript module
 
-For a TypeScript module, copy the types-only declaration file
-[`types/sohl-public-api.d.ts`](../../types/sohl-public-api.d.ts) into your
-module's `types/` directory and reference it in your `tsconfig.json`. It
-re-exports the Logic/Data interfaces and the domain class types for annotations;
-runtime binding stays through the live `sohl` global.
+A variant or extension module consumes SoHL along **two separate channels** —
+keep them distinct:
+
+- **Runtime — always the `sohl` global.** SoHL is a Foundry _system_ (a manifest
+    - the built `sohl.js`), not an npm package. Foundry loads it into the page, and
+      a module reaches every value through the live **`sohl`** global that is already
+      there: `new sohl.entity.ValueModifier(...)`,
+      `sohl.document.effect.foundry.SohlActiveEffect`, `sohl.log`, and so on. A module
+      **never imports the system's runtime code** — doing so would load a second copy
+      of the system.
+- **Types — dev-time only.** For annotations, reference SoHL's **types-only**
+  declaration, [`types/sohl-public-api.d.ts`](../../types/sohl-public-api.d.ts).
+  It re-exports the Logic/Data interfaces and the domain class types (and, once the
+  namespace tree ships to consumers, the `sohl.*` paths); it declares **no runtime
+  values**. Bindings still resolve to the global at runtime.
+
+Reference the declaration one of two ways:
+
+- **Copy it** into your module's `types/` directory and add it to your
+  `tsconfig.json` (`"types": ["./types/sohl-public-api"]`).
+- **(Planned — see #407)** install a published types package, e.g.
+  `npm install -D @heroiclands/sohl-types`, and reference it
+  (`"types": ["@heroiclands/sohl-types"]`) — versioned and updatable, no copied
+  file.
+
+```ts
+// dev-time: annotation type from the declaration
+import type { ValueModifier } from "./types/sohl-public-api";
+// runtime: value from the global — never an import of the system
+const mod: ValueModifier = new sohl.entity.ValueModifier(data, { parent });
+```
