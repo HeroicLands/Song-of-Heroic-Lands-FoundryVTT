@@ -17,12 +17,12 @@ import { cloneInstance } from "@src/utils/helpers";
 
 /**
  * Abstract base class for all SoHL domain entities — test/combat results
- * ({@link SuccessTestResult}, {@link AttackResult}, …), modifiers
- * ({@link ValueModifier}, …), strike modes, and dice. It establishes the shapes
+ * ({@link sohl.entity.result.SuccessTestResult}, {@link sohl.entity.result.AttackResult}, …), modifiers
+ * ({@link sohl.entity.modifier.ValueModifier}, …), strike modes, and dice. It establishes the shapes
  * and machinery every entity shares: a constructor-input
  * {@link SohlEntity.Data | Data} bag, an {@link SohlEntity.Options | Options} bag
  * carrying the owning `parent`, the `kind` discriminator, and the `toJSON` /
- * {@link clone} round-trip used by {@link defaultToJSON} / {@link defaultFromJSON}.
+ * {@link clone} round-trip used by {@link sohl.utils.defaultToJSON} / {@link sohl.utils.defaultFromJSON}.
  *
  * Two invariants every subclass inherits:
  *
@@ -34,7 +34,7 @@ import { cloneInstance } from "@src/utils/helpers";
  * - **`Kind` identifies the concrete class for revival.** Each subclass
  *   overrides the static {@link SohlEntity.Kind | Kind} with a unique string and
  *   self-registers it (`registerKind(X.Kind, X)`); without that,
- *   {@link defaultFromJSON} leaves the serialized form as inert data instead of
+ *   {@link sohl.utils.defaultFromJSON} leaves the serialized form as inert data instead of
  *   reviving the concrete class.
  */
 export abstract class SohlEntity {
@@ -44,7 +44,7 @@ export abstract class SohlEntity {
     /**
      * The serialization discriminator for this instance — the concrete class's
      * static {@link SohlEntity.Kind | Kind}. Written into the JSON by
-     * {@link toJSON} under the kind key and read back by {@link defaultFromJSON}
+     * {@link toJSON} under the kind key and read back by {@link sohl.utils.defaultFromJSON}
      * to select the constructor. Derived from the class, never stored per-instance.
      */
     get kind(): string {

@@ -34,7 +34,7 @@ import type { SohlLogic } from "@src/core/logic/SohlLogic";
 /**
  * Returns the standard success-value table with labels/descriptions resolved from i18n.
  *
- * @returns Array of {@link SuccessTestResult.LimitedDescription} entries covering
+ * @returns Array of {@link sohl.entity.result.SuccessTestResult.LimitedDescription} entries covering
  *   every success level from "no value" through "critical success".
  */
 export function getStandardSuccessValueTable(): SuccessTestResult.LimitedDescription[] {
@@ -239,7 +239,7 @@ export class MasteryLevelModifier extends ValueModifier {
     /**
      * Construct an empty mastery level modifier owned by `parent` — shorthand
      * for `new MasteryLevelModifier({}, { parent })`.
-     * @param parent - The owning {@link SohlLogic}.
+     * @param parent - The owning {@link sohl.core.logic.SohlLogic}.
      */
     constructor(parent: SohlLogic<any>);
     /**
@@ -428,7 +428,7 @@ export class MasteryLevelModifier extends ValueModifier {
      * rather than reported as a simple pass/fail.
      *
      * @param context - The action context for the test.
-     * @returns The evaluated {@link SuccessTestResult}, `null` if cancelled, or
+     * @returns The evaluated {@link sohl.entity.result.SuccessTestResult}, `null` if cancelled, or
      *   `false` on error.
      */
     async successValueTest(

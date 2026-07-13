@@ -97,7 +97,7 @@ import { DamageCardInput } from "@src/document/combatant/logic/SohlCombatantLogi
  * are the primary participants in combat, skill tests, and social interactions.
  *
  * The being's **physical baseline — anatomy, body weight, reach, and movement —
- * lives on its {@link CorpusLogic}, not here.** `BeingLogic` holds being-owned
+ * lives on its {@link sohl.document.item.logic.CorpusLogic}, not here.** `BeingLogic` holds being-owned
  * derived state ({@link health}, {@link healingBase}, {@link shockState},
  * {@link pull}, {@link carriedWeight}); anatomy/weight/reach/movement
  * (`structure`, `weight`, `reach`, `feetPerRound`, `leaguesPerWatch`,
@@ -131,28 +131,28 @@ export class BeingLogic<
     pull!: ValueModifier;
 
     /**
-     * Running total of carried-gear weight (pounds) as a {@link ValueModifier},
+     * Running total of carried-gear weight (pounds) as a {@link sohl.entity.modifier.ValueModifier},
      * accumulated ground-up: each carried gear item adds a delta of its
      * `weight × quantity` during its own `evaluate()` phase (see
-     * {@link GearLogic.evaluate}). Reset to an empty modifier at the start of
+     * {@link sohl.document.item.logic.GearLogic.evaluate}). Reset to an empty modifier at the start of
      * {@link initialize} and fully populated (read via `carriedWeight.effective`)
      * by the time the being's own `evaluate()`/`finalize()` and the sheet read it.
      */
     carriedWeight!: ValueModifier;
 
     /**
-     * The being's {@link CorpusLogic | Corpus} logic, or `undefined` when it has
+     * The being's {@link sohl.document.item.logic.CorpusLogic | Corpus} logic, or `undefined` when it has
      * none. A being has 0 or 1 corpus; rather than re-scan `logicTypes` on every
      * lookup, the corpus registers itself here from its own `initialize()` (via
      * {@link registerCorpus}). Reset at the start of {@link initialize} — before
      * any item's `initialize()` runs — so it reflects the current prepare cycle.
-     * The corpus carries the being's movement ({@link CorpusLogic.feetPerRound} /
-     * {@link CorpusLogic.leaguesPerWatch}), body structure, weight, and reach.
+     * The corpus carries the being's movement ({@link sohl.document.item.logic.CorpusLogic.feetPerRound} /
+     * {@link sohl.document.item.logic.CorpusLogic.leaguesPerWatch}), body structure, weight, and reach.
      */
     corpus: CorpusLogic | undefined;
 
     /**
-     * Register a {@link CorpusLogic} as this being's corpus. Called by the
+     * Register a {@link sohl.document.item.logic.CorpusLogic} as this being's corpus. Called by the
      * corpus's own `initialize()` (which runs after the being's), so
      * {@link BeingLogic.corpus} is populated before any consumer reads it.
      * @param corpus - The owning being's corpus logic.

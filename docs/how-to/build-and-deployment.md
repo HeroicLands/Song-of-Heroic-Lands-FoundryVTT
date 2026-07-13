@@ -139,7 +139,6 @@ build/
 ├── dist/             release files — uploaded to the GitHub Release
 │   ├── system.zip    the released system archive (a zip of build/stage/)
 │   └── system.json   the released manifest
-├── docbundle/        generated TypeDoc entry barrel (All.ts)
 ├── docs/             the Markdown documentation tree (from docs:md)
 └── tmp/              scratch (e.g. unpacked packs)
 ```
@@ -397,7 +396,6 @@ and how to invoke it — read the file itself for the authoritative detail. In b
 | `copy-assets.mjs`                   | Stage templates, lang, assets, and root files into `build/stage/`.                        |
 | `build-icon-font.mjs`               | Build the icon font from SVGs.                                                            |
 | `build-type-catalog.mjs`            | Generate `docs/reference/type-catalog.md` from the kind enums.                            |
-| `build-docs-entry.mjs`              | Generate the single TypeDoc entry barrel for cross-link resolution.                       |
 | `sync-doc-version.mjs`              | Pin `…/latest` doc links to `…/v<version>` in generated output.                           |
 | `docs-coverage.mjs`                 | Report doc-comment coverage.                                                              |
 | `check-todos.mjs`                   | Fail the build on unlinked `TODO`/`FIXME` markers.                                        |

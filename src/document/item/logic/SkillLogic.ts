@@ -48,7 +48,7 @@ import { SohlAction } from "@src/entity/action/SohlAction";
 /**
  * Returns the fate-test description table with labels/descriptions resolved from i18n.
  *
- * @returns Array of {@link SuccessTestResult.LimitedDescription} entries covering
+ * @returns Array of {@link sohl.entity.result.SuccessTestResult.LimitedDescription} entries covering
  *   all fate outcomes from "lose fate — no effect" through "permanent gain".
  */
 export function getFateDescTable(): SuccessTestResult.LimitedDescription[] {
@@ -111,7 +111,7 @@ export function getFateDescTable(): SuccessTestResult.LimitedDescription[] {
  * and situational factors.
  *
  * Mastery level progression, fate integration, and SDR improvement are built
- * on {@link MasteryLevelModifier}.
+ * on {@link sohl.entity.modifier.MasteryLevelModifier}.
  *
  * @typeParam TData - The Skill data interface.
  */
@@ -140,13 +140,13 @@ export class SkillLogic<
     skillBase!: number;
 
     /**
-     * The mastery level as a {@link MasteryLevelModifier}, seeded from
+     * The mastery level as a {@link sohl.entity.modifier.MasteryLevelModifier}, seeded from
      * {@link SkillData.masteryLevelBase}.
      */
     masteryLevel!: MasteryLevelModifier;
 
     /**
-     * The fate mastery level as a {@link MasteryLevelModifier}, used to resolve
+     * The fate mastery level as a {@link sohl.entity.modifier.MasteryLevelModifier}, used to resolve
      * {@link fateTest | fate tests}. Seeded from the actor's Aura attribute and
      * the `optionFate` setting; disabled when fate does not apply.
      */
@@ -312,7 +312,7 @@ export class SkillLogic<
      * Performs a success test against this skill's mastery level.
      *
      * Intrinsic-action executor for the `successTest` action; delegates to
-     * {@link MasteryLevelModifier.successTest}.
+     * {@link sohl.entity.modifier.MasteryLevelModifier.successTest}.
      *
      * @param context - The action context (speaker, scope) for the test.
      * @returns The test result, `null` if cancelled, or `false` on error.
@@ -328,7 +328,7 @@ export class SkillLogic<
      *
      * Intrinsic-action executor for the `opposedTestStart` action. Opposed tests
      * are token-based: this delegates into the actor's token logic
-     * {@link SohlTokenDocumentLogic.opposedTestStart}, passing this skill's
+     * {@link sohl.document.token.logic.SohlTokenDocumentLogic.opposedTestStart}, passing this skill's
      * `logicUuid` as the source — exactly as the weapon/technique combat actions
      * delegate into the combatant.
      *

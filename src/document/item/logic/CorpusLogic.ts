@@ -33,9 +33,9 @@ import {
  * movement. A being has 0 or 1 corpus.
  *
  * A Corpus defines the physical baseline of a body: the
- * {@link BodyStructure | body structure} (body parts, hit locations, and
+ * {@link sohl.entity.body.BodyStructure | body structure} (body parts, hit locations, and
  * adjacency), body weight, melee reach, and per-medium movement profiles. The
- * Logic exposes these as {@link ValueModifier}s — `weight`, `reach`, and the
+ * Logic exposes these as {@link sohl.entity.modifier.ValueModifier}s — `weight`, `reach`, and the
  * active profile's `feetPerRound` / `leaguesPerWatch` / `encumbrance` /
  * `strengthModifier` — so runtime effects (size changes, haste, encumbrance) can
  * layer on. The active profile is selected by the owning being's
@@ -54,7 +54,7 @@ export class CorpusLogic<
     structure!: BodyStructure;
 
     /**
-     * The being's body weight as a {@link ValueModifier}, seeded during
+     * The being's body weight as a {@link sohl.entity.modifier.ValueModifier}, seeded during
      * {@link initialize} from `weight.base` (when set) or the `weight.calc`
      * `SafeExpression` of strength.
      */
@@ -99,7 +99,7 @@ export class CorpusLogic<
 
     /**
      * The owning being's total carried-gear weight, read from the being's
-     * `carriedWeight` {@link ValueModifier} (accumulated ground-up during item
+     * `carriedWeight` {@link sohl.entity.modifier.ValueModifier} (accumulated ground-up during item
      * preparation — each carried gear adds a delta). 0 when there is no owning
      * being (or the actor exposes no carried weight).
      * @returns The total carried-gear weight in pounds, or 0.
@@ -207,7 +207,7 @@ export class CorpusLogic<
 
 /**
  * A single per-medium movement profile persisted on a corpus. Bundles the
- * being's speeds in one {@link MovementMedium} with the {@link SafeExpression}s
+ * being's speeds in one {@link MovementMedium} with the {@link sohl.entity.expr.SafeExpression}s
  * (stored as source strings) that turn carried weight into encumbrance and shift
  * it by strength.
  */

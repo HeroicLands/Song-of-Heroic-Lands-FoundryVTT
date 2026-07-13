@@ -44,7 +44,7 @@ import { SohlMap } from "@src/utils/collection/SohlMap";
  *
  * Logic instances are created automatically by the data model's `create()` factory
  * and are accessible via `document.system.logic` (or the convenience `document.logic`
- * accessor on {@link SohlActor} and {@link SohlItem}).
+ * accessor on {@link sohl.document.actor.foundry.SohlActor} and {@link sohl.document.item.foundry.SohlItem}).
  *
  * ## Phase-batched lifecycle
  *
@@ -53,7 +53,7 @@ import { SohlMap } from "@src/utils/collection/SohlMap";
  * moving to the next item. This means sibling items cannot depend on each
  * other — when Item B prepares, Item A may or may not be ready.
  *
- * SoHL overrides this in {@link SohlActor.prepareEmbeddedDocuments} to run three
+ * SoHL overrides this in {@link sohl.document.actor.foundry.SohlActor.prepareEmbeddedDocuments} to run three
  * phases across **all** items with barriers between them:
  *
  * 1. **{@link initialize}** — Set up base state from persisted data: create
@@ -165,7 +165,7 @@ export abstract class SohlLogic<
     }
 
     /**
-     * The owning {@link SohlItem}.
+     * The owning {@link sohl.document.item.foundry.SohlItem}.
      *
      * @throws If this logic is not embedded in an item.
      */
@@ -178,7 +178,7 @@ export abstract class SohlLogic<
     }
 
     /**
-     * The owning {@link SohlActor} — the document itself when it is an actor,
+     * The owning {@link sohl.document.actor.foundry.SohlActor} — the document itself when it is an actor,
      * otherwise its owning actor (for an item, combatant, or effect), or `null`.
      */
     get actor(): SohlActor | null {
@@ -277,7 +277,7 @@ export abstract class SohlLogic<
      * @remarks
      * A logic is a behavior wrapper over a live Foundry document; it is never
      * revived from its own JSON (its constructor needs that document). Wherever a
-     * logic is persisted — a chat card, an action {@link SohlActionContext.scope}
+     * logic is persisted — a chat card, an action {@link sohl.entity.action.SohlActionContext.scope}
      * — it is re-resolved from its `uuid` (e.g. via `fvttLogicFromUuidSync`), not
      * rebuilt from a payload. So it serializes as a compact, resolvable reference
      * (`name`/`kind` are carried for display and debugging); the owning document
@@ -340,7 +340,7 @@ export abstract class SohlLogic<
     }
 
     /**
-     * Returns the {@link SohlActionContext} for this actor.
+     * Returns the {@link sohl.entity.action.SohlActionContext} for this actor.
      * @param token - The token to use for context, if any.
      * @param data - Additional context data to merge into the action context.
      * @returns The action context for this actor.
@@ -506,8 +506,8 @@ function setDefaultAction(actions: SohlAction[]): SohlAction[] {
 /**
  * The base data interface for all Logic classes.
  *
- * Every actor/item data interface (e.g., {@link SohlItemData},
- * {@link SohlActorData}, {@link GearData}) ultimately extends this.
+ * Every actor/item data interface (e.g., {@link sohl.document.item.logic.SohlItemData},
+ * {@link sohl.document.actor.logic.SohlActorData}, {@link sohl.document.item.logic.GearData}) ultimately extends this.
  * The corresponding `SohlDataModel` class implements it via
  * Foundry's schema system.
  * @remarks The base shape of every document's `system` data, reachable as `document.system` and (typed as the interface) `document.logic.data`.

@@ -24,12 +24,12 @@ import {
  * A helper class for working with TokenDocument instances in the SoHL system.
  */
 export class SohlTokenDocument extends TokenDocument {
-    /** Cached transient {@link SohlTokenDocumentLogic} for this token. */
+    /** Cached transient {@link sohl.document.token.logic.SohlTokenDocumentLogic} for this token. */
     private _sohlLogic: SohlTokenDocumentLogic | null = null;
 
     /**
-     * This token's {@link SohlTokenDocumentLogic}, built lazily over a transient
-     * {@link SohlLogicData} adapter. Tokens are not typed documents, so (unlike
+     * This token's {@link sohl.document.token.logic.SohlTokenDocumentLogic}, built lazily over a transient
+     * {@link sohl.core.logic.SohlLogicData} adapter. Tokens are not typed documents, so (unlike
      * actors/items/combatants) the logic is not created by `SohlDataModel`; the
      * adapter derives identity from the live token and resolves `actorLogic`
      * from `token.actor`. No SoHL state is persisted on the token.
@@ -66,10 +66,10 @@ export class SohlTokenDocument extends TokenDocument {
 
     /**
      * Dispatch a chat-card button click to this token's logic — the opposed-test
-     * resume lives on {@link SohlTokenDocumentLogic} as an intrinsic action, and
+     * resume lives on {@link sohl.document.token.logic.SohlTokenDocumentLogic} as an intrinsic action, and
      * the opposed-request card's Respond button addresses the target token. The
      * button's dataset becomes the action's `scope`. Mirrors
-     * {@link SohlCombatant.onChatCardButton}.
+     * {@link sohl.document.combatant.foundry.SohlCombatant.onChatCardButton}.
      * @param btn - The clicked chat-card button element.
      */
     async onChatCardButton(btn: HTMLElement): Promise<void> {

@@ -316,7 +316,7 @@ export class BeingSheet extends SohlActorSheetBase {
      * Handle clicks on an item-create control (class `item-create`,
      * `data-action="createItem"`). Reads the control's `data-type` and
      * `data-sub-type` (or `data-subtype`) to pre-seed the create dialog, then
-     * opens {@link SohlItem.createDialog} parented to this being.
+     * opens {@link sohl.document.item.foundry.SohlItem.createDialog} parented to this being.
      *
      * @param _event - The triggering pointer event (unused).
      * @param target - The clicked control, carrying `data-type` / `data-sub-type`.
@@ -335,7 +335,7 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Resolve the {@link SohlAction} for the clicked Actions-tab row from its
+     * Resolve the {@link sohl.entity.action.SohlAction} for the clicked Actions-tab row from its
      * `data-action-name` (the action shortcode).
      * @param target - An element on or inside the action row.
      * @returns The action, or `undefined` if the row/shortcode can't be resolved.

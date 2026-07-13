@@ -49,12 +49,12 @@ export interface StrikeModeRef {
 export class SohlCombatant<
     SubType extends Combatant.SubType = Combatant.SubType,
 > extends Combatant<SubType> {
-    /** This combatant's actor as a {@link SohlActor}, or `null`. */
+    /** This combatant's actor as a {@link sohl.document.actor.foundry.SohlActor}, or `null`. */
     override get actor(): SohlActor | null {
         return super.actor as SohlActor | null;
     }
 
-    /** The {@link SohlCombatantLogic} for this combatant. */
+    /** The {@link sohl.document.combatant.logic.SohlCombatantLogic} for this combatant. */
     get logic(): SohlCombatantLogic {
         return (this.system as any).logic as SohlCombatantLogic;
     }
@@ -62,7 +62,7 @@ export class SohlCombatant<
     /**
      * Dispatch a chat-card button click to this combatant's logic — the
      * automated-combat defense resumes (Block/Dodge/Counterstrike/Ignore) live
-     * on {@link SohlCombatantLogic} as intrinsic actions, and the attack card's
+     * on {@link sohl.document.combatant.logic.SohlCombatantLogic} as intrinsic actions, and the attack card's
      * defense buttons address the defender's combatant. The button's dataset
      * becomes the action's `scope`.
      * @param btn - The clicked chat-card button element.
@@ -111,7 +111,7 @@ export class SohlCombatant<
     /**
      * Begin an automated attack with this combatant as the attacker — the
      * single entry point for combat start. Delegates to
-     * {@link SohlCombatantLogic.startAutomatedAttack}; the per-weapon and
+     * {@link sohl.document.combatant.logic.SohlCombatantLogic.startAutomatedAttack}; the per-weapon and
      * per-technique item actions route here, passing their source logic and
      * strike mode in the context scope.
      * @param context - The action context (target, scope, chat options).
@@ -122,8 +122,8 @@ export class SohlCombatant<
 
     /**
      * The context-menu entries for this combatant — the combatant's available
-     * actions. Delegates to {@link SohlCombatantLogic.getContextOptions} (the shared
-     * {@link SohlLogic} contract), mirroring `SohlActor`/`SohlItem`. The combat
+     * actions. Delegates to {@link sohl.document.combatant.logic.SohlCombatantLogic.getContextOptions} (the shared
+     * {@link sohl.core.logic.SohlLogic} contract), mirroring `SohlActor`/`SohlItem`. The combat
      * tracker's row context menu is built from these.
      * @returns The combatant's context-menu entries.
      */
@@ -291,7 +291,7 @@ export class SohlCombatant<
     /**
      * The combatants currently threatening this one — enemies that are not
      * defeated, not incapacitated, not hidden, and within reach. See
-     * {@link SohlCombatantLogic.threatenedBy}.
+     * {@link sohl.document.combatant.logic.SohlCombatantLogic.threatenedBy}.
      */
     get threatenedBy(): SohlCombatant[] {
         return this.logic.threatenedBy.map((cl) => cl.combatant!);

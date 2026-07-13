@@ -105,7 +105,7 @@ export abstract class SohlActorDataModel<
 
     /**
      * The logic instance of every embedded item — the single Foundry-coupled
-     * accessor the actor logic layer iterates through ({@link SohlActorData}
+     * accessor the actor logic layer iterates through ({@link sohl.document.actor.logic.SohlActorData}
      * port). The pure `allLogics` / `logicTypes` / `getItemLogic` getters on the
      * actor logic derive everything from this list.
      */

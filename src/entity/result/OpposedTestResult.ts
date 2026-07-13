@@ -67,9 +67,9 @@ import {
  * ## Two-phase execution
  *
  * Opposed tests are executed in two phases:
- * 1. {@link MasteryLevelModifier.opposedTestStart} — source rolls and
+ * 1. {@link sohl.entity.modifier.MasteryLevelModifier.opposedTestStart} — source rolls and
  *    result is posted to chat with a "respond" button.
- * 2. {@link MasteryLevelModifier.opposedTestResume} — target rolls and
+ * 2. {@link sohl.entity.modifier.MasteryLevelModifier.opposedTestResume} — target rolls and
  *    the opposed outcome is evaluated and posted.
  *
  * ## Subclass

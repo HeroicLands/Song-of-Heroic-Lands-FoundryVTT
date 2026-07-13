@@ -667,7 +667,7 @@ function checkScriptSafety(script: string): void {
 /**
  * Compile a string of JavaScript source into a live, callable function inside a
  * screened sandbox — SoHL's mechanism for running author-supplied script
- * (notably a {@link SohlAction | Script Action}'s body) without exposing `eval`,
+ * (notably a {@link sohl.entity.action.SohlAction | Script Action}'s body) without exposing `eval`,
  * the DOM, the network, timers, or the prototype chain.
  *
  * @remarks
@@ -898,7 +898,7 @@ export function defaultFromJSON(
  * Reconstruct a live class instance from its serialized form — the inverse of
  * {@link defaultToJSON} followed by `JSON.stringify`. Accepts either the JSON
  * string or the already-parsed object. Nested registered instances are revived
- * bottom-up; the owning {@link SohlLogic} is supplied via `parent` (every
+ * bottom-up; the owning {@link sohl.core.logic.SohlLogic} is supplied via `parent` (every
  * modifier/result requires one) rather than carried in the payload.
  *
  * @typeParam T - The expected reconstructed type.
@@ -1266,15 +1266,15 @@ const GearKinds = [
 ] as string[];
 
 /**
- * Type guard narrowing a {@link SohlItem} to one of the gear item kinds (armor,
+ * Type guard narrowing a {@link sohl.document.item.foundry.SohlItem} to one of the gear item kinds (armor,
  * concoction, container, misc, projectile, or weapon), exposing its
- * {@link GearData} system data.
+ * {@link sohl.document.item.logic.GearData} system data.
  *
  * @param item - The item to test.
  * @returns `true` if `item` is a gear item kind.
  */
 export function isGearItem(item: SohlItem): item is SohlItem & {
-    /** Narrowed {@link GearData} system data. */
+    /** Narrowed {@link sohl.document.item.logic.GearData} system data. */
     system: GearData;
 } {
     return GearKinds.includes(item.type);
@@ -1287,7 +1287,7 @@ const MasteryLevelKinds = [
 ] as string[];
 
 /**
- * Type guard narrowing a {@link SohlItem} to a mastery-level item (mystical
+ * Type guard narrowing a {@link sohl.document.item.foundry.SohlItem} to a mastery-level item (mystical
  * ability, skill, or trait), exposing its `MasteryLevelData` system data.
  *
  * @param item - The item to test.
@@ -1311,7 +1311,7 @@ const ItemSubTypeKinds = [
 ] as string[];
 
 /**
- * Type guard narrowing a {@link SohlItem} to one of the item kinds that carries a
+ * Type guard narrowing a {@link sohl.document.item.foundry.SohlItem} to one of the item kinds that carries a
  * `subType` field, optionally requiring a specific sub-type value.
  *
  * @param item - The item to test.

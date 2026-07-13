@@ -76,7 +76,7 @@ export class BodyPart extends SohlEntity {
      *
      * @param data - Persisted part data.
      * @param options - Construction options
-     * @param options.parent - Owning {@link CorpusLogic} for this part.
+     * @param options.parent - Owning {@link sohl.document.item.logic.CorpusLogic} for this part.
      * @param options.structure - Owning {@link BodyStructure} for this part.
      * @param options.index - Zero-based index of this part within {@link BodyStructure.parts}.
      * @throws If required fields are missing from `data` or `options`.

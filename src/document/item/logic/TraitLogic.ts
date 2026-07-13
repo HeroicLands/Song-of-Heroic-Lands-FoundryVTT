@@ -38,7 +38,7 @@ import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
  * formulas for skills, contribute to derived values like health and
  * encumbrance, and serve as prerequisites for abilities and actions.
  *
- * Mastery level progression is built on {@link MasteryLevelModifier}.
+ * Mastery level progression is built on {@link sohl.entity.modifier.MasteryLevelModifier}.
  *
  * @typeParam TData - The Trait data interface.
  */
@@ -46,7 +46,7 @@ export class TraitLogic<
     TData extends TraitData = TraitData,
 > extends SohlItemBaseLogic<TData> {
     /**
-     * The trait's numeric score as a {@link ValueModifier}, seeded from
+     * The trait's numeric score as a {@link sohl.entity.modifier.ValueModifier}, seeded from
      * {@link TraitData.score | score.value}. Disabled for non-numeric traits.
      */
     score!: ValueModifier;

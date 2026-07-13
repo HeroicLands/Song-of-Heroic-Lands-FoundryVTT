@@ -232,11 +232,11 @@ export class SohlSystem {
     }
 
     /**
-     * The {@link SohlCombatantLogic} of every combatant in the active combat — a
+     * The {@link sohl.document.combatant.logic.SohlCombatantLogic} of every combatant in the active combat — a
      * direct entry point into the combatant logic layer
      * (`sohl.currentCombatCombatantLogics`). Empty when no combat is active.
      *
-     * @returns One {@link SohlCombatantLogic} per combatant in `game.combat`.
+     * @returns One {@link sohl.document.combatant.logic.SohlCombatantLogic} per combatant in `game.combat`.
      */
     get currentCombatCombatantLogics(): SohlCombatantLogic[] {
         return (

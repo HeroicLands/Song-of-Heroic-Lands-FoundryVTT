@@ -11,6 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * {@include ../docs/api-module.md}
+ *
+ * @module sohl
+ */
+
 // Namespace barrel — hand-maintained. `npm run lint` (check-ns-barrels)
 // verifies every sibling module and subfolder here is re-exported.
 

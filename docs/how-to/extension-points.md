@@ -34,7 +34,7 @@ Common extension needs: register new settings, sheets, hooks, or document classe
 
 **Guidelines:** Keep registration logic explicit and centralized. Avoid side-effect imports.
 
-Registration runs in `Hooks.once("init")` (settings, system config, calendars, hooks, combat/time defaults, sheet registration), then `Hooks.once("ready")` (Handlebars helpers, then `SohlSystem.ready = true`). Read `src/sohl.ts` for the authoritative order, and add new registration alongside the existing calls there and in {@link SohlSystem}.
+Registration runs in `Hooks.once("init")` (settings, system config, calendars, hooks, combat/time defaults, sheet registration), then `Hooks.once("ready")` (Handlebars helpers, then `SohlSystem.ready = true`). Read `src/sohl.ts` for the authoritative order, and add new registration alongside the existing calls there and in {@link sohl.core.logic.SohlSystem}.
 
 ## 2) Actor and Item type extension
 
@@ -44,7 +44,7 @@ Core actor classes: `src/document/actor/` with base `SohlActor` in `foundry/`.
 
 The per-type split into Document, DataModel, Logic, and Sheet classes — and how they relate — is covered by the [three-layer architecture](../concepts/architecture.md#three-layer-architecture) and [three-class pattern](../concepts/architecture.md#three-class-pattern); read those rather than re-deriving them here.
 
-**How to extend:** Add logic class in `src/document/actor/logic/`, data model + sheet in `src/document/actor/foundry/`, register in {@link SohlSystem}.
+**How to extend:** Add logic class in `src/document/actor/logic/`, data model + sheet in `src/document/actor/foundry/`, register in {@link sohl.core.logic.SohlSystem}.
 
 ### Items
 
@@ -56,7 +56,7 @@ Same layering as actors.
 
 1. Add the kind constant + metadata in `src/utils/constants.ts` (`ITEM_KIND`, `*_METADATA`).
 2. Create the logic class in `src/document/item/logic/` and the data model + sheet in `src/document/item/foundry/`.
-3. Register the data model / logic / sheet in {@link SohlSystem}.
+3. Register the data model / logic / sheet in {@link sohl.core.logic.SohlSystem}.
 4. Add templates and localization keys.
 5. Verify `fromData(...)`, drag/drop, sheet rendering, and context-menu behavior resolve; validate startup.
 
@@ -69,8 +69,8 @@ This is the canonical "add a type" procedure — the [Runtime Contracts](../refe
 The steps above add a kind in-system. A **variant module** instead overrides an
 existing kind's Logic class at runtime — no source edits. The base classes are
 exposed on the `sohl` global as `sohl.actorLogicClasses` / `sohl.itemLogicClasses`
-(kind → base class), and {@link SohlSystem.registerActorLogic} /
-{@link SohlSystem.registerItemLogic} swap the class used to build every document
+(kind → base class), and {@link sohl.core.logic.SohlSystem.registerActorLogic} /
+{@link sohl.core.logic.SohlSystem.registerItemLogic} swap the class used to build every document
 of that kind. The resolution path (`SohlDataModel.create`) already reads that
 registry, so no construction sites change.
 
@@ -113,7 +113,7 @@ See [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md) and
 
 ## 4) Active effects
 
-Core: {@link SohlActiveEffect}.
+Core: {@link sohl.document.effect.foundry.SohlActiveEffect}.
 
 SoHL extends Foundry's ActiveEffect with an expanded targeting model (`targetType` / `targetName`) so one effect can target self, the owning actor, or sibling items by type. See [Active Effects](../concepts/architecture.md#active-effects) for the model and [Effects Integration](../reference/effects-integration.md) for the full reference.
 
@@ -135,14 +135,14 @@ from the clicked element's dataset and invokes its `onChatCardButton(btn)` (or
 
 When adding a new button: **emit one of the recognized dataset attributes** (do not
 introduce a new attribute name), and **add an `action` case** to the resolved
-document's handler — e.g. {@link SohlItem.onChatCardButton}, which switches on
+document's handler — e.g. {@link sohl.document.item.foundry.SohlItem.onChatCardButton}, which switches on
 `btn.dataset.action`.
 
 To pass **data** to the action — a result, a request object — do not invent a new
 `data-*-json` attribute; put the whole payload in one `data-scope`. The card-creation
 logic sets a scope field (`scopeData: defaultToJSON(scope)`) and the template renders
 `data-scope="{{toJSON scopeData}}"` (the `{{toJSON}}` helper stringifies it); the
-handler revives it with {@link buildActionScope}, so the `action` case reads **live
+handler revives it with {@link sohl.utils.buildActionScope}, so the `action` case reads **live
 objects** off `context.scope` (e.g. `context.scope.attackResult`), never a JSON string.
 See [Chat-card dispatch contract — Passing scope](../reference/runtime-contracts.md#passing-scope-to-a-button)
 and the [Entity serialization contract](../reference/runtime-contracts.md#entity-serialization-contract).
@@ -196,7 +196,7 @@ format are documented in the
 
 - [Macros and Actions](../concepts/macros-and-actions.md)
 - [Lifecycle Hooks](./lifecycle-hooks.md)
-- {@link SohlLogic}
+- {@link sohl.core.logic.SohlLogic}
 - [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md)
 - [Modifier Model](../reference/modifier-model.md)
 - [Effects Integration](../reference/effects-integration.md)

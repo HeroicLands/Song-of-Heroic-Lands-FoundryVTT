@@ -28,7 +28,7 @@ import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDoc
 import { showDefenseDialog } from "@src/document/combatant/logic/combatant-dialogs";
 
 /**
- * The Foundry-free data contract for a SoHL token — the {@link SohlLogicData}
+ * The Foundry-free data contract for a SoHL token — the {@link sohl.core.logic.SohlLogicData}
  * port specialized for {@link SohlTokenDocument}.
  *
  * Tokens are not typed documents (no `system` DataModel), so unlike actors,
@@ -41,7 +41,7 @@ export interface TokenData extends SohlLogicData<SohlTokenDocument> {}
 
 /**
  * An item logic that backs an opposed test: a skill or attribute exposing a
- * usable {@link MasteryLevelModifier}.
+ * usable {@link sohl.entity.modifier.MasteryLevelModifier}.
  */
 interface OpposedItemLogic {
     /** The opaque identity token of the item logic. */
@@ -58,11 +58,11 @@ interface OpposedItemLogic {
  * source token (the actor derived from it) and the responder side is dispatched
  * to the **target** token from the opposed-request chat card.
  *
- * The structure parallels {@link SohlCombatantLogic}'s automated-combat actions: a
+ * The structure parallels {@link sohl.document.combatant.logic.SohlCombatantLogic}'s automated-combat actions: a
  * canonical {@link opposedTestStart} action (which the skill/attribute item
  * logics delegate into, passing their `logicUuid`) and an
  * {@link opposedTestResume} action (the card handler on the target token). The
- * test mechanics themselves stay on {@link MasteryLevelModifier} —
+ * test mechanics themselves stay on {@link sohl.entity.modifier.MasteryLevelModifier} —
  * `opposedTestStart`/`opposedTestResume` here resolve the source/responder
  * item logic and delegate to it, just as the combatant delegates to
  * `startAutomatedAttackFromItem`.
@@ -73,9 +73,9 @@ export class SohlTokenDocumentLogic<
     /**
      * Runtime brand identifying this as a token logic without needing an
      * `instanceof` check against the class. Consumers in the Foundry-free
-     * layer (e.g. {@link SohlActionContext}) detect it via `isA` to avoid
+     * layer (e.g. {@link sohl.entity.action.SohlActionContext}) detect it via `isA` to avoid
      * importing the class as a value, which would form an import cycle through
-     * {@link SohlLogic}.
+     * {@link sohl.core.logic.SohlLogic}.
      */
     get [BRAND.SohlTokenDocumentLogic](): true {
         return true;
@@ -89,7 +89,7 @@ export class SohlTokenDocumentLogic<
     /**
      * The skill and attribute item logics on this token's actor that can take
      * part in an opposed test — those exposing a usable (non-disabled)
-     * {@link MasteryLevelModifier}. Traits are excluded (no mastery level).
+     * {@link sohl.entity.modifier.MasteryLevelModifier}. Traits are excluded (no mastery level).
      * @returns The candidate opposed-test item logics.
      */
     private opposedItemLogics(): OpposedItemLogic[] {

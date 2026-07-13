@@ -71,7 +71,7 @@ export class ImpactModifier extends ValueModifier {
     /**
      * Construct an empty impact modifier owned by `parent` — shorthand for
      * `new ImpactModifier({}, { parent })` (aspect defaults to blunt).
-     * @param parent - The owning {@link SohlLogic}.
+     * @param parent - The owning {@link sohl.core.logic.SohlLogic}.
      */
     constructor(parent: SohlLogic<any>);
     /**

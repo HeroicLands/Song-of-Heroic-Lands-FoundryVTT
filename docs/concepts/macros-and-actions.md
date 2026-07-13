@@ -48,31 +48,31 @@ via `Macro#execute`. No JavaScript is ever compiled from document data; this is
 the reference-not-compile rule from the
 [Security Model](security-model.md#the-core-principle-reference-code-never-compile-it-from-data).
 Because macros are asynchronous, a Script Action always runs asynchronously — a
-GM who needs a _synchronous computed value_ uses a {@link SafeExpression} field
+GM who needs a _synchronous computed value_ uses a {@link sohl.entity.expr.SafeExpression} field
 (the safe, synchronous expression evaluator) instead.
 
 The configurable fields (`scope`, `trigger`/`visible`, `executor`), the
-{@link SafeExpression} predicates, and a worked example are documented on
-**{@link SohlAction}** (and {@link SohlAction.Data}).
+{@link sohl.entity.expr.SafeExpression} predicates, and a worked example are documented on
+**{@link sohl.entity.action.SohlAction}** (and {@link sohl.entity.action.SohlAction.Data}).
 
 ## How SoHL uses this internally: intrinsic actions
 
 The same mechanism powers SoHL's own built-in behaviors. **Every** action — a GM's
-Script Action or a system-provided one — is a {@link SohlAction} surfaced on a
+Script Action or a system-provided one — is a {@link sohl.entity.action.SohlAction} surfaced on a
 document's context menu. The only difference is where the `executor` comes from:
 
 - A **Script Action**'s executor is a **Foundry Macro UUID**, run via
   `Macro#execute` (above).
 - An **intrinsic action**'s executor is the **name of a method on the Logic class**,
   defined in code. SoHL's Logic classes declare their intrinsic actions in a static
-  {@link SohlLogic.defineIntrinsicActions} — e.g. a Mystery's `useMystery`, a
+  {@link sohl.core.logic.SohlLogic.defineIntrinsicActions} — e.g. a Mystery's `useMystery`, a
   Trauma's healing test — and the system binds that named method as the executor.
 
 So "intrinsic actions" are simply the system doing, in code, what a GM does with a
 Script Action: attaching an executable, context-menu-activated behavior to a
 document. Developers adding a new built-in action define it this way on the relevant
-Logic class — see [Extension Points](../how-to/extension-points.md) and {@link SohlAction} /
-{@link SohlLogic} in the API reference. To affect _all_ documents of a type rather
+Logic class — see [Extension Points](../how-to/extension-points.md) and {@link sohl.entity.action.SohlAction} /
+{@link sohl.core.logic.SohlLogic} in the API reference. To affect _all_ documents of a type rather
 than attach one action, use [Lifecycle Hooks](../how-to/lifecycle-hooks.md).
 
 ### Worked example: Contract Disease

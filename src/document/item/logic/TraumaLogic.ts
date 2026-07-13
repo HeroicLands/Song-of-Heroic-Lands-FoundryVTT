@@ -68,11 +68,11 @@ export class TraumaLogic<
 > extends SohlItemBaseLogic<TData> {
     /**
      * Trauma severity level (M1=1, S2=2, S3=3, G4=4, G5=5), as a
-     * {@link ValueModifier}, seeded from {@link TraumaData.levelBase}.
+     * {@link sohl.entity.modifier.ValueModifier}, seeded from {@link TraumaData.levelBase}.
      */
     level!: ValueModifier;
     /**
-     * How quickly the wound heals, as a {@link ValueModifier}, seeded from
+     * How quickly the wound heals, as a {@link sohl.entity.modifier.ValueModifier}, seeded from
      * {@link TraumaData.healingRateBase}.
      */
     healingRate!: ValueModifier;

@@ -83,12 +83,12 @@ export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
  *   binds to — i.e. what `this` is when it runs (the action's own logic, the
  *   owning item's, or the owning actor's);
  * - a {@link trigger} predicate (availability) and a {@link visible} predicate
- *   (UI display), each authored as a {@link SafeExpression} string;
+ *   (UI display), each authored as a {@link sohl.entity.expr.SafeExpression} string;
  * - an {@link executor} that performs the work.
  *
  * The constructor compiles `trigger`/`visible` and resolves/binds `executor`
  * from their stored string forms, so a finished `SohlAction` is ready to
- * {@link execute}. See {@link SohlLogic.getContextOptions} for how actions become
+ * {@link execute}. See {@link sohl.core.logic.SohlLogic.getContextOptions} for how actions become
  * context-menu entries.
  *
  * A Script action's Macro is an ordinary Foundry script Macro, so it can use
@@ -357,14 +357,14 @@ export namespace SohlAction {
         executor: string;
 
         /**
-         * {@link SafeExpression} determining whether an action may be executed.
+         * {@link sohl.entity.expr.SafeExpression} determining whether an action may be executed.
          * Note that this layers with visible; this determines whether
          * the action can be invoked regardless of whether it is visible
          * in the UI.
          */
         trigger: string;
 
-        /** {@link SafeExpression} determining whether this action appears in the UI */
+        /** {@link sohl.entity.expr.SafeExpression} determining whether this action appears in the UI */
         visible: string;
 
         /** FontAwesome CSS class for the action's icon */
@@ -383,7 +383,7 @@ export namespace SohlAction {
         minActorOwnership: number;
     }
 
-    /** Options for a {@link ValueModifier}. */
+    /** Options for a {@link sohl.entity.modifier.ValueModifier}. */
     export interface Options extends SohlEntity.Options {}
 }
 

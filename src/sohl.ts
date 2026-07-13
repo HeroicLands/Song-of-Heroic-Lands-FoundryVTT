@@ -38,7 +38,7 @@ import { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument
 /**
  * Initializes the SoHL system: merges its CONFIG into Foundry's and
  * registers the document sheets.
- * @returns The initialized {@link SohlSystem} singleton.
+ * @returns The initialized {@link sohl.core.logic.SohlSystem} singleton.
  */
 function setupSystem(): SohlSystem {
     const sohl = SohlSystem.getInstance();

@@ -44,7 +44,7 @@ import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
  * governs its activation test, and to a mystery that
  * determines its mystical tradition. Abilities track a **level** (power),
  * **charges** (uses remaining), and track mastery level progression via
- * {@link MasteryLevelModifier}.
+ * {@link sohl.entity.modifier.MasteryLevelModifier}.
  *
  * Supported subtypes:
  * - Shamanic Rite: Perform a shamanic rite on target(s)
@@ -80,18 +80,18 @@ export class MysticalAbilityLogic<
     assocMystery?: MysteryLogic;
 
     /**
-     * The mastery level as a {@link MasteryLevelModifier}. When the ability has
+     * The mastery level as a {@link sohl.entity.modifier.MasteryLevelModifier}. When the ability has
      * no associated skill (blank {@link MysticalAbilityData.assocSkillCode}) it
      * is seeded from {@link MysticalAbilityData.masteryLevelBase} — the ability's
      * *internal* mastery level. When a skill is associated, the base is left
      * empty until {@link finalize} copies the {@link assocSkill}'s mastery level
-     * in via {@link ValueModifier.addVM | addVM} (so the ability's own custom
+     * in via {@link sohl.entity.modifier.ValueModifier.addVM | addVM} (so the ability's own custom
      * modifiers still stack on top of the skill's).
      */
     masteryLevel!: MasteryLevelModifier;
 
     /**
-     * The ability's power level as a {@link ValueModifier}, seeded from
+     * The ability's power level as a {@link sohl.entity.modifier.ValueModifier}, seeded from
      * {@link MysticalAbilityData.levelBase}. Disabled when `levelBase` is `null`
      * (shown as "×").
      */
@@ -99,7 +99,7 @@ export class MysticalAbilityLogic<
 
     /**
      * The ability's charge tracking. Both `value` and `max` are always
-     * {@link ValueModifier}s; a `null` source value leaves the corresponding
+     * {@link sohl.entity.modifier.ValueModifier}s; a `null` source value leaves the corresponding
      * modifier **disabled**, driving the ×/∞ display (see the identical rules on
      * {@link MysteryLogic.charges}).
      */

@@ -6,7 +6,7 @@
 See also: [Extension Points](./extension-points.md), [Lifecycle Hooks](./lifecycle-hooks.md), [House Rules Cookbook](./house-rules-cookbook.md).
 
 Everything is reachable at runtime through Foundry's `game` global and the SoHL
-`sohl` global (an instance of {@link SohlSystem}). This page maps **what you
+`sohl` global (an instance of {@link sohl.core.logic.SohlSystem}). This page maps **what you
 want** to **how to reach it**.
 
 ## Documents — a specific actor or item
@@ -23,7 +23,7 @@ const skill = item.logic; // typed SkillLogic-style rules surface
 ```
 
 `document.logic` is equivalent to `document.system.logic`. It is the Foundry-free
-Logic object that carries the game rules for that document (see {@link SohlLogic}).
+Logic object that carries the game rules for that document (see {@link sohl.core.logic.SohlLogic}).
 
 ## All actor / item logics
 
@@ -59,7 +59,7 @@ automatically. Categories:
 - **Results** — `TestResult`, `SuccessTestResult`, `OpposedTestResult`,
   `ImpactResult`, `AttackResult`, `DefendResult`, `CombatResult`
 - **Strike modes** — `StrikeModeBase`, `MeleeStrikeMode`, `MissileStrikeMode`
-- **Action** — {@link SohlAction}
+- **Action** — {@link sohl.entity.action.SohlAction}
 - **Body modeling** — `BodyStructure`, `BodyPart`, `BodyLocation`
 
 Construct one:
@@ -86,7 +86,7 @@ override; a namespace path always resolves to the original class.
 ## Calendar registration
 
 Register a world calendar with the static
-{@link SohlSystem.registerCalendar} method. See the
+{@link sohl.core.logic.SohlSystem.registerCalendar} method. See the
 [Calendar reference](../reference/calendar.md) for the calendar shape and
 worked examples.
 

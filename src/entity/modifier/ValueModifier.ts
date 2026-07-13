@@ -84,7 +84,7 @@ import { SohlEntity } from "../SohlEntity";
  *
  * ## Lifecycle
  *
- * ValueModifiers are created during {@link SohlLogic.initialize} with a
+ * ValueModifiers are created during {@link sohl.core.logic.SohlLogic.initialize} with a
  * base from persisted data. Deltas are added during `evaluate`/`finalize`
  * by active effects, cross-item dependencies, or other logic. The entire
  * object is rebuilt on the next preparation cycle — deltas are never
@@ -113,7 +113,7 @@ export class ValueModifier extends SohlEntity {
     /**
      * Construct an empty modifier owned by `parent` — shorthand for
      * `new ValueModifier({}, { parent })`.
-     * @param parent - The owning {@link SohlLogic}.
+     * @param parent - The owning {@link sohl.core.logic.SohlLogic}.
      */
     constructor(parent: SohlLogic<any>);
     /**

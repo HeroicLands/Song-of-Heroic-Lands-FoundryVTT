@@ -34,7 +34,7 @@ export class ContainerGearLogic<
     TData extends ContainerGearData = ContainerGearData,
 > extends GearLogic<TData> {
     /**
-     * Maximum capacity of this container as a {@link ValueModifier}, seeded from
+     * Maximum capacity of this container as a {@link sohl.entity.modifier.ValueModifier}, seeded from
      * {@link ContainerGearData.maxCapacityBase}.
      */
     maxCapacity!: ValueModifier;

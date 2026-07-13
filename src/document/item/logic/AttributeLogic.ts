@@ -43,17 +43,17 @@ export class AttributeLogic<
     TData extends AttributeData = AttributeData,
 > extends SohlItemBaseLogic<TData> {
     /**
-     * The attribute's score as a {@link ValueModifier}, seeded from
+     * The attribute's score as a {@link sohl.entity.modifier.ValueModifier}, seeded from
      * {@link AttributeData.scoreBase}.
      */
     score!: ValueModifier;
     /**
-     * Mastery level derived from this attribute, as a {@link MasteryLevelModifier}.
+     * Mastery level derived from this attribute, as a {@link sohl.entity.modifier.MasteryLevelModifier}.
      * Its base is set in {@link AttributeLogic.finalize | finalize} to the
      * effective {@link AttributeLogic.score | score} multiplied by five.
      */
     masteryLevel!: MasteryLevelModifier;
-    /** Fate-adjusted mastery level for this attribute, as a {@link MasteryLevelModifier}. */
+    /** Fate-adjusted mastery level for this attribute, as a {@link sohl.entity.modifier.MasteryLevelModifier}. */
     fateMasteryLevel!: MasteryLevelModifier;
 
     /* --------------------------------------------- */
@@ -102,7 +102,7 @@ export class AttributeLogic<
      *
      * Intrinsic-action executor for the `opposedTestStart` action. Opposed tests
      * are token-based: this delegates into the actor's token logic
-     * {@link SohlTokenDocumentLogic.opposedTestStart}, passing this attribute's
+     * {@link sohl.document.token.logic.SohlTokenDocumentLogic.opposedTestStart}, passing this attribute's
      * `logicUuid` as the source — the same delegation the skill uses.
      *
      * @param context - The action context (speaker, scope) for the test.

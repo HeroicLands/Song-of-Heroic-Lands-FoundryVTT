@@ -27,7 +27,7 @@ const ExpressionLibraryMenu_Base: any =
  *
  * A GM chooses a JSON file mapping helper names to
  * `{ args?: string[], body: string }` entries. The file's contents are
- * validated, compiled, installed into the global {@link expressionHelpers}
+ * validated, compiled, installed into the global {@link sohl.entity.expr.expressionHelpers}
  * registry, and persisted to a world setting so they reload on world start.
  *
  * The compiled bodies run through {@link textToFunction}, whose screening is a

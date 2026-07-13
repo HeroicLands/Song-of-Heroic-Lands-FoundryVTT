@@ -24,7 +24,7 @@ import { isA, ITEM_KIND } from "@src/utils/constants";
  * The complete anatomical structure of a Being — all body parts, their
  * hit locations, and the adjacency relationships between parts.
  *
- * Constructed from persisted data during {@link CorpusLogic.initialize}.
+ * Constructed from persisted data during {@link sohl.document.item.logic.CorpusLogic.initialize}.
  * Provides weighted random selection for hit location determination and
  * adjacency queries for mechanics like bleeding spread or cascading injuries.
  *
@@ -56,7 +56,7 @@ export class BodyStructure extends SohlEntity {
      * @param data.parts - The persisted body parts array
      * @param data.adjacent - The persisted adjacency pairs array
      * @param options - Construction options
-     * @param options.parent - The parent {@link CorpusLogic} for this structure
+     * @param options.parent - The parent {@link sohl.document.item.logic.CorpusLogic} for this structure
      * @throws If required fields are missing from `data` or `options`.
      */
     constructor(data: BodyStructure.Data, options: BodyStructure.Options) {

@@ -9,11 +9,11 @@ reach for each; the grammar and API details live in the linked source symbols.
 
 ## The three mechanisms at a glance
 
-| Mechanism              | Runs                    | Authored by         | Used for                                             |
-| ---------------------- | ----------------------- | ------------------- | ---------------------------------------------------- |
-| {@link SafeExpression} | **synchronously**, safe | content or GM       | predicates and computed values (from any data field) |
-| Foundry **Macro**      | **asynchronously**      | GM (`MACRO_SCRIPT`) | imperative "do something" behavior (Script actions)  |
-| Intrinsic **method**   | sync or async           | the system (code)   | built-in behavior on a Logic class                   |
+| Mechanism                               | Runs                    | Authored by         | Used for                                             |
+| --------------------------------------- | ----------------------- | ------------------- | ---------------------------------------------------- |
+| {@link sohl.entity.expr.SafeExpression} | **synchronously**, safe | content or GM       | predicates and computed values (from any data field) |
+| Foundry **Macro**                       | **asynchronously**      | GM (`MACRO_SCRIPT`) | imperative "do something" behavior (Script actions)  |
+| Intrinsic **method**                    | sync or async           | the system (code)   | built-in behavior on a Logic class                   |
 
 The dividing lines are _who authors it_ and _how it runs_ — see the
 [extension-point matrix](security-model.md#extension-points-which-tool-for-which-need)
@@ -23,7 +23,7 @@ imperative code.**
 
 ## SafeExpression — the safe, synchronous evaluator
 
-{@link SafeExpression} (`src/entity/expr/SafeExpression.ts`) is the workhorse for
+{@link sohl.entity.expr.SafeExpression} (`src/entity/expr/SafeExpression.ts`) is the workhorse for
 turning a short author-supplied string into a value or boolean, safely and
 synchronously. It parses the string with [jsep](https://github.com/EricSmekens/jsep)
 into an AST, **statically validates that AST against a strict allowlist**, then
@@ -78,14 +78,14 @@ The bindings available to an expression depend on where it is used. Reach for a
 SafeExpression whenever a GM or content author needs a **synchronous condition or
 computed value** from a data field; these are the call sites today:
 
-| Call site                                                 | Field(s)                               | Bindings                  | Result  |
-| --------------------------------------------------------- | -------------------------------------- | ------------------------- | ------- |
-| Action, UI visibility ({@link SohlAction})                | `visible`                              | `element`, `item`, `isGM` | boolean |
-| Action, executability ({@link SohlAction})                | `trigger`                              | `item`, `actor`           | boolean |
-| Active effect, item targeting (`SohlActiveEffect`)        | `test`                                 | `itemLogic`               | boolean |
-| Active effect, strike-mode targeting (`SohlActiveEffect`) | `test`                                 | `itemLogic`, `sm`         | boolean |
-| Context-menu entry (`ContextMenuEntry`)                   | `condition`                            | `target`, `item`, `actor` | boolean |
-| Corpus movement profile (`CorpusLogic`)                   | `strMod`, `encumbrance`, `weight.calc` | `str` or `wt`             | number  |
+| Call site                                                     | Field(s)                               | Bindings                  | Result  |
+| ------------------------------------------------------------- | -------------------------------------- | ------------------------- | ------- |
+| Action, UI visibility ({@link sohl.entity.action.SohlAction}) | `visible`                              | `element`, `item`, `isGM` | boolean |
+| Action, executability ({@link sohl.entity.action.SohlAction}) | `trigger`                              | `item`, `actor`           | boolean |
+| Active effect, item targeting (`SohlActiveEffect`)            | `test`                                 | `itemLogic`               | boolean |
+| Active effect, strike-mode targeting (`SohlActiveEffect`)     | `test`                                 | `itemLogic`, `sm`         | boolean |
+| Context-menu entry (`ContextMenuEntry`)                       | `condition`                            | `target`, `item`, `actor` | boolean |
+| Corpus movement profile (`CorpusLogic`)                       | `strMod`, `encumbrance`, `weight.calc` | `str` or `wt`             | number  |
 
 The same `SohlActiveEffect.test` field is bound differently by the effect's
 scope: item-kind scopes see the candidate item's logic as `itemLogic`; the
@@ -96,7 +96,7 @@ the strike mode as `sm`.
 
 Because method calls are banned, **helpers** are how behavior is exposed to an
 expression. The built-in `STANDARD_HELPERS` library — seeded into the global
-{@link expressionHelpers} registry — is always present; worlds may layer more on
+{@link sohl.entity.expr.expressionHelpers} registry — is always present; worlds may layer more on
 top via the
 [Expression Library](#extending-the-helpers-the-expression-library). All
 built-ins are pure and null-tolerant. Arguments and results are the _evaluated_
@@ -202,7 +202,7 @@ caller — for that, use a SafeExpression. See
 
 An **intrinsic action**'s `executor` is the _name of a method_ on the scoped
 target Logic class, looked up and bound at construction (see
-{@link SohlAction}). This is how SoHL ships its built-in behaviors; it is code,
+{@link sohl.entity.action.SohlAction}). This is how SoHL ships its built-in behaviors; it is code,
 not data, so it carries no compilation risk. New built-in behavior is added this
 way — see [Extension Points](../how-to/extension-points.md).
 
