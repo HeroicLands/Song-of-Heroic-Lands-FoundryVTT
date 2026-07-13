@@ -1,0 +1,307 @@
+<!DOCTYPE html><html class="default" lang="en" data-base=".."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Combat Model | Song of Heroic Lands API - v0.7.0</title><meta name="description" content="Documentation for Song of Heroic Lands API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><link rel="stylesheet" href="../assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">Song of Heroic Lands API - v0.7.0</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb"><li><a href="../modules.html">Song of Heroic Lands API</a></li><li><a href="Documentation.html">Documentation</a></li><li><a href="Documentation.Concepts.html">Concepts</a></li><li><a href="Documentation.Concepts.Combat_Model.html">Combat Model</a></li></ul></div><div class="tsd-panel tsd-typography"><a id="combat-model" class="tsd-anchor"></a><h1 class="tsd-anchor-link">Combat Model<a href="#combat-model" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1><blockquote>
+<p><strong>Audience:</strong> Developers extending combat — the two combat modes and how the
+combat flow is wired programmatically.</p>
+</blockquote>
+<p>See also: <a href="Documentation.Reference.Combat_Resolution_Pipeline.html">Combat Resolution Pipeline</a>
+(the result classes and opposed-test math), <a href="../reference/scene-token-combatant.md">Scene, Token, and Combatant
+Systems</a> (the combatant model),
+<a href="Documentation.Concepts.Macros_and_Actions.html">Macros and Actions</a>, and the player-facing
+<a href="https://heroiclands.org/sohl/user-guide/">Combat Basics</a> guide.</p>
+<a id="two-modes-one-rules-engine" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Two modes, one rules engine<a href="#two-modes-one-rules-engine" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>SoHL runs combat two ways, and both resolve rolls through the <strong>same</strong> engine —
+a d100 roll-under against a <code>MasteryLevelModifier</code>, producing a
+<code>SuccessTestResult</code> (see the <a href="Documentation.Reference.Combat_Resolution_Pipeline.html">pipeline doc</a>).
+They differ only in how much of the exchange the system drives:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Assisted</strong></th>
+<th><strong>Automated</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scope</td>
+<td>A single roll (attack / block / counterstrike / dodge / impact)</td>
+<td>The whole attacker↔defender exchange</td>
+</tr>
+<tr>
+<td>Context required</td>
+<td>None</td>
+<td>A running combat encounter, combatants, tokens, a target</td>
+</tr>
+<tr>
+<td>Workflow</td>
+<td>None — posts one test card</td>
+<td>Multi-stage, cross-client, chat-driven</td>
+</tr>
+<tr>
+<td>Entry</td>
+<td>Being-sheet Combat-tab cells</td>
+<td><code>StrikeModeBase.automatedCombatStart</code> / combatant action</td>
+</tr>
+<tr>
+<td>Result types</td>
+<td><code>SuccessTestResult</code></td>
+<td><code>AttackResult</code> + <code>DefendResult</code> → <code>CombatResult</code></td>
+</tr>
+</tbody>
+</table>
+<p>The rule of thumb when extending: <strong>assisted combat is a thin wrapper over
+<code>successTest</code>; automated combat is an orchestration layer on top of the same
+results.</strong> Anything that must work &quot;anytime, anywhere&quot; belongs on the assisted
+path; anything that coordinates two combatants belongs on the automated path.</p>
+<a id="assisted-combat" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Assisted combat<a href="#assisted-combat" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Assisted combat is deliberately <strong>workflow-free and context-free</strong> — no combat,
+combatant, target, turn, or token is required. It is driven entirely from the
+Being sheet's Combat tab.</p>
+<ul>
+<li><strong><code>BeingSheet._onRollStrikeModeTest</code></strong> (<code>src/document/actor/foundry/BeingSheet.ts</code>)
+reads <code>data-sm-id</code> / <code>data-item-id</code> / <code>data-test-kind</code> off the clicked cell,
+resolves the <code>StrikeModeBase</code>, and calls
+<strong><code>selectStrikeModeModifier(sm, testKind)</code></strong> (<code>being-sheet-view.ts</code>), which
+maps <code>attack → sm.attack</code>, <code>block → sm.defense.block</code>,
+<code>counterstrike → sm.defense.counterstrike</code>.</li>
+<li>It then builds a bare <code>SohlActionContext</code> (shift-click sets <code>skipDialog</code>) and
+calls <strong><code>mlMod.successTest(context)</code></strong> directly. That posts a standard
+success-test card — no opposed resolution, no second party.</li>
+<li>Impact is assisted the same way: <strong><code>_onRollStrikeModeImpact</code></strong> runs the strike
+mode's <code>calcImpact</code> and posts a damage card. Skills use the identical shape via
+<code>_onRollSkillTest</code> → <code>skillLogic.successTest</code>.</li>
+</ul>
+<p>Because it only touches the strike-mode modifiers and <code>successTest</code>, the assisted
+path never references combat state. There are <strong>no weapon-level attack/block/
+counterstrike actions</strong> — assisted combat is per-strike-mode only (#69), and
+dodge is a Dodge-skill test, not a Combat-tab cell.</p>
+<a id="automated-combat" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Automated combat<a href="#automated-combat" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Automated combat is an opinionated, chat-card-driven workflow that coordinates an
+attacker and a defender across clients. The orchestration lives in
+<strong><code>SohlCombatantLogic</code></strong> (<code>src/document/combatant/logic/SohlCombatantLogic.ts</code>),
+and every stage exchanges an evaluated result through a chat card.</p>
+<a id="requirements" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Requirements<a href="#requirements" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>To <em>start</em> an automated attack:</p>
+<ul>
+<li><strong>The attacker's actor must be a combatant in the active combat.</strong>
+<code>StrikeModeBase.automatedCombatStart</code> resolves the combatant with
+<code>fvttActiveCombatantForActor(this.parent.actor)</code> and warns/aborts if the actor
+is not in the active combat — this is the &quot;must be a combatant&quot; gate.</li>
+<li><strong>A target is required.</strong> <code>startAutomatedAttack</code> aborts (UI warning) when
+<code>context.target</code> is absent.</li>
+<li><strong>Range</strong> is computed (<code>fvttRangeToTarget</code>) and validated per strike mode
+(melee <code>reach.effective</code>, missile <code>baseRange.effective</code>); missile <em>volley</em>
+beyond base range is explicitly unsupported.</li>
+</ul>
+<p>Defender-side gating <strong>is</strong> fully wired at card-render time (see
+<a href="#cross-client-handoff">Cross-client handoff</a>).</p>
+<blockquote>
+<p><strong>Caveat — attacker status invariants are dormant.</strong> The pure status sets
+<code>ATTACK_BLOCKING_STATUSES</code> / <code>DEFENSE_DISABLING_STATUSES</code> and the helper
+<code>firstStatusIn</code> exist and are unit-tested, but the function that would enforce
+the <em>attacker</em>-side gate, <code>resolveAttackContext</code>, is <strong>currently commented
+out</strong>, and the live <code>startAutomatedAttack</code> enforces only <em>target + range +
+combat membership</em>. So an incapacitated/defeated attacker is <strong>not</strong> presently
+blocked in the wired path, and there is <strong>no &quot;it must be your turn&quot; gate</strong>.
+(The <a href="Documentation.Reference.Combat_Resolution_Pipeline.html#automated-combat-invariants-enforced-before-step-1">pipeline doc</a>
+describes the intended enforcement; treat it as the target state, not current
+behavior.) The <strong>defender</strong> gate, by contrast, is live.</p>
+</blockquote>
+<a id="entry-points" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Entry points<a href="#entry-points" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Both converge on one executor, <code>SohlCombatantLogic.startAutomatedAttack</code>:</p>
+<ol>
+<li><strong>From a weapon/technique</strong> — <code>StrikeModeBase.automatedCombatStart</code> stuffs the
+strike mode's <code>pointerData</code> into <code>context.scope.mode</code> (so only that weapon's
+modes are offered) and delegates:
+<code>combatantLogic.executeAction(&quot;automatedCombatStart&quot;, context)</code>.</li>
+<li><strong>From the combat tracker</strong> — the combatant's intrinsic <code>automatedCombatStart</code>
+action (<code>executor: &quot;startAutomatedAttack&quot;</code>, <code>visible: &quot;true&quot;</code>, group
+<code>ESSENTIAL</code>) is injected into the tracker row's context menu by
+<code>combat-tracker-hooks.ts</code>, gated on <code>combatant.isOwner</code>.</li>
+</ol>
+<a id="the-exchange-stage-by-stage" class="tsd-anchor"></a><h3 class="tsd-anchor-link">The exchange, stage by stage<a href="#the-exchange-stage-by-stage" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Driver</th>
+<th>What happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Attack roll</strong></td>
+<td><code>startAutomatedAttack</code> → <code>commonAttack</code> (shared attack dialog) → <code>buildAttackResult</code> → <code>attackResult.evaluate()</code></td>
+<td>The attack is <strong>pre-evaluated on the attacker's client</strong> (the roll is the attacker's). A miss disables impact; impact is <em>not</em> rolled yet.</td>
+</tr>
+<tr>
+<td><strong>2. Attack card</strong></td>
+<td><code>buildAttackCardData</code> → <code>templates/chat/attack-card.hbs</code></td>
+<td>Emits <strong>all four</strong> defense buttons; embeds the serialized <code>AttackResult</code> in the card's <code>data-scope</code>; addresses the <strong>target actor</strong> via <code>handlerActorUuid</code>.</td>
+</tr>
+<tr>
+<td><strong>3. Defender responds</strong></td>
+<td>Defender's intrinsic resume actions (all <code>visible: &quot;false&quot;</code>, group <code>HIDDEN</code>)</td>
+<td>The clicked button runs one of the <code>*Resume</code> executors below on the <strong>defender's</strong> combatant, reviving the attacker's result as <code>context.scope.attackResult</code>.</td>
+</tr>
+<tr>
+<td><strong>4. Defense roll + resolution</strong></td>
+<td><code>automated{Block,Dodge,Counterstrike,Ignore}Resume</code> → <code>buildCombatResult</code> → <code>CombatResult.evaluate()</code></td>
+<td>Builds a <code>DefendResult</code>, composes it with the (already-evaluated) attack into a <code>CombatResult</code>, and runs the opposed test.</td>
+</tr>
+<tr>
+<td><strong>5. Impact</strong></td>
+<td><code>CombatResult</code> → <code>rollImpact</code></td>
+<td>Impact is rolled <strong>only when a blow lands</strong> (this is where damage dice are rolled), producing an <code>ImpactResult</code>.</td>
+</tr>
+<tr>
+<td><strong>6. Combat-result card</strong></td>
+<td><code>buildCombatCardData</code> → <code>attack-result-card.hbs</code></td>
+<td>Two-column (Attack | Defend) card; one &quot;Calculate Injury&quot; button per landing side.</td>
+</tr>
+<tr>
+<td><strong>7. Injury</strong></td>
+<td>injury button → <code>BeingLogic.onCreateInjury</code> → <code>resolveAutomatedInjury</code></td>
+<td>Rolls the hit location, applies armor/body-location protection, and <strong>records the Trauma with no dialog</strong> (automated), because the button forwards the attack's aim. See <a href="Documentation.Reference.Combat_Resolution_Pipeline.html#injury-resolution">injury resolution</a>.</td>
+</tr>
+</tbody>
+</table>
+<p>The four defense resumes:</p>
+<ul>
+<li><strong><code>automatedBlockResume</code></strong> — collects blockable melee modes (non-disabled
+<code>defense.block</code>), defaults to <code>lastBlockMode</code> or the best block ML, optionally
+dialogs, builds a <code>DefendResult</code> (<code>TEST_TYPE.BLOCK</code>).</li>
+<li><strong><code>automatedDodgeResume</code></strong> — resolves the Dodge skill ML
+(<code>resolveSkillMasteryLevel(actorLogic, SKILL_CODE.DODGE)</code>); no dialog,
+<code>TEST_TYPE.DODGE</code>.</li>
+<li><strong><code>automatedCounterstrikeResume</code></strong> — a melee attack <em>back</em> at the original
+attacker (resolved from <code>attackResult.speaker.tokenLogic</code>); reuses
+<code>commonAttack</code> and posts <strong>two</strong> cards so both sides display; both blows may
+land.</li>
+<li><strong><code>automatedIgnoreResume</code></strong> — no contest, <code>TEST_TYPE.IGNORE</code>, single card.</li>
+</ul>
+<p>Opposed resolution, victory score, tactical advantages, per-defense &quot;lands a
+blow&quot; rules, and impact→armor→injury are all detailed in the
+<a href="Documentation.Reference.Combat_Resolution_Pipeline.html">Combat Resolution Pipeline</a>; this
+doc does not repeat them.</p>
+<a id="cross-client-handoff" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Cross-client handoff<a href="#cross-client-handoff" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The defender's buttons must appear on the <em>defender's</em> client, and the click must
+be authorized. The flow (<code>src/sohl.ts</code> <code>renderChatMessageHTML</code> hook, plus
+<code>src/document/chat/</code>):</p>
+<ol>
+<li><strong>Addressing.</strong> The attack card sets <code>handlerActorUuid</code> to the <strong>target
+actor's</strong> uuid (<code>buildAttackCardData</code>); the buttons carry it as
+<code>data-handler-actor-uuid</code>.</li>
+<li><strong>Render-time gating (every client).</strong> <code>gateAutomatedDefenseButtons</code>
+(<code>chat-card-gating.ts</code>) runs on each client and:
+<ul>
+<li>removes all buttons unless the viewer is the defender's <strong>owner</strong> (a GM owns
+all);</li>
+<li>if the defender has any <code>DEFENSE_DISABLING_STATUSES</code>, leaves <strong>only Ignore</strong>;</li>
+<li>shows Block only if there are blockable modes, Counterstrike only if there's
+a melee attack mode, Dodge only if the Dodge skill is usable.
+This is <strong>UX only</strong> — it hides buttons, it does not authorize.</li>
+</ul>
+</li>
+<li><strong>Click-time authorization (the real boundary, #167).</strong>
+<code>resolveAuthorizedChatCardHandler</code> (<code>chat-card-dispatch.ts</code>) resolves the
+handler doc (uuid precedence <code>docUuid → handlerUuid → handlerActorUuid → actionHandlerUuid</code>) and returns it <strong>only if <code>isOwner</code></strong>; <code>onChatCardButton</code>
+re-checks ownership. The button's <code>data-scope</code> becomes <code>context.scope</code>, so the
+resume reads <code>context.scope.attackResult</code>.</li>
+</ol>
+<p>Cross-actor writes never happen directly — a resume mutates only its own
+combatant/actor and communicates back through the target-addressed card (see
+<a href="Documentation.Concepts.Architecture_Overview.html#actor-state-sovereignty">actor state sovereignty</a>).</p>
+<a id="combatants-and-the-combat-lifecycle" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Combatants and the combat lifecycle<a href="#combatants-and-the-combat-lifecycle" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="combatant-properties" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Combatant properties<a href="#combatant-properties" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><code>SohlCombatant</code> (<code>src/document/combatant/foundry/SohlCombatant.ts</code>) adds
+encounter-scoped state on top of Foundry's Combatant. Key fields the logic reads:</p>
+<table>
+<thead>
+<tr>
+<th>Field / getter</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>groupId</code></td>
+<td>The combatant's <code>CombatantGroup</code> (side). Reads <code>_source.group</code> first for a stable id. Drives <code>isEnemyOf</code> / <code>allies</code>.</td>
+</tr>
+<tr>
+<td><code>moveFactor</code></td>
+<td>GM situational move multiplier (run/sprint/terrain). <strong>Stored + editable but not yet applied</strong> (#252) — <code>computedMove()</code> ignores it.</td>
+</tr>
+<tr>
+<td><code>displayedMedium</code></td>
+<td>Which movement medium the tracker shows; seeded at <code>_preCreate</code> (user-set › corpus default › schema default). <em>(Not yet honored by <code>computedMove</code>, which uses the corpus's active medium.)</em></td>
+</tr>
+<tr>
+<td><code>computedMove()</code> / <code>displayedMove</code></td>
+<td>Tactical feet-per-round from the actor's Corpus <code>feetPerRound</code>, or <code>null</code> with no corpus.</td>
+</tr>
+<tr>
+<td><code>allyIds</code> / <code>threatenedAllyIds</code></td>
+<td>Relationship state (<code>addAlly</code>/<code>removeAlly</code>/<code>addThreatened</code>/…).</td>
+</tr>
+<tr>
+<td>initiative</td>
+<td><code>_getInitiativeFormula()</code> returns the actor's <code>init</code> skill mastery as a <strong>fixed string</strong> — SoHL initiative is skill-driven, not a die roll.</td>
+</tr>
+</tbody>
+</table>
+<p>Combat relationships are computed, not stored: <code>isEnemyOf</code> →
+<code>areCombatantsEnemies</code> (different non-null groups ⇒ enemies), <code>allies</code>
+(same-group others), and <code>threatenedBy</code> → <code>isThreatening</code> (an enemy that is not
+defeated, carries no <code>THREAT_NEGATING_STATUSES</code>, is not hidden, and <code>reaches</code>
+this combatant — center-to-center grid distance ≤ its greatest melee reach).</p>
+<a id="group-seeding" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Group seeding<a href="#group-seeding" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Sides are assigned when combatants are created, GM-authoritatively and
+fire-and-forget:</p>
+<ul>
+<li><strong><code>SohlCombat._onCreateDescendantDocuments</code></strong> (<code>src/document/combat/foundry/SohlCombat.ts</code>)
+— after super, when the created descendants are <code>combatants</code> and the caller is
+the active GM, it dispatches <strong><code>void this.seedCombatantGroups(documents)</code></strong>
+(fire-and-forget — a combatant's <code>groupId</code> is <em>not</em> set the instant
+<code>createEmbeddedDocuments</code> resolves; poll for it in tests).</li>
+<li><strong><code>seedCombatantGroups</code></strong> maps each combatant to
+<code>{ id, hasGroup, desiredName: actor.system.defaultCombatGroup ?? null }</code>, then
+the pure <strong><code>resolveGroupSeeding</code></strong> (<code>combat/logic/combat-logic.ts</code>) plans the
+distinct groups to create (case-insensitive dedup; default <code>&quot;Opponents&quot;</code>).
+Missing <code>CombatantGroup</code>s are batch-created and each combatant's <code>group</code> set.</li>
+</ul>
+<a id="turn-and-round-lifecycle" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Turn and round lifecycle<a href="#turn-and-round-lifecycle" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li><strong><code>SohlHookBridge</code></strong> (<code>src/core/logic/SohlHookBridge.ts</code>) fans Foundry's combat
+hooks into system lifecycle events, all GM-gated and routed through the event
+queue: <code>combatStart</code>, <code>combatRound</code> → <code>roundEnd</code> + <code>roundStart</code>, <code>combatTurn</code>
+→ <code>turnEnd</code> + <code>turnStart</code>, <code>deleteCombat</code> → <code>combatEnd</code>.</li>
+<li><strong><code>updateCombat</code></strong> (<code>src/sohl.ts</code>) captures the new current combatant's position
+and resets its per-turn <code>didAction</code> on turn/round change. It is the source of
+the turn-start location that <code>spacesMovedThisTurn</code> reports.</li>
+<li>The combat tracker (<code>combat-tracker-hooks.ts</code>) injects each owned combatant's
+non-hidden intrinsic actions (Automated Attack, Move to Group) into its context
+menu, and renders the group-name and computed-move chips per row.</li>
+</ul>
+<a id="current-gaps-and-caveats" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Current gaps and caveats<a href="#current-gaps-and-caveats" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>For anyone extending combat, the wired state diverges from the intended/documented
+state in a few places (all verified against source):</p>
+<ol>
+<li><strong>Attacker status invariants are dormant</strong> — <code>resolveAttackContext</code> is
+commented out; only target + range + membership gate the attacker path. No
+&quot;your turn&quot; gate exists. (The defender gate <em>is</em> live.)</li>
+<li><strong><code>moveFactor</code> is unapplied</strong> (#252) — stored and GM-editable, but
+<code>computedMove()</code>/<code>CorpusLogic.feetPerRound</code> never read it.</li>
+<li><strong><code>displayedMedium</code> is not honored by <code>computedMove</code></strong> — it seeds the tracker
+chip but movement always uses the corpus's active medium.</li>
+<li><strong>Turn-start location field-name mismatch (likely bug)</strong> — <code>updateCombat</code>
+writes <code>system.initialLocation</code>, but the schema field is <code>startLocation</code>
+(which <code>spacesMovedThisTurn</code> reads), so the turn-start location is not
+persisted where it is read.</li>
+<li><strong>Weapon break is display-only</strong> — <code>CombatResult.weaponBreakCheck</code> is computed
+and shown on the card, but no breakage is applied.</li>
+<li><strong>Stale docstrings</strong> — the injury-button docstrings in <code>SohlCombatantLogic</code>
+call it &quot;assisted / no aim forwarded,&quot; but the code forwards the aim and takes
+the <strong>automated</strong> (no-dialog) injury path for aimed automated attacks; and
+<code>SohlCombat</code>'s group-seeding docstring says the desired name comes from a token
+<code>sohl.defaultCombatGroup</code> flag when it reads <code>actor.system.defaultCombatGroup</code>.</li>
+</ol>
+<a id="see-also" class="tsd-anchor"></a><h2 class="tsd-anchor-link">See also<a href="#see-also" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li><a href="Documentation.Reference.Combat_Resolution_Pipeline.html">Combat Resolution Pipeline</a> — the
+result-class hierarchy, opposed-test math, victory score, tactical advantages,
+and injury resolution.</li>
+<li><a href="Documentation.Reference.Scene,_Token,_and_Combatant_Systems.html">Scene, Token, and Combatant Systems</a> —
+token/targeting helpers, initiative, movement state.</li>
+<li><a href="Documentation.Reference.Body_Structure.html">Body Structure</a> — hit location and armor
+aggregation.</li>
+<li><a href="Documentation.Concepts.Macros_and_Actions.html">Macros and Actions</a> — how intrinsic actions (the
+<code>*Resume</code> executors) are defined and dispatched.</li>
+</ul>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#combat-model"><span>Combat <wbr/>Model</span></a><ul><li><a href="#two-modes-one-rules-engine"><span>Two modes, one rules engine</span></a></li><li><a href="#assisted-combat"><span>Assisted combat</span></a></li><li><a href="#automated-combat"><span>Automated combat</span></a></li><li><ul><li><a href="#requirements"><span>Requirements</span></a></li><li><a href="#entry-points"><span>Entry points</span></a></li><li><a href="#the-exchange-stage-by-stage"><span>The exchange, stage by stage</span></a></li><li><a href="#cross-client-handoff"><span>Cross-<wbr/>client handoff</span></a></li></ul></li><li><a href="#combatants-and-the-combat-lifecycle"><span>Combatants and the combat lifecycle</span></a></li><li><ul><li><a href="#combatant-properties"><span>Combatant properties</span></a></li><li><a href="#group-seeding"><span>Group seeding</span></a></li><li><a href="#turn-and-round-lifecycle"><span>Turn and round lifecycle</span></a></li></ul></li><li><a href="#current-gaps-and-caveats"><span>Current gaps and caveats</span></a></li><li><a href="#see-also"><span>See also</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>
