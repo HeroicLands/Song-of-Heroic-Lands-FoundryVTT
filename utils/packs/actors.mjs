@@ -13,21 +13,21 @@
 
 /**
  * Actors pack compiler — produces JSON pack files for the "actors" Foundry
- * compendium from markdown character/creature notes in the HeroicLands vault.
+ * compendium from markdown character/creature notes in the `assets/content/` tree.
  *
- * Both vault types `character` and `creature` produce a Foundry `being` actor;
+ * Both content types `character` and `creature` produce a Foundry `being` actor;
  * no other distinction propagates to the output.
  *
  * Each actor's embedded items are resolved by looking up `<type>:<shortcode>`
- * against the items pack's `_source/` tree (built in a prior export pass).
+ * against the items pack's generated JSON tree (built in a prior items pass).
  * Attributes (`sohl.attributes` map) become embedded attribute items with
  * `scoreBase` set from the map value. Each entry in `sohl.items` is similarly
  * resolved by `(type, shortcode)` and deep-merged with the entry's other
  * properties. `sohl.skills` is ignored.
  *
  * Not a standalone script — exports the `Actors` compiler class, imported and
- * driven by `utils/packs/export.mjs` (`npm run packs:export`). Must run after
- * the items pass, since it reads the items pack's `_source/` tree.
+ * driven by `utils/packs/generate.mjs` (via `npm run build:compiledb`). Must run
+ * after the items pass, since it reads the items pack's generated JSON tree.
  */
 
 import fs from "fs";
@@ -95,7 +95,7 @@ function loadItemsMap(itemsSourceDir) {
     const map = new Map();
     if (!fs.existsSync(itemsSourceDir)) {
         throw new Error(
-            `Items source directory ${itemsSourceDir} does not exist — actors must be exported after items`,
+            `Items source directory ${itemsSourceDir} does not exist — actors must be generated after items`,
         );
     }
     for (const name of fs.readdirSync(itemsSourceDir)) {
@@ -165,7 +165,7 @@ export class Actors {
     static id = "actors";
 
     /** @type {string} */
-    vaultBase;
+    contentBase;
     /** @type {string} */
     outputDir;
     /** @type {string} */
@@ -175,18 +175,17 @@ export class Actors {
     /** @type {number} */
     errorCount = 0;
 
-    constructor({ vaultBase, dest, folderResolver = () => null }) {
-        if (!vaultBase) {
-            throw new Error("Actors compiler requires `vaultBase`");
+    constructor({ contentBase, dest, folderResolver = () => null }) {
+        if (!contentBase) {
+            throw new Error("Actors compiler requires `contentBase`");
         }
-        if (!fs.existsSync(vaultBase)) {
-            throw new Error(
-                `HeroicLands vault not found at ${vaultBase} — expected sibling to the SoHL project`,
-            );
+        if (!fs.existsSync(contentBase)) {
+            throw new Error(`Content tree not found at ${contentBase}`);
         }
-        const itemsSourceDir = path.resolve(dest, "..", "..", "items", "_source");
-        Object.defineProperty(this, "vaultBase", {
-            value: vaultBase,
+        // The items pack's JSON is generated as a sibling under build/packs-json/.
+        const itemsSourceDir = path.resolve(dest, "..", "items");
+        Object.defineProperty(this, "contentBase", {
+            value: contentBase,
             writable: false,
         });
         Object.defineProperty(this, "outputDir", {
@@ -367,7 +366,7 @@ export class Actors {
         let skippedOther = 0;
 
         for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
-            this.vaultBase,
+            this.contentBase,
         )) {
             if (!fm || fm.package !== "sohl") {
                 skippedOther++;

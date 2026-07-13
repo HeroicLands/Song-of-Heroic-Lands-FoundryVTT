@@ -13,9 +13,9 @@
 
 /**
  * Journals pack compiler — produces JSON pack files for the "journals"
- * Foundry compendium from markdown notes in the HeroicLands vault.
+ * Foundry compendium from markdown notes in the `assets/content/` tree.
  *
- * The vault root (`vaultBase`) is walked recursively; any `.md` file
+ * The content root (`contentBase`) is walked recursively; any `.md` file
  * whose frontmatter declares `type: doc` and `package: sohl` is compiled
  * into one JournalEntry document. Each note's body is split on top-level
  * H1 headings; the optional content before the first H1 becomes an
@@ -27,7 +27,7 @@
  * against a folders.yaml list via the constructor's `folderResolver`.
  *
  * Not a standalone script — exports the `Journals` compiler class, imported
- * and driven by `utils/packs/export.mjs` (`npm run packs:export`).
+ * and driven by `utils/packs/generate.mjs` (via `npm run build:compiledb`).
  */
 
 import fs from "fs";
@@ -110,7 +110,7 @@ export class Journals {
     static id = "journals";
 
     /** @type {string} */
-    vaultBase;
+    contentBase;
     /** @type {string} */
     outputDir;
     /** @type {(path: string|null) => string|null} */
@@ -118,17 +118,15 @@ export class Journals {
     /** @type {number} */
     errorCount = 0;
 
-    constructor({ vaultBase, dest, folderResolver = () => null }) {
-        if (!vaultBase) {
-            throw new Error("Journals compiler requires `vaultBase`");
+    constructor({ contentBase, dest, folderResolver = () => null }) {
+        if (!contentBase) {
+            throw new Error("Journals compiler requires `contentBase`");
         }
-        if (!fs.existsSync(vaultBase)) {
-            throw new Error(
-                `HeroicLands vault not found at ${vaultBase} — expected sibling to the SoHL project`,
-            );
+        if (!fs.existsSync(contentBase)) {
+            throw new Error(`Content tree not found at ${contentBase}`);
         }
-        Object.defineProperty(this, "vaultBase", {
-            value: vaultBase,
+        Object.defineProperty(this, "contentBase", {
+            value: contentBase,
             writable: false,
         });
         Object.defineProperty(this, "outputDir", {
@@ -206,7 +204,7 @@ export class Journals {
         let skippedOther = 0;
 
         for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
-            this.vaultBase,
+            this.contentBase,
         )) {
             if (!fm || fm.type !== "doc" || fm.package !== "sohl") {
                 skippedOther++;

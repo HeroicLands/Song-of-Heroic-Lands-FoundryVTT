@@ -21,7 +21,8 @@
  * filename generation, and slug normalization.
  *
  * Not a standalone script — a shared helper module imported by the pack
- * compilers (export.mjs, items.mjs, journals.mjs, actors.mjs).
+ * generation orchestrator and compilers (generate.mjs, items.mjs,
+ * journals.mjs, actors.mjs).
  */
 
 import fs from "fs";
