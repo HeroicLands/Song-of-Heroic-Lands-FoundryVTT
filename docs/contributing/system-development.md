@@ -175,7 +175,7 @@ done, not a follow-up:
   a pattern.
 - **User guide journals** (`assets/packs/journals/_source/`) when a player-facing
   workflow changed.
-- **Extension points** — [Extension Points](./extension-points.md) when you added or
+- **Extension points** — [Extension Points](../how-to/extension-points.md) when you added or
   changed one.
 
 Documentation-link conventions in `docs/`: link to code **by symbol** (`{@link Symbol}`)
