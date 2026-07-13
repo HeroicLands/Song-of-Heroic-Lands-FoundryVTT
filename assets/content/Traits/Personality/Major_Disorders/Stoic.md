@@ -1,0 +1,47 @@
+---
+aliases: []
+tags: []
+name:
+  full: Stoic
+  aliases: []
+id: vYZQa3HWedJDzOOh
+slug: stoic
+img: icons/user-gear.svg
+shortcode: stoic
+type: trait
+package: sohl
+sohl:
+  subType: personality
+  intensity: benign
+  isNumeric: false
+  textValue: ''
+  valueDesc: []
+  score:
+    value: 0
+    max: 0
+folder: ECrcBb9CUCMX9JeJ
+---
+
+Stoic refers to an individual’s ability to endure pain, hardship, or emotional turbulence without outwardly showing their feelings or being overtly affected by them. A stoic person is calm, composed, and resilient in the face of adversity. While stoicism can be a strength, promoting self-control and emotional stability, it can also become unhealthy if the individual suppresses their emotions to the point of emotional detachment or neglecting their personal needs and relationships.
+
+### Benign
+The individual is calm and composed, able to handle challenges and adversity with resilience and grace. They rarely overreact to emotional or stressful situations and are able to maintain a steady demeanor, offering a source of stability for those around them. While they may not always show their emotions openly, they remain empathetic and connected to others, using their stoicism as a tool for personal strength and composure.
+**Example:** Lord Theon remains composed during a tense political negotiation, offering rational solutions while others let their emotions guide them. His calm demeanor helps to de-escalate the situation, and though he keeps his feelings private, he remains compassionate toward his peers.
+
+### Impulse
+The individual becomes more emotionally reserved, suppressing their feelings and reactions in favor of appearing calm and unbothered. While they are still functional, their increasing emotional detachment may cause others to see them as distant or unfeeling. They may begin to struggle with expressing their emotions, fearing vulnerability or weakness, and often avoid discussing their personal struggles or needs.
+**Example:** Lord Theon begins to suppress his emotions more frequently, choosing to avoid sharing his feelings with even close family members. While he remains reliable and strong in public, his friends notice his growing emotional distance. He dismisses their concerns, believing that showing emotions would make him seem weak.
+
+### Disorder
+As stoicism intensifies, the individual may become emotionally detached, refusing to acknowledge or express any emotions, even in situations that require empathy or vulnerability. This level of emotional suppression can lead to an inability to connect with others on a meaningful level, causing isolation, emotional numbness, or internalized stress. The individual may neglect their mental and emotional health, believing that expressing emotions is a sign of weakness, which can lead to deep emotional or psychological harm.
+
+### Physical Symptoms
+The individual may experience tension, stress, or even physical health issues due to suppressing emotions for extended periods. Bottling up emotions may lead to fatigue, headaches, or other stress-related ailments.
+
+### Intrusive Thoughts
+Persistent thoughts of needing to stay strong and unemotional, even in situations where expressing emotions is appropriate or necessary. The individual may believe that showing vulnerability is a weakness and feel compelled to maintain an emotionless front at all times.
+
+### Emotional Distress
+Although outwardly calm, the individual may experience significant internal distress from suppressing their emotions. They may struggle with feelings of isolation, frustration, or numbness, as their inability to express emotions erodes their mental well-being and relationships.
+
+**Example:** Lord Theon no longer expresses any emotion, even during the most difficult or personal moments. He refuses to grieve the death of a close family member, seeing any display of sorrow as weakness. His friends and family find it increasingly difficult to connect with him, and Theon’s internalized stress leads to health problems. Though he outwardly appears calm and in control, Theon feels increasingly detached from those around him, suffering in silence as he isolates himself emotionally.
