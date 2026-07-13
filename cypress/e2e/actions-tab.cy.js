@@ -22,7 +22,11 @@ import { toRealm } from "../support/resolve";
 
 describe("Being Actions tab (#313)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
-    afterEach(() => cy.cleanupWorld());
+    beforeEach(() => cy.closeAllSheets());
+    afterEach(() => {
+        cy.closeAllSheets();
+        cy.cleanupWorld();
+    });
 
     it("lists intrinsic actions in the Intrinsic section (hidden ones omitted)", () => {
         cy.importActor().then((actor) => {
