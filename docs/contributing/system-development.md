@@ -102,12 +102,37 @@ content will be removed immediately.
 
 ## Development workflow
 
+### Definition of Done
+
+A fix is done when **all** of these hold:
+
+- [ ] A tracking issue exists (except `chore`), reproduced or with
+      confirmed acceptance criteria, and the **root cause is recorded in a comment**.
+- [ ] Work is on a correctly named branch (`<type>/<issue_#>_<slug>`) off current
+      `main`.
+- [ ] **Tests were written first**, cover the fix (unit by default; e2e or a pure
+      helper + unit where Foundry wiring is involved), and any pre-staged RED spec
+      for this behavior is un-skipped.
+- [ ] `npm run test` is green — the new tests **and** the full suite.
+- [ ] The implementation obeys the non-negotiable rules: Foundry-free logic +
+      shims, backwards-compatible data (migration if needed), stable lang keys, no
+      compiling/HTML-from data, complete (no stubs), and scoped to the one issue.
+- [ ] Conventions met: file headers, complete JSDoc, null/undefined discipline,
+      and every `TODO`/`FIXME` linked as `TODO(#123)`.
+- [ ] Documentation updated for the changed behavior (JSDoc, dev docs, user guide),
+      and `type-catalog.md` committed if the schema changed.
+- [ ] A `.changeset/` entry exists for `feat`/`bug` work, correctly bumped,
+      issue-referenced, and format-clean.
+- [ ] Only your files are formatted (`npm run format:check` clean).
+- [ ] **`npm run build` and `npm run docs` both pass** without errors.
+- [ ] Committed in Conventional-Commits style and a PR is open with `Closes #<n>`
+      and a what/why description.
+
 ### Issue first
 
 No repository change lands without a tracking GitHub issue — **except** pure
-`cleanup/*`, `docs/*`, and `chore/*` work (housekeeping, documentation, and
-tooling with no shipped-behavior change). File or find the issue before you start
-so you have its number for the branch name.
+`chore/*` work (housekeeping and tooling with no shipped-behavior change). File
+or find the issue before you start so you have its number for the branch name.
 
 When you open an issue, the **body is the problem statement only** — symptoms,
 reproduction, expected vs. actual, and optionally acceptance criteria. Root cause
@@ -115,11 +140,11 @@ and the proposed fix go in a **comment**, not the body.
 
 ### Branch naming
 
-- Feature and bug branches: `<type>/issue_<#>_<short-kebab-summary>` — for example
-  `bug/issue_59_actor-pack-embedded-keys` or `feat/issue_72_combat-tracker-actions`.
-  The `issue_<#>` segment is the parseable source of truth; the trailing slug is a
+- Feature and bug branches: `<type>/<issue_#>_<short-kebab-summary>` — for example
+  `bug/59_actor-pack-embedded-keys` or `feat/72_combat-tracker-actions`.
+  The `<issue_#>` segment is the parseable source of truth; the trailing slug is a
   human-readable label.
-- Issue-free types: `cleanup/<slug>`, `docs/<slug>`, `chore/<slug>`.
+- Issue-free types: `chore/<slug>`.
 
 ### Test-driven development
 
@@ -138,10 +163,32 @@ as `TODO(#123)` / `FIXME(#123)`. If a marker isn't worth an issue, do the work n
 or delete the comment. `npm run lint:todos` (run in CI and `build:noci`) fails the
 build on any unlinked marker.
 
+### Update the documentation
+
+**A PR that changes behavior updates the docs that describe it** — this is part of
+done, not a follow-up:
+
+- **JSDoc** for any public API whose contract changed.
+- **Developer docs** under `docs/` — concept docs (`docs/concepts/`), how-to guides
+  (`docs/how-to/`), or reference (`docs/reference/`) — when the mechanic or
+  architecture a reader relies on has moved. Add a worked example where it clarifies
+  a pattern.
+- **User guide journals** (`assets/packs/journals/_source/`) when a player-facing
+  workflow changed.
+- **Extension points** — [Extension Points](../how-to/extension-points.md) when you added or
+  changed one.
+
+Documentation-link conventions in `docs/`: link to code **by symbol** (`{@link Symbol}`)
+for API-documented symbols, path-only file links for DataModels/Sheets, and **never**
+line-range fragments (they rot on any edit).
+
+`docs/reference/type-catalog.md` is **generated and committed**. When your schema
+change makes it show as modified, commit it — never hand-edit or revert it.
+
 ### Changesets
 
 `feat/*` and `bug/*` branches **always** add a `.changeset/` entry — regardless of
-whether the change is user-facing. `cleanup/*`, `docs/*`, and `chore/*` need none.
+whether the change is user-facing. `chore/*` need none.
 Keep the changeset current as work progresses (don't write it only at the end),
 reference the issue, and describe **only the fix** — the problem context lives in
 the issue. See [Writing Changesets](./writing-changesets.md) for details.
