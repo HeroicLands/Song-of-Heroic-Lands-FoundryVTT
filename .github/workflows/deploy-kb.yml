@@ -1,0 +1,41 @@
+name: Deploy Knowledgebase to Cloudflare Pages
+
+on:
+    # Republish whenever the KB or the content it renders changes on main.
+    push:
+        branches: [main]
+        paths:
+            - "kb/**"
+            - "docs/**"
+            - "assets/content/**"
+            - ".github/workflows/deploy-kb.yml"
+    # Manual redeploy from the Actions tab.
+    workflow_dispatch:
+
+# Read-only checkout; the Cloudflare token (a secret) authorizes the deploy.
+permissions:
+    contents: read
+
+# Serialize deploys so runs never race on the Pages project.
+concurrency:
+    group: kb-deploy
+    cancel-in-progress: false
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 24
+                  cache: npm
+                  cache-dependency-path: kb/package-lock.json
+            - name: Build knowledgebase
+              run: npm run build:kb
+            - name: Deploy to Cloudflare Pages (production)
+              uses: cloudflare/wrangler-action@v3
+              with:
+                  apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                  accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                  command: pages deploy kb/dist --project-name=sohl-kb --branch=main

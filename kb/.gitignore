@@ -1,0 +1,4 @@
+# Astro / knowledgebase sub-project
+node_modules/
+dist/
+.astro/

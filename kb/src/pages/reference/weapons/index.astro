@@ -1,0 +1,31 @@
+---
+import { getCollection } from "astro:content";
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+
+const weapons = (
+    await getCollection(
+        "content",
+        (e) => e.data.type === "weapongear" && e.data.package === "sohl",
+    )
+)
+    .map((e) => ({
+        name: e.data.name.full,
+        slug: e.data.slug ?? e.id.split("/").pop()!,
+        description: e.data.description,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<StarlightPage frontmatter={{ title: "Weapons" }}>
+    <p>Arms used in combat — {weapons.length} entries.</p>
+    <ul>
+        {
+            weapons.map((w) => (
+                <li>
+                    <a href={`/reference/weapons/${w.slug}/`}>{w.name}</a>
+                    {w.description ? ` — ${w.description}` : ""}
+                </li>
+            ))
+        }
+    </ul>
+</StarlightPage>

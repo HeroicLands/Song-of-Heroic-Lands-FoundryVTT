@@ -46,6 +46,7 @@
         "build:icons": "node utils/build-icon-font.mjs",
         "build:compiledb": "node ./utils/packs/build-compendiums.mjs package compile",
         "build:unpackdb": "node ./utils/packs/build-compendiums.mjs package unpack",
+        "build:kb": "npm --prefix kb ci && npm --prefix kb run build",
         "build:pack-release": "node utils/pack-release.mjs",
         "push:dev": "node utils/push-stage.mjs dev",
         "push:qa": "node utils/push-stage.mjs qa",
