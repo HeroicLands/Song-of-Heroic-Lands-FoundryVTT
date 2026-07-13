@@ -3,6 +3,7 @@ title: Concepts
 children:
     Architecture Overview: ./architecture.md
     The SoHL API: ./sohl-api.md
+    Combat Model: ./combat-model.md
     Macros and Actions: ./macros-and-actions.md
     Expressions and Scripts: ./expressions.md
     Security Model & Guardrails: ./security-model.md
