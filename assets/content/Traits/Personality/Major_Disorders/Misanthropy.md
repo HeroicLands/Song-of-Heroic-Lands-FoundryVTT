@@ -1,0 +1,47 @@
+---
+aliases: []
+tags: []
+name:
+  full: Misanthropy
+  aliases: []
+id: PHEiEzs7QW8kDvTG
+slug: misanthropy
+img: icons/user-gear.svg
+shortcode: msnthrpy
+type: trait
+package: sohl
+sohl:
+  subType: personality
+  intensity: benign
+  isNumeric: false
+  textValue: ''
+  valueDesc: []
+  score:
+    value: 0
+    max: 0
+folder: ECrcBb9CUCMX9JeJ
+---
+
+Misanthropy refers to a deep-seated distrust or dislike of humanity, where an individual harbors negative feelings toward people in general. A misanthropic person views human behavior with cynicism and contempt, often isolating themselves or acting out of disdain for society. While misanthropy can intensify into destructive behavior, its benign form may manifest as simple skepticism or detachment from society without actively harming others.
+
+### Benign
+The individual exhibits mild skepticism or disillusionment with human nature but remains functional in society. They may prefer solitude or small, trusted groups over large social gatherings and have a cynical outlook but without hatred or bitterness. Their detachment allows them to maintain relationships, although they may be selective about their interactions.
+**Example:** Lord Alaric often speaks critically of human nature, expressing frustration with the greed and folly he sees in the world. However, he remains polite and cordial in his dealings with others, choosing to spend time with a few close friends rather than engaging in larger social circles. His misanthropy is more of a quiet preference for solitude than an active dislike of others.
+
+### Impulse
+The individual begins to show increasing disdain or cynicism toward people, believing that human nature is inherently selfish, corrupt, or foolish. While they may still engage with others, their interactions are marked by a growing sense of distrust or scorn. This leads to strained relationships, as they view most people with suspicion or contempt and withdraw emotionally from social situations.
+**Example:** Lord Alaric, once a respected member of his community, begins to express contempt for the peasants under his rule. He criticizes their actions, seeing them as lazy and greedy, and distances himself from social gatherings, feeling that most people are beneath him. His bitterness is noted by his peers, who sense his growing cynicism but still find him approachable on occasion.
+
+### Disorder
+As misanthropy worsens, the individual may become consumed by a hatred of humanity, withdrawing completely from social life or actively seeking to harm or undermine others. They view people as unworthy of trust or kindness and may become hostile, manipulative, or even vengeful toward those they interact with. This extreme misanthropy can lead to social isolation, destructive actions, and emotional instability as the individual’s contempt for humanity poisons all their relationships and interactions.
+
+### Physical Symptoms
+The individual may experience physical tension, stress, or anxiety from constant emotional turmoil and negative thoughts about others. Their hostility may lead to social isolation, which can cause further physical and emotional decline.
+
+### Intrusive Thoughts
+Persistent thoughts of disgust or hatred toward humanity, often fixating on the flaws, corruption, or perceived stupidity of others. They may fantasize about distancing themselves entirely from society or finding ways to punish those they deem unworthy.
+
+### Emotional Distress
+The individual may feel anger, frustration, or bitterness whenever interacting with others. Their misanthropic outlook creates emotional strain, as they struggle with feelings of alienation, resentment, and loneliness.
+
+**Example:** Lord Alaric’s misanthropy has grown to the point where he refuses to leave his keep, avoiding all interaction with the outside world. He openly speaks of his hatred for humanity, viewing everyone around him as corrupt or foolish. Alaric dismisses the needs of his people and actively sabotages alliances, convinced that no one deserves his loyalty or trust. His extreme misanthropy isolates him completely, leaving him bitter, angry, and alone.

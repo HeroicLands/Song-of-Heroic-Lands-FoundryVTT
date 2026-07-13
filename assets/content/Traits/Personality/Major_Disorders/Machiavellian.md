@@ -1,0 +1,43 @@
+---
+aliases: []
+tags: []
+name:
+  full: Machiavellian
+  aliases: []
+id: TZGyU6sVPMjbR0rM
+slug: machiavellian
+img: icons/user-gear.svg
+shortcode: mchvlln
+type: trait
+package: sohl
+sohl:
+  subType: personality
+  intensity: impulse
+  isNumeric: false
+  textValue: ''
+  valueDesc: []
+  score:
+    value: 0
+    max: 0
+folder: ECrcBb9CUCMX9JeJ
+---
+
+Machiavellian refers to an individual’s tendency to manipulate, deceive, or exploit others for personal gain, often disregarding morality or ethics. Machiavellian individuals are strategic and cunning, using others as tools to achieve their goals. This behavior becomes more harmful as it intensifies, leading to broken relationships, mistrust, and isolation.
+
+### Impulse
+The individual begins to increasingly manipulate situations or people to gain an advantage. They may use subtle deception, half-truths, or exploit others' weaknesses to achieve their objectives. While still maintaining a semblance of fairness or ethical boundaries, they prioritize self-interest over honesty, resulting in strained relationships as those around them begin to sense their manipulative behavior.
+**Example:** Lord Marcus starts to use covert manipulation to keep his rivals in check. He subtly undermines them by withholding information or spreading rumors, carefully maintaining plausible deniability. While his tactics give him an edge in politics, his allies begin to distrust him, sensing that his loyalty is conditional and his methods are underhanded.
+
+### Disorder
+As Machiavellianism intensifies, the individual becomes deeply manipulative, deceitful, and morally unscrupulous. They prioritize power and personal gain above all else, using manipulation, coercion, and outright lies to maintain control. Others are viewed purely as pawns to be exploited or discarded. This extreme form of manipulation leads to widespread mistrust, alienation, and eventual isolation, as their constant scheming damages relationships and invites retaliation.
+
+### Physical Symptoms
+The individual may experience paranoia, stress, or exhaustion from constantly plotting and fearing retaliation. The pressure to maintain control and stay ahead of others can take a physical and emotional toll.
+
+### Intrusive Thoughts
+Persistent, obsessive thoughts about power, control, and manipulation. The individual continuously schemes, always looking for opportunities to exploit or deceive others to maintain their advantage.
+
+### Emotional Distress
+Although they may feel little empathy, the individual may feel stress or anxiety from maintaining their web of manipulation. Their relationships deteriorate as those around them grow wary or hostile, leaving them emotionally isolated.
+
+**Example:** Lord Marcus fully embraces ruthless tactics to eliminate his rivals and consolidate power. He blackmails, spreads damaging lies, and betrays those who once trusted him. His actions alienate everyone around him, and his paranoia grows as he fears retaliation from those he’s wronged. Though he continues to succeed politically, his manipulative behavior has left him without allies, and his once-loyal supporters now plot his downfall. Marcus, consumed by his need for control, lives in constant fear and isolation.
