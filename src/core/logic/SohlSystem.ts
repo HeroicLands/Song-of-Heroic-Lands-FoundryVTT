@@ -14,7 +14,6 @@
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import { SohlCalendarData } from "@src/core/foundry/SohlCalendar";
 import { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
-import * as utils from "@src/utils/helpers";
 import * as constants from "@src/utils/constants";
 import { SohlLocalize } from "@src/core/foundry/SohlLocalize";
 import { SohlLogger } from "@src/core/foundry/SohlLogger";
@@ -82,8 +81,6 @@ export class SohlSystem {
     protected static _calendars: SohlMap<string, CalendarRegistration> =
         new SohlMap<string, CalendarRegistration>();
 
-    /** The {@link utils} helper module (static access). */
-    static readonly utils: typeof utils = utils;
     /** The {@link constants} module (static access). */
     static readonly constants: typeof constants = constants;
     /**
@@ -106,6 +103,16 @@ export class SohlSystem {
     declare readonly core: typeof import("@src/core");
     /** The `apps` namespace tree (`sohl.apps.foundry.DomainManagerApp`, …). Bound at init. */
     declare readonly apps: typeof import("@src/apps");
+    /**
+     * The `utils` namespace (`sohl.utils`) — the Foundry-free utility superset:
+     * the {@link sohl.utils.romanize}-style helpers and the constants (`ACTOR_KIND`, …)
+     * re-exported at its top level, plus the nested `collection` sub-namespace
+     * (`sohl.utils.collection.SohlMap`). Bound to the barrel namespace at init
+     * (in `sohl.ts`); the type is declared here without a runtime import so the
+     * binding stays cycle-free. The curated {@link constants} alias
+     * (`sohl.constants`) is kept alongside it.
+     */
+    declare readonly utils: typeof import("@src/utils");
     /** Set true once the system has finished its `ready`-hook setup. */
     static ready: boolean = false;
     /** Localization helper (`sohl.i18n`). */
@@ -197,11 +204,6 @@ export class SohlSystem {
         SOHLCONFIG.time.worldCalendarClass = (cal.calendarClass ??
             SohlCalendarData) as any;
         (game as any)?.time?.initializeCalendar?.();
-    }
-
-    /** The {@link utils} helper module (`sohl.utils`). */
-    get utils(): typeof utils {
-        return (this.constructor as any).utils;
     }
 
     /** The {@link constants} module (`sohl.constants`). */
