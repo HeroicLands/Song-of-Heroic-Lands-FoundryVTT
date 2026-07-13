@@ -1136,22 +1136,55 @@ export const {
     QUALITY: "mod:logic.quality",
     DURABILITY: "mod:logic.durability",
     ENCUMBRANCE: "mod:logic.encumbrance",
-    // Strike-mode-targeted modifier deltas. The `sm:` prefix dispatches to
-    // each strike mode on the weapon matching change.strikeModePredicate.
-    // Predicate variable: `sm` (the strike mode).
-    SM_ATTACK: "mod:sm:attack",
-    SM_IMPACT: "mod:sm:impact",
-    SM_SPREAD: "mod:sm:spread",
-    SM_LENGTH: "mod:sm:length",
-    SM_REACH: "mod:sm:reach",
-    SM_BASE_RANGE: "mod:sm:baseRange",
-    SM_DRAW: "mod:sm:draw",
-    SM_BLOCK: "mod:sm:defense.block",
-    SM_COUNTERSTRIKE: "mod:sm:defense.counterstrike",
 });
 /** Union of all weapon-gear effect-key change paths. */
 export type WeaponGearEffectKey =
     (typeof WEAPONGEAR_EFFECT_KEY)[keyof typeof WEAPONGEAR_EFFECT_KEY];
+
+export const {
+    /** Map of melee-strike-mode effect-key name → change path. */
+    kind: MELEESTRIKEMODE_EFFECT_KEY,
+    /** All melee-strike-mode effect-key change paths, as an array. */
+    values: MeleeStrikeModeEffectKeys,
+    /** Type guard for melee-strike-mode effect-key change paths. */
+    isValue: isMeleeStrikeModeEffectKey,
+    /** Localization keys per melee-strike-mode effect key. */
+    labels: meleeStrikeModeEffectKeyLabels,
+} = defineType(`SOHL.MeleeStrikeMode.EffectKey`, {
+    // Change paths are rooted at the strike-mode entity (the effect's target
+    // when `scope` is `meleestrikemode`), so no `sm:` prefix — the change is
+    // applied directly to the matched strike mode.
+    ATTACK: "mod:attack",
+    IMPACT: "mod:impact",
+    REACH: "mod:reach",
+    BLOCK: "mod:defense.block",
+    COUNTERSTRIKE: "mod:defense.counterstrike",
+});
+/** Union of all melee-strike-mode effect-key change paths. */
+export type MeleeStrikeModeEffectKey =
+    (typeof MELEESTRIKEMODE_EFFECT_KEY)[keyof typeof MELEESTRIKEMODE_EFFECT_KEY];
+
+export const {
+    /** Map of missile-strike-mode effect-key name → change path. */
+    kind: MISSILESTRIKEMODE_EFFECT_KEY,
+    /** All missile-strike-mode effect-key change paths, as an array. */
+    values: MissileStrikeModeEffectKeys,
+    /** Type guard for missile-strike-mode effect-key change paths. */
+    isValue: isMissileStrikeModeEffectKey,
+    /** Localization keys per missile-strike-mode effect key. */
+    labels: missileStrikeModeEffectKeyLabels,
+} = defineType(`SOHL.MissileStrikeMode.EffectKey`, {
+    // Change paths are rooted at the strike-mode entity (the effect's target
+    // when `scope` is `missilestrikemode`).
+    ATTACK: "mod:attack",
+    IMPACT: "mod:impact",
+    SPREAD: "mod:spread",
+    BASE_RANGE: "mod:baseRange",
+    DRAW: "mod:draw",
+});
+/** Union of all missile-strike-mode effect-key change paths. */
+export type MissileStrikeModeEffectKey =
+    (typeof MISSILESTRIKEMODE_EFFECT_KEY)[keyof typeof MISSILESTRIKEMODE_EFFECT_KEY];
 
 /**
  * Constants for the Heal Rate of an Affliction.
@@ -2079,17 +2112,23 @@ export const {
 } = defineType("SOHL.ActiveEffect.Scope", {
     THIS: "this",
     ACTOR: "actor",
+    // Strike-mode scopes: the effect targets strike-mode entities (of the
+    // given type) across the actor's items, selected by the `test` predicate
+    // (bound `itemLogic` + `sm`). Not item kinds — strike modes are logic-layer
+    // entities embedded on items.
+    MELEE_STRIKE_MODE: "meleestrikemode",
+    MISSILE_STRIKE_MODE: "missilestrikemode",
 });
 /** Union of all active-effect-scope values. */
 export type ActiveEffectScope =
     (typeof ACTIVE_EFFECT_SCOPE)[keyof typeof ACTIVE_EFFECT_SCOPE];
 
 /**
- * Full set of valid `scope` values on a SohlActiveEffect: the two built-ins
- * (`"this"`, `"actor"`) plus every registered item kind. Used as the
- * `choices` for the scope `StringField` so that a scope value of an item
- * kind (e.g. `"weapongear"`) is validated and the matching `*_EFFECT_KEY`
- * block can be selected for the changes UI.
+ * Full set of valid `scope` values on a SohlActiveEffect: the built-ins
+ * (`"this"`, `"actor"`, the strike-mode scopes) plus every registered item
+ * kind. Used as the `choices` for the scope `StringField` so that a scope
+ * value of an item kind (e.g. `"weapongear"`) is validated and the matching
+ * `*_EFFECT_KEY` block can be selected for the changes UI.
  *
  * @returns The built-in scope values followed by every registered item kind.
  */

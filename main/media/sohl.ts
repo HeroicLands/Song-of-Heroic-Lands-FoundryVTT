@@ -660,21 +660,6 @@ function registerHandlebarsHelpers() {
     });
 
     /**
-     * True when the ActiveEffect changes-row should expose the
-     * `strikeModePredicate` input: scope is `"weapongear"` AND the change
-     * key matches `^(mod:)?sm:`. Used by the effect-config sheet to
-     * conditionally render the predicate row.
-     */
-    Handlebars.registerHelper(
-        "isSmKey",
-        function (scope: unknown, key: unknown) {
-            return (
-                scope === "weapongear" && /^(mod:)?sm:/.test(String(key ?? ""))
-            );
-        },
-    );
-
-    /**
      * Format a trauma severity level for display, dispatching on subType.
      *   - physical: 0 → "NA", 1 → "M1", 2 → "S2", 3 → "S3", 4 → "G4",
      *               5 → "G5", >5 → "G{val}".
