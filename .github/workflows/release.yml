@@ -7,9 +7,11 @@ on:
 
 # contents: write   -> create the release, tag, and version commit
 # pull-requests: write -> open/update the "Version Packages" PR
+# id-token: write    -> OIDC for npm Trusted Publishing (@heroiclands/sohl-types)
 permissions:
     contents: write
     pull-requests: write
+    id-token: write
 
 # Never let two pushes to main race on the version PR or the release.
 concurrency:
@@ -105,6 +107,27 @@ jobs:
                       build/dist/system.json
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            # Publish the types-only npm package via npm Trusted Publishing
+            # (OIDC) — no NPM_TOKEN. Requires a Trusted Publisher configured on
+            # npm for @heroiclands/sohl-types pointing at this repo + this
+            # workflow file, plus the `id-token: write` permission above.
+            # Idempotent: skips when the package's version is already on npm. The
+            # types package is versioned by hand in
+            # packages/sohl-types/package.json (independent of the system
+            # version); its `prepack` regenerates index.d.ts from source at pack
+            # time. npm >= 11.5 is required for OIDC, so upgrade the runner's npm.
+            - name: Publish @heroiclands/sohl-types (npm Trusted Publishing)
+              if: steps.decide.outputs.release == 'true'
+              run: |
+                  npm install -g npm@latest
+                  cd packages/sohl-types
+                  VERSION=$(node -p "require('./package.json').version")
+                  if npm view "@heroiclands/sohl-types@$VERSION" version >/dev/null 2>&1; then
+                      echo "@heroiclands/sohl-types@$VERSION already published — skipping."
+                  else
+                      npm publish
+                  fi
 
             # The Release above was created with GITHUB_TOKEN, which by design
             # cannot trigger another workflow — so deploy-docs.yml does NOT fire

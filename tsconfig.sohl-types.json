@@ -1,0 +1,24 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "noEmit": false,
+        "emitDeclarationOnly": true,
+        "declaration": true,
+        "declarationMap": false,
+        "rootDir": ".",
+        "declarationDir": "build/dts",
+        "noEmitOnError": false,
+        "skipLibCheck": true
+    },
+    "include": [
+        "src/**/*.ts",
+        "types/**/*.d.ts",
+        "packages/sohl-types/generate/entry.ts"
+    ],
+    "exclude": [
+        "tests/**/*.ts",
+        "**/*.test.ts",
+        "build/**",
+        "packages/sohl-types/index.d.ts"
+    ]
+}
