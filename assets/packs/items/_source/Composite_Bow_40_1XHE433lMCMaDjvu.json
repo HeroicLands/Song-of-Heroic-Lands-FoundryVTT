@@ -66,8 +66,16 @@
         },
         "lengthBase": 4,
         "defense": {
-          "blockMod": 0,
-          "counterstrikeMod": 0
+          "block": {
+            "disabled": false,
+            "modifier": 0,
+            "successLevelMod": 0
+          },
+          "counterstrike": {
+            "disabled": false,
+            "modifier": 0,
+            "successLevelMod": 0
+          }
         }
       },
       "ranged": {
