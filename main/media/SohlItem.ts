@@ -30,7 +30,7 @@ import { isScriptActionMutationAllowed } from "@src/entity/action/SohlAction";
 
 /**
  * Path to the shared create-document dialog template used by
- * {@link SohlItem.createDialog} (and the actor counterpart).
+ * `SohlItem.createDialog` (and the actor counterpart).
  */
 const CREATE_ITEM_TEMPLATE = toFilePath(
     "systems/sohl/templates/dialog/create-item.hbs",
@@ -88,7 +88,7 @@ function takenShortcodesFor(
 }
 
 /**
- * Shared `createDialog` implementation for {@link SohlItem} and `SohlActor`.
+ * Shared `createDialog` implementation for `SohlItem` and `SohlActor`.
  *
  * Computes the allowed types (excluding the base document type, honoring an
  * optional `types` restriction), decides whether to ask for the type and the
@@ -338,10 +338,13 @@ function repopulateSubtypes(
  * concoctions), combat techniques, mysteries, mystical abilities, skills,
  * traits, and traumas.
  *
- * Like {@link sohl.document.actor.foundry.SohlActor}, the typed game-rules surface lives on the item's
+ * Like `SohlActor`, the typed game-rules surface lives on the item's
  * logic object: prefer `item.logic` (equivalently `item.system.logic`) and the
  * typed `item.logic.data` ({@link sohl.document.item.logic.SohlItemData}) over reaching into
  * `item.system` directly.
+ *
+ * @internal The Foundry document layer is an implementation detail; author-facing
+ * code reaches the item through the logic layer (`sohl.itemLogics`, `item.logic`).
  */
 export class SohlItem extends Item {
     /**
@@ -626,14 +629,9 @@ export class SohlItem extends Item {
     }
 }
 
-/*
- * The Foundry-free logic-layer contracts (SohlItemLogic, SohlItemData,
- * SohlItemBaseLogic) live in the logic layer; they are re-exported here so
- * Foundry-side consumers can keep importing them from this module.
- */
-export {
-    SohlItemBaseLogic,
-    type SohlItemLogic,
-    type SohlItemData,
-} from "@src/document/item/logic/SohlItemBaseLogic";
+// The Foundry-free logic-layer contracts (SohlItemLogic, SohlItemData,
+// SohlItemBaseLogic) live in the logic layer and are their sole namespace home
+// (`sohl.document.item.logic.*`). They are imported here for this module's own
+// use only — not re-exported, so the Foundry layer does not become a second,
+// canonical home for them in the API tree.
 import type { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";

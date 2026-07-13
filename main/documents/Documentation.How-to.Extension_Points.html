@@ -67,7 +67,7 @@ that kind is built:</p>
 <li>Changing success thresholds or resolution order</li>
 </ul>
 <p>See <a href="Documentation.Reference.Combat_Resolution_Pipeline.html">Combat Resolution Pipeline</a> and <a href="Documentation.Reference.Modifier_Model.html">Modifier Model</a>.</p>
-<a id="4-active-effects" class="tsd-anchor"></a><h2 class="tsd-anchor-link">4) Active effects<a href="#4-active-effects" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Core: <a href="../classes/sohl.document.effect.foundry.SohlActiveEffect.html" class="tsd-kind-class"> sohl.document.effect.foundry.SohlActiveEffect</a>.</p>
+<a id="4-active-effects" class="tsd-anchor"></a><h2 class="tsd-anchor-link">4) Active effects<a href="#4-active-effects" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Core: <a href="../media/SohlActiveEffect.ts">SohlActiveEffect</a>.</p>
 <p>SoHL extends Foundry's ActiveEffect with an expanded targeting model (<code>targetType</code> / <code>targetName</code>) so one effect can target self, the owning actor, or sibling items by type. See <a href="Documentation.Concepts.Architecture_Overview.html#active-effects">Active Effects</a> for the model and <a href="Documentation.Reference.Effects_Integration.html">Effects Integration</a> for the full reference.</p>
 <a id="5-ui-templates-and-chat-cards" class="tsd-anchor"></a><h2 class="tsd-anchor-link">5) UI: templates and chat cards<a href="#5-ui-templates-and-chat-cards" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
 <li>Chat cards: <code>templates/chat/*</code></li>
@@ -82,7 +82,7 @@ from the clicked element's dataset and invokes its <code>onChatCardButton(btn)</
 <a href="Documentation.Reference.Runtime_Contracts.html#chat-card-dispatch-contract">Chat-card dispatch contract</a>.</p>
 <p>When adding a new button: <strong>emit one of the recognized dataset attributes</strong> (do not
 introduce a new attribute name), and <strong>add an <code>action</code> case</strong> to the resolved
-document's handler — e.g. <a href="../classes/sohl.document.item.foundry.SohlItem.html#onchatcardbutton" class="tsd-kind-method"> sohl.document.item.foundry.SohlItem.onChatCardButton</a>, which switches on
+document's handler — e.g. <code>SohlItem.onChatCardButton</code> (see <a href="../media/SohlItem.ts">SohlItem</a>), which switches on
 <code>btn.dataset.action</code>.</p>
 <p>To pass <strong>data</strong> to the action — a result, a request object — do not invent a new
 <code>data-*-json</code> attribute; put the whole payload in one <code>data-scope</code>. The card-creation
