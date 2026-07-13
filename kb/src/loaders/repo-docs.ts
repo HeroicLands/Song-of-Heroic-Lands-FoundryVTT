@@ -15,6 +15,35 @@ async function walk(dir: string): Promise<string[]> {
     return out;
 }
 
+/** Map a docs entry id to its KB route (`concepts/architecture` → `/concepts/architecture/`). */
+function toRoute(entryId: string): string {
+    const t = entryId
+        .replace(/(^|\/)README$/i, "$1index")
+        .replace(/(^|\/)index$/i, "$1");
+    return t === "" ? "/" : `/${t.replace(/\/$/, "")}/`;
+}
+
+/**
+ * Rewrite in-repo Markdown for the web target:
+ *   - relative `*.md` links → the corresponding KB route (resolved from `id`);
+ *   - `{@link Symbol}` TypeDoc refs → a code span (API-URL resolution is a follow-up).
+ * Source-file links (`../../src/*.ts`) and absolute/external links are left alone.
+ */
+function rewriteForWeb(body: string, id: string): string {
+    const dir = id === "index" ? "" : path.posix.dirname(id);
+    return body
+        .replace(/\{@link\s+([^}|]+?)(?:\|[^}]*)?\}/g, (_m, target) => `\`${target.trim()}\``)
+        .replace(
+            /\]\((?!https?:|\/|#)([^)\s]+?\.md)(#[^)]*)?\)/g,
+            (_m, rel, anchor = "") => {
+                const targetId = path.posix
+                    .normalize(path.posix.join(dir, rel))
+                    .replace(/\.md$/i, "");
+                return `](${toRoute(targetId)}${anchor})`;
+            },
+        );
+}
+
 /** Title from frontmatter, else the first `# H1`, else the id. */
 function deriveTitle(
     fm: Record<string, unknown>,
@@ -63,11 +92,18 @@ export function repoDocs({ base }: { base: string }): Loader {
                             : {}),
                     },
                 });
-                const rendered = await renderMarkdown(body);
+                // Starlight renders the title as the page heading, so drop the
+                // leading `# H1` from the body to avoid rendering it twice, then
+                // rewrite in-repo links for the web target.
+                const bodyForRender = rewriteForWeb(
+                    body.replace(/^\s*#\s+.*$\r?\n?/m, ""),
+                    id,
+                );
+                const rendered = await renderMarkdown(bodyForRender);
                 store.set({
                     id,
                     data,
-                    body,
+                    body: bodyForRender,
                     // Starlight derives sidebar routes from a docs-collection-relative
                     // filePath; present these as if they lived in the canonical
                     // src/content/docs/ location so route computation works.
