@@ -115,6 +115,13 @@ and a what/why description.</li>
 <a id="issue-first" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Issue first<a href="#issue-first" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>No repository change lands without a tracking GitHub issue — <strong>except</strong> pure
 <code>chore/*</code> work (housekeeping and tooling with no shipped-behavior change). File
 or find the issue before you start so you have its number for the branch name.</p>
+<p><strong>Documentation is not a <code>chore</code>.</strong> User-visible documentation is a <code>bug</code> (what
+is published is wrong, broken, or misleading) or a <code>feature</code> (new or expanded
+coverage) — a tracking issue and a changeset, like any other change. This
+includes <strong>JSDoc</strong> (it publishes to the API site) and other user-facing docs (the
+<code>docs/</code> pages and the user guide). Only non-published housekeeping — internal
+(non-JSDoc) code comments, build and tooling config, and repo meta — is
+<code>chore/*</code>.</p>
 <p>When you open an issue, the <strong>body is the problem statement only</strong> — symptoms,
 reproduction, expected vs. actual, and optionally acceptance criteria. Root cause
 and the proposed fix go in a <strong>comment</strong>, not the body.</p>
