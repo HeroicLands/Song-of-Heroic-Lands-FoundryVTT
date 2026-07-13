@@ -16,6 +16,7 @@ import { migrateWorld } from "@src/core/foundry/migration";
 import { SohlSystem } from "@src/core/logic/SohlSystem";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
+import { turnStartCombatantUpdate } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { resolveAuthorizedChatCardHandler } from "@src/document/chat/chat-card-dispatch";
 import { gateAutomatedDefenseButtons } from "@src/document/chat/chat-card-gating";
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
@@ -470,16 +471,10 @@ function registerSystemHooks() {
             const center = token.object?.center ?? token.center;
             if (!center) return;
 
-            const updateData = {
-                system: {
-                    initialLocation: {
-                        x: center.x,
-                        y: center.y,
-                        elevation: token.elevation ?? 0,
-                    },
-                    didAction: false,
-                },
-            } satisfies DeepPartial<
+            const updateData = turnStartCombatantUpdate(
+                center,
+                token.elevation ?? 0,
+            ) satisfies DeepPartial<
                 SohlCombatant["_source"]
             > as Combatant.UpdateData;
             await combatant.update(updateData);
