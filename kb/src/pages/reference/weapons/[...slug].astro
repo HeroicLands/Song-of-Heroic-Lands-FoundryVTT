@@ -1,0 +1,52 @@
+---
+import { getCollection, render } from "astro:content";
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import WeaponInfobox from "../../../components/WeaponInfobox.astro";
+
+// Helpers are defined inside getStaticPaths: Astro extracts and runs it in
+// isolation, so it cannot reference module-frontmatter declarations.
+export async function getStaticPaths() {
+    // Route only the SoHL weapongear entries — selected by frontmatter, not folder.
+    const weapons = await getCollection(
+        "content",
+        (entry) =>
+            entry.data.type === "weapongear" && entry.data.package === "sohl",
+    );
+    return weapons.map((entry) => ({
+        params: { slug: entry.data.slug ?? entry.id.split("/").pop()! },
+        props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<StarlightPage
+    frontmatter={{
+        title: entry.data.name.full,
+        description: entry.data.description,
+        tableOfContents: false,
+    }}
+>
+    <div class="ref">
+        <div class="ref__body">
+            <Content />
+        </div>
+        <WeaponInfobox name={entry.data.name.full} sohl={entry.data.sohl} />
+    </div>
+</StarlightPage>
+
+<style>
+    .ref {
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: 1fr;
+        align-items: start;
+    }
+    @media (min-width: 60rem) {
+        .ref {
+            grid-template-columns: 1fr 18rem;
+        }
+    }
+</style>

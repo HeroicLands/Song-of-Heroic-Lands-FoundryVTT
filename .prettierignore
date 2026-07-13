@@ -15,3 +15,7 @@ docs/reference/type-catalog.md
 
 
 packages/sohl-types/index.d.ts
+
+# The knowledgebase is a self-contained Astro sub-project with its own tooling
+# (the root Prettier has no .astro parser); it manages its own formatting.
+kb/

@@ -1,0 +1,70 @@
+---
+import {
+    WeaponSohlSchema,
+    formatPrice,
+    formatWeight,
+} from "../schema/weapon";
+
+interface Props {
+    name: string;
+    sohl: Record<string, unknown>;
+}
+
+const { name, sohl } = Astro.props;
+// Validate the weapon's data at build time; a malformed weapon fails the build.
+const w = WeaponSohlSchema.parse(sohl);
+
+const rows: Array<[string, string]> = [
+    ["Name", name],
+    ["Price", formatPrice(w.value)],
+    ["Weight", formatWeight(w.weight)],
+    ["Durability", String(w.durability)],
+    ["Heft", String(w.heft)],
+];
+---
+
+<aside class="infobox" aria-label="Weapon Profile">
+    <h2 class="infobox__title">Weapon Profile</h2>
+    <dl class="infobox__grid">
+        {
+            rows.map(([label, value]) => (
+                <>
+                    <dt>{label}</dt>
+                    <dd>{value}</dd>
+                </>
+            ))
+        }
+    </dl>
+</aside>
+
+<style>
+    .infobox {
+        border: 1px solid var(--sl-color-gray-5);
+        border-radius: 0.5rem;
+        padding: 1rem 1.25rem;
+        background: var(--sl-color-gray-7, var(--sl-color-black));
+    }
+    .infobox__title {
+        margin: 0 0 0.75rem;
+        font-size: 1.1rem;
+        text-align: center;
+        border-bottom: 1px solid var(--sl-color-gray-5);
+        padding-bottom: 0.5rem;
+    }
+    .infobox__grid {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.35rem 1rem;
+        margin: 0;
+    }
+    .infobox__grid dt {
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--sl-color-gray-3);
+        align-self: center;
+    }
+    .infobox__grid dd {
+        margin: 0;
+    }
+</style>
