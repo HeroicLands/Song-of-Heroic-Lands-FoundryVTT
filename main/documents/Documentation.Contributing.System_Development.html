@@ -88,19 +88,42 @@ template source, and remember that client-side gating is not authorization.
 Read <a href="Documentation.Concepts.Security_Model___Guardrails.html">Security Model &amp; Guardrails</a> before
 touching serialization, HTML rendering, actions, or cross-client flows.</li>
 </ol>
-<a id="development-workflow" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Development workflow<a href="#development-workflow" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="issue-first" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Issue first<a href="#issue-first" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>No repository change lands without a tracking GitHub issue — <strong>except</strong> pure
-<code>cleanup/*</code>, <code>docs/*</code>, and <code>chore/*</code> work (housekeeping, documentation, and
-tooling with no shipped-behavior change). File or find the issue before you start
-so you have its number for the branch name.</p>
+<a id="development-workflow" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Development workflow<a href="#development-workflow" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="definition-of-done" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Definition of Done<a href="#definition-of-done" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>A fix is done when <strong>all</strong> of these hold:</p>
+<ul>
+<li>[ ] A tracking issue exists (except <code>chore</code>), reproduced or with
+confirmed acceptance criteria, and the <strong>root cause is recorded in a comment</strong>.</li>
+<li>[ ] Work is on a correctly named branch (<code>&lt;type&gt;/&lt;issue_#&gt;_&lt;slug&gt;</code>) off current
+<code>main</code>.</li>
+<li>[ ] <strong>Tests were written first</strong>, cover the fix (unit by default; e2e or a pure
+helper + unit where Foundry wiring is involved), and any pre-staged RED spec
+for this behavior is un-skipped.</li>
+<li>[ ] <code>npm run test</code> is green — the new tests <strong>and</strong> the full suite.</li>
+<li>[ ] The implementation obeys the non-negotiable rules: Foundry-free logic +
+shims, backwards-compatible data (migration if needed), stable lang keys, no
+compiling/HTML-from data, complete (no stubs), and scoped to the one issue.</li>
+<li>[ ] Conventions met: file headers, complete JSDoc, null/undefined discipline,
+and every <code>TODO</code>/<code>FIXME</code> linked as <code>TODO(#123)</code>.</li>
+<li>[ ] Documentation updated for the changed behavior (JSDoc, dev docs, user guide),
+and <code>type-catalog.md</code> committed if the schema changed.</li>
+<li>[ ] A <code>.changeset/</code> entry exists for <code>feat</code>/<code>bug</code> work, correctly bumped,
+issue-referenced, and format-clean.</li>
+<li>[ ] Only your files are formatted (<code>npm run format:check</code> clean).</li>
+<li>[ ] <strong><code>npm run build</code> and <code>npm run docs</code> both pass</strong> without errors.</li>
+<li>[ ] Committed in Conventional-Commits style and a PR is open with <code>Closes #&lt;n&gt;</code>
+and a what/why description.</li>
+</ul>
+<a id="issue-first" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Issue first<a href="#issue-first" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>No repository change lands without a tracking GitHub issue — <strong>except</strong> pure
+<code>chore/*</code> work (housekeeping and tooling with no shipped-behavior change). File
+or find the issue before you start so you have its number for the branch name.</p>
 <p>When you open an issue, the <strong>body is the problem statement only</strong> — symptoms,
 reproduction, expected vs. actual, and optionally acceptance criteria. Root cause
 and the proposed fix go in a <strong>comment</strong>, not the body.</p>
 <a id="branch-naming" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Branch naming<a href="#branch-naming" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
-<li>Feature and bug branches: <code>&lt;type&gt;/issue_&lt;#&gt;_&lt;short-kebab-summary&gt;</code> — for example
-<code>bug/issue_59_actor-pack-embedded-keys</code> or <code>feat/issue_72_combat-tracker-actions</code>.
-The <code>issue_&lt;#&gt;</code> segment is the parseable source of truth; the trailing slug is a
+<li>Feature and bug branches: <code>&lt;type&gt;/&lt;issue_#&gt;_&lt;short-kebab-summary&gt;</code> — for example
+<code>bug/59_actor-pack-embedded-keys</code> or <code>feat/72_combat-tracker-actions</code>.
+The <code>&lt;issue_#&gt;</code> segment is the parseable source of truth; the trailing slug is a
 human-readable label.</li>
-<li>Issue-free types: <code>cleanup/&lt;slug&gt;</code>, <code>docs/&lt;slug&gt;</code>, <code>chore/&lt;slug&gt;</code>.</li>
+<li>Issue-free types: <code>chore/&lt;slug&gt;</code>.</li>
 </ul>
 <a id="test-driven-development" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Test-driven development<a href="#test-driven-development" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Write the test first, watch it fail, then implement. Tests run in Node via
 <a href="https://vitest.dev">vitest</a> — <strong>no Foundry VTT required</strong>:</p>
@@ -114,8 +137,26 @@ human-readable label.</li>
 as <code>TODO(#123)</code> / <code>FIXME(#123)</code>. If a marker isn't worth an issue, do the work now
 or delete the comment. <code>npm run lint:todos</code> (run in CI and <code>build:noci</code>) fails the
 build on any unlinked marker.</p>
+<a id="update-the-documentation" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Update the documentation<a href="#update-the-documentation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><strong>A PR that changes behavior updates the docs that describe it</strong> — this is part of
+done, not a follow-up:</p>
+<ul>
+<li><strong>JSDoc</strong> for any public API whose contract changed.</li>
+<li><strong>Developer docs</strong> under <code>docs/</code> — concept docs (<code>docs/concepts/</code>), how-to guides
+(<code>docs/how-to/</code>), or reference (<code>docs/reference/</code>) — when the mechanic or
+architecture a reader relies on has moved. Add a worked example where it clarifies
+a pattern.</li>
+<li><strong>User guide journals</strong> (<code>assets/packs/journals/_source/</code>) when a player-facing
+workflow changed.</li>
+<li><strong>Extension points</strong> — <a href="Documentation.How-to.Extension_Points.html">Extension Points</a> when you added or
+changed one.</li>
+</ul>
+<p>Documentation-link conventions in <code>docs/</code>: link to code <strong>by symbol</strong> (<code>{@link Symbol}</code>)
+for API-documented symbols, path-only file links for DataModels/Sheets, and <strong>never</strong>
+line-range fragments (they rot on any edit).</p>
+<p><code>docs/reference/type-catalog.md</code> is <strong>generated and committed</strong>. When your schema
+change makes it show as modified, commit it — never hand-edit or revert it.</p>
 <a id="changesets" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Changesets<a href="#changesets" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><code>feat/*</code> and <code>bug/*</code> branches <strong>always</strong> add a <code>.changeset/</code> entry — regardless of
-whether the change is user-facing. <code>cleanup/*</code>, <code>docs/*</code>, and <code>chore/*</code> need none.
+whether the change is user-facing. <code>chore/*</code> need none.
 Keep the changeset current as work progresses (don't write it only at the end),
 reference the issue, and describe <strong>only the fix</strong> — the problem context lives in
 the issue. See <a href="Documentation.Contributing.Writing_Changesets.html">Writing Changesets</a> for details.</p>
@@ -216,4 +257,4 @@ consistency and avoids speculative abstractions or unnecessary complexity.</p>
 <li>Additional test coverage</li>
 <li>Localization contributions</li>
 </ul>
-</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#system-development"><span>System <wbr/>Development</span></a><ul><li><a href="#governance"><span>Governance</span></a></li><li><a href="#license-agreement"><span>License agreement</span></a></li><li><a href="#prohibited-content"><span>Prohibited content</span></a></li><li><a href="#getting-set-up"><span>Getting set up</span></a></li><li><a href="#core-rules-non-negotiable"><span>Core rules (non-<wbr/>negotiable)</span></a></li><li><a href="#development-workflow"><span>Development workflow</span></a></li><li><ul><li><a href="#issue-first"><span>Issue first</span></a></li><li><a href="#branch-naming"><span>Branch naming</span></a></li><li><a href="#test-driven-development"><span>Test-<wbr/>driven development</span></a></li><li><a href="#no-orphan-todos"><span>No orphan TODOs</span></a></li><li><a href="#changesets"><span>Changesets</span></a></li><li><a href="#format-before-commit"><span>Format before commit</span></a></li><li><a href="#submitting-a-pull-request"><span>Submitting a pull request</span></a></li></ul></li><li><a href="#architectural-boundaries"><span>Architectural boundaries</span></a></li><li><a href="#do-not-touch-without-maintainer-approval"><span>Do not touch without maintainer approval</span></a></li><li><a href="#conventions"><span>Conventions</span></a></li><li><a href="#extending-sohl-instead-of-changing-it"><span>Extending <wbr/>SoHL instead of changing it</span></a></li><li><a href="#ai-assisted-contributions"><span>AI-<wbr/>assisted contributions</span></a></li><li><a href="#welcome-contributions"><span>Welcome contributions</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#system-development"><span>System <wbr/>Development</span></a><ul><li><a href="#governance"><span>Governance</span></a></li><li><a href="#license-agreement"><span>License agreement</span></a></li><li><a href="#prohibited-content"><span>Prohibited content</span></a></li><li><a href="#getting-set-up"><span>Getting set up</span></a></li><li><a href="#core-rules-non-negotiable"><span>Core rules (non-<wbr/>negotiable)</span></a></li><li><a href="#development-workflow"><span>Development workflow</span></a></li><li><ul><li><a href="#definition-of-done"><span>Definition of <wbr/>Done</span></a></li><li><a href="#issue-first"><span>Issue first</span></a></li><li><a href="#branch-naming"><span>Branch naming</span></a></li><li><a href="#test-driven-development"><span>Test-<wbr/>driven development</span></a></li><li><a href="#no-orphan-todos"><span>No orphan TODOs</span></a></li><li><a href="#update-the-documentation"><span>Update the documentation</span></a></li><li><a href="#changesets"><span>Changesets</span></a></li><li><a href="#format-before-commit"><span>Format before commit</span></a></li><li><a href="#submitting-a-pull-request"><span>Submitting a pull request</span></a></li></ul></li><li><a href="#architectural-boundaries"><span>Architectural boundaries</span></a></li><li><a href="#do-not-touch-without-maintainer-approval"><span>Do not touch without maintainer approval</span></a></li><li><a href="#conventions"><span>Conventions</span></a></li><li><a href="#extending-sohl-instead-of-changing-it"><span>Extending <wbr/>SoHL instead of changing it</span></a></li><li><a href="#ai-assisted-contributions"><span>AI-<wbr/>assisted contributions</span></a></li><li><a href="#welcome-contributions"><span>Welcome contributions</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>
