@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Salt, sack"
+    - "Salt, sack"
 tags:
-  - food
+    - food
 name:
-  full: "Salt, sack"
-  aliases: []
+    full: "Salt, sack"
+    aliases: []
 description: "Bulk coarse crystals, preserves a dozen fish or full ham."
 id: rugoeYxC1WIZjq0m
 slug: salt-sack
@@ -14,10 +14,10 @@ shortcode: saltsack
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 10
-  weight: 51
+    quality: 0
+    durability: 0
+    value: 10
+    weight: 51
 folder: cHM58zOI1EcSG3cP
 ---
 

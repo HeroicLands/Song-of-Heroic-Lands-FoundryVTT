@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Jar, glass, small"
+    - "Jar, glass, small"
 tags: []
 name:
-  full: "Jar, glass, small"
-  aliases: []
+    full: "Jar, glass, small"
+    aliases: []
 description: "Hand-blown glass vessel with cork stopper; stores oils and inks safely."
 id: LCLpomXvdm3quuwX
 slug: jar-glass-small
@@ -13,11 +13,11 @@ shortcode: jarglasssm
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  maxCapacity: 2
-  value: 9
-  weight: 1
+    quality: 0
+    durability: 2
+    maxCapacity: 2
+    value: 9
+    weight: 1
 folder: dl8lJ729W1mFlDvt
 ---
 

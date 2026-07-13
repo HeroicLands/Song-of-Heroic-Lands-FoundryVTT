@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Standard Arrow
+    - Standard Arrow
 tags: []
 name:
-  full: Standard Arrow
-  alias: []
+    full: Standard Arrow
+    alias: []
 description: "Ash or birch shaft, goose-feather fletching; workaday deer or skirmish arrow."
 type: projectilegear
 package: sohl
@@ -14,18 +14,18 @@ shortcode: ArwStd
 img: icons/arrow.svg
 easyname: Standard
 sohl:
-  quality: 0
-  durability: 10
-  value: 0.22
-  weight: 1.25
-  impact:
-    die: 12
-    modifier: -1
-    aspect: piercing
-  traits:
-    ARvalue: 4
-    bleed: false
-  subType: arrow
+    quality: 0
+    durability: 10
+    value: 0.22
+    weight: 1.25
+    impact:
+        die: 12
+        modifier: -1
+        aspect: piercing
+    traits:
+        ARvalue: 4
+        bleed: false
+    subType: arrow
 folder: ADQPHjgKsdWsJhyy
 ---
 

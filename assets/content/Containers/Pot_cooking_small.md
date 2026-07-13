@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Pot, cooking, small"
+    - "Pot, cooking, small"
 tags: []
 name:
-  full: "Pot, cooking, small"
-  aliases: []
+    full: "Pot, cooking, small"
+    aliases: []
 description: "Compact iron cookpot for travelers or small household portions."
 id: 7sa4rxK6vKrKDmnu
 slug: pot-cooking-small
@@ -13,11 +13,11 @@ shortcode: potcooking2
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  maxCapacity: 2
-  value: 2
-  weight: 1.1
+    quality: 0
+    durability: 3
+    maxCapacity: 2
+    value: 2
+    weight: 1.1
 folder: dl8lJ729W1mFlDvt
 ---
 

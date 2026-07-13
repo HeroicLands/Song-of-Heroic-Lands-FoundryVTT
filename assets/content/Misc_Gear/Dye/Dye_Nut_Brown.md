@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Dye, Nut Brown"
+    - "Dye, Nut Brown"
 tags:
-  - clothing
+    - clothing
 name:
-  full: "Dye, Nut Brown"
-  aliases: []
+    full: "Dye, Nut Brown"
+    aliases: []
 description: "Walnut hulls and iron salts; warm earthy brown for everyday working garments."
 id: whZskojn7qDPJ6BD
 slug: dye-nut-brown
@@ -14,10 +14,10 @@ shortcode: dyenut
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 1
-  value: 18
-  weight: 0.0625
+    quality: 0
+    durability: 1
+    value: 18
+    weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

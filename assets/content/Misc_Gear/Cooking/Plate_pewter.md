@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Plate, pewter"
+    - "Plate, pewter"
 tags:
-  - cooking
+    - cooking
 name:
-  full: "Plate, pewter"
-  aliases: []
+    full: "Plate, pewter"
+    aliases: []
 description: "Flat pewter plate for daily household or tavern meals and service."
 id: dwAmOUgZVgIAlMk9
 slug: plate-pewter
@@ -14,10 +14,10 @@ shortcode: platepewte
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 5
-  weight: 1
+    quality: 0
+    durability: 3
+    value: 5
+    weight: 1
 folder: 7TT0OzoIoEn40zfs
 ---
 

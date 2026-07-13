@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Surgical Kit
+    - Surgical Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Surgical Kit
-  aliases: []
+    full: Surgical Kit
+    aliases: []
 description: "Oiled-leather case with lancets, bone saw, forceps, scalpels, probes; physicians for grave wounds."
 id: G5dJnT2KqYpM9RvX
 slug: surgical-kit
@@ -14,10 +14,10 @@ shortcode: surgkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 120
-  weight: 6
+    quality: 0
+    durability: 4
+    value: 120
+    weight: 6
 folder: xniLjmZWYQZkSxyv
 ---
 

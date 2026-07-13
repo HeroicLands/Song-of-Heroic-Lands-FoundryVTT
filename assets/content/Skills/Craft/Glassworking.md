@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Glassworking
-  aliases: []
+    full: Glassworking
+    aliases: []
 description: "Shaping molten glass into bottles, goblets, vials, windows, lenses."
 id: baGHwmTYbwn7bON4
 slug: glassworking
@@ -12,13 +12,13 @@ shortcode: glas
 type: skill
 package: sohl
 sohl:
-  subType: craft
-  skillBaseFormula: "@per, @dex"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: craft
+    skillBaseFormula: "@per, @dex"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: gqRvjlrWbuCwGy3N
 ---
 

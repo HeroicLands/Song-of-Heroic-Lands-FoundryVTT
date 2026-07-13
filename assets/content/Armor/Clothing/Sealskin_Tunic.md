@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Sealskin Tunic
+    - Sealskin Tunic
 tags: []
 name:
-  full: Sealskin Tunic
-  aliases: []
+    full: Sealskin Tunic
+    aliases: []
 description: "Waterproof seal-fur tunic; sleeved torso garment for wet climates."
 id: QGipKynUqrosINd6
 slug: sealskin-tunic
@@ -13,32 +13,32 @@ shortcode: SlsTunic
 type: armorgear
 package: sohl
 sohl:
-  armorType: Tunic
-  detailMaterial: Sealskin
-  material: Leather
-  durability: 11
-  value: 444
-  weight: 8.2
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: tGGFFCpkYbnDnE9g
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - lelbloc
-    - relbloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Tunic
+    detailMaterial: Sealskin
+    material: Leather
+    durability: 11
+    value: 444
+    weight: 8.2
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: tGGFFCpkYbnDnE9g
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - lelbloc
+        - relbloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 148
 origWeight: 6.8

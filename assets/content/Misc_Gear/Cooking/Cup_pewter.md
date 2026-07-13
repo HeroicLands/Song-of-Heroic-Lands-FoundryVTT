@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Cup, pewter"
+    - "Cup, pewter"
 tags:
-  - cooking
+    - cooking
 name:
-  full: "Cup, pewter"
-  aliases: []
+    full: "Cup, pewter"
+    aliases: []
 description: "Cast pewter cup for ale-houses and tavern daily use and casual damage."
 id: MHzQeA6KXiz3A1wd
 slug: cup-pewter
@@ -14,10 +14,10 @@ shortcode: cuppewter
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 2
-  weight: 0
+    quality: 0
+    durability: 3
+    value: 2
+    weight: 0
 folder: 7TT0OzoIoEn40zfs
 ---
 

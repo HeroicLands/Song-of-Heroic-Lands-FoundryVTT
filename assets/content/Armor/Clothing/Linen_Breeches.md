@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Linen Breeches
+    - Linen Breeches
 tags: []
 name:
-  full: Linen Breeches
-  aliases: []
+    full: Linen Breeches
+    aliases: []
 description: "Light breathable leg covering perfect for warm climates or strenuous activity."
 id: rIEAGMktathHSAeG
 slug: linen-breeches
@@ -13,28 +13,28 @@ shortcode: LnBrch
 type: armorgear
 package: sohl
 sohl:
-  armorType: Breeches
-  detailMaterial: Linen
-  material: Cloth
-  durability: 5
-  value: 9
-  weight: 0.2
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: N5V2Wv0fHjANh4PB
-  flexloc:
-    - plvisloc
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Breeches
+    detailMaterial: Linen
+    material: Cloth
+    durability: 5
+    value: 9
+    weight: 0.2
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: N5V2Wv0fHjANh4PB
+    flexloc:
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 17
 origWeight: 0.9

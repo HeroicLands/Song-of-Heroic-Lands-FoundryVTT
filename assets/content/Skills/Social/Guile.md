@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Guile
-  aliases: []
+    full: Guile
+    aliases: []
 description: "Deliberate deception; distorting facts while appearing truthful oneself."
 id: QP88ELEOcT37u5iY
 slug: guile
@@ -12,13 +12,13 @@ shortcode: guil
 type: skill
 package: sohl
 sohl:
-  subType: social
-  skillBaseFormula: "@emp, @cre"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 3
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: social
+    skillBaseFormula: "@emp, @cre"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 3
+    masteryLevelBase: 0
+    improveFlag: false
 folder: JBr2U30FsJTs8F3l
 ---
 

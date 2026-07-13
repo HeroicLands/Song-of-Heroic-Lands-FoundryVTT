@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Beef
+    - Beef
 tags:
-  - food
+    - food
 name:
-  full: Beef
-  aliases: []
+    full: Beef
+    aliases: []
 description: "Fresh meat quartered or jointed; spoils quickly unless salted, smoked, jerked."
 id: gS306by6LbeePcB9
 slug: beef
@@ -14,10 +14,10 @@ shortcode: beef
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Mystical Powers
+    - Mystical Powers
 id: PlsGHQa9BZ44YwzP
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: Mystical Powers
+    full: Mystical Powers
 slug: "mystical-powers"
 folder: IgwaG8rAUUO9vrtz
 ---

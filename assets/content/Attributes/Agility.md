@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Agility
-  aliases: []
+    full: Agility
+    aliases: []
 id: dri4kRojNyOo9oe7
 slug: agility
 img: icons/acrobatics.svg
@@ -11,14 +11,14 @@ shortcode: agl
 type: attribute
 package: sohl
 sohl:
-  scoreBase: 0
-  valueDesc:
-    - Blundering:4
-    - Clumsy:8
-    - Average:12
-    - Nimble:16
-    - Graceful:999
-  initDiceFormula: 3d6
+    scoreBase: 0
+    valueDesc:
+        - Blundering:4
+        - Clumsy:8
+        - Average:12
+        - Nimble:16
+        - Graceful:999
+    initDiceFormula: 3d6
 sort: 40
 folder: FPitxvL8wCmXynax
 ---

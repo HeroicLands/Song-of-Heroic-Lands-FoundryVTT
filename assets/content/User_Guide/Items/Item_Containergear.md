@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Container
+    - Container
 id: 5hYkqelfICqvXZp7
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Container"
+    full: "Container"
 slug: "item-containergear"
 folder: QtOgPodi8X6gDWL0
 ---
@@ -21,6 +21,7 @@ Containers appear on the Being's **Gear** tab. Other gear (Miscellaneous, Concoc
 creating a hierarchical inventory structure.
 
 # Additional Properties
+
 In addition to the [[Item_Gear|Standard Gear Properties]], the following additional properties are defined for containers:
 
 - **Capacity** — how much the container can hold, limiting what can be

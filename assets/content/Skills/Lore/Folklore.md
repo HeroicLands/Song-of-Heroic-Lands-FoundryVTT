@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Folklore
-  aliases: []
+    full: Folklore
+    aliases: []
 description: "Knowledge of homeland culture, history, traditions, myth and social customs."
 id: ZwmwSFkiYoH6qRty
 slug: folklore
@@ -12,13 +12,13 @@ shortcode: folklr
 type: skill
 package: sohl
 sohl:
-  subType: lore
-  skillBaseFormula: "@rea, @wil"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 1
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: lore
+    skillBaseFormula: "@rea, @wil"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 1
+    masteryLevelBase: 0
+    improveFlag: false
 folder: QlkEHXbk2EXlRiMM
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Jar, lidded, large"
+    - "Jar, lidded, large"
 tags: []
 name:
-  full: "Jar, lidded, large"
-  aliases: []
+    full: "Jar, lidded, large"
+    aliases: []
 description: "Stoneware jar with fitted lid for dried goods and seasonal preserves."
 id: Jbj0iPOsSFKqcaDa
 slug: jar-lidded-large
@@ -13,11 +13,11 @@ shortcode: jarliddedl
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  maxCapacity: 8
-  value: 8
-  weight: 6
+    quality: 0
+    durability: 3
+    maxCapacity: 8
+    value: 8
+    weight: 6
 folder: dl8lJ729W1mFlDvt
 ---
 

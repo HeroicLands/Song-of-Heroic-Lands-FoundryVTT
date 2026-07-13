@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Grindstone
+    - Grindstone
 tags:
-  - stone
+    - stone
 name:
-  full: Grindstone
-  aliases: []
+    full: Grindstone
+    aliases: []
 description: "Sandstone or granite disc; horizontal axle; grinds grain, ore, pigment by hand-turn."
 id: qiqSlyTLYUbrLNgC
 slug: grindstone
@@ -14,10 +14,10 @@ shortcode: grindstone
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 12
-  weight: 17
+    quality: 0
+    durability: 8
+    value: 12
+    weight: 17
 folder: 7HORJHbbizVSds9r
 ---
 

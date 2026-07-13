@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Ermine Shirt
+    - Ermine Shirt
 tags: []
 name:
-  full: Ermine Shirt
-  aliases: []
+    full: Ermine Shirt
+    aliases: []
 description: "White ermine fur shirt signifying high status and elite prestige."
 id: O6mKuiEtWdree6rU
 slug: ermine-shirt
@@ -13,29 +13,29 @@ shortcode: EShirt
 type: armorgear
 package: sohl
 sohl:
-  armorType: Shirt
-  detailMaterial: Ermine
-  material: Leather
-  durability: 7
-  value: 330
-  weight: 1.5
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: Q3gkEl34DYgFfdME
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - thrxloc
-    - abdmnloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Shirt
+    detailMaterial: Ermine
+    material: Leather
+    durability: 7
+    value: 330
+    weight: 1.5
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: Q3gkEl34DYgFfdME
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - thrxloc
+        - abdmnloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 55
 origWeight: 2.5

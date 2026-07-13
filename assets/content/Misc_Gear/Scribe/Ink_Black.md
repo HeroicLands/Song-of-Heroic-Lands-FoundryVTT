@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Ink, Black"
+    - "Ink, Black"
 tags:
-  - scribe
+    - scribe
 name:
-  full: "Ink, Black"
-  aliases: []
+    full: "Ink, Black"
+    aliases: []
 description: "Oak-gall ink; indelible black for clerks, scribes, chroniclers' work."
 id: 4HZelNWG65IdkNKm
 slug: ink-black
@@ -14,10 +14,10 @@ shortcode: inkblk
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 9
-  weight: 2
+    quality: 0
+    durability: 0
+    value: 9
+    weight: 2
 folder: BYkA5NDQxTXDvsAC
 ---
 

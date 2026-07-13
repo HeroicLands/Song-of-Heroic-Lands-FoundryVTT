@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Sealskin Longshirt
+    - Sealskin Longshirt
 tags: []
 name:
-  full: Sealskin Longshirt
-  aliases: []
+    full: Sealskin Longshirt
+    aliases: []
 description: "Waterproof seal-fur shirt; extended coverage for wet climates."
 id: NME5mBMEM08ffCnW
 slug: sealskin-longshirt
@@ -13,33 +13,33 @@ shortcode: SlsLgSh
 type: armorgear
 package: sohl
 sohl:
-  armorType: Longshirt
-  detailMaterial: Sealskin
-  material: Leather
-  durability: 11
-  value: 444
-  weight: 8.2
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: 2lnW9kqZdyPfpvag
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - lelbloc
-    - relbloc
-    - lfraloc
-    - rfraloc
-    - thrxloc
-    - abdmnloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Longshirt
+    detailMaterial: Sealskin
+    material: Leather
+    durability: 11
+    value: 444
+    weight: 8.2
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: 2lnW9kqZdyPfpvag
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - lelbloc
+        - relbloc
+        - lfraloc
+        - rfraloc
+        - thrxloc
+        - abdmnloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 148
 origWeight: 6.8

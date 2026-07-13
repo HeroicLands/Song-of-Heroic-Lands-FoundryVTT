@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Icon, religious, small"
+    - "Icon, religious, small"
 tags:
-  - religious
+    - religious
 name:
-  full: "Icon, religious, small"
-  aliases: []
+    full: "Icon, religious, small"
+    aliases: []
 description: "Portable palm-sized icon for pilgrims and soldiers; kept at chest or shelf."
 id: 4OFJccPOe0jH95je
 slug: icon-religious-small
@@ -14,10 +14,10 @@ shortcode: iconreligi2
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 2
-  weight: 0.9
+    quality: 0
+    durability: 4
+    value: 2
+    weight: 0.9
 folder: 9JkoGqoUGqV8b5aL
 ---
 

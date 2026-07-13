@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Oats
+    - Oats
 tags:
-  - food
+    - food
 name:
-  full: Oats
-  aliases: []
+    full: Oats
+    aliases: []
 description: "Premium early-harvested oats, clean and mold-free, yields more meal fine."
 id: nO13UIRBZ6D92dCW
 slug: oats
@@ -14,10 +14,10 @@ shortcode: oats2
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 5.75
-  weight: 25.5
+    quality: 0
+    durability: 0
+    value: 5.75
+    weight: 25.5
 folder: cHM58zOI1EcSG3cP
 ---
 

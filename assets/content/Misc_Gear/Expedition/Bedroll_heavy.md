@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Bedroll, heavy
+    - Bedroll, heavy
 tags:
-  - expedition
+    - expedition
 name:
-  full: Bedroll, heavy
-  aliases: []
+    full: Bedroll, heavy
+    aliases: []
 description: "Quilted wool and linen roll with oiled canvas cover; durable field bedding."
 id: I6gNf8y6ZgxFgxdI
 slug: bedroll-heavy
@@ -14,10 +14,10 @@ shortcode: HvyBdrl
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 100
-  weight: 10
+    quality: 0
+    durability: 7
+    value: 100
+    weight: 10
 folder: FSPVI1eObGEpMVck
 ---
 

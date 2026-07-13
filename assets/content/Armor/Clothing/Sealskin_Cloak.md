@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Sealskin Cloak
+    - Sealskin Cloak
 tags: []
 name:
-  full: Sealskin Cloak
-  aliases: []
+    full: Sealskin Cloak
+    aliases: []
 description: "Waterproof seal-fur cloak; harsh-weather outer garment for seafarers."
 id: Am2OdM7ZD8wsJ077
 slug: sealskin-cloak
@@ -13,29 +13,29 @@ shortcode: SlsCloak
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cloak
-  detailMaterial: Sealskin
-  material: Leather
-  durability: 11
-  value: 270
-  weight: 4.6
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: jK7X89EtYetHcQcP
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - thrxloc
-    - abdmnloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cloak
+    detailMaterial: Sealskin
+    material: Leather
+    durability: 11
+    value: 270
+    weight: 4.6
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: jK7X89EtYetHcQcP
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - thrxloc
+        - abdmnloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 90
 origWeight: 3.8

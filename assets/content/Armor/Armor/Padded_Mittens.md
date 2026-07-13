@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Padded Mittens
+    - Padded Mittens
 tags: []
 name:
-  full: Padded Mittens
-  aliases: []
+    full: Padded Mittens
+    aliases: []
 description: "Cushioned hand coverings providing warmth for cold weather conditions."
 id: fybBfDAuI4Y3VWFS
 slug: padded-mittens
@@ -13,25 +13,25 @@ shortcode: PMitn
 type: armorgear
 package: sohl
 sohl:
-  armorType: Mittens
-  detailMaterial: Padded
-  material: Padded
-  durability: 10
-  value: 10
-  weight: 0.4
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: tjH1oCma9vNpeC2r
-  flexloc:
-    - lhandloc
-    - rhandloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Mittens
+    detailMaterial: Padded
+    material: Padded
+    durability: 10
+    value: 10
+    weight: 0.4
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: tjH1oCma9vNpeC2r
+    flexloc:
+        - lhandloc
+        - rhandloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 10
 origWeight: 0.4

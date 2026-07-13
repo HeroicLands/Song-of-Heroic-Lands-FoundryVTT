@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Cauliflower Ear
+    - Cauliflower Ear
 tags: []
 name:
-  full: Cauliflower Ear
-  aliases: []
+    full: Cauliflower Ear
+    aliases: []
 id: ZtFNokw8XgpFWSTX
 slug: cauliflower-ear
 img: icons/user-gear.svg
@@ -12,14 +12,14 @@ shortcode: clflwrr
 type: trait
 package: sohl
 sohl:
-  subType: physique
-  intensity: impulse
-  isNumeric: false
-  textValue: ''
-  valueDesc: []
-  score:
-    value: 0
-    max: 0
+    subType: physique
+    intensity: impulse
+    isNumeric: false
+    textValue: ""
+    valueDesc: []
+    score:
+        value: 0
+        max: 0
 folder: 4h8qyMcGHlkrfN1g
 ---
 

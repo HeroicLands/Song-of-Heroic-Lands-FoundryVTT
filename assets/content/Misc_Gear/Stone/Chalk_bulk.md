@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Chalk, bulk"
+    - "Chalk, bulk"
 tags:
-  - stone
+    - stone
 name:
-  full: "Chalk, bulk"
-  aliases: []
+    full: "Chalk, bulk"
+    aliases: []
 description: "Soft quarried chalk block; masons' plaster, scribes' pouncing, shepherd marking stock."
 id: P60eNdbEYPPD0ImQ
 slug: chalk-bulk
@@ -14,10 +14,10 @@ shortcode: chalkbulk
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 1
-  value: 1
-  weight: 1
+    quality: 0
+    durability: 1
+    value: 1
+    weight: 1
 folder: 7HORJHbbizVSds9r
 ---
 

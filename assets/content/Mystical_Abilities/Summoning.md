@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Summoning
-  aliases: []
+    full: Summoning
+    aliases: []
 description: "Calling and compelling spirits, forces, or beings from beyond the physical world."
 id: 2SAir9JKa3rd7UbR
 slug: summoning
@@ -12,15 +12,15 @@ shortcode: summ
 type: mysticalability
 package: sohl
 sohl:
-  subType: spiritaction
-  assocSkillCode: ""
-  assocMysteryCode: ""
-  levelBase: 0
-  masteryLevelBase: 0
-  charges:
-    usesCharges: false
-    value: 0
-    max: 0
+    subType: spiritaction
+    assocSkillCode: ""
+    assocMysteryCode: ""
+    levelBase: 0
+    masteryLevelBase: 0
+    charges:
+        usesCharges: false
+        value: 0
+        max: 0
 folder: gpLM4ElXNiI1rN7l
 ---
 

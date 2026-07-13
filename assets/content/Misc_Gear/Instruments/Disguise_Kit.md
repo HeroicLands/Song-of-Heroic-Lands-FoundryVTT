@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Disguise Kit
+    - Disguise Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Disguise Kit
-  aliases: []
+    full: Disguise Kit
+    aliases: []
 description: "Cloth-wrapped case with pigments, wax, false hair, padding, voice-pipe, mirror; used with the Theatrics skill to alter one's appearance."
 id: xNq7PvB3LyHkZt4W
 slug: disguise-kit
@@ -14,10 +14,10 @@ shortcode: disgkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 55
-  weight: 4
+    quality: 0
+    durability: 4
+    value: 55
+    weight: 4
 folder: xniLjmZWYQZkSxyv
 ---
 

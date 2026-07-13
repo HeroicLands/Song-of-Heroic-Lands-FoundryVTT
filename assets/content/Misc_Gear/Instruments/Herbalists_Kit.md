@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Herbalist's Kit
+    - Herbalist's Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Herbalist's Kit
-  aliases: []
+    full: Herbalist's Kit
+    aliases: []
 description: "Leather satchel with mortar and pestle, pruning knife, vials, filter cloth, drying frame."
 id: J2wRkMpT9XyVbQ6s
 slug: herbalists-kit
@@ -14,10 +14,10 @@ shortcode: herbkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 5
-  value: 35
-  weight: 3
+    quality: 0
+    durability: 5
+    value: 35
+    weight: 3
 folder: xniLjmZWYQZkSxyv
 ---
 

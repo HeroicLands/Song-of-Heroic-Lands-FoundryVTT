@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Spikes
+    - Spikes
 tags:
-  - expedition
+    - expedition
 name:
-  full: Spikes
-  aliases: []
+    full: Spikes
+    aliases: []
 description: "Foot-long iron spikes for climbing, breaking charges, and lashing boards."
 id: 6tjqf0mjXm40eMvo
 slug: spikes
@@ -14,10 +14,10 @@ shortcode: spikes
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 1.25
-  weight: 1
+    quality: 0
+    durability: 8
+    value: 1.25
+    weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

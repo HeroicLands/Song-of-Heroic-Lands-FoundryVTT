@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Riding
-  aliases: []
+    full: Riding
+    aliases: []
 description: "Controlling mounted animals through communication and empathic connection."
 id: DHSI4p4n2OBxf1bD
 slug: riding
@@ -12,13 +12,13 @@ shortcode: ridg
 type: skill
 package: sohl
 sohl:
-  subType: physical
-  skillBaseFormula: "@emp, @agl"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 1
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: physical
+    skillBaseFormula: "@emp, @agl"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 1
+    masteryLevelBase: 0
+    improveFlag: false
 folder: Yt9THlZ0NT8H6aSK
 ---
 

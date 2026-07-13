@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Standard Bolt
+    - Standard Bolt
 tags: []
 name:
-  full: Standard Bolt
-  alias: []
+    full: Standard Bolt
+    alias: []
 description: "Stout hardwood quarrel, simple iron head; cheap volley fire against unarmoured."
 type: projectilegear
 package: sohl
@@ -14,18 +14,18 @@ shortcode: BltStd
 img: icons/arrow.svg
 easyname: Standard
 sohl:
-  quality: 0
-  durability: 10
-  value: 0.22
-  weight: 1.25
-  impact:
-    die: 12
-    modifier: -1
-    aspect: piercing
-  traits:
-    ARvalue: 4
-    bleed: false
-  subType: bolt
+    quality: 0
+    durability: 10
+    value: 0.22
+    weight: 1.25
+    impact:
+        die: 12
+        modifier: -1
+        aspect: piercing
+    traits:
+        ARvalue: 4
+        bleed: false
+    subType: bolt
 folder: ADQPHjgKsdWsJhyy
 ---
 

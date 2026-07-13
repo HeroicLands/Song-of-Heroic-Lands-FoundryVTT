@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Leather, Tanned, per sq yard"
+    - "Leather, Tanned, per sq yard"
 tags:
-  - natural
+    - natural
 name:
-  full: "Leather, Tanned, per sq yard"
-  aliases: []
+    full: "Leather, Tanned, per sq yard"
+    aliases: []
 description: "Finished vegetable-tanned stock sold by the yard for cordwainers and saddlers."
 id: 3Lo5cMQU7d8crKPT
 slug: leather-tanned-per-sq-yard
@@ -14,10 +14,10 @@ shortcode: leathertan
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 5
-  value: 12
-  weight: 0
+    quality: 0
+    durability: 5
+    value: 12
+    weight: 0
 folder: 0JqxkW5hHZ8XVILm
 ---
 

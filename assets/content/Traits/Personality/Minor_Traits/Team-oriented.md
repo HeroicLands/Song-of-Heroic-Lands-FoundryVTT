@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Team-oriented
-  aliases: []
+    full: Team-oriented
+    aliases: []
 id: e39heaM7Lc3Ltukg
 slug: team-oriented
 img: icons/user-gear.svg
@@ -11,14 +11,14 @@ shortcode: tmrntd
 type: trait
 package: sohl
 sohl:
-  subType: personality
-  intensity: benign
-  isNumeric: false
-  textValue: ''
-  valueDesc: []
-  score:
-    value: 0
-    max: 0
+    subType: personality
+    intensity: benign
+    isNumeric: false
+    textValue: ""
+    valueDesc: []
+    score:
+        value: 0
+        max: 0
 folder: SpZzOv4eOwtdsMMo
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Sapphire, cut"
+    - "Sapphire, cut"
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: "Sapphire, cut"
-  aliases: []
+    full: "Sapphire, cut"
+    aliases: []
 description: "Brilliant deep-blue corundum; reserved for the highest nobility and clergy."
 id: km9rIPHqU85VCL9K
 slug: sapphire-cut
@@ -14,10 +14,10 @@ shortcode: sapphirecu
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 900
-  weight: 0.0004
+    quality: 0
+    durability: 2
+    value: 900
+    weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

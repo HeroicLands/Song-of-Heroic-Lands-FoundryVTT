@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Keys
+    - Keys
 tags:
-  - expedition
+    - expedition
 name:
-  full: Keys
-  aliases: []
+    full: Keys
+    aliases: []
 description: "Iron keys on leather thong or ring; merchants and stewards carry daily."
 id: Ekmw3aDcd29kkY8a
 slug: keys
@@ -14,10 +14,10 @@ shortcode: keys
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 5
-  value: 2
-  weight: 0.1
+    quality: 0
+    durability: 5
+    value: 2
+    weight: 0.1
 folder: FSPVI1eObGEpMVck
 ---
 

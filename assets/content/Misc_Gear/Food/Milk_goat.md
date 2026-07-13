@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Milk, goat"
+    - "Milk, goat"
 tags:
-  - food
+    - food
 name:
-  full: "Milk, goat"
-  aliases: []
+    full: "Milk, goat"
+    aliases: []
 description: "Tangy dairy curdles quickly into sharp cheese, richer than sheep's."
 id: igkphWJuv5nZwcq8
 slug: milk-goat
@@ -14,10 +14,10 @@ shortcode: milkgoat
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 8
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 8
 folder: cHM58zOI1EcSG3cP
 ---
 

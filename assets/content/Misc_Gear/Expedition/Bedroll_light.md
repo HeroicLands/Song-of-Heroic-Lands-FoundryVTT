@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Bedroll, light
+    - Bedroll, light
 tags:
-  - expedition
+    - expedition
 name:
-  full: Bedroll, light
-  aliases: []
+    full: Bedroll, light
+    aliases: []
 description: "Compact quilted linen bedroll with fleece; portable for mild seasons."
 id: v7ORmy6v4zX4DOSG
 slug: bedroll-light
@@ -14,10 +14,10 @@ shortcode: LiteBdrl
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 30
-  weight: 4
+    quality: 0
+    durability: 7
+    value: 30
+    weight: 4
 folder: FSPVI1eObGEpMVck
 ---
 

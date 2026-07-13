@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Wedge, splitting"
+    - "Wedge, splitting"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Wedge, splitting"
-  aliases: []
+    full: "Wedge, splitting"
+    aliases: []
 description: "Steel wedge for cleaving logs; lasts years and saves labor on campaign."
 id: VOpTN4N1Lct3ceyA
 slug: wedge-splitting
@@ -14,10 +14,10 @@ shortcode: wedgesplit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 18
-  weight: 3
+    quality: 0
+    durability: 8
+    value: 18
+    weight: 3
 folder: FSPVI1eObGEpMVck
 ---
 

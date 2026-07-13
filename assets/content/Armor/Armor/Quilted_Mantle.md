@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Quilted Mantle
+    - Quilted Mantle
 tags: []
 name:
-  full: Quilted Mantle
-  aliases: []
+    full: Quilted Mantle
+    aliases: []
 description: "Layered shoulder-wrap; insulates without restriction."
 id: AOTxCBmXguJYUQ3B
 slug: quilted-mantle
@@ -13,28 +13,28 @@ shortcode: QMntl
 type: armorgear
 package: sohl
 sohl:
-  armorType: Mantle
-  detailMaterial: Quilted
-  material: Quilted
-  durability: 11
-  value: 84
-  weight: 3.8
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: 3J4qhEsciFfE0zxK
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - thrxloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Mantle
+    detailMaterial: Quilted
+    material: Quilted
+    durability: 11
+    value: 84
+    weight: 3.8
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: 3J4qhEsciFfE0zxK
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - thrxloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 84
 origWeight: 3.8

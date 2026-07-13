@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Runecraft
-  aliases: []
+    full: Runecraft
+    aliases: []
 description: "Inscribing and activating runes imbued with arcane power and significance."
 id: BciFc8QyZNpeu03s
 slug: runecraft
@@ -12,15 +12,15 @@ shortcode: Rune
 type: mysticalability
 package: sohl
 sohl:
-  subType: divination
-  assocSkillCode: ""
-  assocMysteryCode: ""
-  levelBase: 0
-  masteryLevelBase: 0
-  charges:
-    usesCharges: false
-    value: 0
-    max: 0
+    subType: divination
+    assocSkillCode: ""
+    assocMysteryCode: ""
+    levelBase: 0
+    masteryLevelBase: 0
+    charges:
+        usesCharges: false
+        value: 0
+        max: 0
 folder: gpLM4ElXNiI1rN7l
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Lockcraft Kit
+    - Lockcraft Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Lockcraft Kit
-  aliases: []
+    full: Lockcraft Kit
+    aliases: []
 description: "Leather case with picks, files, hammer, key blanks; locksmith's tools."
 id: 8qrKlCrzKJq67vcB
 slug: lockcraft-kit
@@ -14,10 +14,10 @@ shortcode: lkcrftkt
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 65
-  weight: 4
+    quality: 0
+    durability: 4
+    value: 65
+    weight: 4
 folder: xniLjmZWYQZkSxyv
 ---
 

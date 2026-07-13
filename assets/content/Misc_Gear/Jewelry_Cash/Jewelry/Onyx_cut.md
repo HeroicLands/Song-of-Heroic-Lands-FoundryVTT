@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Onyx, cut"
+    - "Onyx, cut"
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: "Onyx, cut"
-  aliases: []
+    full: "Onyx, cut"
+    aliases: []
 description: "Black-and-white banded chalcedony; striking striped pattern, favored for signet rings."
 id: t86kYESG8mm3Qat8
 slug: onyx-cut
@@ -14,10 +14,10 @@ shortcode: onyxcut
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 20
-  weight: 0.0004
+    quality: 0
+    durability: 2
+    value: 20
+    weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

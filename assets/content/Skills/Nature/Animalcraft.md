@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Animalcraft
-  aliases: []
+    full: Animalcraft
+    aliases: []
 description: "Domesticating, breeding, caring for animals; training and veterinary expertise."
 id: K1sBrJikLWiQIjjB
 slug: animalcraft
@@ -12,13 +12,13 @@ shortcode: anmcft
 type: skill
 package: sohl
 sohl:
-  subType: nature
-  skillBaseFormula: "@emp, @wil"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: nature
+    skillBaseFormula: "@emp, @wil"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: N5ozne3RRF0qSEdF
 ---
 

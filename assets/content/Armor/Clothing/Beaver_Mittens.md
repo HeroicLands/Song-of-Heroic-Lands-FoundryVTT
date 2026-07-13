@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Beaver Mittens
+    - Beaver Mittens
 tags: []
 name:
-  full: Beaver Mittens
-  aliases: []
+    full: Beaver Mittens
+    aliases: []
 description: "Beaver fur mittens offering comfort and warmth for cold climates."
 id: hfuaWFcDNu2p52cN
 slug: beaver-mittens
@@ -13,25 +13,25 @@ shortcode: BvMitt
 type: armorgear
 package: sohl
 sohl:
-  armorType: Mittens
-  detailMaterial: Beaver
-  material: Leather
-  durability: 9
-  value: 126
-  weight: 1
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: jRkEKLXLUsiguApv
-  flexloc:
-    - lhandloc
-    - rhandloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Mittens
+    detailMaterial: Beaver
+    material: Leather
+    durability: 9
+    value: 126
+    weight: 1
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: jRkEKLXLUsiguApv
+    flexloc:
+        - lhandloc
+        - rhandloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 42
 origWeight: 1.2

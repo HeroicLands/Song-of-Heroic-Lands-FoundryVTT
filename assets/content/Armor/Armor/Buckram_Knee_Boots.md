@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Buckram Knee Boots
+    - Buckram Knee Boots
 tags: []
 name:
-  full: Buckram Knee Boots
-  aliases: []
+    full: Buckram Knee Boots
+    aliases: []
 description: "Stiff buckram knee boots offering durability and structured leg protection."
 id: f68hQecNxmsKRhBZ
 slug: buckram-knee-boots
@@ -13,29 +13,29 @@ shortcode: BBoot
 type: armorgear
 package: sohl
 sohl:
-  armorType: Knee Boots
-  detailMaterial: Buckram
-  material: Cloth
-  durability: 10
-  value: 45
-  weight: 1.5
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: kXcElnEgjYQNxy9K
-  flexloc:
-    - lkneeloc
-    - rkneeloc
-    - lcalfloc
-    - rcalfloc
-    - lfootloc
-    - rfootloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Knee Boots
+    detailMaterial: Buckram
+    material: Cloth
+    durability: 10
+    value: 45
+    weight: 1.5
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: kXcElnEgjYQNxy9K
+    flexloc:
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
+        - lfootloc
+        - rfootloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 45
 origWeight: 1.5

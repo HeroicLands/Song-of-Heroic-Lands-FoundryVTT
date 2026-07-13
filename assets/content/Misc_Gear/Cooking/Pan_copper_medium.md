@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Pan, copper, medium"
+    - "Pan, copper, medium"
 tags:
-  - cooking
+    - cooking
 name:
-  full: "Pan, copper, medium"
-  aliases: []
+    full: "Pan, copper, medium"
+    aliases: []
 description: "Medium copper pan; even heat distribution for sauces and sautéing vegetables."
 id: 5aGdJqhB0UnGDFcX
 slug: pan-copper-medium
@@ -14,10 +14,10 @@ shortcode: pancopperm
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 8
-  weight: 2
+    quality: 0
+    durability: 4
+    value: 8
+    weight: 2
 folder: 7TT0OzoIoEn40zfs
 ---
 

@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Intrigue
-  aliases: []
+    full: Intrigue
+    aliases: []
 description: "Detecting hidden motives, deception; unraveling plots and conspiracies."
 id: 6HmrY8phCuDrflfO
 slug: intrigue
@@ -12,13 +12,13 @@ shortcode: intr
 type: skill
 package: sohl
 sohl:
-  subType: social
-  skillBaseFormula: "@emp, @rea"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 3
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: social
+    skillBaseFormula: "@emp, @rea"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 3
+    masteryLevelBase: 0
+    improveFlag: false
 folder: JBr2U30FsJTs8F3l
 ---
 

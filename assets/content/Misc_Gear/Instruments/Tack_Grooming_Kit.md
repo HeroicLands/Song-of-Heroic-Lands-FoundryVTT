@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Tack & Grooming Kit
+    - Tack & Grooming Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Tack & Grooming Kit
-  aliases: []
+    full: Tack & Grooming Kit
+    aliases: []
 description: "Leather satchel with currycomb, brushes, hoof pick, bridle awl, strap stock, oil; mount care and tack repair."
 id: Qr3Yk8WnPvLzH5Tb
 slug: tack-and-grooming-kit
@@ -14,10 +14,10 @@ shortcode: tackkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 6
-  value: 20
-  weight: 5
+    quality: 0
+    durability: 6
+    value: 20
+    weight: 5
 folder: xniLjmZWYQZkSxyv
 ---
 

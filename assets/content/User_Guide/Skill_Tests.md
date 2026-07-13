@@ -5,7 +5,7 @@ type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Skill Tests and Opposed Tests"
+    full: "Skill Tests and Opposed Tests"
 slug: "skill-tests"
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -24,9 +24,9 @@ See also: [Skills](user-guide/item-skill.md), [Combat Basics](user-guide/combat-
 1. Open the character's sheet and go to the **Skills** tab.
 2. Click the name of the skill you want to test.
 3. A **Success Test Dialog** appears showing:
-   - The skill's effective mastery level (EML)
-   - Any situational modifiers
-   - Options for the test
+    - The skill's effective mastery level (EML)
+    - Any situational modifiers
+    - Options for the test
 4. Adjust modifiers if needed and click **OK**.
 5. The result appears in the chat window.
 

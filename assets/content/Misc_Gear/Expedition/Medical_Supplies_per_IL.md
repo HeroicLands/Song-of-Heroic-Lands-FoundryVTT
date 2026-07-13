@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Medical Supplies, per IL"
+    - "Medical Supplies, per IL"
 tags:
-  - medical
+    - medical
 name:
-  full: "Medical Supplies, per IL"
-  aliases: []
+    full: "Medical Supplies, per IL"
+    aliases: []
 description: "Bandages, splints, sutures, poultices, salves; one unit treats one injury level."
 id: Pk7YnR3wXqB8TvMz
 slug: medical-supplies-per-il
@@ -14,10 +14,10 @@ shortcode: medsupil
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 3
-  weight: 0.1
+    quality: 0
+    durability: 0
+    value: 3
+    weight: 0.1
 folder: FSPVI1eObGEpMVck
 ---
 

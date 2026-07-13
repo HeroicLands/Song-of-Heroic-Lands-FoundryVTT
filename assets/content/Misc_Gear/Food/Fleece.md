@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Fleece
+    - Fleece
 tags:
-  - food
+    - food
 name:
-  full: Fleece
-  aliases: []
+    full: Fleece
+    aliases: []
 description: "Raw wool sheared or combed; fine yields soft yarn, coarse felts."
 id: 3vZwHuwig8AsU1Z5
 slug: fleece
@@ -14,10 +14,10 @@ shortcode: fleece
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 12
-  weight: 3
+    quality: 0
+    durability: 0
+    value: 12
+    weight: 3
 folder: cHM58zOI1EcSG3cP
 ---
 

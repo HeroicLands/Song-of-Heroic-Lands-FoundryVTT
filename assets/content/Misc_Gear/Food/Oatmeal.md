@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Oatmeal
+    - Oatmeal
 tags:
-  - food
+    - food
 name:
-  full: Oatmeal
-  aliases: []
+    full: Oatmeal
+    aliases: []
 description: "Coarse porridge filling bellies cheaply, stores dry indefinitely for soldiers."
 id: nKYvQRuLyQJBs9fI
 slug: oatmeal
@@ -14,10 +14,10 @@ shortcode: oatmeal
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.25
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.25
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

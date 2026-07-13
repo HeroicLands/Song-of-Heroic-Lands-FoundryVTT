@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Straw Hat
+    - Straw Hat
 tags: []
 name:
-  full: Straw Hat
-  aliases: []
+    full: Straw Hat
+    aliases: []
 description: "Lightweight breathable straw hat; excellent sun protection for laborers."
 id: hHJYZG1UtjVEwYQ2
 slug: straw-hat
@@ -13,24 +13,24 @@ shortcode: StHat
 type: armorgear
 package: sohl
 sohl:
-  armorType: Hat
-  detailMaterial: Straw
-  material: Cloth
-  durability: 5
-  value: 5
-  weight: 0.1
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: BBvtWKQUTYGvcGpX
-  flexloc:
-    - skullloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Hat
+    detailMaterial: Straw
+    material: Cloth
+    durability: 5
+    value: 5
+    weight: 0.1
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: BBvtWKQUTYGvcGpX
+    flexloc:
+        - skullloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 15
 origWeight: 0.3

@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Melee
-  aliases: []
+    full: Melee
+    aliases: []
 description: "Close combat with hand-held weapons; positioning, technique, and tactical awareness."
 id: r04Yas6IuL9kUFAK
 slug: melee
@@ -12,13 +12,13 @@ shortcode: melee
 type: skill
 package: sohl
 sohl:
-  subType: combat
-  skillBaseFormula: "@dex, @agl"
-  combatCategory: melee
-  parentSkillCode: ''
-  initSkillMult: 2
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: combat
+    skillBaseFormula: "@dex, @agl"
+    combatCategory: melee
+    parentSkillCode: ""
+    initSkillMult: 2
+    masteryLevelBase: 0
+    improveFlag: false
 folder: EphAMAfFhWBrJxyF
 ---
 

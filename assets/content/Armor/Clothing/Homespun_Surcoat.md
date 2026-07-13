@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Homespun Surcoat
+    - Homespun Surcoat
 tags: []
 name:
-  full: Homespun Surcoat
-  aliases: []
+    full: Homespun Surcoat
+    aliases: []
 description: "Simple homemade surcoat providing coverage and practical wear."
 id: KO2z2lfxO4XDeDgQ
 slug: homespun-surcoat
@@ -13,34 +13,34 @@ shortcode: HsScoat
 type: armorgear
 package: sohl
 sohl:
-  armorType: Surcoat
-  detailMaterial: Homespun
-  material: Cloth
-  durability: 5
-  value: 16
-  weight: 0.7
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: BBFuZfdJNkKlKWVl
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-    - lcalfloc
-    - rcalfloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Surcoat
+    detailMaterial: Homespun
+    material: Cloth
+    durability: 5
+    value: 16
+    weight: 0.7
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: BBFuZfdJNkKlKWVl
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 54
 origWeight: 2.7

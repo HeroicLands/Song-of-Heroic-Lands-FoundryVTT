@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Agate, cut"
+    - "Agate, cut"
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: "Agate, cut"
-  aliases: []
+    full: "Agate, cut"
+    aliases: []
 description: "Banded stone faceted by the lapidary; modest gem for rings and pendants."
 id: PvzNjj9EmiGt5Tlu
 slug: agate-cut
@@ -14,10 +14,10 @@ shortcode: agatecut
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 10
-  weight: 0.0004
+    quality: 0
+    durability: 2
+    value: 10
+    weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

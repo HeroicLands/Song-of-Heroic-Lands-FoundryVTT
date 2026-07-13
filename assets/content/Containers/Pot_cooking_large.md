@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Pot, cooking, large"
+    - "Pot, cooking, large"
 tags: []
 name:
-  full: "Pot, cooking, large"
-  aliases: []
+    full: "Pot, cooking, large"
+    aliases: []
 description: "Iron cookpot with wire handle; hangs over fire or sits in embers."
 id: y9gavFH7lYltO3I8
 slug: pot-cooking-large
@@ -13,11 +13,11 @@ shortcode: potcooking
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  maxCapacity: 4
-  value: 4
-  weight: 2.3
+    quality: 0
+    durability: 3
+    maxCapacity: 4
+    value: 4
+    weight: 2.3
 folder: dl8lJ729W1mFlDvt
 ---
 

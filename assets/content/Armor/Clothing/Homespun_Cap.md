@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Homespun Cap
+    - Homespun Cap
 tags: []
 name:
-  full: Homespun Cap
-  aliases: []
+    full: Homespun Cap
+    aliases: []
 description: "Simple homemade cap offering warmth for common folk."
 id: aaJpiVosRI1mXMTD
 slug: homespun-cap
@@ -13,24 +13,24 @@ shortcode: HsCap
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cap
-  detailMaterial: Homespun
-  material: Cloth
-  durability: 5
-  value: 1
-  weight: 0.1
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: 27b1rmNVk4TULCPs
-  flexloc:
-    - skullloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cap
+    detailMaterial: Homespun
+    material: Cloth
+    durability: 5
+    value: 1
+    weight: 0.1
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: 27b1rmNVk4TULCPs
+    flexloc:
+        - skullloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 4
 origWeight: 0.2

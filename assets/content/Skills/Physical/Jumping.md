@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Jumping
-  aliases: []
+    full: Jumping
+    aliases: []
 description: "Leaping horizontally and vertically; reaching above normal reach."
 id: NYysaIqvwz1Ir5mf
 slug: jumping
@@ -12,13 +12,13 @@ shortcode: jump
 type: skill
 package: sohl
 sohl:
-  subType: physical
-  skillBaseFormula: "@agl, @str"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 3
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: physical
+    skillBaseFormula: "@agl, @str"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 3
+    masteryLevelBase: 0
+    improveFlag: false
 folder: Yt9THlZ0NT8H6aSK
 ---
 

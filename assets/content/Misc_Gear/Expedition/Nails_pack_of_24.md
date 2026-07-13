@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Nails, pack of 24"
+    - "Nails, pack of 24"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Nails, pack of 24"
-  aliases: []
+    full: "Nails, pack of 24"
+    aliases: []
 description: "Mixed iron nails for quick repairs and affixing tent frames."
 id: 5qhxdoq30JjvkhUr
 slug: nails-pack-of-24
@@ -14,10 +14,10 @@ shortcode: nailspacko
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 2
-  weight: 1
+    quality: 0
+    durability: 7
+    value: 2
+    weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

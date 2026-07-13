@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Venison
+    - Venison
 tags:
-  - food
+    - food
 name:
-  full: Venison
-  aliases: []
+    full: Venison
+    aliases: []
 description: "Lean dark gamey deer meat, roasted fresh or smoked into jerky."
 id: pE2rnrgahQuC0P4m
 slug: venison
@@ -14,10 +14,10 @@ shortcode: venison
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 2
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 2
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Plate, tin"
+    - "Plate, tin"
 tags:
-  - cooking
+    - cooking
 name:
-  full: "Plate, tin"
-  aliases: []
+    full: "Plate, tin"
+    aliases: []
 description: "Thin stamped tin plate for military camps and common inns; cheap."
 id: UB3qleKA6SLHWELt
 slug: plate-tin
@@ -14,10 +14,10 @@ shortcode: platetin
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 2
-  weight: 1
+    quality: 0
+    durability: 3
+    value: 2
+    weight: 1
 folder: 7TT0OzoIoEn40zfs
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Pie, Fruit"
+    - "Pie, Fruit"
 tags:
-  - food
+    - food
 name:
-  full: "Pie, Fruit"
-  aliases: []
+    full: "Pie, Fruit"
+    aliases: []
 description: "Small warm pastry, apple or berry filling, quick breakfast or laborer's wage."
 id: j4ehsKlfCGyqEOEI
 slug: pie-fruit
@@ -14,10 +14,10 @@ shortcode: piefruit2
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.75
-  weight: 0.5
+    quality: 0
+    durability: 0
+    value: 0.75
+    weight: 0.5
 folder: cHM58zOI1EcSG3cP
 ---
 

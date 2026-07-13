@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Armor Maintenance Supplies, per 1d"
+    - "Armor Maintenance Supplies, per 1d"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Armor Maintenance Supplies, per 1d"
-  aliases: []
+    full: "Armor Maintenance Supplies, per 1d"
+    aliases: []
 description: "Rings, rivets, straps, buckles, waxed thread, patches, polish; one pence buys one pence of armor upkeep."
 id: 4BnLpZrK6VxT8MqW
 slug: armor-maintenance-supplies-per-1d
@@ -14,10 +14,10 @@ shortcode: armrsup
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 1
-  weight: 0.05
+    quality: 0
+    durability: 2
+    value: 1
+    weight: 0.05
 folder: FSPVI1eObGEpMVck
 ---
 

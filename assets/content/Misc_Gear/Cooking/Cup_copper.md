@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Cup, copper"
+    - "Cup, copper"
 tags:
-  - cooking
+    - cooking
 name:
-  full: "Cup, copper"
-  aliases: []
+    full: "Cup, copper"
+    aliases: []
 description: "Tinned copper cup; holds warmth well and suits mulled wine or mead."
 id: 0eu7O3hxHABIejw8
 slug: cup-copper
@@ -14,10 +14,10 @@ shortcode: cupcopper
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 3
-  weight: 0
+    quality: 0
+    durability: 3
+    value: 3
+    weight: 0
 folder: 7TT0OzoIoEn40zfs
 ---
 

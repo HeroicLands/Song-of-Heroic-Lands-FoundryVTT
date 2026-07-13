@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Bread, Rye, loaf"
+    - "Bread, Rye, loaf"
 tags:
-  - food
+    - food
 name:
-  full: "Bread, Rye, loaf"
-  aliases: []
+    full: "Bread, Rye, loaf"
+    aliases: []
 description: "Dense dark loaf; stays fresh for days, fills belly, peasant staple."
 id: sJfi6haLhiOvYGrF
 slug: bread-rye-loaf
@@ -14,10 +14,10 @@ shortcode: breadryelo
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.25
-  weight: 1.5
+    quality: 0
+    durability: 0
+    value: 0.25
+    weight: 1.5
 folder: cHM58zOI1EcSG3cP
 ---
 

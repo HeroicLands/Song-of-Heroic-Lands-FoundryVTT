@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Waterskin, 2qt.
+    - Waterskin, 2qt.
 tags: []
 name:
-  full: Waterskin, 2qt.
-  aliases: []
+    full: Waterskin, 2qt.
+    aliases: []
 description: "Pitch-lined hide waterskin with horn plug; essential traveling gear."
 id: DdlmMVb2ldCpGzkk
 slug: waterskin-2qt
@@ -13,11 +13,11 @@ shortcode: wtrskin
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  maxCapacity: 4
-  value: 24
-  weight: 1
+    quality: 0
+    durability: 7
+    maxCapacity: 4
+    value: 24
+    weight: 1
 folder: dl8lJ729W1mFlDvt
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Pan, copper, large"
+    - "Pan, copper, large"
 tags:
-  - cooking
+    - cooking
 name:
-  full: "Pan, copper, large"
-  aliases: []
+    full: "Pan, copper, large"
+    aliases: []
 description: "Wide tinned copper pan with iron handle; fries and sautés multiple portions."
 id: cMBf5wA7ao9oiW3C
 slug: pan-copper-large
@@ -14,10 +14,10 @@ shortcode: pancopperl
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 12
-  weight: 3
+    quality: 0
+    durability: 4
+    value: 12
+    weight: 3
 folder: 7TT0OzoIoEn40zfs
 ---
 

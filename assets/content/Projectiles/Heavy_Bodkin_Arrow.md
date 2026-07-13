@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Heavy Bodkin Arrow
+    - Heavy Bodkin Arrow
 tags: []
 name:
-  full: Heavy Bodkin Arrow
-  alias: []
+    full: Heavy Bodkin Arrow
+    alias: []
 description: "Thick shaft, four-sided iron spike; pierces plate, mail, gambeson up close."
 type: projectilegear
 package: sohl
@@ -14,18 +14,18 @@ shortcode: ArwHBod
 img: icons/arrow.svg
 easyname: Heavy Bodkin
 sohl:
-  subType: arrow
-  quality: 0
-  durability: 10
-  value: 0.22
-  weight: 1.25
-  impact:
-    die: 12
-    modifier: -1
-    aspect: piercing
-  traits:
-    ARvalue: 4
-    bleed: false
+    subType: arrow
+    quality: 0
+    durability: 10
+    value: 0.22
+    weight: 1.25
+    impact:
+        die: 12
+        modifier: -1
+        aspect: piercing
+    traits:
+        ARvalue: 4
+        bleed: false
 folder: ADQPHjgKsdWsJhyy
 ---
 

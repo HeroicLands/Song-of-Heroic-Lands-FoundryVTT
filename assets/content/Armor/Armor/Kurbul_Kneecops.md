@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Kurbul Kneecops
-  - Kûrbúl Kneecops
+    - Kurbul Kneecops
+    - Kûrbúl Kneecops
 tags: []
 name:
-  full: Kûrbúl Kneecops
-  aliases: []
+    full: Kûrbúl Kneecops
+    aliases: []
 description: "Treated leather knee guards with intricate patterns and decorative appeal."
 id: rxgBlijzGyuCLVnT
 slug: kurbul-kneecops
@@ -14,25 +14,25 @@ shortcode: KKnee
 type: armorgear
 package: sohl
 sohl:
-  armorType: Kneecops
-  detailMaterial: Kûrbúl
-  material: Kûrbúl
-  durability: 13
-  value: 15
-  weight: 1.1
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: Rkz7kXTyhjWxw4IH
-  flexloc: []
-  rigidloc:
-    - lkneeloc
-    - rkneeloc
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Kneecops
+    detailMaterial: Kûrbúl
+    material: Kûrbúl
+    durability: 13
+    value: 15
+    weight: 1.1
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: Rkz7kXTyhjWxw4IH
+    flexloc: []
+    rigidloc:
+        - lkneeloc
+        - rkneeloc
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 15
 origWeight: 1.1

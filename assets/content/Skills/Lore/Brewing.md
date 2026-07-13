@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Brewing
-  aliases: []
+    full: Brewing
+    aliases: []
 description: "Producing ales, wines, meads from ingredients; managing fermentation and aging."
 id: dT4YnBxLtCwWErLv
 slug: brewing
@@ -12,13 +12,13 @@ shortcode: brew
 type: skill
 package: sohl
 sohl:
-  subType: lore
-  skillBaseFormula: "@per, @rea"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: lore
+    skillBaseFormula: "@per, @rea"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: QlkEHXbk2EXlRiMM
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Character Creation
+    - Character Creation
 id: 4CFgmDXwKoNvqDB3
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Character Creation"
+    full: "Character Creation"
 slug: sohl-character-creation
 folder: IgwaG8rAUUO9vrtz
 ---

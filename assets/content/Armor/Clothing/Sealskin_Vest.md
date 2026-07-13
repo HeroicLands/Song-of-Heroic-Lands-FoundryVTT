@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Sealskin Vest
+    - Sealskin Vest
 tags: []
 name:
-  full: Sealskin Vest
-  aliases: []
+    full: Sealskin Vest
+    aliases: []
 description: "Water-resistant seal-fur sleeveless vest; core protection from wet."
 id: bHd6JMlG7sxplB53
 slug: sealskin-vest
@@ -13,25 +13,25 @@ shortcode: SlsVest
 type: armorgear
 package: sohl
 sohl:
-  armorType: Vest
-  detailMaterial: Sealskin
-  material: Leather
-  durability: 11
-  value: 288
-  weight: 4.3
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: DfS7gkrvwTbdEAZT
-  flexloc:
-    - thrxloc
-    - abdmnloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Vest
+    detailMaterial: Sealskin
+    material: Leather
+    durability: 11
+    value: 288
+    weight: 4.3
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: DfS7gkrvwTbdEAZT
+    flexloc:
+        - thrxloc
+        - abdmnloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 96
 origWeight: 3.6

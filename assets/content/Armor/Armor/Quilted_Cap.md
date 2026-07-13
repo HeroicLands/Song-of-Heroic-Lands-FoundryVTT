@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Quilted Cap
+    - Quilted Cap
 tags: []
 name:
-  full: Quilted Cap
-  aliases: []
+    full: Quilted Cap
+    aliases: []
 description: "Layered-fabric head-cover; light insulation for mild cold."
 id: S2ouH63cu5NZi7pw
 slug: quilted-cap
@@ -13,24 +13,24 @@ shortcode: QCap
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cap
-  detailMaterial: Quilted
-  material: Quilted
-  durability: 11
-  value: 16
-  weight: 0.7
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: 7ccNd6Xs0ne9nDcy
-  flexloc:
-    - skullloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cap
+    detailMaterial: Quilted
+    material: Quilted
+    durability: 11
+    value: 16
+    weight: 0.7
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: 7ccNd6Xs0ne9nDcy
+    flexloc:
+        - skullloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 16
 origWeight: 0.7

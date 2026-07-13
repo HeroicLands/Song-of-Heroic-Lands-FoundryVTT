@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Woodworking Kit
+    - Woodworking Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Woodworking Kit
-  aliases: []
+    full: Woodworking Kit
+    aliases: []
 description: "Soft leather roll with whittling blades, gouges, chisels, file, mallet; carvers."
 id: GuDymODJFEt6GL0J
 slug: woodworking-kit
@@ -14,10 +14,10 @@ shortcode: woodwrkkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 48
-  weight: 4
+    quality: 0
+    durability: 7
+    value: 48
+    weight: 4
 folder: xniLjmZWYQZkSxyv
 ---
 

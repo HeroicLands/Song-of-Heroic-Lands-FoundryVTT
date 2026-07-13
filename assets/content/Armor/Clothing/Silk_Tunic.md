@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Silk Tunic
+    - Silk Tunic
 tags: []
 name:
-  full: Silk Tunic
-  aliases: []
+    full: Silk Tunic
+    aliases: []
 description: "Elegant silk tunic; luxurious, refined garment for formal occasions."
 id: KSqTNpaxI8pbswSW
 slug: silk-tunic
@@ -13,32 +13,32 @@ shortcode: SlkTunic
 type: armorgear
 package: sohl
 sohl:
-  armorType: Tunic
-  detailMaterial: Silk
-  material: Cloth
-  durability: 7
-  value: 405
-  weight: 1.2
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: bYqq1jhQwyYbzs62
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - lelbloc
-    - relbloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Tunic
+    detailMaterial: Silk
+    material: Cloth
+    durability: 7
+    value: 405
+    weight: 1.2
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: bYqq1jhQwyYbzs62
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - lelbloc
+        - relbloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 45
 origWeight: 2.3

@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Sealskin Cap
+    - Sealskin Cap
 tags: []
 name:
-  full: Sealskin Cap
-  aliases: []
+    full: Sealskin Cap
+    aliases: []
 description: "Water-resistant seal-fur cap; cold and wet climate protection."
 id: 3kemHP0L8lFHBIKZ
 slug: sealskin-cap
@@ -13,24 +13,24 @@ shortcode: SlsCap
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cap
-  detailMaterial: Sealskin
-  material: Leather
-  durability: 11
-  value: 48
-  weight: 0.7
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: hS6fbwUX4cACM4DR
-  flexloc:
-    - skullloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cap
+    detailMaterial: Sealskin
+    material: Leather
+    durability: 11
+    value: 48
+    weight: 0.7
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: hS6fbwUX4cACM4DR
+    flexloc:
+        - skullloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 16
 origWeight: 0.6

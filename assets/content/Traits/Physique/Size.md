@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Size
-  aliases: []
+    full: Size
+    aliases: []
 id: dsxo2zxUpEL1fpte
 slug: size
 img: icons/body-height.svg
@@ -11,79 +11,79 @@ shortcode: siz
 type: trait
 package: sohl
 sohl:
-  subType: physique
-  intensity: trait
-  isNumeric: false
-  textValue: Medium
-  valueDesc: []
-  score:
-    value: 0
-    max: 0
-  sizes:
-    tiny:
-      maxStr: 4
-      lbs: 20
-      zones: 3
-      target: 1
-      reachMod: -2
-      spaces: 0.5
-      feet: 2
-    small:
-      maxStr: 8
-      lbs: 100
-      zones: 6
-      target: 1
-      reachMod: -1
-      spaces: 1
-      feet: 4
-    medium:
-      maxStr: 19
-      lbs: 400
-      zones: 10
-      target: 1
-      reachMod: 0
-      spaces: 1
-      feet: 5
-    large:
-      maxStr: 29
-      lbs: 800
-      zones: 16
-      target: 2
-      reachMod: 1
-      spaces: 1
-      feet: 6
-    big:
-      maxStr: 39
-      lbs: 1600
-      zones: 20
-      target: 2
-      reachMod: 1
-      spaces: 2
-      feet: 7
-    huge:
-      maxStr: 49
-      lbs: 3200
-      zones: 30
-      target: 3
-      reachMod: 2
-      spaces: 2
-      feet: 9
-    colossal:
-      maxStr: 59
-      lbs: 6400
-      zones: 40
-      target: 4
-      reachMod: 4
-      spaces: 2
-      feet: 10
-    titanic:
-      maxStr: 69
-      lbs: 12800
-      zones: 80
-      target: 8
-      reachMod: 6
-      spaces: 3
-      feet: 15
+    subType: physique
+    intensity: trait
+    isNumeric: false
+    textValue: Medium
+    valueDesc: []
+    score:
+        value: 0
+        max: 0
+    sizes:
+        tiny:
+            maxStr: 4
+            lbs: 20
+            zones: 3
+            target: 1
+            reachMod: -2
+            spaces: 0.5
+            feet: 2
+        small:
+            maxStr: 8
+            lbs: 100
+            zones: 6
+            target: 1
+            reachMod: -1
+            spaces: 1
+            feet: 4
+        medium:
+            maxStr: 19
+            lbs: 400
+            zones: 10
+            target: 1
+            reachMod: 0
+            spaces: 1
+            feet: 5
+        large:
+            maxStr: 29
+            lbs: 800
+            zones: 16
+            target: 2
+            reachMod: 1
+            spaces: 1
+            feet: 6
+        big:
+            maxStr: 39
+            lbs: 1600
+            zones: 20
+            target: 2
+            reachMod: 1
+            spaces: 2
+            feet: 7
+        huge:
+            maxStr: 49
+            lbs: 3200
+            zones: 30
+            target: 3
+            reachMod: 2
+            spaces: 2
+            feet: 9
+        colossal:
+            maxStr: 59
+            lbs: 6400
+            zones: 40
+            target: 4
+            reachMod: 4
+            spaces: 2
+            feet: 10
+        titanic:
+            maxStr: 69
+            lbs: 12800
+            zones: 80
+            target: 8
+            reachMod: 6
+            spaces: 3
+            feet: 15
 folder: 4h8qyMcGHlkrfN1g
 ---
 

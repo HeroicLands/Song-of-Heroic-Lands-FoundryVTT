@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Book, Base"
+    - "Book, Base"
 tags:
-  - scribe
+    - scribe
 name:
-  full: "Book, Base"
-  aliases: []
+    full: "Book, Base"
+    aliases: []
 description: "Unbound quires with oak boards and bronze clasps; ready for binding."
 id: xQyXSl0EeqYgWSUf
 slug: book-base
@@ -14,10 +14,10 @@ shortcode: bookbase
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 5
-  value: 10
-  weight: 1
+    quality: 0
+    durability: 5
+    value: 10
+    weight: 1
 folder: BYkA5NDQxTXDvsAC
 ---
 

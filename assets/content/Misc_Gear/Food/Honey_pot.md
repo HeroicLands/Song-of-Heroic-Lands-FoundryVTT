@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Honey, pot"
+    - "Honey, pot"
 tags:
-  - food
+    - food
 name:
-  full: "Honey, pot"
-  aliases: []
+    full: "Honey, pot"
+    aliases: []
 description: "Gallon pot of honey; winter household supply or merchant trade good."
 id: 63s8ziyme1POrK7Z
 slug: honey-pot
@@ -14,10 +14,10 @@ shortcode: honeypot
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 12
-  weight: 12
+    quality: 0
+    durability: 0
+    value: 12
+    weight: 12
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Belt, Waist"
+    - "Belt, Waist"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Belt, Waist"
-  aliases: []
+    full: "Belt, Waist"
+    aliases: []
 description: "Leather waist belt with buckle; universal for suspending pouches, tools, and weapons."
 id: YpwRpenlRAAnVZtP
 slug: belt-waist
@@ -14,10 +14,10 @@ shortcode: beltwaist
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 8
-  weight: 1
+    quality: 0
+    durability: 8
+    value: 8
+    weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

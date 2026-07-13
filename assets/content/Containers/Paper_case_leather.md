@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Paper case, leather"
+    - "Paper case, leather"
 tags: []
 name:
-  full: "Paper case, leather"
-  aliases: []
+    full: "Paper case, leather"
+    aliases: []
 description: "Waxed leather tube for carrying folded documents and parchment safely."
 id: IiqQkYKogafRFC5r
 slug: paper-case-leather
@@ -13,11 +13,11 @@ shortcode: papercasel
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  maxCapacity: 0.5
-  value: 60
-  weight: 0.9
+    quality: 0
+    durability: 8
+    maxCapacity: 0.5
+    value: 60
+    weight: 0.9
 folder: dl8lJ729W1mFlDvt
 ---
 

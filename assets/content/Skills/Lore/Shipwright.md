@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Shipwright
-  aliases: []
+    full: Shipwright
+    aliases: []
 description: "Designing and constructing watercraft from materials and structural principles."
 id: UalHN03Mhr6glT3r
 slug: shipwright
@@ -12,13 +12,13 @@ shortcode: shpw
 type: skill
 package: sohl
 sohl:
-  subType: lore
-  skillBaseFormula: "@rea, @cre"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: lore
+    skillBaseFormula: "@rea, @cre"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: QlkEHXbk2EXlRiMM
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Cooking Kit
+    - Cooking Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Cooking Kit
-  aliases: []
+    full: Cooking Kit
+    aliases: []
 description: "Oiled-leather satchel holding iron pans, spoons, knife, grater, ladle for field cooking."
 id: lWHa1M3WfcW73Eom
 slug: cooking-kit
@@ -14,10 +14,10 @@ shortcode: cookkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 40
-  weight: 6
+    quality: 0
+    durability: 7
+    value: 40
+    weight: 6
 folder: xniLjmZWYQZkSxyv
 ---
 

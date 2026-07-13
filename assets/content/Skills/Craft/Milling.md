@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Milling
-  aliases: []
+    full: Milling
+    aliases: []
 description: "Processing grain into flour and meal using mill mechanics and stone-dressing."
 id: n4lzgjjiF2762IcU
 slug: milling
@@ -12,13 +12,13 @@ shortcode: mill
 type: skill
 package: sohl
 sohl:
-  subType: craft
-  skillBaseFormula: "@per, @str"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: craft
+    skillBaseFormula: "@per, @str"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: gqRvjlrWbuCwGy3N
 ---
 

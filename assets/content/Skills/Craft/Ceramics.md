@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Ceramics
-  aliases: []
+    full: Ceramics
+    aliases: []
 description: "Shaping clay into durable pots, bowls, tiles, bricks, and sculpture."
 id: kZYgzXpACwVlWCzL
 slug: ceramics
@@ -12,13 +12,13 @@ shortcode: cmcs
 type: skill
 package: sohl
 sohl:
-  subType: craft
-  skillBaseFormula: "@dex, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: craft
+    skillBaseFormula: "@dex, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: gqRvjlrWbuCwGy3N
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Jar, lidded, medium"
+    - "Jar, lidded, medium"
 tags: []
 name:
-  full: "Jar, lidded, medium"
-  aliases: []
+    full: "Jar, lidded, medium"
+    aliases: []
 description: "Stoneware jar for household storage of honey, jam, oil, or salt."
 id: 8VXvYrYf19amZ26S
 slug: jar-lidded-medium
@@ -13,11 +13,11 @@ shortcode: jarliddedm
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  maxCapacity: 2
-  value: 5
-  weight: 2.8
+    quality: 0
+    durability: 3
+    maxCapacity: 2
+    value: 5
+    weight: 2.8
 folder: dl8lJ729W1mFlDvt
 ---
 

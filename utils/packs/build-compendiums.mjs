@@ -16,9 +16,9 @@
  *
  * Wraps `@foundryvtt/foundryvtt-cli` behind a yargs `package <action>`
  * command over the `items`, `journals`, and `actors` packs:
- *   - compile: builds LevelDB at `build/stage/packs/<name>/` from each pack's
- *     committed `assets/packs/<name>/_source/` tree (produced by
- *     `npm run packs:export`); no vault access needed.
+ *   - compile: generates each pack's per-entry JSON from the `assets/content/`
+ *     Markdown into `build/packs-json/<name>/` (via generate.mjs), then builds
+ *     LevelDB at `build/stage/packs/<name>/` from it; no committed JSON, no vault.
  *   - unpack: extracts `build/stage/packs/<name>/` back to per-entry JSON
  *     under `build/tmp/packs/<name>/`, rebuilding folder paths.
  *   - clean: normalizes/strips committed JSON under `build/tmp/packs/`.
@@ -40,17 +40,15 @@ import path from "path";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { compilePack, extractPack } from "@foundryvtt/foundryvtt-cli";
+import { generatePacksJson, packJsonDir } from "./generate.mjs";
 
 /**
- * Packs that compile from a committed per-entry JSON tree. Each entry's
- * `_source/` directory is produced by `npm run packs:export` and consumed
- * directly here — no vault access is needed during compile.
+ * Packs compiled from the authoritative `assets/content/` Markdown. Each pack's
+ * per-entry JSON is generated into a build-only intermediate
+ * (`build/packs-json/<name>/`) and compiled to LevelDB from there — no committed
+ * JSON and no vault access.
  */
 const SOURCE_PACKS = ["items", "journals", "actors"];
-
-/** Root of each pack's committed `_source/` tree. */
-const PACK_SOURCE_DIR = (name) =>
-    path.resolve(`./assets/packs/${name}/_source`);
 
 /** Where `unpack` writes extracted JSON, and where `clean` operates. */
 const PACK_DEST = path.resolve("./build/tmp/packs");
@@ -122,24 +120,29 @@ function packageCommand() {
 /* ----------------------------------------- */
 
 /**
- * Builds the LevelDB output for each pack from its committed `_source`
- * tree (produced by `npm run packs:export`). No vault access is needed
- * here. Destination: `build/stage/packs/<name>/`.
+ * Generates each pack's per-entry JSON from `assets/content/` into
+ * `build/packs-json/<name>/`, then builds the LevelDB output from it. No
+ * committed JSON and no vault access. Destination: `build/stage/packs/<name>/`.
  */
 async function compilePacks(packName) {
     const packNames = SOURCE_PACKS.filter(
         (name) => !packName || name === packName,
     );
 
+    // Generate the per-entry JSON from assets/content/ into build/packs-json/.
+    const errors = await generatePacksJson({ only: packName });
+    if (errors > 0) {
+        log.error(
+            `Pack JSON generation reported ${errors} error(s); compiled packs may be incomplete.`,
+        );
+    }
+
     for (const name of packNames) {
-        const source = PACK_SOURCE_DIR(name);
+        const source = packJsonDir(name);
         if (!fs.existsSync(source)) {
-            log.error(
-                `Pack ${name}: _source/ not found at ${source}. Run 'npm run packs:export' first.`,
-            );
+            log.error(`Pack ${name}: generated JSON not found at ${source}.`);
             continue;
         }
-        log.info(`Pack ${name}: using committed _source tree`);
 
         const stage = path.join(STAGE_DEST, name);
         log.info(`Pack ${name}: compiling to LevelDB at ${stage}`);

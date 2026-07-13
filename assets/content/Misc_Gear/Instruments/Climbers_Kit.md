@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Climber's Kit
+    - Climber's Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Climber's Kit
-  aliases: []
+    full: Climber's Kit
+    aliases: []
 description: "Harness, climbing hammer, chalk, padded gloves, knee & elbow pads; the climber's working gear (pitons and grappling hook bought separately)."
 id: 9VrPm2KnXqY6TwLc
 slug: climbers-kit
@@ -14,10 +14,10 @@ shortcode: climbkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 6
-  value: 15
-  weight: 5
+    quality: 0
+    durability: 6
+    value: 15
+    weight: 5
 folder: xniLjmZWYQZkSxyv
 ---
 

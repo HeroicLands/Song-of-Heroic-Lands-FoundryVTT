@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Book, Travelling"
+    - "Book, Travelling"
 tags:
-  - scribe
+    - scribe
 name:
-  full: "Book, Travelling"
-  aliases: []
+    full: "Book, Travelling"
+    aliases: []
 description: "Wooden-bound parchment workbook; scribes, sages, herbalists carry afield."
 id: Bk7rTvMpXn2aQwLs
 slug: book-travelling
@@ -14,10 +14,10 @@ shortcode: booktrvl
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 80
-  weight: 4
+    quality: 0
+    durability: 4
+    value: 80
+    weight: 4
 folder: BYkA5NDQxTXDvsAC
 ---
 

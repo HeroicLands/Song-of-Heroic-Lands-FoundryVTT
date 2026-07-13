@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Homespun Cloak
+    - Homespun Cloak
 tags: []
 name:
-  full: Homespun Cloak
-  aliases: []
+    full: Homespun Cloak
+    aliases: []
 description: "Practical homemade cloak providing basic weather protection."
 id: eRNAiiapC0nSyulD
 slug: homespun-cloak
@@ -13,29 +13,29 @@ shortcode: HsClk
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cloak
-  detailMaterial: Homespun
-  material: Cloth
-  durability: 5
-  value: 20
-  weight: 0.8
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: DPIUnoTJzxDeZwII
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - thrxloc
-    - abdmnloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cloak
+    detailMaterial: Homespun
+    material: Cloth
+    durability: 5
+    value: 20
+    weight: 0.8
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: DPIUnoTJzxDeZwII
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - thrxloc
+        - abdmnloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 66
 origWeight: 3.3

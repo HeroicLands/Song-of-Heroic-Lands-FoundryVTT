@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Worsted Swaddle
+    - Worsted Swaddle
 tags: []
 name:
-  full: Worsted Swaddle
-  aliases: []
+    full: Worsted Swaddle
+    aliases: []
 description: "Tightly-spun wool swaddle; warm, durable infant wrapping."
 id: jyRw6Eak0pvOYHj3
 slug: worsted-swaddle
@@ -13,27 +13,27 @@ shortcode: WSwd
 type: armorgear
 package: sohl
 sohl:
-  armorType: Swaddle
-  detailMaterial: Worsted
-  material: Cloth
-  durability: 9
-  value: 46
-  weight: 0.8
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: JbpwklJs7Eq8fqpy
-  flexloc:
-    - lcalfloc
-    - rcalfloc
-    - lfootloc
-    - rfootloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Swaddle
+    detailMaterial: Worsted
+    material: Cloth
+    durability: 9
+    value: 46
+    weight: 0.8
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: JbpwklJs7Eq8fqpy
+    flexloc:
+        - lcalfloc
+        - rcalfloc
+        - lfootloc
+        - rfootloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 19
 origWeight: 1

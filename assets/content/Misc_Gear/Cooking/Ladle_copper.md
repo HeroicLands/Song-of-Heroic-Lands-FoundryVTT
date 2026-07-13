@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Ladle, copper"
+    - "Ladle, copper"
 tags:
-  - cooking
+    - cooking
 name:
-  full: "Ladle, copper"
-  aliases: []
+    full: "Ladle, copper"
+    aliases: []
 description: "Tinned copper ladle with long handle; serves hot liquids from cauldron safely."
 id: AziVH9Mv7xTnjLYb
 slug: ladle-copper
@@ -14,10 +14,10 @@ shortcode: ladlecoppe
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 5
-  value: 4
-  weight: 2
+    quality: 0
+    durability: 5
+    value: 4
+    weight: 2
 folder: 7TT0OzoIoEn40zfs
 ---
 

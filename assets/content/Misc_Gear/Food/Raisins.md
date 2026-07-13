@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Raisins
+    - Raisins
 tags:
-  - food
+    - food
 name:
-  full: Raisins
-  aliases: []
+    full: Raisins
+    aliases: []
 description: "Dried grapes, chewy and portable, quick energy for soldiers and travelers."
 id: zxzQQo6rmeokvMNq
 slug: raisins
@@ -14,10 +14,10 @@ shortcode: raisins
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1.5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 1.5
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

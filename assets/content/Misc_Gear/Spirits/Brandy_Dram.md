@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Brandy, Dram"
+    - "Brandy, Dram"
 tags:
-  - spirits
+    - spirits
 name:
-  full: "Brandy, Dram"
-  aliases: []
+    full: "Brandy, Dram"
+    aliases: []
 description: "Clear fiery distilled spirit; warms chest on winter roads, steadies trembling hands."
 id: ocYLaHpThqOn8DFc
 slug: brandy-dram
@@ -14,10 +14,10 @@ shortcode: brdydrm
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.5
-  weight: 0.1
+    quality: 0
+    durability: 0
+    value: 0.5
+    weight: 0.1
 folder: jLdeIpOIZokm8obv
 ---
 

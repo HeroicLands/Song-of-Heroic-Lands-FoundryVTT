@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Musician
-  aliases: []
+    full: Musician
+    aliases: []
 description: "Playing various instruments with technical facility and musical interpretation."
 id: qXqSLyV8VRxs6p8o
 slug: musician
@@ -12,13 +12,13 @@ shortcode: musc
 type: skill
 package: sohl
 sohl:
-  subType: craft
-  skillBaseFormula: "@per, @cre"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: craft
+    skillBaseFormula: "@per, @cre"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: gqRvjlrWbuCwGy3N
 ---
 

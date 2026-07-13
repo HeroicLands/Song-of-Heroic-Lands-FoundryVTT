@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Calf"
+    - "Hide, Calf"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Calf"
-  aliases: []
+    full: "Hide, Calf"
+    aliases: []
 description: "Young bovine hide, soft and thin; fine leather for gloves, saddle linings."
 id: 8Bf4H11gMrKArnyf
 slug: hide-calf
@@ -14,10 +14,10 @@ shortcode: hidecalf
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 16
-  weight: 9.5
+    quality: 0
+    durability: 3
+    value: 16
+    weight: 9.5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

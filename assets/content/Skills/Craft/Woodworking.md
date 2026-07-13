@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Woodworking
-  aliases: []
+    full: Woodworking
+    aliases: []
 description: "Shaping timber into furniture, tools, carts, and decorative carvings."
 id: sOVLNMohekLbnHs7
 slug: woodworking
@@ -12,13 +12,13 @@ shortcode: wood
 type: skill
 package: sohl
 sohl:
-  subType: craft
-  skillBaseFormula: "@dex, @str"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: craft
+    skillBaseFormula: "@dex, @str"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: gqRvjlrWbuCwGy3N
 ---
 

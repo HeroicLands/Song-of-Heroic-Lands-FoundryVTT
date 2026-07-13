@@ -5,7 +5,7 @@ type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Using Compendiums"
+    full: "Using Compendiums"
 slug: "using-compendiums"
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -30,6 +30,7 @@ Each Being comes fully equipped with traits, skills, body structure, and
 sometimes gear.
 
 **Key entries:**
+
 - **Basic Folk** — a template human character suitable for duplication and
   customization. Start here when creating new player characters.
 
@@ -80,16 +81,19 @@ Contains reference documentation, including this user guide.
 There are several ways to get compendium content into your world:
 
 **Drag and drop** (most common):
+
 - Drag an entry from the compendium directly onto the appropriate sidebar
   tab (Actors, Items) or onto an actor's sheet.
 - The entry is copied into your world. Changes to your copy don't affect
   the compendium original.
 
 **Right-click import:**
+
 - Right-click an entry in the compendium and select "Import."
 - The entry appears in the appropriate sidebar tab.
 
 **Bulk import:**
+
 - In a compendium pack, click the "Import All" button to import everything
   at once. Use this sparingly — it can create a lot of entries.
 

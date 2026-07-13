@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Boomerang
-  aliases: []
+    full: Boomerang
+    aliases: []
 description: "Throwing curved wooden sticks for hunting and warfare, with returning and non-returning variants."
 id: 6voErmIN8eAsY7Fg
 slug: boomerang
@@ -12,13 +12,13 @@ shortcode: bmrng
 type: skill
 package: sohl
 sohl:
-  subType: combat
-  skillBaseFormula: "@dex, @per"
-  combatCategory: missile
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: combat
+    skillBaseFormula: "@dex, @per"
+    combatCategory: missile
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: EphAMAfFhWBrJxyF
 ---
 

@@ -51,7 +51,8 @@ const hasExport = (file) => /^export /m.test(fs.readFileSync(file, "utf8"));
  * A dedicated tag (not `@internal`, which appears on individual members of
  * otherwise-public files) so the exemption is deliberate and file-scoped.
  */
-const isExcluded = (file) => /@ns-exclude\b/.test(fs.readFileSync(file, "utf8"));
+const isExcluded = (file) =>
+    /@ns-exclude\b/.test(fs.readFileSync(file, "utf8"));
 
 /** A file that belongs in its folder's barrel: exporting, and not `@ns-exclude`. */
 const isNamespaceModule = (file) => hasExport(file) && !isExcluded(file);

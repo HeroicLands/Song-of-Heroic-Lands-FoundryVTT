@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Trap, hunting, small"
+    - "Trap, hunting, small"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Trap, hunting, small"
-  aliases: []
+    full: "Trap, hunting, small"
+    aliases: []
 description: "Compact gin-trap for rabbit and hare; sets a dozen along warren paths."
 id: zVDkeOdVwusJbZCU
 slug: trap-hunting-small
@@ -14,10 +14,10 @@ shortcode: traphuntin2
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 30
-  weight: 2
+    quality: 0
+    durability: 8
+    value: 30
+    weight: 2
 folder: FSPVI1eObGEpMVck
 ---
 

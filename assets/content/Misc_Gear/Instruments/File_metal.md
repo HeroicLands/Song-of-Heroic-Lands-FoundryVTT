@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "File, metal"
+    - "File, metal"
 tags:
-  - instruments
+    - instruments
 name:
-  full: "File, metal"
-  aliases: []
+    full: "File, metal"
+    aliases: []
 description: "Broad coarse-toothed steel file hafted in wood; blacksmiths use to true edges."
 id: kgXTkcfigYmV4RR5
 slug: file-metal
@@ -14,10 +14,10 @@ shortcode: filemetal
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 15
-  weight: 0.75
+    quality: 0
+    durability: 8
+    value: 15
+    weight: 0.75
 folder: xniLjmZWYQZkSxyv
 ---
 

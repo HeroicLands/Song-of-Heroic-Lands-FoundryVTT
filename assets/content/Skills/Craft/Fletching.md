@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Fletching
-  aliases: []
+    full: Fletching
+    aliases: []
 description: "Crafting bows, crossbows, arrows; producing reliable or masterwork projectile weapons."
 id: tXcVbkB8qJsiBENc
 slug: fletching
@@ -12,13 +12,13 @@ shortcode: fltch
 type: skill
 package: sohl
 sohl:
-  subType: craft
-  skillBaseFormula: "@dex, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: craft
+    skillBaseFormula: "@dex, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: gqRvjlrWbuCwGy3N
 ---
 

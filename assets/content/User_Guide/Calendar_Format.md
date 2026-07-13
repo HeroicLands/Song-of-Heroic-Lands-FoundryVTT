@@ -5,7 +5,7 @@ type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Calendar JSON Format"
+    full: "Calendar JSON Format"
 slug: "calendar-format"
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -81,59 +81,59 @@ described below. All fields are required unless marked as optional.
 
 ## Top Level
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `name` | string | **Required.** Display name of the calendar. Also used to generate a unique ID when importing. |
-| `description` | string | A short description of the calendar. |
+| Field         | Type   | Description                                                                                   |
+| ------------- | ------ | --------------------------------------------------------------------------------------------- |
+| `name`        | string | **Required.** Display name of the calendar. Also used to generate a unique ID when importing. |
+| `description` | string | A short description of the calendar.                                                          |
 
 ## Years
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `yearZero` | integer | The year that corresponds to time zero in Foundry's world clock. For example, if your campaign starts in year 720, set this to 720. |
-| `firstWeekday` | integer | Index into the `days.values` array for the weekday at time zero (0-based). |
+| Field          | Type    | Description                                                                                                                         |
+| -------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `yearZero`     | integer | The year that corresponds to time zero in Foundry's world clock. For example, if your campaign starts in year 720, set this to 720. |
+| `firstWeekday` | integer | Index into the `days.values` array for the weekday at time zero (0-based).                                                          |
 
 ## Months
 
 The `months.values` array contains one entry per month in the calendar year.
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `name` | string | Full name of the month (e.g., "Springtide"). |
-| `abbreviation` | string | Short abbreviation (e.g., "Spr"). |
-| `ordinal` | integer | The month's position in the year (1-based). |
-| `days` | integer | Number of days in this month. |
-| `leapDays` | integer | *(Optional)* Extra days added in a leap year. |
+| Field          | Type    | Description                                   |
+| -------------- | ------- | --------------------------------------------- |
+| `name`         | string  | Full name of the month (e.g., "Springtide").  |
+| `abbreviation` | string  | Short abbreviation (e.g., "Spr").             |
+| `ordinal`      | integer | The month's position in the year (1-based).   |
+| `days`         | integer | Number of days in this month.                 |
+| `leapDays`     | integer | _(Optional)_ Extra days added in a leap year. |
 
 ## Days
 
 The `days` object configures the structure of a day and the names of weekdays.
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `daysPerYear` | integer | Total days in a non-leap year. Must equal the sum of all month `days` values. |
-| `hoursPerDay` | integer | Hours in a day (typically 24). |
-| `minutesPerHour` | integer | Minutes in an hour (typically 60). |
-| `secondsPerMinute` | integer | Seconds in a minute (typically 60). |
+| Field              | Type    | Description                                                                   |
+| ------------------ | ------- | ----------------------------------------------------------------------------- |
+| `daysPerYear`      | integer | Total days in a non-leap year. Must equal the sum of all month `days` values. |
+| `hoursPerDay`      | integer | Hours in a day (typically 24).                                                |
+| `minutesPerHour`   | integer | Minutes in an hour (typically 60).                                            |
+| `secondsPerMinute` | integer | Seconds in a minute (typically 60).                                           |
 
 The `days.values` array contains one entry per weekday. The number of entries
 defines the length of a week.
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `name` | string | Full name of the weekday (e.g., "Monday"). |
-| `abbreviation` | string | Short abbreviation (e.g., "Mon"). |
-| `ordinal` | integer | The weekday's position in the week (1-based). |
+| Field          | Type    | Description                                   |
+| -------------- | ------- | --------------------------------------------- |
+| `name`         | string  | Full name of the weekday (e.g., "Monday").    |
+| `abbreviation` | string  | Short abbreviation (e.g., "Mon").             |
+| `ordinal`      | integer | The weekday's position in the week (1-based). |
 
 ## Seasons
 
 The `seasons.values` array contains one entry per season.
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `name` | string | Name of the season (e.g., "Spring"). |
+| Field        | Type    | Description                                |
+| ------------ | ------- | ------------------------------------------ |
+| `name`       | string  | Name of the season (e.g., "Spring").       |
 | `monthStart` | integer | Ordinal of the first month in this season. |
-| `monthEnd` | integer | Ordinal of the last month in this season. |
+| `monthEnd`   | integer | Ordinal of the last month in this season.  |
 
 ## Era (SoHL Extension)
 
@@ -141,11 +141,11 @@ The `era` object is a SoHL-specific extension that adds era-based dating
 (e.g., "720 CE" or "51 BCE"). This section is optional; if omitted, dates
 display as plain year numbers.
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `hasYearZero` | boolean | Whether year zero exists between the eras. If false, the calendar goes from 1 BCE directly to 1 CE. |
-| `name` | string | Name of the current era (e.g., "Common Era"). |
-| `abbrev` | string | Abbreviation appended to dates (e.g., "CE"). |
-| `beforeName` | string | Name of the era before year zero. |
-| `beforeAbbrev` | string | Abbreviation for the before-era (e.g., "BCE"). |
-| `description` | string | Optional description of the era system. |
+| Field          | Type    | Description                                                                                         |
+| -------------- | ------- | --------------------------------------------------------------------------------------------------- |
+| `hasYearZero`  | boolean | Whether year zero exists between the eras. If false, the calendar goes from 1 BCE directly to 1 CE. |
+| `name`         | string  | Name of the current era (e.g., "Common Era").                                                       |
+| `abbrev`       | string  | Abbreviation appended to dates (e.g., "CE").                                                        |
+| `beforeName`   | string  | Name of the era before year zero.                                                                   |
+| `beforeAbbrev` | string  | Abbreviation for the before-era (e.g., "BCE").                                                      |
+| `description`  | string  | Optional description of the era system.                                                             |

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Pipe weed
+    - Pipe weed
 tags:
-  - expedition
+    - expedition
 name:
-  full: Pipe weed
-  aliases: []
+    full: Pipe weed
+    aliases: []
 description: "Dried tobacco leaf for smoking; eases fatigue and steadies nerves."
 id: LaLxhFGI7ZKf8ZFk
 slug: pipe-weed
@@ -14,10 +14,10 @@ shortcode: pipewd
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 2
-  weight: 0.0625
+    quality: 0
+    durability: 0
+    value: 2
+    weight: 0.0625
 folder: FSPVI1eObGEpMVck
 ---
 

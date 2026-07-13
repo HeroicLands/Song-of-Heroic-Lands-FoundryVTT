@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Tea
+    - Tea
 tags:
-  - food
+    - food
 name:
-  full: Tea
-  aliases: []
+    full: Tea
+    aliases: []
 description: "Distant leaf brew stretched across days, sharpens mind and warms."
 id: u3DAdDAB5ewXYTBe
 slug: tea
@@ -14,10 +14,10 @@ shortcode: tea
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 35
-  weight: 0.0625
+    quality: 0
+    durability: 0
+    value: 35
+    weight: 0.0625
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Anchovies
+    - Anchovies
 tags:
-  - food
+    - food
 name:
-  full: Anchovies
-  aliases: []
+    full: Anchovies
+    aliases: []
 description: "Salt-packed small fish; intense savory depth, travels well in sealed jars."
 id: Tlb6GviyUstyYlln
 slug: anchovies
@@ -14,10 +14,10 @@ shortcode: anchovies
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 0.25
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 0.25
 folder: cHM58zOI1EcSG3cP
 ---
 

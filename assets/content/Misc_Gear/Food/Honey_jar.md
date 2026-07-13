@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Honey, jar"
+    - "Honey, jar"
 tags:
-  - food
+    - food
 name:
-  full: "Honey, jar"
-  aliases: []
+    full: "Honey, jar"
+    aliases: []
 description: "Golden honey sealed in clay jar; sweetens porridge and mead, keeps years."
 id: XmngK76CKQYqfoyQ
 slug: honey-jar
@@ -14,10 +14,10 @@ shortcode: honeyjar
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 2
-  weight: 2
+    quality: 0
+    durability: 0
+    value: 2
+    weight: 2
 folder: cHM58zOI1EcSG3cP
 ---
 

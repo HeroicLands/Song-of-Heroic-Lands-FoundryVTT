@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Mead, Pint"
+    - "Mead, Pint"
 tags:
-  - spirits
+    - spirits
 name:
-  full: "Mead, Pint"
-  aliases: []
+    full: "Mead, Pint"
+    aliases: []
 description: "Sweet warming honey mead; festival drink at harvest feasts, noble celebrations."
 id: TFV1IEeZuCdQqYwn
 slug: mead-pint
@@ -14,10 +14,10 @@ shortcode: mdpt
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.5
+    weight: 1
 folder: jLdeIpOIZokm8obv
 ---
 

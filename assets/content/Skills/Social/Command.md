@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Command
-  aliases: []
+    full: Command
+    aliases: []
 description: "Compelling obedience through authority, intimidation, and commanding presence."
 id: uDJwA2LHQXHhHr6p
 slug: command
@@ -12,13 +12,13 @@ shortcode: cmd
 type: skill
 package: sohl
 sohl:
-  subType: social
-  skillBaseFormula: "@wil, @elo"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 2
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: social
+    skillBaseFormula: "@wil, @elo"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 2
+    masteryLevelBase: 0
+    improveFlag: false
 folder: JBr2U30FsJTs8F3l
 ---
 

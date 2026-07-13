@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Pork
+    - Pork
 tags:
-  - food
+    - food
 name:
-  full: Pork
-  aliases: []
+    full: Pork
+    aliases: []
 description: "Fatty rich swine meat, salts and smokes excellently, garrison staple."
 id: AOEc2gGEhSc9mdMD
 slug: pork
@@ -14,10 +14,10 @@ shortcode: pork
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1.5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 1.5
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

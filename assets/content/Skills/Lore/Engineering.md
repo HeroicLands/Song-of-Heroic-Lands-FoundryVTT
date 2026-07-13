@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Engineering
-  aliases: []
+    full: Engineering
+    aliases: []
 description: "Designing bridges, mills, siegeworks; managing stress, leverage, materials."
 id: Fip584W95bPFEJUp
 slug: engineering
@@ -12,13 +12,13 @@ shortcode: eng
 type: skill
 package: sohl
 sohl:
-  subType: lore
-  skillBaseFormula: "@rea, @cre"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: lore
+    skillBaseFormula: "@rea, @cre"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: QlkEHXbk2EXlRiMM
 ---
 

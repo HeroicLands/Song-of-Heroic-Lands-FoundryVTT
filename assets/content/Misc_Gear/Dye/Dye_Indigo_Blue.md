@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Dye, Indigo Blue"
+    - "Dye, Indigo Blue"
 tags:
-  - clothing
+    - clothing
 name:
-  full: "Dye, Indigo Blue"
-  aliases: []
+    full: "Dye, Indigo Blue"
+    aliases: []
 description: "Precious indigo powder; rich permanent blue for wealthy merchants and court dyers."
 id: Y0BF78mLQOPaL0Gy
 slug: dye-indigo-blue
@@ -14,10 +14,10 @@ shortcode: dyeindg
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 1
-  value: 54
-  weight: 0.0625
+    quality: 0
+    durability: 1
+    value: 54
+    weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Tarotry
-  aliases: []
+    full: Tarotry
+    aliases: []
 description: "Divining hidden truths through the reading of cards and symbolic tokens."
 id: V9Jm2BeuyksJEC4l
 slug: tarotry
@@ -12,15 +12,15 @@ shortcode: tarot
 type: mysticalability
 package: sohl
 sohl:
-  subType: divination
-  assocSkillCode: ""
-  assocMysteryCode: ""
-  levelBase: 0
-  masteryLevelBase: 0
-  charges:
-    usesCharges: false
-    value: 0
-    max: 0
+    subType: divination
+    assocSkillCode: ""
+    assocMysteryCode: ""
+    levelBase: 0
+    masteryLevelBase: 0
+    charges:
+        usesCharges: false
+        value: 0
+        max: 0
 folder: gpLM4ElXNiI1rN7l
 ---
 

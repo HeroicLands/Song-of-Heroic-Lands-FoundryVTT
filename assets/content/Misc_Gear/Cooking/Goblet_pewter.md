@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Goblet, pewter"
+    - "Goblet, pewter"
 tags:
-  - cooking
+    - cooking
 name:
-  full: "Goblet, pewter"
-  aliases: []
+    full: "Goblet, pewter"
+    aliases: []
 description: "Stemmed pewter goblet for merchants and minor lords' formal tables."
 id: OIUZGYmK00JkimJg
 slug: goblet-pewter
@@ -14,10 +14,10 @@ shortcode: gobletpewt
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 3
-  weight: 1
+    quality: 0
+    durability: 3
+    value: 3
+    weight: 1
 folder: 7TT0OzoIoEn40zfs
 ---
 

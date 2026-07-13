@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Wheat
+    - Wheat
 tags:
-  - food
+    - food
 name:
-  full: Wheat
-  aliases: []
+    full: Wheat
+    aliases: []
 description: "Golden grain for fine bread and pastries, stores years when sealed."
 id: HmvHlccIISdvx35B
 slug: wheat
@@ -14,10 +14,10 @@ shortcode: wheat
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 8
-  weight: 60
+    quality: 0
+    durability: 0
+    value: 8
+    weight: 60
 folder: cHM58zOI1EcSG3cP
 ---
 

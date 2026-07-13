@@ -5,7 +5,7 @@ type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Combat Basics"
+    full: "Combat Basics"
 slug: "combat-basics"
 folder: IgwaG8rAUUO9vrtz
 ---
@@ -21,12 +21,12 @@ even a short fight can eat up a lot of table time.
 
 SoHL gives you **two ways to run combat**, and you can freely mix them:
 
-| | **Assisted Combat** | **Automated Combat** |
-| --- | --- | --- |
-| What it does | Makes the individual **rolls** for you, with all weapon modifiers applied | Runs the whole **exchange** as a guided workflow |
-| Opinion | None — rolls anytime | Highly opinionated — drives the sequence |
-| Needs a combat encounter? | No | Yes |
-| Best for | Theatre of the Mind, one-off rolls, edge cases | Standard tactical fights |
+|                           | **Assisted Combat**                                                       | **Automated Combat**                             |
+| ------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------ |
+| What it does              | Makes the individual **rolls** for you, with all weapon modifiers applied | Runs the whole **exchange** as a guided workflow |
+| Opinion                   | None — rolls anytime                                                      | Highly opinionated — drives the sequence         |
+| Needs a combat encounter? | No                                                                        | Yes                                              |
+| Best for                  | Theatre of the Mind, one-off rolls, edge cases                            | Standard tactical fights                         |
 
 Both modes use the **same underlying rules and the same dice** — they differ
 only in how much of the sequence the system drives for you. You are never locked
@@ -85,7 +85,7 @@ shown as clickable.
 
 # Automated Combat
 
-Assisted Combat speeds up the *rolls*, but it does not address the real burden:
+Assisted Combat speeds up the _rolls_, but it does not address the real burden:
 the **complexity of the exchange** itself. **Automated Combat takes an
 opinionated, workflow-driven approach — it runs the whole attack-and-defense
 sequence for you**, prompting each participant for the choices only they can
@@ -145,7 +145,7 @@ When attacked in Automated Combat, the defender chooses one:
 
 - **Block** — parry with a weapon or shield. On a win (or tie), the attack is
   stopped.
-- **Counterstrike** — defend *and* strike back at once. Both blows may land: you
+- **Counterstrike** — defend _and_ strike back at once. Both blows may land: you
   can stop the attack and hit the attacker on the same exchange, at the risk of
   taking the hit if you lose.
 - **Dodge** — get out of the way (a Dodge-skill roll). Avoids the blow when you

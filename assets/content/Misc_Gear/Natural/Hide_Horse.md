@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Horse"
+    - "Hide, Horse"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Horse"
-  aliases: []
+    full: "Hide, Horse"
+    aliases: []
 description: "Supple durable horsehide; favored for saddles and armor linings by cavalry outposts."
 id: DOwiYDzOxKRggde7
 slug: hide-horse
@@ -14,10 +14,10 @@ shortcode: hidehorse
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 10
-  weight: 10
+    quality: 0
+    durability: 3
+    value: 10
+    weight: 10
 folder: 0JqxkW5hHZ8XVILm
 ---
 

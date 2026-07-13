@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Tar
+    - Tar
 tags:
-  - natural
+    - natural
 name:
-  full: Tar
-  aliases: []
+    full: Tar
+    aliases: []
 description: "Pine-birch pitch sold in pots; seals hull seams, waterproofs leather, tars rope."
 id: giwnsfDeYbBnI7K3
 slug: tar
@@ -14,10 +14,10 @@ shortcode: tar
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 9
-  weight: 12
+    quality: 0
+    durability: 0
+    value: 9
+    weight: 12
 folder: 0JqxkW5hHZ8XVILm
 ---
 

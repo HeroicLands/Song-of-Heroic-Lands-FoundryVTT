@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Mutton
+    - Mutton
 tags:
-  - food
+    - food
 name:
-  full: Mutton
-  aliases: []
+    full: Mutton
+    aliases: []
 description: "Dark meat of aging sheep, stronger than lamb, suits hearty dishes."
 id: CrlGGgHeHq91RYHB
 slug: mutton
@@ -14,10 +14,10 @@ shortcode: mutton
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 2
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 2
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

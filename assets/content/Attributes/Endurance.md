@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Endurance
-  aliases: []
+    full: Endurance
+    aliases: []
 id: WRVbCGB5lFT9LZlY
 slug: endurance
 img: icons/climbing.svg
@@ -11,14 +11,14 @@ shortcode: end
 type: attribute
 package: sohl
 sohl:
-  scoreBase: 0
-  valueDesc:
-    - Frail:4
-    - Unfit:8
-    - Average:12
-    - Robust:16
-    - Hardy:999
-  initDiceFormula: 3d6
+    scoreBase: 0
+    valueDesc:
+        - Frail:4
+        - Unfit:8
+        - Average:12
+        - Robust:16
+        - Hardy:999
+    initDiceFormula: 3d6
 sort: 20
 folder: FPitxvL8wCmXynax
 ---

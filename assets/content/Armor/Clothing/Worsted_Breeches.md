@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Worsted Breeches
+    - Worsted Breeches
 tags: []
 name:
-  full: Worsted Breeches
-  aliases: []
+    full: Worsted Breeches
+    aliases: []
 description: "Tightly-spun wool breeches; durable, comfortable for regular wear."
 id: D8wScWxxKsQbiwEc
 slug: worsted-breeches
@@ -13,28 +13,28 @@ shortcode: WBrch
 type: armorgear
 package: sohl
 sohl:
-  armorType: Breeches
-  detailMaterial: Worsted
-  material: Cloth
-  durability: 9
-  value: 41
-  weight: 0.7
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: 3GCNjuCtiWzxFcXE
-  flexloc:
-    - plvisloc
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Breeches
+    detailMaterial: Worsted
+    material: Cloth
+    durability: 9
+    value: 41
+    weight: 0.7
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: 3GCNjuCtiWzxFcXE
+    flexloc:
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 17
 origWeight: 0.9

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Seaweed, Dolce"
+    - "Seaweed, Dolce"
 tags:
-  - food
+    - food
 name:
-  full: "Seaweed, Dolce"
-  aliases: []
+    full: "Seaweed, Dolce"
+    aliases: []
 description: "Dried coastal fronds rehydrating in broth, iodine-rich food and umami."
 id: cM0hJGxtM6ovgENJ
 slug: seaweed-dolce
@@ -14,10 +14,10 @@ shortcode: seaweeddol
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 6
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 6
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Ritual
-  aliases: []
+    full: Ritual
+    aliases: []
 description: "Conducting ceremonies, rites, and worship services for one's faith."
 id: xrtIClZfNovPvXI8
 slug: ritual
@@ -12,13 +12,13 @@ shortcode: ritual
 type: skill
 package: sohl
 sohl:
-  subType: ritual
-  skillBaseFormula: "@wil, @rea"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: ritual
+    skillBaseFormula: "@wil, @rea"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: IY7snVGTGcpTxofH
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Homespun Sleeved Tunic
+    - Homespun Sleeved Tunic
 tags: []
 name:
-  full: Homespun Sleeved Tunic
-  aliases: []
+    full: Homespun Sleeved Tunic
+    aliases: []
 description: "Simple homemade tunic providing comfort and practical warmth."
 id: Xkx1C1ujy1IJsnA8
 slug: homespun-sleeved-tunic
@@ -13,32 +13,32 @@ shortcode: HsSTnc
 type: armorgear
 package: sohl
 sohl:
-  armorType: Sleeved Tunic
-  detailMaterial: Homespun
-  material: Cloth
-  durability: 5
-  value: 15
-  weight: 0.6
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: P75NNZArDeRykh2Q
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - lelbloc
-    - relbloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Sleeved Tunic
+    detailMaterial: Homespun
+    material: Cloth
+    durability: 5
+    value: 15
+    weight: 0.6
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: P75NNZArDeRykh2Q
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - lelbloc
+        - relbloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 50
 origWeight: 2.5

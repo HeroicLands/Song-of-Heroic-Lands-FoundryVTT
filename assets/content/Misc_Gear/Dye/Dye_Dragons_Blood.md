@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Dye, Dragon's Blood"
+    - "Dye, Dragon's Blood"
 tags:
-  - clothing
+    - clothing
 name:
-  full: "Dye, Dragon's Blood"
-  aliases: []
+    full: "Dye, Dragon's Blood"
+    aliases: []
 description: "Crimson resin powder; rich red dye for fine silk and noble garments."
 id: svdzf3ufShABY5hI
 slug: dye-dragons-blood
@@ -14,10 +14,10 @@ shortcode: dyedrgn
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 1
-  value: 170
-  weight: 0.0625
+    quality: 0
+    durability: 1
+    value: 170
+    weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

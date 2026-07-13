@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Fate
-  aliases: []
+    full: Fate
+    aliases: []
 description: ""
 id: fEDCpEGM3G31AeQM
 slug: fate
@@ -12,14 +12,14 @@ shortcode: fate
 type: mysticalability
 package: sohl
 sohl:
-  subType: spiritaction
-  assocSkillCode: ""
-  assocMysteryCode: ""
-  levelBase: 0
-  masteryLevelBase: 50
-  charges:
-    usesCharges: true
-    value: 5
-    max: 5
+    subType: spiritaction
+    assocSkillCode: ""
+    assocMysteryCode: ""
+    levelBase: 0
+    masteryLevelBase: 50
+    charges:
+        usesCharges: true
+        value: 5
+        max: 5
 folder: gpLM4ElXNiI1rN7l
 ---

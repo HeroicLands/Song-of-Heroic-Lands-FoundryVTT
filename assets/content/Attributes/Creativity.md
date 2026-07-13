@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Creativity
-  aliases: []
+    full: Creativity
+    aliases: []
 id: AG6QHBQCbkcVgYrj
 slug: creativity
 img: icons/creativity.svg
@@ -11,14 +11,14 @@ shortcode: cre
 type: attribute
 package: sohl
 sohl:
-  scoreBase: 0
-  valueDesc:
-    - Banal:4
-    - Predictable:8
-    - Average:12
-    - Innovative:16
-    - Visionary:999
-  initDiceFormula: 3d6
+    scoreBase: 0
+    valueDesc:
+        - Banal:4
+        - Predictable:8
+        - Average:12
+        - Innovative:16
+        - Visionary:999
+    initDiceFormula: 3d6
 sort: 100
 folder: FPitxvL8wCmXynax
 ---

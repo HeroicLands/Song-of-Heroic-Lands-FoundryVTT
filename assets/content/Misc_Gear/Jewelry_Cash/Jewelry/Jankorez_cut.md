@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Jankorez, cut"
+    - "Jankorez, cut"
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: "Jankorez, cut"
-  aliases: []
+    full: "Jankorez, cut"
+    aliases: []
 description: "Rare pale blue-white gem; clarity rivals diamonds; royal use only."
 id: k8xEDWkBpylxS89d
 slug: jankorez-cut
@@ -14,10 +14,10 @@ shortcode: jankorezcu
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 1200
-  weight: 0.0004
+    quality: 0
+    durability: 2
+    value: 1200
+    weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

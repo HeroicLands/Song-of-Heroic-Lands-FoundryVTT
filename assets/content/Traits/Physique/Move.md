@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Move
-  aliases: []
+    full: Move
+    aliases: []
 id: hoTc5AUcRrxQVp4c
 slug: move
 img: icons/run.svg
@@ -11,14 +11,14 @@ shortcode: mov
 type: trait
 package: sohl
 sohl:
-  subType: physique
-  intensity: trait
-  textValue: ''
-  score:
-    value: 0
-    max: 0
-  isNumeric: true
-  valueDesc: []
+    subType: physique
+    intensity: trait
+    textValue: ""
+    score:
+        value: 0
+        max: 0
+    isNumeric: true
+    valueDesc: []
 folder: 4h8qyMcGHlkrfN1g
 ---
 

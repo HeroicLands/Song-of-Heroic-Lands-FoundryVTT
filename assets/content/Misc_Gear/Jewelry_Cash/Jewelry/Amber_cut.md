@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Amber, cut"
+    - "Amber, cut"
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: "Amber, cut"
-  aliases: []
+    full: "Amber, cut"
+    aliases: []
 description: "Translucent golden gem faceted by lapidary; glows warmly for modest jewelry."
 id: Z8xZA6uBFYPSBN39
 slug: amber-cut
@@ -14,10 +14,10 @@ shortcode: ambercut
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 1
-  value: 2
-  weight: 0.0004
+    quality: 0
+    durability: 1
+    value: 2
+    weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

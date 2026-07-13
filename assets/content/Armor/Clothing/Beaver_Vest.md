@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Beaver Vest
+    - Beaver Vest
 tags: []
 name:
-  full: Beaver Vest
-  aliases: []
+    full: Beaver Vest
+    aliases: []
 description: "Beaver fur vest combining comfort and status for the elite wearer."
 id: fBJGtPOqEWW12Lxs
 slug: beaver-vest
@@ -13,25 +13,25 @@ shortcode: BvVest
 type: armorgear
 package: sohl
 sohl:
-  armorType: Vest
-  detailMaterial: Beaver
-  material: Leather
-  durability: 9
-  value: 288
-  weight: 2.9
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: fCLeyCw3C6393ACX
-  flexloc:
-    - thrxloc
-    - abdmnloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Vest
+    detailMaterial: Beaver
+    material: Leather
+    durability: 9
+    value: 288
+    weight: 2.9
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: fCLeyCw3C6393ACX
+    flexloc:
+        - thrxloc
+        - abdmnloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 96
 origWeight: 3.6

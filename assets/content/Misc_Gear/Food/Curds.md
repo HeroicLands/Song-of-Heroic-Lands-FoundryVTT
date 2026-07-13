@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Curds
+    - Curds
 tags:
-  - food
+    - food
 name:
-  full: Curds
-  aliases: []
+    full: Curds
+    aliases: []
 description: "Soft fresh curd drained from whey; eaten warm with salt or honey."
 id: dIJWkRRX5aXQMJfI
 slug: curds
@@ -14,10 +14,10 @@ shortcode: curds
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.5
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

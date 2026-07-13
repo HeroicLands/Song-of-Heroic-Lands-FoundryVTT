@@ -1,32 +1,33 @@
 ---
 aliases:
-  - Secondary Mastery
-  - Secondary Modifier
-  - Secondary Roll
+    - Secondary Mastery
+    - Secondary Modifier
+    - Secondary Roll
 id: l1HN7M0DP05cWxLm
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: Secondary Mastery
-  aliases: []
+    full: Secondary Mastery
+    aliases: []
 slug: sohl-secondary-mastery
 folder: RqKUTBUBN2Y3MHYB
 ---
+
 Characters test only one primary Mastery Level at a time. However, other skills and attributes can indirectly affect the test. This manifests as either a Secondary Modifier or a Secondary Roll.
 
 ## Secondary Modifier
 
 A separate skill or attribute can lend a bonus or penalty to the EML of a [[Success Tests|Success Test]]. The modifier is derived from the Index of the secondary skill or attribute:
 
-| Index | Modifier | Index | Modifier |
-|---|---|---|---|
-| 0 | −25 | 6 | +5 |
-| 1 | −20 | 7 | +10 |
-| 2 | −15 | 8 | +15 |
-| 3 | −10 | 9 | +20 |
-| 4 | −5 | 10 | +25 |
-| 5 | 0 | per Index beyond | +5 |
+| Index | Modifier | Index            | Modifier |
+| ----- | -------- | ---------------- | -------- |
+| 0     | −25      | 6                | +5       |
+| 1     | −20      | 7                | +10      |
+| 2     | −15      | 8                | +15      |
+| 3     | −10      | 9                | +20      |
+| 4     | −5       | 10               | +25      |
+| 5     | 0        | per Index beyond | +5       |
 
 When a test calls for more than one Secondary Modifier, the sum of all Secondary Modifiers applies to the EML. The tested skill is displayed first, followed by Secondary Modifier skills in parentheses.
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Ham
+    - Ham
 tags:
-  - food
+    - food
 name:
-  full: Ham
-  aliases: []
+    full: Ham
+    aliases: []
 description: "Salt-cured smoked hog hind leg; sliced thin or diced, keeps months."
 id: wYTy2Q494piE79sZ
 slug: ham
@@ -14,10 +14,10 @@ shortcode: ham
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

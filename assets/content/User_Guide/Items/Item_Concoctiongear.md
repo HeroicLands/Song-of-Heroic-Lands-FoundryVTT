@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Concoction
+    - Concoction
 id: W9QaCjEFLLlIcCud
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Concoction"
+    full: "Concoction"
 slug: "item-conctiongear"
 
 folder: QtOgPodi8X6gDWL0
@@ -22,9 +22,10 @@ Concoctions are consumed when applied or ingested and may interact with afflicti
 
 # Where They Appear
 
-Concoctions appear on the **Gear** tab, and are often placed inside of containers such as flasks or vials. 
+Concoctions appear on the **Gear** tab, and are often placed inside of containers such as flasks or vials.
 
 # Additional Properties
+
 In addition to the [[Item_Gear|Standard Gear Properties]], the following additional properties are defined for concoctions:
 
 - **Quantity** — how many doses remain.

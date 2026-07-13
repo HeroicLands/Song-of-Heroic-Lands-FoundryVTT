@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Cookery
-  aliases: []
+    full: Cookery
+    aliases: []
 description: "Preparing food; transforming ingredients into nourishing, delightful meals."
 id: RcPswIec44IFMKew
 slug: cookery
@@ -12,13 +12,13 @@ shortcode: cook
 type: skill
 package: sohl
 sohl:
-  subType: lore
-  skillBaseFormula: "@per, @rea"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 2
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: lore
+    skillBaseFormula: "@per, @rea"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 2
+    masteryLevelBase: 0
+    improveFlag: false
 folder: QlkEHXbk2EXlRiMM
 ---
 

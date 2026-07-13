@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Legerdemain
-  aliases: []
+    full: Legerdemain
+    aliases: []
 description: "Sleight of hand, purse-cutting, juggling; intricate manual dexterity."
 id: YDqesb2eObxgrdAj
 slug: legerdemain
@@ -12,13 +12,13 @@ shortcode: lgdm
 type: skill
 package: sohl
 sohl:
-  subType: physical
-  skillBaseFormula: "@dex, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: physical
+    skillBaseFormula: "@dex, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: Yt9THlZ0NT8H6aSK
 ---
 

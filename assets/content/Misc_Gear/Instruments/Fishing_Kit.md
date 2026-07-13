@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Fishing Kit
+    - Fishing Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Fishing Kit
-  aliases: []
+    full: Fishing Kit
+    aliases: []
 description: "Cloth pouch with hooks, sinker, horsehair line, bone needle for riverside hunting."
 id: MoY8AjXTZEVAcScI
 slug: fishing-kit
@@ -14,10 +14,10 @@ shortcode: fishgkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 6
-  weight: 0.2
+    quality: 0
+    durability: 7
+    value: 6
+    weight: 0.2
 folder: xniLjmZWYQZkSxyv
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Carnelian, cut"
+    - "Carnelian, cut"
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: "Carnelian, cut"
-  aliases: []
+    full: "Carnelian, cut"
+    aliases: []
 description: "Translucent warm orange-red gem from iron oxide; durable favorite for rings."
 id: 39EX5YUsgRMyqT0j
 slug: carnelian-cut
@@ -14,10 +14,10 @@ shortcode: carnelianc
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 25
-  weight: 0.0004
+    quality: 0
+    durability: 2
+    value: 25
+    weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

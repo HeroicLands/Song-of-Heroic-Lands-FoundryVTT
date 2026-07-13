@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Lock, door, large"
+    - "Lock, door, large"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Lock, door, large"
-  aliases: []
+    full: "Lock, door, large"
+    aliases: []
 description: "Standard iron deadbolt with careful wards; main doors of halls and townhouses."
 id: TU4t9NCjUnOygVmj
 slug: lock-door-large
@@ -14,10 +14,10 @@ shortcode: lockdoorla
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 20
-  weight: 1
+    quality: 0
+    durability: 7
+    value: 20
+    weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

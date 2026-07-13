@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Copper/Bronze
+    - Copper/Bronze
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: Copper/Bronze
-  aliases: []
+    full: Copper/Bronze
+    aliases: []
 description: "Melted, cast ingots or sheets; resists weathering, worked into vessels and ornaments."
 id: 79B9Myc10z257sk1
 slug: copper-bronze
@@ -14,10 +14,10 @@ shortcode: copperbron
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 1
-  weight: 0.0625
+    quality: 0
+    durability: 3
+    value: 1
+    weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

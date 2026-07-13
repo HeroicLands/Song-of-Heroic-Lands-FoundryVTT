@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Velvet Trousers
+    - Velvet Trousers
 tags: []
 name:
-  full: Velvet Trousers
-  aliases: []
+    full: Velvet Trousers
+    aliases: []
 description: "Soft plush velvet trousers; luxurious garment for high-status formal events."
 id: MfIOArfg0ULNueSB
 slug: velvet-trousers
@@ -13,30 +13,30 @@ shortcode: VTrsr
 type: armorgear
 package: sohl
 sohl:
-  armorType: Trousers
-  detailMaterial: Velvet
-  material: Cloth
-  durability: 10
-  value: 137
-  weight: 2
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: RnUUkoKrdpS4X6ng
-  flexloc:
-    - plvisloc
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-    - lcalfloc
-    - rcalfloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Trousers
+    detailMaterial: Velvet
+    material: Cloth
+    durability: 10
+    value: 137
+    weight: 2
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: RnUUkoKrdpS4X6ng
+    flexloc:
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 39
 origWeight: 2

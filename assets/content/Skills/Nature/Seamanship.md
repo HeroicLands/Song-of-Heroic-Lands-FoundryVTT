@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Seamanship
-  aliases: []
+    full: Seamanship
+    aliases: []
 description: "Operating sailing vessels on open water through sails, weather, and crew management."
 id: jjf3TziTW0L8DMgz
 slug: seamanship
@@ -12,13 +12,13 @@ shortcode: smsh
 type: skill
 package: sohl
 sohl:
-  subType: nature
-  skillBaseFormula: "@wil, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: nature
+    skillBaseFormula: "@wil, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: N5ozne3RRF0qSEdF
 ---
 

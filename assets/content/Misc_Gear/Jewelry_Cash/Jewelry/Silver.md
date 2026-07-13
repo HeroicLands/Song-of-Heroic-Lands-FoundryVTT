@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Silver
+    - Silver
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: Silver
-  aliases: []
+    full: Silver
+    aliases: []
 description: "Precious metal in ingots or coins; does not tarnish; accepts engraving."
 id: vfVJubqHIrMiT4Xa
 slug: silver
@@ -14,10 +14,10 @@ shortcode: silver
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 60
-  weight: 0.0625
+    quality: 0
+    durability: 3
+    value: 60
+    weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

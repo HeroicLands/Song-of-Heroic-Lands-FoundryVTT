@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Structure
+    - Structure
 id: HtmdsmQ9c1nTBgVA
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Structure"
+    full: "Structure"
 slug: "actor-structure"
 folder: sYK1BozT9xFcinXK
 ---

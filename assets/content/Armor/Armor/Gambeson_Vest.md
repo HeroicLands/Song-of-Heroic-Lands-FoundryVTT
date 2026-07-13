@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Gambeson Vest
+    - Gambeson Vest
 tags: []
 name:
-  full: Gambeson Vest
-  aliases: []
+    full: Gambeson Vest
+    aliases: []
 description: "Padded vest providing protection under or worn standalone."
 id: jd45JXEJMuH3Q38y
 slug: gambeson-vest
@@ -13,25 +13,25 @@ shortcode: GVest
 type: armorgear
 package: sohl
 sohl:
-  armorType: Vest
-  detailMaterial: Gambeson
-  material: Gambeson
-  durability: 11
-  value: 208
-  weight: 7.3
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: 0IFQmOw2sZuuzV8Z
-  flexloc: []
-  rigidloc:
-    - thrxloc
-    - abdmnloc
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Vest
+    detailMaterial: Gambeson
+    material: Gambeson
+    durability: 11
+    value: 208
+    weight: 7.3
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: 0IFQmOw2sZuuzV8Z
+    flexloc: []
+    rigidloc:
+        - thrxloc
+        - abdmnloc
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 208
 origWeight: 7.3

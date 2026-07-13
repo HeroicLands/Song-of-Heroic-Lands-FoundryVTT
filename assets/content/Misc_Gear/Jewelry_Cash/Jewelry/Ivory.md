@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Ivory
+    - Ivory
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: Ivory
-  aliases: []
+    full: Ivory
+    aliases: []
 description: "Polished tooth of great beasts; creamy white, carved into combs, buttons, ornaments."
 id: jZtYDWzJmwh7uatw
 slug: ivory
@@ -14,10 +14,10 @@ shortcode: ivory
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 16
-  weight: 0.0625
+    quality: 0
+    durability: 3
+    value: 16
+    weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

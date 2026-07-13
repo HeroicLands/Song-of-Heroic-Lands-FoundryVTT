@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Barley
+    - Barley
 tags:
-  - food
+    - food
 name:
-  full: Barley
-  aliases: []
+    full: Barley
+    aliases: []
 description: "Hardy grain, ground into meal or boiled for broth and bread."
 id: QxbYS7hEnSKXhD7W
 slug: barley
@@ -14,10 +14,10 @@ shortcode: barley
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 5
-  weight: 48
+    quality: 0
+    durability: 0
+    value: 5
+    weight: 48
 folder: cHM58zOI1EcSG3cP
 ---
 

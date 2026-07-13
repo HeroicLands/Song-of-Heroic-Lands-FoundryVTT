@@ -1,18 +1,19 @@
 ---
 aliases:
-  - Opposed Test
-  - Opposed Success Test
-  - Victory Degrees
+    - Opposed Test
+    - Opposed Success Test
+    - Victory Degrees
 id: YByfiRN9BxL5gTHK
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: Opposed Tests
-  aliases: []
+    full: Opposed Tests
+    aliases: []
 slug: sohl-opposed-tests
 folder: RqKUTBUBN2Y3MHYB
 ---
+
 When two characters act against one another—Stealth versus Awareness, Melee versus Dodge, Eloquence versus Eloquence—both make [[Success Tests]] simultaneously. The character who achieves a positive [[Success Tests#Success Level|success level]] and a higher success level than their opponent is the victor.
 
 In combat, the two sides are referred to as the **attacker** and the **defender**. In non-combat opposed tests, the character who initiates the contest is the **initiator** and the other is the **respondent**.

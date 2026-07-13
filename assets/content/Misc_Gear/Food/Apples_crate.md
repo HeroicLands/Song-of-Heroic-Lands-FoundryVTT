@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Apples, crate"
+    - "Apples, crate"
 tags:
-  - food
+    - food
 name:
-  full: "Apples, crate"
-  aliases: []
+    full: "Apples, crate"
+    aliases: []
 description: "Straw-packed apples in wooden crate; heavy, protects fruit on long journeys."
 id: oyJZQInWH3R3g65Q
 slug: apples-crate
@@ -14,10 +14,10 @@ shortcode: applescrat
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 7.5
-  weight: 51.25
+    quality: 0
+    durability: 0
+    value: 7.5
+    weight: 51.25
 folder: cHM58zOI1EcSG3cP
 ---
 

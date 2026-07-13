@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Mead, Keg"
+    - "Mead, Keg"
 tags:
-  - spirits
+    - spirits
 name:
-  full: "Mead, Keg"
-  aliases: []
+    full: "Mead, Keg"
+    aliases: []
 description: "Honey-fermented mead; poor lord's luxury; warmed in winter, poured at feasts."
 id: C2YCtaYAYB4OAsoC
 slug: mead-keg
@@ -14,10 +14,10 @@ shortcode: mdkeg
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 55
-  weight: 88
+    quality: 0
+    durability: 0
+    value: 55
+    weight: 88
 folder: jLdeIpOIZokm8obv
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Serge Dress
+    - Serge Dress
 tags: []
 name:
-  full: Serge Dress
-  aliases: []
+    full: Serge Dress
+    aliases: []
 description: "Durable twilled serge dress for everyday activities and general wear."
 id: 1PYKwPOQeJ9jVMMW
 slug: serge-dress
@@ -13,40 +13,40 @@ shortcode: SgDress
 type: armorgear
 package: sohl
 sohl:
-  armorType: Dress
-  detailMaterial: Serge
-  material: Cloth
-  durability: 7
-  value: 47
-  weight: 2
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: z29HMU2otujSBT3W
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - lelbloc
-    - relbloc
-    - lfraloc
-    - rfraloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-    - lcalfloc
-    - rcalfloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Dress
+    detailMaterial: Serge
+    material: Cloth
+    durability: 7
+    value: 47
+    weight: 2
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: z29HMU2otujSBT3W
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - lelbloc
+        - relbloc
+        - lfraloc
+        - rfraloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 79
 origWeight: 4

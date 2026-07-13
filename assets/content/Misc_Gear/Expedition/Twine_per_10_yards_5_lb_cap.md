@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Twine, per 10 yards (5 lb. cap.)"
+    - "Twine, per 10 yards (5 lb. cap.)"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Twine, per 10 yards (5 lb. cap.)"
-  aliases: []
+    full: "Twine, per 10 yards (5 lb. cap.)"
+    aliases: []
 description: "Jute or hemp twine for bundling firewood and securing pack animals."
 id: psTafCN5gKLQacT2
 slug: twine-per-10-yards-5-lb-cap
@@ -14,10 +14,10 @@ shortcode: twineper10
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 4
-  weight: 0.2
+    quality: 0
+    durability: 2
+    value: 4
+    weight: 0.2
 folder: FSPVI1eObGEpMVck
 ---
 

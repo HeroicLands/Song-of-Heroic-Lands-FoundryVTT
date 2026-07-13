@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Grease
+    - Grease
 tags:
-  - natural
+    - natural
 name:
-  full: Grease
-  aliases: []
+    full: Grease
+    aliases: []
 description: "Rendered mutton-beef-hog fat; cooking, waterproofing leather, axle lubrication."
 id: XvwQMwn178ebK2KV
 slug: grease
@@ -14,10 +14,10 @@ shortcode: grease
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 2
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 2
+    weight: 1
 folder: 0JqxkW5hHZ8XVILm
 ---
 

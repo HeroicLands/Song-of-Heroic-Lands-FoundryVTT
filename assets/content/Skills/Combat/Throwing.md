@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Throwing
-  aliases: []
+    full: Throwing
+    aliases: []
 description: "Hurling daggers, axes, javelins, and projectiles with accuracy and force."
 id: iOdCwOYdX9N6NeiD
 slug: throwing
@@ -12,13 +12,13 @@ shortcode: thro
 type: skill
 package: sohl
 sohl:
-  subType: combat
-  skillBaseFormula: "@dex, @per"
-  combatCategory: missile
-  parentSkillCode: ''
-  initSkillMult: 2
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: combat
+    skillBaseFormula: "@dex, @per"
+    combatCategory: missile
+    parentSkillCode: ""
+    initSkillMult: 2
+    masteryLevelBase: 0
+    improveFlag: false
 folder: EphAMAfFhWBrJxyF
 ---
 

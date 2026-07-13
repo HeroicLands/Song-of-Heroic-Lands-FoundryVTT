@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Cloth Shoes
+    - Cloth Shoes
 tags: []
 name:
-  full: Cloth Shoes
-  aliases: []
+    full: Cloth Shoes
+    aliases: []
 description: "Breathable cloth footwear for casual, light-duty wear."
 id: PdjsDqu1IfqSbEeZ
 slug: cloth-shoes
@@ -13,25 +13,25 @@ shortcode: CShoe
 type: armorgear
 package: sohl
 sohl:
-  armorType: Shoes
-  detailMaterial: Cloth
-  material: Cloth
-  durability: 10
-  value: 25
-  weight: 1
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: SrJnDjbKISbYKefl
-  flexloc:
-    - lfootloc
-    - rfootloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Shoes
+    detailMaterial: Cloth
+    material: Cloth
+    durability: 10
+    value: 25
+    weight: 1
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: SrJnDjbKISbYKefl
+    flexloc:
+        - lfootloc
+        - rfootloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 25
 origWeight: 1

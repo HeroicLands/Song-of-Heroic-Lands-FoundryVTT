@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Linen Vest
+    - Linen Vest
 tags: []
 name:
-  full: Linen Vest
-  aliases: []
+    full: Linen Vest
+    aliases: []
 description: "Light breathable sleeveless garment perfect for warm weather activities."
 id: 0tUaUcWZD1HoQ7rK
 slug: linen-vest
@@ -13,25 +13,25 @@ shortcode: LVest
 type: armorgear
 package: sohl
 sohl:
-  armorType: Vest
-  detailMaterial: Linen
-  material: Cloth
-  durability: 5
-  value: 12
-  weight: 0.3
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: 39VaAwcVvDfbr0YX
-  flexloc:
-    - thrxloc
-    - abdmnloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Vest
+    detailMaterial: Linen
+    material: Cloth
+    durability: 5
+    value: 12
+    weight: 0.3
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: 39VaAwcVvDfbr0YX
+    flexloc:
+        - thrxloc
+        - abdmnloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 24
 origWeight: 1.2

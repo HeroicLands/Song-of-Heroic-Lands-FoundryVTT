@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Herring
+    - Herring
 tags:
-  - food
+    - food
 name:
-  full: Herring
-  aliases: []
+    full: Herring
+    aliases: []
 description: "Small oil-rich fish; smoked or salt-packed, heavily salted lasts indefinitely."
 id: oCwIaOoQgwlHwCf5
 slug: herring
@@ -14,10 +14,10 @@ shortcode: herring
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 0.5
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 0.5
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Sewing Kit
+    - Sewing Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Sewing Kit
-  aliases: []
+    full: Sewing Kit
+    aliases: []
 description: "Small cloth roll with bone and iron needles, linen and silk thread, thimble, shears, awl, beeswax; seamstresses mend and sew."
 id: dR6vKmYn2jQ8xPbW
 slug: sewing-kit
@@ -14,10 +14,10 @@ shortcode: sewkit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 22
-  weight: 0.5
+    quality: 0
+    durability: 2
+    value: 22
+    weight: 0.5
 folder: xniLjmZWYQZkSxyv
 ---
 

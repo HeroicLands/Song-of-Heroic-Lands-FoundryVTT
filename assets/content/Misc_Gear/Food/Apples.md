@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Apples
+    - Apples
 tags:
-  - food
+    - food
 name:
-  full: Apples
-  aliases: []
+    full: Apples
+    aliases: []
 description: "Firm orchard fruit; edible into winter when stored cool, sliced dried."
 id: MnNVI5FZZ0xtvIp2
 slug: apples
@@ -14,10 +14,10 @@ shortcode: apples
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.25
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.25
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

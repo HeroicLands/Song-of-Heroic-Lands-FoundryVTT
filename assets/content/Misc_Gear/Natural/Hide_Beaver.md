@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Beaver"
+    - "Hide, Beaver"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Beaver"
-  aliases: []
+    full: "Hide, Beaver"
+    aliases: []
 description: "Beaver pelt with dense underfur and waterproof guard hairs; cloaks, winter garments."
 id: xohUEKEQ7iEHJHUg
 slug: hide-beaver
@@ -14,10 +14,10 @@ shortcode: hidebeaver
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 30
-  weight: 1.5
+    quality: 0
+    durability: 3
+    value: 30
+    weight: 1.5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

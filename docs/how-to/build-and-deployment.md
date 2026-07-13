@@ -3,7 +3,7 @@
 Everything you need to take Song of Heroic Lands (SoHL) from a fresh clone to a
 running Foundry instance and a published release: environment setup, every npm
 script, how the build pipeline works, the layout of the `build/` directory,
-compendium packs and the Obsidian vault, deploying to a Foundry instance, and the
+compendium packs from in-repo Markdown, deploying to a Foundry instance, and the
 release process. **Manual steps are called out explicitly** with a 🔧 marker.
 
 > Audience: maintainers and contributors working on the SoHL system itself. For
@@ -52,7 +52,7 @@ sequence; `run-p` runs them in parallel.
 | `build:system`        | Generate `build/stage/system.json` from the template + `package.json` version (`utils/build-system-json.mjs`).                                    |
 | `build:assets`        | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`utils/copy-assets.mjs`).                                  |
 | `build:db`            | `build:assets` then `build:compiledb` — stage assets, then compile packs.                                                                         |
-| `build:compiledb`     | Compile `assets/packs/*/_source/` JSON → LevelDB packs in `build/stage/packs/`.                                                                   |
+| `build:compiledb`     | Generate JSON from `assets/content/` Markdown, then compile LevelDB packs in `build/stage/packs/`.                                                |
 | `build:unpackdb`      | The reverse: unpack the staged LevelDB packs back to JSON (for inspection).                                                                       |
 | `build:code`          | Bundle the system with Vite (`vite build --mode release`) → `build/stage/sohl.js`.                                                                |
 | `build:icons`         | Rebuild the icon font from SVGs (`utils/build-icon-font.mjs`). Run by hand when icons change.                                                     |
@@ -61,11 +61,14 @@ sequence; `run-p` runs them in parallel.
 
 ### Compendium packs
 
-| Script          | What it does                                                                                       |
-| --------------- | -------------------------------------------------------------------------------------------------- |
-| `packs:export`  | 🔧 Walk the HeroicLands **Obsidian vault** and regenerate `assets/packs/*/_source/` (maintainers). |
-| `packs:rebuild` | `packs:export` then `build:compiledb` — full vault → LevelDB roundtrip.                            |
-| `packs:clean`   | Remove the generated `_source/` trees.                                                             |
+| Script            | What it does                                                                                                                           |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `build:compiledb` | Generate each pack's per-entry JSON from the `assets/content/` Markdown into `build/packs-json/<pack>/`, then compile LevelDB from it. |
+| `build:unpackdb`  | Extract a compiled LevelDB pack back to per-entry JSON under `build/tmp/packs/`.                                                       |
+
+The authoritative content is the in-repo Markdown under `assets/content/`; the
+JSON is a disposable `build/` intermediate. There is no vault step — `build:compiledb`
+reads the Markdown directly.
 
 ### Tests, lint, format
 
@@ -156,50 +159,44 @@ system, and `system.zip` is just an archive of it.
 the repo `url`/`bugs`, the `manifest` URL (latest release's `system.json`), and the
 versioned `download` URL (`…/releases/download/v<version>/system.zip`).
 
-## 5. Compendium packs and the Obsidian vault
+## 5. Compendium packs from in-repo Markdown
 
 SoHL ships three compendium packs — **items**, **journals**, **actors** — declared
 in the system manifest. Each has a committed JSON source tree at
 `assets/packs/<pack>/_source/`, which `build:compiledb` compiles into Foundry's
 LevelDB format under `build/stage/packs/<pack>/`.
 
-### Design decision — committed pack sources
+### Design decision — in-repo Markdown source, build-only JSON
 
-The pack content is _authored_ in the HeroicLands Obsidian vault, but **the build
-never reads the vault directly.** Instead, a separate `packs:export` step pulls
-everything out of the vault and writes it as plain JSON under
-`assets/packs/*/_source/`, and those JSON trees are **committed to this
-repository**.
+The compendium content is authored **in this repository** as Markdown under
+`assets/content/`, and the build compiles it directly. `build:compiledb`
+generates each pack's per-entry JSON into a disposable `build/packs-json/<pack>/`
+intermediate and compiles the LevelDB packs from it — so the JSON is **never
+committed**, there is no separate export step, and there is no vault dependency. A
+contributor builds from the repo alone: `npm run build` (or `npm run build:compiledb`
+for packs only).
 
-This is deliberate. It means the system builds from the repo alone — a contributor
-can run `npm run build` (or `npm run build:compiledb` for packs only) **without the
-vault present**. The vault is required only to _regenerate_ the `_source/` trees (a
-maintainer task), never to build. Put differently: the vault is the **authoring**
-source of truth; the committed `_source/` JSON is the **build's** source of truth.
+### Authoring content under `assets/content/`
 
-### Authoring content in the HeroicLands vault
-
-The authoritative content lives in the
-[HeroicLands Obsidian Vault](https://github.com/HeroicLands/HeroicLands), a sibling
-repository the pack scripts expect at **`../HeroicLands/`** (next to this repo —
-see `utils/packs/export.mjs`). Items, actors, and journal entries are authored
-there as Markdown files with YAML frontmatter (`package: sohl`, a `type:`, a
-stable `id:`, and folder/embedding metadata).
-
-🔧 **Regenerating the pack sources from the vault** (maintainers with the vault):
+Items, actors, and journal entries are authored as Markdown files with YAML
+frontmatter (`package: sohl`, a `type:`, a stable `id:`, and folder/embedding
+metadata) anywhere under `assets/content/`. **Classification is frontmatter-driven,
+not directory-driven:** a file joins a pack because of its `type` (item kinds →
+the items pack; `type: doc` → journals; `character` / `creature` → actors), so the
+folder layout is for human organization only and can be reorganized freely. Folder
+hierarchies are declared per pack in `assets/content/<pack>-folders.yaml` and
+referenced from entries via `sohl.folder: <id>`.
 
 ```bash
-git clone https://github.com/HeroicLands/HeroicLands.git ../HeroicLands
-npm run packs:export      # vault → assets/packs/*/_source/ (wipes & rewrites them)
-npm run build:compiledb   # _source/ JSON → build/stage/packs/ (LevelDB)
-# or both at once:
-npm run packs:rebuild
+# assets/content/ Markdown → build/packs-json/ (JSON) → build/stage/packs/ (LevelDB)
+npm run build:compiledb
 ```
 
-`packs:export` (`utils/packs/export.mjs`) drives three per-pack compilers
-(`utils/packs/items.mjs`, `journals.mjs`, `actors.mjs`): they walk the vault,
-select files by frontmatter, validate folders against each pack's `folders.yaml`,
-and write per-entry JSON to the `_source/` tree.
+`build:compiledb` runs `utils/packs/generate.mjs`, which drives three per-pack
+compilers (`utils/packs/items.mjs`, `journals.mjs`, `actors.mjs`): each walks
+`assets/content/`, selects files by frontmatter, validates folders against the
+pack's `*-folders.yaml`, and writes per-entry JSON — from which the LevelDB is then
+compiled.
 
 ## 6. Deploying to a Foundry instance
 

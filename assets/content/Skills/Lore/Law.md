@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Law
-  aliases: []
+    full: Law
+    aliases: []
 description: "Knowledge of legal codes, customs, judicial procedures, guild regulations."
 id: VsNFbPO46bCVDiMO
 slug: law
@@ -12,13 +12,13 @@ shortcode: law
 type: skill
 package: sohl
 sohl:
-  subType: lore
-  skillBaseFormula: "@rea, @wil"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: lore
+    skillBaseFormula: "@rea, @wil"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: QlkEHXbk2EXlRiMM
 ---
 

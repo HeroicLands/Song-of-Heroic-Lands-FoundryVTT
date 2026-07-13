@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Ink, Brown"
+    - "Ink, Brown"
 tags:
-  - scribe
+    - scribe
 name:
-  full: "Ink, Brown"
-  aliases: []
+    full: "Ink, Brown"
+    aliases: []
 description: "Walnut-husk ink; common in ledgers, fades with time, suits working copies."
 id: SaV83V3KypNHOdF2
 slug: ink-brown
@@ -14,10 +14,10 @@ shortcode: inkbrn
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 8
-  weight: 2
+    quality: 0
+    durability: 0
+    value: 8
+    weight: 2
 folder: BYkA5NDQxTXDvsAC
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Chalk, powdered"
+    - "Chalk, powdered"
 tags:
-  - stone
+    - stone
 name:
-  full: "Chalk, powdered"
-  aliases: []
+    full: "Chalk, powdered"
+    aliases: []
 description: "Ground chalk powder in sealed pot; scribes erase, masons whitewash."
 id: cveQG0HdTsNUSvEN
 slug: chalk-powdered
@@ -14,10 +14,10 @@ shortcode: chalkpowde
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 4
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 4
+    weight: 1
 folder: 7HORJHbbizVSds9r
 ---
 

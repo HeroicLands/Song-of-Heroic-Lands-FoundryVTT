@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Cage, iron, medium"
+    - "Cage, iron, medium"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Cage, iron, medium"
-  aliases: []
+    full: "Cage, iron, medium"
+    aliases: []
 description: "Forged iron cage; holds child, large dog, or wounded beast securely."
 id: wqXlaHFlJ5fr5LPo
 slug: cage-iron-medium
@@ -14,10 +14,10 @@ shortcode: cageironme
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 10
-  value: 342
-  weight: 22
+    quality: 0
+    durability: 10
+    value: 342
+    weight: 22
 folder: FSPVI1eObGEpMVck
 ---
 

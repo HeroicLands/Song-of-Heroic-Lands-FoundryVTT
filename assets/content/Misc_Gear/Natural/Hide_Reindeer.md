@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Reindeer"
+    - "Hide, Reindeer"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Reindeer"
-  aliases: []
+    full: "Hide, Reindeer"
+    aliases: []
 description: "Thick northern hide; salted, dried, water-resistant; arctic cloaks."
 id: qVTXe4cPZFMsXGww
 slug: hide-reindeer
@@ -14,10 +14,10 @@ shortcode: hidereinde
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 16
-  weight: 4.5
+    quality: 0
+    durability: 3
+    value: 16
+    weight: 4.5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

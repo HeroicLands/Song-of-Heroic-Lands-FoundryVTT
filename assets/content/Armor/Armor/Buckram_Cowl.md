@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Buckram Cowl
+    - Buckram Cowl
 tags: []
 name:
-  full: Buckram Cowl
-  aliases: []
+    full: Buckram Cowl
+    aliases: []
 description: "Stiff buckram cowl providing durability and rigid head-shoulder coverage."
 id: NODwhSpUKB9OGWVi
 slug: buckram-cowl
@@ -13,25 +13,25 @@ shortcode: BCowl
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cowl
-  detailMaterial: Buckram
-  material: Cloth
-  durability: 10
-  value: 6
-  weight: 0.3
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: qAzj5xKI5jqDoBmt
-  flexloc:
-    - skullloc
-    - neckloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cowl
+    detailMaterial: Buckram
+    material: Cloth
+    durability: 10
+    value: 6
+    weight: 0.3
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: qAzj5xKI5jqDoBmt
+    flexloc:
+        - skullloc
+        - neckloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 6
 origWeight: 0.3

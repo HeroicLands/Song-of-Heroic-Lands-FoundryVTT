@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Light Blunt Arrow
+    - Light Blunt Arrow
 tags: []
 name:
-  full: Light Blunt Arrow
-  alias: []
+    full: Light Blunt Arrow
+    alias: []
 description: "Light shaft with wooden knob or leather pad; squirrel, hare, bird hunting."
 type: projectilegear
 package: sohl
@@ -14,18 +14,18 @@ shortcode: ArwLBlt
 img: icons/arrow.svg
 easyname: Light Blunt
 sohl:
-  quality: 0
-  durability: 10
-  value: 0.125
-  weight: 1
-  impact:
-    die: 4
-    modifier: -1
-    aspect: piercing
-  traits:
-    ARvalue: 4
-    bleed: true
-  subType: arrow
+    quality: 0
+    durability: 10
+    value: 0.125
+    weight: 1
+    impact:
+        die: 4
+        modifier: -1
+        aspect: piercing
+    traits:
+        ARvalue: 4
+        bleed: true
+    subType: arrow
 folder: ADQPHjgKsdWsJhyy
 ---
 

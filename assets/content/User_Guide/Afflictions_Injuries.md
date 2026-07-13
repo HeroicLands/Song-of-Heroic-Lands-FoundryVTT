@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Afflictions and Injuries
+    - Afflictions and Injuries
 id: usEQSnM05guRRXT7
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Afflictions and Injuries"
+    full: "Afflictions and Injuries"
 slug: "afflictions-injuries"
 folder: IgwaG8rAUUO9vrtz
 ---

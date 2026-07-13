@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Marbles, glass, pack of 12"
+    - "Marbles, glass, pack of 12"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Marbles, glass, pack of 12"
-  aliases: []
+    full: "Marbles, glass, pack of 12"
+    aliases: []
 description: "Dozen polished glass spheres for play, ballast, and crude observation."
 id: W7niLcWfPk1kliK7
 slug: marbles-glass-pack-of-12
@@ -14,10 +14,10 @@ shortcode: marblesgla
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 10
-  weight: 1
+    quality: 0
+    durability: 2
+    value: 10
+    weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Quiver, lg (shoulder)"
+    - "Quiver, lg (shoulder)"
 tags: []
 name:
-  full: "Quiver, lg (shoulder)"
-  aliases: []
+    full: "Quiver, lg (shoulder)"
+    aliases: []
 description: "Leather-wrapped wooden tube worn across back; keeps arrows accessible for archery."
 id: e9xGKOACBoyOH0Ua
 slug: quiver-lg-shoulder
@@ -13,11 +13,11 @@ shortcode: quiverlgsh
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  maxCapacity: 2.5
-  value: 10
-  weight: 4
+    quality: 0
+    durability: 8
+    maxCapacity: 2.5
+    value: 10
+    weight: 4
 folder: dl8lJ729W1mFlDvt
 ---
 

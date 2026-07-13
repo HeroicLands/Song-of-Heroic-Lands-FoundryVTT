@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Salt, rock"
+    - "Salt, rock"
 tags:
-  - food
+    - food
 name:
-  full: "Salt, rock"
-  aliases: []
+    full: "Salt, rock"
+    aliases: []
 description: "Mined rock salt, pure and dense, grinds fine, stores indefinitely."
 id: EEklEMPJszuNNY5R
 slug: salt-rock
@@ -14,10 +14,10 @@ shortcode: saltrock
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.5
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Velvet Mantle
+    - Velvet Mantle
 tags: []
 name:
-  full: Velvet Mantle
-  aliases: []
+    full: Velvet Mantle
+    aliases: []
 description: "Soft plush velvet mantle; opulent garment for nobility and grandeur."
 id: le43MXd8XEkymwFH
 slug: velvet-mantle
@@ -13,28 +13,28 @@ shortcode: VMntl
 type: armorgear
 package: sohl
 sohl:
-  armorType: Mantle
-  detailMaterial: Velvet
-  material: Cloth
-  durability: 10
-  value: 74
-  weight: 1.1
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: IoDVqFMrxiKZoLv0
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - thrxloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Mantle
+    detailMaterial: Velvet
+    material: Cloth
+    durability: 10
+    value: 74
+    weight: 1.1
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: IoDVqFMrxiKZoLv0
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - thrxloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 21
 origWeight: 1.1

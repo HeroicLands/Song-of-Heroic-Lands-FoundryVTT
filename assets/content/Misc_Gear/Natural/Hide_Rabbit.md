@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Rabbit"
+    - "Hide, Rabbit"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Rabbit"
-  aliases: []
+    full: "Hide, Rabbit"
+    aliases: []
 description: "Tiny soft fur pelt; lined winter hoods and muffs by furriers."
 id: liOkmKrdN64v2wPs
 slug: hide-rabbit
@@ -14,10 +14,10 @@ shortcode: hiderabbit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 1
-  weight: 0.5
+    quality: 0
+    durability: 3
+    value: 1
+    weight: 0.5
 folder: 0JqxkW5hHZ8XVILm
 ---
 

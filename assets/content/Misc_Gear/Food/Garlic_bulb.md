@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Garlic bulb
+    - Garlic bulb
 tags:
-  - food
+    - food
 name:
-  full: Garlic bulb
-  aliases: []
+    full: Garlic bulb
+    aliases: []
 description: "Papery-skinned bulb of cloves; sharp pungent seasoning, keeps for months."
 id: bfCRFzGeKx5Ldg0A
 slug: garlic-bulb
@@ -14,10 +14,10 @@ shortcode: garlic
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 9
-  weight: 0.1
+    quality: 0
+    durability: 3
+    value: 9
+    weight: 0.1
 folder: cHM58zOI1EcSG3cP
 ---
 

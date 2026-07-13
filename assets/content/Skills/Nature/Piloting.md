@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Piloting
-  aliases: []
+    full: Piloting
+    aliases: []
 description: "Navigating watercraft through coastal waters, harbors, and dangerous passages."
 id: s0gMtqw9zIFaOCv9
 slug: piloting
@@ -12,13 +12,13 @@ shortcode: pilt
 type: skill
 package: sohl
 sohl:
-  subType: nature
-  skillBaseFormula: "@rea, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: nature
+    skillBaseFormula: "@rea, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: N5ozne3RRF0qSEdF
 ---
 

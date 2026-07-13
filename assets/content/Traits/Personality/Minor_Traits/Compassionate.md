@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Compassionate
-  aliases: []
+    full: Compassionate
+    aliases: []
 id: l50VINyxSkIVOgPu
 slug: compassionate
 img: icons/user-gear.svg
@@ -11,37 +11,43 @@ shortcode: cmpssnt
 type: trait
 package: sohl
 sohl:
-  subType: personality
-  intensity: benign
-  isNumeric: false
-  textValue: ''
-  valueDesc: []
-  score:
-    value: 0
-    max: 0
+    subType: personality
+    intensity: benign
+    isNumeric: false
+    textValue: ""
+    valueDesc: []
+    score:
+        value: 0
+        max: 0
 folder: SpZzOv4eOwtdsMMo
 ---
 
 Compassionate refers to an individual's deep empathy and genuine concern for the well-being of others. A compassionate person goes out of their way to help those in need, offering emotional support, care, and kindness. They are attuned to the suffering of others and are often motivated to alleviate that suffering, even at a personal cost. While compassion fosters strong relationships and a caring environment, extreme compassion can sometimes lead to self-neglect or burnout as the individual prioritizes others' needs over their own.
 
 ### Benign
+
 The individual is kind-hearted and quick to offer help or comfort to those in need. They listen carefully, show empathy, and take thoughtful actions to support others. Their compassion is balanced, allowing them to care for others without overwhelming themselves.
 **Example:** Sister Margaret, a nun in the village convent, is known for her gentle, caring nature. When villagers come to her seeking counsel or support, she listens patiently and offers heartfelt advice. She visits the sick regularly, providing both spiritual and physical comfort. Her compassion makes her well-loved by the community, as she is always there to lend a hand or a kind word when needed.
 
 ### Impulse
+
 The individual becomes more focused on helping others, sometimes prioritizing their well-being over their own needs. They may become emotionally involved in the suffering of others, feeling compelled to offer help even in situations where it is not their responsibility. Their selflessness, while admirable, may start to cause emotional strain as they take on more than they can handle.
 **Example:** Sister Margaret begins spending most of her time caring for the sick and troubled, often skipping meals and rest to attend to the needs of the villagers. She feels deeply for the suffering of others and cannot turn anyone away. While her devotion is appreciated, some of her fellow sisters worry that she is wearing herself thin, as she takes on more and more responsibility, leaving little time for her own spiritual and physical well-being.
 
 ### Disorder
+
 As compassion intensifies, the individual may become completely absorbed in the suffering of others, neglecting their own needs and health in the process. They feel responsible for solving every problem they encounter, leading to physical and emotional burnout. This extreme level of compassion can also cause them to be easily manipulated by those who take advantage of their kindness. Their inability to set boundaries can result in exhaustion, as they are constantly giving without receiving support in return.
 
 ### Physical Symptoms
+
 The individual may experience fatigue, headaches, or other stress-related symptoms due to overextending themselves in caring for others. Their health may begin to deteriorate as they neglect their own needs.
 
 ### Intrusive Thoughts
+
 Persistent thoughts of guilt or responsibility for the well-being of others, even when they are not in a position to help. They may feel as though they are failing if they cannot ease the suffering around them.
 
 ### Emotional Distress
+
 The individual may feel overwhelmed, anxious, or frustrated, as they take on the burdens of others without giving themselves time to rest. Their constant emotional involvement in others' problems leaves them emotionally drained, and they may struggle with feelings of helplessness when they cannot provide immediate relief.
 
 **Example:** Sister Margaret becomes consumed by her compassion for others, taking on the care of several sick villagers at once, often working through the night without rest. She refuses to leave anyone in need, even when her health begins to suffer. Her fellow sisters try to intervene, but Margaret feels guilty if she isn’t helping others constantly. Over time, her physical and emotional exhaustion grows, and she becomes overwhelmed by the weight of her responsibilities. Despite her best efforts, Sister Margaret can no longer sustain the level of care she provides, leaving her emotionally drained and physically unwell.

@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Perfumery
-  aliases: []
+    full: Perfumery
+    aliases: []
 description: "Blending herbs, flowers, and essences into scents and aromatic preparations."
 id: PvpCkNMovXUzadsr
 slug: perfumery
@@ -12,13 +12,13 @@ shortcode: pfmy
 type: skill
 package: sohl
 sohl:
-  subType: lore
-  skillBaseFormula: "@per, @rea"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: lore
+    skillBaseFormula: "@per, @rea"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: QlkEHXbk2EXlRiMM
 ---
 

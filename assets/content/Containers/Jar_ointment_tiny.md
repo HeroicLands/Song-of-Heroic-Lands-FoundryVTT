@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Jar, ointment, tiny"
+    - "Jar, ointment, tiny"
 tags: []
 name:
-  full: "Jar, ointment, tiny"
-  aliases: []
+    full: "Jar, ointment, tiny"
+    aliases: []
 description: "Thumb-sized ceramic vessel for precious unguent or poison antidote."
 id: S4G7z0kdZ2uITseE
 slug: jar-ointment-tiny
@@ -13,11 +13,11 @@ shortcode: jarointmen4
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  maxCapacity: 0.03125
-  value: 0.5
-  weight: 0.9
+    quality: 0
+    durability: 3
+    maxCapacity: 0.03125
+    value: 0.5
+    weight: 0.9
 folder: dl8lJ729W1mFlDvt
 ---
 

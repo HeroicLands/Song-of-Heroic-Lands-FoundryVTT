@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Crab
+    - Crab
 tags:
-  - food
+    - food
 name:
-  full: Crab
-  aliases: []
+    full: Crab
+    aliases: []
 description: "Sweet firm crustacean meat; fresh at harbor, salted for inland trade."
 id: d5dChLDfdxr49lsT
 slug: crab
@@ -14,10 +14,10 @@ shortcode: crab
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

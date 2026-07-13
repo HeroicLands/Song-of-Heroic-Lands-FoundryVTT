@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Archery
-  aliases: []
+    full: Archery
+    aliases: []
 description: "Striking distant targets with bows and crossbows; reading windage and elevation."
 id: sZWxSJSQoQccGYoi
 slug: archery
@@ -12,13 +12,13 @@ shortcode: archery
 type: skill
 package: sohl
 sohl:
-  subType: combat
-  skillBaseFormula: "@per, @dex"
-  combatCategory: melee
-  parentSkillCode: ''
-  initSkillMult: 1
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: combat
+    skillBaseFormula: "@per, @dex"
+    combatCategory: melee
+    parentSkillCode: ""
+    initSkillMult: 1
+    masteryLevelBase: 0
+    improveFlag: false
 folder: EphAMAfFhWBrJxyF
 ---
 

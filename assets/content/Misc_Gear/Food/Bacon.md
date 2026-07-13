@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Bacon
+    - Bacon
 tags:
-  - food
+    - food
 name:
-  full: Bacon
-  aliases: []
+    full: Bacon
+    aliases: []
 description: "Salt-cured pork belly cold-smoked; keeps through summer, enriches bread or pottage."
 id: WfNeCaz4bdcudZwm
 slug: bacon
@@ -14,10 +14,10 @@ shortcode: bacon
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1.25
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 1.25
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

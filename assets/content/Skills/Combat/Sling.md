@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Sling
-  aliases: []
+    full: Sling
+    aliases: []
 description: "Hurling stones and lead bullets from a sling with accuracy and force."
 id: lR1rlTeStCJvDwTR
 slug: sling
@@ -12,13 +12,13 @@ shortcode: slng
 type: skill
 package: sohl
 sohl:
-  subType: combat
-  skillBaseFormula: "@dex, @per"
-  combatCategory: missile
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: combat
+    skillBaseFormula: "@dex, @per"
+    combatCategory: missile
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: EphAMAfFhWBrJxyF
 ---
 

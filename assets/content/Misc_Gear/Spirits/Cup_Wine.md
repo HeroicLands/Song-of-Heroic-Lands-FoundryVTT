@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Cup Wine
+    - Cup Wine
 tags:
-  - spirits
+    - spirits
 name:
-  full: Cup Wine
-  aliases: []
+    full: Cup Wine
+    aliases: []
 description: "Common wine in cup; less refined than aged vintages; for modest means."
 id: cNXsFwdr1l79A8fv
 slug: cup-wine
@@ -14,10 +14,10 @@ shortcode: winecup
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1.25
-  weight: 0.5
+    quality: 0
+    durability: 0
+    value: 1.25
+    weight: 0.5
 folder: jLdeIpOIZokm8obv
 ---
 

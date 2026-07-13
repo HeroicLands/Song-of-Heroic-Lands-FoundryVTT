@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Light Blunt Bolt
+    - Light Blunt Bolt
 tags: []
 name:
-  full: Light Blunt Bolt
-  alias: []
+    full: Light Blunt Bolt
+    alias: []
 description: "Light quarrel with padded knob; stuns small game; spares fur and feather."
 type: projectilegear
 package: sohl
@@ -14,18 +14,18 @@ shortcode: BltLBlt
 img: icons/arrow.svg
 easyname: Light Blunt
 sohl:
-  quality: 0
-  durability: 10
-  value: 0.125
-  weight: 1
-  impact:
-    die: 4
-    modifier: -1
-    aspect: piercing
-  traits:
-    ARvalue: 4
-    bleed: true
-  subType: bolt
+    quality: 0
+    durability: 10
+    value: 0.125
+    weight: 1
+    impact:
+        die: 4
+        modifier: -1
+        aspect: piercing
+    traits:
+        ARvalue: 4
+        bleed: true
+    subType: bolt
 folder: ADQPHjgKsdWsJhyy
 ---
 

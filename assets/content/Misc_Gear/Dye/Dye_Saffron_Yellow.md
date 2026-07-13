@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Dye, Saffron Yellow"
+    - "Dye, Saffron Yellow"
 tags:
-  - clothing
+    - clothing
 name:
-  full: "Dye, Saffron Yellow"
-  aliases: []
+    full: "Dye, Saffron Yellow"
+    aliases: []
 description: "Dried crocus stigmas; brilliant golden yellow for noble silk garments."
 id: sUPuDiVU3t7QliyD
 slug: dye-saffron-yellow
@@ -14,10 +14,10 @@ shortcode: dyesfrn
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 1
-  value: 160
-  weight: 0.0625
+    quality: 0
+    durability: 1
+    value: 160
+    weight: 0.0625
 folder: 7r8WTAO2Ac8SF9tf
 ---
 

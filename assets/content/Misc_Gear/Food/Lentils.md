@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Lentils
+    - Lentils
 tags:
-  - food
+    - food
 name:
-  full: Lentils
-  aliases: []
+    full: Lentils
+    aliases: []
 description: "Dried legume staple, poor man's protein, survives long travel and damp."
 id: rxpbZ1BNmSJkaG6g
 slug: lentils
@@ -14,10 +14,10 @@ shortcode: lentils
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.5
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

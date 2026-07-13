@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Albinism
-  aliases: []
+    full: Albinism
+    aliases: []
 id: J06diTBIzK1ml5lC
 slug: albinism
 img: icons/user-gear.svg
@@ -11,14 +11,14 @@ shortcode: albinism
 type: trait
 package: sohl
 sohl:
-  subType: physique
-  intensity: benign
-  isNumeric: false
-  textValue: ''
-  valueDesc: []
-  score:
-    value: 0
-    max: 0
+    subType: physique
+    intensity: benign
+    isNumeric: false
+    textValue: ""
+    valueDesc: []
+    score:
+        value: 0
+        max: 0
 folder: 4h8qyMcGHlkrfN1g
 ---
 

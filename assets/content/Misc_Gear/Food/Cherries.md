@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Cherries
+    - Cherries
 tags:
-  - food
+    - food
 name:
-  full: Cherries
-  aliases: []
+    full: Cherries
+    aliases: []
 description: "Tart dried cherries from summer harvest; flavor game, sweeten puddings."
 id: xCdfRB6raPeWw78Q
 slug: cherries
@@ -14,10 +14,10 @@ shortcode: cherries
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.5
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.5
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

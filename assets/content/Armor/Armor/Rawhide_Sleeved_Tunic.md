@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Rawhide Sleeved Tunic
+    - Rawhide Sleeved Tunic
 tags: []
 name:
-  full: Rawhide Sleeved Tunic
-  aliases: []
+    full: Rawhide Sleeved Tunic
+    aliases: []
 description: "Sturdy hide tunic; arms and torso protection."
 id: iGq4R9CH2A7xvsEJ
 slug: rawhide-sleeved-tunic
@@ -13,32 +13,32 @@ shortcode: RhSTunic
 type: armorgear
 package: sohl
 sohl:
-  armorType: Sleeved Tunic
-  detailMaterial: Rawhide
-  material: Leather
-  durability: 11
-  value: 150
-  weight: 6.8
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: o2nujTlTgFcPMJ0z
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - lelbloc
-    - relbloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Sleeved Tunic
+    detailMaterial: Rawhide
+    material: Leather
+    durability: 11
+    value: 150
+    weight: 6.8
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: o2nujTlTgFcPMJ0z
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - lelbloc
+        - relbloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 150
 origWeight: 6.8

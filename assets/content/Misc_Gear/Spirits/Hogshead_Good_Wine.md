@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Hogshead Good Wine
+    - Hogshead Good Wine
 tags:
-  - spirits
+    - spirits
 name:
-  full: Hogshead Good Wine
-  aliases: []
+    full: Hogshead Good Wine
+    aliases: []
 description: "Fine oak-aged wine in barrel; noble cellar treasure, aged years before tapping."
 id: ed0tuFno9QqNBZHu
 slug: hogshead-good-wine
@@ -14,10 +14,10 @@ shortcode: gwinehgsh
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 2400
-  weight: 500
+    quality: 0
+    durability: 0
+    value: 2400
+    weight: 500
 folder: jLdeIpOIZokm8obv
 ---
 

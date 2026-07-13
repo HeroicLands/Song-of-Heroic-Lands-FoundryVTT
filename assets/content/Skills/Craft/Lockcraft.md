@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Lockcraft
-  aliases: []
+    full: Lockcraft
+    aliases: []
 description: "Designing locks; picking or bypassing mechanical locking mechanisms."
 id: NPPfr5uMfRCDsch3
 slug: lockcraft
@@ -12,13 +12,13 @@ shortcode: lock
 type: skill
 package: sohl
 sohl:
-  subType: craft
-  skillBaseFormula: "@dex, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: craft
+    skillBaseFormula: "@dex, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: gqRvjlrWbuCwGy3N
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Branding Iron
+    - Branding Iron
 tags:
-  - instruments
+    - instruments
 name:
-  full: Branding Iron
-  aliases: []
+    full: Branding Iron
+    aliases: []
 description: "Forged rod with heraldic stamp, heated and pressed into cattle hide."
 id: OOUJnHm4TzUEY0D1
 slug: branding-iron
@@ -14,10 +14,10 @@ shortcode: brandingir
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 10
-  value: 18
-  weight: 3
+    quality: 0
+    durability: 10
+    value: 18
+    weight: 3
 folder: xniLjmZWYQZkSxyv
 ---
 

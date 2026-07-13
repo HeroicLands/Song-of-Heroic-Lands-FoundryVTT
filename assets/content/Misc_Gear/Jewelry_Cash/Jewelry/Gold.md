@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Gold
+    - Gold
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: Gold
-  aliases: []
+    full: Gold
+    aliases: []
 description: "Precious metal beaten into ingots, coins by royal mints; foundation of trade."
 id: WbtsZ9lkdjcMjuXJ
 slug: gold
@@ -14,10 +14,10 @@ shortcode: gold
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 1200
-  weight: 0.0625
+    quality: 0
+    durability: 3
+    value: 1200
+    weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

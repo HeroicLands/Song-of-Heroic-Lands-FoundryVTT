@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Keg Good Wine
+    - Keg Good Wine
 tags:
-  - spirits
+    - spirits
 name:
-  full: Keg Good Wine
-  aliases: []
+    full: Keg Good Wine
+    aliases: []
 description: "Aged fine wine in keg; lord's cellar treasure, craftsman's yearly wage."
 id: mG9o4KXB3ZdTPKaA
 slug: keg-good-wine
@@ -14,10 +14,10 @@ shortcode: gwinekeg
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 360
-  weight: 72
+    quality: 0
+    durability: 0
+    value: 360
+    weight: 72
 folder: jLdeIpOIZokm8obv
 ---
 

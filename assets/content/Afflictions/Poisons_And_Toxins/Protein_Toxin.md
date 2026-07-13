@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Protein Toxin
+    - Protein Toxin
 tags: []
 name:
-  full: Protein Toxin
-  aliases: []
+    full: Protein Toxin
+    aliases: []
 description: "Marine spine venom; intense pain and tissue necrosis; cardiovascular distress."
 id: 1hB1Y3KMI1an8IOn
 slug: protein-toxin
@@ -13,12 +13,12 @@ shortcode: prottxn
 type: affliction
 package: sohl
 sohl:
-  subType: poisontoxin
-  diagnosisBonus: 0
-  levelBase: 1
-  healingRateBase: 3
-  contagionIndex: 3
-  transmission: vector
+    subType: poisontoxin
+    diagnosisBonus: 0
+    levelBase: 1
+    healingRateBase: 3
+    contagionIndex: 3
+    transmission: vector
 folder: ONXsqZAIZr2qzxTb
 ---
 
@@ -29,6 +29,7 @@ Toxins from marine animals contain potent protein toxins that cause severe pain,
 Immediate and intense pain, swelling at the site of the sting.
 
 ### Progression
+
 Local necrosis, cardiovascular symptoms (hypotension, tachycardia), fever, and systemic toxicity leading to shock and potentially death if untreated.
 
 ### Treatment

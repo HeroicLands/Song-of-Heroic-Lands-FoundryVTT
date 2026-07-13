@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Thoughtful
-  aliases: []
+    full: Thoughtful
+    aliases: []
 id: FJHw3A4gcO8Ft3uD
 slug: thoughtful
 img: icons/user-gear.svg
@@ -11,39 +11,45 @@ shortcode: thghtfl
 type: trait
 package: sohl
 sohl:
-  subType: personality
-  intensity: benign
-  isNumeric: false
-  textValue: ''
-  valueDesc: []
-  score:
-    value: 0
-    max: 0
+    subType: personality
+    intensity: benign
+    isNumeric: false
+    textValue: ""
+    valueDesc: []
+    score:
+        value: 0
+        max: 0
 folder: SpZzOv4eOwtdsMMo
 ---
 
 Thoughtfulness is the habit of considering consequences before acting, of holding others' feelings and circumstances in mind before speaking or deciding. A thoughtful person pauses; they reflect on their words, anticipate how others might be affected, and take care in their dealings. In a world where rash action can bring ruin and harsh words can wound for years, thoughtfulness is a virtue—yet when it becomes excessive, it can paralyze.
 
 ### Benign
+
 At its finest, thoughtfulness manifests as genuine care for others' well-being and careful deliberation in one's choices. A thoughtful person is a good friend—they remember what others have told them, offer help before being asked, and speak with consideration. They make few mistakes because they think through courses of action. They are trusted with secrets and difficult decisions. They are often called upon to mediate disputes because they see all sides fairly. They conduct their affairs with dignity and rarely cause regret.
 
 **Example:** A knight who, before embarking on a journey, writes letters to his family and friends, offering words of comfort and wisdom, and ensuring that his affairs are in order. He speaks carefully to his household, showing care for the well-being of those he leaves behind. He has prepared for contingencies and made provisions for those dependent upon him.
 
 ### Impulse
+
 When thoughtfulness becomes compulsive, decision-making slows to a crawl. A thoughtful person in this state cannot act without exhaustively considering every possible consequence. A simple choice—what to wear, what to say—becomes an ordeal of deliberation. They endlessly second-guess themselves, convinced they have overlooked something crucial. They may postpone important actions indefinitely because they fear their decision was not sufficiently considered. Others grow impatient with their hesitation; opportunities pass because they cannot decide. They appear indecisive, even weak, and their own anxiety about making the "right" choice becomes self-reinforcing.
 
 **Example:** A merchant who has delayed a profitable venture for months, constantly reconsidering whether it is the right choice. He drafts letters to potential partners, then tears them up, certain he has missed something. He consults advisors repeatedly, asking the same questions. His hesitation has cost him goodwill; partners have moved on to other traders. His own family grows exasperated with his paralysis.
 
 ### Disorder
+
 At its most severe, thoughtfulness becomes a form of obsessive rumination that prevents any action at all. The person becomes trapped in endless loops of consideration, unable to move forward on even vital matters. They may be unable to leave their home because they are convinced they have forgotten something crucial; they may refuse to make decisions on behalf of their household because the weight of responsibility feels insurmountable. Some believe they perceive dangers no one else can see and become functionally immobilized by the fear of causing harm through a wrong choice.
 
 ### Physical Symptoms
+
 A thoughtful person often appears composed, with deliberate movements and careful posture. At impulse levels, they may appear tense, with a furrowed brow and a habit of pausing mid-sentence. In disorder, they may show signs of acute anxiety—trembling hands, inability to remain still, or conversely, a kind of frozen immobility as if physically stuck in indecision.
 
 ### Intrusive Thoughts
-What if I have chosen wrongly? What have I overlooked? At disorder level: *I will cause harm. I cannot choose. Every decision leads to catastrophe.*
+
+What if I have chosen wrongly? What have I overlooked? At disorder level: _I will cause harm. I cannot choose. Every decision leads to catastrophe._
 
 ### Emotional Distress
+
 Benign thoughtfulness brings inner peace and a sense of living well. Impulse level introduces growing anxiety about consequences and a creeping sense of inadequacy. In disorder, the emotional burden is crushing—the person feels responsible for everything, convinced that any action they take will result in calamity. Despair and paralysis are constant companions.
 
 **Example:** A steward named Oswin, tasked with managing a manor's resources, has become so caught in thoughtful deliberation that nothing is accomplished. He cannot approve payment for repairs because he worries the money might be needed elsewhere. He cannot hire new servants because he fears the choice will be wrong. He cannot even decide what crops to plant without exhausting analysis. The manor has begun to deteriorate; supplies go unpurchased; necessary work sits undone. His lord is exasperated, and Oswin himself is hollow-eyed and haggard, consumed by the weight of decisions he cannot make.

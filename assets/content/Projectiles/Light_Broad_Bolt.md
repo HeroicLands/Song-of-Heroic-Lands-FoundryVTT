@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Light Broad Bolt
+    - Light Broad Bolt
 tags: []
 name:
-  full: Light Broad Bolt
-  alias: []
+    full: Light Broad Bolt
+    alias: []
 description: "Light quarrel, leaf-bladed iron head; opens bleeding wound; hunters, scouts, brigand foes."
 type: projectilegear
 package: sohl
@@ -14,18 +14,18 @@ shortcode: BltLBrd
 img: icons/arrow.svg
 easyname: Light Broad
 sohl:
-  quality: 0
-  durability: 10
-  value: 0.125
-  weight: 1
-  impact:
-    die: 8
-    modifier: -1
-    aspect: piercing
-  traits:
-    ARvalue: 4
-    bleed: true
-  subType: bolt
+    quality: 0
+    durability: 10
+    value: 0.125
+    weight: 1
+    impact:
+        die: 8
+        modifier: -1
+        aspect: piercing
+    traits:
+        ARvalue: 4
+        bleed: true
+    subType: bolt
 folder: ADQPHjgKsdWsJhyy
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Silk Swaddle
+    - Silk Swaddle
 tags: []
 name:
-  full: Silk Swaddle
-  aliases: []
+    full: Silk Swaddle
+    aliases: []
 description: "Luxurious silk swaddle for infants; soft, elegant formal wear."
 id: QODYMRoNIoH1Yf0U
 slug: silk-swaddle
@@ -13,27 +13,27 @@ shortcode: SlkSwd
 type: armorgear
 package: sohl
 sohl:
-  armorType: Swaddle
-  detailMaterial: Silk
-  material: Cloth
-  durability: 7
-  value: 171
-  weight: 0.5
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: ifUxqCU5aZWJmKJ5
-  flexloc:
-    - lcalfloc
-    - rcalfloc
-    - lfootloc
-    - rfootloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Swaddle
+    detailMaterial: Silk
+    material: Cloth
+    durability: 7
+    value: 171
+    weight: 0.5
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: ifUxqCU5aZWJmKJ5
+    flexloc:
+        - lcalfloc
+        - rcalfloc
+        - lfootloc
+        - rfootloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 19
 origWeight: 1

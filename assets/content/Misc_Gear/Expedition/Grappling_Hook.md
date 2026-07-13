@@ -1,13 +1,13 @@
 ---
 aliases:
-  - Grappling Hook
+    - Grappling Hook
 tags:
-  - expedition
+    - expedition
 name:
-  full: Grappling Hook
-  aliases:
-    - Grapnel
-    - "Hook, grappling"
+    full: Grappling Hook
+    aliases:
+        - Grapnel
+        - "Hook, grappling"
 description: "Four-pronged iron hook for throwing over walls and ledges. Reusable if the line can be recovered."
 id: 3NkRvP8ZqWmL5TcX
 slug: grappling-hook
@@ -16,10 +16,10 @@ shortcode: grphook
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 9
-  value: 20
-  weight: 4
+    quality: 0
+    durability: 9
+    value: 20
+    weight: 4
 folder: FSPVI1eObGEpMVck
 ---
 

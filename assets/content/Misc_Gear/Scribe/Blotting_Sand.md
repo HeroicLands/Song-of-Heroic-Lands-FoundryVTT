@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Blotting Sand
-  - Drying Sand
+    - Blotting Sand
+    - Drying Sand
 tags:
-  - scribe
+    - scribe
 name:
-  full: Blotting Sand
-  aliases: []
+    full: Blotting Sand
+    aliases: []
 description: "Fine sand scattered over wet ink; absorbs moisture, prevents smudging."
 id: yCGT0IVvpjFGvFV2
 slug: blotting-sand
@@ -15,10 +15,10 @@ shortcode: blotsand
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 5
-  weight: 0.5
+    quality: 0
+    durability: 0
+    value: 5
+    weight: 0.5
 folder: BYkA5NDQxTXDvsAC
 ---
 

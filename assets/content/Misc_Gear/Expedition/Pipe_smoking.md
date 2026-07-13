@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Pipe, smoking"
+    - "Pipe, smoking"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Pipe, smoking"
-  aliases: []
+    full: "Pipe, smoking"
+    aliases: []
 description: "Fruitwood or horn pipe for tobacco; carved for nobles, plain for soldiers."
 id: m1JZDkK3dyk1hjCr
 slug: pipe-smoking
@@ -14,10 +14,10 @@ shortcode: pipesmokin
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 3
-  weight: 0.25
+    quality: 0
+    durability: 3
+    value: 3
+    weight: 0.25
 folder: FSPVI1eObGEpMVck
 ---
 

@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Body Weight
+    - Body Weight
 tags: []
 name:
-  full: Body Weight
-  aliases: []
+    full: Body Weight
+    aliases: []
 id: GPJxHDbVcGAnaXZs
 slug: body-weight
 img: icons/weight.svg
@@ -12,14 +12,14 @@ shortcode: wt
 type: trait
 package: sohl
 sohl:
-  subType: physique
-  intensity: trait
-  textValue: ''
-  score:
-    value: 150
-    max: 0
-  isNumeric: true
-  valueDesc: []
+    subType: physique
+    intensity: trait
+    textValue: ""
+    score:
+        value: 150
+        max: 0
+    isNumeric: true
+    valueDesc: []
 folder: 4h8qyMcGHlkrfN1g
 ---
 

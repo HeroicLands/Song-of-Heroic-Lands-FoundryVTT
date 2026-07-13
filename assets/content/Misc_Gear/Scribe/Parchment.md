@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Parchment
+    - Parchment
 tags:
-  - scribe
+    - scribe
 name:
-  full: Parchment
-  aliases: []
+    full: Parchment
+    aliases: []
 description: "Sheepskin stretched, chalked, pumiced; durable centuries, preferred for records."
 id: 1DyrU43mNCIBilJW
 slug: parchment
@@ -14,10 +14,10 @@ shortcode: parchment
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 2
-  weight: 0.1
+    quality: 0
+    durability: 3
+    value: 2
+    weight: 0.1
 folder: BYkA5NDQxTXDvsAC
 ---
 

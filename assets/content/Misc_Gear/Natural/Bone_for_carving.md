@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Bone (for carving)
+    - Bone (for carving)
 tags:
-  - natural
+    - natural
 name:
-  full: Bone (for carving)
-  aliases: []
+    full: Bone (for carving)
+    aliases: []
 description: "Scraped bone scraps; used by carvers and flute-makers for chess, combs, ornaments."
 id: IaRqqiFEiyGtEmiC
 slug: bone-for-carving
@@ -14,10 +14,10 @@ shortcode: boneforcar
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 0.25
-  weight: 1
+    quality: 0
+    durability: 4
+    value: 0.25
+    weight: 1
 folder: 0JqxkW5hHZ8XVILm
 ---
 

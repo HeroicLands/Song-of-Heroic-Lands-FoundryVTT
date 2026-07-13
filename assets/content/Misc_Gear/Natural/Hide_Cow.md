@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Cow"
+    - "Hide, Cow"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Cow"
-  aliases: []
+    full: "Hide, Cow"
+    aliases: []
 description: "Dairy cow hide; tannery workhorse; russet leather for jerkins and breeches."
 id: 8qLBnGRM54ikWmh2
 slug: hide-cow
@@ -14,10 +14,10 @@ shortcode: hidecow
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 0
-  weight: 22
+    quality: 0
+    durability: 3
+    value: 0
+    weight: 22
 folder: 0JqxkW5hHZ8XVILm
 ---
 

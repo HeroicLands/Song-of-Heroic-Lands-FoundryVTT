@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Flour, Barley"
+    - "Flour, Barley"
 tags:
-  - food
+    - food
 name:
-  full: "Flour, Barley"
-  aliases: []
+    full: "Flour, Barley"
+    aliases: []
 description: "Earthy pale flour; bakes flatbreads and thickens pottage when wheat scarce."
 id: xMAI9TK7aTZyVbKb
 slug: flour-barley
@@ -14,10 +14,10 @@ shortcode: flourbarle
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.25
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 0.25
+    weight: 1
 folder: cHM58zOI1EcSG3cP
 ---
 

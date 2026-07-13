@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Hide, Exotic"
+    - "Hide, Exotic"
 tags:
-  - natural
+    - natural
 name:
-  full: "Hide, Exotic"
-  aliases: []
+    full: "Hide, Exotic"
+    aliases: []
 description: "Rare distant pelts: crocodile, ostrich, tiger, python; premium prices for noble collectors."
 id: NjlLTxdiiqgzRpOX
 slug: hide-exotic
@@ -14,10 +14,10 @@ shortcode: hideexotic
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 120
-  weight: 0
+    quality: 0
+    durability: 3
+    value: 120
+    weight: 0
 folder: 0JqxkW5hHZ8XVILm
 ---
 

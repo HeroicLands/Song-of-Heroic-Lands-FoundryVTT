@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Beeswax
+    - Beeswax
 tags:
-  - expedition
+    - expedition
 name:
-  full: Beeswax
-  aliases: []
+    full: Beeswax
+    aliases: []
 description: "Pale honey-colored cake; waterproofs leather, caulks wood, and makes fine candles."
 id: bkAvIciquAXZ2m8K
 slug: beeswax
@@ -14,10 +14,10 @@ shortcode: bswax
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 1
-  weight: 1
+    quality: 0
+    durability: 8
+    value: 1
+    weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

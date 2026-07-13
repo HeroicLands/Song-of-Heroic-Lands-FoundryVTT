@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Linen Trousers
+    - Linen Trousers
 tags: []
 name:
-  full: Linen Trousers
-  aliases: []
+    full: Linen Trousers
+    aliases: []
 description: "Light breathable leg coverings ideal for warm weather comfort."
 id: 34c3qjUvU7GpqMLC
 slug: linen-trousers
@@ -13,30 +13,30 @@ shortcode: LTrsr
 type: armorgear
 package: sohl
 sohl:
-  armorType: Trousers
-  detailMaterial: Linen
-  material: Cloth
-  durability: 5
-  value: 20
-  weight: 0.5
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: YlgcSLORnCuOKj7C
-  flexloc:
-    - plvisloc
-    - lthghloc
-    - rthghloc
-    - lkneeloc
-    - rkneeloc
-    - lcalfloc
-    - rcalfloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Trousers
+    detailMaterial: Linen
+    material: Cloth
+    durability: 5
+    value: 20
+    weight: 0.5
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: YlgcSLORnCuOKj7C
+    flexloc:
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 39
 origWeight: 2

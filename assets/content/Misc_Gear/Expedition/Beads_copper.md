@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Beads, copper"
+    - "Beads, copper"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Beads, copper"
-  aliases: []
+    full: "Beads, copper"
+    aliases: []
 description: "Cast copper beads; common trade items and clothing decorations for many cultures."
 id: fNMoYLupl066QMAt
 slug: beads-copper
@@ -14,10 +14,10 @@ shortcode: beadscoppe
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 7
-  weight: 0
+    quality: 0
+    durability: 3
+    value: 7
+    weight: 0
 folder: FSPVI1eObGEpMVck
 ---
 

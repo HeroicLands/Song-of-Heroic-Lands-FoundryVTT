@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Vigilant
-  aliases: []
+    full: Vigilant
+    aliases: []
 id: RI9iTNytVPvp3qVJ
 slug: vigilant
 img: icons/user-gear.svg
@@ -11,14 +11,14 @@ shortcode: vigilant
 type: trait
 package: sohl
 sohl:
-  subType: personality
-  intensity: benign
-  isNumeric: false
-  textValue: ''
-  valueDesc: []
-  score:
-    value: 0
-    max: 0
+    subType: personality
+    intensity: benign
+    isNumeric: false
+    textValue: ""
+    valueDesc: []
+    score:
+        value: 0
+        max: 0
 folder: SpZzOv4eOwtdsMMo
 ---
 

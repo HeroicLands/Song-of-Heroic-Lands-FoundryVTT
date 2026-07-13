@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Dodge
-  aliases: []
+    full: Dodge
+    aliases: []
 description: "Evading attacks by shifting body; instinctive defense in combat."
 id: NYQ0l87HDML9CIYT
 slug: dodge
@@ -12,13 +12,13 @@ shortcode: dge
 type: skill
 package: sohl
 sohl:
-  subType: combat
-  skillBaseFormula: "@agl, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 2
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: combat
+    skillBaseFormula: "@agl, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 2
+    masteryLevelBase: 0
+    improveFlag: false
 folder: EphAMAfFhWBrJxyF
 ---
 

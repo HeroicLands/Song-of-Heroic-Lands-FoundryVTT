@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Baldric, Shoulder"
+    - "Baldric, Shoulder"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Baldric, Shoulder"
-  aliases: []
+    full: "Baldric, Shoulder"
+    aliases: []
 description: "Wide leather strap with brass rings worn diagonally across chest and shoulder."
 id: 0Q2HTuoUr6V39H3N
 slug: baldric-shoulder
@@ -14,10 +14,10 @@ shortcode: baldricsho
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 10
-  weight: 1.75
+    quality: 0
+    durability: 8
+    value: 10
+    weight: 1.75
 folder: FSPVI1eObGEpMVck
 ---
 

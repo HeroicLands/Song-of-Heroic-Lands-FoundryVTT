@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Bloodstone, cut"
+    - "Bloodstone, cut"
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: "Bloodstone, cut"
-  aliases: []
+    full: "Bloodstone, cut"
+    aliases: []
 description: "Deep green stone streaked with red; favored for signet rings of soldiers."
 id: Y2Itvttlm4Ujnzbc
 slug: bloodstone-cut
@@ -14,10 +14,10 @@ shortcode: bloodstone
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 15
-  weight: 0.0004
+    quality: 0
+    durability: 2
+    value: 15
+    weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

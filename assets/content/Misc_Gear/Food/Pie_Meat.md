@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Pie, Meat"
+    - "Pie, Meat"
 tags:
-  - food
+    - food
 name:
-  full: "Pie, Meat"
-  aliases: []
+    full: "Pie, Meat"
+    aliases: []
 description: "Baked dough with minced spiced meat, feeds one hungry traveler daily."
 id: mrgNXfADTfio3S3t
 slug: pie-meat
@@ -14,10 +14,10 @@ shortcode: piemeat
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 1
-  weight: 0.5
+    quality: 0
+    durability: 0
+    value: 1
+    weight: 0.5
 folder: cHM58zOI1EcSG3cP
 ---
 

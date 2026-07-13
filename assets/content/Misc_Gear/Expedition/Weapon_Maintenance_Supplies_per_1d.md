@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Weapon Maintenance Supplies, per 1d"
+    - "Weapon Maintenance Supplies, per 1d"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Weapon Maintenance Supplies, per 1d"
-  aliases: []
+    full: "Weapon Maintenance Supplies, per 1d"
+    aliases: []
 description: "Oil, wax, whetstone chips, cord, rivets, wire; one pence buys one pence of weapon upkeep."
 id: Vk8TzYpM3RqN2XwH
 slug: weapon-maintenance-supplies-per-1d
@@ -14,10 +14,10 @@ shortcode: wpnsup
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 1
-  weight: 0.02
+    quality: 0
+    durability: 2
+    value: 1
+    weight: 0.02
 folder: FSPVI1eObGEpMVck
 ---
 

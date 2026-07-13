@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Bowl, pewter"
+    - "Bowl, pewter"
 tags:
-  - cooking
+    - cooking
 name:
-  full: "Bowl, pewter"
-  aliases: []
+    full: "Bowl, pewter"
+    aliases: []
 description: "Cast pewter bowl; durable, soft-sheen, and safe for food and drink."
 id: saSFEbDWV7aCROzb
 slug: bowl-pewter
@@ -14,10 +14,10 @@ shortcode: bowlpewter
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 4
-  weight: 1
+    quality: 0
+    durability: 4
+    value: 4
+    weight: 1
 folder: 7TT0OzoIoEn40zfs
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Lock, miniature"
+    - "Lock, miniature"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Lock, miniature"
-  aliases: []
+    full: "Lock, miniature"
+    aliases: []
 description: "Finger-length iron lock for jewelry boxes and caskets; master locksmith's fine craft."
 id: vZKEwg0WNAgZEqck
 slug: lock-miniature
@@ -14,10 +14,10 @@ shortcode: lockminiat
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 5
-  value: 90
-  weight: 0.25
+    quality: 0
+    durability: 5
+    value: 90
+    weight: 0.25
 folder: FSPVI1eObGEpMVck
 ---
 

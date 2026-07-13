@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Plate Breastplate
+    - Plate Breastplate
 tags: []
 name:
-  full: Plate Breastplate
-  aliases: []
+    full: Plate Breastplate
+    aliases: []
 description: "Steel plate protecting torso; cornerstone of knightly armor."
 id: uGYeMubD0j1coWa9
 slug: plate-breastplate
@@ -13,25 +13,25 @@ shortcode: PlBreast
 type: armorgear
 package: sohl
 sohl:
-  armorType: Breastplate
-  detailMaterial: Plate
-  material: Plate
-  durability: 14
-  value: 240
-  weight: 4.5
-  encumbrance: 5
-  perception:
-    value: 0
-    effectId: UsKmxHK3bZWLBr3f
-  flexloc: []
-  rigidloc:
-    - thrxloc
-    - abdmnloc
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Breastplate
+    detailMaterial: Plate
+    material: Plate
+    durability: 14
+    value: 240
+    weight: 4.5
+    encumbrance: 5
+    perception:
+        value: 0
+        effectId: UsKmxHK3bZWLBr3f
+    flexloc: []
+    rigidloc:
+        - thrxloc
+        - abdmnloc
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 240
 origWeight: 4.5

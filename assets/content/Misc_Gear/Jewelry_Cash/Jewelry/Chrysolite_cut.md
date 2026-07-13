@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Chrysolite, cut"
+    - "Chrysolite, cut"
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: "Chrysolite, cut"
-  aliases: []
+    full: "Chrysolite, cut"
+    aliases: []
 description: "Pale yellow-green faceted gem; nobility and clergy set in rings."
 id: 0BGw5SjbBELYE8c3
 slug: chrysolite-cut
@@ -14,10 +14,10 @@ shortcode: chrysolite
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 500
-  weight: 0.0004
+    quality: 0
+    durability: 2
+    value: 500
+    weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

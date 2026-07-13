@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Syndactyly
-  aliases: []
+    full: Syndactyly
+    aliases: []
 id: Nm4Q0Yxe968r39sv
 slug: syndactyly
 img: icons/user-gear.svg
@@ -11,14 +11,14 @@ shortcode: syndacty
 type: trait
 package: sohl
 sohl:
-  subType: physique
-  intensity: benign
-  isNumeric: false
-  textValue: ''
-  valueDesc: []
-  score:
-    value: 0
-    max: 0
+    subType: physique
+    intensity: benign
+    isNumeric: false
+    textValue: ""
+    valueDesc: []
+    score:
+        value: 0
+        max: 0
 folder: 4h8qyMcGHlkrfN1g
 ---
 

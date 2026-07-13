@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Peas, crate"
+    - "Peas, crate"
 tags:
-  - food
+    - food
 name:
-  full: "Peas, crate"
-  aliases: []
+    full: "Peas, crate"
+    aliases: []
 description: "Dried legume bushel, stretches meat into thick nourishing pottage for garrisons."
 id: EytJC5bkVmtwRs7F
 slug: peas-crate
@@ -14,10 +14,10 @@ shortcode: peascrate
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 6.5
-  weight: 41.25
+    quality: 0
+    durability: 0
+    value: 6.5
+    weight: 41.25
 folder: cHM58zOI1EcSG3cP
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Chain, heavy"
+    - "Chain, heavy"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Chain, heavy"
-  aliases: []
+    full: "Chain, heavy"
+    aliases: []
 description: "Forged iron link chain; secures large goods, hobbles beasts, binds prisoners."
 id: h3HMliHZQnZXoFub
 slug: chain-heavy
@@ -14,10 +14,10 @@ shortcode: chainheavy
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 10
-  value: 5
-  weight: 4
+    quality: 0
+    durability: 10
+    value: 5
+    weight: 4
 folder: FSPVI1eObGEpMVck
 ---
 

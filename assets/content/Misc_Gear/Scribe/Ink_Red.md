@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Ink, Red"
+    - "Ink, Red"
 tags:
-  - scribe
+    - scribe
 name:
-  full: "Ink, Red"
-  aliases: []
+    full: "Ink, Red"
+    aliases: []
 description: "Vermilion or madder-root; reserved for titles, rubrication, illuminated capitals."
 id: Jt4DfHFx3I4Bqvjb
 slug: ink-red
@@ -14,10 +14,10 @@ shortcode: inkred
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 12
-  weight: 2
+    quality: 0
+    durability: 0
+    value: 12
+    weight: 2
 folder: BYkA5NDQxTXDvsAC
 ---
 

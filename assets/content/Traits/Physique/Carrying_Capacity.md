@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Carrying Capacity
+    - Carrying Capacity
 tags: []
 name:
-  full: Carrying Capacity
-  aliases: []
+    full: Carrying Capacity
+    aliases: []
 id: 0FO8plqmytFaDEqx
 slug: carrying-capacity
 img: icons/carrying-sack.svg
@@ -12,14 +12,14 @@ shortcode: cap
 type: trait
 package: sohl
 sohl:
-  subType: physique
-  intensity: trait
-  textValue: ''
-  score:
-    value: 50
-    max: 75
-  isNumeric: true
-  valueDesc: []
+    subType: physique
+    intensity: trait
+    textValue: ""
+    score:
+        value: 50
+        max: 75
+    isNumeric: true
+    valueDesc: []
 folder: 4h8qyMcGHlkrfN1g
 ---
 

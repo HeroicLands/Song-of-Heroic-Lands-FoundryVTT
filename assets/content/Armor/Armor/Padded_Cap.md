@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Padded Cap
+    - Padded Cap
 tags: []
 name:
-  full: Padded Cap
-  aliases: []
+    full: Padded Cap
+    aliases: []
 description: "Cushioned head covering providing warmth for wear under helmets."
 id: MzykBMvqECyB9AcH
 slug: padded-cap
@@ -13,24 +13,24 @@ shortcode: PCap
 type: armorgear
 package: sohl
 sohl:
-  armorType: Cap
-  detailMaterial: Padded
-  material: Padded
-  durability: 10
-  value: 8
-  weight: 0.3
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: wREOPYiASQcU3uae
-  flexloc:
-    - skullloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Cap
+    detailMaterial: Padded
+    material: Padded
+    durability: 10
+    value: 8
+    weight: 0.3
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: wREOPYiASQcU3uae
+    flexloc:
+        - skullloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: M4nHcUWOatfVGuh3
 origValue: 8
 origWeight: 0.3

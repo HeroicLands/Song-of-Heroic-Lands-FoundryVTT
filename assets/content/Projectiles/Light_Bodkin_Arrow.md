@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Light Bodkin Arrow
+    - Light Bodkin Arrow
 tags: []
 name:
-  full: Light Bodkin Arrow
-  alias: []
+    full: Light Bodkin Arrow
+    alias: []
 description: "Slender shaft, square-sectioned spike; splits light mail at distance; militia, skirmish use."
 type: projectilegear
 package: sohl
@@ -14,18 +14,18 @@ shortcode: ArwLBod
 img: icons/arrow.svg
 easyname: Light Bodkin
 sohl:
-  quality: 0
-  durability: 10
-  value: 0.125
-  weight: 1
-  impact:
-    die: 8
-    modifier: -1
-    aspect: piercing
-  traits:
-    ARvalue: 4
-    bleed: false
-  subType: arrow
+    quality: 0
+    durability: 10
+    value: 0.125
+    weight: 1
+    impact:
+        die: 8
+        modifier: -1
+        aspect: piercing
+    traits:
+        ARvalue: 4
+        bleed: false
+    subType: arrow
 folder: ADQPHjgKsdWsJhyy
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Amber
+    - Amber
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: Amber
-  aliases: []
+    full: Amber
+    aliases: []
 description: "Fossilized golden resin; craftspeople carve or polish into beads and ornaments."
 id: AHASqLSVWWPKMAdL
 slug: amber
@@ -14,10 +14,10 @@ shortcode: amber
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 1
-  value: 50
-  weight: 0.0625
+    quality: 0
+    durability: 1
+    value: 50
+    weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

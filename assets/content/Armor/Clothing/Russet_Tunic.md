@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Russet Tunic
+    - Russet Tunic
 tags: []
 name:
-  full: Russet Tunic
-  aliases: []
+    full: Russet Tunic
+    aliases: []
 description: "Reddish-brown wool tunic; everyday wear for rough labor."
 id: b4hEjLolJgQBubCt
 slug: russet-tunic
@@ -13,32 +13,32 @@ shortcode: RTunic
 type: armorgear
 package: sohl
 sohl:
-  armorType: Tunic
-  detailMaterial: Russet
-  material: Cloth
-  durability: 7
-  value: 54
-  weight: 1.2
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: EHH9TnmZlmmUDngF
-  flexloc:
-    - lshldloc
-    - rshldloc
-    - lupaloc
-    - rupaloc
-    - lelbloc
-    - relbloc
-    - thrxloc
-    - abdmnloc
-    - plvisloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Tunic
+    detailMaterial: Russet
+    material: Cloth
+    durability: 7
+    value: 54
+    weight: 1.2
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: EHH9TnmZlmmUDngF
+    flexloc:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - lelbloc
+        - relbloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 45
 origWeight: 2.3

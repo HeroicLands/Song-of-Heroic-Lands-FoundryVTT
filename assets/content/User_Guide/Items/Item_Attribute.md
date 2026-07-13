@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Attribute
+    - Attribute
 id: U0TH4VhppcRofFnk
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Attribute"
+    full: "Attribute"
 slug: "item-attribute"
 folder: QtOgPodi8X6gDWL0
 ---
@@ -25,8 +25,10 @@ Attributes are typically added from compendium packs when creating a character,
 not created from scratch.
 
 # Additional Properties
+
 Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+
 - **SubType:** Traid category ("Physical", "Personality", "Transcendant")
-- **init Dice Formula:** If numeric, The dice formula that is used when a new being is created.  If empty, the existing value will be kept.
+- **init Dice Formula:** If numeric, The dice formula that is used when a new being is created. If empty, the existing value will be kept.
 - **Value Descriptions** — If numeric, this is a table of descriptions for various trait scores.
 - **Score:** Value of the trait.

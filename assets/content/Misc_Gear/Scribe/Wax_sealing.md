@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Wax, sealing"
+    - "Wax, sealing"
 tags:
-  - scribe
+    - scribe
 name:
-  full: "Wax, sealing"
-  aliases: []
+    full: "Wax, sealing"
+    aliases: []
 description: "Beeswax or tallow stick; melted, impressed with seal ring to authenticate letters."
 id: TWVUHH5aUta6QS79
 slug: wax-sealing
@@ -14,10 +14,10 @@ shortcode: waxsealing
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 4
-  weight: 1
+    quality: 0
+    durability: 0
+    value: 4
+    weight: 1
 folder: BYkA5NDQxTXDvsAC
 ---
 

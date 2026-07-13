@@ -1,10 +1,10 @@
 ---
 aliases:
-  - "Lockbox, large"
+    - "Lockbox, large"
 tags: []
 name:
-  full: "Lockbox, large"
-  aliases: []
+    full: "Lockbox, large"
+    aliases: []
 description: "Iron-banded hardwood chest with wardlock; merchant's vault for valuables."
 id: 3QyfrMVtSJ5TM7Y7
 slug: lockbox-large
@@ -13,11 +13,11 @@ shortcode: lockboxlar
 type: containergear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  maxCapacity: 20
-  value: 24
-  weight: 5
+    quality: 0
+    durability: 8
+    maxCapacity: 20
+    value: 24
+    weight: 5
 folder: dl8lJ729W1mFlDvt
 ---
 

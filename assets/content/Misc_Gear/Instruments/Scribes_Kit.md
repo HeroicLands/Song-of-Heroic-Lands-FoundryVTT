@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Scribe's Kit
+    - Scribe's Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Scribe's Kit
-  aliases: []
+    full: Scribe's Kit
+    aliases: []
 description: "Hinged wooden case with quills, penknife, inkhorns, sand caster, wax, seals, vellum; scribes and draughtsmen."
 id: eU5zAnL4kQxC7NvH
 slug: scribes-kit
@@ -14,10 +14,10 @@ shortcode: scribekit
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 4
-  value: 45
-  weight: 1.5
+    quality: 0
+    durability: 4
+    value: 45
+    weight: 1.5
 folder: xniLjmZWYQZkSxyv
 ---
 

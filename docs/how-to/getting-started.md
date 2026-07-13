@@ -99,7 +99,7 @@ docs/
 └── contributing/ Contribution workflow, changesets, system development
 ```
 
-User guide content is authored in the HeroicLands Obsidian vault, committed here as JSON under `assets/packs/journals/_source/`, and compiled into Foundry journal entries during build (see [Build & Deployment §5](./build-and-deployment.md#5-compendium-packs-and-the-obsidian-vault)).
+User guide content is authored in-repo as Markdown under `assets/content/` (frontmatter `type: doc`) and compiled into Foundry journal entries during build (see [Build & Deployment §5](./build-and-deployment.md#5-compendium-packs-from-in-repo-markdown)).
 
 ## Where to find things
 

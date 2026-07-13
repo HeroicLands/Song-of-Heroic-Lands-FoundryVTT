@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Metalworking Kit
+    - Metalworking Kit
 tags:
-  - instruments
+    - instruments
 name:
-  full: Metalworking Kit
-  aliases: []
+    full: Metalworking Kit
+    aliases: []
 description: "Canvas roll with cold chisels, files, hammers, drifts, scribe; smiths finish metalwork."
 id: q3Kzz5IVUcYujOmq
 slug: metalworking-kit
@@ -14,10 +14,10 @@ shortcode: metalwrktl
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 8
-  value: 100
-  weight: 10
+    quality: 0
+    durability: 8
+    value: 100
+    weight: 10
 folder: xniLjmZWYQZkSxyv
 ---
 

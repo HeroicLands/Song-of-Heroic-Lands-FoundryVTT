@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Mercantilism
-  aliases: []
+    full: Mercantilism
+    aliases: []
 description: "Trade, commerce, appraisal, negotiation, and understanding market principles."
 id: LafJjnaJfjef6cJI
 slug: mercantilism
@@ -12,13 +12,13 @@ shortcode: mrcn
 type: skill
 package: sohl
 sohl:
-  subType: lore
-  skillBaseFormula: "@rea, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: lore
+    skillBaseFormula: "@rea, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: QlkEHXbk2EXlRiMM
 ---
 

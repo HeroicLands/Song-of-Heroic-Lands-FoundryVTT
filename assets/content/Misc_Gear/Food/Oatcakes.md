@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Oatcakes
+    - Oatcakes
 tags:
-  - food
+    - food
 name:
-  full: Oatcakes
-  aliases: []
+    full: Oatcakes
+    aliases: []
 description: "Thin griddle rounds, traveler's bread keeping months bundled and dry."
 id: HmXE63EO3Ev72ef5
 slug: oatcakes
@@ -14,10 +14,10 @@ shortcode: oatcakes
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 0.25
-  weight: 4
+    quality: 0
+    durability: 0
+    value: 0.25
+    weight: 4
 folder: cHM58zOI1EcSG3cP
 ---
 

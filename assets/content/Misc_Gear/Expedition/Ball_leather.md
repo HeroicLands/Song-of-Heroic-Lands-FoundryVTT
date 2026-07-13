@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Ball, leather"
+    - "Ball, leather"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Ball, leather"
-  aliases: []
+    full: "Ball, leather"
+    aliases: []
 description: "Cloth-core leather sphere; suits children's games and camp recreation safely."
 id: VeTy37PCwL2cOylJ
 slug: ball-leather
@@ -14,10 +14,10 @@ shortcode: ballleathe
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 4
-  weight: 1
+    quality: 0
+    durability: 3
+    value: 4
+    weight: 1
 folder: FSPVI1eObGEpMVck
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Mithral
+    - Mithral
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: Mithral
-  aliases: []
+    full: Mithral
+    aliases: []
 description: "Rare silvery metal harder than steel; prized by weaponcrafters and crown."
 id: HjoSVnc3pQMfp5uV
 slug: mithral
@@ -14,10 +14,10 @@ shortcode: mithral
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 3
-  value: 7500
-  weight: 0.0625
+    quality: 0
+    durability: 3
+    value: 7500
+    weight: 0.0625
 folder: 3YyFU1QkTs2yFq5t
 ---
 

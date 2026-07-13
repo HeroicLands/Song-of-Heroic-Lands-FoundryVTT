@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Physician
-  aliases: []
+    full: Physician
+    aliases: []
 description: "Diagnosing illness, treating injuries, performing surgery, and healing wounds."
 id: k1krF4IVzO6hJgMl
 slug: physician
@@ -12,13 +12,13 @@ shortcode: pysn
 type: skill
 package: sohl
 sohl:
-  subType: lore
-  skillBaseFormula: "@rea, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 1
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: lore
+    skillBaseFormula: "@rea, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 1
+    masteryLevelBase: 0
+    improveFlag: false
 folder: QlkEHXbk2EXlRiMM
 ---
 

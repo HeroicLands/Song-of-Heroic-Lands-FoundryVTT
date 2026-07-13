@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Embalming
-  aliases: []
+    full: Embalming
+    aliases: []
 description: "Preparing corpses for burial; delaying decomposition through preservation techniques."
 id: 73yZAkKbC0Azo4dw
 slug: embalming
@@ -12,13 +12,13 @@ shortcode: embl
 type: skill
 package: sohl
 sohl:
-  subType: lore
-  skillBaseFormula: "@rea, @per"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 0
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: lore
+    skillBaseFormula: "@rea, @per"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 0
+    masteryLevelBase: 0
+    improveFlag: false
 folder: QlkEHXbk2EXlRiMM
 ---
 

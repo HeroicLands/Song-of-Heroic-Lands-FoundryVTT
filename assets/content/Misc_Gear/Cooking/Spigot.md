@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Spigot
+    - Spigot
 tags:
-  - cooking
+    - cooking
 name:
-  full: Spigot
-  aliases: []
+    full: Spigot
+    aliases: []
 description: "Wooden or bronze spigot for controlling flow from barrel or large vessel."
 id: IBtOadsr6YMSehG2
 slug: spigot
@@ -14,10 +14,10 @@ shortcode: spigot
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 5
-  value: 9
-  weight: 0
+    quality: 0
+    durability: 5
+    value: 9
+    weight: 0
 folder: 7TT0OzoIoEn40zfs
 ---
 

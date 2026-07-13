@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Spit and Stand, iron"
+    - "Spit and Stand, iron"
 tags:
-  - expedition
+    - expedition
 name:
-  full: "Spit and Stand, iron"
-  aliases: []
+    full: "Spit and Stand, iron"
+    aliases: []
 description: "Iron roasting spit on adjustable stand for campfire or hearth cooking."
 id: nwEtp0xMP0cNx9op
 slug: spit-and-stand-iron
@@ -14,10 +14,10 @@ shortcode: spitandsta
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 10
-  value: 15
-  weight: 12
+    quality: 0
+    durability: 10
+    value: 15
+    weight: 12
 folder: FSPVI1eObGEpMVck
 ---
 

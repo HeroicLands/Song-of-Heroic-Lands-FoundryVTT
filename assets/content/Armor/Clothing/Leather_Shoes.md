@@ -1,10 +1,10 @@
 ---
 aliases:
-  - Leather Shoes
+    - Leather Shoes
 tags: []
 name:
-  full: Leather Shoes
-  aliases: []
+    full: Leather Shoes
+    aliases: []
 description: "Comfortable lightweight leather foot covering for everyday wear or light adventuring."
 id: azbghyIOYFa5SZ9U
 slug: leather-shoes
@@ -13,25 +13,25 @@ shortcode: LtShoe
 type: armorgear
 package: sohl
 sohl:
-  armorType: Shoes
-  detailMaterial: Leather
-  material: Leather
-  durability: 9
-  value: 70
-  weight: 0.9
-  encumbrance: 0
-  perception:
-    value: 0
-    effectId: eoNILrZZINBPjLeZ
-  flexloc:
-    - lfootloc
-    - rfootloc
-  rigidloc: []
-  protection:
-    blunt: 4
-    edged: 8
-    piercing: 5
-    fire: 5
+    armorType: Shoes
+    detailMaterial: Leather
+    material: Leather
+    durability: 9
+    value: 70
+    weight: 0.9
+    encumbrance: 0
+    perception:
+        value: 0
+        effectId: eoNILrZZINBPjLeZ
+    flexloc:
+        - lfootloc
+        - rfootloc
+    rigidloc: []
+    protection:
+        blunt: 4
+        edged: 8
+        piercing: 5
+        fire: 5
 folder: gaC79vNjSo6VO6Ym
 origValue: 35
 origWeight: 1.5

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Keg Wine
+    - Keg Wine
 tags:
-  - spirits
+    - spirits
 name:
-  full: Keg Wine
-  aliases: []
+    full: Keg Wine
+    aliases: []
 description: "Common wine keg; cheaper than aged; served at feasts and better tables."
 id: 27zEmQjrMCPj3POo
 slug: keg-wine
@@ -14,10 +14,10 @@ shortcode: winekeg
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 180
-  weight: 72
+    quality: 0
+    durability: 0
+    value: 180
+    weight: 72
 folder: jLdeIpOIZokm8obv
 ---
 

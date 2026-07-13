@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Reticent
-  aliases: []
+    full: Reticent
+    aliases: []
 id: Y1vVaOJ86qldrFdP
 slug: reticent
 img: icons/user-gear.svg
@@ -11,14 +11,14 @@ shortcode: reticent
 type: trait
 package: sohl
 sohl:
-  subType: personality
-  intensity: benign
-  isNumeric: false
-  textValue: ''
-  valueDesc: []
-  score:
-    value: 0
-    max: 0
+    subType: personality
+    intensity: benign
+    isNumeric: false
+    textValue: ""
+    valueDesc: []
+    score:
+        value: 0
+        max: 0
 folder: SpZzOv4eOwtdsMMo
 ---
 

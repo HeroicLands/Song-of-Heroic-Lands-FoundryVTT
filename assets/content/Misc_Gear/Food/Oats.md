@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Oats
+    - Oats
 tags:
-  - food
+    - food
 name:
-  full: Oats
-  aliases: []
+    full: Oats
+    aliases: []
 description: "Northern staple grain feeding both livestock and humans, years of storage."
 id: f5GVhbbMOLk9pZZJ
 slug: oats
@@ -14,10 +14,10 @@ shortcode: oats
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 0
-  value: 4
-  weight: 32
+    quality: 0
+    durability: 0
+    value: 4
+    weight: 32
 folder: cHM58zOI1EcSG3cP
 ---
 

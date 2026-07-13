@@ -2,8 +2,8 @@
 aliases: []
 tags: []
 name:
-  full: Initiative
-  aliases: []
+    full: Initiative
+    aliases: []
 description: "Battlefield experience and tactical awareness; acting first in combat."
 id: m8pFDJhw72uj8kJ8
 slug: initiative
@@ -12,13 +12,13 @@ shortcode: init
 type: skill
 package: sohl
 sohl:
-  subType: combat
-  skillBaseFormula: "@wil, @rea"
-  combatCategory: none
-  parentSkillCode: ''
-  initSkillMult: 3
-  masteryLevelBase: 0
-  improveFlag: false
+    subType: combat
+    skillBaseFormula: "@wil, @rea"
+    combatCategory: none
+    parentSkillCode: ""
+    initSkillMult: 3
+    masteryLevelBase: 0
+    improveFlag: false
 folder: EphAMAfFhWBrJxyF
 ---
 

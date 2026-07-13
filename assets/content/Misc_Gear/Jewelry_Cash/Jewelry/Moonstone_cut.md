@@ -1,11 +1,11 @@
 ---
 aliases:
-  - "Moonstone, cut"
+    - "Moonstone, cut"
 tags:
-  - jewelry_cash
+    - jewelry_cash
 name:
-  full: "Moonstone, cut"
-  aliases: []
+    full: "Moonstone, cut"
+    aliases: []
 description: "Pale feldspar gem glowing from within; rings and pendants for lunar-marked."
 id: x3slzqh9i3ycNm0V
 slug: moonstone-cut
@@ -14,10 +14,10 @@ shortcode: moonstonec
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 2
-  value: 30
-  weight: 0.0004
+    quality: 0
+    durability: 2
+    value: 30
+    weight: 0.0004
 folder: 3YyFU1QkTs2yFq5t
 ---
 

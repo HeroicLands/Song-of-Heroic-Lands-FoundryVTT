@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Hand drill
+    - Hand drill
 tags:
-  - instruments
+    - instruments
 name:
-  full: Hand drill
-  aliases: []
+    full: Hand drill
+    aliases: []
 description: "Spring-driven iron spindle with rocking crank; carpenters bore clean holes for rivets."
 id: qKiPnjQG6DwiA6Mi
 slug: hand-drill
@@ -14,10 +14,10 @@ shortcode: handdrill
 type: miscgear
 package: sohl
 sohl:
-  quality: 0
-  durability: 7
-  value: 40
-  weight: 3.5
+    quality: 0
+    durability: 7
+    value: 40
+    weight: 3.5
 folder: xniLjmZWYQZkSxyv
 ---
 

@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Assembly
+    - Assembly
 id: XrHgmsfl8Ouv87Wt
 type: doc
 package: sohl
 category: user-guide
 name:
-  full: "Assembly"
+    full: "Assembly"
 slug: "assembly"
 folder: sYK1BozT9xFcinXK
 ---
@@ -33,6 +33,7 @@ You do not need Assemblies for simple items. A plain sword or a set of clothes c
 Assemblies have their own tab in the sidebar, separate from Actors and Items. Look for the box icon in the sidebar tab bar.
 
 The Assemblies sidebar works like the Actors and Items tabs:
+
 - **Create Assembly** button at the top to create a new Assembly
 - **Create Folder** button to organize Assemblies into folders
 - **Search bar** to filter by name
@@ -42,12 +43,14 @@ The Assemblies sidebar works like the Actors and Items tabs:
 There are two ways to create an Assembly:
 
 **From the Assemblies sidebar:**
+
 1. Click the **Create Assembly** button.
 2. A Create Item dialog appears -- choose the item type and name.
 3. The item is created inside a new Assembly with the same name.
 4. The Assembly appears in your sidebar, ready to edit.
 
 **From the Items sidebar:**
+
 1. Right-click any World Item.
 2. Select **Create Assembly** from the context menu.
 3. A new Assembly is created containing a copy of that item.
