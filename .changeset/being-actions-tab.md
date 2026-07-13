@@ -10,9 +10,11 @@ Reimplements the Actions tab of the Being sheet (#313).
   Actions** section (GM-authored script actions) and an **Intrinsic Actions**
   section (code-defined, read-only). Hidden-group actions (lifecycle hooks) are
   omitted.
-- **Create bound to a Macro.** The create control prompts for an existing world
-  Macro to bind — or `<New Macro…>`, which opens Foundry's own Macro-create
-  dialog — then appends a SCRIPT action (referenced by the Macro's UUID) to
+- **Create bound to a Macro.** The create control asks for an action name and a
+  Macro: either an existing world Macro, or `<New Macro…>`, which creates a
+  script Macro named after the owner and action (`<owner> <action>`,
+  disambiguated with a number) and opens its sheet to author the body. Either
+  way, a SCRIPT action (referenced by the Macro's UUID) is appended to
   `system.actionDefs`.
 - **Edit / Remove / Run.** Each custom action row can open its bound Macro's
   sheet (Edit), remove the action from `system.actionDefs` without deleting the
