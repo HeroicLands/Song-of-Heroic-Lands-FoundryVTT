@@ -20,6 +20,8 @@ import {
     setUuidResolver,
 } from "@src/utils/helpers";
 import type { DialogSpec } from "@src/utils/types";
+import { AFFLICTION_SUBTYPE, ITEM_KIND } from "@src/utils/constants";
+import type { AfflictionChoice } from "@src/document/actor/logic/affliction-contract";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlScene } from "@src/document/scene/foundry/SohlScene";
@@ -396,6 +398,41 @@ export async function fvttCreateEmbeddedItems(
     const actor = actorLogic?.actor;
     if (!actor) return [];
     return (await actor.createEmbeddedDocuments("Item", itemsData)) as any[];
+}
+
+/**
+ * Gather every contractable disease — `affliction` items whose subtype is
+ * `disease` — found in the world and in the Item compendium packs, as
+ * {@link AfflictionChoice} records. Only diseases can be contracted. The
+ * `source` of each is the affliction's creation data (`toObject()`), ready to
+ * copy onto an actor.
+ *
+ * @remarks Raw Foundry access (`game.items`, `game.packs`) lives here at the
+ * boundary so the logic layer receives plain data.
+ * @returns The diseases, world entries first then pack entries.
+ */
+export async function fvttFindDiseases(): Promise<AfflictionChoice[]> {
+    const out: AfflictionChoice[] = [];
+    const isDisease = (doc: any): boolean =>
+        doc?.type === ITEM_KIND.AFFLICTION &&
+        doc.system?.subType === AFFLICTION_SUBTYPE.DISEASE;
+    const toChoice = (doc: any): AfflictionChoice => ({
+        name: doc.name,
+        contagionIndex: doc.system?.contagionIndexBase ?? 0,
+        source: doc.toObject(),
+    });
+
+    for (const item of ((game as any).items ?? []) as Iterable<any>) {
+        if (isDisease(item)) out.push(toChoice(item));
+    }
+
+    for (const pack of ((game as any).packs ?? []) as Iterable<any>) {
+        if (pack?.documentName !== "Item") continue;
+        const docs = await pack.getDocuments({ type: ITEM_KIND.AFFLICTION });
+        for (const doc of docs) if (isDisease(doc)) out.push(toChoice(doc));
+    }
+
+    return out;
 }
 
 /**

@@ -14,10 +14,12 @@
 /**
  * Afflictions — contract / transmit / course / treat / heal.
  *
- * The affliction item persists and carries logic (GREEN), but the mechanics are
- * unimplemented: `AfflictionLogic`'s transmit warns "Not Implemented" and the
- * contract / course / diagnosis / treatment tests `throw "… Not Implemented"`,
- * and `BeingLogic.contractAfflictionTest` is a stub. RED against #67/#68.
+ * The affliction item persists and carries logic (GREEN), and the being can now
+ * contract a disease via `BeingLogic.contractDisease` (#391 — search world/pack
+ * diseases or describe a custom one, roll CI×Endurance, create on failure). The
+ * per-affliction `AfflictionLogic` lifecycle is still unimplemented: transmit
+ * warns "Not Implemented" and the course / diagnosis / treatment tests
+ * `throw "… Not Implemented"`. RED against #67/#68.
  */
 
 describe("afflictions", () => {

@@ -50,6 +50,8 @@ const log = {
     error(..._args: unknown[]): void {},
     uiWarn(..._args: unknown[]): void {},
     uiError(..._args: unknown[]): void {},
+    uiInfo(..._args: unknown[]): void {},
+    uiDebug(..._args: unknown[]): void {},
     info(..._args: unknown[]): void {},
     debug(..._args: unknown[]): void {},
     setLogThreshold(_level: number): void {},
