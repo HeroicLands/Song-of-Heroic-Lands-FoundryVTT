@@ -24,7 +24,8 @@
  *
  * Side-effect-only modules (no top-level `export`, e.g. `sohl.ts`,
  * `automated-combat.ts`) are intentionally NOT part of any namespace and are not
- * required in a barrel.
+ * required in a barrel. Modules tagged `@ns-exclude` — plumbing such as
+ * eager-load barrels or surface builders — are likewise exempt.
  *
  * Fails (exit 1) with a list of every missing barrel / re-export / description.
  * Run as `npm run lint:ns-barrels` (part of `npm run lint`). Not run directly.
@@ -44,6 +45,17 @@ const isModuleFile = (name) =>
 /** A module that participates in a namespace has at least one top-level export. */
 const hasExport = (file) => /^export /m.test(fs.readFileSync(file, "utf8"));
 
+/**
+ * A module tagged `@ns-exclude` is plumbing (an eager-load barrel, a surface
+ * builder, …), not a public namespace member — so it is exempt from its barrel.
+ * A dedicated tag (not `@internal`, which appears on individual members of
+ * otherwise-public files) so the exemption is deliberate and file-scoped.
+ */
+const isExcluded = (file) => /@ns-exclude\b/.test(fs.readFileSync(file, "utf8"));
+
+/** A file that belongs in its folder's barrel: exporting, and not `@ns-exclude`. */
+const isNamespaceModule = (file) => hasExport(file) && !isExcluded(file);
+
 /** A folder is a namespace if it holds an exporting module, or a subfolder that does. */
 function needsBarrel(dir) {
     const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -52,7 +64,7 @@ function needsBarrel(dir) {
             (e) =>
                 e.isFile() &&
                 isModuleFile(e.name) &&
-                hasExport(path.join(dir, e.name)),
+                isNamespaceModule(path.join(dir, e.name)),
         )
     ) {
         return true;
@@ -74,7 +86,7 @@ function check(dir) {
             (e) =>
                 e.isFile() &&
                 isModuleFile(e.name) &&
-                hasExport(path.join(dir, e.name)),
+                isNamespaceModule(path.join(dir, e.name)),
         )
         .map((e) => e.name.replace(/\.ts$/, ""));
 

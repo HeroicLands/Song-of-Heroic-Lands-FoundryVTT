@@ -16,7 +16,6 @@ import { SohlCalendarData } from "@src/core/foundry/SohlCalendar";
 import { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
 import * as utils from "@src/utils/helpers";
 import * as constants from "@src/utils/constants";
-import { entity, type SohlEntitySurface } from "@src/entity/registry";
 import { SohlLocalize } from "@src/core/foundry/SohlLocalize";
 import { SohlLogger } from "@src/core/foundry/SohlLogger";
 import {
@@ -87,8 +86,26 @@ export class SohlSystem {
     static readonly utils: typeof utils = utils;
     /** The {@link constants} module (static access). */
     static readonly constants: typeof constants = constants;
-    /** The {@link entity} class registry (static access). */
-    static readonly entity: SohlEntitySurface = entity;
+    /**
+     * The `sohl.entity` surface — the constructable entity-class registry (the
+     * outside-SoHL surface for macros and variant modules to `new`, subclass, or
+     * override via `sohl.entity.X` / `sohl.entity.register(...)`; each class is a
+     * getter, so a `register()` override is picked up at every construction
+     * site) merged with the entity sub-namespaces for addressing
+     * (`sohl.entity.modifier.ValueModifier`, …). Bound at init in `sohl.ts`; the
+     * type is declared via `typeof import(...)` so the binding stays cycle-free.
+     */
+    declare readonly entity: typeof import("@src/entity/surface").entitySurface;
+    /**
+     * The `document` namespace tree — `sohl.document.effect.foundry.SohlActiveEffect`,
+     * etc. Bound to the barrel namespace at init (in `sohl.ts`); the type is
+     * declared here without a runtime import so the binding stays cycle-free.
+     */
+    declare readonly document: typeof import("@src/document");
+    /** The `core` namespace tree (`sohl.core.logic.SohlSystem`, …). Bound at init. */
+    declare readonly core: typeof import("@src/core");
+    /** The `apps` namespace tree (`sohl.apps.foundry.DomainManagerApp`, …). Bound at init. */
+    declare readonly apps: typeof import("@src/apps");
     /** Set true once the system has finished its `ready`-hook setup. */
     static ready: boolean = false;
     /** Localization helper (`sohl.i18n`). */
@@ -190,18 +207,6 @@ export class SohlSystem {
     /** The {@link constants} module (`sohl.constants`). */
     get constants(): typeof constants {
         return (this.constructor as any).constants;
-    }
-
-    /**
-     * The constructable entity-class registry (`sohl.entity`) — the outside-SoHL
-     * surface for macros and variant modules to `new`, subclass, or override the
-     * SoHL entity-layer classes (modifiers, results, strike modes,
-     * {@link SohlAction}, body modeling) via `sohl.entity.X` /
-     * `sohl.entity.register(...)`. Each class entry is a getter, so a `register()`
-     * override is picked up automatically at every construction site.
-     */
-    get entity(): SohlEntitySurface {
-        return (this.constructor as any).entity;
     }
 
     /**

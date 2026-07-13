@@ -44,6 +44,23 @@ What it offers — services, helpers, constants, and direct entry points into th
 logic layer — is enumerated and kept current on **{@link SohlSystem}**; treat that
 class as the source of truth rather than any list here.
 
+### The namespace tree — addressing every class
+
+Every SoHL class is also reachable through `sohl` by a **source-mirroring path**:
+`sohl.document.effect.foundry.SohlActiveEffect`,
+`sohl.entity.modifier.ValueModifier`, `sohl.apps.foundry.DomainManagerApp`, and so
+on — the path equals the file's location under `src/`, so a reference is
+unambiguous and easy to locate. The top-level namespaces are `sohl.document`,
+`sohl.core`, `sohl.apps`, and `sohl.entity`.
+
+`sohl.entity` is special: it is **both** the override-aware construction registry
+(the flat, PascalCase getters `sohl.entity.ValueModifier` and
+`sohl.entity.register(...)`) **and** a namespace (`sohl.entity.modifier.ValueModifier`).
+The two occupy distinct property names, so both work — but **construct or override
+through the flat registry**: those getters honor a `register()` override, whereas a
+namespace path is for reference/addressing and always resolves to the original
+class.
+
 ### A note on `CONFIG`
 
 SoHL registers its document, modifier, and result classes into Foundry's global
