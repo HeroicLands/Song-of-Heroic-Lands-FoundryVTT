@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { BRAND, SUCCESS_TEST_RESULT_MOVEMENT } from "@src/utils/constants";
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
 
@@ -135,7 +136,8 @@ describe("SuccessTestResult", () => {
         it.todo("applies successLevelMod to the success level");
         it.todo("clamps success level to MS/MF range when crits not allowed");
         it.todo("sets description based on success/critical state");
-        it.todo("computes successStars via handleLimitedDescription");
+        // successStars is no longer computed in evaluate() — it derives on read
+        // from the description table (see the "derived outcome data (#205)" block).
     });
 
     describe("testDialog()", () => {
@@ -192,6 +194,70 @@ describe("SuccessTestResult", () => {
     describe("toChat()", () => {
         it.todo("sends chat message with test result data");
         it.todo("includes roll in chat options");
+    });
+
+    // Derived outcome data (resultText / resultDesc / successStars) is never
+    // stored — it is computed on read from the description table (which rides
+    // the wire as data, #206) plus the evaluated successLevel / targetValue /
+    // lastDigit. See #205.
+    describe("derived outcome data (#205)", () => {
+        /** One-row table: literal label/description, star count = successLevel + 1. */
+        function starTable() {
+            return [
+                {
+                    maxValue: 999,
+                    lastDigits: [],
+                    label: "Superb",
+                    description: "well done",
+                    success: true,
+                    result: new SafeExpression(
+                        { source: "successLevel + 1" },
+                        { parent },
+                    ),
+                },
+            ];
+        }
+
+        it("omits successStars, resultText, resultDesc from toJSON", () => {
+            const result = new SuccessTestResult(
+                { successStarTable: starTable(), successLevel: 2 } as any,
+                { parent },
+            );
+            const wire = result.toJSON();
+            expect(wire).not.toHaveProperty("successStars");
+            expect(wire).not.toHaveProperty("resultText");
+            expect(wire).not.toHaveProperty("resultDesc");
+        });
+
+        it("derives successStars/resultText/resultDesc from the table on read", () => {
+            const result = new SuccessTestResult(
+                { successStarTable: starTable(), successLevel: 2 } as any,
+                { parent },
+            );
+            // targetValueFunc defaults to identity → targetValue === successLevel (2).
+            expect(result.successStars).toBe(3);
+            expect(result.resultText).toBe("Superb");
+            expect(result.resultDesc).toBe("well done");
+        });
+
+        it("recomputes derived data correctly after a JSON round-trip", () => {
+            const source = new SuccessTestResult(
+                { successStarTable: starTable(), successLevel: 2 } as any,
+                { parent },
+            );
+            const wire = JSON.parse(JSON.stringify(source.toJSON()));
+            const revived = new SuccessTestResult(wire, { parent });
+            expect(revived.successStars).toBe(3);
+            expect(revived.resultText).toBe("Superb");
+            expect(revived.resultDesc).toBe("well done");
+        });
+
+        it("returns empty text and zero stars when no table is supplied", () => {
+            const result = new SuccessTestResult({} as any, { parent });
+            expect(result.successStars).toBe(0);
+            expect(result.resultText).toBe("");
+            expect(result.resultDesc).toBe("");
+        });
     });
 
     describe("StandardRollData", () => {

@@ -24,8 +24,23 @@ Each row of a table is a `LimitedDescription`:
 | `result`      | `number \| SafeExpression` | The numeric result/quality (e.g. star count).                            |
 
 Resolution finds the first row (sorted by `maxValue`) whose `maxValue >= targetValue`
-and whose `lastDigits` matches the roll's last digit, then writes its
-`label`/`description` and returns its `result`.
+and whose `lastDigits` matches the roll's last digit, then reads its
+`label`/`description`/`result`.
+
+## Derived on read, never stored
+
+The display outcome — `resultText`, `resultDesc`, and the numeric `successStars` —
+is **not** stored on a `SuccessTestResult`. Those are getters that resolve the table
+against the result's evaluated `successLevel` / `targetValue` / `lastDigit` each time
+they are read, so `toJSON` carries only the raw `successLevel` and the table, never
+the three derived values (issue #205). The one place the derived strings are
+materialized is `toChat`, which folds them into the chat-card data — rendered once by
+the sender (whose `targetValueFunc` is live) and posted as HTML.
+
+This keeps a single source of truth: change the table and the label changes, with no
+stale frozen copy to reconcile. It relies on the table itself crossing the wire (see
+[Serialization](#serialization)); the raw `successLevel` is the one deliberately
+cached derived value, so a re-evaluated result recomputes its stars identically.
 
 ## Literal or computed fields
 

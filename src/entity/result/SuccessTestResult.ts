@@ -96,8 +96,9 @@ import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocum
  * 1. If no prior roll exists, a new d100 is rolled via {@link SimpleRoll}.
  * 2. Success level = constrained ML − roll result.
  * 3. Critical success/failure checked against last-digit lists.
- * 4. Success stars computed from the description table.
- * 5. Result text and description populated for chat display.
+ *
+ * Result text and success stars are then derived on read from the description
+ * table (see {@link successStars}); they are not stored on the result.
  *
  * ## Chat output
  *
@@ -110,14 +111,9 @@ import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocum
  * - {@link DefendResult} — defender's roll with situational modifiers
  */
 export class SuccessTestResult extends TestResult {
-    /** Short result label resolved from the description table, shown on the chat card. */
-    resultText: string;
-    /** Longer result description resolved from the description table, shown on the chat card. */
-    resultDesc: string;
     private _successLevel: number;
     protected _tokenLogic?: SohlTokenDocumentLogic;
     protected _masteryLevelModifier: MasteryLevelModifier;
-    protected _successStars: number;
     protected _testType: TestType;
     protected _roll: SimpleRoll;
     protected _movement: SuccessTestResultMovement;
@@ -181,8 +177,6 @@ export class SuccessTestResult extends TestResult {
             this._masteryLevelModifier =
                 data.masteryLevelModifier ??
                 new entity.MasteryLevelModifier(this.parent);
-        this.resultText = data.resultText ?? "";
-        this.resultDesc = data.resultDesc ?? "";
         // Restore a previously-evaluated success level so a result can cross to
         // another client as a read-only snapshot (e.g. the attacker's
         // AttackResult shown on the defender's card). A fresh test leaves this
@@ -202,7 +196,6 @@ export class SuccessTestResult extends TestResult {
                     parent: this.parent,
                 },
             );
-        this._successStars = data.successStars ?? 0;
         // The table rides the wire as data; revive any serialized SafeExpression
         // rows into live expressions owned by this result's parent.
         this._successStarTable =
@@ -257,18 +250,18 @@ export class SuccessTestResult extends TestResult {
      * The raw `_successLevel` is emitted so an evaluated snapshot survives the
      * trip; the `successLevel` getter normalizes it on read. `_targetValueFunc`
      * is a live function and is not serializable — it defaults back to identity
-     * on reconstruction.
+     * on reconstruction. The derived outcome data (`resultText`, `resultDesc`,
+     * `successStars`) is deliberately **not** emitted — it recomputes on read
+     * from the serialized table
+     * plus the success level (see the getters and issue #205).
      * @returns The plain-object representation.
      */
     override toJSON(): PlainObject {
         return {
             ...super.toJSON(),
-            resultText: this.resultText,
-            resultDesc: this.resultDesc,
             successLevel: this._successLevel,
             tokenUuid: this._tokenLogic?.uuid,
             masteryLevelModifier: this._masteryLevelModifier.toJSON(),
-            successStars: this._successStars,
             successStarTable: serializeLimitedDescriptionTable(
                 this._successStarTable,
             ),
@@ -324,9 +317,83 @@ export class SuccessTestResult extends TestResult {
         return this._masteryLevelModifier;
     }
 
-    /** Number of success "stars" (quality grade) resolved from the description table in {@link evaluate}. */
+    /**
+     * Number of success "stars" (quality grade), **derived on read** from the
+     * description table. Never
+     * stored (issue #205) — recomputed from the table plus the evaluated
+     * success level / target value / roll last-digit.
+     */
     get successStars(): number {
-        return this._successStars;
+        return this.resolveDescription().result;
+    }
+
+    /**
+     * Short result label for the chat card, **derived on read** from the
+     * description table (empty when
+     * no table is supplied). Never stored — see {@link successStars}.
+     */
+    get resultText(): string {
+        return this.resolveDescription().label;
+    }
+
+    /**
+     * Longer result description for the chat card, **derived on read** from the
+     * description table (empty when
+     * no table is supplied). Never stored — see {@link successStars}.
+     */
+    get resultDesc(): string {
+        return this.resolveDescription().description;
+    }
+
+    /**
+     * Resolve this result's derived display outcome from the description table:
+     * the label, description, and numeric star count of the row matching the
+     * evaluated {@link targetValue} and roll {@link lastDigit}, evaluating any
+     * {@link sohl.entity.expr.SafeExpression} row against the test bindings.
+     *
+     * Purely computed — the source of {@link resultText}, {@link resultDesc},
+     * and {@link successStars}, none of which are stored (issue #205; the
+     * table itself rides the wire as data, #206). Returns empty text and a zero
+     * star count when the table is empty or no row matches.
+     */
+    private resolveDescription(): {
+        label: string;
+        description: string;
+        result: number;
+    } {
+        const empty = { label: "", description: "", result: 0 };
+        const table = this._successStarTable;
+        if (table.length === 0) return empty;
+        const targetValue = this.targetValue;
+        const lastDigit = this.lastDigit;
+        const row = [...table]
+            .sort((a, b) => a.maxValue - b.maxValue)
+            .find(
+                (entry) =>
+                    entry.maxValue >= targetValue &&
+                    (entry.lastDigits.length === 0 ||
+                        entry.lastDigits.includes(lastDigit)),
+            );
+        if (!row) return empty;
+        // Bindings a row's SafeExpression may reference.
+        const bindings = {
+            successLevel: this.successLevel,
+            targetValue,
+            lastDigit,
+        };
+        const label =
+            row.label instanceof SafeExpression ?
+                String(row.label.evaluate(bindings))
+            :   row.label;
+        const description =
+            row.description instanceof SafeExpression ?
+                String(row.description.evaluate(bindings))
+            :   row.description;
+        const result =
+            row.result instanceof SafeExpression ?
+                Number(row.result.evaluate(bindings))
+            :   row.result;
+        return { label: label || "", description: description || "", result };
     }
 
     /** Which kind of test this is — a {@link TEST_TYPE} id (e.g. success test, attack, block). */
@@ -519,9 +586,10 @@ export class SuccessTestResult extends TestResult {
      * Sets the success level from the roll, promoting it to a critical when the
      * last digit appears in the modifier's critical-success/-failure digit
      * lists. It then applies `successLevelMod` and — when criticals are
-     * disallowed — clamps the level to marginal failure/success, selects the
-     * localized description, and resolves the success-star count from the
-     * description table.
+     * disallowed — clamps the level to marginal failure/success and selects the
+     * localized description. The result text and success-star count are not set
+     * here: they derive on read from the description table (see
+     * {@link successStars}).
      *
      * @returns `false` if the base evaluation disallows the result, or if the
      *   current user does not own the speaker (it cannot roll on their behalf);
@@ -602,10 +670,6 @@ export class SuccessTestResult extends TestResult {
                 :   "SOHL.SuccessTestResult.Failure";
         }
 
-        this._successStars = handleLimitedDescription(
-            this,
-            this._successStarTable,
-        );
         return allowed;
     }
 
@@ -614,11 +678,19 @@ export class SuccessTestResult extends TestResult {
      * (`templates/chat/standard-test-card.hbs`) and post it via the
      * {@link speaker}, attaching the Foundry roll and the dice sound.
      *
+     * @remarks
+     * The derived display outcome (`resultText`, `resultDesc`, `successStars`)
+     * is not carried by {@link toJSON} — it is folded into the card data here,
+     * rendered once by the sender with a live `targetValueFunc` (issue #205).
      * @param data - Extra template data merged into the card.
      */
     async toChat(data: PlainObject = {}): Promise<void> {
+        const { label, description, result } = this.resolveDescription();
         let chatData = fvttMergeObject(this.toJSON() as PlainObject, {
             ...data,
+            resultText: label,
+            resultDesc: description,
+            successStars: result,
             template: "systems/sohl/templates/chat/standard-test-card.hbs",
             movementOptions: SuccessTestResultMovements.map((val) => [
                 val,
@@ -689,19 +761,18 @@ export namespace SuccessTestResult {
 
     /** Construction data for a {@link SuccessTestResult}. */
     export interface Data extends TestResult.Data {
-        /** Short result label (see {@link SuccessTestResult.resultText}). */
-        resultText: string;
-        /** Longer result description (see {@link SuccessTestResult.resultDesc}). */
-        resultDesc: string;
         /** A previously-evaluated success level to restore (e.g. a cross-client snapshot). */
         successLevel: number;
         /** The token the test is associated with. */
         tokenUuid: string;
         /** The mastery-level modifier to test against. */
         masteryLevelModifier: MasteryLevelModifier;
-        /** Pre-computed success-star count. */
-        successStars: number;
-        /** The description table used to resolve {@link SuccessTestResult.resultText | text} and stars. */
+        /**
+         * The description table used to derive result text and stars. Rides the
+         * wire as data (#206); the display outcome ({@link SuccessTestResult.resultText | text},
+         * {@link SuccessTestResult.successStars | stars}) is computed from it on
+         * read, never stored (#205).
+         */
         successStarTable: LimitedDescription[];
         /** Foundry roll mode for chat output. */
         rollMode: SohlSpeakerRollMode;
@@ -772,57 +843,6 @@ export namespace SuccessTestResult {
          */
         result: number | SafeExpression;
     }
-}
-
-/**
- * Resolves a limited-description table against a test result: finds the entry
- * matching the target value and last digit, writes its label/description into
- * `chatData`, and returns the associated numeric result.
- * @param chatData - The test result providing the target value and last digit,
- *   and receiving the resolved `resultText`/`resultDesc`.
- * @param testDescTable - The candidate description entries, sorted by max value.
- * @returns The numeric result of the matching entry, or 0 if none matches.
- */
-function handleLimitedDescription(
-    chatData: SuccessTestResult,
-    testDescTable: SuccessTestResult.LimitedDescription[],
-): number {
-    if (testDescTable.length === 0) return 0;
-
-    let result: number = 0;
-    const targetValue = chatData.targetValue;
-    testDescTable.sort((a, b) => a.maxValue - b.maxValue);
-    const testDesc: SuccessTestResult.LimitedDescription | undefined =
-        testDescTable.find(
-            (entry) =>
-                entry.maxValue >= targetValue &&
-                (entry.lastDigits.length === 0 ||
-                    entry.lastDigits.includes(chatData.lastDigit)),
-        );
-    if (testDesc) {
-        // Bindings a row's SafeExpression may reference.
-        const bindings = {
-            successLevel: chatData.successLevel,
-            targetValue,
-            lastDigit: chatData.lastDigit,
-        };
-        const label =
-            testDesc.label instanceof SafeExpression ?
-                String(testDesc.label.evaluate(bindings))
-            :   testDesc.label;
-        const desc =
-            testDesc.description instanceof SafeExpression ?
-                String(testDesc.description.evaluate(bindings))
-            :   testDesc.description;
-        chatData.resultText = label || "";
-        chatData.resultDesc = desc || "";
-        result =
-            testDesc.result instanceof SafeExpression ?
-                Number(testDesc.result.evaluate(bindings))
-            :   testDesc.result;
-    }
-
-    return result;
 }
 
 /**
