@@ -166,6 +166,17 @@ code, pre, kbd, .tsd-signature, .tsd-signatures { font-family: var(--hl-font-mon
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 .site-header .nav-dropdown:hover .dropdown-menu { display: block; }
+/* Bridge the margin-top gap between the trigger and the menu so the pointer
+   stays within .nav-dropdown while travelling to it (otherwise :hover drops in
+   the gap and the menu closes before an item can be clicked). */
+.site-header .dropdown-menu::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  height: 0.5rem;
+}
 .site-header .dropdown-item {
   display: block;
   padding: 0.5rem 1.25rem;
@@ -257,6 +268,8 @@ const HEADER_HTML = `
           <a href="${WWW}/projects/sohl/" class="dropdown-item">Song of Heroic Lands</a>
           <a href="${WWW}/projects/hm3/" class="dropdown-item">HârnMaster 3</a>
           <a href="${WWW}/projects/modules/" class="dropdown-item">Modules</a>
+          <a href="https://api.heroiclands.org/" class="dropdown-item">API Documentation</a>
+          <a href="https://kb.heroiclands.org/" class="dropdown-item">KnowledgeBase</a>
         </div>
       </div>
       <a href="${WWW}/license/" class="nav-link">License</a>
