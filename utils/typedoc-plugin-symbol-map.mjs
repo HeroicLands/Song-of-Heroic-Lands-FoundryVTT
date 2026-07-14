@@ -20,9 +20,9 @@ import path from "node:path";
  *
  * At render end, walks every reflection that has a rendered page (or member
  * anchor) and records its `sohl`-rooted full name against its `.url`. The map is
- * written to `kb/src/api-symbols.json` and committed, so the knowledgebase build
- * can resolve `{@link sohl.*}` references in the developer docs to the API site
- * (api.heroiclands.org) without itself running TypeDoc.
+ * written to `kb/data/api-symbols.json` (a Hugo data file), so the knowledgebase
+ * build can resolve `{@link sohl.*}` references in the developer docs to the API
+ * site (api.heroiclands.org) without itself running TypeDoc.
  *
  * Using TypeDoc's own `reflection.url` (rather than scanning HTML filenames)
  * captures disambiguation suffixes (e.g. `SafeExpression-1.html`) and member
