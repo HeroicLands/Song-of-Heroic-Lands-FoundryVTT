@@ -3,6 +3,19 @@ import { readFile, readdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import matter from "gray-matter";
+import apiSymbols from "../api-symbols.json";
+
+/** Base URL of the generated API reference (see #427). */
+const API_BASE = "https://api.heroiclands.org/latest";
+/** GitHub blob base for in-repo source links. */
+const REPO_BLOB =
+    "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main";
+
+/** Resolve a `{@link}` target to its API page URL, if it names a documented symbol. */
+function apiUrl(target: string): string | undefined {
+    const url = (apiSymbols as Record<string, string>)[target];
+    return url ? `${API_BASE}/${url}` : undefined;
+}
 
 /** Recursively collect every `.md` file under `dir`. */
 async function walk(dir: string): Promise<string[]> {
@@ -25,14 +38,24 @@ function toRoute(entryId: string): string {
 
 /**
  * Rewrite in-repo Markdown for the web target:
+ *   - `{@link Symbol}` TypeDoc refs → a link to the symbol's API page (or, if it
+ *     names no documented symbol — e.g. a syntax example — a code span);
  *   - relative `*.md` links → the corresponding KB route (resolved from `id`);
- *   - `{@link Symbol}` TypeDoc refs → a code span (API-URL resolution is a follow-up).
- * Source-file links (`../../src/*.ts`) and absolute/external links are left alone.
+ *   - other relative in-repo links (`../../src/*.ts`, `package.json`, …) → the
+ *     GitHub blob URL.
+ * Absolute/external links and already-resolved routes are left alone.
  */
 function rewriteForWeb(body: string, id: string): string {
     const dir = id === "index" ? "" : path.posix.dirname(id);
     return body
-        .replace(/\{@link\s+([^}|]+?)(?:\|[^}]*)?\}/g, (_m, target) => `\`${target.trim()}\``)
+        .replace(
+            /\{@link\s+([^}\s|]+)(?:[\s|]+([^}]+?))?\}/g,
+            (_m, target, label) => {
+                const text = (label ?? target.split(".").pop()).trim();
+                const url = apiUrl(target.trim());
+                return url ? `[${text}](${url})` : `\`${text}\``;
+            },
+        )
         .replace(
             /\]\((?!https?:|\/|#)([^)\s]+?\.md)(#[^)]*)?\)/g,
             (_m, rel, anchor = "") => {
@@ -41,7 +64,13 @@ function rewriteForWeb(body: string, id: string): string {
                     .replace(/\.md$/i, "");
                 return `](${toRoute(targetId)}${anchor})`;
             },
-        );
+        )
+        .replace(/\]\((?!https?:|\/|#)(\.\.?\/[^)\s]+)\)/g, (_m, rel) => {
+            const repoPath = path.posix
+                .normalize(path.posix.join("docs", dir, rel))
+                .replace(/^(\.\.\/)+/, "");
+            return `](${REPO_BLOB}/${repoPath})`;
+        });
 }
 
 /** Title from frontmatter, else the first `# H1`, else the id. */
