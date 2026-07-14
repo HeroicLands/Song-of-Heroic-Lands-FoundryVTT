@@ -220,6 +220,32 @@ span.sep {
             background: var(--sohl-color-bg-overlay-light);
             border: 1px solid var(--sohl-color-border-strong);
             border-radius: 16px;
+
+            // Impairment color coding (#464): none = white/black,
+            // minor (−5) = yellow/black, major (−10 or worse) = blue/white,
+            // unusable = black/white. Fixed status colors (not themed chrome).
+            &--none {
+                background: #ffffff;
+                color: #000000;
+            }
+
+            &--minor {
+                background: #f2c94c;
+                color: #000000;
+                border-color: #d4a72c;
+            }
+
+            &--major {
+                background: #2f6fed;
+                color: #ffffff;
+                border-color: #2456bd;
+            }
+
+            &--unusable {
+                background: #111111;
+                color: #ffffff;
+                border-color: #000000;
+            }
         }
     }
 }

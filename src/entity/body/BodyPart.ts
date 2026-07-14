@@ -40,6 +40,8 @@ import { SohlEntity } from "../SohlEntity";
 export class BodyPart extends SohlEntity {
     /** Unique part identifier within the body structure (e.g. `"larm"`). */
     readonly shortcode: string;
+    /** Display name of this part (falls back to the shortcode). */
+    readonly name: string;
     /** Functional roles this part fulfills; see BodyRole in constants. */
     readonly roles: string[];
     /** Whether this part is a limb capable of gripping an item. */
@@ -93,6 +95,7 @@ export class BodyPart extends SohlEntity {
         }
         super(data, options);
         this.shortcode = data.shortcode;
+        this.name = data.name || data.shortcode;
         this.roles = [...data.roles];
         this.canHoldItem = data.canHoldItem;
         this.heldItem =
@@ -206,6 +209,8 @@ export namespace BodyPart {
     export interface Data extends SohlEntity.Data {
         /** Unique part identifier within the body structure. */
         shortcode: string;
+        /** Display name of the part (e.g. "Head"); falls back to the shortcode. */
+        name?: string;
         /** Functional roles this part fulfills (BodyRole values). */
         roles: string[];
         /** Whether this part can grip a held item. */

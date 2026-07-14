@@ -96,6 +96,26 @@ A part may carry multiple roles. A wolf's foreleg might be `[locomotor, manipula
     - `manipulator` Serious → fumble check; Grievous → auto fumble
     - `locomotor` Serious → stumble check; Grievous → auto stumble
 
+## Body-part impairment
+
+Impairment is the penalty to any use of a body part — it grows with wounds and
+eases as they heal. A part takes the **most serious** injury among its hit
+locations (`{@link bodyPartImpairment}`, `src/entity/body/impairment.ts`):
+
+| Worst location injury                       | Impairment   |
+| ------------------------------------------- | ------------ |
+| Grievous (`G4`/`G5`, level ≥ 4)             | **unusable** |
+| Serious (`S2`/`S3`, level 2–3)              | **−10**      |
+| Minor (`M1`, level 1) with healing rate ≤ 5 | **−5**       |
+| none / a fast-healing minor injury          | 0            |
+
+As injuries heal, a part climbs back `unusable → −10 → −5 → none`. A **permanent
+impairment** — a non-positive floor from an old maiming — is a minimum the result
+can never be milder than (a part with permanent −10 stays at least −10 even under
+a fresh minor injury). The derivation is pure and Foundry-free; it is consumed by
+the Being-sheet header's body-part grid, which colors each part by status (none =
+white, −5 = yellow, −10 or worse = blue, unusable = black).
+
 ## Adjacency
 
 The adjacency graph defines which parts are next to which, as an array of unordered pairs of part shortcodes:

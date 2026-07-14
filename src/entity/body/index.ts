@@ -18,6 +18,7 @@ export * from "./BodyLocation";
 export * from "./BodyPart";
 export * from "./BodyStructure";
 export * from "./armor-aggregation";
+export * from "./impairment";
 export * from "./injury-defaults";
 export * from "./injury-resolution";
 export * from "./weighted-random";

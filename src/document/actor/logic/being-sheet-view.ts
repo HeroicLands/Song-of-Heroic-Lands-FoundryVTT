@@ -24,6 +24,11 @@
  */
 
 import { STATUS_EFFECT, AFFLICTION_SUBTYPE } from "@src/utils/constants";
+import {
+    bodyPartImpairment,
+    type BodyPartStatus,
+    type LocationInjury,
+} from "@src/entity/body/impairment";
 import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import type { CombatModifier } from "@src/entity/modifier/CombatModifier";
@@ -673,23 +678,44 @@ export function buildStatusPills(
     }));
 }
 
-/** A read-only body-location lozenge. */
+/** A read-only body-part lozenge, with its derived impairment status (#464). */
 export interface BodyPartLozenge {
-    /** The body-part shortcode. */
+    /** The body-part shortcode (stable identity). */
     shortcode: string;
+    /** Display name of the part (falls back to the shortcode). */
+    name: string;
+    /** Impairment display status driving the grid color (none/minor/major/unusable). */
+    status: BodyPartStatus;
 }
 
 /**
- * Build the read-only body-location lozenges from a corpus body structure.
+ * Build the body-part lozenges from a corpus body structure, deriving each
+ * part's impairment status from the actor's active injuries (#464). A part takes
+ * the most serious injury across its hit locations (see {@link bodyPartImpairment}).
  *
  * @param structure - The actor's corpus body structure, or `undefined`.
+ * @param injuries - Active injuries by location; empty for an uninjured actor.
  * @returns One lozenge per body part, or an empty array when none.
  */
 export function buildBodyPartLozenges(
-    structure: { parts?: readonly { shortcode: string }[] } | undefined,
+    structure:
+        | {
+              parts?: readonly {
+                  shortcode: string;
+                  name?: string;
+                  locations?: readonly { shortcode: string }[];
+              }[];
+          }
+        | undefined,
+    injuries: readonly LocationInjury[] = [],
 ): BodyPartLozenge[] {
     return (structure?.parts ?? []).map((p) => ({
         shortcode: p.shortcode,
+        name: p.name || p.shortcode,
+        status: bodyPartImpairment(
+            (p.locations ?? []).map((l) => l.shortcode),
+            injuries,
+        ).status,
     }));
 }
 

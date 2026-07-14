@@ -609,13 +609,32 @@ describe("being-sheet-view", () => {
     });
 
     describe("buildBodyPartLozenges", () => {
-        it("maps each body part to its shortcode", () => {
-            const structure = {
-                parts: [{ shortcode: "HEAD" }, { shortcode: "TORSO" }],
-            };
+        const structure = {
+            parts: [
+                {
+                    shortcode: "HEAD",
+                    name: "Head",
+                    locations: [{ shortcode: "pate" }],
+                },
+                { shortcode: "TORSO", locations: [{ shortcode: "chest" }] },
+            ],
+        };
+
+        it("maps each part to its name (falling back to shortcode) with 'none' status when uninjured", () => {
             expect(buildBodyPartLozenges(structure)).toEqual([
-                { shortcode: "HEAD" },
-                { shortcode: "TORSO" },
+                { shortcode: "HEAD", name: "Head", status: "none" },
+                { shortcode: "TORSO", name: "TORSO", status: "none" },
+            ]);
+        });
+
+        it("colors each part by the worst injury on its locations (#464)", () => {
+            const injuries = [
+                { locationShortcode: "pate", level: 4, healingRate: 4 }, // grievous
+                { locationShortcode: "chest", level: 1, healingRate: 5 }, // minor
+            ];
+            expect(buildBodyPartLozenges(structure, injuries)).toEqual([
+                { shortcode: "HEAD", name: "Head", status: "unusable" },
+                { shortcode: "TORSO", name: "TORSO", status: "minor" },
             ]);
         });
 

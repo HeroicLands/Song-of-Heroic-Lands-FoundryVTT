@@ -36,6 +36,7 @@ import {
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import type { CorpusLogic } from "@src/document/item/logic/CorpusLogic";
+import type { LocationInjury } from "@src/entity/body/impairment";
 import type { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import {
@@ -965,12 +966,28 @@ export class BeingSheet extends SohlActorSheetBase {
             activeAfflictionSubTypes,
         );
 
-        // Read-only body-location lozenges, sourced from the actor's Corpus body
-        // structure (dynamic — varies by corpus).
+        // Body-part lozenges, sourced from the actor's Corpus body structure
+        // (dynamic — varies by corpus), each colored by its derived impairment
+        // status (#464). Impairment comes from the actor's active injuries,
+        // grouped onto parts by the injured location's shortcode.
         const corpusItem = (actor.itemTypes as any)?.[ITEM_KIND.CORPUS]?.[0];
         const structure = (corpusItem?.logic as CorpusLogic | undefined)
             ?.structure;
-        const bodyParts = buildBodyPartLozenges(structure);
+        const injuries: LocationInjury[] = [];
+        for (const item of ((actor.itemTypes as any)?.[ITEM_KIND.TRAUMA] ??
+            []) as Iterable<any>) {
+            const tl = item?.logic;
+            const code = tl?.data?.bodyLocationCode;
+            const level = tl?.level?.effective ?? 0;
+            if (code && level > 0) {
+                injuries.push({
+                    locationShortcode: code,
+                    level,
+                    healingRate: tl?.healingRate?.effective ?? 0,
+                });
+            }
+        }
+        const bodyParts = buildBodyPartLozenges(structure, injuries);
 
         return Object.assign(context, {
             actorName: actor.name,
