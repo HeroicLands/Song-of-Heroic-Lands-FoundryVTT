@@ -13,7 +13,8 @@
         "typedoc-github-theme",
         "./utils/typedoc-plugin-datafield-schema.mjs",
         "./utils/typedoc-plugin-foundry-links.mjs",
-        "./utils/typedoc-plugin-root-namespace.mjs"
+        "./utils/typedoc-plugin-root-namespace.mjs",
+        "./utils/typedoc-plugin-symbol-map.mjs"
     ],
     "theme": "typedoc-github-theme",
     "excludeExternals": true,
