@@ -103,6 +103,29 @@ describe("injuryLevelFromImpact", () => {
     ])("effective impact %i -> level %i", (impact, level) => {
         expect(injuryLevelFromImpact(impact)).toBe(level);
     });
+
+    // Per-creature scaling (#468): the same absolute impact reads differently
+    // against a scaled threshold table.
+    const scale = (factor: number) => [1, 5, 10, 15, 20].map((t) => t * factor);
+
+    it("scales severity by the creature's table — 2 impact is S2 on a cat but nothing on a cow", () => {
+        expect(injuryLevelFromImpact(2, scale(0.27))).toBe(2); // small/frail cat → S2
+        expect(injuryLevelFromImpact(2, scale(2.9))).toBe(0); // large/tough cow → ignored
+        expect(injuryLevelFromImpact(2)).toBe(1); // human default unchanged → M1
+    });
+
+    it("ignores an impact below the smallest scaled threshold (cow needs ≥ 3 for M1)", () => {
+        // Cow M1 threshold is ~2.9: 1 and 2 are ignored; 3 leaves a minor wound.
+        expect(injuryLevelFromImpact(1, scale(2.9))).toBe(0);
+        expect(injuryLevelFromImpact(2, scale(2.9))).toBe(0);
+        expect(injuryLevelFromImpact(3, scale(2.9))).toBe(1);
+    });
+
+    it("defaults to the human master table when no thresholds are given", () => {
+        expect(injuryLevelFromImpact(12)).toBe(
+            injuryLevelFromImpact(12, scale(1)),
+        );
+    });
 });
 
 describe("resolveInjury — armor & effective impact", () => {
