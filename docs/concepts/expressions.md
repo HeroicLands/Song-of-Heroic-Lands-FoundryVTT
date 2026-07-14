@@ -112,18 +112,34 @@ values from the expression.
 
 **Strings**
 
-| Helper                            | Returns   | Description                                          |
-| --------------------------------- | --------- | ---------------------------------------------------- |
-| `lower(value)`                    | `string`  | The value's string form, lowercased.                 |
-| `upper(value)`                    | `string`  | The value's string form, uppercased.                 |
-| `startsWith(value, prefix)`       | `boolean` | Whether the string starts with `prefix`.             |
-| `endsWith(value, suffix)`         | `boolean` | Whether the string ends with `suffix`.               |
-| `contains(value, sub)`            | `boolean` | Whether the string contains `sub`.                   |
-| `matches(value, pattern, flags?)` | `boolean` | Regex test; `pattern`/`flags` are strings. See note. |
+| Helper                                | Returns    | Description                                                        |
+| ------------------------------------- | ---------- | ------------------------------------------------------------------ |
+| `lower(value)`                        | `string`   | The value's string form, lowercased.                               |
+| `upper(value)`                        | `string`   | The value's string form, uppercased.                               |
+| `capitalize(value)`                   | `string`   | The string with only its first character uppercased.               |
+| `str(value)`                          | `string`   | The value's string form (`String(value)`).                         |
+| `concat(...values)`                   | `string`   | The string forms of all arguments joined together.                 |
+| `startsWith(value, prefix)`           | `boolean`  | Whether the string starts with `prefix`.                           |
+| `endsWith(value, suffix)`             | `boolean`  | Whether the string ends with `suffix`.                             |
+| `contains(value, sub)`                | `boolean`  | Whether the string contains `sub`.                                 |
+| `indexOf(value, search, from?)`       | `number`   | First index of `search`, or `-1`.                                  |
+| `charAt(value, index)`                | `string`   | The character at `index`, or `""` if out of range.                 |
+| `slice(value, start, end?)`           | `string`   | Substring by index; negative indices count from the end.           |
+| `substr(value, start, length?)`       | `string`   | Substring by start index and length.                               |
+| `trim(value)`                         | `string`   | The string without leading/trailing whitespace.                    |
+| `replace(value, search, replacement)` | `string`   | Every literal occurrence of `search` replaced (never a regex).     |
+| `split(value, separator, limit?)`     | `string[]` | The string split on `separator` (empty string → characters).       |
+| `join(values, separator)`             | `string`   | An array's elements joined with `separator`; `""` for a non-array. |
+| `padStart(value, length, pad?)`       | `string`   | The string padded at the start to `length` (`pad` default `" "`).  |
+| `padEnd(value, length, pad?)`         | `string`   | The string padded at the end to `length` (`pad` default `" "`).    |
+| `repeat(value, count)`                | `string`   | The string repeated `count` times.                                 |
+| `matches(value, pattern, flags?)`     | `boolean`  | Regex test; `pattern`/`flags` are strings. See note.               |
 
 `matches()` throws a `SafeExpressionError` if the pattern is longer than 200
 characters, looks ReDoS-prone (nested quantifiers or backreferences), or is not a
-valid regular expression.
+valid regular expression. `padStart`, `padEnd`, and `repeat` throw a
+`SafeExpressionError` when asked to build a string longer than 100,000 characters
+(a memory-exhaustion guard).
 
 **Numbers**
 

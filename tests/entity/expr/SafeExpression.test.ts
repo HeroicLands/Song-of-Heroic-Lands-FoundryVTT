@@ -201,6 +201,31 @@ describe("SafeExpression", () => {
             expect(run("contains('hello', 'xyz')")).toBe(false);
         });
 
+        it("string-building helpers (#448)", () => {
+            expect(run("str(42)")).toBe("42");
+            expect(run("concat('a', 'b', 'c')")).toBe("abc");
+            expect(run("slice('hello', 1, 3)")).toBe("el");
+            expect(run("substr('hello', 1, 3)")).toBe("ell");
+            expect(run("split('a,b,c', ',')")).toEqual(["a", "b", "c"]);
+            expect(run("join(parts, '-')", { parts: ["a", "b"] })).toBe("a-b");
+            expect(run("trim('  hi  ')")).toBe("hi");
+            expect(run("replace('a.b.c', '.', '-')")).toBe("a-b-c");
+            expect(run("indexOf('hello', 'l')")).toBe(2);
+            expect(run("charAt('hello', 0)")).toBe("h");
+            expect(run("capitalize('hello')")).toBe("Hello");
+            expect(run("padStart('5', 3, '0')")).toBe("005");
+            expect(run("padEnd('5', 3, '.')")).toBe("5..");
+            expect(run("repeat('ab', 3)")).toBe("ababab");
+        });
+
+        it("composes string helpers to build flavor text", () => {
+            expect(
+                run("concat('You flee ', upper(where), '!')", {
+                    where: "north",
+                }),
+            ).toBe("You flee NORTH!");
+        });
+
         it("matches: regex from a string pattern", () => {
             expect(run("matches('hello', '^h')")).toBe(true);
             expect(run("matches('Hello', '^h', 'i')")).toBe(true);
