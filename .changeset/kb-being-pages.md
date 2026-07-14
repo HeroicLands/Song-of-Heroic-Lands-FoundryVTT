@@ -14,7 +14,7 @@ links:
 
 - `sohl.skills` — `{ shortcode: masteryLevelBase }` from the note's `skill` items.
 - `sohl.gear` — grouped `{ weapons, armor, projectiles, misc, containers,
-  concoctions }`, each an array of `{ name, shortcode?, url? }`, from the gear items.
+concoctions }`, each an array of `{ name, shortcode?, url? }`, from the gear items.
 - `sohl.corpus` — `{ name, shortcode?, url? }` from the `corpus` item.
 - `sohl.spells` / `sohl.talents` — from `mysticalability` items by `subType`.
 
