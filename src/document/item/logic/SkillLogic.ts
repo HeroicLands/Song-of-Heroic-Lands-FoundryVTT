@@ -481,8 +481,7 @@ export class SkillLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "sohl-round-star-filled",
                 executor: "improveWithSDR",
-                visible:
-                    "item.system.canImprove && !item.system.data.improveFlag",
+                visible: "itemLogic.canImprove && !itemLogic.data.improveFlag",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {

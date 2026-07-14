@@ -2148,21 +2148,21 @@ export const {
         id: "setImproveFlag",
         name: "Set Improve Flag",
         iconClass: "sohl-round-star-filled",
-        condition: "item.system.canImprove && !item.system.data.improveFlag",
+        condition: "itemLogic.canImprove && !itemLogic.data.improveFlag",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     UNSETIMPROVEFLAG: {
         id: "unsetImproveFlag",
         name: "Unset Improve Flag",
         iconClass: "sohl-round-star-unfilled",
-        condition: "item.system.canImprove && !item.system.data.improveFlag",
+        condition: "itemLogic.canImprove && !itemLogic.data.improveFlag",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     IMPROVEWITHSDR: {
         id: "improveWithSDR",
         name: "Improve with SDR",
         iconClass: "sohl-round-star-filled",
-        condition: "item.system.canImprove && !item.system.data.improveFlag",
+        condition: "itemLogic.canImprove && !itemLogic.data.improveFlag",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     SUCCESSTEST: {
@@ -2218,7 +2218,7 @@ export const {
         id: "transmitAffliction",
         name: "Transmit Affliction",
         iconClass: "sohl-drowning",
-        condition: "item.system.canTransmit",
+        condition: "itemLogic.canTransmit",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     CONTRACTAFFLICTIONTEST: {
@@ -2253,7 +2253,7 @@ export const {
         id: "diagnosisTest",
         name: "Diagnosis Test",
         iconClass: "sohl-stethoscope",
-        condition: "item.system.data.isTreated",
+        condition: "itemLogic.data.isTreated",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     HEALINGTEST: {
