@@ -18,7 +18,9 @@
  * info-block sidebars by frontmatter `type` (weapongear, character, …). SoHL
  * content already carries that frontmatter, so this step mostly relocates it
  * into Hugo's content tree and supplies the `title` Hugo needs (from `name.full`)
- * — the analogue of heroiclands-site's vault exporter.
+ * — the analogue of heroiclands-site's vault exporter. For developer docs it also
+ * rewrites the in-repo links (`{@link}`, relative `*.md` and source paths) to
+ * their KB / API / GitHub destinations.
  *
  * Output is a build artifact (`kb/content/` is gitignored), regenerated here.
  *
@@ -36,6 +38,10 @@ const OUT = path.join(REPO, "kb/content");
 
 /** Base URL of the generated API site; the KB tracks `main`, so link to `/main`. */
 const API_BASE = "https://api.heroiclands.org/main/";
+
+/** GitHub blob base for repo files the KB does not render (source, config, …). */
+const GH_BLOB =
+    "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/";
 
 /**
  * The `qualified name → API page URL` map emitted by the TypeDoc symbol-map
@@ -104,6 +110,69 @@ function resolveLinks(body) {
     );
 }
 
+/**
+ * Rewrite the relative links in a developer-doc body so they resolve in the KB.
+ *
+ * Dev docs are authored to link one another and the source tree with repo-relative
+ * paths; neither target exists at the same path in the rendered KB. Resolving each
+ * link against the doc's own location under `docs/`:
+ *
+ * - a `*.md` link that lands under `docs/` → the KB dev route (`/dev/<path>/`),
+ *   preserving any `#anchor`.
+ * - anything else (source under `src/`, `lang/`, `templates/`, `package.json`, or
+ *   repo-root `*.md` like `CONTRIBUTING.md`) → its GitHub blob URL.
+ *
+ * Absolute URLs, anchor-only, `mailto:`, and site-root links are left untouched.
+ * `docRel` is the doc's path relative to `docs/` (e.g. `how-to/testing.md`).
+ */
+function rewriteRepoLinks(body, docRel) {
+    const docDir = path.dirname(docRel);
+    return body.replace(/\]\(([^)]+)\)/g, (whole, raw) => {
+        // Peel an optional link title: [text](url "title").
+        const sp = raw.search(/\s/);
+        const href = sp === -1 ? raw : raw.slice(0, sp);
+        const title = sp === -1 ? "" : raw.slice(sp);
+        if (/^(https?:|mailto:|tel:|#|\/)/.test(href)) return whole;
+
+        const hash = href.indexOf("#");
+        const filePart = hash === -1 ? href : href.slice(0, hash);
+        const anchor = hash === -1 ? "" : href.slice(hash);
+        if (!filePart) return whole;
+
+        const repoRel = path
+            .relative(REPO, path.resolve(DOCS_SRC, docDir, filePart))
+            .replace(/\\/g, "/");
+
+        const href2 =
+            repoRel.startsWith("docs/") && repoRel.endsWith(".md") ?
+                `/dev/${repoRel.slice(5, -3).toLowerCase()}/${anchor}`
+            :   `${GH_BLOB}${repoRel}${anchor}`;
+        return `](${href2}${title})`;
+    });
+}
+
+/**
+ * Run `transform` over a Markdown body while leaving fenced code blocks and inline
+ * code spans untouched — the link rewriters must not fire on `](` or `{@link}`
+ * sequences that appear inside code examples (e.g. a `'return this'` exploit
+ * snippet, or a `` `{@link Symbol}` `` syntax illustration).
+ *
+ * Each code run is stashed and replaced with a `\u0000<index>\u0000` sentinel; a
+ * NUL never occurs in Markdown source, so the sentinel cannot collide with prose
+ * and survives the transforms unchanged before being restored.
+ */
+function protectCode(body, transform) {
+    const stash = [];
+    const masked = body.replace(
+        /```[\s\S]*?```|~~~[\s\S]*?~~~|``[^`]*``|`[^`]*`/g,
+        (m) => `\u0000${stash.push(m) - 1}\u0000`,
+    );
+    return transform(masked).replace(
+        /\u0000(\d+)\u0000/g,
+        (_m, i) => stash[Number(i)],
+    );
+}
+
 /** Recursively collect every `.md` under `dir`. */
 function walk(dir) {
     const out = [];
@@ -149,7 +218,10 @@ for (const file of walk(CONTENT_SRC)) {
 
     const dest = path.join(OUT, section(fm.type), `${slug}.md`);
     fs.mkdirSync(path.dirname(dest), { recursive: true });
-    fs.writeFileSync(dest, matter.stringify(resolveLinks(body), data));
+    fs.writeFileSync(
+        dest,
+        matter.stringify(protectCode(body, resolveLinks), data),
+    );
     items++;
 }
 
@@ -167,7 +239,12 @@ for (const file of walk(DOCS_SRC)) {
     fs.mkdirSync(path.dirname(dest), { recursive: true });
     fs.writeFileSync(
         dest,
-        matter.stringify(resolveLinks(stripped), { ...fm, title }),
+        matter.stringify(
+            protectCode(stripped, (t) =>
+                rewriteRepoLinks(resolveLinks(t), rel),
+            ),
+            { ...fm, title },
+        ),
     );
     docs++;
 }
