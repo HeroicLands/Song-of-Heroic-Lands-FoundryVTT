@@ -47,7 +47,7 @@ export function load(app) {
         const sorted = {};
         for (const key of Object.keys(map).sort()) sorted[key] = map[key];
 
-        const out = path.resolve("kb/src/api-symbols.json");
+        const out = path.resolve("kb/data/api-symbols.json");
         fs.mkdirSync(path.dirname(out), { recursive: true });
         fs.writeFileSync(out, JSON.stringify(sorted, null, 2) + "\n");
         app.logger.info(
