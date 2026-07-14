@@ -197,11 +197,130 @@ function section(type) {
     return type; // weapongear, armorgear, skill, …
 }
 
+/** Gear item `type` → the `sohl.gear` group key the equipment sidebar renders. */
+const GEAR_TYPE_TO_KEY = {
+    weapongear: "weapons",
+    armorgear: "armor",
+    projectilegear: "projectiles",
+    miscgear: "misc",
+    containergear: "containers",
+    concoctiongear: "concoctions",
+};
+
+/**
+ * Derive a being's sidebar fields from its raw `sohl.items[]`.
+ *
+ * A character/creature note carries its embedded documents as `sohl.items` —
+ * `{ shortcode, type, system? }` entries — but the shared theme's character /
+ * creature sidebars read flattened, resolved shapes: a `skills` map, grouped
+ * `gear`, a `corpus` reference, and `spells` / `talents`. Reproduce the vault
+ * exporter's derivation here, resolving each item's `shortcode` against the
+ * content-wide `index` (`"<type>:<shortcode>" → { name, url }`) for display
+ * names and KB links. Attributes already match the sidebar shape and pass
+ * through untouched.
+ *
+ * Only fields the author didn't already supply are derived (hand-authored
+ * `sohl.skills` / `sohl.gear` / … win); an item's inline `name` beats the index,
+ * and an unresolved shortcode falls back to itself rather than being dropped.
+ * Returns a new `sohl` object; the input is not mutated.
+ */
+function deriveBeingSohl(sohl, index) {
+    if (!sohl || typeof sohl !== "object") return sohl;
+    const out = { ...sohl };
+    const items = Array.isArray(out.items) ? out.items : [];
+    if (items.length === 0) return out;
+
+    const isMap = (v) => v && typeof v === "object" && !Array.isArray(v);
+    const nonEmpty = (v) => Array.isArray(v) && v.length > 0;
+    const lookup = (type, shortcode) =>
+        shortcode ? index.get(`${type}:${shortcode}`) : undefined;
+
+    // Skills: { shortcode: masteryLevelBase }.
+    if (!(isMap(out.skills) && Object.keys(out.skills).length > 0)) {
+        const skills = {};
+        for (const it of items) {
+            if (!isMap(it) || it.type !== "skill") continue;
+            const level = it.system?.masteryLevelBase;
+            if (typeof it.shortcode === "string" && typeof level === "number") {
+                skills[it.shortcode] = level;
+            }
+        }
+        if (Object.keys(skills).length > 0) out.skills = skills;
+    }
+
+    // Gear: { weapons: [{name, shortcode?, url?}], armor: [...], … }.
+    if (!isMap(out.gear)) {
+        const gear = {};
+        for (const it of items) {
+            if (!isMap(it)) continue;
+            const key = GEAR_TYPE_TO_KEY[it.type];
+            if (!key) continue;
+            const shortcode =
+                typeof it.shortcode === "string" ? it.shortcode : undefined;
+            const ref = lookup(it.type, shortcode);
+            const name =
+                (typeof it.name === "string" && it.name) ||
+                ref?.name ||
+                shortcode;
+            if (!name) continue;
+            const entry = { name };
+            if (shortcode) entry.shortcode = shortcode;
+            if (ref?.url) entry.url = ref.url;
+            (gear[key] ??= []).push(entry);
+        }
+        if (Object.keys(gear).length > 0) out.gear = gear;
+    }
+
+    // Corpus: { name, shortcode?, url? }.
+    if (!isMap(out.corpus)) {
+        const it = items.find((i) => isMap(i) && i.type === "corpus");
+        if (it) {
+            const shortcode =
+                typeof it.shortcode === "string" ? it.shortcode : undefined;
+            const ref = lookup("corpus", shortcode);
+            const name =
+                (typeof it.name === "string" && it.name) ||
+                ref?.name ||
+                shortcode;
+            if (name) {
+                out.corpus = { name };
+                if (shortcode) out.corpus.shortcode = shortcode;
+                if (ref?.url) out.corpus.url = ref.url;
+            }
+        }
+    }
+
+    // Mystical abilities split by subType → spells / talents ({name, url?}).
+    const spells = [];
+    const talents = [];
+    for (const it of items) {
+        if (!isMap(it) || it.type !== "mysticalability") continue;
+        const shortcode =
+            typeof it.shortcode === "string" ? it.shortcode : undefined;
+        const ref = lookup("mysticalability", shortcode);
+        const name = (typeof it.name === "string" && it.name) || ref?.name;
+        if (!name) continue;
+        const entry = { name };
+        if (ref?.url) entry.url = ref.url;
+        if (it.subType === "arcaneincantation") spells.push(entry);
+        else if (it.subType === "arcanetalent") talents.push(entry);
+    }
+    if (spells.length > 0 && !nonEmpty(out.spells)) out.spells = spells;
+    if (talents.length > 0 && !nonEmpty(out.talents)) out.talents = talents;
+
+    return out;
+}
+
 let items = 0;
 let docs = 0;
 fs.rmSync(OUT, { recursive: true, force: true });
 
 // --- assets/content → reference pages (SoHL package only) ---
+// Parse every entry first so beings can resolve the items they embed (skills,
+// gear, corpus, …) against a content-wide `"<type>:<shortcode>" → { name, url }`
+// index before they are written.
+const entries = [];
+const refIndex = new Map();
 for (const file of walk(CONTENT_SRC)) {
     const raw = fs.readFileSync(file, "utf8");
     let fm, body;
@@ -214,7 +333,21 @@ for (const file of walk(CONTENT_SRC)) {
 
     const name = fm.name?.full ?? path.basename(file, ".md");
     const slug = fm.slug ?? slugify(name);
+    entries.push({ fm, body, name, slug });
+
+    if (typeof fm.shortcode === "string") {
+        refIndex.set(`${fm.type}:${fm.shortcode}`, {
+            name,
+            url: `/${section(fm.type)}/${slug}/`,
+        });
+    }
+}
+
+for (const { fm, body, name, slug } of entries) {
     const data = { ...fm, title: fm.title ?? name };
+    if (fm.type === "character" || fm.type === "creature") {
+        data.sohl = deriveBeingSohl(fm.sohl, refIndex);
+    }
 
     const dest = path.join(OUT, section(fm.type), `${slug}.md`);
     fs.mkdirSync(path.dirname(dest), { recursive: true });
