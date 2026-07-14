@@ -449,7 +449,7 @@ export namespace SohlDataModel {
                 data.owner = !!this.document.isOwner;
                 data.limited = !!this.document.limited;
                 data.options = (this.document as any).options;
-                data.editable = !!(this.document as any).editable;
+                data.editable = this.isEditable;
                 data.cssClass = data.owner ? "editable" : "locked";
                 data.isBeing = this.document.type === ACTOR_KIND.BEING;
                 data.isAssembly = this.document.type === ACTOR_KIND.ASSEMBLY;
