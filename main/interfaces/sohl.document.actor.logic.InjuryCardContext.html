@@ -1,10 +1,240 @@
-<!DOCTYPE html><html class="default" lang="en" data-base=".."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>InjuryCardContext | Song of Heroic Lands API - v0.7.0</title><meta name="description" content="Documentation for Song of Heroic Lands API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><link rel="stylesheet" href="../assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">Song of Heroic Lands API - v0.7.0</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb"><li><a href="../modules.html">Song of Heroic Lands API</a></li><li><a href="../modules/sohl.html">sohl</a></li><li><a href="../modules/sohl.document.html">document</a></li><li><a href="../modules/sohl.document.actor.html">actor</a></li><li><a href="../modules/sohl.document.actor.logic.html">logic</a></li><li><a href="sohl.document.actor.logic.InjuryCardContext.html">InjuryCardContext</a></li></ul><h1>Interface InjuryCardContext</h1></div><section class="tsd-panel tsd-comment"><div class="tsd-comment tsd-typography"><p>Extra context the chat card needs beyond the resolved injury itself.</p>
-</div><div class="tsd-comment tsd-typography"></div></section><div class="tsd-signature"><span class="tsd-signature-keyword">interface</span> <span class="tsd-kind-interface">InjuryCardContext</span> <span class="tsd-signature-symbol">{</span><br/>    <a class="tsd-kind-property" href="sohl.document.actor.logic.InjuryCardContext.html#actorid">actorId</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="sohl.document.actor.logic.InjuryCardContext.html#addtocharsheet">addToCharSheet</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="sohl.document.actor.logic.InjuryCardContext.html#handleractoruuid">handlerActorUuid</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="sohl.document.actor.logic.InjuryCardContext.html#name">name</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">;</span><br/><span class="tsd-signature-symbol">}</span></div><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/61393ae3a76dd4e4b92110dafffe41b11460a24e/src/document/actor/logic/injury-actions.ts#L159">src/document/actor/logic/injury-actions.ts:159</a></li></ul></aside><section class="tsd-panel-group tsd-index-group"><section class="tsd-panel tsd-index-panel"><details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><h5 class="tsd-index-heading uppercase" role="button" aria-expanded="false" tabIndex="0"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-chevronSmall"></use></svg> Index</h5></summary><div class="tsd-accordion-details"><section class="tsd-index-section"><h3 class="tsd-index-heading">Properties</h3><div class="tsd-index-list"><a href="sohl.document.actor.logic.InjuryCardContext.html#actorid" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-1024"></use></svg><span>actor<wbr/>Id</span></a>
+<!DOCTYPE html><html class="default" lang="en" data-base=".."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>InjuryCardContext | Song of Heroic Lands API - v0.7.0</title><meta name="description" content="Documentation for Song of Heroic Lands API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style id="hl-brand-chrome">
+:root {
+  /* Brand palette (shared with the Hugo theme). */
+  --hl-bg:            #0f1923;
+  --hl-bg-deeper:     #0a1219;
+  --hl-bg-card:       #15202d;
+  --hl-surface:       #1c2b3a;
+  --hl-border:        #2a3d52;
+  --hl-border-light:  #354d66;
+  --hl-text:          #c8d6e0;
+  --hl-text-muted:    #7e96aa;
+  --hl-accent:        #3b8eea;
+  --hl-accent-hover:  #5aa3f0;
+  --hl-gold:          #c9a84c;
+  --hl-font-display:  'Cinzel', 'Georgia', serif;
+  --hl-font-body:     'Lora', 'Georgia', serif;
+  --hl-font-mono:     'JetBrains Mono', monospace;
+
+  /* Recolor TypeDoc through its own cascade: override the source variables for
+     BOTH themes so the brand look holds regardless of the light/dark toggle. */
+  --light-color-scheme: dark;
+  --dark-color-scheme: dark;
+  --light-color-background: var(--hl-bg);
+  --dark-color-background: var(--hl-bg);
+  --light-color-background-secondary: var(--hl-bg-card);
+  --dark-color-background-secondary: var(--hl-bg-card);
+  --light-color-background-navbar: var(--hl-bg-deeper);
+  --dark-color-background-navbar: var(--hl-bg-deeper);
+  --light-color-text: var(--hl-text);
+  --dark-color-text: var(--hl-text);
+  --light-color-text-aside: var(--hl-text-muted);
+  --dark-color-text-aside: var(--hl-text-muted);
+  --light-color-link: var(--hl-accent);
+  --dark-color-link: var(--hl-accent);
+  --light-color-accent: var(--hl-border);
+  --dark-color-accent: var(--hl-border);
+  --light-color-active-menu-item: var(--hl-surface);
+  --dark-color-active-menu-item: var(--hl-surface);
+  --light-color-icon-background: var(--hl-bg-card);
+  --dark-color-icon-background: var(--hl-bg-card);
+  --light-color-focus-outline: var(--hl-accent);
+  --dark-color-focus-outline: var(--hl-accent);
+}
+
+/* Brand typography over TypeDoc's content. */
+body { font-family: var(--hl-font-body); }
+h1, h2, h3, h4,
+.tsd-page-title h1,
+.tsd-typography h1, .tsd-typography h2, .tsd-typography h3, .tsd-typography h4 {
+  font-family: var(--hl-font-display);
+  letter-spacing: 0.01em;
+}
+code, pre, kbd, .tsd-signature, .tsd-signatures { font-family: var(--hl-font-mono); }
+
+/* ---- Masthead (from the shared theme, brand-scoped) ---- */
+.site-header {
+  border-bottom: 1px solid var(--hl-border);
+  background: var(--hl-bg-deeper);
+}
+.site-header .header-inner {
+  margin: 0 auto;
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.site-header .site-title { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+.site-header .site-logo { width: 44px; height: 44px; border-radius: 50%; }
+.site-header .title-main {
+  font-family: var(--hl-font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--hl-text);
+  letter-spacing: 0.02em;
+}
+.site-header .site-nav { display: flex; gap: 2rem; align-items: center; }
+.site-header .nav-link {
+  font-family: var(--hl-font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--hl-text-muted);
+  letter-spacing: 0.02em;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s;
+}
+.site-header .nav-link:hover, .site-header .nav-link.active {
+  color: var(--hl-text);
+  border-bottom-color: var(--hl-accent);
+}
+.site-header .nav-dropdown { position: relative; }
+.site-header .dropdown-arrow { margin-left: 0.3rem; transition: transform 0.2s; }
+.site-header .nav-dropdown:hover .dropdown-arrow { transform: rotate(180deg); }
+.site-header .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 220px;
+  background: var(--hl-bg-deeper);
+  border: 1px solid var(--hl-border);
+  border-radius: 4px;
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+.site-header .nav-dropdown:hover .dropdown-menu { display: block; }
+.site-header .dropdown-item {
+  display: block;
+  padding: 0.5rem 1.25rem;
+  font-family: var(--hl-font-display);
+  font-size: 0.95rem;
+  color: var(--hl-text-muted);
+  text-decoration: none;
+  transition: color 0.2s, background 0.2s;
+}
+.site-header .dropdown-item:hover { color: var(--hl-text); background: var(--hl-surface); }
+.site-header .nav-toggle {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  padding: 0.5rem; flex-direction: column; gap: 5px;
+}
+.site-header .nav-toggle span {
+  display: block; width: 24px; height: 2px;
+  background: var(--hl-text-muted);
+  transition: transform 0.3s, opacity 0.3s;
+}
+.site-header .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.site-header .nav-toggle.open span:nth-child(2) { opacity: 0; }
+.site-header .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ---- Footer (from the shared theme, brand-scoped) ---- */
+.site-footer {
+  border-top: 1px solid var(--hl-border-light);
+  background: var(--hl-bg-deeper);
+}
+.site-footer .footer-inner {
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+.site-footer .footer-text { color: var(--hl-text-muted); font-size: 0.92rem; line-height: 1.5; }
+.site-footer .footer-text a { color: var(--hl-text); }
+.site-footer .footer-text a:hover { color: var(--hl-accent); }
+.site-footer .footer-links { display: flex; gap: 1.5rem; align-items: center; }
+.site-footer .footer-links a {
+  color: var(--hl-text-muted);
+  font-size: 0.95rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.site-footer .footer-links a:hover { color: var(--hl-accent); }
+.site-footer .cc-badge { height: 1.75rem; }
+
+@media (max-width: 768px) {
+  .site-header .nav-toggle { display: flex; }
+  .site-header .site-nav {
+    display: none;
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--hl-bg-deeper);
+    border-bottom: 1px solid var(--hl-border);
+    flex-direction: column;
+    padding: 1rem 2rem; gap: 0.5rem;
+    z-index: 100;
+  }
+  .site-header .site-nav.open { display: flex; }
+  .site-header .header-inner { position: relative; }
+  .site-header .dropdown-menu { position: static; border: none; box-shadow: none; padding-left: 1rem; margin-top: 0; }
+  .site-header .nav-dropdown:hover .dropdown-menu { display: none; }
+  .site-header .site-nav.open .nav-dropdown .dropdown-menu { display: block; }
+  .site-footer .footer-inner { flex-direction: column; text-align: center; }
+}
+</style><link rel="stylesheet" href="../assets/typedoc-github-style.css"/></head><body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="https://www.heroiclands.org/" class="site-title">
+      <img src="https://cdn.heroiclands.org/images/sohl-icon-white.webp" alt="Heroic Lands" class="site-logo">
+      <span class="title-main">Heroic Lands</span>
+    </a>
+    <nav class="site-nav">
+      <a href="https://www.heroiclands.org/" class="nav-link">Home</a>
+      <a href="https://www.heroiclands.org/thalorna/world/thalorna/" class="nav-link">Thalorna</a>
+      <a href="https://www.heroiclands.org/blog/" class="nav-link">Blog</a>
+      <div class="nav-dropdown">
+        <a href="https://www.heroiclands.org/projects/" class="nav-link active">
+          Projects
+          <svg class="dropdown-arrow" width="10" height="6" viewBox="0 0 10 6" fill="currentColor"><path d="M1 1l4 4 4-4"/></svg>
+        </a>
+        <div class="dropdown-menu">
+          <a href="https://www.heroiclands.org/projects/sohl/" class="dropdown-item">Song of Heroic Lands</a>
+          <a href="https://www.heroiclands.org/projects/hm3/" class="dropdown-item">HârnMaster 3</a>
+          <a href="https://www.heroiclands.org/projects/modules/" class="dropdown-item">Modules</a>
+        </div>
+      </div>
+      <a href="https://www.heroiclands.org/license/" class="nav-link">License</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">Song of Heroic Lands API - v0.7.0</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb"><li><a href="../modules.html">Song of Heroic Lands API</a></li><li><a href="../modules/sohl.html">sohl</a></li><li><a href="../modules/sohl.document.html">document</a></li><li><a href="../modules/sohl.document.actor.html">actor</a></li><li><a href="../modules/sohl.document.actor.logic.html">logic</a></li><li><a href="sohl.document.actor.logic.InjuryCardContext.html">InjuryCardContext</a></li></ul><h1>Interface InjuryCardContext</h1></div><section class="tsd-panel tsd-comment"><div class="tsd-comment tsd-typography"><p>Extra context the chat card needs beyond the resolved injury itself.</p>
+</div><div class="tsd-comment tsd-typography"></div></section><div class="tsd-signature"><span class="tsd-signature-keyword">interface</span> <span class="tsd-kind-interface">InjuryCardContext</span> <span class="tsd-signature-symbol">{</span><br/>    <a class="tsd-kind-property" href="sohl.document.actor.logic.InjuryCardContext.html#actorid">actorId</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="sohl.document.actor.logic.InjuryCardContext.html#addtocharsheet">addToCharSheet</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="sohl.document.actor.logic.InjuryCardContext.html#handleractoruuid">handlerActorUuid</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="sohl.document.actor.logic.InjuryCardContext.html#name">name</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">;</span><br/><span class="tsd-signature-symbol">}</span></div><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/1ce7742e3f4fc4d4e5fff384d5e4b0f18865b648/src/document/actor/logic/injury-actions.ts#L159">src/document/actor/logic/injury-actions.ts:159</a></li></ul></aside><section class="tsd-panel-group tsd-index-group"><section class="tsd-panel tsd-index-panel"><details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><h5 class="tsd-index-heading uppercase" role="button" aria-expanded="false" tabIndex="0"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-chevronSmall"></use></svg> Index</h5></summary><div class="tsd-accordion-details"><section class="tsd-index-section"><h3 class="tsd-index-heading">Properties</h3><div class="tsd-index-list"><a href="sohl.document.actor.logic.InjuryCardContext.html#actorid" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-1024"></use></svg><span>actor<wbr/>Id</span></a>
 <a href="sohl.document.actor.logic.InjuryCardContext.html#addtocharsheet" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-1024"></use></svg><span>add<wbr/>To<wbr/>Char<wbr/>Sheet</span></a>
 <a href="sohl.document.actor.logic.InjuryCardContext.html#handleractoruuid" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-1024"></use></svg><span>handler<wbr/>Actor<wbr/>Uuid</span></a>
 <a href="sohl.document.actor.logic.InjuryCardContext.html#name" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-1024"></use></svg><span>name</span></a>
 </div></section></div></details></section></section><details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Properties"><h2><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg> Properties</h2></summary><section><section class="tsd-panel tsd-member"><a id="actorid" class="tsd-anchor"></a><h3 class="tsd-anchor-link"><span>actor<wbr/>Id</span><a href="#actorid" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><div class="tsd-signature"><span class="tsd-kind-property">actorId</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">string</span></div><div class="tsd-comment tsd-typography"><p>The injured actor's id (for the card's <code>data-actor-id</code>).</p>
-</div><div class="tsd-comment tsd-typography"></div><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/61393ae3a76dd4e4b92110dafffe41b11460a24e/src/document/actor/logic/injury-actions.ts#L161">src/document/actor/logic/injury-actions.ts:161</a></li></ul></aside></section><section class="tsd-panel tsd-member"><a id="addtocharsheet" class="tsd-anchor"></a><h3 class="tsd-anchor-link"><span>add<wbr/>To<wbr/>Char<wbr/>Sheet</span><a href="#addtocharsheet" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><div class="tsd-signature"><span class="tsd-kind-property">addToCharSheet</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div><div class="tsd-comment tsd-typography"><p>Whether the injury was recorded on the character sheet.</p>
-</div><div class="tsd-comment tsd-typography"></div><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/61393ae3a76dd4e4b92110dafffe41b11460a24e/src/document/actor/logic/injury-actions.ts#L167">src/document/actor/logic/injury-actions.ts:167</a></li></ul></aside></section><section class="tsd-panel tsd-member"><a id="handleractoruuid" class="tsd-anchor"></a><h3 class="tsd-anchor-link"><span>handler<wbr/>Actor<wbr/>Uuid</span><a href="#handleractoruuid" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><div class="tsd-signature"><span class="tsd-kind-property">handlerActorUuid</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><div class="tsd-comment tsd-typography"><p>UUID of the actor that handles the card's buttons (e.g. Shock Roll).</p>
-</div><div class="tsd-comment tsd-typography"></div><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/61393ae3a76dd4e4b92110dafffe41b11460a24e/src/document/actor/logic/injury-actions.ts#L163">src/document/actor/logic/injury-actions.ts:163</a></li></ul></aside></section><section class="tsd-panel tsd-member"><a id="name" class="tsd-anchor"></a><h3 class="tsd-anchor-link"><span>name</span><a href="#name" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><div class="tsd-signature"><span class="tsd-kind-property">name</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><div class="tsd-comment tsd-typography"><p>Card subtitle, e.g. the attacking weapon or a generic label.</p>
-</div><div class="tsd-comment tsd-typography"></div><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/61393ae3a76dd4e4b92110dafffe41b11460a24e/src/document/actor/logic/injury-actions.ts#L165">src/document/actor/logic/injury-actions.ts:165</a></li></ul></aside></section></section></details></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Properties</summary><div><a href="#actorid" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-1024"></use></svg><span>actor<wbr/>Id</span></a><a href="#addtocharsheet" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-1024"></use></svg><span>add<wbr/>To<wbr/>Char<wbr/>Sheet</span></a><a href="#handleractoruuid" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-1024"></use></svg><span>handler<wbr/>Actor<wbr/>Uuid</span></a><a href="#name" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-1024"></use></svg><span>name</span></a></div></details></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>
+</div><div class="tsd-comment tsd-typography"></div><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/1ce7742e3f4fc4d4e5fff384d5e4b0f18865b648/src/document/actor/logic/injury-actions.ts#L161">src/document/actor/logic/injury-actions.ts:161</a></li></ul></aside></section><section class="tsd-panel tsd-member"><a id="addtocharsheet" class="tsd-anchor"></a><h3 class="tsd-anchor-link"><span>add<wbr/>To<wbr/>Char<wbr/>Sheet</span><a href="#addtocharsheet" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><div class="tsd-signature"><span class="tsd-kind-property">addToCharSheet</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div><div class="tsd-comment tsd-typography"><p>Whether the injury was recorded on the character sheet.</p>
+</div><div class="tsd-comment tsd-typography"></div><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/1ce7742e3f4fc4d4e5fff384d5e4b0f18865b648/src/document/actor/logic/injury-actions.ts#L167">src/document/actor/logic/injury-actions.ts:167</a></li></ul></aside></section><section class="tsd-panel tsd-member"><a id="handleractoruuid" class="tsd-anchor"></a><h3 class="tsd-anchor-link"><span>handler<wbr/>Actor<wbr/>Uuid</span><a href="#handleractoruuid" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><div class="tsd-signature"><span class="tsd-kind-property">handlerActorUuid</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><div class="tsd-comment tsd-typography"><p>UUID of the actor that handles the card's buttons (e.g. Shock Roll).</p>
+</div><div class="tsd-comment tsd-typography"></div><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/1ce7742e3f4fc4d4e5fff384d5e4b0f18865b648/src/document/actor/logic/injury-actions.ts#L163">src/document/actor/logic/injury-actions.ts:163</a></li></ul></aside></section><section class="tsd-panel tsd-member"><a id="name" class="tsd-anchor"></a><h3 class="tsd-anchor-link"><span>name</span><a href="#name" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><div class="tsd-signature"><span class="tsd-kind-property">name</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><div class="tsd-comment tsd-typography"><p>Card subtitle, e.g. the attacking weapon or a generic label.</p>
+</div><div class="tsd-comment tsd-typography"></div><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/1ce7742e3f4fc4d4e5fff384d5e4b0f18865b648/src/document/actor/logic/injury-actions.ts#L165">src/document/actor/logic/injury-actions.ts:165</a></li></ul></aside></section></section></details></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Properties</summary><div><a href="#actorid" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-1024"></use></svg><span>actor<wbr/>Id</span></a><a href="#addtocharsheet" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-1024"></use></svg><span>add<wbr/>To<wbr/>Char<wbr/>Sheet</span></a><a href="#handleractoruuid" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-1024"></use></svg><span>handler<wbr/>Actor<wbr/>Uuid</span></a><a href="#name" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-1024"></use></svg><span>name</span></a></div></details></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.7.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="footer-text">
+      &copy; 2020&ndash;2026 Tom Rodriguez. Content under The World of Thalorna and Song of Heroic Lands is licensed under
+      <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>; all other content is &copy; Tom Rodriguez, all rights reserved. See
+      <a href="https://www.heroiclands.org/license/">License</a>.
+    </p>
+    <div class="footer-links">
+      <a href="https://creativecommons.org/licenses/by-sa/4.0/">
+        <img src="https://licensebuttons.net/l/by-sa/4.0/88x31.png" alt="CC BY-SA 4.0" class="cc-badge">
+      </a>
+      <a href="https://discord.gg/EwMfkNd3az">Discord</a>
+    </div>
+  </div>
+</footer>
+<script>
+document.querySelector('.site-header .nav-toggle')?.addEventListener('click', function () {
+  document.querySelector('.site-header .site-nav')?.classList.toggle('open');
+  this.classList.toggle('open');
+});
+</script></body></html>
