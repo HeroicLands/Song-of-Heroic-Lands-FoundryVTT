@@ -83,7 +83,7 @@ jsep.removeUnaryOp("~");
  * For a hands-on authoring guide — the grammar, the full standard-helper
  * reference (exact signatures and return values), the bindings each call site
  * provides, and worked examples — see the
- * [Expressions and Scripts](../../../docs/concepts/expressions.md) concept doc.
+ * [Expressions and Scripts](https://kb.heroiclands.org/dev/concepts/expressions/) concept doc.
  * The summary below covers the essentials.
  *
  * ## Using it

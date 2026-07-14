@@ -481,7 +481,8 @@ export async function fvttEnrichHTML(content: string): Promise<string> {
  *
  * Note: `ALLOWED_URL_SCHEMES` includes `data`, so `data:` URLs are permitted,
  * matching Foundry's system-wide stance rather than being additionally blocked.
- * See the HTML-rendering guardrail in docs/concepts/security-model.md.
+ * See the HTML-rendering guardrail in the
+ * [Security Model](https://kb.heroiclands.org/dev/concepts/security-model/) doc.
  *
  * @param raw - Untrusted HTML markup to sanitize.
  * @returns The sanitized HTML markup.
