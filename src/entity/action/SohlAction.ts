@@ -33,9 +33,10 @@ import { SohlEntity } from "../SohlEntity";
 
 /**
  * Predicate deciding whether an action is currently available. Invoked
- * programmatically with the owning `item` and `actor`; returns `true` when
- * the action may run/appear. Compiled from `data.trigger` by
- * `compileTrigger`.
+ * programmatically with the owning `item` and `actor` documents; the
+ * compiled expression sees their logic layer as `itemLogic` / `actorLogic`.
+ * Returns `true` when the action may run/appear. Compiled from
+ * `data.trigger` by `compileTrigger`.
  */
 export type ActionTriggerFn = (item?: SohlItem, actor?: SohlActor) => boolean;
 /**
@@ -396,8 +397,10 @@ export namespace SohlAction {
  * trigger`:
  *
  * 1. The visibility source is evaluated as a SafeExpression with
- *    `{element, item, isGM}` (its public contract; `isGM` reflects whether
- *    the current user is a GM). If false, the action is hidden.
+ *    `{element, itemLogic, isGM}` (its public contract; `itemLogic` is the
+ *    resolved row item's logic layer, or `undefined`; `isGM` reflects
+ *    whether the current user is a GM). If false, the action is hidden.
+ *    The owning actor's logic is reachable as `itemLogic.actorLogic`.
  * 2. For `SCRIPT` subtypes, the current user must satisfy
  *    `data.minActorOwnership` against the surrounding actor (see
  *    {@link userMeetsExecutePermission}). This mirrors `execute()`'s
@@ -440,7 +443,7 @@ function compileVisibility(
             const item = resolveContextItem(element);
             const visible = !!expression.evaluate({
                 element,
-                item,
+                itemLogic: item?.logic,
                 isGM: !!fvttCurrentUser()?.isGM,
             });
             if (!visible) return false;
@@ -461,16 +464,18 @@ function compileVisibility(
 
 /**
  * Compile an action's `trigger` source string into a predicate. The
- * predicate is invoked programmatically (not from a DOM event), so its
- * `item` and `actor` bindings are supplied directly by the caller rather
- * than resolved from an element. Parse and evaluation errors are caught
- * and logged; the action is treated as inactive rather than allowed to
- * bubble.
+ * predicate is invoked programmatically (not from a DOM event); callers
+ * pass the owning `item` and `actor` **documents**, and the predicate
+ * exposes their logic layer to the expression as `itemLogic` /
+ * `actorLogic` (the stable, computed view authors write against). Parse
+ * and evaluation errors are caught and logged; the action is treated as
+ * inactive rather than allowed to bubble.
  * @param source - The safe-expression source from `data.trigger`. Treated as
  *   `"true"` if blank/missing.
  * @param title - The owning action's title, used in log output.
  * @param parent - The owning action's logic, used as the expression's parent.
- * @returns A trigger predicate that accepts `item` and `actor` bindings.
+ * @returns A trigger predicate accepting `item` / `actor` documents, exposing
+ *   `itemLogic` / `actorLogic` to the expression.
  */
 function compileTrigger(
     source: string | undefined,
@@ -490,7 +495,10 @@ function compileTrigger(
     }
     return (item?: SohlItem, actor?: SohlActor): boolean => {
         try {
-            return !!expression.evaluate({ item, actor });
+            return !!expression.evaluate({
+                itemLogic: item?.logic,
+                actorLogic: actor?.logic,
+            });
         } catch (err) {
             sohl.log.warn(
                 "Action trigger expression threw; action will be inactive:",

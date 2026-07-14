@@ -69,13 +69,13 @@ describe("compileCondition", () => {
         expect(fn(mockTarget())).toBe(true);
     });
 
-    it("returns false (hidden) when item is not present", () => {
-        const fn = cond("defined(item)", "needs-item");
+    it("returns false (hidden) when itemLogic is not present", () => {
+        const fn = cond("defined(itemLogic)", "needs-item");
         expect(fn(mockTarget())).toBe(false);
     });
 
-    it("returns false (hidden) when actor is not present", () => {
-        const fn = cond("defined(actor)", "needs-actor");
+    it("returns false (hidden) when actorLogic is not present", () => {
+        const fn = cond("defined(actorLogic)", "needs-actor");
         expect(fn(mockTarget())).toBe(false);
     });
 
@@ -100,26 +100,30 @@ describe("compileCondition", () => {
 });
 
 describe("makeConditionContext", () => {
-    it("exposes target, item, and actor as own properties", () => {
+    it("exposes target, itemLogic, and actorLogic as own properties", () => {
         const target = mockTarget();
         const ctx = makeConditionContext(target);
         expect(Object.prototype.hasOwnProperty.call(ctx, "target")).toBe(true);
-        expect(Object.prototype.hasOwnProperty.call(ctx, "item")).toBe(true);
-        expect(Object.prototype.hasOwnProperty.call(ctx, "actor")).toBe(true);
+        expect(Object.prototype.hasOwnProperty.call(ctx, "itemLogic")).toBe(
+            true,
+        );
+        expect(Object.prototype.hasOwnProperty.call(ctx, "actorLogic")).toBe(
+            true,
+        );
         expect(ctx.target).toBe(target);
     });
 
-    it("defines item and actor as lazy getters", () => {
+    it("defines itemLogic and actorLogic as lazy getters", () => {
         const ctx = makeConditionContext(mockTarget());
-        const itemDesc = Object.getOwnPropertyDescriptor(ctx, "item");
-        const actorDesc = Object.getOwnPropertyDescriptor(ctx, "actor");
+        const itemDesc = Object.getOwnPropertyDescriptor(ctx, "itemLogic");
+        const actorDesc = Object.getOwnPropertyDescriptor(ctx, "actorLogic");
         expect(typeof itemDesc?.get).toBe("function");
         expect(typeof actorDesc?.get).toBe("function");
     });
 
-    it("does not resolve item when the expression never references it", () => {
+    it("does not resolve itemLogic when the expression never references it", () => {
         // Resolution starts with a DOM walk; if the expression never touches
-        // `item`, the lazy getter must never trigger that walk.
+        // `itemLogic`, the lazy getter must never trigger that walk.
         const target = mockTarget();
         const closestSpy = vi.spyOn(target, "closest");
         const fn = cond("true", "no-item");
@@ -127,10 +131,10 @@ describe("makeConditionContext", () => {
         expect(closestSpy).not.toHaveBeenCalledWith("[data-item-id]");
     });
 
-    it("resolves item only when the expression references it", () => {
+    it("resolves itemLogic only when the expression references it", () => {
         const target = mockTarget();
         const closestSpy = vi.spyOn(target, "closest");
-        const fn = cond("defined(item)", "uses-item");
+        const fn = cond("defined(itemLogic)", "uses-item");
         fn(target);
         expect(closestSpy).toHaveBeenCalledWith("[data-item-id]");
     });

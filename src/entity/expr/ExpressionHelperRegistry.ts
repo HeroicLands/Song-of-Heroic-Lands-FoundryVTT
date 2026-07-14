@@ -485,14 +485,17 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
     },
 
     /**
-     * Whether a SohlActor has a skill with the given shortcode in its logic.
-     * Used in context-menu conditions to gate skill-dependent actions.
-     * @param actor - The SohlActor (as exposed by the condition context).
+     * Whether an actor's logic layer has a skill with the given shortcode.
+     * Used in action trigger/visibility predicates and context-menu
+     * conditions — all of which bind the actor **logic** (as `actorLogic`),
+     * not the raw document — to gate skill-dependent actions.
+     * @param actorLogic - The actor logic (as exposed by the predicate context,
+     *   e.g. `actorLogic` or `itemLogic.actorLogic`).
      * @param shortcode - The skill shortcode to look for (e.g. `"dge"` for Dodge).
      * @returns Whether the actor has a skill with that shortcode.
      */
-    hasUsableSkill(actor: unknown, shortcode: unknown): boolean {
-        const skills = (actor as any)?.logic?.logicTypes?.["skill"] ?? [];
+    hasUsableSkill(actorLogic: unknown, shortcode: unknown): boolean {
+        const skills = (actorLogic as any)?.logicTypes?.["skill"] ?? [];
         return (skills as any[]).some(
             (s: any) => s?.data?.shortcode === String(shortcode),
         );

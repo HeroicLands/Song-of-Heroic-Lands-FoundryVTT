@@ -78,14 +78,14 @@ The bindings available to an expression depend on where it is used. Reach for a
 SafeExpression whenever a GM or content author needs a **synchronous condition or
 computed value** from a data field; these are the call sites today:
 
-| Call site                                                     | Field(s)                               | Bindings                  | Result  |
-| ------------------------------------------------------------- | -------------------------------------- | ------------------------- | ------- |
-| Action, UI visibility ({@link sohl.entity.action.SohlAction}) | `visible`                              | `element`, `item`, `isGM` | boolean |
-| Action, executability ({@link sohl.entity.action.SohlAction}) | `trigger`                              | `item`, `actor`           | boolean |
-| Active effect, item targeting (`SohlActiveEffect`)            | `test`                                 | `itemLogic`               | boolean |
-| Active effect, strike-mode targeting (`SohlActiveEffect`)     | `test`                                 | `itemLogic`, `sm`         | boolean |
-| Context-menu entry (`ContextMenuEntry`)                       | `condition`                            | `target`, `item`, `actor` | boolean |
-| Corpus movement profile (`CorpusLogic`)                       | `strMod`, `encumbrance`, `weight.calc` | `str` or `wt`             | number  |
+| Call site                                                     | Field(s)                               | Bindings                            | Result  |
+| ------------------------------------------------------------- | -------------------------------------- | ----------------------------------- | ------- |
+| Action, UI visibility ({@link sohl.entity.action.SohlAction}) | `visible`                              | `element`, `itemLogic`, `isGM`      | boolean |
+| Action, executability ({@link sohl.entity.action.SohlAction}) | `trigger`                              | `itemLogic`, `actorLogic`           | boolean |
+| Active effect, item targeting (`SohlActiveEffect`)            | `test`                                 | `itemLogic`                         | boolean |
+| Active effect, strike-mode targeting (`SohlActiveEffect`)     | `test`                                 | `itemLogic`, `sm`                   | boolean |
+| Context-menu entry (`ContextMenuEntry`)                       | `condition`                            | `target`, `itemLogic`, `actorLogic` | boolean |
+| Corpus movement profile (`CorpusLogic`)                       | `strMod`, `encumbrance`, `weight.calc` | `str` or `wt`                       | number  |
 
 The same `SohlActiveEffect.test` field is bound differently by the effect's
 scope: item-kind scopes see the candidate item's logic as `itemLogic`; the
@@ -163,9 +163,9 @@ valid regular expression. `padStart`, `padEnd`, and `repeat` throw a
 
 **Domain**
 
-| Helper                             | Returns   | Description                                                       |
-| ---------------------------------- | --------- | ----------------------------------------------------------------- |
-| `hasUsableSkill(actor, shortcode)` | `boolean` | Whether the actor has a skill with that shortcode (e.g. `"dge"`). |
+| Helper                                  | Returns   | Description                                                                         |
+| --------------------------------------- | --------- | ----------------------------------------------------------------------------------- |
+| `hasUsableSkill(actorLogic, shortcode)` | `boolean` | Whether the actor (given its logic) has a skill with that shortcode (e.g. `"dge"`). |
 
 ### Worked examples
 
@@ -195,11 +195,11 @@ floor(wt.effective / 10)
 ```
 
 **A context-menu condition — gate on a skill.** A context-menu entry's
-`condition` binds `actor`; show a Dodge action only when the actor has the Dodge
-skill:
+`condition` binds `actorLogic`; show a Dodge action only when the actor has the
+Dodge skill:
 
 ```text
-hasUsableSkill(actor, 'dge')
+hasUsableSkill(actorLogic, 'dge')
 ```
 
 ## Macros — asynchronous, imperative GM behavior

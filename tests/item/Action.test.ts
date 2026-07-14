@@ -111,9 +111,9 @@ describe("SohlAction.visible", () => {
         expect(action.visible(mockElement())).toBe(true);
     });
 
-    it("resolves item lazily from a [data-item-id] ancestor", () => {
-        const action = makeAction({ visible: "defined(item)" });
-        // No data-item-id ancestor → item is undefined.
+    it("resolves itemLogic lazily from a [data-item-id] ancestor", () => {
+        const action = makeAction({ visible: "defined(itemLogic)" });
+        // No data-item-id ancestor → item (and thus itemLogic) is undefined.
         expect(action.visible(mockElement())).toBe(false);
     });
 
@@ -180,12 +180,13 @@ describe("SohlAction.trigger", () => {
         expect(action.trigger()).toBe(true);
     });
 
-    it("exposes item and actor to the expression", () => {
+    it("exposes itemLogic and actorLogic to the expression", () => {
         const action = makeAction({
-            trigger: "defined(item) && defined(actor)",
+            trigger: "defined(itemLogic) && defined(actorLogic)",
         });
-        const item = { type: "skill" } as any;
-        const actor = { type: "character" } as any;
+        // Callers still pass documents; the predicate derives their `.logic`.
+        const item = { logic: { type: "skill" } } as any;
+        const actor = { logic: { type: "character" } } as any;
         expect(action.trigger(item, actor)).toBe(true);
         expect(action.trigger(item)).toBe(false);
         expect(action.trigger(undefined, actor)).toBe(false);
@@ -194,18 +195,19 @@ describe("SohlAction.trigger", () => {
 
     it("can read properties via lazy member access", () => {
         const action = makeAction({
-            trigger: "item.type === 'skill' && actor.type === 'character'",
+            trigger:
+                "itemLogic.type === 'skill' && actorLogic.type === 'character'",
         });
         expect(
             action.trigger(
-                { type: "skill" } as any,
-                { type: "character" } as any,
+                { logic: { type: "skill" } } as any,
+                { logic: { type: "character" } } as any,
             ),
         ).toBe(true);
         expect(
             action.trigger(
-                { type: "gear" } as any,
-                { type: "character" } as any,
+                { logic: { type: "gear" } } as any,
+                { logic: { type: "character" } } as any,
             ),
         ).toBe(false);
     });

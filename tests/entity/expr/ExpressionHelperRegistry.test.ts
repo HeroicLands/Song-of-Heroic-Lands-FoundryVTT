@@ -139,26 +139,22 @@ describe("ExpressionHelperRegistry", () => {
         const fn = () => STANDARD_HELPERS.hasUsableSkill;
 
         it("returns true when the actor logic has a skill with the given shortcode", () => {
-            const actor = {
-                logic: {
-                    logicTypes: {
-                        skill: [{ data: { shortcode: "dge" } }],
-                    },
+            const actorLogic = {
+                logicTypes: {
+                    skill: [{ data: { shortcode: "dge" } }],
                 },
             };
-            expect(fn()(actor, "dge")).toBe(true);
+            expect(fn()(actorLogic, "dge")).toBe(true);
         });
 
         it("returns false when no skill matches the shortcode", () => {
-            const actor = {
-                logic: {
-                    logicTypes: { skill: [{ data: { shortcode: "swd" } }] },
-                },
+            const actorLogic = {
+                logicTypes: { skill: [{ data: { shortcode: "swd" } }] },
             };
-            expect(fn()(actor, "dge")).toBe(false);
+            expect(fn()(actorLogic, "dge")).toBe(false);
         });
 
-        it("returns false when the actor has no logic", () => {
+        it("returns false when the actor logic is absent", () => {
             expect(fn()(null, "dge")).toBe(false);
             expect(fn()(undefined, "dge")).toBe(false);
             expect(fn()({}, "dge")).toBe(false);
