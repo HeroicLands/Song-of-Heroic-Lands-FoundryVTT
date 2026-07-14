@@ -53,6 +53,39 @@ describe("BodyPart", () => {
             expect(part.index).toBe(0);
         });
 
+        it("falls back name to shortcode and defaults permanentImpairment to 0 (#464)", () => {
+            const part = new BodyPart(SAMPLE_DATA, {
+                parent: MOCK_CORPUS,
+                structure: MOCK_BODY_STRUCTURE,
+                index: 0,
+            });
+            expect(part.name).toBe("larm"); // no name in data → shortcode
+            expect(part.permanentImpairment).toBe(0);
+        });
+
+        it("reads a negative permanent impairment and clamps a positive one to 0 (#464)", () => {
+            const maimed = new BodyPart(
+                { ...SAMPLE_DATA, name: "Left Arm", permanentImpairment: -10 },
+                {
+                    parent: MOCK_CORPUS,
+                    structure: MOCK_BODY_STRUCTURE,
+                    index: 0,
+                },
+            );
+            expect(maimed.name).toBe("Left Arm");
+            expect(maimed.permanentImpairment).toBe(-10);
+
+            const positive = new BodyPart(
+                { ...SAMPLE_DATA, permanentImpairment: 5 },
+                {
+                    parent: MOCK_CORPUS,
+                    structure: MOCK_BODY_STRUCTURE,
+                    index: 0,
+                },
+            );
+            expect(positive.permanentImpairment).toBe(0);
+        });
+
         it("constructs BodyLocation instances for each location", () => {
             const part = new BodyPart(SAMPLE_DATA, {
                 parent: MOCK_CORPUS,

@@ -42,7 +42,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{#if bodyParts.length}}
     <div class="sheet-header__locations">
         {{#each bodyParts}}
-        <span class="sheet-header__location">{{this.shortcode}}</span>
+        <span class="sheet-header__location sheet-header__location--{{this.status}}"
+            data-status="{{this.status}}" data-shortcode="{{this.shortcode}}">{{this.name}}</span>
         {{/each}}
     </div>
     {{/if}}

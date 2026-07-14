@@ -40,6 +40,8 @@ import { SohlEntity } from "../SohlEntity";
 export class BodyPart extends SohlEntity {
     /** Unique part identifier within the body structure (e.g. `"larm"`). */
     readonly shortcode: string;
+    /** Display name of this part (falls back to the shortcode). */
+    readonly name: string;
     /** Functional roles this part fulfills; see BodyRole in constants. */
     readonly roles: string[];
     /** Whether this part is a limb capable of gripping an item. */
@@ -48,6 +50,11 @@ export class BodyPart extends SohlEntity {
     readonly heldItem?: SohlItem;
     /** Selection weight for this part in random hit-location rolls. */
     readonly probWeight: ValueModifier;
+    /**
+     * Manually-set permanent impairment for this part — a non-positive floor
+     * the derived impairment can never be milder than (`0` = none).
+     */
+    readonly permanentImpairment: number;
     /** Hit locations contained within this part. */
     readonly locations: BodyLocation[];
     /** Back-reference to the owning {@link BodyStructure}. */
@@ -93,6 +100,7 @@ export class BodyPart extends SohlEntity {
         }
         super(data, options);
         this.shortcode = data.shortcode;
+        this.name = data.name || data.shortcode;
         this.roles = [...data.roles];
         this.canHoldItem = data.canHoldItem;
         this.heldItem =
@@ -105,6 +113,7 @@ export class BodyPart extends SohlEntity {
             {},
             { parent: this.parent },
         ).setBase(data.probWeight);
+        this.permanentImpairment = Math.min(0, data.permanentImpairment ?? 0);
         this.index = options.index;
         this.structure = options.structure;
         this.locations = data.locations.map(
@@ -206,8 +215,12 @@ export namespace BodyPart {
     export interface Data extends SohlEntity.Data {
         /** Unique part identifier within the body structure. */
         shortcode: string;
+        /** Display name of the part (e.g. "Head"); falls back to the shortcode. */
+        name?: string;
         /** Functional roles this part fulfills (BodyRole values). */
         roles: string[];
+        /** Manually-set permanent impairment floor (non-positive; `0` = none). */
+        permanentImpairment?: number;
         /** Whether this part can grip a held item. */
         canHoldItem: boolean;
         /** Id of the item this part is holding, or null if empty. */
