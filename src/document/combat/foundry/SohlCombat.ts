@@ -29,8 +29,8 @@ export class SohlCombat<
 > extends Combat<SubType> {
     /**
      * After combatants are created, seed each ungrouped one into a
-     * {@link CombatantGroup} derived from its token's `sohl.defaultCombatGroup`
-     * flag (defaulting to `"Opponents"`). Batch-aware: several combatants
+     * {@link CombatantGroup} derived from its actor's `system.defaultCombatGroup`
+     * (defaulting to `"Opponents"`). Batch-aware: several combatants
      * created in one operation that want the same new group share a single
      * group create. Only the active GM performs the authoritative writes.
      *

@@ -1650,7 +1650,7 @@ export function buildCombatCardData(
             defenderContested ?
                 (defResult?.mishaps?.has(DEFEND_MISHAP.STUMBLE_TEST) ?? false)
             :   false,
-        // Injury buttons (createInjury, assisted) — one per landing side.
+        // Injury buttons (createInjury) — one per landing side.
         hasAttackInjury: !!atkInjury,
         attackInjuryHandlerUuid: atkInjury?.handlerUuid ?? "",
         attackInjuryTargetName: atkInjury?.targetName ?? "",
@@ -1718,7 +1718,7 @@ export function buildCombatCardData(
                 atkResult.mishaps?.has(ATTACK_MISHAP.STUMBLE_TEST) ?? false,
             isDefFumbleTest: false,
             isDefStumbleTest: false,
-            // Injury buttons (createInjury, assisted) — one per landing side.
+            // Injury buttons (createInjury) — one per landing side.
             hasAttackInjury: !!atkInjury,
             attackInjuryHandlerUuid: atkInjury?.handlerUuid ?? "",
             attackInjuryTargetName: atkInjury?.targetName ?? "",
@@ -2051,11 +2051,11 @@ export function collectBlockableStrikeModes(
 }
 
 /**
- * Build the assisted-injury button payload for a landing side, or `null` when
- * the side did not land (no `ImpactResult`) or has no target. Mirrors
- * the damage-card builder: the `createInjury` handler opens the Add Injury
- * dialog from `{ impact, aspect }` (no aim forwarded yet → assisted, not
- * automated).
+ * Build the injury button payload for a landing side, or `null` when the side
+ * did not land (no `ImpactResult`) or has no target. When the blow was aimed, the
+ * `createInjury` handler resolves the hit location automatically from the
+ * forwarded `targetPart`/`spread` (the automated, no-dialog path); an unaimed blow
+ * forwards only `{ impact, aspect }`, so the handler opens the Add Injury dialog.
  * @param impactResult - The landing side's impact result, or `undefined` if it missed.
  * @param targetCombatantUuid - The struck combatant's injury-button data, or `null`.
  * @returns The injury-button payload, or `null` if the side did not land or has
