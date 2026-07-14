@@ -299,6 +299,10 @@ export function fvttActiveCombatantForActor(_actor: any): any {
     return undefined;
 }
 
+export function fvttActorStatuses(_actor: any): Set<string> {
+    return new Set<string>();
+}
+
 export function fvttActiveTokenLogicForActor(_actor: any): any {
     return undefined;
 }

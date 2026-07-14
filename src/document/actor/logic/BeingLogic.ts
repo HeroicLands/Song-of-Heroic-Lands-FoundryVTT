@@ -42,7 +42,14 @@ import {
     getActiveCombat,
     dialog,
     fvttCreateEmbeddedItems,
+    fvttActorStatuses,
 } from "@src/core/FoundryHelpers";
+import { deriveHealth } from "@src/document/actor/logic/health";
+import {
+    bodyPartImpairment,
+    type LocationInjury,
+} from "@src/entity/body/impairment";
+import type { TraumaLogic } from "@src/document/item/logic/TraumaLogic";
 import type { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
 import {
     buildContractedAfflictionData,
@@ -111,9 +118,13 @@ export class BeingLogic<
     TData extends BeingData = BeingData,
 > extends SohlActorBaseLogic<TData> {
     /**
-     * Overall health state, derived from injury levels across body roles
+     * Overall health as a `{ value, max }` pair of {@link ValueModifier}s
+     * (#463). `max` is `endurance × 3` (or 100 when incorporeal / no Endurance);
+     * `value` is the current health after injuries and impairment/status
+     * ceilings, floored at 0. Populated in {@link finalize} via
+     * {@link deriveHealth}.
      */
-    health!: ValueModifier;
+    health!: { value: ValueModifier; max: ValueModifier };
 
     /**
      * Base healing rate, ultimately influenced by traits and treatment
@@ -793,6 +804,65 @@ export class BeingLogic<
         // movement, weight, reach, or carry capacity. The corpus-dependent
         // reads degrade to their "no corpus → 0 / undefined" behavior; this is
         // not an error and is deliberately not warned about.
+
+        this.deriveHealthState();
+    }
+
+    /**
+     * Populate {@link health} from the being's Endurance, active injuries,
+     * body-part impairment, and incapacitating statuses (#463). Runs in
+     * {@link finalize}, after all items (corpus, traumas) are prepared. The math
+     * lives in the pure {@link deriveHealth}; this method only gathers the
+     * inputs and wraps the result in `{ value, max }` ValueModifiers.
+     */
+    private deriveHealthState(): void {
+        const endurance = this.getItemLogic(
+            ATTRIBUTE_CODE.ENDURANCE,
+            ITEM_KIND.ATTRIBUTE,
+        ) as AttributeLogic | undefined;
+        const enduranceScore = endurance?.score.effective ?? 0;
+
+        // Per-injury shock×level, plus a per-location injury view for the
+        // body-part impairment rollup.
+        const injuryShocks: number[] = [];
+        const injuries: LocationInjury[] = [];
+        for (const trauma of this.logicTypes[
+            ITEM_KIND.TRAUMA
+        ] as TraumaLogic[]) {
+            const level = trauma.level?.effective ?? 0;
+            if (level <= 0) continue;
+            const shock = trauma.bodyLocation?.shockValue.effective ?? 0;
+            injuryShocks.push(shock * level);
+            const code = trauma.data.bodyLocationCode;
+            if (code) {
+                injuries.push({
+                    locationShortcode: code,
+                    level,
+                    healingRate: trauma.healingRate?.effective ?? 0,
+                });
+            }
+        }
+
+        // Per-body-part impairment (reuses the #464 derivation).
+        const partImpairments = (this.corpus?.structure?.parts ?? []).map((p) =>
+            bodyPartImpairment(
+                p.locations.map((l) => l.shortcode),
+                injuries,
+                p.permanentImpairment,
+            ),
+        );
+
+        const { max, value } = deriveHealth({
+            enduranceScore,
+            injuryShocks,
+            partImpairments,
+            statuses: fvttActorStatuses(this.actor),
+        });
+
+        this.health = {
+            max: new entity.ValueModifier(this).setBase(max),
+            value: new entity.ValueModifier(this).setBase(value),
+        };
     }
 
     /**

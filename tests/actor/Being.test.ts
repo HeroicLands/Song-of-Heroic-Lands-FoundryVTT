@@ -868,6 +868,44 @@ describe("BeingLogic", () => {
     });
 });
 
+describe("BeingLogic health (#463)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    /** A being with an Endurance attribute of the given score. */
+    function beingWithEndurance(score: number) {
+        const logic = makeBeing();
+        (logic as any).actor.items.set("end", makeAttributeStub("end", score));
+        return logic;
+    }
+
+    it("populates health as endurance × 3 for a healthy, uninjured being", () => {
+        const logic = beingWithEndurance(13);
+        logic.initialize();
+        logic.finalize();
+        expect(logic.health.max.effective).toBe(39);
+        expect(logic.health.value.effective).toBe(39);
+    });
+
+    it("defaults health to 100/100 when the being has no Endurance", () => {
+        const logic = makeBeing();
+        logic.initialize();
+        logic.finalize();
+        expect(logic.health.max.effective).toBe(100);
+        expect(logic.health.value.effective).toBe(100);
+    });
+
+    it("reads active statuses via the fvttActorStatuses shim (dead → value 0)", () => {
+        vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+            new Set(["dead"]),
+        );
+        const logic = beingWithEndurance(13);
+        logic.initialize();
+        logic.finalize();
+        expect(logic.health.max.effective).toBe(39);
+        expect(logic.health.value.effective).toBe(0);
+    });
+});
+
 describe("BeingDataModel", () => {
     describe("defineSchema", () => {
         it.todo("includes SohlActorDataModel base schema fields");
