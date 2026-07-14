@@ -59,6 +59,16 @@ dotenv.config({ path: path.join(repoRoot, ".env") });
 /** Fixed GM document id (16 alphanumeric chars) so Cypress can target it. */
 export const E2E_GM_ID = "sohlE2EGameMastr";
 
+/**
+ * Fixed id of the seeded, pre-activated default scene. A non-empty world means
+ * Foundry's New User Experience manager does not auto-start the "welcome" tour
+ * (whose callout overlays sheets, #451), and an _active_ scene at load makes the
+ * canvas ready — several read paths (token placement,
+ * `SohlCombatantLogic.computedMove`) depend on a ready canvas / active scene and
+ * otherwise fail with no scene present.
+ */
+export const E2E_SCENE_ID = "sohlE2EDefScene1";
+
 /** Resolve the seed configuration from the environment. */
 export function e2eConfig() {
     return {
@@ -162,6 +172,29 @@ async function main() {
     );
     await compilePack(srcDir, usersDir, { log: false });
     await fs.rm(srcDir, { recursive: true, force: true });
+
+    // A single pre-activated scene. It keeps the world non-empty (so the NUE
+    // "welcome" tour never auto-starts and overlays sheets — #451) and gives the
+    // client a ready canvas at load (so canvas-coupled read paths resolve).
+    const scenesDir = path.join(worldDir, "data", "scenes");
+    const scene = {
+        _id: E2E_SCENE_ID,
+        name: "E2E Default Scene",
+        active: true,
+        width: 2000,
+        height: 2000,
+        padding: 0.25,
+        grid: { type: 1, size: 100 }, // 1 = CONST.GRID_TYPES.SQUARE
+        _key: `!scenes!${E2E_SCENE_ID}`,
+    };
+    const scenesSrc = path.join(worldDir, ".seed-src-scenes");
+    await fs.mkdir(scenesSrc, { recursive: true });
+    await fs.writeFile(
+        path.join(scenesSrc, "default-scene.json"),
+        JSON.stringify(scene, null, 2) + "\n",
+    );
+    await compilePack(scenesSrc, scenesDir, { log: false });
+    await fs.rm(scenesSrc, { recursive: true, force: true });
 
     console.log(`Seeded test world '${worldId}' at ${worldDir}`);
     console.log(`  GM user:  ${gmName} (id ${E2E_GM_ID})`);
