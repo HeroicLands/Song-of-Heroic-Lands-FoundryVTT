@@ -638,6 +638,22 @@ describe("being-sheet-view", () => {
             ]);
         });
 
+        it("applies a part's permanent impairment as a floor (#464)", () => {
+            const s = {
+                parts: [
+                    {
+                        shortcode: "LARM",
+                        permanentImpairment: -10,
+                        locations: [{ shortcode: "hand" }],
+                    },
+                ],
+            };
+            // No injury, but permanent −10 → major.
+            expect(buildBodyPartLozenges(s)).toEqual([
+                { shortcode: "LARM", name: "LARM", status: "major" },
+            ]);
+        });
+
         it("returns an empty array for undefined or empty structure", () => {
             expect(buildBodyPartLozenges(undefined)).toEqual([]);
             expect(buildBodyPartLozenges({})).toEqual([]);

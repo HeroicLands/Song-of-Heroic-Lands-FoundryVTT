@@ -50,6 +50,11 @@ export class BodyPart extends SohlEntity {
     readonly heldItem?: SohlItem;
     /** Selection weight for this part in random hit-location rolls. */
     readonly probWeight: ValueModifier;
+    /**
+     * Manually-set permanent impairment for this part — a non-positive floor
+     * the derived impairment can never be milder than (`0` = none).
+     */
+    readonly permanentImpairment: number;
     /** Hit locations contained within this part. */
     readonly locations: BodyLocation[];
     /** Back-reference to the owning {@link BodyStructure}. */
@@ -108,6 +113,7 @@ export class BodyPart extends SohlEntity {
             {},
             { parent: this.parent },
         ).setBase(data.probWeight);
+        this.permanentImpairment = Math.min(0, data.permanentImpairment ?? 0);
         this.index = options.index;
         this.structure = options.structure;
         this.locations = data.locations.map(
@@ -213,6 +219,8 @@ export namespace BodyPart {
         name?: string;
         /** Functional roles this part fulfills (BodyRole values). */
         roles: string[];
+        /** Manually-set permanent impairment floor (non-positive; `0` = none). */
+        permanentImpairment?: number;
         /** Whether this part can grip a held item. */
         canHoldItem: boolean;
         /** Id of the item this part is holding, or null if empty. */

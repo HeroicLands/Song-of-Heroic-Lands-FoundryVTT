@@ -44,16 +44,17 @@ Domain objects are reconstructed on every preparation cycle. Active effects may 
 
 A body part is a primary anatomical division — Head, Torso, an arm, a leg, a wing. Persisted fields, from the `defineSchema()` of [CorpusDataModel.ts](../../src/document/item/foundry/CorpusDataModel.ts):
 
-| Field         | Type                  | Purpose                                                                                            |
-| ------------- | --------------------- | -------------------------------------------------------------------------------------------------- |
-| `shortcode`   | string                | Stable identifier (e.g., `headpart`). Used in adjacency lookups and update paths.                  |
-| `name`        | string                | Display name (e.g., `"Head"`). Stored literally; not a localization key.                           |
-| `roles`       | `BodyRole[]`          | Functional tags the part fulfills — see [Body Roles](#body-roles).                                 |
-| `combatArea`  | number                | Targetable surface area in square feet. Doubles as the weight for unaimed-attack random selection. |
-| `canHoldItem` | boolean               | Whether this part can grip an item. Arms typically `true`; others `false`.                         |
-| `heldItemId`  | string \| null        | The ID of the item currently held, if any.                                                         |
-| `favoredFlag` | boolean               | Marks the part as favored (off-hand vs. main-hand semantics).                                      |
-| `locations`   | `BodyLocation.Data[]` | The hit locations nested within this part.                                                         |
+| Field                 | Type                  | Purpose                                                                                                               |
+| --------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `shortcode`           | string                | Stable identifier (e.g., `headpart`). Used in adjacency lookups and update paths.                                     |
+| `name`                | string                | Display name (e.g., `"Head"`). Stored literally; not a localization key.                                              |
+| `roles`               | `BodyRole[]`          | Functional tags the part fulfills — see [Body Roles](#body-roles).                                                    |
+| `combatArea`          | number                | Targetable surface area in square feet. Doubles as the weight for unaimed-attack random selection.                    |
+| `canHoldItem`         | boolean               | Whether this part can grip an item. Arms typically `true`; others `false`.                                            |
+| `heldItemId`          | string \| null        | The ID of the item currently held, if any.                                                                            |
+| `favoredFlag`         | boolean               | Marks the part as favored (off-hand vs. main-hand semantics).                                                         |
+| `permanentImpairment` | integer ≤ 0           | Manually-set permanent impairment floor for the part (`0` = none). See [Body-part impairment](#body-part-impairment). |
+| `locations`           | `BodyLocation.Data[]` | The hit locations nested within this part.                                                                            |
 
 A convenience getter {@link sohl.entity.body.BodyPart.affectsMobility} is `true` when the part has any of the `vital`, `core`, or `locomotor` roles.
 
@@ -109,10 +110,11 @@ locations (`{@link bodyPartImpairment}`, `src/entity/body/impairment.ts`):
 | Minor (`M1`, level 1) with healing rate ≤ 5 | **−5**       |
 | none / a fast-healing minor injury          | 0            |
 
-As injuries heal, a part climbs back `unusable → −10 → −5 → none`. A **permanent
-impairment** — a non-positive floor from an old maiming — is a minimum the result
-can never be milder than (a part with permanent −10 stays at least −10 even under
-a fresh minor injury). The derivation is pure and Foundry-free; it is consumed by
+As injuries heal, a part climbs back `unusable → −10 → −5 → none`. A part's
+**permanent impairment** (its manually-set `permanentImpairment` field, a
+non-positive integer from an old maiming) is a floor the result can never be
+milder than — a part with permanent −10 stays at least −10 even under a fresh
+minor injury. The derivation is pure and Foundry-free; it is consumed by
 the Being-sheet header's body-part grid, which colors each part by status (none =
 white, −5 = yellow, −10 or worse = blue, unusable = black).
 

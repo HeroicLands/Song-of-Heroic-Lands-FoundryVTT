@@ -99,4 +99,29 @@ describe("Being sheet header: body-part impairment grid (#464)", () => {
             });
         });
     });
+
+    it("colors a part by its manually-set permanent impairment (datamodel field)", () => {
+        cy.importActor().then((actor) => {
+            cy.foundry(async (win) => {
+                const a = win.game.actors.get(actor.id);
+                const corpus = a.itemTypes.corpus[0];
+                // Full-array write: set the first part's permanent impairment.
+                const parts = corpus.system.toObject().structure.parts;
+                parts[0].permanentImpairment = -10;
+                await corpus.update(
+                    win.JSON.parse(
+                        JSON.stringify({ "system.structure.parts": parts }),
+                    ),
+                );
+                return parts[0].shortcode;
+            }).then((shortcode) => {
+                cy.prepare(actor);
+                cy.openSheet(actor);
+                // Permanent −10 with no injury → major.
+                cy.get(
+                    `.sheet-header__location[data-shortcode="${shortcode}"]`,
+                ).should("have.attr", "data-status", "major");
+            });
+        });
+    });
 });

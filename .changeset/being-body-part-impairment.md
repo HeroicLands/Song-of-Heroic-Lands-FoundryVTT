@@ -18,10 +18,14 @@ impairment, colored by severity, instead of a bare shortcode list.
   worse = blue, unusable = black.
 - `BodyPart` now surfaces its `name` (mirroring `BodyLocation`), which the grid
   and other callers can use.
+- **Permanent impairment** is a new per-body-part `permanentImpairment` field on
+  the Corpus data model (a manually-set, non-positive integer floor; `0` = none).
+  It is additive with a safe default, so existing corpora need no migration. No
+  dedicated editor UI yet — it is set via a data update; a sheet control is a
+  follow-up.
 
 The derivation is shared, so the health work (#463) can consume the same per-part
-status for its ceilings. Permanent impairment has no persisted field or UI yet
-(the parameter defaults to `0`); wiring a source for it is a follow-up.
+status for its ceilings.
 
 Covered by `bodyPartImpairment` unit tests (severity bands, worst-injury,
 permanent floor), updated `buildBodyPartLozenges` tests, and a

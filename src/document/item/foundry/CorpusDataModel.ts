@@ -79,6 +79,17 @@ function defineCorpusDataSchema(): foundry.data.fields.DataSchema {
                         initial: null,
                     }),
                     /**
+                     * Permanent impairment for this part — a manually-set,
+                     * non-positive floor (e.g. an old maiming) that the part's
+                     * derived impairment can never be milder than. `0` means no
+                     * permanent impairment. See {@link bodyPartImpairment}.
+                     */
+                    permanentImpairment: new NumberField({
+                        integer: true,
+                        initial: 0,
+                        max: 0,
+                    }),
+                    /**
                      * Target area of this part for hit-spread mechanics, in
                      * square feet. Doubles as the weight used when picking
                      * a random part for unaimed attacks (volley fire,
