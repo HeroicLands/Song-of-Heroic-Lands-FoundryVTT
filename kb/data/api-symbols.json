@@ -3343,6 +3343,8 @@
   "sohl.entity.result.TestResult.speaker": "classes/sohl.entity.result.TestResult-1.html#speaker",
   "sohl.entity.result.TestResult.title": "classes/sohl.entity.result.TestResult-1.html#title",
   "sohl.entity.result.TestResult.toJSON": "classes/sohl.entity.result.TestResult-1.html#tojson",
+  "sohl.entity.result.reviveLimitedDescriptionTable": "functions/sohl.entity.result.reviveLimitedDescriptionTable.html",
+  "sohl.entity.result.serializeLimitedDescriptionTable": "functions/sohl.entity.result.serializeLimitedDescriptionTable.html",
   "sohl.entity.roll": "modules/sohl.entity.roll.html",
   "sohl.entity.roll.SimpleRoll": "classes/sohl.entity.roll.SimpleRoll-1.html",
   "sohl.entity.roll.SimpleRoll.Data": "interfaces/sohl.entity.roll.SimpleRoll.Data.html",

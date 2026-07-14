@@ -25,8 +25,9 @@ import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { TestResult } from "@src/entity/result/TestResult";
 import { SohlEntity } from "@src/entity/SohlEntity";
+import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
-import { toFilePath } from "@src/utils/helpers";
+import { toFilePath, defaultFromJSON } from "@src/utils/helpers";
 import {
     dialog,
     fvttMergeObject,
@@ -202,7 +203,15 @@ export class SuccessTestResult extends TestResult {
                 },
             );
         this._successStars = data.successStars ?? 0;
-        this._successStarTable = data.successStarTable || [];
+        // The table rides the wire as data; revive any serialized SafeExpression
+        // rows into live expressions owned by this result's parent.
+        this._successStarTable =
+            data.successStarTable ?
+                reviveLimitedDescriptionTable(
+                    data.successStarTable,
+                    this.parent,
+                )
+            :   [];
         this.rollMode = data.rollMode || SOHL_SPEAKER_ROLL_MODE.SYSTEM;
         this._testType = data.testType || TEST_TYPE.SUCCESSTEST.id;
         this._roll =
@@ -260,7 +269,9 @@ export class SuccessTestResult extends TestResult {
             tokenUuid: this._tokenLogic?.uuid,
             masteryLevelModifier: this._masteryLevelModifier.toJSON(),
             successStars: this._successStars,
-            successStarTable: this._successStarTable,
+            successStarTable: serializeLimitedDescriptionTable(
+                this._successStarTable,
+            ),
             rollMode: this.rollMode,
             testType: this._testType,
             roll: this._roll.toJSON(),
@@ -729,19 +740,37 @@ export namespace SuccessTestResult {
      * numeric result/quality. Each text/numeric field may be a literal or a
      * function computed from the chat data.
      */
+    /**
+     * A row of a **result-description table**, mapping a test outcome to a
+     * descriptive label (e.g. "You go screaming down the halls in terror" rather
+     * than a bare "Critical Failure"). `label` / `description` / `result` may be a
+     * literal or a {@link sohl.entity.expr.SafeExpression} computed from the test
+     * bindings (`successLevel`, `targetValue`, `lastDigit`) — data, so the whole
+     * table serializes across clients. See the
+     * [Result-description Tables](https://kb.heroiclands.org/dev/reference/result-description-tables/)
+     * guide.
+     */
     export interface LimitedDescription {
         /** Upper bound (inclusive) of target values this row matches. */
         maxValue: number;
         /** Roll last-digits this row applies to; an empty list matches any. */
         lastDigits: number[];
-        /** Result label, or a function computing it from the chat data. */
-        label: string | ((chatData: PlainObject) => string);
-        /** Result description, or a function computing it from the chat data. */
-        description: string | ((chatData: PlainObject) => string);
+        /**
+         * Result label — a literal string, or a {@link sohl.entity.expr.SafeExpression}
+         * computing it from the test bindings (`successLevel`, `targetValue`,
+         * `lastDigit`). A `SafeExpression` is data (a source string), so the row —
+         * unlike a raw function — survives serialization across clients.
+         */
+        label: string | SafeExpression;
+        /** Result description — a literal string or a {@link sohl.entity.expr.SafeExpression}. */
+        description: string | SafeExpression;
         /** Whether this row represents a success. */
         success: boolean;
-        /** Numeric result/quality (e.g. star count), or a function computing it. */
-        result: number | ((chatData: PlainObject) => number);
+        /**
+         * Numeric result/quality (e.g. star count) — a literal number or a
+         * {@link sohl.entity.expr.SafeExpression} computing it from the test bindings.
+         */
+        result: number | SafeExpression;
     }
 }
 
@@ -771,23 +800,91 @@ function handleLimitedDescription(
                     entry.lastDigits.includes(chatData.lastDigit)),
         );
     if (testDesc) {
+        // Bindings a row's SafeExpression may reference.
+        const bindings = {
+            successLevel: chatData.successLevel,
+            targetValue,
+            lastDigit: chatData.lastDigit,
+        };
         const label =
-            testDesc.label instanceof Function ?
-                testDesc.label(chatData)
+            testDesc.label instanceof SafeExpression ?
+                String(testDesc.label.evaluate(bindings))
             :   testDesc.label;
         const desc =
-            testDesc.description instanceof Function ?
-                testDesc.description(chatData)
+            testDesc.description instanceof SafeExpression ?
+                String(testDesc.description.evaluate(bindings))
             :   testDesc.description;
         chatData.resultText = label || "";
         chatData.resultDesc = desc || "";
         result =
-            typeof testDesc.result === "function" ?
-                testDesc.result(chatData)
+            testDesc.result instanceof SafeExpression ?
+                Number(testDesc.result.evaluate(bindings))
             :   testDesc.result;
     }
 
     return result;
+}
+
+/**
+ * Revive a limited-description table's computed fields into live SafeExpressions.
+ *
+ * A table rides the serialization wire as pure data — each computed
+ * `label`/`description`/`result` that is an expression becomes a `__kind`-tagged
+ * {@link sohl.entity.expr.SafeExpression} payload (its source string). On
+ * reconstruction those payloads are rehydrated into live `SafeExpression`
+ * instances owned by `parent`; literals and already-live expressions pass through
+ * unchanged. This is the reference-on-wire / live-object-in-memory rule the
+ * result subsystem follows — the reason a table can carry computed rows at all
+ * (a raw function would be silently dropped by `JSON.stringify`).
+ *
+ * @param table - The table as supplied to a constructor (wire data or live).
+ * @param parent - The logic to own any revived SafeExpression.
+ * @returns A table whose expression fields are live SafeExpressions.
+ */
+/**
+ * Reduce a limited-description table to plain, serializable data.
+ *
+ * Each computed `label`/`description`/`result` that is a live
+ * {@link sohl.entity.expr.SafeExpression} is replaced with its serialized form (a
+ * `__kind`-tagged source string); literals pass through. A `toJSON` must emit
+ * this — not the raw table — because a live SafeExpression holds a back-reference
+ * to its parent logic, and the deep `undefined→null` pass over a `toJSON` result
+ * would recurse into that cycle. {@link reviveLimitedDescriptionTable} is the
+ * inverse.
+ *
+ * @param table - The live table (as held in memory).
+ * @returns The table with expression fields reduced to serialized data.
+ */
+export function serializeLimitedDescriptionTable(
+    table: SuccessTestResult.LimitedDescription[],
+): PlainObject[] {
+    const ser = (v: unknown): unknown =>
+        v instanceof SafeExpression ? v.toJSON() : v;
+    return table.map((row) => ({
+        ...row,
+        label: ser(row.label),
+        description: ser(row.description),
+        result: ser(row.result),
+    })) as PlainObject[];
+}
+
+export function reviveLimitedDescriptionTable(
+    table: SuccessTestResult.LimitedDescription[],
+    parent: unknown,
+): SuccessTestResult.LimitedDescription[] {
+    const revive = (v: unknown): unknown => {
+        if (v instanceof SafeExpression) return v;
+        if (v && typeof v === "object" && "__kind" in (v as object)) {
+            return defaultFromJSON(v as PlainObject, { parent });
+        }
+        return v;
+    };
+    return table.map((row) => ({
+        ...row,
+        label: revive(row.label) as string | SafeExpression,
+        description: revive(row.description) as string | SafeExpression,
+        result: revive(row.result) as number | SafeExpression,
+    }));
 }
 
 registerKind(SuccessTestResult.Kind, SuccessTestResult);
