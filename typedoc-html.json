@@ -1,6 +1,7 @@
 {
     "entryPoints": ["src/index.ts"],
     "entryPointStrategy": "resolve",
+    "alwaysCreateEntryPointModule": true,
     "navigation": {
         "includeFolders": false,
         "includeGroups": false,
@@ -20,7 +21,6 @@
     "excludeInternal": true,
     "includeVersion": true,
     "readme": "docs/api-home.md",
-    "projectDocuments": ["docs/documentation.md"],
     "name": "Song of Heroic Lands API",
     "exclude": [],
     "skipErrorChecking": true,
