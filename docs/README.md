@@ -49,6 +49,7 @@ Contracts, catalogs, and specifications.
 - [Type Catalog](reference/type-catalog.md)
 - [Modifier Model](reference/modifier-model.md)
 - [Combat Resolution Pipeline](reference/combat-resolution-pipeline.md)
+- [Result-description Tables](reference/result-description-tables.md)
 - [Body Structure](reference/body-structure.md)
 - [Effects Integration](reference/effects-integration.md)
 - [Runtime Contracts](reference/runtime-contracts.md)

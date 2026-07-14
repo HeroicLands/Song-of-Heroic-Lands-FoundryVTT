@@ -4,6 +4,7 @@ children:
     Type Catalog: ./type-catalog.md
     Modifier Model: ./modifier-model.md
     Combat Resolution Pipeline: ./combat-resolution-pipeline.md
+    Result-description Tables: ./result-description-tables.md
     Body Structure: ./body-structure.md
     Effects Integration: ./effects-integration.md
     Runtime Contracts: ./runtime-contracts.md

@@ -15,7 +15,12 @@ import { dialog, fvttGetTargetedTokens } from "@src/core/FoundryHelpers";
 import { registerKind } from "@src/utils/kindRegistry";
 import { entity, registerEntity } from "@src/entity/entityRegistry";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
+import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import {
+    reviveLimitedDescriptionTable,
+    serializeLimitedDescriptionTable,
+    type SuccessTestResult,
+} from "@src/entity/result/SuccessTestResult";
 import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
 // Side-effect imports so the result classes self-register — this base class
 // reaches the registry by import, not the runtime global (see header note).
@@ -109,16 +114,32 @@ export function getStandardSuccessValueTable(): SuccessTestResult.LimitedDescrip
     ];
 }
 
-const STANDARD_SUCCESS_DESCRIPTION_TABLE: SuccessTestResult.LimitedDescription[] =
-    [
+/**
+ * The standard success-level description table, owned by `parent`.
+ *
+ * A builder (not a shared const) because two rows compute their star count with a
+ * {@link sohl.entity.expr.SafeExpression} — data that serializes across clients,
+ * unlike the raw functions this replaced — and a `SafeExpression` needs an owning
+ * `parent` logic. Built fresh per modifier so the expressions are parented
+ * correctly.
+ *
+ * @param parent - The logic owning the table's expressions.
+ * @returns The standard success-level description table.
+ */
+function getStandardSuccessDescriptionTable(
+    parent: SohlLogic<any>,
+): SuccessTestResult.LimitedDescription[] {
+    return [
         {
             maxValue: -1,
             label: "",
             description: "",
             lastDigits: [],
             success: false,
-            result: (chatData: PlainObject): number =>
-                chatData.successLevel + 1,
+            result: new SafeExpression(
+                { source: "successLevel + 1" },
+                { parent },
+            ),
         },
         {
             maxValue: 0,
@@ -142,10 +163,13 @@ const STANDARD_SUCCESS_DESCRIPTION_TABLE: SuccessTestResult.LimitedDescription[]
             description: "",
             lastDigits: [],
             success: true,
-            result: (chatData: PlainObject): number =>
-                chatData.successLevel - 1,
+            result: new SafeExpression(
+                { source: "successLevel - 1" },
+                { parent },
+            ),
         },
-    ] as const;
+    ];
+}
 
 /*
  * ── Construction indirection: base class (#83) ───────────────────────────────
@@ -279,9 +303,16 @@ export class MasteryLevelModifier extends ValueModifier {
         this.successLevelMod = data.successLevelMod ?? 0;
         this.critFailureDigits = data.critFailureDigits ?? [];
         this.critSuccessDigits = data.critSuccessDigits ?? [];
+        // Tables ride the wire as data; revive any serialized SafeExpression rows
+        // into live expressions owned by this modifier's parent.
         this.testDescTable =
-            data.testDescTable ?? STANDARD_SUCCESS_DESCRIPTION_TABLE;
-        this.svTable = data.svTable ?? getStandardSuccessValueTable();
+            data.testDescTable ?
+                reviveLimitedDescriptionTable(data.testDescTable, this.parent)
+            :   getStandardSuccessDescriptionTable(this.parent);
+        this.svTable =
+            data.svTable ?
+                reviveLimitedDescriptionTable(data.svTable, this.parent)
+            :   getStandardSuccessValueTable();
         this.type =
             data.type ?? `${this.parent.data.kind}-${this.parent.name}-test`;
         this.title =
@@ -305,8 +336,8 @@ export class MasteryLevelModifier extends ValueModifier {
             successLevelMod: this.successLevelMod,
             critFailureDigits: [...this.critFailureDigits],
             critSuccessDigits: [...this.critSuccessDigits],
-            testDescTable: this.testDescTable,
-            svTable: this.svTable,
+            testDescTable: serializeLimitedDescriptionTable(this.testDescTable),
+            svTable: serializeLimitedDescriptionTable(this.svTable),
             type: this.type,
             title: this.title,
         };
