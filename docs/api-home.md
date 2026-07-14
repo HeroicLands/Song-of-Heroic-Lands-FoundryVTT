@@ -3,54 +3,42 @@
 # Song of Heroic Lands — API Reference
 
 The developer reference for the **Song of Heroic Lands (SoHL)** Foundry VTT
-system, generated from the source with TypeDoc. It is intended for developers
-**building against or extending** SoHL and contributors working on the system
-itself.
+system, generated from the source with TypeDoc — every exported class, function,
+and type. It is intended for developers **building against or extending** SoHL
+and contributors working on the system itself.
+
+> Looking for **guides** — architecture, how-tos, concepts, contributing? Those
+> live in the **[Knowledgebase](https://kb.heroiclands.org)**, alongside the
+> player-facing content reference. This site is the generated symbol reference
+> only.
 
 > Looking for how to _play_? Player- and GM-facing rules, the quickstart, and
 > character creation live on the project site:
-> [heroiclands.org](https://heroiclands.org/projects/sohl/). This reference does
-> not duplicate them.
+> [heroiclands.org](https://heroiclands.org/projects/sohl/).
 
 ## Where to start
 
-- **[Architecture Overview](concepts/architecture.md)** — the mental model and a
-  map of the `src/` tree. Read this first.
-- **[Getting Started](how-to/getting-started.md)** — environment setup, a tour
-  of the codebase, and your first change.
 - **The sidebar** — every public class, function, and type, grouped to mirror
-  the source (see below).
+  the `sohl.*` namespace tree (see below).
+- **[Architecture Overview](https://kb.heroiclands.org/concepts/architecture/)**
+  (Knowledgebase) — the mental model and a map of the `src/` tree. Read this first.
+- **[Getting Started](https://kb.heroiclands.org/how-to/getting-started/)**
+  (Knowledgebase) — environment setup, a codebase tour, and your first change.
 
 ## How this reference is organized
 
-The navigation on the left mirrors the `src/` layout, so a folder in the source
-maps directly to a group here:
+The navigation on the left mirrors the `sohl.*` namespace tree, so a symbol's
+documentation path equals its location in the source and on the runtime global
+(for example `sohl.document.actor.logic.BeingLogic`):
 
-- **Core** — Foundry-layer foundations (system registration, data-model and
-  logic bases, the `FoundryHelpers` shim, calendar, event queue).
-- **Documents** — Foundry document classes by kind: **Actor**, **Item**,
-  **Combat**, **Combatant**, **Chat**, **Effect**, **Scene**, **Token**.
-- **Domain** — pure, Foundry-free game-mechanics objects: **Modifier**,
-  **Result**, **Body**, **Action**, **Movement**, **StrikeMode**, **SkillBase**.
-- **Utility** — shared helpers: **Constants**, **Helpers**, **Collection**,
-  **AI**.
-- **Applications** — standalone Foundry application windows.
-
-## Guides
-
-The full guide set is in the sidebar under **[Documentation](documentation.md)**,
-grouped into four sections (the individual pages are listed there, so this page
-does not duplicate them):
-
-- **[Concepts](concepts/concepts.md)** — the mental model, the API surfaces,
-  actions, expressions/scripts, the security model, and CSS architecture.
-- **[How-to](how-to/how-to.md)** — setup, extension points, lifecycle hooks,
-  house rules, testing, and build/deployment.
-- **[Reference](reference/reference.md)** — contracts and catalogs: types, the
-  modifier model, combat pipeline, body structure, effects, runtime contracts,
-  scene/token/combatant, calendar, and the event queue.
-- **[Contributing](contributing/contributing.md)** — how to contribute:
-  standards, the development workflow, modules, changesets, and docs hosting.
+- **`sohl.core`** — Foundry-layer foundations: system registration, the
+  data-model and logic bases, the `FoundryHelpers` shim, calendar, event queue.
+- **`sohl.document`** — Foundry document types by kind (actor, item, combat,
+  combatant, chat, effect, scene, token), each with its Foundry-free logic.
+- **`sohl.entity`** — pure, Foundry-free game-mechanics objects: modifiers,
+  results, body, actions, movement, strike modes, expressions.
+- **`sohl.utils`** — shared utilities: constants, helpers, collections.
+- **`sohl.apps`** — standalone Foundry application windows.
 
 ---
 
