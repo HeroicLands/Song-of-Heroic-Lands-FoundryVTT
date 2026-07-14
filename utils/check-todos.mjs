@@ -12,17 +12,18 @@
  */
 
 /**
- * CI guard: every `TODO`/`FIXME` comment in `src/` must reference a tracking
- * issue, written as `TODO(#123)` / `FIXME(#123)`. Deferred work belongs in
- * issues, not in floating code comments that drift out of sync.
+ * CI guard: no `TODO`/`FIXME` comments in `src/`. Deferred work is tracked in
+ * GitHub issues, not flagged in the code — a code marker duplicates the issue
+ * and drifts out of sync, and markers inside published JSDoc leak into the API
+ * site as documentation prose. When you would write a `TODO`, file (or find) an
+ * issue instead; record any code-site context in that issue.
  *
- * Only `TODO`/`FIXME` are enforced (not `HACK`/`XXX`), and only inside
- * comments — string-literal contents are ignored so values like `"XXX"` or a
- * quoted `"TODO"` never trip the check. Exits non-zero on any violation.
+ * Only `TODO`/`FIXME` are checked (not `HACK`/`XXX`), and only inside comments —
+ * string-literal contents are ignored so values like `"XXX"` or a quoted
+ * `"TODO"` never trip the check.
  *
  * Recursively scans every `.ts` file under `src/`; writes nothing. Prints
- * offending `file:line` locations and exits non-zero (failing CI) on any
- * unlinked marker.
+ * offending `file:line` locations and exits non-zero (failing CI) on any marker.
  *
  * Usage:
  *   npm run lint:todos         // node utils/check-todos.mjs
@@ -32,8 +33,7 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT = "src";
-const ENFORCED = /\b(?:TODO|FIXME)\b/;
-const LINKED = /\b(?:TODO|FIXME)\(#\d+\)/;
+const FORBIDDEN = /\b(?:TODO|FIXME)\b/;
 
 /** @returns {Generator<string>} every `.ts` file under `dir`, recursively. */
 function* walk(dir) {
@@ -57,7 +57,7 @@ for (const file of walk(ROOT)) {
         // Restrict the check to the comment portion of the line.
         const comment = code.match(/\/\/.*|\/\*.*|^\s*\*.*/)?.[0];
         if (!comment) return;
-        if (ENFORCED.test(comment) && !LINKED.test(comment)) {
+        if (FORBIDDEN.test(comment)) {
             violations.push(`${file}:${i + 1}: ${line.trim()}`);
         }
     });
@@ -65,13 +65,13 @@ for (const file of walk(ROOT)) {
 
 if (violations.length) {
     console.error(
-        `\ncheck-todos: ${violations.length} TODO/FIXME without an issue reference:\n`,
+        `\ncheck-todos: ${violations.length} TODO/FIXME marker(s) in committed code:\n`,
     );
     for (const v of violations) console.error(`  ${v}`);
     console.error(
-        "\nEvery TODO/FIXME in committed code must reference a tracking issue, " +
-            "e.g. TODO(#123).\nFile or find an issue and link it, or remove the comment.\n",
+        "\nDeferred work is tracked in GitHub issues, not flagged in code. " +
+            "File or find an issue,\nrecord any code-site context there, and remove the marker.\n",
     );
     process.exit(1);
 }
-console.log("check-todos: all TODO/FIXME markers reference a tracking issue.");
+console.log("check-todos: no TODO/FIXME markers in committed code.");

@@ -70,12 +70,6 @@ export abstract class GearLogic<
      *
      * Populated during {@link initialize} by looking up each cohort ID
      * in the world actor collection.
-     *
-     * TODO(#76): The Cohort sheet should query all member actors' gear items
-     * for entries whose sharedWithCohortIds includes its own actor ID,
-     * and display them on a dedicated "Shared Gear" tab. This gives a
-     * single-glance view of all equipment owned by the cohort without
-     * duplicating item data.
      */
     sharedWithCohorts!: SohlActor[];
 

@@ -11,32 +11,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-/*
- * The Cohort actor represents a group of actors that are treated as a single unit.
- * It allows for the management of multiple actors as a cohesive group, with shared,
- * properties and behaviors, such as shared reactions, movement, or combat.
- *
- * The Cohort can represent a variety of groupings, such as a party of adventurers,
- * a squad of soldiers, or a pack of animals. It provides a way to manage these groups
- * more efficiently, especially in situations where they need to be treated as a single
- * entity for certain mechanics, while still allowing for individual actors to have
- * their own unique properties and actions.
- *
- * Each member of the Cohort must have a unique name.
- *
- * If a member's `isLinked` property is set to true, then the member is considered
- * to be directly representing that actor. If the `isLinked` property is false, then
- * the member is considered to be an individual of the same type as the world actor
- * with the specified `shortcode`. For example, if a Cohort represents a pack of wolves,
- * each member may have the same `shortcode` representing a generic wolf, but each member
- * will have a unique `name` and the `isLinked` property set to false, indicating that
- * they are separate individuals of the same type.
- *
- * When a Cohort actor is dropped onto a scene, a dialog will appear providing a choice
- * between creating a single token representing the entire Cohort or creating individual
- * tokens for each member. Single token Cohorts may not participate in combat, but are useful
- * for representing movement of groups, especially on large-scale maps.
- */
 import {
     SohlActorBaseLogic,
     type SohlActorData,
@@ -54,8 +28,9 @@ import {
  * world actor that defines their capabilities. Members may be **linked**
  * (directly representing a specific world actor) or **unlinked** (individual
  * instances of a generic type, e.g., several wolves sharing the same base stats
- * but tracked separately). Members also have a {@link COHORT_MEMBER_ROLE | role}
- * within the cohort (e.g., leader, follower).
+ * but tracked separately). Members also have a
+ * {@link sohl.utils.COHORT_MEMBER_ROLE | role} within the cohort (e.g., leader,
+ * follower).
  *
  * The Cohort tracks a designated **leader** and a **movement representative**
  * whose movement profile determines the group's travel speed.
@@ -65,18 +40,6 @@ import {
  * in combat but are useful for representing group movement on large-scale maps.
  *
  * @typeParam TData - The Cohort data interface.
- */
-/**
- * TODO(#76): Shared Gear Tab
- * The Cohort sheet should provide a "Shared Gear" tab that aggregates
- * gear items from all member actors whose `sharedWithCohortIds` includes
- * this cohort's actor ID. This gives a single-glance view of all
- * equipment the cohort collectively owns, without duplicating item data.
- * Gear stays on the carrying actor (custodian); the cohort view is
- * read-only. Implementation requires:
- * - Iterating all member actors' items
- * - Filtering for gear with this cohort's ID in `sharedWithCohortIds`
- * - Displaying results in a dedicated sheet tab
  */
 export class CohortLogic<
     TData extends CohortData = CohortData,
