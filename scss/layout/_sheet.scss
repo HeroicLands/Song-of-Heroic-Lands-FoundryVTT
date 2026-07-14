@@ -164,6 +164,12 @@ span.sep {
                 background: var(--sohl-color-active);
                 border-color: var(--sohl-color-active);
             }
+
+            // Read-only affliction-derived indicators (Aural-Shock / Fatigue) —
+            // not clickable; they only reflect an active affliction (#306).
+            &.sheet-header__status--indicator {
+                cursor: default;
+            }
         }
     }
 

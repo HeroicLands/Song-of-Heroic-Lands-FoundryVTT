@@ -23,8 +23,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
         <div class="sheet-header__statuses">
             {{#each statusEffects}}
+            {{#if this.toggleable}}
             <a class="sheet-header__status {{#if this.active}}active{{/if}}" data-action="toggleStatus"
                 data-status-id="{{this.id}}" data-tooltip="{{this.label}}">{{this.abbr}}</a>
+            {{else}}
+            <span class="sheet-header__status sheet-header__status--indicator {{#if this.active}}active{{/if}}"
+                data-tooltip="{{this.label}} (from affliction)">{{this.abbr}}</span>
+            {{/if}}
             {{/each}}
         </div>
         <div class="sheet-header__health">

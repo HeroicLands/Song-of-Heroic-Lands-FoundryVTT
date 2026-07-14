@@ -830,6 +830,7 @@
   "sohl.document.actor.logic.StatusPill.active": "interfaces/sohl.document.actor.logic.StatusPill.html#active",
   "sohl.document.actor.logic.StatusPill.id": "interfaces/sohl.document.actor.logic.StatusPill.html#id",
   "sohl.document.actor.logic.StatusPill.label": "interfaces/sohl.document.actor.logic.StatusPill.html#label",
+  "sohl.document.actor.logic.StatusPill.toggleable": "interfaces/sohl.document.actor.logic.StatusPill.html#toggleable",
   "sohl.document.actor.logic.StrikeModeRangeInfo": "interfaces/sohl.document.actor.logic.StrikeModeRangeInfo.html",
   "sohl.document.actor.logic.StrikeModeRangeInfo.isMelee": "interfaces/sohl.document.actor.logic.StrikeModeRangeInfo.html#ismelee",
   "sohl.document.actor.logic.StrikeModeRangeInfo.isMissile": "interfaces/sohl.document.actor.logic.StrikeModeRangeInfo.html#ismissile",

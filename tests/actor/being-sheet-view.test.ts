@@ -32,7 +32,12 @@ import {
     selectStrikeModeModifier,
     filterHeldWeapons,
 } from "@src/document/actor/logic/being-sheet-view";
-import { STATUS_EFFECT, ITEM_KIND, IMPACT_ASPECT } from "@src/utils/constants";
+import {
+    STATUS_EFFECT,
+    AFFLICTION_SUBTYPE,
+    ITEM_KIND,
+    IMPACT_ASPECT,
+} from "@src/utils/constants";
 import { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { makeItemLogic } from "@tests/mocks/logicHarness";
@@ -528,20 +533,36 @@ describe("being-sheet-view", () => {
     });
 
     describe("buildStatusPills", () => {
-        it("returns the seven pills in display order", () => {
+        it("returns the eight pills in display order, with aural-shock and fatigue as affliction indicators (#306)", () => {
             const pills = buildStatusPills(new Set());
             expect(pills.map((p) => p.id)).toEqual([
+                AFFLICTION_SUBTYPE.AURALSHOCK,
                 STATUS_EFFECT.SLEEP,
                 STATUS_EFFECT.PRONE,
                 STATUS_EFFECT.STUN,
-                STATUS_EFFECT.AURAL_SHOCK,
+                AFFLICTION_SUBTYPE.FATIGUE,
                 STATUS_EFFECT.INCAPACITATED,
                 STATUS_EFFECT.UNCONSCIOUS,
                 STATUS_EFFECT.DEAD,
             ]);
         });
 
-        it("marks only the active status ids active", () => {
+        it("marks the six ActiveEffect statuses toggleable and the two affliction indicators not", () => {
+            const pills = buildStatusPills(new Set());
+            expect(pills.filter((p) => p.toggleable).map((p) => p.id)).toEqual([
+                STATUS_EFFECT.SLEEP,
+                STATUS_EFFECT.PRONE,
+                STATUS_EFFECT.STUN,
+                STATUS_EFFECT.INCAPACITATED,
+                STATUS_EFFECT.UNCONSCIOUS,
+                STATUS_EFFECT.DEAD,
+            ]);
+            expect(pills.filter((p) => !p.toggleable).map((p) => p.id)).toEqual(
+                [AFFLICTION_SUBTYPE.AURALSHOCK, AFFLICTION_SUBTYPE.FATIGUE],
+            );
+        });
+
+        it("marks only the active status ids active among toggleable pills", () => {
             const pills = buildStatusPills(
                 new Set([STATUS_EFFECT.STUN, STATUS_EFFECT.DEAD]),
             );
@@ -549,11 +570,41 @@ describe("being-sheet-view", () => {
             expect(active).toEqual([STATUS_EFFECT.STUN, STATUS_EFFECT.DEAD]);
         });
 
+        it("lights aural-shock and fatigue from active affliction subtypes, not from a toggled status", () => {
+            // A toggled `auralshock` *status* must not light the indicator...
+            const fromStatus = buildStatusPills(
+                new Set([AFFLICTION_SUBTYPE.AURALSHOCK]),
+                new Set(),
+            );
+            expect(
+                fromStatus.find((p) => p.id === AFFLICTION_SUBTYPE.AURALSHOCK)!
+                    .active,
+            ).toBe(false);
+            // ...an active affliction subtype does.
+            const fromAffliction = buildStatusPills(
+                new Set(),
+                new Set([
+                    AFFLICTION_SUBTYPE.AURALSHOCK,
+                    AFFLICTION_SUBTYPE.FATIGUE,
+                ]),
+            );
+            expect(
+                fromAffliction.filter((p) => p.active).map((p) => p.id),
+            ).toEqual([
+                AFFLICTION_SUBTYPE.AURALSHOCK,
+                AFFLICTION_SUBTYPE.FATIGUE,
+            ]);
+        });
+
         it("carries abbr and label for each pill", () => {
             const stun = buildStatusPills(new Set()).find(
                 (p) => p.id === STATUS_EFFECT.STUN,
             )!;
-            expect(stun).toMatchObject({ abbr: "STN", label: "Stun" });
+            expect(stun).toMatchObject({
+                abbr: "STN",
+                label: "Stun",
+                toggleable: true,
+            });
         });
     });
 
