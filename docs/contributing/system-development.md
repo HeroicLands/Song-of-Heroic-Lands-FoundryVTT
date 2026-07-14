@@ -118,7 +118,7 @@ A fix is done when **all** of these hold:
       shims, backwards-compatible data (migration if needed), stable lang keys, no
       compiling/HTML-from data, complete (no stubs), and scoped to the one issue.
 - [ ] Conventions met: file headers, complete JSDoc, null/undefined discipline,
-      and every `TODO`/`FIXME` linked as `TODO(#123)`.
+      and no `TODO`/`FIXME` markers (deferred work lives in issues).
 - [ ] Documentation updated for the changed behavior (JSDoc, dev docs, user guide),
       and `type-catalog.md` committed if the schema changed.
 - [ ] A `.changeset/` entry exists for `feat`/`bug` work, correctly bumped,
@@ -164,12 +164,15 @@ Write the test first, watch it fail, then implement. Tests run in Node via
 - Use `it.todo("...")` to document intended-but-unimplemented behavior.
 - Run `npm run test` before `npm run build`. See [Testing](../how-to/testing.md).
 
-### No orphan TODOs
+### No TODOs in code
 
-Every `TODO`/`FIXME` that survives a merge must reference a tracking issue, written
-as `TODO(#123)` / `FIXME(#123)`. If a marker isn't worth an issue, do the work now
-or delete the comment. `npm run lint:todos` (run in CI and `build:noci`) fails the
-build on any unlinked marker.
+Deferred work is tracked in **GitHub issues, not flagged in the code**. Do not
+commit `TODO`/`FIXME` markers: a code marker duplicates the issue and drifts out
+of sync, and a marker inside published JSDoc leaks into the API site as
+documentation prose. When you would write a `TODO`, file (or find) an issue,
+record any code-site context in that issue, and leave the code clean. `npm run
+lint:todos` (run in CI and `build:noci`) fails the build on **any** `TODO`/`FIXME`
+marker under `src/`.
 
 ### Update the documentation
 

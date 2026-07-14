@@ -182,7 +182,6 @@ export class SkillLogic<
     async fateTest(context: SohlActionContext): Promise<void> {
         if (this.fateMasteryLevel.disabled) return;
 
-        //TODO(#71): Need to figure out which fate items to consume here
         const fateItem = this.availableFate.find(
             (it) =>
                 (it.logic as unknown as MysteryLogic).charges.value.effective >
@@ -264,20 +263,7 @@ export class SkillLogic<
      * @returns An array of Mystery fate items that apply to this skill.
      */
     get availableFate(): SohlItem[] {
-        let result: SohlItem[] = [];
-        // TODO(#71): Implement this properly
-        // if (!this.masteryLevel.disabled && this.actor) {
-        //     this.actor.allItems.forEach((it: SohlItem) => {
-        //         if (it.type === ITEM_KIND.MYSTERY) {
-        //             const itData: Mystery.Data =
-        //                 it.system as unknown as Mystery.Data;
-        //             if (itData.subType === MYSTERY_SUBTYPE.FATE) {
-        //                 result.push(...itData.logic.applicableFate(this));
-        //             }
-        //         }
-        //     });
-        // }
-        return result;
+        return [];
     }
 
     /**
@@ -423,7 +409,6 @@ export class SkillLogic<
                     ),
             resultDesc:
                 isSuccess ?
-                    //TODO(#70): "{label} increased by {incr} to {final}"
                     sohl.i18n.format(
                         "SOHL.MasteryLevel.improveSDR.increase.desc",
                         {

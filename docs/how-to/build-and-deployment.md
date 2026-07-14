@@ -80,7 +80,7 @@ reads the Markdown directly.
 | `test:purity`             | The Foundry-free purity check (`vitest.purity.config.ts`).                                                                    |
 | `test:e2e`                | _(on demand)_ The Cypress integration suite against a licensed Foundry container — not part of CI. See [Testing](testing.md). |
 | `lint` / `lint:fix`       | ESLint over `src/` (with `--fix`).                                                                                            |
-| `lint:todos`              | Fail if any `TODO`/`FIXME` lacks an issue reference.                                                                          |
+| `lint:todos`              | Fail if any `TODO`/`FIXME` marker appears under `src/` (deferred work belongs in issues).                                     |
 | `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                         |
 | `lint:dts`                | Validate the generated public type surface.                                                                                   |
 | `format` / `format:check` | Prettier write / check the whole repo.                                                                                        |
@@ -111,7 +111,7 @@ reads the Markdown directly.
 
 `npm run build` runs `npm ci` then `build:noci`, which is:
 
-1. **`lint:todos`** — no unlinked `TODO`/`FIXME`.
+1. **`lint:todos`** — no `TODO`/`FIXME` markers under `src/`.
 2. **`lint:docs-index`** — every `docs/` page is linked from its section nav and the README.
 3. **`build:types`** — `tsc` type-checks the whole project.
 4. **`lint:dts`** — the generated public type surface is valid.
@@ -395,7 +395,7 @@ and how to invoke it — read the file itself for the authoritative detail. In b
 | `build-type-catalog.mjs`            | Generate `docs/reference/type-catalog.md` from the kind enums.                            |
 | `sync-doc-version.mjs`              | Pin `…/latest` doc links to `…/v<version>` in generated output.                           |
 | `docs-coverage.mjs`                 | Report doc-comment coverage.                                                              |
-| `check-todos.mjs`                   | Fail the build on unlinked `TODO`/`FIXME` markers.                                        |
+| `check-todos.mjs`                   | Fail the build on any `TODO`/`FIXME` marker under `src/`.                                 |
 | `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                                   |
 | `pack-release.mjs`                  | Zip `build/stage/` into the release `system.zip` + `system.json`.                         |
 | `push-stage.mjs`                    | deploy `build/stage/` to a Foundry instance (`dev`/`qa`/`prod`).                          |
