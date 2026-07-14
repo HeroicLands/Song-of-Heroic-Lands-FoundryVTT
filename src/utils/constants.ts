@@ -2302,7 +2302,7 @@ export const {
         id: "dodgeTest",
         name: "Dodge Test",
         iconClass: "sohl-dodge",
-        condition: "hasUsableSkill(actor,'dge')",
+        condition: "hasUsableSkill(actorLogic,'dge')",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     IGNORE: {

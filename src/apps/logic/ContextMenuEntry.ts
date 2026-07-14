@@ -41,11 +41,12 @@ export type ContextMenuCallback = (target: HTMLElement) => unknown;
  *
  * - **string** — evaluated as a SafeExpression (see
  *   {@link sohl.entity.expr.SafeExpression}) against a context with `target` (the
- *   triggering HTMLElement) plus lazy `item` and `actor` getters
- *   resolved from the nearest `data-item-id` / `data-actor-id`
- *   ancestor. Examples: `"true"`, `"item.system.canTransmit"`,
- *   `"defined(item) && item.type === 'skill'"`. This is the form
- *   stored in document data.
+ *   triggering HTMLElement) plus lazy `itemLogic` and `actorLogic`
+ *   getters resolved from the nearest `data-item-id` / `data-actor-id`
+ *   ancestor (the logic layer, not the raw documents). Examples:
+ *   `"true"`, `"itemLogic.canTransmit"`,
+ *   `"defined(itemLogic) && itemLogic.type === 'skill'"`. This is the
+ *   form stored in document data.
  * - **function** — a `(target) => boolean` predicate, passed through
  *   unchanged. Used for entries built programmatically (e.g. from a
  *   `SohlAction`'s trigger), where the predicate needs to close over
@@ -165,26 +166,34 @@ export function compileCondition(
  * Build the lazy evaluation context for a context-menu condition.
  *
  * - `target` is always the HTMLElement the menu was triggered on.
- * - `item` is the nearest ancestor row's `data-item-id` resolved on the
- *   owning actor (or `undefined` if not found).
- * - `actor` is the nearest ancestor row's `data-actor-id` (or
- *   `undefined`).
+ * - `itemLogic` is the logic layer of the nearest ancestor row's
+ *   `data-item-id` item resolved on the owning actor (or `undefined` if
+ *   not found).
+ * - `actorLogic` is the logic layer of the nearest ancestor row's
+ *   `data-actor-id` actor (or `undefined`).
  *
- * `item` and `actor` are getters, so the DOM walk and lookup happen only
- * when the condition actually references them.
+ * Conditions bind the **logic layer**, not the raw documents — the logic
+ * object is the stable, computed view authors write against (matching the
+ * action trigger/visibility and Active Effect predicate conventions). The
+ * resolved row may not be an item/actor row, so `itemLogic`/`actorLogic`
+ * can be absent — authors guard with `defined(...)`.
+ *
+ * `itemLogic` and `actorLogic` are getters, so the DOM walk and lookup
+ * happen only when the condition actually references them.
  * @param target - The HTMLElement the context menu was opened on.
- * @returns A context object with `target`, `item`, and `actor` bindings.
+ * @returns A context object with `target`, `itemLogic`, and `actorLogic`
+ *   bindings.
  */
 export function makeConditionContext(
     target: HTMLElement,
 ): Record<string, unknown> {
     return {
         target,
-        get item(): SohlItem | undefined {
-            return resolveContextItem(target);
+        get itemLogic(): SohlItem["logic"] | undefined {
+            return resolveContextItem(target)?.logic;
         },
-        get actor(): SohlActor | undefined {
-            return resolveContextActor(target);
+        get actorLogic(): SohlActor["logic"] | undefined {
+            return resolveContextActor(target)?.logic;
         },
     };
 }

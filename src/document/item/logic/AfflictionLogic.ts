@@ -399,7 +399,7 @@ export class AfflictionLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "sohl-drowning",
                 executor: "transmit",
-                visible: "item.logic.canTransmit",
+                visible: "itemLogic.canTransmit",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
@@ -468,7 +468,7 @@ export class AfflictionLogic<
                 title: "SOHL.Affliction.Action.DIAGNOSISTEST",
                 iconFAClass: "sohl-stethoscope",
                 executor: "diagnosisTest",
-                visible: "defined(item) && !item.system.isTreated",
+                visible: "defined(itemLogic) && !itemLogic.data.isTreated",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {

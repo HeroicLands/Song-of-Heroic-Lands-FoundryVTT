@@ -65,7 +65,7 @@ language itself, then the variables available in each place.
 
 ## Reading data
 
-- A bare name is looked up in the context you're given: `actor`, `sm`,
+- A bare name is looked up in the context you're given: `actorLogic`, `sm`,
   `itemLogic`.
 - Reach into a value with a **dot** or **brackets**:
     - `itemLogic.name`

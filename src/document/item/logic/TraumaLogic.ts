@@ -136,7 +136,7 @@ export class TraumaLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "sohl-caduceus",
                 executor: "treatmentTest",
-                visible: "item.system.subType === 'physical'",
+                visible: "itemLogic.data.subType === 'physical'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
@@ -146,7 +146,7 @@ export class TraumaLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "sohl-healing",
                 executor: "healingTest",
-                visible: "item.system.subType === 'physical'",
+                visible: "itemLogic.data.subType === 'physical'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
         ];
