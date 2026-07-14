@@ -118,6 +118,12 @@ minor injury. The derivation is pure and Foundry-free; it is consumed by
 the Being-sheet header's body-part grid, which colors each part by status (none =
 white, −5 = yellow, −10 or worse = blue, unusable = black).
 
+Body-part impairment also feeds **being health** (`deriveHealth`,
+`src/document/actor/logic/health.ts`): a part impaired ≤ −10 caps current health
+at 75% of max, and an unusable part at 50% (incapacitating statuses cap it
+further). Health itself is `endurance × 3`, reduced by each injury's
+`shock × level`.
+
 ## Adjacency
 
 The adjacency graph defines which parts are next to which, as an array of unordered pairs of part shortcodes:

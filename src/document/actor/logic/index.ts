@@ -23,6 +23,7 @@ export * from "./VehicleLogic";
 export * from "./affliction-contract";
 export * from "./being-sheet-view";
 export * from "./display-filter";
+export * from "./health";
 export * from "./injury-actions";
 export * from "./reach-helpers";
 export * from "./token-helpers";

@@ -336,6 +336,31 @@ export function fvttGetActor(id: string): any {
 }
 
 /**
+ * The active status-effect ids on an actor, read from its ActiveEffects.
+ *
+ * SoHL's custom data-prep lifecycle does not populate Foundry's core
+ * `actor.statuses` set, so gather the ids from each effect's `statuses` field
+ * (plus the legacy `flags.core.statusId`). Lets Foundry-free logic apply
+ * status-driven rules (e.g. the health ceilings in `deriveHealth`) without
+ * touching `actor.effects` directly.
+ * @param actor - The actor whose active statuses to read.
+ * @returns The set of active status-effect ids (empty when none/unavailable).
+ */
+export function fvttActorStatuses(
+    actor: SohlActor | null | undefined,
+): Set<string> {
+    const statuses = new Set<string>();
+    for (const effect of ((actor as any)?.effects ?? []) as Iterable<any>) {
+        for (const sid of (effect.statuses ?? []) as Iterable<string>) {
+            statuses.add(sid);
+        }
+        const legacyId = effect?.flags?.core?.statusId;
+        if (legacyId) statuses.add(legacyId);
+    }
+    return statuses;
+}
+
+/**
  * Get a scene by ID from the world collection.
  * @param id - The scene document ID.
  * @returns The scene, or `undefined` if not found.

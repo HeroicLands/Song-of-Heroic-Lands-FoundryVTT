@@ -1,0 +1,94 @@
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ *
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
+ *
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+/**
+ * Being sheet header — health bar (#463).
+ *
+ * `BeingLogic.health` is a `{ value, max }` pair (max = endurance × 3, or 100).
+ * The header bar shows `value / max` as a percentage. The derivation math is
+ * unit-tested; here we prove a real being renders a non-zero bar and that adding
+ * an injury reduces the reported health.
+ */
+describe("Being sheet header: health bar (#463)", () => {
+    before(() => cy.login().then(() => cy.cleanupWorld()));
+    afterEach(() => {
+        cy.closeAllSheets();
+        cy.cleanupWorld();
+    });
+    Cypress.on("uncaught:exception", () => false);
+
+    /** The first body part (with a location) of the actor's corpus. */
+    function firstPartLocation(win, actorId) {
+        const parts =
+            win.game.actors.get(actorId).itemTypes.corpus?.[0]?.logic?.structure
+                ?.parts ?? [];
+        for (const p of parts) {
+            if (p.locations?.length)
+                return { location: p.locations[0].shortcode };
+        }
+        return null;
+    }
+
+    /** The being's derived health `{ value, max }`. */
+    function health(win, actorId) {
+        const h = win.game.actors.get(actorId).logic?.health;
+        return { value: h?.value?.effective ?? 0, max: h?.max?.effective ?? 0 };
+    }
+
+    it("renders a non-zero health bar for a healthy being", () => {
+        cy.importActor().then((actor) => {
+            cy.prepare(actor);
+            cy.foundry((win) => health(win, actor.id)).should((h) => {
+                expect(h.max, "max health").to.be.greaterThan(0);
+                expect(h.value, "value = max when uninjured").to.eq(h.max);
+            });
+            cy.openSheet(actor);
+            cy.get(".sheet-header__health-label")
+                .invoke("text")
+                .should("match", /Health:\s*100%/);
+            cy.get(".sheet-header__health-fill").should(($el) => {
+                expect($el[0].style.width).to.eq("100%");
+            });
+        });
+    });
+
+    it("reduces reported health when an injury is added", () => {
+        cy.importActor().then((actor) => {
+            cy.foundry((win) => health(win, actor.id)).then((before) => {
+                cy.foundry((win) => firstPartLocation(win, actor.id)).then(
+                    (pl) => {
+                        expect(pl, "corpus has a location").to.not.be.null;
+                        cy.createItemOn(actor, "trauma", {
+                            name: "Deep Gash",
+                            system: {
+                                subType: "physical",
+                                bodyLocationCode: pl.location,
+                                levelBase: 3, // S3 — serious
+                                healingRateBase: 4,
+                            },
+                        });
+                        cy.prepare(actor);
+                        cy.foundry((win) => health(win, actor.id)).should(
+                            (h) => {
+                                expect(
+                                    h.value,
+                                    "value drops after injury",
+                                ).to.be.lessThan(before.value);
+                            },
+                        );
+                    },
+                );
+            });
+        });
+    });
+});

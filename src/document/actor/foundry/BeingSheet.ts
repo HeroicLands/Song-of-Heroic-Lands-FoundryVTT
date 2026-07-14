@@ -989,11 +989,19 @@ export class BeingSheet extends SohlActorSheetBase {
         }
         const bodyParts = buildBodyPartLozenges(structure, injuries);
 
+        // Health bar: percentage of current `value` against `max` (#463).
+        const health = logic?.health;
+        const healthMax = health?.max.effective ?? 0;
+        const healthPct =
+            healthMax > 0 ?
+                clampHealthPct((health!.value.effective / healthMax) * 100)
+            :   0;
+
         return Object.assign(context, {
             actorName: actor.name,
             actorImg: actor.img,
-            health: logic?.health,
-            healthPct: clampHealthPct(logic?.health?.effective),
+            health,
+            healthPct,
             shockState: logic?.shockState,
             statusEffects,
             bodyParts,

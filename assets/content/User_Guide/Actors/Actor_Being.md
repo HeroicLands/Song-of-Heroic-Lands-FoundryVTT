@@ -49,6 +49,52 @@ The Being sheet is organized into several tabs:
 - **Actions** — available actions for this character
 - **Effects** — active effects modifying this character
 
+# The Being Sheet Header
+
+Above the tabs, the header shows the portrait and name, a row of **status
+indicators**, a **health bar**, and a **body-part grid**.
+
+## Status indicators
+
+Six condition pills are click-toggles — **Sleep, Prone, Stun, Incapacitated,
+Unconscious, Dead** — that turn a condition on or off. Two more, **Aural-Shock**
+and **Fatigue**, are read-only: they light up on their own when the Being has an
+active affliction of that kind.
+
+## Health bar
+
+The health bar shows current health as a percentage of the Being's maximum.
+
+- **Maximum health** is the Being's **Endurance × 3** (a Being with no Endurance
+  uses a flat 100).
+- Each **injury** lowers current health by the injured location's **shock value ×
+  the injury level** — a deeper wound in a more sensitive spot costs more.
+- Certain conditions also **cap** current health, and the most severe cap wins:
+    - a body part with a **serious** injury (impairment −10 or worse) → at most
+      **75%** of maximum
+    - an **unusable** body part → at most **50%**
+    - **Stunned** → at most **25%**
+    - **Incapacitated** or **Unconscious** → at most **10%**
+    - **Dead** → **0**
+
+Current health never falls below 0.
+
+## Body-part grid
+
+Each body part appears as a colored chip showing the worst injury among that
+part's hit locations:
+
+| Color      | Meaning                                               |
+| ---------- | ----------------------------------------------------- |
+| **White**  | No impairment                                         |
+| **Yellow** | Minor impairment (−5) — a slow-healing minor injury   |
+| **Blue**   | Major impairment (−10 or worse) — a serious injury    |
+| **Black**  | Unusable — a grievous injury (or a permanent maiming) |
+
+As injuries heal, a part's color climbs back toward white. A part may also carry
+a **permanent impairment** — a lasting maiming that keeps it colored even with no
+fresh injury.
+
 # Creating a Being
 
 Generally, you should not create a Being from scratch using the Create Actor
