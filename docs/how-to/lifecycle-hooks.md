@@ -19,7 +19,8 @@ defines them:
   `sohl.actor.<actorType>.…`) are {@link sohl.utils.ITEM_KIND} and {@link sohl.utils.ACTOR_KIND}.
 - **The phase model** — the three phases (`initialize` → `evaluate` → `finalize`)
   and the barrier guarantees — is in
-  {@link sohl.core.logic.SohlLogic}.
+  {@link sohl.core.logic.SohlLogic}; for the concept overview see
+  [Phase-batched lifecycle](../concepts/architecture.md#phase-batched-lifecycle).
 
 ## Minimal example
 

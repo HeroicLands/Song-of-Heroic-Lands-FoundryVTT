@@ -273,6 +273,14 @@ against real world data — migrations must never require manual user interventi
   (no line numbers) and name the symbol in prose. **Never** use line-range fragments
   (`#L120-L140`): they rot silently on any edit and duplicate TypeDoc's automatic,
   commit-pinned source links.
+- **JSDoc → doc-page links.** The reverse direction — a **JSDoc comment pointing
+  at a concept/reference doc** — links to the doc's **knowledgebase URL**
+  (`https://kb.heroiclands.org/dev/<path>/`, e.g.
+  `https://kb.heroiclands.org/dev/concepts/security-model/`). The API site is
+  strictly generated symbols; the prose lives on the KB, so a relative `.md` link
+  from JSDoc has no page to resolve to. `{@link}` targets code symbols only, not
+  doc pages. Non-rendered `//` or `/* */` comments (which TypeDoc does not emit)
+  may instead cite the repo path `docs/…​.md`, which a source reader opens directly.
 - **Foundry v14.** Target Foundry VTT v14+ and follow the v14 patterns described in
   the [Architecture Overview](../concepts/architecture.md).
 - **Null vs. undefined — null at the edges, undefined in the core.** Absence is not

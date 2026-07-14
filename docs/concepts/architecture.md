@@ -140,7 +140,7 @@ Foundry VTT processes each embedded item fully before moving to the next, so sib
 2. **evaluate** — compute derived values using sibling items' initialized state.
 3. **finalize** — resolve cross-item dependencies requiring evaluated state.
 
-See {@link sohl.core.logic.SohlLogic} for the full rationale and rules.
+See {@link sohl.core.logic.SohlLogic} for the full rationale and rules, and [Lifecycle Hooks](../how-to/lifecycle-hooks.md) for augmenting a phase from a module.
 
 ## Domain objects
 

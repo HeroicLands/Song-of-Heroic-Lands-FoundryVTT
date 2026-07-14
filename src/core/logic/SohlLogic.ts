@@ -83,6 +83,12 @@ import { SohlMap } from "@src/utils/collection/SohlMap";
  * different ordering rules. Do not implement Foundry's preparation
  * methods on items — use these lifecycle methods instead.
  *
+ * See also the
+ * [Phase-batched lifecycle](https://kb.heroiclands.org/dev/concepts/architecture/#phase-batched-lifecycle)
+ * concept overview and the
+ * [Lifecycle Hooks](https://kb.heroiclands.org/dev/how-to/lifecycle-hooks/)
+ * extension guide.
+ *
  * @typeParam TData - The data interface this logic operates on, extending
  *   {@link SohlLogicData}.
  */
@@ -404,7 +410,7 @@ export abstract class SohlLogic<
      * Phase-batched lifecycle methods, called by
      * SohlActor.prepareEmbeddedDocuments() in three barrier-separated passes across
      * ALL items, NOT per-item like Foundry's default. See the class-level JSDoc
-     * and docs/concepts/lifecycle-model.md.
+     * and the "Phase-batched lifecycle" section of docs/concepts/architecture.md.
      */
 
     /**
