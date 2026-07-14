@@ -62,8 +62,11 @@ function parseKindValues(source, prefix) {
 /** First sentence of a Logic class's leading TSDoc, cleaned for a table cell. */
 function describeLogic(file, className) {
     const src = fs.readFileSync(file, "utf8");
+    // The capture forbids `*/` so it can't start at an earlier JSDoc block (e.g.
+    // a function's) and swallow the code up to the class — it matches the `/**`
+    // immediately preceding `class ${className}`.
     const re = new RegExp(
-        `\\/\\*\\*([\\s\\S]*?)\\*\\/\\s*(?:export\\s+)?(?:abstract\\s+)?class\\s+${className}\\b`,
+        `\\/\\*\\*((?:(?!\\*\\/)[\\s\\S])*?)\\*\\/\\s*(?:export\\s+)?(?:abstract\\s+)?class\\s+${className}\\b`,
     );
     const m = src.match(re);
     if (!m) return "";
