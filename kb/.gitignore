@@ -1,4 +1,8 @@
-# Astro / knowledgebase sub-project
-node_modules/
-dist/
-.astro/
+# Hugo knowledgebase — build artifacts
+/public/
+/resources/_gen/
+.hugo_build.lock
+
+# content/ is generated from assets/content/ + docs/ by
+# utils/build-kb-content.mjs; never committed.
+/content/

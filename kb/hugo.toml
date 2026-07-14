@@ -1,0 +1,27 @@
+baseURL = "https://kb.heroiclands.org/"
+locale = "en-us"
+title = "SoHL Knowledgebase"
+
+# Brand chrome, layouts, palette, and SoHL info-block partials come from the
+# shared theme, so the KB reads as one site with www and the API docs.
+theme = "heroiclands-hugo-theme"
+
+[params]
+  description = "Song of Heroic Lands — developer knowledgebase and content reference."
+  author = "Tom Rodriguez"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    style = "monokai"
+
+[outputs]
+  home = ["HTML"]
+  section = ["HTML"]
+  taxonomy = ["HTML"]
+  term = ["HTML"]
+
+# content/ is generated from the repo's assets/content/ + docs/ by
+# `utils/build-kb-content.mjs` (a build step; not committed).

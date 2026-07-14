@@ -1,22 +1,20 @@
 name: Deploy Knowledgebase to Cloudflare Pages
 
 on:
-    # Republish whenever the KB or the content it renders changes on main.
+    # Republish whenever the KB, the content it renders, or the shared theme changes.
     push:
         branches: [main]
         paths:
             - "kb/**"
             - "docs/**"
             - "assets/content/**"
+            - "utils/build-kb-content.mjs"
             - ".github/workflows/deploy-kb.yml"
-    # Manual redeploy from the Actions tab.
     workflow_dispatch:
 
-# Read-only checkout; the Cloudflare token (a secret) authorizes the deploy.
 permissions:
     contents: read
 
-# Serialize deploys so runs never race on the Pages project.
 concurrency:
     group: kb-deploy
     cancel-in-progress: false
@@ -25,17 +23,32 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
+            - name: Checkout (with the theme submodule)
+              uses: actions/checkout@v4
+              with:
+                  submodules: recursive
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
               with:
                   node-version: 24
                   cache: npm
-                  cache-dependency-path: kb/package-lock.json
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Setup Hugo
+              uses: peaceiris/actions-hugo@v3
+              with:
+                  hugo-version: "0.163.3"
+                  extended: true
+
             - name: Build knowledgebase
               run: npm run build:kb
+
             - name: Deploy to Cloudflare Pages (production)
               uses: cloudflare/wrangler-action@v3
               with:
                   apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                   accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-                  command: pages deploy kb/dist --project-name=sohl-kb --branch=main
+                  command: pages deploy kb/public --project-name=sohl-kb --branch=main
