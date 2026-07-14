@@ -167,6 +167,29 @@ export function targetInvalidStatus(
     return firstCombatantStatus(statuses, isDefeated, TARGET_INVALID_STATUSES);
 }
 
+/**
+ * The reason a combatant may not **start** an automated attack because it is not
+ * its turn — `null` when the attacker is the active combat's current combatant
+ * (and so may open an attack). Automated combat is turn-gated: only the current
+ * combatant may initiate. Out-of-turn defenses (a counterstrike) are unaffected
+ * because they run through the defense-resume path, not this one. Pure and
+ * unit-tested; consumed by {@link SohlCombatantLogic.startAutomatedAttack}.
+ *
+ * @param currentCombatantId - Id of the active combat's current combatant, or `null`/`undefined` when no combat/turn is active.
+ * @param attackerCombatantId - Id of the combatant attempting to attack.
+ * @returns A short reason phrase when the start is disallowed, else `null`.
+ */
+export function outOfTurnAttackReason(
+    currentCombatantId: string | null | undefined,
+    attackerCombatantId: string | null | undefined,
+): string | null {
+    if (!currentCombatantId || !attackerCombatantId)
+        return "there is no active combat turn";
+    if (currentCombatantId !== attackerCombatantId)
+        return "it is not this combatant's turn";
+    return null;
+}
+
 /** Canvas coordinates and elevation captured at the start of a combat turn. */
 export interface CombatantStartLocation {
     /** Pixel x-coordinate on the canvas at turn start. */
@@ -483,6 +506,20 @@ export class SohlCombatantLogic<
     async startAutomatedAttack(
         context: SohlActionContext<Partial<AutomatedCombat.AttackContextScope>>,
     ): Promise<PlainObject | undefined> {
+        // Invariant: only the current combatant may START an automated attack.
+        // An out-of-turn counterstrike is unaffected — it runs through the
+        // defense-resume path (automatedCounterstrikeResume), not here.
+        const outOfTurn = outOfTurnAttackReason(
+            getActiveCombat()?.combatant?.id,
+            this.combatant?.id,
+        );
+        if (outOfTurn) {
+            sohl.log.uiWarn(
+                `${this.name} cannot start an automated attack: ${outOfTurn}.`,
+            );
+            return undefined;
+        }
+
         if (!context.target) {
             sohl.log.uiWarn(
                 `${this.name} automated attack requires a target combatant.`,

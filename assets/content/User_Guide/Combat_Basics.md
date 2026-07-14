@@ -118,10 +118,18 @@ encounter to know who is acting. To start an automated attack:
 - A **combat encounter must be running** (the combat tracker), and **both the
   attacker and the target must be combatants in it**.
 - Both need **tokens on the scene** (targeting and range use them).
-- It is generally the **current combatant's** turn to attack.
-- The attacker must not be incapacitated, defeated, or dead; the target must not
-  be dead. If an invariant is violated, the attempt is refused with a message
-  explaining why.
+- **Only the current combatant may start an automated attack.** Automated Combat
+  runs off the initiative order: the attacker must be the combatant whose turn it
+  is, and no one else can open an automated attack out of turn.
+- A **target** must be selected, and the attacker must not be incapacitated,
+  defeated, or dead; the target must not be dead. If one of these invariants is
+  violated, the attempt is refused with a message explaining why.
+
+The one thing that acts _outside_ the current combatant's turn is a **defensive
+response**: when you are attacked, your **counterstrike** strikes back within the
+attacker's exchange, and a **Tactical Advantage** you earn can buy a follow-up
+strike (see [Blending the two modes](#blending-the-two-modes)). Starting a fresh
+automated attack, though, always waits for your turn.
 
 If you don't have (or don't want) a full encounter set up, use **Assisted
 Combat** instead.

@@ -50,13 +50,14 @@ Non-combat tests (skill checks, trait tests) use steps 1-2 only, producing a `Su
 
 ### Automated-combat invariants (enforced before step 1)
 
-Automated combat checks these invariants up front and aborts (with a player-facing UI notification) on any violation — both participants must be combatants in the same active combat, the attacker must not be incapacitated/defeated/dead, and the target must not be out of the fight (dead or vanquished/defeated). Enforcement points:
+Automated combat checks these invariants up front and aborts (with a player-facing UI notification) on any violation — both participants must be combatants in the same active combat, the attacker must be the current combatant (it must be its turn), the attacker must not be incapacitated/defeated/dead, and the target must not be out of the fight (dead or vanquished/defeated). Enforcement points:
 
+- **Turn gate:** `startAutomatedAttack` aborts when `outOfTurnAttackReason(getActiveCombat()?.combatant?.id, this.combatant?.id)` returns a reason — there is no active combat turn, or the attacker is not the current combatant. Only the current combatant may _start_ an automated attack; out-of-turn defenses (a counterstrike, a Tactical-Advantage follow-up) run through the `automated*Resume` path, not `startAutomatedAttack`, so the gate never blocks them.
 - **Attacker status:** `startAutomatedAttack` (`src/document/combatant/logic/SohlCombatantLogic.ts`) aborts when `attackerBlockingStatus(this.data.statuses, this.data.isDefeated)` (matched against `ATTACK_BLOCKING_STATUSES`) returns a status. The attacker's combat membership is guaranteed by the entry point (`StrikeModeBase.automatedCombatStart` resolves the attacker via `fvttActiveCombatantForActor`; the tracker action is on the combatant itself).
 - **Target validity:** `startAutomatedAttack` resolves the target to a combatant (`fvttActiveCombatantForActor(context.target.actorLogic?.actor)`) — aborting if it isn't one — then aborts when `targetInvalidStatus(...)` (matched against `TARGET_INVALID_STATUSES` = `dead` / `vanquished`) returns a status.
 - **Incapacitated defender → Ignore-only:** `gateAutomatedDefenseButtons` (`src/document/chat/chat-card-gating.ts`), using `DEFENSE_DISABLING_STATUSES` + `hasAnyStatus`. Render-time gating removes Dodge/Block/Counterstrike for an incapacitated defender, leaving Ignore.
 
-The status sets and predicates (`attackerBlockingStatus`, `targetInvalidStatus`, `hasAnyStatus`) are pure and unit-tested; the resolution/gating that consumes them is Foundry glue. There is deliberately **no "current combatant / your turn" gate** — automated and assisted combat can be freely interleaved.
+The status sets and predicates (`outOfTurnAttackReason`, `attackerBlockingStatus`, `targetInvalidStatus`, `hasAnyStatus`) are pure and unit-tested; the resolution/gating that consumes them is Foundry glue. The turn gate applies only to _starting_ an attack: automated and assisted combat can still be freely interleaved, and a defender's counterstrike (or a Tactical-Advantage follow-up) resolves within the attacker's exchange without waiting for the defender's own turn.
 
 ## Result classes in detail
 

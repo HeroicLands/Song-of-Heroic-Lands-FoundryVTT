@@ -16,13 +16,13 @@ a d100 roll-under against a `MasteryLevelModifier`, producing a
 `SuccessTestResult` (see the [pipeline doc](../reference/combat-resolution-pipeline.md)).
 They differ only in how much of the exchange the system drives:
 
-|                  | **Assisted**                                                    | **Automated**                                            |
-| ---------------- | --------------------------------------------------------------- | -------------------------------------------------------- |
-| Scope            | A single roll (attack / block / counterstrike / dodge / impact) | The whole attacker↔defender exchange                     |
-| Context required | None                                                            | A running combat encounter, combatants, tokens, a target |
-| Workflow         | None — posts one test card                                      | Multi-stage, cross-client, chat-driven                   |
-| Entry            | Being-sheet Combat-tab cells                                    | `StrikeModeBase.automatedCombatStart` / combatant action |
-| Result types     | `SuccessTestResult`                                             | `AttackResult` + `DefendResult` → `CombatResult`         |
+|                  | **Assisted**                                                    | **Automated**                                                                          |
+| ---------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Scope            | A single roll (attack / block / counterstrike / dodge / impact) | The whole attacker↔defender exchange                                                   |
+| Context required | None                                                            | A running combat encounter, combatants, tokens, a target, and the attacker on its turn |
+| Workflow         | None — posts one test card                                      | Multi-stage, cross-client, chat-driven                                                 |
+| Entry            | Being-sheet Combat-tab cells                                    | `StrikeModeBase.automatedCombatStart` / combatant action                               |
+| Result types     | `SuccessTestResult`                                             | `AttackResult` + `DefendResult` → `CombatResult`                                       |
 
 The rule of thumb when extending: **assisted combat is a thin wrapper over
 `successTest`; automated combat is an orchestration layer on top of the same
@@ -70,6 +70,13 @@ To _start_ an automated attack:
   `StrikeModeBase.automatedCombatStart` resolves the combatant with
   `fvttActiveCombatantForActor(this.parent.actor)` and warns/aborts if the actor
   is not in the active combat (the tracker entry is on the combatant itself).
+- **The attacker must be the current combatant (turn gate).**
+  `startAutomatedAttack` aborts when
+  `outOfTurnAttackReason(getActiveCombat()?.combatant?.id, this.combatant?.id)`
+  returns a reason — i.e. there is no active combat turn, or the attacker is not
+  the combatant whose turn it is. Only the current combatant may _open_ an
+  automated attack; out-of-turn defenses take a different path (see the note
+  below).
 - **The attacker must not be out of the fight.** `startAutomatedAttack` aborts
   when `attackerBlockingStatus(this.data.statuses, this.data.isDefeated)` (against
   `ATTACK_BLOCKING_STATUSES` — dead, vanquished, unconscious, sleep, restrained,
@@ -86,12 +93,16 @@ To _start_ an automated attack:
 Defender-side gating is likewise fully wired at card-render time (see
 [Cross-client handoff](#cross-client-handoff)).
 
-> **Note — no turn gate.** There is deliberately **no "it must be your turn"
-> gate**: the attacker/target invariants above are enforced, but automated and
-> assisted combat can be freely interleaved (a defender may counterstrike out of
-> turn, a fight may drop to assisted mid-exchange). The status sets and the
-> `attackerBlockingStatus` / `targetInvalidStatus` predicates are pure and
-> unit-tested.
+> **Note — the turn gate applies to _starting_ an attack, not to defending.**
+> Only the current combatant may **start** an automated attack (the turn gate
+> above). The exchange it opens still crosses turns on the defender's side: a
+> defender's **counterstrike** strikes back within that same exchange, and a
+> **Tactical Advantage** the defender earns can buy a follow-up strike. Those run
+> through the `automated*Resume` executors (the defense-resume path), _not_
+> through `startAutomatedAttack`, so the turn gate never blocks them. Automated
+> and assisted combat can still be freely interleaved (a fight may drop to
+> assisted mid-exchange). The `outOfTurnAttackReason`, `attackerBlockingStatus`,
+> and `targetInvalidStatus` predicates are pure and unit-tested.
 
 ### Entry points
 
@@ -220,12 +231,9 @@ fire-and-forget:
 For anyone extending combat, the wired state diverges from the intended/documented
 state in a few places (all verified against source):
 
-1. **No "your turn" gate** — the attacker/target status invariants are enforced
-   (#387), but automated combat does not require the acting combatant to be the
-   current one; this is intentional so the two modes can be interleaved.
-2. **`displayedMedium` is not honored by `computedMove`** — it seeds the tracker
+1. **`displayedMedium` is not honored by `computedMove`** — it seeds the tracker
    chip but movement always uses the corpus's active medium.
-3. **Weapon break is display-only** — `CombatResult.weaponBreakCheck` is computed
+2. **Weapon break is display-only** — `CombatResult.weaponBreakCheck` is computed
    and shown on the card, but no breakage is applied.
 
 ## See also

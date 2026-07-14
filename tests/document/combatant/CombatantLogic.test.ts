@@ -11,6 +11,7 @@ import {
     SohlCombatantLogic,
     attackerBlockingStatus,
     targetInvalidStatus,
+    outOfTurnAttackReason,
     turnStartCombatantUpdate,
 } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { STATUS_EFFECT } from "@src/utils/constants";
@@ -234,10 +235,40 @@ describe("CombatantLogic", () => {
         });
     });
 
+    describe("outOfTurnAttackReason (pure)", () => {
+        it("null when the attacker is the current combatant", () => {
+            expect(outOfTurnAttackReason("c1", "c1")).toBeNull();
+        });
+
+        it("blocks when it is a different combatant's turn", () => {
+            expect(outOfTurnAttackReason("c1", "c2")).toMatch(
+                /not this combatant's turn/,
+            );
+        });
+
+        it("blocks when there is no active combat turn", () => {
+            expect(outOfTurnAttackReason(undefined, "c2")).toMatch(
+                /no active combat turn/,
+            );
+            expect(outOfTurnAttackReason(null, "c2")).toMatch(
+                /no active combat turn/,
+            );
+            expect(outOfTurnAttackReason("c1", undefined)).toMatch(
+                /no active combat turn/,
+            );
+        });
+    });
+
     describe("startAutomatedAttack invariants", () => {
         let warn: any;
         beforeEach(() => {
             warn = vi.spyOn(sohl.log, "uiWarn");
+            // Default: it IS this combatant's turn, so the invariant tests
+            // below reach their intended check. The turn-gate tests override
+            // this with a different (or absent) current combatant.
+            vi.spyOn(FoundryHelpers, "getActiveCombat").mockReturnValue({
+                combatant: { id: "combatant00mock1" },
+            } as any);
         });
         afterEach(() => vi.restoreAllMocks());
 
@@ -251,6 +282,32 @@ describe("CombatantLogic", () => {
             vi
                 .spyOn(FoundryHelpers, "fvttActiveCombatantForActor")
                 .mockReturnValue(data ? ({ data } as any) : undefined);
+
+        it("refuses when it is not this combatant's turn (only the current combatant may start)", async () => {
+            const logic = makeCombatantLogic();
+            vi.spyOn(FoundryHelpers, "getActiveCombat").mockReturnValue({
+                combatant: { id: "someone-else" },
+            } as any);
+            await expect(
+                logic.startAutomatedAttack({ target: target() } as any),
+            ).resolves.toBeUndefined();
+            expect(warn).toHaveBeenCalledWith(
+                expect.stringMatching(/not this combatant's turn/),
+            );
+        });
+
+        it("refuses when there is no active combat turn", async () => {
+            const logic = makeCombatantLogic();
+            vi.spyOn(FoundryHelpers, "getActiveCombat").mockReturnValue(
+                undefined,
+            );
+            await expect(
+                logic.startAutomatedAttack({ target: target() } as any),
+            ).resolves.toBeUndefined();
+            expect(warn).toHaveBeenCalledWith(
+                expect.stringMatching(/no active combat turn/),
+            );
+        });
 
         it("refuses (warns, no roll) when there is no target", async () => {
             const logic = makeCombatantLogic();

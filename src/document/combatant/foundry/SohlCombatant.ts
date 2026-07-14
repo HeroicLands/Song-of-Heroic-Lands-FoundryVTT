@@ -109,18 +109,6 @@ export class SohlCombatant<
     }
 
     /**
-     * Begin an automated attack with this combatant as the attacker — the
-     * single entry point for combat start. Delegates to
-     * {@link sohl.document.combatant.logic.SohlCombatantLogic.startAutomatedAttack}; the per-weapon and
-     * per-technique item actions route here, passing their source logic and
-     * strike mode in the context scope.
-     * @param context - The action context (target, scope, chat options).
-     */
-    async startAutomatedAttack(context: SohlActionContext): Promise<void> {
-        await this.logic.startAutomatedAttack(context);
-    }
-
-    /**
      * The context-menu entries for this combatant — the combatant's available
      * actions. Delegates to {@link sohl.document.combatant.logic.SohlCombatantLogic.getContextOptions} (the shared
      * {@link sohl.core.logic.SohlLogic} contract), mirroring `SohlActor`/`SohlItem`. The combat
