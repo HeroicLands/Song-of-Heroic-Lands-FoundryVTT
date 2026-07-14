@@ -34,6 +34,76 @@ const CONTENT_SRC = path.join(REPO, "assets/content");
 const DOCS_SRC = path.join(REPO, "docs");
 const OUT = path.join(REPO, "kb/content");
 
+/** Base URL of the generated API site; the KB tracks `main`, so link to `/main`. */
+const API_BASE = "https://api.heroiclands.org/main/";
+
+/**
+ * The `qualified name → API page URL` map emitted by the TypeDoc symbol-map
+ * plugin (`npm run docs`) and committed as a Hugo data file. Absent → `{@link}`
+ * references degrade to code spans (below) rather than breaking the build.
+ */
+const symbols = (() => {
+    try {
+        return JSON.parse(
+            fs.readFileSync(
+                path.join(REPO, "kb/data/api-symbols.json"),
+                "utf8",
+            ),
+        );
+    } catch {
+        return {};
+    }
+})();
+
+/**
+ * Resolve inline TypeDoc `{@link}` / `{@linkcode}` / `{@linkplain}` tags in a
+ * Markdown body against the API symbol map.
+ *
+ * - `sohl.*` targets (classes, namespaces, and `Class.member` forms) become
+ *   Markdown links to the symbol's page on the API site; `@linkcode` renders the
+ *   text as code.
+ * - Optional display text (`{@link Target | text}` or `{@link Target text}`) wins;
+ *   otherwise the last dotted segment is the link text.
+ * - External-URL targets become plain Markdown links.
+ * - Anything the map doesn't know (e.g. `{@link Symbol.member}` syntax examples)
+ *   degrades to a code span — never a broken link, never a build failure.
+ */
+function resolveLinks(body) {
+    return body.replace(
+        /\{@link(code|plain)?\s+([^}]+)\}/g,
+        (_m, kind, inner) => {
+            inner = inner.trim();
+            let target, text;
+            const pipe = inner.indexOf("|");
+            const space = inner.search(/\s/);
+            if (pipe !== -1) {
+                target = inner.slice(0, pipe).trim();
+                text = inner.slice(pipe + 1).trim();
+            } else if (space !== -1) {
+                target = inner.slice(0, space);
+                text = inner.slice(space + 1).trim();
+            } else {
+                target = inner;
+                text = "";
+            }
+
+            if (/^https?:\/\//.test(target)) {
+                return `[${text || target}](${target})`;
+            }
+
+            const url = symbols[target];
+            const display = text || target.split(".").pop();
+            if (url) {
+                const href = API_BASE + url;
+                return kind === "code" ?
+                        `[\`${display}\`](${href})`
+                    :   `[${display}](${href})`;
+            }
+            return kind === "plain" ? display : `\`${display}\``;
+        },
+    );
+}
+
 /** Recursively collect every `.md` under `dir`. */
 function walk(dir) {
     const out = [];
@@ -79,7 +149,7 @@ for (const file of walk(CONTENT_SRC)) {
 
     const dest = path.join(OUT, section(fm.type), `${slug}.md`);
     fs.mkdirSync(path.dirname(dest), { recursive: true });
-    fs.writeFileSync(dest, matter.stringify(body, data));
+    fs.writeFileSync(dest, matter.stringify(resolveLinks(body), data));
     items++;
 }
 
@@ -95,7 +165,10 @@ for (const file of walk(DOCS_SRC)) {
     const stripped = body.replace(/^\s*#\s+.*$\r?\n?/m, "");
     const dest = path.join(OUT, "dev", rel);
     fs.mkdirSync(path.dirname(dest), { recursive: true });
-    fs.writeFileSync(dest, matter.stringify(stripped, { ...fm, title }));
+    fs.writeFileSync(
+        dest,
+        matter.stringify(resolveLinks(stripped), { ...fm, title }),
+    );
     docs++;
 }
 
