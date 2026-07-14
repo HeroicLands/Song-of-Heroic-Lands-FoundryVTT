@@ -44,8 +44,10 @@ Being sheet's Combat tab.
 - It then builds a bare `SohlActionContext` (shift-click sets `skipDialog`) and
   calls **`mlMod.successTest(context)`** directly. That posts a standard
   success-test card — no opposed resolution, no second party.
-- Impact is assisted the same way: **`_onRollStrikeModeImpact`** runs the strike
-  mode's `calcImpact` and posts a damage card. Skills use the identical shape via
+- Impact is assisted the same way: **`_onRollStrikeModeImpact`** reads the strike
+  mode's `impact` modifier and dispatches the actor's `calcImpact` action
+  (`actorLogic.executeAction("calcImpact", …)` with the modifier on
+  `context.scope`), posting a damage card. Skills use the identical shape via
   `_onRollSkillTest` → `skillLogic.successTest`.
 
 Because it only touches the strike-mode modifiers and `successTest`, the assisted
@@ -173,10 +175,9 @@ encounter-scoped state on top of Foundry's Combatant. Key fields the logic reads
 | Field / getter                     | Meaning                                                                                                                                                                                     |
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `groupId`                          | The combatant's `CombatantGroup` (side). Reads `_source.group` first for a stable id. Drives `isEnemyOf` / `allies`.                                                                        |
-| `moveFactor`                       | GM situational move multiplier (run/sprint/terrain). **Stored + editable but not yet applied** (#252) — `computedMove()` ignores it.                                                        |
+| `moveFactor`                       | GM situational move multiplier (run/sprint/terrain); `computedMove()` scales the being's `feetPerRound` by it (#252).                                                                       |
 | `displayedMedium`                  | Which movement medium the tracker shows; seeded at `_preCreate` (user-set › corpus default › schema default). _(Not yet honored by `computedMove`, which uses the corpus's active medium.)_ |
-| `computedMove()` / `displayedMove` | Tactical feet-per-round from the actor's Corpus `feetPerRound`, or `null` with no corpus.                                                                                                   |
-| `allyIds` / `threatenedAllyIds`    | Relationship state (`addAlly`/`removeAlly`/`addThreatened`/…).                                                                                                                              |
+| `computedMove()` / `displayedMove` | Tactical feet-per-round from the actor's Corpus `feetPerRound` (scaled by `moveFactor`), or `null` with no corpus.                                                                          |
 | initiative                         | `_getInitiativeFormula()` returns the actor's `init` skill mastery as a **fixed string** — SoHL initiative is skill-driven, not a die roll.                                                 |
 
 Combat relationships are computed, not stored: `isEnemyOf` →
@@ -222,21 +223,10 @@ state in a few places (all verified against source):
 1. **No "your turn" gate** — the attacker/target status invariants are enforced
    (#387), but automated combat does not require the acting combatant to be the
    current one; this is intentional so the two modes can be interleaved.
-2. **`moveFactor` is unapplied** (#252) — stored and GM-editable, but
-   `computedMove()`/`CorpusLogic.feetPerRound` never read it.
-3. **`displayedMedium` is not honored by `computedMove`** — it seeds the tracker
+2. **`displayedMedium` is not honored by `computedMove`** — it seeds the tracker
    chip but movement always uses the corpus's active medium.
-4. **Turn-start location field-name mismatch (likely bug)** — `updateCombat`
-   writes `system.initialLocation`, but the schema field is `startLocation`
-   (which `spacesMovedThisTurn` reads), so the turn-start location is not
-   persisted where it is read.
-5. **Weapon break is display-only** — `CombatResult.weaponBreakCheck` is computed
+3. **Weapon break is display-only** — `CombatResult.weaponBreakCheck` is computed
    and shown on the card, but no breakage is applied.
-6. **Stale docstrings** — the injury-button docstrings in `SohlCombatantLogic`
-   call it "assisted / no aim forwarded," but the code forwards the aim and takes
-   the **automated** (no-dialog) injury path for aimed automated attacks; and
-   `SohlCombat`'s group-seeding docstring says the desired name comes from a token
-   `sohl.defaultCombatGroup` flag when it reads `actor.system.defaultCombatGroup`.
 
 ## See also
 
