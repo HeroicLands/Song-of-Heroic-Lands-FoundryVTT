@@ -4,6 +4,7 @@ import {
     getFateDescTable,
 } from "@src/document/item/logic/SkillLogic";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
@@ -326,6 +327,48 @@ describe("SkillLogic", () => {
                 `1d100+${logic.skillBase}`,
                 logic,
             );
+        });
+    });
+
+    describe("improveWithSDR visibility predicate", () => {
+        // The action's `visible` predicate is evaluated against the logic layer
+        // (`itemLogic`), not the raw document, since #459. It must read live
+        // logic state; the pre-#459 `item.system.*` document paths (#458) are
+        // always falsy — the Improve entry would never appear.
+        function visibleSource(): string {
+            const action = makeSkill().actions.get("improveWithSDR");
+            return (action as any).data.visible;
+        }
+        function evalVisible(context: Record<string, unknown>): boolean {
+            return !!new SafeExpression(
+                { source: visibleSource() },
+                { parent: { id: "test" } as any },
+            ).evaluate(context);
+        }
+
+        it("shows when the skill can improve and is not already flagged", () => {
+            const itemLogic = {
+                canImprove: true,
+                data: { improveFlag: false },
+            };
+            expect(evalVisible({ itemLogic })).toBe(true);
+        });
+
+        it("hides when the skill cannot improve", () => {
+            const itemLogic = {
+                canImprove: false,
+                data: { improveFlag: false },
+            };
+            expect(evalVisible({ itemLogic })).toBe(false);
+        });
+
+        it("hides when the improve flag is already set", () => {
+            const itemLogic = { canImprove: true, data: { improveFlag: true } };
+            expect(evalVisible({ itemLogic })).toBe(false);
+        });
+
+        it("hides when no item row resolves (itemLogic undefined)", () => {
+            expect(evalVisible({ itemLogic: undefined })).toBe(false);
         });
     });
 
