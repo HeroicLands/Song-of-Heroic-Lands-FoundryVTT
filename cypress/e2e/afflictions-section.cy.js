@@ -13,10 +13,10 @@
 
 /**
  * Being Trauma tab — Afflictions section (#309): afflictions grouped by subtype
- * with Level / HR / Source / Notes, a search box, a custom-create control
- * (data-type=affliction), and a per-row context menu. (Created / Course-Test /
- * Recovery-Test timers are deferred — they depend on the affliction
- * course/recovery mechanics #65/#67/#68.)
+ * with Level / HR / Source / Notes, a custom-create control (data-type=affliction),
+ * and a per-row context menu. (The Trauma tab has no search filter — #312.
+ * Created / Course-Test / Recovery-Test timers are deferred — they depend on the
+ * affliction course/recovery mechanics #65/#67/#68.)
  */
 describe("Being Trauma tab: Afflictions section (#309)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
@@ -45,7 +45,7 @@ describe("Being Trauma tab: Afflictions section (#309)", () => {
         });
     });
 
-    it("offers search + create (data-type=affliction) and a row context menu", () => {
+    it("offers create (data-type=affliction) and a row context menu, but no search filter", () => {
         cy.importActor().then((actor) => {
             cy.createItemOn(actor, "affliction", {
                 name: "Numbing Cold",
@@ -59,14 +59,15 @@ describe("Being Trauma tab: Afflictions section (#309)", () => {
             cy.openSheet(actor);
             cy.switchTab("trauma");
             cy.get(
-                'section.tab[data-tab="trauma"] input[name="search-afflictions"]',
-            ).should("exist");
-            cy.get(
                 'section.tab[data-tab="trauma"] .search-control.item-create[data-type="affliction"]',
             ).should("exist");
             cy.get(
                 'section.tab[data-tab="trauma"] .afflictions-list .item .item-contextmenu',
             ).should("exist");
+            // The Trauma tab is not searchable (#312).
+            cy.get(
+                'section.tab[data-tab="trauma"] input[name="search-afflictions"]',
+            ).should("not.exist");
         });
     });
 });

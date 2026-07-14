@@ -225,11 +225,6 @@ export class BeingSheet extends SohlActorSheetBase {
             callback: this._displayFilteredResults.bind(this),
         }),
         new foundry.applications.ux.SearchFilter({
-            inputSelector: 'input[name="search-afflictions"]',
-            contentSelector: ".afflictions-list",
-            callback: this._displayFilteredResults.bind(this),
-        }),
-        new foundry.applications.ux.SearchFilter({
             inputSelector: 'input[name="search-mysteries"]',
             contentSelector: ".mysteries-list",
             callback: this._displayFilteredResults.bind(this),
