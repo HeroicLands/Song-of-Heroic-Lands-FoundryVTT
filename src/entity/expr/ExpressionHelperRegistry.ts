@@ -36,6 +36,12 @@ export interface HelperSource {
 const MAX_PATTERN_LENGTH = 200;
 
 /**
+ * Upper bound on the length of a string a size-multiplying helper
+ * (`repeat`, `padStart`, `padEnd`) may produce, as a memory-exhaustion guard.
+ */
+const MAX_STRING_LENGTH = 100_000;
+
+/**
  * Return true when `source` contains constructs known to cause catastrophic
  * backtracking: backreferences (`\1`–`\9`) or a capturing/non-capturing group
  * that contains a quantifier and is itself followed by a quantifier
@@ -161,6 +167,196 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
      */
     contains(value: unknown, sub: unknown): boolean {
         return String(value).includes(String(sub));
+    },
+
+    /**
+     * A value's string form. The string-building companion to the numeric
+     * coercions — useful for stitching non-string values into flavor text.
+     * @param value - The value to convert.
+     * @returns The value coerced with `String(value)`.
+     */
+    str(value: unknown): string {
+        return String(value);
+    },
+
+    /**
+     * Concatenate the string forms of all arguments.
+     * @param values - The values to concatenate, in order.
+     * @returns The joined string (empty when called with no arguments).
+     */
+    concat(...values: unknown[]): string {
+        return values.map((v) => String(v)).join("");
+    },
+
+    /**
+     * Extract a substring by index (like `String.prototype.slice`); negative
+     * indices count from the end.
+     * @param value - The string to slice.
+     * @param start - The start index (inclusive).
+     * @param end - The optional end index (exclusive); to the end when omitted.
+     * @returns The extracted substring.
+     */
+    slice(value: unknown, start: unknown, end?: unknown): string {
+        return String(value).slice(
+            start as number,
+            end === undefined || end === null ? undefined : (end as number),
+        );
+    },
+
+    /**
+     * Extract a substring by start index and length.
+     * @param value - The string to extract from.
+     * @param start - The start index (inclusive).
+     * @param length - The number of characters to take; to the end when omitted.
+     * @returns The extracted substring.
+     */
+    substr(value: unknown, start: unknown, length?: unknown): string {
+        const s = String(value);
+        const from = start as number;
+        if (length === undefined || length === null) return s.slice(from);
+        return s.slice(from, from + (length as number));
+    },
+
+    /**
+     * Split a string into an array on a separator.
+     * @param value - The string to split.
+     * @param separator - The separator; an empty string splits into characters.
+     * @param limit - Optional maximum number of pieces to return.
+     * @returns The array of substrings.
+     */
+    split(value: unknown, separator: unknown, limit?: unknown): string[] {
+        return String(value).split(
+            String(separator),
+            limit === undefined || limit === null ?
+                undefined
+            :   (limit as number),
+        );
+    },
+
+    /**
+     * Join an array's elements (as strings) with a separator.
+     * @param values - The array to join; a non-array yields `""`.
+     * @param separator - The separator placed between elements.
+     * @returns The joined string.
+     */
+    join(values: unknown, separator: unknown): string {
+        if (!Array.isArray(values)) return "";
+        return values.map((v) => String(v)).join(String(separator));
+    },
+
+    /**
+     * Remove leading and trailing whitespace from a string.
+     * @param value - The string to trim.
+     * @returns The trimmed string.
+     */
+    trim(value: unknown): string {
+        return String(value).trim();
+    },
+
+    /**
+     * Replace every occurrence of a literal substring. The search text is
+     * matched literally (never as a regular expression).
+     * @param value - The string to search.
+     * @param search - The literal substring to replace.
+     * @param replacement - The text to substitute in.
+     * @returns The string with all occurrences replaced.
+     */
+    replace(value: unknown, search: unknown, replacement: unknown): string {
+        return String(value).split(String(search)).join(String(replacement));
+    },
+
+    /**
+     * The first index of a substring, or `-1` if absent.
+     * @param value - The string to search.
+     * @param search - The substring to look for.
+     * @param from - Optional index to start searching from.
+     * @returns The zero-based index, or `-1`.
+     */
+    indexOf(value: unknown, search: unknown, from?: unknown): number {
+        return String(value).indexOf(
+            String(search),
+            from === undefined || from === null ? undefined : (from as number),
+        );
+    },
+
+    /**
+     * The character at an index, or `""` if out of range.
+     * @param value - The string to read.
+     * @param index - The zero-based index.
+     * @returns The single-character string, or `""`.
+     */
+    charAt(value: unknown, index: unknown): string {
+        return String(value).charAt(index as number);
+    },
+
+    /**
+     * Uppercase the first character of a string, leaving the rest unchanged.
+     * @param value - The string to capitalize.
+     * @returns The capitalized string.
+     */
+    capitalize(value: unknown): string {
+        const s = String(value);
+        return s.length === 0 ? s : s.charAt(0).toUpperCase() + s.slice(1);
+    },
+
+    /**
+     * Pad the start of a string to a target length.
+     * @param value - The string to pad.
+     * @param targetLength - The desired total length.
+     * @param pad - The padding string (default a single space).
+     * @returns The padded string.
+     * @throws {SafeExpressionError} If `targetLength` exceeds the size guard.
+     */
+    padStart(value: unknown, targetLength: unknown, pad?: unknown): string {
+        const length = targetLength as number;
+        if (length > MAX_STRING_LENGTH) {
+            throw new SafeExpressionError(
+                "padStart(): target length exceeds the maximum string size",
+            );
+        }
+        return String(value).padStart(
+            length,
+            pad === undefined || pad === null ? " " : String(pad),
+        );
+    },
+
+    /**
+     * Pad the end of a string to a target length.
+     * @param value - The string to pad.
+     * @param targetLength - The desired total length.
+     * @param pad - The padding string (default a single space).
+     * @returns The padded string.
+     * @throws {SafeExpressionError} If `targetLength` exceeds the size guard.
+     */
+    padEnd(value: unknown, targetLength: unknown, pad?: unknown): string {
+        const length = targetLength as number;
+        if (length > MAX_STRING_LENGTH) {
+            throw new SafeExpressionError(
+                "padEnd(): target length exceeds the maximum string size",
+            );
+        }
+        return String(value).padEnd(
+            length,
+            pad === undefined || pad === null ? " " : String(pad),
+        );
+    },
+
+    /**
+     * Repeat a string a number of times.
+     * @param value - The string to repeat.
+     * @param count - How many times to repeat it.
+     * @returns The repeated string.
+     * @throws {SafeExpressionError} If the result would exceed the size guard.
+     */
+    repeat(value: unknown, count: unknown): string {
+        const s = String(value);
+        const times = count as number;
+        if (!(times >= 0) || s.length * times > MAX_STRING_LENGTH) {
+            throw new SafeExpressionError(
+                "repeat(): result exceeds the maximum string size",
+            );
+        }
+        return s.repeat(times);
     },
 
     /**

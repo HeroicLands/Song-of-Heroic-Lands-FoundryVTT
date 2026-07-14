@@ -16,6 +16,7 @@ import {
     expressionHelpers as reg,
     STANDARD_HELPERS,
 } from "@src/entity/expr/ExpressionHelperRegistry";
+import { SafeExpressionError } from "@src/entity/expr/SafeExpressionError";
 
 describe("ExpressionHelperRegistry", () => {
     // The registry is a process-wide singleton; drop any custom helpers a prior
@@ -37,6 +38,100 @@ describe("ExpressionHelperRegistry", () => {
         it("reports unknown helpers as absent", () => {
             expect(reg.has("nope")).toBe(false);
             expect(reg.get("nope")).toBeUndefined();
+        });
+    });
+
+    describe("string helpers (#448)", () => {
+        const h = (name: string) =>
+            STANDARD_HELPERS[name] as (...a: any[]) => any;
+
+        it("str: coerces any value to its string form", () => {
+            expect(h("str")(42)).toBe("42");
+            expect(h("str")(true)).toBe("true");
+            expect(h("str")(null)).toBe("null");
+            expect(h("str")(undefined)).toBe("undefined");
+            expect(h("str")("x")).toBe("x");
+        });
+
+        it("concat: joins the string forms of all arguments", () => {
+            expect(h("concat")("a", "b", "c")).toBe("abc");
+            expect(h("concat")("n=", 3)).toBe("n=3");
+            expect(h("concat")()).toBe("");
+        });
+
+        it("slice: extracts a substring by index, with an optional end", () => {
+            expect(h("slice")("hello", 1, 3)).toBe("el");
+            expect(h("slice")("hello", 2)).toBe("llo");
+            expect(h("slice")("hello", -2)).toBe("lo");
+        });
+
+        it("substr: extracts a substring by start and length", () => {
+            expect(h("substr")("hello", 1, 3)).toBe("ell");
+            expect(h("substr")("hello", 2)).toBe("llo");
+            expect(h("substr")("hello", 0, 0)).toBe("");
+        });
+
+        it("split: splits a string into an array on a separator", () => {
+            expect(h("split")("a,b,c", ",")).toEqual(["a", "b", "c"]);
+            expect(h("split")("a,b,c", ",", 2)).toEqual(["a", "b"]);
+            expect(h("split")("abc", "")).toEqual(["a", "b", "c"]);
+        });
+
+        it("join: joins an array's elements with a separator", () => {
+            expect(h("join")(["a", "b", "c"], ", ")).toBe("a, b, c");
+            expect(h("join")([1, 2, 3], "-")).toBe("1-2-3");
+            expect(h("join")([], ",")).toBe("");
+            expect(h("join")("notarray", ",")).toBe("");
+        });
+
+        it("trim: removes leading and trailing whitespace", () => {
+            expect(h("trim")("  hi  ")).toBe("hi");
+            expect(h("trim")("\tx\n")).toBe("x");
+        });
+
+        it("replace: replaces every occurrence of a literal substring", () => {
+            expect(h("replace")("a-b-c", "-", "_")).toBe("a_b_c");
+            expect(h("replace")("aaa", "a", "b")).toBe("bbb");
+            expect(h("replace")("abc", "z", "!")).toBe("abc");
+        });
+
+        it("replace: treats the search as a literal, not a regex", () => {
+            expect(h("replace")("a.b.c", ".", "-")).toBe("a-b-c");
+        });
+
+        it("indexOf: reports the first index of a substring, or -1", () => {
+            expect(h("indexOf")("hello", "l")).toBe(2);
+            expect(h("indexOf")("hello", "z")).toBe(-1);
+            expect(h("indexOf")("hello", "l", 3)).toBe(3);
+        });
+
+        it("charAt: returns the character at an index", () => {
+            expect(h("charAt")("hello", 0)).toBe("h");
+            expect(h("charAt")("hello", 4)).toBe("o");
+            expect(h("charAt")("hello", 9)).toBe("");
+        });
+
+        it("capitalize: uppercases the first character only", () => {
+            expect(h("capitalize")("hello")).toBe("Hello");
+            expect(h("capitalize")("HELLO")).toBe("HELLO");
+            expect(h("capitalize")("")).toBe("");
+        });
+
+        it("padStart / padEnd: pad a string to a target length", () => {
+            expect(h("padStart")("5", 3, "0")).toBe("005");
+            expect(h("padEnd")("5", 3, ".")).toBe("5..");
+            expect(h("padStart")("5", 3)).toBe("  5");
+        });
+
+        it("repeat: repeats a string a number of times", () => {
+            expect(h("repeat")("ab", 3)).toBe("ababab");
+            expect(h("repeat")("x", 0)).toBe("");
+        });
+
+        it("guards against memory-exhausting sizes", () => {
+            expect(() => h("repeat")("x", 1e9)).toThrow(SafeExpressionError);
+            expect(() => h("padStart")("x", 1e9)).toThrow(SafeExpressionError);
+            expect(() => h("padEnd")("x", 1e9)).toThrow(SafeExpressionError);
         });
     });
 
