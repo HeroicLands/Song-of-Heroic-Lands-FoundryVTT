@@ -44,6 +44,7 @@ export * from "./SohlItemDataModel";
 export * from "./SohlItemSheetBase";
 export * from "./TraitDataModel";
 export * from "./TraitSheet";
+export * from "./temporal-fields";
 export * from "./TraumaDataModel";
 export * from "./TraumaSheet";
 export * from "./WeaponGearDataModel";
