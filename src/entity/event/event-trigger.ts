@@ -140,7 +140,7 @@ type SohlTriggerContextVariant =
 
 /**
  * A trigger context as dispatched to a document. Every variant additionally
- * carries an optional {@link SohlTriggerContext.payload | payload} — the
+ * carries an optional `payload` — the
  * subscription's `payload`, forwarded by {@link SohlEventQueue.fire} so the
  * dispatched action can read it from `ctx.payload` (the action context's
  * `scope`).

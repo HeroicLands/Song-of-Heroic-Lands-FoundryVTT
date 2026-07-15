@@ -616,8 +616,6 @@ export class AfflictionLogic<
      *   `resolutionCheck` transition at `onsetDate + resolution interval`, and —
      *   while the affliction persists — the recurring `healingCheck`.
      * - **Resolved** (`resolutionDate` set): unsubscribe all.
-     *
-     * @inheritdoc
      */
     override finalize(): void {
         super.finalize();

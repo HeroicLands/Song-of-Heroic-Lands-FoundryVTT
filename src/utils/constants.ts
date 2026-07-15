@@ -1233,7 +1233,7 @@ export const {
     /**
      * A prolonged physiological state of shock lasting hours or days, following
      * severe trauma or blood loss — distinct from the transient combat-shock
-     * states tracked on a {@link TraumaLogic | Trauma}.
+     * states tracked on a a Trauma.
      */
     SHOCK: "shock",
     /** A prolonged state of unconsciousness. */

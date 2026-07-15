@@ -132,7 +132,7 @@ const MAX_TRIGGER_DEPTH = 16;
  * ## Loop protection
  *
  * Re-entrant `fire(...)` for the same trigger name is capped at
- * {@link MAX_TRIGGER_DEPTH}; beyond that the call aborts with an error. This
+ * `MAX_TRIGGER_DEPTH` (16); beyond that the call aborts with an error. This
  * backstops non-time loops (e.g. a `combatStart` handler that fires
  * `combatStart`). Because there is no cascade, no same-tick guard is needed:
  * a handler that re-arms during dispatch simply schedules a subscription that the
