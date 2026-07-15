@@ -591,6 +591,72 @@ export function buildContainerTree<T>(
     return { containers: nodes, onBodyItems };
 }
 
+/** A minimal gear reference for planning a container move. */
+export interface GearContainerRef {
+    /** The gear item's id. */
+    id: string;
+    /** The id of the container it currently sits in, if any. */
+    containerId?: string | null;
+}
+
+/** The outcome of {@link resolveGearContainerMove}. */
+export interface GearContainerMove {
+    /** Whether the move is permitted (`false` → an illegal self/cycle drop). */
+    allowed: boolean;
+    /** Whether the destination differs from the item's current container. */
+    changed: boolean;
+    /** The destination container id, or `undefined` for the "On Body" list. */
+    containerId: string | undefined;
+}
+
+/**
+ * Decide whether a gear item may move into a destination container, and whether
+ * that changes its current container. Rejects dropping a container into itself
+ * or into any of its own descendants, either of which would form a containment
+ * cycle. Containment is by reference (`system.containerId`), so "On Body" is the
+ * absence of a container — an empty, `null`, or `undefined` destination.
+ *
+ * @param droppedId - The id of the gear item being moved.
+ * @param destContainerId - The destination container id; empty/`null`/`undefined` means "On Body".
+ * @param gear - Every gear item on the actor, each with its current `containerId`.
+ * @returns Whether the move is allowed, whether it changes the container, and the normalized destination.
+ */
+export function resolveGearContainerMove(
+    droppedId: string,
+    destContainerId: string | null | undefined,
+    gear: readonly GearContainerRef[],
+): GearContainerMove {
+    const norm = (id: string | null | undefined): string | undefined =>
+        id || undefined;
+    const dest = norm(destContainerId);
+    const current = norm(gear.find((g) => g.id === droppedId)?.containerId);
+
+    // Dropping an item onto itself is never a valid container.
+    if (dest === droppedId) {
+        return { allowed: false, changed: false, containerId: current };
+    }
+
+    // Dropping a container into one of its own descendants would form a cycle:
+    // walk the destination's ancestor chain and reject if it reaches the dropped
+    // item. The `seen` set also guards against a pre-existing corrupt cycle.
+    if (dest) {
+        const parentOf = new Map(
+            gear.map((g) => [g.id, norm(g.containerId)] as const),
+        );
+        const seen = new Set<string>();
+        let cursor: string | undefined = dest;
+        while (cursor && !seen.has(cursor)) {
+            if (cursor === droppedId) {
+                return { allowed: false, changed: false, containerId: current };
+            }
+            seen.add(cursor);
+            cursor = parentOf.get(cursor);
+        }
+    }
+
+    return { allowed: true, changed: current !== dest, containerId: dest };
+}
+
 /* -------------------------------------------- */
 /*  Header: status pills, lozenges, health       */
 /* -------------------------------------------- */
