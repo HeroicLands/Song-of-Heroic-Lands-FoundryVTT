@@ -2,7 +2,7 @@
 "sohl": patch
 ---
 
-Fix the injury chat card failing to render.
+**Fix the injury chat card failing to render**
 
 `templates/chat/injury-card.hbs` closed its `{{#if needsShockRoll}}` block with
 `{{/unless}}` instead of `{{/if}}`, so rendering threw `if doesn't match unless`

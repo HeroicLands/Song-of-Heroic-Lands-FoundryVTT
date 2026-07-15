@@ -2,7 +2,7 @@
 "sohl": patch
 ---
 
-Fix seven dialog templates failing to render on Foundry v14.
+**Fix seven dialog templates failing to render on Foundry v14**
 
 Foundry v14 removed the `{{#select}}` Handlebars block helper, so the injury,
 damage, missile-damage, opposed-response, create-item, strike-mode, and

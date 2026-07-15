@@ -2,7 +2,7 @@
 "sohl": patch
 ---
 
-Fix the Add Injury flow never recording a trauma.
+**Fix the Add Injury flow never recording a trauma**
 
 `createTraumaFromInjury` called `actor.createEmbeddedDocuments(...)`, but both
 call sites pass the `BeingLogic`, not a Foundry actor, so it threw

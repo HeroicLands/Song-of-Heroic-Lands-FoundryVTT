@@ -15,7 +15,9 @@ is violated, instead of proceeding regardless (#387):
   valid target (`targetInvalidStatus` / `TARGET_INVALID_STATUSES`).
 
 Each violation aborts with a player-facing notification. The status predicates are
-pure and unit-tested. There is deliberately no "current combatant / your turn"
-gate, so automated and assisted combat remain freely interleavable. The
+pure and unit-tested. These attacker/target invariants are orthogonal to the
+turn gate (only the current combatant may _start_ an attack, added separately);
+out-of-turn **defenses** — a counterstrike or a Tactical-Advantage follow-up — run
+through the defense-resume path and are unaffected by either. The
 `combat-resolution-pipeline` and `combat-model` docs are updated to match the
 wired enforcement (the previously-cited `resolveAttackContext` was dormant).

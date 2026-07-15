@@ -2,8 +2,7 @@
 "sohl": patch
 ---
 
-**Fix #186:** Attacker-side injury button now emitted when a counterstrike
-lands.
+**Emit the attacker-side injury button when a counterstrike lands**
 
 `buildCombatCardData` hard-coded `hasAttackInjury: false` with empty
 `attackInjuryHandlerUuid`/`attackInjuryScope` on both the main attack card
@@ -16,3 +15,5 @@ The fix mirrors the existing defender-side `injuryButton(...)` logic:
 - **CX card:** `atkInjury = injuryButton(cxImpact, attackResult.token.uuid)` — same CX impact, targeting the original attacker's token (now the "defender" on the CX card).
 
 `atkInjury` is `null` when no CX exists or the CX missed, so `hasAttackInjury` stays false in the normal (non-counterstrike) case.
+
+Closes #186.

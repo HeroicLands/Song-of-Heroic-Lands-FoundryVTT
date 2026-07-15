@@ -2,7 +2,7 @@
 "sohl": patch
 ---
 
-Fix infinite recursion (stack overflow) in `SohlLogger.uiWarn` / `uiInfo` / `uiError`.
+**Fix infinite recursion in `SohlLogger.uiWarn` / `uiInfo` / `uiError`**
 
 The notify branch of `log()` re-entered the same `uiWarn`/`uiInfo`/`uiError`
 method — which calls back into `log()` with the same `notifyLevel` — recursing

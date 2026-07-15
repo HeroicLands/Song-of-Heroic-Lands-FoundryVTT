@@ -2,7 +2,7 @@
 "sohl": patch
 ---
 
-Fix logic-level dialogs on Foundry v14 and consolidate the dialog helpers into one primitive.
+**Fix logic-level dialogs on Foundry v14 and consolidate the dialog helpers**
 
 On Foundry v14, `DialogV2.input` only invokes a callback supplied under
 `ok.callback`, so the callback the old `inputDialog` passed at the top level was
