@@ -93,7 +93,7 @@ sohl.events.subscribe({
 | `kind`        | string             | Subscription identifier, scoped to the document. Convention: lowerCamelCase verbs.                                      |
 | `triggerName` | string             | The trigger to listen to (must match a `ctx.name` passed to `fire`).                                                    |
 | `fireAt?`     | number             | Optional scheduled world-time. Required for `updateWorldTime` subscriptions when you want time-based dispatch ordering. |
-| `predicate?`  | `(ctx) => boolean` | Optional filter. Returning false skips this dispatch (subscription preserved).                                          |
+| `predicate?`  | `SafeExpression`   | Optional filter — a `SafeExpression` evaluated against the trigger context; a falsy result skips the dispatch (subscription preserved).                    |
 | `payload?`    | object             | Optional data handed back to the handler as the third argument.                                                         |
 | `oneShot?`    | boolean            | If true, the subscription is removed before its handler runs. Set automatically by `scheduleAt`.                        |
 
@@ -138,32 +138,21 @@ Dispatch a trigger. Called by `SohlHookBridge` and by [`fireSohlTrigger`](#custo
 
 Inspection helpers. `debug()` returns a snapshot sorted by `(triggerName, fireAt, kind)`. `clear()` empties the queue — useful in tests; rarely needed at runtime.
 
-## Handling triggers on documents
+## Dispatching triggers to document actions
 
-Both [`SohlItem`](../../src/document/item/foundry/SohlItem.ts) and [`SohlActor`](../../src/document/actor/foundry/SohlActor.ts) declare an `async handleSohlEvent(kind, context, payload?)` method. The base implementations log a warning for unhandled kinds; document subclasses override to implement behavior.
+A subscription's `kind` is the **action shortcode** the queue executes on the owning document's logic when the trigger fires. The trigger context — with the subscription's `payload` attached as `ctx.payload` — becomes the action context's `scope`, and `kind` its `type`. So an event dispatches through the **same action a user could invoke manually**; one implementation serves both, which is why the handler no longer lives in a separate `handleSohlEvent` switch.
 
 ```typescript
-async handleSohlEvent(
-    kind: string,
-    context: SohlTriggerContext,
-    payload?: Record<string, unknown>,
-): Promise<void> {
-    switch (kind) {
-        case "healingTest":
-            // context.name === "updateWorldTime"
-            await this.runHealingTest(context.worldTime, payload);
-            break;
-        case "berserkerCheck":
-            // context.name === "combatStart"
-            await this.runBerserkerCheck(context.combat);
-            break;
-        default:
-            return super.handleSohlEvent(kind, context, payload);
-    }
+// An intrinsic action on the item's logic, registered via defineIntrinsicActions
+// with `executor: "healingCheck"`. Invoked both from the context menu and when the
+// "healingCheck" event fires.
+async healingCheck(context: SohlActionContext): Promise<void> {
+    const ctx = context.scope; // the SohlTriggerContext: ctx.name, ctx.worldTime, ctx.payload, …
+    // … roll, apply, re-arm …
 }
 ```
 
-Always delegate unknown kinds to `super.handleSohlEvent` so the base "unhandled event" warning fires for typos. Always `await` your mutations — the dispatcher awaits your handler before moving on.
+To gate a subscription, attach a `SafeExpression` predicate that reads the trigger context — e.g. `predicate: new SafeExpression({ source: "name === 'combatStart'" }, { parent })`. The dispatcher awaits the action before moving on.
 
 ## The owner-persists-the-anchor contract
 
@@ -196,22 +185,23 @@ override finalize(): void {
     );
 }
 
-// 3. HANDLER (active GM only) — catch up every elapsed occurrence, persist once.
-async handleSohlEvent(kind, ctx /* updateWorldTime */, _payload) {
-    if (kind !== "healingTest") return super.handleSohlEvent(kind, ctx, _payload);
-    const interval = this.logic.healingInterval.effective;
-    let last = this.system.lastHealingCheck;
-    let level = this.system.levelBase;
+// 3. ACTION (active GM only) — catch up every elapsed occurrence, persist once.
+//    Registered as the "healingTest" intrinsic action; ctx is the action scope.
+async healingTest(context) {
+    const ctx = context.scope; // updateWorldTime trigger context
+    const interval = this.healingInterval.effective;
+    let last = this.data.lastHealingCheck;
+    let level = this.data.levelBase;
     // Resolve each checkpoint that elapsed during the time advance, in order —
     // each roll sees the level the previous one left (stateful).
     for (let t = last + interval; t <= ctx.worldTime && level > 0; t += interval) {
-        level = await rollHealingCheck(this.logic, level, t);
+        level = await rollHealingCheck(this, level, t);
         last = t;
     }
     // ONE persisted write. Replicates; every client's finalize() re-derives and
-    // re-arms the next occurrence (beyond worldTime). The handler never touches
+    // re-arms the next occurrence (beyond worldTime). The action never touches
     // the queue directly.
-    await this.update({ "system.levelBase": level, "system.lastHealingCheck": last });
+    await this.item.update({ "system.levelBase": level, "system.lastHealingCheck": last });
 }
 ```
 

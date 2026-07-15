@@ -17,6 +17,8 @@ import {
     fvttResolveUuidAsync,
 } from "@src/core/FoundryHelpers";
 import type { SohlTriggerContext } from "@src/entity/event/event-trigger";
+import type { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 
 /**
  * A single registered subscription, uniquely identified by `(uuid, kind)`.
@@ -29,6 +31,10 @@ export interface SohlSubscription {
     /**
      * Subscription kind, scoped to {@link uuid}. A document may have at
      * most one subscription per kind; re-subscribing overwrites.
+     *
+     * On dispatch, `kind` is the **action shortcode** executed on the owning
+     * document's logic (see {@link SohlEventQueue.fire}) — so an event can reuse
+     * the same action a user could invoke manually.
      */
     kind: string;
     /**
@@ -45,13 +51,17 @@ export interface SohlSubscription {
      */
     fireAt?: number;
     /**
-     * Optional predicate. If present, the subscription fires only when
-     * the predicate returns truthy for the trigger context. Predicates
-     * that throw are caught and logged; the dispatch is skipped but the
-     * subscription is preserved.
+     * Optional predicate expression. When present, the subscription fires only
+     * when this {@link SafeExpression} evaluates truthy against the trigger
+     * context (`ctx` supplies the bindings — `name`, `worldTime`, `payload`, …).
+     * Expressions that throw are caught and logged; the dispatch is skipped but
+     * the subscription is preserved.
      */
-    predicate?: (ctx: SohlTriggerContext) => boolean;
-    /** Optional context data passed through to the document handler. */
+    predicate?: SafeExpression;
+    /**
+     * Optional data attached to the subscription. On dispatch it is forwarded to
+     * the action as `ctx.payload` (the action context's `scope`).
+     */
     payload?: Record<string, unknown>;
     /**
      * If true, the subscription is removed immediately before its handler
@@ -73,9 +83,11 @@ const MAX_TRIGGER_DEPTH = 16;
  * with Foundry's `CONFIG.ActiveEffect.expiryEvents` vocabulary
  * (`updateWorldTime`, `combatStart`, `combatEnd`, `roundStart`,
  * `roundEnd`, `turnStart`, `turnEnd`, plus any custom names registered
- * via `registerSohlTrigger`). When a trigger fires, matching
- * subscriptions dispatch to their owning documents via
- * `handleSohlEvent(kind, context, payload)`.
+ * via `registerSohlTrigger`). When a trigger fires, matching subscriptions
+ * dispatch by **executing the action** named by the subscription's `kind` on the
+ * owning document's logic — the trigger context (with the subscription's
+ * `payload`) becomes the action's scope. An event therefore reuses the very
+ * same action a user could invoke manually.
  *
  * Time scheduling is one trigger among many: a `scheduleAt(uuid, kind,
  * fireAt, payload)` call creates a one-shot subscription on
@@ -297,7 +309,9 @@ export class SohlEventQueue {
                 if (sub.predicate) {
                     let pass = false;
                     try {
-                        pass = !!sub.predicate(ctx);
+                        pass = !!sub.predicate.evaluate(
+                            ctx as unknown as Record<string, unknown>,
+                        );
                     } catch (err) {
                         console.error(
                             `SoHL | Predicate threw for subscription "${sub.kind}" on ${sub.uuid}:`,
@@ -317,11 +331,16 @@ export class SohlEventQueue {
     }
 
     /**
-     * Resolve a subscription's document and invoke its `handleSohlEvent`,
-     * logging and swallowing any errors so one failure cannot abort the batch.
+     * Resolve a subscription's document and **execute the action** named by
+     * `sub.kind` on its logic, logging and swallowing any errors so one failure
+     * cannot abort the batch.
+     *
+     * The trigger context (with `sub.payload` attached as `ctx.payload`) becomes
+     * the action context's `scope`, and `sub.kind` its `type` — so an event
+     * dispatches through the same action a user could invoke manually.
      *
      * @param sub - The subscription to dispatch.
-     * @param ctx - The trigger context to pass to the handler.
+     * @param ctx - The trigger context, forwarded as the action's scope.
      */
     private async dispatchOne(
         sub: SohlSubscription,
@@ -329,14 +348,26 @@ export class SohlEventQueue {
     ): Promise<void> {
         try {
             const doc = await fvttResolveUuidAsync(sub.uuid);
-            if (!doc) return;
-            if (typeof doc.handleSohlEvent !== "function") {
+            const logic = (doc as { logic?: any } | null)?.logic;
+            if (!logic || typeof logic.executeAction !== "function") {
                 console.warn(
-                    `SoHL | Document ${sub.uuid} does not implement handleSohlEvent; discarding "${sub.kind}" on trigger "${ctx.name}".`,
+                    `SoHL | Document ${sub.uuid} cannot execute action "${sub.kind}" on trigger "${ctx.name}".`,
                 );
                 return;
             }
-            await doc.handleSohlEvent(sub.kind, ctx, sub.payload);
+            const speaker = logic.speaker;
+            if (!speaker) {
+                console.warn(
+                    `SoHL | No speaker for ${sub.uuid}; cannot dispatch "${sub.kind}".`,
+                );
+                return;
+            }
+            const context = new SohlActionContext({
+                speaker,
+                type: sub.kind,
+                scope: { ...ctx, payload: sub.payload },
+            });
+            await logic.executeAction(sub.kind, context);
         } catch (err) {
             console.error(
                 `SoHL | Error dispatching "${sub.kind}" on trigger "${ctx.name}" for ${sub.uuid}:`,
