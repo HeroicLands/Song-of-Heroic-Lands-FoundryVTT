@@ -279,9 +279,10 @@ export class SohlEventQueue {
 
         try {
             const isWorldTime = ctx.name === "updateWorldTime";
-            const worldTime = isWorldTime
-                ? (ctx as { worldTime: number }).worldTime
-                : undefined;
+            const worldTime =
+                isWorldTime ?
+                    (ctx as { worldTime: number }).worldTime
+                :   undefined;
 
             // Snapshot matching subscriptions before dispatching. No cascade:
             // anything a handler adds is seen only by the next fire() call.
