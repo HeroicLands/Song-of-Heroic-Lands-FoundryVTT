@@ -24,8 +24,8 @@ impairment, colored by severity, instead of a bare shortcode list.
   dedicated editor UI yet — it is set via a data update; a sheet control is a
   follow-up.
 
-The derivation is shared, so the health work (#463) can consume the same per-part
-status for its ceilings.
+The derivation is shared — the being's health assessment reads the same per-part
+impairment.
 
 Covered by `bodyPartImpairment` unit tests (severity bands, worst-injury,
 permanent floor), updated `buildBodyPartLozenges` tests, and a

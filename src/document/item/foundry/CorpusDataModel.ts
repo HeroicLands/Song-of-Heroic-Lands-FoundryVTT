@@ -90,6 +90,12 @@ function defineCorpusDataSchema(): foundry.data.fields.DataSchema {
                         max: 0,
                     }),
                     /**
+                     * Manually-set flag marking this part permanently unusable
+                     * (a withered or fully-amputated limb). Unlike permanent
+                     * impairment, it makes the part unusable regardless of tier.
+                     */
+                    permanentlyUnusable: new BooleanField({ initial: false }),
+                    /**
                      * Target area of this part for hit-spread mechanics, in
                      * square feet. Doubles as the weight used when picking
                      * a random part for unaimed attacks (volley fire,

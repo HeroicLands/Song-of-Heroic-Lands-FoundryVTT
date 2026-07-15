@@ -6,128 +6,123 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { deriveHealth } from "@src/document/actor/logic/health";
-import { STATUS_EFFECT } from "@src/utils/constants";
+import {
+    deriveHealth,
+    physicalHealthCeiling,
+    healthBand,
+    HEALTH_BAND,
+    type PartHealthInput,
+} from "@src/document/actor/logic/health";
+import { BODY_PART_TIER } from "@src/entity/body/impairment";
 
-const NONE = new Set<string>();
-
-/** Base input with the given overrides. */
-const input = (over: Partial<Parameters<typeof deriveHealth>[0]> = {}) => ({
-    enduranceScore: 13,
-    injuryShocks: [],
-    partImpairments: [],
-    statuses: NONE,
-    ...over,
+/** A part-health input with the given tier and options. */
+const part = (
+    tier: PartHealthInput["tier"],
+    opts: { usable?: boolean; critical?: boolean } = {},
+): PartHealthInput => ({
+    tier,
+    usable: opts.usable ?? true,
+    critical: opts.critical ?? false,
 });
 
-describe("deriveHealth (#463)", () => {
-    it("max = endurance × 3, full value when uninjured", () => {
-        expect(deriveHealth(input({ enduranceScore: 13 }))).toEqual({
-            max: 39,
-            value: 39,
-        });
+const { NONE, MINOR, SERIOUS, GRIEVOUS } = BODY_PART_TIER;
+
+describe("physicalHealthCeiling (#470)", () => {
+    it("is 100 when nothing is impaired", () => {
+        expect(physicalHealthCeiling([])).toBe(100);
+        expect(physicalHealthCeiling([part(NONE), part(NONE)])).toBe(100);
     });
 
-    it("defaults to 100/100 with no (or zero) endurance", () => {
-        expect(deriveHealth(input({ enduranceScore: 0 }))).toEqual({
-            max: 100,
-            value: 100,
-        });
+    it("reads the non-critical table by tier and count", () => {
+        expect(physicalHealthCeiling([part(MINOR)])).toBe(80);
+        expect(physicalHealthCeiling([part(SERIOUS), part(SERIOUS)])).toBe(20);
+        expect(physicalHealthCeiling([part(GRIEVOUS)])).toBe(30); // usable, permanent
     });
 
-    it("subtracts shock × level for each injury", () => {
-        // injuryShocks are already shock×level; 6 + 4 off a max of 39 → 29.
-        expect(deriveHealth(input({ injuryShocks: [6, 4] })).value).toBe(29);
+    it("treats an unusable part as the UNUSABLE row regardless of tier", () => {
+        // Grievous injury → tier none but usable false → unusable bucket.
+        expect(physicalHealthCeiling([part(NONE, { usable: false })])).toBe(20);
     });
 
-    it("floors value at 0 when injuries exceed max", () => {
-        expect(deriveHealth(input({ injuryShocks: [100] })).value).toBe(0);
-    });
-
-    it("caps at 75% of max for a part impaired ≤ −10", () => {
+    it("is harsher for critical parts, and a critical unusable part is 0 (dead)", () => {
+        expect(physicalHealthCeiling([part(SERIOUS, { critical: true })])).toBe(
+            20,
+        );
         expect(
-            deriveHealth(
-                input({
-                    enduranceScore: 100, // max 300
-                    partImpairments: [{ impairment: -10, unusable: false }],
-                }),
-            ).value,
-        ).toBe(225);
-    });
-
-    it("does not cap for a part impaired only −5", () => {
+            physicalHealthCeiling([
+                part(SERIOUS, { critical: true }),
+                part(SERIOUS, { critical: true }),
+            ]),
+        ).toBe(10);
         expect(
-            deriveHealth(
-                input({
-                    enduranceScore: 100,
-                    partImpairments: [{ impairment: -5, unusable: false }],
-                }),
-            ).value,
-        ).toBe(300);
-    });
-
-    it("caps at 50% for an unusable part (worse than the −10 tier)", () => {
-        expect(
-            deriveHealth(
-                input({
-                    enduranceScore: 100,
-                    partImpairments: [
-                        { impairment: -10, unusable: false },
-                        { impairment: 0, unusable: true },
-                    ],
-                }),
-            ).value,
-        ).toBe(150);
-    });
-
-    it("caps at 25% when stunned, 10% when incapacitated or unconscious", () => {
-        expect(
-            deriveHealth(
-                input({
-                    enduranceScore: 100,
-                    statuses: new Set([STATUS_EFFECT.STUN]),
-                }),
-            ).value,
-        ).toBe(75);
-        expect(
-            deriveHealth(
-                input({
-                    enduranceScore: 100,
-                    statuses: new Set([STATUS_EFFECT.INCAPACITATED]),
-                }),
-            ).value,
-        ).toBe(30);
-        expect(
-            deriveHealth(
-                input({
-                    enduranceScore: 100,
-                    statuses: new Set([STATUS_EFFECT.UNCONSCIOUS]),
-                }),
-            ).value,
-        ).toBe(30);
-    });
-
-    it("forces value to 0 when dead", () => {
-        expect(
-            deriveHealth(
-                input({
-                    enduranceScore: 100,
-                    statuses: new Set([STATUS_EFFECT.DEAD]),
-                }),
-            ).value,
+            physicalHealthCeiling([
+                part(NONE, { usable: false, critical: true }),
+            ]),
         ).toBe(0);
     });
 
-    it("applies the most restrictive ceiling", () => {
-        // Unusable (50% → 150) and stunned (25% → 75) → 75 wins.
+    it("takes the minimum across all buckets", () => {
+        // 2 non-critical MINOR (50%) + 1 critical SERIOUS (20%) → 20%.
         expect(
-            deriveHealth(
-                input({
-                    enduranceScore: 100,
-                    partImpairments: [{ impairment: 0, unusable: true }],
-                    statuses: new Set([STATUS_EFFECT.STUN]),
-                }),
-            ).value,
-        ).toBe(75);
+            physicalHealthCeiling([
+                part(MINOR),
+                part(MINOR),
+                part(SERIOUS, { critical: true }),
+            ]),
+        ).toBe(20);
+    });
+});
+
+describe("healthBand (#470)", () => {
+    it.each([
+        [100, HEALTH_BAND.EXCELLENT],
+        [96, HEALTH_BAND.EXCELLENT],
+        [95, HEALTH_BAND.GOOD],
+        [80, HEALTH_BAND.GOOD],
+        [79, HEALTH_BAND.FAIR],
+        [60, HEALTH_BAND.FAIR],
+        [59, HEALTH_BAND.POOR],
+        [30, HEALTH_BAND.POOR],
+        [29, HEALTH_BAND.MORBID],
+        [1, HEALTH_BAND.MORBID],
+        [0, HEALTH_BAND.DEAD],
+    ])("value %i → %s", (value, band) => {
+        expect(healthBand(value)).toBe(band);
+    });
+});
+
+describe("deriveHealth (#470)", () => {
+    it("is 100/Excellent for an uninjured being (max always 100)", () => {
+        expect(deriveHealth({ parts: [], dead: false })).toEqual({
+            max: 100,
+            value: 100,
+            band: HEALTH_BAND.EXCELLENT,
+        });
+    });
+
+    it("value is the physical ceiling, banded", () => {
+        const h = deriveHealth({
+            parts: [part(SERIOUS), part(SERIOUS)],
+            dead: false,
+        });
+        expect(h).toEqual({ max: 100, value: 20, band: HEALTH_BAND.MORBID });
+    });
+
+    it("floors a living being at 1 even when the ceiling is 0", () => {
+        // A critical unusable part → ceiling 0, but the being isn't `dead`.
+        const h = deriveHealth({
+            parts: [part(NONE, { usable: false, critical: true })],
+            dead: false,
+        });
+        expect(h.value).toBe(1);
+        expect(h.band).toBe(HEALTH_BAND.MORBID);
+    });
+
+    it("is 0/Dead when the being is dead", () => {
+        expect(deriveHealth({ parts: [part(MINOR)], dead: true })).toEqual({
+            max: 100,
+            value: 0,
+            band: HEALTH_BAND.DEAD,
+        });
     });
 });

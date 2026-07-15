@@ -38,14 +38,29 @@ const MINOR_LEVEL = 1;
 /** A minor injury only impairs while its healing rate is at or below this. */
 const MINOR_IMPAIRING_HR_MAX = 5;
 
-/** Impairment magnitudes. */
+/** Impairment magnitudes and tier boundaries. */
 const SERIOUS_IMPAIRMENT = -10;
 const MINOR_IMPAIRMENT = -5;
 
 /**
- * Display status bucket for a body part, driving the header grid's color coding:
- * `none` (white), `minor` (−5, yellow), `major` (−10 or worse, blue),
- * `unusable` (black).
+ * A body part's impairment **tier**, by magnitude (#470): `none` (0), `minor`
+ * (−1…−5), `serious` (−6…−10), `grievous` (≤ −11). Injuries reach at most
+ * `serious` (a grievous injury makes the part *unusable* rather than adding a
+ * number); the `grievous` tier is only reached via permanent impairment.
+ */
+export const BODY_PART_TIER = {
+    NONE: "none",
+    MINOR: "minor",
+    SERIOUS: "serious",
+    GRIEVOUS: "grievous",
+} as const;
+
+/** A body part's impairment tier. */
+export type BodyPartTier = (typeof BODY_PART_TIER)[keyof typeof BODY_PART_TIER];
+
+/**
+ * Display status bucket for the header grid's color coding: `none` (white),
+ * `minor` (−5, yellow), `major` (−10 or worse, blue), `unusable` (black).
  */
 export const BODY_PART_STATUS = {
     NONE: "none",
@@ -61,13 +76,19 @@ export type BodyPartStatus =
 /** The derived impairment of a single body part. */
 export interface BodyPartImpairment {
     /**
-     * Impairment penalty as a non-positive number (`0` when none). Not
-     * meaningful when {@link unusable} is `true`.
+     * Impairment penalty as a non-positive number (`0` when none). The worst
+     * (most negative) of the permanent impairment and each current injury.
      */
     impairment: number;
-    /** Whether the part is unusable (a grievous injury to any of its locations). */
-    unusable: boolean;
-    /** Display status bucket for the header grid. */
+    /**
+     * Whether the part can still be used. `false` when it has a **grievous
+     * injury** or is flagged `permanentlyUnusable`. Permanent *impairment*
+     * (however severe) never makes a part unusable.
+     */
+    usable: boolean;
+    /** Impairment tier by magnitude (drives the health ceiling, #470). */
+    tier: BodyPartTier;
+    /** Display status bucket for the header grid (#464). */
     status: BodyPartStatus;
 }
 
@@ -82,27 +103,48 @@ export interface LocationInjury {
 }
 
 /**
- * Derive a body part's impairment from the injuries on its hit locations,
- * honoring a permanent-impairment floor.
+ * Tier a non-positive impairment magnitude.
+ * @param impairment - The part's impairment (`≤ 0`).
+ * @returns The impairment tier.
+ */
+function tierOf(impairment: number): BodyPartTier {
+    if (impairment === 0) return BODY_PART_TIER.NONE;
+    if (impairment >= MINOR_IMPAIRMENT) return BODY_PART_TIER.MINOR; // −1…−5
+    if (impairment >= SERIOUS_IMPAIRMENT) return BODY_PART_TIER.SERIOUS; // −6…−10
+    return BODY_PART_TIER.GRIEVOUS; // ≤ −11
+}
+
+/**
+ * Derive a body part's impairment from the injuries on its hit locations, its
+ * permanent impairment, and a permanent-unusable flag.
+ *
+ * Impairment is the **worst (most negative) of** {permanent impairment, each
+ * current injury} — never additive. A serious injury contributes −10, a minor
+ * (slow-healing, HR ≤ 5) −5; a **grievous** injury contributes no number but
+ * makes the part **unusable**. Permanent impairment tiers the part (a −20 arm is
+ * `grievous` tier) but never unuses it — only a grievous injury or the
+ * `permanentlyUnusable` flag does.
  *
  * @param locationShortcodes - The shortcodes of the part's hit locations.
  * @param injuries - Active injuries (any location); those not on this part are ignored.
- * @param permanentImpairment - A non-positive floor the result can never be milder than (default `0`).
- * @returns The part's impairment, unusable flag, and display status.
+ * @param permanentImpairment - A non-positive permanent impairment (default `0`).
+ * @param permanentlyUnusable - Whether the part is permanently unusable (default `false`).
+ * @returns The part's impairment, tier, usable flag, and grid status.
  */
 export function bodyPartImpairment(
     locationShortcodes: readonly string[],
     injuries: readonly LocationInjury[],
     permanentImpairment = 0,
+    permanentlyUnusable = false,
 ): BodyPartImpairment {
     const locs = new Set(locationShortcodes);
-    let unusable = false;
+    let grievousInjury = false;
     let impairment = 0;
 
     for (const injury of injuries) {
         if (!locs.has(injury.locationShortcode) || injury.level <= 0) continue;
         if (injury.level >= GRIEVOUS_MIN) {
-            unusable = true;
+            grievousInjury = true; // unusable — no numeric impairment
         } else if (injury.level >= SERIOUS_MIN) {
             impairment = Math.min(impairment, SERIOUS_IMPAIRMENT);
         } else if (
@@ -113,14 +155,18 @@ export function bodyPartImpairment(
         }
     }
 
-    // A permanent impairment is a floor: the result is never milder than it.
+    // Worst-of: permanent impairment and injuries do not stack.
     impairment = Math.min(impairment, Math.min(0, permanentImpairment));
 
+    const usable = !grievousInjury && !permanentlyUnusable;
+    const tier = tierOf(impairment);
+
     const status: BodyPartStatus =
-        unusable ? BODY_PART_STATUS.UNUSABLE
-        : impairment <= SERIOUS_IMPAIRMENT ? BODY_PART_STATUS.MAJOR
-        : impairment <= MINOR_IMPAIRMENT ? BODY_PART_STATUS.MINOR
+        !usable ? BODY_PART_STATUS.UNUSABLE
+        : tier === BODY_PART_TIER.SERIOUS || tier === BODY_PART_TIER.GRIEVOUS ?
+            BODY_PART_STATUS.MAJOR
+        : tier === BODY_PART_TIER.MINOR ? BODY_PART_STATUS.MINOR
         : BODY_PART_STATUS.NONE;
 
-    return { impairment, unusable, status };
+    return { impairment, usable, tier, status };
 }

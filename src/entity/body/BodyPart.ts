@@ -55,6 +55,12 @@ export class BodyPart extends SohlEntity {
      * the derived impairment can never be milder than (`0` = none).
      */
     readonly permanentImpairment: number;
+    /**
+     * Manually-set flag marking this part permanently unusable (a withered or
+     * fully-amputated limb). Unlike permanent impairment, this makes the part
+     * unusable regardless of tier.
+     */
+    readonly permanentlyUnusable: boolean;
     /** Hit locations contained within this part. */
     readonly locations: BodyLocation[];
     /** Back-reference to the owning {@link BodyStructure}. */
@@ -74,6 +80,16 @@ export class BodyPart extends SohlEntity {
                 r === BODY_ROLE.VITAL ||
                 r === BODY_ROLE.CORE ||
                 r === BODY_ROLE.LOCOMOTOR,
+        );
+    }
+
+    /**
+     * Whether this part is **critical** for overall health — it holds a VITAL or
+     * CORE role. Critical parts drive the harsher health-ceiling column (#470).
+     */
+    get isCritical(): boolean {
+        return this.roles.some(
+            (r) => r === BODY_ROLE.VITAL || r === BODY_ROLE.CORE,
         );
     }
 
@@ -114,6 +130,7 @@ export class BodyPart extends SohlEntity {
             { parent: this.parent },
         ).setBase(data.probWeight);
         this.permanentImpairment = Math.min(0, data.permanentImpairment ?? 0);
+        this.permanentlyUnusable = data.permanentlyUnusable ?? false;
         this.index = options.index;
         this.structure = options.structure;
         this.locations = data.locations.map(
@@ -221,6 +238,8 @@ export namespace BodyPart {
         roles: string[];
         /** Manually-set permanent impairment floor (non-positive; `0` = none). */
         permanentImpairment?: number;
+        /** Whether the part is permanently unusable (withered/amputated). */
+        permanentlyUnusable?: boolean;
         /** Whether this part can grip a held item. */
         canHoldItem: boolean;
         /** Id of the item this part is holding, or null if empty. */
