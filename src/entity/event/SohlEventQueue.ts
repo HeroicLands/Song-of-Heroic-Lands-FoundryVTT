@@ -13,7 +13,7 @@
 
 import {
     fvttIsActiveGM,
-    fvttIsCurrentUserGM,
+    fvttWorldTime,
     fvttResolveUuidAsync,
 } from "@src/core/FoundryHelpers";
 import type { SohlTriggerContext } from "@src/entity/event/event-trigger";
@@ -39,10 +39,9 @@ export interface SohlSubscription {
     triggerName: string;
     /**
      * Optional scheduled world-time. When the trigger is `updateWorldTime`,
-     * the subscription fires only when `ctx.worldTime >= fireAt`. Also
-     * controls dispatch order during a cascading `updateWorldTime` fire,
-     * and serves as the reference point for the same-tick loop guard in
-     * {@link SohlEventQueue.scheduleAt}.
+     * the subscription is *due* (and fires) only when `ctx.worldTime >= fireAt`,
+     * and due subscriptions dispatch in ascending `fireAt` order. Also the value
+     * returned by {@link SohlEventQueue.nextFireTime}.
      */
     fireAt?: number;
     /**
@@ -85,104 +84,57 @@ const MAX_TRIGGER_DEPTH = 16;
  * ## Identity and overwrite semantics
  *
  * Each subscription is uniquely identified by `(uuid, kind)`. Re-subscribing
- * with the same identity **overwrites** the previous entry — `triggerName`,
- * `fireAt`, `predicate`, `payload`, and `oneShot` are all replaced. This
- * means documents re-register their subscriptions on every preparation
- * cycle and only the most recent registration matters.
+ * with the same identity **overwrites** the previous entry. Documents
+ * re-register their subscriptions on every preparation cycle, so only the most
+ * recent registration matters.
  *
- * ## GM gating
+ * ## Populate everywhere, fire on the active GM only
  *
- * - `subscribe` / `unsubscribe`: any GM (active or not).
- * - `fire`: active GM only.
- * - Non-GM clients keep an empty in-memory queue; all writes and dispatches
- *   are no-ops.
+ * The queue is a **pure projection of document state**: every client — GM or
+ * player — populates its own copy from its own document preparation, so
+ * `subscribe` / `unsubscribe` / `scheduleAt` run on **all** clients. A player's
+ * queue is therefore a *permission-scoped subset* of the active GM's (it holds
+ * only the subscriptions for documents that client can see), which is exactly
+ * enough to answer sheet-side date queries ({@link nextFireTime} /
+ * {@link timeUntil}) locally.
  *
- * ## Cascading dispatch on `updateWorldTime`
+ * Only **`fire`** is gated to the active GM. Nothing else evolves schedule state,
+ * so no GM-only side effect can drift the clients out of sync — schedule changes
+ * flow through document updates (which replicate) and their re-preparation.
  *
- * `updateWorldTime` is special because it represents the passage of time.
- * If world time jumps from T0 to T0+60d and an injury subscription at
- * T0+5d schedules its successor at `prevFireAt + 5d`, all 12 intermediate
- * dispatches must complete within the single `fire(...)` call. The
- * algorithm:
+ * ## Single-pass dispatch (no cascade)
  *
- * ```
- * loop {
- *     candidates = subscriptions where
- *         triggerName == "updateWorldTime"
- *         AND not already dispatched in this fire() call
- *         AND (fireAt is undefined OR fireAt <= worldTime)
- *         AND predicate(ctx) is truthy
- *     if candidates is empty: break
- *     next = candidate with smallest fireAt (undefined sorts last)
- *     mark dispatched; remove if oneShot
- *     dispatch handler
- * }
- * ```
+ * A `fire(ctx)` dispatches each matching subscription **once**, from a snapshot
+ * taken at the start of the call. For `updateWorldTime`, "matching" additionally
+ * requires the subscription be *due* (`fireAt` undefined or `<= worldTime`), and
+ * due subscriptions dispatch in ascending `fireAt` order. Subscriptions a handler
+ * adds mid-dispatch are **not** re-fired within the same call — they wait for the
+ * next `fire`.
  *
- * A handler's `scheduleAt(uuid, kind, fireAt)` during dispatch creates a
- * new subscription that the next loop iteration sees. If `fireAt` is at
- * or before `worldTime`, it fires in the same call; if later, it waits
- * for the next `updateWorldTime` invocation.
- *
- * Non-time triggers dispatch each matching subscription **once** per
- * `fire(...)` call. Subscriptions added by handlers during a non-time
- * dispatch do not fire until the next `fire(...)` invocation.
+ * The queue deliberately does **not** catch up recurring events over a large time
+ * jump. That is the consuming document's responsibility: its handler resolves
+ * every elapsed interval in `(lastAnchor, worldTime]` in one pass and persists the
+ * advanced anchor, and its `finalize()` re-registers the single next occurrence
+ * beyond `worldTime`. See the Event Queue reference doc for the contract.
  *
  * ## Loop protection
  *
- * Two layers:
- *
- * 1. **Same-tick guard:** during `updateWorldTime` dispatch the queue
- *    tracks `_processingFireAt`. A `scheduleAt(uuid, kind, fireAt)` call
- *    with `fireAt <= _processingFireAt` is discarded with a warning —
- *    handlers re-arming at the same scheduled time are the canonical
- *    infinite-loop case. `fireAt > _processingFireAt` (cascading) is
- *    allowed.
- * 2. **Depth counter:** re-entrant `fire(...)` for the same trigger name
- *    is capped at `MAX_TRIGGER_DEPTH`. Beyond that, the call is
- *    aborted with an error.
+ * Re-entrant `fire(...)` for the same trigger name is capped at
+ * {@link MAX_TRIGGER_DEPTH}; beyond that the call aborts with an error. This
+ * backstops non-time loops (e.g. a `combatStart` handler that fires
+ * `combatStart`). Because there is no cascade, no same-tick guard is needed:
+ * a handler that re-arms during dispatch simply schedules a subscription that the
+ * next `fire` sees.
  *
  * ## Predicate error policy
  *
- * Predicates that throw are caught and logged; that dispatch is skipped;
- * the subscription is not removed. Predicates may legitimately fail on
- * stale data (e.g., resolving an effect that was just deleted) and one
- * bad tick should not permanently disarm a healing check.
- *
- * ## Typical usage
- *
- * ```typescript
- * // Schedule the next healing check
- * sohl.events.scheduleAt(
- *     injury.uuid,
- *     "healingTest",
- *     game.time.worldTime + healingInterval,
- *     { level: injury.system.levelBase },
- * );
- *
- * // Subscribe to combat start
- * sohl.events.subscribe({
- *     uuid: actor.uuid,
- *     kind: "berserkerCheck",
- *     triggerName: "combatStart",
- * });
- *
- * // In the document subclass:
- * async handleSohlEvent(kind, context, payload) {
- *     switch (kind) {
- *         case "healingTest":
- *             await this.update({ "system.levelBase": newLevel });
- *             // re-preparation will re-arm via scheduleAt in finalize()
- *             break;
- *     }
- * }
- * ```
+ * Predicates that throw are caught and logged; that dispatch is skipped; the
+ * subscription is not removed. Predicates may legitimately fail on stale data
+ * (e.g., resolving an effect that was just deleted) and one bad tick should not
+ * permanently disarm a check.
  */
 export class SohlEventQueue {
     private subs: Map<string, SohlSubscription> = new Map();
-
-    /** During an updateWorldTime dispatch, the fireAt of the current event. */
-    private processingFireAt: number | null = null;
 
     /** Per-trigger reentrancy depth for the loop-protection backstop. */
     private depthByTrigger: Map<string, number> = new Map();
@@ -199,38 +151,26 @@ export class SohlEventQueue {
     }
 
     /**
-     * Register or overwrite a subscription. No-op on non-GM clients.
+     * Register or overwrite a subscription. Runs on **all** clients (the queue is
+     * a projection of document state); only {@link fire} is GM-gated.
      *
-     * If a subscription with the same `(uuid, kind)` already exists, its
-     * fields are silently replaced. Loop protection: if called during a
-     * `updateWorldTime` dispatch with a `fireAt` at or before the
-     * currently-dispatching event's fireAt, the call is discarded and a
-     * warning is logged.
+     * If a subscription with the same `(uuid, kind)` already exists, its fields
+     * are replaced.
      *
      * @param sub - The subscription to register or overwrite.
      */
     subscribe(sub: SohlSubscription): void {
-        if (!fvttIsCurrentUserGM()) return;
-        if (
-            this.processingFireAt !== null &&
-            sub.fireAt !== undefined &&
-            sub.fireAt <= this.processingFireAt
-        ) {
-            console.warn(
-                `SoHL | Subscription "${sub.kind}" for ${sub.uuid} subscribed with fireAt ${sub.fireAt} <= current processing fireAt ${this.processingFireAt}; discarding to prevent infinite loop.`,
-            );
-            return;
-        }
         this.subs.set(this.key(sub.uuid, sub.kind), { ...sub });
     }
 
     /**
      * Convenience: schedule a one-shot dispatch when world time reaches
      * `fireAt`. Equivalent to subscribing to `updateWorldTime` with
-     * `oneShot: true` and a `>=` predicate.
+     * `oneShot: true`.
      *
-     * The handler is responsible for calling `scheduleAt` again if a
-     * recurring schedule is desired.
+     * Recurring schedules are the consumer's responsibility: the handler
+     * advances the document's persisted anchor and its `finalize()` re-registers
+     * the next occurrence (see the class overview).
      *
      * @param uuid - The document to dispatch to when the time is reached.
      * @param kind - The subscription kind passed to the handler.
@@ -254,27 +194,64 @@ export class SohlEventQueue {
     }
 
     /**
-     * Remove a subscription. No-op on non-GM and when absent.
+     * Remove a subscription. Runs on all clients; safe when absent.
      *
      * @param uuid - The subscribed document's UUID.
      * @param kind - The subscription kind to remove.
      */
     unsubscribe(uuid: string, kind: string): void {
-        if (!fvttIsCurrentUserGM()) return;
         this.subs.delete(this.key(uuid, kind));
     }
 
     /**
-     * Fire a trigger. Walks matching subscriptions and dispatches them.
-     * Active-GM only.
+     * The scheduled world time a `(uuid, kind)` subscription will fire at, or
+     * `undefined` when there is no such subscription (or it carries no `fireAt`).
+     * Answers on any client for documents that client can see.
      *
-     * For `updateWorldTime`, uses a cascading loop so that handlers may
-     * schedule successors that fire within the same call. For all other
-     * triggers, dispatches each matching subscription once.
+     * @param uuid - The subscribed document's UUID.
+     * @param kind - The subscription kind.
+     * @returns The absolute world-time `fireAt`, or `undefined`.
+     */
+    nextFireTime(uuid: string, kind: string): number | undefined {
+        return this.subs.get(this.key(uuid, kind))?.fireAt;
+    }
+
+    /**
+     * Seconds from the current world time until a `(uuid, kind)` subscription
+     * fires: positive for the future, negative for the past, `0` for now.
+     * `undefined` when the subscription is absent or has no `fireAt`.
      *
-     * @param ctx - The trigger context describing the event being fired; its
-     *   `name` is routed to `fireWorldTime` when `"updateWorldTime"`,
-     *   otherwise dispatched via `fireDiscrete`.
+     * @param uuid - The subscribed document's UUID.
+     * @param kind - The subscription kind.
+     * @returns Signed seconds until fire, or `undefined`.
+     */
+    timeUntil(uuid: string, kind: string): number | undefined {
+        const at = this.nextFireTime(uuid, kind);
+        return at === undefined ? undefined : at - fvttWorldTime();
+    }
+
+    /**
+     * Whether a `(uuid, kind)` subscription is currently registered.
+     *
+     * @param uuid - The subscribed document's UUID.
+     * @param kind - The subscription kind.
+     * @returns True when a subscription exists for the pair.
+     */
+    isScheduled(uuid: string, kind: string): boolean {
+        return this.subs.has(this.key(uuid, kind));
+    }
+
+    /**
+     * Fire a trigger. Dispatches each matching subscription once, from a
+     * snapshot taken at the start of the call. Active-GM only.
+     *
+     * For `updateWorldTime`, only *due* subscriptions (`fireAt` undefined or
+     * `<= worldTime`) match, and they dispatch in ascending `fireAt` order. For
+     * all other triggers, every matching subscription dispatches once in
+     * insertion order. Subscriptions added by a handler mid-dispatch are not
+     * re-fired within this call.
+     *
+     * @param ctx - The trigger context describing the event being fired.
      */
     async fire(ctx: SohlTriggerContext): Promise<void> {
         if (!fvttIsActiveGM()) return;
@@ -289,52 +266,34 @@ export class SohlEventQueue {
         this.depthByTrigger.set(ctx.name, depth);
 
         try {
-            if (ctx.name === "updateWorldTime") {
-                await this.fireWorldTime(ctx as any);
-            } else {
-                await this.fireDiscrete(ctx);
-            }
-        } finally {
-            if (depth <= 1) this.depthByTrigger.delete(ctx.name);
-            else this.depthByTrigger.set(ctx.name, depth - 1);
-        }
-    }
+            const isWorldTime = ctx.name === "updateWorldTime";
+            const worldTime = isWorldTime
+                ? (ctx as { worldTime: number }).worldTime
+                : undefined;
 
-    /**
-     * Dispatch `updateWorldTime` subscriptions, cascading so handlers that
-     * reschedule may fire again within the same call.
-     *
-     * @param ctx - The world-time trigger context (target time and delta).
-     * @param ctx.name - The trigger name (always `"updateWorldTime"`).
-     * @param ctx.worldTime - The new world time being dispatched to.
-     * @param ctx.dt - The delta from the previous world time.
-     * @param ctx.options - Optional Foundry update options.
-     * @param ctx.userId - The id of the user that advanced the clock.
-     */
-    private async fireWorldTime(ctx: {
-        name: "updateWorldTime";
-        worldTime: number;
-        dt: number;
-        options?: object;
-        userId?: string;
-    }): Promise<void> {
-        // Track dispatched by reference so that a oneShot subscription
-        // removing itself and the handler re-subscribing with the same
-        // (uuid, kind) yields a fresh object that can dispatch again in
-        // the same cascade — that's exactly how recurring schedules work.
-        const dispatched = new WeakSet<SohlSubscription>();
-        const worldTime = ctx.worldTime;
-
-        while (true) {
-            let next: SohlSubscription | undefined;
-            let nextKey: string | undefined;
-            let nextFireAt = Number.POSITIVE_INFINITY;
-
-            for (const [key, sub] of this.subs) {
-                if (sub.triggerName !== "updateWorldTime") continue;
-                if (dispatched.has(sub)) continue;
-                if (sub.fireAt !== undefined && sub.fireAt > worldTime)
+            // Snapshot matching subscriptions before dispatching. No cascade:
+            // anything a handler adds is seen only by the next fire() call.
+            const matching: SohlSubscription[] = [];
+            for (const sub of this.subs.values()) {
+                if (sub.triggerName !== ctx.name) continue;
+                if (
+                    isWorldTime &&
+                    sub.fireAt !== undefined &&
+                    sub.fireAt > (worldTime as number)
+                ) {
                     continue;
+                }
+                matching.push(sub);
+            }
+            if (isWorldTime) {
+                matching.sort(
+                    (a, b) =>
+                        (a.fireAt ?? Number.POSITIVE_INFINITY) -
+                        (b.fireAt ?? Number.POSITIVE_INFINITY),
+                );
+            }
+
+            for (const sub of matching) {
                 if (sub.predicate) {
                     let pass = false;
                     try {
@@ -344,70 +303,16 @@ export class SohlEventQueue {
                             `SoHL | Predicate threw for subscription "${sub.kind}" on ${sub.uuid}:`,
                             err,
                         );
-                        dispatched.add(sub);
                         continue;
                     }
-                    if (!pass) {
-                        dispatched.add(sub);
-                        continue;
-                    }
+                    if (!pass) continue;
                 }
-
-                const at = sub.fireAt ?? Number.POSITIVE_INFINITY;
-                if (at < nextFireAt) {
-                    nextFireAt = at;
-                    next = sub;
-                    nextKey = key;
-                }
+                if (sub.oneShot) this.subs.delete(this.key(sub.uuid, sub.kind));
+                await this.dispatchOne(sub, ctx);
             }
-
-            if (!next || !nextKey) break;
-
-            dispatched.add(next);
-            if (next.oneShot) this.subs.delete(nextKey);
-
-            this.processingFireAt = next.fireAt ?? null;
-            try {
-                await this.dispatchOne(next, ctx);
-            } finally {
-                this.processingFireAt = null;
-            }
-        }
-    }
-
-    /**
-     * Dispatch all subscriptions matching a non-time trigger exactly once,
-     * from a snapshot taken at the start of the call.
-     *
-     * @param ctx - The trigger context being dispatched.
-     * @param ctx.name - Matched against each subscription's `triggerName` to
-     *   select the handlers that fire.
-     */
-    private async fireDiscrete(ctx: SohlTriggerContext): Promise<void> {
-        // Snapshot matching subscriptions at start; non-time triggers do
-        // not cascade. Subscriptions added mid-dispatch wait for the next
-        // fire(...) invocation.
-        const snapshot: SohlSubscription[] = [];
-        for (const sub of this.subs.values()) {
-            if (sub.triggerName === ctx.name) snapshot.push(sub);
-        }
-
-        for (const sub of snapshot) {
-            if (sub.predicate) {
-                let pass = false;
-                try {
-                    pass = !!sub.predicate(ctx);
-                } catch (err) {
-                    console.error(
-                        `SoHL | Predicate threw for subscription "${sub.kind}" on ${sub.uuid}:`,
-                        err,
-                    );
-                    continue;
-                }
-                if (!pass) continue;
-            }
-            if (sub.oneShot) this.subs.delete(this.key(sub.uuid, sub.kind));
-            await this.dispatchOne(sub, ctx);
+        } finally {
+            if (depth <= 1) this.depthByTrigger.delete(ctx.name);
+            else this.depthByTrigger.set(ctx.name, depth - 1);
         }
     }
 

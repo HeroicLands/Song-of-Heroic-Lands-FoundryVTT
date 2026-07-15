@@ -44,7 +44,7 @@ describe("SohlEventQueue", () => {
         vi.restoreAllMocks();
     });
 
-    describe("subscribe / unsubscribe (GM gating)", () => {
+    describe("subscribe / unsubscribe (all clients)", () => {
         it("subscribe stores when any GM (even inactive)", () => {
             setUserFlags({ isGM: true, isActiveGM: false });
             queue.subscribe({
@@ -56,7 +56,7 @@ describe("SohlEventQueue", () => {
             expect(queue.size).toBe(1);
         });
 
-        it("subscribe is a no-op for non-GM clients", () => {
+        it("subscribe runs on non-GM clients too (populate everywhere)", () => {
             setUserFlags({ isGM: false, isActiveGM: false });
             queue.subscribe({
                 uuid: "Actor.a.Item.x",
@@ -64,10 +64,10 @@ describe("SohlEventQueue", () => {
                 triggerName: "updateWorldTime",
                 fireAt: 1000,
             });
-            expect(queue.size).toBe(0);
+            expect(queue.size).toBe(1);
         });
 
-        it("unsubscribe removes for any GM, no-ops for non-GM", () => {
+        it("unsubscribe runs on all clients (including non-GM)", () => {
             queue.subscribe({
                 uuid: "Actor.a.Item.x",
                 kind: "k",
@@ -76,10 +76,6 @@ describe("SohlEventQueue", () => {
             expect(queue.size).toBe(1);
 
             setUserFlags({ isGM: false, isActiveGM: false });
-            queue.unsubscribe("Actor.a.Item.x", "k");
-            expect(queue.size).toBe(1);
-
-            setUserFlags({ isGM: true, isActiveGM: false });
             queue.unsubscribe("Actor.a.Item.x", "k");
             expect(queue.size).toBe(0);
         });
@@ -345,34 +341,35 @@ describe("SohlEventQueue", () => {
             expect(seen).toEqual([300, 500, 700]);
         });
 
-        it("re-arms cleanly when a handler calls scheduleAt for a future fireAt", async () => {
+        it("does not re-fire a handler-scheduled successor within the same pass", async () => {
             const seen: number[] = [];
             (globalThis as any).fromUuid = async (uuid: string) => ({
                 uuid,
                 handleSohlEvent: async (
                     _kind: string,
-                    ctx: SohlTriggerContext,
+                    _ctx: SohlTriggerContext,
                     payload?: Record<string, unknown>,
                 ): Promise<void> => {
                     const fireAt = (payload as any).fireAt;
                     seen.push(fireAt);
-                    if (seen.length < 3) {
-                        queue.scheduleAt("u", "tick", fireAt + 100, {
-                            fireAt: fireAt + 100,
-                        });
-                    }
+                    queue.scheduleAt("u", "tick", fireAt + 100, {
+                        fireAt: fireAt + 100,
+                    });
                 },
             });
 
             queue.scheduleAt("u", "tick", 100, { fireAt: 100 });
             await queue.fire(worldTimeCtx(1000));
-            expect(seen).toEqual([100, 200, 300]);
-            expect(queue.size).toBe(0);
+            // Single pass: only the initially-due 100 fires; the 200 successor
+            // the handler armed waits for the next fire().
+            expect(seen).toEqual([100]);
+            expect(queue.size).toBe(1);
+            expect(queue.debug()[0].fireAt).toBe(200);
         });
     });
 
-    describe("time-jump cascade", () => {
-        it("fires every intermediate scheduled event in chronological order when worldTime jumps far ahead", async () => {
+    describe("single-pass dispatch (no cascade)", () => {
+        it("does NOT catch up recurring events over a time jump — that is the consumer's job", async () => {
             const seen: number[] = [];
             const FIVE_DAYS = 5 * 86400;
             const SIXTY_DAYS = 60 * 86400;
@@ -402,12 +399,12 @@ describe("SohlEventQueue", () => {
             });
             await queue.fire(worldTimeCtx(SIXTY_DAYS));
 
-            expect(seen).toEqual(
-                Array.from({ length: 12 }, (_, i) => (i + 1) * FIVE_DAYS),
-            );
-            // Final re-arm at 65d > 60d worldTime — sits in the queue.
+            // Only the initially-due occurrence fires; the handler's re-arm (10d)
+            // waits for the next fire(). Recurrence catch-up is the document's
+            // responsibility (elapsed-interval loop in its handler), not the queue's.
+            expect(seen).toEqual([FIVE_DAYS]);
             expect(queue.size).toBe(1);
-            expect(queue.debug()[0].fireAt).toBe(13 * FIVE_DAYS);
+            expect(queue.debug()[0].fireAt).toBe(2 * FIVE_DAYS);
         });
 
         it("respects predicates during cascade (skipped subscriptions do not block the loop)", async () => {
@@ -500,7 +497,7 @@ describe("SohlEventQueue", () => {
     });
 
     describe("loop protection", () => {
-        it("discards same-fireAt re-arming during dispatch (same-tick guard)", async () => {
+        it("a handler re-arming during dispatch does not re-fire in the same pass", async () => {
             let calls = 0;
             (globalThis as any).fromUuid = async (uuid: string) => ({
                 uuid,
@@ -509,7 +506,8 @@ describe("SohlEventQueue", () => {
                     ctx: SohlTriggerContext,
                 ): Promise<void> => {
                     calls++;
-                    // Try to re-arm at exactly the same fireAt — should be discarded.
+                    // Re-arm (same fireAt) — no cascade, so it waits for the next
+                    // fire() rather than looping here. No same-tick guard needed.
                     if (ctx.name === "updateWorldTime") {
                         queue.scheduleAt("u", "k", 100);
                     }
@@ -519,26 +517,7 @@ describe("SohlEventQueue", () => {
             queue.scheduleAt("u", "k", 100);
             await queue.fire(worldTimeCtx(1000));
             expect(calls).toBe(1);
-            expect(queue.size).toBe(0);
-            expect(warnSpy).toHaveBeenCalled();
-        });
-
-        it("allows re-arming at a strictly greater fireAt (cascading is OK)", async () => {
-            let calls = 0;
-            (globalThis as any).fromUuid = async (uuid: string) => ({
-                uuid,
-                handleSohlEvent: async (
-                    _kind: string,
-                    _ctx: SohlTriggerContext,
-                ): Promise<void> => {
-                    calls++;
-                    if (calls < 3)
-                        queue.scheduleAt("u", "k", 100 * (calls + 1));
-                },
-            });
-            queue.scheduleAt("u", "k", 100);
-            await queue.fire(worldTimeCtx(1000));
-            expect(calls).toBe(3);
+            expect(queue.size).toBe(1);
         });
 
         it("aborts re-entrant fire on the same trigger with depth > 16", async () => {
@@ -564,6 +543,37 @@ describe("SohlEventQueue", () => {
             });
             await queue.fire({ name: "combatStart", combat: {} as any });
             expect(errorSpy).toHaveBeenCalled();
+        });
+    });
+
+    describe("query API (all clients)", () => {
+        it("nextFireTime returns the fireAt, or undefined when absent", () => {
+            queue.scheduleAt("u", "k", 4242);
+            expect(queue.nextFireTime("u", "k")).toBe(4242);
+            expect(queue.nextFireTime("u", "missing")).toBeUndefined();
+        });
+
+        it("timeUntil returns signed seconds from now (undefined when absent)", () => {
+            vi.spyOn(FoundryHelpers, "fvttWorldTime").mockReturnValue(1000);
+            queue.scheduleAt("u", "future", 1500);
+            queue.scheduleAt("u", "past", 400);
+            expect(queue.timeUntil("u", "future")).toBe(500);
+            expect(queue.timeUntil("u", "past")).toBe(-600);
+            expect(queue.timeUntil("u", "missing")).toBeUndefined();
+        });
+
+        it("isScheduled reflects presence", () => {
+            queue.scheduleAt("u", "k", 100);
+            expect(queue.isScheduled("u", "k")).toBe(true);
+            expect(queue.isScheduled("u", "nope")).toBe(false);
+        });
+
+        it("populates on non-GM clients so players can query dates locally", () => {
+            setUserFlags({ isGM: false, isActiveGM: false });
+            queue.scheduleAt("Actor.a.Item.x", "healingTest", 9000);
+            expect(queue.nextFireTime("Actor.a.Item.x", "healingTest")).toBe(
+                9000,
+            );
         });
     });
 

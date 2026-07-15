@@ -52,11 +52,13 @@ Each subscription is keyed by **`(uuid, kind)`**. A document may have at most on
 
 Subscriptions live in an in-memory `Map<key, SohlSubscription>` on `sohl.events`. **Nothing is persisted.** If the world closes and reopens, the queue starts empty. Documents are expected to re-subscribe on every preparation cycle so the queue rebuilds itself on world load.
 
-### Replication
+### Replication — populate everywhere, fire on the active GM only
 
-Every **GM** client maintains its own copy of the queue, populated by its own document preparation. Only the **active GM** dispatches triggers — every `fire` call is gated by `fvttIsActiveGM()`. If the active GM disconnects and another GM is promoted, the promoted client already has a complete queue and continues dispatching seamlessly.
+The queue is a **pure projection of document state**, so **every** client — GM or player — populates its own copy from its own document preparation. `subscribe`, `unsubscribe`, and `scheduleAt` run on **all** clients.
 
-**Non-GM clients are entirely opted out.** `subscribe`, `unsubscribe`, `scheduleAt`, and `fire` all early-return when the local user is not a GM (or not the active GM for `fire`). A player client's queue stays empty.
+Only **`fire`** is gated to the active GM (`fvttIsActiveGM()`). Because nothing else evolves schedule state, no GM-only side effect can drift clients out of sync: schedule changes flow through document updates (which replicate) and their re-preparation. If the active GM disconnects and another GM is promoted, the promoted client already has a complete queue and continues dispatching seamlessly.
+
+A player client's queue is a **permission-scoped subset** of the active GM's — it holds only the subscriptions for documents that player can prepare (their own actors' items, visible tokens, …). That is exactly enough to answer sheet-side date queries ([`nextFireTime`](#query-api) / [`timeUntil`](#query-api)) locally, and it deliberately does not leak the existence or timing of documents the player can't see. The active GM's queue is the complete, authoritative one that fires.
 
 ### Hook integration
 
@@ -74,7 +76,7 @@ SoHL does **not** re-fire `ActiveEffect.registry.refresh(...)` for built-in trig
 
 ### `subscribe(sub)`
 
-Register or overwrite a subscription. **No-op on non-GM clients.**
+Register or overwrite a subscription. **Runs on all clients** (the queue is a projection of document state); only `fire` is GM-gated.
 
 ```typescript
 sohl.events.subscribe({
@@ -103,22 +105,34 @@ Convenience for the most common case: a one-shot `updateWorldTime` subscription 
 sohl.events.scheduleAt(
     injury.uuid,
     "healingTest",
-    game.time.worldTime + healingInterval,
+    injury.logic.nextHealthCheck, // derived from a persisted anchor, not the clock
     { atLevel: injury.system.levelBase },
 );
 ```
 
-The subscription auto-removes after firing. Recurring schedules require the handler to call `scheduleAt` again — see [The re-subscription pattern](#the-re-subscription-pattern).
+The subscription auto-removes after firing. For **recurring** schedules, derive `fireAt` from a persisted anchor (not `game.time.worldTime`) and re-register from `finalize()` — see [the owner-persists-the-anchor contract](#the-owner-persists-the-anchor-contract).
 
 ### `unsubscribe(uuid, kind)`
 
-Remove a subscription. Safe to call when no subscription exists. **No-op on non-GM clients.**
+Remove a subscription. Safe to call when no subscription exists. **Runs on all clients.**
+
+### Query API
+
+Read-only, and answer on **any** client for documents that client can see:
+
+| Method                     | Returns                                                                                             |
+| -------------------------- | -------------------------------------------------------------------------------------------------- |
+| `nextFireTime(uuid, kind)` | The subscription's absolute world-time `fireAt`, or `undefined` when absent / no `fireAt`.          |
+| `timeUntil(uuid, kind)`    | Signed seconds from now until it fires (+ future, − past, `0` now), or `undefined` when absent.      |
+| `isScheduled(uuid, kind)`  | Whether a subscription is registered for the pair.                                                  |
+
+There is at most one subscription per `(uuid, kind)`, so each returns that single subscription's value. For **display**, prefer the document's own derived getter (e.g. `injury.logic.nextHealthCheck`) — it is the single definition both the queue and the sheet read, and it works regardless of queue population. Use these queries to ask _the scheduler_ whether (and when) a kind is armed.
 
 ### `fire(ctx)` _(internal)_
 
-Dispatch a trigger. Called by `SohlHookBridge` and by [`fireSohlTrigger`](#custom-triggers). You should not call this directly.
+Dispatch a trigger. Called by `SohlHookBridge` and by [`fireSohlTrigger`](#custom-triggers). Active-GM only; you should not call this directly.
 
-For `updateWorldTime`, `fire` uses a cascading loop so handlers may schedule successors that dispatch within the same call (see [Cascading dispatch](#cascading-dispatch-on-updateworldtime)). For all other triggers, `fire` dispatches each matching subscription once in insertion order.
+`fire` dispatches each matching subscription **once**, from a snapshot taken at the start of the call. For `updateWorldTime`, "matching" additionally requires the subscription be _due_ (`fireAt` undefined or `≤ worldTime`), and due subscriptions dispatch in ascending `fireAt` order. Subscriptions a handler adds mid-dispatch wait for the next `fire` — there is no cascade (see [Time jumps](#time-jumps-are-the-consumers-job-not-the-queues)).
 
 ### `size` / `clear()` / `debug()`
 
@@ -151,35 +165,62 @@ async handleSohlEvent(
 
 Always delegate unknown kinds to `super.handleSohlEvent` so the base "unhandled event" warning fires for typos. Always `await` your mutations — the dispatcher awaits your handler before moving on.
 
-## The re-subscription pattern
+## The owner-persists-the-anchor contract
 
-The queue isn't persisted; it rebuilds from document state on every preparation cycle. The canonical pattern is to register subscriptions from a Logic class's `finalize()`:
+The queue is stateless between ticks: it holds only pending occurrences and is rebuilt from document state every preparation cycle. **It never remembers when a subscription last fired.** So any _recurring_ consumer must **persist the last-activation world-time (an anchor) on its own document** and derive the next `fireAt` from that anchor — never from `game.time.worldTime`.
+
+> ⚠️ Scheduling from `game.time.worldTime + interval` is a bug for recurrence: during a time jump the clock is already at the far end, so it skips every intermediate occurrence, and because it derives from the live clock rather than a stored fact, other clients cannot reconstruct it deterministically.
+
+The pattern has three layers. The **anchor** is a persisted field; **`finalize()`** derives the next fire time from it and (re)registers on every client; the **handler** (active-GM only) resolves every elapsed occurrence and persists the advanced anchor in a single update, whose replication drives each client's `finalize()` to re-arm.
 
 ```typescript
-finalize(): void {
-    super.finalize();
+// 1. PERSISTENCE — the anchor lives on the document.
+//    system.lastHealingCheck: number | null  (world-time secs; seeded at creation)
 
-    if (this.data.levelBase <= 0) {
-        sohl.events.unsubscribe(this.item.uuid, "healingTest");
+// 2. LOGIC — derive the next fire time from the persisted anchor, never the clock.
+get nextHealthCheck(): number {
+    return this.data.lastHealingCheck + this.healingInterval.effective;
+}
+
+// finalize() runs on EVERY client during data prep — the sole resubscribe point.
+override finalize(): void {
+    super.finalize();
+    if (this.level.effective <= 0) {
+        sohl.events.unsubscribe(this.item.uuid, "healingTest"); // condition resolved
         return;
     }
-
-    const interval = game.settings.get("sohl", "healingSeconds") as number;
     sohl.events.scheduleAt(
         this.item.uuid,
         "healingTest",
-        game.time.worldTime + interval,
-        { atLevel: this.data.levelBase },
+        this.nextHealthCheck, // ← from the persisted anchor, NOT game.time.worldTime
     );
+}
+
+// 3. HANDLER (active GM only) — catch up every elapsed occurrence, persist once.
+async handleSohlEvent(kind, ctx /* updateWorldTime */, _payload) {
+    if (kind !== "healingTest") return super.handleSohlEvent(kind, ctx, _payload);
+    const interval = this.logic.healingInterval.effective;
+    let last = this.system.lastHealingCheck;
+    let level = this.system.levelBase;
+    // Resolve each checkpoint that elapsed during the time advance, in order —
+    // each roll sees the level the previous one left (stateful).
+    for (let t = last + interval; t <= ctx.worldTime && level > 0; t += interval) {
+        level = await rollHealingCheck(this.logic, level, t);
+        last = t;
+    }
+    // ONE persisted write. Replicates; every client's finalize() re-derives and
+    // re-arms the next occurrence (beyond worldTime). The handler never touches
+    // the queue directly.
+    await this.update({ "system.levelBase": level, "system.lastHealingCheck": last });
 }
 ```
 
-This pattern gives you four properties for free:
+This gives you, for free:
 
-1. **World reload safety.** When the world loads, every document prepares and re-subscribes. Nothing is lost across sessions.
-2. **No drift.** A handler that updates the document triggers re-preparation, which re-runs `finalize()` and schedules the next event. No manual "schedule the next one" call needed.
+1. **World reload safety.** On load, every document prepares and re-subscribes from its persisted anchor. Nothing is lost across sessions.
+2. **No drift.** `fireAt` is a pure function of the persisted anchor, regenerated every prep on every client; nothing ever authors it independently.
 3. **Idempotent.** Re-subscribing with the same `(uuid, kind)` is harmless — only the most recent registration sticks.
-4. **Cancellation by state.** When the triggering state goes away, `finalize()` calls `unsubscribe` instead of `subscribe`.
+4. **Cancellation by state.** When the triggering state goes away, `finalize()` calls `unsubscribe` instead.
 
 ## Cancelling subscriptions
 
@@ -190,26 +231,17 @@ This pattern gives you four properties for free:
 | One-shot fired   | `scheduleAt` subscriptions auto-remove before the handler runs.                                              |
 | Handler decides  | The handler may call `unsubscribe` on itself or any document mid-dispatch (subject to loop protection).      |
 
-## Cascading dispatch on `updateWorldTime`
+## Time jumps are the consumer's job, not the queue's
 
-If world time advances from T to T+60d and an injury's `scheduleAt` fires at T+5d whose handler re-schedules at `prevFireAt + 5d`, all 12 intermediate checks fire in chronological order inside the single `fire(...)` call. The algorithm:
+`fire` is **single-pass**: it dispatches each due subscription once and does **not** re-fire successors a handler arms mid-dispatch. So if world time jumps from T to T+60d and an injury only has one pending `healingTest` at T+5d, the queue fires it **once** — it does not itself produce the other eleven checks.
 
-1. Find every `updateWorldTime` subscription whose `fireAt` is undefined or ≤ current `worldTime` and whose predicate passes.
-2. Dispatch the one with the smallest `fireAt`.
-3. The handler may schedule a successor.
-4. Repeat until no `updateWorldTime` subscriptions remain due.
+Producing all the elapsed occurrences is the **document's** responsibility, in its handler: loop over every checkpoint in `(lastAnchor, worldTime]`, applying each in sequence (rolls are stateful — each affects the next), then persist the advanced anchor and applied state in **one** update (see the [handler in the pattern above](#the-owner-persists-the-anchor-contract)). Its `finalize()` then re-arms the single next occurrence _beyond_ `worldTime`.
 
-Subscriptions added mid-cascade with `fireAt > worldTime` wait for the next `updateWorldTime` invocation. Non-`updateWorldTime` subscriptions added mid-cascade wait for the next dispatch of their trigger.
+Why this split rather than an in-`fire` cascade: `fire` runs only on the active GM, so any schedule evolution done inside it would happen only on the GM and desync the clients. Routing recurrence through a document update keeps the queue a pure projection — the update replicates, and every client's `finalize()` re-derives the identical next occurrence. The randomness (the roll) happens once on the GM; the reschedule is deterministic everywhere.
 
 ## Loop protection
 
-Two layers:
-
-**Same-tick guard.** During an `updateWorldTime` dispatch the queue tracks `_processingFireAt` — the scheduled time of the event currently firing. A call to `scheduleAt(uuid, kind, fireAt)` with `fireAt ≤ _processingFireAt` is discarded with a console warning. Re-scheduling at strictly greater `fireAt` (cascading) is allowed.
-
-**Depth-counter backstop.** Re-entrant `fire(...)` calls for the same trigger name are capped at 16. Beyond that, the dispatch aborts with a console error citing the trigger name and offending `(uuid, kind)`. This catches non-time loops the same-tick guard can't see (e.g., a `combatStart` handler that itself fires `combatStart`).
-
-Implication: don't try to "fire myself again for right now" from a handler. Advance `fireAt` by at least one second, or let the handler complete and rely on re-preparation to re-subscribe.
+**Depth-counter backstop.** Re-entrant `fire(...)` calls for the same trigger name are capped at 16. Beyond that, the dispatch aborts with a console error citing the trigger name. This catches non-time loops (e.g. a `combatStart` handler that itself fires `combatStart`). No same-tick guard is needed: because there is no cascade, a handler that re-arms during dispatch simply schedules a subscription the _next_ `fire` sees.
 
 ## Custom triggers
 
@@ -257,7 +289,7 @@ sohl.events.debug(); // sorted snapshot for the console
 
 ## Implications for callers
 
-Because every write method is a no-op on non-GM clients, code that subscribes does **not** need to check `game.user.isGM` first — the queue handles the gate itself. Write the canonical `finalize()` subscription unconditionally.
+`subscribe` / `unsubscribe` / `scheduleAt` run on **all** clients, so write the canonical `finalize()` subscription unconditionally — no `game.user.isGM` check. Only `fire` is GM-gated, and it is called for you by `SohlHookBridge` / `fireSohlTrigger`. Recurring consumers must persist an anchor and derive `fireAt` from it (never `game.time.worldTime`); see [the contract](#the-owner-persists-the-anchor-contract).
 
 ## See also
 
