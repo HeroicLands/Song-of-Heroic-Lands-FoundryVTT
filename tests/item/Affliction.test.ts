@@ -6,7 +6,11 @@ import {
     AFFLICTION_TRANSMISSION,
     ITEM_KIND,
 } from "@src/utils/constants";
-import { makeItemLogic } from "@tests/mocks/logicHarness";
+import {
+    makeAttributeStub,
+    makeItemLogic,
+    makeMockActor,
+} from "@tests/mocks/logicHarness";
 
 /** Default AfflictionData fields; override per test. */
 function afflictionFields(overrides: Record<string, unknown> = {}) {
@@ -91,6 +95,23 @@ describe("AfflictionLogic", () => {
     });
 
     describe("getters", () => {
+        /** Build an affliction embedded on an actor carrying an Endurance attribute. */
+        function makeAfflictionOnActor(
+            overrides: Record<string, unknown> = {},
+            enduranceOpts?: { disabled?: string } | null,
+        ) {
+            const actor = makeMockActor();
+            if (enduranceOpts !== null) {
+                actor.items.set(
+                    "end0000000mock",
+                    makeAttributeStub("end", 12, enduranceOpts ?? {}),
+                );
+            }
+            const logic = makeAffliction(overrides, { actor });
+            logic.initialize();
+            return logic;
+        }
+
         it("canTransmit - returns true (placeholder)", () => {
             expect(makeAffliction().canTransmit).toBe(true);
         });
@@ -99,16 +120,92 @@ describe("AfflictionLogic", () => {
             expect(makeAffliction().canContract).toBe(true);
         });
 
-        it("hasCourse - returns true (placeholder)", () => {
-            expect(makeAffliction().hasCourse).toBe(true);
+        // hasCourse gates the Course Test on the affliction being active
+        // (not dormant) AND the actor having a usable Endurance attribute —
+        // matching the pre-port v0.5.6 courseTest contextCondition (#65).
+        describe("hasCourse", () => {
+            it("true when active and the actor has a usable Endurance attribute", () => {
+                expect(
+                    makeAfflictionOnActor({ isDormant: false }).hasCourse,
+                ).toBe(true);
+            });
+
+            it("false when the affliction is dormant", () => {
+                expect(
+                    makeAfflictionOnActor({ isDormant: true }).hasCourse,
+                ).toBe(false);
+            });
+
+            it("false when the actor has no Endurance attribute", () => {
+                expect(
+                    makeAfflictionOnActor({ isDormant: false }, null).hasCourse,
+                ).toBe(false);
+            });
+
+            it("false when the actor's Endurance mastery is disabled", () => {
+                expect(
+                    makeAfflictionOnActor(
+                        { isDormant: false },
+                        { disabled: "SOHL.MasteryLevel.Disabled" },
+                    ).hasCourse,
+                ).toBe(false);
+            });
+
+            it("false when the affliction is not on any actor", () => {
+                const logic = makeAffliction({ isDormant: false });
+                logic.initialize();
+                expect(logic.hasCourse).toBe(false);
+            });
         });
 
-        it("canTreat - returns true (placeholder)", () => {
-            expect(makeAffliction().canTreat).toBe(true);
+        // canTreat gates the Treatment Test on the affliction not yet having
+        // been treated — matching the pre-port v0.5.6 treatmentTest
+        // contextCondition (#65). Afflictions have no `isBleeding` field (that
+        // lives on Trauma), so the old FIXME's pysn/isBleeding gate never applied.
+        describe("canTreat", () => {
+            it("true when the affliction is untreated", () => {
+                expect(makeAffliction({ isTreated: false }).canTreat).toBe(
+                    true,
+                );
+            });
+
+            it("false when the affliction is already treated", () => {
+                expect(makeAffliction({ isTreated: true }).canTreat).toBe(
+                    false,
+                );
+            });
         });
 
-        it("canHeal - returns true (placeholder)", () => {
-            expect(makeAffliction().canHeal).toBe(true);
+        // canHeal gates the Healing Test on the affliction having a usable
+        // (non-disabled) healing rate AND the actor having a usable Endurance
+        // attribute — matching the pre-port v0.5.6 healingTest contextCondition (#65).
+        describe("canHeal", () => {
+            it("true when healing rate is enabled and the actor has usable Endurance", () => {
+                expect(
+                    makeAfflictionOnActor({ healingRateBase: 4 }).canHeal,
+                ).toBe(true);
+            });
+
+            it("false when the healing rate is disabled (healingRateBase -1)", () => {
+                expect(
+                    makeAfflictionOnActor({ healingRateBase: -1 }).canHeal,
+                ).toBe(false);
+            });
+
+            it("false when the actor has no Endurance attribute", () => {
+                expect(
+                    makeAfflictionOnActor({ healingRateBase: 4 }, null).canHeal,
+                ).toBe(false);
+            });
+
+            it("false when the actor's Endurance mastery is disabled", () => {
+                expect(
+                    makeAfflictionOnActor(
+                        { healingRateBase: 4 },
+                        { disabled: "SOHL.MasteryLevel.Disabled" },
+                    ).canHeal,
+                ).toBe(false);
+            });
         });
     });
 

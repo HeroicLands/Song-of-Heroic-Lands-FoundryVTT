@@ -22,6 +22,7 @@ import {
     AFFLICTION_TRANSMISSION,
     AfflictionSubType,
     AfflictionTransmission,
+    ATTRIBUTE_CODE,
     defineType,
     FATIGUE_CATEGORY,
     FatigueCategoryLabels,
@@ -31,6 +32,7 @@ import {
     isFearLevel,
     isMoraleLevel,
     isPrivationCategory,
+    ITEM_KIND,
     MORALE_LEVEL,
     MoraleLevelLabels,
     PRIVATION_CATEGORY,
@@ -197,31 +199,54 @@ export class AfflictionLogic<
     }
 
     /**
+     * Whether the bearer has a usable Endurance attribute — i.e. one is present
+     * on the actor and its mastery level is not disabled.
+     *
+     * Endurance drives the course- and healing-test rolls, so those actions are
+     * only offered when it is available. Mirrors the pre-port
+     * `getTraitByAbbrev("end")` + `!$masteryLevel.disabled` gate.
+     */
+    private get hasUsableEndurance(): boolean {
+        const endurance = this.actorLogic?.getItemLogic(
+            ATTRIBUTE_CODE.ENDURANCE,
+            ITEM_KIND.ATTRIBUTE,
+        );
+        return !!endurance && !endurance.masteryLevel.disabled;
+    }
+
+    /**
      * Whether this affliction has a progressive course (i.e. can worsen or
      * improve over time via course tests).
      *
-     * @remarks Not yet implemented; always returns `true`.
+     * True only while the affliction is active (not {@link AfflictionData.isDormant | dormant})
+     * and the bearer has a usable Endurance attribute — the gate the pre-port
+     * course test enforced.
      */
     get hasCourse(): boolean {
-        return true;
+        return !this.data.isDormant && this.hasUsableEndurance;
     }
 
     /**
      * Whether this affliction can currently be treated.
      *
-     * @remarks Not yet implemented; always returns `true`.
+     * True until treatment has been applied (i.e. while
+     * {@link AfflictionData.isTreated} is false) — the gate the pre-port
+     * treatment test enforced. Afflictions have no bleeding concept (that lives
+     * on Trauma), so treatment is not gated on any bleeding state.
      */
     get canTreat(): boolean {
-        return true;
+        return !this.data.isTreated;
     }
 
     /**
      * Whether this affliction can currently be healed.
      *
-     * @remarks Not yet implemented; always returns `true`.
+     * True only when the affliction heals naturally (its {@link healingRate} is
+     * not disabled) and the bearer has a usable Endurance attribute — the gate
+     * the pre-port healing test enforced.
      */
     get canHeal(): boolean {
-        return true;
+        return !this.healingRate.disabled && this.hasUsableEndurance;
     }
 
     /* --------------------------------------------- */
@@ -419,7 +444,7 @@ export class AfflictionLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "sohl-heart-beats",
                 executor: "courseTest",
-                visible: "true",
+                visible: "defined(itemLogic) && itemLogic.hasCourse",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
@@ -459,7 +484,7 @@ export class AfflictionLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "sohl-caduceus",
                 executor: "treatmentTest",
-                visible: "true",
+                visible: "defined(itemLogic) && itemLogic.canTreat",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
@@ -477,7 +502,7 @@ export class AfflictionLogic<
                 title: "SOHL.Affliction.Action.HEALINGTEST",
                 iconFAClass: "sohl-healing",
                 executor: "healingTest",
-                visible: "true",
+                visible: "defined(itemLogic) && itemLogic.canHeal",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
         ];
