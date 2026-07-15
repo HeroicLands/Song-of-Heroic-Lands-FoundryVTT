@@ -1290,6 +1290,7 @@
     "SOHL.SurfaceCover.wetlands": "Wetlands",
     "SOHL.SurfaceCover.wilderness_trail": "Wilderness Trail",
     "SOHL.SurfaceCover.woodland": "Mixed Woodland",
+    "SOHL.TIME.Until": "{since} from now",
     "SOHL.Topography.extreme": "Extreme",
     "SOHL.Topography.flat": "Flat",
     "SOHL.Topography.gentle": "Gentle",
