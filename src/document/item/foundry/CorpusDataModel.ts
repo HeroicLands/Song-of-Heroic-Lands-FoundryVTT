@@ -321,6 +321,20 @@ function defineCorpusDataSchema(): foundry.data.fields.DataSchema {
             integer: false,
             initial: 0,
         }),
+        /**
+         * Per-creature body-scale factor (larger = tougher/bigger body). Scales
+         * the injury-level thresholds so an absolute impact reads size-correct on
+         * any creature: seed it from `(typical species STR) / 11` (11 = baseline
+         * human strength, for which the master table is calibrated), so a human
+         * corpus is `1.0`. Exposed as the `bodyScale` ValueModifier in
+         * {@link sohl.document.item.logic.CorpusLogic}; Active Effects can target
+         * `system.bodyScaleBase` for shrink/enlarge effects.
+         */
+        bodyScaleBase: new NumberField({
+            integer: false,
+            initial: 1.0,
+            min: 0.01,
+        }),
     };
 }
 
@@ -348,6 +362,7 @@ export class CorpusDataModel<
     movementProfiles!: CorpusData["movementProfiles"];
     weight!: CorpusData["weight"];
     reachBase!: number;
+    bodyScaleBase!: number;
 
     /**
      * Defines the data schema for the corpus item.

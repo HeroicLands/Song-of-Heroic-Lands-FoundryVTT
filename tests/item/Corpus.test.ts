@@ -85,6 +85,7 @@ function corpusFields(overrides: Record<string, unknown> = {}) {
         ],
         weight: { base: null, calc: "(9 * str) + 50" },
         reachBase: 5,
+        bodyScaleBase: 1.0,
         ...overrides,
     };
 }
@@ -272,6 +273,48 @@ describe("CorpusLogic", () => {
                 logic.evaluate();
                 logic.finalize();
             }).not.toThrow();
+        });
+    });
+
+    describe("bodyScale and injury table (#468)", () => {
+        const scaled = (f: number) => [1, 5, 10, 15, 20].map((t) => t * f);
+
+        it("a human corpus (bodyScale 1.0) keeps the master thresholds", () => {
+            const logic = makeCorpus();
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.bodyScale.effective).toBe(1);
+            expect(logic.injuryTable).toEqual([1, 5, 10, 15, 20]);
+        });
+
+        it("derives the scaled injury table from bodyScaleBase (a frail cat)", () => {
+            const logic = makeCorpus({ bodyScaleBase: 0.27 });
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.bodyScale.effective).toBe(0.27);
+            expect(logic.injuryTable).toEqual(scaled(0.27));
+        });
+
+        it("floors bodyScale at 0.01", () => {
+            const logic = makeCorpus({ bodyScaleBase: 0 });
+            logic.initialize();
+            expect(logic.bodyScale.effective).toBe(0.01);
+        });
+
+        it("re-scales the table when a delta is layered on bodyScale (shrink effect)", () => {
+            const logic = makeCorpus({ bodyScaleBase: 1.0 });
+            logic.initialize();
+            logic.bodyScale.add("Shrink", "shrink", -0.5);
+            logic.evaluate();
+            expect(logic.bodyScale.effective).toBe(0.5);
+            expect(logic.injuryTable).toEqual(scaled(0.5));
+        });
+
+        it("exposes the scaled table through BodyStructure.injuryTable (a tough cow)", () => {
+            const logic = makeCorpus({ bodyScaleBase: 2.9 });
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.structure.injuryTable).toEqual(scaled(2.9));
         });
     });
 

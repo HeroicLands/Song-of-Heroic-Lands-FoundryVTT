@@ -2061,6 +2061,18 @@ export type TraumaSubType =
  */
 export const INJURY_LEVELS = ["NA", "M1", "S2", "S3", "G4", "G5"] as const;
 
+/**
+ * The canonical (human-scale) effective-impact thresholds that begin each injury
+ * level — `[M1, S2, S3, G4, G5]`: an effective impact ≥ the nth threshold reaches
+ * at least level n (`1→M1, 5→S2, 10→S3, 15→G4, 20→G5`). Any penetrating hit is at
+ * least `M1`.
+ *
+ * These are calibrated for a baseline human body (STR ≈ 11). Per-creature scaling
+ * multiplies this master table by the Corpus `bodyScale` factor (see
+ * `injuryLevelFromImpact`); the master table itself is never mutated.
+ */
+export const BASE_INJURY_THRESHOLDS: readonly number[] = [1, 5, 10, 15, 20];
+
 export const {
     /** Map of trait-intensity key → value. */
     kind: TRAIT_INTENSITY,

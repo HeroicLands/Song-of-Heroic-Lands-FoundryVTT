@@ -24,6 +24,7 @@ import type { MoveBaseDict } from "@src/entity/movement/move-helpers";
 import {
     ITEM_KIND,
     MOVEMENT_MEDIUM,
+    BASE_INJURY_THRESHOLDS,
     type MovementMedium,
 } from "@src/utils/constants";
 
@@ -52,6 +53,23 @@ export class CorpusLogic<
      * persisted data during {@link initialize}.
      */
     structure!: BodyStructure;
+
+    /**
+     * Per-creature body-scale factor as a {@link sohl.entity.modifier.ValueModifier}
+     * (`1.0` = baseline human), seeded from `bodyScaleBase` and floored at `0.01`
+     * during {@link initialize}. Active Effects can layer deltas (shrink/enlarge),
+     * which re-scale {@link injuryTable} within the same prepare cycle.
+     */
+    bodyScale!: ValueModifier;
+
+    /**
+     * This creature's effective injury-level thresholds — the master
+     * {@link BASE_INJURY_THRESHOLDS} scaled by {@link bodyScale} `.effective`,
+     * derived during {@link evaluate}. Consumed by `injuryLevelFromImpact` (via
+     * {@link sohl.entity.body.BodyStructure.injuryTable}) so an absolute impact
+     * reads size-correct on this body.
+     */
+    injuryTable!: number[];
 
     /**
      * The being's body weight as a {@link sohl.entity.modifier.ValueModifier}, seeded during
@@ -129,6 +147,9 @@ export class CorpusLogic<
         this.structure = new entity.BodyStructure(this.data.structure, {
             parent: this,
         });
+        this.bodyScale = new entity.ValueModifier(this)
+            .setBase(this.data.bodyScaleBase)
+            .floor("Body-scale minimum", "bodyScaleMin", 0.01);
         this.weight = new entity.ValueModifier(this);
         if (this.data.weight.base !== null) {
             this.weight.setBase(this.data.weight.base);
@@ -189,6 +210,13 @@ export class CorpusLogic<
             strModExpr.evaluate({
                 str: strAttrLogic?.score.effective ?? 0,
             }) as number,
+        );
+
+        // This creature's injury-level thresholds: the master (human) table
+        // scaled by bodyScale, so an absolute impact reads size-correct. A delta
+        // on bodyScale (shrink/enlarge) re-scales it within this prepare cycle.
+        this.injuryTable = BASE_INJURY_THRESHOLDS.map(
+            (threshold) => threshold * this.bodyScale.effective,
         );
     }
 
@@ -255,4 +283,9 @@ export interface CorpusData<
     };
     /** Base melee reach (feet) for beings of this corpus. */
     reachBase: number;
+    /**
+     * Per-creature body-scale factor (`1.0` = baseline human). Scales the
+     * injury-level thresholds; seeds the {@link CorpusLogic.bodyScale} modifier.
+     */
+    bodyScaleBase: number;
 }

@@ -124,6 +124,27 @@ at 75% of max, and an unusable part at 50% (incapacitating statuses cap it
 further). Health itself is `endurance × 3`, reduced by each injury's
 `shock × level`.
 
+## Body scale (per-creature injury scaling)
+
+Impact is an **absolute** quantity, but an injury **level** is relative to the
+body absorbing it — the same 3-point dagger is trivial to a cow and grievous to a
+cat. The Corpus carries a `bodyScaleBase` factor (`1.0` = a baseline human;
+larger = bigger/tougher body), exposed as the floored `bodyScale` `ValueModifier`
+on `CorpusLogic`. Seed it from `(typical species STR) / 11` (11 is the human
+strength the master table is calibrated for).
+
+The master thresholds (`BASE_INJURY_THRESHOLDS`, `[1, 5, 10, 15, 20]`) are never
+mutated; each creature derives its own `injuryTable = master × bodyScale` in
+`CorpusLogic.evaluate`, exposed on the body structure.
+{@link sohl.entity.body.injuryLevelFromImpact} counts how many of that creature's
+thresholds an impact reaches, so an impact below the smallest (scaled) threshold
+leaves no wound — a 2-impact blow is `S2` on a `bodyScale` 0.27 cat but is ignored
+by a `bodyScale` 2.9 cow (which needs ≥ 3 for even `M1`). Everything the level
+feeds — Shock Index, bleeding, amputation, stumble/fumble, health — becomes
+size-correct at the source, with no changes to those subsystems. An Active Effect
+on `system.bodyScaleBase` (shrink/enlarge) re-scales the table within the same
+prepare cycle.
+
 ## Adjacency
 
 The adjacency graph defines which parts are next to which, as an array of unordered pairs of part shortcodes:

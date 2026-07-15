@@ -17,6 +17,7 @@ import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
     INJURY_LEVELS,
+    BASE_INJURY_THRESHOLDS,
     IMPACT_ASPECT,
     TRAUMA_SUBTYPE,
     type ImpactAspect,
@@ -106,21 +107,35 @@ export interface ResolvedInjury {
 }
 
 /**
- * Map effective impact (post-armor) to a numeric injury level.
+ * Map effective impact (post-armor) to a numeric injury level, against a
+ * per-creature threshold table.
  *
- * Per the SoHL injury rules:
- *   ≤0 → none (0) · 1–4 → M1 (1) · 5–9 → S2 (2) · 10–14 → S3 (3) ·
- *   15–19 → G4 (4) · 20+ → G5 (5)
+ * The level is the count of `thresholds` the impact reaches. With the default
+ * (human) table `[1, 5, 10, 15, 20]` this reproduces the canonical bands
+ * (`1–4 → M1, 5–9 → S2, 10–14 → S3, 15–19 → G4, 20+ → G5`).
+ *
+ * Impact stays an absolute quantity; a bigger/tougher creature carries a table
+ * scaled up by its Corpus `bodyScale`, so the same absolute impact reads
+ * differently by size — a 2-impact blow is `S2` on a cat but is **ignored** by a
+ * cow (whose scaled `M1` threshold is ≈ 2.9, so it takes ≥ 3 to leave even a
+ * minor wound). An impact below the smallest (scaled) threshold is trivial
+ * relative to that body and produces no injury. See {@link BASE_INJURY_THRESHOLDS}.
+ *
  * @param effectiveImpact - Impact remaining after armor reduction.
+ * @param thresholds - The per-creature level thresholds; defaults to the human {@link BASE_INJURY_THRESHOLDS}.
  * @returns The numeric injury level (0–5).
  */
-export function injuryLevelFromImpact(effectiveImpact: number): number {
+export function injuryLevelFromImpact(
+    effectiveImpact: number,
+    thresholds: readonly number[] = BASE_INJURY_THRESHOLDS,
+): number {
     if (effectiveImpact <= 0) return 0;
-    if (effectiveImpact <= 4) return 1;
-    if (effectiveImpact <= 9) return 2;
-    if (effectiveImpact <= 14) return 3;
-    if (effectiveImpact <= 19) return 4;
-    return 5;
+    let level = 0;
+    for (const threshold of thresholds) {
+        if (effectiveImpact >= threshold) level++;
+        else break;
+    }
+    return level;
 }
 
 /**
@@ -168,7 +183,9 @@ export function resolveInjury(input: InjuryInput): ResolvedInjury {
     // Glancing blow is judged on the pre-glancing injury level: an edged or
     // piercing strike that would deal a Minor (effective impact 1–4) against a
     // rigid location glances off instead, producing no injury.
-    let level = injuryLevelFromImpact(effectiveImpact);
+    // Level is judged against the struck creature's own (bodyScale-scaled)
+    // threshold table, so an absolute impact reads size-correct on any body.
+    let level = injuryLevelFromImpact(effectiveImpact, input.body.injuryTable);
     const isGlancingBlow =
         (aspect === IMPACT_ASPECT.EDGED || aspect === IMPACT_ASPECT.PIERCING) &&
         effectiveImpact >= 1 &&

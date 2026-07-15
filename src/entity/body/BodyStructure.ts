@@ -18,7 +18,7 @@ import type { BodyPart } from "@src/entity/body/BodyPart";
 import { BodyLocation } from "@src/entity/body/BodyLocation";
 import { weightedRandom } from "@src/entity/body/weighted-random";
 import { SohlEntity } from "../SohlEntity";
-import { isA, ITEM_KIND } from "@src/utils/constants";
+import { isA, ITEM_KIND, BASE_INJURY_THRESHOLDS } from "@src/utils/constants";
 
 /**
  * The complete anatomical structure of a Being — all body parts, their
@@ -83,6 +83,19 @@ export class BodyStructure extends SohlEntity {
                 }),
         );
         this.adjacent = data.adjacent.map((pair) => [...pair]);
+    }
+
+    /**
+     * The struck-creature injury-level thresholds, scaled by the owning Corpus's
+     * `bodyScale`. Falls back to the human {@link BASE_INJURY_THRESHOLDS} when the
+     * corpus has not derived a table yet (e.g. before its evaluate phase). Used
+     * by `injuryLevelFromImpact` so an absolute impact reads size-correct.
+     */
+    get injuryTable(): readonly number[] {
+        return (
+            (this.parent as unknown as CorpusLogic).injuryTable ??
+            BASE_INJURY_THRESHOLDS
+        );
     }
 
     /**
