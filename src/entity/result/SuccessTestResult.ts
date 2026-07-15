@@ -254,6 +254,20 @@ export class SuccessTestResult extends TestResult {
      * `successStars`) is deliberately **not** emitted — it recomputes on read
      * from the serialized table
      * plus the success level (see the getters and issue #205).
+     *
+     * Two fields are carried in full as a deliberate exception to the
+     * "store only the minimum" corollary of the reference-on-wire rule
+     * (see issue #202):
+     * - `masteryLevelModifier` carries its complete delta breakdown across the
+     *   wire because the receiver renders it verbatim for combat transparency —
+     *   `mlMod.chatHtml` (the per-delta name/adjustment breakdown) is shown on
+     *   the reconstructed result in `standard-test-card.hbs` and
+     *   `opposed-result-card.hbs`. A summarized form would lose that breakdown,
+     *   so the full modifier is intentionally serialized.
+     * - `successStarTable` is serialized as data (not a table reference)
+     *   because custom, per-result tables are a supported design goal; the
+     *   table is the datum the receiver renders against, so it travels with the
+     *   result rather than through a registry (see issue #206).
      * @returns The plain-object representation.
      */
     override toJSON(): PlainObject {
