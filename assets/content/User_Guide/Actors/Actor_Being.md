@@ -63,21 +63,22 @@ active affliction of that kind.
 
 ## Health bar
 
-The health bar shows current health as a percentage of the Being's maximum.
+SoHL has **no hit points** — the health bar is a qualitative **assessment**, the
+way a doctor says "fair," not a pool of points. It reads:
+**Excellent · Good · Fair · Poor · Morbid · Dead**.
 
-- **Maximum health** is the Being's **Endurance × 3** (a Being with no Endurance
-  uses a flat 100).
-- Each **injury** lowers current health by the injured location's **shock value ×
-  the injury level** — a deeper wound in a more sensitive spot costs more.
-- Certain conditions also **cap** current health, and the most severe cap wins:
-    - a body part with a **serious** injury (impairment −10 or worse) → at most
-      **75%** of maximum
-    - an **unusable** body part → at most **50%**
-    - **Stunned** → at most **25%**
-    - **Incapacitated** or **Unconscious** → at most **10%**
-    - **Dead** → **0**
+Health is driven by **impaired body parts only** — an injury that doesn't impair
+a part has no effect on health. Each impaired part imposes a **maximum** on
+overall health, based on how badly it's impaired (Minor / Serious / Grievous /
+Unusable), whether it's a **critical** part (one holding the head/torso vital or
+core roles), and how many parts share that state. The overall health is the
+**worst (lowest) maximum** across every impaired part — for example, a single
+serious wound to an arm caps health around Fair, while an unusable critical part
+is fatal. As wounds heal, the parts recover and the assessment climbs back toward
+Excellent. A living Being is never worse than Morbid unless actually slain.
 
-Current health never falls below 0.
+_(Fatigue, fear, and shock will impose their own maximums in a later update; the
+overall health will then be the lowest of all of them.)_
 
 ## Body-part grid
 

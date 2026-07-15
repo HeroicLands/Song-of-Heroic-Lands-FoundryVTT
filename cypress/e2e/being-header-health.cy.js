@@ -42,20 +42,25 @@ describe("Being sheet header: health bar (#463)", () => {
     /** The being's derived health `{ value, max }`. */
     function health(win, actorId) {
         const h = win.game.actors.get(actorId).logic?.health;
-        return { value: h?.value?.effective ?? 0, max: h?.max?.effective ?? 0 };
+        return {
+            value: h?.value?.effective ?? 0,
+            max: h?.max?.effective ?? 0,
+            band: h?.band,
+        };
     }
 
-    it("renders a non-zero health bar for a healthy being", () => {
+    it("shows a full, Excellent bar for a healthy being (max always 100)", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
             cy.foundry((win) => health(win, actor.id)).should((h) => {
-                expect(h.max, "max health").to.be.greaterThan(0);
-                expect(h.value, "value = max when uninjured").to.eq(h.max);
+                expect(h.max, "max is a fixed 100").to.eq(100);
+                expect(h.value, "value 100 when uninjured").to.eq(100);
+                expect(h.band, "Excellent band").to.eq("Excellent");
             });
             cy.openSheet(actor);
             cy.get(".sheet-header__health-label")
                 .invoke("text")
-                .should("match", /Health:\s*100%/);
+                .should("match", /Health:\s*Excellent/);
             cy.get(".sheet-header__health-fill").should(($el) => {
                 expect($el[0].style.width).to.eq("100%");
             });

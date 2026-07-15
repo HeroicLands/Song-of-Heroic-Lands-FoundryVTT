@@ -868,41 +868,28 @@ describe("BeingLogic", () => {
     });
 });
 
-describe("BeingLogic health (#463)", () => {
+describe("BeingLogic health (#470)", () => {
     afterEach(() => vi.restoreAllMocks());
 
-    /** A being with an Endurance attribute of the given score. */
-    function beingWithEndurance(score: number) {
-        const logic = makeBeing();
-        (logic as any).actor.items.set("end", makeAttributeStub("end", score));
-        return logic;
-    }
-
-    it("populates health as endurance × 3 for a healthy, uninjured being", () => {
-        const logic = beingWithEndurance(13);
-        logic.initialize();
-        logic.finalize();
-        expect(logic.health.max.effective).toBe(39);
-        expect(logic.health.value.effective).toBe(39);
-    });
-
-    it("defaults health to 100/100 when the being has no Endurance", () => {
+    it("populates health as 100/Excellent for a healthy, uninjured being (max always 100)", () => {
         const logic = makeBeing();
         logic.initialize();
         logic.finalize();
         expect(logic.health.max.effective).toBe(100);
         expect(logic.health.value.effective).toBe(100);
+        expect(logic.health.band).toBe("Excellent");
     });
 
-    it("reads active statuses via the fvttActorStatuses shim (dead → value 0)", () => {
+    it("reads the dead status via the fvttActorStatuses shim → value 0 / Dead", () => {
         vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
             new Set(["dead"]),
         );
-        const logic = beingWithEndurance(13);
+        const logic = makeBeing();
         logic.initialize();
         logic.finalize();
-        expect(logic.health.max.effective).toBe(39);
+        expect(logic.health.max.effective).toBe(100);
         expect(logic.health.value.effective).toBe(0);
+        expect(logic.health.band).toBe("Dead");
     });
 });
 

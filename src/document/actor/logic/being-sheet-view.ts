@@ -704,6 +704,7 @@ export function buildBodyPartLozenges(
                   shortcode: string;
                   name?: string;
                   permanentImpairment?: number;
+                  permanentlyUnusable?: boolean;
                   locations?: readonly { shortcode: string }[];
               }[];
           }
@@ -717,6 +718,7 @@ export function buildBodyPartLozenges(
             (p.locations ?? []).map((l) => l.shortcode),
             injuries,
             p.permanentImpairment,
+            p.permanentlyUnusable,
         ).status,
     }));
 }

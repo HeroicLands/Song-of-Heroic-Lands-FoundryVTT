@@ -63,6 +63,32 @@ describe("BodyPart", () => {
             expect(part.permanentImpairment).toBe(0);
         });
 
+        it("defaults permanentlyUnusable to false; isCritical follows VITAL/CORE (#470)", () => {
+            const opts = {
+                parent: MOCK_CORPUS,
+                structure: MOCK_BODY_STRUCTURE,
+                index: 0,
+            };
+            const plain = new BodyPart(SAMPLE_DATA, opts);
+            expect(plain.permanentlyUnusable).toBe(false);
+            expect(plain.isCritical).toBe(false); // roles: []
+
+            expect(
+                new BodyPart({ ...SAMPLE_DATA, roles: ["core"] }, opts)
+                    .isCritical,
+            ).toBe(true);
+            expect(
+                new BodyPart({ ...SAMPLE_DATA, roles: ["locomotor"] }, opts)
+                    .isCritical,
+            ).toBe(false);
+            expect(
+                new BodyPart(
+                    { ...SAMPLE_DATA, permanentlyUnusable: true },
+                    opts,
+                ).permanentlyUnusable,
+            ).toBe(true);
+        });
+
         it("reads a negative permanent impairment and clamps a positive one to 0 (#464)", () => {
             const maimed = new BodyPart(
                 { ...SAMPLE_DATA, name: "Left Arm", permanentImpairment: -10 },

@@ -33,8 +33,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{/each}}
         </div>
         <div class="sheet-header__health">
-            <div class="sheet-header__health-label">{{localize "Health"}}: {{healthPct}}%</div>
-            <div class="sheet-header__health-bar">
+            <div class="sheet-header__health-label" data-tooltip="{{healthPct}}%">{{localize "Health"}}: {{healthBand}}</div>
+            <div class="sheet-header__health-bar" data-tooltip="{{healthPct}}%">
                 <div class="sheet-header__health-fill" style="width: {{healthPct}}%"></div>
             </div>
         </div>
