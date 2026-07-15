@@ -558,6 +558,7 @@
     "SOHL.ExpressionLibrary.import.partial": "Loaded {installed} helper(s); skipped {skipped}.",
     "SOHL.ExpressionLibrary.import.success": "Loaded {count} custom helper(s).",
     "SOHL.ExpressionLibrary.title": "Expression Helper Library",
+    "SOHL.Clear": "Clear",
     "SOHL.Cohort.Drop.content": "<p>How should <strong>{name}</strong> be placed on the scene?</p>",
     "SOHL.Cohort.Drop.group": "Group Token",
     "SOHL.Cohort.Drop.groupHint": "Create a single token representing the entire cohort",

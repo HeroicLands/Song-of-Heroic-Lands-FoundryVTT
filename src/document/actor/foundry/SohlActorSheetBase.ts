@@ -32,6 +32,37 @@ const SohlActorSheetBase_Base = SohlDataModel.SheetMixin<
  * @internal
  */
 export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
+    /**
+     * ApplicationV2 auto-merges `DEFAULT_OPTIONS` up the prototype chain, so this
+     * level only contributes what it adds (no `...super` spread). Registers the
+     * general `clearField` action used by the `clearableNumberInput` helper.
+     */
+    static override DEFAULT_OPTIONS: PlainObject = {
+        actions: {
+            clearField: SohlActorSheetBase._onClearField,
+        },
+    };
+
+    /**
+     * `data-action="clearField"`: reset a nullable field to `null`. Reads the
+     * update path from the control's `data-field-path` and writes `null`
+     * explicitly via `document.update`, sidestepping the unreliable
+     * empty-number-input serialization. Paired with the `clearableNumberInput`
+     * Handlebars helper.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, carrying `data-field-path`.
+     */
+    protected static async _onClearField(
+        this: SohlActorSheetBase,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const path = target.dataset.fieldPath;
+        if (!path) return;
+        await this.document.update({ [path]: null });
+    }
+
     /** The {@link SohlActor} this sheet renders (narrowed from the base type). */
     override get document(): SohlActor {
         return super.document as SohlActor;

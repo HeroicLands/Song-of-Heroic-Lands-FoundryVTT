@@ -717,6 +717,59 @@ function registerHandlebarsHelpers() {
     });
 
     /**
+     * A number input paired with a "clear" affordance for **nullable** fields.
+     *
+     * Emptying an `<input type="number">` does not reliably serialize to `null`
+     * (Foundry reads `valueAsNumber` = `NaN`; coercion depends on attributes and
+     * `submitOnChange`/re-render), so a nullable field cannot be reset from a plain
+     * number input. This helper wraps the standard number-input builder — passing
+     * every option straight through — and adds a "×" that fires the `clearField`
+     * base-sheet action, which writes `null` explicitly via `document.update`.
+     *
+     * Delegates to `field.toInput(opts)` when given a DataField (inheriting the
+     * schema's `integer`/`min`/etc.), otherwise `createNumberInput(opts)`. The
+     * clear target is derived from the input's own `name` (the update path), so
+     * usage mirrors `formInput`:
+     *
+     * ```hbs
+     * {{clearableNumberInput fields.onsetDate name="system.onsetDate" value=system.onsetDate}}
+     * ```
+     */
+    Handlebars.registerHelper(
+        "clearableNumberInput",
+        function (field, options) {
+            const { class: cssClass, ...opts } = options.hash;
+            const input =
+                field && typeof field.toInput === "function" ?
+                    field.toInput(opts)
+                :   foundry.applications.fields.createNumberInput({
+                        ...opts,
+                        value: opts.value ?? field,
+                    });
+            if (cssClass) input.className = cssClass;
+
+            const wrapper = document.createElement("div");
+            wrapper.classList.add("clearable-number");
+            wrapper.append(input);
+
+            const path = opts.name ?? input.getAttribute("name");
+            const value = opts.value;
+            const hasValue =
+                value !== null && value !== undefined && value !== "";
+            if (path && hasValue) {
+                const clear = document.createElement("a");
+                clear.classList.add("clearable-number__clear");
+                clear.setAttribute("data-action", "clearField");
+                clear.setAttribute("data-field-path", path);
+                clear.setAttribute("data-tooltip", "SOHL.Clear");
+                clear.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+                wrapper.append(clear);
+            }
+            return new Handlebars.SafeString(wrapper.outerHTML);
+        },
+    );
+
+    /**
      * Format a world time (seconds, as in `game.time.worldTime`) using the
      * active calendar. Safe to call regardless of which calendar (SoHL's or a
      * module's) is currently installed — the `sohl.*` formatters degrade
