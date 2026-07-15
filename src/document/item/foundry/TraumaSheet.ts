@@ -47,7 +47,7 @@ export class TraumaSheet extends SohlItemSheetBase {
             levelBase: system.levelBase,
             healingRateBase: system.healingRateBase,
             aspect: system.aspect,
-            isTreated: system.isTreated,
+            treatmentDate: system.treatmentDate,
             isBleeding: system.isBleeding,
             bodyLocationCode: system.bodyLocationCode,
         });

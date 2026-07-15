@@ -12,6 +12,7 @@
  */
 
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel";
+import { worldTimeDateField } from "@src/document/item/foundry/temporal-fields";
 import {
     AfflictionLogic,
     AfflictionData,
@@ -43,7 +44,7 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         }),
         category: new StringField({ initial: "" }),
         isDormant: new BooleanField({ initial: false }),
-        isTreated: new BooleanField({ initial: false }),
+        treatmentDate: worldTimeDateField(),
         diagnosisBonusBase: new NumberField({
             integer: true,
             initial: 0,
@@ -92,7 +93,7 @@ export class AfflictionDataModel<
     subType!: AfflictionSubType;
     category!: string;
     isDormant!: boolean;
-    isTreated!: boolean;
+    treatmentDate!: number | null;
     diagnosisBonusBase!: number;
     levelBase!: number;
     healingRateBase!: number;

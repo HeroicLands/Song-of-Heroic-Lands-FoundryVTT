@@ -101,8 +101,13 @@ export class AfflictionLogic<
 > extends SohlItemBaseLogic<TData> {
     /** Whether the affliction is currently inactive (but possibly still contagious). */
     isDormant!: boolean;
-    /** Whether medical treatment has been applied. */
-    isTreated!: boolean;
+    /**
+     * Whether medical treatment has been applied. Derived: true when a
+     * {@link AfflictionData.treatmentDate | treatmentDate} is set.
+     */
+    get isTreated(): boolean {
+        return this.data.treatmentDate != null;
+    }
     /**
      * Bonus to treatment tests earned from a successful diagnosis, as a
      * {@link sohl.entity.modifier.ValueModifier}, seeded from {@link AfflictionData.diagnosisBonusBase}.
@@ -468,7 +473,7 @@ export class AfflictionLogic<
                 title: "SOHL.Affliction.Action.DIAGNOSISTEST",
                 iconFAClass: "sohl-stethoscope",
                 executor: "diagnosisTest",
-                visible: "defined(itemLogic) && !itemLogic.data.isTreated",
+                visible: "defined(itemLogic) && !itemLogic.isTreated",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
@@ -491,7 +496,6 @@ export class AfflictionLogic<
     override initialize(): void {
         super.initialize();
         this.isDormant = false;
-        this.isTreated = false;
         this.diagnosisBonus = new entity.ValueModifier(this);
         this.level = new entity.ValueModifier(this);
         this.healingRate = new entity.ValueModifier(this);
@@ -540,8 +544,11 @@ export interface AfflictionData<
     category: string;
     /** Whether the affliction is inactive but potentially contagious */
     isDormant: boolean;
-    /** Whether medical treatment has been applied */
-    isTreated: boolean;
+    /**
+     * World-time (seconds) at which medical treatment was applied, or `null`
+     * if untreated. `isTreated` is derived from this on the logic.
+     */
+    treatmentDate: number | null;
     /** Modifier to treatment tests from successful diagnosis */
     diagnosisBonusBase: number;
     /** Severity of the affliction */

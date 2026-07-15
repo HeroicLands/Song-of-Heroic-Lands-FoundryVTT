@@ -2273,7 +2273,7 @@ export const {
         id: "diagnosisTest",
         name: "Diagnosis Test",
         iconClass: "sohl-stethoscope",
-        condition: "itemLogic.data.isTreated",
+        condition: "itemLogic.isTreated",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     HEALINGTEST: {

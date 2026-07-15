@@ -259,7 +259,6 @@ export function buildTraumaData(injury: ResolvedInjury): Partial<TraumaData> {
         levelBase: injury.level,
         healingRateBase: 0,
         aspect: injury.aspect,
-        isTreated: false,
         isBleeding: injury.isBleeder,
         bodyLocationCode: injury.location.shortcode,
     };

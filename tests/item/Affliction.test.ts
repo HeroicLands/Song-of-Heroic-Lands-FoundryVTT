@@ -4,9 +4,9 @@ import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     AFFLICTION_SUBTYPE,
     AFFLICTION_TRANSMISSION,
+    AfflictionSubTypeChoices,
     ITEM_KIND,
 } from "@src/utils/constants";
-import { AfflictionSubTypeChoices } from "@src/utils/constants";
 import { makeItemLogic } from "@tests/mocks/logicHarness";
 
 describe("AFFLICTION_SUBTYPE (#478)", () => {
@@ -30,7 +30,7 @@ function afflictionFields(overrides: Record<string, unknown> = {}) {
         subType: AFFLICTION_SUBTYPE.DISEASE,
         category: "",
         isDormant: false,
-        isTreated: false,
+        treatmentDate: null,
         diagnosisBonusBase: 0,
         levelBase: 2,
         healingRateBase: 4,
@@ -287,10 +287,13 @@ describe("AfflictionLogic", () => {
             expect(logic.isDormant).toBe(false);
         });
 
-        it("sets isTreated to false", () => {
-            const logic = makeAffliction();
-            logic.initialize();
-            expect(logic.isTreated).toBe(false);
+        it("derives isTreated from treatmentDate (#484)", () => {
+            expect(makeAffliction({ treatmentDate: null }).isTreated).toBe(
+                false,
+            );
+            expect(makeAffliction({ treatmentDate: 123456 }).isTreated).toBe(
+                true,
+            );
         });
 
         it("creates diagnosisBonus ValueModifier", () => {
@@ -367,7 +370,7 @@ describe("AfflictionDataModel", () => {
         it.todo("defines subType with AfflictionSubTypes choices");
         it.todo("defines category as a StringField");
         it.todo("defines isDormant as a BooleanField");
-        it.todo("defines isTreated as a BooleanField");
+        it.todo("defines treatmentDate as a nullable NumberField");
         it.todo("defines diagnosisBonusBase as a NumberField");
         it.todo("defines levelBase as a NumberField with min 0");
         it.todo("defines healingRateBase as a NumberField");

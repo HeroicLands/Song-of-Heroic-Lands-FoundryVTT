@@ -12,6 +12,7 @@
  */
 
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel";
+import { worldTimeDateField } from "@src/document/item/foundry/temporal-fields";
 import { TraumaLogic, TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
     IMPACT_ASPECT,
@@ -53,7 +54,7 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
             initial: IMPACT_ASPECT.BLUNT,
             choices: ImpactAspectChoices,
         }),
-        isTreated: new BooleanField({ initial: false }),
+        treatmentDate: worldTimeDateField(),
         isBleeding: new BooleanField({ initial: false }),
         bodyLocationCode: new StringField({ initial: "", required: true }),
     };
@@ -80,7 +81,7 @@ export class TraumaDataModel<
     levelBase!: number;
     healingRateBase!: number;
     aspect!: ImpactAspect;
-    isTreated!: boolean;
+    treatmentDate!: number | null;
     isBleeding!: boolean;
     bodyLocationCode!: string;
 

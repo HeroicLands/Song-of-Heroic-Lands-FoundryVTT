@@ -16,7 +16,7 @@ function traumaFields(overrides: Record<string, unknown> = {}) {
         levelBase: 2,
         healingRateBase: 4,
         aspect: "blunt",
-        isTreated: false,
+        treatmentDate: null,
         isBleeding: false,
         bodyLocationCode: "",
         ...overrides,
@@ -212,7 +212,7 @@ describe("TraumaDataModel", () => {
         it.todo("defines levelBase as a NumberField");
         it.todo("defines healingRateBase as a NumberField");
         it.todo("defines aspect with ImpactAspects choices");
-        it.todo("defines isTreated as a BooleanField");
+        it.todo("defines treatmentDate as a nullable NumberField");
         it.todo("defines isBleeding as a BooleanField");
         it.todo("defines bodyLocationCode as a StringField");
     });

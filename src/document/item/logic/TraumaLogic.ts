@@ -152,6 +152,14 @@ export class TraumaLogic<
         ];
     }
 
+    /**
+     * Whether the trauma has received medical treatment. Derived: true when a
+     * {@link TraumaData.treatmentDate | treatmentDate} is set.
+     */
+    get isTreated(): boolean {
+        return this.data.treatmentDate != null;
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
@@ -215,8 +223,11 @@ export interface TraumaData<
     healingRateBase: number;
     /** Type of damage: Blunt, Edged, Piercing, or Fire */
     aspect: ImpactAspect;
-    /** Whether the trauma has received medical treatment */
-    isTreated: boolean;
+    /**
+     * World-time (seconds) at which medical treatment was applied, or `null`
+     * if untreated. `isTreated` is derived from this on the logic.
+     */
+    treatmentDate: number | null;
     /** Whether the wound is actively bleeding */
     isBleeding: boolean;
     /**
