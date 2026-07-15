@@ -1230,6 +1230,14 @@ export const {
     PSYCHE: "psyche",
     /** Severe shock to the aura, resulting in temporary loss of aura-related abilities. */
     AURALSHOCK: "auralshock",
+    /**
+     * A prolonged physiological state of shock lasting hours or days, following
+     * severe trauma or blood loss — distinct from the transient combat-shock
+     * states tracked on a {@link TraumaLogic | Trauma}.
+     */
+    SHOCK: "shock",
+    /** A prolonged state of unconsciousness. */
+    COMA: "coma",
 });
 /** Union of all affliction-subtype values. */
 export type AfflictionSubType = (typeof AfflictionSubTypes)[number];

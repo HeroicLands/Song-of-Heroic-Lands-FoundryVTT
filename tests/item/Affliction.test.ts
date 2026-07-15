@@ -6,7 +6,23 @@ import {
     AFFLICTION_TRANSMISSION,
     ITEM_KIND,
 } from "@src/utils/constants";
+import { AfflictionSubTypeChoices } from "@src/utils/constants";
 import { makeItemLogic } from "@tests/mocks/logicHarness";
+
+describe("AFFLICTION_SUBTYPE (#478)", () => {
+    it("includes the long-duration SHOCK and COMA subtypes", () => {
+        expect(AFFLICTION_SUBTYPE.SHOCK).toBe("shock");
+        expect(AFFLICTION_SUBTYPE.COMA).toBe("coma");
+    });
+    it("exposes SHOCK and COMA as value-keyed choices with i18n labels", () => {
+        expect(AfflictionSubTypeChoices["shock"]).toBe(
+            "SOHL.Affliction.SubType.SHOCK",
+        );
+        expect(AfflictionSubTypeChoices["coma"]).toBe(
+            "SOHL.Affliction.SubType.COMA",
+        );
+    });
+});
 
 /** Default AfflictionData fields; override per test. */
 function afflictionFields(overrides: Record<string, unknown> = {}) {
