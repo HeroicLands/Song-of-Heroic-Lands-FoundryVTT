@@ -112,13 +112,21 @@ function registerSystemSettings() {
             ask: "SOHL.Settings.recordTrauma.Choices.Ask",
         },
     });
-    game.settings.register("sohl", "healingSeconds", {
-        name: "SOHL.Settings.healingSeconds.label",
-        hint: "SOHL.Settings.healingSeconds.hint",
+    game.settings.register("sohl", "healingCheckDurationFormula", {
+        name: "SOHL.Settings.healingCheckDurationFormula.label",
+        hint: "SOHL.Settings.healingCheckDurationFormula.hint",
         scope: "world",
         config: true,
-        type: Number,
-        default: 432000, // 5 days
+        type: String,
+        default: "432000", // 5 days
+    });
+    game.settings.register("sohl", "bloodLossAdvanceDurationFormula", {
+        name: "SOHL.Settings.bloodLossAdvanceDurationFormula.label",
+        hint: "SOHL.Settings.bloodLossAdvanceDurationFormula.hint",
+        scope: "world",
+        config: true,
+        type: String,
+        default: "86400", // 1 day
     });
     game.settings.register("sohl", "optionProjectileTracking", {
         name: "SOHL.Settings.optionProjectileTracking.label",

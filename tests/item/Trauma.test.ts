@@ -8,6 +8,87 @@ import {
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { ITEM_KIND } from "@src/utils/constants";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
+import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
+
+describe("time-based healing / blood-loss scheduling (#482)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    function withEvents() {
+        const scheduleAt = vi.fn();
+        const unsubscribe = vi.fn();
+        (globalThis as any).sohl.events = { scheduleAt, unsubscribe };
+        return { scheduleAt, unsubscribe };
+    }
+
+    // The mock item document has no uuid; set one for scheduleAt/unsubscribe.
+    function trauma(overrides: Record<string, unknown> = {}) {
+        const logic = makeTrauma(overrides);
+        (logic.item as any).uuid = "Item.trauma0000";
+        return logic;
+    }
+
+    it("healingCheck rolls the interval, advances the anchor, and schedules the next occurrence", async () => {
+        const { scheduleAt } = withEvents();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
+        const logic = trauma({ healingCheckDurationFormula: "500" });
+        logic.initialize();
+        await logic.healingCheck({} as any);
+        expect(scheduleAt).toHaveBeenCalledWith(
+            expect.any(String),
+            "healingCheck",
+            1500,
+        );
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({
+                "system.lastHealingCheckDate": 1000,
+                "system.healingCheckDurationBase": 500,
+            }),
+        );
+    });
+
+    it("finalize schedules healingCheck from the persisted anchor while the wound persists", () => {
+        const { scheduleAt } = withEvents();
+        const logic = trauma({
+            levelBase: 3,
+            lastHealingCheckDate: 2000,
+            healingCheckDurationBase: 500,
+        });
+        logic.initialize();
+        logic.finalize();
+        expect(scheduleAt).toHaveBeenCalledWith(
+            expect.any(String),
+            "healingCheck",
+            2500,
+        );
+    });
+
+    it("finalize unsubscribes healingCheck once the wound has healed", () => {
+        const { unsubscribe } = withEvents();
+        const logic = trauma({ levelBase: 0 });
+        logic.initialize();
+        logic.finalize();
+        expect(unsubscribe).toHaveBeenCalledWith(
+            expect.any(String),
+            "healingCheck",
+        );
+    });
+
+    it("bloodLossAdvanceCheck schedules the blood-loss roll event", async () => {
+        const { scheduleAt } = withEvents();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
+        const logic = trauma({
+            isBleeding: true,
+            bloodLossAdvanceDurationFormula: "300",
+        });
+        logic.initialize();
+        await logic.bloodLossAdvanceCheck({} as any);
+        expect(scheduleAt).toHaveBeenCalledWith(
+            expect.any(String),
+            "trauma::bloodLossAdvanceRoll",
+            2300,
+        );
+    });
+});
 
 /** Default TraumaData fields; override per test. */
 function traumaFields(overrides: Record<string, unknown> = {}) {

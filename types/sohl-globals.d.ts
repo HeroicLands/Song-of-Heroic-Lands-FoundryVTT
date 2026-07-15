@@ -193,7 +193,8 @@ declare module "fvtt-types/configuration" {
         "sohl.showWelcomeDialog": boolean;
         "sohl.combatAudio": boolean;
         "sohl.recordTrauma": string;
-        "sohl.healingSeconds": number;
+        "sohl.healingCheckDurationFormula": string;
+        "sohl.bloodLossAdvanceDurationFormula": string;
         "sohl.optionProjectileTracking": boolean;
         "sohl.useZoneDie": boolean;
         "sohl.optionFate": string;

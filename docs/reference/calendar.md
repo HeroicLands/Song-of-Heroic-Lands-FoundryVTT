@@ -44,7 +44,7 @@ Defined as standalone functions in `src/core/logic/sohl-calendar-logic.ts` and r
 | ------------------ | ---------------------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------- |
 | `"sohl.timestamp"` | ` 0722-04-15 14:30:00` (sign prefix, era-aware year) | `0722-04-15 14:30:00` (no prefix, raw year)                                    | Logs, sortable strings, internal storage                  |
 | `"sohl.default"`   | `15 Highsun 722TR 14:30:00`                          | `15 {monthName} 722 14:30:00` (uses the active calendar's month names; no era) | Sheet displays, chat cards, anywhere a human reads it     |
-| `"sohl.relative"`  | `3 days, 4 hours from now` / `2 hours ago`          | identical                                                                      | Countdowns, "next healing check in N days", recent events |
+| `"sohl.relative"`  | `3 days, 4 hours from now` / `2 hours ago`           | identical                                                                      | Countdowns, "next healing check in N days", recent events |
 
 **All three formatters are safe to call against any active calendar.** Each performs an `instanceof SohlCalendarData` check at the top; on a foreign calendar instance they degrade to a calendar-agnostic format that uses only standard `CalendarData` fields and the active calendar's own month names. This means system code can call `game.time.calendar.format(t, "sohl.default")` without first checking which module owns the calendar.
 
@@ -126,7 +126,7 @@ Calendar **display** is one half of the use case; the other is **scheduling work
 sohl.events.scheduleAt(
     this.item.uuid,
     "healingTest",
-    game.time.worldTime + game.settings.get("sohl", "healingSeconds"),
+    injury.logic.nextHealthCheck, // derived from the persisted anchor
     { level: this.data.levelBase },
 );
 
