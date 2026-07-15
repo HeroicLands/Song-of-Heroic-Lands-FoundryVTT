@@ -58,7 +58,7 @@ export const SOHL_BUILTIN_TRIGGERS: readonly SohlBuiltinTriggerName[] = [
  * Custom triggers registered via {@link registerSohlTrigger} fall
  * under the open-ended `{ name: string; ... }` branch.
  */
-export type SohlTriggerContext =
+type SohlTriggerContextVariant =
     | {
           /** Trigger discriminant. */
           name: "updateWorldTime";
@@ -137,6 +137,21 @@ export type SohlTriggerContext =
           /** Arbitrary custom context payload. */
           [key: string]: unknown;
       };
+
+/**
+ * A trigger context as dispatched to a document. Every variant additionally
+ * carries an optional `payload` — the
+ * subscription's `payload`, forwarded by {@link SohlEventQueue.fire} so the
+ * dispatched action can read it from `ctx.payload` (the action context's
+ * `scope`).
+ */
+export type SohlTriggerContext = SohlTriggerContextVariant & {
+    /**
+     * Data attached to the subscription, forwarded to the dispatched action as
+     * part of its context scope.
+     */
+    payload?: Record<string, unknown>;
+};
 
 /**
  * Register a custom trigger name with Foundry's expiry-event registry.

@@ -79,6 +79,37 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         },
     };
 
+    /**
+     * ApplicationV2 auto-merges `DEFAULT_OPTIONS` up the prototype chain, so this
+     * level only contributes what it adds (no `...super` spread). Registers the
+     * general `clearField` action used by the `clearableNumberInput` helper.
+     */
+    static override DEFAULT_OPTIONS: PlainObject = {
+        actions: {
+            clearField: SohlItemSheetBase._onClearField,
+        },
+    };
+
+    /**
+     * `data-action="clearField"`: reset a nullable field to `null`. Reads the
+     * update path from the control's `data-field-path` and writes `null`
+     * explicitly via `document.update`, sidestepping the unreliable
+     * empty-number-input serialization. Paired with the `clearableNumberInput`
+     * Handlebars helper.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, carrying `data-field-path`.
+     */
+    protected static async _onClearField(
+        this: SohlItemSheetBase,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const path = target.dataset.fieldPath;
+        if (!path) return;
+        await this.document.update({ [path]: null });
+    }
+
     /** The {@link SohlItem} document this sheet edits. */
     override get document(): SohlItem {
         return super.document as SohlItem;

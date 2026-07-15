@@ -4,6 +4,7 @@ import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     AFFLICTION_SUBTYPE,
     AFFLICTION_TRANSMISSION,
+    AfflictionSubTypeChoices,
     ITEM_KIND,
 } from "@src/utils/constants";
 import {
@@ -11,6 +12,22 @@ import {
     makeItemLogic,
     makeMockActor,
 } from "@tests/mocks/logicHarness";
+import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
+
+describe("AFFLICTION_SUBTYPE (#478)", () => {
+    it("includes the long-duration SHOCK and COMA subtypes", () => {
+        expect(AFFLICTION_SUBTYPE.SHOCK).toBe("shock");
+        expect(AFFLICTION_SUBTYPE.COMA).toBe("coma");
+    });
+    it("exposes SHOCK and COMA as value-keyed choices with i18n labels", () => {
+        expect(AfflictionSubTypeChoices["shock"]).toBe(
+            "SOHL.Affliction.SubType.SHOCK",
+        );
+        expect(AfflictionSubTypeChoices["coma"]).toBe(
+            "SOHL.Affliction.SubType.COMA",
+        );
+    });
+});
 
 /** Default AfflictionData fields; override per test. */
 function afflictionFields(overrides: Record<string, unknown> = {}) {
@@ -18,7 +35,7 @@ function afflictionFields(overrides: Record<string, unknown> = {}) {
         subType: AFFLICTION_SUBTYPE.DISEASE,
         category: "",
         isDormant: false,
-        isTreated: false,
+        treatmentDate: null,
         diagnosisBonusBase: 0,
         levelBase: 2,
         healingRateBase: 4,
@@ -42,6 +59,92 @@ function makeAffliction(
 
 afterEach(() => {
     vi.restoreAllMocks();
+});
+
+describe("affliction phase scheduling (#483)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    function withEvents() {
+        const scheduleAt = vi.fn();
+        const unsubscribe = vi.fn();
+        (globalThis as any).sohl.events = { scheduleAt, unsubscribe };
+        return { scheduleAt, unsubscribe };
+    }
+    function affliction(overrides: Record<string, unknown> = {}) {
+        const logic = makeAffliction(overrides);
+        (logic.item as any).uuid = "Item.affliction00";
+        return logic;
+    }
+
+    it("finalize arms onsetCheck while incubating (no onsetDate yet)", () => {
+        const { scheduleAt } = withEvents();
+        const logic = affliction({
+            contractDate: 1000,
+            onsetDurationBase: 500,
+            onsetDate: null,
+        });
+        logic.initialize();
+        logic.finalize();
+        expect(scheduleAt).toHaveBeenCalledWith(
+            expect.any(String),
+            "onsetCheck",
+            1500,
+        );
+    });
+
+    it("onsetCheck crystallizes onsetDate and rolls the resolution + recovery intervals", async () => {
+        withEvents();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
+        const logic = affliction({
+            resolutionDurationFormula: "700",
+            healingCheckDurationFormula: "300",
+        });
+        logic.initialize();
+        await logic.onsetCheck({} as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({
+                "system.onsetDate": 2000,
+                "system.lastHealingCheckDate": 2000,
+                "system.resolutionDurationBase": 700,
+                "system.healingCheckDurationBase": 300,
+            }),
+        );
+    });
+
+    it("finalize arms resolutionCheck + recurring healingCheck once symptomatic", () => {
+        const { scheduleAt } = withEvents();
+        const logic = affliction({
+            levelBase: 3,
+            onsetDate: 2000,
+            resolutionDurationBase: 700,
+            lastHealingCheckDate: 2000,
+            healingCheckDurationBase: 300,
+        });
+        logic.initialize();
+        logic.finalize();
+        expect(scheduleAt).toHaveBeenCalledWith(
+            expect.any(String),
+            "resolutionCheck",
+            2700,
+        );
+        expect(scheduleAt).toHaveBeenCalledWith(
+            expect.any(String),
+            "healingCheck",
+            2300,
+        );
+    });
+
+    it("resolutionCheck crystallizes resolutionDate; finalize then unsubscribes all phases", () => {
+        withEvents();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(9000);
+        const logic = affliction({ onsetDate: 2000, resolutionDate: null });
+        logic.initialize();
+        return logic.resolutionCheck({} as any).then(() => {
+            expect(logic.item.update).toHaveBeenCalledWith(
+                expect.objectContaining({ "system.resolutionDate": 9000 }),
+            );
+        });
+    });
 });
 
 describe("AfflictionLogic", () => {
@@ -164,13 +267,14 @@ describe("AfflictionLogic", () => {
         // lives on Trauma), so the old FIXME's pysn/isBleeding gate never applied.
         describe("canTreat", () => {
             it("true when the affliction is untreated", () => {
-                expect(makeAffliction({ isTreated: false }).canTreat).toBe(
+                expect(makeAffliction({ treatmentDate: null }).canTreat).toBe(
                     true,
                 );
             });
 
             it("false when the affliction is already treated", () => {
-                expect(makeAffliction({ isTreated: true }).canTreat).toBe(
+                // isTreated is derived from treatmentDate (#484).
+                expect(makeAffliction({ treatmentDate: 123456 }).canTreat).toBe(
                     false,
                 );
             });
@@ -368,10 +472,13 @@ describe("AfflictionLogic", () => {
             expect(logic.isDormant).toBe(false);
         });
 
-        it("sets isTreated to false", () => {
-            const logic = makeAffliction();
-            logic.initialize();
-            expect(logic.isTreated).toBe(false);
+        it("derives isTreated from treatmentDate (#484)", () => {
+            expect(makeAffliction({ treatmentDate: null }).isTreated).toBe(
+                false,
+            );
+            expect(makeAffliction({ treatmentDate: 123456 }).isTreated).toBe(
+                true,
+            );
         });
 
         it("creates diagnosisBonus ValueModifier", () => {
@@ -448,7 +555,7 @@ describe("AfflictionDataModel", () => {
         it.todo("defines subType with AfflictionSubTypes choices");
         it.todo("defines category as a StringField");
         it.todo("defines isDormant as a BooleanField");
-        it.todo("defines isTreated as a BooleanField");
+        it.todo("defines treatmentDate as a nullable NumberField");
         it.todo("defines diagnosisBonusBase as a NumberField");
         it.todo("defines levelBase as a NumberField with min 0");
         it.todo("defines healingRateBase as a NumberField");

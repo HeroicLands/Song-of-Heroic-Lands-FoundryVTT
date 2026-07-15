@@ -1364,7 +1364,7 @@ export class BeingSheet extends SohlActorSheetBase {
                     level: tl?.level?.effective ?? 0,
                     healingRate: tl?.healingRate?.effective ?? 0,
                     healingRateDisabled: !!tl?.healingRate?.disabled,
-                    isTreated: !!sys.isTreated,
+                    isTreated: !!tl?.isTreated,
                     isBleeding: !!sys.isBleeding,
                     aspect: sys.aspect,
                     area: tl?.bodyLocation?.name,

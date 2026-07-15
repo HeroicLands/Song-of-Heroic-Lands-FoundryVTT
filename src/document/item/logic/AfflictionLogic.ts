@@ -12,6 +12,8 @@
  */
 
 import { entity } from "@src/entity/registry";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
+import { fvttWorldTime } from "@src/core/FoundryHelpers";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
@@ -103,8 +105,13 @@ export class AfflictionLogic<
 > extends SohlItemBaseLogic<TData> {
     /** Whether the affliction is currently inactive (but possibly still contagious). */
     isDormant!: boolean;
-    /** Whether medical treatment has been applied. */
-    isTreated!: boolean;
+    /**
+     * Whether medical treatment has been applied. Derived: true when a
+     * {@link AfflictionData.treatmentDate | treatmentDate} is set.
+     */
+    get isTreated(): boolean {
+        return this.data.treatmentDate != null;
+    }
     /**
      * Bonus to treatment tests earned from a successful diagnosis, as a
      * {@link sohl.entity.modifier.ValueModifier}, seeded from {@link AfflictionData.diagnosisBonusBase}.
@@ -126,6 +133,24 @@ export class AfflictionLogic<
      * seeded from {@link AfflictionData.contagionIndexBase}.
      */
     contagionIndex!: ValueModifier;
+    /**
+     * Effective seconds of incubation (contract → onset), as a
+     * {@link sohl.entity.modifier.ValueModifier}, seeded from
+     * {@link AfflictionData.onsetDurationBase}.
+     */
+    onsetDurationBase!: ValueModifier;
+    /**
+     * Effective seconds between course/recovery checks, as a
+     * {@link sohl.entity.modifier.ValueModifier}, seeded from
+     * {@link AfflictionData.healingCheckDurationBase}.
+     */
+    healingCheckDurationBase!: ValueModifier;
+    /**
+     * Effective seconds from onset to resolution, as a
+     * {@link sohl.entity.modifier.ValueModifier}, seeded from
+     * {@link AfflictionData.resolutionDurationBase}.
+     */
+    resolutionDurationBase!: ValueModifier;
     /**
      * Mode by which this affliction spreads, copied from
      * {@link AfflictionData.transmission}; defaults to
@@ -229,13 +254,13 @@ export class AfflictionLogic<
     /**
      * Whether this affliction can currently be treated.
      *
-     * True until treatment has been applied (i.e. while
-     * {@link AfflictionData.isTreated} is false) — the gate the pre-port
-     * treatment test enforced. Afflictions have no bleeding concept (that lives
-     * on Trauma), so treatment is not gated on any bleeding state.
+     * True until treatment has been applied (i.e. while {@link isTreated} is
+     * false — derived from {@link AfflictionData.treatmentDate}) — the gate the
+     * pre-port treatment test enforced. Afflictions have no bleeding concept
+     * (that lives on Trauma), so treatment is not gated on any bleeding state.
      */
     get canTreat(): boolean {
-        return !this.data.isTreated;
+        return !this.isTreated;
     }
 
     /**
@@ -493,7 +518,7 @@ export class AfflictionLogic<
                 title: "SOHL.Affliction.Action.DIAGNOSISTEST",
                 iconFAClass: "sohl-stethoscope",
                 executor: "diagnosisTest",
-                visible: "defined(itemLogic) && !itemLogic.data.isTreated",
+                visible: "defined(itemLogic) && !itemLogic.isTreated",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
@@ -504,6 +529,33 @@ export class AfflictionLogic<
                 executor: "healingTest",
                 visible: "defined(itemLogic) && itemLogic.canHeal",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "onsetCheck",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.Action.onsetCheck.title",
+                iconFAClass: "sohl-hourglass",
+                executor: "onsetCheck",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "healingCheck",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.Action.healingCheck.title",
+                iconFAClass: "sohl-healing",
+                executor: "healingCheck",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "resolutionCheck",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.Action.resolutionCheck.title",
+                iconFAClass: "sohl-skull",
+                executor: "resolutionCheck",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
         ];
     }
@@ -516,7 +568,6 @@ export class AfflictionLogic<
     override initialize(): void {
         super.initialize();
         this.isDormant = false;
-        this.isTreated = false;
         this.diagnosisBonus = new entity.ValueModifier(this);
         this.level = new entity.ValueModifier(this);
         this.healingRate = new entity.ValueModifier(this);
@@ -537,6 +588,18 @@ export class AfflictionLogic<
             { baseValue: this.data.levelBase },
             { parent: this },
         );
+        this.onsetDurationBase = new entity.ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.onsetDurationBase ?? 0);
+        this.healingCheckDurationBase = new entity.ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.healingCheckDurationBase ?? 0);
+        this.resolutionDurationBase = new entity.ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.resolutionDurationBase ?? 0);
     }
 
     /** @inheritdoc */
@@ -544,9 +607,148 @@ export class AfflictionLogic<
         super.evaluate();
     }
 
-    /** @inheritdoc */
+    /**
+     * Arm the affliction's phase events from its persisted anchors, by phase:
+     *
+     * - **Incubating** (`onsetDate == null`): schedule the `onsetCheck`
+     *   transition at `contractDate + onset interval`.
+     * - **Symptomatic** (`onsetDate` set, `resolutionDate == null`): schedule the
+     *   `resolutionCheck` transition at `onsetDate + resolution interval`, and —
+     *   while the affliction persists — the recurring `healingCheck`.
+     * - **Resolved** (`resolutionDate` set): unsubscribe all.
+     */
     override finalize(): void {
         super.finalize();
+        const uuid = this.item?.uuid;
+        if (!uuid) return;
+
+        const arm = (kind: string, at: number | null | undefined): void => {
+            if (at == null) sohl.events.unsubscribe(uuid, kind);
+            else sohl.events.scheduleAt(uuid, kind, at);
+        };
+
+        if (this.data.resolutionDate != null) {
+            arm("onsetCheck", null);
+            arm("resolutionCheck", null);
+            arm("healingCheck", null);
+            return;
+        }
+
+        if (this.data.onsetDate == null) {
+            // Incubating: only the onset transition is pending.
+            arm(
+                "onsetCheck",
+                this.data.contractDate == null ?
+                    null
+                :   this.data.contractDate + this.onsetDurationBase.effective,
+            );
+            arm("resolutionCheck", null);
+            arm("healingCheck", null);
+            return;
+        }
+
+        // Symptomatic: resolution pending; recovery checks recur while active.
+        arm("onsetCheck", null);
+        arm(
+            "resolutionCheck",
+            this.data.onsetDate + this.resolutionDurationBase.effective,
+        );
+        arm(
+            "healingCheck",
+            this.level.effective > 0 && this.data.lastHealingCheckDate != null ?
+                this.data.lastHealingCheckDate +
+                    this.healingCheckDurationBase.effective
+            :   null,
+        );
+    }
+
+    /**
+     * Roll a duration formula to a number of seconds. Falls back to a plain
+     * numeric parse, or `0` when neither yields a finite number.
+     *
+     * @param formula - The duration formula (dice expression or bare seconds).
+     * @returns The rolled duration in seconds.
+     */
+    private rollDuration(formula: string): number {
+        if (!formula) return 0;
+        try {
+            const rolled = SimpleRoll.fromFormula(formula, this).roll();
+            if (Number.isFinite(rolled)) return rolled;
+        } catch {
+            // fall through to a numeric parse
+        }
+        const n = Number(formula);
+        return Number.isFinite(n) ? n : 0;
+    }
+
+    /**
+     * Intrinsic-action executor for the `onsetCheck` transition (incubation →
+     * symptomatic). Crystallizes `onsetDate`, seeds the recovery-check anchor,
+     * and rolls the resolution and healing-check intervals; {@link finalize}
+     * then arms the resolution and recurring healing-check events.
+     *
+     * @param _context - The action context (its `scope` is the trigger context).
+     * @returns A promise that resolves once the phase transition is persisted.
+     * @remarks The onset **effect** (applying symptoms) is not yet implemented;
+     *   see issue #488.
+     */
+    async onsetCheck(_context: SohlActionContext): Promise<void> {
+        const now = fvttWorldTime();
+        const resolution = this.rollDuration(
+            this.data.resolutionDurationFormula,
+        );
+        const healing = this.rollDuration(
+            this.data.healingCheckDurationFormula,
+        );
+        this.resolutionDurationBase.setBase(resolution);
+        this.healingCheckDurationBase.setBase(healing);
+        await this.item.update({
+            "system.onsetDate": now,
+            "system.lastHealingCheckDate": now,
+            "system.resolutionDurationBase": resolution,
+            "system.healingCheckDurationBase": healing,
+        } as PlainObject);
+    }
+
+    /**
+     * Intrinsic-action executor for the recurring `healingCheck` (course /
+     * recovery) event. Advances the anchor to now, rolls the next interval, and
+     * schedules the next occurrence — reusable from the event or manually.
+     *
+     * @param _context - The action context (its `scope` is the trigger context).
+     * @returns A promise that resolves once the anchor is persisted.
+     * @remarks The recovery/course **effect** (the check roll and its result) is
+     *   not yet implemented; see issue #489.
+     */
+    async healingCheck(_context: SohlActionContext): Promise<void> {
+        const now = fvttWorldTime();
+        const rolled = this.rollDuration(this.data.healingCheckDurationFormula);
+        this.healingCheckDurationBase.setBase(rolled);
+        sohl.events.scheduleAt(
+            this.item.uuid,
+            "healingCheck",
+            now + this.healingCheckDurationBase.effective,
+        );
+        await this.item.update({
+            "system.lastHealingCheckDate": now,
+            "system.healingCheckDurationBase": rolled,
+        } as PlainObject);
+    }
+
+    /**
+     * Intrinsic-action executor for the `resolutionCheck` transition
+     * (symptomatic → resolved). Crystallizes `resolutionDate`; {@link finalize}
+     * then unsubscribes the affliction's remaining events.
+     *
+     * @param _context - The action context (its `scope` is the trigger context).
+     * @returns A promise that resolves once the resolution is persisted.
+     * @remarks The resolution **effect** (death / disability / cure) is not yet
+     *   implemented; see issue #490.
+     */
+    async resolutionCheck(_context: SohlActionContext): Promise<void> {
+        await this.item.update({
+            "system.resolutionDate": fvttWorldTime(),
+        } as PlainObject);
     }
 }
 
@@ -565,8 +767,31 @@ export interface AfflictionData<
     category: string;
     /** Whether the affliction is inactive but potentially contagious */
     isDormant: boolean;
-    /** Whether medical treatment has been applied */
-    isTreated: boolean;
+    /** World-time (seconds) at which the affliction was contracted. */
+    contractDate: number | null;
+    /**
+     * World-time (seconds) at which medical treatment was applied, or `null`
+     * if untreated. `isTreated` is derived from this on the logic.
+     */
+    treatmentDate: number | null;
+    /** Formula rolled to seed the incubation (contract → onset) interval. */
+    onsetDurationFormula: string;
+    /** Rolled seconds of incubation; `null` until rolled. */
+    onsetDurationBase: number | null;
+    /** World-time at which symptoms began (onset crystallized); `null` while incubating. */
+    onsetDate: number | null;
+    /** Formula rolled to seed the recurring course/recovery-check interval. */
+    healingCheckDurationFormula: string;
+    /** Rolled seconds between course/recovery checks; `null` until rolled. */
+    healingCheckDurationBase: number | null;
+    /** World-time of the last applied course/recovery check (the recurrence anchor). */
+    lastHealingCheckDate: number | null;
+    /** Formula rolled to seed the onset → resolution interval. */
+    resolutionDurationFormula: string;
+    /** Rolled seconds from onset to resolution; `null` until rolled. */
+    resolutionDurationBase: number | null;
+    /** World-time at which the affliction resolved (death/disability/cure); `null` until resolved. */
+    resolutionDate: number | null;
     /** Modifier to treatment tests from successful diagnosis */
     diagnosisBonusBase: number;
     /** Severity of the affliction */

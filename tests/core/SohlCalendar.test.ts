@@ -22,6 +22,7 @@ import {
 } from "@src/core/logic/sohl-calendar-logic";
 // Mock-swapped shim (vitest alias); spy on it instead of touching raw Foundry globals.
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
+import { readFileSync } from "node:fs";
 
 afterEach(() => {
     vi.restoreAllMocks();
@@ -358,6 +359,21 @@ describe("SohlCalendarData", () => {
             const c = cal.timeToComponents(3 * SECONDS_PER_DAY);
             const out = formatRelativeTime(cal, c);
             expect(out).toMatch(/^FUT\[/);
+        });
+
+        // Regression (#477): the future-tense wrapper key is SoHL-owned (unlike
+        // the Foundry-core "TIME.Since" past wrapper), so it must be present in
+        // lang/en.json or "… from now" durations render the raw key. The unit
+        // tests above stub the key, so only a real-file assertion catches the gap.
+        it("ships the SOHL.TIME.Until key in lang/en.json (#477)", () => {
+            const en = JSON.parse(
+                readFileSync(
+                    new URL("../../lang/en.json", import.meta.url),
+                    "utf8",
+                ),
+            ) as Record<string, string>;
+            expect(en["SOHL.TIME.Until"]).toBeDefined();
+            expect(en["SOHL.TIME.Until"]).toContain("{since}");
         });
 
         it("formats past times with the 'TIME.Since' template", () => {

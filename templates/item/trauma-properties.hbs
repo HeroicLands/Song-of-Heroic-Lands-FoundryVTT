@@ -21,8 +21,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{formField fields.bodyLocationCode rootId="trauma-bodyloc" classes="text-field" stacked=true value=system.bodyLocationCode}}
         {{/if}}
         <div class="form-group text-field">
-            {{formInput fields.isTreated rootId="trauma-treated" classes="form-fields" value=system.isTreated}}
-            <label>Treated</label>
+            {{clearableNumberInput fields.treatmentDate name="system.treatmentDate" value=system.treatmentDate}}
+            <label>Treated (world-time)</label>
         </div>
         {{#if (eq system.subType "physical")}}
         <div class="form-group text-field">

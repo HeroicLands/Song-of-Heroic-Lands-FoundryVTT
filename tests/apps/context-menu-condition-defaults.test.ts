@@ -90,12 +90,13 @@ describe("default context-menu conditions (constants.ts TEST_TYPE)", () => {
         const source = TEST_TYPE.DIAGNOSISTEST.condition as string;
 
         it("shows when the affliction has been treated", () => {
-            const itemLogic = { data: { isTreated: true } };
+            // isTreated is a derived getter on the logic (treatmentDate != null).
+            const itemLogic = { isTreated: true };
             expect(evalCondition(source, { itemLogic })).toBe(true);
         });
 
         it("hides when the affliction has not been treated", () => {
-            const itemLogic = { data: { isTreated: false } };
+            const itemLogic = { isTreated: false };
             expect(evalCondition(source, { itemLogic })).toBe(false);
         });
 

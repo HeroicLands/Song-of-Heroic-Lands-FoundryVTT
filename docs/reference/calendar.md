@@ -38,13 +38,13 @@ The `updateWorldTime` hook fires after every world-time change — this is the u
 
 ### Three formatters
 
-Registered into `CONFIG.time.formatters` in `src/core/logic/SohlSystem.ts` under the `sohl.*` namespace (to guarantee no collision with built-in or module formatter names) and callable via `game.time.calendar.format(worldTime, name)`:
+Defined as standalone functions in `src/core/logic/sohl-calendar-logic.ts` and registered into `CONFIG.time.formatters` (via `SohlSystem.CONFIG` in `src/core/foundry/sohl-config.ts`) under the `sohl.*` namespace (to guarantee no collision with built-in or module formatter names) and callable via `game.time.calendar.format(worldTime, name)`:
 
 | Name               | SoHL calendar                                        | Foreign calendar                                                               | When to use                                               |
 | ------------------ | ---------------------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------- |
 | `"sohl.timestamp"` | ` 0722-04-15 14:30:00` (sign prefix, era-aware year) | `0722-04-15 14:30:00` (no prefix, raw year)                                    | Logs, sortable strings, internal storage                  |
 | `"sohl.default"`   | `15 Highsun 722TR 14:30:00`                          | `15 {monthName} 722 14:30:00` (uses the active calendar's month names; no era) | Sheet displays, chat cards, anywhere a human reads it     |
-| `"sohl.relative"`  | `3 days, 4 hours until` / `2 hours ago`              | identical                                                                      | Countdowns, "next healing check in N days", recent events |
+| `"sohl.relative"`  | `3 days, 4 hours from now` / `2 hours ago`           | identical                                                                      | Countdowns, "next healing check in N days", recent events |
 
 **All three formatters are safe to call against any active calendar.** Each performs an `instanceof SohlCalendarData` check at the top; on a foreign calendar instance they degrade to a calendar-agnostic format that uses only standard `CalendarData` fields and the active calendar's own month names. This means system code can call `game.time.calendar.format(t, "sohl.default")` without first checking which module owns the calendar.
 
@@ -92,7 +92,7 @@ That is fine. Any SoHL code that wants a formatted date calls `sohl.calendar.for
 
 ### Formatter safety under module override
 
-The three SoHL formatters (`sohl.timestamp`, `sohl.default`, `sohl.relative`) are static methods on `SohlCalendarData`, registered into `CONFIG.time.formatters` under the `sohl.*` namespace. Each guards with `instanceof SohlCalendarData` at entry and falls through to a calendar-agnostic path when a foreign calendar is in charge. Specifically:
+The three SoHL formatters (`sohl.timestamp`, `sohl.default`, `sohl.relative`) are standalone functions in `src/core/logic/sohl-calendar-logic.ts`, registered into `CONFIG.time.formatters` under the `sohl.*` namespace (via `SohlSystem.CONFIG` in `src/core/foundry/sohl-config.ts`). The era-aware ones guard with an `isSohlCalendar` check at entry and fall through to a calendar-agnostic path when a foreign calendar is in charge. Specifically:
 
 - `sohl.timestamp` drops the era-sign prefix and year-zero adjustment, producing `YYYY-MM-DD HH:MM:SS`.
 - `sohl.default` reads month names from `calendar.months.values[m].name` (a field every `CalendarData` provides) and omits era information.
@@ -126,7 +126,7 @@ Calendar **display** is one half of the use case; the other is **scheduling work
 sohl.events.scheduleAt(
     this.item.uuid,
     "healingTest",
-    game.time.worldTime + game.settings.get("sohl", "healingSeconds"),
+    injury.logic.nextHealthCheck, // derived from the persisted anchor
     { level: this.data.levelBase },
 );
 

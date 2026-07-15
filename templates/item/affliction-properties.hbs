@@ -16,7 +16,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{formField fields.category rootId="ail-category" classes="text-field" stacked=true value=system.category}}
         {{formField fields.transmission rootId="ail-trx" classes="text-field" stacked=true value=system.transmission}}
         {{formField fields.isDormant rootId="ail-dormant" classes="text-field" stacked=true value=system.isDormant}}
-        {{formField fields.isTreated rootId="ail-treated" classes="text-field" stacked=true value=system.isTreated}}
+        <div class="form-group text-field stacked">
+            <label>Treated (world-time)</label>
+            {{clearableNumberInput fields.treatmentDate name="system.treatmentDate" value=system.treatmentDate}}
+        </div>
         {{formField fields.levelBase rootId="ail-level" classes="text-field" stacked=true value=system.levelBase}}
         {{formField fields.healingRateBase rootId="ail-hr" classes="text-field" stacked=true value=system.healingRateBase}}
         {{formField fields.diagnosisBonusBase rootId="ail-diag" classes="text-field" stacked=true value=system.diagnosisBonusBase}}

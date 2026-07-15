@@ -13,6 +13,11 @@
 
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel";
 import {
+    worldTimeDateField,
+    phaseFields,
+    recurringPhaseFields,
+} from "@src/document/item/foundry/temporal-fields";
+import {
     AfflictionLogic,
     AfflictionData,
 } from "@src/document/item/logic/AfflictionLogic";
@@ -43,7 +48,11 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         }),
         category: new StringField({ initial: "" }),
         isDormant: new BooleanField({ initial: false }),
-        isTreated: new BooleanField({ initial: false }),
+        contractDate: worldTimeDateField(),
+        treatmentDate: worldTimeDateField(),
+        ...phaseFields("onset"),
+        ...recurringPhaseFields("healingCheck"),
+        ...phaseFields("resolution"),
         diagnosisBonusBase: new NumberField({
             integer: true,
             initial: 0,
@@ -92,7 +101,17 @@ export class AfflictionDataModel<
     subType!: AfflictionSubType;
     category!: string;
     isDormant!: boolean;
-    isTreated!: boolean;
+    contractDate!: number | null;
+    treatmentDate!: number | null;
+    onsetDurationFormula!: string;
+    onsetDurationBase!: number | null;
+    onsetDate!: number | null;
+    healingCheckDurationFormula!: string;
+    healingCheckDurationBase!: number | null;
+    lastHealingCheckDate!: number | null;
+    resolutionDurationFormula!: string;
+    resolutionDurationBase!: number | null;
+    resolutionDate!: number | null;
     diagnosisBonusBase!: number;
     levelBase!: number;
     healingRateBase!: number;
@@ -105,5 +124,37 @@ export class AfflictionDataModel<
      */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineAfflictionSchema();
+    }
+
+    /**
+     * Seed the contract anchor and incubation duration when an Affliction is
+     * created: `contractDate` is set to the current world time and
+     * `onsetDurationBase` is seeded from a numeric read of the (per-disease)
+     * `onsetDurationFormula`. The phase events are armed by
+     * {@link AfflictionLogic.finalize} on the following preparation; the onset
+     * transition rolls the resolution and healing-check intervals in turn.
+     *
+     * @param data - The pending creation data.
+     * @param options - The create operation options.
+     * @param user - The requesting user.
+     * @returns `false` to veto creation, otherwise `undefined`.
+     */
+    protected override async _preCreate(
+        data: PlainObject,
+        options: PlainObject,
+        user: User,
+    ): Promise<boolean | void> {
+        const allowed = await super._preCreate(
+            data as any,
+            options as any,
+            user as any,
+        );
+        if (allowed === false) return false;
+
+        this.updateSource({
+            contractDate: game.time.worldTime,
+            onsetDurationBase: Number(this.onsetDurationFormula) || 0,
+        } as any);
+        return undefined;
     }
 }

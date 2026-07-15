@@ -497,7 +497,6 @@ describe("buildTraumaData", () => {
             levelBase: 5,
             healingRateBase: 0,
             aspect: IMPACT_ASPECT.EDGED,
-            isTreated: false,
             isBleeding: true,
             bodyLocationCode: "neck",
         });

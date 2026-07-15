@@ -12,6 +12,10 @@
  */
 
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel";
+import {
+    worldTimeDateField,
+    recurringPhaseFields,
+} from "@src/document/item/foundry/temporal-fields";
 import { TraumaLogic, TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
     IMPACT_ASPECT,
@@ -46,14 +50,19 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         }),
         healingRateBase: new NumberField({
             integer: true,
-            initial: 0,
+            required: false,
+            nullable: true,
+            initial: null,
             min: 0,
         }),
         aspect: new StringField({
             initial: IMPACT_ASPECT.BLUNT,
             choices: ImpactAspectChoices,
         }),
-        isTreated: new BooleanField({ initial: false }),
+        contractDate: worldTimeDateField(),
+        treatmentDate: worldTimeDateField(),
+        ...recurringPhaseFields("healingCheck"),
+        ...recurringPhaseFields("bloodLossAdvance"),
         isBleeding: new BooleanField({ initial: false }),
         bodyLocationCode: new StringField({ initial: "", required: true }),
     };
@@ -78,9 +87,16 @@ export class TraumaDataModel<
     static override readonly kind = ITEM_KIND.TRAUMA;
     subType!: TraumaSubType;
     levelBase!: number;
-    healingRateBase!: number;
+    healingRateBase!: number | null;
     aspect!: ImpactAspect;
-    isTreated!: boolean;
+    contractDate!: number | null;
+    treatmentDate!: number | null;
+    healingCheckDurationFormula!: string;
+    healingCheckDurationBase!: number | null;
+    lastHealingCheckDate!: number | null;
+    bloodLossAdvanceDurationFormula!: string;
+    bloodLossAdvanceDurationBase!: number | null;
+    lastBloodLossAdvanceDate!: number | null;
     isBleeding!: boolean;
     bodyLocationCode!: string;
 
@@ -90,5 +106,55 @@ export class TraumaDataModel<
      */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineTraumaDataSchema();
+    }
+
+    /**
+     * Seed the temporal anchors and interval formulas when a Trauma is created:
+     * `contractDate` / `lastHealingCheckDate` (and, for a bleeding wound,
+     * `lastBloodLossAdvanceDate`) are set to the current world time, and the
+     * interval formulas are taken from the corresponding world settings. The
+     * duration bases are seeded from a numeric read of the formula (the defaults
+     * are bare second counts); a `0` seed simply fires the first check
+     * immediately, at which point the intrinsic action rolls the real interval.
+     * The queue subscriptions themselves are armed by {@link TraumaLogic.finalize}
+     * on the following preparation.
+     *
+     * @param data - The pending creation data.
+     * @param options - The create operation options.
+     * @param user - The requesting user.
+     * @returns `false` to veto creation, otherwise `undefined`.
+     */
+    protected override async _preCreate(
+        data: PlainObject,
+        options: PlainObject,
+        user: User,
+    ): Promise<boolean | void> {
+        const allowed = await super._preCreate(
+            data as any,
+            options as any,
+            user as any,
+        );
+        if (allowed === false) return false;
+
+        const now = game.time.worldTime;
+        const healFormula = String(
+            game.settings.get("sohl", "healingCheckDurationFormula") ?? "",
+        );
+        const bloodFormula = String(
+            game.settings.get("sohl", "bloodLossAdvanceDurationFormula") ?? "",
+        );
+        const seed: PlainObject = {
+            contractDate: now,
+            lastHealingCheckDate: now,
+            healingCheckDurationFormula: healFormula,
+            healingCheckDurationBase: Number(healFormula) || 0,
+        };
+        if (this.isBleeding) {
+            seed.lastBloodLossAdvanceDate = now;
+            seed.bloodLossAdvanceDurationFormula = bloodFormula;
+            seed.bloodLossAdvanceDurationBase = Number(bloodFormula) || 0;
+        }
+        this.updateSource(seed as any);
+        return undefined;
     }
 }

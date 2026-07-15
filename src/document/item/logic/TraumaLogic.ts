@@ -12,6 +12,8 @@
  */
 
 import { entity } from "@src/entity/registry";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
+import { fvttWorldTime } from "@src/core/FoundryHelpers";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
@@ -76,6 +78,18 @@ export class TraumaLogic<
      * {@link TraumaData.healingRateBase}.
      */
     healingRate!: ValueModifier;
+    /**
+     * Effective seconds between healing checks, as a
+     * {@link sohl.entity.modifier.ValueModifier}, seeded from
+     * {@link TraumaData.healingCheckDurationBase}.
+     */
+    healingCheckDurationBase!: ValueModifier;
+    /**
+     * Effective seconds between blood-loss advances, as a
+     * {@link sohl.entity.modifier.ValueModifier}, seeded from
+     * {@link TraumaData.bloodLossAdvanceDurationBase}.
+     */
+    bloodLossAdvanceDurationBase!: ValueModifier;
     /**
      * The {@link BodyLocation} on the actor's Corpus that this trauma
      * affects, resolved from {@link TraumaData.bodyLocationCode}. When the
@@ -149,7 +163,35 @@ export class TraumaLogic<
                 visible: "itemLogic.data.subType === 'physical'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
+            {
+                shortcode: "healingCheck",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.healingCheck.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-healing",
+                executor: "healingCheck",
+                visible: "itemLogic.data.subType === 'physical'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "bloodLossAdvanceCheck",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.bloodLossAdvanceCheck.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-blood",
+                executor: "bloodLossAdvanceCheck",
+                visible: "itemLogic.data.isBleeding",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
         ];
+    }
+
+    /**
+     * Whether the trauma has received medical treatment. Derived: true when a
+     * {@link TraumaData.treatmentDate | treatmentDate} is set.
+     */
+    get isTreated(): boolean {
+        return this.data.treatmentDate != null;
     }
 
     /* --------------------------------------------- */
@@ -165,7 +207,15 @@ export class TraumaLogic<
         this.healingRate = new entity.ValueModifier(
             {},
             { parent: this },
-        ).setBase(this.data.healingRateBase);
+        ).setBase(this.data.healingRateBase ?? 0);
+        this.healingCheckDurationBase = new entity.ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.healingCheckDurationBase ?? 0);
+        this.bloodLossAdvanceDurationBase = new entity.ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.bloodLossAdvanceDurationBase ?? 0);
         this.bodyLocation = undefined;
     }
 
@@ -178,6 +228,117 @@ export class TraumaLogic<
     /** @inheritdoc */
     override finalize(): void {
         super.finalize();
+        const uuid = this.item?.uuid;
+        if (!uuid) return;
+
+        // Healing check — recurring while the wound persists. Scheduled from the
+        // persisted anchor (never the live clock); see the Event Queue contract.
+        if (
+            this.level.effective > 0 &&
+            this.data.lastHealingCheckDate != null
+        ) {
+            sohl.events.scheduleAt(
+                uuid,
+                "healingCheck",
+                this.data.lastHealingCheckDate +
+                    this.healingCheckDurationBase.effective,
+            );
+        } else {
+            sohl.events.unsubscribe(uuid, "healingCheck");
+        }
+
+        // Blood-loss advance — recurring while the wound bleeds.
+        if (
+            this.data.isBleeding &&
+            this.data.lastBloodLossAdvanceDate != null
+        ) {
+            sohl.events.scheduleAt(
+                uuid,
+                "trauma::bloodLossAdvanceRoll",
+                this.data.lastBloodLossAdvanceDate +
+                    this.bloodLossAdvanceDurationBase.effective,
+            );
+        } else {
+            sohl.events.unsubscribe(uuid, "trauma::bloodLossAdvanceRoll");
+        }
+    }
+
+    /**
+     * Roll a duration formula to a number of seconds. Falls back to a plain
+     * numeric parse (the default settings are bare second counts), or `0` when
+     * neither yields a finite number.
+     *
+     * @param formula - The duration formula (dice expression or bare seconds).
+     * @returns The rolled duration in seconds.
+     */
+    private rollDuration(formula: string): number {
+        if (!formula) return 0;
+        try {
+            const rolled = SimpleRoll.fromFormula(formula, this).roll();
+            if (Number.isFinite(rolled)) return rolled;
+        } catch {
+            // fall through to a numeric parse
+        }
+        const n = Number(formula);
+        return Number.isFinite(n) ? n : 0;
+    }
+
+    /**
+     * Intrinsic-action executor for the recurring `healingCheck` event.
+     *
+     * Advances the healing-check anchor to now, rolls the next interval from
+     * {@link TraumaData.healingCheckDurationFormula}, and schedules the next
+     * `healingCheck` occurrence. Registered as an action so the same routine
+     * serves the timed event and a manual invocation.
+     *
+     * @param _context - The action context (its `scope` is the trigger context).
+     * @returns A promise that resolves once the anchor is persisted.
+     * @remarks The healing **effect** — rolling the recovery test and applying it
+     *   to the wound level — is not yet implemented; see issue #486.
+     */
+    async healingCheck(_context: SohlActionContext): Promise<void> {
+        const now = fvttWorldTime();
+        const rolled = this.rollDuration(this.data.healingCheckDurationFormula);
+        this.healingCheckDurationBase.setBase(rolled);
+        sohl.events.scheduleAt(
+            this.item.uuid,
+            "healingCheck",
+            now + this.healingCheckDurationBase.effective,
+        );
+        await this.item.update({
+            "system.lastHealingCheckDate": now,
+            "system.healingCheckDurationBase": rolled,
+        } as PlainObject);
+    }
+
+    /**
+     * Intrinsic-action executor that arms the recurring blood-loss advance for a
+     * bleeding wound.
+     *
+     * Advances the blood-loss anchor to now, rolls the next interval from
+     * {@link TraumaData.bloodLossAdvanceDurationFormula}, and schedules the
+     * `trauma::bloodLossAdvanceRoll` occurrence.
+     *
+     * @param _context - The action context (its `scope` is the trigger context).
+     * @returns A promise that resolves once the anchor is persisted.
+     * @remarks The blood-loss **effect** — the advance roll and its consequences —
+     *   is not yet implemented; see issue #487.
+     */
+    async bloodLossAdvanceCheck(_context: SohlActionContext): Promise<void> {
+        const now = fvttWorldTime();
+        const rolled = this.rollDuration(
+            this.data.bloodLossAdvanceDurationFormula,
+        );
+        this.bloodLossAdvanceDurationBase.setBase(rolled);
+        sohl.events.scheduleAt(
+            this.item.uuid,
+            "trauma::bloodLossAdvanceRoll",
+            now + this.bloodLossAdvanceDurationBase.effective,
+        );
+        await this.item.update({
+            "system.lastBloodLossAdvanceDate": now,
+            "system.bloodLossAdvanceDurationBase": rolled,
+        } as PlainObject);
     }
 
     /**
@@ -211,12 +372,29 @@ export interface TraumaData<
     subType: TraumaSubType;
     /** Severity on a graduated scale: M1, S2-S3, G4-G5 */
     levelBase: number;
-    /** Base rate of wound healing per time period */
-    healingRateBase: number;
+    /** Base rate of wound healing per time period; `null` until established. */
+    healingRateBase: number | null;
     /** Type of damage: Blunt, Edged, Piercing, or Fire */
     aspect: ImpactAspect;
-    /** Whether the trauma has received medical treatment */
-    isTreated: boolean;
+    /** World-time (seconds) at which the injury was contracted. */
+    contractDate: number | null;
+    /**
+     * World-time (seconds) at which medical treatment was applied, or `null`
+     * if untreated. `isTreated` is derived from this on the logic.
+     */
+    treatmentDate: number | null;
+    /** Formula rolled to seed the healing-check interval. */
+    healingCheckDurationFormula: string;
+    /** Rolled seconds between healing checks; `null` until rolled. */
+    healingCheckDurationBase: number | null;
+    /** World-time of the last applied healing check (the recurrence anchor). */
+    lastHealingCheckDate: number | null;
+    /** Formula rolled to seed the blood-loss-advance interval. */
+    bloodLossAdvanceDurationFormula: string;
+    /** Rolled seconds between blood-loss advances; `null` until rolled. */
+    bloodLossAdvanceDurationBase: number | null;
+    /** World-time of the last applied blood-loss advance (the recurrence anchor). */
+    lastBloodLossAdvanceDate: number | null;
     /** Whether the wound is actively bleeding */
     isBleeding: boolean;
     /**
