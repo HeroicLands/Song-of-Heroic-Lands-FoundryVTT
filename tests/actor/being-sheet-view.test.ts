@@ -25,6 +25,7 @@ import {
     buildBodyLocationTree,
     htmlToPlainText,
     buildContainerTree,
+    resolveGearContainerMove,
     buildStatusPills,
     buildBodyPartLozenges,
     clampHealthPct,
@@ -529,6 +530,96 @@ describe("being-sheet-view", () => {
             expect(packNode.items).toEqual([pouch]);
             // pouch is nested, not On Body; pack (no containerId) is On Body.
             expect(tree.onBodyItems).toEqual([pack]);
+        });
+    });
+
+    describe("resolveGearContainerMove", () => {
+        interface Gear {
+            id: string;
+            containerId?: string | null;
+        }
+        const gear: Gear[] = [
+            { id: "pack" },
+            { id: "pouch", containerId: "pack" },
+            { id: "sword", containerId: null },
+            { id: "coin", containerId: "pouch" },
+        ];
+
+        it("moves loose gear into a container (changed)", () => {
+            const r = resolveGearContainerMove("sword", "pack", gear);
+            expect(r).toEqual({
+                allowed: true,
+                changed: true,
+                containerId: "pack",
+            });
+        });
+
+        it("clears the container when dropped On Body (undefined dest)", () => {
+            const r = resolveGearContainerMove("coin", undefined, gear);
+            expect(r).toEqual({
+                allowed: true,
+                changed: true,
+                containerId: undefined,
+            });
+        });
+
+        it("treats empty-string and null dest as On Body", () => {
+            expect(resolveGearContainerMove("coin", "", gear).containerId).toBe(
+                undefined,
+            );
+            expect(
+                resolveGearContainerMove("coin", null, gear).containerId,
+            ).toBe(undefined);
+        });
+
+        it("reports no change when the destination equals the current container", () => {
+            const r = resolveGearContainerMove("pouch", "pack", gear);
+            expect(r.allowed).toBe(true);
+            expect(r.changed).toBe(false);
+        });
+
+        it("treats On-Body gear re-dropped On Body as no change", () => {
+            const r = resolveGearContainerMove("sword", undefined, gear);
+            expect(r.allowed).toBe(true);
+            expect(r.changed).toBe(false);
+        });
+
+        it("rejects dropping a container into itself", () => {
+            const r = resolveGearContainerMove("pack", "pack", gear);
+            expect(r.allowed).toBe(false);
+        });
+
+        it("rejects dropping a container into its own descendant (cycle)", () => {
+            // pouch is inside pack; pack cannot go into pouch.
+            expect(
+                resolveGearContainerMove("pack", "pouch", gear).allowed,
+            ).toBe(false);
+            // coin is inside pouch inside pack; pack cannot go into coin either.
+            expect(resolveGearContainerMove("pack", "coin", gear).allowed).toBe(
+                false,
+            );
+        });
+
+        it("allows a container to move into an unrelated container", () => {
+            const r = resolveGearContainerMove("pouch", "sack", [
+                ...gear,
+                { id: "sack" },
+            ]);
+            expect(r).toEqual({
+                allowed: true,
+                changed: true,
+                containerId: "sack",
+            });
+        });
+
+        it("terminates on a pre-existing corrupt cycle in the data", () => {
+            const corrupt: Gear[] = [
+                { id: "a", containerId: "b" },
+                { id: "b", containerId: "a" },
+            ];
+            // Must not infinite-loop; the move is into an unrelated dest.
+            const r = resolveGearContainerMove("x", "a", corrupt);
+            expect(r.allowed).toBe(true);
         });
     });
 

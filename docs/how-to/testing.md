@@ -438,6 +438,14 @@ These cost real debugging time; they are not apparent from the code.
 - **Group seeding is async.** `SohlCombat` seeds combatant groups in a
   fire-and-forget hook, so a combatant's `groupId` is not set the instant
   `createEmbeddedDocuments` resolves — poll for it before asserting.
+- **Simulating gear drag-and-drop.** To exercise the Being sheet's gear
+  drop/sort path (`gear-dragdrop.cy.js`), dispatch a real `drop` on the target
+  element inside the live sheet (`actor.sheet.element`), carrying a
+  `DataTransfer` built in the game realm (`new win.DataTransfer()`) whose
+  `text/plain` payload is the source item's drag data (`{ type: "Item", uuid }`).
+  The handler updates asynchronously and the synthetic event does not await it,
+  so **poll the item's `system.containerId` / `sort` until it settles** rather
+  than asserting immediately.
 - **Viewport-dependent accessors are empty headless.** `game.combat` and
   `sohl.currentCombatCombatantLogics` read the _viewed_ combat, which needs a
   canvas — assert on the combat document and each combatant's `.logic` directly.

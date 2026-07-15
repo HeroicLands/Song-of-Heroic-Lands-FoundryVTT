@@ -1049,7 +1049,9 @@ export namespace SohlDataModel {
                 event: PointerEvent,
             ): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
-                if (!dataset.valueDesc || !dataset.array) return;
+                // Routed here by `data-object-type="ValueDesc"` in the dispatcher;
+                // only the target array path is required.
+                if (!dataset.array) return;
                 let array: { label: string; maxValue: number }[] = (
                     (foundry.utils.getProperty(this.document, dataset.array) ||
                         []) as Array<{ label: string; maxValue: number }>
@@ -1129,7 +1131,11 @@ export namespace SohlDataModel {
              */
             protected async _addArrayItem(event: PointerEvent): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
-                await (this as any)._onSubmit(event); // Submit any unsaved changes
+                // Flush any focused-but-unsaved field edit. ApplicationV2 saves
+                // on change (submitOnChange), and clicking a control blurs the
+                // field; the optional call is a belt-and-suspenders flush that
+                // no-ops when the base sheet exposes no `_onSubmit`.
+                await (this as any)._onSubmit?.(event);
 
                 if (dataset.objectType === "Aim") {
                     await this._addAimArrayItem(event);
@@ -1157,12 +1163,31 @@ export namespace SohlDataModel {
             ): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.array) return;
-                await (this as any)._onSubmit(event); // Submit any unsaved changes
-                let array: any[] = foundry.utils.getProperty(
+                // Flush any focused-but-unsaved field edit. ApplicationV2 saves
+                // on change (submitOnChange), and clicking a control blurs the
+                // field; the optional call is a belt-and-suspenders flush that
+                // no-ops when the base sheet exposes no `_onSubmit`.
+                await (this as any)._onSubmit?.(event);
+                const current = foundry.utils.getProperty(
                     this.document,
                     dataset.array,
-                ) as any[];
-                array = array.filter((a: any) => a !== dataset.value);
+                );
+                let array: any[] = Array.isArray(current) ? [...current] : [];
+                // Object-array rows delete by index (`data-index`); primitive
+                // rows delete by value (`data-value`). Either way the whole
+                // array is written back, never an element by index.
+                if (dataset.index !== undefined) {
+                    const idx = Number.parseInt(dataset.index, 10);
+                    if (
+                        !Number.isInteger(idx) ||
+                        idx < 0 ||
+                        idx >= array.length
+                    )
+                        return;
+                    array.splice(idx, 1);
+                } else {
+                    array = array.filter((a: any) => a !== dataset.value);
+                }
                 const result = await (this.document as any).update({
                     [dataset.array]: array,
                 });
@@ -1180,7 +1205,11 @@ export namespace SohlDataModel {
                 if (!dataset.object) return;
                 if (!dataset.title) dataset.title = "Add Key";
 
-                await (this as any)._onSubmit(event); // Submit any unsaved changes
+                // Flush any focused-but-unsaved field edit. ApplicationV2 saves
+                // on change (submitOnChange), and clicking a control blurs the
+                // field; the optional call is a belt-and-suspenders flush that
+                // no-ops when the base sheet exposes no `_onSubmit`.
+                await (this as any)._onSubmit?.(event);
 
                 let object = foundry.utils.getProperty(
                     this.document,

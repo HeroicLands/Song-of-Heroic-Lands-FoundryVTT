@@ -15,12 +15,9 @@ import { SohlItem } from "./SohlItem";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import { SohlDataModel } from "@src/core/foundry/SohlDataModel";
 import { fvttCallHook } from "@src/core/FoundryHelpers";
-import type { GearLogic } from "../logic/GearLogic";
 import {
     localizeSubType,
     keyTransferredEffects,
-    findSimilarItem,
-    type ItemMatchKey,
 } from "@src/document/item/logic/item-sheet-view";
 const TextEditor = foundry.applications.ux.TextEditor.implementation;
 type RenderContext =
@@ -123,6 +120,38 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     /** The actor owning this item, or null if the item is unowned. */
     get actor(): SohlActor | null {
         return this.item.actor;
+    }
+
+    /**
+     * After each render, wire the array-field editor controls that some
+     * properties templates render (e.g. armor coverage locations). Add/remove
+     * of array values is not a form field, so it is driven by these controls
+     * rather than `submitOnChange`. Each render replaces the DOM, so binding the
+     * freshly-queried controls does not accumulate listeners.
+     *
+     * @param context - The render context.
+     * @param options - The render options.
+     */
+    protected override async _onRender(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<void> {
+        await super._onRender(context, options);
+        if (!this.isEditable) return;
+
+        const el = (this as any).element as HTMLElement | undefined;
+        el?.querySelectorAll<HTMLElement>(".add-array-item").forEach(
+            (control) =>
+                control.addEventListener("click", (event) =>
+                    (this as any)._addArrayItem(event as PointerEvent),
+                ),
+        );
+        el?.querySelectorAll<HTMLElement>(".delete-array-item").forEach(
+            (control) =>
+                control.addEventListener("click", (event) =>
+                    (this as any)._deleteArrayItem(event as PointerEvent),
+                ),
+        );
     }
 
     /**
@@ -346,298 +375,5 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             (this.document as any).transferredEffects,
         );
         return Object.assign(context, { effects, trxEffects });
-    }
-
-    /**
-     * Route a dropped item to the gear or non-gear drop handler based on
-     * whether it carries the `isCarried` property.
-     * @param event - The originating drop event.
-     * @param droppedItem - The item that was dropped onto this sheet.
-     */
-    protected async _onDropItem(
-        event: DragEvent,
-        droppedItem: SohlItem,
-    ): Promise<void> {
-        if (!this.document.isOwner) return;
-
-        // If the item has the "isCarried" property, it is gear
-        // otherwise it is not gear
-        if (Object.hasOwn(droppedItem.system, "isCarried")) {
-            void this._onDropGear(event, droppedItem);
-        } else {
-            void this._onDropNonGear(event, droppedItem);
-        }
-    }
-
-    /**
-     * Create one or more embedded items on the owning actor from dropped data,
-     * prompting to overwrite any pre-existing similar item.
-     * @param data - The dropped item data, or an array of item data.
-     * @param event - The originating drop event (unused).
-     * @returns The created items, or `false` if creation was not performed.
-     */
-    protected async _onDropItemCreate(
-        data: PlainObject,
-        event: DragEvent,
-    ): Promise<SohlItem[] | undefined | boolean> {
-        void event;
-        if (!this.actor || !this.item.isOwner) return false;
-        const itemList = data instanceof Array ? data : [data];
-        const toCreate = [];
-        for (let itemData of itemList) {
-            // Determine if a similar item exists
-            const similarItem = findSimilarItem(
-                itemData as ItemMatchKey,
-                this.actor.items as any,
-            ) as SohlItem | undefined;
-
-            if (similarItem) {
-                const confirm = await Dialog.confirm({
-                    title: `Confirm Overwrite: ${(similarItem.system as any).label}`,
-                    content: `<p>Are You Sure?</p><p>This item will be overwritten and cannot be recovered.</p>`,
-                    options: { jQuery: false },
-                });
-                if (confirm) {
-                    delete itemData._id;
-                    delete itemData.pack;
-                    let result: SohlItem | undefined =
-                        await similarItem.delete();
-                    if (result) {
-                        [result] = (await this.actor.createEmbeddedDocuments(
-                            "Item",
-                            [itemData],
-                        )) as SohlItem[];
-                    } else {
-                        sohl.log.uiWarn("Overwrite failed");
-                        continue;
-                    }
-                    toCreate.push(itemData);
-                }
-            } else {
-                toCreate.push(itemData);
-            }
-        }
-
-        const result = (await this.actor.createEmbeddedDocuments(
-            "Item",
-            toCreate,
-        )) as SohlItem[] | undefined;
-        return result || false;
-    }
-
-    /**
-     * Prompt the user for how many units of a stacked item to move into a
-     * destination container.
-     * @param item - The stacked item being moved.
-     * @param destContainer - The container the item is being moved into.
-     * @returns The quantity the user chose to move (0 if cancelled or invalid).
-     */
-    protected async _moveQtyDialog(
-        item: SohlItem,
-        destContainer: SohlItem,
-    ): Promise<number> {
-        if (!item?.actor || !destContainer) {
-            sohl.log.uiError("Invalid item or destination container");
-            return 0;
-        }
-        // Render modal dialog
-        let dlgData = {
-            itemName: item.name,
-            targetName: destContainer.name || item.actor.name,
-            maxItems: (item.system as any).quantity,
-            sourceName: "",
-        };
-
-        const compiled = Handlebars.compile(
-            `<form id="items-to-move">
-            <p>Moving {{itemName}} from {{sourceName}} to {{targetName}}</p>
-            <div class="form-group">
-                <label>How many (0-{{maxItems}})?</label>
-                {{numberInput maxItems name="itemstomove" step=1 min=0 max=maxItems}}
-            </div>
-            </form>`,
-        );
-        const dlgHtml = compiled(dlgData);
-
-        // Create the dialog window
-        const result = await Dialog.prompt({
-            title: "Move Items",
-            content: dlgHtml,
-            label: "OK",
-            callback: async (element) => {
-                const form = element.querySelector("form");
-                if (!form) {
-                    sohl.log.uiError("Form not found in dialog");
-                    return 0;
-                }
-                const fd: FormDataExtended = new FormDataExtended(form);
-                const formdata: PlainObject = foundry.utils.expandObject(
-                    fd.object,
-                );
-                let formQtyToMove = Number.parseInt(formdata.itemstomove) || 0;
-
-                return formQtyToMove;
-            },
-            options: { jQuery: false },
-            rejectClose: false,
-        });
-
-        return result || 0;
-    }
-
-    /**
-     * Handle dropping a gear item, either sorting it within its current
-     * container or moving (and optionally splitting the stack) into a new one.
-     * @param event - The originating drop event.
-     * @param droppedItem - The gear item that was dropped.
-     * @returns The created/moved item, `true` if merely re-sorted, or `false` on a rejected move.
-     */
-    protected async _onDropGear(
-        event: DragEvent,
-        droppedItem: SohlItem,
-    ): Promise<SohlItem | boolean> {
-        const target: HTMLElement | null = (
-            event.target as HTMLElement
-        )?.closest("[data-container-id]");
-        const destContainerId = target?.dataset.containerId;
-
-        // If no other container is specified, use this item
-        let destContainer: SohlItem | null = null;
-        if (destContainerId) {
-            destContainer = (this.document.actor as any)?.allItems.get(
-                destContainerId,
-            );
-        }
-
-        if (droppedItem.id === destContainer?.id) {
-            // Prohibit moving a container into itself
-            sohl.log.uiWarn("Can't move a container into itself");
-            return false;
-        }
-
-        if (
-            !destContainer ||
-            destContainer.id ===
-                (droppedItem.logic as GearLogic).containedIn?.id
-        ) {
-            // If dropped item source and dest containers are the same,
-            // then we are simply rearranging
-            await this._onSortItem(event, droppedItem);
-            return true;
-        }
-
-        const similarItem: SohlItem | undefined = (destContainer as any).find(
-            (it: SohlItem) =>
-                droppedItem.id === it.id ||
-                (droppedItem.name === it.name && droppedItem.type === it.type),
-        );
-
-        if (similarItem) {
-            sohl.log.uiError(`Similar item exists in ${destContainer.name}`);
-            return false;
-        }
-
-        let quantity = (droppedItem.system as any).quantity;
-        if (quantity > 1 && !droppedItem.parent) {
-            // Ask how many to move
-            quantity = await this._moveQtyDialog(droppedItem, destContainer);
-        }
-
-        const itemData = droppedItem.toObject() as any;
-        delete itemData._id; // Remove ID to create a new item
-        itemData.system.quantity = quantity;
-        return (
-            ((await SohlItem.create(itemData, {
-                parent: destContainer,
-            } as any)) as SohlItem) || false
-        );
-    }
-
-    /**
-     * Handle dropping a non-gear item, sorting it among siblings if it already
-     * belongs to this document or creating it on the actor otherwise.
-     * @param event - The originating drop event.
-     * @param droppedItem - The non-gear item that was dropped.
-     * @returns `true` if the item was sorted or created, `false` otherwise.
-     */
-    protected async _onDropNonGear(
-        event: DragEvent,
-        droppedItem: SohlItem,
-    ): Promise<boolean> {
-        if (droppedItem.parent?.id === this.document.id) {
-            // Sort items
-            const result = await this._onSortItem(event, droppedItem);
-            return !!result?.length;
-        } else {
-            const result = await this._onDropItemCreate(droppedItem, event);
-            return !!result;
-        }
-    }
-
-    /**
-     * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings.
-     * @param event - The initiating drop event
-     * @param item - The dropped Item document
-     * @returns A Promise which resolves to the sorted list of sibling items, or undefined if sorting was not possible.
-     */
-    protected _onSortItem(
-        event: DragEvent,
-        item: SohlItem,
-    ): Promise<SohlItem[] | undefined> {
-        if (!this.actor || !this.actor.isOwner)
-            return Promise.resolve(undefined);
-        const items = this.actor.items;
-        const sourceId = item.id;
-        if (!sourceId) return Promise.resolve(undefined);
-        const source = items.get(sourceId);
-        if (!source) return Promise.resolve(undefined);
-
-        // Find drop target item
-        const targetElement = (event.target as HTMLElement)?.closest(
-            "[data-item-id]",
-        ) as HTMLElement | null;
-        if (!targetElement) return Promise.resolve(undefined);
-
-        const targetId = targetElement.dataset.itemId;
-        if (!targetId || targetId === sourceId)
-            return Promise.resolve(undefined);
-
-        const target: SohlItem | undefined = items.get(targetId);
-        if (!target) return Promise.resolve(undefined);
-
-        // Build ordered list of sibling items excluding the source item
-        const children: Element[] = Array.from(
-            targetElement.parentElement?.children || [],
-        );
-        const siblings: SohlItem[] = children.reduce((acc: SohlItem[], el) => {
-            const ele = el as HTMLElement;
-            const itemId = ele.dataset.itemId || "";
-            const item = items.get(itemId);
-            if (item && item.id !== sourceId) {
-                acc.push(item);
-            }
-            return acc;
-        }, []);
-
-        // Sort the item using Foundry's utility
-        const sorted: { target: SohlItem; update: PlainObject }[] =
-            foundry.utils.performIntegerSort(source, {
-                target,
-                siblings,
-            });
-
-        // Prepare update data
-        const updateData = sorted.map(({ target, update }) => {
-            return {
-                _id: target.id,
-                ...update,
-            };
-        });
-
-        // Apply the sort updates
-        return this.actor.updateEmbeddedDocuments(
-            "Item",
-            updateData as any,
-        ) as Promise<SohlItem[] | undefined>;
     }
 }

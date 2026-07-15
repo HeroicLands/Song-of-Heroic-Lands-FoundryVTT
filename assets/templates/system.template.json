@@ -62,9 +62,6 @@
             "attribute": {
                 "htmlFields": ["notes", "docHtml"]
             },
-            "combattechnique": {
-                "htmlFields": ["notes", "docHtml"]
-            },
             "concoctiongear": {
                 "htmlFields": ["notes", "docHtml"]
             },

@@ -19,6 +19,7 @@ import {
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     ITEM_KIND,
+    GearKinds,
     MovementMedium,
     MovementMediumChoices,
     MysterySubTypes,
@@ -50,6 +51,7 @@ import {
     buildHoldableGear,
     buildBodyLocationTree,
     buildContainerTree,
+    resolveGearContainerMove,
     htmlToPlainText,
     buildStatusPills,
     buildBodyPartLozenges,
@@ -276,6 +278,146 @@ export class BeingSheet extends SohlActorSheetBase {
             );
     }
 
+    /**
+     * Handle an Item dropped onto the being sheet. A **gear item already on this
+     * actor** is handled here — the drop is a container reassignment and/or a
+     * reorder (see {@link _onDropGearOnActor}). Every other case (a cross-actor
+     * move, or a compendium/world clone) falls through to
+     * {@link SohlActorSheetBase._onDropItem}.
+     *
+     * @param event - The originating drop event (its target locates the destination).
+     * @param droppedItem - The resolved dropped item.
+     */
+    protected override async _onDropItem(
+        event: DragEvent,
+        droppedItem: SohlItem,
+    ): Promise<void> {
+        const actor = this.document;
+        const isSameActor = droppedItem?.actor?.id === actor.id;
+        const isGear = GearKinds.includes(droppedItem?.type as any);
+        if (actor.isOwner && isSameActor && isGear) {
+            await this._onDropGearOnActor(event, droppedItem);
+            return;
+        }
+        await super._onDropItem(event, droppedItem);
+    }
+
+    /**
+     * Reassign and/or reorder a gear item already on this actor. The destination
+     * container is read from the drop target's `data-container-id` ancestor
+     * (absent → the virtual "On Body" list), and the position from the
+     * `data-item-id` row it was dropped onto. Both the `system.containerId`
+     * change and the `sort` reordering are applied in a single
+     * `updateEmbeddedDocuments` call.
+     *
+     * @param event - The originating drop event.
+     * @param droppedItem - The gear item being moved (already embedded on this actor).
+     */
+    protected async _onDropGearOnActor(
+        event: DragEvent,
+        droppedItem: SohlItem,
+    ): Promise<void> {
+        const actor = this.document;
+        const droppedId = droppedItem.id;
+        if (!droppedId) return;
+
+        // Destination container from the drop target's DOM; the On Body section
+        // carries no `data-container-id`, so a null match means "On Body".
+        const containerEl = (event.target as HTMLElement)?.closest?.(
+            "[data-container-id]",
+        ) as HTMLElement | null;
+        const destContainerId = containerEl?.dataset.containerId;
+
+        // Snapshot the actor's gear for the pure move planner (self/cycle guard).
+        const gear = (
+            Array.from(actor.items as Iterable<SohlItem>) as SohlItem[]
+        )
+            .filter((it) => GearKinds.includes(it.type as any))
+            .map((it) => ({
+                id: it.id ?? "",
+                containerId: (it.system as any).containerId as
+                    | string
+                    | null
+                    | undefined,
+            }));
+
+        const move = resolveGearContainerMove(droppedId, destContainerId, gear);
+        if (!move.allowed) {
+            sohl.log.uiWarn(
+                "Can't move a container into itself or its contents.",
+            );
+            return;
+        }
+
+        // Merge the container reassignment and the reorder into one update per
+        // affected item so a cross-section drag both re-homes and re-sorts.
+        const updates = new Map<string, PlainObject>();
+        if (move.changed) {
+            updates.set(droppedId, {
+                _id: droppedId,
+                "system.containerId": move.containerId ?? null,
+            });
+        }
+        for (const u of this._planGearSort(event, droppedItem)) {
+            updates.set(u._id, { ...(updates.get(u._id) ?? {}), ...u });
+        }
+
+        if (updates.size === 0) return;
+        await actor.updateEmbeddedDocuments(
+            "Item",
+            Array.from(updates.values()) as any,
+        );
+    }
+
+    /**
+     * Compute the `sort` updates to place the dragged gear item at the drop
+     * target's position among the siblings rendered in that section, using
+     * Foundry's integer-sort utility. Returns an empty list when the drop was
+     * not onto a distinct sibling row (e.g. onto a section header).
+     *
+     * @param event - The originating drop event.
+     * @param source - The gear item being moved.
+     * @returns One `{ _id, sort }` update per re-sorted sibling.
+     */
+    protected _planGearSort(
+        event: DragEvent,
+        source: SohlItem,
+    ): { _id: string; sort: number }[] {
+        const sourceId = source.id;
+        if (!sourceId) return [];
+
+        const targetEl = (event.target as HTMLElement)?.closest?.(
+            "[data-item-id]",
+        ) as HTMLElement | null;
+        const targetId = targetEl?.dataset.itemId;
+        if (!targetId || targetId === sourceId) return [];
+
+        const items = this.document.items;
+        const target = items.get(targetId) as SohlItem | undefined;
+        if (!target) return [];
+
+        // Siblings are the other rows in the drop target's list (its section),
+        // so a cross-section drop sorts within the destination section.
+        const children: Element[] = Array.from(
+            targetEl?.parentElement?.children ?? [],
+        );
+        const siblings: SohlItem[] = children.reduce((acc: SohlItem[], el) => {
+            const itemId = (el as HTMLElement).dataset.itemId || "";
+            const item = items.get(itemId) as SohlItem | undefined;
+            if (item && item.id !== sourceId) acc.push(item);
+            return acc;
+        }, []);
+
+        const sorted = foundry.utils.performIntegerSort(source, {
+            target,
+            siblings,
+        });
+        return sorted.map(({ target, update }) => ({
+            _id: target.id as string,
+            sort: (update as any).sort,
+        }));
+    }
+
     /** @inheritDoc */
     static override DEFAULT_OPTIONS = {
         classes: ["being"],
@@ -285,7 +427,7 @@ export class BeingSheet extends SohlActorSheetBase {
         position: { width: 900, height: 640 },
         dragDrop: [
             {
-                dragSelector: ".item-list .item",
+                dragSelector: ".gear-list .item",
                 dropSelector: null,
             },
         ],
