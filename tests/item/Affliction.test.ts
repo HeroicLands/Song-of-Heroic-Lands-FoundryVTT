@@ -8,6 +8,7 @@ import {
     ITEM_KIND,
 } from "@src/utils/constants";
 import { makeItemLogic } from "@tests/mocks/logicHarness";
+import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 
 describe("AFFLICTION_SUBTYPE (#478)", () => {
     it("includes the long-duration SHOCK and COMA subtypes", () => {
@@ -54,6 +55,92 @@ function makeAffliction(
 
 afterEach(() => {
     vi.restoreAllMocks();
+});
+
+describe("affliction phase scheduling (#483)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    function withEvents() {
+        const scheduleAt = vi.fn();
+        const unsubscribe = vi.fn();
+        (globalThis as any).sohl.events = { scheduleAt, unsubscribe };
+        return { scheduleAt, unsubscribe };
+    }
+    function affliction(overrides: Record<string, unknown> = {}) {
+        const logic = makeAffliction(overrides);
+        (logic.item as any).uuid = "Item.affliction00";
+        return logic;
+    }
+
+    it("finalize arms onsetCheck while incubating (no onsetDate yet)", () => {
+        const { scheduleAt } = withEvents();
+        const logic = affliction({
+            contractDate: 1000,
+            onsetDurationBase: 500,
+            onsetDate: null,
+        });
+        logic.initialize();
+        logic.finalize();
+        expect(scheduleAt).toHaveBeenCalledWith(
+            expect.any(String),
+            "onsetCheck",
+            1500,
+        );
+    });
+
+    it("onsetCheck crystallizes onsetDate and rolls the resolution + recovery intervals", async () => {
+        withEvents();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
+        const logic = affliction({
+            resolutionDurationFormula: "700",
+            healingCheckDurationFormula: "300",
+        });
+        logic.initialize();
+        await logic.onsetCheck({} as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({
+                "system.onsetDate": 2000,
+                "system.lastHealingCheckDate": 2000,
+                "system.resolutionDurationBase": 700,
+                "system.healingCheckDurationBase": 300,
+            }),
+        );
+    });
+
+    it("finalize arms resolutionCheck + recurring healingCheck once symptomatic", () => {
+        const { scheduleAt } = withEvents();
+        const logic = affliction({
+            levelBase: 3,
+            onsetDate: 2000,
+            resolutionDurationBase: 700,
+            lastHealingCheckDate: 2000,
+            healingCheckDurationBase: 300,
+        });
+        logic.initialize();
+        logic.finalize();
+        expect(scheduleAt).toHaveBeenCalledWith(
+            expect.any(String),
+            "resolutionCheck",
+            2700,
+        );
+        expect(scheduleAt).toHaveBeenCalledWith(
+            expect.any(String),
+            "healingCheck",
+            2300,
+        );
+    });
+
+    it("resolutionCheck crystallizes resolutionDate; finalize then unsubscribes all phases", () => {
+        withEvents();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(9000);
+        const logic = affliction({ onsetDate: 2000, resolutionDate: null });
+        logic.initialize();
+        return logic.resolutionCheck({} as any).then(() => {
+            expect(logic.item.update).toHaveBeenCalledWith(
+                expect.objectContaining({ "system.resolutionDate": 9000 }),
+            );
+        });
+    });
 });
 
 describe("AfflictionLogic", () => {
