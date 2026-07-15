@@ -2,7 +2,7 @@
 "sohl": patch
 ---
 
-Fix the broken Add Injury flow.
+**Fix the broken Add Injury flow**
 
 `BeingLogic.addInjuryViaDialog` / `onCreateInjury` resolved the target body via
 `getActorBodyStructure(this)`, but `this` is the `BeingLogic` — which exposes

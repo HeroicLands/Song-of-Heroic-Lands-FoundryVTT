@@ -2,7 +2,7 @@
 "sohl": minor
 ---
 
-**feat(chat): implement chat-card edit-action dispatch (#66)**
+**Implement chat-card edit-action dispatch**
 
 Clicking the edit icon on a posted chat card (standard-test, opposed-result) now re-runs the named action on the owning document instead of silently doing nothing.
 
@@ -13,3 +13,5 @@ Clicking the edit icon on a posted chat card (standard-test, opposed-result) now
 - `BeingLogic.onChatCardEditAction` — same pattern: ownership-gated (`this.actor?.isOwner`), then delegates to `dispatchChatCardAction(this, btn)`.
 
 _Ownership check applies per #167's guidance (edit path only; the button path is tracked separately under #167)._
+
+Closes #66.

@@ -21,5 +21,4 @@ field edits.
 
 Resolves the render and edit-persistence failures tracked in #141. A few item
 kinds remain (their whole-form submit is rejected when a required `subType` is
-unsatisfied; `combattechnique` has no properties template) and stay tracked under
-#141.
+unsatisfied) and stay tracked under #141.

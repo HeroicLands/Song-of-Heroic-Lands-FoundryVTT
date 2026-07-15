@@ -2,7 +2,7 @@
 "sohl": patch
 ---
 
-**refactor(result): rehydrate AttackResult.mode to a live StrikeMode (#204)**
+**Rehydrate `AttackResult.mode` to a live `StrikeMode`**
 
 `AttackResult.mode` previously held a `StrikeModeBase.PointerData` struct in memory (the wire form), making it unusable at runtime. It now holds the live `StrikeModeBase | undefined`, following the same pointer-on-wire / live-object-in-memory rule already applied to `DefendResult.mode` and `AttackResult.combatant`.
 
@@ -12,3 +12,5 @@
 - `AttackResult._modePointer` — private field retains the original `PointerData` for lossless `toJSON()` serialization.
 - `AttackResult.toJSON()` — `mode` is now serialized from `_modePointer` (same shape as before; no wire format change).
 - `SohlCombatantLogic` — two `StrikeModeBase.fromPointerData(atkResult.mode)` calls replaced with direct `atkResult.mode` access; the `priorAttackResult.mode` comparison guarded against `undefined`.
+
+Closes #204.

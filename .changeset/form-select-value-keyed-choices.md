@@ -16,7 +16,6 @@ use it: trait `subType`/`intensity`, affliction `transmission`, projectilegear
 `impactBase.aspect`, and concoctiongear `potency`.
 
 Remaining array-`choices` fields that do not yet render as editable selects are
-tracked in #148; combattechnique's sheet is separately blocked on a missing
-strike-mode template (#147).
+tracked in #148.
 
 Refs #141

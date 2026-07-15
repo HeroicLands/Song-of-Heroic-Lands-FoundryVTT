@@ -2,8 +2,7 @@
 "sohl": patch
 ---
 
-**Fix #75:** `SuccessTestResult.testDialog` now records the target's movement
-from the dialog form.
+**`SuccessTestResult.testDialog` records the target's movement from the dialog form**
 
 The `targetMovement` handling block was commented out with a `FIXME(#75)`.
 The block referenced a nonexistent `this.targetMovement` field and the wrong
@@ -16,3 +15,5 @@ guard name (`isMovement`). The fix:
   existing `rollMode` validation pattern directly above it
 
 Also adds `isSuccessTestResultMovement` to the import list.
+
+Closes #75.

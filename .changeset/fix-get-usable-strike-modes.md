@@ -2,9 +2,7 @@
 "sohl": patch
 ---
 
-**Fix #177:** `BeingLogic.getUsableStrikeModes()` now returns the actor's
-genuinely usable strike modes so automated attack and counterstrike can
-start.
+**`BeingLogic.getUsableStrikeModes()` returns the actor's usable strike modes**
 
 The method body was a `return []` stub, causing `commonAttack` to abort with
 "has no usable strike mode" on every automated attack and counterstrike
@@ -21,3 +19,5 @@ The fix composes the two existing collectors:
 
 Unblocks the automated-attack path (#193 RED cases: "automated attack start"
 and "Counterstrike resume").
+
+Closes #177.
