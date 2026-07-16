@@ -88,34 +88,42 @@ export class BeingSheet extends SohlActorSheetBase {
         profile: {
             id: "profile",
             template: "systems/sohl/templates/actor/being/profile.hbs",
+            scrollable: [""],
         },
         skills: {
             id: "skills",
             template: "systems/sohl/templates/actor/being/skills.hbs",
+            scrollable: [""],
         },
         combat: {
             id: "combat",
             template: "systems/sohl/templates/actor/being/combat.hbs",
+            scrollable: [""],
         },
         trauma: {
             id: "trauma",
             template: "systems/sohl/templates/actor/being/trauma.hbs",
+            scrollable: [""],
         },
         mysteries: {
             id: "mysteries",
             template: "systems/sohl/templates/actor/being/mysteries.hbs",
+            scrollable: [""],
         },
         gear: {
             id: "gear",
             template: "systems/sohl/templates/actor/parts/gear.hbs",
+            scrollable: [""],
         },
         actions: {
             id: "actions",
             template: "systems/sohl/templates/actor/parts/actions.hbs",
+            scrollable: [""],
         },
         effects: {
             id: "effects",
             template: "systems/sohl/templates/actor/parts/effects.hbs",
+            scrollable: [""],
         },
     } as const;
 
@@ -276,6 +284,12 @@ export class BeingSheet extends SohlActorSheetBase {
                     this._onSetHeldItem(event),
                 ),
             );
+
+        // Bind the item/effect context menus (right-click on a `.item` row and
+        // click on its `.item-contextmenu` ⋮ control). Without this the sheet
+        // has no way to edit or delete any created item (#517). `_contextMenu`
+        // is provided by the SohlDataModel sheet mixin.
+        (this as any)._contextMenu?.((this as any).element);
     }
 
     /**
