@@ -63,6 +63,14 @@
         @include meta.load-css("components/profile");
         @include meta.load-css("components/effects");
     }
+
+    // Being-sheet content, loaded under the COMPOUND `.sohl.being` selector:
+    // ApplicationV2 puts `sohl` and the `being` type-class on the same frame
+    // element, so a plain `.sohl` wrapper would yield the never-matching
+    // descendant `.sohl .being` (the #87 trap the sheet frame also avoids).
+    .sohl.being {
+        @include meta.load-css("components/being");
+    }
 }
 
 // utilities — single-purpose helpers; highest priority so they always win.
