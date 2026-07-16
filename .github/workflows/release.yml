@@ -23,6 +23,12 @@ jobs:
         name: Version and Release
         runs-on: ubuntu-latest
 
+        # Surface the release decision so the downstream docs-publish job can
+        # gate on it and receive the tag.
+        outputs:
+            release: ${{ steps.decide.outputs.release }}
+            tag: ${{ steps.decide.outputs.tag }}
+
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -129,31 +135,26 @@ jobs:
                       npm publish
                   fi
 
-            # The Release above was created with GITHUB_TOKEN, which by design
-            # cannot trigger another workflow — so deploy-docs.yml does NOT fire
-            # on this release. Surface the one-liner that publishes the
-            # versioned docs (and mirrors /latest) so it's not forgotten.
-            - name: Remind to publish versioned docs
-              if: steps.decide.outputs.release == 'true'
-              env:
-                  TAG: ${{ steps.decide.outputs.tag }}
-              run: |
-                  CMD="gh workflow run deploy-docs.yml --ref ${TAG}"
-                  {
-                    echo "## 📚 Publish the API docs for ${TAG}"
-                    echo ""
-                    echo "The GitHub Release was created with \`GITHUB_TOKEN\`, which"
-                    echo "can't trigger \`deploy-docs.yml\`. Run this to publish the docs"
-                    echo "under \`/${TAG}\` and mirror them to \`/latest\`:"
-                    echo ""
-                    echo '```bash'
-                    echo "${CMD}"
-                    echo '```'
-                  } >> "$GITHUB_STEP_SUMMARY"
-                  echo "============================================================"
-                  echo "Release ${TAG} published. Publish the versioned API docs with:"
-                  echo ""
-                  echo "    ${CMD}"
-                  echo ""
-                  echo "(Publishes /${TAG} and mirrors /latest.)"
-                  echo "============================================================"
+            # Versioned API docs are published by the `publish-docs` job below,
+            # not a step here — see its comment for why.
+
+    # Publish the freshly-tagged release's API docs under /<tag> and mirror
+    # /latest. The Release above is created with GITHUB_TOKEN, which by design
+    # cannot trigger deploy-docs.yml's `release:` event, so we call it via
+    # `workflow_call` in this same run instead — unaffected by that no-cascade
+    # rule and needing no PAT. Skipped on ordinary pushes to main (no release),
+    # since `release` is then empty.
+    #
+    # Manual fallback if this job is ever removed or fails:
+    #   gh workflow run deploy-docs.yml --ref v<version>   (publishes /<tag> + /latest)
+    publish-docs:
+        name: Publish versioned API docs
+        needs: release
+        if: needs.release.outputs.release == 'true'
+        permissions:
+            contents: write
+        uses: ./.github/workflows/deploy-docs.yml
+        with:
+            target_dir: ${{ needs.release.outputs.tag }}
+            is_release: true
+        secrets: inherit

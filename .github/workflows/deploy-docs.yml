@@ -7,9 +7,27 @@ on:
     # Manually publish ANY branch under /<branch-slug>: pick the branch in the
     # "Run workflow" dropdown — github.ref_name follows your selection.
     workflow_dispatch:
-    # Publish a released version under /<tag> and mirror it to /latest
+    # Publish a released version under /<tag> and mirror it to /latest.
+    # NOTE: an automated release (release.yml) creates its Release with
+    # GITHUB_TOKEN, which by design cannot trigger this event — that path calls
+    # this workflow via `workflow_call` below instead. This trigger still fires
+    # for a Release published by a human in the GitHub UI (a user token cascades).
     release:
         types: [published]
+    # Invoked by release.yml right after it tags a release, to publish the
+    # versioned docs in the same run (the GITHUB_TOKEN no-cascade rule means the
+    # `release:` trigger above never fires for the automated release).
+    workflow_call:
+        inputs:
+            target_dir:
+                description: "Directory to publish the docs under (e.g. v0.7.0)."
+                required: true
+                type: string
+            is_release:
+                description: "When true, also mirror the build into /latest."
+                required: false
+                type: boolean
+                default: false
     # Remove a branch's docs subdirectory when the branch is deleted
     delete:
 
@@ -49,7 +67,12 @@ jobs:
             - name: Determine target directory
               id: meta
               run: |
-                  if [ "${{ github.event_name }}" = "release" ]; then
+                  if [ -n "${{ inputs.target_dir }}" ]; then
+                      # Invoked via workflow_call (release.yml): publish the
+                      # caller-supplied directory, mirroring /latest on a release.
+                      echo "dir=${{ inputs.target_dir }}" >> "$GITHUB_OUTPUT"
+                      echo "is_release=${{ inputs.is_release }}" >> "$GITHUB_OUTPUT"
+                  elif [ "${{ github.event_name }}" = "release" ]; then
                       # Tags are published verbatim (e.g. v0.7.0) and mirrored to /latest
                       echo "dir=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
                       echo "is_release=true" >> "$GITHUB_OUTPUT"
