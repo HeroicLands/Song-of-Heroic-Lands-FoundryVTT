@@ -17,8 +17,11 @@ import {
     WeaponGearLogic,
     WeaponGearData,
 } from "@src/document/item/logic/WeaponGearLogic";
-import { ITEM_KIND } from "@src/utils/constants";
-const { NumberField, ObjectField } = foundry.data.fields;
+import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
+import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
+import { ITEM_KIND, STRIKE_MODE_TYPE } from "@src/utils/constants";
+const { NumberField, TypedObjectField, TypedSchemaField, SchemaField } =
+    foundry.data.fields;
 
 /**
  * Builds the Foundry data schema for weapon gear, extending the gear schema
@@ -29,7 +32,22 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
         encumbrance: new NumberField({ initial: 0, min: 0 }),
-        strikeModes: new ObjectField({ initial: {} }),
+        // A keyed dict of strike modes, each a discriminated melee/missile
+        // schema (the same schemas the combat-technique skill uses). Typing the
+        // element means every strike mode's sub-fields — including
+        // `defense.block` / `defense.counterstrike` — are validated and default
+        // to complete values, so partial strike-mode data can no longer be
+        // stored (the root cause of #512).
+        strikeModes: new TypedObjectField(
+            new TypedSchemaField({
+                [STRIKE_MODE_TYPE.MELEE]: new SchemaField(
+                    MeleeStrikeMode.schemaFields(),
+                ),
+                [STRIKE_MODE_TYPE.MISSILE]: new SchemaField(
+                    MissileStrikeMode.schemaFields(),
+                ),
+            }),
+        ),
     };
 }
 

@@ -61,6 +61,33 @@ describe("MeleeStrikeMode", () => {
         expect(sm.defense.counterstrike).toBeDefined();
     });
 
+    it("does not throw when defense data is partial or missing (#512)", () => {
+        // Weapon strike modes persist in an untyped ObjectField, so `defense`
+        // (or its block / counterstrike sub-objects) can be absent for a
+        // partially-created weapon. Construction must not throw — an unguarded
+        // read here aborted the whole actor's data prep and silently hid every
+        // strike mode.
+        const noDefense = { ...MELEE_DATA, defense: undefined } as any;
+        const noBlock = {
+            ...MELEE_DATA,
+            defense: { counterstrike: {} },
+        } as any;
+        const noCounter = { ...MELEE_DATA, defense: { block: {} } } as any;
+        expect(
+            () => new MeleeStrikeMode(noDefense, MOCK_LOGIC, MELEE_ID),
+        ).not.toThrow();
+        expect(
+            () => new MeleeStrikeMode(noBlock, MOCK_LOGIC, MELEE_ID),
+        ).not.toThrow();
+        expect(
+            () => new MeleeStrikeMode(noCounter, MOCK_LOGIC, MELEE_ID),
+        ).not.toThrow();
+        // Still yields usable block/counterstrike modifiers.
+        const sm = new MeleeStrikeMode(noDefense, MOCK_LOGIC, MELEE_ID);
+        expect(sm.defense.block).toBeDefined();
+        expect(sm.defense.counterstrike).toBeDefined();
+    });
+
     it("has correct updatePath built from id", () => {
         const sm = new MeleeStrikeMode(MELEE_DATA, MOCK_LOGIC, MELEE_ID);
         expect(sm.updatePath).toBe(`system.strikeModes.${MELEE_ID}`);
