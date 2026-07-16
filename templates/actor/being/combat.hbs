@@ -213,7 +213,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <header class="list__header flexrow">
                 <h3 class="list__name">Location</h3>
                 <div class="list__detail">Layers</div>
-                <div class="list__detail" data-tooltip="Probability">Prob</div>
                 <div class="list__detail" data-tooltip="Blunt">B</div>
                 <div class="list__detail" data-tooltip="Edged">E</div>
                 <div class="list__detail" data-tooltip="Piercing">P</div>
@@ -224,15 +223,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{#each bodyParts as |part|}}
             <div class="list bodypart">
                 <header class="list__header bodypart__header flexrow">
-                    <h4 class="list__name">{{part.label}}</h4>
-                    {{#if part.held}}<div class="list__detail bodypart__held">Held: {{part.held}}</div>{{/if}}
+                    <h3 class="list__name">{{part.label}}</h3>
                 </header>
                 <ol class="list__items">
                     {{#each part.locations as |loc|}}
                     <li class="item bodylocation flexrow" data-search-name="{{loc.name}}">
                         <div class="list__name"><h4>{{loc.name}}</h4></div>
                         <div class="list__detail bodylocation__layers">{{loc.layers}}</div>
-                        <div class="list__detail">{{loc.prob}}</div>
                         <div class="list__detail">{{loc.blunt}}</div>
                         <div class="list__detail">{{loc.edged}}</div>
                         <div class="list__detail">{{loc.piercing}}</div>

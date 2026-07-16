@@ -217,8 +217,6 @@ export interface BodyLocationRow {
     name: string;
     /** Comma-joined covering armor materials (`armorType`), empty when bare. */
     layers: string;
-    /** Hit-probability weight. */
-    prob: number;
     /** Total blunt protection — natural base plus equipped armor. */
     blunt: number;
     /** Total edged protection. */
@@ -237,8 +235,6 @@ export interface BodyLocationRow {
 export interface BodyPartNode {
     /** The part's display label. */
     label: string;
-    /** The name of the item held by this part, or empty. */
-    held: string;
     /** The part's hit locations, in order. */
     locations: BodyLocationRow[];
 }
@@ -247,7 +243,6 @@ export interface BodyPartNode {
 export interface BodyLocationLike {
     name: string;
     layers: string;
-    prob: number;
     /** Natural per-aspect protection (a location's `protectionBase`, resolved). */
     base: AspectProtection;
     /** Equipped-armor per-aspect protection (a location's `armorProtection`). */
@@ -259,7 +254,6 @@ export interface BodyLocationLike {
 /** The minimal per-part shape the tree builder consumes. */
 export interface BodyPartLike {
     label: string;
-    held: string;
     locations: readonly BodyLocationLike[];
 }
 
@@ -280,11 +274,9 @@ export function buildBodyLocationTree(
 ): BodyPartNode[] {
     return parts.map((part) => ({
         label: part.label,
-        held: part.held,
         locations: part.locations.map((loc) => ({
             name: loc.name,
             layers: loc.layers,
-            prob: loc.prob,
             blunt: loc.base.blunt + loc.armor.blunt,
             edged: loc.base.edged + loc.armor.edged,
             piercing: loc.base.piercing + loc.armor.piercing,
@@ -424,6 +416,8 @@ export interface SkillRow {
     uuid: string;
     /** The skill's display name. */
     name: string;
+    /** The skill's icon image path, shown before the name (#508). */
+    img: string;
     /** Skill Base — the derived attribute-driven base score. */
     sb: number;
     /** Mastery Level — the base mastery level. */
@@ -457,6 +451,7 @@ export interface SkillLike {
     id: string;
     uuid: string;
     name: string;
+    img: string;
     subType: string | undefined;
     sb: number;
     ml: number;
@@ -493,6 +488,7 @@ export function buildSkillGroups(
         id: skill.id,
         uuid: skill.uuid,
         name: skill.name,
+        img: skill.img,
         sb: skill.sb,
         ml: skill.ml,
         index: skill.index,

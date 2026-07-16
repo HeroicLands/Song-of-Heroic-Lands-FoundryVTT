@@ -32,11 +32,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="list__detail">Group</div>
             </li>
             {{#each customActions as |action|}}
-            <li class="item flexrow" data-search-name="{{action.data.title}}" data-action-name="{{action.data.shortcode}}">
+            <li class="item flexrow" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
                 <div class="list__name default-action flexrow rollable" data-action="runAction"
-                    data-tooltip="Run {{action.data.title}}">
+                    data-tooltip="Run {{localize action.data.title}}">
                     <i class="{{action.data.iconFAClass}}"></i>
-                    <h4>{{action.data.title}}</h4>
+                    <h4>{{localize action.data.title}}</h4>
                 </div>
                 <div class="list__detail">{{action.data.group}}</div>
                 <div class="list__controls">
@@ -61,11 +61,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="list__detail">Group</div>
             </li>
             {{#each intrinsicActions as |action|}}
-            <li class="item flexrow" data-search-name="{{action.data.title}}" data-action-name="{{action.data.shortcode}}">
+            <li class="item flexrow" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
                 <div class="list__name default-action flexrow rollable" data-action="runAction"
-                    data-tooltip="Run {{action.data.title}}">
+                    data-tooltip="Run {{localize action.data.title}}">
                     <i class="{{action.data.iconFAClass}}"></i>
-                    <h4>{{action.data.title}}</h4>
+                    <h4>{{localize action.data.title}}</h4>
                 </div>
                 <div class="list__detail">{{action.data.group}}</div>
             </li>
