@@ -63,6 +63,15 @@ describe("SkillLogic", () => {
                 expect(logic.actions.has(shortcode), shortcode).toBe(true);
             }
         });
+
+        it("canImprove does not throw before initialize() — masteryLevel unset (#511)", () => {
+            // The Skills tab reads `skillLogic.canImprove` while rendering; a skill
+            // whose logic hasn't been initialized yet (masteryLevel not seeded)
+            // must not throw and brick the whole sheet.
+            const logic = makeSkill();
+            // deliberately NOT calling logic.initialize()
+            expect(() => logic.canImprove).not.toThrow();
+        });
     });
 
     describe("initialize", () => {

@@ -362,6 +362,20 @@ describe("AfflictionLogic", () => {
             logic.initialize();
             expect(logic.levelLabel).toBe("7");
         });
+
+        it("does not throw before initialize() — level not yet seeded (#511)", () => {
+            // A freshly-dropped affliction can be read by the sheet's trauma
+            // context before its logic.initialize() has run, so `level` (a
+            // ValueModifier assigned in initialize) is still undefined. The
+            // getter must degrade to "0" rather than throw and brick the sheet.
+            const logic = makeAffliction({
+                subType: AFFLICTION_SUBTYPE.DISEASE,
+                levelBase: 3,
+            });
+            // deliberately NOT calling logic.initialize()
+            expect(() => logic.levelLabel).not.toThrow();
+            expect(logic.levelLabel).toBe("0");
+        });
     });
 
     describe("categoryLabel", () => {

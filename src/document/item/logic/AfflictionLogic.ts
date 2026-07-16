@@ -166,7 +166,11 @@ export class AfflictionLogic<
      * Catatonic). Other subtypes return the numeric level as a string.
      */
     get levelLabel(): string {
-        const lvl = Math.max(0, Math.round(this.level.effective));
+        // `level` is a ValueModifier seeded in initialize(); guard against it
+        // being unset (a not-yet-initialized affliction, e.g. freshly dropped
+        // and read by the sheet before its lifecycle runs) so this getter can
+        // never throw and brick the whole sheet render (#511).
+        const lvl = Math.max(0, Math.round(this.level?.effective ?? 0));
         if (this.data.subType === AFFLICTION_SUBTYPE.FEAR && isFearLevel(lvl)) {
             return sohl.i18n.localize(FEAR_LABEL_BY_LEVEL[lvl]);
         }
@@ -271,7 +275,9 @@ export class AfflictionLogic<
      * the pre-port healing test enforced.
      */
     get canHeal(): boolean {
-        return !this.healingRate.disabled && this.hasUsableEndurance;
+        // `healingRate` is seeded in initialize(); guard against reading it on a
+        // not-yet-initialized affliction so this getter can't throw (#511 class).
+        return !this.healingRate?.disabled && this.hasUsableEndurance;
     }
 
     /* --------------------------------------------- */

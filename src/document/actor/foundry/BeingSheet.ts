@@ -1134,7 +1134,7 @@ export class BeingSheet extends SohlActorSheetBase {
         // Health bar: the banded impairment value against a fixed max of 100
         // (#470). `healthBand` is the qualitative label shown to the player.
         const health = logic?.health;
-        const healthMax = health?.max.effective ?? 0;
+        const healthMax = health?.max?.effective ?? 0;
         const healthPct =
             healthMax > 0 ?
                 clampHealthPct((health!.value.effective / healthMax) * 100)
@@ -1213,7 +1213,7 @@ export class BeingSheet extends SohlActorSheetBase {
         );
         const attributes = attributeItems.map((attr) => {
             const attrLogic = attr.logic as AttributeLogic | undefined;
-            const score = attrLogic?.score.effective ?? 0;
+            const score = attrLogic?.score?.effective ?? 0;
             const bands = (attr.system as any).valueDesc ?? [];
             return {
                 id: attr.id,
@@ -1221,7 +1221,7 @@ export class BeingSheet extends SohlActorSheetBase {
                 name: attr.name,
                 score,
                 descriptor: attributeDescriptor(score, bands),
-                tl: attrLogic?.masteryLevel.effective ?? 0,
+                tl: attrLogic?.masteryLevel?.effective ?? 0,
             };
         });
 
@@ -1332,11 +1332,11 @@ export class BeingSheet extends SohlActorSheetBase {
                     name: skill.name,
                     subType: sys.subType,
                     sb: skillLogic?.skillBase ?? 0,
-                    ml: skillLogic?.masteryLevel.base ?? 0,
-                    index: skillLogic?.masteryLevel.index ?? 0,
-                    eml: skillLogic?.masteryLevel.effective ?? 0,
-                    fate: skillLogic?.fateMasteryLevel.effective ?? 0,
-                    disabled: !!skillLogic?.masteryLevel.disabled,
+                    ml: skillLogic?.masteryLevel?.base ?? 0,
+                    index: skillLogic?.masteryLevel?.index ?? 0,
+                    eml: skillLogic?.masteryLevel?.effective ?? 0,
+                    fate: skillLogic?.fateMasteryLevel?.effective ?? 0,
+                    disabled: !!skillLogic?.masteryLevel?.disabled,
                     canImprove: !!skillLogic?.canImprove,
                     improveFlag: !!sys.improveFlag,
                 };
@@ -1688,7 +1688,7 @@ export class BeingSheet extends SohlActorSheetBase {
             capacity: {
                 isEncumbrance: true,
                 used: round1(logic.carriedWeight?.effective ?? 0),
-                encumbrance: logic.corpus?.encumbrance.effective ?? 0,
+                encumbrance: logic.corpus?.encumbrance?.effective ?? 0,
             },
         };
         const containers = tree.containers.map((node) => ({

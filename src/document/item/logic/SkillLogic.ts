@@ -273,7 +273,10 @@ export class SkillLogic<
     get canImprove() {
         return (
             (fvttIsCurrentUserGM() || this.data.isOwner) &&
-            !this.masteryLevel.disabled
+            // `masteryLevel` is seeded in initialize(); guard against reading it
+            // on a not-yet-initialized skill (e.g. the sheet rendering before the
+            // actor's prepare completes) so this getter can't throw (#511 class).
+            !this.masteryLevel?.disabled
         );
     }
 
