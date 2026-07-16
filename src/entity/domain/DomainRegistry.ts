@@ -38,7 +38,7 @@ export interface DomainEntry {
     label: string;
     /** The family this entry belongs to. */
     family: DomainFamily;
-    /** CSS class for the icon, e.g. `"sohl-fire"`. */
+    /** CSS class for the icon, e.g. `"fa-solid fa-fire"`. */
     iconFAClass: string;
     /** Path to a PNG/WEBP image for the entry, or an empty string. */
     img: string;

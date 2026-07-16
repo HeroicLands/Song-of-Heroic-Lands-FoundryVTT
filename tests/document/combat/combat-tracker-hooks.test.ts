@@ -69,9 +69,9 @@ describe("buildCombatantActionMenuEntries", () => {
             (e) => e.__sohlActionTitle === ATTACK_TITLE,
         );
         expect(attack.label).toBe(ATTACK_TITLE);
-        expect(attack.icon).toBe("sohl-crossed-swords");
+        expect(attack.icon).toBe("fa-solid fa-swords");
         const move = entries.find((e) => e.__sohlActionTitle === MOVE_TITLE);
-        expect(move.icon).toBe("sohl-person-group");
+        expect(move.icon).toBe("fa-solid fa-users");
     });
 
     it("visible is false for a non-owner", () => {

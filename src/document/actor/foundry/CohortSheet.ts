@@ -43,22 +43,22 @@ export class CohortSheet extends SohlActorSheetBase {
                 {
                     id: "facade",
                     label: "SOHL.Actor.SHEET.tab.facade.label",
-                    icon: "sohl-drama-masks",
+                    icon: "fa-solid fa-masks-theater",
                 },
                 {
                     id: "members",
                     label: "SOHL.Actor.SHEET.tab.members.label",
-                    icon: "sohl-people-group",
+                    icon: "fa-solid fa-users",
                 },
                 {
                     id: "actions",
                     label: "SOHL.Actor.SHEET.tab.actions.label",
-                    icon: "sohl-gears",
+                    icon: "fa-solid fa-cogs",
                 },
                 {
                     id: "effects",
                     label: "SOHL.Actor.SHEET.tab.effects.label",
-                    icon: "sohl-plus-minus",
+                    icon: "fa-solid fa-plus-minus",
                 },
             ],
         },

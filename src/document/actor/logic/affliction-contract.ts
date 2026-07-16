@@ -55,13 +55,21 @@ export type ContractAfflictionChoice =
 /** Sentinel `<select>` value marking the "custom affliction" option. */
 export const CONTRACT_AFFLICTION_CUSTOM = "__custom__";
 
-/** Coerce an unknown form value to an integer, defaulting to `0`. */
+/**
+ * Coerce an unknown form value to an integer, defaulting to `0`.
+ * @param value - The value to coerce.
+ * @returns The coerced integer.
+ */
 function toInt(value: unknown): number {
     const n = Number(value);
     return Number.isFinite(n) ? Math.trunc(n) : 0;
 }
 
-/** Clamp a contagion index into the valid `1..5` range. */
+/**
+ * Clamp a contagion index into the valid `1..5` range.
+ * @param value - The contagion index to clamp.
+ * @returns The clamped contagion index.
+ */
 function clampCI(value: number): number {
     return Math.min(5, Math.max(1, value || 1));
 }

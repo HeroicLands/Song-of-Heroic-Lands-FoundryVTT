@@ -56,17 +56,17 @@ export class AssemblySheet extends SohlActorSheetBase {
                 {
                     id: "facade",
                     label: "SOHL.Actor.SHEET.tab.facade.label",
-                    icon: "sohl-drama",
+                    icon: "fa-solid fa-masks-theater",
                 },
                 {
                     id: "actions",
                     label: "SOHL.Actor.SHEET.tab.actions.label",
-                    icon: "sohl-cogs",
+                    icon: "fa-solid fa-cogs",
                 },
                 {
                     id: "effects",
                     label: "SOHL.Actor.SHEET.tab.effects.label",
-                    icon: "sohl-plus-or-minus",
+                    icon: "fa-solid fa-plus-minus",
                 },
             ],
         },

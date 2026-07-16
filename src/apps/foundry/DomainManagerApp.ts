@@ -44,7 +44,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
         classes: ["sohl", "domain-manager"],
         window: {
             title: "SOHL.DomainManager.title",
-            icon: "sohl-circle",
+            icon: "fa-solid fa-circle",
             contentClasses: ["standard-form"],
         },
         position: {

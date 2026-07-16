@@ -121,7 +121,7 @@ export abstract class SohlLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.SohlLogic.Action.postfinalize.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "sohl-gears",
+                iconFAClass: "fa-solid fa-cogs",
                 // Must match the postFinalize method name exactly — intrinsic
                 // executors are resolved by case-sensitive property lookup.
                 executor: "postFinalize",

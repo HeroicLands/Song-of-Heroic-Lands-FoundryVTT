@@ -210,12 +210,12 @@ export class CohortDataModel<
                 {
                     action: "group",
                     label: game.i18n.localize("SOHL.Cohort.Drop.group"),
-                    icon: "sohl-people-group",
+                    icon: "fa-solid fa-users",
                 },
                 {
                     action: "individual",
                     label: game.i18n.localize("SOHL.Cohort.Drop.individual"),
-                    icon: "sohl-person",
+                    icon: "fa-solid fa-user",
                 },
             ],
             close: () => null,

@@ -87,7 +87,7 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                 trigger: new JavaScriptField({ initial: "true" }),
                 visible: new JavaScriptField({ initial: "true" }),
                 iconFAClass: new StringField({
-                    initial: "sohl-uncertainty",
+                    initial: "fa-solid fa-circle-question",
                 }),
                 group: new StringField({
                     choices: SohlContextMenuSortGroups,
