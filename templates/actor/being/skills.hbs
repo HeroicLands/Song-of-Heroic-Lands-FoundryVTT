@@ -50,6 +50,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{#each group.skills as |skill|}}
             <li class="item flexrow" data-search-name="{{skill.name}}" data-item-id="{{skill.id}}" data-uuid="{{skill.uuid}}" data-item-name="{{skill.name}}">
                 <div class="list__name flexrow">
+                    <div class="list__image" style="background-image: url('{{skill.img}}')"></div>
                     <h4>{{skill.name}}</h4>
                 </div>
                 <div class="list__detail">{{skill.sb}}</div>

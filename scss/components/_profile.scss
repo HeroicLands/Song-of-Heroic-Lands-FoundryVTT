@@ -1,57 +1,63 @@
 @use "../abstracts/typography";
 
+// Attribute cards — a dense grid of compact, value-forward bordered cards
+// (`.grid.grid-6col`). Keyed on the `.attribute-score__*` BEM classes the
+// template emits; the pre-rename `.attribute`/`.value`/`.label` rules never
+// applied, so attributes rendered as loose unstyled text (#507).
 .attribute-scores {
-    flex: 0 0 80px;
-    gap: 0;
-    margin: 0;
-    justify-content: center;
+    gap: 4px;
+    margin: 0 0 6px;
+    grid-auto-rows: auto;
 
-    .attribute {
-        display: block;
-        align-items: center;
+    .attribute-score {
+        display: flex;
+        flex-direction: column;
         text-align: center;
-        padding: 3px 0 0 0;
-        flex: 0 0 80px;
+        padding: 2px 4px 0;
+        background: var(--sohl-color-bg-overlay-light);
         border: 2px groove var(--sohl-color-border-subtle);
 
-        .name {
-            margin: 0 0 2px;
-            font-size: 13px;
+        &__header {
+            align-items: center;
+            justify-content: space-between;
+            gap: 2px;
         }
 
-        .value {
+        &__name {
+            flex: 1;
+            margin: 0;
+            font-size: 13px;
+            font-weight: normal;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        // The ⋮ control sits opposite the name in the card header.
+        .item-contextmenu {
+            flex: 0 0 auto;
+            font-size: 12px;
+        }
+
+        &__value {
             font-size: 25px;
             font-weight: bold;
-            margin: 0 0 2px;
-            border-bottom: none;
+            line-height: 1.15;
         }
 
-        .label {
-            margin: 0 0 2px;
+        &__descriptor {
             font-size: 13px;
-            border-bottom: 1px solid var(--sohl-color-border-strong);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .attribute-box {
+        &__tl {
+            margin-top: 2px;
+            padding-top: 1px;
             border-top: 1px solid var(--sohl-color-border-strong);
-        }
-
-        .secmod {
-            font-size: 13px;
-            text-align: center;
-        }
-
-        .test {
-            font-size: 13px;
-            text-align: center;
-
-            &:hover {
-                background-image: url("../../../icons/svg/d20-grey.svg") !important;
-                background-size: 27px;
-                background-repeat: no-repeat;
-                background-position: center;
-                color: var(--sohl-color-text-primary);
-            }
+            font-size: 12px;
         }
     }
 }

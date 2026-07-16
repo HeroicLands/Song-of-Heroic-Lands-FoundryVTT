@@ -143,6 +143,20 @@ span.sep {
         margin-right: 10px;
     }
 
+    // Item-sheet header image. Without a size constraint it renders at its
+    // natural size and fills the whole `window-content`, collapsing the tab
+    // body below it to zero height (#528). Pin it to a fixed slice like the
+    // actor portrait so the tab keeps the remaining space.
+    img.item-img {
+        flex: 0 0 80px;
+        max-width: 80px;
+        height: 80px;
+        object-fit: contain;
+        border: none;
+        border-right: 2px groove var(--sohl-color-border-subtle);
+        margin-right: 10px;
+    }
+
     // Status pills — clickable rounded lozenges, grouped top-right, wrapping to
     // multiple rows. Each toggles its status on the actor.
     .sheet-header__statuses {

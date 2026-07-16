@@ -424,6 +424,8 @@ export interface SkillRow {
     uuid: string;
     /** The skill's display name. */
     name: string;
+    /** The skill's icon image path, shown before the name (#508). */
+    img: string;
     /** Skill Base — the derived attribute-driven base score. */
     sb: number;
     /** Mastery Level — the base mastery level. */
@@ -457,6 +459,7 @@ export interface SkillLike {
     id: string;
     uuid: string;
     name: string;
+    img: string;
     subType: string | undefined;
     sb: number;
     ml: number;
@@ -493,6 +496,7 @@ export function buildSkillGroups(
         id: skill.id,
         uuid: skill.uuid,
         name: skill.name,
+        img: skill.img,
         sb: skill.sb,
         ml: skill.ml,
         index: skill.index,

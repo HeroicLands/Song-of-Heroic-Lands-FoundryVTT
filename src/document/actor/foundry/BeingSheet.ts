@@ -1344,6 +1344,7 @@ export class BeingSheet extends SohlActorSheetBase {
                     id: skill.id ?? "",
                     uuid: skill.uuid,
                     name: skill.name,
+                    img: skill.img ?? "",
                     subType: sys.subType,
                     sb: skillLogic?.skillBase ?? 0,
                     ml: skillLogic?.masteryLevel?.base ?? 0,
@@ -1443,7 +1444,9 @@ export class BeingSheet extends SohlActorSheetBase {
             .filter((part: any) => part.canHoldItem)
             .map((part: any) => ({
                 index: part.index,
-                label: part.shortcode,
+                // Readable limb name ("Right Arm"), not the raw part code
+                // ("RARMPART") — the code is only a fallback (#509).
+                label: part.name ?? part.shortcode,
                 heldItemId: part.heldItem?.id ?? "",
             }));
 
