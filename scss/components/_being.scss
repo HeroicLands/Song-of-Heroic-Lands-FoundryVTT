@@ -1,0 +1,79 @@
+@use "../abstracts/mixins";
+@use "list";
+
+// Being-sheet content styling.
+//
+// Loaded from `sohl.scss` under the COMPOUND `.sohl.being` selector, because
+// ApplicationV2 places `sohl` and the `being` sheet-type class on the SAME frame
+// element (the #87 same-element trap — see css-architecture.md §6). A partial
+// loaded under the plain `.sohl { }` wrapper compiles its top-level rules to the
+// descendant `.sohl .being …`, which never matches; the compound `.sohl.being …`
+// does. (`load-css` partials cannot use a top-level `&`, so the compound must be
+// applied by the wrapper in `sohl.scss`, exactly as the sheet frame is.)
+//
+// The Being content tabs (skills, combat, trauma, and the Profile traits) render
+// their lists with the shared `.list__*` markup but inside a bare <fieldset> —
+// not the `.list-section .list` wrapper the item lists use — so they missed the
+// compact-row styling and names rendered as oversized headings. This applies the
+// compact look, keyed on the BEM classes the templates actually emit (#515).
+
+// Header-row chrome: the label bar above each list.
+fieldset .list__header {
+    @include list.header-row(
+        var(--sohl-color-bg-overlay-dark),
+        var(--sohl-color-border-subtle)
+    );
+
+    .list__name {
+        color: var(--sohl-color-text-primary);
+    }
+}
+
+fieldset .list__items {
+    @include list.reset;
+}
+
+// Column widths — applied to the header AND the data rows (both are <li>
+// children of `.list__items`) so every column lines up between the two. Scoping
+// these to `.item.flexrow` alone would size only the data cells and leave the
+// header labels spread evenly, which is what misaligned the columns.
+.list__items {
+    .list__name {
+        flex: 1 1 120px;
+
+        h4 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: normal;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .list__detail {
+        flex: 0 0 60px;
+        text-align: center;
+        font-size: 12px;
+        @include mixins.truncate;
+    }
+
+    // The notes column carries both `.list__detail` and `.list__notes`; being
+    // later in source order, this widens it back out and left-aligns it.
+    .list__notes {
+        flex: 1 1 auto;
+        text-align: left;
+        padding-left: 5px;
+    }
+
+    .list__controls {
+        @include list.controls(45px);
+    }
+}
+
+// Data-row chrome: compact single-line rows with separators.
+.item.flexrow {
+    align-items: center;
+    line-height: 1.5;
+    border-bottom: 1px solid var(--sohl-color-border-default);
+}
