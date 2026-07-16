@@ -169,8 +169,13 @@ export class SohlContextMenu
             throw Error("Mouse event is required");
         }
 
-        // Find the container element (equivalent to target.parents("div.app"))
-        let container = target.closest("div.app");
+        // Find the application-frame container to append and position within.
+        // ApplicationV2 (Foundry v13+) renders the frame with the `.application`
+        // class — and for a DocumentSheetV2 the frame element is a `<form>`, not
+        // a `<div>`. The pre-v13 `div.app` selector (and even `div.application`)
+        // matched nothing here, so the menu threw "Container not found" on open
+        // (#517). Match on the class alone so it finds the form or div frame.
+        let container = target.closest(".application");
         if (!container) {
             throw Error("Container not found");
         }

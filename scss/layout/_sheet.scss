@@ -28,19 +28,18 @@
     overflow: hidden;
 }
 
+// Content tabs scroll instead of clipping their overflow. `window-content` is a
+// flex column (a Foundry ApplicationV2 default) with a definite height, so the
+// `height: 100%` tab is bounded and only needs `overflow-y: auto` to gain a
+// scrollbar when it overflows — for every SoHL sheet (#514). Sheets pair this
+// with `scrollable: [""]` on their parts to preserve scroll position across
+// re-renders. (Deliberately NOT `min-height: 0`: that lets a flex-child tab
+// collapse to zero height when a sibling — e.g. an item sheet's tall header —
+// consumes the column, hiding the tab entirely.)
 .window-content .tab {
     height: 100%;
-    overflow-y: hidden;
-    align-content: flex-start;
-}
-
-// The Being sheet's content tabs hold long lists (skills, body locations,
-// injuries, gear) that exceed the sheet height; they scroll as a whole rather
-// than clipping their overflow. Paired with `scrollable: [""]` on the Being
-// content parts so the scroll position survives each submit-on-change re-render
-// (#514).
-.being .window-content .tab {
     overflow-y: auto;
+    align-content: flex-start;
 }
 
 input[type="text"],

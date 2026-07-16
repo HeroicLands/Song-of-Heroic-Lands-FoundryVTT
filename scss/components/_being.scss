@@ -11,14 +11,18 @@
 // does. (`load-css` partials cannot use a top-level `&`, so the compound must be
 // applied by the wrapper in `sohl.scss`, exactly as the sheet frame is.)
 //
-// The Being content tabs (skills, combat, trauma, and the Profile traits) render
-// their lists with the shared `.list__*` markup but inside a bare <fieldset> —
-// not the `.list-section .list` wrapper the item lists use — so they missed the
-// compact-row styling and names rendered as oversized headings. This applies the
-// compact look, keyed on the BEM classes the templates actually emit (#515).
+// The Being content tabs render their lists with the shared `.list__*` markup
+// but inside a bare <fieldset> or a `.list` div — not the `.list-section .list`
+// wrapper the item lists use — so they missed the compact-row styling and names
+// rendered as oversized headings. This applies the compact look, keyed on the
+// BEM classes the templates actually emit (#515). (Tab scrolling is handled for
+// every sheet by the base `.window-content .tab` rule in `_sheet.scss`, #514.)
 
-// Header-row chrome: the label bar above each list.
-fieldset .list__header {
+// Header-row chrome: the label bar above each list. Not scoped to `fieldset`,
+// because some Being lists (Gear "On Body", Combat weapon groups) put their
+// `.list__header` inside a `.list` div rather than a <fieldset> — an
+// unqualified `.list__name` heading there would render at full Cinzel size.
+.list__header {
     @include list.header-row(
         var(--sohl-color-bg-overlay-dark),
         var(--sohl-color-border-subtle)
@@ -29,15 +33,13 @@ fieldset .list__header {
     }
 }
 
-fieldset .list__items {
-    @include list.reset;
-}
-
 // Column widths — applied to the header AND the data rows (both are <li>
 // children of `.list__items`) so every column lines up between the two. Scoping
 // these to `.item.flexrow` alone would size only the data cells and leave the
 // header labels spread evenly, which is what misaligned the columns.
 .list__items {
+    @include list.reset;
+
     .list__name {
         flex: 1 1 120px;
 
