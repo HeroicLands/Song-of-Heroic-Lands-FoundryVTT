@@ -37,7 +37,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <header class="list__header flexrow">
                 <h3 class="list__name name">{{entry.weapon.name}}</h3>
                 <div class="list__controls">
-                    <a class="list__control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="sohl-ellipsis-vertical"></i></a>
+                    <a class="list__control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                 </div>
             </header>
             <ol class="list__items">
@@ -65,26 +65,26 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     {{else}}
                     <div class="list__detail">
-                        <i class="sohl-xmark"></i>
+                        <i class="fa-solid fa-xmark fa-lg"></i>
                     </div>
                     {{/unless}}
                     {{#unless sm.attack.disabled}}
                     <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
                     {{else}}
-                    <div class="list__detail"><i class="sohl-xmark"></i></div>
+                    <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
                     {{/unless}}
                     {{#unless sm.defense.block.disabled}}
                     <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="block" data-tooltip="Roll block (shift-click to skip dialog)">{{sm.defense.block.effective}}</div>
                     {{else}}
-                    <div class="list__detail"><i class="sohl-xmark"></i></div>
+                    <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
                     {{/unless}}
                     {{#unless sm.defense.counterstrike.disabled}}
                     <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike" data-tooltip="Roll counterstrike (shift-click to skip dialog)">{{sm.defense.counterstrike.effective}}</div>
                     {{else}}
-                    <div class="list__detail"><i class="sohl-xmark"></i></div>
+                    <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
                     {{/unless}}
                     <div class="list__controls">
-                        <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                        <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </li>
                 {{/each}}
@@ -103,7 +103,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <header class="list__header flexrow">
                 <h3 class="list__name name">{{entry.weapon.name}}</h3>
                 <div class="list__controls">
-                    <a class="list__control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="sohl-ellipsis-vertical"></i></a>
+                    <a class="list__control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                 </div>
             </header>
             <ol class="list__items">
@@ -131,16 +131,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     {{else}}
                     <div class="list__detail">
-                        <i class="sohl-xmark"></i>
+                        <i class="fa-solid fa-xmark fa-lg"></i>
                     </div>
                     {{/unless}}
                     {{#unless sm.attack.disabled}}
                     <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
                     {{else}}
-                    <div class="list__detail"><i class="sohl-xmark"></i></div>
+                    <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
                     {{/unless}}
                     <div class="list__controls">
-                        <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                        <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </li>
                 {{/each}}
@@ -177,9 +177,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <legend>
             Corpus
             {{#if corpus}}
-            <a class="item-create disabled" data-tooltip="A being may have only one corpus"><i class="sohl-file-create"></i></a>
+            <a class="item-create disabled" data-tooltip="A being may have only one corpus"><i class="fa-solid fa-file-plus"></i></a>
             {{else}}
-            <a class="item-create" data-action="createItem" data-type="corpus" data-tooltip="Add Corpus"><i class="sohl-file-create"></i></a>
+            <a class="item-create" data-action="createItem" data-type="corpus" data-tooltip="Add Corpus"><i class="fa-solid fa-file-plus"></i></a>
             {{/if}}
         </legend>
         {{#if corpus}}
@@ -190,8 +190,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <h4>{{corpus.name}}</h4>
                 </div>
                 <div class="list__controls">
-                    <a class="list__control" data-action="editItem" data-tooltip="Edit"><i class="sohl-edit"></i></a>
-                    <a class="list__control" data-action="deleteItem" data-tooltip="Delete"><i class="sohl-trash"></i></a>
+                    <a class="list__control" data-action="editItem" data-tooltip="Edit"><i class="fa-solid fa-edit"></i></a>
+                    <a class="list__control" data-action="deleteItem" data-tooltip="Delete"><i class="fa-solid fa-trash"></i></a>
                 </div>
             </li>
         </ol>

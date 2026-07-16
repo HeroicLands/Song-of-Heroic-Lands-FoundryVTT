@@ -30,7 +30,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         >{{title}}
             <a class="edit-action"
                 data-action="{{targetTestResult.testType.action}}"
-                data-action-handler-uuid="{{targetTestResult.item.uuid}}"><i class="sohl-edit"></i></a>
+                data-action-handler-uuid="{{targetTestResult.item.uuid}}"><i class="fa-solid fa-edit"></i></a>
         </h3>
     </header>
 
@@ -189,7 +189,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <button
                 data-action="stumbleTest"
                 data-action-handler-uuid="{{sourceTestResult.token.actor.uuid}}"
-                ><i class="sohl-falling"></i> Stumble Test
+                ><i class="fa-solid fa-person-falling"></i> Stumble Test
             </button>
             {{/if}}
 
@@ -197,7 +197,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <button
                 data-action="fumbleTest"
                 data-action-handler-uuid="{{sourceTestResult.token.actor.uuid}}"
-                ><i class="sohl-drop-weapon"></i> Fumble Test
+                ><i class="fa-solid fa-arrow-down"></i> Fumble Test
             </button>
             {{/if}}
 
@@ -205,7 +205,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <button
                 data-action="stumbleTest"
                 data-action-handler-uuid="{{targetTestResult.token.actor.uuid}}"
-                ><i class="sohl-falling"></i> Stumble Test
+                ><i class="fa-solid fa-person-falling"></i> Stumble Test
             </button>
             {{/if}}
 
@@ -213,7 +213,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <button
                 data-action="fumbleTest"
                 data-action-handler-uuid="{{targetTestResult.token.actor.uuid}}"
-                ><i class="sohl-drop-weapon"></i> Fumble Test
+                ><i class="fa-solid fa-arrow-down"></i> Fumble Test
             </button>
             {{/if}}
 
@@ -221,7 +221,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <button
                 data-action="calcImpact"
                 data-action-handler-uuid="{{targetTestResult.token.actor.uuid}}"
-                ><i class="sohl-pierced-body"></i> Calculate {{targetTestResult.token.name}} Impact
+                ><i class="fa-solid fa-bullseye-arrow"></i> Calculate {{targetTestResult.token.name}} Impact
             </button>
             {{/if}}
 
@@ -229,7 +229,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <button
                 data-action="calcImpact"
                 data-action-handler-uuid="{{sourceTestResult.token.actor.uuid}}"
-                ><i class="sohl-pierced-body"></i> Calculate {{sourceTestResult.token.name}} Impact
+                ><i class="fa-solid fa-bullseye-arrow"></i> Calculate {{sourceTestResult.token.name}} Impact
             </button>
             {{/if}}
         </div>

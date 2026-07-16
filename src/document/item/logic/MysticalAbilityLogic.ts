@@ -144,7 +144,7 @@ export class MysticalAbilityLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.MysticalAbility.Action.perform.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "sohl-sparkles",
+                iconFAClass: "fa-solid fa-sparkles",
                 executor: "perform",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,

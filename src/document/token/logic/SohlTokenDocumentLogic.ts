@@ -223,7 +223,8 @@ export class SohlTokenDocumentLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Skill.Action.opposedTestStart",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "sohl-confrontation",
+                iconFAClass:
+                    "fa-solid fa-arrow-down-left-and-arrow-up-right-to-center",
                 executor: "opposedTestStart",
                 visible: "false",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
@@ -233,7 +234,7 @@ export class SohlTokenDocumentLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Being.Action.opposedTestResume",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "sohl-continue",
+                iconFAClass: "fa-solid fas fa-people-arrows",
                 executor: "opposedTestResume",
                 visible: "false",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,

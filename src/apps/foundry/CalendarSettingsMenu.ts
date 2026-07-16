@@ -36,7 +36,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
         classes: ["sohl", "calendar-settings"],
         window: {
             title: "SOHL.CalendarSettings.title",
-            icon: "sohl-calendar",
+            icon: "fa-solid fa-calendar",
             contentClasses: ["standard-form"],
         },
         position: {
@@ -84,7 +84,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
             buttons: [
                 {
                     type: "submit",
-                    icon: "sohl-save",
+                    icon: "fa-solid fa-save",
                     label: "Save Changes",
                 },
             ],

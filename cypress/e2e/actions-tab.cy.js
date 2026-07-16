@@ -49,7 +49,7 @@ function bindAction(actorId, macroUuid, title) {
                             executor: macroUuid,
                             trigger: "true",
                             visible: "true",
-                            iconFAClass: "sohl-bolt",
+                            iconFAClass: "fa-solid fa-bolt",
                             group: "general",
                         },
                     ],

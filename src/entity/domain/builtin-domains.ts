@@ -101,7 +101,7 @@ const TOTEMS: Array<{
         shortcode: "sohl.totem.dove",
         label: "Dove",
         img: "systems/sohl/assets/icons/peace-dove.svg",
-        iconFAClass: "sohl-peace-dove",
+        iconFAClass: "fa-solid fa-dove",
     },
     {
         shortcode: "sohl.totem.duck",

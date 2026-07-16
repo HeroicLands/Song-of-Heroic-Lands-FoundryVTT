@@ -41,22 +41,22 @@ export class VehicleSheet extends SohlActorSheetBase {
                 {
                     id: "facade",
                     label: "SOHL.Actor.SHEET.tab.facade.label",
-                    icon: "sohl-drama-masks",
+                    icon: "fa-solid fa-masks-theater",
                 },
                 {
                     id: "gear",
                     label: "SOHL.Actor.SHEET.tab.gear.label",
-                    icon: "sohl-basket",
+                    icon: "fa-solid fa-briefcase",
                 },
                 {
                     id: "actions",
                     label: "SOHL.Actor.SHEET.tab.actions.label",
-                    icon: "sohl-gears",
+                    icon: "fa-solid fa-cogs",
                 },
                 {
                     id: "effects",
                     label: "SOHL.Actor.SHEET.tab.effects.label",
-                    icon: "sohl-plus-or-minus",
+                    icon: "fa-solid fa-plus-minus",
                 },
             ],
         },

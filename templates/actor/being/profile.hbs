@@ -30,7 +30,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <legend>
             Attributes
             <a class="item-create" data-action="createItem" data-tooltip="Add Attribute" data-type="attribute">
-                <i class="sohl-file-create"></i>
+                <i class="fa-solid fa-file-plus"></i>
             </a>
         </legend>
         <div class="grid grid-4col attribute-scores">
@@ -38,7 +38,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="attribute-score item" data-item-id="{{attr.id}}" data-uuid="{{attr.uuid}}" data-item-name="{{attr.name}}">
                 <div class="attribute-score__header flexrow">
                     <h4 class="attribute-score__name">{{attr.name}}</h4>
-                    <a class="item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                    <a class="item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                 </div>
                 <div class="attribute-score__value">{{attr.score}}</div>
                 <div class="attribute-score__descriptor">{{attr.descriptor}}</div>
@@ -59,7 +59,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <legend>
                 {{group.label}}
                 <a class="item-create" data-action="createItem" data-tooltip="Add Trait" data-type="trait" data-sub-type="{{group.subType}}">
-                    <i class="sohl-file-create"></i>
+                    <i class="fa-solid fa-file-plus"></i>
                 </a>
             </legend>
             <ol class="list__items">
@@ -79,7 +79,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="list__detail">{{trait.value}}</div>
                     <div class="list__detail">{{trait.notes}}</div>
                     <div class="list__controls">
-                        <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                        <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </li>
                 {{/each}}
@@ -93,7 +93,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <legend>
             {{localize "TYPES.Item.affiliationPl"}}
             <a class="item-create" data-action="createItem" data-tooltip="Add Affiliation" data-type="affiliation">
-                <i class="sohl-file-create"></i>
+                <i class="fa-solid fa-file-plus"></i>
             </a>
         </legend>
         <ol class="list__items affiliations">
@@ -115,7 +115,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="list__detail">{{aff.title}}</div>
                 <div class="list__detail">{{aff.notes}}</div>
                 <div class="list__controls">
-                    <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                    <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                 </div>
             </li>
             {{/each}}

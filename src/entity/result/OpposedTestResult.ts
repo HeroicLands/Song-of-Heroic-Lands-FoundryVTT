@@ -244,7 +244,7 @@ export class OpposedTestResult extends TestResult {
             opposedTests: [
                 {
                     action: "opposedTestResume",
-                    icon: "fas fa-reply",
+                    icon: "fa-solid fa-reply",
                     label: sohl.i18n.localize(
                         "SOHL.OpposedTestResult.toChat.respond",
                     ),

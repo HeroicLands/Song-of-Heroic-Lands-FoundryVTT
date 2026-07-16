@@ -34,7 +34,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <legend>
             {{group.label}}
             <a class="item-create" data-action="createItem" data-tooltip="Add Skill" data-type="skill" data-sub-type="{{group.subType}}">
-                <i class="sohl-file-create"></i>
+                <i class="fa-solid fa-file-plus"></i>
             </a>
         </legend>
         <ol class="list__items skills-list">
@@ -54,14 +54,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 </div>
                 <div class="list__detail">{{skill.sb}}</div>
                 <div class="list__detail rollable" data-action="rollSkillTest" data-tooltip="Roll test (shift-click to skip dialog)">{{skill.ml}}</div>
-                <div class="list__detail">{{#if skill.disabled}}<i class="sohl-xmark"></i>{{else}}{{skill.index}}{{/if}}</div>
-                <div class="list__detail">{{#if skill.disabled}}<i class="sohl-xmark"></i>{{else}}{{skill.eml}}{{/if}}</div>
+                <div class="list__detail">{{#if skill.disabled}}<i class="fa-solid fa-xmark fa-lg"></i>{{else}}{{skill.index}}{{/if}}</div>
+                <div class="list__detail">{{#if skill.disabled}}<i class="fa-solid fa-xmark fa-lg"></i>{{else}}{{skill.eml}}{{/if}}</div>
                 <div class="list__detail">{{skill.fate}}</div>
                 <div class="list__controls">
                     {{#if skill.canImprove}}
-                    <a class="list__control toggle-improve-flag" data-action="toggleImproveFlag" title="Improve"><i class="{{#if skill.improveFlag}}sohl-round-star-filled{{else}}sohl-round-star-unfilled{{/if}}"></i></a>
+                    <a class="list__control toggle-improve-flag" data-action="toggleImproveFlag" title="Improve"><i class="{{#if skill.improveFlag}}fas fa-star{{else}}far fa-star{{/if}}"></i></a>
                     {{/if}}
-                    <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                    <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                 </div>
             </li>
             {{/each}}

@@ -42,7 +42,7 @@ export class ExpressionLibraryMenu extends (ExpressionLibraryMenu_Base as typeof
         classes: ["sohl", "expression-library"],
         window: {
             title: "SOHL.ExpressionLibrary.title",
-            icon: "sohl-scroll",
+            icon: "fa-solid fa-scroll",
             contentClasses: ["standard-form"],
         },
         position: {
@@ -90,7 +90,9 @@ export class ExpressionLibraryMenu extends (ExpressionLibraryMenu_Base as typeof
         );
         return {
             ...vm,
-            buttons: [{ type: "submit", icon: "sohl-save", label: "Close" }],
+            buttons: [
+                { type: "submit", icon: "fa-solid fa-save", label: "Close" },
+            ],
         };
     }
 

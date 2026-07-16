@@ -124,7 +124,7 @@ export class MysteryLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Mystery.Action.useMystery.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "sohl-sparkles",
+                iconFAClass: "fa-solid fa-sparkles",
                 executor: "useMystery",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,

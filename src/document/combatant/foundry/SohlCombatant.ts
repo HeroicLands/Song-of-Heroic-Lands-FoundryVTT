@@ -165,7 +165,7 @@ export class SohlCombatant<
                 {
                     action: "ok",
                     label: "Move",
-                    icon: "sohl-check",
+                    icon: "fa-solid fa-check",
                     default: true,
                     callback: (_event: Event, button: any) => {
                         const form = button.form as HTMLFormElement;
@@ -186,7 +186,7 @@ export class SohlCombatant<
                 {
                     action: "cancel",
                     label: "Cancel",
-                    icon: "sohl-xmark",
+                    icon: "fa-solid fa-xmark fa-lg",
                 },
             ],
             close: () => null,

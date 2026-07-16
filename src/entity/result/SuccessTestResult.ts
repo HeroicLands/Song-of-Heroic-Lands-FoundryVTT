@@ -369,6 +369,8 @@ export class SuccessTestResult extends TestResult {
      * and {@link successStars}, none of which are stored (issue #205; the
      * table itself rides the wire as data, #206). Returns empty text and a zero
      * star count when the table is empty or no row matches.
+     *
+     * @returns The resolved label, description, and star count.
      */
     private resolveDescription(): {
         label: string;
@@ -902,6 +904,21 @@ export function serializeLimitedDescriptionTable(
     })) as PlainObject[];
 }
 
+/**
+ *  Revive a limited-description table's computed fields into live SafeExpressions.
+ *
+ * A table rides the serialization wire as pure data — each computed
+ * `label`/`description`/`result` that is an expression becomes a `__kind`-tagged
+ * {@link sohl.entity.expr.SafeExpression} payload (its source string). On
+ * reconstruction those payloads are rehydrated into live `SafeExpression`
+ * instances owned by `parent`; literals and already-live expressions pass through
+ * unchanged. This is the reference-on-wire / live-object-in-memory rule the
+ * result subsystem follows — the reason a table can carry computed rows at all
+ * (a raw function would be silently dropped by `JSON.stringify`).
+ * @param table - The serialized limited-description table.
+ * @param parent - The parent object to associate with revived SafeExpressions.
+ * @returns The table with expression fields revived into live SafeExpressions.
+ */
 export function reviveLimitedDescriptionTable(
     table: SuccessTestResult.LimitedDescription[],
     parent: unknown,

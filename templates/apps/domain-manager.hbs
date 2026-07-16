@@ -14,7 +14,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <section class="domain-manager">
     <header class="domain-manager-toolbar">
         <button type="button" data-action="addDomain">
-            <i class="sohl-plus"></i>
+            <i class="fa-solid fa-plus"></i>
             {{localize "SOHL.DomainManager.add"}}
         </button>
     </header>
@@ -46,7 +46,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         </button>
                         <button type="button" data-action="deleteDomain" data-shortcode="{{this.shortcode}}"
                             {{#unless this.canDelete}}disabled data-tooltip="{{localize "SOHL.DomainManager.cannotDelete"}}"{{else}}data-tooltip="{{localize "SOHL.DomainManager.delete"}}"{{/unless}}>
-                            <i class="sohl-trash"></i>
+                            <i class="fa-solid fa-trash"></i>
                         </button>
                     </span>
                 </li>

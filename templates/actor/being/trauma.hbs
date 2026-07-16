@@ -15,7 +15,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{!-- Shock State --}}
     {{#if shockState}}
     <div class="notification warning">
-        <i class="sohl-hazard-sign"></i> Shock State: {{shockState}}
+        <i class="fa-solid fa-triangle-exclamation"></i> Shock State: {{shockState}}
     </div>
     {{/if}}
 
@@ -24,10 +24,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <legend>
             Injuries
             <a class="item-create" data-action="createItem" data-type="trauma" data-tooltip="Create Trauma">
-                <i class="sohl-file-create"></i>
+                <i class="fa-solid fa-file-plus"></i>
             </a>
             <a class="list__control" data-action="addInjury" data-tooltip="Add Injury (roll)">
-                <i class="sohl-plus"></i>
+                <i class="fa-solid fa-plus"></i>
             </a>
         </legend>
         <ol class="list__items">
@@ -49,14 +49,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 </div>
                 <div class="list__detail" data-tooltip="Severity">
                     {{#if injury.healed}}
-                    <i class="sohl-heart-plus" data-tooltip="Healed"></i>
+                    <i class="fa-solid fa-heart-circle-plus" data-tooltip="Healed"></i>
                     {{else}}
                     {{injury.severity}}
                     {{/if}}
                 </div>
                 <div class="list__detail" data-tooltip="Healing Rate">
                     {{#if injury.healingRateDisabled}}
-                    <i class="sohl-xmark"></i>
+                    <i class="fa-solid fa-xmark fa-lg"></i>
                     {{else}}
                     {{#unless injury.isTreated}}NT{{/unless}}{{injury.healingRate}}
                     {{/if}}
@@ -72,7 +72,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 </div>
                 <div class="list__detail list__notes" data-tooltip="{{injury.notes}}">{{injury.notes}}</div>
                 <div class="list__controls">
-                    <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                    <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                 </div>
             </li>
             {{/each}}
@@ -83,7 +83,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="search-items">
         <div class="search-controls">
             <a class="search-control item-create" data-action="createItem" data-type="affliction" data-tooltip="Create Affliction">
-                <i class="sohl-file-create"></i>
+                <i class="fa-solid fa-file-plus"></i>
             </a>
         </div>
     </div>
@@ -110,7 +110,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="list__detail" data-tooltip="Level">{{aff.level}}</div>
                     <div class="list__detail" data-tooltip="Healing Rate">
                         {{#if aff.healingRateDisabled}}
-                        <i class="sohl-xmark"></i>
+                        <i class="fa-solid fa-xmark fa-lg"></i>
                         {{else}}
                         {{aff.healingRate}}
                         {{/if}}
@@ -118,7 +118,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="list__detail">{{aff.source}}</div>
                     <div class="list__detail list__notes" data-tooltip="{{aff.notes}}">{{aff.notes}}</div>
                     <div class="list__controls">
-                        <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                        <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </li>
                 {{/each}}

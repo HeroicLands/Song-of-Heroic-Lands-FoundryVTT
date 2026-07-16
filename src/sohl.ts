@@ -226,7 +226,7 @@ function registerSystemSettings() {
         name: "SOHL.Settings.CalendarConfig.Name",
         label: "SOHL.Settings.CalendarConfig.Label",
         hint: "SOHL.Settings.CalendarConfig.Hint",
-        icon: "sohl-calendar",
+        icon: "fa-solid fa-calendar",
         type: CalendarSettingsMenu as any,
         restricted: true,
     });
@@ -245,7 +245,7 @@ function registerSystemSettings() {
         name: "SOHL.Settings.domainsMenu.name",
         label: "SOHL.Settings.domainsMenu.label",
         hint: "SOHL.Settings.domainsMenu.hint",
-        icon: "sohl-circle",
+        icon: "fa-solid fa-circle",
         type: DomainManagerApp as any,
         restricted: true,
     });
@@ -270,7 +270,7 @@ function registerSystemSettings() {
         name: "SOHL.Settings.expressionHelpersMenu.name",
         label: "SOHL.Settings.expressionHelpersMenu.label",
         hint: "SOHL.Settings.expressionHelpersMenu.hint",
-        icon: "sohl-scroll",
+        icon: "fa-solid fa-scroll",
         type: ExpressionLibraryMenu as any,
         restricted: true,
     });
@@ -404,7 +404,7 @@ function registerSystemHooks() {
         btn.type = "button";
         btn.classList.add("control-icon");
         btn.dataset.tooltip = game.i18n.localize("SOHL.Cohort.HUD.expand");
-        btn.innerHTML = '<i class="sohl-people-group" inert></i>';
+        btn.innerHTML = '<i class="fa-solid fa-users" inert></i>';
         btn.addEventListener("click", async (ev: Event) => {
             ev.preventDefault();
             const token = hud.document;
