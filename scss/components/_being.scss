@@ -11,31 +11,18 @@
 // does. (`load-css` partials cannot use a top-level `&`, so the compound must be
 // applied by the wrapper in `sohl.scss`, exactly as the sheet frame is.)
 //
-// The Being content tabs (skills, combat, trauma, and the Profile traits) render
-// their lists with the shared `.list__*` markup but inside a bare <fieldset> —
-// not the `.list-section .list` wrapper the item lists use — so they missed the
-// compact-row styling and names rendered as oversized headings. This applies the
-// compact look, keyed on the BEM classes the templates actually emit (#515).
+// The Being content tabs render their lists with the shared `.list__*` markup
+// but inside a bare <fieldset> or a `.list` div — not the `.list-section .list`
+// wrapper the item lists use — so they missed the compact-row styling and names
+// rendered as oversized headings. This applies the compact look, keyed on the
+// BEM classes the templates actually emit (#515). (Tab scrolling is handled for
+// every sheet by the base `.window-content .tab` rule in `_sheet.scss`, #514.)
 
-// Content tabs scroll instead of clipping. `window-content` is a flex column
-// with a definite height, and each tab section is a flex child already sized to
-// the remaining space — so it only needs `overflow-y: auto` (and `min-height: 0`
-// so it can shrink below its content) to gain a scrollbar. Paired with
-// `scrollable: [""]` on the Being content parts, which preserves the scroll
-// position across each submit-on-change re-render (#514).
-//
-// This lives here (compound `.sohl.being`) rather than in `_sheet.scss`, where
-// it first shipped as `.being .window-content .tab` — loaded under `.sohl.sheet`
-// that compiled to `.sohl.sheet .being …`, which never matched because `sohl`,
-// `sheet`, and `being` share one element (the #87 same-element trap). Being in
-// the `components` layer, it also wins over the base `.tab` rule in `layout`.
-.window-content .tab {
-    min-height: 0;
-    overflow-y: auto;
-}
-
-// Header-row chrome: the label bar above each list.
-fieldset .list__header {
+// Header-row chrome: the label bar above each list. Not scoped to `fieldset`,
+// because some Being lists (Gear "On Body", Combat weapon groups) put their
+// `.list__header` inside a `.list` div rather than a <fieldset> — an
+// unqualified `.list__name` heading there would render at full Cinzel size.
+.list__header {
     @include list.header-row(
         var(--sohl-color-bg-overlay-dark),
         var(--sohl-color-border-subtle)
@@ -46,15 +33,13 @@ fieldset .list__header {
     }
 }
 
-fieldset .list__items {
-    @include list.reset;
-}
-
 // Column widths — applied to the header AND the data rows (both are <li>
 // children of `.list__items`) so every column lines up between the two. Scoping
 // these to `.item.flexrow` alone would size only the data cells and leave the
 // header labels spread evenly, which is what misaligned the columns.
 .list__items {
+    @include list.reset;
+
     .list__name {
         flex: 1 1 120px;
 
