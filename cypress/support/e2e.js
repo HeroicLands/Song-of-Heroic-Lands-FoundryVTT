@@ -41,3 +41,21 @@ Cypress.on("uncaught:exception", (err) => {
     }
     return true;
 });
+
+/**
+ * `testIsolation` is off, so UI notifications persist across specs. A permanent
+ * error notification raised by one spec (e.g. Foundry's `Hooks.onError` on a
+ * caught data-preparation failure) stays on screen and can overlay another
+ * spec's controls, failing an unrelated interaction (#503 — the header status
+ * pill was covered by a bled permanent error notification). Start every test
+ * with a clean notification UI. This only clears notifications that already
+ * exist before the test runs, so it never masks an error a spec raises itself.
+ */
+beforeEach(() => {
+    cy.window({ log: false }).then((win) => {
+        win.ui?.notifications?.clear?.();
+        win.document
+            ?.querySelectorAll("#notifications .notification")
+            .forEach((n) => n.remove());
+    });
+});
