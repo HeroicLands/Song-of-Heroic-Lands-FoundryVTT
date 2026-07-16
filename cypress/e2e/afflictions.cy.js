@@ -85,7 +85,10 @@ describe("afflictions", () => {
                         levelBase: 2,
                         healingRateBase: -1,
                         isDormant: true,
-                        isTreated: true,
+                        // `isTreated` is derived from `treatmentDate` (#484), so a
+                        // treated affliction is modelled by setting the date, not
+                        // the (now read-only) flag — otherwise canTreat stays true.
+                        treatmentDate: 1,
                     },
                 }).then((item) => {
                     cy.prepare(actor);
