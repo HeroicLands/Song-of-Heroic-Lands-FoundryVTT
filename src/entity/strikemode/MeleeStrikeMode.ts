@@ -75,28 +75,31 @@ export class MeleeStrikeMode extends StrikeModeBase {
                 { parent: parentLogic },
             ),
         };
-        if (data.defense.block.modifier) {
-            this.defense.block.add(
-                "Block Modifier",
-                "BlkMod",
-                data.defense.block.modifier,
-            );
+        // Weapon strike modes persist in an untyped ObjectField, so `defense`
+        // (or its block / counterstrike sub-objects) can be absent on a
+        // partially-created weapon. Read them defensively — an unguarded read
+        // here threw during WeaponGearLogic.initialize and aborted the actor's
+        // whole data preparation, silently hiding every strike mode (#512).
+        const block = data.defense?.block;
+        const counterstrike = data.defense?.counterstrike;
+        if (block?.modifier) {
+            this.defense.block.add("Block Modifier", "BlkMod", block.modifier);
         }
-        if (data.defense.counterstrike.modifier) {
+        if (counterstrike?.modifier) {
             this.defense.counterstrike.add(
                 "Counterstrike Modifier",
                 "CtrMod",
-                data.defense.counterstrike.modifier,
+                counterstrike.modifier,
             );
         }
-        if (data.defense.block.disabled || data.traits?.noBlock) {
+        if (block?.disabled || data.traits?.noBlock) {
             this.defense.block.disabledReason =
                 "This strike mode cannot be used for blocking.";
         }
         // A counterstrike is an attack made in response, so `noAttack` disables it
         // (there is no separate `noCounterstrike` trait); it can also be disabled
         // on its own via `defense.counterstrike.disabled`.
-        if (data.defense.counterstrike.disabled || data.traits?.noAttack) {
+        if (counterstrike?.disabled || data.traits?.noAttack) {
             this.defense.counterstrike.disabledReason =
                 "This strike mode cannot be used for counterstriking.";
         }
