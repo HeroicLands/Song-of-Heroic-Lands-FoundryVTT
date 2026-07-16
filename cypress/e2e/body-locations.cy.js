@@ -120,10 +120,10 @@ describe("Body Locations tree", () => {
                                 ref.name,
                         );
                         const d = row.querySelectorAll(".list__detail");
-                        // cells: Layers, Prob, B, E, P, F, Shock, Impair
+                        // cells: Layers, B, E, P, F, Shock, Impair
                         return {
                             layers: d[0].textContent.trim(),
-                            blunt: Number(d[2].textContent.trim()),
+                            blunt: Number(d[1].textContent.trim()),
                         };
                     }).should((r) => {
                         expect(r.blunt, "blunt = natural + armor").to.equal(

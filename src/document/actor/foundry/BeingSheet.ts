@@ -1453,15 +1453,14 @@ export class BeingSheet extends SohlActorSheetBase {
         // Read-only Body Locations tree: each part with its locations' effective
         // protection (natural `protectionBase` + worn-armor `armorProtection`,
         // aggregated during the actor's evaluate phase), the covering material
-        // layers, shock, and the held item on the part.
+        // layers, and shock. Held items are shown via the Held Items dropdowns,
+        // not here; hit probability and zones are no longer modeled (#509).
         const bodyParts = buildBodyLocationTree(
             (structure?.parts ?? []).map((part: any) => ({
                 label: part.name ?? part.shortcode,
-                held: part.heldItem?.name ?? "",
                 locations: (part.locations ?? []).map((loc: any) => ({
                     name: loc.name,
                     layers: loc.armorType ?? "",
-                    prob: loc.probWeight?.effective ?? 0,
                     base: {
                         blunt: loc.protectionBase.blunt.effective,
                         edged: loc.protectionBase.edged.effective,

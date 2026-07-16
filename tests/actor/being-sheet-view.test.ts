@@ -303,7 +303,6 @@ describe("being-sheet-view", () => {
         const loc = (over: Record<string, unknown> = {}) => ({
             name: "Skull",
             layers: "",
-            prob: 5,
             base: { blunt: 2, edged: 3, piercing: 1, fire: 1 },
             armor: { blunt: 0, edged: 0, piercing: 0, fire: 0 },
             shock: 5,
@@ -315,7 +314,6 @@ describe("being-sheet-view", () => {
             const tree = buildBodyLocationTree([
                 {
                     label: "Head",
-                    held: "",
                     locations: [
                         loc({
                             layers: "Padded, Plate",
@@ -334,7 +332,6 @@ describe("being-sheet-view", () => {
             expect(row).toMatchObject({
                 name: "Skull",
                 layers: "Padded, Plate",
-                prob: 5,
                 blunt: 8, // 2 + 6
                 edged: 16, // 4 + 12
                 piercing: 10, // 3 + 7
@@ -346,7 +343,7 @@ describe("being-sheet-view", () => {
 
         it("leaves totals at the natural base when no armor covers a location", () => {
             const [part] = buildBodyLocationTree([
-                { label: "Head", held: "", locations: [loc()] },
+                { label: "Head", locations: [loc()] },
             ]);
             expect(part.locations[0]).toMatchObject({
                 blunt: 2,
@@ -357,11 +354,10 @@ describe("being-sheet-view", () => {
             });
         });
 
-        it("carries the part label, held item, and location order", () => {
+        it("carries the part label and location order", () => {
             const tree = buildBodyLocationTree([
                 {
                     label: "Right Arm",
-                    held: "Broadsword",
                     locations: [
                         loc({ name: "Shoulder" }),
                         loc({ name: "Elbow" }),
@@ -369,7 +365,6 @@ describe("being-sheet-view", () => {
                 },
             ]);
             expect(tree[0].label).toBe("Right Arm");
-            expect(tree[0].held).toBe("Broadsword");
             expect(tree[0].locations.map((l) => l.name)).toEqual([
                 "Shoulder",
                 "Elbow",
