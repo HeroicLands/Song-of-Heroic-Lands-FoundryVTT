@@ -34,15 +34,6 @@
     align-content: flex-start;
 }
 
-// The Being sheet's content tabs hold long lists (skills, body locations,
-// injuries, gear) that exceed the sheet height; they scroll as a whole rather
-// than clipping their overflow. Paired with `scrollable: [""]` on the Being
-// content parts so the scroll position survives each submit-on-change re-render
-// (#514).
-.being .window-content .tab {
-    overflow-y: auto;
-}
-
 input[type="text"],
 input[type="number"],
 input[type="search"] {

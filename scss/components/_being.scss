@@ -17,6 +17,23 @@
 // compact-row styling and names rendered as oversized headings. This applies the
 // compact look, keyed on the BEM classes the templates actually emit (#515).
 
+// Content tabs scroll instead of clipping. `window-content` is a flex column
+// with a definite height, and each tab section is a flex child already sized to
+// the remaining space — so it only needs `overflow-y: auto` (and `min-height: 0`
+// so it can shrink below its content) to gain a scrollbar. Paired with
+// `scrollable: [""]` on the Being content parts, which preserves the scroll
+// position across each submit-on-change re-render (#514).
+//
+// This lives here (compound `.sohl.being`) rather than in `_sheet.scss`, where
+// it first shipped as `.being .window-content .tab` — loaded under `.sohl.sheet`
+// that compiled to `.sohl.sheet .being …`, which never matched because `sohl`,
+// `sheet`, and `being` share one element (the #87 same-element trap). Being in
+// the `components` layer, it also wins over the base `.tab` rule in `layout`.
+.window-content .tab {
+    min-height: 0;
+    overflow-y: auto;
+}
+
 // Header-row chrome: the label bar above each list.
 fieldset .list__header {
     @include list.header-row(
