@@ -51,7 +51,7 @@ export class ContainerGearLogic<
      * @param _context - The action context (unused).
      * @returns The localized contents-will-be-deleted warning.
      */
-    override async deleteItem(_context: SohlActionContext): Promise<void> {
+    override async deleteDocument(_context: SohlActionContext): Promise<void> {
         const confirmed = await dialog({
             title: sohl.i18n.format("SOHL.ContainerGear.delete.title", {
                 name: this.name,
