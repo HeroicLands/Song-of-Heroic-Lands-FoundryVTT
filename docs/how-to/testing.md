@@ -470,7 +470,7 @@ when a spec touches these areas:
   choice and the whole form update is rejected. Enums built with `defineType`
   expose a value-keyed `choices` map for exactly this.
 - **A discriminated `TypedSchemaField`** (e.g. a combat technique's `strikeMode`)
-  stores flat as `{ type, …fields }`. `formField` resolves its sub-fields under
+  stores flat as `{ type, …fields }`. `formGroup` resolves its sub-fields under
   the type segment (`system.strikeMode.melee.name`), which does not match storage
   (`system.strikeMode.name`) — those edits silently drop. Edit at the flat
   `system.<field>.<sub>` path, with a hidden `type` input so the discriminated
