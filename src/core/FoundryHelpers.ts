@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -528,7 +528,7 @@ export async function fvttEnrichHTML(content: string): Promise<string> {
  * Note: `ALLOWED_URL_SCHEMES` includes `data`, so `data:` URLs are permitted,
  * matching Foundry's system-wide stance rather than being additionally blocked.
  * See the HTML-rendering guardrail in the
- * [Security Model](https://kb.heroiclands.com/dev/concepts/security-model/) doc.
+ * [Security Model](https://kb.heroiclands.org/dev/concepts/security-model/) doc.
  *
  * @param raw - Untrusted HTML markup to sanitize.
  * @returns The sanitized HTML markup.
