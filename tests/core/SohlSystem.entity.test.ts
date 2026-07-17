@@ -1,4 +1,5 @@
 import { describe, it, expect, afterEach } from "vitest";
+import { brandLogic } from "@tests/mocks/brandLogic";
 import { entity, type SohlEntityName } from "@src/entity/registry";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { ValueDelta } from "@src/entity/modifier/ValueDelta";
@@ -80,8 +81,8 @@ describe("sohl.entity registry", () => {
                 (globalThis as { sohl: { entity?: unknown } }).sohl.entity,
             ).toBeUndefined();
 
-            const parent = { id: "p", name: "P", label: "P" } as never;
-            const vm = new entity.ValueModifier({}, { parent })
+            const parent = brandLogic({ id: "p", name: "P", label: "P" }) as never;
+            const vm = new entity.ValueModifier(parent)
                 .setBase(5)
                 .add("Bonus", "BON", 3);
 

@@ -182,7 +182,7 @@ export class ExpressionLibraryMenu extends (ExpressionLibraryMenu_Base as typeof
                     );
                 }
             },
-        } as any).render(true);
+        } as any).render({ force: true });
     }
 
     /**

@@ -125,10 +125,9 @@ export class BodyPart extends SohlEntity {
                     | SohlItem
                     | undefined) ?? undefined)
             :   undefined;
-        this.probWeight = new entity.ValueModifier(
-            {},
-            { parent: this.parent },
-        ).setBase(data.probWeight);
+        this.probWeight = new entity.ValueModifier(this.parent).setBase(
+            data.probWeight,
+        );
         this.permanentImpairment = Math.min(0, data.permanentImpairment ?? 0);
         this.permanentlyUnusable = data.permanentlyUnusable ?? false;
         this.index = options.index;

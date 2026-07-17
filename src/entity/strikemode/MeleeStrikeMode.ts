@@ -62,18 +62,12 @@ export class MeleeStrikeMode extends StrikeModeBase {
         super(data, parentLogic, id);
         // Reach is seeded from the weapon's length; the wielder's corpus
         // reach is layered on during the owning logic's evaluate phase.
-        this.reach = new entity.ValueModifier(
-            {},
-            {
-                parent: parentLogic,
-            },
-        ).setBase(data.lengthBase);
+        this.reach = new entity.ValueModifier(parentLogic).setBase(
+            data.lengthBase,
+        );
         this.defense = {
-            block: new entity.CombatModifier({}, { parent: parentLogic }),
-            counterstrike: new entity.CombatModifier(
-                {},
-                { parent: parentLogic },
-            ),
+            block: new entity.CombatModifier(parentLogic),
+            counterstrike: new entity.CombatModifier(parentLogic),
         };
         // Weapon strike modes persist in an untyped ObjectField, so `defense`
         // (or its block / counterstrike sub-objects) can be absent on a

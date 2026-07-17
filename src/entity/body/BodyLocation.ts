@@ -133,31 +133,25 @@ export class BodyLocation extends SohlEntity {
         this.armorProtection = { blunt: 0, edged: 0, piercing: 0, fire: 0 };
         this.isRigid = false;
         this.armorType = "";
-        this.shockValue = new entity.ValueModifier(
-            {},
-            { parent: options.parent },
-        ).setBase(data.shockValue);
-        this.probWeight = new entity.ValueModifier(
-            {},
-            { parent: options.parent },
-        ).setBase(data.probWeight);
+        this.shockValue = new entity.ValueModifier(options.parent).setBase(
+            data.shockValue,
+        );
+        this.probWeight = new entity.ValueModifier(options.parent).setBase(
+            data.probWeight,
+        );
         this.protectionBase = {
-            blunt: new entity.ValueModifier(
-                {},
-                { parent: options.parent },
-            ).setBase(data.protectionBase.blunt),
-            edged: new entity.ValueModifier(
-                {},
-                { parent: options.parent },
-            ).setBase(data.protectionBase.edged),
-            piercing: new entity.ValueModifier(
-                {},
-                { parent: options.parent },
-            ).setBase(data.protectionBase.piercing),
-            fire: new entity.ValueModifier(
-                {},
-                { parent: options.parent },
-            ).setBase(data.protectionBase.fire),
+            blunt: new entity.ValueModifier(options.parent).setBase(
+                data.protectionBase.blunt,
+            ),
+            edged: new entity.ValueModifier(options.parent).setBase(
+                data.protectionBase.edged,
+            ),
+            piercing: new entity.ValueModifier(options.parent).setBase(
+                data.protectionBase.piercing,
+            ),
+            fire: new entity.ValueModifier(options.parent).setBase(
+                data.protectionBase.fire,
+            ),
         };
         this.bodyPart = options.bodyPart;
         this.index = options.index;

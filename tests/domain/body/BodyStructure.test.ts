@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { brandLogic } from "@tests/mocks/brandLogic";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { BodyPart } from "@src/entity/body/BodyPart";
 import type { BodyLocation } from "@src/entity/body/BodyLocation";
@@ -55,11 +56,11 @@ const SAMPLE_DATA: BodyStructure.Data = {
 // Minimal construction options: a Corpus-kinded parent logic (null actor,
 // canonical data for the update methods) wrapped as the entity's options.
 const MOCK_BEING_LOGIC = {
-    parent: {
+    parent: brandLogic({
         kind: "corpus",
         actor: null,
         data: { structure: SAMPLE_DATA },
-    },
+    }),
 } as any;
 
 describe("BodyStructure", () => {
@@ -127,7 +128,7 @@ describe("BodyStructure", () => {
         // Mock being-logic whose actor resolves heldItemId -> a stub item.
         const logicResolving = (ids: string[]) =>
             ({
-                parent: {
+                parent: brandLogic({
                     kind: "corpus",
                     actor: {
                         items: {
@@ -136,7 +137,7 @@ describe("BodyStructure", () => {
                         },
                     },
                     data: { structure: HOLDING_DATA },
-                },
+                }),
             }) as any;
 
         it("counts item-holding limbs whose held item matches", () => {

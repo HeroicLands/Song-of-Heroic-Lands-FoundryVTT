@@ -13,7 +13,11 @@
 
 import { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBase";
-import { fvttCallHook, fvttGetSetting } from "@src/core/FoundryHelpers";
+import {
+    fvttCallHook,
+    fvttGetSetting,
+    fvttRenderSheet,
+} from "@src/core/FoundryHelpers";
 import {
     ACTION_SUBTYPE,
     SOHL_ACTION_SCOPE,
@@ -605,7 +609,7 @@ export class BeingSheet extends SohlActorSheetBase {
                 command: "",
             });
             // Defer authoring the Macro body to Foundry's own Macro sheet.
-            macro?.sheet?.render(true);
+            void fvttRenderSheet(macro);
         } else {
             macro = await fromUuid(result.macro);
         }
@@ -645,7 +649,7 @@ export class BeingSheet extends SohlActorSheetBase {
         const uuid = (action?.data as any)?.executor;
         if (!uuid) return;
         const macro: any = await fromUuid(uuid);
-        macro?.sheet?.render(true);
+        void fvttRenderSheet(macro);
     }
 
     /**
@@ -748,7 +752,7 @@ export class BeingSheet extends SohlActorSheetBase {
         _event: PointerEvent,
         target: HTMLElement,
     ): Promise<void> {
-        void this._itemFromControl(target)?.sheet?.render(true);
+        void fvttRenderSheet(this._itemFromControl(target));
     }
 
     /**

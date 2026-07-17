@@ -62,6 +62,7 @@
         @include meta.load-css("components/items");
         @include meta.load-css("components/profile");
         @include meta.load-css("components/effects");
+        @include meta.load-css("components/context-menu");
     }
 
     // Being-sheet content, loaded under the COMPOUND `.sohl.being` selector:

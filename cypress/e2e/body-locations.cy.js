@@ -34,11 +34,9 @@ describe("Body Locations tree", () => {
             cy.wait(500);
             cy.foundry((win) => {
                 const el = combatSection(win, actor.id);
-                const fs = [...el.querySelectorAll("fieldset")].find((f) =>
-                    /Body Locations/.test(
-                        f.querySelector("legend")?.textContent ?? "",
-                    ),
-                );
+                // The Body Locations list is no longer wrapped in a fieldset;
+                // it is the `.bodylocations-list` container.
+                const fs = el.querySelector(".bodylocations-list");
                 const headers = [
                     ...fs.querySelectorAll("header.list__header .list__detail"),
                 ].map((d) => d.textContent.trim());

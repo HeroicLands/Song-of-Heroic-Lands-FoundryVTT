@@ -82,6 +82,10 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * general `clearField` action used by the `clearableNumberInput` helper.
      */
     static override DEFAULT_OPTIONS: PlainObject = {
+        // Give item sheets a fixed initial size. Without it the sheet has no
+        // definite height, so ApplicationV2 re-fits it to each tab's content and
+        // the window jumps size when switching tabs (and grows very wide).
+        position: { width: 600, height: 500 },
         actions: {
             clearField: SohlItemSheetBase._onClearField,
         },

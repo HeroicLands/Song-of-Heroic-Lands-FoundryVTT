@@ -6,6 +6,7 @@
  */
 
 import { describe, it, expect } from "vitest";
+import { brandLogic } from "@tests/mocks/brandLogic";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
 import {
     aggregateArmor,
@@ -54,11 +55,11 @@ const SAMPLE_DATA: BodyStructure.Data = {
     adjacent: [["head", "thorax"]],
 } as any;
 
-const MOCK_CORPUS_LOGIC = {
+const MOCK_CORPUS_LOGIC = brandLogic({
     kind: "corpus",
     actor: null,
     data: { structure: SAMPLE_DATA },
-} as any;
+}) as any;
 
 function makeBody(): BodyStructure {
     return new BodyStructure(SAMPLE_DATA, { parent: MOCK_CORPUS_LOGIC });

@@ -178,7 +178,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
                     );
                 }
             },
-        } as any).render(true);
+        } as any).render({ force: true });
     }
 
     /**

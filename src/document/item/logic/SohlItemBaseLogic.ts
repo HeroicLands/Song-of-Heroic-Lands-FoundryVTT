@@ -13,8 +13,16 @@
 
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
-import type { HTMLString } from "@src/utils/helpers";
-import { BRAND } from "@src/utils/constants";
+import { toHTMLString, type HTMLString } from "@src/utils/helpers";
+import {
+    ACTION_SUBTYPE,
+    BRAND,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@src/utils/constants";
+import { SohlAction } from "@src/entity/action/SohlAction";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import { dialog, fvttRenderSheet } from "@src/core/FoundryHelpers";
 
 /**
  * The Foundry-free foundation of the item logic layer.
@@ -76,6 +84,78 @@ export class SohlItemBaseLogic<
      */
     get [BRAND.SohlItemLogic](): true {
         return true;
+    }
+
+    /**
+     * Open the item sheet for this item.
+     * @param _context - The action context; unused.
+     */
+    async editItem(_context: SohlActionContext): Promise<void> {
+        await fvttRenderSheet(this.item);
+    }
+
+    /**
+     * Delete this item, after confirming with the user.
+     * @param _context - The action context; unused.
+     */
+    async deleteItem(_context: SohlActionContext): Promise<void> {
+        const confirmed = await dialog({
+            title: sohl.i18n.format("SOHL.SohlItemBaseLogic.delete.title", {
+                name: this.name,
+            }),
+            content: toHTMLString(
+                `<p>${sohl.i18n.localize("SOHL.SohlItemBaseLogic.delete.caution")}</p>`,
+            ),
+            data: {
+                name: this.name,
+            },
+            buttons: [
+                {
+                    action: "yes",
+                    label: sohl.i18n.localize(
+                        "SOHL.SohlItemBaseLogic.delete.yes",
+                    ),
+                    icon: "fa-solid fa-trash",
+                },
+                {
+                    action: "no",
+                    label: sohl.i18n.localize(
+                        "SOHL.SohlItemBaseLogic.delete.no",
+                    ),
+                    default: true,
+                },
+            ],
+            callback: (_formData, action) => action === "yes",
+            rejectClose: false,
+        });
+        if (confirmed === true) await this.item.delete();
+    }
+
+    /** @inheritdoc */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...super.defineIntrinsicActions(),
+            {
+                shortcode: "editItem",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.SohlItemBaseLogic.Action.edit.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-edit",
+                executor: "editItem",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT,
+            },
+            {
+                shortcode: "deleteItem",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.SohlItemBaseLogic.Action.delete.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-trash",
+                executor: "deleteItem",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+        ];
     }
 
     /* --------------------------------------------- */

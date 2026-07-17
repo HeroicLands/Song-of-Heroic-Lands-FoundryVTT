@@ -290,7 +290,7 @@ function buildCorpus(fm) {
 function buildWeaponGear(fm) {
     return {
         ...gearCommon(fm),
-        encumbrance: Number(sohlField(fm, "encumbrance", 0)) || 0,
+        encumbranceBase: Number(sohlField(fm, "encumbrance", 0)) || 0,
         heftBase: Number(sohlField(fm, "heft", 0)) || 0,
         strikeModes: sohlField(fm, "strikeModes", {}),
     };

@@ -294,7 +294,21 @@ export class ContextMenuEntry {
         }
         this.id = data.id;
         this.name = data.name;
-        this.icon = data.icon;
+        // Foundry's ContextMenu renders the entry's `icon` HTML before the
+        // label. When only a Font-Awesome class is supplied, build the `<i>`
+        // markup from it so the menu shows its icon. The class is sanitized to
+        // class-safe characters (word chars, spaces, dashes), so the result is
+        // valid HTML by construction — branded directly rather than via
+        // `toHTMLString`, whose `DOMParser` validation is browser-only and would
+        // break this Foundry-free module in Node.
+        this.icon =
+            data.icon ??
+            (data.iconFAClass ?
+                (`<i class="${data.iconFAClass.replace(
+                    /[^\w\s-]/g,
+                    "",
+                )}"></i>` as HTMLString)
+            :   undefined);
         this.condition = data.condition;
         this.callback =
             data.callback ||

@@ -76,7 +76,9 @@ describe("Use Zone Die setting", () => {
         const el = win.game.actors.get(actorId).sheet.element;
         const header = [
             ...el.querySelectorAll(
-                'section[data-tab="combat"] li.list__header .list__detail',
+                // Column labels live in the strike-mode group's outer
+                // `<header class="list__header">` (no longer an `<li>`).
+                'section[data-tab="combat"] header.list__header .list__detail',
             ),
         ].find((d) => /^(Spr|ZD)$/.test(d.textContent.trim()));
         const row = el.querySelector(

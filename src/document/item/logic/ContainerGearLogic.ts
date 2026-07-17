@@ -14,6 +14,10 @@
 import { entity } from "@src/entity/registry";
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import { dialog, fvttDeleteEmbeddedItems } from "@src/core/FoundryHelpers";
+import { toHTMLString } from "@src/utils/helpers";
+import { SohlItemLogic } from "./SohlItemBaseLogic";
 
 /**
  * Storage for other items.
@@ -38,6 +42,56 @@ export class ContainerGearLogic<
      * {@link ContainerGearData.maxCapacityBase}.
      */
     maxCapacity!: ValueModifier;
+
+    /**
+     * Delete this container, and all contents, after confirming with the user.
+     *
+     * @remarks Deleting a container also deletes everything inside it, which is
+     * not obvious, so warn before it happens.
+     * @param _context - The action context (unused).
+     * @returns The localized contents-will-be-deleted warning.
+     */
+    override async deleteItem(_context: SohlActionContext): Promise<void> {
+        const confirmed = await dialog({
+            title: sohl.i18n.format("SOHL.ContainerGear.delete.title", {
+                name: this.name,
+            }),
+            content: toHTMLString(`<p>{{warning}}</p>`),
+            data: {
+                name: this.name,
+                warning: sohl.i18n.localize(
+                    "SOHL.ContainerGear.delete.warning",
+                ),
+            },
+            buttons: [
+                {
+                    action: "yes",
+                    label: sohl.i18n.localize(
+                        "SOHL.SohlItemBaseLogic.delete.yes",
+                    ),
+                    icon: "fa-solid fa-trash",
+                },
+                {
+                    action: "no",
+                    label: sohl.i18n.localize(
+                        "SOHL.SohlItemBaseLogic.delete.no",
+                    ),
+                    default: true,
+                },
+            ],
+            callback: (_formData: any, action: string) => action === "yes",
+            rejectClose: false,
+        });
+        if (confirmed !== true) return;
+        this.item.id;
+        const delIds =
+            this.actorLogic?.allLogics
+                .filter((logic: any) => logic.containedIn === this)
+                .map((logic) => logic.item.id)
+                .filter((id) => id != null) ?? [];
+        if (this.id) delIds.push(this.id);
+        await fvttDeleteEmbeddedItems(this.actorLogic, [...delIds]);
+    }
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */

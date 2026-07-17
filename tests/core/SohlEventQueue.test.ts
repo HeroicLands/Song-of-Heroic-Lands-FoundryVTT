@@ -51,7 +51,10 @@ function actionDoc(
     return {
         logic: {
             speaker: new SohlSpeaker({}),
-            executeAction: async (kind: string, context: any): Promise<void> => {
+            executeAction: async (
+                kind: string,
+                context: any,
+            ): Promise<void> => {
                 await onAction(kind, context.scope, context.scope?.payload);
             },
         },
@@ -62,8 +65,7 @@ function actionDoc(
 function installActionDoc(
     onAction: Parameters<typeof actionDoc>[0] = () => {},
 ): void {
-    (globalThis as any).fromUuid = async (_uuid: string) =>
-        actionDoc(onAction);
+    (globalThis as any).fromUuid = async (_uuid: string) => actionDoc(onAction);
 }
 
 describe("SohlEventQueue", () => {
@@ -121,8 +123,16 @@ describe("SohlEventQueue", () => {
         });
 
         it("clear empties the queue", () => {
-            queue.subscribe({ uuid: "u1", kind: "k1", triggerName: "combatStart" });
-            queue.subscribe({ uuid: "u2", kind: "k2", triggerName: "combatEnd" });
+            queue.subscribe({
+                uuid: "u1",
+                kind: "k1",
+                triggerName: "combatStart",
+            });
+            queue.subscribe({
+                uuid: "u2",
+                kind: "k2",
+                triggerName: "combatEnd",
+            });
             queue.clear();
             expect(queue.size).toBe(0);
         });
@@ -150,9 +160,21 @@ describe("SohlEventQueue", () => {
         });
 
         it("keeps separate entries for different kinds / uuids", () => {
-            queue.subscribe({ uuid: "u", kind: "a", triggerName: "combatStart" });
-            queue.subscribe({ uuid: "u", kind: "b", triggerName: "combatStart" });
-            queue.subscribe({ uuid: "u2", kind: "a", triggerName: "combatStart" });
+            queue.subscribe({
+                uuid: "u",
+                kind: "a",
+                triggerName: "combatStart",
+            });
+            queue.subscribe({
+                uuid: "u",
+                kind: "b",
+                triggerName: "combatStart",
+            });
+            queue.subscribe({
+                uuid: "u2",
+                kind: "a",
+                triggerName: "combatStart",
+            });
             expect(queue.size).toBe(3);
         });
     });
@@ -239,7 +261,11 @@ describe("SohlEventQueue", () => {
             installActionDoc((kind) => {
                 seen.push(kind);
             });
-            queue.subscribe({ uuid: "u1", kind: "k", triggerName: "combatStart" });
+            queue.subscribe({
+                uuid: "u1",
+                kind: "k",
+                triggerName: "combatStart",
+            });
             setUserFlags({ isGM: true, isActiveGM: false });
             await queue.fire({ name: "combatStart", combat: {} as any });
             expect(seen).toEqual([]);
@@ -251,8 +277,16 @@ describe("SohlEventQueue", () => {
                 if (kind === "boom") throw new Error("nope");
                 seen.push(kind);
             });
-            queue.subscribe({ uuid: "u1", kind: "boom", triggerName: "combatStart" });
-            queue.subscribe({ uuid: "u2", kind: "ok", triggerName: "combatStart" });
+            queue.subscribe({
+                uuid: "u1",
+                kind: "boom",
+                triggerName: "combatStart",
+            });
+            queue.subscribe({
+                uuid: "u2",
+                kind: "ok",
+                triggerName: "combatStart",
+            });
             await queue.fire({ name: "combatStart", combat: {} as any });
             expect(seen).toEqual(["ok"]);
             expect(errorSpy).toHaveBeenCalled();
@@ -260,7 +294,11 @@ describe("SohlEventQueue", () => {
 
         it("silently skips subscriptions whose UUID no longer resolves", async () => {
             (globalThis as any).fromUuid = async () => null;
-            queue.subscribe({ uuid: "missing", kind: "k", triggerName: "combatStart" });
+            queue.subscribe({
+                uuid: "missing",
+                kind: "k",
+                triggerName: "combatStart",
+            });
             await expect(
                 queue.fire({ name: "combatStart", combat: {} as any }),
             ).resolves.not.toThrow();
@@ -268,7 +306,11 @@ describe("SohlEventQueue", () => {
 
         it("warns when the resolved document logic cannot execute actions", async () => {
             (globalThis as any).fromUuid = async () => ({ logic: {} });
-            queue.subscribe({ uuid: "foo", kind: "k", triggerName: "combatStart" });
+            queue.subscribe({
+                uuid: "foo",
+                kind: "k",
+                triggerName: "combatStart",
+            });
             await queue.fire({ name: "combatStart", combat: {} as any });
             expect(warnSpy).toHaveBeenCalled();
         });
@@ -377,7 +419,8 @@ describe("SohlEventQueue", () => {
             let calls = 0;
             installActionDoc((_kind, ctx) => {
                 calls++;
-                if (ctx.name === "updateWorldTime") queue.scheduleAt("u", "k", 100);
+                if (ctx.name === "updateWorldTime")
+                    queue.scheduleAt("u", "k", 100);
             });
             queue.scheduleAt("u", "k", 100);
             await queue.fire(worldTimeCtx(1000));
@@ -393,9 +436,16 @@ describe("SohlEventQueue", () => {
                         kind: "deep",
                         triggerName: "combatStart",
                     });
-                    await queue.fire({ name: "combatStart", combat: {} as any });
+                    await queue.fire({
+                        name: "combatStart",
+                        combat: {} as any,
+                    });
                 });
-            queue.subscribe({ uuid: "u", kind: "deep", triggerName: "combatStart" });
+            queue.subscribe({
+                uuid: "u",
+                kind: "deep",
+                triggerName: "combatStart",
+            });
             await queue.fire({ name: "combatStart", combat: {} as any });
             expect(errorSpy).toHaveBeenCalled();
         });
@@ -426,7 +476,9 @@ describe("SohlEventQueue", () => {
         it("populates on non-GM clients so players can query dates locally", () => {
             setUserFlags({ isGM: false, isActiveGM: false });
             queue.scheduleAt("Actor.a.Item.x", "healingCheck", 9000);
-            expect(queue.nextFireTime("Actor.a.Item.x", "healingCheck")).toBe(9000);
+            expect(queue.nextFireTime("Actor.a.Item.x", "healingCheck")).toBe(
+                9000,
+            );
         });
     });
 
@@ -438,7 +490,11 @@ describe("SohlEventQueue", () => {
                 triggerName: "updateWorldTime",
                 fireAt: 100,
             });
-            queue.subscribe({ uuid: "u", kind: "a", triggerName: "combatStart" });
+            queue.subscribe({
+                uuid: "u",
+                kind: "a",
+                triggerName: "combatStart",
+            });
             queue.subscribe({
                 uuid: "u",
                 kind: "m",

@@ -426,6 +426,27 @@ export async function fvttCreateEmbeddedItems(
 }
 
 /**
+ *  Delete embedded `Item` documents from an actor, addressed through its *logic*.
+ *
+ * @remarks The Foundry-free way for the logic layer to remove items from an actor:
+ * the caller passes an actor logic (or any logic that resolves to an owning
+ * actor via {@link sohl.core.logic.SohlLogic.actor}) and item IDs; this boundary
+ * resolves the Foundry actor and performs the write. No-op when the logic has no
+ * owning actor.
+ * @param actorLogic - The actor's logic (or a logic whose `.actor` resolves it).
+ * @param itemIds - The IDs of the items to delete.
+ * @returns A promise that resolves when the items have been deleted.
+ */
+export async function fvttDeleteEmbeddedItems(
+    actorLogic: any,
+    itemIds: string[],
+): Promise<void> {
+    const actor = actorLogic?.actor;
+    if (!actor) return;
+    await actor.deleteEmbeddedDocuments("Item", itemIds);
+}
+
+/**
  * Gather every contractable disease — `affliction` items whose subtype is
  * `disease` — found in the world and in the Item compendium packs, as
  * {@link AfflictionChoice} records. Only diseases can be contracted. The
@@ -507,7 +528,7 @@ export async function fvttEnrichHTML(content: string): Promise<string> {
  * Note: `ALLOWED_URL_SCHEMES` includes `data`, so `data:` URLs are permitted,
  * matching Foundry's system-wide stance rather than being additionally blocked.
  * See the HTML-rendering guardrail in the
- * [Security Model](https://kb.heroiclands.org/dev/concepts/security-model/) doc.
+ * [Security Model](https://kb.heroiclands.com/dev/concepts/security-model/) doc.
  *
  * @param raw - Untrusted HTML markup to sanitize.
  * @returns The sanitized HTML markup.
@@ -654,8 +675,30 @@ export async function dialog(spec: DialogSpec = {}): Promise<any> {
 }
 
 // ---------------------------------------------------------------------------
-// Sheet registration
+// Sheets
 // ---------------------------------------------------------------------------
+
+/**
+ * Open (and bring to front) a document's sheet.
+ *
+ * @remarks `Document#sheet` is typed as the union of the legacy
+ * `FormApplication` and `ApplicationV2`, whose `render` signatures disagree —
+ * only the deprecated ApplicationV1-compat overload (`render(true)`) satisfies
+ * both. SoHL targets Foundry v14, where every sheet is an `ApplicationV2`, so
+ * this wrapper narrows the union once, here at the boundary, and calls the
+ * modern `render({ force: true })` form. Logic-layer callers get a
+ * Foundry-free, deprecation-free entry point.
+ * @param doc - The document whose sheet to render; a missing sheet is a no-op.
+ */
+export async function fvttRenderSheet(
+    doc: { sheet?: unknown } | null | undefined,
+): Promise<void> {
+    const sheet = doc?.sheet as
+        | { render?: (options: { force: boolean }) => unknown }
+        | null
+        | undefined;
+    await sheet?.render?.({ force: true });
+}
 
 /**
  * Unregister a custom sheet for a Foundry document class.

@@ -834,7 +834,7 @@ export namespace SuccessTestResult {
      * literal or a {@link sohl.entity.expr.SafeExpression} computed from the test
      * bindings (`successLevel`, `targetValue`, `lastDigit`) — data, so the whole
      * table serializes across clients. See the
-     * [Result-description Tables](https://kb.heroiclands.org/dev/reference/result-description-tables/)
+     * [Result-description Tables](https://kb.heroiclands.com/dev/reference/result-description-tables/)
      * guide.
      */
     export interface LimitedDescription {

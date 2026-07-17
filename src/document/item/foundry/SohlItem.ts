@@ -19,7 +19,7 @@ import {
     type SubTypeOption,
 } from "@src/utils/helpers";
 import { toFilePath } from "@src/utils/helpers";
-import { dialog } from "@src/core/FoundryHelpers";
+import { dialog, fvttRenderSheet } from "@src/core/FoundryHelpers";
 import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
@@ -292,7 +292,7 @@ export async function sohlCreateDialog(
         parent: (createOptions as PlainObject).parent ?? null,
         ...createOptions,
     });
-    (created as any)?.sheet?.render(true);
+    void fvttRenderSheet(created as any);
     return created ?? null;
 }
 

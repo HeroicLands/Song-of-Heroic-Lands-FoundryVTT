@@ -200,7 +200,7 @@ export interface SohlEntitySurface extends SohlEntityRegistry {
  * lists only class names. The surface itself is frozen.
  *
  * @example
- * const vm = new entity.ValueModifier({}, { parent });
+ * const vm = new entity.ValueModifier(parent);
  * class MyResult extends entity.SuccessTestResult {}
  * sohl.entity.register("SuccessTestResult", MyResult);
  */

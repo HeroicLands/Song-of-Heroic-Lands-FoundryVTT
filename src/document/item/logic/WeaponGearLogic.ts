@@ -102,10 +102,10 @@ export class WeaponGearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.encumbrance = new entity.ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.encumbrance);
+        this.encumbrance = new entity.ValueModifier(this).setBase(
+            this.data.encumbranceBase,
+        );
+        this.heft = new entity.ValueModifier(this).setBase(this.data.heftBase);
         this.strikeModes = Object.entries(this.data.strikeModes ?? {}).map(
             ([id, d]) =>
                 d.type === STRIKE_MODE_TYPE.MELEE ?
@@ -154,7 +154,7 @@ export interface WeaponGearData<
     TLogic extends WeaponGearLogic<WeaponGearData> = WeaponGearLogic<any>,
 > extends GearData<TLogic> {
     /** Encumbrance value of the weapon */
-    encumbrance: number;
+    encumbranceBase: number;
     /** Heft of the weapon */
     heftBase: number;
     /** Persisted strike modes, keyed by Foundry-style id. */

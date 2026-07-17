@@ -51,14 +51,14 @@ describe("derived strike mode sections", () => {
     }
 
     function meleeSection(win, actorId) {
-        const el = win.game.actors
+        // Each held melee weapon (and combat-technique) renders as its own
+        // `div.list` headed "Melee Strike Modes" — there is no enclosing
+        // fieldset. Return the whole Combat section; these tests add only melee
+        // sources, so the `h3.list__name.name` weapon-name queries below stay
+        // melee-specific.
+        return win.game.actors
             .get(actorId)
             .sheet.element.querySelector('section[data-tab="combat"]');
-        return [...el.querySelectorAll("fieldset")].find((f) =>
-            /Melee Strike Modes/.test(
-                f.querySelector("legend")?.textContent ?? "",
-            ),
-        );
     }
 
     it("aggregates a combat-technique skill and a held weapon, both rollable", () => {
@@ -101,9 +101,7 @@ describe("derived strike mode sections", () => {
                     cy.foundry((win) => {
                         const fs = meleeSection(win, actor.id);
                         const sources = [
-                            ...fs.querySelectorAll(
-                                "div.list > header.list__header h3.list__name.name",
-                            ),
+                            ...fs.querySelectorAll("h3.list__name.name"),
                         ].map((h) => h.textContent.trim());
                         const atkCells = fs.querySelectorAll(
                             '[data-action="rollStrikeModeTest"][data-test-kind="attack"]',

@@ -31,7 +31,8 @@ const { NumberField, TypedObjectField, TypedSchemaField, SchemaField } =
 function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
-        encumbrance: new NumberField({ initial: 0, min: 0 }),
+        encumbranceBase: new NumberField({ initial: 0, min: 0 }),
+        heftBase: new NumberField({ initial: 0, min: 0 }),
         // A keyed dict of strike modes, each a discriminated melee/missile
         // schema (the same schemas the combat-technique skill uses). Typing the
         // element means every strike mode's sub-fields — including
@@ -70,7 +71,7 @@ export class WeaponGearDataModel<
     ];
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.WEAPONGEAR;
-    encumbrance!: number;
+    encumbranceBase!: number;
     heftBase!: number;
     strikeModes!: StrictObject<StrikeModeBase.Data>;
 

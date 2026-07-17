@@ -52,14 +52,12 @@ export class MissileStrikeMode extends StrikeModeBase {
         super(data, parentLogic, id);
         this.projectileType = data.projectileType;
         this.maxVolleyMult = data.maxVolleyMult;
-        this.baseRange = new entity.ValueModifier(
-            {},
-            { parent: parentLogic },
-        ).setBase(data.baseRangeBase);
-        this.draw = new entity.ValueModifier(
-            {},
-            { parent: parentLogic },
-        ).setBase(data.drawBase);
+        this.baseRange = new entity.ValueModifier(parentLogic).setBase(
+            data.baseRangeBase,
+        );
+        this.draw = new entity.ValueModifier(parentLogic).setBase(
+            data.drawBase,
+        );
     }
 
     /**
