@@ -27,19 +27,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <section class="tab skills{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="skills">
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-skills" value=""
-            aria-label="Search Skills" placeholder="Search Skills" autocomplete="off" />
+            aria-label="{{localize 'SOHL.Skill.Search.label'}}" placeholder="{{localize 'SOHL.Skill.Search.label'}}" autocomplete="off" />
     </div>
     {{#each skillGroups as |group|}}
         <ol class="list__items skills-list">
             <li class="list__header flexrow">
                 <div class="list__name">{{group.label}}</div>
-                <div class="list__detail" data-tooltip="Skill Base">SB</div>
-                <div class="list__detail" data-tooltip="Mastery Level">ML</div>
-                <div class="list__detail" data-tooltip="Index">Index</div>
-                <div class="list__detail" data-tooltip="Effective Mastery Level">EML</div>
-                <div class="list__detail" data-tooltip="Fate Mastery Level">Fate</div>
+                <div class="list__detail" data-tooltip="{{localize 'SOHL.Skill.Heading.SkillBase.tooltip'}}">{{localize 'SOHL.Skill.Heading.SkillBase.label'}}</div>
+                <div class="list__detail" data-tooltip="{{localize 'SOHL.Skill.Heading.MasteryLevel.tooltip'}}">{{localize 'SOHL.Skill.Heading.MasteryLevel.label'}}</div>
+                <div class="list__detail" data-tooltip="{{localize 'SOHL.Skill.Heading.Index.tooltip'}}">{{localize 'SOHL.Skill.Heading.Index.label'}}</div>
+                <div class="list__detail" data-tooltip="{{localize 'SOHL.Skill.Heading.EffectiveMasteryLevel.tooltip'}}">{{localize 'SOHL.Skill.Heading.EffectiveMasteryLevel.label'}}</div>
+                <div class="list__detail" data-tooltip="{{localize 'SOHL.Skill.Heading.FateMasteryLevel.tooltip'}}">{{localize 'SOHL.Skill.Heading.FateMasteryLevel.label'}}</div>
                 <div class="list__controls">
-                    <a class="item-create" data-action="createItem" data-tooltip="Add Skill" data-type="skill" data-sub-type="{{group.subType}}">
+                    <a class="item-create" data-action="createItem" data-tooltip="{{localize 'SOHL.Skill.Heading.Add.label'}}" data-type="skill" data-sub-type="{{group.subType}}">
                         <i class="fa-solid fa-file-plus"></i>
                     </a>
                 </div>
