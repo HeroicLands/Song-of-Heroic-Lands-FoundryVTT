@@ -33,7 +33,7 @@ describe("SohlItemBaseLogic intrinsic actions", () => {
             .spyOn(FoundryHelpersMock, "fvttRenderSheet")
             .mockResolvedValue(undefined);
         const logic = makeBase();
-        await logic.editItem({} as any);
+        await logic.editDocument({} as any);
         expect(render).toHaveBeenCalledWith(logic.item);
     });
 
@@ -42,7 +42,7 @@ describe("SohlItemBaseLogic intrinsic actions", () => {
         const logic = makeBase();
         const del = vi.fn(async () => undefined);
         (logic.item as any).delete = del;
-        await logic.deleteItem({} as any);
+        await logic.deleteDocument({} as any);
         expect(del).toHaveBeenCalled();
     });
 
@@ -51,7 +51,7 @@ describe("SohlItemBaseLogic intrinsic actions", () => {
         const logic = makeBase();
         const del = vi.fn(async () => undefined);
         (logic.item as any).delete = del;
-        await logic.deleteItem({} as any);
+        await logic.deleteDocument({} as any);
         expect(del).not.toHaveBeenCalled();
     });
 
@@ -60,7 +60,7 @@ describe("SohlItemBaseLogic intrinsic actions", () => {
         const logic = makeBase();
         const del = vi.fn(async () => undefined);
         (logic.item as any).delete = del;
-        await logic.deleteItem({} as any);
+        await logic.deleteDocument({} as any);
         expect(del).not.toHaveBeenCalled();
     });
 
@@ -72,7 +72,7 @@ describe("SohlItemBaseLogic intrinsic actions", () => {
             name: "<img src=x onerror=alert(1)>",
         } as any);
         logic.initialize();
-        await logic.deleteItem({} as any);
+        await logic.deleteDocument({} as any);
         const spec = spy.mock.calls[0]![0] as any;
         // Rule #10 / #163: author-static template; the name rides in `data`,
         // where Handlebars escapes it — it must never reach the source string.
@@ -85,7 +85,7 @@ describe("SohlItemBaseLogic intrinsic actions", () => {
             .spyOn(FoundryHelpersMock, "dialog")
             .mockResolvedValue(false);
         const logic = makeBase();
-        await logic.deleteItem({} as any);
+        await logic.deleteDocument({} as any);
         expect((spy.mock.calls[0]![0] as any).data.warning).toBeUndefined();
     });
 
@@ -110,7 +110,7 @@ describe("SohlItemBaseLogic intrinsic actions", () => {
             },
         );
         logic.initialize();
-        await logic.deleteItem({} as any);
+        await logic.deleteDocument({} as any);
         expect((spy.mock.calls[0]![0] as any).data.warning).toBe(
             "SOHL.ContainerGear.delete.warning",
         );
