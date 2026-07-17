@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -834,7 +834,7 @@ export namespace SuccessTestResult {
      * literal or a {@link sohl.entity.expr.SafeExpression} computed from the test
      * bindings (`successLevel`, `targetValue`, `lastDigit`) — data, so the whole
      * table serializes across clients. See the
-     * [Result-description Tables](https://kb.heroiclands.com/dev/reference/result-description-tables/)
+     * [Result-description Tables](https://kb.heroiclands.org/dev/reference/result-description-tables/)
      * guide.
      */
     export interface LimitedDescription {

@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -83,7 +83,7 @@ jsep.removeUnaryOp("~");
  * For a hands-on authoring guide — the grammar, the full standard-helper
  * reference (exact signatures and return values), the bindings each call site
  * provides, and worked examples — see the
- * [Expressions and Scripts](https://kb.heroiclands.com/dev/concepts/expressions/) concept doc.
+ * [Expressions and Scripts](https://kb.heroiclands.org/dev/concepts/expressions/) concept doc.
  * The summary below covers the essentials.
  *
  * ## Using it
