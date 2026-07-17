@@ -68,10 +68,26 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         sheet: {
             initial: "properties",
             tabs: [
-                { id: "properties", label: "SOHL.Item.tab.properties" },
-                { id: "description", label: "SOHL.Item.tab.description" },
-                { id: "actions", label: "SOHL.Item.tab.actions" },
-                { id: "effects", label: "SOHL.Item.tab.effects" },
+                {
+                    id: "properties",
+                    label: "SOHL.Item.tab.properties",
+                    icon: "fa-solid fa-sliders",
+                },
+                {
+                    id: "description",
+                    label: "SOHL.Item.tab.description",
+                    icon: "fa-solid fa-scroll",
+                },
+                {
+                    id: "actions",
+                    label: "SOHL.Item.tab.actions",
+                    icon: "fa-solid fa-cogs",
+                },
+                {
+                    id: "effects",
+                    label: "SOHL.Item.tab.effects",
+                    icon: "fa-solid fa-plus-minus",
+                },
             ],
         },
     };
