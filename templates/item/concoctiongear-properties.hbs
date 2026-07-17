@@ -15,18 +15,18 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <fieldset>
         <legend>Gear</legend>
         <div class="grid grid-3col">
-            {{formField fields.quantity rootId="concgear-quant" classes="text-field" stacked=true value=system.quantity}}
-            {{formField fields.weightBase rootId="concgear-wt" classes="text-field" stacked=true value=system.weightBase}}
-            {{formField fields.valueBase rootId="concgear-val" classes="text-field" stacked=true value=system.valueBase}}
-            {{formField fields.isCarried rootId="concgear-carried" classes="text-field" stacked=true value=system.isCarried}}
-            {{formField fields.isEquipped rootId="concgear-equipped" classes="text-field" stacked=true value=system.isEquipped}}
-            {{formField fields.qualityBase rootId="concgear-qual" classes="text-field" stacked=true value=system.qualityBase}}
-            {{formField fields.durabilityBase rootId="concgear-dur" classes="text-field" stacked=true value=system.durabilityBase}}
+            {{formGroup fields.quantity rootId="concgear-quant" classes="text-field" stacked=true value=system.quantity}}
+            {{formGroup fields.weightBase rootId="concgear-wt" classes="text-field" stacked=true value=system.weightBase}}
+            {{formGroup fields.valueBase rootId="concgear-val" classes="text-field" stacked=true value=system.valueBase}}
+            {{formGroup fields.isCarried rootId="concgear-carried" classes="text-field" stacked=true value=system.isCarried}}
+            {{formGroup fields.isEquipped rootId="concgear-equipped" classes="text-field" stacked=true value=system.isEquipped}}
+            {{formGroup fields.qualityBase rootId="concgear-qual" classes="text-field" stacked=true value=system.qualityBase}}
+            {{formGroup fields.durabilityBase rootId="concgear-dur" classes="text-field" stacked=true value=system.durabilityBase}}
         </div>
     </fieldset>
 
     <div class="grid grid-3col">
-        {{formField fields.potency rootId="concgear-potency" classes="text-field" stacked=true value=system.potency}}
-        {{formField fields.strength rootId="concgear-strength" classes="text-field" stacked=true value=system.strength}}
+        {{formGroup fields.potency rootId="concgear-potency" classes="text-field" stacked=true value=system.potency}}
+        {{formGroup fields.strength rootId="concgear-strength" classes="text-field" stacked=true value=system.strength}}
     </div>
 </section>

@@ -13,12 +13,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="grid grid-3col">
-        {{formField fields.skillBaseFormula rootId="skill-sbf" classes="text-field" stacked=true value=system.skillBaseFormula}}
-        {{formField fields.masteryLevelBase rootId="skill-mlb" classes="text-field" stacked=true value=system.masteryLevelBase}}
-        {{formField fields.improveFlag rootId="skill-improve" classes="text-field" stacked=true value=system.improveFlag}}
-        {{formField fields.weaponGroup rootId="skill-wpngrp" classes="text-field" stacked=true value=system.weaponGroup}}
-        {{formField fields.baseSkill rootId="skill-baseskill" classes="text-field" stacked=true value=system.baseSkill}}
-        {{formField fields.domain rootId="skill-domain" classes="text-field" stacked=true value=system.domain}}
+        {{formGroup fields.skillBaseFormula rootId="skill-sbf" classes="text-field" stacked=true value=system.skillBaseFormula}}
+        {{formGroup fields.masteryLevelBase rootId="skill-mlb" classes="text-field" stacked=true value=system.masteryLevelBase}}
+        {{formGroup fields.improveFlag rootId="skill-improve" classes="text-field" stacked=true value=system.improveFlag}}
+        {{formGroup fields.weaponGroup rootId="skill-wpngrp" classes="text-field" stacked=true value=system.weaponGroup}}
+        {{formGroup fields.baseSkill rootId="skill-baseskill" classes="text-field" stacked=true value=system.baseSkill}}
+        {{formGroup fields.domain rootId="skill-domain" classes="text-field" stacked=true value=system.domain}}
     </div>
 
     {{!--

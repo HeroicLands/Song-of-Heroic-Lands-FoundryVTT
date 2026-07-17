@@ -13,11 +13,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="grid grid-3col">
-        {{formField fields.skillBaseFormula rootId="trait-sbf" classes="text-field" stacked=true value=system.skillBaseFormula}}
-        {{formField fields.masteryLevelBase rootId="trait-mlb" classes="text-field" stacked=true value=system.masteryLevelBase}}
-        {{formField fields.improveFlag rootId="trait-improve" classes="text-field" stacked=true value=system.improveFlag}}
-        {{formField fields.intensity rootId="trait-intensity" classes="text-field" stacked=true value=system.intensity}}
-        {{formField fields.isNumeric rootId="trait-isnumeric" classes="text-field" stacked=true value=system.isNumeric}}
+        {{formGroup fields.skillBaseFormula rootId="trait-sbf" classes="text-field" stacked=true value=system.skillBaseFormula}}
+        {{formGroup fields.masteryLevelBase rootId="trait-mlb" classes="text-field" stacked=true value=system.masteryLevelBase}}
+        {{formGroup fields.improveFlag rootId="trait-improve" classes="text-field" stacked=true value=system.improveFlag}}
+        {{formGroup fields.intensity rootId="trait-intensity" classes="text-field" stacked=true value=system.intensity}}
+        {{formGroup fields.isNumeric rootId="trait-isnumeric" classes="text-field" stacked=true value=system.isNumeric}}
     </div>
 
     <div class="grid grid-3col">
@@ -31,10 +31,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </div>
         </div>
         {{else}}
-        {{formField fields.textValue rootId="trait-textvalue" classes="text-field" stacked=true value=system.textValue}}
+        {{formGroup fields.textValue rootId="trait-textvalue" classes="text-field" stacked=true value=system.textValue}}
         {{/if}}
         {{#if system.isNumeric}}
-        {{formField fields.max rootId="trait-max" classes="text-field" stacked=true value=system.max}}
+        {{formGroup fields.max rootId="trait-max" classes="text-field" stacked=true value=system.max}}
         {{/if}}
     </div>
 

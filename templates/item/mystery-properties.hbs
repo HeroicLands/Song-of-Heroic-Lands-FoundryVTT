@@ -13,16 +13,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="grid grid-3col">
-        {{formField fields.domainCode rootId="mystery-domaincode" classes="text-field" stacked=true value=system.domainCode}}
-        {{formField fields.levelBase rootId="mystery-levelbase" classes="text-field" stacked=true value=system.levelBase}}
+        {{formGroup fields.domainCode rootId="mystery-domaincode" classes="text-field" stacked=true value=system.domainCode}}
+        {{formGroup fields.levelBase rootId="mystery-levelbase" classes="text-field" stacked=true value=system.levelBase}}
     </div>
 
     <fieldset>
         <legend>Charges</legend>
         <div class="grid grid-3col">
-            {{formField fields.charges.fields.usesCharges rootId="mystery-charges-uses" classes="text-field" stacked=true value=system.charges.usesCharges}}
-            {{formField fields.charges.fields.value rootId="mystery-charges-val" classes="text-field" stacked=true value=system.charges.value}}
-            {{formField fields.charges.fields.max rootId="mystery-charges-max" classes="text-field" stacked=true value=system.charges.max}}
+            {{formGroup fields.charges.fields.usesCharges rootId="mystery-charges-uses" classes="text-field" stacked=true value=system.charges.usesCharges}}
+            {{formGroup fields.charges.fields.value rootId="mystery-charges-val" classes="text-field" stacked=true value=system.charges.value}}
+            {{formGroup fields.charges.fields.max rootId="mystery-charges-max" classes="text-field" stacked=true value=system.charges.max}}
         </div>
     </fieldset>
 

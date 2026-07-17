@@ -13,16 +13,26 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="grid grid-3col">
-        {{formField fields.category rootId="ail-category" classes="text-field" stacked=true value=system.category}}
-        {{formField fields.transmission rootId="ail-trx" classes="text-field" stacked=true value=system.transmission}}
-        {{formField fields.isDormant rootId="ail-dormant" classes="text-field" stacked=true value=system.isDormant}}
+        {{groupField fields.category rootId="ail-category" classes="text-field" stacked=true value=system.category}}
+        {{groupField fields.isDormant rootId="ail-dormant" classes="text-field" stacked=true value=system.isDormant}}
+        {{groupField fields.levelBase rootId="ail-level" classes="text-field" stacked=true value=system.levelBase}}
+        {{groupField fields.healingRateBase rootId="ail-hr" classes="text-field" stacked=true value=system.healingRateBase}}
+        {{groupField fields.contagionIndexBase rootId="ail-contidx" classes="text-field" stacked=true value=system.contagionIndexBase}}
+        {{groupField fields.transmission rootId="ail-trx" classes="text-field" stacked=true value=system.transmission}}
+        {{groupField fields.diagnosisBonusBase rootId="ail-diag" classes="text-field" stacked=true value=system.diagnosisBonusBase}}
+        {{groupField fields.contractDate rootId="ail-contract" classes="text-field" stacked=true value=system.contractDate}}
         <div class="form-group text-field stacked">
             <label>Treated (world-time)</label>
             {{clearableNumberInput fields.treatmentDate name="system.treatmentDate" value=system.treatmentDate}}
         </div>
-        {{formField fields.levelBase rootId="ail-level" classes="text-field" stacked=true value=system.levelBase}}
-        {{formField fields.healingRateBase rootId="ail-hr" classes="text-field" stacked=true value=system.healingRateBase}}
-        {{formField fields.diagnosisBonusBase rootId="ail-diag" classes="text-field" stacked=true value=system.diagnosisBonusBase}}
-        {{formField fields.contagionIndexBase rootId="ail-contidx" classes="text-field" stacked=true value=system.contagionIndexBase}}
+        {{groupField fields.onsetDurationFormula rootId="ail-onset-duration-formula" classes="text-field" stacked=true value=system.onsetDurationFormula}}
+        {{groupField fields.onsetDurationBase rootId="ail-onset-duration-base" classes="text-field" stacked=true value=system.onsetDurationBase}}
+        {{groupField fields.onsetDurationDate rootId="ail-onset-duration-date" classes="text-field" stacked=true value=system.onsetDurationDate}}
+        {{groupField fields.healingCheckDurationFormula rootId="ail-healing-check-duration-formula" classes="text-field" stacked=true value=system.healingCheckDurationFormula}}
+        {{groupField fields.healingCheckDurationBase rootId="ail-healing-check-duration-base" classes="text-field" stacked=true value=system.healingCheckDurationBase}}
+        {{groupField fields.lastHealingCheckDate rootId="ail-last-healing-check-date" classes="text-field" stacked=true value=system.lastHealingCheckDate}}
+        {{groupField fields.resolutionDurationFormula rootId="ail-resolution-duration-formula" classes="text-field" stacked=true value=system.resolutionDurationFormula}}
+        {{groupField fields.resolutionDurationBase rootId="ail-resolution-duration-base" classes="text-field" stacked=true value=system.resolutionDurationBase}}
+        {{groupField fields.resolutionDate rootId="ail-resolution-date" classes="text-field" stacked=true value=system.resolutionDate}}
     </div>
 </section>
