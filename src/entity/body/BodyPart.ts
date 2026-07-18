@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -125,10 +125,9 @@ export class BodyPart extends SohlEntity {
                     | SohlItem
                     | undefined) ?? undefined)
             :   undefined;
-        this.probWeight = new entity.ValueModifier(
-            {},
-            { parent: this.parent },
-        ).setBase(data.probWeight);
+        this.probWeight = new entity.ValueModifier(this.parent).setBase(
+            data.probWeight,
+        );
         this.permanentImpairment = Math.min(0, data.permanentImpairment ?? 0);
         this.permanentlyUnusable = data.permanentlyUnusable ?? false;
         this.index = options.index;

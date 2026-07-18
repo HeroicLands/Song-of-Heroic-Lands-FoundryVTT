@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -33,6 +33,8 @@ import {
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import { SohlMap } from "@src/utils/collection/SohlMap";
+import { dialog, fvttRenderSheet } from "@src/core/FoundryHelpers";
+import { toHTMLString } from "@src/utils/helpers";
 
 /**
  * Abstract base class for all business logic in the SoHL system.
@@ -111,22 +113,76 @@ export abstract class SohlLogic<
     }
 
     /**
+     * Open the sheet for the owning document.
+     * @param _context - The action context; unused.
+     */
+    async editDocument(_context: SohlActionContext): Promise<void> {
+        await fvttRenderSheet(this.document);
+    }
+
+    /**
+     * Delete the owning document, after confirming with the user.
+     * @param _context - The action context; unused.
+     */
+    async deleteDocument(_context: SohlActionContext): Promise<void> {
+        const docType = sohl.i18n.format(
+            `TYPE.${this.document.documentName.toUpperCase()}.${this.document.type}`,
+        );
+        const confirmed = await dialog({
+            title: sohl.i18n.format("SOHL.SohlLogic.delete.title", {
+                name: this.name,
+                docType,
+            }),
+            content: toHTMLString(
+                `<p>${sohl.i18n.localize("SOHL.SohlLogic.delete.caution")}</p>`,
+            ),
+            data: {
+                name: this.name,
+                docType,
+            },
+            buttons: [
+                {
+                    action: "yes",
+                    label: sohl.i18n.localize("SOHL.SohlLogic.delete.yes"),
+                    icon: "fa-solid fa-trash",
+                },
+                {
+                    action: "no",
+                    label: sohl.i18n.localize("SOHL.SohlLogic.delete.no"),
+                    default: true,
+                },
+            ],
+            callback: (_formData, action) => action === "yes",
+            rejectClose: false,
+        });
+        if (confirmed === true) await this.document.delete();
+    }
+
+    /**
      * Define and return all intrinsic actions for this logic type.
      * @returns A map of action shortcodes to their definitions
      */
     static defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             {
-                shortcode: "postfinalize",
+                shortcode: "editDocument",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.SohlLogic.Action.postfinalize.title",
+                title: "SOHL.SohlItemBaseLogic.Action.edit.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-cogs",
-                // Must match the postFinalize method name exactly — intrinsic
-                // executors are resolved by case-sensitive property lookup.
-                executor: "postFinalize",
+                iconFAClass: "fa-solid fa-edit",
+                executor: "editDocument",
                 visible: "true",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT,
+            },
+            {
+                shortcode: "deleteDocument",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.SohlItemBaseLogic.Action.delete.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-trash",
+                executor: "deleteDocument",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
         ];
     }
@@ -136,6 +192,13 @@ export abstract class SohlLogic<
      */
     get parent(): TData {
         return this._parent;
+    }
+
+    /**
+     * The owning document — the actor or item this logic is embedded in.
+     */
+    get document(): TData["parent"] {
+        return this._parent.parent;
     }
 
     /**
@@ -220,16 +283,22 @@ export abstract class SohlLogic<
     get typeLabel(): string {
         const dataModel = this.parent as any;
         const type = dataModel.parent.type;
+        // Localize the document-type name (`TYPE.ACTOR.<type>` /
+        // `TYPE.ITEM.<type>`); the `SOHL.BASEDATA.typeLabel[WithSubtype]`
+        // templates ("{type}" / "{subType} {type}") interpolate the
+        // already-localized value.
         const typeLabel = sohl.i18n.localize(
-            `TYPE.${ActorKinds.includes(type) ? "ACTOR" : "ITEM"}.${dataModel.parent.type}`,
+            `TYPE.${ActorKinds.includes(type) ? "ACTOR" : "ITEM"}.${type}`,
         );
-        if (typeof (this.parent as any).subType === "string") {
-            return sohl.i18n.format(
-                `SOHL.${type}.labelWithSubtype.${(this.parent as any).subType}`,
-            );
-        } else {
-            return typeLabel;
-        }
+        const subType = dataModel.subType;
+        const formatStr =
+            subType ?
+                "SOHL.BASEDATA.typeLabelWithSubtype"
+            :   "SOHL.BASEDATA.typeLabel";
+        return sohl.i18n.format(formatStr, {
+            type: typeLabel,
+            subType,
+        });
     }
 
     /** Localized display label combining the {@link typeLabel} and the document's name. */

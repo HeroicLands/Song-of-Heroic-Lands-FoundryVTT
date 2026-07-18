@@ -251,8 +251,10 @@ export async function dialog(_spec?: any): Promise<any> {
 }
 
 // ---------------------------------------------------------------------------
-// Sheet registration
+// Sheets
 // ---------------------------------------------------------------------------
+
+export async function fvttRenderSheet(_doc?: any): Promise<void> {}
 
 export function unregisterSheet(
     _documentClass: any,

@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -104,6 +104,70 @@ export function makeLogicMethodCallback(
             );
         }
     };
+}
+
+/**
+ * A context-menu entry compiled into the shape Foundry's `ContextMenu` base
+ * class consumes: the authored `condition` has become a `visible` predicate and
+ * a concrete `callback` is always present.
+ *
+ * @remarks
+ * The visibility predicate is keyed `visible`, not `condition`: Foundry v14
+ * deprecated `ContextMenuEntry#condition` in favor of `#visible` (removed in
+ * v16), and emitting the legacy key makes Foundry's `ContextMenu` log a
+ * compatibility warning on every render. See
+ * https://kb.heroiclands.org/dev/concepts/architecture/.
+ */
+export interface CompiledMenuEntry {
+    /** Unique identifier for the entry. */
+    id: string;
+    /** Display label for the entry. */
+    name: string;
+    /** Pre-built HTML icon markup rendered before the label. */
+    icon?: HTMLString;
+    /** Sort group the entry belongs to. */
+    group: SohlContextMenuSortGroup | string;
+    /** Handler invoked when the entry is clicked. */
+    callback: ContextMenuCallback;
+    /** Predicate gating whether the entry is shown (Foundry v14 `#visible`). */
+    visible: (target: HTMLElement) => boolean;
+}
+
+/**
+ * Normalize a context-menu entry into the {@link CompiledMenuEntry} shape
+ * Foundry's `ContextMenu` base class expects: the authored `condition` is
+ * compiled to a `visible` predicate (via {@link compileCondition}) and the
+ * legacy `condition` key is dropped, and a default `callback` is generated from
+ * `functionName` when no explicit one is supplied.
+ *
+ * Kept here (Foundry-free) rather than inline in `SohlContextMenu` so the
+ * boundary transform — and its avoidance of Foundry's deprecated `condition`
+ * key — is unit-testable without a live `ContextMenu`.
+ * @param entry - The authored entry (raw context or a {@link ContextMenuEntry}).
+ * @param parent - The owning document's logic, used to compile a string
+ *   (SafeExpression) condition.
+ * @returns The compiled entry keyed for Foundry's ContextMenu.
+ * @throws {Error} If the entry has neither a `callback` nor a `functionName`.
+ */
+export function compileMenuEntry(
+    entry: ContextMenuEntryContext | ContextMenuEntry,
+    parent?: SohlLogic,
+): CompiledMenuEntry {
+    // Destructure the legacy `condition` OUT so the emitted entry never carries
+    // it — Foundry v14 warns when a ContextMenu entry still uses `condition`.
+    const { condition, functionName, ...rest } =
+        entry as ContextMenuEntryContext;
+    const visible = compileCondition(condition, entry.name, parent);
+    let callback = entry.callback;
+    if (!callback) {
+        if (!functionName) {
+            throw new Error(
+                `Context menu item "${entry.name}" does not have a callback function.`,
+            );
+        }
+        callback = makeLogicMethodCallback(functionName, entry.name);
+    }
+    return { ...rest, visible, callback } as CompiledMenuEntry;
 }
 
 /**
@@ -294,7 +358,21 @@ export class ContextMenuEntry {
         }
         this.id = data.id;
         this.name = data.name;
-        this.icon = data.icon;
+        // Foundry's ContextMenu renders the entry's `icon` HTML before the
+        // label. When only a Font-Awesome class is supplied, build the `<i>`
+        // markup from it so the menu shows its icon. The class is sanitized to
+        // class-safe characters (word chars, spaces, dashes), so the result is
+        // valid HTML by construction — branded directly rather than via
+        // `toHTMLString`, whose `DOMParser` validation is browser-only and would
+        // break this Foundry-free module in Node.
+        this.icon =
+            data.icon ??
+            (data.iconFAClass ?
+                (`<i class="${data.iconFAClass.replace(
+                    /[^\w\s-]/g,
+                    "",
+                )}"></i>` as HTMLString)
+            :   undefined);
         this.condition = data.condition;
         this.callback =
             data.callback ||

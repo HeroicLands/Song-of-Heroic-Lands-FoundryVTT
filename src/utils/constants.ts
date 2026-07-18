@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -2641,8 +2641,21 @@ export function defineType<const T extends Record<string, unknown>>(
     const isValue = (value: unknown): value is KindValue =>
         values.includes(value as KindValue);
 
+    // The i18n label key ends in the enum's stored **value** when that value is a
+    // simple identifier — because that is what runtime code constructs from the
+    // stored data (e.g. a `subType` of `"poison"` → `${prefix}.poison`). It falls
+    // back to the constant **key** for:
+    //   - non-string values (numeric enums like fear levels), and
+    //   - values that are not label-worthy identifiers, i.e. Active Effect change
+    //     paths that contain `.` or `:` (e.g. `"mod:logic.score"`); those enums
+    //     are labelled by key, and a change-path makes a nonsensical i18n key.
+    const labelKey = (k: string, v: unknown): string => {
+        const seg = typeof v === "string" && !/[.:]/.test(v) ? v : k;
+        return `${prefix}.${seg}`;
+    };
+
     const labels = Object.fromEntries(
-        Object.entries(def).map(([k]) => [k, `${prefix}.${k}`]),
+        Object.entries(def).map(([k, v]) => [k, labelKey(k, v)]),
     ) as Record<StringKeys, string>;
 
     // A value-keyed label map for DataModel `StringField({ choices })`. Foundry
@@ -2650,7 +2663,7 @@ export function defineType<const T extends Record<string, unknown>>(
     // be an object keyed by the stored value (not the `values` array, which would
     // render option values as array indices `0,1,2,…` and break form submission).
     const choices = Object.fromEntries(
-        Object.entries(def).map(([k, v]) => [v, `${prefix}.${k}`]),
+        Object.entries(def).map(([k, v]) => [v, labelKey(k, v)]),
     ) as Record<KindValue & string, string>;
 
     return {

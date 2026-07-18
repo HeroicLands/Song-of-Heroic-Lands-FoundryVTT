@@ -1,6 +1,6 @@
 {{!--
 This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
 
 Licensed under the GNU General Public License v3.0 (GPLv3).
 You may copy, modify, and distribute this file under the terms of that license.
@@ -18,12 +18,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <input name="name" type="text" value="{{itemName}}" placeholder="{{localize 'Name'}}" />
         </h1>
         <input class="sheet-header__shortcode" name="system.shortcode" type="text"
-            value="{{document.system.shortcode}}" placeholder="shortcode" />
+            value="{{logic.data.shortcode}}" placeholder="shortcode" />
         <div class="item-subtitle">
             {{typeLabel}}
-            {{#if subTypeLabel}}
-            <span class="item-subtype">&mdash; {{subTypeLabel}}</span>
-            {{/if}}
         </div>
     </div>
 </header>

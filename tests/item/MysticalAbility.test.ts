@@ -97,9 +97,9 @@ describe("MysticalAbilityLogic", () => {
             expect(logic.data.kind).toBe(ITEM_KIND.MYSTICALABILITY);
         });
 
-        it("builds the intrinsic action map (postfinalize from the base class)", () => {
+        it("builds the intrinsic action map (edit/delete from the base class)", () => {
             const logic = makeAbility();
-            expect(logic.actions.has("postfinalize")).toBe(true);
+            expect(logic.actions.has("editDocument")).toBe(true);
         });
     });
 

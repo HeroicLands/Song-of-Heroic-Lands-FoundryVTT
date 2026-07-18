@@ -95,6 +95,22 @@ span.sep {
     margin-bottom: 5px;
     border-bottom: 2px groove var(--sohl-color-border-subtle);
 
+    // Item-sheet headers carry `.flexrow` and lay out as a row (image left,
+    // details right). Foundry's core `.flexrow` sets that, but the column
+    // direction above sits in a SoHL cascade layer that overrides core — so the
+    // item header collapsed into a centered column. Re-assert the row (and
+    // left-align its details) for headers that opt into `.flexrow`.
+    &.flexrow {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 10px;
+
+        .sheet-header__details {
+            flex: 1;
+            text-align: left;
+        }
+    }
+
     // Top row: portrait, name, status pills, health.
     .sheet-header__main {
         align-items: flex-start;

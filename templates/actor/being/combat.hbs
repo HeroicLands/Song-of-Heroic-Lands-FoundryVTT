@@ -1,6 +1,6 @@
 {{!--
 This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
 
 Licensed under the GNU General Public License v3.0 (GPLv3).
 You may copy, modify, and distribute this file under the terms of that license.
@@ -12,55 +12,37 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab combat{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="combat">
-    {{#if isGM}}
-    {{!-- Default combat group: auto-assigns this actor's combatants on combat start --}}
-    <fieldset class="sohl-default-combat-group">
-        <legend>{{localize "SOHL.Actor.FIELDS.defaultCombatGroup.label"}}</legend>
-        <div class="form-group">
-            <label>{{localize "SOHL.Actor.FIELDS.defaultCombatGroup.label"}}</label>
-            <div class="form-fields">
-                <input type="text" name="system.defaultCombatGroup"
-                    value="{{defaultCombatGroup}}"
-                    placeholder="Opponents"
-                    data-tooltip="{{localize 'SOHL.Actor.FIELDS.defaultCombatGroup.hint'}}">
-            </div>
-        </div>
-    </fieldset>
-    {{/if}}
-
     {{!-- Melee Strike Modes: combat techniques + held melee weapons --}}
     {{#if meleeStrikeModes.length}}
-    <fieldset>
-        <legend>Melee Strike Modes</legend>
+        <header class="list__header flexrow">
+            <h3 class="list__name">Melee Strike Modes</h3>
+            <div class="list__detail" data-tooltip="Heft">HFT</div>
+            <div class="list__detail" data-tooltip="Reach">RCH</div>
+            <div class="list__detail" data-tooltip="{{#if @root.useZoneDie}}Zone Dice{{else}}Spread{{/if}}">{{@root.spreadLabel}}</div>
+            <div class="list__detail" data-tooltip="Impact">Impact</div>
+            <div class="list__detail" data-tooltip="Attack ML">Atk</div>
+            <div class="list__detail" data-tooltip="Block ML">Blk</div>
+            <div class="list__detail" data-tooltip="Counterstrike ML">CX</div>
+            <div class="list__controls">
+            </div>
+        </header>
+
         {{#each meleeStrikeModes as |entry|}}
         <div class="list">
-            <header class="list__header flexrow">
-                <h3 class="list__name name">{{entry.weapon.name}}</h3>
-                <div class="list__controls">
-                    <a class="list__control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
-                </div>
-            </header>
             <ol class="list__items">
                 <li class="list__header flexrow">
-                    <h3 class="list__name">Strike Mode</h3>
-                    <div class="list__detail" data-tooltip="Heft">HFT</div>
-                    <div class="list__detail" data-tooltip="Reach">RCH</div>
-                    <div class="list__detail" data-tooltip="{{#if @root.useZoneDie}}Zone Dice{{else}}Spread{{/if}}">{{@root.spreadLabel}}</div>
-                    <div class="list__detail" data-tooltip="Impact">Impact</div>
-                    <div class="list__detail" data-tooltip="Attack ML">Atk</div>
-                    <div class="list__detail" data-tooltip="Block ML">Blk</div>
-                    <div class="list__detail" data-tooltip="Counterstrike ML">CX</div>
+                    <h3 class="list__name name">{{entry.weapon.name}}</h3>
                 </li>
                 {{#each entry.strikeModes as |sm|}}
                 <li class="item flexrow" data-sm-id="{{sm.id}}" data-item-id="{{entry.weapon.id}}">
                     <div class="list__name default-action flexrow">
                         <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
                     </div>
-                    <div class="list__detail">{{sm.length.effective}}</div>
+                    <div class="list__detail">{{sm.heft.effective}}</div>
                     <div class="list__detail">{{sm.reach.effective}}</div>
                     <div class="list__detail">{{#if @root.useZoneDie}}d{{/if}}{{sm.spread.effective}}</div>
                     {{#unless sm.impact.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeImpact" data-tooltip="Roll impact">
+                    <div class="list__detail rollable" data-action="rollStrikeModeImpact">
                         {{sm.impact.label}}
                     </div>
                     {{else}}
@@ -69,52 +51,47 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     {{/unless}}
                     {{#unless sm.attack.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
+                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack">{{sm.attack.effective}}</div>
                     {{else}}
                     <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
                     {{/unless}}
                     {{#unless sm.defense.block.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="block" data-tooltip="Roll block (shift-click to skip dialog)">{{sm.defense.block.effective}}</div>
+                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="block">{{sm.defense.block.effective}}</div>
                     {{else}}
                     <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
                     {{/unless}}
                     {{#unless sm.defense.counterstrike.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike" data-tooltip="Roll counterstrike (shift-click to skip dialog)">{{sm.defense.counterstrike.effective}}</div>
+                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike">{{sm.defense.counterstrike.effective}}</div>
                     {{else}}
                     <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
                     {{/unless}}
                     <div class="list__controls">
-                        <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </li>
                 {{/each}}
             </ol>
         </div>
         {{/each}}
-    </fieldset>
     {{/if}}
 
     {{!-- Missile Strike Modes: combat techniques + held missile weapons --}}
     {{#if missileStrikeModes.length}}
-    <fieldset>
-        <legend>Missile Strike Modes</legend>
         {{#each missileStrikeModes as |entry|}}
         <div class="list">
             <header class="list__header flexrow">
-                <h3 class="list__name name">{{entry.weapon.name}}</h3>
+                <h3 class="list__name">Missile Strike Modes</h3>
+                <div class="list__detail" data-tooltip="Pull Strength">Pull</div>
+                <div class="list__detail" data-tooltip="Draw Time">Draw</div>
+                <div class="list__detail" data-tooltip="Base Range">BR</div>
+                <div class="list__detail" data-tooltip="Max Volley Multiplier">MaxVM</div>
+                <div class="list__detail" data-tooltip="Impact">Impact</div>
+                <div class="list__detail" data-tooltip="Attack ML">Atk</div>
                 <div class="list__controls">
-                    <a class="list__control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                 </div>
             </header>
             <ol class="list__items">
                 <li class="list__header flexrow">
-                    <h3 class="list__name">Strike Mode</h3>
-                    <div class="list__detail" data-tooltip="Pull Strength">Pull</div>
-                    <div class="list__detail" data-tooltip="Draw Time">Draw</div>
-                    <div class="list__detail" data-tooltip="Base Range">BR</div>
-                    <div class="list__detail" data-tooltip="Max Volley Multiplier">MaxVM</div>
-                    <div class="list__detail" data-tooltip="Impact">Impact</div>
-                    <div class="list__detail" data-tooltip="Attack ML">Atk</div>
+                    <h3 class="list__name name">{{entry.weapon.name}}</h3>
                 </li>
                 {{#each entry.strikeModes as |sm|}}
                 <li class="item flexrow" data-sm-id="{{sm.id}}" data-item-id="{{entry.weapon.id}}">
@@ -140,14 +117,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
                     {{/unless}}
                     <div class="list__controls">
-                        <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </li>
                 {{/each}}
             </ol>
         </div>
         {{/each}}
-    </fieldset>
     {{/if}}
 
     {{!-- Held Items — one dropdown per hold-capable limb --}}
@@ -170,6 +145,18 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{/each}}
         </ol>
     </fieldset>
+    {{/if}}
+
+    {{#if isGM}}
+    {{!-- Default combat group: auto-assigns this actor's combatants on combat start --}}
+        <div class="form-group">
+            {{formGroup fields.defaultCombatGroup
+                classes="text-field"
+                placeholder="Opponents"
+                localize=true
+                stacked=false
+                value=system.defaultCombatGroup}}
+        </div>
     {{/if}}
 
     {{!-- Corpus (singleton): row with Edit/Delete; + Add disabled when one exists --}}
@@ -203,8 +190,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{!-- Body Locations: read-only Part → Location tree with effective armor
          totals (natural protection + worn armor) per location. --}}
     {{#if structure}}
-    <fieldset>
-        <legend>Body Locations</legend>
         <div class="search-items">
             <input class="search-criteria" type="search" name="search-bodylocations" value=""
                 aria-label="Search Body Locations" placeholder="Search Body Locations" autocomplete="off" />
@@ -242,6 +227,5 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </div>
             {{/each}}
         </div>
-    </fieldset>
     {{/if}}
 </section>

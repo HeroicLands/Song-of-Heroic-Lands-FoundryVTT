@@ -90,9 +90,13 @@
         }
 
         .notes {
-            flex: 1 0 25px;
+            flex: 1 1 0;
+            min-width: 0;
             text-align: left;
             padding-left: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .type {
@@ -188,7 +192,22 @@
     }
 
     .list__notes {
-        flex: 1 1 auto;
+        flex: 1 1 0;
+        min-width: 0;
         text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+// The item Description tab holds only the appearance/description editor: it
+// fills the tab and scrolls its own content, so the tab never shows a scrollbar
+// (item sheets never scroll). No minimum height — it just fills.
+section.tab.description {
+    overflow: hidden;
+
+    prose-mirror.editor {
+        height: 100%;
     }
 }

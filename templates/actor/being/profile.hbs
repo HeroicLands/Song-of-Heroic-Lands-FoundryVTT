@@ -1,19 +1,6 @@
 {{!--
 This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
-
-Licensed under the GNU General Public License v3.0 (GPLv3).
-You may copy, modify, and distribute this file under the terms of that license.
-
-See LICENSE.md in the project root or:
-https://www.gnu.org/licenses/gpl-3.0.html
-
-SPDX-License-Identifier: GPL-3.0-or-later
---}}
-
-{{!--
-This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
 
 Licensed under the GNU General Public License v3.0 (GPLv3).
 You may copy, modify, and distribute this file under the terms of that license.
@@ -26,9 +13,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab profile{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="profile">
     {{!-- Attributes --}}
-    <fieldset>
-        <legend>
-            Attributes
+    <div class="list__header flexrow">
+        <div class="list__name">{{localize "TYPES.Item.attributePl"}}</div>
+        <div class="list__controls">
             <a class="item-create" data-action="createItem" data-tooltip="Add Attribute" data-type="attribute">
                 <i class="fa-solid fa-file-plus"></i>
             </a>
@@ -44,31 +31,31 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="attribute-score__descriptor">{{attr.descriptor}}</div>
                 <div class="attribute-score__tl">TL: {{attr.tl}}</div>
             </div>
-            {{/each}}
+            <div class="attribute-score__value">{{attr.score}}</div>
+            <div class="attribute-score__descriptor">{{attr.descriptor}}</div>
+            <div class="attribute-score__tl">TL: {{attr.tl}}</div>
         </div>
-    </fieldset>
+        {{/each}}
+    </div>
 
     {{!-- Traits --}}
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-traits" value=""
-            aria-label="Search Traits" placeholder="Search Traits" autocomplete="off" />
+            aria-label="{{localize 'SOHL.Trait.Search.label'}}" placeholder="{{localize 'SOHL.Trait.Search.label'}}" autocomplete="off" />
     </div>
     <div class="traits">
         {{#each traitGroups as |group|}}
-        <fieldset>
-            <legend>
-                {{group.label}}
-                <a class="item-create" data-action="createItem" data-tooltip="Add Trait" data-type="trait" data-sub-type="{{group.subType}}">
-                    <i class="fa-solid fa-file-plus"></i>
-                </a>
-            </legend>
             <ol class="list__items">
                 <li class="list__header flexrow">
-                    <div class="list__name">Name</div>
-                    <div class="list__detail">Intensity</div>
-                    <div class="list__detail">Value</div>
-                    <div class="list__detail">Notes</div>
-                    <div class="list__controls"></div>
+                    <div class="list__name">{{group.label}} Traits</div>
+                    <div class="list__detail">{{localize "SOHL.Trait.FIELDS.intensity.label"}}</div>
+                    <div class="list__detail">{{localize "SOHL.Trait.FIELDS.value.label"}}</div>
+                    <div class="list__detail list__notes">{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
+                    <div class="list__controls">
+                        <a class="item-create" data-action="createItem" data-tooltip="{{localize 'SOHL.Trait.Heading.Add.label'}}" data-type="trait" data-sub-type="{{group.subType}}">
+                            <i class="fa-solid fa-file-plus"></i>
+                        </a>
+                    </div>
                 </li>
                 {{#each group.traits as |trait|}}
                 <li class="item flexrow" data-search-name="{{trait.name}}" data-item-id="{{trait.id}}" data-uuid="{{trait.uuid}}" data-item-name="{{trait.name}}">
@@ -77,69 +64,63 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     <div class="list__detail">{{trait.intensity}}</div>
                     <div class="list__detail">{{trait.value}}</div>
-                    <div class="list__detail">{{trait.notes}}</div>
+                    <div class="list__detail list__notes">{{trait.notes}}</div>
                     <div class="list__controls">
                         <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </li>
                 {{/each}}
             </ol>
-        </fieldset>
         {{/each}}
     </div>
 
     {{!-- Affiliations --}}
-    <fieldset>
-        <legend>
-            {{localize "TYPES.Item.affiliationPl"}}
-            <a class="item-create" data-action="createItem" data-tooltip="Add Affiliation" data-type="affiliation">
+    <div class="list__header flexrow">
+        <div class="list__name">{{localize "TYPES.Item.affiliationPl"}}</div>
+        <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.level.label"}}</div>
+        <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.society.label"}}</div>
+        <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.office.label"}}</div>
+        <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.title.label"}}</div>
+        <div class="list__detail list__notes">{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
+        <div class="list__controls">
+            <a class="item-create" data-action="createItem" data-tooltip="{{localize 'SOHL.Affiliation.Heading.Add.label'}}" data-type="affiliation">
                 <i class="fa-solid fa-file-plus"></i>
             </a>
-        </legend>
-        <ol class="list__items affiliations">
-            <li class="list__header flexrow">
-                <div class="list__name">{{localize "TYPES.Item.affiliation"}}</div>
-                <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.level.label"}}</div>
-                <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.society.label"}}</div>
-                <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.office.label"}}</div>
-                <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.title.label"}}</div>
-                <div class="list__detail">{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
-                <div class="list__controls"></div>
-            </li>
-            {{#each affiliations as |aff|}}
-            <li class="item flexrow" data-search-name="{{aff.name}}" data-item-id="{{aff.id}}" data-uuid="{{aff.uuid}}" data-item-name="{{aff.name}}">
-                <div class="list__name flexrow"><h4>{{aff.name}}</h4></div>
-                <div class="list__detail">{{aff.level}}</div>
-                <div class="list__detail">{{aff.society}}</div>
-                <div class="list__detail">{{aff.office}}</div>
-                <div class="list__detail">{{aff.title}}</div>
-                <div class="list__detail">{{aff.notes}}</div>
-                <div class="list__controls">
-                    <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
-                </div>
-            </li>
-            {{/each}}
-        </ol>
-    </fieldset>
+        </div>
+    </div>
+    <ol class="list__items affiliations">
+        {{#each affiliations as |aff|}}
+        <li class="item flexrow" data-search-name="{{aff.name}}" data-item-id="{{aff.id}}" data-uuid="{{aff.uuid}}" data-item-name="{{aff.name}}">
+            <div class="list__name flexrow"><h4>{{aff.name}}</h4></div>
+            <div class="list__detail">{{aff.level}}</div>
+            <div class="list__detail">{{aff.society}}</div>
+            <div class="list__detail">{{aff.office}}</div>
+            <div class="list__detail">{{aff.title}}</div>
+            <div class="list__detail list__notes">{{aff.notes}}</div>
+            <div class="list__controls">
+                <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+            </div>
+        </li>
+        {{/each}}
+    </ol>
 
     {{!-- Movement --}}
     {{#if movement.length}}
-    <fieldset>
-        <legend>{{localize "SOHL.Being.movement.legend"}}</legend>
-        <ol class="list__items movement">
-            {{#each movement as |row|}}
-            <li class="item flexrow" data-medium="{{row.medium}}">
-                <div class="list__name"><h4>{{localize row.label}}</h4></div>
-                <div class="list__detail">{{row.value}} {{localize "SOHL.Being.movement.unit"}}</div>
-            </li>
-            {{/each}}
-        </ol>
-    </fieldset>
+    <div class="list__header flexrow">
+        <div class="list__name">{{localize "SOHL.Actor.SHEET.tab.movement.label"}}</div>
+        <div class="list__controls"></div>
+    </div>
+    <ol class="list__items movement">
+        {{#each movement as |row|}}
+        <li class="item flexrow" data-medium="{{row.medium}}">
+            <div class="list__name"><h4>{{localize row.label}}</h4></div>
+            <div class="list__detail">{{row.value}} {{localize "SOHL.Being.movement.unit"}}</div>
+            <div class="list__controls"></div>
+        </li>
+        {{/each}}
+    </ol>
     {{/if}}
 
     {{!-- Biography --}}
-    <fieldset>
-        <legend>Biography</legend>
-        {{editor dossierHTML target="system.dossier" button=false editable=editable engine="prosemirror" collaborate=false}}
-    </fieldset>
+    {{formGroup fields.dossier value=system.dossier rootId="dossier" classes="stacked" elementType="prose-mirror" }}
 </section>

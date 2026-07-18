@@ -1,6 +1,6 @@
 {{!--
 This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
 
 Licensed under the GNU General Public License v3.0 (GPLv3).
 You may copy, modify, and distribute this file under the terms of that license.
@@ -15,13 +15,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <fieldset>
         <legend>Gear</legend>
         <div class="grid grid-3col">
-            {{formField fields.quantity rootId="miscgear-quant" classes="text-field" stacked=true value=system.quantity}}
-            {{formField fields.weightBase rootId="miscgear-wt" classes="text-field" stacked=true value=system.weightBase}}
-            {{formField fields.valueBase rootId="miscgear-val" classes="text-field" stacked=true value=system.valueBase}}
-            {{formField fields.isCarried rootId="miscgear-carried" classes="text-field" stacked=true value=system.isCarried}}
-            {{formField fields.isEquipped rootId="miscgear-equipped" classes="text-field" stacked=true value=system.isEquipped}}
-            {{formField fields.qualityBase rootId="miscgear-qual" classes="text-field" stacked=true value=system.qualityBase}}
-            {{formField fields.durabilityBase rootId="miscgear-dur" classes="text-field" stacked=true value=system.durabilityBase}}
+            {{formGroup fields.quantity rootId="miscgear-quant" classes="text-field" stacked=true value=system.quantity}}
+            {{formGroup fields.weightBase rootId="miscgear-wt" classes="text-field" stacked=true value=system.weightBase}}
+            {{formGroup fields.valueBase rootId="miscgear-val" classes="text-field" stacked=true value=system.valueBase}}
+            {{formGroup fields.isCarried rootId="miscgear-carried" classes="text-field" stacked=true value=system.isCarried}}
+            {{formGroup fields.isEquipped rootId="miscgear-equipped" classes="text-field" stacked=true value=system.isEquipped}}
+            {{formGroup fields.qualityBase rootId="miscgear-qual" classes="text-field" stacked=true value=system.qualityBase}}
+            {{formGroup fields.durabilityBase rootId="miscgear-dur" classes="text-field" stacked=true value=system.durabilityBase}}
         </div>
     </fieldset>
 </section>

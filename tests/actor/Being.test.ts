@@ -163,7 +163,8 @@ describe("BeingLogic", () => {
         it("defines the being intrinsic actions", () => {
             const logic = makeBeing();
             for (const shortcode of [
-                "postfinalize",
+                "editDocument",
+                "deleteDocument",
                 "shockTest",
                 "stumbleTest",
                 "fumbleTest",

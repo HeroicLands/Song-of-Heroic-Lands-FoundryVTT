@@ -212,6 +212,12 @@ const sohlMock = {
                 time += c.second ?? 0;
                 return time;
             }
+
+            // Non-leap calendars only (matches real CalendarData when
+            // `years.leapYear` is unset), sufficient for SoHL's default config.
+            isLeapYear(_year: number): boolean {
+                return false;
+            }
         },
         fields: {
             StringField: class {

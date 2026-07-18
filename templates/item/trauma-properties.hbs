@@ -1,6 +1,6 @@
 {{!--
 This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
 
 Licensed under the GNU General Public License v3.0 (GPLv3).
 You may copy, modify, and distribute this file under the terms of that license.
@@ -13,12 +13,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="grid grid-3col">
-        {{formField fields.subType rootId="trauma-subtype" classes="text-field" stacked=true value=system.subType}}
-        {{formField fields.levelBase rootId="trauma-level" classes="text-field" stacked=true value=system.levelBase}}
-        {{formField fields.healingRateBase rootId="trauma-hr" classes="text-field" stacked=true value=system.healingRateBase}}
+        {{formGroup fields.subType rootId="trauma-subtype" classes="text-field" stacked=true value=system.subType}}
+        {{formGroup fields.levelBase rootId="trauma-level" classes="text-field" stacked=true value=system.levelBase}}
+        {{formGroup fields.healingRateBase rootId="trauma-hr" classes="text-field" stacked=true value=system.healingRateBase}}
         {{#if (eq system.subType "physical")}}
-        {{formField fields.aspect rootId="trauma-aspect" classes="text-field" stacked=true value=system.aspect}}
-        {{formField fields.bodyLocationCode rootId="trauma-bodyloc" classes="text-field" stacked=true value=system.bodyLocationCode}}
+        {{formGroup fields.aspect rootId="trauma-aspect" classes="text-field" stacked=true value=system.aspect}}
+        {{formGroup fields.bodyLocationCode rootId="trauma-bodyloc" classes="text-field" stacked=true value=system.bodyLocationCode}}
         {{/if}}
         <div class="form-group text-field">
             {{clearableNumberInput fields.treatmentDate name="system.treatmentDate" value=system.treatmentDate}}

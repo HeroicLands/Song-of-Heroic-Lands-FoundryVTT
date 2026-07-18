@@ -47,9 +47,9 @@ describe("CohortLogic", () => {
             expect(logic.data.members).toHaveLength(2);
         });
 
-        it("defines the base postfinalize intrinsic action", () => {
+        it("defines the base edit/delete intrinsic actions", () => {
             const logic = makeCohort();
-            expect(logic.actions.has("postfinalize")).toBe(true);
+            expect(logic.actions.has("editDocument")).toBe(true);
         });
     });
 

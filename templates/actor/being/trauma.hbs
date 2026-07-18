@@ -1,6 +1,6 @@
 {{!--
 This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
 
 Licensed under the GNU General Public License v3.0 (GPLv3).
 You may copy, modify, and distribute this file under the terms of that license.
@@ -12,103 +12,85 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab trauma{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="trauma">
-    {{!-- Shock State --}}
-    {{#if shockState}}
-    <div class="notification warning">
-        <i class="fa-solid fa-triangle-exclamation"></i> Shock State: {{shockState}}
-    </div>
-    {{/if}}
-
     {{!-- Injuries (trauma items) --}}
-    <fieldset>
-        <legend>
-            Injuries
-            <a class="item-create" data-action="createItem" data-type="trauma" data-tooltip="Create a trauma item manually">
-                <i class="fa-solid fa-file-plus"></i>
-            </a>
-            <a class="list__control" data-action="addInjury" data-tooltip="Add an injury by rolling location &amp; severity">
-                <i class="fa-solid fa-dice-d20"></i>
-            </a>
-        </legend>
-        <ol class="list__items">
-            <li class="list__header flexrow">
-                <h3 class="list__name">Injury</h3>
-                <div class="list__detail" data-tooltip="Injury Severity">Sev</div>
-                <div class="list__detail" data-tooltip="Healing Rate (NT = not treated)">HR</div>
-                <div class="list__detail">Aspect</div>
-                <div class="list__detail">Area</div>
-                <div class="list__detail" data-tooltip="Bleeding">Bld</div>
-                <div class="list__detail list__notes">Notes</div>
-                <div class="list__controls"></div>
-            </li>
-            {{#each traumas as |injury|}}
-            <li class="item flexrow" data-search-name="{{injury.name}}" data-item-id="{{injury.id}}" data-item-name="{{injury.name}}">
-                <div class="list__name default-action flexrow">
-                    <div class="list__image" style="background-image: url('{{injury.img}}')"></div>
-                    <h4 data-tooltip="{{injury.name}}">{{injury.name}}</h4>
-                </div>
-                <div class="list__detail" data-tooltip="Severity">
-                    {{#if injury.healed}}
-                    <i class="fa-solid fa-heart-circle-plus" data-tooltip="Healed"></i>
-                    {{else}}
-                    {{injury.severity}}
-                    {{/if}}
-                </div>
-                <div class="list__detail" data-tooltip="Healing Rate">
-                    {{#if injury.healingRateDisabled}}
-                    <i class="fa-solid fa-xmark fa-lg"></i>
-                    {{else}}
-                    {{#unless injury.isTreated}}NT{{/unless}}{{injury.healingRate}}
-                    {{/if}}
-                </div>
-                <div class="list__detail">{{injury.aspect}}</div>
-                <div class="list__detail">{{injury.area}}</div>
-                <div class="list__detail">
-                    {{#if injury.isBleeding}}
-                    <span class="danger">Yes</span>
-                    {{else}}
-                    No
-                    {{/if}}
-                </div>
-                <div class="list__detail list__notes" data-tooltip="{{injury.notes}}">{{injury.notes}}</div>
-                <div class="list__controls">
-                    <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
-                </div>
-            </li>
-            {{/each}}
-        </ol>
-    </fieldset>
+    <ol class="list__items">
+        <li class="list__header flexrow">
+            <h3 class="list__name">Trauma</h3>
+            <div class="list__detail">SubType</div>
+            <div class="list__detail" data-tooltip="Severity">Sev</div>
+            <div class="list__detail" data-tooltip="Healing Rate (NT = not treated)">HR</div>
+            <div class="list__detail">Aspect</div>
+            <div class="list__detail">Area</div>
+            <div class="list__detail" data-tooltip="Bleeding">Bld</div>
+            <div class="list__detail list__notes">Notes</div>
+            <div class="list__controls">
+                <a class="item-create" data-action="createItem" data-type="trauma" data-tooltip="Add Trauma">
+                    <i class="fa-solid fa-file-plus"></i>
+                </a>
+            </div>
+        </li>
+        {{#each traumas as |injury|}}
+        <li class="item flexrow" data-search-name="{{injury.name}}" data-item-id="{{injury.id}}" data-item-name="{{injury.name}}">
+            <div class="list__name default-action flexrow">
+                <div class="list__image" style="background-image: url('{{injury.img}}')"></div>
+                <h4 data-tooltip="{{injury.name}}">{{injury.name}}</h4>
+            </div>
+            <div class="list__detail">{{injury.subTypeLabel}}</div>
+            <div class="list__detail" data-tooltip="Severity">
+                {{#if injury.healed}}
+                <i class="fa-solid fa-heart-circle-plus" data-tooltip="Healed"></i>
+                {{else}}
+                {{injury.severity}}
+                {{/if}}
+            </div>
+            <div class="list__detail">
+                {{#if injury.healingRateDisabled}}
+                <i class="fa-solid fa-xmark fa-lg"></i>
+                {{else}}
+                {{#unless injury.isTreated}}NT{{/unless}}{{injury.healingRate}}
+                {{/if}}
+            </div>
+            <div class="list__detail">{{injury.aspect}}</div>
+            <div class="list__detail">{{injury.area}}</div>
+            <div class="list__detail">
+                {{#if injury.isBleeding}}
+                <span class="danger">Yes</span>
+                {{else}}
+                No
+                {{/if}}
+            </div>
+            <div class="list__detail list__notes" data-tooltip="{{injury.notes}}">{{injury.notes}}</div>
+            <div class="list__controls">
+                <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+            </div>
+        </li>
+        {{/each}}
+    </ol>
 
-    {{!-- Afflictions (no search filter — #312) --}}
-    <div class="search-items">
-        <div class="search-controls">
-            <a class="search-control item-create" data-action="createItem" data-type="affliction" data-tooltip="Create Affliction">
-                <i class="fa-solid fa-file-plus"></i>
-            </a>
-        </div>
-    </div>
-
-    <div class="afflictions-list">
+    <ol class="list__items">
+        <li class="list__header flexrow">
+            <h3 class="list__name">{{group.label}} Afflictions</h3>
+            <div class="list__detail">SubType</div>
+            <div class="list__detail">Level</div>
+            <div class="list__detail" data-tooltip="Healing Rate">HR</div>
+            <div class="list__detail">Source</div>
+            <div class="list__detail list__notes">Notes</div>
+            <div class="list__controls">
+                <a class="item-create" data-action="createItem" data-type="affliction" data-tooltip="Create Affliction">
+                    <i class="fa-solid fa-file-plus"></i>
+                </a>
+            </div>
+        </li>
         {{#each afflictionGroups as |group|}}
-        <fieldset>
-            <legend>{{group.label}} Afflictions</legend>
-            <ol class="list__items">
-                <li class="list__header flexrow">
-                    <h3 class="list__name">Affliction</h3>
-                    <div class="list__detail" data-tooltip="Level">Level</div>
-                    <div class="list__detail" data-tooltip="Healing Rate">HR</div>
-                    <div class="list__detail">Source</div>
-                    <div class="list__detail list__notes">Notes</div>
-                    <div class="list__controls"></div>
-                </li>
-                {{#each group.afflictions as |aff|}}
+            {{#each group.afflictions as |aff|}}
                 <li class="item flexrow" data-search-name="{{aff.name}}" data-item-id="{{aff.id}}" data-item-name="{{aff.name}}">
                     <div class="list__name default-action flexrow">
                         <div class="list__image" style="background-image: url('{{aff.img}}')"></div>
                         <h4 data-tooltip="{{aff.name}}">{{aff.name}}</h4>
                     </div>
-                    <div class="list__detail" data-tooltip="Level">{{aff.level}}</div>
-                    <div class="list__detail" data-tooltip="Healing Rate">
+                    <div class="list__detail">{{group.label}}</div>
+                    <div class="list__detail">{{aff.level}}</div>
+                    <div class="list__detail">
                         {{#if aff.healingRateDisabled}}
                         <i class="fa-solid fa-xmark fa-lg"></i>
                         {{else}}
@@ -116,14 +98,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{/if}}
                     </div>
                     <div class="list__detail">{{aff.source}}</div>
-                    <div class="list__detail list__notes" data-tooltip="{{aff.notes}}">{{aff.notes}}</div>
+                    <div class="list__detail list__notes">{{aff.notes}}</div>
                     <div class="list__controls">
                         <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </li>
-                {{/each}}
-            </ol>
-        </fieldset>
+            {{/each}}
         {{/each}}
-    </div>
+    </ol>
 </section>

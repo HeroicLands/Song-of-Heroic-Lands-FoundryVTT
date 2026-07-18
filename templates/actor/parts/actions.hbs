@@ -1,6 +1,6 @@
 {{!--
 This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
 
 Licensed under the GNU General Public License v3.0 (GPLv3).
 You may copy, modify, and distribute this file under the terms of that license.
@@ -17,59 +17,64 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-actions" value=""
             aria-label="Search Actions" placeholder="Search Actions" autocomplete="off" />
-        <div class="search-controls">
-            <a class="search-control action-create" data-action="createAction" data-tooltip="Create Action">
-                <i class="fa-solid fa-file-plus"></i>
-            </a>
-        </div>
     </div>
 
-    <fieldset>
-        <legend>Custom Actions</legend>
-        <ol class="list__items actions-list">
-            <li class="list__header flexrow">
-                <h3 class="list__name">Action</h3>
-                <div class="list__detail">Group</div>
-            </li>
-            {{#each customActions as |action|}}
-            <li class="item flexrow" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
-                <div class="list__name default-action flexrow rollable" data-action="runAction"
-                    data-tooltip="Run {{localize action.data.title}}">
-                    <i class="{{action.data.iconFAClass}}"></i>
-                    <h4>{{localize action.data.title}}</h4>
-                </div>
-                <div class="list__detail">{{action.data.group}}</div>
-                <div class="list__controls">
-                    <a class="list__control" data-action="editAction" title="Edit Macro">
-                        <i class="fa-solid fa-file-pen"></i>
-                    </a>
-                    <a class="list__control" data-action="deleteAction" title="Remove Action">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
-                </div>
-            </li>
-            {{/each}}
-        </ol>
-    </fieldset>
+    <ol class="list__items actions-list">
+        <li class="list__header flexrow">
+            <h3 class="list__name">Custom Actions</h3>
+            <div class="list__detail">Group</div>
+            <div class="list__detail list__notes"></div>
+            <div class="list__controls">
+                <a class="list__control action-create" data-action="createAction" data-tooltip="Create Action">
+                    <i class="fa-solid fa-file-plus"></i>
+                </a>
+            </div>
+        </li>
+        {{#each customActions as |action|}}
+        <li class="item flexrow" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
+            <div class="list__name flexrow">
+                <div class="list__image" style="background-image: url('{{action.data.img}}')"></div>
+                <h4>{{localize action.data.title}}</h4>
+            </div>
+            <div class="list__detail">{{action.data.group}}</div>
+            <div class="list__detail list__notes"></div>
+            <div class="list__controls">
+                <a class="list__control" data-action="editAction" title="Edit Macro">
+                    <i class="fa-solid fa-file-pen"></i>
+                </a>
+                <a class="list__control" data-action="deleteAction" title="Remove Action">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+                <a class="list__control" data-action="runAction" data-tooltip="Run {{localize action.data.title}}">
+                    <i class="fa-solid fa-play"></i>
+                </a>
+            </div>
+        </li>
+        {{/each}}
+    </ol>
 
-    {{!-- Intrinsic actions — code-defined, read-only, runnable --}}
-    <fieldset>
-        <legend>Intrinsic Actions</legend>
-        <ol class="list__items actions-list">
-            <li class="list__header flexrow">
-                <h3 class="list__name">Action</h3>
-                <div class="list__detail">Group</div>
-            </li>
-            {{#each intrinsicActions as |action|}}
-            <li class="item flexrow" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
-                <div class="list__name default-action flexrow rollable" data-action="runAction"
-                    data-tooltip="Run {{localize action.data.title}}">
-                    <i class="{{action.data.iconFAClass}}"></i>
-                    <h4>{{localize action.data.title}}</h4>
-                </div>
-                <div class="list__detail">{{action.data.group}}</div>
-            </li>
-            {{/each}}
-        </ol>
-    </fieldset>
+    {{!-- Intrinsic actions --}}
+    <ol class="list__items actions-list">
+        <li class="list__header flexrow">
+            <h3 class="list__name">Intrinsic Actions</h3>
+            <div class="list__detail">Group</div>
+            <div class="list__detail list__notes"></div>
+            <div class="list__controls"></div>
+        </li>
+        {{#each intrinsicActions as |action|}}
+        <li class="item flexrow" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
+            <div class="list__name flexrow" >
+                <div class="list__image" style="background-image: url('{{action.data.img}}')"></div>
+                <h4>{{localize action.data.title}}</h4>
+            </div>
+            <div class="list__detail">{{action.data.group}}</div>
+            <div class="list__detail list__notes"></div>
+            <div class="list__controls">
+                <a class="list__control" data-action="runAction" data-tooltip="Run {{localize action.data.title}}">
+                    <i class="fa-solid fa-play"></i>
+                </a>
+            </div>
+        </li>
+        {{/each}}
+    </ol>
 </section>

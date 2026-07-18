@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -96,6 +96,17 @@ export abstract class StrikeModeBase extends SohlEntity {
     traits: PlainObject;
 
     /**
+     * The wielding weapon's Heft, surfaced for display — all of a weapon's
+     * strike modes share it. Read live from the parent weapon's logic (a getter,
+     * so it reflects the weapon's fully-evaluated {@link ValueModifier}).
+     * `undefined` for combat-technique strike modes, whose parent is a skill
+     * with no heft, so the Heft column is simply blank for those.
+     */
+    get heft(): ValueModifier | undefined {
+        return (this.parent as { heft?: ValueModifier } | undefined)?.heft;
+    }
+
+    /**
      * Rebuilds a strike mode from its persisted schema data, synthesizing the
      * modifier objects used during combat resolution.
      *
@@ -116,11 +127,10 @@ export abstract class StrikeModeBase extends SohlEntity {
         this.name = data.name;
         this.minParts = data.minParts;
         this.assocSkillCode = data.assocSkillCode;
-        this.spread = new entity.ValueModifier(
-            {},
-            { parent: parentLogic },
-        ).setBase(data.attack.spread ?? 0);
-        this.attack = new entity.CombatModifier({}, { parent: parentLogic });
+        this.spread = new entity.ValueModifier(parentLogic).setBase(
+            data.attack.spread ?? 0,
+        );
+        this.attack = new entity.CombatModifier(parentLogic);
         if (data.attack.modifier) {
             this.attack.add("Attack Modifier", "AtkMod", data.attack.modifier);
         }

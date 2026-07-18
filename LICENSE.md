@@ -38,4 +38,4 @@ See the file `LICENSE` in the `assets` folder for the full license text. The ful
 also be found at: [https://creativecommons.org/licenses/by-sa/4.0/](https://creativecommons.org/licenses/by-sa/4.0/)
 
 (c) 2026 Tom Rodriguez ("Toasty")  
-Contact: [toasty@heroiclands.com](mailto:toasty@heroiclands.com)
+Contact: [toasty@heroiclands.org](mailto:toasty@heroiclands.org)

@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -133,31 +133,25 @@ export class BodyLocation extends SohlEntity {
         this.armorProtection = { blunt: 0, edged: 0, piercing: 0, fire: 0 };
         this.isRigid = false;
         this.armorType = "";
-        this.shockValue = new entity.ValueModifier(
-            {},
-            { parent: options.parent },
-        ).setBase(data.shockValue);
-        this.probWeight = new entity.ValueModifier(
-            {},
-            { parent: options.parent },
-        ).setBase(data.probWeight);
+        this.shockValue = new entity.ValueModifier(options.parent).setBase(
+            data.shockValue,
+        );
+        this.probWeight = new entity.ValueModifier(options.parent).setBase(
+            data.probWeight,
+        );
         this.protectionBase = {
-            blunt: new entity.ValueModifier(
-                {},
-                { parent: options.parent },
-            ).setBase(data.protectionBase.blunt),
-            edged: new entity.ValueModifier(
-                {},
-                { parent: options.parent },
-            ).setBase(data.protectionBase.edged),
-            piercing: new entity.ValueModifier(
-                {},
-                { parent: options.parent },
-            ).setBase(data.protectionBase.piercing),
-            fire: new entity.ValueModifier(
-                {},
-                { parent: options.parent },
-            ).setBase(data.protectionBase.fire),
+            blunt: new entity.ValueModifier(options.parent).setBase(
+                data.protectionBase.blunt,
+            ),
+            edged: new entity.ValueModifier(options.parent).setBase(
+                data.protectionBase.edged,
+            ),
+            piercing: new entity.ValueModifier(options.parent).setBase(
+                data.protectionBase.piercing,
+            ),
+            fire: new entity.ValueModifier(options.parent).setBase(
+                data.protectionBase.fire,
+            ),
         };
         this.bodyPart = options.bodyPart;
         this.index = options.index;

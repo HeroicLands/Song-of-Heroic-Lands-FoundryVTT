@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -13,8 +13,16 @@
 
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
-import type { HTMLString } from "@src/utils/helpers";
-import { BRAND } from "@src/utils/constants";
+import { toHTMLString, type HTMLString } from "@src/utils/helpers";
+import {
+    ACTION_SUBTYPE,
+    BRAND,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@src/utils/constants";
+import { SohlAction } from "@src/entity/action/SohlAction";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import { dialog, fvttRenderSheet } from "@src/core/FoundryHelpers";
 
 /**
  * The Foundry-free foundation of the item logic layer.

@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -37,6 +37,7 @@ import { FilePath, toFilePath } from "@src/utils/helpers";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import type { SohlItem } from "../foundry/SohlItem";
 import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
+import { runStrikeModeTest, type StrikeModeTestScope } from "./strikeModeTest";
 import {
     fvttGetSetting,
     fvttIsCurrentUserGM,
@@ -313,6 +314,55 @@ export class SkillLogic<
     }
 
     /**
+     * Perform an assisted attack with this combat technique's strike mode.
+     *
+     * Intrinsic-action executor for the `attackTest` action (combat techniques
+     * only). Delegates to the shared {@link runStrikeModeTest}, which weapons use
+     * too — a technique always has exactly one strike mode ({@link strikeModes}),
+     * so it is auto-selected and never prompts.
+     * @param context - The action context; `scope.strikeModeId` selects the mode.
+     * @returns The test result, `undefined` if the roll was cancelled, or `false`
+     *   when no strike mode could be resolved.
+     */
+    async attackTest(
+        context: SohlActionContext<Partial<StrikeModeTestScope>>,
+    ): Promise<SuccessTestResult | undefined | false> {
+        return runStrikeModeTest(this, "attack", context);
+    }
+
+    /**
+     * Perform an assisted block with this combat technique's strike mode.
+     *
+     * Intrinsic-action executor for the `blockTest` action (combat techniques
+     * only). A block requested on a non-melee mode resolves to `false` (see
+     * {@link runStrikeModeTest}).
+     * @param context - The action context; `scope.strikeModeId` selects the mode.
+     * @returns The test result, `undefined` if the roll was cancelled, or `false`
+     *   when no melee strike mode could be resolved.
+     */
+    async blockTest(
+        context: SohlActionContext<Partial<StrikeModeTestScope>>,
+    ): Promise<SuccessTestResult | undefined | false> {
+        return runStrikeModeTest(this, "block", context);
+    }
+
+    /**
+     * Perform an assisted counterstrike with this combat technique's strike mode.
+     *
+     * Intrinsic-action executor for the `counterstrikeTest` action (combat
+     * techniques only). A counterstrike requested on a non-melee mode resolves to
+     * `false` (see {@link runStrikeModeTest}).
+     * @param context - The action context; `scope.strikeModeId` selects the mode.
+     * @returns The test result, `undefined` if the roll was cancelled, or `false`
+     *   when no melee strike mode could be resolved.
+     */
+    async counterstrikeTest(
+        context: SohlActionContext<Partial<StrikeModeTestScope>>,
+    ): Promise<SuccessTestResult | undefined | false> {
+        return runStrikeModeTest(this, "counterstrike", context);
+    }
+
+    /**
      * Begins an opposed test backed by this skill's mastery level.
      *
      * Intrinsic-action executor for the `opposedTestStart` action. Opposed tests
@@ -347,6 +397,7 @@ export class SkillLogic<
      * @returns Resolves once the item update completes.
      */
     async setImproveFlag(_context: SohlActionContext): Promise<void> {
+        if (!this.canImprove) return;
         const updateData: PlainObject = { "system.improveFlag": true };
         await this.data.update(updateData);
     }
@@ -360,8 +411,26 @@ export class SkillLogic<
      * @returns Resolves once the item update completes.
      */
     async unsetImproveFlag(_context: SohlActionContext): Promise<void> {
+        if (!this.canImprove) return;
         const updateData: PlainObject = { "system.improveFlag": false };
         await this.data.update(updateData);
+    }
+
+    /**
+     * Toggles this skill's improvement flag.
+     *
+     * Intrinsic-action executor for the `toggleImproveFlag` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async toggleImproveFlag(_context: SohlActionContext): Promise<void> {
+        if (!this.canImprove) return;
+        if (this.data.improveFlag) {
+            await this.unsetImproveFlag(_context);
+        } else {
+            await this.setImproveFlag(_context);
+        }
     }
 
     /**
@@ -464,7 +533,7 @@ export class SkillLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-star",
                 executor: "setImproveFlag",
-                visible: "true",
+                visible: "itemLogic.canImprove && !itemLogic.data.improveFlag",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
@@ -472,8 +541,18 @@ export class SkillLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Skill.Action.unsetImproveFlag",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "far fa-star",
+                iconFAClass: "fa-regular fa-star",
                 executor: "unsetImproveFlag",
+                visible: "itemLogic.canImprove && itemLogic.data.improveFlag",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "toggleImproveFlag",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Skill.Action.toggleImproveFlag",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-star-half-stroke",
+                executor: "toggleImproveFlag",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
@@ -496,6 +575,41 @@ export class SkillLogic<
                     "fa-solid fa-arrow-down-left-and-arrow-up-right-to-center",
                 executor: "opposedTestStart",
                 visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            // Combat-technique strike-mode tests. A combat technique is a skill
+            // that carries its own single strike mode, so it exposes the same
+            // attack/block/counterstrike actions as a weapon (shared executor via
+            // runStrikeModeTest); gated to the combattechnique subtype. Block and
+            // counterstrike no-op on a missile mode at runtime.
+            {
+                shortcode: "attackTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Skill.Action.attackTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-sword",
+                executor: "attackTest",
+                visible: "itemLogic.data.subType === 'combattechnique'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "blockTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Skill.Action.blockTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-shield",
+                executor: "blockTest",
+                visible: "itemLogic.data.subType === 'combattechnique'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "counterstrikeTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Skill.Action.counterstrikeTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-circle-half-stroke",
+                executor: "counterstrikeTest",
+                visible: "itemLogic.data.subType === 'combattechnique'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
         ];

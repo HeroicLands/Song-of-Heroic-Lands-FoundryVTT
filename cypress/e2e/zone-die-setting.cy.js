@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -76,7 +76,9 @@ describe("Use Zone Die setting", () => {
         const el = win.game.actors.get(actorId).sheet.element;
         const header = [
             ...el.querySelectorAll(
-                'section[data-tab="combat"] li.list__header .list__detail',
+                // Column labels live in the strike-mode group's outer
+                // `<header class="list__header">` (no longer an `<li>`).
+                'section[data-tab="combat"] header.list__header .list__detail',
             ),
         ].find((d) => /^(Spr|ZD)$/.test(d.textContent.trim()));
         const row = el.querySelector(

@@ -7,6 +7,8 @@ import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier"
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import { IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import {
@@ -53,7 +55,8 @@ describe("SkillLogic", () => {
         it("defines the skill intrinsic actions", () => {
             const logic = makeSkill();
             for (const shortcode of [
-                "postfinalize",
+                "editDocument",
+                "deleteDocument",
                 "successTest",
                 "setImproveFlag",
                 "unsetImproveFlag",
@@ -578,6 +581,81 @@ describe("SkillLogic", () => {
             expect((logic.strikeMode as MeleeStrikeMode).reach.effective).toBe(
                 3,
             );
+        });
+
+        describe("combat actions (attack/block/counterstrike)", () => {
+            afterEach(() => vi.restoreAllMocks());
+
+            function makeTechnique() {
+                const logic = makeSkill({
+                    subType: "combattechnique",
+                    masteryLevelBase: 40,
+                    strikeMode: meleeSM(),
+                });
+                logic.initialize();
+                logic.evaluate();
+                logic.finalize();
+                return logic;
+            }
+            const ctx = () =>
+                new SohlActionContext({
+                    speaker: new SohlSpeaker({ alias: "T" }),
+                });
+
+            it("defines attackTest/blockTest/counterstrikeTest intrinsic actions", () => {
+                const shortcodes = SkillLogic.defineIntrinsicActions().map(
+                    (a) => a.shortcode,
+                );
+                expect(shortcodes).toContain("attackTest");
+                expect(shortcodes).toContain("blockTest");
+                expect(shortcodes).toContain("counterstrikeTest");
+            });
+
+            it("wires those actions onto a combattechnique instance", () => {
+                const logic = makeTechnique();
+                expect(logic.actions.has("attackTest")).toBe(true);
+                expect(logic.actions.has("blockTest")).toBe(true);
+                expect(logic.actions.has("counterstrikeTest")).toBe(true);
+            });
+
+            it("attackTest rolls the single strike mode's attack (auto-selected, no dialog)", async () => {
+                const logic = makeTechnique();
+                const spy = vi
+                    .spyOn(
+                        (logic.strikeMode as MeleeStrikeMode).attack,
+                        "successTest",
+                    )
+                    .mockResolvedValue(undefined);
+                const c = ctx();
+                await logic.attackTest(c);
+                // The passed context flows straight through to the roll.
+                expect(spy).toHaveBeenCalledWith(c);
+            });
+
+            it("blockTest rolls the melee mode's defense.block", async () => {
+                const logic = makeTechnique();
+                const spy = vi
+                    .spyOn(
+                        (logic.strikeMode as MeleeStrikeMode).defense.block,
+                        "successTest",
+                    )
+                    .mockResolvedValue(undefined);
+                await logic.blockTest(ctx());
+                expect(spy).toHaveBeenCalledTimes(1);
+            });
+
+            it("counterstrikeTest rolls the melee mode's defense.counterstrike", async () => {
+                const logic = makeTechnique();
+                const spy = vi
+                    .spyOn(
+                        (logic.strikeMode as MeleeStrikeMode).defense
+                            .counterstrike,
+                        "successTest",
+                    )
+                    .mockResolvedValue(undefined);
+                await logic.counterstrikeTest(ctx());
+                expect(spy).toHaveBeenCalledTimes(1);
+            });
         });
     });
 });

@@ -1,11 +1,33 @@
 .facade {
+    // The Facade tab is just the portrait + the appearance editor: the editor
+    // fills all available space and scrolls its own content, so the tab itself
+    // never shows a scrollbar.
+    overflow: hidden;
+
     img.facade__image {
         flex: 0 0 200px;
         object-fit: contain;
         background: var(--sohl-color-text-inverse);
     }
 
+    // The image + editor row fills the tab height so the editor can stretch.
+    .flexrow {
+        height: 100%;
+    }
+
     .facade__description {
         margin-left: 5px;
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+
+        // <prose-mirror class="editor"> fills the cell (override the global
+        // `.editor { height: 100% }` in this flex context).
+        prose-mirror.editor {
+            flex: 1;
+            height: auto;
+            min-height: 0;
+        }
     }
 }

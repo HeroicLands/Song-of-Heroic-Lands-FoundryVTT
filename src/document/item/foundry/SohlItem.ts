@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -19,7 +19,7 @@ import {
     type SubTypeOption,
 } from "@src/utils/helpers";
 import { toFilePath } from "@src/utils/helpers";
-import { dialog } from "@src/core/FoundryHelpers";
+import { dialog, fvttRenderSheet } from "@src/core/FoundryHelpers";
 import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
@@ -292,7 +292,7 @@ export async function sohlCreateDialog(
         parent: (createOptions as PlainObject).parent ?? null,
         ...createOptions,
     });
-    (created as any)?.sheet?.render(true);
+    void fvttRenderSheet(created as any);
     return created ?? null;
 }
 

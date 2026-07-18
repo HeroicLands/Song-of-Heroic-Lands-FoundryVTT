@@ -26,9 +26,9 @@ describe("StructureLogic", () => {
             expect(logic.data.kind).toBe(ACTOR_KIND.STRUCTURE);
         });
 
-        it("defines the base postfinalize intrinsic action", () => {
+        it("defines the base edit/delete intrinsic actions", () => {
             const logic = makeStructure();
-            expect(logic.actions.has("postfinalize")).toBe(true);
+            expect(logic.actions.has("editDocument")).toBe(true);
         });
 
         it("resolves its owning actor from the data", () => {

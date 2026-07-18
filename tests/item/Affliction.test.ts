@@ -21,10 +21,10 @@ describe("AFFLICTION_SUBTYPE (#478)", () => {
     });
     it("exposes SHOCK and COMA as value-keyed choices with i18n labels", () => {
         expect(AfflictionSubTypeChoices["shock"]).toBe(
-            "SOHL.Affliction.SubType.SHOCK",
+            "SOHL.Affliction.SubType.shock",
         );
         expect(AfflictionSubTypeChoices["coma"]).toBe(
-            "SOHL.Affliction.SubType.COMA",
+            "SOHL.Affliction.SubType.coma",
         );
     });
 });
@@ -158,7 +158,8 @@ describe("AfflictionLogic", () => {
         it("builds all intrinsic actions (every executor resolves)", () => {
             const logic = makeAffliction();
             for (const shortcode of [
-                "postfinalize",
+                "editDocument",
+                "deleteDocument",
                 "transmitaffliction",
                 "contractafflictiontest",
                 "coursetest",
@@ -390,7 +391,7 @@ describe("AfflictionLogic", () => {
                 category: "weariness",
             });
             expect(logic.categoryLabel).toBe(
-                "SOHL.Affliction.FATIGUE_CATEGORY.WEARINESS",
+                "SOHL.Affliction.FATIGUE_CATEGORY.weariness",
             );
         });
 
@@ -400,7 +401,7 @@ describe("AfflictionLogic", () => {
                 category: "cold",
             });
             expect(logic.categoryLabel).toBe(
-                "SOHL.Affliction.PRIVATION_CATEGORY.COLD",
+                "SOHL.Affliction.PRIVATION_CATEGORY.cold",
             );
         });
 

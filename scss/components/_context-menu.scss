@@ -1,0 +1,13 @@
+// SoHL context menus (item/effect ⋮ and right-click) are positioned into the
+// sheet frame, which carries `.sohl` — so on their dark background they inherit
+// the parchment theme's dark text color and become unreadable. Force a light
+// foreground for the menu, its labels, and its Font-Awesome icons.
+#context-menu {
+    color: var(--sohl-color-text-inverse);
+
+    .context-item,
+    .context-item i,
+    .context-item span {
+        color: var(--sohl-color-text-inverse);
+    }
+}

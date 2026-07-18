@@ -33,18 +33,39 @@
     }
 }
 
-// Column widths — applied to the header AND the data rows (both are <li>
-// children of `.list__items`) so every column lines up between the two. Scoping
-// these to `.item.flexrow` alone would size only the data cells and leave the
-// header labels spread evenly, which is what misaligned the columns.
 .list__items {
     @include list.reset;
+}
 
+// Column widths — applied to the header row(s) AND the data rows so every
+// column lines up. This covers both a `<header class="list__header">` that sits
+// OUTSIDE `.list__items` (Combat strike modes and Body Locations put their
+// column labels there) and the `.item` / weapon-subheader rows inside
+// `.list__items`. Sizing only `.list__items` left those outer headers' cells
+// unsized, so their labels drifted out of alignment with the data.
+.list__header,
+.list__items {
+    // The name column is a fixed width so every row's name aligns; a name that
+    // overflows is clipped with an ellipsis (its full text is on the row's
+    // tooltip). `min-width: 0` lets the inner `<h4>` shrink to ellipsis inside
+    // the flexrow that wraps the icon + name.
     .list__name {
-        flex: 1 1 120px;
+        flex: 0 0 200px;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         h4 {
+            flex: 1;
+            min-width: 0;
             margin: 0;
+            // Row names use the sans body font (Signika), not the Cinzel
+            // heading default. Fieldset-wrapped lists happened to inherit it,
+            // but `.list`-wrapped lists (e.g. Combat strike modes) fell back to
+            // the heading font — so set it explicitly here, independent of the
+            // wrapper.
+            font-family: var(--sohl-font-sans);
             font-size: 14px;
             font-weight: normal;
             white-space: nowrap;
@@ -72,11 +93,16 @@
     }
 
     // The notes column carries both `.list__detail` and `.list__notes`; being
-    // later in source order, this widens it back out and left-aligns it.
+    // later in source order, this grows it to fill the remaining row width and
+    // left-aligns it, clipping overflow with an ellipsis.
     .list__notes {
-        flex: 1 1 auto;
+        flex: 1 1 0;
+        min-width: 0;
         text-align: left;
         padding-left: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .list__controls {

@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -31,7 +31,8 @@ const { NumberField, TypedObjectField, TypedSchemaField, SchemaField } =
 function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
-        encumbrance: new NumberField({ initial: 0, min: 0 }),
+        encumbranceBase: new NumberField({ initial: 0, min: 0 }),
+        heftBase: new NumberField({ initial: 0, min: 0 }),
         // A keyed dict of strike modes, each a discriminated melee/missile
         // schema (the same schemas the combat-technique skill uses). Typing the
         // element means every strike mode's sub-fields — including
@@ -70,7 +71,7 @@ export class WeaponGearDataModel<
     ];
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.WEAPONGEAR;
-    encumbrance!: number;
+    encumbranceBase!: number;
     heftBase!: number;
     strikeModes!: StrictObject<StrikeModeBase.Data>;
 

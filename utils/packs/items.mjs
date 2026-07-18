@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -51,7 +51,6 @@ const ITEM_TYPES = new Set([
     "affliction",
     "armorgear",
     "attribute",
-    "combattechnique",
     "concoctiongear",
     "containergear",
     "corpus",
@@ -70,7 +69,6 @@ const DEFAULT_IMG = {
     affliction: "systems/sohl/assets/icons/sick.svg",
     armorgear: "systems/sohl/assets/icons/breastplate.svg",
     attribute: "systems/sohl/assets/icons/charm.svg",
-    combattechnique: "systems/sohl/assets/icons/crossed-swords.svg",
     concoctiongear: "systems/sohl/assets/icons/flask.svg",
     containergear: "systems/sohl/assets/icons/sack.svg",
     corpus: "systems/sohl/assets/icons/dna.svg",
@@ -155,8 +153,9 @@ function buildTrait(fm) {
 }
 
 function buildSkill(fm) {
-    return {
-        subType: sohlField(fm, "subType", "social"),
+    const subType = sohlField(fm, "subType", "social");
+    const out = {
+        subType,
         skillBaseFormula: sohlField(fm, "skillBaseFormula", ""),
         masteryLevelBase: Number(sohlField(fm, "masteryLevelBase", 0)) || 0,
         improveFlag: Boolean(sohlField(fm, "improveFlag", false)),
@@ -164,6 +163,24 @@ function buildSkill(fm) {
         parentSkillCode: sohlField(fm, "parentSkillCode", ""),
         initSkillMult: Number(sohlField(fm, "initSkillMult", 0)) || 0,
     };
+    // A combat technique is authored as a `skill` of subtype `combattechnique`
+    // (the standalone item type was merged into Skill): it carries an embedded,
+    // discriminated strike mode. Require it for that subtype; other skills have
+    // none.
+    if (subType === "combattechnique") {
+        const strikeMode = sohlField(fm, "strikeMode", null);
+        if (
+            !strikeMode ||
+            typeof strikeMode !== "object" ||
+            !strikeMode.type
+        ) {
+            throw new Error(
+                `combattechnique skill requires sohl.strikeMode with a 'type' discriminator ("melee" or "missile")`,
+            );
+        }
+        out.strikeMode = strikeMode;
+    }
+    return out;
 }
 
 function buildAttribute(fm) {
@@ -195,19 +212,6 @@ function buildAffiliation(fm) {
         office: String(sohlField(fm, "office", "")),
         title: String(sohlField(fm, "title", "")),
         level: Number(sohlField(fm, "level", 0)) || 0,
-    };
-}
-
-function buildCombatTechnique(fm) {
-    const strikeMode = sohlField(fm, "strikeMode", null);
-    if (!strikeMode || typeof strikeMode !== "object" || !strikeMode.type) {
-        throw new Error(
-            `combattechnique requires sohl.strikeMode with a 'type' discriminator ("melee" or "missile")`,
-        );
-    }
-    return {
-        group: String(sohlField(fm, "group", "")),
-        strikeMode,
     };
 }
 
@@ -290,7 +294,7 @@ function buildCorpus(fm) {
 function buildWeaponGear(fm) {
     return {
         ...gearCommon(fm),
-        encumbrance: Number(sohlField(fm, "encumbrance", 0)) || 0,
+        encumbranceBase: Number(sohlField(fm, "encumbrance", 0)) || 0,
         heftBase: Number(sohlField(fm, "heft", 0)) || 0,
         strikeModes: sohlField(fm, "strikeModes", {}),
     };
@@ -357,7 +361,6 @@ const BUILDERS = {
     affliction: buildAffliction,
     armorgear: buildArmorGear,
     attribute: buildAttribute,
-    combattechnique: buildCombatTechnique,
     concoctiongear: buildConcoctionGear,
     containergear: buildContainerGear,
     corpus: buildCorpus,

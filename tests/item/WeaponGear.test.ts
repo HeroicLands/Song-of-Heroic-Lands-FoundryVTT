@@ -102,7 +102,7 @@ function weaponFields(overrides: Record<string, unknown> = {}) {
         durabilityBase: 14,
         sharedWithCohortIds: [] as string[],
         containerId: null as string | null,
-        encumbrance: 2,
+        encumbranceBase: 2,
         heftBase: 5,
         strikeModes: {} as Record<string, unknown>,
         ...overrides,
@@ -186,7 +186,8 @@ describe("WeaponGearLogic", () => {
                 for (const shortcode of [
                     "setCarried",
                     "setNotCarried",
-                    "postfinalize",
+                    "editDocument",
+                    "deleteDocument",
                 ]) {
                     expect(logic.actions.has(shortcode), shortcode).toBe(true);
                 }
@@ -202,7 +203,7 @@ describe("WeaponGearLogic", () => {
 
         describe("initialize", () => {
             it("seeds encumbrance from the encumbrance field", () => {
-                const logic = makeWeapon({ encumbrance: 3 });
+                const logic = makeWeapon({ encumbranceBase: 3 });
                 logic.initialize();
                 expect(logic.encumbrance).toBeInstanceOf(ValueModifier);
                 expect(logic.encumbrance.effective).toBe(3);

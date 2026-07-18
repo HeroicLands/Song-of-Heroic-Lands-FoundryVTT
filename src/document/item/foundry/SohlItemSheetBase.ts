@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -19,7 +19,6 @@ import {
     localizeSubType,
     keyTransferredEffects,
 } from "@src/document/item/logic/item-sheet-view";
-const TextEditor = foundry.applications.ux.TextEditor.implementation;
 type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
@@ -46,7 +45,8 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         description: {
             container: { classes: ["tab-body"], id: "tabs" },
             template: "systems/sohl/templates/item/parts/description.hbs",
-            scrollable: [""],
+            // No `scrollable`: the <prose-mirror> editor fills the tab and
+            // scrolls its own content, so the tab itself never scrolls.
         },
         actions: {
             container: { classes: ["tab-body"], id: "tabs" },
@@ -68,10 +68,26 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         sheet: {
             initial: "properties",
             tabs: [
-                { id: "properties", label: "SOHL.Item.tab.properties" },
-                { id: "description", label: "SOHL.Item.tab.description" },
-                { id: "actions", label: "SOHL.Item.tab.actions" },
-                { id: "effects", label: "SOHL.Item.tab.effects" },
+                {
+                    id: "properties",
+                    label: "SOHL.Item.tab.properties",
+                    icon: "fa-solid fa-sliders",
+                },
+                {
+                    id: "description",
+                    label: "SOHL.Item.tab.description",
+                    icon: "fa-solid fa-scroll",
+                },
+                {
+                    id: "actions",
+                    label: "SOHL.Item.tab.actions",
+                    icon: "fa-solid fa-cogs",
+                },
+                {
+                    id: "effects",
+                    label: "SOHL.Item.tab.effects",
+                    icon: "fa-solid fa-plus-minus",
+                },
             ],
         },
     };
@@ -82,6 +98,10 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * general `clearField` action used by the `clearableNumberInput` helper.
      */
     static override DEFAULT_OPTIONS: PlainObject = {
+        // Give item sheets a fixed initial size. Without it the sheet has no
+        // definite height, so ApplicationV2 re-fits it to each tab's content and
+        // the window jumps size when switching tabs (and grows very wide).
+        position: { width: 600, height: 500 },
         actions: {
             clearField: SohlItemSheetBase._onClearField,
         },
@@ -206,7 +226,13 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     ): Promise<RenderContext> {
         // _preparePartContext is called for each part with the specific partId
         // This is where you prepare part-specific data
-        const type = this.document.type;
+        const logic = this.document.logic as any;
+        const type = logic.type;
+
+        Object.assign(context, {
+            logic,
+        });
+
         // Expose the prepared tab descriptor for this part so content sections
         // can resolve their `active` state and tab group (see BeingSheet).
         (context as any).tab = (context as any).tabs?.[partId];
@@ -292,15 +318,11 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
-        const system = this.document.system as any;
-        const subType = system.subType ?? "";
-        const kind = system.constructor?.kind ?? this.document.type;
-        const subTypeLabel = localizeSubType(subType, kind);
         return Object.assign(context, {
+            logic: this.document.logic as any,
             itemName: this.document.name,
             itemImg: this.document.img,
-            typeLabel: this.document.logic?.typeLabel ?? this.document.type,
-            subTypeLabel,
+            typeLabel: this.document.logic?.typeLabel,
         });
     }
 
@@ -336,12 +358,10 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
-        const system = this.document.system as any;
-        return Object.assign(context, {
-            descriptionHTML: await TextEditor.enrichHTML(
-                system.description ?? "",
-            ),
-        });
+        // The description is edited by a <prose-mirror> element (see
+        // description.hbs), which takes the raw value and enriches for display
+        // itself — no pre-enriched `descriptionHTML` needed.
+        return context;
     }
 
     /**

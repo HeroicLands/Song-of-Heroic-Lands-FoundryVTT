@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { brandLogic } from "@tests/mocks/brandLogic";
 import { BodyLocation } from "@src/entity/body/BodyLocation";
 
 const SAMPLE_DATA: BodyLocation.Data = {
@@ -21,7 +22,7 @@ const MOCK_PART = {
 } as any;
 
 // A Corpus-kinded owning logic (the parent every body entity requires).
-const MOCK_CORPUS = { kind: "corpus", actor: null } as any;
+const MOCK_CORPUS = brandLogic({ kind: "corpus", actor: null }) as any;
 
 describe("BodyLocation", () => {
     describe("construction", () => {

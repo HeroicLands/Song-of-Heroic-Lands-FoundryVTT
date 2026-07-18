@@ -1,19 +1,6 @@
 {{!--
 This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
-
-Licensed under the GNU General Public License v3.0 (GPLv3).
-You may copy, modify, and distribute this file under the terms of that license.
-
-See LICENSE.md in the project root or:
-https://www.gnu.org/licenses/gpl-3.0.html
-
-SPDX-License-Identifier: GPL-3.0-or-later
---}}
-
-{{!--
-This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
 
 Licensed under the GNU General Public License v3.0 (GPLv3).
 You may copy, modify, and distribute this file under the terms of that license.
@@ -27,25 +14,23 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <section class="tab skills{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="skills">
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-skills" value=""
-            aria-label="Search Skills" placeholder="Search Skills" autocomplete="off" />
+            aria-label="{{localize 'SOHL.Skill.Search.label'}}" placeholder="{{localize 'SOHL.Skill.Search.label'}}" autocomplete="off" />
     </div>
     {{#each skillGroups as |group|}}
-    <fieldset>
-        <legend>
-            {{group.label}}
-            <a class="item-create" data-action="createItem" data-tooltip="Add Skill" data-type="skill" data-sub-type="{{group.subType}}">
-                <i class="fa-solid fa-file-plus"></i>
-            </a>
-        </legend>
         <ol class="list__items skills-list">
             <li class="list__header flexrow">
-                <div class="list__name">Name</div>
-                <div class="list__detail" data-tooltip="Skill Base">SB</div>
-                <div class="list__detail" data-tooltip="Mastery Level">ML</div>
-                <div class="list__detail" data-tooltip="Index">Index</div>
-                <div class="list__detail" data-tooltip="Effective Mastery Level">EML</div>
-                <div class="list__detail" data-tooltip="Fate Mastery Level">Fate</div>
-                <div class="list__controls"></div>
+                <div class="list__name">{{group.label}}</div>
+                <div class="list__detail" data-tooltip="{{localize 'SOHL.Skill.Heading.SkillBase.tooltip'}}">{{localize 'SOHL.Skill.Heading.SkillBase.label'}}</div>
+                <div class="list__detail" data-tooltip="{{localize 'SOHL.Skill.Heading.MasteryLevel.tooltip'}}">{{localize 'SOHL.Skill.Heading.MasteryLevel.label'}}</div>
+                <div class="list__detail" data-tooltip="{{localize 'SOHL.Skill.Heading.Index.tooltip'}}">{{localize 'SOHL.Skill.Heading.Index.label'}}</div>
+                <div class="list__detail" data-tooltip="{{localize 'SOHL.Skill.Heading.EffectiveMasteryLevel.tooltip'}}">{{localize 'SOHL.Skill.Heading.EffectiveMasteryLevel.label'}}</div>
+                <div class="list__detail" data-tooltip="{{localize 'SOHL.Skill.Heading.FateMasteryLevel.tooltip'}}">{{localize 'SOHL.Skill.Heading.FateMasteryLevel.label'}}</div>
+                <div class="list__detail list__notes" data-tooltip="{{localize 'SOHL.Skill.Heading.notes.tooltip'}}">{{localize 'SOHL.Skill.Heading.notes.label'}}</div>
+                <div class="list__controls">
+                    <a class="item-create" data-action="createItem" data-tooltip="{{localize 'SOHL.Skill.Heading.Add.label'}}" data-type="skill" data-sub-type="{{group.subType}}">
+                        <i class="fa-solid fa-file-plus"></i>
+                    </a>
+                </div>
             </li>
             {{#each group.skills as |skill|}}
             <li class="item flexrow" data-search-name="{{skill.name}}" data-item-id="{{skill.id}}" data-uuid="{{skill.uuid}}" data-item-name="{{skill.name}}">
@@ -54,10 +39,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <h4>{{skill.name}}</h4>
                 </div>
                 <div class="list__detail">{{skill.sb}}</div>
-                <div class="list__detail rollable" data-action="rollSkillTest" data-tooltip="Roll test (shift-click to skip dialog)">{{skill.ml}}</div>
+                <div class="list__detail">{{skill.ml}}</div>
                 <div class="list__detail">{{#if skill.disabled}}<i class="fa-solid fa-xmark fa-lg"></i>{{else}}{{skill.index}}{{/if}}</div>
-                <div class="list__detail">{{#if skill.disabled}}<i class="fa-solid fa-xmark fa-lg"></i>{{else}}{{skill.eml}}{{/if}}</div>
-                <div class="list__detail">{{skill.fate}}</div>
+                <div class="list__detail rollable" data-action="successTest">{{#if skill.disabled}}<i class="fa-solid fa-xmark fa-lg"></i>{{else}}{{skill.eml}}{{/if}}</div>
+                <div class="list__detail rollable" data-action="fateTest">{{skill.fate}}</div>
+                <div class="list__detail list__notes">{{skill.notes}}</div>
                 <div class="list__controls">
                     {{#if skill.canImprove}}
                     <a class="list__control toggle-improve-flag" data-action="toggleImproveFlag" title="Improve"><i class="{{#if skill.improveFlag}}fas fa-star{{else}}far fa-star{{/if}}"></i></a>
@@ -67,6 +53,5 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </li>
             {{/each}}
         </ol>
-    </fieldset>
     {{/each}}
 </section>

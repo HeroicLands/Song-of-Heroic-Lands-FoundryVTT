@@ -1,6 +1,6 @@
 {{!--
 This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
 
 Licensed under the GNU General Public License v3.0 (GPLv3).
 You may copy, modify, and distribute this file under the terms of that license.
@@ -15,11 +15,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-gear" value=""
             aria-label="Search Gear" placeholder="Search Gear" autocomplete="off" />
-        <div class="search-controls">
-            <a class="search-control item-create" data-action="createItem" data-tooltip="Add Gear" data-type="miscgear">
-                <i class="fa-solid fa-file-plus"></i>
-            </a>
-        </div>
     </div>
 
     {{!-- One gear section (On Body or a container): a capacity readout plus the
@@ -39,6 +34,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{else}}
             <div class="list__capacity" data-tooltip="Weight carried / capacity">Capacity: {{capacity.used}}/{{capacity.max}}</div>
             {{/if}}
+            <div class="list__controls">
+                <a class="item-create" data-action="createItem" data-tooltip="Add Gear">
+                    <i class="fa-solid fa-file-plus"></i>
+                </a>
+            </div>
         </header>
         <ol class="list__items">
             {{#each items as |item|}}

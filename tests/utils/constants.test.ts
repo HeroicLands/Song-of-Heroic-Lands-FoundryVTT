@@ -41,13 +41,30 @@ describe("defineType", () => {
         expect(isValue(42)).toBe(false);
     });
 
-    it("labels are prefixed by KEY_NAME (not value)", () => {
-        const { labels } = defineType("My.Prefix", {
+    it("labels/choices are keyed to the VALUE for simple string values", () => {
+        // Runtime constructs keys from the stored value (e.g. a `subType` of
+        // "one" → "My.Prefix.one"), so labels/choices must match that.
+        const { labels, choices } = defineType("My.Prefix", {
             ONE: "one",
             TWO: "two",
         });
-        expect(labels.ONE).toBe("My.Prefix.ONE");
-        expect(labels.TWO).toBe("My.Prefix.TWO");
+        expect(labels.ONE).toBe("My.Prefix.one");
+        expect(labels.TWO).toBe("My.Prefix.two");
+        expect(choices.one).toBe("My.Prefix.one");
+        expect(choices.two).toBe("My.Prefix.two");
+    });
+
+    it("falls back to the KEY for numeric values and change-path values", () => {
+        // Numeric enums (labelled by key) and Active Effect change paths
+        // (values containing "." or ":") are not label-worthy identifiers.
+        const { labels } = defineType("My.Prefix", {
+            NONE: 0,
+            AFRAID: 3,
+            SCORE: "mod:logic.score",
+        });
+        expect(labels.NONE).toBe("My.Prefix.NONE");
+        expect(labels.AFRAID).toBe("My.Prefix.AFRAID");
+        expect(labels.SCORE).toBe("My.Prefix.SCORE");
     });
 });
 

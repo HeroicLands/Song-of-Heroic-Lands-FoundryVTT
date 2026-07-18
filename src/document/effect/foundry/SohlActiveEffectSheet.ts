@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -35,12 +35,12 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
         header: { template: "templates/sheets/active-effect/header.hbs" },
         tabs: { template: "templates/generic/tab-navigation.hbs" },
         details: {
-            template: "systems/sohl/templates/effects/details.hbs",
+            template: "systems/sohl/templates/effect/details.hbs",
             scrollable: [""],
         },
         duration: { template: "templates/sheets/active-effect/duration.hbs" },
         changes: {
-            template: "systems/sohl/templates/effects/changes.hbs",
+            template: "systems/sohl/templates/effect/changes.hbs",
             scrollable: ["ol[data-changes]"],
         },
         footer: { template: "templates/generic/form-footer.hbs" },
@@ -84,12 +84,12 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
                 // actor's items, selected by the `test` predicate.
                 partContext.targetTypes[ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE] =
                     sohl.i18n.localize(
-                        "SOHL.ActiveEffect.Scope.MELEE_STRIKE_MODE",
+                        `SOHL.ActiveEffect.Scope.${ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE}`,
                     );
                 partContext.targetTypes[
                     ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE
                 ] = sohl.i18n.localize(
-                    "SOHL.ActiveEffect.Scope.MISSILE_STRIKE_MODE",
+                    `SOHL.ActiveEffect.Scope.${ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE}`,
                 );
                 break;
             }

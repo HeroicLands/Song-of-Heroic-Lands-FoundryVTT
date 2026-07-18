@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.
@@ -523,17 +523,24 @@ export type HTMLString = string & {
 export function isHTMLString(value: unknown): value is HTMLString {
     if (typeof value !== "string") return false;
 
-    try {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(value, "text/html");
-
-        // Consider it valid if it contains at least one element node
-        return Array.from(doc.body.childNodes).some(
-            (node) => node.nodeType === Node.ELEMENT_NODE,
-        );
-    } catch {
-        return false;
+    // Prefer DOMParser for an accurate element check in the browser.
+    if (typeof DOMParser !== "undefined") {
+        try {
+            const doc = new DOMParser().parseFromString(value, "text/html");
+            // Consider it valid if it contains at least one element node
+            return Array.from(doc.body.childNodes).some(
+                (node) => node.nodeType === Node.ELEMENT_NODE,
+            );
+        } catch {
+            return false;
+        }
     }
+
+    // No DOMParser (e.g. the Node unit-test environment): fall back to detecting
+    // a well-formed-looking element tag (`<p>`, `<i class="…">`, `<br/>`, …).
+    // This keeps `toHTMLString`-branded content usable in the Foundry-free layer
+    // without a browser DOM.
+    return /<[a-z][a-z0-9-]*(\s[^<>]*)?\/?>/i.test(value);
 }
 
 /**

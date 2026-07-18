@@ -1,15 +1,16 @@
 import { describe, it, expect } from "vitest";
+import { brandLogic } from "@tests/mocks/brandLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 
 // Minimal mock parent — CombatModifier/ValueModifier/ImpactModifier need a parent
-const MOCK_LOGIC = {
+const MOCK_LOGIC = brandLogic({
     actor: null,
     data: { kind: "weapongear" },
     name: "Test Weapon",
     label: "Test Weapon",
     speaker: {},
-} as any;
+}) as any;
 
 const MELEE_DATA: MeleeStrikeMode.Data = {
     type: "melee",

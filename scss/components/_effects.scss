@@ -29,7 +29,7 @@
 
             .name {
                 color: var(--sohl-color-text-primary);
-                flex: 0 0 150px;
+                flex: 0 0 200px;
                 border-right: 1px solid var(--sohl-color-border-default);
                 @include mixins.truncate;
 
@@ -56,17 +56,16 @@
             @include mixins.truncate;
 
             .image {
-                flex: 0 0 30px;
-                background-size: 30px;
+                flex: 0 0 24px;
+                height: 24px;
                 margin-right: 5px;
-            }
-
-            img {
-                display: block;
+                background-size: 24px 24px;
+                background-repeat: no-repeat;
+                background-position: center;
             }
 
             .name {
-                flex: 0 0 150px;
+                flex: 0 0 200px;
                 max-height: 30px;
                 border-right: 1px solid var(--sohl-color-border-default);
                 @include mixins.truncate;

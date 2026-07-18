@@ -1,6 +1,6 @@
 {{!--
 This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
 
 Licensed under the GNU General Public License v3.0 (GPLv3).
 You may copy, modify, and distribute this file under the terms of that license.
@@ -12,16 +12,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
-    <div class="grid grid-3col">
-        {{formField fields.skillBaseFormula rootId="trait-sbf" classes="text-field" stacked=true value=system.skillBaseFormula}}
-        {{formField fields.masteryLevelBase rootId="trait-mlb" classes="text-field" stacked=true value=system.masteryLevelBase}}
-        {{formField fields.improveFlag rootId="trait-improve" classes="text-field" stacked=true value=system.improveFlag}}
-        {{formField fields.intensity rootId="trait-intensity" classes="text-field" stacked=true value=system.intensity}}
-        {{formField fields.isNumeric rootId="trait-isnumeric" classes="text-field" stacked=true value=system.isNumeric}}
-    </div>
-
-    <div class="grid grid-3col">
+    <div class="grid grid-2col">
         {{#if hasTraitChoices}}
+        {{formGroup fields.intensity rootId="trait-intensity" classes="text-field" stacked=true value=system.intensity}}
+        {{formGroup fields.choices value=system.choices classes="stacked" rootId="trait-choices" }}
         <div class="form-group stacked text-field">
             <label>Value</label>
             <div class="form-fields">
@@ -31,10 +25,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </div>
         </div>
         {{else}}
-        {{formField fields.textValue rootId="trait-textvalue" classes="text-field" stacked=true value=system.textValue}}
+        {{formGroup fields.textValue rootId="trait-textvalue" classes="text-field" stacked=true value=system.textValue}}
         {{/if}}
         {{#if system.isNumeric}}
-        {{formField fields.max rootId="trait-max" classes="text-field" stacked=true value=system.max}}
+        {{formGroup fields.score.fields.max value=system.score.max classes="stacked" rootId="trait-score-max"}}
         {{/if}}
     </div>
 

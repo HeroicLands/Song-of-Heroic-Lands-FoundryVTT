@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -10,6 +10,10 @@ import { buildCombatantActionMenuEntries } from "@src/document/combat/combat-tra
 
 const ATTACK_TITLE = "SOHL.Being.ACTION.automatedCombatStart";
 const MOVE_TITLE = "SOHL.Combatant.ACTION.moveToGroup";
+// Edit/Delete are base intrinsic actions on every logic (they "work for all
+// document types"), so a combatant's non-HIDDEN action menu includes them too.
+const EDIT_TITLE = "SOHL.SohlItemBaseLogic.Action.edit.title";
+const DELETE_TITLE = "SOHL.SohlItemBaseLogic.Action.delete.title";
 
 /**
  * A stub combatant exposing the `getContextOptions` / `isOwner` surface the
@@ -45,7 +49,7 @@ function makeStubCombatant(opts: {
 const li = {} as HTMLElement;
 
 describe("buildCombatantActionMenuEntries", () => {
-    it("yields one entry per non-HIDDEN combatant action (Automated Attack + Move to Group), not the resumes", () => {
+    it("yields one entry per combat-specific action (Automated Attack + Move to Group), not the resumes or document actions", () => {
         const entries = buildCombatantActionMenuEntries(() =>
             makeStubCombatant({}),
         );
@@ -59,6 +63,10 @@ describe("buildCombatantActionMenuEntries", () => {
                 ),
             ),
         ).toBe(false);
+        // The base document actions are filtered out — the tracker has its own
+        // combatant update/remove controls.
+        expect(titles).not.toContain(EDIT_TITLE);
+        expect(titles).not.toContain(DELETE_TITLE);
     });
 
     it("carries the action label and icon", () => {

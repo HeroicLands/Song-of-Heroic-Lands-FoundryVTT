@@ -1,6 +1,6 @@
 {{!--
 This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
 
 Licensed under the GNU General Public License v3.0 (GPLv3).
 You may copy, modify, and distribute this file under the terms of that license.
@@ -13,8 +13,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="grid grid-3col">
-        {{formField fields.scoreBase rootId="attribute-scorebase" classes="text-field" stacked=true value=system.scoreBase}}
-        {{formField fields.initDiceFormula rootId="attribute-initdice" classes="text-field" stacked=true value=system.initDiceFormula}}
+        {{formGroup fields.scoreBase rootId="attribute-scorebase" classes="text-field" stacked=true value=system.scoreBase}}
+        {{formGroup fields.initDiceFormula rootId="attribute-initdice" classes="text-field" stacked=true value=system.initDiceFormula}}
     </div>
 
     <div class="list-section">
