@@ -13,7 +13,15 @@
 
 import { entity } from "@src/entity/registry";
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-import { defineType, ITEM_KIND, STRIKE_MODE_TYPE } from "@src/utils/constants";
+import { runStrikeModeTest } from "@src/document/item/logic/strikeModeTest";
+import {
+    ACTION_SUBTYPE,
+    defineType,
+    ITEM_KIND,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+    STRIKE_MODE_TYPE,
+} from "@src/utils/constants";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
@@ -21,6 +29,9 @@ import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode
 import type { CombatResult } from "@src/entity/result/CombatResult";
 import { fvttActiveCombatantForActor } from "@src/core/FoundryHelpers";
 import { AutomatedCombat } from "@src/document/combatant/logic/SohlCombatantLogic";
+import { SohlAction, SohlActionContext } from "@src/entity/action";
+import { SuccessTestResult } from "@src/entity/result";
+import { BodyPart } from "@src/entity/body/BodyPart";
 
 /**
  * A weapon that can be wielded in combat.
@@ -96,6 +107,96 @@ export class WeaponGearLogic<
     }
 
     /* --------------------------------------------- */
+    /* Intrinsic Actions                             */
+    /* --------------------------------------------- */
+
+    /**
+     * Perform an assisted attack with one of this weapon's strike modes.
+     *
+     * Thin wrapper over the shared {@link runStrikeModeTest}: the strike mode is
+     * resolved from `context.scope.strikeModeId` (auto-selected when the weapon
+     * has only one, otherwise prompted), and the roll runs with `context` so its
+     * speaker/title/`skipDialog` propagate.
+     * @param context - The action context; `scope.strikeModeId` selects the mode.
+     * @returns The test result, `undefined` if the roll was cancelled, or `false`
+     *   when no strike mode could be resolved.
+     */
+    async attackTest(
+        context: SohlActionContext<Partial<WeaponGearLogic.ContextScope>>,
+    ): Promise<SuccessTestResult | undefined | false> {
+        return runStrikeModeTest(this, "attack", context);
+    }
+
+    /**
+     * Perform an assisted block with one of this weapon's strike modes. A block
+     * requested on a non-melee mode resolves to `false` (see
+     * {@link runStrikeModeTest} / {@link selectStrikeModeModifier}).
+     * @param context - The action context; `scope.strikeModeId` selects the mode.
+     * @returns The test result, `undefined` if the roll was cancelled, or `false`
+     *   when no melee strike mode could be resolved.
+     */
+    async blockTest(
+        context: SohlActionContext<Partial<WeaponGearLogic.ContextScope>>,
+    ): Promise<SuccessTestResult | undefined | false> {
+        return runStrikeModeTest(this, "block", context);
+    }
+
+    /**
+     * Perform an assisted counterstrike with one of this weapon's strike modes.
+     * A counterstrike requested on a non-melee mode resolves to `false` (see
+     * {@link runStrikeModeTest} / {@link selectStrikeModeModifier}).
+     * @param context - The action context; `scope.strikeModeId` selects the mode.
+     * @returns The test result, `undefined` if the roll was cancelled, or `false`
+     *   when no melee strike mode could be resolved.
+     */
+    async counterstrikeTest(
+        context: SohlActionContext<Partial<WeaponGearLogic.ContextScope>>,
+    ): Promise<SuccessTestResult | undefined | false> {
+        return runStrikeModeTest(this, "counterstrike", context);
+    }
+
+    /**
+     * Define and return all intrinsic actions for skill logic.
+     *
+     * @returns The intrinsic action definitions, including those inherited from the base logic.
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...GearLogic.defineIntrinsicActions(),
+            {
+                shortcode: "attackTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Skill.Action.attackTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-sword",
+                executor: "attackTest",
+                visible: "itemLogic.heldBy.length > 0",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "blockTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Skill.Action.blockTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-shield",
+                executor: "blockTest",
+                visible: "itemLogic.heldBy.length > 0",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "counterstrikeTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Skill.Action.counterstrikeTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-circle-half-stroke",
+                executor: "counterstrikeTest",
+                visible: "itemLogic.heldBy.length > 0",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+        ];
+    }
+
+    /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 
@@ -141,6 +242,12 @@ export class WeaponGearLogic<
     /** @inheritdoc */
     override finalize(): void {
         super.finalize();
+    }
+}
+
+export namespace WeaponGearLogic {
+    export interface ContextScope {
+        strikeModeId: string;
     }
 }
 

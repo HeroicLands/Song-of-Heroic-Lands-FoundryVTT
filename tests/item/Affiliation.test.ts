@@ -38,9 +38,9 @@ describe("AffiliationLogic", () => {
             expect(logic.data.kind).toBe(ITEM_KIND.AFFILIATION);
         });
 
-        it("builds the intrinsic action map (postfinalize from the base class)", () => {
+        it("builds the intrinsic action map (edit/delete from the base class)", () => {
             const logic = makeAffiliation();
-            expect(logic.actions.has("postfinalize")).toBe(true);
+            expect(logic.actions.has("editDocument")).toBe(true);
         });
 
         it("exposes the identity record fields through data", () => {

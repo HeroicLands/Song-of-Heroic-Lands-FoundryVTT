@@ -45,10 +45,20 @@
 // unsized, so their labels drifted out of alignment with the data.
 .list__header,
 .list__items {
+    // The name column is a fixed width so every row's name aligns; a name that
+    // overflows is clipped with an ellipsis (its full text is on the row's
+    // tooltip). `min-width: 0` lets the inner `<h4>` shrink to ellipsis inside
+    // the flexrow that wraps the icon + name.
     .list__name {
-        flex: 1 1 120px;
+        flex: 0 0 200px;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         h4 {
+            flex: 1;
+            min-width: 0;
             margin: 0;
             // Row names use the sans body font (Signika), not the Cinzel
             // heading default. Fieldset-wrapped lists happened to inherit it,
@@ -83,11 +93,16 @@
     }
 
     // The notes column carries both `.list__detail` and `.list__notes`; being
-    // later in source order, this widens it back out and left-aligns it.
+    // later in source order, this grows it to fill the remaining row width and
+    // left-aligns it, clipping overflow with an ellipsis.
     .list__notes {
-        flex: 1 1 auto;
+        flex: 1 1 0;
+        min-width: 0;
         text-align: left;
         padding-left: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .list__controls {

@@ -12,16 +12,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
-    <div class="grid grid-3col">
-        {{formGroup fields.skillBaseFormula rootId="trait-sbf" classes="text-field" stacked=true value=system.skillBaseFormula}}
-        {{formGroup fields.masteryLevelBase rootId="trait-mlb" classes="text-field" stacked=true value=system.masteryLevelBase}}
-        {{formGroup fields.improveFlag rootId="trait-improve" classes="text-field" stacked=true value=system.improveFlag}}
-        {{formGroup fields.intensity rootId="trait-intensity" classes="text-field" stacked=true value=system.intensity}}
-        {{formGroup fields.isNumeric rootId="trait-isnumeric" classes="text-field" stacked=true value=system.isNumeric}}
-    </div>
-
-    <div class="grid grid-3col">
+    <div class="grid grid-2col">
         {{#if hasTraitChoices}}
+        {{formGroup fields.intensity rootId="trait-intensity" classes="text-field" stacked=true value=system.intensity}}
+        {{formGroup fields.choices value=system.choices classes="stacked" rootId="trait-choices" }}
         <div class="form-group stacked text-field">
             <label>Value</label>
             <div class="form-fields">
@@ -34,7 +28,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{formGroup fields.textValue rootId="trait-textvalue" classes="text-field" stacked=true value=system.textValue}}
         {{/if}}
         {{#if system.isNumeric}}
-        {{formGroup fields.max rootId="trait-max" classes="text-field" stacked=true value=system.max}}
+        {{formGroup fields.score.fields.max value=system.score.max classes="stacked" rootId="trait-score-max"}}
         {{/if}}
     </div>
 

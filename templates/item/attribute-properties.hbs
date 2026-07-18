@@ -13,8 +13,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="grid grid-3col">
-        {{groupField fields.scoreBase rootId="attribute-scorebase" classes="text-field" stacked=true value=system.scoreBase}}
-        {{groupField fields.initDiceFormula rootId="attribute-initdice" classes="text-field" stacked=true value=system.initDiceFormula}}
+        {{formGroup fields.scoreBase rootId="attribute-scorebase" classes="text-field" stacked=true value=system.scoreBase}}
+        {{formGroup fields.initDiceFormula rootId="attribute-initdice" classes="text-field" stacked=true value=system.initDiceFormula}}
     </div>
 
     <div class="list-section">

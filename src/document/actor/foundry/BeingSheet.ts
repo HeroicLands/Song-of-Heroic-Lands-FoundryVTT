@@ -37,6 +37,7 @@ import {
     SkillSubTypeChoices,
     AfflictionSubTypes,
     AfflictionSubTypeChoices,
+    TraumaSubTypeChoices,
 } from "@src/utils/constants";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
@@ -62,7 +63,6 @@ import {
     clampHealthPct,
     filterHeldWeapons,
     splitWeaponsByRange,
-    selectStrikeModeModifier,
 } from "@src/document/actor/logic/being-sheet-view";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlAction } from "@src/entity/action/SohlAction";
@@ -71,8 +71,6 @@ import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
-
-const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
 /** @internal */
 export class BeingSheet extends SohlActorSheetBase {
@@ -873,22 +871,31 @@ export class BeingSheet extends SohlActorSheetBase {
         const testKind = target.getAttribute("data-test-kind") as string | null;
         if (!smId || !itemId || !testKind) return;
 
-        const actor = this.document;
-        const item = actor.items.get(itemId);
-        const sm = (item?.logic as any)?.strikeModes?.find(
-            (m: any) => m.id === smId,
+        const item = this.document.items.get(itemId);
+        const itemLogic = item?.logic as any;
+        if (!item || !itemLogic) return;
+
+        // Dispatch through the owning item's intrinsic action (attack →
+        // attackTest, etc.), passing the row's strike-mode id in scope so the
+        // action acts on the clicked mode. Weapons and combat techniques both
+        // carry these actions, so the same anchor handler serves both.
+        const action = itemLogic.actions?.get(`${testKind}Test`) as
+            | SohlAction
+            | undefined;
+        if (!action) return;
+
+        const sm = itemLogic.strikeModes?.find(
+            (m: StrikeModeBase) => m.id === smId,
         ) as StrikeModeBase | undefined;
-        if (!item || !sm) return;
-        const mlMod = selectStrikeModeModifier(sm, testKind);
-        if (!mlMod) return;
         const context = new SohlActionContext({
-            speaker: (actor as any).getSpeaker(),
+            speaker: (this.document as any).getSpeaker(),
             type: `strike-${testKind}`,
-            title: `${item.name} – ${sm.name} (${testKind})`,
+            title: sm ? `${item.name} – ${sm.name} (${testKind})` : item.name,
             skipDialog: event.shiftKey,
+            scope: { strikeModeId: smId },
         });
 
-        await mlMod.successTest(context);
+        await action.execute(context);
     }
 
     /**
@@ -1196,12 +1203,11 @@ export class BeingSheet extends SohlActorSheetBase {
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
+        // Appearance is edited by a <prose-mirror> element (see facade.hbs),
+        // which enriches its own content — no pre-enriched `appearanceHTML`.
         const system = this.document.system as any;
         return Object.assign(context, {
             portrait: system.portrait,
-            appearanceHTML: await TextEditor.enrichHTML(
-                system.appearance ?? "",
-            ),
         });
     }
 
@@ -1314,13 +1320,11 @@ export class BeingSheet extends SohlActorSheetBase {
             }
         }
 
-        const system = this.document.system as any;
         return Object.assign(context, {
             attributes,
             traitGroups,
             affiliations,
             movement,
-            dossierHTML: await TextEditor.enrichHTML(system.dossier ?? ""),
         });
     }
 
@@ -1523,6 +1527,12 @@ export class BeingSheet extends SohlActorSheetBase {
                     uuid: item.uuid,
                     name: item.name,
                     img: item.img ?? "",
+                    subType: sys.subType,
+                    subTypeLabel: game.i18n.localize(
+                        (TraumaSubTypeChoices as Record<string, string>)[
+                            sys.subType
+                        ] ?? sys.subType,
+                    ),
                     level: tl?.level?.effective ?? 0,
                     healingRate: tl?.healingRate?.effective ?? 0,
                     healingRateDisabled: !!tl?.healingRate?.disabled,
@@ -1549,6 +1559,11 @@ export class BeingSheet extends SohlActorSheetBase {
                     name: item.name,
                     img: item.img ?? "",
                     subType: sys.subType,
+                    subTypeLabel: game.i18n.localize(
+                        (AfflictionSubTypeChoices as Record<string, string>)[
+                            sys.subType
+                        ] ?? sys.subType,
+                    ),
                     levelLabel:
                         al?.levelLabel ?? String(al?.level?.effective ?? 0),
                     healingRate: al?.healingRate?.effective ?? 0,

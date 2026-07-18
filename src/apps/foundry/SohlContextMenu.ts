@@ -20,8 +20,8 @@ import {
     type ContextMenuCallback,
     type ContextMenuCondition,
     compileCondition,
+    compileMenuEntry,
     makeConditionContext,
-    makeLogicMethodCallback,
     resolveContextActor,
     resolveContextItem,
 } from "@src/apps/logic/ContextMenuEntry";
@@ -53,11 +53,11 @@ export class SohlContextMenu
      * Build a context menu, compiling each entry into the function-based shape
      * Foundry's base class expects.
      *
-     * For every entry: the `condition` is compiled via
-     * {@link compileCondition}, and when no explicit `callback` is supplied a
-     * default one is generated that resolves the context item, builds a
-     * SohlActionContext, and invokes the named `functionName` on the
-     * item's logic object.
+     * For every entry (via {@link compileMenuEntry}): the authored `condition`
+     * is compiled into Foundry's `visible` predicate, and when no explicit
+     * `callback` is supplied a default one is generated that resolves the
+     * context item, builds a SohlActionContext, and invokes the named
+     * `functionName` on the item's logic object.
      * @param container - The DOM element the menu is bound to.
      * @param selector - CSS selector identifying the rows the menu attaches to.
      * @param menuItems - The SoHL entry definitions to display.
@@ -70,28 +70,25 @@ export class SohlContextMenu
         menuItems: SohlContextMenu.Entry[],
         options: SohlContextMenu.Options = {},
     ) {
-        // Compile each entry's string `condition` into a function and wire up
-        // a default callback when only `functionName` is provided. The result
-        // is the shape Foundry's ContextMenu base class expects (condition
-        // and callback both functions).
-        const compiled = menuItems.map((it: SohlContextMenu.Entry) => {
-            const conditionFn = compileCondition(
-                it.condition,
-                it.name,
-                options.parent,
-            );
-            let callback = it.callback;
-            if (!callback) {
-                if (!it.functionName) {
-                    throw new Error(
-                        `Context menu item "${it.name}" does not have a callback function.`,
-                    );
-                }
-                callback = makeLogicMethodCallback(it.functionName, it.name);
-            }
-            return { ...it, condition: conditionFn, callback };
+        // Normalize each entry into the shape Foundry's ContextMenu base class
+        // expects: the authored string/function `condition` becomes a `visible`
+        // predicate (Foundry v14 renamed `condition` → `visible`; emitting the
+        // old key logs a deprecation warning), and a default callback is wired
+        // up when only `functionName` is provided.
+        const compiled = menuItems.map((it: SohlContextMenu.Entry) =>
+            compileMenuEntry(it, options.parent),
+        );
+        // Opt into HTMLElement callback targets. Foundry's ContextMenu still
+        // defaults to passing jQuery objects to callbacks (deprecated since
+        // v13, removed in v15) and warns when the `jQuery` option is omitted.
+        // SoHL's callbacks, condition predicates, and `_setPosition` are all
+        // written against HTMLElement (`target.dataset`, `target.closest`,
+        // `target.style`), so `jQuery: false` both silences the warning and
+        // matches what the code already assumes. A caller may still override it.
+        super(container as any, selector, compiled as any, {
+            jQuery: false,
+            ...options,
         });
-        super(container as any, selector, compiled as any, options);
     }
 
     /**

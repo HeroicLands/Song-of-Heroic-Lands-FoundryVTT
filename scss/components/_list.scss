@@ -37,7 +37,8 @@
 // The column-label header row, including the shared `h3` label styling.
 @mixin header-row($background, $border) {
     margin: 2px 0;
-    padding: 0;
+    // 5px of breathing room above every list heading's label.
+    padding: 5px 0 0;
     align-items: center;
     background: $background;
     border: 2px groove $border;

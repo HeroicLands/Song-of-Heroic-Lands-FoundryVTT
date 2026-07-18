@@ -14,12 +14,12 @@ describe("SohlItemBaseLogic intrinsic actions", () => {
         return logic;
     }
 
-    it("defines an editItem and a deleteItem intrinsic action", () => {
+    it("defines an editDocument and a deleteDocument intrinsic action", () => {
         const shortcodes = SohlItemBaseLogic.defineIntrinsicActions().map(
             (a) => a.shortcode,
         );
-        expect(shortcodes).toContain("editItem");
-        expect(shortcodes).toContain("deleteItem");
+        expect(shortcodes).toContain("editDocument");
+        expect(shortcodes).toContain("deleteDocument");
     });
 
     it("every intrinsic executor resolves to a real method", () => {

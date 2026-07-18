@@ -186,7 +186,8 @@ describe("WeaponGearLogic", () => {
                 for (const shortcode of [
                     "setCarried",
                     "setNotCarried",
-                    "postfinalize",
+                    "editDocument",
+                    "deleteDocument",
                 ]) {
                     expect(logic.actions.has(shortcode), shortcode).toBe(true);
                 }

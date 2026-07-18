@@ -16,7 +16,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <img class="facade__image" src="{{portrait}}" data-edit="system.portrait"
             title="{{actorName}}" height="300" width="200" />
         <div class="facade__description">
-            {{editor appearanceHTML target="system.appearance" button=false editable=editable engine="prosemirror" collaborate=false}}
+            <prose-mirror name="system.appearance" value="{{system.appearance}}" data-document-uuid="{{document.uuid}}"></prose-mirror>
         </div>
     </div>
 </section>

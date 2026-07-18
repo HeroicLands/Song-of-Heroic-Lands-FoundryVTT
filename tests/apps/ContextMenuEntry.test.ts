@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
     compileCondition,
+    compileMenuEntry,
     makeConditionContext,
     resolveContextItem,
     resolveContextActor,
@@ -96,6 +97,71 @@ describe("compileCondition", () => {
             expect.stringContaining("threw"),
             expect.objectContaining({ entry: "bad-eval" }),
         );
+    });
+});
+
+describe("compileMenuEntry", () => {
+    const baseEntry = (over: Record<string, unknown> = {}): any => ({
+        id: "e1",
+        name: "Entry",
+        group: "primary",
+        icon: "<i></i>",
+        condition: "true",
+        callback: () => {},
+        ...over,
+    });
+
+    it("emits a `visible` predicate and drops the legacy `condition` key", () => {
+        // Foundry v14 deprecated ContextMenuEntry#condition in favor of
+        // #visible; the compiled entry must carry the new key and NOT the old
+        // one, or Foundry's ContextMenu logs a compatibility warning.
+        const compiled = compileMenuEntry(baseEntry(), mockParent);
+        expect(typeof compiled.visible).toBe("function");
+        expect("condition" in compiled).toBe(false);
+    });
+
+    it("visible reflects the compiled string condition", () => {
+        expect(
+            compileMenuEntry(baseEntry({ condition: "true" }), mockParent)
+                .visible(mockTarget()),
+        ).toBe(true);
+        expect(
+            compileMenuEntry(baseEntry({ condition: "false" }), mockParent)
+                .visible(mockTarget()),
+        ).toBe(false);
+    });
+
+    it("passes a function-form condition through as visible", () => {
+        const fn = (): boolean => true;
+        expect(compileMenuEntry(baseEntry({ condition: fn })).visible).toBe(fn);
+    });
+
+    it("preserves the entry's display fields", () => {
+        const compiled = compileMenuEntry(
+            baseEntry({ id: "x", name: "Foo", icon: "<b></b>", group: "g" }),
+            mockParent,
+        );
+        expect(compiled.id).toBe("x");
+        expect(compiled.name).toBe("Foo");
+        expect(compiled.icon).toBe("<b></b>");
+        expect(compiled.group).toBe("g");
+    });
+
+    it("resolves a default callback from functionName when none is given", () => {
+        const compiled = compileMenuEntry(
+            baseEntry({ callback: undefined, functionName: "doThing" }),
+            mockParent,
+        );
+        expect(typeof compiled.callback).toBe("function");
+    });
+
+    it("throws when an entry has neither callback nor functionName", () => {
+        expect(() =>
+            compileMenuEntry(
+                baseEntry({ callback: undefined, functionName: undefined }),
+                mockParent,
+            ),
+        ).toThrow(/does not have a callback/);
     });
 });
 

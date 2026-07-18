@@ -33,7 +33,7 @@ import {
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import { SohlMap } from "@src/utils/collection/SohlMap";
-import { dialog, fvttRenderSheet } from "../FoundryHelpers";
+import { dialog, fvttRenderSheet } from "@src/core/FoundryHelpers";
 import { toHTMLString } from "@src/utils/helpers";
 
 /**
@@ -165,22 +165,22 @@ export abstract class SohlLogic<
     static defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             {
-                shortcode: "editItem",
+                shortcode: "editDocument",
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.SohlItemBaseLogic.Action.edit.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-edit",
-                executor: "editItem",
+                executor: "editDocument",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT,
             },
             {
-                shortcode: "deleteItem",
+                shortcode: "deleteDocument",
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.SohlItemBaseLogic.Action.delete.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-trash",
-                executor: "deleteItem",
+                executor: "deleteDocument",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
@@ -283,16 +283,22 @@ export abstract class SohlLogic<
     get typeLabel(): string {
         const dataModel = this.parent as any;
         const type = dataModel.parent.type;
+        // Localize the document-type name (`TYPE.ACTOR.<type>` /
+        // `TYPE.ITEM.<type>`); the `SOHL.BASEDATA.typeLabel[WithSubtype]`
+        // templates ("{type}" / "{subType} {type}") interpolate the
+        // already-localized value.
         const typeLabel = sohl.i18n.localize(
-            `TYPE.${ActorKinds.includes(type) ? "ACTOR" : "ITEM"}.${dataModel.parent.type}`,
+            `TYPE.${ActorKinds.includes(type) ? "ACTOR" : "ITEM"}.${type}`,
         );
-        if (typeof (this.parent as any).subType === "string") {
-            return sohl.i18n.format(
-                `SOHL.${type}.labelWithSubtype.${(this.parent as any).subType}`,
-            );
-        } else {
-            return typeLabel;
-        }
+        const subType = dataModel.subType;
+        const formatStr =
+            subType ?
+                "SOHL.BASEDATA.typeLabelWithSubtype"
+            :   "SOHL.BASEDATA.typeLabel";
+        return sohl.i18n.format(formatStr, {
+            type: typeLabel,
+            subType,
+        });
     }
 
     /** Localized display label combining the {@link typeLabel} and the document's name. */

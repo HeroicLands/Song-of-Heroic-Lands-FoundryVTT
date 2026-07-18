@@ -19,7 +19,6 @@ import {
     localizeSubType,
     keyTransferredEffects,
 } from "@src/document/item/logic/item-sheet-view";
-const TextEditor = foundry.applications.ux.TextEditor.implementation;
 type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
@@ -46,7 +45,8 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         description: {
             container: { classes: ["tab-body"], id: "tabs" },
             template: "systems/sohl/templates/item/parts/description.hbs",
-            scrollable: [""],
+            // No `scrollable`: the <prose-mirror> editor fills the tab and
+            // scrolls its own content, so the tab itself never scrolls.
         },
         actions: {
             container: { classes: ["tab-body"], id: "tabs" },
@@ -226,7 +226,13 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     ): Promise<RenderContext> {
         // _preparePartContext is called for each part with the specific partId
         // This is where you prepare part-specific data
-        const type = this.document.type;
+        const logic = this.document.logic as any;
+        const type = logic.type;
+
+        Object.assign(context, {
+            logic,
+        });
+
         // Expose the prepared tab descriptor for this part so content sections
         // can resolve their `active` state and tab group (see BeingSheet).
         (context as any).tab = (context as any).tabs?.[partId];
@@ -312,15 +318,11 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
-        const system = this.document.system as any;
-        const subType = system.subType ?? "";
-        const kind = system.constructor?.kind ?? this.document.type;
-        const subTypeLabel = localizeSubType(subType, kind);
         return Object.assign(context, {
+            logic: this.document.logic as any,
             itemName: this.document.name,
             itemImg: this.document.img,
-            typeLabel: this.document.logic?.typeLabel ?? this.document.type,
-            subTypeLabel,
+            typeLabel: this.document.logic?.typeLabel,
         });
     }
 
@@ -356,12 +358,10 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
-        const system = this.document.system as any;
-        return Object.assign(context, {
-            descriptionHTML: await TextEditor.enrichHTML(
-                system.description ?? "",
-            ),
-        });
+        // The description is edited by a <prose-mirror> element (see
+        // description.hbs), which takes the raw value and enriches for display
+        // itself — no pre-enriched `descriptionHTML` needed.
+        return context;
     }
 
     /**

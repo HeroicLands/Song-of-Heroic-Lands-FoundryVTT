@@ -149,9 +149,9 @@ describe("TraumaLogic", () => {
             expect(logic.data.kind).toBe(ITEM_KIND.TRAUMA);
         });
 
-        it("builds the intrinsic action map (postfinalize + the test actions)", () => {
+        it("builds the intrinsic action map (edit/delete + the test actions)", () => {
             const logic = makeTrauma();
-            expect(logic.actions.has("postfinalize")).toBe(true);
+            expect(logic.actions.has("editDocument")).toBe(true);
             expect(logic.actions.has("treatmenttest")).toBe(true);
             expect(logic.actions.has("healingtest")).toBe(true);
         });

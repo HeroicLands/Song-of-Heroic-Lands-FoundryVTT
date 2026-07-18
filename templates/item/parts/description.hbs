@@ -12,5 +12,5 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab description{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="description">
-    {{editor descriptionHTML target="system.description" button=false editable=editable engine="prosemirror" collaborate=false}}
+    <prose-mirror name="system.description" value="{{system.description}}" data-document-uuid="{{document.uuid}}"></prose-mirror>
 </section>

@@ -48,15 +48,6 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         }),
         category: new StringField({ initial: "" }),
         isDormant: new BooleanField({ initial: false }),
-        contractDate: worldTimeDateField(),
-        treatmentDate: worldTimeDateField(),
-        ...phaseFields("onset"),
-        ...recurringPhaseFields("healingCheck"),
-        ...phaseFields("resolution"),
-        diagnosisBonusBase: new NumberField({
-            integer: true,
-            initial: 0,
-        }),
         levelBase: new NumberField({
             integer: true,
             initial: 0,
@@ -77,6 +68,15 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
             required: true,
             choices: AfflictionTransmissionChoices,
         }),
+        diagnosisBonusBase: new NumberField({
+            integer: true,
+            initial: 0,
+        }),
+        contractDate: worldTimeDateField(),
+        treatmentDate: worldTimeDateField(),
+        ...phaseFields("onset"),
+        ...recurringPhaseFields("healingCheck"),
+        ...phaseFields("resolution"),
     };
 }
 

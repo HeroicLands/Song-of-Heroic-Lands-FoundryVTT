@@ -21,9 +21,16 @@ import { SOHL_CONTEXT_MENU_SORT_GROUP } from "@src/utils/constants";
  * computed once; per-row gating and dispatch route through the specific
  * combatant's {@link sohl.document.combatant.foundry.SohlCombatant.getContextOptions}.
  */
+// The base `editDocument`/`deleteDocument` actions apply to every logic, but the
+// combat tracker already provides its own combatant update/remove controls, so
+// keep those document actions out of this row menu — leaving only the
+// combat-specific actions (Automated Attack, Move to Group, …).
+const TRACKER_EXCLUDED_ACTIONS = new Set(["editDocument", "deleteDocument"]);
 const COMBATANT_MENU_ACTION_DEFS =
     SohlCombatantLogic.defineIntrinsicActions().filter(
-        (d) => d.group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+        (d) =>
+            d.group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN &&
+            !TRACKER_EXCLUDED_ACTIONS.has(d.shortcode ?? ""),
     );
 
 /**

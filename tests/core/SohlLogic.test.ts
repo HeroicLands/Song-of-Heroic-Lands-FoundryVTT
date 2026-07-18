@@ -61,7 +61,7 @@ describe("SohlLogic", () => {
             const logic = makeItemLogic(SohlItemBaseLogic, "misc", {
                 actionDefs: [scriptAction("custom", "general")],
             });
-            expect(logic.actions.has("postfinalize")).toBe(true);
+            expect(logic.actions.has("editDocument")).toBe(true);
             expect(logic.actions.has("custom")).toBe(true);
         });
     });
@@ -273,7 +273,7 @@ describe("SohlLogic", () => {
             }).not.toThrow();
         });
 
-        it("the postfinalize intrinsic action resolves to the postFinalize method", () => {
+        it("the edit/delete intrinsic actions resolve to real methods", () => {
             // Regression: the executor string must match the method name
             // case-sensitively or SohlAction's constructor throws.
             const data = makeItemData("misc");

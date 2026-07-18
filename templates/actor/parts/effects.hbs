@@ -15,11 +15,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-effects" value=""
             aria-label="Search Effects" placeholder="Search Effects" autocomplete="off" />
-        <div class="search-controls">
-            <a class="search-control effect-create" data-tooltip="Create Effect">
-                <i class="fa-solid fa-file-plus"></i>
-            </a>
-        </div>
     </div>
     <ol class="effects__list">
         <li class="effects__header flexrow">
@@ -27,6 +22,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="target">Target</div>
             <div class="duration">Remaining</div>
             <div class="changes">Changes</div>
+            <div class="effects__controls">
+                <a class="effects__control effect-create" data-tooltip="Create Effect">
+                    <i class="fa-solid fa-file-plus"></i>
+                </a>
+            </div>
         </li>
         <ol class="effects__items">
             {{#each effects as |effect|}}

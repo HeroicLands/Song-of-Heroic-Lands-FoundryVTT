@@ -193,9 +193,9 @@ describe("CorpusLogic", () => {
             expect(logic.data.kind).toBe(ITEM_KIND.CORPUS);
         });
 
-        it("builds the intrinsic action map (postfinalize from the base class)", () => {
+        it("builds the intrinsic action map (edit/delete from the base class)", () => {
             const logic = makeCorpus();
-            expect(logic.actions.has("postfinalize")).toBe(true);
+            expect(logic.actions.has("editDocument")).toBe(true);
         });
 
         it("registers itself on the owning being during initialize", () => {

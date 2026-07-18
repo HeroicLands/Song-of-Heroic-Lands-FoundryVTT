@@ -25,9 +25,9 @@ describe("AssemblyLogic", () => {
             expect(logic.data.kind).toBe(ACTOR_KIND.ASSEMBLY);
         });
 
-        it("defines the base postfinalize intrinsic action", () => {
+        it("defines the base edit/delete intrinsic actions", () => {
             const logic = makeAssembly();
-            expect(logic.actions.has("postfinalize")).toBe(true);
+            expect(logic.actions.has("editDocument")).toBe(true);
         });
     });
 

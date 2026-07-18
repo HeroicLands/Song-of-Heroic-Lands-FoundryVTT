@@ -30,9 +30,9 @@ describe("VehicleLogic", () => {
             expect(logic.data.kind).toBe(ACTOR_KIND.VEHICLE);
         });
 
-        it("defines the base postfinalize intrinsic action", () => {
+        it("defines the base edit/delete intrinsic actions", () => {
             const logic = makeVehicle();
-            expect(logic.actions.has("postfinalize")).toBe(true);
+            expect(logic.actions.has("editDocument")).toBe(true);
         });
 
         it("exposes the occupants shortcode list from its data", () => {

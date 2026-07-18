@@ -56,7 +56,7 @@ describe("ArmorGearLogic", () => {
             const logic = makeArmor();
             expect(logic.actions.has("setCarried")).toBe(true);
             expect(logic.actions.has("setNotCarried")).toBe(true);
-            expect(logic.actions.has("postfinalize")).toBe(true);
+            expect(logic.actions.has("editDocument")).toBe(true);
         });
     });
 

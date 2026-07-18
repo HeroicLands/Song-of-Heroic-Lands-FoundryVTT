@@ -107,6 +107,70 @@ export function makeLogicMethodCallback(
 }
 
 /**
+ * A context-menu entry compiled into the shape Foundry's `ContextMenu` base
+ * class consumes: the authored `condition` has become a `visible` predicate and
+ * a concrete `callback` is always present.
+ *
+ * @remarks
+ * The visibility predicate is keyed `visible`, not `condition`: Foundry v14
+ * deprecated `ContextMenuEntry#condition` in favor of `#visible` (removed in
+ * v16), and emitting the legacy key makes Foundry's `ContextMenu` log a
+ * compatibility warning on every render. See
+ * https://kb.heroiclands.org/dev/concepts/architecture/.
+ */
+export interface CompiledMenuEntry {
+    /** Unique identifier for the entry. */
+    id: string;
+    /** Display label for the entry. */
+    name: string;
+    /** Pre-built HTML icon markup rendered before the label. */
+    icon?: HTMLString;
+    /** Sort group the entry belongs to. */
+    group: SohlContextMenuSortGroup | string;
+    /** Handler invoked when the entry is clicked. */
+    callback: ContextMenuCallback;
+    /** Predicate gating whether the entry is shown (Foundry v14 `#visible`). */
+    visible: (target: HTMLElement) => boolean;
+}
+
+/**
+ * Normalize a context-menu entry into the {@link CompiledMenuEntry} shape
+ * Foundry's `ContextMenu` base class expects: the authored `condition` is
+ * compiled to a `visible` predicate (via {@link compileCondition}) and the
+ * legacy `condition` key is dropped, and a default `callback` is generated from
+ * `functionName` when no explicit one is supplied.
+ *
+ * Kept here (Foundry-free) rather than inline in `SohlContextMenu` so the
+ * boundary transform — and its avoidance of Foundry's deprecated `condition`
+ * key — is unit-testable without a live `ContextMenu`.
+ * @param entry - The authored entry (raw context or a {@link ContextMenuEntry}).
+ * @param parent - The owning document's logic, used to compile a string
+ *   (SafeExpression) condition.
+ * @returns The compiled entry keyed for Foundry's ContextMenu.
+ * @throws {Error} If the entry has neither a `callback` nor a `functionName`.
+ */
+export function compileMenuEntry(
+    entry: ContextMenuEntryContext | ContextMenuEntry,
+    parent?: SohlLogic,
+): CompiledMenuEntry {
+    // Destructure the legacy `condition` OUT so the emitted entry never carries
+    // it — Foundry v14 warns when a ContextMenu entry still uses `condition`.
+    const { condition, functionName, ...rest } =
+        entry as ContextMenuEntryContext;
+    const visible = compileCondition(condition, entry.name, parent);
+    let callback = entry.callback;
+    if (!callback) {
+        if (!functionName) {
+            throw new Error(
+                `Context menu item "${entry.name}" does not have a callback function.`,
+            );
+        }
+        callback = makeLogicMethodCallback(functionName, entry.name);
+    }
+    return { ...rest, visible, callback } as CompiledMenuEntry;
+}
+
+/**
  * Compile a context-menu `condition` into a predicate suitable for
  * Foundry's ContextMenu base class. Function-form conditions are
  * passed through unchanged; string-form conditions are evaluated as

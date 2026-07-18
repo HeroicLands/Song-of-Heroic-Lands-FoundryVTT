@@ -44,10 +44,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{#each traitGroups as |group|}}
             <ol class="list__items">
                 <li class="list__header flexrow">
-                    <div class="list__name">{{group.label}}</div>
+                    <div class="list__name">{{group.label}} Traits</div>
                     <div class="list__detail">{{localize "SOHL.Trait.FIELDS.intensity.label"}}</div>
                     <div class="list__detail">{{localize "SOHL.Trait.FIELDS.value.label"}}</div>
-                    <div class="list__detail">{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
+                    <div class="list__detail list__notes">{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
                     <div class="list__controls">
                         <a class="item-create" data-action="createItem" data-tooltip="{{localize 'SOHL.Trait.Heading.Add.label'}}" data-type="trait" data-sub-type="{{group.subType}}">
                             <i class="fa-solid fa-file-plus"></i>
@@ -61,7 +61,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     <div class="list__detail">{{trait.intensity}}</div>
                     <div class="list__detail">{{trait.value}}</div>
-                    <div class="list__detail">{{trait.notes}}</div>
+                    <div class="list__detail list__notes">{{trait.notes}}</div>
                     <div class="list__controls">
                         <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
@@ -78,7 +78,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.society.label"}}</div>
         <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.office.label"}}</div>
         <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.title.label"}}</div>
-        <div class="list__detail">{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
+        <div class="list__detail list__notes">{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
         <div class="list__controls">
             <a class="item-create" data-action="createItem" data-tooltip="{{localize 'SOHL.Affiliation.Heading.Add.label'}}" data-type="affiliation">
                 <i class="fa-solid fa-file-plus"></i>
@@ -93,7 +93,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="list__detail">{{aff.society}}</div>
             <div class="list__detail">{{aff.office}}</div>
             <div class="list__detail">{{aff.title}}</div>
-            <div class="list__detail">{{aff.notes}}</div>
+            <div class="list__detail list__notes">{{aff.notes}}</div>
             <div class="list__controls">
                 <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
             </div>
@@ -119,11 +119,5 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{/if}}
 
     {{!-- Biography --}}
-    <div class="list__header flexrow">
-        <div class="list__name">{{localize "SOHL.Actor.SHEET.profile.biography.label"}}</div>
-        <div class="list__controls"></div>
-    </div>
-    <div>
-        {{editor dossierHTML target="system.dossier" button=false editable=editable engine="prosemirror" collaborate=false}}
-    </div>
+    {{formGroup fields.dossier value=system.dossier rootId="dossier" classes="stacked" elementType="prose-mirror" }}
 </section>
