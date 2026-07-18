@@ -19,14 +19,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <a class="item-create" data-action="createItem" data-tooltip="Add Attribute" data-type="attribute">
                 <i class="fa-solid fa-file-plus"></i>
             </a>
-        </div>
-    </div>
-    <div class="grid grid-6col attribute-scores">
-        {{#each attributes as |attr|}}
-        <div class="attribute-score item" data-item-id="{{attr.id}}" data-uuid="{{attr.uuid}}" data-item-name="{{attr.name}}">
-            <div class="attribute-score__header flexrow">
-                <h4 class="attribute-score__name">{{attr.name}}</h4>
-                <a class="item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+        </legend>
+        <div class="grid grid-6col attribute-scores">
+            {{#each attributes as |attr|}}
+            <div class="attribute-score item" data-item-id="{{attr.id}}" data-uuid="{{attr.uuid}}" data-item-name="{{attr.name}}">
+                <div class="attribute-score__header flexrow">
+                    <h4 class="attribute-score__name">{{attr.name}}</h4>
+                    <a class="item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                </div>
+                <div class="attribute-score__value">{{attr.score}}</div>
+                <div class="attribute-score__descriptor">{{attr.descriptor}}</div>
+                <div class="attribute-score__tl">TL: {{attr.tl}}</div>
             </div>
             <div class="attribute-score__value">{{attr.score}}</div>
             <div class="attribute-score__descriptor">{{attr.descriptor}}</div>
