@@ -18,4 +18,5 @@ export * from "./SohlHookBridge";
 export * from "./SohlLogic";
 export * from "./SohlSpeaker";
 export * from "./SohlSystem";
+export * from "./date-picker-logic";
 export * from "./sohl-calendar-logic";

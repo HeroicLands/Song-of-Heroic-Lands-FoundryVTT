@@ -130,7 +130,7 @@ export class WeaponGearLogic<
     /**
      * Perform an assisted block with one of this weapon's strike modes. A block
      * requested on a non-melee mode resolves to `false` (see
-     * {@link runStrikeModeTest} / {@link selectStrikeModeModifier}).
+     * {@link runStrikeModeTest}, via its `selectStrikeModeModifier` mapping).
      * @param context - The action context; `scope.strikeModeId` selects the mode.
      * @returns The test result, `undefined` if the roll was cancelled, or `false`
      *   when no melee strike mode could be resolved.
@@ -144,7 +144,7 @@ export class WeaponGearLogic<
     /**
      * Perform an assisted counterstrike with one of this weapon's strike modes.
      * A counterstrike requested on a non-melee mode resolves to `false` (see
-     * {@link runStrikeModeTest} / {@link selectStrikeModeModifier}).
+     * {@link runStrikeModeTest}, via its `selectStrikeModeModifier` mapping).
      * @param context - The action context; `scope.strikeModeId` selects the mode.
      * @returns The test result, `undefined` if the roll was cancelled, or `false`
      *   when no melee strike mode could be resolved.
