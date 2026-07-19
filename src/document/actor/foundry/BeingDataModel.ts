@@ -32,6 +32,18 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
             choices: MovementMediums,
             initial: MOVEMENT_MEDIUM.TERRESTRIAL,
         }),
+        /**
+         * The {@link CombatantGroup} name this Being's combatants are auto-
+         * assigned to when they enter combat (unset → the default group). Read
+         * by `SohlCombat.seedCombatantGroups` at combatant creation. Lives on the
+         * actor (not the token) because tokens cannot carry typed system data.
+         */
+        defaultCombatGroup: new StringField({
+            required: false,
+            blank: false,
+            nullable: true,
+            initial: null,
+        }),
     };
 }
 
@@ -55,6 +67,12 @@ export class BeingDataModel<
     ];
     /** @inheritDoc */
     static override readonly kind = ACTOR_KIND.BEING;
+
+    /**
+     * The {@link CombatantGroup} name this Being's combatants are auto-assigned
+     * to on entering combat; unset (`null`) uses the default group.
+     */
+    defaultCombatGroup!: string | null;
 
     /**
      * Returns the Being data schema.

@@ -38,17 +38,6 @@ function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
         }),
         appearance: new HTMLField(),
         dossier: new HTMLField(),
-        /**
-         * The {@link CombatantGroup} name this actor's combatants are auto-
-         * assigned to when they enter combat (blank → the default group). Read
-         * by `SohlCombat.seedCombatantGroups` at combatant creation. Lives on the
-         * actor (not the token) because tokens cannot carry typed system data.
-         */
-        defaultCombatGroup: new foundry.data.fields.StringField({
-            required: false,
-            blank: true,
-            initial: "",
-        }),
     };
 }
 
@@ -77,11 +66,6 @@ export abstract class SohlActorDataModel<
     appearance!: HTMLString;
     /** Path to the actor's portrait image. */
     portrait!: FilePath;
-    /**
-     * The {@link CombatantGroup} name this actor's combatants are auto-assigned
-     * to on entering combat; blank uses the default group.
-     */
-    defaultCombatGroup!: string;
 
     /**
      * Constructs the actor data model, requiring a {@link SohlActor} parent.
