@@ -12,11 +12,7 @@
  */
 
 import { SohlActorDataModel } from "@src/document/actor/foundry/SohlActorDataModel";
-import {
-    ACTOR_KIND,
-    MOVEMENT_MEDIUM,
-    MovementMediums,
-} from "@src/utils/constants";
+import { ACTOR_KIND } from "@src/utils/constants";
 import type { BeingData } from "@src/document/actor/logic/BeingLogic";
 import { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 const { StringField } = foundry.data.fields;
@@ -28,10 +24,6 @@ const { StringField } = foundry.data.fields;
 function defineBeingDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
-        movementMedium: new StringField({
-            choices: MovementMediums,
-            initial: MOVEMENT_MEDIUM.TERRESTRIAL,
-        }),
         /**
          * The {@link CombatantGroup} name this Being's combatants are auto-
          * assigned to when they enter combat (unset → the default group). Read

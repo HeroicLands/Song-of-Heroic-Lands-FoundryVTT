@@ -64,14 +64,7 @@ const BODY_STRUCTURE_DATA: BodyStructure.Data = {
 function corpusFields(overrides: Record<string, unknown> = {}) {
     return {
         structure: BODY_STRUCTURE_DATA,
-        moveBase: {
-            terrestrial: 60,
-            aquatic: 10,
-            aerial: 0,
-            burrowing: 0,
-            astral: 0,
-        },
-        defaultMoveMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
+        currentMoveMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
         personalFatigue: "enc + 5",
         movementProfiles: [
             {
@@ -126,22 +119,22 @@ function makeCorpusWithStr(
 
 /**
  * A corpus embedded on a being with a `str` attribute, a chosen
- * `movementMedium`, and a stubbed `carriedWeight`, so the derived movement VMs
+ * `currentMoveMedium`, and a stubbed `carriedWeight`, so the derived movement VMs
  * (`strengthModifier`, `encumbrance`) can be evaluated against `str` and `wt`.
  * (`carriedWeight` is a `ValueModifier` accumulated ground-up by `BeingLogic`;
  * `CorpusLogic` reads its `.effective`, so the unit test stubs a
- * modifier-shaped `{ effective }`. `movementMedium` is read off the being's data
- * to select the active movement profile.)
+ * modifier-shaped `{ effective }`. `currentMoveMedium` is read off the corpus's
+ * own data to select the active movement profile.)
  */
 function makeCorpusWithActor(
     {
         str = 0,
         carriedWeight = 0,
-        movementMedium = MOVEMENT_MEDIUM.TERRESTRIAL,
+        currentMoveMedium = MOVEMENT_MEDIUM.TERRESTRIAL,
     }: {
         str?: number;
         carriedWeight?: number;
-        movementMedium?: MovementMedium;
+        currentMoveMedium?: MovementMedium;
     } = {},
     overrides: Record<string, unknown> = {},
 ) {
@@ -157,8 +150,7 @@ function makeCorpusWithActor(
         ],
     };
     actor.logic.carriedWeight = { effective: carriedWeight };
-    actor.system.movementMedium = movementMedium;
-    return makeCorpus(overrides, { actor });
+    return makeCorpus({ currentMoveMedium, ...overrides }, { actor });
 }
 
 /** A two-medium (terrestrial + aquatic) profile set for medium-selection tests. */
@@ -319,9 +311,9 @@ describe("CorpusLogic", () => {
     });
 
     describe("movement profile", () => {
-        it("resolves the active moveProfile from the being's movementMedium and seeds move VMs", () => {
+        it("resolves the active moveProfile from the corpus's currentMoveMedium and seeds move VMs", () => {
             const logic = makeCorpusWithActor({
-                movementMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
+                currentMoveMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
             });
             logic.initialize();
             expect(logic.moveProfile.medium).toBe(MOVEMENT_MEDIUM.TERRESTRIAL);
@@ -330,9 +322,9 @@ describe("CorpusLogic", () => {
             expect(logic.leaguesPerWatch.effective).toBe(5);
         });
 
-        it("picks the profile matching the chosen movementMedium", () => {
+        it("picks the profile matching the chosen currentMoveMedium", () => {
             const logic = makeCorpusWithActor(
-                { movementMedium: MOVEMENT_MEDIUM.AQUATIC },
+                { currentMoveMedium: MOVEMENT_MEDIUM.AQUATIC },
                 { movementProfiles: TWO_MEDIUM_PROFILES },
             );
             logic.initialize();
@@ -343,7 +335,7 @@ describe("CorpusLogic", () => {
 
         it("falls back to a disabled profile when no medium matches", () => {
             const logic = makeCorpusWithActor({
-                movementMedium: MOVEMENT_MEDIUM.AERIAL,
+                currentMoveMedium: MOVEMENT_MEDIUM.AERIAL,
             });
             logic.initialize();
             expect(logic.moveProfile.disabled).toBe(true);
@@ -351,11 +343,22 @@ describe("CorpusLogic", () => {
             expect(logic.leaguesPerWatch.effective).toBe(0);
         });
 
-        it("falls back to a disabled profile when there is no owning being", () => {
+        it("resolves the profile from its own currentMoveMedium, independent of any owning being", () => {
             const logic = makeCorpus();
             logic.initialize();
-            expect(logic.moveProfile.disabled).toBe(true);
-            expect(logic.feetPerRound.effective).toBe(0);
+            expect(logic.moveProfile.medium).toBe(MOVEMENT_MEDIUM.TERRESTRIAL);
+            expect(logic.moveProfile.disabled).toBe(false);
+            expect(logic.feetPerRound.effective).toBe(50);
+        });
+
+        it("makeDefaultMedium updates system.currentMoveMedium from the action scope", async () => {
+            const logic = makeCorpus();
+            await logic.makeDefaultMedium({
+                scope: { medium: MOVEMENT_MEDIUM.AQUATIC },
+            } as any);
+            expect(logic.data.update).toHaveBeenCalledWith({
+                "system.currentMoveMedium": MOVEMENT_MEDIUM.AQUATIC,
+            });
         });
     });
 
@@ -364,7 +367,7 @@ describe("CorpusLogic", () => {
             // str 14, terrestrial strMod "-5 * floor((str - 10) / 2)" = -10
             const logic = makeCorpusWithActor({
                 str: 14,
-                movementMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
+                currentMoveMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
             });
             logic.initialize();
             logic.evaluate();
@@ -374,7 +377,7 @@ describe("CorpusLogic", () => {
         it("is 0 for the disabled fallback profile (strMod '0')", () => {
             const logic = makeCorpusWithActor({
                 str: 14,
-                movementMedium: MOVEMENT_MEDIUM.AERIAL,
+                currentMoveMedium: MOVEMENT_MEDIUM.AERIAL,
             });
             logic.initialize();
             logic.evaluate();
@@ -386,8 +389,10 @@ describe("CorpusLogic", () => {
             // str defaults to 0 → -5 * floor((0 - 10) / 2) = 25 (not NaN).
             const actor = makeMockActor({ kind: "being" });
             actor.itemTypes = {};
-            actor.system.movementMedium = MOVEMENT_MEDIUM.TERRESTRIAL;
-            const logic = makeCorpus({}, { actor });
+            const logic = makeCorpus(
+                { currentMoveMedium: MOVEMENT_MEDIUM.TERRESTRIAL },
+                { actor },
+            );
             logic.initialize();
             logic.evaluate();
             expect(logic.strengthModifier.effective).toBe(25);
@@ -399,7 +404,7 @@ describe("CorpusLogic", () => {
             // carriedWeight 10, terrestrial encumbrance "floor(wt / 4)" = 2
             const logic = makeCorpusWithActor({
                 carriedWeight: 10,
-                movementMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
+                currentMoveMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
             });
             logic.initialize();
             logic.evaluate();
@@ -412,7 +417,7 @@ describe("CorpusLogic", () => {
             const logic = makeCorpusWithActor(
                 {
                     carriedWeight: 10,
-                    movementMedium: MOVEMENT_MEDIUM.AQUATIC,
+                    currentMoveMedium: MOVEMENT_MEDIUM.AQUATIC,
                 },
                 { movementProfiles: TWO_MEDIUM_PROFILES },
             );
@@ -425,7 +430,7 @@ describe("CorpusLogic", () => {
         it("is 0 with no carried weight (wt 0)", () => {
             const logic = makeCorpusWithActor({
                 carriedWeight: 0,
-                movementMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
+                currentMoveMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
             });
             logic.initialize();
             logic.evaluate();
@@ -443,10 +448,7 @@ describe("CorpusDataModel", () => {
         it.todo("includes SohlItemDataModel base schema fields");
         it.todo("defines structure as a SchemaField of parts and adjacency");
         it.todo(
-            "defines moveBase as a SchemaField with one NumberField per medium",
-        );
-        it.todo(
-            "defines defaultMoveMedium with MovementMediums choices defaulting to TERRESTRIAL",
+            "defines currentMoveMedium with MovementMediums choices defaulting to TERRESTRIAL",
         );
         it.todo("defines personalFatigue as a JavaScriptField");
         it.todo(

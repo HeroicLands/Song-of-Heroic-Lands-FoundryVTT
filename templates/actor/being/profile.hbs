@@ -112,7 +112,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <li class="item flexrow" data-medium="{{row.medium}}">
             <div class="list__name"><h4>{{localize row.label}}</h4></div>
             <div class="list__detail">{{row.value}} {{localize "SOHL.Being.movement.unit"}}</div>
-            <div class="list__controls"></div>
+            <div class="list__controls">
+                {{#if row.isCurrent}}
+                <i class="fa-solid fa-star" data-tooltip="{{localize 'SOHL.Corpus.movement.default'}}"></i>
+                {{else}}
+                <a data-action="makeDefaultMedium" data-medium="{{row.medium}}" data-tooltip="{{localize 'SOHL.Corpus.movement.makeDefault'}}"><i class="far fa-star"></i></a>
+                {{/if}}
+            </div>
         </li>
         {{/each}}
     </ol>

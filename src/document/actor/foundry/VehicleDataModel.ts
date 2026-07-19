@@ -39,8 +39,6 @@ function defineVehicleDataSchema(): foundry.data.fields.DataSchema {
          * in one {@link MovementMedium}: its tactical and travel speeds, and the
          * {@link sohl.entity.expr.SafeExpression}s that turn carried weight into encumbrance
          * (`encumbrance`, of `wt`) and shift it by strength (`strMod`, of `str`).
-         * `moveBase[medium]` mirrors the matching entry's `feetPerRound` so Active
-         * Effects and the movement system keep a stable per-medium scalar to read.
          */
         movementProfiles: new ArrayField(
             new SchemaField({

@@ -41,7 +41,7 @@ describe("sohl.entity registry", () => {
     });
 
     it("does not expose function-modules or non-constructable helpers", () => {
-        // aggregateArmor / calcSkillBase / move-helpers etc. are excluded.
+        // aggregateArmor / calcSkillBase etc. are excluded.
         expect(entity).not.toHaveProperty("ArmorAggregation");
         expect(entity).not.toHaveProperty("SkillBase");
         expect(entity).not.toHaveProperty("aggregateArmor");
