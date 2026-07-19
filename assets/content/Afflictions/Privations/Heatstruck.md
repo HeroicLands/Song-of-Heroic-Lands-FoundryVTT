@@ -14,7 +14,7 @@ package: sohl
 sohl:
     subType: privation
     category: heat
-    diagnosisBonus: 1
+    diagnosisBonus: 0
     levelBase: 4
     healingRateBase: 1
     contagionIndex: 0

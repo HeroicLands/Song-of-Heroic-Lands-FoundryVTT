@@ -14,7 +14,7 @@ package: sohl
 sohl:
     subType: privation
     category: asphixia
-    diagnosisBonus: -1
+    diagnosisBonus: 0
     levelBase: 3
     healingRateBase: 3
     contagionIndex: 0

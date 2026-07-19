@@ -14,7 +14,7 @@ package: sohl
 sohl:
     subType: privation
     category: starvation
-    diagnosisBonus: -1
+    diagnosisBonus: 0
     levelBase: 2
     healingRateBase: 5
     contagionIndex: 0

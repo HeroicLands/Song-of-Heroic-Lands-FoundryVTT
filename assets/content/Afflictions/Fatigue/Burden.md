@@ -14,7 +14,7 @@ package: sohl
 sohl:
     subType: fatigue
     category: weariness
-    diagnosisBonus: 1
+    diagnosisBonus: 0
     levelBase: 1
     healingRateBase: 3
     contagionIndex: 0
