@@ -14,6 +14,7 @@
 import { entity } from "@src/entity/registry";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { fvttWorldTime } from "@src/core/FoundryHelpers";
+import { deriveNext, elapsedCheckpoints } from "@src/entity/event/scheduling";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
@@ -645,7 +646,10 @@ export class AfflictionLogic<
                 "onsetCheck",
                 this.data.contractDate == null ?
                     null
-                :   this.data.contractDate + this.onsetDurationBase.effective,
+                :   deriveNext(
+                        this.data.contractDate,
+                        this.onsetDurationBase.effective,
+                    ),
             );
             arm("resolutionCheck", null);
             arm("healingCheck", null);
@@ -656,13 +660,18 @@ export class AfflictionLogic<
         arm("onsetCheck", null);
         arm(
             "resolutionCheck",
-            this.data.onsetDate + this.resolutionDurationBase.effective,
+            deriveNext(
+                this.data.onsetDate,
+                this.resolutionDurationBase.effective,
+            ),
         );
         arm(
             "healingCheck",
             this.level.effective > 0 && this.data.lastHealingCheckDate != null ?
-                this.data.lastHealingCheckDate +
-                    this.healingCheckDurationBase.effective
+                deriveNext(
+                    this.data.lastHealingCheckDate,
+                    this.healingCheckDurationBase.effective,
+                )
             :   null,
         );
     }
@@ -722,21 +731,33 @@ export class AfflictionLogic<
      *
      * @param _context - The action context (its `scope` is the trigger context).
      * @returns A promise that resolves once the anchor is persisted.
-     * @remarks The recovery/course **effect** (the check roll and its result) is
-     *   not yet implemented; see issue #489.
+     * @remarks Catch-up wiring only (#481): advances the anchor over every
+     *   elapsed interval and re-arms via {@link deriveNext}. The recovery/course
+     *   **effect** (the check roll and its result) is not yet implemented; see
+     *   issue #489.
      */
     async healingCheck(_context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (!uuid) return;
         const now = fvttWorldTime();
-        const rolled = this.rollDuration(this.data.healingCheckDurationFormula);
-        this.healingCheckDurationBase.setBase(rolled);
+        const interval = this.healingCheckDurationBase.effective;
+        const anchor = this.data.lastHealingCheckDate ?? now;
+        const checkpoints =
+            interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
+        const lastProcessed = checkpoints.at(-1) ?? now;
+
+        const nextInterval = this.rollDuration(
+            this.data.healingCheckDurationFormula,
+        );
+        this.healingCheckDurationBase.setBase(nextInterval);
         sohl.events.scheduleAt(
-            this.item.uuid,
+            uuid,
             "healingCheck",
-            now + this.healingCheckDurationBase.effective,
+            deriveNext(lastProcessed, nextInterval),
         );
         await this.item.update({
-            "system.lastHealingCheckDate": now,
-            "system.healingCheckDurationBase": rolled,
+            "system.lastHealingCheckDate": lastProcessed,
+            "system.healingCheckDurationBase": nextInterval,
         } as PlainObject);
     }
 

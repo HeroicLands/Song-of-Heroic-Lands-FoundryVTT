@@ -25,9 +25,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{datePicker system.treatmentDate name="system.treatmentDate"}}
         </div>
         {{#if (eq system.subType "physical")}}
-        <div class="form-group text-field">
-            {{formInput fields.isBleeding rootId="trauma-bleeding" classes="form-fields" value=system.isBleeding}}
-            <label>Bleeding</label>
+        {{!-- Bleeding is derived (#482): a wound bleeds while its blood-loss
+              timer is armed. Set an interval (seconds) to make it bleed; clear
+              it to stop. --}}
+        <div class="form-group stacked">
+            <label>{{localize "SOHL.Trauma.FIELDS.bloodLossAdvanceDurationBase.label"}}</label>
+            {{clearableNumberInput fields.bloodLossAdvanceDurationBase name="system.bloodLossAdvanceDurationBase" value=system.bloodLossAdvanceDurationBase}}
         </div>
         {{/if}}
     </div>

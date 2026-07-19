@@ -77,7 +77,6 @@ describe("time-based healing / blood-loss scheduling (#482)", () => {
         const { scheduleAt } = withEvents();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
         const logic = trauma({
-            isBleeding: true,
             bloodLossAdvanceDurationFormula: "300",
         });
         logic.initialize();
@@ -87,6 +86,43 @@ describe("time-based healing / blood-loss scheduling (#482)", () => {
             "trauma::bloodLossAdvanceRoll",
             2300,
         );
+    });
+
+    it("healingCheck catches up the anchor over every elapsed interval (#481)", async () => {
+        const { scheduleAt } = withEvents();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(3200);
+        const logic = trauma({
+            levelBase: 3,
+            lastHealingCheckDate: 1000,
+            healingCheckDurationBase: 500,
+            healingCheckDurationFormula: "500",
+        });
+        logic.initialize();
+        await logic.healingCheck({} as any);
+        // Elapsed checkpoints in (1000, 3200] at 500s: 1500,2000,2500,3000.
+        // The anchor advances to the last (3000); the next is derived from it.
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.lastHealingCheckDate": 3000 }),
+        );
+        expect(scheduleAt).toHaveBeenCalledWith(
+            expect.any(String),
+            "healingCheck",
+            3500,
+        );
+    });
+});
+
+describe("isBleeding — derived from the blood-loss timer (#482)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    it("is false when bloodLossAdvanceDurationBase is null", () => {
+        const logic = makeTrauma({ bloodLossAdvanceDurationBase: null });
+        expect(logic.isBleeding).toBe(false);
+    });
+
+    it("is true when a blood-loss interval is set", () => {
+        const logic = makeTrauma({ bloodLossAdvanceDurationBase: 86400 });
+        expect(logic.isBleeding).toBe(true);
     });
 });
 
@@ -98,7 +134,6 @@ function traumaFields(overrides: Record<string, unknown> = {}) {
         healingRateBase: 4,
         aspect: "blunt",
         treatmentDate: null,
-        isBleeding: false,
         bodyLocationCode: "",
         ...overrides,
     };
@@ -287,7 +322,6 @@ describe("TraumaDataModel", () => {
         it.todo("defines healingRateBase as a NumberField");
         it.todo("defines aspect with ImpactAspects choices");
         it.todo("defines treatmentDate as a nullable NumberField");
-        it.todo("defines isBleeding as a BooleanField");
         it.todo("defines bodyLocationCode as a StringField");
     });
 

@@ -1590,6 +1590,8 @@
     "SOHL.Trauma.EffectKey.LEVEL": "Level",
     "SOHL.Trauma.FIELDS.aspect.hint": "Type of damage: Blunt, Edged, Piercing, or Fire",
     "SOHL.Trauma.FIELDS.aspect.label": "Aspect",
+    "SOHL.Trauma.FIELDS.bloodLossAdvanceDurationBase.hint": "Seconds between blood-loss advances. Set a value to make the wound bleed; clear it to stop bleeding.",
+    "SOHL.Trauma.FIELDS.bloodLossAdvanceDurationBase.label": "Blood-Loss Interval",
     "SOHL.Trauma.FIELDS.bodyLocationCode.hint": "Shortcode of the body location on the being's body where this trauma occurred; leave blank to affect the whole body",
     "SOHL.Trauma.FIELDS.bodyLocationCode.label": "Body Location",
     "SOHL.Trauma.FIELDS.healingRateBase.hint": "Base rate of wound healing per time period",

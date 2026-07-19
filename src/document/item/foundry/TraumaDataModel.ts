@@ -63,7 +63,6 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         treatmentDate: worldTimeDateField(),
         ...recurringPhaseFields("healingCheck"),
         ...recurringPhaseFields("bloodLossAdvance"),
-        isBleeding: new BooleanField({ initial: false }),
         bodyLocationCode: new StringField({ initial: "", required: true }),
     };
 }
@@ -97,7 +96,6 @@ export class TraumaDataModel<
     bloodLossAdvanceDurationFormula!: string;
     bloodLossAdvanceDurationBase!: number | null;
     lastBloodLossAdvanceDate!: number | null;
-    isBleeding!: boolean;
     bodyLocationCode!: string;
 
     /**
@@ -149,7 +147,9 @@ export class TraumaDataModel<
             healingCheckDurationFormula: healFormula,
             healingCheckDurationBase: Number(healFormula) || 0,
         };
-        if (this.isBleeding) {
+        // A bleeder arrives with a non-null bloodLossAdvanceDurationBase
+        // (a placeholder set at injury resolution, #482); seed its real interval.
+        if (this.bloodLossAdvanceDurationBase != null) {
             seed.lastBloodLossAdvanceDate = now;
             seed.bloodLossAdvanceDurationFormula = bloodFormula;
             seed.bloodLossAdvanceDurationBase = Number(bloodFormula) || 0;
