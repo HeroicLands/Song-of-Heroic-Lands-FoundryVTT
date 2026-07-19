@@ -17,6 +17,7 @@ import {
     type SohlActorData,
     type SohlActorLogic,
 } from "@src/document/actor/logic/SohlActorBaseLogic";
+import { MovementProfile } from "@src/document/item/logic/CorpusLogic";
 
 /**
  * A movable inanimate conveyance.
@@ -72,4 +73,6 @@ export interface VehicleData<
      * (shorthand for all of that Cohort's members).
      */
     occupants: string[];
+    /** Per-medium movement profiles. */
+    movementProfiles: MovementProfile[];
 }
