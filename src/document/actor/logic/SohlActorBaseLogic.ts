@@ -100,7 +100,7 @@ export interface SohlActorData<
 }
 
 /**
- * Base logic class for all actor types (Being, Cohort, Structure, Vehicle, Assembly).
+ * Base logic class for all actor types (Being, Cohort, Structure, Vehicle).
  *
  * Provides the foundation that all actor logic classes build upon.
  * Concrete actor logic classes extend this to implement type-specific rules:

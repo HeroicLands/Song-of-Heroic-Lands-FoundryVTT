@@ -38,7 +38,6 @@ describe("logic-class registration", () => {
         }).should((r) => {
             expect(r.actorKinds, "actor kinds").to.include.members([
                 "being",
-                "assembly",
                 "cohort",
                 "structure",
                 "vehicle",

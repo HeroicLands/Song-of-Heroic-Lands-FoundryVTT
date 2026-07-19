@@ -22,14 +22,8 @@
  * Naming/tagging is applied by the `cy.createActor` command, not here.
  */
 
-/** The five registered actor kinds (`ACTOR_KIND`). */
-export const ACTOR_KINDS = [
-    "being",
-    "assembly",
-    "cohort",
-    "structure",
-    "vehicle",
-];
+/** The four registered actor kinds (`ACTOR_KIND`). */
+export const ACTOR_KINDS = ["being", "cohort", "structure", "vehicle"];
 
 /** Monotonic per-run counter making every auto-derived shortcode unique. */
 let shortcodeSeq = 0;

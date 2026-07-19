@@ -30,9 +30,7 @@ import {
  * is shorthand for all of that Cohort's members being occupants).
  *
  * Vehicles can own Protection items (hull armor, reinforced sides), Injuries
- * (structural damage), Container Gear (cargo holds), and Actions. They are
- * often composed into an {@link AssemblyLogic | Assembly} alongside crew
- * Cohorts and mounted weapon Structures.
+ * (structural damage), Container Gear (cargo holds), and Actions.
  *
  * @typeParam TData - The Vehicle data interface.
  */

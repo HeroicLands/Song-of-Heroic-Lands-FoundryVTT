@@ -74,7 +74,6 @@ describe("ACTOR_KIND", () => {
         expect(ACTOR_KIND.COHORT).toBe("cohort");
         expect(ACTOR_KIND.STRUCTURE).toBe("structure");
         expect(ACTOR_KIND.VEHICLE).toBe("vehicle");
-        expect(ACTOR_KIND.ASSEMBLY).toBe("assembly");
     });
 
     it("isActorKind validates correctly", () => {

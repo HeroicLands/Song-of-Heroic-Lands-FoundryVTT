@@ -16,7 +16,6 @@ Sheet) see **Documents → Actor** and **Documents → Item** in the API referen
 | Type | Code | Description |
 | ---- | ---- | ----------- |
 | Being | `being` | A single person, creature, or NPC. |
-| Assembly | `assembly` | An **Assembly** is an Actor-document container that groups related items so they can be moved as a unit. |
 | Cohort | `cohort` | A group of individuals acting as a unit. |
 | Structure | `structure` | A fixed installation or location. |
 | Vehicle | `vehicle` | A movable inanimate conveyance. |

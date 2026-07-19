@@ -12,13 +12,12 @@
  */
 
 /**
- * Non-being actor kinds: assembly, cohort, structure, vehicle.
+ * Non-being actor kinds: cohort, structure, vehicle.
  *
  * Each is a `SohlActorDataModel` subtype with its own schema. Containment and
  * schema-field round-trip are GREEN today; derived behavior is a no-op (their
  * Logic classes call `super` only), so capacity/HP/move/invariant computation is
- * RED (#184), assembly unpack-on-drop is RED (#183), and the cohort shared-gear
- * tab is RED (#76).
+ * RED (#184) and the cohort shared-gear tab is RED (#76).
  */
 
 /** Update a document's `system` with a realm-cloned patch; resolves after settle. */
@@ -28,13 +27,13 @@ function patchSystem(win, id, patch) {
         .update(win.JSON.parse(JSON.stringify(patch)));
 }
 
-describe("non-being actors: assembly / cohort / structure / vehicle", () => {
+describe("non-being actors: cohort / structure / vehicle", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
 
     // ------------------------------------------------------------- create + logic
 
-    for (const kind of ["assembly", "cohort", "structure", "vehicle"]) {
+    for (const kind of ["cohort", "structure", "vehicle"]) {
         it(`${kind} creates and carries a .logic`, () => {
             cy.createActor(kind, { name: `other ${kind}` }).then((actor) => {
                 cy.foundry((win) => {
@@ -49,25 +48,6 @@ describe("non-being actors: assembly / cohort / structure / vehicle", () => {
     }
 
     // ----------------------------------------------------------------- containment
-
-    it("assembly embeds gear items (composition container)", () => {
-        cy.createActor("assembly", { name: "Panoply" }).then((actor) => {
-            cy.createItemOn(actor, "armorgear", { name: "Plate Hauberk" });
-            cy.createItemOn(actor, "armorgear", { name: "Greathelm" }).then(
-                () => {
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        return a.itemTypes.armorgear.map((i) => i.name);
-                    }).should((names) => {
-                        expect(
-                            names,
-                            "both gear items embedded",
-                        ).to.have.members(["Plate Hauberk", "Greathelm"]);
-                    });
-                },
-            );
-        });
-    });
 
     it("structure embeds gear items", () => {
         cy.createActor("structure", { name: "Keep" }).then((actor) => {
@@ -156,18 +136,12 @@ describe("non-being actors: assembly / cohort / structure / vehicle", () => {
 
     // ------------------------------------------------------------------------ RED
 
-    // RED — blocked by #183: assembly unpack-on-drop. `_onDropActor`
-    // (src/core/foundry/SohlDataModel.ts) gathers items then returns without
-    // creating anything. Drop an actor on an assembly and assert the assembly
-    // gains the expected items once implemented.
-    it.skip("assembly unpacks a dropped actor's items (#183)", () => {});
-
     // RED — blocked by #76: cohort shared-gear tab.
     it.skip("cohort exposes a shared-gear tab (#76)", () => {});
 
-    // RED — blocked by #184: derived behavior for all four — their Logic classes
+    // RED — blocked by #184: derived behavior for all three — their Logic classes
     // are no-op `super` today (no capacity/HP/move/invariant computation). Assert
-    // a derived property (structure capacity, cohort aggregate, vehicle load,
-    // assembly canonical-item invariant) once implemented.
+    // a derived property (structure capacity, cohort aggregate, vehicle load)
+    // once implemented.
     it.skip("non-being logic derives capacity/HP/move/invariants (#184)", () => {});
 });

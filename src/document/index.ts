@@ -14,7 +14,7 @@
 // Namespace barrel — hand-maintained. `npm run lint` (check-ns-barrels)
 // verifies every sibling module and subfolder here is re-exported.
 
-/** The Actor document family — Being, Vehicle, Structure, Cohort, and Assembly. */
+/** The Actor document family — Being, Vehicle, Structure, and Cohort. */
 export * as actor from "./actor";
 /** Chat-card dispatch and gating for the system's chat messages. */
 export * as chat from "./chat";

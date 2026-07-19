@@ -452,7 +452,6 @@ export namespace SohlDataModel {
                 data.editable = this.isEditable;
                 data.cssClass = data.owner ? "editable" : "locked";
                 data.isBeing = this.document.type === ACTOR_KIND.BEING;
-                data.isAssembly = this.document.type === ACTOR_KIND.ASSEMBLY;
                 data.actor =
                     ActorKinds.includes(this.document.type as any) ?
                         (this.document as SohlActor)
@@ -775,29 +774,14 @@ export namespace SohlDataModel {
             ): Promise<void> {}
 
             /**
-             * Handle an actor dropped onto the sheet. When an Assembly actor is
-             * dropped onto a non-Assembly actor sheet, its items are unpacked
-             * onto the target actor (nesting preserved).
-             * @param _event - The originating drop event.
+             * Handle an actor dropped onto the sheet.
+             * @param event - The originating drop event.
              * @param droppedActor - The actor that was dropped.
              */
             protected async _onDropActor(
-                _event: DragEvent,
+                event: DragEvent,
                 droppedActor: SohlActor,
-            ): Promise<void> {
-                // When an Assembly is dropped onto an actor sheet, unpack
-                // its items (with nesting preserved) onto the target actor.
-                if (droppedActor.type !== ACTOR_KIND.ASSEMBLY) return;
-
-                const targetActor = this.actor;
-                if (!targetActor || targetActor.type === ACTOR_KIND.ASSEMBLY)
-                    return;
-
-                const sourceItems = Array.from(
-                    droppedActor.items as Iterable<SohlItem>,
-                );
-                if (sourceItems.length === 0) return;
-            }
+            ): Promise<void> {}
 
             /**
              * Handle a folder dropped onto the sheet.
