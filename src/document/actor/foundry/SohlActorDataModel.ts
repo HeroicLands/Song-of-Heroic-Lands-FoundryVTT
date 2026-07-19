@@ -23,7 +23,8 @@ import type {
     SohlActorLogic,
     SohlActorData,
 } from "@src/document/actor/logic/SohlActorBaseLogic";
-const { HTMLField, FilePathField } = foundry.data.fields;
+const { HTMLField, FilePathField, SchemaField, NumberField } =
+    foundry.data.fields;
 
 /**
  * Builds the base actor data schema (portrait, appearance, dossier).
@@ -38,6 +39,18 @@ function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
         }),
         appearance: new HTMLField(),
         dossier: new HTMLField(),
+        /**
+         * Token-bar health (`primaryTokenAttribute: "health"`). Present on the
+         * schema purely so Foundry lists it as a selectable bar attribute; its
+         * value is **derived every preparation** by the actor's logic and
+         * **never persisted** — {@link SohlActorDataModel._preUpdate} drops any
+         * write, so it stays pinned at this 100/100 initial on disk. `max` is
+         * always 100; `value` is a `0…100` capability ceiling.
+         */
+        health: new SchemaField({
+            value: new NumberField({ integer: true, initial: 100, min: 0 }),
+            max: new NumberField({ integer: true, initial: 100, min: 0 }),
+        }),
     };
 }
 
@@ -66,6 +79,46 @@ export abstract class SohlActorDataModel<
     appearance!: HTMLString;
     /** Path to the actor's portrait image. */
     portrait!: FilePath;
+    /**
+     * Token-bar health `{ value, max }` — derived each preparation by the
+     * actor's logic and never persisted (see {@link SohlActorDataModel._preUpdate}).
+     */
+    health!: { value: number; max: number };
+
+    /**
+     * Drop any attempt to persist derived health. `health` is recomputed every
+     * preparation and exposed only for the token resource bar; because Foundry
+     * treats a schema `NumberField` bar as editable, a GM could drag it and try
+     * to write `system.health`. We strip that here so the field stays at its
+     * 100/100 initial on disk and the derived value always wins at runtime.
+     * @param changes - The candidate document changes (health lives at `system.health`).
+     * @param options - Update options, forwarded to `super`.
+     * @param user - The requesting user.
+     * @returns `false` to veto, otherwise `undefined`.
+     */
+    protected override async _preUpdate(
+        changes: PlainObject,
+        options: PlainObject,
+        user: User,
+    ): Promise<boolean | void> {
+        const allowed = await super._preUpdate(
+            changes as any,
+            options as any,
+            user as any,
+        );
+        if (allowed === false) return false;
+        // Handle both expanded (`system.health`) and flat (`system.health.value`)
+        // update shapes.
+        if (foundry.utils.hasProperty(changes, "system.health")) {
+            foundry.utils.deleteProperty(changes, "system.health");
+        }
+        for (const key of Object.keys(changes)) {
+            if (key === "system.health" || key.startsWith("system.health.")) {
+                delete changes[key];
+            }
+        }
+        return undefined;
+    }
 
     /**
      * Constructs the actor data model, requiring a {@link SohlActor} parent.

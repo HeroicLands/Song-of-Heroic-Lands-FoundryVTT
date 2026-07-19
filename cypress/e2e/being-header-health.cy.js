@@ -14,10 +14,11 @@
 /**
  * Being sheet header — health bar (#463).
  *
- * `BeingLogic.health` is a `{ value, max }` pair (max = endurance × 3, or 100).
- * The header bar shows `value / max` as a percentage. The derivation math is
- * unit-tested; here we prove a real being renders a non-zero bar and that adding
- * an injury reduces the reported health.
+ * Health is a token-bar-shaped `{ value, max }` on `actor.system.health` (max a
+ * fixed 100), derived every preparation and never persisted; the qualitative
+ * band comes from `logic.healthBand`. The header bar shows `value / max` as a
+ * percentage. The derivation math is unit-tested; here we prove a real being
+ * renders a non-zero bar and that adding an injury reduces the reported health.
  */
 describe("Being sheet header: health bar (#463)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
@@ -39,13 +40,13 @@ describe("Being sheet header: health bar (#463)", () => {
         return null;
     }
 
-    /** The being's derived health `{ value, max }`. */
+    /** The being's derived health `{ value, max, band }`. */
     function health(win, actorId) {
-        const h = win.game.actors.get(actorId).logic?.health;
+        const actor = win.game.actors.get(actorId);
         return {
-            value: h?.value?.effective ?? 0,
-            max: h?.max?.effective ?? 0,
-            band: h?.band,
+            value: actor.system.health?.value ?? 0,
+            max: actor.system.health?.max ?? 0,
+            band: actor.logic?.healthBand,
         };
     }
 

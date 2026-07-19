@@ -785,9 +785,10 @@ describe("BeingLogic", () => {
     });
 
     describe("properties", () => {
-        // health / healingBase / shockState are declared on BeingLogic but
-        // never assigned by any lifecycle phase yet.
-        it.todo("health - is a ValueModifier after initialize");
+        // health is written into the data model (system.health) as plain
+        // numbers — covered by the "BeingLogic health (#470)" suite below.
+        // healingBase / shockState are declared but not yet assigned by any
+        // lifecycle phase.
         it.todo("healingBase - is a ValueModifier after initialize");
         it.todo("shockState - tracks current shock state");
     });
@@ -876,9 +877,11 @@ describe("BeingLogic health (#470)", () => {
         const logic = makeBeing();
         logic.initialize();
         logic.finalize();
-        expect(logic.health.max.effective).toBe(100);
-        expect(logic.health.value.effective).toBe(100);
-        expect(logic.health.band).toBe("Excellent");
+        // Health is written back into the data model (system.health) as plain
+        // numbers for the token bar — not a ValueModifier — and never persisted.
+        expect(logic.data.health.max).toBe(100);
+        expect(logic.data.health.value).toBe(100);
+        expect(logic.healthBand).toBe("Excellent");
     });
 
     it("reads the dead status via the fvttActorStatuses shim → value 0 / Dead", () => {
@@ -888,9 +891,9 @@ describe("BeingLogic health (#470)", () => {
         const logic = makeBeing();
         logic.initialize();
         logic.finalize();
-        expect(logic.health.max.effective).toBe(100);
-        expect(logic.health.value.effective).toBe(0);
-        expect(logic.health.band).toBe("Dead");
+        expect(logic.data.health.max).toBe(100);
+        expect(logic.data.health.value).toBe(0);
+        expect(logic.healthBand).toBe("Dead");
     });
 });
 

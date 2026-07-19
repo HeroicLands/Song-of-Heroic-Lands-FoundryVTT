@@ -36,6 +36,16 @@ describe("StructureLogic", () => {
             expect(logic.actor).toBe((logic.data as any).actor);
             expect(logic.id).toBe("struct000000001");
         });
+
+        it("carries the base default health of 100/100 (no type-specific derivation yet)", () => {
+            // Health lives on the base actor data model so every actor shows a
+            // full token bar by default; only Being derives it down today.
+            const logic = makeStructure();
+            expect((logic.data as any).health).toEqual({
+                value: 100,
+                max: 100,
+            });
+        });
     });
 
     describe("getContextOptions", () => {

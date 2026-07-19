@@ -1149,11 +1149,11 @@ export class BeingSheet extends SohlActorSheetBase {
 
         // Health bar: the banded impairment value against a fixed max of 100
         // (#470). `healthBand` is the qualitative label shown to the player.
-        const health = logic?.health;
-        const healthMax = health?.max?.effective ?? 0;
+        const health = logic?.data?.health;
+        const healthMax = health?.max ?? 0;
         const healthPct =
             healthMax > 0 ?
-                clampHealthPct((health!.value.effective / healthMax) * 100)
+                clampHealthPct((health!.value / healthMax) * 100)
             :   0;
 
         return Object.assign(context, {
@@ -1161,7 +1161,7 @@ export class BeingSheet extends SohlActorSheetBase {
             actorImg: actor.img,
             health,
             healthPct,
-            healthBand: health?.band,
+            healthBand: logic?.healthBand,
             shockState: logic?.shockState,
             statusEffects,
             bodyParts,

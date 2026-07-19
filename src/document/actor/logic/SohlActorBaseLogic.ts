@@ -88,6 +88,13 @@ export interface SohlActorData<
     appearance: HTMLString;
     /** Path to the actor's portrait image. */
     portrait: FilePath;
+    /**
+     * Overall health as a token-bar-shaped `{ value, max }` (both `0…100`,
+     * `max` always 100). Derived every preparation and written back here by the
+     * owning actor's logic — **never persisted** (see `SohlActorDataModel`). A
+     * fresh actor defaults to 100/100; only Being derives it down today.
+     */
+    health: { value: number; max: number };
 
     // --- Foundry-document port (actor-specific) --------------------------
     // Lets actor logic iterate its items' logic and read ownership without
