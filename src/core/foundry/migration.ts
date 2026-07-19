@@ -24,18 +24,38 @@
  * The current data schema version. Bump when adding a migration below; the world
  * migrates from its stored version up to this.
  */
-export const CURRENT_MIGRATION_VERSION = "0.7.1";
+export const CURRENT_MIGRATION_VERSION = "0.7.2";
+
+/**
+ * Compute the update payload that migrates a single trait's **raw source**
+ * `system` off the removed `isNumeric` boolean and onto the `measured` subtype
+ * (#532). Pure and Foundry-free so it can be unit-tested. Reads `_source`
+ * (never the prepared data model, which no longer exposes `isNumeric`).
+ *
+ * - `isNumeric === true` → `subType: "measured"` (its `score` / `valueDesc` are
+ *   already stored, so nothing else moves) and the `isNumeric` key is dropped.
+ * - `isNumeric === false` → the stale key is dropped; the descriptive subtype
+ *   (physique / personality) is unchanged.
+ * - No `isNumeric` key (already migrated) → `null` (nothing to do).
+ *
+ * @param sourceSystem - The trait item's raw `_source.system`.
+ * @returns A Foundry `update()` payload, or `null` when no change is needed.
+ */
+export function traitMeasuredUpdate(
+    sourceSystem: Record<string, unknown> | undefined | null,
+): Record<string, unknown> | null {
+    if (!sourceSystem || !("isNumeric" in sourceSystem)) return null;
+    const update: Record<string, unknown> = { "system.-=isNumeric": null };
+    if (sourceSystem.isNumeric === true) {
+        update["system.subType"] = "measured";
+    }
+    return update;
+}
 
 /**
  * Run world migrations to {@link CURRENT_MIGRATION_VERSION}. GM-only and
- * idempotent: it reads the world's `systemMigrationVersion` and applies only the
- * migrations newer than it, then stamps the current version.
- *
- * **There are currently no migrations** — this is the scaffold. When a schema
- * change needs one, add a version-gated block below that transforms `game.items`
- * and every actor's embedded items (recreating documents with `keepId: true`
- * where a `type` change is required, since Foundry forbids changing `type` in
- * place), then bump {@link CURRENT_MIGRATION_VERSION}.
+ * idempotent: applies each migration newer than the world's stored
+ * `systemMigrationVersion`, then stamps the current version.
  */
 export async function migrateWorld(): Promise<void> {
     const game = (globalThis as any).game;
@@ -44,8 +64,18 @@ export async function migrateWorld(): Promise<void> {
         game.settings.get("sohl", "systemMigrationVersion") || "";
     if (stored === CURRENT_MIGRATION_VERSION) return;
 
-    // No migrations defined yet — stamp the world at the current version so the
-    // gate above short-circuits on subsequent loads. Add migration blocks here.
+    // 0.7.2 — trait `isNumeric` boolean → `measured` subtype (#532). Idempotent
+    // (already-migrated traits carry no `isNumeric` source key, so are skipped),
+    // so it is safe to run whenever the world is not already current.
+    const migrateTrait = async (item: any): Promise<void> => {
+        if (item?.type !== "trait") return;
+        const update = traitMeasuredUpdate(item._source?.system);
+        if (update) await item.update(update);
+    };
+    for (const item of game.items ?? []) await migrateTrait(item);
+    for (const actor of game.actors ?? []) {
+        for (const item of actor.items ?? []) await migrateTrait(item);
+    }
 
     await game.settings.set(
         "sohl",

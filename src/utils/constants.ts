@@ -1988,10 +1988,16 @@ export const {
     /** Value-keyed label map for `StringField({ choices })`. */
     choices: TraitSubTypeChoices,
 } = defineType("SOHL.Trait.SubType", {
-    /** A physical characteristic of the being. */
+    /** A physical characteristic of the being (descriptive; owns `textValue`). */
     PHYSIQUE: "physique",
-    /** A behavioral, temperamental, or disposition characteristic of the being. */
+    /** A behavioral/temperamental characteristic (descriptive; owns `textValue`). */
     PERSONALITY: "personality",
+    /**
+     * A static measured quantity (numeric): a `score` with an optional `max`
+     * cap and `valueDesc` bands, but **no** mastery level — it is not tested or
+     * rolled (a tested measured value is a custom Attribute, not a trait). #532.
+     */
+    MEASURED: "measured",
 });
 /** Union of all trait-subtype values. */
 export type TraitSubType = (typeof TRAIT_SUBTYPE)[keyof typeof TRAIT_SUBTYPE];

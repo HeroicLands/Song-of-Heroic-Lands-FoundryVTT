@@ -138,8 +138,10 @@ export interface TraitLike {
     uuid: string;
     name: string;
     subType: string | undefined;
-    isNumeric: boolean;
-    masteryLevelBase: number;
+    /** Whether this is a `measured` (numeric) trait (#532). */
+    isMeasured: boolean;
+    /** The measured value (`score.value`) for a measured trait. */
+    score: number;
     textValue: string;
     intensity: string | undefined;
     notes: string;
@@ -173,7 +175,7 @@ export function buildTraitGroups(
         uuid: trait.uuid,
         name: trait.name,
         intensity: trait.intensity ? intensityLabel(trait.intensity) : "",
-        value: trait.isNumeric ? trait.masteryLevelBase : trait.textValue,
+        value: trait.isMeasured ? trait.score : trait.textValue,
         notes: trait.notes,
     });
 

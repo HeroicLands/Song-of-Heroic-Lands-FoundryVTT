@@ -6,9 +6,8 @@ import { makeItemLogic } from "@tests/mocks/logicHarness";
 /** Default TraitData fields; override per test. */
 function traitFields(overrides: Record<string, unknown> = {}) {
     return {
-        subType: "physique",
+        subType: "measured",
         textValue: "",
-        isNumeric: true,
         score: { value: 12, max: null },
         intensity: "trait",
         valueDesc: [] as { label: string; maxValue: number }[],
@@ -36,7 +35,7 @@ describe("TraitLogic", () => {
     });
 
     describe("lifecycle", () => {
-        it("initialize - seeds score from score.value for numeric traits", () => {
+        it("initialize - seeds score from score.value for a measured trait", () => {
             const logic = makeTrait({ score: { value: 14, max: null } });
             logic.initialize();
             expect(logic.score.base).toBe(14);
@@ -50,9 +49,9 @@ describe("TraitLogic", () => {
             expect(logic.score.base).toBe(0);
         });
 
-        it("initialize - disables score for non-numeric traits", () => {
+        it("initialize - disables score for a descriptive trait", () => {
             const logic = makeTrait({
-                isNumeric: false,
+                subType: "physique",
                 textValue: "hirin-ahnu",
                 score: undefined,
             });
@@ -125,7 +124,6 @@ describe("TraitDataModel", () => {
         );
         it.todo("defines textValue as a StringField");
         it.todo("defines max as a nullable integer NumberField");
-        it.todo("defines isNumeric as BooleanField defaulting to false");
         it.todo(
             "defines intensity with TraitIntensities choices defaulting to TRAIT",
         );

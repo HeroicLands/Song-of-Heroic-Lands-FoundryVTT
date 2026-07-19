@@ -1582,6 +1582,7 @@
     "SOHL.Trait.Intensity.disorder": "Disorder",
     "SOHL.Trait.Intensity.impulse": "Impulse",
     "SOHL.Trait.Intensity.trait": "Trait",
+    "SOHL.Trait.SubType.measured": "Measured",
     "SOHL.Trait.SubType.personality": "Personality",
     "SOHL.Trait.SubType.physique": "Physique",
     "SOHL.Trait.Search.label": "Search Traits",
