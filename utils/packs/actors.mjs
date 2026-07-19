@@ -382,20 +382,31 @@ export class Actors {
             dossier: renderSection(body || "", "dossier"),
         };
 
-        // Inline the referenced body template into `system.body` (+ movement),
-        // rather than embedding a corpus item (#535). Incorporeal beings omit
-        // `sohl.body` and fall back to the schema's empty body.
+        // Inline the being's body (+ movement) into `system.body` and the
+        // base-actor movement fields, rather than embedding a corpus item
+        // (#535). The body may be authored two ways:
+        //   - **Inline** — the character's own `sohl` block carries `structure`
+        //     / `movementProfiles` / `weight` / … directly.
+        //   - **By reference** — `sohl.body: <shortcode>` points at a reusable
+        //     `type: body` template (the "genus"), resolved from bodyTemplates.
+        // An **incorporeal** being authors neither and keeps the schema's empty
+        // body.
         const bodyRef = sohlField(fm, "body", null);
+        let bodyData = null;
         if (bodyRef) {
-            const template = bodyTemplates.get(String(bodyRef));
-            if (!template) {
+            bodyData = bodyTemplates.get(String(bodyRef));
+            if (!bodyData) {
                 log.error(`${ctx}: no body template for "${bodyRef}"`);
                 this.errorCount++;
-            } else {
-                system.body = template.body;
-                system.currentMoveMedium = template.currentMoveMedium;
-                system.movementProfiles = template.movementProfiles;
             }
+        } else if (sohlField(fm, "structure", null)) {
+            // Body authored inline on the character itself.
+            bodyData = buildBodyFromTemplate(fm);
+        }
+        if (bodyData) {
+            system.body = bodyData.body;
+            system.currentMoveMedium = bodyData.currentMoveMedium;
+            system.movementProfiles = bodyData.movementProfiles;
         }
 
         return {
