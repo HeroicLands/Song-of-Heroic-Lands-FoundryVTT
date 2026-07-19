@@ -20,9 +20,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{formGroup fields.aspect rootId="trauma-aspect" classes="text-field" stacked=true value=system.aspect}}
         {{formGroup fields.bodyLocationCode rootId="trauma-bodyloc" classes="text-field" stacked=true value=system.bodyLocationCode}}
         {{/if}}
-        <div class="form-group text-field">
-            {{clearableNumberInput fields.treatmentDate name="system.treatmentDate" value=system.treatmentDate}}
-            <label>Treated (world-time)</label>
+        <div class="form-group stacked">
+            <label>{{localize "SOHL.Trauma.FIELDS.treatmentDate.label"}}</label>
+            {{datePicker system.treatmentDate name="system.treatmentDate"}}
         </div>
         {{#if (eq system.subType "physical")}}
         <div class="form-group text-field">

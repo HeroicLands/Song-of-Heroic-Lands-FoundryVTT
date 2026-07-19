@@ -18,3 +18,4 @@ export * from "./CalendarSettingsMenu";
 export * from "./DomainManagerApp";
 export * from "./ExpressionLibraryMenu";
 export * from "./SohlContextMenu";
+export * from "./date-picker-dialog";

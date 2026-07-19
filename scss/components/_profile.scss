@@ -10,6 +10,7 @@
     grid-auto-rows: auto;
 
     .attribute-score {
+        position: relative;
         display: flex;
         flex-direction: column;
         text-align: center;
@@ -19,24 +20,30 @@
 
         &__header {
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             gap: 2px;
         }
 
         &__name {
             flex: 1;
             margin: 0;
-            font-size: 13px;
+            // Symmetric padding keeps a long name clear of the corner ⋮ while
+            // staying centered.
+            padding: 0 12px;
+            font-size: 20px;
             font-weight: normal;
-            text-align: left;
+            text-align: center;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        // The ⋮ control sits opposite the name in the card header.
+        // The ⋮ control floats in the card's top-right corner so the name can
+        // center across the full card width.
         .item-contextmenu {
-            flex: 0 0 auto;
+            position: absolute;
+            top: 2px;
+            right: 4px;
             font-size: 12px;
         }
 

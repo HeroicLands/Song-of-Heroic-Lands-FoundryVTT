@@ -11,13 +11,6 @@ nav.tabs {
     border-bottom: none;
     color: var(--sohl-color-text-secondary);
 
-    // Tab glyphs. Sized up generously here because the icon-font glyphs render
-    // small within their em (see icon-font sizing issue); revisit once the font
-    // is regenerated to fill the em.
-    i {
-        font-size: 1.3em;
-    }
-
     &:hover,
     &:focus {
         background: var(--sohl-color-bg-overlay-dark);

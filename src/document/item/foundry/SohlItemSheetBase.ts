@@ -14,6 +14,7 @@
 import { SohlItem } from "./SohlItem";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import { SohlDataModel } from "@src/core/foundry/SohlDataModel";
+import { openDatePickerDialog } from "@src/apps/foundry/date-picker-dialog";
 import { fvttCallHook } from "@src/core/FoundryHelpers";
 import {
     localizeSubType,
@@ -95,7 +96,8 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     /**
      * ApplicationV2 auto-merges `DEFAULT_OPTIONS` up the prototype chain, so this
      * level only contributes what it adds (no `...super` spread). Registers the
-     * general `clearField` action used by the `clearableNumberInput` helper.
+     * general `clearField` action (for the `clearableNumberInput` helper) and
+     * the `pickDate` action (for the `datePicker` helper).
      */
     static override DEFAULT_OPTIONS: PlainObject = {
         // Give item sheets a fixed initial size. Without it the sheet has no
@@ -104,6 +106,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         position: { width: 600, height: 500 },
         actions: {
             clearField: SohlItemSheetBase._onClearField,
+            pickDate: SohlItemSheetBase._onPickDate,
         },
     };
 
@@ -125,6 +128,31 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         const path = target.dataset.fieldPath;
         if (!path) return;
         await this.document.update({ [path]: null });
+    }
+
+    /**
+     * `data-action="pickDate"`: open the calendar-aware date picker for a
+     * worldTime field (see the `datePicker` helper). The dialog returns the
+     * chosen worldTime number, `null` to clear, or `undefined` when cancelled;
+     * only a definite choice is written via `document.update`.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, carrying `data-field-path`.
+     */
+    protected static async _onPickDate(
+        this: SohlItemSheetBase,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const path = target.dataset.fieldPath;
+        if (!path) return;
+        const current = foundry.utils.getProperty(this.document, path) as
+            | number
+            | null
+            | undefined;
+        const result = await openDatePickerDialog(current);
+        if (result === undefined) return;
+        await this.document.update({ [path]: result });
     }
 
     /** The {@link SohlItem} document this sheet edits. */

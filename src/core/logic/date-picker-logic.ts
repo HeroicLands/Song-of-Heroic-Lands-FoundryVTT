@@ -35,6 +35,26 @@ import type {
  *   days and rejects an out-of-range day without assuming uniform months.
  */
 
+/** A selectable month for the date-picker month dropdown. */
+export interface MonthChoice {
+    /** Zero-based month index (the stored `monthIndex`). */
+    index: number;
+    /** Localized month name for display. */
+    name: string;
+}
+
+/**
+ * The months of `calendar` as dropdown choices, with localized names.
+ * @param calendar - The active calendar.
+ * @returns One {@link MonthChoice} per month, in calendar order.
+ */
+export function monthChoices(calendar: SohlCalendarData): MonthChoice[] {
+    return calendar.months.values.map((m, index) => ({
+        index,
+        name: sohl.i18n.localize(m.name),
+    }));
+}
+
 /** Editable calendar parts for a worldTime value. */
 export interface DateParts {
     /** Zero-based month index (into `calendar.months.values`). */
@@ -148,7 +168,8 @@ function dayOfYear(
     let doy = 0;
     for (let i = 0; i < monthIndex; i++) {
         const m = calendar.months.values[i];
-        doy += leap ? ((m as { leapDays?: number }).leapDays ?? m.days) : m.days;
+        doy +=
+            leap ? ((m as { leapDays?: number }).leapDays ?? m.days) : m.days;
     }
     return doy + (day - 1);
 }

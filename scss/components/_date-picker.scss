@@ -1,0 +1,59 @@
+// Date picker. Two surfaces:
+//   - `.date-picker` — the sheet control (a formatted-date display + a button
+//     that opens the picker dialog). Rendered inside a `.sohl` sheet.
+//   - `.date-picker-dialog` — the picker dialog body. A DialogV2 window has no
+//     `.sohl` frame class, so these rules are unscoped and the danger colour
+//     uses a literal fallback (the `--sohl-color-*` vars are `.sohl`-scoped).
+
+.sohl .date-picker {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    &__display {
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__pick {
+        flex: 0 0 auto;
+        cursor: pointer;
+    }
+}
+
+.date-picker-dialog {
+    &__grid {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 6px 8px;
+        align-items: center;
+    }
+
+    &__time,
+    &__skip {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        input {
+            width: 4em;
+        }
+    }
+
+    &__skip a {
+        cursor: pointer;
+    }
+
+    &__preview {
+        margin-top: 10px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    &__invalid {
+        margin-top: 4px;
+        text-align: center;
+        font-weight: bold;
+        color: var(--sohl-color-danger, #b71c1c);
+    }
+}
