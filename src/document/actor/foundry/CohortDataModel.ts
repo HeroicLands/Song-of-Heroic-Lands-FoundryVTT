@@ -17,11 +17,14 @@ import {
     COHORT_MEMBER_ROLE,
     CohortMemberRoles,
     CohortMemberRoleChoices,
+    MovementMediumChoices,
+    MOVEMENT_MEDIUM,
 } from "@src/utils/constants";
 import type { CohortData } from "@src/document/actor/logic/CohortLogic";
 import { CohortLogic } from "@src/document/actor/logic/CohortLogic";
+import { MovementProfile } from "@src/document/item/logic/CorpusLogic";
 
-const { ArrayField, SchemaField, StringField, BooleanField, DocumentIdField } =
+const { ArrayField, SchemaField, StringField, BooleanField, NumberField } =
     foundry.data.fields;
 
 /**
@@ -32,14 +35,42 @@ function defineCohortDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
         leaderName: new StringField({ initial: "" }),
-        moveRepName: new StringField({ initial: "" }),
+        /**
+         * Per-medium movement profiles. Each entry describes how the being moves
+         * in one {@link MovementMedium}: its tactical and travel speeds, and the
+         * {@link sohl.entity.expr.SafeExpression}s that turn carried weight into encumbrance
+         * (`encumbrance`, of `wt`) and shift it by strength (`strMod`, of `str`).
+         * `moveBase[medium]` mirrors the matching entry's `feetPerRound` so Active
+         * Effects and the movement system keep a stable per-medium scalar to read.
+         */
+        movementProfiles: new ArrayField(
+            new SchemaField({
+                /** The movement medium this profile describes. */
+                medium: new StringField({
+                    required: true,
+                    choices: MovementMediumChoices,
+                    initial: MOVEMENT_MEDIUM.TERRESTRIAL,
+                }),
+                /** Tactical move (feet per combat round) in this medium. */
+                feetPerRound: new NumberField({
+                    integer: true,
+                    min: 0,
+                    initial: 0,
+                }),
+                /** Overland travel speed (leagues per watch) in this medium. */
+                leaguesPerWatch: new NumberField({
+                    integer: false,
+                    min: 0,
+                    initial: 0,
+                }),
+                /** Whether this movement profile is disabled. */
+                disabled: new BooleanField({ initial: false }),
+            }),
+            { initial: [] },
+        ),
         members: new ArrayField(
             new SchemaField({
-                shortcode: new StringField({
-                    blank: false,
-                    required: true,
-                }),
-                name: new StringField({
+                shortcodeOrUuid: new StringField({
                     blank: false,
                     required: true,
                 }),
@@ -73,8 +104,9 @@ export class CohortDataModel<
     /** @inheritDoc */
     static override readonly kind = ACTOR_KIND.COHORT;
     leaderName!: string;
-    moveRepName!: string;
-    members!: { shortcode: string; name: string; role: string }[];
+    members!: { shortcodeOrUuid: string; role: string }[];
+    /** Per-medium movement profiles (speeds + encumbrance expressions). */
+    movementProfiles!: MovementProfile[];
 
     /**
      * Returns the Foundry data schema for the Cohort actor.
