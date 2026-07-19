@@ -198,9 +198,8 @@ function defineCorpusDataSchema(): foundry.data.fields.DataSchema {
          * Also seeded onto each new combatant at combatant creation time.
          */
         currentMoveMedium: new StringField({
-            required: true,
             choices: MovementMediumChoices,
-            initial: MOVEMENT_MEDIUM.TERRESTRIAL,
+            initial: MOVEMENT_MEDIUM.NONE,
         }),
         /**
          * Personal fatigue as a {@link sohl.entity.expr.SafeExpression} of the being's current
@@ -224,7 +223,6 @@ function defineCorpusDataSchema(): foundry.data.fields.DataSchema {
                 medium: new StringField({
                     required: true,
                     choices: MovementMediumChoices,
-                    initial: MOVEMENT_MEDIUM.TERRESTRIAL,
                 }),
                 /** Tactical move (feet per combat round) in this medium. */
                 feetPerRound: new NumberField({
