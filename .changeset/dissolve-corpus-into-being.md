@@ -23,9 +23,11 @@ carried weight.
 **Incorporeality** is now an empty body structure (`body.structure.parts` is
 empty), replacing the old "no corpus item" model.
 
-The compendium build inlines a reusable **body template** (`type: body`, e.g.
-`Human Folk`) into the being's `system.body` + movement fields instead of
-embedding a corpus item.
+In the compendium source, a being's body is authored **inline** — its `sohl`
+block mirrors the schema (`sohl.body` nesting `structure` / `weight` / … , with
+`currentMoveMedium` / `movementProfiles` flat) — and the build inlines it into
+`system.body` + the base-actor movement fields instead of embedding a corpus
+item.
 
 _No data migration:_ there are no live worlds; throwaway worlds are regenerated
 from the packs.

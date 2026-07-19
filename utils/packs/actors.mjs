@@ -86,56 +86,52 @@ function isPlainObject(v) {
 }
 
 /**
- * Build a being's inline `system.body` + movement from a body-template's
- * `sohl` block. A body template (`type: body`, e.g. `Corpora/Human_Folk.md`)
- * is the reusable "genus": its anatomy/weight/reach are inlined into the
- * being's `system.body`, and its per-medium movement onto the base-actor
- * `system.currentMoveMedium` / `system.movementProfiles` (movement is now a
- * universal actor capability, not part of the body).
+ * Normalize a being's persisted `system.body` from a `sohl.body` block. The
+ * authoring frontmatter mirrors the schema field-for-field: `sohl.body` nests
+ * `structure` / `weight` / `reachBase` / `bodyScaleBase` / `personalFatigue`,
+ * exactly like `system.body`.
  */
-function buildBodyFromTemplate(fm) {
-    const weight = sohlField(fm, "weight", {}) || {};
-    const movementProfiles = (sohlField(fm, "movementProfiles", []) || []).map(
-        (p) => ({
-            medium: String(p.medium ?? "terrestrial"),
-            feetPerRound: Number(p.feetPerRound ?? 0) || 0,
-            leaguesPerWatch: Number(p.leaguesPerWatch ?? 0) || 0,
-            encumbrance: String(p.encumbrance ?? "0"),
-            strMod: String(p.strMod ?? "0"),
-            disabled: Boolean(p.disabled ?? false),
-        }),
-    );
+function normalizeBody(bodyObj) {
+    const b = bodyObj && typeof bodyObj === "object" ? bodyObj : {};
+    const weight = b.weight || {};
     return {
-        body: {
-            structure: sohlField(fm, "structure", { parts: [], adjacent: [] }),
-            weight: {
-                base: weight.base == null ? null : Number(weight.base),
-                calc: String(weight.calc ?? "0"),
-            },
-            reachBase: Number(sohlField(fm, "reachBase", 0)) || 0,
-            bodyScaleBase: Number(sohlField(fm, "bodyScaleBase", 1)) || 1,
-            personalFatigue: String(sohlField(fm, "personalFatigue", "enc")),
+        structure: b.structure ?? { parts: [], adjacent: [] },
+        weight: {
+            base: weight.base == null ? null : Number(weight.base),
+            calc: String(weight.calc ?? "0"),
         },
-        currentMoveMedium: String(sohlField(fm, "defaultMoveMedium", "none")),
-        movementProfiles,
+        reachBase: Number(b.reachBase ?? 0) || 0,
+        bodyScaleBase: Number(b.bodyScaleBase ?? 1) || 1,
+        personalFatigue: String(b.personalFatigue ?? "enc"),
     };
 }
 
+/** Normalize per-medium movement profiles from a `sohl.movementProfiles` list. */
+function normalizeMovementProfiles(list) {
+    return (Array.isArray(list) ? list : []).map((p) => ({
+        medium: String(p.medium ?? "terrestrial"),
+        feetPerRound: Number(p.feetPerRound ?? 0) || 0,
+        leaguesPerWatch: Number(p.leaguesPerWatch ?? 0) || 0,
+        encumbrance: String(p.encumbrance ?? "0"),
+        strMod: String(p.strMod ?? "0"),
+        disabled: Boolean(p.disabled ?? false),
+    }));
+}
+
 /**
- * Walk the content tree for body templates (`type: body`), returning a Map
- * keyed by `shortcode` → the resolved `{ body, currentMoveMedium,
- * movementProfiles }`. Body templates are not Foundry items (they never enter
- * the items compendium); they are resolved here and inlined into beings.
+ * Extract a being's body (+ its movement) from a `sohl` block that mirrors the
+ * schema: `sohl.body` (nested → `system.body`) and the flat
+ * `sohl.currentMoveMedium` / `sohl.movementProfiles` (→ the base-actor movement
+ * fields; movement is a universal actor capability, not part of the body).
  */
-function loadBodyTemplates(contentBase) {
-    const map = new Map();
-    for (const { frontmatter: fm } of walkMarkdownTree(contentBase)) {
-        if (!fm || fm.package !== "sohl" || fm.type !== "body") continue;
-        const shortcode = sohlField(fm, "shortcode", fm.shortcode);
-        if (!shortcode) continue;
-        map.set(String(shortcode), buildBodyFromTemplate(fm));
-    }
-    return map;
+function extractBodyAndMovement(fm) {
+    return {
+        body: normalizeBody(sohlField(fm, "body", {})),
+        currentMoveMedium: String(sohlField(fm, "currentMoveMedium", "none")),
+        movementProfiles: normalizeMovementProfiles(
+            sohlField(fm, "movementProfiles", []),
+        ),
+    };
 }
 
 /**
@@ -366,7 +362,7 @@ export class Actors {
         return items;
     }
 
-    buildEntry(itemsMap, bodyTemplates, fm, body) {
+    buildEntry(itemsMap, fm, body) {
         const name = resolveName(fm);
         const id = fm.id;
         const ctx = `actor "${name}"`;
@@ -382,31 +378,29 @@ export class Actors {
             dossier: renderSection(body || "", "dossier"),
         };
 
-        // Inline the being's body (+ movement) into `system.body` and the
-        // base-actor movement fields, rather than embedding a corpus item
-        // (#535). The body may be authored two ways:
-        //   - **Inline** — the character's own `sohl` block carries `structure`
-        //     / `movementProfiles` / `weight` / … directly.
-        //   - **By reference** — `sohl.body: <shortcode>` points at a reusable
-        //     `type: body` template (the "genus"), resolved from bodyTemplates.
-        // An **incorporeal** being authors neither and keeps the schema's empty
-        // body.
-        const bodyRef = sohlField(fm, "body", null);
-        let bodyData = null;
-        if (bodyRef) {
-            bodyData = bodyTemplates.get(String(bodyRef));
-            if (!bodyData) {
-                log.error(`${ctx}: no body template for "${bodyRef}"`);
-                this.errorCount++;
-            }
-        } else if (sohlField(fm, "structure", null)) {
-            // Body authored inline on the character itself.
-            bodyData = buildBodyFromTemplate(fm);
-        }
-        if (bodyData) {
+        // Fill `system.body` (+ the base-actor movement fields) from the being's
+        // frontmatter, rather than embedding a corpus item (#535). The `sohl`
+        // block mirrors `system` field-for-field: `sohl.body` nests the body
+        // (`structure` / `weight` / …), with `currentMoveMedium` /
+        // `movementProfiles` flat alongside it. An **incorporeal** being omits
+        // `sohl.body` and keeps the schema's empty body.
+        const bodyField = sohlField(fm, "body", null);
+        if (bodyField && typeof bodyField === "object") {
+            const bodyData = extractBodyAndMovement(fm);
             system.body = bodyData.body;
             system.currentMoveMedium = bodyData.currentMoveMedium;
             system.movementProfiles = bodyData.movementProfiles;
+        } else if (bodyField != null) {
+            log.error(
+                `${ctx}: sohl.body must be an inline object (structure/weight/…), got ${typeof bodyField}`,
+            );
+            this.errorCount++;
+        }
+
+        // Being-only combat grouping (mirrors `system.defaultCombatGroup`).
+        const defaultCombatGroup = sohlField(fm, "defaultCombatGroup", undefined);
+        if (defaultCombatGroup !== undefined) {
+            system.defaultCombatGroup = defaultCombatGroup;
         }
 
         return {
@@ -439,8 +433,6 @@ export class Actors {
     async compile() {
         const itemsMap = loadItemsMap(this.itemsSourceDir);
         log.info(`Loaded ${itemsMap.size} predefined items for actor resolution`);
-        const bodyTemplates = loadBodyTemplates(this.contentBase);
-        log.info(`Loaded ${bodyTemplates.size} body template(s) for actor resolution`);
 
         let compiled = 0;
         let skippedNoId = 0;
@@ -471,7 +463,7 @@ export class Actors {
 
             log.debug(`Processing actor: ${resolveName(fm)} (${absPath})`);
             try {
-                const doc = this.buildEntry(itemsMap, bodyTemplates, fm, body);
+                const doc = this.buildEntry(itemsMap, fm, body);
                 this.writeActor(doc);
                 compiled++;
             } catch (err) {
