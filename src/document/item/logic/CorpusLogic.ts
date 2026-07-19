@@ -20,11 +20,16 @@ import {
 } from "@src/document/item/logic/SohlItemBaseLogic";
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import type { MoveBaseDict } from "@src/entity/movement/move-helpers";
+import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import type { SohlAction } from "@src/entity/action/SohlAction";
 import {
     ITEM_KIND,
     MOVEMENT_MEDIUM,
     BASE_INJURY_THRESHOLDS,
+    ACTION_SUBTYPE,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+    isMovementMedium,
     type MovementMedium,
 } from "@src/utils/constants";
 
@@ -39,8 +44,8 @@ import {
  * Logic exposes these as {@link sohl.entity.modifier.ValueModifier}s — `weight`, `reach`, and the
  * active profile's `feetPerRound` / `leaguesPerWatch` / `encumbrance` /
  * `strengthModifier` — so runtime effects (size changes, haste, encumbrance) can
- * layer on. The active profile is selected by the owning being's
- * `movementMedium` during {@link initialize}.
+ * layer on. The active profile is selected by this corpus's own
+ * `currentMoveMedium` during {@link initialize}.
  *
  * @typeParam TData - The Corpus data interface.
  */
@@ -177,8 +182,7 @@ export class CorpusLogic<
         this.strengthModifier = new entity.ValueModifier(this);
         this.moveProfile =
             this.data.movementProfiles?.find(
-                (profile) =>
-                    profile.medium === this.actorLogic?.data.movementMedium,
+                (profile) => profile.medium === this.data.currentMoveMedium,
             ) ??
             ({
                 medium: MOVEMENT_MEDIUM.TERRESTRIAL,
@@ -231,6 +235,39 @@ export class CorpusLogic<
             encExpr.evaluate({ wt: this.carriedWeight }) as number,
         );
     }
+
+    /** @inheritDoc */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "makeDefaultMedium",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Corpus.Action.makeDefaultMedium",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-person-swimming",
+                executor: "makeDefaultMedium",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+        ];
+    }
+
+    /**
+     * Set this corpus's {@link CorpusData.currentMoveMedium} — the active
+     * movement profile — to the medium carried in the action scope.
+     *
+     * Intrinsic-action executor for the `makeDefaultMedium` action.
+     *
+     * @param context - The action context; `context.scope.medium` names the
+     *   {@link MovementMedium} to make current.
+     * @returns Resolves once the item update completes.
+     */
+    async makeDefaultMedium(context: SohlActionContext): Promise<void> {
+        const medium = (context.scope as PlainObject)?.medium;
+        if (!isMovementMedium(medium)) return;
+        await this.data.update({ "system.currentMoveMedium": medium });
+    }
 }
 
 /**
@@ -262,10 +299,8 @@ export interface CorpusData<
 > extends SohlItemData<TLogic> {
     /** Persisted anatomical structure (body parts, hit locations, adjacency). */
     structure: BodyStructure.Data;
-    /** Per-medium base move (feet per combat round); 0 means the medium is unavailable. */
-    moveBase: MoveBaseDict;
-    /** The medium shown by default in the combat tracker for this corpus. */
-    defaultMoveMedium: MovementMedium;
+    /** The current movement medium; selects the active {@link movementProfiles} entry. */
+    currentMoveMedium: MovementMedium;
     /** `SafeExpression` source of encumbrance (`enc`) → personal fatigue. */
     personalFatigue: string;
     /** Per-medium movement profiles (speeds + encumbrance expressions). */

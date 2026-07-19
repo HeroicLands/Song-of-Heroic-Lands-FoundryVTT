@@ -14,8 +14,6 @@
 // Namespace barrel — hand-maintained. `npm run lint` (check-ns-barrels)
 // verifies every sibling module and subfolder here is re-exported.
 
-export * from "./AssemblyDataModel";
-export * from "./AssemblySheet";
 export * from "./BeingDataModel";
 export * from "./BeingSheet";
 export * from "./CohortDataModel";

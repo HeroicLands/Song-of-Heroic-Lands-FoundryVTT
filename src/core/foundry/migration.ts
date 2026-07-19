@@ -26,76 +26,16 @@
  */
 export const CURRENT_MIGRATION_VERSION = "0.7.1";
 
-/** Item type of the pre-rename physical-body item (now {@link CORPUS_TYPE}). */
-const LINEAGE_TYPE = "lineage";
-/** Item type of the physical-body item after #371. */
-const CORPUS_TYPE = "corpus";
-
-/**
- * Build the `corpus`-typed source for a former `lineage` item: swap the type and
- * de-prefix the renamed fields (`bodyStructure` → `structure`,
- * `bodyWeight` → `weight`), preserving `_id` and everything else.
- *
- * @param source - The `toObject()` source of a `lineage` item.
- * @returns A create payload for the equivalent `corpus` item.
- */
-function corpusSourceFromLineage(source: PlainObject): PlainObject {
-    const system = { ...((source.system as PlainObject) ?? {}) };
-    if ("bodyStructure" in system) {
-        system.structure = system.bodyStructure;
-        delete system.bodyStructure;
-    }
-    if ("bodyWeight" in system) {
-        system.weight = system.bodyWeight;
-        delete system.bodyWeight;
-    }
-    return { ...source, type: CORPUS_TYPE, system };
-}
-
-/**
- * Convert every `lineage` item in a collection to `corpus`. Foundry forbids
- * changing a document's `type` in place, so each item is recreated (with its
- * original `_id`) and the old one deleted. Failures are logged per item and do
- * not abort the pass.
- *
- * @param parent - The owning actor (for embedded items) or `null` for world items.
- * @param items - The lineage items to convert (already filtered by type).
- */
-async function convertLineageItems(
-    parent: { createEmbeddedDocuments: Function } | null,
-    items: { id: string; toObject(): PlainObject }[],
-): Promise<void> {
-    for (const item of items) {
-        const source = corpusSourceFromLineage(item.toObject());
-        try {
-            if (parent) {
-                await (item as any).delete();
-                await parent.createEmbeddedDocuments("Item", [source], {
-                    keepId: true,
-                });
-            } else {
-                await (item as any).delete();
-                await (globalThis as any).Item.create(source, { keepId: true });
-            }
-            sohl.log.info(
-                `SoHL migration | converted lineage item ${item.id} → corpus`,
-            );
-        } catch (err) {
-            sohl.log.error(
-                `SoHL migration | failed to convert lineage item ${item.id} → corpus: ${String(err)}`,
-            );
-        }
-    }
-}
-
 /**
  * Run world migrations to {@link CURRENT_MIGRATION_VERSION}. GM-only and
  * idempotent: it reads the world's `systemMigrationVersion` and applies only the
  * migrations newer than it, then stamps the current version.
  *
- * The #371 migration renames the physical-body item type `lineage` → `corpus`
- * and de-prefixes its `bodyStructure`/`bodyWeight` fields to `structure`/`weight`,
- * across world items and every actor's embedded items.
+ * **There are currently no migrations** — this is the scaffold. When a schema
+ * change needs one, add a version-gated block below that transforms `game.items`
+ * and every actor's embedded items (recreating documents with `keepId: true`
+ * where a `type` change is required, since Foundry forbids changing `type` in
+ * place), then bump {@link CURRENT_MIGRATION_VERSION}.
  */
 export async function migrateWorld(): Promise<void> {
     const game = (globalThis as any).game;
@@ -104,27 +44,12 @@ export async function migrateWorld(): Promise<void> {
         game.settings.get("sohl", "systemMigrationVersion") || "";
     if (stored === CURRENT_MIGRATION_VERSION) return;
 
-    sohl.log.info(
-        `SoHL migration | migrating world from "${stored || "(unversioned)"}" to ${CURRENT_MIGRATION_VERSION}`,
-    );
-
-    // #371 — rename lineage → corpus everywhere.
-    const worldLineages = game.items.filter(
-        (i: { type: string }) => i.type === LINEAGE_TYPE,
-    );
-    await convertLineageItems(null, worldLineages);
-
-    for (const actor of game.actors) {
-        const embedded = actor.items.filter(
-            (i: { type: string }) => i.type === LINEAGE_TYPE,
-        );
-        if (embedded.length) await convertLineageItems(actor, embedded);
-    }
+    // No migrations defined yet — stamp the world at the current version so the
+    // gate above short-circuits on subsequent loads. Add migration blocks here.
 
     await game.settings.set(
         "sohl",
         "systemMigrationVersion",
         CURRENT_MIGRATION_VERSION,
     );
-    sohl.log.info(`SoHL migration | complete (${CURRENT_MIGRATION_VERSION})`);
 }

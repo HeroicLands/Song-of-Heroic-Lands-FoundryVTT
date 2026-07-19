@@ -376,7 +376,7 @@ export class SohlCombatant<
             ITEM_KIND.CORPUS
         ]?.[0];
         const corpusDefault = (corpusItem?.logic as CorpusLogic | undefined)
-            ?.data?.defaultMoveMedium;
+            ?.data?.currentMoveMedium;
         const chosen = chooseInitialDisplayedMedium(
             userSetMedium,
             corpusDefault,
@@ -475,7 +475,7 @@ function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
         /**
          * Which movement medium's computed move is displayed for this
          * combatant in the combat tracker. Seeded at creation time from
-         * the actor's corpus `defaultMoveMedium`.
+         * the actor's corpus `currentMoveMedium`.
          */
         displayedMedium: new foundry.data.fields.StringField({
             required: true,

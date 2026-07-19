@@ -87,15 +87,15 @@ sohl.events.subscribe({
 });
 ```
 
-| Field         | Type               | Purpose                                                                                                                 |
-| ------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| `uuid`        | string             | UUID of the owning document. Resolved via `fromUuid` at dispatch time.                                                  |
-| `kind`        | string             | Subscription identifier, scoped to the document. Convention: lowerCamelCase verbs.                                      |
-| `triggerName` | string             | The trigger to listen to (must match a `ctx.name` passed to `fire`).                                                    |
-| `fireAt?`     | number             | Optional scheduled world-time. Required for `updateWorldTime` subscriptions when you want time-based dispatch ordering. |
-| `predicate?`  | `SafeExpression`   | Optional filter — a `SafeExpression` evaluated against the trigger context; a falsy result skips the dispatch (subscription preserved).                    |
-| `payload?`    | object             | Optional data handed back to the handler as the third argument.                                                         |
-| `oneShot?`    | boolean            | If true, the subscription is removed before its handler runs. Set automatically by `scheduleAt`.                        |
+| Field         | Type             | Purpose                                                                                                                                 |
+| ------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `uuid`        | string           | UUID of the owning document. Resolved via `fromUuid` at dispatch time.                                                                  |
+| `kind`        | string           | Subscription identifier, scoped to the document. Convention: lowerCamelCase verbs.                                                      |
+| `triggerName` | string           | The trigger to listen to (must match a `ctx.name` passed to `fire`).                                                                    |
+| `fireAt?`     | number           | Optional scheduled world-time. Required for `updateWorldTime` subscriptions when you want time-based dispatch ordering.                 |
+| `predicate?`  | `SafeExpression` | Optional filter — a `SafeExpression` evaluated against the trigger context; a falsy result skips the dispatch (subscription preserved). |
+| `payload?`    | object           | Optional data handed back to the handler as the third argument.                                                                         |
+| `oneShot?`    | boolean          | If true, the subscription is removed before its handler runs. Set automatically by `scheduleAt`.                                        |
 
 ### `scheduleAt(uuid, kind, fireAt, payload?)`
 
@@ -120,11 +120,11 @@ Remove a subscription. Safe to call when no subscription exists. **Runs on all c
 
 Read-only, and answer on **any** client for documents that client can see:
 
-| Method                     | Returns                                                                                             |
-| -------------------------- | -------------------------------------------------------------------------------------------------- |
-| `nextFireTime(uuid, kind)` | The subscription's absolute world-time `fireAt`, or `undefined` when absent / no `fireAt`.          |
-| `timeUntil(uuid, kind)`    | Signed seconds from now until it fires (+ future, − past, `0` now), or `undefined` when absent.      |
-| `isScheduled(uuid, kind)`  | Whether a subscription is registered for the pair.                                                  |
+| Method                     | Returns                                                                                         |
+| -------------------------- | ----------------------------------------------------------------------------------------------- |
+| `nextFireTime(uuid, kind)` | The subscription's absolute world-time `fireAt`, or `undefined` when absent / no `fireAt`.      |
+| `timeUntil(uuid, kind)`    | Signed seconds from now until it fires (+ future, − past, `0` now), or `undefined` when absent. |
+| `isScheduled(uuid, kind)`  | Whether a subscription is registered for the pair.                                              |
 
 There is at most one subscription per `(uuid, kind)`, so each returns that single subscription's value. For **display**, prefer the document's own derived getter (e.g. `injury.logic.nextHealthCheck`) — it is the single definition both the queue and the sheet read, and it works regardless of queue population. Use these queries to ask _the scheduler_ whether (and when) a kind is armed.
 

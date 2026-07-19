@@ -23,7 +23,6 @@ import {
 } from "@src/document/item/logic/AfflictionLogic";
 import {
     AFFLICTION_TRANSMISSION,
-    AfflictionHealRate,
     AfflictionSubType,
     AfflictionSubTypes,
     AfflictionTransmission,
@@ -55,8 +54,10 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         }),
         healingRateBase: new NumberField({
             integer: true,
-            initial: AfflictionHealRate.NONE,
-            min: AfflictionHealRate.NONE,
+            required: false,
+            nullable: true,
+            initial: null,
+            min: 0,
         }),
         contagionIndexBase: new NumberField({
             integer: true,
@@ -114,7 +115,7 @@ export class AfflictionDataModel<
     resolutionDate!: number | null;
     diagnosisBonusBase!: number;
     levelBase!: number;
-    healingRateBase!: number;
+    healingRateBase!: number | null;
     contagionIndexBase!: number;
     transmission!: AfflictionTransmission;
 

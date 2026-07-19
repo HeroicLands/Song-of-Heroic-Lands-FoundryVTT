@@ -21,7 +21,6 @@ import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatan
 import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
 // Actor data models
 import type { BeingDataModel } from "@src/document/actor/foundry/BeingDataModel";
-import type { AssemblyDataModel } from "@src/document/actor/foundry/AssemblyDataModel";
 import type { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 import type { StructureDataModel } from "@src/document/actor/foundry/StructureDataModel";
 import type { VehicleDataModel } from "@src/document/actor/foundry/VehicleDataModel";
@@ -243,7 +242,6 @@ declare module "fvtt-types/configuration" {
         // system -> DataModelConfig instantiation cycle (see the Item note below).
         Actor: {
             being: Constructor<BeingDataModel<any, any>>;
-            assembly: Constructor<AssemblyDataModel<any, any>>;
             cohort: Constructor<CohortDataModel<any, any>>;
             structure: Constructor<StructureDataModel<any, any>>;
             vehicle: Constructor<VehicleDataModel<any, any>>;

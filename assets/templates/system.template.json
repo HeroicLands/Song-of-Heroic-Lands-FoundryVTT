@@ -44,9 +44,6 @@
             },
             "vehicle": {
                 "htmlFields": ["dossier", "appearance"]
-            },
-            "assembly": {
-                "htmlFields": ["dossier", "appearance"]
             }
         },
         "Item": {

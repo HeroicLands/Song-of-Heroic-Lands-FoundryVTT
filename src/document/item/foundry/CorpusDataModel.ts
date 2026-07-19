@@ -14,7 +14,6 @@
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel";
 import { CorpusLogic, CorpusData } from "@src/document/item/logic/CorpusLogic";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
-import type { MoveBaseDict } from "@src/entity/movement/move-helpers";
 import {
     Amputabilities,
     AMPUTABILITY,
@@ -194,47 +193,13 @@ function defineCorpusDataSchema(): foundry.data.fields.DataSchema {
             ),
         }),
         /**
-         * Per-medium base tactical move in feet per combat round.
-         * A value of 0 means the creature cannot move in that medium.
-         * Active Effects can target individual entries (e.g.
-         * `system.moveBase.terrestrial`) to apply haste, encumbrance, etc.
+         * The current movement medium: selects the active entry from
+         * {@link movementProfiles} (the profile whose `medium` matches this).
+         * Also seeded onto each new combatant at combatant creation time.
          */
-        moveBase: new SchemaField({
-            terrestrial: new NumberField({
-                integer: true,
-                min: 0,
-                initial: 0,
-            }),
-            aquatic: new NumberField({
-                integer: true,
-                min: 0,
-                initial: 0,
-            }),
-            aerial: new NumberField({
-                integer: true,
-                min: 0,
-                initial: 0,
-            }),
-            burrowing: new NumberField({
-                integer: true,
-                min: 0,
-                initial: 0,
-            }),
-            astral: new NumberField({
-                integer: true,
-                min: 0,
-                initial: 0,
-            }),
-        }),
-        /**
-         * The medium that should be shown in the combat tracker by default
-         * for creatures of this corpus. Seeded onto each new combatant at
-         * combatant creation time.
-         */
-        defaultMoveMedium: new StringField({
-            required: true,
+        currentMoveMedium: new StringField({
             choices: MovementMediumChoices,
-            initial: MOVEMENT_MEDIUM.TERRESTRIAL,
+            initial: MOVEMENT_MEDIUM.NONE,
         }),
         /**
          * Personal fatigue as a {@link sohl.entity.expr.SafeExpression} of the being's current
@@ -250,8 +215,7 @@ function defineCorpusDataSchema(): foundry.data.fields.DataSchema {
          * in one {@link MovementMedium}: its tactical and travel speeds, and the
          * {@link sohl.entity.expr.SafeExpression}s that turn carried weight into encumbrance
          * (`encumbrance`, of `wt`) and shift it by strength (`strMod`, of `str`).
-         * `moveBase[medium]` mirrors the matching entry's `feetPerRound` so Active
-         * Effects and the movement system keep a stable per-medium scalar to read.
+         * {@link currentMoveMedium} selects which entry is active.
          */
         movementProfiles: new ArrayField(
             new SchemaField({
@@ -259,7 +223,6 @@ function defineCorpusDataSchema(): foundry.data.fields.DataSchema {
                 medium: new StringField({
                     required: true,
                     choices: MovementMediumChoices,
-                    initial: MOVEMENT_MEDIUM.TERRESTRIAL,
                 }),
                 /** Tactical move (feet per combat round) in this medium. */
                 feetPerRound: new NumberField({
@@ -362,8 +325,7 @@ export class CorpusDataModel<
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.CORPUS;
     structure!: BodyStructure.Data;
-    moveBase!: MoveBaseDict;
-    defaultMoveMedium!: MovementMedium;
+    currentMoveMedium!: MovementMedium;
     personalFatigue!: string;
     movementProfiles!: CorpusData["movementProfiles"];
     weight!: CorpusData["weight"];

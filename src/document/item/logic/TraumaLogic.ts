@@ -444,8 +444,8 @@ export const UNTREATED = {
     bleed: false,
     /** Whether an untreated wound is impairing by default. */
     impair: false,
-    /** New-injury baseline for an untreated wound (`-1` = none). */
-    newInj: -1,
+    /** New-injury baseline for an untreated wound (`null` = none). */
+    newInj: null,
 } as const;
 
 /**

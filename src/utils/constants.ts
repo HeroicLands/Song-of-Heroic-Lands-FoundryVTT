@@ -174,7 +174,6 @@ export const {
     labels: actorKindLabels,
 } = defineType("TYPES.Actor", {
     BEING: "being",
-    ASSEMBLY: "assembly",
     COHORT: "cohort",
     STRUCTURE: "structure",
     VEHICLE: "vehicle",
@@ -291,11 +290,6 @@ export const {
         Image: "systems/sohl/assets/icons/person.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ACTOR_KIND.ASSEMBLY]: {
-        IconCssClass: "fa-solid fa-layer-group",
-        Image: "systems/sohl/assets/icons/stack.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
     [ACTOR_KIND.COHORT]: {
         IconCssClass: "fa-solid fa-people-group",
         Image: "systems/sohl/assets/icons/people-group.svg",
@@ -345,6 +339,7 @@ export const {
     /** Localization keys per movement medium. */
     labels: movementMediumLabels,
 } = defineType("SOHL.MovementMedium", {
+    NONE: "none",
     TERRESTRIAL: "terrestrial",
     AQUATIC: "aquatic",
     AERIAL: "aerial",
@@ -1185,15 +1180,6 @@ export const {
 /** Union of all missile-strike-mode effect-key change paths. */
 export type MissileStrikeModeEffectKey =
     (typeof MISSILESTRIKEMODE_EFFECT_KEY)[keyof typeof MISSILESTRIKEMODE_EFFECT_KEY];
-
-/**
- * Constants for the Heal Rate of an Affliction.
- */
-export const AfflictionHealRate: StrictObject<number> = {
-    NONE: -1,
-    DEFEATED: 6,
-    DEAD: 0,
-} as const;
 
 export const {
     /** Map of affliction-subtype key → value. */
@@ -2595,13 +2581,12 @@ export interface DefinedType<KMap extends Record<string, unknown>> {
  * @example
  * ```ts
  * export const {
- *     kind: ACTOR_KIND,        // { BEING: "being", ASSEMBLY: "assembly", ... }
- *     values: ActorKinds,      // ["being", "assembly", ...]
- *     isValue: isActorKind,    // (v) => v is "being" | "assembly" | ...
+ *     kind: ACTOR_KIND,        // { BEING: "being", COHORT: "cohort", ... }
+ *     values: ActorKinds,      // ["being", "cohort", ...]
+ *     isValue: isActorKind,    // (v) => v is "being" | "cohort" | ...
  *     labels: actorKindLabels, // { BEING: "TYPES.Actor.BEING", ... }
  * } = defineType("TYPES.Actor", {
  *     BEING: "being",
- *     ASSEMBLY: "assembly",
  *     COHORT: "cohort",
  *     STRUCTURE: "structure",
  *     VEHICLE: "vehicle",
@@ -2609,7 +2594,7 @@ export interface DefinedType<KMap extends Record<string, unknown>> {
  *
  * // The value-union type, named from the kind map:
  * export type ActorKind = (typeof ACTOR_KIND)[keyof typeof ACTOR_KIND];
- * //   => "being" | "assembly" | "cohort" | "structure" | "vehicle"
+ * //   => "being" | "cohort" | "structure" | "vehicle"
  *
  * isActorKind("being"); // true
  * isActorKind("dragon"); // false

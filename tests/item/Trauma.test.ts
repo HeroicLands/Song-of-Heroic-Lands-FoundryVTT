@@ -277,7 +277,7 @@ describe("TraumaLogic", () => {
                 infect: true,
                 bleed: false,
                 impair: false,
-                newInj: -1,
+                newInj: null,
             });
         });
     });

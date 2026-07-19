@@ -15,20 +15,17 @@ import { SohlActorDataModel } from "@src/document/actor/foundry/SohlActorDataMod
 import {
     ACTOR_KIND,
     VEHICLE_OCCUPANT_ROLE,
-    VehicleOccupantRoles,
     VehicleOccupantRoleChoices,
+    MovementMediumChoices,
+    MOVEMENT_MEDIUM,
+    MovementMedium,
 } from "@src/utils/constants";
 import type { VehicleData } from "@src/document/actor/logic/VehicleLogic";
 import { VehicleLogic } from "@src/document/actor/logic/VehicleLogic";
+import { MovementProfile } from "@src/document/item/logic/CorpusLogic";
 
-const {
-    ArrayField,
-    SchemaField,
-    StringField,
-    NumberField,
-    DocumentIdField,
-    BooleanField,
-} = foundry.data.fields;
+const { ArrayField, SchemaField, StringField, NumberField, BooleanField } =
+    foundry.data.fields;
 
 /**
  * Defines the data schema for the Vehicle actor.
@@ -38,45 +35,60 @@ const {
 function defineVehicleDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
-        crewRequired: new NumberField({
-            integer: true,
-            initial: 0,
-            min: 0,
+        /**
+         * The current movement medium: selects the active entry from
+         * {@link movementProfiles} (the profile whose `medium` matches this).
+         * Also seeded onto each new combatant at combatant creation time.
+         */
+        currentMoveMedium: new StringField({
+            choices: MovementMediumChoices,
+            initial: MOVEMENT_MEDIUM.NONE,
         }),
-        maxPassengers: new NumberField({
-            integer: true,
-            initial: 0,
-            min: 0,
-        }),
-        minDraftCreatures: new NumberField({
-            integer: true,
-            initial: 0,
-            min: 0,
-        }),
-        cargoCapacity: new NumberField({
-            integer: true,
-            initial: 0,
-            min: 0,
-        }),
-        tareWeight: new NumberField({
-            integer: true,
-            initial: 0,
-            min: 0,
-        }),
+        /**
+         * Per-medium movement profiles. Each entry describes how the being moves
+         * in one {@link MovementMedium}: its tactical and travel speeds, and the
+         * {@link sohl.entity.expr.SafeExpression}s that turn carried weight into encumbrance
+         * (`encumbrance`, of `wt`) and shift it by strength (`strMod`, of `str`).
+         */
+        movementProfiles: new ArrayField(
+            new SchemaField({
+                /** The movement medium this profile describes. */
+                medium: new StringField({
+                    required: true,
+                    choices: MovementMediumChoices,
+                }),
+                /** Tactical move (feet per combat round) in this medium. */
+                feetPerRound: new NumberField({
+                    integer: true,
+                    min: 0,
+                    initial: 0,
+                }),
+                /** Overland travel speed (leagues per watch) in this medium. */
+                leaguesPerWatch: new NumberField({
+                    integer: false,
+                    min: 0,
+                    initial: 0,
+                }),
+                /** Whether this movement profile is disabled. */
+                disabled: new BooleanField({ initial: false }),
+            }),
+            { initial: [] },
+        ),
         occupants: new ArrayField(
             new SchemaField({
-                actorId: new DocumentIdField({
-                    nullable: true,
-                    initial: null,
-                }),
-                isLinked: new BooleanField({ initial: false }),
-                name: new StringField({ blank: false, initial: "" }),
-                role: new StringField({
+                actorCodeOrUuid: new StringField({
+                    nullable: false,
                     required: true,
+                }),
+                role: new StringField({
                     choices: VehicleOccupantRoleChoices,
                     initial: VEHICLE_OCCUPANT_ROLE.PASSENGER,
                 }),
-                title: new StringField({ blank: false, initial: "" }),
+                title: new StringField({
+                    blank: false,
+                    nullable: true,
+                    initial: null,
+                }),
             }),
             {
                 initial: [],
@@ -103,6 +115,8 @@ export class VehicleDataModel<
     /** @inheritDoc */
     static override readonly kind = ACTOR_KIND.VEHICLE;
     occupants!: string[];
+    movementProfiles!: MovementProfile[];
+    currentMoveMedium!: MovementMedium;
 
     /**
      * Returns the Foundry data schema for the vehicle actor.

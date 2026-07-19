@@ -454,6 +454,7 @@ export class BeingSheet extends SohlActorSheetBase {
             createAction: BeingSheet._onCreateAction,
             editAction: BeingSheet._onEditAction,
             deleteAction: BeingSheet._onDeleteAction,
+            makeDefaultMedium: BeingSheet._onMakeDefaultMedium,
         },
     };
 
@@ -514,6 +515,37 @@ export class BeingSheet extends SohlActorSheetBase {
             type: (action.data as any).shortcode,
             title: (action.data as any).title,
             skipDialog: event.shiftKey,
+        });
+        await action.execute(context);
+    }
+
+    /**
+     * Make the clicked movement medium the being's corpus's current (default)
+     * one. Invokes the corpus's `makeDefaultMedium` intrinsic action with the
+     * medium carried in the action scope; that executor persists
+     * `system.currentMoveMedium`.
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked star, inside a `data-medium` row.
+     */
+    protected static async _onMakeDefaultMedium(
+        this: BeingSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const medium = target
+            .closest("[data-medium]")
+            ?.getAttribute("data-medium");
+        if (!medium) return;
+        const corpus = (this.document.logic as BeingLogic | undefined)?.corpus;
+        const action = corpus?.actions.get("makeDefaultMedium") as
+            | SohlAction
+            | undefined;
+        if (!corpus || !action) return;
+        const context = new SohlActionContext({
+            speaker: (this.document as any).getSpeaker(),
+            type: "makeDefaultMedium",
+            title: (action.data as any).title,
+            scope: { medium },
         });
         await action.execute(context);
     }
@@ -1149,11 +1181,11 @@ export class BeingSheet extends SohlActorSheetBase {
 
         // Health bar: the banded impairment value against a fixed max of 100
         // (#470). `healthBand` is the qualitative label shown to the player.
-        const health = logic?.health;
-        const healthMax = health?.max?.effective ?? 0;
+        const health = logic?.data?.health;
+        const healthMax = health?.max ?? 0;
         const healthPct =
             healthMax > 0 ?
-                clampHealthPct((health!.value.effective / healthMax) * 100)
+                clampHealthPct((health!.value / healthMax) * 100)
             :   0;
 
         return Object.assign(context, {
@@ -1161,7 +1193,7 @@ export class BeingSheet extends SohlActorSheetBase {
             actorImg: actor.img,
             health,
             healthPct,
-            healthBand: health?.band,
+            healthBand: logic?.healthBand,
             shockState: logic?.shockState,
             statusEffects,
             bodyParts,
@@ -1295,18 +1327,20 @@ export class BeingSheet extends SohlActorSheetBase {
             medium: MovementMedium;
             label: string;
             value: number;
+            isCurrent: boolean;
         }[] = [];
-        // A being has 0 or 1 corpus, which carries its single active movement
-        // profile; show that medium's tactical move (feet/round).
+        // A being has 0 or 1 corpus. List every movement profile it carries with
+        // its tactical move (feet/round); the one matching the corpus's
+        // `currentMoveMedium` is the active (starred) default.
         const corpus = logic?.corpus;
-        if (corpus && !corpus.moveProfile.disabled) {
-            const medium = corpus.moveProfile.medium;
-            const value = corpus.feetPerRound.effective;
-            if (value > 0) {
+        if (corpus) {
+            const current = corpus.data.currentMoveMedium;
+            for (const profile of corpus.data.movementProfiles ?? []) {
                 movement.push({
-                    medium,
-                    label: MovementMediumChoices[medium],
-                    value,
+                    medium: profile.medium,
+                    label: MovementMediumChoices[profile.medium],
+                    value: profile.feetPerRound,
+                    isCurrent: profile.medium === current,
                 });
             }
         }

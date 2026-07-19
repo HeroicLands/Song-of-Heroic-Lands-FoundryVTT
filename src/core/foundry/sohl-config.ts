@@ -47,7 +47,6 @@ import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBa
 
 // Actor logic
 import { BeingLogic } from "@src/document/actor/logic/BeingLogic";
-import { AssemblyLogic } from "@src/document/actor/logic/AssemblyLogic";
 import { CohortLogic } from "@src/document/actor/logic/CohortLogic";
 import { StructureLogic } from "@src/document/actor/logic/StructureLogic";
 import { VehicleLogic } from "@src/document/actor/logic/VehicleLogic";
@@ -55,8 +54,6 @@ import { VehicleLogic } from "@src/document/actor/logic/VehicleLogic";
 // Actor Foundry
 import { BeingDataModel } from "@src/document/actor/foundry/BeingDataModel";
 import { BeingSheet } from "@src/document/actor/foundry/BeingSheet";
-import { AssemblyDataModel } from "@src/document/actor/foundry/AssemblyDataModel";
-import { AssemblySheet } from "@src/document/actor/foundry/AssemblySheet";
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 import { CohortSheet } from "@src/document/actor/foundry/CohortSheet";
 import { StructureDataModel } from "@src/document/actor/foundry/StructureDataModel";
@@ -146,7 +143,6 @@ export type ActorDMMap = Record<
 /** Canonical actor-kind → DataModel registry, keyed by {@link sohl.utils.ACTOR_KIND}. */
 export const ACTOR_DM_DEF: ActorDMMap = {
     [ACTOR_KIND.BEING]: BeingDataModel,
-    [ACTOR_KIND.ASSEMBLY]: AssemblyDataModel,
     [ACTOR_KIND.COHORT]: CohortDataModel,
     [ACTOR_KIND.STRUCTURE]: StructureDataModel,
     [ACTOR_KIND.VEHICLE]: VehicleDataModel,
@@ -178,8 +174,6 @@ export const CommonActorDataModels: ActorDMMap[keyof ActorDMMap][] =
 export const ACTOR_LOGIC_DEF = {
     /** Logic class for being (humanoid/creature) actors. */
     [ACTOR_KIND.BEING]: BeingLogic,
-    /** Logic class for assembly actors (composed of nested beings). */
-    [ACTOR_KIND.ASSEMBLY]: AssemblyLogic,
     /** Logic class for cohort actors (group of beings). */
     [ACTOR_KIND.COHORT]: CohortLogic,
     /** Logic class for structure actors (buildings, fortifications). */
@@ -199,8 +193,6 @@ const _ensureActorLogicCoversAllKinds: Record<ActorKind, unknown> =
 export interface ActorLogicByKind {
     /** Logic instance for being (humanoid/creature) actors. */
     being: BeingLogic;
-    /** Logic instance for assembly actors (composed of nested beings). */
-    assembly: AssemblyLogic;
     /** Logic instance for cohort actors (group of beings). */
     cohort: CohortLogic;
     /** Logic instance for structure actors (buildings, fortifications). */
@@ -239,7 +231,6 @@ export const {
     labels: CommonActorSheetLabels,
 } = defineType("SOHL.Actor.Sheet", {
     [ACTOR_KIND.BEING]: BeingSheet as any,
-    [ACTOR_KIND.ASSEMBLY]: AssemblySheet as any,
     [ACTOR_KIND.COHORT]: CohortSheet as any,
     [ACTOR_KIND.STRUCTURE]: StructureSheet as any,
     [ACTOR_KIND.VEHICLE]: VehicleSheet as any,

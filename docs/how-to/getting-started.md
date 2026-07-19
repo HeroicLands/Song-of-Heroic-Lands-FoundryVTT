@@ -92,7 +92,7 @@ See [Testing Guide](./testing.md) for the full setup.
 
 ```
 docs/
-├── concepts/     Architecture, lifecycle model, assembly design
+├── concepts/     Architecture, lifecycle model, security model
 ├── how-to/       Extension points, hooks, actions, testing, this guide
 ├── reference/    Type catalog, modifier model, combat pipeline, body structure,
 │                 effects integration, runtime contracts

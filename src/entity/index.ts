@@ -27,7 +27,6 @@ export * as expr from "./expr";
 /** The calculation pipeline — value and mastery-level modifiers and deltas. */
 export * as modifier from "./modifier";
 /** Movement helpers. */
-export * as movement from "./movement";
 /** Test and combat result objects — success / opposed tests and attack / defend / impact / combat results. */
 export * as result from "./result";
 /** Dice-roll wrappers. */

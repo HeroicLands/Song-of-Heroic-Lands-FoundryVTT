@@ -88,6 +88,13 @@ export interface SohlActorData<
     appearance: HTMLString;
     /** Path to the actor's portrait image. */
     portrait: FilePath;
+    /**
+     * Overall health as a token-bar-shaped `{ value, max }` (both `0…100`,
+     * `max` always 100). Derived every preparation and written back here by the
+     * owning actor's logic — **never persisted** (see `SohlActorDataModel`). A
+     * fresh actor defaults to 100/100; only Being derives it down today.
+     */
+    health: { value: number; max: number };
 
     // --- Foundry-document port (actor-specific) --------------------------
     // Lets actor logic iterate its items' logic and read ownership without
@@ -100,7 +107,7 @@ export interface SohlActorData<
 }
 
 /**
- * Base logic class for all actor types (Being, Cohort, Structure, Vehicle, Assembly).
+ * Base logic class for all actor types (Being, Cohort, Structure, Vehicle).
  *
  * Provides the foundation that all actor logic classes build upon.
  * Concrete actor logic classes extend this to implement type-specific rules:

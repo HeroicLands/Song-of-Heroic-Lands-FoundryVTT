@@ -37,7 +37,6 @@ import * as domain from "@src/entity/domain";
 import * as event from "@src/entity/event";
 import * as expr from "@src/entity/expr";
 import * as modifier from "@src/entity/modifier";
-import * as movement from "@src/entity/movement";
 import * as result from "@src/entity/result";
 import * as roll from "@src/entity/roll";
 import * as strikemode from "@src/entity/strikemode";
@@ -50,7 +49,6 @@ type EntityNamespaces = {
     event: typeof event;
     expr: typeof expr;
     modifier: typeof modifier;
-    movement: typeof movement;
     result: typeof result;
     roll: typeof roll;
     strikemode: typeof strikemode;
@@ -79,7 +77,6 @@ export const entitySurface: SohlEntitySurface & EntityNamespaces = (() => {
         event,
         expr,
         modifier,
-        movement,
         result,
         roll,
         strikemode,

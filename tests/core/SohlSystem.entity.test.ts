@@ -41,7 +41,7 @@ describe("sohl.entity registry", () => {
     });
 
     it("does not expose function-modules or non-constructable helpers", () => {
-        // aggregateArmor / calcSkillBase / move-helpers etc. are excluded.
+        // aggregateArmor / calcSkillBase etc. are excluded.
         expect(entity).not.toHaveProperty("ArmorAggregation");
         expect(entity).not.toHaveProperty("SkillBase");
         expect(entity).not.toHaveProperty("aggregateArmor");
@@ -81,7 +81,11 @@ describe("sohl.entity registry", () => {
                 (globalThis as { sohl: { entity?: unknown } }).sohl.entity,
             ).toBeUndefined();
 
-            const parent = brandLogic({ id: "p", name: "P", label: "P" }) as never;
+            const parent = brandLogic({
+                id: "p",
+                name: "P",
+                label: "P",
+            }) as never;
             const vm = new entity.ValueModifier(parent)
                 .setBase(5)
                 .add("Bonus", "BON", 3);

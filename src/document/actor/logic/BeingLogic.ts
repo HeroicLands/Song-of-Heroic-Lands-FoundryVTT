@@ -46,6 +46,7 @@ import {
 } from "@src/core/FoundryHelpers";
 import {
     deriveHealth,
+    healthBand as healthBandFor,
     type PartHealthInput,
     type HealthBand,
 } from "@src/document/actor/logic/health";
@@ -110,7 +111,8 @@ import { DamageCardInput } from "@src/document/combatant/logic/SohlCombatantLogi
  *
  * The being's **physical baseline — anatomy, body weight, reach, and movement —
  * lives on its {@link sohl.document.item.logic.CorpusLogic}, not here.** `BeingLogic` holds being-owned
- * derived state ({@link health}, {@link healingBase}, {@link shockState},
+ * derived state ({@link healthBand} plus the numeric `system.health` it writes,
+ * {@link healingBase}, {@link shockState},
  * {@link pull}, {@link carriedWeight}); anatomy/weight/reach/movement
  * (`structure`, `weight`, `reach`, `feetPerRound`, `leaguesPerWatch`,
  * `encumbrance`, `strengthModifier`) are reached through the
@@ -123,13 +125,14 @@ export class BeingLogic<
     TData extends BeingData = BeingData,
 > extends SohlActorBaseLogic<TData> {
     /**
-     * Overall health (#470): `max` is always 100, `value` is the impairment
-     * ceiling (`0…100`, floored at 1 for a living being, 0 when dead), and
-     * `band` is its qualitative band. Impairment-based — driven by impaired body
-     * parts, not a points pool. Populated in {@link finalize} via
-     * {@link deriveHealth}.
+     * The qualitative health band (Excellent…Dead) for this being's current
+     * {@link SohlActorData.health} value. Impairment-based — driven by impaired
+     * body parts, not a points pool. Recomputed from the derived `health.value`
+     * written in {@link finalize} via {@link deriveHealth}.
      */
-    health!: { value: ValueModifier; max: ValueModifier; band: HealthBand };
+    get healthBand(): HealthBand {
+        return healthBandFor(this.data.health.value);
+    }
 
     /**
      * Base healing rate, ultimately influenced by traits and treatment
@@ -814,11 +817,12 @@ export class BeingLogic<
     }
 
     /**
-     * Populate {@link health} from the being's Endurance, active injuries,
-     * body-part impairment, and incapacitating statuses (#463). Runs in
-     * {@link finalize}, after all items (corpus, traumas) are prepared. The math
-     * lives in the pure {@link deriveHealth}; this method only gathers the
-     * inputs and wraps the result in `{ value, max }` ValueModifiers.
+     * Populate the being's derived health (`system.health` and the qualitative
+     * {@link healthBand}) from its Endurance, active injuries, body-part
+     * impairment, and incapacitating statuses (#463). Runs in {@link finalize},
+     * after all items (corpus, traumas) are prepared. The math lives in the pure
+     * {@link deriveHealth}; this method only gathers the inputs and writes the
+     * `{ value, max }` numbers back into `system.health`.
      */
     private deriveHealthState(): void {
         // A per-location view of the being's active injuries, for the body-part
@@ -856,13 +860,13 @@ export class BeingLogic<
         });
 
         const dead = fvttActorStatuses(this.actor).has(STATUS_EFFECT.DEAD);
-        const { max, value, band } = deriveHealth({ parts, dead });
+        const { max, value } = deriveHealth({ parts, dead });
 
-        this.health = {
-            max: new entity.ValueModifier(this).setBase(max),
-            value: new entity.ValueModifier(this).setBase(value),
-            band,
-        };
+        // Write the derived bar back into the (never-persisted) data model so
+        // the token resource bar can read `system.health`. `band` is derived
+        // on demand from `value` via the {@link healthBand} getter.
+        this.data.health.value = value;
+        this.data.health.max = max;
     }
 
     /**

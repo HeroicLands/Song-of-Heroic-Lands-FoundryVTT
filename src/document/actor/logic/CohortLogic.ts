@@ -16,6 +16,8 @@ import {
     type SohlActorData,
     type SohlActorLogic,
 } from "@src/document/actor/logic/SohlActorBaseLogic";
+import { MovementProfile } from "@src/document/item/logic/CorpusLogic";
+import { MovementMedium } from "@src/utils/constants";
 
 /**
  * A group of individuals acting as a unit.
@@ -61,15 +63,17 @@ export class CohortLogic<
     }
 
     /**
-     * Build an `update()` payload that removes the member with the given name
+     * Build an `update()` payload that removes the member with the given shortcode or UUID
      * from {@link CohortData.members}.
      *
-     * @param name - The unique name of the member to remove.
+     * @param shortcodeOrUuid - The shortcode or UUID of the member to remove.
      * @returns An update payload (does not itself persist the change).
      */
-    removeMemberUpdate(name: string): PlainObject {
+    removeMemberUpdate(shortcodeOrUuid: string): PlainObject {
         return {
-            "system.members": this.data.members.filter((m) => m.name !== name),
+            "system.members": this.data.members.filter(
+                (m) => m.shortcodeOrUuid !== shortcodeOrUuid,
+            ),
         };
     }
 
@@ -104,14 +108,14 @@ export interface CohortData<
 > extends SohlActorData<TLogic> {
     /** Name of the cohort member serving as leader */
     leaderName: string;
-    /** Name of the member whose movement profile determines group speed */
-    moveRepName: string;
+    /** Per-medium movement profiles. */
+    movementProfiles: MovementProfile[];
+    /** The current movement medium: selects the active entry from {@link movementProfiles}. */
+    currentMoveMedium: MovementMedium;
     /** The individuals that make up this cohort */
     members: {
         /** Shortcode of the world actor that defines this member's capabilities. */
-        shortcode: string;
-        /** Unique display name for this member within the cohort. */
-        name: string;
+        shortcodeOrUuid: string;
         /** This member's role within the cohort (e.g. leader, follower). */
         role: string;
     }[];

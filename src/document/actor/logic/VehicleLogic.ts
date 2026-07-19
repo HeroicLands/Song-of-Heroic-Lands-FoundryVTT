@@ -17,6 +17,8 @@ import {
     type SohlActorData,
     type SohlActorLogic,
 } from "@src/document/actor/logic/SohlActorBaseLogic";
+import { MovementProfile } from "@src/document/item/logic/CorpusLogic";
+import { MovementMedium } from "@src/utils/constants";
 
 /**
  * A movable inanimate conveyance.
@@ -30,9 +32,7 @@ import {
  * is shorthand for all of that Cohort's members being occupants).
  *
  * Vehicles can own Protection items (hull armor, reinforced sides), Injuries
- * (structural damage), Container Gear (cargo holds), and Actions. They are
- * often composed into an {@link AssemblyLogic | Assembly} alongside crew
- * Cohorts and mounted weapon Structures.
+ * (structural damage), Container Gear (cargo holds), and Actions.
  *
  * @typeParam TData - The Vehicle data interface.
  */
@@ -74,4 +74,8 @@ export interface VehicleData<
      * (shorthand for all of that Cohort's members).
      */
     occupants: string[];
+    /** Per-medium movement profiles. */
+    movementProfiles: MovementProfile[];
+    /** The current movement medium: selects the active entry from {@link movementProfiles}. */
+    currentMoveMedium: MovementMedium;
 }

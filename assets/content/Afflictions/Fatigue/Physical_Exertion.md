@@ -15,7 +15,7 @@ package: sohl
 sohl:
     subType: fatigue
     category: windedness
-    diagnosisBonus: 1
+    diagnosisBonus: 0
     levelBase: 1
     healingRateBase: 5
     contagionIndex: 0
