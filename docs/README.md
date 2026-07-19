@@ -56,6 +56,7 @@ Contracts, catalogs, and specifications.
 - [Scene, Token, and Combatant Systems](reference/scene-token-combatant.md)
 - [Calendar](reference/calendar.md)
 - [Event Queue](reference/event-queue.md)
+- [Handlebars Template Helpers](reference/handlebars-helpers.md)
 
 ## Contributing
 

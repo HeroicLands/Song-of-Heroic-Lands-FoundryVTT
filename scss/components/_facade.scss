@@ -10,9 +10,19 @@
         background: var(--sohl-color-text-inverse);
     }
 
-    // The image + editor row fills the tab height so the editor can stretch.
+    // The image + editor row fills the tab height. Override Foundry's
+    // `.flexrow { align-items: center }` so the portrait and editor sit at the
+    // top of the tab instead of floating in the vertical center; `stretch` lets
+    // the editor column fill the height.
     .flexrow {
         height: 100%;
+        align-items: stretch;
+    }
+
+    // Keep the portrait anchored to the top at its natural size (don't stretch
+    // it to the full row height).
+    img.facade__image {
+        align-self: flex-start;
     }
 
     .facade__description {

@@ -778,6 +778,45 @@ function registerHandlebarsHelpers() {
     );
 
     /**
+     * Render a calendar-aware date picker bound to a numeric worldTime field:
+     * the current value shown in the active calendar's format, and a button that
+     * opens the {@link sohl.apps.foundry.openDatePickerDialog | picker dialog}
+     * (`data-action="pickDate"`). The field stores/returns the numeric worldTime;
+     * only display and editing use calendar format.
+     *
+     * @example
+     * ```hbs
+     * {{datePicker system.treatmentDate name="system.treatmentDate"}}
+     * ```
+     */
+    Handlebars.registerHelper("datePicker", function (value, options) {
+        const path = options.hash.name;
+        const hasValue = value !== null && value !== undefined && value !== "";
+
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("date-picker");
+
+        const display = document.createElement("span");
+        display.classList.add("date-picker__display");
+        display.textContent =
+            hasValue ?
+                sohl.calendar.format(Number(value), "sohl.default" as never)
+            :   sohl.i18n.localize("SOHL.DatePicker.empty");
+        wrapper.append(display);
+
+        if (path) {
+            const pick = document.createElement("a");
+            pick.classList.add("date-picker__pick");
+            pick.setAttribute("data-action", "pickDate");
+            pick.setAttribute("data-field-path", path);
+            pick.setAttribute("data-tooltip", "SOHL.DatePicker.pick");
+            pick.innerHTML = '<i class="fa-solid fa-calendar-days"></i>';
+            wrapper.append(pick);
+        }
+        return new Handlebars.SafeString(wrapper.outerHTML);
+    });
+
+    /**
      * Format a world time (seconds, as in `game.time.worldTime`) using the
      * active calendar. Safe to call regardless of which calendar (SoHL's or a
      * module's) is currently installed — the `sohl.*` formatters degrade

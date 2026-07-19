@@ -12,6 +12,7 @@ import {
     datePartsToWorldTime,
     skipDays,
     calendarSecondsPerDay,
+    monthChoices,
 } from "@src/core/logic/date-picker-logic";
 
 const SECONDS_PER_DAY = 24 * 60 * 60;
@@ -163,18 +164,30 @@ describe("datePartsToWorldTime", () => {
     });
 
     it("includes the time of day", () => {
-        expect(datePartsToWorldTime(uniform, parts(0, 1, 1, false, 14, 30, 15)))
-            .toBe(14 * 3600 + 30 * 60 + 15);
+        expect(
+            datePartsToWorldTime(uniform, parts(0, 1, 1, false, 14, 30, 15)),
+        ).toBe(14 * 3600 + 30 * 60 + 15);
     });
 
     it("rejects an out-of-range time of day", () => {
-        expect(datePartsToWorldTime(uniform, parts(0, 1, 1, false, 24))).toBeNull();
+        expect(
+            datePartsToWorldTime(uniform, parts(0, 1, 1, false, 24)),
+        ).toBeNull();
         expect(
             datePartsToWorldTime(uniform, parts(0, 1, 1, false, 0, 60)),
         ).toBeNull();
         expect(
             datePartsToWorldTime(uniform, parts(0, 1, 1, false, 0, 0, 60)),
         ).toBeNull();
+    });
+});
+
+describe("monthChoices", () => {
+    it("returns one index/name choice per month, in order", () => {
+        const choices = monthChoices(variable);
+        expect(choices).toHaveLength(12);
+        expect(choices[0]).toEqual({ index: 0, name: "Month0" });
+        expect(choices[11]).toEqual({ index: 11, name: "Month11" });
     });
 });
 
@@ -232,15 +245,17 @@ describe("skipDays", () => {
     });
 
     it("preserves the time of day", () => {
-        expect(skipDays(uniform, parts(0, 1, 1, false, 10, 20, 30), 5)).toEqual({
-            monthIndex: 0,
-            day: 6,
-            eraYear: 1,
-            beforeEra: false,
-            hour: 10,
-            minute: 20,
-            second: 30,
-        });
+        expect(skipDays(uniform, parts(0, 1, 1, false, 10, 20, 30), 5)).toEqual(
+            {
+                monthIndex: 0,
+                day: 6,
+                eraYear: 1,
+                beforeEra: false,
+                hour: 10,
+                minute: 20,
+                second: 30,
+            },
+        );
     });
 
     it("returns null when the starting date is invalid", () => {
