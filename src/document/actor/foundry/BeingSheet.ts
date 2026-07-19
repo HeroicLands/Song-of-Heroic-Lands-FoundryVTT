@@ -23,6 +23,7 @@ import {
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     ITEM_KIND,
+    MOVEMENT_MEDIUM,
     GearKinds,
     MovementMedium,
     MovementMediumChoices,
@@ -41,7 +42,8 @@ import {
 } from "@src/utils/constants";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
-import type { CorpusLogic } from "@src/document/item/logic/CorpusLogic";
+import { getActorBody } from "@src/document/actor/logic/BodyLogic";
+import { NONE_MOVE_PROFILE } from "@src/document/actor/logic/movement";
 import type { LocationInjury } from "@src/entity/body/impairment";
 import type { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
@@ -520,10 +522,11 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Make the clicked movement medium the being's corpus's current (default)
-     * one. Invokes the corpus's `makeDefaultMedium` intrinsic action with the
-     * medium carried in the action scope; that executor persists
-     * `system.currentMoveMedium`.
+     * Make the clicked movement medium the being's current (default) one.
+     * Invokes the actor's `makeDefaultMedium` intrinsic action with the medium
+     * carried in the action scope; that executor persists
+     * `system.currentMoveMedium`. Movement is a universal actor capability, so
+     * the action lives on the actor logic.
      * @param _event - The triggering pointer event (unused).
      * @param target - The clicked star, inside a `data-medium` row.
      */
@@ -536,11 +539,11 @@ export class BeingSheet extends SohlActorSheetBase {
             .closest("[data-medium]")
             ?.getAttribute("data-medium");
         if (!medium) return;
-        const corpus = (this.document.logic as BeingLogic | undefined)?.corpus;
-        const action = corpus?.actions.get("makeDefaultMedium") as
+        const logic = this.document.logic as BeingLogic | undefined;
+        const action = logic?.actions.get("makeDefaultMedium") as
             | SohlAction
             | undefined;
-        if (!corpus || !action) return;
+        if (!logic || !action) return;
         const context = new SohlActionContext({
             speaker: (this.document as any).getSpeaker(),
             type: "makeDefaultMedium",
@@ -763,7 +766,7 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Open an embedded item's sheet — the Edit anchor (e.g. the Corpus row).
+     * Open an embedded item's sheet — the Edit anchor on an item row.
      *
      * @param _event - The triggering pointer event (unused).
      * @param target - The clicked control, within a `data-item-id` row.
@@ -777,8 +780,8 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Delete an embedded item after confirmation — the Delete anchor (e.g. the
-     * Corpus row; deleting the corpus returns the being to its no-body state).
+     * Delete an embedded item after confirmation — the Delete anchor on an
+     * item row.
      *
      * @param _event - The triggering pointer event (unused).
      * @param target - The clicked control, within a `data-item-id` row.
@@ -833,7 +836,7 @@ export class BeingSheet extends SohlActorSheetBase {
     /**
      * Assign the item held by a hold-capable body part, from the Held Items
      * section's per-limb dropdown. Writes the chosen item's id (or `null` for
-     * the blank option) to that part's `heldItemId` on the corpus's body
+     * the blank option) to that part's `heldItemId` on the being's body
      * structure. A weapon held in two parts (two-handed) is expressed by
      * selecting it in both limbs' dropdowns.
      *
@@ -847,14 +850,13 @@ export class BeingSheet extends SohlActorSheetBase {
         const partIndex = Number(select.dataset.partIndex);
         if (Number.isNaN(partIndex)) return;
         const itemId = select.value || null;
-        const corpus = (this.document.logic as BeingLogic)?.logicTypes?.[
-            ITEM_KIND.CORPUS
-        ]?.[0];
-        if (!corpus) return;
-        const payload = corpus.structure.setPartFieldsUpdate([
+        const logic = this.document.logic as BeingLogic | undefined;
+        const body = getActorBody(logic);
+        if (!body) return;
+        const payload = body.structure.setPartFieldsUpdate([
             { index: partIndex, changes: { heldItemId: itemId } },
         ]);
-        if (Object.keys(payload).length) await corpus.data.update(payload);
+        if (Object.keys(payload).length) await logic?.data.update(payload);
     }
 
     /**
@@ -1156,13 +1158,11 @@ export class BeingSheet extends SohlActorSheetBase {
             activeAfflictionSubTypes,
         );
 
-        // Body-part lozenges, sourced from the actor's Corpus body structure
-        // (dynamic — varies by corpus), each colored by its derived impairment
+        // Body-part lozenges, sourced from the being's body structure
+        // (dynamic — varies by being), each colored by its derived impairment
         // status (#464). Impairment comes from the actor's active injuries,
         // grouped onto parts by the injured location's shortcode.
-        const corpusItem = (actor.itemTypes as any)?.[ITEM_KIND.CORPUS]?.[0];
-        const structure = (corpusItem?.logic as CorpusLogic | undefined)
-            ?.structure;
+        const structure = getActorBody(actor.logic)?.structure;
         const injuries: LocationInjury[] = [];
         for (const item of ((actor.itemTypes as any)?.[ITEM_KIND.TRAUMA] ??
             []) as Iterable<any>) {
@@ -1329,20 +1329,23 @@ export class BeingSheet extends SohlActorSheetBase {
             value: number;
             isCurrent: boolean;
         }[] = [];
-        // A being has 0 or 1 corpus. List every movement profile it carries with
-        // its tactical move (feet/round); the one matching the corpus's
-        // `currentMoveMedium` is the active (starred) default.
-        const corpus = logic?.corpus;
-        if (corpus) {
-            const current = corpus.data.currentMoveMedium;
-            for (const profile of corpus.data.movementProfiles ?? []) {
-                movement.push({
-                    medium: profile.medium,
-                    label: MovementMediumChoices[profile.medium],
-                    value: profile.feetPerRound,
-                    isCurrent: profile.medium === current,
-                });
-            }
+        // Movement is a universal actor capability. List every authored movement
+        // profile with its tactical move (feet/round); the one matching the
+        // actor's `currentMoveMedium` is the active (starred) default. Every
+        // actor also gets the constant NONE "no movement" row first, so a being
+        // can be made immobile even if it authors no NONE profile itself.
+        const current = logic?.data.currentMoveMedium ?? MOVEMENT_MEDIUM.NONE;
+        const rows = [
+            NONE_MOVE_PROFILE,
+            ...(logic?.data.movementProfiles ?? []),
+        ];
+        for (const profile of rows) {
+            movement.push({
+                medium: profile.medium,
+                label: MovementMediumChoices[profile.medium],
+                value: profile.feetPerRound,
+                isCurrent: profile.medium === current,
+            });
         }
 
         return Object.assign(context, {
@@ -1443,12 +1446,9 @@ export class BeingSheet extends SohlActorSheetBase {
             (source) => (source.logic as any)?.strikeModes ?? [],
         );
 
-        // Body structure for anatomy display — sourced from the actor's Corpus
-        // item. The Corpus is a singleton (0 or 1): `corpus` drives the Combat
-        // tab's Corpus row (+ Add disabled when one exists; Edit/Delete anchors).
-        const corpusItem = (actor.itemTypes as any)?.[ITEM_KIND.CORPUS]?.[0];
-        const corpusLogic = corpusItem?.logic as CorpusLogic | undefined;
-        const structure = corpusLogic?.structure;
+        // Body structure for anatomy display — the being's own body (empty for
+        // an incorporeal being).
+        const structure = getActorBody(actor.logic)?.structure;
 
         // HMK compatibility: the "Use Zone Die" world setting presents a strike
         // mode's spread as a Zone Die (`d{n}`, column "ZD") instead of a Spread
@@ -1515,7 +1515,6 @@ export class BeingSheet extends SohlActorSheetBase {
         return Object.assign(context, {
             meleeStrikeModes,
             missileStrikeModes,
-            corpus: corpusItem,
             structure,
             bodyParts,
             useZoneDie,
@@ -1740,15 +1739,14 @@ export class BeingSheet extends SohlActorSheetBase {
 
         // On Body has no hard capacity cap; it summarizes the being's overall
         // load — its total carried-gear weight (accumulated ground-up on
-        // `BeingLogic.carriedWeight`) and the resulting encumbrance for its active
-        // movement medium (`corpus.encumbrance`, 0 when the being has no corpus,
-        // e.g. an incorporeal being).
+        // `BeingLogic.carriedWeight`) and the resulting encumbrance for its
+        // active movement medium (`BeingLogic.encumbrance`).
         const onBody = {
             items: tree.onBodyItems.map(toRow),
             capacity: {
                 isEncumbrance: true,
                 used: round1(logic.carriedWeight?.effective ?? 0),
-                encumbrance: logic.corpus?.encumbrance?.effective ?? 0,
+                encumbrance: logic.encumbrance?.effective ?? 0,
             },
         };
         const containers = tree.containers.map((node) => ({

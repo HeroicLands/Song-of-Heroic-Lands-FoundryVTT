@@ -20,7 +20,6 @@ export * from "./ArmorGearLogic";
 export * from "./AttributeLogic";
 export * from "./ConcoctionGearLogic";
 export * from "./ContainerGearLogic";
-export * from "./CorpusLogic";
 export * from "./GearLogic";
 export * from "./MiscGearLogic";
 export * from "./MysteryLogic";

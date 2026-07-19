@@ -21,6 +21,7 @@ import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
+import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import type { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
 import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
@@ -401,17 +402,16 @@ export class SohlCombatantLogic<
 
     /**
      * The computed tactical move (feet per combat round) for this combatant,
-     * read from its being's {@link sohl.document.item.logic.CorpusLogic.feetPerRound} for the being's
-     * active movement medium and scaled by the combatant's situational
-     * {@link SohlCombatantData.moveFactor} (run, difficult terrain, haste, …;
-     * defaults to `1`). `null` when the actor has no movement model (no corpus,
-     * or a non-being such as a Vehicle).
+     * read from its actor's {@link sohl.document.actor.logic.SohlActorBaseLogic.feetPerRound}
+     * for the actor's active movement medium and scaled by the combatant's
+     * situational {@link SohlCombatantData.moveFactor} (run, difficult terrain,
+     * haste, …; defaults to `1`). `null` when the actor has no movement model.
      * @returns The tactical move, or `null` when unavailable.
      */
     computedMove(): number | null {
-        const being = this.actorLogic as BeingLogic | null;
-        if (!being?.corpus) return null;
-        return being.corpus.feetPerRound.effective * this.data.moveFactor;
+        const feetPerRound = this.actorLogic?.feetPerRound;
+        if (!feetPerRound) return null;
+        return feetPerRound.effective * this.data.moveFactor;
     }
 
     /** The computed move for the combat-tracker's displayed medium. */
@@ -1224,19 +1224,19 @@ export const THREAT_NEGATING_STATUSES = [
  * Decide which medium a newly created combatant should display in the combat
  * tracker.
  *
- * Precedence: an explicit user-set medium > the actor's corpus default >
+ * Precedence: an explicit user-set medium > the actor's current move medium >
  * nothing (caller keeps the schema default).
  *
  * @param userSetMedium - An explicitly user-selected medium, if any.
- * @param corpusDefault - The actor's corpus default medium, if any.
+ * @param actorDefault - The actor's current move medium, if any.
  * @returns The medium to display, or `null` to keep the schema default.
  */
 export function chooseInitialDisplayedMedium(
     userSetMedium: string | undefined | null,
-    corpusDefault: string | undefined | null,
+    actorDefault: string | undefined | null,
 ): string | null {
     if (userSetMedium) return userSetMedium;
-    if (corpusDefault) return corpusDefault;
+    if (actorDefault) return actorDefault;
     return null;
 }
 
@@ -1378,14 +1378,14 @@ function combatantStatuses(combatant: SohlCombatant): Set<string> {
 
 /**
  * Build the Aim select options (a `{ shortcode: label }` map) from the
- * defender's body parts. Empty when the defender has no corpus / body structure.
+ * defender's body parts. Empty when the defender is incorporeal (no body
+ * structure) or is not a Being.
  * @param defenderActor - The actor being aimed at.
  * @returns A map of body-part shortcode to display label.
  */
 export function buildAimChoices(defenderActor: any): Record<string, string> {
-    const corpusLogic = defenderActor?.itemTypes?.[ITEM_KIND.CORPUS]?.[0]
-        ?.logic as any;
-    const parts: any[] = corpusLogic?.structure?.parts ?? [];
+    const parts: any[] =
+        getActorBody(defenderActor?.logic)?.structure?.parts ?? [];
     const choices: Record<string, string> = {};
     for (const part of parts) {
         choices[part.shortcode] = part.locations?.[0]?.name ?? part.shortcode;

@@ -88,9 +88,6 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
      *   ownership.
      * - **Already on this actor** → ignored (no self-duplicate).
      *
-     * Corpus is a singleton, so a second corpus drop is refused (the hard
-     * data-layer guard is #338).
-     *
      * @param event - The originating drop event (its `shiftKey` selects move-all).
      * @param droppedItem - The resolved dropped item.
      */
@@ -105,17 +102,6 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
 
         // Already embedded on this actor: don't duplicate it onto itself.
         if (sourceActor?.id === actor.id) return;
-
-        // Corpus singleton: refuse a second one.
-        if (
-            droppedItem.type === ITEM_KIND.CORPUS &&
-            (actor.itemTypes[ITEM_KIND.CORPUS]?.length ?? 0) > 0
-        ) {
-            (globalThis as any).ui?.notifications?.warn(
-                "This being already has a corpus; delete the current one first.",
-            );
-            return;
-        }
 
         // Source discriminates the semantics: an item embedded on another actor
         // is **moved** (created here, removed there); a compendium/world item is

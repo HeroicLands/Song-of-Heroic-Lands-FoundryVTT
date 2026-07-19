@@ -17,11 +17,11 @@ import { runStrikeModeTest } from "@src/document/item/logic/strikeModeTest";
 import {
     ACTION_SUBTYPE,
     defineType,
-    ITEM_KIND,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     STRIKE_MODE_TYPE,
 } from "@src/utils/constants";
+import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
@@ -227,14 +227,12 @@ export class WeaponGearLogic<
     override evaluate(): void {
         super.evaluate();
         // A melee mode's reach is its weapon length (the reach base) plus the
-        // wielder's corpus reach. A non-Being wielder (or none) has no
-        // corpus, so reach stays at length alone.
-        const corpusReach =
-            this.actorLogic?.logicTypes[ITEM_KIND.CORPUS][0]?.reach.effective ??
-            0;
+        // wielder's body reach. A non-Being wielder (or an incorporeal one) has
+        // no body, so reach stays at length alone.
+        const bodyReach = getActorBody(this.actorLogic)?.reach.effective ?? 0;
         for (const sm of this.strikeModes) {
             if (sm instanceof MeleeStrikeMode) {
-                sm.reach.add("SOHL.INFO.Reach", "Size", corpusReach);
+                sm.reach.add("SOHL.INFO.Reach", "Size", bodyReach);
             }
         }
     }

@@ -55,14 +55,14 @@ const SAMPLE_DATA: BodyStructure.Data = {
     adjacent: [],
 } as any;
 
-const MOCK_CORPUS_LOGIC = brandLogic({
-    kind: "corpus",
+const MOCK_BODY_OWNER = brandLogic({
+    kind: "being",
     actor: null,
-    data: { structure: SAMPLE_DATA },
+    data: { body: { structure: SAMPLE_DATA } },
 }) as any;
 
 function makeBody(): BodyStructure {
-    return new BodyStructure(SAMPLE_DATA, { parent: MOCK_CORPUS_LOGIC });
+    return new BodyStructure(SAMPLE_DATA, { parent: MOCK_BODY_OWNER });
 }
 
 describe("parseInjuryRequest", () => {
@@ -245,20 +245,16 @@ describe("buildInjuryCardData", () => {
 });
 
 describe("getActorBodyStructure (#268)", () => {
-    it("resolves the body structure from the actor logic's logicTypes", () => {
-        // The callers pass the BeingLogic (`this`), which exposes `logicTypes`,
-        // not the Foundry actor's `itemTypes`. The helper must read the former.
-        const body = {} as BodyStructure;
-        const logic = {
-            logicTypes: { [ITEM_KIND.CORPUS]: [{ structure: body }] },
-        };
-        expect(getActorBodyStructure(logic)).toBe(body);
+    it("resolves the body structure from the being's body sub-object", () => {
+        // The callers pass the BeingLogic (`this`), which exposes its `body`
+        // sub-object; the helper reads `body.structure` (via getActorBody).
+        const structure = {} as BodyStructure;
+        const logic = { body: { structure } };
+        expect(getActorBodyStructure(logic)).toBe(structure);
     });
 
-    it("returns undefined when there is no corpus logic", () => {
-        expect(
-            getActorBodyStructure({ logicTypes: { [ITEM_KIND.CORPUS]: [] } }),
-        ).toBeUndefined();
+    it("returns undefined when the being has no body (incorporeal / non-being)", () => {
+        expect(getActorBodyStructure({})).toBeUndefined();
         expect(getActorBodyStructure(undefined)).toBeUndefined();
     });
 });

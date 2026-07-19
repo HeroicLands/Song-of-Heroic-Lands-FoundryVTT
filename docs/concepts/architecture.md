@@ -106,21 +106,40 @@ For typed, documented access, prefer **`document.logic.data`**. `SohlLogic.data`
 
 So to discover what's available on a document, read its `*Data` interface (the shape of `system` / `logic.data`) and its Logic class (computed properties, intrinsic actions). The DataModel and Sheet classes are Foundry binding and are intentionally absent from the API docs.
 
-### Not all of a being's derived state lives on `BeingLogic`
+### A being's physical baseline lives on a `body` sub-object; movement is universal
 
-A being's physical baseline — **anatomy, body weight, reach, and movement** — is defined by its **Corpus** item (its physical body), so that derived state lives on **`CorpusLogic`, not `BeingLogic`**. A being has **0 or 1** corpus; **no corpus means the being is incorporeal** — a spirit, with no body structure, weight, reach, movement, or carry capacity. That is a supported state, not an error. During preparation the corpus registers itself on the being, exposed as the **`BeingLogic.corpus`** pointer (`undefined` for an incorporeal being). Reach corpus-owned state through it:
+A being's physical baseline — **anatomy, body weight, reach, body scale, and personal
+fatigue** — lives on the **Being actor itself**, under `system.body`, and is derived by
+a Being-owned {@link sohl.document.actor.logic.BodyLogic} exposed as **`being.body`**.
+There is no separate physical-body item: a being with an **empty body structure**
+(`being.body.structure.parts.length === 0`) is **incorporeal** — a spirit, with no body
+structure, weight, or reach. That is a supported state, not an error; check
+`being.body.isIncorporeal`. Reach body-owned state through `being.body`:
 
-- On **`BeingLogic`** directly: `health`, `healingBase`, `shockState`, `pull`, and `carriedWeight` (the ground-up total of carried gear).
-- On **`BeingLogic.corpus`** (a `CorpusLogic`): `structure`, `weight`, `reach`, and the active movement profile as `feetPerRound` / `leaguesPerWatch` / `encumbrance` / `strengthModifier` (plus `moveProfile`, the resolved profile for the being's `movementMedium`).
+- On **{@link sohl.document.actor.logic.BeingLogic}** directly: `health`, `healingBase`, `shockState`, `pull`, and `carriedWeight` (the ground-up total of carried gear).
+- On **`being.body`** (a {@link sohl.document.actor.logic.BodyLogic}): `structure`, `weight`, `reach`, `bodyScale`, `injuryTable`, and `isIncorporeal`.
+
+**Movement is not a being-only concept.** It is a **universal actor capability** on the
+base {@link sohl.document.actor.logic.SohlActorBaseLogic} (see also
+`src/document/actor/logic/movement.ts`), so every actor — Being, Vehicle, Cohort,
+Structure — inherits `currentMoveMedium` + `movementProfiles` and the derived
+`feetPerRound` / `leaguesPerWatch` / `moveProfile` (the resolved profile for the actor's
+`currentMoveMedium`), plus the `makeDefaultMedium` intrinsic action. The default medium
+is `MOVEMENT_MEDIUM.NONE` — a non-mover, represented by the `NONE_MOVE_PROFILE` constant
+in `movement.ts`, which is never authored per-actor. `BeingLogic` additionally derives
+movement's `strengthModifier` and `encumbrance` from its `str` attribute and
+`carriedWeight`.
 
 ```ts
 const being = actor.logic; // BeingLogic
 being.carriedWeight.effective; // carried gear weight — on the being
-being.corpus?.feetPerRound.effective; // tactical move — on the corpus
-being.corpus?.structure; // anatomy — on the corpus (undefined if no corpus)
+being.feetPerRound.effective; // tactical move — universal actor state
+being.body.structure; // anatomy — on the being's body sub-object
+being.body.isIncorporeal; // true when the body structure is empty
 ```
 
-The same split shows up at the data layer: the movement/anatomy/weight/reach **schema is on `CorpusDataModel`**, not `BeingDataModel` (see [Body Structure → Where the data lives](../reference/body-structure.md#where-the-data-lives)). When you can't find a physical attribute on the Being, look to its Corpus.
+At the data layer, the anatomy/weight/reach/scale **schema is the `body` `SchemaField` on
+`BeingDataModel`** (see [Body Structure → Where the data lives](../reference/body-structure.md#where-the-data-lives)), while the movement schema is on the base actor DataModel.
 
 ## Document types
 

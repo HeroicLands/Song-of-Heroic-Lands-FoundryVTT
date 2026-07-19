@@ -183,13 +183,13 @@ combatant/actor and communicates back through the target-addressed card (see
 `SohlCombatant` (`src/document/combatant/foundry/SohlCombatant.ts`) adds
 encounter-scoped state on top of Foundry's Combatant. Key fields the logic reads:
 
-| Field / getter                     | Meaning                                                                                                                                                                                     |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `groupId`                          | The combatant's `CombatantGroup` (side). Reads `_source.group` first for a stable id. Drives `isEnemyOf` / `allies`.                                                                        |
-| `moveFactor`                       | GM situational move multiplier (run/sprint/terrain); `computedMove()` scales the being's `feetPerRound` by it (#252).                                                                       |
-| `displayedMedium`                  | Which movement medium the tracker shows; seeded at `_preCreate` (user-set › corpus default › schema default). _(Not yet honored by `computedMove`, which uses the corpus's active medium.)_ |
-| `computedMove()` / `displayedMove` | Tactical feet-per-round from the actor's Corpus `feetPerRound` (scaled by `moveFactor`), or `null` with no corpus.                                                                          |
-| initiative                         | `_getInitiativeFormula()` returns the actor's `init` skill mastery as a **fixed string** — SoHL initiative is skill-driven, not a die roll.                                                 |
+| Field / getter                     | Meaning                                                                                                                                                                                                     |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `groupId`                          | The combatant's `CombatantGroup` (side). Reads `_source.group` first for a stable id. Drives `isEnemyOf` / `allies`.                                                                                        |
+| `moveFactor`                       | GM situational move multiplier (run/sprint/terrain); `computedMove()` scales the actor's `feetPerRound` by it (#252).                                                                                       |
+| `displayedMedium`                  | Which movement medium the tracker shows; seeded at `_preCreate` (user-set › the actor's `currentMoveMedium` › schema default). _(Not yet honored by `computedMove`, which uses the actor's active medium.)_ |
+| `computedMove()` / `displayedMove` | Tactical feet-per-round from the actor's `feetPerRound` (scaled by `moveFactor`), or `null` for a non-mover (movement medium `NONE`).                                                                       |
+| initiative                         | `_getInitiativeFormula()` returns the actor's `init` skill mastery as a **fixed string** — SoHL initiative is skill-driven, not a die roll.                                                                 |
 
 Combat relationships are computed, not stored: `isEnemyOf` →
 `areCombatantsEnemies` (different non-null groups ⇒ enemies), `allies`
@@ -232,7 +232,7 @@ For anyone extending combat, the wired state diverges from the intended/document
 state in a few places (all verified against source):
 
 1. **`displayedMedium` is not honored by `computedMove`** — it seeds the tracker
-   chip but movement always uses the corpus's active medium.
+   chip but movement always uses the actor's active medium (`currentMoveMedium`).
 2. **Weapon break is display-only** — `CombatResult.weaponBreakCheck` is computed
    and shown on the card, but no breakage is applied.
 

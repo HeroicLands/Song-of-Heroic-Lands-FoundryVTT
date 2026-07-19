@@ -376,19 +376,20 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     }
 
     /**
-     * Prepare context for the Description tab.
-     * Provides enriched HTML for the full-page ProseMirror description editor.
+     * Prepare context for the Description tab — the item's long-form
+     * description, persisted in `system.docHtml`. (The short one-line `notes`
+     * field shown beside item rows on the actor sheet is edited elsewhere.)
      * @param context - The render context to augment.
      * @param _options - Sheet render options (unused).
-     * @returns The context extended with the enriched description HTML.
+     * @returns The context, unchanged.
      */
     protected async _prepareDescriptionContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
-        // The description is edited by a <prose-mirror> element (see
-        // description.hbs), which takes the raw value and enriches for display
-        // itself — no pre-enriched `descriptionHTML` needed.
+        // The description is edited by a <prose-mirror> element bound to
+        // `system.docHtml` (see description.hbs), which takes the raw value and
+        // enriches for display itself — no pre-enriched HTML needed.
         return context;
     }
 

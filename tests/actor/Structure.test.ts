@@ -2,8 +2,21 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { StructureLogic } from "@src/document/actor/logic/StructureLogic";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { ContextMenuEntry } from "@src/apps/logic/ContextMenuEntry";
-import { ACTOR_KIND } from "@src/utils/constants";
+import { ACTOR_KIND, MOVEMENT_MEDIUM } from "@src/utils/constants";
 import { makeActorLogic } from "@tests/mocks/logicHarness";
+
+/** A minimal per-medium movement profile for base-actor movement tests. */
+function profile(overrides: Record<string, unknown> = {}) {
+    return {
+        medium: MOVEMENT_MEDIUM.TERRESTRIAL,
+        feetPerRound: 50,
+        leaguesPerWatch: 5,
+        encumbrance: "0",
+        strMod: "0",
+        disabled: false,
+        ...overrides,
+    };
+}
 
 /** Construct a StructureLogic against a plain-object StructureData. */
 function makeStructure(
@@ -60,13 +73,64 @@ describe("StructureLogic", () => {
     });
 
     describe("lifecycle", () => {
-        it("initialize/evaluate/finalize are no-ops that do not throw", () => {
+        it("initialize/evaluate/finalize do not throw", () => {
             const logic = makeStructure();
             expect(() => {
                 logic.initialize();
                 logic.evaluate();
                 logic.finalize();
             }).not.toThrow();
+        });
+    });
+
+    describe("base-actor movement", () => {
+        it("selects a disabled NONE profile when the actor has no movement", () => {
+            // A Structure defaults to currentMoveMedium NONE with no profiles —
+            // a non-mover by data. The base logic still builds the modifiers.
+            const logic = makeStructure();
+            logic.initialize();
+            expect(logic.moveProfile.medium).toBe(MOVEMENT_MEDIUM.NONE);
+            expect(logic.moveProfile.disabled).toBe(true);
+            expect(logic.feetPerRound.effective).toBe(0);
+            expect(logic.leaguesPerWatch.effective).toBe(0);
+        });
+
+        it("selects the profile matching currentMoveMedium and seeds the move modifiers", () => {
+            const logic = makeStructure({
+                currentMoveMedium: MOVEMENT_MEDIUM.TERRESTRIAL,
+                movementProfiles: [profile()],
+            });
+            logic.initialize();
+            expect(logic.moveProfile.medium).toBe(MOVEMENT_MEDIUM.TERRESTRIAL);
+            expect(logic.moveProfile.disabled).toBe(false);
+            expect(logic.feetPerRound.effective).toBe(50);
+            expect(logic.leaguesPerWatch.effective).toBe(5);
+        });
+
+        it("falls back to a disabled profile when no profile matches the medium", () => {
+            const logic = makeStructure({
+                currentMoveMedium: MOVEMENT_MEDIUM.AQUATIC,
+                movementProfiles: [profile()],
+            });
+            logic.initialize();
+            expect(logic.moveProfile.disabled).toBe(true);
+            expect(logic.feetPerRound.effective).toBe(0);
+        });
+
+        it("makeDefaultMedium persists the scoped medium to system.currentMoveMedium", async () => {
+            const logic = makeStructure();
+            await logic.makeDefaultMedium({
+                scope: { medium: MOVEMENT_MEDIUM.AQUATIC },
+            } as any);
+            expect(logic.data.update).toHaveBeenCalledWith({
+                "system.currentMoveMedium": MOVEMENT_MEDIUM.AQUATIC,
+            });
+        });
+
+        it("makeDefaultMedium ignores a scope with no valid medium", async () => {
+            const logic = makeStructure();
+            await logic.makeDefaultMedium({ scope: {} } as any);
+            expect(logic.data.update).not.toHaveBeenCalled();
         });
     });
 });

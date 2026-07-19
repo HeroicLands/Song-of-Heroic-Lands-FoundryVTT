@@ -15,7 +15,6 @@ import { buildActionScope } from "@src/utils/helpers";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
-import type { CorpusLogic } from "@src/document/item/logic/CorpusLogic";
 import {
     SohlDataModel,
     defineSohlDataSchema,
@@ -26,7 +25,6 @@ import type { SohlCombatantLogic } from "../logic/SohlCombatantLogic";
 import { chooseInitialDisplayedMedium } from "../logic/SohlCombatantLogic";
 import { DEFAULT_COMBAT_GROUP } from "@src/document/combat/logic/combat-logic";
 import {
-    ITEM_KIND,
     MOVEMENT_MEDIUM,
     MovementMedium,
     MovementMediums,
@@ -302,7 +300,7 @@ export class SohlCombatant<
      *
      * @remarks
      * Distance is measured center-to-center *by design*: a large creature's
-     * body size is folded into its corpus `reachBase`, so a big token's reach
+     * body size is folded into its body `reachBase`, so a big token's reach
      * already accounts for the distance from its center to an adjacent target.
      * Do not "fix" this to edge-to-edge.
      *
@@ -334,10 +332,9 @@ export class SohlCombatant<
 
     /**
      * The computed tactical move (feet per combat round) for this combatant,
-     * read from its being's corpus for the being's active movement medium.
+     * read from the actor's movement for its active medium.
      *
-     * Returns `null` when the combatant's actor has no `BeingLogic`
-     * (e.g. a Vehicle, which has no movement model) or has no corpus.
+     * Returns `null` when the actor has no movement model.
      *
      * @returns The tactical move, or `null` when movement is unavailable.
      */
@@ -354,11 +351,11 @@ export class SohlCombatant<
     }
 
     /**
-     * Seed the displayed movement medium from the actor's corpus default
+     * Seed the displayed movement medium from the actor's current move medium
      * when the creating user did not set one explicitly.
      * @param data - The pending creation data.
      * @param data.system.displayedMedium - Movement medium explicitly chosen by
-     *   the creating user; if absent, the corpus default is applied.
+     *   the creating user; if absent, the actor's current medium is applied.
      * @param options - The creation options — forwarded to `super._preCreate`.
      * @param user - The user performing the creation.
      * @returns `false` to veto creation, otherwise nothing.
@@ -372,14 +369,12 @@ export class SohlCombatant<
         if (result === false) return false;
 
         const userSetMedium = data?.system?.displayedMedium;
-        const corpusItem = (this.actor?.itemTypes as any)?.[
-            ITEM_KIND.CORPUS
-        ]?.[0];
-        const corpusDefault = (corpusItem?.logic as CorpusLogic | undefined)
-            ?.data?.currentMoveMedium;
+        // Movement is a universal actor capability; seed from the actor's own
+        // current move medium (formerly the corpus default).
+        const actorDefault = (this.actor?.system as any)?.currentMoveMedium;
         const chosen = chooseInitialDisplayedMedium(
             userSetMedium,
-            corpusDefault,
+            actorDefault,
         );
         if (chosen && chosen !== userSetMedium) {
             (this as any).updateSource({
@@ -475,7 +470,7 @@ function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
         /**
          * Which movement medium's computed move is displayed for this
          * combatant in the combat tracker. Seeded at creation time from
-         * the actor's corpus `currentMoveMedium`.
+         * the actor's `currentMoveMedium`.
          */
         displayedMedium: new foundry.data.fields.StringField({
             required: true,

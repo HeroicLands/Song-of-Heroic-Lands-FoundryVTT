@@ -12,42 +12,45 @@
  */
 
 /**
- * Per-creature injury scaling via the Corpus `bodyScale` factor (#468).
+ * Per-creature injury scaling via the body's `bodyScale` factor (#468).
  *
- * The `bodyScaleBase` datamodel field flows through `CorpusLogic` into a scaled
- * `injuryTable`, exposed on the body structure — so an absolute impact reads
- * size-correct on any creature. The scaling math is unit-tested; here we prove
- * the datamodel field drives the derived table end to end.
+ * The `bodyScaleBase` datamodel field (on the actor's inline body,
+ * `system.body`) flows through `BodyLogic` into a scaled `injuryTable`, exposed
+ * on the body and its structure — so an absolute impact reads size-correct on
+ * any creature. The scaling math is unit-tested; here we prove the datamodel
+ * field drives the derived table end to end.
  */
 describe("injury body-scale (#468)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
     Cypress.on("uncaught:exception", () => false);
 
-    /** Set the actor's Corpus `bodyScaleBase`, then read the derived tables. */
+    /** Set the actor's body `bodyScaleBase`, then read the derived tables. */
     function scaledTables(win, actorId, bodyScaleBase) {
-        const corpus = win.game.actors.get(actorId).itemTypes.corpus[0];
-        return corpus
+        const a = win.game.actors.get(actorId);
+        return a
             .update(
                 win.JSON.parse(
-                    JSON.stringify({ "system.bodyScaleBase": bodyScaleBase }),
+                    JSON.stringify({
+                        "system.body.bodyScaleBase": bodyScaleBase,
+                    }),
                 ),
             )
             .then(() => ({
-                bodyScale: corpus.logic.bodyScale.effective,
-                injuryTable: corpus.logic.injuryTable,
-                structureTable: corpus.logic.structure.injuryTable,
+                bodyScale: a.logic.body.bodyScale.effective,
+                injuryTable: a.logic.body.injuryTable,
+                structureTable: a.logic.body.structure.injuryTable,
             }));
     }
 
-    it("a human corpus (default 1.0) carries the master thresholds", () => {
+    it("a human body (default 1.0) carries the master thresholds", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
             cy.foundry((win) => {
-                const c = win.game.actors.get(actor.id).itemTypes.corpus[0];
+                const a = win.game.actors.get(actor.id);
                 return {
-                    scale: c.logic.bodyScale.effective,
-                    table: c.logic.injuryTable,
+                    scale: a.logic.body.bodyScale.effective,
+                    table: a.logic.body.injuryTable,
                 };
             }).should((r) => {
                 expect(r.scale).to.eq(1);
@@ -56,7 +59,7 @@ describe("injury body-scale (#468)", () => {
         });
     });
 
-    it("scales the injury table by a frail creature's bodyScale (cat 0.27)", () => {
+    it("scales the injury table by a frail creature's bodyScale (0.27)", () => {
         cy.importActor().then((actor) => {
             cy.foundry((win) => scaledTables(win, actor.id, 0.27)).should(
                 (r) => {

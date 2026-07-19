@@ -17,7 +17,7 @@ const SAMPLE_DATA: BodyLocation.Data = {
 };
 
 const MOCK_PART = {
-    updatePath: "system.structure.parts.1",
+    updatePath: "system.body.structure.parts.1",
     structure: { corpusLogic: { actor: null } },
 } as any;
 
@@ -48,7 +48,9 @@ describe("BodyLocation", () => {
                 bodyPart: MOCK_PART,
                 index: 2,
             });
-            expect(loc.updatePath).toBe("system.structure.parts.1.locations.2");
+            expect(loc.updatePath).toBe(
+                "system.body.structure.parts.1.locations.2",
+            );
         });
     });
 });

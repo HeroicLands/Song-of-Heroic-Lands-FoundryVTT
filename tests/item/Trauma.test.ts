@@ -117,22 +117,16 @@ function makeTrauma(
 }
 
 /**
- * Build a mock actor whose Corpus exposes the given body locations through
- * `itemTypes.corpus[0].logic.structure.getAllLocations()` — the lookup
- * path used by TraumaLogic.resolveBodyLocation().
+ * Build a mock actor whose body exposes the given body locations through
+ * `actor.logic.body.structure.getAllLocations()` — the lookup path used by
+ * TraumaLogic.resolveBodyLocation() (via `getActorBody`).
  */
-function makeActorWithCorpus(locations: { shortcode: string }[]): any {
+function makeActorWithBody(locations: { shortcode: string }[]): any {
     const actor = makeMockActor();
-    actor.itemTypes = {
-        [ITEM_KIND.CORPUS]: [
-            {
-                logic: {
-                    structure: {
-                        getAllLocations: () => locations,
-                    },
-                },
-            },
-        ],
+    actor.logic.body = {
+        structure: {
+            getAllLocations: () => locations,
+        },
     };
     return actor;
 }
@@ -199,7 +193,7 @@ describe("TraumaLogic", () => {
         it("resolves bodyLocation from the actor's Corpus by shortcode", () => {
             const head = { shortcode: "head" };
             const torso = { shortcode: "torso" };
-            const actor = makeActorWithCorpus([head, torso]);
+            const actor = makeActorWithBody([head, torso]);
             const logic = makeTrauma({ bodyLocationCode: "torso" }, { actor });
             logic.initialize();
             logic.evaluate();
@@ -207,7 +201,7 @@ describe("TraumaLogic", () => {
         });
 
         it("leaves bodyLocation undefined when bodyLocationCode is blank", () => {
-            const actor = makeActorWithCorpus([{ shortcode: "head" }]);
+            const actor = makeActorWithBody([{ shortcode: "head" }]);
             const logic = makeTrauma({ bodyLocationCode: "" }, { actor });
             logic.initialize();
             logic.evaluate();
@@ -221,9 +215,8 @@ describe("TraumaLogic", () => {
             expect(logic.bodyLocation).toBeUndefined();
         });
 
-        it("leaves bodyLocation undefined when the actor has no Corpus", () => {
+        it("leaves bodyLocation undefined when the being is incorporeal (no body)", () => {
             const actor = makeMockActor();
-            actor.itemTypes = { [ITEM_KIND.CORPUS]: [] };
             const logic = makeTrauma({ bodyLocationCode: "head" }, { actor });
             logic.initialize();
             logic.evaluate();
@@ -231,16 +224,16 @@ describe("TraumaLogic", () => {
         });
 
         it("leaves bodyLocation undefined when no location matches the code", () => {
-            const actor = makeActorWithCorpus([{ shortcode: "head" }]);
+            const actor = makeActorWithBody([{ shortcode: "head" }]);
             const logic = makeTrauma({ bodyLocationCode: "tail" }, { actor });
             logic.initialize();
             logic.evaluate();
             expect(logic.bodyLocation).toBeUndefined();
         });
 
-        it("leaves bodyLocation undefined when the Corpus has no body structure", () => {
+        it("leaves bodyLocation undefined when the body has no structure", () => {
             const actor = makeMockActor();
-            actor.itemTypes = { [ITEM_KIND.CORPUS]: [{ logic: {} }] };
+            actor.logic.body = {};
             const logic = makeTrauma({ bodyLocationCode: "head" }, { actor });
             logic.initialize();
             logic.evaluate();

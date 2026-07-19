@@ -15,6 +15,7 @@
 // verifies every sibling module and subfolder here is re-exported.
 
 export * from "./BeingLogic";
+export * from "./BodyLogic";
 export * from "./CohortLogic";
 export * from "./SohlActorBaseLogic";
 export * from "./StructureLogic";
@@ -24,5 +25,6 @@ export * from "./being-sheet-view";
 export * from "./display-filter";
 export * from "./health";
 export * from "./injury-actions";
+export * from "./movement";
 export * from "./reach-helpers";
 export * from "./token-helpers";

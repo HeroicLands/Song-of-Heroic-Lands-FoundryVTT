@@ -22,13 +22,13 @@ import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { fvttGetActor } from "@src/core/FoundryHelpers";
 import {
     ACTION_SUBTYPE,
-    ITEM_KIND,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import { BodyPart } from "@src/entity/body/BodyPart";
 import { BeingLogic } from "@src/document/actor/logic/BeingLogic";
+import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 
 /**
  * Abstract base logic for all physical gear items — the foundation for
@@ -78,9 +78,7 @@ export abstract class GearLogic<
      * @returns An array of BodyParts that are currently holding this item
      */
     get heldBy(): BodyPart[] {
-        const bodyParts = (this.actorLogic as BeingLogic)?.logicTypes[
-            ITEM_KIND.CORPUS
-        ][0]?.structure?.parts;
+        const bodyParts = getActorBody(this.actorLogic)?.structure?.parts;
         return (
             bodyParts?.filter((part): part is BodyPart => {
                 const heldItem = part.heldItem;
@@ -184,65 +182,65 @@ export abstract class GearLogic<
 
     /**
      * Assigns the first free hold-capable body part(s) on the owning actor
-     * to grip this item. Does nothing if the actor has no corpus or there
-     * are fewer free limbs than `minPartsToHold`.
+     * to grip this item. Does nothing if the actor is incorporeal (no body) or
+     * there are fewer free limbs than `minPartsToHold`.
      *
      * Intrinsic-action executor for the `holdItem` action.
      *
      * @param _context - The action context (unused).
-     * @returns Resolves once the corpus update completes (or immediately if
+     * @returns Resolves once the being update completes (or immediately if
      *   no update is needed).
      */
     async holdItem(_context: SohlActionContext): Promise<void> {
-        const corpus = (this.actorLogic as BeingLogic)?.logicTypes?.[
-            ITEM_KIND.CORPUS
-        ]?.[0];
-        if (!corpus) return;
-        const freeParts = corpus.structure.parts.filter(
+        const body = getActorBody(this.actorLogic);
+        if (!body) return;
+        const freeParts = body.structure.parts.filter(
             (p: any) => p.canHoldItem && !p.heldItem,
         );
         const needed = this.minPartsToHold;
         if (freeParts.length < needed) return;
         // Full-array write — a partial `parts.${i}.heldItemId` update corrupts
         // the whole parts array (#247). See BodyStructure.setPartFieldsUpdate.
-        const payload = corpus.structure.setPartFieldsUpdate(
+        const payload = body.structure.setPartFieldsUpdate(
             freeParts.slice(0, needed).map((p: any) => ({
                 index: p.index,
                 changes: { heldItemId: this.id },
             })),
         );
-        if (Object.keys(payload).length) await corpus.data.update(payload);
+        if (Object.keys(payload).length) {
+            await this.actorLogic?.data.update(payload);
+        }
     }
 
     /**
      * Clears `heldItemId` on every body part currently gripping this item,
-     * releasing it from the actor's grip. Does nothing if the actor has no
-     * corpus or no part holds this item.
+     * releasing it from the actor's grip. Does nothing if the actor is
+     * incorporeal (no body) or no part holds this item.
      *
      * Intrinsic-action executor for the `releaseItem` action.
      *
      * @param _context - The action context (unused).
-     * @returns Resolves once the corpus update completes (or immediately if
+     * @returns Resolves once the being update completes (or immediately if
      *   no update is needed).
      */
     async releaseItem(_context: SohlActionContext): Promise<void> {
-        const corpus = (this.actorLogic as BeingLogic)?.logicTypes?.[
-            ITEM_KIND.CORPUS
-        ]?.[0];
-        if (!corpus) return;
-        const holdingParts = corpus.structure.parts.filter(
+        const body = getActorBody(this.actorLogic);
+        if (!body) return;
+        const holdingParts = body.structure.parts.filter(
             (p: any) => p.canHoldItem && p.heldItem?.id === this.id,
         );
         if (!holdingParts.length) return;
         // Full-array write — a partial `parts.${i}.heldItemId` update corrupts
         // the whole parts array (#247). See BodyStructure.setPartFieldsUpdate.
-        const payload = corpus.structure.setPartFieldsUpdate(
+        const payload = body.structure.setPartFieldsUpdate(
             holdingParts.map((part: any) => ({
                 index: part.index,
                 changes: { heldItemId: null },
             })),
         );
-        if (Object.keys(payload).length) await corpus.data.update(payload);
+        if (Object.keys(payload).length) {
+            await this.actorLogic?.data.update(payload);
+        }
     }
 
     /**

@@ -13,8 +13,7 @@
 
 /**
  * Drag-and-drop an Item onto a Being (#341). A compendium or world item dropped
- * on the actor sheet is created as an embedded clone; a second corpus is
- * refused (singleton).
+ * on the actor sheet is created as an embedded clone.
  */
 describe("drop item onto actor", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
@@ -104,8 +103,8 @@ describe("drop item onto actor", () => {
             cy.prepare(actor);
             cy.openSheet(actor);
             cy.wait(300);
-            // Discover a real (non-corpus) compendium item to avoid a brittle
-            // hardcoded shortcode.
+            // Discover a real compendium item to avoid a brittle hardcoded
+            // shortcode.
             cy.foundry(async (win) => {
                 const pack = [...win.game.packs].find(
                     (p) => p.documentName === "Item",
@@ -113,9 +112,7 @@ describe("drop item onto actor", () => {
                 const index = await pack.getIndex({
                     fields: ["system.shortcode"],
                 });
-                const entry = index.find(
-                    (e) => e.type !== "corpus" && e.system?.shortcode,
-                );
+                const entry = index.find((e) => e.system?.shortcode);
                 return {
                     pack: pack.collection,
                     type: entry.type,
@@ -138,45 +135,6 @@ describe("drop item onto actor", () => {
                             expect(r.sc).to.equal(ref.sc);
                         });
                     });
-                });
-            });
-        });
-    });
-
-    it("refuses a second corpus but allows the first", () => {
-        cy.createWorldItem("corpus", { name: "Dropped Corpus" }).then((li) => {
-            // Bare being (no corpus) → accepted
-            cy.createActor("being", { name: "Bare" }).then((bare) => {
-                cy.prepare(bare);
-                cy.openSheet(bare);
-                cy.wait(300);
-                cy.foundry((win) => drop(win, bare.id, li.uuid));
-                cy.wait(400);
-                cy.foundry((win) => ({
-                    n: win.game.actors.get(bare.id).itemTypes.corpus.length,
-                })).should((r) =>
-                    expect(r.n, "first corpus accepted").to.equal(1),
-                );
-            });
-            // Basic Folk (already has a corpus) → refused
-            cy.importActor().then((actor) => {
-                cy.prepare(actor);
-                cy.openSheet(actor);
-                cy.wait(300);
-                cy.foundry((win) => {
-                    win.__before = win.game.actors.get(
-                        actor.id,
-                    ).itemTypes.corpus.length;
-                    return drop(win, actor.id, li.uuid);
-                });
-                cy.wait(400);
-                cy.foundry((win) => ({
-                    before: win.__before,
-                    after: win.game.actors.get(actor.id).itemTypes.corpus
-                        .length,
-                })).should((r) => {
-                    expect(r.before).to.equal(1);
-                    expect(r.after, "second corpus refused").to.equal(1);
                 });
             });
         });

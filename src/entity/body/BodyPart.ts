@@ -17,7 +17,7 @@ import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { BodyLocation } from "@src/entity/body/BodyLocation";
 import { weightedRandom } from "@src/entity/body/weighted-random";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
-import { BODY_ROLE, isA, ITEM_KIND } from "@src/utils/constants";
+import { BODY_ROLE, isA } from "@src/utils/constants";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { SohlEntity } from "../SohlEntity";
 
@@ -99,14 +99,14 @@ export class BodyPart extends SohlEntity {
      *
      * @param data - Persisted part data.
      * @param options - Construction options
-     * @param options.parent - Owning {@link sohl.document.item.logic.CorpusLogic} for this part.
+     * @param options.parent - Owning {@link sohl.document.actor.logic.BeingLogic} (the body's owner) for this part.
      * @param options.structure - Owning {@link BodyStructure} for this part.
      * @param options.index - Zero-based index of this part within {@link BodyStructure.parts}.
      * @throws If required fields are missing from `data` or `options`.
      */
     constructor(data: BodyPart.Data, options: BodyPart.Options) {
-        if (!isA(options.parent, ITEM_KIND.CORPUS)) {
-            throw new Error("Requires a Corpus parent");
+        if (!isA(options.parent, "SohlLogic")) {
+            throw new Error("Requires a Logic parent");
         }
         if (!options.structure) {
             throw new Error("BodyPart requires a structure");
@@ -144,10 +144,10 @@ export class BodyPart extends SohlEntity {
 
     /**
      * The dot-notation path prefix for Foundry `update()` calls targeting
-     * this part's persisted fields, e.g. `"system.structure.parts.2"`.
+     * this part's persisted fields, e.g. `"system.body.structure.parts.2"`.
      */
     get updatePath(): string {
-        return `system.structure.parts.${this.index}`;
+        return `system.body.structure.parts.${this.index}`;
     }
 
     /**
@@ -187,7 +187,8 @@ export class BodyPart extends SohlEntity {
      */
     addLocationUpdate(locationData: BodyLocation.Data): PlainObject {
         const canonical: BodyLocation.Data[] =
-            this.structure.parent.data.structure.parts[this.index].locations;
+            this.structure.parent.data.body.structure.parts[this.index]
+                .locations;
         // Full-array write — a partial `parts.${index}.locations` update
         // corrupts the whole parts array (#247). See setPartFieldsUpdate.
         return this.structure.setPartFieldsUpdate([
@@ -207,7 +208,8 @@ export class BodyPart extends SohlEntity {
      */
     removeLocationUpdate(shortcode: string): PlainObject {
         const canonical: BodyLocation.Data[] =
-            this.structure.parent.data.structure.parts[this.index].locations;
+            this.structure.parent.data.body.structure.parts[this.index]
+                .locations;
         // Full-array write — a partial `parts.${index}.locations` update
         // corrupts the whole parts array (#247). See setPartFieldsUpdate.
         return this.structure.setPartFieldsUpdate([
@@ -251,7 +253,7 @@ export namespace BodyPart {
 
     /** Construction options for a {@link BodyPart} instance. */
     export interface Options extends SohlEntity.Options {
-        /** Owning body structure (supplies actor and corpus logic). */
+        /** Owning body structure (supplies actor and body-owner logic). */
         structure: BodyStructure;
         /** Zero-based index of this part within {@link BodyStructure.parts}. */
         index: number;

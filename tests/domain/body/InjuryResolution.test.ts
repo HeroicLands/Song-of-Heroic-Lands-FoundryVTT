@@ -72,7 +72,7 @@ const SAMPLE_DATA: BodyStructure.Data = {
 const MOCK_CORPUS_LOGIC = brandLogic({
     kind: "corpus",
     actor: null,
-    data: { structure: SAMPLE_DATA },
+    data: { body: { structure: SAMPLE_DATA } },
 }) as any;
 
 function makeBody(): BodyStructure {

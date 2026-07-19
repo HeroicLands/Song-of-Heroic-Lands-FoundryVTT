@@ -115,7 +115,7 @@ export interface ResolvedInjury {
  * (`1–4 → M1, 5–9 → S2, 10–14 → S3, 15–19 → G4, 20+ → G5`).
  *
  * Impact stays an absolute quantity; a bigger/tougher creature carries a table
- * scaled up by its Corpus `bodyScale`, so the same absolute impact reads
+ * scaled up by its body `bodyScale`, so the same absolute impact reads
  * differently by size — a 2-impact blow is `S2` on a cat but is **ignored** by a
  * cow (whose scaled `M1` threshold is ≈ 2.9, so it takes ≥ 3 to leave even a
  * minor wound). An impact below the smallest (scaled) threshold is trivial

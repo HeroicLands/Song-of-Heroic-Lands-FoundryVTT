@@ -78,14 +78,14 @@ The bindings available to an expression depend on where it is used. Reach for a
 SafeExpression whenever a GM or content author needs a **synchronous condition or
 computed value** from a data field; these are the call sites today:
 
-| Call site                                                     | Field(s)                               | Bindings                            | Result  |
-| ------------------------------------------------------------- | -------------------------------------- | ----------------------------------- | ------- |
-| Action, UI visibility ({@link sohl.entity.action.SohlAction}) | `visible`                              | `element`, `itemLogic`, `isGM`      | boolean |
-| Action, executability ({@link sohl.entity.action.SohlAction}) | `trigger`                              | `itemLogic`, `actorLogic`           | boolean |
-| Active effect, item targeting (`SohlActiveEffect`)            | `test`                                 | `itemLogic`                         | boolean |
-| Active effect, strike-mode targeting (`SohlActiveEffect`)     | `test`                                 | `itemLogic`, `sm`                   | boolean |
-| Context-menu entry (`ContextMenuEntry`)                       | `condition`                            | `target`, `itemLogic`, `actorLogic` | boolean |
-| Corpus movement profile (`CorpusLogic`)                       | `strMod`, `encumbrance`, `weight.calc` | `str` or `wt`                       | number  |
+| Call site                                                                  | Field(s)                               | Bindings                            | Result  |
+| -------------------------------------------------------------------------- | -------------------------------------- | ----------------------------------- | ------- |
+| Action, UI visibility ({@link sohl.entity.action.SohlAction})              | `visible`                              | `element`, `itemLogic`, `isGM`      | boolean |
+| Action, executability ({@link sohl.entity.action.SohlAction})              | `trigger`                              | `itemLogic`, `actorLogic`           | boolean |
+| Active effect, item targeting (`SohlActiveEffect`)                         | `test`                                 | `itemLogic`                         | boolean |
+| Active effect, strike-mode targeting (`SohlActiveEffect`)                  | `test`                                 | `itemLogic`, `sm`                   | boolean |
+| Context-menu entry (`ContextMenuEntry`)                                    | `condition`                            | `target`, `itemLogic`, `actorLogic` | boolean |
+| Being body/movement profile ({@link sohl.document.actor.logic.BeingLogic}) | `strMod`, `encumbrance`, `weight.calc` | `str` or `wt`                       | number  |
 
 The same `SohlActiveEffect.test` field is bound differently by the effect's
 scope: item-kind scopes see the candidate item's logic as `itemLogic`; the
@@ -185,8 +185,8 @@ least 5 feet and are not thrown:
 sm.reach >= 5 && !has('thrown', sm.traits)
 ```
 
-**A computed value — encumbrance from carried weight.** A Corpus movement
-profile's `encumbrance` field is a SafeExpression bound with `wt` (the carried
+**A computed value — encumbrance from carried weight.** A being's movement
+profile `encumbrance` field is a SafeExpression bound with `wt` (the carried
 weight, as a `ValueModifier` — read its `.effective`). It returns a number that
 seeds the encumbrance modifier:
 

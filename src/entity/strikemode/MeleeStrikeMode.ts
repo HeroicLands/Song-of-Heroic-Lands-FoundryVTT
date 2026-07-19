@@ -26,7 +26,7 @@ import { STRIKE_MODE_TYPE } from "@src/utils/constants";
 export class MeleeStrikeMode extends StrikeModeBase {
     /**
      * Effective melee engagement range (feet). Seeded from the weapon's
-     * `lengthBase`; the wielder's corpus reach is added on top during the
+     * `lengthBase`; the wielder's body reach is added on top during the
      * owning logic's evaluate phase (see `WeaponGearLogic`/`SkillLogic`).
      */
     reach: ValueModifier;
@@ -60,7 +60,7 @@ export class MeleeStrikeMode extends StrikeModeBase {
         id: string,
     ) {
         super(data, parentLogic, id);
-        // Reach is seeded from the weapon's length; the wielder's corpus
+        // Reach is seeded from the weapon's length; the wielder's body
         // reach is layered on during the owning logic's evaluate phase.
         this.reach = new entity.ValueModifier(parentLogic).setBase(
             data.lengthBase,
@@ -155,7 +155,7 @@ export namespace MeleeStrikeMode {
     export interface Data extends StrikeModeBase.Data {
         /** Discriminator fixing this as a melee mode. */
         type: "melee";
-        /** Weapon length (feet) seeding {@link MeleeStrikeMode.reach} before corpus reach is added. */
+        /** Weapon length (feet) seeding {@link MeleeStrikeMode.reach} before body reach is added. */
         lengthBase: number;
         /** Block and counterstrike defense configuration. */
         defense: {

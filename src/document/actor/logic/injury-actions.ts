@@ -12,6 +12,7 @@
  */
 
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
+import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import {
     resolveInjury,
     buildTraumaData,
@@ -243,16 +244,14 @@ export function resolveAutomatedInjury(
 }
 
 /**
- * The body structure of an actor's Corpus, or `undefined` when the actor has
- * no Corpus (and therefore no anatomy to injure). Resolved through the actor
- * *logic*'s `logicTypes` — the callers pass the `BeingLogic` (`this`), which
- * exposes `logicTypes` rather than the Foundry actor's `itemTypes`.
+ * The body structure of an actor, or `undefined` when the actor is incorporeal
+ * (empty body structure) or is not a Being. Resolved through the being's
+ * {@link sohl.document.actor.logic.BodyLogic | body} sub-object.
  * @param logic - The actor logic whose body structure to retrieve.
- * @returns The body structure, or `undefined` if the actor has no Corpus.
+ * @returns The body structure, or `undefined` if the actor has no body.
  */
 export function getActorBodyStructure(logic: any): BodyStructure | undefined {
-    const corpusLogic = logic?.logicTypes?.[ITEM_KIND.CORPUS]?.[0];
-    return corpusLogic?.structure as BodyStructure | undefined;
+    return getActorBody(logic)?.structure;
 }
 
 /**

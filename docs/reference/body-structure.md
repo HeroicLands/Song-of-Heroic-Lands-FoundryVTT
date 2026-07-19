@@ -18,16 +18,16 @@ audience: Developers and content authors defining creature anatomy.
 
 ## Overview
 
-Every creature (a Being actor) takes its anatomy from a **Corpus** item attached to it. The corpus's body structure determines where blows land, how armor protects, which skills and attributes are impaired by injury, and whether a hit makes the target fumble a weapon or stumble.
+Every creature (a Being actor) carries its anatomy on the actor itself, under `system.body`, derived by the Being-owned {@link sohl.document.actor.logic.BodyLogic} (exposed as `being.body`). The being's body structure determines where blows land, how armor protects, which skills and attributes are impaired by injury, and whether a hit makes the target fumble a weapon or stumble. A being with an **empty body structure** (`being.body.structure.parts.length === 0`) is **incorporeal** — a spirit with no anatomy; check `being.body.isIncorporeal`.
 
 A body structure has three parts: a list of **body parts**, the **body locations** nested within each part, and an **adjacency graph** describing which parts are next to which. A cross-cutting tag set of **body roles** ties parts to the skills and attributes they affect.
 
 ## Where the data lives
 
-The schema is defined on the Corpus item, not on the Being actor. See [src/document/item/foundry/CorpusDataModel.ts](../../src/document/item/foundry/CorpusDataModel.ts):
+The schema is the `body` `SchemaField` on the Being actor's DataModel. See [src/document/actor/foundry/BeingDataModel.ts](../../src/document/actor/foundry/BeingDataModel.ts):
 
 ```
-system.structure
+system.body.structure
   ├── parts: BodyPart.Data[]   // each with its locations[]
   └── adjacent: string[][]      // pairs of part shortcodes
 ```
@@ -38,11 +38,11 @@ At runtime, the data is rebuilt into domain objects in `src/entity/body/`:
 - `BodyPart` — one anatomical division
 - `BodyLocation` — one hit location within a part
 
-Domain objects are reconstructed on every preparation cycle. Active effects may mutate them in-flight (e.g., adding protection modifiers), but only changes written through `document.update()` survive. To persist, use the `*Update()` helpers on `BodyStructure` (`addPartUpdate`, `removePartUpdate`, `addEdgeUpdate`, `removeEdgeUpdate`).
+The `BodyStructure` and its parts/locations are parented to the being's {@link sohl.document.actor.logic.BodyLogic} (owned by {@link sohl.document.actor.logic.BeingLogic}); their persisted paths are `system.body.structure.parts` / `system.body.structure.adjacent`. Domain objects are reconstructed on every preparation cycle. Active effects may mutate them in-flight (e.g., adding protection modifiers), but only changes written through `document.update()` survive. To persist, use the `*Update()` helpers on `BodyStructure` (`addPartUpdate`, `removePartUpdate`, `addEdgeUpdate`, `removeEdgeUpdate`).
 
 ## Body parts
 
-A body part is a primary anatomical division — Head, Torso, an arm, a leg, a wing. Persisted fields, from the `defineSchema()` of [CorpusDataModel.ts](../../src/document/item/foundry/CorpusDataModel.ts):
+A body part is a primary anatomical division — Head, Torso, an arm, a leg, a wing. Persisted fields, from the `defineSchema()` of [BeingDataModel.ts](../../src/document/actor/foundry/BeingDataModel.ts):
 
 | Field                 | Type                  | Purpose                                                                                                              |
 | --------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------- |
@@ -61,7 +61,7 @@ A convenience getter {@link sohl.entity.body.BodyPart.affectsMobility} is `true`
 
 ## Body locations
 
-A body location is a specific hit point within a part — Skull, Thorax, Right Elbow. Persisted fields, also from the `defineSchema()` of [CorpusDataModel.ts](../../src/document/item/foundry/CorpusDataModel.ts):
+A body location is a specific hit point within a part — Skull, Thorax, Right Elbow. Persisted fields, also from the `defineSchema()` of [BeingDataModel.ts](../../src/document/actor/foundry/BeingDataModel.ts):
 
 | Field                    | Type                             | Purpose                                                                                                                                                                                       |
 | ------------------------ | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -134,21 +134,22 @@ additional minimums.
 
 Impact is an **absolute** quantity, but an injury **level** is relative to the
 body absorbing it — the same 3-point dagger is trivial to a cow and grievous to a
-cat. The Corpus carries a `bodyScaleBase` factor (`1.0` = a baseline human;
+cat. The being's `body` carries a `bodyScaleBase` factor (`1.0` = a baseline human;
 larger = bigger/tougher body), exposed as the floored `bodyScale` `ValueModifier`
-on `CorpusLogic`. Seed it from `(typical species STR) / 11` (11 is the human
-strength the master table is calibrated for).
+on {@link sohl.document.actor.logic.BodyLogic} (`being.body.bodyScale`). Seed it
+from `(typical species STR) / 11` (11 is the human strength the master table is
+calibrated for).
 
 The master thresholds (`BASE_INJURY_THRESHOLDS`, `[1, 5, 10, 15, 20]`) are never
 mutated; each creature derives its own `injuryTable = master × bodyScale` in
-`CorpusLogic.evaluate`, exposed on the body structure.
+`BodyLogic`, exposed as `being.body.injuryTable` and on the body structure.
 {@link sohl.entity.body.injuryLevelFromImpact} counts how many of that creature's
 thresholds an impact reaches, so an impact below the smallest (scaled) threshold
 leaves no wound — a 2-impact blow is `S2` on a `bodyScale` 0.27 cat but is ignored
 by a `bodyScale` 2.9 cow (which needs ≥ 3 for even `M1`). Everything the level
 feeds — Shock Index, bleeding, amputation, stumble/fumble, health — becomes
 size-correct at the source, with no changes to those subsystems. An Active Effect
-on `system.bodyScaleBase` (shrink/enlarge) re-scales the table within the same
+on `system.body.bodyScaleBase` (shrink/enlarge) re-scales the table within the same
 prepare cycle.
 
 ## Adjacency
@@ -189,11 +190,11 @@ Two parallel mechanisms exist:
 - **Literal `name` fields** on each part and location, baked into the compendium JSON in the active language (`"name": "Skull"`). This is what the system reads at runtime.
 - **`SOHL.BodyPart.<bare-shortcode>` and `SOHL.BodyLocation.<bare-shortcode>` keys** in [lang/en.json](../../lang/en.json). Keys use bare names (`SOHL.BodyPart.head`, `SOHL.BodyLocation.skull`) without the `*part` / `*loc` suffix. These keys are used by UI affordances that need to render a label from a shortcode alone; the literal `name` field on the compendium item is preferred when the item is in hand.
 
-When authoring a new corpus, set the literal `name` field and add the corresponding localization key for the bare shortcode.
+When authoring a new body structure, set the literal `name` field and add the corresponding localization key for the bare shortcode.
 
-## Reference: Human corpus
+## Reference: Human body
 
-The only corpus shipped today is **Human** (`assets/packs/items/_source/Human_R0F5737O8cfOraMc.json`). Its body structure:
+The Human body structure is the reference anatomy shipped today — carried on the "Basic Folk" being's `system.body.structure` (authored in [assets/content/Corpora/Human_Folk.md](../../assets/content/Corpora/Human_Folk.md)). Its structure:
 
 | Part shortcode | Name      | Roles         | `combatArea` | Can hold |
 | -------------- | --------- | ------------- | -----------: | -------- |
@@ -217,9 +218,9 @@ Locations:
 
 Adjacency: torso is the hub — head, both arms, and both legs all connect to it; head also connects directly to both arms.
 
-## Suggested shortcode conventions for new corpora
+## Suggested shortcode conventions for new body structures
 
-Suffix every part shortcode with `part` and every location shortcode with `loc`. Use `l*` / `r*` prefixes for left/right pairs. Beyond that, the suggestions below are conventions, not shipped data — only Human is in the compendium today.
+Suffix every part shortcode with `part` and every location shortcode with `loc`. Use `l*` / `r*` prefixes for left/right pairs. Beyond that, the suggestions below are conventions, not shipped data — only the Human body structure is authored today.
 
 ### Quadruped (horse, wolf, bear)
 
@@ -237,7 +238,7 @@ Suffix every part shortcode with `part` and every location shortcode with `loc`.
 
 `cephalothoraxpart`, `abdomenpart`; legs numbered for clarity when more than two pairs.
 
-## Adding a body part to a corpus
+## Adding a body part to a being
 
 Use `BodyStructure.addPartUpdate(partData)` to build the update payload:
 
@@ -254,7 +255,7 @@ const update = structure.addPartUpdate({
         /* BodyLocation.Data entries */
     ],
 });
-await corpusItem.update(update);
+await beingActor.update(update);
 ```
 
 To wire it into adjacency: `structure.addEdgeUpdate("tailpart", "hindquarterspart")` returns the update payload to add the edge.

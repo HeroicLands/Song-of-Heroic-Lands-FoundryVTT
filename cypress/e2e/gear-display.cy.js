@@ -17,9 +17,10 @@
  * columns.
  *
  * On Body shows the being's overall load — total carried-gear weight and the
- * resulting encumbrance (`corpus.encumbrance` for the active medium). Human
- * Folk's terrestrial profile encumbrance is `floor(wt / 4)`, so 10 lb carried
- * reads "Carried: 10 lb · Enc 2". Containers show their own used/max capacity.
+ * resulting encumbrance (`actor.logic.encumbrance.effective` for the active
+ * medium). Basic Folk's terrestrial profile encumbrance is `floor(wt / 4)`, so
+ * 10 lb carried reads "Carried: 10 lb · Enc 2". Containers show their own
+ * used/max capacity.
  */
 describe("Being Gear tab: display (#302)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));

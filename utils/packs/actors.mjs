@@ -86,6 +86,55 @@ function isPlainObject(v) {
 }
 
 /**
+ * Normalize a being's persisted `system.body` from a `sohl.body` block. The
+ * authoring frontmatter mirrors the schema field-for-field: `sohl.body` nests
+ * `structure` / `weight` / `reachBase` / `bodyScaleBase` / `personalFatigue`,
+ * exactly like `system.body`.
+ */
+function normalizeBody(bodyObj) {
+    const b = bodyObj && typeof bodyObj === "object" ? bodyObj : {};
+    const weight = b.weight || {};
+    return {
+        structure: b.structure ?? { parts: [], adjacent: [] },
+        weight: {
+            base: weight.base == null ? null : Number(weight.base),
+            calc: String(weight.calc ?? "0"),
+        },
+        reachBase: Number(b.reachBase ?? 0) || 0,
+        bodyScaleBase: Number(b.bodyScaleBase ?? 1) || 1,
+        personalFatigue: String(b.personalFatigue ?? "enc"),
+    };
+}
+
+/** Normalize per-medium movement profiles from a `sohl.movementProfiles` list. */
+function normalizeMovementProfiles(list) {
+    return (Array.isArray(list) ? list : []).map((p) => ({
+        medium: String(p.medium ?? "terrestrial"),
+        feetPerRound: Number(p.feetPerRound ?? 0) || 0,
+        leaguesPerWatch: Number(p.leaguesPerWatch ?? 0) || 0,
+        encumbrance: String(p.encumbrance ?? "0"),
+        strMod: String(p.strMod ?? "0"),
+        disabled: Boolean(p.disabled ?? false),
+    }));
+}
+
+/**
+ * Extract a being's body (+ its movement) from a `sohl` block that mirrors the
+ * schema: `sohl.body` (nested → `system.body`) and the flat
+ * `sohl.currentMoveMedium` / `sohl.movementProfiles` (→ the base-actor movement
+ * fields; movement is a universal actor capability, not part of the body).
+ */
+function extractBodyAndMovement(fm) {
+    return {
+        body: normalizeBody(sohlField(fm, "body", {})),
+        currentMoveMedium: String(sohlField(fm, "currentMoveMedium", "none")),
+        movementProfiles: normalizeMovementProfiles(
+            sohlField(fm, "movementProfiles", []),
+        ),
+    };
+}
+
+/**
  * Load every JSON file under `itemsSourceDir`, returning a Map keyed by
  * `${type}:${system.shortcode}`. Folder docs and entries without a
  * shortcode are skipped. The `_key` field is stripped from each entry —
@@ -328,6 +377,31 @@ export class Actors {
             appearance: renderSection(body || "", "appearance"),
             dossier: renderSection(body || "", "dossier"),
         };
+
+        // Fill `system.body` (+ the base-actor movement fields) from the being's
+        // frontmatter, rather than embedding a corpus item (#535). The `sohl`
+        // block mirrors `system` field-for-field: `sohl.body` nests the body
+        // (`structure` / `weight` / …), with `currentMoveMedium` /
+        // `movementProfiles` flat alongside it. An **incorporeal** being omits
+        // `sohl.body` and keeps the schema's empty body.
+        const bodyField = sohlField(fm, "body", null);
+        if (bodyField && typeof bodyField === "object") {
+            const bodyData = extractBodyAndMovement(fm);
+            system.body = bodyData.body;
+            system.currentMoveMedium = bodyData.currentMoveMedium;
+            system.movementProfiles = bodyData.movementProfiles;
+        } else if (bodyField != null) {
+            log.error(
+                `${ctx}: sohl.body must be an inline object (structure/weight/…), got ${typeof bodyField}`,
+            );
+            this.errorCount++;
+        }
+
+        // Being-only combat grouping (mirrors `system.defaultCombatGroup`).
+        const defaultCombatGroup = sohlField(fm, "defaultCombatGroup", undefined);
+        if (defaultCombatGroup !== undefined) {
+            system.defaultCombatGroup = defaultCombatGroup;
+        }
 
         return {
             name,

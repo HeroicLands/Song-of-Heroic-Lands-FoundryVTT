@@ -159,34 +159,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
     {{/if}}
 
-    {{!-- Corpus (singleton): row with Edit/Delete; + Add disabled when one exists --}}
-    <fieldset>
-        <legend>
-            Corpus
-            {{#if corpus}}
-            <a class="item-create disabled" data-tooltip="A being may have only one corpus"><i class="fa-solid fa-file-plus"></i></a>
-            {{else}}
-            <a class="item-create" data-action="createItem" data-type="corpus" data-tooltip="Add Corpus"><i class="fa-solid fa-file-plus"></i></a>
-            {{/if}}
-        </legend>
-        {{#if corpus}}
-        <ol class="list__items">
-            <li class="item flexrow" data-item-id="{{corpus.id}}" data-uuid="{{corpus.uuid}}" data-item-name="{{corpus.name}}">
-                <div class="list__name flexrow">
-                    <div class="list__image" style="background-image: url('{{corpus.img}}')"></div>
-                    <h4>{{corpus.name}}</h4>
-                </div>
-                <div class="list__controls">
-                    <a class="list__control" data-action="editItem" data-tooltip="Edit"><i class="fa-solid fa-edit"></i></a>
-                    <a class="list__control" data-action="deleteItem" data-tooltip="Delete"><i class="fa-solid fa-trash"></i></a>
-                </div>
-            </li>
-        </ol>
-        {{else}}
-        <p class="hint">No corpus — drag one onto this being, or use the + control. A being with no corpus has no body.</p>
-        {{/if}}
-    </fieldset>
-
     {{!-- Body Locations: read-only Part → Location tree with effective armor
          totals (natural protection + worn armor) per location. --}}
     {{#if structure}}

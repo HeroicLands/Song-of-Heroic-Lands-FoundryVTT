@@ -142,7 +142,7 @@ describe("BodyPart", () => {
                 structure: MOCK_BODY_STRUCTURE,
                 index: 3,
             });
-            expect(part.updatePath).toBe("system.structure.parts.3");
+            expect(part.updatePath).toBe("system.body.structure.parts.3");
         });
     });
 
