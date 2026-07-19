@@ -4,9 +4,9 @@ import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic
 import { ACTOR_KIND } from "@src/utils/constants";
 import { makeActorLogic } from "@tests/mocks/logicHarness";
 
-/** A cohort member entry. */
-function member(name: string, shortcode = "wolf", role = "member") {
-    return { shortcode, name, role };
+/** A cohort member entry, keyed by the shortcode/UUID of its world actor. */
+function member(shortcodeOrUuid: string, role = "member") {
+    return { shortcodeOrUuid, role };
 }
 
 /** Construct a CohortLogic against a plain-object CohortData. */
@@ -19,7 +19,7 @@ function makeCohort(
         ACTOR_KIND.COHORT,
         {
             leaderName: "",
-            moveRepName: "",
+            movementProfiles: [],
             members: [],
             ...fields,
         },
@@ -36,14 +36,12 @@ describe("CohortLogic", () => {
         it("constructs against a plain-object CohortData (no Foundry)", () => {
             const logic = makeCohort({
                 leaderName: "Alpha",
-                moveRepName: "Beta",
                 members: [member("Alpha"), member("Beta")],
             });
             expect(logic).toBeInstanceOf(CohortLogic);
             expect(logic).toBeInstanceOf(SohlActorBaseLogic);
             expect(logic.data.kind).toBe(ACTOR_KIND.COHORT);
             expect(logic.data.leaderName).toBe("Alpha");
-            expect(logic.data.moveRepName).toBe("Beta");
             expect(logic.data.members).toHaveLength(2);
         });
 
@@ -72,7 +70,7 @@ describe("CohortLogic", () => {
     });
 
     describe("removeMemberUpdate", () => {
-        it("builds an update payload without the named member", () => {
+        it("builds an update payload without the matching member", () => {
             const alpha = member("Alpha");
             const beta = member("Beta");
             const logic = makeCohort({ members: [alpha, beta] });
@@ -81,7 +79,7 @@ describe("CohortLogic", () => {
             });
         });
 
-        it("returns the unchanged list when the name does not match", () => {
+        it("returns the unchanged list when the shortcode/UUID does not match", () => {
             const alpha = member("Alpha");
             const logic = makeCohort({ members: [alpha] });
             expect(logic.removeMemberUpdate("Nobody")).toEqual({
@@ -107,9 +105,9 @@ describe("CohortDataModel", () => {
     describe("defineSchema", () => {
         it.todo("includes SohlActorDataModel base schema fields");
         it.todo("defines leaderName as a StringField");
-        it.todo("defines moveRepName as a StringField");
+        it.todo("defines movementProfiles as an ArrayField");
         it.todo(
-            "defines members as ArrayField of {shortcode, name, role} schemas",
+            "defines members as ArrayField of {shortcodeOrUuid, role} schemas",
         );
         it.todo("members role defaults to COHORT_MEMBER_ROLE.MEMBER");
     });
