@@ -83,7 +83,7 @@ describe("afflictions", () => {
                     system: {
                         subType: "disease",
                         levelBase: 2,
-                        healingRateBase: -1,
+                        healingRateBase: null,
                         isDormant: true,
                         // `isTreated` is derived from `treatmentDate` (#484), so a
                         // treated affliction is modelled by setting the date, not

@@ -124,7 +124,7 @@ export class AfflictionLogic<
     level!: ValueModifier;
     /**
      * Rate of natural recovery, as a {@link sohl.entity.modifier.ValueModifier}, seeded from
-     * {@link AfflictionData.healingRateBase}. A base of `-1` disables the
+     * {@link AfflictionData.healingRateBase}. An unset (`null`) base disables the
      * modifier, indicating the affliction does not heal naturally.
      */
     healingRate!: ValueModifier;
@@ -576,12 +576,11 @@ export class AfflictionLogic<
         this.isDormant = false;
         this.diagnosisBonus = new entity.ValueModifier(this);
         this.level = new entity.ValueModifier(this);
-        this.healingRate = new entity.ValueModifier(this);
         this.contagionIndex = new entity.ValueModifier(this);
         this.transmission = AFFLICTION_TRANSMISSION.NONE;
 
         this.healingRate = new entity.ValueModifier(this);
-        if (this.data.healingRateBase === -1) {
+        if (this.data.healingRateBase == null) {
             this.healingRate.disabled = "No Healing Rate";
         } else {
             this.healingRate.base = this.data.healingRateBase;
@@ -802,8 +801,8 @@ export interface AfflictionData<
     diagnosisBonusBase: number;
     /** Severity of the affliction */
     levelBase: number;
-    /** Rate of natural recovery; -1 means no natural healing */
-    healingRateBase: number;
+    /** Rate of natural recovery; `null` means no natural healing */
+    healingRateBase: number | null;
     /** Risk of transmitting this affliction to others */
     contagionIndexBase: number;
     /** How this affliction spreads (Contact, Airborne, etc.) */

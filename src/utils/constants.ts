@@ -1180,15 +1180,6 @@ export const {
 export type MissileStrikeModeEffectKey =
     (typeof MISSILESTRIKEMODE_EFFECT_KEY)[keyof typeof MISSILESTRIKEMODE_EFFECT_KEY];
 
-/**
- * Constants for the Heal Rate of an Affliction.
- */
-export const AfflictionHealRate: StrictObject<number> = {
-    NONE: -1,
-    DEFEATED: 6,
-    DEAD: 0,
-} as const;
-
 export const {
     /** Map of affliction-subtype key → value. */
     kind: AFFLICTION_SUBTYPE,

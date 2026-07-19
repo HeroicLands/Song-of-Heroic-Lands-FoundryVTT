@@ -291,9 +291,9 @@ describe("AfflictionLogic", () => {
                 ).toBe(true);
             });
 
-            it("false when the healing rate is disabled (healingRateBase -1)", () => {
+            it("false when the healing rate is disabled (healingRateBase null)", () => {
                 expect(
-                    makeAfflictionOnActor({ healingRateBase: -1 }).canHeal,
+                    makeAfflictionOnActor({ healingRateBase: null }).canHeal,
                 ).toBe(false);
             });
 
@@ -523,8 +523,8 @@ describe("AfflictionLogic", () => {
             expect(logic.healingRate.disabled).toBeFalsy();
         });
 
-        it("disables healingRate when healingRateBase is -1", () => {
-            const logic = makeAffliction({ healingRateBase: -1 });
+        it("disables healingRate when healingRateBase is null", () => {
+            const logic = makeAffliction({ healingRateBase: null });
             logic.initialize();
             expect(logic.healingRate.disabled).toBe("No Healing Rate");
             expect(logic.healingRate.effective).toBe(0);
@@ -573,7 +573,10 @@ describe("AfflictionDataModel", () => {
         it.todo("defines treatmentDate as a nullable NumberField");
         it.todo("defines diagnosisBonusBase as a NumberField");
         it.todo("defines levelBase as a NumberField with min 0");
-        it.todo("defines healingRateBase as a NumberField");
+        // "No natural healing" is an unset value (nullable, initial null),
+        // not a -1 sentinel; the nullable schema is exercised in Foundry
+        // integration (cypress/e2e/afflictions.cy.js), not in unit tests.
+        it.todo("defines healingRateBase as a nullable NumberField");
         it.todo("defines contagionIndexBase as a NumberField with min 0");
         it.todo("defines transmission with AfflictionTransmissions choices");
     });
