@@ -65,14 +65,14 @@ describe("non-being actors: cohort / structure / vehicle", () => {
 
     // -------------------------------------------------------------- schema fields
 
-    it("cohort persists members[] referencing beings by shortcode", () => {
+    it("cohort persists members[] referencing beings by shortcodeOrUuid", () => {
         cy.createActor("cohort", { name: "The Watch" }).then((actor) => {
             cy.foundry((win) =>
                 patchSystem(win, actor.id, {
                     "system.leaderName": "Sergeant Vell",
                     "system.members": [
-                        { shortcode: "vell", name: "Sergeant Vell" },
-                        { shortcode: "arn", name: "Arn" },
+                        { shortcodeOrUuid: "vell" },
+                        { shortcodeOrUuid: "arn" },
                     ],
                 }),
             );
@@ -81,14 +81,14 @@ describe("non-being actors: cohort / structure / vehicle", () => {
                 return {
                     leaderName: s.leaderName,
                     count: s.members.length,
-                    shortcodes: s.members.map((m) => m.shortcode),
+                    refs: s.members.map((m) => m.shortcodeOrUuid),
                     // role defaults are applied by the SchemaField.
                     roles: s.members.map((m) => m.role),
                 };
             }).should((r) => {
                 expect(r.leaderName).to.eq("Sergeant Vell");
                 expect(r.count, "two members").to.eq(2);
-                expect(r.shortcodes).to.have.members(["vell", "arn"]);
+                expect(r.refs).to.have.members(["vell", "arn"]);
                 expect(
                     r.roles.every((x) => !!x),
                     "each member has a role",
@@ -97,35 +97,30 @@ describe("non-being actors: cohort / structure / vehicle", () => {
         });
     });
 
-    it("vehicle persists cargo capacity and occupants[]", () => {
+    it("vehicle persists occupants[] referencing actors by actorCodeOrUuid", () => {
         cy.createActor("vehicle", { name: "River Barge" }).then((actor) => {
             cy.foundry((win) =>
                 patchSystem(win, actor.id, {
-                    "system.cargoCapacity": 500,
-                    "system.crewRequired": 2,
-                    // `name` and `title` are `blank: false`, so both must be
-                    // non-empty for the occupant to survive schema validation.
+                    // `actorCodeOrUuid` is required; `title` is `blank: false`.
                     "system.occupants": [
-                        { name: "Ferryman", title: "Captain" },
-                        { name: "Deckhand", title: "Crew" },
+                        { actorCodeOrUuid: "ferryman", title: "Captain" },
+                        { actorCodeOrUuid: "deckhand", title: "Crew" },
                     ],
                 }),
             );
             cy.foundry((win) => {
                 const s = win.game.actors.get(actor.id).system;
                 return {
-                    cargoCapacity: s.cargoCapacity,
-                    crewRequired: s.crewRequired,
-                    occupantNames: s.occupants.map((o) => o.name),
+                    occupantRefs: s.occupants.map((o) => o.actorCodeOrUuid),
+                    occupantTitles: s.occupants.map((o) => o.title),
                     occupantRoles: s.occupants.map((o) => o.role),
                 };
             }).should((r) => {
-                expect(r.cargoCapacity).to.eq(500);
-                expect(r.crewRequired).to.eq(2);
-                expect(r.occupantNames).to.have.members([
-                    "Ferryman",
-                    "Deckhand",
+                expect(r.occupantRefs).to.have.members([
+                    "ferryman",
+                    "deckhand",
                 ]);
+                expect(r.occupantTitles).to.have.members(["Captain", "Crew"]);
                 expect(
                     r.occupantRoles.every((x) => !!x),
                     "role defaults applied",

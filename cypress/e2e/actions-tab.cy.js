@@ -83,7 +83,7 @@ describe("Being Actions tab (#313)", () => {
             cy.openSheet(actor);
             cy.switchTab("actions", "primary");
             cy.get(ACTIONS).within(() => {
-                cy.contains("fieldset", "Intrinsic Actions")
+                cy.contains("ol.actions-list", "Intrinsic Actions")
                     .find("li.item")
                     .its("length")
                     .should("be.greaterThan", 0);
@@ -125,7 +125,7 @@ describe("Being Actions tab (#313)", () => {
                     ).should("include", macroUuid);
                     // …titled by the Action name, under Custom Actions.
                     cy.get(ACTIONS)
-                        .contains("fieldset", "Custom Actions")
+                        .contains("ol.actions-list", "Custom Actions")
                         .contains(".item", "E2E Bound Action");
                 },
             );
@@ -151,7 +151,7 @@ describe("Being Actions tab (#313)", () => {
             });
             // …and the action is bound and listed under Custom Actions.
             cy.get(ACTIONS)
-                .contains("fieldset", "Custom Actions")
+                .contains("ol.actions-list", "Custom Actions")
                 .contains(".item", "E2E Fresh Action");
         });
     });
@@ -170,7 +170,7 @@ describe("Being Actions tab (#313)", () => {
                 cy.openSheet(actor);
                 cy.switchTab("actions", "primary");
                 cy.get(ACTIONS)
-                    .contains("fieldset", "Custom Actions")
+                    .contains("ol.actions-list", "Custom Actions")
                     .find('[data-action="runAction"]')
                     .click();
                 cy.wait(700);
@@ -187,7 +187,7 @@ describe("Being Actions tab (#313)", () => {
                     cy.openSheet(actor);
                     cy.switchTab("actions", "primary");
                     cy.get(ACTIONS)
-                        .contains("fieldset", "Custom Actions")
+                        .contains("ol.actions-list", "Custom Actions")
                         .find('[data-action="editAction"]')
                         .click();
                     cy.wait(500);
@@ -210,7 +210,7 @@ describe("Being Actions tab (#313)", () => {
                     cy.openSheet(actor);
                     cy.switchTab("actions", "primary");
                     cy.get(ACTIONS)
-                        .contains("fieldset", "Custom Actions")
+                        .contains("ol.actions-list", "Custom Actions")
                         .find('[data-action="deleteAction"]')
                         .click();
                     cy.submitDialog("yes"); // DialogV2.confirm

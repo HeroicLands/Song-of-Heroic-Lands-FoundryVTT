@@ -59,7 +59,7 @@ describe("Being Trauma tab: Afflictions section (#309)", () => {
             cy.openSheet(actor);
             cy.switchTab("trauma");
             cy.get(
-                'section.tab[data-tab="trauma"] .search-control.item-create[data-type="affliction"]',
+                'section.tab[data-tab="trauma"] .item-create[data-type="affliction"]',
             ).should("exist");
             cy.get(
                 'section.tab[data-tab="trauma"] .afflictions-list .item .item-contextmenu',

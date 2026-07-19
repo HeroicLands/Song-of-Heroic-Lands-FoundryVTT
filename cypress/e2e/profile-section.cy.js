@@ -38,11 +38,16 @@ describe("Being Profile tab (#373)", () => {
             );
             cy.openSheet(actor);
             cy.switchTab("profile", "primary");
-            cy.get('section.tab[data-tab="profile"]')
-                .should("contain.text", "Born of the northern clans.")
-                // The editor must target the real field so edits persist.
-                .find('[data-edit="system.dossier"]')
-                .should("exist");
+            cy.get('section.tab[data-tab="profile"]').should(
+                "contain.text",
+                "Born of the northern clans.",
+            );
+            // The ProseMirror editor binds the real field via `name` so edits
+            // persist. Re-query (rather than chaining `.find`) — the editor
+            // enriches asynchronously and detaches the prior subtree.
+            cy.get(
+                'section.tab[data-tab="profile"] [name="system.dossier"]',
+            ).should("exist");
         });
     });
 });
