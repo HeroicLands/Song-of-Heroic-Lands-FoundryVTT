@@ -19,6 +19,7 @@ import {
     CohortMemberRoleChoices,
     MovementMediumChoices,
     MOVEMENT_MEDIUM,
+    MovementMedium,
 } from "@src/utils/constants";
 import type { CohortData } from "@src/document/actor/logic/CohortLogic";
 import { CohortLogic } from "@src/document/actor/logic/CohortLogic";
@@ -36,6 +37,15 @@ function defineCohortDataSchema(): foundry.data.fields.DataSchema {
         ...SohlActorDataModel.defineSchema(),
         leaderName: new StringField({ initial: "" }),
         /**
+         * The current movement medium: selects the active entry from
+         * {@link movementProfiles} (the profile whose `medium` matches this).
+         * Also seeded onto each new combatant at combatant creation time.
+         */
+        currentMoveMedium: new StringField({
+            choices: MovementMediumChoices,
+            initial: MOVEMENT_MEDIUM.NONE,
+        }),
+        /**
          * Per-medium movement profiles. Each entry describes how the being moves
          * in one {@link MovementMedium}: its tactical and travel speeds, and the
          * {@link sohl.entity.expr.SafeExpression}s that turn carried weight into encumbrance
@@ -47,7 +57,6 @@ function defineCohortDataSchema(): foundry.data.fields.DataSchema {
                 medium: new StringField({
                     required: true,
                     choices: MovementMediumChoices,
-                    initial: MOVEMENT_MEDIUM.TERRESTRIAL,
                 }),
                 /** Tactical move (feet per combat round) in this medium. */
                 feetPerRound: new NumberField({
@@ -105,6 +114,7 @@ export class CohortDataModel<
     members!: { shortcodeOrUuid: string; role: string }[];
     /** Per-medium movement profiles (speeds + encumbrance expressions). */
     movementProfiles!: MovementProfile[];
+    currentMoveMedium!: MovementMedium;
 
     /**
      * Returns the Foundry data schema for the Cohort actor.

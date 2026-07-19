@@ -17,6 +17,7 @@ import {
     type SohlActorLogic,
 } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { MovementProfile } from "@src/document/item/logic/CorpusLogic";
+import { MovementMedium } from "@src/utils/constants";
 
 /**
  * A group of individuals acting as a unit.
@@ -109,6 +110,8 @@ export interface CohortData<
     leaderName: string;
     /** Per-medium movement profiles. */
     movementProfiles: MovementProfile[];
+    /** The current movement medium: selects the active entry from {@link movementProfiles}. */
+    currentMoveMedium: MovementMedium;
     /** The individuals that make up this cohort */
     members: {
         /** Shortcode of the world actor that defines this member's capabilities. */

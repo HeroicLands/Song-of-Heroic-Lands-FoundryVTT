@@ -18,6 +18,7 @@ import {
     VehicleOccupantRoleChoices,
     MovementMediumChoices,
     MOVEMENT_MEDIUM,
+    MovementMedium,
 } from "@src/utils/constants";
 import type { VehicleData } from "@src/document/actor/logic/VehicleLogic";
 import { VehicleLogic } from "@src/document/actor/logic/VehicleLogic";
@@ -34,6 +35,15 @@ const { ArrayField, SchemaField, StringField, NumberField, BooleanField } =
 function defineVehicleDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
+        /**
+         * The current movement medium: selects the active entry from
+         * {@link movementProfiles} (the profile whose `medium` matches this).
+         * Also seeded onto each new combatant at combatant creation time.
+         */
+        currentMoveMedium: new StringField({
+            choices: MovementMediumChoices,
+            initial: MOVEMENT_MEDIUM.NONE,
+        }),
         /**
          * Per-medium movement profiles. Each entry describes how the being moves
          * in one {@link MovementMedium}: its tactical and travel speeds, and the
@@ -106,6 +116,7 @@ export class VehicleDataModel<
     static override readonly kind = ACTOR_KIND.VEHICLE;
     occupants!: string[];
     movementProfiles!: MovementProfile[];
+    currentMoveMedium!: MovementMedium;
 
     /**
      * Returns the Foundry data schema for the vehicle actor.
