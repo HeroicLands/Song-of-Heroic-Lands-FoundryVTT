@@ -13,29 +13,29 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="grid grid-3col">
-        {{formGroup fields.category rootId="ail-category" classes="stacked" value=system.category}}
-        {{formGroup fields.isDormant rootId="ail-dormant" classes="stacked" value=system.isDormant}}
-        {{formGroup fields.levelBase rootId="ail-level" classes="stacked" value=system.levelBase}}
-        {{formGroup fields.healingRateBase rootId="ail-hr" classes="stacked" value=system.healingRateBase}}
-        {{formGroup fields.contagionIndexBase rootId="ail-contidx" classes="stacked" value=system.contagionIndexBase}}
-        {{formGroup fields.transmission rootId="ail-trx" classes="stacked" value=system.transmission}}
-        {{formGroup fields.diagnosisBonusBase rootId="ail-diag" classes="stacked" value=system.diagnosisBonusBase}}
+        {{formGroup fields.category rootId="ail-category" classes="stacked" value=logic.data.category}}
+        {{formGroup fields.isDormant rootId="ail-dormant" classes="stacked" value=logic.data.isDormant}}
+        {{formGroup fields.levelBase rootId="ail-level" classes="stacked" value=logic.data.levelBase}}
         <div class="form-group stacked">
-            <label>{{localize "SOHL.Affliction.FIELDS.contractDate.label"}}</label>
-            {{datePicker system.contractDate name="system.contractDate"}}
+            <label>{{localize "SOHL.Affliction.FIELDS.healingRateBase.label"}}</label>
+            {{clearableNumberInput fields.healingRateBase name="system.healingRateBase" value=logic.data.healingRateBase}}
         </div>
-        <div class="form-group stacked">
-            <label>{{localize "SOHL.Affliction.FIELDS.treatmentDate.label"}}</label>
-            {{datePicker system.treatmentDate name="system.treatmentDate"}}
+        {{formGroup fields.contagionIndexBase rootId="ail-contidx" classes="stacked" value=logic.data.contagionIndexBase}}
+        {{formGroup fields.transmission rootId="ail-trx" classes="stacked" value=logic.data.transmission}}
+        {{formGroup fields.diagnosisBonusBase rootId="ail-diag" classes="stacked" value=logic.data.diagnosisBonusBase}}
+        {{formGroup fields.contractDate rootId="ail-contract" classes="stacked" value=logic.data.contractDate}}
+        <div class="form-group stacked stacked">
+            <label>Treated (world-time)</label>
+            {{clearableNumberInput fields.treatmentDate name="system.treatmentDate" value=logic.data.treatmentDate}}
         </div>
-        {{formGroup fields.onsetDurationFormula rootId="ail-onset-duration-formula" classes="stacked" value=system.onsetDurationFormula}}
-        {{formGroup fields.onsetDurationBase rootId="ail-onset-duration-base" classes="stacked" value=system.onsetDurationBase}}
-        {{formGroup fields.onsetDate rootId="ail-onset-date" classes="stacked" value=system.onsetDate}}
-        {{formGroup fields.healingCheckDurationFormula rootId="ail-healing-check-duration-formula" classes="stacked" value=system.healingCheckDurationFormula}}
-        {{formGroup fields.healingCheckDurationBase rootId="ail-healing-check-duration-base" classes="stacked" value=system.healingCheckDurationBase}}
-        {{formGroup fields.lastHealingCheckDate rootId="ail-last-healing-check-date" classes="stacked" value=system.lastHealingCheckDate}}
-        {{formGroup fields.resolutionDurationFormula rootId="ail-resolution-duration-formula" classes="stacked" value=system.resolutionDurationFormula}}
-        {{formGroup fields.resolutionDurationBase rootId="ail-resolution-duration-base" classes="stacked" value=system.resolutionDurationBase}}
-        {{formGroup fields.resolutionDate rootId="ail-resolution-date" classes="stacked" value=system.resolutionDate}}
+        {{formGroup fields.onsetDurationFormula rootId="ail-onset-duration-formula" classes="stacked" value=logic.data.onsetDurationFormula}}
+        {{formGroup fields.onsetDurationBase rootId="ail-onset-duration-base" classes="stacked" value=logic.data.onsetDurationBase}}
+        {{formGroup fields.onsetDate rootId="ail-onset-date" classes="stacked" value=logic.data.onsetDate}}
+        {{formGroup fields.healingCheckDurationFormula rootId="ail-healing-check-duration-formula" classes="stacked" value=logic.data.healingCheckDurationFormula}}
+        {{formGroup fields.healingCheckDurationBase rootId="ail-healing-check-duration-base" classes="stacked" value=logic.data.healingCheckDurationBase}}
+        {{formGroup fields.lastHealingCheckDate rootId="ail-last-healing-check-date" classes="stacked" value=logic.data.lastHealingCheckDate}}
+        {{formGroup fields.resolutionDurationFormula rootId="ail-resolution-duration-formula" classes="stacked" value=logic.data.resolutionDurationFormula}}
+        {{formGroup fields.resolutionDurationBase rootId="ail-resolution-duration-base" classes="stacked" value=logic.data.resolutionDurationBase}}
+        {{formGroup fields.resolutionDate rootId="ail-resolution-date" classes="stacked" value=logic.data.resolutionDate}}
     </div>
 </section>
