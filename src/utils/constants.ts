@@ -339,6 +339,7 @@ export const {
     /** Localization keys per movement medium. */
     labels: movementMediumLabels,
 } = defineType("SOHL.MovementMedium", {
+    NONE: "none",
     TERRESTRIAL: "terrestrial",
     AQUATIC: "aquatic",
     AERIAL: "aerial",
