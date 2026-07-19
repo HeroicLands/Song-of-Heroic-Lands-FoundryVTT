@@ -122,12 +122,16 @@ describe("compileMenuEntry", () => {
 
     it("visible reflects the compiled string condition", () => {
         expect(
-            compileMenuEntry(baseEntry({ condition: "true" }), mockParent)
-                .visible(mockTarget()),
+            compileMenuEntry(
+                baseEntry({ condition: "true" }),
+                mockParent,
+            ).visible(mockTarget()),
         ).toBe(true);
         expect(
-            compileMenuEntry(baseEntry({ condition: "false" }), mockParent)
-                .visible(mockTarget()),
+            compileMenuEntry(
+                baseEntry({ condition: "false" }),
+                mockParent,
+            ).visible(mockTarget()),
         ).toBe(false);
     });
 
