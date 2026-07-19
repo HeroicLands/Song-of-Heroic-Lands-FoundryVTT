@@ -111,7 +111,8 @@ import { DamageCardInput } from "@src/document/combatant/logic/SohlCombatantLogi
  *
  * The being's **physical baseline — anatomy, body weight, reach, and movement —
  * lives on its {@link sohl.document.item.logic.CorpusLogic}, not here.** `BeingLogic` holds being-owned
- * derived state ({@link health}, {@link healingBase}, {@link shockState},
+ * derived state ({@link healthBand} plus the numeric `system.health` it writes,
+ * {@link healingBase}, {@link shockState},
  * {@link pull}, {@link carriedWeight}); anatomy/weight/reach/movement
  * (`structure`, `weight`, `reach`, `feetPerRound`, `leaguesPerWatch`,
  * `encumbrance`, `strengthModifier`) are reached through the
@@ -816,11 +817,12 @@ export class BeingLogic<
     }
 
     /**
-     * Populate {@link health} from the being's Endurance, active injuries,
-     * body-part impairment, and incapacitating statuses (#463). Runs in
-     * {@link finalize}, after all items (corpus, traumas) are prepared. The math
-     * lives in the pure {@link deriveHealth}; this method only gathers the
-     * inputs and wraps the result in `{ value, max }` ValueModifiers.
+     * Populate the being's derived health (`system.health` and the qualitative
+     * {@link healthBand}) from its Endurance, active injuries, body-part
+     * impairment, and incapacitating statuses (#463). Runs in {@link finalize},
+     * after all items (corpus, traumas) are prepared. The math lives in the pure
+     * {@link deriveHealth}; this method only gathers the inputs and writes the
+     * `{ value, max }` numbers back into `system.health`.
      */
     private deriveHealthState(): void {
         // A per-location view of the being's active injuries, for the body-part
