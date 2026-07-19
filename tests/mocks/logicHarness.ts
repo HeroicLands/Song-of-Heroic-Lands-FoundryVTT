@@ -78,6 +78,20 @@ function buildActorData(actor: any, kind: string): any {
         // Mirrors the base actor schema default (SohlActorDataModel): every actor
         // carries a derived-but-never-persisted health bar, seeded at 100/100.
         health: { value: 100, max: 100 },
+        // Base actor movement defaults (SohlActorDataModel): a non-mover by data.
+        // Tests override these via `fields` (see makeActorData) to exercise movement.
+        currentMoveMedium: "none",
+        movementProfiles: [],
+        // Being body defaults (BeingDataModel `system.body`): an empty structure
+        // is an incorporeal being. Tests override via `fields.body` (use
+        // makeBodyData) to give a being real anatomy/weight/reach.
+        body: {
+            structure: { parts: [], adjacent: [] },
+            weight: { base: 0, calc: "0" },
+            reachBase: 0,
+            bodyScaleBase: 1.0,
+            personalFatigue: "enc",
+        },
         hasPlayerOwner: actor.hasPlayerOwner,
         update: actor.update,
         getFlag: actor.getFlag,
@@ -293,6 +307,25 @@ export function makeActorLogic<T>(
     data.logic = logic;
     data.parent.logic = logic;
     return logic;
+}
+
+/**
+ * Build a complete `system.body` object for a Being (BeingDataModel schema),
+ * merging `overrides` over the empty-body defaults. Pass as `fields.body` to
+ * `makeActorLogic(BeingLogic, …)` to give a being real anatomy/weight/reach.
+ * Sub-objects (`structure`, `weight`) replace wholesale — pass them complete.
+ */
+export function makeBodyData(
+    overrides: Record<string, unknown> = {},
+): Record<string, unknown> {
+    return {
+        structure: { parts: [], adjacent: [] },
+        weight: { base: 0, calc: "0" },
+        reachBase: 0,
+        bodyScaleBase: 1.0,
+        personalFatigue: "enc",
+        ...overrides,
+    };
 }
 
 /**

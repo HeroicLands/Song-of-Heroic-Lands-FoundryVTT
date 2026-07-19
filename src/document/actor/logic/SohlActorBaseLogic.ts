@@ -14,10 +14,27 @@
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
-import { BRAND, ItemKinds, type ItemKind } from "@src/utils/constants";
+import { entity } from "@src/entity/registry";
+import {
+    ACTION_SUBTYPE,
+    BRAND,
+    ItemKinds,
+    MOVEMENT_MEDIUM,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+    isMovementMedium,
+    type ItemKind,
+    type MovementMedium,
+} from "@src/utils/constants";
 import type { FilePath, HTMLString } from "@src/utils/helpers";
+import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import type { SohlAction } from "@src/entity/action/SohlAction";
 import { SohlTriggerContext } from "@src/entity/event/event-trigger";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import {
+    selectMoveProfile,
+    type MovementProfile,
+} from "@src/document/actor/logic/movement";
 import type {
     ItemLogicByKind,
     ItemLogicArrayByKind,
@@ -71,6 +88,15 @@ export interface SohlActorLogic<
 
     /** Whether the actor is owned by at least one player (non-GM) user. */
     readonly hasPlayerOwner: boolean;
+
+    /** The active movement profile for the actor's current medium. */
+    readonly moveProfile: MovementProfile;
+
+    /** The actor's tactical move (feet per combat round) modifier. */
+    readonly feetPerRound: ValueModifier;
+
+    /** The actor's overland travel speed (leagues per watch) modifier. */
+    readonly leaguesPerWatch: ValueModifier;
 }
 
 /**
@@ -95,6 +121,10 @@ export interface SohlActorData<
      * fresh actor defaults to 100/100; only Being derives it down today.
      */
     health: { value: number; max: number };
+    /** The medium this actor is currently moving in (selects a profile). */
+    currentMoveMedium: MovementMedium;
+    /** Per-medium movement profiles persisted on this actor. */
+    movementProfiles: MovementProfile[];
 
     // --- Foundry-document port (actor-specific) --------------------------
     // Lets actor logic iterate its items' logic and read ownership without
@@ -126,6 +156,29 @@ export class SohlActorBaseLogic<
     get [BRAND.SohlActorLogic](): true {
         return true;
     }
+
+    /**
+     * The active movement profile, selected during {@link initialize} by this
+     * actor's {@link SohlActorData.currentMoveMedium}. A disabled
+     * {@link MOVEMENT_MEDIUM.NONE} profile when the actor has no matching
+     * profile (a non-mover).
+     */
+    moveProfile!: MovementProfile;
+
+    /**
+     * The actor's tactical move (feet per combat round) as a
+     * {@link sohl.entity.modifier.ValueModifier} so runtime modifiers (haste,
+     * encumbrance, etc.) can layer on. Seeded from the active {@link moveProfile}
+     * when it is enabled.
+     */
+    feetPerRound!: ValueModifier;
+
+    /**
+     * The actor's overland travel speed (leagues per watch) as a
+     * {@link sohl.entity.modifier.ValueModifier}. Seeded from the active
+     * {@link moveProfile} when it is enabled.
+     */
+    leaguesPerWatch!: ValueModifier;
 
     /**
      * Find an embedded item's logic by its `shortcode` and item kind.
@@ -243,12 +296,64 @@ export class SohlActorBaseLogic<
         );
     }
 
+    /** @inheritDoc */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlLogic.defineIntrinsicActions(),
+            {
+                shortcode: "makeDefaultMedium",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Actor.Action.makeDefaultMedium",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-person-swimming",
+                executor: "makeDefaultMedium",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+        ];
+    }
+
+    /**
+     * Set this actor's {@link SohlActorData.currentMoveMedium} — the active
+     * movement profile — to the medium carried in the action scope.
+     *
+     * Intrinsic-action executor for the `makeDefaultMedium` action.
+     *
+     * @param context - The action context; `context.scope.medium` names the
+     *   {@link MovementMedium} to make current.
+     * @returns Resolves once the actor update completes.
+     */
+    async makeDefaultMedium(context: SohlActionContext): Promise<void> {
+        const medium = (context.scope as PlainObject)?.medium;
+        if (!isMovementMedium(medium)) return;
+        await this.data.update({ "system.currentMoveMedium": medium });
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 
-    /** @inheritDoc */
-    override initialize(): void {}
+    /**
+     * Select the active movement profile from {@link SohlActorData.currentMoveMedium}
+     * and seed the {@link feetPerRound} / {@link leaguesPerWatch} modifiers.
+     *
+     * @remarks Movement is a universal actor capability, so it is derived on the
+     * base actor logic. Subclasses that layer encumbrance/strength effects onto
+     * the selected profile (e.g. Being) must call `super.initialize()` first.
+     * See {@link sohl.core.logic.SohlLogic.initialize} for the lifecycle phase.
+     */
+    override initialize(): void {
+        this.feetPerRound = new entity.ValueModifier(this);
+        this.leaguesPerWatch = new entity.ValueModifier(this);
+        this.moveProfile = selectMoveProfile(
+            this.data.movementProfiles,
+            this.data.currentMoveMedium ?? MOVEMENT_MEDIUM.NONE,
+        );
+        if (!this.moveProfile.disabled) {
+            this.feetPerRound.setBase(this.moveProfile.feetPerRound);
+            this.leaguesPerWatch.setBase(this.moveProfile.leaguesPerWatch);
+        }
+    }
     /** @inheritDoc */
     override evaluate(): void {}
     /** @inheritDoc */

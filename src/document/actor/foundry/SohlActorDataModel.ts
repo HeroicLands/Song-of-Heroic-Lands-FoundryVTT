@@ -23,8 +23,22 @@ import type {
     SohlActorLogic,
     SohlActorData,
 } from "@src/document/actor/logic/SohlActorBaseLogic";
-const { HTMLField, FilePathField, SchemaField, NumberField } =
-    foundry.data.fields;
+import type { MovementProfile } from "@src/document/actor/logic/movement";
+import {
+    MOVEMENT_MEDIUM,
+    MovementMediumChoices,
+    type MovementMedium,
+} from "@src/utils/constants";
+const {
+    HTMLField,
+    FilePathField,
+    SchemaField,
+    NumberField,
+    StringField,
+    ArrayField,
+    BooleanField,
+    JavaScriptField,
+} = foundry.data.fields;
 
 /**
  * Builds the base actor data schema (portrait, appearance, dossier).
@@ -51,6 +65,45 @@ function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
             value: new NumberField({ integer: true, initial: 100, min: 0 }),
             max: new NumberField({ integer: true, initial: 100, min: 0 }),
         }),
+        /**
+         * The medium this actor is currently moving in; selects the active
+         * entry of {@link movementProfiles}. Defaults to
+         * {@link MOVEMENT_MEDIUM.NONE} — a non-mover has no movement by data.
+         */
+        currentMoveMedium: new StringField({
+            choices: MovementMediumChoices,
+            initial: MOVEMENT_MEDIUM.NONE,
+        }),
+        /**
+         * Per-medium movement profiles (speeds + encumbrance/strength
+         * expressions). Movement is a universal actor capability; the base
+         * actor logic selects the active profile by {@link currentMoveMedium}.
+         */
+        movementProfiles: new ArrayField(
+            new SchemaField({
+                medium: new StringField({
+                    required: true,
+                    choices: MovementMediumChoices,
+                }),
+                feetPerRound: new NumberField({
+                    integer: true,
+                    min: 0,
+                    initial: 0,
+                }),
+                leaguesPerWatch: new NumberField({
+                    integer: false,
+                    min: 0,
+                    initial: 0,
+                }),
+                encumbrance: new JavaScriptField({
+                    blank: false,
+                    initial: "0",
+                }),
+                strMod: new JavaScriptField({ blank: false, initial: "0" }),
+                disabled: new BooleanField({ initial: false }),
+            }),
+            { initial: [] },
+        ),
     };
 }
 
@@ -84,6 +137,10 @@ export abstract class SohlActorDataModel<
      * actor's logic and never persisted (see {@link SohlActorDataModel._preUpdate}).
      */
     health!: { value: number; max: number };
+    /** The medium this actor is currently moving in (selects a profile). */
+    currentMoveMedium!: MovementMedium;
+    /** Per-medium movement profiles persisted on this actor. */
+    movementProfiles!: MovementProfile[];
 
     /**
      * Drop any attempt to persist derived health. `health` is recomputed every

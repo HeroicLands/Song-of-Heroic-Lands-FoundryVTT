@@ -166,9 +166,11 @@ describe("GearLogic (via MiscGearLogic)", () => {
 
         describe("holdItem / releaseItem (#179)", () => {
             // The full-array write (#247) sources canonical part data from
-            // `corpus.data.structure.parts` and routes through the real
+            // `being.data.body.structure.parts` and routes through the real
             // BodyStructure.setPartFieldsUpdate, so the mock provides both the
-            // domain parts (for filtering) and canonical persisted parts.
+            // domain parts (for filtering) and canonical persisted parts. The
+            // being's body is reached via `getActorBody(actorLogic)` and the
+            // update is applied to the being document (`actorLogic.data.update`).
             function makeGearWithParts(
                 partDefs: Array<{
                     canHoldItem: boolean;
@@ -176,7 +178,7 @@ describe("GearLogic (via MiscGearLogic)", () => {
                 }> = [],
             ) {
                 const actor = makeMockActor();
-                const corpusUpdate = vi.fn(async (d: any) => d);
+                const bodyUpdate = vi.fn(async (d: any) => d);
                 const gearId = "item0000000mock";
                 const canonicalParts = partDefs.map((p, i) => ({
                     shortcode: `part${i}`,
@@ -191,43 +193,43 @@ describe("GearLogic (via MiscGearLogic)", () => {
                     heldItem: p.heldItemId ? { id: p.heldItemId } : undefined,
                     index: i,
                 }));
-                const mockCorpusLogic: any = {
+                const being: any = {
                     data: {
-                        update: corpusUpdate,
-                        structure: { parts: canonicalParts },
+                        update: bodyUpdate,
+                        body: { structure: { parts: canonicalParts } },
                     },
                 };
-                mockCorpusLogic.structure = {
-                    parts,
-                    parent: mockCorpusLogic,
-                    setPartFieldsUpdate:
-                        BodyStructure.prototype.setPartFieldsUpdate,
+                being.body = {
+                    structure: {
+                        parts,
+                        parent: being,
+                        setPartFieldsUpdate:
+                            BodyStructure.prototype.setPartFieldsUpdate,
+                    },
                 };
-                actor.logic = {
-                    logicTypes: { [ITEM_KIND.CORPUS]: [mockCorpusLogic] },
-                };
+                actor.logic = being;
                 const logic = makeGear({}, { actor, id: gearId });
                 logic.initialize();
-                return { logic, corpusUpdate, gearId, canonicalParts };
+                return { logic, bodyUpdate, gearId, canonicalParts };
             }
 
-            /** The parts array from a full-array `system.structure.parts` write. */
-            function writtenParts(corpusUpdate: any): any[] {
-                expect(corpusUpdate).toHaveBeenCalledTimes(1);
-                const payload = corpusUpdate.mock.calls[0][0];
+            /** The parts from a full-array `system.body.structure.parts` write. */
+            function writtenParts(bodyUpdate: any): any[] {
+                expect(bodyUpdate).toHaveBeenCalledTimes(1);
+                const payload = bodyUpdate.mock.calls[0][0];
                 expect(Object.keys(payload)).toEqual([
-                    "system.structure.parts",
+                    "system.body.structure.parts",
                 ]);
-                return payload["system.structure.parts"];
+                return payload["system.body.structure.parts"];
             }
 
             it("holdItem assigns the first free canHoldItem part (whole array preserved)", async () => {
-                const { logic, corpusUpdate, gearId } = makeGearWithParts([
+                const { logic, bodyUpdate, gearId } = makeGearWithParts([
                     { canHoldItem: true, heldItemId: null },
                     { canHoldItem: true, heldItemId: null },
                 ]);
                 await logic.holdItem({} as any);
-                const parts = writtenParts(corpusUpdate);
+                const parts = writtenParts(bodyUpdate);
                 expect(parts).toHaveLength(2);
                 expect(parts[0].heldItemId).toBe(gearId);
                 expect(parts[0].shortcode).toBe("part0"); // fields retained
@@ -235,29 +237,29 @@ describe("GearLogic (via MiscGearLogic)", () => {
             });
 
             it("holdItem skips parts where canHoldItem is false", async () => {
-                const { logic, corpusUpdate, gearId } = makeGearWithParts([
+                const { logic, bodyUpdate, gearId } = makeGearWithParts([
                     { canHoldItem: false, heldItemId: null },
                     { canHoldItem: true, heldItemId: null },
                 ]);
                 await logic.holdItem({} as any);
-                const parts = writtenParts(corpusUpdate);
+                const parts = writtenParts(bodyUpdate);
                 expect(parts).toHaveLength(2);
                 expect(parts[0].heldItemId).toBe(null);
                 expect(parts[1].heldItemId).toBe(gearId);
             });
 
             it("holdItem does nothing when no free parts exist", async () => {
-                const { corpusUpdate } = makeGearWithParts([
+                const { bodyUpdate } = makeGearWithParts([
                     { canHoldItem: true, heldItemId: "other-item-000" },
                 ]);
                 const logic = makeGearWithParts([
                     { canHoldItem: true, heldItemId: "other-item-000" },
                 ]).logic;
                 await logic.holdItem({} as any);
-                expect(corpusUpdate).not.toHaveBeenCalled();
+                expect(bodyUpdate).not.toHaveBeenCalled();
             });
 
-            it("holdItem does nothing when actor has no corpus", async () => {
+            it("holdItem does nothing when the being is incorporeal (no body)", async () => {
                 const actor = makeMockActor();
                 actor.logic = { logicTypes: {} };
                 const logic = makeGear({}, { actor });
@@ -268,12 +270,12 @@ describe("GearLogic (via MiscGearLogic)", () => {
 
             it("releaseItem clears heldItemId on all parts holding this gear", async () => {
                 const ownId = "item0000000mock";
-                const { logic, corpusUpdate } = makeGearWithParts([
+                const { logic, bodyUpdate } = makeGearWithParts([
                     { canHoldItem: true, heldItemId: ownId },
                     { canHoldItem: true, heldItemId: ownId },
                 ]);
                 await logic.releaseItem({} as any);
-                const parts = writtenParts(corpusUpdate);
+                const parts = writtenParts(bodyUpdate);
                 expect(parts).toHaveLength(2);
                 expect(parts[0].heldItemId).toBe(null);
                 expect(parts[1].heldItemId).toBe(null);
@@ -281,14 +283,14 @@ describe("GearLogic (via MiscGearLogic)", () => {
             });
 
             it("releaseItem does nothing when no parts hold this item", async () => {
-                const { logic, corpusUpdate } = makeGearWithParts([
+                const { logic, bodyUpdate } = makeGearWithParts([
                     { canHoldItem: true, heldItemId: null },
                 ]);
                 await logic.releaseItem({} as any);
-                expect(corpusUpdate).not.toHaveBeenCalled();
+                expect(bodyUpdate).not.toHaveBeenCalled();
             });
 
-            it("releaseItem does nothing when actor has no corpus", async () => {
+            it("releaseItem does nothing when the being is incorporeal (no body)", async () => {
                 const actor = makeMockActor();
                 actor.logic = { logicTypes: {} };
                 const logic = makeGear({}, { actor });

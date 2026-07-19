@@ -129,11 +129,11 @@ Cypress.Commands.add("createItemsOn", (actor, items) => {
  * Resolve a document from a compendium pack by **item type + shortcode**.
  * Shortcodes are unique within an item type (names are ambiguous), so all three
  * of pack/type/shortcode are required. Yields the live compendium document — pair
- * with {@link dropOnActor} to place authored content (armor, weapons, skills, a
- * corpus) onto a test actor instead of hand-building it.
+ * with {@link dropOnActor} to place authored content (armor, weapons, skills)
+ * onto a test actor instead of hand-building it.
  *
  * @param {string} packName - The compendium pack id (e.g. `"sohl.items"`).
- * @param {string} itemType - The item kind (e.g. `"weapongear"`, `"corpus"`).
+ * @param {string} itemType - The item kind (e.g. `"weapongear"`, `"skill"`).
  * @param {string} shortcode - The document's `system.shortcode`, unique within the type.
  * @example cy.getFromCompendium("sohl.items", "armorgear", "mail-hauberk")
  */
@@ -159,12 +159,11 @@ Cypress.Commands.add("getFromCompendium", (packName, itemType, shortcode) =>
 /**
  * Drop an item onto an actor through the actor sheet's real drop handler
  * (`_onDropItem`) — the same path a drag-drop takes, so it clones the item onto
- * the actor and honors the corpus-singleton rule. `item` may be a compendium
- * document (see {@link getFromCompendium}), a world item, or anything with a
- * `uuid`. The sheet need not be open (the handler is DOM-free).
+ * the actor. `item` may be a compendium document (see {@link getFromCompendium}),
+ * a world item, or anything with a `uuid`. The sheet need not be open (the
+ * handler is DOM-free).
  *
- * Yields the created embedded Item, or `null` when the drop was refused (e.g. a
- * second corpus).
+ * Yields the created embedded Item, or `null` when the drop was refused.
  *
  * @param {object|string} actor - The target actor (doc, id, or `{id}`).
  * @param {object} doc - The document to drop (a document, or `{uuid}`).

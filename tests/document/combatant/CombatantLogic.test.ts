@@ -156,19 +156,19 @@ describe("CombatantLogic", () => {
     });
 
     describe("computedMove (moveFactor scaling, #252)", () => {
-        /** A combatant whose being's corpus reports the given feet-per-round. */
+        /** A combatant whose actor reports the given feet-per-round (base actor). */
         function combatantWithMove(feetPerRound: number) {
             return makeCombatantLogic({
                 actor: {
                     name: "Runner",
                     logic: {
-                        corpus: { feetPerRound: { effective: feetPerRound } },
+                        feetPerRound: { effective: feetPerRound },
                     },
                 },
             });
         }
 
-        it("scales the corpus feetPerRound by the situational moveFactor", () => {
+        it("scales the actor's feetPerRound by the situational moveFactor", () => {
             const logic = combatantWithMove(50);
             logic.data.moveFactor = 2;
             expect(logic.computedMove()).toBe(100);
@@ -180,7 +180,7 @@ describe("CombatantLogic", () => {
             expect(logic.computedMove()).toBe(50);
         });
 
-        it("is null when the actor has no corpus (non-being)", () => {
+        it("is null when the actor has no movement model", () => {
             const logic = makeCombatantLogic({
                 actor: { name: "Cart", logic: {} },
             });

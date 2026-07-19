@@ -18,14 +18,13 @@ import type { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { BodyLocation } from "@src/entity/body/BodyLocation";
-import type { CorpusLogic } from "@src/document/item/logic/CorpusLogic";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import {
     ACTION_SUBTYPE,
     defineType,
     ImpactAspect,
     INJURY_LEVELS,
-    ITEM_KIND,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     TraumaSubType,
@@ -91,9 +90,9 @@ export class TraumaLogic<
      */
     bloodLossAdvanceDurationBase!: ValueModifier;
     /**
-     * The {@link BodyLocation} on the actor's Corpus that this trauma
+     * The {@link BodyLocation} on the being's body that this trauma
      * affects, resolved from {@link TraumaData.bodyLocationCode}. When the
-     * code is blank — or no matching location exists on the corpus — this
+     * code is blank — or no matching location exists in the body — this
      * is `undefined`, indicating the trauma affects the whole body rather
      * than a specific location. Recomputed in {@link evaluate}.
      */
@@ -343,18 +342,17 @@ export class TraumaLogic<
 
     /**
      * Look up the {@link BodyLocation} referenced by `bodyLocationCode`
-     * on the actor's Corpus. Returns `undefined` when the code is blank,
-     * the trauma is not attached to an actor, the actor has no Corpus,
-     * or no location with that shortcode exists.
+     * on the being's body. Returns `undefined` when the code is blank,
+     * the trauma is not attached to an actor, the being is incorporeal
+     * (no body structure), or no location with that shortcode exists.
      *
      * @returns The matching body location, or `undefined` when none applies.
      */
     private resolveBodyLocation(): BodyLocation | undefined {
         const code = this.data.bodyLocationCode;
         if (!code) return undefined;
-        const corpusLogic = this.actorLogic?.logicTypes[ITEM_KIND.CORPUS][0];
-        return corpusLogic?.structure
-            ?.getAllLocations()
+        return getActorBody(this.actorLogic)
+            ?.structure?.getAllLocations()
             .find((loc) => loc.shortcode === code);
     }
 }
@@ -398,7 +396,7 @@ export interface TraumaData<
     /** Whether the wound is actively bleeding */
     isBleeding: boolean;
     /**
-     * Shortcode of the body location on the actor's Corpus where this
+     * Shortcode of the body location on the being's body where this
      * trauma occurred. Empty string means the trauma is not tied to a
      * specific location (affects the whole body).
      */

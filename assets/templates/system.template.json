@@ -68,9 +68,6 @@
             "trauma": {
                 "htmlFields": ["notes", "docHtml"]
             },
-            "corpus": {
-                "htmlFields": ["notes", "docHtml"]
-            },
             "miscgear": {
                 "htmlFields": ["notes", "docHtml"]
             },

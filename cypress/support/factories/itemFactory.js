@@ -21,7 +21,7 @@
  * sensible default instance. Shapes mirror `tests/mocks/logicHarness.ts`.
  */
 
-/** The 16 registered item kinds (`ITEM_KIND`). */
+/** The registered item kinds (`ITEM_KIND`). */
 export const ITEM_KINDS = [
     "weapongear",
     "armorgear",
@@ -34,7 +34,6 @@ export const ITEM_KINDS = [
     "attribute",
     "affiliation",
     "affliction",
-    "corpus",
     "mystery",
     "mysticalability",
     "trauma",

@@ -11,44 +11,29 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { BASIC_FOLK } from "../support/factories/basicFolk.js";
-
 /**
  * Manual character-build chain.
  *
- * Verifies that each category of embedded item (attributes, corpus, traits,
+ * Verifies that each category of embedded item (attributes, traits,
  * affiliations, skills) produces the expected logic-layer values when added
  * to a freshly created being, without importing any pre-built compendium
  * character. Each test is independent (afterEach cleanup) so failures are
  * isolated.
  *
- * The "Human Folk" corpus data is loaded once from the Basic Folk compendium
- * actor (where it lives as an embedded item) so we can embed it on our own
- * test being without touching the pre-built actor's world state.
+ * A being's body no longer lives on an embedded item — it is inline actor data
+ * at `system.body` and surfaces on the being's logic as `actor.logic.body`. A
+ * freshly created bare being has an empty body (incorporeal, no movement); the
+ * "Basic Folk" compendium being carries a populated inline body, so the body
+ * test imports it and reads `actor.logic.body` / `actor.logic.feetPerRound`
+ * directly rather than embedding an item.
  */
 describe("being build — manual character-build chain", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
 
-    // ------------------------------------------------------------------ helpers
-
-    /**
-     * Fetch the Human Folk corpus toObject() from inside the Basic Folk
-     * compendium actor. Returns a Cypress-queued plain object (spec realm)
-     * that must be toRealm()'d before handing to Foundry APIs.
-     */
-    function getHumanFolkCorpusData() {
-        return cy.foundry(async (win) => {
-            const pack = win.game.packs.get("sohl.actors");
-            const bf = await pack.getDocument(BASIC_FOLK.id);
-            const ln = bf.items.find((i) => i.type === "corpus");
-            return ln.toObject();
-        });
-    }
-
     // ------------------------------------------------------------------ tests
 
-    it("empty being — no corpus — BeingLogic constructs without throwing", () => {
+    it("empty being — BeingLogic constructs without throwing", () => {
         cy.createActor("being", { name: "Empty Being" }).then((actor) => {
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
@@ -98,39 +83,48 @@ describe("being build — manual character-build chain", () => {
         });
     });
 
-    it("without corpus — the being has no corpus pointer (no movement)", () => {
-        cy.createActor("being", { name: "No Corpus Being" }).then((actor) => {
+    it("bare being — empty body is incorporeal with no movement", () => {
+        cy.createActor("being", { name: "No Body Being" }).then((actor) => {
+            cy.prepare(actor);
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
-                return a.logic.corpus ?? null;
-            }).should("eq", null);
+                return {
+                    hasBody: !!a.logic.body,
+                    parts: a.logic.body.structure.parts.length,
+                    isIncorporeal: a.logic.body.isIncorporeal,
+                    feetPerRound: a.logic.feetPerRound.effective,
+                };
+            }).should((r) => {
+                expect(r.hasBody, "being always has a body").to.be.true;
+                expect(r.parts, "empty structure (no anatomy)").to.eq(0);
+                expect(r.isIncorporeal, "incorporeal").to.be.true;
+                expect(r.feetPerRound, "no movement").to.eq(0);
+            });
         });
     });
 
-    it("Human Folk corpus — structure present, move and reach are numeric", () => {
-        cy.createActor("being", { name: "Corpus Being" }).then((actor) => {
-            getHumanFolkCorpusData().then((corpusData) => {
-                cy.foundry(async (win) => {
-                    const a = win.game.actors.get(actor.id);
-                    await a.createEmbeddedDocuments("Item", [
-                        win.JSON.parse(win.JSON.stringify(corpusData)),
-                    ]);
-                    a.prepareData();
-                    const corpus = a.items.find((i) => i.type === "corpus");
-                    return {
-                        reach: corpus.logic.reach.effective,
-                        hasBod: !!corpus.logic.structure,
-                        // Move now lives on the corpus's active movement profile.
-                        terrestrial: a.logic.corpus.feetPerRound.effective,
-                    };
-                }).should((r) => {
-                    expect(r.reach, "reach is numeric").to.be.a("number");
-                    expect(r.hasBod, "structure present").to.be.true;
-                    expect(
-                        r.terrestrial,
-                        "terrestrial move is numeric",
-                    ).to.be.a("number");
-                });
+    it("Basic Folk body — structure present, move and reach are numeric", () => {
+        // Basic Folk carries its body inline at `system.body` (6 parts) and
+        // terrestrial movement; the being's logic surfaces both as
+        // `actor.logic.body` and `actor.logic.feetPerRound`.
+        cy.importActor().then((actor) => {
+            cy.prepare(actor);
+            cy.foundry((win) => {
+                const a = win.game.actors.get(actor.id);
+                return {
+                    reach: a.logic.body.reach.effective,
+                    hasBod: !!a.logic.body.structure,
+                    parts: a.logic.body.structure.parts.length,
+                    // Move lives on the being's active movement profile.
+                    terrestrial: a.logic.feetPerRound.effective,
+                };
+            }).should((r) => {
+                expect(r.reach, "reach is numeric").to.be.a("number");
+                expect(r.hasBod, "structure present").to.be.true;
+                expect(r.parts, "body has anatomy").to.be.greaterThan(0);
+                expect(r.terrestrial, "terrestrial move is numeric").to.be.a(
+                    "number",
+                );
             });
         });
     });
@@ -211,11 +205,11 @@ describe("being build — manual character-build chain", () => {
 
     // ------------------------------------------------------------------ RED
 
-    it.skip("corpus import — orchestration brings body parts, attributes, and traits from corpus source", () => {
-        // RED — blocked by #181: corpus import/apply orchestration not
-        // implemented; today the corpus is a bare dragged item with no flow
-        // to populate derived body parts, attributes, or traits from the
-        // corpus source document.
+    it.skip("body-template import — orchestration brings body parts, attributes, and traits from a body template", () => {
+        // RED — blocked by #181: body-template import/apply orchestration not
+        // implemented; there is no flow to populate a being's inline body
+        // (`system.body`), attributes, or traits from a template source
+        // document.
     });
 
     it.skip("initSkillMult — opening mastery level is masteryLevelBase × multiplier at char init", () => {

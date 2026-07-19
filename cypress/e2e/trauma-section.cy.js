@@ -24,11 +24,10 @@ describe("Being Trauma tab: Traumas section (#308)", () => {
 
     it("lists a trauma with severity, healing rate, aspect, and area", () => {
         cy.importActor().then((actor) => {
-            // A real body-location code from the corpus, so Area resolves.
+            // A real body-location code from the body, so Area resolves.
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
-                const loc =
-                    a.itemTypes.corpus[0].logic.structure.getAllLocations()[0];
+                const loc = a.logic.body.structure.getAllLocations()[0];
                 return { code: loc.shortcode, name: loc.name };
             }).then((loc) => {
                 cy.createItemOn(actor, "trauma", {

@@ -17,7 +17,7 @@
  * Each strike-mode row (`[data-sm-id]`) exposes rollable cells: attack / block /
  * counterstrike (`rollStrikeModeTest` with `data-test-kind`) and impact
  * (`rollStrikeModeImpact`). The row only renders for a body that holds the weapon,
- * so Basic Folk (which has a corpus/body) holds a melee weapon here.
+ * so Basic Folk (which has a body) holds a melee weapon here.
  *
  * GREEN: the impact cell posts a damage card, and each test cell is present and,
  * when clicked, opens the assisted-roll modifier dialog (`_onRollStrikeModeTest`
@@ -101,7 +101,7 @@ describe("assisted combat (sheet strike-mode cells)", () => {
     Cypress.on("uncaught:exception", () => false);
 
     /**
-     * Import Basic Folk (which carries a corpus/body, so held melee modes render
+     * Import Basic Folk (which carries a body, so held melee modes render
      * in the Combat tab), give it a held melee weapon, and open its Combat tab.
      * The strike-mode row only renders for a body that can hold the weapon, so the
      * weapon is held before the sheet is opened.

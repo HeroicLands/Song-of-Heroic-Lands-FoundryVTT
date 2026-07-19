@@ -26,8 +26,6 @@ export * from "./ConcoctionGearDataModel";
 export * from "./ConcoctionGearSheet";
 export * from "./ContainerGearDataModel";
 export * from "./ContainerGearSheet";
-export * from "./CorpusDataModel";
-export * from "./CorpusSheet";
 export * from "./GearDataModel";
 export * from "./MiscGearDataModel";
 export * from "./MiscGearSheet";

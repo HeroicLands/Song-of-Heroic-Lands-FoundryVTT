@@ -12,6 +12,7 @@
  */
 
 import { entity } from "@src/entity/registry";
+import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -20,8 +21,8 @@ import {
     type SohlActorData,
     type SohlActorLogic,
 } from "@src/document/actor/logic/SohlActorBaseLogic";
+import { BodyLogic } from "@src/document/actor/logic/BodyLogic";
 import type { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
-import type { CorpusLogic } from "@src/document/item/logic/CorpusLogic";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import {
@@ -109,15 +110,16 @@ import { DamageCardInput } from "@src/document/combatant/logic/SohlCombatantLogi
  * skills, traits, injuries, afflictions, gear, and mystical abilities. Beings
  * are the primary participants in combat, skill tests, and social interactions.
  *
- * The being's **physical baseline — anatomy, body weight, reach, and movement —
- * lives on its {@link sohl.document.item.logic.CorpusLogic}, not here.** `BeingLogic` holds being-owned
- * derived state ({@link healthBand} plus the numeric `system.health` it writes,
- * {@link healingBase}, {@link shockState},
- * {@link pull}, {@link carriedWeight}); anatomy/weight/reach/movement
- * (`structure`, `weight`, `reach`, `feetPerRound`, `leaguesPerWatch`,
- * `encumbrance`, `strengthModifier`) are reached through the
- * {@link BeingLogic.corpus} pointer. See the architecture reference, "Not all of
- * a being's derived state lives on `BeingLogic`".
+ * The being's **physical body — anatomy, body weight, reach, body-scale —
+ * lives on its own {@link body} sub-object** (`system.body`), dissolved from the
+ * former Corpus item into the Being (#535). **Movement** (`feetPerRound` /
+ * `leaguesPerWatch` / `moveProfile`) is a universal actor capability on
+ * {@link sohl.document.actor.logic.SohlActorBaseLogic}. `BeingLogic` additionally
+ * derives movement's {@link strengthModifier} / {@link encumbrance} from its
+ * strength and carried weight, and being-owned state ({@link healthBand} plus the
+ * numeric `system.health` it writes, {@link healingBase}, {@link shockState},
+ * {@link pull}, {@link carriedWeight}). An **incorporeal** being is one with an
+ * empty {@link body} structure (see {@link sohl.document.actor.logic.BodyLogic}).
  *
  * @typeParam TData - The Being data interface.
  */
@@ -160,24 +162,36 @@ export class BeingLogic<
     carriedWeight!: ValueModifier;
 
     /**
-     * The being's {@link sohl.document.item.logic.CorpusLogic | Corpus} logic, or `undefined` when it has
-     * none. A being has 0 or 1 corpus; rather than re-scan `logicTypes` on every
-     * lookup, the corpus registers itself here from its own `initialize()` (via
-     * {@link registerCorpus}). Reset at the start of {@link initialize} — before
-     * any item's `initialize()` runs — so it reflects the current prepare cycle.
-     * The corpus carries the being's movement ({@link sohl.document.item.logic.CorpusLogic.feetPerRound} /
-     * {@link sohl.document.item.logic.CorpusLogic.leaguesPerWatch}), body structure, weight, and reach.
+     * The being's {@link sohl.document.actor.logic.BodyLogic | body} — its
+     * anatomy, weight, reach, and body-scale, derived from `system.body`.
+     * Constructed directly in {@link initialize} (no embedded item, no
+     * cross-document registration). An **incorporeal** being has an empty body
+     * structure ({@link sohl.document.actor.logic.BodyLogic.isIncorporeal}).
      */
-    corpus: CorpusLogic | undefined;
+    body!: BodyLogic;
 
     /**
-     * Register a {@link sohl.document.item.logic.CorpusLogic} as this being's corpus. Called by the
-     * corpus's own `initialize()` (which runs after the being's), so
-     * {@link BeingLogic.corpus} is populated before any consumer reads it.
-     * @param corpus - The owning being's corpus logic.
+     * The being's strength modifier to encumbrance, as a
+     * {@link sohl.entity.modifier.ValueModifier}. Derived in {@link evaluate}
+     * from the active movement profile's `strMod` expression of the being's
+     * strength.
      */
-    registerCorpus(corpus: CorpusLogic): void {
-        this.corpus = corpus;
+    strengthModifier!: ValueModifier;
+
+    /**
+     * The being's encumbrance, as a {@link sohl.entity.modifier.ValueModifier}.
+     * Derived in {@link finalize} from the active movement profile's
+     * `encumbrance` expression of the being's {@link carriedWeight}.
+     */
+    encumbrance!: ValueModifier;
+
+    /**
+     * This being's size-scaled injury-level thresholds — delegated to the
+     * {@link body}. Read by {@link sohl.entity.body.BodyStructure.injuryTable}
+     * (which reaches it through this being, the structure's parent).
+     */
+    get injuryTable(): number[] {
+        return this.body.injuryTable;
     }
 
     /**
@@ -196,7 +210,7 @@ export class BeingLogic<
      */
     get reach(): number {
         const lt = this.logicTypes;
-        const structure = lt[ITEM_KIND.CORPUS][0]?.structure;
+        const structure = this.body?.structure;
 
         const options: MeleeReachOption[] = [];
 
@@ -301,8 +315,6 @@ export class BeingLogic<
      * after item preparation. Returns an empty array when no mode is available.
      */
     get availableStrikeModes(): StrikeModeBase[] {
-        const structure = this.logicTypes[ITEM_KIND.CORPUS][0]?.structure;
-
         let resultStrikeModes: StrikeModeBase[] = [];
 
         // Add Combat Technique strike modes (combattechnique-subtype skills)
@@ -755,32 +767,46 @@ export class BeingLogic<
 
     /** @inheritdoc */
     override initialize(): void {
+        // Selects the active movement profile + seeds feetPerRound/leaguesPerWatch.
         super.initialize();
         // Reset the ground-up accumulator before any gear item's evaluate()
         // adds to it (all item initialize()/evaluate() run after this).
         this.carriedWeight = new entity.ValueModifier(this);
-        // Cleared before item initialize() runs; the corpus re-registers itself
-        // via registerCorpus() during its own initialize().
-        this.corpus = undefined;
+        this.strengthModifier = new entity.ValueModifier(this);
+        this.encumbrance = new entity.ValueModifier(this);
+        // Build the being's body directly from system.body — no embedded item,
+        // no cross-document registration, no lifecycle-ordering hazard.
+        this.body = new BodyLogic(this);
+        this.body.initialize();
     }
 
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
+        this.body.evaluate();
+        // Movement strength modifier: the active profile's `strMod` expression
+        // of the being's strength (0 when disabled / no strength attribute).
+        const strModExpr = new SafeExpression(
+            { source: this.moveProfile.strMod },
+            { parent: this },
+        );
+        const str =
+            this.getItemLogic("str", ITEM_KIND.ATTRIBUTE)?.score.effective ?? 0;
+        this.strengthModifier.setBase(strModExpr.evaluate({ str }) as number);
         this.aggregateArmorProtection();
     }
 
     /**
-     * Fold every worn ArmorGear's protection onto the corpus body locations
+     * Fold every worn ArmorGear's protection onto the being's body locations
      * it covers, so each location knows its summed armor, whether it is rigid,
      * and the list of covering materials. Runs after `super.evaluate()` so the
      * armor items' protection modifiers are already prepared. No-op when the
-     * being has no corpus (hence no body structure).
+     * being is incorporeal (empty body structure).
      */
     private aggregateArmorProtection(): void {
         const lt = this.logicTypes;
-        const structure = lt[ITEM_KIND.CORPUS][0]?.structure;
-        if (!structure) return;
+        if (this.body.isIncorporeal) return;
+        const structure = this.body.structure;
 
         const layers: ArmorLayer[] = [];
         for (const logic of lt[ITEM_KIND.ARMORGEAR].filter(
@@ -807,11 +833,20 @@ export class BeingLogic<
     override finalize(): void {
         super.finalize();
 
-        // A being with no corpus is a supported, first-class state: it is
-        // **incorporeal** (e.g. a spirit) — no body, so no body structure,
-        // movement, weight, reach, or carry capacity. The corpus-dependent
-        // reads degrade to their "no corpus → 0 / undefined" behavior; this is
-        // not an error and is deliberately not warned about.
+        // Encumbrance: the active movement profile's `encumbrance` expression of
+        // the being's carried weight, known now that all gear has evaluated.
+        const encExpr = new SafeExpression(
+            { source: this.moveProfile.encumbrance },
+            { parent: this },
+        );
+        this.encumbrance.setBase(
+            encExpr.evaluate({ wt: this.carriedWeight.effective }) as number,
+        );
+
+        // An **incorporeal** being (empty body structure, e.g. a spirit) is a
+        // supported, first-class state: no body parts, so no reach, weight, or
+        // carry capacity. The body reads degrade to their empty behavior; this
+        // is not an error and is deliberately not warned about.
 
         this.deriveHealthState();
     }
@@ -820,7 +855,7 @@ export class BeingLogic<
      * Populate the being's derived health (`system.health` and the qualitative
      * {@link healthBand}) from its Endurance, active injuries, body-part
      * impairment, and incapacitating statuses (#463). Runs in {@link finalize},
-     * after all items (corpus, traumas) are prepared. The math lives in the pure
+     * after all items (body, traumas) are prepared. The math lives in the pure
      * {@link deriveHealth}; this method only gathers the inputs and writes the
      * `{ value, max }` numbers back into `system.health`.
      */
@@ -843,9 +878,7 @@ export class BeingLogic<
         }
 
         // Each part's impairment tier + usability + criticality (#470).
-        const parts: PartHealthInput[] = (
-            this.corpus?.structure?.parts ?? []
-        ).map((p) => {
+        const parts: PartHealthInput[] = this.body.structure.parts.map((p) => {
             const imp = bodyPartImpairment(
                 p.locations.map((l) => l.shortcode),
                 injuries,
@@ -881,7 +914,7 @@ export class BeingLogic<
         const body = getActorBodyStructure(this);
         if (!body) {
             sohl.log.uiWarn(
-                `${this.name} has no Corpus body structure; cannot resolve an injury.`,
+                `${this.name} is incorporeal (no body structure); cannot resolve an injury.`,
             );
             return;
         }
@@ -939,7 +972,7 @@ export class BeingLogic<
         const body = getActorBodyStructure(this);
         if (!body) {
             sohl.log.uiWarn(
-                `${this.name} has no Corpus body structure; cannot add an injury.`,
+                `${this.name} is incorporeal (no body structure); cannot add an injury.`,
             );
             return;
         }
@@ -1080,7 +1113,13 @@ export class BeingLogic<
  */
 export interface BeingData<
     TLogic extends SohlActorLogic<BeingData> = SohlActorLogic<any>,
-> extends SohlActorData<TLogic> {}
+> extends SohlActorData<TLogic> {
+    /**
+     * The being's physical body (anatomy, weight, reach, body-scale). An
+     * incorporeal being has an empty `body.structure.parts`.
+     */
+    body: BodyLogic.Data;
+}
 
 /** A weapon (or combat-technique skill) paired with its usable strike modes for a combat encounter. */
 export interface BeingCombatMode {

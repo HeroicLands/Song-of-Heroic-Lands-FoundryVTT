@@ -17,7 +17,7 @@
  * Each body part in the header grid is colored by its derived impairment status
  * (none/minor/major/unusable), taken from the worst injury across its hit
  * locations. The derivation math is unit-tested; here we prove it flows through a
- * real corpus + trauma items to the rendered grid cell's `data-status`.
+ * real body + trauma items to the rendered grid cell's `data-status`.
  */
 describe("Being sheet header: body-part impairment grid (#464)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
@@ -27,11 +27,10 @@ describe("Being sheet header: body-part impairment grid (#464)", () => {
     });
     Cypress.on("uncaught:exception", () => false);
 
-    /** The first body part (with a location) of the actor's corpus. */
+    /** The first body part (with a location) of the actor's body. */
     function firstPartLocation(win, actorId) {
         const actor = win.game.actors.get(actorId);
-        const corpus = actor.itemTypes.corpus?.[0];
-        const parts = corpus?.logic?.structure?.parts ?? [];
+        const parts = actor.logic.body?.structure?.parts ?? [];
         for (const p of parts) {
             if (p.locations?.length) {
                 return {
@@ -60,7 +59,7 @@ describe("Being sheet header: body-part impairment grid (#464)", () => {
     it("colors a part 'unusable' when one of its locations takes a grievous injury", () => {
         cy.importActor().then((actor) => {
             cy.foundry((win) => firstPartLocation(win, actor.id)).then((pl) => {
-                expect(pl, "corpus has a part with a location").to.not.be.null;
+                expect(pl, "body has a part with a location").to.not.be.null;
                 cy.createItemOn(actor, "trauma", {
                     name: "Cleft Skull",
                     system: {
@@ -104,13 +103,14 @@ describe("Being sheet header: body-part impairment grid (#464)", () => {
         cy.importActor().then((actor) => {
             cy.foundry(async (win) => {
                 const a = win.game.actors.get(actor.id);
-                const corpus = a.itemTypes.corpus[0];
                 // Full-array write: set the first part's permanent impairment.
-                const parts = corpus.system.toObject().structure.parts;
+                const parts = a.system.toObject().body.structure.parts;
                 parts[0].permanentImpairment = -10;
-                await corpus.update(
+                await a.update(
                     win.JSON.parse(
-                        JSON.stringify({ "system.structure.parts": parts }),
+                        JSON.stringify({
+                            "system.body.structure.parts": parts,
+                        }),
                     ),
                 );
                 return parts[0].shortcode;

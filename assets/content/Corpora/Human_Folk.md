@@ -3,7 +3,7 @@ aliases:
     - Human Folk
 tags: []
 description: "Adaptable and dominant across Thalorna, the defining lineage of civilization."
-type: corpus
+type: body
 name:
     full: Human Folk
     aliases: []
@@ -424,6 +424,7 @@ sohl:
         base: null
         calc: "(9 * str) + 50"
     reachBase: 0
+    bodyScaleBase: 1.0
 package: sohl
 folder: ey1udC5XHjlJoowT
 ---

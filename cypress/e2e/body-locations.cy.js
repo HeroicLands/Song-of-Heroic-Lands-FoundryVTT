@@ -81,8 +81,7 @@ describe("Body Locations tree", () => {
             cy.prepare(actor);
             // Discover a real location shortcode + its natural blunt value.
             cy.foundry((win) => {
-                const body = win.game.actors.get(actor.id).logic.logicTypes
-                    .corpus[0].structure;
+                const body = win.game.actors.get(actor.id).logic.body.structure;
                 const loc = body.parts.flatMap((p) => p.locations)[0];
                 return {
                     code: loc.shortcode,

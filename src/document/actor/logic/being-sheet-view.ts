@@ -751,11 +751,11 @@ export interface BodyPartLozenge {
 }
 
 /**
- * Build the body-part lozenges from a corpus body structure, deriving each
+ * Build the body-part lozenges from a being's body structure, deriving each
  * part's impairment status from the actor's active injuries (#464). A part takes
  * the most serious injury across its hit locations (see {@link bodyPartImpairment}).
  *
- * @param structure - The actor's corpus body structure, or `undefined`.
+ * @param structure - The being's body structure, or `undefined`.
  * @param injuries - Active injuries by location; empty for an uninjured actor.
  * @returns One lozenge per body part, or an empty array when none.
  */

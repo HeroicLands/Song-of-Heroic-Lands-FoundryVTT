@@ -44,6 +44,7 @@ import {
     fvttActiveTokenLogicForActor,
 } from "@src/core/FoundryHelpers";
 import { AttributeLogic } from "./AttributeLogic";
+import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import { SohlAction } from "@src/entity/action/SohlAction";
 
 /**
@@ -725,14 +726,13 @@ export class SkillLogic<
                 "SOHL.MasteryLevel.AuraBasedNoFate";
         }
 
-        // A melee technique's reach is its base length plus the wielder's
-        // corpus reach (0 for a non-Being or no corpus) — mirrors weapon and
+        // A melee technique's reach is its base length plus the wielder's body
+        // reach (0 for a non-Being or incorporeal being) — mirrors weapon and
         // combat-technique reach handling.
         if (this.strikeMode instanceof MeleeStrikeMode) {
-            const corpusReach =
-                this.actorLogic?.logicTypes[ITEM_KIND.CORPUS][0]?.reach
-                    .effective ?? 0;
-            this.strikeMode.reach.add("SOHL.INFO.Reach", "Size", corpusReach);
+            const bodyReach =
+                getActorBody(this.actorLogic)?.reach.effective ?? 0;
+            this.strikeMode.reach.add("SOHL.INFO.Reach", "Size", bodyReach);
         }
     }
 

@@ -13,18 +13,17 @@
 
 import { entity } from "@src/entity/registry";
 import { registerEntity } from "@src/entity/entityRegistry";
-import type { CorpusLogic } from "@src/document/item/logic/CorpusLogic";
 import type { BodyPart } from "@src/entity/body/BodyPart";
 import { BodyLocation } from "@src/entity/body/BodyLocation";
 import { weightedRandom } from "@src/entity/body/weighted-random";
 import { SohlEntity } from "../SohlEntity";
-import { isA, ITEM_KIND, BASE_INJURY_THRESHOLDS } from "@src/utils/constants";
+import { isA, BASE_INJURY_THRESHOLDS } from "@src/utils/constants";
 
 /**
  * The complete anatomical structure of a Being — all body parts, their
  * hit locations, and the adjacency relationships between parts.
  *
- * Constructed from persisted data during {@link sohl.document.item.logic.CorpusLogic.initialize}.
+ * Constructed from persisted data during {@link sohl.document.actor.logic.BodyLogic.initialize}.
  * Provides weighted random selection for hit location determination and
  * adjacency queries for mechanics like bleeding spread or cascading injuries.
  *
@@ -56,12 +55,12 @@ export class BodyStructure extends SohlEntity {
      * @param data.parts - The persisted body parts array
      * @param data.adjacent - The persisted adjacency pairs array
      * @param options - Construction options
-     * @param options.parent - The parent {@link sohl.document.item.logic.CorpusLogic} for this structure
+     * @param options.parent - The owning {@link sohl.document.actor.logic.BeingLogic} (the body's owner) for this structure
      * @throws If required fields are missing from `data` or `options`.
      */
     constructor(data: BodyStructure.Data, options: BodyStructure.Options) {
-        if (!isA(options.parent, ITEM_KIND.CORPUS)) {
-            throw new Error("Requires a Corpus parent");
+        if (!isA(options.parent, "SohlLogic")) {
+            throw new Error("Requires a Logic parent");
         }
         if (!data.parts || !Array.isArray(data.parts)) {
             throw new Error(
@@ -86,15 +85,15 @@ export class BodyStructure extends SohlEntity {
     }
 
     /**
-     * The struck-creature injury-level thresholds, scaled by the owning Corpus's
+     * The struck-creature injury-level thresholds, scaled by the owning being's
      * `bodyScale`. Falls back to the human {@link BASE_INJURY_THRESHOLDS} when the
-     * corpus has not derived a table yet (e.g. before its evaluate phase). Used
+     * being has not derived a table yet (e.g. before its evaluate phase). Used
      * by `injuryLevelFromImpact` so an absolute impact reads size-correct.
      */
     get injuryTable(): readonly number[] {
         return (
-            (this.parent as unknown as CorpusLogic).injuryTable ??
-            BASE_INJURY_THRESHOLDS
+            (this.parent as unknown as { injuryTable?: readonly number[] })
+                .injuryTable ?? BASE_INJURY_THRESHOLDS
         );
     }
 
@@ -252,9 +251,9 @@ export class BodyStructure extends SohlEntity {
      * @returns An `update()` payload appending the part.
      */
     addPartUpdate(partData: BodyPart.Data): PlainObject {
-        const canonical = this.parent.data.structure.parts;
+        const canonical = this.parent.data.body.structure.parts;
         return {
-            "system.structure.parts": [...canonical, partData],
+            "system.body.structure.parts": [...canonical, partData],
         };
     }
 
@@ -267,9 +266,10 @@ export class BodyStructure extends SohlEntity {
      * @returns An `update()` payload with the part removed.
      */
     removePartUpdate(shortcode: string): PlainObject {
-        const canonical: BodyPart.Data[] = this.parent.data.structure.parts;
+        const canonical: BodyPart.Data[] =
+            this.parent.data.body.structure.parts;
         return {
-            "system.structure.parts": canonical.filter(
+            "system.body.structure.parts": canonical.filter(
                 (p) => p.shortcode !== shortcode,
             ),
         };
@@ -295,7 +295,8 @@ export class BodyStructure extends SohlEntity {
     setPartFieldsUpdate(
         updates: { index: number; changes: Partial<BodyPart.Data> }[],
     ): PlainObject {
-        const canonical: BodyPart.Data[] = this.parent.data.structure.parts;
+        const canonical: BodyPart.Data[] =
+            this.parent.data.body.structure.parts;
         const byIndex = new Map(
             updates
                 .filter((u) => u.index >= 0 && u.index < canonical.length)
@@ -303,7 +304,7 @@ export class BodyStructure extends SohlEntity {
         );
         if (!byIndex.size) return {};
         return {
-            "system.structure.parts": canonical.map((p, i) =>
+            "system.body.structure.parts": canonical.map((p, i) =>
                 byIndex.has(i) ? { ...p, ...byIndex.get(i) } : p,
             ),
         };
@@ -334,12 +335,12 @@ export class BodyStructure extends SohlEntity {
      * @returns An `update()` payload adding the edge (unchanged if it exists).
      */
     addEdgeUpdate(partA: string, partB: string): PlainObject {
-        const canonical: string[][] = this.parent.data.structure.adjacent;
+        const canonical: string[][] = this.parent.data.body.structure.adjacent;
         const exists = canonical.some(
             (pair) => pair.includes(partA) && pair.includes(partB),
         );
         return {
-            "system.structure.adjacent":
+            "system.body.structure.adjacent":
                 exists ? canonical : [...canonical, [partA, partB]],
         };
     }
@@ -354,9 +355,9 @@ export class BodyStructure extends SohlEntity {
      * @returns An `update()` payload with the edge removed.
      */
     removeEdgeUpdate(partA: string, partB: string): PlainObject {
-        const canonical: string[][] = this.parent.data.structure.adjacent;
+        const canonical: string[][] = this.parent.data.body.structure.adjacent;
         return {
-            "system.structure.adjacent": canonical.filter(
+            "system.body.structure.adjacent": canonical.filter(
                 (pair) => !(pair.includes(partA) && pair.includes(partB)),
             ),
         };

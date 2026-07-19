@@ -28,11 +28,10 @@ describe("Being sheet header: health bar (#463)", () => {
     });
     Cypress.on("uncaught:exception", () => false);
 
-    /** The first body part (with a location) of the actor's corpus. */
+    /** The first body part (with a location) of the actor's body. */
     function firstPartLocation(win, actorId) {
         const parts =
-            win.game.actors.get(actorId).itemTypes.corpus?.[0]?.logic?.structure
-                ?.parts ?? [];
+            win.game.actors.get(actorId).logic.body?.structure?.parts ?? [];
         for (const p of parts) {
             if (p.locations?.length)
                 return { location: p.locations[0].shortcode };
@@ -73,7 +72,7 @@ describe("Being sheet header: health bar (#463)", () => {
             cy.foundry((win) => health(win, actor.id)).then((before) => {
                 cy.foundry((win) => firstPartLocation(win, actor.id)).then(
                     (pl) => {
-                        expect(pl, "corpus has a location").to.not.be.null;
+                        expect(pl, "body has a location").to.not.be.null;
                         cy.createItemOn(actor, "trauma", {
                             name: "Deep Gash",
                             system: {

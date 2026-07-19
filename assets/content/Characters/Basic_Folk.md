@@ -54,9 +54,8 @@ sohl:
         elo: 10
         mor: 10
         voi: 10
+    body: human-folk
     items:
-        - shortcode: human-folk
-          type: corpus
         - shortcode: archery
           type: skill
           system:

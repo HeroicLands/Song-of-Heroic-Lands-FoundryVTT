@@ -53,7 +53,6 @@ const ITEM_TYPES = new Set([
     "attribute",
     "concoctiongear",
     "containergear",
-    "corpus",
     "miscgear",
     "mystery",
     "mysticalability",
@@ -71,7 +70,6 @@ const DEFAULT_IMG = {
     attribute: "systems/sohl/assets/icons/charm.svg",
     concoctiongear: "systems/sohl/assets/icons/flask.svg",
     containergear: "systems/sohl/assets/icons/sack.svg",
-    corpus: "systems/sohl/assets/icons/dna.svg",
     miscgear: "systems/sohl/assets/icons/question-mark.svg",
     mystery: "systems/sohl/assets/icons/sparkles.svg",
     mysticalability: "systems/sohl/assets/icons/hand-sparkles.svg",
@@ -254,42 +252,6 @@ function buildMysticalAbility(fm) {
     };
 }
 
-function buildCorpus(fm) {
-    const movementProfiles = (sohlField(fm, "movementProfiles", []) || []).map(
-        (p) => ({
-            medium: String(p.medium ?? "terrestrial"),
-            feetPerRound: Number(p.feetPerRound ?? 0) || 0,
-            leaguesPerWatch: Number(p.leaguesPerWatch ?? 0) || 0,
-            encumbrance: String(p.encumbrance ?? "0"),
-            strMod: String(p.strMod ?? "0"),
-            disabled: Boolean(p.disabled ?? false),
-        }),
-    );
-    // Mirror each profile's tactical speed onto the per-medium `moveBase` scalar
-    // the movement system reads and Active Effects target (see #362).
-    const moveBase = {};
-    for (const p of movementProfiles) {
-        if (p.medium) moveBase[p.medium] = p.feetPerRound;
-    }
-    const weight = sohlField(fm, "weight", {}) || {};
-    return {
-        structure: sohlField(fm, "structure", {
-            parts: [],
-            adjacent: [],
-        }),
-        moveBase,
-        defaultMoveMedium: String(
-            sohlField(fm, "defaultMoveMedium", "terrestrial"),
-        ),
-        personalFatigue: String(sohlField(fm, "personalFatigue", "enc")),
-        movementProfiles,
-        weight: {
-            base: weight.base == null ? null : Number(weight.base),
-            calc: String(weight.calc ?? "0"),
-        },
-        reachBase: Number(sohlField(fm, "reachBase", 0)) || 0,
-    };
-}
 
 function buildWeaponGear(fm) {
     return {
@@ -363,7 +325,6 @@ const BUILDERS = {
     attribute: buildAttribute,
     concoctiongear: buildConcoctionGear,
     containergear: buildContainerGear,
-    corpus: buildCorpus,
     miscgear: buildMiscGear,
     mystery: buildMystery,
     mysticalability: buildMysticalAbility,
