@@ -133,8 +133,8 @@ describe("being-sheet-view", () => {
             uuid: "Item.t1",
             name: "Brave",
             subType: "physique",
-            isNumeric: true,
-            masteryLevelBase: 12,
+            isMeasured: true,
+            score: 12,
             textValue: "",
             intensity: "trait",
             notes: "n",
@@ -165,8 +165,8 @@ describe("being-sheet-view", () => {
 
         it("maps rows: intensity label, numeric value, notes", () => {
             const a = trait({
-                isNumeric: true,
-                masteryLevelBase: 9,
+                isMeasured: true,
+                score: 9,
                 intensity: "disorder",
                 notes: "hi",
             });
@@ -183,7 +183,7 @@ describe("being-sheet-view", () => {
 
         it("uses textValue for non-numeric traits and blanks empty intensity", () => {
             const a = trait({
-                isNumeric: false,
+                isMeasured: false,
                 textValue: "Left-handed",
                 intensity: undefined,
             });

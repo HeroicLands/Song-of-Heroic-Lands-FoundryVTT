@@ -129,36 +129,38 @@ describe("being build — manual character-build chain", () => {
         });
     });
 
-    it("numeric trait — score.effective equals the stored value", () => {
-        cy.createActor("being", { name: "Numeric Trait Being" }).then(
+    it("measured trait — score.effective equals the stored value", () => {
+        cy.createActor("being", { name: "Measured Trait Being" }).then(
             (actor) => {
                 cy.createItemOn(actor, "trait", {
-                    name: "Numeric Trait",
-                    system: { isNumeric: true, score: { value: 7 } },
+                    name: "Measured Trait",
+                    system: { subType: "measured", score: { value: 7 } },
                 }).then(() => {
                     cy.prepare(actor);
                     cy.foundry((win) => {
                         const a = win.game.actors.get(actor.id);
                         const t = a.items.find((i) => i.type === "trait");
                         return {
-                            isNumeric: t.system.isNumeric,
+                            subType: t.system.subType,
                             score: t.logic.score.effective,
                         };
                     }).should((r) => {
-                        expect(r.isNumeric, "isNumeric persisted").to.be.true;
-                        expect(r.score, "numeric score.effective = 7").to.eq(7);
+                        expect(r.subType, "measured subtype persisted").to.eq(
+                            "measured",
+                        );
+                        expect(r.score, "measured score.effective = 7").to.eq(7);
                     });
                 });
             },
         );
     });
 
-    it("non-numeric trait — score.effective is 0 (disabled)", () => {
-        cy.createActor("being", { name: "NonNumeric Trait Being" }).then(
+    it("descriptive trait — score.effective is 0 (disabled)", () => {
+        cy.createActor("being", { name: "Descriptive Trait Being" }).then(
             (actor) => {
                 cy.createItemOn(actor, "trait", {
-                    name: "Non-Numeric Trait",
-                    system: { isNumeric: false },
+                    name: "Descriptive Trait",
+                    system: { subType: "physique" },
                 }).then(() => {
                     cy.prepare(actor);
                     cy.foundry((win) => {

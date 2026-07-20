@@ -57,7 +57,8 @@ export const GEAR_KINDS = new Set([
 const KIND_DEFAULTS = {
     attribute: { scoreBase: 10 },
     skill: { masteryLevelBase: 0 },
-    trait: { isNumeric: false },
+    // `subType` defaults to `physique` (a descriptive trait, no active score).
+    trait: {},
     // These kinds declare a `required` field with no `initial`, so a bare create
     // fails validation — a valid document must supply it. `subType` picks the
     // first valid choice.
