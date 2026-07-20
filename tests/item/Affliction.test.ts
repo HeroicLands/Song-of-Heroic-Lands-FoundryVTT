@@ -115,6 +115,39 @@ describe("affliction phase scheduling (#483)", () => {
         );
     });
 
+    it("onsetCheck runs the optional onset Macro after crystallizing onset (#488)", async () => {
+        withEvents();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
+        const exec = vi
+            .spyOn(FoundryHelpersMock, "fvttExecuteMacro")
+            .mockResolvedValue(undefined);
+        const logic = affliction({
+            onsetMacroUuid: "Macro.abc123",
+            resolutionDurationFormula: "700",
+            healingCheckDurationFormula: "300",
+        });
+        logic.initialize();
+        await logic.onsetCheck({} as any);
+        expect(exec).toHaveBeenCalledWith(
+            "Macro.abc123",
+            expect.objectContaining({ affliction: logic }),
+        );
+        // The macro runs after onset is persisted (symptomatic).
+        expect(logic.item.update).toHaveBeenCalled();
+    });
+
+    it("onsetCheck does not run a macro when none is authored (#488)", async () => {
+        withEvents();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
+        const exec = vi
+            .spyOn(FoundryHelpersMock, "fvttExecuteMacro")
+            .mockResolvedValue(undefined);
+        const logic = affliction({ onsetMacroUuid: "" });
+        logic.initialize();
+        await logic.onsetCheck({} as any);
+        expect(exec).not.toHaveBeenCalled();
+    });
+
     it("finalize arms resolutionCheck + recurring healingCheck once symptomatic", () => {
         const { scheduleAt } = withEvents();
         const logic = affliction({

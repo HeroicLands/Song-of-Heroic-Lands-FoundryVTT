@@ -13,7 +13,7 @@
 
 import { entity } from "@src/entity/registry";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
-import { fvttWorldTime } from "@src/core/FoundryHelpers";
+import { fvttWorldTime, fvttExecuteMacro } from "@src/core/FoundryHelpers";
 import { deriveNext, elapsedCheckpoints } from "@src/entity/event/scheduling";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -640,8 +640,11 @@ export class AfflictionLogic<
      *
      * @param _context - The action context (its `scope` is the trigger context).
      * @returns A promise that resolves once the phase transition is persisted.
-     * @remarks The onset **effect** (applying symptoms) is not yet implemented;
-     *   see issue #488.
+     * @remarks The onset **effect** marks the affliction symptomatic (crystallizes
+     *   `onsetDate`) and starts its course/resolution cycle; the symptoms
+     *   themselves are role-played, out of VTT scope (#488). An optional author
+     *   {@link AfflictionData.onsetMacroUuid | onset Macro} then runs and may
+     *   schedule further events.
      */
     async onsetCheck(_context: SohlActionContext): Promise<void> {
         const now = fvttWorldTime();
@@ -659,6 +662,16 @@ export class AfflictionLogic<
             "system.resolutionDurationBase": resolution,
             "system.healingCheckDurationBase": healing,
         } as PlainObject);
+
+        // Optional author hook run once at onset. A Macro reference (never
+        // source); it may schedule further events. Runs after onset is persisted
+        // so the macro sees the symptomatic affliction.
+        if (this.data.onsetMacroUuid) {
+            await fvttExecuteMacro(this.data.onsetMacroUuid, {
+                affliction: this,
+                actor: this.actorLogic,
+            });
+        }
     }
 
     /**
@@ -737,6 +750,12 @@ export interface AfflictionData<
      * if untreated. `isTreated` is derived from this on the logic.
      */
     treatmentDate: number | null;
+    /**
+     * UUID of an optional author Macro run when the affliction becomes
+     * symptomatic at onset (a reference, never source). May schedule further
+     * events. Blank means no onset macro.
+     */
+    onsetMacroUuid: string;
     /** Formula rolled to seed the incubation (contract → onset) interval. */
     onsetDurationFormula: string;
     /** Rolled seconds of incubation; `null` until rolled. */

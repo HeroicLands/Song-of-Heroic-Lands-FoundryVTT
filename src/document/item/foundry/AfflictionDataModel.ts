@@ -75,6 +75,10 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         }),
         contractDate: worldTimeDateField(),
         treatmentDate: worldTimeDateField(),
+        // Optional author hook: a Macro (by UUID) run when the affliction becomes
+        // symptomatic at onset. A reference, never source — see the security
+        // model. May schedule further events. Blank means no onset macro.
+        onsetMacroUuid: new StringField({ initial: "" }),
         ...phaseFields("onset"),
         ...recurringPhaseFields("healingCheck"),
         ...phaseFields("resolution"),
@@ -104,6 +108,7 @@ export class AfflictionDataModel<
     isDormant!: boolean;
     contractDate!: number | null;
     treatmentDate!: number | null;
+    onsetMacroUuid!: string;
     onsetDurationFormula!: string;
     onsetDurationBase!: number | null;
     onsetDate!: number | null;

@@ -97,6 +97,32 @@ Hooks.on("sohl.mysticalability.postFinalize", async (item, ctx) => {
 
 Result: the same module can be installed everywhere, activated per world, and executed by a single authority.
 
+## Recipe 4: Give an affliction mechanical consequences at onset (onset Macro)
+
+An affliction's symptoms are usually role-played, so at **onset** the system just
+marks it symptomatic and starts its course/resolution cycle. To attach concrete
+mechanics to a _specific_ affliction, set its **`system.onsetMacroUuid`** to a
+Macro's UUID. That Macro runs once, on the active GM, right after onset is
+recorded, and may schedule further events.
+
+```js
+// Author-side: point the affliction at a Macro (a reference, never source).
+await affliction.update({ system: { onsetMacroUuid: myMacro.uuid } });
+```
+
+The Macro executes with a `scope` of `{ affliction, actor }` — the affliction's
+logic and the owning actor's logic — so it can read state and, for example,
+apply a fatigue trauma or schedule a follow-up:
+
+```js
+// Inside the onset Macro (scope.affliction / scope.actor are the logic objects):
+const { affliction, actor } = scope;
+// …apply consequences, e.g. sohl.events.scheduleAt(affliction.item.uuid, …).
+```
+
+Like every SoHL author hook, the affliction stores only the Macro **UUID**, never
+executable code; `Macro#execute` enforces the runner's permissions.
+
 ## Tradeoffs summary
 
 - **Action item**
