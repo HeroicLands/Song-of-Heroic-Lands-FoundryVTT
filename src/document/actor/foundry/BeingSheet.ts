@@ -1024,20 +1024,17 @@ export class BeingSheet extends SohlActorSheetBase {
         }
 
         // Aural-Shock and Fatigue are read-only indicators lit from the actor's
-        // active afflictions of that subtype (the prototype drove them from
-        // afflictions, not toggleable statuses; Fatigue is not a status) — #306.
-        const activeAfflictionSubTypes = new Set<string>();
-        for (const item of ((actor.itemTypes as any)?.[ITEM_KIND.AFFLICTION] ??
+        // active traumas of that subtype (they are modeled as traumas, not
+        // toggleable statuses; Fatigue is not a status) — #306.
+        const activeTraumaSubTypes = new Set<string>();
+        for (const item of ((actor.itemTypes as any)?.[ITEM_KIND.TRAUMA] ??
             []) as Iterable<any>) {
-            const al = item?.logic;
-            if (al?.data?.subType && (al.level?.effective ?? 0) > 0) {
-                activeAfflictionSubTypes.add(al.data.subType);
+            const tl = item?.logic;
+            if (tl?.data?.subType && (tl.level?.effective ?? 0) > 0) {
+                activeTraumaSubTypes.add(tl.data.subType);
             }
         }
-        const statusEffects = buildStatusPills(
-            statuses,
-            activeAfflictionSubTypes,
-        );
+        const statusEffects = buildStatusPills(statuses, activeTraumaSubTypes);
 
         // Body-part lozenges, sourced from the being's body structure
         // (dynamic — varies by being), each colored by its derived impairment

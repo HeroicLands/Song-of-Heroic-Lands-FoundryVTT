@@ -40,9 +40,14 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
         subType: new StringField({
-            initial: TRAUMA_SUBTYPE.PHYSICAL,
+            initial: TRAUMA_SUBTYPE.INJURY,
             choices: TraumaSubTypeChoices,
         }),
+        // Sub-category within a subtype — e.g. a FATIGUE trauma's category is a
+        // FATIGUE_CATEGORY (windedness / weariness / weakness). Empty for
+        // subtypes that have no sub-category. A blank sentinel, not nullable:
+        // "no category" is a valid state, not a distinct unset one.
+        category: new StringField({ initial: "" }),
         levelBase: new NumberField({
             integer: true,
             initial: 0,
@@ -85,6 +90,7 @@ export class TraumaDataModel<
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.TRAUMA;
     subType!: TraumaSubType;
+    category!: string;
     levelBase!: number;
     healingRateBase!: number | null;
     aspect!: ImpactAspect;

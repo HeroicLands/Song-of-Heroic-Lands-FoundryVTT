@@ -21,25 +21,12 @@ import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
     ACTION_SUBTYPE,
-    AFFLICTION_SUBTYPE,
     AFFLICTION_TRANSMISSION,
     AfflictionSubType,
     AfflictionTransmission,
     ATTRIBUTE_CODE,
     defineType,
-    FATIGUE_CATEGORY,
-    FatigueCategoryLabels,
-    FEAR_LEVEL,
-    FearLevelLabels,
-    isFatigueCategory,
-    isFearLevel,
-    isMoraleLevel,
-    isPrivationCategory,
     ITEM_KIND,
-    MORALE_LEVEL,
-    MoraleLevelLabels,
-    PRIVATION_CATEGORY,
-    PrivationCategoryLabels,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
@@ -48,34 +35,6 @@ import {
     type SohlItemData,
 } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlAction } from "@src/entity/action/SohlAction";
-
-const FEAR_LABEL_BY_LEVEL: Record<number, string> = Object.fromEntries(
-    Object.entries(FEAR_LEVEL).map(([k, v]) => [
-        v as number,
-        FearLevelLabels[k as keyof typeof FearLevelLabels],
-    ]),
-);
-
-const MORALE_LABEL_BY_LEVEL: Record<number, string> = Object.fromEntries(
-    Object.entries(MORALE_LEVEL).map(([k, v]) => [
-        v as number,
-        MoraleLevelLabels[k as keyof typeof MoraleLevelLabels],
-    ]),
-);
-
-const FATIGUE_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
-    Object.entries(FATIGUE_CATEGORY).map(([k, v]) => [
-        v as string,
-        FatigueCategoryLabels[k as keyof typeof FatigueCategoryLabels],
-    ]),
-);
-
-const PRIVATION_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
-    Object.entries(PRIVATION_CATEGORY).map(([k, v]) => [
-        v as string,
-        PrivationCategoryLabels[k as keyof typeof PrivationCategoryLabels],
-    ]),
-);
 
 /**
  * An ongoing condition affecting a character.
@@ -160,11 +119,12 @@ export class AfflictionLogic<
     transmission!: AfflictionTransmission;
 
     /**
-     * Localized qualitative label for the current effective level.
+     * Localized qualitative label for the current effective level — the numeric
+     * level as a string.
      *
-     * For `FEAR` and `MORALE` subtypes the level (0–5) maps to a named
-     * severity (Brave, Steady, Afraid/Withdrawing, Terrified/Routed,
-     * Catatonic). Other subtypes return the numeric level as a string.
+     * @remarks The named-severity subtypes (fear, morale) are now
+     * {@link sohl.document.item.logic.TraumaLogic | traumas}; on afflictions
+     * (disease, poison/toxin, other) the level has no named severity.
      */
     get levelLabel(): string {
         // `level` is a ValueModifier seeded in initialize(); guard against it
@@ -172,42 +132,19 @@ export class AfflictionLogic<
         // and read by the sheet before its lifecycle runs) so this getter can
         // never throw and brick the whole sheet render (#511).
         const lvl = Math.max(0, Math.round(this.level?.effective ?? 0));
-        if (this.data.subType === AFFLICTION_SUBTYPE.FEAR && isFearLevel(lvl)) {
-            return sohl.i18n.localize(FEAR_LABEL_BY_LEVEL[lvl]);
-        }
-        if (
-            this.data.subType === AFFLICTION_SUBTYPE.MORALE &&
-            isMoraleLevel(lvl)
-        ) {
-            return sohl.i18n.localize(MORALE_LABEL_BY_LEVEL[lvl]);
-        }
         return String(lvl);
     }
 
     /**
-     * Localized qualitative label for the current sub-category.
+     * Localized qualitative label for the current sub-category — the raw
+     * `category` string (empty when unset).
      *
-     * For `FATIGUE` and `PRIVATION` subtypes the `category` field is
-     * expected to be one of {@link FATIGUE_CATEGORY} or
-     * {@link PRIVATION_CATEGORY} respectively. Other subtypes return the
-     * raw category string (or an empty string if unset).
+     * @remarks The categorized subtypes (fatigue) are now
+     * {@link sohl.document.item.logic.TraumaLogic | traumas}; on afflictions the
+     * category carries no named sub-category.
      */
     get categoryLabel(): string {
-        const cat = this.data.category;
-        if (!cat) return "";
-        if (
-            this.data.subType === AFFLICTION_SUBTYPE.FATIGUE &&
-            isFatigueCategory(cat)
-        ) {
-            return sohl.i18n.localize(FATIGUE_LABEL_BY_CATEGORY[cat]);
-        }
-        if (
-            this.data.subType === AFFLICTION_SUBTYPE.PRIVATION &&
-            isPrivationCategory(cat)
-        ) {
-            return sohl.i18n.localize(PRIVATION_LABEL_BY_CATEGORY[cat]);
-        }
-        return cat;
+        return this.data.category || "";
     }
 
     /**

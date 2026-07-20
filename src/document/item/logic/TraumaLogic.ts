@@ -24,10 +24,20 @@ import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import {
     ACTION_SUBTYPE,
     defineType,
+    FATIGUE_CATEGORY,
+    FatigueCategoryLabels,
+    FEAR_LEVEL,
+    FearLevelLabels,
     ImpactAspect,
     INJURY_LEVELS,
+    isFatigueCategory,
+    isFearLevel,
+    isMoraleLevel,
+    MORALE_LEVEL,
+    MoraleLevelLabels,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    TRAUMA_SUBTYPE,
     TraumaSubType,
 } from "@src/utils/constants";
 import {
@@ -35,18 +45,43 @@ import {
     type SohlItemData,
 } from "@src/document/item/logic/SohlItemBaseLogic";
 
+// Level/category → localization-key maps, derived once from the enums so
+// levelLabel/categoryLabel are simple lookups.
+const FEAR_LABEL_BY_LEVEL: Record<number, string> = Object.fromEntries(
+    Object.entries(FEAR_LEVEL).map(([k, v]) => [
+        v as number,
+        FearLevelLabels[k as keyof typeof FearLevelLabels],
+    ]),
+);
+
+const MORALE_LABEL_BY_LEVEL: Record<number, string> = Object.fromEntries(
+    Object.entries(MORALE_LEVEL).map(([k, v]) => [
+        v as number,
+        MoraleLevelLabels[k as keyof typeof MoraleLevelLabels],
+    ]),
+);
+
+const FATIGUE_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
+    Object.entries(FATIGUE_CATEGORY).map(([k, v]) => [
+        v as string,
+        FatigueCategoryLabels[k as keyof typeof FatigueCategoryLabels],
+    ]),
+);
+
 /**
  * An instance of harm to a character.
  *
  * Trauma represents wounds and damage sustained by a character. The
  * {@link TraumaData.subType | subType} discriminates the trauma's nature:
- * `physical` (the original injury concept — bodily harm tied to a
- * {@link TraumaData.bodyLocationCode | body location}), `mental`,
- * `spiritual`, or `shadow`.
+ * `injury` (bodily harm tied to a
+ * {@link TraumaData.bodyLocationCode | body location}), or a mind/spirit/body
+ * condition — `fear`, `morale`, `pall`, `psycond` (psychological condition),
+ * `auralshock`, `fatigue`, `infection`, `shock`, or `coma`.
  *
  * Each trauma tracks:
  *
- * - **subType** — Category of harm (physical | mental | spiritual | shadow)
+ * - **subType** — Category of harm (injury | fear | morale | pall | psycond |
+ *   auralshock | fatigue | infection | shock | coma)
  * - **injuryLevel** — Severity on a graduated scale: M1 (Minor), S2–S3
  *   (Serious), G4–G5 (Grievous), with higher levels causing greater
  *   impairment and risk of death
@@ -200,6 +235,48 @@ export class TraumaLogic<
      */
     get isBleeding(): boolean {
         return this.data.bloodLossAdvanceDurationBase != null;
+    }
+
+    /**
+     * Localized qualitative label for the current effective level.
+     *
+     * For `FEAR` and `MORALE` subtypes the level (0–5) maps to a named severity
+     * (Brave, Steady, Afraid/Withdrawing, Terrified/Routed, Catatonic). Other
+     * subtypes return the numeric level as a string.
+     */
+    get levelLabel(): string {
+        // `level` is a ValueModifier seeded in initialize(); guard against it
+        // being unset (a not-yet-initialized trauma, e.g. freshly dropped and
+        // read by the sheet before its lifecycle runs) so this getter can never
+        // throw and brick the whole sheet render (#511).
+        const lvl = Math.max(0, Math.round(this.level?.effective ?? 0));
+        if (this.data.subType === TRAUMA_SUBTYPE.FEAR && isFearLevel(lvl)) {
+            return sohl.i18n.localize(FEAR_LABEL_BY_LEVEL[lvl]);
+        }
+        if (this.data.subType === TRAUMA_SUBTYPE.MORALE && isMoraleLevel(lvl)) {
+            return sohl.i18n.localize(MORALE_LABEL_BY_LEVEL[lvl]);
+        }
+        return String(lvl);
+    }
+
+    /**
+     * Localized qualitative label for the current sub-category.
+     *
+     * For the `FATIGUE` subtype the {@link TraumaData.category | category} field
+     * is expected to be one of `FATIGUE_CATEGORY`.
+     * Other subtypes return the raw category string (or an empty string if
+     * unset).
+     */
+    get categoryLabel(): string {
+        const cat = this.data.category;
+        if (!cat) return "";
+        if (
+            this.data.subType === TRAUMA_SUBTYPE.FATIGUE &&
+            isFatigueCategory(cat)
+        ) {
+            return sohl.i18n.localize(FATIGUE_LABEL_BY_CATEGORY[cat]);
+        }
+        return cat;
     }
 
     /* --------------------------------------------- */
@@ -402,8 +479,18 @@ export class TraumaLogic<
 export interface TraumaData<
     TLogic extends TraumaLogic<TraumaData> = TraumaLogic<any>,
 > extends SohlItemData<TLogic> {
-    /** Category of harm: physical, mental, spiritual, or shadow */
+    /**
+     * The trauma's nature — an injury, or a mind/spirit/body condition
+     * (fear, morale, pall, psychological-condition, aural-shock, fatigue,
+     * infection, shock, coma).
+     */
     subType: TraumaSubType;
+    /**
+     * Sub-category within a subtype — e.g. a `fatigue` trauma's category is a
+     * `FATIGUE_CATEGORY` (windedness / weariness /
+     * weakness). Empty for subtypes with no sub-category.
+     */
+    category: string;
     /** Severity on a graduated scale: M1, S2-S3, G4-G5 */
     levelBase: number;
     /** Base rate of wound healing per time period; `null` until established. */

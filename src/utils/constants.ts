@@ -1166,37 +1166,12 @@ export const {
     /** Localization keys per affliction subtype. */
     labels: AfflictionSubTypeLabels,
 } = defineType("SOHL.Affliction.SubType", {
-    /** The lack of basic needs or sustenance. */
-    PRIVATION: "privation",
-    /** Physical or mental exhaustion resulting from prolonged activity or stress. */
-    FATIGUE: "fatigue",
+    /** A catch-all category for afflictions not covered by other subtypes. */
+    OTHER: "other",
     /** Illness, parasite, or maladiction affecting the body or mind. */
     DISEASE: "disease",
-    /**
-     * Swelling or inflammation exacerbating an existing condition or injury,
-     * often fatal.
-     */
-    INFECTION: "infection",
     /** Toxic substances or venoms affecting the body. */
     POISONTOXIN: "poisontoxin",
-    /** Emotional response to a perceived threat or danger. */
-    FEAR: "fear",
-    /** Emotional state affecting group cohesion and individual morale. */
-    MORALE: "morale",
-    /** Influence of existential chaos, death, or life-draining spiritual forces. */
-    SHADOW: "shadow",
-    /** Mental and emotional disorder. */
-    PSYCHE: "psyche",
-    /** Severe shock to the aura, resulting in temporary loss of aura-related abilities. */
-    AURALSHOCK: "auralshock",
-    /**
-     * A prolonged physiological state of shock lasting hours or days, following
-     * severe trauma or blood loss — distinct from the transient combat-shock
-     * states tracked on a a Trauma.
-     */
-    SHOCK: "shock",
-    /** A prolonged state of unconsciousness. */
-    COMA: "coma",
 });
 /** Union of all affliction-subtype values. */
 export type AfflictionSubType = (typeof AfflictionSubTypes)[number];
@@ -2013,13 +1988,32 @@ export const {
     isValue: isTraumaSubType,
 } = defineType("SOHL.Trauma.SubType", {
     /** A physical trauma affecting the body. */
-    PHYSICAL: "physical",
-    /** A mental or psychological trauma affecting the mind. */
-    MENTAL: "mental",
-    /** A spiritual trauma affecting the soul or spirit. */
-    SPIRITUAL: "spiritual",
-    /** A trauma caused by existential chaos, death, or life-draining spiritual forces. */
-    SHADOW: "shadow",
+    INJURY: "physical",
+    /** Emotional response to a perceived threat or danger. */
+    FEAR: "fear",
+    /** Emotional state affecting group cohesion and individual morale. */
+    MORALE: "morale",
+    /** Influence of existential chaos, death, or life-draining forces. */
+    PALL: "pall",
+    /** Mental and emotional disorder. */
+    PSYCHOLOGICAL_CONDITION: "psycond",
+    /** Severe shock to the aura, resulting in temporary loss of aura-related abilities. */
+    AURALSHOCK: "auralshock",
+    /** Physical or mental exhaustion resulting from prolonged activity or stress. */
+    FATIGUE: "fatigue",
+    /**
+     * Swelling or inflammation exacerbating an existing condition or injury,
+     * often fatal.
+     */
+    INFECTION: "infection",
+    /**
+     * A prolonged physiological state of shock lasting hours or days, following
+     * severe trauma or blood loss — distinct from the transient combat-shock
+     * states.
+     */
+    SHOCK: "shock",
+    /** A prolonged state of unconsciousness. */
+    COMA: "coma",
 });
 /** Union of all trauma-subtype values. */
 export type TraumaSubType =

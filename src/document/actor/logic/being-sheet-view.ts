@@ -23,7 +23,7 @@
  * (reading collections, enrichment, hooks) and delegates the shaping here.
  */
 
-import { STATUS_EFFECT, AFFLICTION_SUBTYPE } from "@src/utils/constants";
+import { STATUS_EFFECT, TRAUMA_SUBTYPE } from "@src/utils/constants";
 import {
     bodyPartImpairment,
     type BodyPartStatus,
@@ -670,13 +670,13 @@ export interface StatusPill {
     abbr: string;
     /** Tooltip label. */
     label: string;
-    /** Whether the pill is currently lit (status active, or affliction present). */
+    /** Whether the pill is currently lit (status active, or trauma present). */
     active: boolean;
     /**
      * `true` → clicking the pill toggles the corresponding ActiveEffect status;
-     * `false` → a read-only indicator lit from an active affliction subtype
-     * (Aural-Shock / Fatigue), which the prototype drove from afflictions rather
-     * than toggleable statuses (#306).
+     * `false` → a read-only indicator lit from an active trauma subtype
+     * (Aural-Shock / Fatigue), which are modeled as traumas rather than
+     * toggleable statuses (#306).
      */
     toggleable: boolean;
 }
@@ -685,13 +685,13 @@ export interface StatusPill {
  * The fixed roster of header status pills, in display order. Six are toggleable
  * ActiveEffect statuses (`id` must match a registered status — Foundry's id is
  * `stun`, not `stunned`); Aural-Shock and Fatigue are read-only indicators lit
- * from the matching affliction subtype (the prototype drove them from
- * afflictions, and Fatigue is not a `STATUS_EFFECT`). `abbr` is the short label
- * rendered, `label` is the tooltip.
+ * from the matching trauma subtype (they are modeled as traumas, and Fatigue is
+ * not a `STATUS_EFFECT`). `abbr` is the short label rendered, `label` is the
+ * tooltip.
  */
 const STATUS_PILL_DEFS: readonly Omit<StatusPill, "active">[] = [
     {
-        id: AFFLICTION_SUBTYPE.AURALSHOCK,
+        id: TRAUMA_SUBTYPE.AURALSHOCK,
         abbr: "ASHK",
         label: "Aural Shock",
         toggleable: false,
@@ -700,7 +700,7 @@ const STATUS_PILL_DEFS: readonly Omit<StatusPill, "active">[] = [
     { id: STATUS_EFFECT.PRONE, abbr: "PRN", label: "Prone", toggleable: true },
     { id: STATUS_EFFECT.STUN, abbr: "STN", label: "Stun", toggleable: true },
     {
-        id: AFFLICTION_SUBTYPE.FATIGUE,
+        id: TRAUMA_SUBTYPE.FATIGUE,
         abbr: "FTG",
         label: "Fatigue",
         toggleable: false,
@@ -723,22 +723,22 @@ const STATUS_PILL_DEFS: readonly Omit<StatusPill, "active">[] = [
 /**
  * Build the header status pills in display order. A toggleable pill is lit when
  * its status id is in `activeStatusIds`; an indicator (Aural-Shock / Fatigue) is
- * lit when its affliction subtype is in `activeAfflictionSubTypes`.
+ * lit when its trauma subtype is in `activeTraumaSubTypes`.
  *
  * @param activeStatusIds - The status ids currently active on the actor.
- * @param activeAfflictionSubTypes - The subtypes of the actor's active afflictions.
+ * @param activeTraumaSubTypes - The subtypes of the actor's active traumas.
  * @returns The status pills, in display order.
  */
 export function buildStatusPills(
     activeStatusIds: ReadonlySet<string>,
-    activeAfflictionSubTypes: ReadonlySet<string> = new Set(),
+    activeTraumaSubTypes: ReadonlySet<string> = new Set(),
 ): StatusPill[] {
     return STATUS_PILL_DEFS.map((def) => ({
         ...def,
         active:
             def.toggleable ?
                 activeStatusIds.has(def.id)
-            :   activeAfflictionSubTypes.has(def.id),
+            :   activeTraumaSubTypes.has(def.id),
     }));
 }
 
