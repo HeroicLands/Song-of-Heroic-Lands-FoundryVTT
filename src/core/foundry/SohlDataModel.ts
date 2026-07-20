@@ -357,6 +357,31 @@ export namespace SohlDataModel {
                 form: {
                     submitOnChange: true,
                 },
+                // Active-effect authoring, shared by every SoHL sheet. Objects
+                // deep-merge into each concrete sheet's own `actions`, so item
+                // and actor sheets inherit these without re-declaring them.
+                // Declared as thunks that resolve the static handler at call
+                // time, so they do not depend on static-field vs. static-method
+                // evaluation order within the class.
+                actions: {
+                    effectCreate(this: any): unknown {
+                        return SMix._onEffectCreate.call(this);
+                    },
+                    effectToggle(
+                        this: any,
+                        event: PointerEvent,
+                        target: HTMLElement,
+                    ): unknown {
+                        return SMix._onEffectToggle.call(this, event, target);
+                    },
+                    effectDelete(
+                        this: any,
+                        event: PointerEvent,
+                        target: HTMLElement,
+                    ): unknown {
+                        return SMix._onEffectDelete.call(this, event, target);
+                    },
+                },
             };
             protected _dragDrop: DragDrop[];
 
@@ -549,7 +574,7 @@ export namespace SohlDataModel {
                     onOpen: this._onItemContextMenuOpen.bind(this),
                     parent,
                 });
-                new SohlContextMenu(element, ".effect", [], {
+                new SohlContextMenu(element, ".effects__row", [], {
                     onOpen: this._onEffectContextMenuOpen.bind(this),
                     parent,
                 });
@@ -647,16 +672,18 @@ export namespace SohlDataModel {
              * @param event - The pointer event that triggered the toggle.
              * @param target - The clicked element within the effect row.
              */
-            protected static _onEffectToggle(
+            protected static async _onEffectToggle(
+                this: any,
                 event: PointerEvent,
                 target: HTMLElement,
-            ): void {
-                const li = target.closest(".effect") as HTMLElement;
-                if (!li?.dataset.effectId) return;
-                const effect = (this as any).document.effects.get(
-                    li.dataset.effectId,
-                );
-                effect?.toggleEnabledState();
+            ): Promise<void> {
+                const li = target.closest(
+                    "[data-effect-id]",
+                ) as HTMLElement | null;
+                const effectId = li?.dataset.effectId;
+                if (!effectId) return;
+                const effect = this.document.effects.get(effectId);
+                await effect?.toggleEnabledState();
             }
 
             /**
@@ -664,33 +691,59 @@ export namespace SohlDataModel {
              * default name and origin.
              * @throws If the document does not expose a `createEffect` method.
              */
-            protected async _onEffectCreate(): Promise<void> {
-                const createEffect = (this.document as any)
-                    .createEffect as Function;
+            protected static async _onEffectCreate(this: any): Promise<void> {
+                const doc = this.document;
+                const createEffect = doc.createEffect as Function | undefined;
                 if (!createEffect) {
                     throw new Error(
                         "SohlDataModel.Sheet._onEffectCreate: createEffect not found",
                     );
                 }
-                let name = "New Effect";
+                let name = game.i18n.localize("SOHL.Effect.newName");
+                let base = name;
                 let i = 0;
                 while (
-                    (this.document as any).effects.some(
-                        (e: SohlActiveEffect) => e.name === name,
-                    )
+                    doc.effects.some((e: SohlActiveEffect) => e.name === name)
                 ) {
-                    name = `New Effect ${++i}`;
+                    name = `${base} ${++i}`;
                 }
-                const aeData = {
+                await doc.createEffect({
                     name,
                     type: "sohleffectdata",
-                    icon: "icons/svg/aura.svg",
-                    origin: this.document.uuid,
-                };
-
-                createEffect(aeData, {
-                    parent: this.document,
+                    img: "icons/svg/aura.svg",
+                    origin: doc.uuid,
                 });
+            }
+
+            /**
+             * Delete the active effect for the clicked row, after a
+             * confirmation prompt (Foundry's `deleteDialog`).
+             * @param event - The pointer event that triggered the delete.
+             * @param target - The clicked element within the effect row.
+             */
+            protected static async _onEffectDelete(
+                this: any,
+                event: PointerEvent,
+                target: HTMLElement,
+            ): Promise<void> {
+                const li = target.closest(
+                    "[data-effect-id]",
+                ) as HTMLElement | null;
+                const effectId = li?.dataset.effectId;
+                if (!effectId) return;
+                const effect = this.document.effects.get(effectId);
+                if (!effect) return;
+                const confirmed =
+                    await foundry.applications.api.DialogV2.confirm({
+                        window: {
+                            title: game.i18n.localize(
+                                "SOHL.Effect.contextMenu.delete",
+                            ),
+                        },
+                        content: `<p>${game.i18n.format("SOHL.Effect.deleteHint", { name: effect.name })}</p>`,
+                    } as any);
+                if (!confirmed) return;
+                await effect.delete();
             }
 
             /**
@@ -1239,133 +1292,6 @@ export namespace SohlDataModel {
                 const result = await (this.document as any).update(updateData);
                 if (result) void this.render();
             }
-
-            //     activateListeners(element: HTMLElement): void {
-            //         super.activateListeners(element);
-
-            //         // Everything below here is only needed if the sheet is editable
-            //         if (!this.options.editable) return;
-
-            //         // Ensure all text is selected when entering text input field
-            //         this.form
-            //             .querySelector("input[type='text']")
-            //             ?.addEventListener("click", (ev) => {
-            //                 const target = ev.target;
-            //                 if (!target.dataset?.type) {
-            //                     target.select();
-            //                 }
-            //             });
-
-            //         this.form
-            //             .querySelector(".effect-create")
-            //             ?.addEventListener("click", this._onEffectCreate.bind(this));
-
-            //         this.form
-            //             .querySelector(".effect-toggle")
-            //             ?.addEventListener("click", this._onEffectToggle.bind(this));
-
-            //         this.form
-            //             .querySelector(".alter-time")
-            //             ?.addEventListener("click", (ev) => {
-            //                 const property = ev.currentTarget.dataset.property;
-            //                 let time = Number.parseInt(
-            //                     ev.currentTarget.dataset.time,
-            //                     10,
-            //                 );
-            //                 if (Number.isNaN(time)) time = 0;
-            //                 Utility.onAlterTime(time).then((result) => {
-            //                     if (result !== null) {
-            //                         const updateData = { [property]: result };
-            //                         this.item.update(updateData);
-            //                     }
-            //                 });
-            //             });
-
-            //         // Add/delete Object Key
-            //         this.form
-            //             .querySelector(".add-array-item")
-            //             ?.addEventListener("click", this._addArrayItem.bind(this));
-            //         this.form
-            //             .querySelector(".delete-array-item")
-            //             ?.addEventListener("click", this._deleteArrayItem.bind(this));
-
-            //         // Add/delete Object Key
-            //         this.form
-            //             .querySelector(".add-object-key")
-            //             ?.addEventListener("click", this._addObjectKey.bind(this));
-            //         this.form
-            //             .querySelector(".delete-object-key")
-            //             ?.addEventListener("click", this._deleteObjectKey.bind(this));
-
-            //         this.form
-            //             .querySelector(".action-create")
-            //             ?.addEventListener("click", (ev) => {
-            //                 return Utility.createAction(ev, this.document);
-            //             });
-
-            //         this.form
-            //             .querySelector(".action-execute")
-            //             ?.addEventListener("click", (ev) => {
-            //                 const li = ev.currentTarget.closest(".action-item");
-            //                 const itemId = li.dataset.itemId;
-            //                 const action = this.document.system.actions.get(itemId);
-            //                 action.execute({ event: ev, dataset: li.dataset });
-            //             });
-
-            //         this.form
-            //             .querySelector(".action-edit")
-            //             ?.addEventListener("click", (ev) => {
-            //                 const li = ev.currentTarget.closest(".action-item");
-            //                 const itemId = li.dataset.itemId;
-            //                 const action = this.document.system.actions.get(itemId);
-            //                 if (!action) {
-            //                     throw new Error(
-            //                         `Action ${itemId} not found on ${this.document.name}.`,
-            //                     );
-            //                 }
-            //                 action.sheet.render(true);
-            //             });
-
-            //         this.form
-            //             .querySelector(".action-delete")
-            //             ?.addEventListener("click", (ev) => {
-            //                 const li = ev.currentTarget.closest(".action-item");
-            //                 const itemId = li.dataset.itemId;
-            //                 const action = this.document.system.actions.get(itemId);
-            //                 if (!action) {
-            //                     throw new Error(
-            //                         `Action ${itemId} not found on ${this.document.name}.`,
-            //                     );
-            //                 }
-            //                 return Utility.deleteAction(ev, action);
-            //             });
-
-            //         this.form
-            //             .querySelector(".default-action")
-            //             ?.addEventListener("click", (ev) => {
-            //                 const li = ev.currentTarget.closest(".item");
-            //                 const itemId = li.dataset.itemId;
-            //                 let item;
-            //                 if (this.document instanceof SohlActor) {
-            //                     item = this.actor.getItem(itemId);
-            //                 } else {
-            //                     item = this.item.system.allItems.get(itemId);
-            //                 }
-            //                 if (item) {
-            //                     const defaultAction = item.system.getDefaultAction(li);
-            //                     if (defaultAction?.callback instanceof Function) {
-            //                         defaultAction.callback();
-            //                     } else {
-            //                         sohl.log.uiWarn(
-            //                             `${item.label} has no available default action`,
-            //                         );
-            //                     }
-            //                 }
-            //             });
-
-            //         // Activate context menu
-            //         this._contextMenu(element);
-            //     }
         } as unknown as TBase;
     }
 }

@@ -14,6 +14,8 @@
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
+import { ContextMenuEntry } from "@src/apps/logic/ContextMenuEntry";
+import { SOHL_CONTEXT_MENU_SORT_GROUP } from "@src/utils/constants";
 import {
     ACTIVE_EFFECT_SCOPE,
     STRIKE_MODE_TYPE,
@@ -281,7 +283,58 @@ export class SohlActiveEffect extends ActiveEffect {
      * @returns The available context-menu entries.
      */
     getContextOptions(): SohlContextMenu.Entry[] {
-        return [];
+        const always = (): boolean => true;
+        return [
+            new ContextMenuEntry({
+                id: "edit",
+                name: "SOHL.Effect.contextMenu.edit",
+                iconFAClass: "fa-solid fa-edit",
+                condition: always,
+                callback: () => {
+                    void (this as any).sheet?.render(true);
+                },
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            }),
+            new ContextMenuEntry({
+                id: "toggle",
+                name:
+                    this.disabled ?
+                        "SOHL.Effect.contextMenu.enable"
+                    :   "SOHL.Effect.contextMenu.disable",
+                iconFAClass:
+                    this.disabled ?
+                        "fa-solid fa-toggle-on"
+                    :   "fa-solid fa-toggle-off",
+                condition: always,
+                callback: () => {
+                    void this.toggleEnabledState();
+                },
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            }),
+            new ContextMenuEntry({
+                id: "delete",
+                name: "SOHL.Effect.contextMenu.delete",
+                iconFAClass: "fa-solid fa-trash",
+                condition: always,
+                callback: () => {
+                    void (this as any).deleteDialog();
+                },
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            }),
+        ];
+    }
+
+    /**
+     * Toggle this effect between enabled and disabled, persisting the new
+     * `disabled` state. Bound to the effect-row toggle control on the item and
+     * actor sheets.
+     *
+     * @returns The updated effect, or `undefined` if the update did not apply.
+     */
+    async toggleEnabledState(): Promise<this | undefined> {
+        return (await this.update({ disabled: !this.disabled })) as
+            | this
+            | undefined;
     }
 }
 

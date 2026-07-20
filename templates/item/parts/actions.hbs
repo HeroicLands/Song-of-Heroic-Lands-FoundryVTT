@@ -12,20 +12,68 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab actions{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="actions">
+
+    {{!-- Custom (script) actions — each bound to a Macro; GM-editable (#501) --}}
+    <div class="search-items">
+        <input class="search-criteria" type="search" name="search-actions" value=""
+            aria-label="Search Actions" placeholder="Search Actions" autocomplete="off" />
+    </div>
+
     <ol class="list__items actions-list">
         <li class="list__header flexrow">
-            <h3 class="list__name">{{localize "SOHL.Action.FIELDS.title.label"}}</h3>
-            <div class="item-type">{{localize "SOHL.Action.FIELDS.group.label"}}</div>
-        </li>
-        {{#each actions as |action|}}
-        <li class="item flexrow" data-item-id="{{action.item.id}}">
-            <div class="list__name flexrow">
-                <i class="{{action.data.iconFAClass}}"></i>
-                <h4>{{action.data.title}}</h4>
+            <h3 class="list__name">Custom Actions</h3>
+            <div class="list__detail">Group</div>
+            <div class="list__detail list__notes"></div>
+            <div class="list__controls">
+                <a class="list__control action-create" data-action="createAction" data-tooltip="Create Action">
+                    <i class="fa-solid fa-file-plus"></i>
+                </a>
             </div>
-            <div class="item-type">{{action.data.group}}</div>
-            {{!-- Action authoring (run/edit/delete) is out of release scope;
-                  actions are shown read-only here. Tracked in #501. --}}
+        </li>
+        {{#each customActions as |action|}}
+        <li class="item flexrow" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
+            <div class="list__name flexrow">
+                <div class="list__image" style="background-image: url('{{action.data.img}}')"></div>
+                <h4>{{localize action.data.title}}</h4>
+            </div>
+            <div class="list__detail">{{action.data.group}}</div>
+            <div class="list__detail list__notes"></div>
+            <div class="list__controls">
+                <a class="list__control" data-action="editAction" title="Edit Macro">
+                    <i class="fa-solid fa-file-pen"></i>
+                </a>
+                <a class="list__control" data-action="deleteAction" title="Remove Action">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+                <a class="list__control" data-action="runAction" data-tooltip="Run {{localize action.data.title}}">
+                    <i class="fa-solid fa-play"></i>
+                </a>
+            </div>
+        </li>
+        {{/each}}
+    </ol>
+
+    {{!-- Intrinsic actions --}}
+    <ol class="list__items actions-list">
+        <li class="list__header flexrow">
+            <h3 class="list__name">Intrinsic Actions</h3>
+            <div class="list__detail">Group</div>
+            <div class="list__detail list__notes"></div>
+            <div class="list__controls"></div>
+        </li>
+        {{#each intrinsicActions as |action|}}
+        <li class="item flexrow" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
+            <div class="list__name flexrow">
+                <div class="list__image" style="background-image: url('{{action.data.img}}')"></div>
+                <h4>{{localize action.data.title}}</h4>
+            </div>
+            <div class="list__detail">{{action.data.group}}</div>
+            <div class="list__detail list__notes"></div>
+            <div class="list__controls">
+                <a class="list__control" data-action="runAction" data-tooltip="Run {{localize action.data.title}}">
+                    <i class="fa-solid fa-play"></i>
+                </a>
+            </div>
         </li>
         {{/each}}
     </ol>
