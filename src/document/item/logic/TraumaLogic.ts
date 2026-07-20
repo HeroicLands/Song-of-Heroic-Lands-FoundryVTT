@@ -23,6 +23,7 @@ import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import {
     ACTION_SUBTYPE,
+    CRITICAL_SUCCESS,
     defineType,
     FATIGUE_CATEGORY,
     FatigueCategoryLabels,
@@ -33,6 +34,8 @@ import {
     isFatigueCategory,
     isFearLevel,
     isMoraleLevel,
+    ITEM_KIND,
+    MARGINAL_SUCCESS,
     MORALE_LEVEL,
     MoraleLevelLabels,
     SOHL_ACTION_SCOPE,
@@ -44,6 +47,7 @@ import {
     SohlItemBaseLogic,
     type SohlItemData,
 } from "@src/document/item/logic/SohlItemBaseLogic";
+import { rollTimedTest } from "@src/document/item/logic/timed-test";
 
 // Level/category → localization-key maps, derived once from the enums so
 // levelLabel/categoryLabel are simple lookups.
@@ -380,10 +384,17 @@ export class TraumaLogic<
      *
      * @param _context - The action context (its `scope` is the trigger context).
      * @returns A promise that resolves once the anchor is persisted.
-     * @remarks Catch-up wiring only (#481): advances the anchor over every
-     *   elapsed interval and re-arms via {@link deriveNext}. The healing
-     *   **effect** — the recovery roll reducing the wound level — is not yet
-     *   implemented; see issue #486 (it needs an automated, no-dialog roll).
+     * @remarks For an `injury`-subtype trauma this applies the **Injury Healing
+     *   Test** (#486) at each elapsed checkpoint, in sequence: a headless test of
+     *   `Healing Base × Healing Rate` reduces the Injury Level by 1 on a marginal
+     *   success and 2 on a critical success (a marginal failure does nothing; a
+     *   critical failure does no healing — infection-on-CF is completed by #557).
+     *   No test is made while the injury is untreated, already healed (level 0),
+     *   or while any active infection halts the patient's healing. Other trauma
+     *   subtypes recover by their own rules and only re-arm here. In all cases
+     *   the recurrence anchor is advanced over every elapsed interval and re-armed
+     *   via {@link deriveNext} (the queue does not cascade — see the Event Queue
+     *   contract).
      */
     async healingCheck(_context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
@@ -394,10 +405,28 @@ export class TraumaLogic<
 
         // Catch up the recurrence anchor over every elapsed interval in
         // `(anchor, now]` in one pass — the queue does not cascade (see the
-        // Event Queue contract). The per-checkpoint recovery roll is #486.
+        // Event Queue contract).
         const checkpoints =
             interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
         const lastProcessed = checkpoints.at(-1) ?? now;
+
+        // Injury Healing Test at each elapsed checkpoint, in sequence (each roll
+        // reduces the level the next one sees). Only injuries heal this way, and
+        // only once treated and while not halted by an active infection.
+        let level = this.data.levelBase;
+        if (this.data.subType === TRAUMA_SUBTYPE.INJURY && this.isTreated) {
+            for (
+                let i = 0;
+                i < checkpoints.length && level > 0 && !this.healingHalted;
+                i++
+            ) {
+                const sl = await this.rollHealingTest();
+                if (sl == null) break; // roll refused (e.g. speaker not owned)
+                if (sl >= CRITICAL_SUCCESS) level = Math.max(0, level - 2);
+                else if (sl >= MARGINAL_SUCCESS) level = Math.max(0, level - 1);
+                // MF (0): no healing. CF (−1): no healing; infection is #557.
+            }
+        }
 
         const nextInterval = this.rollDuration(
             this.data.healingCheckDurationFormula,
@@ -409,9 +438,45 @@ export class TraumaLogic<
             deriveNext(lastProcessed, nextInterval),
         );
         await this.item.update({
+            "system.levelBase": level,
             "system.lastHealingCheckDate": lastProcessed,
             "system.healingCheckDurationBase": nextInterval,
         } as PlainObject);
+    }
+
+    /**
+     * Whether the patient's injury healing is currently **halted** — true while
+     * the owning actor carries any active `infection`-subtype trauma (an active
+     * infection stops all Injury Healing Tests until every infection is defeated).
+     */
+    get healingHalted(): boolean {
+        const traumas = (this.actorLogic?.logicTypes?.[ITEM_KIND.TRAUMA] ??
+            []) as TraumaLogic[];
+        return traumas.some(
+            (t) =>
+                t.data.subType === TRAUMA_SUBTYPE.INFECTION &&
+                (t.level?.effective ?? 0) > 0,
+        );
+    }
+
+    /**
+     * Roll one headless **Injury Healing Test** — `Healing Base × Healing Rate`
+     * (Healing Base from the owning being, Healing Rate from this trauma) — and
+     * return the normalized success level (−1/0/1/2), or `null` if the roll was
+     * refused (e.g. the speaker is not owned).
+     *
+     * @returns The normalized success level, or `null`.
+     */
+    private async rollHealingTest(): Promise<number | null> {
+        const healingBase =
+            (this.actorLogic as any)?.healingBase?.effective ?? 0;
+        const eml = healingBase * (this.healingRate?.effective ?? 0);
+        const result = await rollTimedTest(this, eml, {
+            noChat: true,
+            type: "trauma-healingtest",
+            title: sohl.i18n.localize("SOHL.Trauma.Action.healingtest.title"),
+        });
+        return result ? result.normSuccessLevel : null;
     }
 
     /**

@@ -6,7 +6,15 @@ import {
     UNTREATED,
 } from "@src/document/item/logic/TraumaLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import { ITEM_KIND, TRAUMA_SUBTYPE } from "@src/utils/constants";
+import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import {
+    CRITICAL_FAILURE,
+    CRITICAL_SUCCESS,
+    ITEM_KIND,
+    MARGINAL_FAILURE,
+    MARGINAL_SUCCESS,
+    TRAUMA_SUBTYPE,
+} from "@src/utils/constants";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 
@@ -327,6 +335,183 @@ describe("TraumaDataModel", () => {
     });
 
     it.todo("has kind set to ITEM_KIND.TRAUMA");
+});
+
+describe("Injury Healing Test effect (#486)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    function withEvents() {
+        (globalThis as any).sohl.events = {
+            scheduleAt: vi.fn(),
+            unsubscribe: vi.fn(),
+        };
+    }
+
+    /** A treated injury on an actor with healingBase `hb`; `now` sets checkpoints. */
+    function treatedInjury(
+        opts: {
+            levelBase?: number;
+            healingRateBase?: number;
+            hb?: number;
+            subType?: string;
+            treatmentDate?: number | null;
+            infection?: boolean;
+        } = {},
+    ) {
+        const {
+            levelBase = 5,
+            healingRateBase = 3,
+            hb = 4,
+            subType = TRAUMA_SUBTYPE.INJURY,
+            treatmentDate = 500,
+            infection = false,
+        } = opts;
+        const actor = makeMockActor();
+        (actor.logic as any).healingBase = { effective: hb };
+        const logic = makeTrauma(
+            {
+                subType,
+                levelBase,
+                healingRateBase,
+                treatmentDate,
+                lastHealingCheckDate: 1000,
+                healingCheckDurationBase: 500,
+                healingCheckDurationFormula: "500",
+            },
+            { actor },
+        );
+        (logic.item as any).uuid = "Item.injury00000";
+        logic.initialize();
+        if (infection) {
+            actor.itemTypes = {
+                [ITEM_KIND.TRAUMA]: [
+                    {
+                        logic: {
+                            data: { subType: TRAUMA_SUBTYPE.INFECTION },
+                            level: { effective: 2 },
+                        },
+                    },
+                ],
+            };
+        }
+        return logic;
+    }
+
+    /** Mock each successive Injury Healing Test to return the given levels. */
+    function mockRoll(...levels: number[]) {
+        const spy = vi.spyOn(MasteryLevelModifier.prototype, "successTest");
+        for (const lvl of levels) {
+            spy.mockResolvedValueOnce({ normSuccessLevel: lvl } as any);
+        }
+        return spy;
+    }
+
+    /** Run one checkpoint (now = anchor + one interval). */
+    function oneCheckpoint() {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1500);
+    }
+
+    it("reduces the Injury Level by 1 on a marginal success", async () => {
+        withEvents();
+        oneCheckpoint();
+        mockRoll(MARGINAL_SUCCESS);
+        const logic = treatedInjury({ levelBase: 5 });
+        await logic.healingCheck({} as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 4 }),
+        );
+    });
+
+    it("reduces the Injury Level by 2 on a critical success", async () => {
+        withEvents();
+        oneCheckpoint();
+        mockRoll(CRITICAL_SUCCESS);
+        const logic = treatedInjury({ levelBase: 5 });
+        await logic.healingCheck({} as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 3 }),
+        );
+    });
+
+    it("does not heal on a marginal or critical failure", async () => {
+        withEvents();
+        oneCheckpoint();
+        mockRoll(MARGINAL_FAILURE);
+        const mf = treatedInjury({ levelBase: 5 });
+        await mf.healingCheck({} as any);
+        expect(mf.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 5 }),
+        );
+
+        vi.restoreAllMocks();
+        withEvents();
+        oneCheckpoint();
+        mockRoll(CRITICAL_FAILURE);
+        const cf = treatedInjury({ levelBase: 5 });
+        await cf.healingCheck({} as any);
+        expect(cf.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 5 }),
+        );
+    });
+
+    it("applies each elapsed checkpoint in sequence (stateful)", async () => {
+        withEvents();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000); // 2 checkpoints
+        mockRoll(MARGINAL_SUCCESS, MARGINAL_SUCCESS);
+        const logic = treatedInjury({ levelBase: 5 });
+        await logic.healingCheck({} as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 3 }),
+        );
+    });
+
+    it("stops testing once the injury heals to 0", async () => {
+        withEvents();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000); // 2 checkpoints
+        const spy = mockRoll(MARGINAL_SUCCESS, MARGINAL_SUCCESS);
+        const logic = treatedInjury({ levelBase: 1 });
+        await logic.healingCheck({} as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 0 }),
+        );
+        expect(spy).toHaveBeenCalledTimes(1); // second checkpoint not tested
+    });
+
+    it("makes no test while the injury is untreated", async () => {
+        withEvents();
+        oneCheckpoint();
+        const spy = mockRoll(MARGINAL_SUCCESS);
+        const logic = treatedInjury({ levelBase: 5, treatmentDate: null });
+        await logic.healingCheck({} as any);
+        expect(spy).not.toHaveBeenCalled();
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 5 }),
+        );
+    });
+
+    it("makes no test while an active infection halts healing", async () => {
+        withEvents();
+        oneCheckpoint();
+        const spy = mockRoll(MARGINAL_SUCCESS);
+        const logic = treatedInjury({ levelBase: 5, infection: true });
+        await logic.healingCheck({} as any);
+        expect(spy).not.toHaveBeenCalled();
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 5 }),
+        );
+    });
+
+    it("does not apply the injury healing test to a non-injury trauma", async () => {
+        withEvents();
+        oneCheckpoint();
+        const spy = mockRoll(MARGINAL_SUCCESS);
+        const logic = treatedInjury({
+            levelBase: 5,
+            subType: TRAUMA_SUBTYPE.FEAR,
+        });
+        await logic.healingCheck({} as any);
+        expect(spy).not.toHaveBeenCalled();
+    });
 });
 
 // Relocated from Affliction.test.ts: the named-severity (fear/morale) and
