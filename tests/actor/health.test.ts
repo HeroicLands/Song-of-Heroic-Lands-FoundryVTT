@@ -8,6 +8,7 @@
 import { describe, it, expect } from "vitest";
 import {
     deriveHealth,
+    healingBaseFor,
     physicalHealthCeiling,
     healthBand,
     HEALTH_BAND,
@@ -88,6 +89,30 @@ describe("healthBand (#470)", () => {
         [0, HEALTH_BAND.DEAD],
     ])("value %i → %s", (value, band) => {
         expect(healthBand(value)).toBe(band);
+    });
+});
+
+describe("healingBaseFor (#549)", () => {
+    it("is the plain average when END equals WIL", () => {
+        expect(healingBaseFor(12, 12)).toBe(12);
+        expect(healingBaseFor(16, 16)).toBe(16);
+    });
+
+    it("is the plain average when it is a whole number (no rounding needed)", () => {
+        expect(healingBaseFor(14, 10)).toBe(12); // avg 12, END > WIL
+        expect(healingBaseFor(10, 14)).toBe(12); // avg 12, END < WIL
+    });
+
+    it("rounds a fractional average UP when END > WIL", () => {
+        expect(healingBaseFor(13, 12)).toBe(13); // 12.5 → 13
+        expect(healingBaseFor(15, 10)).toBe(13); // 12.5 → 13
+        expect(healingBaseFor(16, 15)).toBe(16); // 15.5 → 16
+    });
+
+    it("rounds a fractional average DOWN when END < WIL", () => {
+        expect(healingBaseFor(12, 13)).toBe(12); // 12.5 → 12
+        expect(healingBaseFor(10, 15)).toBe(12); // 12.5 → 12
+        expect(healingBaseFor(15, 16)).toBe(15); // 15.5 → 15
     });
 });
 

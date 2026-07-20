@@ -57,6 +57,26 @@ const CEILINGS = {
     },
 } as const;
 
+/**
+ * A being's **Healing Base** — the average of its Endurance (END) and Will (WIL)
+ * scores, with the fraction rounded **up when END > WIL** and **down otherwise**.
+ *
+ * The Healing Base, multiplied by a Healing Rate, is the mastery level of nearly
+ * every recovery test in the system (the Injury Healing Test, the affliction
+ * Course Test, the Infection Healing Test, and the Extended Shock / Coma course
+ * tests).
+ *
+ * Pure and Foundry-free; the base of {@link BeingLogic.healingBase}.
+ *
+ * @param endurance - The being's effective Endurance score.
+ * @param will - The being's effective Will score.
+ * @returns The integer Healing Base.
+ */
+export function healingBaseFor(endurance: number, will: number): number {
+    const average = (endurance + will) / 2;
+    return endurance > will ? Math.ceil(average) : Math.floor(average);
+}
+
 /** Health bands — a doctor's qualitative read, not a number. */
 export const HEALTH_BAND = {
     EXCELLENT: "Excellent",

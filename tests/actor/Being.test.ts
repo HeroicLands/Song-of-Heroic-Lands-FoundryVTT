@@ -1012,10 +1012,79 @@ describe("BeingLogic", () => {
     describe("properties", () => {
         // health is written into the data model (system.health) as plain
         // numbers — covered by the "BeingLogic health (#470)" suite below.
-        // healingBase / shockState are declared but not yet assigned by any
-        // lifecycle phase.
-        it.todo("healingBase - is a ValueModifier after initialize");
+        // shockState is declared but not yet assigned by any lifecycle phase.
         it.todo("shockState - tracks current shock state");
+    });
+
+    describe("healingBase (#549)", () => {
+        /** A being carrying END and WIL attributes of the given scores. */
+        function beingWithAttrs(end: number, wil: number) {
+            const being = makeBeing();
+            (being as any).actor.items.set(
+                "end",
+                makeAttributeStub("end", end),
+            );
+            (being as any).actor.items.set(
+                "wil",
+                makeAttributeStub("wil", wil),
+            );
+            return being;
+        }
+
+        it("is a ValueModifier after initialize", () => {
+            const being = beingWithAttrs(12, 12);
+            being.initialize();
+            expect(being.healingBase).toBeInstanceOf(ValueModifier);
+        });
+
+        it("seeds the base to avg(END, WIL) in evaluate (equal scores)", () => {
+            const being = beingWithAttrs(12, 12);
+            being.initialize();
+            being.evaluate();
+            expect(being.healingBase.base).toBe(12);
+            expect(being.healingBase.effective).toBe(12);
+        });
+
+        it("rounds the base up when END > WIL", () => {
+            const being = beingWithAttrs(13, 12);
+            being.initialize();
+            being.evaluate();
+            expect(being.healingBase.base).toBe(13); // 12.5 → 13
+        });
+
+        it("rounds the base down when END <= WIL", () => {
+            const being = beingWithAttrs(12, 13);
+            being.initialize();
+            being.evaluate();
+            expect(being.healingBase.base).toBe(12); // 12.5 → 12
+        });
+
+        it("accepts runtime deltas (traits/treatment) on top of the base", () => {
+            const being = beingWithAttrs(12, 12);
+            being.initialize();
+            being.evaluate();
+            being.healingBase.add("Treatment", "Trt", 2);
+            expect(being.healingBase.effective).toBe(14);
+        });
+
+        it("rebuilds each initialize (deltas are not persisted)", () => {
+            const being = beingWithAttrs(12, 12);
+            being.initialize();
+            being.evaluate();
+            being.healingBase.add("Treatment", "Trt", 2);
+            expect(being.healingBase.empty).toBe(false);
+            being.initialize();
+            expect(being.healingBase.empty).toBe(true);
+            expect(being.healingBase.hasBase).toBe(false);
+        });
+
+        it("leaves the base unset (0) when an attribute is missing", () => {
+            const being = makeBeing(); // incorporeal: no attributes
+            being.initialize();
+            being.evaluate();
+            expect(being.healingBase.base).toBe(0);
+            expect(being.healingBase.hasBase).toBe(false);
+        });
     });
 
     describe("aggregateArmorProtection (#180)", () => {

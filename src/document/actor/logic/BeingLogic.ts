@@ -47,6 +47,7 @@ import {
 } from "@src/core/FoundryHelpers";
 import {
     deriveHealth,
+    healingBaseFor,
     healthBand as healthBandFor,
     type PartHealthInput,
     type HealthBand,
@@ -137,7 +138,13 @@ export class BeingLogic<
     }
 
     /**
-     * Base healing rate, ultimately influenced by traits and treatment
+     * The being's **Healing Base** as a {@link sohl.entity.modifier.ValueModifier}
+     * — the mastery-level factor governing recovery, seeded in {@link evaluate}
+     * to the average of the being's Endurance and Will scores (rounded up when
+     * END > WIL, else down; see {@link healingBaseFor}) and open to trait and
+     * treatment deltas on top. Multiplied by a Healing Rate, it is the target of
+     * nearly every recovery test in the system. An empty modifier (base 0) when
+     * the being lacks an Endurance or Will attribute (e.g. an incorporeal being).
      */
     healingBase!: ValueModifier;
 
@@ -774,6 +781,10 @@ export class BeingLogic<
         this.carriedWeight = new entity.ValueModifier(this);
         this.strengthModifier = new entity.ValueModifier(this);
         this.encumbrance = new entity.ValueModifier(this);
+        // An empty modifier now; its base is seeded from END/WIL in evaluate()
+        // (attribute scores aren't prepared yet during the actor's initialize),
+        // leaving it open to trait/treatment deltas in between.
+        this.healingBase = new entity.ValueModifier(this);
         // Build the being's body directly from system.body — no embedded item,
         // no cross-document registration, no lifecycle-ordering hazard.
         this.body = new BodyLogic(this);
@@ -793,7 +804,25 @@ export class BeingLogic<
         const str =
             this.getItemLogic("str", ITEM_KIND.ATTRIBUTE)?.score.effective ?? 0;
         this.strengthModifier.setBase(strModExpr.evaluate({ str }) as number);
+        this.deriveHealingBase();
         this.aggregateArmorProtection();
+    }
+
+    /**
+     * Seed {@link healingBase} from the being's Endurance and Will scores (see
+     * {@link healingBaseFor}). Runs in {@link evaluate}, after the attribute
+     * items have prepared their scores. When either attribute is absent (e.g. an
+     * incorporeal being), the base is left unset — the modifier stays empty.
+     */
+    private deriveHealingBase(): void {
+        const endurance = this.getItemLogic(
+            ATTRIBUTE_CODE.ENDURANCE,
+            ITEM_KIND.ATTRIBUTE,
+        )?.score.effective;
+        const will = this.getItemLogic(ATTRIBUTE_CODE.WILL, ITEM_KIND.ATTRIBUTE)
+            ?.score.effective;
+        if (endurance === undefined || will === undefined) return;
+        this.healingBase.setBase(healingBaseFor(endurance, will));
     }
 
     /**
