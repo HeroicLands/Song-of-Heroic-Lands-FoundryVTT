@@ -14,17 +14,21 @@ import {
 } from "@tests/mocks/logicHarness";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 
-describe("AFFLICTION_SUBTYPE (#478)", () => {
-    it("includes the long-duration SHOCK and COMA subtypes", () => {
-        expect(AFFLICTION_SUBTYPE.SHOCK).toBe("shock");
-        expect(AFFLICTION_SUBTYPE.COMA).toBe("coma");
-    });
-    it("exposes SHOCK and COMA as value-keyed choices with i18n labels", () => {
-        expect(AfflictionSubTypeChoices["shock"]).toBe(
-            "SOHL.Affliction.SubType.shock",
+describe("AFFLICTION_SUBTYPE", () => {
+    // The long-duration / psychological / physiological categories (shock, coma,
+    // fatigue, infection, fear, morale, pall, psychological-condition,
+    // aural-shock) are now TRAUMA subtypes; afflictions keep only these three.
+    it("is limited to OTHER, DISEASE, and POISONTOXIN", () => {
+        expect(Object.keys(AfflictionSubTypeChoices).sort()).toEqual(
+            ["disease", "other", "poisontoxin"].sort(),
         );
-        expect(AfflictionSubTypeChoices["coma"]).toBe(
-            "SOHL.Affliction.SubType.coma",
+    });
+    it("exposes each subtype as a value-keyed choice with an i18n label", () => {
+        expect(AfflictionSubTypeChoices["other"]).toBe(
+            "SOHL.Affliction.SubType.other",
+        );
+        expect(AfflictionSubTypeChoices["disease"]).toBe(
+            "SOHL.Affliction.SubType.disease",
         );
     });
 });
@@ -315,38 +319,9 @@ describe("AfflictionLogic", () => {
     });
 
     describe("levelLabel", () => {
-        // sohl.i18n.localize is identity in tests, so localized labels
-        // surface as their localization keys.
-        it("maps FEAR levels to named severity labels", () => {
-            const logic = makeAffliction({
-                subType: AFFLICTION_SUBTYPE.FEAR,
-                levelBase: 3,
-            });
-            logic.initialize();
-            expect(logic.levelLabel).toBe("SOHL.Affliction.FEAR_LEVEL.AFRAID");
-        });
-
-        it("maps MORALE levels to named severity labels", () => {
-            const logic = makeAffliction({
-                subType: AFFLICTION_SUBTYPE.MORALE,
-                levelBase: 4,
-            });
-            logic.initialize();
-            expect(logic.levelLabel).toBe(
-                "SOHL.Affliction.MORALE_LEVEL.ROUTED",
-            );
-        });
-
-        it("clamps negative effective levels to 0", () => {
-            const logic = makeAffliction({
-                subType: AFFLICTION_SUBTYPE.FEAR,
-                levelBase: -2,
-            });
-            logic.initialize();
-            expect(logic.levelLabel).toBe("SOHL.Affliction.FEAR_LEVEL.NONE");
-        });
-
-        it("returns the numeric level as a string for other subtypes", () => {
+        // The named-severity subtypes (fear, morale) are now traumas — see
+        // Trauma.test.ts. On afflictions, levelLabel is just the numeric level.
+        it("returns the numeric level as a string", () => {
             const logic = makeAffliction({
                 subType: AFFLICTION_SUBTYPE.DISEASE,
                 levelBase: 3,
@@ -355,20 +330,20 @@ describe("AfflictionLogic", () => {
             expect(logic.levelLabel).toBe("3");
         });
 
-        it("falls back to the numeric string for out-of-range FEAR levels", () => {
+        it("clamps negative effective levels to 0", () => {
             const logic = makeAffliction({
-                subType: AFFLICTION_SUBTYPE.FEAR,
-                levelBase: 7,
+                subType: AFFLICTION_SUBTYPE.DISEASE,
+                levelBase: -2,
             });
             logic.initialize();
-            expect(logic.levelLabel).toBe("7");
+            expect(logic.levelLabel).toBe("0");
         });
 
         it("does not throw before initialize() — level not yet seeded (#511)", () => {
-            // A freshly-dropped affliction can be read by the sheet's trauma
-            // context before its logic.initialize() has run, so `level` (a
-            // ValueModifier assigned in initialize) is still undefined. The
-            // getter must degrade to "0" rather than throw and brick the sheet.
+            // A freshly-dropped affliction can be read by the sheet before its
+            // logic.initialize() has run, so `level` (a ValueModifier assigned
+            // in initialize) is still undefined. The getter must degrade to "0"
+            // rather than throw and brick the sheet.
             const logic = makeAffliction({
                 subType: AFFLICTION_SUBTYPE.DISEASE,
                 levelBase: 3,
@@ -380,45 +355,19 @@ describe("AfflictionLogic", () => {
     });
 
     describe("categoryLabel", () => {
+        // The categorized subtypes (fatigue) are now traumas — see
+        // Trauma.test.ts. On afflictions, categoryLabel is the raw category.
         it("returns empty string when category is unset", () => {
             const logic = makeAffliction({ category: "" });
             expect(logic.categoryLabel).toBe("");
         });
 
-        it("maps FATIGUE categories to their localized labels", () => {
-            const logic = makeAffliction({
-                subType: AFFLICTION_SUBTYPE.FATIGUE,
-                category: "weariness",
-            });
-            expect(logic.categoryLabel).toBe(
-                "SOHL.Affliction.FATIGUE_CATEGORY.weariness",
-            );
-        });
-
-        it("maps PRIVATION categories to their localized labels", () => {
-            const logic = makeAffliction({
-                subType: AFFLICTION_SUBTYPE.PRIVATION,
-                category: "cold",
-            });
-            expect(logic.categoryLabel).toBe(
-                "SOHL.Affliction.PRIVATION_CATEGORY.cold",
-            );
-        });
-
-        it("returns the raw category for other subtypes", () => {
+        it("returns the raw category string", () => {
             const logic = makeAffliction({
                 subType: AFFLICTION_SUBTYPE.DISEASE,
                 category: "plague",
             });
             expect(logic.categoryLabel).toBe("plague");
-        });
-
-        it("returns the raw category for an unknown FATIGUE category", () => {
-            const logic = makeAffliction({
-                subType: AFFLICTION_SUBTYPE.FATIGUE,
-                category: "not-a-category",
-            });
-            expect(logic.categoryLabel).toBe("not-a-category");
         });
     });
 

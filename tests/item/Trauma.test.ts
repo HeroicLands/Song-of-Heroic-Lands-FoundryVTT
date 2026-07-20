@@ -6,7 +6,7 @@ import {
     UNTREATED,
 } from "@src/document/item/logic/TraumaLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import { ITEM_KIND } from "@src/utils/constants";
+import { ITEM_KIND, TRAUMA_SUBTYPE } from "@src/utils/constants";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 
@@ -130,6 +130,7 @@ describe("isBleeding — derived from the blood-loss timer (#482)", () => {
 function traumaFields(overrides: Record<string, unknown> = {}) {
     return {
         subType: "physical",
+        category: "",
         levelBase: 2,
         healingRateBase: 4,
         aspect: "blunt",
@@ -326,4 +327,100 @@ describe("TraumaDataModel", () => {
     });
 
     it.todo("has kind set to ITEM_KIND.TRAUMA");
+});
+
+// Relocated from Affliction.test.ts: the named-severity (fear/morale) and
+// categorized (fatigue) condition subtypes are now traumas. sohl.i18n.localize
+// is identity in tests, so localized labels surface as their localization keys.
+describe("TraumaLogic.levelLabel", () => {
+    it("maps FEAR levels to named severity labels", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.FEAR,
+            levelBase: 3,
+        });
+        logic.initialize();
+        expect(logic.levelLabel).toBe("SOHL.Affliction.FEAR_LEVEL.AFRAID");
+    });
+
+    it("maps MORALE levels to named severity labels", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.MORALE,
+            levelBase: 4,
+        });
+        logic.initialize();
+        expect(logic.levelLabel).toBe("SOHL.Affliction.MORALE_LEVEL.ROUTED");
+    });
+
+    it("clamps negative effective levels to 0", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.FEAR,
+            levelBase: -2,
+        });
+        logic.initialize();
+        expect(logic.levelLabel).toBe("SOHL.Affliction.FEAR_LEVEL.NONE");
+    });
+
+    it("returns the numeric level as a string for other subtypes", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.INJURY,
+            levelBase: 3,
+        });
+        logic.initialize();
+        expect(logic.levelLabel).toBe("3");
+    });
+
+    it("falls back to the numeric string for out-of-range FEAR levels", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.FEAR,
+            levelBase: 7,
+        });
+        logic.initialize();
+        expect(logic.levelLabel).toBe("7");
+    });
+
+    it("does not throw before initialize() — level not yet seeded (#511)", () => {
+        // A freshly-dropped trauma can be read by the sheet before its
+        // logic.initialize() has run, so `level` (a ValueModifier assigned in
+        // initialize) is still undefined. The getter must degrade to "0".
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.INJURY,
+            levelBase: 3,
+        });
+        // deliberately NOT calling logic.initialize()
+        expect(() => logic.levelLabel).not.toThrow();
+        expect(logic.levelLabel).toBe("0");
+    });
+});
+
+describe("TraumaLogic.categoryLabel", () => {
+    it("returns empty string when category is unset", () => {
+        const logic = makeTrauma({ category: "" });
+        expect(logic.categoryLabel).toBe("");
+    });
+
+    it("maps FATIGUE categories to their localized labels", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.FATIGUE,
+            category: "weariness",
+        });
+        expect(logic.categoryLabel).toBe(
+            "SOHL.Affliction.FATIGUE_CATEGORY.weariness",
+        );
+    });
+
+    it("returns the raw category for other subtypes", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.INJURY,
+            category: "plague",
+        });
+        expect(logic.categoryLabel).toBe("plague");
+    });
+
+    it("returns the raw category for an unknown FATIGUE category", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.FATIGUE,
+            category: "not-a-category",
+        });
+        expect(logic.categoryLabel).toBe("not-a-category");
+    });
 });

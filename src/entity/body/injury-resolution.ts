@@ -255,7 +255,7 @@ export function resolveInjury(input: InjuryInput): ResolvedInjury {
  */
 export function buildTraumaData(injury: ResolvedInjury): Partial<TraumaData> {
     return {
-        subType: TRAUMA_SUBTYPE.PHYSICAL,
+        subType: TRAUMA_SUBTYPE.INJURY,
         levelBase: injury.level,
         healingRateBase: 0,
         aspect: injury.aspect,

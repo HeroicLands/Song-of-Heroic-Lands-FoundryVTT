@@ -494,7 +494,7 @@ describe("buildTraumaData", () => {
         });
         const data = buildTraumaData(injury);
         expect(data).toMatchObject({
-            subType: TRAUMA_SUBTYPE.PHYSICAL,
+            subType: TRAUMA_SUBTYPE.INJURY,
             levelBase: 5,
             healingRateBase: 0,
             aspect: IMPACT_ASPECT.EDGED,
