@@ -9,10 +9,13 @@ import { BodyStructure } from "@src/entity/body/BodyStructure";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     ACTOR_KIND,
+    FATIGUE_CATEGORY,
     IMPACT_ASPECT,
     ITEM_KIND,
     MOVEMENT_MEDIUM,
+    TRAUMA_SUBTYPE,
 } from "@src/utils/constants";
+import { TraumaLogic } from "@src/document/item/logic/TraumaLogic";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import * as AfflictionContract from "@src/document/actor/logic/affliction-contract";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
@@ -1085,6 +1088,93 @@ describe("BeingLogic", () => {
                 "unconscious",
                 true,
             );
+        });
+    });
+
+    describe("fatiguePenalty (#552)", () => {
+        let traumaSeq = 0;
+        /** Embed an initialized trauma with a unique id so instances coexist. */
+        function addTrauma(being: any, fields: Record<string, unknown>) {
+            const id = `trauma${String(traumaSeq++).padStart(9, "0")}`;
+            const t = makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                {
+                    category: "",
+                    healingRateBase: null,
+                    aspect: IMPACT_ASPECT.BLUNT,
+                    treatmentDate: null,
+                    bodyLocationCode: "",
+                    ...fields,
+                },
+                { actor: being.actor, id },
+            );
+            t.initialize();
+            return t;
+        }
+
+        /** Embed an initialized fatigue trauma of the given category/level. */
+        function addFatigue(being: any, category: string, levelBase: number) {
+            return addTrauma(being, {
+                subType: TRAUMA_SUBTYPE.FATIGUE,
+                category,
+                levelBase,
+            });
+        }
+
+        /** Embed an initialized injury (non-fatigue) trauma. */
+        function addInjury(being: any, levelBase: number) {
+            return addTrauma(being, {
+                subType: TRAUMA_SUBTYPE.INJURY,
+                levelBase,
+                healingRateBase: 0,
+            });
+        }
+
+        it("is a ValueModifier after initialize", () => {
+            const being = makeBeing();
+            being.initialize();
+            expect(being.fatiguePenalty).toBeInstanceOf(ValueModifier);
+        });
+
+        it("is 0 with no fatigue traumas", () => {
+            const being = makeBeing();
+            being.initialize();
+            being.evaluate();
+            being.finalize();
+            expect(being.fatiguePenalty.effective).toBe(0);
+        });
+
+        it("sums Fatigue Levels across every fatigue instance", () => {
+            const being = makeBeing();
+            addFatigue(being, FATIGUE_CATEGORY.WINDEDNESS, 5);
+            addFatigue(being, FATIGUE_CATEGORY.WEARINESS, 10);
+            addFatigue(being, FATIGUE_CATEGORY.WEAKNESS, 3);
+            being.initialize();
+            being.evaluate();
+            being.finalize();
+            expect(being.fatiguePenalty.effective).toBe(18);
+        });
+
+        it("ignores non-fatigue traumas (injuries)", () => {
+            const being = makeBeing();
+            addFatigue(being, FATIGUE_CATEGORY.WEARINESS, 4);
+            addInjury(being, 5);
+            being.initialize();
+            being.evaluate();
+            being.finalize();
+            expect(being.fatiguePenalty.effective).toBe(4);
+        });
+
+        it("rebuilds each prepare cycle", () => {
+            const being = makeBeing();
+            addFatigue(being, FATIGUE_CATEGORY.WINDEDNESS, 5);
+            being.initialize();
+            being.evaluate();
+            being.finalize();
+            expect(being.fatiguePenalty.effective).toBe(5);
+            being.initialize();
+            expect(being.fatiguePenalty.effective).toBe(0);
         });
     });
 

@@ -80,6 +80,7 @@ import {
     ITEM_KIND,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    TRAUMA_SUBTYPE,
 } from "@src/utils/constants";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import {
@@ -208,6 +209,16 @@ export class BeingLogic<
      * The being's pull score, determining whether it can draw certain bow weapons.
      */
     pull!: ValueModifier;
+
+    /**
+     * The being's **Fatigue Penalty** as a {@link sohl.entity.modifier.ValueModifier}
+     * — the total Fatigue Levels across every `fatigue`-subtype
+     * {@link sohl.document.item.logic.TraumaLogic | trauma} (windedness /
+     * weariness / weakness are recorded as separate instances because each
+     * recovers at its own rate). It penalizes all tests and Move rate. Seeded in
+     * {@link finalize} once traumas are prepared; there is no persisted field.
+     */
+    fatiguePenalty!: ValueModifier;
 
     /**
      * Running total of carried-gear weight (pounds) as a {@link sohl.entity.modifier.ValueModifier},
@@ -836,6 +847,9 @@ export class BeingLogic<
         // (attribute scores aren't prepared yet during the actor's initialize),
         // leaving it open to trait/treatment deltas in between.
         this.healingBase = new entity.ValueModifier(this);
+        // An empty modifier now; its base is summed from the fatigue traumas in
+        // finalize() (once the trauma items have prepared their levels).
+        this.fatiguePenalty = new entity.ValueModifier(this);
         // Build the being's body directly from system.body — no embedded item,
         // no cross-document registration, no lifecycle-ordering hazard.
         this.body = new BodyLogic(this);
@@ -929,6 +943,25 @@ export class BeingLogic<
         // is not an error and is deliberately not warned about.
 
         this.deriveHealthState();
+        this.deriveFatiguePenalty();
+    }
+
+    /**
+     * Seed {@link fatiguePenalty} with the total Fatigue Levels across every
+     * `fatigue`-subtype trauma. Runs in {@link finalize}, after the trauma items
+     * have prepared their levels. Each fatigue instance (windedness / weariness /
+     * weakness) is a separate trauma; their levels sum into the one penalty.
+     */
+    private deriveFatiguePenalty(): void {
+        let total = 0;
+        for (const trauma of this.logicTypes[
+            ITEM_KIND.TRAUMA
+        ] as TraumaLogic[]) {
+            if (trauma.data.subType === TRAUMA_SUBTYPE.FATIGUE) {
+                total += Math.max(0, trauma.level?.effective ?? 0);
+            }
+        }
+        this.fatiguePenalty.setBase(total);
     }
 
     /**
