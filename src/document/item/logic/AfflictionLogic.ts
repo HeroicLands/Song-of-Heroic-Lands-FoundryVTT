@@ -899,7 +899,7 @@ export interface AfflictionData<
     onsetMacroUuid: string;
     /**
      * The authored outcome applied at resolution when the affliction was not
-     * defeated: {@link sohl.utils.constants.AFFLICTION_OUTCOME | DEATH or CURED}.
+     * defeated — an `AFFLICTION_OUTCOME` value (`DEATH` or `CURED`).
      */
     outcome: AfflictionOutcome;
     /**
