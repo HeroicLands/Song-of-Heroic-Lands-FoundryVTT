@@ -123,6 +123,34 @@ const { affliction, actor } = scope;
 Like every SoHL author hook, the affliction stores only the Macro **UUID**, never
 executable code; `Macro#execute` enforces the runner's permissions.
 
+## Recipe 5: Author an affliction's resolution outcome
+
+When an affliction reaches the end of its symptomatic period **without being
+defeated**, it applies its authored **outcome**. Set it with two fields:
+
+- **`system.outcome`** — `AFFLICTION_OUTCOME.DEATH` (the host's state becomes
+  _dead_) or `AFFLICTION_OUTCOME.CURED` (the affliction is defeated — its Healing
+  Rate becomes 6). Defaults to `cured`.
+- **`system.outcomeTrauma`** _(optional)_ — a **Safe Expression** whose result is a
+  trauma **shortcode**, or an array of shortcodes, the host contracts as part of
+  the outcome. Matching traumas are resolved world-items-first, then compendiums.
+
+The two combine. For a disease that leaves survivors permanently weakened:
+
+```js
+await affliction.update({
+    system: {
+        outcome: "cured", // survives…
+        outcomeTrauma: "'weakness20'", // …but contracts the `weakness20` trauma
+    },
+});
+```
+
+`outcomeTrauma` is a Safe Expression, so it can branch — e.g.
+`"level >= 4 ? 'weakness20' : 'weakness10'"` — evaluated against the affliction's
+bindings. It carries only shortcode **references** to trauma templates, never item
+data.
+
 ## Tradeoffs summary
 
 - **Action item**

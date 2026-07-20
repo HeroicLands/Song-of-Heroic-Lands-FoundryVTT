@@ -272,6 +272,8 @@
     "SOHL.Affliction.PRIVATION_CATEGORY.dehydration": "Dehydration",
     "SOHL.Affliction.PRIVATION_CATEGORY.heat": "Heat",
     "SOHL.Affliction.PRIVATION_CATEGORY.starvation": "Starvation",
+    "SOHL.Affliction.Outcome.cured": "Cured",
+    "SOHL.Affliction.Outcome.death": "Death",
     "SOHL.Affliction.SubType.disease": "Disease",
     "SOHL.Affliction.SubType.other": "Other",
     "SOHL.Affliction.SubType.poisontoxin": "Poison/Toxin",

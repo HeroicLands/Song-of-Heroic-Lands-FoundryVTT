@@ -50,6 +50,9 @@ function afflictionFields(overrides: Record<string, unknown> = {}) {
         healingRateBase: 4,
         contagionIndexBase: 3,
         transmission: AFFLICTION_TRANSMISSION.CONTACT,
+        onsetMacroUuid: "",
+        outcome: "cured",
+        outcomeTrauma: "",
         ...overrides,
     };
 }
@@ -756,5 +759,122 @@ describe("Course Test + Reaction effect (#489)", () => {
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.healingRateBase": 3 }),
         );
+    });
+});
+
+describe("resolution outcome effect (#490)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    function resolvingAffliction(overrides: Record<string, unknown> = {}) {
+        const actor = makeMockActor();
+        (actor.logic as any).setShockState = vi
+            .fn()
+            .mockResolvedValue(undefined);
+        const logic = makeAffliction(
+            {
+                onsetDate: 2000,
+                resolutionDate: null,
+                healingRateBase: 3,
+                ...overrides,
+            },
+            { actor },
+        );
+        (logic.item as any).uuid = "Item.affliction0";
+        logic.initialize();
+        return { logic, actor };
+    }
+
+    it("DEATH sets the being's shock state to Dead", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(9000);
+        const { logic, actor } = resolvingAffliction({ outcome: "death" });
+        await logic.resolutionCheck({} as any);
+        expect((actor.logic as any).setShockState).toHaveBeenCalledWith(4);
+    });
+
+    it("CURED sets Healing Rate to 6", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(9000);
+        const { logic } = resolvingAffliction({ outcome: "cured" });
+        await logic.resolutionCheck({} as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.healingRateBase": 6 }),
+        );
+    });
+
+    it("does not apply the outcome when the affliction was defeated (HR 6+)", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(9000);
+        const { logic, actor } = resolvingAffliction({
+            outcome: "death",
+            healingRateBase: 6,
+        });
+        await logic.resolutionCheck({} as any);
+        expect((actor.logic as any).setShockState).not.toHaveBeenCalled();
+    });
+
+    it("contracts the outcome trauma, combining with the outcome", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(9000);
+        vi.spyOn(
+            FoundryHelpersMock,
+            "fvttFindItemByShortcode",
+        ).mockResolvedValue({
+            type: "trauma",
+            name: "Weakness",
+            system: { shortcode: "weakness20" },
+        });
+        const create = vi
+            .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+            .mockResolvedValue([]);
+        const { logic } = resolvingAffliction({
+            outcome: "cured",
+            outcomeTrauma: "'weakness20'",
+        });
+        await logic.resolutionCheck({} as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.healingRateBase": 6 }),
+        );
+        expect(create).toHaveBeenCalledWith(logic.actorLogic, [
+            expect.objectContaining({
+                system: expect.objectContaining({ shortcode: "weakness20" }),
+            }),
+        ]);
+    });
+
+    it("resolves an array of outcome trauma shortcodes", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(9000);
+        const find = vi
+            .spyOn(FoundryHelpersMock, "fvttFindItemByShortcode")
+            .mockImplementation(async (code: string) => ({
+                type: "trauma",
+                name: code,
+                system: { shortcode: code },
+            }));
+        const create = vi
+            .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+            .mockResolvedValue([]);
+        const { logic } = resolvingAffliction({
+            outcome: "cured",
+            outcomeTrauma: "['a', 'b']",
+        });
+        await logic.resolutionCheck({} as any);
+        expect(find).toHaveBeenCalledTimes(2);
+        expect((create.mock.calls[0][1] as any[]).length).toBe(2);
+    });
+
+    it("warns and creates nothing when an outcome trauma is not found", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(9000);
+        vi.spyOn(
+            FoundryHelpersMock,
+            "fvttFindItemByShortcode",
+        ).mockResolvedValue(undefined);
+        const create = vi
+            .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+            .mockResolvedValue([]);
+        const warn = vi.spyOn(sohl.log, "warn");
+        const { logic } = resolvingAffliction({
+            outcome: "cured",
+            outcomeTrauma: "'nope'",
+        });
+        await logic.resolutionCheck({} as any);
+        expect(warn).toHaveBeenCalled();
+        expect(create).not.toHaveBeenCalled();
     });
 });

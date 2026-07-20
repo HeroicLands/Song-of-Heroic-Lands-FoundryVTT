@@ -13,7 +13,13 @@
 
 import { entity } from "@src/entity/registry";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
-import { fvttWorldTime, fvttExecuteMacro } from "@src/core/FoundryHelpers";
+import {
+    fvttWorldTime,
+    fvttExecuteMacro,
+    fvttCreateEmbeddedItems,
+    fvttFindItemByShortcode,
+} from "@src/core/FoundryHelpers";
+import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { deriveNext, elapsedCheckpoints } from "@src/entity/event/scheduling";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -21,7 +27,9 @@ import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
     ACTION_SUBTYPE,
+    AFFLICTION_OUTCOME,
     AFFLICTION_TRANSMISSION,
+    AfflictionOutcome,
     AfflictionSubType,
     AfflictionTransmission,
     ATTRIBUTE_CODE,
@@ -797,13 +805,67 @@ export class AfflictionLogic<
      *
      * @param _context - The action context (its `scope` is the trigger context).
      * @returns A promise that resolves once the resolution is persisted.
-     * @remarks The resolution **effect** (death / disability / cure) is not yet
-     *   implemented; see issue #490.
+     * @remarks Crystallizes `resolutionDate` and, when the affliction was **not**
+     *   defeated (Healing Rate below 6), applies its authored **outcome** (#490):
+     *   `DEATH` sets the being's shock state to Dead; `CURED` sets Healing Rate to
+     *   6. Either combines with an optional `outcomeTrauma`
+     *   {@link sohl.entity.expr.SafeExpression} whose result — a trauma shortcode
+     *   or array of them — is contracted as new trauma(s) (searched world-first,
+     *   then compendiums).
      */
     async resolutionCheck(_context: SohlActionContext): Promise<void> {
         await this.item.update({
             "system.resolutionDate": fvttWorldTime(),
         } as PlainObject);
+        // The outcome applies only if the affliction reached resolution without
+        // being defeated (HR 6+).
+        if ((this.data.healingRateBase ?? 0) >= 6) return;
+        await this.applyOutcome();
+    }
+
+    /**
+     * Apply the affliction's authored outcome and optional outcome trauma(s).
+     * @returns A promise that resolves once the outcome is applied.
+     */
+    private async applyOutcome(): Promise<void> {
+        if (this.data.outcome === AFFLICTION_OUTCOME.DEATH) {
+            await (this.actorLogic as any)?.setShockState?.(SHOCK_STATE.DEAD);
+        } else if (this.data.outcome === AFFLICTION_OUTCOME.CURED) {
+            await this.item.update({
+                "system.healingRateBase": 6,
+            } as PlainObject);
+        }
+        if (this.data.outcomeTrauma) {
+            await this.contractOutcomeTraumas();
+        }
+    }
+
+    /**
+     * Evaluate the `outcomeTrauma` SafeExpression to a shortcode (or array of
+     * shortcodes), resolve each to a trauma template (world items first, then
+     * compendiums), and create the matches on the host.
+     * @returns A promise that resolves once any outcome traumas are created.
+     */
+    private async contractOutcomeTraumas(): Promise<void> {
+        const value = new SafeExpression(
+            { source: this.data.outcomeTrauma },
+            { parent: this },
+        ).evaluate({});
+        const shortcodes = (Array.isArray(value) ? value : [value])
+            .map((v) => String(v))
+            .filter(Boolean);
+        const created: PlainObject[] = [];
+        for (const code of shortcodes) {
+            const data = await fvttFindItemByShortcode(code);
+            if (data) created.push(data);
+            else
+                sohl.log.warn(
+                    `Affliction outcomeTrauma: no item found with shortcode "${code}"`,
+                );
+        }
+        if (created.length) {
+            await fvttCreateEmbeddedItems(this.actorLogic, created);
+        }
     }
 }
 
@@ -835,6 +897,17 @@ export interface AfflictionData<
      * events. Blank means no onset macro.
      */
     onsetMacroUuid: string;
+    /**
+     * The authored outcome applied at resolution when the affliction was not
+     * defeated: {@link sohl.utils.constants.AFFLICTION_OUTCOME | DEATH or CURED}.
+     */
+    outcome: AfflictionOutcome;
+    /**
+     * Optional {@link sohl.entity.expr.SafeExpression} source evaluating to a
+     * trauma shortcode — or an array of shortcodes — the host contracts as part
+     * of the outcome. Blank means none; combines with {@link outcome}.
+     */
+    outcomeTrauma: string;
     /** Formula rolled to seed the incubation (contract → onset) interval. */
     onsetDurationFormula: string;
     /** Rolled seconds of incubation; `null` until rolled. */

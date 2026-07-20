@@ -22,7 +22,10 @@ import {
     AfflictionData,
 } from "@src/document/item/logic/AfflictionLogic";
 import {
+    AFFLICTION_OUTCOME,
     AFFLICTION_TRANSMISSION,
+    AfflictionOutcome,
+    AfflictionOutcomeChoices,
     AfflictionSubType,
     AfflictionSubTypes,
     AfflictionTransmission,
@@ -79,6 +82,16 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         // symptomatic at onset. A reference, never source — see the security
         // model. May schedule further events. Blank means no onset macro.
         onsetMacroUuid: new StringField({ initial: "" }),
+        // The authored outcome applied at resolution if the affliction was not
+        // defeated (#490): DEATH or CURED (defaults to the benign CURED).
+        outcome: new StringField({
+            initial: AFFLICTION_OUTCOME.CURED,
+            choices: AfflictionOutcomeChoices,
+        }),
+        // Optional SafeExpression source evaluating to a trauma shortcode — or an
+        // array of them — the host contracts as part of the outcome. Blank means
+        // none. Combines with `outcome`.
+        outcomeTrauma: new StringField({ initial: "" }),
         ...phaseFields("onset"),
         ...recurringPhaseFields("healingCheck"),
         ...phaseFields("resolution"),
@@ -109,6 +122,8 @@ export class AfflictionDataModel<
     contractDate!: number | null;
     treatmentDate!: number | null;
     onsetMacroUuid!: string;
+    outcome!: AfflictionOutcome;
+    outcomeTrauma!: string;
     onsetDurationFormula!: string;
     onsetDurationBase!: number | null;
     onsetDate!: number | null;

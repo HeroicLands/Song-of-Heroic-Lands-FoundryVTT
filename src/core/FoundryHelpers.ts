@@ -382,6 +382,35 @@ export async function fvttToggleActorStatus(
 }
 
 /**
+ * Find an Item by its system `shortcode`, searching the **world** items first
+ * and then the Item **compendiums**, and return its create-data (`toObject()`)
+ * ready to be created as an embedded item — or `undefined` if none matches.
+ *
+ * Lets the logic layer resolve a template item referenced only by shortcode (e.g.
+ * an affliction's `outcomeTrauma`) without reaching into `game.items` /
+ * `game.packs` directly.
+ *
+ * @param shortcode - The `system.shortcode` to match.
+ * @returns The matching item's create-data, or `undefined`.
+ */
+export async function fvttFindItemByShortcode(
+    shortcode: string,
+): Promise<PlainObject | undefined> {
+    if (!shortcode) return undefined;
+    const worldItem = (game as any).items?.find(
+        (i: any) => i.system?.shortcode === shortcode,
+    );
+    if (worldItem) return worldItem.toObject();
+    for (const pack of ((game as any).packs ?? []) as Iterable<any>) {
+        if (pack.documentName !== "Item") continue;
+        const docs = await pack.getDocuments();
+        const match = docs.find((d: any) => d.system?.shortcode === shortcode);
+        if (match) return match.toObject();
+    }
+    return undefined;
+}
+
+/**
  * Get a scene by ID from the world collection.
  * @param id - The scene document ID.
  * @returns The scene, or `undefined` if not found.

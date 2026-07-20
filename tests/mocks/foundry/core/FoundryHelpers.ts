@@ -311,6 +311,12 @@ export async function fvttToggleActorStatus(
     _active: boolean,
 ): Promise<void> {}
 
+export async function fvttFindItemByShortcode(
+    _shortcode: string,
+): Promise<any> {
+    return undefined;
+}
+
 export function fvttActiveTokenLogicForActor(_actor: any): any {
     return undefined;
 }
