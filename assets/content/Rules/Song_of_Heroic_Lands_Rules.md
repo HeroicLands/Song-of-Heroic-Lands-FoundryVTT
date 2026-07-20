@@ -45,6 +45,7 @@ TBD
 
 ## Health, Injury & Recovery
 
+- [[Trauma|Trauma]] — injuries to body, mind, psyche, or spirit; the Injury Healing Test and how infection halts it.
 - [[Healing_Roll|Healing Roll]] — periodic recovery from injuries and restoration of lost blood.
 - [[Bleeding|Bleeding]] — life-threatening blood loss: the Blood Loss Advance Test, Shock State, and staunching bleeding with the Blood Stoppage Test.
-- [[Afflictions|Afflictions]] — diseases, poisons, and other afflictions: incubation, the Course Test, reactions, and outcomes.
+- [[Afflictions|Afflictions]] — diseases, poisons, and other afflictions: incubation, the Course Test, reactions, outcomes, and infections.

@@ -76,8 +76,8 @@ determines the host's reaction:
 When the Symptomatic Period ends, if the affliction has **not** been defeated
 (has not reached HR 6), its outcome occurs. This varies widely by affliction —
 the specifics are given in each affliction's description — and may be death, new
-[traits](../Traits) or [traumas (injuries)](../User_Guide/Afflictions_Injuries.md),
-or the affliction simply clearing up. The two standard outcomes are:
+[traits](../Traits) or [traumas (injuries)](Trauma.md), or the affliction simply
+clearing up. The two standard outcomes are:
 
 - **Death** — the character's state becomes _dead_.
 - **Cured** — the affliction's Healing Rate becomes 6 (defeated).
@@ -94,6 +94,26 @@ Matching traits and traumas are searched first among the world's items, then in
 the compendiums; the first match found is used. **All** of these outcomes apply
 only if the affliction reaches the end of the Symptomatic Period without being
 healed.
+
+## Infection
+
+An **infection** is a specific form of affliction, contracted when an injury's
+[Injury Healing Test](Trauma.md#injury-healing-test) critically fails. Its
+Healing Rate starts one step higher than the infected injury's — the injury's
+Healing Rate + 1.
+
+Instead of the normal affliction [reaction](#reaction), an infection uses this
+table:
+
+| Healing Rate | Reaction            |
+| ------------ | ------------------- |
+| HR 1–2       | 10 weakness fatigue |
+| HR 3–4       | 5 weakness fatigue  |
+| HR 5+        | None                |
+
+While a character carries **any** active infection, all of their
+[Injury Healing Tests](Trauma.md#injury-healing-test) are suspended until every
+infection has been defeated.
 
 ## See also
 
