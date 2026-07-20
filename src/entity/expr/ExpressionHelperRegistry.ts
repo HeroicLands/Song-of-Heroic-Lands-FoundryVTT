@@ -13,6 +13,8 @@
 
 import { textToFunction } from "@src/utils/helpers";
 import { SafeExpressionError } from "./SafeExpressionError";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
 
 /** A helper function callable from an expression; receives evaluated args. */
 export type ExpressionHelper = (...args: unknown[]) => unknown;
@@ -78,8 +80,22 @@ function collectionSize(value: unknown): number {
 }
 
 /**
- * The built-in helper library — pure, null-tolerant utility functions for
- * collection membership, string and numeric operations, and type checks.
+ * Helper names that receive the evaluating {@link SafeExpression}'s owning
+ * `parent` Logic as an injected **first argument**. `SafeExpression` prepends
+ * `this.parent` for these before calling the helper, so an expression author
+ * still calls them with only their documented arguments (e.g. `roll(formula)`).
+ *
+ * Used by helpers that must construct a parent-owned domain object (a
+ * {@link SimpleRoll} needs an owning Logic). Kept here, beside the helpers, so
+ * the registry declares which of its helpers need the parent and
+ * `SafeExpression` merely honors it.
+ */
+export const PARENT_BOUND_HELPERS: ReadonlySet<string> = new Set(["roll"]);
+
+/**
+ * The built-in helper library — null-tolerant utility functions for collection
+ * membership, string and numeric operations, and type checks. Most are pure;
+ * the stochastic `rand` and `roll` helpers are the deliberate exceptions.
  *
  * Helpers are the only callable values in the expression language. These
  * built-ins are always present in the {@link expressionHelpers} registry;
@@ -446,6 +462,50 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
      */
     abs(value: unknown): number {
         return Math.abs(value as number);
+    },
+
+    /**
+     * A random number in the range `[0, 1)` (like `Math.random`).
+     *
+     * Stochastic — unlike the other built-ins, successive calls differ. Combine
+     * with `floor`/`ceil`/`min`/`max` to derive integers or ranges, e.g.
+     * `floor(rand() * 6) + 1` for a d6.
+     * @returns A pseudo-random number, `0 <= n < 1`.
+     */
+    rand(): number {
+        return Math.random();
+    },
+
+    /**
+     * Roll a dice formula and return its result as a plain object.
+     *
+     * Parses `formula` into a {@link SimpleRoll} (owned by the evaluating
+     * expression's `parent` Logic), rolls it, and returns the roll's
+     * {@link SimpleRoll.toJSON} augmented with its computed `formula`, `result`,
+     * `total`, and `median`. Only this plain object is returned — the live
+     * `SimpleRoll` (and thus the parent) never escapes the expression sandbox.
+     *
+     * Stochastic. The `parent` argument is **injected by `SafeExpression`** (see
+     * {@link PARENT_BOUND_HELPERS}); an expression author calls `roll(formula)`.
+     * @param parent - The owning Logic, injected by `SafeExpression`.
+     * @param formula - A dice formula string (e.g. `"2d6+3"`, `"1d100"`).
+     * @returns The rolled `SimpleRoll` as a plain object, with `formula`,
+     *   `result`, `total`, and `median` added.
+     * @throws {Error} If `formula` is not a valid `NdM+K` dice formula.
+     */
+    roll(parent: unknown, formula: unknown): PlainObject {
+        const simpleRoll = SimpleRoll.fromFormula(
+            String(formula),
+            parent as SohlLogic<any>,
+        );
+        simpleRoll.roll();
+        return {
+            ...simpleRoll.toJSON(),
+            formula: simpleRoll.formula,
+            result: simpleRoll.result,
+            total: simpleRoll.total,
+            median: simpleRoll.median,
+        };
     },
 
     /**

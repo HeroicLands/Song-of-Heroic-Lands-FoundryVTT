@@ -14,7 +14,10 @@
 import jsep from "jsep";
 import { registerKind } from "@src/utils/kindRegistry";
 import { SohlEntity } from "../SohlEntity";
-import { expressionHelpers } from "./ExpressionHelperRegistry";
+import {
+    expressionHelpers,
+    PARENT_BOUND_HELPERS,
+} from "./ExpressionHelperRegistry";
 import { SafeExpressionError, errorMessage } from "./SafeExpressionError";
 
 // Re-exported so callers can import the error type alongside the class.
@@ -546,6 +549,13 @@ export class SafeExpression extends SohlEntity {
             throw new SafeExpressionError(`Unknown helper: ${name}`);
         }
         const args = node.arguments.map((arg) => this.evalNode(arg, context));
+        // Parent-bound helpers (e.g. `roll`) need the owning Logic to build
+        // parent-owned domain objects; it is injected as their first argument,
+        // so the author still calls them with only their own arguments. The
+        // parent is used internally and never returned (only plain results are).
+        if (PARENT_BOUND_HELPERS.has(name)) {
+            args.unshift(this.parent);
+        }
         try {
             return helper(...args);
         } catch (err) {

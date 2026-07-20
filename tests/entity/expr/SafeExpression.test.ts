@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import {
     SafeExpression,
     SafeExpressionError,
@@ -250,6 +250,90 @@ describe("SafeExpression", () => {
             expect(run("defined(1)")).toBe(true);
             expect(run("defined(n)", { n: null })).toBe(false);
             expect(run("defined(o.missing)", { o: {} })).toBe(false);
+        });
+    });
+
+    describe("stochastic helpers: rand and roll (#540)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        it("accepts rand() and roll() as built-in helpers (validation)", () => {
+            expect(compile("rand()")).not.toThrow();
+            expect(compile("roll('1d6')")).not.toThrow();
+        });
+
+        describe("rand()", () => {
+            it("returns a number in [0, 1)", () => {
+                for (let i = 0; i < 100; i++) {
+                    const r = run("rand()") as number;
+                    expect(typeof r).toBe("number");
+                    expect(r).toBeGreaterThanOrEqual(0);
+                    expect(r).toBeLessThan(1);
+                }
+            });
+
+            it("delegates to Math.random", () => {
+                vi.spyOn(Math, "random").mockReturnValue(0.42);
+                expect(run("rand()")).toBe(0.42);
+            });
+
+            it("composes with other helpers and operators", () => {
+                vi.spyOn(Math, "random").mockReturnValue(0.5);
+                // floor(0.5 * 6) + 1 = floor(3) + 1 = 4
+                expect(run("floor(rand() * 6) + 1")).toBe(4);
+            });
+        });
+
+        describe("roll(formula)", () => {
+            it("rolls and returns the SimpleRoll JSON plus formula/result/total/median", () => {
+                // Each d6 -> ceil(0.5 * 6) = 3.
+                vi.spyOn(Math, "random").mockReturnValue(0.5);
+                const r = run("roll('2d6')") as Record<string, unknown>;
+                expect(r).toMatchObject({
+                    numDice: 2,
+                    dieFaces: 6,
+                    modifier: 0,
+                    rolls: [3, 3],
+                    formula: "2d6",
+                    result: "[3, 3]",
+                    total: 6,
+                    median: 7,
+                });
+                // It is the toJSON of a SimpleRoll (carries the kind tag)…
+                expect(r.__kind).toBe("SimpleRoll");
+                // …a plain object, not a live SimpleRoll (no methods leak out).
+                expect(typeof (r as Record<string, unknown>).roll).toBe(
+                    "undefined",
+                );
+            });
+
+            it("applies a flat modifier", () => {
+                // d100 -> ceil(0.5 * 100) = 50.
+                vi.spyOn(Math, "random").mockReturnValue(0.5);
+                const r = run("roll('1d100+5')") as Record<string, unknown>;
+                expect(r).toMatchObject({
+                    numDice: 1,
+                    dieFaces: 100,
+                    modifier: 5,
+                    rolls: [50],
+                    formula: "1d100+5",
+                    total: 55,
+                    // 1d100 expected value 50.5 (not rounded) + 5 modifier.
+                    median: 55.5,
+                });
+            });
+
+            it("exposes result properties for further computation", () => {
+                vi.spyOn(Math, "random").mockReturnValue(0.5);
+                expect(run("roll('2d6').total")).toBe(6);
+                // 6 (total) >= 7 (median) -> false
+                expect(run("roll('2d6').total >= roll('2d6').median")).toBe(
+                    false,
+                );
+            });
+
+            it("wraps an invalid formula as a SafeExpressionError", () => {
+                expect(() => run("roll('xyz')")).toThrow(SafeExpressionError);
+            });
         });
     });
 
