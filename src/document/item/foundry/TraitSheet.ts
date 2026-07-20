@@ -46,8 +46,6 @@ export class TraitSheet extends SohlItemSheetBase {
             improveFlag: system.improveFlag,
             subType: system.subType,
             textValue: system.textValue,
-            max: system.max,
-            isNumeric: system.isNumeric,
             intensity: system.intensity,
             valueDesc: system.valueDesc,
             choices: system.choices,

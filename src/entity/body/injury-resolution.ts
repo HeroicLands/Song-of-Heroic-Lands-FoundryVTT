@@ -259,7 +259,9 @@ export function buildTraumaData(injury: ResolvedInjury): Partial<TraumaData> {
         levelBase: injury.level,
         healingRateBase: 0,
         aspect: injury.aspect,
-        isBleeding: injury.isBleeder,
+        // A bleeder is marked by a non-null blood-loss timer (#482); the
+        // real interval is seeded from world settings in TraumaDataModel._preCreate.
+        bloodLossAdvanceDurationBase: injury.isBleeder ? 0 : null,
         bodyLocationCode: injury.location.shortcode,
     };
 }

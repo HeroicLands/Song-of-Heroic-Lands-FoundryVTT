@@ -13,7 +13,11 @@
 
 import { entity } from "@src/entity/registry";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import { TraitIntensity, TraitSubType } from "@src/utils/constants";
+import {
+    TRAIT_SUBTYPE,
+    TraitIntensity,
+    TraitSubType,
+} from "@src/utils/constants";
 import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
 
 /**
@@ -92,10 +96,12 @@ export class TraitLogic<
     override initialize(): void {
         super.initialize();
         this.score = new entity.ValueModifier(this);
-        if (this.data.isNumeric) {
+        if (this.data.subType === TRAIT_SUBTYPE.MEASURED) {
             this.score.setBase(this.data.score?.value ?? 0);
         } else {
-            this.score.setDisabled("This trait doesn't use a numeric score");
+            this.score.setDisabled(
+                "Only a measured trait uses a numeric score",
+            );
         }
     }
 
@@ -121,7 +127,6 @@ export interface TraitData<
     /** Descriptive value for non-numeric traits */
     textValue: string;
     /** Whether this trait uses numeric rather than text values */
-    isNumeric: boolean;
     /** Numeric value for this trait, or null if not applicable */
     score?: {
         /** The trait's numeric value. */

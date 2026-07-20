@@ -498,8 +498,23 @@ describe("buildTraumaData", () => {
             levelBase: 5,
             healingRateBase: 0,
             aspect: IMPACT_ASPECT.EDGED,
-            isBleeding: true,
+            // Bleeding is derived (#482): a bleeder is marked by a non-null
+            // blood-loss timer placeholder (seeded to its real interval in
+            // TraumaDataModel._preCreate).
+            bloodLossAdvanceDurationBase: 0,
             bodyLocationCode: "neck",
         });
+    });
+
+    it("marks a non-bleeder with a null blood-loss timer (#482)", () => {
+        const body = makeBody();
+        const injury = resolveInjury({
+            impact: 3,
+            aspect: IMPACT_ASPECT.BLUNT,
+            body,
+            location: loc(body, "neck"),
+        });
+        expect(injury.isBleeder).toBe(false);
+        expect(buildTraumaData(injury).bloodLossAdvanceDurationBase).toBe(null);
     });
 });

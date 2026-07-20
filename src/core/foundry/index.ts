@@ -20,4 +20,5 @@ export * from "./SohlLocalize";
 export * from "./SohlLogger";
 export * from "./URLField";
 export * from "./migration";
+export * from "./sheet-actions";
 export * from "./sohl-config";

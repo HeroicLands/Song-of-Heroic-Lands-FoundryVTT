@@ -44,7 +44,6 @@ function defineTraitSchema(): foundry.data.fields.DataSchema {
             required: true,
             choices: TraitSubTypeChoices,
         }),
-        isNumeric: new BooleanField({ initial: false }),
         textValue: new StringField({ initial: "" }),
         score: new SchemaField(
             {
@@ -98,7 +97,6 @@ export class TraitDataModel<
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.TRAIT;
     subType!: TraitSubType;
-    isNumeric!: boolean;
     textValue!: string;
     score?: {
         value: number;

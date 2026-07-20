@@ -103,7 +103,7 @@ jobs:
             # packaged manifest + zip that Foundry installs from.
             - name: Create GitHub Release
               if: steps.decide.outputs.release == 'true'
-              uses: softprops/action-gh-release@v1
+              uses: softprops/action-gh-release@v2
               with:
                   tag_name: ${{ steps.decide.outputs.tag }}
                   name: Release ${{ steps.decide.outputs.tag }}

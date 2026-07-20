@@ -15,7 +15,17 @@ import { SohlItem } from "./SohlItem";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import { SohlDataModel } from "@src/core/foundry/SohlDataModel";
 import { openDatePickerDialog } from "@src/apps/foundry/date-picker-dialog";
+import {
+    createAction,
+    editAction,
+    deleteAction,
+    runAction,
+} from "@src/core/foundry/sheet-actions";
 import { fvttCallHook } from "@src/core/FoundryHelpers";
+import {
+    ACTION_SUBTYPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@src/utils/constants";
 import {
     localizeSubType,
     keyTransferredEffects,
@@ -107,8 +117,68 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         actions: {
             clearField: SohlItemSheetBase._onClearField,
             pickDate: SohlItemSheetBase._onPickDate,
+            createAction: SohlItemSheetBase._onCreateAction,
+            editAction: SohlItemSheetBase._onEditAction,
+            deleteAction: SohlItemSheetBase._onDeleteAction,
+            runAction: SohlItemSheetBase._onRunAction,
         },
     };
+
+    /**
+     * `data-action="createAction"`: author a new custom (SCRIPT) action on this
+     * item, delegating to the shared {@link createAction} sheet helper.
+     * @param _event - The triggering pointer event (unused).
+     * @param _target - The clicked create control (unused).
+     */
+    protected static async _onCreateAction(
+        this: SohlItemSheetBase,
+        _event: PointerEvent,
+        _target: HTMLElement,
+    ): Promise<void> {
+        await createAction(this.document);
+    }
+
+    /**
+     * `data-action="editAction"`: open the clicked action's bound Macro sheet,
+     * delegating to the shared {@link editAction} sheet helper.
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control inside a `data-action-name` row.
+     */
+    protected static async _onEditAction(
+        this: SohlItemSheetBase,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        await editAction(this.document, target);
+    }
+
+    /**
+     * `data-action="deleteAction"`: remove the clicked custom action from this
+     * item, delegating to the shared {@link deleteAction} sheet helper.
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control inside a `data-action-name` row.
+     */
+    protected static async _onDeleteAction(
+        this: SohlItemSheetBase,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        await deleteAction(this.document, target);
+    }
+
+    /**
+     * `data-action="runAction"`: execute the clicked action (shift-click skips
+     * its dialog), delegating to the shared {@link runAction} sheet helper.
+     * @param event - The triggering pointer event (shift skips the dialog).
+     * @param target - The clicked control inside a `data-action-name` row.
+     */
+    protected static async _onRunAction(
+        this: SohlItemSheetBase,
+        event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        await runAction(this.document, target, event);
+    }
 
     /**
      * `data-action="clearField"`: reset a nullable field to `null`. Reads the
@@ -200,6 +270,11 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
                     (this as any)._deleteArrayItem(event as PointerEvent),
                 ),
         );
+
+        // Bind the effect/action context menus (right-click on an effect row
+        // and click on a `⋮` control). `_contextMenu` is provided by the
+        // SohlDataModel sheet mixin (#501).
+        if (el) (this as any)._contextMenu?.(el);
     }
 
     /**
@@ -404,8 +479,22 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
-        const actions = this.document.logic?.actions ?? [];
-        return Object.assign(context, { actions });
+        const logic = this.document.logic;
+        // Hidden-group actions are internal (lifecycle hooks) and never shown.
+        const all = (logic ? [...logic.actions.values()] : []).filter(
+            (a) =>
+                (a.data as any).group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+        );
+        // Custom (script) actions are GM-authored and editable; intrinsic
+        // actions are code-defined and run-only. Split them into their own
+        // sections, matching the being sheet.
+        const customActions = all.filter(
+            (a) => (a.data as any).subType === ACTION_SUBTYPE.SCRIPT,
+        );
+        const intrinsicActions = all.filter(
+            (a) => (a.data as any).subType === ACTION_SUBTYPE.INTRINSIC,
+        );
+        return Object.assign(context, { customActions, intrinsicActions });
     }
 
     /**

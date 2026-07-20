@@ -491,6 +491,22 @@ export class SohlActor extends Actor {
     //     }
 
     // }
+
+    /**
+     * Create a new embedded Active Effect on this actor. Called by the sheet's
+     * effect-create control (see the {@link SohlDataModel} sheet mixin).
+     *
+     * @param data - Partial `ActiveEffect` creation data (name, type, img, …).
+     * @returns The created effect, or `undefined` if creation did not apply.
+     */
+    async createEffect(
+        data: Record<string, unknown> = {},
+    ): Promise<SohlActiveEffect | undefined> {
+        const created = await this.createEmbeddedDocuments("ActiveEffect", [
+            data,
+        ] as any);
+        return created?.[0] as unknown as SohlActiveEffect | undefined;
+    }
 }
 
 // The Foundry-free logic-layer contracts (SohlActorLogic, SohlActorData,

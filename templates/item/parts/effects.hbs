@@ -15,8 +15,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-effects" value=""
             aria-label="Search Effects" placeholder="Search Effects" autocomplete="off" />
-        {{!-- Effect authoring (create/toggle/delete) is not part of the release
-              scope; effects are shown read-only here. Tracked in #501. --}}
     </div>
 
     <ol class="effects__list">
@@ -25,6 +23,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="target">Target</div>
             <div class="duration">Remaining</div>
             <div class="changes">Changes</div>
+            <div class="effects__controls">
+                <a class="effects__control effect-create" data-action="effectCreate" data-tooltip="Create Effect">
+                    <i class="fa-solid fa-file-plus"></i>
+                </a>
+            </div>
         </li>
         <ol class="effects__items">
             {{#each effects as |effect|}}
@@ -37,7 +40,18 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="ele target">{{effect.system.targetLabel}}</div>
                 <div class="ele duration">{{#if effect.isTemporary}}{{effect.duration.label}}{{else}}Indefinite{{/if}}</div>
                 <div class="ele changes">{{effect.system.changes.length}} changes</div>
-                <div class="ele state">{{#if effect.disabled}}Disabled{{else}}Enabled{{/if}}</div>
+                <div class="effects__controls">
+                    <a class="effects__control effect-toggle" data-action="effectToggle"
+                        data-tooltip="{{#if effect.disabled}}Enable Effect{{else}}Disable Effect{{/if}}">
+                        <i class="{{#if effect.disabled}}fas fa-toggle-off{{else}}fas fa-toggle-on{{/if}}"></i>
+                    </a>
+                    <a class="effects__control effect-delete" data-action="effectDelete" data-tooltip="Delete Effect">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                    <a class="effects__control effect-contextmenu" title="Menu">
+                        <i class="fa-solid fa-ellipsis-vertical fa-fw"></i>
+                    </a>
+                </div>
             </li>
             {{/each}}
         </ol>

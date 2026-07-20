@@ -14,13 +14,18 @@
 import { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBase";
 import {
+    createAction,
+    editAction,
+    deleteAction,
+    runAction,
+} from "@src/core/foundry/sheet-actions";
+import {
     fvttCallHook,
     fvttGetSetting,
     fvttRenderSheet,
 } from "@src/core/FoundryHelpers";
 import {
     ACTION_SUBTYPE,
-    SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     ITEM_KIND,
     MOVEMENT_MEDIUM,
@@ -31,6 +36,7 @@ import {
     MysterySubTypeChoices,
     MysticalAbilitySubTypes,
     MysticalAbilitySubTypeChoices,
+    TRAIT_SUBTYPE,
     TraitSubTypes,
     TraitSubTypeChoices,
     TraitIntensityChoices,
@@ -483,24 +489,9 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Resolve the {@link sohl.entity.action.SohlAction} for the clicked Actions-tab row from its
-     * `data-action-name` (the action shortcode).
-     * @param target - An element on or inside the action row.
-     * @returns The action, or `undefined` if the row/shortcode can't be resolved.
-     */
-    protected _actionFromRow(target: HTMLElement): SohlAction | undefined {
-        const shortcode = target
-            .closest("[data-action-name]")
-            ?.getAttribute("data-action-name");
-        if (!shortcode) return undefined;
-        return this.document.logic?.actions.get(shortcode) as
-            | SohlAction
-            | undefined;
-    }
-
-    /**
      * Run the action for the clicked Actions-tab row (shift-click skips its
-     * configuration dialog). Script actions invoke their bound Macro.
+     * configuration dialog), delegating to the shared {@link runAction} sheet
+     * helper. Script actions invoke their bound Macro.
      *
      * @param event - The triggering pointer event (shift skips the dialog).
      * @param target - The clicked control, inside a `data-action-name` row.
@@ -510,15 +501,7 @@ export class BeingSheet extends SohlActorSheetBase {
         event: PointerEvent,
         target: HTMLElement,
     ): Promise<void> {
-        const action = this._actionFromRow(target);
-        if (!action) return;
-        const context = new SohlActionContext({
-            speaker: (this.document as any).getSpeaker(),
-            type: (action.data as any).shortcode,
-            title: (action.data as any).title,
-            skipDialog: event.shiftKey,
-        });
-        await action.execute(context);
+        await runAction(this.document, target, event);
     }
 
     /**
@@ -554,10 +537,11 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Create a custom (script) action. Prompts for an existing world Macro to
+     * Create a custom (script) action, delegating to the shared
+     * {@link createAction} sheet helper. Prompts for an existing world Macro to
      * bind — or `<New Macro…>`, which opens Foundry's Macro-create dialog — then
      * appends a SCRIPT action def (bound by the Macro's UUID) to
-     * `system.actionDefs`. Macro authoring is left entirely to Foundry's own UI.
+     * `system.actionDefs`.
      *
      * @param _event - The triggering pointer event (unused).
      * @param _target - The clicked create control (unused).
@@ -567,99 +551,12 @@ export class BeingSheet extends SohlActorSheetBase {
         _event: PointerEvent,
         _target: HTMLElement,
     ): Promise<void> {
-        const esc = (v: unknown): string =>
-            String(v ?? "").replace(
-                /[&<>"']/g,
-                (c) =>
-                    (
-                        ({
-                            "&": "&amp;",
-                            "<": "&lt;",
-                            ">": "&gt;",
-                            '"': "&quot;",
-                            "'": "&#39;",
-                        }) as Record<string, string>
-                    )[c],
-            );
-        const options = (game as any).macros.contents
-            .map(
-                (m: any) =>
-                    `<option value="${esc(m.uuid)}">${esc(m.name)}</option>`,
-            )
-            .join("");
-        const content = `<form><div class="form-group"><label>${esc(
-            game.i18n.localize("SOHL.Actions.name.label"),
-        )}</label><input type="text" name="title" autofocus /></div><div class="form-group"><label>${esc(
-            game.i18n.localize("SOHL.Actions.macro.label"),
-        )}</label><select name="macro"><option value="__new__">${esc(
-            game.i18n.localize("SOHL.Actions.newMacro"),
-        )}</option>${options}</select></div></form>`;
-
-        const result = (await (foundry.applications.api.DialogV2 as any).prompt(
-            {
-                window: { title: game.i18n.localize("SOHL.Actions.create") },
-                content,
-                ok: {
-                    label: game.i18n.localize("SOHL.Actions.create"),
-                    callback: (_e: Event, button: any) =>
-                        new (foundry.applications.ux as any).FormDataExtended(
-                            button.form,
-                        ).object,
-                },
-            },
-        )) as { title?: string; macro?: string } | null;
-        if (!result?.macro) return;
-        const title = String(result.title ?? "").trim();
-        if (!title) {
-            sohl.log.uiWarn(game.i18n.localize("SOHL.Actions.nameRequired"));
-            return;
-        }
-
-        let macro: any;
-        if (result.macro === "__new__") {
-            // Create the Macro ourselves (never via the default create dialog)
-            // so it is guaranteed to be a SCRIPT macro. Name it after the
-            // owner and action, disambiguated against existing Macro names;
-            // the folder is intentionally left to the user's own organization.
-            const base = `${this.document.name} ${title}`;
-            const existing = new Set(
-                (game as any).macros.map((m: any) => m.name),
-            );
-            let name = base;
-            for (let n = 2; existing.has(name); n++) name = `${base} (${n})`;
-            macro = await (Macro as any).create({
-                name,
-                type: "script",
-                command: "",
-            });
-            // Defer authoring the Macro body to Foundry's own Macro sheet.
-            void fvttRenderSheet(macro);
-        } else {
-            macro = await fromUuid(result.macro);
-        }
-        if (!macro) return;
-
-        const def = {
-            shortcode: foundry.utils.randomID(),
-            subType: ACTION_SUBTYPE.SCRIPT,
-            title,
-            scope: SOHL_ACTION_SCOPE.SELF,
-            executor: macro.uuid,
-            trigger: "true",
-            visible: "true",
-            iconFAClass: "fa-solid fa-bolt",
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-        };
-        const actionDefs = [
-            ...(((this.document.system as any).actionDefs as any[]) ?? []),
-            def,
-        ];
-        await this.document.update({ "system.actionDefs": actionDefs } as any);
+        await createAction(this.document);
     }
 
     /**
      * Open the bound Macro's own sheet for the clicked custom action, deferring
-     * all macro editing to Foundry's Macro UI.
+     * all macro editing to Foundry's Macro UI (shared {@link editAction} helper).
      *
      * @param _event - The triggering pointer event (unused).
      * @param target - The clicked control, inside a `data-action-name` row.
@@ -669,16 +566,13 @@ export class BeingSheet extends SohlActorSheetBase {
         _event: PointerEvent,
         target: HTMLElement,
     ): Promise<void> {
-        const action = this._actionFromRow(target);
-        const uuid = (action?.data as any)?.executor;
-        if (!uuid) return;
-        const macro: any = await fromUuid(uuid);
-        void fvttRenderSheet(macro);
+        await editAction(this.document, target);
     }
 
     /**
-     * Remove the clicked custom action from `system.actionDefs`. This only
-     * disassociates the action — the bound Macro document is left untouched.
+     * Remove the clicked custom action from `system.actionDefs`, delegating to
+     * the shared {@link deleteAction} helper. Only the action def is removed —
+     * the bound Macro document is left untouched.
      *
      * @param _event - The triggering pointer event (unused).
      * @param target - The clicked control, inside a `data-action-name` row.
@@ -688,20 +582,7 @@ export class BeingSheet extends SohlActorSheetBase {
         _event: PointerEvent,
         target: HTMLElement,
     ): Promise<void> {
-        const shortcode = target
-            .closest("[data-action-name]")
-            ?.getAttribute("data-action-name");
-        if (!shortcode) return;
-        const current =
-            ((this.document.system as any).actionDefs as any[]) ?? [];
-        const actionDefs = current.filter((d) => d.shortcode !== shortcode);
-        if (actionDefs.length === current.length) return;
-        const confirmed = await foundry.applications.api.DialogV2.confirm({
-            window: { title: game.i18n.localize("SOHL.Actions.remove") },
-            content: `<p>${game.i18n.localize("SOHL.Actions.removeHint")}</p>`,
-        } as any);
-        if (!confirmed) return;
-        await this.document.update({ "system.actionDefs": actionDefs } as any);
+        await deleteAction(this.document, target);
     }
 
     /**
@@ -1285,8 +1166,8 @@ export class BeingSheet extends SohlActorSheetBase {
                     uuid: trait.uuid,
                     name: trait.name,
                     subType: sys.subType,
-                    isNumeric: !!sys.isNumeric,
-                    masteryLevelBase: sys.masteryLevelBase ?? 0,
+                    isMeasured: sys.subType === TRAIT_SUBTYPE.MEASURED,
+                    score: sys.score?.value ?? 0,
                     textValue: sys.textValue ?? "",
                     intensity: sys.intensity,
                     notes: sys.notes ?? "",
@@ -1561,7 +1442,7 @@ export class BeingSheet extends SohlActorSheetBase {
                     healingRate: tl?.healingRate?.effective ?? 0,
                     healingRateDisabled: !!tl?.healingRate?.disabled,
                     isTreated: !!tl?.isTreated,
-                    isBleeding: !!sys.isBleeding,
+                    isBleeding: !!tl?.isBleeding,
                     aspect: sys.aspect,
                     area: tl?.bodyLocation?.name,
                     notes: sys.notes,

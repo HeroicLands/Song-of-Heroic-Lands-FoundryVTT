@@ -13,6 +13,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="grid grid-2col">
+        {{!-- A measured trait (#532) owns a numeric score + cap; descriptive
+              subtypes own a textValue (or a choice-driven value). --}}
+        {{#if (eq system.subType "measured")}}
+        {{formGroup fields.score.fields.value value=system.score.value classes="stacked" rootId="trait-score-value"}}
+        {{formGroup fields.score.fields.max value=system.score.max classes="stacked" rootId="trait-score-max"}}
+        {{else}}
         {{#if hasTraitChoices}}
         {{formGroup fields.intensity rootId="trait-intensity" classes="text-field" stacked=true value=system.intensity}}
         {{formGroup fields.choices value=system.choices classes="stacked" rootId="trait-choices" }}
@@ -27,10 +33,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{else}}
         {{formGroup fields.textValue rootId="trait-textvalue" classes="text-field" stacked=true value=system.textValue}}
         {{/if}}
-        {{#if system.isNumeric}}
-        {{formGroup fields.score.fields.max value=system.score.max classes="stacked" rootId="trait-score-max"}}
         {{/if}}
     </div>
+
+    {{!-- Value-description bands are measured-only (label each score range). --}}
+    {{#if (eq system.subType "measured")}}
 
     <div class="list-section">
         <div class="list">
@@ -38,17 +45,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <h3 class="list__name name">Value Desc</h3>
                 <div class="detail ele">Max</div>
                 <div class="list__controls">
-                    <a class="list__control add-array-item" data-array="system.aim" data-object-type="ValueDesc"
+                    <a class="list__control add-array-item" data-array="system.valueDesc" data-object-type="ValueDesc"
                         data-title="Add Value Description"><i class="fa-solid fa-plus"></i> Add</a>
                 </div>
             </header>
             <ol class="list">
-                {{#each idata.aim}}
+                {{#each system.valueDesc}}
                 <li class="item flexrow">
                     <div class="list__name name">{{label}}</div>
                     <div class="detail ele">{{maxValue}}</div>
                     <div class="list__controls">
-                        <a class="delete-array-item" data-array="system.aim" data-index="{{@index}}"
+                        <a class="delete-array-item" data-array="system.valueDesc" data-index="{{@index}}"
                             title="Delete Value Description"><i class="fa-solid fa-trash"></i></a>
                     </div>
                 </li>
@@ -56,6 +63,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </ol>
         </div>
     </div>
+    {{/if}}
 
     <div class="list-section">
         <div class="list">

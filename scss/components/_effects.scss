@@ -122,6 +122,11 @@
 
             .effects__control {
                 flex: 0 0 22px;
+                // Foundry core greys out any `.disabled` element with
+                // `pointer-events: none`; a descendant re-enabling it keeps the
+                // effect-row controls clickable so a *disabled* effect can still
+                // be re-enabled or deleted from its own row (#501).
+                pointer-events: auto;
             }
         }
     }
