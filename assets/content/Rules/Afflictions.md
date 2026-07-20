@@ -75,25 +75,21 @@ determines the host's reaction:
 
 When the Symptomatic Period ends, if the affliction has **not** been defeated
 (has not reached HR 6), its outcome occurs. This varies widely by affliction —
-the specifics are given in each affliction's description — and may be death, new
-[traits](../Traits) or [traumas (injuries)](Trauma.md), or the affliction simply
-clearing up. The two standard outcomes are:
+the specifics are given in each affliction's description — and may be death, a
+new [trauma](Trauma.md) (a lasting injury, or a psyche or physical condition), or
+the affliction simply clearing up. The two standard outcomes are:
 
 - **Death** — the character's state becomes _dead_.
 - **Cured** — the affliction's Healing Rate becomes 6 (defeated).
 
-In addition, an affliction may specify two authoring fields, each a
+In addition, an affliction may specify an **`outcomeTrauma`** field — a
 [Safe Expression](../User_Guide/Safe_Expressions.md) that evaluates to a single
-shortcode or an array of shortcodes:
+shortcode, or an array of shortcodes, of the [traumas](Trauma.md) the host
+contracts as part of the outcome. Matching traumas are searched first among the
+world's items, then in the compendiums; the first match found is used.
 
-- **`outcomeTraits`** — traits the host contracts as part of the outcome.
-- **`outcomeTraumas`** — traumas (injuries) the host contracts as part of the
-  outcome.
-
-Matching traits and traumas are searched first among the world's items, then in
-the compendiums; the first match found is used. **All** of these outcomes apply
-only if the affliction reaches the end of the Symptomatic Period without being
-healed.
+These outcomes apply **only** if the affliction reaches the end of the
+Symptomatic Period without being healed.
 
 ## Infection
 

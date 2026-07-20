@@ -16,6 +16,10 @@ folder: RqKUTBUBN2Y3MHYB
 
 The Healing Roll is a special d100 test that determines how quickly injuries heal and blood loss is restored. The Mastery Level for a Healing Roll equals the character's Healing Base (HB) multiplied by the Healing Rate (HR) generated from treatment.
 
+> This page summarizes the healing-roll mechanic. For the current detail, see
+> [[Healing_Base|Healing Base]] (the HB factor) and [[Injury|Injury]] (Healing
+> Rate, treatment, and the Injury Healing Test).
+
 ## Healing Base
 
 All characters have a Healing Base equal to the average of Endurance and Will, with fractions rounded up if Endurance exceeds Will. The Healing Base represents the body's innate recuperative capacity and is also used when overcoming ailments such as disease and poison.

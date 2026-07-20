@@ -45,7 +45,17 @@ TBD
 
 ## Health, Injury & Recovery
 
-- [[Trauma|Trauma]] — injuries to body, mind, psyche, or spirit; the Injury Healing Test and how infection halts it.
-- [[Healing_Roll|Healing Roll]] — periodic recovery from injuries and restoration of lost blood.
-- [[Bleeding|Bleeding]] — life-threatening blood loss: the Blood Loss Advance Test, Shock State, and staunching bleeding with the Blood Stoppage Test.
-- [[Afflictions|Afflictions]] — diseases, poisons, and other afflictions: incubation, the Course Test, reactions, outcomes, and infections.
+- [[Trauma|Trauma]] — the umbrella: harm to body, mind, and spirit, and how characters recover from it.
+- [[Healing_Base|Healing Base]] — the recovery factor (average of END and WIL) used in every healing test.
+- [[Injury|Injury]] — physical wounds: Injury Level, impairment, treatment tables, and the Injury Healing Test.
+- [[Bleeding|Bleeding]] — life-threatening blood loss: the Blood Loss Advance Test, Shock State, and the Blood Stoppage Test.
+- [[Infection|Infection]] — infected wounds, their weakness fatigue, and the Infection Healing Test.
+- [[Shock|Shock]] — the shock states, the Shock Re-Test, and the lasting Extended Shock and Coma.
+- [[Fatigue|Fatigue]] — windedness, weariness, and weakness, and the Fatigue Penalty.
+- [[Fear|Fear]] — the Fear Test and its states, from Catatonic to Brave.
+- [[Morale|Morale]] — the Morale Test, the Rally Test, and the Reaction Test.
+- [[Psychological_Condition|Psychological Condition]] — Psyche Stress Levels, their recovery, and Aural Shock.
+- [[The_Pall|The Pall]] — the forces of death: Pall Strength, the Pall Cloud, and facing the Pall.
+- [[Afflictions|Afflictions]] — diseases, poisons, and curses: incubation, the Course Test, reactions, and outcomes.
+- [[Prone|Prone]] — the prone condition.
+- [[Healing_Roll|Healing Roll]] — the healing-roll mechanic (see Healing Base and Injury for the current detail).
