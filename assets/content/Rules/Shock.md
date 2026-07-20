@@ -68,12 +68,15 @@ one step per Blood Loss Point.
 
 ### Implementation
 
-The shock state is stored as **status effects** (Active Effects on the actor):
-one each for **Stunned**, **Incapacitated**, **Unconscious**, and **Dead**. When
-none is present the state is **None**; if more than one is somehow present, the
-most severe takes precedence. A `BeingLogic` accessor should report the current
-shock state from the highest active status so consumers need not inspect the
-individual effects.
+The shock state **is** a set of **status effects** (Active Effects on the actor):
+there is one status effect for each shock state — **Stunned**, **Incapacitated**,
+**Unconscious**, and **Dead**. When none is present the state is **None**.
+Normally exactly one is active; if more than one is somehow present, the **most
+severe (highest) one is the creature's shock state**. A `BeingLogic` accessor
+reports the current shock state as the highest active status, so consumers never
+inspect the individual effects. An effect that changes the shock state (blood
+loss, an injury shock result, a Shock Re-Test) reads that current state and sets
+the status effect for the new one.
 
 ## Shock Re-Test
 
