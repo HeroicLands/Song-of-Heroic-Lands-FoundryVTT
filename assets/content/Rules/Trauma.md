@@ -1,9 +1,6 @@
 ---
 aliases:
     - Trauma
-    - Physical Trauma
-    - Injury
-    - Injury Healing Test
 id: Tr8mAqL4vZ9nH2kP
 type: doc
 package: sohl
@@ -11,42 +8,58 @@ category: user-guide
 name:
     full: Trauma
     aliases: []
-slug: sohl-trauma
 folder: RqKUTBUBN2Y3MHYB
+slug: sohl-trauma
 ---
 
-A **Trauma** is an injury — whether to the physical body, or to the mind, psyche,
-or spirit.
+A **Trauma** is harm to a character — to the physical **body**, to the **mind**,
+to the **spirit**, or from the forces of death (**The Pall**). Trauma is the
+umbrella under which the system records every lasting harm and the ongoing
+processes by which a character recovers from — or succumbs to — it.
 
-## Physical Trauma (Injury)
+> **Traumas, not traits.** Psyche and physical conditions that a character
+> _acquires_ (disorders, phobias, scars, and the like) are **traumas**, recorded
+> and recovered under the rules below. The only remaining **[Traits](../Traits)**
+> are the static, score-based ones.
 
-A physical trauma is an **injury**, rated by an **Injury Level** that measures its
-severity. Injuries recover over time through periodic **Injury Healing Tests**.
+## Forms of trauma
 
-### Injury Healing Test
+### Body
 
-An **Injury Healing Test** is a [Healing Roll](Healing_Roll.md) — a test against
-**Healing Base × the injury's Healing Rate** — made separately for each injury on
-that injury's own healing period. A success reduces the Injury Level (MS by 1,
-CS by 2); a Critical Failure heals nothing and, where infection is possible,
-causes an [infection](#infection). When an Injury Level reaches 0 or less, the
-injury is healed and needs no further tests. See [Healing Roll](Healing_Roll.md)
-for the full results table, Healing Base, and Healing Rate.
+- **[Injury](Injury.md)** — physical wounds, with Injury Levels, impairment,
+  treatment, and the Injury Healing Test.
+    - **[Bleeding](Bleeding.md)** — a life-threatening bleeder: the Blood Loss
+      Advance Test and the Physician's Blood Stoppage Test.
+    - **[Infection](Infection.md)** — an infection contracted from a wound that
+      heals badly; it halts injury healing until defeated.
+- **[Fatigue](Fatigue.md)** — windedness, weariness, and weakness, measured in
+  Fatigue Levels and summed into the Fatigue Penalty.
+- **[Shock](Shock.md)** — the stunned/incapacitated/unconscious/dead spiral from
+  violent injury and blood loss, plus the lasting Extended Shock and Coma states.
 
-**An active infection halts healing.** While the patient carries _any_ active
-infection, **no** Injury Healing Tests are made for them until every infection
-has been defeated.
+### Mind
 
-### Infection
+- **[Psychological Condition](Psychological_Condition.md)** — Psyche Stress
+  Levels, their recovery, and their behavioral effects, including Aural Shock.
+- **[Fear](Fear.md)** — the Fear Test and its states, from Catatonic to Brave.
+- **[Morale](Morale.md)** — the Morale Test, the Rally Test, and the Reaction
+  Test that steadies a shaken combatant.
 
-Some injuries can become infected. When such an injury's Injury Healing Test
-comes up a **Critical Failure**, a new **infection** takes hold. An infection is
-a special form of affliction — see [Infection](Afflictions.md#infection) for how
-it heals and the reactions it causes.
+### Spirit
+
+- **[The Pall](The_Pall.md)** — the forces of death that assail Spirit, corrupt
+  mortals into the undead, and must be resisted or faced.
+
+## Recovery
+
+Most traumas recover through periodic tests against **`Healing Base × Healing
+Rate`** (see [Healing Base](Healing_Base.md)) — the Injury Healing Test, the
+Infection Healing Test, the Extended Shock and Coma course tests, and the
+affliction [Course Test](Afflictions.md#course-test-healing). Fatigue, fear,
+morale, psychological, and Pall traumas each recover by their own rules, detailed
+on their pages.
 
 ## See also
 
-- [Healing Roll](Healing_Roll.md) — the Healing Base × Healing Rate test and how
-  injuries mend.
-- [Bleeding](Bleeding.md) — life-threatening blood loss from an injury.
-- [Afflictions](Afflictions.md) — diseases, poisons, and infections.
+- [Healing Base](Healing_Base.md), [Afflictions](Afflictions.md),
+  [Body Structure](Body_Structure.md), [Success Tests](Success_Tests.md).

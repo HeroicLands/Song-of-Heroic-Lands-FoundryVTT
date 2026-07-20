@@ -34,26 +34,29 @@ the character's **Strength Mastery Level**:
 
 ### Shock State
 
-A character's condition worsens with each Blood Loss Point (BLP) accrued. The
-new Shock State is the current Shock State plus the Blood Loss Points from this
-test:
+Blood loss worsens the victim's [Shock State](Shock.md): each Blood Loss Point
+(BLP) accrued **advances the shock state one step**, from No Shock up toward
+Dead.
 
-| Shock State | Condition     |
-| ----------- | ------------- |
-| 0           | No Shock      |
-| 1           | Stunned       |
-| 2           | Incapacitated |
-| 3           | Unconscious   |
-| 4+          | Dead          |
+| Steps | Shock State   |
+| ----- | ------------- |
+| 0     | No Shock      |
+| 1     | Stunned       |
+| 2     | Incapacitated |
+| 3     | Unconscious   |
+| 4+    | Dead          |
 
-So a character who is **Incapacitated** (2) and accrues 1 BLP becomes
-**Unconscious** (3); accruing 2 BLP instead would kill them (4+ = Dead).
+So a character who is **Incapacitated** and accrues 1 BLP becomes
+**Unconscious**; accruing 2 BLP instead would kill them. (This is the ordinal
+counterpart of the [Shock State Index](Shock.md#shock-state-index) that injuries
+drive.)
 
 ### Anemia
 
-Each Blood Loss Advance Test also inflicts **5 points of weakness fatigue per
-Blood Loss Point** accrued, representing the anemia of ongoing blood loss. This
-fatigue is applied every time the test is made.
+Each Blood Loss Advance Test also inflicts **5 points of
+[weakness fatigue](Fatigue.md) per Blood Loss Point** accrued, representing the
+anemia of ongoing blood loss. This fatigue is applied every time the test is
+made.
 
 ### In play
 

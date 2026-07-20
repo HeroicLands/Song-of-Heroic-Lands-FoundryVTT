@@ -42,6 +42,21 @@ While dormant it can still be transmitted (depending on the specific affliction)
 but it does not proceed to onset or any further state — it is simply marked
 **Dormant**, and the host may never realize they carry it.
 
+## Onset
+
+When the Incubation Period ends, the affliction reaches **onset** and becomes
+**symptomatic**. Because an affliction can be almost anything, its symptoms are
+usually a matter of play — described and role-played by the GM and players rather
+than modeled by the system — so at onset the system simply marks the affliction
+**Symptomatic** and begins its [Course Test](#course-test-healing) and
+[resolution](#outcome) cycle.
+
+An affliction may also name an **optional onset macro** — a Macro (referenced by
+UUID) that runs at onset. This lets an author attach concrete mechanical
+consequences to a specific affliction, and the macro may itself schedule further
+events. (As always, the affliction carries only a _reference_ to the macro, never
+executable code.)
+
 ## Course Test (healing)
 
 Once onset has occurred, the body fights the affliction. Each healing-check
@@ -74,26 +89,26 @@ determines the host's reaction:
 ## Outcome
 
 When the Symptomatic Period ends, if the affliction has **not** been defeated
-(has not reached HR 6), its outcome occurs. This varies widely by affliction —
-the specifics are given in each affliction's description — and may be death, new
-[traits](../Traits) or [traumas (injuries)](Trauma.md), or the affliction simply
-clearing up. The two standard outcomes are:
+(has not reached HR 6), its **outcome** is applied. Every affliction declares its
+outcome in two authored fields:
 
-- **Death** — the character's state becomes _dead_.
-- **Cured** — the affliction's Healing Rate becomes 6 (defeated).
+- **`outcome`** — the affliction's standard result, one of:
+    - **`AFFLICTION_OUTCOME.DEATH`** — the character's state becomes _dead_.
+    - **`AFFLICTION_OUTCOME.CURED`** — the affliction is defeated (its Healing
+      Rate becomes 6).
+- **`outcomeTrauma`** _(optional)_ — a
+  [Safe Expression](../User_Guide/Safe_Expressions.md) that evaluates to a single
+  shortcode, or an array of shortcodes, of the [traumas](Trauma.md) the host
+  contracts as part of the outcome. Matching traumas are searched first among the
+  world's items, then in the compendiums, and the first match found is used.
 
-In addition, an affliction may specify two authoring fields, each a
-[Safe Expression](../User_Guide/Safe_Expressions.md) that evaluates to a single
-shortcode or an array of shortcodes:
+The two fields combine. For example, an affliction with `outcome` set to
+**Cured** and `outcomeTrauma` set to `"weakness20"` leaves the host cured of the
+affliction but saddled with a **new trauma** — the one whose shortcode is
+`weakness20`.
 
-- **`outcomeTraits`** — traits the host contracts as part of the outcome.
-- **`outcomeTraumas`** — traumas (injuries) the host contracts as part of the
-  outcome.
-
-Matching traits and traumas are searched first among the world's items, then in
-the compendiums; the first match found is used. **All** of these outcomes apply
-only if the affliction reaches the end of the Symptomatic Period without being
-healed.
+These outcomes apply **only** if the affliction reaches the end of the
+Symptomatic Period without being healed.
 
 ## Infection
 
