@@ -44,7 +44,14 @@ import {
     dialog,
     fvttCreateEmbeddedItems,
     fvttActorStatuses,
+    fvttToggleActorStatus,
 } from "@src/core/FoundryHelpers";
+import {
+    SHOCK_STATUS_IDS,
+    shockStateFromStatuses,
+    shockStatusForLevel,
+    clampShockState,
+} from "@src/document/actor/logic/shock";
 import {
     deriveHealth,
     healingBaseFor,
@@ -149,9 +156,53 @@ export class BeingLogic<
     healingBase!: ValueModifier;
 
     /**
-     * Current shock state, derived from accumulated injuries and other factors.
+     * The being's current **shock state** as an ascending severity level —
+     * `NONE` (0), `STUNNED` (1), `INCAPACITATED` (2), `UNCONSCIOUS` (3), `DEAD`
+     * (4) — derived from the active shock **status effects** (there is no
+     * persisted field). Reports the highest active one (see
+     * {@link sohl.document.actor.logic.SHOCK_STATE}); change it through
+     * {@link setShockState} / {@link advanceShockState}, never by toggling the
+     * statuses directly.
      */
-    shockState!: number;
+    get shockState(): number {
+        return shockStateFromStatuses(fvttActorStatuses(this.actor));
+    }
+
+    /**
+     * Set the being's {@link shockState} to `level`, the single entry point for
+     * shock transitions. Clears **every** shock status effect and then applies
+     * only the one for `level` (none for `NONE`) — so transitions are clean in
+     * both directions and any stray multi-status situation is repaired. Only the
+     * statuses that actually change are toggled.
+     *
+     * @param level - The target shock-state level; clamped to `[NONE, DEAD]`.
+     * @returns A promise that resolves once the statuses have been updated.
+     */
+    async setShockState(level: number): Promise<void> {
+        const target = clampShockState(level);
+        const targetStatus = shockStatusForLevel(target);
+        const current = fvttActorStatuses(this.actor);
+        for (const status of SHOCK_STATUS_IDS) {
+            const shouldBeActive = status === targetStatus;
+            if (shouldBeActive !== current.has(status)) {
+                await fvttToggleActorStatus(this.actor, status, shouldBeActive);
+            }
+        }
+    }
+
+    /**
+     * Advance (or, with a negative `steps`, improve) the being's
+     * {@link shockState} by `steps` severity levels from its current state,
+     * clamped to `[NONE, DEAD]`. A convenience over {@link setShockState} for
+     * effects that read the current state and move it (blood loss, an injury
+     * shock result, a shock re-test).
+     *
+     * @param steps - Levels to move (positive worsens, negative improves).
+     * @returns A promise that resolves once the shock state has been updated.
+     */
+    async advanceShockState(steps: number): Promise<void> {
+        await this.setShockState(this.shockState + steps);
+    }
 
     /**
      * The being's pull score, determining whether it can draw certain bow weapons.

@@ -27,4 +27,5 @@ export * from "./health";
 export * from "./injury-actions";
 export * from "./movement";
 export * from "./reach-helpers";
+export * from "./shock";
 export * from "./token-helpers";

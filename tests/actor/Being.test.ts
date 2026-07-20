@@ -1009,11 +1009,83 @@ describe("BeingLogic", () => {
         });
     });
 
-    describe("properties", () => {
-        // health is written into the data model (system.health) as plain
-        // numbers — covered by the "BeingLogic health (#470)" suite below.
-        // shockState is declared but not yet assigned by any lifecycle phase.
-        it.todo("shockState - tracks current shock state");
+    describe("shockState (#550)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        it("is NONE (0) when no shock status is active", () => {
+            const being = makeBeing();
+            expect(being.shockState).toBe(0);
+        });
+
+        it("reports the highest active shock status", () => {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                new Set(["stun", "unconscious"]),
+            );
+            const being = makeBeing();
+            expect(being.shockState).toBe(3); // UNCONSCIOUS
+        });
+
+        it("setShockState clears active shock statuses and sets only the target", async () => {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                new Set(["unconscious"]),
+            );
+            const toggle = vi
+                .spyOn(FoundryHelpersMock, "fvttToggleActorStatus")
+                .mockResolvedValue(undefined);
+            const being = makeBeing();
+            await being.setShockState(1); // → STUNNED
+            // Unconscious removed, stun added; incapacitated/dead untouched.
+            expect(toggle).toHaveBeenCalledWith(
+                being.actor,
+                "unconscious",
+                false,
+            );
+            expect(toggle).toHaveBeenCalledWith(being.actor, "stun", true);
+            expect(toggle).toHaveBeenCalledTimes(2);
+        });
+
+        it("setShockState(NONE) clears every active shock status and sets none", async () => {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                new Set(["stun", "dead"]),
+            );
+            const toggle = vi
+                .spyOn(FoundryHelpersMock, "fvttToggleActorStatus")
+                .mockResolvedValue(undefined);
+            const being = makeBeing();
+            await being.setShockState(0);
+            expect(toggle).toHaveBeenCalledWith(being.actor, "stun", false);
+            expect(toggle).toHaveBeenCalledWith(being.actor, "dead", false);
+            expect(toggle).toHaveBeenCalledTimes(2);
+        });
+
+        it("setShockState clamps out-of-range levels", async () => {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                new Set(),
+            );
+            const toggle = vi
+                .spyOn(FoundryHelpersMock, "fvttToggleActorStatus")
+                .mockResolvedValue(undefined);
+            const being = makeBeing();
+            await being.setShockState(99); // clamps to DEAD
+            expect(toggle).toHaveBeenCalledWith(being.actor, "dead", true);
+        });
+
+        it("advanceShockState moves from the current state by N steps", async () => {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                new Set(["stun"]), // STUNNED (1)
+            );
+            const toggle = vi
+                .spyOn(FoundryHelpersMock, "fvttToggleActorStatus")
+                .mockResolvedValue(undefined);
+            const being = makeBeing();
+            await being.advanceShockState(2); // 1 → 3 (UNCONSCIOUS)
+            expect(toggle).toHaveBeenCalledWith(being.actor, "stun", false);
+            expect(toggle).toHaveBeenCalledWith(
+                being.actor,
+                "unconscious",
+                true,
+            );
+        });
     });
 
     describe("healingBase (#549)", () => {

@@ -1,0 +1,93 @@
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+import { describe, it, expect } from "vitest";
+import {
+    SHOCK_STATE,
+    SHOCK_STATUS_IDS,
+    shockStateFromStatuses,
+    shockStatusForLevel,
+    clampShockState,
+} from "@src/document/actor/logic/shock";
+import { STATUS_EFFECT } from "@src/utils/constants";
+
+describe("shock (#550)", () => {
+    describe("shockStateFromStatuses", () => {
+        it("is NONE when no shock status is active", () => {
+            expect(shockStateFromStatuses(new Set())).toBe(SHOCK_STATE.NONE);
+            expect(shockStateFromStatuses(new Set(["prone", "bleeding"]))).toBe(
+                SHOCK_STATE.NONE,
+            );
+        });
+
+        it("maps each shock status to its level", () => {
+            expect(shockStateFromStatuses(new Set([STATUS_EFFECT.STUN]))).toBe(
+                SHOCK_STATE.STUNNED,
+            );
+            expect(
+                shockStateFromStatuses(new Set([STATUS_EFFECT.INCAPACITATED])),
+            ).toBe(SHOCK_STATE.INCAPACITATED);
+            expect(
+                shockStateFromStatuses(new Set([STATUS_EFFECT.UNCONSCIOUS])),
+            ).toBe(SHOCK_STATE.UNCONSCIOUS);
+            expect(shockStateFromStatuses(new Set([STATUS_EFFECT.DEAD]))).toBe(
+                SHOCK_STATE.DEAD,
+            );
+        });
+
+        it("reports the most severe when several are active", () => {
+            expect(
+                shockStateFromStatuses(
+                    new Set([STATUS_EFFECT.STUN, STATUS_EFFECT.UNCONSCIOUS]),
+                ),
+            ).toBe(SHOCK_STATE.UNCONSCIOUS);
+            expect(
+                shockStateFromStatuses(
+                    new Set([
+                        STATUS_EFFECT.STUN,
+                        STATUS_EFFECT.DEAD,
+                        STATUS_EFFECT.INCAPACITATED,
+                    ]),
+                ),
+            ).toBe(SHOCK_STATE.DEAD);
+        });
+    });
+
+    describe("shockStatusForLevel", () => {
+        it("returns null for NONE and out-of-range levels", () => {
+            expect(shockStatusForLevel(SHOCK_STATE.NONE)).toBeNull();
+            expect(shockStatusForLevel(99)).toBeNull();
+            expect(shockStatusForLevel(-1)).toBeNull();
+        });
+
+        it("returns the status id for each shock level", () => {
+            expect(shockStatusForLevel(SHOCK_STATE.STUNNED)).toBe(
+                STATUS_EFFECT.STUN,
+            );
+            expect(shockStatusForLevel(SHOCK_STATE.DEAD)).toBe(
+                STATUS_EFFECT.DEAD,
+            );
+        });
+    });
+
+    describe("clampShockState", () => {
+        it("clamps and rounds into [NONE, DEAD]", () => {
+            expect(clampShockState(-3)).toBe(SHOCK_STATE.NONE);
+            expect(clampShockState(2.4)).toBe(SHOCK_STATE.INCAPACITATED);
+            expect(clampShockState(9)).toBe(SHOCK_STATE.DEAD);
+        });
+    });
+
+    it("SHOCK_STATUS_IDS lists exactly the four shock statuses", () => {
+        expect([...SHOCK_STATUS_IDS]).toEqual([
+            STATUS_EFFECT.STUN,
+            STATUS_EFFECT.INCAPACITATED,
+            STATUS_EFFECT.UNCONSCIOUS,
+            STATUS_EFFECT.DEAD,
+        ]);
+    });
+});

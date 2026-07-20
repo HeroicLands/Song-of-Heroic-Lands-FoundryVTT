@@ -361,6 +361,27 @@ export function fvttActorStatuses(
 }
 
 /**
+ * Add or remove a status effect on an actor (a toggleable Active Effect such as
+ * Stunned, Prone, or Dead), via Foundry's `Actor#toggleStatusEffect`.
+ *
+ * Lets Foundry-free logic drive status-based state (e.g. the being's shock state,
+ * #550) without touching the document directly. A no-op when the actor or the API
+ * is unavailable. Read the resulting state back with {@link fvttActorStatuses}.
+ *
+ * @param actor - The actor to modify.
+ * @param statusId - The status-effect id (e.g. `"stun"`, `"dead"`).
+ * @param active - `true` to apply the status, `false` to remove it.
+ * @returns A promise that resolves once the toggle has been applied.
+ */
+export async function fvttToggleActorStatus(
+    actor: SohlActor | null | undefined,
+    statusId: string,
+    active: boolean,
+): Promise<void> {
+    await (actor as any)?.toggleStatusEffect?.(statusId, { active });
+}
+
+/**
  * Get a scene by ID from the world collection.
  * @param id - The scene document ID.
  * @returns The scene, or `undefined` if not found.

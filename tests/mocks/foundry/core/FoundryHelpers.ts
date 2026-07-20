@@ -305,6 +305,12 @@ export function fvttActorStatuses(_actor: any): Set<string> {
     return new Set<string>();
 }
 
+export async function fvttToggleActorStatus(
+    _actor: any,
+    _statusId: string,
+    _active: boolean,
+): Promise<void> {}
+
 export function fvttActiveTokenLogicForActor(_actor: any): any {
     return undefined;
 }
