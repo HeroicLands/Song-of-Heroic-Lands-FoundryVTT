@@ -11,10 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import {
     expressionHelpers as reg,
     STANDARD_HELPERS,
+    PARENT_BOUND_HELPERS,
 } from "@src/entity/expr/ExpressionHelperRegistry";
 import { SafeExpressionError } from "@src/entity/expr/SafeExpressionError";
 
@@ -132,6 +133,51 @@ describe("ExpressionHelperRegistry", () => {
             expect(() => h("repeat")("x", 1e9)).toThrow(SafeExpressionError);
             expect(() => h("padStart")("x", 1e9)).toThrow(SafeExpressionError);
             expect(() => h("padEnd")("x", 1e9)).toThrow(SafeExpressionError);
+        });
+    });
+
+    describe("stochastic helpers: rand and roll (#540)", () => {
+        afterEach(() => vi.restoreAllMocks());
+        const h = (name: string) =>
+            STANDARD_HELPERS[name] as (...a: any[]) => any;
+        // `roll` builds a parent-owned SimpleRoll; the parent is only stored.
+        const parent = { id: "test", name: "Test" } as any;
+
+        it("registers rand and roll as built-ins", () => {
+            expect(reg.has("rand")).toBe(true);
+            expect(reg.has("roll")).toBe(true);
+        });
+
+        it("marks roll (but not rand) as parent-bound", () => {
+            expect(PARENT_BOUND_HELPERS.has("roll")).toBe(true);
+            expect(PARENT_BOUND_HELPERS.has("rand")).toBe(false);
+        });
+
+        it("rand: returns a number in [0, 1)", () => {
+            for (let i = 0; i < 100; i++) {
+                const r = h("rand")();
+                expect(r).toBeGreaterThanOrEqual(0);
+                expect(r).toBeLessThan(1);
+            }
+        });
+
+        it("roll: rolls the formula and augments the SimpleRoll JSON", () => {
+            vi.spyOn(Math, "random").mockReturnValue(0.5); // d6 -> 3
+            expect(h("roll")(parent, "2d6")).toEqual({
+                __kind: "SimpleRoll",
+                numDice: 2,
+                dieFaces: 6,
+                modifier: 0,
+                rolls: [3, 3],
+                formula: "2d6",
+                result: "[3, 3]",
+                total: 6,
+                median: 7,
+            });
+        });
+
+        it("roll: throws on an invalid formula", () => {
+            expect(() => h("roll")(parent, "xyz")).toThrow();
         });
     });
 

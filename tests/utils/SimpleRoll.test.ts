@@ -173,10 +173,17 @@ describe("SimpleRoll", () => {
             expect(roll.median).toBe(7);
         });
 
+        it("returns a fractional median for an odd count of even-faced dice", () => {
+            // 1d6 expected value = (6 + 1) / 2 = 3.5 (not rounded).
+            expect(sr({ numDice: 1, dieFaces: 6 }).median).toBe(3.5);
+            // 3d6 = 3 * 3.5 = 10.5.
+            expect(sr({ numDice: 3, dieFaces: 6 }).median).toBe(10.5);
+        });
+
         it("computes median for 1d20", () => {
             const roll = sr({ numDice: 1, dieFaces: 20 });
-            // median of 1d20 with even faces = (20/2 + 0.5) = 10.5, round = 11
-            expect(roll.median).toBe(11);
+            // 1d20 expected value = (20 + 1) / 2 = 10.5 (not rounded).
+            expect(roll.median).toBe(10.5);
         });
 
         it("includes modifier in median", () => {

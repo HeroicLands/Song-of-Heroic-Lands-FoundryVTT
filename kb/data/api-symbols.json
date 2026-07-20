@@ -2857,6 +2857,7 @@
   "sohl.entity.expr.LoadLibraryResult": "interfaces/sohl.entity.expr.LoadLibraryResult.html",
   "sohl.entity.expr.LoadLibraryResult.installed": "interfaces/sohl.entity.expr.LoadLibraryResult.html#installed",
   "sohl.entity.expr.LoadLibraryResult.skipped": "interfaces/sohl.entity.expr.LoadLibraryResult.html#skipped",
+  "sohl.entity.expr.PARENT_BOUND_HELPERS": "variables/sohl.entity.expr.PARENT_BOUND_HELPERS.html",
   "sohl.entity.expr.STANDARD_HELPERS": "variables/sohl.entity.expr.STANDARD_HELPERS.html",
   "sohl.entity.expr.SafeExpression": "classes/sohl.entity.expr.SafeExpression-1.html",
   "sohl.entity.expr.SafeExpression.Data": "interfaces/sohl.entity.expr.SafeExpression.Data.html",

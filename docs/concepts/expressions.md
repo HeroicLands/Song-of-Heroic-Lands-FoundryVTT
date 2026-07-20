@@ -167,6 +167,21 @@ valid regular expression. `padStart`, `padEnd`, and `repeat` throw a
 | --------------------------------------- | --------- | ----------------------------------------------------------------------------------- |
 | `hasUsableSkill(actorLogic, shortcode)` | `boolean` | Whether the actor (given its logic) has a skill with that shortcode (e.g. `"dge"`). |
 
+**Randomness and dice** _(stochastic — unlike every other helper, successive
+calls differ)_
+
+| Helper          | Returns  | Description                                                                                                                                                                                                   |
+| --------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `rand()`        | `number` | A random number in `[0, 1)` (like `Math.random`). Combine with `floor`/`min`/`max` to derive integers or ranges.                                                                                              |
+| `roll(formula)` | `object` | Rolls a `SimpleRoll` dice formula (e.g. `'2d6+3'`, `'1d100'`) and returns a plain object with `formula`, `result`, `total`, `median`, and the roll's raw fields (`numDice`, `dieFaces`, `modifier`, `rolls`). |
+
+`roll` builds its `SimpleRoll` under the evaluating expression's owning Logic and
+returns only that plain result object, so the live roll never escapes the
+sandbox. Read `.total` for the rolled outcome; `.median` is the roll's
+**average (expected value)** — a fixed, non-random reference that may be
+fractional (`roll('1d6').median` is `3.5`), so round it yourself if you need an
+integer.
+
 ### Worked examples
 
 **A predicate — target only high-mastery skills.** An active effect with an
@@ -200,6 +215,14 @@ Dodge skill:
 
 ```text
 hasUsableSkill(actorLogic, 'dge')
+```
+
+**A computed value — a random dice outcome.** `roll` evaluates a dice formula
+and exposes its `total` (and `median`) for use in an expression. This yields the
+total of a `2d6+1` roll:
+
+```text
+roll('2d6+1').total
 ```
 
 ## Macros — asynchronous, imperative GM behavior

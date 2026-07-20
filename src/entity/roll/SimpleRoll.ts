@@ -133,22 +133,28 @@ export class SimpleRoll extends SohlEntity {
     }
 
     /**
-     * Returns the statistical median roll. Result is an integer.
+     * The **average (expected value)** of this roll — the mean outcome of
+     * `numDice` dice of `dieFaces` faces, plus the flat `modifier`. It is the
+     * roll's fixed statistical center, with no randomness.
      *
-     * @returns an integer representing the median impact
+     * @remarks
+     * Each die averages `(dieFaces + 1) / 2` (a fair die's mean), so the dice
+     * sum's expected value is `numDice * (dieFaces + 1) / 2`, to which the
+     * `modifier` is added. Because the sum of uniform dice is a **symmetric**
+     * distribution, its mean and median coincide — so this single value is both
+     * the average and the median (the getter is named for the latter).
+     *
+     * The result is **not rounded**: an odd count of even-faced dice yields a
+     * half-integer (e.g. `1d6` → `3.5`, `1d20` → `10.5`); round at the call
+     * site if you want an integer. With no dice, it is just the `modifier`.
+     *
+     * @returns The average/expected result of the roll, possibly fractional.
      */
     get median(): number {
-        let diceMedian = 0;
-        if (this.numDice > 0 && this.dieFaces > 0) {
-            diceMedian = this.numDice * ((1 + this.dieFaces) / 2);
-            if (this.dieFaces % 2 === 0) {
-                diceMedian = this.numDice * (this.dieFaces / 2 + 0.5);
-            } else {
-                diceMedian = this.numDice * ((this.dieFaces + 1) / 2);
-            }
+        if (this.numDice <= 0 || this.dieFaces <= 0) {
+            return this.modifier;
         }
-
-        return Math.round(diceMedian) + this.modifier;
+        return (this.numDice * (this.dieFaces + 1)) / 2 + this.modifier;
     }
 
     /**
