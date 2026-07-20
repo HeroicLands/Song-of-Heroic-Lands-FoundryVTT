@@ -43,4 +43,8 @@ Skills improve through use. Characters who test their abilities in play develop 
 
 TBD
 
-- [[Healing_Roll|Healing Roll]]
+## Health, Injury & Recovery
+
+- [[Healing_Roll|Healing Roll]] — periodic recovery from injuries and restoration of lost blood.
+- [[Bleeding|Bleeding]] — life-threatening blood loss: the Blood Loss Advance Test, Shock State, and staunching bleeding with the Blood Stoppage Test.
+- [[Afflictions|Afflictions]] — diseases, poisons, and other afflictions: incubation, the Course Test, reactions, and outcomes.
