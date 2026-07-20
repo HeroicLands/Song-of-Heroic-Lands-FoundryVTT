@@ -13,7 +13,10 @@
 
 import { entity } from "@src/entity/registry";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
-import { fvttWorldTime } from "@src/core/FoundryHelpers";
+import {
+    fvttWorldTime,
+    fvttCreateEmbeddedItems,
+} from "@src/core/FoundryHelpers";
 import { deriveNext, elapsedCheckpoints } from "@src/entity/event/scheduling";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -343,14 +346,14 @@ export class TraumaLogic<
         if (this.isBleeding && this.data.lastBloodLossAdvanceDate != null) {
             sohl.events.scheduleAt(
                 uuid,
-                "trauma::bloodLossAdvanceRoll",
+                "bloodLossAdvanceCheck",
                 deriveNext(
                     this.data.lastBloodLossAdvanceDate,
                     this.bloodLossAdvanceDurationBase.effective,
                 ),
             );
         } else {
-            sohl.events.unsubscribe(uuid, "trauma::bloodLossAdvanceRoll");
+            sohl.events.unsubscribe(uuid, "bloodLossAdvanceCheck");
         }
     }
 
@@ -485,13 +488,18 @@ export class TraumaLogic<
      *
      * Advances the blood-loss anchor to now, rolls the next interval from
      * {@link TraumaData.bloodLossAdvanceDurationFormula}, and schedules the
-     * `trauma::bloodLossAdvanceRoll` occurrence.
+     * `bloodLossAdvanceCheck` occurrence.
      *
      * @param _context - The action context (its `scope` is the trigger context).
      * @returns A promise that resolves once the anchor is persisted.
-     * @remarks Catch-up wiring only (#481): advances the anchor and re-arms via
-     *   {@link deriveNext}. The blood-loss **effect** — the advance roll and its
-     *   consequences — is not yet implemented; see issue #487.
+     * @remarks Applies the **Blood Loss Advance Test** (#487) at each elapsed
+     *   checkpoint. With no physician accepting the Blood Stoppage request, the
+     *   advance auto-resolves as though a Blood Stoppage Test had been a critical
+     *   failure — the bleeding continues (the interactive physician Accept card is
+     *   #547). Each test rolls against the victim's Strength Mastery Level, accrues
+     *   Blood Loss Points (CF +3, MF +2, MS +1, CS 0), advances the being's shock
+     *   state one step per BLP, and inflicts 5 Fatigue Levels of weakness (anemia)
+     *   per BLP. The anchor is advanced over every elapsed interval and re-armed.
      */
     async bloodLossAdvanceCheck(_context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
@@ -503,19 +511,77 @@ export class TraumaLogic<
             interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
         const lastProcessed = checkpoints.at(-1) ?? now;
 
+        // Apply one Blood Loss Advance Test per elapsed checkpoint, in sequence.
+        for (let i = 0; i < checkpoints.length && this.isBleeding; i++) {
+            await this.applyBloodLossAdvance();
+        }
+
         const nextInterval = this.rollDuration(
             this.data.bloodLossAdvanceDurationFormula,
         );
         this.bloodLossAdvanceDurationBase.setBase(nextInterval);
         sohl.events.scheduleAt(
             uuid,
-            "trauma::bloodLossAdvanceRoll",
+            "bloodLossAdvanceCheck",
             deriveNext(lastProcessed, nextInterval),
         );
         await this.item.update({
             "system.lastBloodLossAdvanceDate": lastProcessed,
             "system.bloodLossAdvanceDurationBase": nextInterval,
         } as PlainObject);
+    }
+
+    /**
+     * Resolve one Blood Loss Advance Test (#487): the auto-resolve fallback
+     * (bleeding continues), a headless roll against the victim's Strength Mastery
+     * Level, and its consequences — shock-state advance and anemia fatigue.
+     *
+     * @returns A promise that resolves once the consequences are applied.
+     */
+    private async applyBloodLossAdvance(): Promise<void> {
+        const actorLogic = this.actorLogic;
+        if (!actorLogic) return;
+        const strMl =
+            (actorLogic.getItemLogic("str", ITEM_KIND.ATTRIBUTE) as any)
+                ?.masteryLevel?.effective ?? 0;
+        const result = await rollTimedTest(this, strMl, {
+            noChat: true,
+            type: "trauma-bloodloss",
+            title: sohl.i18n.localize(
+                "SOHL.Trauma.Action.bloodLossAdvanceCheck.title",
+            ),
+        });
+        if (!result) return;
+        // Blood Loss Points by success level: CF (−1) +3, MF (0) +2, MS (1) +1,
+        // CS (2) 0. That is `2 − normSuccessLevel`, clamped to [0, 3].
+        const blp = Math.max(0, Math.min(3, 2 - result.normSuccessLevel));
+        if (blp <= 0) return;
+        // Each BLP advances the shock state one step toward Dead...
+        await (actorLogic as any).advanceShockState?.(blp);
+        // ...and inflicts 5 Fatigue Levels of weakness (anemia) per BLP.
+        await this.inflictAnemiaFatigue(blp * 5);
+    }
+
+    /**
+     * Inflict `levels` Fatigue Levels of **weakness** fatigue (the anemia of
+     * ongoing blood loss) as a new fatigue-subtype trauma on the owning actor.
+     *
+     * @param levels - The Fatigue Levels to inflict.
+     * @returns A promise that resolves once the fatigue trauma is created.
+     */
+    private async inflictAnemiaFatigue(levels: number): Promise<void> {
+        if (levels <= 0 || !this.actorLogic) return;
+        await fvttCreateEmbeddedItems(this.actorLogic, [
+            {
+                type: ITEM_KIND.TRAUMA,
+                name: sohl.i18n.localize("SOHL.Trauma.Anemia"),
+                system: {
+                    subType: TRAUMA_SUBTYPE.FATIGUE,
+                    category: FATIGUE_CATEGORY.WEAKNESS,
+                    levelBase: levels,
+                },
+            },
+        ]);
     }
 
     /**

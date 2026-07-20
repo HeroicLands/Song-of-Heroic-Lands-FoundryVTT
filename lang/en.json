@@ -1606,6 +1606,7 @@
     "SOHL.Trauma.FIELDS.category.label": "Sub-Category",
     "SOHL.Trauma.FIELDS.subType.hint": "The trauma's nature: an injury, or a mind/spirit/body condition (fear, morale, pall, psychological-condition, aural-shock, fatigue, infection, shock, coma)",
     "SOHL.Trauma.FIELDS.subType.label": "Trauma Type",
+    "SOHL.Trauma.Anemia": "Anemia",
     "SOHL.Trauma.Action.bloodLossAdvanceCheck.title": "Arm Blood-Loss Advance",
     "SOHL.Trauma.Action.healingCheck.title": "Arm Healing Check",
     "SOHL.Trauma.Action.healingtest.title": "Healing Test",

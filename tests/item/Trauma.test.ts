@@ -91,7 +91,7 @@ describe("time-based healing / blood-loss scheduling (#482)", () => {
         await logic.bloodLossAdvanceCheck({} as any);
         expect(scheduleAt).toHaveBeenCalledWith(
             expect.any(String),
-            "trauma::bloodLossAdvanceRoll",
+            "bloodLossAdvanceCheck",
             2300,
         );
     });
@@ -335,6 +335,117 @@ describe("TraumaDataModel", () => {
     });
 
     it.todo("has kind set to ITEM_KIND.TRAUMA");
+});
+
+describe("Blood Loss Advance Test effect (#487)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    function withEvents() {
+        (globalThis as any).sohl.events = {
+            scheduleAt: vi.fn(),
+            unsubscribe: vi.fn(),
+        };
+    }
+
+    /** A bleeding injury on an actor with a Strength ML and shock-advance op. */
+    function bleeder(strMl = 60) {
+        const actor = makeMockActor();
+        (actor.logic as any).advanceShockState = vi
+            .fn()
+            .mockResolvedValue(undefined);
+        (actor.logic as any).getItemLogic = vi.fn((code: string) =>
+            code === "str" ? { masteryLevel: { effective: strMl } } : undefined,
+        );
+        const logic = makeTrauma(
+            {
+                subType: TRAUMA_SUBTYPE.INJURY,
+                bloodLossAdvanceDurationBase: 300,
+                bloodLossAdvanceDurationFormula: "300",
+                lastBloodLossAdvanceDate: 1000,
+            },
+            { actor },
+        );
+        (logic.item as any).uuid = "Item.bleeder0000";
+        logic.initialize();
+        return { logic, actor };
+    }
+
+    function mockRoll(...levels: number[]) {
+        const spy = vi.spyOn(MasteryLevelModifier.prototype, "successTest");
+        for (const lvl of levels) {
+            spy.mockResolvedValueOnce({ normSuccessLevel: lvl } as any);
+        }
+        return spy;
+    }
+
+    it.each([
+        [CRITICAL_FAILURE, 3],
+        [MARGINAL_FAILURE, 2],
+        [MARGINAL_SUCCESS, 1],
+    ])(
+        "accrues Blood Loss Points, advancing shock and anemia (sl %i → %i BLP)",
+        async (sl, blp) => {
+            withEvents();
+            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1300); // 1 checkpoint
+            const create = vi
+                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+                .mockResolvedValue([]);
+            mockRoll(sl);
+            const { logic, actor } = bleeder();
+            await logic.bloodLossAdvanceCheck({} as any);
+            expect((actor.logic as any).advanceShockState).toHaveBeenCalledWith(
+                blp,
+            );
+            expect(create).toHaveBeenCalledWith(actor.logic, [
+                expect.objectContaining({
+                    system: expect.objectContaining({
+                        levelBase: blp * 5,
+                        category: "weakness",
+                    }),
+                }),
+            ]);
+        },
+    );
+
+    it("does no blood loss on a critical success (0 BLP)", async () => {
+        withEvents();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1300);
+        const create = vi
+            .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+            .mockResolvedValue([]);
+        mockRoll(CRITICAL_SUCCESS);
+        const { logic, actor } = bleeder();
+        await logic.bloodLossAdvanceCheck({} as any);
+        expect((actor.logic as any).advanceShockState).not.toHaveBeenCalled();
+        expect(create).not.toHaveBeenCalled();
+    });
+
+    it("rolls against the victim's Strength Mastery Level", async () => {
+        withEvents();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1300);
+        vi.spyOn(
+            FoundryHelpersMock,
+            "fvttCreateEmbeddedItems",
+        ).mockResolvedValue([]);
+        const spy = mockRoll(MARGINAL_SUCCESS);
+        const { logic } = bleeder(72);
+        await logic.bloodLossAdvanceCheck({} as any);
+        expect((spy.mock.instances[0] as any).base).toBe(72);
+    });
+
+    it("applies one Blood Loss Advance Test per elapsed checkpoint", async () => {
+        withEvents();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1600); // 2 checkpoints
+        vi.spyOn(
+            FoundryHelpersMock,
+            "fvttCreateEmbeddedItems",
+        ).mockResolvedValue([]);
+        const spy = mockRoll(MARGINAL_FAILURE, MARGINAL_FAILURE);
+        const { logic, actor } = bleeder();
+        await logic.bloodLossAdvanceCheck({} as any);
+        expect(spy).toHaveBeenCalledTimes(2);
+        expect((actor.logic as any).advanceShockState).toHaveBeenCalledTimes(2);
+    });
 });
 
 describe("Injury Healing Test effect (#486)", () => {
