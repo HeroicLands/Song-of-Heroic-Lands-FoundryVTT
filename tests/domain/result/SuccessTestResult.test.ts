@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { BRAND, SUCCESS_TEST_RESULT_MOVEMENT } from "@src/utils/constants";
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
@@ -86,7 +87,7 @@ describe("SuccessTestResult", () => {
             "initializes masteryLevelModifier from data or creates default",
         );
         it.todo(
-            "initializes roll with MARGINAL_FAILURE standard data by default",
+            "initializes roll with an unrolled d100 by default (evaluate casts it)",
         );
         it.todo("initializes testType, rollMode, movement, and mishaps");
         it.todo("sets speaker from options.chatSpeaker or creates from token");
@@ -262,5 +263,65 @@ describe("SuccessTestResult", () => {
 
     describe("StandardRollData", () => {
         it.todo("defines standard roll data for CF, MF, CS, MS outcomes");
+    });
+
+    describe("evaluate() — rolls unless a die was supplied (#551)", () => {
+        const owned = { isOwner: true, name: "GM" } as any;
+
+        /** A result owned by `owned`, optionally seeded with a supplied die. */
+        function makeOwnedResult(roll?: SimpleRoll): SuccessTestResult {
+            const mlMod = new MasteryLevelModifier({ baseValue: 50 } as any, {
+                parent,
+            });
+            return new SuccessTestResult(
+                {
+                    masteryLevelModifier: mlMod,
+                    ...(roll ? { roll } : {}),
+                } as any,
+                { parent, chatSpeaker: owned },
+            );
+        }
+
+        it("casts a fresh d100 when no die was supplied (regression: not a fixed 99)", async () => {
+            const totals = new Set<number>();
+            for (let i = 0; i < 40; i++) {
+                const result = makeOwnedResult();
+                await result.evaluate();
+                expect(result.roll.total).toBeGreaterThanOrEqual(1);
+                expect(result.roll.total).toBeLessThanOrEqual(100);
+                totals.add(result.roll.total);
+            }
+            expect(totals.size).toBeGreaterThan(1);
+        });
+
+        it("resolves a supplied die without rolling it", async () => {
+            const supplied = new SimpleRoll(
+                { numDice: 1, dieFaces: 100, modifier: 0, rolls: [23] } as any,
+                { parent },
+            );
+            const result = makeOwnedResult(supplied);
+            await result.evaluate();
+            expect(result.roll.total).toBe(23);
+        });
+
+        it("does not re-roll on a second evaluate", async () => {
+            const result = makeOwnedResult();
+            await result.evaluate();
+            const first = result.roll.total;
+            await result.evaluate();
+            expect(result.roll.total).toBe(first);
+        });
+
+        it("returns false and never rolls when the speaker is not owned", async () => {
+            const mlMod = new MasteryLevelModifier({ baseValue: 50 } as any, {
+                parent,
+            });
+            const result = new SuccessTestResult(
+                { masteryLevelModifier: mlMod } as any,
+                { parent, chatSpeaker: { isOwner: false, name: "NPC" } as any },
+            );
+            expect(await result.evaluate()).toBe(false);
+            expect(result.roll.rolls.length).toBe(0);
+        });
     });
 });

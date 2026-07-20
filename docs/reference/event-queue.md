@@ -205,6 +205,42 @@ async healingTest(context) {
 }
 ```
 
+### Rolling a test from a handler — roll headlessly, GM-fired
+
+A handler like the `rollHealingCheck` above runs on the **active GM only**, with no
+user at a dialog. Resolve a d100 roll-under mastery test in that context with
+{@link sohl.entity.modifier.MasteryLevelModifier.successTest} and a **`skipDialog`**
+action context: the pre-roll dialog is bypassed, situational inputs are taken from
+`context.scope`, and `evaluate()` rolls a fresh d100 and returns the
+{@link sohl.entity.result.SuccessTestResult} — the handler reads `normSuccessLevel`
+/ `isSuccess` / `isCritical` / `lastDigit` off it and decides what to apply:
+
+```ts
+// Inside a GM-fired timed handler (recovery test = Healing Base × Healing Rate):
+const mlMod = new entity.MasteryLevelModifier(
+    { critSuccessDigits: [0, 5], critFailureDigits: [0, 5] },
+    { parent: this }, // this item/actor logic owns the result
+).setBase(healingBase * healingRate);
+
+const result = await mlMod.successTest(
+    new SohlActionContext({
+        speaker: this.actorLogic.speaker, // the GM owns every actor → evaluate() proceeds
+        skipDialog: true, // no dialog: take modifiers from scope
+        noChat: true, // optional: suppress the card when catching up many checkpoints
+        scope: { situationalModifier: 0 },
+    }),
+);
+if (!result) return level; // cancelled / refused (e.g. speaker not owned)
+if (result.isSuccess) level -= 1; // heal one level
+// A d100 ending in 0 or 5 is a critical (CF0 more severe than CF5) via the
+// modifier's critSuccessDigits / critFailureDigits.
+```
+
+`skipDialog` makes the test headless (no user needed); `noChat` suppresses the chat
+card, which matters when a handler catches up many elapsed checkpoints in one pass.
+Because the handler runs as the GM, who owns every actor, the speaker is owned and
+`evaluate()` proceeds.
+
 This gives you, for free:
 
 1. **World reload safety.** On load, every document prepares and re-subscribes from its persisted anchor. Nothing is lost across sessions.
