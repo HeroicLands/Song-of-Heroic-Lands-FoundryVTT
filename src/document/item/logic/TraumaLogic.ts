@@ -13,10 +13,8 @@
 
 import { entity } from "@src/entity/registry";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
-import {
-    fvttWorldTime,
-    fvttCreateEmbeddedItems,
-} from "@src/core/FoundryHelpers";
+import { fvttWorldTime } from "@src/core/FoundryHelpers";
+import { inflictWeaknessFatigue } from "@src/document/item/logic/fatigue";
 import { deriveNext, elapsedCheckpoints } from "@src/entity/event/scheduling";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -570,18 +568,11 @@ export class TraumaLogic<
      * @returns A promise that resolves once the fatigue trauma is created.
      */
     private async inflictAnemiaFatigue(levels: number): Promise<void> {
-        if (levels <= 0 || !this.actorLogic) return;
-        await fvttCreateEmbeddedItems(this.actorLogic, [
-            {
-                type: ITEM_KIND.TRAUMA,
-                name: sohl.i18n.localize("SOHL.Trauma.Anemia"),
-                system: {
-                    subType: TRAUMA_SUBTYPE.FATIGUE,
-                    category: FATIGUE_CATEGORY.WEAKNESS,
-                    levelBase: levels,
-                },
-            },
-        ]);
+        await inflictWeaknessFatigue(
+            this.actorLogic,
+            levels,
+            sohl.i18n.localize("SOHL.Trauma.Anemia"),
+        );
     }
 
     /**

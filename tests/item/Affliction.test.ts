@@ -5,8 +5,13 @@ import {
     AFFLICTION_SUBTYPE,
     AFFLICTION_TRANSMISSION,
     AfflictionSubTypeChoices,
+    CRITICAL_FAILURE,
+    CRITICAL_SUCCESS,
     ITEM_KIND,
+    MARGINAL_FAILURE,
+    MARGINAL_SUCCESS,
 } from "@src/utils/constants";
+import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import {
     makeAttributeStub,
     makeItemLogic,
@@ -564,4 +569,192 @@ describe("AfflictionDataModel", () => {
     });
 
     it.todo("has kind set to ITEM_KIND.AFFLICTION");
+});
+
+describe("Course Test + Reaction effect (#489)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    function withEvents() {
+        (globalThis as any).sohl.events = {
+            scheduleAt: vi.fn(),
+            unsubscribe: vi.fn(),
+        };
+    }
+
+    /** A symptomatic, naturally-healing affliction on an actor with healingBase. */
+    function courseAffliction(healingRateBase: number, currentShock = 0) {
+        const actor = makeMockActor();
+        (actor.logic as any).healingBase = { effective: 4 };
+        (actor.logic as any).shockState = currentShock;
+        (actor.logic as any).setShockState = vi
+            .fn()
+            .mockResolvedValue(undefined);
+        const logic = makeAffliction(
+            {
+                healingRateBase,
+                onsetDate: 2000,
+                lastHealingCheckDate: 1000,
+                healingCheckDurationBase: 500,
+                healingCheckDurationFormula: "500",
+                resolutionDurationFormula: "700",
+            },
+            { actor },
+        );
+        (logic.item as any).uuid = "Item.affliction0";
+        logic.initialize();
+        vi.spyOn(logic, "canHeal", "get").mockReturnValue(true);
+        return { logic, actor };
+    }
+
+    function mockRoll(...levels: number[]) {
+        const spy = vi.spyOn(MasteryLevelModifier.prototype, "successTest");
+        for (const lvl of levels) {
+            spy.mockResolvedValueOnce({ normSuccessLevel: lvl } as any);
+        }
+        return spy;
+    }
+
+    function oneCheckpoint() {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1500);
+    }
+
+    it.each([
+        [CRITICAL_FAILURE, -2],
+        [MARGINAL_FAILURE, -1],
+        [MARGINAL_SUCCESS, 1],
+        [CRITICAL_SUCCESS, 2],
+    ])(
+        "changes the Healing Rate by the course delta (sl %i → %i)",
+        async (sl, delta) => {
+            withEvents();
+            oneCheckpoint();
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttCreateEmbeddedItems",
+            ).mockResolvedValue([]);
+            mockRoll(sl);
+            // Start HR 4 so no reaction fires except at the resulting HR.
+            const { logic } = courseAffliction(4);
+            await logic.healingCheck({} as any);
+            expect(logic.item.update).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    "system.healingRateBase": 4 + delta,
+                }),
+            );
+        },
+    );
+
+    it("HR 5 reaction inflicts 5 weakness fatigue", async () => {
+        withEvents();
+        oneCheckpoint();
+        const create = vi
+            .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+            .mockResolvedValue([]);
+        mockRoll(MARGINAL_SUCCESS); // HR 4 → 5
+        const { logic } = courseAffliction(4);
+        await logic.healingCheck({} as any);
+        expect(create).toHaveBeenCalledWith(logic.actorLogic, [
+            expect.objectContaining({
+                system: expect.objectContaining({
+                    levelBase: 5,
+                    category: "weakness",
+                }),
+            }),
+        ]);
+    });
+
+    it("HR 4 reaction inflicts 10 weakness fatigue", async () => {
+        withEvents();
+        oneCheckpoint();
+        const create = vi
+            .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+            .mockResolvedValue([]);
+        mockRoll(MARGINAL_SUCCESS); // HR 3 → 4
+        const { logic } = courseAffliction(3);
+        await logic.healingCheck({} as any);
+        expect(create).toHaveBeenCalledWith(logic.actorLogic, [
+            expect.objectContaining({
+                system: expect.objectContaining({ levelBase: 10 }),
+            }),
+        ]);
+    });
+
+    it.each([
+        [3, 1], // HR 3 → Stunned
+        [2, 2], // HR 2 → Incapacitated
+        [1, 3], // HR 1 → Unconscious
+    ])("HR %i imposes shock state %i", async (startHr, shockLevel) => {
+        withEvents();
+        oneCheckpoint();
+        vi.spyOn(
+            FoundryHelpersMock,
+            "fvttCreateEmbeddedItems",
+        ).mockResolvedValue([]);
+        mockRoll(MARGINAL_SUCCESS); // +1 lands on startHr+1... use CF to hit target
+        // Start one above so MF (−1) lands on the target HR.
+        const { logic, actor } = courseAffliction(startHr + 1);
+        vi.restoreAllMocks();
+        vi.spyOn(logic, "canHeal", "get").mockReturnValue(true);
+        oneCheckpoint();
+        mockRoll(MARGINAL_FAILURE); // −1 → startHr
+        await logic.healingCheck({} as any);
+        expect((actor.logic as any).setShockState).toHaveBeenCalledWith(
+            shockLevel,
+        );
+    });
+
+    it("HR below 1 imposes Dead", async () => {
+        withEvents();
+        oneCheckpoint();
+        vi.spyOn(
+            FoundryHelpersMock,
+            "fvttCreateEmbeddedItems",
+        ).mockResolvedValue([]);
+        mockRoll(MARGINAL_FAILURE); // HR 1 → 0
+        const { logic, actor } = courseAffliction(1);
+        await logic.healingCheck({} as any);
+        expect((actor.logic as any).setShockState).toHaveBeenCalledWith(4);
+    });
+
+    it("never improves an already-worse shock state", async () => {
+        withEvents();
+        oneCheckpoint();
+        vi.spyOn(
+            FoundryHelpersMock,
+            "fvttCreateEmbeddedItems",
+        ).mockResolvedValue([]);
+        mockRoll(MARGINAL_FAILURE); // HR 4 → 3 (Stunned = 1)
+        const { logic, actor } = courseAffliction(4, 3); // being already Unconscious (3)
+        await logic.healingCheck({} as any);
+        expect((actor.logic as any).setShockState).toHaveBeenCalledWith(3);
+    });
+
+    it("stops the course once the affliction is defeated (HR 6+)", async () => {
+        withEvents();
+        oneCheckpoint();
+        vi.spyOn(
+            FoundryHelpersMock,
+            "fvttCreateEmbeddedItems",
+        ).mockResolvedValue([]);
+        mockRoll(CRITICAL_SUCCESS); // HR 5 → 7
+        const { logic, actor } = courseAffliction(5);
+        await logic.healingCheck({} as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.healingRateBase": 7 }),
+        );
+        expect((actor.logic as any).setShockState).not.toHaveBeenCalled();
+    });
+
+    it("makes no course test when the affliction does not heal naturally", async () => {
+        withEvents();
+        oneCheckpoint();
+        const { logic } = courseAffliction(3);
+        vi.spyOn(logic, "canHeal", "get").mockReturnValue(false);
+        const spy = mockRoll(MARGINAL_SUCCESS);
+        await logic.healingCheck({} as any);
+        expect(spy).not.toHaveBeenCalled();
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.healingRateBase": 3 }),
+        );
+    });
 });

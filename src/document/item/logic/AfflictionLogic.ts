@@ -27,9 +27,13 @@ import {
     ATTRIBUTE_CODE,
     defineType,
     ITEM_KIND,
+    MARGINAL_SUCCESS,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
+import { rollTimedTest } from "@src/document/item/logic/timed-test";
+import { inflictWeaknessFatigue } from "@src/document/item/logic/fatigue";
+import { SHOCK_STATE } from "@src/document/actor/logic/shock";
 import {
     SohlItemBaseLogic,
     type SohlItemData,
@@ -681,10 +685,15 @@ export class AfflictionLogic<
      *
      * @param _context - The action context (its `scope` is the trigger context).
      * @returns A promise that resolves once the anchor is persisted.
-     * @remarks Catch-up wiring only (#481): advances the anchor over every
-     *   elapsed interval and re-arms via {@link deriveNext}. The recovery/course
-     *   **effect** (the check roll and its result) is not yet implemented; see
-     *   issue #489.
+     * @remarks Applies the **Course Test** (#489) at each elapsed checkpoint (only
+     *   for a naturally-healing affliction). Each is a headless test of
+     *   `Healing Base × Healing Rate` that changes the affliction's Healing Rate
+     *   (CF −2, MF −1, MS +1, CS +2); the resulting HR then drives the host's
+     *   **Reaction**: HR 6+ the affliction is defeated (course stops), HR 5 / 4
+     *   inflict 5 / 10 weakness fatigue, and HR 3 / 2 / 1 / &lt;1 impose Stunned /
+     *   Incapacitated / Unconscious / Dead shock (never improving an already-worse
+     *   shock state). The anchor is advanced over every elapsed interval and
+     *   re-armed.
      */
     async healingCheck(_context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
@@ -696,6 +705,20 @@ export class AfflictionLogic<
             interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
         const lastProcessed = checkpoints.at(-1) ?? now;
 
+        // Course Test at each elapsed checkpoint, in sequence (each adjusts the
+        // Healing Rate the next one sees). Only a naturally-healing affliction
+        // fights its course; it stops once defeated (HR 6+).
+        let hr = this.data.healingRateBase ?? 0;
+        if (this.canHeal) {
+            for (let i = 0; i < checkpoints.length && hr < 6; i++) {
+                const sl = await this.rollCourseTest(hr);
+                if (sl == null) break; // roll refused
+                // Change to Healing Rate: CF −2, MF −1, MS +1, CS +2.
+                hr += sl < MARGINAL_SUCCESS ? sl - 1 : sl;
+                await this.applyReaction(hr);
+            }
+        }
+
         const nextInterval = this.rollDuration(
             this.data.healingCheckDurationFormula,
         );
@@ -706,9 +729,65 @@ export class AfflictionLogic<
             deriveNext(lastProcessed, nextInterval),
         );
         await this.item.update({
+            "system.healingRateBase": hr,
             "system.lastHealingCheckDate": lastProcessed,
             "system.healingCheckDurationBase": nextInterval,
         } as PlainObject);
+    }
+
+    /**
+     * Roll one headless **Course Test** — `Healing Base × Healing Rate` (Healing
+     * Base from the owning being, Healing Rate the affliction's current `hr`) —
+     * and return the normalized success level (−1/0/1/2), or `null` if the roll
+     * was refused.
+     *
+     * @param hr - The affliction's current Healing Rate.
+     * @returns The normalized success level, or `null`.
+     */
+    private async rollCourseTest(hr: number): Promise<number | null> {
+        const healingBase =
+            (this.actorLogic as any)?.healingBase?.effective ?? 0;
+        const result = await rollTimedTest(
+            this,
+            healingBase * Math.max(0, hr),
+            {
+                noChat: true,
+                type: "affliction-coursetest",
+                title: sohl.i18n.localize(
+                    "SOHL.Affliction.Action.healingCheck.title",
+                ),
+            },
+        );
+        return result ? result.normSuccessLevel : null;
+    }
+
+    /**
+     * Apply the host's **Reaction** to the affliction's current Healing Rate
+     * `hr`: HR 6+ is defeat (no reaction — the course loop stops); HR 5 / 4
+     * inflict 5 / 10 weakness fatigue; HR 3 / 2 / 1 / &lt;1 impose Stunned /
+     * Incapacitated / Unconscious / Dead shock, worsening the being's shock state
+     * to at least that level (never improving it).
+     *
+     * @param hr - The affliction's current Healing Rate.
+     * @returns A promise that resolves once the reaction is applied.
+     */
+    private async applyReaction(hr: number): Promise<void> {
+        if (hr >= 6) return; // defeated
+        if (hr === 5 || hr === 4) {
+            await inflictWeaknessFatigue(
+                this.actorLogic,
+                hr === 5 ? 5 : 10,
+                this.name,
+            );
+            return;
+        }
+        const being = this.actorLogic as any;
+        const level =
+            hr === 3 ? SHOCK_STATE.STUNNED
+            : hr === 2 ? SHOCK_STATE.INCAPACITATED
+            : hr === 1 ? SHOCK_STATE.UNCONSCIOUS
+            : SHOCK_STATE.DEAD;
+        await being?.setShockState?.(Math.max(being?.shockState ?? 0, level));
     }
 
     /**
