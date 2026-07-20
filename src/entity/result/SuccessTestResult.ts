@@ -218,7 +218,7 @@ export class SuccessTestResult extends TestResult {
         // A die supplied by the caller (`data.roll`) is authoritative and
         // resolved as-is; without one, the roll starts UNROLLED and evaluate()
         // casts it. This intent is recorded now so evaluate() never has to infer
-        // "already rolled?" from the die's state (see {@link _rollSupplied}).
+        // "already rolled?" from the die's state (see `_rollSupplied`).
         this._rollSupplied = data.roll !== undefined;
         this._roll =
             data.roll ??
@@ -612,7 +612,7 @@ export class SuccessTestResult extends TestResult {
      *
      * @remarks
      * The die is cast here **only when the caller did not supply one** (see
-     * {@link _rollSupplied}): a fresh test rolls a new d100, while a supplied die
+     * `_rollSupplied`): a fresh test rolls a new d100, while a supplied die
      * — fate replaying a prior roll, or the attacker's die reconstructed on the
      * defender's client — is resolved untouched. It then sets the success level
      * from the roll, promoting it to a critical when the last digit appears in
