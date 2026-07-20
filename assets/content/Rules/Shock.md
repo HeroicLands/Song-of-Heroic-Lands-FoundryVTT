@@ -74,9 +74,16 @@ there is one status effect for each shock state — **Stunned**, **Incapacitated
 Normally exactly one is active; if more than one is somehow present, the **most
 severe (highest) one is the creature's shock state**. A `BeingLogic` accessor
 reports the current shock state as the highest active status, so consumers never
-inspect the individual effects. An effect that changes the shock state (blood
-loss, an injury shock result, a Shock Re-Test) reads that current state and sets
-the status effect for the new one.
+inspect the individual effects.
+
+All changes go through a single **set-shock-state** operation that first **clears
+every** shock status effect and then applies only the one for the new state (and
+none for _None_). This keeps transitions clean in **both** directions and repairs
+any stray multiple-status situation: improving from Unconscious to Stunned, for
+example, removes the Unconscious effect, so the accessor does not keep reporting
+the higher state. An effect that changes the shock state (blood loss, an injury
+shock result, a Shock Re-Test) reads the current state, computes the new one, and
+sets it through this operation.
 
 ## Shock Re-Test
 
