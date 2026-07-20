@@ -42,6 +42,21 @@ While dormant it can still be transmitted (depending on the specific affliction)
 but it does not proceed to onset or any further state — it is simply marked
 **Dormant**, and the host may never realize they carry it.
 
+## Onset
+
+When the Incubation Period ends, the affliction reaches **onset** and becomes
+**symptomatic**. Because an affliction can be almost anything, its symptoms are
+usually a matter of play — described and role-played by the GM and players rather
+than modeled by the system — so at onset the system simply marks the affliction
+**Symptomatic** and begins its [Course Test](#course-test-healing) and
+[resolution](#outcome) cycle.
+
+An affliction may also name an **optional onset macro** — a Macro (referenced by
+UUID) that runs at onset. This lets an author attach concrete mechanical
+consequences to a specific affliction, and the macro may itself schedule further
+events. (As always, the affliction carries only a _reference_ to the macro, never
+executable code.)
+
 ## Course Test (healing)
 
 Once onset has occurred, the body fights the affliction. Each healing-check
