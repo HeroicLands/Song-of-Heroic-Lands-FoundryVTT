@@ -4,9 +4,21 @@ import {
 } from "@src/entity/modifier/MasteryLevelModifier";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
+import { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import {
+    describe,
+    it,
+    expect,
+    vi,
+    afterEach,
+    beforeEach,
+    type MockInstance,
+} from "vitest";
 import { defaultToJSON, defaultFromJSON } from "@src/utils/helpers";
-import { BRAND } from "@src/utils/constants";
+import { BRAND, ITEM_KIND } from "@src/utils/constants";
+import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
+import { makeItemLogic } from "@tests/mocks/logicHarness";
 
 // Stand-in owning logic carrying the SohlLogic brand.
 const parent = {
@@ -164,6 +176,131 @@ describe("MasteryLevelModifier", () => {
             vi.spyOn(ml, "successTest").mockResolvedValue(undefined);
             expect(await ml.successValueTest(makeContext())).toBeUndefined();
         });
+    });
+});
+
+describe("MasteryLevelModifier.successTest — headless / skipDialog (#551)", () => {
+    let toChatSpy: MockInstance<(data?: PlainObject) => Promise<void>>;
+
+    beforeEach(() => {
+        // Stub the result's chat output so tests don't touch the chat/roll shims.
+        toChatSpy = vi
+            .spyOn(SuccessTestResult.prototype, "toChat")
+            .mockResolvedValue(undefined);
+    });
+    afterEach(() => vi.restoreAllMocks());
+
+    /** A real SkillLogic to own the test's entities (result, modifier, roll). */
+    function makeParent() {
+        return makeItemLogic(
+            SkillLogic,
+            ITEM_KIND.SKILL,
+            { skillBaseFormula: "", masteryLevelBase: 0 },
+            {},
+        );
+    }
+
+    /** A mastery-level modifier of the given base, owned by `parent`. */
+    function makeML(parent: any, base = 50): MasteryLevelModifier {
+        return new MasteryLevelModifier(
+            {
+                baseValue: base,
+                critSuccessDigits: [0, 5],
+                critFailureDigits: [0, 5],
+            } as any,
+            { parent },
+        );
+    }
+
+    /**
+     * A real {@link SohlSpeaker} the running user owns — the state a GM-fired
+     * timed event has. `isOwner` is derived from a token/actor in production, so
+     * it is stubbed here. Passed as a genuine SohlSpeaker so SohlActionContext
+     * keeps it as-is rather than re-wrapping (which would drop ownership).
+     */
+    function ownedSpeaker(name = "GM"): SohlSpeaker {
+        const speaker = new SohlSpeaker({ alias: name });
+        Object.defineProperty(speaker, "isOwner", {
+            get: () => true,
+            configurable: true,
+        });
+        return speaker;
+    }
+
+    /** A headless action context (skipDialog) with an owned speaker. */
+    function ctx(overrides: Record<string, unknown> = {}): SohlActionContext {
+        return new SohlActionContext({
+            speaker: ownedSpeaker(),
+            skipDialog: true,
+            ...overrides,
+        } as any);
+    }
+
+    it("bypasses the dialog when context.skipDialog is set", async () => {
+        const dialogSpy = vi.spyOn(FoundryHelpersMock, "dialog");
+        const parent = makeParent();
+        const result = await makeML(parent).successTest(ctx());
+        expect(dialogSpy).not.toHaveBeenCalled();
+        expect(result).toBeTruthy();
+    });
+
+    it("opens the dialog when skipDialog is not set", async () => {
+        const dialogSpy = vi.spyOn(FoundryHelpersMock, "dialog");
+        const parent = makeParent();
+        // The mocked dialog resolves to null → the test is treated as cancelled.
+        const result = await makeML(parent).successTest(
+            ctx({ skipDialog: false }),
+        );
+        expect(dialogSpy).toHaveBeenCalledTimes(1);
+        expect(result).toBeUndefined();
+    });
+
+    it("seeds a freshly-rolled d100 (regression: not hardcoded to 99)", async () => {
+        const totals = new Set<number>();
+        for (let i = 0; i < 40; i++) {
+            const parent = makeParent();
+            const result = await makeML(parent).successTest(ctx());
+            expect(result).toBeTruthy();
+            const total = (result as SuccessTestResult).roll.total;
+            expect(total).toBeGreaterThanOrEqual(1);
+            expect(total).toBeLessThanOrEqual(100);
+            totals.add(total);
+        }
+        // A hardcoded 99 default would yield a single distinct value.
+        expect(totals.size).toBeGreaterThan(1);
+    });
+
+    it("applies context.scope.situationalModifier when headless", async () => {
+        const parent = makeParent();
+        const result = await makeML(parent, 50).successTest(
+            ctx({ scope: { situationalModifier: -10 } }),
+        );
+        expect(result).toBeTruthy();
+        // base 50 + situational −10 → effective 40.
+        expect(
+            (result as SuccessTestResult).masteryLevelModifier.effective,
+        ).toBe(40);
+    });
+
+    it("posts the result to chat on success, but not when noChat is set", async () => {
+        await makeML(makeParent()).successTest(ctx());
+        expect(toChatSpy).toHaveBeenCalledTimes(1);
+
+        toChatSpy.mockClear();
+        await makeML(makeParent()).successTest(ctx({ noChat: true }));
+        expect(toChatSpy).not.toHaveBeenCalled();
+    });
+
+    it("returns false when the acting speaker is not owned by the running user", async () => {
+        // A plain SohlSpeaker with no token/actor is not owned (isOwner false).
+        const notOwned = new SohlSpeaker({ alias: "NPC" });
+        const result = await makeML(makeParent()).successTest(
+            new SohlActionContext({
+                speaker: notOwned,
+                skipDialog: true,
+            } as any),
+        );
+        expect(result).toBe(false);
     });
 });
 

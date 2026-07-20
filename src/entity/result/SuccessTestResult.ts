@@ -116,6 +116,14 @@ export class SuccessTestResult extends TestResult {
     protected _masteryLevelModifier: MasteryLevelModifier;
     protected _testType: TestType;
     protected _roll: SimpleRoll;
+    /**
+     * Whether a die was **explicitly supplied** at construction (`data.roll`).
+     * When `false`, {@link evaluate} rolls a fresh d100; when `true`, it resolves
+     * the supplied die untouched (fate, or the attacker's pre-rolled die
+     * reconstructed on the defender's client). Keyed on caller intent, not the
+     * die's state, so a fresh test can never be mistaken for a pre-rolled one.
+     */
+    protected _rollSupplied: boolean;
     protected _movement: SuccessTestResultMovement;
     protected _mishaps: Set<string>;
     protected _canFate: boolean;
@@ -207,13 +215,16 @@ export class SuccessTestResult extends TestResult {
             :   [];
         this.rollMode = data.rollMode || SOHL_SPEAKER_ROLL_MODE.SYSTEM;
         this._testType = data.testType || TEST_TYPE.SUCCESSTEST.id;
+        // A die supplied by the caller (`data.roll`) is authoritative and
+        // resolved as-is; without one, the roll starts UNROLLED and evaluate()
+        // casts it. This intent is recorded now so evaluate() never has to infer
+        // "already rolled?" from the die's state (see `_rollSupplied`).
+        this._rollSupplied = data.roll !== undefined;
         this._roll =
             data.roll ??
             new SimpleRoll(
-                SuccessTestResult.StandardRollData.MARGINAL_FAILURE,
-                {
-                    parent: this.parent,
-                },
+                { numDice: 1, dieFaces: 100, modifier: 0, rolls: [] },
+                { parent: this.parent },
             );
         this._movement =
             data.movement || SUCCESS_TEST_RESULT_MOVEMENT.STATIONARY;
@@ -594,18 +605,22 @@ export class SuccessTestResult extends TestResult {
     }
 
     /**
-     * Roll the d100 and resolve the outcome against the modifier's
+     * Roll the d100 (unless a die was supplied) and resolve the outcome against
+     * the modifier's
      * {@link sohl.entity.modifier.MasteryLevelModifier.constrainedEffective | constrained effective}
      * mastery level (roll-under: rolling at or below it succeeds).
      *
      * @remarks
-     * Sets the success level from the roll, promoting it to a critical when the
-     * last digit appears in the modifier's critical-success/-failure digit
-     * lists. It then applies `successLevelMod` and — when criticals are
-     * disallowed — clamps the level to marginal failure/success and selects the
-     * localized description. The result text and success-star count are not set
-     * here: they derive on read from the description table (see
-     * {@link successStars}).
+     * The die is cast here **only when the caller did not supply one** (see
+     * `_rollSupplied`): a fresh test rolls a new d100, while a supplied die
+     * — fate replaying a prior roll, or the attacker's die reconstructed on the
+     * defender's client — is resolved untouched. It then sets the success level
+     * from the roll, promoting it to a critical when the last digit appears in
+     * the modifier's critical-success/-failure digit lists, applies
+     * `successLevelMod`, and — when criticals are disallowed — clamps the level
+     * to marginal failure/success and selects the localized description. The
+     * result text and success-star count are not set here: they derive on read
+     * from the description table (see {@link successStars}).
      *
      * @returns `false` if the base evaluation disallows the result, or if the
      *   current user does not own the speaker (it cannot roll on their behalf);
@@ -621,6 +636,11 @@ export class SuccessTestResult extends TestResult {
                 }),
             );
             return false;
+        }
+
+        // Cast the d100 for a fresh test; a caller-supplied die is left as-is.
+        if (!this._rollSupplied) {
+            this._roll.roll();
         }
 
         if (this.critAllowed) {

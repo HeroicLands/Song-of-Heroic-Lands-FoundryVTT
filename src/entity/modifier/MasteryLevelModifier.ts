@@ -346,23 +346,34 @@ export class MasteryLevelModifier extends ValueModifier {
     /**
      * Performs a Mastery Level success test.
      * @remarks
-     * If no `priorTestResult` is provided, this method will create a new
-     * test result based on the mastery level of the current item, displaying a
-     * dialog (unless inhibited) to collect modifiers to the test and then
-     * rolling dice to determine test outcome.
+     * If no `priorTestResult` is provided, this method creates a new test result
+     * from the mastery level of the current item, collects situational modifiers,
+     * and evaluates the outcome — which rolls the d100 (see
+     * {@link sohl.entity.result.SuccessTestResult.evaluate}).
      *
-     * If a `priorTestResult` is provided, this method will display a dialog
-     * (unless inhibited) to collect modifiers but will then apply those
-     * modifiers to the prior test roll (without rolling again), generating
-     * a new test result based on the modifiers and the prior roll.
+     * If a `priorTestResult` is provided, this method collects modifiers but
+     * applies them to the prior test's roll (without rolling again), generating a
+     * new test result from the modifiers and the prior roll. This is what lets
+     * modifiers be changed without disturbing the random roll — e.g. when fate is
+     * applied to an already-rolled test.
      *
-     * The purpose of the `priorTestResult` is to allow modifiers to be changed
-     * without modifying the random dice roll itself, such as when fate is applied
-     * to an already rolled test.
+     * **Interactive vs. headless.** By default the modifiers are collected from a
+     * pre-roll dialog. When `context.skipDialog` is set — the path timed and
+     * automated effects use, since they run on the active GM with no user present
+     * — the dialog is bypassed and the situational modifier is read from
+     * `context.scope.situationalModifier` instead. Set `context.noChat` to
+     * suppress the result chat card (e.g. to avoid spamming a card per checkpoint
+     * when a timed handler catches up many elapsed occurrences).
+     *
+     * The result is attributed to `context.speaker` (falling back to the owning
+     * document's speaker); evaluation is refused — returning `false` — if that
+     * speaker is not owned by the running user (a GM-fired event owns every
+     * actor).
      *
      * @param context - The context in which to perform the test.
      * @returns A Promise resolving to `undefined` if the test was cancelled, `false`
-     * if there was an error during the test, or the result of the success test.
+     * if there was an error during the test (including an unowned speaker), or the
+     * result of the success test.
      * @throws {Error} If `SuccessTestResult` construction fails (internal error).
      */
     async successTest(
@@ -387,50 +398,74 @@ export class MasteryLevelModifier extends ValueModifier {
                 },
                 {
                     parent: this.parent,
+                    // Attribute the result to the acting speaker so evaluate()
+                    // may resolve it — it refuses to roll on behalf of a speaker
+                    // the running user does not own. A GM-fired timed event
+                    // satisfies this for any actor.
+                    chatSpeaker: context.speaker ?? this.parent.speaker,
                 },
             );
         if (!testResult) {
             throw new Error("Failed to create SuccessTestResult.");
         }
 
-        if (!context.skipDialog) {
+        // Situational inputs come from the pre-roll dialog interactively, or —
+        // when context.skipDialog bypasses it (headless / automated / GM-fired
+        // timed effects) — straight from the action scope (see
+        // SohlActionContext.skipDialog).
+        let dlgResult:
+            | {
+                  situationalModifier: number;
+                  successLevelMod: number;
+                  rollMode: string;
+              }
+            | undefined;
+        if (context.skipDialog) {
+            dlgResult = {
+                situationalModifier: context.scope.situationalModifier ?? 0,
+                successLevelMod: 0,
+                rollMode: testResult.rollMode,
+            };
+        } else {
+            const dlgTemplate: FilePath = toFilePath(
+                "systems/sohl/templates/dialog/standard-test-dialog.hbs",
+            );
+            const dialogData: PlainObject = {
+                type: testResult.testType,
+                title: sohl.i18n.format(
+                    "SOHL.MasteryLevelModifier.successTest.dialogTitle",
+                    {
+                        name: testResult.speaker.name,
+                        title: testResult.testType,
+                    },
+                ),
+                mlMod: testResult.masteryLevelModifier,
+                situationalModifier: context.scope.situationalModifier ?? 0,
+                rollMode: testResult.rollMode,
+                rollModes: Object.entries(SOHL_SPEAKER_ROLL_MODE).map(
+                    ([k, v]) => ({
+                        group: "CHAT.RollDefault",
+                        value: k,
+                        label: v,
+                    }),
+                ),
+            };
+            dlgResult = await dialog({
+                title: sohl.i18n.format(
+                    "SOHL.MasteryLevelModifier.successTest.dialogLabel",
+                ),
+                template: dlgTemplate,
+                data: dialogData,
+                callback: (formData: PlainObject) => ({
+                    situationalModifier:
+                        parseInt(String(formData.situationalModifier), 10) || 0,
+                    successLevelMod:
+                        parseInt(String(formData.successLevelMod), 10) || 0,
+                    rollMode: String(formData.rollMode),
+                }),
+                rejectClose: false,
+            });
         }
-        const dlgTemplate: FilePath = toFilePath(
-            "systems/sohl/templates/dialog/standard-test-dialog.hbs",
-        );
-        const dialogData: PlainObject = {
-            type: testResult.testType,
-            title: sohl.i18n.format(
-                "SOHL.MasteryLevelModifier.successTest.dialogTitle",
-                {
-                    name: testResult.speaker.name,
-                    title: testResult.testType,
-                },
-            ),
-            mlMod: testResult.masteryLevelModifier,
-            situationalModifier: context.scope.situationalModifier ?? 0,
-            rollMode: testResult.rollMode,
-            rollModes: Object.entries(SOHL_SPEAKER_ROLL_MODE).map(([k, v]) => ({
-                group: "CHAT.RollDefault",
-                value: k,
-                label: v,
-            })),
-        };
-        const dlgResult = await dialog({
-            title: sohl.i18n.format(
-                "SOHL.MasteryLevelModifier.successTest.dialogLabel",
-            ),
-            template: dlgTemplate,
-            data: dialogData,
-            callback: (formData: PlainObject) => ({
-                situationalModifier:
-                    parseInt(String(formData.situationalModifier), 10) || 0,
-                successLevelMod:
-                    parseInt(String(formData.successLevelMod), 10) || 0,
-                rollMode: String(formData.rollMode),
-            }),
-            rejectClose: false,
-        });
 
         // A dismissed dialog cancels the test; a bypass always yields values.
         if (!dlgResult) return undefined;
@@ -447,7 +482,7 @@ export class MasteryLevelModifier extends ValueModifier {
 
         let allowed: boolean = await testResult.evaluate();
 
-        if (allowed) {
+        if (allowed && !context.noChat) {
             await testResult.toChat(this.parent.speaker);
         }
         return allowed ? testResult : false;
