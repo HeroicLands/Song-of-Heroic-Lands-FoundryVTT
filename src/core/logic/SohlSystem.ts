@@ -36,7 +36,12 @@ import {
 import { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
-import { getActiveCombat } from "@src/core/FoundryHelpers";
+import { getActiveCombat, fvttWorldTime } from "@src/core/FoundryHelpers";
+import {
+    scheduleAction,
+    unscheduleAction,
+    type Schedulable,
+} from "@src/entity/event/scheduled-actions";
 
 /**
  * The central runtime object for Song of Heroic Lands — and what the global
@@ -386,6 +391,53 @@ export class SohlSystem {
                 makeDefault: true,
             },
         );
+    }
+
+    /**
+     * Schedule a recurring **action** on a document (issue #588) — `sohl.schedule`.
+     * Persists the schedule to the document's `system.scheduledActions` (the
+     * durable record, anchored at the current world time) **and** arms the event
+     * queue (the live entry), so when it comes due the queue offers it as a
+     * `[Perform]` reminder. Re-call it (e.g. from the action after it performs) to
+     * reschedule the next occurrence.
+     *
+     * Works on any SoHL document — a wound, a scene, or a `_sohlworld` actor.
+     * Must run as an owner of `doc` (a document write). Both halves derive the
+     * fire time from the same anchor + interval, so they cannot drift.
+     *
+     * @param doc - The document to schedule on (its logic hosts `actionName`).
+     * @param actionName - The action shortcode to run when due.
+     * @param interval - Seconds until the next fire.
+     * @param payload - Opaque scope handed to the action on `[Perform]`.
+     * @returns A promise that resolves once the schedule is persisted and armed.
+     */
+    schedule(
+        doc: Schedulable,
+        actionName: string,
+        interval: number,
+        payload?: Record<string, unknown>,
+    ): Promise<void> {
+        return scheduleAction(
+            doc,
+            this.events,
+            actionName,
+            interval,
+            payload,
+            fvttWorldTime(),
+        );
+    }
+
+    /**
+     * Remove a recurring schedule for `actionName` on `doc` — `sohl.unschedule`.
+     * Clears the persisted `system.scheduledActions` entry and unsubscribes it
+     * from the event queue.
+     *
+     * @param doc - The document to unschedule on.
+     * @param actionName - The schedule to remove.
+     * @returns A promise that resolves once the schedule is removed.
+     */
+    unschedule(doc: Schedulable, actionName: string): Promise<void> {
+        return unscheduleAction(doc, this.events, actionName);
     }
 }
 
