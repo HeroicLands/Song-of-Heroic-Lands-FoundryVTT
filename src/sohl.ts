@@ -647,16 +647,6 @@ function registerHandlebarsHelpers() {
         return op1.endsWith(op2);
     });
 
-    Handlebars.registerHelper("concat", function () {
-        var outStr = "";
-        for (var arg in arguments) {
-            if (typeof arguments[arg] !== "object") {
-                outStr += arguments[arg];
-            }
-        }
-        return outStr;
-    });
-
     Handlebars.registerHelper(
         "optionalString",
         function (cond, strTrue = "", strFalse = "") {
@@ -721,10 +711,6 @@ function registerHandlebarsHelpers() {
             }
         },
     );
-
-    Handlebars.registerHelper("object", function ({ hash }) {
-        return hash;
-    });
 
     Handlebars.registerHelper("array", function () {
         return Array.from(arguments).slice(0, arguments.length - 1);
