@@ -11,11 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    fvttIsActiveGM,
-    fvttWorldActors,
-    getActiveScene,
-} from "@src/core/FoundryHelpers";
+import { fvttIsActiveGM, fvttWorldActors } from "@src/core/FoundryHelpers";
 import type { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
 import { armScheduledActions } from "@src/entity/event/scheduled-actions";
 
@@ -56,19 +52,20 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
     // Load-side re-arm of persisted schedules (issue #588). The queue is a
     // projection of document state, so this runs on *every* client (not just the
     // active GM) — each populates its own queue from the documents it can see.
-    // Scope-matched: actors (incl. the `_sohlworld` host) on world `ready`; the
-    // active scene on `canvasReady`, so a scene's ambient events are live only
-    // while it is the active scene.
+    //
+    // Only documents whose data model extends the base `SohlDataModel` carry a
+    // `system.scheduledActions` field: actors (including the `_sohlworld` host)
+    // and items. Scenes and ActiveEffects extend `TypeDataModel` directly and
+    // cannot host a schedule, so there is nothing to re-arm for them. On world
+    // `ready` we walk every world actor and its embedded items.
     const rearm = (doc: any): void =>
         armScheduledActions(doc?.uuid, doc?.system?.scheduledActions, queue);
 
     (Hooks as any).on("ready", () => {
-        for (const actor of fvttWorldActors()) rearm(actor);
-    });
-
-    (Hooks as any).on("canvasReady", () => {
-        const scene = getActiveScene();
-        if (scene) rearm(scene);
+        for (const actor of fvttWorldActors()) {
+            rearm(actor);
+            for (const item of actor.items ?? []) rearm(item);
+        }
     });
 
     /**

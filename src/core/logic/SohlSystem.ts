@@ -409,7 +409,10 @@ export class SohlSystem {
      * `[Perform]` reminder. Re-call it (e.g. from the action after it performs) to
      * reschedule the next occurrence.
      *
-     * Works on any SoHL document — a wound, a scene, or a `_sohlworld` actor.
+     * Works on any document whose data model extends the base `SohlDataModel`
+     * and so carries a `system.scheduledActions` field — an **actor** (including
+     * the `_sohlworld` host) or an **item** (a wound, an affliction). Scenes and
+     * active effects extend `TypeDataModel` directly and cannot host a schedule.
      * Must run as an owner of `doc` (a document write). Both halves derive the
      * fire time from the same anchor + interval, so they cannot drift.
      *

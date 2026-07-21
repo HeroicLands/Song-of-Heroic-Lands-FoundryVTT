@@ -111,6 +111,60 @@ walks through registering new types, active-effect integration, and UI/chat-card
 templates. Read [Architecture Overview](../concepts/architecture.md) first for the
 three-layer model and the Foundry-free logic boundary your additions must respect.
 
+### Scheduling deferred actions
+
+A module can schedule an **action** to come due at a future world time — a
+recurring "check for bandits" roll, a wound's next healing test, a seasonal
+upkeep prompt. This is the generic scheduler (issue #588). It never _performs_
+the action on its own: when the schedule comes due, SoHL posts a `[Perform]`
+reminder card addressed to the document's owner, and only their click runs it.
+That is the [Prime Directive](https://kb.heroiclands.org/dev/) in mechanism form —
+_reminding is allowed; performing is not._
+
+**1. Put the action on a document.** The thing you schedule is an ordinary SoHL
+action — an `actionDefs` entry on the host document's `system`, typically a
+Script Action referencing a permission-gated Macro (see
+[Macros and Actions](../concepts/macros-and-actions.md); never inline code into
+data). The host must be a document that carries `system.scheduledActions`, which
+means one whose data model extends the base `SohlDataModel`: an **actor** or an
+**item**. Scenes and active effects extend `TypeDataModel` directly and _cannot_
+host a schedule.
+
+**2. Schedule it** with `sohl.schedule`, from any owner of the document:
+
+```js
+// interval is in seconds of world time; payload is opaque scope handed to the
+// action when the owner clicks [Perform].
+await sohl.schedule(item, "healingTest", 24 * 60 * 60, { severity: 3 });
+```
+
+`sohl.schedule(doc, actionName, interval, payload?)` does two things atomically:
+persists the schedule to `doc.system.scheduledActions` (the durable record,
+anchored at the current world time) **and** arms the live event queue. Both halves
+derive the fire time from the same anchor + interval, so they cannot drift. To
+make a schedule **recurring**, call `sohl.schedule` again from inside the action
+after it performs — each occurrence schedules the next. `sohl.unschedule(doc,
+actionName)` removes both halves.
+
+**3. World-wide actions** have no natural document to hang off. Use the singleton
+**world host** actor:
+
+```js
+const host = await sohl.worldHost(); // find-or-create the `_sohlworld` actor
+if (host) await sohl.schedule(host, "checkForBandits", 6 * 60 * 60);
+```
+
+`sohl.worldHost()` returns the reserved `_sohlworld` actor, creating it (GM only,
+ownership NONE so players never see it) if absent. Because it is an actor it
+already has the execution surface a `[Perform]` needs. Pass `{ visibility: "gm" }`
+in the payload to whisper the reminder to the GM only — no metagame leak for
+world events.
+
+**The reload path is automatic.** The event queue is rebuilt from scratch each
+session, so on the `ready` hook SoHL re-arms every world actor and its embedded
+items from their persisted `system.scheduledActions`. You schedule once; it
+survives reloads without any further wiring on your part.
+
 ### Re-skins and theming
 
 A module can restyle the system purely through CSS by overriding the `--sohl-*`
