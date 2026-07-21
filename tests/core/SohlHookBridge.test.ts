@@ -70,6 +70,67 @@ describe("SohlHookBridge", () => {
         expect(captured.hooks.has("deleteCombat")).toBe(true);
         expect(captured.hooks.has("combatRound")).toBe(true);
         expect(captured.hooks.has("combatTurn")).toBe(true);
+        // Scheduled-action re-arm hook (#588).
+        expect(captured.hooks.has("ready")).toBe(true);
+    });
+
+    describe("scheduled-action re-arm (#588)", () => {
+        const doc = (
+            uuid: string,
+            scheduledActions: any[],
+            items: any[] = [],
+        ) => ({
+            uuid,
+            system: { scheduledActions },
+            items,
+        });
+
+        it("`ready` arms every actor's persisted scheduledActions into the queue", () => {
+            vi.spyOn(FoundryHelpers, "fvttWorldActors").mockReturnValue([
+                doc("Actor.world", [
+                    {
+                        actionName: "checkForBandits",
+                        anchor: 1000,
+                        interval: 100,
+                        payload: {},
+                    },
+                ]),
+                doc("Actor.plain", []),
+            ]);
+            captured.hooks.get("ready")![0]();
+            expect(queue.isScheduled("Actor.world", "checkForBandits")).toBe(
+                true,
+            );
+            expect(queue.nextFireTime("Actor.world", "checkForBandits")).toBe(
+                1100,
+            );
+        });
+
+        it("`ready` also arms each actor's embedded items' scheduledActions", () => {
+            vi.spyOn(FoundryHelpers, "fvttWorldActors").mockReturnValue([
+                doc(
+                    "Actor.host",
+                    [],
+                    [
+                        doc("Item.affliction", [
+                            {
+                                actionName: "courseTest",
+                                anchor: 500,
+                                interval: 240,
+                                payload: {},
+                            },
+                        ]),
+                    ],
+                ),
+            ]);
+            captured.hooks.get("ready")![0]();
+            expect(queue.isScheduled("Item.affliction", "courseTest")).toBe(
+                true,
+            );
+            expect(queue.nextFireTime("Item.affliction", "courseTest")).toBe(
+                740,
+            );
+        });
     });
 
     describe("updateWorldTime", () => {

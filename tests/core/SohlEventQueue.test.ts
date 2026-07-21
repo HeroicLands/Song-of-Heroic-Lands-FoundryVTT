@@ -532,6 +532,35 @@ describe("SohlEventQueue", () => {
             expect(data.scopeData.payload).toEqual({ hr: 4 });
         });
 
+        it("posts as a GM whisper when the payload asks for `visibility: gm` (#588)", async () => {
+            const opts: any[] = [];
+            (globalThis as any).fromUuid = async () => {
+                const speaker: any = new SohlSpeaker({});
+                speaker.toChat = async (_t: unknown, _d: any, o: any) =>
+                    opts.push(o);
+                return { logic: { speaker } };
+            };
+            queue.scheduleAt("Actor.world", "checkForBandits", 1000, {
+                visibility: "gm",
+            });
+            await queue.fire(worldTimeCtx(1000));
+            // GM-hidden: whisper via the `gmroll` mode (no metagame leak).
+            expect(opts[0]).toEqual({ rollMode: "gmroll" });
+        });
+
+        it("posts publicly (no roll-mode override) without a visibility payload", async () => {
+            const opts: any[] = [];
+            (globalThis as any).fromUuid = async () => {
+                const speaker: any = new SohlSpeaker({});
+                speaker.toChat = async (_t: unknown, _d: any, o: any) =>
+                    opts.push(o);
+                return { logic: { speaker } };
+            };
+            queue.scheduleAt("Actor.a", "healingCheck", 1000);
+            await queue.fire(worldTimeCtx(1000));
+            expect(opts[0]).toBeUndefined();
+        });
+
         it("offers the same due occurrence once, not on every world-time advance", async () => {
             let count = 0;
             (globalThis as any).fromUuid = async () => {

@@ -278,8 +278,11 @@ export class SohlSpeaker {
             }
         }
 
-        if (this.rollMode) {
-            msgData.rollMode = this.rollMode;
+        // A per-call `rollMode` (e.g. `"gmroll"` for a GM-hidden card) overrides
+        // the speaker's default; otherwise the speaker's mode applies.
+        const rollMode = options.rollMode ?? this.rollMode;
+        if (rollMode) {
+            msgData.rollMode = rollMode;
         }
 
         return msgData;
@@ -302,6 +305,11 @@ export namespace SohlSpeaker {
         style: SohlSpeakerStyle;
         /** Id of the user the message is posted as. */
         user: string;
+        /**
+         * Visibility mode for this message (Foundry roll mode, e.g. `"gmroll"`
+         * to whisper to GMs). Overrides the speaker's default when set.
+         */
+        rollMode: string;
     }
 
     /**

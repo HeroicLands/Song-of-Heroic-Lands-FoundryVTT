@@ -16,4 +16,5 @@
 
 export * from "./SohlEventQueue";
 export * from "./event-trigger";
+export * from "./scheduled-actions";
 export * from "./scheduling";

@@ -20,6 +20,8 @@ import { SohlLogger } from "@src/core/foundry/SohlLogger";
 import {
     ActorKinds,
     ItemKinds,
+    ACTOR_KIND,
+    WORLD_HOST_SHORTCODE,
     SOHL_DEFAULT_CALENDAR_CONFIG,
     type ActorKind,
     type ItemKind,
@@ -36,7 +38,18 @@ import {
 import { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
-import { getActiveCombat } from "@src/core/FoundryHelpers";
+import {
+    getActiveCombat,
+    fvttWorldTime,
+    fvttActorByShortcode,
+    fvttCreateWorldActor,
+    fvttIsCurrentUserGM,
+} from "@src/core/FoundryHelpers";
+import {
+    scheduleAction,
+    unscheduleAction,
+    type Schedulable,
+} from "@src/entity/event/scheduled-actions";
 
 /**
  * The central runtime object for Song of Heroic Lands — and what the global
@@ -386,6 +399,82 @@ export class SohlSystem {
                 makeDefault: true,
             },
         );
+    }
+
+    /**
+     * Schedule a recurring **action** on a document (issue #588) — `sohl.schedule`.
+     * Persists the schedule to the document's `system.scheduledActions` (the
+     * durable record, anchored at the current world time) **and** arms the event
+     * queue (the live entry), so when it comes due the queue offers it as a
+     * `[Perform]` reminder. Re-call it (e.g. from the action after it performs) to
+     * reschedule the next occurrence.
+     *
+     * Works on any document whose data model extends the base `SohlDataModel`
+     * and so carries a `system.scheduledActions` field — an **actor** (including
+     * the `_sohlworld` host) or an **item** (a wound, an affliction). Scenes and
+     * active effects extend `TypeDataModel` directly and cannot host a schedule.
+     * Must run as an owner of `doc` (a document write). Both halves derive the
+     * fire time from the same anchor + interval, so they cannot drift.
+     *
+     * @param doc - The document to schedule on (its logic hosts `actionName`).
+     * @param actionName - The action shortcode to run when due.
+     * @param interval - Seconds until the next fire.
+     * @param payload - Opaque scope handed to the action on `[Perform]`.
+     * @returns A promise that resolves once the schedule is persisted and armed.
+     */
+    schedule(
+        doc: Schedulable,
+        actionName: string,
+        interval: number,
+        payload?: Record<string, unknown>,
+    ): Promise<void> {
+        return scheduleAction(
+            doc,
+            this.events,
+            actionName,
+            interval,
+            payload,
+            fvttWorldTime(),
+        );
+    }
+
+    /**
+     * Remove a recurring schedule for `actionName` on `doc` — `sohl.unschedule`.
+     * Clears the persisted `system.scheduledActions` entry and unsubscribes it
+     * from the event queue.
+     *
+     * @param doc - The document to unschedule on.
+     * @param actionName - The schedule to remove.
+     * @returns A promise that resolves once the schedule is removed.
+     */
+    unschedule(doc: Schedulable, actionName: string): Promise<void> {
+        return unscheduleAction(doc, this.events, actionName);
+    }
+
+    /**
+     * Find (or, for a GM, create) the singleton **world host** actor —
+     * `sohl.worldHost()`. It is the document world-scoped scheduled actions and
+     * events hang off of (issue #588): an Actor, so it already has the execution
+     * surface (`onChatCardButton` + an `actions` collection) that a scheduled
+     * action's `[Perform]` needs.
+     *
+     * Identified by the reserved shortcode {@link WORLD_HOST_SHORTCODE}. Created
+     * with ownership default NONE, so only the GM ever sees it. If it has been
+     * deleted, a GM call recreates it (its stored schedule is lost and must be
+     * re-registered). A non-GM who cannot see it gets `undefined`.
+     *
+     * @returns The world-host actor, or `undefined` (non-GM, not visible).
+     */
+    async worldHost(): Promise<any> {
+        const existing = fvttActorByShortcode(WORLD_HOST_SHORTCODE);
+        if (existing) return existing;
+        if (!fvttIsCurrentUserGM()) return undefined;
+        return fvttCreateWorldActor({
+            name: "World",
+            type: ACTOR_KIND.BEING,
+            system: { shortcode: WORLD_HOST_SHORTCODE },
+            ownership: { default: 0 },
+        });
     }
 }
 

@@ -17,6 +17,7 @@ import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEf
 import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import type { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
 import type { SohlAction } from "@src/entity/action/SohlAction";
+import type { ScheduledAction } from "@src/entity/event/scheduled-actions";
 import { dialog, fvttResolveUuid } from "@src/core/FoundryHelpers";
 import {
     ActionSubType,
@@ -44,8 +45,14 @@ import {
 } from "@src/core/foundry/sohl-config";
 import { URLField } from "./URLField";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
-const { StringField, SchemaField, NumberField, ArrayField, JavaScriptField } =
-    foundry.data.fields;
+const {
+    StringField,
+    SchemaField,
+    NumberField,
+    ArrayField,
+    ObjectField,
+    JavaScriptField,
+} = foundry.data.fields;
 
 /**
  * Builds the Foundry data schema shared by every SoHL data model (shortcode,
@@ -108,6 +115,26 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
             }),
             { initial: [] },
         ),
+        // Generic recurring schedule (issue #588). Each entry defers an action
+        // (`actionName`, run on this document's logic) to `anchor + interval`;
+        // the event queue offers it as a [Perform] reminder when due, and
+        // `sohl.schedule` / the scope-matched re-arm hook keep it in sync with
+        // the queue. Any SoHL document can carry a schedule — a wound, a scene,
+        // or a `_sohlworld` actor — with no bespoke fields. Logical identity is
+        // `actionName`; write the whole array back (never by index).
+        scheduledActions: new ArrayField(
+            new SchemaField({
+                /** The action shortcode to run on this document's logic. */
+                actionName: new StringField({ required: true, blank: false }),
+                /** World time (seconds) the schedule was last set from. */
+                anchor: new NumberField({ required: true, initial: 0 }),
+                /** Seconds from `anchor` to the next fire. */
+                interval: new NumberField({ required: true, initial: 0 }),
+                /** Opaque data handed to the action as its scope on `[Perform]`. */
+                payload: new ObjectField({ initial: {} }),
+            }),
+            { initial: [] },
+        ),
     };
 }
 
@@ -136,6 +163,7 @@ export abstract class SohlDataModel<
     protected _logic!: TLogic;
     shortcode!: string;
     actionDefs!: SohlAction.Data[];
+    scheduledActions!: ScheduledAction[];
 
     /**
      * Construct the data model, forwarding the source data and options to the

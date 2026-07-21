@@ -336,6 +336,40 @@ export function fvttGetActor(id: string): any {
 }
 
 /**
+ * All world (top-level) actors, as an array. Used to re-arm persisted scheduled
+ * actions on load (issue #588) — the client's own permission-scoped view.
+ * @returns The world actors, or an empty array before `game` is ready.
+ */
+export function fvttWorldActors(): any[] {
+    return [...((game as any).actors ?? [])];
+}
+
+/**
+ * The first world actor with the given `system.shortcode`, or `undefined`.
+ * Actors enforce a unique `(type, shortcode)` key, so a reserved shortcode
+ * (e.g. `_sohlworld`) identifies a singleton. The client sees only the actors it
+ * has permission for.
+ * @param shortcode - The actor shortcode to look up.
+ * @returns The matching actor, or `undefined`.
+ */
+export function fvttActorByShortcode(shortcode: string): any {
+    return fvttWorldActors().find(
+        (a: any) => a.system?.shortcode === shortcode,
+    );
+}
+
+/**
+ * Create a world (top-level) actor. GM-only in practice.
+ * @param data - The actor creation data (name, type, system, ownership, …).
+ * @returns The created actor document.
+ */
+export async function fvttCreateWorldActor(
+    data: Record<string, unknown>,
+): Promise<any> {
+    return (Actor as any).create(data);
+}
+
+/**
  * The active status-effect ids on an actor, read from its ActiveEffects.
  *
  * SoHL's custom data-prep lifecycle does not populate Foundry's core
