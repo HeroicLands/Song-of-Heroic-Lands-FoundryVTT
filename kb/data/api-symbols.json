@@ -2362,6 +2362,7 @@
   "sohl.document.item.logic.TraumaData.healingCheckDurationFormula": "interfaces/sohl.document.item.logic.TraumaData.html#healingcheckdurationformula",
   "sohl.document.item.logic.TraumaData.healingRateBase": "interfaces/sohl.document.item.logic.TraumaData.html#healingratebase",
   "sohl.document.item.logic.TraumaData.id": "interfaces/sohl.document.item.logic.TraumaData.html#id",
+  "sohl.document.item.logic.TraumaData.infectable": "interfaces/sohl.document.item.logic.TraumaData.html#infectable",
   "sohl.document.item.logic.TraumaData.isOwner": "interfaces/sohl.document.item.logic.TraumaData.html#isowner",
   "sohl.document.item.logic.TraumaData.item": "interfaces/sohl.document.item.logic.TraumaData.html#item",
   "sohl.document.item.logic.TraumaData.kind": "interfaces/sohl.document.item.logic.TraumaData.html#kind",

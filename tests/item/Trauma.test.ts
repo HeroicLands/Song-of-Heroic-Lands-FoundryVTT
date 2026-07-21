@@ -621,6 +621,175 @@ describe("Injury Healing Test effect (#486)", () => {
     });
 });
 
+describe("Infection lifecycle (#557)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    const HOUR = 3600;
+
+    function withEvents() {
+        (globalThis as any).sohl.events = {
+            scheduleAt: vi.fn(),
+            unsubscribe: vi.fn(),
+        };
+    }
+
+    function mockRoll(...levels: number[]) {
+        const spy = vi.spyOn(MasteryLevelModifier.prototype, "successTest");
+        for (const lvl of levels)
+            spy.mockResolvedValueOnce({ normSuccessLevel: lvl } as any);
+        return spy;
+    }
+
+    describe("contraction on a Critical-Failure Injury Healing Test", () => {
+        function injury(infectable: boolean, healingRateBase = 3) {
+            const actor = makeMockActor();
+            (actor.logic as any).healingBase = { effective: 4 };
+            const logic = makeTrauma(
+                {
+                    subType: TRAUMA_SUBTYPE.INJURY,
+                    levelBase: 3,
+                    healingRateBase,
+                    treatmentDate: 500,
+                    infectable,
+                    bodyLocationCode: "skull",
+                    lastHealingCheckDate: 1000,
+                    healingCheckDurationBase: 500,
+                    healingCheckDurationFormula: "500",
+                },
+                { actor },
+            );
+            (logic.item as any).uuid = "Item.injury00000";
+            logic.initialize();
+            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1500);
+            return logic;
+        }
+
+        it("contracts an infection at HR = injury HR + 1 on a CF of an infectable wound", async () => {
+            withEvents();
+            const create = vi
+                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+                .mockResolvedValue([]);
+            mockRoll(CRITICAL_FAILURE);
+            const logic = injury(true, 3);
+            await logic.healingCheck({} as any);
+            expect(create).toHaveBeenCalledWith(logic.actorLogic, [
+                expect.objectContaining({
+                    system: expect.objectContaining({
+                        subType: "infection",
+                        levelBase: 0,
+                        healingRateBase: 4, // injury HR 3 + 1
+                    }),
+                }),
+            ]);
+        });
+
+        it("does not contract an infection on a CF of a non-infectable wound", async () => {
+            withEvents();
+            const create = vi
+                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+                .mockResolvedValue([]);
+            mockRoll(CRITICAL_FAILURE);
+            const logic = injury(false);
+            await logic.healingCheck({} as any);
+            expect(create).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("Infection Healing Test (course)", () => {
+        function infection(
+            opts: { healingRateBase?: number; spanHrs?: number } = {},
+        ) {
+            const { healingRateBase = 3, spanHrs = 24 } = opts;
+            const interval = spanHrs * HOUR;
+            const actor = makeMockActor();
+            (actor.logic as any).healingBase = { effective: 4 };
+            (actor.logic as any).fatiguePenalty = { effective: 0 };
+            const logic = makeTrauma(
+                {
+                    subType: TRAUMA_SUBTYPE.INFECTION,
+                    levelBase: 0,
+                    healingRateBase,
+                    lastCourseDate: 0,
+                    courseDurationBase: interval,
+                    courseDurationFormula: String(interval),
+                },
+                { actor },
+            );
+            (logic.item as any).uuid = "Item.infect00000";
+            logic.initialize();
+            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(
+                interval,
+            );
+            return { logic, actor };
+        }
+
+        it("adjusts the infection Healing Rate by the test result", async () => {
+            withEvents();
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttCreateEmbeddedItems",
+            ).mockResolvedValue([]);
+            mockRoll(MARGINAL_SUCCESS); // HR 3 → 4
+            const { logic } = infection({ healingRateBase: 3 });
+            await logic.courseCheck({} as any);
+            expect(logic.item.update).toHaveBeenCalledWith(
+                expect.objectContaining({ "system.healingRateBase": 4 }),
+            );
+        });
+
+        it("floors the Healing Rate at 1 (an infection never kills)", async () => {
+            withEvents();
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttCreateEmbeddedItems",
+            ).mockResolvedValue([]);
+            mockRoll(CRITICAL_FAILURE); // HR 1 → -1, floored to 1
+            const { logic, actor } = infection({ healingRateBase: 1 });
+            await logic.courseCheck({} as any);
+            expect(logic.item.update).toHaveBeenCalledWith(
+                expect.objectContaining({ "system.healingRateBase": 1 }),
+            );
+            expect((actor.logic as any).setShockState).toBeUndefined();
+        });
+
+        it("saps weakness fatigue by the Healing-Rate band", async () => {
+            withEvents();
+            const create = vi
+                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+                .mockResolvedValue([]);
+            mockRoll(MARGINAL_FAILURE); // HR 2 → 1 (band 1–2 → 10)
+            const { logic } = infection({ healingRateBase: 2 });
+            await logic.courseCheck({} as any);
+            expect(create).toHaveBeenCalledWith(logic.actorLogic, [
+                expect.objectContaining({
+                    system: expect.objectContaining({
+                        levelBase: 10,
+                        category: "weakness",
+                    }),
+                }),
+            ]);
+        });
+
+        it("heals (no weakness) when the Healing Rate reaches 6", async () => {
+            const events = ((globalThis as any).sohl.events = {
+                scheduleAt: vi.fn(),
+                unsubscribe: vi.fn(),
+            });
+            const create = vi
+                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+                .mockResolvedValue([]);
+            mockRoll(CRITICAL_SUCCESS); // HR 5 → 7
+            const { logic } = infection({ healingRateBase: 5 });
+            await logic.courseCheck({} as any);
+            expect(create).not.toHaveBeenCalled(); // no weakness at HR ≥ 6
+            expect(events.unsubscribe).toHaveBeenCalledWith(
+                "Item.infect00000",
+                "courseCheck",
+            );
+        });
+    });
+});
+
 describe("Extended Shock / Coma course test (#556)", () => {
     afterEach(() => vi.restoreAllMocks());
 
@@ -970,6 +1139,25 @@ describe("Injury Treatment Test effect (#553)", () => {
                 "system.bloodLossAdvanceDurationBase": 300,
                 "system.lastBloodLossAdvanceDate": 1000,
             }),
+        );
+    });
+
+    it("marks a poorly-treated wound infectable, a well-treated one not (#557)", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(0);
+        mockRoll(MARGINAL_FAILURE); // a failed treatment → infectable
+        const poor = injury({ levelBase: 2, aspect: "edged" });
+        await poor.logic.treatmentTest({} as any);
+        expect(poor.logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.infectable": true }),
+        );
+
+        vi.restoreAllMocks();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(0);
+        mockRoll(MARGINAL_SUCCESS); // a successful treatment → not infectable
+        const good = injury({ levelBase: 2, aspect: "edged" });
+        await good.logic.treatmentTest({} as any);
+        expect(good.logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.infectable": false }),
         );
     });
 

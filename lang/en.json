@@ -1614,6 +1614,7 @@
     "SOHL.Trauma.ComaWeariness": "Coma Weariness",
     "SOHL.Trauma.ExtendedShock": "Extended Shock",
     "SOHL.Trauma.Coma": "Coma",
+    "SOHL.Trauma.Infection": "Infection",
     "SOHL.Trauma.Treatment.NotAnInjury": "Only injuries can be treated with a Treatment Test.",
     "SOHL.Trauma.Treatment.AlreadyHealed": "This injury has already healed; no treatment is needed.",
     "SOHL.Trauma.Action.bloodLossAdvanceCheck.title": "Arm Blood-Loss Advance",
