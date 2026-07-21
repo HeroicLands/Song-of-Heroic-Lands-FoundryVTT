@@ -1,0 +1,26 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!--
+Treat Injury dialog. Gathers the Healing Rate to record on a wound when the
+`treatInjury` action is run by hand (no card to pre-fill it). The card path
+supplies the same value in data-scope with skipDialog, so this dialog never
+opens there.
+--}}
+<form>
+    <div class="form-group">
+        <label>Healing Rate:</label>
+        <input type="number" name="healingRate" value="{{healingRate}}" min="0" step="1" />
+    </div>
+    <p class="hint">The wound's treated Healing Rate (0 heals it outright).</p>
+</form>

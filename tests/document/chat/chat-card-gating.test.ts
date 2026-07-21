@@ -8,6 +8,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
     gateAutomatedDefenseButtons,
+    gateActionCardButtons,
     hasUsableDodgeSkill,
 } from "@src/document/chat/chat-card-gating";
 import * as CombatantLogic from "@src/document/combatant/logic/SohlCombatantLogic";
@@ -218,5 +219,46 @@ describe("gateAutomatedDefenseButtons", () => {
         );
         expect(emptied.remove).toHaveBeenCalledTimes(1);
         expect(kept.remove).not.toHaveBeenCalled();
+    });
+});
+
+describe("gateActionCardButtons", () => {
+    /** A stub action-card button carrying its handler uuid + a remove spy. */
+    function acButton(handlerUuid: string) {
+        return {
+            dataset: { handlerUuid },
+            remove: vi.fn(),
+        };
+    }
+    /** A stub root: `button.action-card-button` → buttons; `.card-buttons` → none. */
+    function acElement(buttons: any[]): HTMLElement {
+        return {
+            querySelectorAll: (sel: string) =>
+                sel.includes("action-card-button") ? buttons : [],
+        } as unknown as HTMLElement;
+    }
+
+    it("keeps an open (@self) button for everyone", () => {
+        const btn = acButton("@self");
+        gateActionCardButtons(acElement([btn]), () => ({ isOwner: false }));
+        expect(btn.remove).not.toHaveBeenCalled();
+    });
+
+    it("hides an owner-targeted button from a non-owner", () => {
+        const btn = acButton("Item.wound");
+        gateActionCardButtons(acElement([btn]), () => ({ isOwner: false }));
+        expect(btn.remove).toHaveBeenCalledOnce();
+    });
+
+    it("keeps an owner-targeted button for its owner", () => {
+        const btn = acButton("Item.wound");
+        gateActionCardButtons(acElement([btn]), () => ({ isOwner: true }));
+        expect(btn.remove).not.toHaveBeenCalled();
+    });
+
+    it("is a no-op when there are no action-card buttons", () => {
+        expect(() =>
+            gateActionCardButtons(acElement([]), () => ({ isOwner: false })),
+        ).not.toThrow();
     });
 });

@@ -1,0 +1,35 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!--
+Generic action-card button block, appended to a card body by
+`buildActionCard`. Each button is a pre-filled invocation of a self-sufficient
+action, dispatched through the shared chat-card chokepoint: it carries the
+action name (data-action), the handler (data-handler-uuid — a document uuid, or
+the "@self" sentinel for an open button), the action's parameters
+(data-scope, pre-serialized), and data-skip-dialog so the click runs the action
+without re-prompting. The `action-card-button` class marks it for render-time
+targeted-vs-open gating (`gateActionCardButtons`).
+--}}
+<div class="card-buttons">
+    {{#each buttons}}
+    <button
+        class="action-card-button"
+        data-action="{{this.action}}"
+        data-handler-uuid="{{this.handlerUuid}}"
+        data-scope="{{this.scopeJSON}}"
+        data-skip-dialog="{{this.skipDialog}}">
+        {{#if this.iconFAClass}}<i class="{{this.iconFAClass}}"></i> {{/if}}{{this.label}}
+    </button>
+    {{/each}}
+</div>

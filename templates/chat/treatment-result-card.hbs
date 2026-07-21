@@ -29,6 +29,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <h3 class="title">Treatment Result</h3>
     </header>
 
+    {{#if physicianName}}
+    <div class="card-content center">
+        <span>{{physicianName}} performed the treatment test.</span>
+    </div>
+    {{/if}}
+
     <div class="grid grid-2col flex-center">
         <div class="card-content flexrow">
             <span class="label">Aspect:</span>

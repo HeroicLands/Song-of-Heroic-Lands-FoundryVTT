@@ -5,6 +5,7 @@ children:
     The SoHL API: ./sohl-api.md
     Combat Model: ./combat-model.md
     Macros and Actions: ./macros-and-actions.md
+    Action Cards & the Consent Model: ./action-cards.md
     Expressions and Scripts: ./expressions.md
     Security Model & Guardrails: ./security-model.md
     CSS Architecture & Styleguide: ./css-architecture.md

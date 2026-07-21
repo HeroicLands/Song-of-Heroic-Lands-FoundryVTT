@@ -166,6 +166,10 @@ export function fvttGetUser(_id: string): any {
     return undefined;
 }
 
+export function fvttGetUserCharacter(): any {
+    return undefined;
+}
+
 // ---------------------------------------------------------------------------
 // Token targeting helpers
 // ---------------------------------------------------------------------------

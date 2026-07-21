@@ -25,6 +25,7 @@ Design and rationale — how and why the system is built the way it is.
 - [The SoHL API](concepts/sohl-api.md)
 - [Combat Model](concepts/combat-model.md) — assisted vs. automated combat, and how the combat flow is wired programmatically (combatants, the exchange workflow, resolution).
 - [Macros and Actions](concepts/macros-and-actions.md)
+- [Action Cards & the Consent Model](concepts/action-cards.md) — the universal pattern every automated interaction is built on: self-sufficient actions offered across the chat log, run only at a human's behest. **Read before adding any cross-client flow.**
 - [Expressions and Scripts](concepts/expressions.md) — the ways author-supplied logic runs: `SafeExpression`, Macros, and the Expression Library.
 - [Security Model & Guardrails](concepts/security-model.md) — the threat model and the standing rules every change must respect. **Read before touching serialization, HTML rendering, actions, or cross-client flows.**
 - [CSS Architecture & Styleguide](concepts/css-architecture.md)

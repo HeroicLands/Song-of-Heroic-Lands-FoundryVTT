@@ -143,6 +143,32 @@ describe("resolveAuthorizedChatCardHandler (#167)", () => {
             ),
         ).toBe(null);
     });
+
+    it("resolves the @self sentinel to the user's own character (#576)", () => {
+        const character = { isOwner: true, name: "My Character" };
+        const resolveDoc = vi.fn(() => ({ isOwner: false }));
+        const resolveSelf = vi.fn(() => character);
+        expect(
+            resolveAuthorizedChatCardHandler(
+                dataset({ handlerUuid: "@self" }),
+                resolveDoc,
+                resolveSelf,
+            ),
+        ).toBe(character);
+        // @self never goes through the uuid document lookup.
+        expect(resolveDoc).not.toHaveBeenCalled();
+        expect(resolveSelf).toHaveBeenCalledOnce();
+    });
+
+    it("ignores an @self button when the user has no character", () => {
+        expect(
+            resolveAuthorizedChatCardHandler(
+                dataset({ handlerUuid: "@self" }),
+                () => ({ isOwner: true }),
+                () => undefined,
+            ),
+        ).toBe(null);
+    });
 });
 
 describe("dispatchChatCardAction (#66)", () => {
@@ -167,6 +193,32 @@ describe("dispatchChatCardAction (#66)", () => {
         };
         await dispatchChatCardAction(logic, btn());
         expect(execute).not.toHaveBeenCalled();
+    });
+
+    it("sets skipDialog on the context when the button is an action card (data-skip-dialog)", async () => {
+        // An action-card button pre-fills the parameters in data-scope, so its
+        // click runs the action with skipDialog — no re-prompt.
+        const execute = vi.fn();
+        const logic: any = {
+            speaker: {},
+            actions: new Map([["treatInjury", { data: {}, execute }]]),
+        };
+        await dispatchChatCardAction(
+            logic,
+            btn("treatInjury", { skipDialog: "true" }),
+        );
+        expect(execute).toHaveBeenCalledOnce();
+        expect(execute.mock.calls[0][0].skipDialog).toBe(true);
+    });
+
+    it("leaves skipDialog false for a plain card button (no data-skip-dialog)", async () => {
+        const execute = vi.fn();
+        const logic: any = {
+            speaker: {},
+            actions: new Map([["successTest", { data: {}, execute }]]),
+        };
+        await dispatchChatCardAction(logic, btn("successTest"));
+        expect(execute.mock.calls[0][0].skipDialog).toBe(false);
     });
 
     it("executes the action from logic.actions when found by name", async () => {

@@ -15,6 +15,51 @@ import { collectBlockableStrikeModes } from "@src/document/combatant/logic/SohlC
 import type { SohlActorLogic } from "../actor/logic/SohlActorBaseLogic";
 import { DEFENSE_DISABLING_STATUSES } from "../combatant/logic/SohlCombatantLogic";
 import { ITEM_KIND, SKILL_CODE } from "@src/utils/constants";
+import {
+    resolveChatCardHandlerUuid,
+    SELF_HANDLER,
+} from "@src/document/chat/chat-card-dispatch";
+
+/**
+ * Render-time gating for **action-card** buttons (per the targeted-vs-open
+ * rule): a button addressed to a specific document (`data-handler-uuid` = a real
+ * uuid) is shown **only to a client that owns that document** — hidden from
+ * everyone else, so nobody clicks a button that does nothing for them. A button
+ * addressed with the {@link SELF_HANDLER} sentinel (`@self`) is **open** — anyone
+ * may answer (their own default character responds), so it is shown to all.
+ *
+ * Action-card buttons (emitted by {@link sohl.document.chat.buildActionCard})
+ * carry the `action-card-button` class; this gate touches only those, so a
+ * card's other markup is left alone.
+ *
+ * Cosmetic only — the real gate is click-time authorization
+ * ({@link resolveAuthorizedChatCardHandler}). A no-op on any card without
+ * action-card buttons. Foundry document resolution is injected via `resolveDoc`,
+ * so this stays unit-testable.
+ *
+ * @param element - The chat message's rendered root element.
+ * @param resolveDoc - Resolves a document from its uuid (owner check).
+ */
+export function gateActionCardButtons(
+    element: HTMLElement,
+    resolveDoc: (uuid: string) => any,
+): void {
+    const buttons = element.querySelectorAll<HTMLButtonElement>(
+        "button.action-card-button",
+    );
+    if (!buttons.length) return;
+    for (const btn of Array.from(buttons)) {
+        const uuid = resolveChatCardHandlerUuid(btn.dataset);
+        // Open (@self) buttons are shown to everyone; only owner-targeted buttons
+        // are hidden from clients that do not own the target.
+        if (!uuid || uuid === SELF_HANDLER) continue;
+        if (!resolveDoc(uuid)?.isOwner) btn.remove();
+    }
+    // Drop any button container left empty by the removals.
+    element.querySelectorAll(".card-buttons").forEach((container) => {
+        if (!container.querySelector("button")) container.remove();
+    });
+}
 
 /**
  * Render-time gating for an attack card's defender-response buttons.

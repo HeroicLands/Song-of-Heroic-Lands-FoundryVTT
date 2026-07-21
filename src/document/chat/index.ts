@@ -14,5 +14,6 @@
 // Namespace barrel — hand-maintained. `npm run lint` (check-ns-barrels)
 // verifies every sibling module and subfolder here is re-exported.
 
+export * from "./action-card";
 export * from "./chat-card-dispatch";
 export * from "./chat-card-gating";

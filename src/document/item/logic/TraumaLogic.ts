@@ -17,7 +17,9 @@ import {
     fvttWorldTime,
     fvttGetSetting,
     fvttCreateEmbeddedItems,
+    dialog,
 } from "@src/core/FoundryHelpers";
+import { toFilePath } from "@src/utils/helpers";
 import { inflictWeaknessFatigue } from "@src/document/item/logic/fatigue";
 import {
     TREATMENT_HEAL,
@@ -31,6 +33,14 @@ import {
     type TreatmentCode,
 } from "@src/entity/body/injury-treatment";
 import { permanentImpairmentFor } from "@src/entity/body/impairment";
+// `action-card` and `chat-card-dispatch` are pure, Foundry-free modules (they
+// touch Foundry only through the `FoundryHelpers` shims); the path-based
+// boundary rule can't tell them apart from the Foundry-coupled files under
+// `document/chat/`, so allow these two.
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import { postActionCard } from "@src/document/chat/action-card";
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import { SELF_HANDLER } from "@src/document/chat/chat-card-dispatch";
 import {
     SHOCK_STATE,
     shockCourseHrDelta,
@@ -173,6 +183,111 @@ export class TraumaLogic<
     /* --------------------------------------------- */
     /* Intrinsic Actions                             */
     /* --------------------------------------------- */
+
+    /**
+     * Intrinsic-action executor for `requestTreatment` — the injured character's
+     * **Request Treatment** context-menu action. It posts an
+     * {@link sohl.document.chat.buildActionCard | action card} bearing an open
+     * *Perform Treatment Test* button ({@link sohl.document.chat.SELF_HANDLER}):
+     * any player whose default character has the Physician skill may answer, and
+     * the button pre-fills that physician's
+     * {@link sohl.document.actor.logic.BeingLogic.performTreatmentTest} with this
+     * wound's uuid. Nothing is rolled or recorded here — the card just invites a
+     * physician; state lives in the posted card, so it may be ignored, answered
+     * later, or superseded.
+     *
+     * @param _context - The action context (unused).
+     * @returns A promise that resolves once the request card is posted.
+     */
+    async requestTreatment(_context: SohlActionContext): Promise<void> {
+        if (this.data.subType !== TRAUMA_SUBTYPE.INJURY) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.Treatment.NotAnInjury"),
+            );
+            return;
+        }
+        if (!injuryBand(this.data.levelBase)) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.Treatment.AlreadyHealed"),
+            );
+            return;
+        }
+        const uuid = this.item?.uuid;
+        if (!uuid) return;
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/treatment-request-card.hbs",
+            data: {
+                patientName: (this.actorLogic as { name?: string })?.name ?? "",
+                woundName: this.item?.name ?? "",
+                aspect: this.data.aspect,
+                severity: this.data.levelBase,
+            },
+            buttons: {
+                action: "performTreatmentTest",
+                handlerUuid: SELF_HANDLER,
+                scope: { injuryUuid: uuid },
+                label: sohl.i18n.localize(
+                    "SOHL.Being.Action.performTreatmentTest",
+                ),
+                iconFAClass: "fa-solid fa-staff-snake",
+            },
+        });
+    }
+
+    /**
+     * Record a treated Healing Rate on this wound — the **Treat Injury** action.
+     * Self-sufficient: run from the wound's context menu it opens a dialog for the
+     * Healing Rate; invoked from a physician's *Treatment Result* Accept button it
+     * reads `scope.healingRate` with `skipDialog`, so the patient records the
+     * physician's proposed rate with one click. A `HEAL` sentinel (only reachable
+     * from a card) heals the wound outright.
+     *
+     * @param context - The action context; `scope.healingRate` supplies the rate
+     *   when present (card path), else the dialog gathers it.
+     * @returns The recorded Healing Rate, or `undefined` when none was supplied /
+     *   the dialog was cancelled.
+     */
+    async treatInjury(
+        context: SohlActionContext,
+    ): Promise<{ healingRate: number | typeof TREATMENT_HEAL } | undefined> {
+        let hr = (
+            context.scope as {
+                healingRate?: number | typeof TREATMENT_HEAL;
+            }
+        )?.healingRate;
+
+        // Run by hand (no card to pre-fill it): gather the Healing Rate.
+        if (hr == null && !context.skipDialog) {
+            const form = (await dialog({
+                title: `${this.item?.name ?? ""}: ${sohl.i18n.localize("SOHL.Trauma.Action.treatInjury.title")}`,
+                template: toFilePath(
+                    "systems/sohl/templates/dialog/treat-injury-dialog.hbs",
+                ),
+                data: { healingRate: this.data.healingRateBase ?? 0 },
+                callback: (data: PlainObject) => data,
+                rejectClose: false,
+            })) as { healingRate?: unknown } | null;
+            if (!form) return undefined;
+            const n = Number(form.healingRate);
+            if (Number.isNaN(n)) return undefined;
+            hr = n;
+        }
+        if (hr == null) return undefined;
+
+        const now = fvttWorldTime();
+        if (hr === TREATMENT_HEAL) {
+            await this.item.update({
+                "system.levelBase": 0,
+                "system.treatmentDate": now,
+            } as PlainObject);
+            return { healingRate: hr };
+        }
+        await this.item.update({
+            "system.healingRateBase": hr,
+            "system.treatmentDate": now,
+        } as PlainObject);
+        return { healingRate: hr };
+    }
 
     /**
      * Roll the **Physician Treatment Test** (#553), establishing this injury's
@@ -319,6 +434,26 @@ export class TraumaLogic<
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "requestTreatment",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.requestTreatment.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-hand",
+                executor: "requestTreatment",
+                visible: "itemLogic.data.subType === 'physical'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "treatInjury",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.treatInjury.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-staff-snake",
+                executor: "treatInjury",
+                visible: "itemLogic.data.subType === 'physical'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
             {
                 shortcode: "treatmenttest",
                 subType: ACTION_SUBTYPE.INTRINSIC,

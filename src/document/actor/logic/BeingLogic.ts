@@ -45,7 +45,16 @@ import {
     fvttCreateEmbeddedItems,
     fvttActorStatuses,
     fvttToggleActorStatus,
+    fvttWorldTime,
+    fvttLogicFromUuidSync,
 } from "@src/core/FoundryHelpers";
+import {
+    TREATMENT_HEAL,
+    injuryBand,
+    requiredTreatment,
+    treatmentHealingRate,
+    type InjuryBand,
+} from "@src/entity/body/injury-treatment";
 import {
     SHOCK_STATE,
     SHOCK_STATUS_IDS,
@@ -83,14 +92,23 @@ import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatan
 import {
     ACTION_SUBTYPE,
     ATTRIBUTE_CODE,
+    CRITICAL_FAILURE,
     STATUS_EFFECT,
     IMPACT_ASPECT,
+    ImpactAspectChoices,
+    isImpactAspect,
+    type ImpactAspect,
     ITEM_KIND,
     SKILL_CODE,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     TRAUMA_SUBTYPE,
 } from "@src/utils/constants";
+// `action-card` touches Foundry only through the `FoundryHelpers` shims; the
+// path-based boundary rule can't tell it apart from the Foundry-coupled files
+// under `document/chat/`, so allow it.
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import { postActionCard } from "@src/document/chat/action-card";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import {
     buildInjuryCardData,
@@ -1024,6 +1042,16 @@ export class BeingLogic<
         return [
             ...SohlActorBaseLogic.defineIntrinsicActions(),
             {
+                shortcode: "performTreatmentTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.performTreatmentTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-staff-snake",
+                executor: "performTreatmentTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
                 shortcode: "shockTest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Being.Action.shockTest",
@@ -1338,6 +1366,156 @@ export class BeingLogic<
             armorReduction: req.armorReduction ?? 0,
             extraBleedRisk: !!req.extraBleedRisk,
         });
+    }
+
+    /* --------------------------------------------- */
+    /* Perform Treatment Test (physician's action)   */
+    /* --------------------------------------------- */
+
+    /**
+     * The **Perform Treatment Test** action — *this* being (the physician) rolls
+     * **their own** Physician skill against a wound and posts the result. It is
+     * fully self-sufficient, so it is the *same* action however it is triggered:
+     *
+     * - From a wound's *Treatment Requested* card, the open button pre-fills
+     *   `scope.injuryUuid` with `skipDialog`; the responder is the clicking
+     *   player's own `game.user.character`.
+     * - From the Being's Actions tab (by hand), a dialog gathers the wound —
+     *   either a pasted injury UUID (Foundry's "Copy Document UUID"), or a
+     *   described severity/aspect for a GM-directed test.
+     *
+     * When a real wound is identified it posts a *Treatment Result* card whose
+     * owner-gated **Accept** button records the proposed Healing Rate on that
+     * wound (via {@link sohl.document.item.logic.TraumaLogic.treatInjury}) — the
+     * physician never touches the patient's wound; the patient's own click does.
+     * A GM-directed test with no target wound posts an informational result with
+     * no button (someone runs Treat Injury by hand).
+     *
+     * **Self-gating:** with no Physician skill it aborts with a notice and returns
+     * `undefined`, so an open request card stays live for a qualified physician.
+     *
+     * @param context - The action context; `scope.injuryUuid` names the wound when
+     *   pre-filled, else the dialog gathers the target.
+     * @returns The proposed `{ healingRate, physicianName }`, or `undefined` when
+     *   the physician cannot perform it (no skill / unresolved / healed / cancel).
+     */
+    async performTreatmentTest(context: SohlActionContext): Promise<
+        | {
+              healingRate: number | typeof TREATMENT_HEAL;
+              physicianName: string;
+          }
+        | undefined
+    > {
+        // Self-gate: only a physician may perform the test.
+        const physicianSkill = this.getItemLogic(
+            SKILL_CODE.PHYSICIAN,
+            ITEM_KIND.SKILL,
+        ) as SkillLogic | undefined;
+        if (!physicianSkill) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.Treatment.NoPhysicianSkill"),
+            );
+            return undefined;
+        }
+
+        // Resolve the wound: pre-filled uuid (card), else gathered by hand.
+        let injuryUuid = String(
+            (context.scope as { injuryUuid?: unknown })?.injuryUuid ?? "",
+        ).trim();
+        let injury: TraumaLogic | undefined =
+            injuryUuid ?
+                fvttLogicFromUuidSync<TraumaLogic>(injuryUuid)
+            :   undefined;
+        if (injuryUuid && !injury) return undefined; // uuid did not resolve
+
+        let aspect: ImpactAspect = IMPACT_ASPECT.BLUNT;
+        let severity = 0;
+        if (injury) {
+            aspect = injury.data.aspect;
+            severity = injury.data.levelBase;
+        } else if (!context.skipDialog) {
+            const form = (await dialog({
+                title: `${this.name ?? ""}: ${sohl.i18n.localize("SOHL.Trauma.Action.treatmenttest.title")}`,
+                template: toFilePath(
+                    "systems/sohl/templates/dialog/treatment-test-dialog.hbs",
+                ),
+                data: { aspectChoices: ImpactAspectChoices },
+                callback: (data: PlainObject) => data,
+                rejectClose: false,
+            })) as {
+                injuryUuid?: unknown;
+                severity?: unknown;
+                aspect?: unknown;
+            } | null;
+            if (!form) return undefined;
+            const pasted = String(form.injuryUuid ?? "").trim();
+            if (pasted) {
+                injury = fvttLogicFromUuidSync<TraumaLogic>(pasted);
+                if (!injury) {
+                    sohl.log.uiWarn(
+                        sohl.i18n.localize("SOHL.Trauma.Treatment.NotAnInjury"),
+                    );
+                    return undefined;
+                }
+                injuryUuid = pasted;
+                aspect = injury.data.aspect;
+                severity = injury.data.levelBase;
+            } else {
+                severity = Number(form.severity) || 0;
+                aspect =
+                    isImpactAspect(form.aspect) ?
+                        form.aspect
+                    :   IMPACT_ASPECT.BLUNT;
+            }
+        }
+
+        const band = injuryBand(severity);
+        if (!band) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.Treatment.AlreadyHealed"),
+            );
+            return undefined;
+        }
+
+        // Roll THIS physician's own Physician skill at the wound's difficulty.
+        const req = requiredTreatment(aspect, band);
+        const physicianMl = physicianSkill.masteryLevel?.effective ?? 0;
+        const result = await rollTimedTest(this, physicianMl, {
+            type: "treatment-test",
+            title: sohl.i18n.localize("SOHL.Trauma.Action.treatmenttest.title"),
+            situationalModifier: req?.modifier ?? 0,
+        });
+        if (result === undefined) return undefined; // cancelled
+        const sl = result ? result.normSuccessLevel : CRITICAL_FAILURE;
+        const healingRate = treatmentHealingRate(sl, band);
+
+        // Post the result. A real wound gets an owner-gated Accept button (the
+        // patient records the rate); a GM-directed test posts an informational
+        // result with no button.
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/treatment-result-card.hbs",
+            data: {
+                physicianName: this.name ?? "",
+                aspect,
+                severity,
+                treatment: req?.code ?? "",
+                hr: healingRate === TREATMENT_HEAL ? -1 : healingRate,
+            },
+            buttons:
+                injuryUuid ?
+                    {
+                        action: "treatInjury",
+                        handlerUuid: injuryUuid,
+                        scope: { healingRate },
+                        label: sohl.i18n.localize(
+                            "SOHL.Trauma.Action.treatInjury.accept",
+                        ),
+                        iconFAClass: "fa-solid fa-check",
+                    }
+                :   undefined,
+        });
+
+        return { healingRate, physicianName: this.name ?? "" };
     }
 
     /**
