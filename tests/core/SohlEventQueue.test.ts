@@ -37,28 +37,26 @@ function pred(source: string): SafeExpression {
 }
 
 /**
- * A resolved document whose logic records `executeAction(kind, context)` calls.
- * `onAction` receives `(kind, ctx, payload)` — the trigger context is the action
- * context's `scope`, and its `payload` is `scope.payload`.
+ * A resolved document whose logic records the **reminder card** the queue posts
+ * when a subscription is dispatched (consent model #579 — the queue offers, it
+ * does not perform). `onAction` receives `(actionName, scope, payload)` recovered from
+ * the posted card: `actionName` from `data.actionName`, `scope` from `data.scopeData`
+ * (`{ …ctx, payload }`), and `payload` from `scope.payload` — the same shape the
+ * queue used to pass to `executeAction`.
  */
 function actionDoc(
     onAction: (
-        kind: string,
+        actionName: string,
         ctx: SohlTriggerContext,
         payload: Record<string, unknown> | undefined,
     ) => void | Promise<void>,
 ): any {
-    return {
-        logic: {
-            speaker: new SohlSpeaker({}),
-            executeAction: async (
-                kind: string,
-                context: any,
-            ): Promise<void> => {
-                await onAction(kind, context.scope, context.scope?.payload);
-            },
-        },
+    const speaker: any = new SohlSpeaker({});
+    speaker.toChat = async (_template: any, data: any): Promise<void> => {
+        const scope = (data?.scopeData ?? {}) as any;
+        await onAction(data?.actionName, scope, scope?.payload);
     };
+    return { logic: { speaker } };
 }
 
 /** Install a global `fromUuid` returning an actionDoc for every uuid. */
@@ -89,7 +87,7 @@ describe("SohlEventQueue", () => {
             setUserFlags({ isGM: true, isActiveGM: false });
             queue.subscribe({
                 uuid: "Actor.a.Item.x",
-                kind: "healingCheck",
+                actionName: "healingCheck",
                 triggerName: "updateWorldTime",
                 fireAt: 1000,
             });
@@ -100,7 +98,7 @@ describe("SohlEventQueue", () => {
             setUserFlags({ isGM: false, isActiveGM: false });
             queue.subscribe({
                 uuid: "Actor.a.Item.x",
-                kind: "healingCheck",
+                actionName: "healingCheck",
                 triggerName: "updateWorldTime",
                 fireAt: 1000,
             });
@@ -110,7 +108,7 @@ describe("SohlEventQueue", () => {
         it("unsubscribe runs on all clients (including non-GM)", () => {
             queue.subscribe({
                 uuid: "Actor.a.Item.x",
-                kind: "k",
+                actionName: "k",
                 triggerName: "combatStart",
             });
             setUserFlags({ isGM: false, isActiveGM: false });
@@ -125,12 +123,12 @@ describe("SohlEventQueue", () => {
         it("clear empties the queue", () => {
             queue.subscribe({
                 uuid: "u1",
-                kind: "k1",
+                actionName: "k1",
                 triggerName: "combatStart",
             });
             queue.subscribe({
                 uuid: "u2",
-                kind: "k2",
+                actionName: "k2",
                 triggerName: "combatEnd",
             });
             queue.clear();
@@ -139,16 +137,16 @@ describe("SohlEventQueue", () => {
     });
 
     describe("subscribe (overwrite semantics)", () => {
-        it("overwrites on the same (uuid, kind)", () => {
+        it("overwrites on the same (uuid, actionName)", () => {
             queue.subscribe({
                 uuid: "u",
-                kind: "k",
+                actionName: "k",
                 triggerName: "updateWorldTime",
                 fireAt: 100,
             });
             queue.subscribe({
                 uuid: "u",
-                kind: "k",
+                actionName: "k",
                 triggerName: "combatStart",
                 payload: { v: 1 },
             });
@@ -162,45 +160,45 @@ describe("SohlEventQueue", () => {
         it("keeps separate entries for different kinds / uuids", () => {
             queue.subscribe({
                 uuid: "u",
-                kind: "a",
+                actionName: "a",
                 triggerName: "combatStart",
             });
             queue.subscribe({
                 uuid: "u",
-                kind: "b",
+                actionName: "b",
                 triggerName: "combatStart",
             });
             queue.subscribe({
                 uuid: "u2",
-                kind: "a",
+                actionName: "a",
                 triggerName: "combatStart",
             });
             expect(queue.size).toBe(3);
         });
     });
 
-    describe("fire dispatches by executing the action named by kind", () => {
-        it("executes `kind` as the action, passing ctx (with payload) as scope", async () => {
+    describe("fire dispatches by executing the action named by actionName", () => {
+        it("executes `actionName` as the action, passing ctx (with payload) as scope", async () => {
             const calls: any[] = [];
-            installActionDoc((kind, ctx, payload) => {
-                calls.push({ kind, name: ctx.name, payload });
+            installActionDoc((actionName, ctx, payload) => {
+                calls.push({ actionName, name: ctx.name, payload });
             });
             queue.subscribe({
                 uuid: "u1",
-                kind: "berserkerCheck",
+                actionName: "berserkerCheck",
                 triggerName: "combatStart",
                 payload: { threshold: 12 },
             });
             queue.subscribe({
                 uuid: "u2",
-                kind: "onEnd",
+                actionName: "onEnd",
                 triggerName: "combatEnd",
             });
 
             await queue.fire({ name: "combatStart", combat: {} as any });
             expect(calls).toEqual([
                 {
-                    kind: "berserkerCheck",
+                    actionName: "berserkerCheck",
                     name: "combatStart",
                     payload: { threshold: 12 },
                 },
@@ -209,18 +207,18 @@ describe("SohlEventQueue", () => {
 
         it("evaluates a SafeExpression predicate and skips falsy ones", async () => {
             const calls: string[] = [];
-            installActionDoc((kind) => {
-                calls.push(kind);
+            installActionDoc((actionName) => {
+                calls.push(actionName);
             });
             queue.subscribe({
                 uuid: "u1",
-                kind: "yes",
+                actionName: "yes",
                 triggerName: "combatStart",
                 predicate: pred("true"),
             });
             queue.subscribe({
                 uuid: "u2",
-                kind: "no",
+                actionName: "no",
                 triggerName: "combatStart",
                 predicate: pred("false"),
             });
@@ -230,12 +228,12 @@ describe("SohlEventQueue", () => {
 
         it("can predicate on the trigger context (e.g. its name)", async () => {
             const calls: string[] = [];
-            installActionDoc((kind) => {
-                calls.push(kind);
+            installActionDoc((actionName) => {
+                calls.push(actionName);
             });
             queue.subscribe({
                 uuid: "u1",
-                kind: "match",
+                actionName: "match",
                 triggerName: "combatStart",
                 predicate: pred('name === "combatStart"'),
             });
@@ -247,7 +245,7 @@ describe("SohlEventQueue", () => {
             installActionDoc();
             queue.subscribe({
                 uuid: "u1",
-                kind: "broken",
+                actionName: "broken",
                 triggerName: "combatStart",
                 predicate: pred("unknownIdentifier"), // throws on evaluate
             });
@@ -258,12 +256,12 @@ describe("SohlEventQueue", () => {
 
         it("is a no-op on non-active-GM", async () => {
             const seen: string[] = [];
-            installActionDoc((kind) => {
-                seen.push(kind);
+            installActionDoc((actionName) => {
+                seen.push(actionName);
             });
             queue.subscribe({
                 uuid: "u1",
-                kind: "k",
+                actionName: "k",
                 triggerName: "combatStart",
             });
             setUserFlags({ isGM: true, isActiveGM: false });
@@ -273,18 +271,18 @@ describe("SohlEventQueue", () => {
 
         it("catches action errors and continues dispatching the rest", async () => {
             const seen: string[] = [];
-            installActionDoc((kind) => {
-                if (kind === "boom") throw new Error("nope");
-                seen.push(kind);
+            installActionDoc((actionName) => {
+                if (actionName === "boom") throw new Error("nope");
+                seen.push(actionName);
             });
             queue.subscribe({
                 uuid: "u1",
-                kind: "boom",
+                actionName: "boom",
                 triggerName: "combatStart",
             });
             queue.subscribe({
                 uuid: "u2",
-                kind: "ok",
+                actionName: "ok",
                 triggerName: "combatStart",
             });
             await queue.fire({ name: "combatStart", combat: {} as any });
@@ -296,7 +294,7 @@ describe("SohlEventQueue", () => {
             (globalThis as any).fromUuid = async () => null;
             queue.subscribe({
                 uuid: "missing",
-                kind: "k",
+                actionName: "k",
                 triggerName: "combatStart",
             });
             await expect(
@@ -308,7 +306,7 @@ describe("SohlEventQueue", () => {
             (globalThis as any).fromUuid = async () => ({ logic: {} });
             queue.subscribe({
                 uuid: "foo",
-                kind: "k",
+                actionName: "k",
                 triggerName: "combatStart",
             });
             await queue.fire({ name: "combatStart", combat: {} as any });
@@ -321,8 +319,8 @@ describe("SohlEventQueue", () => {
 
         it("does not fire before worldTime reaches fireAt", async () => {
             const seen: string[] = [];
-            installActionDoc((kind) => {
-                seen.push(kind);
+            installActionDoc((actionName) => {
+                seen.push(actionName);
             });
             queue.scheduleAt("u", "k", 1000);
             await queue.fire(worldTimeCtx(500));
@@ -332,8 +330,8 @@ describe("SohlEventQueue", () => {
 
         it("fires once and removes itself when worldTime >= fireAt (one-shot)", async () => {
             const seen: string[] = [];
-            installActionDoc((kind) => {
-                seen.push(kind);
+            installActionDoc((actionName) => {
+                seen.push(actionName);
             });
             queue.scheduleAt("u", "k", 1000);
             await queue.fire(worldTimeCtx(1500));
@@ -393,19 +391,19 @@ describe("SohlEventQueue", () => {
 
         it("respects predicates during a pass (skipped subs do not block the loop)", async () => {
             const seen: string[] = [];
-            installActionDoc((kind) => {
-                seen.push(kind);
+            installActionDoc((actionName) => {
+                seen.push(actionName);
             });
             queue.subscribe({
                 uuid: "u1",
-                kind: "skipped",
+                actionName: "skipped",
                 triggerName: "updateWorldTime",
                 fireAt: 100,
                 predicate: pred("false"),
             });
             queue.subscribe({
                 uuid: "u2",
-                kind: "fires",
+                actionName: "fires",
                 triggerName: "updateWorldTime",
                 fireAt: 200,
             });
@@ -433,7 +431,7 @@ describe("SohlEventQueue", () => {
                 actionDoc(async () => {
                     queue.subscribe({
                         uuid: "u",
-                        kind: "deep",
+                        actionName: "deep",
                         triggerName: "combatStart",
                     });
                     await queue.fire({
@@ -443,7 +441,7 @@ describe("SohlEventQueue", () => {
                 });
             queue.subscribe({
                 uuid: "u",
-                kind: "deep",
+                actionName: "deep",
                 triggerName: "combatStart",
             });
             await queue.fire({ name: "combatStart", combat: {} as any });
@@ -483,25 +481,74 @@ describe("SohlEventQueue", () => {
     });
 
     describe("debug", () => {
-        it("returns subscriptions sorted by (triggerName, fireAt, kind)", () => {
+        it("returns subscriptions sorted by (triggerName, fireAt, actionName)", () => {
             queue.subscribe({
                 uuid: "u",
-                kind: "z",
+                actionName: "z",
                 triggerName: "updateWorldTime",
                 fireAt: 100,
             });
             queue.subscribe({
                 uuid: "u",
-                kind: "a",
+                actionName: "a",
                 triggerName: "combatStart",
             });
             queue.subscribe({
                 uuid: "u",
-                kind: "m",
+                actionName: "m",
                 triggerName: "updateWorldTime",
                 fireAt: 50,
             });
-            expect(queue.debug().map((s) => s.kind)).toEqual(["a", "m", "z"]);
+            expect(queue.debug().map((s) => s.actionName)).toEqual([
+                "a",
+                "m",
+                "z",
+            ]);
+        });
+    });
+
+    describe("consent (#579): a due effect is OFFERED, never performed", () => {
+        it("posts a [Perform] reminder addressed to the effect's item — no executeAction", async () => {
+            const posted: { tpl: unknown; data: any }[] = [];
+            (globalThis as any).fromUuid = async () => {
+                const speaker: any = new SohlSpeaker({});
+                speaker.toChat = async (tpl: unknown, data: any) => {
+                    posted.push({ tpl, data });
+                };
+                // Deliberately no `executeAction` — proving the queue never
+                // performs the effect on its own.
+                return { logic: { speaker } };
+            };
+            queue.scheduleAt("Actor.a.Item.w", "healingCheck", 1000, { hr: 4 });
+            await queue.fire(worldTimeCtx(1000));
+
+            expect(posted).toHaveLength(1);
+            expect(String(posted[0].tpl)).toContain("reminder-card.hbs");
+            const data = posted[0].data;
+            expect(data.actionName).toBe("healingCheck");
+            // The [Perform] button is addressed to the effect's item…
+            expect(data.handlerUuid).toBe("Actor.a.Item.w");
+            // …and carries the payload as the action's revived scope on click.
+            expect(data.scopeData.payload).toEqual({ hr: 4 });
+        });
+
+        it("offers the same due occurrence once, not on every world-time advance", async () => {
+            let count = 0;
+            (globalThis as any).fromUuid = async () => {
+                const speaker: any = new SohlSpeaker({});
+                speaker.toChat = async () => {
+                    count++;
+                };
+                return { logic: { speaker } };
+            };
+            queue.scheduleAt("Actor.a.Item.w", "healingCheck", 1000);
+            await queue.fire(worldTimeCtx(1000));
+            // Re-armed at the same fireAt (as finalize would) and time advances
+            // again — but it must not re-offer the unperformed occurrence.
+            queue.scheduleAt("Actor.a.Item.w", "healingCheck", 1000);
+            await queue.fire(worldTimeCtx(1100));
+
+            expect(count).toBe(1);
         });
     });
 });
