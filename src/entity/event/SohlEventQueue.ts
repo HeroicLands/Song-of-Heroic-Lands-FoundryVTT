@@ -18,10 +18,13 @@ import {
 } from "@src/core/FoundryHelpers";
 import type { SohlTriggerContext } from "@src/entity/event/event-trigger";
 import type { SafeExpression } from "@src/entity/expr/SafeExpression";
-import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import { toFilePath, defaultToJSON } from "@src/utils/helpers";
+
+/** The generic timed-effect reminder card posted when a scheduled effect is due. */
+const REMINDER_CARD_TEMPLATE = "systems/sohl/templates/chat/reminder-card.hbs";
 
 /**
- * A single registered subscription, uniquely identified by `(uuid, kind)`.
+ * A single registered subscription, uniquely identified by `(uuid, actionName)`.
  *
  * @see {@link SohlEventQueue}
  */
@@ -29,14 +32,15 @@ export interface SohlSubscription {
     /** UUID of the document this subscription belongs to. */
     uuid: string;
     /**
-     * Subscription kind, scoped to {@link uuid}. A document may have at
-     * most one subscription per kind; re-subscribing overwrites.
+     * The **action** to run, scoped to {@link uuid}. A document may have at most
+     * one subscription per action name; re-subscribing overwrites.
      *
-     * On dispatch, `kind` is the **action shortcode** executed on the owning
-     * document's logic (see {@link SohlEventQueue.fire}) — so an event can reuse
-     * the same action a user could invoke manually.
+     * It is the action's shortcode, run on the owning document's logic when the
+     * subscription is offered (see {@link SohlEventQueue.fire}) — so the queue is
+     * a *deferred action runner*: an event reuses the very same action a user
+     * could invoke manually, on the same document.
      */
-    kind: string;
+    actionName: string;
     /**
      * Trigger this subscription listens to (e.g. `"updateWorldTime"`,
      * `"combatStart"`). Must match the `name` of a {@link SohlTriggerContext}
@@ -84,18 +88,18 @@ const MAX_TRIGGER_DEPTH = 16;
  * (`updateWorldTime`, `combatStart`, `combatEnd`, `roundStart`,
  * `roundEnd`, `turnStart`, `turnEnd`, plus any custom names registered
  * via `registerSohlTrigger`). When a trigger fires, matching subscriptions
- * dispatch by **executing the action** named by the subscription's `kind` on the
+ * dispatch by **executing the action** named by the subscription's `actionName` on the
  * owning document's logic — the trigger context (with the subscription's
  * `payload`) becomes the action's scope. An event therefore reuses the very
  * same action a user could invoke manually.
  *
- * Time scheduling is one trigger among many: a `scheduleAt(uuid, kind,
+ * Time scheduling is one trigger among many: a `scheduleAt(uuid, actionName,
  * fireAt, payload)` call creates a one-shot subscription on
  * `updateWorldTime` that fires when world time reaches `fireAt`.
  *
  * ## Identity and overwrite semantics
  *
- * Each subscription is uniquely identified by `(uuid, kind)`. Re-subscribing
+ * Each subscription is uniquely identified by `(uuid, actionName)`. Re-subscribing
  * with the same identity **overwrites** the previous entry. Documents
  * re-register their subscriptions on every preparation cycle, so only the most
  * recent registration matters.
@@ -152,27 +156,37 @@ export class SohlEventQueue {
     private depthByTrigger: Map<string, number> = new Map();
 
     /**
+     * Which due occurrences have already been *offered* (a `[Perform]` reminder
+     * posted), keyed `uuid::actionName` → the `fireAt` last offered. Prevents
+     * re-posting the same due reminder every time world time advances while it
+     * sits unperformed; a new `fireAt` (after the effect is performed and
+     * re-armed) offers again. In-memory on the active GM only — a GM reload may
+     * re-offer once, which is harmless.
+     */
+    private offered: Map<string, number> = new Map();
+
+    /**
      * Build the composite map key for a subscription.
      *
      * @param uuid - The subscribed document's UUID.
-     * @param kind - The subscription kind.
-     * @returns The `uuid::kind` map key.
+     * @param actionName - The subscription actionName.
+     * @returns The `uuid::actionName` map key.
      */
-    private key(uuid: string, kind: string): string {
-        return `${uuid}::${kind}`;
+    private key(uuid: string, actionName: string): string {
+        return `${uuid}::${actionName}`;
     }
 
     /**
      * Register or overwrite a subscription. Runs on **all** clients (the queue is
      * a projection of document state); only {@link fire} is GM-gated.
      *
-     * If a subscription with the same `(uuid, kind)` already exists, its fields
+     * If a subscription with the same `(uuid, actionName)` already exists, its fields
      * are replaced.
      *
      * @param sub - The subscription to register or overwrite.
      */
     subscribe(sub: SohlSubscription): void {
-        this.subs.set(this.key(sub.uuid, sub.kind), { ...sub });
+        this.subs.set(this.key(sub.uuid, sub.actionName), { ...sub });
     }
 
     /**
@@ -185,19 +199,19 @@ export class SohlEventQueue {
      * the next occurrence (see the class overview).
      *
      * @param uuid - The document to dispatch to when the time is reached.
-     * @param kind - The subscription kind passed to the handler.
+     * @param actionName - The subscription actionName passed to the handler.
      * @param fireAt - The world time at or after which to fire.
      * @param payload - Optional payload forwarded to the handler.
      */
     scheduleAt(
         uuid: string,
-        kind: string,
+        actionName: string,
         fireAt: number,
         payload?: Record<string, unknown>,
     ): void {
         this.subscribe({
             uuid,
-            kind,
+            actionName,
             triggerName: "updateWorldTime",
             fireAt,
             payload,
@@ -209,48 +223,48 @@ export class SohlEventQueue {
      * Remove a subscription. Runs on all clients; safe when absent.
      *
      * @param uuid - The subscribed document's UUID.
-     * @param kind - The subscription kind to remove.
+     * @param actionName - The subscription actionName to remove.
      */
-    unsubscribe(uuid: string, kind: string): void {
-        this.subs.delete(this.key(uuid, kind));
+    unsubscribe(uuid: string, actionName: string): void {
+        this.subs.delete(this.key(uuid, actionName));
     }
 
     /**
-     * The scheduled world time a `(uuid, kind)` subscription will fire at, or
+     * The scheduled world time a `(uuid, actionName)` subscription will fire at, or
      * `undefined` when there is no such subscription (or it carries no `fireAt`).
      * Answers on any client for documents that client can see.
      *
      * @param uuid - The subscribed document's UUID.
-     * @param kind - The subscription kind.
+     * @param actionName - The subscription actionName.
      * @returns The absolute world-time `fireAt`, or `undefined`.
      */
-    nextFireTime(uuid: string, kind: string): number | undefined {
-        return this.subs.get(this.key(uuid, kind))?.fireAt;
+    nextFireTime(uuid: string, actionName: string): number | undefined {
+        return this.subs.get(this.key(uuid, actionName))?.fireAt;
     }
 
     /**
-     * Seconds from the current world time until a `(uuid, kind)` subscription
+     * Seconds from the current world time until a `(uuid, actionName)` subscription
      * fires: positive for the future, negative for the past, `0` for now.
      * `undefined` when the subscription is absent or has no `fireAt`.
      *
      * @param uuid - The subscribed document's UUID.
-     * @param kind - The subscription kind.
+     * @param actionName - The subscription actionName.
      * @returns Signed seconds until fire, or `undefined`.
      */
-    timeUntil(uuid: string, kind: string): number | undefined {
-        const at = this.nextFireTime(uuid, kind);
+    timeUntil(uuid: string, actionName: string): number | undefined {
+        const at = this.nextFireTime(uuid, actionName);
         return at === undefined ? undefined : at - fvttWorldTime();
     }
 
     /**
-     * Whether a `(uuid, kind)` subscription is currently registered.
+     * Whether a `(uuid, actionName)` subscription is currently registered.
      *
      * @param uuid - The subscribed document's UUID.
-     * @param kind - The subscription kind.
+     * @param actionName - The subscription actionName.
      * @returns True when a subscription exists for the pair.
      */
-    isScheduled(uuid: string, kind: string): boolean {
-        return this.subs.has(this.key(uuid, kind));
+    isScheduled(uuid: string, actionName: string): boolean {
+        return this.subs.has(this.key(uuid, actionName));
     }
 
     /**
@@ -315,14 +329,15 @@ export class SohlEventQueue {
                         );
                     } catch (err) {
                         console.error(
-                            `SoHL | Predicate threw for subscription "${sub.kind}" on ${sub.uuid}:`,
+                            `SoHL | Predicate threw for subscription "${sub.actionName}" on ${sub.uuid}:`,
                             err,
                         );
                         continue;
                     }
                     if (!pass) continue;
                 }
-                if (sub.oneShot) this.subs.delete(this.key(sub.uuid, sub.kind));
+                if (sub.oneShot)
+                    this.subs.delete(this.key(sub.uuid, sub.actionName));
                 await this.dispatchOne(sub, ctx);
             }
         } finally {
@@ -332,16 +347,21 @@ export class SohlEventQueue {
     }
 
     /**
-     * Resolve a subscription's document and **execute the action** named by
-     * `sub.kind` on its logic, logging and swallowing any errors so one failure
-     * cannot abort the batch.
+     * Resolve a subscription's document and **offer** the action named by
+     * `sub.actionName` — post a `[Perform]` reminder card to the character's owner
+     * rather than performing the effect. Consent (issue #579): a due timed effect
+     * reminds; it never mutates a character on its own. The card's button is
+     * addressed to the effect's **document** (`sub.uuid` — an item, actor, or any
+     * document), so the owner's click runs the *same* action the queue used to
+     * run automatically on that document's logic (the executor performs
+     * and re-arms the next occurrence). Errors are logged and swallowed so one
+     * failure cannot abort the batch.
      *
-     * The trigger context (with `sub.payload` attached as `ctx.payload`) becomes
-     * the action context's `scope`, and `sub.kind` its `type` — so an event
-     * dispatches through the same action a user could invoke manually.
+     * De-duplicated by `(uuid, actionName, fireAt)`: the same due occurrence is offered
+     * once, not on every world-time advance while it sits unperformed.
      *
-     * @param sub - The subscription to dispatch.
-     * @param ctx - The trigger context, forwarded as the action's scope.
+     * @param sub - The subscription to offer.
+     * @param ctx - The trigger context, carried into the button's scope.
      */
     private async dispatchOne(
         sub: SohlSubscription,
@@ -350,28 +370,42 @@ export class SohlEventQueue {
         try {
             const doc = await fvttResolveUuidAsync(sub.uuid);
             const logic = (doc as { logic?: any } | null)?.logic;
-            if (!logic || typeof logic.executeAction !== "function") {
+            const speaker = logic?.speaker;
+            if (!speaker || typeof speaker.toChat !== "function") {
                 console.warn(
-                    `SoHL | Document ${sub.uuid} cannot execute action "${sub.kind}" on trigger "${ctx.name}".`,
+                    `SoHL | Cannot post a reminder for "${sub.actionName}" on ${sub.uuid} (no speaker).`,
                 );
                 return;
             }
-            const speaker = logic.speaker;
-            if (!speaker) {
-                console.warn(
-                    `SoHL | No speaker for ${sub.uuid}; cannot dispatch "${sub.kind}".`,
-                );
-                return;
+            // Offer each due *scheduled* occurrence once (not every tick while it
+            // sits unperformed). Only time-scheduled reminders dedupe; a
+            // non-time trigger offers on every fire.
+            if (sub.triggerName === "updateWorldTime") {
+                const key = this.key(sub.uuid, sub.actionName);
+                const fireAt = sub.fireAt ?? 0;
+                if (this.offered.get(key) === fireAt) return;
+                this.offered.set(key, fireAt);
             }
-            const context = new SohlActionContext({
-                speaker,
-                type: sub.kind,
-                scope: { ...ctx, payload: sub.payload },
+
+            const effectLabel = sohl.i18n.localize(
+                `SOHL.Reminder.effect.${sub.actionName}`,
+            );
+            const actorName = (speaker as { name?: string }).name ?? "";
+            await speaker.toChat(toFilePath(REMINDER_CARD_TEMPLATE), {
+                effectLabel,
+                actorName,
+                body: sohl.i18n.localize("SOHL.Reminder.body"),
+                performLabel: sohl.i18n.localize("SOHL.Reminder.perform"),
+                actionName: sub.actionName,
+                handlerUuid: sub.uuid,
+                // The trigger context + payload — revived as the action's scope
+                // when the owner clicks [Perform] (same shape the queue used to
+                // pass directly to executeAction).
+                scopeData: defaultToJSON({ ...ctx, payload: sub.payload }),
             });
-            await logic.executeAction(sub.kind, context);
         } catch (err) {
             console.error(
-                `SoHL | Error dispatching "${sub.kind}" on trigger "${ctx.name}" for ${sub.uuid}:`,
+                `SoHL | Error offering "${sub.actionName}" on trigger "${ctx.name}" for ${sub.uuid}:`,
                 err,
             );
         }
@@ -384,7 +418,7 @@ export class SohlEventQueue {
 
     /**
      * Sorted snapshot of subscriptions for debugging. Sorted by
-     * `(triggerName, fireAt, kind)` for stable inspection.
+     * `(triggerName, fireAt, actionName)` for stable inspection.
      *
      * @returns A copied, stably-sorted array of the current subscriptions.
      */
@@ -397,7 +431,7 @@ export class SohlEventQueue {
                 const af = a.fireAt ?? Number.POSITIVE_INFINITY;
                 const bf = b.fireAt ?? Number.POSITIVE_INFINITY;
                 if (af !== bf) return af - bf;
-                return a.kind.localeCompare(b.kind);
+                return a.actionName.localeCompare(b.actionName);
             });
     }
 
