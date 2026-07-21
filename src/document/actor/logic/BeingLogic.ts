@@ -210,6 +210,44 @@ export class BeingLogic<
     }
 
     /**
+     * Record a **permanent impairment** (#554) on the body part containing
+     * `locationShortcode`, worsening its persisted `permanentImpairment` to at
+     * most `magnitude` (the worse — more negative — of the two). A no-op for a
+     * non-negative `magnitude`, an unknown location, or when it would not worsen
+     * the existing value. The whole `parts` array is rewritten (an element-by-
+     * index write corrupts the array — see the Runtime Contracts).
+     *
+     * Called when an eligible injury heals to level 0 (see the Injury rules —
+     * Permanent Impairment); the magnitude comes from
+     * {@link sohl.entity.body.permanentImpairmentFor}.
+     *
+     * @param locationShortcode - The healed injury's body-location shortcode.
+     * @param magnitude - The permanent impairment to apply (a non-positive number).
+     * @returns A promise that resolves once the impairment is persisted.
+     */
+    async applyPermanentImpairment(
+        locationShortcode: string,
+        magnitude: number,
+    ): Promise<void> {
+        if (magnitude >= 0 || !locationShortcode || !this.actor) return;
+        const structure = this.body?.structure;
+        const parts = structure?.parts;
+        if (!parts?.length) return;
+        const index = parts.findIndex((p) =>
+            p.locations.some((l) => l.shortcode === locationShortcode),
+        );
+        if (index < 0) return;
+        const current = parts[index].permanentImpairment ?? 0;
+        const next = Math.min(current, magnitude); // worst-of
+        if (next === current) return; // no worsening
+        const payload = structure.setPartFieldsUpdate([
+            { index, changes: { permanentImpairment: next } },
+        ]);
+        if (!Object.keys(payload).length) return;
+        await this.actor.update(payload as PlainObject);
+    }
+
+    /**
      * The being's pull score, determining whether it can draw certain bow weapons.
      */
     pull!: ValueModifier;

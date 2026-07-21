@@ -1093,6 +1093,43 @@ describe("BeingLogic", () => {
         });
     });
 
+    describe("applyPermanentImpairment (#554)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        /** Body data whose head/skull part carries `headPi` permanent impairment. */
+        function bodyWith(headPi = 0) {
+            const structure = JSON.parse(JSON.stringify(BODY_STRUCTURE_DATA));
+            structure.parts[0].permanentImpairment = headPi;
+            return bodyData({ structure });
+        }
+
+        it("rewrites the whole parts array with the worsened impairment", async () => {
+            const being = makeBeing({ body: bodyWith(0) });
+            being.initialize();
+            await being.applyPermanentImpairment("skull", -10);
+            const payload = (being.actor!.update as any).mock.calls[0][0];
+            const parts = payload["system.body.structure.parts"];
+            expect(parts).toHaveLength(2);
+            expect(parts[0].permanentImpairment).toBe(-10); // head (skull)
+            expect(parts[1].permanentImpairment ?? 0).toBe(0); // thorax untouched
+        });
+
+        it("keeps the worse existing impairment and does not write", async () => {
+            const being = makeBeing({ body: bodyWith(-20) });
+            being.initialize();
+            await being.applyPermanentImpairment("skull", -10);
+            expect(being.actor!.update).not.toHaveBeenCalled();
+        });
+
+        it("is a no-op for a non-negative magnitude or an unknown location", async () => {
+            const being = makeBeing({ body: bodyWith(0) });
+            being.initialize();
+            await being.applyPermanentImpairment("skull", 0);
+            await being.applyPermanentImpairment("nope", -10);
+            expect(being.actor!.update).not.toHaveBeenCalled();
+        });
+    });
+
     describe("injuryShock (#555)", () => {
         afterEach(() => vi.restoreAllMocks());
 

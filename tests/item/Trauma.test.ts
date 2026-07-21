@@ -621,6 +621,108 @@ describe("Injury Healing Test effect (#486)", () => {
     });
 });
 
+describe("Permanent impairment on heal (#554)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    const DAY = 86400;
+
+    function withEvents() {
+        (globalThis as any).sohl.events = {
+            scheduleAt: vi.fn(),
+            unsubscribe: vi.fn(),
+        };
+    }
+
+    /**
+     * A treated, permanent-impairment-eligible injury with one healing interval
+     * spanning `spanDays`; a single Injury Healing Test fires at `spanDays`.
+     */
+    function eligibleInjury(
+        opts: {
+            levelBase?: number;
+            eligible?: boolean;
+            spanDays?: number;
+        } = {},
+    ) {
+        const { levelBase = 1, eligible = true, spanDays = 20 } = opts;
+        const interval = spanDays * DAY;
+        const actor = makeMockActor();
+        (actor.logic as any).healingBase = { effective: 4 };
+        const applyPermanentImpairment = vi.fn().mockResolvedValue(undefined);
+        (actor.logic as any).applyPermanentImpairment =
+            applyPermanentImpairment;
+        const logic = makeTrauma(
+            {
+                subType: TRAUMA_SUBTYPE.INJURY,
+                levelBase,
+                healingRateBase: 6,
+                treatmentDate: 500,
+                contractDate: 0,
+                permanentImpairmentEligible: eligible,
+                bodyLocationCode: "skull",
+                lastHealingCheckDate: 0,
+                healingCheckDurationBase: interval,
+                healingCheckDurationFormula: String(interval),
+            },
+            { actor },
+        );
+        (logic.item as any).uuid = "Item.injury00000";
+        logic.initialize();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(interval);
+        return { logic, applyPermanentImpairment };
+    }
+
+    function mockRoll(sl: number) {
+        vi.spyOn(
+            MasteryLevelModifier.prototype,
+            "successTest",
+        ).mockResolvedValue({ normSuccessLevel: sl } as any);
+    }
+
+    it("applies permanent impairment scaled by time-to-heal on heal to 0", async () => {
+        withEvents();
+        mockRoll(MARGINAL_SUCCESS); // level 1 → 0 in one test
+        const { logic, applyPermanentImpairment } = eligibleInjury({
+            spanDays: 20,
+        });
+        await logic.healingCheck({} as any);
+        // 20 days → −5, on the skull's body part.
+        expect(applyPermanentImpairment).toHaveBeenCalledWith("skull", -5);
+    });
+
+    it("does not apply when the wound is not eligible", async () => {
+        withEvents();
+        mockRoll(MARGINAL_SUCCESS);
+        const { logic, applyPermanentImpairment } = eligibleInjury({
+            eligible: false,
+            spanDays: 40,
+        });
+        await logic.healingCheck({} as any);
+        expect(applyPermanentImpairment).not.toHaveBeenCalled();
+    });
+
+    it("does not apply for a fast heal (< 20 days)", async () => {
+        withEvents();
+        mockRoll(MARGINAL_SUCCESS);
+        const { logic, applyPermanentImpairment } = eligibleInjury({
+            spanDays: 10,
+        });
+        await logic.healingCheck({} as any);
+        expect(applyPermanentImpairment).not.toHaveBeenCalled();
+    });
+
+    it("does not apply when the injury does not reach 0", async () => {
+        withEvents();
+        mockRoll(MARGINAL_SUCCESS); // level 3 → 2, not healed
+        const { logic, applyPermanentImpairment } = eligibleInjury({
+            levelBase: 3,
+            spanDays: 40,
+        });
+        await logic.healingCheck({} as any);
+        expect(applyPermanentImpairment).not.toHaveBeenCalled();
+    });
+});
+
 describe("Injury Treatment Test effect (#553)", () => {
     afterEach(() => vi.restoreAllMocks());
 

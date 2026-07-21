@@ -26,6 +26,7 @@ import {
     type InjuryBand,
     type TreatmentCode,
 } from "@src/entity/body/injury-treatment";
+import { permanentImpairmentFor } from "@src/entity/body/impairment";
 import { deriveNext, elapsedCheckpoints } from "@src/entity/event/scheduling";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -62,6 +63,9 @@ import {
     type SohlItemData,
 } from "@src/document/item/logic/SohlItemBaseLogic";
 import { rollTimedTest } from "@src/document/item/logic/timed-test";
+
+/** Seconds in a day — for converting healing world-time spans to days (#554). */
+const SECONDS_PER_DAY = 86400;
 
 // Level/category → localization-key maps, derived once from the enums so
 // levelLabel/categoryLabel are simple lookups.
@@ -509,7 +513,10 @@ export class TraumaLogic<
      *   subtypes recover by their own rules and only re-arm here. In all cases
      *   the recurrence anchor is advanced over every elapsed interval and re-armed
      *   via {@link deriveNext} (the queue does not cascade — see the Event Queue
-     *   contract).
+     *   contract). An eligible injury (see
+     *   {@link TraumaData.permanentImpairmentEligible}) that heals to level 0 this
+     *   pass leaves a **permanent impairment** on its body part, scaled by its
+     *   total time to heal (#554).
      */
     async healingCheck(_context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
@@ -557,6 +564,26 @@ export class TraumaLogic<
             "system.lastHealingCheckDate": lastProcessed,
             "system.healingCheckDurationBase": nextInterval,
         } as PlainObject);
+
+        // An eligible injury that just healed to level 0 leaves a permanent
+        // impairment scaled by how long it took to heal (#554).
+        if (
+            this.data.subType === TRAUMA_SUBTYPE.INJURY &&
+            this.data.permanentImpairmentEligible &&
+            this.data.levelBase > 0 &&
+            level === 0 &&
+            this.data.contractDate != null
+        ) {
+            const days =
+                (lastProcessed - this.data.contractDate) / SECONDS_PER_DAY;
+            const magnitude = permanentImpairmentFor(days);
+            if (magnitude < 0) {
+                await (this.actorLogic as any)?.applyPermanentImpairment?.(
+                    this.data.bodyLocationCode,
+                    magnitude,
+                );
+            }
+        }
     }
 
     /**
