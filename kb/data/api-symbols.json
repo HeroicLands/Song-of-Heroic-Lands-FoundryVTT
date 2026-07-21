@@ -1225,7 +1225,7 @@
   "sohl.document.combatant.logic.AttackCardInput.target": "interfaces/sohl.document.combatant.logic.AttackCardInput.html#target",
   "sohl.document.combatant.logic.AttackCardInput.title": "interfaces/sohl.document.combatant.logic.AttackCardInput.html#title",
   "sohl.document.combatant.logic.AttackCardTarget": "interfaces/sohl.document.combatant.logic.AttackCardTarget.html",
-  "sohl.document.combatant.logic.AttackCardTarget.actorUuid": "interfaces/sohl.document.combatant.logic.AttackCardTarget.html#actoruuid",
+  "sohl.document.combatant.logic.AttackCardTarget.combatantUuid": "interfaces/sohl.document.combatant.logic.AttackCardTarget.html#combatantuuid",
   "sohl.document.combatant.logic.AttackCardTarget.name": "interfaces/sohl.document.combatant.logic.AttackCardTarget.html#name",
   "sohl.document.combatant.logic.AttackDialogResult": "interfaces/sohl.document.combatant.logic.AttackDialogResult.html",
   "sohl.document.combatant.logic.AttackDialogResult.aim": "interfaces/sohl.document.combatant.logic.AttackDialogResult.html#aim",

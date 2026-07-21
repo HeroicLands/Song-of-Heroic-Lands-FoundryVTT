@@ -28,6 +28,15 @@ import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogi
 import type { SohlAction } from "@src/entity/action/SohlAction";
 
 import { defaultToJSON } from "@src/utils/helpers";
+// `action-card` touches Foundry only through the `FoundryHelpers` shims; the
+// path-based boundary rule can't tell it apart from the Foundry-coupled files
+// under `document/chat/`, so allow it.
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import {
+    postActionCard,
+    type ActionCardSpec,
+    type ActionCardButton,
+} from "@src/document/chat/action-card";
 import type { AttackResult } from "@src/entity/result/AttackResult";
 import type { CombatResult } from "@src/entity/result/CombatResult";
 import type { DefendResult } from "@src/entity/result/DefendResult";
@@ -654,28 +663,24 @@ export class SohlCombatantLogic<
 
         // Post the attack card to chat, unless suppressed by `context.noChat`.
         if (context.noChat) return undefined;
-        const cardData = buildAttackCardData({
+        const spec = buildAttackCardData({
             attackResult,
             title: `${attackSM?.name} ${attackSM?.isMelee ? "Melee" : "Missile"} Attack`,
             attackerName: this.tokenLogic.name ?? "",
             actorId: this.actor?.id ?? null,
             aimLabel: attackDlgResult.aim,
-            target:
-                context.target.actorLogic ?
-                    {
-                        name: context.target.name ?? "",
-                        // The defense buttons dispatch to the defender's COMBATANT
-                        // (its CombatantLogic hosts the resume actions).
-                        actorUuid: context.target.actorLogic?.uuid ?? "",
-                    }
-                :   null,
+            // The defense buttons are addressed to the defender's COMBATANT (its
+            // logic hosts the resume executors, and the render gate reaches the
+            // actor through it). `targetCombatant` is guaranteed here — an absent
+            // one returned early above.
+            target: {
+                name: context.target.name ?? "",
+                combatantUuid: targetCombatant.uuid,
+            },
         });
-        await context.speaker.toChat(
-            toFilePath("systems/sohl/templates/chat/attack-card.hbs"),
-            cardData,
-        );
+        await postActionCard(context.speaker, spec);
 
-        return cardData;
+        return spec;
     }
 
     /**
@@ -1974,12 +1979,15 @@ export interface AttackCardTarget {
     /** Display name of the defender token (subtitle + injury-button label). */
     name: string;
     /**
-     * UUID of the defender token's **actor** — the dispatch handler for the
-     * defense buttons (matched by `resolveChatCardHandlerUuid`'s
-     * `handlerActorUuid` lookup), so the defense resolves on the defender's
-     * client.
+     * UUID of the defender's **combatant** — the handler each defense button is
+     * addressed to. The defense-resume executors live on
+     * {@link sohl.document.combatant.logic.SohlCombatantLogic}, the click
+     * dispatch routes through the combatant's `onChatCardButton`, and
+     * {@link sohl.document.chat.gateAutomatedDefenseButtons} reaches the actor via
+     * `combatant.actor` — so the button must carry the combatant uuid, not the
+     * actor uuid.
      */
-    actorUuid: string;
+    combatantUuid: string;
 }
 
 /** Inputs for {@link buildAttackCardData}. */
@@ -1998,48 +2006,62 @@ export interface AttackCardInput {
     target: AttackCardTarget | null;
 }
 
+/** The four defense options, in card order, as [executor, label] pairs. */
+const ATTACK_CARD_DEFENSES: readonly [string, string][] = [
+    ["automatedDodgeResume", "Dodge"],
+    ["automatedCounterstrikeResume", "Counterstrike"],
+    ["automatedBlockResume", "Block"],
+    ["automatedIgnoreResume", "Ignore"],
+];
+
 /**
- * Build the render context for `attack-card.hbs` from an **evaluated**
- * {@link sohl.entity.result.AttackResult}. Pure and Foundry-free.
+ * Build the {@link sohl.document.chat.ActionCardSpec} for the automated-combat
+ * attack card from an **evaluated** {@link sohl.entity.result.AttackResult}. Pure
+ * and Foundry-free.
  *
- * Transparency-by-design: the attacker's choices (Aim, Aspect) and the
- * resolved Attack Mastery Level are surfaced on the card for everyone to see.
- * The whole `AttackResult` is embedded as `attackResultData` (kind-stamped via
- * its curated {@link sohl.entity.result.AttackResult.toJSON}, driven by {@link sohl.utils.defaultToJSON}); the
- * template serializes it with the registered `toJSON` Handlebars helper into
- * `data-attack-result-json`, and the defense resume rehydrates it with
- * `instanceFromJSON`. The aim travels with the result
- * (`AttackResult.aimBodyPartCode`). All four defense buttons are emitted;
- * per-defender capability gating (Block/Counterstrike) happens later, at
- * chat-card render time.
+ * The card is assembled the same way every action card is (see
+ * {@link sohl.document.chat.buildActionCard}): a body template
+ * (`attack-card.hbs`) plus a `buttons` array. Transparency-by-design — the
+ * attacker's choices (Aim, Aspect) and the resolved Attack Mastery Level ride in
+ * the body `data` for everyone to see.
+ *
+ * All four defense buttons are emitted (when there is a target); each is a
+ * self-sufficient defense-resume action addressed to the defender's **combatant**
+ * (so the click resolves on the defender's client), carrying the evaluated attack
+ * in its `scope` (revived by the resume flows as `context.scope.attackResult`).
+ * Per-defender capability gating (Block/Counterstrike/Dodge) still happens later,
+ * at render time, in {@link sohl.document.chat.gateAutomatedDefenseButtons}. With
+ * no target the card is informational (no buttons).
+ *
  * @param input - The evaluated attack result and attacker/target metadata.
- * @returns The render context for `attack-card.hbs`.
+ * @returns The action-card spec for the attack card.
  */
-export function buildAttackCardData(
-    input: AttackCardInput,
-): Record<string, unknown> {
+export function buildAttackCardData(input: AttackCardInput): ActionCardSpec {
     const ar = input.attackResult;
+    const target = input.target;
+    const buttons: ActionCardButton[] | undefined =
+        target ?
+            ATTACK_CARD_DEFENSES.map(([action, label]) => ({
+                action,
+                handlerUuid: target.combatantUuid,
+                // The evaluated attack — serialized once per button and revived
+                // as a live `AttackResult` (`context.scope.attackResult`).
+                scope: { attackResult: ar },
+                label,
+            }))
+        :   undefined;
     return {
-        title: input.title,
-        attackerName: input.attackerName,
-        actorId: input.actorId,
-        defenderName: input.target?.name ?? "",
-        handlerActorUuid: input.target?.actorUuid ?? "",
-        hasTarget: !!input.target,
-        aim: ar.aimBodyPartCode,
-        aimLabel: input.aimLabel,
-        aspect: ar.impact?.aspectType ?? "",
-        aml: ar.masteryLevelModifier?.constrainedEffective ?? 0,
-        // All four defense buttons are emitted; per-defender capability gating
-        // (Block/Counterstrike) happens at chat-card render time.
-        hasDodge: true,
-        hasBlock: true,
-        hasCounterstrike: true,
-        hasIgnore: true,
-        // The defense buttons' `scope` payload: the evaluated attack, serialized
-        // as one `data-scope` blob and revived as a live `AttackResult` (which
-        // the resume flows read as `context.scope.attackResult`).
-        scopeData: defaultToJSON({ attackResult: ar }),
+        template: "systems/sohl/templates/chat/attack-card.hbs",
+        data: {
+            title: input.title,
+            attackerName: input.attackerName,
+            actorId: input.actorId,
+            defenderName: target?.name ?? "",
+            aimLabel: input.aimLabel,
+            aspect: ar.impact?.aspectType ?? "",
+            aml: ar.masteryLevelModifier?.constrainedEffective ?? 0,
+        },
+        buttons,
     };
 }
 

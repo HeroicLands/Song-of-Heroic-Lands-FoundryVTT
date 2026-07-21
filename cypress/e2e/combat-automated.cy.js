@@ -19,9 +19,9 @@
  * `gateAutomatedDefenseButtons` (the `renderChatMessageHTML` hook) prunes them
  * per the *viewer's* ownership and the defender's capabilities when the card
  * renders. We exercise that gate directly by posting a card carrying the four
- * buttons addressed (via `data-handler-actor-uuid`) to a real defender combatant,
- * then asserting which buttons survive — this bypasses the stubbed attacker-start
- * (RED #177).
+ * action-card buttons addressed (via `data-handler-uuid`) to a real defender
+ * combatant, then asserting which buttons survive — this bypasses the stubbed
+ * attacker-start (RED #177).
  *
  * The attacker-start flow itself aborts (RED #177): `commonAttack` →
  * `BeingLogic.getUsableStrikeModes()` returns `[]`, so no attack card is produced
@@ -83,12 +83,16 @@ function combatantOf(win, combatId, actorId) {
 /**
  * Post a synthetic attack card carrying the four defense buttons addressed to
  * `defenderUuid`, wait for the render gate, and return the surviving buttons'
- * `data-action`s.
+ * `data-action`s. Mirrors the real action-card structure the migrated attack
+ * card now emits: each button is an `action-card-button` addressed via
+ * `data-handler-uuid` (the defender's combatant), so both render gates —
+ * `gateActionCardButtons` (ownership) and `gateAutomatedDefenseButtons`
+ * (capability) — run on them exactly as in production.
  */
 async function survivingButtons(win, defenderUuid) {
     const btns = DEFENSE_ACTIONS.map(
         (a) =>
-            `<button data-action="${a}" data-handler-actor-uuid="${defenderUuid}">${a}</button>`,
+            `<button class="action-card-button" data-action="${a}" data-handler-uuid="${defenderUuid}" data-skip-dialog="true">${a}</button>`,
     ).join("");
     const content = `<div class="card-buttons">${btns}</div>`;
     const msg = await win.ChatMessage.create(
@@ -213,11 +217,11 @@ describe("automated combat", () => {
 
     // ---------------------------------------------------- actor-state sovereignty
 
-    it("the gate addresses the defender via data-handler-actor-uuid", () => {
+    it("the gate addresses the defender via data-handler-uuid (combatant)", () => {
         // The gate resolves the responder from the button's own
-        // `data-handler-actor-uuid` (the defender's combatant), so a card
-        // addressed to a combatant the client owns keeps at least Ignore, while a
-        // card addressed to an unresolvable handler keeps nothing.
+        // `data-handler-uuid` (the defender's combatant), so a card addressed to a
+        // combatant the client owns keeps at least Ignore, while a card addressed
+        // to an unresolvable handler keeps nothing.
         cy.createScene({ name: "arena" }).then((scene) => {
             cy.createActor("being", { name: "sovereign" }).then((actor) => {
                 cy.prepare(actor);

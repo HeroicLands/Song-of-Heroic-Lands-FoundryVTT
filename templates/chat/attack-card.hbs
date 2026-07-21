@@ -12,19 +12,18 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 {{!--
-    Automated-combat attack card (spoken by the attacker).
+    Automated-combat attack card BODY (spoken by the attacker).
+
+    Body only — the four defense buttons are appended by `buildActionCard` from
+    the `buttons` array in the card's ActionCardSpec (see `buildAttackCardData`),
+    so they are not written here. Each defense button carries the evaluated
+    AttackResult in its `data-scope` (revived as `context.scope.attackResult`) and
+    is addressed to the defender's combatant; per-defender capability gating
+    happens at render time in `gateAutomatedDefenseButtons`.
 
     Transparency-by-design: the attacker's Aim and Aspect choices and the
     resolved Attack Mastery Level are shown so every player can verify the
     parameters of the attack.
-
-    The whole evaluated AttackResult is embedded (kind-stamped) in each defense
-    button's single `data-scope` blob — `JSON.stringify(defaultToJSON(scope))` —
-    which the dispatch handler revives so the flow reads it as a live
-    `context.scope.attackResult`. The Aim is also carried on `data-aim` for the
-    injury card. The defense buttons dispatch to the defender's actor (via
-    `data-handler-actor-uuid`) so the chosen defense resolves on the defender's
-    client.
 --}}
 <div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
     <header class="card-header">
@@ -48,55 +47,4 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <span class="label">AML:</span>
         <span class="value">{{aml}}</span>
     </div>
-
-    {{#if (or hasDodge hasCounterstrike hasBlock hasIgnore)}}
-    <div class="card-buttons">
-        <div class="grid grid-2col mingap">
-            {{#if hasDodge}}
-            <button
-                id="dodge-button"
-                data-action="automatedDodgeResume"
-                data-handler-actor-uuid="{{handlerActorUuid}}"
-                data-aim="{{aim}}"
-                data-scope="{{toJSON scopeData}}"
-            >
-                Dodge
-            </button>
-            {{/if}}
-            {{#if hasCounterstrike}}
-            <button
-                id="counterstrike-button"
-                data-action="automatedCounterstrikeResume"
-                data-handler-actor-uuid="{{handlerActorUuid}}"
-                data-aim="{{aim}}"
-                data-scope="{{toJSON scopeData}}"
-            >
-                Counterstrike
-            </button>
-            {{/if}}
-            {{#if hasBlock}}
-            <button
-                id="block-button"
-                data-action="automatedBlockResume"
-                data-handler-actor-uuid="{{handlerActorUuid}}"
-                data-aim="{{aim}}"
-                data-scope="{{toJSON scopeData}}"
-            >
-                Block
-            </button>
-            {{/if}}
-            {{#if hasIgnore}}
-            <button
-                id="ignore-button"
-                data-action="automatedIgnoreResume"
-                data-handler-actor-uuid="{{handlerActorUuid}}"
-                data-aim="{{aim}}"
-                data-scope="{{toJSON scopeData}}"
-            >
-                Ignore
-            </button>
-            {{/if}}
-        </div>
-    </div>
-    {{/if}}
 </div>

@@ -106,9 +106,11 @@ export function gateAutomatedDefenseButtons(
     if (!dodge && !counter && !block && !ignore) return;
 
     // The defense buttons address the defender's **combatant**; the actor (and
-    // its statuses/capability) is reached through it.
-    const uuid = (dodge ?? counter ?? block ?? ignore)?.dataset
-        .handlerActorUuid;
+    // its statuses/capability) is reached through it. The handler uuid is read
+    // the same way the dispatcher reads it (data-handler-uuid, emitted by the
+    // action-card button block).
+    const gateBtn = dodge ?? counter ?? block ?? ignore;
+    const uuid = gateBtn ? resolveChatCardHandlerUuid(gateBtn.dataset) : null;
     const defender = uuid ? resolveDefender(uuid) : null;
     const defenderActor = defender?.actor ?? null;
     const actorLogic = defenderActor?.logic ?? null;
