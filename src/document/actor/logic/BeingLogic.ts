@@ -51,7 +51,10 @@ import {
     shockStateFromStatuses,
     shockStatusForLevel,
     clampShockState,
+    shockStateFromIndex,
+    shockIndexAdjustment,
 } from "@src/document/actor/logic/shock";
+import { rollTimedTest } from "@src/document/item/logic/timed-test";
 import {
     deriveHealth,
     healingBaseFor,
@@ -78,6 +81,7 @@ import {
     STATUS_EFFECT,
     IMPACT_ASPECT,
     ITEM_KIND,
+    SKILL_CODE,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     TRAUMA_SUBTYPE,
@@ -563,6 +567,60 @@ export class BeingLogic<
         // testResult.shockMod = 1 - testResult.successLevel;
         // return testResult;
         return null;
+    }
+
+    /**
+     * Resolve the **Injury Shock Test** (#555) for a wound just taken, worsening
+     * the being's {@link shockState} accordingly.
+     *
+     * Intrinsic handler for the injury card's Shock Roll button. The card's
+     * `scope` carries the wound's precomputed shock contribution
+     * (`shockIndex` = body-location Shock Value + Injury Level, already including
+     * the glancing-blow point) and a `shockBonus` (the +10 glancing-blow roll
+     * bonus). A **Shock** skill test is rolled headlessly — the being's fatigue
+     * penalty applies and the glancing bonus is added, but injury-impairment
+     * penalties do not — and its result adjusts the **Shock State Index**
+     * (CF +2 / MF +1 / MS 0 / CS −1). The resulting index maps to a shock state
+     * ({@link shockStateFromIndex}); the being is then worsened to that state
+     * (shock only ever worsens here — an improving Re-Test is #556).
+     *
+     * @param context - The action context; its `scope` carries `shockIndex` and
+     *   an optional `shockBonus`.
+     * @returns The Shock-test result, or `null` if the roll could not be run.
+     */
+    async injuryShock(
+        context: SohlActionContext,
+    ): Promise<SuccessTestResult | null> {
+        const scope = (context.scope ?? {}) as {
+            shockIndex?: number;
+            shockBonus?: number;
+        };
+        const shockIndex = Number(scope.shockIndex ?? 0);
+        const shockBonus = Number(scope.shockBonus ?? 0);
+
+        const shockMl =
+            (
+                this.getItemLogic(SKILL_CODE.SHOCK, ITEM_KIND.SKILL) as
+                    | SkillLogic
+                    | undefined
+            )?.masteryLevel?.effective ?? 0;
+        // Fatigue penalty applies; injury-impairment penalties do not. The
+        // glancing-blow bonus is added to the roll.
+        const situationalModifier =
+            shockBonus - (this.fatiguePenalty?.effective ?? 0);
+
+        const result = await rollTimedTest(this, shockMl, {
+            type: "injury-shock",
+            title: sohl.i18n.localize("SOHL.Being.Action.shockTest"),
+            situationalModifier,
+        });
+        if (!result) return null;
+
+        const ssi = shockIndex + shockIndexAdjustment(result.normSuccessLevel);
+        const target = shockStateFromIndex(ssi);
+        // Worsen only — an injury never improves an already-worse shock state.
+        await this.setShockState(Math.max(this.shockState, target));
+        return result;
     }
 
     /**

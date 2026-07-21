@@ -12,8 +12,16 @@ import {
     shockStateFromStatuses,
     shockStatusForLevel,
     clampShockState,
+    shockStateFromIndex,
+    shockIndexAdjustment,
 } from "@src/document/actor/logic/shock";
-import { STATUS_EFFECT } from "@src/utils/constants";
+import {
+    CRITICAL_FAILURE,
+    CRITICAL_SUCCESS,
+    MARGINAL_FAILURE,
+    MARGINAL_SUCCESS,
+    STATUS_EFFECT,
+} from "@src/utils/constants";
 
 describe("shock (#550)", () => {
     describe("shockStateFromStatuses", () => {
@@ -79,6 +87,29 @@ describe("shock (#550)", () => {
             expect(clampShockState(-3)).toBe(SHOCK_STATE.NONE);
             expect(clampShockState(2.4)).toBe(SHOCK_STATE.INCAPACITATED);
             expect(clampShockState(9)).toBe(SHOCK_STATE.DEAD);
+        });
+    });
+
+    describe("shockStateFromIndex (#555)", () => {
+        it("maps the Shock State Index to a shock state", () => {
+            // SSI table: <=6 None, 7 Stunned, 8 Incap, 9 Unconscious, >=10 Dead.
+            expect(shockStateFromIndex(0)).toBe(SHOCK_STATE.NONE);
+            expect(shockStateFromIndex(6)).toBe(SHOCK_STATE.NONE);
+            expect(shockStateFromIndex(7)).toBe(SHOCK_STATE.STUNNED);
+            expect(shockStateFromIndex(8)).toBe(SHOCK_STATE.INCAPACITATED);
+            expect(shockStateFromIndex(9)).toBe(SHOCK_STATE.UNCONSCIOUS);
+            expect(shockStateFromIndex(10)).toBe(SHOCK_STATE.DEAD);
+            expect(shockStateFromIndex(15)).toBe(SHOCK_STATE.DEAD);
+        });
+    });
+
+    describe("shockIndexAdjustment (#555)", () => {
+        it("adjusts the SSI by the Shock test result", () => {
+            // CF +2, MF +1, MS 0, CS -1.
+            expect(shockIndexAdjustment(CRITICAL_FAILURE)).toBe(2);
+            expect(shockIndexAdjustment(MARGINAL_FAILURE)).toBe(1);
+            expect(shockIndexAdjustment(MARGINAL_SUCCESS)).toBe(0);
+            expect(shockIndexAdjustment(CRITICAL_SUCCESS)).toBe(-1);
         });
     });
 

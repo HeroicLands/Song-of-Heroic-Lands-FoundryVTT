@@ -203,6 +203,13 @@ export function buildInjuryCardData(
         shockIndex: injury.shockIndex,
         needsShockRoll: injury.needsShockRoll,
         shockRollBonus: injury.shockRollBonus,
+        // Scope payload for the card's Shock Roll button (#555): the wound's
+        // precomputed shock contribution + glancing-blow roll bonus, which the
+        // being's `injuryShock` handler resolves into a shock-state change.
+        shockScope: {
+            shockIndex: injury.shockIndex,
+            shockBonus: injury.shockRollBonus,
+        },
         isBleeder: injury.isBleeder,
         stumble: injury.stumble,
         fumble: injury.fumble,

@@ -12,6 +12,8 @@ import {
     FATIGUE_CATEGORY,
     IMPACT_ASPECT,
     ITEM_KIND,
+    MARGINAL_FAILURE,
+    MARGINAL_SUCCESS,
     MOVEMENT_MEDIUM,
     TRAUMA_SUBTYPE,
 } from "@src/utils/constants";
@@ -1088,6 +1090,101 @@ describe("BeingLogic", () => {
                 "unconscious",
                 true,
             );
+        });
+    });
+
+    describe("injuryShock (#555)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        function setup(
+            opts: {
+                current?: Set<string>;
+                sl?: number;
+                shockMl?: number;
+                fatigue?: number;
+            } = {},
+        ) {
+            const {
+                current = new Set<string>(),
+                sl = 0,
+                shockMl = 50,
+                fatigue = 0,
+            } = opts;
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                current,
+            );
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttToggleActorStatus",
+            ).mockResolvedValue(undefined);
+            const being = makeBeing();
+            (being as any).fatiguePenalty = { effective: fatigue };
+            vi.spyOn(being, "getItemLogic").mockImplementation(
+                (code: string) =>
+                    code === "shok" ?
+                        ({ masteryLevel: { effective: shockMl } } as any)
+                    :   undefined,
+            );
+            const roll = vi
+                .spyOn(MasteryLevelModifier.prototype, "successTest")
+                .mockResolvedValue({ normSuccessLevel: sl } as any);
+            const set = vi
+                .spyOn(being, "setShockState")
+                .mockResolvedValue(undefined);
+            return { being, roll, set };
+        }
+
+        it("computes the Shock State Index and worsens the shock state", async () => {
+            // shockIndex 7 + MF (+1) → SSI 8 → INCAPACITATED (2).
+            const { being, set } = setup({ sl: MARGINAL_FAILURE });
+            await being.injuryShock({
+                scope: { shockIndex: 7, shockBonus: 0 },
+            } as any);
+            expect(set).toHaveBeenCalledWith(2);
+        });
+
+        it("rolls the Shock skill with the fatigue penalty and glancing bonus", async () => {
+            const { being, roll } = setup({
+                sl: MARGINAL_SUCCESS,
+                shockMl: 44,
+                fatigue: 5,
+            });
+            await being.injuryShock({
+                scope: { shockIndex: 5, shockBonus: 10 },
+            } as any);
+            expect((roll.mock.instances[0] as any).base).toBe(44);
+            expect(roll.mock.calls[0][0].scope.situationalModifier).toBe(5); // 10 − 5
+        });
+
+        it("worsens only — never improves a worse existing shock state", async () => {
+            // Already UNCONSCIOUS (3); a mild new SSI 7 → STUNNED (1) must not improve.
+            const { being, set } = setup({
+                current: new Set(["unconscious"]),
+                sl: MARGINAL_FAILURE,
+            });
+            await being.injuryShock({
+                scope: { shockIndex: 6, shockBonus: 0 },
+            } as any);
+            expect(set).toHaveBeenCalledWith(3);
+        });
+
+        it("returns null and changes nothing when the roll is refused", async () => {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                new Set(),
+            );
+            const being = makeBeing();
+            (being as any).fatiguePenalty = { effective: 0 };
+            vi.spyOn(being, "getItemLogic").mockReturnValue(undefined as any);
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue(false as any);
+            const set = vi.spyOn(being, "setShockState");
+            const res = await being.injuryShock({
+                scope: { shockIndex: 8 },
+            } as any);
+            expect(res).toBeNull();
+            expect(set).not.toHaveBeenCalled();
         });
     });
 

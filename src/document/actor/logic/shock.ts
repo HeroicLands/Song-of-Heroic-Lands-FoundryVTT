@@ -80,9 +80,7 @@ export const SHOCK_STATUS_IDS: readonly string[] = SHOCK_STATUS_BY_LEVEL.filter(
  * @param statuses - The actor's active status-effect ids.
  * @returns The highest active shock-state level.
  */
-export function shockStateFromStatuses(
-    statuses: ReadonlySet<string>,
-): number {
+export function shockStateFromStatuses(statuses: ReadonlySet<string>): number {
     let level: number = SHOCK_STATE.NONE;
     for (let i = 1; i < SHOCK_STATUS_BY_LEVEL.length; i++) {
         const sid = SHOCK_STATUS_BY_LEVEL[i];
@@ -112,4 +110,31 @@ export function clampShockState(level: number): number {
         SHOCK_STATE.NONE,
         Math.min(MAX_SHOCK_STATE, Math.round(level)),
     );
+}
+
+/**
+ * Map a **Shock State Index (SSI)** to a shock-state level (Shock rules — Shock
+ * State Index): `≤ 6 → None`, `7 → Stunned`, `8 → Incapacitated`,
+ * `9 → Unconscious`, `≥ 10 → Dead`.
+ *
+ * @param index - The Shock State Index.
+ * @returns The corresponding shock-state level.
+ */
+export function shockStateFromIndex(index: number): number {
+    if (index <= 6) return SHOCK_STATE.NONE;
+    if (index >= 10) return SHOCK_STATE.DEAD;
+    // 7 → 1 (Stunned), 8 → 2, 9 → 3 — the index minus 6.
+    return index - 6;
+}
+
+/**
+ * The Shock State Index adjustment contributed by a **Shock Test** result
+ * (Shock rules — Shock State Index): `CF +2`, `MF +1`, `MS 0`, `CS −1` — i.e.
+ * `1 − normSuccessLevel`.
+ *
+ * @param normSuccessLevel - The Shock test result (CF −1 … CS 2).
+ * @returns The SSI adjustment.
+ */
+export function shockIndexAdjustment(normSuccessLevel: number): number {
+    return 1 - normSuccessLevel;
 }
