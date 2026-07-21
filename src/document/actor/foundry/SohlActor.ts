@@ -17,6 +17,7 @@ import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDoc
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { sohlCreateDialog } from "@src/document/item/foundry/SohlItem";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
 import { SohlLogic } from "@src/core/logic/SohlLogic";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import { fvttCallHook, fvttCallHookCancel } from "@src/core/FoundryHelpers";
@@ -90,6 +91,35 @@ export class SohlActor extends Actor {
      */
     get logic(): SohlActorLogic<any> {
         return (this.system as any).logic as SohlActorLogic<any>;
+    }
+
+    /**
+     * Dispatch a chat-card button click to this actor's logic through the shared
+     * {@link sohl.document.chat.dispatchChatCardAction} chokepoint — so
+     * actor-addressed card buttons (e.g. `createInjury`, the injury card's Shock
+     * Roll) reach their action/method on the actor logic. Mirrors
+     * {@link sohl.document.item.foundry.SohlItem.onChatCardButton} (issue #572).
+     *
+     * @param btn - The clicked chat-card button element.
+     */
+    async onChatCardButton(btn: HTMLElement): Promise<void> {
+        // Only an owner of this actor (a GM owns all) may run a chat-card action
+        // against it; the render-time gate is UX only and a direct or synthesized
+        // call bypasses it (issue #167).
+        if (!this.isOwner) return;
+        await dispatchChatCardAction(this.logic, btn);
+    }
+
+    /**
+     * Dispatch a chat-card edit-action (`a.edit-action`) click to this actor's
+     * logic through the shared dispatch chokepoint. Mirrors
+     * {@link onChatCardButton}.
+     *
+     * @param btn - The clicked edit-action anchor element.
+     */
+    async onChatCardEditAction(btn: HTMLElement): Promise<void> {
+        if (!this.isOwner) return;
+        await dispatchChatCardAction(this.logic, btn);
     }
 
     /**
