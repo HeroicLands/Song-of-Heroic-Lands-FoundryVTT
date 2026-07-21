@@ -25,7 +25,7 @@ import { turnStartCombatantUpdate } from "@src/document/combatant/logic/SohlComb
 import { resolveAuthorizedChatCardHandler } from "@src/document/chat/chat-card-dispatch";
 import {
     gateAutomatedDefenseButtons,
-    gateSequenceButtons,
+    gateActionCardButtons,
 } from "@src/document/chat/chat-card-gating";
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 import { registerCombatTrackerHooks } from "@src/document/combat/combat-tracker-hooks";
@@ -432,9 +432,9 @@ function registerSystemHooks() {
             gateAutomatedDefenseButtons(element, (uuid) =>
                 foundry.utils.fromUuidSync(uuid),
             );
-            // Chat Sequence buttons: hide owner-targeted buttons from non-owners;
+            // Action-card buttons: hide owner-targeted buttons from non-owners;
             // open (`@self`) buttons stay visible to everyone.
-            gateSequenceButtons(element, (uuid) =>
+            gateActionCardButtons(element, (uuid) =>
                 foundry.utils.fromUuidSync(uuid),
             );
 

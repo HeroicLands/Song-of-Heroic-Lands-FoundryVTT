@@ -195,23 +195,30 @@ describe("dispatchChatCardAction (#66)", () => {
         expect(execute).not.toHaveBeenCalled();
     });
 
-    it("routes a sequence button to the sequence runtime, not the action lookup (#576)", async () => {
-        // A button carrying data-sequence-id is a Chat Sequence step; it must be
-        // handled by the sequence runtime, never the normal action lookup.
-        (globalThis as any).sohl = { log: { warn: vi.fn() } };
+    it("sets skipDialog on the context when the button is an action card (data-skip-dialog)", async () => {
+        // An action-card button pre-fills the parameters in data-scope, so its
+        // click runs the action with skipDialog — no re-prompt.
         const execute = vi.fn();
         const logic: any = {
             speaker: {},
-            actions: new Map([["someAction", { data: {}, execute }]]),
+            actions: new Map([["treatInjury", { data: {}, execute }]]),
         };
-        // Unknown sequence id → the runtime warns and returns; the point is the
-        // normal action path is bypassed.
         await dispatchChatCardAction(
             logic,
-            btn("someAction", { sequenceId: "no-such-seq", choiceKey: "x" }),
+            btn("treatInjury", { skipDialog: "true" }),
         );
-        expect(execute).not.toHaveBeenCalled();
-        delete (globalThis as any).sohl;
+        expect(execute).toHaveBeenCalledOnce();
+        expect(execute.mock.calls[0][0].skipDialog).toBe(true);
+    });
+
+    it("leaves skipDialog false for a plain card button (no data-skip-dialog)", async () => {
+        const execute = vi.fn();
+        const logic: any = {
+            speaker: {},
+            actions: new Map([["successTest", { data: {}, execute }]]),
+        };
+        await dispatchChatCardAction(logic, btn("successTest"));
+        expect(execute.mock.calls[0][0].skipDialog).toBe(false);
     });
 
     it("executes the action from logic.actions when found by name", async () => {

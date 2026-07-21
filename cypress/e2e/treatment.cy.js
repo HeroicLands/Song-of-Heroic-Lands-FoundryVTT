@@ -12,18 +12,22 @@
  */
 
 /**
- * Chat Sequence runtime — the treatment flow end to end (#576).
+ * Action-card treatment flow, end to end.
  *
- * The corrected flow: the patient invokes **Request Treatment** on the wound
+ * The three self-sufficient actions, driven through real posted cards: the
+ * patient invokes **Request Treatment** on the wound
  * (`TraumaLogic.requestTreatment`), which posts an *open* Perform card; whoever
  * clicks it responds with their own `game.user.character` (the action self-gates
- * on the Physician skill); the physician's result posts an Accept card targeted
- * to the injury (owned by the patient), whose `treatInjury` records the Healing
- * Rate. One GM-owned actor plays both parts here. The proof: the wound's Healing
- * Rate is recorded only after the final Accept — nothing mutates until then.
+ * on the Physician skill) and posts a **Treatment Result** card whose Accept
+ * button is targeted to the injury (owned by the patient); the patient's Accept
+ * runs `TraumaLogic.treatInjury`, recording the Healing Rate. One GM-owned actor
+ * plays both parts here. The proof: the wound's Healing Rate is recorded only
+ * after the final Accept — nothing mutates until then. Each button carries
+ * `data-skip-dialog`, so the card path runs the same action a human could run by
+ * hand (which would open a dialog instead).
  */
 
-describe("Chat Sequence — treatment flow", () => {
+describe("Action cards — treatment flow", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
 
@@ -65,7 +69,8 @@ describe("Chat Sequence — treatment flow", () => {
 
                 // Resolve a button's handler (a `@self` button → the user's
                 // character; a uuid → that document) and dispatch it — the real
-                // click path (onChatCardButton → dispatch → runSequenceStep).
+                // click path (onChatCardButton → dispatchChatCardAction, which
+                // reads data-skip-dialog and runs the pre-filled action).
                 const dispatch = async (btn) => {
                     const uuid = btn.dataset.handlerUuid;
                     const doc =
@@ -74,12 +79,12 @@ describe("Chat Sequence — treatment flow", () => {
                         :   win.fromUuidSync(uuid);
                     await doc.onChatCardButton(btn);
                 };
-                const latestButton = (choiceKey) => {
+                const latestButton = (action) => {
                     const msg = win.game.messages.contents.at(-1);
                     const div = win.document.createElement("div");
                     div.innerHTML = msg.content;
                     return div.querySelector(
-                        `button[data-choice-key="${choiceKey}"]`,
+                        `button.action-card-button[data-action="${action}"]`,
                     );
                 };
 
@@ -87,10 +92,10 @@ describe("Chat Sequence — treatment flow", () => {
                 // posts the open Perform card.
                 await win.fromUuidSync(injury.uuid).logic.requestTreatment({});
                 // Perform (open @self) → rolls the responder's Physician skill,
-                // posts the Accept card.
-                await dispatch(latestButton("perform"));
+                // posts the Treatment Result card with an Accept button.
+                await dispatch(latestButton("performTreatmentTest"));
                 // Accept (targeted to the injury) → treatInjury records the HR.
-                await dispatch(latestButton("accept"));
+                await dispatch(latestButton("treatInjury"));
 
                 const wound = a.items.get(injury.id);
                 return {
@@ -99,8 +104,8 @@ describe("Chat Sequence — treatment flow", () => {
                     treated: wound.system.treatmentDate != null,
                 };
             }).should((r) => {
-                // Perform + Accept cards were posted.
-                expect(r.cardsPosted, "sequence cards posted").to.be.gte(2);
+                // Perform-result + (the request) cards were posted.
+                expect(r.cardsPosted, "treatment cards posted").to.be.gte(2);
                 expect(r.treated, "treatment recorded on the wound").to.be.true;
                 expect(
                     r.healingRate,

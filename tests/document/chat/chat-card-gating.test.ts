@@ -8,7 +8,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
     gateAutomatedDefenseButtons,
-    gateSequenceButtons,
+    gateActionCardButtons,
     hasUsableDodgeSkill,
 } from "@src/document/chat/chat-card-gating";
 import * as CombatantLogic from "@src/document/combatant/logic/SohlCombatantLogic";
@@ -222,43 +222,43 @@ describe("gateAutomatedDefenseButtons", () => {
     });
 });
 
-describe("gateSequenceButtons (#576)", () => {
-    /** A stub sequence button carrying its handler uuid + a remove spy. */
-    function seqButton(handlerUuid: string) {
+describe("gateActionCardButtons", () => {
+    /** A stub action-card button carrying its handler uuid + a remove spy. */
+    function acButton(handlerUuid: string) {
         return {
-            dataset: { sequenceId: "treatment", handlerUuid },
+            dataset: { handlerUuid },
             remove: vi.fn(),
         };
     }
-    /** A stub root: `button[data-sequence-id]` → buttons; `.card-buttons` → none. */
-    function seqElement(buttons: any[]): HTMLElement {
+    /** A stub root: `button.action-card-button` → buttons; `.card-buttons` → none. */
+    function acElement(buttons: any[]): HTMLElement {
         return {
             querySelectorAll: (sel: string) =>
-                sel.includes("data-sequence-id") ? buttons : [],
+                sel.includes("action-card-button") ? buttons : [],
         } as unknown as HTMLElement;
     }
 
     it("keeps an open (@self) button for everyone", () => {
-        const btn = seqButton("@self");
-        gateSequenceButtons(seqElement([btn]), () => ({ isOwner: false }));
+        const btn = acButton("@self");
+        gateActionCardButtons(acElement([btn]), () => ({ isOwner: false }));
         expect(btn.remove).not.toHaveBeenCalled();
     });
 
     it("hides an owner-targeted button from a non-owner", () => {
-        const btn = seqButton("Item.wound");
-        gateSequenceButtons(seqElement([btn]), () => ({ isOwner: false }));
+        const btn = acButton("Item.wound");
+        gateActionCardButtons(acElement([btn]), () => ({ isOwner: false }));
         expect(btn.remove).toHaveBeenCalledOnce();
     });
 
     it("keeps an owner-targeted button for its owner", () => {
-        const btn = seqButton("Item.wound");
-        gateSequenceButtons(seqElement([btn]), () => ({ isOwner: true }));
+        const btn = acButton("Item.wound");
+        gateActionCardButtons(acElement([btn]), () => ({ isOwner: true }));
         expect(btn.remove).not.toHaveBeenCalled();
     });
 
-    it("is a no-op when there are no sequence buttons", () => {
+    it("is a no-op when there are no action-card buttons", () => {
         expect(() =>
-            gateSequenceButtons(seqElement([]), () => ({ isOwner: false })),
+            gateActionCardButtons(acElement([]), () => ({ isOwner: false })),
         ).not.toThrow();
     });
 });

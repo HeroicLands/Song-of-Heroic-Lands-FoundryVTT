@@ -1,0 +1,46 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!--
+Perform Treatment Test dialog. Gathers the wound to treat when the physician
+runs the `performTreatmentTest` action by hand. Either paste the target
+injury's UUID (from its sheet header's "Copy Document UUID" button) — the test
+then posts an Accept card to the patient — or describe the wound's severity and
+aspect for a GM-directed test that posts an informational result with no button.
+The card path supplies the injury UUID in data-scope with skipDialog, so this
+dialog never opens there.
+--}}
+<form>
+    <div class="form-group">
+        <label>Injury UUID (optional):</label>
+        <input type="text" name="injuryUuid" value="" placeholder="Item...." />
+    </div>
+    <p class="hint">
+        Paste the wound's UUID to send the patient an Accept card. Leave it blank
+        to run a GM-directed test on the severity/aspect below.
+    </p>
+    <div class="grid grid-2col">
+        <div class="form-group">
+            <label>Severity:</label>
+            <input type="number" name="severity" value="1" min="1" max="5" step="1" />
+        </div>
+        <div class="form-group">
+            <label>Aspect:</label>
+            <select name="aspect">
+                {{#each aspectChoices}}
+                <option value="{{@key}}">{{this}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+</form>

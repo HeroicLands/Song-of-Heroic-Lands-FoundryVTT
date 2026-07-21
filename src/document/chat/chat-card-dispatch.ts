@@ -14,10 +14,9 @@
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import { buildActionScope } from "@src/utils/helpers";
-import { runSequenceStep } from "@src/document/chat/sequence-runner";
 
 /**
- * Sentinel handler for an **open** chat-sequence button — one addressed to no
+ * Sentinel handler for an **open** action-card button — one addressed to no
  * specific document but to "whoever responds." At click time it resolves to the
  * clicking user's default character (`game.user.character`), which the player
  * inherently owns; the action then self-gates. Used as a button's handler uuid.
@@ -124,6 +123,14 @@ export function resolveAuthorizedChatCardHandler(
  * Pure dispatch path — callers are responsible for the ownership check before
  * calling this function.
  *
+ * An **action card** (see {@link sohl.document.chat.buildActionCard}) marks its
+ * buttons with `data-skip-dialog="true"`: because the card already carries the
+ * action's parameters in `data-scope`, the click runs the action with
+ * {@link sohl.entity.action.SohlActionContext.skipDialog} set, so the action
+ * proceeds without prompting. A human invoking the same action from a sheet
+ * (no `data-skip-dialog`) gets its dialog instead — the card and the sheet call
+ * the *same* self-sufficient action.
+ *
  * @param logic - The logic instance that should handle the action.
  * @param btn - The clicked element (button or anchor); `dataset.action` names
  *   the action to dispatch.
@@ -132,14 +139,6 @@ export async function dispatchChatCardAction(
     logic: SohlLogic,
     btn: HTMLElement,
 ): Promise<void> {
-    // A Chat Sequence button advances a running interaction rather than invoking
-    // a single action; route it to the sequence runtime (which itself runs the
-    // chosen choice's action on this logic).
-    if (btn.dataset.sequenceId) {
-        await runSequenceStep(logic, btn);
-        return;
-    }
-
     const actionName = btn.dataset.action;
     if (!actionName) return;
 
@@ -147,6 +146,7 @@ export async function dispatchChatCardAction(
         speaker: (logic as any).speaker,
         type: actionName,
         title: btn.textContent?.trim() ?? actionName,
+        skipDialog: btn.dataset.skipDialog === "true",
         scope: buildActionScope(
             btn.dataset,
             (logic as any).actorLogic ?? logic,

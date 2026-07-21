@@ -75,6 +75,12 @@ Logic class — see [Extension Points](../how-to/extension-points.md) and {@link
 {@link sohl.core.logic.SohlLogic} in the API reference. To affect _all_ documents of a type rather
 than attach one action, use [Lifecycle Hooks](../how-to/lifecycle-hooks.md).
 
+The same action can also be **offered across the chat log** — a card button that
+runs it, pre-filled, on whoever is entitled to click. That is the same executor,
+just triggered differently, and it is how every cross-client interaction (combat,
+treatment, opposed tests) is wired. See
+[Action Cards & the Consent Model](./action-cards.md).
+
 ### Worked example: Contract Disease
 
 `BeingLogic`'s `contractDisease` (a `SELF`-scoped intrinsic action) is a good

@@ -21,6 +21,7 @@ import {
 } from "@src/utils/constants";
 import { TraumaLogic } from "@src/document/item/logic/TraumaLogic";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
+import * as ActionCard from "@src/document/chat/action-card";
 import * as AfflictionContract from "@src/document/actor/logic/affliction-contract";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import {
@@ -1244,7 +1245,7 @@ describe("BeingLogic", () => {
         });
     });
 
-    describe("performTreatmentTest — treatment sequence perform step (#576)", () => {
+    describe("performTreatmentTest — the physician's self-sufficient action", () => {
         afterEach(() => vi.restoreAllMocks());
 
         /** A being whose Physician skill ML is `pysnMl`, or absent when `null`. */
@@ -1259,9 +1260,12 @@ describe("BeingLogic", () => {
             return being;
         }
 
-        it("rolls the responder's own Physician skill and proposes a Healing Rate", async () => {
+        it("card path: rolls the physician's own skill and posts a Result card with an owner-gated Accept button", async () => {
             const being = physician(60);
-            // Grievous edged wound resolved from the injury uuid.
+            const post = vi
+                .spyOn(ActionCard, "postActionCard")
+                .mockResolvedValue(undefined);
+            // Grievous edged wound resolved from the pre-filled injury uuid.
             vi.spyOn(
                 FoundryHelpersMock,
                 "fvttLogicFromUuidSync",
@@ -1272,31 +1276,65 @@ describe("BeingLogic", () => {
                 MasteryLevelModifier.prototype,
                 "successTest",
             ).mockResolvedValue({ normSuccessLevel: MARGINAL_SUCCESS } as any);
+
             const res = await being.performTreatmentTest({
                 scope: { injuryUuid: "Item.w" },
+                skipDialog: true,
             } as any);
+
             // grievous MS → HR 4; the wound is NOT mutated here (propose only).
             expect(res).toMatchObject({ healingRate: 4 });
+            // The Accept button hands the rate to the wound's own treatInjury.
+            const spec = post.mock.calls[0][1];
+            expect(spec.buttons).toEqual(
+                expect.objectContaining({
+                    action: "treatInjury",
+                    handlerUuid: "Item.w",
+                    scope: { healingRate: 4 },
+                }),
+            );
+        });
+
+        it("GM-directed (no target wound): posts an informational result with no button", async () => {
+            const being = physician(60);
+            const post = vi
+                .spyOn(ActionCard, "postActionCard")
+                .mockResolvedValue(undefined);
+            // No pre-filled uuid; dialog describes a grievous edged wound, no uuid.
+            vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue({
+                injuryUuid: "",
+                severity: 4,
+                aspect: "edged",
+            });
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({ normSuccessLevel: MARGINAL_SUCCESS } as any);
+
+            const res = await being.performTreatmentTest({ scope: {} } as any);
+
+            expect(res).toMatchObject({ healingRate: 4 });
+            // No target → no Accept button (someone runs Treat Injury by hand).
+            expect(post.mock.calls[0][1].buttons).toBeUndefined();
         });
 
         it("self-gates: aborts (undefined + warns) when the responder has no Physician skill", async () => {
             const being = physician(null);
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttLogicFromUuidSync",
-            ).mockReturnValue({
-                data: { levelBase: 4, aspect: "edged" },
-            } as any);
+            const post = vi
+                .spyOn(ActionCard, "postActionCard")
+                .mockResolvedValue(undefined);
             const warn = vi.spyOn(sohl.log, "uiWarn");
             await expect(
                 being.performTreatmentTest({
                     scope: { injuryUuid: "Item.w" },
+                    skipDialog: true,
                 } as any),
             ).resolves.toBeUndefined();
             expect(warn).toHaveBeenCalled();
+            expect(post).not.toHaveBeenCalled();
         });
 
-        it("returns undefined when the wound cannot be resolved", async () => {
+        it("returns undefined when a pre-filled wound uuid cannot be resolved", async () => {
             const being = physician(60);
             vi.spyOn(
                 FoundryHelpersMock,
@@ -1305,6 +1343,7 @@ describe("BeingLogic", () => {
             await expect(
                 being.performTreatmentTest({
                     scope: { injuryUuid: "x" },
+                    skipDialog: true,
                 } as any),
             ).resolves.toBeUndefined();
         });

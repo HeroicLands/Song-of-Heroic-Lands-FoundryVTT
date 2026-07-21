@@ -17,8 +17,7 @@ import {
 } from "@src/utils/constants";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
-import * as SequenceRunner from "@src/document/chat/sequence-runner";
-import { TREATMENT_SEQUENCE } from "@src/entity/sequence";
+import * as ActionCard from "@src/document/chat/action-card";
 
 describe("time-based healing / blood-loss scheduling (#482)", () => {
     afterEach(() => vi.restoreAllMocks());
@@ -1051,7 +1050,7 @@ describe("Permanent impairment on heal (#554)", () => {
     });
 });
 
-describe("Treatment Chat Sequence — requestTreatment / treatInjury (#576)", () => {
+describe("Treatment action cards — requestTreatment / treatInjury", () => {
     afterEach(() => vi.restoreAllMocks());
 
     function injury(overrides: Record<string, unknown> = {}) {
@@ -1066,45 +1065,55 @@ describe("Treatment Chat Sequence — requestTreatment / treatInjury (#576)", ()
     }
 
     describe("requestTreatment (context-menu trigger)", () => {
-        it("starts the treatment sequence, binding self=@self and injury=the wound", async () => {
-            const start = vi
-                .spyOn(SequenceRunner, "startSequence")
+        it("posts an open Perform Treatment Test card targeting the wound (@self)", async () => {
+            const post = vi
+                .spyOn(ActionCard, "postActionCard")
                 .mockResolvedValue(undefined);
             await injury().requestTreatment({} as any);
-            expect(start).toHaveBeenCalledWith(
-                TREATMENT_SEQUENCE,
-                { self: "@self", injury: "Item.wound" },
-                expect.objectContaining({ injuryUuid: "Item.wound" }),
-                expect.anything(), // the injury's speaker announces the card
+            expect(post).toHaveBeenCalledOnce();
+            const spec = post.mock.calls[0][1];
+            // The button invokes performTreatmentTest, is open (@self), and
+            // pre-fills the wound uuid.
+            expect(spec.buttons).toEqual(
+                expect.objectContaining({
+                    action: "performTreatmentTest",
+                    handlerUuid: "@self",
+                    scope: { injuryUuid: "Item.wound" },
+                }),
             );
         });
 
-        it("warns and does not start for a non-injury trauma", async () => {
-            const start = vi
-                .spyOn(SequenceRunner, "startSequence")
+        it("warns and posts nothing for a non-injury trauma", async () => {
+            const post = vi
+                .spyOn(ActionCard, "postActionCard")
                 .mockResolvedValue(undefined);
             const warn = vi.spyOn(sohl.log, "uiWarn");
             await injury({ subType: TRAUMA_SUBTYPE.FEAR }).requestTreatment(
                 {} as any,
             );
-            expect(start).not.toHaveBeenCalled();
+            expect(post).not.toHaveBeenCalled();
             expect(warn).toHaveBeenCalled();
         });
 
-        it("warns and does not start for an already-healed injury", async () => {
-            const start = vi
-                .spyOn(SequenceRunner, "startSequence")
+        it("warns and posts nothing for an already-healed injury", async () => {
+            const post = vi
+                .spyOn(ActionCard, "postActionCard")
                 .mockResolvedValue(undefined);
             await injury({ levelBase: 0 }).requestTreatment({} as any);
-            expect(start).not.toHaveBeenCalled();
+            expect(post).not.toHaveBeenCalled();
         });
     });
 
-    describe("treatInjury (accept step)", () => {
-        it("records the accepted Healing Rate on the wound", async () => {
+    describe("treatInjury (self-sufficient: card path + manual dialog)", () => {
+        it("records a card-supplied Healing Rate without a dialog (skipDialog)", async () => {
             vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
+            const dlg = vi.spyOn(FoundryHelpersMock, "dialog");
             const logic = injury();
-            await logic.treatInjury({ scope: { healingRate: 4 } } as any);
+            await logic.treatInjury({
+                scope: { healingRate: 4 },
+                skipDialog: true,
+            } as any);
+            expect(dlg).not.toHaveBeenCalled();
             expect(logic.item.update).toHaveBeenCalledWith(
                 expect.objectContaining({
                     "system.healingRateBase": 4,
@@ -1116,17 +1125,46 @@ describe("Treatment Chat Sequence — requestTreatment / treatInjury (#576)", ()
         it("heals the wound outright on a HEAL result", async () => {
             vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(0);
             const logic = injury();
-            await logic.treatInjury({ scope: { healingRate: "HEAL" } } as any);
+            await logic.treatInjury({
+                scope: { healingRate: "HEAL" },
+                skipDialog: true,
+            } as any);
             expect(logic.item.update).toHaveBeenCalledWith(
                 expect.objectContaining({ "system.levelBase": 0 }),
             );
         });
 
-        it("is a no-op (returns undefined) when no Healing Rate is supplied", async () => {
+        it("run by hand (no scope), opens a dialog and records the entered rate", async () => {
+            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(500);
+            vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue({
+                healingRate: 3,
+            });
+            const logic = injury();
+            await logic.treatInjury({ scope: {} } as any);
+            expect(logic.item.update).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    "system.healingRateBase": 3,
+                    "system.treatmentDate": 500,
+                }),
+            );
+        });
+
+        it("run by hand, is a no-op when the dialog is cancelled", async () => {
+            vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(null);
             const logic = injury();
             await expect(
                 logic.treatInjury({ scope: {} } as any),
             ).resolves.toBeUndefined();
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+
+        it("card path with no rate (skipDialog) is a no-op — no dialog", async () => {
+            const dlg = vi.spyOn(FoundryHelpersMock, "dialog");
+            const logic = injury();
+            await expect(
+                logic.treatInjury({ scope: {}, skipDialog: true } as any),
+            ).resolves.toBeUndefined();
+            expect(dlg).not.toHaveBeenCalled();
             expect(logic.item.update).not.toHaveBeenCalled();
         });
     });

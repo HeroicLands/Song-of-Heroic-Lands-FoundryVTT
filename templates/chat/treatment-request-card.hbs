@@ -1,0 +1,39 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!--
+Treatment Requested card body (spoken by the patient). The patient asks a
+physician to treat a wound; the appended open [Perform Treatment Test] button
+(added by buildActionCard) is answerable by any player whose default character
+has the Physician skill. Body only — no buttons here.
+--}}
+<div class="chat-card">
+    <header class="card-header flexrow">
+        <h3 class="title">Treatment Requested</h3>
+    </header>
+
+    <div class="card-content center">
+        <span>{{patientName}} asks a physician to treat {{woundName}}.</span>
+    </div>
+
+    <div class="grid grid-2col flex-center">
+        <div class="card-content flexrow">
+            <span class="label">Aspect:</span>
+            <span class="value">{{aspect}}</span>
+        </div>
+        <div class="card-content flexrow">
+            <span class="label">Severity:</span>
+            <span class="value">{{severity}}</span>
+        </div>
+    </div>
+</div>
