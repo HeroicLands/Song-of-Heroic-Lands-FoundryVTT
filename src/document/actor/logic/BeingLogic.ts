@@ -102,16 +102,7 @@ import {
     readInjuryDialogForm,
     resolveAutomatedInjury,
 } from "@src/document/actor/logic/injury-actions";
-import {
-    toFilePath,
-    defaultToJSON,
-    buildActionScope,
-} from "@src/utils/helpers";
-// `chat-card-dispatch` is a pure, Foundry-free module (no `foundry.*`/`game.*`);
-// the logic layer may depend on it. The path-based boundary rule can't tell it
-// apart from the Foundry-coupled files under `document/chat/`, so allow this one.
-// eslint-disable-next-line @typescript-eslint/no-restricted-imports
-import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
+import { toFilePath, defaultToJSON } from "@src/utils/helpers";
 import {
     ResolvedInjury,
     resolveInjury,
@@ -1302,14 +1293,19 @@ export class BeingLogic<
     }
 
     /**
-     * Resolve and post an injury from a chat-card `createInjury` click. The
-     * button's `data-scope` payload (a plain injury request) discriminates the
-     * two modes: an automated request (aimed `targetPart` + `spread`) resolves
-     * with no player input; an assisted request opens the Add Injury dialog so
-     * the GM can pick the location and tune armor reduction.
-     * @param btn - The clicked chat-card button carrying the injury request.
+     * Resolve and post an injury from a chat-card `createInjury` action. The
+     * action's `scope` payload (a plain injury request, revived from the button's
+     * `data-scope`) discriminates the two modes: an automated request (aimed
+     * `targetPart` + `spread`) resolves with no player input; an assisted request
+     * opens the Add Injury dialog so the GM can pick the location and tune armor
+     * reduction.
+     *
+     * Dispatched as a normal chat-card action through the shared
+     * {@link sohl.document.chat.dispatchChatCardAction} chokepoint (issue #572).
+     *
+     * @param context - The action context; its `scope` carries the injury request.
      */
-    private async onCreateInjury(btn: HTMLElement): Promise<void> {
+    async createInjury(context: SohlActionContext): Promise<void> {
         const body = getActorBodyStructure(this);
         if (!body) {
             sohl.log.uiWarn(
@@ -1318,12 +1314,10 @@ export class BeingLogic<
             return;
         }
 
-        const req = parseInjuryRequest(
-            buildActionScope(btn.dataset, (this as any).actorLogic ?? this),
-        );
+        const req = parseInjuryRequest(context.scope);
         if (!req) {
             sohl.log.uiWarn(
-                `SoHL | createInjury button on ${this.name} carried no valid injury request.`,
+                `SoHL | createInjury action on ${this.name} carried no valid injury request.`,
             );
             return;
         }
@@ -1435,71 +1429,6 @@ export class BeingLogic<
             toFilePath("systems/sohl/templates/chat/injury-card.hbs"),
             data,
         );
-    }
-
-    /**
-     * Helper method to handle chat card button clicks.
-     * @param btn - The button element that was clicked.
-     * @param logic - The action logic to use
-     */
-    static async onChatCardButton(
-        btn: HTMLElement,
-        logic: BeingLogic,
-    ): Promise<void> {
-        const actionName = btn.dataset.action;
-        if (!actionName) return;
-
-        // `createInjury` is handled directly (it posts an injury rather than
-        // running an intrinsic action).
-        if (actionName === "createInjury") {
-            await logic.onCreateInjury(btn);
-            return;
-        }
-
-        // Otherwise dispatch generically to the actor's logic — the same shape
-        // SohlItem uses — so defender chat-card actions (e.g. the automated
-        // combat defenses) reach their intrinsic-action methods. The button's
-        // dataset becomes the action's `scope`.
-        const context = new SohlActionContext({
-            speaker: logic.speaker,
-            type: actionName,
-            title: btn.textContent?.trim() ?? actionName,
-            scope: buildActionScope(
-                btn.dataset,
-                (logic as any).actorLogic ?? logic,
-            ),
-        });
-
-        const action =
-            logic.actions.get(actionName) ??
-            [...logic.actions.values()].find(
-                (act) =>
-                    act.data.executor === actionName ||
-                    act.data.title === actionName,
-            );
-
-        if (action) {
-            await action.execute(context);
-            return;
-        }
-
-        const fn = (logic as any)[actionName];
-        if (typeof fn === "function") {
-            await fn.call(logic, context);
-        } else {
-            sohl.log.warn(
-                `SoHL | ${this.name} (Actor) received unhandled chat-card action "${actionName}".`,
-            );
-        }
-    }
-
-    /**
-     * Helper method to handle chat card edit actions.
-     * @param btn - The button element that was clicked.
-     */
-    async onChatCardEditAction(btn: HTMLElement): Promise<void> {
-        if (!this.actor?.isOwner) return;
-        await dispatchChatCardAction(this, btn);
     }
 }
 

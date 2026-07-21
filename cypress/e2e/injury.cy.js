@@ -27,6 +27,11 @@
  * flags — is exhaustively covered by the unit suite
  * (`tests/domain/body/InjuryResolution.test.ts`,
  * `tests/document/actor/injury-actions.test.ts`) and is asserted there.
+ *
+ * The automated case additionally dispatches the `createInjury` action through
+ * the **document's** chat-card handler (`SohlActor.onChatCardButton` →
+ * `dispatchChatCardAction` → `BeingLogic.createInjury`), exercising the
+ * actor-addressed chat-card dispatch path (issue #572).
  */
 
 describe("impact → injury → trauma", () => {
@@ -130,7 +135,7 @@ describe("impact → injury → trauma", () => {
         });
     });
 
-    it("automated aimed blow records a trauma with no dialog", () => {
+    it("automated aimed blow records a trauma with no dialog (via actor chat-card dispatch)", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
             cy.foundry((win) => {
@@ -141,6 +146,7 @@ describe("impact → injury → trauma", () => {
                 // the explicit location override keeps it deterministic (no
                 // scatter roll). The createInjury button carries it as data-scope.
                 const btn = win.document.createElement("button");
+                btn.dataset.action = "createInjury";
                 btn.dataset.scope = JSON.stringify({
                     impact: 20,
                     aspect: "edged",
@@ -148,7 +154,10 @@ describe("impact → injury → trauma", () => {
                     spread: 0,
                     location: loc,
                 });
-                return a.logic.onCreateInjury(btn).then(() => ({
+                // Dispatch through the *document's* chat-card handler — the real
+                // click path — exercising SohlActor.onChatCardButton →
+                // dispatchChatCardAction → BeingLogic.createInjury (issue #572).
+                return a.onChatCardButton(btn).then(() => ({
                     dialogs: Array.from(
                         win.foundry.applications.instances.values(),
                     ).filter((x) => /dialog/i.test(x.constructor.name)).length,
