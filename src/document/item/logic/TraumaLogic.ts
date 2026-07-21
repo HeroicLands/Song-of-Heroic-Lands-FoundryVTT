@@ -13,7 +13,28 @@
 
 import { entity } from "@src/entity/registry";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
-import { fvttWorldTime } from "@src/core/FoundryHelpers";
+import {
+    fvttWorldTime,
+    fvttGetSetting,
+    fvttCreateEmbeddedItems,
+} from "@src/core/FoundryHelpers";
+import { inflictWeaknessFatigue } from "@src/document/item/logic/fatigue";
+import {
+    TREATMENT_HEAL,
+    injuryBand,
+    requiredTreatment,
+    treatmentHealingRate,
+    treatmentCausesBleeder,
+    isBleederFromHealingRate,
+    isPermanentImpairmentEligible,
+    type InjuryBand,
+    type TreatmentCode,
+} from "@src/entity/body/injury-treatment";
+import { permanentImpairmentFor } from "@src/entity/body/impairment";
+import {
+    SHOCK_STATE,
+    shockCourseHrDelta,
+} from "@src/document/actor/logic/shock";
 import { deriveNext, elapsedCheckpoints } from "@src/entity/event/scheduling";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -23,18 +44,24 @@ import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import {
     ACTION_SUBTYPE,
+    CRITICAL_FAILURE,
+    CRITICAL_SUCCESS,
     defineType,
     FATIGUE_CATEGORY,
     FatigueCategoryLabels,
     FEAR_LEVEL,
     FearLevelLabels,
+    IMPACT_ASPECT,
     ImpactAspect,
     INJURY_LEVELS,
     isFatigueCategory,
     isFearLevel,
     isMoraleLevel,
+    ITEM_KIND,
+    MARGINAL_SUCCESS,
     MORALE_LEVEL,
     MoraleLevelLabels,
+    SKILL_CODE,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     TRAUMA_SUBTYPE,
@@ -44,6 +71,10 @@ import {
     SohlItemBaseLogic,
     type SohlItemData,
 } from "@src/document/item/logic/SohlItemBaseLogic";
+import { rollTimedTest } from "@src/document/item/logic/timed-test";
+
+/** Seconds in a day — for converting healing world-time spans to days (#554). */
+const SECONDS_PER_DAY = 86400;
 
 // Level/category → localization-key maps, derived once from the enums so
 // levelLabel/categoryLabel are simple lookups.
@@ -125,6 +156,12 @@ export class TraumaLogic<
      */
     bloodLossAdvanceDurationBase!: ValueModifier;
     /**
+     * Effective seconds between Extended Shock / Coma course checks, as a
+     * {@link sohl.entity.modifier.ValueModifier}, seeded from
+     * {@link TraumaData.courseDurationBase}.
+     */
+    courseDurationBase!: ValueModifier;
+    /**
      * The {@link BodyLocation} on the being's body that this trauma
      * affects, resolved from {@link TraumaData.bodyLocationCode}. When the
      * code is blank — or no matching location exists in the body — this
@@ -138,19 +175,124 @@ export class TraumaLogic<
     /* --------------------------------------------- */
 
     /**
-     * Roll the treatment test, applying medical care to this trauma.
+     * Roll the **Physician Treatment Test** (#553), establishing this injury's
+     * Healing Rate and its special effects.
      *
-     * Intrinsic-action executor for the `treatmenttest` action.
+     * Intrinsic-action executor for the `treatmenttest` action. The wound's
+     * aspect and severity band select the required treatment action and its
+     * difficulty modifier ({@link requiredTreatment}); the owning being's
+     * Physician skill is rolled headlessly at that modifier; and the result maps,
+     * with the severity band, to the injury's
+     * {@link TraumaData.healingRateBase | Healing Rate}
+     * ({@link treatmentHealingRate}). A `HEAL` result heals the wound outright. The
+     * resulting Healing Rate (with the aspect and any surgical mishap) then
+     * determines the special injury effects — a bleeder (which arms the
+     * blood-loss timer) and permanent-impairment eligibility.
+     *
+     * With no owning being able to roll (a headless/GM context, until the
+     * interactive physician card of #547 exists), the treatment auto-resolves as
+     * though the Physician roll were a **Critical Failure** — the rule that "an
+     * untreated wound is resolved as though its treatment roll were a Critical
+     * Failure."
      *
      * @param _context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @remarks Not yet implemented; warns and returns `null`.
+     * @returns The success test result, or `null` for a non-injury/healed trauma
+     *   or a headless critical-failure resolution.
      */
     async treatmentTest(
         _context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
-        sohl.log.uiWarn("Trauma Treatment Test is not yet implemented.");
-        return null;
+        if (this.data.subType !== TRAUMA_SUBTYPE.INJURY) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.Treatment.NotAnInjury"),
+            );
+            return null;
+        }
+        const band = injuryBand(this.data.levelBase);
+        if (!band) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.Treatment.AlreadyHealed"),
+            );
+            return null;
+        }
+
+        const req = requiredTreatment(this.data.aspect, band);
+        const physicianMl =
+            (
+                this.actorLogic?.getItemLogic(
+                    SKILL_CODE.PHYSICIAN,
+                    ITEM_KIND.SKILL,
+                ) as any
+            )?.masteryLevel?.effective ?? 0;
+        const result = await rollTimedTest(this, physicianMl, {
+            type: "trauma-treatmenttest",
+            title: sohl.i18n.localize("SOHL.Trauma.Action.treatmenttest.title"),
+            situationalModifier: req?.modifier ?? 0,
+        });
+        if (result === undefined) return null; // cancelled
+
+        // `false` — the speaker is not owned, so the GM cannot roll: resolve the
+        // untreated wound as though the Physician roll were a Critical Failure.
+        const sl =
+            result === false ? CRITICAL_FAILURE : result.normSuccessLevel;
+        await this.applyTreatmentResult(sl, band, req?.code);
+        return result === false ? null : result;
+    }
+
+    /**
+     * Persist the outcome of a Treatment Test: the Healing Rate (or immediate
+     * heal), the treatment date, any resulting bleeder (arming the blood-loss
+     * timer), and permanent-impairment eligibility.
+     *
+     * @param normSuccessLevel - The Physician-test result (CF −1 … CS 2).
+     * @param band - The wound's severity band.
+     * @param code - The required treatment action (used to detect a surgical
+     *   bleeder mishap), or `undefined` when the aspect has no table entry.
+     * @returns A promise that resolves once the outcome is persisted.
+     */
+    private async applyTreatmentResult(
+        normSuccessLevel: number,
+        band: InjuryBand,
+        code: TreatmentCode | undefined,
+    ): Promise<void> {
+        const now = fvttWorldTime();
+        const hr = treatmentHealingRate(normSuccessLevel, band);
+        const update: PlainObject = { "system.treatmentDate": now };
+
+        if (hr === TREATMENT_HEAL) {
+            // A HEAL result heals the wound immediately (Injury Level 0).
+            update["system.levelBase"] = 0;
+            await this.item.update(update);
+            return;
+        }
+
+        update["system.healingRateBase"] = hr;
+
+        // A poorly-treated wound (a failed Treatment Test) is exposed to infection
+        // (#557); a marginal/critical success clears the risk.
+        update["system.infectable"] = normSuccessLevel < MARGINAL_SUCCESS;
+
+        // Special injury effects. A surgical mishap (EXT/SUR on a failure) or a
+        // grievous blunt/edged/piercing wound left at HR 2–3 becomes a bleeder;
+        // arm the blood-loss timer if it is not already bleeding.
+        const bleeder =
+            treatmentCausesBleeder(code, normSuccessLevel) ||
+            isBleederFromHealingRate(this.data.aspect, band, hr);
+        if (bleeder && !this.isBleeding) {
+            const formula = String(
+                fvttGetSetting("sohl", "bloodLossAdvanceDurationFormula") ?? "",
+            );
+            update["system.bloodLossAdvanceDurationFormula"] = formula;
+            update["system.bloodLossAdvanceDurationBase"] =
+                Number(formula) || 0;
+            update["system.lastBloodLossAdvanceDate"] = now;
+        }
+
+        if (isPermanentImpairmentEligible(this.data.aspect, band, hr)) {
+            update["system.permanentImpairmentEligible"] = true;
+        }
+
+        await this.item.update(update);
     }
 
     /**
@@ -215,6 +357,17 @@ export class TraumaLogic<
                 iconFAClass: "fa-solid fa-droplet",
                 executor: "bloodLossAdvanceCheck",
                 visible: "itemLogic.isBleeding",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "courseCheck",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.courseCheck.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-wave-pulse",
+                executor: "courseCheck",
+                visible:
+                    "itemLogic.data.subType === 'shock' || itemLogic.data.subType === 'coma' || itemLogic.data.subType === 'infection'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
         ];
@@ -301,6 +454,10 @@ export class TraumaLogic<
             {},
             { parent: this },
         ).setBase(this.data.bloodLossAdvanceDurationBase ?? 0);
+        this.courseDurationBase = new entity.ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.courseDurationBase ?? 0);
         this.bodyLocation = undefined;
     }
 
@@ -339,15 +496,58 @@ export class TraumaLogic<
         if (this.isBleeding && this.data.lastBloodLossAdvanceDate != null) {
             sohl.events.scheduleAt(
                 uuid,
-                "trauma::bloodLossAdvanceRoll",
+                "bloodLossAdvanceCheck",
                 deriveNext(
                     this.data.lastBloodLossAdvanceDate,
                     this.bloodLossAdvanceDurationBase.effective,
                 ),
             );
         } else {
-            sohl.events.unsubscribe(uuid, "trauma::bloodLossAdvanceRoll");
+            sohl.events.unsubscribe(uuid, "bloodLossAdvanceCheck");
         }
+
+        // Lasting-condition recovery course — recurring while the Healing Rate is
+        // between 1 and 5. For Extended Shock / Coma, HR ≤ 0 is death and HR ≥ 6
+        // is recovery (#556); for an Infection, HR ≥ 6 is healed (#557).
+        if (this.isCourseTrauma && this.isCourseActive) {
+            sohl.events.scheduleAt(
+                uuid,
+                "courseCheck",
+                deriveNext(
+                    this.data.lastCourseDate ?? 0,
+                    this.courseDurationBase.effective,
+                ),
+            );
+        } else {
+            sohl.events.unsubscribe(uuid, "courseCheck");
+        }
+    }
+
+    /** Whether this trauma is an Extended Shock or Coma lasting-shock record. */
+    private get isShockOrComa(): boolean {
+        return (
+            this.data.subType === TRAUMA_SUBTYPE.SHOCK ||
+            this.data.subType === TRAUMA_SUBTYPE.COMA
+        );
+    }
+
+    /**
+     * Whether this trauma recovers through a **Course Test** — an Extended Shock,
+     * Coma, or Infection lasting condition (#556/#557).
+     */
+    private get isCourseTrauma(): boolean {
+        return (
+            this.isShockOrComa || this.data.subType === TRAUMA_SUBTYPE.INFECTION
+        );
+    }
+
+    /**
+     * Whether a lasting-condition course is still running — the Healing Rate sits
+     * in `[1, 5]` (HR ≤ 0 died, HR ≥ 6 recovered/healed) and its anchor is armed.
+     */
+    private get isCourseActive(): boolean {
+        const hr = this.healingRate.effective;
+        return hr >= 1 && hr <= 5 && this.data.lastCourseDate != null;
     }
 
     /**
@@ -380,10 +580,20 @@ export class TraumaLogic<
      *
      * @param _context - The action context (its `scope` is the trigger context).
      * @returns A promise that resolves once the anchor is persisted.
-     * @remarks Catch-up wiring only (#481): advances the anchor over every
-     *   elapsed interval and re-arms via {@link deriveNext}. The healing
-     *   **effect** — the recovery roll reducing the wound level — is not yet
-     *   implemented; see issue #486 (it needs an automated, no-dialog roll).
+     * @remarks For an `injury`-subtype trauma this applies the **Injury Healing
+     *   Test** (#486) at each elapsed checkpoint, in sequence: a headless test of
+     *   `Healing Base × Healing Rate` reduces the Injury Level by 1 on a marginal
+     *   success and 2 on a critical success (a marginal failure does nothing; a
+     *   critical failure does no healing — infection-on-CF is completed by #557).
+     *   No test is made while the injury is untreated, already healed (level 0),
+     *   or while any active infection halts the patient's healing. Other trauma
+     *   subtypes recover by their own rules and only re-arm here. In all cases
+     *   the recurrence anchor is advanced over every elapsed interval and re-armed
+     *   via {@link deriveNext} (the queue does not cascade — see the Event Queue
+     *   contract). An eligible injury (see
+     *   {@link TraumaData.permanentImpairmentEligible}) that heals to level 0 this
+     *   pass leaves a **permanent impairment** on its body part, scaled by its
+     *   total time to heal (#554).
      */
     async healingCheck(_context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
@@ -394,10 +604,35 @@ export class TraumaLogic<
 
         // Catch up the recurrence anchor over every elapsed interval in
         // `(anchor, now]` in one pass — the queue does not cascade (see the
-        // Event Queue contract). The per-checkpoint recovery roll is #486.
+        // Event Queue contract).
         const checkpoints =
             interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
         const lastProcessed = checkpoints.at(-1) ?? now;
+
+        // Injury Healing Test at each elapsed checkpoint, in sequence (each roll
+        // reduces the level the next one sees). Only injuries heal this way, and
+        // only once treated and while not halted by an active infection.
+        let level = this.data.levelBase;
+        let contractInfection = false;
+        if (this.data.subType === TRAUMA_SUBTYPE.INJURY && this.isTreated) {
+            for (
+                let i = 0;
+                i < checkpoints.length && level > 0 && !this.healingHalted;
+                i++
+            ) {
+                const sl = await this.rollHealingTest();
+                if (sl == null) break; // roll refused (e.g. speaker not owned)
+                if (sl >= CRITICAL_SUCCESS) level = Math.max(0, level - 2);
+                else if (sl >= MARGINAL_SUCCESS) level = Math.max(0, level - 1);
+                else if (sl <= CRITICAL_FAILURE && this.data.infectable) {
+                    // CF on an infectable wound contracts an infection (#557),
+                    // which then halts further healing — stop the catch-up here.
+                    contractInfection = true;
+                    break;
+                }
+                // MF (0): no healing.
+            }
+        }
 
         const nextInterval = this.rollDuration(
             this.data.healingCheckDurationFormula,
@@ -409,9 +644,98 @@ export class TraumaLogic<
             deriveNext(lastProcessed, nextInterval),
         );
         await this.item.update({
+            "system.levelBase": level,
             "system.lastHealingCheckDate": lastProcessed,
             "system.healingCheckDurationBase": nextInterval,
         } as PlainObject);
+
+        // An eligible injury that just healed to level 0 leaves a permanent
+        // impairment scaled by how long it took to heal (#554).
+        if (
+            this.data.subType === TRAUMA_SUBTYPE.INJURY &&
+            this.data.permanentImpairmentEligible &&
+            this.data.levelBase > 0 &&
+            level === 0 &&
+            this.data.contractDate != null
+        ) {
+            const days =
+                (lastProcessed - this.data.contractDate) / SECONDS_PER_DAY;
+            const magnitude = permanentImpairmentFor(days);
+            if (magnitude < 0) {
+                await (this.actorLogic as any)?.applyPermanentImpairment?.(
+                    this.data.bodyLocationCode,
+                    magnitude,
+                );
+            }
+        }
+
+        // A Critical-Failure healing test on an infectable wound contracts an
+        // infection (#557) — recorded separately, starting one Healing Rate step
+        // above this wound.
+        if (contractInfection) await this.contractInfection();
+    }
+
+    /**
+     * Contract an **infection** (#557) from this wound: create a separate
+     * `infection`-subtype trauma starting at a Healing Rate one step above this
+     * injury's (Injury Level "X", aspect "Inf"). While any infection is active it
+     * halts all Injury Healing Tests (see {@link healingHalted}).
+     *
+     * @returns A promise that resolves once the infection trauma is created.
+     */
+    private async contractInfection(): Promise<void> {
+        if (!this.actorLogic) return;
+        const hr = Math.round(this.healingRate?.effective ?? 0) + 1;
+        await fvttCreateEmbeddedItems(this.actorLogic, [
+            {
+                type: ITEM_KIND.TRAUMA,
+                name: sohl.i18n.localize("SOHL.Trauma.Infection"),
+                system: {
+                    subType: TRAUMA_SUBTYPE.INFECTION,
+                    levelBase: 0,
+                    healingRateBase: hr,
+                    aspect: IMPACT_ASPECT.BLUNT,
+                    bodyLocationCode: this.data.bodyLocationCode,
+                },
+            },
+        ]);
+    }
+
+    /**
+     * Whether the patient's injury healing is currently **halted** — true while
+     * the owning actor carries any active `infection`-subtype trauma (an active
+     * infection stops all Injury Healing Tests until every infection is defeated).
+     */
+    get healingHalted(): boolean {
+        const traumas = (this.actorLogic?.logicTypes?.[ITEM_KIND.TRAUMA] ??
+            []) as TraumaLogic[];
+        // An infection has Injury Level "X" (0), so its *activity* is measured by
+        // its Healing Rate: it is unhealed while HR is below 6 (#557).
+        return traumas.some(
+            (t) =>
+                t.data.subType === TRAUMA_SUBTYPE.INFECTION &&
+                (t.healingRate?.effective ?? 0) < 6,
+        );
+    }
+
+    /**
+     * Roll one headless **Injury Healing Test** — `Healing Base × Healing Rate`
+     * (Healing Base from the owning being, Healing Rate from this trauma) — and
+     * return the normalized success level (−1/0/1/2), or `null` if the roll was
+     * refused (e.g. the speaker is not owned).
+     *
+     * @returns The normalized success level, or `null`.
+     */
+    private async rollHealingTest(): Promise<number | null> {
+        const healingBase =
+            (this.actorLogic as any)?.healingBase?.effective ?? 0;
+        const eml = healingBase * (this.healingRate?.effective ?? 0);
+        const result = await rollTimedTest(this, eml, {
+            noChat: true,
+            type: "trauma-healingtest",
+            title: sohl.i18n.localize("SOHL.Trauma.Action.healingtest.title"),
+        });
+        return result ? result.normSuccessLevel : null;
     }
 
     /**
@@ -420,13 +744,18 @@ export class TraumaLogic<
      *
      * Advances the blood-loss anchor to now, rolls the next interval from
      * {@link TraumaData.bloodLossAdvanceDurationFormula}, and schedules the
-     * `trauma::bloodLossAdvanceRoll` occurrence.
+     * `bloodLossAdvanceCheck` occurrence.
      *
      * @param _context - The action context (its `scope` is the trigger context).
      * @returns A promise that resolves once the anchor is persisted.
-     * @remarks Catch-up wiring only (#481): advances the anchor and re-arms via
-     *   {@link deriveNext}. The blood-loss **effect** — the advance roll and its
-     *   consequences — is not yet implemented; see issue #487.
+     * @remarks Applies the **Blood Loss Advance Test** (#487) at each elapsed
+     *   checkpoint. With no physician accepting the Blood Stoppage request, the
+     *   advance auto-resolves as though a Blood Stoppage Test had been a critical
+     *   failure — the bleeding continues (the interactive physician Accept card is
+     *   #547). Each test rolls against the victim's Strength Mastery Level, accrues
+     *   Blood Loss Points (CF +3, MF +2, MS +1, CS 0), advances the being's shock
+     *   state one step per BLP, and inflicts 5 Fatigue Levels of weakness (anemia)
+     *   per BLP. The anchor is advanced over every elapsed interval and re-armed.
      */
     async bloodLossAdvanceCheck(_context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
@@ -438,19 +767,252 @@ export class TraumaLogic<
             interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
         const lastProcessed = checkpoints.at(-1) ?? now;
 
+        // Apply one Blood Loss Advance Test per elapsed checkpoint, in sequence.
+        for (let i = 0; i < checkpoints.length && this.isBleeding; i++) {
+            await this.applyBloodLossAdvance();
+        }
+
         const nextInterval = this.rollDuration(
             this.data.bloodLossAdvanceDurationFormula,
         );
         this.bloodLossAdvanceDurationBase.setBase(nextInterval);
         sohl.events.scheduleAt(
             uuid,
-            "trauma::bloodLossAdvanceRoll",
+            "bloodLossAdvanceCheck",
             deriveNext(lastProcessed, nextInterval),
         );
         await this.item.update({
             "system.lastBloodLossAdvanceDate": lastProcessed,
             "system.bloodLossAdvanceDurationBase": nextInterval,
         } as PlainObject);
+    }
+
+    /**
+     * Resolve one Blood Loss Advance Test (#487): the auto-resolve fallback
+     * (bleeding continues), a headless roll against the victim's Strength Mastery
+     * Level, and its consequences — shock-state advance and anemia fatigue.
+     *
+     * @returns A promise that resolves once the consequences are applied.
+     */
+    private async applyBloodLossAdvance(): Promise<void> {
+        const actorLogic = this.actorLogic;
+        if (!actorLogic) return;
+        const strMl =
+            (actorLogic.getItemLogic("str", ITEM_KIND.ATTRIBUTE) as any)
+                ?.masteryLevel?.effective ?? 0;
+        const result = await rollTimedTest(this, strMl, {
+            noChat: true,
+            type: "trauma-bloodloss",
+            title: sohl.i18n.localize(
+                "SOHL.Trauma.Action.bloodLossAdvanceCheck.title",
+            ),
+        });
+        if (!result) return;
+        // Blood Loss Points by success level: CF (−1) +3, MF (0) +2, MS (1) +1,
+        // CS (2) 0. That is `2 − normSuccessLevel`, clamped to [0, 3].
+        const blp = Math.max(0, Math.min(3, 2 - result.normSuccessLevel));
+        if (blp <= 0) return;
+        // Each BLP advances the shock state one step toward Dead...
+        await (actorLogic as any).advanceShockState?.(blp);
+        // ...and inflicts 5 Fatigue Levels of weakness (anemia) per BLP.
+        await this.inflictAnemiaFatigue(blp * 5);
+    }
+
+    /**
+     * Inflict `levels` Fatigue Levels of **weakness** fatigue (the anemia of
+     * ongoing blood loss) as a new fatigue-subtype trauma on the owning actor.
+     *
+     * @param levels - The Fatigue Levels to inflict.
+     * @returns A promise that resolves once the fatigue trauma is created.
+     */
+    private async inflictAnemiaFatigue(levels: number): Promise<void> {
+        await inflictWeaknessFatigue(
+            this.actorLogic,
+            levels,
+            sohl.i18n.localize("SOHL.Trauma.Anemia"),
+        );
+    }
+
+    /**
+     * Intrinsic-action executor for the recurring **Extended Shock / Coma Course
+     * Test** (#556).
+     *
+     * At each elapsed checkpoint the victim rolls a headless course test —
+     * `Healing Base × Healing Rate` (fatigue applies) — that adjusts the
+     * lasting-shock Healing Rate (CF −2 / MF −1 / MS +1 / CS +2). If the Healing
+     * Rate falls to **0 or below** the victim **dies** (shock state Dead); if it
+     * rises to **6 or above** the victim **recovers** — a Coma additionally
+     * inflicts weariness fatigue equal to the days spent in the coma, and the
+     * being's shock state is cleared (a victim who still has a Coma stays
+     * Unconscious). Otherwise the anchor is advanced and the course re-armed.
+     *
+     * @param _context - The action context (its `scope` is the trigger context).
+     * @returns A promise that resolves once the course outcome is persisted.
+     */
+    async courseCheck(_context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (!uuid || !this.isCourseTrauma) return;
+        const isInfection = this.data.subType === TRAUMA_SUBTYPE.INFECTION;
+        const now = fvttWorldTime();
+        const interval = this.courseDurationBase.effective;
+        const anchor = this.data.lastCourseDate ?? now;
+        const checkpoints =
+            interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
+        const lastProcessed = checkpoints.at(-1) ?? now;
+
+        // Course Test at each elapsed checkpoint, in sequence (each adjusts the
+        // Healing Rate the next one sees), until it ends the course (HR out of
+        // the [1, 5] band) or the checkpoints run out. An infection never kills —
+        // its Healing Rate floors at 1 rather than dropping to death.
+        let hr = this.data.healingRateBase ?? 0;
+        for (let i = 0; i < checkpoints.length && hr >= 1 && hr <= 5; i++) {
+            const sl = await this.rollShockCourseTest(hr);
+            if (sl == null) break; // roll refused
+            hr += shockCourseHrDelta(sl);
+            if (isInfection) hr = Math.max(1, hr);
+        }
+
+        const nextInterval = this.rollDuration(this.data.courseDurationFormula);
+        this.courseDurationBase.setBase(nextInterval);
+
+        // A still-active infection saps the body by its Healing-Rate band (#557).
+        if (isInfection && hr < 6) await this.inflictInfectionWeakness(hr);
+
+        if (hr <= 0) {
+            // Death (Extended Shock / Coma only) — the victim dies on the spot.
+            await (this.actorLogic as any)?.setShockState?.(SHOCK_STATE.DEAD);
+            sohl.events.unsubscribe(uuid, "courseCheck");
+            await this.item.update({
+                "system.healingRateBase": 0,
+                "system.lastCourseDate": lastProcessed,
+                "system.courseDurationBase": nextInterval,
+            } as PlainObject);
+            return;
+        }
+
+        if (hr >= 6) {
+            // Recovery — Extended Shock / Coma clear the shock state (and a Coma
+            // adds weariness fatigue); an Infection is simply healed, which lets
+            // normal injury healing resume (see healingHalted).
+            if (!isInfection) await this.resolveShockRecovery(lastProcessed);
+            sohl.events.unsubscribe(uuid, "courseCheck");
+            await this.item.update({
+                "system.healingRateBase": hr,
+                "system.lastCourseDate": lastProcessed,
+                "system.courseDurationBase": nextInterval,
+            } as PlainObject);
+            return;
+        }
+
+        sohl.events.scheduleAt(
+            uuid,
+            "courseCheck",
+            deriveNext(lastProcessed, nextInterval),
+        );
+        await this.item.update({
+            "system.healingRateBase": hr,
+            "system.lastCourseDate": lastProcessed,
+            "system.courseDurationBase": nextInterval,
+        } as PlainObject);
+    }
+
+    /**
+     * Inflict an infection's **weakness fatigue** by its current Healing Rate
+     * band (#557): Healing Rate 1–2 → 10 Fatigue Levels, 3–4 → 5, 5+ → none.
+     *
+     * @param hr - The infection's current Healing Rate.
+     * @returns A promise that resolves once any fatigue is inflicted.
+     */
+    private async inflictInfectionWeakness(hr: number): Promise<void> {
+        const levels =
+            hr <= 2 ? 10
+            : hr <= 4 ? 5
+            : 0;
+        if (levels <= 0) return;
+        await inflictWeaknessFatigue(
+            this.actorLogic,
+            levels,
+            sohl.i18n.localize("SOHL.Trauma.Infection"),
+        );
+    }
+
+    /**
+     * Roll one headless **Extended Shock / Coma Course Test** — `Healing Base ×
+     * Healing Rate`, with the being's fatigue penalty applied — and return the
+     * normalized success level (−1/0/1/2), or `null` if the roll was refused.
+     *
+     * @param hr - The lasting-shock trauma's current Healing Rate.
+     * @returns The normalized success level, or `null`.
+     */
+    private async rollShockCourseTest(hr: number): Promise<number | null> {
+        const actorLogic = this.actorLogic as any;
+        const healingBase = actorLogic?.healingBase?.effective ?? 0;
+        const fatigue = actorLogic?.fatiguePenalty?.effective ?? 0;
+        const result = await rollTimedTest(
+            this,
+            healingBase * Math.max(0, hr),
+            {
+                noChat: true,
+                type: `trauma-${this.data.subType}-course`,
+                title: sohl.i18n.localize(
+                    "SOHL.Trauma.Action.courseCheck.title",
+                ),
+                situationalModifier: -fatigue,
+            },
+        );
+        return result ? result.normSuccessLevel : null;
+    }
+
+    /**
+     * Apply the recovery from an Extended Shock / Coma trauma: a Coma inflicts
+     * weariness fatigue equal to the days spent in it, and the being's shock
+     * state is cleared to `None` — unless another active Coma remains, in which
+     * case the being stays Unconscious.
+     *
+     * @param recoveredAt - The world-time at which recovery occurred.
+     * @returns A promise that resolves once the recovery is applied.
+     */
+    private async resolveShockRecovery(recoveredAt: number): Promise<void> {
+        if (
+            this.data.subType === TRAUMA_SUBTYPE.COMA &&
+            this.data.contractDate != null
+        ) {
+            const days = Math.max(
+                0,
+                Math.round(
+                    (recoveredAt - this.data.contractDate) / SECONDS_PER_DAY,
+                ),
+            );
+            await inflictWeaknessFatigue(
+                this.actorLogic,
+                days,
+                sohl.i18n.localize("SOHL.Trauma.ComaWeariness"),
+            );
+        }
+        const target =
+            this.hasOtherActiveComa() ?
+                SHOCK_STATE.UNCONSCIOUS
+            :   SHOCK_STATE.NONE;
+        await (this.actorLogic as any)?.setShockState?.(target);
+    }
+
+    /**
+     * Whether the owning being carries another active `coma`-subtype trauma
+     * (Healing Rate 1–5) besides this one — a victim leaving Extended Shock while
+     * still comatose stays Unconscious.
+     *
+     * @returns `true` when another active Coma remains.
+     */
+    private hasOtherActiveComa(): boolean {
+        const traumas = (this.actorLogic?.logicTypes?.[ITEM_KIND.TRAUMA] ??
+            []) as TraumaLogic[];
+        return traumas.some((t) => {
+            if (t === this || t.data.subType !== TRAUMA_SUBTYPE.COMA) {
+                return false;
+            }
+            const hr = t.healingRate?.effective ?? 0;
+            return hr >= 1 && hr <= 5;
+        });
     }
 
     /**
@@ -516,6 +1078,26 @@ export interface TraumaData<
     bloodLossAdvanceDurationBase: number | null;
     /** World-time of the last applied blood-loss advance (the recurrence anchor). */
     lastBloodLossAdvanceDate: number | null;
+    /** Formula rolled to seed the Extended Shock / Coma course-check interval. */
+    courseDurationFormula: string;
+    /** Rolled seconds between course checks; `null` until rolled. */
+    courseDurationBase: number | null;
+    /** World-time of the last applied course check (the recurrence anchor). */
+    lastCourseDate: number | null;
+    /**
+     * Whether this injury is eligible for **permanent impairment** should it
+     * heal slowly. Set by the Treatment Test (#553) from the wound's aspect,
+     * severity, and resulting Healing Rate; the impairment magnitude itself is
+     * applied by the Impairment system (#554). Always `false` for non-injury
+     * traumas.
+     */
+    permanentImpairmentEligible: boolean;
+    /**
+     * Whether this injury is exposed to **infection** — set by the Treatment Test
+     * for a poorly-treated wound (#553). A Critical-Failure Injury Healing Test on
+     * an infectable wound contracts an infection (#557).
+     */
+    infectable: boolean;
     /**
      * Shortcode of the body location on the being's body where this
      * trauma occurred. Empty string means the trauma is not tied to a

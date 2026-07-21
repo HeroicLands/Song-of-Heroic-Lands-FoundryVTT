@@ -305,6 +305,18 @@ export function fvttActorStatuses(_actor: any): Set<string> {
     return new Set<string>();
 }
 
+export async function fvttToggleActorStatus(
+    _actor: any,
+    _statusId: string,
+    _active: boolean,
+): Promise<void> {}
+
+export async function fvttFindItemByShortcode(
+    _shortcode: string,
+): Promise<any> {
+    return undefined;
+}
+
 export function fvttActiveTokenLogicForActor(_actor: any): any {
     return undefined;
 }

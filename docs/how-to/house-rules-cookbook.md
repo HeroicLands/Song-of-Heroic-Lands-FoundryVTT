@@ -97,6 +97,60 @@ Hooks.on("sohl.mysticalability.postFinalize", async (item, ctx) => {
 
 Result: the same module can be installed everywhere, activated per world, and executed by a single authority.
 
+## Recipe 4: Give an affliction mechanical consequences at onset (onset Macro)
+
+An affliction's symptoms are usually role-played, so at **onset** the system just
+marks it symptomatic and starts its course/resolution cycle. To attach concrete
+mechanics to a _specific_ affliction, set its **`system.onsetMacroUuid`** to a
+Macro's UUID. That Macro runs once, on the active GM, right after onset is
+recorded, and may schedule further events.
+
+```js
+// Author-side: point the affliction at a Macro (a reference, never source).
+await affliction.update({ system: { onsetMacroUuid: myMacro.uuid } });
+```
+
+The Macro executes with a `scope` of `{ affliction, actor }` — the affliction's
+logic and the owning actor's logic — so it can read state and, for example,
+apply a fatigue trauma or schedule a follow-up:
+
+```js
+// Inside the onset Macro (scope.affliction / scope.actor are the logic objects):
+const { affliction, actor } = scope;
+// …apply consequences, e.g. sohl.events.scheduleAt(affliction.item.uuid, …).
+```
+
+Like every SoHL author hook, the affliction stores only the Macro **UUID**, never
+executable code; `Macro#execute` enforces the runner's permissions.
+
+## Recipe 5: Author an affliction's resolution outcome
+
+When an affliction reaches the end of its symptomatic period **without being
+defeated**, it applies its authored **outcome**. Set it with two fields:
+
+- **`system.outcome`** — `AFFLICTION_OUTCOME.DEATH` (the host's state becomes
+  _dead_) or `AFFLICTION_OUTCOME.CURED` (the affliction is defeated — its Healing
+  Rate becomes 6). Defaults to `cured`.
+- **`system.outcomeTrauma`** _(optional)_ — a **Safe Expression** whose result is a
+  trauma **shortcode**, or an array of shortcodes, the host contracts as part of
+  the outcome. Matching traumas are resolved world-items-first, then compendiums.
+
+The two combine. For a disease that leaves survivors permanently weakened:
+
+```js
+await affliction.update({
+    system: {
+        outcome: "cured", // survives…
+        outcomeTrauma: "'weakness20'", // …but contracts the `weakness20` trauma
+    },
+});
+```
+
+`outcomeTrauma` is a Safe Expression, so it can branch — e.g.
+`"level >= 4 ? 'weakness20' : 'weakness10'"` — evaluated against the affliction's
+bindings. It carries only shortcode **references** to trauma templates, never item
+data.
+
 ## Tradeoffs summary
 
 - **Action item**

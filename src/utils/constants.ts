@@ -1177,6 +1177,26 @@ export const {
 export type AfflictionSubType = (typeof AfflictionSubTypes)[number];
 
 export const {
+    /** Map of affliction-outcome key → value. */
+    kind: AFFLICTION_OUTCOME,
+    /** All affliction-outcome values, as an array. */
+    values: AfflictionOutcomes,
+    /** Value-keyed label map for StringField({ choices }). */
+    choices: AfflictionOutcomeChoices,
+    /** Type guard for affliction-outcome values. */
+    isValue: isAfflictionOutcome,
+    /** Localization keys per affliction outcome. */
+    labels: AfflictionOutcomeLabels,
+} = defineType("SOHL.Affliction.Outcome", {
+    /** The character dies (its state becomes dead). */
+    DEATH: "death",
+    /** The affliction is defeated (its Healing Rate becomes 6). */
+    CURED: "cured",
+});
+/** Union of all affliction-outcome values. */
+export type AfflictionOutcome = (typeof AfflictionOutcomes)[number];
+
+export const {
     /** Map of affliction-transmission key → value. */
     kind: AFFLICTION_TRANSMISSION,
     /** All affliction-transmission values, as an array. */

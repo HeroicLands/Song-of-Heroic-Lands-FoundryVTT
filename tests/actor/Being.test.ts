@@ -9,10 +9,17 @@ import { BodyStructure } from "@src/entity/body/BodyStructure";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     ACTOR_KIND,
+    CRITICAL_FAILURE,
+    CRITICAL_SUCCESS,
+    FATIGUE_CATEGORY,
     IMPACT_ASPECT,
     ITEM_KIND,
+    MARGINAL_FAILURE,
+    MARGINAL_SUCCESS,
     MOVEMENT_MEDIUM,
+    TRAUMA_SUBTYPE,
 } from "@src/utils/constants";
+import { TraumaLogic } from "@src/document/item/logic/TraumaLogic";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import * as AfflictionContract from "@src/document/actor/logic/affliction-contract";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
@@ -1009,11 +1016,414 @@ describe("BeingLogic", () => {
         });
     });
 
-    describe("properties", () => {
-        // health is written into the data model (system.health) as plain
-        // numbers — covered by the "BeingLogic health (#470)" suite below.
-        // shockState is declared but not yet assigned by any lifecycle phase.
-        it.todo("shockState - tracks current shock state");
+    describe("shockState (#550)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        it("is NONE (0) when no shock status is active", () => {
+            const being = makeBeing();
+            expect(being.shockState).toBe(0);
+        });
+
+        it("reports the highest active shock status", () => {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                new Set(["stun", "unconscious"]),
+            );
+            const being = makeBeing();
+            expect(being.shockState).toBe(3); // UNCONSCIOUS
+        });
+
+        it("setShockState clears active shock statuses and sets only the target", async () => {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                new Set(["unconscious"]),
+            );
+            const toggle = vi
+                .spyOn(FoundryHelpersMock, "fvttToggleActorStatus")
+                .mockResolvedValue(undefined);
+            const being = makeBeing();
+            await being.setShockState(1); // → STUNNED
+            // Unconscious removed, stun added; incapacitated/dead untouched.
+            expect(toggle).toHaveBeenCalledWith(
+                being.actor,
+                "unconscious",
+                false,
+            );
+            expect(toggle).toHaveBeenCalledWith(being.actor, "stun", true);
+            expect(toggle).toHaveBeenCalledTimes(2);
+        });
+
+        it("setShockState(NONE) clears every active shock status and sets none", async () => {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                new Set(["stun", "dead"]),
+            );
+            const toggle = vi
+                .spyOn(FoundryHelpersMock, "fvttToggleActorStatus")
+                .mockResolvedValue(undefined);
+            const being = makeBeing();
+            await being.setShockState(0);
+            expect(toggle).toHaveBeenCalledWith(being.actor, "stun", false);
+            expect(toggle).toHaveBeenCalledWith(being.actor, "dead", false);
+            expect(toggle).toHaveBeenCalledTimes(2);
+        });
+
+        it("setShockState clamps out-of-range levels", async () => {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                new Set(),
+            );
+            const toggle = vi
+                .spyOn(FoundryHelpersMock, "fvttToggleActorStatus")
+                .mockResolvedValue(undefined);
+            const being = makeBeing();
+            await being.setShockState(99); // clamps to DEAD
+            expect(toggle).toHaveBeenCalledWith(being.actor, "dead", true);
+        });
+
+        it("advanceShockState moves from the current state by N steps", async () => {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                new Set(["stun"]), // STUNNED (1)
+            );
+            const toggle = vi
+                .spyOn(FoundryHelpersMock, "fvttToggleActorStatus")
+                .mockResolvedValue(undefined);
+            const being = makeBeing();
+            await being.advanceShockState(2); // 1 → 3 (UNCONSCIOUS)
+            expect(toggle).toHaveBeenCalledWith(being.actor, "stun", false);
+            expect(toggle).toHaveBeenCalledWith(
+                being.actor,
+                "unconscious",
+                true,
+            );
+        });
+    });
+
+    describe("shockReTest (#556)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        function setup(
+            opts: {
+                current?: Set<string>;
+                sl?: number;
+                shockMl?: number;
+                fatigue?: number;
+            } = {},
+        ) {
+            const {
+                current = new Set<string>(),
+                sl = 0,
+                shockMl = 50,
+                fatigue = 0,
+            } = opts;
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                current,
+            );
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttToggleActorStatus",
+            ).mockResolvedValue(undefined);
+            const create = vi
+                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+                .mockResolvedValue([]);
+            const being = makeBeing();
+            (being as any).fatiguePenalty = { effective: fatigue };
+            vi.spyOn(being, "getItemLogic").mockImplementation(
+                (code: string) =>
+                    code === "shok" ?
+                        ({ masteryLevel: { effective: shockMl } } as any)
+                    :   undefined,
+            );
+            const roll = vi
+                .spyOn(MasteryLevelModifier.prototype, "successTest")
+                .mockResolvedValue({ normSuccessLevel: sl } as any);
+            const set = vi
+                .spyOn(being, "setShockState")
+                .mockResolvedValue(undefined);
+            return { being, roll, set, create };
+        }
+
+        it("does nothing unless the being is Incapacitated or Unconscious", async () => {
+            const { being, roll } = setup({ current: new Set(["stun"]) }); // STUNNED
+            const res = await being.shockReTest({} as any);
+            expect(res).toBeNull();
+            expect(roll).not.toHaveBeenCalled();
+        });
+
+        it("rolls the Shock skill at −20 minus the fatigue penalty", async () => {
+            const { being, roll } = setup({
+                current: new Set(["incapacitated"]),
+                sl: MARGINAL_SUCCESS,
+                shockMl: 44,
+                fatigue: 5,
+            });
+            await being.shockReTest({} as any);
+            expect((roll.mock.instances[0] as any).base).toBe(44);
+            expect(roll.mock.calls[0][0].scope.situationalModifier).toBe(-25); // −20 − 5
+        });
+
+        it("recovers from all shock on a critical success", async () => {
+            const { being, set } = setup({
+                current: new Set(["unconscious"]),
+                sl: CRITICAL_SUCCESS,
+            });
+            await being.shockReTest({} as any);
+            expect(set).toHaveBeenCalledWith(0); // NONE
+        });
+
+        it("improves to Stunned on a marginal success", async () => {
+            const { being, set } = setup({
+                current: new Set(["incapacitated"]),
+                sl: MARGINAL_SUCCESS,
+            });
+            await being.shockReTest({} as any);
+            expect(set).toHaveBeenCalledWith(1); // STUNNED
+        });
+
+        it("drops into Extended Shock (a shock trauma) on a marginal failure", async () => {
+            const { being, create } = setup({
+                current: new Set(["incapacitated"]),
+                sl: MARGINAL_FAILURE,
+            });
+            await being.shockReTest({} as any);
+            expect(create).toHaveBeenCalledWith(being, [
+                expect.objectContaining({
+                    system: expect.objectContaining({
+                        subType: "shock",
+                        healingRateBase: 5,
+                    }),
+                }),
+            ]);
+        });
+
+        it("drops an Unconscious victim into a Coma on a critical failure", async () => {
+            const { being, create, set } = setup({
+                current: new Set(["unconscious"]),
+                sl: CRITICAL_FAILURE,
+            });
+            await being.shockReTest({} as any);
+            expect(create).toHaveBeenCalledWith(being, [
+                expect.objectContaining({
+                    system: expect.objectContaining({ subType: "coma" }),
+                }),
+            ]);
+            expect(set).toHaveBeenCalledWith(3); // UNCONSCIOUS
+        });
+    });
+
+    describe("applyPermanentImpairment (#554)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        /** Body data whose head/skull part carries `headPi` permanent impairment. */
+        function bodyWith(headPi = 0) {
+            const structure = JSON.parse(JSON.stringify(BODY_STRUCTURE_DATA));
+            structure.parts[0].permanentImpairment = headPi;
+            return bodyData({ structure });
+        }
+
+        it("rewrites the whole parts array with the worsened impairment", async () => {
+            const being = makeBeing({ body: bodyWith(0) });
+            being.initialize();
+            await being.applyPermanentImpairment("skull", -10);
+            const payload = (being.actor!.update as any).mock.calls[0][0];
+            const parts = payload["system.body.structure.parts"];
+            expect(parts).toHaveLength(2);
+            expect(parts[0].permanentImpairment).toBe(-10); // head (skull)
+            expect(parts[1].permanentImpairment ?? 0).toBe(0); // thorax untouched
+        });
+
+        it("keeps the worse existing impairment and does not write", async () => {
+            const being = makeBeing({ body: bodyWith(-20) });
+            being.initialize();
+            await being.applyPermanentImpairment("skull", -10);
+            expect(being.actor!.update).not.toHaveBeenCalled();
+        });
+
+        it("is a no-op for a non-negative magnitude or an unknown location", async () => {
+            const being = makeBeing({ body: bodyWith(0) });
+            being.initialize();
+            await being.applyPermanentImpairment("skull", 0);
+            await being.applyPermanentImpairment("nope", -10);
+            expect(being.actor!.update).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("injuryShock (#555)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        function setup(
+            opts: {
+                current?: Set<string>;
+                sl?: number;
+                shockMl?: number;
+                fatigue?: number;
+            } = {},
+        ) {
+            const {
+                current = new Set<string>(),
+                sl = 0,
+                shockMl = 50,
+                fatigue = 0,
+            } = opts;
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                current,
+            );
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttToggleActorStatus",
+            ).mockResolvedValue(undefined);
+            const being = makeBeing();
+            (being as any).fatiguePenalty = { effective: fatigue };
+            vi.spyOn(being, "getItemLogic").mockImplementation(
+                (code: string) =>
+                    code === "shok" ?
+                        ({ masteryLevel: { effective: shockMl } } as any)
+                    :   undefined,
+            );
+            const roll = vi
+                .spyOn(MasteryLevelModifier.prototype, "successTest")
+                .mockResolvedValue({ normSuccessLevel: sl } as any);
+            const set = vi
+                .spyOn(being, "setShockState")
+                .mockResolvedValue(undefined);
+            return { being, roll, set };
+        }
+
+        it("computes the Shock State Index and worsens the shock state", async () => {
+            // shockIndex 7 + MF (+1) → SSI 8 → INCAPACITATED (2).
+            const { being, set } = setup({ sl: MARGINAL_FAILURE });
+            await being.injuryShock({
+                scope: { shockIndex: 7, shockBonus: 0 },
+            } as any);
+            expect(set).toHaveBeenCalledWith(2);
+        });
+
+        it("rolls the Shock skill with the fatigue penalty and glancing bonus", async () => {
+            const { being, roll } = setup({
+                sl: MARGINAL_SUCCESS,
+                shockMl: 44,
+                fatigue: 5,
+            });
+            await being.injuryShock({
+                scope: { shockIndex: 5, shockBonus: 10 },
+            } as any);
+            expect((roll.mock.instances[0] as any).base).toBe(44);
+            expect(roll.mock.calls[0][0].scope.situationalModifier).toBe(5); // 10 − 5
+        });
+
+        it("worsens only — never improves a worse existing shock state", async () => {
+            // Already UNCONSCIOUS (3); a mild new SSI 7 → STUNNED (1) must not improve.
+            const { being, set } = setup({
+                current: new Set(["unconscious"]),
+                sl: MARGINAL_FAILURE,
+            });
+            await being.injuryShock({
+                scope: { shockIndex: 6, shockBonus: 0 },
+            } as any);
+            expect(set).toHaveBeenCalledWith(3);
+        });
+
+        it("returns null and changes nothing when the roll is refused", async () => {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                new Set(),
+            );
+            const being = makeBeing();
+            (being as any).fatiguePenalty = { effective: 0 };
+            vi.spyOn(being, "getItemLogic").mockReturnValue(undefined as any);
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue(false as any);
+            const set = vi.spyOn(being, "setShockState");
+            const res = await being.injuryShock({
+                scope: { shockIndex: 8 },
+            } as any);
+            expect(res).toBeNull();
+            expect(set).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("fatiguePenalty (#552)", () => {
+        let traumaSeq = 0;
+        /** Embed an initialized trauma with a unique id so instances coexist. */
+        function addTrauma(being: any, fields: Record<string, unknown>) {
+            const id = `trauma${String(traumaSeq++).padStart(9, "0")}`;
+            const t = makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                {
+                    category: "",
+                    healingRateBase: null,
+                    aspect: IMPACT_ASPECT.BLUNT,
+                    treatmentDate: null,
+                    bodyLocationCode: "",
+                    ...fields,
+                },
+                { actor: being.actor, id },
+            );
+            t.initialize();
+            return t;
+        }
+
+        /** Embed an initialized fatigue trauma of the given category/level. */
+        function addFatigue(being: any, category: string, levelBase: number) {
+            return addTrauma(being, {
+                subType: TRAUMA_SUBTYPE.FATIGUE,
+                category,
+                levelBase,
+            });
+        }
+
+        /** Embed an initialized injury (non-fatigue) trauma. */
+        function addInjury(being: any, levelBase: number) {
+            return addTrauma(being, {
+                subType: TRAUMA_SUBTYPE.INJURY,
+                levelBase,
+                healingRateBase: 0,
+            });
+        }
+
+        it("is a ValueModifier after initialize", () => {
+            const being = makeBeing();
+            being.initialize();
+            expect(being.fatiguePenalty).toBeInstanceOf(ValueModifier);
+        });
+
+        it("is 0 with no fatigue traumas", () => {
+            const being = makeBeing();
+            being.initialize();
+            being.evaluate();
+            being.finalize();
+            expect(being.fatiguePenalty.effective).toBe(0);
+        });
+
+        it("sums Fatigue Levels across every fatigue instance", () => {
+            const being = makeBeing();
+            addFatigue(being, FATIGUE_CATEGORY.WINDEDNESS, 5);
+            addFatigue(being, FATIGUE_CATEGORY.WEARINESS, 10);
+            addFatigue(being, FATIGUE_CATEGORY.WEAKNESS, 3);
+            being.initialize();
+            being.evaluate();
+            being.finalize();
+            expect(being.fatiguePenalty.effective).toBe(18);
+        });
+
+        it("ignores non-fatigue traumas (injuries)", () => {
+            const being = makeBeing();
+            addFatigue(being, FATIGUE_CATEGORY.WEARINESS, 4);
+            addInjury(being, 5);
+            being.initialize();
+            being.evaluate();
+            being.finalize();
+            expect(being.fatiguePenalty.effective).toBe(4);
+        });
+
+        it("rebuilds each prepare cycle", () => {
+            const being = makeBeing();
+            addFatigue(being, FATIGUE_CATEGORY.WINDEDNESS, 5);
+            being.initialize();
+            being.evaluate();
+            being.finalize();
+            expect(being.fatiguePenalty.effective).toBe(5);
+            being.initialize();
+            expect(being.fatiguePenalty.effective).toBe(0);
+        });
     });
 
     describe("healingBase (#549)", () => {

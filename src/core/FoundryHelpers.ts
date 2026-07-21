@@ -361,6 +361,56 @@ export function fvttActorStatuses(
 }
 
 /**
+ * Add or remove a status effect on an actor (a toggleable Active Effect such as
+ * Stunned, Prone, or Dead), via Foundry's `Actor#toggleStatusEffect`.
+ *
+ * Lets Foundry-free logic drive status-based state (e.g. the being's shock state,
+ * #550) without touching the document directly. A no-op when the actor or the API
+ * is unavailable. Read the resulting state back with {@link fvttActorStatuses}.
+ *
+ * @param actor - The actor to modify.
+ * @param statusId - The status-effect id (e.g. `"stun"`, `"dead"`).
+ * @param active - `true` to apply the status, `false` to remove it.
+ * @returns A promise that resolves once the toggle has been applied.
+ */
+export async function fvttToggleActorStatus(
+    actor: SohlActor | null | undefined,
+    statusId: string,
+    active: boolean,
+): Promise<void> {
+    await (actor as any)?.toggleStatusEffect?.(statusId, { active });
+}
+
+/**
+ * Find an Item by its system `shortcode`, searching the **world** items first
+ * and then the Item **compendiums**, and return its create-data (`toObject()`)
+ * ready to be created as an embedded item — or `undefined` if none matches.
+ *
+ * Lets the logic layer resolve a template item referenced only by shortcode (e.g.
+ * an affliction's `outcomeTrauma`) without reaching into `game.items` /
+ * `game.packs` directly.
+ *
+ * @param shortcode - The `system.shortcode` to match.
+ * @returns The matching item's create-data, or `undefined`.
+ */
+export async function fvttFindItemByShortcode(
+    shortcode: string,
+): Promise<PlainObject | undefined> {
+    if (!shortcode) return undefined;
+    const worldItem = (game as any).items?.find(
+        (i: any) => i.system?.shortcode === shortcode,
+    );
+    if (worldItem) return worldItem.toObject();
+    for (const pack of ((game as any).packs ?? []) as Iterable<any>) {
+        if (pack.documentName !== "Item") continue;
+        const docs = await pack.getDocuments();
+        const match = docs.find((d: any) => d.system?.shortcode === shortcode);
+        if (match) return match.toObject();
+    }
+    return undefined;
+}
+
+/**
  * Get a scene by ID from the world collection.
  * @param id - The scene document ID.
  * @returns The scene, or `undefined` if not found.

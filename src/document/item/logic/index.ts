@@ -30,5 +30,7 @@ export * from "./SohlItemBaseLogic";
 export * from "./TraitLogic";
 export * from "./TraumaLogic";
 export * from "./WeaponGearLogic";
+export * from "./fatigue";
 export * from "./item-sheet-view";
 export * from "./strikeModeTest";
+export * from "./timed-test";

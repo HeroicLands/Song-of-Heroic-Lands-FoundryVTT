@@ -8,6 +8,7 @@
 import { describe, it, expect } from "vitest";
 import {
     bodyPartImpairment,
+    permanentImpairmentFor,
     BODY_PART_STATUS,
     BODY_PART_TIER,
 } from "@src/entity/body/impairment";
@@ -20,6 +21,29 @@ const inj = (locationShortcode: string, level: number, healingRate = 4) => ({
     locationShortcode,
     level,
     healingRate,
+});
+
+describe("permanentImpairmentFor — time-to-heal table (#554)", () => {
+    it.each([
+        [0, 0],
+        [19, 0],
+        [20, -5],
+        [39, -5],
+        [40, -10],
+        [59, -10],
+        [60, -15],
+        [79, -15],
+        [80, -20],
+        [99, -20],
+        [100, -25],
+        [365, -25],
+    ])("%i days → %i", (days, expected) => {
+        expect(permanentImpairmentFor(days)).toBe(expected);
+    });
+
+    it("never returns a positive value for negative inputs", () => {
+        expect(permanentImpairmentFor(-5)).toBe(0);
+    });
 });
 
 describe("bodyPartImpairment (#464/#470)", () => {

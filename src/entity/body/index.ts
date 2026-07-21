@@ -21,4 +21,5 @@ export * from "./armor-aggregation";
 export * from "./impairment";
 export * from "./injury-defaults";
 export * from "./injury-resolution";
+export * from "./injury-treatment";
 export * from "./weighted-random";

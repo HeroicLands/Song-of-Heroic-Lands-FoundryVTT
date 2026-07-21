@@ -157,10 +157,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="card-buttons">
         {{#if needsShockRoll}}
         <button
-            data-action="shock"
+            data-action="injuryShock"
             data-handler-uuid="{{handlerActorUuid}}"
-            data-shock-index="{{shockIndex}}"
-            data-shock-bonus="{{shockRollBonus}}">
+            data-scope="{{toJSON shockScope}}">
             Shock Roll
         </button>
         {{/if}}

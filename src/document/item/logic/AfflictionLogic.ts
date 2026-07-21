@@ -13,7 +13,13 @@
 
 import { entity } from "@src/entity/registry";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
-import { fvttWorldTime } from "@src/core/FoundryHelpers";
+import {
+    fvttWorldTime,
+    fvttExecuteMacro,
+    fvttCreateEmbeddedItems,
+    fvttFindItemByShortcode,
+} from "@src/core/FoundryHelpers";
+import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { deriveNext, elapsedCheckpoints } from "@src/entity/event/scheduling";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -21,15 +27,21 @@ import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
     ACTION_SUBTYPE,
+    AFFLICTION_OUTCOME,
     AFFLICTION_TRANSMISSION,
+    AfflictionOutcome,
     AfflictionSubType,
     AfflictionTransmission,
     ATTRIBUTE_CODE,
     defineType,
     ITEM_KIND,
+    MARGINAL_SUCCESS,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
+import { rollTimedTest } from "@src/document/item/logic/timed-test";
+import { inflictWeaknessFatigue } from "@src/document/item/logic/fatigue";
+import { SHOCK_STATE } from "@src/document/actor/logic/shock";
 import {
     SohlItemBaseLogic,
     type SohlItemData,
@@ -640,8 +652,11 @@ export class AfflictionLogic<
      *
      * @param _context - The action context (its `scope` is the trigger context).
      * @returns A promise that resolves once the phase transition is persisted.
-     * @remarks The onset **effect** (applying symptoms) is not yet implemented;
-     *   see issue #488.
+     * @remarks The onset **effect** marks the affliction symptomatic (crystallizes
+     *   `onsetDate`) and starts its course/resolution cycle; the symptoms
+     *   themselves are role-played, out of VTT scope (#488). An optional author
+     *   {@link AfflictionData.onsetMacroUuid | onset Macro} then runs and may
+     *   schedule further events.
      */
     async onsetCheck(_context: SohlActionContext): Promise<void> {
         const now = fvttWorldTime();
@@ -659,6 +674,16 @@ export class AfflictionLogic<
             "system.resolutionDurationBase": resolution,
             "system.healingCheckDurationBase": healing,
         } as PlainObject);
+
+        // Optional author hook run once at onset. A Macro reference (never
+        // source); it may schedule further events. Runs after onset is persisted
+        // so the macro sees the symptomatic affliction.
+        if (this.data.onsetMacroUuid) {
+            await fvttExecuteMacro(this.data.onsetMacroUuid, {
+                affliction: this,
+                actor: this.actorLogic,
+            });
+        }
     }
 
     /**
@@ -668,10 +693,15 @@ export class AfflictionLogic<
      *
      * @param _context - The action context (its `scope` is the trigger context).
      * @returns A promise that resolves once the anchor is persisted.
-     * @remarks Catch-up wiring only (#481): advances the anchor over every
-     *   elapsed interval and re-arms via {@link deriveNext}. The recovery/course
-     *   **effect** (the check roll and its result) is not yet implemented; see
-     *   issue #489.
+     * @remarks Applies the **Course Test** (#489) at each elapsed checkpoint (only
+     *   for a naturally-healing affliction). Each is a headless test of
+     *   `Healing Base × Healing Rate` that changes the affliction's Healing Rate
+     *   (CF −2, MF −1, MS +1, CS +2); the resulting HR then drives the host's
+     *   **Reaction**: HR 6+ the affliction is defeated (course stops), HR 5 / 4
+     *   inflict 5 / 10 weakness fatigue, and HR 3 / 2 / 1 / &lt;1 impose Stunned /
+     *   Incapacitated / Unconscious / Dead shock (never improving an already-worse
+     *   shock state). The anchor is advanced over every elapsed interval and
+     *   re-armed.
      */
     async healingCheck(_context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
@@ -683,6 +713,20 @@ export class AfflictionLogic<
             interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
         const lastProcessed = checkpoints.at(-1) ?? now;
 
+        // Course Test at each elapsed checkpoint, in sequence (each adjusts the
+        // Healing Rate the next one sees). Only a naturally-healing affliction
+        // fights its course; it stops once defeated (HR 6+).
+        let hr = this.data.healingRateBase ?? 0;
+        if (this.canHeal) {
+            for (let i = 0; i < checkpoints.length && hr < 6; i++) {
+                const sl = await this.rollCourseTest(hr);
+                if (sl == null) break; // roll refused
+                // Change to Healing Rate: CF −2, MF −1, MS +1, CS +2.
+                hr += sl < MARGINAL_SUCCESS ? sl - 1 : sl;
+                await this.applyReaction(hr);
+            }
+        }
+
         const nextInterval = this.rollDuration(
             this.data.healingCheckDurationFormula,
         );
@@ -693,9 +737,65 @@ export class AfflictionLogic<
             deriveNext(lastProcessed, nextInterval),
         );
         await this.item.update({
+            "system.healingRateBase": hr,
             "system.lastHealingCheckDate": lastProcessed,
             "system.healingCheckDurationBase": nextInterval,
         } as PlainObject);
+    }
+
+    /**
+     * Roll one headless **Course Test** — `Healing Base × Healing Rate` (Healing
+     * Base from the owning being, Healing Rate the affliction's current `hr`) —
+     * and return the normalized success level (−1/0/1/2), or `null` if the roll
+     * was refused.
+     *
+     * @param hr - The affliction's current Healing Rate.
+     * @returns The normalized success level, or `null`.
+     */
+    private async rollCourseTest(hr: number): Promise<number | null> {
+        const healingBase =
+            (this.actorLogic as any)?.healingBase?.effective ?? 0;
+        const result = await rollTimedTest(
+            this,
+            healingBase * Math.max(0, hr),
+            {
+                noChat: true,
+                type: "affliction-coursetest",
+                title: sohl.i18n.localize(
+                    "SOHL.Affliction.Action.healingCheck.title",
+                ),
+            },
+        );
+        return result ? result.normSuccessLevel : null;
+    }
+
+    /**
+     * Apply the host's **Reaction** to the affliction's current Healing Rate
+     * `hr`: HR 6+ is defeat (no reaction — the course loop stops); HR 5 / 4
+     * inflict 5 / 10 weakness fatigue; HR 3 / 2 / 1 / &lt;1 impose Stunned /
+     * Incapacitated / Unconscious / Dead shock, worsening the being's shock state
+     * to at least that level (never improving it).
+     *
+     * @param hr - The affliction's current Healing Rate.
+     * @returns A promise that resolves once the reaction is applied.
+     */
+    private async applyReaction(hr: number): Promise<void> {
+        if (hr >= 6) return; // defeated
+        if (hr === 5 || hr === 4) {
+            await inflictWeaknessFatigue(
+                this.actorLogic,
+                hr === 5 ? 5 : 10,
+                this.name,
+            );
+            return;
+        }
+        const being = this.actorLogic as any;
+        const level =
+            hr === 3 ? SHOCK_STATE.STUNNED
+            : hr === 2 ? SHOCK_STATE.INCAPACITATED
+            : hr === 1 ? SHOCK_STATE.UNCONSCIOUS
+            : SHOCK_STATE.DEAD;
+        await being?.setShockState?.(Math.max(being?.shockState ?? 0, level));
     }
 
     /**
@@ -705,13 +805,67 @@ export class AfflictionLogic<
      *
      * @param _context - The action context (its `scope` is the trigger context).
      * @returns A promise that resolves once the resolution is persisted.
-     * @remarks The resolution **effect** (death / disability / cure) is not yet
-     *   implemented; see issue #490.
+     * @remarks Crystallizes `resolutionDate` and, when the affliction was **not**
+     *   defeated (Healing Rate below 6), applies its authored **outcome** (#490):
+     *   `DEATH` sets the being's shock state to Dead; `CURED` sets Healing Rate to
+     *   6. Either combines with an optional `outcomeTrauma`
+     *   {@link sohl.entity.expr.SafeExpression} whose result — a trauma shortcode
+     *   or array of them — is contracted as new trauma(s) (searched world-first,
+     *   then compendiums).
      */
     async resolutionCheck(_context: SohlActionContext): Promise<void> {
         await this.item.update({
             "system.resolutionDate": fvttWorldTime(),
         } as PlainObject);
+        // The outcome applies only if the affliction reached resolution without
+        // being defeated (HR 6+).
+        if ((this.data.healingRateBase ?? 0) >= 6) return;
+        await this.applyOutcome();
+    }
+
+    /**
+     * Apply the affliction's authored outcome and optional outcome trauma(s).
+     * @returns A promise that resolves once the outcome is applied.
+     */
+    private async applyOutcome(): Promise<void> {
+        if (this.data.outcome === AFFLICTION_OUTCOME.DEATH) {
+            await (this.actorLogic as any)?.setShockState?.(SHOCK_STATE.DEAD);
+        } else if (this.data.outcome === AFFLICTION_OUTCOME.CURED) {
+            await this.item.update({
+                "system.healingRateBase": 6,
+            } as PlainObject);
+        }
+        if (this.data.outcomeTrauma) {
+            await this.contractOutcomeTraumas();
+        }
+    }
+
+    /**
+     * Evaluate the `outcomeTrauma` SafeExpression to a shortcode (or array of
+     * shortcodes), resolve each to a trauma template (world items first, then
+     * compendiums), and create the matches on the host.
+     * @returns A promise that resolves once any outcome traumas are created.
+     */
+    private async contractOutcomeTraumas(): Promise<void> {
+        const value = new SafeExpression(
+            { source: this.data.outcomeTrauma },
+            { parent: this },
+        ).evaluate({});
+        const shortcodes = (Array.isArray(value) ? value : [value])
+            .map((v) => String(v))
+            .filter(Boolean);
+        const created: PlainObject[] = [];
+        for (const code of shortcodes) {
+            const data = await fvttFindItemByShortcode(code);
+            if (data) created.push(data);
+            else
+                sohl.log.warn(
+                    `Affliction outcomeTrauma: no item found with shortcode "${code}"`,
+                );
+        }
+        if (created.length) {
+            await fvttCreateEmbeddedItems(this.actorLogic, created);
+        }
     }
 }
 
@@ -737,6 +891,23 @@ export interface AfflictionData<
      * if untreated. `isTreated` is derived from this on the logic.
      */
     treatmentDate: number | null;
+    /**
+     * UUID of an optional author Macro run when the affliction becomes
+     * symptomatic at onset (a reference, never source). May schedule further
+     * events. Blank means no onset macro.
+     */
+    onsetMacroUuid: string;
+    /**
+     * The authored outcome applied at resolution when the affliction was not
+     * defeated — an `AFFLICTION_OUTCOME` value (`DEATH` or `CURED`).
+     */
+    outcome: AfflictionOutcome;
+    /**
+     * Optional {@link sohl.entity.expr.SafeExpression} source evaluating to a
+     * trauma shortcode — or an array of shortcodes — the host contracts as part
+     * of the outcome. Blank means none; combines with {@link outcome}.
+     */
+    outcomeTrauma: string;
     /** Formula rolled to seed the incubation (contract → onset) interval. */
     onsetDurationFormula: string;
     /** Rolled seconds of incubation; `null` until rolled. */

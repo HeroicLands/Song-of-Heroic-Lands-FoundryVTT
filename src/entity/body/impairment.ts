@@ -42,6 +42,31 @@ const MINOR_IMPAIRING_HR_MAX = 5;
 const SERIOUS_IMPAIRMENT = -10;
 const MINOR_IMPAIRMENT = -5;
 
+/** Permanent-impairment step per completed 20-day band, and its floor. */
+const PERMANENT_IMPAIRMENT_PER_BAND = -5;
+const PERMANENT_IMPAIRMENT_BAND_DAYS = 20;
+const PERMANENT_IMPAIRMENT_FLOOR = -25;
+
+/**
+ * The **permanent impairment** an eligible wound leaves, scaled by how long it
+ * took to heal (Injury rules — Permanent Impairment): `< 20 days → none`, then
+ * −5 per completed 20-day band (`20–39 → −5`, `40–59 → −10`, … `80–99 → −20`),
+ * floored at `−25` for `100+` days. Only wounds flagged
+ * {@link sohl.document.item.logic.TraumaData.permanentImpairmentEligible} (set by
+ * the Treatment Test, #553) accrue it.
+ *
+ * @param daysToHeal - Days from wounding to the injury reaching level 0.
+ * @returns The permanent impairment as a non-positive number (`0` when none).
+ */
+export function permanentImpairmentFor(daysToHeal: number): number {
+    if (daysToHeal < PERMANENT_IMPAIRMENT_BAND_DAYS) return 0;
+    const bands = Math.floor(daysToHeal / PERMANENT_IMPAIRMENT_BAND_DAYS);
+    return Math.max(
+        PERMANENT_IMPAIRMENT_FLOOR,
+        bands * PERMANENT_IMPAIRMENT_PER_BAND,
+    );
+}
+
 /**
  * A body part's impairment **tier**, by magnitude (#470): `none` (0), `minor`
  * (−1…−5), `serious` (−6…−10), `grievous` (≤ −11). Injuries reach at most

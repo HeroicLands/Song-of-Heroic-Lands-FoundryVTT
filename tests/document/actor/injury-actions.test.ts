@@ -242,6 +242,29 @@ describe("buildInjuryCardData", () => {
             addToCharSheet: true,
         });
     });
+
+    it("carries the Shock Roll button's scope (#555)", () => {
+        const body = makeBody();
+        const neck = body
+            .getAllLocations()
+            .find((l) => l.shortcode === "neck")!;
+        const injury = resolveInjury({
+            impact: 22,
+            aspect: IMPACT_ASPECT.EDGED,
+            body,
+            location: neck,
+        });
+        const data = buildInjuryCardData(injury, {
+            actorId: "actor1",
+            handlerActorUuid: "Actor.actor1",
+            name: "Longsword",
+            addToCharSheet: true,
+        });
+        expect(data.shockScope).toEqual({
+            shockIndex: injury.shockIndex,
+            shockBonus: injury.shockRollBonus,
+        });
+    });
 });
 
 describe("getActorBodyStructure (#268)", () => {

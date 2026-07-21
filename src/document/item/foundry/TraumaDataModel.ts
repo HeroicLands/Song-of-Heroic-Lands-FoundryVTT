@@ -68,6 +68,18 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         treatmentDate: worldTimeDateField(),
         ...recurringPhaseFields("healingCheck"),
         ...recurringPhaseFields("bloodLossAdvance"),
+        // Extended Shock / Coma recovery Course Test (#556): its own recurring
+        // cadence (Extended Shock every 4 hours; Coma every d10 days).
+        ...recurringPhaseFields("course"),
+        // Whether this injury, once treated, is eligible for permanent
+        // impairment if it heals slowly (#553 sets it; #554 applies the
+        // magnitude). A blank sentinel (`false`), not nullable: "not eligible"
+        // is the valid default, not a distinct unset state.
+        permanentImpairmentEligible: new BooleanField({ initial: false }),
+        // Whether this injury is exposed to infection — a poorly-treated wound
+        // (#553 sets it). A Critical-Failure Injury Healing Test on an infectable
+        // wound contracts an infection (#557).
+        infectable: new BooleanField({ initial: false }),
         bodyLocationCode: new StringField({ initial: "", required: true }),
     };
 }
@@ -102,6 +114,11 @@ export class TraumaDataModel<
     bloodLossAdvanceDurationFormula!: string;
     bloodLossAdvanceDurationBase!: number | null;
     lastBloodLossAdvanceDate!: number | null;
+    courseDurationFormula!: string;
+    courseDurationBase!: number | null;
+    lastCourseDate!: number | null;
+    permanentImpairmentEligible!: boolean;
+    infectable!: boolean;
     bodyLocationCode!: string;
 
     /**
@@ -160,6 +177,27 @@ export class TraumaDataModel<
             seed.bloodLossAdvanceDurationFormula = bloodFormula;
             seed.bloodLossAdvanceDurationBase = Number(bloodFormula) || 0;
         }
+
+        // Recovery Course Test cadence (#556/#557) — seeded for the lasting-
+        // condition subtypes when the caller has not supplied it. Extended Shock
+        // runs every 4 hours, a Coma every d10 days, and an Infection on the
+        // standard healing-check period. A `0` seed fires the first check
+        // immediately, at which point the executor rolls the real interval.
+        if (
+            (this.subType === TRAUMA_SUBTYPE.SHOCK ||
+                this.subType === TRAUMA_SUBTYPE.COMA ||
+                this.subType === TRAUMA_SUBTYPE.INFECTION) &&
+            data.courseDurationFormula == null
+        ) {
+            const courseFormula =
+                this.subType === TRAUMA_SUBTYPE.COMA ? "1d10 * 86400"
+                : this.subType === TRAUMA_SUBTYPE.INFECTION ? healFormula
+                : "14400";
+            seed.lastCourseDate = now;
+            seed.courseDurationFormula = courseFormula;
+            seed.courseDurationBase = Number(courseFormula) || 0;
+        }
+
         this.updateSource(seed as any);
         return undefined;
     }
