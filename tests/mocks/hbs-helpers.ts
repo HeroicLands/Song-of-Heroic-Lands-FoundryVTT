@@ -6,7 +6,7 @@
  */
 
 /**
- * FEASIBILITY POC — a test-side Handlebars helper registry.
+ * Test-side Handlebars helper registry for rendering real SoHL templates in Node.
  *
  * Foundry's `renderTemplate` is a file-loading wrapper around Handlebars, so a
  * test can render any SoHL `.hbs` for real in Node once the helpers the template
@@ -14,11 +14,12 @@
  *
  * 1. **Foundry logic helpers** (`eq` / `or` / `gt` / `ifThen` / `localize` / …) —
  *    pure and trivial; reimplemented faithfully here. `localize` reads the real
- *    `lang/en.json` so rendered output shows real labels.
- * 2. **Pure SoHL helpers** (`toJSON` / `concat` / `injurySeverity` / …) —
- *    reimplemented here for the POC; the real fix is to extract SoHL's pure
- *    helpers into a Foundry-free module shared by `sohl.ts` and this harness (no
- *    drift).
+ *    `lang/en.json` so rendered output shows real labels. Foundry's `concat` /
+ *    `object` are supplied here too (Node has no Foundry global).
+ * 2. **Pure SoHL helpers** (`toJSON` / `selectArray` / `injurySeverity` / …) —
+ *    registered from the **shared** Foundry-free module
+ *    {@link sohl.utils.registerPureHandlebarsHelpers}, the exact code system init
+ *    uses, so rendering here never drifts from production.
  * 3. **Foundry DOM/form builders + impure SoHL helpers** (`formGroup` /
  *    `formInput` / `textInput` / `datePicker` / …) — these build DOM via Foundry,
  *    so they are **stubbed to a param-bearing placeholder** that surfaces the
@@ -38,6 +39,10 @@
 import Handlebars from "handlebars";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import {
+    registerPureHandlebarsHelpers,
+    type HandlebarsLike,
+} from "@src/utils/handlebars-helpers";
 
 /** Drop Handlebars' trailing `options` arg from a variadic helper's arguments. */
 function variadic(args: IArguments): unknown[] {
@@ -108,35 +113,25 @@ export function registerTestHbsHelpers(): void {
     H.registerHelper("disabled", (v) => (v ? "disabled" : ""));
     H.registerHelper("numberFormat", (n) => String(n)); // simplified
     H.registerHelper("localize", localize); // reads real lang/en.json
-
-    // 2. Pure SoHL helpers — reimplemented for the POC. PRODUCTION FIX: extract
-    //    SoHL's pure helpers into a Foundry-free module shared by `sohl.ts` and
-    //    this harness. Note `concat`/`object` are defined by BOTH Foundry and
-    //    SoHL — SoHL's win in production (it registers last), so the shared
-    //    module keeps the test resolving to the same override with no drift.
-    H.registerHelper("toJSON", (obj) => JSON.stringify(obj));
+    // Foundry also provides these two; SoHL no longer redefines them (#583), so
+    // the harness supplies Foundry's (no such global exists in Node).
     H.registerHelper("object", (opts: any) => opts?.hash ?? {});
-    H.registerHelper("array", function () {
-        return variadic(arguments);
-    });
-    H.registerHelper("toLowerCase", (s) => String(s).toLowerCase());
-    H.registerHelper("endswith", (a, b) => String(a).endsWith(String(b)));
-    H.registerHelper("arrayToString", (a) => (a as unknown[]).join(","));
     H.registerHelper("concat", function () {
         return variadic(arguments)
             .filter((a) => typeof a !== "object")
             .join("");
     });
-    H.registerHelper("optionalString", (cond, t = "", f = "") =>
-        cond ? t : f,
-    );
 
-    // 2b. Option-list builders — pure string building, so reimplemented
-    //     faithfully (dialogs lean on these, and the option list *is* the
-    //     content worth reviewing). `selectOptions` is Foundry's; `selectArray`
-    //     is SoHL's.
+    // 2. SoHL's PURE helpers — register the SAME code production uses (the shared
+    //    Foundry-free module), so rendering here never drifts from the system.
+    //    Provides: selectArray, endswith, optionalString, setHas, contains,
+    //    toJSON, toLowerCase, arrayToString, injurySeverity, array.
+    registerPureHandlebarsHelpers(H as unknown as HandlebarsLike);
+
+    // 2b. `selectOptions` (Foundry) — faithful pure reimplementation; the option
+    //     list is the dialog content worth reviewing. (`selectArray` is SoHL's,
+    //     from the shared module above.)
     H.registerHelper("selectOptions", selectOptions);
-    H.registerHelper("selectArray", selectArray);
 
     // 3. Foundry DOM/form builders + impure SoHL helpers → param placeholders.
     //    `formField` is Foundry's alias for `formGroup`. These build DOM through
@@ -200,33 +195,6 @@ function selectOptions(choices: any, options: any): Handlebars.SafeString {
         )
         .join("");
     return new Handlebars.SafeString(html);
-}
-
-/** SoHL's `selectArray` — faithful copy (pure). */
-function selectArray(choices: any, options: any): Handlebars.SafeString {
-    const hash = options?.hash ?? {};
-    let selected = hash.selected ?? null;
-    const blank = hash.blank ?? null;
-    const sort = hash.sort ?? false;
-    selected =
-        selected instanceof Array ? selected.map(String) : [String(selected)];
-    if (!(choices instanceof Array))
-        throw new Error("You must specify an array to selectArray");
-    const opts = choices.map((c: unknown) => {
-        const label = String(c);
-        return { value: label, label };
-    });
-    if (sort) opts.sort((a, b) => a.label.localeCompare(b.label));
-    if (blank !== null) opts.unshift({ value: "", label: blank });
-    const esc = Handlebars.escapeExpression;
-    return new Handlebars.SafeString(
-        opts
-            .map(
-                (o) =>
-                    `<option value="${esc(o.value)}" ${selected.includes(o.value) ? "selected" : ""}>${esc(o.label)}</option>`,
-            )
-            .join(""),
-    );
 }
 
 const cache = new Map<string, ReturnType<typeof Handlebars.compile>>();
