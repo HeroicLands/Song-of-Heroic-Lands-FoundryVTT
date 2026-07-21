@@ -31,6 +31,8 @@ export * as modifier from "./modifier";
 export * as result from "./result";
 /** Dice-roll wrappers. */
 export * as roll from "./roll";
+/** Chat Sequences — declarative, consent-gated multi-step interaction definitions and the pure engine that walks them. */
+export * as sequence from "./sequence";
 /** Strike modes — the melee and missile attack profiles on a weapon. */
 export * as strikemode from "./strikemode";
 
