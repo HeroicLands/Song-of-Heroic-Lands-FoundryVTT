@@ -146,6 +146,16 @@ make a schedule **recurring**, call `sohl.schedule` again from inside the action
 after it performs — each occurrence schedules the next. `sohl.unschedule(doc,
 actionName)` removes both halves.
 
+> **Consent (issue #579): offer, don't auto-re-arm.** A recurring action must not
+> silently reschedule itself — that would make the system act without a human. When
+> due, the queue posts an owner-gated `[Perform]` reminder (it never runs the
+> action); on the click the action performs, then **offers** the next occurrence
+> and only schedules it on a yes. The core effects use the shared
+> `offerReschedule(context, doc, actionName, interval)` helper (a `context.scope.reschedule`
+> answer, else a private default-No dialog); a module action can call `sohl.schedule`
+> conditionally on its own confirmation. Reserve unconditional re-arming for
+> genuinely ambient, GM-only world-host clocks (e.g. a bandit check).
+
 **3. World-wide actions** have no natural document to hang off. Use the singleton
 **world host** actor:
 

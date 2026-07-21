@@ -3,6 +3,7 @@ import {
     SafeExpression,
     SafeExpressionError,
 } from "@src/entity/expr/SafeExpression";
+import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 
 // SafeExpression extends SohlEntity, whose constructor requires an owning
 // `parent`. Helpers now come from the global registry (built-ins always
@@ -250,6 +251,35 @@ describe("SafeExpression", () => {
             expect(run("defined(1)")).toBe(true);
             expect(run("defined(n)", { n: null })).toBe(false);
             expect(run("defined(o.missing)", { o: {} })).toBe(false);
+        });
+    });
+
+    describe("temporal helpers: curWorldTime / curCombatTime (#579)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        it("a predicate can gate on world time — curWorldTime() > X", () => {
+            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(5000);
+            expect(run("curWorldTime() > 2342663")).toBe(false);
+            expect(run("curWorldTime() > 100")).toBe(true);
+        });
+
+        it("a predicate can gate on combat time via member access — curCombatTime().round", () => {
+            vi.spyOn(FoundryHelpersMock, "fvttCombatTime").mockReturnValue({
+                round: 4,
+                turn: 1,
+            });
+            expect(
+                run("defined(curCombatTime()) && curCombatTime().round > 3"),
+            ).toBe(true);
+        });
+
+        it("curCombatTime() is null outside combat, so a guarded predicate is false", () => {
+            vi.spyOn(FoundryHelpersMock, "fvttCombatTime").mockReturnValue(
+                null,
+            );
+            expect(
+                run("defined(curCombatTime()) && curCombatTime().round > 3"),
+            ).toBe(false);
         });
     });
 

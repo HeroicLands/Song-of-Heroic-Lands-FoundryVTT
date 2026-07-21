@@ -73,14 +73,30 @@ afterEach(() => {
     vi.restoreAllMocks();
 });
 
-describe("affliction phase scheduling (#483)", () => {
+describe("affliction phase scheduling on the generic store (#483, #579, #588)", () => {
     afterEach(() => vi.restoreAllMocks());
 
-    function withEvents() {
-        const scheduleAt = vi.fn();
-        const unsubscribe = vi.fn();
-        (globalThis as any).sohl.events = { scheduleAt, unsubscribe };
-        return { scheduleAt, unsubscribe };
+    /** A `system.scheduledActions` seed (generic store, issue #588). */
+    function sched(actionName: string, anchor: number, interval: number) {
+        return {
+            scheduledActions: [
+                { actionName, anchor, interval, sceneUuid: "", payload: {} },
+            ],
+        };
+    }
+
+    function withStore() {
+        (globalThis as any).sohl.events = {
+            scheduleAt: vi.fn(),
+            unsubscribe: vi.fn(),
+        };
+        const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
+        const unschedule = vi.spyOn((globalThis as any).sohl, "unschedule");
+        return {
+            scheduleAt: (globalThis as any).sohl.events.scheduleAt,
+            schedule,
+            unschedule,
+        };
     }
     function affliction(overrides: Record<string, unknown> = {}) {
         const logic = makeAffliction(overrides);
@@ -88,12 +104,11 @@ describe("affliction phase scheduling (#483)", () => {
         return logic;
     }
 
-    it("finalize arms onsetCheck while incubating (no onsetDate yet)", () => {
-        const { scheduleAt } = withEvents();
+    it("finalize re-arms the persisted onsetCheck schedule while incubating", () => {
+        const { scheduleAt } = withStore();
         const logic = affliction({
-            contractDate: 1000,
-            onsetDurationBase: 500,
             onsetDate: null,
+            ...sched("onsetCheck", 1000, 500),
         });
         logic.initialize();
         logic.finalize();
@@ -101,11 +116,13 @@ describe("affliction phase scheduling (#483)", () => {
             expect.any(String),
             "onsetCheck",
             1500,
+            {},
+            undefined,
         );
     });
 
-    it("onsetCheck crystallizes onsetDate and rolls the resolution + recovery intervals", async () => {
-        withEvents();
+    it("onsetCheck crystallizes onsetDate, schedules resolution + recovery, and clears itself", async () => {
+        const { schedule, unschedule } = withStore();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
         const logic = affliction({
             resolutionDurationFormula: "700",
@@ -113,18 +130,26 @@ describe("affliction phase scheduling (#483)", () => {
         });
         logic.initialize();
         await logic.onsetCheck({} as any);
-        expect(logic.item.update).toHaveBeenCalledWith(
-            expect.objectContaining({
-                "system.onsetDate": 2000,
-                "system.lastHealingCheckDate": 2000,
-                "system.resolutionDurationBase": 700,
-                "system.healingCheckDurationBase": 300,
-            }),
+        const update = (logic.item.update as any).mock.calls.at(-1)?.[0] ?? {};
+        expect(update).toMatchObject({
+            "system.onsetDate": 2000,
+            "system.resolutionDurationBase": 700,
+            "system.healingCheckDurationBase": 300,
+        });
+        expect(update).not.toHaveProperty("system.lastHealingCheckDate");
+        // The next-phase events arm on the store (auto — the disease progresses);
+        // the spent onset check is cleared.
+        expect(schedule).toHaveBeenCalledWith(
+            logic.item,
+            "resolutionCheck",
+            700,
         );
+        expect(schedule).toHaveBeenCalledWith(logic.item, "healingCheck", 300);
+        expect(unschedule).toHaveBeenCalledWith(logic.item, "onsetCheck");
     });
 
     it("onsetCheck runs the optional onset Macro after crystallizing onset (#488)", async () => {
-        withEvents();
+        withStore();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
         const exec = vi
             .spyOn(FoundryHelpersMock, "fvttExecuteMacro")
@@ -145,7 +170,7 @@ describe("affliction phase scheduling (#483)", () => {
     });
 
     it("onsetCheck does not run a macro when none is authored (#488)", async () => {
-        withEvents();
+        withStore();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
         const exec = vi
             .spyOn(FoundryHelpersMock, "fvttExecuteMacro")
@@ -156,14 +181,27 @@ describe("affliction phase scheduling (#483)", () => {
         expect(exec).not.toHaveBeenCalled();
     });
 
-    it("finalize arms resolutionCheck + recurring healingCheck once symptomatic", () => {
-        const { scheduleAt } = withEvents();
+    it("finalize re-arms every persisted schedule once symptomatic", () => {
+        const { scheduleAt } = withStore();
         const logic = affliction({
             levelBase: 3,
             onsetDate: 2000,
-            resolutionDurationBase: 700,
-            lastHealingCheckDate: 2000,
-            healingCheckDurationBase: 300,
+            scheduledActions: [
+                {
+                    actionName: "resolutionCheck",
+                    anchor: 2000,
+                    interval: 700,
+                    sceneUuid: "",
+                    payload: {},
+                },
+                {
+                    actionName: "healingCheck",
+                    anchor: 2000,
+                    interval: 300,
+                    sceneUuid: "",
+                    payload: {},
+                },
+            ],
         });
         logic.initialize();
         logic.finalize();
@@ -171,24 +209,29 @@ describe("affliction phase scheduling (#483)", () => {
             expect.any(String),
             "resolutionCheck",
             2700,
+            {},
+            undefined,
         );
         expect(scheduleAt).toHaveBeenCalledWith(
             expect.any(String),
             "healingCheck",
             2300,
+            {},
+            undefined,
         );
     });
 
-    it("resolutionCheck crystallizes resolutionDate; finalize then unsubscribes all phases", () => {
-        withEvents();
+    it("resolutionCheck crystallizes resolutionDate and clears the remaining schedules", async () => {
+        const { unschedule } = withStore();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(9000);
         const logic = affliction({ onsetDate: 2000, resolutionDate: null });
         logic.initialize();
-        return logic.resolutionCheck({} as any).then(() => {
-            expect(logic.item.update).toHaveBeenCalledWith(
-                expect.objectContaining({ "system.resolutionDate": 9000 }),
-            );
-        });
+        await logic.resolutionCheck({} as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.resolutionDate": 9000 }),
+        );
+        expect(unschedule).toHaveBeenCalledWith(logic.item, "healingCheck");
+        expect(unschedule).toHaveBeenCalledWith(logic.item, "resolutionCheck");
     });
 });
 
@@ -596,7 +639,15 @@ describe("Course Test + Reaction effect (#489)", () => {
             {
                 healingRateBase,
                 onsetDate: 2000,
-                lastHealingCheckDate: 1000,
+                scheduledActions: [
+                    {
+                        actionName: "healingCheck",
+                        anchor: 1000,
+                        interval: 500,
+                        sceneUuid: "",
+                        payload: {},
+                    },
+                ],
                 healingCheckDurationBase: 500,
                 healingCheckDurationFormula: "500",
                 resolutionDurationFormula: "700",

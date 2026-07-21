@@ -866,6 +866,19 @@ export function getActiveCombat(): SohlCombat | undefined {
 }
 
 /**
+ * The active combat's position as **plain data** — `{ round, turn }` — or `null`
+ * when no combat is active. Deliberately returns a plain object, never the live
+ * combat document, so it is safe to hand into the {@link sohl.entity.expr.SafeExpression}
+ * sandbox (the `curCombatTime()` helper) — the document must not escape.
+ * @returns `{ round, turn }` of the active combat, or `null` if none is active.
+ */
+export function fvttCombatTime(): { round: number; turn: number } | null {
+    const combat = getActiveCombat();
+    if (!combat) return null;
+    return { round: combat.round ?? 0, turn: combat.turn ?? 0 };
+}
+
+/**
  * The {@link sohl.document.combatant.logic.SohlCombatantLogic} for the given actor's combatant in the active
  * combat, or `undefined` when the game is unavailable, no combat is active, or the
  * actor is not a combatant. The actor's active token (when one exists) is used

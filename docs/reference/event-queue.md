@@ -46,7 +46,7 @@ Custom triggers are registered via [`registerSohlTrigger`](#custom-triggers).
 
 ### Identity
 
-Each subscription is keyed by **`(uuid, kind)`**. A document may have at most one subscription per kind. Re-subscribing with the same identity silently replaces the previous entry (trigger, fireAt, predicate, payload, oneShot are all overwritten).
+Each subscription is keyed by **`(uuid, actionName)`**. A document may have at most one subscription per action name. Re-subscribing with the same identity silently replaces the previous entry (trigger, fireAt, predicate, payload, oneShot are all overwritten).
 
 ### Storage
 
@@ -81,38 +81,38 @@ Register or overwrite a subscription. **Runs on all clients** (the queue is a pr
 ```typescript
 sohl.events.subscribe({
     uuid: actor.uuid,
-    kind: "berserkerCheck",
+    actionName: "berserkerCheck",
     triggerName: "combatStart",
     payload: { threshold: 12 },
 });
 ```
 
-| Field         | Type             | Purpose                                                                                                                                 |
-| ------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `uuid`        | string           | UUID of the owning document. Resolved via `fromUuid` at dispatch time.                                                                  |
-| `kind`        | string           | Subscription identifier, scoped to the document. Convention: lowerCamelCase verbs.                                                      |
-| `triggerName` | string           | The trigger to listen to (must match a `ctx.name` passed to `fire`).                                                                    |
-| `fireAt?`     | number           | Optional scheduled world-time. Required for `updateWorldTime` subscriptions when you want time-based dispatch ordering.                 |
-| `predicate?`  | `SafeExpression` | Optional filter — a `SafeExpression` evaluated against the trigger context; a falsy result skips the dispatch (subscription preserved). |
-| `payload?`    | object           | Optional data handed back to the handler as the third argument.                                                                         |
-| `oneShot?`    | boolean          | If true, the subscription is removed before its handler runs. Set automatically by `scheduleAt`.                                        |
+| Field         | Type             | Purpose                                                                                                                                                 |
+| ------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `uuid`        | string           | UUID of the owning document. Resolved via `fromUuid` at dispatch time.                                                                                  |
+| `actionName`  | string           | The action to run on the owning document's logic when it fires — the subscription identifier, scoped to the document. Convention: lowerCamelCase verbs. |
+| `triggerName` | string           | The trigger to listen to (must match a `ctx.name` passed to `fire`).                                                                                    |
+| `fireAt?`     | number           | Optional scheduled world-time. Required for `updateWorldTime` subscriptions when you want time-based dispatch ordering.                                 |
+| `predicate?`  | `SafeExpression` | Optional filter — a `SafeExpression` evaluated against the trigger context; a falsy result skips the dispatch (subscription preserved).                 |
+| `payload?`    | object           | Optional data handed back to the handler as the third argument.                                                                                         |
+| `oneShot?`    | boolean          | If true, the subscription is removed before its handler runs. Set automatically by `scheduleAt`.                                                        |
 
-### `scheduleAt(uuid, kind, fireAt, payload?)`
+### `scheduleAt(uuid, actionName, fireAt, payload?)`
 
 Convenience for the most common case: a one-shot `updateWorldTime` subscription that fires when `worldTime >= fireAt`.
 
 ```typescript
 sohl.events.scheduleAt(
     injury.uuid,
-    "healingTest",
-    injury.logic.nextHealthCheck, // derived from a persisted anchor, not the clock
+    "healingCheck",
+    anchor + interval, // from the persisted store entry, NOT game.time.worldTime
     { atLevel: injury.system.levelBase },
 );
 ```
 
-The subscription auto-removes after firing. For **recurring** schedules, derive `fireAt` from a persisted anchor (not `game.time.worldTime`) and re-register from `finalize()` — see [the owner-persists-the-anchor contract](#the-owner-persists-the-anchor-contract).
+`scheduleAt` is the low-level arm. Prefer **`sohl.schedule(doc, actionName, interval)`** (which persists **and** arms) for recurring schedules; it and the `finalize()` re-arm both derive `fireAt` from the same `system.scheduledActions` entry, so they cannot drift. See [the owner-persists-the-anchor contract](#the-owner-persists-the-anchor-contract-the-generic-scheduledactions-store).
 
-### `unsubscribe(uuid, kind)`
+### `unsubscribe(uuid, actionName)`
 
 Remove a subscription. Safe to call when no subscription exists. **Runs on all clients.**
 
@@ -120,13 +120,13 @@ Remove a subscription. Safe to call when no subscription exists. **Runs on all c
 
 Read-only, and answer on **any** client for documents that client can see:
 
-| Method                     | Returns                                                                                         |
-| -------------------------- | ----------------------------------------------------------------------------------------------- |
-| `nextFireTime(uuid, kind)` | The subscription's absolute world-time `fireAt`, or `undefined` when absent / no `fireAt`.      |
-| `timeUntil(uuid, kind)`    | Signed seconds from now until it fires (+ future, − past, `0` now), or `undefined` when absent. |
-| `isScheduled(uuid, kind)`  | Whether a subscription is registered for the pair.                                              |
+| Method                           | Returns                                                                                         |
+| -------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `nextFireTime(uuid, actionName)` | The subscription's absolute world-time `fireAt`, or `undefined` when absent / no `fireAt`.      |
+| `timeUntil(uuid, actionName)`    | Signed seconds from now until it fires (+ future, − past, `0` now), or `undefined` when absent. |
+| `isScheduled(uuid, actionName)`  | Whether a subscription is registered for the pair.                                              |
 
-There is at most one subscription per `(uuid, kind)`, so each returns that single subscription's value. For **display**, prefer the document's own derived getter (e.g. `injury.logic.nextHealthCheck`) — it is the single definition both the queue and the sheet read, and it works regardless of queue population. Use these queries to ask _the scheduler_ whether (and when) a kind is armed.
+There is at most one subscription per `(uuid, actionName)`, so each returns that single subscription's value. Use these queries to ask _the scheduler_ whether (and when) an action is armed — e.g. "when is the next healing check?" is `sohl.events.nextFireTime(injury.uuid, "healingCheck")`. For the **last performed** occurrence (a fact that survives after the schedule ends — declined or resolved), read the document's own record field (e.g. `injury.system.lastHealingCheckDate`), not the queue.
 
 ### `fire(ctx)` _(internal)_
 
@@ -136,11 +136,11 @@ Dispatch a trigger. Called by `SohlHookBridge` and by [`fireSohlTrigger`](#custo
 
 ### `size` / `clear()` / `debug()`
 
-Inspection helpers. `debug()` returns a snapshot sorted by `(triggerName, fireAt, kind)`. `clear()` empties the queue — useful in tests; rarely needed at runtime.
+Inspection helpers. `debug()` returns a snapshot sorted by `(triggerName, fireAt, actionName)`. `clear()` empties the queue — useful in tests; rarely needed at runtime.
 
 ## Dispatching triggers to document actions
 
-A subscription's `kind` is the **action shortcode** the queue executes on the owning document's logic when the trigger fires. The trigger context — with the subscription's `payload` attached as `ctx.payload` — becomes the action context's `scope`, and `kind` its `type`. So an event dispatches through the **same action a user could invoke manually**; one implementation serves both, which is why the handler no longer lives in a separate `handleSohlEvent` switch.
+A subscription's `actionName` is the **action shortcode** the queue executes on the owning document's logic when the trigger fires. The trigger context — with the subscription's `payload` attached as `ctx.payload` — becomes the action context's `scope`, and `actionName` its `type`. So an event dispatches through the **same action a user could invoke manually**; one implementation serves both, which is why the handler no longer lives in a separate `handleSohlEvent` switch. (Under issue #579 the queue no longer runs the action directly when due — it posts an owner-gated `[Perform]` reminder, and the owner's click runs that same action.)
 
 ```typescript
 // An intrinsic action on the item's logic, registered via defineIntrinsicActions
@@ -154,54 +154,48 @@ async healingCheck(context: SohlActionContext): Promise<void> {
 
 To gate a subscription, attach a `SafeExpression` predicate that reads the trigger context — e.g. `predicate: new SafeExpression({ source: "name === 'combatStart'" }, { parent })`. The dispatcher awaits the action before moving on.
 
-## The owner-persists-the-anchor contract
+The two gating axes compose: the concrete **`fireAt`** (a number the queue can order, catch up over a time jump, and expose via `nextFireTime` / `timeUntil`) handles the common "when" case declaratively, while a **`predicate`** adds arbitrary state gating. A predicate that needs live world or combat time — even on a trigger whose context doesn't carry it — can read it through the `curWorldTime()` and `curCombatTime()` helpers (e.g. `"curWorldTime() > 2342663"`, or `"defined(curCombatTime()) && curCombatTime().round > 3"`). Prefer `fireAt` for the common case, so the schedule stays introspectable (a bare `curWorldTime() > X` is not invertible to a "next fire" time); reach for the helpers only when a predicate genuinely needs cross-axis or non-monotonic conditions.
 
-The queue is stateless between ticks: it holds only pending occurrences and is rebuilt from document state every preparation cycle. **It never remembers when a subscription last fired.** So any _recurring_ consumer must **persist the last-activation world-time (an anchor) on its own document** and derive the next `fireAt` from that anchor — never from `game.time.worldTime`.
+## The owner-persists-the-anchor contract (the generic `scheduledActions` store)
+
+The queue is stateless between ticks: it holds only pending occurrences and is rebuilt from document state every preparation cycle. **It never remembers when a subscription last fired.** So any _recurring_ consumer must **persist an anchor on its own document** and derive the next `fireAt` from that anchor — never from `game.time.worldTime`.
 
 > ⚠️ Scheduling from `game.time.worldTime + interval` is a bug for recurrence: during a time jump the clock is already at the far end, so it skips every intermediate occurrence, and because it derives from the live clock rather than a stored fact, other clients cannot reconstruct it deterministically.
 
-The pattern has three layers. The **anchor** is a persisted field; **`finalize()`** derives the next fire time from it and (re)registers on every client; the **handler** (active-GM only) resolves every elapsed occurrence and persists the advanced anchor in a single update, whose replication drives each client's `finalize()` to re-arm.
+The persisted anchor is the generic **`system.scheduledActions`** store (issue #588) — an entry `{ actionName, anchor, interval, sceneUuid?, payload? }` on any actor/item/combatant, whose `anchor + interval` is the next fire time. It replaces the older per-effect `last{Name}Date` schema fields (retired for trauma/affliction). Three first-class calls drive it:
+
+- **`sohl.schedule(doc, actionName, interval, payload?, sceneUuid?)`** — persist **and** arm (both halves): writes the whole `system.scheduledActions` array (anchored at the current world time) and `scheduleAt`s the queue. The document write replicates; every client re-preps and re-arms (the active GM's queue included, which alone `fire`s).
+- **`sohl.unschedule(doc, actionName)`** — clear the entry and unsubscribe (ends the recurrence).
+- **`armScheduledActions(uuid, list, queue)`** in **`finalize()`** — the generic per-prep re-arm from the store, on every client. `finalize()` no longer invents or cancels a schedule of its own.
+
+**Consent (issue #579): a recurring effect _offers_ its next occurrence — it never auto-re-arms.** When a scheduled effect comes due the queue posts an owner-gated `[Perform]` reminder (it does not run the effect); on the click the executor catches up every elapsed occurrence, then **offers to reschedule** (via `scope.reschedule` or a private default-No dialog, per the [self-sufficient action contract](https://kb.heroiclands.org/dev/concepts/action-cards/)) — accept → `sohl.schedule` the next; decline → `sohl.unschedule`. Nothing schedules or performs without a human.
 
 ```typescript
-// 1. PERSISTENCE — the anchor lives on the document.
-//    system.lastHealingCheck: number | null  (world-time secs; seeded at creation)
-
-// 2. LOGIC — derive the next fire time from the persisted anchor, never the clock.
-get nextHealthCheck(): number {
-    return this.data.lastHealingCheck + this.healingInterval.effective;
-}
-
-// finalize() runs on EVERY client during data prep — the sole resubscribe point.
+// finalize() runs on EVERY client during data prep — re-arm the store generically.
 override finalize(): void {
     super.finalize();
-    if (this.level.effective <= 0) {
-        sohl.events.unsubscribe(this.item.uuid, "healingTest"); // condition resolved
-        return;
-    }
-    sohl.events.scheduleAt(
-        this.item.uuid,
-        "healingTest",
-        this.nextHealthCheck, // ← from the persisted anchor, NOT game.time.worldTime
-    );
+    if (!this.item?.uuid) return;
+    armScheduledActions(this.item.uuid, this.data.scheduledActions, sohl.events);
 }
 
-// 3. ACTION (active GM only) — catch up every elapsed occurrence, persist once.
-//    Registered as the "healingTest" intrinsic action; ctx is the action scope.
-async healingTest(context) {
-    const ctx = context.scope; // updateWorldTime trigger context
-    const interval = this.healingInterval.effective;
-    let last = this.data.lastHealingCheck;
+// The recurring action (also the [Perform]/context-menu executor). Its anchor and
+// interval come from the persisted store entry — never the live clock.
+async healingCheck(context) {
+    const entry = this.data.scheduledActions?.find(e => e.actionName === "healingCheck");
+    const interval = entry?.interval ?? this.healingInterval.effective;
+    const anchor = entry?.anchor ?? fvttWorldTime();
     let level = this.data.levelBase;
-    // Resolve each checkpoint that elapsed during the time advance, in order —
-    // each roll sees the level the previous one left (stateful).
-    for (let t = last + interval; t <= ctx.worldTime && level > 0; t += interval) {
+    // Catch up every checkpoint elapsed since the anchor (stateful — each roll
+    // sees the level the previous one left).
+    for (const t of elapsedCheckpoints(anchor, fvttWorldTime(), interval)) {
+        if (level <= 0) break;
         level = await rollHealingCheck(this, level, t);
-        last = t;
     }
-    // ONE persisted write. Replicates; every client's finalize() re-derives and
-    // re-arms the next occurrence (beyond worldTime). The action never touches
-    // the queue directly.
-    await this.item.update({ "system.levelBase": level, "system.lastHealingCheck": last });
+    const next = this.rollDuration(this.data.healingCheckDurationFormula);
+    await this.item.update({ "system.levelBase": level });
+    // Offer the next occurrence (default No) — or end the recurrence when healed.
+    if (level <= 0) await sohl.unschedule(this.item, "healingCheck");
+    else await offerReschedule(context, this.item, "healingCheck", next);
 }
 ```
 
@@ -245,17 +239,17 @@ This gives you, for free:
 
 1. **World reload safety.** On load, every document prepares and re-subscribes from its persisted anchor. Nothing is lost across sessions.
 2. **No drift.** `fireAt` is a pure function of the persisted anchor, regenerated every prep on every client; nothing ever authors it independently.
-3. **Idempotent.** Re-subscribing with the same `(uuid, kind)` is harmless — only the most recent registration sticks.
+3. **Idempotent.** Re-subscribing with the same `(uuid, actionName)` is harmless — only the most recent registration sticks.
 4. **Cancellation by state.** When the triggering state goes away, `finalize()` calls `unsubscribe` instead.
 
 ## Cancelling subscriptions
 
-| Trigger          | Mechanism                                                                                                    |
-| ---------------- | ------------------------------------------------------------------------------------------------------------ |
-| State changed    | `finalize()` calls `sohl.events.unsubscribe(uuid, kind)` because the triggering condition no longer applies. |
-| Document deleted | Next dispatch resolves the UUID to `null` and silently skips.                                                |
-| One-shot fired   | `scheduleAt` subscriptions auto-remove before the handler runs.                                              |
-| Handler decides  | The handler may call `unsubscribe` on itself or any document mid-dispatch (subject to loop protection).      |
+| Trigger          | Mechanism                                                                                                          |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------ |
+| State changed    | `finalize()` calls `sohl.events.unsubscribe(uuid, actionName)` because the triggering condition no longer applies. |
+| Document deleted | Next dispatch resolves the UUID to `null` and silently skips.                                                      |
+| One-shot fired   | `scheduleAt` subscriptions auto-remove before the handler runs.                                                    |
+| Handler decides  | The handler may call `unsubscribe` on itself or any document mid-dispatch (subject to loop protection).            |
 
 ## Time jumps are the consumer's job, not the queue's
 
@@ -301,13 +295,13 @@ sohl.events.size; // number of registered subscriptions
 sohl.events.debug(); // sorted snapshot for the console
 ```
 
-`debug()` returns a shallow copy sorted by `(triggerName, fireAt, kind)`. Useful in the Foundry console:
+`debug()` returns a shallow copy sorted by `(triggerName, fireAt, actionName)`. Useful in the Foundry console:
 
 ```javascript
 > sohl.events.debug()
 [
-  { uuid: "Actor.abc", kind: "berserkerCheck", triggerName: "combatStart" },
-  { uuid: "Actor.abc.Item.xyz", kind: "healingTest",
+  { uuid: "Actor.abc", actionName: "berserkerCheck", triggerName: "combatStart" },
+  { uuid: "Actor.abc.Item.xyz", actionName: "healingCheck",
     triggerName: "updateWorldTime", fireAt: 1024560, oneShot: true,
     payload: { atLevel: 3 } },
 ]

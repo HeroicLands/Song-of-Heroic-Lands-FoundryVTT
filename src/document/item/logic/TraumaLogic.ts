@@ -45,7 +45,9 @@ import {
     SHOCK_STATE,
     shockCourseHrDelta,
 } from "@src/document/actor/logic/shock";
-import { deriveNext, elapsedCheckpoints } from "@src/entity/event/scheduling";
+import { elapsedCheckpoints } from "@src/entity/event/scheduling";
+import { armScheduledActions } from "@src/entity/event/scheduled-actions";
+import { offerReschedule } from "@src/document/item/logic/reschedule";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
@@ -393,14 +395,14 @@ export class TraumaLogic<
         const bleeder =
             treatmentCausesBleeder(code, normSuccessLevel) ||
             isBleederFromHealingRate(this.data.aspect, band, hr);
+        let bleederInterval: number | undefined;
         if (bleeder && !this.isBleeding) {
             const formula = String(
                 fvttGetSetting("sohl", "bloodLossAdvanceDurationFormula") ?? "",
             );
+            bleederInterval = Number(formula) || 0;
             update["system.bloodLossAdvanceDurationFormula"] = formula;
-            update["system.bloodLossAdvanceDurationBase"] =
-                Number(formula) || 0;
-            update["system.lastBloodLossAdvanceDate"] = now;
+            update["system.bloodLossAdvanceDurationBase"] = bleederInterval;
         }
 
         if (isPermanentImpairmentEligible(this.data.aspect, band, hr)) {
@@ -408,6 +410,17 @@ export class TraumaLogic<
         }
 
         await this.item.update(update);
+
+        // Becoming a bleeder auto-arms the FIRST blood-loss advance (like a wound
+        // arming its first healing check at creation); later occurrences are
+        // *offered*, not auto-re-armed (issue #579).
+        if (bleederInterval != null) {
+            await sohl.schedule(
+                this.item,
+                "bloodLossAdvanceCheck",
+                bleederInterval,
+            );
+        }
     }
 
     /**
@@ -602,60 +615,21 @@ export class TraumaLogic<
         this.bodyLocation = this.resolveBodyLocation();
     }
 
-    /** @inheritdoc */
+    /**
+     * Re-arm this trauma's persisted schedules into the event queue on every
+     * preparation, on every client (issue #588 generic store; #579 consent). The
+     * recurrence anchor and interval now live in `system.scheduledActions` (the
+     * retired bespoke `last*Date` anchors are gone); a reschedule `update()`
+     * replicates, every client re-preps, and this generic re-arm restores the
+     * queue — the active GM's included, which alone fires. The executors add,
+     * offer to re-add, or clear those entries; `finalize()` never invents a
+     * schedule of its own.
+     */
     override finalize(): void {
         super.finalize();
         const uuid = this.item?.uuid;
         if (!uuid) return;
-
-        // Healing check — recurring while the wound persists. Scheduled from the
-        // persisted anchor (never the live clock); see the Event Queue contract.
-        if (
-            this.level.effective > 0 &&
-            this.data.lastHealingCheckDate != null
-        ) {
-            sohl.events.scheduleAt(
-                uuid,
-                "healingCheck",
-                deriveNext(
-                    this.data.lastHealingCheckDate,
-                    this.healingCheckDurationBase.effective,
-                ),
-            );
-        } else {
-            sohl.events.unsubscribe(uuid, "healingCheck");
-        }
-
-        // Blood-loss advance — recurring while the wound bleeds (derived: a
-        // bleeder is one with an armed blood-loss timer, #482).
-        if (this.isBleeding && this.data.lastBloodLossAdvanceDate != null) {
-            sohl.events.scheduleAt(
-                uuid,
-                "bloodLossAdvanceCheck",
-                deriveNext(
-                    this.data.lastBloodLossAdvanceDate,
-                    this.bloodLossAdvanceDurationBase.effective,
-                ),
-            );
-        } else {
-            sohl.events.unsubscribe(uuid, "bloodLossAdvanceCheck");
-        }
-
-        // Lasting-condition recovery course — recurring while the Healing Rate is
-        // between 1 and 5. For Extended Shock / Coma, HR ≤ 0 is death and HR ≥ 6
-        // is recovery (#556); for an Infection, HR ≥ 6 is healed (#557).
-        if (this.isCourseTrauma && this.isCourseActive) {
-            sohl.events.scheduleAt(
-                uuid,
-                "courseCheck",
-                deriveNext(
-                    this.data.lastCourseDate ?? 0,
-                    this.courseDurationBase.effective,
-                ),
-            );
-        } else {
-            sohl.events.unsubscribe(uuid, "courseCheck");
-        }
+        armScheduledActions(uuid, this.data.scheduledActions, sohl.events);
     }
 
     /** Whether this trauma is an Extended Shock or Coma lasting-shock record. */
@@ -674,15 +648,6 @@ export class TraumaLogic<
         return (
             this.isShockOrComa || this.data.subType === TRAUMA_SUBTYPE.INFECTION
         );
-    }
-
-    /**
-     * Whether a lasting-condition course is still running — the Healing Rate sits
-     * in `[1, 5]` (HR ≤ 0 died, HR ≥ 6 recovered/healed) and its anchor is armed.
-     */
-    private get isCourseActive(): boolean {
-        const hr = this.healingRate.effective;
-        return hr >= 1 && hr <= 5 && this.data.lastCourseDate != null;
     }
 
     /**
@@ -708,13 +673,15 @@ export class TraumaLogic<
     /**
      * Intrinsic-action executor for the recurring `healingCheck` event.
      *
-     * Advances the healing-check anchor to now, rolls the next interval from
-     * {@link TraumaData.healingCheckDurationFormula}, and schedules the next
-     * `healingCheck` occurrence. Registered as an action so the same routine
-     * serves the timed event and a manual invocation.
+     * Catches up the Injury Healing Test over every elapsed interval, rolls the
+     * next interval from {@link TraumaData.healingCheckDurationFormula}, then
+     * **offers** the next `healingCheck` occurrence (issue #579) — it no longer
+     * auto-re-arms. Registered as an action so the same routine serves the
+     * `[Perform]` reminder, the timed event, and a manual invocation.
      *
-     * @param _context - The action context (its `scope` is the trigger context).
-     * @returns A promise that resolves once the anchor is persisted.
+     * @param context - The action context; `scope.reschedule` (or the offer
+     *   dialog) decides whether the next occurrence is scheduled.
+     * @returns A promise that resolves once the outcome and schedule are persisted.
      * @remarks For an `injury`-subtype trauma this applies the **Injury Healing
      *   Test** (#486) at each elapsed checkpoint, in sequence: a headless test of
      *   `Healing Base × Healing Rate` reduces the Injury Level by 1 on a marginal
@@ -722,24 +689,28 @@ export class TraumaLogic<
      *   critical failure does no healing — infection-on-CF is completed by #557).
      *   No test is made while the injury is untreated, already healed (level 0),
      *   or while any active infection halts the patient's healing. Other trauma
-     *   subtypes recover by their own rules and only re-arm here. In all cases
-     *   the recurrence anchor is advanced over every elapsed interval and re-armed
-     *   via {@link deriveNext} (the queue does not cascade — see the Event Queue
-     *   contract). An eligible injury (see
+     *   subtypes recover by their own rules. The recurrence anchor and interval
+     *   are read from the persisted `system.scheduledActions` entry (the queue
+     *   does not cascade — see the Event Queue contract). A wound that heals to
+     *   level 0 ends the recurrence (`sohl.unschedule`); otherwise the next check
+     *   is offered. An eligible injury (see
      *   {@link TraumaData.permanentImpairmentEligible}) that heals to level 0 this
      *   pass leaves a **permanent impairment** on its body part, scaled by its
      *   total time to heal (#554).
      */
-    async healingCheck(_context: SohlActionContext): Promise<void> {
+    async healingCheck(context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
         if (!uuid) return;
         const now = fvttWorldTime();
-        const interval = this.healingCheckDurationBase.effective;
-        const anchor = this.data.lastHealingCheckDate ?? now;
+        const entry = this.data.scheduledActions?.find(
+            (e) => e.actionName === "healingCheck",
+        );
+        const interval =
+            entry?.interval ?? this.healingCheckDurationBase.effective;
+        const anchor = entry?.anchor ?? now;
 
-        // Catch up the recurrence anchor over every elapsed interval in
-        // `(anchor, now]` in one pass — the queue does not cascade (see the
-        // Event Queue contract).
+        // Catch up over every elapsed interval in `(anchor, now]` in one pass —
+        // the queue does not cascade (see the Event Queue contract).
         const checkpoints =
             interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
         const lastProcessed = checkpoints.at(-1) ?? now;
@@ -773,15 +744,12 @@ export class TraumaLogic<
             this.data.healingCheckDurationFormula,
         );
         this.healingCheckDurationBase.setBase(nextInterval);
-        sohl.events.scheduleAt(
-            uuid,
-            "healingCheck",
-            deriveNext(lastProcessed, nextInterval),
-        );
         await this.item.update({
             "system.levelBase": level,
-            "system.lastHealingCheckDate": lastProcessed,
             "system.healingCheckDurationBase": nextInterval,
+            // Record the last applied check (a display/query fact, #356); the
+            // schedule itself is (re)armed by the offer below.
+            "system.lastHealingCheckDate": lastProcessed,
         } as PlainObject);
 
         // An eligible injury that just healed to level 0 leaves a permanent
@@ -808,6 +776,17 @@ export class TraumaLogic<
         // infection (#557) — recorded separately, starting one Healing Rate step
         // above this wound.
         if (contractInfection) await this.contractInfection();
+
+        // A healed wound (level 0) ends its recurrence; otherwise offer the next
+        // healing check (default No) rather than auto-re-arming (issue #579).
+        if (level <= 0) await sohl.unschedule(this.item, "healingCheck");
+        else
+            await offerReschedule(
+                context,
+                this.item,
+                "healingCheck",
+                nextInterval,
+            );
     }
 
     /**
@@ -874,15 +853,17 @@ export class TraumaLogic<
     }
 
     /**
-     * Intrinsic-action executor that arms the recurring blood-loss advance for a
+     * Intrinsic-action executor for the recurring blood-loss advance of a
      * bleeding wound.
      *
-     * Advances the blood-loss anchor to now, rolls the next interval from
-     * {@link TraumaData.bloodLossAdvanceDurationFormula}, and schedules the
-     * `bloodLossAdvanceCheck` occurrence.
+     * Catches up the Blood Loss Advance Test over every elapsed interval, rolls
+     * the next interval from {@link TraumaData.bloodLossAdvanceDurationFormula},
+     * then **offers** the next `bloodLossAdvanceCheck` occurrence (issue #579)
+     * rather than auto-re-arming.
      *
-     * @param _context - The action context (its `scope` is the trigger context).
-     * @returns A promise that resolves once the anchor is persisted.
+     * @param context - The action context; `scope.reschedule` (or the offer
+     *   dialog) decides whether the next occurrence is scheduled.
+     * @returns A promise that resolves once the outcome and schedule are persisted.
      * @remarks Applies the **Blood Loss Advance Test** (#487) at each elapsed
      *   checkpoint. With no physician accepting the Blood Stoppage request, the
      *   advance auto-resolves as though a Blood Stoppage Test had been a critical
@@ -890,14 +871,20 @@ export class TraumaLogic<
      *   #547). Each test rolls against the victim's Strength Mastery Level, accrues
      *   Blood Loss Points (CF +3, MF +2, MS +1, CS 0), advances the being's shock
      *   state one step per BLP, and inflicts 5 Fatigue Levels of weakness (anemia)
-     *   per BLP. The anchor is advanced over every elapsed interval and re-armed.
+     *   per BLP. The recurrence anchor and interval are read from the persisted
+     *   `system.scheduledActions` entry; a wound that has stopped bleeding ends
+     *   the recurrence.
      */
-    async bloodLossAdvanceCheck(_context: SohlActionContext): Promise<void> {
+    async bloodLossAdvanceCheck(context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
         if (!uuid) return;
         const now = fvttWorldTime();
-        const interval = this.bloodLossAdvanceDurationBase.effective;
-        const anchor = this.data.lastBloodLossAdvanceDate ?? now;
+        const entry = this.data.scheduledActions?.find(
+            (e) => e.actionName === "bloodLossAdvanceCheck",
+        );
+        const interval =
+            entry?.interval ?? this.bloodLossAdvanceDurationBase.effective;
+        const anchor = entry?.anchor ?? now;
         const checkpoints =
             interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
         const lastProcessed = checkpoints.at(-1) ?? now;
@@ -911,15 +898,23 @@ export class TraumaLogic<
             this.data.bloodLossAdvanceDurationFormula,
         );
         this.bloodLossAdvanceDurationBase.setBase(nextInterval);
-        sohl.events.scheduleAt(
-            uuid,
-            "bloodLossAdvanceCheck",
-            deriveNext(lastProcessed, nextInterval),
-        );
         await this.item.update({
-            "system.lastBloodLossAdvanceDate": lastProcessed,
             "system.bloodLossAdvanceDurationBase": nextInterval,
+            "system.lastBloodLossAdvanceDate": lastProcessed,
         } as PlainObject);
+
+        // A wound that has stopped bleeding ends its recurrence; otherwise offer
+        // the next blood-loss advance rather than auto-re-arming (issue #579).
+        if (!this.isBleeding) {
+            await sohl.unschedule(this.item, "bloodLossAdvanceCheck");
+        } else {
+            await offerReschedule(
+                context,
+                this.item,
+                "bloodLossAdvanceCheck",
+                nextInterval,
+            );
+        }
     }
 
     /**
@@ -979,18 +974,23 @@ export class TraumaLogic<
      * rises to **6 or above** the victim **recovers** — a Coma additionally
      * inflicts weariness fatigue equal to the days spent in the coma, and the
      * being's shock state is cleared (a victim who still has a Coma stays
-     * Unconscious). Otherwise the anchor is advanced and the course re-armed.
+     * Unconscious). Otherwise the next course check is **offered** (issue #579)
+     * rather than auto-re-armed.
      *
-     * @param _context - The action context (its `scope` is the trigger context).
+     * @param context - The action context; `scope.reschedule` (or the offer
+     *   dialog) decides whether the next occurrence is scheduled.
      * @returns A promise that resolves once the course outcome is persisted.
      */
-    async courseCheck(_context: SohlActionContext): Promise<void> {
+    async courseCheck(context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
         if (!uuid || !this.isCourseTrauma) return;
         const isInfection = this.data.subType === TRAUMA_SUBTYPE.INFECTION;
         const now = fvttWorldTime();
-        const interval = this.courseDurationBase.effective;
-        const anchor = this.data.lastCourseDate ?? now;
+        const entry = this.data.scheduledActions?.find(
+            (e) => e.actionName === "courseCheck",
+        );
+        const interval = entry?.interval ?? this.courseDurationBase.effective;
+        const anchor = entry?.anchor ?? now;
         const checkpoints =
             interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
         const lastProcessed = checkpoints.at(-1) ?? now;
@@ -1016,12 +1016,12 @@ export class TraumaLogic<
         if (hr <= 0) {
             // Death (Extended Shock / Coma only) — the victim dies on the spot.
             await (this.actorLogic as any)?.setShockState?.(SHOCK_STATE.DEAD);
-            sohl.events.unsubscribe(uuid, "courseCheck");
             await this.item.update({
                 "system.healingRateBase": 0,
-                "system.lastCourseDate": lastProcessed,
                 "system.courseDurationBase": nextInterval,
+                "system.lastCourseDate": lastProcessed,
             } as PlainObject);
+            await sohl.unschedule(this.item, "courseCheck");
             return;
         }
 
@@ -1030,25 +1030,23 @@ export class TraumaLogic<
             // adds weariness fatigue); an Infection is simply healed, which lets
             // normal injury healing resume (see healingHalted).
             if (!isInfection) await this.resolveShockRecovery(lastProcessed);
-            sohl.events.unsubscribe(uuid, "courseCheck");
             await this.item.update({
                 "system.healingRateBase": hr,
-                "system.lastCourseDate": lastProcessed,
                 "system.courseDurationBase": nextInterval,
+                "system.lastCourseDate": lastProcessed,
             } as PlainObject);
+            await sohl.unschedule(this.item, "courseCheck");
             return;
         }
 
-        sohl.events.scheduleAt(
-            uuid,
-            "courseCheck",
-            deriveNext(lastProcessed, nextInterval),
-        );
+        // Course still running (HR 1–5): offer the next check rather than
+        // auto-re-arming (issue #579).
         await this.item.update({
             "system.healingRateBase": hr,
-            "system.lastCourseDate": lastProcessed,
             "system.courseDurationBase": nextInterval,
+            "system.lastCourseDate": lastProcessed,
         } as PlainObject);
+        await offerReschedule(context, this.item, "courseCheck", nextInterval);
     }
 
     /**
@@ -1205,19 +1203,24 @@ export interface TraumaData<
     healingCheckDurationFormula: string;
     /** Rolled seconds between healing checks; `null` until rolled. */
     healingCheckDurationBase: number | null;
-    /** World-time of the last applied healing check (the recurrence anchor). */
-    lastHealingCheckDate: number | null;
     /** Formula rolled to seed the blood-loss-advance interval. */
     bloodLossAdvanceDurationFormula: string;
     /** Rolled seconds between blood-loss advances; `null` until rolled. */
     bloodLossAdvanceDurationBase: number | null;
-    /** World-time of the last applied blood-loss advance (the recurrence anchor). */
-    lastBloodLossAdvanceDate: number | null;
     /** Formula rolled to seed the Extended Shock / Coma course-check interval. */
     courseDurationFormula: string;
     /** Rolled seconds between course checks; `null` until rolled. */
     courseDurationBase: number | null;
-    /** World-time of the last applied course check (the recurrence anchor). */
+    /**
+     * World-time the last **applied** healing check ran — a display/query record
+     * ("when was the last healing test?"), `null` until the first. The recurrence
+     * schedule itself lives in `system.scheduledActions` (issue #588); this record
+     * survives after the schedule ends (declined / healed).
+     */
+    lastHealingCheckDate: number | null;
+    /** World-time the last applied blood-loss advance ran; `null` until the first. */
+    lastBloodLossAdvanceDate: number | null;
+    /** World-time the last applied course check ran; `null` until the first. */
     lastCourseDate: number | null;
     /**
      * Whether this injury is eligible for **permanent impairment** should it

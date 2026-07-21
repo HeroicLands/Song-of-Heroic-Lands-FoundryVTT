@@ -32,5 +32,6 @@ export * from "./TraumaLogic";
 export * from "./WeaponGearLogic";
 export * from "./fatigue";
 export * from "./item-sheet-view";
+export * from "./reschedule";
 export * from "./strikeModeTest";
 export * from "./timed-test";

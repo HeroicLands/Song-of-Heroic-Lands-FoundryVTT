@@ -57,7 +57,10 @@ const log = {
     setLogThreshold(_level: number): void {},
 };
 
-// Minimal SohlSystem mock
+// Minimal SohlSystem mock. `schedule`/`unschedule` are the generic scheduled-
+// action API (issue #588); default no-ops here so timed-effect executors run in
+// Node — tests spy on them (e.g. `vi.spyOn(globalThis.sohl, "schedule")`) to
+// assert the offer-to-reschedule behavior (issue #579).
 const sohlMock = {
     id: "sohl",
     i18n,
@@ -66,6 +69,14 @@ const sohlMock = {
     CONFIG: {
         MOD: {} as Record<string, any>,
     } as Record<string, any>,
+    async schedule(
+        _doc: unknown,
+        _actionName: string,
+        _interval: number,
+        _payload?: unknown,
+        _sceneUuid?: string,
+    ): Promise<void> {},
+    async unschedule(_doc: unknown, _actionName: string): Promise<void> {},
 };
 
 (globalThis as any).sohl = sohlMock;

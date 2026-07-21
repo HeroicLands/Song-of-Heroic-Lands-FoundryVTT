@@ -32,6 +32,7 @@ import {
 } from "@src/apps/logic/ContextMenuEntry";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import type { SohlAction } from "@src/entity/action/SohlAction";
+import type { ScheduledAction } from "@src/entity/event/scheduled-actions";
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import { dialog, fvttRenderSheet } from "@src/core/FoundryHelpers";
 import { toHTMLString } from "@src/utils/helpers";
@@ -616,6 +617,16 @@ export interface SohlLogicData<
     shortcode: string;
     /** Serialized action definitions used to build the logic's `actions` map. */
     actionDefs: SohlAction.Data[];
+    /**
+     * Persisted recurring/deferred schedules for this document (issue #588) —
+     * each entry defers `actionName` to `anchor + interval`. The generic store
+     * that replaces the retired bespoke `last*Date` anchors; a recurring effect's
+     * `finalize()` re-arms these into the event queue on every preparation. Only
+     * documents whose data model extends the base `SohlDataModel` (actors, items,
+     * combatants) carry it — hence optional here. See
+     * https://kb.heroiclands.org/dev/reference/event-queue/.
+     */
+    scheduledActions?: ScheduledAction[];
 
     // --- Foundry-document port -------------------------------------------
     // These members let the logic layer reach the owning actor's logic, flags,

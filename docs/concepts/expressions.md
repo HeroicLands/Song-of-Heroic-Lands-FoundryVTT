@@ -182,6 +182,19 @@ sandbox. Read `.total` for the rolled outcome; `.median` is the roll's
 fractional (`roll('1d6').median` is `3.5`), so round it yourself if you need an
 integer.
 
+**Time** _(read the live clock — mainly for [event-queue](../reference/event-queue.md)
+subscription predicates)_
+
+| Helper            | Returns            | Description                                                                                                                                                                      |
+| ----------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `curWorldTime()`  | `number`           | The current world time in seconds (`game.time.worldTime`). Lets a predicate gate on world time from any trigger — e.g. `curWorldTime() > 2342663`.                               |
+| `curCombatTime()` | `object` or `null` | The active combat's `{ round, turn }` as plain data, or `null` outside combat. Gate on combat time with member access — `defined(curCombatTime()) && curCombatTime().round > 3`. |
+
+Prefer a subscription's concrete `fireAt` for the common "fire at time T" case (it
+stays introspectable — the queue can order it and answer "when is the next?"); use
+`curWorldTime()` / `curCombatTime()` in a predicate only when it genuinely needs
+cross-axis or non-monotonic conditions.
+
 ### Worked examples
 
 **A predicate — target only high-mastery skills.** An active effect with an

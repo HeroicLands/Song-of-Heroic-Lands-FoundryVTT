@@ -20,7 +20,9 @@ import {
     fvttFindItemByShortcode,
 } from "@src/core/FoundryHelpers";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
-import { deriveNext, elapsedCheckpoints } from "@src/entity/event/scheduling";
+import { elapsedCheckpoints } from "@src/entity/event/scheduling";
+import { armScheduledActions } from "@src/entity/event/scheduled-actions";
+import { offerReschedule } from "@src/document/item/logic/reschedule";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
@@ -563,66 +565,21 @@ export class AfflictionLogic<
     }
 
     /**
-     * Arm the affliction's phase events from its persisted anchors, by phase:
-     *
-     * - **Incubating** (`onsetDate == null`): schedule the `onsetCheck`
-     *   transition at `contractDate + onset interval`.
-     * - **Symptomatic** (`onsetDate` set, `resolutionDate == null`): schedule the
-     *   `resolutionCheck` transition at `onsetDate + resolution interval`, and —
-     *   while the affliction persists — the recurring `healingCheck`.
-     * - **Resolved** (`resolutionDate` set): unsubscribe all.
+     * Re-arm the affliction's persisted schedules into the event queue on every
+     * preparation, on every client (issue #588 generic store; #579 consent). The
+     * phase machine's arming now lives in the executors: `onsetCheck` schedules
+     * the resolution and recurring healing-check events at onset and clears
+     * itself; `resolutionCheck` clears the rest at resolution; the recurring
+     * `healingCheck` *offers* its own reschedule. `finalize()` therefore only
+     * restores whatever `system.scheduledActions` currently holds — a reschedule
+     * `update()` replicates, every client re-preps, and this generic re-arm
+     * restores the queue (the active GM's included, which alone fires).
      */
     override finalize(): void {
         super.finalize();
         const uuid = this.item?.uuid;
         if (!uuid) return;
-
-        const arm = (kind: string, at: number | null | undefined): void => {
-            if (at == null) sohl.events.unsubscribe(uuid, kind);
-            else sohl.events.scheduleAt(uuid, kind, at);
-        };
-
-        if (this.data.resolutionDate != null) {
-            arm("onsetCheck", null);
-            arm("resolutionCheck", null);
-            arm("healingCheck", null);
-            return;
-        }
-
-        if (this.data.onsetDate == null) {
-            // Incubating: only the onset transition is pending.
-            arm(
-                "onsetCheck",
-                this.data.contractDate == null ?
-                    null
-                :   deriveNext(
-                        this.data.contractDate,
-                        this.onsetDurationBase.effective,
-                    ),
-            );
-            arm("resolutionCheck", null);
-            arm("healingCheck", null);
-            return;
-        }
-
-        // Symptomatic: resolution pending; recovery checks recur while active.
-        arm("onsetCheck", null);
-        arm(
-            "resolutionCheck",
-            deriveNext(
-                this.data.onsetDate,
-                this.resolutionDurationBase.effective,
-            ),
-        );
-        arm(
-            "healingCheck",
-            this.level.effective > 0 && this.data.lastHealingCheckDate != null ?
-                deriveNext(
-                    this.data.lastHealingCheckDate,
-                    this.healingCheckDurationBase.effective,
-                )
-            :   null,
-        );
+        armScheduledActions(uuid, this.data.scheduledActions, sohl.events);
     }
 
     /**
@@ -646,15 +603,19 @@ export class AfflictionLogic<
 
     /**
      * Intrinsic-action executor for the `onsetCheck` transition (incubation →
-     * symptomatic). Crystallizes `onsetDate`, seeds the recovery-check anchor,
-     * and rolls the resolution and healing-check intervals; {@link finalize}
-     * then arms the resolution and recurring healing-check events.
+     * symptomatic). Crystallizes `onsetDate`, rolls the resolution and
+     * healing-check intervals, and schedules the next-phase events — the
+     * one-shot `resolutionCheck` and the recurring `healingCheck` — then clears
+     * the spent `onsetCheck` schedule.
      *
      * @param _context - The action context (its `scope` is the trigger context).
      * @returns A promise that resolves once the phase transition is persisted.
      * @remarks The onset **effect** marks the affliction symptomatic (crystallizes
      *   `onsetDate`) and starts its course/resolution cycle; the symptoms
-     *   themselves are role-played, out of VTT scope (#488). An optional author
+     *   themselves are role-played, out of VTT scope (#488). Scheduling the next
+     *   phase is the direct consequence of this human-performed transition (issue
+     *   #579 gates the *firing* via the `[Perform]` reminder, not the phase
+     *   progression itself). An optional author
      *   {@link AfflictionData.onsetMacroUuid | onset Macro} then runs and may
      *   schedule further events.
      */
@@ -670,10 +631,15 @@ export class AfflictionLogic<
         this.healingCheckDurationBase.setBase(healing);
         await this.item.update({
             "system.onsetDate": now,
-            "system.lastHealingCheckDate": now,
             "system.resolutionDurationBase": resolution,
             "system.healingCheckDurationBase": healing,
         } as PlainObject);
+
+        // Advance the schedule: the one-shot resolution and the recurring healing
+        // check arm now (anchored at onset); the spent onset check is cleared.
+        await sohl.schedule(this.item, "resolutionCheck", resolution);
+        await sohl.schedule(this.item, "healingCheck", healing);
+        await sohl.unschedule(this.item, "onsetCheck");
 
         // Optional author hook run once at onset. A Macro reference (never
         // source); it may schedule further events. Runs after onset is persisted
@@ -688,11 +654,13 @@ export class AfflictionLogic<
 
     /**
      * Intrinsic-action executor for the recurring `healingCheck` (course /
-     * recovery) event. Advances the anchor to now, rolls the next interval, and
-     * schedules the next occurrence — reusable from the event or manually.
+     * recovery) event. Catches up the Course Test over every elapsed interval,
+     * rolls the next interval, then **offers** the next occurrence (issue #579) —
+     * reusable from the `[Perform]` reminder, the timed event, or manually.
      *
-     * @param _context - The action context (its `scope` is the trigger context).
-     * @returns A promise that resolves once the anchor is persisted.
+     * @param context - The action context; `scope.reschedule` (or the offer
+     *   dialog) decides whether the next occurrence is scheduled.
+     * @returns A promise that resolves once the outcome and schedule are persisted.
      * @remarks Applies the **Course Test** (#489) at each elapsed checkpoint (only
      *   for a naturally-healing affliction). Each is a headless test of
      *   `Healing Base × Healing Rate` that changes the affliction's Healing Rate
@@ -700,15 +668,21 @@ export class AfflictionLogic<
      *   **Reaction**: HR 6+ the affliction is defeated (course stops), HR 5 / 4
      *   inflict 5 / 10 weakness fatigue, and HR 3 / 2 / 1 / &lt;1 impose Stunned /
      *   Incapacitated / Unconscious / Dead shock (never improving an already-worse
-     *   shock state). The anchor is advanced over every elapsed interval and
-     *   re-armed.
+     *   shock state). The recurrence anchor and interval are read from the
+     *   persisted `system.scheduledActions` entry; a **defeated** affliction (HR
+     *   6+) ends the recurrence, otherwise the next check is **offered** (issue
+     *   #579) rather than auto-re-armed.
      */
-    async healingCheck(_context: SohlActionContext): Promise<void> {
+    async healingCheck(context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
         if (!uuid) return;
         const now = fvttWorldTime();
-        const interval = this.healingCheckDurationBase.effective;
-        const anchor = this.data.lastHealingCheckDate ?? now;
+        const entry = this.data.scheduledActions?.find(
+            (e) => e.actionName === "healingCheck",
+        );
+        const interval =
+            entry?.interval ?? this.healingCheckDurationBase.effective;
+        const anchor = entry?.anchor ?? now;
         const checkpoints =
             interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
         const lastProcessed = checkpoints.at(-1) ?? now;
@@ -731,16 +705,22 @@ export class AfflictionLogic<
             this.data.healingCheckDurationFormula,
         );
         this.healingCheckDurationBase.setBase(nextInterval);
-        sohl.events.scheduleAt(
-            uuid,
-            "healingCheck",
-            deriveNext(lastProcessed, nextInterval),
-        );
         await this.item.update({
             "system.healingRateBase": hr,
-            "system.lastHealingCheckDate": lastProcessed,
             "system.healingCheckDurationBase": nextInterval,
+            "system.lastHealingCheckDate": lastProcessed,
         } as PlainObject);
+
+        // A defeated affliction (HR 6+) ends its recurring course; otherwise offer
+        // the next course check rather than auto-re-arming (issue #579).
+        if (hr >= 6) await sohl.unschedule(this.item, "healingCheck");
+        else
+            await offerReschedule(
+                context,
+                this.item,
+                "healingCheck",
+                nextInterval,
+            );
     }
 
     /**
@@ -800,8 +780,9 @@ export class AfflictionLogic<
 
     /**
      * Intrinsic-action executor for the `resolutionCheck` transition
-     * (symptomatic → resolved). Crystallizes `resolutionDate`; {@link finalize}
-     * then unsubscribes the affliction's remaining events.
+     * (symptomatic → resolved). Crystallizes `resolutionDate` and clears the
+     * affliction's remaining schedules (the recurring healing check and this
+     * one-shot resolution) — resolution is terminal.
      *
      * @param _context - The action context (its `scope` is the trigger context).
      * @returns A promise that resolves once the resolution is persisted.
@@ -817,6 +798,10 @@ export class AfflictionLogic<
         await this.item.update({
             "system.resolutionDate": fvttWorldTime(),
         } as PlainObject);
+        // Resolution is terminal — clear the recurring healing check and this
+        // one-shot resolution schedule.
+        await sohl.unschedule(this.item, "healingCheck");
+        await sohl.unschedule(this.item, "resolutionCheck");
         // The outcome applies only if the affliction reached resolution without
         // being defeated (HR 6+).
         if ((this.data.healingRateBase ?? 0) >= 6) return;
@@ -918,7 +903,12 @@ export interface AfflictionData<
     healingCheckDurationFormula: string;
     /** Rolled seconds between course/recovery checks; `null` until rolled. */
     healingCheckDurationBase: number | null;
-    /** World-time of the last applied course/recovery check (the recurrence anchor). */
+    /**
+     * World-time the last **applied** course/recovery check ran — a display/query
+     * record, `null` until the first. The recurrence schedule lives in
+     * `system.scheduledActions` (issue #588); this record survives after the
+     * schedule ends (defeated / declined).
+     */
     lastHealingCheckDate: number | null;
     /** Formula rolled to seed the onset → resolution interval. */
     resolutionDurationFormula: string;

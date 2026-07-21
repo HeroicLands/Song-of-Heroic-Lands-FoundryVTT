@@ -18,6 +18,7 @@ import {
     PARENT_BOUND_HELPERS,
 } from "@src/entity/expr/ExpressionHelperRegistry";
 import { SafeExpressionError } from "@src/entity/expr/SafeExpressionError";
+import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 
 describe("ExpressionHelperRegistry", () => {
     // The registry is a process-wide singleton; drop any custom helpers a prior
@@ -178,6 +179,39 @@ describe("ExpressionHelperRegistry", () => {
 
         it("roll: throws on an invalid formula", () => {
             expect(() => h("roll")(parent, "xyz")).toThrow();
+        });
+    });
+
+    describe("temporal helpers — event-queue predicate support (#579)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        it("curWorldTime: returns the live world time via the shim", () => {
+            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(
+                2342663,
+            );
+            expect(STANDARD_HELPERS.curWorldTime()).toBe(2342663);
+        });
+
+        it("curWorldTime: is not parent-bound (takes no injected args)", () => {
+            expect(PARENT_BOUND_HELPERS.has("curWorldTime")).toBe(false);
+        });
+
+        it("curCombatTime: returns the active combat's {round, turn} as plain data", () => {
+            vi.spyOn(FoundryHelpersMock, "fvttCombatTime").mockReturnValue({
+                round: 4,
+                turn: 2,
+            });
+            expect(STANDARD_HELPERS.curCombatTime()).toEqual({
+                round: 4,
+                turn: 2,
+            });
+        });
+
+        it("curCombatTime: returns null outside combat (guard with defined())", () => {
+            vi.spyOn(FoundryHelpersMock, "fvttCombatTime").mockReturnValue(
+                null,
+            );
+            expect(STANDARD_HELPERS.curCombatTime()).toBeNull();
         });
     });
 

@@ -694,7 +694,7 @@ function registerHandlebarsHelpers() {
      *
      * @example
      * ```hbs
-     * {{displayWorldTime injury.nextHealingCheck}}
+     * {{displayWorldTime injury.system.contractDate}}
      * {{displayWorldTime t format="sohl.timestamp"}}
      * {{displayWorldTime t format="sohl.relative" short=true maxTerms=2}}
      * ```
