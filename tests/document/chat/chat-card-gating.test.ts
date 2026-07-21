@@ -22,9 +22,9 @@ const ACTIONS = {
     ignore: "automatedIgnoreResume",
 } as const;
 
-/** A stub defense button with a removable spy and the defender uuid. */
+/** A stub defense button with a removable spy and the defender combatant uuid. */
 function makeButton(uuid = "Combatant.defender") {
-    return { dataset: { handlerActorUuid: uuid }, remove: vi.fn() };
+    return { dataset: { handlerUuid: uuid }, remove: vi.fn() };
 }
 
 /** A stub `.card-buttons` container; `empty` controls whether it still holds a button. */
