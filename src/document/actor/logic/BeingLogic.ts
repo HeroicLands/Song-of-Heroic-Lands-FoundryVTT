@@ -45,7 +45,16 @@ import {
     fvttCreateEmbeddedItems,
     fvttActorStatuses,
     fvttToggleActorStatus,
+    fvttWorldTime,
+    fvttLogicFromUuidSync,
 } from "@src/core/FoundryHelpers";
+import {
+    TREATMENT_HEAL,
+    injuryBand,
+    requiredTreatment,
+    treatmentHealingRate,
+    type InjuryBand,
+} from "@src/entity/body/injury-treatment";
 import {
     SHOCK_STATE,
     SHOCK_STATUS_IDS,
@@ -83,6 +92,7 @@ import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatan
 import {
     ACTION_SUBTYPE,
     ATTRIBUTE_CODE,
+    CRITICAL_FAILURE,
     STATUS_EFFECT,
     IMPACT_ASPECT,
     ITEM_KIND,
@@ -1338,6 +1348,96 @@ export class BeingLogic<
             armorReduction: req.armorReduction ?? 0,
             extraBleedRisk: !!req.extraBleedRisk,
         });
+    }
+
+    /* --------------------------------------------- */
+    /* Treatment Chat Sequence executors (#576)      */
+    /* --------------------------------------------- */
+
+    /**
+     * The **request** step of the treatment {@link sohl.entity.sequence | sequence}:
+     * the patient asks for treatment. A consent marker — records when the request
+     * was made and returns it into the sequence ledger. Mutates nothing.
+     *
+     * @returns The request marker `{ requestedAt }`.
+     */
+    async requestTreatment(): Promise<{ requestedAt: number }> {
+        return { requestedAt: fvttWorldTime() };
+    }
+
+    /**
+     * The **perform** step of the treatment sequence: *this* being (the physician
+     * role) performs the Treatment Test on the wound named in the action scope,
+     * rolling its own Physician skill at the wound's difficulty. Returns the
+     * **proposed** Healing Rate for the patient to accept — it does not yet touch
+     * the wound.
+     *
+     * @param context - The action context; `scope.injuryUuid` names the wound.
+     * @returns The proposed outcome, or `null` when the wound cannot be resolved
+     *   or is already healed.
+     */
+    async performTreatment(
+        context: SohlActionContext,
+    ): Promise<{
+        healingRate: number | typeof TREATMENT_HEAL;
+        band: InjuryBand;
+    } | null> {
+        const injuryUuid = String(
+            (context.scope as { injuryUuid?: unknown })?.injuryUuid ?? "",
+        );
+        const injuryLogic = fvttLogicFromUuidSync<TraumaLogic>(injuryUuid);
+        if (!injuryLogic) return null;
+        const band = injuryBand(injuryLogic.data.levelBase);
+        if (!band) return null;
+        const req = requiredTreatment(injuryLogic.data.aspect, band);
+        const physicianMl =
+            (
+                this.getItemLogic(SKILL_CODE.PHYSICIAN, ITEM_KIND.SKILL) as
+                    | SkillLogic
+                    | undefined
+            )?.masteryLevel?.effective ?? 0;
+        const result = await rollTimedTest(this, physicianMl, {
+            type: "sequence-treatment",
+            title: sohl.i18n.localize("SOHL.Trauma.Action.treatmenttest.title"),
+            situationalModifier: req?.modifier ?? 0,
+        });
+        // No owner able to roll → resolve as a Critical Failure (the untreated
+        // fallback), consistent with #553.
+        const sl = result ? result.normSuccessLevel : CRITICAL_FAILURE;
+        return { healingRate: treatmentHealingRate(sl, band), band };
+    }
+
+    /**
+     * The **accept** step of the treatment sequence: the patient records the
+     * physician's proposed Healing Rate on the wound (or heals it outright on a
+     * `HEAL` result). This is the only step that mutates — and it is the patient's
+     * own click on their own character.
+     *
+     * @param context - The action context; `scope.injuryUuid` names the wound and
+     *   `scope.result` carries the proposed `{ healingRate }`.
+     * @returns A promise that resolves once the wound is updated.
+     */
+    async acceptTreatment(context: SohlActionContext): Promise<void> {
+        const scope = context.scope as {
+            injuryUuid?: unknown;
+            result?: { healingRate?: number | typeof TREATMENT_HEAL };
+        };
+        const injuryUuid = String(scope?.injuryUuid ?? "");
+        const hr = scope?.result?.healingRate;
+        const injuryLogic = fvttLogicFromUuidSync<TraumaLogic>(injuryUuid);
+        if (!injuryLogic || hr === undefined) return;
+        const now = fvttWorldTime();
+        if (hr === TREATMENT_HEAL) {
+            await injuryLogic.item.update({
+                "system.levelBase": 0,
+                "system.treatmentDate": now,
+            } as PlainObject);
+            return;
+        }
+        await injuryLogic.item.update({
+            "system.healingRateBase": hr,
+            "system.treatmentDate": now,
+        } as PlainObject);
     }
 
     /**

@@ -14,6 +14,7 @@
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import { buildActionScope } from "@src/utils/helpers";
+import { runSequenceStep } from "@src/document/chat/sequence-runner";
 
 /**
  * Resolve the UUID of the document that should handle a chat-card button or
@@ -116,6 +117,14 @@ export async function dispatchChatCardAction(
     logic: SohlLogic,
     btn: HTMLElement,
 ): Promise<void> {
+    // A Chat Sequence button advances a running interaction rather than invoking
+    // a single action; route it to the sequence runtime (which itself runs the
+    // chosen choice's action on this logic).
+    if (btn.dataset.sequenceId) {
+        await runSequenceStep(logic, btn);
+        return;
+    }
+
     const actionName = btn.dataset.action;
     if (!actionName) return;
 
