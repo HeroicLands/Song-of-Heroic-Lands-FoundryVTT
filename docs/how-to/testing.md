@@ -16,7 +16,7 @@ SoHL has two complementary test suites with very different scope and cadence:
 | **Speed**        | Seconds                                                                                                           | Minutes (seeds a world, serves it, drives a browser)                                                              |
 | **Guide**        | [Running tests](#running-tests) and below                                                                         | [Browser end-to-end tests (Cypress)](#browser-end-to-end-tests-cypress) (near the end)                            |
 
-The rule of thumb: **push as much logic as possible into the Foundry-free layer so it can be unit-tested**, and reserve the integration suite for what only a live client can prove (rendering, persistence, cross-document flows). Both suites are written test-first; the Cypress suite doubles as an executable specification (see below).
+The rule of thumb: **push as much logic as possible into the Foundry-free layer so it can be unit-tested**, and reserve the integration suite for what only a live client can prove (sheet and canvas rendering, persistence, cross-document flows). Card and dialog **HTML** is an exception — it renders in Node and is asserted in the unit suite (see [Asserting rendered HTML in unit tests](#asserting-rendered-html-in-unit-tests)). Both suites are written test-first; the Cypress suite doubles as an executable specification (see below).
 
 Everything from here down to _Browser end-to-end tests_ is about the **vitest unit suite**; the Cypress integration suite is documented in its own section at the end.
 
@@ -72,7 +72,7 @@ For placeholder tests, use `it.todo("description")` to document intended behavio
 
 ## Scope: the logic layer
 
-Unit tests are scoped to the **logic layer** — Logic classes and domain objects. They do not test the Foundry layer (DataModels, Sheets, documents). This is possible because the logic layer is **Foundry-isolated**: it touches Foundry only through the `FoundryHelpers` shim and the `*Data` interfaces on `logic.data` — see [Architecture → Logic layer](../concepts/architecture.md#logic-layer) for the boundary and why it holds.
+Unit tests are scoped to the **logic layer** — Logic classes and domain objects. They do not test the Foundry layer (DataModels, Sheets, documents) — with one narrow exception: **chat-card and dialog templates** can be rendered and their HTML asserted in Node (see [Asserting rendered HTML in unit tests](#asserting-rendered-html-in-unit-tests)), since that rendering is plain Handlebars. This is possible because the logic layer is **Foundry-isolated**: it touches Foundry only through the `FoundryHelpers` shim and the `*Data` interfaces on `logic.data` — see [Architecture → Logic layer](../concepts/architecture.md#logic-layer) for the boundary and why it holds.
 
 Tests run in Node via vitest (no browser, no Foundry server) by supplying test doubles for exactly those two channels, plus the `sohl` surface:
 
@@ -227,6 +227,75 @@ src/entity/body/BodyStructure.ts  →  tests/domain/body/BodyStructure.test.ts
 src/entity/modifier/ValueModifier.ts  →  tests/domain/modifier/ValueModifier.test.ts
 src/document/item/logic/SkillLogic.ts  →  tests/item/Skill.test.ts
 ```
+
+## Asserting rendered HTML in unit tests
+
+Unit tests can render real **chat-card and dialog** templates in Node and assert
+the emitted **HTML** — so the output of a card- or dialog-building action is
+verified for correctness, not just the data handed to a stubbed renderer. This
+means much of what used to require the Cypress suite (does the card show the right
+buttons? does the dialog build the right `<option>` list?) is now a fast unit
+test.
+
+**Why it works without Foundry.** Foundry's `renderTemplate` is a file-loading
+wrapper around Handlebars, and SoHL's cards **and** dialogs both render through the
+same `toHTMLWithTemplate` / `toHTMLWithContent` shims. So a test can read a `.hbs`
+off disk and compile it with the same Handlebars, once the helpers it uses are
+registered.
+
+**The harness** — `renderTemplateReal(foundryPath, data)` in
+`tests/mocks/hbs-helpers.ts`. It registers, on first use:
+
+- SoHL's **pure** helpers from the shared, Foundry-free
+  {@link sohl.utils.registerPureHandlebarsHelpers} — _the exact code system init
+  uses_, so rendering never drifts from production;
+- Foundry's **logic** helpers (`eq` / `or` / `gt` / `ifThen` / `localize` / …)
+  copied faithfully (`localize` reads the real `lang/en.json`); and the pure
+  **option-list** builders `selectOptions` / `selectArray`, also faithful;
+- **placeholder stubs** for Foundry's DOM/form builders (`formGroup` + `formField`,
+  `formInput`, `numberInput`, `editor`, `filePicker`, `radioBoxes`, `rangePicker`)
+  and the impure SoHL helpers (`textInput`, `datePicker`, …).
+
+**Two usage patterns:**
+
+```typescript
+import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
+
+// (a) Render a template directly and assert its HTML.
+const html = renderTemplateReal(
+    "systems/sohl/templates/chat/treatment-request-card.hbs",
+    { patientName: "Aldric", woundName: "gash", aspect: "edged", severity: 4 },
+);
+expect(html).toContain("Aldric");
+
+// (b) Drive an action and let its render go through the harness — spy the shim.
+import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
+vi.spyOn(FoundryHelpersMock, "toHTMLWithTemplate").mockImplementation(((
+    tpl: any,
+    d: any,
+) => Promise.resolve(renderTemplateReal(String(tpl), d))) as any);
+const cardHtml = await buildActionCard(spec); // the action's real output
+expect(cardHtml).toContain('data-action="performTreatmentTest"');
+```
+
+See `tests/document/chat/template-render.test.ts` (direct renders of the
+treatment / shock / attack-result cards and the injury / treat-injury dialogs) and
+`tests/document/combatant/attack-card.test.ts` (an action rendered through the
+harness).
+
+**Fidelity — what to assert:**
+
+- **Cards and dialogs render fully** — text, conditionals, and real `<option>`
+  lists. Assert the concrete HTML: button `data-*` attributes, bound values, the
+  serialized `data-scope`, escaping.
+- **Sheet form builders** (`formGroup` and friends) render as a **binding
+  placeholder** (`<span data-helper data-field data-value data-disabled>`), not
+  Foundry's real form markup. Assert the _binding_ (field name / value / disabled),
+  not the markup — exact form rendering stays an e2e concern.
+
+This does not replace the logic-layer focus above: prefer pushing logic into the
+Foundry-free layer. But when an action's job **is** to produce a card or dialog,
+assert the HTML it produces here rather than deferring to e2e.
 
 ## Browser end-to-end tests (Cypress)
 
