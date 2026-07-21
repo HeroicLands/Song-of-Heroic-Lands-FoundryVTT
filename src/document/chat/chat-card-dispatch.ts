@@ -17,6 +17,14 @@ import { buildActionScope } from "@src/utils/helpers";
 import { runSequenceStep } from "@src/document/chat/sequence-runner";
 
 /**
+ * Sentinel handler for an **open** chat-sequence button — one addressed to no
+ * specific document but to "whoever responds." At click time it resolves to the
+ * clicking user's default character (`game.user.character`), which the player
+ * inherently owns; the action then self-gates. Used as a button's handler uuid.
+ */
+export const SELF_HANDLER = "@self";
+
+/**
  * Resolve the UUID of the document that should handle a chat-card button or
  * edit-action click.
  *
@@ -74,9 +82,15 @@ export function resolveChatCardHandlerUuid(
  * passes `foundry.utils.fromUuidSync`), so this stays Foundry-free and
  * unit-testable, mirroring `gateAutomatedDefenseButtons`.
  *
+ * The {@link SELF_HANDLER} sentinel (`@self`) is resolved via `resolveSelf`
+ * instead — the clicking user's own default character — supporting **open**
+ * sequence buttons that anyone may answer.
+ *
  * @param dataset - The clicked element's `dataset`.
  * @param resolveDoc - Resolves a document from its uuid (the caller supplies the
  *   Foundry lookup).
+ * @param resolveSelf - Resolves the clicking user's default character (for the
+ *   `@self` handler). Optional; when absent, `@self` buttons are ignored.
  * @returns The authorized handler document, or `null` if the click is not
  *   authorized and must be ignored.
  */
@@ -89,13 +103,14 @@ export function resolveAuthorizedChatCardHandler(
           }
         | null
         | undefined,
+    resolveSelf?: () => { isOwner?: boolean } | null | undefined,
 ): {
     /** Whether the current client owns the document (a GM owns all). */
     isOwner?: boolean;
 } | null {
     const uuid = resolveChatCardHandlerUuid(dataset);
     if (!uuid) return null;
-    const doc = resolveDoc(uuid);
+    const doc = uuid === SELF_HANDLER ? resolveSelf?.() : resolveDoc(uuid);
     return doc?.isOwner ? doc : null;
 }
 

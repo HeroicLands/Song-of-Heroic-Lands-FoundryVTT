@@ -26,7 +26,6 @@
  */
 
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
-import { fvttLogicFromUuidSync } from "@src/core/FoundryHelpers";
 import {
     toFilePath,
     buildActionScope,
@@ -80,28 +79,32 @@ async function runLogicAction(
     return undefined;
 }
 
+/** The minimal speaker surface the runner needs to post a card. */
+interface CardSpeaker {
+    toChat: (template: any, data: any) => Promise<unknown>;
+}
+
 /**
- * Post the current step's card to chat, addressed to the acting role's actor (its
- * owner is the only client that may click). Resolves the acting actor's logic via
- * its bound uuid and posts through that actor's {@link sohl.core.logic.SohlSpeaker}.
+ * Post the current step's card to chat. The card's **button** is addressed to the
+ * acting role (the click-time / render-time gate — a document owner, or `@self`
+ * for an open step); the card is **spoken** by `speaker` — the actor announcing
+ * it (the sequence's initiator, or the actor who just acted). Announcer and
+ * responder are deliberately distinct: an open (`@self`) step has no bound
+ * responder to speak it.
  *
  * @param def - The sequence definition.
  * @param instance - The current instance (its `stepId` selects the card).
+ * @param speaker - The speaker announcing the card.
  * @returns A promise that resolves once the card is posted.
  */
 export async function postSequenceCard(
     def: SequenceDefinition,
     instance: SequenceInstance,
+    speaker: CardSpeaker | undefined,
 ): Promise<void> {
-    const step = def.steps[instance.stepId];
-    const actingUuid = instance.roles[step.by];
-    const actingLogic = fvttLogicFromUuidSync(actingUuid) as
-        | { speaker?: { toChat: (t: unknown, d: unknown) => Promise<unknown> } }
-        | undefined;
-    const speaker = actingLogic?.speaker;
     if (!speaker) {
         sohl.log.warn(
-            `SoHL | Sequence "${def.id}": no speaker for role "${step.by}" (${actingUuid}); cannot post card.`,
+            `SoHL | Sequence "${def.id}": no speaker to announce step "${instance.stepId}"; cannot post card.`,
         );
         return;
     }
@@ -127,16 +130,18 @@ export async function postSequenceCard(
  * Start a new instance of a sequence and post its initial card.
  *
  * @param def - The sequence definition to run.
- * @param roles - Role name → the bound actor's uuid.
+ * @param roles - Role name → the bound actor's uuid (or the `@self` sentinel).
  * @param state - The initial ledger state.
+ * @param speaker - The initiator's speaker, which announces the first card.
  * @returns A promise that resolves once the initial card is posted.
  */
 export async function startSequence(
     def: SequenceDefinition,
     roles: Record<string, string>,
-    state: Record<string, unknown> = {},
+    state: Record<string, unknown>,
+    speaker: CardSpeaker | undefined,
 ): Promise<void> {
-    await postSequenceCard(def, startInstance(def, roles, state));
+    await postSequenceCard(def, startInstance(def, roles, state), speaker);
 }
 
 /**
@@ -190,6 +195,13 @@ export async function runSequenceStep(
     });
     const result = await runLogicAction(logic, choice.action, context);
 
+    // A step whose action returns `undefined` did not complete (e.g. it
+    // self-gated and aborted, or a dialog was cancelled): the sequence does not
+    // advance and no next card is posted, so the current card stays live for
+    // another responder. State lives only in the posted cards — nothing here is
+    // consumed or locked.
+    if (result === undefined) return;
+
     const { instance: next, done } = advanceSequence(
         instance,
         def,
@@ -197,5 +209,11 @@ export async function runSequenceStep(
         result,
     );
     if (done) return;
-    await postSequenceCard(def, next);
+    // The actor who just acted announces the next card (its button targets the
+    // next role).
+    await postSequenceCard(
+        def,
+        next,
+        (logic as unknown as { speaker?: CardSpeaker }).speaker,
+    );
 }

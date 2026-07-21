@@ -8,6 +8,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
     gateAutomatedDefenseButtons,
+    gateSequenceButtons,
     hasUsableDodgeSkill,
 } from "@src/document/chat/chat-card-gating";
 import * as CombatantLogic from "@src/document/combatant/logic/SohlCombatantLogic";
@@ -218,5 +219,46 @@ describe("gateAutomatedDefenseButtons", () => {
         );
         expect(emptied.remove).toHaveBeenCalledTimes(1);
         expect(kept.remove).not.toHaveBeenCalled();
+    });
+});
+
+describe("gateSequenceButtons (#576)", () => {
+    /** A stub sequence button carrying its handler uuid + a remove spy. */
+    function seqButton(handlerUuid: string) {
+        return {
+            dataset: { sequenceId: "treatment", handlerUuid },
+            remove: vi.fn(),
+        };
+    }
+    /** A stub root: `button[data-sequence-id]` → buttons; `.card-buttons` → none. */
+    function seqElement(buttons: any[]): HTMLElement {
+        return {
+            querySelectorAll: (sel: string) =>
+                sel.includes("data-sequence-id") ? buttons : [],
+        } as unknown as HTMLElement;
+    }
+
+    it("keeps an open (@self) button for everyone", () => {
+        const btn = seqButton("@self");
+        gateSequenceButtons(seqElement([btn]), () => ({ isOwner: false }));
+        expect(btn.remove).not.toHaveBeenCalled();
+    });
+
+    it("hides an owner-targeted button from a non-owner", () => {
+        const btn = seqButton("Item.wound");
+        gateSequenceButtons(seqElement([btn]), () => ({ isOwner: false }));
+        expect(btn.remove).toHaveBeenCalledOnce();
+    });
+
+    it("keeps an owner-targeted button for its owner", () => {
+        const btn = seqButton("Item.wound");
+        gateSequenceButtons(seqElement([btn]), () => ({ isOwner: true }));
+        expect(btn.remove).not.toHaveBeenCalled();
+    });
+
+    it("is a no-op when there are no sequence buttons", () => {
+        expect(() =>
+            gateSequenceButtons(seqElement([]), () => ({ isOwner: false })),
+        ).not.toThrow();
     });
 });

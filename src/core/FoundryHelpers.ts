@@ -437,6 +437,15 @@ export function fvttGetUser(id: string): any {
     return (game as any).users?.get(id) ?? undefined;
 }
 
+/**
+ * The current user's **default character** (`game.user.character`) — the actor
+ * that responds when this player clicks an open (`@self`) chat-sequence button.
+ * @returns The user's assigned character, or `undefined` if none is set.
+ */
+export function fvttGetUserCharacter(): any {
+    return (game as any).user?.character ?? undefined;
+}
+
 // ---------------------------------------------------------------------------
 // Chat
 // ---------------------------------------------------------------------------

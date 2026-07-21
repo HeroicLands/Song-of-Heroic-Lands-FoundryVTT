@@ -13,20 +13,24 @@
 
 /**
  * The **treatment** Chat Sequence — the reference implementation of the consent
- * model: a patient *requests* treatment, a physician *performs* the Treatment
- * Test, and the patient *accepts* the result, which is then recorded. Every step
- * is a human-triggered, ownership-gated, chat-posted action; no step mutates a
- * character without that character's controlling player acting.
+ * model. Started by the injured character invoking **Request Treatment** on the
+ * wound (`TraumaLogic.requestTreatment`), which posts the first (`perform`) card:
  *
  * ```
- * request (patient) ── requestTreatment ──▶ perform (physician)
- * perform (physician) ── performTreatment ──▶ accept (patient)
- * accept  (patient)  ── acceptTreatment  ──▶ ✔ recorded
+ * perform (self)   card "Treatment Requested… [Perform Treatment]"   → performTreatmentTest → accept
+ * accept  (injury) card "Physician X treated the wound → HR N [Accept]" → treatInjury(hr)    → done
  * ```
  *
- * This module defines the sequence as data (referencing action shortcodes); the
- * Foundry runtime and the `requestTreatment` / `performTreatment` /
- * `acceptTreatment` executors are wired separately (milestone 2b).
+ * Two roles are bound when it starts (in `requestTreatment`):
+ *
+ * - **`self`** — bound to the `@self` sentinel, so the `perform` card is **open**:
+ *   *any* player may click it, and their own default character (`game.user.character`)
+ *   responds. `performTreatmentTest` self-gates on the Physician skill.
+ * - **`injury`** — bound to the wound's uuid (owned by the patient), so the
+ *   `accept` card is targeted to the patient, who records the Healing Rate.
+ *
+ * Nothing mutates until the patient's Accept — and, because all state lives in the
+ * posted cards, the interaction can be ignored or overridden at any point.
  */
 
 import {
@@ -38,76 +42,76 @@ import {
 /** The id of the treatment sequence. */
 export const TREATMENT_SEQUENCE_ID = "treatment";
 
+/** The proposed treatment outcome recorded in the ledger by `performTreatmentTest`. */
+interface TreatmentResult {
+    /** The proposed Healing Rate (a number, or the `"HEAL"` sentinel). */
+    healingRate?: number | string;
+    /** The name of the physician who performed the test. */
+    physicianName?: string;
+}
+
 /**
- * Read the injured trauma item's uuid from the ledger (blank when absent).
+ * Read the proposed treatment result from the ledger.
  * @param state - The sequence ledger.
- * @returns The injury uuid, or an empty string.
+ * @returns The recorded {@link TreatmentResult}, or an empty object.
  */
-function injuryUuid(state: SequenceState): string {
-    return typeof state.injuryUuid === "string" ? state.injuryUuid : "";
+function result(state: SequenceState): TreatmentResult {
+    return (state.result as TreatmentResult | undefined) ?? {};
+}
+
+/**
+ * Read the patient's name from the ledger (blank when absent).
+ * @param state - The sequence ledger.
+ * @returns The patient's name, or an empty string.
+ */
+function patientName(state: SequenceState): string {
+    return typeof state.patientName === "string" ? state.patientName : "";
 }
 
 /**
  * The treatment sequence definition, registered under
- * {@link TREATMENT_SEQUENCE_ID}. The **ledger** threads `injuryUuid` (the wound),
- * then `request`, then `result` as the steps produce them.
+ * {@link TREATMENT_SEQUENCE_ID}. Its **ledger** starts as
+ * `{ injuryUuid, patientName }` (from `requestTreatment`) and gains `result`
+ * (`{ healingRate, physicianName }`) after the perform step.
  */
 export const TREATMENT_SEQUENCE: SequenceDefinition = defineSequence({
     id: TREATMENT_SEQUENCE_ID,
-    roles: ["patient", "physician"],
-    initial: "request",
+    roles: ["self", "injury"],
+    initial: "perform",
     steps: {
-        request: {
-            by: "patient",
-            card: () => ({
-                title: "Treatment Requested",
-                body: "The patient asks a physician to treat this wound.",
-            }),
-            choices: [
-                {
-                    key: "request",
-                    label: "Request Treatment",
-                    iconFAClass: "fa-solid fa-hand",
-                    action: "requestTreatment",
-                    scope: (s) => ({ injuryUuid: injuryUuid(s) }),
-                    reduce: (s, r) => ({ ...s, request: r }),
-                    next: "perform",
-                },
-            ],
-        },
         perform: {
-            by: "physician",
-            card: () => ({
-                title: "Perform Treatment Test",
-                body: "A physician performs the Treatment Test on the wound.",
+            by: "self",
+            card: (s) => ({
+                title: "Treatment Requested",
+                body: `${patientName(s) || "The patient"} asks a physician to treat this wound.`,
             }),
             choices: [
                 {
                     key: "perform",
                     label: "Perform Treatment Test",
                     iconFAClass: "fa-solid fa-staff-snake",
-                    action: "performTreatment",
-                    scope: (s) => ({ injuryUuid: injuryUuid(s) }),
+                    action: "performTreatmentTest",
+                    scope: (s) => ({ injuryUuid: s.injuryUuid }),
                     reduce: (s, r) => ({ ...s, result: r }),
                     next: "accept",
                 },
             ],
         },
         accept: {
-            by: "patient",
-            card: () => ({
-                title: "Accept Treatment",
-                body: "The patient accepts the treatment; its Healing Rate is recorded.",
+            by: "injury",
+            card: (s) => ({
+                title: "Treatment Result",
+                body: `${result(s).physicianName || "A physician"} treated the wound — the test resolves to Healing Rate ${result(s).healingRate ?? "?"}.`,
             }),
             choices: [
                 {
                     key: "accept",
                     label: "Accept",
                     iconFAClass: "fa-solid fa-check",
-                    action: "acceptTreatment",
+                    action: "treatInjury",
                     scope: (s) => ({
-                        injuryUuid: injuryUuid(s),
-                        result: s.result,
+                        injuryUuid: s.injuryUuid,
+                        healingRate: result(s).healingRate,
                     }),
                     next: null,
                 },

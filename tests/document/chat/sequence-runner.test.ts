@@ -12,7 +12,6 @@ import {
 } from "@src/document/chat/sequence-runner";
 import { defineSequence } from "@src/entity/sequence";
 import { defaultToJSON } from "@src/utils/helpers";
-import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 
 /** A two-step test sequence: s1 (role a) → s2 (role b) → done. */
 beforeAll(() => {
@@ -62,25 +61,28 @@ function seqBtn(stepId: string, choiceKey: string, state: object): HTMLElement {
     } as unknown as HTMLElement;
 }
 
-/** A stub acting logic whose method-fallback actions are vi.fns. */
+/** A stub acting logic whose method-fallback actions are vi.fns, with a speaker. */
 function actingLogic(methods: Record<string, any>) {
-    return { actions: new Map(), speaker: {}, ...methods };
+    return {
+        actions: new Map(),
+        speaker: { toChat: vi.fn().mockResolvedValue(null) },
+        ...methods,
+    };
 }
 
 describe("startSequence", () => {
-    it("posts the initial step's card, addressed to the initial role", async () => {
-        const acting = { speaker: { toChat: vi.fn().mockResolvedValue(null) } };
-        vi.spyOn(FoundryHelpersMock, "fvttLogicFromUuidSync").mockReturnValue(
-            acting,
-        );
+    it("posts the initial step's card via the initiator's speaker", async () => {
+        const speaker = { toChat: vi.fn().mockResolvedValue(null) };
         await startSequence(
             (await import("@src/entity/sequence")).getSequence("runner-test")!,
             ROLES,
             { x: 1 },
+            speaker,
         );
-        expect(acting.speaker.toChat).toHaveBeenCalledOnce();
-        const data = acting.speaker.toChat.mock.calls[0][1];
+        expect(speaker.toChat).toHaveBeenCalledOnce();
+        const data = speaker.toChat.mock.calls[0][1];
         expect(data.stepId).toBe("s1");
+        // The button targets role a (its handler / gate).
         expect(data.handlerUuid).toBe("Actor.a");
         expect(data.buttons).toEqual([
             expect.objectContaining({ choiceKey: "go", action: "doStep" }),
@@ -89,15 +91,9 @@ describe("startSequence", () => {
 });
 
 describe("runSequenceStep", () => {
-    it("runs the choice's action, advances, and posts the next step's card", async () => {
+    it("runs the choice's action, advances, and posts the next card via the actor who just acted", async () => {
         const doStep = vi.fn().mockResolvedValue({ ok: true });
         const logic = actingLogic({ doStep });
-        const nextActing = {
-            speaker: { toChat: vi.fn().mockResolvedValue(null) },
-        };
-        vi.spyOn(FoundryHelpersMock, "fvttLogicFromUuidSync").mockReturnValue(
-            nextActing,
-        );
 
         await runSequenceStep(logic as any, seqBtn("s1", "go", { x: 7 }));
 
@@ -107,21 +103,31 @@ describe("runSequenceStep", () => {
         expect(ctx.skipDialog).toBe(true);
         expect(ctx.scope).toEqual({ x: 7 });
 
-        // Advanced to s2 and posted a card addressed to role b.
-        expect(nextActing.speaker.toChat).toHaveBeenCalledOnce();
-        const data = nextActing.speaker.toChat.mock.calls[0][1];
+        // Advanced to s2; the next card is spoken by the acting logic and its
+        // button targets role b.
+        expect(logic.speaker.toChat).toHaveBeenCalledOnce();
+        const data = logic.speaker.toChat.mock.calls[0][1];
         expect(data.stepId).toBe("s2");
         expect(data.handlerUuid).toBe("Actor.b");
     });
 
+    it("does not advance when the action returns undefined (aborted / self-gated)", async () => {
+        // A non-terminal step whose action returns undefined did not complete:
+        // the sequence stays put and posts no next card (the card remains live).
+        const doStep = vi.fn().mockResolvedValue(undefined);
+        const logic = actingLogic({ doStep });
+        await runSequenceStep(logic as any, seqBtn("s1", "go", { x: 1 }));
+        expect(doStep).toHaveBeenCalledOnce();
+        expect(logic.speaker.toChat).not.toHaveBeenCalled(); // no next card
+    });
+
     it("does not post a next card on a terminal choice", async () => {
-        const doEnd = vi.fn().mockResolvedValue(undefined);
+        const doEnd = vi.fn().mockResolvedValue({ ok: true });
         const logic = actingLogic({ doEnd });
-        const resolve = vi.spyOn(FoundryHelpersMock, "fvttLogicFromUuidSync");
         await runSequenceStep(logic as any, seqBtn("s2", "end", {}));
         expect(doEnd).toHaveBeenCalledOnce();
         // A terminal step folds/records but posts no further card.
-        expect(resolve).not.toHaveBeenCalled();
+        expect(logic.speaker.toChat).not.toHaveBeenCalled();
     });
 
     it("warns and does nothing for an unknown sequence", async () => {

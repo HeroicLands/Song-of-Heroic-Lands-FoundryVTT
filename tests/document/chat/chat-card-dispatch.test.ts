@@ -143,6 +143,32 @@ describe("resolveAuthorizedChatCardHandler (#167)", () => {
             ),
         ).toBe(null);
     });
+
+    it("resolves the @self sentinel to the user's own character (#576)", () => {
+        const character = { isOwner: true, name: "My Character" };
+        const resolveDoc = vi.fn(() => ({ isOwner: false }));
+        const resolveSelf = vi.fn(() => character);
+        expect(
+            resolveAuthorizedChatCardHandler(
+                dataset({ handlerUuid: "@self" }),
+                resolveDoc,
+                resolveSelf,
+            ),
+        ).toBe(character);
+        // @self never goes through the uuid document lookup.
+        expect(resolveDoc).not.toHaveBeenCalled();
+        expect(resolveSelf).toHaveBeenCalledOnce();
+    });
+
+    it("ignores an @self button when the user has no character", () => {
+        expect(
+            resolveAuthorizedChatCardHandler(
+                dataset({ handlerUuid: "@self" }),
+                () => ({ isOwner: true }),
+                () => undefined,
+            ),
+        ).toBe(null);
+    });
 });
 
 describe("dispatchChatCardAction (#66)", () => {

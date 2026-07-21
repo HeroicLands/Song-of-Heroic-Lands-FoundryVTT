@@ -1244,90 +1244,69 @@ describe("BeingLogic", () => {
         });
     });
 
-    describe("treatment sequence executors (#576)", () => {
+    describe("performTreatmentTest — treatment sequence perform step (#576)", () => {
         afterEach(() => vi.restoreAllMocks());
 
-        it("requestTreatment returns a consent marker and mutates nothing", async () => {
-            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(4200);
-            const being = makeBeing();
-            await expect(being.requestTreatment()).resolves.toEqual({
-                requestedAt: 4200,
-            });
-        });
-
-        it("performTreatment rolls the physician's Physician skill and proposes a Healing Rate", async () => {
+        /** A being whose Physician skill ML is `pysnMl`, or absent when `null`. */
+        function physician(pysnMl: number | null) {
             const being = makeBeing();
             vi.spyOn(being, "getItemLogic").mockImplementation(
                 (code: string) =>
-                    code === "pysn" ?
-                        ({ masteryLevel: { effective: 60 } } as any)
+                    code === "pysn" && pysnMl !== null ?
+                        ({ masteryLevel: { effective: pysnMl } } as any)
                     :   undefined,
             );
+            return being;
+        }
+
+        it("rolls the responder's own Physician skill and proposes a Healing Rate", async () => {
+            const being = physician(60);
             // Grievous edged wound resolved from the injury uuid.
             vi.spyOn(
                 FoundryHelpersMock,
                 "fvttLogicFromUuidSync",
             ).mockReturnValue({
                 data: { levelBase: 4, aspect: "edged" },
-            });
+            } as any);
             vi.spyOn(
                 MasteryLevelModifier.prototype,
                 "successTest",
             ).mockResolvedValue({ normSuccessLevel: MARGINAL_SUCCESS } as any);
-            const res = await being.performTreatment({
+            const res = await being.performTreatmentTest({
                 scope: { injuryUuid: "Item.w" },
             } as any);
             // grievous MS → HR 4; the wound is NOT mutated here (propose only).
-            expect(res).toEqual({ healingRate: 4, band: "grievous" });
+            expect(res).toMatchObject({ healingRate: 4 });
         });
 
-        it("performTreatment returns null when the wound cannot be resolved", async () => {
-            const being = makeBeing();
+        it("self-gates: aborts (undefined + warns) when the responder has no Physician skill", async () => {
+            const being = physician(null);
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttLogicFromUuidSync",
+            ).mockReturnValue({
+                data: { levelBase: 4, aspect: "edged" },
+            } as any);
+            const warn = vi.spyOn(sohl.log, "uiWarn");
+            await expect(
+                being.performTreatmentTest({
+                    scope: { injuryUuid: "Item.w" },
+                } as any),
+            ).resolves.toBeUndefined();
+            expect(warn).toHaveBeenCalled();
+        });
+
+        it("returns undefined when the wound cannot be resolved", async () => {
+            const being = physician(60);
             vi.spyOn(
                 FoundryHelpersMock,
                 "fvttLogicFromUuidSync",
             ).mockReturnValue(undefined);
             await expect(
-                being.performTreatment({ scope: { injuryUuid: "x" } } as any),
-            ).resolves.toBeNull();
-        });
-
-        it("acceptTreatment records the proposed Healing Rate on the wound", async () => {
-            const being = makeBeing();
-            const update = vi.fn().mockResolvedValue(undefined);
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttLogicFromUuidSync",
-            ).mockReturnValue({ item: { update } });
-            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
-            await being.acceptTreatment({
-                scope: { injuryUuid: "Item.w", result: { healingRate: 4 } },
-            } as any);
-            expect(update).toHaveBeenCalledWith(
-                expect.objectContaining({
-                    "system.healingRateBase": 4,
-                    "system.treatmentDate": 1000,
-                }),
-            );
-        });
-
-        it("acceptTreatment heals the wound outright on a HEAL result", async () => {
-            const being = makeBeing();
-            const update = vi.fn().mockResolvedValue(undefined);
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttLogicFromUuidSync",
-            ).mockReturnValue({ item: { update } });
-            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(0);
-            await being.acceptTreatment({
-                scope: {
-                    injuryUuid: "Item.w",
-                    result: { healingRate: "HEAL" },
-                },
-            } as any);
-            expect(update).toHaveBeenCalledWith(
-                expect.objectContaining({ "system.levelBase": 0 }),
-            );
+                being.performTreatmentTest({
+                    scope: { injuryUuid: "x" },
+                } as any),
+            ).resolves.toBeUndefined();
         });
     });
 

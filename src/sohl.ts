@@ -23,7 +23,10 @@ import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import { turnStartCombatantUpdate } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { resolveAuthorizedChatCardHandler } from "@src/document/chat/chat-card-dispatch";
-import { gateAutomatedDefenseButtons } from "@src/document/chat/chat-card-gating";
+import {
+    gateAutomatedDefenseButtons,
+    gateSequenceButtons,
+} from "@src/document/chat/chat-card-gating";
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 import { registerCombatTrackerHooks } from "@src/document/combat/combat-tracker-hooks";
 import { registerCombatantConfigHooks } from "@src/document/combatant/combatant-config-hooks";
@@ -429,12 +432,22 @@ function registerSystemHooks() {
             gateAutomatedDefenseButtons(element, (uuid) =>
                 foundry.utils.fromUuidSync(uuid),
             );
+            // Chat Sequence buttons: hide owner-targeted buttons from non-owners;
+            // open (`@self`) buttons stay visible to everyone.
+            gateSequenceButtons(element, (uuid) =>
+                foundry.utils.fromUuidSync(uuid),
+            );
 
             // Authorize the click by the resolved handler document's ownership
             // (a GM owns all) before running anything — the render gate above is
-            // UX only and is bypassable (issue #167).
+            // UX only and is bypassable (issue #167). An `@self` handler resolves
+            // to the clicking user's own default character.
             const resolveDoc = (uuid: string) =>
                 foundry.utils.fromUuidSync(uuid) as {
+                    isOwner?: boolean;
+                } | null;
+            const resolveSelf = () =>
+                (game as any).user?.character as {
                     isOwner?: boolean;
                 } | null;
             element.addEventListener("click", (ev) => {
@@ -445,6 +458,7 @@ function registerSystemHooks() {
                     const doc = resolveAuthorizedChatCardHandler(
                         btn.dataset,
                         resolveDoc,
+                        resolveSelf,
                     ) as any;
                     if (typeof doc?.onChatCardButton === "function") {
                         doc.onChatCardButton(btn);

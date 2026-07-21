@@ -16,7 +16,8 @@ import {
     TREATMENT_SEQUENCE_ID,
 } from "@src/entity/sequence";
 
-const ROLES = { patient: "Actor.pat", physician: "Actor.phys" };
+// The `self` role is bound to the @self sentinel (open); `injury` to the wound.
+const ROLES = { self: "@self", injury: "Item.wound" };
 
 describe("treatment sequence (reference implementation)", () => {
     it("is registered and structurally valid", () => {
@@ -24,60 +25,62 @@ describe("treatment sequence (reference implementation)", () => {
         expect(() => validateSequence(TREATMENT_SEQUENCE)).not.toThrow();
     });
 
-    it("addresses each step to the correct acting role", () => {
+    it("opens with the perform card (self), then targets the injury for accept", () => {
         let inst = startInstance(TREATMENT_SEQUENCE, ROLES, {
             injuryUuid: "Item.wound",
+            patientName: "Aldric",
         });
-        // request → patient
+        // perform → open (@self): any player answers with their own character.
+        expect(inst.stepId).toBe("perform");
         expect(
             buildSequenceCardData(TREATMENT_SEQUENCE, inst).handlerUuid,
-        ).toBe("Actor.pat");
-        inst = advanceSequence(inst, TREATMENT_SEQUENCE, "request", {
-            ok: true,
-        }).instance;
-        // perform → physician
-        expect(
-            buildSequenceCardData(TREATMENT_SEQUENCE, inst).handlerUuid,
-        ).toBe("Actor.phys");
+        ).toBe("@self");
         inst = advanceSequence(inst, TREATMENT_SEQUENCE, "perform", {
             healingRate: 4,
+            physicianName: "Brygga",
         }).instance;
-        // accept → patient
+        // accept → the injury (owned by the patient).
+        expect(inst.stepId).toBe("accept");
         expect(
             buildSequenceCardData(TREATMENT_SEQUENCE, inst).handlerUuid,
-        ).toBe("Actor.pat");
+        ).toBe("Item.wound");
     });
 
-    it("threads the wound, request, and result through the ledger and terminates", () => {
+    it("threads the result through the ledger and terminates on accept", () => {
         let inst = startInstance(TREATMENT_SEQUENCE, ROLES, {
             injuryUuid: "Item.wound",
         });
-        inst = advanceSequence(inst, TREATMENT_SEQUENCE, "request", {
-            at: "now",
-        }).instance;
         inst = advanceSequence(inst, TREATMENT_SEQUENCE, "perform", {
             healingRate: 4,
+            physicianName: "Brygga",
         }).instance;
-        const end = advanceSequence(inst, TREATMENT_SEQUENCE, "accept", null);
+        const end = advanceSequence(inst, TREATMENT_SEQUENCE, "accept", {
+            healingRate: 4,
+        });
         expect(end.done).toBe(true);
         expect(end.instance.state).toEqual({
             injuryUuid: "Item.wound",
-            request: { at: "now" },
-            result: { healingRate: 4 },
+            result: { healingRate: 4, physicianName: "Brygga" },
         });
     });
 
-    it("projects the ledger into each action's scope", () => {
-        const inst = startInstance(TREATMENT_SEQUENCE, ROLES, {
+    it("the accept step hands treatInjury the proposed Healing Rate", () => {
+        const inst = advanceSequence(
+            startInstance(TREATMENT_SEQUENCE, ROLES, {
+                injuryUuid: "Item.wound",
+            }),
+            TREATMENT_SEQUENCE,
+            "perform",
+            { healingRate: 4, physicianName: "Brygga" },
+        ).instance;
+        const acceptChoice = TREATMENT_SEQUENCE.steps.accept.choices[0];
+        expect(acceptChoice.action).toBe("treatInjury");
+        expect(acceptChoice.scope?.(inst.state)).toEqual({
             injuryUuid: "Item.wound",
+            healingRate: 4,
         });
-        const performChoice = TREATMENT_SEQUENCE.steps.perform.choices[0];
-        expect(performChoice.scope?.({ injuryUuid: "Item.wound" })).toEqual({
-            injuryUuid: "Item.wound",
-        });
-        expect(performChoice.action).toBe("performTreatment");
-        // The perform step's card is addressed to the physician.
-        expect(TREATMENT_SEQUENCE.steps.perform.by).toBe("physician");
-        expect(inst.stepId).toBe("request");
+        // The perform step is the open one; accept targets the injury.
+        expect(TREATMENT_SEQUENCE.steps.perform.by).toBe("self");
+        expect(TREATMENT_SEQUENCE.steps.accept.by).toBe("injury");
     });
 });

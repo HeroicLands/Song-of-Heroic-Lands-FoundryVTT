@@ -31,6 +31,14 @@ import {
     type TreatmentCode,
 } from "@src/entity/body/injury-treatment";
 import { permanentImpairmentFor } from "@src/entity/body/impairment";
+import { TREATMENT_SEQUENCE } from "@src/entity/sequence";
+// `sequence-runner` and `chat-card-dispatch` are pure, Foundry-free modules; the
+// path-based boundary rule can't tell them apart from the Foundry-coupled files
+// under `document/chat/`, so allow these two.
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import { startSequence } from "@src/document/chat/sequence-runner";
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import { SELF_HANDLER } from "@src/document/chat/chat-card-dispatch";
 import {
     SHOCK_STATE,
     shockCourseHrDelta,
@@ -173,6 +181,77 @@ export class TraumaLogic<
     /* --------------------------------------------- */
     /* Intrinsic Actions                             */
     /* --------------------------------------------- */
+
+    /**
+     * Intrinsic-action executor for `requestTreatment` — the injured character's
+     * **Request Treatment** context-menu action, which starts the treatment
+     * {@link sohl.entity.sequence | Chat Sequence} (#576). It posts the open
+     * *Perform Treatment* card that any player with the Physician skill may
+     * answer; nothing is rolled or recorded until a physician performs and the
+     * patient accepts.
+     *
+     * @param _context - The action context (unused).
+     * @returns A promise that resolves once the sequence's first card is posted.
+     */
+    async requestTreatment(_context: SohlActionContext): Promise<void> {
+        if (this.data.subType !== TRAUMA_SUBTYPE.INJURY) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.Treatment.NotAnInjury"),
+            );
+            return;
+        }
+        if (!injuryBand(this.data.levelBase)) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.Treatment.AlreadyHealed"),
+            );
+            return;
+        }
+        const uuid = this.item?.uuid;
+        if (!uuid) return;
+        await startSequence(
+            TREATMENT_SEQUENCE,
+            { self: SELF_HANDLER, injury: uuid },
+            {
+                injuryUuid: uuid,
+                patientName: (this.actorLogic as { name?: string })?.name ?? "",
+            },
+            this.speaker,
+        );
+    }
+
+    /**
+     * Record a physician's proposed Healing Rate on this wound — the terminal
+     * `treatInjury` step of the treatment sequence (#576), run only when the
+     * patient (this wound's owner) clicks **Accept**. A `HEAL` result heals the
+     * wound outright.
+     *
+     * @param context - The action context; `scope.healingRate` is the accepted
+     *   Healing Rate (a number or the `HEAL` sentinel).
+     * @returns The recorded Healing Rate, or `undefined` when none was supplied.
+     */
+    async treatInjury(
+        context: SohlActionContext,
+    ): Promise<{ healingRate: number | typeof TREATMENT_HEAL } | undefined> {
+        const hr = (
+            context.scope as {
+                healingRate?: number | typeof TREATMENT_HEAL;
+            }
+        )?.healingRate;
+        if (hr == null) return undefined;
+        const now = fvttWorldTime();
+        if (hr === TREATMENT_HEAL) {
+            await this.item.update({
+                "system.levelBase": 0,
+                "system.treatmentDate": now,
+            } as PlainObject);
+            return { healingRate: hr };
+        }
+        await this.item.update({
+            "system.healingRateBase": hr,
+            "system.treatmentDate": now,
+        } as PlainObject);
+        return { healingRate: hr };
+    }
 
     /**
      * Roll the **Physician Treatment Test** (#553), establishing this injury's
@@ -319,6 +398,16 @@ export class TraumaLogic<
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "requestTreatment",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.requestTreatment.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-hand",
+                executor: "requestTreatment",
+                visible: "itemLogic.data.subType === 'physical'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
             {
                 shortcode: "treatmenttest",
                 subType: ACTION_SUBTYPE.INTRINSIC,

@@ -17,6 +17,8 @@ import {
 } from "@src/utils/constants";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
+import * as SequenceRunner from "@src/document/chat/sequence-runner";
+import { TREATMENT_SEQUENCE } from "@src/entity/sequence";
 
 describe("time-based healing / blood-loss scheduling (#482)", () => {
     afterEach(() => vi.restoreAllMocks());
@@ -1046,6 +1048,87 @@ describe("Permanent impairment on heal (#554)", () => {
         });
         await logic.healingCheck({} as any);
         expect(applyPermanentImpairment).not.toHaveBeenCalled();
+    });
+});
+
+describe("Treatment Chat Sequence — requestTreatment / treatInjury (#576)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    function injury(overrides: Record<string, unknown> = {}) {
+        const actor = makeMockActor({ name: "Aldric" });
+        const logic = makeTrauma(
+            { subType: TRAUMA_SUBTYPE.INJURY, levelBase: 4, ...overrides },
+            { actor },
+        );
+        (logic.item as any).uuid = "Item.wound";
+        logic.initialize();
+        return logic;
+    }
+
+    describe("requestTreatment (context-menu trigger)", () => {
+        it("starts the treatment sequence, binding self=@self and injury=the wound", async () => {
+            const start = vi
+                .spyOn(SequenceRunner, "startSequence")
+                .mockResolvedValue(undefined);
+            await injury().requestTreatment({} as any);
+            expect(start).toHaveBeenCalledWith(
+                TREATMENT_SEQUENCE,
+                { self: "@self", injury: "Item.wound" },
+                expect.objectContaining({ injuryUuid: "Item.wound" }),
+                expect.anything(), // the injury's speaker announces the card
+            );
+        });
+
+        it("warns and does not start for a non-injury trauma", async () => {
+            const start = vi
+                .spyOn(SequenceRunner, "startSequence")
+                .mockResolvedValue(undefined);
+            const warn = vi.spyOn(sohl.log, "uiWarn");
+            await injury({ subType: TRAUMA_SUBTYPE.FEAR }).requestTreatment(
+                {} as any,
+            );
+            expect(start).not.toHaveBeenCalled();
+            expect(warn).toHaveBeenCalled();
+        });
+
+        it("warns and does not start for an already-healed injury", async () => {
+            const start = vi
+                .spyOn(SequenceRunner, "startSequence")
+                .mockResolvedValue(undefined);
+            await injury({ levelBase: 0 }).requestTreatment({} as any);
+            expect(start).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("treatInjury (accept step)", () => {
+        it("records the accepted Healing Rate on the wound", async () => {
+            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
+            const logic = injury();
+            await logic.treatInjury({ scope: { healingRate: 4 } } as any);
+            expect(logic.item.update).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    "system.healingRateBase": 4,
+                    "system.treatmentDate": 1000,
+                }),
+            );
+        });
+
+        it("heals the wound outright on a HEAL result", async () => {
+            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(0);
+            const logic = injury();
+            await logic.treatInjury({ scope: { healingRate: "HEAL" } } as any);
+            expect(logic.item.update).toHaveBeenCalledWith(
+                expect.objectContaining({ "system.levelBase": 0 }),
+            );
+        });
+
+        it("is a no-op (returns undefined) when no Healing Rate is supplied", async () => {
+            const logic = injury();
+            await expect(
+                logic.treatInjury({ scope: {} } as any),
+            ).resolves.toBeUndefined();
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
     });
 });
 

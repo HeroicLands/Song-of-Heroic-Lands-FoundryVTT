@@ -14,26 +14,28 @@
 /**
  * Chat Sequence runtime — the treatment flow end to end (#576).
  *
- * Drives the treatment sequence through real chat cards and button dispatch:
- * request (patient) → perform (physician) → accept (patient). Each step's card is
- * posted by the runner; the next button is read back off the posted message and
- * dispatched through the document's `onChatCardButton` (the real click path). One
- * GM-owned actor plays both roles. The proof: the wound's Healing Rate is recorded
- * only after the patient's final Accept click — nothing mutates until then.
+ * The corrected flow: the patient invokes **Request Treatment** on the wound
+ * (`TraumaLogic.requestTreatment`), which posts an *open* Perform card; whoever
+ * clicks it responds with their own `game.user.character` (the action self-gates
+ * on the Physician skill); the physician's result posts an Accept card targeted
+ * to the injury (owned by the patient), whose `treatInjury` records the Healing
+ * Rate. One GM-owned actor plays both parts here. The proof: the wound's Healing
+ * Rate is recorded only after the final Accept — nothing mutates until then.
  */
 
 describe("Chat Sequence — treatment flow", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
 
-    it("request → perform → accept records the Healing Rate on the wound", () => {
+    it("Request Treatment → open Perform (@self) → Accept records the Healing Rate", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
             cy.foundry(async (win) => {
                 const a = win.game.actors.get(actor.id);
 
-                // A grievous edged wound to treat (band = grievous → a numeric HR).
-                const payload = win.structuredClone([
+                // A grievous edged wound (band grievous → a numeric HR), plus a
+                // Physician skill so the responder passes the self-gate.
+                const items = win.structuredClone([
                     {
                         type: "trauma",
                         name: "Wound",
@@ -43,29 +45,35 @@ describe("Chat Sequence — treatment flow", () => {
                             aspect: "edged",
                         },
                     },
+                    {
+                        type: "skill",
+                        name: "Physician",
+                        system: { shortcode: "pysn", masteryLevelBase: 50 },
+                    },
                 ]);
-                const [injury] = await a.createEmbeddedDocuments("Item", payload);
+                const created = await a.createEmbeddedDocuments("Item", items);
+                const injury = created.find((i) => i.type === "trauma");
+                await win.game.actors.get(actor.id).sheet?.render?.(false);
+
+                // Whoever clicks the open Perform button responds with their
+                // default character — here, this actor.
+                await win.game.user.update(
+                    win.structuredClone({ character: a.id }),
+                );
 
                 const before = win.game.messages.size;
 
-                // Dispatch a sequence button through the document's handler (the
-                // real click path: onChatCardButton → dispatchChatCardAction →
-                // runSequenceStep).
+                // Resolve a button's handler (a `@self` button → the user's
+                // character; a uuid → that document) and dispatch it — the real
+                // click path (onChatCardButton → dispatch → runSequenceStep).
                 const dispatch = async (btn) => {
-                    await a.onChatCardButton(btn);
+                    const uuid = btn.dataset.handlerUuid;
+                    const doc =
+                        uuid === "@self" ?
+                            win.game.user.character
+                        :   win.fromUuidSync(uuid);
+                    await doc.onChatCardButton(btn);
                 };
-                // The request step's button, hand-built with the initial instance.
-                const requestBtn = win.document.createElement("button");
-                requestBtn.dataset.sequenceId = "treatment";
-                requestBtn.dataset.stepId = "request";
-                requestBtn.dataset.choiceKey = "request";
-                requestBtn.dataset.handlerUuid = a.uuid;
-                requestBtn.dataset.scope = JSON.stringify({
-                    roles: { patient: a.uuid, physician: a.uuid },
-                    state: { injuryUuid: injury.uuid },
-                });
-
-                // Read the button for `choiceKey` off the most recent posted card.
                 const latestButton = (choiceKey) => {
                     const msg = win.game.messages.contents.at(-1);
                     const div = win.document.createElement("div");
@@ -75,11 +83,13 @@ describe("Chat Sequence — treatment flow", () => {
                     );
                 };
 
-                // request → posts the perform card.
-                await dispatch(requestBtn);
-                // perform → rolls the physician's Physician skill, posts accept card.
+                // Trigger: the patient invokes Request Treatment on the wound →
+                // posts the open Perform card.
+                await win.fromUuidSync(injury.uuid).logic.requestTreatment({});
+                // Perform (open @self) → rolls the responder's Physician skill,
+                // posts the Accept card.
                 await dispatch(latestButton("perform"));
-                // accept → the patient records the proposed Healing Rate (terminal).
+                // Accept (targeted to the injury) → treatInjury records the HR.
                 await dispatch(latestButton("accept"));
 
                 const wound = a.items.get(injury.id);
@@ -89,7 +99,7 @@ describe("Chat Sequence — treatment flow", () => {
                     treated: wound.system.treatmentDate != null,
                 };
             }).should((r) => {
-                // perform + accept cards were posted (request was hand-dispatched).
+                // Perform + Accept cards were posted.
                 expect(r.cardsPosted, "sequence cards posted").to.be.gte(2);
                 expect(r.treated, "treatment recorded on the wound").to.be.true;
                 expect(
