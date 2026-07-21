@@ -38,6 +38,7 @@ import { expressionHelpers } from "@src/entity/expr/ExpressionHelperRegistry";
 import { DomainRegistry } from "@src/entity/domain/DomainRegistry";
 import { BUILTIN_DOMAINS } from "@src/entity/domain/builtin-domains";
 import { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
+import { registerPureHandlebarsHelpers } from "@src/utils/handlebars-helpers";
 
 /**
  * Initializes the SoHL system: merges its CONFIG into Foundry's and
@@ -572,148 +573,17 @@ function registerSystemHooks() {
  * Registers all SoHL Handlebars helpers used by the system templates.
  */
 function registerHandlebarsHelpers() {
-    /**
-     * A helper to create a set of &lt;option> elements in a &lt;select> block based on a provided array.
-     * This helper supports both single-select as well as multi-select input fields.
-     *
-     * @param choices - An array containing the choices
-     * @param options - Helper options
-     * @param options.selected - Which key is currently selected?
-     * @param options.blank - Add a blank option as the first option with this label
-     * @param options.sort - Sort the options by their label after localization
-     * @returns
-     * @throws {Error} If `choices` is not an Array.
-     *
-     * @example The provided input data
-     * ```js
-     * let choices = {"Choice A", "Choice B"};
-     * let value = "Choice A";
-     * ```
-     * The template HTML structure
-     * ```hbs
-     * <select name="importantChoice">
-     *   {{selectArray choices selected=value}}
-     * </select>
-     * ```
-     * The resulting HTML
-     * ```html
-     * <select name="importantChoice">
-     *   <option value="Choice A" selected>Choice A</option>
-     *   <option value="Choice B">Choice B</option>
-     * </select>
-     * ```
-     */
-    Handlebars.registerHelper("selectArray", function (choices, options) {
-        let selected = options.hash.selected ?? null;
-        let blank = options.hash.blank ?? null;
-        let sort = options.hash.sort ?? false;
+    // SoHL's pure, Foundry-free helpers (selectArray, endswith, optionalString,
+    // setHas, contains, toJSON, toLowerCase, arrayToString, injurySeverity,
+    // array) — extracted to a shared module so the Node test render harness
+    // registers the exact same code and template rendering never drifts.
+    registerPureHandlebarsHelpers(Handlebars);
 
-        selected =
-            selected instanceof Array ?
-                selected.map(String)
-            :   [String(selected)];
-
-        // Prepare the choices as an array of objects
-        const selectOptions = [];
-        if (choices instanceof Array) {
-            for (const choice of choices) {
-                const label = String(choice);
-                selectOptions.push({ value: label, label });
-            }
-        } else {
-            throw new Error("You must specify an array to selectArray");
-        }
-
-        // Sort the array of options
-        if (sort) selectOptions.sort((a, b) => a.label.localeCompare(b.label));
-
-        // Prepend a blank option
-        if (blank !== null) {
-            selectOptions.unshift({ value: "", label: blank });
-        }
-
-        // Create the HTML
-        let fragHtml = "";
-        for (const option of selectOptions) {
-            const label = Handlebars.escapeExpression(option.label);
-            const value = Handlebars.escapeExpression(option.value);
-            const isSelected = selected.includes(option.value);
-            fragHtml += `<option value="${value}" ${isSelected ? "selected" : ""}>${label}</option>`;
-        }
-        return new Handlebars.SafeString(fragHtml);
-    });
-
-    Handlebars.registerHelper("endswith", function (op1, op2) {
-        return op1.endsWith(op2);
-    });
-
-    Handlebars.registerHelper(
-        "optionalString",
-        function (cond, strTrue = "", strFalse = "") {
-            if (cond) return strTrue;
-            return strFalse;
-        },
-    );
-
-    Handlebars.registerHelper("setHas", function (set, value) {
-        return set.has(value);
-    });
-
-    Handlebars.registerHelper("contains", function (container, value, options) {
-        return container.includes(value) ?
-                options.fn(container)
-            :   options.inverse(container);
-    });
-
-    Handlebars.registerHelper("toJSON", function (obj) {
-        return JSON.stringify(obj);
-    });
-
-    Handlebars.registerHelper("toLowerCase", function (str) {
-        return str.toLowerCase();
-    });
+    // ---- Foundry-coupled helpers (touch foundry.*, the DOM, or the sohl
+    // surface; kept here and stubbed in the test harness) --------------------
 
     Handlebars.registerHelper("getProperty", function (object, key) {
         return foundry.utils.getProperty(object, key);
-    });
-
-    Handlebars.registerHelper("arrayToString", function (ary) {
-        return ary.join(",");
-    });
-
-    /**
-     * Format a trauma severity level for display, dispatching on subType.
-     *   - physical: 0 → "NA", 1 → "M1", 2 → "S2", 3 → "S3", 4 → "G4",
-     *               5 → "G5", >5 → "G{val}".
-     *   - mental:   0 → "—", N → "PSY {N}".
-     *   - spiritual: 0 → "—", N → "AS {N}".
-     *   - shadow:   0 → "—", N → "SL {N}".
-     * Unknown subType falls back to the bare number.
-     */
-    Handlebars.registerHelper(
-        "injurySeverity",
-        function (val: unknown, subType: unknown) {
-            const n = Number(val) || 0;
-            switch (subType) {
-                case "physical":
-                    if (n <= 0) return "NA";
-                    return n <= 5 ?
-                            ["NA", "M1", "S2", "S3", "G4", "G5"][n]
-                        :   `G${n}`;
-                case "mental":
-                    return n <= 0 ? "—" : `PSY ${n}`;
-                case "spiritual":
-                    return n <= 0 ? "—" : `AS ${n}`;
-                case "shadow":
-                    return n <= 0 ? "—" : `SL ${n}`;
-                default:
-                    return String(n);
-            }
-        },
-    );
-
-    Handlebars.registerHelper("array", function () {
-        return Array.from(arguments).slice(0, arguments.length - 1);
     });
 
     Handlebars.registerHelper("textInput", function (value, options) {

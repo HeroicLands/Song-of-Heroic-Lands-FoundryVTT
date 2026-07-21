@@ -9,7 +9,7 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { buildAttackCardData } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { buildActionCard } from "@src/document/chat/action-card";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
-import { renderRealTemplate } from "@tests/mocks/renderHbs";
+import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 
 afterEach(() => vi.restoreAllMocks());
 
@@ -71,7 +71,7 @@ describe("buildAttackCardData → ActionCardSpec", () => {
         vi.spyOn(FoundryHelpersMock, "toHTMLWithTemplate").mockImplementation(((
             tpl: any,
             data: any,
-        ) => Promise.resolve(renderRealTemplate(String(tpl), data))) as any);
+        ) => Promise.resolve(renderTemplateReal(String(tpl), data))) as any);
 
         const spec = buildAttackCardData({
             ...baseInput,
