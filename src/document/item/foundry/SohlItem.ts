@@ -12,7 +12,6 @@
  */
 
 import {
-    buildActionScope,
     slugifyShortcode,
     subTypeOptionsFromChoices,
     uniqueShortcode,
@@ -24,7 +23,6 @@ import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
 import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
-import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SohlTriggerContext } from "@src/entity/event/event-trigger";
 import { isScriptActionMutationAllowed } from "@src/entity/action/SohlAction";
 
@@ -560,39 +558,7 @@ export class SohlItem extends Item {
         // against it; the render-time gate is UX only and a direct or
         // synthesized call bypasses it (issue #167). Mirrors onChatCardEditAction.
         if (!this.isOwner) return;
-        const actionName = btn.dataset.action;
-        if (!actionName) return;
-
-        const context = new SohlActionContext({
-            speaker: this.logic.speaker,
-            type: actionName,
-            title: btn.textContent?.trim() ?? actionName,
-            scope: buildActionScope(
-                btn.dataset,
-                (this.logic as any).actorLogic ?? this.logic,
-            ),
-        });
-        const action =
-            this.logic.actions.get(actionName) ??
-            [...this.logic.actions.values()].find(
-                (act) =>
-                    act.data.executor === actionName ||
-                    act.data.title === actionName,
-            );
-
-        if (action) {
-            await action.execute(context);
-            return;
-        }
-
-        const fn = (this.logic as any)[actionName];
-        if (typeof fn === "function") {
-            await fn.call(this.logic, context);
-        } else {
-            sohl.log.warn(
-                `Chat card action "${actionName}" not found on item "${this.name}".`,
-            );
-        }
+        await dispatchChatCardAction(this.logic, btn);
     }
 
     /**
