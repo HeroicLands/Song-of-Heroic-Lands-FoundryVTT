@@ -84,4 +84,23 @@ describe("Generic scheduled actions", () => {
             });
         });
     });
+
+    it("sohl.worldHost() find-or-creates a hidden _sohlworld singleton", () => {
+        cy.foundry(async (win) => {
+            const w1 = await win.sohl.worldHost();
+            const w2 = await win.sohl.worldHost(); // singleton: same actor
+            const result = {
+                shortcode: w1?.system?.shortcode,
+                ownershipDefault: w1?.ownership?.default,
+                singleton: !!w1 && !!w2 && w1.id === w2.id,
+            };
+            await w1?.delete(); // not tagged by the run — clean up explicitly
+            return result;
+        }).should((r) => {
+            expect(r.shortcode, "reserved shortcode").to.eq("_sohlworld");
+            expect(r.ownershipDefault, "invisible to players (NONE)").to.eq(0);
+            expect(r.singleton, "find-or-create returns the same actor").to.be
+                .true;
+        });
+    });
 });

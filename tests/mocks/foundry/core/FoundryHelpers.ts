@@ -154,6 +154,16 @@ export function fvttWorldActors(): any[] {
     return [];
 }
 
+export function fvttActorByShortcode(_shortcode: string): any {
+    return undefined;
+}
+
+export async function fvttCreateWorldActor(
+    _data: Record<string, unknown>,
+): Promise<any> {
+    return undefined;
+}
+
 export function fvttLogicFromUuidSync(_uuid: string): any {
     return undefined;
 }

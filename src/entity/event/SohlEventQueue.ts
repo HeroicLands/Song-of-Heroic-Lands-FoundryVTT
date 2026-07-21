@@ -391,18 +391,29 @@ export class SohlEventQueue {
                 `SOHL.Reminder.effect.${sub.actionName}`,
             );
             const actorName = (speaker as { name?: string }).name ?? "";
-            await speaker.toChat(toFilePath(REMINDER_CARD_TEMPLATE), {
-                effectLabel,
-                actorName,
-                body: sohl.i18n.localize("SOHL.Reminder.body"),
-                performLabel: sohl.i18n.localize("SOHL.Reminder.perform"),
-                actionName: sub.actionName,
-                handlerUuid: sub.uuid,
-                // The trigger context + payload — revived as the action's scope
-                // when the owner clicks [Perform] (same shape the queue used to
-                // pass directly to executeAction).
-                scopeData: defaultToJSON({ ...ctx, payload: sub.payload }),
-            });
+            // A `visibility: "gm"` payload posts the reminder as a GM whisper
+            // (e.g. a world-host bandit check — no metagame leak to players);
+            // otherwise it is public and gated to the document's owner.
+            const visibility = (sub.payload as { visibility?: string })
+                ?.visibility;
+            const options =
+                visibility === "gm" ? { rollMode: "gmroll" } : undefined;
+            await speaker.toChat(
+                toFilePath(REMINDER_CARD_TEMPLATE),
+                {
+                    effectLabel,
+                    actorName,
+                    body: sohl.i18n.localize("SOHL.Reminder.body"),
+                    performLabel: sohl.i18n.localize("SOHL.Reminder.perform"),
+                    actionName: sub.actionName,
+                    handlerUuid: sub.uuid,
+                    // The trigger context + payload — revived as the action's
+                    // scope when the owner clicks [Perform] (same shape the queue
+                    // used to pass directly to executeAction).
+                    scopeData: defaultToJSON({ ...ctx, payload: sub.payload }),
+                },
+                options,
+            );
         } catch (err) {
             console.error(
                 `SoHL | Error offering "${sub.actionName}" on trigger "${ctx.name}" for ${sub.uuid}:`,

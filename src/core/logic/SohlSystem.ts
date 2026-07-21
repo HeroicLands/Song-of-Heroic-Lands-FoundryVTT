@@ -20,6 +20,8 @@ import { SohlLogger } from "@src/core/foundry/SohlLogger";
 import {
     ActorKinds,
     ItemKinds,
+    ACTOR_KIND,
+    WORLD_HOST_SHORTCODE,
     SOHL_DEFAULT_CALENDAR_CONFIG,
     type ActorKind,
     type ItemKind,
@@ -36,7 +38,13 @@ import {
 import { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
-import { getActiveCombat, fvttWorldTime } from "@src/core/FoundryHelpers";
+import {
+    getActiveCombat,
+    fvttWorldTime,
+    fvttActorByShortcode,
+    fvttCreateWorldActor,
+    fvttIsCurrentUserGM,
+} from "@src/core/FoundryHelpers";
 import {
     scheduleAction,
     unscheduleAction,
@@ -438,6 +446,32 @@ export class SohlSystem {
      */
     unschedule(doc: Schedulable, actionName: string): Promise<void> {
         return unscheduleAction(doc, this.events, actionName);
+    }
+
+    /**
+     * Find (or, for a GM, create) the singleton **world host** actor —
+     * `sohl.worldHost()`. It is the document world-scoped scheduled actions and
+     * events hang off of (issue #588): an Actor, so it already has the execution
+     * surface (`onChatCardButton` + an `actions` collection) that a scheduled
+     * action's `[Perform]` needs.
+     *
+     * Identified by the reserved shortcode {@link WORLD_HOST_SHORTCODE}. Created
+     * with ownership default NONE, so only the GM ever sees it. If it has been
+     * deleted, a GM call recreates it (its stored schedule is lost and must be
+     * re-registered). A non-GM who cannot see it gets `undefined`.
+     *
+     * @returns The world-host actor, or `undefined` (non-GM, not visible).
+     */
+    async worldHost(): Promise<any> {
+        const existing = fvttActorByShortcode(WORLD_HOST_SHORTCODE);
+        if (existing) return existing;
+        if (!fvttIsCurrentUserGM()) return undefined;
+        return fvttCreateWorldActor({
+            name: "World",
+            type: ACTOR_KIND.BEING,
+            system: { shortcode: WORLD_HOST_SHORTCODE },
+            ownership: { default: 0 },
+        });
     }
 }
 
