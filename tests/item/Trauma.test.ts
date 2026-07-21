@@ -621,6 +621,163 @@ describe("Injury Healing Test effect (#486)", () => {
     });
 });
 
+describe("Extended Shock / Coma course test (#556)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    const HOUR = 3600;
+
+    function withEvents() {
+        const scheduleAt = vi.fn();
+        const unsubscribe = vi.fn();
+        (globalThis as any).sohl.events = { scheduleAt, unsubscribe };
+        return { scheduleAt, unsubscribe };
+    }
+
+    /** A lasting-shock (shock/coma) trauma with one course interval of `spanHrs`. */
+    function lasting(
+        opts: {
+            subType?: string;
+            healingRateBase?: number;
+            hb?: number;
+            fatigue?: number;
+            spanHrs?: number;
+            contractDate?: number;
+            otherComaHr?: number | null;
+        } = {},
+    ) {
+        const {
+            subType = TRAUMA_SUBTYPE.SHOCK,
+            healingRateBase = 4,
+            hb = 4,
+            fatigue = 0,
+            spanHrs = 4,
+            contractDate = 0,
+            otherComaHr = null,
+        } = opts;
+        const interval = spanHrs * HOUR;
+        const actor = makeMockActor();
+        (actor.logic as any).healingBase = { effective: hb };
+        (actor.logic as any).fatiguePenalty = { effective: fatigue };
+        (actor.logic as any).setShockState = vi
+            .fn()
+            .mockResolvedValue(undefined);
+        const logic = makeTrauma(
+            {
+                subType,
+                levelBase: 0,
+                healingRateBase,
+                contractDate,
+                lastCourseDate: 0,
+                courseDurationBase: interval,
+                courseDurationFormula: String(interval),
+            },
+            { actor },
+        );
+        (logic.item as any).uuid = "Item.shock000000";
+        logic.initialize();
+        // Optionally give the actor another active coma trauma (the self logic
+        // is already registered via actor.items by makeItemLogic).
+        if (otherComaHr != null) {
+            actor.itemTypes = {
+                [ITEM_KIND.TRAUMA]: [
+                    {
+                        logic: {
+                            data: { subType: TRAUMA_SUBTYPE.COMA },
+                            healingRate: { effective: otherComaHr },
+                        },
+                    },
+                ],
+            };
+        }
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(interval);
+        return { logic, actor };
+    }
+
+    function mockRoll(...levels: number[]) {
+        const spy = vi.spyOn(MasteryLevelModifier.prototype, "successTest");
+        for (const lvl of levels)
+            spy.mockResolvedValueOnce({ normSuccessLevel: lvl } as any);
+        return spy;
+    }
+
+    it("adjusts the Healing Rate by the course-test result", async () => {
+        withEvents();
+        mockRoll(MARGINAL_SUCCESS); // HR 4 → 5
+        const { logic } = lasting({ healingRateBase: 4 });
+        await logic.courseCheck({} as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.healingRateBase": 5 }),
+        );
+    });
+
+    it("rolls Healing Base × HR with the fatigue penalty", async () => {
+        withEvents();
+        const spy = mockRoll(MARGINAL_SUCCESS);
+        const { logic } = lasting({ healingRateBase: 4, hb: 4, fatigue: 5 });
+        await logic.courseCheck({} as any);
+        expect((spy.mock.instances[0] as any).base).toBe(16); // 4 × 4
+        expect(spy.mock.calls[0][0].scope.situationalModifier).toBe(-5);
+    });
+
+    it("kills the victim when the Healing Rate falls to 0 or below", async () => {
+        const { unsubscribe } = withEvents();
+        mockRoll(CRITICAL_FAILURE); // HR 1 → -1
+        const { logic, actor } = lasting({ healingRateBase: 1 });
+        await logic.courseCheck({} as any);
+        expect((actor.logic as any).setShockState).toHaveBeenCalledWith(4); // DEAD
+        expect(unsubscribe).toHaveBeenCalledWith(
+            "Item.shock000000",
+            "courseCheck",
+        );
+    });
+
+    it("recovers (shock cleared) when the Healing Rate reaches 6", async () => {
+        const { unsubscribe } = withEvents();
+        mockRoll(CRITICAL_SUCCESS); // HR 5 → 7 (≥6)
+        const { logic, actor } = lasting({ healingRateBase: 5 });
+        await logic.courseCheck({} as any);
+        expect((actor.logic as any).setShockState).toHaveBeenCalledWith(0); // NONE
+        expect(unsubscribe).toHaveBeenCalledWith(
+            "Item.shock000000",
+            "courseCheck",
+        );
+    });
+
+    it("leaves an Extended Shock recovery Unconscious while a Coma remains", async () => {
+        withEvents();
+        mockRoll(CRITICAL_SUCCESS);
+        const { logic, actor } = lasting({
+            subType: TRAUMA_SUBTYPE.SHOCK,
+            healingRateBase: 5,
+            otherComaHr: 3,
+        });
+        await logic.courseCheck({} as any);
+        expect((actor.logic as any).setShockState).toHaveBeenCalledWith(3); // UNCONSCIOUS
+    });
+
+    it("a recovering Coma inflicts weariness fatigue equal to days spent", async () => {
+        withEvents();
+        const create = vi
+            .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+            .mockResolvedValue([]);
+        mockRoll(CRITICAL_SUCCESS); // HR 5 → 7
+        // Coma course fires at 4h here (span), but contractDate 0 → ~0 days.
+        // Use a long span to accrue days: 48h ≈ 2 days.
+        const { logic } = lasting({
+            subType: TRAUMA_SUBTYPE.COMA,
+            healingRateBase: 5,
+            spanHrs: 48,
+            contractDate: 0,
+        });
+        await logic.courseCheck({} as any);
+        expect(create).toHaveBeenCalledWith(logic.actorLogic, [
+            expect.objectContaining({
+                system: expect.objectContaining({ category: "weakness" }),
+            }),
+        ]);
+    });
+});
+
 describe("Permanent impairment on heal (#554)", () => {
     afterEach(() => vi.restoreAllMocks());
 

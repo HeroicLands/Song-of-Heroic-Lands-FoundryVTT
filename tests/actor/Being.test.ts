@@ -9,6 +9,8 @@ import { BodyStructure } from "@src/entity/body/BodyStructure";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     ACTOR_KIND,
+    CRITICAL_FAILURE,
+    CRITICAL_SUCCESS,
     FATIGUE_CATEGORY,
     IMPACT_ASPECT,
     ITEM_KIND,
@@ -1090,6 +1092,118 @@ describe("BeingLogic", () => {
                 "unconscious",
                 true,
             );
+        });
+    });
+
+    describe("shockReTest (#556)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        function setup(
+            opts: {
+                current?: Set<string>;
+                sl?: number;
+                shockMl?: number;
+                fatigue?: number;
+            } = {},
+        ) {
+            const {
+                current = new Set<string>(),
+                sl = 0,
+                shockMl = 50,
+                fatigue = 0,
+            } = opts;
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                current,
+            );
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttToggleActorStatus",
+            ).mockResolvedValue(undefined);
+            const create = vi
+                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+                .mockResolvedValue([]);
+            const being = makeBeing();
+            (being as any).fatiguePenalty = { effective: fatigue };
+            vi.spyOn(being, "getItemLogic").mockImplementation(
+                (code: string) =>
+                    code === "shok" ?
+                        ({ masteryLevel: { effective: shockMl } } as any)
+                    :   undefined,
+            );
+            const roll = vi
+                .spyOn(MasteryLevelModifier.prototype, "successTest")
+                .mockResolvedValue({ normSuccessLevel: sl } as any);
+            const set = vi
+                .spyOn(being, "setShockState")
+                .mockResolvedValue(undefined);
+            return { being, roll, set, create };
+        }
+
+        it("does nothing unless the being is Incapacitated or Unconscious", async () => {
+            const { being, roll } = setup({ current: new Set(["stun"]) }); // STUNNED
+            const res = await being.shockReTest({} as any);
+            expect(res).toBeNull();
+            expect(roll).not.toHaveBeenCalled();
+        });
+
+        it("rolls the Shock skill at −20 minus the fatigue penalty", async () => {
+            const { being, roll } = setup({
+                current: new Set(["incapacitated"]),
+                sl: MARGINAL_SUCCESS,
+                shockMl: 44,
+                fatigue: 5,
+            });
+            await being.shockReTest({} as any);
+            expect((roll.mock.instances[0] as any).base).toBe(44);
+            expect(roll.mock.calls[0][0].scope.situationalModifier).toBe(-25); // −20 − 5
+        });
+
+        it("recovers from all shock on a critical success", async () => {
+            const { being, set } = setup({
+                current: new Set(["unconscious"]),
+                sl: CRITICAL_SUCCESS,
+            });
+            await being.shockReTest({} as any);
+            expect(set).toHaveBeenCalledWith(0); // NONE
+        });
+
+        it("improves to Stunned on a marginal success", async () => {
+            const { being, set } = setup({
+                current: new Set(["incapacitated"]),
+                sl: MARGINAL_SUCCESS,
+            });
+            await being.shockReTest({} as any);
+            expect(set).toHaveBeenCalledWith(1); // STUNNED
+        });
+
+        it("drops into Extended Shock (a shock trauma) on a marginal failure", async () => {
+            const { being, create } = setup({
+                current: new Set(["incapacitated"]),
+                sl: MARGINAL_FAILURE,
+            });
+            await being.shockReTest({} as any);
+            expect(create).toHaveBeenCalledWith(being, [
+                expect.objectContaining({
+                    system: expect.objectContaining({
+                        subType: "shock",
+                        healingRateBase: 5,
+                    }),
+                }),
+            ]);
+        });
+
+        it("drops an Unconscious victim into a Coma on a critical failure", async () => {
+            const { being, create, set } = setup({
+                current: new Set(["unconscious"]),
+                sl: CRITICAL_FAILURE,
+            });
+            await being.shockReTest({} as any);
+            expect(create).toHaveBeenCalledWith(being, [
+                expect.objectContaining({
+                    system: expect.objectContaining({ subType: "coma" }),
+                }),
+            ]);
+            expect(set).toHaveBeenCalledWith(3); // UNCONSCIOUS
         });
     });
 

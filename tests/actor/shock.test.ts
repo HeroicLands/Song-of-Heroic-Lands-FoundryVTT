@@ -9,11 +9,15 @@ import { describe, it, expect } from "vitest";
 import {
     SHOCK_STATE,
     SHOCK_STATUS_IDS,
+    SHOCK_RETEST_MODIFIER,
     shockStateFromStatuses,
     shockStatusForLevel,
     clampShockState,
     shockStateFromIndex,
     shockIndexAdjustment,
+    shockReTestOutcome,
+    shockCourseHrDelta,
+    comaHealingRate,
 } from "@src/document/actor/logic/shock";
 import {
     CRITICAL_FAILURE,
@@ -111,6 +115,62 @@ describe("shock (#550)", () => {
             expect(shockIndexAdjustment(MARGINAL_SUCCESS)).toBe(0);
             expect(shockIndexAdjustment(CRITICAL_SUCCESS)).toBe(-1);
         });
+    });
+
+    describe("shockReTestOutcome (#556)", () => {
+        it("critical success recovers from all shock", () => {
+            expect(
+                shockReTestOutcome(SHOCK_STATE.INCAPACITATED, CRITICAL_SUCCESS),
+            ).toEqual({ kind: "recover" });
+            expect(
+                shockReTestOutcome(SHOCK_STATE.UNCONSCIOUS, CRITICAL_SUCCESS),
+            ).toEqual({ kind: "recover" });
+        });
+
+        it("marginal success improves to Stunned", () => {
+            expect(
+                shockReTestOutcome(SHOCK_STATE.UNCONSCIOUS, MARGINAL_SUCCESS),
+            ).toEqual({ kind: "improve", state: SHOCK_STATE.STUNNED });
+        });
+
+        it("marginal failure drops into Extended Shock at HR 5", () => {
+            expect(
+                shockReTestOutcome(SHOCK_STATE.INCAPACITATED, MARGINAL_FAILURE),
+            ).toEqual({ kind: "extendedShock", hr: 5 });
+            expect(
+                shockReTestOutcome(SHOCK_STATE.UNCONSCIOUS, MARGINAL_FAILURE),
+            ).toEqual({ kind: "extendedShock", hr: 5 });
+        });
+
+        it("critical failure: Incapacitated → Extended Shock HR 4, Unconscious → Coma", () => {
+            expect(
+                shockReTestOutcome(SHOCK_STATE.INCAPACITATED, CRITICAL_FAILURE),
+            ).toEqual({ kind: "extendedShock", hr: 4 });
+            expect(
+                shockReTestOutcome(SHOCK_STATE.UNCONSCIOUS, CRITICAL_FAILURE),
+            ).toEqual({ kind: "coma" });
+        });
+    });
+
+    describe("shockCourseHrDelta (#556)", () => {
+        it("adjusts the Healing Rate by the course-test result", () => {
+            expect(shockCourseHrDelta(CRITICAL_FAILURE)).toBe(-2);
+            expect(shockCourseHrDelta(MARGINAL_FAILURE)).toBe(-1);
+            expect(shockCourseHrDelta(MARGINAL_SUCCESS)).toBe(1);
+            expect(shockCourseHrDelta(CRITICAL_SUCCESS)).toBe(2);
+        });
+    });
+
+    describe("comaHealingRate (#556)", () => {
+        it("is 12 − location Shock Value − Injury Level", () => {
+            expect(comaHealingRate(4, 5)).toBe(3);
+            expect(comaHealingRate(0, 0)).toBe(12);
+            expect(comaHealingRate(3, 3)).toBe(6);
+        });
+    });
+
+    it("SHOCK_RETEST_MODIFIER is −20", () => {
+        expect(SHOCK_RETEST_MODIFIER).toBe(-20);
     });
 
     it("SHOCK_STATUS_IDS lists exactly the four shock statuses", () => {

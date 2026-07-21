@@ -68,6 +68,9 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         treatmentDate: worldTimeDateField(),
         ...recurringPhaseFields("healingCheck"),
         ...recurringPhaseFields("bloodLossAdvance"),
+        // Extended Shock / Coma recovery Course Test (#556): its own recurring
+        // cadence (Extended Shock every 4 hours; Coma every d10 days).
+        ...recurringPhaseFields("course"),
         // Whether this injury, once treated, is eligible for permanent
         // impairment if it heals slowly (#553 sets it; #554 applies the
         // magnitude). A blank sentinel (`false`), not nullable: "not eligible"
@@ -107,6 +110,9 @@ export class TraumaDataModel<
     bloodLossAdvanceDurationFormula!: string;
     bloodLossAdvanceDurationBase!: number | null;
     lastBloodLossAdvanceDate!: number | null;
+    courseDurationFormula!: string;
+    courseDurationBase!: number | null;
+    lastCourseDate!: number | null;
     permanentImpairmentEligible!: boolean;
     bodyLocationCode!: string;
 
@@ -166,6 +172,23 @@ export class TraumaDataModel<
             seed.bloodLossAdvanceDurationFormula = bloodFormula;
             seed.bloodLossAdvanceDurationBase = Number(bloodFormula) || 0;
         }
+
+        // Extended Shock / Coma recovery Course Test (#556): seed its cadence —
+        // Extended Shock every 4 hours; Coma every d10 days (a `0` seed fires the
+        // first check immediately, at which point the executor rolls the real
+        // interval). Only seeded when the caller has not supplied it.
+        if (
+            (this.subType === TRAUMA_SUBTYPE.SHOCK ||
+                this.subType === TRAUMA_SUBTYPE.COMA) &&
+            data.courseDurationFormula == null
+        ) {
+            const isComa = this.subType === TRAUMA_SUBTYPE.COMA;
+            const courseFormula = isComa ? "1d10 * 86400" : "14400";
+            seed.lastCourseDate = now;
+            seed.courseDurationFormula = courseFormula;
+            seed.courseDurationBase = Number(courseFormula) || 0;
+        }
+
         this.updateSource(seed as any);
         return undefined;
     }

@@ -30,7 +30,12 @@
  * (`assets/content/Rules/Shock.md`, "Implementation").
  */
 
-import { STATUS_EFFECT } from "@src/utils/constants";
+import {
+    CRITICAL_SUCCESS,
+    MARGINAL_FAILURE,
+    MARGINAL_SUCCESS,
+    STATUS_EFFECT,
+} from "@src/utils/constants";
 
 /**
  * The shock states as ascending severity levels — `NONE` (0) through `DEAD` (4).
@@ -137,4 +142,78 @@ export function shockStateFromIndex(index: number): number {
  */
 export function shockIndexAdjustment(normSuccessLevel: number): number {
     return 1 - normSuccessLevel;
+}
+
+/**
+ * The situational modifier on a **Shock Re-Test** (Shock rules — Shock Re-Test):
+ * a Shock skill test at −20.
+ */
+export const SHOCK_RETEST_MODIFIER = -20;
+
+/**
+ * The outcome of a **Shock Re-Test** (Shock rules — Shock Re-Test), by the
+ * victim's current shock state and the test result:
+ *
+ * - `recover` (CS) — recovers from all shock.
+ * - `improve` (MS) — improves to Stunned.
+ * - `extendedShock` (MF, or a CF while Incapacitated) — falls into Extended Shock
+ *   at Healing Rate `hr` (5 on MF; 4 on a CF while Incapacitated).
+ * - `coma` (CF while Unconscious) — falls into a Coma.
+ */
+export type ShockReTestOutcome =
+    | { kind: "recover" }
+    | { kind: "improve"; state: number }
+    | { kind: "extendedShock"; hr: number }
+    | { kind: "coma" };
+
+/**
+ * Resolve a **Shock Re-Test** for an Incapacitated or Unconscious victim.
+ *
+ * @param state - The victim's current shock state (`INCAPACITATED` or `UNCONSCIOUS`).
+ * @param normSuccessLevel - The Shock re-test result (CF −1 … CS 2).
+ * @returns The re-test outcome.
+ */
+export function shockReTestOutcome(
+    state: number,
+    normSuccessLevel: number,
+): ShockReTestOutcome {
+    if (normSuccessLevel >= CRITICAL_SUCCESS) return { kind: "recover" };
+    if (normSuccessLevel === MARGINAL_SUCCESS) {
+        return { kind: "improve", state: SHOCK_STATE.STUNNED };
+    }
+    if (normSuccessLevel === MARGINAL_FAILURE) {
+        return { kind: "extendedShock", hr: 5 };
+    }
+    // CF (−1): Incapacitated → Extended Shock HR 4; Unconscious → Coma.
+    return state >= SHOCK_STATE.UNCONSCIOUS ?
+            { kind: "coma" }
+        :   { kind: "extendedShock", hr: 4 };
+}
+
+/**
+ * The Healing Rate change from a shock/coma **Course Test** result (Shock rules —
+ * Extended Shock / Coma Course Test): `CF −2`, `MF −1`, `MS +1`, `CS +2`.
+ *
+ * @param normSuccessLevel - The course-test result (CF −1 … CS 2).
+ * @returns The signed change to the Healing Rate.
+ */
+export function shockCourseHrDelta(normSuccessLevel: number): number {
+    return normSuccessLevel < MARGINAL_SUCCESS ?
+            normSuccessLevel - 1
+        :   normSuccessLevel;
+}
+
+/**
+ * A **Coma**'s Healing Rate (Shock rules — Coma): `12 − Location Shock Value −
+ * Injury Level`, using the location and injury that induced the coma.
+ *
+ * @param locationShockValue - The Shock Value of the inducing body location.
+ * @param injuryLevel - The Injury Level of the inducing wound.
+ * @returns The coma's Healing Rate.
+ */
+export function comaHealingRate(
+    locationShockValue: number,
+    injuryLevel: number,
+): number {
+    return 12 - locationShockValue - injuryLevel;
 }

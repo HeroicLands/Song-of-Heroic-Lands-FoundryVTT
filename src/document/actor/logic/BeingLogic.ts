@@ -47,12 +47,17 @@ import {
     fvttToggleActorStatus,
 } from "@src/core/FoundryHelpers";
 import {
+    SHOCK_STATE,
     SHOCK_STATUS_IDS,
+    SHOCK_RETEST_MODIFIER,
     shockStateFromStatuses,
     shockStatusForLevel,
     clampShockState,
     shockStateFromIndex,
     shockIndexAdjustment,
+    shockReTestOutcome,
+    comaHealingRate,
+    type ShockReTestOutcome,
 } from "@src/document/actor/logic/shock";
 import { rollTimedTest } from "@src/document/item/logic/timed-test";
 import {
@@ -662,6 +667,180 @@ export class BeingLogic<
     }
 
     /**
+     * Resolve a **Shock Re-Test** (#556) for an Incapacitated or Unconscious
+     * being, attempting to shake off ordinary shock.
+     *
+     * Rolls the being's **Shock** skill headlessly at −20 (the being's fatigue
+     * penalty also applies; injury-impairment penalties do not) and applies the
+     * result ({@link shockReTestOutcome}): a critical success recovers from all
+     * shock, a marginal success improves to Stunned, and a failure drops the
+     * victim into **Extended Shock** (a `shock`-subtype trauma at Healing Rate
+     * 4/5) — or, for an Unconscious victim on a critical failure, a **Coma** (a
+     * `coma`-subtype trauma whose Healing Rate is `12 − Location Shock Value −
+     * Injury Level` of the worst active wound). Both lasting-shock traumas then
+     * recover through their own Course Test (see
+     * {@link sohl.document.item.logic.TraumaLogic.courseCheck}).
+     *
+     * A no-op (returns `null`) unless the being is Incapacitated or Unconscious.
+     * The re-test is currently invoked manually / on demand; its automatic
+     * scheduling (end of the next turn for Incapacitated, ten minutes later for
+     * Unconscious) awaits a follow-up.
+     *
+     * @param _context - The action context for the test.
+     * @returns The Shock re-test result, or `null` when no re-test applies.
+     */
+    async shockReTest(
+        _context: SohlActionContext,
+    ): Promise<SuccessTestResult | null> {
+        const state = this.shockState;
+        if (
+            state !== SHOCK_STATE.INCAPACITATED &&
+            state !== SHOCK_STATE.UNCONSCIOUS
+        ) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Being.ShockReTest.NotApplicable"),
+            );
+            return null;
+        }
+        const shockMl =
+            (
+                this.getItemLogic(SKILL_CODE.SHOCK, ITEM_KIND.SKILL) as
+                    | SkillLogic
+                    | undefined
+            )?.masteryLevel?.effective ?? 0;
+        const result = await rollTimedTest(this, shockMl, {
+            type: "shock-retest",
+            title: sohl.i18n.localize("SOHL.Being.Action.shockReTest"),
+            situationalModifier:
+                SHOCK_RETEST_MODIFIER - (this.fatiguePenalty?.effective ?? 0),
+        });
+        if (!result) return null;
+        await this.applyShockReTestOutcome(
+            shockReTestOutcome(state, result.normSuccessLevel),
+        );
+        return result;
+    }
+
+    /**
+     * Apply a resolved {@link shockReTestOutcome}: improve/recover the shock
+     * state directly, or create the corresponding Extended Shock / Coma
+     * lasting-shock trauma.
+     *
+     * @param outcome - The re-test outcome to apply.
+     * @returns A promise that resolves once the outcome is applied.
+     */
+    private async applyShockReTestOutcome(
+        outcome: ShockReTestOutcome,
+    ): Promise<void> {
+        switch (outcome.kind) {
+            case "recover":
+                await this.setShockState(SHOCK_STATE.NONE);
+                return;
+            case "improve":
+                await this.setShockState(outcome.state);
+                return;
+            case "extendedShock":
+                await this.createLastingShock(
+                    TRAUMA_SUBTYPE.SHOCK,
+                    outcome.hr,
+                    this.inducingInjury()?.code ?? "",
+                );
+                return;
+            case "coma": {
+                const inducing = this.inducingInjury();
+                // Coma Healing Rate = 12 − Location Shock Value − Injury Level.
+                // With no inducing wound to key off, fall back to a mid Healing
+                // Rate so the coma is neither instantly fatal nor instantly over.
+                const hr =
+                    inducing ?
+                        comaHealingRate(inducing.shockValue, inducing.level)
+                    :   3;
+                await this.createLastingShock(
+                    TRAUMA_SUBTYPE.COMA,
+                    hr,
+                    inducing?.code ?? "",
+                );
+                await this.setShockState(SHOCK_STATE.UNCONSCIOUS);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Create an Extended Shock / Coma lasting-shock trauma (its recovery Course
+     * Test cadence is seeded by the Trauma data model on creation).
+     *
+     * @param subType - `SHOCK` (Extended Shock) or `COMA`.
+     * @param healingRate - The lasting-shock Healing Rate.
+     * @param locationCode - The inducing body-location shortcode (may be empty).
+     * @returns A promise that resolves once the trauma is created.
+     */
+    private async createLastingShock(
+        subType: string,
+        healingRate: number,
+        locationCode: string,
+    ): Promise<void> {
+        const name = sohl.i18n.localize(
+            subType === TRAUMA_SUBTYPE.COMA ?
+                "SOHL.Trauma.Coma"
+            :   "SOHL.Trauma.ExtendedShock",
+        );
+        await fvttCreateEmbeddedItems(this, [
+            {
+                type: ITEM_KIND.TRAUMA,
+                name,
+                system: {
+                    subType,
+                    levelBase: 0,
+                    healingRateBase: Math.max(1, healingRate),
+                    aspect: IMPACT_ASPECT.BLUNT,
+                    bodyLocationCode: locationCode,
+                },
+            },
+        ]);
+    }
+
+    /**
+     * The being's **worst active injury** — the highest Injury Level, breaking
+     * ties by the location's Shock Value — with the data a Coma's Healing Rate
+     * needs. `undefined` when the being has no active injuries.
+     *
+     * @returns The inducing injury's location code, level, and Shock Value.
+     */
+    private inducingInjury():
+        | { code: string; level: number; shockValue: number }
+        | undefined {
+        const injuries = (
+            this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]
+        ).filter(
+            (t) =>
+                t.data.subType === TRAUMA_SUBTYPE.INJURY &&
+                (t.level?.effective ?? 0) > 0,
+        );
+        let best: TraumaLogic | undefined;
+        let bestLevel = 0;
+        let bestShock = 0;
+        for (const t of injuries) {
+            const level = t.level?.effective ?? 0;
+            const shock = t.bodyLocation?.shockValue?.effective ?? 0;
+            if (
+                level > bestLevel ||
+                (level === bestLevel && shock > bestShock)
+            ) {
+                best = t;
+                bestLevel = level;
+                bestShock = shock;
+            }
+        }
+        if (!best) return undefined;
+        return {
+            code: best.data.bodyLocationCode,
+            level: bestLevel,
+            shockValue: bestShock,
+        };
+    }
+
+    /**
      * Roll the being's stumble test, used to keep its footing. Tests the better
      * of the being's Agility trait and Acrobatics skill.
      *
@@ -861,6 +1040,17 @@ export class BeingLogic<
                 iconFAClass: "far fa-face-eyes-xmarks",
                 executor: "shockTest",
                 visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "shockReTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.shockReTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "far fa-face-dizzy",
+                executor: "shockReTest",
+                visible:
+                    "actorLogic.shockState === 2 || actorLogic.shockState === 3",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {

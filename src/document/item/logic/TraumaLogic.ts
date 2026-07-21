@@ -27,6 +27,10 @@ import {
     type TreatmentCode,
 } from "@src/entity/body/injury-treatment";
 import { permanentImpairmentFor } from "@src/entity/body/impairment";
+import {
+    SHOCK_STATE,
+    shockCourseHrDelta,
+} from "@src/document/actor/logic/shock";
 import { deriveNext, elapsedCheckpoints } from "@src/entity/event/scheduling";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -146,6 +150,12 @@ export class TraumaLogic<
      * {@link TraumaData.bloodLossAdvanceDurationBase}.
      */
     bloodLossAdvanceDurationBase!: ValueModifier;
+    /**
+     * Effective seconds between Extended Shock / Coma course checks, as a
+     * {@link sohl.entity.modifier.ValueModifier}, seeded from
+     * {@link TraumaData.courseDurationBase}.
+     */
+    courseDurationBase!: ValueModifier;
     /**
      * The {@link BodyLocation} on the being's body that this trauma
      * affects, resolved from {@link TraumaData.bodyLocationCode}. When the
@@ -340,6 +350,17 @@ export class TraumaLogic<
                 visible: "itemLogic.isBleeding",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
+            {
+                shortcode: "courseCheck",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.courseCheck.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-wave-pulse",
+                executor: "courseCheck",
+                visible:
+                    "itemLogic.data.subType === 'shock' || itemLogic.data.subType === 'coma'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
         ];
     }
 
@@ -424,6 +445,10 @@ export class TraumaLogic<
             {},
             { parent: this },
         ).setBase(this.data.bloodLossAdvanceDurationBase ?? 0);
+        this.courseDurationBase = new entity.ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.courseDurationBase ?? 0);
         this.bodyLocation = undefined;
     }
 
@@ -471,6 +496,39 @@ export class TraumaLogic<
         } else {
             sohl.events.unsubscribe(uuid, "bloodLossAdvanceCheck");
         }
+
+        // Extended Shock / Coma recovery course — recurring while the lasting-shock
+        // Healing Rate is between 1 and 5 (HR ≤ 0 is death, HR ≥ 6 is recovery;
+        // both end the course, #556).
+        if (this.isShockOrComa && this.isCourseActive) {
+            sohl.events.scheduleAt(
+                uuid,
+                "courseCheck",
+                deriveNext(
+                    this.data.lastCourseDate ?? 0,
+                    this.courseDurationBase.effective,
+                ),
+            );
+        } else {
+            sohl.events.unsubscribe(uuid, "courseCheck");
+        }
+    }
+
+    /** Whether this trauma is an Extended Shock or Coma lasting-shock record. */
+    private get isShockOrComa(): boolean {
+        return (
+            this.data.subType === TRAUMA_SUBTYPE.SHOCK ||
+            this.data.subType === TRAUMA_SUBTYPE.COMA
+        );
+    }
+
+    /**
+     * Whether an Extended Shock / Coma course is still running — the Healing Rate
+     * sits in `[1, 5]` (HR ≤ 0 died, HR ≥ 6 recovered) and its anchor is armed.
+     */
+    private get isCourseActive(): boolean {
+        const hr = this.healingRate.effective;
+        return hr >= 1 && hr <= 5 && this.data.lastCourseDate != null;
     }
 
     /**
@@ -717,6 +775,160 @@ export class TraumaLogic<
     }
 
     /**
+     * Intrinsic-action executor for the recurring **Extended Shock / Coma Course
+     * Test** (#556).
+     *
+     * At each elapsed checkpoint the victim rolls a headless course test —
+     * `Healing Base × Healing Rate` (fatigue applies) — that adjusts the
+     * lasting-shock Healing Rate (CF −2 / MF −1 / MS +1 / CS +2). If the Healing
+     * Rate falls to **0 or below** the victim **dies** (shock state Dead); if it
+     * rises to **6 or above** the victim **recovers** — a Coma additionally
+     * inflicts weariness fatigue equal to the days spent in the coma, and the
+     * being's shock state is cleared (a victim who still has a Coma stays
+     * Unconscious). Otherwise the anchor is advanced and the course re-armed.
+     *
+     * @param _context - The action context (its `scope` is the trigger context).
+     * @returns A promise that resolves once the course outcome is persisted.
+     */
+    async courseCheck(_context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (!uuid || !this.isShockOrComa) return;
+        const now = fvttWorldTime();
+        const interval = this.courseDurationBase.effective;
+        const anchor = this.data.lastCourseDate ?? now;
+        const checkpoints =
+            interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
+        const lastProcessed = checkpoints.at(-1) ?? now;
+
+        // Course Test at each elapsed checkpoint, in sequence (each adjusts the
+        // Healing Rate the next one sees), until it ends the course (HR out of
+        // the [1, 5] band) or the checkpoints run out.
+        let hr = this.data.healingRateBase ?? 0;
+        for (let i = 0; i < checkpoints.length && hr >= 1 && hr <= 5; i++) {
+            const sl = await this.rollShockCourseTest(hr);
+            if (sl == null) break; // roll refused
+            hr += shockCourseHrDelta(sl);
+        }
+
+        const nextInterval = this.rollDuration(this.data.courseDurationFormula);
+        this.courseDurationBase.setBase(nextInterval);
+
+        if (hr <= 0) {
+            // Death — the victim dies on the spot; the course ends.
+            await (this.actorLogic as any)?.setShockState?.(SHOCK_STATE.DEAD);
+            sohl.events.unsubscribe(uuid, "courseCheck");
+            await this.item.update({
+                "system.healingRateBase": 0,
+                "system.lastCourseDate": lastProcessed,
+                "system.courseDurationBase": nextInterval,
+            } as PlainObject);
+            return;
+        }
+
+        if (hr >= 6) {
+            // Recovery — the victim comes out of Extended Shock / the Coma.
+            await this.resolveShockRecovery(lastProcessed);
+            sohl.events.unsubscribe(uuid, "courseCheck");
+            await this.item.update({
+                "system.healingRateBase": hr,
+                "system.lastCourseDate": lastProcessed,
+                "system.courseDurationBase": nextInterval,
+            } as PlainObject);
+            return;
+        }
+
+        sohl.events.scheduleAt(
+            uuid,
+            "courseCheck",
+            deriveNext(lastProcessed, nextInterval),
+        );
+        await this.item.update({
+            "system.healingRateBase": hr,
+            "system.lastCourseDate": lastProcessed,
+            "system.courseDurationBase": nextInterval,
+        } as PlainObject);
+    }
+
+    /**
+     * Roll one headless **Extended Shock / Coma Course Test** — `Healing Base ×
+     * Healing Rate`, with the being's fatigue penalty applied — and return the
+     * normalized success level (−1/0/1/2), or `null` if the roll was refused.
+     *
+     * @param hr - The lasting-shock trauma's current Healing Rate.
+     * @returns The normalized success level, or `null`.
+     */
+    private async rollShockCourseTest(hr: number): Promise<number | null> {
+        const actorLogic = this.actorLogic as any;
+        const healingBase = actorLogic?.healingBase?.effective ?? 0;
+        const fatigue = actorLogic?.fatiguePenalty?.effective ?? 0;
+        const result = await rollTimedTest(
+            this,
+            healingBase * Math.max(0, hr),
+            {
+                noChat: true,
+                type: `trauma-${this.data.subType}-course`,
+                title: sohl.i18n.localize(
+                    "SOHL.Trauma.Action.courseCheck.title",
+                ),
+                situationalModifier: -fatigue,
+            },
+        );
+        return result ? result.normSuccessLevel : null;
+    }
+
+    /**
+     * Apply the recovery from an Extended Shock / Coma trauma: a Coma inflicts
+     * weariness fatigue equal to the days spent in it, and the being's shock
+     * state is cleared to `None` — unless another active Coma remains, in which
+     * case the being stays Unconscious.
+     *
+     * @param recoveredAt - The world-time at which recovery occurred.
+     * @returns A promise that resolves once the recovery is applied.
+     */
+    private async resolveShockRecovery(recoveredAt: number): Promise<void> {
+        if (
+            this.data.subType === TRAUMA_SUBTYPE.COMA &&
+            this.data.contractDate != null
+        ) {
+            const days = Math.max(
+                0,
+                Math.round(
+                    (recoveredAt - this.data.contractDate) / SECONDS_PER_DAY,
+                ),
+            );
+            await inflictWeaknessFatigue(
+                this.actorLogic,
+                days,
+                sohl.i18n.localize("SOHL.Trauma.ComaWeariness"),
+            );
+        }
+        const target =
+            this.hasOtherActiveComa() ?
+                SHOCK_STATE.UNCONSCIOUS
+            :   SHOCK_STATE.NONE;
+        await (this.actorLogic as any)?.setShockState?.(target);
+    }
+
+    /**
+     * Whether the owning being carries another active `coma`-subtype trauma
+     * (Healing Rate 1–5) besides this one — a victim leaving Extended Shock while
+     * still comatose stays Unconscious.
+     *
+     * @returns `true` when another active Coma remains.
+     */
+    private hasOtherActiveComa(): boolean {
+        const traumas = (this.actorLogic?.logicTypes?.[ITEM_KIND.TRAUMA] ??
+            []) as TraumaLogic[];
+        return traumas.some((t) => {
+            if (t === this || t.data.subType !== TRAUMA_SUBTYPE.COMA) {
+                return false;
+            }
+            const hr = t.healingRate?.effective ?? 0;
+            return hr >= 1 && hr <= 5;
+        });
+    }
+
+    /**
      * Look up the {@link BodyLocation} referenced by `bodyLocationCode`
      * on the being's body. Returns `undefined` when the code is blank,
      * the trauma is not attached to an actor, the being is incorporeal
@@ -779,6 +991,12 @@ export interface TraumaData<
     bloodLossAdvanceDurationBase: number | null;
     /** World-time of the last applied blood-loss advance (the recurrence anchor). */
     lastBloodLossAdvanceDate: number | null;
+    /** Formula rolled to seed the Extended Shock / Coma course-check interval. */
+    courseDurationFormula: string;
+    /** Rolled seconds between course checks; `null` until rolled. */
+    courseDurationBase: number | null;
+    /** World-time of the last applied course check (the recurrence anchor). */
+    lastCourseDate: number | null;
     /**
      * Whether this injury is eligible for **permanent impairment** should it
      * heal slowly. Set by the Treatment Test (#553) from the wound's aspect,
