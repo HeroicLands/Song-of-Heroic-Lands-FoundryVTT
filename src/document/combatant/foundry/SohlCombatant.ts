@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { buildActionScope } from "@src/utils/helpers";
+import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
@@ -19,7 +19,6 @@ import {
     SohlDataModel,
     defineSohlDataSchema,
 } from "@src/core/foundry/SohlDataModel";
-import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 import type { SohlCombatantLogic } from "../logic/SohlCombatantLogic";
 import { chooseInitialDisplayedMedium } from "../logic/SohlCombatantLogic";
@@ -70,40 +69,7 @@ export class SohlCombatant<
         // action against it; the render-time gate is UX only and a direct or
         // synthesized call bypasses it (issue #167).
         if (!this.isOwner) return;
-        const actionName = btn.dataset.action;
-        if (!actionName) return;
-
-        const context = new SohlActionContext({
-            speaker: this.logic.speaker,
-            type: actionName,
-            title: btn.textContent?.trim() ?? actionName,
-            scope: buildActionScope(
-                btn.dataset,
-                (this.logic as any).actorLogic ?? this.logic,
-            ),
-        });
-
-        const action =
-            this.logic.actions.get(actionName) ??
-            [...this.logic.actions.values()].find(
-                (act) =>
-                    act.data.executor === actionName ||
-                    act.data.title === actionName,
-            );
-
-        if (action) {
-            await action.execute(context);
-            return;
-        }
-
-        const fn = (this.logic as any)[actionName];
-        if (typeof fn === "function") {
-            await fn.call(this.logic, context);
-        } else {
-            sohl.log.warn(
-                `SoHL | ${this.name} (Combatant) received unhandled chat-card action "${actionName}".`,
-            );
-        }
+        await dispatchChatCardAction(this.logic, btn);
     }
 
     /**

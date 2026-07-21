@@ -11,10 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { buildActionScope } from "@src/utils/helpers";
+import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
 import { getCanvas, fvttGetTargetedTokens } from "@src/core/FoundryHelpers";
 import { fvttRangeToTarget } from "@src/core/FoundryHelpers";
-import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import {
     SohlTokenDocumentLogic,
     type TokenData,
@@ -80,40 +79,7 @@ export class SohlTokenDocument extends TokenDocument {
         // against it; the render-time gate is UX only and a direct or
         // synthesized call bypasses it (issue #167).
         if (!this.isOwner) return;
-        const actionName = btn.dataset.action;
-        if (!actionName) return;
-
-        const context = new SohlActionContext({
-            speaker: this.logic.speaker,
-            type: actionName,
-            title: btn.textContent?.trim() ?? actionName,
-            scope: buildActionScope(
-                btn.dataset,
-                (this.logic as any).actorLogic ?? this.logic,
-            ),
-        });
-
-        const action =
-            this.logic.actions.get(actionName) ??
-            [...this.logic.actions.values()].find(
-                (act) =>
-                    act.data.executor === actionName ||
-                    act.data.title === actionName,
-            );
-
-        if (action) {
-            await action.execute(context);
-            return;
-        }
-
-        const fn = (this.logic as any)[actionName];
-        if (typeof fn === "function") {
-            await fn.call(this.logic, context);
-        } else {
-            sohl.log.warn(
-                `SoHL | ${this.name} (Token) received unhandled chat-card action "${actionName}".`,
-            );
-        }
+        await dispatchChatCardAction(this.logic, btn);
     }
     /**
      * Gets the user-targeted tokens.

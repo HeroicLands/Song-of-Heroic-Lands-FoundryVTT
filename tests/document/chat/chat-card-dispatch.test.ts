@@ -179,6 +179,31 @@ describe("dispatchChatCardAction (#66)", () => {
         expect(execute).toHaveBeenCalledOnce();
     });
 
+    it("finds the action by its executor id when not keyed by name", async () => {
+        const execute = vi.fn();
+        const logic: any = {
+            speaker: {},
+            actions: new Map([
+                [
+                    "blk1",
+                    { data: { executor: "automatedBlockResume" }, execute },
+                ],
+            ]),
+        };
+        await dispatchChatCardAction(logic, btn("automatedBlockResume"));
+        expect(execute).toHaveBeenCalledOnce();
+    });
+
+    it("finds the action by its title when not keyed by name or executor", async () => {
+        const execute = vi.fn();
+        const logic: any = {
+            speaker: {},
+            actions: new Map([["blk1", { data: { title: "Block" }, execute }]]),
+        };
+        await dispatchChatCardAction(logic, btn("Block"));
+        expect(execute).toHaveBeenCalledOnce();
+    });
+
     it("falls back to calling a method on logic when not in actions", async () => {
         const successTest = vi.fn();
         const logic: any = {
