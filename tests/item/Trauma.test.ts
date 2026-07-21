@@ -194,12 +194,8 @@ describe("TraumaLogic", () => {
             expect(logic.actions.has("healingtest")).toBe(true);
         });
 
-        it("treatmentTest — warns and resolves null (not yet implemented)", async () => {
-            const logic = makeTrauma();
-            const warn = vi.spyOn(sohl.log, "uiWarn");
-            await expect(logic.treatmentTest({} as any)).resolves.toBeNull();
-            expect(warn).toHaveBeenCalled();
-        });
+        // treatmentTest behavior is covered by the "Injury Treatment Test
+        // effect (#553)" suite below.
 
         it("healingTest — warns and resolves null (not yet implemented)", async () => {
             const logic = makeTrauma();
@@ -622,6 +618,144 @@ describe("Injury Healing Test effect (#486)", () => {
         });
         await logic.healingCheck({} as any);
         expect(spy).not.toHaveBeenCalled();
+    });
+});
+
+describe("Injury Treatment Test effect (#553)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    /** An untreated injury on an actor with a Physician skill ML `pysnMl`. */
+    function injury(
+        opts: {
+            levelBase?: number;
+            aspect?: string;
+            pysnMl?: number;
+            bloodLossAdvanceDurationBase?: number | null;
+        } = {},
+    ) {
+        const {
+            levelBase = 4,
+            aspect = "edged",
+            pysnMl = 60,
+            bloodLossAdvanceDurationBase = null,
+        } = opts;
+        const actor = makeMockActor();
+        (actor.logic as any).getItemLogic = vi.fn((code: string) =>
+            code === "pysn" ?
+                { masteryLevel: { effective: pysnMl } }
+            :   undefined,
+        );
+        const logic = makeTrauma(
+            {
+                subType: TRAUMA_SUBTYPE.INJURY,
+                levelBase,
+                aspect,
+                healingRateBase: null,
+                treatmentDate: null,
+                bloodLossAdvanceDurationBase,
+            },
+            { actor },
+        );
+        (logic.item as any).uuid = "Item.injury00000";
+        logic.initialize();
+        return { logic, actor };
+    }
+
+    function mockRoll(sl: number) {
+        return vi
+            .spyOn(MasteryLevelModifier.prototype, "successTest")
+            .mockResolvedValue({ normSuccessLevel: sl } as any);
+    }
+
+    it("sets the Healing Rate from the roll and severity, and the treatment date", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(4200);
+        mockRoll(MARGINAL_SUCCESS); // grievous MS → HR 4
+        const { logic } = injury({ levelBase: 4, aspect: "edged" });
+        await logic.treatmentTest({} as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({
+                "system.healingRateBase": 4,
+                "system.treatmentDate": 4200,
+            }),
+        );
+    });
+
+    it("rolls the owning actor's Physician skill at the required difficulty modifier", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(0);
+        const spy = mockRoll(MARGINAL_SUCCESS);
+        // Serious edged → CLN / +10.
+        const { logic } = injury({ levelBase: 2, aspect: "edged", pysnMl: 55 });
+        await logic.treatmentTest({} as any);
+        expect((spy.mock.instances[0] as any).base).toBe(55);
+        expect(spy.mock.calls[0][0].scope.situationalModifier).toBe(10);
+    });
+
+    it("heals the wound immediately on a HEAL result (CS on a minor wound)", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(0);
+        mockRoll(CRITICAL_SUCCESS); // minor CS → HEAL
+        const { logic } = injury({ levelBase: 1, aspect: "edged" });
+        await logic.treatmentTest({} as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 0 }),
+        );
+    });
+
+    it("arms the blood-loss timer when a surgical mishap causes a bleeder", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
+        vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue("300");
+        mockRoll(MARGINAL_FAILURE); // grievous MF, SUR → bleeder
+        const { logic } = injury({ levelBase: 4, aspect: "edged" });
+        await logic.treatmentTest({} as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({
+                "system.bloodLossAdvanceDurationBase": 300,
+                "system.lastBloodLossAdvanceDate": 1000,
+            }),
+        );
+    });
+
+    it("flags permanent-impairment eligibility from aspect/severity/HR", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(0);
+        mockRoll(MARGINAL_SUCCESS); // grievous edged MS → HR 4 (eligible)
+        const { logic } = injury({ levelBase: 4, aspect: "edged" });
+        await logic.treatmentTest({} as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({
+                "system.permanentImpairmentEligible": true,
+            }),
+        );
+    });
+
+    it("does not flag permanent impairment for an ineligible wound", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(0);
+        mockRoll(MARGINAL_SUCCESS); // minor edged MS → HR 6 (not eligible)
+        const { logic } = injury({ levelBase: 1, aspect: "edged" });
+        await logic.treatmentTest({} as any);
+        const call = (logic.item.update as any).mock.calls[0][0];
+        expect(call["system.permanentImpairmentEligible"]).toBeUndefined();
+    });
+
+    it("resolves an unowned (headless) treatment as a critical failure", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(0);
+        // successTest returns false when the speaker is not owned.
+        vi.spyOn(
+            MasteryLevelModifier.prototype,
+            "successTest",
+        ).mockResolvedValue(false as any);
+        const { logic } = injury({ levelBase: 2, aspect: "edged" }); // serious CF → HR 3
+        const result = await logic.treatmentTest({} as any);
+        expect(result).toBeNull();
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.healingRateBase": 3 }),
+        );
+    });
+
+    it("warns and does nothing for a non-injury trauma", async () => {
+        const warn = vi.spyOn(sohl.log, "uiWarn");
+        const logic = makeTrauma({ subType: TRAUMA_SUBTYPE.FEAR });
+        logic.initialize();
+        await expect(logic.treatmentTest({} as any)).resolves.toBeNull();
+        expect(warn).toHaveBeenCalled();
     });
 });
 

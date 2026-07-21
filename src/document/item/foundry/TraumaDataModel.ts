@@ -68,6 +68,11 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         treatmentDate: worldTimeDateField(),
         ...recurringPhaseFields("healingCheck"),
         ...recurringPhaseFields("bloodLossAdvance"),
+        // Whether this injury, once treated, is eligible for permanent
+        // impairment if it heals slowly (#553 sets it; #554 applies the
+        // magnitude). A blank sentinel (`false`), not nullable: "not eligible"
+        // is the valid default, not a distinct unset state.
+        permanentImpairmentEligible: new BooleanField({ initial: false }),
         bodyLocationCode: new StringField({ initial: "", required: true }),
     };
 }
@@ -102,6 +107,7 @@ export class TraumaDataModel<
     bloodLossAdvanceDurationFormula!: string;
     bloodLossAdvanceDurationBase!: number | null;
     lastBloodLossAdvanceDate!: number | null;
+    permanentImpairmentEligible!: boolean;
     bodyLocationCode!: string;
 
     /**

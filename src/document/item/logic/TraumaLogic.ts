@@ -13,8 +13,19 @@
 
 import { entity } from "@src/entity/registry";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
-import { fvttWorldTime } from "@src/core/FoundryHelpers";
+import { fvttWorldTime, fvttGetSetting } from "@src/core/FoundryHelpers";
 import { inflictWeaknessFatigue } from "@src/document/item/logic/fatigue";
+import {
+    TREATMENT_HEAL,
+    injuryBand,
+    requiredTreatment,
+    treatmentHealingRate,
+    treatmentCausesBleeder,
+    isBleederFromHealingRate,
+    isPermanentImpairmentEligible,
+    type InjuryBand,
+    type TreatmentCode,
+} from "@src/entity/body/injury-treatment";
 import { deriveNext, elapsedCheckpoints } from "@src/entity/event/scheduling";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -24,6 +35,7 @@ import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import {
     ACTION_SUBTYPE,
+    CRITICAL_FAILURE,
     CRITICAL_SUCCESS,
     defineType,
     FATIGUE_CATEGORY,
@@ -39,6 +51,7 @@ import {
     MARGINAL_SUCCESS,
     MORALE_LEVEL,
     MoraleLevelLabels,
+    SKILL_CODE,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     TRAUMA_SUBTYPE,
@@ -143,19 +156,120 @@ export class TraumaLogic<
     /* --------------------------------------------- */
 
     /**
-     * Roll the treatment test, applying medical care to this trauma.
+     * Roll the **Physician Treatment Test** (#553), establishing this injury's
+     * Healing Rate and its special effects.
      *
-     * Intrinsic-action executor for the `treatmenttest` action.
+     * Intrinsic-action executor for the `treatmenttest` action. The wound's
+     * aspect and severity band select the required treatment action and its
+     * difficulty modifier ({@link requiredTreatment}); the owning being's
+     * Physician skill is rolled headlessly at that modifier; and the result maps,
+     * with the severity band, to the injury's
+     * {@link TraumaData.healingRateBase | Healing Rate}
+     * ({@link treatmentHealingRate}). A `HEAL` result heals the wound outright. The
+     * resulting Healing Rate (with the aspect and any surgical mishap) then
+     * determines the special injury effects — a bleeder (which arms the
+     * blood-loss timer) and permanent-impairment eligibility.
+     *
+     * With no owning being able to roll (a headless/GM context, until the
+     * interactive physician card of #547 exists), the treatment auto-resolves as
+     * though the Physician roll were a **Critical Failure** — the rule that "an
+     * untreated wound is resolved as though its treatment roll were a Critical
+     * Failure."
      *
      * @param _context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @remarks Not yet implemented; warns and returns `null`.
+     * @returns The success test result, or `null` for a non-injury/healed trauma
+     *   or a headless critical-failure resolution.
      */
     async treatmentTest(
         _context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
-        sohl.log.uiWarn("Trauma Treatment Test is not yet implemented.");
-        return null;
+        if (this.data.subType !== TRAUMA_SUBTYPE.INJURY) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.Treatment.NotAnInjury"),
+            );
+            return null;
+        }
+        const band = injuryBand(this.data.levelBase);
+        if (!band) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.Treatment.AlreadyHealed"),
+            );
+            return null;
+        }
+
+        const req = requiredTreatment(this.data.aspect, band);
+        const physicianMl =
+            (
+                this.actorLogic?.getItemLogic(
+                    SKILL_CODE.PHYSICIAN,
+                    ITEM_KIND.SKILL,
+                ) as any
+            )?.masteryLevel?.effective ?? 0;
+        const result = await rollTimedTest(this, physicianMl, {
+            type: "trauma-treatmenttest",
+            title: sohl.i18n.localize("SOHL.Trauma.Action.treatmenttest.title"),
+            situationalModifier: req?.modifier ?? 0,
+        });
+        if (result === undefined) return null; // cancelled
+
+        // `false` — the speaker is not owned, so the GM cannot roll: resolve the
+        // untreated wound as though the Physician roll were a Critical Failure.
+        const sl =
+            result === false ? CRITICAL_FAILURE : result.normSuccessLevel;
+        await this.applyTreatmentResult(sl, band, req?.code);
+        return result === false ? null : result;
+    }
+
+    /**
+     * Persist the outcome of a Treatment Test: the Healing Rate (or immediate
+     * heal), the treatment date, any resulting bleeder (arming the blood-loss
+     * timer), and permanent-impairment eligibility.
+     *
+     * @param normSuccessLevel - The Physician-test result (CF −1 … CS 2).
+     * @param band - The wound's severity band.
+     * @param code - The required treatment action (used to detect a surgical
+     *   bleeder mishap), or `undefined` when the aspect has no table entry.
+     * @returns A promise that resolves once the outcome is persisted.
+     */
+    private async applyTreatmentResult(
+        normSuccessLevel: number,
+        band: InjuryBand,
+        code: TreatmentCode | undefined,
+    ): Promise<void> {
+        const now = fvttWorldTime();
+        const hr = treatmentHealingRate(normSuccessLevel, band);
+        const update: PlainObject = { "system.treatmentDate": now };
+
+        if (hr === TREATMENT_HEAL) {
+            // A HEAL result heals the wound immediately (Injury Level 0).
+            update["system.levelBase"] = 0;
+            await this.item.update(update);
+            return;
+        }
+
+        update["system.healingRateBase"] = hr;
+
+        // Special injury effects. A surgical mishap (EXT/SUR on a failure) or a
+        // grievous blunt/edged/piercing wound left at HR 2–3 becomes a bleeder;
+        // arm the blood-loss timer if it is not already bleeding.
+        const bleeder =
+            treatmentCausesBleeder(code, normSuccessLevel) ||
+            isBleederFromHealingRate(this.data.aspect, band, hr);
+        if (bleeder && !this.isBleeding) {
+            const formula = String(
+                fvttGetSetting("sohl", "bloodLossAdvanceDurationFormula") ?? "",
+            );
+            update["system.bloodLossAdvanceDurationFormula"] = formula;
+            update["system.bloodLossAdvanceDurationBase"] =
+                Number(formula) || 0;
+            update["system.lastBloodLossAdvanceDate"] = now;
+        }
+
+        if (isPermanentImpairmentEligible(this.data.aspect, band, hr)) {
+            update["system.permanentImpairmentEligible"] = true;
+        }
+
+        await this.item.update(update);
     }
 
     /**
@@ -638,6 +752,14 @@ export interface TraumaData<
     bloodLossAdvanceDurationBase: number | null;
     /** World-time of the last applied blood-loss advance (the recurrence anchor). */
     lastBloodLossAdvanceDate: number | null;
+    /**
+     * Whether this injury is eligible for **permanent impairment** should it
+     * heal slowly. Set by the Treatment Test (#553) from the wound's aspect,
+     * severity, and resulting Healing Rate; the impairment magnitude itself is
+     * applied by the Impairment system (#554). Always `false` for non-injury
+     * traumas.
+     */
+    permanentImpairmentEligible: boolean;
     /**
      * Shortcode of the body location on the being's body where this
      * trauma occurred. Empty string means the trauma is not tied to a
