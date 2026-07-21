@@ -336,6 +336,15 @@ export function fvttGetActor(id: string): any {
 }
 
 /**
+ * All world (top-level) actors, as an array. Used to re-arm persisted scheduled
+ * actions on load (issue #588) — the client's own permission-scoped view.
+ * @returns The world actors, or an empty array before `game` is ready.
+ */
+export function fvttWorldActors(): any[] {
+    return [...((game as any).actors ?? [])];
+}
+
+/**
  * The active status-effect ids on an actor, read from its ActiveEffects.
  *
  * SoHL's custom data-prep lifecycle does not populate Foundry's core

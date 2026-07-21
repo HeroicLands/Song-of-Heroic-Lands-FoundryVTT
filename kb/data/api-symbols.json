@@ -330,6 +330,7 @@
   "sohl.core.fvttSetSetting": "functions/sohl.core.fvttSetSetting.html",
   "sohl.core.fvttToFoundryRoll": "functions/sohl.core.fvttToFoundryRoll.html",
   "sohl.core.fvttToggleActorStatus": "functions/sohl.core.fvttToggleActorStatus.html",
+  "sohl.core.fvttWorldActors": "functions/sohl.core.fvttWorldActors.html",
   "sohl.core.fvttWorldTime": "functions/sohl.core.fvttWorldTime.html",
   "sohl.core.getActiveCombat": "functions/sohl.core.getActiveCombat.html",
   "sohl.core.getActiveScene": "functions/sohl.core.getActiveScene.html",

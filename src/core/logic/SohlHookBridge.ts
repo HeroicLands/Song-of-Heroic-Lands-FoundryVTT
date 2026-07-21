@@ -11,8 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { fvttIsActiveGM } from "@src/core/FoundryHelpers";
+import {
+    fvttIsActiveGM,
+    fvttWorldActors,
+    getActiveScene,
+} from "@src/core/FoundryHelpers";
 import type { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
+import { armScheduledActions } from "@src/entity/event/scheduled-actions";
 
 /**
  * Translates Foundry's built-in lifecycle hooks into SoHL trigger
@@ -47,6 +52,24 @@ interface PriorCombatState {
  */
 export function wireSohlHookBridge(queue: SohlEventQueue): void {
     const priorByCombat = new WeakMap<object, PriorCombatState>();
+
+    // Load-side re-arm of persisted schedules (issue #588). The queue is a
+    // projection of document state, so this runs on *every* client (not just the
+    // active GM) — each populates its own queue from the documents it can see.
+    // Scope-matched: actors (incl. the `_sohlworld` host) on world `ready`; the
+    // active scene on `canvasReady`, so a scene's ambient events are live only
+    // while it is the active scene.
+    const rearm = (doc: any): void =>
+        armScheduledActions(doc?.uuid, doc?.system?.scheduledActions, queue);
+
+    (Hooks as any).on("ready", () => {
+        for (const actor of fvttWorldActors()) rearm(actor);
+    });
+
+    (Hooks as any).on("canvasReady", () => {
+        const scene = getActiveScene();
+        if (scene) rearm(scene);
+    });
 
     /**
      * Captures the combat's round, turn, and active combatant before an update.

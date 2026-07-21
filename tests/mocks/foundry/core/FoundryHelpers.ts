@@ -150,6 +150,10 @@ export function fvttGetActor(_id: string): any {
     return undefined;
 }
 
+export function fvttWorldActors(): any[] {
+    return [];
+}
+
 export function fvttLogicFromUuidSync(_uuid: string): any {
     return undefined;
 }

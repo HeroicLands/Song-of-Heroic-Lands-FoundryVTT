@@ -70,6 +70,61 @@ describe("SohlHookBridge", () => {
         expect(captured.hooks.has("deleteCombat")).toBe(true);
         expect(captured.hooks.has("combatRound")).toBe(true);
         expect(captured.hooks.has("combatTurn")).toBe(true);
+        // Scheduled-action re-arm hooks (#588).
+        expect(captured.hooks.has("ready")).toBe(true);
+        expect(captured.hooks.has("canvasReady")).toBe(true);
+    });
+
+    describe("scheduled-action re-arm (#588)", () => {
+        const doc = (uuid: string, scheduledActions: any[]) => ({
+            uuid,
+            system: { scheduledActions },
+        });
+
+        it("`ready` arms every actor's persisted scheduledActions into the queue", () => {
+            vi.spyOn(FoundryHelpers, "fvttWorldActors").mockReturnValue([
+                doc("Actor.world", [
+                    {
+                        actionName: "checkForBandits",
+                        anchor: 1000,
+                        interval: 100,
+                        payload: {},
+                    },
+                ]),
+                doc("Actor.plain", []),
+            ]);
+            captured.hooks.get("ready")![0]();
+            expect(queue.isScheduled("Actor.world", "checkForBandits")).toBe(
+                true,
+            );
+            expect(queue.nextFireTime("Actor.world", "checkForBandits")).toBe(
+                1100,
+            );
+        });
+
+        it("`canvasReady` arms the active scene's scheduledActions", () => {
+            vi.spyOn(FoundryHelpers, "getActiveScene").mockReturnValue(
+                doc("Scene.vale", [
+                    {
+                        actionName: "checkForBandits",
+                        anchor: 0,
+                        interval: 240,
+                        payload: {},
+                    },
+                ]) as any,
+            );
+            captured.hooks.get("canvasReady")![0]();
+            expect(queue.isScheduled("Scene.vale", "checkForBandits")).toBe(
+                true,
+            );
+        });
+
+        it("`canvasReady` is a no-op when there is no active scene", () => {
+            vi.spyOn(FoundryHelpers, "getActiveScene").mockReturnValue(
+                undefined,
+            );
+            expect(() => captured.hooks.get("canvasReady")![0]()).not.toThrow();
+        });
     });
 
     describe("updateWorldTime", () => {
