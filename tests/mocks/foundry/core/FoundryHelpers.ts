@@ -311,6 +311,10 @@ export function getActiveScene(): any {
     return undefined;
 }
 
+export function fvttActiveSceneUuid(): string | undefined {
+    return undefined;
+}
+
 export function getActiveCombat(): any {
     return undefined;
 }

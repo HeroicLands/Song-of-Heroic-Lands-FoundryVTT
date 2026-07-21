@@ -130,6 +130,16 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                 anchor: new NumberField({ required: true, initial: 0 }),
                 /** Seconds from `anchor` to the next fire. */
                 interval: new NumberField({ required: true, initial: 0 }),
+                /**
+                 * The uuid of the scene this schedule is bound to (issue #590).
+                 * When set, it is offered only while that scene is active; blank
+                 * (the default) means world-wide (fires regardless of scene).
+                 */
+                sceneUuid: new StringField({
+                    required: false,
+                    blank: true,
+                    initial: "",
+                }),
                 /** Opaque data handed to the action as its scope on `[Perform]`. */
                 payload: new ObjectField({ initial: {} }),
             }),

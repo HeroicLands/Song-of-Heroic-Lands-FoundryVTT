@@ -416,10 +416,19 @@ export class SohlSystem {
      * Must run as an owner of `doc` (a document write). Both halves derive the
      * fire time from the same anchor + interval, so they cannot drift.
      *
+     * A schedule may be **scene-bound** (issue #590): pass `sceneUuid` and the
+     * `[Perform]` reminder is offered only while that scene is the active scene —
+     * a bandit check at a hideout does not fire while the party is elsewhere, and
+     * a check that came due while away surfaces when they return. Omit `sceneUuid`
+     * (or pass `undefined`) for a **world-wide** schedule that fires regardless of
+     * the active scene.
+     *
      * @param doc - The document to schedule on (its logic hosts `actionName`).
      * @param actionName - The action shortcode to run when due.
      * @param interval - Seconds until the next fire.
      * @param payload - Opaque scope handed to the action on `[Perform]`.
+     * @param sceneUuid - The scene the schedule is bound to, or `undefined` for a
+     *   world-wide schedule.
      * @returns A promise that resolves once the schedule is persisted and armed.
      */
     schedule(
@@ -427,6 +436,7 @@ export class SohlSystem {
         actionName: string,
         interval: number,
         payload?: Record<string, unknown>,
+        sceneUuid?: string,
     ): Promise<void> {
         return scheduleAction(
             doc,
@@ -435,6 +445,7 @@ export class SohlSystem {
             interval,
             payload,
             fvttWorldTime(),
+            sceneUuid,
         );
     }
 

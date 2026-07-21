@@ -844,6 +844,18 @@ export function getActiveScene(): SohlScene | undefined {
 }
 
 /**
+ * The uuid of the world's currently **active** scene, or `undefined` when the
+ * game is unavailable or no scene is active. Used by the event queue (issue
+ * #590) to gate scene-bound scheduled actions in the Foundry-free logic layer
+ * without handling a Foundry document.
+ *
+ * @returns The active scene's uuid, or `undefined` if none is active.
+ */
+export function fvttActiveSceneUuid(): string | undefined {
+    return getActiveScene()?.uuid ?? undefined;
+}
+
+/**
  * The currently active combat encounter (`game.combat`), or `undefined` when the
  * game is unavailable or no combat is active. Never throws.
  * @returns The active {@link Combat}, or `undefined` if none is active.

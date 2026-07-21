@@ -85,6 +85,97 @@ describe("Generic scheduled actions", () => {
         });
     });
 
+    it("a scene-bound schedule (#590) fires only while its scene is active", () => {
+        cy.createScene({ name: "vale" }).then((vale) => {
+            cy.createScene({ name: "hideout" }).then((hideout) => {
+                cy.createActor("being", { name: "host" }).then((host) => {
+                    cy.foundry(async (win) => {
+                        const valeDoc = win.game.scenes.get(vale.id);
+                        const hideoutDoc = win.game.scenes.get(hideout.id);
+                        const a = win.game.actors.get(host.id);
+
+                        const countCards = () => {
+                            let n = 0;
+                            for (const m of win.game.messages.contents) {
+                                const div = win.document.createElement("div");
+                                div.innerHTML = m.content ?? "";
+                                n += div.querySelectorAll(
+                                    'button.action-card-button[data-action="checkForBandits"]',
+                                ).length;
+                            }
+                            return n;
+                        };
+
+                        // The party is in the vale; the check is bound to the
+                        // hideout. Re-realm every payload handed to Foundry (a
+                        // Cypress-realm literal makes mergeObject throw).
+                        await valeDoc.update(
+                            win.structuredClone({ active: true }),
+                        );
+                        await win.sohl.schedule(
+                            a,
+                            "checkForBandits",
+                            100,
+                            win.structuredClone({}),
+                            hideoutDoc.uuid,
+                        );
+
+                        // Comes due while away → gated: no reminder, but still armed.
+                        // (The queue's scene gate reads game.scenes.active, so an
+                        // explicit awaited fire deterministically exercises it; the
+                        // updateScene *flush* hook is covered by unit tests.)
+                        await win.sohl.events.fire({
+                            name: "updateWorldTime",
+                            worldTime: 1_000_000,
+                        });
+                        const cardsWhileAway = countCards();
+                        const stillArmed = win.sohl.events.isScheduled(
+                            a.uuid,
+                            "checkForBandits",
+                        );
+
+                        // Party arrives: the hideout becomes the active scene.
+                        await valeDoc.update(
+                            win.structuredClone({ active: false }),
+                        );
+                        await hideoutDoc.update(
+                            win.structuredClone({ active: true }),
+                        );
+                        const activeUuid = win.game.scenes.active?.uuid;
+                        await win.sohl.events.fire({
+                            name: "updateWorldTime",
+                            worldTime: 1_000_000,
+                        });
+                        const cardsOnArrival = countCards();
+
+                        return {
+                            cardsWhileAway,
+                            stillArmed,
+                            activeUuid,
+                            hideoutUuid: hideoutDoc.uuid,
+                            cardsOnArrival,
+                        };
+                    }).should((r) => {
+                        expect(
+                            r.cardsWhileAway,
+                            "gated while its scene is inactive",
+                        ).to.eq(0);
+                        expect(r.stillArmed, "not consumed while gated").to.be
+                            .true;
+                        expect(
+                            r.activeUuid,
+                            "hideout is now the active scene",
+                        ).to.eq(r.hideoutUuid);
+                        expect(
+                            r.cardsOnArrival,
+                            "surfaces the instant the scene activates",
+                        ).to.be.gte(1);
+                    });
+                });
+            });
+        });
+    });
+
     it("sohl.worldHost() find-or-creates a hidden _sohlworld singleton", () => {
         cy.foundry(async (win) => {
             const w1 = await win.sohl.worldHost();
