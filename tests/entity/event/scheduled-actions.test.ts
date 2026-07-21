@@ -21,7 +21,8 @@ const entry = (
     anchor = 0,
     interval = 100,
     payload?: Record<string, unknown>,
-): ScheduledAction => ({ actionName, anchor, interval, payload });
+    sceneUuid?: string,
+): ScheduledAction => ({ actionName, anchor, interval, sceneUuid, payload });
 
 /** A stub queue recording scheduleAt / unsubscribe. */
 function mockQueue() {
@@ -87,13 +88,18 @@ describe("armScheduledActions (load-side re-arm)", () => {
             queue,
         );
         expect(queue.scheduleAt).toHaveBeenCalledTimes(2);
-        expect(queue.scheduleAt).toHaveBeenCalledWith("Actor.a", "heal", 1100, {
-            hr: 4,
-        });
+        expect(queue.scheduleAt).toHaveBeenCalledWith(
+            "Actor.a",
+            "heal",
+            1100,
+            { hr: 4 },
+            undefined,
+        );
         expect(queue.scheduleAt).toHaveBeenCalledWith(
             "Actor.a",
             "bleed",
             800,
+            undefined,
             undefined,
         );
     });
@@ -102,6 +108,38 @@ describe("armScheduledActions (load-side re-arm)", () => {
         const queue = mockQueue();
         armScheduledActions("Actor.a", undefined, queue);
         expect(queue.scheduleAt).not.toHaveBeenCalled();
+    });
+
+    it("re-arms a scene-bound entry with its sceneUuid (issue #590)", () => {
+        const queue = mockQueue();
+        armScheduledActions(
+            "Actor.world",
+            [entry("checkForBandits", 500, 240, undefined, "Scene.hideout")],
+            queue,
+        );
+        expect(queue.scheduleAt).toHaveBeenCalledWith(
+            "Actor.world",
+            "checkForBandits",
+            740,
+            undefined,
+            "Scene.hideout",
+        );
+    });
+
+    it("treats a blank sceneUuid as world-wide (undefined at the queue)", () => {
+        const queue = mockQueue();
+        armScheduledActions(
+            "Actor.world",
+            [entry("plague", 0, 100, undefined, "")],
+            queue,
+        );
+        expect(queue.scheduleAt).toHaveBeenCalledWith(
+            "Actor.world",
+            "plague",
+            100,
+            undefined,
+            undefined,
+        );
     });
 });
 
@@ -119,10 +157,14 @@ describe("scheduleAction (persist + arm)", () => {
         expect(
             written.find((e: ScheduledAction) => e.actionName === "heal"),
         ).toMatchObject({ anchor: 1000, interval: 250, payload: { hr: 4 } });
-        // Arm: queued at now + interval.
-        expect(queue.scheduleAt).toHaveBeenCalledWith(doc.uuid, "heal", 1250, {
-            hr: 4,
-        });
+        // Arm: queued at now + interval (world-wide → no scene arg).
+        expect(queue.scheduleAt).toHaveBeenCalledWith(
+            doc.uuid,
+            "heal",
+            1250,
+            { hr: 4 },
+            undefined,
+        );
     });
 
     it("re-scheduling the same action replaces (not duplicates) its entry", async () => {
@@ -134,6 +176,36 @@ describe("scheduleAction (persist + arm)", () => {
             written.filter((e: ScheduledAction) => e.actionName === "heal"),
         ).toHaveLength(1);
         expect(written[0]).toMatchObject({ anchor: 2000, interval: 500 });
+    });
+
+    it("persists and arms a scene-bound schedule (issue #590)", async () => {
+        const queue = mockQueue();
+        const doc = mockDoc();
+        await scheduleAction(
+            doc as any,
+            queue,
+            "checkForBandits",
+            240,
+            undefined,
+            500,
+            "Scene.hideout",
+        );
+        // Persist: the entry carries the scene binding.
+        const written = doc.update.mock.calls[0][0]["system.scheduledActions"];
+        expect(written[0]).toMatchObject({
+            actionName: "checkForBandits",
+            anchor: 500,
+            interval: 240,
+            sceneUuid: "Scene.hideout",
+        });
+        // Arm: the queue is told the scene it is bound to.
+        expect(queue.scheduleAt).toHaveBeenCalledWith(
+            doc.uuid,
+            "checkForBandits",
+            740,
+            undefined,
+            "Scene.hideout",
+        );
     });
 });
 

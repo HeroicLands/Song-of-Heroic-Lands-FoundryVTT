@@ -72,6 +72,34 @@ describe("SohlHookBridge", () => {
         expect(captured.hooks.has("combatTurn")).toBe(true);
         // Scheduled-action re-arm hook (#588).
         expect(captured.hooks.has("ready")).toBe(true);
+        // Scene-bound schedule flush hook (#590).
+        expect(captured.hooks.has("updateScene")).toBe(true);
+    });
+
+    describe("scene-bound schedule flush (#590)", () => {
+        it("`updateScene` with active→true re-scans the queue at the current world time", async () => {
+            vi.spyOn(FoundryHelpers, "fvttWorldTime").mockReturnValue(4242);
+            await captured.hooks.get("updateScene")![0](
+                { uuid: "Scene.hideout" },
+                { active: true },
+            );
+            expect(fireSpy).toHaveBeenCalledWith({
+                name: "updateWorldTime",
+                worldTime: 4242,
+            });
+        });
+
+        it("ignores `updateScene` changes that do not activate a scene", async () => {
+            await captured.hooks.get("updateScene")![0](
+                { uuid: "Scene.hideout" },
+                { active: false },
+            );
+            await captured.hooks.get("updateScene")![0](
+                { uuid: "Scene.hideout" },
+                { navName: "Hideout" },
+            );
+            expect(fireSpy).not.toHaveBeenCalled();
+        });
     });
 
     describe("scheduled-action re-arm (#588)", () => {

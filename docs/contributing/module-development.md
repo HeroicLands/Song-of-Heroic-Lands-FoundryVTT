@@ -160,10 +160,32 @@ already has the execution surface a `[Perform]` needs. Pass `{ visibility: "gm" 
 in the payload to whisper the reminder to the GM only — no metagame leak for
 world events.
 
+**4. Scene-scoped actions** — most events belong to a **place** (bandits at a
+hideout, a hazard on a caravan path), not the whole world. Pass a `sceneUuid` and
+the schedule fires only while that scene is the **active** scene:
+
+```js
+await sohl.schedule(
+    host,
+    "checkForBandits",
+    4 * 60 * 60,
+    { visibility: "gm" },
+    scene.uuid,
+);
+```
+
+`sohl.schedule(doc, actionName, interval, payload?, sceneUuid?)` — with a
+`sceneUuid`, a check that comes due while the party is elsewhere is **held, not
+lost**: it surfaces the moment they return to (re-activate) that scene, and no
+occurrences accrue while away. Omit `sceneUuid` (as in the examples above) for a
+genuinely world-wide clock — a plague, a season — that fires regardless of the
+active scene. A schedule on an unlinked token's actor is naturally scene-scoped:
+name its token's scene.
+
 **The reload path is automatic.** The event queue is rebuilt from scratch each
 session, so on the `ready` hook SoHL re-arms every world actor and its embedded
-items from their persisted `system.scheduledActions`. You schedule once; it
-survives reloads without any further wiring on your part.
+items from their persisted `system.scheduledActions` (scene binding included). You
+schedule once; it survives reloads without any further wiring on your part.
 
 ### Re-skins and theming
 

@@ -15,6 +15,7 @@ import {
     fvttIsActiveGM,
     fvttWorldTime,
     fvttResolveUuidAsync,
+    fvttActiveSceneUuid,
 } from "@src/core/FoundryHelpers";
 import type { SohlTriggerContext } from "@src/entity/event/event-trigger";
 import type { SafeExpression } from "@src/entity/expr/SafeExpression";
@@ -67,6 +68,15 @@ export interface SohlSubscription {
      * the action as `ctx.payload` (the action context's `scope`).
      */
     payload?: Record<string, unknown>;
+    /**
+     * Optional uuid of the scene this subscription is bound to (issue #590).
+     * When set, a due subscription is offered only while that scene is the
+     * **active** scene ({@link fvttActiveSceneUuid}); while its scene is inactive
+     * the due subscription is skipped **without being consumed**, so it stays
+     * armed and surfaces when the scene next becomes active. Absent means the
+     * subscription is world-wide (offered regardless of the active scene).
+     */
+    sceneUuid?: string;
     /**
      * If true, the subscription is removed immediately before its handler
      * runs. Set by {@link SohlEventQueue.scheduleAt}.
@@ -202,12 +212,15 @@ export class SohlEventQueue {
      * @param actionName - The subscription actionName passed to the handler.
      * @param fireAt - The world time at or after which to fire.
      * @param payload - Optional payload forwarded to the handler.
+     * @param sceneUuid - Optional scene the schedule is bound to (issue #590);
+     *   offered only while that scene is active. Omit for a world-wide schedule.
      */
     scheduleAt(
         uuid: string,
         actionName: string,
         fireAt: number,
         payload?: Record<string, unknown>,
+        sceneUuid?: string,
     ): void {
         this.subscribe({
             uuid,
@@ -215,6 +228,7 @@ export class SohlEventQueue {
             triggerName: "updateWorldTime",
             fireAt,
             payload,
+            sceneUuid,
             oneShot: true,
         });
     }
@@ -335,6 +349,15 @@ export class SohlEventQueue {
                         continue;
                     }
                     if (!pass) continue;
+                }
+                // Scene gate (issue #590): a scene-bound subscription is offered
+                // only while its scene is the active scene. When its scene is
+                // inactive, skip it **without consuming** — it is neither
+                // dispatched nor deleted (the one-shot deletion is below), so it
+                // stays armed and due and surfaces on the first fire once its
+                // scene becomes active (see the `updateScene` flush hook).
+                if (sub.sceneUuid && fvttActiveSceneUuid() !== sub.sceneUuid) {
+                    continue;
                 }
                 if (sub.oneShot)
                     this.subs.delete(this.key(sub.uuid, sub.actionName));

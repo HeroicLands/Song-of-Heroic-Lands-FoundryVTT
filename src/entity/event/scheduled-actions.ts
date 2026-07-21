@@ -45,6 +45,15 @@ export interface ScheduledAction {
     anchor: number;
     /** Seconds from {@link anchor} to the next fire. */
     interval: number;
+    /**
+     * The uuid of the scene this schedule is bound to (issue #590). When set,
+     * the schedule is offered only while that scene is the **active** scene — a
+     * location-bound event (bandits at a hideout) does not fire while the party
+     * is elsewhere, and a check that came due while away surfaces when they
+     * return. Absent (or blank) means **world-wide**: it fires regardless of the
+     * active scene.
+     */
+    sceneUuid?: string;
     /** Opaque data handed to the action as its scope when performed. */
     payload?: Record<string, unknown>;
 }
@@ -88,8 +97,7 @@ export function removeScheduledAction(
 
 /**
  * Arm every persisted schedule entry into the queue — the **load-side** re-arm,
- * called from a scope-matched hook (item `finalize` / scene `canvasReady` /
- * world `ready`).
+ * called on world `ready` for every world actor and its embedded items.
  * @param uuid - The owning document's uuid.
  * @param list - The document's `system.scheduledActions`.
  * @param queue - The event queue to arm.
@@ -105,6 +113,7 @@ export function armScheduledActions(
             entry.actionName,
             scheduledFireAt(entry),
             entry.payload,
+            entry.sceneUuid || undefined,
         );
     }
 }
@@ -131,6 +140,8 @@ export interface Schedulable {
  * @param interval - Seconds until the next fire.
  * @param payload - Opaque scope handed to the action on `[Perform]`.
  * @param now - The current world time (the schedule anchor).
+ * @param sceneUuid - The scene the schedule is bound to (issue #590); offered
+ *   only while that scene is active. Omit for a world-wide schedule.
  */
 export async function scheduleAction(
     doc: Schedulable,
@@ -139,16 +150,24 @@ export async function scheduleAction(
     interval: number,
     payload: Record<string, unknown> | undefined,
     now: number,
+    sceneUuid?: string,
 ): Promise<void> {
     const entry: ScheduledAction = {
         actionName,
         anchor: now,
         interval,
+        sceneUuid: sceneUuid || "",
         payload,
     };
     const list = upsertScheduledAction(doc.system.scheduledActions, entry);
     await doc.update({ "system.scheduledActions": list });
-    queue.scheduleAt(doc.uuid, actionName, scheduledFireAt(entry), payload);
+    queue.scheduleAt(
+        doc.uuid,
+        actionName,
+        scheduledFireAt(entry),
+        payload,
+        sceneUuid || undefined,
+    );
 }
 
 /**

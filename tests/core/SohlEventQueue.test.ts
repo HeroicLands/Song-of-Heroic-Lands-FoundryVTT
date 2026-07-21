@@ -580,4 +580,74 @@ describe("SohlEventQueue", () => {
             expect(count).toBe(1);
         });
     });
+
+    describe("scene gate (#590): a scene-bound schedule fires only while its scene is active", () => {
+        it("does NOT offer while its scene is inactive — and does NOT consume the subscription", async () => {
+            let count = 0;
+            installActionDoc(() => {
+                count++;
+            });
+            // Active scene is the vale; the schedule is bound to the hideout.
+            vi.spyOn(FoundryHelpers, "fvttActiveSceneUuid").mockReturnValue(
+                "Scene.vale",
+            );
+            queue.scheduleAt(
+                "Actor.world",
+                "checkForBandits",
+                1000,
+                undefined,
+                "Scene.hideout",
+            );
+
+            await queue.fire(worldTimeCtx(1000));
+
+            expect(count).toBe(0); // gated: not offered
+            // Not consumed — still armed and due for when the party returns.
+            expect(queue.isScheduled("Actor.world", "checkForBandits")).toBe(
+                true,
+            );
+        });
+
+        it("offers once its scene becomes active (the deferred check surfaces on arrival)", async () => {
+            let count = 0;
+            installActionDoc(() => {
+                count++;
+            });
+            const sceneSpy = vi
+                .spyOn(FoundryHelpers, "fvttActiveSceneUuid")
+                .mockReturnValue("Scene.vale");
+            queue.scheduleAt(
+                "Actor.world",
+                "checkForBandits",
+                1000,
+                undefined,
+                "Scene.hideout",
+            );
+
+            // Came due while away — gated.
+            await queue.fire(worldTimeCtx(1000));
+            expect(count).toBe(0);
+
+            // Party returns: the hideout is now the active scene.
+            sceneSpy.mockReturnValue("Scene.hideout");
+            await queue.fire(worldTimeCtx(1000));
+
+            expect(count).toBe(1); // the waiting check surfaces
+        });
+
+        it("a world-wide schedule (no sceneUuid) offers regardless of the active scene", async () => {
+            let count = 0;
+            installActionDoc(() => {
+                count++;
+            });
+            vi.spyOn(FoundryHelpers, "fvttActiveSceneUuid").mockReturnValue(
+                "Scene.somewhere-else",
+            );
+            queue.scheduleAt("Actor.world", "plagueSpread", 1000);
+
+            await queue.fire(worldTimeCtx(1000));
+
+            expect(count).toBe(1);
+        });
+    });
 });

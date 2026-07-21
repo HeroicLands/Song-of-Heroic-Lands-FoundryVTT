@@ -11,7 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { fvttIsActiveGM, fvttWorldActors } from "@src/core/FoundryHelpers";
+import {
+    fvttIsActiveGM,
+    fvttWorldActors,
+    fvttWorldTime,
+} from "@src/core/FoundryHelpers";
 import type { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
 import { armScheduledActions } from "@src/entity/event/scheduled-actions";
 
@@ -67,6 +71,23 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
             for (const item of actor.items ?? []) rearm(item);
         }
     });
+
+    // Scene-bound schedules flush on activation (issue #590). When a scene's
+    // `active` flag flips true, re-scan the queue at the current world time so a
+    // check that came due while the scene was inactive surfaces the instant the
+    // party arrives — rather than waiting for the next time advance. `fire` is
+    // GM-gated and the offer is idempotent (offered-dedupe), so this is safe to
+    // fire on the plain activation signal.
+    (Hooks as any).on(
+        "updateScene" as any,
+        async (_scene: any, changed: any) => {
+            if (changed?.active !== true) return;
+            await queue.fire({
+                name: "updateWorldTime",
+                worldTime: fvttWorldTime(),
+            });
+        },
+    );
 
     /**
      * Captures the combat's round, turn, and active combatant before an update.
