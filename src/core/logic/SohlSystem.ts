@@ -52,6 +52,12 @@ import {
     unscheduleAction,
     type Schedulable,
 } from "@src/entity/event/scheduled-actions";
+import {
+    attachScriptAction,
+    type ActionAttachable,
+    type ScriptActionSpec,
+} from "@src/entity/action/script-action-attach";
+import type { SohlAction } from "@src/entity/action/SohlAction";
 
 /**
  * The central runtime object for Song of Heroic Lands — and what the global
@@ -506,6 +512,40 @@ export class SohlSystem {
             system: { shortcode: WORLD_HOST_SHORTCODE },
             ownership: { default: 0 },
         });
+    }
+
+    /**
+     * Attach a Foundry Macro to `doc` as a SCRIPT action —
+     * `sohl.addScriptAction`. The clean programmatic sibling of the sheet's
+     * "create action" control and of `sohl.schedule` / `sohl.worldHost`
+     * (issue #588, deliverable §7): a module or macro hands a minimal spec
+     * (`{ name, executor }` plus optional overrides) and gets a persisted,
+     * runnable action back — without knowing the full `actionDefs` shape.
+     *
+     * `spec.name` becomes both the action's `shortcode` (what
+     * {@link schedule} and the `[Perform]` reminder address) and its default
+     * `title`; `spec.executor` is a Foundry Macro **UUID** (a reference, never
+     * inline code). Re-attaching the same `name` replaces the entry rather than
+     * duplicating it, so an init hook can run on every reload safely.
+     *
+     * Works on any document that carries `system.actionDefs` — an **actor**
+     * (including the `_sohlworld` host) or an **item**. Because SCRIPT entries
+     * are GM-authored, this is a no-op returning `undefined` for a non-GM (the
+     * same gate `SohlActor`/`SohlItem._preUpdate` enforce at the persist
+     * boundary); the caller must also be an owner of `doc` (a document write).
+     *
+     * @param doc - The document to attach the action to.
+     * @param spec - The Script Action spec (`name` + `executor` required).
+     * @returns The persisted action def, or `undefined` when the current user is
+     *   not a GM.
+     * @throws If `spec.name` or `spec.executor` is blank.
+     */
+    async addScriptAction(
+        doc: ActionAttachable,
+        spec: ScriptActionSpec,
+    ): Promise<SohlAction.Data | undefined> {
+        if (!fvttIsCurrentUserGM()) return undefined;
+        return attachScriptAction(doc, spec);
     }
 }
 
