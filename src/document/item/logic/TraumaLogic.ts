@@ -494,6 +494,7 @@ export class TraumaLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-heart-pulse",
                 executor: "healingCheck",
+                recordsLastRun: true,
                 visible: "itemLogic.data.subType === 'physical'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
@@ -504,6 +505,7 @@ export class TraumaLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-droplet",
                 executor: "bloodLossAdvanceCheck",
+                recordsLastRun: true,
                 visible: "itemLogic.isBleeding",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
@@ -514,6 +516,7 @@ export class TraumaLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-wave-pulse",
                 executor: "courseCheck",
+                recordsLastRun: true,
                 visible:
                     "itemLogic.data.subType === 'shock' || itemLogic.data.subType === 'coma' || itemLogic.data.subType === 'infection'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
@@ -747,9 +750,6 @@ export class TraumaLogic<
         await this.item.update({
             "system.levelBase": level,
             "system.healingCheckDurationBase": nextInterval,
-            // Record the last applied check (a display/query fact, #356); the
-            // schedule itself is (re)armed by the offer below.
-            "system.lastHealingCheckDate": lastProcessed,
         } as PlainObject);
 
         // An eligible injury that just healed to level 0 leaves a permanent
@@ -887,7 +887,6 @@ export class TraumaLogic<
         const anchor = entry?.anchor ?? now;
         const checkpoints =
             interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
-        const lastProcessed = checkpoints.at(-1) ?? now;
 
         // Apply one Blood Loss Advance Test per elapsed checkpoint, in sequence.
         for (let i = 0; i < checkpoints.length && this.isBleeding; i++) {
@@ -900,7 +899,6 @@ export class TraumaLogic<
         this.bloodLossAdvanceDurationBase.setBase(nextInterval);
         await this.item.update({
             "system.bloodLossAdvanceDurationBase": nextInterval,
-            "system.lastBloodLossAdvanceDate": lastProcessed,
         } as PlainObject);
 
         // A wound that has stopped bleeding ends its recurrence; otherwise offer
@@ -1019,7 +1017,6 @@ export class TraumaLogic<
             await this.item.update({
                 "system.healingRateBase": 0,
                 "system.courseDurationBase": nextInterval,
-                "system.lastCourseDate": lastProcessed,
             } as PlainObject);
             await sohl.unschedule(this.item, "courseCheck");
             return;
@@ -1033,7 +1030,6 @@ export class TraumaLogic<
             await this.item.update({
                 "system.healingRateBase": hr,
                 "system.courseDurationBase": nextInterval,
-                "system.lastCourseDate": lastProcessed,
             } as PlainObject);
             await sohl.unschedule(this.item, "courseCheck");
             return;
@@ -1044,7 +1040,6 @@ export class TraumaLogic<
         await this.item.update({
             "system.healingRateBase": hr,
             "system.courseDurationBase": nextInterval,
-            "system.lastCourseDate": lastProcessed,
         } as PlainObject);
         await offerReschedule(context, this.item, "courseCheck", nextInterval);
     }
@@ -1211,17 +1206,6 @@ export interface TraumaData<
     courseDurationFormula: string;
     /** Rolled seconds between course checks; `null` until rolled. */
     courseDurationBase: number | null;
-    /**
-     * World-time the last **applied** healing check ran — a display/query record
-     * ("when was the last healing test?"), `null` until the first. The recurrence
-     * schedule itself lives in `system.scheduledActions` (issue #588); this record
-     * survives after the schedule ends (declined / healed).
-     */
-    lastHealingCheckDate: number | null;
-    /** World-time the last applied blood-loss advance ran; `null` until the first. */
-    lastBloodLossAdvanceDate: number | null;
-    /** World-time the last applied course check ran; `null` until the first. */
-    lastCourseDate: number | null;
     /**
      * Whether this injury is eligible for **permanent impairment** should it
      * heal slowly. Set by the Treatment Test (#553) from the wound's aspect,

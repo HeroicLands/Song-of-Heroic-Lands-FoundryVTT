@@ -30,12 +30,15 @@ follow-up of #588).
   whatever `system.scheduledActions` holds (`armScheduledActions`) rather than
   hard-coding per-effect branches — so a reschedule written on one client
   replicates and re-arms every client's queue, the active GM's included.
-- **"Last performed" record retained.** `lastHealingCheckDate` /
-  `lastBloodLossAdvanceDate` / `lastCourseDate` (Trauma) and `lastHealingCheckDate`
-  (Affliction) return as **display/query records** — stamped each time a check
-  runs, `null` until the first, and (unlike the schedule) kept after the recurrence
-  ends. So "when was my last healing test?" is answerable even after a declined or
-  resolved effect; the next occurrence stays `sohl.events.nextFireTime(uuid, actionName)`.
+- **Generic run record — `system.lastRun`.** A single keyed map (`actionName` →
+  world-time) on the base data model, the past-tense mirror of `scheduledActions`,
+  stamped automatically at the action chokepoint (`SohlAction.execute`) for actions
+  whose definition sets `recordsLastRun`. So "when was my last healing test?" is
+  answerable — `injury.system.lastRun.healingCheck` — for **any** action with no
+  bespoke field, and it survives after a declined or resolved effect (where the
+  next occurrence, `sohl.events.nextFireTime(uuid, actionName)`, is gone). For an
+  event-driven trigger whose next fire is undeterminable, this run record is the
+  only meaningful temporal fact.
 - **New SafeExpression helpers `curWorldTime()` / `curCombatTime()`.** Event-queue
   subscription **predicates** can now gate on live world or combat time from any
   trigger (`curWorldTime() > T`; `defined(curCombatTime()) && curCombatTime().round > 3`),

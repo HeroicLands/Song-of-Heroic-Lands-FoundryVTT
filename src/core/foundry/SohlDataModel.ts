@@ -145,6 +145,16 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
             }),
             { initial: [] },
         ),
+        // Generic run record (issue #579): a map of `actionName` → the world
+        // time (seconds) that action last *performed* on this document. Stamped
+        // at the action chokepoint (`SohlAction.execute`) for actions flagged
+        // `recordsLastRun`, so "when did X last happen here?" is answerable for
+        // ANY action without a bespoke field — and, unlike a schedule, the record
+        // survives after the schedule ends. It is the past-tense mirror of
+        // `scheduledActions` (which is the future): for event-driven triggers
+        // whose next fire is undeterminable, this is the only meaningful temporal
+        // fact. Keyed, sparse, integer values.
+        lastRun: new ObjectField({ initial: {} }),
     };
 }
 
@@ -174,6 +184,7 @@ export abstract class SohlDataModel<
     shortcode!: string;
     actionDefs!: SohlAction.Data[];
     scheduledActions!: ScheduledAction[];
+    lastRun!: Record<string, number>;
 
     /**
      * Construct the data model, forwarding the source data and options to the

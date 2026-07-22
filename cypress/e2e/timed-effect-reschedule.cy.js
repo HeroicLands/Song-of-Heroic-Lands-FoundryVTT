@@ -63,22 +63,25 @@ describe("Timed-effect reschedule (#579)", () => {
                             uuid,
                             "healingCheck",
                         ),
-                        record: sys.lastHealingCheckDate,
+                        // The generic run record (system.lastRun), stamped at the
+                        // action chokepoint — not a bespoke field.
+                        record: sys.lastRun?.healingCheck,
                         entries: (sys.scheduledActions || []).filter(
                             (e) => e.actionName === "healingCheck",
                         ).length,
                     };
                 };
 
-                // ACCEPT the reschedule (headless — scope-driven, no dialog).
-                await a.items.get(woundId).logic.healingCheck({
+                // ACCEPT the reschedule — driven through the action chokepoint
+                // (executeAction) so the run record is stamped, headless via scope.
+                await a.items.get(woundId).logic.executeAction("healingCheck", {
                     skipDialog: true,
                     scope: { reschedule: true },
                 });
                 const afterAccept = snap();
 
                 // DECLINE the reschedule.
-                await a.items.get(woundId).logic.healingCheck({
+                await a.items.get(woundId).logic.executeAction("healingCheck", {
                     skipDialog: true,
                     scope: { reschedule: false },
                 });

@@ -66,17 +66,17 @@ describe("time-based healing / blood-loss on the generic store (#482, #579, #588
         logic.initialize();
         await logic.healingCheck(RESCHEDULE_YES);
         expect(schedule).toHaveBeenCalledWith(logic.item, "healingCheck", 500);
-        // The schedule is the store entry; the persisted update carries the
-        // display/query *record* (lastHealingCheckDate = the last applied time),
-        // not a scheduling anchor.
+        // The executor persists the rolled interval; the "last run" RECORD is a
+        // generic stamp applied at the action chokepoint (SohlAction.execute),
+        // NOT here — so the executor no longer writes any last*Date.
         const update = (logic.item.update as any).mock.calls.at(-1)?.[0] ?? {};
         expect(update).toMatchObject({
             "system.healingCheckDurationBase": 500,
-            "system.lastHealingCheckDate": 1000,
         });
+        expect(update).not.toHaveProperty("system.lastHealingCheckDate");
     });
 
-    it("healingCheck declines the offer, clears the schedule, but keeps the record (default No / decline)", async () => {
+    it("healingCheck declines the offer and clears the schedule (default No / decline)", async () => {
         const { unschedule } = withSchedule();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
         const logic = trauma({
@@ -86,10 +86,6 @@ describe("time-based healing / blood-loss on the generic store (#482, #579, #588
         logic.initialize();
         await logic.healingCheck(RESCHEDULE_NO);
         expect(unschedule).toHaveBeenCalledWith(logic.item, "healingCheck");
-        // The "last check" record is stamped even when the recurrence is declined,
-        // so "when was my last healing test?" survives (issue #356).
-        const update = (logic.item.update as any).mock.calls.at(-1)?.[0] ?? {};
-        expect(update).toMatchObject({ "system.lastHealingCheckDate": 1000 });
     });
 
     it("healingCheck ends the recurrence (unschedule, no offer) once the wound has healed to 0", async () => {

@@ -23,7 +23,11 @@ import {
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
-import { fvttCurrentUser, fvttExecuteMacro } from "@src/core/FoundryHelpers";
+import {
+    fvttCurrentUser,
+    fvttExecuteMacro,
+    fvttWorldTime,
+} from "@src/core/FoundryHelpers";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import {
     resolveContextActor,
@@ -303,7 +307,33 @@ export class SohlAction extends SohlEntity {
             );
             return undefined;
         }
-        return Promise.resolve(this.executor(actionContext));
+        const result = await Promise.resolve(this.executor(actionContext));
+        // Generic run record (issue #579): stamp `system.lastRun[shortcode]` on
+        // the owning document for flagged actions, so "when did X last happen
+        // here?" is answerable without a bespoke field. This is the one
+        // chokepoint every invocation funnels through (context menu, actions tab,
+        // chat-card `[Perform]`, timed event), so no executor stamps it itself.
+        if (this.data.recordsLastRun) await this.recordLastRun();
+        return result;
+    }
+
+    /**
+     * Stamp this action's run time into the owning document's generic run record
+     * (`system.lastRun[shortcode]`), keyed by the action shortcode. A no-op when
+     * the owning document can't be resolved or persisted (e.g. a detached test
+     * double). The record is the past-tense mirror of `system.scheduledActions`.
+     *
+     * @returns A promise that resolves once the record is persisted.
+     */
+    private async recordLastRun(): Promise<void> {
+        // Walk action → logic → data model → document (as resolveContext does).
+        const doc = (this.parent as any)?.parent?.parent;
+        if (typeof doc?.update !== "function") return;
+        const lastRun = {
+            ...((doc.system?.lastRun as Record<string, number>) ?? {}),
+            [this.data.shortcode]: fvttWorldTime(),
+        };
+        await doc.update({ "system.lastRun": lastRun });
     }
 
     /**
@@ -382,6 +412,16 @@ export namespace SohlAction {
          * user (lifecycle calls must work everywhere).
          */
         minActorOwnership: number;
+
+        /**
+         * When `true`, {@link SohlAction.execute} stamps this document's
+         * `system.lastRun[shortcode]` with the current world time each time the
+         * action performs (issue #579) — a generic run record, no bespoke field.
+         * Set it on actions where "when did this last happen here?" is worth
+         * answering (recurring checks, tests); omit for trivial/UI actions so
+         * they don't force a write. Optional; defaults to off.
+         */
+        recordsLastRun?: boolean;
     }
 
     /** Options for a {@link sohl.entity.modifier.ValueModifier}. */

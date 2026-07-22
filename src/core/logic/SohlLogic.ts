@@ -627,6 +627,16 @@ export interface SohlLogicData<
      * https://kb.heroiclands.org/dev/reference/event-queue/.
      */
     scheduledActions?: ScheduledAction[];
+    /**
+     * Generic **run record** (issue #579) — a map of `actionName` → the world
+     * time (seconds) that action last performed on this document, stamped at the
+     * action chokepoint for actions flagged `recordsLastRun`. The past-tense
+     * mirror of {@link scheduledActions}: "when did X last happen here?" for any
+     * action, without a bespoke field, and it survives after a schedule ends. For
+     * an event-driven trigger (no computable next fire) it is the only meaningful
+     * temporal fact.
+     */
+    lastRun?: Record<string, number>;
 
     // --- Foundry-document port -------------------------------------------
     // These members let the logic layer reach the owning actor's logic, flags,

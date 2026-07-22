@@ -94,12 +94,6 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         outcomeTrauma: new StringField({ initial: "" }),
         ...phaseFields("onset"),
         ...durationFields("healingCheck"),
-        // Record of the last *applied* course/recovery check — a display/query
-        // fact ("when was the last course test?"), stamped each run, `null` until
-        // the first. Distinct from the recurrence schedule (in
-        // `system.scheduledActions`, issue #588); it survives after the schedule
-        // ends (defeated / declined).
-        lastHealingCheckDate: worldTimeDateField(),
         ...phaseFields("resolution"),
     };
 }
@@ -135,7 +129,6 @@ export class AfflictionDataModel<
     onsetDate!: number | null;
     healingCheckDurationFormula!: string;
     healingCheckDurationBase!: number | null;
-    lastHealingCheckDate!: number | null;
     resolutionDurationFormula!: string;
     resolutionDurationBase!: number | null;
     resolutionDate!: number | null;

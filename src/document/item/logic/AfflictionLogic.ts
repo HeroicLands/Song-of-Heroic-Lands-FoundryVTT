@@ -503,6 +503,7 @@ export class AfflictionLogic<
                 title: "SOHL.Affliction.Action.healingCheck.title",
                 iconFAClass: "fa-solid fa-heart-pulse",
                 executor: "healingCheck",
+                recordsLastRun: true,
                 visible: "false",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
@@ -685,7 +686,6 @@ export class AfflictionLogic<
         const anchor = entry?.anchor ?? now;
         const checkpoints =
             interval > 0 ? elapsedCheckpoints(anchor, now, interval) : [];
-        const lastProcessed = checkpoints.at(-1) ?? now;
 
         // Course Test at each elapsed checkpoint, in sequence (each adjusts the
         // Healing Rate the next one sees). Only a naturally-healing affliction
@@ -708,7 +708,6 @@ export class AfflictionLogic<
         await this.item.update({
             "system.healingRateBase": hr,
             "system.healingCheckDurationBase": nextInterval,
-            "system.lastHealingCheckDate": lastProcessed,
         } as PlainObject);
 
         // A defeated affliction (HR 6+) ends its recurring course; otherwise offer
@@ -903,13 +902,6 @@ export interface AfflictionData<
     healingCheckDurationFormula: string;
     /** Rolled seconds between course/recovery checks; `null` until rolled. */
     healingCheckDurationBase: number | null;
-    /**
-     * World-time the last **applied** course/recovery check ran — a display/query
-     * record, `null` until the first. The recurrence schedule lives in
-     * `system.scheduledActions` (issue #588); this record survives after the
-     * schedule ends (defeated / declined).
-     */
-    lastHealingCheckDate: number | null;
     /** Formula rolled to seed the onset → resolution interval. */
     resolutionDurationFormula: string;
     /** Rolled seconds from onset to resolution; `null` until rolled. */

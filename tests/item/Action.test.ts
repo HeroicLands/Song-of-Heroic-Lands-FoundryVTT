@@ -365,6 +365,74 @@ describe("SohlAction.execute gates on permission then trigger", () => {
     });
 });
 
+describe("SohlAction.execute records lastRun (generic run record, #579)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    /** An owning-document stub carrying `system.lastRun` + a spyable `update`. */
+    function docStub(lastRun: Record<string, number> = {}): any {
+        return {
+            documentName: "Item",
+            update: vi.fn(async (d: any) => d),
+            system: { lastRun },
+        };
+    }
+
+    function actionOn(
+        doc: any,
+        overrides: Partial<SohlAction.Data>,
+    ): SohlAction {
+        return new SohlAction(
+            makeActionData({ trigger: "true", ...overrides }),
+            {
+                parent: stubLogic(doc),
+            },
+        );
+    }
+
+    it("stamps system.lastRun[shortcode] with the world time when flagged", async () => {
+        vi.spyOn(FoundryHelpers, "fvttWorldTime").mockReturnValue(4200);
+        const doc = docStub();
+        await actionOn(doc, {
+            shortcode: "healingCheck",
+            recordsLastRun: true,
+        }).execute({ speaker: {} } as any);
+        expect(doc.update).toHaveBeenCalledWith({
+            "system.lastRun": { healingCheck: 4200 },
+        });
+    });
+
+    it("merges into an existing map — one field for any action, no clobber", async () => {
+        vi.spyOn(FoundryHelpers, "fvttWorldTime").mockReturnValue(9000);
+        const doc = docStub({ courseCheck: 100 });
+        await actionOn(doc, {
+            shortcode: "healingCheck",
+            recordsLastRun: true,
+        }).execute({ speaker: {} } as any);
+        expect(doc.update).toHaveBeenCalledWith({
+            "system.lastRun": { courseCheck: 100, healingCheck: 9000 },
+        });
+    });
+
+    it("does NOT stamp when the flag is unset (no forced write on trivial actions)", async () => {
+        const doc = docStub();
+        await actionOn(doc, { shortcode: "editDocument" }).execute({
+            speaker: {},
+        } as any);
+        expect(doc.update).not.toHaveBeenCalled();
+    });
+
+    it("no-ops safely when the owning document can't be resolved", async () => {
+        const action = makeAction({
+            shortcode: "healingCheck",
+            recordsLastRun: true,
+            trigger: "true",
+        }); // stubLogic() → no doc
+        await expect(
+            action.execute({ speaker: {} } as any),
+        ).resolves.toBeUndefined();
+    });
+});
+
 describe("SohlAction SCRIPT action runs a referenced Macro (no compiled code)", () => {
     let infoSpy: ReturnType<typeof vi.spyOn>;
     beforeEach(() => {

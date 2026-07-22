@@ -303,11 +303,15 @@ event-driven one `nextFireTime` is `undefined` because there is no computable ne
 fire — a real state, not an error.
 
 The **last performed** occurrence is a document fact, not a queue fact — read the
-record field (e.g. `injury.system.lastHealingCheckDate`), which survives after the
-schedule ends (declined or resolved) where the queue entry does not. For an
-event-driven trigger this run record is the _only_ meaningful temporal query — the
-queue can tell you a token entered the crypt an hour ago, but never when it next
-will.
+generic **run record** `doc.system.lastRun[actionName]` (e.g.
+`injury.system.lastRun.healingCheck`), which survives after the schedule ends
+(declined or resolved) where the queue entry does not. It's one keyed map — the
+past-tense mirror of `scheduledActions` — stamped automatically at the action
+chokepoint ({@link sohl.entity.action.SohlAction.execute}) for actions whose
+definition sets `recordsLastRun`, so any action gets a "when did this last happen
+here?" answer with **no bespoke field**. For an event-driven trigger this run
+record is the _only_ meaningful temporal query — the queue can tell you a token
+entered the crypt an hour ago, but never when it next will.
 
 ## The one rule: persist an anchor, never the live clock
 

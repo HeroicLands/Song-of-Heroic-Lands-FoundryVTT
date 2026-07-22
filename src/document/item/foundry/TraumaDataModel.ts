@@ -71,15 +71,6 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         // Extended Shock / Coma recovery Course Test (#556): its own recurring
         // cadence (Extended Shock every 4 hours; Coma every d10 days).
         ...durationFields("course"),
-        // Records of the last *applied* occurrence of each recurring check —
-        // display/query facts (e.g. "when was the last healing test?"), stamped by
-        // the executor each time it runs, `null` until the first one. Distinct
-        // from the recurrence *schedule* (which lives in `system.scheduledActions`,
-        // issue #588): a record survives after the schedule ends — declined
-        // (issue #579) or healed.
-        lastHealingCheckDate: worldTimeDateField(),
-        lastBloodLossAdvanceDate: worldTimeDateField(),
-        lastCourseDate: worldTimeDateField(),
         // Whether this injury, once treated, is eligible for permanent
         // impairment if it heals slowly (#553 sets it; #554 applies the
         // magnitude). A blank sentinel (`false`), not nullable: "not eligible"
@@ -123,9 +114,6 @@ export class TraumaDataModel<
     bloodLossAdvanceDurationBase!: number | null;
     courseDurationFormula!: string;
     courseDurationBase!: number | null;
-    lastHealingCheckDate!: number | null;
-    lastBloodLossAdvanceDate!: number | null;
-    lastCourseDate!: number | null;
     permanentImpairmentEligible!: boolean;
     infectable!: boolean;
     bodyLocationCode!: string;
