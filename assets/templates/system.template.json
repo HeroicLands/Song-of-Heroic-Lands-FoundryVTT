@@ -92,6 +92,9 @@
         },
         "ActiveEffect": {
             "sohleffectdata": {}
+        },
+        "RegionBehavior": {
+            "trigger": {}
         }
     },
     "packFolders": [

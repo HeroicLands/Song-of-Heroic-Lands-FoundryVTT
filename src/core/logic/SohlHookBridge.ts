@@ -17,6 +17,8 @@ import {
     fvttWorldTime,
 } from "@src/core/FoundryHelpers";
 import type { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
+import { fireSohlTrigger } from "@src/entity/event/event-trigger";
+import { buildDarknessTriggerContext } from "@src/entity/event/scene-triggers";
 import { armScheduledActions } from "@src/entity/event/scheduled-actions";
 
 /**
@@ -80,12 +82,26 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
     // fire on the plain activation signal.
     (Hooks as any).on(
         "updateScene" as any,
-        async (_scene: any, changed: any) => {
-            if (changed?.active !== true) return;
-            await queue.fire({
-                name: "updateWorldTime",
-                worldTime: fvttWorldTime(),
-            });
+        async (scene: any, changed: any) => {
+            if (!fvttIsActiveGM()) return;
+
+            // Scene activation flush: re-scan the queue at the current world
+            // time so a scene-bound check that came due while inactive surfaces
+            // the instant the party arrives.
+            if (changed?.active === true) {
+                await queue.fire({
+                    name: "updateWorldTime",
+                    worldTime: fvttWorldTime(),
+                });
+            }
+
+            // Environment darkness trigger (issue #593): a scene-level
+            // darkness-level change is an event-driven trigger, fired here (not
+            // from a RegionBehavior). Custom trigger → fireSohlTrigger so effects
+            // subscribed via expiry react too. Fires regardless of active scene:
+            // a darkness change on any scene is a real world event.
+            const darkCtx = buildDarknessTriggerContext(scene?.uuid, changed);
+            if (darkCtx) await fireSohlTrigger(darkCtx);
         },
     );
 

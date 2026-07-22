@@ -12,7 +12,7 @@ Primary file: `src/core/logic/SohlSystem.ts`
 
 - `globalThis.sohl` is assigned during init (`src/sohl.ts`) and provides the runtime system instance.
 - Core config surface (`CONFIG`) exposes document classes, data models, sheets, and result/modifier constructors.
-- Calendar registry (see [Extension Points — Calendar Registration](../how-to/extension-points.md#8-calendar-registration)).
+- Calendar registry (see [Extension Points — Calendar Registration](../how-to/extension-points.md#9-calendar-registration)).
 
 ### CONFIG structure
 

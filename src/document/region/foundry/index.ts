@@ -14,9 +14,4 @@
 // Namespace barrel — hand-maintained. `npm run lint` (check-ns-barrels)
 // verifies every sibling module and subfolder here is re-exported.
 
-export * from "./SohlEventQueue";
-export * from "./event-trigger";
-export * from "./region-triggers";
-export * from "./scene-triggers";
-export * from "./scheduled-actions";
-export * from "./scheduling";
+export * from "./SohlRegionTriggerBehavior";

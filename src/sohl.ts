@@ -38,6 +38,10 @@ import { expressionHelpers } from "@src/entity/expr/ExpressionHelperRegistry";
 import { DomainRegistry } from "@src/entity/domain/DomainRegistry";
 import { BUILTIN_DOMAINS } from "@src/entity/domain/builtin-domains";
 import { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
+import { SohlRegionTriggerBehavior } from "@src/document/region/foundry/SohlRegionTriggerBehavior";
+import { registerSohlTrigger } from "@src/entity/event/event-trigger";
+import { SOHL_REGION_TRIGGERS } from "@src/entity/event/region-triggers";
+import { SOHL_ENVIRONMENT_TRIGGERS } from "@src/entity/event/scene-triggers";
 import { registerPureHandlebarsHelpers } from "@src/utils/handlebars-helpers";
 
 /**
@@ -54,6 +58,32 @@ function setupSystem(): SohlSystem {
     // transient `.logic` adapter and `onChatCardButton` that the opposed-test
     // flow dispatches to.
     CONFIG.Token.documentClass = SohlTokenDocument as any;
+
+    // Scene-region event-trigger bridge (issue #593). RegionBehavior is a
+    // Foundry document with core subtypes, so — like the Token document class —
+    // augment its CONFIG directly rather than through a SOHLCONFIG block: add
+    // the SoHL `trigger` data model beside the core behaviors (deep-merge would
+    // clobber the core `dataModels`/`documentClass`). A *system* subtype is
+    // unprefixed (like `being`/`skill`), matching the `documentTypes.
+    // RegionBehavior.trigger` manifest declaration — only *module* subtypes get
+    // a package-id prefix.
+    const regionCfg = CONFIG.RegionBehavior as any;
+    regionCfg.dataModels ??= {};
+    regionCfg.dataModels["trigger"] = SohlRegionTriggerBehavior;
+    regionCfg.typeLabels ??= {};
+    regionCfg.typeLabels["trigger"] = "SOHL.RegionBehavior.trigger.label";
+    regionCfg.typeIcons ??= {};
+    regionCfg.typeIcons["trigger"] = "fa-solid fa-diamond-exclamation";
+    // Register the curated region + environment trigger names in Foundry's
+    // expiry-event registry so they appear in the effect-config duration→expiry
+    // dropdown (issue #593).
+    for (const { name, label } of [
+        ...SOHL_REGION_TRIGGERS,
+        ...SOHL_ENVIRONMENT_TRIGGERS,
+    ]) {
+        registerSohlTrigger(name, label);
+    }
+
     sohl.setupSheets();
     console.log("Song of Heroic Lands | System initialized");
     return sohl;

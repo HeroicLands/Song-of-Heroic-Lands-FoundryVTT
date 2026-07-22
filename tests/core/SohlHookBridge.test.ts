@@ -102,6 +102,48 @@ describe("SohlHookBridge", () => {
         });
     });
 
+    describe("environment darkness trigger (#593)", () => {
+        let priorEvents: any;
+        beforeEach(() => {
+            // fireSohlTrigger routes to globalThis.sohl.events — point it at the
+            // injected queue whose `fire` is the spy.
+            priorEvents = (globalThis as any).sohl.events;
+            (globalThis as any).sohl.events = queue;
+        });
+        afterEach(() => {
+            (globalThis as any).sohl.events = priorEvents;
+        });
+
+        it("fires `sceneDarknessChange` when darknessLevel changes", async () => {
+            await captured.hooks.get("updateScene")![0](
+                { uuid: "Scene.crypt" },
+                { environment: { darknessLevel: 0.9 } },
+            );
+            expect(fireSpy).toHaveBeenCalledWith({
+                name: "sceneDarknessChange",
+                sceneUuid: "Scene.crypt",
+                darkness: 0.9,
+            });
+        });
+
+        it("does not fire when the update does not touch darkness", async () => {
+            await captured.hooks.get("updateScene")![0](
+                { uuid: "Scene.crypt" },
+                { navName: "Crypt" },
+            );
+            expect(fireSpy).not.toHaveBeenCalled();
+        });
+
+        it("does not fire on a non-active GM client (dispatch once)", async () => {
+            setUserFlags({ isGM: true, isActiveGM: false });
+            await captured.hooks.get("updateScene")![0](
+                { uuid: "Scene.crypt" },
+                { environment: { darknessLevel: 0.9 } },
+            );
+            expect(fireSpy).not.toHaveBeenCalled();
+        });
+    });
+
     describe("scheduled-action re-arm (#588)", () => {
         const doc = (
             uuid: string,

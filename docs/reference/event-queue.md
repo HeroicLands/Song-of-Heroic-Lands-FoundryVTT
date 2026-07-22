@@ -88,7 +88,33 @@ Foundry's `updateWorldTime` / `combatStart` / `deleteCombat` / `combatRound` /
 `combatTurn` into `queue.fire(ctx)` calls (`combatEnd` from `deleteCombat`;
 `roundEnd` / `turnEnd` derived by tracking prior combat state). **Do not call
 `Hooks.on(...)` elsewhere for dispatch** — add a built-in trigger by editing that
-one file, or a custom one via [custom triggers](#custom-triggers).
+one file, or a custom one via [custom triggers](#6-a-custom-trigger--fire-your-own-lifecycle-moment).
+
+#### Scene-region & environment triggers (issue #593)
+
+The vocabulary above is **time and combat**. A second, **event-driven** family
+covers _where_ characters are and _what the scene is doing_ — Foundry v14 scene
+regions and environment changes:
+
+| Trigger                 | Context shape                                                                  | Source                           |
+| ----------------------- | ------------------------------------------------------------------------------ | -------------------------------- |
+| `regionTokenEnter`      | `{ name, regionUuid, regionId, regionName, tokenUuid, actorUuid?, sceneUuid }` | a `trigger` RegionBehavior       |
+| `regionTokenExit`       | (same)                                                                         | a `trigger` RegionBehavior       |
+| `regionTokenTurnStart`  | (same)                                                                         | a `trigger` RegionBehavior       |
+| `regionTokenTurnEnd`    | (same)                                                                         | a `trigger` RegionBehavior       |
+| `regionTokenRoundStart` | (same)                                                                         | a `trigger` RegionBehavior       |
+| `regionTokenRoundEnd`   | (same)                                                                         | a `trigger` RegionBehavior       |
+| `sceneDarknessChange`   | `{ name, sceneUuid, darkness }`                                                | `SohlHookBridge` (`updateScene`) |
+
+These are **opt-in and GM-gated**. Region triggers fire only from a **"SoHL Event
+Trigger" RegionBehavior** a GM drops onto a region (the human-behest surface); the
+behavior runs on every client, so the whole forward is gated to the active GM and
+dispatches once. The exposed set is deliberately curated to discrete, meaningful
+events — Foundry's continuous streams (`tokenMove*`) and view-dependent ones
+(`tokenAnimate*`) are **excluded** to keep the queue from flooding. See
+{@link sohl.entity.event.SohlRegionTriggerName} and
+{@link sohl.entity.event.SCENE_DARKNESS_TRIGGER}. Worked example:
+[8. A region trigger](#8-a-scene-region-trigger--offer-a-check-on-entering).
 
 ### Two families: time-driven and event-driven
 
@@ -106,11 +132,12 @@ a scheduler with extras. The distinction shapes what you can ask of a subscripti
   as a gap. Anchor / interval / catch-up simply don't apply.
 
 The practical consequence: for an event-driven subscription the queryable temporal
-fact is the **last** occurrence, not the next — so a run record (the document's
-`last…Date` field) is not a display nicety, it is the _only_ meaningful temporal
-query. (Extending the vocabulary to spatial/environmental **scene-region** events —
-token enter/exit, darkness changes — is a planned epic; they are the archetypal
-event-driven triggers, with no `fireAt` at all.)
+fact is the **last** occurrence, not the next — so the run record
+(`system.lastRun[actionName]`) is not a display nicety, it is the _only_ meaningful
+temporal query. The **scene-region and environment triggers** (issue #593) are the
+archetypal event-driven case — a token entering a region, darkness falling — with
+no `fireAt` at all; `nextFireTime` is `undefined` for them by design, and
+`system.lastRun` answers "when did this last happen here?"
 
 ## Populate everywhere, fire on the active GM only
 
@@ -312,6 +339,48 @@ definition sets `recordsLastRun`, so any action gets a "when did this last happe
 here?" answer with **no bespoke field**. For an event-driven trigger this run
 record is the _only_ meaningful temporal query — the queue can tell you a token
 entered the crypt an hour ago, but never when it next will.
+
+### 8. A scene-region trigger — offer a check on entering (#593)
+
+A GM opts a region into SoHL triggering by dropping a **"SoHL Event Trigger"**
+RegionBehavior onto it and choosing the events to forward (and, optionally, an
+action to offer). No code is needed for the region-authored case — entering the
+region offers the named action to the entering token's actor as a `[Perform]`
+reminder:
+
+- **events**: `Region: Token Enters`
+- **Action to offer**: `fearCheck` (a shortcode on the entering actor's logic)
+
+The behavior forwards the event **GM-gated, once** (it runs on every client), and
+also fires the trigger for any subscriptions. So the same moment can drive a
+per-character subscription — "when **my** character enters this crypt, offer a
+Fear test" — scoped by a predicate on the entering actor and the region:
+
+```typescript
+override finalize(): void {
+    super.finalize();
+    sohl.events.subscribe({
+        uuid: this.actor.uuid,
+        actionName: "fearCheck",
+        triggerName: "regionTokenEnter",
+        // Only when it is *this* character entering *this* region.
+        predicate: new SafeExpression({
+            source: "actorUuid == '" + this.actor.uuid + "' && regionId == 'crypt'",
+        }),
+    });
+}
+```
+
+The action receives the region
+{@link sohl.entity.event.SohlTriggerContext} (`{ name: "regionTokenEnter",
+regionId, regionName, tokenUuid, actorUuid, sceneUuid }`) as its scope. Because a
+region trigger is **event-driven**, `nextFireTime` is `undefined`; flag the action
+`recordsLastRun` and read `actor.system.lastRun.fearCheck` for "when did this
+character last make a Fear test here?"
+
+The darkness sibling is identical in shape — subscribe to `sceneDarknessChange`
+and read `ctx.darkness` — but fires from `SohlHookBridge` on `updateScene`, not a
+RegionBehavior.
 
 ## The one rule: persist an anchor, never the live clock
 

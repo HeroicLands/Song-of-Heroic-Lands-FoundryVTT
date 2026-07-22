@@ -131,12 +131,63 @@ type SohlTriggerContextVariant =
           /** Whether the turn change was skipped (no dispatch needed). */
           skipped: boolean;
       }
+    | ({
+          /**
+           * A scene-region trigger (issue #593) — a token entering/exiting a
+           * region, or taking its combat turn/round inside one. Event-driven:
+           * there is no `fireAt`, so `nextFireTime` is `undefined` and the
+           * queryable temporal fact is `system.lastRun`. See
+           * {@link sohl.entity.event.SohlRegionTriggerName}.
+           */
+          name:
+              | "regionTokenEnter"
+              | "regionTokenExit"
+              | "regionTokenTurnStart"
+              | "regionTokenTurnEnd"
+              | "regionTokenRoundStart"
+              | "regionTokenRoundEnd";
+      } & SohlRegionTriggerData)
+    | {
+          /**
+           * A scene environment change (issue #593) — the active scene's
+           * darkness level changed. Event-driven, like the region triggers.
+           */
+          name: "sceneDarknessChange";
+          /** UUID of the scene whose darkness changed. */
+          sceneUuid: string;
+          /** The new darkness level (0–1). */
+          darkness: number;
+          /** The prior darkness level (0–1), when known. */
+          priorDarkness?: number;
+      }
     | {
           /** Custom trigger identifier. */
           name: string;
           /** Arbitrary custom context payload. */
           [key: string]: unknown;
       };
+
+/**
+ * The context payload common to every scene-region trigger (issue #593). The
+ * bridge (a SoHL `RegionBehaviorType`) resolves the entering token to its actor
+ * at the Foundry boundary, so the logic layer sees only UUIDs and names — a
+ * predicate can scope a subscription to a specific region (`regionId`) or a
+ * specific character (`actorUuid`).
+ */
+export interface SohlRegionTriggerData {
+    /** UUID of the region the event fired on. */
+    regionUuid: string;
+    /** The region's id (for predicate scoping to one region). */
+    regionId: string;
+    /** The region's display name. */
+    regionName: string;
+    /** UUID of the token that entered/exited/acted. */
+    tokenUuid: string;
+    /** UUID of that token's actor, when it has one (for predicate scoping). */
+    actorUuid?: string;
+    /** UUID of the scene the region belongs to. */
+    sceneUuid: string;
+}
 
 /**
  * A trigger context as dispatched to a document. Every variant additionally
