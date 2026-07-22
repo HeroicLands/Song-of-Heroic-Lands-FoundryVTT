@@ -96,7 +96,15 @@ export async function offerSchedule(
     if (schedule == null && !context.skipDialog) {
         const effect = sohl.i18n.localize(`SOHL.Reminder.effect.${actionName}`);
         const confirmed = await dialog({
-            title: sohl.i18n.localize("SOHL.Schedule.title"),
+            // Per-effect title ("Set a Blood Loss Advance Reminder?") so two
+            // offers fired back-to-back (e.g. healing check + blood-loss on a
+            // bleeder wound) are distinguishable to the player, not two identical
+            // "Set a Reminder?" prompts. The whole title is one localization
+            // string so translations control word order; `actionName` is the
+            // already-localized effect label.
+            title: sohl.i18n.format("SOHL.Schedule.title", {
+                actionName: effect,
+            }),
             content: toHTMLString(`<p>{{prompt}}</p>`),
             data: {
                 prompt: sohl.i18n.format("SOHL.Schedule.prompt", {

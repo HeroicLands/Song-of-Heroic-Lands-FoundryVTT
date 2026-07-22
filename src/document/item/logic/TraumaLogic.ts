@@ -312,12 +312,13 @@ export class TraumaLogic<
      * untreated wound is resolved as though its treatment roll were a Critical
      * Failure."
      *
-     * @param _context - The action context for the test.
+     * @param context - The action context for the test; forwarded to the
+     *   blood-loss schedule offer when a treatment leaves the wound bleeding.
      * @returns The success test result, or `null` for a non-injury/healed trauma
      *   or a headless critical-failure resolution.
      */
     async treatmentTest(
-        _context: SohlActionContext,
+        context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
         if (this.data.subType !== TRAUMA_SUBTYPE.INJURY) {
             sohl.log.uiWarn(
@@ -352,7 +353,7 @@ export class TraumaLogic<
         // untreated wound as though the Physician roll were a Critical Failure.
         const sl =
             result === false ? CRITICAL_FAILURE : result.normSuccessLevel;
-        await this.applyTreatmentResult(sl, band, req?.code);
+        await this.applyTreatmentResult(sl, band, req?.code, context);
         return result === false ? null : result;
     }
 
@@ -365,12 +366,15 @@ export class TraumaLogic<
      * @param band - The wound's severity band.
      * @param code - The required treatment action (used to detect a surgical
      *   bleeder mishap), or `undefined` when the aspect has no table entry.
+     * @param context - The treatment action's context, forwarded to the
+     *   blood-loss schedule offer when the wound is left bleeding.
      * @returns A promise that resolves once the outcome is persisted.
      */
     private async applyTreatmentResult(
         normSuccessLevel: number,
         band: InjuryBand,
         code: TreatmentCode | undefined,
+        context: SohlActionContext,
     ): Promise<void> {
         const now = fvttWorldTime();
         const hr = treatmentHealingRate(normSuccessLevel, band);
@@ -411,11 +415,12 @@ export class TraumaLogic<
 
         await this.item.update(update);
 
-        // Becoming a bleeder auto-arms the FIRST blood-loss advance (like a wound
-        // arming its first healing check at creation); later occurrences are
-        // *offered*, not auto-re-armed (issue #579).
+        // A treatment that leaves the wound bleeding OFFERS to track the
+        // blood-loss advance (issue #579 — nothing auto-schedules); the physician
+        // is present, so it prompts (honoring the action's skipDialog).
         if (bleederInterval != null) {
-            await sohl.schedule(
+            await offerSchedule(
+                context,
                 this.item,
                 "bloodLossAdvanceCheck",
                 bleederInterval,
@@ -775,7 +780,7 @@ export class TraumaLogic<
         // A Critical-Failure healing test on an infectable wound contracts an
         // infection (#557) — recorded separately, starting one Healing Rate step
         // above this wound.
-        if (contractInfection) await this.contractInfection();
+        if (contractInfection) await this.contractInfection(context);
 
         // A healed wound (level 0) ends its recurrence; otherwise offer the next
         // healing check (default No) rather than auto-re-arming (issue #579).
@@ -795,12 +800,14 @@ export class TraumaLogic<
      * injury's (Injury Level "X", aspect "Inf"). While any infection is active it
      * halts all Injury Healing Tests (see {@link healingHalted}).
      *
+     * @param context - The healing-check context, forwarded to the new
+     *   infection's course-check schedule offer (issue #579).
      * @returns A promise that resolves once the infection trauma is created.
      */
-    private async contractInfection(): Promise<void> {
+    private async contractInfection(context: SohlActionContext): Promise<void> {
         if (!this.actorLogic) return;
         const hr = Math.round(this.healingRate?.effective ?? 0) + 1;
-        await fvttCreateEmbeddedItems(this.actorLogic, [
+        const created = await fvttCreateEmbeddedItems(this.actorLogic, [
             {
                 type: ITEM_KIND.TRAUMA,
                 name: sohl.i18n.localize("SOHL.Trauma.Infection"),
@@ -813,6 +820,12 @@ export class TraumaLogic<
                 },
             },
         ]);
+        // Offer the new infection's recovery Course Test rather than auto-arming
+        // it (issue #579); forwards the healing-check context's skipDialog.
+        const infection = created?.[0];
+        if (!infection) return;
+        const interval = Number(infection.system?.courseDurationBase) || 0;
+        await offerSchedule(context, infection, "courseCheck", interval);
     }
 
     /**

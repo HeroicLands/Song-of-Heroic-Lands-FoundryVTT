@@ -27,24 +27,89 @@
  * @param {string} [action] - the button's `data-action` (e.g. `"ok"`, `"cancel"`).
  */
 Cypress.Commands.add("submitDialog", (action = "ok") => {
-    // Retry until the dialog's action button is in the DOM.
-    cy.get(`button[data-action="${action}"]`, { timeout: 10000 }).should(
-        "exist",
-    );
+    // Find an OPEN dialog that has the button — not any DOM match: closed dialogs
+    // linger in `foundry.applications.instances` (rendered:false) with stale
+    // elements still in the DOM, so a raw `cy.get` can match a leaked button from
+    // a prior test before this one's dialog renders. Require `rendered`, pick the
+    // newest that has the button.
+    const findDlg = (win) =>
+        Array.from(win.foundry.applications.instances.values())
+            .reverse()
+            .find(
+                (app) =>
+                    /dialog/i.test(app.constructor.name) &&
+                    app.rendered &&
+                    app.element &&
+                    app.element.querySelector(
+                        `button[data-action="${action}"]`,
+                    ),
+            );
+    // cy.window().should(...) genuinely retries until such a dialog is rendered.
+    cy.window({ log: false }).should((win) => {
+        expect(findDlg(win), `open dialog with [data-action="${action}"]`).to
+            .exist;
+    });
     // Activate it through the app instance — reliable across the modal <dialog>.
     return cy.foundry((win) => {
-        const dlg = Array.from(win.foundry.applications.instances.values())
+        const dlg = findDlg(win);
+        if (!dlg) {
+            throw new Error(
+                `submitDialog: no open dialog has a [data-action="${action}"] button`,
+            );
+        }
+        dlg.element.querySelector(`button[data-action="${action}"]`).click();
+        return action;
+    });
+});
+
+/**
+ * Press a button on the open dialog whose rendered text contains `text` — for
+ * when several **identical** dialogs are (or may be) open back-to-back and
+ * {@link submitDialog}'s "topmost dialog" heuristic can't tell them apart. The
+ * two creation offers a bleeder wound fires (healing-check then blood-loss) share
+ * a title and yes/no buttons and differ only in prompt text, so a spec answering
+ * a specific one waits for it by content (`"Blood Loss Advance"`), then clicks.
+ *
+ * @param {string|RegExp} text - Substring/pattern the target dialog's text must match.
+ * @param {string} [action] - the button's `data-action` (default `"yes"`).
+ */
+Cypress.Commands.add("submitDialogMatching", (text, action = "yes") => {
+    const matches = (s) =>
+        text instanceof RegExp ? text.test(s) : String(s).includes(text);
+    const findDlg = (win) =>
+        Array.from(win.foundry.applications.instances.values())
             .reverse()
-            .find((app) => /dialog/i.test(app.constructor.name));
-        if (!dlg) throw new Error("submitDialog: no open DialogV2 found");
+            .find(
+                (app) =>
+                    /dialog/i.test(app.constructor.name) &&
+                    // Ignore closed-but-retained instances whose stale .element
+                    // still matches the text (they leak across tests).
+                    app.rendered &&
+                    app.element &&
+                    matches(app.element.textContent),
+            );
+    // cy.window().should(...) genuinely retries (unlike cy.foundry's .then),
+    // so this polls until the matching dialog + its button are rendered.
+    cy.window({ log: false }).should((win) => {
+        const dlg = findDlg(win);
+        expect(dlg, `dialog matching ${text}`).to.exist;
+        expect(
+            dlg.element.querySelector(`button[data-action="${action}"]`),
+            `[data-action="${action}"] on that dialog`,
+        ).to.exist;
+    });
+    // Click through the matching app instance (reliable across the modal <dialog>).
+    return cy.foundry((win) => {
+        const dlg = findDlg(win);
+        if (!dlg)
+            throw new Error(`submitDialogMatching: no dialog matching ${text}`);
         const btn = dlg.element.querySelector(
             `button[data-action="${action}"]`,
         );
-        if (!btn) {
+        if (!btn)
             throw new Error(
-                `submitDialog: open dialog has no [data-action="${action}"] button`,
+                `submitDialogMatching: dialog matching ${text} has no [data-action="${action}"]`,
             );
-        }
         btn.click();
         return action;
     });

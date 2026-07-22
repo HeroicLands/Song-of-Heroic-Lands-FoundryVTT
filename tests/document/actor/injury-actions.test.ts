@@ -358,4 +358,38 @@ describe("createTraumaFromInjury (#286)", () => {
         expect(schedule).not.toHaveBeenCalled();
         expect(unschedule).toHaveBeenCalledWith(trauma, "healingCheck");
     });
+
+    it("also OFFERS the blood-loss advance when the wound bleeds on infliction (#579)", async () => {
+        const body = makeBody();
+        const neck = body
+            .getAllLocations()
+            .find((l) => l.shortcode === "neck")!;
+        const injury = resolveInjury({
+            impact: 22,
+            aspect: IMPACT_ASPECT.EDGED,
+            body,
+            location: neck,
+        });
+        const trauma = {
+            uuid: "Item.trauma0000",
+            system: {
+                healingCheckDurationBase: 432000,
+                bloodLossAdvanceDurationBase: 86400, // a bleeder-at-creation
+            },
+        };
+        vi.spyOn(FoundryHelpers, "fvttCreateEmbeddedItems").mockResolvedValue([
+            trauma,
+        ]);
+        const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
+        await createTraumaFromInjury({ name: "Hero" } as any, injury, {
+            skipDialog: true,
+            scope: { schedule: true },
+        });
+        expect(schedule).toHaveBeenCalledWith(trauma, "healingCheck", 432000);
+        expect(schedule).toHaveBeenCalledWith(
+            trauma,
+            "bloodLossAdvanceCheck",
+            86400,
+        );
+    });
 });

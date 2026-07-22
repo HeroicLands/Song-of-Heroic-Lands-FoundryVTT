@@ -120,7 +120,10 @@ import {
     readInjuryDialogForm,
     resolveAutomatedInjury,
 } from "@src/document/actor/logic/injury-actions";
-import { type OfferContext } from "@src/document/item/logic/offer-schedule";
+import {
+    offerSchedule,
+    type OfferContext,
+} from "@src/document/item/logic/offer-schedule";
 import { toFilePath, defaultToJSON } from "@src/utils/helpers";
 import {
     ResolvedInjury,
@@ -696,11 +699,12 @@ export class BeingLogic<
      * scheduling (end of the next turn for Incapacitated, ten minutes later for
      * Unconscious) awaits a follow-up.
      *
-     * @param _context - The action context for the test.
+     * @param context - The action context for the test; forwarded to the
+     *   course-check schedule offer for any Extended Shock / Coma created.
      * @returns The Shock re-test result, or `null` when no re-test applies.
      */
     async shockReTest(
-        _context: SohlActionContext,
+        context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
         const state = this.shockState;
         if (
@@ -727,6 +731,7 @@ export class BeingLogic<
         if (!result) return null;
         await this.applyShockReTestOutcome(
             shockReTestOutcome(state, result.normSuccessLevel),
+            context,
         );
         return result;
     }
@@ -737,10 +742,13 @@ export class BeingLogic<
      * lasting-shock trauma.
      *
      * @param outcome - The re-test outcome to apply.
+     * @param context - The shock re-test action's context, forwarded to the
+     *   course-check schedule offer for any Extended Shock / Coma created.
      * @returns A promise that resolves once the outcome is applied.
      */
     private async applyShockReTestOutcome(
         outcome: ShockReTestOutcome,
+        context: OfferContext,
     ): Promise<void> {
         switch (outcome.kind) {
             case "recover":
@@ -754,6 +762,7 @@ export class BeingLogic<
                     TRAUMA_SUBTYPE.SHOCK,
                     outcome.hr,
                     this.inducingInjury()?.code ?? "",
+                    context,
                 );
                 return;
             case "coma": {
@@ -769,6 +778,7 @@ export class BeingLogic<
                     TRAUMA_SUBTYPE.COMA,
                     hr,
                     inducing?.code ?? "",
+                    context,
                 );
                 await this.setShockState(SHOCK_STATE.UNCONSCIOUS);
                 return;
@@ -777,25 +787,28 @@ export class BeingLogic<
     }
 
     /**
-     * Create an Extended Shock / Coma lasting-shock trauma (its recovery Course
-     * Test cadence is seeded by the Trauma data model on creation).
+     * Create an Extended Shock / Coma lasting-shock trauma, then **offer** to
+     * track its recovery Course Test (issue #579 — nothing auto-schedules; the
+     * cadence config is seeded by the Trauma data model on creation).
      *
      * @param subType - `SHOCK` (Extended Shock) or `COMA`.
      * @param healingRate - The lasting-shock Healing Rate.
      * @param locationCode - The inducing body-location shortcode (may be empty).
-     * @returns A promise that resolves once the trauma is created.
+     * @param context - The shock re-test context, forwarded to the course offer.
+     * @returns A promise that resolves once the trauma is created and offered.
      */
     private async createLastingShock(
         subType: string,
         healingRate: number,
         locationCode: string,
+        context: OfferContext,
     ): Promise<void> {
         const name = sohl.i18n.localize(
             subType === TRAUMA_SUBTYPE.COMA ?
                 "SOHL.Trauma.Coma"
             :   "SOHL.Trauma.ExtendedShock",
         );
-        await fvttCreateEmbeddedItems(this, [
+        const created = await fvttCreateEmbeddedItems(this, [
             {
                 type: ITEM_KIND.TRAUMA,
                 name,
@@ -808,6 +821,10 @@ export class BeingLogic<
                 },
             },
         ]);
+        const shock = created?.[0];
+        if (!shock) return;
+        const interval = Number(shock.system?.courseDurationBase) || 0;
+        await offerSchedule(context, shock, "courseCheck", interval);
     }
 
     /**
