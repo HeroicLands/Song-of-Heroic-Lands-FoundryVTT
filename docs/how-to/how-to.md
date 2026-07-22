@@ -7,6 +7,7 @@ children:
     API Access Map: ./api-access-map.md
     Lifecycle Hooks: ./lifecycle-hooks.md
     House Rules Cookbook: ./house-rules-cookbook.md
+    Writing Guided Tours: ./guided-tours.md
     Testing: ./testing.md
     Issue Reporting: ./issue-reporting.md
 ---

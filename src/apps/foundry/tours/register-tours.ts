@@ -1,0 +1,42 @@
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
+ *
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
+ *
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+import {
+    FRAMEWORK_DEMO_TOUR,
+    buildFrameworkDemoTour,
+} from "./framework-demo-tour";
+
+/**
+ * Register SoHL's guided tours with Foundry's `game.tours` collection so they
+ * appear in **Tour Management** and can be launched from there. Called once from
+ * the `ready` hook (after Foundry core has registered its own tours).
+ *
+ * Registration is best-effort per tour: a duplicate key (e.g. a re-run in the
+ * same session) is logged and skipped rather than aborting the rest.
+ */
+export function registerSystemTours(): void {
+    const tours = (game as any).tours;
+    if (!tours) return;
+    try {
+        tours.register(
+            FRAMEWORK_DEMO_TOUR.namespace,
+            FRAMEWORK_DEMO_TOUR.id,
+            buildFrameworkDemoTour(),
+        );
+    } catch (err) {
+        console.warn(
+            `SoHL | Tour "${FRAMEWORK_DEMO_TOUR.namespace}.${FRAMEWORK_DEMO_TOUR.id}" not registered`,
+            err,
+        );
+    }
+}
