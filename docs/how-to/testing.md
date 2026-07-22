@@ -484,6 +484,66 @@ write the test and `it.skip(...)` / `describe.skip(...)` it with a
 `red` options). CI stays green; the skip list is the capability backlog. Flip it
 to `it(...)` when the gap closes.
 
+### Consent dialogs are landmines — press the button, or pre-answer it
+
+The [consent model](../concepts/action-cards.md) means SoHL constantly surfaces
+**offer / confirm dialogs** ("Set a reminder to perform the healing check in 5
+days?", "Delete this container?"). In a headless Cypress run a `dialog()` /
+`DialogV2` that nobody clicks **blocks the spec** — the flow never resolves and the
+test hangs until timeout. This is the single most common way adding a new offer
+breaks the suite: any spec that drives a seam which now pops a dialog will stop
+dead. **Whenever you add an offer dialog behind a human trigger, grep
+`cypress/e2e` for the specs that hit that seam and make each one answer it.**
+
+There are two ways to answer, and the choice should model intent:
+
+1. **Press the button — for a spec whose subject _is_ the offer.**
+   `cy.submitDialog("<action>")` clicks the open dialog's button by its stable
+   `data-action` (`"yes"` / `"no"` / `"ok"` / …), through the app instance so it
+   works across the modal `<dialog>`. Every SoHL dialog button already carries
+   `data-action` (that _is_ the well-known handle — no markup change needed), so
+   this is the unambiguous, UI-faithful way to answer, and it exercises the real
+   consent flow exactly as a player would.
+
+    Fire the action **without** `skipDialog` so the dialog opens, stash its
+    promise, press the button, then **await that promise** before asserting — and
+    assert on the **persisted store entry**, not a bare post-create `isScheduled`
+    (see the async-armed-queue gotcha below):
+
+    ```js
+    cy.foundry((win) => {
+        // Perform without skipDialog → the offer dialog opens; stash the promise.
+        win.__perf = wound.logic.executeAction("healingCheck", {});
+        return null;
+    });
+    cy.submitDialog("yes"); // model the user: press button[data-action="yes"]
+    cy.foundry((win) =>
+        win.__perf.then(() => {
+            const sys = win.game.actors.get(actorId).items.get(woundId).system;
+            // The persisted entry is the reliable fact; isScheduled is safe here
+            // too, because executeAction (and its finalize) has now resolved.
+            return (sys.scheduledActions || []).filter(
+                (e) => e.actionName === "healingCheck",
+            ).length;
+        }),
+    ).should("eq", 1);
+    ```
+
+2. **Pre-answer / suppress — for setup, when the dialog is _incidental_.** When you
+   just need the effect to exist (a fixture wound), hand the action a context that
+   pre-answers the offer so no dialog opens: `skipDialog: true` plus the answer in
+   `scope` (e.g. `{ skipDialog: true, scope: { schedule: false } }`), or inline the
+   answer in a chat-card button's `data-scope` (`{ …req, schedule: false }`).
+   Reserve `skipDialog` for exactly this certain/scripted case (see the
+   [prefer-dialog rule](https://kb.heroiclands.org/dev/concepts/action-cards/)) —
+   don't reach for it just to skip a click.
+
+Rule of thumb: a spec **about** a consent flow presses the button (so the test
+_models what the user now expects_); a spec that merely needs the effect to exist
+pre-answers it. Creating a document directly with `createEmbeddedDocuments`
+bypasses the action — and its offer — entirely, which is why fixture-style creation
+never triggers the dialog.
+
 ### Gotchas (non-obvious)
 
 These cost real debugging time; they are not apparent from the code.
@@ -518,6 +578,18 @@ These cost real debugging time; they are not apparent from the code.
 - **Viewport-dependent accessors are empty headless.** `game.combat` and
   `sohl.currentCombatCombatantLogics` read the _viewed_ combat, which needs a
   canvas — assert on the combat document and each combatant's `.logic` directly.
+- **The event queue arms asynchronously — assert the store, not `isScheduled`,
+  right after create.** A scheduled action becomes _live_ in the in-memory event
+  queue only when the owning document's `finalize()` (or the `ready`-hook net)
+  re-arms it from `system.scheduledActions` — which does **not** happen the instant
+  `createEmbeddedDocuments` resolves. So `sohl.events.isScheduled(uuid, name)`
+  immediately after a create is a race and reads `false` intermittently. The
+  **persisted store entry is written synchronously**, so assert on
+  `system.scheduledActions.filter(e => e.actionName === name)` for the "arrived
+  scheduled" fact, and reserve `isScheduled` for _after_ an awaited action whose own
+  `finalize` has run (e.g. right after `executeAction` resolves, where it is
+  reliable). Same shape as the drag-drop and group-seeding races: the write is
+  synchronous; the derived/in-memory view lags.
 - **Benign core render errors.** Foundry's sidebar `CombatTracker` throws an async
   render error in headless runs; `support/e2e.js` keeps a narrow, exact-message
   `uncaught:exception` allowlist for it. Extend that list only for _known_
