@@ -14,6 +14,8 @@
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import { SohlCalendarData } from "@src/core/foundry/SohlCalendar";
 import { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
+import type { Rng } from "@src/entity/random/Rng";
+import { createRng } from "@src/entity/random/createRng";
 import * as constants from "@src/utils/constants";
 import { SohlLocalize } from "@src/core/foundry/SohlLocalize";
 import { SohlLogger } from "@src/core/foundry/SohlLogger";
@@ -134,6 +136,23 @@ export class SohlSystem {
     readonly log: SohlLogger;
     /** In-memory trigger/event dispatcher (`sohl.events`). */
     readonly events: SohlEventQueue;
+
+    /**
+     * The process-wide pseudo-random generator (`sohl.random`) — the shared,
+     * ambient {@link sohl.entity.random.Rng} stream backing
+     * {@link sohl.entity.roll.SimpleRoll}, hit-location selection, and the
+     * `rand()` expression helper when no generator is injected. Seeded from
+     * entropy at construction; present from that point on (its own readiness
+     * signal). It is one shared stream — safe for atomic synchronous draws but
+     * not isolated; a flow needing isolation injects its own {@link createRng}
+     * instance. e2e re-seeds it through the window for reproducibility
+     * (`win.sohl.random.seed(...)`).
+     *
+     * **Never seed this with a fixed value in a play path** — predictable dice
+     * ruin play, and a shared deterministic stream desyncs across clients
+     * anyway. Fixed seeds are strictly a test/e2e affordance.
+     */
+    readonly random: Rng;
 
     /**
      * The SoHL system configuration (`sohl.CONFIG`) — the document, sheet,
@@ -344,6 +363,7 @@ export class SohlSystem {
         this.i18n = SohlLocalize.getInstance();
         this.log = SohlLogger.getInstance();
         this.events = new SohlEventQueue();
+        this.random = createRng();
     }
 
     /**

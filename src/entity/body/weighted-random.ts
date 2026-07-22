@@ -12,12 +12,17 @@
  */
 
 import { ValueModifier } from "../modifier/ValueModifier";
+import type { Rng } from "@src/entity/random/Rng";
+import { defaultRng } from "@src/entity/random/createRng";
 
 /**
  * Select a random item from an array, weighted by each item's `probWeight`
  * property. Items with higher weights are proportionally more likely to
  * be selected.
  * @param items - Candidate items, each carrying a `probWeight` modifier.
+ * @param rng - The random source; defaults to the shared {@link sohl.random}
+ *   singleton. Inject a seeded {@link sohl.entity.random.createRng} instance to
+ *   make selection reproducible (or force it deterministically end to end).
  * @returns The randomly selected item.
  * @throws {Error} If the array is empty or all weights are zero.
  */
@@ -26,7 +31,7 @@ export function weightedRandom<
         /** Relative selection weight (its effective value is used). */
         probWeight: ValueModifier;
     },
->(items: T[]): T {
+>(items: T[], rng: Rng = defaultRng()): T {
     const totalWeight = items.reduce(
         (sum, item) => sum + item.probWeight.effective,
         0,
@@ -34,7 +39,9 @@ export function weightedRandom<
     if (totalWeight <= 0 || items.length === 0) {
         throw new Error("Cannot select from empty array or zero total weight");
     }
-    let roll = Math.random() * totalWeight;
+    // Continuous draw preserves fractional weights exactly (no behaviour change
+    // vs. the former Math.random path); float() is uniform in [0, 1).
+    let roll = rng.float() * totalWeight;
     for (const item of items) {
         roll -= item.probWeight.effective;
         if (roll <= 0) return item;

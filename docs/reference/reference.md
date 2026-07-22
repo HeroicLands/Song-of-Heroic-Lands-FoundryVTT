@@ -11,6 +11,7 @@ children:
     Scene, Token, and Combatant Systems: ./scene-token-combatant.md
     Calendar: ./calendar.md
     Event Queue: ./event-queue.md
+    Randomness: ./randomness.md
     Handlebars Helpers: ./handlebars-helpers.md
 ---
 
@@ -18,5 +19,5 @@ children:
 
 Contracts and catalogs: the type catalog, the modifier model, the combat
 resolution pipeline, body structure, effects integration, runtime contracts,
-the scene/token/combatant systems, the calendar, the event queue, and the
-Handlebars template helpers.
+the scene/token/combatant systems, the calendar, the event queue, randomness,
+and the Handlebars template helpers.

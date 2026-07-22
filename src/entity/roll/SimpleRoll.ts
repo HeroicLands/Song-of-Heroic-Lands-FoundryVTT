@@ -14,6 +14,8 @@
 import { SohlEntity } from "@src/entity/SohlEntity";
 import { registerKind } from "@src/utils/kindRegistry";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
+import type { Rng } from "@src/entity/random/Rng";
+import { defaultRng } from "@src/entity/random/createRng";
 
 /**
  * A Foundry-free dice primitive for structured `NdM+K` rolls.
@@ -135,19 +137,24 @@ export class SimpleRoll extends SohlEntity {
 
     /**
      * Roll the dice — consuming {@link forceValues | forced values} when queued,
-     * otherwise randomly.
+     * otherwise drawing from a seedable {@link sohl.entity.random.Rng}.
      * @remarks
      * If roll has already been made, this method will return the total without rolling again.
      * Each die takes the next forced value when the queue is non-empty, else a
-     * fresh `Math.random` result; a partly-drained queue mixes the two.
+     * fresh draw from `rng`; a partly-drained queue mixes the two.
+     *
+     * `rng` defaults to the shared {@link sohl.random} singleton — pass an
+     * injected instance ({@link sohl.entity.random.createRng}) for an isolated,
+     * reproducible stream (unit tests) rather than perturbing the shared one.
+     * @param rng - The random source; defaults to the `sohl.random` singleton.
      * @returns The total of the rolls plus the modifier.
      */
-    roll(): number {
+    roll(rng: Rng = defaultRng()): number {
         if (!this.rolls.length) {
             this.rolls = Array.from({ length: this.numDice }, () =>
                 SimpleRoll._forced.length ?
                     (SimpleRoll._forced.shift() as number)
-                :   Math.ceil(Math.random() * this.dieFaces),
+                :   rng.die(this.dieFaces),
             );
         }
         return this.total;

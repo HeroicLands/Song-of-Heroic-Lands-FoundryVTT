@@ -16,6 +16,8 @@ import { registerEntity } from "@src/entity/entityRegistry";
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { BodyLocation } from "@src/entity/body/BodyLocation";
 import { weightedRandom } from "@src/entity/body/weighted-random";
+import type { Rng } from "@src/entity/random/Rng";
+import { defaultRng } from "@src/entity/random/createRng";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { BODY_ROLE, isA } from "@src/utils/constants";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
@@ -171,10 +173,12 @@ export class BodyPart extends SohlEntity {
     /**
      * Select a random location within this part, weighted by each
      * location's {@link BodyLocation.probWeight}.
+     * @param rng - The random source; defaults to the shared {@link sohl.random}
+     *   singleton. Inject a seeded generator to make selection reproducible.
      * @returns A randomly selected location.
      */
-    getRandomLocation(): BodyLocation {
-        return weightedRandom(this.locations);
+    getRandomLocation(rng: Rng = defaultRng()): BodyLocation {
+        return weightedRandom(this.locations, rng);
     }
 
     /**
