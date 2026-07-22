@@ -147,16 +147,18 @@ export class AfflictionDataModel<
     }
 
     /**
-     * Seed the contract anchor, incubation duration, and the initial
-     * `onsetCheck` schedule when an Affliction is created: `contractDate` is set
-     * to the current world time, `onsetDurationBase` is seeded from a numeric read
-     * of the (per-disease) `onsetDurationFormula`, and a `system.scheduledActions`
-     * entry for `onsetCheck` is anchored at the current world time (the generic
-     * store, issue #588, replaces the retired bespoke anchors). The onset
-     * transition, when performed, crystallizes `onsetDate` and schedules the
-     * resolution and recurring healing-check events in turn; the recurring
-     * healing check then *offers* its reschedule rather than auto-re-arming
-     * (issue #579).
+     * Seed only the contract anchor and incubation-duration config when an
+     * Affliction is created — **not** a schedule: `contractDate` is set to the
+     * current world time and `onsetDurationBase` is seeded from a numeric read of
+     * the (per-disease) `onsetDurationFormula` (the offer's default cadence). The
+     * `onsetCheck` is **offered**, not auto-armed — `BeingLogic.contractDisease`
+     * calls the shared schedule offer after creating the affliction (issue #579,
+     * the last creation-time auto-schedule removed). A disease created by a raw
+     * drag (bypassing `contractDisease`) therefore does not auto-onset, matching
+     * how direct trauma creation bypasses its offer. The onset *transition*, when
+     * performed, still crystallizes `onsetDate` and auto-schedules the resolution
+     * and recurring healing-check events (a consequence of the human-performed
+     * step); the recurring healing check then *offers* its reschedule.
      *
      * @param data - The pending creation data.
      * @param options - The create operation options.
@@ -177,22 +179,9 @@ export class AfflictionDataModel<
 
         const now = game.time.worldTime;
         const onsetInterval = Number(this.onsetDurationFormula) || 0;
-        const existing = (
-            (this.scheduledActions as PlainObject[]) ?? []
-        ).filter((e) => String(e.actionName) !== "onsetCheck");
         this.updateSource({
             contractDate: now,
             onsetDurationBase: onsetInterval,
-            scheduledActions: [
-                ...existing,
-                {
-                    actionName: "onsetCheck",
-                    anchor: now,
-                    interval: onsetInterval,
-                    sceneUuid: "",
-                    payload: {},
-                },
-            ],
         } as any);
         return undefined;
     }

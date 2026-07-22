@@ -801,6 +801,60 @@ describe("BeingLogic", () => {
 
             expect(create).not.toHaveBeenCalled();
         });
+
+        /** A contracted-disease setup: contagion fails, creating an affliction
+         *  whose incubation interval is carried on `onsetDurationBase`. */
+        function contractsWith(onsetDurationBase = 604800) {
+            vi.spyOn(
+                AfflictionContract,
+                "promptContractDisease",
+            ).mockResolvedValue(customDisease);
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({ isSuccess: false } as any);
+            const affliction = {
+                uuid: "Item.aff00000000",
+                system: { onsetDurationBase },
+            };
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttCreateEmbeddedItems",
+            ).mockResolvedValue([affliction] as any);
+            return affliction;
+        }
+
+        it("OFFERS the onset check after contracting — accept schedules it (#579)", async () => {
+            const affliction = contractsWith(604800); // 7 days
+            const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
+            const logic = beingWithEndurance();
+
+            await (logic as any).contractDisease({
+                skipDialog: true,
+                scope: { schedule: true },
+            });
+
+            expect(schedule).toHaveBeenCalledWith(
+                affliction,
+                "onsetCheck",
+                604800,
+            );
+        });
+
+        it("does NOT auto-arm the onset — declining leaves it unscheduled (#579)", async () => {
+            const affliction = contractsWith(604800);
+            const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
+            const unschedule = vi.spyOn((globalThis as any).sohl, "unschedule");
+            const logic = beingWithEndurance();
+
+            await (logic as any).contractDisease({
+                skipDialog: true,
+                scope: { schedule: false },
+            });
+
+            expect(schedule).not.toHaveBeenCalled();
+            expect(unschedule).toHaveBeenCalledWith(affliction, "onsetCheck");
+        });
     });
 
     // Opposed-test resume moved off the actor onto SohlTokenDocumentLogic
