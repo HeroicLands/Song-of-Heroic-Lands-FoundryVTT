@@ -1026,6 +1026,7 @@
     "SOHL.OpposedTestResult.toChat.description": "{targetActorName} must now choose what skill to respond with",
     "SOHL.OpposedTestResult.toChat.respond": "Respond",
     "SOHL.OpposedTestResult.toChat.title": "Opposed Action Request",
+    "SOHL.Prone": "Prone",
     "SOHL.ProjectileGear.EffectKey.DURABILITY": "Durability",
     "SOHL.ProjectileGear.EffectKey.IMPACT": "Impact",
     "SOHL.ProjectileGear.EffectKey.QUALITY": "Quality",

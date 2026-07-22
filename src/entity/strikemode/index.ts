@@ -16,4 +16,5 @@
 
 export * from "./MeleeStrikeMode";
 export * from "./MissileStrikeMode";
+export * from "./prone";
 export * from "./StrikeModeBase";

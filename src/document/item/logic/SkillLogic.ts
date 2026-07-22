@@ -18,6 +18,7 @@ import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
+import { applyProneMeleePenalty } from "@src/entity/strikemode/prone";
 import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
@@ -28,6 +29,7 @@ import {
     SKILL_SUBTYPE,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    STATUS_EFFECT,
     STRIKE_MODE_TYPE,
     VALUE_DELTA_ID,
     VALUE_DELTA_INFO,
@@ -42,6 +44,7 @@ import {
     fvttGetSetting,
     fvttIsCurrentUserGM,
     fvttActiveTokenLogicForActor,
+    fvttActorStatuses,
 } from "@src/core/FoundryHelpers";
 import { AttributeLogic } from "./AttributeLogic";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
@@ -786,6 +789,16 @@ export class SkillLogic<
             for (const mod of derived) {
                 mod.addVM(governing, { includeBase: true });
                 if (governing.disabled) mod.disabled = governing.disabled;
+            }
+            // A prone wielder suffers −20 to all melee attacks and defenses
+            // (#562) — a combat technique carries its own strike mode, so apply
+            // it here as WeaponGearLogic does for weapon strike modes.
+            if (
+                this.strikeMode instanceof MeleeStrikeMode &&
+                !!this.actor &&
+                fvttActorStatuses(this.actor).has(STATUS_EFFECT.PRONE)
+            ) {
+                applyProneMeleePenalty(this.strikeMode);
             }
         }
     }
