@@ -557,6 +557,19 @@ pre-answers it. Creating a document directly with `createEmbeddedDocuments`
 bypasses the action — and its offer — entirely, which is why fixture-style creation
 never triggers the dialog.
 
+**Several identical offers in a row — target by content, not "topmost."** One
+action can fire more than one offer back-to-back (inflicting a bleeder wound
+offers the healing check _then_ the blood-loss advance). Give such offers distinct,
+player-meaningful **titles** ("Set a Blood Loss Advance Reminder?"), and in the
+spec answer a specific one with `cy.submitDialogMatching(text, action)` — it waits
+for the _open_ dialog whose rendered text matches, so it can't press the wrong
+twin. Two traps make the naive "topmost open dialog" approach flaky, and both
+commands guard against them: `foundry.applications.instances` **retains closed
+dialogs** (`rendered === false`) whose stale `.element` still matches by text or
+button — so always filter on `app.rendered`; and a raw `cy.get('button[...]')`
+DOM wait can match a **leaked button from a prior test** before this test's dialog
+renders — so poll `cy.window().should(...)` for a _rendered_ instance instead.
+
 ### Gotchas (non-obvious)
 
 These cost real debugging time; they are not apparent from the code.

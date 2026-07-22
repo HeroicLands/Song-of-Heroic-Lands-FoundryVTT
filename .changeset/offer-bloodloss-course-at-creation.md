@@ -21,8 +21,22 @@ now **offered**, matching the healing-check offer.
   context, so the interactive path prompts (a dialog, per the prefer-dialog rule)
   while a scripted/bulk caller can pre-answer (`scope.schedule`) or suppress it
   (`skipDialog`).
+- **Per-effect offer titles.** Because a bleeder wound now fires two offers
+  back-to-back (healing check, then blood-loss advance), each schedule offer's
+  title names its effect — "Set a Blood Loss Advance Reminder?" instead of two
+  identical "Set a Reminder?" dialogs — so the player can tell them apart. The
+  whole title is one localization string (`SOHL.Schedule.title`, with an
+  already-localized `{actionName}`) so translations control word order.
 
 With this, every recurring timed effect — healing, blood-loss, course — is armed
 only at a human's behest, at creation and on every re-schedule.
+
+**Tests.** A new e2e (`timed-effect-creation-offer.cy.js`) presses the _real_
+blood-loss offer button (Schedule arms it; Not Now leaves it unarmed), modelling
+the player per the testing-doc rule of thumb. Two new reusable Cypress commands
+support it — `cy.submitDialogMatching(text, action)` to answer a specific one of
+several look-alike dialogs by content, and a hardened `cy.submitDialog` that only
+targets a _rendered_ dialog (Foundry retains closed dialog instances, whose stale
+elements otherwise leak across tests).
 
 Refs #579.
