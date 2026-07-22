@@ -90,6 +90,28 @@ Foundry's `updateWorldTime` / `combatStart` / `deleteCombat` / `combatRound` /
 `Hooks.on(...)` elsewhere for dispatch** — add a built-in trigger by editing that
 one file, or a custom one via [custom triggers](#custom-triggers).
 
+### Two families: time-driven and event-driven
+
+Time is only **one** kind of trigger, and the queue is an _event_ dispatcher — not
+a scheduler with extras. The distinction shapes what you can ask of a subscription:
+
+- **Time-driven** (`updateWorldTime` with a `fireAt`) — the moment is a computable
+  number. It is orderable, catches up over a time jump, and answers "when is the
+  next?" ([query](#7-query-the-schedule-when-is-the-next--last)). The
+  [anchor rule](#the-one-rule-persist-an-anchor-never-the-live-clock) applies.
+- **Event-driven** (`combatStart`, a token entering a region, darkness falling — a
+  trigger with **no** `fireAt`) — the moment depends on play, GM action, or world
+  state. There is nothing to order or catch up, and **"when does this next fire?"
+  is genuinely undeterminable** — `nextFireTime` returns `undefined` by design, not
+  as a gap. Anchor / interval / catch-up simply don't apply.
+
+The practical consequence: for an event-driven subscription the queryable temporal
+fact is the **last** occurrence, not the next — so a run record (the document's
+`last…Date` field) is not a display nicety, it is the _only_ meaningful temporal
+query. (Extending the vocabulary to spatial/environmental **scene-region** events —
+token enter/exit, darkness changes — is a planned epic; they are the archetypal
+event-driven triggers, with no `fireAt` at all.)
+
 ## Populate everywhere, fire on the active GM only
 
 The queue is a **pure projection of document state**. Every client — GM or player
@@ -275,10 +297,17 @@ sohl.events.isScheduled(injury.uuid, "healingCheck"); // is it armed?
 
 These ask the **scheduler** about the _next_ occurrence — see
 {@link sohl.entity.event.SohlEventQueue.nextFireTime | nextFireTime} /
-{@link sohl.entity.event.SohlEventQueue.timeUntil | timeUntil}. The **last
-performed** occurrence is a document fact, not a queue fact — read the record field
-(e.g. `injury.system.lastHealingCheckDate`), which survives after the schedule ends
-(declined or resolved) where the queue entry does not.
+{@link sohl.entity.event.SohlEventQueue.timeUntil | timeUntil}. They answer only
+for [time-driven](#two-families-time-driven-and-event-driven) subscriptions; for an
+event-driven one `nextFireTime` is `undefined` because there is no computable next
+fire — a real state, not an error.
+
+The **last performed** occurrence is a document fact, not a queue fact — read the
+record field (e.g. `injury.system.lastHealingCheckDate`), which survives after the
+schedule ends (declined or resolved) where the queue entry does not. For an
+event-driven trigger this run record is the _only_ meaningful temporal query — the
+queue can tell you a token entered the crypt an hour ago, but never when it next
+will.
 
 ## The one rule: persist an anchor, never the live clock
 
