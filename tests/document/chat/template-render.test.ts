@@ -175,6 +175,19 @@ describe("rally-offer-card (BeingLogic.rallyTest, #559)", () => {
     });
 });
 
+describe("face-pall-card (TraumaLogic.pallRecovery, #561)", () => {
+    it("names the victim and lists the three fates", () => {
+        const html = renderTemplateReal(`${CHAT}/face-pall-card.hbs`, {
+            actorName: "Brother Deven",
+        });
+        expect(html).toContain("Face the Pall");
+        expect(html).toContain("Brother Deven");
+        expect(html).toContain("Embrace the Pall");
+        expect(html).toContain("Vacate the Body");
+        expect(html).toContain("Accept True Death");
+    });
+});
+
 describe("harness fidelity notes", () => {
     it("formGroup (sheet-tier) renders a binding placeholder, not Foundry markup", () => {
         registerTestHbsHelpers();

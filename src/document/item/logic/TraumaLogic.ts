@@ -53,6 +53,10 @@ import {
     SHOCK_STATE,
     shockCourseHrDelta,
 } from "@src/document/actor/logic/shock";
+import {
+    pallRecoveryOutcome,
+    PALL_RECOVERY_INTERVAL_FORMULA,
+} from "@src/document/actor/logic/pall";
 import { elapsedCheckpoints } from "@src/entity/event/scheduling";
 import { armScheduledActions } from "@src/entity/event/scheduled-actions";
 import { offerSchedule } from "@src/document/item/logic/offer-schedule";
@@ -625,6 +629,99 @@ export class TraumaLogic<
     }
 
     /**
+     * Intrinsic-action executor for **Pall recovery** (#561) — the recurring
+     * recovery of a `pall`-subtype Pall Cloud, made every d6 days.
+     *
+     * At each elapsed checkpoint (a manual invocation runs one) the victim rolls a
+     * headless Will test ({@link sohl.document.actor.logic.pallRecoveryOutcome}):
+     * `MS`/`CS` recover **−1/−2 PSL** (the Pall is expelled at 0); `MF` renders the
+     * victim **Unconscious** (no PSL change); `CF` forces the victim to **Face the
+     * Pall** — an owner-accepted choice offered as an action card (never imposed).
+     * Otherwise the next check is **offered** (issue #579).
+     *
+     * @param context - The action context; `scope.schedule` decides scheduling.
+     * @returns A promise that resolves once the outcome and schedule are persisted.
+     */
+    async pallRecovery(context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (!uuid || this.data.subType !== TRAUMA_SUBTYPE.PALL) return;
+        const now = fvttWorldTime();
+        const entry = this.data.scheduledActions?.find(
+            (e) => e.actionName === "pallRecovery",
+        );
+        const interval =
+            entry?.interval ??
+            this.rollDuration(PALL_RECOVERY_INTERVAL_FORMULA);
+        const anchor = entry?.anchor ?? now;
+        const checkpoints =
+            entry && interval > 0 ?
+                elapsedCheckpoints(anchor, now, interval)
+            :   [now];
+
+        let psl = this.data.levelBase;
+        let faced = false;
+        let unconscious = false;
+        for (let i = 0; i < checkpoints.length && psl > 0 && !faced; i++) {
+            const sl = await this.rollWillTest(
+                "trauma-pall-recovery",
+                sohl.i18n.localize("SOHL.Trauma.Action.pallRecovery.title"),
+            );
+            if (sl == null) break;
+            const out = pallRecoveryOutcome(sl);
+            if (out.kind === "face") {
+                faced = true;
+            } else if (out.kind === "unconscious") {
+                unconscious = true;
+            } else {
+                psl = Math.max(0, psl + out.pslDelta);
+            }
+        }
+
+        // A Marginal Failure knocks the victim unconscious until PSL reach 0.
+        if (unconscious) {
+            await (this.actorLogic as any)?.setShockState?.(
+                SHOCK_STATE.UNCONSCIOUS,
+            );
+        }
+        // A Critical Failure forces the victim to Face the Pall — offered, never
+        // imposed (the choice is always the victim's).
+        if (faced) await this.offerFacePall();
+
+        // The Pall is expelled when PSL reach 0 (the permanent psyche trait
+        // remains; its permanence conversion is a follow-up).
+        if (psl <= 0) {
+            await sohl.unschedule(this.item, "pallRecovery");
+            await this.item.delete();
+            return;
+        }
+        await this.item.update({
+            "system.levelBase": psl,
+        } as PlainObject);
+        await offerSchedule(
+            context,
+            this.item,
+            "pallRecovery",
+            this.rollDuration(PALL_RECOVERY_INTERVAL_FORMULA),
+        );
+    }
+
+    /**
+     * Post the **Face the Pall** offer — an informational choice card presenting
+     * the three fates (Embrace / Vacate / Accept True Death). The choice is always
+     * the victim's, so this only surfaces the decision; it does not apply it.
+     *
+     * @returns A promise that resolves once the card is posted.
+     */
+    private async offerFacePall(): Promise<void> {
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/face-pall-card.hbs",
+            data: {
+                actorName: (this.actorLogic as { name?: string })?.name ?? "",
+            },
+        });
+    }
+
+    /**
      * Define and return all intrinsic actions for trauma logic, adding the
      * treatment and healing test actions to those inherited from the base logic.
      * @returns The intrinsic action definitions.
@@ -726,6 +823,17 @@ export class TraumaLogic<
                 executor: "auralShockRecovery",
                 recordsLastRun: true,
                 visible: "itemLogic.data.subType === 'auralshock'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "pallRecovery",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.pallRecovery.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-skull",
+                executor: "pallRecovery",
+                recordsLastRun: true,
+                visible: "itemLogic.data.subType === 'pall'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
         ];

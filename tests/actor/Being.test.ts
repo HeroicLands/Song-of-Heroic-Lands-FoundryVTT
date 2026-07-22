@@ -1195,6 +1195,90 @@ describe("BeingLogic", () => {
         });
     });
 
+    describe("The Pall (#561)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        function forceRoll(
+            normSuccessLevel: number,
+            lastDigit: number,
+            isSuccess: boolean,
+        ) {
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({
+                normSuccessLevel,
+                lastDigit,
+                isSuccess,
+            } as any);
+        }
+
+        function stubEffects() {
+            vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(
+                undefined as any,
+            );
+            return vi
+                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+                .mockResolvedValue([]);
+        }
+
+        it("Disturbed (MF) accrues +1 Pall Stress Level", async () => {
+            forceRoll(MARGINAL_FAILURE, 7, false);
+            const create = stubEffects();
+            await (makeBeing() as any).pallResist({ scope: { totalPal: 2 } });
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: { subType: TRAUMA_SUBTYPE.PALL, levelBase: 1 },
+            });
+        });
+
+        it("Catatonic (CF0) accrues +3 Pall Stress Levels", async () => {
+            forceRoll(CRITICAL_FAILURE, 0, false);
+            const create = stubEffects();
+            await (makeBeing() as any).pallResist({ scope: { totalPal: 1 } });
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: { levelBase: 3 },
+            });
+        });
+
+        it("adds PSL to an existing Pall Cloud on a repeat failure", async () => {
+            forceRoll(CRITICAL_FAILURE, 5, false); // Terrified +2
+            stubEffects();
+            const being = makeBeing();
+            makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                { subType: TRAUMA_SUBTYPE.PALL, levelBase: 1 },
+                { actor: (being as any).actor, name: "The Pall" },
+            );
+            const pall = (
+                being.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]
+            )[0];
+            (pall.item as any).update = vi.fn().mockResolvedValue(undefined);
+            await (being as any).pallResist({ scope: { totalPal: 0 } });
+            expect((pall.item as any).update).toHaveBeenCalledWith({
+                "system.levelBase": 3,
+            });
+        });
+
+        it("a successful Resist accrues no Pall Stress", async () => {
+            forceRoll(MARGINAL_SUCCESS, 3, true);
+            const create = stubEffects();
+            await (makeBeing() as any).pallResist({ scope: { totalPal: 2 } });
+            expect(create).not.toHaveBeenCalled();
+        });
+
+        it("pallStress reports the Pall Cloud level", () => {
+            const being = makeBeing();
+            makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                { subType: TRAUMA_SUBTYPE.PALL, levelBase: 4 },
+                { actor: (being as any).actor, name: "The Pall" },
+            );
+            expect(being.pallStress).toBe(4);
+        });
+    });
+
     // Opposed-test resume moved off the actor onto SohlTokenDocumentLogic
     // (opposed tests are token-based). See SohlTokenDocumentLogic.test.ts.
 

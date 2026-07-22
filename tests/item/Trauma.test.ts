@@ -1494,6 +1494,9 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
     function recoveryTrauma(subType: string, levelBase: number, category = "") {
         const actor = makeMockActor();
         (actor.logic as any).getItemLogic = () => undefined;
+        (actor.logic as any).setShockState = vi
+            .fn()
+            .mockResolvedValue(undefined);
         const logic = makeTrauma({ subType, levelBase, category }, { actor });
         (logic.item as any).uuid = "Item.recover0000";
         (logic.item as any).delete = vi.fn().mockResolvedValue(undefined);
@@ -1596,5 +1599,39 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
         const logic = recoveryTrauma(TRAUMA_SUBTYPE.AURALSHOCK, 1);
         await logic.auralShockRecovery(NO);
         expect(logic.item.delete).toHaveBeenCalledTimes(1);
+    });
+
+    it("Pall recovery reduces PSL by 2 on a critical success", async () => {
+        mockRoll(CRITICAL_SUCCESS);
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.PALL, 4);
+        await logic.pallRecovery(NO);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 2 }),
+        );
+    });
+
+    it("expels the Pall (removes it) when PSL reach 0", async () => {
+        mockRoll(CRITICAL_SUCCESS);
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.PALL, 2);
+        await logic.pallRecovery(NO);
+        expect(logic.item.delete).toHaveBeenCalledTimes(1);
+    });
+
+    it("a Marginal-Failure Pall recovery knocks the victim unconscious", async () => {
+        mockRoll(MARGINAL_FAILURE);
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.PALL, 3);
+        await logic.pallRecovery(NO);
+        expect((logic.actorLogic as any).setShockState).toHaveBeenCalled();
+    });
+
+    it("a Critical-Failure Pall recovery offers Face the Pall (no removal)", async () => {
+        mockRoll(CRITICAL_FAILURE);
+        const post = vi
+            .spyOn(ActionCard, "postActionCard")
+            .mockResolvedValue(undefined as any);
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.PALL, 3);
+        await logic.pallRecovery(NO);
+        expect(post).toHaveBeenCalledTimes(1);
+        expect(logic.item.delete).not.toHaveBeenCalled();
     });
 });

@@ -133,6 +133,13 @@ import {
     MORALE_BRAVE_BONUS,
 } from "@src/document/actor/logic/morale";
 import { inflictPsycheStress } from "@src/document/item/logic/psyche";
+import {
+    pallDepthPenalty,
+    pallResistState,
+    pallStressGain,
+    isPallFailure,
+    PALL_STATE,
+} from "@src/document/actor/logic/pall";
 // `action-card` touches Foundry only through the `FoundryHelpers` shims; the
 // path-based boundary rule can't tell it apart from the Foundry-coupled files
 // under `document/chat/`, so allow it.
@@ -1257,6 +1264,130 @@ export class BeingLogic<
     }
 
     /**
+     * The being's accrued **Pall Stress Levels (PSL)** (#561) — the level of its
+     * single `pall`-subtype trauma (the Pall Cloud), or 0 when it carries none.
+     */
+    get pallStress(): number {
+        return this.pallTrauma()?.data.levelBase ?? 0;
+    }
+
+    /**
+     * The being's `pall`-subtype trauma (the Pall Cloud), or `undefined`.
+     *
+     * @returns The Pall trauma, or `undefined`.
+     */
+    private pallTrauma(): TraumaLogic | undefined {
+        return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).find(
+            (t) => t.data.subType === TRAUMA_SUBTYPE.PALL,
+        );
+    }
+
+    /**
+     * Resolve a **Resist the Pall** test (#561) — a **Spirit** test with a Pall
+     * Depth penalty of `5 × total PAL` — at the start of the being's turn while in
+     * an affected area.
+     *
+     * A self-sufficient action on the affected being: it rolls Spirit headlessly
+     * (a `spirit` skill, falling back to the Aura attribute), applies the Pall
+     * Depth penalty from `scope.totalPal`, and maps the result to a
+     * {@link sohl.document.actor.logic.PALL_STATE}. A failure (Disturbed/Terrified/
+     * Catatonic) accrues Pall Stress Levels on the being's Pall Cloud trauma; a
+     * success (Resist/Immune) grants temporary immunity.
+     *
+     * @param context - The action context; `scope.totalPal` is the total Pall
+     *   Strength affecting the being.
+     * @returns The Spirit-test result, or `null` if the roll could not be run.
+     */
+    async pallResist(
+        context: SohlActionContext,
+    ): Promise<SuccessTestResult | null> {
+        const scope = (context.scope ?? {}) as { totalPal?: number };
+        const totalPal = Number(scope.totalPal ?? 0);
+        // Spirit is not a base attribute: prefer a `spirit` skill, fall back to
+        // the Aura attribute (the soul-facing attribute).
+        const spiritMl =
+            (
+                this.getItemLogic("spirit", ITEM_KIND.SKILL) as
+                    | SkillLogic
+                    | undefined
+            )?.masteryLevel?.effective ??
+            (
+                this.getItemLogic(ATTRIBUTE_CODE.AURA, ITEM_KIND.ATTRIBUTE) as
+                    | AttributeLogic
+                    | undefined
+            )?.masteryLevel?.effective ??
+            0;
+        const result = await rollTimedTest(this, spiritMl, {
+            type: "pall-resist",
+            title: sohl.i18n.localize("SOHL.Being.Action.pallResist"),
+            situationalModifier: -pallDepthPenalty(totalPal),
+        });
+        if (!result) return null;
+        await this.applyPallResist(
+            pallResistState(result.normSuccessLevel, result.lastDigit),
+            result.isSuccess,
+        );
+        return result;
+    }
+
+    /**
+     * Record the outcome of a {@link pallResist}: accrue Pall Stress Levels on the
+     * Pall Cloud trauma for a failure, and post an informational state card.
+     *
+     * @param state - The {@link sohl.document.actor.logic.PALL_STATE} produced.
+     * @param isSuccess - Whether the Spirit test succeeded.
+     * @returns A promise that resolves once the outcome is persisted.
+     */
+    private async applyPallResist(
+        state: number,
+        isSuccess: boolean,
+    ): Promise<void> {
+        const notes: string[] = [];
+        const psl = pallStressGain(state);
+        if (isPallFailure(state) && psl > 0) {
+            const existing = this.pallTrauma();
+            if (existing) {
+                await existing.item.update({
+                    "system.levelBase": existing.data.levelBase + psl,
+                } as PlainObject);
+            } else {
+                await fvttCreateEmbeddedItems(this, [
+                    {
+                        type: ITEM_KIND.TRAUMA,
+                        name: sohl.i18n.localize("SOHL.Trauma.Pall"),
+                        system: {
+                            subType: TRAUMA_SUBTYPE.PALL,
+                            levelBase: psl,
+                        },
+                    },
+                ]);
+            }
+            if (state >= PALL_STATE.CATATONIC) {
+                notes.push(
+                    sohl.i18n.localize("SOHL.Trauma.Pall.Note.Catatonic"),
+                );
+            } else if (state === PALL_STATE.TERRIFIED) {
+                notes.push(
+                    sohl.i18n.localize("SOHL.Trauma.Pall.Note.Terrified"),
+                );
+            } else {
+                notes.push(
+                    sohl.i18n.localize("SOHL.Trauma.Pall.Note.Disturbed"),
+                );
+            }
+        } else {
+            notes.push(sohl.i18n.localize("SOHL.Trauma.Pall.Note.Resist"));
+        }
+        await this.postTraumaStateCard(
+            sohl.i18n.localize("SOHL.Being.Action.pallResist"),
+            "",
+            isSuccess,
+            0,
+            notes,
+        );
+    }
+
+    /**
      * The being's current **fear state** (#558) — the most severe (most-failed)
      * {@link sohl.utils.FEAR_LEVEL} across its active fear-source traumas, or
      * `NONE` when it carries none. "When several fear sources are present, only
@@ -1725,6 +1856,16 @@ export class BeingLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "far fa-face-scream",
                 executor: "fearTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "pallResist",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.pallResist",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-skull",
+                executor: "pallResist",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
