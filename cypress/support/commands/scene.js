@@ -34,12 +34,30 @@ Cypress.Commands.add("createScene", (overrides = {}) => {
     return cy.foundry((win) => win.Scene.create(toRealm(win, data)));
 });
 
-/** Place one token for `actor` on `scene` at `(x, y)`. Yields the TokenDocument. */
+/**
+ * Place one token for `actor` on `scene` at `(x, y)`. Yields the TokenDocument.
+ *
+ * The token is **linked** (`actorLink: true`), so its combatant's `.actor` is the
+ * world actor a spec has already prepared — not an unprepared synthetic (delta)
+ * actor. An unlinked token's synthetic actor is only prepared as a side-effect of
+ * the canvas token draw, which is racy/broken headless (suppressed by
+ * `guardHeadlessTokenDraw` in `cy.login`); reading actor-derived combatant state
+ * (`computedMove`, `reach`) off it then yields `null` (#611). Linking makes those
+ * reads deterministic and canvas-independent. No spec relies on unlinked
+ * token-actor semantics.
+ */
 async function placeOne(win, scene, actor, x, y) {
     const s = resolveDoc(win, scene);
     const a = resolveDoc(win, actor);
-    const td = await a.getTokenDocument(toRealm(win, { x, y }), { parent: s });
-    const [created] = await td.constructor.createDocuments([td.toObject()], {
+    const td = await a.getTokenDocument(
+        toRealm(win, { x, y, actorLink: true }),
+        {
+            parent: s,
+        },
+    );
+    const obj = td.toObject();
+    obj.actorLink = true;
+    const [created] = await td.constructor.createDocuments([obj], {
         parent: s,
     });
     return created;
