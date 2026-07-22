@@ -356,3 +356,62 @@ describe("SimpleRoll", () => {
         );
     });
 });
+
+describe("SimpleRoll forced values (deterministic testing, #598)", () => {
+    // Hygiene: a leftover forced value would leak into the next roll — always
+    // clear between tests (mirrors the e2e afterEach discipline).
+    afterEach(() => SimpleRoll.clearForced());
+
+    it("roll() consumes a forced value instead of rolling randomly", () => {
+        SimpleRoll.forceValues(5);
+        const roll = sr({ numDice: 1, dieFaces: 100 });
+        expect(roll.roll()).toBe(5);
+        expect(roll.rolls).toEqual([5]);
+    });
+
+    it("the constituent values are correct so display derives correctly", () => {
+        SimpleRoll.forceValues(3, 5);
+        const roll = sr({ numDice: 2, dieFaces: 6, modifier: 2 });
+        expect(roll.roll()).toBe(10); // 3 + 5 + 2
+        expect(roll.result).toBe("[3, 5] +2");
+        expect(roll.rolls).toEqual([3, 5]);
+    });
+
+    it("consumes numDice values per roll, FIFO across successive rolls", () => {
+        SimpleRoll.forceValues(5, 100, 1); // three single-die rolls in order
+        expect(sr({ numDice: 1, dieFaces: 100 }).roll()).toBe(5);
+        expect(sr({ numDice: 1, dieFaces: 100 }).roll()).toBe(100);
+        expect(sr({ numDice: 1, dieFaces: 100 }).roll()).toBe(1);
+    });
+
+    it("falls back to Math.random once the forced queue is exhausted", () => {
+        SimpleRoll.forceValues(5);
+        expect(sr({ numDice: 1, dieFaces: 6 }).roll()).toBe(5); // forced
+        const next = sr({ numDice: 1, dieFaces: 6 });
+        next.roll(); // random fallback
+        expect(next.rolls[0]).toBeGreaterThanOrEqual(1);
+        expect(next.rolls[0]).toBeLessThanOrEqual(6);
+    });
+
+    it("forcedRemaining reflects the queue; clearForced empties it", () => {
+        SimpleRoll.forceValues(1, 2, 3);
+        expect(SimpleRoll.forcedRemaining).toBe(3);
+        sr({ numDice: 2, dieFaces: 6 }).roll(); // consumes 2
+        expect(SimpleRoll.forcedRemaining).toBe(1);
+        SimpleRoll.clearForced();
+        expect(SimpleRoll.forcedRemaining).toBe(0);
+    });
+
+    it("does not consume forced values for a pre-seeded roll (rolls already set)", () => {
+        SimpleRoll.forceValues(5);
+        const preset = sr({ numDice: 1, dieFaces: 100, rolls: [42] });
+        expect(preset.roll()).toBe(42); // uses its own rolls, not the queue
+        expect(SimpleRoll.forcedRemaining).toBe(1); // untouched
+    });
+
+    it("accepts a spread array of values", () => {
+        const seq = [10, 20, 30];
+        SimpleRoll.forceValues(...seq);
+        expect(SimpleRoll.forcedRemaining).toBe(3);
+    });
+});

@@ -40,6 +40,21 @@ export class SimpleRoll extends SohlEntity {
     rolls: number[];
 
     /**
+     * A process-wide FIFO queue of predetermined die values — the **test seam**
+     * for deterministic rolls where the roll instance is unreachable (a success
+     * test's d100, an affliction's critical-failure→infection, the combat
+     * exchange). When non-empty, {@link roll} consumes values from the front (one
+     * per die) instead of calling `Math.random`; when empty, rolls are random as
+     * normal. Complements the per-instance {@link setRolls} / the
+     * {@link sohl.entity.result.SuccessTestResult} presets for the deep-in-logic
+     * case. Empty in normal play — only tests seed it, via {@link forceValues}.
+     *
+     * @remarks Left-over forced values leak into the next roll, so a test seeding
+     * these must {@link clearForced} afterward (e.g. an `afterEach`).
+     */
+    private static _forced: number[] = [];
+
+    /**
      * Construct an empty roll owned by `parent` — shorthand for
      * `new SimpleRoll({}, { parent })` (all fields default to `0`/`[]`).
      * @param parent - The owning {@link sohl.core.logic.SohlLogic}.
@@ -96,15 +111,43 @@ export class SimpleRoll extends SohlEntity {
     }
 
     /**
-     * Roll the dice randomly.
+     * Seed the deterministic-testing queue with predetermined die values,
+     * appended in order. Subsequent {@link roll} calls consume them one per die
+     * (FIFO) instead of rolling randomly. Accepts a spread or a spread array
+     * (`forceValues(...[5, 3])`). Left-over values leak into the next roll, so a
+     * test seeding these must {@link clearForced} afterward (e.g. an `afterEach`).
+     *
+     * @param values - Die values the next rolls should use, in order.
+     */
+    static forceValues(...values: number[]): void {
+        SimpleRoll._forced.push(...values);
+    }
+
+    /** Empty the deterministic-testing queue (call between tests). */
+    static clearForced(): void {
+        SimpleRoll._forced.length = 0;
+    }
+
+    /** How many forced die values remain queued (for assertions / hygiene). */
+    static get forcedRemaining(): number {
+        return SimpleRoll._forced.length;
+    }
+
+    /**
+     * Roll the dice — consuming {@link forceValues | forced values} when queued,
+     * otherwise randomly.
      * @remarks
      * If roll has already been made, this method will return the total without rolling again.
+     * Each die takes the next forced value when the queue is non-empty, else a
+     * fresh `Math.random` result; a partly-drained queue mixes the two.
      * @returns The total of the rolls plus the modifier.
      */
     roll(): number {
         if (!this.rolls.length) {
             this.rolls = Array.from({ length: this.numDice }, () =>
-                Math.ceil(Math.random() * this.dieFaces),
+                SimpleRoll._forced.length ?
+                    (SimpleRoll._forced.shift() as number)
+                :   Math.ceil(Math.random() * this.dieFaces),
             );
         }
         return this.total;

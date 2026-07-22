@@ -121,7 +121,20 @@ Additional patterns:
 
 - **Pure computation** (e.g., `ValueDelta.apply()`, `SimpleRoll.median`) can be tested directly.
 - **Shim behavior** — spy on the mock module: `import * as FoundryHelpersMock from "@src/core/FoundryHelpers"; vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue("everyone");`
-- **Dice** — `vi.spyOn(SimpleRoll, "fromFormula")` returning a stub roll.
+- **Dice** — three levels, cheapest first. For a roll you can reach, pre-seed the
+  instance (`new SimpleRoll({ …, rolls: [5] })` or `.setRolls([5])`), or spy
+  `vi.spyOn(SimpleRoll, "fromFormula")` returning a stub. For a roll **buried deep
+  in the logic** (a success test's d100, an affliction's critical-failure→infection,
+  the combat exchange) that a test can't reach, use the process-wide **forced-value
+  queue**: `SimpleRoll.forceValues(5, 100)` seeds die values that `roll()` consumes
+  one per die (FIFO) instead of `Math.random`; `SimpleRoll.clearForced()` empties it
+  and `SimpleRoll.forcedRemaining` inspects it. Force the **die values**, not a
+  total, so `total` / `result` / the Foundry-`Roll` display all derive correctly —
+  and because almost every SoHL roll is a single die, that's effectively "one value
+  per roll." **A leftover forced value leaks into the next roll**, so always
+  `clearForced()` in an `afterEach`. This is the same seam e2e uses (via
+  `sohl.entity.roll.SimpleRoll`) to drive RNG-gated outcomes — see
+  `cypress/e2e/deterministic-dice.cy.js`.
 - **Unimplemented intrinsic executors** — `SohlAction` throws at construction when an INTRINSIC executor names a missing method; while an executor is pending, filter it from `defineIntrinsicActions` with a spy and leave an `it.todo` naming it.
 - **Complex integration tests** — use `it.todo()` placeholders to document what should be tested once more infrastructure is available.
 
