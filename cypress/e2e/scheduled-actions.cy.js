@@ -176,6 +176,118 @@ describe("Generic scheduled actions", () => {
         });
     });
 
+    it("sohl.addScriptAction binds a Macro as a runnable, schedulable SCRIPT action (#588 §7)", () => {
+        cy.foundry(async (win) => {
+            const clone = (o) => win.JSON.parse(JSON.stringify(o));
+
+            // The world host (an Actor → has the execution surface for free).
+            const world = await win.sohl.worldHost();
+
+            // GM-authored homebrew: an ordinary script Macro (a reference,
+            // never inline code on the document).
+            const macro = await win.Macro.create(
+                clone({
+                    name: "e2e-bandit-macro",
+                    type: "script",
+                    command: "return 'patrol';",
+                }),
+            );
+
+            // The clean programmatic attach — no knowledge of the actionDefs
+            // shape, just { name, executor }.
+            const def = await win.sohl.addScriptAction(world, {
+                name: "checkForBandits",
+                executor: macro.uuid,
+            });
+
+            // Persisted as a SCRIPT def whose shortcode == name (the identity
+            // sohl.schedule and the [Perform] reminder key on); title defaults
+            // to name.
+            const persisted = world.system.actionDefs.find(
+                (d) => d.shortcode === "checkForBandits",
+            );
+
+            // Idempotent: re-attaching the same name replaces, never dupes.
+            const macro2 = await win.Macro.create(
+                clone({
+                    name: "e2e-bandit-macro-2",
+                    type: "script",
+                    command: "return 'ambush';",
+                }),
+            );
+            await win.sohl.addScriptAction(world, {
+                name: "checkForBandits",
+                executor: macro2.uuid,
+            });
+            const dupes = world.system.actionDefs.filter(
+                (d) => d.shortcode === "checkForBandits",
+            );
+
+            // The action is built into the host's logic and runs its Macro.
+            world.reset?.();
+            world.prepareData?.();
+            const action = world.logic.actions.get("checkForBandits");
+            const ran =
+                action ?
+                    await action.execute(world.logic._getContext())
+                :   undefined;
+
+            // End to end: schedule it, and when due a [Perform] reminder
+            // addressed to the host is offered (nothing runs on its own).
+            await win.sohl.schedule(world, "checkForBandits", 100, clone({}));
+            const before = win.game.messages.size;
+            await win.sohl.events.fire({
+                name: "updateWorldTime",
+                worldTime: 1_000_000,
+            });
+            const msg = win.game.messages.contents.at(-1);
+            const div = win.document.createElement("div");
+            div.innerHTML = msg?.content ?? "";
+            const btn = div.querySelector(
+                'button.action-card-button[data-action="checkForBandits"]',
+            );
+
+            const result = {
+                returnedDef: def?.shortcode,
+                persistedSubType: persisted?.subType,
+                persistedTitle: persisted?.title,
+                dupeCount: dupes.length,
+                dupeExecutor: dupes[0]?.executor,
+                macro2Uuid: macro2.uuid,
+                hasAction: !!action,
+                ran,
+                cardsPosted: win.game.messages.size - before,
+                handlerUuid: btn?.dataset.handlerUuid,
+                worldUuid: world.uuid,
+            };
+
+            await macro.delete();
+            await macro2.delete();
+            await world.delete();
+            return result;
+        }).should((r) => {
+            expect(r.returnedDef, "returns the persisted def").to.eq(
+                "checkForBandits",
+            );
+            expect(r.persistedSubType, "attached as a SCRIPT action").to.eq(
+                "script",
+            );
+            expect(r.persistedTitle, "title defaults to name").to.eq(
+                "checkForBandits",
+            );
+            expect(r.dupeCount, "idempotent — one entry per name").to.eq(1);
+            expect(r.dupeExecutor, "re-attach replaces the executor").to.eq(
+                r.macro2Uuid,
+            );
+            expect(r.hasAction, "built into logic.actions").to.be.true;
+            expect(r.ran, "runs the bound Macro").to.eq("ambush");
+            expect(r.cardsPosted, "due → a [Perform] reminder").to.be.gte(1);
+            expect(r.handlerUuid, "reminder addressed to the host").to.eq(
+                r.worldUuid,
+            );
+        });
+    });
+
     it("sohl.worldHost() find-or-creates a hidden _sohlworld singleton", () => {
         cy.foundry(async (win) => {
             const w1 = await win.sohl.worldHost();

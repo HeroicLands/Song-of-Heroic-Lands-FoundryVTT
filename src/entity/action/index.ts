@@ -16,3 +16,4 @@
 
 export * from "./SohlAction";
 export * from "./SohlActionContext";
+export * from "./script-action-attach";

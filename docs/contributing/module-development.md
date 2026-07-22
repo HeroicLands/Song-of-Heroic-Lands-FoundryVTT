@@ -125,8 +125,27 @@ _reminding is allowed; performing is not._
 action — an `actionDefs` entry on the host document's `system`, typically a
 Script Action referencing a permission-gated Macro (see
 [Macros and Actions](../concepts/macros-and-actions.md); never inline code into
-data). The host must be a document that carries `system.scheduledActions`, which
-means one whose data model extends the base `SohlDataModel`: an **actor** or an
+data). Attach it programmatically with `sohl.addScriptAction` rather than
+hand-writing the `actionDefs` array:
+
+```js
+// bind a permission-gated Macro as a runnable SCRIPT action (GM only)
+await sohl.addScriptAction(host, {
+    name: "checkForBandits", // becomes the action shortcode AND default title
+    executor: macro.uuid, // a Foundry Macro UUID — a reference, never code
+});
+```
+
+`sohl.addScriptAction(doc, spec)` fills the same defaults as the sheet's "create
+action" control, so you supply only `{ name, executor }` (plus optional `title` /
+`scope` / `iconFAClass` / `group` / `minActorOwnership` / `trigger` / `visible`).
+The `name` you pass is the identity `sohl.schedule` and the `[Perform]` reminder
+key on, so keep it stable; re-attaching the same `name` **replaces** the entry, so
+an init hook is safe to run on every reload. Authoring a SCRIPT action is GM-only
+(it is a no-op for a non-GM), matching the security rule.
+
+The host must be a document that carries `system.scheduledActions`, which means
+one whose data model extends the base `SohlDataModel`: an **actor** or an
 **item**. Scenes and active effects extend `TypeDataModel` directly and _cannot_
 host a schedule.
 
