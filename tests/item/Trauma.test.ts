@@ -1635,3 +1635,135 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
         expect(logic.item.delete).not.toHaveBeenCalled();
     });
 });
+
+describe("interactive Blood Stoppage flow (#547)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    function bleedingWound(opts: Record<string, unknown> = {}) {
+        const actor = makeMockActor();
+        const logic = makeTrauma(
+            {
+                subType: TRAUMA_SUBTYPE.INJURY,
+                bloodLossAdvanceDurationBase: 300,
+                bloodLossAdvanceDurationFormula: "300",
+            },
+            { actor, name: "Gash", ...opts },
+        );
+        (logic.item as any).uuid = "Item.bleeder00000";
+        logic.initialize();
+        (globalThis as any).sohl.unschedule = vi.fn();
+        (globalThis as any).sohl.schedule = vi.fn();
+        (globalThis as any).sohl.events = {
+            scheduleAt: vi.fn(),
+            unsubscribe: vi.fn(),
+        };
+        return logic;
+    }
+
+    it("requestBloodStoppage posts an open Perform Blood Stoppage card for a bleeder", async () => {
+        const post = vi
+            .spyOn(ActionCard, "postActionCard")
+            .mockResolvedValue(undefined as any);
+        const logic = bleedingWound();
+        await logic.requestBloodStoppage({} as any);
+        const spec = post.mock.calls.at(-1)![1] as any;
+        expect(spec.buttons).toMatchObject({
+            action: "performBloodStoppage",
+            handlerUuid: "@self",
+            scope: { injuryUuid: "Item.bleeder00000" },
+        });
+    });
+
+    it("requestBloodStoppage warns and posts nothing for a non-bleeding injury", async () => {
+        const post = vi.spyOn(ActionCard, "postActionCard");
+        const warn = vi.spyOn(sohl.log, "uiWarn");
+        const actor = makeMockActor();
+        const logic = makeTrauma(
+            {
+                subType: TRAUMA_SUBTYPE.INJURY,
+                bloodLossAdvanceDurationBase: null,
+            },
+            { actor, name: "Bruise" },
+        );
+        logic.initialize();
+        await logic.requestBloodStoppage({} as any);
+        expect(warn).toHaveBeenCalled();
+        expect(post).not.toHaveBeenCalled();
+    });
+
+    it("acceptBloodStoppage (stopImmediately) clears the bleeder and unschedules", async () => {
+        const logic = bleedingWound();
+        await logic.acceptBloodStoppage({
+            scope: { kind: "stopImmediately" },
+        } as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({
+                "system.bloodLossAdvanceDurationBase": null,
+            }),
+        );
+        expect((globalThis as any).sohl.unschedule).toHaveBeenCalledWith(
+            logic.item,
+            "bloodLossAdvanceCheck",
+        );
+    });
+
+    it("acceptBloodStoppage (stopAfterNext) flags the wound to stop after the next advance", async () => {
+        const logic = bleedingWound();
+        await logic.acceptBloodStoppage({
+            scope: { kind: "stopAfterNext" },
+        } as any);
+        expect(logic.item.update).toHaveBeenCalledWith({
+            "flags.sohl.bloodStoppagePending": true,
+        });
+    });
+
+    it("acceptBloodStoppage (continuePlusNext) records a +10 next-test bonus", async () => {
+        const logic = bleedingWound();
+        await logic.acceptBloodStoppage({
+            scope: { kind: "continuePlusNext", nextBonus: 10 },
+        } as any);
+        expect(logic.item.update).toHaveBeenCalledWith({
+            "flags.sohl.bloodStoppageBonus": 10,
+        });
+    });
+
+    it("bloodLossAdvanceCheck clears a bleeder flagged to stop after the next advance", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1300);
+        const actor = makeMockActor();
+        (actor.logic as any).getItemLogic = () => ({
+            masteryLevel: { effective: 50 },
+        });
+        (actor.logic as any).advanceShockState = vi.fn();
+        const logic = makeTrauma(
+            {
+                subType: TRAUMA_SUBTYPE.INJURY,
+                bloodLossAdvanceDurationBase: 300,
+                bloodLossAdvanceDurationFormula: "300",
+                ...sched("bloodLossAdvanceCheck", 1000, 300), // 1 checkpoint @1300
+            },
+            {
+                actor,
+                name: "Gash",
+                flags: { "sohl.bloodStoppagePending": true },
+            },
+        );
+        (logic.item as any).uuid = "Item.bleeder00000";
+        logic.initialize();
+        (globalThis as any).sohl.unschedule = vi.fn();
+        (globalThis as any).sohl.schedule = vi.fn();
+        (globalThis as any).sohl.events = {
+            scheduleAt: vi.fn(),
+            unsubscribe: vi.fn(),
+        };
+        await logic.bloodLossAdvanceCheck({
+            skipDialog: true,
+            scope: { schedule: true },
+        } as any);
+        const update = (logic.item.update as any).mock.calls.at(-1)?.[0] ?? {};
+        expect(update["system.bloodLossAdvanceDurationBase"]).toBeNull();
+        expect((globalThis as any).sohl.unschedule).toHaveBeenCalledWith(
+            logic.item,
+            "bloodLossAdvanceCheck",
+        );
+    });
+});

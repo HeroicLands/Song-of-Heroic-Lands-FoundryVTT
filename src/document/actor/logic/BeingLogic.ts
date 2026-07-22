@@ -140,6 +140,7 @@ import {
     isPallFailure,
     PALL_STATE,
 } from "@src/document/actor/logic/pall";
+import { bloodStoppageOutcome } from "@src/entity/body/blood-stoppage";
 // `action-card` touches Foundry only through the `FoundryHelpers` shims; the
 // path-based boundary rule can't tell it apart from the Foundry-coupled files
 // under `document/chat/`, so allow it.
@@ -1769,6 +1770,16 @@ export class BeingLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
+                shortcode: "performBloodStoppage",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.performBloodStoppage",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-droplet-slash",
+                executor: "performBloodStoppage",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
                 shortcode: "shockTest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Being.Action.shockTest",
@@ -2313,6 +2324,88 @@ export class BeingLogic<
         });
 
         return { healingRate, physicianName: this.name ?? "" };
+    }
+
+    /**
+     * Perform a **Blood Stoppage Test** for a bleeding character (#547) — the
+     * physician's step of the interactive flow, run from a *Request Blood
+     * Stoppage* card's open `@self` button (or by hand). Self-gates: only a
+     * Physician-skilled character answers. Rolls **this** physician's own
+     * Physician skill (plus any +10 carried from a prior Marginal-Failure
+     * stoppage) and posts a *Blood Stoppage Result* card whose owner-gated Accept
+     * button relays the {@link sohl.entity.body.bloodStoppageOutcome | outcome}
+     * back to the bleeding injury.
+     *
+     * @param context - The action context; `scope.injuryUuid` targets the
+     *   bleeding injury and `scope.stoppageBonus` carries the +10 next-test bonus.
+     * @returns The outcome kind and physician name, or `undefined` if it aborts.
+     */
+    async performBloodStoppage(
+        context: SohlActionContext,
+    ): Promise<{ kind: string; physicianName: string } | undefined> {
+        const physicianSkill = this.getItemLogic(
+            SKILL_CODE.PHYSICIAN,
+            ITEM_KIND.SKILL,
+        ) as SkillLogic | undefined;
+        if (!physicianSkill) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.Treatment.NoPhysicianSkill"),
+            );
+            return undefined;
+        }
+        const scope = (context.scope ?? {}) as {
+            injuryUuid?: unknown;
+            stoppageBonus?: unknown;
+        };
+        const injuryUuid = String(scope.injuryUuid ?? "").trim();
+        const injury =
+            injuryUuid ?
+                fvttLogicFromUuidSync<TraumaLogic>(injuryUuid)
+            :   undefined;
+        if (injuryUuid && !injury) return undefined; // uuid did not resolve
+
+        const bonus = Number(scope.stoppageBonus ?? 0);
+        const physicianMl = physicianSkill.masteryLevel?.effective ?? 0;
+        const result = await rollTimedTest(this, physicianMl, {
+            type: "blood-stoppage-test",
+            title: sohl.i18n.localize("SOHL.Being.Action.performBloodStoppage"),
+            situationalModifier: bonus,
+        });
+        if (result === undefined) return undefined; // cancelled
+        const sl = result ? result.normSuccessLevel : CRITICAL_FAILURE;
+        const outcome = bloodStoppageOutcome(sl);
+
+        await postActionCard(this.speaker, {
+            template:
+                "systems/sohl/templates/chat/blood-stoppage-result-card.hbs",
+            data: {
+                physicianName: this.name ?? "",
+                woundName: injury?.item?.name ?? "",
+                outcomeLabel: sohl.i18n.localize(
+                    `SOHL.Trauma.BloodStoppage.Outcome.${outcome.kind}`,
+                ),
+                stopped:
+                    outcome.kind === "stopImmediately" ||
+                    outcome.kind === "stopAfterNext",
+            },
+            buttons:
+                injuryUuid ?
+                    {
+                        action: "acceptBloodStoppage",
+                        handlerUuid: injuryUuid,
+                        scope: {
+                            kind: outcome.kind,
+                            nextBonus: outcome.nextBonus,
+                        },
+                        label: sohl.i18n.localize(
+                            "SOHL.Trauma.BloodStoppage.accept",
+                        ),
+                        iconFAClass: "fa-solid fa-check",
+                    }
+                :   undefined,
+        });
+
+        return { kind: outcome.kind, physicianName: this.name ?? "" };
     }
 
     /**

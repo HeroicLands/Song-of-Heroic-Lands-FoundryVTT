@@ -188,6 +188,33 @@ describe("face-pall-card (TraumaLogic.pallRecovery, #561)", () => {
     });
 });
 
+describe("blood-stoppage cards (#547)", () => {
+    it("request card announces the bleeder and wound", () => {
+        const html = renderTemplateReal(
+            `${CHAT}/blood-stoppage-request-card.hbs`,
+            { patientName: "Aldric", woundName: "a deep gash" },
+        );
+        expect(html).toContain("Blood Stoppage Requested");
+        expect(html).toContain("Aldric");
+        expect(html).toContain("a deep gash");
+    });
+
+    it("result card shows the physician and the outcome", () => {
+        const html = renderTemplateReal(
+            `${CHAT}/blood-stoppage-result-card.hbs`,
+            {
+                physicianName: "Sister Mara",
+                woundName: "a deep gash",
+                outcomeLabel: "Bleeding stops immediately.",
+                stopped: true,
+            },
+        );
+        expect(html).toContain("Sister Mara");
+        expect(html).toContain("Bleeding stops immediately.");
+        expect(html).toContain("success-text");
+    });
+});
+
 describe("harness fidelity notes", () => {
     it("formGroup (sheet-tier) renders a binding placeholder, not Foundry markup", () => {
         registerTestHbsHelpers();

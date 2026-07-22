@@ -1803,6 +1803,63 @@ describe("BeingLogic", () => {
         });
     });
 
+    describe("performBloodStoppage — the physician's Blood Stoppage step (#547)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        function physician(pysnMl: number | null) {
+            const being = makeBeing();
+            vi.spyOn(being, "getItemLogic").mockImplementation(
+                (code: string) =>
+                    code === "pysn" && pysnMl !== null ?
+                        ({ masteryLevel: { effective: pysnMl } } as any)
+                    :   undefined,
+            );
+            return being;
+        }
+
+        it("rolls the physician's Physician skill and posts a result with an owner-gated Accept button", async () => {
+            const being = physician(70);
+            const post = vi
+                .spyOn(ActionCard, "postActionCard")
+                .mockResolvedValue(undefined as any);
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttLogicFromUuidSync",
+            ).mockReturnValue({ item: { name: "Gash" } } as any);
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({ normSuccessLevel: CRITICAL_SUCCESS } as any);
+
+            const res = await (being as any).performBloodStoppage({
+                scope: { injuryUuid: "Item.bleeder", stoppageBonus: 0 },
+                skipDialog: true,
+            });
+
+            expect(res).toMatchObject({ kind: "stopImmediately" });
+            const spec = post.mock.calls[0][1] as any;
+            expect(spec.buttons).toEqual(
+                expect.objectContaining({
+                    action: "acceptBloodStoppage",
+                    handlerUuid: "Item.bleeder",
+                    scope: { kind: "stopImmediately", nextBonus: 0 },
+                }),
+            );
+        });
+
+        it("self-gates: a non-physician aborts with a notice and posts nothing", async () => {
+            const being = physician(null);
+            const post = vi.spyOn(ActionCard, "postActionCard");
+            const warn = vi.spyOn(sohl.log, "uiWarn");
+            const res = await (being as any).performBloodStoppage({
+                scope: { injuryUuid: "Item.bleeder" },
+            });
+            expect(res).toBeUndefined();
+            expect(warn).toHaveBeenCalled();
+            expect(post).not.toHaveBeenCalled();
+        });
+    });
+
     describe("performTreatmentTest — the physician's self-sufficient action", () => {
         afterEach(() => vi.restoreAllMocks());
 

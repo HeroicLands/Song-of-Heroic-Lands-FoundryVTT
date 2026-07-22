@@ -57,6 +57,7 @@ import {
     pallRecoveryOutcome,
     PALL_RECOVERY_INTERVAL_FORMULA,
 } from "@src/document/actor/logic/pall";
+import { BLOOD_STOPPAGE_NEXT_BONUS } from "@src/entity/body/blood-stoppage";
 import { elapsedCheckpoints } from "@src/entity/event/scheduling";
 import { armScheduledActions } from "@src/entity/event/scheduled-actions";
 import { offerSchedule } from "@src/document/item/logic/offer-schedule";
@@ -750,6 +751,26 @@ export class TraumaLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
+                shortcode: "requestBloodStoppage",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.requestBloodStoppage.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-droplet-slash",
+                executor: "requestBloodStoppage",
+                visible: "itemLogic.isBleeding",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "acceptBloodStoppage",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.acceptBloodStoppage.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-check",
+                executor: "acceptBloodStoppage",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
                 shortcode: "treatmenttest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Trauma.Action.treatmenttest.title",
@@ -1216,17 +1237,27 @@ export class TraumaLogic<
             await this.applyBloodLossAdvance();
         }
 
+        // A physician's Marginal-Success Blood Stoppage stops the bleeding **after
+        // the next** Blood Loss Advance (#547): once an advance has run this pass,
+        // clear the bleeder.
+        const stopNow =
+            checkpoints.length > 0 &&
+            !!(await this.item.getFlag("sohl", "bloodStoppagePending"));
+
         const nextInterval = this.rollDuration(
             this.data.bloodLossAdvanceDurationFormula,
         );
-        this.bloodLossAdvanceDurationBase.setBase(nextInterval);
-        await this.item.update({
-            "system.bloodLossAdvanceDurationBase": nextInterval,
-        } as PlainObject);
+        this.bloodLossAdvanceDurationBase.setBase(stopNow ? 0 : nextInterval);
+        const update: PlainObject = {
+            "system.bloodLossAdvanceDurationBase":
+                stopNow ? null : nextInterval,
+        };
+        if (stopNow) update["flags.sohl.bloodStoppagePending"] = false;
+        await this.item.update(update);
 
         // A wound that has stopped bleeding ends its recurrence; otherwise offer
         // the next blood-loss advance rather than auto-re-arming (issue #579).
-        if (!this.isBleeding) {
+        if (stopNow || !this.isBleeding) {
             await sohl.unschedule(this.item, "bloodLossAdvanceCheck");
         } else {
             await offerSchedule(
@@ -1235,6 +1266,91 @@ export class TraumaLogic<
                 "bloodLossAdvanceCheck",
                 nextInterval,
             );
+        }
+    }
+
+    /**
+     * Request a **Blood Stoppage Test** for this bleeding injury (#547) — the
+     * bleeder's owner posts an **open** action card that any Physician-skilled
+     * character's controller may answer. Mirrors
+     * {@link requestTreatment}; a no-op (warns) if the injury is not bleeding.
+     *
+     * @param _context - The action context (unused; entry point).
+     * @returns A promise that resolves once the request card is posted.
+     */
+    async requestBloodStoppage(_context: SohlActionContext): Promise<void> {
+        if (!this.isBleeding) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.BloodStoppage.NotBleeding"),
+            );
+            return;
+        }
+        const uuid = this.item?.uuid;
+        if (!uuid) return;
+        // A prior Marginal-Failure stoppage grants +10 to this test.
+        const bonus = Number(
+            (await this.item.getFlag("sohl", "bloodStoppageBonus")) ?? 0,
+        );
+        await postActionCard(this.speaker, {
+            template:
+                "systems/sohl/templates/chat/blood-stoppage-request-card.hbs",
+            data: {
+                patientName: (this.actorLogic as { name?: string })?.name ?? "",
+                woundName: this.item?.name ?? "",
+            },
+            buttons: {
+                action: "performBloodStoppage",
+                handlerUuid: SELF_HANDLER,
+                scope: { injuryUuid: uuid, stoppageBonus: bonus },
+                label: sohl.i18n.localize(
+                    "SOHL.Being.Action.performBloodStoppage",
+                ),
+                iconFAClass: "fa-solid fa-droplet-slash",
+            },
+        });
+    }
+
+    /**
+     * Record a physician's **Blood Stoppage Test** result on this bleeding injury
+     * (#547) — run from the result card's owner-gated Accept button. The
+     * {@link sohl.entity.body.BloodStoppageOutcome} decides the effect: **stop
+     * immediately** (clear the bleeder), **stop after the next advance** (a flag
+     * the next {@link bloodLossAdvanceCheck} honors), **continue +10 next** (a
+     * bonus the next {@link requestBloodStoppage} applies), or **continue**.
+     *
+     * @param context - The action context; `scope.kind` is the stoppage outcome
+     *   and `scope.nextBonus` the next-test bonus.
+     * @returns A promise that resolves once the outcome is recorded.
+     */
+    async acceptBloodStoppage(context: SohlActionContext): Promise<void> {
+        const scope = (context.scope ?? {}) as {
+            kind?: string;
+            nextBonus?: number;
+        };
+        switch (scope.kind) {
+            case "stopImmediately":
+                await sohl.unschedule(this.item, "bloodLossAdvanceCheck");
+                await this.item.update({
+                    "system.bloodLossAdvanceDurationBase": null,
+                    "flags.sohl.bloodStoppagePending": false,
+                    "flags.sohl.bloodStoppageBonus": 0,
+                } as PlainObject);
+                return;
+            case "stopAfterNext":
+                await this.item.update({
+                    "flags.sohl.bloodStoppagePending": true,
+                } as PlainObject);
+                return;
+            case "continuePlusNext":
+                await this.item.update({
+                    "flags.sohl.bloodStoppageBonus": Number(
+                        scope.nextBonus ?? BLOOD_STOPPAGE_NEXT_BONUS,
+                    ),
+                } as PlainObject);
+                return;
+            default:
+                // continue — the bleeding is unchanged.
+                return;
         }
     }
 
