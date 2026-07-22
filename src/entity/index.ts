@@ -35,6 +35,8 @@ export * as result from "./result";
 export * as roll from "./roll";
 /** Strike modes — the melee and missile attack profiles on a weapon. */
 export * as strikemode from "./strikemode";
+/** The guided-tour gate model — the Foundry-free step-kind and disable-Next logic backing `SohlTour`. */
+export * as tour from "./tour";
 
 export * from "./SohlEntity";
 export * from "./entityRegistry";

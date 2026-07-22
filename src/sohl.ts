@@ -34,6 +34,7 @@ import { wireSohlHookBridge } from "@src/core/logic/SohlHookBridge";
 import { CalendarSettingsMenu } from "@src/apps/foundry/CalendarSettingsMenu";
 import { DomainManagerApp } from "@src/apps/foundry/DomainManagerApp";
 import { ExpressionLibraryMenu } from "@src/apps/foundry/ExpressionLibraryMenu";
+import { registerSystemTours } from "@src/apps/foundry/tours/register-tours";
 import { expressionHelpers } from "@src/entity/expr/ExpressionHelperRegistry";
 import { DomainRegistry } from "@src/entity/domain/DomainRegistry";
 import { BUILTIN_DOMAINS } from "@src/entity/domain/builtin-domains";
@@ -592,6 +593,7 @@ function registerSystemHooks() {
 // Register ready hook
 (Hooks as any).once("ready", () => {
     registerHandlebarsHelpers();
+    registerSystemTours();
     SohlSystem.ready = true;
     void migrateWorld();
 });

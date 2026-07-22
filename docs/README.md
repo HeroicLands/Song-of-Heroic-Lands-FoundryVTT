@@ -39,6 +39,7 @@ Task-oriented guides for getting something done.
 - [API Access Map](how-to/api-access-map.md)
 - [Lifecycle Hooks](how-to/lifecycle-hooks.md)
 - [House Rules Cookbook](how-to/house-rules-cookbook.md)
+- [Writing Guided Tours](how-to/guided-tours.md) — the `SohlTour` framework: step kinds, value/action gates, sheet navigation, and how to register a tour.
 - [Testing](how-to/testing.md)
 - [Build, Deployment, and Release](how-to/build-and-deployment.md)
 - [Issue Reporting](how-to/issue-reporting.md) — how issues are typed, prioritized, labeled, and tied to capability milestones.
