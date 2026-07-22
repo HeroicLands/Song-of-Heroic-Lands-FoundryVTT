@@ -113,6 +113,46 @@ describe("dialogs render through the same shim as cards", () => {
     });
 });
 
+describe("trauma-state-card (Fear / Morale / Pall tests, #558)", () => {
+    it("shows the resulting state, a PSY gain, and effect notes", () => {
+        const html = renderTemplateReal(`${CHAT}/trauma-state-card.hbs`, {
+            actorId: "abc",
+            actorName: "Brigga",
+            title: "Fear Test",
+            stateLabel: "Terrified",
+            isSuccess: false,
+            psyGain: 1,
+            notes: [
+                "May respond in combat only with Block or Dodge.",
+                "Must flee the source at full Move on the next turn.",
+            ],
+        });
+        expect(html).toContain("Fear Test");
+        expect(html).toContain("Brigga");
+        expect(html).toContain("Terrified");
+        expect(html).toContain("failure-text");
+        expect(html).toContain("Gains +1 Psyche Stress.");
+        expect(html).toContain("Block or Dodge");
+        expect(html).toContain("full Move");
+        expect(html).toContain('data-actor-id="abc"');
+    });
+
+    it("omits the PSY line and marks a success when there is no stress gain", () => {
+        const html = renderTemplateReal(`${CHAT}/trauma-state-card.hbs`, {
+            actorId: "abc",
+            actorName: "Brigga",
+            title: "Fear Test",
+            stateLabel: "Brave",
+            isSuccess: true,
+            psyGain: 0,
+            notes: ["Brave — immune to this source."],
+        });
+        expect(html).toContain("Brave");
+        expect(html).toContain("success-text");
+        expect(html).not.toContain("Psyche Stress");
+    });
+});
+
 describe("harness fidelity notes", () => {
     it("formGroup (sheet-tier) renders a binding placeholder, not Foundry markup", () => {
         registerTestHbsHelpers();

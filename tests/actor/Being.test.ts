@@ -12,6 +12,7 @@ import {
     CRITICAL_FAILURE,
     CRITICAL_SUCCESS,
     FATIGUE_CATEGORY,
+    FEAR_LEVEL,
     IMPACT_ASPECT,
     ITEM_KIND,
     MARGINAL_FAILURE,
@@ -854,6 +855,193 @@ describe("BeingLogic", () => {
 
             expect(schedule).not.toHaveBeenCalled();
             expect(unschedule).toHaveBeenCalledWith(affliction, "onsetCheck");
+        });
+    });
+
+    describe("Fear Test (#558)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        /** A being with a Will attribute of the given score. */
+        function beingWithWill(score = 15) {
+            const logic = makeBeing();
+            (logic as any).actor.items.set(
+                "wil",
+                makeAttributeStub("wil", score),
+            );
+            return logic;
+        }
+
+        /** Force the Fear Test's headless roll to a given outcome. */
+        function forceRoll(
+            normSuccessLevel: number,
+            lastDigit: number,
+            isSuccess: boolean,
+        ) {
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({
+                normSuccessLevel,
+                lastDigit,
+                isSuccess,
+            } as any);
+        }
+
+        /** Stub the Foundry-touching side effects; return the create spy. */
+        function stubEffects(statuses: Set<string> = new Set()) {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                statuses,
+            );
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttToggleActorStatus",
+            ).mockResolvedValue(undefined as any);
+            vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(
+                undefined as any,
+            );
+            return vi
+                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+                .mockResolvedValue([]);
+        }
+
+        it("records a fresh Afraid result as a fear trauma with no PSY", async () => {
+            forceRoll(MARGINAL_FAILURE, 7, false);
+            const create = stubEffects();
+            const toggle = vi.spyOn(
+                FoundryHelpersMock,
+                "fvttToggleActorStatus",
+            );
+            const being = beingWithWill();
+
+            await (being as any).fearTest({ scope: { sourceName: "Wraith" } });
+
+            expect(create).toHaveBeenCalledTimes(1);
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                type: ITEM_KIND.TRAUMA,
+                name: "Wraith",
+                system: {
+                    subType: TRAUMA_SUBTYPE.FEAR,
+                    levelBase: FEAR_LEVEL.AFRAID,
+                },
+            });
+            // FEARFUL status is switched on.
+            expect(toggle).toHaveBeenCalledWith(
+                expect.anything(),
+                "fear",
+                true,
+            );
+        });
+
+        it("Terrified (CF5) records the state and inflicts +1 PSY", async () => {
+            forceRoll(CRITICAL_FAILURE, 5, false);
+            const create = stubEffects();
+            const being = beingWithWill();
+
+            await (being as any).fearTest({ scope: { sourceName: "Wraith" } });
+
+            expect(create).toHaveBeenCalledTimes(2);
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: {
+                    subType: TRAUMA_SUBTYPE.FEAR,
+                    levelBase: FEAR_LEVEL.TERRIFIED,
+                },
+            });
+            expect((create.mock.calls[1][1] as any[])[0]).toMatchObject({
+                system: {
+                    subType: TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+                    levelBase: 1,
+                },
+            });
+        });
+
+        it("Catatonic (CF0) records the state and inflicts +2 PSY", async () => {
+            forceRoll(CRITICAL_FAILURE, 0, false);
+            const create = stubEffects();
+            const being = beingWithWill();
+
+            await (being as any).fearTest({ scope: { sourceName: "Wraith" } });
+
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: { levelBase: FEAR_LEVEL.CATATONIC },
+            });
+            expect((create.mock.calls[1][1] as any[])[0]).toMatchObject({
+                system: {
+                    subType: TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+                    levelBase: 2,
+                },
+            });
+        });
+
+        it("a Brave (CS) result records a Brave marker, not a fearful state", async () => {
+            forceRoll(CRITICAL_SUCCESS, 0, true);
+            const create = stubEffects();
+            const being = beingWithWill();
+
+            await (being as any).fearTest({ scope: { sourceName: "Wraith" } });
+
+            expect(create).toHaveBeenCalledTimes(1);
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: {
+                    subType: TRAUMA_SUBTYPE.FEAR,
+                    levelBase: FEAR_LEVEL.BRAVE,
+                },
+            });
+        });
+
+        it("a Steady (MS) result records nothing and clears an existing fear source", async () => {
+            forceRoll(MARGINAL_SUCCESS, 3, true);
+            const create = stubEffects(new Set(["fear"]));
+            const toggle = vi.spyOn(
+                FoundryHelpersMock,
+                "fvttToggleActorStatus",
+            );
+            const being = beingWithWill();
+            const del = vi.fn().mockResolvedValue(undefined);
+            // An existing Afraid trauma for the same source.
+            makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                {
+                    subType: TRAUMA_SUBTYPE.FEAR,
+                    levelBase: FEAR_LEVEL.AFRAID,
+                },
+                { actor: (being as any).actor, name: "Wraith" },
+            );
+            const wraith = (
+                being.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]
+            )[0];
+            (wraith.item as any).delete = del;
+
+            await (being as any).fearTest({ scope: { sourceName: "Wraith" } });
+
+            expect(create).not.toHaveBeenCalled();
+            expect(del).toHaveBeenCalledTimes(1);
+            // No other fear sources remain → FEARFUL switched off.
+            expect(toggle).toHaveBeenCalledWith(
+                expect.anything(),
+                "fear",
+                false,
+            );
+        });
+
+        it("fearState reports the most severe active fear source", async () => {
+            const being = beingWithWill();
+            makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                { subType: TRAUMA_SUBTYPE.FEAR, levelBase: FEAR_LEVEL.AFRAID },
+                { actor: (being as any).actor, name: "Wraith" },
+            );
+            makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                {
+                    subType: TRAUMA_SUBTYPE.FEAR,
+                    levelBase: FEAR_LEVEL.CATATONIC,
+                },
+                { actor: (being as any).actor, name: "Horror" },
+            );
+            expect(being.fearState).toBe(FEAR_LEVEL.CATATONIC);
         });
     });
 

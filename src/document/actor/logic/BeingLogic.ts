@@ -103,7 +103,22 @@ import {
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     TRAUMA_SUBTYPE,
+    FEAR_LEVEL,
+    FearLevelLabels,
 } from "@src/utils/constants";
+import {
+    fearStateFromTest,
+    fearPsyGain,
+    mostSevereFear,
+    isFearfulState,
+    fearDefenseRestricted,
+    fearHelpless,
+    fearMustFlee,
+    fearLevelLabelKey,
+    FEAR_BRAVE_BONUS,
+    FEAR_BRAVE_DURATION,
+} from "@src/document/actor/logic/fear";
+import { inflictPsycheStress } from "@src/document/item/logic/psyche";
 // `action-card` touches Foundry only through the `FoundryHelpers` shims; the
 // path-based boundary rule can't tell it apart from the Foundry-coupled files
 // under `document/chat/`, so allow it.
@@ -970,32 +985,268 @@ export class BeingLogic<
     }
 
     /**
-     * Roll the being's fear test, used to resist a frightening stimulus. Tests
-     * the being's Initiative skill.
+     * The being's current **fear state** (#558) — the most severe (most-failed)
+     * {@link sohl.utils.FEAR_LEVEL} across its active fear-source traumas, or
+     * `NONE` when it carries none. "When several fear sources are present, only
+     * the most severe state affects the victim" (Fear rules).
+     */
+    get fearState(): number {
+        return mostSevereFear(
+            this.activeFearTraumas().map((t) => t.data.levelBase),
+        );
+    }
+
+    /**
+     * The being's active fearful `fear`-subtype traumas — the recorded fear
+     * sources at Afraid or worse (Brave markers and cleared sources excluded).
      *
-     * @param context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @remarks Not yet implemented; currently returns `null`.
+     * @returns The active fearful fear traumas.
+     */
+    private activeFearTraumas(): TraumaLogic[] {
+        return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).filter(
+            (t) =>
+                t.data.subType === TRAUMA_SUBTYPE.FEAR &&
+                isFearfulState(t.data.levelBase),
+        );
+    }
+
+    /**
+     * The being's `fear`-subtype trauma for a given source, matched by name, or
+     * `undefined` when none is recorded.
+     *
+     * @param sourceName - The fear source's display name.
+     * @returns The matching fear trauma, or `undefined`.
+     */
+    private findFearTrauma(sourceName: string): TraumaLogic | undefined {
+        return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).find(
+            (t) =>
+                t.data.subType === TRAUMA_SUBTYPE.FEAR &&
+                t.item?.name === sourceName,
+        );
+    }
+
+    /**
+     * Whether the being currently carries the **+20 Brave** Fear/Morale bonus — a
+     * `BRAVE` fear marker contracted within the last {@link FEAR_BRAVE_DURATION}
+     * (Fear rules — CS/Brave).
+     *
+     * @returns `true` while the Brave bonus is in effect.
+     */
+    private hasBraveBonus(): boolean {
+        const now = fvttWorldTime();
+        return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).some(
+            (t) =>
+                t.data.subType === TRAUMA_SUBTYPE.FEAR &&
+                t.data.levelBase === FEAR_LEVEL.BRAVE &&
+                t.data.contractDate != null &&
+                now - t.data.contractDate < FEAR_BRAVE_DURATION,
+        );
+    }
+
+    /**
+     * Resolve a **Fear Test** (#558) — a test against **Will** — against a
+     * frightening source, and record the resulting {@link fearState}.
+     *
+     * A self-sufficient action on the affected being: it rolls the being's Will
+     * headlessly (adding the Brave bonus if active), maps
+     * the result to a {@link sohl.utils.FEAR_LEVEL}
+     * ({@link sohl.document.actor.logic.fearStateFromTest} — the CF0/CF5 split
+     * decides Catatonic vs Terrified), and applies it: a fearful result records
+     * (or worsens) a `fear`-subtype trauma for the source and inflicts any Psyche
+     * Stress; a success clears the source (Steady) or grants the Brave bonus.
+     *
+     * @param context - The action context; `scope.sourceName` names the fear
+     *   source (defaults to a generic label).
+     * @returns The Fear-test result, or `null` if the roll could not be run.
      */
     async fearTest(
-        context: SohlActionContext<EmptyObject>,
+        context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
-        // if (!options.testResult) {
-        //     const initSkill = this.actor.getItem("init", { types: ["skill"] });
-        //     if (!initSkill) return null;
-        //     options.testResult = new CONFIG.SOHL.class.SuccessTestResult(
-        //         {
-        //             speaker,
-        //             testType: SuccessTestResult.TEST_TYPE.FEAR,
-        //             mlMod: Utility.deepClone(initSkill.system.$masteryLevel),
-        //         },
-        //         { parent: initSkill.system },
-        //     );
-        // }
-        // options.testResult =
-        //     options.testResult.item.system.successTest(options);
-        // return this._createTestItem(options);
-        return null;
+        const scope = (context.scope ?? {}) as { sourceName?: string };
+        const sourceName =
+            typeof scope.sourceName === "string" && scope.sourceName ?
+                scope.sourceName
+            :   sohl.i18n.localize("SOHL.Trauma.Fear.DefaultSource");
+        const willMl =
+            (
+                this.getItemLogic(ATTRIBUTE_CODE.WILL, ITEM_KIND.ATTRIBUTE) as
+                    | AttributeLogic
+                    | undefined
+            )?.masteryLevel?.effective ?? 0;
+        const braveBonus = this.hasBraveBonus() ? FEAR_BRAVE_BONUS : 0;
+        const result = await rollTimedTest(this, willMl, {
+            type: "fear-test",
+            title: sohl.i18n.localize("SOHL.Being.Action.fearTest"),
+            situationalModifier: braveBonus,
+        });
+        if (!result) return null;
+        await this.applyFearResult(
+            fearStateFromTest(result.normSuccessLevel, result.lastDigit),
+            sourceName,
+            result.isSuccess,
+        );
+        return result;
+    }
+
+    /**
+     * Record the outcome of a {@link fearTest}: create/worsen the source's fear
+     * trauma and inflict incremental Psyche Stress on a fearful result, clear the
+     * source on a success (Steady) or record a Brave marker, then sync the
+     * `fear` status and post an informational state card.
+     *
+     * @param level - The {@link sohl.utils.FEAR_LEVEL} the test produced.
+     * @param sourceName - The fear source's display name.
+     * @param isSuccess - Whether the Fear Test succeeded.
+     * @returns A promise that resolves once the outcome is persisted.
+     */
+    private async applyFearResult(
+        level: number,
+        sourceName: string,
+        isSuccess: boolean,
+    ): Promise<void> {
+        const existing = this.findFearTrauma(sourceName);
+        const currentLevel =
+            isFearfulState(existing?.data.levelBase ?? FEAR_LEVEL.NONE) ?
+                (existing?.data.levelBase ?? FEAR_LEVEL.NONE)
+            :   FEAR_LEVEL.NONE;
+        const notes: string[] = [];
+        let psyGain = 0;
+
+        if (isFearfulState(level)) {
+            // Record or worsen this source's fear trauma.
+            if (existing) {
+                await existing.item.update({
+                    "system.levelBase": level,
+                } as PlainObject);
+            } else {
+                await fvttCreateEmbeddedItems(this, [
+                    {
+                        type: ITEM_KIND.TRAUMA,
+                        name: sourceName,
+                        system: {
+                            subType: TRAUMA_SUBTYPE.FEAR,
+                            levelBase: level,
+                            aspect: IMPACT_ASPECT.BLUNT,
+                        },
+                    },
+                ]);
+            }
+            // Psyche Stress accrues only for the newly-reached severity (entering
+            // or worsening into Terrified/Catatonic), never re-charged on a
+            // repeat failure at the same state.
+            psyGain = Math.max(
+                0,
+                fearPsyGain(level) - fearPsyGain(currentLevel),
+            );
+            if (psyGain > 0)
+                await inflictPsycheStress(this, psyGain, sourceName);
+            if (fearHelpless(level)) {
+                notes.push(
+                    sohl.i18n.localize("SOHL.Trauma.Fear.Note.Helpless"),
+                );
+            } else if (fearDefenseRestricted(level)) {
+                notes.push(
+                    sohl.i18n.localize(
+                        "SOHL.Trauma.Fear.Note.DefenseRestricted",
+                    ),
+                );
+            }
+            if (fearMustFlee(level)) {
+                notes.push(
+                    sohl.i18n.localize("SOHL.Trauma.Fear.Note.MustFlee"),
+                );
+            }
+        } else {
+            // A success (Steady/Brave) makes the being immune to this source —
+            // clear any recorded fear trauma for it.
+            if (existing) await existing.item.delete();
+            if (level === FEAR_LEVEL.BRAVE) {
+                await fvttCreateEmbeddedItems(this, [
+                    {
+                        type: ITEM_KIND.TRAUMA,
+                        name: sourceName,
+                        system: {
+                            subType: TRAUMA_SUBTYPE.FEAR,
+                            levelBase: FEAR_LEVEL.BRAVE,
+                        },
+                    },
+                ]);
+                notes.push(sohl.i18n.localize("SOHL.Trauma.Fear.Note.Brave"));
+            } else {
+                notes.push(sohl.i18n.localize("SOHL.Trauma.Fear.Note.Immune"));
+            }
+        }
+
+        await this.syncFearStatus(sourceName, level);
+        await this.postTraumaStateCard(
+            sohl.i18n.localize("SOHL.Being.Action.fearTest"),
+            fearLevelLabelKey(level),
+            isSuccess,
+            psyGain,
+            notes,
+        );
+    }
+
+    /**
+     * Toggle the being's `fear` status effect to match its fear state after the
+     * just-applied result for `sourceName` reached `level`. Computed from `level`
+     * plus every **other** active fear source, so it is correct even before a
+     * freshly-created/updated fear trauma is reflected in {@link fearState}.
+     *
+     * @param sourceName - The fear source just resolved (excluded from the scan).
+     * @param level - The {@link sohl.utils.FEAR_LEVEL} just applied for it.
+     * @returns A promise that resolves once the status is in sync.
+     */
+    private async syncFearStatus(
+        sourceName: string,
+        level: number,
+    ): Promise<void> {
+        const others = this.activeFearTraumas()
+            .filter((t) => t.item?.name !== sourceName)
+            .map((t) => t.data.levelBase);
+        const shouldBeFearful =
+            mostSevereFear([...others, level]) >= FEAR_LEVEL.AFRAID;
+        const has = fvttActorStatuses(this.actor).has(STATUS_EFFECT.FEARFUL);
+        if (shouldBeFearful !== has) {
+            await fvttToggleActorStatus(
+                this.actor,
+                STATUS_EFFECT.FEARFUL,
+                shouldBeFearful,
+            );
+        }
+    }
+
+    /**
+     * Post an informational trauma-state card summarizing a trauma test's outcome
+     * (the resulting state, any Psyche Stress gain, and effect notes). Shared by
+     * the Fear / Morale / Pall tests.
+     *
+     * @param title - The test title.
+     * @param labelKey - Localization key for the resulting state's name.
+     * @param isSuccess - Whether the test succeeded (colors the state).
+     * @param psyGain - Psyche Stress Levels gained (0 for none).
+     * @param notes - Localized effect notes to list.
+     * @returns A promise that resolves once the card is posted.
+     */
+    private async postTraumaStateCard(
+        title: string,
+        labelKey: string,
+        isSuccess: boolean,
+        psyGain: number,
+        notes: string[],
+    ): Promise<void> {
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/trauma-state-card.hbs",
+            data: {
+                actorId: this.actor?.id ?? "",
+                actorName: this.actor?.name ?? "",
+                title,
+                stateLabel: labelKey ? sohl.i18n.localize(labelKey) : "",
+                isSuccess,
+                psyGain,
+                notes,
+            },
+        });
     }
 
     /**

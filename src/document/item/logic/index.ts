@@ -33,5 +33,6 @@ export * from "./WeaponGearLogic";
 export * from "./fatigue";
 export * from "./item-sheet-view";
 export * from "./offer-schedule";
+export * from "./psyche";
 export * from "./strikeModeTest";
 export * from "./timed-test";
