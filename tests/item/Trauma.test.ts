@@ -726,6 +726,31 @@ describe("Infection lifecycle (#557)", () => {
             await logic.healingCheck({} as any);
             expect(create).not.toHaveBeenCalled();
         });
+
+        it("OFFERS the new infection's recovery course rather than auto-arming it (#579)", async () => {
+            withEvents();
+            const infectionItem = {
+                uuid: "Item.infect00000",
+                system: { courseDurationBase: 86400 },
+            };
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttCreateEmbeddedItems",
+            ).mockResolvedValue([infectionItem]);
+            const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
+            mockRoll(CRITICAL_FAILURE);
+            const logic = injury(true, 3);
+            // A pre-answered scheduling context accepts the course offer.
+            await logic.healingCheck({
+                skipDialog: true,
+                scope: { schedule: true },
+            } as any);
+            expect(schedule).toHaveBeenCalledWith(
+                infectionItem,
+                "courseCheck",
+                86400,
+            );
+        });
     });
 
     describe("Infection Healing Test (course)", () => {
@@ -1275,15 +1300,20 @@ describe("Injury Treatment Test effect (#553)", () => {
         );
     });
 
-    it("arms the blood-loss timer on the generic store when a surgical mishap causes a bleeder", async () => {
+    it("offers the blood-loss timer when a surgical mishap causes a bleeder — accept schedules it (#579)", async () => {
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
         vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue("300");
         const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
         mockRoll(MARGINAL_FAILURE); // grievous MF, SUR → bleeder
         const { logic } = injury({ levelBase: 4, aspect: "edged" });
-        await logic.treatmentTest({} as any);
-        // The bleeder marker persists (drives isBleeding); the FIRST blood-loss
-        // advance auto-arms via the generic store (issue #588/#579).
+        // The physician is present; a pre-answered scheduling context accepts the
+        // offer (the interactive path would prompt) — nothing auto-arms (#579).
+        await logic.treatmentTest({
+            skipDialog: true,
+            scope: { schedule: true },
+        } as any);
+        // The bleeder marker persists (drives isBleeding); the blood-loss advance
+        // is scheduled only because the offer was accepted.
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({
                 "system.bloodLossAdvanceDurationBase": 300,

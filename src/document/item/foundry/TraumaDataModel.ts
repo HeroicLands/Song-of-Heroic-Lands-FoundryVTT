@@ -166,11 +166,13 @@ export class TraumaDataModel<
             game.settings.get("sohl", "bloodLossAdvanceDurationFormula") ?? "",
         );
         const healInterval = Number(healFormula) || 0;
-        // The recurring **healing check** is NOT auto-armed at creation (issue
-        // #579 — nothing auto-schedules): the injury-creation flow OFFERS it (see
-        // `createTraumaFromInjury`). Only the config (formula/base, the offer's
-        // default cadence) is seeded here.
-        const scheduled: PlainObject[] = [];
+        // NO recurring check is auto-armed at creation (issue #579 — nothing
+        // auto-schedules): the creating flow OFFERS each one — the injury flow
+        // offers `healingCheck` / `bloodLossAdvanceCheck` (`createTraumaFromInjury`),
+        // treatment offers blood-loss, and the shock/infection flows offer
+        // `courseCheck`. Only the config (formula/base — the offer's default
+        // cadence) is seeded here; a caller-supplied `scheduledActions` is left
+        // untouched.
         const seed: PlainObject = {
             contractDate: now,
             healingCheckDurationFormula: healFormula,
@@ -179,23 +181,14 @@ export class TraumaDataModel<
         // A bleeder arrives with a non-null bloodLossAdvanceDurationBase
         // (a placeholder set at injury resolution, #482); seed its real interval.
         if (this.bloodLossAdvanceDurationBase != null) {
-            const bloodInterval = Number(bloodFormula) || 0;
             seed.bloodLossAdvanceDurationFormula = bloodFormula;
-            seed.bloodLossAdvanceDurationBase = bloodInterval;
-            scheduled.push({
-                actionName: "bloodLossAdvanceCheck",
-                anchor: now,
-                interval: bloodInterval,
-                sceneUuid: "",
-                payload: {},
-            });
+            seed.bloodLossAdvanceDurationBase = Number(bloodFormula) || 0;
         }
 
         // Recovery Course Test cadence (#556/#557) — seeded for the lasting-
         // condition subtypes when the caller has not supplied it. Extended Shock
         // runs every 4 hours, a Coma every d10 days, and an Infection on the
-        // standard healing-check period. A `0` interval fires the first check
-        // immediately, at which point the executor rolls the real interval.
+        // standard healing-check period.
         if (
             (this.subType === TRAUMA_SUBTYPE.SHOCK ||
                 this.subType === TRAUMA_SUBTYPE.COMA ||
@@ -206,27 +199,9 @@ export class TraumaDataModel<
                 this.subType === TRAUMA_SUBTYPE.COMA ? "1d10 * 86400"
                 : this.subType === TRAUMA_SUBTYPE.INFECTION ? healFormula
                 : "14400";
-            const courseInterval = Number(courseFormula) || 0;
             seed.courseDurationFormula = courseFormula;
-            seed.courseDurationBase = courseInterval;
-            scheduled.push({
-                actionName: "courseCheck",
-                anchor: now,
-                interval: courseInterval,
-                sceneUuid: "",
-                payload: {},
-            });
+            seed.courseDurationBase = Number(courseFormula) || 0;
         }
-
-        // Preserve any caller-supplied schedules that are not one this model
-        // still seeds, then add ours (whole-array write, never by index).
-        // `healingCheck` is NOT managed here — it is no longer auto-seeded (issue
-        // #579 offers it at injury creation), so a caller-supplied one is kept.
-        const managed = new Set(["bloodLossAdvanceCheck", "courseCheck"]);
-        const existing = (
-            (this.scheduledActions as PlainObject[]) ?? []
-        ).filter((e) => !managed.has(String(e.actionName)));
-        seed.scheduledActions = [...existing, ...scheduled];
 
         this.updateSource(seed as any);
         return undefined;

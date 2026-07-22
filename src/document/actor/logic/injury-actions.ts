@@ -296,6 +296,18 @@ export async function createTraumaFromInjury(
     ]);
     const trauma = created?.[0];
     if (!trauma) return;
-    const interval = Number(trauma.system?.healingCheckDurationBase) || 0;
-    await offerSchedule(context, trauma, "healingCheck", interval);
+    const healInterval = Number(trauma.system?.healingCheckDurationBase) || 0;
+    await offerSchedule(context, trauma, "healingCheck", healInterval);
+    // A wound that bleeds on infliction (a non-null blood-loss base) also offers
+    // its blood-loss advance (issue #579) rather than auto-arming it.
+    if (trauma.system?.bloodLossAdvanceDurationBase != null) {
+        const bloodInterval =
+            Number(trauma.system.bloodLossAdvanceDurationBase) || 0;
+        await offerSchedule(
+            context,
+            trauma,
+            "bloodLossAdvanceCheck",
+            bloodInterval,
+        );
+    }
 }

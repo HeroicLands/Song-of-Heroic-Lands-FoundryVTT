@@ -1193,6 +1193,29 @@ describe("BeingLogic", () => {
             ]);
         });
 
+        it("OFFERS the Extended Shock recovery course rather than auto-arming it (#579)", async () => {
+            const { being, create } = setup({
+                current: new Set(["incapacitated"]),
+                sl: MARGINAL_FAILURE,
+            });
+            const shockItem = {
+                uuid: "Item.shock00000",
+                system: { courseDurationBase: 14400 },
+            };
+            create.mockResolvedValue([shockItem]);
+            const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
+            // A pre-answered scheduling context accepts the course offer.
+            await being.shockReTest({
+                skipDialog: true,
+                scope: { schedule: true },
+            } as any);
+            expect(schedule).toHaveBeenCalledWith(
+                shockItem,
+                "courseCheck",
+                14400,
+            );
+        });
+
         it("drops an Unconscious victim into a Coma on a critical failure", async () => {
             const { being, create, set } = setup({
                 current: new Set(["unconscious"]),
