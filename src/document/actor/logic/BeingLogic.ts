@@ -120,6 +120,7 @@ import {
     readInjuryDialogForm,
     resolveAutomatedInjury,
 } from "@src/document/actor/logic/injury-actions";
+import { type OfferContext } from "@src/document/item/logic/offer-schedule";
 import { toFilePath, defaultToJSON } from "@src/utils/helpers";
 import {
     ResolvedInjury,
@@ -1354,18 +1355,22 @@ export class BeingLogic<
         if (isAutomatedRequest(req)) {
             const injury = resolveAutomatedInjury(req, body);
             await this.postInjury(injury, injury.level >= 1);
-            if (injury.level >= 1) await createTraumaFromInjury(this, injury);
+            if (injury.level >= 1)
+                await createTraumaFromInjury(this, injury, context);
             return;
         }
 
         // Assisted: let the player confirm location, aspect, impact, and armor.
-        await this.addInjuryViaDialog({
-            location: req.location ?? "",
-            aspect: req.aspect,
-            impact: req.impact,
-            armorReduction: req.armorReduction ?? 0,
-            extraBleedRisk: !!req.extraBleedRisk,
-        });
+        await this.addInjuryViaDialog(
+            {
+                location: req.location ?? "",
+                aspect: req.aspect,
+                impact: req.impact,
+                armorReduction: req.armorReduction ?? 0,
+                extraBleedRisk: !!req.extraBleedRisk,
+            },
+            context,
+        );
     }
 
     /* --------------------------------------------- */
@@ -1530,6 +1535,8 @@ export class BeingLogic<
      * @param prefill.impact - The raw impact total.
      * @param prefill.armorReduction - Manual armor reduction.
      * @param prefill.extraBleedRisk - Force the wound to bleed.
+     * @param context - Forwarded to the schedule offer (issue #579) so a
+     *   scripted caller can pre-answer or suppress it; the interactive path prompts.
      */
     async addInjuryViaDialog(
         prefill: {
@@ -1539,6 +1546,7 @@ export class BeingLogic<
             armorReduction?: number;
             extraBleedRisk?: boolean;
         } = {},
+        context: OfferContext = {},
     ): Promise<void> {
         const body = getActorBodyStructure(this);
         if (!body) {
@@ -1585,7 +1593,7 @@ export class BeingLogic<
         });
         await this.postInjury(injury, form.addToCharSheet);
         if (form.addToCharSheet && injury.level >= 1)
-            await createTraumaFromInjury(this, injury);
+            await createTraumaFromInjury(this, injury, context);
     }
 
     /**

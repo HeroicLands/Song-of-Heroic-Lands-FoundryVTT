@@ -313,4 +313,49 @@ describe("createTraumaFromInjury (#286)", () => {
             }),
         ]);
     });
+
+    /** A resolved wound + a mock created Trauma carrying its healing cadence. */
+    function woundAndTrauma() {
+        const body = makeBody();
+        const neck = body
+            .getAllLocations()
+            .find((l) => l.shortcode === "neck")!;
+        const injury = resolveInjury({
+            impact: 22,
+            aspect: IMPACT_ASPECT.EDGED,
+            body,
+            location: neck,
+        });
+        const trauma = {
+            uuid: "Item.trauma0000",
+            system: { healingCheckDurationBase: 432000 }, // 5 days
+        };
+        vi.spyOn(FoundryHelpers, "fvttCreateEmbeddedItems").mockResolvedValue([
+            trauma,
+        ]);
+        return { injury, trauma };
+    }
+
+    it("OFFERS the first healing check after creating the wound — accept schedules it (#579)", async () => {
+        const { injury, trauma } = woundAndTrauma();
+        const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
+        // A pre-answered context (e.g. scripted) — schedule: true accepts.
+        await createTraumaFromInjury({ name: "Hero" } as any, injury, {
+            skipDialog: true,
+            scope: { schedule: true },
+        });
+        expect(schedule).toHaveBeenCalledWith(trauma, "healingCheck", 432000);
+    });
+
+    it("does NOT auto-arm — declining the offer leaves it unscheduled (#579)", async () => {
+        const { injury, trauma } = woundAndTrauma();
+        const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
+        const unschedule = vi.spyOn((globalThis as any).sohl, "unschedule");
+        await createTraumaFromInjury({ name: "Hero" } as any, injury, {
+            skipDialog: true,
+            scope: { schedule: false },
+        });
+        expect(schedule).not.toHaveBeenCalled();
+        expect(unschedule).toHaveBeenCalledWith(trauma, "healingCheck");
+    });
 });

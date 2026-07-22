@@ -166,15 +166,11 @@ export class TraumaDataModel<
             game.settings.get("sohl", "bloodLossAdvanceDurationFormula") ?? "",
         );
         const healInterval = Number(healFormula) || 0;
-        const scheduled: PlainObject[] = [
-            {
-                actionName: "healingCheck",
-                anchor: now,
-                interval: healInterval,
-                sceneUuid: "",
-                payload: {},
-            },
-        ];
+        // The recurring **healing check** is NOT auto-armed at creation (issue
+        // #579 — nothing auto-schedules): the injury-creation flow OFFERS it (see
+        // `createTraumaFromInjury`). Only the config (formula/base, the offer's
+        // default cadence) is seeded here.
+        const scheduled: PlainObject[] = [];
         const seed: PlainObject = {
             contractDate: now,
             healingCheckDurationFormula: healFormula,
@@ -222,14 +218,11 @@ export class TraumaDataModel<
             });
         }
 
-        // Preserve any caller-supplied schedules that are not one of the recurring
-        // checks this model manages, then add ours (whole-array write, never by
-        // index).
-        const managed = new Set([
-            "healingCheck",
-            "bloodLossAdvanceCheck",
-            "courseCheck",
-        ]);
+        // Preserve any caller-supplied schedules that are not one this model
+        // still seeds, then add ours (whole-array write, never by index).
+        // `healingCheck` is NOT managed here — it is no longer auto-seeded (issue
+        // #579 offers it at injury creation), so a caller-supplied one is kept.
+        const managed = new Set(["bloodLossAdvanceCheck", "courseCheck"]);
         const existing = (
             (this.scheduledActions as PlainObject[]) ?? []
         ).filter((e) => !managed.has(String(e.actionName)));

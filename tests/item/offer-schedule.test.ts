@@ -6,10 +6,13 @@
  */
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { offerReschedule } from "@src/document/item/logic/reschedule";
+import {
+    offerSchedule,
+    describeInterval,
+} from "@src/document/item/logic/offer-schedule";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 
-describe("offerReschedule — the consent step for recurring timed effects (#579)", () => {
+describe("offerSchedule — the consent step for scheduling timed effects (#579)", () => {
     afterEach(() => vi.restoreAllMocks());
 
     const DOC = { uuid: "Item.effect0000" } as any;
@@ -21,11 +24,11 @@ describe("offerReschedule — the consent step for recurring timed effects (#579
         };
     }
 
-    it("scope.reschedule === true schedules the next occurrence (no dialog)", async () => {
+    it("scope.schedule === true schedules the occurrence (no dialog)", async () => {
         const { schedule, unschedule } = spies();
         const dlg = vi.spyOn(FoundryHelpersMock, "dialog");
-        await offerReschedule(
-            { skipDialog: true, scope: { reschedule: true } } as any,
+        await offerSchedule(
+            { skipDialog: true, scope: { schedule: true } },
             DOC,
             "healingCheck",
             500,
@@ -35,10 +38,10 @@ describe("offerReschedule — the consent step for recurring timed effects (#579
         expect(dlg).not.toHaveBeenCalled();
     });
 
-    it("scope.reschedule === false clears the schedule (no dialog)", async () => {
+    it("scope.schedule === false clears any schedule (no dialog)", async () => {
         const { schedule, unschedule } = spies();
-        await offerReschedule(
-            { skipDialog: true, scope: { reschedule: false } } as any,
+        await offerSchedule(
+            { skipDialog: true, scope: { schedule: false } },
             DOC,
             "healingCheck",
             500,
@@ -47,10 +50,10 @@ describe("offerReschedule — the consent step for recurring timed effects (#579
         expect(schedule).not.toHaveBeenCalled();
     });
 
-    it("skipDialog with no scope answer defaults to No (unschedule)", async () => {
+    it("skipDialog with no scope answer takes no action beyond a safe clear", async () => {
         const { schedule, unschedule } = spies();
-        await offerReschedule(
-            { skipDialog: true, scope: {} } as any,
+        await offerSchedule(
+            { skipDialog: true, scope: {} },
             DOC,
             "courseCheck",
             42,
@@ -59,26 +62,38 @@ describe("offerReschedule — the consent step for recurring timed effects (#579
         expect(schedule).not.toHaveBeenCalled();
     });
 
-    it("interactive: a Yes on the offer dialog schedules the next occurrence", async () => {
+    it("interactive: the dialog defaults to Schedule; a Yes schedules with the rolled cadence", async () => {
         const { schedule, unschedule } = spies();
-        vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(true);
-        await offerReschedule(
-            { skipDialog: false, scope: {} } as any,
+        // Assert the affirmative button is the default (prefer-dialog + one-click OK).
+        const dlg = vi
+            .spyOn(FoundryHelpersMock, "dialog")
+            .mockResolvedValue(true);
+        await offerSchedule(
+            { skipDialog: false, scope: {} },
             DOC,
             "healingCheck",
-            500,
+            5 * 86400,
         );
-        expect(schedule).toHaveBeenCalledWith(DOC, "healingCheck", 500);
+        expect(schedule).toHaveBeenCalledWith(DOC, "healingCheck", 5 * 86400);
         expect(unschedule).not.toHaveBeenCalled();
+        const spec = (dlg.mock.calls[0] as any)[0];
+        const yes = spec.buttons.find((b: any) => b.action === "yes");
+        expect(yes.default, "Schedule is the default button").toBe(true);
     });
 
-    it("interactive: a No / dismissed dialog (default) clears the schedule", async () => {
+    it("describeInterval renders the cadence as a human phrase", () => {
+        expect(describeInterval(5 * 86400)).toBe("5 days");
+        expect(describeInterval(86400)).toBe("1 day");
+        expect(describeInterval(4 * 3600)).toBe("4 hours");
+        expect(describeInterval(90)).toBe("2 minutes"); // rounds
+        expect(describeInterval(0)).toBe("0 seconds");
+    });
+
+    it("interactive: a declined / dismissed dialog clears any schedule", async () => {
         const { schedule, unschedule } = spies();
-        // The dialog callback returns `action === "yes"`; a dismissal resolves
-        // null. Either non-true result declines.
         vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(null);
-        await offerReschedule(
-            { skipDialog: false, scope: {} } as any,
+        await offerSchedule(
+            { skipDialog: false, scope: {} },
             DOC,
             "healingCheck",
             500,

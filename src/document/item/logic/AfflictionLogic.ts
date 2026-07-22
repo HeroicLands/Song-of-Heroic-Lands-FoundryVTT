@@ -22,7 +22,7 @@ import {
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { elapsedCheckpoints } from "@src/entity/event/scheduling";
 import { armScheduledActions } from "@src/entity/event/scheduled-actions";
-import { offerReschedule } from "@src/document/item/logic/reschedule";
+import { offerSchedule } from "@src/document/item/logic/offer-schedule";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
@@ -659,7 +659,7 @@ export class AfflictionLogic<
      * rolls the next interval, then **offers** the next occurrence (issue #579) —
      * reusable from the `[Perform]` reminder, the timed event, or manually.
      *
-     * @param context - The action context; `scope.reschedule` (or the offer
+     * @param context - The action context; `scope.schedule` (or the offer
      *   dialog) decides whether the next occurrence is scheduled.
      * @returns A promise that resolves once the outcome and schedule are persisted.
      * @remarks Applies the **Course Test** (#489) at each elapsed checkpoint (only
@@ -714,7 +714,7 @@ export class AfflictionLogic<
         // the next course check rather than auto-re-arming (issue #579).
         if (hr >= 6) await sohl.unschedule(this.item, "healingCheck");
         else
-            await offerReschedule(
+            await offerSchedule(
                 context,
                 this.item,
                 "healingCheck",

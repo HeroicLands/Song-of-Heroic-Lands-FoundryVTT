@@ -14,7 +14,7 @@
 /**
  * Offer-to-reschedule (#579): after a recurring timed effect is performed it does
  * NOT auto-re-arm — it OFFERS the next occurrence. Proven end to end against real
- * Foundry, driven headlessly through the schedule scope (`scope.reschedule`):
+ * Foundry, driven headlessly through the schedule scope (`scope.schedule`):
  *
  * - **accept** → the next healing check is armed on the generic `scheduledActions`
  *   store, and the "last performed" record (`lastHealingCheckDate`) is stamped;
@@ -76,14 +76,14 @@ describe("Timed-effect reschedule (#579)", () => {
                 // (executeAction) so the run record is stamped, headless via scope.
                 await a.items.get(woundId).logic.executeAction("healingCheck", {
                     skipDialog: true,
-                    scope: { reschedule: true },
+                    scope: { schedule: true },
                 });
                 const afterAccept = snap();
 
                 // DECLINE the reschedule.
                 await a.items.get(woundId).logic.executeAction("healingCheck", {
                     skipDialog: true,
-                    scope: { reschedule: false },
+                    scope: { schedule: false },
                 });
                 const afterDecline = snap();
 

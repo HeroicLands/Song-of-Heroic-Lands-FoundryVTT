@@ -25,6 +25,10 @@ import {
     type ImpactAspect,
 } from "@src/utils/constants";
 import { fvttCreateEmbeddedItems } from "@src/core/FoundryHelpers";
+import {
+    offerSchedule,
+    type OfferContext,
+} from "@src/document/item/logic/offer-schedule";
 
 /**
  * The forward-carried payload of a chat-card `createInjury` button
@@ -262,21 +266,36 @@ export function getActorBodyStructure(logic: any): BodyStructure | undefined {
 }
 
 /**
- * Create a physical Trauma item on the actor from a resolved injury. Only
- * call this for an actual wound (`injury.level >= 1`); a glancing blow or
- * no-injury result must not create a Trauma.
+ * Create a physical Trauma item on the actor from a resolved injury, then
+ * **offer** to schedule its first healing check (issue #579 — nothing
+ * auto-schedules). Only call this for an actual wound (`injury.level >= 1`); a
+ * glancing blow or no-injury result must not create a Trauma.
+ *
+ * The offer is a dialog (default **Schedule**) shown to the human who is present
+ * on this client — they just took the wound, so they decide whether to track its
+ * healing. It honors `context.skipDialog` only for a certain/scripted caller;
+ * with no context it prompts (the interactive manual/assisted path).
+ *
  * @param logic - The actor's logic (its `.actor` receives the Trauma item).
  * @param injury - The resolved injury to record.
+ * @param context - The creating action's context, forwarded to the schedule
+ *   offer so a scripted caller can pre-answer or suppress it; omit to prompt.
+ * @returns A promise that resolves once the Trauma is created and the offer resolved.
  */
 export async function createTraumaFromInjury(
     logic: any,
     injury: ResolvedInjury,
+    context: OfferContext = {},
 ): Promise<void> {
-    await fvttCreateEmbeddedItems(logic, [
+    const created = await fvttCreateEmbeddedItems(logic, [
         {
             type: ITEM_KIND.TRAUMA,
             name: `${injury.levelCode} ${injury.location.name}`,
             system: buildTraumaData(injury),
         },
     ]);
+    const trauma = created?.[0];
+    if (!trauma) return;
+    const interval = Number(trauma.system?.healingCheckDurationBase) || 0;
+    await offerSchedule(context, trauma, "healingCheck", interval);
 }

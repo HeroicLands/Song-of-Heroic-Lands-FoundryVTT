@@ -47,7 +47,7 @@ import {
 } from "@src/document/actor/logic/shock";
 import { elapsedCheckpoints } from "@src/entity/event/scheduling";
 import { armScheduledActions } from "@src/entity/event/scheduled-actions";
-import { offerReschedule } from "@src/document/item/logic/reschedule";
+import { offerSchedule } from "@src/document/item/logic/offer-schedule";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
@@ -682,7 +682,7 @@ export class TraumaLogic<
      * auto-re-arms. Registered as an action so the same routine serves the
      * `[Perform]` reminder, the timed event, and a manual invocation.
      *
-     * @param context - The action context; `scope.reschedule` (or the offer
+     * @param context - The action context; `scope.schedule` (or the offer
      *   dialog) decides whether the next occurrence is scheduled.
      * @returns A promise that resolves once the outcome and schedule are persisted.
      * @remarks For an `injury`-subtype trauma this applies the **Injury Healing
@@ -781,7 +781,7 @@ export class TraumaLogic<
         // healing check (default No) rather than auto-re-arming (issue #579).
         if (level <= 0) await sohl.unschedule(this.item, "healingCheck");
         else
-            await offerReschedule(
+            await offerSchedule(
                 context,
                 this.item,
                 "healingCheck",
@@ -861,7 +861,7 @@ export class TraumaLogic<
      * then **offers** the next `bloodLossAdvanceCheck` occurrence (issue #579)
      * rather than auto-re-arming.
      *
-     * @param context - The action context; `scope.reschedule` (or the offer
+     * @param context - The action context; `scope.schedule` (or the offer
      *   dialog) decides whether the next occurrence is scheduled.
      * @returns A promise that resolves once the outcome and schedule are persisted.
      * @remarks Applies the **Blood Loss Advance Test** (#487) at each elapsed
@@ -906,7 +906,7 @@ export class TraumaLogic<
         if (!this.isBleeding) {
             await sohl.unschedule(this.item, "bloodLossAdvanceCheck");
         } else {
-            await offerReschedule(
+            await offerSchedule(
                 context,
                 this.item,
                 "bloodLossAdvanceCheck",
@@ -975,7 +975,7 @@ export class TraumaLogic<
      * Unconscious). Otherwise the next course check is **offered** (issue #579)
      * rather than auto-re-armed.
      *
-     * @param context - The action context; `scope.reschedule` (or the offer
+     * @param context - The action context; `scope.schedule` (or the offer
      *   dialog) decides whether the next occurrence is scheduled.
      * @returns A promise that resolves once the course outcome is persisted.
      */
@@ -1041,7 +1041,7 @@ export class TraumaLogic<
             "system.healingRateBase": hr,
             "system.courseDurationBase": nextInterval,
         } as PlainObject);
-        await offerReschedule(context, this.item, "courseCheck", nextInterval);
+        await offerSchedule(context, this.item, "courseCheck", nextInterval);
     }
 
     /**

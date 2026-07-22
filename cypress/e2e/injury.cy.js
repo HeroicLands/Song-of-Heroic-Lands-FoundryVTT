@@ -90,11 +90,12 @@ describe("impact → injury → trauma", () => {
                     a.logic.body.structure.getAllLocations()[0].shortcode;
                 // Fire the dialog and stash its promise so we can await the whole
                 // flow (dialog → resolve → post card → record trauma).
-                win.__injury = a.logic.addInjuryViaDialog({
-                    location: loc,
-                    aspect: "blunt",
-                    impact: 20,
-                });
+                // skipDialog on the 2nd arg pre-answers the schedule offer
+                // (issue #579) so this injury-creation spec doesn't stop on it.
+                win.__injury = a.logic.addInjuryViaDialog(
+                    { location: loc, aspect: "blunt", impact: 20 },
+                    { skipDialog: true },
+                );
                 return null;
             });
             cy.submitDialog("ok");
@@ -119,11 +120,10 @@ describe("impact → injury → trauma", () => {
                     a.logic.body.structure.getAllLocations()[0].shortcode;
                 // A zero-impact blow resolves to no injury (band: ≤0 → none):
                 // the card posts but no trauma is recorded.
-                win.__injury = a.logic.addInjuryViaDialog({
-                    location: loc,
-                    aspect: "blunt",
-                    impact: 0,
-                });
+                win.__injury = a.logic.addInjuryViaDialog(
+                    { location: loc, aspect: "blunt", impact: 0 },
+                    { skipDialog: true },
+                );
                 return null;
             });
             cy.submitDialog("ok");
@@ -153,6 +153,9 @@ describe("impact → injury → trauma", () => {
                     targetPart: "head",
                     spread: 0,
                     location: loc,
+                    // Pre-answer the schedule offer (issue #579) so this
+                    // "no dialog" automated path stays dialog-free.
+                    schedule: false,
                 });
                 // Dispatch through the *document's* chat-card handler — the real
                 // click path — exercising SohlActor.onChatCardButton →
