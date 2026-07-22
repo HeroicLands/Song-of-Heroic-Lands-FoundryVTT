@@ -1,0 +1,46 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<div class="hmk chat-card item-card">
+    <header class="card-header flexrow">
+        <h3 class="title">Face the Pall</h3>
+    </header>
+
+    {{#if actorName}}
+    <div class="card-content center">
+        <span>{{actorName}} must face the Pall — the choice is theirs.</span>
+    </div>
+    {{/if}}
+
+    <div class="card-content">
+        <span
+            >The Pall cannot be expelled. The victim must choose one of three
+            fates:</span
+        >
+    </div>
+
+    <ul>
+        <li>
+            <strong>Embrace the Pall</strong> — the soul is imprisoned; the body
+            persists as an undead Nightwight.
+        </li>
+        <li>
+            <strong>Vacate the Body</strong> — the soul unanchors into a Shade;
+            the empty body becomes a mindless Helthraal.
+        </li>
+        <li>
+            <strong>Accept True Death</strong> — the soul departs to the
+            afterlife; the body allows only a brief moment as a Helthraal.
+        </li>
+    </ul>
+</div>

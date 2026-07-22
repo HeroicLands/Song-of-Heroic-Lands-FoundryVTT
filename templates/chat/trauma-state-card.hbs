@@ -1,0 +1,44 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
+    <header class="card-header flexrow">
+        <h3 class="title">{{title}}</h3>
+    </header>
+
+    {{#if actorName}}
+    <div class="card-content center">
+        <span>{{actorName}}</span>
+    </div>
+    {{/if}}
+
+    <div class="card-content center">
+        <span class="label">State:</span>
+        <span
+            class="value {{#if isSuccess}}success-text{{else}}failure-text{{/if}}"
+            >{{stateLabel}}</span
+        >
+    </div>
+
+    {{#if psyGain}}
+    <div class="card-content center">
+        <span>Gains +{{psyGain}} Psyche Stress.</span>
+    </div>
+    {{/if}}
+
+    {{#each notes}}
+    <div class="card-content center">
+        <span>{{this}}</span>
+    </div>
+    {{/each}}
+</div>

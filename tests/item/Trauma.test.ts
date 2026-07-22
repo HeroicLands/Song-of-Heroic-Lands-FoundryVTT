@@ -1485,3 +1485,285 @@ describe("TraumaLogic.categoryLabel", () => {
         expect(logic.categoryLabel).toBe("not-a-category");
     });
 });
+
+describe("Psyche Stress & Aural Shock recovery (#560)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    /** A trauma of `subType` on an actor whose Will lookup yields no attribute
+     *  (the roll is mocked, so the effective mastery is irrelevant). */
+    function recoveryTrauma(subType: string, levelBase: number, category = "") {
+        const actor = makeMockActor();
+        (actor.logic as any).getItemLogic = () => undefined;
+        (actor.logic as any).setShockState = vi
+            .fn()
+            .mockResolvedValue(undefined);
+        const logic = makeTrauma({ subType, levelBase, category }, { actor });
+        (logic.item as any).uuid = "Item.recover0000";
+        (logic.item as any).delete = vi.fn().mockResolvedValue(undefined);
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
+        (globalThis as any).sohl.schedule = vi.fn();
+        (globalThis as any).sohl.unschedule = vi.fn();
+        return logic;
+    }
+
+    function mockRoll(level: number) {
+        vi.spyOn(
+            MasteryLevelModifier.prototype,
+            "successTest",
+        ).mockResolvedValue({ normSuccessLevel: level } as any);
+    }
+
+    const NO = { skipDialog: true, scope: { schedule: false } } as any;
+
+    it("Psyche recovery reduces PSY by 1 on a marginal success", async () => {
+        mockRoll(MARGINAL_SUCCESS);
+        const logic = recoveryTrauma(
+            TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+            3,
+            "indefinite",
+        );
+        await logic.psycheRecovery(NO);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 2 }),
+        );
+    });
+
+    it("an indefinite condition goes away when PSY reaches 0", async () => {
+        mockRoll(MARGINAL_SUCCESS);
+        const logic = recoveryTrauma(
+            TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+            1,
+            "indefinite",
+        );
+        await logic.psycheRecovery(NO);
+        expect(logic.item.delete).toHaveBeenCalledTimes(1);
+    });
+
+    it("a Grievous Stress critical failure makes an indefinite condition permanent", async () => {
+        mockRoll(CRITICAL_FAILURE);
+        const logic = recoveryTrauma(
+            TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+            2,
+            "indefinite",
+        );
+        await logic.psycheRecovery(NO);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.category": "permanent" }),
+        );
+        expect(logic.item.delete).not.toHaveBeenCalled();
+    });
+
+    it("a critical failure on a permanent condition raises PSY by one", async () => {
+        mockRoll(CRITICAL_FAILURE);
+        const logic = recoveryTrauma(
+            TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+            2,
+            "permanent",
+        );
+        await logic.psycheRecovery(NO);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 3 }),
+        );
+    });
+
+    it("Aural Shock recovery reduces AS by 2 on a critical success", async () => {
+        mockRoll(CRITICAL_SUCCESS);
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.AURALSHOCK, 3);
+        await logic.auralShockRecovery(NO);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 1 }),
+        );
+    });
+
+    it("a critical-failure Aural Shock recovery inflicts +1 PSY and keeps AS", async () => {
+        mockRoll(CRITICAL_FAILURE);
+        const create = vi
+            .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+            .mockResolvedValue([]);
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.AURALSHOCK, 2);
+        await logic.auralShockRecovery(NO);
+        expect(create).toHaveBeenCalledTimes(1);
+        expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+            system: {
+                subType: TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+                levelBase: 1,
+            },
+        });
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 2 }),
+        );
+    });
+
+    it("recovers from Aural Shock (removes it) when AS reaches 0", async () => {
+        mockRoll(MARGINAL_SUCCESS);
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.AURALSHOCK, 1);
+        await logic.auralShockRecovery(NO);
+        expect(logic.item.delete).toHaveBeenCalledTimes(1);
+    });
+
+    it("Pall recovery reduces PSL by 2 on a critical success", async () => {
+        mockRoll(CRITICAL_SUCCESS);
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.PALL, 4);
+        await logic.pallRecovery(NO);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 2 }),
+        );
+    });
+
+    it("expels the Pall (removes it) when PSL reach 0", async () => {
+        mockRoll(CRITICAL_SUCCESS);
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.PALL, 2);
+        await logic.pallRecovery(NO);
+        expect(logic.item.delete).toHaveBeenCalledTimes(1);
+    });
+
+    it("a Marginal-Failure Pall recovery knocks the victim unconscious", async () => {
+        mockRoll(MARGINAL_FAILURE);
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.PALL, 3);
+        await logic.pallRecovery(NO);
+        expect((logic.actorLogic as any).setShockState).toHaveBeenCalled();
+    });
+
+    it("a Critical-Failure Pall recovery offers Face the Pall (no removal)", async () => {
+        mockRoll(CRITICAL_FAILURE);
+        const post = vi
+            .spyOn(ActionCard, "postActionCard")
+            .mockResolvedValue(undefined as any);
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.PALL, 3);
+        await logic.pallRecovery(NO);
+        expect(post).toHaveBeenCalledTimes(1);
+        expect(logic.item.delete).not.toHaveBeenCalled();
+    });
+});
+
+describe("interactive Blood Stoppage flow (#547)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    function bleedingWound(opts: Record<string, unknown> = {}) {
+        const actor = makeMockActor();
+        const logic = makeTrauma(
+            {
+                subType: TRAUMA_SUBTYPE.INJURY,
+                bloodLossAdvanceDurationBase: 300,
+                bloodLossAdvanceDurationFormula: "300",
+            },
+            { actor, name: "Gash", ...opts },
+        );
+        (logic.item as any).uuid = "Item.bleeder00000";
+        logic.initialize();
+        (globalThis as any).sohl.unschedule = vi.fn();
+        (globalThis as any).sohl.schedule = vi.fn();
+        (globalThis as any).sohl.events = {
+            scheduleAt: vi.fn(),
+            unsubscribe: vi.fn(),
+        };
+        return logic;
+    }
+
+    it("requestBloodStoppage posts an open Perform Blood Stoppage card for a bleeder", async () => {
+        const post = vi
+            .spyOn(ActionCard, "postActionCard")
+            .mockResolvedValue(undefined as any);
+        const logic = bleedingWound();
+        await logic.requestBloodStoppage({} as any);
+        const spec = post.mock.calls.at(-1)![1] as any;
+        expect(spec.buttons).toMatchObject({
+            action: "performBloodStoppage",
+            handlerUuid: "@self",
+            scope: { injuryUuid: "Item.bleeder00000" },
+        });
+    });
+
+    it("requestBloodStoppage warns and posts nothing for a non-bleeding injury", async () => {
+        const post = vi.spyOn(ActionCard, "postActionCard");
+        const warn = vi.spyOn(sohl.log, "uiWarn");
+        const actor = makeMockActor();
+        const logic = makeTrauma(
+            {
+                subType: TRAUMA_SUBTYPE.INJURY,
+                bloodLossAdvanceDurationBase: null,
+            },
+            { actor, name: "Bruise" },
+        );
+        logic.initialize();
+        await logic.requestBloodStoppage({} as any);
+        expect(warn).toHaveBeenCalled();
+        expect(post).not.toHaveBeenCalled();
+    });
+
+    it("acceptBloodStoppage (stopImmediately) clears the bleeder and unschedules", async () => {
+        const logic = bleedingWound();
+        await logic.acceptBloodStoppage({
+            scope: { kind: "stopImmediately" },
+        } as any);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({
+                "system.bloodLossAdvanceDurationBase": null,
+            }),
+        );
+        expect((globalThis as any).sohl.unschedule).toHaveBeenCalledWith(
+            logic.item,
+            "bloodLossAdvanceCheck",
+        );
+    });
+
+    it("acceptBloodStoppage (stopAfterNext) flags the wound to stop after the next advance", async () => {
+        const logic = bleedingWound();
+        await logic.acceptBloodStoppage({
+            scope: { kind: "stopAfterNext" },
+        } as any);
+        expect(logic.item.update).toHaveBeenCalledWith({
+            "flags.sohl.bloodStoppagePending": true,
+        });
+    });
+
+    it("acceptBloodStoppage (continuePlusNext) records a +10 next-test bonus", async () => {
+        const logic = bleedingWound();
+        await logic.acceptBloodStoppage({
+            scope: { kind: "continuePlusNext", nextBonus: 10 },
+        } as any);
+        expect(logic.item.update).toHaveBeenCalledWith({
+            "flags.sohl.bloodStoppageBonus": 10,
+        });
+    });
+
+    it("bloodLossAdvanceCheck clears a bleeder flagged to stop after the next advance", async () => {
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1300);
+        const actor = makeMockActor();
+        (actor.logic as any).getItemLogic = () => ({
+            masteryLevel: { effective: 50 },
+        });
+        (actor.logic as any).advanceShockState = vi.fn();
+        const logic = makeTrauma(
+            {
+                subType: TRAUMA_SUBTYPE.INJURY,
+                bloodLossAdvanceDurationBase: 300,
+                bloodLossAdvanceDurationFormula: "300",
+                ...sched("bloodLossAdvanceCheck", 1000, 300), // 1 checkpoint @1300
+            },
+            {
+                actor,
+                name: "Gash",
+                flags: { "sohl.bloodStoppagePending": true },
+            },
+        );
+        (logic.item as any).uuid = "Item.bleeder00000";
+        logic.initialize();
+        (globalThis as any).sohl.unschedule = vi.fn();
+        (globalThis as any).sohl.schedule = vi.fn();
+        (globalThis as any).sohl.events = {
+            scheduleAt: vi.fn(),
+            unsubscribe: vi.fn(),
+        };
+        await logic.bloodLossAdvanceCheck({
+            skipDialog: true,
+            scope: { schedule: true },
+        } as any);
+        const update = (logic.item.update as any).mock.calls.at(-1)?.[0] ?? {};
+        expect(update["system.bloodLossAdvanceDurationBase"]).toBeNull();
+        expect((globalThis as any).sohl.unschedule).toHaveBeenCalledWith(
+            logic.item,
+            "bloodLossAdvanceCheck",
+        );
+    });
+});

@@ -253,6 +253,43 @@ describe("WeaponGearLogic", () => {
             );
         });
 
+        describe("prone wielder (#562)", () => {
+            afterEach(() => vi.restoreAllMocks());
+
+            it("subtracts 20 from a melee mode's attack and defenses when prone", () => {
+                const actor = makeMockActor();
+                vi.spyOn(FoundryHelpers, "fvttActorStatuses").mockReturnValue(
+                    new Set(["prone"]),
+                );
+                const weapon = makeWeapon(
+                    { strikeModes: { m1: meleeModeData() } },
+                    { actor },
+                );
+                weapon.initialize();
+                weapon.evaluate();
+                const sm = weapon.strikeModes[0] as any;
+                expect(sm.attack.effective).toBe(5 - 20); // AtkMod 5 − 20
+                expect(sm.defense.block.effective).toBe(0 - 20);
+                expect(sm.defense.counterstrike.effective).toBe(0 - 20);
+            });
+
+            it("leaves the melee mode unchanged when the wielder is not prone", () => {
+                const actor = makeMockActor();
+                vi.spyOn(FoundryHelpers, "fvttActorStatuses").mockReturnValue(
+                    new Set(),
+                );
+                const weapon = makeWeapon(
+                    { strikeModes: { m1: meleeModeData() } },
+                    { actor },
+                );
+                weapon.initialize();
+                weapon.evaluate();
+                const sm = weapon.strikeModes[0] as any;
+                expect(sm.attack.effective).toBe(5);
+                expect(sm.defense.block.effective).toBe(0);
+            });
+        });
+
         describe("evaluate", () => {
             it("adds the wielder's body reach to each melee mode's reach", () => {
                 const actor = makeMockActor();

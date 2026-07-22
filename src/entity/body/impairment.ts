@@ -68,6 +68,27 @@ export function permanentImpairmentFor(daysToHeal: number): number {
 }
 
 /**
+ * Whether a test **auto-Critically-Fails** because it requires a body part the
+ * actor cannot use (#568): the governing skill/attribute lists (in its
+ * `impairedByRoles`) at least one body-part role that is currently
+ * {@link BodyPartImpairment.usable | unusable}.
+ *
+ * A test with no impaired-by roles, or an actor with no unusable roles, never
+ * auto-fails on this basis.
+ *
+ * @param impairedByRoles - The body-part roles the test depends on.
+ * @param unusableRoles - The roles of every currently-unusable body part.
+ * @returns `true` when the test requires an unusable part.
+ */
+export function testAutoCriticallyFails(
+    impairedByRoles: readonly string[] | undefined,
+    unusableRoles: ReadonlySet<string>,
+): boolean {
+    if (!impairedByRoles?.length || unusableRoles.size === 0) return false;
+    return impairedByRoles.some((role) => unusableRoles.has(role));
+}
+
+/**
  * A body part's impairment **tier**, by magnitude (#470): `none` (0), `minor`
  * (−1…−5), `serious` (−6…−10), `grievous` (≤ −11). Injuries reach at most
  * `serious` (a grievous injury makes the part *unusable* rather than adding a
