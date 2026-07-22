@@ -1285,6 +1285,131 @@ describe("BeingLogic", () => {
         });
     });
 
+    describe("shockReTest scheduling (#569)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        /** A being reporting `statuses`, with sohl.schedule/unschedule spied. */
+        function setup(statuses: string[] = []) {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                new Set(statuses),
+            );
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttToggleActorStatus",
+            ).mockResolvedValue(undefined);
+            const being = makeBeing();
+            const schedule = vi
+                .spyOn((globalThis as any).sohl, "schedule")
+                .mockResolvedValue(undefined);
+            const unschedule = vi
+                .spyOn((globalThis as any).sohl, "unschedule")
+                .mockResolvedValue(undefined);
+            // Pre-answered "yes" so offerSchedule arms without a dialog.
+            const accept = {
+                skipDialog: true,
+                scope: { schedule: true },
+            } as any;
+            return { being, schedule, unschedule, accept };
+        }
+
+        it("Incapacitated → offers an event-driven turnEnd Re-Test schedule", async () => {
+            const { being, schedule, unschedule, accept } = setup([
+                "incapacitated",
+            ]);
+            await being.offerShockReTest(accept);
+            expect(schedule).toHaveBeenCalledWith(
+                being.actor,
+                "shockReTest",
+                0,
+                undefined,
+                undefined,
+                "turnEnd",
+            );
+            expect(unschedule).not.toHaveBeenCalled();
+        });
+
+        it("Unconscious → offers a +10-minute time Re-Test schedule", async () => {
+            const { being, schedule, unschedule, accept } = setup([
+                "unconscious",
+            ]);
+            await being.offerShockReTest(accept);
+            expect(schedule).toHaveBeenCalledWith(
+                being.actor,
+                "shockReTest",
+                600,
+            );
+            expect(unschedule).not.toHaveBeenCalled();
+        });
+
+        it("no ordinary shock (Stunned) → clears any Re-Test reminder", async () => {
+            const { being, schedule, unschedule, accept } = setup(["stun"]);
+            await being.offerShockReTest(accept);
+            expect(schedule).not.toHaveBeenCalled();
+            expect(unschedule).toHaveBeenCalledWith(being.actor, "shockReTest");
+        });
+
+        it("a lasting Extended Shock trauma suppresses the ordinary Re-Test even while Incapacitated", async () => {
+            const { being, schedule, unschedule, accept } = setup([
+                "incapacitated",
+            ]);
+            // Extended Shock is a shock-subtype trauma; recovery is a Course Test,
+            // not the ordinary Re-Test — so no ordinary reminder should arm.
+            (being.actor as any).itemTypes = {
+                [ITEM_KIND.TRAUMA]: [
+                    { logic: { data: { subType: TRAUMA_SUBTYPE.SHOCK } } },
+                ],
+            };
+            await being.offerShockReTest(accept);
+            expect(schedule).not.toHaveBeenCalled();
+            expect(unschedule).toHaveBeenCalledWith(being.actor, "shockReTest");
+        });
+
+        it("injuryShock offers the Re-Test after worsening the shock state", async () => {
+            const { being, accept } = setup(["incapacitated"]);
+            vi.spyOn(being, "setShockState").mockResolvedValue(undefined);
+            vi.spyOn(being, "getItemLogic").mockReturnValue(undefined as any);
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({ normSuccessLevel: MARGINAL_FAILURE } as any);
+            const offer = vi
+                .spyOn(being, "offerShockReTest")
+                .mockResolvedValue(undefined);
+            await being.injuryShock({
+                ...accept,
+                scope: { shockIndex: 8, shockBonus: 0 },
+            } as any);
+            expect(offer).toHaveBeenCalledTimes(1);
+        });
+
+        it("performing a Re-Test clears the ordinary reminder on completion", async () => {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                new Set(["incapacitated"]),
+            );
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttToggleActorStatus",
+            ).mockResolvedValue(undefined);
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttCreateEmbeddedItems",
+            ).mockResolvedValue([]);
+            const being = makeBeing();
+            (being as any).fatiguePenalty = { effective: 0 };
+            vi.spyOn(being, "getItemLogic").mockReturnValue(undefined as any);
+            vi.spyOn(being, "setShockState").mockResolvedValue(undefined);
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({ normSuccessLevel: MARGINAL_SUCCESS } as any);
+            const unschedule = vi
+                .spyOn((globalThis as any).sohl, "unschedule")
+                .mockResolvedValue(undefined);
+            await being.shockReTest({} as any);
+            expect(unschedule).toHaveBeenCalledWith(being.actor, "shockReTest");
+        });
+    });
+
     describe("applyPermanentImpairment (#554)", () => {
         afterEach(() => vi.restoreAllMocks());
 

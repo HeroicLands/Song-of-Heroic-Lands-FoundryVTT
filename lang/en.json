@@ -1632,6 +1632,7 @@
     "SOHL.Reminder.effect.courseCheck": "Recovery Check",
     "SOHL.Reminder.effect.onsetCheck": "Affliction Onset",
     "SOHL.Reminder.effect.resolutionCheck": "Affliction Resolution",
+    "SOHL.Reminder.effect.shockReTest": "Shock Re-Test",
     "SOHL.Schedule.title": "Set a {actionName} Reminder?",
     "SOHL.Schedule.prompt": "Set a reminder to perform the {effect} in {when}?",
     "SOHL.Schedule.promptEvent": "Set a reminder to perform the {effect} {when}?",

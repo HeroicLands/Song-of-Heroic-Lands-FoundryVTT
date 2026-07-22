@@ -59,6 +59,7 @@ import {
     SHOCK_STATE,
     SHOCK_STATUS_IDS,
     SHOCK_RETEST_MODIFIER,
+    SHOCK_RETEST_UNCONSCIOUS_DELAY,
     shockStateFromStatuses,
     shockStatusForLevel,
     clampShockState,
@@ -124,6 +125,7 @@ import {
     offerSchedule,
     type OfferContext,
 } from "@src/document/item/logic/offer-schedule";
+import { armScheduledActions } from "@src/entity/event/scheduled-actions";
 import { toFilePath, defaultToJSON } from "@src/utils/helpers";
 import {
     ResolvedInjury,
@@ -676,6 +678,9 @@ export class BeingLogic<
         const target = shockStateFromIndex(ssi);
         // Worsen only — an injury never improves an already-worse shock state.
         await this.setShockState(Math.max(this.shockState, target));
+        // Entering ordinary shock offers (never auto-arms) the Re-Test reminder
+        // on the state's cadence — end of each turn / +10 min (#569).
+        await this.offerShockReTest(context);
         return result;
     }
 
@@ -733,7 +738,81 @@ export class BeingLogic<
             shockReTestOutcome(state, result.normSuccessLevel),
             context,
         );
+        // A performed Re-Test always ends the ordinary-shock cycle — the victim
+        // recovers/improves out of it, or falls into a lasting Extended Shock /
+        // Coma that recovers through its own Course Test. Either way the ordinary
+        // Re-Test reminder is done; clear it rather than auto-re-arming (#569).
+        if (this.actor) await sohl.unschedule(this.actor, "shockReTest");
         return result;
+    }
+
+    /**
+     * **Offer** to schedule (or, when it no longer applies, clear) the being's
+     * Shock **Re-Test** reminder for its current state (#569) — the being-level
+     * timing half of #556, routed through the shared {@link offerSchedule} consent
+     * step so nothing auto-arms (Prime Directive: offer, remind, perform).
+     *
+     * While in **ordinary** shock the reminder rides the state's cadence: an
+     * **Incapacitated** victim re-tests at the end of each combat turn (an
+     * event-driven `turnEnd` schedule), an **Unconscious** one ten minutes later
+     * (a time schedule). Any other state — recovered, merely Stunned, or already
+     * in a lasting Extended Shock / Coma (whose recovery is a Course Test, not a
+     * Re-Test) — clears the reminder. When due, the event queue posts an
+     * owner-gated `[Perform]` card; the Re-Test runs only on the controller's
+     * click.
+     *
+     * @param context - The action context; `scope.schedule` pre-answers the offer
+     *   and `skipDialog` suppresses the prompt (scripted callers).
+     * @returns A promise that resolves once the reminder is armed or cleared.
+     */
+    async offerShockReTest(context: OfferContext): Promise<void> {
+        if (!this.actor) return;
+        if (!this.isOrdinaryShock()) {
+            await sohl.unschedule(this.actor, "shockReTest");
+            return;
+        }
+        if (this.shockState === SHOCK_STATE.INCAPACITATED) {
+            // End of each turn — an event-driven cadence (#622), no fixed delay.
+            await offerSchedule(
+                context,
+                this.actor,
+                "shockReTest",
+                0,
+                "turnEnd",
+            );
+        } else {
+            // Unconscious → ten minutes later (a time schedule).
+            await offerSchedule(
+                context,
+                this.actor,
+                "shockReTest",
+                SHOCK_RETEST_UNCONSCIOUS_DELAY,
+            );
+        }
+    }
+
+    /**
+     * Whether the being is in **ordinary** (Re-Testable) shock — Incapacitated or
+     * Unconscious, and **not** already in a lasting Extended Shock / Coma (a
+     * `shock`- or `coma`-subtype trauma). Ordinary shock shakes off via the Shock
+     * Re-Test; a lasting condition recovers through its own Course Test, so the
+     * ordinary Re-Test reminder must not apply while one is present (#569).
+     *
+     * @returns True when the ordinary Shock Re-Test applies.
+     */
+    private isOrdinaryShock(): boolean {
+        const state = this.shockState;
+        if (
+            state !== SHOCK_STATE.INCAPACITATED &&
+            state !== SHOCK_STATE.UNCONSCIOUS
+        ) {
+            return false;
+        }
+        return !(this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).some(
+            (t) =>
+                t.data.subType === TRAUMA_SUBTYPE.SHOCK ||
+                t.data.subType === TRAUMA_SUBTYPE.COMA,
+        );
     }
 
     /**
@@ -1265,6 +1344,18 @@ export class BeingLogic<
     /** @inheritdoc */
     override finalize(): void {
         super.finalize();
+
+        // Re-arm any persisted schedules the being owns — notably the Shock
+        // Re-Test reminder (#569). Runs on every client every prep, so it is the
+        // load-side re-arm; `offerShockReTest` keeps the persisted store in step
+        // with the shock state, and this only re-arms what is already there.
+        if (this.actor?.uuid) {
+            armScheduledActions(
+                this.actor.uuid,
+                this.data.scheduledActions,
+                sohl.events,
+            );
+        }
 
         // Encumbrance: the active movement profile's `encumbrance` expression of
         // the being's carried weight, known now that all gear has evaluated.
