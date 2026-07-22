@@ -41,9 +41,11 @@ describe("Being sheet header: status toggles + affliction indicators (#306)", ()
         });
     });
 
-    it("lights the Fatigue indicator from an active affliction, read-only (no toggle action)", () => {
+    it("lights the Fatigue indicator from an active trauma, read-only (no toggle action)", () => {
         cy.importActor().then((actor) => {
-            cy.createItemOn(actor, "affliction", {
+            // Fatigue (and Aural-Shock) are modeled as TRAUMA subtypes (#565/#306);
+            // the header indicator lights from an active trauma of that subtype.
+            cy.createItemOn(actor, "trauma", {
                 name: "Weariness",
                 system: { subType: "fatigue", levelBase: 2 },
             });

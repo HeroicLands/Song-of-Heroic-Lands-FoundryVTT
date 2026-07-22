@@ -1044,10 +1044,26 @@ export class BeingLogic<
         const result = await mlMod.successTest(context);
         // Failing the contagion roll means the being contracts the disease.
         if (result && !result.isSuccess) {
-            await fvttCreateEmbeddedItems(this, [
+            const created = await fvttCreateEmbeddedItems(this, [
                 buildContractedAfflictionData(choice),
             ]);
             sohl.log.uiInfo(`${this.name} contracted ${choice.name}.`);
+            // Offer to track its onset (incubation → symptomatic) rather than
+            // auto-arming it — the last creation-time auto-schedule (issue #579).
+            // The onset *phase transition*, when performed, still auto-schedules
+            // the resolution and recurring healing checks (a consequence of the
+            // human-performed step, consent-gated by #587).
+            const affliction = created?.[0];
+            if (affliction) {
+                const onsetInterval =
+                    Number(affliction.system?.onsetDurationBase) || 0;
+                await offerSchedule(
+                    context,
+                    affliction,
+                    "onsetCheck",
+                    onsetInterval,
+                );
+            }
         }
         return result || null;
     }
