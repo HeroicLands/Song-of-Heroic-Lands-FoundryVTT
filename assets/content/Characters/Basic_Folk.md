@@ -17,6 +17,9 @@ img: ""
 portrait: ""
 type: character
 package: sohl
+flags:
+    sohl:
+        docArchetype: 0
 social:
     occupation: ""
     station: ""

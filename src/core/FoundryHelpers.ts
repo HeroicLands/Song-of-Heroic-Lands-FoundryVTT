@@ -22,6 +22,10 @@ import {
 import type { DialogSpec } from "@src/utils/types";
 import { AFFLICTION_SUBTYPE, ITEM_KIND } from "@src/utils/constants";
 import type { AfflictionChoice } from "@src/document/actor/logic/affliction-contract";
+import {
+    ARCHETYPE_TIER,
+    type ArchetypeCandidate,
+} from "@src/entity/archetype/archetype";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlScene } from "@src/document/scene/foundry/SohlScene";
@@ -442,6 +446,91 @@ export async function fvttFindItemByShortcode(
         if (match) return match.toObject();
     }
     return undefined;
+}
+
+/**
+ * Read a numeric `flags.sohl.docArchetype` priority from a flags object, or
+ * `undefined` when the flag is absent or not a number. A non-numeric marker is
+ * ignored so a stray `true`/string never enters archetype discovery.
+ * @param flags - A document's (or index entry's) `flags` object.
+ * @returns The numeric priority, or `undefined`.
+ */
+function readArchetypePriority(flags: any): number | undefined {
+    const v = flags?.sohl?.docArchetype;
+    return typeof v === "number" ? v : undefined;
+}
+
+/**
+ * Discover every archetype candidate for a document type across the world
+ * directory and all compendium packs whose `metadata.type` matches — the
+ * Foundry-boundary half of the Create-dialog archetype picker (issue #604).
+ *
+ * A candidate is any document carrying a **numeric** `flags.sohl.docArchetype`
+ * (its priority). This gathers them into the plain
+ * {@link sohl.entity.archetype.ArchetypeCandidate} records the Foundry-free
+ * {@link sohl.entity.archetype.resolveArchetypes} rules consume — so all the
+ * filter/dedup/winner logic stays unit-testable. Packs are read through their
+ * **index** (with the shortcode / subType / flag fields requested) to avoid
+ * loading full documents; the winner's `toObject()` is only fetched on confirm.
+ *
+ * Source tier is derived from the pack's `packageType` (world &lt; system &lt;
+ * module); world-directory documents are {@link ARCHETYPE_TIER.WORLD}.
+ *
+ * @param documentName - `"Actor"` or `"Item"`.
+ * @returns Every discovered candidate for that document type (unfiltered by
+ *   type/subType — the pure resolver filters per the dialog's current selection).
+ */
+export async function fvttDiscoverArchetypes(
+    documentName: string,
+): Promise<ArchetypeCandidate[]> {
+    const out: ArchetypeCandidate[] = [];
+
+    const worldCollection =
+        documentName === "Actor" ? (game as any).actors : (game as any).items;
+    for (const doc of (worldCollection ?? []) as Iterable<any>) {
+        const priority = readArchetypePriority(doc.flags);
+        if (priority === undefined) continue;
+        out.push({
+            uuid: doc.uuid,
+            name: doc.name,
+            shortcode: (doc.system as any)?.shortcode ?? "",
+            type: doc.type,
+            subType: (doc.system as any)?.subType ?? "",
+            priority,
+            tier: ARCHETYPE_TIER.WORLD,
+        });
+    }
+
+    for (const pack of ((game as any).packs ?? []) as Iterable<any>) {
+        if (pack?.metadata?.type !== documentName) continue;
+        const tier =
+            pack.metadata?.packageType === "system" ? ARCHETYPE_TIER.SYSTEM
+            : pack.metadata?.packageType === "world" ? ARCHETYPE_TIER.WORLD
+            : ARCHETYPE_TIER.MODULE;
+        const index = await pack.getIndex({
+            fields: [
+                "flags.sohl.docArchetype",
+                "system.shortcode",
+                "system.subType",
+            ],
+        });
+        for (const entry of index as Iterable<any>) {
+            const priority = readArchetypePriority(entry.flags);
+            if (priority === undefined) continue;
+            out.push({
+                uuid:
+                    entry.uuid ?? `Compendium.${pack.collection}.${entry._id}`,
+                name: entry.name,
+                shortcode: (entry.system as any)?.shortcode ?? "",
+                type: entry.type,
+                subType: (entry.system as any)?.subType ?? "",
+                priority,
+                tier,
+            });
+        }
+    }
+
+    return out;
 }
 
 /**

@@ -89,6 +89,20 @@ Two reasons this is easy to miss:
   `system.strikeModes.<id>.<field>`) are also safe — object partial-merge is fine;
   the hazard is arrays specifically.
 
+### Reserved flags (`flags.sohl.*`)
+
+| Flag                      | Type     | On           | Meaning                                                                                                                                                                                                                                               |
+| ------------------------- | -------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `flags.sohl.docArchetype` | `number` | Actor / Item | Marks the document as a Create-dialog **archetype** (a populated starting template) and carries its **priority**. See [Extension Points → Create-dialog archetypes](../how-to/extension-points.md#10-create-dialog-archetypes-flagssohldocarchetype). |
+
+`docArchetype` is discovered across the world directory and matching compendium
+packs, deduped by `system.shortcode`, and resolved by _priority desc, source tier
+asc (world < system < module), UUID_ — the Foundry-free
+{@link sohl.entity.archetype} module. The flag is **stripped** when an archetype
+is _instantiated_ (Create dialog seed, drop-to-embed) and **preserved** when a
+document is copied verbatim (Import, Duplicate); the strip lives at those specific
+entry points and **never** in `_preCreate` (which cannot tell the two apart).
+
 ## Document/DataModel/Logic contract
 
 SoHL separates persistence from behavior:

@@ -16,6 +16,8 @@
 
 /** The action model — SohlAction and its execution context. */
 export * as action from "./action";
+/** Archetype discovery — the Foundry-free rules behind the Create-dialog archetype picker. */
+export * as archetype from "./archetype";
 /** Body modeling — structure, parts, locations, armor aggregation, and injury resolution. */
 export * as body from "./body";
 /** The domain registry and the built-in domains. */

@@ -253,6 +253,46 @@ There are two ways to author it, and neither modifies system source:
     are deliberately not exposed. See
     [Event Queue → Scene-region triggers](../reference/event-queue.md#8-a-scene-region-trigger--offer-a-check-on-entering).
 
+### Shipping Create-dialog archetypes
+
+The SoHL **Create Actor / Create Item** dialog offers an **Archetype** picker
+that seeds a new document from a fully-populated template. Archetypes are pure
+data — a module contributes them without any code.
+
+**Specify a new archetype.** Ship an Actor or Item in your module's compendium
+pack with two things:
+
+- `flags.sohl.docArchetype` set to a **number** (its priority), and
+- a stable, meaningful `system.shortcode`.
+
+It then appears automatically in the Create picker for its `type` (and `subType`),
+alongside the shipped archetypes. A brand-new archetype with a **fresh shortcode**
+needs no particular priority value — it shows up regardless of priority.
+
+**Override an existing archetype (prioritization).** To replace a shipped (or
+another module's) archetype rather than add a new one, ship a document with the
+**same `shortcode`** as the target and a **higher `docArchetype` priority** than
+the one you are overriding:
+
+- SoHL ships its stock archetypes at **priority 0**, so **any positive number**
+  overrides a stock archetype.
+- To override _another module's_ archetype, exceed **its** priority.
+- **Source-tier rule.** At _equal_ priority the source tier decides — **world >
+  system > module** (a lower tier wins). So a GM's own **world** copy of an
+  archetype always outranks any module, and a module left at priority `0` loses
+  to the system archetype it collides with (it cannot silently clobber it).
+- Equal priority _and_ tier (module vs. module) resolves by a stable but
+  arbitrary UUID tiebreak — pick **distinct** priorities if the outcome matters.
+
+**Shortcode is stable identity.** The shortcode is the override/dedup key: never
+localize or casually rename it (same spirit as the stable `lang/en.json` keys).
+The display **name** is free to vary or be localized — the picker labels options
+`Name (shortcode)` precisely because dedup can collapse divergent names.
+
+See [Extension Points → Create-dialog archetypes](../how-to/extension-points.md#10-create-dialog-archetypes-flagssohldocarchetype)
+for the full contract, the Foundry-free discovery helper, and the
+instantiation-strips / copy-preserves boundary.
+
 ### Re-skins and theming
 
 A module can restyle the system purely through CSS by overriding the `--sohl-*`

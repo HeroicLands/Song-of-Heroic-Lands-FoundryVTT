@@ -343,6 +343,12 @@ export async function fvttFindItemByShortcode(
     return undefined;
 }
 
+export async function fvttDiscoverArchetypes(
+    _documentName: string,
+): Promise<any[]> {
+    return [];
+}
+
 export function fvttActiveTokenLogicForActor(_actor: any): any {
     return undefined;
 }
