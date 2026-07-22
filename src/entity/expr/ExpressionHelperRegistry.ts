@@ -14,6 +14,7 @@
 import { textToFunction } from "@src/utils/helpers";
 import { SafeExpressionError } from "./SafeExpressionError";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
+import { fvttWorldTime, fvttCombatTime } from "@src/core/FoundryHelpers";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
 
 /** A helper function callable from an expression; receives evaluated args. */
@@ -474,6 +475,36 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
      */
     rand(): number {
         return Math.random();
+    },
+
+    /**
+     * The current world time in seconds (`game.time.worldTime`).
+     *
+     * The temporal counterpart to a subscription's `fireAt`: lets an event-queue
+     * **predicate** (a {@link sohl.entity.expr.SafeExpression}) gate on world time
+     * from any trigger — e.g. `curWorldTime() > 2342663`. Prefer a concrete
+     * `fireAt` (a number the queue can order, catch up, and expose via
+     * `nextFireTime` / `timeUntil`) for the common case; reach for this only when
+     * a predicate genuinely needs world time it wasn't handed in its context.
+     * Reads the live clock through the {@link fvttWorldTime} shim, so it is
+     * evaluation-time only (never at module load).
+     * @returns The current world time in seconds.
+     */
+    curWorldTime(): number {
+        return fvttWorldTime();
+    },
+
+    /**
+     * The active combat's position as plain data — `{ round, turn }` — or `null`
+     * when no combat is active. Lets an event-queue **predicate** gate on combat
+     * time from any trigger (e.g. `defined(curCombatTime()) && curCombatTime().round > 3`).
+     * Returns plain data via the {@link fvttCombatTime} shim; the live combat
+     * document never enters the expression sandbox. Guard with `defined(...)`
+     * outside combat.
+     * @returns `{ round, turn }` of the active combat, or `null` if none.
+     */
+    curCombatTime(): { round: number; turn: number } | null {
+        return fvttCombatTime();
     },
 
     /**

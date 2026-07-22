@@ -19,105 +19,137 @@ import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import * as ActionCard from "@src/document/chat/action-card";
 
-describe("time-based healing / blood-loss scheduling (#482)", () => {
+/**
+ * A `system.scheduledActions` seed — the generic store (issue #588) that replaces
+ * the retired bespoke `last*Date` anchors. The executor reads its catch-up anchor
+ * and interval from this entry.
+ */
+function sched(actionName: string, anchor: number, interval: number) {
+    return {
+        scheduledActions: [
+            { actionName, anchor, interval, sceneUuid: "", payload: {} },
+        ],
+    };
+}
+
+/** Action contexts pre-answering the offer-to-reschedule (issue #579). */
+const RESCHEDULE_YES = { skipDialog: true, scope: { reschedule: true } } as any;
+const RESCHEDULE_NO = { skipDialog: true, scope: { reschedule: false } } as any;
+
+describe("time-based healing / blood-loss on the generic store (#482, #579, #588)", () => {
     afterEach(() => vi.restoreAllMocks());
 
-    function withEvents() {
-        const scheduleAt = vi.fn();
-        const unsubscribe = vi.fn();
-        (globalThis as any).sohl.events = { scheduleAt, unsubscribe };
-        return { scheduleAt, unsubscribe };
+    function withSchedule() {
+        const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
+        const unschedule = vi.spyOn((globalThis as any).sohl, "unschedule");
+        (globalThis as any).sohl.events = {
+            scheduleAt: vi.fn(),
+            unsubscribe: vi.fn(),
+        };
+        return { schedule, unschedule };
     }
 
-    // The mock item document has no uuid; set one for scheduleAt/unsubscribe.
+    // The mock item document has no uuid; set one so the executors run.
     function trauma(overrides: Record<string, unknown> = {}) {
         const logic = makeTrauma(overrides);
         (logic.item as any).uuid = "Item.trauma0000";
         return logic;
     }
 
-    it("healingCheck rolls the interval, advances the anchor, and schedules the next occurrence", async () => {
-        const { scheduleAt } = withEvents();
+    it("healingCheck offers the next occurrence and, on accept, schedules it via the generic store", async () => {
+        const { schedule } = withSchedule();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
-        const logic = trauma({ healingCheckDurationFormula: "500" });
-        logic.initialize();
-        await logic.healingCheck({} as any);
-        expect(scheduleAt).toHaveBeenCalledWith(
-            expect.any(String),
-            "healingCheck",
-            1500,
-        );
-        expect(logic.item.update).toHaveBeenCalledWith(
-            expect.objectContaining({
-                "system.lastHealingCheckDate": 1000,
-                "system.healingCheckDurationBase": 500,
-            }),
-        );
-    });
-
-    it("finalize schedules healingCheck from the persisted anchor while the wound persists", () => {
-        const { scheduleAt } = withEvents();
         const logic = trauma({
             levelBase: 3,
-            lastHealingCheckDate: 2000,
-            healingCheckDurationBase: 500,
+            healingCheckDurationFormula: "500",
+        });
+        logic.initialize();
+        await logic.healingCheck(RESCHEDULE_YES);
+        expect(schedule).toHaveBeenCalledWith(logic.item, "healingCheck", 500);
+        // The executor persists the rolled interval; the "last run" RECORD is a
+        // generic stamp applied at the action chokepoint (SohlAction.execute),
+        // NOT here — so the executor no longer writes any last*Date.
+        const update = (logic.item.update as any).mock.calls.at(-1)?.[0] ?? {};
+        expect(update).toMatchObject({
+            "system.healingCheckDurationBase": 500,
+        });
+        expect(update).not.toHaveProperty("system.lastHealingCheckDate");
+    });
+
+    it("healingCheck declines the offer and clears the schedule (default No / decline)", async () => {
+        const { unschedule } = withSchedule();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
+        const logic = trauma({
+            levelBase: 3,
+            healingCheckDurationFormula: "500",
+        });
+        logic.initialize();
+        await logic.healingCheck(RESCHEDULE_NO);
+        expect(unschedule).toHaveBeenCalledWith(logic.item, "healingCheck");
+    });
+
+    it("healingCheck ends the recurrence (unschedule, no offer) once the wound has healed to 0", async () => {
+        const { schedule, unschedule } = withSchedule();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
+        const logic = trauma({ levelBase: 0 });
+        logic.initialize();
+        await logic.healingCheck(RESCHEDULE_YES);
+        expect(unschedule).toHaveBeenCalledWith(logic.item, "healingCheck");
+        expect(schedule).not.toHaveBeenCalled();
+    });
+
+    it("finalize re-arms healingCheck from the persisted system.scheduledActions entry", () => {
+        const { schedule, unschedule } = withSchedule();
+        const scheduleAt = (globalThis as any).sohl.events.scheduleAt;
+        const logic = trauma({
+            levelBase: 3,
+            ...sched("healingCheck", 2000, 500),
         });
         logic.initialize();
         logic.finalize();
+        // armScheduledActions arms the store entry at anchor + interval = 2500.
         expect(scheduleAt).toHaveBeenCalledWith(
             expect.any(String),
             "healingCheck",
             2500,
+            {},
+            undefined,
         );
+        // finalize never invents or clears a schedule of its own.
+        expect(schedule).not.toHaveBeenCalled();
+        expect(unschedule).not.toHaveBeenCalled();
     });
 
-    it("finalize unsubscribes healingCheck once the wound has healed", () => {
-        const { unsubscribe } = withEvents();
-        const logic = trauma({ levelBase: 0 });
-        logic.initialize();
-        logic.finalize();
-        expect(unsubscribe).toHaveBeenCalledWith(
-            expect.any(String),
-            "healingCheck",
-        );
-    });
-
-    it("bloodLossAdvanceCheck schedules the blood-loss roll event", async () => {
-        const { scheduleAt } = withEvents();
+    it("bloodLossAdvanceCheck offers the next blood-loss advance on the store", async () => {
+        const { schedule } = withSchedule();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
         const logic = trauma({
+            bloodLossAdvanceDurationBase: 300,
             bloodLossAdvanceDurationFormula: "300",
         });
         logic.initialize();
-        await logic.bloodLossAdvanceCheck({} as any);
-        expect(scheduleAt).toHaveBeenCalledWith(
-            expect.any(String),
+        await logic.bloodLossAdvanceCheck(RESCHEDULE_YES);
+        expect(schedule).toHaveBeenCalledWith(
+            logic.item,
             "bloodLossAdvanceCheck",
-            2300,
+            300,
         );
     });
 
-    it("healingCheck catches up the anchor over every elapsed interval (#481)", async () => {
-        const { scheduleAt } = withEvents();
+    it("healingCheck catches up over every elapsed interval from the store anchor (#481)", async () => {
+        const { schedule } = withSchedule();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(3200);
         const logic = trauma({
             levelBase: 3,
-            lastHealingCheckDate: 1000,
-            healingCheckDurationBase: 500,
             healingCheckDurationFormula: "500",
+            ...sched("healingCheck", 1000, 500),
         });
         logic.initialize();
-        await logic.healingCheck({} as any);
-        // Elapsed checkpoints in (1000, 3200] at 500s: 1500,2000,2500,3000.
-        // The anchor advances to the last (3000); the next is derived from it.
-        expect(logic.item.update).toHaveBeenCalledWith(
-            expect.objectContaining({ "system.lastHealingCheckDate": 3000 }),
-        );
-        expect(scheduleAt).toHaveBeenCalledWith(
-            expect.any(String),
-            "healingCheck",
-            3500,
-        );
+        await logic.healingCheck(RESCHEDULE_YES);
+        // Elapsed checkpoints in (1000, 3200] at 500s: 1500,2000,2500,3000 — a
+        // non-injury trauma applies no rolls but still catches up; the next
+        // occurrence is offered at the freshly rolled interval (500).
+        expect(schedule).toHaveBeenCalledWith(logic.item, "healingCheck", 500);
     });
 });
 
@@ -358,7 +390,7 @@ describe("Blood Loss Advance Test effect (#487)", () => {
                 subType: TRAUMA_SUBTYPE.INJURY,
                 bloodLossAdvanceDurationBase: 300,
                 bloodLossAdvanceDurationFormula: "300",
-                lastBloodLossAdvanceDate: 1000,
+                ...sched("bloodLossAdvanceCheck", 1000, 300),
             },
             { actor },
         );
@@ -482,7 +514,7 @@ describe("Injury Healing Test effect (#486)", () => {
                 levelBase,
                 healingRateBase,
                 treatmentDate,
-                lastHealingCheckDate: 1000,
+                ...sched("healingCheck", 1000, 500),
                 healingCheckDurationBase: 500,
                 healingCheckDurationFormula: "500",
             },
@@ -653,7 +685,7 @@ describe("Infection lifecycle (#557)", () => {
                     treatmentDate: 500,
                     infectable,
                     bodyLocationCode: "skull",
-                    lastHealingCheckDate: 1000,
+                    ...sched("healingCheck", 1000, 500),
                     healingCheckDurationBase: 500,
                     healingCheckDurationFormula: "500",
                 },
@@ -710,7 +742,7 @@ describe("Infection lifecycle (#557)", () => {
                     subType: TRAUMA_SUBTYPE.INFECTION,
                     levelBase: 0,
                     healingRateBase,
-                    lastCourseDate: 0,
+                    ...sched("courseCheck", 0, interval),
                     courseDurationBase: interval,
                     courseDurationFormula: String(interval),
                 },
@@ -772,10 +804,11 @@ describe("Infection lifecycle (#557)", () => {
         });
 
         it("heals (no weakness) when the Healing Rate reaches 6", async () => {
-            const events = ((globalThis as any).sohl.events = {
+            (globalThis as any).sohl.events = {
                 scheduleAt: vi.fn(),
                 unsubscribe: vi.fn(),
-            });
+            };
+            const unschedule = vi.spyOn((globalThis as any).sohl, "unschedule");
             const create = vi
                 .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
                 .mockResolvedValue([]);
@@ -783,10 +816,7 @@ describe("Infection lifecycle (#557)", () => {
             const { logic } = infection({ healingRateBase: 5 });
             await logic.courseCheck({} as any);
             expect(create).not.toHaveBeenCalled(); // no weakness at HR ≥ 6
-            expect(events.unsubscribe).toHaveBeenCalledWith(
-                "Item.infect00000",
-                "courseCheck",
-            );
+            expect(unschedule).toHaveBeenCalledWith(logic.item, "courseCheck");
         });
     });
 });
@@ -837,7 +867,7 @@ describe("Extended Shock / Coma course test (#556)", () => {
                 levelBase: 0,
                 healingRateBase,
                 contractDate,
-                lastCourseDate: 0,
+                ...sched("courseCheck", 0, interval),
                 courseDurationBase: interval,
                 courseDurationFormula: String(interval),
             },
@@ -890,27 +920,23 @@ describe("Extended Shock / Coma course test (#556)", () => {
     });
 
     it("kills the victim when the Healing Rate falls to 0 or below", async () => {
-        const { unsubscribe } = withEvents();
+        withEvents();
+        const unschedule = vi.spyOn((globalThis as any).sohl, "unschedule");
         mockRoll(CRITICAL_FAILURE); // HR 1 → -1
         const { logic, actor } = lasting({ healingRateBase: 1 });
         await logic.courseCheck({} as any);
         expect((actor.logic as any).setShockState).toHaveBeenCalledWith(4); // DEAD
-        expect(unsubscribe).toHaveBeenCalledWith(
-            "Item.shock000000",
-            "courseCheck",
-        );
+        expect(unschedule).toHaveBeenCalledWith(logic.item, "courseCheck");
     });
 
     it("recovers (shock cleared) when the Healing Rate reaches 6", async () => {
-        const { unsubscribe } = withEvents();
+        withEvents();
+        const unschedule = vi.spyOn((globalThis as any).sohl, "unschedule");
         mockRoll(CRITICAL_SUCCESS); // HR 5 → 7 (≥6)
         const { logic, actor } = lasting({ healingRateBase: 5 });
         await logic.courseCheck({} as any);
         expect((actor.logic as any).setShockState).toHaveBeenCalledWith(0); // NONE
-        expect(unsubscribe).toHaveBeenCalledWith(
-            "Item.shock000000",
-            "courseCheck",
-        );
+        expect(unschedule).toHaveBeenCalledWith(logic.item, "courseCheck");
     });
 
     it("leaves an Extended Shock recovery Unconscious while a Coma remains", async () => {
@@ -987,7 +1013,7 @@ describe("Permanent impairment on heal (#554)", () => {
                 contractDate: 0,
                 permanentImpairmentEligible: eligible,
                 bodyLocationCode: "skull",
-                lastHealingCheckDate: 0,
+                ...sched("healingCheck", 0, interval),
                 healingCheckDurationBase: interval,
                 healingCheckDurationFormula: String(interval),
             },
@@ -1249,17 +1275,24 @@ describe("Injury Treatment Test effect (#553)", () => {
         );
     });
 
-    it("arms the blood-loss timer when a surgical mishap causes a bleeder", async () => {
+    it("arms the blood-loss timer on the generic store when a surgical mishap causes a bleeder", async () => {
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
         vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue("300");
+        const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
         mockRoll(MARGINAL_FAILURE); // grievous MF, SUR → bleeder
         const { logic } = injury({ levelBase: 4, aspect: "edged" });
         await logic.treatmentTest({} as any);
+        // The bleeder marker persists (drives isBleeding); the FIRST blood-loss
+        // advance auto-arms via the generic store (issue #588/#579).
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({
                 "system.bloodLossAdvanceDurationBase": 300,
-                "system.lastBloodLossAdvanceDate": 1000,
             }),
+        );
+        expect(schedule).toHaveBeenCalledWith(
+            logic.item,
+            "bloodLossAdvanceCheck",
+            300,
         );
     });
 

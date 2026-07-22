@@ -307,6 +307,16 @@ want:
 - `.result` — a readable string of the individual dice, e.g. `"[3, 5] +3"`
 - `.formula` — the tidied-up formula, e.g. `"2d6+3"`
 
+## Time
+
+These read the game clock right now — handy when an expression should depend on
+_when_ it is being evaluated (for example, gating a scheduled effect).
+
+| Helper            | Returns          | Description                                                                                                                                   |
+| ----------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `curWorldTime()`  | number           | The current world time, in seconds. E.g. `curWorldTime() > 2342663`.                                                                          |
+| `curCombatTime()` | object or `null` | The current combat's `{ round, turn }`, or `null` if no combat is running. Guard it: `defined(curCombatTime()) && curCombatTime().round > 3`. |
+
 ```
 floor(rand() * 6) + 1                                   // a random 1–6
 roll("2d6+1").total                                     // the total of a 2d6+1 roll

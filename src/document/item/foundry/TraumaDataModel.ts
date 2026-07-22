@@ -14,7 +14,7 @@
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel";
 import {
     worldTimeDateField,
-    recurringPhaseFields,
+    durationFields,
 } from "@src/document/item/foundry/temporal-fields";
 import { TraumaLogic, TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
@@ -66,11 +66,11 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         }),
         contractDate: worldTimeDateField(),
         treatmentDate: worldTimeDateField(),
-        ...recurringPhaseFields("healingCheck"),
-        ...recurringPhaseFields("bloodLossAdvance"),
+        ...durationFields("healingCheck"),
+        ...durationFields("bloodLossAdvance"),
         // Extended Shock / Coma recovery Course Test (#556): its own recurring
         // cadence (Extended Shock every 4 hours; Coma every d10 days).
-        ...recurringPhaseFields("course"),
+        ...durationFields("course"),
         // Whether this injury, once treated, is eligible for permanent
         // impairment if it heals slowly (#553 sets it; #554 applies the
         // magnitude). A blank sentinel (`false`), not nullable: "not eligible"
@@ -110,13 +110,10 @@ export class TraumaDataModel<
     treatmentDate!: number | null;
     healingCheckDurationFormula!: string;
     healingCheckDurationBase!: number | null;
-    lastHealingCheckDate!: number | null;
     bloodLossAdvanceDurationFormula!: string;
     bloodLossAdvanceDurationBase!: number | null;
-    lastBloodLossAdvanceDate!: number | null;
     courseDurationFormula!: string;
     courseDurationBase!: number | null;
-    lastCourseDate!: number | null;
     permanentImpairmentEligible!: boolean;
     infectable!: boolean;
     bodyLocationCode!: string;
@@ -130,15 +127,19 @@ export class TraumaDataModel<
     }
 
     /**
-     * Seed the temporal anchors and interval formulas when a Trauma is created:
-     * `contractDate` / `lastHealingCheckDate` (and, for a bleeding wound,
-     * `lastBloodLossAdvanceDate`) are set to the current world time, and the
-     * interval formulas are taken from the corresponding world settings. The
-     * duration bases are seeded from a numeric read of the formula (the defaults
-     * are bare second counts); a `0` seed simply fires the first check
-     * immediately, at which point the intrinsic action rolls the real interval.
-     * The queue subscriptions themselves are armed by {@link TraumaLogic.finalize}
-     * on the following preparation.
+     * Seed the contract anchor, interval formulas, and the initial
+     * {@link https://kb.heroiclands.org/dev/reference/event-queue/ | scheduled
+     * actions} when a Trauma is created. `contractDate` is set to the current
+     * world time; the interval formulas are taken from the corresponding world
+     * settings and their duration bases from a numeric read of the formula (the
+     * defaults are bare second counts). The recurring checks are seeded as
+     * `system.scheduledActions` entries anchored at the current world time — the
+     * generic store (issue #588) replaces the retired bespoke `last*Date` anchors
+     * — so {@link TraumaLogic.finalize} arms them on the following preparation
+     * (a `0` interval fires the first check immediately, at which point the
+     * executor rolls the real interval). Creation still auto-arms the first
+     * occurrence; the *reschedule* of later occurrences is offered, not automatic
+     * (issue #579).
      *
      * @param data - The pending creation data.
      * @param options - The create operation options.
@@ -164,24 +165,40 @@ export class TraumaDataModel<
         const bloodFormula = String(
             game.settings.get("sohl", "bloodLossAdvanceDurationFormula") ?? "",
         );
+        const healInterval = Number(healFormula) || 0;
+        const scheduled: PlainObject[] = [
+            {
+                actionName: "healingCheck",
+                anchor: now,
+                interval: healInterval,
+                sceneUuid: "",
+                payload: {},
+            },
+        ];
         const seed: PlainObject = {
             contractDate: now,
-            lastHealingCheckDate: now,
             healingCheckDurationFormula: healFormula,
-            healingCheckDurationBase: Number(healFormula) || 0,
+            healingCheckDurationBase: healInterval,
         };
         // A bleeder arrives with a non-null bloodLossAdvanceDurationBase
         // (a placeholder set at injury resolution, #482); seed its real interval.
         if (this.bloodLossAdvanceDurationBase != null) {
-            seed.lastBloodLossAdvanceDate = now;
+            const bloodInterval = Number(bloodFormula) || 0;
             seed.bloodLossAdvanceDurationFormula = bloodFormula;
-            seed.bloodLossAdvanceDurationBase = Number(bloodFormula) || 0;
+            seed.bloodLossAdvanceDurationBase = bloodInterval;
+            scheduled.push({
+                actionName: "bloodLossAdvanceCheck",
+                anchor: now,
+                interval: bloodInterval,
+                sceneUuid: "",
+                payload: {},
+            });
         }
 
         // Recovery Course Test cadence (#556/#557) — seeded for the lasting-
         // condition subtypes when the caller has not supplied it. Extended Shock
         // runs every 4 hours, a Coma every d10 days, and an Infection on the
-        // standard healing-check period. A `0` seed fires the first check
+        // standard healing-check period. A `0` interval fires the first check
         // immediately, at which point the executor rolls the real interval.
         if (
             (this.subType === TRAUMA_SUBTYPE.SHOCK ||
@@ -193,10 +210,30 @@ export class TraumaDataModel<
                 this.subType === TRAUMA_SUBTYPE.COMA ? "1d10 * 86400"
                 : this.subType === TRAUMA_SUBTYPE.INFECTION ? healFormula
                 : "14400";
-            seed.lastCourseDate = now;
+            const courseInterval = Number(courseFormula) || 0;
             seed.courseDurationFormula = courseFormula;
-            seed.courseDurationBase = Number(courseFormula) || 0;
+            seed.courseDurationBase = courseInterval;
+            scheduled.push({
+                actionName: "courseCheck",
+                anchor: now,
+                interval: courseInterval,
+                sceneUuid: "",
+                payload: {},
+            });
         }
+
+        // Preserve any caller-supplied schedules that are not one of the recurring
+        // checks this model manages, then add ours (whole-array write, never by
+        // index).
+        const managed = new Set([
+            "healingCheck",
+            "bloodLossAdvanceCheck",
+            "courseCheck",
+        ]);
+        const existing = (
+            (this.scheduledActions as PlainObject[]) ?? []
+        ).filter((e) => !managed.has(String(e.actionName)));
+        seed.scheduledActions = [...existing, ...scheduled];
 
         this.updateSource(seed as any);
         return undefined;

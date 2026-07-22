@@ -8,7 +8,7 @@
 import { describe, it, expect } from "vitest";
 import {
     phaseFields,
-    recurringPhaseFields,
+    durationFields,
 } from "@src/document/item/foundry/temporal-fields";
 
 describe("temporal-fields schema helpers (#481)", () => {
@@ -19,20 +19,17 @@ describe("temporal-fields schema helpers (#481)", () => {
         );
     });
 
-    it("recurringPhaseFields uses a last{Name}Date anchor instead of {name}Date", () => {
-        const f = recurringPhaseFields("healingCheck");
+    it("durationFields stamps only the {Formula, Base} interval pair (the recurrence anchor lives in the generic store, #588)", () => {
+        const f = durationFields("healingCheck");
         expect(Object.keys(f).sort()).toEqual(
-            [
-                "healingCheckDurationFormula",
-                "healingCheckDurationBase",
-                "lastHealingCheckDate",
-            ].sort(),
+            ["healingCheckDurationFormula", "healingCheckDurationBase"].sort(),
         );
     });
 
-    it("capitalizes multi-word names correctly for the anchor key", () => {
-        const f = recurringPhaseFields("bloodLossAdvance");
-        expect(Object.keys(f)).toContain("lastBloodLossAdvanceDate");
+    it("durationFields carries no bespoke last*Date anchor", () => {
+        const f = durationFields("bloodLossAdvance");
+        expect(Object.keys(f)).not.toContain("lastBloodLossAdvanceDate");
+        expect(Object.keys(f)).toContain("bloodLossAdvanceDurationBase");
     });
 
     it("returns constructed DataField instances", () => {

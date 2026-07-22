@@ -319,6 +319,10 @@ export function getActiveCombat(): any {
     return undefined;
 }
 
+export function fvttCombatTime(): { round: number; turn: number } | null {
+    return null;
+}
+
 export function fvttActiveCombatantForActor(_actor: any): any {
     return undefined;
 }

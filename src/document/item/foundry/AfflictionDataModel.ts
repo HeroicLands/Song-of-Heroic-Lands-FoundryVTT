@@ -15,7 +15,7 @@ import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel"
 import {
     worldTimeDateField,
     phaseFields,
-    recurringPhaseFields,
+    durationFields,
 } from "@src/document/item/foundry/temporal-fields";
 import {
     AfflictionLogic,
@@ -93,7 +93,7 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         // none. Combines with `outcome`.
         outcomeTrauma: new StringField({ initial: "" }),
         ...phaseFields("onset"),
-        ...recurringPhaseFields("healingCheck"),
+        ...durationFields("healingCheck"),
         ...phaseFields("resolution"),
     };
 }
@@ -129,7 +129,6 @@ export class AfflictionDataModel<
     onsetDate!: number | null;
     healingCheckDurationFormula!: string;
     healingCheckDurationBase!: number | null;
-    lastHealingCheckDate!: number | null;
     resolutionDurationFormula!: string;
     resolutionDurationBase!: number | null;
     resolutionDate!: number | null;
@@ -148,12 +147,16 @@ export class AfflictionDataModel<
     }
 
     /**
-     * Seed the contract anchor and incubation duration when an Affliction is
-     * created: `contractDate` is set to the current world time and
-     * `onsetDurationBase` is seeded from a numeric read of the (per-disease)
-     * `onsetDurationFormula`. The phase events are armed by
-     * {@link AfflictionLogic.finalize} on the following preparation; the onset
-     * transition rolls the resolution and healing-check intervals in turn.
+     * Seed the contract anchor, incubation duration, and the initial
+     * `onsetCheck` schedule when an Affliction is created: `contractDate` is set
+     * to the current world time, `onsetDurationBase` is seeded from a numeric read
+     * of the (per-disease) `onsetDurationFormula`, and a `system.scheduledActions`
+     * entry for `onsetCheck` is anchored at the current world time (the generic
+     * store, issue #588, replaces the retired bespoke anchors). The onset
+     * transition, when performed, crystallizes `onsetDate` and schedules the
+     * resolution and recurring healing-check events in turn; the recurring
+     * healing check then *offers* its reschedule rather than auto-re-arming
+     * (issue #579).
      *
      * @param data - The pending creation data.
      * @param options - The create operation options.
@@ -172,9 +175,24 @@ export class AfflictionDataModel<
         );
         if (allowed === false) return false;
 
+        const now = game.time.worldTime;
+        const onsetInterval = Number(this.onsetDurationFormula) || 0;
+        const existing = (
+            (this.scheduledActions as PlainObject[]) ?? []
+        ).filter((e) => String(e.actionName) !== "onsetCheck");
         this.updateSource({
-            contractDate: game.time.worldTime,
-            onsetDurationBase: Number(this.onsetDurationFormula) || 0,
+            contractDate: now,
+            onsetDurationBase: onsetInterval,
+            scheduledActions: [
+                ...existing,
+                {
+                    actionName: "onsetCheck",
+                    anchor: now,
+                    interval: onsetInterval,
+                    sceneUuid: "",
+                    payload: {},
+                },
+            ],
         } as any);
         return undefined;
     }
