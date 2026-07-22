@@ -29,8 +29,10 @@ describe("Timed-effect reminder", () => {
             cy.foundry(async (win) => {
                 const a = win.game.actors.get(actor.id);
 
-                // A treated injury with a scheduled healing check (anchor day 0,
-                // 100s interval) — finalize arms it on prep.
+                // A treated injury with a scheduled healing check on the generic
+                // store (anchor day 0, 100s interval) — creation no longer
+                // auto-arms it (issue #579 offers it), so the spec supplies the
+                // schedule directly; finalize arms it on prep.
                 const created = await a.createEmbeddedDocuments(
                     "Item",
                     win.structuredClone([
@@ -42,9 +44,17 @@ describe("Timed-effect reminder", () => {
                                 levelBase: 3,
                                 healingRateBase: 4,
                                 treatmentDate: 0,
-                                lastHealingCheckDate: 0,
                                 healingCheckDurationBase: 100,
                                 healingCheckDurationFormula: "100",
+                                scheduledActions: [
+                                    {
+                                        actionName: "healingCheck",
+                                        anchor: 0,
+                                        interval: 100,
+                                        sceneUuid: "",
+                                        payload: {},
+                                    },
+                                ],
                             },
                         },
                     ]),

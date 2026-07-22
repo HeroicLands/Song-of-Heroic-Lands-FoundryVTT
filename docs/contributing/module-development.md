@@ -151,7 +151,7 @@ actionName)` removes both halves.
 > due, the queue posts an owner-gated `[Perform]` reminder (it never runs the
 > action); on the click the action performs, then **offers** the next occurrence
 > and only schedules it on a yes. The core effects use the shared
-> `offerReschedule(context, doc, actionName, interval)` helper (a `context.scope.reschedule`
+> `offerSchedule(context, doc, actionName, interval)` helper (a `context.scope.schedule`
 > answer, else a private default-No dialog); a module action can call `sohl.schedule`
 > conditionally on its own confirmation. Reserve unconditional re-arming for
 > genuinely ambient, GM-only world-host clocks (e.g. a bandit check).

@@ -169,13 +169,13 @@ async healingCheck(context: SohlActionContext): Promise<void> {
     await this.item.update({ "system.levelBase": level });
 
     if (level <= 0) await sohl.unschedule(this.item, "healingCheck"); // done
-    else await offerReschedule(context, this.item, "healingCheck",     // offer next
+    else await offerSchedule(context, this.item, "healingCheck",     // offer next
         this.rollDuration(this.data.healingCheckDurationFormula));
 }
 ```
 
 - {@link sohl.core.logic.SohlSystem.schedule | sohl.schedule} / {@link sohl.core.logic.SohlSystem.unschedule | sohl.unschedule} write the store **and** (un)arm the queue in one call.
-- {@link sohl.document.item.logic.offerReschedule} is the shared consent step — accept → `sohl.schedule` the next; decline → `sohl.unschedule` (see [consent](#consent-the-queue-reminds-the-human-performs)).
+- {@link sohl.document.item.logic.offerSchedule} is the shared consent step — accept → `sohl.schedule` the next; decline → `sohl.unschedule` (see [consent](#consent-the-queue-reminds-the-human-performs)).
 - {@link sohl.entity.event.armScheduledActions} and {@link sohl.entity.event.elapsedCheckpoints} do the reload re-arm and the catch-up enumeration.
 
 Blood-loss (`bloodLossAdvanceCheck`) and the shock/coma/infection recovery
@@ -365,7 +365,7 @@ Follow these for the exact parameters and return types:
 - **The queue** — {@link sohl.entity.event.SohlEventQueue}: `subscribe` · `scheduleAt` · `unsubscribe` · `fire` · `nextFireTime` · `timeUntil` · `isScheduled` · `debug`.
 - **A subscription** — {@link sohl.entity.event.SohlSubscription} (every field) and its {@link sohl.entity.event.SohlTriggerContext}.
 - **Persisted schedules** — {@link sohl.core.logic.SohlSystem.schedule | sohl.schedule} · {@link sohl.core.logic.SohlSystem.unschedule | sohl.unschedule} · {@link sohl.core.logic.SohlSystem.worldHost | sohl.worldHost}; the store shape {@link sohl.entity.event.ScheduledAction} and its re-arm {@link sohl.entity.event.armScheduledActions}.
-- **Consent + catch-up** — {@link sohl.document.item.logic.offerReschedule} · {@link sohl.entity.event.elapsedCheckpoints} · {@link sohl.entity.event.deriveNext}.
+- **Consent + catch-up** — {@link sohl.document.item.logic.offerSchedule} · {@link sohl.entity.event.elapsedCheckpoints} · {@link sohl.entity.event.deriveNext}.
 - **Custom triggers** — {@link sohl.entity.event.registerSohlTrigger} · {@link sohl.entity.event.fireSohlTrigger}.
 
 ## See also

@@ -32,9 +32,9 @@ function sched(actionName: string, anchor: number, interval: number) {
     };
 }
 
-/** Action contexts pre-answering the offer-to-reschedule (issue #579). */
-const RESCHEDULE_YES = { skipDialog: true, scope: { reschedule: true } } as any;
-const RESCHEDULE_NO = { skipDialog: true, scope: { reschedule: false } } as any;
+/** Action contexts pre-answering the schedule offer (issue #579). */
+const RESCHEDULE_YES = { skipDialog: true, scope: { schedule: true } } as any;
+const RESCHEDULE_NO = { skipDialog: true, scope: { schedule: false } } as any;
 
 describe("time-based healing / blood-loss on the generic store (#482, #579, #588)", () => {
     afterEach(() => vi.restoreAllMocks());

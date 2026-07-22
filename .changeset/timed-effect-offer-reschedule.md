@@ -13,8 +13,8 @@ follow-up of #588).
 - **Offer, don't auto-re-arm.** After a recurring check is performed
   (`healingCheck` / `bloodLossAdvanceCheck` / `courseCheck` on Trauma, `healingCheck`
   on Affliction), the executor **offers** the next occurrence — via
-  `context.scope.reschedule` when scripted, otherwise a private yes/no dialog
-  defaulting to **No** — through the shared `offerReschedule` helper. Accept
+  `context.scope.schedule` when scripted, otherwise a private yes/no dialog
+  defaulting to **No** — through the shared `offerSchedule` helper. Accept
   schedules the next; decline clears it (the loop stops and does not resurrect on
   reload). A terminal outcome (a wound healed to 0, a course death/recovery, a
   defeated affliction) ends the recurrence outright. Affliction phase transitions
