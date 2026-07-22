@@ -2027,16 +2027,12 @@ export class BeingLogic<
     }
 
     /**
-     * Populate the being's derived health (`system.health` and the qualitative
-     * {@link healthBand}) from its Endurance, active injuries, body-part
-     * impairment, and incapacitating statuses (#463). Runs in {@link finalize},
-     * after all items (body, traumas) are prepared. The math lives in the pure
-     * {@link deriveHealth}; this method only gathers the inputs and writes the
-     * `{ value, max }` numbers back into `system.health`.
+     * A per-location view of the being's active injuries, for the body-part
+     * impairment rollup (health, unusable-part detection).
+     *
+     * @returns One {@link LocationInjury} per injured location.
      */
-    private deriveHealthState(): void {
-        // A per-location view of the being's active injuries, for the body-part
-        // impairment rollup.
+    private locationInjuries(): LocationInjury[] {
         const injuries: LocationInjury[] = [];
         for (const trauma of this.logicTypes[
             ITEM_KIND.TRAUMA
@@ -2051,6 +2047,46 @@ export class BeingLogic<
                 });
             }
         }
+        return injuries;
+    }
+
+    /**
+     * The set of body-part **roles** the being currently cannot use — the roles
+     * of every body part that is {@link bodyPartImpairment | unusable} (a grievous
+     * injury or a permanent-unusable flag). A test whose governing skill or
+     * attribute lists any of these roles in its `impairedByRoles` automatically
+     * Critically Fails (#568).
+     *
+     * @returns The roles of every unusable body part (empty for an incorporeal
+     *   being).
+     */
+    unusableRoles(): Set<string> {
+        const parts = this.body?.structure?.parts ?? [];
+        if (parts.length === 0) return new Set();
+        const injuries = this.locationInjuries();
+        const roles = new Set<string>();
+        for (const p of parts) {
+            const imp = bodyPartImpairment(
+                p.locations.map((l) => l.shortcode),
+                injuries,
+                p.permanentImpairment,
+                p.permanentlyUnusable,
+            );
+            if (!imp.usable) for (const role of p.roles) roles.add(role);
+        }
+        return roles;
+    }
+
+    /**
+     * Populate the being's derived health (`system.health` and the qualitative
+     * {@link healthBand}) from its Endurance, active injuries, body-part
+     * impairment, and incapacitating statuses (#463). Runs in {@link finalize},
+     * after all items (body, traumas) are prepared. The math lives in the pure
+     * {@link deriveHealth}; this method only gathers the inputs and writes the
+     * `{ value, max }` numbers back into `system.health`.
+     */
+    private deriveHealthState(): void {
+        const injuries = this.locationInjuries();
 
         // Each part's impairment tier + usability + criticality (#470).
         const parts: PartHealthInput[] = this.body.structure.parts.map((p) => {

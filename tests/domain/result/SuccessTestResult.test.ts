@@ -324,4 +324,39 @@ describe("SuccessTestResult", () => {
             expect(result.roll.rolls.length).toBe(0);
         });
     });
+
+    describe("auto-Critical-Failure (#568)", () => {
+        const owned = { isOwner: true, name: "GM" } as any;
+
+        it("forces a Critical Failure regardless of the roll when autoCriticalFail is set", async () => {
+            const mlMod = new MasteryLevelModifier({ baseValue: 99 } as any, {
+                parent,
+            });
+            const result = new SuccessTestResult(
+                {
+                    masteryLevelModifier: mlMod,
+                    autoCriticalFail: true,
+                } as any,
+                { parent, chatSpeaker: owned },
+            );
+            await result.evaluate();
+            // Even at effective 99 (almost always a success), the outcome is CF.
+            expect(result.successLevel).toBe(-1);
+            expect(result.isSuccess).toBe(false);
+            expect(result.isCritical).toBe(true);
+            expect(result.normSuccessLevel).toBe(-1);
+        });
+
+        it("leaves a normal test unaffected when autoCriticalFail is absent", async () => {
+            const mlMod = new MasteryLevelModifier({ baseValue: 99 } as any, {
+                parent,
+            });
+            const result = new SuccessTestResult(
+                { masteryLevelModifier: mlMod } as any,
+                { parent, chatSpeaker: owned },
+            );
+            await result.evaluate();
+            expect(result.isSuccess).toBe(true);
+        });
+    });
 });

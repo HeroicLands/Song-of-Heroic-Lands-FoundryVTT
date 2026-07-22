@@ -124,6 +124,13 @@ export class SuccessTestResult extends TestResult {
      * die's state, so a fresh test can never be mistaken for a pre-rolled one.
      */
     protected _rollSupplied: boolean;
+    /**
+     * Whether this test **auto-Critically-Fails** because it requires a body part
+     * the actor cannot use (#568). When `true`, {@link evaluate} still casts the
+     * die (for display) but short-circuits the outcome to a Critical Failure, and
+     * {@link isCritical} reports `true` regardless of the modifier's crit digits.
+     */
+    protected _autoCriticalFail: boolean;
     protected _movement: SuccessTestResultMovement;
     protected _mishaps: Set<string>;
     protected _canFate: boolean;
@@ -220,6 +227,7 @@ export class SuccessTestResult extends TestResult {
         // casts it. This intent is recorded now so evaluate() never has to infer
         // "already rolled?" from the die's state (see `_rollSupplied`).
         this._rollSupplied = data.roll !== undefined;
+        this._autoCriticalFail = data.autoCriticalFail ?? false;
         this._roll =
             data.roll ??
             new SimpleRoll(
@@ -504,12 +512,17 @@ export class SuccessTestResult extends TestResult {
         );
     }
 
-    /** Whether this result is a critical (success or failure). Always `false` when {@link critAllowed} is `false`. */
+    /**
+     * Whether this result is a critical (success or failure). Always `false` when
+     * {@link critAllowed} is `false` — except a forced auto-Critical-Failure
+     * (#568), which is always critical.
+     */
     get isCritical() {
         return (
-            this.critAllowed &&
-            (this.successLevel <= CRITICAL_FAILURE ||
-                this.successLevel >= CRITICAL_SUCCESS)
+            this._autoCriticalFail ||
+            (this.critAllowed &&
+                (this.successLevel <= CRITICAL_FAILURE ||
+                    this.successLevel >= CRITICAL_SUCCESS))
         );
     }
 
@@ -641,6 +654,15 @@ export class SuccessTestResult extends TestResult {
         // Cast the d100 for a fresh test; a caller-supplied die is left as-is.
         if (!this._rollSupplied) {
             this._roll.roll();
+        }
+
+        // A test that requires an unusable body part auto-Critically-Fails (#568):
+        // the die is cast for display, but the outcome is forced to a Critical
+        // Failure regardless of the roll.
+        if (this._autoCriticalFail) {
+            this._successLevel = CRITICAL_FAILURE;
+            this._description = "SOHL.SuccessTestResult.CriticalFailure";
+            return allowed;
         }
 
         if (this.critAllowed) {
@@ -816,6 +838,11 @@ export namespace SuccessTestResult {
         testType: TestType;
         /** A pre-seeded d100 roll (omit to roll fresh in {@link SuccessTestResult.evaluate}). */
         roll: SimpleRoll;
+        /**
+         * Force an auto-Critical-Failure (#568) — the test requires a body part
+         * the actor cannot use. Defaults `false`.
+         */
+        autoCriticalFail?: boolean;
         /** Tactical movement state for the test. */
         movement: SuccessTestResultMovement;
         /** Mishap codes to seed (e.g. fumble, stumble). */

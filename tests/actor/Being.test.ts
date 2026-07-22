@@ -1279,6 +1279,65 @@ describe("BeingLogic", () => {
         });
     });
 
+    describe("unusable body part (#568)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        function beingWithHands() {
+            const being = makeBeing();
+            (being as any).body = {
+                structure: {
+                    parts: [
+                        {
+                            locations: [{ shortcode: "rhand" }],
+                            roles: ["manipulator"],
+                            permanentImpairment: 0,
+                            permanentlyUnusable: false,
+                        },
+                        {
+                            locations: [{ shortcode: "lfoot" }],
+                            roles: ["locomotor"],
+                            permanentImpairment: 0,
+                            permanentlyUnusable: false,
+                        },
+                    ],
+                },
+            };
+            return being;
+        }
+
+        function injure(being: any, location: string, level: number) {
+            const t = makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                {
+                    subType: TRAUMA_SUBTYPE.INJURY,
+                    levelBase: level,
+                    bodyLocationCode: location,
+                },
+                { actor: being.actor, name: "Wound" },
+            );
+            (t as any).initialize();
+        }
+
+        it("reports the roles of a part made unusable by a grievous injury", () => {
+            const being = beingWithHands();
+            injure(being, "rhand", 4); // grievous → unusable
+            const roles = being.unusableRoles();
+            expect(roles.has("manipulator")).toBe(true);
+            expect(roles.has("locomotor")).toBe(false);
+        });
+
+        it("reports no roles when injuries are only impairing (not unusable)", () => {
+            const being = beingWithHands();
+            injure(being, "rhand", 2); // serious → impaired but usable
+            expect(being.unusableRoles().size).toBe(0);
+        });
+
+        it("is empty for an incorporeal being (no body)", () => {
+            expect(makeBeing().unusableRoles().size).toBe(0);
+        });
+    });
+
     // Opposed-test resume moved off the actor onto SohlTokenDocumentLogic
     // (opposed tests are token-based). See SohlTokenDocumentLogic.test.ts.
 

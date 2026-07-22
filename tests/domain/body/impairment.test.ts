@@ -9,6 +9,7 @@ import { describe, it, expect } from "vitest";
 import {
     bodyPartImpairment,
     permanentImpairmentFor,
+    testAutoCriticallyFails,
     BODY_PART_STATUS,
     BODY_PART_TIER,
 } from "@src/entity/body/impairment";
@@ -126,5 +127,35 @@ describe("bodyPartImpairment (#464/#470)", () => {
         const r = bodyPartImpairment(HEAD, [], 0, true);
         expect(r.usable).toBe(false);
         expect(r.status).toBe(BODY_PART_STATUS.UNUSABLE);
+    });
+});
+
+describe("testAutoCriticallyFails (#568)", () => {
+    it("auto-fails when an impaired-by role is currently unusable", () => {
+        expect(
+            testAutoCriticallyFails(["manipulator"], new Set(["manipulator"])),
+        ).toBe(true);
+        expect(
+            testAutoCriticallyFails(
+                ["locomotor", "manipulator"],
+                new Set(["manipulator"]),
+            ),
+        ).toBe(true);
+    });
+
+    it("does not auto-fail when no impaired-by role is unusable", () => {
+        expect(
+            testAutoCriticallyFails(["manipulator"], new Set(["locomotor"])),
+        ).toBe(false);
+    });
+
+    it("never auto-fails with no roles or no unusable parts", () => {
+        expect(
+            testAutoCriticallyFails(undefined, new Set(["manipulator"])),
+        ).toBe(false);
+        expect(testAutoCriticallyFails([], new Set(["manipulator"]))).toBe(
+            false,
+        );
+        expect(testAutoCriticallyFails(["manipulator"], new Set())).toBe(false);
     });
 });

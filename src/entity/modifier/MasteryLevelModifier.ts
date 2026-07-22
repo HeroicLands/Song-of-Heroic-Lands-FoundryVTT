@@ -15,6 +15,7 @@ import { dialog, fvttGetTargetedTokens } from "@src/core/FoundryHelpers";
 import { registerKind } from "@src/utils/kindRegistry";
 import { entity, registerEntity } from "@src/entity/entityRegistry";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
+import { testAutoCriticallyFails } from "@src/entity/body/impairment";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import {
     reviveLimitedDescriptionTable,
@@ -383,6 +384,21 @@ export class MasteryLevelModifier extends ValueModifier {
         context.scope.targetValueFunc ??= (sl: number) => sl;
         context.scope.successStarTable ??= this.testDescTable;
 
+        // A test whose governing skill/attribute depends on a body part the actor
+        // cannot use auto-Critically-Fails (#568). Derived from the owning logic's
+        // `impairedByRoles` and the being's unusable-part roles; a no-op for tests
+        // with neither (e.g. a weapon strike mode, whose parent has no roles).
+        const autoCriticalFail = testAutoCriticallyFails(
+            (this.parent?.data as { impairedByRoles?: string[] } | undefined)
+                ?.impairedByRoles,
+            (
+                this.parent?.actorLogic as
+                    | { unusableRoles?: () => Set<string> }
+                    | null
+                    | undefined
+            )?.unusableRoles?.() ?? new Set<string>(),
+        );
+
         const testResult: SuccessTestResult =
             context.scope.priorTestResult ??
             new entity.SuccessTestResult(
@@ -395,6 +411,7 @@ export class MasteryLevelModifier extends ValueModifier {
                     ) as MasteryLevelModifier,
                     targetValueFunc: context.scope.targetValueFunc,
                     successStarTable: context.scope.successStarTable,
+                    autoCriticalFail,
                 },
                 {
                     parent: this.parent,
