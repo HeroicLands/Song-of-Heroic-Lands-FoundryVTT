@@ -82,4 +82,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </select>
         </div>
     </div>
+
+    <div class="form-group" id="archetypes">
+        <label>Archetype</label>
+        <div class="form-fields">
+            <select
+                id="archetype-select"
+                name="archetype"
+                data-dtype="String"
+                data-tooltip="Start from a populated template, or choose (none) for a blank document.">
+                {{selectOptions archetypes selected=archetype}}
+            </select>
+        </div>
+    </div>
 </form>

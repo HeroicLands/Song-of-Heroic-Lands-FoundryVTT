@@ -18,6 +18,7 @@ import { SohlDataModel } from "@src/core/foundry/SohlDataModel";
 import { fvttCallHook, dialog } from "@src/core/FoundryHelpers";
 import { ITEM_KIND, GearKinds } from "@src/utils/constants";
 import { toHTMLString } from "@src/utils/helpers";
+import { stripDocArchetypeFlag } from "@src/entity/archetype/archetype";
 
 // Define the base type for the sheet
 const SohlActorSheetBase_Base = SohlDataModel.SheetMixin<
@@ -116,6 +117,12 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
 
         const data = droppedItem.toObject();
         delete (data as any)._id;
+        // Drop-to-embed instantiates a live in-play item — never a template. Strip
+        // the archetype marker so it can't ride onto the owner and pollute
+        // discovery (or be re-instantiated as if it were a template). Import and
+        // Duplicate deliberately keep the flag; the strip lives here and in the
+        // Create dialog, never in the universal `_preCreate` (issue #604).
+        stripDocArchetypeFlag(data as any);
 
         if (isMove && GearKinds.includes(droppedItem.type as any)) {
             // Physical gear between actors: move with quantity. The "How Many?"

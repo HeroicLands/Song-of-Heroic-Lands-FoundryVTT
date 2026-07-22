@@ -20,10 +20,34 @@ See also: [Quickstart](user-guide/quickstart.md), [Understanding Sheets](user-gu
 
 # Creating Actors {#creating-actors}
 
-## From a Compendium (Recommended)
+## From the Create Dialog (Recommended)
 
-The easiest way to create a new character or creature is to **import from a
-compendium**:
+The **Create Actor** button now starts you from a populated template — an
+**archetype** — so a new Being arrives with body, attributes, and a movement
+profile already in place, not as a blank slate.
+
+1. Click the **Create Actor** button at the top of the Actors sidebar tab.
+2. The Create dialog offers these fields:
+    - **Name** — the actor's name.
+    - **Shortcode** — a short, unique code. It auto-fills from the name (and
+      stays in sync as you type) until you edit it by hand; leave it and the
+      system derives and uniquifies one for you on create.
+    - **Type** — the actor type (Being, Cohort, Structure, Vehicle).
+    - **SubType** — shown only for types that have subtypes.
+    - **Archetype** — the starting template. It defaults to the best-matching
+      populated archetype for the chosen type (for a Being, "Basic Folk"), and
+      lists every archetype available for that type plus **(none)**.
+3. Click "Create." The new actor opens, seeded from the chosen archetype with
+   your Name and Shortcode applied.
+
+Choose **(none)** when you deliberately want a **blank** actor — for example a
+world designer authoring a wholly new kind of being (elf, dwarf, …) from
+scratch. Everything then has to be added by hand.
+
+## From a Compendium
+
+You can still import directly from a compendium — this is also how you make a
+**world override** of a shipped archetype (see below):
 
 1. Open the **Compendium** tab in the sidebar.
 2. Open the appropriate compendium pack (e.g., "People & Creatures").
@@ -31,25 +55,29 @@ compendium**:
 4. Drag it into the **Actors** sidebar tab, or right-click and select "Import."
 5. The imported actor appears in your world — double-click to open and customize.
 
-This is strongly recommended for Beings, because a Being requires many nested
-items (traits, skills, body structure) that are tedious to set up by hand.
-
-## From the Create Dialog
-
-You can also create a blank actor:
-
-1. Click the **Create Actor** button at the top of the Actors sidebar tab.
-2. Choose the actor type (Being, Cohort, Structure, Vehicle).
-3. Enter a name and click "Create."
-4. The new actor opens with no items — you'll need to add everything manually.
-
-> **Note:** Creating a Being from scratch is not recommended. Use the compendium
-> instead and customize from there.
-
 ## By Duplicating
 
 Right-click any actor in the sidebar and select **Duplicate** to create an
 identical copy. This is useful when you need several similar NPCs.
+
+## Overriding an Archetype in Your World (GM)
+
+The Archetype picker shows the shipped system archetypes _and_ any you provide
+in your world. To make the picker offer **your** version of an archetype instead
+of the shipped one:
+
+1. **Import** the archetype into your world (or **Duplicate** an existing world
+   copy) — both keep the archetype marker, so the copy stays an archetype.
+2. **Keep its shortcode** unchanged. The shortcode is the archetype's identity:
+   a world copy that keeps the shortcode _shadows_ the shipped archetype of the
+   same shortcode in the picker (your world copy wins). Rename the display name
+   freely — only the shortcode matters for the override.
+3. Edit your world copy however you like. New characters created from that
+   archetype now start from your version.
+
+To offer an entirely **new** archetype (a fresh starting template with its own
+shortcode), just Import/Duplicate a being into your world and it appears in the
+picker for its type alongside the others.
 
 # Creating Items {#creating-items}
 
@@ -59,7 +87,10 @@ World items exist independently in the Items sidebar. They can be dragged
 onto actors to give characters equipment, skills, or other capabilities.
 
 1. Click **Create Item** in the Items sidebar tab.
-2. Choose the item type and enter a name.
+2. Choose the item type and enter a name. Like the Create Actor dialog, Create
+   Item offers an **Archetype** picker: if any archetype exists for the chosen
+   type (and subtype), the new item starts seeded from it; choose **(none)** for
+   a blank item.
 3. The item's sheet opens for editing.
 
 ## Adding Items to Actors

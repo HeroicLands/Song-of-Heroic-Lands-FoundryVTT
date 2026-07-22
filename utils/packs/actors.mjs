@@ -373,6 +373,10 @@ export class Actors {
         const folder = this.folderResolver(folderId);
 
         const system = {
+            // The frontmatter shortcode is the actor's stable `(type, shortcode)`
+            // key — and, for a `docArchetype`-flagged being, its archetype
+            // identity (the dedup/override key of the Create-dialog picker, #604).
+            shortcode: fm.shortcode || "",
             portrait: fm.portrait || "",
             appearance: renderSection(body || "", "appearance"),
             dossier: renderSection(body || "", "dossier"),

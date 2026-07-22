@@ -210,6 +210,74 @@ appear in the GM's calendar settings. The registry API
 format are documented in the
 [Calendar Reference](../reference/calendar.md#calendar-registry-and-gm-workflow).
 
+## 10) Create-dialog archetypes (`flags.sohl.docArchetype`)
+
+The shared Create dialog (`sohlCreateDialog`, used by both `SohlActor` and
+`SohlItem`) offers an **Archetype** picker that seeds a new document from an
+existing, fully-populated one — so a new Being is born with body, attributes, and
+movement instead of blank. Archetypes are **data, not code**: no source change is
+needed to add one.
+
+**The contract.** Flag any Actor/Item — in a compendium pack or in the world —
+with `flags.sohl.docArchetype = <priority:number>` and it becomes an archetype
+for its `(type, subType)` in the picker. The value is a numeric priority (see
+below); a non-numeric marker is ignored.
+
+**Identity is the shortcode, not the name.** After the `(type, subType)` filter,
+an archetype's `system.shortcode` is its identity. Two candidates sharing a
+shortcode are the _same_ logical archetype even if their names differ (a
+localization, or a diverged world copy) and are deduped to one winner; the name
+is presentation only. Keep a shortcode stable and meaningful — same spirit as the
+stable-`lang`-key rule.
+
+**Winner selection (only matters on a shortcode collision).** Among candidates
+sharing a shortcode, the winner is chosen by _priority descending, then source
+tier ascending (**world 0 < system 1 < module 2**), then a stable UUID_. So a
+GM's **world** copy shadows a shipped **system** archetype at equal priority
+(no priority fiddling needed), and a **module** must ship `priority > 0` to
+override a system archetype (a module left at `0` loses by tier — it cannot
+silently clobber a stock archetype). New archetypes with fresh shortcodes always
+appear regardless of priority. SoHL ships its stock archetypes at **priority 0**.
+
+**The Foundry-free discovery/resolution helper.** The rules above live in the
+Foundry-free {@link sohl.entity.archetype} module and are unit-tested
+independently of any dialog: {@link sohl.entity.archetype.resolveArchetypes}
+filters by `(type, subType)`, dedups by shortcode, and returns winners sorted
+best-first; {@link sohl.entity.archetype.buildArchetypeOptions} turns those into
+UUID-valued `<option>`s (labelled `Name (shortcode)`) plus **(none)**, defaulting
+to the top winner (or **(none)** when the type has no archetype). The Foundry
+boundary that gathers candidates from the world directory and every matching
+compendium pack is `fvttDiscoverArchetypes` in `FoundryHelpers.ts`.
+
+**Instantiation strips the flag; copy-verbatim preserves it.**
+`flags.sohl.docArchetype` is removed at every point where an archetype is
+_instantiated_ into a live document, and kept only when a document is copied _as
+a library entry_. The single stripping primitive is the pure
+{@link sohl.entity.archetype.stripDocArchetypeFlag} (it deletes exactly that one
+key; other `flags.sohl.*` are legitimate inherited data).
+
+- **Strip — Create dialog** seeding from an archetype: a document created from an
+  archetype is not itself an archetype.
+- **Strip — Drop-to-embed:** dragging a compendium **or world** item onto an
+  actor/item sheet creates an **embedded**, in-play child — never a template. The
+  strip lives in `SohlActorSheetBase._onDropItem`, immediately before
+  `createEmbeddedDocuments("Item", …)`, so the flag never rides onto the owner
+  (an embedded item that kept it would pollute discovery and could be
+  re-instantiated as if it were a template).
+- **Preserve — Import and Duplicate** of a top-level directory document: these are
+  copy-verbatim operations that yield another _library_ document; preserving the
+  flag is exactly how a GM makes a world-tier override.
+
+> **Never move the strip into `_preCreate`.** That hook runs for _every_ create —
+> dialog, drop-embed, directory Import, and Duplicate alike — so it cannot
+> distinguish instantiation from copy-verbatim. If the strip ever migrates there,
+> the world-override workflow silently breaks (Import/Duplicate would lose the
+> flag). The strip must stay at the specific instantiation entry points (dialog +
+> drop), and both sides are guarded by tests.
+
+See [Module Development → Archetypes](../contributing/module-development.md#shipping-create-dialog-archetypes)
+for the module-author recipe.
+
 ## What to update when you add something
 
 - **New actor/item type:** Add class, register, add templates, update JSDoc, update docs.

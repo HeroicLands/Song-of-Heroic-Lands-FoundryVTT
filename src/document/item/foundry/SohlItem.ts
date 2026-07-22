@@ -18,7 +18,18 @@ import {
     type SubTypeOption,
 } from "@src/utils/helpers";
 import { toFilePath } from "@src/utils/helpers";
-import { dialog, fvttRenderSheet } from "@src/core/FoundryHelpers";
+import {
+    dialog,
+    fvttRenderSheet,
+    fvttDiscoverArchetypes,
+    fvttResolveUuidAsync,
+} from "@src/core/FoundryHelpers";
+import {
+    buildArchetypeOptions,
+    resolveArchetypes,
+    stripDocArchetypeFlag,
+    type ArchetypeCandidate,
+} from "@src/entity/archetype/archetype";
 import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
@@ -33,6 +44,12 @@ import { isScriptActionMutationAllowed } from "@src/entity/action/SohlAction";
 const CREATE_ITEM_TEMPLATE = toFilePath(
     "systems/sohl/templates/dialog/create-item.hbs",
 );
+
+/**
+ * Label for the Create-dialog **(none)** archetype option — the deliberate
+ * blank-slate choice (for a world designer authoring a new kind of being/item).
+ */
+const ARCHETYPE_NONE_LABEL = "(none)";
 
 /**
  * Read the localized subtype options for a document `type` from its registered
@@ -167,6 +184,15 @@ export async function sohlCreateDialog(
             )
         :   "";
 
+    // Discover archetype templates once (world + matching compendium packs); the
+    // pure resolver re-filters this list per the dialog's current (type, subType)
+    // as the user changes them — no further Foundry access on those changes.
+    const archetypeCandidates = await fvttDiscoverArchetypes(documentName);
+    const initialArchetypes = buildArchetypeOptions(
+        resolveArchetypes(archetypeCandidates, type, subType),
+        ARCHETYPE_NONE_LABEL,
+    );
+
     const result = await dialog({
         title,
         template: CREATE_ITEM_TEMPLATE,
@@ -186,6 +212,10 @@ export async function sohlCreateDialog(
             ),
             hasSubtypes: subTypeOptions.length > 0,
             askSubType,
+            archetype: initialArchetypes.defaultValue,
+            archetypes: Object.fromEntries(
+                initialArchetypes.options.map((o) => [o.value, o.label]),
+            ),
             hasFolders: false,
             folders: {},
         },
@@ -227,16 +257,39 @@ export async function sohlCreateDialog(
             });
             nameInput?.addEventListener("input", syncShortcode);
 
+            const subtypeSelect =
+                element.querySelector<HTMLSelectElement>("#subtype-select");
+
+            // Re-derive the archetype list from the current (type, subType), and
+            // reset the selection to the new default when the current choice no
+            // longer matches.
+            const syncArchetypes = () => {
+                const curType = typeSelect?.value || type;
+                const curSubType = subtypeSelect?.value ?? subType;
+                repopulateArchetypes(
+                    element,
+                    archetypeCandidates,
+                    curType,
+                    curSubType,
+                );
+            };
+
+            subtypeSelect?.addEventListener("change", syncArchetypes);
+
             if (typeSelect) {
                 typeSelect.addEventListener("change", (ev) => {
                     const chosen = (ev.target as HTMLSelectElement).value;
                     repopulateSubtypes(element, documentName, chosen);
                     syncShortcode();
+                    syncArchetypes();
                 });
                 // Ensure the subtype control matches the currently-selected type
                 // on first render too (covers the pre-seeded-and-locked case).
                 repopulateSubtypes(element, documentName, typeSelect.value);
             }
+            // Align archetypes with the (possibly repopulated) subtype on first
+            // render too.
+            syncArchetypes();
         },
         callback: (formData: PlainObject) => {
             const chosenType =
@@ -250,12 +303,14 @@ export async function sohlCreateDialog(
             const name = ((formData.name as string) ?? "").trim();
             const shortcode = ((formData.shortcode as string) ?? "").trim();
             const folder = (formData.folder as string) || undefined;
+            const archetype = ((formData.archetype as string) ?? "").trim();
             return {
                 name,
                 type: chosenType,
                 subType: chosenSubType,
                 shortcode,
                 folder,
+                archetype,
             };
         },
     });
@@ -277,14 +332,30 @@ export async function sohlCreateDialog(
         takenShortcodesFor(documentName, parent, type),
     );
 
-    const createData: PlainObject = {
-        name: result.name || (cls.defaultName?.({ type }) ?? "New Item"),
-        type,
-    };
-    const system: PlainObject = { shortcode };
-    if (subType) system.subType = subType;
-    createData.system = system;
-    if (result.folder) createData.folder = result.folder;
+    const chosenName =
+        result.name || (cls.defaultName?.({ type }) ?? "New Item");
+
+    let createData: PlainObject;
+    if (result.archetype) {
+        // Seed from the chosen archetype: clone its `toObject()` (embedded
+        // documents included, so a being arrives fully populated), clean the
+        // copy the way an import does, strip the archetype marker (an instance
+        // is not itself a template), then overlay the dialog's Name/Shortcode.
+        createData = await seedFromArchetype(
+            result.archetype,
+            chosenName,
+            type,
+            subType,
+            shortcode,
+        );
+        if (result.folder) createData.folder = result.folder;
+    } else {
+        createData = { name: chosenName, type };
+        const system: PlainObject = { shortcode };
+        if (subType) system.subType = subType;
+        createData.system = system;
+        if (result.folder) createData.folder = result.folder;
+    }
 
     const created = await cls.create(createData, {
         parent: (createOptions as PlainObject).parent ?? null,
@@ -292,6 +363,52 @@ export async function sohlCreateDialog(
     });
     void fvttRenderSheet(created as any);
     return created ?? null;
+}
+
+/**
+ * Build create-data by cloning an archetype document, addressed by UUID. The
+ * source's `toObject()` carries its embedded documents (items, effects), so a
+ * being seeds fully populated. The copy is cleaned like an import — fresh id,
+ * no folder/sort/ownership carried over — its `flags.sohl.docArchetype` marker
+ * is stripped (an instance is not itself an archetype; see
+ * {@link sohl.entity.archetype.stripDocArchetypeFlag}), and the dialog's
+ * Name / Type / SubType / Shortcode are overlaid. `_preCreate` remains the
+ * backstop for `(type, shortcode)` uniqueness.
+ *
+ * @param uuid - The chosen archetype's UUID.
+ * @param name - The dialog's chosen name.
+ * @param type - The chosen document type.
+ * @param subType - The chosen subtype (`""` when the type has none).
+ * @param shortcode - The finalized, unique shortcode.
+ * @returns The seeded create-data (empty-ish object if the UUID does not resolve).
+ */
+async function seedFromArchetype(
+    uuid: string,
+    name: string,
+    type: string,
+    subType: string,
+    shortcode: string,
+): Promise<PlainObject> {
+    const src = await fvttResolveUuidAsync(uuid);
+    const seed = (src?.toObject?.() ?? {}) as PlainObject;
+    delete seed._id;
+    delete seed.folder;
+    delete seed.sort;
+    delete seed.ownership;
+    if (seed._stats && typeof seed._stats === "object") {
+        delete (seed._stats as PlainObject).duplicateSource;
+    }
+    stripDocArchetypeFlag(seed);
+    seed.name = name;
+    seed.type = type;
+    const system = (
+        seed.system && typeof seed.system === "object" ?
+            seed.system
+        :   {}) as PlainObject;
+    system.shortcode = shortcode;
+    if (subType) system.subType = subType;
+    seed.system = system;
+    return seed;
 }
 
 /**
@@ -326,6 +443,45 @@ function repopulateSubtypes(
         select.appendChild(el);
     }
     if (options.some((o) => o.value === previous)) select.value = previous;
+}
+
+/**
+ * Rebuild the create-dialog's `#archetype-select` options for the current
+ * `(type, subType)` from the pre-discovered candidate list, delegating the
+ * filter/dedup/winner logic to the Foundry-free
+ * {@link sohl.entity.archetype.resolveArchetypes}. The current choice is kept
+ * when it still matches; otherwise the selection resets to the new default
+ * (the highest-priority archetype, or **(none)** when none exists). Called on
+ * initial render and on every type/subtype change.
+ *
+ * @param element - The dialog root element.
+ * @param candidates - Every archetype candidate discovered for the document type.
+ * @param type - The currently-selected document type.
+ * @param subType - The currently-selected subtype (`""` when the type has none).
+ */
+function repopulateArchetypes(
+    element: HTMLElement,
+    candidates: readonly ArchetypeCandidate[],
+    type: string,
+    subType: string,
+): void {
+    const select =
+        element.querySelector<HTMLSelectElement>("#archetype-select");
+    if (!select) return;
+    const { options, defaultValue } = buildArchetypeOptions(
+        resolveArchetypes(candidates, type, subType),
+        ARCHETYPE_NONE_LABEL,
+    );
+    const previous = select.value;
+    select.innerHTML = "";
+    for (const opt of options) {
+        const el = document.createElement("option");
+        el.value = opt.value;
+        el.textContent = opt.label;
+        select.appendChild(el);
+    }
+    select.value =
+        options.some((o) => o.value === previous) ? previous : defaultValue;
 }
 
 // NOTE: The Foundry-free contracts (SohlItemLogic, SohlItemData, SohlItemBaseLogic)
