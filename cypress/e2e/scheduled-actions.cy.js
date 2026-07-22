@@ -85,6 +85,96 @@ describe("Generic scheduled actions", () => {
         });
     });
 
+    it("an event-driven schedule (#622) persists its trigger, arms as a subscription, and offers on turnEnd", () => {
+        cy.createActor("being", { name: "shocked" }).then((actor) => {
+            cy.foundry(async (win) => {
+                const a = win.game.actors.get(actor.id);
+
+                // Schedule bound to a lifecycle trigger, not a time (interval
+                // unused; the 6th arg is the triggerName).
+                await win.sohl.schedule(
+                    a,
+                    "someTurnCheck",
+                    0,
+                    win.structuredClone({ v: 1 }),
+                    undefined,
+                    "turnEnd",
+                );
+
+                // Persist half: the trigger round-trips through the DataModel.
+                const persisted = a.system.scheduledActions.find(
+                    (e) => e.actionName === "someTurnCheck",
+                );
+                // Arm half: live in the queue, and — being event-driven — it has
+                // no computable next fire time.
+                const armedBySchedule = win.sohl.events.isScheduled(
+                    a.uuid,
+                    "someTurnCheck",
+                );
+                const nextFire = win.sohl.events.nextFireTime(
+                    a.uuid,
+                    "someTurnCheck",
+                );
+
+                // Reload's load-side re-arm reconstructs it as a subscription.
+                win.sohl.events.unsubscribe(a.uuid, "someTurnCheck");
+                win.Hooks.callAll("ready");
+                const reArmed = win.sohl.events.isScheduled(
+                    a.uuid,
+                    "someTurnCheck",
+                );
+
+                // A world-time advance must NOT fire it (it is bound to turnEnd).
+                const beforeTime = win.game.messages.size;
+                await win.sohl.events.fire({
+                    name: "updateWorldTime",
+                    worldTime: 5_000_000,
+                });
+                const cardsOnTime = win.game.messages.size - beforeTime;
+
+                // turnEnd → the queue offers a [Perform] reminder (never runs it).
+                const beforeTurn = win.game.messages.size;
+                await win.sohl.events.fire({ name: "turnEnd" });
+                const msg = win.game.messages.contents.at(-1);
+                const div = win.document.createElement("div");
+                div.innerHTML = msg?.content ?? "";
+                const btn = div.querySelector(
+                    'button.action-card-button[data-action="someTurnCheck"]',
+                );
+
+                return {
+                    persistedTrigger: persisted?.triggerName,
+                    armedBySchedule,
+                    nextFireDefined: nextFire !== undefined,
+                    reArmed,
+                    cardsOnTime,
+                    cardsOnTurn: win.game.messages.size - beforeTurn,
+                    handlerUuid: btn?.dataset.handlerUuid,
+                    actorUuid: a.uuid,
+                };
+            }).should((r) => {
+                expect(
+                    r.persistedTrigger,
+                    "triggerName persisted on the entry",
+                ).to.eq("turnEnd");
+                expect(r.armedBySchedule, "armed as a subscription").to.be.true;
+                expect(
+                    r.nextFireDefined,
+                    "event-driven → no computable next fire",
+                ).to.be.false;
+                expect(r.reArmed, "re-armed by the ready hook").to.be.true;
+                expect(
+                    r.cardsOnTime,
+                    "a world-time tick does not fire a turnEnd schedule",
+                ).to.eq(0);
+                expect(r.cardsOnTurn, "turnEnd offers a reminder").to.be.gte(1);
+                expect(r.handlerUuid, "addressed to the document").to.eq(
+                    r.actorUuid,
+                );
+            });
+        });
+    });
+
     it("a scene-bound schedule (#590) fires only while its scene is active", () => {
         cy.createScene({ name: "vale" }).then((vale) => {
             cy.createScene({ name: "hideout" }).then((hideout) => {

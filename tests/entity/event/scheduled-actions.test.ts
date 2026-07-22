@@ -22,11 +22,23 @@ const entry = (
     interval = 100,
     payload?: Record<string, unknown>,
     sceneUuid?: string,
-): ScheduledAction => ({ actionName, anchor, interval, sceneUuid, payload });
+    triggerName?: string,
+): ScheduledAction => ({
+    actionName,
+    anchor,
+    interval,
+    sceneUuid,
+    payload,
+    triggerName,
+});
 
-/** A stub queue recording scheduleAt / unsubscribe. */
+/** A stub queue recording scheduleAt / subscribe / unsubscribe. */
 function mockQueue() {
-    return { scheduleAt: vi.fn(), unsubscribe: vi.fn() } as any;
+    return {
+        scheduleAt: vi.fn(),
+        subscribe: vi.fn(),
+        unsubscribe: vi.fn(),
+    } as any;
 }
 
 /** A stub schedulable document with a recording `update`. */
@@ -141,6 +153,86 @@ describe("armScheduledActions (load-side re-arm)", () => {
             undefined,
         );
     });
+
+    // ---- event-driven triggers (issue #622) ----
+
+    it("arms an event-driven entry via subscribe (not scheduleAt)", () => {
+        const queue = mockQueue();
+        armScheduledActions(
+            "Actor.b",
+            [entry("shockReTest", 500, 0, { s: 1 }, undefined, "turnEnd")],
+            queue,
+        );
+        expect(queue.scheduleAt).not.toHaveBeenCalled();
+        expect(queue.subscribe).toHaveBeenCalledTimes(1);
+        expect(queue.subscribe).toHaveBeenCalledWith({
+            uuid: "Actor.b",
+            actionName: "shockReTest",
+            triggerName: "turnEnd",
+            payload: { s: 1 },
+            sceneUuid: undefined,
+        });
+    });
+
+    it("an explicit updateWorldTime triggerName is still time-based (scheduleAt)", () => {
+        const queue = mockQueue();
+        armScheduledActions(
+            "Actor.b",
+            [entry("heal", 100, 50, undefined, undefined, "updateWorldTime")],
+            queue,
+        );
+        expect(queue.subscribe).not.toHaveBeenCalled();
+        expect(queue.scheduleAt).toHaveBeenCalledWith(
+            "Actor.b",
+            "heal",
+            150,
+            undefined,
+            undefined,
+        );
+    });
+
+    it("carries a scene binding onto an event-driven subscription", () => {
+        const queue = mockQueue();
+        armScheduledActions(
+            "Actor.b",
+            [entry("regionTick", 0, 0, undefined, "Scene.crypt", "turnEnd")],
+            queue,
+        );
+        expect(queue.subscribe).toHaveBeenCalledWith({
+            uuid: "Actor.b",
+            actionName: "regionTick",
+            triggerName: "turnEnd",
+            payload: undefined,
+            sceneUuid: "Scene.crypt",
+        });
+    });
+
+    it("arms a mixed list — time via scheduleAt, event via subscribe", () => {
+        const queue = mockQueue();
+        armScheduledActions(
+            "Actor.b",
+            [
+                entry("heal", 1000, 100),
+                entry("shockReTest", 500, 0, undefined, undefined, "turnEnd"),
+            ],
+            queue,
+        );
+        expect(queue.scheduleAt).toHaveBeenCalledTimes(1);
+        expect(queue.scheduleAt).toHaveBeenCalledWith(
+            "Actor.b",
+            "heal",
+            1100,
+            undefined,
+            undefined,
+        );
+        expect(queue.subscribe).toHaveBeenCalledTimes(1);
+        expect(queue.subscribe).toHaveBeenCalledWith(
+            expect.objectContaining({
+                actionName: "shockReTest",
+                triggerName: "turnEnd",
+            }),
+        );
+    });
 });
 
 describe("scheduleAction (persist + arm)", () => {
@@ -206,6 +298,38 @@ describe("scheduleAction (persist + arm)", () => {
             undefined,
             "Scene.hideout",
         );
+    });
+
+    it("persists a triggerName and arms an event-driven schedule via subscribe (issue #622)", async () => {
+        const queue = mockQueue();
+        const doc = mockDoc();
+        await scheduleAction(
+            doc as any,
+            queue,
+            "shockReTest",
+            0,
+            { state: 2 },
+            1000,
+            undefined,
+            "turnEnd",
+        );
+        // Persist: the entry records its trigger.
+        const written = doc.update.mock.calls[0][0]["system.scheduledActions"];
+        expect(written[0]).toMatchObject({
+            actionName: "shockReTest",
+            anchor: 1000,
+            triggerName: "turnEnd",
+            payload: { state: 2 },
+        });
+        // Arm: a live subscription, not a timed one-shot.
+        expect(queue.scheduleAt).not.toHaveBeenCalled();
+        expect(queue.subscribe).toHaveBeenCalledWith({
+            uuid: doc.uuid,
+            actionName: "shockReTest",
+            triggerName: "turnEnd",
+            payload: { state: 2 },
+            sceneUuid: undefined,
+        });
     });
 });
 

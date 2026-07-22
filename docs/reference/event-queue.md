@@ -54,9 +54,9 @@ Wiring a timed or lifecycle behavior is four steps:
    trigger** (`combatStart`, `roundStart`, `turnEnd`, …). See
    [Triggers](#triggers-the-moments-you-can-hook).
 3. **Register the subscription.**
-    - a **persisted, recurring** schedule → {@link sohl.core.logic.SohlSystem.schedule | sohl.schedule} (writes the durable record **and** arms the queue);
+    - a **persisted, recurring** schedule → {@link sohl.core.logic.SohlSystem.schedule | sohl.schedule} (writes the durable record **and** arms the queue). It defaults to a **time** schedule (`anchor + interval`); pass a `triggerName` for a **persisted event-driven** schedule (issue #622) — `sohl.schedule(doc, "shockReTest", 0, undefined, undefined, "turnEnd")` re-arms a `turnEnd` subscription on every reload, so a lifecycle cadence survives a reload just like a timed one, and both are offered through the shared {@link sohl.document.item.logic.offerSchedule};
     - a **one-shot** future time → {@link sohl.entity.event.SohlEventQueue.scheduleAt | scheduleAt};
-    - a **lifecycle trigger** → {@link sohl.entity.event.SohlEventQueue.subscribe | subscribe}, called from the document's `finalize()`.
+    - a **transient lifecycle** subscription (not persisted; re-derived from live state each prep, e.g. a berserker check that exists only while a condition holds) → {@link sohl.entity.event.SohlEventQueue.subscribe | subscribe}, called directly from the document's `finalize()`.
 4. **Let re-arm and reload take care of themselves.** `finalize()` runs on every
    client every preparation, so it is the natural place to (re)register; on world
    load SoHL rebuilds the queue from persisted state for you. For a _recurring_

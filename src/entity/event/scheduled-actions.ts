@@ -17,8 +17,12 @@
  *
  * A recurring schedule is stored as data on **any** SoHL document, in the
  * `system.scheduledActions` field on the base data model (beside `actionDefs`).
- * Each entry defers an action — run `actionName` on that document's logic — to
- * `anchor + interval`. Two halves keep it working:
+ * Each entry defers an action — run `actionName` on that document's logic — to a
+ * **moment**: either a **time** (`anchor + interval`, the default) or, when the
+ * entry names a `triggerName` (issue #622), a **lifecycle trigger** (`turnEnd`,
+ * `combatStart`, a scene-region trigger, …) armed as a live subscription with no
+ * fire time. Both families persist here and re-arm the same way. Two halves keep
+ * it working:
  *
  * - **persist** — {@link scheduleAction} / {@link unscheduleAction} write the
  *   whole `system.scheduledActions` array, the durable record that survives a
@@ -46,6 +50,16 @@ export interface ScheduledAction {
     /** Seconds from {@link anchor} to the next fire. */
     interval: number;
     /**
+     * The lifecycle trigger this schedule listens to (issue #622). Absent or
+     * `"updateWorldTime"` means a **time-based** schedule that fires at
+     * `anchor + interval` — the original and default behavior. Any other value
+     * (`"turnEnd"`, `"roundEnd"`, `"combatStart"`, a scene-region trigger, …)
+     * makes it **event-driven**: it is armed as a live {@link SohlSubscription}
+     * on that trigger and re-offers on every fire, with no `fireAt` (`interval`
+     * is then unused). See {@link isTimeTrigger}.
+     */
+    triggerName?: string;
+    /**
      * The uuid of the scene this schedule is bound to (issue #590). When set,
      * the schedule is offered only while that scene is the **active** scene — a
      * location-bound event (bandits at a hideout) does not fire while the party
@@ -56,6 +70,22 @@ export interface ScheduledAction {
     sceneUuid?: string;
     /** Opaque data handed to the action as its scope when performed. */
     payload?: Record<string, unknown>;
+}
+
+/** The trigger name of a **time-based** schedule (issue #588 / #622). */
+export const WORLD_TIME_TRIGGER = "updateWorldTime";
+
+/**
+ * Whether a schedule entry's trigger is **time-based** (fires at
+ * `anchor + interval` via `updateWorldTime`) rather than **event-driven** (a
+ * lifecycle subscription). Absent or `"updateWorldTime"` ⇒ time-based, so a
+ * legacy entry with no `triggerName` keeps its original behavior (issue #622).
+ *
+ * @param triggerName - A schedule entry's `triggerName` (may be absent/blank).
+ * @returns True for a time-based schedule, false for an event-driven one.
+ */
+export function isTimeTrigger(triggerName?: string): boolean {
+    return !triggerName || triggerName === WORLD_TIME_TRIGGER;
 }
 
 /**
@@ -108,13 +138,25 @@ export function armScheduledActions(
     queue: SohlEventQueue,
 ): void {
     for (const entry of list ?? []) {
-        queue.scheduleAt(
-            uuid,
-            entry.actionName,
-            scheduledFireAt(entry),
-            entry.payload,
-            entry.sceneUuid || undefined,
-        );
+        if (isTimeTrigger(entry.triggerName)) {
+            queue.scheduleAt(
+                uuid,
+                entry.actionName,
+                scheduledFireAt(entry),
+                entry.payload,
+                entry.sceneUuid || undefined,
+            );
+        } else {
+            // Event-driven (issue #622): a live subscription on the lifecycle
+            // trigger — no `fireAt`, re-offers on every fire until unscheduled.
+            queue.subscribe({
+                uuid,
+                actionName: entry.actionName,
+                triggerName: entry.triggerName as string,
+                payload: entry.payload,
+                sceneUuid: entry.sceneUuid || undefined,
+            });
+        }
     }
 }
 
@@ -142,6 +184,9 @@ export interface Schedulable {
  * @param now - The current world time (the schedule anchor).
  * @param sceneUuid - The scene the schedule is bound to (issue #590); offered
  *   only while that scene is active. Omit for a world-wide schedule.
+ * @param triggerName - The lifecycle trigger to bind to (issue #622). Omitted or
+ *   `"updateWorldTime"` ⇒ a time-based schedule at `now + interval` (the
+ *   default); any other value ⇒ an event-driven subscription (`interval` unused).
  */
 export async function scheduleAction(
     doc: Schedulable,
@@ -151,23 +196,36 @@ export async function scheduleAction(
     payload: Record<string, unknown> | undefined,
     now: number,
     sceneUuid?: string,
+    triggerName?: string,
 ): Promise<void> {
+    const timeBased = isTimeTrigger(triggerName);
     const entry: ScheduledAction = {
         actionName,
         anchor: now,
         interval,
         sceneUuid: sceneUuid || "",
         payload,
+        triggerName: timeBased ? "" : triggerName,
     };
     const list = upsertScheduledAction(doc.system.scheduledActions, entry);
     await doc.update({ "system.scheduledActions": list });
-    queue.scheduleAt(
-        doc.uuid,
-        actionName,
-        scheduledFireAt(entry),
-        payload,
-        sceneUuid || undefined,
-    );
+    if (timeBased) {
+        queue.scheduleAt(
+            doc.uuid,
+            actionName,
+            scheduledFireAt(entry),
+            payload,
+            sceneUuid || undefined,
+        );
+    } else {
+        queue.subscribe({
+            uuid: doc.uuid,
+            actionName,
+            triggerName: triggerName as string,
+            payload,
+            sceneUuid: sceneUuid || undefined,
+        });
+    }
 }
 
 /**

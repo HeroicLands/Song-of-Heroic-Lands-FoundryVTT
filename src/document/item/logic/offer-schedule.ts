@@ -34,7 +34,10 @@
 
 import { dialog } from "@src/core/FoundryHelpers";
 import { toHTMLString } from "@src/utils/helpers";
-import type { Schedulable } from "@src/entity/event/scheduled-actions";
+import {
+    isTimeTrigger,
+    type Schedulable,
+} from "@src/entity/event/scheduled-actions";
 
 /**
  * The minimal action-context surface {@link offerSchedule} reads — a
@@ -74,15 +77,38 @@ export function describeInterval(seconds: number): string {
 }
 
 /**
- * Offer to schedule (or reschedule) `actionName` on `doc` at `interval` seconds
- * from now, per the consent model (issue #579).
+ * Render the **cadence phrase** for the offer prompt: a duration (`"in 5 days"`)
+ * for a time-based schedule, or a lifecycle phrase (`"at the end of each turn"`)
+ * for an event-driven one (issue #622). An unknown trigger falls back to its raw
+ * name so the prompt stays coherent.
+ *
+ * @param interval - The interval in seconds (used only when time-based).
+ * @param triggerName - The lifecycle trigger, or absent/`updateWorldTime` for
+ *   a time-based schedule.
+ * @returns The `{when}` phrase for `SOHL.Schedule.prompt` / `.promptEvent`.
+ */
+function describeCadence(interval: number, triggerName?: string): string {
+    if (isTimeTrigger(triggerName)) return describeInterval(interval);
+    const key = `SOHL.Schedule.trigger.${triggerName}`;
+    const phrase = sohl.i18n.localize(key);
+    return phrase === key ? (triggerName as string) : phrase;
+}
+
+/**
+ * Offer to schedule (or reschedule) `actionName` on `doc`, per the consent model
+ * (issue #579). Time-based by default (fire `interval` seconds from now); pass
+ * `triggerName` for an event-driven schedule bound to a lifecycle moment
+ * (issue #622) — a combat `turnEnd`, `combatStart`, a scene-region trigger, …
  *
  * @param context - The action context; `scope.schedule` (a boolean) pre-answers
  *   the offer, and `skipDialog` suppresses the interactive prompt.
- * @param doc - The document the schedule lives on (the effect item).
+ * @param doc - The document the schedule lives on (the effect item / actor).
  * @param actionName - The action to (re)schedule — matches the
  *   `SOHL.Reminder.effect.<actionName>` label key.
- * @param interval - Seconds until the occurrence (the rolled cadence / default).
+ * @param interval - Seconds until the occurrence (the rolled cadence / default);
+ *   unused for an event-driven schedule.
+ * @param triggerName - The lifecycle trigger to bind to, or omitted for a
+ *   time-based schedule (issue #622).
  * @returns A promise that resolves once the schedule is armed or cleared.
  */
 export async function offerSchedule(
@@ -90,8 +116,10 @@ export async function offerSchedule(
     doc: Schedulable,
     actionName: string,
     interval: number,
+    triggerName?: string,
 ): Promise<void> {
     let schedule = context.scope?.schedule;
+    const eventDriven = !isTimeTrigger(triggerName);
 
     if (schedule == null && !context.skipDialog) {
         const effect = sohl.i18n.localize(`SOHL.Reminder.effect.${actionName}`);
@@ -107,10 +135,17 @@ export async function offerSchedule(
             }),
             content: toHTMLString(`<p>{{prompt}}</p>`),
             data: {
-                prompt: sohl.i18n.format("SOHL.Schedule.prompt", {
-                    effect,
-                    when: describeInterval(interval),
-                }),
+                // Event-driven cadences read "…perform the X at the end of each
+                // turn?" (no "in"), time-based read "…perform the X in 5 days?".
+                prompt: sohl.i18n.format(
+                    eventDriven ?
+                        "SOHL.Schedule.promptEvent"
+                    :   "SOHL.Schedule.prompt",
+                    {
+                        effect,
+                        when: describeCadence(interval, triggerName),
+                    },
+                ),
             },
             buttons: [
                 {
@@ -130,6 +165,16 @@ export async function offerSchedule(
         schedule = confirmed === true;
     }
 
-    if (schedule) await sohl.schedule(doc, actionName, interval);
-    else await sohl.unschedule(doc, actionName);
+    if (schedule) {
+        if (eventDriven) {
+            await sohl.schedule(
+                doc,
+                actionName,
+                interval,
+                undefined,
+                undefined,
+                triggerName,
+            );
+        } else await sohl.schedule(doc, actionName, interval);
+    } else await sohl.unschedule(doc, actionName);
 }

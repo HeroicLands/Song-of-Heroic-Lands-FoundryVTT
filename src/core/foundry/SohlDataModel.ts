@@ -131,6 +131,20 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                 /** Seconds from `anchor` to the next fire. */
                 interval: new NumberField({ required: true, initial: 0 }),
                 /**
+                 * The lifecycle trigger this schedule listens to (issue #622).
+                 * Blank (the default) or `"updateWorldTime"` means a time-based
+                 * schedule that fires at `anchor + interval`; any other value
+                 * (`"turnEnd"`, `"combatStart"`, a scene-region trigger, …) makes
+                 * it event-driven — armed as a live subscription on that trigger,
+                 * with `interval` unused. Backwards compatible: an entry written
+                 * before #622 has no trigger and stays time-based.
+                 */
+                triggerName: new StringField({
+                    required: false,
+                    blank: true,
+                    initial: "",
+                }),
+                /**
                  * The uuid of the scene this schedule is bound to (issue #590).
                  * When set, it is offered only while that scene is active; blank
                  * (the default) means world-wide (fires regardless of scene).

@@ -455,6 +455,10 @@ export class SohlSystem {
      * @param payload - Opaque scope handed to the action on `[Perform]`.
      * @param sceneUuid - The scene the schedule is bound to, or `undefined` for a
      *   world-wide schedule.
+     * @param triggerName - The lifecycle trigger to bind to (issue #622). Omitted
+     *   or `"updateWorldTime"` ⇒ a time-based schedule fired at `now + interval`
+     *   (the default); any other value (`"turnEnd"`, `"combatStart"`, …) ⇒ an
+     *   event-driven schedule (`interval` is then unused).
      * @returns A promise that resolves once the schedule is persisted and armed.
      */
     schedule(
@@ -463,6 +467,7 @@ export class SohlSystem {
         interval: number,
         payload?: Record<string, unknown>,
         sceneUuid?: string,
+        triggerName?: string,
     ): Promise<void> {
         return scheduleAction(
             doc,
@@ -472,6 +477,7 @@ export class SohlSystem {
             payload,
             fvttWorldTime(),
             sceneUuid,
+            triggerName,
         );
     }
 
