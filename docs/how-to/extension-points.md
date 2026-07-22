@@ -178,7 +178,30 @@ Render-time gating makes the button appear only to the responding actor's owner 
 - Avoid runtime reflection-based wiring.
 - Validate registrations early during init.
 
-## 8) Calendar registration
+## 8) Event triggers (time, combat, scene-region)
+
+The event queue (`sohl.events`) dispatches named **triggers**, and a subscription
+runs a document action when one fires — the deferred half of the consent model.
+Extension surfaces:
+
+- **Subscribe an action to a trigger** from a Logic class's `finalize()`
+  (`sohl.events.subscribe({ uuid, actionName, triggerName, predicate })`) — the
+  built-in `updateWorldTime` / combat-lifecycle triggers, plus the **scene-region**
+  and **environment** triggers (`regionTokenEnter`/`Exit`/`Turn*`/`Round*`,
+  `sceneDarknessChange` — issue #593). Region triggers are event-driven: no
+  `fireAt`, so `nextFireTime` is `undefined` and `system.lastRun` is the temporal
+  query.
+- **The `trigger` RegionBehavior** ({@link sohl.document.region.foundry}) is
+  the GM opt-in surface: dropped on a region, it forwards curated events into the
+  queue (GM-gated, once) and can offer a region-authored action. High-frequency
+  streams (`tokenMove*`) are excluded by curation.
+- **Register a custom trigger** ({@link sohl.entity.event.registerSohlTrigger} +
+  {@link sohl.entity.event.fireSohlTrigger}) to add your own lifecycle moment.
+
+All Foundry hook wiring lives in `SohlHookBridge` — do not call `Hooks.on(...)`
+elsewhere for dispatch. See the [Event Queue Reference](../reference/event-queue.md).
+
+## 9) Calendar registration
 
 SoHL keeps a registry of calendars that modules can extend; registered calendars
 appear in the GM's calendar settings. The registry API

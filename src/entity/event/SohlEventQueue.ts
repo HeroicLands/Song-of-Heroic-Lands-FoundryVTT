@@ -370,18 +370,12 @@ export class SohlEventQueue {
     }
 
     /**
-     * Resolve a subscription's document and **offer** the action named by
-     * `sub.actionName` — post a `[Perform]` reminder card to the character's owner
-     * rather than performing the effect. Consent (issue #579): a due timed effect
-     * reminds; it never mutates a character on its own. The card's button is
-     * addressed to the effect's **document** (`sub.uuid` — an item, actor, or any
-     * document), so the owner's click runs the *same* action the queue used to
-     * run automatically on that document's logic (the executor performs
-     * and re-arms the next occurrence). Errors are logged and swallowed so one
-     * failure cannot abort the batch.
-     *
-     * De-duplicated by `(uuid, actionName, fireAt)`: the same due occurrence is offered
-     * once, not on every world-time advance while it sits unperformed.
+     * Dispatch a matched subscription by **offering** its action (consent, issue
+     * #579) — delegating to {@link offer}. Time-scheduled reminders dedupe by
+     * `(uuid, actionName, fireAt)` so the same due occurrence is offered once,
+     * not on every world-time advance while it sits unperformed; a non-time
+     * (event-driven) trigger offers on every fire. The subscription's `payload`
+     * is folded into the offered context so it is revived as the action's scope.
      *
      * @param sub - The subscription to offer.
      * @param ctx - The trigger context, carried into the button's scope.
@@ -390,36 +384,73 @@ export class SohlEventQueue {
         sub: SohlSubscription,
         ctx: SohlTriggerContext,
     ): Promise<void> {
+        // Only time-scheduled reminders dedupe; an event-driven trigger (combat,
+        // a region enter) is a distinct occurrence each fire and offers again.
+        const dedupeAt =
+            sub.triggerName === "updateWorldTime" ?
+                (sub.fireAt ?? 0)
+            :   undefined;
+        await this.offer(
+            sub.uuid,
+            sub.actionName,
+            { ...ctx, payload: sub.payload },
+            { dedupeAt },
+        );
+    }
+
+    /**
+     * Resolve `uuid` and **offer** `actionName` on its logic — post an
+     * owner-gated `[Perform]` reminder card rather than performing the action.
+     * The single consent primitive (issue #579): the queue *reminds*; the human
+     * *performs*. The card's button is addressed to `uuid` (an item, actor, or
+     * any document with a `logic.speaker`), so the owner's click runs the *same*
+     * action on that document's logic. Errors are logged and swallowed so one
+     * failure cannot abort a batch.
+     *
+     * Reused by `dispatchOne` (time/combat subscriptions) and by the
+     * scene-region bridge (issue #593), which offers a region-authored action to
+     * the entering token's actor.
+     *
+     * @param uuid - The document whose logic runs the action on `[Perform]`.
+     * @param actionName - The action shortcode to offer.
+     * @param ctx - The trigger context revived as the action's scope on click.
+     *   Its `payload.visibility === "gm"` whispers the reminder to the GM.
+     * @param options - Offer options.
+     * @param options.dedupeAt - Offers a given `(uuid, actionName, dedupeAt)`
+     *   occurrence once (time-scheduled reminders); omit to offer every call.
+     */
+    async offer(
+        uuid: string,
+        actionName: string,
+        ctx: SohlTriggerContext,
+        options?: { dedupeAt?: number },
+    ): Promise<void> {
         try {
-            const doc = await fvttResolveUuidAsync(sub.uuid);
+            const doc = await fvttResolveUuidAsync(uuid);
             const logic = (doc as { logic?: any } | null)?.logic;
             const speaker = logic?.speaker;
             if (!speaker || typeof speaker.toChat !== "function") {
                 console.warn(
-                    `SoHL | Cannot post a reminder for "${sub.actionName}" on ${sub.uuid} (no speaker).`,
+                    `SoHL | Cannot post a reminder for "${actionName}" on ${uuid} (no speaker).`,
                 );
                 return;
             }
-            // Offer each due *scheduled* occurrence once (not every tick while it
-            // sits unperformed). Only time-scheduled reminders dedupe; a
-            // non-time trigger offers on every fire.
-            if (sub.triggerName === "updateWorldTime") {
-                const key = this.key(sub.uuid, sub.actionName);
-                const fireAt = sub.fireAt ?? 0;
-                if (this.offered.get(key) === fireAt) return;
-                this.offered.set(key, fireAt);
+            if (options?.dedupeAt !== undefined) {
+                const key = this.key(uuid, actionName);
+                if (this.offered.get(key) === options.dedupeAt) return;
+                this.offered.set(key, options.dedupeAt);
             }
 
             const effectLabel = sohl.i18n.localize(
-                `SOHL.Reminder.effect.${sub.actionName}`,
+                `SOHL.Reminder.effect.${actionName}`,
             );
             const actorName = (speaker as { name?: string }).name ?? "";
             // A `visibility: "gm"` payload posts the reminder as a GM whisper
             // (e.g. a world-host bandit check — no metagame leak to players);
             // otherwise it is public and gated to the document's owner.
-            const visibility = (sub.payload as { visibility?: string })
+            const visibility = (ctx.payload as { visibility?: string })
                 ?.visibility;
-            const options =
+            const chatOptions =
                 visibility === "gm" ? { rollMode: "gmroll" } : undefined;
             await speaker.toChat(
                 toFilePath(REMINDER_CARD_TEMPLATE),
@@ -428,18 +459,17 @@ export class SohlEventQueue {
                     actorName,
                     body: sohl.i18n.localize("SOHL.Reminder.body"),
                     performLabel: sohl.i18n.localize("SOHL.Reminder.perform"),
-                    actionName: sub.actionName,
-                    handlerUuid: sub.uuid,
-                    // The trigger context + payload — revived as the action's
-                    // scope when the owner clicks [Perform] (same shape the queue
-                    // used to pass directly to executeAction).
-                    scopeData: defaultToJSON({ ...ctx, payload: sub.payload }),
+                    actionName,
+                    handlerUuid: uuid,
+                    // The trigger context (with any payload) — revived as the
+                    // action's scope when the owner clicks [Perform].
+                    scopeData: defaultToJSON(ctx),
                 },
-                options,
+                chatOptions,
             );
         } catch (err) {
             console.error(
-                `SoHL | Error offering "${sub.actionName}" on trigger "${ctx.name}" for ${sub.uuid}:`,
+                `SoHL | Error offering "${actionName}" on trigger "${ctx.name}" for ${uuid}:`,
                 err,
             );
         }

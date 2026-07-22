@@ -26,6 +26,8 @@ export * as combatant from "./combatant";
 export * as effect from "./effect";
 /** The Item document family — skills, traits, gear, afflictions, mysteries, and the rest. */
 export * as item from "./item";
+/** The scene-region event-trigger RegionBehavior bridge (issue #593). */
+export * as region from "./region";
 /** The Scene document, its config, and logic. */
 export * as scene from "./scene";
 /** The Token document and its logic. */

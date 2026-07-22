@@ -197,6 +197,43 @@ session, so on the `ready` hook SoHL re-arms every world actor and its embedded
 items from their persisted `system.scheduledActions` (scene binding included). You
 schedule once; it survives reloads without any further wiring on your part.
 
+### Triggering on a scene region (issue #593)
+
+Beyond time, an action can fire on **where** a character is. SoHL bridges Foundry
+v14 scene-region events into the same queue, so the consent path is identical — a
+region event surfaces an owner-gated `[Perform]` reminder, never a fait accompli.
+
+There are two ways to author it, and neither modifies system source:
+
+1. **From the GM's chair, no code.** Drop a **"SoHL Event Trigger"** RegionBehavior
+   onto a region, tick the events to forward (`Region: Token Enters`, …), and name
+   an **action to offer** (a shortcode on the entering actor). Entering the region
+   offers that action to the token's controlling player.
+
+2. **From a module, per character.** Subscribe an action to a region trigger and
+   scope it with a predicate — the region events are `regionTokenEnter` /
+   `regionTokenExit` / `regionTokenTurn{Start,End}` / `regionTokenRound{Start,End}`,
+   plus `sceneDarknessChange` for environment:
+
+    ```js
+    sohl.events.subscribe({
+        uuid: actor.uuid,
+        actionName: "fearCheck",
+        triggerName: "regionTokenEnter",
+        predicate: new sohl.entity.expr.SafeExpression({
+            source: "regionId == 'crypt'",
+        }),
+    });
+    ```
+
+    The action receives the region context (`regionId`, `tokenUuid`, `actorUuid`,
+    `sceneUuid`) as its scope. These triggers are **event-driven**: `nextFireTime`
+    is `undefined`; use `actor.system.lastRun[actionName]` for "when last?". The GM
+    must still place a "SoHL Event Trigger" behavior on the region for the events to
+    flow — that is the human-behest opt-in. High-frequency streams (`tokenMove*`)
+    are deliberately not exposed. See
+    [Event Queue → Scene-region triggers](../reference/event-queue.md#8-a-scene-region-trigger--offer-a-check-on-entering).
+
 ### Re-skins and theming
 
 A module can restyle the system purely through CSS by overriding the `--sohl-*`

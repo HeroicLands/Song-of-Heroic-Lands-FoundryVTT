@@ -30,9 +30,14 @@ import "./commands/dialogs.js";
  * - CombatTracker._onRender: "Cannot use 'in' operator to search for 'turn' in
  *   undefined" — the sidebar combat tracker re-renders on combat changes but has
  *   no active viewport in headless runs. Unrelated to combat data/logic.
+ * - RegionShapeControls.refresh: "Cannot read properties of undefined (reading
+ *   'INTERFACE')" — creating a scene Region makes the canvas RegionLayer draw
+ *   shape controls, which reads a canvas group that is absent headless (#593
+ *   region-trigger spec). Canvas rendering, not region-trigger logic.
  */
 const IGNORED_APP_ERRORS = [
     /Cannot use 'in' operator to search for 'turn' in undefined/,
+    /Cannot read properties of undefined \(reading 'INTERFACE'\)/,
 ];
 
 Cypress.on("uncaught:exception", (err) => {

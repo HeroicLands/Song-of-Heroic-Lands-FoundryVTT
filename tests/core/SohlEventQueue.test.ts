@@ -650,4 +650,69 @@ describe("SohlEventQueue", () => {
             expect(count).toBe(1);
         });
     });
+
+    describe("offer (#593): the public consent primitive", () => {
+        it("posts a [Perform] reminder addressed to the given document", async () => {
+            const posted: { tpl: unknown; data: any }[] = [];
+            (globalThis as any).fromUuid = async () => {
+                const speaker: any = new SohlSpeaker({});
+                speaker.toChat = async (tpl: unknown, data: any) => {
+                    posted.push({ tpl, data });
+                };
+                return { logic: { speaker } };
+            };
+            const ctx: SohlTriggerContext = {
+                name: "regionTokenEnter",
+                regionUuid: "Scene.s.Region.r",
+                regionId: "r",
+                regionName: "Crypt",
+                tokenUuid: "Scene.s.Token.t",
+                actorUuid: "Actor.a",
+                sceneUuid: "Scene.s",
+            } as any;
+
+            await queue.offer("Actor.a", "fearCheck", ctx);
+
+            expect(posted).toHaveLength(1);
+            expect(String(posted[0].tpl)).toContain("reminder-card.hbs");
+            const data = posted[0].data;
+            expect(data.actionName).toBe("fearCheck");
+            // Addressed to the entering actor…
+            expect(data.handlerUuid).toBe("Actor.a");
+            // …and the whole region context is revived as the action's scope.
+            expect(data.scopeData.regionId).toBe("r");
+            expect(data.scopeData.name).toBe("regionTokenEnter");
+        });
+
+        it("does NOT dedupe by default — each event offers again", async () => {
+            let count = 0;
+            installActionDoc(() => {
+                count++;
+            });
+            const ctx = { name: "regionTokenEnter" } as any;
+            await queue.offer("Actor.a", "fearCheck", ctx);
+            await queue.offer("Actor.a", "fearCheck", ctx);
+            expect(count).toBe(2);
+        });
+
+        it("does nothing when the document has no speaker", async () => {
+            (globalThis as any).fromUuid = async () => ({ logic: {} });
+            await expect(
+                queue.offer("Actor.a", "fearCheck", {
+                    name: "regionTokenEnter",
+                } as any),
+            ).resolves.toBeUndefined();
+        });
+
+        it("swallows errors so one failure cannot abort a batch", async () => {
+            (globalThis as any).fromUuid = async () => {
+                throw new Error("boom");
+            };
+            await expect(
+                queue.offer("Actor.a", "fearCheck", {
+                    name: "regionTokenEnter",
+                } as any),
+            ).resolves.toBeUndefined();
+        });
+    });
 });
