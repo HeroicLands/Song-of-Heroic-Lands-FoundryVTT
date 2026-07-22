@@ -5,6 +5,8 @@
  * system's runtime expectations without a running Foundry VTT environment.
  */
 
+import { Sfc32Rng } from "@src/entity/random/Sfc32Rng";
+
 // Foundry adds paddedString to Number.prototype; replicate it for tests.
 (Number.prototype as any).paddedString = function (
     this: number,
@@ -57,6 +59,13 @@ const log = {
     setLogThreshold(_level: number): void {},
 };
 
+// The shared `sohl.random` singleton (issue #599). A fixed string seed makes
+// the fallback stream deterministic across the whole suite; tests that need
+// isolation inject their own `createRng(name)` instance, and tests that need an
+// exact value use `SimpleRoll.forceValues(...)`. Seeded (not entropy) so a
+// stray non-forced `.roll()` is at least stable run to run.
+const random = new Sfc32Rng("sohl-vitest-singleton");
+
 // Minimal SohlSystem mock. `schedule`/`unschedule` are the generic scheduled-
 // action API (issue #588); default no-ops here so timed-effect executors run in
 // Node — tests spy on them (e.g. `vi.spyOn(globalThis.sohl, "schedule")`) to
@@ -65,6 +74,7 @@ const sohlMock = {
     id: "sohl",
     i18n,
     log,
+    random,
     ready: true,
     CONFIG: {
         MOD: {} as Record<string, any>,

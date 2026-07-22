@@ -3,6 +3,8 @@ import { brandLogic } from "@tests/mocks/brandLogic";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { BodyPart } from "@src/entity/body/BodyPart";
 import type { BodyLocation } from "@src/entity/body/BodyLocation";
+import { createRng } from "@src/entity/random/createRng";
+import { weightedRandom } from "@src/entity/body/weighted-random";
 
 const SKULL_LOC = {
     shortcode: "skull",
@@ -275,6 +277,65 @@ describe("BodyStructure", () => {
             const loc = body.getRandomLocation();
             const allNames = body.getAllLocations().map((l) => l.shortcode);
             expect(allNames).toContain(loc.shortcode);
+        });
+    });
+
+    // Issue #601 — hit-location selection draws from an injectable, seedable
+    // Rng, so a seed forces a location deterministically end to end (the part
+    // drift AND the within-part location draw share the one stream).
+    describe("seeded determinism (#601)", () => {
+        it("getRandomPart(target) is reproducible under the same seed", () => {
+            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+            const target = {
+                targetPart: body.getPartByCode("head")!,
+                spread: 100,
+            };
+            const runA = Array.from(
+                { length: 20 },
+                (_v, i) =>
+                    body.getRandomPart(target, createRng(`hit-${i}`)).shortcode,
+            );
+            const runB = Array.from(
+                { length: 20 },
+                (_v, i) =>
+                    body.getRandomPart(target, createRng(`hit-${i}`)).shortcode,
+            );
+            expect(runA).toEqual(runB);
+        });
+
+        it("getRandomLocation forces a location deterministically end to end", () => {
+            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+            const target = {
+                targetPart: body.getPartByCode("head")!,
+                spread: 100,
+            };
+            const first = body.getRandomLocation(
+                target,
+                createRng("aimed-strike-01"),
+            ).shortcode;
+            const again = body.getRandomLocation(
+                target,
+                createRng("aimed-strike-01"),
+            ).shortcode;
+            expect(again).toBe(first);
+            // A different seed is free to differ; the point is same-seed ⇒ same
+            // location. Sweep a few seeds to prove the outcome actually varies.
+            const outcomes = new Set(
+                Array.from(
+                    { length: 40 },
+                    (_v, i) =>
+                        body.getRandomLocation(target, createRng(`s-${i}`))
+                            .shortcode,
+                ),
+            );
+            expect(outcomes.size).toBeGreaterThan(1);
+        });
+
+        it("weightedRandom is reproducible under the same seed", () => {
+            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+            const a = weightedRandom(body.parts, createRng("wr")).shortcode;
+            const b = weightedRandom(body.parts, createRng("wr")).shortcode;
+            expect(a).toBe(b);
         });
     });
 

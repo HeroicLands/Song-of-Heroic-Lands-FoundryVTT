@@ -16,6 +16,8 @@ import { registerEntity } from "@src/entity/entityRegistry";
 import type { BodyPart } from "@src/entity/body/BodyPart";
 import { BodyLocation } from "@src/entity/body/BodyLocation";
 import { weightedRandom } from "@src/entity/body/weighted-random";
+import type { Rng } from "@src/entity/random/Rng";
+import { defaultRng } from "@src/entity/random/createRng";
 import { SohlEntity } from "../SohlEntity";
 import { isA, BASE_INJURY_THRESHOLDS } from "@src/utils/constants";
 
@@ -183,11 +185,17 @@ export class BodyStructure extends SohlEntity {
      *   selection.
      * @param target.targetPart - The intended part to aim at.
      * @param target.spread - The accuracy spread driving adjacency drift.
+     * @param rng - The random source; defaults to the shared {@link sohl.random}
+     *   singleton. Inject a seeded generator to force a hit location
+     *   deterministically end to end.
      * @returns The selected body part.
      */
-    getRandomPart(target?: { targetPart: BodyPart; spread: number }): BodyPart {
+    getRandomPart(
+        target?: { targetPart: BodyPart; spread: number },
+        rng: Rng = defaultRng(),
+    ): BodyPart {
         if (!target) {
-            return weightedRandom(this.parts);
+            return weightedRandom(this.parts, rng);
         }
 
         let currentPart = target.targetPart;
@@ -202,8 +210,10 @@ export class BodyStructure extends SohlEntity {
                 return currentPart;
             }
 
-            // Roll 1..remainingSpread; hit if roll <= probWeight
-            const roll = Math.ceil(Math.random() * remainingSpread);
+            // Roll 1..remainingSpread; hit if roll <= probWeight. `ceil(float() *
+            // spread)` reproduces the former Math.random distribution exactly
+            // (including fractional spread), now from the seedable stream.
+            const roll = Math.ceil(rng.float() * remainingSpread);
             if (roll <= currentPart.probWeight.effective) {
                 return currentPart;
             }
@@ -219,7 +229,7 @@ export class BodyStructure extends SohlEntity {
                 return currentPart;
             }
 
-            currentPart = weightedRandom(adjacentParts);
+            currentPart = weightedRandom(adjacentParts, rng);
         }
     }
 
@@ -232,13 +242,19 @@ export class BodyStructure extends SohlEntity {
      *   selection.
      * @param target.targetPart - The intended part to aim at.
      * @param target.spread - The accuracy spread driving adjacency drift.
+     * @param rng - The random source; defaults to the shared {@link sohl.random}
+     *   singleton. Inject a seeded generator to force a hit location
+     *   deterministically end to end (both the part and the location draw from it).
      * @returns The selected body location.
      */
-    getRandomLocation(target?: {
-        targetPart: BodyPart;
-        spread: number;
-    }): BodyLocation {
-        return this.getRandomPart(target).getRandomLocation();
+    getRandomLocation(
+        target?: {
+            targetPart: BodyPart;
+            spread: number;
+        },
+        rng: Rng = defaultRng(),
+    ): BodyLocation {
+        return this.getRandomPart(target, rng).getRandomLocation(rng);
     }
 
     /**

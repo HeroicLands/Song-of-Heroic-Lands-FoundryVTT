@@ -14,6 +14,7 @@
 import { textToFunction } from "@src/utils/helpers";
 import { SafeExpressionError } from "./SafeExpressionError";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
+import { defaultRng } from "@src/entity/random/createRng";
 import { fvttWorldTime, fvttCombatTime } from "@src/core/FoundryHelpers";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
 
@@ -466,7 +467,8 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
     },
 
     /**
-     * A random number in the range `[0, 1)` (like `Math.random`).
+     * A random number in the range `[0, 1)`, drawn from the shared, seedable
+     * {@link sohl.random} singleton (so a seed makes it reproducible).
      *
      * Stochastic — unlike the other built-ins, successive calls differ. Combine
      * with `floor`/`ceil`/`min`/`max` to derive integers or ranges, e.g.
@@ -474,7 +476,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
      * @returns A pseudo-random number, `0 <= n < 1`.
      */
     rand(): number {
-        return Math.random();
+        return defaultRng().float();
     },
 
     /**

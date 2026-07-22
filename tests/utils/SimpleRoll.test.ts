@@ -1,4 +1,5 @@
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
+import { createRng } from "@src/entity/random/createRng";
 
 // SimpleRoll is a SohlEntity and requires an owning parent Logic. These are
 // pure dice-primitive unit tests, so a minimal stand-in parent suffices.
@@ -121,6 +122,35 @@ describe("SimpleRoll", () => {
             });
             expect(roll.roll()).toBe(5);
             expect(roll.rolls).toHaveLength(0);
+        });
+
+        // Issue #599 — roll() draws from an injectable, seedable Rng.
+        it("is reproducible under an injected seeded Rng", () => {
+            const a = sr({ numDice: 5, dieFaces: 100 });
+            const b = sr({ numDice: 5, dieFaces: 100 });
+            a.roll(createRng("seed-x"));
+            b.roll(createRng("seed-x"));
+            expect(a.rolls).toEqual(b.rolls);
+            expect(a.rolls.every((r) => r >= 1 && r <= 100)).toBe(true);
+        });
+
+        it("different seeds diverge", () => {
+            const a = sr({ numDice: 8, dieFaces: 100 });
+            const b = sr({ numDice: 8, dieFaces: 100 });
+            a.roll(createRng("seed-a"));
+            b.roll(createRng("seed-b"));
+            expect(a.rolls).not.toEqual(b.rolls);
+        });
+
+        it("forced values still take precedence over an injected Rng", () => {
+            SimpleRoll.forceValues(4, 4, 4);
+            try {
+                const roll = sr({ numDice: 3, dieFaces: 6 });
+                roll.roll(createRng("ignored"));
+                expect(roll.rolls).toEqual([4, 4, 4]);
+            } finally {
+                SimpleRoll.clearForced();
+            }
         });
     });
 

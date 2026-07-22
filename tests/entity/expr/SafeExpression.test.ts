@@ -3,6 +3,7 @@ import {
     SafeExpression,
     SafeExpressionError,
 } from "@src/entity/expr/SafeExpression";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 
 // SafeExpression extends SohlEntity, whose constructor requires an owning
@@ -284,7 +285,10 @@ describe("SafeExpression", () => {
     });
 
     describe("stochastic helpers: rand and roll (#540)", () => {
-        afterEach(() => vi.restoreAllMocks());
+        afterEach(() => {
+            vi.restoreAllMocks();
+            SimpleRoll.clearForced();
+        });
 
         it("accepts rand() and roll() as built-in helpers (validation)", () => {
             expect(compile("rand()")).not.toThrow();
@@ -301,13 +305,13 @@ describe("SafeExpression", () => {
                 }
             });
 
-            it("delegates to Math.random", () => {
-                vi.spyOn(Math, "random").mockReturnValue(0.42);
+            it("delegates to the sohl.random singleton", () => {
+                vi.spyOn(globalThis.sohl.random, "float").mockReturnValue(0.42);
                 expect(run("rand()")).toBe(0.42);
             });
 
             it("composes with other helpers and operators", () => {
-                vi.spyOn(Math, "random").mockReturnValue(0.5);
+                vi.spyOn(globalThis.sohl.random, "float").mockReturnValue(0.5);
                 // floor(0.5 * 6) + 1 = floor(3) + 1 = 4
                 expect(run("floor(rand() * 6) + 1")).toBe(4);
             });
@@ -315,8 +319,7 @@ describe("SafeExpression", () => {
 
         describe("roll(formula)", () => {
             it("rolls and returns the SimpleRoll JSON plus formula/result/total/median", () => {
-                // Each d6 -> ceil(0.5 * 6) = 3.
-                vi.spyOn(Math, "random").mockReturnValue(0.5);
+                SimpleRoll.forceValues(3, 3); // deterministic 2d6 -> [3, 3]
                 const r = run("roll('2d6')") as Record<string, unknown>;
                 expect(r).toMatchObject({
                     numDice: 2,
@@ -337,8 +340,7 @@ describe("SafeExpression", () => {
             });
 
             it("applies a flat modifier", () => {
-                // d100 -> ceil(0.5 * 100) = 50.
-                vi.spyOn(Math, "random").mockReturnValue(0.5);
+                SimpleRoll.forceValues(50); // deterministic 1d100 -> [50]
                 const r = run("roll('1d100+5')") as Record<string, unknown>;
                 expect(r).toMatchObject({
                     numDice: 1,
@@ -353,9 +355,10 @@ describe("SafeExpression", () => {
             });
 
             it("exposes result properties for further computation", () => {
-                vi.spyOn(Math, "random").mockReturnValue(0.5);
+                SimpleRoll.forceValues(3, 3); // 2d6 -> [3, 3], total 6
                 expect(run("roll('2d6').total")).toBe(6);
-                // 6 (total) >= 7 (median) -> false
+                // Two roll('2d6') calls -> four dice; total 6 >= median 7 -> false.
+                SimpleRoll.forceValues(3, 3, 3, 3);
                 expect(run("roll('2d6').total >= roll('2d6').median")).toBe(
                     false,
                 );

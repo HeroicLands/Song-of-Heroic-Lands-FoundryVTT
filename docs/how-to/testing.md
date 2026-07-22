@@ -127,14 +127,23 @@ Additional patterns:
   in the logic** (a success test's d100, an affliction's critical-failure→infection,
   the combat exchange) that a test can't reach, use the process-wide **forced-value
   queue**: `SimpleRoll.forceValues(5, 100)` seeds die values that `roll()` consumes
-  one per die (FIFO) instead of `Math.random`; `SimpleRoll.clearForced()` empties it
-  and `SimpleRoll.forcedRemaining` inspects it. Force the **die values**, not a
+  one per die (FIFO) instead of drawing from the seedable generator;
+  `SimpleRoll.clearForced()` empties it and `SimpleRoll.forcedRemaining` inspects
+  it. Force the **die values**, not a
   total, so `total` / `result` / the Foundry-`Roll` display all derive correctly —
   and because almost every SoHL roll is a single die, that's effectively "one value
   per roll." **A leftover forced value leaks into the next roll**, so always
   `clearForced()` in an `afterEach`. This is the same seam e2e uses (via
   `sohl.entity.roll.SimpleRoll`) to drive RNG-gated outcomes — see
   `cypress/e2e/deterministic-dice.cy.js`.
+- **Whole-stream reproducibility** — for reproducing a _sequence_ of draws (dice
+  **and** non-dice: hit location, `weightedRandom`, `rand()`) rather than forcing
+  one value, seed a {@link sohl.entity.random.Rng}. In vitest, inject a per-test
+  instance (`roll.roll(createRng("test-name"))`, `getRandomLocation(target,
+createRng(...))`) — isolated and order-independent. In e2e, re-seed the shared
+  singleton through the window (`win.sohl.random.seed("suite-01")`). Forced values
+  still win over a seeded generator. See [Randomness](../reference/randomness.md),
+  `tests/domain/random/Rng.test.ts`, and `cypress/e2e/seedable-random.cy.js`.
 - **Unimplemented intrinsic executors** — `SohlAction` throws at construction when an INTRINSIC executor names a missing method; while an executor is pending, filter it from `defineIntrinsicActions` with a spy and leave an `it.todo` naming it.
 - **Complex integration tests** — use `it.todo()` placeholders to document what should be tested once more infrastructure is available.
 

@@ -26,6 +26,8 @@ export * as event from "./event";
 export * as expr from "./expr";
 /** The calculation pipeline — value and mastery-level modifiers and deltas. */
 export * as modifier from "./modifier";
+/** Seedable, Foundry-free PRNGs — the reproducible RNG streams backing dice and hit-location selection (`sohl.entity.random.*`, `sohl.random`). */
+export * as random from "./random";
 /** Movement helpers. */
 /** Test and combat result objects — success / opposed tests and attack / defend / impact / combat results. */
 export * as result from "./result";

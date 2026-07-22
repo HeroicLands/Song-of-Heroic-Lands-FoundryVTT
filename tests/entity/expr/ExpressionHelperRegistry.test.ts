@@ -18,6 +18,7 @@ import {
     PARENT_BOUND_HELPERS,
 } from "@src/entity/expr/ExpressionHelperRegistry";
 import { SafeExpressionError } from "@src/entity/expr/SafeExpressionError";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 
 describe("ExpressionHelperRegistry", () => {
@@ -163,18 +164,22 @@ describe("ExpressionHelperRegistry", () => {
         });
 
         it("roll: rolls the formula and augments the SimpleRoll JSON", () => {
-            vi.spyOn(Math, "random").mockReturnValue(0.5); // d6 -> 3
-            expect(h("roll")(parent, "2d6")).toEqual({
-                __kind: "SimpleRoll",
-                numDice: 2,
-                dieFaces: 6,
-                modifier: 0,
-                rolls: [3, 3],
-                formula: "2d6",
-                result: "[3, 3]",
-                total: 6,
-                median: 7,
-            });
+            SimpleRoll.forceValues(3, 3); // deterministic 2d6 -> [3, 3]
+            try {
+                expect(h("roll")(parent, "2d6")).toEqual({
+                    __kind: "SimpleRoll",
+                    numDice: 2,
+                    dieFaces: 6,
+                    modifier: 0,
+                    rolls: [3, 3],
+                    formula: "2d6",
+                    result: "[3, 3]",
+                    total: 6,
+                    median: 7,
+                });
+            } finally {
+                SimpleRoll.clearForced();
+            }
         });
 
         it("roll: throws on an invalid formula", () => {
