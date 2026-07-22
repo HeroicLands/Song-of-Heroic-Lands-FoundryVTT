@@ -12,13 +12,19 @@
  */
 
 /**
- * Creation-time offers for the recurring timed effects (#579 / #595): a bleeder's
- * **blood-loss advance** is OFFERED at creation, not auto-armed — matching the
- * healing-check offer.
+ * Creation-time offers for the recurring timed effects (#579 / #595): a lasting
+ * condition's recurring check is OFFERED when it is created, not auto-armed. Two
+ * are covered here — a bleeder's **blood-loss advance** (offered as the wound is
+ * inflicted) and an infection's **recovery course** (offered when a
+ * critical-failure healing test contracts the infection).
  *
  * These specs are **about the offer**, so per the testing-doc rule of thumb they
  * press the REAL dialog button to model what the player now expects, rather than
- * pre-answering through a scripted `scope`. Two non-obvious facts shape how:
+ * pre-answering through a scripted `scope`. Three non-obvious facts shape how:
+ *
+ * 0. **RNG-gated creations are forced deterministic.** The infection only appears
+ *    on a critical-failure healing test, so `SimpleRoll.forceValues(100)` (#598)
+ *    drives that d100 to a critical failure — no flakiness.
  *
  * 1. **Two offers fire back-to-back.** Inflicting a bleeder wound
  *    (`createTraumaFromInjury`) offers the healing check *then* the blood-loss
@@ -33,7 +39,15 @@
 
 describe("Timed-effect creation offer (#595)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
-    afterEach(() => cy.cleanupWorld());
+    afterEach(() => {
+        // Clear any leftover forced dice (the course test seeds one) so a stray
+        // value can't leak into the next spec — see #598.
+        cy.foundry((win) => {
+            win.sohl.entity.roll.SimpleRoll.clearForced();
+            return null;
+        });
+        cy.cleanupWorld();
+    });
 
     const countEntries = (win, actorId, woundId, name) =>
         (
@@ -133,6 +147,101 @@ describe("Timed-effect creation offer (#595)", () => {
                     r.armed,
                     "declining does not arm the blood-loss advance check",
                 ).to.be.false;
+            });
+        });
+    });
+
+    // The recovery-course offer (#595) fires when a lasting condition is created —
+    // here an INFECTION from a critical-failure healing test. That outcome is
+    // RNG-gated, so this drives it deterministically with the forced-dice seam
+    // (#598): forcing the healing test's d100 to 100 (a critical failure, digits
+    // [0,5]) on an infectable wound contracts the infection, which then offers its
+    // course check. Then we model the player pressing Schedule on that offer.
+    it("a critical-failure healing test contracts an infection and offers its course check — pressing Schedule arms it (models the player)", () => {
+        cy.importActor().then((actor) => {
+            cy.prepare(actor);
+            cy.foundry(async (win) => {
+                const a = win.game.actors.get(actor.id);
+                // A treated, infectable injury whose healing check is anchored in
+                // the past, so performing it now rolls exactly one healing test.
+                const created = await a.createEmbeddedDocuments(
+                    "Item",
+                    win.structuredClone([
+                        {
+                            type: "trauma",
+                            name: "Wound",
+                            system: {
+                                subType: "physical",
+                                levelBase: 3,
+                                healingRateBase: 4,
+                                treatmentDate: 0,
+                                infectable: true,
+                                scheduledActions: [
+                                    {
+                                        actionName: "healingCheck",
+                                        anchor: 0,
+                                        interval: 100,
+                                    },
+                                ],
+                            },
+                        },
+                    ]),
+                );
+                const wound = created.find((i) => i.type === "trauma");
+                await win.game.time.advance(150); // one interval elapsed → one test
+                // Force that healing test's d100 to 100 — a critical failure that,
+                // on an infectable wound, contracts an infection.
+                win.sohl.entity.roll.SimpleRoll.forceValues(100);
+                win.__perf = wound.logic.executeAction("healingCheck", {});
+                return null;
+            });
+            // Two offers fire in order: the new infection's course check, then the
+            // wound's next healing check. Answer each by content (per-effect
+            // titles, #595): schedule the course (the subject), decline the
+            // healing reschedule (incidental).
+            cy.submitDialogMatching("Recovery Check", "yes");
+            cy.submitDialogMatching("Healing Check", "no");
+            cy.foundry((win) =>
+                win.__perf.then(() => {
+                    const a = win.game.actors.get(actor.id);
+                    const infection = a.itemTypes.trauma.find(
+                        (t) => t.system.subType === "infection",
+                    );
+                    return {
+                        infectionExists: !!infection,
+                        courseEntries:
+                            infection ?
+                                (
+                                    infection.system.scheduledActions || []
+                                ).filter((e) => e.actionName === "courseCheck")
+                                    .length
+                            :   -1,
+                        courseArmed:
+                            infection ?
+                                win.sohl.events.isScheduled(
+                                    infection.uuid,
+                                    "courseCheck",
+                                )
+                            :   false,
+                        remaining:
+                            win.sohl.entity.roll.SimpleRoll.forcedRemaining,
+                    };
+                }),
+            ).should((r) => {
+                expect(
+                    r.infectionExists,
+                    "the critical-failure healing test contracted an infection",
+                ).to.be.true;
+                expect(
+                    r.courseEntries,
+                    "pressing Schedule armed the infection's course check",
+                ).to.eq(1);
+                expect(r.courseArmed, "the course check is live on the queue")
+                    .to.be.true;
+                expect(
+                    r.remaining,
+                    "the forced healing-test value was consumed",
+                ).to.eq(0);
             });
         });
     });

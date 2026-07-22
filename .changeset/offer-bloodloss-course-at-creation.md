@@ -32,11 +32,14 @@ With this, every recurring timed effect — healing, blood-loss, course — is a
 only at a human's behest, at creation and on every re-schedule.
 
 **Tests.** A new e2e (`timed-effect-creation-offer.cy.js`) presses the _real_
-blood-loss offer button (Schedule arms it; Not Now leaves it unarmed), modelling
-the player per the testing-doc rule of thumb. Two new reusable Cypress commands
+offer buttons, modelling the player per the testing-doc rule of thumb: pressing
+Schedule / Not Now on the **blood-loss** offer arms / leaves it unarmed, and a
+**critical-failure healing test** (driven deterministically via the forced-dice
+seam, `SimpleRoll.forceValues(100)`) contracts an infection whose **recovery
+course** offer is then Scheduled by button. Two new reusable Cypress commands
 support it — `cy.submitDialogMatching(text, action)` to answer a specific one of
 several look-alike dialogs by content, and a hardened `cy.submitDialog` that only
 targets a _rendered_ dialog (Foundry retains closed dialog instances, whose stale
 elements otherwise leak across tests).
 
-Refs #579.
+Refs #579, #598.
