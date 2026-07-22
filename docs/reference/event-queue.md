@@ -123,7 +123,7 @@ a scheduler with extras. The distinction shapes what you can ask of a subscripti
 
 - **Time-driven** (`updateWorldTime` with a `fireAt`) — the moment is a computable
   number. It is orderable, catches up over a time jump, and answers "when is the
-  next?" ([query](#7-query-the-schedule-when-is-the-next--last)). The
+  next?" ([query](#7-query-the-schedule--when-is-the-next--last)). The
   [anchor rule](#the-one-rule-persist-an-anchor-never-the-live-clock) applies.
 - **Event-driven** (`combatStart`, a token entering a region, darkness falling — a
   trigger with **no** `fireAt`) — the moment depends on play, GM action, or world
@@ -268,7 +268,7 @@ The two axes compose: a concrete `fireAt` is the queryable, orderable "when";
 time — even on a trigger whose context doesn't carry it — reads it via the
 `curWorldTime()` / `curCombatTime()` [expression helpers](../concepts/expressions.md#the-standard-helpers).
 Prefer `fireAt` for the common case (a bare `curWorldTime() > X` isn't invertible
-to a "next fire" time, so it can't answer [queries](#7-query-the-schedule-when-is-the-next--last)).
+to a "next fire" time, so it can't answer [queries](#7-query-the-schedule--when-is-the-next--last)).
 
 ### 5. A world-wide or scene-bound schedule — the bandit check (module)
 
@@ -340,7 +340,7 @@ here?" answer with **no bespoke field**. For an event-driven trigger this run
 record is the _only_ meaningful temporal query — the queue can tell you a token
 entered the crypt an hour ago, but never when it next will.
 
-### 8. A scene-region trigger — offer a check on entering (#593)
+### 8. A scene-region trigger — offer a check on entering
 
 A GM opts a region into SoHL triggering by dropping a **"SoHL Event Trigger"**
 RegionBehavior onto it and choosing the events to forward (and, optionally, an
