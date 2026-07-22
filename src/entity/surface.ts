@@ -40,6 +40,7 @@ import * as modifier from "@src/entity/modifier";
 import * as result from "@src/entity/result";
 import * as roll from "@src/entity/roll";
 import * as strikemode from "@src/entity/strikemode";
+import * as tour from "@src/entity/tour";
 
 /** The entity sub-namespaces, merged onto the class registry for addressing. */
 type EntityNamespaces = {
@@ -52,6 +53,7 @@ type EntityNamespaces = {
     result: typeof result;
     roll: typeof roll;
     strikemode: typeof strikemode;
+    tour: typeof tour;
 };
 
 /**
@@ -80,6 +82,7 @@ export const entitySurface: SohlEntitySurface & EntityNamespaces = (() => {
         result,
         roll,
         strikemode,
+        tour,
     });
     return Object.freeze(surface);
 })();

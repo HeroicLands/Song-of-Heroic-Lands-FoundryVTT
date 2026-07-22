@@ -14,11 +14,5 @@
 // Namespace barrel — hand-maintained. `npm run lint` (check-ns-barrels)
 // verifies every sibling module and subfolder here is re-exported.
 
-export * from "./CalendarSettingsMenu";
-export * from "./DomainManagerApp";
-export * from "./ExpressionLibraryMenu";
-export * from "./SohlContextMenu";
-export * from "./SohlTour";
-export * from "./date-picker-dialog";
-/** The system's guided tours and their registration with Tour Management. */
-export * as tours from "./tours";
+export * from "./framework-demo-tour";
+export * from "./register-tours";
