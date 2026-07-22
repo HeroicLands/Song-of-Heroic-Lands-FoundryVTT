@@ -153,6 +153,28 @@ describe("trauma-state-card (Fear / Morale / Pall tests, #558)", () => {
     });
 });
 
+describe("rally-offer-card (BeingLogic.rallyTest, #559)", () => {
+    it("names the rallier and offers to steady on a critical success", () => {
+        const html = renderTemplateReal(`${CHAT}/rally-offer-card.hbs`, {
+            actorId: "r1",
+            rallierName: "Sir Kaldan",
+            steady: true,
+        });
+        expect(html).toContain("Sir Kaldan");
+        expect(html).toContain("steady themselves");
+        expect(html).not.toContain("Reaction Test");
+    });
+
+    it("offers a Reaction Test on a marginal success", () => {
+        const html = renderTemplateReal(`${CHAT}/rally-offer-card.hbs`, {
+            actorId: "r1",
+            rallierName: "Sir Kaldan",
+            steady: false,
+        });
+        expect(html).toContain("Reaction Test");
+    });
+});
+
 describe("harness fidelity notes", () => {
     it("formGroup (sheet-tier) renders a binding placeholder, not Foundry markup", () => {
         registerTestHbsHelpers();

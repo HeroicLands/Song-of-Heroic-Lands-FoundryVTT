@@ -26,6 +26,7 @@ export * from "./display-filter";
 export * from "./fear";
 export * from "./health";
 export * from "./injury-actions";
+export * from "./morale";
 export * from "./movement";
 export * from "./reach-helpers";
 export * from "./shock";

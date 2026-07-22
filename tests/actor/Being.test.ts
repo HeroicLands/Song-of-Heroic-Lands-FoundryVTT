@@ -17,6 +17,7 @@ import {
     ITEM_KIND,
     MARGINAL_FAILURE,
     MARGINAL_SUCCESS,
+    MORALE_LEVEL,
     MOVEMENT_MEDIUM,
     TRAUMA_SUBTYPE,
 } from "@src/utils/constants";
@@ -1042,6 +1043,155 @@ describe("BeingLogic", () => {
                 { actor: (being as any).actor, name: "Horror" },
             );
             expect(being.fearState).toBe(FEAR_LEVEL.CATATONIC);
+        });
+    });
+
+    describe("Morale, Rally & Reaction (#559)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        function forceRoll(
+            normSuccessLevel: number,
+            lastDigit: number,
+            isSuccess: boolean,
+        ) {
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({
+                normSuccessLevel,
+                lastDigit,
+                isSuccess,
+            } as any);
+        }
+
+        function stubEffects() {
+            vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(
+                undefined as any,
+            );
+            return vi
+                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+                .mockResolvedValue([]);
+        }
+
+        /** Attach a morale trauma at `level` (source `name`) and return it. */
+        function attachMorale(being: any, level: number, name: string) {
+            makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                { subType: TRAUMA_SUBTYPE.MORALE, levelBase: level },
+                { actor: being.actor, name },
+            );
+            const t = (
+                being.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]
+            ).find((x) => x.item?.name === name)!;
+            (t.item as any).delete = vi.fn().mockResolvedValue(undefined);
+            (t.item as any).update = vi.fn().mockResolvedValue(undefined);
+            return t;
+        }
+
+        it("Withdrawing (MF) records a morale trauma with no PSY", async () => {
+            forceRoll(MARGINAL_FAILURE, 7, false);
+            const create = stubEffects();
+            await (makeBeing() as any).moraleTest({ scope: {} });
+            expect(create).toHaveBeenCalledTimes(1);
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: {
+                    subType: TRAUMA_SUBTYPE.MORALE,
+                    levelBase: MORALE_LEVEL.WITHDRAWING,
+                },
+            });
+        });
+
+        it("Catatonic (CF0) records the state and inflicts +2 PSY", async () => {
+            forceRoll(CRITICAL_FAILURE, 0, false);
+            const create = stubEffects();
+            await (makeBeing() as any).moraleTest({ scope: {} });
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: { levelBase: MORALE_LEVEL.CATATONIC },
+            });
+            expect((create.mock.calls[1][1] as any[])[0]).toMatchObject({
+                system: {
+                    subType: TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+                    levelBase: 2,
+                },
+            });
+        });
+
+        it("Routed (CF5) records the state and inflicts +1 PSY", async () => {
+            forceRoll(CRITICAL_FAILURE, 5, false);
+            const create = stubEffects();
+            await (makeBeing() as any).moraleTest({ scope: {} });
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: { levelBase: MORALE_LEVEL.ROUTED },
+            });
+            expect((create.mock.calls[1][1] as any[])[0]).toMatchObject({
+                system: { levelBase: 1 },
+            });
+        });
+
+        it("a Reaction Test success steadies a Routed combatant", async () => {
+            forceRoll(MARGINAL_SUCCESS, 3, true);
+            stubEffects();
+            const being = makeBeing();
+            const routed = attachMorale(
+                being,
+                MORALE_LEVEL.ROUTED,
+                "Broken line",
+            );
+            await (being as any).reactionTest({ scope: {} });
+            expect((routed.item as any).delete).toHaveBeenCalledTimes(1);
+        });
+
+        it("a Reaction Test success improves Catatonic only to Routed", async () => {
+            forceRoll(MARGINAL_SUCCESS, 3, true);
+            stubEffects();
+            const being = makeBeing();
+            const cat = attachMorale(being, MORALE_LEVEL.CATATONIC, "Terror");
+            await (being as any).reactionTest({ scope: {} });
+            expect((cat.item as any).update).toHaveBeenCalledWith({
+                "system.levelBase": MORALE_LEVEL.ROUTED,
+            });
+            expect((cat.item as any).delete).not.toHaveBeenCalled();
+        });
+
+        it("a Reaction Test warns and returns null when not shaken", async () => {
+            const warn = vi.spyOn(sohl.log, "uiWarn");
+            stubEffects();
+            await expect(
+                (makeBeing() as any).reactionTest({ scope: {} }),
+            ).resolves.toBeNull();
+            expect(warn).toHaveBeenCalled();
+        });
+
+        it("a Rally critical success OFFERS to steady allies (open acceptRally card)", async () => {
+            forceRoll(CRITICAL_SUCCESS, 0, true);
+            const post = vi
+                .spyOn(ActionCard, "postActionCard")
+                .mockResolvedValue(undefined as any);
+            await (makeBeing() as any).rallyTest({ scope: {} });
+            const spec = post.mock.calls.at(-1)![1] as any;
+            expect(spec.buttons).toMatchObject({
+                action: "acceptRally",
+                handlerUuid: "@self",
+                scope: { mode: "steady" },
+            });
+        });
+
+        it("a Rally failure posts an informational card with no accept button", async () => {
+            forceRoll(CRITICAL_FAILURE, 0, false);
+            const post = vi
+                .spyOn(ActionCard, "postActionCard")
+                .mockResolvedValue(undefined as any);
+            await (makeBeing() as any).rallyTest({ scope: {} });
+            const spec = post.mock.calls.at(-1)![1] as any;
+            expect(spec.buttons).toBeUndefined();
+        });
+
+        it("moraleState reports the most severe active morale source", () => {
+            const being = makeBeing();
+            attachMorale(being, MORALE_LEVEL.WITHDRAWING, "A");
+            attachMorale(being, MORALE_LEVEL.ROUTED, "B");
+            expect(being.moraleState).toBe(MORALE_LEVEL.ROUTED);
         });
     });
 
