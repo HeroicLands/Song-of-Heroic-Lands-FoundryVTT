@@ -63,7 +63,7 @@ const KIND_DEFAULTS = {
     // fails validation — a valid document must supply it. `subType` picks the
     // first valid choice.
     concoctiongear: { quantity: 1, subType: "mundane" },
-    affliction: { subType: "privation" },
+    affliction: { subType: "other" },
     mysticalability: { subType: "shamanicrite" },
 };
 

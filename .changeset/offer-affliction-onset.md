@@ -30,9 +30,19 @@ With this, **every** recurring timed effect — healing, blood-loss, course, ons
 — is armed only at a human's behest, at creation and on every re-schedule.
 
 **Tests.** Unit tests cover the offer (accept → `sohl.schedule`; decline →
-`sohl.unschedule`). A dedicated `contractDisease` e2e is deferred: it rides the
-pre-existing affliction-spec breakage (#570), and the onset offer is the same
-`offerSchedule` seam proven end-to-end (forced dice → offer → button) by the
-recovery-course e2e in #595.
+`sohl.unschedule`). A new button-driven e2e (`affliction-onset-offer.cy.js`)
+contracts a disease end to end — forcing the contagion d100 to fail
+(`SimpleRoll.forceValues`, #598), pressing through the pick and success-test
+dialogs, then pressing **Schedule** / **Not Now** on the onset offer and asserting
+the onset check is armed / left unarmed.
 
-Closes #602. Refs #579, #595, #598, #570.
+**Also fixes the pre-existing affliction e2e breakage (#570).** The #565 subtype
+reorg left the e2e factory and several specs creating afflictions with removed /
+moved subtypes (`privation`, `fatigue`), which fail `choices` validation and
+create a typeless document — so 5 affliction specs were red on `main`. Updated to
+the post-#565 taxonomy: the affliction factory default is `other`; the
+afflictions-section fixtures use valid affliction subtypes; and the header
+Fatigue-indicator spec now creates a **fatigue trauma** (fatigue is a trauma
+subtype now, and the indicator lights from active traumas).
+
+Closes #602, #570. Refs #579, #595, #598.

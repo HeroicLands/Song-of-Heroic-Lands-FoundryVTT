@@ -26,9 +26,11 @@ describe("Being Trauma tab: Afflictions section (#309)", () => {
     it("lists an affliction grouped by subtype with level and healing rate", () => {
         cy.importActor().then((actor) => {
             cy.createItemOn(actor, "affliction", {
-                name: "Deep Fatigue",
+                name: "Wasting Fever",
                 system: {
-                    subType: "fatigue",
+                    // fatigue moved to TRAUMA_SUBTYPE (#565); afflictions are
+                    // other / disease / poisontoxin.
+                    subType: "disease",
                     levelBase: 2,
                     healingRateBase: 4,
                 },
@@ -37,7 +39,7 @@ describe("Being Trauma tab: Afflictions section (#309)", () => {
             cy.openSheet(actor);
             cy.switchTab("trauma");
             cy.get('section.tab[data-tab="trauma"] .afflictions-list')
-                .contains(".item", "Deep Fatigue")
+                .contains(".item", "Wasting Fever")
                 .within(() => {
                     cy.contains(".list__detail", "2"); // level
                     cy.contains(".list__detail", "4"); // healing rate
@@ -50,7 +52,9 @@ describe("Being Trauma tab: Afflictions section (#309)", () => {
             cy.createItemOn(actor, "affliction", {
                 name: "Numbing Cold",
                 system: {
-                    subType: "privation",
+                    // privation was removed in the #565 subtype reorg; "other" is
+                    // the catch-all affliction subtype.
+                    subType: "other",
                     levelBase: 1,
                     healingRateBase: 3,
                 },
