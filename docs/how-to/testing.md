@@ -629,6 +629,25 @@ These cost real debugging time; they are not apparent from the code.
   render error in headless runs; `support/e2e.js` keeps a narrow, exact-message
   `uncaught:exception` allowlist for it. Extend that list only for _known_
   environment-specific core errors — never to mask a real failure.
+- **Placeable-`Token` rendering is suppressed headless — don't assert on token
+  pixels.** Placing a Token used to fire core's canvas render chain
+  (`Token.draw` → `TokenRuler.draw`, and the per-tick `_refreshState` refresh)
+  against a viewport that never finishes initializing, throwing unhandled
+  rejections (`reading 'addChild'`, `reading 'OBJECTS'`) that failed token-placing
+  specs nondeterministically (#611). `cy.login()` therefore no-ops the placeable
+  `Token`'s `draw` / `applyRenderFlags` after login (`guardHeadlessTokenDraw`) — the
+  `TokenDocument` and its `.object` still exist, only the PIXI rendering is skipped.
+  Assert on the token **document** and each combatant's `.logic`, never on a
+  placeable's rendered state (which is viewport-dependent and empty here anyway).
+  This is a source-level guard, deliberately not an `uncaught:exception` allowlist
+  entry, so it can't mask a real `addChild` / `OBJECTS` error elsewhere.
+- **Placed tokens are linked — a combatant's `.actor` is the world actor.**
+  `cy.placeToken` / `cy.placeAdjacentTokens` create `actorLink: true` tokens, so a
+  combatant reads the same world actor a spec prepared with `cy.prepare`, not an
+  unprepared synthetic (delta) actor. An unlinked token's synthetic actor is only
+  populated as a side-effect of the canvas draw — which is suppressed headless — so
+  reading actor-derived combatant state (`computedMove`, `reach`) off it yields
+  `null`. Linking keeps those reads deterministic and canvas-independent.
 
 The following are system-authoring facts the suite surfaced — you'll meet them
 when a spec touches these areas:

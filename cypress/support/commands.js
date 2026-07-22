@@ -41,4 +41,48 @@ Cypress.Commands.add("login", (opts = {}) => {
 
     cy.visit("/game");
     cy.window({ timeout: 60000 }).its("game").its("ready").should("eq", true);
+    cy.window({ log: false }).then((win) => guardHeadlessTokenDraw(win));
 });
+
+/**
+ * Neutralize placeable-`Token` canvas rendering in the headless test browser.
+ *
+ * Placing a Token on the auto-viewed scene makes core create a placeable `Token`
+ * and render it — an initial `_draw`, then per-tick `applyRenderFlags` refreshes
+ * driven by the PIXI ticker — but the headless test browser never initializes a
+ * real viewport. Core's render chain then reaches for canvas infrastructure that
+ * is absent and throws unhandled promise rejections at several points:
+ * `TokenRuler.draw` → `GridLayer.addHighlightLayer` (`reading 'addChild'`) from
+ * `_draw`, and `_refreshState` → `RenderFlags.set` (`reading 'OBJECTS'`) from the
+ * ticker refresh. These land on whatever spec is running, failing token-placing
+ * specs nondeterministically (#611). Gating on `canvas.ready` is not enough — it
+ * can read `true` while the token layer is still incomplete, so the refresh throws
+ * anyway.
+ *
+ * This suite never asserts on rendered token pixels — specs read the TokenDocument
+ * and each combatant's Foundry-free `.logic` (and sheets via the DOM), never a
+ * placeable's PIXI state (a viewport-dependent read is empty headless anyway; see
+ * the testing docs). So we no-op the placeable's draw and render-flag flush
+ * outright: the `Token` document and its `.object` still exist, only the PIXI
+ * rendering (which has no test value here) is skipped. This is a narrower, safer
+ * guard than allow-listing the generic `addChild`/`OBJECTS` messages globally,
+ * which could mask a real error elsewhere, and it only patches core rendering that
+ * this harness deliberately does not exercise. Installed once per page load
+ * (idempotent); `testIsolation` is off, so one install per spec file covers all
+ * its tests.
+ *
+ * @param {Window} win - the game client window.
+ */
+function guardHeadlessTokenDraw(win) {
+    const proto = win.CONFIG?.Token?.objectClass?.prototype;
+    if (!proto || proto.__sohlHeadlessGuarded) return;
+    // `draw()` is the render entry point the token layer awaits; no-op it so
+    // neither the initial `_draw` nor its trailing `renderFlags.set({refresh})`
+    // runs. `applyRenderFlags` is the per-tick refresh funnel; no-op it so the
+    // PIXI ticker never refreshes the (undrawn) placeable either.
+    proto.draw = function () {
+        return Promise.resolve(this);
+    };
+    proto.applyRenderFlags = function () {};
+    proto.__sohlHeadlessGuarded = true;
+}
