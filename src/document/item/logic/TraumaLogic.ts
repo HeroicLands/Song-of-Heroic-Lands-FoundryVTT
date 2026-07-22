@@ -22,6 +22,14 @@ import {
 import { toFilePath } from "@src/utils/helpers";
 import { inflictWeaknessFatigue } from "@src/document/item/logic/fatigue";
 import {
+    psycheRecoveryOutcome,
+    auralShockRecoveryOutcome,
+    inflictPsycheStress,
+    PSYCHE_PERMANENCE,
+    PSYCHE_RECOVERY_INTERVAL_FORMULA,
+    AURAL_SHOCK_RECOVERY_INTERVAL_FORMULA,
+} from "@src/document/item/logic/psyche";
+import {
     TREATMENT_HEAL,
     injuryBand,
     requiredTreatment,
@@ -56,6 +64,7 @@ import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import {
     ACTION_SUBTYPE,
+    ATTRIBUTE_CODE,
     CRITICAL_FAILURE,
     CRITICAL_SUCCESS,
     defineType,
@@ -445,6 +454,177 @@ export class TraumaLogic<
     }
 
     /**
+     * Roll one headless recovery test against the being's **Will** — no fatigue or
+     * impairment penalties apply (Psychological Condition rules). Returns the
+     * normalized success level, or `null` if the roll was refused.
+     *
+     * @param type - The test-type id (for chat/telemetry).
+     * @param title - The localized test title.
+     * @returns The normalized success level, or `null`.
+     */
+    private async rollWillTest(
+        type: string,
+        title: string,
+    ): Promise<number | null> {
+        const willMl =
+            (
+                this.actorLogic?.getItemLogic(
+                    ATTRIBUTE_CODE.WILL,
+                    ITEM_KIND.ATTRIBUTE,
+                ) as { masteryLevel?: { effective?: number } } | undefined
+            )?.masteryLevel?.effective ?? 0;
+        const result = await rollTimedTest(this, willMl, {
+            noChat: true,
+            type,
+            title,
+        });
+        return result ? result.normSuccessLevel : null;
+    }
+
+    /**
+     * Intrinsic-action executor for the **Psyche Stress Recovery Test** (#560) —
+     * the recurring recovery of a `psycond`-subtype psychological condition.
+     *
+     * At each elapsed checkpoint (every d6 days; a manual invocation runs one) the
+     * victim rolls a headless Will test (fatigue does not apply). `MS`/`CS` recover
+     * **−1/−2 PSY**; a `CF` is a **Grievous Stress** — an indefinite condition
+     * becomes **permanent**, or a permanent one gains **+1 PSY**
+     * ({@link sohl.document.item.logic.psycheRecoveryOutcome}). An indefinite
+     * condition **goes away** when its PSY reaches 0. Otherwise the next check is
+     * **offered** (issue #579) rather than auto-re-armed.
+     *
+     * @param context - The action context; `scope.schedule` decides whether the
+     *   next occurrence is scheduled.
+     * @returns A promise that resolves once the outcome and schedule are persisted.
+     */
+    async psycheRecovery(context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (
+            !uuid ||
+            this.data.subType !== TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION
+        ) {
+            return;
+        }
+        const now = fvttWorldTime();
+        const entry = this.data.scheduledActions?.find(
+            (e) => e.actionName === "psycheRecovery",
+        );
+        const interval =
+            entry?.interval ??
+            this.rollDuration(PSYCHE_RECOVERY_INTERVAL_FORMULA);
+        const anchor = entry?.anchor ?? now;
+        const checkpoints =
+            entry && interval > 0 ?
+                elapsedCheckpoints(anchor, now, interval)
+            :   [now];
+
+        let psy = this.data.levelBase;
+        let permanent = this.data.category === PSYCHE_PERMANENCE.PERMANENT;
+        for (let i = 0; i < checkpoints.length && (psy > 0 || permanent); i++) {
+            const sl = await this.rollWillTest(
+                "trauma-psyche-recovery",
+                sohl.i18n.localize("SOHL.Trauma.Action.psycheRecovery.title"),
+            );
+            if (sl == null) break;
+            const out = psycheRecoveryOutcome(sl);
+            if (out.grievous) {
+                if (permanent) psy += 1;
+                else permanent = true;
+            } else {
+                psy = Math.max(0, psy + out.psyDelta);
+            }
+        }
+
+        // An indefinite condition recovers (goes away) when its PSY reaches 0.
+        if (!permanent && psy <= 0) {
+            await sohl.unschedule(this.item, "psycheRecovery");
+            await this.item.delete();
+            return;
+        }
+        await this.item.update({
+            "system.levelBase": Math.max(0, psy),
+            "system.category":
+                permanent ?
+                    PSYCHE_PERMANENCE.PERMANENT
+                :   PSYCHE_PERMANENCE.INDEFINITE,
+        } as PlainObject);
+        await offerSchedule(
+            context,
+            this.item,
+            "psycheRecovery",
+            this.rollDuration(PSYCHE_RECOVERY_INTERVAL_FORMULA),
+        );
+    }
+
+    /**
+     * Intrinsic-action executor for the **Aural Shock recovery test** (#560) — the
+     * daily recovery of an `auralshock`-subtype trauma.
+     *
+     * At each elapsed checkpoint (once per day; a manual invocation runs one) the
+     * victim rolls a headless Will test (fatigue and impairment do not apply).
+     * `MS`/`CS` recover **−1/−2 AS**; a `CF` grants **+1 PSY**
+     * ({@link sohl.document.item.logic.auralShockRecoveryOutcome}). The victim
+     * recovers when AS reaches 0. Otherwise the next check is **offered** (issue
+     * #579).
+     *
+     * @param context - The action context; `scope.schedule` decides scheduling.
+     * @returns A promise that resolves once the outcome and schedule are persisted.
+     */
+    async auralShockRecovery(context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (!uuid || this.data.subType !== TRAUMA_SUBTYPE.AURALSHOCK) return;
+        const now = fvttWorldTime();
+        const entry = this.data.scheduledActions?.find(
+            (e) => e.actionName === "auralShockRecovery",
+        );
+        const interval =
+            entry?.interval ??
+            this.rollDuration(AURAL_SHOCK_RECOVERY_INTERVAL_FORMULA);
+        const anchor = entry?.anchor ?? now;
+        const checkpoints =
+            entry && interval > 0 ?
+                elapsedCheckpoints(anchor, now, interval)
+            :   [now];
+
+        let as = this.data.levelBase;
+        let psyGained = 0;
+        for (let i = 0; i < checkpoints.length && as > 0; i++) {
+            const sl = await this.rollWillTest(
+                "trauma-auralshock-recovery",
+                sohl.i18n.localize(
+                    "SOHL.Trauma.Action.auralShockRecovery.title",
+                ),
+            );
+            if (sl == null) break;
+            const out = auralShockRecoveryOutcome(sl);
+            as = Math.max(0, as + out.asDelta);
+            psyGained += out.psyGain;
+        }
+        if (psyGained > 0) {
+            await inflictPsycheStress(
+                this.actorLogic,
+                psyGained,
+                sohl.i18n.localize("SOHL.Trauma.AuralShock"),
+            );
+        }
+
+        if (as <= 0) {
+            await sohl.unschedule(this.item, "auralShockRecovery");
+            await this.item.delete();
+            return;
+        }
+        await this.item.update({
+            "system.levelBase": as,
+        } as PlainObject);
+        await offerSchedule(
+            context,
+            this.item,
+            "auralShockRecovery",
+            this.rollDuration(AURAL_SHOCK_RECOVERY_INTERVAL_FORMULA),
+        );
+    }
+
+    /**
      * Define and return all intrinsic actions for trauma logic, adding the
      * treatment and healing test actions to those inherited from the base logic.
      * @returns The intrinsic action definitions.
@@ -524,6 +704,28 @@ export class TraumaLogic<
                 recordsLastRun: true,
                 visible:
                     "itemLogic.data.subType === 'shock' || itemLogic.data.subType === 'coma' || itemLogic.data.subType === 'infection'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "psycheRecovery",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.psycheRecovery.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-brain",
+                executor: "psycheRecovery",
+                recordsLastRun: true,
+                visible: "itemLogic.data.subType === 'psycond'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "auralShockRecovery",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.auralShockRecovery.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-wand-sparkles",
+                executor: "auralShockRecovery",
+                recordsLastRun: true,
+                visible: "itemLogic.data.subType === 'auralshock'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
         ];

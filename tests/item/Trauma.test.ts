@@ -1485,3 +1485,116 @@ describe("TraumaLogic.categoryLabel", () => {
         expect(logic.categoryLabel).toBe("not-a-category");
     });
 });
+
+describe("Psyche Stress & Aural Shock recovery (#560)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    /** A trauma of `subType` on an actor whose Will lookup yields no attribute
+     *  (the roll is mocked, so the effective mastery is irrelevant). */
+    function recoveryTrauma(subType: string, levelBase: number, category = "") {
+        const actor = makeMockActor();
+        (actor.logic as any).getItemLogic = () => undefined;
+        const logic = makeTrauma({ subType, levelBase, category }, { actor });
+        (logic.item as any).uuid = "Item.recover0000";
+        (logic.item as any).delete = vi.fn().mockResolvedValue(undefined);
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1000);
+        (globalThis as any).sohl.schedule = vi.fn();
+        (globalThis as any).sohl.unschedule = vi.fn();
+        return logic;
+    }
+
+    function mockRoll(level: number) {
+        vi.spyOn(
+            MasteryLevelModifier.prototype,
+            "successTest",
+        ).mockResolvedValue({ normSuccessLevel: level } as any);
+    }
+
+    const NO = { skipDialog: true, scope: { schedule: false } } as any;
+
+    it("Psyche recovery reduces PSY by 1 on a marginal success", async () => {
+        mockRoll(MARGINAL_SUCCESS);
+        const logic = recoveryTrauma(
+            TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+            3,
+            "indefinite",
+        );
+        await logic.psycheRecovery(NO);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 2 }),
+        );
+    });
+
+    it("an indefinite condition goes away when PSY reaches 0", async () => {
+        mockRoll(MARGINAL_SUCCESS);
+        const logic = recoveryTrauma(
+            TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+            1,
+            "indefinite",
+        );
+        await logic.psycheRecovery(NO);
+        expect(logic.item.delete).toHaveBeenCalledTimes(1);
+    });
+
+    it("a Grievous Stress critical failure makes an indefinite condition permanent", async () => {
+        mockRoll(CRITICAL_FAILURE);
+        const logic = recoveryTrauma(
+            TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+            2,
+            "indefinite",
+        );
+        await logic.psycheRecovery(NO);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.category": "permanent" }),
+        );
+        expect(logic.item.delete).not.toHaveBeenCalled();
+    });
+
+    it("a critical failure on a permanent condition raises PSY by one", async () => {
+        mockRoll(CRITICAL_FAILURE);
+        const logic = recoveryTrauma(
+            TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+            2,
+            "permanent",
+        );
+        await logic.psycheRecovery(NO);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 3 }),
+        );
+    });
+
+    it("Aural Shock recovery reduces AS by 2 on a critical success", async () => {
+        mockRoll(CRITICAL_SUCCESS);
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.AURALSHOCK, 3);
+        await logic.auralShockRecovery(NO);
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 1 }),
+        );
+    });
+
+    it("a critical-failure Aural Shock recovery inflicts +1 PSY and keeps AS", async () => {
+        mockRoll(CRITICAL_FAILURE);
+        const create = vi
+            .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+            .mockResolvedValue([]);
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.AURALSHOCK, 2);
+        await logic.auralShockRecovery(NO);
+        expect(create).toHaveBeenCalledTimes(1);
+        expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+            system: {
+                subType: TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+                levelBase: 1,
+            },
+        });
+        expect(logic.item.update).toHaveBeenCalledWith(
+            expect.objectContaining({ "system.levelBase": 2 }),
+        );
+    });
+
+    it("recovers from Aural Shock (removes it) when AS reaches 0", async () => {
+        mockRoll(MARGINAL_SUCCESS);
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.AURALSHOCK, 1);
+        await logic.auralShockRecovery(NO);
+        expect(logic.item.delete).toHaveBeenCalledTimes(1);
+    });
+});
