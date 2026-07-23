@@ -19,7 +19,7 @@ A Skill represents a learned or practiced ability that a Being possesses. Skills
 
 Skills appear on the Being sheet's **Skills** tab, organized by SubType (such as Combat, Physical, Communication, and so on). Skills are typically added from compendium packs during character creation.
 
-Each skill is based on one or more trait attributes via a **skill base formula** — for example, a physical skill might derive its base from the average of Strength and Dexterity. This means a character's innate attributes directly influence their starting skill levels.
+Each skill is based on one or more attributes via a **skill base formula** — for example, a physical skill might derive its base from the average of Strength and Dexterity. This means a character's innate attributes directly influence their starting skill levels.
 
 # Additional Properties
 
@@ -35,7 +35,7 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
     - **Language:**
     - **Script:**
     - **Ritual:**
-- **Skill Base Formula:** Formula for calculating the skill base from referenced traits.
+- **Skill Base Formula:** Formula for calculating the skill base from referenced attributes.
 - **Mastery Level Base:** Base mastery level representing training and experience
 - **Improve Flag:** Whether this item is flagged for mastery improvement via _Skill Development Roll_ (SDR).
 - **Weapon Group:** Combat category this skill applies to, if any.
