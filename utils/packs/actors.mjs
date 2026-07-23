@@ -41,6 +41,7 @@ import {
     makeId,
     resolveName,
     buildStats,
+    withArchetypeFlag,
     md,
 } from "./helpers.mjs";
 
@@ -428,7 +429,9 @@ export class Actors {
             folder,
             sort: 0,
             ownership: { default: 0 },
-            flags: fm.flags || {},
+            // `sohl.archetype` (required nullable number) drives
+            // `flags.sohl.docArchetype` (#640 / archetype contract #604).
+            flags: withArchetypeFlag(fm, fm.flags, ctx),
             _stats: STATS,
             _key: `!actors!${id}`,
         };

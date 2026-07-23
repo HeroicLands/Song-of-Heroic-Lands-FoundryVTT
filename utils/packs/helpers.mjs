@@ -127,6 +127,69 @@ export function sohlField(fm, key, defaultValue = undefined) {
 }
 
 /**
+ * Resolve the required `sohl.archetype` frontmatter for an Item/Actor entry
+ * (see the archetype contract, #604 — `flags.sohl.docArchetype`). The property
+ * is a nullable number that authors must state explicitly:
+ *   - a number → the document is an archetype of that priority.
+ *   - `null`   → the document is not an archetype.
+ *   - absent   → an authoring error (throws), so "not an archetype" is never
+ *                silently assumed.
+ *
+ * Reads `sohl.archetype`, falling back to a top-level `archetype` key to match
+ * {@link sohlField}'s nested-then-top-level resolution.
+ *
+ * @param {object} fm      Parsed frontmatter.
+ * @param {string} label   Human-readable context for error messages.
+ * @returns {number|undefined}  The archetype priority, or `undefined` when null.
+ * @throws {Error} When `sohl.archetype` is absent or is not a number/null.
+ */
+export function resolveArchetype(fm, label) {
+    const sohl = fm != null && typeof fm.sohl === "object" ? fm.sohl : null;
+    const inSohl = sohl != null && "archetype" in sohl;
+    const inTop = fm != null && typeof fm === "object" && "archetype" in fm;
+    if (!inSohl && !inTop) {
+        throw new Error(
+            `Missing required sohl.archetype for ${label} — set a number (this is an archetype) or null (it is not)`,
+        );
+    }
+    const raw = inSohl ? sohl.archetype : fm.archetype;
+    if (raw === null) return undefined;
+    if (typeof raw !== "number" || !Number.isFinite(raw)) {
+        throw new Error(
+            `Invalid sohl.archetype for ${label}: expected a number or null, got ${JSON.stringify(raw)}`,
+        );
+    }
+    return raw;
+}
+
+/**
+ * Merge the required `sohl.archetype` frontmatter into a document's `flags`,
+ * returning a new object (the input is never mutated). A numeric archetype
+ * seeds `flags.sohl.docArchetype`; `null` omits the flag (and clears any stale
+ * `docArchetype` while preserving sibling `sohl` flags); an absent value
+ * throws. See {@link resolveArchetype}.
+ *
+ * @param {object} fm              Parsed frontmatter.
+ * @param {object} [flags]         The entry's existing flags (e.g. `fm.flags`).
+ * @param {string} label           Human-readable context for error messages.
+ * @returns {object}               The flags object with the archetype applied.
+ * @throws {Error} When `sohl.archetype` is absent or invalid.
+ */
+export function withArchetypeFlag(fm, flags, label) {
+    const archetype = resolveArchetype(fm, label);
+    const out = { ...(flags || {}) };
+    const sohl = { ...(out.sohl || {}) };
+    if (archetype === undefined) {
+        delete sohl.docArchetype;
+    } else {
+        sohl.docArchetype = archetype;
+    }
+    if (Object.keys(sohl).length > 0) out.sohl = sohl;
+    else delete out.sohl;
+    return out;
+}
+
+/**
  * Generates a compendium-source filename: `Name_id.json` with non-
  * alphanumeric runs replaced by underscores.
  */

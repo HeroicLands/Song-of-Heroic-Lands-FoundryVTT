@@ -42,6 +42,7 @@ import {
     parseValueDesc,
     resolveName,
     buildStats,
+    withArchetypeFlag,
 } from "./helpers.mjs";
 
 const STATS = buildStats("0.6.0");
@@ -448,7 +449,9 @@ export class Items {
             _id: id,
             system,
             effects,
-            flags: fm.flags || {},
+            // `sohl.archetype` (required nullable number) drives
+            // `flags.sohl.docArchetype` (#640 / archetype contract #604).
+            flags: withArchetypeFlag(fm, fm.flags, `item "${name}"`),
             _stats: STATS,
             ownership: { default: 0 },
             folder,
