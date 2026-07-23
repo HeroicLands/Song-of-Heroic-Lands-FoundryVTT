@@ -783,6 +783,8 @@
     "SOHL.ImpactModifier.Aspect.piercing": "Piercing",
     "SOHL.ImpactModifier.entity": "Impact Modifier",
     "SOHL.ImpactModifier.entityPl": "Impact Modifiers",
+    "SOHL.ImpactModifier.Variant.frost": "Frost",
+    "SOHL.ImpactModifier.Variant.piercing": "Piercing",
     "SOHL.Impairment": "Impairment",
     "SOHL.Item.FIELDS.docHtml.hint": "Detailed description of this item",
     "SOHL.Item.FIELDS.docHtml.label": "Description",

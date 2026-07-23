@@ -20,7 +20,9 @@ import {
     IMPACT_ASPECT,
     IMPACT_ASPECT_CHAR,
     ImpactAspect,
+    ImpactVariant,
     isImpactAspect,
+    isImpactVariant,
 } from "@src/utils/constants";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 
@@ -65,6 +67,7 @@ import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 export class ImpactModifier extends ValueModifier {
     private roll: SimpleRoll | null;
     private aspect: ImpactAspect;
+    private _variant: ImpactVariant | null;
     private _aimBodyPartCode: string;
     private _spread: number;
 
@@ -111,6 +114,7 @@ export class ImpactModifier extends ValueModifier {
             isImpactAspect(data.aspect) ? data.aspect : IMPACT_ASPECT.BLUNT;
         this._aimBodyPartCode = data.aimBodyPartCode ?? "";
         this._spread = data.spread ?? 0;
+        this._variant = isImpactVariant(data.variant) ? data.variant : null;
     }
 
     /** The body part shortcode this attack aims at (empty when unaimed). */
@@ -138,6 +142,7 @@ export class ImpactModifier extends ValueModifier {
             aspect: this.aspect,
             aimBodyPartCode: this._aimBodyPartCode,
             spread: this._spread,
+            variant: this._variant,
         };
     }
 
@@ -158,6 +163,11 @@ export class ImpactModifier extends ValueModifier {
     /** The damage aspect (blunt/edged/piercing/fire) this impact delivers. */
     get aspectType(): ImpactAspect {
         return this.aspect;
+    }
+
+    /** The impact variant (e.g., normal, frost, piercing); `null` when not set. */
+    get variant(): ImpactVariant | null {
+        return this._variant;
     }
 
     /** Number of faces on the impact die (0 when there are no dice). */
@@ -214,6 +224,8 @@ export namespace ImpactModifier {
         aimBodyPartCode: string;
         /** Strike spread for hit-location scatter (`0` when unaimed). */
         spread: number;
+        /** The impact variant (e.g., normal, frost, piercing); defaults to normal. */
+        variant: ImpactVariant;
     }
 
     export interface Options extends ValueModifier.Options {}
