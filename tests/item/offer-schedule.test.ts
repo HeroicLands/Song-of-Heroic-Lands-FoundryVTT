@@ -101,4 +101,97 @@ describe("offerSchedule — the consent step for scheduling timed effects (#579)
         expect(unschedule).toHaveBeenCalledWith(DOC, "healingCheck");
         expect(schedule).not.toHaveBeenCalled();
     });
+
+    // ---- event-driven schedules (issue #622) ----
+
+    it("event-driven: an accepted offer schedules bound to the lifecycle trigger", async () => {
+        const { schedule, unschedule } = spies();
+        vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(true);
+        await offerSchedule(
+            { skipDialog: false, scope: {} },
+            DOC,
+            "shockReTest",
+            0,
+            "turnEnd",
+        );
+        expect(schedule).toHaveBeenCalledWith(
+            DOC,
+            "shockReTest",
+            0,
+            undefined,
+            undefined,
+            "turnEnd",
+            undefined,
+        );
+        expect(unschedule).not.toHaveBeenCalled();
+    });
+
+    it("event-driven: a predicate source is threaded through to sohl.schedule (#569)", async () => {
+        const { schedule } = spies();
+        await offerSchedule(
+            { skipDialog: true, scope: { schedule: true } },
+            DOC,
+            "shockReTest",
+            0,
+            "turnEnd",
+            "combatant.actor.uuid === subscriberUuid",
+        );
+        expect(schedule).toHaveBeenCalledWith(
+            DOC,
+            "shockReTest",
+            0,
+            undefined,
+            undefined,
+            "turnEnd",
+            "combatant.actor.uuid === subscriberUuid",
+        );
+    });
+
+    it("event-driven: scope.schedule pre-answers without a dialog and carries the trigger", async () => {
+        const { schedule } = spies();
+        const dlg = vi.spyOn(FoundryHelpersMock, "dialog");
+        await offerSchedule(
+            { skipDialog: true, scope: { schedule: true } },
+            DOC,
+            "shockReTest",
+            0,
+            "turnEnd",
+        );
+        expect(schedule).toHaveBeenCalledWith(
+            DOC,
+            "shockReTest",
+            0,
+            undefined,
+            undefined,
+            "turnEnd",
+            undefined,
+        );
+        expect(dlg).not.toHaveBeenCalled();
+    });
+
+    it("event-driven: the offer uses the lifecycle prompt + cadence, not the timed one", async () => {
+        vi.spyOn((globalThis as any).sohl, "schedule");
+        vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(true);
+        const fmt = vi.spyOn((globalThis as any).sohl.i18n, "format");
+        await offerSchedule(
+            { skipDialog: false, scope: {} },
+            DOC,
+            "shockReTest",
+            0,
+            "turnEnd",
+        );
+        // The event-driven prompt key is used (no dangling "in {when}"), and the
+        // cadence phrase comes from the trigger, not from describeInterval.
+        const promptCall = fmt.mock.calls.find(
+            (c: any) => c[0] === "SOHL.Schedule.promptEvent",
+        );
+        expect(promptCall, "uses the event prompt key").toBeTruthy();
+        // Under the key-returning test i18n, the trigger phrase falls back to
+        // the trigger name — the point is it is the cadence, not an interval.
+        expect((promptCall as any)[1].when).toBe("turnEnd");
+        expect(
+            fmt.mock.calls.some((c: any) => c[0] === "SOHL.Schedule.prompt"),
+            "must not use the timed prompt key",
+        ).toBe(false);
+    });
 });

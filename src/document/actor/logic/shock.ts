@@ -151,6 +151,25 @@ export function shockIndexAdjustment(normSuccessLevel: number): number {
 export const SHOCK_RETEST_MODIFIER = -20;
 
 /**
+ * The delay before an **Unconscious** victim's Shock Re-Test comes due (Shock
+ * rules — Shock Re-Test): ten minutes, in seconds. An Incapacitated victim
+ * instead re-tests at the end of each combat turn (an event-driven cadence, not a
+ * fixed delay), so it has no analogous constant. See issue #569.
+ */
+export const SHOCK_RETEST_UNCONSCIOUS_DELAY = 600;
+
+/**
+ * The gate for an **Incapacitated** victim's Shock Re-Test (issue #569): a
+ * {@link sohl.entity.expr.SafeExpression} predicate that scopes the `turnEnd`
+ * schedule to the end of the victim's **own** combat turn — the queue offers the
+ * `[Perform]` card only when the combatant whose turn just ended is this being's,
+ * not on every combatant's turn. `subscriberUuid` is the subscribed being's uuid,
+ * bound by the event queue at dispatch (Shock rules — Shock Re-Test).
+ */
+export const SHOCK_RETEST_OWN_TURN_PREDICATE =
+    "combatant.actor.uuid === subscriberUuid";
+
+/**
  * The outcome of a **Shock Re-Test** (Shock rules — Shock Re-Test), by the
  * victim's current shock state and the test result:
  *

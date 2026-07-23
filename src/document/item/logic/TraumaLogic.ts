@@ -968,7 +968,12 @@ export class TraumaLogic<
         super.finalize();
         const uuid = this.item?.uuid;
         if (!uuid) return;
-        armScheduledActions(uuid, this.data.scheduledActions, sohl.events);
+        armScheduledActions(
+            uuid,
+            this.data.scheduledActions,
+            sohl.events,
+            this,
+        );
     }
 
     /** Whether this trauma is an Extended Shock or Coma lasting-shock record. */
