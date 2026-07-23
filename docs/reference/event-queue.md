@@ -376,9 +376,11 @@ override finalize(): void {
         uuid: this.actor.uuid,
         actionName: "fearCheck",
         triggerName: "regionTokenEnter",
-        // Only when it is *this* character entering *this* region.
+        // Only when it is *this* character entering *this* region. `subscriberUuid`
+        // is this subscription's own document, so there is no id to interpolate
+        // into the source (the same binding the Shock Re-Test uses on `turnEnd`).
         predicate: new SafeExpression({
-            source: "actorUuid == '" + this.actor.uuid + "' && regionId == 'crypt'",
+            source: "actorUuid == subscriberUuid && regionId == 'crypt'",
         }),
     });
 }
