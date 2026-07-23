@@ -1,0 +1,27 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<div class="sohl chat-card tour-offer-card">
+    <header class="card-header flexrow">
+        <i class="fa-solid fa-route"></i>
+        <h3>{{title}}</h3>
+    </header>
+    <div class="card-content">
+        <p>{{content}}</p>
+    </div>
+    <div class="card-buttons">
+        <button type="button" data-sohl-tour-start="{{tourId}}">
+            <i class="fa-solid fa-play"></i> {{startLabel}}
+        </button>
+    </div>
+</div>

@@ -99,7 +99,9 @@ const TourBase = (foundry as any).nue.Tour as {
 
 /** Document-mutation hooks a state gate watches to re-evaluate. */
 const STATE_HOOKS = [
+    "createActor",
     "updateActor",
+    "deleteActor",
     "updateItem",
     "createItem",
     "deleteItem",
