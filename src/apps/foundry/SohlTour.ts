@@ -12,10 +12,16 @@
  */
 
 import {
+    TOUR_DRIVE_KIND,
     TOUR_STEP_KIND,
     isNextEnabled,
+    runDrive,
+    seedRngForTour,
     stepKind,
+    type RngLease,
     type SohlTourStepConfig,
+    type StartCombatDrive,
+    type TourDrive,
     type TourGateContext,
 } from "@src/entity/tour";
 
@@ -74,6 +80,16 @@ export interface SohlTourConfig {
      * — e.g. only startable when a suitable actor exists. Defaults to always.
      */
     canStart?: () => boolean;
+    /**
+     * When set, the tour runs in **seeded-RNG mode**: {@link sohl.random} is
+     * seeded with this value at tour start so its scripted rolls are reproducible
+     * across runs, and is **guaranteed-restored on every exit path** (completion,
+     * abort, Escape, navigation, or a mid-step error). Only a driven/railroaded
+     * tour (the Automated Combat tour) should use this — never a coach-and-wait
+     * tour, and never a play path. See the seeded-RNG lifecycle in the
+     * [authoring guide](https://kb.heroiclands.org/dev/how-to/guided-tours/).
+     */
+    seedRng?: string | number | number[];
 }
 
 /** The Foundry NUE `Tour` base class (resolved at runtime from the global). */
@@ -112,6 +128,21 @@ const STATE_HOOKS = [
  *
  * A free step (no gate) behaves exactly like a stock Foundry step.
  *
+ * For a **driven** (railroaded) tour — the Automated Combat tour — it adds two
+ * more capabilities, used only where the tour is meant to *perform* the workflow
+ * rather than coach it:
+ *
+ * 4. **Drive steps** — a step's {@link SohlTourStep.drive | drive} actions
+ *    (import an adventure, activate a scene, start/advance a combat, set a target)
+ *    are performed and awaited before the step is shown, so the next step's
+ *    targets exist. The ordering/await logic is the Foundry-free
+ *    {@link sohl.entity.tour.runDrive}; this class only supplies the executor.
+ * 5. **Seeded RNG** — with {@link SohlTourConfig.seedRng} set, {@link sohl.random}
+ *    is seeded at tour start for reproducible scripted rolls and
+ *    **guaranteed-restored on every exit path** (completion, abort, Escape,
+ *    navigation, mid-step error) via a fire-once {@link sohl.entity.tour.RngLease}
+ *    — the tour's one hard teardown obligation.
+ *
  * @see https://kb.heroiclands.org/dev/how-to/guided-tours/ for the authoring guide.
  */
 export class SohlTour extends TourBase {
@@ -145,6 +176,16 @@ export class SohlTour extends TourBase {
     /** Coalesces bursts of watcher events into a single gate re-evaluation. */
     #refreshPending = false;
 
+    /**
+     * The live seeded-RNG lease while a driven tour runs (undefined otherwise).
+     * Its {@link RngLease.restore | restore} is fire-once, so every exit path can
+     * call {@link #restoreRng} redundantly and safely.
+     */
+    #rngLease: RngLease | undefined;
+
+    /** `pagehide` restore hook — the navigation-away safety net, if seeded. */
+    #unloadHandler: (() => void) | undefined;
+
     /* -------------------------------------------- */
     /*  Accessors                                   */
     /* -------------------------------------------- */
@@ -175,6 +216,19 @@ export class SohlTour extends TourBase {
         await super._preStep();
         const step = this.currentSohlStep;
         if (!step) return;
+
+        // Seed the RNG once, at the first shown step, if this is a driven tour.
+        // Establishing the lease here (rather than in start()) covers every entry
+        // — start(), resume, or a direct progress() — and only for in-progress
+        // steps (progress() returns before _preStep on terminal transitions).
+        this.#seedRngIfNeeded();
+
+        // Perform this step's drive actions before navigation, so nav can target
+        // a document a drive created (e.g. an actor from an imported adventure).
+        // Each is awaited so the following step's selectors resolve.
+        if (step.drive?.length) {
+            await runDrive(step.drive, this.#executeDrive, this);
+        }
 
         // Drop a stale sheet reference if that sheet has since closed.
         if (this.#sheetDoc && !this.#sheetDoc.sheet?.rendered) {
@@ -247,6 +301,36 @@ export class SohlTour extends TourBase {
         this.#teardownWatchers();
         this.#detachNextButton();
         await super._postStep();
+    }
+
+    /**
+     * Exit the tour at the current step — the chokepoint for **abort**, the
+     * **Escape** keybinding, and a **mid-step render error** (Foundry's
+     * `progress()` calls `exit()` before rethrowing). Restore the seeded RNG
+     * first, then defer to the base teardown.
+     */
+    exit(): void {
+        this.#restoreRng();
+        super.exit();
+    }
+
+    /**
+     * Progress to a step. Delegates to the base stepper, then — on reaching a
+     * **terminal** status (normal **completion** or a **reset** to unstarted) —
+     * restores the seeded RNG. Combined with {@link exit} (abort/Escape/error)
+     * and the `pagehide` safety net, this guarantees restore on every exit path.
+     * @param stepIndex - The step index to progress to.
+     */
+    async progress(stepIndex: number): Promise<void> {
+        // On a render error the base wraps _renderStep in try/catch and calls
+        // this.exit() (which restores) before rethrowing — so a throw here has
+        // already torn down the lease; let it propagate.
+        await super.progress(stepIndex);
+        const status = this.status;
+        const TERMINAL = (TourBase as any).STATUS ?? {};
+        if (status === TERMINAL.COMPLETED || status === TERMINAL.UNSTARTED) {
+            this.#restoreRng();
+        }
     }
 
     /**
@@ -386,6 +470,153 @@ export class SohlTour extends TourBase {
             });
             this.#nextButton = undefined;
         }
+    }
+
+    /* -------------------------------------------- */
+    /*  Driven tour: seeded RNG                     */
+    /* -------------------------------------------- */
+
+    /**
+     * Seed {@link sohl.random} once, at tour start, if this is a seeded tour and
+     * no lease is yet held. Also arms the `pagehide` safety net so navigating
+     * away (a page unload that never reaches {@link exit}/{@link progress})
+     * still restores. Idempotent: a re-entry with a live lease is a no-op.
+     */
+    #seedRngIfNeeded(): void {
+        const seed = (this.config as SohlTourConfig).seedRng;
+        if (seed == null || this.#rngLease) return;
+        this.#rngLease = seedRngForTour((sohl as any).random, seed);
+        this.#unloadHandler = () => this.#restoreRng();
+        (globalThis as any).addEventListener?.("pagehide", this.#unloadHandler);
+    }
+
+    /**
+     * Restore the seeded RNG to its pre-tour state and drop the safety net. Safe
+     * to call from every exit path: the {@link RngLease} restore is fire-once, so
+     * redundant calls no-op. A no-op entirely when the tour was never seeded.
+     */
+    #restoreRng(): void {
+        this.#rngLease?.restore();
+        this.#rngLease = undefined;
+        if (this.#unloadHandler) {
+            (globalThis as any).removeEventListener?.(
+                "pagehide",
+                this.#unloadHandler,
+            );
+            this.#unloadHandler = undefined;
+        }
+    }
+
+    /* -------------------------------------------- */
+    /*  Driven tour: drive primitives               */
+    /* -------------------------------------------- */
+
+    /**
+     * The Foundry-coupled executor handed to {@link runDrive}: turn one
+     * {@link TourDrive} descriptor into its side-effecting Foundry calls and
+     * resolve when complete. Bound as a field so `this` is the tour when
+     * {@link runDrive} calls it.
+     * @param drive - The drive descriptor to execute.
+     */
+    #executeDrive = async (drive: TourDrive): Promise<void> => {
+        switch (drive.kind) {
+            case TOUR_DRIVE_KIND.IMPORT_ADVENTURE: {
+                const adv: any = await this.#resolveDocument(drive.uuid);
+                // dialog:false — a driven tour imports without prompting.
+                await adv?.import?.({ dialog: false });
+                break;
+            }
+            case TOUR_DRIVE_KIND.ACTIVATE_SCENE: {
+                const scene: any = await this.#resolveDocument(drive.uuid);
+                if (!scene) break;
+                if ((game as any).user?.isGM && !scene.active) {
+                    await scene.activate?.();
+                }
+                await scene.view?.();
+                break;
+            }
+            case TOUR_DRIVE_KIND.START_COMBAT:
+                await this.#startCombat(drive);
+                break;
+            case TOUR_DRIVE_KIND.ROLL_INITIATIVE:
+                await this.#activeCombat()?.rollAll?.();
+                break;
+            case TOUR_DRIVE_KIND.ADVANCE_TURN:
+                await this.#activeCombat()?.nextTurn?.();
+                break;
+            case TOUR_DRIVE_KIND.SET_TARGET: {
+                const token = await this.#resolveTokenObject(drive.tokenUuid);
+                token?.setTarget?.(true, { releaseOthers: true });
+                break;
+            }
+            case TOUR_DRIVE_KIND.CLEAR_TARGET: {
+                const targets = (game as any).user?.targets;
+                for (const t of [...(targets ?? [])]) {
+                    t?.setTarget?.(false, { releaseOthers: false });
+                }
+                break;
+            }
+        }
+    };
+
+    /**
+     * Start a combat over the drive's tokens (or all tokens on the viewed scene),
+     * begin it, and optionally roll initiative — each step awaited so a following
+     * `roll-initiative`/`advance-turn` drive or gate sees the started combat.
+     * @param drive - The start-combat descriptor.
+     */
+    async #startCombat(drive: StartCombatDrive): Promise<void> {
+        const scene: any =
+            (globalThis as any).canvas?.scene ?? (game as any).scenes?.active;
+        if (!scene) return;
+
+        let tokens: any[];
+        if (drive.tokenUuids?.length) {
+            tokens = [];
+            for (const uuid of drive.tokenUuids) {
+                const t = await this.#resolveDocument(uuid);
+                if (t) tokens.push(t);
+            }
+        } else {
+            tokens = [...(scene.tokens ?? [])];
+        }
+
+        const CombatCls = (globalThis as any).Combat;
+        const combat: any = await CombatCls.create({
+            scene: scene.id,
+            active: true,
+        });
+        await combat.createEmbeddedDocuments(
+            "Combatant",
+            tokens.map((t) => ({
+                tokenId: t.id,
+                sceneId: scene.id,
+                actorId: t.actorId ?? t.actor?.id,
+                hidden: false,
+            })),
+        );
+        await combat.startCombat();
+        if (drive.rollInitiative) await combat.rollAll();
+    }
+
+    /**
+     * The active combat, or `undefined`. Reads the combat document directly (not
+     * the viewport-dependent `game.combat`) so it resolves in a headless run.
+     * @returns The active {@link SohlCombat}-like document, or `undefined`.
+     */
+    #activeCombat(): any {
+        return (game as any).combats?.active ?? (game as any).combats?.viewed;
+    }
+
+    /**
+     * Resolve a token UUID to the placeable `Token` that carries `setTarget`,
+     * falling back to the TokenDocument if the placeable isn't drawn.
+     * @param uuid - The TokenDocument UUID.
+     * @returns The placeable Token (or its document), or `undefined`.
+     */
+    async #resolveTokenObject(uuid: string): Promise<any> {
+        const doc: any = await this.#resolveDocument(uuid);
+        return doc?.object ?? doc;
     }
 
     /* -------------------------------------------- */

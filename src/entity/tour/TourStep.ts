@@ -11,6 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import type { TourDrive } from "./TourDrive";
 import {
     TOUR_STEP_KIND,
     TourGate,
@@ -81,6 +82,13 @@ export interface SohlTourStepConfig extends TourStepBase {
     control?: string;
     /** Scene-setting navigation performed before the step. */
     nav?: SohlTourNav;
+    /**
+     * Drive actions this step *performs* before it is shown, run in order and
+     * each awaited (see {@link sohl.entity.tour.runDrive}). Only a railroaded/driven tour uses
+     * these; a coach-and-wait step never does. Executed by `SohlTour` before its
+     * {@link nav} navigation, so navigation can target documents a drive created.
+     */
+    drive?: TourDrive[];
 }
 
 /**
