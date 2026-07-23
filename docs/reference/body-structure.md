@@ -121,6 +121,21 @@ or fully-amputated limb) does. The derivation is pure and Foundry-free; the
 Being-sheet header grid colors each part by status (none = white, MINOR = yellow,
 SERIOUS/GRIEVOUS = blue, unusable = black).
 
+**Impairment reaches test resolution through a part's roles (#568).** A skill or
+attribute declares the body-part roles it depends on in its `impairedByRoles`, and
+the being projects its injured parts onto two role views: `being.unusableRoles()`
+(roles of every _unusable_ part) and `being.impairedRolePenalties()` (each
+still-usable-but-impaired role → its worst −5/−10 penalty; the two never overlap,
+since an unusable part contributes no number). In
+{@link sohl.entity.modifier.MasteryLevelModifier.successTest} a test whose
+`impairedByRoles` intersects an **unusable** role is forced to a Critical Failure
+(the pure {@link testAutoCriticallyFails}); otherwise the worst matching −5/−10
+penalty is folded into its effective mastery level (the pure
+{@link testImpairmentPenalty}). Both are strict no-ops for a test with no
+`impairedByRoles` or an actor with no impaired parts. Weapon strike modes name
+required limbs by _count_ (`minParts`), not by role, so this role-based gating does
+not yet reach them — that variant is a follow-up.
+
 Impairment drives **being health** (`deriveHealth`,
 `src/document/actor/logic/health.ts`) — a banded assessment, not a point pool
 (SoHL has no hit points). Each impaired part caps overall health by (its state,

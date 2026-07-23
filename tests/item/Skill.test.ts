@@ -510,6 +510,55 @@ describe("SkillLogic", () => {
             expect(sm.defense.counterstrike.effective).toBe(38); // 40 - 2
         });
 
+        describe("prone wielder (#562)", () => {
+            afterEach(() => vi.restoreAllMocks());
+
+            it("subtracts 20 from the technique's attack and defenses when prone", () => {
+                const actor = makeMockActor();
+                vi.spyOn(
+                    FoundryHelpersMock,
+                    "fvttActorStatuses",
+                ).mockReturnValue(new Set(["prone"]));
+                const logic = makeSkill(
+                    {
+                        subType: "combattechnique",
+                        masteryLevelBase: 40,
+                        strikeMode: meleeSM(),
+                    },
+                    { actor },
+                );
+                logic.initialize();
+                logic.evaluate();
+                logic.finalize();
+                const sm = logic.strikeMode as MeleeStrikeMode;
+                expect(sm.attack.effective).toBe(45 - 20); // 40 ML + 5 AtkMod − 20
+                expect(sm.defense.block.effective).toBe(43 - 20); // 40 + 3 − 20
+                expect(sm.defense.counterstrike.effective).toBe(38 - 20); // 40 − 2 − 20
+            });
+
+            it("leaves the technique unchanged when the wielder is not prone", () => {
+                const actor = makeMockActor();
+                vi.spyOn(
+                    FoundryHelpersMock,
+                    "fvttActorStatuses",
+                ).mockReturnValue(new Set());
+                const logic = makeSkill(
+                    {
+                        subType: "combattechnique",
+                        masteryLevelBase: 40,
+                        strikeMode: meleeSM(),
+                    },
+                    { actor },
+                );
+                logic.initialize();
+                logic.evaluate();
+                logic.finalize();
+                const sm = logic.strikeMode as MeleeStrikeMode;
+                expect(sm.attack.effective).toBe(45);
+                expect(sm.defense.block.effective).toBe(43);
+            });
+        });
+
         it("keeps the technique's own attack modifier in the derivation", () => {
             const logic = makeSkill({
                 subType: "combattechnique",

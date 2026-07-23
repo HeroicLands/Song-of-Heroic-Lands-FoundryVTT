@@ -1336,6 +1336,31 @@ describe("BeingLogic", () => {
         it("is empty for an incorporeal being (no body)", () => {
             expect(makeBeing().unusableRoles().size).toBe(0);
         });
+
+        it("maps an impaired-but-usable role to its −10 (serious) penalty", () => {
+            const being = beingWithHands();
+            injure(being, "rhand", 2); // serious → impaired but usable (−10)
+            const penalties = being.impairedRolePenalties();
+            expect(penalties.get("manipulator")).toBe(-10);
+            expect(penalties.has("locomotor")).toBe(false);
+        });
+
+        it("excludes a role made unusable by a grievous injury (that is auto-CF, not a penalty)", () => {
+            const being = beingWithHands();
+            injure(being, "rhand", 4); // grievous → unusable, no numeric penalty
+            expect(being.impairedRolePenalties().has("manipulator")).toBe(
+                false,
+            );
+            expect(being.unusableRoles().has("manipulator")).toBe(true);
+        });
+
+        it("is empty when a part is uninjured", () => {
+            expect(beingWithHands().impairedRolePenalties().size).toBe(0);
+        });
+
+        it("is empty for an incorporeal being (no body)", () => {
+            expect(makeBeing().impairedRolePenalties().size).toBe(0);
+        });
     });
 
     // Opposed-test resume moved off the actor onto SohlTokenDocumentLogic
