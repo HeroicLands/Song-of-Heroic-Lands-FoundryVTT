@@ -132,6 +132,95 @@ const config: SohlTourConfig = {
 return new SohlTour(config);
 ```
 
+## Driven (railroaded) tours
+
+Everything above is **coach-and-wait**: the tour highlights, waits, and only ever
+automates scene-setting. A handful of tours — the **Automated Combat** tour above
+all — are a different animal: they are opinionated and _railroaded_, so they must
+**drive** the app down a fixed path and make dice **deterministic** so the scripted
+rolls come out the same every run.
+
+These are heavier, reusable capabilities kept deliberately separate from the
+coach-and-wait core (#613 vs. #624). Reach for them **only** for a tour whose
+explicit job is to demonstrate an automated workflow end to end — never to nudge a
+coaching tour past a choice the human should make. The PRIME DIRECTIVE still holds:
+a driven tour is sanctioned because _demonstrating the automation_ is its whole
+point, not because driving is ever the default.
+
+### Drive steps
+
+A step may **perform** actions before it is shown by declaring a `drive` array.
+Each action is executed and fully awaited in order, so the next action — and the
+step's own `selector` — sees the world state the prior one produced. Drive actions
+run **before** the step's `nav`, so navigation can target a document a drive
+created (e.g. an actor from an imported adventure).
+
+The drive vocabulary is {@link sohl.entity.tour.TOUR_DRIVE_KIND}:
+
+| Kind               | Does                                                                   |
+| ------------------ | ---------------------------------------------------------------------- |
+| `import-adventure` | Import an Adventure document (by `uuid`) into the world.               |
+| `activate-scene`   | Activate a Scene (by `uuid`) and await its canvas render.              |
+| `start-combat`     | Start a Combat over `tokenUuids` (or all scene tokens); optional init. |
+| `roll-initiative`  | Roll initiative for every combatant in the active combat.              |
+| `advance-turn`     | Advance the active combat to the next turn.                            |
+| `set-target`       | Set the current user's target to a token (by `tokenUuid`).             |
+| `clear-target`     | Clear the current user's targeted tokens.                              |
+
+```ts
+{
+    id: "engage",
+    title: "…",
+    content: "…",
+    drive: [
+        { kind: "activate-scene", uuid: "Scene.xxxx" },
+        { kind: "start-combat", tokenUuids: ["Scene.xxxx.Token.aaaa", "Scene.xxxx.Token.bbbb"], rollInitiative: true },
+        { kind: "set-target", tokenUuid: "Scene.xxxx.Token.bbbb" },
+    ],
+}
+```
+
+The **sequencing/await** logic ({@link sohl.entity.tour.runDrive}) is Foundry-free
+and unit-tested (`tests/domain/tour/TourDrive.test.ts`); `SohlTour` supplies the
+Foundry-coupled executor. A drive action that throws **halts the sequence** and
+propagates — and the seeded-RNG teardown below still fires, because the error
+unwinds through the tour's exit path.
+
+### Seeded RNG — and its one hard teardown obligation
+
+Set {@link sohl.apps.foundry.SohlTourConfig.seedRng} to run the tour in
+**seeded-RNG mode**: {@link sohl.random} is seeded at tour start so its scripted
+rolls are reproducible across runs.
+
+```ts
+const config: SohlTourConfig = {
+    namespace: "sohl",
+    id: "automated-combat",
+    seedRng: "automated-combat-tour", // reproducible dice for the duration
+    steps: [
+        /* … drive steps … */
+    ],
+};
+```
+
+> ⚠️ **The seeded RNG MUST be restored on every exit path, and this is the tour's
+> only teardown obligation.** `sohl.random` is the process-wide shared stream; a
+> seed left in place makes the **user's real game return identical dice until they
+> reload**. The restore is registered at seed time as a fire-once
+> {@link sohl.entity.tour.RngLease} (a `finally`-style hook) so it cannot be
+> skipped, and `SohlTour` invokes it from **all** of: normal completion, user
+> abort, the Escape keybinding, navigation away (a `pagehide` safety net), and a
+> mid-step error. The lease's `restore()` is idempotent, so those redundant hooks
+> are safe. If you extend the framework, never add an exit path that bypasses
+> {@link sohl.apps.foundry.SohlTour}'s `exit`/`progress`/`pagehide` teardown.
+
+Because `restore()` rewinds `sohl.random` to its **exact pre-tour stream
+position** (not a fresh entropy seed), the game continues the stream it would have
+produced had the tour never run — there is no observable perturbation once the tour
+ends. The seed/restore mechanics are Foundry-free and unit-tested
+(`tests/domain/tour/TourRng.test.ts`); the all-exit-paths guarantee is proven by
+the exit-path matrix in `cypress/e2e/guided-tours-drive.cy.js`.
+
 ## Registering a tour
 
 Register from the system `ready` hook in
