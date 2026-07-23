@@ -73,12 +73,9 @@ export interface ProjectileGearData<
     subType: ProjectileGearSubType;
     /** Base damage characteristics: dice, modifier, and aspect */
     impactBase: {
-        /** When `true`, the projectile's dice override the weapon's dice rather than combining with them. */
-        overrideDice: boolean;
-        /** When `true`, the projectile's modifier overrides the weapon's modifier rather than combining with it. */
-        overrideModifier: boolean;
-        /** Number of impact dice. `0` means no dice are contributed. */
-        numDice: number;
+        /** Number of impact dice. `null` when the projectile's
+         * numDice "does not apply" (the weapon supplies it); `0` means none. */
+        numDice: number | null;
         /**
          * Number of sides on each impact die. `null` when the projectile's die
          * "does not apply" (the weapon supplies it); when specified, ≥ 2.
@@ -91,5 +88,14 @@ export interface ProjectileGearData<
         modifier: number | null;
         /** Damage aspect (e.g. blunt, edged, piercing) of the impact. */
         aspect: ImpactAspect;
+    };
+
+    /** Traits that modify the projectile's behavior (e.g., broadhead) */
+    traits: {
+        /**
+         * Indicates if the projectile has a broadhead tip, which provides
+         * increased damage to certain targets
+         */
+        broadhead: boolean;
     };
 }

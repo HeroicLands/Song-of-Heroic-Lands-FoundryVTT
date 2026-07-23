@@ -43,19 +43,17 @@ function defineProjectileGearSchema(): foundry.data.fields.DataSchema {
             initial: PROJECTILEGEAR_SUBTYPE.NONE,
         }),
         impactBase: new SchemaField({
-            overrideDice: new BooleanField({ initial: false }),
-            overrideModifier: new BooleanField({ initial: false }),
             numDice: new NumberField({
                 integer: true,
-                nullable: false,
-                initial: 0,
+                nullable: true,
+                initial: null,
                 min: 0,
             }),
             die: new NumberField({
                 integer: true,
-                min: 2,
                 nullable: true,
                 initial: null,
+                min: 2,
             }),
             modifier: new NumberField({
                 integer: true,
@@ -66,6 +64,9 @@ function defineProjectileGearSchema(): foundry.data.fields.DataSchema {
                 initial: IMPACT_ASPECT.BLUNT,
                 required: true,
                 choices: ImpactAspectChoices,
+            }),
+            traits: new SchemaField({
+                broadhead: new BooleanField({ initial: false }),
             }),
         }),
     };
@@ -93,12 +94,13 @@ export class ProjectileGearDataModel<
     subType!: ProjectileGearSubType;
     shortName!: string;
     impactBase!: {
-        overrideDice: boolean;
-        overrideModifier: boolean;
-        numDice: number;
-        die: number;
-        modifier: number;
+        numDice: number | null;
+        die: number | null;
+        modifier: number | null;
         aspect: ImpactAspect;
+    };
+    traits!: {
+        broadhead: boolean;
     };
 
     /**
