@@ -16,8 +16,9 @@ _measured_ physical stats are already first-class fields on the Being/actor data
 model after the Corpus→Being dissolution — Body Weight (`body.weight`), Move (the
 universal `currentMoveMedium` / `movementProfiles` capability), and Size's effects
 (`body.reachBase`, `body.bodyScaleBase`), with Carrying Capacity subsumed by the
-encumbrance system. The lone descriptive straggler, Favored Parts, moves to
-`assets/content/Trauma/physcond` as a `trauma` item.
+encumbrance system. The lone descriptive straggler, handedness, is remodeled as
+two `physcond` trauma items, **Right Dominance** and **Left Dominance** — a
+whole-side (not hand-only) preference; the ambidextrous have neither.
 
 **Migration (automatic, lossless).** A world migration retires any existing `trait`
 documents: descriptive traits are re-created as `trauma` items (`personality` →
