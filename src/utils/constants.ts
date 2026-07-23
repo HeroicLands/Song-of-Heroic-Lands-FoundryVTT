@@ -2040,6 +2040,12 @@ export const {
     PALL: "pall",
     /** Mental and emotional disorder. */
     PSYCHOLOGICAL_CONDITION: "psycond",
+    /**
+     * A persistent physical condition of the body (descriptive; e.g. albinism,
+     * a limp, poor eyesight) — a `TRAUMA_PHYSCOND_CATEGORY` graded from a
+     * background `trait`, through an `impulse`, to a `disorder`.
+     */
+    PHYSICAL_CONDITION: "physcond",
     /** Severe shock to the aura, resulting in temporary loss of aura-related abilities. */
     AURALSHOCK: "auralshock",
     /** Physical or mental exhaustion resulting from prolonged activity or stress. */
@@ -2061,6 +2067,52 @@ export const {
 /** Union of all trauma-subtype values. */
 export type TraumaSubType =
     (typeof TRAUMA_SUBTYPE)[keyof typeof TRAUMA_SUBTYPE];
+
+export const {
+    /** Map of psychological-condition-category key → value. */
+    kind: TRAUMA_PSYCOND_CATEGORY,
+    /** All psychological-condition-category values, as an array. */
+    values: TraumaPsycondCategories,
+    /** Type guard for psychological-condition-category values. */
+    isValue: isTraumaPsycondCategory,
+    /** Value-keyed label map for `StringField({ choices })`. */
+    choices: TraumaPsycondCategoryChoices,
+    /** Localization keys per psychological-condition category. */
+    labels: TraumaPsycondCategoryLabels,
+} = defineType("SOHL.Trauma.PSYCOND_CATEGORY", {
+    /** A benign quirk of temperament — noticeable but not impairing. */
+    QUIRK: "quirk",
+    /** A compulsive impulse that intermittently overrides better judgement. */
+    IMPULSE: "impulse",
+    /** A disabling mental or emotional disorder. */
+    DISORDER: "disorder",
+});
+/** Union of all psychological-condition-category values. */
+export type TraumaPsycondCategory =
+    (typeof TRAUMA_PSYCOND_CATEGORY)[keyof typeof TRAUMA_PSYCOND_CATEGORY];
+
+export const {
+    /** Map of physical-condition-category key → value. */
+    kind: TRAUMA_PHYSCOND_CATEGORY,
+    /** All physical-condition-category values, as an array. */
+    values: TraumaPhyscondCategories,
+    /** Type guard for physical-condition-category values. */
+    isValue: isTraumaPhyscondCategory,
+    /** Value-keyed label map for `StringField({ choices })`. */
+    choices: TraumaPhyscondCategoryChoices,
+    /** Localization keys per physical-condition category. */
+    labels: TraumaPhyscondCategoryLabels,
+} = defineType("SOHL.Trauma.PHYSCOND_CATEGORY", {
+    /** A background physical trait — present but not impairing. */
+    TRAIT: "trait",
+    /** A physical condition that intermittently impairs. */
+    IMPEDIMENT: "impediment",
+    /** A disabling physical debility. */
+    DEBILITY: "debility",
+});
+/** Union of all physical-condition-category values. */
+export type TraumaPhyscondCategory =
+    (typeof TRAUMA_PHYSCOND_CATEGORY)[keyof typeof TRAUMA_PHYSCOND_CATEGORY];
 
 /**
  * Injury severity levels, indexed by numeric level: `INJURY_LEVELS[0]` is

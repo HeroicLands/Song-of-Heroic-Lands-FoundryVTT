@@ -215,14 +215,19 @@ function buildAffiliation(fm) {
 }
 
 function buildTrauma(fm) {
+    // Injury-only fields (level, aspect, body location) are nullable: a
+    // descriptive condition (psycond/physcond) omits them, so they compile to
+    // `null` (their schema initial) rather than a misleading 0/"blunt"/"".
+    const rawLevel = sohlField(fm, "levelBase", null);
     return {
         subType: sohlField(fm, "subType", "physical"),
-        levelBase: Number(sohlField(fm, "levelBase", 0)) || 0,
+        category: sohlField(fm, "category", null),
+        levelBase: rawLevel == null ? null : Number(rawLevel) || 0,
         healingRateBase: Number(sohlField(fm, "healingRateBase", 0)) || 0,
-        aspect: sohlField(fm, "aspect", "blunt"),
+        aspect: sohlField(fm, "aspect", null),
         isTreated: Boolean(sohlField(fm, "isTreated", false)),
         isBleeding: Boolean(sohlField(fm, "isBleeding", false)),
-        bodyLocationCode: sohlField(fm, "bodyLocationCode", ""),
+        bodyLocationCode: sohlField(fm, "bodyLocationCode", null),
     };
 }
 

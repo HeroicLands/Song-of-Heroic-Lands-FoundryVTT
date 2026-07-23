@@ -44,13 +44,23 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
             choices: TraumaSubTypeChoices,
         }),
         // Sub-category within a subtype — e.g. a FATIGUE trauma's category is a
-        // FATIGUE_CATEGORY (windedness / weariness / weakness). Empty for
-        // subtypes that have no sub-category. A blank sentinel, not nullable:
-        // "no category" is a valid state, not a distinct unset one.
-        category: new StringField({ initial: "" }),
+        // FATIGUE_CATEGORY (windedness / weariness / weakness), a psychological
+        // condition's is a TRAUMA_PSYCOND_CATEGORY, etc. Nullable: an injury and
+        // other subtypes with no sub-category leave it unset (`null`), distinct
+        // from any valid category value.
+        category: new StringField({
+            nullable: true,
+            blank: false,
+            required: false,
+            initial: null,
+        }),
+        // Graduated severity (M1, S2-S3, G4-G5) for injuries and levelled
+        // conditions. Nullable: descriptive conditions carry no level (`null`),
+        // distinct from a genuine level of 0.
         levelBase: new NumberField({
             integer: true,
-            initial: 0,
+            nullable: true,
+            initial: null,
             min: 0,
         }),
         healingRateBase: new NumberField({
@@ -60,8 +70,12 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
             initial: null,
             min: 0,
         }),
+        // The damage aspect that caused an injury. Nullable: descriptive
+        // conditions have no damage aspect (`null`).
         aspect: new StringField({
-            initial: IMPACT_ASPECT.BLUNT,
+            nullable: true,
+            required: false,
+            initial: null,
             choices: ImpactAspectChoices,
         }),
         contractDate: worldTimeDateField(),
@@ -80,7 +94,14 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         // (#553 sets it). A Critical-Failure Injury Healing Test on an infectable
         // wound contracts an infection (#557).
         infectable: new BooleanField({ initial: false }),
-        bodyLocationCode: new StringField({ initial: "", required: true }),
+        // Body location the trauma affects. Nullable: a whole-body trauma or a
+        // descriptive condition has no specific location (`null`).
+        bodyLocationCode: new StringField({
+            nullable: true,
+            blank: false,
+            required: false,
+            initial: null,
+        }),
     };
 }
 
@@ -102,10 +123,10 @@ export class TraumaDataModel<
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.TRAUMA;
     subType!: TraumaSubType;
-    category!: string;
-    levelBase!: number;
+    category!: string | null;
+    levelBase!: number | null;
     healingRateBase!: number | null;
-    aspect!: ImpactAspect;
+    aspect!: ImpactAspect | null;
     contractDate!: number | null;
     treatmentDate!: number | null;
     healingCheckDurationFormula!: string;
@@ -116,7 +137,7 @@ export class TraumaDataModel<
     courseDurationBase!: number | null;
     permanentImpairmentEligible!: boolean;
     infectable!: boolean;
-    bodyLocationCode!: string;
+    bodyLocationCode!: string | null;
 
     /**
      * Returns the Foundry data schema for the trauma item.

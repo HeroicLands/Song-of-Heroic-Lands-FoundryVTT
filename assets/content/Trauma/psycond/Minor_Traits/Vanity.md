@@ -1,0 +1,48 @@
+---
+aliases: []
+tags: []
+name:
+    full: Vanity
+    aliases: []
+id: FahmSOpTgbWlZn2h
+slug: vanity
+img: icons/user-gear.svg
+shortcode: vanity
+type: trauma
+package: sohl
+sohl:
+    archetype: 0
+    subType: psycond
+    category: quirk
+folder: SpZzOv4eOwtdsMMo
+---
+
+Vanity refers to an excessive pride in one’s appearance, achievements, or qualities, often coupled with a preoccupation with how others perceive them. A vain individual tends to focus on superficial attributes and may seek constant validation or praise. While self-confidence and self-care are healthy traits, vanity can lead to shallow behavior, a lack of empathy, and strained relationships due to an overemphasis on external appearance and approval.
+
+### Quirk
+
+The individual takes pride in their appearance and accomplishments, enjoying the positive attention they receive. They care about how they present themselves and put effort into maintaining a good image, but they still engage in meaningful relationships and are capable of empathy. Their self-esteem is boosted by their appearance, but it does not dominate their life.
+**Example:** Lady Marissa enjoys dressing in the finest clothes and takes pride in her beauty. She enjoys compliments and social recognition but remains kind and considerate to others. Her vanity is seen as confidence, and it enhances her social life without overshadowing her other qualities.
+
+### Impulse
+
+The individual becomes more focused on their appearance or external validation, spending an increasing amount of time and energy maintaining or improving their image. They may begin to neglect other aspects of their life, such as personal relationships or responsibilities, in favor of keeping up their looks or reputation. Although still functioning in daily life, their preoccupation with vanity starts to cause friction with those around them.
+**Example:** Lady Marissa starts to spend excessive time in front of the mirror, constantly seeking out new clothes and beauty treatments. She avoids social gatherings unless she feels she looks perfect and becomes irritated when others do not acknowledge her appearance. Her friends begin to notice that her conversations revolve mostly around her looks, causing some tension.
+
+### Disorder
+
+As vanity intensifies, the individual becomes excessively preoccupied with their appearance, status, or achievements, to the point where it consumes their life. They may obsess over their image, constantly seeking praise or attention, while neglecting relationships, responsibilities, or deeper aspects of their personality. This extreme focus on external validation can lead to superficial relationships, emotional distress, and insecurity when their vanity is not satisfied.
+
+### Physical Symptoms
+
+The individual may experience anxiety or distress when their appearance is not up to their own high standards. They may spend excessive time and money on beauty treatments, clothing, or fitness routines, often neglecting other needs. Their sense of self-worth may fluctuate based on external validation.
+
+### Intrusive Thoughts
+
+Persistent thoughts about their appearance or how they are perceived by others. They may constantly compare themselves to others, feel dissatisfied with their looks or achievements, and worry excessively about maintaining their image.
+
+### Emotional Distress
+
+The individual may feel deep frustration, insecurity, or sadness when they believe they do not look their best or when others do not praise them. Their self-esteem becomes tied to external validation, leading to emotional volatility, shallow relationships, and a sense of emptiness.
+
+**Example:** Lady Marissa becomes completely consumed by her vanity, spending hours each day perfecting her appearance. She avoids social situations where she fears she won’t receive enough attention and becomes angry or despondent when others fail to compliment her. Her obsession with beauty drives her to neglect her duties, family, and friends, leaving her isolated and constantly anxious about her looks. Marissa’s once-glowing self-confidence turns into an unhealthy fixation, and she finds herself deeply unhappy despite her outward appearance.

@@ -988,7 +988,7 @@ export class BeingLogic<
         }
         if (!best) return undefined;
         return {
-            code: best.data.bodyLocationCode,
+            code: best.data.bodyLocationCode ?? "",
             level: bestLevel,
             shockValue: bestShock,
         };
@@ -1074,7 +1074,7 @@ export class BeingLogic<
      */
     get moraleState(): number {
         return mostSevereMorale(
-            this.activeMoraleTraumas().map((t) => t.data.levelBase),
+            this.activeMoraleTraumas().map((t) => t.data.levelBase ?? 0),
         );
     }
 
@@ -1088,7 +1088,7 @@ export class BeingLogic<
         return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).filter(
             (t) =>
                 t.data.subType === TRAUMA_SUBTYPE.MORALE &&
-                isShakenMorale(t.data.levelBase),
+                isShakenMorale(t.data.levelBase ?? 0),
         );
     }
 
@@ -1246,7 +1246,7 @@ export class BeingLogic<
             for (const t of shaken) await t.item.delete();
         } else {
             for (const t of shaken) {
-                if (t.data.levelBase > target) {
+                if ((t.data.levelBase ?? 0) > target) {
                     await t.item.update({
                         "system.levelBase": target,
                     } as PlainObject);
@@ -1434,7 +1434,7 @@ export class BeingLogic<
             const existing = this.pallTrauma();
             if (existing) {
                 await existing.item.update({
-                    "system.levelBase": existing.data.levelBase + psl,
+                    "system.levelBase": (existing.data.levelBase ?? 0) + psl,
                 } as PlainObject);
             } else {
                 await fvttCreateEmbeddedItems(this, [
@@ -1483,7 +1483,7 @@ export class BeingLogic<
      */
     get fearState(): number {
         return mostSevereFear(
-            this.activeFearTraumas().map((t) => t.data.levelBase),
+            this.activeFearTraumas().map((t) => t.data.levelBase ?? 0),
         );
     }
 
@@ -1497,7 +1497,7 @@ export class BeingLogic<
         return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).filter(
             (t) =>
                 t.data.subType === TRAUMA_SUBTYPE.FEAR &&
-                isFearfulState(t.data.levelBase),
+                isFearfulState(t.data.levelBase ?? 0),
         );
     }
 
@@ -1723,7 +1723,7 @@ export class BeingLogic<
     ): Promise<void> {
         const others = this.activeFearTraumas()
             .filter((t) => t.item?.name !== sourceName)
-            .map((t) => t.data.levelBase);
+            .map((t) => t.data.levelBase ?? 0);
         const shouldBeFearful =
             mostSevereFear([...others, level]) >= FEAR_LEVEL.AFRAID;
         const has = fvttActorStatuses(this.actor).has(STATUS_EFFECT.FEARFUL);
@@ -2405,8 +2405,8 @@ export class BeingLogic<
         let aspect: ImpactAspect = IMPACT_ASPECT.BLUNT;
         let severity = 0;
         if (injury) {
-            aspect = injury.data.aspect;
-            severity = injury.data.levelBase;
+            aspect = injury.data.aspect ?? IMPACT_ASPECT.BLUNT;
+            severity = injury.data.levelBase ?? 0;
         } else if (!context.skipDialog) {
             const form = (await dialog({
                 title: `${this.name ?? ""}: ${sohl.i18n.localize("SOHL.Trauma.Action.treatmenttest.title")}`,
@@ -2432,8 +2432,8 @@ export class BeingLogic<
                     return undefined;
                 }
                 injuryUuid = pasted;
-                aspect = injury.data.aspect;
-                severity = injury.data.levelBase;
+                aspect = injury.data.aspect ?? IMPACT_ASPECT.BLUNT;
+                severity = injury.data.levelBase ?? 0;
             } else {
                 severity = Number(form.severity) || 0;
                 aspect =
