@@ -56,6 +56,9 @@
     // Unscoped: the picker dialog is a top-level DialogV2 window (no `.sohl`
     // frame); the file scopes its sheet-control rules to `.sohl` internally.
     @include meta.load-css("components/date-picker");
+    // Self-scoped to `.sohl` internally (like date-picker), so loaded outside
+    // the nested `.sohl { … }` block to avoid a doubled `.sohl .sohl` selector.
+    @include meta.load-css("components/clearable-number");
 
     .sohl {
         @include meta.load-css("components/search");

@@ -1,0 +1,28 @@
+// Clearable number input. The `clearableNumberInput` helper wraps a standard
+// number input in `.clearable-number` and, when the field has a value, appends
+// a `.clearable-number__clear` "×" anchor that fires the `clearField` action to
+// write `null`. Rendered inside a `.sohl` sheet, so scoped to `.sohl` (mirrors
+// `.date-picker`).
+
+.sohl .clearable-number {
+    display: flex;
+    align-items: center;
+    gap: var(--sohl-space-sm, 5px);
+
+    input {
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__clear {
+        flex: 0 0 auto;
+        cursor: pointer;
+        color: var(--sohl-color-text-muted, #8e8c7f);
+        line-height: 1;
+
+        &:hover,
+        &:focus {
+            color: var(--sohl-color-danger, #c84a3a);
+        }
+    }
+}
