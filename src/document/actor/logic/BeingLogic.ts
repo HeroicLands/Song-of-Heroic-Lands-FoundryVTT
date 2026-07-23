@@ -134,7 +134,7 @@ import {
     moraleLevelLabelKey,
     MORALE_BRAVE_BONUS,
 } from "@src/document/actor/logic/morale";
-import { inflictPsycheStress } from "@src/document/item/logic/psyche";
+import { inflictPsycheStress } from "@src/document/item/logic/psychological-trauma";
 import {
     pallDepthPenalty,
     pallResistState,

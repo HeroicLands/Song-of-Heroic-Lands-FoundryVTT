@@ -833,6 +833,23 @@ export const IMPACT_ASPECT_CHAR: Record<ImpactAspect, string> = {
     [IMPACT_ASPECT.FIRE]: "f",
 };
 
+export const {
+    /** Map of impact-variant key → value. */
+    kind: IMPACT_VARIANT,
+    /** All impact-variant values, as an array. */
+    values: ImpactVariants,
+    /** Type guard for impact-variant values. */
+    isValue: isImpactVariant,
+    /** Value-keyed label map for `StringField({ choices })`. */
+    choices: ImpactVariantChoices,
+} = defineType("SOHL.ImpactModifier.Variant", {
+    FROST: "frost",
+    PIERCING: "piercing",
+});
+/** Union of all impact-variant values. */
+export type ImpactVariant =
+    (typeof IMPACT_VARIANT)[keyof typeof IMPACT_VARIANT];
+
 /**
  * Constants for context menu groups.
  */
