@@ -12,10 +12,12 @@ import {
     CRITICAL_FAILURE,
     CRITICAL_SUCCESS,
     FATIGUE_CATEGORY,
+    FEAR_LEVEL,
     IMPACT_ASPECT,
     ITEM_KIND,
     MARGINAL_FAILURE,
     MARGINAL_SUCCESS,
+    MORALE_LEVEL,
     MOVEMENT_MEDIUM,
     TRAUMA_SUBTYPE,
 } from "@src/utils/constants";
@@ -857,6 +859,485 @@ describe("BeingLogic", () => {
         });
     });
 
+    describe("Fear Test (#558)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        /** A being with a Will attribute of the given score. */
+        function beingWithWill(score = 15) {
+            const logic = makeBeing();
+            (logic as any).actor.items.set(
+                "wil",
+                makeAttributeStub("wil", score),
+            );
+            return logic;
+        }
+
+        /** Force the Fear Test's headless roll to a given outcome. */
+        function forceRoll(
+            normSuccessLevel: number,
+            lastDigit: number,
+            isSuccess: boolean,
+        ) {
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({
+                normSuccessLevel,
+                lastDigit,
+                isSuccess,
+            } as any);
+        }
+
+        /** Stub the Foundry-touching side effects; return the create spy. */
+        function stubEffects(statuses: Set<string> = new Set()) {
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                statuses,
+            );
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttToggleActorStatus",
+            ).mockResolvedValue(undefined as any);
+            vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(
+                undefined as any,
+            );
+            return vi
+                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+                .mockResolvedValue([]);
+        }
+
+        it("records a fresh Afraid result as a fear trauma with no PSY", async () => {
+            forceRoll(MARGINAL_FAILURE, 7, false);
+            const create = stubEffects();
+            const toggle = vi.spyOn(
+                FoundryHelpersMock,
+                "fvttToggleActorStatus",
+            );
+            const being = beingWithWill();
+
+            await (being as any).fearTest({ scope: { sourceName: "Wraith" } });
+
+            expect(create).toHaveBeenCalledTimes(1);
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                type: ITEM_KIND.TRAUMA,
+                name: "Wraith",
+                system: {
+                    subType: TRAUMA_SUBTYPE.FEAR,
+                    levelBase: FEAR_LEVEL.AFRAID,
+                },
+            });
+            // FEARFUL status is switched on.
+            expect(toggle).toHaveBeenCalledWith(
+                expect.anything(),
+                "fear",
+                true,
+            );
+        });
+
+        it("Terrified (CF5) records the state and inflicts +1 PSY", async () => {
+            forceRoll(CRITICAL_FAILURE, 5, false);
+            const create = stubEffects();
+            const being = beingWithWill();
+
+            await (being as any).fearTest({ scope: { sourceName: "Wraith" } });
+
+            expect(create).toHaveBeenCalledTimes(2);
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: {
+                    subType: TRAUMA_SUBTYPE.FEAR,
+                    levelBase: FEAR_LEVEL.TERRIFIED,
+                },
+            });
+            expect((create.mock.calls[1][1] as any[])[0]).toMatchObject({
+                system: {
+                    subType: TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+                    levelBase: 1,
+                },
+            });
+        });
+
+        it("Catatonic (CF0) records the state and inflicts +2 PSY", async () => {
+            forceRoll(CRITICAL_FAILURE, 0, false);
+            const create = stubEffects();
+            const being = beingWithWill();
+
+            await (being as any).fearTest({ scope: { sourceName: "Wraith" } });
+
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: { levelBase: FEAR_LEVEL.CATATONIC },
+            });
+            expect((create.mock.calls[1][1] as any[])[0]).toMatchObject({
+                system: {
+                    subType: TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+                    levelBase: 2,
+                },
+            });
+        });
+
+        it("a Brave (CS) result records a Brave marker, not a fearful state", async () => {
+            forceRoll(CRITICAL_SUCCESS, 0, true);
+            const create = stubEffects();
+            const being = beingWithWill();
+
+            await (being as any).fearTest({ scope: { sourceName: "Wraith" } });
+
+            expect(create).toHaveBeenCalledTimes(1);
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: {
+                    subType: TRAUMA_SUBTYPE.FEAR,
+                    levelBase: FEAR_LEVEL.BRAVE,
+                },
+            });
+        });
+
+        it("a Steady (MS) result records nothing and clears an existing fear source", async () => {
+            forceRoll(MARGINAL_SUCCESS, 3, true);
+            const create = stubEffects(new Set(["fear"]));
+            const toggle = vi.spyOn(
+                FoundryHelpersMock,
+                "fvttToggleActorStatus",
+            );
+            const being = beingWithWill();
+            const del = vi.fn().mockResolvedValue(undefined);
+            // An existing Afraid trauma for the same source.
+            makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                {
+                    subType: TRAUMA_SUBTYPE.FEAR,
+                    levelBase: FEAR_LEVEL.AFRAID,
+                },
+                { actor: (being as any).actor, name: "Wraith" },
+            );
+            const wraith = (
+                being.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]
+            )[0];
+            (wraith.item as any).delete = del;
+
+            await (being as any).fearTest({ scope: { sourceName: "Wraith" } });
+
+            expect(create).not.toHaveBeenCalled();
+            expect(del).toHaveBeenCalledTimes(1);
+            // No other fear sources remain → FEARFUL switched off.
+            expect(toggle).toHaveBeenCalledWith(
+                expect.anything(),
+                "fear",
+                false,
+            );
+        });
+
+        it("fearState reports the most severe active fear source", async () => {
+            const being = beingWithWill();
+            makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                { subType: TRAUMA_SUBTYPE.FEAR, levelBase: FEAR_LEVEL.AFRAID },
+                { actor: (being as any).actor, name: "Wraith" },
+            );
+            makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                {
+                    subType: TRAUMA_SUBTYPE.FEAR,
+                    levelBase: FEAR_LEVEL.CATATONIC,
+                },
+                { actor: (being as any).actor, name: "Horror" },
+            );
+            expect(being.fearState).toBe(FEAR_LEVEL.CATATONIC);
+        });
+    });
+
+    describe("Morale, Rally & Reaction (#559)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        function forceRoll(
+            normSuccessLevel: number,
+            lastDigit: number,
+            isSuccess: boolean,
+        ) {
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({
+                normSuccessLevel,
+                lastDigit,
+                isSuccess,
+            } as any);
+        }
+
+        function stubEffects() {
+            vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(
+                undefined as any,
+            );
+            return vi
+                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+                .mockResolvedValue([]);
+        }
+
+        /** Attach a morale trauma at `level` (source `name`) and return it. */
+        function attachMorale(being: any, level: number, name: string) {
+            makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                { subType: TRAUMA_SUBTYPE.MORALE, levelBase: level },
+                { actor: being.actor, name },
+            );
+            const t = (
+                being.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]
+            ).find((x) => x.item?.name === name)!;
+            (t.item as any).delete = vi.fn().mockResolvedValue(undefined);
+            (t.item as any).update = vi.fn().mockResolvedValue(undefined);
+            return t;
+        }
+
+        it("Withdrawing (MF) records a morale trauma with no PSY", async () => {
+            forceRoll(MARGINAL_FAILURE, 7, false);
+            const create = stubEffects();
+            await (makeBeing() as any).moraleTest({ scope: {} });
+            expect(create).toHaveBeenCalledTimes(1);
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: {
+                    subType: TRAUMA_SUBTYPE.MORALE,
+                    levelBase: MORALE_LEVEL.WITHDRAWING,
+                },
+            });
+        });
+
+        it("Catatonic (CF0) records the state and inflicts +2 PSY", async () => {
+            forceRoll(CRITICAL_FAILURE, 0, false);
+            const create = stubEffects();
+            await (makeBeing() as any).moraleTest({ scope: {} });
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: { levelBase: MORALE_LEVEL.CATATONIC },
+            });
+            expect((create.mock.calls[1][1] as any[])[0]).toMatchObject({
+                system: {
+                    subType: TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+                    levelBase: 2,
+                },
+            });
+        });
+
+        it("Routed (CF5) records the state and inflicts +1 PSY", async () => {
+            forceRoll(CRITICAL_FAILURE, 5, false);
+            const create = stubEffects();
+            await (makeBeing() as any).moraleTest({ scope: {} });
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: { levelBase: MORALE_LEVEL.ROUTED },
+            });
+            expect((create.mock.calls[1][1] as any[])[0]).toMatchObject({
+                system: { levelBase: 1 },
+            });
+        });
+
+        it("a Reaction Test success steadies a Routed combatant", async () => {
+            forceRoll(MARGINAL_SUCCESS, 3, true);
+            stubEffects();
+            const being = makeBeing();
+            const routed = attachMorale(
+                being,
+                MORALE_LEVEL.ROUTED,
+                "Broken line",
+            );
+            await (being as any).reactionTest({ scope: {} });
+            expect((routed.item as any).delete).toHaveBeenCalledTimes(1);
+        });
+
+        it("a Reaction Test success improves Catatonic only to Routed", async () => {
+            forceRoll(MARGINAL_SUCCESS, 3, true);
+            stubEffects();
+            const being = makeBeing();
+            const cat = attachMorale(being, MORALE_LEVEL.CATATONIC, "Terror");
+            await (being as any).reactionTest({ scope: {} });
+            expect((cat.item as any).update).toHaveBeenCalledWith({
+                "system.levelBase": MORALE_LEVEL.ROUTED,
+            });
+            expect((cat.item as any).delete).not.toHaveBeenCalled();
+        });
+
+        it("a Reaction Test warns and returns null when not shaken", async () => {
+            const warn = vi.spyOn(sohl.log, "uiWarn");
+            stubEffects();
+            await expect(
+                (makeBeing() as any).reactionTest({ scope: {} }),
+            ).resolves.toBeNull();
+            expect(warn).toHaveBeenCalled();
+        });
+
+        it("a Rally critical success OFFERS to steady allies (open acceptRally card)", async () => {
+            forceRoll(CRITICAL_SUCCESS, 0, true);
+            const post = vi
+                .spyOn(ActionCard, "postActionCard")
+                .mockResolvedValue(undefined as any);
+            await (makeBeing() as any).rallyTest({ scope: {} });
+            const spec = post.mock.calls.at(-1)![1] as any;
+            expect(spec.buttons).toMatchObject({
+                action: "acceptRally",
+                handlerUuid: "@self",
+                scope: { mode: "steady" },
+            });
+        });
+
+        it("a Rally failure posts an informational card with no accept button", async () => {
+            forceRoll(CRITICAL_FAILURE, 0, false);
+            const post = vi
+                .spyOn(ActionCard, "postActionCard")
+                .mockResolvedValue(undefined as any);
+            await (makeBeing() as any).rallyTest({ scope: {} });
+            const spec = post.mock.calls.at(-1)![1] as any;
+            expect(spec.buttons).toBeUndefined();
+        });
+
+        it("moraleState reports the most severe active morale source", () => {
+            const being = makeBeing();
+            attachMorale(being, MORALE_LEVEL.WITHDRAWING, "A");
+            attachMorale(being, MORALE_LEVEL.ROUTED, "B");
+            expect(being.moraleState).toBe(MORALE_LEVEL.ROUTED);
+        });
+    });
+
+    describe("The Pall (#561)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        function forceRoll(
+            normSuccessLevel: number,
+            lastDigit: number,
+            isSuccess: boolean,
+        ) {
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({
+                normSuccessLevel,
+                lastDigit,
+                isSuccess,
+            } as any);
+        }
+
+        function stubEffects() {
+            vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(
+                undefined as any,
+            );
+            return vi
+                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
+                .mockResolvedValue([]);
+        }
+
+        it("Disturbed (MF) accrues +1 Pall Stress Level", async () => {
+            forceRoll(MARGINAL_FAILURE, 7, false);
+            const create = stubEffects();
+            await (makeBeing() as any).pallResist({ scope: { totalPal: 2 } });
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: { subType: TRAUMA_SUBTYPE.PALL, levelBase: 1 },
+            });
+        });
+
+        it("Catatonic (CF0) accrues +3 Pall Stress Levels", async () => {
+            forceRoll(CRITICAL_FAILURE, 0, false);
+            const create = stubEffects();
+            await (makeBeing() as any).pallResist({ scope: { totalPal: 1 } });
+            expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
+                system: { levelBase: 3 },
+            });
+        });
+
+        it("adds PSL to an existing Pall Cloud on a repeat failure", async () => {
+            forceRoll(CRITICAL_FAILURE, 5, false); // Terrified +2
+            stubEffects();
+            const being = makeBeing();
+            makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                { subType: TRAUMA_SUBTYPE.PALL, levelBase: 1 },
+                { actor: (being as any).actor, name: "The Pall" },
+            );
+            const pall = (
+                being.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]
+            )[0];
+            (pall.item as any).update = vi.fn().mockResolvedValue(undefined);
+            await (being as any).pallResist({ scope: { totalPal: 0 } });
+            expect((pall.item as any).update).toHaveBeenCalledWith({
+                "system.levelBase": 3,
+            });
+        });
+
+        it("a successful Resist accrues no Pall Stress", async () => {
+            forceRoll(MARGINAL_SUCCESS, 3, true);
+            const create = stubEffects();
+            await (makeBeing() as any).pallResist({ scope: { totalPal: 2 } });
+            expect(create).not.toHaveBeenCalled();
+        });
+
+        it("pallStress reports the Pall Cloud level", () => {
+            const being = makeBeing();
+            makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                { subType: TRAUMA_SUBTYPE.PALL, levelBase: 4 },
+                { actor: (being as any).actor, name: "The Pall" },
+            );
+            expect(being.pallStress).toBe(4);
+        });
+    });
+
+    describe("unusable body part (#568)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        function beingWithHands() {
+            const being = makeBeing();
+            (being as any).body = {
+                structure: {
+                    parts: [
+                        {
+                            locations: [{ shortcode: "rhand" }],
+                            roles: ["manipulator"],
+                            permanentImpairment: 0,
+                            permanentlyUnusable: false,
+                        },
+                        {
+                            locations: [{ shortcode: "lfoot" }],
+                            roles: ["locomotor"],
+                            permanentImpairment: 0,
+                            permanentlyUnusable: false,
+                        },
+                    ],
+                },
+            };
+            return being;
+        }
+
+        function injure(being: any, location: string, level: number) {
+            const t = makeItemLogic(
+                TraumaLogic,
+                ITEM_KIND.TRAUMA,
+                {
+                    subType: TRAUMA_SUBTYPE.INJURY,
+                    levelBase: level,
+                    bodyLocationCode: location,
+                },
+                { actor: being.actor, name: "Wound" },
+            );
+            (t as any).initialize();
+        }
+
+        it("reports the roles of a part made unusable by a grievous injury", () => {
+            const being = beingWithHands();
+            injure(being, "rhand", 4); // grievous → unusable
+            const roles = being.unusableRoles();
+            expect(roles.has("manipulator")).toBe(true);
+            expect(roles.has("locomotor")).toBe(false);
+        });
+
+        it("reports no roles when injuries are only impairing (not unusable)", () => {
+            const being = beingWithHands();
+            injure(being, "rhand", 2); // serious → impaired but usable
+            expect(being.unusableRoles().size).toBe(0);
+        });
+
+        it("is empty for an incorporeal being (no body)", () => {
+            expect(makeBeing().unusableRoles().size).toBe(0);
+        });
+    });
+
     // Opposed-test resume moved off the actor onto SohlTokenDocumentLogic
     // (opposed tests are token-based). See SohlTokenDocumentLogic.test.ts.
 
@@ -1446,6 +1927,63 @@ describe("BeingLogic", () => {
             await being.applyPermanentImpairment("skull", 0);
             await being.applyPermanentImpairment("nope", -10);
             expect(being.actor!.update).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("performBloodStoppage — the physician's Blood Stoppage step (#547)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        function physician(pysnMl: number | null) {
+            const being = makeBeing();
+            vi.spyOn(being, "getItemLogic").mockImplementation(
+                (code: string) =>
+                    code === "pysn" && pysnMl !== null ?
+                        ({ masteryLevel: { effective: pysnMl } } as any)
+                    :   undefined,
+            );
+            return being;
+        }
+
+        it("rolls the physician's Physician skill and posts a result with an owner-gated Accept button", async () => {
+            const being = physician(70);
+            const post = vi
+                .spyOn(ActionCard, "postActionCard")
+                .mockResolvedValue(undefined as any);
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttLogicFromUuidSync",
+            ).mockReturnValue({ item: { name: "Gash" } } as any);
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({ normSuccessLevel: CRITICAL_SUCCESS } as any);
+
+            const res = await (being as any).performBloodStoppage({
+                scope: { injuryUuid: "Item.bleeder", stoppageBonus: 0 },
+                skipDialog: true,
+            });
+
+            expect(res).toMatchObject({ kind: "stopImmediately" });
+            const spec = post.mock.calls[0][1] as any;
+            expect(spec.buttons).toEqual(
+                expect.objectContaining({
+                    action: "acceptBloodStoppage",
+                    handlerUuid: "Item.bleeder",
+                    scope: { kind: "stopImmediately", nextBonus: 0 },
+                }),
+            );
+        });
+
+        it("self-gates: a non-physician aborts with a notice and posts nothing", async () => {
+            const being = physician(null);
+            const post = vi.spyOn(ActionCard, "postActionCard");
+            const warn = vi.spyOn(sohl.log, "uiWarn");
+            const res = await (being as any).performBloodStoppage({
+                scope: { injuryUuid: "Item.bleeder" },
+            });
+            expect(res).toBeUndefined();
+            expect(warn).toHaveBeenCalled();
+            expect(post).not.toHaveBeenCalled();
         });
     });
 

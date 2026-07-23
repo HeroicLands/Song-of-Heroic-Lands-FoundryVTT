@@ -14,7 +14,7 @@
 // Namespace barrel — hand-maintained. `npm run lint` (check-ns-barrels)
 // verifies every sibling module and subfolder here is re-exported.
 
-/** Foundry ApplicationV2 classes for the settings and manager apps. */
+/** Foundry-coupled UI classes: the settings and manager apps, the context menu, and the {@link SohlTour} guided-tour base class. */
 export * as foundry from "./foundry";
 /** Foundry-free view logic backing the apps. */
 export * as logic from "./logic";

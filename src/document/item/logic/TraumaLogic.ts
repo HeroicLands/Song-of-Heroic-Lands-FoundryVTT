@@ -22,6 +22,14 @@ import {
 import { toFilePath } from "@src/utils/helpers";
 import { inflictWeaknessFatigue } from "@src/document/item/logic/fatigue";
 import {
+    psycheRecoveryOutcome,
+    auralShockRecoveryOutcome,
+    inflictPsycheStress,
+    PSYCHE_PERMANENCE,
+    PSYCHE_RECOVERY_INTERVAL_FORMULA,
+    AURAL_SHOCK_RECOVERY_INTERVAL_FORMULA,
+} from "@src/document/item/logic/psyche";
+import {
     TREATMENT_HEAL,
     injuryBand,
     requiredTreatment,
@@ -45,6 +53,11 @@ import {
     SHOCK_STATE,
     shockCourseHrDelta,
 } from "@src/document/actor/logic/shock";
+import {
+    pallRecoveryOutcome,
+    PALL_RECOVERY_INTERVAL_FORMULA,
+} from "@src/document/actor/logic/pall";
+import { BLOOD_STOPPAGE_NEXT_BONUS } from "@src/entity/body/blood-stoppage";
 import { elapsedCheckpoints } from "@src/entity/event/scheduling";
 import { armScheduledActions } from "@src/entity/event/scheduled-actions";
 import { offerSchedule } from "@src/document/item/logic/offer-schedule";
@@ -56,6 +69,7 @@ import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import {
     ACTION_SUBTYPE,
+    ATTRIBUTE_CODE,
     CRITICAL_FAILURE,
     CRITICAL_SUCCESS,
     defineType,
@@ -445,6 +459,270 @@ export class TraumaLogic<
     }
 
     /**
+     * Roll one headless recovery test against the being's **Will** — no fatigue or
+     * impairment penalties apply (Psychological Condition rules). Returns the
+     * normalized success level, or `null` if the roll was refused.
+     *
+     * @param type - The test-type id (for chat/telemetry).
+     * @param title - The localized test title.
+     * @returns The normalized success level, or `null`.
+     */
+    private async rollWillTest(
+        type: string,
+        title: string,
+    ): Promise<number | null> {
+        const willMl =
+            (
+                this.actorLogic?.getItemLogic(
+                    ATTRIBUTE_CODE.WILL,
+                    ITEM_KIND.ATTRIBUTE,
+                ) as { masteryLevel?: { effective?: number } } | undefined
+            )?.masteryLevel?.effective ?? 0;
+        const result = await rollTimedTest(this, willMl, {
+            noChat: true,
+            type,
+            title,
+        });
+        return result ? result.normSuccessLevel : null;
+    }
+
+    /**
+     * Intrinsic-action executor for the **Psyche Stress Recovery Test** (#560) —
+     * the recurring recovery of a `psycond`-subtype psychological condition.
+     *
+     * At each elapsed checkpoint (every d6 days; a manual invocation runs one) the
+     * victim rolls a headless Will test (fatigue does not apply). `MS`/`CS` recover
+     * **−1/−2 PSY**; a `CF` is a **Grievous Stress** — an indefinite condition
+     * becomes **permanent**, or a permanent one gains **+1 PSY**
+     * ({@link sohl.document.item.logic.psycheRecoveryOutcome}). An indefinite
+     * condition **goes away** when its PSY reaches 0. Otherwise the next check is
+     * **offered** (issue #579) rather than auto-re-armed.
+     *
+     * @param context - The action context; `scope.schedule` decides whether the
+     *   next occurrence is scheduled.
+     * @returns A promise that resolves once the outcome and schedule are persisted.
+     */
+    async psycheRecovery(context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (
+            !uuid ||
+            this.data.subType !== TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION
+        ) {
+            return;
+        }
+        const now = fvttWorldTime();
+        const entry = this.data.scheduledActions?.find(
+            (e) => e.actionName === "psycheRecovery",
+        );
+        const interval =
+            entry?.interval ??
+            this.rollDuration(PSYCHE_RECOVERY_INTERVAL_FORMULA);
+        const anchor = entry?.anchor ?? now;
+        const checkpoints =
+            entry && interval > 0 ?
+                elapsedCheckpoints(anchor, now, interval)
+            :   [now];
+
+        let psy = this.data.levelBase;
+        let permanent = this.data.category === PSYCHE_PERMANENCE.PERMANENT;
+        for (let i = 0; i < checkpoints.length && (psy > 0 || permanent); i++) {
+            const sl = await this.rollWillTest(
+                "trauma-psyche-recovery",
+                sohl.i18n.localize("SOHL.Trauma.Action.psycheRecovery.title"),
+            );
+            if (sl == null) break;
+            const out = psycheRecoveryOutcome(sl);
+            if (out.grievous) {
+                if (permanent) psy += 1;
+                else permanent = true;
+            } else {
+                psy = Math.max(0, psy + out.psyDelta);
+            }
+        }
+
+        // An indefinite condition recovers (goes away) when its PSY reaches 0.
+        if (!permanent && psy <= 0) {
+            await sohl.unschedule(this.item, "psycheRecovery");
+            await this.item.delete();
+            return;
+        }
+        await this.item.update({
+            "system.levelBase": Math.max(0, psy),
+            "system.category":
+                permanent ?
+                    PSYCHE_PERMANENCE.PERMANENT
+                :   PSYCHE_PERMANENCE.INDEFINITE,
+        } as PlainObject);
+        await offerSchedule(
+            context,
+            this.item,
+            "psycheRecovery",
+            this.rollDuration(PSYCHE_RECOVERY_INTERVAL_FORMULA),
+        );
+    }
+
+    /**
+     * Intrinsic-action executor for the **Aural Shock recovery test** (#560) — the
+     * daily recovery of an `auralshock`-subtype trauma.
+     *
+     * At each elapsed checkpoint (once per day; a manual invocation runs one) the
+     * victim rolls a headless Will test (fatigue and impairment do not apply).
+     * `MS`/`CS` recover **−1/−2 AS**; a `CF` grants **+1 PSY**
+     * ({@link sohl.document.item.logic.auralShockRecoveryOutcome}). The victim
+     * recovers when AS reaches 0. Otherwise the next check is **offered** (issue
+     * #579).
+     *
+     * @param context - The action context; `scope.schedule` decides scheduling.
+     * @returns A promise that resolves once the outcome and schedule are persisted.
+     */
+    async auralShockRecovery(context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (!uuid || this.data.subType !== TRAUMA_SUBTYPE.AURALSHOCK) return;
+        const now = fvttWorldTime();
+        const entry = this.data.scheduledActions?.find(
+            (e) => e.actionName === "auralShockRecovery",
+        );
+        const interval =
+            entry?.interval ??
+            this.rollDuration(AURAL_SHOCK_RECOVERY_INTERVAL_FORMULA);
+        const anchor = entry?.anchor ?? now;
+        const checkpoints =
+            entry && interval > 0 ?
+                elapsedCheckpoints(anchor, now, interval)
+            :   [now];
+
+        let as = this.data.levelBase;
+        let psyGained = 0;
+        for (let i = 0; i < checkpoints.length && as > 0; i++) {
+            const sl = await this.rollWillTest(
+                "trauma-auralshock-recovery",
+                sohl.i18n.localize(
+                    "SOHL.Trauma.Action.auralShockRecovery.title",
+                ),
+            );
+            if (sl == null) break;
+            const out = auralShockRecoveryOutcome(sl);
+            as = Math.max(0, as + out.asDelta);
+            psyGained += out.psyGain;
+        }
+        if (psyGained > 0) {
+            await inflictPsycheStress(
+                this.actorLogic,
+                psyGained,
+                sohl.i18n.localize("SOHL.Trauma.AuralShock"),
+            );
+        }
+
+        if (as <= 0) {
+            await sohl.unschedule(this.item, "auralShockRecovery");
+            await this.item.delete();
+            return;
+        }
+        await this.item.update({
+            "system.levelBase": as,
+        } as PlainObject);
+        await offerSchedule(
+            context,
+            this.item,
+            "auralShockRecovery",
+            this.rollDuration(AURAL_SHOCK_RECOVERY_INTERVAL_FORMULA),
+        );
+    }
+
+    /**
+     * Intrinsic-action executor for **Pall recovery** (#561) — the recurring
+     * recovery of a `pall`-subtype Pall Cloud, made every d6 days.
+     *
+     * At each elapsed checkpoint (a manual invocation runs one) the victim rolls a
+     * headless Will test ({@link sohl.document.actor.logic.pallRecoveryOutcome}):
+     * `MS`/`CS` recover **−1/−2 PSL** (the Pall is expelled at 0); `MF` renders the
+     * victim **Unconscious** (no PSL change); `CF` forces the victim to **Face the
+     * Pall** — an owner-accepted choice offered as an action card (never imposed).
+     * Otherwise the next check is **offered** (issue #579).
+     *
+     * @param context - The action context; `scope.schedule` decides scheduling.
+     * @returns A promise that resolves once the outcome and schedule are persisted.
+     */
+    async pallRecovery(context: SohlActionContext): Promise<void> {
+        const uuid = this.item?.uuid;
+        if (!uuid || this.data.subType !== TRAUMA_SUBTYPE.PALL) return;
+        const now = fvttWorldTime();
+        const entry = this.data.scheduledActions?.find(
+            (e) => e.actionName === "pallRecovery",
+        );
+        const interval =
+            entry?.interval ??
+            this.rollDuration(PALL_RECOVERY_INTERVAL_FORMULA);
+        const anchor = entry?.anchor ?? now;
+        const checkpoints =
+            entry && interval > 0 ?
+                elapsedCheckpoints(anchor, now, interval)
+            :   [now];
+
+        let psl = this.data.levelBase;
+        let faced = false;
+        let unconscious = false;
+        for (let i = 0; i < checkpoints.length && psl > 0 && !faced; i++) {
+            const sl = await this.rollWillTest(
+                "trauma-pall-recovery",
+                sohl.i18n.localize("SOHL.Trauma.Action.pallRecovery.title"),
+            );
+            if (sl == null) break;
+            const out = pallRecoveryOutcome(sl);
+            if (out.kind === "face") {
+                faced = true;
+            } else if (out.kind === "unconscious") {
+                unconscious = true;
+            } else {
+                psl = Math.max(0, psl + out.pslDelta);
+            }
+        }
+
+        // A Marginal Failure knocks the victim unconscious until PSL reach 0.
+        if (unconscious) {
+            await (this.actorLogic as any)?.setShockState?.(
+                SHOCK_STATE.UNCONSCIOUS,
+            );
+        }
+        // A Critical Failure forces the victim to Face the Pall — offered, never
+        // imposed (the choice is always the victim's).
+        if (faced) await this.offerFacePall();
+
+        // The Pall is expelled when PSL reach 0 (the permanent psyche trait
+        // remains; its permanence conversion is a follow-up).
+        if (psl <= 0) {
+            await sohl.unschedule(this.item, "pallRecovery");
+            await this.item.delete();
+            return;
+        }
+        await this.item.update({
+            "system.levelBase": psl,
+        } as PlainObject);
+        await offerSchedule(
+            context,
+            this.item,
+            "pallRecovery",
+            this.rollDuration(PALL_RECOVERY_INTERVAL_FORMULA),
+        );
+    }
+
+    /**
+     * Post the **Face the Pall** offer — an informational choice card presenting
+     * the three fates (Embrace / Vacate / Accept True Death). The choice is always
+     * the victim's, so this only surfaces the decision; it does not apply it.
+     *
+     * @returns A promise that resolves once the card is posted.
+     */
+    private async offerFacePall(): Promise<void> {
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/face-pall-card.hbs",
+            data: {
+                actorName: (this.actorLogic as { name?: string })?.name ?? "",
+            },
+        });
+    }
+
+    /**
      * Define and return all intrinsic actions for trauma logic, adding the
      * treatment and healing test actions to those inherited from the base logic.
      * @returns The intrinsic action definitions.
@@ -471,6 +749,26 @@ export class TraumaLogic<
                 executor: "treatInjury",
                 visible: "itemLogic.data.subType === 'physical'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "requestBloodStoppage",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.requestBloodStoppage.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-droplet-slash",
+                executor: "requestBloodStoppage",
+                visible: "itemLogic.isBleeding",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "acceptBloodStoppage",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.acceptBloodStoppage.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-check",
+                executor: "acceptBloodStoppage",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
             {
                 shortcode: "treatmenttest",
@@ -524,6 +822,39 @@ export class TraumaLogic<
                 recordsLastRun: true,
                 visible:
                     "itemLogic.data.subType === 'shock' || itemLogic.data.subType === 'coma' || itemLogic.data.subType === 'infection'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "psycheRecovery",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.psycheRecovery.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-brain",
+                executor: "psycheRecovery",
+                recordsLastRun: true,
+                visible: "itemLogic.data.subType === 'psycond'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "auralShockRecovery",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.auralShockRecovery.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-wand-sparkles",
+                executor: "auralShockRecovery",
+                recordsLastRun: true,
+                visible: "itemLogic.data.subType === 'auralshock'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "pallRecovery",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.pallRecovery.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-skull",
+                executor: "pallRecovery",
+                recordsLastRun: true,
+                visible: "itemLogic.data.subType === 'pall'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
         ];
@@ -911,17 +1242,27 @@ export class TraumaLogic<
             await this.applyBloodLossAdvance();
         }
 
+        // A physician's Marginal-Success Blood Stoppage stops the bleeding **after
+        // the next** Blood Loss Advance (#547): once an advance has run this pass,
+        // clear the bleeder.
+        const stopNow =
+            checkpoints.length > 0 &&
+            !!(await this.item.getFlag("sohl", "bloodStoppagePending"));
+
         const nextInterval = this.rollDuration(
             this.data.bloodLossAdvanceDurationFormula,
         );
-        this.bloodLossAdvanceDurationBase.setBase(nextInterval);
-        await this.item.update({
-            "system.bloodLossAdvanceDurationBase": nextInterval,
-        } as PlainObject);
+        this.bloodLossAdvanceDurationBase.setBase(stopNow ? 0 : nextInterval);
+        const update: PlainObject = {
+            "system.bloodLossAdvanceDurationBase":
+                stopNow ? null : nextInterval,
+        };
+        if (stopNow) update["flags.sohl.bloodStoppagePending"] = false;
+        await this.item.update(update);
 
         // A wound that has stopped bleeding ends its recurrence; otherwise offer
         // the next blood-loss advance rather than auto-re-arming (issue #579).
-        if (!this.isBleeding) {
+        if (stopNow || !this.isBleeding) {
             await sohl.unschedule(this.item, "bloodLossAdvanceCheck");
         } else {
             await offerSchedule(
@@ -930,6 +1271,91 @@ export class TraumaLogic<
                 "bloodLossAdvanceCheck",
                 nextInterval,
             );
+        }
+    }
+
+    /**
+     * Request a **Blood Stoppage Test** for this bleeding injury (#547) — the
+     * bleeder's owner posts an **open** action card that any Physician-skilled
+     * character's controller may answer. Mirrors
+     * {@link requestTreatment}; a no-op (warns) if the injury is not bleeding.
+     *
+     * @param _context - The action context (unused; entry point).
+     * @returns A promise that resolves once the request card is posted.
+     */
+    async requestBloodStoppage(_context: SohlActionContext): Promise<void> {
+        if (!this.isBleeding) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.BloodStoppage.NotBleeding"),
+            );
+            return;
+        }
+        const uuid = this.item?.uuid;
+        if (!uuid) return;
+        // A prior Marginal-Failure stoppage grants +10 to this test.
+        const bonus = Number(
+            (await this.item.getFlag("sohl", "bloodStoppageBonus")) ?? 0,
+        );
+        await postActionCard(this.speaker, {
+            template:
+                "systems/sohl/templates/chat/blood-stoppage-request-card.hbs",
+            data: {
+                patientName: (this.actorLogic as { name?: string })?.name ?? "",
+                woundName: this.item?.name ?? "",
+            },
+            buttons: {
+                action: "performBloodStoppage",
+                handlerUuid: SELF_HANDLER,
+                scope: { injuryUuid: uuid, stoppageBonus: bonus },
+                label: sohl.i18n.localize(
+                    "SOHL.Being.Action.performBloodStoppage",
+                ),
+                iconFAClass: "fa-solid fa-droplet-slash",
+            },
+        });
+    }
+
+    /**
+     * Record a physician's **Blood Stoppage Test** result on this bleeding injury
+     * (#547) — run from the result card's owner-gated Accept button. The
+     * {@link sohl.entity.body.BloodStoppageOutcome} decides the effect: **stop
+     * immediately** (clear the bleeder), **stop after the next advance** (a flag
+     * the next {@link bloodLossAdvanceCheck} honors), **continue +10 next** (a
+     * bonus the next {@link requestBloodStoppage} applies), or **continue**.
+     *
+     * @param context - The action context; `scope.kind` is the stoppage outcome
+     *   and `scope.nextBonus` the next-test bonus.
+     * @returns A promise that resolves once the outcome is recorded.
+     */
+    async acceptBloodStoppage(context: SohlActionContext): Promise<void> {
+        const scope = (context.scope ?? {}) as {
+            kind?: string;
+            nextBonus?: number;
+        };
+        switch (scope.kind) {
+            case "stopImmediately":
+                await sohl.unschedule(this.item, "bloodLossAdvanceCheck");
+                await this.item.update({
+                    "system.bloodLossAdvanceDurationBase": null,
+                    "flags.sohl.bloodStoppagePending": false,
+                    "flags.sohl.bloodStoppageBonus": 0,
+                } as PlainObject);
+                return;
+            case "stopAfterNext":
+                await this.item.update({
+                    "flags.sohl.bloodStoppagePending": true,
+                } as PlainObject);
+                return;
+            case "continuePlusNext":
+                await this.item.update({
+                    "flags.sohl.bloodStoppageBonus": Number(
+                        scope.nextBonus ?? BLOOD_STOPPAGE_NEXT_BONUS,
+                    ),
+                } as PlainObject);
+                return;
+            default:
+                // continue — the bleeding is unchanged.
+                return;
         }
     }
 

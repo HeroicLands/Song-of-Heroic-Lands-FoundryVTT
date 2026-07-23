@@ -19,15 +19,20 @@ import {
     defineType,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    STATUS_EFFECT,
     STRIKE_MODE_TYPE,
 } from "@src/utils/constants";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
+import { applyProneMeleePenalty } from "@src/entity/strikemode/prone";
 import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import type { CombatResult } from "@src/entity/result/CombatResult";
-import { fvttActiveCombatantForActor } from "@src/core/FoundryHelpers";
+import {
+    fvttActiveCombatantForActor,
+    fvttActorStatuses,
+} from "@src/core/FoundryHelpers";
 import { AutomatedCombat } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { SohlAction, SohlActionContext } from "@src/entity/action";
 import { SuccessTestResult } from "@src/entity/result";
@@ -230,9 +235,14 @@ export class WeaponGearLogic<
         // wielder's body reach. A non-Being wielder (or an incorporeal one) has
         // no body, so reach stays at length alone.
         const bodyReach = getActorBody(this.actorLogic)?.reach.effective ?? 0;
+        // A prone wielder suffers −20 to all melee attacks and defenses (#562).
+        const prone =
+            !!this.actor &&
+            fvttActorStatuses(this.actor).has(STATUS_EFFECT.PRONE);
         for (const sm of this.strikeModes) {
             if (sm instanceof MeleeStrikeMode) {
                 sm.reach.add("SOHL.INFO.Reach", "Size", bodyReach);
+                if (prone) applyProneMeleePenalty(sm);
             }
         }
     }

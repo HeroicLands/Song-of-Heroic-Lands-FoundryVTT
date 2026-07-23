@@ -113,6 +113,108 @@ describe("dialogs render through the same shim as cards", () => {
     });
 });
 
+describe("trauma-state-card (Fear / Morale / Pall tests, #558)", () => {
+    it("shows the resulting state, a PSY gain, and effect notes", () => {
+        const html = renderTemplateReal(`${CHAT}/trauma-state-card.hbs`, {
+            actorId: "abc",
+            actorName: "Brigga",
+            title: "Fear Test",
+            stateLabel: "Terrified",
+            isSuccess: false,
+            psyGain: 1,
+            notes: [
+                "May respond in combat only with Block or Dodge.",
+                "Must flee the source at full Move on the next turn.",
+            ],
+        });
+        expect(html).toContain("Fear Test");
+        expect(html).toContain("Brigga");
+        expect(html).toContain("Terrified");
+        expect(html).toContain("failure-text");
+        expect(html).toContain("Gains +1 Psyche Stress.");
+        expect(html).toContain("Block or Dodge");
+        expect(html).toContain("full Move");
+        expect(html).toContain('data-actor-id="abc"');
+    });
+
+    it("omits the PSY line and marks a success when there is no stress gain", () => {
+        const html = renderTemplateReal(`${CHAT}/trauma-state-card.hbs`, {
+            actorId: "abc",
+            actorName: "Brigga",
+            title: "Fear Test",
+            stateLabel: "Brave",
+            isSuccess: true,
+            psyGain: 0,
+            notes: ["Brave — immune to this source."],
+        });
+        expect(html).toContain("Brave");
+        expect(html).toContain("success-text");
+        expect(html).not.toContain("Psyche Stress");
+    });
+});
+
+describe("rally-offer-card (BeingLogic.rallyTest, #559)", () => {
+    it("names the rallier and offers to steady on a critical success", () => {
+        const html = renderTemplateReal(`${CHAT}/rally-offer-card.hbs`, {
+            actorId: "r1",
+            rallierName: "Sir Kaldan",
+            steady: true,
+        });
+        expect(html).toContain("Sir Kaldan");
+        expect(html).toContain("steady themselves");
+        expect(html).not.toContain("Reaction Test");
+    });
+
+    it("offers a Reaction Test on a marginal success", () => {
+        const html = renderTemplateReal(`${CHAT}/rally-offer-card.hbs`, {
+            actorId: "r1",
+            rallierName: "Sir Kaldan",
+            steady: false,
+        });
+        expect(html).toContain("Reaction Test");
+    });
+});
+
+describe("face-pall-card (TraumaLogic.pallRecovery, #561)", () => {
+    it("names the victim and lists the three fates", () => {
+        const html = renderTemplateReal(`${CHAT}/face-pall-card.hbs`, {
+            actorName: "Brother Deven",
+        });
+        expect(html).toContain("Face the Pall");
+        expect(html).toContain("Brother Deven");
+        expect(html).toContain("Embrace the Pall");
+        expect(html).toContain("Vacate the Body");
+        expect(html).toContain("Accept True Death");
+    });
+});
+
+describe("blood-stoppage cards (#547)", () => {
+    it("request card announces the bleeder and wound", () => {
+        const html = renderTemplateReal(
+            `${CHAT}/blood-stoppage-request-card.hbs`,
+            { patientName: "Aldric", woundName: "a deep gash" },
+        );
+        expect(html).toContain("Blood Stoppage Requested");
+        expect(html).toContain("Aldric");
+        expect(html).toContain("a deep gash");
+    });
+
+    it("result card shows the physician and the outcome", () => {
+        const html = renderTemplateReal(
+            `${CHAT}/blood-stoppage-result-card.hbs`,
+            {
+                physicianName: "Sister Mara",
+                woundName: "a deep gash",
+                outcomeLabel: "Bleeding stops immediately.",
+                stopped: true,
+            },
+        );
+        expect(html).toContain("Sister Mara");
+        expect(html).toContain("Bleeding stops immediately.");
+        expect(html).toContain("success-text");
+    });
+});
+
 describe("harness fidelity notes", () => {
     it("formGroup (sheet-tier) renders a binding placeholder, not Foundry markup", () => {
         registerTestHbsHelpers();

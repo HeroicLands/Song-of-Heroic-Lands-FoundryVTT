@@ -105,12 +105,54 @@ import {
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     TRAUMA_SUBTYPE,
+    FEAR_LEVEL,
+    FearLevelLabels,
+    MORALE_LEVEL,
 } from "@src/utils/constants";
+import {
+    fearStateFromTest,
+    fearPsyGain,
+    mostSevereFear,
+    isFearfulState,
+    fearDefenseRestricted,
+    fearHelpless,
+    fearMustFlee,
+    fearLevelLabelKey,
+    FEAR_BRAVE_BONUS,
+    FEAR_BRAVE_DURATION,
+} from "@src/document/actor/logic/fear";
+import {
+    moraleStateFromTest,
+    moralePsyGain,
+    mostSevereMorale,
+    isShakenMorale,
+    moraleHelpless,
+    moraleRouts,
+    moraleWithdraws,
+    reactionOutcome,
+    rallyOutcome,
+    moraleLevelLabelKey,
+    MORALE_BRAVE_BONUS,
+} from "@src/document/actor/logic/morale";
+import { inflictPsycheStress } from "@src/document/item/logic/psyche";
+import {
+    pallDepthPenalty,
+    pallResistState,
+    pallStressGain,
+    isPallFailure,
+    PALL_STATE,
+} from "@src/document/actor/logic/pall";
+import { bloodStoppageOutcome } from "@src/entity/body/blood-stoppage";
 // `action-card` touches Foundry only through the `FoundryHelpers` shims; the
 // path-based boundary rule can't tell it apart from the Foundry-coupled files
 // under `document/chat/`, so allow it.
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { postActionCard } from "@src/document/chat/action-card";
+// `chat-card-dispatch` touches Foundry only through the `FoundryHelpers` shims;
+// the path-based boundary rule can't tell it apart from the Foundry-coupled files
+// under `document/chat/`, so allow the `SELF_HANDLER` sentinel import.
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import { SELF_HANDLER } from "@src/document/chat/chat-card-dispatch";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import {
     buildInjuryCardData,
@@ -1024,61 +1066,703 @@ export class BeingLogic<
     }
 
     /**
-     * Roll the being's morale test, used to resist breaking, fleeing, or
-     * surrendering under pressure. Tests the being's Initiative skill.
-     *
-     * @param context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @remarks Not yet implemented; currently returns `null`.
+     * The being's current **morale state** (#559) — the most severe (most-failed)
+     * {@link sohl.utils.MORALE_LEVEL} across its active morale-failure traumas, or
+     * `NONE` when it carries none.
      */
-    async moraleTest(
-        context: SohlActionContext<EmptyObject>,
-    ): Promise<SuccessTestResult | null> {
-        // if (!options.testResult) {
-        //     const initSkill = this.actor.getItem("init", { types: ["skill"] });
-        //     if (!initSkill) return null;
-        //     options.testResult = new CONFIG.SOHL.class.SuccessTestResult(
-        //         {
-        //             speaker,
-        //             testType: SuccessTestResult.TEST_TYPE.MORALE,
-        //             mlMod: Utility.deepClone(initSkill.system.$masteryLevel),
-        //         },
-        //         { parent: initSkill.system },
-        //     );
-        // }
-        // options.testResult =
-        //     options.testResult.item.system.successTest(options);
-        // return this._createTestItem(options);
-        return null;
+    get moraleState(): number {
+        return mostSevereMorale(
+            this.activeMoraleTraumas().map((t) => t.data.levelBase),
+        );
     }
 
     /**
-     * Roll the being's fear test, used to resist a frightening stimulus. Tests
-     * the being's Initiative skill.
+     * The being's active shaken `morale`-subtype traumas — the recorded
+     * morale-failure sources at Withdrawing or worse.
+     *
+     * @returns The active shaken morale traumas.
+     */
+    private activeMoraleTraumas(): TraumaLogic[] {
+        return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).filter(
+            (t) =>
+                t.data.subType === TRAUMA_SUBTYPE.MORALE &&
+                isShakenMorale(t.data.levelBase),
+        );
+    }
+
+    /**
+     * Resolve a **Morale Test** (#559) — a test of the **Initiative** skill —
+     * against a morale-failure source, recording the resulting {@link moraleState}.
+     *
+     * A self-sufficient action on the affected being: it rolls Initiative
+     * headlessly (adding the Brave bonus if active) and maps the result to a
+     * {@link sohl.utils.MORALE_LEVEL} (the CF0/CF5 split decides Catatonic vs
+     * Routed). A shaken result records or worsens a `morale`-subtype trauma and
+     * inflicts any Psyche Stress; a success clears the source (Steady) or grants
+     * the Brave bonus.
+     *
+     * @param context - The action context; `scope.sourceName` names the source.
+     * @returns The Morale-test result, or `null` if the roll could not be run.
+     */
+    async moraleTest(
+        context: SohlActionContext,
+    ): Promise<SuccessTestResult | null> {
+        const scope = (context.scope ?? {}) as { sourceName?: string };
+        const sourceName =
+            typeof scope.sourceName === "string" && scope.sourceName ?
+                scope.sourceName
+            :   sohl.i18n.localize("SOHL.Trauma.Morale.DefaultSource");
+        const initMl =
+            (
+                this.getItemLogic(SKILL_CODE.INITIATIVE, ITEM_KIND.SKILL) as
+                    | SkillLogic
+                    | undefined
+            )?.masteryLevel?.effective ?? 0;
+        const braveBonus = this.hasBraveBonus() ? MORALE_BRAVE_BONUS : 0;
+        const result = await rollTimedTest(this, initMl, {
+            type: "morale-test",
+            title: sohl.i18n.localize("SOHL.Being.Action.moraleTest"),
+            situationalModifier: braveBonus,
+        });
+        if (!result) return null;
+        await this.applyMoraleResult(
+            moraleStateFromTest(result.normSuccessLevel, result.lastDigit),
+            sourceName,
+            result.isSuccess,
+        );
+        return result;
+    }
+
+    /**
+     * Record the outcome of a {@link moraleTest} (or a rally/reaction transition):
+     * upsert/clear the source's morale trauma, inflict incremental Psyche Stress,
+     * and post the state card. Morale carries no status effect — the trauma items
+     * are the record.
+     *
+     * @param level - The {@link sohl.utils.MORALE_LEVEL} produced.
+     * @param sourceName - The morale source's display name.
+     * @param isSuccess - Whether the test succeeded.
+     * @returns A promise that resolves once the outcome is persisted.
+     */
+    private async applyMoraleResult(
+        level: number,
+        sourceName: string,
+        isSuccess: boolean,
+    ): Promise<void> {
+        const psyGain = await this.recordLadderTrauma(
+            TRAUMA_SUBTYPE.MORALE,
+            level,
+            sourceName,
+            isShakenMorale,
+            moralePsyGain,
+            MORALE_LEVEL.BRAVE,
+        );
+        if (psyGain > 0) await inflictPsycheStress(this, psyGain, sourceName);
+
+        const notes: string[] = [];
+        if (isShakenMorale(level)) {
+            if (moraleHelpless(level)) {
+                notes.push(
+                    sohl.i18n.localize("SOHL.Trauma.Morale.Note.Helpless"),
+                );
+            } else if (moraleRouts(level)) {
+                notes.push(
+                    sohl.i18n.localize("SOHL.Trauma.Morale.Note.Routed"),
+                );
+            } else if (moraleWithdraws(level)) {
+                notes.push(
+                    sohl.i18n.localize("SOHL.Trauma.Morale.Note.Withdrawing"),
+                );
+            }
+        } else if (level === MORALE_LEVEL.BRAVE) {
+            notes.push(sohl.i18n.localize("SOHL.Trauma.Morale.Note.Brave"));
+        } else {
+            notes.push(sohl.i18n.localize("SOHL.Trauma.Morale.Note.Steady"));
+        }
+
+        await this.postTraumaStateCard(
+            sohl.i18n.localize("SOHL.Being.Action.moraleTest"),
+            moraleLevelLabelKey(level),
+            isSuccess,
+            psyGain,
+            notes,
+        );
+    }
+
+    /**
+     * Resolve a **Reaction Test** (#559) — an Initiative test a shaken combatant
+     * makes to shake off a compromised morale state (or in response to an ally's
+     * {@link rallyTest | Rally}). On success a Catatonic victim improves to Routed
+     * and any other shaken victim snaps back to **Steady**
+     * ({@link sohl.document.actor.logic.reactionOutcome}); on failure the state
+     * persists. A no-op (returns `null`) when the being is not shaken.
      *
      * @param context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @remarks Not yet implemented; currently returns `null`.
+     * @returns The Reaction-test result, or `null` when no reaction applies.
+     */
+    async reactionTest(
+        context: SohlActionContext,
+    ): Promise<SuccessTestResult | null> {
+        void context;
+        const current = this.moraleState;
+        if (!isShakenMorale(current)) {
+            sohl.log.uiWarn(sohl.i18n.localize("SOHL.Trauma.Morale.NotShaken"));
+            return null;
+        }
+        const initMl =
+            (
+                this.getItemLogic(SKILL_CODE.INITIATIVE, ITEM_KIND.SKILL) as
+                    | SkillLogic
+                    | undefined
+            )?.masteryLevel?.effective ?? 0;
+        const result = await rollTimedTest(this, initMl, {
+            type: "reaction-test",
+            title: sohl.i18n.localize("SOHL.Being.Action.reactionTest"),
+        });
+        if (!result) return null;
+        await this.applyReaction(
+            reactionOutcome(current, result.isSuccess),
+            result.isSuccess,
+        );
+        return result;
+    }
+
+    /**
+     * Apply a Reaction/Rally transition to the being's morale: Steady clears every
+     * shaken morale trauma, otherwise the shaken sources are lowered to `target`.
+     *
+     * @param target - The {@link sohl.utils.MORALE_LEVEL} to move to.
+     * @param isSuccess - Whether the reaction succeeded (colors the card).
+     * @returns A promise that resolves once applied.
+     */
+    private async applyReaction(
+        target: number,
+        isSuccess: boolean,
+    ): Promise<void> {
+        const shaken = this.activeMoraleTraumas();
+        if (target <= MORALE_LEVEL.STEADY) {
+            for (const t of shaken) await t.item.delete();
+        } else {
+            for (const t of shaken) {
+                if (t.data.levelBase > target) {
+                    await t.item.update({
+                        "system.levelBase": target,
+                    } as PlainObject);
+                }
+            }
+        }
+        await this.postTraumaStateCard(
+            sohl.i18n.localize("SOHL.Being.Action.reactionTest"),
+            moraleLevelLabelKey(target),
+            isSuccess,
+            0,
+            [],
+        );
+    }
+
+    /**
+     * Resolve a **Rally Test** (#559) — a leader's Command/Initiative test, made
+     * once per round as a free action, that steadies Routed and Withdrawing allies
+     * ({@link sohl.document.actor.logic.rallyOutcome}). Under the Prime Directive a
+     * rally is **offered, not imposed**: on a success this posts an **open** action
+     * card that any shaken ally's controller may accept to steady their own
+     * character (CS) or make a Reaction Test (MS). A failure posts an
+     * informational card noting the lockout.
+     *
+     * @param context - The action context for the test.
+     * @returns The Rally-test result, or `null` if the roll could not be run.
+     */
+    async rallyTest(
+        context: SohlActionContext,
+    ): Promise<SuccessTestResult | null> {
+        void context;
+        const cmdMl =
+            (
+                this.getItemLogic(SKILL_CODE.COMMAND, ITEM_KIND.SKILL) as
+                    | SkillLogic
+                    | undefined
+            )?.masteryLevel?.effective ??
+            (
+                this.getItemLogic(SKILL_CODE.INITIATIVE, ITEM_KIND.SKILL) as
+                    | SkillLogic
+                    | undefined
+            )?.masteryLevel?.effective ??
+            0;
+        const result = await rollTimedTest(this, cmdMl, {
+            type: "rally-test",
+            title: sohl.i18n.localize("SOHL.Being.Action.rallyTest"),
+        });
+        if (!result) return null;
+        const outcome = rallyOutcome(result.normSuccessLevel);
+        if (outcome.kind === "unresponsive") {
+            await this.postTraumaStateCard(
+                sohl.i18n.localize("SOHL.Being.Action.rallyTest"),
+                "",
+                false,
+                0,
+                [sohl.i18n.localize("SOHL.Trauma.Rally.Unresponsive")],
+            );
+            return result;
+        }
+        // Success — offer the rally to any shaken ally (owner-accepted).
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/rally-offer-card.hbs",
+            data: {
+                actorId: this.actor?.id ?? "",
+                rallierName: this.actor?.name ?? "",
+                steady: outcome.kind === "steady",
+            },
+            buttons: {
+                action: "acceptRally",
+                handlerUuid: SELF_HANDLER,
+                scope: { mode: outcome.kind },
+                label: sohl.i18n.localize("SOHL.Being.Action.acceptRally"),
+                iconFAClass: "fa-solid fa-flag",
+            },
+        });
+        return result;
+    }
+
+    /**
+     * Accept an ally's {@link rallyTest | Rally} — the **open** Rally card's
+     * button runs this on the accepting player's own character. Self-gates: only a
+     * shaken (Withdrawing/Routed/Catatonic) character responds. A `steady` rally
+     * (CS) makes them Steady immediately; a `reaction` rally (MS) triggers their
+     * Reaction Test.
+     *
+     * @param context - The action context; `scope.mode` is `"steady"` or
+     *   `"reaction"`.
+     * @returns A promise that resolves once the rally is applied.
+     */
+    async acceptRally(context: SohlActionContext): Promise<void> {
+        if (!isShakenMorale(this.moraleState)) {
+            sohl.log.uiWarn(sohl.i18n.localize("SOHL.Trauma.Morale.NotShaken"));
+            return;
+        }
+        const scope = (context.scope ?? {}) as { mode?: string };
+        if (scope.mode === "steady") {
+            await this.applyReaction(MORALE_LEVEL.STEADY, true);
+        } else {
+            await this.reactionTest(context);
+        }
+    }
+
+    /**
+     * The being's accrued **Pall Stress Levels (PSL)** (#561) — the level of its
+     * single `pall`-subtype trauma (the Pall Cloud), or 0 when it carries none.
+     */
+    get pallStress(): number {
+        return this.pallTrauma()?.data.levelBase ?? 0;
+    }
+
+    /**
+     * The being's `pall`-subtype trauma (the Pall Cloud), or `undefined`.
+     *
+     * @returns The Pall trauma, or `undefined`.
+     */
+    private pallTrauma(): TraumaLogic | undefined {
+        return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).find(
+            (t) => t.data.subType === TRAUMA_SUBTYPE.PALL,
+        );
+    }
+
+    /**
+     * Resolve a **Resist the Pall** test (#561) — a **Spirit** test with a Pall
+     * Depth penalty of `5 × total PAL` — at the start of the being's turn while in
+     * an affected area.
+     *
+     * A self-sufficient action on the affected being: it rolls Spirit headlessly
+     * (a `spirit` skill, falling back to the Aura attribute), applies the Pall
+     * Depth penalty from `scope.totalPal`, and maps the result to a
+     * {@link sohl.document.actor.logic.PALL_STATE}. A failure (Disturbed/Terrified/
+     * Catatonic) accrues Pall Stress Levels on the being's Pall Cloud trauma; a
+     * success (Resist/Immune) grants temporary immunity.
+     *
+     * @param context - The action context; `scope.totalPal` is the total Pall
+     *   Strength affecting the being.
+     * @returns The Spirit-test result, or `null` if the roll could not be run.
+     */
+    async pallResist(
+        context: SohlActionContext,
+    ): Promise<SuccessTestResult | null> {
+        const scope = (context.scope ?? {}) as { totalPal?: number };
+        const totalPal = Number(scope.totalPal ?? 0);
+        // Spirit is not a base attribute: prefer a `spirit` skill, fall back to
+        // the Aura attribute (the soul-facing attribute).
+        const spiritMl =
+            (
+                this.getItemLogic("spirit", ITEM_KIND.SKILL) as
+                    | SkillLogic
+                    | undefined
+            )?.masteryLevel?.effective ??
+            (
+                this.getItemLogic(ATTRIBUTE_CODE.AURA, ITEM_KIND.ATTRIBUTE) as
+                    | AttributeLogic
+                    | undefined
+            )?.masteryLevel?.effective ??
+            0;
+        const result = await rollTimedTest(this, spiritMl, {
+            type: "pall-resist",
+            title: sohl.i18n.localize("SOHL.Being.Action.pallResist"),
+            situationalModifier: -pallDepthPenalty(totalPal),
+        });
+        if (!result) return null;
+        await this.applyPallResist(
+            pallResistState(result.normSuccessLevel, result.lastDigit),
+            result.isSuccess,
+        );
+        return result;
+    }
+
+    /**
+     * Record the outcome of a {@link pallResist}: accrue Pall Stress Levels on the
+     * Pall Cloud trauma for a failure, and post an informational state card.
+     *
+     * @param state - The {@link sohl.document.actor.logic.PALL_STATE} produced.
+     * @param isSuccess - Whether the Spirit test succeeded.
+     * @returns A promise that resolves once the outcome is persisted.
+     */
+    private async applyPallResist(
+        state: number,
+        isSuccess: boolean,
+    ): Promise<void> {
+        const notes: string[] = [];
+        const psl = pallStressGain(state);
+        if (isPallFailure(state) && psl > 0) {
+            const existing = this.pallTrauma();
+            if (existing) {
+                await existing.item.update({
+                    "system.levelBase": existing.data.levelBase + psl,
+                } as PlainObject);
+            } else {
+                await fvttCreateEmbeddedItems(this, [
+                    {
+                        type: ITEM_KIND.TRAUMA,
+                        name: sohl.i18n.localize("SOHL.Trauma.Pall"),
+                        system: {
+                            subType: TRAUMA_SUBTYPE.PALL,
+                            levelBase: psl,
+                        },
+                    },
+                ]);
+            }
+            if (state >= PALL_STATE.CATATONIC) {
+                notes.push(
+                    sohl.i18n.localize("SOHL.Trauma.Pall.Note.Catatonic"),
+                );
+            } else if (state === PALL_STATE.TERRIFIED) {
+                notes.push(
+                    sohl.i18n.localize("SOHL.Trauma.Pall.Note.Terrified"),
+                );
+            } else {
+                notes.push(
+                    sohl.i18n.localize("SOHL.Trauma.Pall.Note.Disturbed"),
+                );
+            }
+        } else {
+            notes.push(sohl.i18n.localize("SOHL.Trauma.Pall.Note.Resist"));
+        }
+        await this.postTraumaStateCard(
+            sohl.i18n.localize("SOHL.Being.Action.pallResist"),
+            "",
+            isSuccess,
+            0,
+            notes,
+        );
+    }
+
+    /**
+     * The being's current **fear state** (#558) — the most severe (most-failed)
+     * {@link sohl.utils.FEAR_LEVEL} across its active fear-source traumas, or
+     * `NONE` when it carries none. "When several fear sources are present, only
+     * the most severe state affects the victim" (Fear rules).
+     */
+    get fearState(): number {
+        return mostSevereFear(
+            this.activeFearTraumas().map((t) => t.data.levelBase),
+        );
+    }
+
+    /**
+     * The being's active fearful `fear`-subtype traumas — the recorded fear
+     * sources at Afraid or worse (Brave markers and cleared sources excluded).
+     *
+     * @returns The active fearful fear traumas.
+     */
+    private activeFearTraumas(): TraumaLogic[] {
+        return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).filter(
+            (t) =>
+                t.data.subType === TRAUMA_SUBTYPE.FEAR &&
+                isFearfulState(t.data.levelBase),
+        );
+    }
+
+    /**
+     * The being's `subType`-subtype trauma for a given source, matched by name,
+     * or `undefined` when none is recorded. Shared by the Fear/Morale state-ladder
+     * tests to find the source's recorded trauma.
+     *
+     * @param subType - The trauma subtype (`fear` / `morale`).
+     * @param sourceName - The source's display name.
+     * @returns The matching trauma, or `undefined`.
+     */
+    private findTraumaBySource(
+        subType: string,
+        sourceName: string,
+    ): TraumaLogic | undefined {
+        return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).find(
+            (t) => t.data.subType === subType && t.item?.name === sourceName,
+        );
+    }
+
+    /**
+     * Whether the being currently carries the **+20 Brave** Fear/Morale bonus — a
+     * `BRAVE`-level fear **or** morale marker contracted within the last five
+     * minutes ({@link FEAR_BRAVE_DURATION}). A Brave result on either a Fear or a
+     * Morale test grants the same bonus to **both** tests.
+     *
+     * @returns `true` while the Brave bonus is in effect.
+     */
+    private hasBraveBonus(): boolean {
+        const now = fvttWorldTime();
+        return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).some(
+            (t) =>
+                (t.data.subType === TRAUMA_SUBTYPE.FEAR ||
+                    t.data.subType === TRAUMA_SUBTYPE.MORALE) &&
+                t.data.levelBase === FEAR_LEVEL.BRAVE &&
+                t.data.contractDate != null &&
+                now - t.data.contractDate < FEAR_BRAVE_DURATION,
+        );
+    }
+
+    /**
+     * Upsert or clear a Fear/Morale **state-ladder** trauma for `sourceName` to
+     * `level`, returning the **incremental** Psyche Stress to inflict (the PSY for
+     * the newly-reached severity, never re-charged at the same state). A shaken
+     * `level` records or worsens the source trauma; a success clears it, recording
+     * a Brave marker for a `braveLevel` result. Foundry-touching create/update/
+     * delete only — the caller inflicts the returned PSY and posts the card.
+     *
+     * @param subType - The trauma subtype (`fear` / `morale`).
+     * @param level - The state level just produced.
+     * @param sourceName - The source's display name.
+     * @param isShaken - Predicate: whether a level is a recorded (harmful) state.
+     * @param psyGainFor - The PSY a level grants.
+     * @param braveLevel - The subtype's Brave level (records a marker on success).
+     * @returns The incremental Psyche Stress to inflict (0 for none).
+     */
+    private async recordLadderTrauma(
+        subType: string,
+        level: number,
+        sourceName: string,
+        isShaken: (l: number) => boolean,
+        psyGainFor: (l: number) => number,
+        braveLevel: number,
+    ): Promise<number> {
+        const existing = this.findTraumaBySource(subType, sourceName);
+        const currentLevel =
+            isShaken(existing?.data.levelBase ?? 0) ?
+                (existing?.data.levelBase ?? 0)
+            :   0;
+        if (isShaken(level)) {
+            if (existing) {
+                await existing.item.update({
+                    "system.levelBase": level,
+                } as PlainObject);
+            } else {
+                await fvttCreateEmbeddedItems(this, [
+                    {
+                        type: ITEM_KIND.TRAUMA,
+                        name: sourceName,
+                        system: {
+                            subType,
+                            levelBase: level,
+                            aspect: IMPACT_ASPECT.BLUNT,
+                        },
+                    },
+                ]);
+            }
+            return Math.max(0, psyGainFor(level) - psyGainFor(currentLevel));
+        }
+        // A success clears the source; a Brave result records a short-lived marker.
+        if (existing) await existing.item.delete();
+        if (level === braveLevel) {
+            await fvttCreateEmbeddedItems(this, [
+                {
+                    type: ITEM_KIND.TRAUMA,
+                    name: sourceName,
+                    system: { subType, levelBase: braveLevel },
+                },
+            ]);
+        }
+        return 0;
+    }
+
+    /**
+     * Resolve a **Fear Test** (#558) — a test against **Will** — against a
+     * frightening source, and record the resulting {@link fearState}.
+     *
+     * A self-sufficient action on the affected being: it rolls the being's Will
+     * headlessly (adding the Brave bonus if active), maps
+     * the result to a {@link sohl.utils.FEAR_LEVEL}
+     * ({@link sohl.document.actor.logic.fearStateFromTest} — the CF0/CF5 split
+     * decides Catatonic vs Terrified), and applies it: a fearful result records
+     * (or worsens) a `fear`-subtype trauma for the source and inflicts any Psyche
+     * Stress; a success clears the source (Steady) or grants the Brave bonus.
+     *
+     * @param context - The action context; `scope.sourceName` names the fear
+     *   source (defaults to a generic label).
+     * @returns The Fear-test result, or `null` if the roll could not be run.
      */
     async fearTest(
-        context: SohlActionContext<EmptyObject>,
+        context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
-        // if (!options.testResult) {
-        //     const initSkill = this.actor.getItem("init", { types: ["skill"] });
-        //     if (!initSkill) return null;
-        //     options.testResult = new CONFIG.SOHL.class.SuccessTestResult(
-        //         {
-        //             speaker,
-        //             testType: SuccessTestResult.TEST_TYPE.FEAR,
-        //             mlMod: Utility.deepClone(initSkill.system.$masteryLevel),
-        //         },
-        //         { parent: initSkill.system },
-        //     );
-        // }
-        // options.testResult =
-        //     options.testResult.item.system.successTest(options);
-        // return this._createTestItem(options);
-        return null;
+        const scope = (context.scope ?? {}) as { sourceName?: string };
+        const sourceName =
+            typeof scope.sourceName === "string" && scope.sourceName ?
+                scope.sourceName
+            :   sohl.i18n.localize("SOHL.Trauma.Fear.DefaultSource");
+        const willMl =
+            (
+                this.getItemLogic(ATTRIBUTE_CODE.WILL, ITEM_KIND.ATTRIBUTE) as
+                    | AttributeLogic
+                    | undefined
+            )?.masteryLevel?.effective ?? 0;
+        const braveBonus = this.hasBraveBonus() ? FEAR_BRAVE_BONUS : 0;
+        const result = await rollTimedTest(this, willMl, {
+            type: "fear-test",
+            title: sohl.i18n.localize("SOHL.Being.Action.fearTest"),
+            situationalModifier: braveBonus,
+        });
+        if (!result) return null;
+        await this.applyFearResult(
+            fearStateFromTest(result.normSuccessLevel, result.lastDigit),
+            sourceName,
+            result.isSuccess,
+        );
+        return result;
+    }
+
+    /**
+     * Record the outcome of a {@link fearTest}: create/worsen the source's fear
+     * trauma and inflict incremental Psyche Stress on a fearful result, clear the
+     * source on a success (Steady) or record a Brave marker, then sync the
+     * `fear` status and post an informational state card.
+     *
+     * @param level - The {@link sohl.utils.FEAR_LEVEL} the test produced.
+     * @param sourceName - The fear source's display name.
+     * @param isSuccess - Whether the Fear Test succeeded.
+     * @returns A promise that resolves once the outcome is persisted.
+     */
+    private async applyFearResult(
+        level: number,
+        sourceName: string,
+        isSuccess: boolean,
+    ): Promise<void> {
+        const psyGain = await this.recordLadderTrauma(
+            TRAUMA_SUBTYPE.FEAR,
+            level,
+            sourceName,
+            isFearfulState,
+            fearPsyGain,
+            FEAR_LEVEL.BRAVE,
+        );
+        if (psyGain > 0) await inflictPsycheStress(this, psyGain, sourceName);
+
+        const notes: string[] = [];
+        if (isFearfulState(level)) {
+            if (fearHelpless(level)) {
+                notes.push(
+                    sohl.i18n.localize("SOHL.Trauma.Fear.Note.Helpless"),
+                );
+            } else if (fearDefenseRestricted(level)) {
+                notes.push(
+                    sohl.i18n.localize(
+                        "SOHL.Trauma.Fear.Note.DefenseRestricted",
+                    ),
+                );
+            }
+            if (fearMustFlee(level)) {
+                notes.push(
+                    sohl.i18n.localize("SOHL.Trauma.Fear.Note.MustFlee"),
+                );
+            }
+        } else if (level === FEAR_LEVEL.BRAVE) {
+            notes.push(sohl.i18n.localize("SOHL.Trauma.Fear.Note.Brave"));
+        } else {
+            notes.push(sohl.i18n.localize("SOHL.Trauma.Fear.Note.Immune"));
+        }
+
+        await this.syncFearStatus(sourceName, level);
+        await this.postTraumaStateCard(
+            sohl.i18n.localize("SOHL.Being.Action.fearTest"),
+            fearLevelLabelKey(level),
+            isSuccess,
+            psyGain,
+            notes,
+        );
+    }
+
+    /**
+     * Toggle the being's `fear` status effect to match its fear state after the
+     * just-applied result for `sourceName` reached `level`. Computed from `level`
+     * plus every **other** active fear source, so it is correct even before a
+     * freshly-created/updated fear trauma is reflected in {@link fearState}.
+     *
+     * @param sourceName - The fear source just resolved (excluded from the scan).
+     * @param level - The {@link sohl.utils.FEAR_LEVEL} just applied for it.
+     * @returns A promise that resolves once the status is in sync.
+     */
+    private async syncFearStatus(
+        sourceName: string,
+        level: number,
+    ): Promise<void> {
+        const others = this.activeFearTraumas()
+            .filter((t) => t.item?.name !== sourceName)
+            .map((t) => t.data.levelBase);
+        const shouldBeFearful =
+            mostSevereFear([...others, level]) >= FEAR_LEVEL.AFRAID;
+        const has = fvttActorStatuses(this.actor).has(STATUS_EFFECT.FEARFUL);
+        if (shouldBeFearful !== has) {
+            await fvttToggleActorStatus(
+                this.actor,
+                STATUS_EFFECT.FEARFUL,
+                shouldBeFearful,
+            );
+        }
+    }
+
+    /**
+     * Post an informational trauma-state card summarizing a trauma test's outcome
+     * (the resulting state, any Psyche Stress gain, and effect notes). Shared by
+     * the Fear / Morale / Pall tests.
+     *
+     * @param title - The test title.
+     * @param labelKey - Localization key for the resulting state's name.
+     * @param isSuccess - Whether the test succeeded (colors the state).
+     * @param psyGain - Psyche Stress Levels gained (0 for none).
+     * @param notes - Localized effect notes to list.
+     * @returns A promise that resolves once the card is posted.
+     */
+    private async postTraumaStateCard(
+        title: string,
+        labelKey: string,
+        isSuccess: boolean,
+        psyGain: number,
+        notes: string[],
+    ): Promise<void> {
+        await postActionCard(this.speaker, {
+            template: "systems/sohl/templates/chat/trauma-state-card.hbs",
+            data: {
+                actorId: this.actor?.id ?? "",
+                actorName: this.actor?.name ?? "",
+                title,
+                stateLabel: labelKey ? sohl.i18n.localize(labelKey) : "",
+                isSuccess,
+                psyGain,
+                notes,
+            },
+        });
     }
 
     /**
@@ -1169,6 +1853,16 @@ export class BeingLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
+                shortcode: "performBloodStoppage",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.performBloodStoppage",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-droplet-slash",
+                executor: "performBloodStoppage",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
                 shortcode: "shockTest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Being.Action.shockTest",
@@ -1220,12 +1914,52 @@ export class BeingLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
+                shortcode: "reactionTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.reactionTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-person-walking-arrow-loop-left",
+                executor: "reactionTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "rallyTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.rallyTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-flag",
+                executor: "rallyTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "acceptRally",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.acceptRally",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-flag",
+                executor: "acceptRally",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
                 shortcode: "fearTest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Being.Action.fearTest",
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "far fa-face-scream",
                 executor: "fearTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "pallResist",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.pallResist",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-skull",
+                executor: "pallResist",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
@@ -1400,16 +2134,12 @@ export class BeingLogic<
     }
 
     /**
-     * Populate the being's derived health (`system.health` and the qualitative
-     * {@link healthBand}) from its Endurance, active injuries, body-part
-     * impairment, and incapacitating statuses (#463). Runs in {@link finalize},
-     * after all items (body, traumas) are prepared. The math lives in the pure
-     * {@link deriveHealth}; this method only gathers the inputs and writes the
-     * `{ value, max }` numbers back into `system.health`.
+     * A per-location view of the being's active injuries, for the body-part
+     * impairment rollup (health, unusable-part detection).
+     *
+     * @returns One {@link LocationInjury} per injured location.
      */
-    private deriveHealthState(): void {
-        // A per-location view of the being's active injuries, for the body-part
-        // impairment rollup.
+    private locationInjuries(): LocationInjury[] {
         const injuries: LocationInjury[] = [];
         for (const trauma of this.logicTypes[
             ITEM_KIND.TRAUMA
@@ -1424,6 +2154,46 @@ export class BeingLogic<
                 });
             }
         }
+        return injuries;
+    }
+
+    /**
+     * The set of body-part **roles** the being currently cannot use — the roles
+     * of every body part that is {@link bodyPartImpairment | unusable} (a grievous
+     * injury or a permanent-unusable flag). A test whose governing skill or
+     * attribute lists any of these roles in its `impairedByRoles` automatically
+     * Critically Fails (#568).
+     *
+     * @returns The roles of every unusable body part (empty for an incorporeal
+     *   being).
+     */
+    unusableRoles(): Set<string> {
+        const parts = this.body?.structure?.parts ?? [];
+        if (parts.length === 0) return new Set();
+        const injuries = this.locationInjuries();
+        const roles = new Set<string>();
+        for (const p of parts) {
+            const imp = bodyPartImpairment(
+                p.locations.map((l) => l.shortcode),
+                injuries,
+                p.permanentImpairment,
+                p.permanentlyUnusable,
+            );
+            if (!imp.usable) for (const role of p.roles) roles.add(role);
+        }
+        return roles;
+    }
+
+    /**
+     * Populate the being's derived health (`system.health` and the qualitative
+     * {@link healthBand}) from its Endurance, active injuries, body-part
+     * impairment, and incapacitating statuses (#463). Runs in {@link finalize},
+     * after all items (body, traumas) are prepared. The math lives in the pure
+     * {@link deriveHealth}; this method only gathers the inputs and writes the
+     * `{ value, max }` numbers back into `system.health`.
+     */
+    private deriveHealthState(): void {
+        const injuries = this.locationInjuries();
 
         // Each part's impairment tier + usability + criticality (#470).
         const parts: PartHealthInput[] = this.body.structure.parts.map((p) => {
@@ -1650,6 +2420,88 @@ export class BeingLogic<
         });
 
         return { healingRate, physicianName: this.name ?? "" };
+    }
+
+    /**
+     * Perform a **Blood Stoppage Test** for a bleeding character (#547) — the
+     * physician's step of the interactive flow, run from a *Request Blood
+     * Stoppage* card's open `@self` button (or by hand). Self-gates: only a
+     * Physician-skilled character answers. Rolls **this** physician's own
+     * Physician skill (plus any +10 carried from a prior Marginal-Failure
+     * stoppage) and posts a *Blood Stoppage Result* card whose owner-gated Accept
+     * button relays the {@link sohl.entity.body.bloodStoppageOutcome | outcome}
+     * back to the bleeding injury.
+     *
+     * @param context - The action context; `scope.injuryUuid` targets the
+     *   bleeding injury and `scope.stoppageBonus` carries the +10 next-test bonus.
+     * @returns The outcome kind and physician name, or `undefined` if it aborts.
+     */
+    async performBloodStoppage(
+        context: SohlActionContext,
+    ): Promise<{ kind: string; physicianName: string } | undefined> {
+        const physicianSkill = this.getItemLogic(
+            SKILL_CODE.PHYSICIAN,
+            ITEM_KIND.SKILL,
+        ) as SkillLogic | undefined;
+        if (!physicianSkill) {
+            sohl.log.uiWarn(
+                sohl.i18n.localize("SOHL.Trauma.Treatment.NoPhysicianSkill"),
+            );
+            return undefined;
+        }
+        const scope = (context.scope ?? {}) as {
+            injuryUuid?: unknown;
+            stoppageBonus?: unknown;
+        };
+        const injuryUuid = String(scope.injuryUuid ?? "").trim();
+        const injury =
+            injuryUuid ?
+                fvttLogicFromUuidSync<TraumaLogic>(injuryUuid)
+            :   undefined;
+        if (injuryUuid && !injury) return undefined; // uuid did not resolve
+
+        const bonus = Number(scope.stoppageBonus ?? 0);
+        const physicianMl = physicianSkill.masteryLevel?.effective ?? 0;
+        const result = await rollTimedTest(this, physicianMl, {
+            type: "blood-stoppage-test",
+            title: sohl.i18n.localize("SOHL.Being.Action.performBloodStoppage"),
+            situationalModifier: bonus,
+        });
+        if (result === undefined) return undefined; // cancelled
+        const sl = result ? result.normSuccessLevel : CRITICAL_FAILURE;
+        const outcome = bloodStoppageOutcome(sl);
+
+        await postActionCard(this.speaker, {
+            template:
+                "systems/sohl/templates/chat/blood-stoppage-result-card.hbs",
+            data: {
+                physicianName: this.name ?? "",
+                woundName: injury?.item?.name ?? "",
+                outcomeLabel: sohl.i18n.localize(
+                    `SOHL.Trauma.BloodStoppage.Outcome.${outcome.kind}`,
+                ),
+                stopped:
+                    outcome.kind === "stopImmediately" ||
+                    outcome.kind === "stopAfterNext",
+            },
+            buttons:
+                injuryUuid ?
+                    {
+                        action: "acceptBloodStoppage",
+                        handlerUuid: injuryUuid,
+                        scope: {
+                            kind: outcome.kind,
+                            nextBonus: outcome.nextBonus,
+                        },
+                        label: sohl.i18n.localize(
+                            "SOHL.Trauma.BloodStoppage.accept",
+                        ),
+                        iconFAClass: "fa-solid fa-check",
+                    }
+                :   undefined,
+        });
+
+        return { kind: outcome.kind, physicianName: this.name ?? "" };
     }
 
     /**
