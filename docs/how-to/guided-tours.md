@@ -95,6 +95,26 @@ the Combat tab), and a free wrap-up. Read it alongside this guide; it is the
 template a new tour is written from. The e2e spec
 `cypress/e2e/guided-tours.cy.js` drives it end to end.
 
+For a full-scale example, `src/apps/foundry/tours/character-creation-tour.ts` is
+the flagship **Character Creation** tour: ~20 steps that walk the whole Being sheet
+(Facade, Profile, Skills, Gear, Combat, Mysteries, containers), mixing free steps
+with value/state gates. Its archetype gates are worth studying — each reads the
+created instance's inherited `system.shortcode` (see the [archetype-first create
+dialog](../../src/document/item/foundry/SohlItem.ts)) to confirm the _right
+archetype_ was chosen without forcing a name. It is driven end to end by
+`cypress/e2e/character-creation-tour.cy.js`.
+
+### Offering a tour on first run
+
+A tour listed with `display: true` is always launchable from **Tour Management**.
+To also _offer_ it — without ever auto-starting it (PRIME DIRECTIVE) — post a
+non-blocking **whisper chat card** carrying a `[data-sohl-tour-start="<ns.id>"]`
+button, once per user, guarded by a per-user `User` flag. `registerSystemTours`
+does this for the Character Creation tour and binds the button through a
+`renderChatMessageHTML` handler that calls `game.tours.get(id).start()`. Prefer a
+whisper card over a modal dialog: it follows the offer-don't-act consent model and
+never blocks (including the headless e2e client).
+
 Its shape, condensed:
 
 ```ts

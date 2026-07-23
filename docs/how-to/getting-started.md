@@ -46,6 +46,13 @@ If the build succeeds, you're ready. If tests fail, check `tests/setup.ts` — i
     - DataModel: `src/document/item/foundry/SkillDataModel.ts` (persisted schema)
     - Sheet: `src/document/item/foundry/SkillSheet.ts` (UI)
 
+> **See the Being sheet end to end, in-app.** Launch a world and run the
+> **Create a Character** guided tour (offered on first load, or any time from
+> **Settings → Tour Management**). It walks the full character-creation flow —
+> Facade, Profile, Skills, Gear, Combat, Mysteries, and containers — and doubles
+> as a live map of the Being sheet. See [Writing Guided Tours](./guided-tours.md)
+> for how it is built.
+
 ### The mental model
 
 The design and rationale live in the concept docs — read them there rather than duplicated here, so there's a single source of truth that can't drift:
