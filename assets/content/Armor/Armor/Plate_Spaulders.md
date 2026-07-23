@@ -13,6 +13,7 @@ shortcode: PlSpld
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Spaulders
     detailMaterial: Plate
     material: Plate

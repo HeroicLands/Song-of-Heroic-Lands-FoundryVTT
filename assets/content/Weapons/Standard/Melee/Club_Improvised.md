@@ -13,6 +13,7 @@ shortcode: ClbImp
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 8
     weight: 3
     value: 0

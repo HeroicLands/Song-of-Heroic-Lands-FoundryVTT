@@ -13,6 +13,7 @@ shortcode: RhVest
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Vest
     detailMaterial: Rawhide
     material: Leather

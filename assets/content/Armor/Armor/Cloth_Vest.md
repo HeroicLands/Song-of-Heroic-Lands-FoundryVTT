@@ -13,6 +13,7 @@ shortcode: CVest
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Vest
     detailMaterial: Cloth
     material: Cloth

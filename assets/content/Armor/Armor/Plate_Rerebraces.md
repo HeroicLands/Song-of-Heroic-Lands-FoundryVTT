@@ -13,6 +13,7 @@ shortcode: PlRebr
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Rerebraces
     detailMaterial: Plate
     material: Plate

@@ -13,6 +13,7 @@ shortcode: LDress
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Dress
     detailMaterial: Linen
     material: Cloth

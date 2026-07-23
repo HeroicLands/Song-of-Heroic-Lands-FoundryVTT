@@ -13,6 +13,7 @@ shortcode: LtShoe
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Shoes
     detailMaterial: Leather
     material: Leather

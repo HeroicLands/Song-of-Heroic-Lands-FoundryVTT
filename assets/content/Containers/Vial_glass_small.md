@@ -13,6 +13,7 @@ shortcode: vialglasss
 type: containergear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 2
     maxCapacity: 0.0625

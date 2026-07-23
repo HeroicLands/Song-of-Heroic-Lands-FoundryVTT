@@ -13,6 +13,7 @@ shortcode: CBw100
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 12
     weight: 3
     value: 540

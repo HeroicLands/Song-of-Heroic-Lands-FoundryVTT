@@ -13,6 +13,7 @@ shortcode: WMntl
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Mantle
     detailMaterial: Worsted
     material: Cloth

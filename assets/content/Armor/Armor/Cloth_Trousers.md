@@ -13,6 +13,7 @@ shortcode: CTrsr
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Trousers
     detailMaterial: Cloth
     material: Cloth

@@ -13,6 +13,7 @@ shortcode: VHat
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Hat
     detailMaterial: Velvet
     material: Cloth

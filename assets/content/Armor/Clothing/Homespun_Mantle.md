@@ -13,6 +13,7 @@ shortcode: HsMntl
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Mantle
     detailMaterial: Homespun
     material: Cloth

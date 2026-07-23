@@ -13,6 +13,7 @@ shortcode: SlkSwd
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Swaddle
     detailMaterial: Silk
     material: Cloth

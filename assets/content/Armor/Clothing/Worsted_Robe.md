@@ -13,6 +13,7 @@ shortcode: WRobe
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Robe
     detailMaterial: Worsted
     material: Cloth

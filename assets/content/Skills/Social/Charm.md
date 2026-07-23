@@ -12,6 +12,7 @@ shortcode: chrm
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: social
     skillBaseFormula: "@cml, @emp"
     combatCategory: none

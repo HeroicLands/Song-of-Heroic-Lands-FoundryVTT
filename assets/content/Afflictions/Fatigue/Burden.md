@@ -12,6 +12,7 @@ shortcode: burden
 type: affliction
 package: sohl
 sohl:
+    archetype: 0
     subType: fatigue
     category: weariness
     diagnosisBonus: 0

@@ -14,6 +14,7 @@ shortcode: BltStd
 img: icons/arrow.svg
 easyname: Standard
 sohl:
+    archetype: 0
     quality: 0
     durability: 10
     value: 0.22

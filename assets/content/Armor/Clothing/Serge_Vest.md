@@ -13,6 +13,7 @@ shortcode: SgVest
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Vest
     detailMaterial: Serge
     material: Cloth

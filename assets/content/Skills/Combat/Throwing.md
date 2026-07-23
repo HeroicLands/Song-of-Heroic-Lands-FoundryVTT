@@ -12,6 +12,7 @@ shortcode: thro
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: combat
     skillBaseFormula: "@dex, @per"
     combatCategory: missile

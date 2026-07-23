@@ -13,6 +13,7 @@ shortcode: RGlv
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Gloves
     detailMaterial: Russet
     material: Cloth

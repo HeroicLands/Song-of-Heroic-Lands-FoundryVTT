@@ -12,6 +12,7 @@ shortcode: smsh
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: nature
     skillBaseFormula: "@wil, @per"
     combatCategory: none

@@ -13,6 +13,7 @@ shortcode: RWhp
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 10
     weight: 3
     value: 24

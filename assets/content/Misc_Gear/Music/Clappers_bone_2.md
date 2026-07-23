@@ -14,6 +14,7 @@ shortcode: clappersbo2
 type: miscgear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 5
     value: 1

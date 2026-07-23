@@ -14,6 +14,7 @@ shortcode: grindstone
 type: miscgear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 8
     value: 12

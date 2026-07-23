@@ -13,6 +13,7 @@ shortcode: Flch
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 10
     weight: 0.25
     value: 3

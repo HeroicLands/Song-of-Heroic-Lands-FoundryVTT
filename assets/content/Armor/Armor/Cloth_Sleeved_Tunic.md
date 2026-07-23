@@ -13,6 +13,7 @@ shortcode: CSTnc
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Sleeved Tunic
     detailMaterial: Cloth
     material: Cloth

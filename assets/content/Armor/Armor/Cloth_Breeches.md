@@ -13,6 +13,7 @@ shortcode: CBrch
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Breeches
     detailMaterial: Cloth
     material: Cloth

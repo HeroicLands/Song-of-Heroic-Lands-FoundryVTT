@@ -11,6 +11,7 @@ shortcode: mov
 type: trait
 package: sohl
 sohl:
+    archetype: 0
     subType: physique
     intensity: trait
     textValue: ""

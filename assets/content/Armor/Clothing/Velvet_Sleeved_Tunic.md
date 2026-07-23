@@ -13,6 +13,7 @@ shortcode: VSTnc
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Sleeved Tunic
     detailMaterial: Velvet
     material: Cloth

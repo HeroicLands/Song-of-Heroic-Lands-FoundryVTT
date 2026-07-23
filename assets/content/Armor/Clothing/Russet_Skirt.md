@@ -13,6 +13,7 @@ shortcode: RSkirt
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Skirt
     detailMaterial: Russet
     material: Cloth

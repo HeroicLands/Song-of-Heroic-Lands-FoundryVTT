@@ -13,6 +13,7 @@ shortcode: WTrsr
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Trousers
     detailMaterial: Worsted
     material: Cloth

@@ -13,6 +13,7 @@ shortcode: SlngStf
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 9
     weight: 0.1
     value: 6

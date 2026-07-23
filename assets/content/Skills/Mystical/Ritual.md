@@ -12,6 +12,7 @@ shortcode: ritual
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: ritual
     skillBaseFormula: "@wil, @rea"
     combatCategory: none

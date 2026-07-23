@@ -11,6 +11,7 @@ shortcode: str
 type: attribute
 package: sohl
 sohl:
+    archetype: 0
     scoreBase: 0
     valueDesc:
         - Feeble:4

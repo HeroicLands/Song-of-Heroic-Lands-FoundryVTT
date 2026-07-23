@@ -13,6 +13,7 @@ shortcode: MByr
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Byrnie
     detailMaterial: Mail
     material: Mail

@@ -11,6 +11,7 @@ shortcode: deafness
 type: trait
 package: sohl
 sohl:
+    archetype: 0
     subType: physique
     intensity: disorder
     isNumeric: false

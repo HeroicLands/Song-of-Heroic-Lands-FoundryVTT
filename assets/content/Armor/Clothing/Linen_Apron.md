@@ -13,6 +13,7 @@ shortcode: LApn
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Apron
     detailMaterial: Linen
     material: Cloth

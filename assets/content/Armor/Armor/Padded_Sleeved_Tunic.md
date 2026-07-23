@@ -13,6 +13,7 @@ shortcode: PSTnc
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Sleeved Tunic
     detailMaterial: Padded
     material: Padded

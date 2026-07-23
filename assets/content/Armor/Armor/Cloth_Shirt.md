@@ -13,6 +13,7 @@ shortcode: CShirt
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Shirt
     detailMaterial: Cloth
     material: Cloth

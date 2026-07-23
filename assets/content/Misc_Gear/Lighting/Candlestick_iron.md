@@ -14,6 +14,7 @@ shortcode: candlestic
 type: miscgear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 7
     value: 7

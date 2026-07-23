@@ -13,6 +13,7 @@ shortcode: SgTrsr
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Trousers
     detailMaterial: Serge
     material: Cloth

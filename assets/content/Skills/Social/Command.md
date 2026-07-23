@@ -12,6 +12,7 @@ shortcode: cmd
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: social
     skillBaseFormula: "@wil, @elo"
     combatCategory: none

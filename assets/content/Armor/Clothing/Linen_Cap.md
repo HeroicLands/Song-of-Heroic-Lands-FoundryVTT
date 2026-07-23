@@ -13,6 +13,7 @@ shortcode: LCap
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cap
     detailMaterial: Linen
     material: Cloth

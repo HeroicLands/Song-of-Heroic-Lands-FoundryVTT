@@ -13,6 +13,7 @@ shortcode: MMtn
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Mittens
     detailMaterial: Mail
     material: Mail

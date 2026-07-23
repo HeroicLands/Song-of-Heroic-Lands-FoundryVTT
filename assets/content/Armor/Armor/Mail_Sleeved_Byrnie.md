@@ -13,6 +13,7 @@ shortcode: MSByr
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Sleeved Byrnie
     detailMaterial: Mail
     material: Mail

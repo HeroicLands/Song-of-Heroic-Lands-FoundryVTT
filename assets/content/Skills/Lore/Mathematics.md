@@ -12,6 +12,7 @@ shortcode: math
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: lore
     skillBaseFormula: "@rea, @cre"
     combatCategory: none

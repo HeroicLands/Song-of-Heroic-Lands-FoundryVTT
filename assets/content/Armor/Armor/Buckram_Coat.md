@@ -13,6 +13,7 @@ shortcode: BCoat
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Coat
     detailMaterial: Buckram
     material: Cloth

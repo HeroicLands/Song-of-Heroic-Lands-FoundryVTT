@@ -13,6 +13,7 @@ shortcode: SgClk
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cloak
     detailMaterial: Serge
     material: Cloth

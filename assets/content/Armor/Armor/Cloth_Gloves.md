@@ -13,6 +13,7 @@ shortcode: CGlv
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Gloves
     detailMaterial: Cloth
     material: Cloth

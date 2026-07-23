@@ -13,6 +13,7 @@ shortcode: LTrsr
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Trousers
     detailMaterial: Linen
     material: Cloth

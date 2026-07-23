@@ -13,6 +13,7 @@ shortcode: StShoes
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Sandals
     detailMaterial: Straw
     material: Cloth

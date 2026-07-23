@@ -13,6 +13,7 @@ shortcode: RnLeg
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Leggings
     detailMaterial: Ring
     material: Ring

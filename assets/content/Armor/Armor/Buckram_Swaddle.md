@@ -13,6 +13,7 @@ shortcode: BSwd
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Swaddle
     detailMaterial: Buckram
     material: Cloth

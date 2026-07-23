@@ -13,6 +13,7 @@ shortcode: RTunic
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Tunic
     detailMaterial: Russet
     material: Cloth

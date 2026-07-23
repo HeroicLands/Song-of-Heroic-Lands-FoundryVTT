@@ -13,6 +13,7 @@ shortcode: inkwellcop
 type: containergear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 5
     maxCapacity: 0.25

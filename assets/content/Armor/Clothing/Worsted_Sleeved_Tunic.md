@@ -13,6 +13,7 @@ shortcode: WSTnc
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Sleeved Tunic
     detailMaterial: Worsted
     material: Cloth

@@ -14,6 +14,7 @@ shortcode: chalkbulk
 type: miscgear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 1
     value: 1

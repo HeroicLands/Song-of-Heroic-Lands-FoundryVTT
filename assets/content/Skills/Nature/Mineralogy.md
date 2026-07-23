@@ -12,6 +12,7 @@ shortcode: mnrl
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: nature
     skillBaseFormula: "@rea, @per"
     combatCategory: none

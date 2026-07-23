@@ -11,6 +11,7 @@ shortcode: end
 type: attribute
 package: sohl
 sohl:
+    archetype: 0
     scoreBase: 0
     valueDesc:
         - Frail:4

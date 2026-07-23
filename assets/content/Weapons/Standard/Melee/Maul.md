@@ -13,6 +13,7 @@ shortcode: Maul
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 12
     weight: 7
     value: 96

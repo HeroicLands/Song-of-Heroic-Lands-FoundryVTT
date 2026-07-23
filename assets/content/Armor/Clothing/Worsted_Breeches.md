@@ -13,6 +13,7 @@ shortcode: WBrch
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Breeches
     detailMaterial: Worsted
     material: Cloth

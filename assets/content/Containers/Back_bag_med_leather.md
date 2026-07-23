@@ -13,6 +13,7 @@ shortcode: backbagmed
 type: containergear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 8
     maxCapacity: 30

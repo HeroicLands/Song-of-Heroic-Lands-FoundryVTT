@@ -13,6 +13,7 @@ shortcode: RhShoe
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Shoes
     detailMaterial: Rawhide
     material: Leather

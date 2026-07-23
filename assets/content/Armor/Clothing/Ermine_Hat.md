@@ -13,6 +13,7 @@ shortcode: EHat
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Hat
     detailMaterial: Ermine
     material: Leather

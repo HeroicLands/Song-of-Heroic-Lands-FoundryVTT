@@ -13,6 +13,7 @@ shortcode: PlVamb
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Vambraces
     detailMaterial: Plate
     material: Plate

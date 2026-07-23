@@ -13,6 +13,7 @@ shortcode: jarointmen2
 type: containergear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 3
     maxCapacity: 0.125

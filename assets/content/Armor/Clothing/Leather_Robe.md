@@ -13,6 +13,7 @@ shortcode: LtRobe
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Robe
     detailMaterial: Leather
     material: Leather

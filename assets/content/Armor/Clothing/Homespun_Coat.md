@@ -13,6 +13,7 @@ shortcode: HsCoat
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Coat
     detailMaterial: Homespun
     material: Cloth

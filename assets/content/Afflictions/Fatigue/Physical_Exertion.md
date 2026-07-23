@@ -13,6 +13,7 @@ shortcode: physex
 type: affliction
 package: sohl
 sohl:
+    archetype: 0
     subType: fatigue
     category: windedness
     diagnosisBonus: 0

@@ -13,6 +13,7 @@ shortcode: CShoe
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Shoes
     detailMaterial: Cloth
     material: Cloth

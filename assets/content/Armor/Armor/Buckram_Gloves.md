@@ -13,6 +13,7 @@ shortcode: BGlv
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Gloves
     detailMaterial: Buckram
     material: Cloth

@@ -13,6 +13,7 @@ shortcode: ECowl
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cowl
     detailMaterial: Ermine
     material: Leather

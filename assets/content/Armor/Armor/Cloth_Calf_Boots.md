@@ -13,6 +13,7 @@ shortcode: CCBoot
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Calf Boots
     detailMaterial: Cloth
     material: Cloth

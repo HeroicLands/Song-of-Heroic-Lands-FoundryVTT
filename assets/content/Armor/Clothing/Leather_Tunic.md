@@ -13,6 +13,7 @@ shortcode: LtTunic
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Tunic
     detailMaterial: Leather
     material: Leather

@@ -13,6 +13,7 @@ shortcode: MHbk
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Hauberk
     detailMaterial: Mail
     material: Mail

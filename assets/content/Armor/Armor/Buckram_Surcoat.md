@@ -13,6 +13,7 @@ shortcode: BScoat
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Surcoat
     detailMaterial: Buckram
     material: Cloth

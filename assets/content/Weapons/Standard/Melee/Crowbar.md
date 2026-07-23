@@ -13,6 +13,7 @@ shortcode: Crwbr
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 11
     weight: 6
     value: 9

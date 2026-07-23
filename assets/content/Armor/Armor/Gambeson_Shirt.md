@@ -13,6 +13,7 @@ shortcode: GSht
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Shirt
     detailMaterial: Gambeson
     material: Gambeson

@@ -12,6 +12,7 @@ shortcode: starv
 type: affliction
 package: sohl
 sohl:
+    archetype: 0
     subType: privation
     category: starvation
     diagnosisBonus: 0

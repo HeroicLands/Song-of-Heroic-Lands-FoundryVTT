@@ -13,6 +13,7 @@ shortcode: BBrch
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Breeches
     detailMaterial: Buckram
     material: Cloth

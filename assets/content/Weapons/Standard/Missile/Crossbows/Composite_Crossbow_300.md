@@ -13,6 +13,7 @@ shortcode: CCxBw300
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 12
     weight: 9
     value: 204

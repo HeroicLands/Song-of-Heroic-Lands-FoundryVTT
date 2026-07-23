@@ -12,6 +12,7 @@ shortcode: common
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: language
     skillBaseFormula: "@elo, @rea"
     combatCategory: none

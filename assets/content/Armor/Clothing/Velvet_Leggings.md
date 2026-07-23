@@ -13,6 +13,7 @@ shortcode: VLeg
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Leggings
     detailMaterial: Velvet
     material: Cloth

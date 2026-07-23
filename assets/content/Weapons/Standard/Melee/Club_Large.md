@@ -13,6 +13,7 @@ shortcode: ClbLg
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 9
     weight: 5
     value: 18

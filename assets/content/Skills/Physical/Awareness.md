@@ -12,6 +12,7 @@ shortcode: awar
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: physical
     skillBaseFormula: "@per, @wil"
     combatCategory: none

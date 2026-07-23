@@ -14,6 +14,7 @@ shortcode: ArwHBod
 img: icons/arrow.svg
 easyname: Heavy Bodkin
 sohl:
+    archetype: 0
     subType: arrow
     quality: 0
     durability: 10

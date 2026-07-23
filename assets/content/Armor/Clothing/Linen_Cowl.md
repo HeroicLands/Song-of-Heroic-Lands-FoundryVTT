@@ -13,6 +13,7 @@ shortcode: LCowl
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cowl
     detailMaterial: Linen
     material: Cloth

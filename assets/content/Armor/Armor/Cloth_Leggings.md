@@ -13,6 +13,7 @@ shortcode: CLeg
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Leggings
     detailMaterial: Cloth
     material: Cloth

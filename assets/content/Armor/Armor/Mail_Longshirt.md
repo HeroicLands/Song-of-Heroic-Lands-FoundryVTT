@@ -13,6 +13,7 @@ shortcode: MLShirt
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Longshirt
     detailMaterial: Mail
     material: Mail

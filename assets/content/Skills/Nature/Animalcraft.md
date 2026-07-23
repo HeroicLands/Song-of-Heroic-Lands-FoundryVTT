@@ -12,6 +12,7 @@ shortcode: anmcft
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: nature
     skillBaseFormula: "@emp, @wil"
     combatCategory: none

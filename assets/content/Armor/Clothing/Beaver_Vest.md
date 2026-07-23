@@ -13,6 +13,7 @@ shortcode: BvVest
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Vest
     detailMaterial: Beaver
     material: Leather

@@ -13,6 +13,7 @@ shortcode: SlsRobe
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Robe
     detailMaterial: Sealskin
     material: Leather

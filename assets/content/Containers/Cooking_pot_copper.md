@@ -13,6 +13,7 @@ shortcode: cookingpot
 type: containergear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 4
     maxCapacity: 16

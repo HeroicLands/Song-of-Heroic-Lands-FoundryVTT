@@ -13,6 +13,7 @@ shortcode: GCoat
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Coat
     detailMaterial: Gambeson
     material: Gambeson

@@ -12,6 +12,7 @@ shortcode: astr
 type: mysticalability
 package: sohl
 sohl:
+    archetype: 0
     subType: divination
     assocSkillCode: ""
     assocMysteryCode: ""

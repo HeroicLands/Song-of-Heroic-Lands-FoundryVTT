@@ -13,6 +13,7 @@ shortcode: Tabri
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 10
     weight: 1
     value: 20

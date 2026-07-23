@@ -13,6 +13,7 @@ shortcode: LtCloak
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cloak
     detailMaterial: Leather
     material: Leather

@@ -13,6 +13,7 @@ shortcode: SgDress
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Dress
     detailMaterial: Serge
     material: Cloth

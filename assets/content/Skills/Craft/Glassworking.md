@@ -12,6 +12,7 @@ shortcode: glas
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: craft
     skillBaseFormula: "@per, @dex"
     combatCategory: none

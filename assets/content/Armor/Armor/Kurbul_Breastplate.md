@@ -14,6 +14,7 @@ shortcode: KBrst
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Breastplate
     detailMaterial: Kûrbúl
     material: Kûrbúl

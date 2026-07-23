@@ -12,6 +12,7 @@ shortcode: folklr
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: lore
     skillBaseFormula: "@rea, @wil"
     combatCategory: none

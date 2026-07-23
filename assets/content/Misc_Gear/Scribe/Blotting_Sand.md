@@ -15,6 +15,7 @@ shortcode: blotsand
 type: miscgear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 0
     value: 5

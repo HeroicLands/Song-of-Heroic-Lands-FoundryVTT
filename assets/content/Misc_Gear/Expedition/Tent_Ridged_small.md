@@ -14,6 +14,7 @@ shortcode: tentridged2
 type: miscgear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 6
     value: 102

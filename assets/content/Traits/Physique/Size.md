@@ -11,6 +11,7 @@ shortcode: siz
 type: trait
 package: sohl
 sohl:
+    archetype: 0
     subType: physique
     intensity: trait
     isNumeric: false

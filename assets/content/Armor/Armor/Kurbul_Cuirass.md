@@ -14,6 +14,7 @@ shortcode: KCui
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cuirass
     detailMaterial: Kûrbúl
     material: Kûrbúl

@@ -13,6 +13,7 @@ shortcode: RhLngVst
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Long Vest
     detailMaterial: Rawhide
     material: Leather

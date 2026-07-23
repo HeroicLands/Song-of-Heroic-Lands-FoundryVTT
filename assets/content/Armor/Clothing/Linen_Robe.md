@@ -13,6 +13,7 @@ shortcode: LRobe
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Robe
     detailMaterial: Linen
     material: Cloth

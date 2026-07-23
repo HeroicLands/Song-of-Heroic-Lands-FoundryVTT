@@ -12,6 +12,7 @@ shortcode: fish
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: nature
     skillBaseFormula: "@per, @wil"
     combatCategory: none

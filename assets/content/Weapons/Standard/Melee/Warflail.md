@@ -13,6 +13,7 @@ shortcode: WFl
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 11
     weight: 5
     value: 60

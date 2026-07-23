@@ -13,6 +13,7 @@ shortcode: WDress
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Dress
     detailMaterial: Worsted
     material: Cloth

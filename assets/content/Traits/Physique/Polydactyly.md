@@ -11,6 +11,7 @@ shortcode: polydact
 type: trait
 package: sohl
 sohl:
+    archetype: 0
     subType: physique
     intensity: benign
     isNumeric: false

@@ -13,6 +13,7 @@ shortcode: RLeg
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Leggings
     detailMaterial: Russet
     material: Cloth

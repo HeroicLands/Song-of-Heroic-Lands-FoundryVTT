@@ -13,6 +13,7 @@ shortcode: LSkirt
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Skirt
     detailMaterial: Linen
     material: Cloth

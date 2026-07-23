@@ -12,6 +12,7 @@ shortcode: shok
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: combat
     skillBaseFormula: "@str, @end"
     combatCategory: none

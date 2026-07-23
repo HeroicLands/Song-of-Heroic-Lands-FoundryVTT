@@ -13,6 +13,7 @@ shortcode: SlkRobe
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Robe
     detailMaterial: Silk
     material: Cloth

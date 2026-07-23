@@ -13,6 +13,7 @@ shortcode: SgCowl
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cowl
     detailMaterial: Serge
     material: Cloth

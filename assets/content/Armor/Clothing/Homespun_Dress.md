@@ -13,6 +13,7 @@ shortcode: HsDress
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Dress
     detailMaterial: Homespun
     material: Cloth

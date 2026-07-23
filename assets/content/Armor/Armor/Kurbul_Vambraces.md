@@ -14,6 +14,7 @@ shortcode: KVamb
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Vambraces
     detailMaterial: Kûrbúl
     material: Kûrbúl

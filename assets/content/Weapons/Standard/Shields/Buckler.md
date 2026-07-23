@@ -13,6 +13,7 @@ shortcode: Bklr
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 9
     weight: 3
     value: 30

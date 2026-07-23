@@ -13,6 +13,7 @@ shortcode: LLeg
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Leggings
     detailMaterial: Linen
     material: Cloth

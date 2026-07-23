@@ -12,6 +12,7 @@ shortcode: timb
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: nature
     skillBaseFormula: "@per, @rea"
     combatCategory: none

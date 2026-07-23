@@ -13,6 +13,7 @@ shortcode: RMntl
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Mantle
     detailMaterial: Russet
     material: Cloth

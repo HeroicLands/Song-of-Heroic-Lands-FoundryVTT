@@ -13,6 +13,7 @@ shortcode: KznStlbw
 type: weapongear
 package: kethira
 sohl:
+    archetype: 0
     durability: 14
     weight: 12
     value: 288

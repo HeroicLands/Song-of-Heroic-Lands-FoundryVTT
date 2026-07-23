@@ -12,6 +12,7 @@ shortcode: lgdm
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: physical
     skillBaseFormula: "@dex, @per"
     combatCategory: none

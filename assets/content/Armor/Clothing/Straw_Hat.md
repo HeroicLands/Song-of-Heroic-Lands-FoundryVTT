@@ -13,6 +13,7 @@ shortcode: StHat
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Hat
     detailMaterial: Straw
     material: Cloth

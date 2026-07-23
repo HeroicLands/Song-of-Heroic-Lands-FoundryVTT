@@ -13,6 +13,7 @@ shortcode: MLCowl
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Long Cowl
     detailMaterial: Mail
     material: Mail
