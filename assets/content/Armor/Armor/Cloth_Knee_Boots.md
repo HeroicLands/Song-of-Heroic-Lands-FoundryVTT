@@ -13,6 +13,7 @@ shortcode: CKBoot
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Knee Boots
     detailMaterial: Cloth
     material: Cloth

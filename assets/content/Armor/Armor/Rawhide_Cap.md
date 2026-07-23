@@ -13,6 +13,7 @@ shortcode: RhCap
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cap
     detailMaterial: Rawhide
     material: Leather

@@ -13,6 +13,7 @@ shortcode: Pike
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 12
     weight: 10
     value: 96

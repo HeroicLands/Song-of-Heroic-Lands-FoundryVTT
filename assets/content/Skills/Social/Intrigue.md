@@ -12,6 +12,7 @@ shortcode: intr
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: social
     skillBaseFormula: "@emp, @rea"
     combatCategory: none

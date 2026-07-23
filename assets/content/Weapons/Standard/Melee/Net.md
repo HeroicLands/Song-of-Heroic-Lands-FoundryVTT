@@ -13,6 +13,7 @@ shortcode: Net
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 9
     weight: 4
     value: 48

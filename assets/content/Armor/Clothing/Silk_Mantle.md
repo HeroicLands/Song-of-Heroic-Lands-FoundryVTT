@@ -13,6 +13,7 @@ shortcode: SlkMntl
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Mantle
     detailMaterial: Silk
     material: Cloth

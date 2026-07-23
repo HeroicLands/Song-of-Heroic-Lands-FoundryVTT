@@ -13,6 +13,7 @@ shortcode: CMntl
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Mantle
     detailMaterial: Cloth
     material: Cloth

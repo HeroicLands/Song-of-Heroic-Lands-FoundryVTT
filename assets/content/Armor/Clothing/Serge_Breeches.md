@@ -13,6 +13,7 @@ shortcode: SgBrch
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Breeches
     detailMaterial: Serge
     material: Cloth

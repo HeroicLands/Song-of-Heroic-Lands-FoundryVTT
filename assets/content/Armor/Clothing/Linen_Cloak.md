@@ -13,6 +13,7 @@ shortcode: LClk
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cloak
     detailMaterial: Linen
     material: Cloth

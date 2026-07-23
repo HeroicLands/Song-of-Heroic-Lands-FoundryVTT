@@ -12,6 +12,7 @@ shortcode: mandrk
 type: affliction
 package: sohl
 sohl:
+    archetype: 0
     subType: poisontoxin
     diagnosisBonus: 0
     levelBase: 1

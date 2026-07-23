@@ -13,6 +13,7 @@ shortcode: beltpouchl3
 type: containergear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 3
     maxCapacity: 1.5

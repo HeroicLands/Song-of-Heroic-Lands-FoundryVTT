@@ -13,6 +13,7 @@ shortcode: LtBrcr
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Bracers
     detailMaterial: Leather
     material: Leather

@@ -14,6 +14,7 @@ shortcode: KRebr
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Rerebraces
     detailMaterial: Kûrbúl
     material: Kûrbúl

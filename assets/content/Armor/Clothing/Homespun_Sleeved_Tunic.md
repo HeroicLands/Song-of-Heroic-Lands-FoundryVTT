@@ -13,6 +13,7 @@ shortcode: HsSTnc
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Sleeved Tunic
     detailMaterial: Homespun
     material: Cloth

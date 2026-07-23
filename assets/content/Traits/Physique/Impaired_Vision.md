@@ -12,6 +12,7 @@ shortcode: imprdvsn
 type: trait
 package: sohl
 sohl:
+    archetype: 0
     subType: physique
     intensity: impulse
     isNumeric: false

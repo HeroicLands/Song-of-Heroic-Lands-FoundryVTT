@@ -14,6 +14,7 @@ shortcode: belltemple
 type: miscgear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 10
     value: 200

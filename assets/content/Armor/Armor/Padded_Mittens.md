@@ -13,6 +13,7 @@ shortcode: PMitn
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Mittens
     detailMaterial: Padded
     material: Padded

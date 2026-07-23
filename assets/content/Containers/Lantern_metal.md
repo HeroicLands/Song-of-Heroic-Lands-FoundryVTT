@@ -13,6 +13,7 @@ shortcode: lanternmet
 type: containergear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 7
     maxCapacity: 0.125

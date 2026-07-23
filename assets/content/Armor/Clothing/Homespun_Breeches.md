@@ -13,6 +13,7 @@ shortcode: HsBrch
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Breeches
     detailMaterial: Homespun
     material: Cloth

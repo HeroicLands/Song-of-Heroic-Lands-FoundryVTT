@@ -13,6 +13,7 @@ shortcode: Estc
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 12
     weight: 3
     value: 168

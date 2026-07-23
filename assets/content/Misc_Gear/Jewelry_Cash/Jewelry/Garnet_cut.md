@@ -14,6 +14,7 @@ shortcode: garnetcut
 type: miscgear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 2
     value: 400

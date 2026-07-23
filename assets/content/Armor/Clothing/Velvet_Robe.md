@@ -13,6 +13,7 @@ shortcode: VRobe
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Robe
     detailMaterial: Velvet
     material: Cloth

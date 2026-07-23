@@ -13,6 +13,7 @@ shortcode: RhCowl
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cowl
     detailMaterial: Rawhide
     material: Leather

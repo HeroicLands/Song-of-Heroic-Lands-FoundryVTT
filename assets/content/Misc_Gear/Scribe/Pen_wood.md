@@ -14,6 +14,7 @@ shortcode: penwood
 type: miscgear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 3
     value: 1

@@ -12,6 +12,7 @@ shortcode: hypox
 type: affliction
 package: sohl
 sohl:
+    archetype: 0
     subType: privation
     category: asphixia
     diagnosisBonus: 0

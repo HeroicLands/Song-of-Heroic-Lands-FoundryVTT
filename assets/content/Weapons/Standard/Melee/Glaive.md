@@ -13,6 +13,7 @@ shortcode: Glv
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 11
     weight: 7
     value: 60

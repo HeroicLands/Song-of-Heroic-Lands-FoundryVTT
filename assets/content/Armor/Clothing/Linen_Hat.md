@@ -13,6 +13,7 @@ shortcode: LHat
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Hat
     detailMaterial: Linen
     material: Cloth

@@ -13,6 +13,7 @@ shortcode: VGlv
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Gloves
     detailMaterial: Velvet
     material: Cloth

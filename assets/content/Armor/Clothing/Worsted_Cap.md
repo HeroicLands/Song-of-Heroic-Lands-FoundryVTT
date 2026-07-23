@@ -13,6 +13,7 @@ shortcode: WCap
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cap
     detailMaterial: Worsted
     material: Cloth

@@ -14,6 +14,7 @@ shortcode: torch2
 type: miscgear
 package: sohl
 sohl:
+    archetype: 0
     quality: 0
     durability: 9
     value: 1

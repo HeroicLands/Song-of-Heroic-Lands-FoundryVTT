@@ -12,6 +12,7 @@ shortcode: draw
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: craft
     skillBaseFormula: "@dex, @cre"
     combatCategory: none

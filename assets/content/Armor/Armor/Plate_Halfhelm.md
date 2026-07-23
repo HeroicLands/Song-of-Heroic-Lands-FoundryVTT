@@ -13,6 +13,7 @@ shortcode: PlHHelm
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Halfhelm
     detailMaterial: Plate
     material: Plate

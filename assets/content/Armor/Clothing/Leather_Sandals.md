@@ -13,6 +13,7 @@ shortcode: LtSndls
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Sandals
     detailMaterial: Leather
     material: Leather

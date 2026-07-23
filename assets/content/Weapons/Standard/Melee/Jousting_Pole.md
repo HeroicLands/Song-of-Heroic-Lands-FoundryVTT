@@ -13,6 +13,7 @@ shortcode: JPole
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 8
     weight: 6
     value: 40

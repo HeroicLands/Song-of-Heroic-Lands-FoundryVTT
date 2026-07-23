@@ -13,6 +13,7 @@ shortcode: LnSwd
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Swaddle
     detailMaterial: Linen
     material: Cloth

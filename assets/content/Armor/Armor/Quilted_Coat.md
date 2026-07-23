@@ -13,6 +13,7 @@ shortcode: QCoat
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Coat
     detailMaterial: Quilted
     material: Quilted

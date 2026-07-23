@@ -13,6 +13,7 @@ shortcode: VCap
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cap
     detailMaterial: Velvet
     material: Cloth

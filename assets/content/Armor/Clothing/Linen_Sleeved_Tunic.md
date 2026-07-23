@@ -13,6 +13,7 @@ shortcode: LSTnc
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Sleeved Tunic
     detailMaterial: Linen
     material: Cloth

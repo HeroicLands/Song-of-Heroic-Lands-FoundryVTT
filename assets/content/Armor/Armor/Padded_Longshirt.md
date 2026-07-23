@@ -13,6 +13,7 @@ shortcode: PLgSht
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Longshirt
     detailMaterial: Padded
     material: Padded

@@ -13,6 +13,7 @@ shortcode: SHabg
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Habergeon
     detailMaterial: Scale
     material: Scale

@@ -13,6 +13,7 @@ shortcode: LMntl
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Mantle
     detailMaterial: Linen
     material: Cloth

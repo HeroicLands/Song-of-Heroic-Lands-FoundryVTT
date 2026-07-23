@@ -13,6 +13,7 @@ shortcode: Tri
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 12
     weight: 6
     value: 72

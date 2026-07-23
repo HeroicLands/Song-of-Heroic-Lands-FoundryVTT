@@ -13,6 +13,7 @@ shortcode: PPant
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Pants
     detailMaterial: Padded
     material: Padded

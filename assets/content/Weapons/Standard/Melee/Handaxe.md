@@ -13,6 +13,7 @@ shortcode: HAxe
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 11
     weight: 4
     value: 84

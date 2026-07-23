@@ -13,6 +13,7 @@ shortcode: ShrtSwd
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 12
     weight: 2
     value: 96

@@ -13,6 +13,7 @@ shortcode: LtLngVst
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Long Vest
     detailMaterial: Leather
     material: Leather

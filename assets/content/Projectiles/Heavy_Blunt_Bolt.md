@@ -14,6 +14,7 @@ shortcode: BltHBlt
 img: icons/arrow.svg
 easyname: Heavy Blunt
 sohl:
+    archetype: 0
     subType: bolt
     quality: 0
     durability: 10

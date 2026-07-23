@@ -13,6 +13,7 @@ shortcode: BTrsr
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Trousers
     detailMaterial: Buckram
     material: Cloth

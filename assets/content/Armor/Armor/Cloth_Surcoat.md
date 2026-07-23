@@ -13,6 +13,7 @@ shortcode: CScoat
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Surcoat
     detailMaterial: Cloth
     material: Cloth

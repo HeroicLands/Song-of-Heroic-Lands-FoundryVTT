@@ -13,6 +13,7 @@ shortcode: PlGtHlm
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Great Helm
     detailMaterial: Plate
     material: Plate

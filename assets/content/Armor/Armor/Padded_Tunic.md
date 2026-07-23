@@ -13,6 +13,7 @@ shortcode: PTnc
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Tunic
     detailMaterial: Padded
     material: Padded

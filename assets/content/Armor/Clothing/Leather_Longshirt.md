@@ -13,6 +13,7 @@ shortcode: LtLgShrt
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Longshirt
     detailMaterial: Leather
     material: Leather

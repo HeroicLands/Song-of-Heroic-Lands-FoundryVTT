@@ -13,6 +13,7 @@ shortcode: WTunic
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Tunic
     detailMaterial: Worsted
     material: Cloth

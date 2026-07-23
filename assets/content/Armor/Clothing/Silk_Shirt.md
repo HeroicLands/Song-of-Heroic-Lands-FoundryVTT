@@ -13,6 +13,7 @@ shortcode: SlkShirt
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Shirt
     detailMaterial: Silk
     material: Cloth

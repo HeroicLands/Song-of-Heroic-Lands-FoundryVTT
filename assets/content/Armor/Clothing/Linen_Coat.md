@@ -13,6 +13,7 @@ shortcode: LCoat
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Coat
     detailMaterial: Linen
     material: Cloth

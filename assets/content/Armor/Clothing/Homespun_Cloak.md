@@ -13,6 +13,7 @@ shortcode: HsClk
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cloak
     detailMaterial: Homespun
     material: Cloth

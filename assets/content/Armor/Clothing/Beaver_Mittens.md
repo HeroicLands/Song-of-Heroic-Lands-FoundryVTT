@@ -13,6 +13,7 @@ shortcode: BvMitt
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Mittens
     detailMaterial: Beaver
     material: Leather

@@ -14,6 +14,7 @@ shortcode: ArwHBlt
 img: icons/arrow.svg
 easyname: Heavy Blunt
 sohl:
+    archetype: 0
     subType: arrow
     quality: 0
     durability: 10

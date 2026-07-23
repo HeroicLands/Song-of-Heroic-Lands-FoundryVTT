@@ -13,6 +13,7 @@ shortcode: LKni
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 13
     weight: 2
     value: 96

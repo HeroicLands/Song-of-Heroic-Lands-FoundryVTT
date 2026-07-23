@@ -12,6 +12,7 @@ shortcode: lock
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: craft
     skillBaseFormula: "@dex, @per"
     combatCategory: none

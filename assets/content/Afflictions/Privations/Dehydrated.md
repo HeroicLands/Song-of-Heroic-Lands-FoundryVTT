@@ -12,6 +12,7 @@ shortcode: dehyd
 type: affliction
 package: sohl
 sohl:
+    archetype: 0
     subType: privation
     category: dehydration
     diagnosisBonus: 0

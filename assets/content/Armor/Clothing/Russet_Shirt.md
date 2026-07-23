@@ -13,6 +13,7 @@ shortcode: RShirt
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Shirt
     detailMaterial: Russet
     material: Cloth

@@ -13,6 +13,7 @@ shortcode: Shkn
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 10
     weight: 2
     value: 48

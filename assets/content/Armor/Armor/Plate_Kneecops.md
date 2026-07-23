@@ -13,6 +13,7 @@ shortcode: PlKncp
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Kneecops
     detailMaterial: Plate
     material: Plate

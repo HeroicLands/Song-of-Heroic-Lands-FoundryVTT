@@ -13,6 +13,7 @@ shortcode: Skl
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 9
     weight: 1
     value: 10

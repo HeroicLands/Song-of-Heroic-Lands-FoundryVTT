@@ -13,6 +13,7 @@ shortcode: ECloak
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cloak
     detailMaterial: Ermine
     material: Leather

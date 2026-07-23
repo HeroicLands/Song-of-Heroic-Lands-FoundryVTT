@@ -13,6 +13,7 @@ shortcode: BSTnc
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Sleeved Tunic
     detailMaterial: Buckram
     material: Cloth

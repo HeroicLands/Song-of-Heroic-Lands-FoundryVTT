@@ -13,6 +13,7 @@ shortcode: poison
 type: affliction
 package: sohl
 sohl:
+    archetype: 0
     subType: fatigue
     category: weakness
     diagnosisBonus: 0

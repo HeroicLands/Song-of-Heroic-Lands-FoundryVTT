@@ -12,6 +12,7 @@ shortcode: amnsttl
 type: trait
 package: sohl
 sohl:
+    archetype: 0
     subType: personality
     intensity: disorder
     isNumeric: false

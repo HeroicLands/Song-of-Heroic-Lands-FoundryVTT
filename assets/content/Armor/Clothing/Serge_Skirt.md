@@ -13,6 +13,7 @@ shortcode: SgSkirt
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Skirt
     detailMaterial: Serge
     material: Cloth

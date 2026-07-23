@@ -13,6 +13,7 @@ shortcode: Mank
 type: weapongear
 package: kethira
 sohl:
+    archetype: 0
     durability: 11
     weight: 2
     value: 84

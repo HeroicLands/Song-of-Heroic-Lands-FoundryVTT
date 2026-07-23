@@ -13,6 +13,7 @@ shortcode: SlsTunic
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Tunic
     detailMaterial: Sealskin
     material: Leather

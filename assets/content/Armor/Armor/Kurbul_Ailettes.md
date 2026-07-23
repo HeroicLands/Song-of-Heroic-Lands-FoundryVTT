@@ -14,6 +14,7 @@ shortcode: KAil
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Ailettes
     detailMaterial: Kûrbúl
     material: Kûrbúl

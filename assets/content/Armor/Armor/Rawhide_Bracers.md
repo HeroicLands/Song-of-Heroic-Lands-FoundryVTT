@@ -13,6 +13,7 @@ shortcode: RhBrcr
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Bracers
     detailMaterial: Rawhide
     material: Leather

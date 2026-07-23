@@ -14,6 +14,7 @@ shortcode: ArwHBrd
 img: icons/arrow.svg
 easyname: Heavy Broad
 sohl:
+    archetype: 0
     quality: 0
     durability: 10
     value: 0.22

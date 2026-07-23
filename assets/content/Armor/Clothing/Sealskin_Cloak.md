@@ -13,6 +13,7 @@ shortcode: SlsCloak
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cloak
     detailMaterial: Sealskin
     material: Leather

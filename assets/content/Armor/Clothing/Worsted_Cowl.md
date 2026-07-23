@@ -13,6 +13,7 @@ shortcode: WCowl
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cowl
     detailMaterial: Worsted
     material: Cloth

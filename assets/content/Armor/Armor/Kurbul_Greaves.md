@@ -14,6 +14,7 @@ shortcode: KGrvs
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Greaves
     detailMaterial: Kûrbúl
     material: Kûrbúl

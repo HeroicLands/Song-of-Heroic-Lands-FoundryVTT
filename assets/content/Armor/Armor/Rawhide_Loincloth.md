@@ -13,6 +13,7 @@ shortcode: RhLoin
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Loincloth
     detailMaterial: Rawhide
     material: Leather

@@ -13,6 +13,7 @@ shortcode: LtLoin
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Loincloth
     detailMaterial: Leather
     material: Leather

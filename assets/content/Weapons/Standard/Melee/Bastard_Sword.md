@@ -13,6 +13,7 @@ shortcode: BstdSwd
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 12
     weight: 5
     value: 184

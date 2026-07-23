@@ -13,6 +13,7 @@ shortcode: RRobe
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Robe
     detailMaterial: Russet
     material: Cloth

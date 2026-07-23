@@ -12,6 +12,7 @@ shortcode: sing
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: social
     skillBaseFormula: "@voi, @cre"
     combatCategory: none

@@ -13,6 +13,7 @@ shortcode: LShirt
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Shirt
     detailMaterial: Linen
     material: Cloth

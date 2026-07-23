@@ -13,6 +13,7 @@ shortcode: QLgSht
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Longshirt
     detailMaterial: Quilted
     material: Quilted

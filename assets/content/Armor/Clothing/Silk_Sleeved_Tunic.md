@@ -13,6 +13,7 @@ shortcode: SlkSTnc
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Sleeved Tunic
     detailMaterial: Silk
     material: Cloth

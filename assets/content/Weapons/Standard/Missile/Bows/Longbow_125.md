@@ -13,6 +13,7 @@ shortcode: LBw125
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 11
     weight: 3
     value: 63

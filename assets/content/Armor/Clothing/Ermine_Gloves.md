@@ -13,6 +13,7 @@ shortcode: EGlv
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Gloves
     detailMaterial: Ermine
     material: Leather

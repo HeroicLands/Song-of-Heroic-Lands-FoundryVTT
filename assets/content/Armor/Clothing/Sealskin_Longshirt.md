@@ -13,6 +13,7 @@ shortcode: SlsLgSh
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Longshirt
     detailMaterial: Sealskin
     material: Leather

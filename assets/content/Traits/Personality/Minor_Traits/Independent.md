@@ -11,6 +11,7 @@ shortcode: indpndnt
 type: trait
 package: sohl
 sohl:
+    archetype: 0
     subType: personality
     intensity: benign
     isNumeric: false

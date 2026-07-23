@@ -12,6 +12,7 @@ shortcode: stlth
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: physical
     skillBaseFormula: "@agl, @wil"
     combatCategory: none

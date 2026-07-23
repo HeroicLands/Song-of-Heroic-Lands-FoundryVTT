@@ -13,6 +13,7 @@ shortcode: BBoot
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Knee Boots
     detailMaterial: Buckram
     material: Cloth

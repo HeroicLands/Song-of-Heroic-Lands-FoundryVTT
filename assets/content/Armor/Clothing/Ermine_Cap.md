@@ -13,6 +13,7 @@ shortcode: ECap
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cap
     detailMaterial: Ermine
     material: Leather

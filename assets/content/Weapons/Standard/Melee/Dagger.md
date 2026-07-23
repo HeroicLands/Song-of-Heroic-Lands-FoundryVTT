@@ -13,6 +13,7 @@ shortcode: Dgr
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 11
     weight: 1
     value: 24

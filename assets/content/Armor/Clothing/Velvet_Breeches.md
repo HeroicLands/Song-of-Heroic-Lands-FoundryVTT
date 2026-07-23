@@ -13,6 +13,7 @@ shortcode: VBrch
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Breeches
     detailMaterial: Velvet
     material: Cloth

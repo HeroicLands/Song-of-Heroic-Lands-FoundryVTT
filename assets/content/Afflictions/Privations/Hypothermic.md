@@ -12,6 +12,7 @@ shortcode: hypth
 type: affliction
 package: sohl
 sohl:
+    archetype: 0
     subType: privation
     category: cold
     diagnosisBonus: 0

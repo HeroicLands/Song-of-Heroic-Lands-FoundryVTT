@@ -11,6 +11,7 @@ shortcode: frigophb
 type: trait
 package: sohl
 sohl:
+    archetype: 0
     subType: personality
     intensity: impulse
     isNumeric: false

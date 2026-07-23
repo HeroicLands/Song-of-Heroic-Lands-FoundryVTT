@@ -13,6 +13,7 @@ shortcode: PlAil
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Ailettes
     detailMaterial: Plate
     material: Plate

@@ -12,6 +12,7 @@ shortcode: htexh
 type: affliction
 package: sohl
 sohl:
+    archetype: 0
     subType: privation
     category: heat
     diagnosisBonus: 0

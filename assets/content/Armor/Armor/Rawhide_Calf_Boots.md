@@ -13,6 +13,7 @@ shortcode: RhCBoot
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Calf Boots
     detailMaterial: Rawhide
     material: Leather

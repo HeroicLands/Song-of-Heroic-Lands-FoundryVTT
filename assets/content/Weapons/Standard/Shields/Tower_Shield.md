@@ -13,6 +13,7 @@ shortcode: TwrSh
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 11
     weight: 8
     value: 96

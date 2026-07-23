@@ -13,6 +13,7 @@ shortcode: SgApn
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Apron
     detailMaterial: Serge
     material: Cloth

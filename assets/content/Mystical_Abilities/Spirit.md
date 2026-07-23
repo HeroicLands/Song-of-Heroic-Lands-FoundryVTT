@@ -11,6 +11,7 @@ shortcode: sprt
 type: mysticalability
 package: sohl
 sohl:
+    archetype: 0
     subType: spiritaction
     assocSkillCode: ""
     assocMysteryCode: ""

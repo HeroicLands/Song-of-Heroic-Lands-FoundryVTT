@@ -11,6 +11,7 @@ shortcode: cre
 type: attribute
 package: sohl
 sohl:
+    archetype: 0
     scoreBase: 0
     valueDesc:
         - Banal:4

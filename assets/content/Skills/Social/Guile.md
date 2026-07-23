@@ -12,6 +12,7 @@ shortcode: guil
 type: skill
 package: sohl
 sohl:
+    archetype: 0
     subType: social
     skillBaseFormula: "@emp, @cre"
     combatCategory: none

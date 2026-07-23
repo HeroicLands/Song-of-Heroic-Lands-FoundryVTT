@@ -13,6 +13,7 @@ shortcode: WCoat
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Coat
     detailMaterial: Worsted
     material: Cloth

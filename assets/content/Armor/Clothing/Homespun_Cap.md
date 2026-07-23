@@ -13,6 +13,7 @@ shortcode: HsCap
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cap
     detailMaterial: Homespun
     material: Cloth

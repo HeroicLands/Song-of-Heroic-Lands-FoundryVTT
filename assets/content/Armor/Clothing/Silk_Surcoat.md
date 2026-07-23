@@ -13,6 +13,7 @@ shortcode: SlkScoat
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Surcoat
     detailMaterial: Silk
     material: Cloth

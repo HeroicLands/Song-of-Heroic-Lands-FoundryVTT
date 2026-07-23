@@ -13,6 +13,7 @@ shortcode: WCxBw120
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 10
     weight: 4
     value: 84

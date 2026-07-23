@@ -13,6 +13,7 @@ shortcode: VDress
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Dress
     detailMaterial: Velvet
     material: Cloth

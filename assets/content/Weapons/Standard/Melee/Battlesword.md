@@ -13,6 +13,7 @@ shortcode: BatlSwd
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 13
     weight: 7
     value: 240

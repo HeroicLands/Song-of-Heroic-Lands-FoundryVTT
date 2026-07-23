@@ -13,6 +13,7 @@ shortcode: SlngSht
 type: weapongear
 package: sohl
 sohl:
+    archetype: 0
     durability: 9
     weight: 0.7
     value: 12

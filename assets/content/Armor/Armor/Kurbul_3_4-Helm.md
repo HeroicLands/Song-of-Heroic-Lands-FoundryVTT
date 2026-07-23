@@ -15,6 +15,7 @@ shortcode: K34Hlm
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: 3/4-Helm
     detailMaterial: Kûrbúl
     material: Kûrbúl

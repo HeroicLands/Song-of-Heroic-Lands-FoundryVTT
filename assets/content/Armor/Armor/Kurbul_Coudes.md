@@ -14,6 +14,7 @@ shortcode: KCou
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Coudes
     detailMaterial: Kûrbúl
     material: Kûrbúl

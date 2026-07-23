@@ -13,6 +13,7 @@ shortcode: MLHbk
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Long Hauberk
     detailMaterial: Mail
     material: Mail

@@ -13,6 +13,7 @@ shortcode: BVest
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Vest
     detailMaterial: Buckram
     material: Cloth

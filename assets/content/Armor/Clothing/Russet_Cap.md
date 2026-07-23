@@ -13,6 +13,7 @@ shortcode: RCap
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Cap
     detailMaterial: Russet
     material: Cloth

@@ -13,6 +13,7 @@ shortcode: WVest
 type: armorgear
 package: sohl
 sohl:
+    archetype: 0
     armorType: Vest
     detailMaterial: Worsted
     material: Cloth
