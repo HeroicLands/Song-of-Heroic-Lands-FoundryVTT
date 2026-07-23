@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
-import { TraitLogic } from "@src/document/item/logic/TraitLogic";
+import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { ITEM_KIND, VALUE_DELTA_INFO } from "@src/utils/constants";
 import { makeItemLogic } from "@tests/mocks/logicHarness";
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
@@ -10,22 +10,22 @@ import * as FoundryHelpers from "@src/core/FoundryHelpers";
  * The former MasteryLevelLogic class no longer exists; mastery-level test
  * mechanics now live in the pure domain class MasteryLevelModifier
  * (src/domain/modifier/MasteryLevelModifier.ts), parented by any item Logic.
- * A TraitLogic built with the harness serves as a cheap parent.
+ * A SkillLogic built with the harness serves as a cheap parent.
  */
 
 /** Build a parent Logic for the modifier under test. */
 function makeParentLogic(name = "Aura") {
     return makeItemLogic(
-        TraitLogic,
-        ITEM_KIND.TRAIT,
+        SkillLogic,
+        ITEM_KIND.SKILL,
         {
-            subType: "physique",
-            textValue: "",
-            isNumeric: true,
-            score: { value: 12, max: null },
-            intensity: "trait",
-            valueDesc: [],
-            choices: {},
+            subType: "social",
+            skillBaseFormula: "",
+            masteryLevelBase: 30,
+            improveFlag: false,
+            combatCategory: "none",
+            parentSkillCode: "",
+            initSkillMult: 1,
         },
         { name },
     );
@@ -78,7 +78,7 @@ describe("MasteryLevelModifier", () => {
 
         it("derives the default test type from the parent's kind and name", () => {
             const ml = makeMLMod({}, makeParentLogic("Aura"));
-            expect(ml.type).toBe("trait-Aura-test");
+            expect(ml.type).toBe("skill-Aura-test");
         });
 
         it("derives the default title from the localized format key", () => {

@@ -27,7 +27,7 @@ See also: [Documentation Hub](README.md), [Quickstart](user-guide/quickstart.md)
 
 Populate the essentials first:
 
-- Traits
+- Attributes
 - Skills
 - Movement profile
 - Starting gear
@@ -55,11 +55,11 @@ If the character uses mystical systems:
 Before play, confirm:
 
 - At least one combat-capable action is available.
-- Skills and core traits are non-empty where needed.
+- Skills and core attributes are non-empty where needed.
 - Encumbrance/movement values look reasonable.
 
 # Common mistakes {#k28yWmvgQanQcD24}
 
 - Wrong actor type selected (not **Being**).
 - Missing nested strike mode on a weapon setup.
-- Using incorrect base values for traits or skills.
+- Using incorrect base values for attributes or skills.

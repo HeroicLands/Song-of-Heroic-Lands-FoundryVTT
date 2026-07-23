@@ -86,7 +86,6 @@ describe("ACTOR_KIND", () => {
 describe("ITEM_KIND", () => {
     it("has expected item kinds", () => {
         expect(ITEM_KIND.SKILL).toBe("skill");
-        expect(ITEM_KIND.TRAIT).toBe("trait");
         expect(ITEM_KIND.WEAPONGEAR).toBe("weapongear");
         expect(ITEM_KIND.ARMORGEAR).toBe("armorgear");
         expect(ITEM_KIND.TRAUMA).toBe("trauma");

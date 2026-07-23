@@ -36,10 +36,6 @@ import {
     MysterySubTypeChoices,
     MysticalAbilitySubTypes,
     MysticalAbilitySubTypeChoices,
-    TRAIT_SUBTYPE,
-    TraitSubTypes,
-    TraitSubTypeChoices,
-    TraitIntensityChoices,
     SKILL_SUBTYPE,
     SkillSubTypeChoices,
     AfflictionSubTypes,
@@ -56,7 +52,6 @@ import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import {
     groupBySubType,
     attributeDescriptor,
-    buildTraitGroups,
     buildSkillGroups,
     buildTraumaRows,
     buildAfflictionGroups,
@@ -221,11 +216,6 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     protected _filters: foundry.applications.ux.SearchFilter[] = [
-        new foundry.applications.ux.SearchFilter({
-            inputSelector: 'input[name="search-traits"]',
-            contentSelector: ".traits",
-            callback: this._displayFilteredResults.bind(this),
-        }),
         new foundry.applications.ux.SearchFilter({
             inputSelector: 'input[name="search-skills"]',
             contentSelector: ".skills",
@@ -1150,40 +1140,6 @@ export class BeingSheet extends SohlActorSheetBase {
             };
         });
 
-        // Traits grouped by subtype, in the subtype definition order, with
-        // localized subtype legends and per-trait intensity labels. Reading
-        // `system` and `game.i18n` here is fine — the sheet is a
-        // Foundry-boundary class; the shaping stays in the pure helper.
-        const traits = actor.itemTypes[ITEM_KIND.TRAIT] ?? [];
-        const traitGroups = buildTraitGroups(
-            traits.map((trait) => {
-                const sys = trait.system as any;
-                return {
-                    id: trait.id ?? "",
-                    uuid: trait.uuid,
-                    name: trait.name,
-                    subType: sys.subType,
-                    isMeasured: sys.subType === TRAIT_SUBTYPE.MEASURED,
-                    score: sys.score?.value ?? 0,
-                    textValue: sys.textValue ?? "",
-                    intensity: sys.intensity,
-                    notes: sys.notes ?? "",
-                };
-            }),
-            TraitSubTypes,
-            (subType) =>
-                game.i18n.localize(
-                    (TraitSubTypeChoices as Record<string, string>)[subType] ??
-                        subType,
-                ),
-            (intensity) =>
-                game.i18n.localize(
-                    (TraitIntensityChoices as Record<string, string>)[
-                        intensity
-                    ] ?? intensity,
-                ),
-        );
-
         const affiliations = buildAffiliationRows(
             (actor.itemTypes[ITEM_KIND.AFFILIATION] ?? []).map((aff) => {
                 const sys = aff.system as any;
@@ -1228,7 +1184,6 @@ export class BeingSheet extends SohlActorSheetBase {
 
         return Object.assign(context, {
             attributes,
-            traitGroups,
             affiliations,
             movement,
         });

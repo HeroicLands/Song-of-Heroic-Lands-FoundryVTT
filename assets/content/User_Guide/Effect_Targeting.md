@@ -34,13 +34,13 @@ predicate language and the list of helper functions, see
 
 The **Target Scope** dropdown chooses the kind of thing the effect targets.
 
-| Scope                                                | Targets                                                                                   | Uses a predicate? |
-| ---------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------- |
-| **This** (`this`)                                    | The document the effect is embedded on (the item, or the actor if it lives on the actor). | No                |
-| **Actor** (`actor`)                                  | The owning actor.                                                                         | No                |
-| **An item kind** (`skill`, `weapongear`, `trait`, …) | Every item of that kind on the actor.                                                     | Yes               |
-| **Melee Strike Mode** (`meleestrikemode`)            | Every melee strike mode on every one of the actor's items.                                | Yes               |
-| **Missile Strike Mode** (`missilestrikemode`)        | Every missile strike mode on every one of the actor's items.                              | Yes               |
+| Scope                                                 | Targets                                                                                   | Uses a predicate? |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------- |
+| **This** (`this`)                                     | The document the effect is embedded on (the item, or the actor if it lives on the actor). | No                |
+| **Actor** (`actor`)                                   | The owning actor.                                                                         | No                |
+| **An item kind** (`skill`, `weapongear`, `trauma`, …) | Every item of that kind on the actor.                                                     | Yes               |
+| **Melee Strike Mode** (`meleestrikemode`)             | Every melee strike mode on every one of the actor's items.                                | Yes               |
+| **Missile Strike Mode** (`missilestrikemode`)         | Every missile strike mode on every one of the actor's items.                              | Yes               |
 
 `This` and `Actor` target exactly one thing, so they ignore the predicate. The
 other scopes sweep a whole set of candidates and use the predicate to filter

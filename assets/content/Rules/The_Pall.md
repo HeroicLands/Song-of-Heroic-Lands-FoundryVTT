@@ -59,14 +59,14 @@ one intensifies).
 Characters recover automatically but slowly, making **Will** tests every d6 days —
 still suffering the Pall Cloud penalties throughout. Exorcism can grant a bonus.
 
-| Result  | Outcome                                                                                                                                                           |
-| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CF (−1) | **Face the Pall** — choose one of the three fates below.                                                                                                          |
-| MF (0)  | **Unconscious** — no change to PSL; the character falls and stays unconscious until PSL reach 0.                                                                  |
-| MS (1)  | **−1 PSL** — at 0 the Pall is expelled and its penalties vanish (the permanent psyche trait remains).                                                             |
-| CS (2)  | **−2 PSL** — at 0 the Pall is expelled; if the trait was newly acquired, it improves from Permanent to Indefinite (gain d3 PSY and begin Psyche Stress Recovery). |
+| Result  | Outcome                                                                                                                                                               |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CF (−1) | **Face the Pall** — choose one of the three fates below.                                                                                                              |
+| MF (0)  | **Unconscious** — no change to PSL; the character falls and stays unconscious until PSL reach 0.                                                                      |
+| MS (1)  | **−1 PSL** — at 0 the Pall is expelled and its penalties vanish (the permanent psyche condition remains).                                                             |
+| CS (2)  | **−2 PSL** — at 0 the Pall is expelled; if the condition was newly acquired, it improves from Permanent to Indefinite (gain d3 PSY and begin Psyche Stress Recovery). |
 
-Reaching 0 PSL without ever rolling a CS keeps the trait **permanent**; a single
+Reaching 0 PSL without ever rolling a CS keeps the condition **permanent**; a single
 CS during recovery makes it **indefinite** instead. Any character who **dies**
 while carrying Pall Stress Levels must immediately **Face the Pall**, as if they
 had rolled a CF.

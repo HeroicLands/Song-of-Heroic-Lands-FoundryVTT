@@ -16,7 +16,7 @@ folder: sYK1BozT9xFcinXK
 A Cohort represents a group acting as a single unit — a squad of soldiers,
 a band of followers, a ship's crew, or an adventuring party. Instead of
 tracking each individual member as a separate Being, a Cohort simplifies
-the group into one entity with shared traits, skills, and gear.
+the group into one entity with shared attributes, skills, and gear.
 
 See also: [Beings](user-guide/actor-being.md)
 
@@ -35,7 +35,7 @@ Do **not** use a Cohort for a single individual — that's a Being.
 
 A Cohort can hold:
 
-- **Traits** — group-level characteristics
+- **Attributes** — group-level characteristics
 - **Skills** — shared capabilities
 - **Gear** — shared equipment
 - **Afflictions** and **Injuries** — group-level conditions
@@ -52,7 +52,7 @@ The Cohort sheet has these tabs:
 - **Effects** — active effects on the group
 
 <!-- TODO: Expand with details on how members are managed, how cohort-level
-     skills/traits interact with individual member capabilities, and how
+     skills/attributes interact with individual member capabilities, and how
      cohort combat works -->
 
 <!-- TODO: Document each field on the Properties tab of this type's sheet:

@@ -19,8 +19,7 @@ processes by which a character recovers from — or succumbs to — it.
 
 > **Traumas, not traits.** Psyche and physical conditions that a character
 > _acquires_ (disorders, phobias, scars, and the like) are **traumas**, recorded
-> and recovered under the rules below. The only remaining **[Traits](../Traits)**
-> are the static, score-based ones.
+> and recovered under the rules below.
 
 ## Forms of trauma
 

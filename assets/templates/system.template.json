@@ -83,9 +83,6 @@
             "skill": {
                 "htmlFields": ["notes", "docHtml"]
             },
-            "trait": {
-                "htmlFields": ["notes", "docHtml"]
-            },
             "weapongear": {
                 "htmlFields": ["notes", "docHtml"]
             }

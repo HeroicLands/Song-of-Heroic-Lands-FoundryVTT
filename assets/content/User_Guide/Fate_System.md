@@ -17,11 +17,11 @@ can spend Fate points to influence dice rolls, avoid death, or gain other
 benefits. Fate is a limited resource that refreshes under specific
 circumstances.
 
-See also: [Skill Tests](user-guide/skill-tests.md), [Traits](user-guide/item-trait.md)
+See also: [Skill Tests](user-guide/skill-tests.md)
 
 # Fate Points {#fate-points}
 
-Each character has a number of Fate points determined by their traits.
+Each character has a number of Fate points determined by their attributes.
 Fate points can be:
 
 - **Spent** to improve a test result or avoid a catastrophic outcome

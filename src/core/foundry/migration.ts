@@ -12,74 +12,84 @@
  */
 
 /**
- * World data migrations, run once on `ready` for the GM. Each migration is
- * gated on the world's stored `systemMigrationVersion`; the whole pass is a
- * no-op when the world is already current.
+ * World-load data checks, run on `ready` for the GM.
  *
  * @remarks Foundry-boundary code (touches `game`, documents) — kept out of the
  * logic layer.
  */
 
 /**
- * The current data schema version. Bump when adding a migration below; the world
- * migrates from its stored version up to this.
- */
-export const CURRENT_MIGRATION_VERSION = "0.7.2";
-
-/**
- * Compute the update payload that migrates a single trait's **raw source**
- * `system` off the removed `isNumeric` boolean and onto the `measured` subtype
- * (#532). Pure and Foundry-free so it can be unit-tested. Reads `_source`
- * (never the prepared data model, which no longer exposes `isNumeric`).
+ * Build the "unrecognized retired type" error message for a single document, or
+ * `null` when the document is not a legacy `trait` (#651). Pure and Foundry-free
+ * so it can be unit-tested.
  *
- * - `isNumeric === true` → `subType: "measured"` (its `score` / `valueDesc` are
- *   already stored, so nothing else moves) and the `isNumeric` key is dropped.
- * - `isNumeric === false` → the stale key is dropped; the descriptive subtype
- *   (physique / personality) is unchanged.
- * - No `isNumeric` key (already migrated) → `null` (nothing to do).
+ * The `trait` item type was retired and is deliberately **not** auto-converted:
+ * a surviving `trait` document is flagged as unrecognized so the GM resolves it
+ * by hand (delete it, or recreate the data as a `trauma`/`attribute`), never
+ * silently transformed or deleted by the system.
  *
- * @param sourceSystem - The trait item's raw `_source.system`.
- * @returns A Foundry `update()` payload, or `null` when no change is needed.
+ * A legacy trait is detected by its stored type on **either** `type` (Foundry
+ * keeps the type) or `_source.type` (Foundry fell the document back to `base`
+ * but preserved the original type in its source) — so the check fires whichever
+ * way the client loads an unregistered-type document.
+ *
+ * @param item - The document to check (its stored `type` / `_source.type`, plus
+ *   `name` / `id` for the message).
+ * @returns The error message, or `null` when `item` is not a retired trait.
  */
-export function traitMeasuredUpdate(
-    sourceSystem: Record<string, unknown> | undefined | null,
-): Record<string, unknown> | null {
-    if (!sourceSystem || !("isNumeric" in sourceSystem)) return null;
-    const update: Record<string, unknown> = { "system.-=isNumeric": null };
-    if (sourceSystem.isNumeric === true) {
-        update["system.subType"] = "measured";
-    }
-    return update;
+export function legacyTraitError(
+    item:
+        | {
+              type?: string;
+              name?: string;
+              id?: string;
+              _source?: { type?: string };
+          }
+        | null
+        | undefined,
+): string | null {
+    if (item == null) return null;
+    if (item.type !== "trait" && item._source?.type !== "trait") return null;
+    const label =
+        item.name ? `"${item.name}"`
+        : item.id ? `[${item.id}]`
+        : "(unknown)";
+    return (
+        `Unrecognized item type "trait": ${label}. The trait item type was retired ` +
+        `(#651) and is not migrated automatically — delete this item or recreate its ` +
+        `data as a trauma/attribute by hand.`
+    );
 }
 
 /**
- * Run world migrations to {@link CURRENT_MIGRATION_VERSION}. GM-only and
- * idempotent: applies each migration newer than the world's stored
- * `systemMigrationVersion`, then stamps the current version.
+ * Run world-load checks (GM-only). Flags every surviving legacy `trait` document
+ * as an unrecognized retired type — the type was removed in #651 and is **not**
+ * auto-converted — without ever modifying or deleting it. Runs on every GM load
+ * so the error persists until the documents are resolved by hand.
  */
-export async function migrateWorld(): Promise<void> {
+export function migrateWorld(): void {
     const game = (globalThis as any).game;
     if (!game?.user?.isGM) return;
-    const stored: string =
-        game.settings.get("sohl", "systemMigrationVersion") || "";
-    if (stored === CURRENT_MIGRATION_VERSION) return;
 
-    // 0.7.2 — trait `isNumeric` boolean → `measured` subtype (#532). Idempotent
-    // (already-migrated traits carry no `isNumeric` source key, so are skipped),
-    // so it is safe to run whenever the world is not already current.
-    const migrateTrait = async (item: any): Promise<void> => {
-        if (item?.type !== "trait") return;
-        const update = traitMeasuredUpdate(item._source?.system);
-        if (update) await item.update(update);
+    const errors: string[] = [];
+    const check = (item: any): void => {
+        const err = legacyTraitError(item);
+        if (err) {
+            console.error(`SoHL | ${err}`);
+            errors.push(err);
+        }
     };
-    for (const item of game.items ?? []) await migrateTrait(item);
+    for (const item of game.items ?? []) check(item);
     for (const actor of game.actors ?? []) {
-        for (const item of actor.items ?? []) await migrateTrait(item);
+        for (const item of actor.items ?? []) check(item);
     }
 
-    await game.settings.set(
-        "sohl",
-        "systemMigrationVersion",
-        CURRENT_MIGRATION_VERSION,
-    );
+    if (errors.length) {
+        (globalThis as any).ui?.notifications?.error(
+            `SoHL: found ${errors.length} unrecognized legacy "trait" item(s) — ` +
+                `the trait type was retired (#651). See the console; remove or ` +
+                `recreate each one by hand.`,
+            { permanent: true },
+        );
+    }
 }

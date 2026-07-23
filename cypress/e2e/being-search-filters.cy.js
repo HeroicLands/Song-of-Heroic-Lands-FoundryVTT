@@ -17,9 +17,8 @@
  * Each of the searchable tabs exposes a `search-criteria` input that live-filters
  * its list(s) via Foundry's `SearchFilter` → `applySearchFilter` (data-search-name
  * + `.hidden`). The filtering primitive is unit-tested; here we prove the inputs
- * are actually rendered and wired: the Profile-traits input is exercised
- * behaviorally (a query hides non-matching rows across trait groups), and the
- * Mysteries inputs are asserted present over their filter wrappers.
+ * are actually rendered and wired: the Mysteries inputs are asserted present over
+ * their filter wrappers.
  *
  * Trauma tab intentionally has no search filters (injuries and afflictions).
  */
@@ -30,45 +29,6 @@ describe("Being sheet per-tab search filters (#312)", () => {
         cy.cleanupWorld();
     });
     Cypress.on("uncaught:exception", () => false);
-
-    it("live-filters traits on the Profile tab across trait groups", () => {
-        cy.importActor().then((actor) => {
-            // Two traits in different subtype groups so filtering must span groups.
-            cy.createItemOn(actor, "trait", {
-                name: "Ambidextrous",
-                system: { subType: "physique" },
-            });
-            cy.createItemOn(actor, "trait", {
-                name: "Bloodlust",
-                system: { subType: "personality" },
-            });
-            cy.prepare(actor);
-            cy.openSheet(actor);
-            cy.switchTab("profile");
-
-            const scope = 'section.tab[data-tab="profile"]';
-            cy.get(`${scope} input[name="search-traits"]`)
-                .should("exist")
-                .type("Ambidext");
-
-            // Non-matching row (a different group) hides; matching row stays.
-            cy.get(`${scope} .traits [data-search-name="Bloodlust"]`).should(
-                "have.class",
-                "hidden",
-            );
-            cy.get(`${scope} .traits [data-search-name="Ambidextrous"]`).should(
-                "not.have.class",
-                "hidden",
-            );
-
-            // Clearing the query reveals every row again.
-            cy.get(`${scope} input[name="search-traits"]`).clear();
-            cy.get(`${scope} .traits [data-search-name="Bloodlust"]`).should(
-                "not.have.class",
-                "hidden",
-            );
-        });
-    });
 
     it("renders the Mysteries and Mystical-abilities search inputs over their lists", () => {
         cy.importActor().then((actor) => {

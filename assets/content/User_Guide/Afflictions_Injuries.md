@@ -53,7 +53,7 @@ Injuries impose penalties on the character:
 Injuries heal over time. The healing process depends on:
 
 - Whether the injury has been **treated** by a physician
-- The character's natural healing ability (related to traits)
+- The character's natural healing ability (related to attributes)
 - Available medical supplies and conditions
 
 <!-- TODO: Document the healing timeline, treatment skill tests,

@@ -75,8 +75,7 @@ what it modifies.
 
 The **Profile** tab is unique to Beings. It shows:
 
-- **Attributes** — the core traits (Strength, Dexterity, Intelligence, etc.)
-- **Other Traits** — non-attribute traits grouped by category
+- **Attributes** — the core characteristics (Strength, Dexterity, Intelligence, etc.)
 - **Affiliations** — faction memberships and organizational ties
 - **Biography** — a rich-text biography field
 
