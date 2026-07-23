@@ -65,7 +65,13 @@ describe("seedRngForTour — the driven-tour seeded-RNG lease", () => {
     it("restore is fire-once and idempotent (redundant exit hooks are safe)", () => {
         const rng = createRng();
         const snapshot = rng.getState();
-        const expectedContinuation = draw(rng, 3);
+        // Capture the deterministic un-seeded stream from the snapshot: the first
+        // three values are what the game sees right after restore; the next three
+        // are what it continues with. Comparing against the real `nextThree` is a
+        // deterministic check — unlike a `.not.toEqual(firstThree)`, which would
+        // false-fail ~1/216 of the time when the stream coincidentally repeats.
+        const firstThree = draw(rng, 3);
+        const nextThree = draw(rng, 3);
         rng.setState(snapshot);
 
         const lease = seedRngForTour(rng, "tour");
@@ -79,9 +85,10 @@ describe("seedRngForTour — the driven-tour seeded-RNG lease", () => {
         lease.restore();
         lease.restore();
         // The first restore rewound to the snapshot, so `afterFirst` already IS
-        // the expected continuation; later restores changed nothing.
-        expect(afterFirst).toEqual(expectedContinuation);
-        expect(draw(rng, 3)).not.toEqual(expectedContinuation);
+        // the un-seeded continuation; the redundant restores changed nothing, so
+        // the stream advances to `nextThree` rather than rewinding to `firstThree`.
+        expect(afterFirst).toEqual(firstThree);
+        expect(draw(rng, 3)).toEqual(nextThree);
     });
 
     it("simulates the exit-path matrix: any single exit hook restores exactly once", () => {

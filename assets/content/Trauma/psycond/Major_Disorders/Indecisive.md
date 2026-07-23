@@ -1,0 +1,48 @@
+---
+aliases: []
+tags: []
+name:
+    full: Indecisive
+    aliases: []
+id: 70qXvkFG3nCbqwgT
+slug: indecisive
+img: icons/user-gear.svg
+shortcode: indcsv
+type: trauma
+package: sohl
+sohl:
+    archetype: 0
+    subType: psycond
+    category: quirk
+folder: ECrcBb9CUCMX9JeJ
+---
+
+Indecisive refers to an individual's difficulty in making decisions or choosing between options. An indecisive person may waver, second-guess, or avoid making choices altogether due to anxiety, fear of making the wrong decision, or an overwhelming number of possibilities. While some indecisiveness is common and harmless, excessive indecision can lead to missed opportunities, frustration, and strained relationships.
+
+### Quirk
+
+The individual may take longer to make decisions, carefully weighing options and considering all potential outcomes. While their decision-making process can be slow, they usually arrive at thoughtful conclusions and avoid rushing into poor choices. Their indecisiveness rarely causes significant disruption, as they eventually make choices that benefit them and others.
+**Example:** Hugh, a village blacksmith, carefully deliberates before accepting large commissions or trying new techniques. He often consults his apprentices and neighboring craftsmen before making decisions, ensuring his work is precise and durable. Though he may take longer to start a project, his craftsmanship is renowned, and villagers trust his thoroughness.
+
+### Impulse
+
+The individual’s indecisiveness becomes more pronounced, as they are frequently overwhelmed by the number of choices available to them. They struggle to choose even between relatively simple options, fearing that one wrong decision could lead to regret or failure. The weight of potential outcomes leads to constant second-guessing, delaying action. Their fear of making the wrong choice begins to affect their ability to take timely decisions, causing delays in their work or responsibilities.
+**Example:** Hugh increasingly hesitates with each new commission. When asked to forge tools for the harvest, he feels overwhelmed by the different types of metal and designs he could use, afraid that one mistake will disappoint his customers. He frequently asks his apprentices for advice but is unable to settle on a choice, and orders begin piling up. The growing number of options and the fear of choosing incorrectly leave Hugh feeling anxious and drained, delaying even small decisions.
+
+### Disorder
+
+As indecisiveness intensifies, the individual becomes completely paralyzed by the fear of making the wrong choice. Even minor decisions, such as which hammer to use or which project to start, seem insurmountable. They feel overwhelmed by the sheer number of options, perceiving each decision as critical, no matter how trivial. This extreme fear of error prevents them from taking any action, leading to significant delays in their work, missed opportunities, and growing frustration from others. The individual becomes consumed by anxiety, feeling helpless and inadequate in the face of choices they once found manageable.
+
+### Physical Symptoms
+
+The stress of chronic indecision may cause physical symptoms such as headaches, fatigue, or restlessness. The constant pressure of needing to make decisions but feeling unable to act leads to emotional exhaustion and physical tension.
+
+### Intrusive Thoughts
+
+Persistent thoughts about potential negative outcomes, focusing on worst-case scenarios. The individual may obsess over every possible option, fearing that each decision could result in disaster, even if the choices are trivial. They become overwhelmed by the perceived weight of every decision.
+
+### Emotional Distress
+
+The individual may feel frustration, helplessness, or anxiety as they struggle to make even the most insignificant decisions. Their indecisiveness can lead to a loss of confidence and self-worth, as they begin to doubt their ability to function in daily life. This emotional burden worsens as they realize they are unable to move forward.
+
+**Example:** Hugh is completely overwhelmed by his fear of making the wrong choice. Even deciding which hammer to use for a simple task feels like an impossible decision. He stares at the tools in his workshop, paralyzed by the idea that choosing incorrectly will lead to failure. Every option feels equally daunting, and he can no longer trust himself to make even the smallest choices. His apprentices and customers grow impatient, but Hugh’s anxiety prevents him from starting any project. His once-thriving blacksmithing business grinds to a halt, and he retreats further into himself, convinced that every decision is too dangerous to make.

@@ -14,6 +14,8 @@ import {
     MARGINAL_FAILURE,
     MARGINAL_SUCCESS,
     TRAUMA_SUBTYPE,
+    TRAUMA_PSYCOND_CATEGORY,
+    TRAUMA_PHYSCOND_CATEGORY,
 } from "@src/utils/constants";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
@@ -1765,5 +1767,56 @@ describe("interactive Blood Stoppage flow (#547)", () => {
             logic.item,
             "bloodLossAdvanceCheck",
         );
+    });
+});
+
+describe("descriptive conditions as trauma subtypes (#648)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    it("exposes the psychological- and physical-condition subtypes and their categories", () => {
+        expect(TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION).toBe("psycond");
+        expect(TRAUMA_SUBTYPE.PHYSICAL_CONDITION).toBe("physcond");
+        expect(Object.values(TRAUMA_PSYCOND_CATEGORY)).toEqual([
+            "quirk",
+            "impulse",
+            "disorder",
+        ]);
+        expect(Object.values(TRAUMA_PHYSCOND_CATEGORY)).toEqual([
+            "trait",
+            "impediment",
+            "debility",
+        ]);
+    });
+
+    it("a physical condition carries a category but no injury level, aspect, or body location", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.PHYSICAL_CONDITION,
+            category: TRAUMA_PHYSCOND_CATEGORY.TRAIT,
+            levelBase: null,
+            aspect: null,
+            bodyLocationCode: null,
+        });
+        logic.initialize();
+        logic.evaluate();
+        expect(logic.data.subType).toBe("physcond");
+        expect(logic.data.category).toBe("trait");
+        // A null level seeds a base of 0 (no NaN) rather than throwing.
+        expect(logic.level.base).toBe(0);
+        // No body location code → whole-body / not location-bound.
+        expect(logic.bodyLocation).toBeUndefined();
+    });
+
+    it("a psychological condition preserves its category and tolerates a null level", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+            category: TRAUMA_PSYCOND_CATEGORY.QUIRK,
+            levelBase: null,
+            aspect: null,
+            bodyLocationCode: null,
+        });
+        logic.initialize();
+        expect(logic.data.subType).toBe("psycond");
+        expect(logic.data.category).toBe("quirk");
+        expect(logic.level.base).toBe(0);
     });
 });
