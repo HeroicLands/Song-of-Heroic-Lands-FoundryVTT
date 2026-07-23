@@ -1324,6 +1324,8 @@ describe("BeingLogic", () => {
                 undefined,
                 undefined,
                 "turnEnd",
+                // Gated to this being's own combatant turn (#569).
+                "combatant.actor.uuid === subscriberUuid",
             );
             expect(unschedule).not.toHaveBeenCalled();
         });

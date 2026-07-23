@@ -58,7 +58,11 @@ export interface SohlSubscription {
     /**
      * Optional predicate expression. When present, the subscription fires only
      * when this {@link SafeExpression} evaluates truthy against the trigger
-     * context (`ctx` supplies the bindings — `name`, `worldTime`, `payload`, …).
+     * context (`ctx` supplies the bindings — `name`, `worldTime`, `payload`, …),
+     * plus `subscriberUuid`: this subscription's own {@link uuid}, so a predicate
+     * can compare the trigger to the document it belongs to without baking an id
+     * into its source — e.g. gating a combat `turnEnd` schedule to the end of the
+     * subscriber's **own** turn with `combatant.actor.uuid === subscriberUuid`.
      * Expressions that throw are caught and logged; the dispatch is skipped but
      * the subscription is preserved.
      */
@@ -338,9 +342,12 @@ export class SohlEventQueue {
                 if (sub.predicate) {
                     let pass = false;
                     try {
-                        pass = !!sub.predicate.evaluate(
-                            ctx as unknown as Record<string, unknown>,
-                        );
+                        pass = !!sub.predicate.evaluate({
+                            ...(ctx as unknown as Record<string, unknown>),
+                            // The subscription's own document, so a predicate can
+                            // compare the trigger to itself (e.g. "my own turn").
+                            subscriberUuid: sub.uuid,
+                        });
                     } catch (err) {
                         console.error(
                             `SoHL | Predicate threw for subscription "${sub.actionName}" on ${sub.uuid}:`,

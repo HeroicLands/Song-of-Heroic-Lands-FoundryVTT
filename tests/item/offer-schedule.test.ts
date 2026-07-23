@@ -121,8 +121,30 @@ describe("offerSchedule — the consent step for scheduling timed effects (#579)
             undefined,
             undefined,
             "turnEnd",
+            undefined,
         );
         expect(unschedule).not.toHaveBeenCalled();
+    });
+
+    it("event-driven: a predicate source is threaded through to sohl.schedule (#569)", async () => {
+        const { schedule } = spies();
+        await offerSchedule(
+            { skipDialog: true, scope: { schedule: true } },
+            DOC,
+            "shockReTest",
+            0,
+            "turnEnd",
+            "combatant.actor.uuid === subscriberUuid",
+        );
+        expect(schedule).toHaveBeenCalledWith(
+            DOC,
+            "shockReTest",
+            0,
+            undefined,
+            undefined,
+            "turnEnd",
+            "combatant.actor.uuid === subscriberUuid",
+        );
     });
 
     it("event-driven: scope.schedule pre-answers without a dialog and carries the trigger", async () => {
@@ -142,6 +164,7 @@ describe("offerSchedule — the consent step for scheduling timed effects (#579)
             undefined,
             undefined,
             "turnEnd",
+            undefined,
         );
         expect(dlg).not.toHaveBeenCalled();
     });

@@ -109,6 +109,9 @@ function describeCadence(interval: number, triggerName?: string): string {
  *   unused for an event-driven schedule.
  * @param triggerName - The lifecycle trigger to bind to, or omitted for a
  *   time-based schedule (issue #622).
+ * @param predicate - Optional {@link sohl.entity.expr.SafeExpression} source
+ *   gating an event-driven schedule (issue #569; e.g. scoping a `turnEnd`
+ *   schedule to the subscriber's own turn). Ignored for a time schedule.
  * @returns A promise that resolves once the schedule is armed or cleared.
  */
 export async function offerSchedule(
@@ -117,6 +120,7 @@ export async function offerSchedule(
     actionName: string,
     interval: number,
     triggerName?: string,
+    predicate?: string,
 ): Promise<void> {
     let schedule = context.scope?.schedule;
     const eventDriven = !isTimeTrigger(triggerName);
@@ -174,6 +178,7 @@ export async function offerSchedule(
                 undefined,
                 undefined,
                 triggerName,
+                predicate,
             );
         } else await sohl.schedule(doc, actionName, interval);
     } else await sohl.unschedule(doc, actionName);

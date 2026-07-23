@@ -60,6 +60,7 @@ import {
     SHOCK_STATUS_IDS,
     SHOCK_RETEST_MODIFIER,
     SHOCK_RETEST_UNCONSCIOUS_DELAY,
+    SHOCK_RETEST_OWN_TURN_PREDICATE,
     shockStateFromStatuses,
     shockStatusForLevel,
     clampShockState,
@@ -772,13 +773,16 @@ export class BeingLogic<
             return;
         }
         if (this.shockState === SHOCK_STATE.INCAPACITATED) {
-            // End of each turn — an event-driven cadence (#622), no fixed delay.
+            // End of the being's OWN turn — an event-driven cadence (#622), no
+            // fixed delay, gated to this being's combatant so the reminder comes
+            // once per round on its turn, not on every combatant's (#569).
             await offerSchedule(
                 context,
                 this.actor,
                 "shockReTest",
                 0,
                 "turnEnd",
+                SHOCK_RETEST_OWN_TURN_PREDICATE,
             );
         } else {
             // Unconscious → ten minutes later (a time schedule).
@@ -1354,6 +1358,7 @@ export class BeingLogic<
                 this.actor.uuid,
                 this.data.scheduledActions,
                 sohl.events,
+                this,
             );
         }
 

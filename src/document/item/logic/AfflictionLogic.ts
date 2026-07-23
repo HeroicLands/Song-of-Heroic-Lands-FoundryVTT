@@ -580,7 +580,12 @@ export class AfflictionLogic<
         super.finalize();
         const uuid = this.item?.uuid;
         if (!uuid) return;
-        armScheduledActions(uuid, this.data.scheduledActions, sohl.events);
+        armScheduledActions(
+            uuid,
+            this.data.scheduledActions,
+            sohl.events,
+            this,
+        );
     }
 
     /**

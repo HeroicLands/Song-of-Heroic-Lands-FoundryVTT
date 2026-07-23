@@ -270,6 +270,19 @@ time — even on a trigger whose context doesn't carry it — reads it via the
 Prefer `fireAt` for the common case (a bare `curWorldTime() > X` isn't invertible
 to a "next fire" time, so it can't answer [queries](#7-query-the-schedule--when-is-the-next--last)).
 
+Besides the trigger context, a predicate is handed **`subscriberUuid`** — the
+subscription's own document uuid — so it can compare the trigger to itself without
+baking an id into its source. This is how the Incapacitated Shock Re-Test (#569)
+scopes its `turnEnd` schedule to the victim's **own** turn:
+`combatant.actor.uuid === subscriberUuid` — the `[Perform]` card is offered when
+_this_ being's combatant ends its turn, not on every combatant's. A **persisted**
+event schedule carries its predicate as source on the
+{@link sohl.entity.event.ScheduledAction | store entry}
+(`sohl.schedule(doc, name, 0, undefined, undefined, "turnEnd", predicateSource)`),
+re-compiled under the owning document's Logic on every re-arm; such a persisted
+predicate must be **helper-free** (a pure context predicate), since it is armed in
+the Foundry-free layer.
+
 ### 5. A world-wide or scene-bound schedule — the bandit check (module)
 
 A schedule needs a host document that carries `system.scheduledActions` (an actor

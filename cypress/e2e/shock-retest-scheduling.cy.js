@@ -38,66 +38,97 @@ describe("Shock Re-Test scheduling", () => {
         );
     }
 
-    it("Incapacitated → a turnEnd schedule that offers a [Perform] card each turn", () => {
-        cy.createActor("being", { name: "incap" }).then((actor) => {
-            cy.foundry(async (win) => {
-                const a = win.game.actors.get(actor.id);
+    it("Incapacitated → a turnEnd schedule offered only at the end of the being's OWN turn", () => {
+        cy.createActor("being", { name: "incap" }).then((actorA) => {
+            cy.createActor("being", { name: "other" }).then((actorB) => {
+                cy.foundry(async (win) => {
+                    const a = win.game.actors.get(actorA.id);
+                    const b = win.game.actors.get(actorB.id);
 
-                // Enter Incapacitated, then OFFER the Re-Test (pre-answered yes).
-                await a.logic.setShockState(2); // INCAPACITATED
-                await a.logic.offerShockReTest(win.structuredClone(ACCEPT));
+                    // Enter Incapacitated, then OFFER the Re-Test (pre-answered).
+                    await a.logic.setShockState(2); // INCAPACITATED
+                    await a.logic.offerShockReTest(win.structuredClone(ACCEPT));
 
-                // Persisted as an event-driven turnEnd schedule (#622 seam).
-                const entry = a.system.scheduledActions.find(
-                    (e) => e.actionName === "shockReTest",
-                );
-                const armed = win.sohl.events.isScheduled(
-                    a.uuid,
-                    "shockReTest",
-                );
+                    // Persisted as an event-driven turnEnd schedule (#622 seam),
+                    // gated to this being's own combatant (#569).
+                    const entry = a.system.scheduledActions.find(
+                        (e) => e.actionName === "shockReTest",
+                    );
+                    const armed = win.sohl.events.isScheduled(
+                        a.uuid,
+                        "shockReTest",
+                    );
 
-                // A world-time tick must NOT fire it (bound to turnEnd).
-                const beforeTime = win.game.messages.size;
-                await win.sohl.events.fire({
-                    name: "updateWorldTime",
-                    worldTime: 9_000_000,
+                    // The turnEnd context carries the combatant whose turn ended;
+                    // the queue's predicate reads combatant.actor.uuid. Drive it
+                    // with each actor's real uuid (the SohlHookBridge turnEnd
+                    // wiring itself is covered by the queue/hook unit tests).
+                    const turnEndFor = (actor) =>
+                        win.sohl.events.fire({
+                            name: "turnEnd",
+                            combatant: { actor: { uuid: actor.uuid } },
+                        });
+
+                    // A world-time tick must NOT fire it (bound to turnEnd).
+                    const beforeTime = win.game.messages.size;
+                    await win.sohl.events.fire({
+                        name: "updateWorldTime",
+                        worldTime: 9_000_000,
+                    });
+                    const cardsOnTime = win.game.messages.size - beforeTime;
+
+                    // Another combatant's turn ends → NO card for A.
+                    const beforeOther = win.game.messages.size;
+                    await turnEndFor(b);
+                    const cardsOnOtherTurn =
+                        win.game.messages.size - beforeOther;
+
+                    // A's OWN turn ends → a [Perform] card owned by A...
+                    const beforeOwn = win.game.messages.size;
+                    await turnEndFor(a);
+                    const btn = shockReTestButton(
+                        win,
+                        win.game.messages.contents.at(-1),
+                    );
+                    // ...and again next round on A's turn (events don't dedupe).
+                    await turnEndFor(a);
+
+                    return {
+                        triggerName: entry?.triggerName,
+                        predicate: entry?.predicate,
+                        armed,
+                        cardsOnTime,
+                        cardsOnOtherTurn,
+                        cardsOnOwnTurns: win.game.messages.size - beforeOwn,
+                        handlerUuid: btn?.dataset.handlerUuid,
+                        actorUuid: a.uuid,
+                    };
+                }).should((r) => {
+                    expect(
+                        r.triggerName,
+                        "persisted as a turnEnd schedule",
+                    ).to.eq("turnEnd");
+                    expect(
+                        r.predicate,
+                        "gated to the being's own combatant",
+                    ).to.eq("combatant.actor.uuid === subscriberUuid");
+                    expect(r.armed, "armed as a subscription").to.be.true;
+                    expect(
+                        r.cardsOnTime,
+                        "a world-time tick does not fire it",
+                    ).to.eq(0);
+                    expect(
+                        r.cardsOnOtherTurn,
+                        "not offered at the end of another combatant's turn",
+                    ).to.eq(0);
+                    expect(
+                        r.cardsOnOwnTurns,
+                        "a [Perform] card at the end of each of the being's turns",
+                    ).to.be.gte(2);
+                    expect(r.handlerUuid, "owner-gated to the being").to.eq(
+                        r.actorUuid,
+                    );
                 });
-                const cardsOnTime = win.game.messages.size - beforeTime;
-
-                // Each turnEnd offers a [Perform] card owned by the being.
-                const beforeTurn = win.game.messages.size;
-                await win.sohl.events.fire({ name: "turnEnd" });
-                const btn = shockReTestButton(
-                    win,
-                    win.game.messages.contents.at(-1),
-                );
-                // ...and again the next turn (event triggers don't dedupe).
-                await win.sohl.events.fire({ name: "turnEnd" });
-
-                return {
-                    triggerName: entry?.triggerName,
-                    armed,
-                    cardsOnTime,
-                    cardsOverTwoTurns: win.game.messages.size - beforeTurn,
-                    handlerUuid: btn?.dataset.handlerUuid,
-                    actorUuid: a.uuid,
-                };
-            }).should((r) => {
-                expect(r.triggerName, "persisted as a turnEnd schedule").to.eq(
-                    "turnEnd",
-                );
-                expect(r.armed, "armed as a subscription").to.be.true;
-                expect(
-                    r.cardsOnTime,
-                    "a world-time tick does not fire it",
-                ).to.eq(0);
-                expect(
-                    r.cardsOverTwoTurns,
-                    "a [Perform] card each turn",
-                ).to.be.gte(2);
-                expect(r.handlerUuid, "owner-gated to the being").to.eq(
-                    r.actorUuid,
-                );
             });
         });
     });

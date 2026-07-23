@@ -65,7 +65,12 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
     // cannot host a schedule, so there is nothing to re-arm for them. On world
     // `ready` we walk every world actor and its embedded items.
     const rearm = (doc: any): void =>
-        armScheduledActions(doc?.uuid, doc?.system?.scheduledActions, queue);
+        armScheduledActions(
+            doc?.uuid,
+            doc?.system?.scheduledActions,
+            queue,
+            doc?.logic,
+        );
 
     (Hooks as any).on("ready", () => {
         for (const actor of fvttWorldActors()) {

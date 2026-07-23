@@ -241,6 +241,33 @@ describe("SohlEventQueue", () => {
             expect(calls).toEqual(["match"]);
         });
 
+        it("binds subscriberUuid so a predicate can gate to its own document (#569)", async () => {
+            const calls: string[] = [];
+            installActionDoc((actionName) => {
+                calls.push(actionName);
+            });
+            // Two incapacitated beings, each re-testing only on its own turn.
+            queue.subscribe({
+                uuid: "Actor.A",
+                actionName: "reTestA",
+                triggerName: "turnEnd",
+                predicate: pred("combatant.actor.uuid === subscriberUuid"),
+            });
+            queue.subscribe({
+                uuid: "Actor.B",
+                actionName: "reTestB",
+                triggerName: "turnEnd",
+                predicate: pred("combatant.actor.uuid === subscriberUuid"),
+            });
+            // The turn that just ended is A's combatant.
+            await queue.fire({
+                name: "turnEnd",
+                combat: {} as any,
+                combatant: { actor: { uuid: "Actor.A" } } as any,
+            });
+            expect(calls).toEqual(["reTestA"]); // only A's re-test is offered
+        });
+
         it("catches and logs predicate exceptions, keeps the subscription", async () => {
             installActionDoc();
             queue.subscribe({

@@ -23,6 +23,7 @@ const entry = (
     payload?: Record<string, unknown>,
     sceneUuid?: string,
     triggerName?: string,
+    predicate?: string,
 ): ScheduledAction => ({
     actionName,
     anchor,
@@ -30,6 +31,7 @@ const entry = (
     sceneUuid,
     payload,
     triggerName,
+    predicate,
 });
 
 /** A stub queue recording scheduleAt / subscribe / unsubscribe. */
@@ -41,14 +43,22 @@ function mockQueue() {
     } as any;
 }
 
-/** A stub schedulable document with a recording `update`. */
+/** A stub schedulable document with a recording `update` and an owning logic. */
 function mockDoc(scheduledActions: ScheduledAction[] = []) {
     return {
         uuid: "Actor.a.Item.w",
         system: { scheduledActions },
         update: vi.fn().mockResolvedValue(undefined),
+        logic: PARENT,
     };
 }
+
+/**
+ * Stand-in owning logic — the parent an event-driven predicate compiles under.
+ * Truthy is all the SohlEntity invariant needs; a pure context predicate never
+ * dereferences it.
+ */
+const PARENT = {} as any;
 
 describe("scheduled-actions — pure helpers", () => {
     it("scheduledFireAt = anchor + interval", () => {
@@ -98,6 +108,7 @@ describe("armScheduledActions (load-side re-arm)", () => {
             "Actor.a",
             [entry("heal", 1000, 100, { hr: 4 }), entry("bleed", 500, 300)],
             queue,
+            PARENT,
         );
         expect(queue.scheduleAt).toHaveBeenCalledTimes(2);
         expect(queue.scheduleAt).toHaveBeenCalledWith(
@@ -118,7 +129,7 @@ describe("armScheduledActions (load-side re-arm)", () => {
 
     it("is a no-op for an empty / undefined schedule", () => {
         const queue = mockQueue();
-        armScheduledActions("Actor.a", undefined, queue);
+        armScheduledActions("Actor.a", undefined, queue, PARENT);
         expect(queue.scheduleAt).not.toHaveBeenCalled();
     });
 
@@ -128,6 +139,7 @@ describe("armScheduledActions (load-side re-arm)", () => {
             "Actor.world",
             [entry("checkForBandits", 500, 240, undefined, "Scene.hideout")],
             queue,
+            PARENT,
         );
         expect(queue.scheduleAt).toHaveBeenCalledWith(
             "Actor.world",
@@ -144,6 +156,7 @@ describe("armScheduledActions (load-side re-arm)", () => {
             "Actor.world",
             [entry("plague", 0, 100, undefined, "")],
             queue,
+            PARENT,
         );
         expect(queue.scheduleAt).toHaveBeenCalledWith(
             "Actor.world",
@@ -162,6 +175,7 @@ describe("armScheduledActions (load-side re-arm)", () => {
             "Actor.b",
             [entry("shockReTest", 500, 0, { s: 1 }, undefined, "turnEnd")],
             queue,
+            PARENT,
         );
         expect(queue.scheduleAt).not.toHaveBeenCalled();
         expect(queue.subscribe).toHaveBeenCalledTimes(1);
@@ -180,6 +194,7 @@ describe("armScheduledActions (load-side re-arm)", () => {
             "Actor.b",
             [entry("heal", 100, 50, undefined, undefined, "updateWorldTime")],
             queue,
+            PARENT,
         );
         expect(queue.subscribe).not.toHaveBeenCalled();
         expect(queue.scheduleAt).toHaveBeenCalledWith(
@@ -197,6 +212,7 @@ describe("armScheduledActions (load-side re-arm)", () => {
             "Actor.b",
             [entry("regionTick", 0, 0, undefined, "Scene.crypt", "turnEnd")],
             queue,
+            PARENT,
         );
         expect(queue.subscribe).toHaveBeenCalledWith({
             uuid: "Actor.b",
@@ -205,6 +221,43 @@ describe("armScheduledActions (load-side re-arm)", () => {
             payload: undefined,
             sceneUuid: "Scene.crypt",
         });
+    });
+
+    it("arms an event entry's predicate as a compiled SafeExpression (#569)", () => {
+        const queue = mockQueue();
+        armScheduledActions(
+            "Actor.b",
+            [
+                entry(
+                    "shockReTest",
+                    0,
+                    0,
+                    undefined,
+                    undefined,
+                    "turnEnd",
+                    "combatant.actor.uuid === subscriberUuid",
+                ),
+            ],
+            queue,
+            PARENT,
+        );
+        const arg = queue.subscribe.mock.calls[0][0];
+        expect(arg.predicate).toBeTruthy();
+        expect(arg.predicate.source).toBe(
+            "combatant.actor.uuid === subscriberUuid",
+        );
+        expect(typeof arg.predicate.evaluate).toBe("function");
+    });
+
+    it("arms an event entry with no predicate as unconditional (undefined)", () => {
+        const queue = mockQueue();
+        armScheduledActions(
+            "Actor.b",
+            [entry("shockReTest", 0, 0, undefined, undefined, "turnEnd")],
+            queue,
+            PARENT,
+        );
+        expect(queue.subscribe.mock.calls[0][0].predicate).toBeUndefined();
     });
 
     it("arms a mixed list — time via scheduleAt, event via subscribe", () => {
@@ -216,6 +269,7 @@ describe("armScheduledActions (load-side re-arm)", () => {
                 entry("shockReTest", 500, 0, undefined, undefined, "turnEnd"),
             ],
             queue,
+            PARENT,
         );
         expect(queue.scheduleAt).toHaveBeenCalledTimes(1);
         expect(queue.scheduleAt).toHaveBeenCalledWith(
@@ -329,7 +383,34 @@ describe("scheduleAction (persist + arm)", () => {
             triggerName: "turnEnd",
             payload: { state: 2 },
             sceneUuid: undefined,
+            predicate: undefined,
         });
+    });
+
+    it("persists and arms an event-driven predicate (#569)", async () => {
+        const queue = mockQueue();
+        const doc = mockDoc();
+        await scheduleAction(
+            doc as any,
+            queue,
+            "shockReTest",
+            0,
+            undefined,
+            1000,
+            undefined,
+            "turnEnd",
+            "combatant.actor.uuid === subscriberUuid",
+        );
+        // Persist: the predicate source is stored on the entry.
+        const written = doc.update.mock.calls[0][0]["system.scheduledActions"];
+        expect(written[0].predicate).toBe(
+            "combatant.actor.uuid === subscriberUuid",
+        );
+        // Arm: subscribe gets a compiled SafeExpression of that source.
+        const arg = queue.subscribe.mock.calls[0][0];
+        expect(arg.predicate.source).toBe(
+            "combatant.actor.uuid === subscriberUuid",
+        );
     });
 });
 

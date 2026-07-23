@@ -145,6 +145,19 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                     initial: "",
                 }),
                 /**
+                 * Optional predicate source (a SafeExpression string) gating an
+                 * event-driven schedule (issue #569): the armed subscription
+                 * fires only when it evaluates truthy against the trigger
+                 * context, with `subscriberUuid` bound to this document — e.g.
+                 * `"combatant.actor.uuid === subscriberUuid"` scopes a `turnEnd`
+                 * schedule to the subscriber's own turn. Blank ⇒ unconditional.
+                 */
+                predicate: new StringField({
+                    required: false,
+                    blank: true,
+                    initial: "",
+                }),
+                /**
                  * The uuid of the scene this schedule is bound to (issue #590).
                  * When set, it is offered only while that scene is active; blank
                  * (the default) means world-wide (fires regardless of scene).

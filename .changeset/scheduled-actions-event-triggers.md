@@ -20,6 +20,10 @@ a durable home and re-arms across a reload — the same way a timed one does.
   (as before) and an event entry via `subscribe`; **`sohl.schedule`** and the
   shared **`offerSchedule`** take an optional `triggerName`, and the offer prompt
   reads "…at the end of each turn?" for an event cadence instead of "…in 5 days?".
+- An event entry may also carry an optional **`predicate`** source (a
+  `SafeExpression`) to gate its dispatch; the queue binds **`subscriberUuid`** (the
+  subscription's own document) so a predicate can compare the trigger to itself —
+  e.g. scoping a `turnEnd` schedule to the subscriber's own combat turn.
 - Both families flow through the one owner-gated `[Perform]` reminder path
   (issue #579); time schedules still dedupe by `fireAt`, event schedules still
   offer once per fire.

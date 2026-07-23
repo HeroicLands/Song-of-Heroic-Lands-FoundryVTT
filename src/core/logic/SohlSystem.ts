@@ -459,6 +459,9 @@ export class SohlSystem {
      *   or `"updateWorldTime"` ⇒ a time-based schedule fired at `now + interval`
      *   (the default); any other value (`"turnEnd"`, `"combatStart"`, …) ⇒ an
      *   event-driven schedule (`interval` is then unused).
+     * @param predicate - Optional {@link sohl.entity.expr.SafeExpression} source
+     *   gating an event-driven schedule (issue #569; `subscriberUuid` is bound to
+     *   `doc`). Ignored for a time schedule.
      * @returns A promise that resolves once the schedule is persisted and armed.
      */
     schedule(
@@ -468,6 +471,7 @@ export class SohlSystem {
         payload?: Record<string, unknown>,
         sceneUuid?: string,
         triggerName?: string,
+        predicate?: string,
     ): Promise<void> {
         return scheduleAction(
             doc,
@@ -478,6 +482,7 @@ export class SohlSystem {
             fvttWorldTime(),
             sceneUuid,
             triggerName,
+            predicate,
         );
     }
 

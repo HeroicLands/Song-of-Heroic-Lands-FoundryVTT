@@ -37,6 +37,8 @@
  */
 
 import type { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
+import { SafeExpression } from "@src/entity/expr/SafeExpression";
 
 /**
  * One persisted recurring-schedule entry — the shape of an element of a
@@ -59,6 +61,15 @@ export interface ScheduledAction {
      * is then unused). See {@link isTimeTrigger}.
      */
     triggerName?: string;
+    /**
+     * Optional predicate **source** (a {@link sohl.entity.expr.SafeExpression}
+     * string) gating an event-driven schedule (issue #622/#569). When set, the
+     * armed subscription fires only when it evaluates truthy against the trigger
+     * context, with `subscriberUuid` bound to this document's uuid — e.g.
+     * `"combatant.actor.uuid === subscriberUuid"` scopes a `turnEnd` schedule to
+     * the end of the subscriber's own combat turn. Ignored for a time schedule.
+     */
+    predicate?: string;
     /**
      * The uuid of the scene this schedule is bound to (issue #590). When set,
      * the schedule is offered only while that scene is the **active** scene — a
@@ -86,6 +97,31 @@ export const WORLD_TIME_TRIGGER = "updateWorldTime";
  */
 export function isTimeTrigger(triggerName?: string): boolean {
     return !triggerName || triggerName === WORLD_TIME_TRIGGER;
+}
+
+/**
+ * Build the {@link sohl.entity.expr.SafeExpression} gating an event-driven
+ * schedule from its persisted `predicate` source, or `undefined` when there is
+ * none. The predicate is owned by `parent` — the Logic of the document the
+ * schedule lives on (the being, wound, …) — the same document the action runs
+ * on when the schedule fires. A malformed source throws at construction — a
+ * fail-fast on the author, not a silent unguarded fire.
+ *
+ * @param source - The persisted predicate source (may be absent/blank).
+ * @param parent - The owning document's Logic (the schedule's host).
+ * @returns The compiled predicate, or `undefined`.
+ */
+function buildPredicate(
+    source: string | undefined,
+    parent: SohlLogic<any> | undefined,
+): SafeExpression | undefined {
+    if (!source) return undefined;
+    if (!parent) {
+        throw new Error(
+            `A scheduled-action predicate ("${source}") requires the owning document's logic as its parent.`,
+        );
+    }
+    return new SafeExpression({ source }, { parent });
 }
 
 /**
@@ -127,15 +163,19 @@ export function removeScheduledAction(
 
 /**
  * Arm every persisted schedule entry into the queue — the **load-side** re-arm,
- * called on world `ready` for every world actor and its embedded items.
+ * called on world `ready` for every world actor and its embedded items, and from
+ * each document's `finalize()`.
  * @param uuid - The owning document's uuid.
  * @param list - The document's `system.scheduledActions`.
  * @param queue - The event queue to arm.
+ * @param parent - The owning document's Logic; parents any event-driven entry's
+ *   {@link ScheduledAction.predicate} (the same document the action runs on).
  */
 export function armScheduledActions(
     uuid: string,
     list: ScheduledAction[] | undefined,
     queue: SohlEventQueue,
+    parent: SohlLogic<any>,
 ): void {
     for (const entry of list ?? []) {
         if (isTimeTrigger(entry.triggerName)) {
@@ -155,6 +195,7 @@ export function armScheduledActions(
                 triggerName: entry.triggerName as string,
                 payload: entry.payload,
                 sceneUuid: entry.sceneUuid || undefined,
+                predicate: buildPredicate(entry.predicate, parent),
             });
         }
     }
@@ -168,6 +209,12 @@ export interface Schedulable {
     system: { scheduledActions?: ScheduledAction[] };
     /** Persist a partial update to the document. */
     update(data: Record<string, unknown>): Promise<unknown>;
+    /**
+     * The document's Logic — parents an event-driven schedule's
+     * {@link ScheduledAction.predicate} (issue #569). Every SoHL document exposes
+     * it; only an event schedule *with* a predicate reads it.
+     */
+    logic?: SohlLogic<any>;
 }
 
 /**
@@ -187,6 +234,8 @@ export interface Schedulable {
  * @param triggerName - The lifecycle trigger to bind to (issue #622). Omitted or
  *   `"updateWorldTime"` ⇒ a time-based schedule at `now + interval` (the
  *   default); any other value ⇒ an event-driven subscription (`interval` unused).
+ * @param predicate - Optional {@link sohl.entity.expr.SafeExpression} source
+ *   gating an event-driven schedule (issue #569); ignored for a time schedule.
  */
 export async function scheduleAction(
     doc: Schedulable,
@@ -197,6 +246,7 @@ export async function scheduleAction(
     now: number,
     sceneUuid?: string,
     triggerName?: string,
+    predicate?: string,
 ): Promise<void> {
     const timeBased = isTimeTrigger(triggerName);
     const entry: ScheduledAction = {
@@ -206,6 +256,7 @@ export async function scheduleAction(
         sceneUuid: sceneUuid || "",
         payload,
         triggerName: timeBased ? "" : triggerName,
+        predicate: timeBased ? "" : predicate || "",
     };
     const list = upsertScheduledAction(doc.system.scheduledActions, entry);
     await doc.update({ "system.scheduledActions": list });
@@ -224,6 +275,8 @@ export async function scheduleAction(
             triggerName: triggerName as string,
             payload,
             sceneUuid: sceneUuid || undefined,
+            // The schedule's host document is its predicate's owning Logic.
+            predicate: buildPredicate(predicate, doc.logic),
         });
     }
 }

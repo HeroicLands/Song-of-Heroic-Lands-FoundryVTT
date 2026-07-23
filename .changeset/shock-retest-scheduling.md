@@ -8,8 +8,10 @@
 ordinary shock is now **offered** (never auto-armed) a Re-Test reminder on the
 state's cadence, per the consent model — the being-level timing half of #556.
 
-- **Incapacitated** → an event-driven `turnEnd` schedule (#622): a `[Perform]`
-  Re-Test card is offered at the end of each combat turn.
+- **Incapacitated** → an event-driven `turnEnd` schedule (#622), gated by a
+  predicate (`combatant.actor.uuid === subscriberUuid`) to the victim's **own**
+  combat turn: a `[Perform]` Re-Test card is offered at the end of each of the
+  being's turns, not on every combatant's.
 - **Unconscious** → a time schedule ten minutes out.
 
 Entering shock (via an injury Shock Test) routes through the shared
