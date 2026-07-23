@@ -1644,7 +1644,7 @@
     "SOHL.Trauma.Morale.Note.Brave": "Brave — may act freely; +20 to Morale and Fear tests for five minutes.",
     "SOHL.Trauma.Morale.Note.Steady": "Steady — may take any action.",
     "SOHL.Trauma.Rally.Unresponsive": "Unresponsive — no allies rally; no further Rally Test for now.",
-    "SOHL.Trauma.Pall": "The Pall",
+    "SOHL.Trauma.Pall.DefaultSource": "The Pall",
     "SOHL.Trauma.Pall.Note.Catatonic": "Catatonic — unaware and unable to move, act, or defend.",
     "SOHL.Trauma.Pall.Note.Terrified": "Terrified — flees the source at full Move; no Counterstrike.",
     "SOHL.Trauma.Pall.Note.Disturbed": "Disturbed — must move out of the Pall.",

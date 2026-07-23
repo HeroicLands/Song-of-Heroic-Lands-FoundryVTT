@@ -1440,7 +1440,9 @@ export class BeingLogic<
                 await fvttCreateEmbeddedItems(this, [
                     {
                         type: ITEM_KIND.TRAUMA,
-                        name: sohl.i18n.localize("SOHL.Trauma.Pall"),
+                        name: sohl.i18n.localize(
+                            "SOHL.Trauma.Pall.DefaultSource",
+                        ),
                         system: {
                             subType: TRAUMA_SUBTYPE.PALL,
                             levelBase: psl,
