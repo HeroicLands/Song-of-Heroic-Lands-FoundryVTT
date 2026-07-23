@@ -2185,6 +2185,46 @@ export class BeingLogic<
     }
 
     /**
+     * Each body-part **role** the being can still use but is *impaired* in, mapped
+     * to the worst (most negative) −5 (minor) / −10 (serious) indefinite-impairment
+     * penalty among the usable parts carrying that role (#568). A test whose
+     * governing skill or attribute lists any of these roles in its
+     * `impairedByRoles` takes that penalty on its effective mastery level.
+     *
+     * Unusable parts are excluded — a grievous injury forces an automatic Critical
+     * Failure (see {@link unusableRoles}) rather than a numeric penalty — so the
+     * two views never both cover the same part.
+     *
+     * @returns Role → worst penalty (`≤ 0`); empty for an incorporeal being or one
+     *   with no impaired parts.
+     */
+    impairedRolePenalties(): Map<string, number> {
+        const parts = this.body?.structure?.parts ?? [];
+        if (parts.length === 0) return new Map();
+        const injuries = this.locationInjuries();
+        const penalties = new Map<string, number>();
+        for (const p of parts) {
+            const imp = bodyPartImpairment(
+                p.locations.map((l) => l.shortcode),
+                injuries,
+                p.permanentImpairment,
+                p.permanentlyUnusable,
+            );
+            if (!imp.usable || imp.impairment === 0) continue;
+            for (const role of p.roles) {
+                const prev = penalties.get(role);
+                penalties.set(
+                    role,
+                    prev === undefined ?
+                        imp.impairment
+                    :   Math.min(prev, imp.impairment),
+                );
+            }
+        }
+        return penalties;
+    }
+
+    /**
      * Populate the being's derived health (`system.health` and the qualitative
      * {@link healthBand}) from its Endurance, active injuries, body-part
      * impairment, and incapacitating statuses (#463). Runs in {@link finalize},

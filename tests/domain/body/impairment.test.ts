@@ -10,6 +10,7 @@ import {
     bodyPartImpairment,
     permanentImpairmentFor,
     testAutoCriticallyFails,
+    testImpairmentPenalty,
     BODY_PART_STATUS,
     BODY_PART_TIER,
 } from "@src/entity/body/impairment";
@@ -157,5 +158,47 @@ describe("testAutoCriticallyFails (#568)", () => {
             false,
         );
         expect(testAutoCriticallyFails(["manipulator"], new Set())).toBe(false);
+    });
+});
+
+describe("testImpairmentPenalty (#568)", () => {
+    it("returns the penalty of an impaired-but-usable role the test depends on", () => {
+        expect(
+            testImpairmentPenalty(
+                ["manipulator"],
+                new Map([["manipulator", -10]]),
+            ),
+        ).toBe(-10);
+    });
+
+    it("returns the worst (most negative) penalty across the test's roles", () => {
+        expect(
+            testImpairmentPenalty(
+                ["locomotor", "manipulator"],
+                new Map([
+                    ["manipulator", -5],
+                    ["locomotor", -10],
+                ]),
+            ),
+        ).toBe(-10);
+    });
+
+    it("ignores roles the test does not depend on", () => {
+        expect(
+            testImpairmentPenalty(
+                ["manipulator"],
+                new Map([["locomotor", -10]]),
+            ),
+        ).toBe(0);
+    });
+
+    it("is a no-op (0) with no roles or no impaired parts", () => {
+        expect(
+            testImpairmentPenalty(undefined, new Map([["manipulator", -5]])),
+        ).toBe(0);
+        expect(testImpairmentPenalty([], new Map([["manipulator", -5]]))).toBe(
+            0,
+        );
+        expect(testImpairmentPenalty(["manipulator"], new Map())).toBe(0);
     });
 });

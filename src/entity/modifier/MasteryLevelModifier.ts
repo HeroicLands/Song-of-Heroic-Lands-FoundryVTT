@@ -15,7 +15,10 @@ import { dialog, fvttGetTargetedTokens } from "@src/core/FoundryHelpers";
 import { registerKind } from "@src/utils/kindRegistry";
 import { entity, registerEntity } from "@src/entity/entityRegistry";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import { testAutoCriticallyFails } from "@src/entity/body/impairment";
+import {
+    testAutoCriticallyFails,
+    testImpairmentPenalty,
+} from "@src/entity/body/impairment";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import {
     reviveLimitedDescriptionTable,
@@ -388,9 +391,11 @@ export class MasteryLevelModifier extends ValueModifier {
         // cannot use auto-Critically-Fails (#568). Derived from the owning logic's
         // `impairedByRoles` and the being's unusable-part roles; a no-op for tests
         // with neither (e.g. a weapon strike mode, whose parent has no roles).
+        const impairedByRoles = (
+            this.parent?.data as { impairedByRoles?: string[] } | undefined
+        )?.impairedByRoles;
         const autoCriticalFail = testAutoCriticallyFails(
-            (this.parent?.data as { impairedByRoles?: string[] } | undefined)
-                ?.impairedByRoles,
+            impairedByRoles,
             (
                 this.parent?.actorLogic as
                     | { unusableRoles?: () => Set<string> }
@@ -398,6 +403,28 @@ export class MasteryLevelModifier extends ValueModifier {
                     | undefined
             )?.unusableRoles?.() ?? new Set<string>(),
         );
+
+        // If the test does not auto-fail, an impaired-but-usable part it depends on
+        // still penalizes it by −5 (minor) / −10 (serious) (#568) — the numeric
+        // counterpart to the auto-CF above. Applied as a mastery-level delta below
+        // (a no-op for tests with no roles or no impaired parts).
+        const impairmentPenalty =
+            autoCriticalFail ? 0 : (
+                testImpairmentPenalty(
+                    impairedByRoles,
+                    (
+                        this.parent?.actorLogic as
+                            | {
+                                  impairedRolePenalties?: () => Map<
+                                      string,
+                                      number
+                                  >;
+                              }
+                            | null
+                            | undefined
+                    )?.impairedRolePenalties?.() ?? new Map<string, number>(),
+                )
+            );
 
         const testResult: SuccessTestResult =
             context.scope.priorTestResult ??
@@ -424,6 +451,17 @@ export class MasteryLevelModifier extends ValueModifier {
             );
         if (!testResult) {
             throw new Error("Failed to create SuccessTestResult.");
+        }
+
+        // Fold in the impaired-but-usable body-part penalty (#568). Only on a
+        // freshly-created test — a resumed `priorTestResult` already carries it,
+        // so re-adding would double-apply.
+        if (!context.scope.priorTestResult && impairmentPenalty < 0) {
+            testResult.masteryLevelModifier.add(
+                "SOHL.Impairment",
+                "Impair",
+                impairmentPenalty,
+            );
         }
 
         // Situational inputs come from the pre-roll dialog interactively, or —

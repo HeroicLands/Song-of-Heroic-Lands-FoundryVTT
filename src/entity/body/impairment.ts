@@ -89,6 +89,36 @@ export function testAutoCriticallyFails(
 }
 
 /**
+ * The **indefinite-impairment penalty** a test suffers because it depends on a
+ * body part that is impaired but still usable (#568): the worst (most negative)
+ * −5 (minor) / −10 (serious) penalty across the roles the governing
+ * skill/attribute lists in its `impairedByRoles`.
+ *
+ * This is the numeric counterpart to {@link testAutoCriticallyFails}: a role made
+ * *unusable* by a grievous injury forces an automatic Critical Failure and
+ * contributes no number here (unusable roles are excluded from `rolePenalties`),
+ * so the two are mutually exclusive per role. A test with no impaired-by roles,
+ * or an actor with no impaired parts, suffers no penalty.
+ *
+ * @param impairedByRoles - The body-part roles the test depends on.
+ * @param rolePenalties - Each impaired-but-usable role mapped to its penalty
+ *   (a non-positive number).
+ * @returns The worst penalty among the test's impaired roles (`≤ 0`; `0` when none).
+ */
+export function testImpairmentPenalty(
+    impairedByRoles: readonly string[] | undefined,
+    rolePenalties: ReadonlyMap<string, number>,
+): number {
+    if (!impairedByRoles?.length || rolePenalties.size === 0) return 0;
+    let worst = 0;
+    for (const role of impairedByRoles) {
+        const penalty = rolePenalties.get(role);
+        if (penalty !== undefined) worst = Math.min(worst, penalty);
+    }
+    return worst;
+}
+
+/**
  * A body part's impairment **tier**, by magnitude (#470): `none` (0), `minor`
  * (−1…−5), `serious` (−6…−10), `grievous` (≤ −11). Injuries reach at most
  * `serious` (a grievous injury makes the part *unusable* rather than adding a

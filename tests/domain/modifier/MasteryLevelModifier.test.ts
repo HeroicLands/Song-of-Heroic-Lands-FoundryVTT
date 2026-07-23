@@ -227,6 +227,17 @@ describe("MasteryLevelModifier.successTest — headless / skipDialog (#551)", ()
         return speaker;
     }
 
+    /**
+     * Override the (getter-only) `actorLogic` on a parent logic so the #568
+     * impairment seam can read `unusableRoles()` / `impairedRolePenalties()`.
+     */
+    function stubActorLogic(parent: any, actorLogic: any): void {
+        Object.defineProperty(parent, "actorLogic", {
+            get: () => actorLogic,
+            configurable: true,
+        });
+    }
+
     /** A headless action context (skipDialog) with an owned speaker. */
     function ctx(overrides: Record<string, unknown> = {}): SohlActionContext {
         return new SohlActionContext({
@@ -280,6 +291,51 @@ describe("MasteryLevelModifier.successTest — headless / skipDialog (#551)", ()
         expect(
             (result as SuccessTestResult).masteryLevelModifier.effective,
         ).toBe(40);
+    });
+
+    it("applies the −5/−10 impaired-but-usable body-part penalty to the ML (#568)", async () => {
+        const parent = makeParent();
+        (parent.data as any).impairedByRoles = ["manipulator"];
+        stubActorLogic(parent, {
+            unusableRoles: () => new Set<string>(),
+            impairedRolePenalties: () => new Map([["manipulator", -10]]),
+        });
+        const result = await makeML(parent, 50).successTest(ctx());
+        expect(result).toBeTruthy();
+        // base 50 + impairment −10 → effective 40.
+        expect(
+            (result as SuccessTestResult).masteryLevelModifier.effective,
+        ).toBe(40);
+    });
+
+    it("does not apply an impairment penalty when the test names no impaired role (#568)", async () => {
+        const parent = makeParent();
+        (parent.data as any).impairedByRoles = ["locomotor"];
+        stubActorLogic(parent, {
+            unusableRoles: () => new Set<string>(),
+            impairedRolePenalties: () => new Map([["manipulator", -10]]),
+        });
+        const result = await makeML(parent, 50).successTest(ctx());
+        expect(
+            (result as SuccessTestResult).masteryLevelModifier.effective,
+        ).toBe(50);
+    });
+
+    it("forces a Critical Failure (no separate penalty) when the role is unusable (#568)", async () => {
+        const parent = makeParent();
+        (parent.data as any).impairedByRoles = ["manipulator"];
+        stubActorLogic(parent, {
+            unusableRoles: () => new Set<string>(["manipulator"]),
+            // A part sharing the role is unusable (auto-CF); another is only impaired.
+            impairedRolePenalties: () => new Map([["manipulator", -10]]),
+        });
+        const result = (await makeML(parent, 50).successTest(
+            ctx(),
+        )) as SuccessTestResult;
+        expect(result.isCritical).toBe(true);
+        expect(result.isSuccess).toBe(false);
+        // Auto-CF wins: the ML is not additionally reduced by the −10 penalty.
+        expect(result.masteryLevelModifier.effective).toBe(50);
     });
 
     it("posts the result to chat on success, but not when noChat is set", async () => {
