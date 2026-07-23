@@ -11,8 +11,11 @@ import {
     permanentImpairmentFor,
     testAutoCriticallyFails,
     testImpairmentPenalty,
+    requiredPartsAutoCriticallyFail,
+    requiredPartsImpairmentPenalty,
     BODY_PART_STATUS,
     BODY_PART_TIER,
+    type BodyPartImpairment,
 } from "@src/entity/body/impairment";
 
 /** A part with two locations, `pate` and `face`. */
@@ -200,5 +203,53 @@ describe("testImpairmentPenalty (#568)", () => {
             0,
         );
         expect(testImpairmentPenalty(["manipulator"], new Map())).toBe(0);
+    });
+});
+
+/** A {@link BodyPartImpairment} stub carrying only the fields these helpers read. */
+const part = (usable: boolean, impairment = 0): BodyPartImpairment =>
+    ({ usable, impairment }) as BodyPartImpairment;
+
+describe("requiredPartsAutoCriticallyFail (#628)", () => {
+    it("auto-fails when any required part is unusable", () => {
+        expect(requiredPartsAutoCriticallyFail([part(false)])).toBe(true);
+        // The gripping limb is fine, but the two-handed weapon's other limb is not.
+        expect(
+            requiredPartsAutoCriticallyFail([part(true, -5), part(false)]),
+        ).toBe(true);
+    });
+
+    it("does not auto-fail when every required part is usable", () => {
+        expect(
+            requiredPartsAutoCriticallyFail([part(true), part(true, -10)]),
+        ).toBe(false);
+    });
+
+    it("never auto-fails with no required parts", () => {
+        expect(requiredPartsAutoCriticallyFail([])).toBe(false);
+    });
+});
+
+describe("requiredPartsImpairmentPenalty (#628)", () => {
+    it("returns the penalty of an impaired-but-usable required part", () => {
+        expect(requiredPartsImpairmentPenalty([part(true, -5)])).toBe(-5);
+    });
+
+    it("returns the worst (most negative) penalty across the required parts", () => {
+        expect(
+            requiredPartsImpairmentPenalty([part(true, -5), part(true, -10)]),
+        ).toBe(-10);
+    });
+
+    it("ignores an unusable part (that is auto-CF, not a numeric penalty)", () => {
+        // The unusable part forces an auto-CF elsewhere; only the usable −5 counts.
+        expect(
+            requiredPartsImpairmentPenalty([part(false, 0), part(true, -5)]),
+        ).toBe(-5);
+    });
+
+    it("is a no-op (0) with no required parts or no impairment", () => {
+        expect(requiredPartsImpairmentPenalty([])).toBe(0);
+        expect(requiredPartsImpairmentPenalty([part(true, 0)])).toBe(0);
     });
 });

@@ -119,6 +119,51 @@ export function testImpairmentPenalty(
 }
 
 /**
+ * Whether a test **auto-Critically-Fails** because a body part it *specifically*
+ * requires — the limb(s) holding the weapon in a strike mode (#628) — is
+ * currently {@link BodyPartImpairment.usable | unusable}.
+ *
+ * The per-part counterpart to {@link testAutoCriticallyFails}: a weapon strike
+ * mode names its required limbs by count (`minParts`), not by role, so gating on
+ * the being-wide unusable-role set would be too coarse — an unusable *other* limb
+ * (e.g. the off-hand you are not gripping with) must not fail the test. This
+ * consumes the resolved impairment of exactly the required parts instead.
+ *
+ * @param requiredParts - The derived impairment of each body part the test
+ *   requires (empty when nothing is required — e.g. an unheld or natural weapon).
+ * @returns `true` when any required part is unusable.
+ */
+export function requiredPartsAutoCriticallyFail(
+    requiredParts: readonly BodyPartImpairment[],
+): boolean {
+    return requiredParts.some((p) => !p.usable);
+}
+
+/**
+ * The **indefinite-impairment penalty** a test suffers because a body part it
+ * *specifically* requires is impaired but still usable (#628): the worst (most
+ * negative) −5 (minor) / −10 (serious) penalty across the required parts.
+ *
+ * The per-part counterpart to {@link testImpairmentPenalty}. A required part that
+ * is *unusable* contributes no number — it forces an automatic Critical Failure
+ * via {@link requiredPartsAutoCriticallyFail} instead — so the two are mutually
+ * exclusive per part, mirroring the role-based pair.
+ *
+ * @param requiredParts - The derived impairment of each body part the test requires.
+ * @returns The worst penalty among the still-usable required parts (`≤ 0`; `0`
+ *   when none).
+ */
+export function requiredPartsImpairmentPenalty(
+    requiredParts: readonly BodyPartImpairment[],
+): number {
+    let worst = 0;
+    for (const p of requiredParts) {
+        if (p.usable) worst = Math.min(worst, p.impairment);
+    }
+    return worst;
+}
+
+/**
  * A body part's impairment **tier**, by magnitude (#470): `none` (0), `minor`
  * (−1…−5), `serious` (−6…−10), `grievous` (≤ −11). Injuries reach at most
  * `serious` (a grievous injury makes the part *unusable* rather than adding a

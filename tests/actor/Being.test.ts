@@ -1361,6 +1361,30 @@ describe("BeingLogic", () => {
         it("is empty for an incorporeal being (no body)", () => {
             expect(makeBeing().impairedRolePenalties().size).toBe(0);
         });
+
+        describe("bodyPartImpairments — per-part view (#628)", () => {
+            it("derives each given part's impairment, in order", () => {
+                const being = beingWithHands();
+                injure(being, "rhand", 2); // serious → impaired but usable (−10)
+                const parts = (being as any).body.structure.parts;
+                const [rhand, lfoot] = being.bodyPartImpairments(parts);
+                expect(rhand.usable).toBe(true);
+                expect(rhand.impairment).toBe(-10);
+                expect(lfoot.usable).toBe(true);
+                expect(lfoot.impairment).toBe(0);
+            });
+
+            it("marks a part with a grievous injury unusable", () => {
+                const being = beingWithHands();
+                injure(being, "rhand", 4); // grievous → unusable
+                const parts = (being as any).body.structure.parts;
+                expect(being.bodyPartImpairments(parts)[0].usable).toBe(false);
+            });
+
+            it("returns an empty array for no parts", () => {
+                expect(makeBeing().bodyPartImpairments([])).toEqual([]);
+            });
+        });
     });
 
     // Opposed-test resume moved off the actor onto SohlTokenDocumentLogic
