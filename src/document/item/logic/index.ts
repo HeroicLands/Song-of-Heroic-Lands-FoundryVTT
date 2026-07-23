@@ -27,7 +27,6 @@ export * from "./MysticalAbilityLogic";
 export * from "./ProjectileGearLogic";
 export * from "./SkillLogic";
 export * from "./SohlItemBaseLogic";
-export * from "./TraitLogic";
 export * from "./TraumaLogic";
 export * from "./WeaponGearLogic";
 export * from "./fatigue";

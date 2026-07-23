@@ -149,7 +149,7 @@ SoHL defines several **actor** and **item** types, each following the three-clas
 - [Type Catalog](../reference/type-catalog.md) — what each type is and how they interact.
 - The API reference — every type's classes, under **Documents → Actor** and **Documents → Item**.
 
-In short: **actors** model the entities in the world — individual beings and creatures, groups, structures, vehicles, and item-container assemblies. **Items** model the capabilities and possessions an actor carries — skills, traits, gear, afflictions and injuries, combat techniques, and mystical abilities.
+In short: **actors** model the entities in the world — individual beings and creatures, groups, structures, vehicles, and item-container assemblies. **Items** model the capabilities and possessions an actor carries — skills, gear, afflictions and injuries, traumas, and mystical abilities.
 
 ## Phase-batched lifecycle
 

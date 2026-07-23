@@ -16,7 +16,7 @@ folder: sYK1BozT9xFcinXK
 A Being is a single person or creature in the game world. This includes
 player characters, non-player characters (NPCs), monsters, and animals.
 Beings are the most detailed actor type in SoHL, with a full anatomy model,
-skills, traits, gear, and combat capabilities.
+skills, gear, traumas, and combat capabilities.
 
 Most of your interaction with the system will involve Beings.
 
@@ -26,7 +26,7 @@ See also: [Character Creation](user-guide/character-creation.md), [Combat Basics
 
 A Being can hold many types of items:
 
-- **Traits** — innate characteristics like Strength, Stamina, and Dexterity
+- **Attributes** — innate characteristics like Strength, Stamina, and Dexterity
 - **Skills** — trained abilities like Sword, Riding, or Stealth
 - **Gear** — weapons, armor, containers, miscellaneous equipment
 - **Afflictions** — diseases, poisons, curses, and other conditions
@@ -41,7 +41,7 @@ A Being can hold many types of items:
 The Being sheet is organized into several tabs:
 
 - **Facade** — portrait and description
-- **Profile** — attributes (traits with intensity "attribute"), other traits, and affiliations
+- **Profile** — attributes and affiliations
 - **Skills** — all skills grouped by category
 - **Gear** — carried and worn equipment, with encumbrance tracking
 - **Combat** — equipped weapons, armor, and combat-relevant information

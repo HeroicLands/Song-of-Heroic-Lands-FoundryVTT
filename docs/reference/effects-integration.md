@@ -39,7 +39,7 @@ This behavior is driven by two fields on `SohlActiveEffectDataModel`:
 - `scope`
     - `"this"` → apply changes to the document where the effect is embedded (item or actor).
     - `"actor"` → apply changes to the owning actor.
-    - `<itemKind>` (e.g. `"skill"`, `"trait"`, `"weapongear"`, etc.) → apply to every item of that kind on the owning actor, filtered by the `test` predicate. **Scope determines the EFFECT_KEY namespace shown in the changes UI**, so the set of available keys is always known ahead of time.
+    - `<itemKind>` (e.g. `"skill"`, `"trauma"`, `"weapongear"`, etc.) → apply to every item of that kind on the owning actor, filtered by the `test` predicate. **Scope determines the EFFECT_KEY namespace shown in the changes UI**, so the set of available keys is always known ahead of time.
 - `test`
     - Optional {@link sohl.entity.expr.SafeExpression}. When `scope` is an item-kind, this predicate narrows the matched items. Variable binding: `item`. Empty `test` matches every item of that kind.
 

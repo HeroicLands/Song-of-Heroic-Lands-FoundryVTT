@@ -222,7 +222,7 @@ export class TraumaLogic<
             );
             return;
         }
-        if (!injuryBand(this.data.levelBase)) {
+        if (!injuryBand(this.data.levelBase ?? 0)) {
             sohl.log.uiWarn(
                 sohl.i18n.localize("SOHL.Trauma.Treatment.AlreadyHealed"),
             );
@@ -340,7 +340,7 @@ export class TraumaLogic<
             );
             return null;
         }
-        const band = injuryBand(this.data.levelBase);
+        const band = injuryBand(this.data.levelBase ?? 0);
         if (!band) {
             sohl.log.uiWarn(
                 sohl.i18n.localize("SOHL.Trauma.Treatment.AlreadyHealed"),
@@ -348,7 +348,10 @@ export class TraumaLogic<
             return null;
         }
 
-        const req = requiredTreatment(this.data.aspect, band);
+        const req = requiredTreatment(
+            this.data.aspect ?? IMPACT_ASPECT.BLUNT,
+            band,
+        );
         const physicianMl =
             (
                 this.actorLogic?.getItemLogic(
@@ -412,7 +415,11 @@ export class TraumaLogic<
         // arm the blood-loss timer if it is not already bleeding.
         const bleeder =
             treatmentCausesBleeder(code, normSuccessLevel) ||
-            isBleederFromHealingRate(this.data.aspect, band, hr);
+            isBleederFromHealingRate(
+                this.data.aspect ?? IMPACT_ASPECT.BLUNT,
+                band,
+                hr,
+            );
         let bleederInterval: number | undefined;
         if (bleeder && !this.isBleeding) {
             const formula = String(
@@ -423,7 +430,13 @@ export class TraumaLogic<
             update["system.bloodLossAdvanceDurationBase"] = bleederInterval;
         }
 
-        if (isPermanentImpairmentEligible(this.data.aspect, band, hr)) {
+        if (
+            isPermanentImpairmentEligible(
+                this.data.aspect ?? IMPACT_ASPECT.BLUNT,
+                band,
+                hr,
+            )
+        ) {
             update["system.permanentImpairmentEligible"] = true;
         }
 
@@ -523,7 +536,7 @@ export class TraumaLogic<
                 elapsedCheckpoints(anchor, now, interval)
             :   [now];
 
-        let psy = this.data.levelBase;
+        let psy = this.data.levelBase ?? 0;
         let permanent = this.data.category === PSYCHE_PERMANENCE.PERMANENT;
         for (let i = 0; i < checkpoints.length && (psy > 0 || permanent); i++) {
             const sl = await this.rollWillTest(
@@ -591,7 +604,7 @@ export class TraumaLogic<
                 elapsedCheckpoints(anchor, now, interval)
             :   [now];
 
-        let as = this.data.levelBase;
+        let as = this.data.levelBase ?? 0;
         let psyGained = 0;
         for (let i = 0; i < checkpoints.length && as > 0; i++) {
             const sl = await this.rollWillTest(
@@ -659,7 +672,7 @@ export class TraumaLogic<
                 elapsedCheckpoints(anchor, now, interval)
             :   [now];
 
-        let psl = this.data.levelBase;
+        let psl = this.data.levelBase ?? 0;
         let faced = false;
         let unconscious = false;
         for (let i = 0; i < checkpoints.length && psl > 0 && !faced; i++) {
@@ -927,7 +940,7 @@ export class TraumaLogic<
     override initialize(): void {
         super.initialize();
         this.level = new entity.ValueModifier(this).setBase(
-            this.data.levelBase,
+            this.data.levelBase ?? 0,
         );
         this.healingRate = new entity.ValueModifier(
             {},
@@ -1062,7 +1075,7 @@ export class TraumaLogic<
         // Injury Healing Test at each elapsed checkpoint, in sequence (each roll
         // reduces the level the next one sees). Only injuries heal this way, and
         // only once treated and while not halted by an active infection.
-        let level = this.data.levelBase;
+        let level = this.data.levelBase ?? 0;
         let contractInfection = false;
         if (this.data.subType === TRAUMA_SUBTYPE.INJURY && this.isTreated) {
             for (
@@ -1098,7 +1111,7 @@ export class TraumaLogic<
         if (
             this.data.subType === TRAUMA_SUBTYPE.INJURY &&
             this.data.permanentImpairmentEligible &&
-            this.data.levelBase > 0 &&
+            (this.data.levelBase ?? 0) > 0 &&
             level === 0 &&
             this.data.contractDate != null
         ) {
@@ -1621,16 +1634,20 @@ export interface TraumaData<
     subType: TraumaSubType;
     /**
      * Sub-category within a subtype — e.g. a `fatigue` trauma's category is a
-     * `FATIGUE_CATEGORY` (windedness / weariness /
-     * weakness). Empty for subtypes with no sub-category.
+     * `FATIGUE_CATEGORY` (windedness / weariness / weakness), a psychological
+     * condition's is a `TRAUMA_PSYCOND_CATEGORY`, a physical condition's a
+     * `TRAUMA_PHYSCOND_CATEGORY`. `null` for subtypes with no sub-category.
      */
-    category: string;
-    /** Severity on a graduated scale: M1, S2-S3, G4-G5 */
-    levelBase: number;
+    category: string | null;
+    /**
+     * Severity on a graduated scale: M1, S2-S3, G4-G5. `null` for descriptive
+     * conditions that carry no level.
+     */
+    levelBase: number | null;
     /** Base rate of wound healing per time period; `null` until established. */
     healingRateBase: number | null;
-    /** Type of damage: Blunt, Edged, Piercing, or Fire */
-    aspect: ImpactAspect;
+    /** Type of damage: Blunt, Edged, Piercing, or Fire; `null` for non-injuries. */
+    aspect: ImpactAspect | null;
     /** World-time (seconds) at which the injury was contracted. */
     contractDate: number | null;
     /**
@@ -1666,10 +1683,10 @@ export interface TraumaData<
     infectable: boolean;
     /**
      * Shortcode of the body location on the being's body where this
-     * trauma occurred. Empty string means the trauma is not tied to a
-     * specific location (affects the whole body).
+     * trauma occurred. `null` means the trauma is not tied to a specific
+     * location (affects the whole body, or a descriptive condition).
      */
-    bodyLocationCode: string;
+    bodyLocationCode: string | null;
 }
 
 /**

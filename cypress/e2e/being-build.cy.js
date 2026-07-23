@@ -14,8 +14,8 @@
 /**
  * Manual character-build chain.
  *
- * Verifies that each category of embedded item (attributes, traits,
- * affiliations, skills) produces the expected logic-layer values when added
+ * Verifies that each category of embedded item (attributes, affiliations,
+ * skills) produces the expected logic-layer values when added
  * to a freshly created being, without importing any pre-built compendium
  * character. Each test is independent (afterEach cleanup) so failures are
  * isolated.
@@ -127,50 +127,6 @@ describe("being build — manual character-build chain", () => {
                 );
             });
         });
-    });
-
-    it("measured trait — score.effective equals the stored value", () => {
-        cy.createActor("being", { name: "Measured Trait Being" }).then(
-            (actor) => {
-                cy.createItemOn(actor, "trait", {
-                    name: "Measured Trait",
-                    system: { subType: "measured", score: { value: 7 } },
-                }).then(() => {
-                    cy.prepare(actor);
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        const t = a.items.find((i) => i.type === "trait");
-                        return {
-                            subType: t.system.subType,
-                            score: t.logic.score.effective,
-                        };
-                    }).should((r) => {
-                        expect(r.subType, "measured subtype persisted").to.eq(
-                            "measured",
-                        );
-                        expect(r.score, "measured score.effective = 7").to.eq(7);
-                    });
-                });
-            },
-        );
-    });
-
-    it("descriptive trait — score.effective is 0 (disabled)", () => {
-        cy.createActor("being", { name: "Descriptive Trait Being" }).then(
-            (actor) => {
-                cy.createItemOn(actor, "trait", {
-                    name: "Descriptive Trait",
-                    system: { subType: "physique" },
-                }).then(() => {
-                    cy.prepare(actor);
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        const t = a.items.find((i) => i.type === "trait");
-                        return t.logic.score.effective;
-                    }).should("eq", 0);
-                });
-            },
-        );
     });
 
     it("affiliation — name field persists after inline create (no compendium lookup)", () => {

@@ -15,11 +15,10 @@ import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { GearData } from "@src/document/item/logic/GearLogic";
 import type { MysticalAbilityData } from "@src/document/item/logic/MysticalAbilityLogic";
 import type { SkillData } from "@src/document/item/logic/SkillLogic";
-import type { TraitData } from "@src/document/item/logic/TraitLogic";
 import { ITEM_KIND, KIND_KEY } from "@src/utils/constants";
 
 /** System data of an item whose proficiency is tracked as a mastery level. */
-type MasteryLevelData = MysticalAbilityData | SkillData | TraitData;
+type MasteryLevelData = MysticalAbilityData | SkillData;
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import { getCtorForKind } from "@src/utils/kindRegistry";
 
@@ -1290,12 +1289,11 @@ export function isGearItem(item: SohlItem): item is SohlItem & {
 const MasteryLevelKinds = [
     ITEM_KIND.MYSTICALABILITY,
     ITEM_KIND.SKILL,
-    ITEM_KIND.TRAIT,
 ] as string[];
 
 /**
  * Type guard narrowing a `SohlItem` to a mastery-level item (mystical
- * ability, skill, or trait), exposing its `MasteryLevelData` system data.
+ * ability or skill), exposing its `MasteryLevelData` system data.
  *
  * @param item - The item to test.
  * @returns `true` if `item` is a mastery-level item kind.
@@ -1314,7 +1312,6 @@ const ItemSubTypeKinds = [
     ITEM_KIND.MYSTICALABILITY,
     ITEM_KIND.PROJECTILEGEAR,
     ITEM_KIND.SKILL,
-    ITEM_KIND.TRAIT,
 ] as string[];
 
 /**

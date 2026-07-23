@@ -202,19 +202,19 @@
   parentFolderId: vP5BufUGUOMMlPlB
   color: "#2F4F4F"
 
-- name: Traits
+- name: Trauma
   id: 3P28S6pewSJWziiQ
   parentFolderId: lTBlwwkZ8D1RuH7T
   color: "#8E44AD"
-- name: Personality
+- name: Psychological
   id: 1zRbsasdeUFmPhPZ
   parentFolderId: 3P28S6pewSJWziiQ
   color: "#6A1B9A"
-- name: Major_Disorders
+- name: Disorders
   id: ECrcBb9CUCMX9JeJ
   parentFolderId: 1zRbsasdeUFmPhPZ
   color: "#800000"
-- name: Minor_Traits
+- name: Quirks
   id: SpZzOv4eOwtdsMMo
   parentFolderId: 1zRbsasdeUFmPhPZ
   color: "#DAA520"
@@ -222,7 +222,7 @@
   id: 0eAg97lKuZbhIoZW
   parentFolderId: 1zRbsasdeUFmPhPZ
   color: "#4B0082"
-- name: Physique
+- name: Physical
   id: 4h8qyMcGHlkrfN1g
   parentFolderId: 3P28S6pewSJWziiQ
   color: "#B22222"

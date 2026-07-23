@@ -26,7 +26,7 @@ SoHL ships with these compendium packs:
 ## People & Creatures
 
 Contains pre-built Beings — characters, NPCs, and creatures ready to use.
-Each Being comes fully equipped with traits, skills, body structure, and
+Each Being comes fully equipped with attributes, skills, body structure, and
 sometimes gear.
 
 **Key entries:**
@@ -46,7 +46,7 @@ Contains pre-built Vehicle and Structure actors.
 
 Contains items that define character capabilities:
 
-- **Traits** — attribute definitions (Strength, Stamina, etc.) and other
+- **Attributes** — attribute definitions (Strength, Stamina, etc.) and other
   innate characteristics
 - **Skills** — the full skill list with base formulas and categories
 - **Body Structure** — body zones, body parts, and body locations that
@@ -101,7 +101,7 @@ There are several ways to get compendium content into your world:
 
 You can drag compendium items directly onto actor sheets without importing
 them to the world first. This is the most common workflow for adding gear,
-skills, or traits to a character.
+skills, or attributes to a character.
 
 # Tips {#compendium-tips}
 

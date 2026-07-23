@@ -46,7 +46,7 @@ A combat exchange flows through these stages:
    (hit location via BodyStructure, protection per ImpactAspect)
 ```
 
-Non-combat tests (skill checks, trait tests) use steps 1-2 only, producing a `SuccessTestResult` directly.
+Non-combat tests (skill checks, attribute tests) use steps 1-2 only, producing a `SuccessTestResult` directly.
 
 ### Automated-combat invariants (enforced before step 1)
 
