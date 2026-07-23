@@ -27,6 +27,7 @@ import {
 } from "@src/utils/constants";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import { BodyPart } from "@src/entity/body/BodyPart";
+import type { BodyPartImpairment } from "@src/entity/body/impairment";
 import { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 
@@ -85,6 +86,33 @@ export abstract class GearLogic<
                 return heldItem !== undefined && heldItem.id === this.id;
             }) ?? []
         );
+    }
+
+    /**
+     * The derived impairment of the body part(s) currently holding this item —
+     * the per-part input to a held-weapon strike mode's impairment gating (#628).
+     * A weapon strike mode names its required limbs by count (`minParts`), not by
+     * role, so this resolves the *specific* holding limbs (via {@link heldBy}) and
+     * scores each through the being's body-part impairment. When any holding limb
+     * is unusable, a strike-mode test auto-Critically-Fails; an impaired-but-usable
+     * limb penalizes the mode's attack/defense mastery level by −5/−10 (applied at
+     * {@link sohl.entity.modifier.MasteryLevelModifier.successTest}).
+     *
+     * Empty when nothing holds the item (an unheld or natural weapon) or the actor
+     * has no body from which to derive per-part impairment.
+     *
+     * @returns The impairment of each holding part, in {@link heldBy} order.
+     */
+    get heldLimbImpairments(): BodyPartImpairment[] {
+        const being = this.actorLogic as
+            | {
+                  bodyPartImpairments?: (
+                      parts: readonly BodyPart[],
+                  ) => BodyPartImpairment[];
+              }
+            | null
+            | undefined;
+        return being?.bodyPartImpairments?.(this.heldBy) ?? [];
     }
 
     /* --------------------------------------------- */

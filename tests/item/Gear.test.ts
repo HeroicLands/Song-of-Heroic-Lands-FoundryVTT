@@ -307,6 +307,59 @@ describe("GearLogic (via MiscGearLogic)", () => {
         });
     });
 
+    describe("heldLimbImpairments (#628)", () => {
+        const GEAR_ID = "item0000000mock";
+
+        /**
+         * A gear logic whose being holds it in the given parts. `bpi` stands in
+         * for {@link BeingLogic.bodyPartImpairments}; when omitted the being
+         * cannot derive per-part impairment (an incorporeal actor).
+         */
+        function makeGearHeldBy(
+            heldItemIds: Array<string | null>,
+            bpi?: (parts: readonly any[]) => any[],
+        ) {
+            const actor = makeMockActor();
+            const parts = heldItemIds.map((id, i) => ({
+                heldItem: id ? { id } : undefined,
+                index: i,
+            }));
+            const being: any = { body: { structure: { parts } } };
+            if (bpi) being.bodyPartImpairments = bpi;
+            actor.logic = being;
+            const logic = makeGear({}, { actor, id: GEAR_ID });
+            logic.initialize();
+            return { logic };
+        }
+
+        it("returns each holding part's impairment, resolved via the being", () => {
+            // A realistic stub: one impairment per part passed in.
+            const bpi = vi.fn((parts: readonly any[]) =>
+                parts.map(() => ({ usable: true, impairment: -5 })),
+            );
+            const { logic } = makeGearHeldBy([GEAR_ID, null], bpi);
+            expect(logic.heldLimbImpairments).toEqual([
+                { usable: true, impairment: -5 },
+            ]);
+            // Derives from the holding part only (heldBy), not every body part.
+            expect(bpi).toHaveBeenCalledTimes(1);
+            expect(bpi.mock.calls[0][0]).toHaveLength(1);
+        });
+
+        it("is empty when nothing holds the item", () => {
+            const bpi = vi.fn((parts: readonly any[]) =>
+                parts.map(() => ({ usable: true, impairment: -5 })),
+            );
+            const { logic } = makeGearHeldBy([null, null], bpi);
+            expect(logic.heldLimbImpairments).toEqual([]);
+        });
+
+        it("is empty when the actor cannot derive part impairment", () => {
+            const { logic } = makeGearHeldBy([GEAR_ID]); // no bodyPartImpairments
+            expect(logic.heldLimbImpairments).toEqual([]);
+        });
+    });
+
     describe("array update helpers", () => {
         it("addSharedCohortUpdate - appends a new cohort id", () => {
             const logic = makeGear({ sharedWithCohortIds: ["aaa"] });

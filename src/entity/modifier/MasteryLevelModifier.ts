@@ -18,6 +18,9 @@ import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     testAutoCriticallyFails,
     testImpairmentPenalty,
+    requiredPartsAutoCriticallyFail,
+    requiredPartsImpairmentPenalty,
+    type BodyPartImpairment,
 } from "@src/entity/body/impairment";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import {
@@ -394,7 +397,7 @@ export class MasteryLevelModifier extends ValueModifier {
         const impairedByRoles = (
             this.parent?.data as { impairedByRoles?: string[] } | undefined
         )?.impairedByRoles;
-        const autoCriticalFail = testAutoCriticallyFails(
+        const roleAutoCriticalFail = testAutoCriticallyFails(
             impairedByRoles,
             (
                 this.parent?.actorLogic as
@@ -404,25 +407,46 @@ export class MasteryLevelModifier extends ValueModifier {
             )?.unusableRoles?.() ?? new Set<string>(),
         );
 
+        // A weapon strike mode names no roles; it depends on the *specific* limb(s)
+        // holding it (#628). If any required limb is unusable the test likewise
+        // auto-Critically-Fails; the impairment of each holding limb is exposed by
+        // the parent gear logic. A no-op for a parent that holds nothing (a skill,
+        // attribute, or unheld item → empty array).
+        const requiredLimbImpairments: BodyPartImpairment[] =
+            (
+                this.parent as
+                    | { heldLimbImpairments?: BodyPartImpairment[] }
+                    | null
+                    | undefined
+            )?.heldLimbImpairments ?? [];
+        const autoCriticalFail =
+            roleAutoCriticalFail ||
+            requiredPartsAutoCriticallyFail(requiredLimbImpairments);
+
         // If the test does not auto-fail, an impaired-but-usable part it depends on
-        // still penalizes it by −5 (minor) / −10 (serious) (#568) — the numeric
-        // counterpart to the auto-CF above. Applied as a mastery-level delta below
-        // (a no-op for tests with no roles or no impaired parts).
+        // still penalizes it by −5 (minor) / −10 (serious) — the numeric counterpart
+        // to the auto-CF above, from either the role-gated parts (#568) or the held
+        // limbs (#628). The worst (most negative) of the two applies, never their
+        // sum. A no-op for tests with no roles/limbs or no impaired parts.
         const impairmentPenalty =
             autoCriticalFail ? 0 : (
-                testImpairmentPenalty(
-                    impairedByRoles,
-                    (
-                        this.parent?.actorLogic as
-                            | {
-                                  impairedRolePenalties?: () => Map<
-                                      string,
-                                      number
-                                  >;
-                              }
-                            | null
-                            | undefined
-                    )?.impairedRolePenalties?.() ?? new Map<string, number>(),
+                Math.min(
+                    testImpairmentPenalty(
+                        impairedByRoles,
+                        (
+                            this.parent?.actorLogic as
+                                | {
+                                      impairedRolePenalties?: () => Map<
+                                          string,
+                                          number
+                                      >;
+                                  }
+                                | null
+                                | undefined
+                        )?.impairedRolePenalties?.() ??
+                            new Map<string, number>(),
+                    ),
+                    requiredPartsImpairmentPenalty(requiredLimbImpairments),
                 )
             );
 

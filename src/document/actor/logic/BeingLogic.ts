@@ -80,8 +80,10 @@ import {
 } from "@src/document/actor/logic/health";
 import {
     bodyPartImpairment,
+    type BodyPartImpairment,
     type LocationInjury,
 } from "@src/entity/body/impairment";
+import type { BodyPart } from "@src/entity/body/BodyPart";
 import type { TraumaLogic } from "@src/document/item/logic/TraumaLogic";
 import type { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
 import {
@@ -2222,6 +2224,32 @@ export class BeingLogic<
             }
         }
         return penalties;
+    }
+
+    /**
+     * The derived {@link BodyPartImpairment} of each given body part — the
+     * per-part view behind the held-limb gating for weapon
+     * strike modes (#628), as opposed to the role-aggregated
+     * {@link unusableRoles} / {@link impairedRolePenalties}. Each part is scored
+     * against the being's active injuries (only its own locations match) plus its
+     * permanent impairment/unusable flags, so a caller passes the being's own
+     * parts — e.g. the limbs holding a weapon, from
+     * {@link sohl.document.item.logic.GearLogic.heldBy}.
+     *
+     * @param parts - The body parts to derive impairment for.
+     * @returns One impairment per input part, in order (empty when `parts` is empty).
+     */
+    bodyPartImpairments(parts: readonly BodyPart[]): BodyPartImpairment[] {
+        if (parts.length === 0) return [];
+        const injuries = this.locationInjuries();
+        return parts.map((p) =>
+            bodyPartImpairment(
+                p.locations.map((l) => l.shortcode),
+                injuries,
+                p.permanentImpairment,
+                p.permanentlyUnusable,
+            ),
+        );
     }
 
     /**

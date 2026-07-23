@@ -338,6 +338,63 @@ describe("MasteryLevelModifier.successTest — headless / skipDialog (#551)", ()
         expect(result.masteryLevelModifier.effective).toBe(50);
     });
 
+    it("penalizes the ML by an impaired-but-usable held limb (#628)", async () => {
+        // A weapon names no impairedByRoles; instead its parent exposes the
+        // impairment of the limb(s) holding it. A −10 (serious) usable limb.
+        const parent = makeParent();
+        (parent as any).heldLimbImpairments = [
+            { usable: true, impairment: -10 },
+        ];
+        const result = await makeML(parent, 50).successTest(ctx());
+        expect(result).toBeTruthy();
+        // base 50 + held-limb impairment −10 → effective 40.
+        expect(
+            (result as SuccessTestResult).masteryLevelModifier.effective,
+        ).toBe(40);
+    });
+
+    it("forces a Critical Failure when a required held limb is unusable (#628)", async () => {
+        const parent = makeParent();
+        (parent as any).heldLimbImpairments = [
+            { usable: false, impairment: 0 },
+        ];
+        const result = (await makeML(parent, 50).successTest(
+            ctx(),
+        )) as SuccessTestResult;
+        expect(result.isCritical).toBe(true);
+        expect(result.isSuccess).toBe(false);
+        // Auto-CF wins: the ML is not additionally reduced.
+        expect(result.masteryLevelModifier.effective).toBe(50);
+    });
+
+    it("takes the worst of the role penalty and the held-limb penalty (#628)", async () => {
+        // A combat technique could carry both a role dependency and a held limb;
+        // the worst (most negative) of the two applies, never their sum.
+        const parent = makeParent();
+        (parent.data as any).impairedByRoles = ["manipulator"];
+        stubActorLogic(parent, {
+            unusableRoles: () => new Set<string>(),
+            impairedRolePenalties: () => new Map([["manipulator", -5]]),
+        });
+        (parent as any).heldLimbImpairments = [
+            { usable: true, impairment: -10 },
+        ];
+        const result = await makeML(parent, 50).successTest(ctx());
+        // base 50 + worst(−5, −10) = −10 → effective 40 (not −15).
+        expect(
+            (result as SuccessTestResult).masteryLevelModifier.effective,
+        ).toBe(40);
+    });
+
+    it("is a no-op when the parent exposes no held limbs (#628)", async () => {
+        const parent = makeParent();
+        (parent as any).heldLimbImpairments = [];
+        const result = await makeML(parent, 50).successTest(ctx());
+        expect(
+            (result as SuccessTestResult).masteryLevelModifier.effective,
+        ).toBe(50);
+    });
+
     it("posts the result to chat on success, but not when noChat is set", async () => {
         await makeML(makeParent()).successTest(ctx());
         expect(toChatSpy).toHaveBeenCalledTimes(1);

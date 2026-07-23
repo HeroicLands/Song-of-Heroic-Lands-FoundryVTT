@@ -132,9 +132,21 @@ since an unusable part contributes no number). In
 (the pure {@link testAutoCriticallyFails}); otherwise the worst matching −5/−10
 penalty is folded into its effective mastery level (the pure
 {@link testImpairmentPenalty}). Both are strict no-ops for a test with no
-`impairedByRoles` or an actor with no impaired parts. Weapon strike modes name
-required limbs by _count_ (`minParts`), not by role, so this role-based gating does
-not yet reach them — that variant is a follow-up.
+`impairedByRoles` or an actor with no impaired parts.
+
+**Weapon strike modes gate on the _specific_ held limb, not a role (#628).** A
+strike mode names its required limbs by _count_ (`minParts`), so gating on the
+being-wide role set would be too coarse — an unusable off-hand you are not gripping
+with must not fail the roll. Instead `GearLogic.heldLimbImpairments` resolves the
+part(s) actually holding the weapon (via `heldBy`) and scores each through
+`being.bodyPartImpairments(parts)` (the per-part twin of the role views). In the
+same `successTest` seam, an **unusable** held limb forces a Critical Failure and an
+impaired-but-usable one folds its worst −5/−10 into the mastery level — via the pure
+{@link requiredPartsAutoCriticallyFail} / {@link requiredPartsImpairmentPenalty},
+the per-part counterparts of the role helpers. When a test is gated on both a role
+and a held limb, the worst of the two applies, never their sum. Natural-weapon
+(combat-technique) modes still gate through their skill's `impairedByRoles`; a
+per-part link from a natural weapon to its body part remains a follow-up.
 
 Impairment drives **being health** (`deriveHealth`,
 `src/document/actor/logic/health.ts`) — a banded assessment, not a point pool
