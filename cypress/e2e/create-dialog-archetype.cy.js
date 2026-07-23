@@ -26,8 +26,10 @@ describe("Create dialog: archetype seeding (#604)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
 
-    it("Create → Being with the default archetype yields a populated being", () => {
+    it("Create → Being with the default archetype yields a populated being; blank Shortcode defaults to the archetype's (#643)", () => {
         cy.foundry((win) => {
+            // A typed Name overrides the archetype's; Shortcode is left at its
+            // archetype default.
             win.__created = win.CONFIG.Actor.documentClass.createDialog(
                 { name: tagName("Archetype Being") },
                 {},
@@ -44,6 +46,7 @@ describe("Create dialog: archetype seeding (#604)", () => {
         cy.foundry((win) =>
             win.__created.then((doc) => ({
                 id: doc.id,
+                name: doc.name,
                 bodyParts: doc.system?.body?.structure?.parts?.length ?? 0,
                 attributes: doc.items.filter((i) => i.type === "attribute")
                     .length,
@@ -59,8 +62,71 @@ describe("Create dialog: archetype seeding (#604)", () => {
             );
             // Instantiation strips the archetype marker.
             expect(r.archetypeFlag, "docArchetype stripped").to.be.undefined;
-            // The dialog's shortcode (derived from the name) overlays the source.
-            expect(r.shortcode, "overlaid shortcode").to.not.eq("basicfolk");
+            // The typed Name wins…
+            expect(r.name, "typed name overrides").to.eq(
+                tagName("Archetype Being"),
+            );
+            // …but a blank Shortcode now defaults to the archetype's own (#643),
+            // subject only to uniqueness bumping.
+            expect(r.shortcode, "archetype shortcode default").to.match(
+                /^basicfolk\d*$/,
+            );
+        });
+    });
+
+    it("archetype-first: the default archetype pre-fills Name and Shortcode (#643)", () => {
+        cy.foundry((win) => {
+            win.__prefill = win.CONFIG.Actor.documentClass.createDialog(
+                {},
+                {},
+                {},
+            );
+            return null;
+        });
+        // With no pre-seeded name, the fields default to the chosen archetype's
+        // own name / shortcode (Basic Folk). Read them off the *rendered* dialog,
+        // then override the Name with a tagged one so cleanupWorld can sweep the
+        // created document.
+        cy.window({ log: false }).should((win) => {
+            const dlg = Array.from(win.foundry.applications.instances.values())
+                .reverse()
+                .find(
+                    (app) =>
+                        /dialog/i.test(app.constructor.name) &&
+                        app.rendered &&
+                        app.element &&
+                        app.element.querySelector("#archetype-select"),
+                );
+            expect(dlg, "open create dialog").to.exist;
+            const el = dlg.element;
+            expect(
+                el.querySelector('input[name="name"]').value,
+                "Name pre-filled from archetype",
+            ).to.eq("Basic Folk");
+            expect(
+                el.querySelector('input[name="shortcode"]').value,
+                "Shortcode pre-filled from archetype",
+            ).to.match(/^basicfolk\d*$/);
+            // Rename so the artifact is tagged; a native input event marks the
+            // field edited so the default no longer clobbers it.
+            const nameInput = el.querySelector('input[name="name"]');
+            nameInput.value = tagName("Prefilled Being");
+            nameInput.dispatchEvent(new win.Event("input", { bubbles: true }));
+        });
+        cy.submitDialog("create");
+        cy.foundry((win) =>
+            win.__prefill.then((doc) => ({
+                name: doc.name,
+                shortcode: doc.system?.shortcode,
+            })),
+        ).should((r) => {
+            expect(r.name, "renamed to tagged").to.eq(
+                tagName("Prefilled Being"),
+            );
+            // Shortcode was left at the archetype default.
+            expect(r.shortcode, "archetype shortcode default").to.match(
+                /^basicfolk\d*$/,
+            );
         });
     });
 
