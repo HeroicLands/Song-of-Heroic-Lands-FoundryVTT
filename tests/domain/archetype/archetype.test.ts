@@ -16,6 +16,7 @@ import {
     ARCHETYPE_TIER,
     buildArchetypeOptions,
     resolveArchetypes,
+    resolveCreateIdentity,
     stripDocArchetypeFlag,
     type ArchetypeCandidate,
 } from "@src/entity/archetype/archetype";
@@ -226,6 +227,100 @@ describe("buildArchetypeOptions", () => {
 
     it("defaults to (none) when no archetype exists", () => {
         expect(buildArchetypeOptions([], "(none)").defaultValue).toBe("");
+    });
+});
+
+describe("resolveCreateIdentity — archetype-first defaults (#643)", () => {
+    const BROADSWORD = { name: "Broadsword", shortcode: "brdswd" };
+
+    it("defaults Name and Shortcode from the chosen archetype when both blank", () => {
+        expect(
+            resolveCreateIdentity(
+                "",
+                "",
+                BROADSWORD,
+                "New Weapon",
+                "weapongear",
+            ),
+        ).toEqual({ name: "Broadsword", shortcodeBase: "brdswd" });
+    });
+
+    it("a user-typed Name overrides the archetype default (shortcode still archetype's)", () => {
+        expect(
+            resolveCreateIdentity(
+                "My Blade",
+                "",
+                BROADSWORD,
+                "New Weapon",
+                "weapongear",
+            ),
+        ).toEqual({ name: "My Blade", shortcodeBase: "brdswd" });
+    });
+
+    it("a user-typed Shortcode overrides the archetype default (and is slugified)", () => {
+        expect(
+            resolveCreateIdentity(
+                "",
+                "My Code!",
+                BROADSWORD,
+                "New Weapon",
+                "weapongear",
+            ),
+        ).toEqual({ name: "Broadsword", shortcodeBase: "mycode" });
+    });
+
+    it("falls back to the archetype name for the shortcode when the archetype shortcode is blank", () => {
+        expect(
+            resolveCreateIdentity(
+                "",
+                "",
+                { name: "Round Shield", shortcode: "" },
+                "New Shield",
+                "shieldgear",
+            ),
+        ).toEqual({ name: "Round Shield", shortcodeBase: "roundshield" });
+    });
+
+    it("(none): Name defaults to the class default and Shortcode derives from it", () => {
+        expect(
+            resolveCreateIdentity(
+                "",
+                "",
+                undefined,
+                "New Weapon",
+                "weapongear",
+            ),
+        ).toEqual({ name: "New Weapon", shortcodeBase: "newweapon" });
+    });
+
+    it("(none) with a typed Name: Shortcode derives from the typed name", () => {
+        expect(
+            resolveCreateIdentity(
+                "Halberd",
+                "",
+                undefined,
+                "New Weapon",
+                "weapongear",
+            ),
+        ).toEqual({ name: "Halberd", shortcodeBase: "halberd" });
+    });
+
+    it("(none) with a blank class default and no name falls back to the type token", () => {
+        expect(
+            resolveCreateIdentity("", "", undefined, "", "weapongear"),
+        ).toEqual({ name: "weapongear", shortcodeBase: "weapongear" });
+    });
+
+    it("trims surrounding whitespace on typed values", () => {
+        expect(
+            resolveCreateIdentity(
+                "  Spear  ",
+                "  spr  ",
+                BROADSWORD,
+                "New Weapon",
+                "weapongear",
+            ),
+        ).toEqual({ name: "Spear", shortcodeBase: "spr" });
     });
 });
 

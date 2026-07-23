@@ -27,8 +27,10 @@ import {
 import {
     buildArchetypeOptions,
     resolveArchetypes,
+    resolveCreateIdentity,
     stripDocArchetypeFlag,
     type ArchetypeCandidate,
+    type ArchetypeIdentity,
 } from "@src/entity/archetype/archetype";
 import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
@@ -236,29 +238,74 @@ export async function sohlCreateDialog(
             const shortcodeInput = element.querySelector<HTMLInputElement>(
                 'input[name="shortcode"]',
             );
+            const archetypeSelect =
+                element.querySelector<HTMLSelectElement>("#archetype-select");
+            const subtypeSelect =
+                element.querySelector<HTMLSelectElement>("#subtype-select");
 
-            // Keep the shortcode in sync with the name (and the selected type's
-            // uniqueness scope) until the user edits the shortcode by hand.
+            // Archetype-first defaulting (#643): the Name / Shortcode fields are
+            // optional and pre-fill from the chosen archetype's own name /
+            // shortcode, staying live until the user edits them by hand. A
+            // pre-seeded `data.name` counts as an edit so it is never clobbered.
+            let nameEdited = !!data.name;
             let shortcodeEdited = false;
-            const syncShortcode = () => {
-                if (!shortcodeInput || shortcodeEdited) return;
+
+            // The currently-selected archetype's identity, resolved live from the
+            // discovered candidates for the current (type, subType) — `undefined`
+            // for the **(none)** blank-slate choice.
+            const selectedArchetype = (): ArchetypeIdentity | undefined => {
+                const uuid = archetypeSelect?.value;
+                if (!uuid) return undefined;
                 const curType = typeSelect?.value || type;
-                const base = slugifyShortcode(nameInput?.value ?? "");
-                shortcodeInput.value =
-                    base ?
-                        uniqueShortcode(
-                            base,
-                            takenShortcodesFor(documentName, parent, curType),
-                        )
-                    :   "";
+                const curSubType = subtypeSelect?.value ?? subType;
+                const winner = resolveArchetypes(
+                    archetypeCandidates,
+                    curType,
+                    curSubType,
+                ).find((c) => c.uuid === uuid);
+                return winner ?
+                        { name: winner.name, shortcode: winner.shortcode }
+                    :   undefined;
             };
+
+            // Recompute the (un-edited) Name and Shortcode defaults from the
+            // current archetype selection and uniqueness scope. With an archetype
+            // chosen, Name mirrors it and Shortcode is its own (uniquified); with
+            // **(none)** chosen, Name is left blank (its placeholder shows the
+            // class default) and Shortcode derives from whatever Name holds.
+            const recomputeDefaults = () => {
+                const curType = typeSelect?.value || type;
+                const arch = selectedArchetype();
+                if (nameInput && !nameEdited) {
+                    nameInput.value = arch ? arch.name : "";
+                }
+                if (shortcodeInput && !shortcodeEdited) {
+                    const base =
+                        arch ?
+                            arch.shortcode || slugifyShortcode(arch.name)
+                        :   slugifyShortcode(nameInput?.value ?? "");
+                    shortcodeInput.value =
+                        base ?
+                            uniqueShortcode(
+                                base,
+                                takenShortcodesFor(
+                                    documentName,
+                                    parent,
+                                    curType,
+                                ),
+                            )
+                        :   "";
+                }
+            };
+
+            nameInput?.addEventListener("input", () => {
+                nameEdited = true;
+                recomputeDefaults();
+            });
             shortcodeInput?.addEventListener("input", () => {
                 shortcodeEdited = true;
             });
-            nameInput?.addEventListener("input", syncShortcode);
-
-            const subtypeSelect =
-                element.querySelector<HTMLSelectElement>("#subtype-select");
+            archetypeSelect?.addEventListener("change", recomputeDefaults);
 
             // Re-derive the archetype list from the current (type, subType), and
             // reset the selection to the new default when the current choice no
@@ -274,22 +321,27 @@ export async function sohlCreateDialog(
                 );
             };
 
-            subtypeSelect?.addEventListener("change", syncArchetypes);
+            subtypeSelect?.addEventListener("change", () => {
+                syncArchetypes();
+                recomputeDefaults();
+            });
 
             if (typeSelect) {
                 typeSelect.addEventListener("change", (ev) => {
                     const chosen = (ev.target as HTMLSelectElement).value;
                     repopulateSubtypes(element, documentName, chosen);
-                    syncShortcode();
                     syncArchetypes();
+                    recomputeDefaults();
                 });
                 // Ensure the subtype control matches the currently-selected type
                 // on first render too (covers the pre-seeded-and-locked case).
                 repopulateSubtypes(element, documentName, typeSelect.value);
             }
             // Align archetypes with the (possibly repopulated) subtype on first
-            // render too.
+            // render, then seed the Name / Shortcode defaults from the initial
+            // (default) archetype selection.
             syncArchetypes();
+            recomputeDefaults();
         },
         callback: (formData: PlainObject) => {
             const chosenType =
@@ -320,20 +372,37 @@ export async function sohlCreateDialog(
     type = result.type;
     subType = result.subType;
 
-    // Finalize the `(type, shortcode)` key: derive from the name (then the type)
-    // when left blank, and make it unique in scope. `_preCreate` is the backstop,
-    // but resolving it here keeps the human create flow off the reject path.
-    let shortcode = slugifyShortcode(result.shortcode || result.name);
-    if (!shortcode) {
-        shortcode = slugifyShortcode(cls.defaultName?.({ type }) ?? "") || type;
-    }
-    shortcode = uniqueShortcode(
-        shortcode,
-        takenShortcodesFor(documentName, parent, type),
+    // Resolve the final Name and Shortcode base under the archetype-first rules
+    // (#643): a blank Name/Shortcode defaults to the chosen archetype's own
+    // name/shortcode; **(none)** falls back to the class default and a
+    // name-derived shortcode. The archetype's identity comes from the discovered
+    // candidate list (still in scope) so a field cleared back to blank still
+    // resolves to the archetype's value.
+    const archetypeInfo: ArchetypeIdentity | undefined =
+        result.archetype ?
+            (() => {
+                const c = archetypeCandidates.find(
+                    (a) => a.uuid === result.archetype,
+                );
+                return c ? { name: c.name, shortcode: c.shortcode } : undefined;
+            })()
+        :   undefined;
+
+    const { name: chosenName, shortcodeBase } = resolveCreateIdentity(
+        result.name,
+        result.shortcode,
+        archetypeInfo,
+        cls.defaultName?.({ type }) ?? "",
+        type,
     );
 
-    const chosenName =
-        result.name || (cls.defaultName?.({ type }) ?? "New Item");
+    // Make the `(type, shortcode)` key unique in scope. `_preCreate` is the
+    // backstop, but resolving it here keeps the human create flow off the reject
+    // path.
+    const shortcode = uniqueShortcode(
+        shortcodeBase,
+        takenShortcodesFor(documentName, parent, type),
+    );
 
     let createData: PlainObject;
     if (result.archetype) {

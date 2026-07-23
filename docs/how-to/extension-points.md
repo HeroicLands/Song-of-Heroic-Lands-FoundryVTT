@@ -249,6 +249,18 @@ to the top winner (or **(none)** when the type has no archetype). The Foundry
 boundary that gathers candidates from the world directory and every matching
 compendium pack is `fvttDiscoverArchetypes` in `FoundryHelpers.ts`.
 
+**Archetype-first defaulting (Name/Shortcode).** The dialog is laid out
+**Type → SubType → Archetype → Name → Shortcode**, with Name and Shortcode
+**optional**. Selecting an archetype pre-fills Name and Shortcode from its own
+`name` / `system.shortcode` (live, until you type into a field); leaving them
+blank creates a document that matches the archetype — its shortcode _is_ the
+archetype's, subject only to uniqueness bumping (`broadsword`, `broadsword2`, …).
+Choosing **(none)** keeps the blank-slate behavior: Name defaults to the class
+`defaultName` and the Shortcode derives from the Name. The resolution rules are
+the Foundry-free, unit-tested {@link sohl.entity.archetype.resolveCreateIdentity}
+(the dialog only wires the DOM and applies
+{@link sohl.utils.uniqueShortcode} against the taken set).
+
 **Instantiation strips the flag; copy-verbatim preserves it.**
 `flags.sohl.docArchetype` is removed at every point where an archetype is
 _instantiated_ into a live document, and kept only when a document is copied _as
