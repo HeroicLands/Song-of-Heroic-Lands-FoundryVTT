@@ -15,7 +15,6 @@ import { describe, it, expect } from "vitest";
 import {
     groupBySubType,
     attributeDescriptor,
-    buildTraitGroups,
     buildSkillGroups,
     buildTraumaRows,
     traumaSeverityLabel,
@@ -121,86 +120,6 @@ describe("being-sheet-view", () => {
                 { label: "Average", maxValue: 12 },
             ];
             expect(attributeDescriptor(10, unordered)).toBe("Average");
-        });
-    });
-
-    describe("buildTraitGroups", () => {
-        const order = ["physique", "personality"];
-        const subLabel = (s: string) => `sub:${s}`;
-        const intLabel = (i: string) => `int:${i}`;
-        const trait = (over: Record<string, unknown> = {}) => ({
-            id: "t1",
-            uuid: "Item.t1",
-            name: "Brave",
-            subType: "physique",
-            isMeasured: true,
-            score: 12,
-            textValue: "",
-            intensity: "trait",
-            notes: "n",
-            ...over,
-        });
-
-        it("emits groups in the supplied subtype order with localized labels", () => {
-            const a = trait({ id: "a", subType: "personality" });
-            const b = trait({ id: "b", subType: "physique" });
-            const groups = buildTraitGroups([a, b], order, subLabel, intLabel);
-            expect(groups.map((g) => g.subType)).toEqual([
-                "physique",
-                "personality",
-            ]);
-            expect(groups[0].label).toBe("sub:physique");
-        });
-
-        it("always emits every ordered subtype, even when empty", () => {
-            const a = trait({ subType: "physique" });
-            const groups = buildTraitGroups([a], order, subLabel, intLabel);
-            expect(groups.map((g) => g.subType)).toEqual([
-                "physique",
-                "personality",
-            ]);
-            const personality = groups.find((g) => g.subType === "personality");
-            expect(personality?.traits).toEqual([]);
-        });
-
-        it("maps rows: intensity label, numeric value, notes", () => {
-            const a = trait({
-                isMeasured: true,
-                score: 9,
-                intensity: "disorder",
-                notes: "hi",
-            });
-            const [group] = buildTraitGroups([a], order, subLabel, intLabel);
-            expect(group.traits[0]).toMatchObject({
-                id: "t1",
-                uuid: "Item.t1",
-                name: "Brave",
-                intensity: "int:disorder",
-                value: 9,
-                notes: "hi",
-            });
-        });
-
-        it("uses textValue for non-numeric traits and blanks empty intensity", () => {
-            const a = trait({
-                isMeasured: false,
-                textValue: "Left-handed",
-                intensity: undefined,
-            });
-            const [group] = buildTraitGroups([a], order, subLabel, intLabel);
-            expect(group.traits[0].value).toBe("Left-handed");
-            expect(group.traits[0].intensity).toBe("");
-        });
-
-        it("appends unordered subtypes after the ordered ones", () => {
-            const a = trait({ subType: "physique" });
-            const b = trait({ subType: "mystery" });
-            const groups = buildTraitGroups([a, b], order, subLabel, intLabel);
-            expect(groups.map((g) => g.subType)).toEqual([
-                "physique",
-                "personality",
-                "mystery",
-            ]);
         });
     });
 

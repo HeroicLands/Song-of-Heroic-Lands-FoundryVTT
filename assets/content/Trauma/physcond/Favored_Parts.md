@@ -9,18 +9,12 @@ id: nBEseUj5nUJMDyHU
 slug: favored-parts
 img: icons/hands.svg
 shortcode: favparts
-type: trait
+type: trauma
 package: sohl
 sohl:
     archetype: 0
-    subType: physique
-    intensity: trait
-    isNumeric: false
-    textValue: Right Arm
-    valueDesc: []
-    score:
-        value: 0
-        max: 0
+    subType: physcond
+    category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 

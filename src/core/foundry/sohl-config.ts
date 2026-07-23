@@ -74,7 +74,6 @@ import { MysteryLogic } from "@src/document/item/logic/MysteryLogic";
 import { MysticalAbilityLogic } from "@src/document/item/logic/MysticalAbilityLogic";
 import { ProjectileGearLogic } from "@src/document/item/logic/ProjectileGearLogic";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
-import { TraitLogic } from "@src/document/item/logic/TraitLogic";
 import { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
 
 // Item foundry
@@ -105,8 +104,6 @@ import { ProjectileGearDataModel } from "@src/document/item/foundry/ProjectileGe
 import { ProjectileGearSheet } from "@src/document/item/foundry/ProjectileGearSheet";
 import { SkillDataModel } from "@src/document/item/foundry/SkillDataModel";
 import { SkillSheet } from "@src/document/item/foundry/SkillSheet";
-import { TraitDataModel } from "@src/document/item/foundry/TraitDataModel";
-import { TraitSheet } from "@src/document/item/foundry/TraitSheet";
 import { WeaponGearDataModel } from "@src/document/item/foundry/WeaponGearDataModel";
 import { WeaponGearSheet } from "@src/document/item/foundry/WeaponGearSheet";
 
@@ -252,7 +249,6 @@ export const ITEM_DM_DEF: ItemDMMap = {
     [ITEM_KIND.MYSTICALABILITY]: MysticalAbilityDataModel,
     [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearDataModel,
     [ITEM_KIND.SKILL]: SkillDataModel,
-    [ITEM_KIND.TRAIT]: TraitDataModel,
     [ITEM_KIND.WEAPONGEAR]: WeaponGearDataModel,
 } satisfies ItemDMMap;
 const defItem: DefinedType<ItemDMMap> = defineType<ItemDMMap>(
@@ -310,8 +306,6 @@ export const ITEM_LOGIC_DEF = {
     [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearLogic,
     /** Logic class for skill items (combat, crafting, social, etc.). */
     [ITEM_KIND.SKILL]: SkillLogic,
-    /** Logic class for trait items (personality traits, advantages). */
-    [ITEM_KIND.TRAIT]: TraitLogic,
     /** Logic class for weapon gear items. */
     [ITEM_KIND.WEAPONGEAR]: WeaponGearLogic,
 };
@@ -355,8 +349,6 @@ export interface ItemLogicByKind {
     projectilegear: ProjectileGearLogic;
     /** Logic instance for skill items (combat, crafting, social, etc.). */
     skill: SkillLogic;
-    /** Logic instance for trait items (personality traits, advantages). */
-    trait: TraitLogic;
     /** Logic instance for weapon gear items. */
     weapongear: WeaponGearLogic;
 }
@@ -396,8 +388,6 @@ export interface ItemLogicArrayByKind {
     projectilegear: ProjectileGearLogic[];
     /** All skill logic instances on this actor. */
     skill: SkillLogic[];
-    /** All trait logic instances on this actor. */
-    trait: TraitLogic[];
     /** All weapon gear logic instances on this actor. */
     weapongear: WeaponGearLogic[];
 }
@@ -438,7 +428,6 @@ export const {
     [ITEM_KIND.MYSTICALABILITY]: MysticalAbilitySheet,
     [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearSheet,
     [ITEM_KIND.SKILL]: SkillSheet,
-    [ITEM_KIND.TRAIT]: TraitSheet,
     [ITEM_KIND.WEAPONGEAR]: WeaponGearSheet,
 } as StrictObject<Constructor<SohlItemSheetBase>>);
 

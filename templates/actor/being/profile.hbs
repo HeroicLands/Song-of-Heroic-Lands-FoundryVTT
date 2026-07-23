@@ -35,42 +35,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{/each}}
     </div>
 
-    {{!-- Traits --}}
-    <div class="search-items">
-        <input class="search-criteria" type="search" name="search-traits" value=""
-            aria-label="{{localize 'SOHL.Trait.Search.label'}}" placeholder="{{localize 'SOHL.Trait.Search.label'}}" autocomplete="off" />
-    </div>
-    <div class="traits">
-        {{#each traitGroups as |group|}}
-            <ol class="list__items">
-                <li class="list__header flexrow">
-                    <div class="list__name">{{group.label}} Traits</div>
-                    <div class="list__detail">{{localize "SOHL.Trait.FIELDS.intensity.label"}}</div>
-                    <div class="list__detail">{{localize "SOHL.Trait.FIELDS.value.label"}}</div>
-                    <div class="list__detail list__notes">{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
-                    <div class="list__controls">
-                        <a class="item-create" data-action="createItem" data-tooltip="{{localize 'SOHL.Trait.Heading.Add.label'}}" data-type="trait" data-sub-type="{{group.subType}}">
-                            <i class="fa-solid fa-file-plus"></i>
-                        </a>
-                    </div>
-                </li>
-                {{#each group.traits as |trait|}}
-                <li class="item flexrow" data-search-name="{{trait.name}}" data-item-id="{{trait.id}}" data-uuid="{{trait.uuid}}" data-item-name="{{trait.name}}">
-                    <div class="list__name flexrow">
-                        <h4>{{trait.name}}</h4>
-                    </div>
-                    <div class="list__detail">{{trait.intensity}}</div>
-                    <div class="list__detail">{{trait.value}}</div>
-                    <div class="list__detail list__notes">{{trait.notes}}</div>
-                    <div class="list__controls">
-                        <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
-                    </div>
-                </li>
-                {{/each}}
-            </ol>
-        {{/each}}
-    </div>
-
     {{!-- Affiliations --}}
     <div class="list__header flexrow">
         <div class="list__name">{{localize "TYPES.Item.affiliationPl"}}</div>

@@ -28,7 +28,6 @@ const ITEM_CHOICE_FIELDS = {
     affliction: ["subType", "transmission"],
     concoctiongear: ["subType", "potency"],
     projectilegear: ["subType"],
-    trait: ["subType", "intensity"],
 };
 
 describe("DataModel choices are value-keyed objects (#148)", () => {

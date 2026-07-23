@@ -142,7 +142,6 @@ export const {
     MYSTICALABILITY: "mysticalability",
     PROJECTILEGEAR: "projectilegear",
     SKILL: "skill",
-    TRAIT: "trait",
     WEAPONGEAR: "weapongear",
 });
 /** Union of all item-kind values. */
@@ -254,11 +253,6 @@ export const {
     [ITEM_KIND.SKILL]: {
         IconCssClass: "fa-solid fa-head-side-gear",
         Image: "systems/sohl/assets/icons/head-gear.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.TRAIT]: {
-        IconCssClass: "fa-solid fa-user-gear",
-        Image: "systems/sohl/assets/icons/user-gear.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.WEAPONGEAR]: {
@@ -1080,22 +1074,6 @@ export type ProjectileGearEffectKey =
     (typeof PROJECTILEGEAR_EFFECT_KEY)[keyof typeof PROJECTILEGEAR_EFFECT_KEY];
 
 export const {
-    /** Map of trait effect-key name → change path. */
-    kind: TRAIT_EFFECT_KEY,
-    /** All trait effect-key change paths, as an array. */
-    values: TraitEffectKeys,
-    /** Type guard for trait effect-key change paths. */
-    isValue: isTraitEffectKey,
-    /** Localization keys per trait effect key. */
-    labels: traitEffectKeyLabels,
-} = defineType(`SOHL.Trait.EffectKey`, {
-    SCORE: "mod:logic.score",
-});
-/** Union of all trait effect-key change paths. */
-export type TraitEffectKey =
-    (typeof TRAIT_EFFECT_KEY)[keyof typeof TRAIT_EFFECT_KEY];
-
-export const {
     /** Map of trauma effect-key name → change path. */
     kind: TRAUMA_EFFECT_KEY,
     /** All trauma effect-key change paths, as an array. */
@@ -1777,250 +1755,6 @@ export type AfflictionCode =
     (typeof AFFLICTION_CODE)[keyof typeof AFFLICTION_CODE];
 
 export const {
-    /** Map of trait-code key → shortcode. */
-    kind: TRAIT_CODE,
-    /** All trait shortcodes, as an array. */
-    values: TraitCodes,
-    /** Type guard for trait shortcodes. */
-    isValue: isTraitCode,
-} = defineType("SOHL.Trait.CODE", {
-    ABSENT_MINDED: "absntmd",
-    ACROPHOBIA: "acrophb",
-    ADAPTABLE: "adapt",
-    ADVENTUROUS: "advs",
-    AGGRESSIVE: "aggr",
-    AGORAPHOBIA: "agorphb",
-    AGREEABLE: "agree",
-    ALBINISM: "albinism",
-    ALFARPHOBIA: "alfrphb",
-    ALLERGY: "alrgmjr",
-    AMAXOPHOBIA: "amaxphb",
-    AMBITIOUS: "ambx",
-    ANDROPHOBIA: "andphb",
-    ANTHOPHOBIA: "anthphb",
-    ANTHROPOPHOBIA: "anthpphb",
-    ANTISOCIAL: "antscl",
-    ANXIETY: "anxiety",
-    APATHETIC: "apthtc",
-    APIPHOBIA: "apiphb",
-    AQUAPHOBIA: "aquaphb",
-    ARACHNOPHOBIA: "aracphb",
-    ARROGANT: "arrogant",
-    ARTHRITIS: "arthrts",
-    ASSERTIVE: "assrtv",
-    ASTHMA: "asthma",
-    ASTRAPHOBIA: "astrphb",
-    AUTHORITYOPHOBIA: "arithphb",
-    AVOIDANT: "avoidant",
-    BALLISTOPHOBIA: "ballphb",
-    BAROPHOBIA: "barophb",
-    BIBLIOPHOBIA: "biblphb",
-    BIPOLAR_DISORDER: "bipolar",
-    BLINDNESS: "blndnss",
-    BODY_WEIGHT: "wt",
-    BOTANOPHOBIA: "btnphb",
-    CACOPHOBIA: "cacophb",
-    CALM: "calm",
-    CARDIOPHOBIA: "crdphb",
-    CARRYING_CAPACITY: "cap",
-    CATAGELOPHOBIA: "ctglphb",
-    CATOPTROPHOBIA: "ctptrphb",
-    CAULIFLOWER_EAR: "clflwrr",
-    CAUTIOUS: "cautious",
-    CHEMOPHOBIA: "chemophb",
-    CHIROPTOPHOBIA: "chrptphb",
-    CHROMOPHOBIA: "chrmphb",
-    CHRONIC_ANGER: "angerchr",
-    CHRONIC_FATIGUE_SYNDROME: "cfs",
-    CLAUSTROPHOBIA: "clstrphb",
-    CLEPTOPHOBIA: "clptphb",
-    CLUBFOOT: "clubfoot",
-    CODEPENDENT: "cdpndnt",
-    COLD_INTOLERANCE: "coldinto",
-    COMPASSIONATE: "cmpssnt",
-    COMPULSIVE_DISCLOSURE: "cmpldsr",
-    CONFIDENT: "cnfdnt",
-    CONFORMIST: "cnfrmst",
-    COULROPHOBIA: "clrphb",
-    CUNNING: "cunning",
-    CYNOPHOBIA: "cynophb",
-    DEAFNESS: "deafness",
-    DECISIVE: "decisive",
-    DEMENTIA: "dementia",
-    DENTOPHOBIA: "dentophb",
-    DEPRESSION: "dprssn",
-    DILIGENT: "diligent",
-    DRAMATIC: "dramatic",
-    DUERGARPHOBIA: "drgrphb",
-    DWARFISM: "dwarfism",
-    DYSPHONIA: "dysphn",
-    DYSPHORIA: "dysphr",
-    DYSTYCHIPHOBIA: "dystychi",
-    ECZEMA: "eczema",
-    EMETOPHOBIA: "emetophb",
-    ENERGETIC: "enrgtc",
-    ENIGMATIC: "engmtc",
-    ENTHUSIASTIC: "enthsstc",
-    ENTOMOPHOBIA: "entmphb",
-    EOSOPHOBIA: "eosophb",
-    EPHEBIPHOBIA: "ephbphb",
-    EQUINOPHOBIA: "eqnphb",
-    ERGOPHOBIA: "ergophb",
-    FAVORED_PARTS: "favparts",
-    FOCUSED: "focused",
-    FRIGOPHOBIA: "frigophb",
-    FRIVOLOUS: "frvls",
-    GALEOPHOBIA: "galeophb",
-    GAMOPHOBIA: "gamophb",
-    GENEROUS: "generous",
-    GEPHYROPHOBIA: "gphyrphb",
-    GIGANTISM: "ggntsm",
-    GLOSSOPHOBIA: "glssphb",
-    GOAL_ORIENTED: "glrntd",
-    GYNOPHOBIA: "gynophb",
-    HAEMATOPHOBIA: "hmtphb",
-    HEAT_INTOLERANCE: "htntlrnc",
-    HELIOPHOBIA: "heliophb",
-    HERPETOPHOBIA: "hrptphb",
-    HOPLOPHOBIA: "hoplophb",
-    HUMILITY: "humility",
-    HYPERACUSIS: "hyprcss",
-    HYPOCHONDRIASIS: "hypochon",
-    IATROPHOBIA: "iatrophb",
-    ICHTHYOPHOBIA: "ichthyop",
-    IMAGINATIVE: "imgntv",
-    IMPAIRED_HEARING: "impaired",
-    IMPAIRED_SMELL: "impaire2",
-    IMPAIRED_VISION: "imprdvsn",
-    IMPULSIVE: "implsv",
-    INDECISIVE: "indcsv",
-    INDEPENDENT: "indpndnt",
-    INDIGIPHOBIA: "indgphb",
-    INNOVATIVE: "innvtv",
-    INQUISITIVE: "inqstv",
-    INTROVERTED: "intrvrtd",
-    INTUITIVE: "inttv",
-    IRRESPONSIBLE: "irrespon",
-    KIND: "kind",
-    KOUMPOUNOPHOBIA: "kmpnphb",
-    LEPIDOPTEROPHOBIA: "lepidopt",
-    LIGYROPHOBIA: "lgyrphb",
-    LIMB_WEAKNESS: "lmbwknss",
-    LOYAL: "loyal",
-    MACHIAVELLIAN: "mchvlln",
-    MEGALOMANIA: "mglmn",
-    MEGALOPHOBIA: "mglphb",
-    MELANOPHOBIA: "mlnphb",
-    METICULOUS: "mtcls",
-    MISANTHROPY: "msnthrpy",
-    MONOPHOBIA: "monophb",
-    MONSTRAPHOBIA: "mnstrphb",
-    MORBUS_MONSTRUOSUS: "morbusmo",
-    MOVE: "mov",
-    MUSOPHOBIA: "musophb",
-    MUTENESS: "muteness",
-    NARCISSISM: "nrcsssm",
-    NARCISSISTIC: "nrcssstc",
-    NECROPHOBIA: "necrophb",
-    NERVOUS: "nervous",
-    NEUROFIBROMATOSIS: "neurofib",
-    NOSOCOMEPHOBIA: "nscmphb",
-    NUMBNESS: "numbness",
-    NYCTOPHOBIA: "nyctophb",
-    OBESITY: "obesity",
-    OBSESSIVE: "obsssv",
-    OMBROPHOBIA: "ombrophb",
-    OPHIDIOPHOBIA: "ophdphb",
-    OPTIMISM: "optimism",
-    OVERACHIEVER: "ovrchvr",
-    OVERCONFIDENT: "overconf",
-    PARTIAL_AMNESIA: "amnsprtl",
-    PASSIVE: "passive",
-    PASSIVE_AGGRESSIVE: "passivea",
-    PATIENT: "patient",
-    PEDIOPHOBIA: "pediophb",
-    PERFECTIONIST: "prfctnst",
-    PESSIMISTIC: "pssmstc",
-    PHAGOPHOBIA: "phagophb",
-    PHOTOPHOBIA: "photophb",
-    PHOTOSENSITIVITY: "photosen",
-    PLAYFUL: "playful",
-    POLYDACTYLY: "polydact",
-    POLYPHAGIA: "plyphg",
-    PRACTICAL: "prctcl",
-    PRECISE: "precise",
-    PTEROMERHANOPHOBIA: "pteromer",
-    PTERONOPHOBIA: "ptrnphb",
-    PTOCHOPHOBIA: "ptchphb",
-    PYROPHOBIA: "pyrophb",
-    RELIABLE: "reliable",
-    RESILIENT: "rslnt",
-    RESOURCEFUL: "rsrcfl",
-    RESPONSIVE: "rspnsv",
-    RETICENT: "reticent",
-    SCHIZOPHRENIA: "schizop",
-    SCOLIOSIS: "sclss",
-    SEDUCER: "seducer",
-    SELF_PROTECTIVE: "self-pro",
-    SELF_SUFFICIENT: "self-suf",
-    SENSITIVE: "snstv",
-    SHORTNESS_OF_BREATH: "shrtbrth",
-    SICARIOPHOBIA: "scrphb",
-    SILLINESS: "sllnss",
-    SIZE: "siz",
-    SOCIABLE: "sociable",
-    SOCIOPHOBIA: "sociophb",
-    SPONTANEOUS: "spntns",
-    STOIC: "stoic",
-    STUBBORN: "stubborn",
-    SUSPICIOUS: "sspcs",
-    SYNDACTYLY: "syndacty",
-    TEAM_ORIENTED: "tmrntd",
-    THALASSOPHOBIA: "thlssphb",
-    THANATOPHOBIA: "thntphb",
-    THAUMATOPHOBIA: "thmtphb",
-    THOUGHTFUL: "thghtfl",
-    TINNITUS: "tinnitus",
-    TOTAL_AMNESIA: "amnsttl",
-    TREMORS: "tremors",
-    TUROPHOBIA: "turophb",
-    ULCER: "ulcer",
-    VANITY: "vanity",
-    VENUSTRAPHOBIA: "vnstrphb",
-    VIGILANT: "vigilant",
-    VITILIGO: "vitiligo",
-    WATCHFUL: "watchful",
-    XENOPHOBIA: "xenophb",
-    ZOOPHOBIA: "zoophb",
-});
-/** Union of all trait shortcodes. */
-export type TraitCode = (typeof TRAIT_CODE)[keyof typeof TRAIT_CODE];
-
-export const {
-    /** Map of trait-subtype key → value. */
-    kind: TRAIT_SUBTYPE,
-    /** All trait-subtype values, as an array. */
-    values: TraitSubTypes,
-    /** Type guard for trait-subtype values. */
-    isValue: isTraitSubType,
-    /** Value-keyed label map for `StringField({ choices })`. */
-    choices: TraitSubTypeChoices,
-} = defineType("SOHL.Trait.SubType", {
-    /** A physical characteristic of the being (descriptive; owns `textValue`). */
-    PHYSIQUE: "physique",
-    /** A behavioral/temperamental characteristic (descriptive; owns `textValue`). */
-    PERSONALITY: "personality",
-    /**
-     * A static measured quantity (numeric): a `score` with an optional `max`
-     * cap and `valueDesc` bands, but **no** mastery level — it is not tested or
-     * rolled (a tested measured value is a custom Attribute, not a trait). #532.
-     */
-    MEASURED: "measured",
-});
-/** Union of all trait-subtype values. */
-export type TraitSubType = (typeof TRAIT_SUBTYPE)[keyof typeof TRAIT_SUBTYPE];
-
-export const {
     /** Map of trauma-subtype key → value. */
     kind: TRAUMA_SUBTYPE,
     /** All trauma-subtype values, as an array. */
@@ -2134,29 +1868,6 @@ export const INJURY_LEVELS = ["NA", "M1", "S2", "S3", "G4", "G5"] as const;
  * `injuryLevelFromImpact`); the master table itself is never mutated.
  */
 export const BASE_INJURY_THRESHOLDS: readonly number[] = [1, 5, 10, 15, 20];
-
-export const {
-    /** Map of trait-intensity key → value. */
-    kind: TRAIT_INTENSITY,
-    /** All trait-intensity values, as an array. */
-    values: TraitIntensities,
-    /** Type guard for trait-intensity values. */
-    isValue: isTraitIntensity,
-    /** Value-keyed label map for `StringField({ choices })`. */
-    choices: TraitIntensityChoices,
-} = defineType("SOHL.Trait.Intensity", {
-    /** A non-disruptive trait */
-    TRAIT: "trait",
-    /** A trait with minimal impact or significance. */
-    BENIGN: "benign",
-    /** A disruptive trait that may override rational thought. */
-    IMPULSE: "impulse",
-    /** A severe and persistent trait that manifestly affects functioning. */
-    DISORDER: "disorder",
-});
-/** Union of all trait-intensity values. */
-export type TraitIntensity =
-    (typeof TRAIT_INTENSITY)[keyof typeof TRAIT_INTENSITY];
 
 export const {
     /** Map of vehicle-occupant-role key → value. */

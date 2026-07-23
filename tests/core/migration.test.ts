@@ -1,26 +1,106 @@
 import { describe, it, expect } from "vitest";
-import { traitMeasuredUpdate } from "@src/core/foundry/migration";
+import { planTraitMigration } from "@src/core/foundry/migration";
 
-describe("traitMeasuredUpdate — isNumeric → measured subtype (#532)", () => {
-    it("migrates a numeric trait to the measured subtype and drops isNumeric", () => {
+describe("planTraitMigration — retire the trait item type (#651)", () => {
+    it("returns null for a non-trait source", () => {
+        expect(planTraitMigration({ type: "skill", system: {} })).toBeNull();
+        expect(planTraitMigration(null)).toBeNull();
+        expect(planTraitMigration(undefined)).toBeNull();
+    });
+
+    it("deletes a measured trait (now modeled on the Being)", () => {
         expect(
-            traitMeasuredUpdate({ isNumeric: true, subType: "physique" }),
-        ).toEqual({
-            "system.-=isNumeric": null,
-            "system.subType": "measured",
+            planTraitMigration({
+                type: "trait",
+                system: { subType: "measured" },
+            }),
+        ).toEqual({ action: "delete" });
+    });
+
+    it("deletes a legacy numeric trait (pre-#532 isNumeric flag)", () => {
+        expect(
+            planTraitMigration({
+                type: "trait",
+                system: { subType: "physique", isNumeric: true },
+            }),
+        ).toEqual({ action: "delete" });
+    });
+
+    it("replaces a descriptive personality trait with a psycond trauma", () => {
+        const plan = planTraitMigration({
+            type: "trait",
+            name: "Bloodlust",
+            img: "icons/x.svg",
+            folder: "F1",
+            flags: { sohl: { docArchetype: 0 } },
+            system: {
+                subType: "personality",
+                intensity: "impulse",
+                notes: "n",
+            },
+        });
+        expect(plan).toEqual({
+            action: "replace",
+            create: {
+                name: "Bloodlust",
+                type: "trauma",
+                img: "icons/x.svg",
+                folder: "F1",
+                flags: { sohl: { docArchetype: 0 } },
+                system: {
+                    subType: "psycond",
+                    category: "impulse",
+                    notes: "n",
+                },
+            },
         });
     });
 
-    it("drops isNumeric on a descriptive trait without changing its subtype", () => {
-        expect(
-            traitMeasuredUpdate({ isNumeric: false, subType: "personality" }),
-        ).toEqual({ "system.-=isNumeric": null });
+    it("replaces a descriptive physique trait with a physcond trauma", () => {
+        const plan = planTraitMigration({
+            type: "trait",
+            name: "Favored Parts",
+            img: "icons/hands.svg",
+            system: { subType: "physique", intensity: "trait" },
+        });
+        expect(plan).toEqual({
+            action: "replace",
+            create: {
+                name: "Favored Parts",
+                type: "trauma",
+                img: "icons/hands.svg",
+                system: { subType: "physcond", category: "trait" },
+            },
+        });
     });
 
-    it("is a no-op once the trait has already been migrated (no isNumeric key)", () => {
-        expect(traitMeasuredUpdate({ subType: "measured" })).toBeNull();
-        expect(traitMeasuredUpdate({})).toBeNull();
-        expect(traitMeasuredUpdate(null)).toBeNull();
-        expect(traitMeasuredUpdate(undefined)).toBeNull();
+    it("maps intensity to the target subtype's category enum", () => {
+        // personality → psycond (quirk / impulse / disorder)
+        const psy = (intensity: string) =>
+            (
+                planTraitMigration({
+                    type: "trait",
+                    name: "x",
+                    system: { subType: "personality", intensity },
+                }) as any
+            ).create.system.category;
+        expect(psy("benign")).toBe("quirk");
+        expect(psy("trait")).toBe("quirk");
+        expect(psy("impulse")).toBe("impulse");
+        expect(psy("disorder")).toBe("disorder");
+
+        // physique → physcond (trait / impediment / debility)
+        const phy = (intensity: string) =>
+            (
+                planTraitMigration({
+                    type: "trait",
+                    name: "x",
+                    system: { subType: "physique", intensity },
+                }) as any
+            ).create.system.category;
+        expect(phy("benign")).toBe("trait");
+        expect(phy("trait")).toBe("trait");
+        expect(phy("impulse")).toBe("impediment");
+        expect(phy("disorder")).toBe("debility");
     });
 });

@@ -36,5 +36,4 @@ Sheet) see **Documents → Actor** and **Documents → Item** in the API referen
 | Mystical Ability | `mysticalability` | An actively invoked supernatural power. |
 | Projectile | `projectilegear` | Ammunition for ranged weapons. |
 | Skill | `skill` | A trained capability with a mastery level. |
-| Trait | `trait` | An innate characteristic, advantage, or drawback. |
 | Weapon | `weapongear` | A weapon that can be wielded in combat. |

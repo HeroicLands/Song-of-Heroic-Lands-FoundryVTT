@@ -37,7 +37,6 @@ import type { MysteryDataModel } from "@src/document/item/foundry/MysteryDataMod
 import type { MysticalAbilityDataModel } from "@src/document/item/foundry/MysticalAbilityDataModel";
 import type { ProjectileGearDataModel } from "@src/document/item/foundry/ProjectileGearDataModel";
 import type { SkillDataModel } from "@src/document/item/foundry/SkillDataModel";
-import type { TraitDataModel } from "@src/document/item/foundry/TraitDataModel";
 import type { WeaponGearDataModel } from "@src/document/item/foundry/WeaponGearDataModel";
 // Combat / combatant / effect data models
 import type { SohlCombatDataModel } from "@src/document/combat/foundry/SohlCombat";
@@ -264,7 +263,6 @@ declare module "fvtt-types/configuration" {
             mysticalability: Constructor<MysticalAbilityDataModel<any, any>>;
             projectilegear: Constructor<ProjectileGearDataModel<any, any>>;
             skill: Constructor<SkillDataModel<any, any>>;
-            trait: Constructor<TraitDataModel<any, any>>;
             weapongear: Constructor<WeaponGearDataModel<any, any>>;
         };
         Combat: {
