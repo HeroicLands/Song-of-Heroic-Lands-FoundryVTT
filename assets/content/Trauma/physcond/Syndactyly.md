@@ -25,13 +25,13 @@ At its mildest, syndactyly affects function only marginally. The fused digits re
 
 **Example:** A child born with webbed fingers, whose village, knowing the old tale of the water-keepers of the northern lakes, regard her with a mixture of reverence and curiosity, seeing in her condition not a curse but a link to powers beneath the waves.
 
-### Impulse
+### Impediment
 
 As the fusion tightens or affects more digits, function becomes noticeably impaired. Writing becomes laborious, fine craftwork—the threading of a needle, the tying of a knot—grows frustratingly difficult. The person must learn compensatory techniques: holding tools differently, adopting grips that would seem awkward to others. Social embarrassment begins to seep in. Children may point or whisper. The person finds themselves performing extra feats of dexterity to prove their worth, driving themselves to exhaustion to compensate for the limitation they cannot hide.
 
 **Example:** A youth whose webbing extends across three fingers, making the work of a wright or carpenter possible but slow, pushing himself to complete tasks faster than is safe, injuring himself repeatedly in the attempt to prove he is no less capable than his unblemished peers.
 
-### Disorder
+### Debility
 
 When the fusion is severe—when most or all of a hand is bound together into a single, club-like appendage—the hand becomes nearly useless for precision work. Such a person cannot feed themselves with cutlery, cannot dress themselves, cannot manage the basic tasks that grant dignity. They become dependent on others for acts they once took for granted. The psychological weight is crushing: their own flesh has betrayed them, and in many villages they are shunned as bearers of curse-mark, condemned to lives of beggary or servitude.
 

@@ -20,12 +20,12 @@ folder: 4h8qyMcGHlkrfN1g
 
 Shortness of Breath is a condition characterized by difficulty breathing where the act of drawing air feels laborious and uncomfortable. Those suffering from dyspnea must rely on rest, herbal remedies, and the support of others to manage their condition.
 
-### Impulse
+### Impediment
 
 Occasional shortness of breath, often triggered by physical exertion, stress, or environmental factors like high altitude or cold air. The individual may need to pause and focus on breathing to regain comfort.
 **Example:** Knight Roderic feels winded after a long march in his heavy armor. He must pause frequently to catch his breath, leaning on his sword for support as he waits for the tightness in his chest to ease.
 
-### Disorder
+### Debility
 
 In addition to impulse intensity behaviors: Persistent and severe difficulty in breathing, even at rest, which may cause significant distress and interfere with daily activities. The individual may experience frequent bouts of breathlessness, leading to anxiety and physical limitations.
 

@@ -24,12 +24,12 @@ Tinnitus is the perception of sound, such as ringing, buzzing, or whistling, in 
 The individual experiences occasional, mild ringing or buzzing in the ears. These episodes are infrequent and short-lived, causing little to no distress. The person may notice the sound more in quiet environments or at night but can usually ignore it and carry on with daily activities. Basic herbal remedies or rest may help, though no significant treatment is necessary at this stage.
 **Example:** Edgar, a village carpenter, occasionally hears a faint ringing in his ears after long days of hammering and sawing. The sound is most noticeable when he lies down to sleep at night, but it quickly fades and doesn’t disrupt his life. He mentions it to the healer, who advises him to rest and avoid loud noises for a few days. The sound lingers occasionally, but Edgar pays it little mind.
 
-### Impulse
+### Impediment
 
 The individual begins experiencing more frequent and persistent ringing or buzzing in the ears, which becomes harder to ignore. The sound may last for hours or even days at a time, interfering with concentration, sleep, and conversations. Herbal remedies and periods of rest provide little to no relief. The constant presence of the noise causes frustration and irritability, as the person struggles to escape the sound. They may also begin to feel socially withdrawn, avoiding loud gatherings or conversations to prevent worsening their condition.
 **Example:** Edgar’s tinnitus grows worse over the months. Now the ringing is nearly constant, and it distracts him from his work at the carpentry shop. He has difficulty focusing on conversations and often misses details because of the overwhelming sound in his ears. The village healer provides herbal infusions, but they do little to quiet the noise. Edgar becomes increasingly irritable, snapping at apprentices and customers alike. He begins avoiding the busy marketplace, where the clamor only seems to amplify the incessant ringing in his ears.
 
-### Disorder
+### Debility
 
 At this extreme level, tinnitus is constant and severe, causing significant distress and disruption to the individual’s life. The individual may hear loud ringing, buzzing, or even roaring sounds, which dominate their perception and make it difficult to think, sleep, or interact with others. The lack of any effective treatments in a medieval setting leaves the individual feeling hopeless, as no remedy can quiet the sound. This may lead to social isolation, anxiety, depression, and even hallucinations, as the individual struggles to cope with the overwhelming noise in their head. The condition becomes so consuming that it interferes with every aspect of daily life.
 

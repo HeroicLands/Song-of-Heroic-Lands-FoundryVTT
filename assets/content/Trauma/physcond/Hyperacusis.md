@@ -19,12 +19,12 @@ folder: 4h8qyMcGHlkrfN1g
 
 Hyperacusis is a condition characterized by an increased sensitivity to normal environmental sounds, where everyday noises become unbearably loud or painful. Those afflicted with hyperacusis must seek quiet environments and avoid noisy situations to manage their symptoms.
 
-### Impulse
+### Impediment
 
 Discomfort or irritation from sounds that others find normal or mild, such as clinking dishes, rustling leaves, or casual conversation. The individual may need to cover their ears or distance themselves from the source of the noise to find relief.
 **Example:** Scholar Aldwyn finds the clatter of quills on parchment and the murmur of voices in the scriptorium unbearably loud. He frequently steps outside to escape the overwhelming noise, needing silence to maintain his focus.
 
-### Disorder
+### Debility
 
 In addition to impulse intensity behaviors: Severe and persistent discomfort or pain in response to everyday sounds, which can lead to significant distress and an inability to tolerate normal environments. The individual may become increasingly isolated as they avoid situations where sound is unavoidable.
 

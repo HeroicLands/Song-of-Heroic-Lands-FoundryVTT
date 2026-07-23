@@ -25,12 +25,12 @@ Heat intolerance is a condition where an individual reacts abnormally to heat, c
 The individual feels uncomfortable and overheated more quickly than others in warm environments. They may sweat more than usual and prefer cooler environments. While the heat causes discomfort, it doesn’t interfere significantly with their ability to function. However, prolonged exposure to heat can still pose risks of **heat exhaustion** if not managed, leading to fatigue, dizziness, or muscle cramps.
 **Example:** Tomas, a baker, feels hot quickly while working near the ovens and avoids being outdoors during the hottest part of the day. He drinks plenty of water and rests in the shade, preventing any serious issues. However, on particularly warm days, he notices mild headaches and fatigue, early signs of **heat illness** if not managed carefully.
 
-### Impulse
+### Impediment
 
 The individual’s sensitivity to heat becomes more severe, leading to frequent physical discomfort such as **heat illness**, characterized by excessive sweating, headaches, dizziness, and nausea. The risk of **heat exhaustion** rises with increased exposure, and they must take extra precautions to prevent overheating, including frequent breaks, hydration, and cooling measures. **Heat illness** may disrupt daily tasks, and the individual may begin avoiding activities that expose them to warmth, even socially.
 **Example:** Tomas’s heat intolerance worsens, and he now experiences **heat illness** symptoms like nausea and dizziness after short periods of heat exposure. His heavy sweating leaves him dehydrated quickly, and the warmth from his bakery becomes unbearable. On market days, Tomas struggles to stand in the sun for long, feeling weak and lightheaded. If he doesn’t take breaks or drink water regularly, the symptoms of **heat illness** escalate, and he worries about his health during the warmer months.
 
-### Disorder
+### Debility
 
 At this extreme stage, heat intolerance is accompanied by constant, severe physical symptoms such as **heat illness** or, in extreme cases, **heat stroke**. The body’s ability to cool itself is overwhelmed, leading to overheating. The individual may suffer from **heat stroke**, a medical emergency that includes symptoms like confusion, rapid heartbeat, cessation of sweating, and possible loss of consciousness. **Heat stroke** can be life-threatening without immediate medical attention. Social isolation is common, as the person avoids any environment where heat may be present, fearing the onset of debilitating symptoms.
 

@@ -19,12 +19,12 @@ folder: 4h8qyMcGHlkrfN1g
 
 Scoliosis is a condition where the spine curves abnormally to the side, often forming an "S" or "C" shape. This spinal curvature can cause physical discomfort, visible deformity, and, in severe cases, complications with movement, posture, and even breathing. Individuals with scoliosis must manage the condition through physical adaptation and assistance from others.
 
-### Impulse
+### Impediment
 
 Mild to moderate curvature of the spine, resulting in a visible asymmetry of the shoulders, hips, or back. The individual may experience occasional discomfort, muscle strain, or stiffness, but can still perform most tasks with minimal difficulty.
 **Example:** Apprentice mason Aldred notices his back aching after long hours of work. His shoulders appear slightly uneven, but the discomfort is manageable with rest and stretching. Though his posture is not perfect, he continues to work efficiently, compensating for the mild curve in his spine.
 
-### Disorder
+### Debility
 
 The spinal curvature becomes more pronounced, leading to significant physical limitations and visible deformity. The individual may struggle with mobility, posture, and balance, experiencing chronic pain and stiffness. Severe cases can affect lung function and overall movement.
 

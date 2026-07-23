@@ -25,13 +25,13 @@ At its mildest, clubfoot affects one foot only and is relatively mild in its twi
 
 **Example:** A child born with his foot twisted inward who, despite the deformity, learns to move with adaptability. As a youth, he becomes a capable herbalist's apprentice, gathering plants and preparing remedies. His twisted foot prevents him from becoming a soldier, but he gains a livelihood and modest respect within his community.
 
-### Impulse
+### Impediment
 
 When the deformity is more severe—both feet affected, or the twist pronounced—the person's gait becomes a conspicuous, painful struggle. Each step requires concentration and effort; the joints ache at day's end. They cannot undertake long journeys without great suffering. Their choice of labor is severely curtailed; many doors close to them entirely. They may be excluded from certain guilds or religious processions. Children may mock their walk, and they begin to internalize shame about their visible difference. Some avoid public places, preferring to remain within their household.
 
 **Example:** A merchant's son whose both feet are twisted such that he walks on the outer edges of his feet, each step deliberate and pained. He cannot ride a horse without agony, cannot chase after the maidservants for jest, cannot stand for the hours required to learn his father's trade. He has taken to spending his days in the house, and his parents have begun to arrange for a match with a village girl of modest prospects, hoping at least to see him married and settled.
 
-### Disorder
+### Debility
 
 When clubfoot is severe and has received no treatment, the condition can become wholly disabling. The person may barely walk at all, preferring to crawl or spend most hours sitting or lying down. The foot becomes a source of constant pain; infection and ulcers may set in if the deformed foot presses upon itself. The person becomes dependent on others for movement, carrying, and provision. They are often hidden away—not from medical necessity, but from shame on the family's part. Some come to believe they are cursed or the product of the mother's sin during pregnancy. Desperation may drive them to folk healers or priests, seeking cures through prayer or increasingly dangerous interventions.
 

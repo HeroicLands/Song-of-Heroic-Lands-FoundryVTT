@@ -19,13 +19,13 @@ folder: 4h8qyMcGHlkrfN1g
 
 Allergy is an overreaction of the body's humors to a normally harmless substance, such as pollen, food, or animal hair. When exposed to such substances, the body may react with various symptoms, from mild irritation to severe affliction, believed to be caused by an imbalance in the body's natural elements.
 
-### Impulse
+### Impediment
 
 Sneezing, itching, or watery eyes upon exposure to the offending substance. These symptoms, though bothersome, can often be managed with herbal remedies or avoidance of the trigger.
 
 **Example:** Lady Elspeth finds herself sneezing and with watery eyes each spring when the fields are in bloom. Though uncomfortable, she manages by staying indoors and applying a cool cloth to her face.
 
-### Disorder
+### Debility
 
 In addition to impulse intensity behaviors: Severe reactions, such as difficulty breathing, widespread rashes, or swelling, which could lead to grave illness or even death without intervention. Exposure to the allergen can be dangerous and incapacitating.
 

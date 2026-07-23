@@ -20,12 +20,12 @@ folder: 4h8qyMcGHlkrfN1g
 
 Impaired Smell is a diminished ability to detect and perceive odors, often believed to be a sign of imbalance in the body's humors. Those afflicted may find their sense of smell dulled, reducing their ability to fully experience the world around them.
 
-### Impulse
+### Impediment
 
 Difficulty distinguishing or detecting faint odors, leading to a reduced awareness of one’s surroundings. Though bothersome, it may be managed by focusing on other senses or avoiding situations where smell is crucial.
 **Example:** Cook Edric notices that the fragrant herbs in his stew no longer carry the same strength. Though he can still taste the food, the experience is less vivid, and he must rely on his memory and judgment more than his nose.
 
-### Disorder
+### Debility
 
 In addition to impulse intensity behaviors: Significant impairment in detecting even strong odors, leading to challenges in daily life, such as cooking, detecting spoiled food, or recognizing smoke from a fire. This loss can cause serious safety concerns and emotional distress.
 

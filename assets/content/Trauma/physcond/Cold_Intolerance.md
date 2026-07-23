@@ -25,12 +25,12 @@ Cold intolerance is a condition where an individual is unusually sensitive to co
 The individual feels uncomfortable in cool or cold weather more quickly than others. They may experience mild shivering, cold extremities (hands, feet, nose, and ears), and prefer to stay in warmer areas. While the cold is bothersome, it does not interfere significantly with daily tasks, and they can function normally by wearing extra layers or staying close to heat sources. This discomfort is minor and easily managed.
 **Example:** Ingrid, a village seamstress, notices that her fingers and toes get cold very quickly when she steps outside during winter. She shivers more than her friends when they go to the market, but after wrapping herself in extra wool and drinking hot tea, she feels fine. While the cold is unpleasant, it doesn’t stop her from working or going about her day, though she does prefer to stay close to the fire.
 
-### Impulse
+### Impediment
 
 The individual's cold intolerance becomes more pronounced, leading to more persistent and uncomfortable symptoms, such as intense shivering, numbness, and aching in the extremities. They may find it harder to stay warm, even with several layers of clothing, and the cold begins to interfere with their ability to focus or work. The individual starts avoiding outdoor activities in colder months, as they find the discomfort more difficult to bear. Their sensitivity to cold begins to cause frustration and anxiety, as they worry about how to handle even mild exposure.
 **Example:** Ingrid’s sensitivity to the cold has worsened, and now even a brief trip outside makes her hands and feet ache and go numb. She wears thick woolen layers, but they barely keep the cold at bay. Ingrid finds it difficult to concentrate on sewing when her fingers feel stiff and frozen, and she dreads leaving her house on cold days. She avoids village fairs or winter gatherings because the cold air leaves her exhausted and miserable, and no amount of blankets or hot drinks seem to warm her.
 
-### Disorder
+### Debility
 
 At this extreme level, cold intolerance causes intense discomfort even in mildly cool environments. The individual experiences constant shivering, numbness, and pain in their extremities whenever exposed to cold, even for short periods. They become increasingly distressed, emotionally and mentally, by the cold, and may develop anxiety or depression from their inability to cope with even normal seasonal changes. Social isolation becomes common as the person withdraws from any activities that require being outside in colder weather, leaving them feeling trapped and helpless by their sensitivity to cold temperatures.
 

@@ -24,12 +24,12 @@ Vitiligo is a skin condition characterized by the loss of pigment in patches, re
 The individual experiences small, isolated patches of depigmentation on their skin, often in areas exposed to the sun. These patches may not cause physical discomfort, but they can lead to a heightened awareness of their appearance. In mild cases, the depigmentation may be slow to spread or remain limited, and the individual adapts to the condition with little impact on their daily life or self-esteem.
 **Example:** Margery, a young woman living in a small village, notices a few pale spots on her hands and forearms. The patches are small and easy to cover with clothing, and while some of the villagers occasionally ask about her skin, Margery is not overly concerned. She continues with her life, accepting the slight change in her appearance as something she cannot control.
 
-### Impulse
+### Impediment
 
 The depigmentation begins to spread more noticeably, causing the individual to become more self-conscious about their appearance. The affected areas become larger or more visible, particularly on the face, hands, or other exposed areas. As the changes become more obvious, people in the village begin to whisper and avoid the individual, thinking her condition might be a sign of a curse or illness. Although there are no physical symptoms, the emotional impact increases as the individual feels more ostracized by others and avoids social interactions out of fear of being judged or rejected.
 **Example:** Margery's vitiligo spreads to her face, forming visible patches around her eyes and mouth. As the changes become more apparent, villagers begin to whisper behind her back, calling her "marked" and speculating that her skin might be a sign of bad fortune. Some avoid standing near her at the market, fearing her condition could be contagious. Margery becomes increasingly anxious, feeling the weight of their judgment. She withdraws from village gatherings, covering her skin with scarves and long sleeves, even in the heat of summer. The fear of being gossiped about drives her into isolation.
 
-### Disorder
+### Debility
 
 At this stage, the vitiligo has spread extensively, affecting large areas of the body, including the face, hands, and other highly visible parts. The individual is now heavily stigmatized by the community, with people openly avoiding or shunning them. Whispers of curses, illness, or bad luck grow louder, and the individual is treated as a pariah. The emotional toll becomes overwhelming, with feelings of intense anxiety, shame, and depression. The person withdraws from society, becoming deeply isolated, avoiding public places, and struggling with their sense of self-worth.
 

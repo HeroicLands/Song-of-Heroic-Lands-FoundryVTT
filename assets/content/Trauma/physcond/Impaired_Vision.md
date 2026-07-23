@@ -20,12 +20,12 @@ folder: 4h8qyMcGHlkrfN1g
 
 Impaired Vision is a condition where one's ability to see clearly is reduced, causing difficulties in performing everyday tasks. Without the availability of modern corrective lenses or treatments, those afflicted must rely on natural adaptations and assistance from others to manage their impaired sight.
 
-### Impulse
+### Impediment
 
 Difficulty focusing on distant or near objects, leading to blurred vision, eye strain, and occasional disorientation. These symptoms can be managed by adjusting one’s activities and relying more on other senses.
 **Example:** Scribe Mathias finds it increasingly difficult to read the fine script of ancient manuscripts. He often squints and moves the parchment closer to his face, straining his eyes to make out the words, but manages to complete his work with effort.
 
-### Disorder
+### Debility
 
 In addition to impulse intensity behaviors: Severe impairment in vision, making it challenging to recognize faces, read, or navigate environments. This condition can lead to significant disruptions in daily life and increased reliance on others for assistance.
 

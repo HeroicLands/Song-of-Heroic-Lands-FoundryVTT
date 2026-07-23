@@ -26,13 +26,13 @@ At its mildest, the deformity is largely cosmetic. The ear remains functional; h
 
 **Example:** A seasoned warrior whose ears are thick and misshapen from years of battles and combat training, serving as a visible reminder of the numerous campaigns he has survived, his scarred appearance commanding respect rather than pity among his peers.
 
-### Impulse
+### Impediment
 
 As the deformity becomes more pronounced, the person begins to grow self-conscious. They may wear their hair long in an attempt to hide the ears, or avoid situations where their head might be exposed to view. Some develop a defensive pride about their appearance, becoming aggressive if anyone comments on it—quick to boast about the battles that caused the damage. Others swing to shame, avoiding mirrors and company, convinced that their disfigurement marks them as a brute unworthy of respect. Social situations become fraught; they imagine every glance is a judgment, every whispered conversation concerns their appearance.
 
 **Example:** A retired gladiator whose badly deformed ears have become a source of acute shame, leading him to avoid social gatherings and public places, wearing wrappings or elaborate headdresses to conceal them, though he insists to anyone who will listen that they are badges of honor—a contradiction born of deep uncertainty about his own worth.
 
-### Disorder
+### Debility
 
 When the ears are severely deformed—twisted, inflamed, sometimes partially necrotic from infection—the distress becomes acute. The person may refuse to be seen, covering their ears obsessively and becoming violent if anyone attempts to view them. Hearing may deteriorate as scar tissue builds, adding a practical disability to the emotional one. Some sufferers develop paranoid beliefs about their appearance—that others are conspiring to mock them, that they are being deliberately shown their reflection to cause anguish. In extreme cases, they may attempt to surgically remove or damage their own ears, hoping to somehow escape the disfigurement through mutilation.
 

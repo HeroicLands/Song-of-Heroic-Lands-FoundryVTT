@@ -25,13 +25,13 @@ At its mildest, the trait manifests as an uncommonly hearty appetite. A person s
 
 **Example:** A man in a village who is known for his voracious appetite, always finishing his bowl first at communal meals and stopping by the baker's stall for an extra loaf. His neighbors joke that he eats like a woodcutter, and while his appetite is remarkable, it has not bankrupted his household or caused him undue distress.
 
-### Impulse
+### Impediment
 
 When the condition deepens, the person finds themselves eating not from social habit or simple hunger, but from an urgent, almost desperate compulsion. They steal food from the common stores, gnaw at bread meant for the next day, or spend coin they cannot afford on provisions. They eat alone, driven by shame, consuming until their belly aches. They may wake in the night with the hunger upon them, creeping to the larder like a thief. Their behavior begins to puzzle and concern their household—food goes missing, provisions dwindle too quickly, and the person's shape becomes increasingly corpulent.
 
 **Example:** A youth living with his uncle, a husbandman, who has begun sneaking into the grain stores at night, filling his belly with oats and barley. By morning he is wretchedly uncomfortable, his gut distended, yet by evening the hunger drives him to do it again. His uncle has begun to suspect theft and has locked the storehouse, not realizing his own nephew is the culprit.
 
-### Disorder
+### Debility
 
 At the disorder threshold, the affliction becomes truly monstrous. The person eats past all physical reason—until vomiting, until sharp pains in the belly, until their body can scarcely move. They will eat rotten food, offal meant for dogs, roots dug from the earth if nothing else is at hand. They become gaunt and hollow-eyed despite constant eating, their flesh not storing properly, their body consuming itself. Families shun them, fearing curse or demonic affliction. Some believe the person possessed; others suspect sorcery. The sufferer's entire existence becomes consumed by the hunt for food.
 

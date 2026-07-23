@@ -20,12 +20,12 @@ folder: 4h8qyMcGHlkrfN1g
 
 Morbus Monstruosus is a condition marked by the presence of numerous or large neurofibromas, benign tumors that grow from nerve tissue and typically appear as soft lumps on or under the skin. These tumors can grow large and multiply, significantly altering a person's physical appearance, leading to disfigurement. Beyond the aesthetic impact, these tumors may cause discomfort, pain, and interfere with normal bodily functions. The condition often results in social stigma, psychological distress, and physical limitations.
 
-### Impulse
+### Impediment
 
 The early stages of Morbus Monstruosus are characterized by the appearance of a few small neurofibromas, which may cause mild discomfort or irritation but do not severely impact the individual’s appearance. Though noticeable, the condition may not yet lead to significant social or psychological consequences.
 **Example:** Villager Tomas notices several small, soft lumps forming on his arms and neck. Though they are painless, they attract occasional stares from others in the village. Tomas begins to feel self-conscious, but he continues his work and interactions, hoping the condition won’t worsen.
 
-### Disorder
+### Debility
 
 In addition to impulse intensity behaviors: The neurofibromas grow larger and multiply, leading to visible disfigurement that alters the person’s physical appearance. This advanced stage of Morbus Monstruosus causes significant social isolation as others may react with fear, avoidance, or cruelty. The individual may experience physical pain, discomfort, and difficulty performing tasks due to the size and location of the tumors, requiring ongoing assistance from family or the community.
 

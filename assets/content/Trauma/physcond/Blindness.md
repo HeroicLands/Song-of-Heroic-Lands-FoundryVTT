@@ -19,7 +19,7 @@ folder: 4h8qyMcGHlkrfN1g
 
 Total Blindness is the complete loss of sight, leaving an individual unable to perceive light, shapes, or any visual stimuli. Without vision, those afflicted must rely entirely on their other senses and the assistance of others to navigate the world and perform daily tasks.
 
-### Disorder
+### Debility
 
 The absence of sight, making independent movement and task completion nearly impossible without assistance. The individual must adapt to a life without visual cues, relying on touch, hearing, and smell to interact with their environment.
 

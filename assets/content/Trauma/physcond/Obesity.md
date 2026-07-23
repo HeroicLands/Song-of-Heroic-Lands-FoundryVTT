@@ -24,12 +24,12 @@ Obesity is a medical condition characterized by an excessive accumulation of bod
 The individual is noticeably overweight but experiences few immediate health issues. Their body size may be seen as a sign of prosperity or indulgence within their community, with the person taking pride in their ability to afford rich foods. They remain largely functional, though they may notice slight discomfort or fatigue with physical tasks. Their condition is generally accepted by society, and they may even be admired for their appearance.
 **Example:** Aldric, a prosperous merchant, has gained a significant amount of weight due to his luxurious lifestyle. His large size is seen as a reflection of his success, as he can afford to indulge in fine meals daily and avoid the hard labor that others in his village endure. Though he sometimes feels winded after climbing stairs, Aldric is proud of his size, as it sets him apart as someone of wealth and leisure.
 
-### Impulse
+### Impediment
 
 The individual begins to experience more noticeable physical limitations due to their weight. They may struggle with stamina, experience joint pain, or find it increasingly difficult to move about freely. In some cultures, they may still be seen as prosperous, but others might begin to view their obesity as a source of concern, noting the physical challenges and potential long-term health risks. The individual may begin to feel self-conscious about their condition, especially if they face stigma or judgment from others.
 **Example:** Aldric’s weight has become a growing concern for him. His once-admired size now causes difficulty with basic tasks, such as walking across the marketplace or getting in and out of carriages. Some villagers still admire his wealth, but whispers have started about how his indulgent lifestyle might be costing him his health. Aldric notices that fewer people seek him out for social events, and he feels isolated as his mobility issues worsen. Despite this, he finds it hard to change his habits, as the rich meals and comforts of his life have become part of his identity.
 
-### Disorder
+### Debility
 
 At this extreme level, obesity leads to severe health problems such as chronic pain, heart disease, or diabetes. The individual is significantly impaired in their ability to move or carry out daily activities, and they may become isolated due to the physical and social challenges they face. Social stigma becomes more pronounced, and the individual may experience feelings of shame or depression as they struggle with both their health and societal judgment. Despite these challenges, they may feel trapped in a cycle of overeating and inactivity.
 

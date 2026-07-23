@@ -19,13 +19,13 @@ folder: 4h8qyMcGHlkrfN1g
 
 Asthma is a chronic condition of the lungs, where the airways become narrowed and inflamed, causing difficulty in breathing. Without modern medicine, those afflicted rely on rest, avoiding known triggers, and natural remedies to manage their symptoms. The condition can be life-threatening during severe attacks.
 
-### Impulse
+### Impediment
 
 Shortness of breath, wheezing, and chest tightness, especially during physical activity or exposure to environmental triggers. These symptoms can often be managed by resting and avoiding known triggers.
 
 **Example:** Blacksmith Osric finds himself wheezing and short of breath after working the forge on cold mornings. Though the tightness in his chest is uncomfortable, he knows to step away and rest until his breathing eases.
 
-### Disorder
+### Debility
 
 In addition to impulse intensity behaviors: Severe difficulty breathing, persistent coughing, and frequent asthma attacks, which may lead to life-threatening situations without immediate intervention. The condition significantly impacts daily life, causing anxiety and limiting physical activities.
 

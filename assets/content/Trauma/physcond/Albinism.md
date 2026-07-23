@@ -25,13 +25,13 @@ At its gentlest, albinism is an inconvenience coupled with unusual appearance. T
 
 **Example:** A child born with pale skin and white hair, whom some in the village regard with suspicion as bearing a mark of otherworldly influence, while others—particularly those of learned bent—view him as touched by something beyond ordinary nature, neither wholly curse nor wholly blessing.
 
-### Impulse
+### Impediment
 
 As the person grows and ventures into larger society, the psychological burden of visible difference begins to press. The albino person cannot blend into a crowd; all eyes turn when they enter a market or a hall. Some regard them with admiration, others with fear or outright revulsion. The person becomes hypervigilant, reading threat into every glance, developing a brittle defiance that masks deep insecurity. They may isolate themselves voluntarily, avoiding public places, wearing increasingly heavy wrappings to hide their appearance. The practical limits of their condition—the sensitivity to sun, the poor eyesight in bright conditions—begin to sharply circumscribe their life.
 
 **Example:** A merchant's daughter whose distinctive appearance draws unwanted attention at every fair, leading her to refuse invitations to social gatherings, earning her a reputation for coldness and mystery that isolates her from peers.
 
-### Disorder
+### Debility
 
 When fear and isolation compound, the albino person may develop a profound persecution complex. They come to believe that every whisper concerns them, that every assembly has gathered to mock or condemn. Some become aggressive, lashing out at supposed slights. Others retreat so completely that they refuse to leave their dwelling even for necessary tasks, becoming prisoners in their own homes. The medical burden—the constant pain of sunburned skin, the strain of navigating a world built for those with better sight—wears at them until despair sets in. Some harbor thoughts of ending their suffering, viewing their existence as a cosmic punishment or a mark of fundamental wrongness.
 

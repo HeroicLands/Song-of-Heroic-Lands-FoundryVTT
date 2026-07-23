@@ -19,13 +19,13 @@ folder: 4h8qyMcGHlkrfN1g
 
 Arthritis is a condition that causes inflammation and stiffness in the joints, leading to pain, swelling, and decreased mobility. It can affect one or more joints, making daily tasks difficult and often worsening over time. Individuals with arthritis must rely on rest, herbal remedies, and lifestyle adjustments to manage their symptoms and maintain their quality of life.
 
-### Impulse
+### Impediment
 
 Mild to moderate joint pain, stiffness, and swelling, particularly after periods of rest or during cold weather. The individual may experience discomfort when moving or using the affected joints but can still perform most tasks with some difficulty.
 
 **Example:** Potter Miriam finds her fingers aching and stiff when shaping clay early in the morning. After some stretching and warming of her hands, she can resume her work, though the pain lingers throughout the day, slowing her progress.
 
-### Disorder
+### Debility
 
 The joint inflammation becomes severe, causing chronic pain, significant stiffness, and noticeable swelling. The individual may struggle with basic tasks, such as walking, gripping objects, or lifting items, and their mobility may become limited.
 

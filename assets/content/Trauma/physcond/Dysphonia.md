@@ -19,13 +19,13 @@ folder: 4h8qyMcGHlkrfN1g
 
 Dysphonia is a condition characterized by difficulty or abnormality in vocal production, often manifesting as hoarseness, a weak voice, or trouble speaking. If left untreated, it can progressively worsen, leading to complete voice loss (aphonia). Dysphonia can be caused by vocal cord strain, injury, or underlying conditions that affect the vocal cords or nervous system.
 
-### Impulse
+### Impediment
 
 Initial symptoms include a hoarse or weakened voice, difficulty speaking loudly, or temporary loss of voice after extended use. These symptoms may fluctuate, and with rest, the voice might return to normal temporarily.
 
 **Example:** Bard Eirik begins to notice his voice growing weaker during long performances. After singing for just a short time, his voice cracks and fades, forcing him to pause frequently, though he can still carry on conversations once rested.
 
-### Disorder
+### Debility
 
 In addition to impulse intensity behaviors: The condition worsens over time, with the individual experiencing frequent or persistent voice loss, making communication increasingly difficult. Attempts to speak may result in strained or inaudible sounds, causing frustration and leading to social withdrawal.
 

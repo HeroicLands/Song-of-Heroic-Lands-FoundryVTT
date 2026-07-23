@@ -19,12 +19,12 @@ folder: 4h8qyMcGHlkrfN1g
 
 Tremors are involuntary, rhythmic shaking movements of the limbs or extremities, often occurring without the person's control. These tremors can make it difficult to perform tasks requiring steady hands or precise movements. Those suffering from tremors must adapt to their condition through alternative strategies and rely on others for support.
 
-### Impulse
+### Impediment
 
 Mild, occasional shaking of the hands, arms, or other extremities, particularly during times of stress or fatigue. The tremors may be noticeable but do not significantly interfere with daily tasks.
 **Example:** Apothecary Roland notices his hands shaking slightly when he is tired or anxious, making it difficult to measure out precise doses of herbs. Though he can still perform his work, he must take extra care to steady his hands.
 
-### Disorder
+### Debility
 
 In addition to impulse intensity behaviors: Persistent and more pronounced shaking that significantly interferes with daily activities. The individual may struggle with basic tasks such as eating, writing, or holding objects, leading to frustration and a reliance on others for assistance.
 

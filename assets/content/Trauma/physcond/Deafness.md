@@ -19,7 +19,7 @@ folder: 4h8qyMcGHlkrfN1g
 
 Deafness is the complete loss of the ability to hear, leaving an individual unable to perceive any sounds. Without the ability to hear, the afflicted person must rely entirely on visual cues, gestures, and written communication to interact with the world.
 
-### Disorder
+### Debility
 
 The absence of hearing, making verbal communication impossible without alternative methods such as sign language or written notes. The individual must adapt to a life without auditory cues, relying on sight and touch to understand their environment and communicate with others.
 

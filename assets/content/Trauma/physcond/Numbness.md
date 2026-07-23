@@ -19,12 +19,12 @@ folder: 4h8qyMcGHlkrfN1g
 
 Numbness is a condition where the sense of touch is partially or completely diminished. It can range from reduced sensitivity to a total loss of tactile sensation. As numbness progresses, it can interfere with daily activities, lead to injury due to the lack of sensory feedback, and cause significant emotional and physical distress.
 
-### Impulse
+### Impediment
 
 Noticeable reduction in the ability to feel pressure, temperature, or texture, with increased difficulty performing tasks that require fine motor skills. The individual may misjudge the force or sensitivity needed to handle objects, leading to occasional accidents or clumsiness. Though touch is not fully lost, the impairment is significant and begins to interfere with daily life.
 **Example:** Farmer Lydia struggles to feel the tools in her hands as she works, often misjudging her grip or applying too much pressure. Her hands feel distant and dull, and she has accidentally dropped her tools multiple times. Though she can still feel large objects, the fine sensation she once relied on is almost gone.
 
-### Disorder
+### Debility
 
 The complete loss of the sense of touch, where the individual can no longer feel pressure, temperature, or texture in the affected areas. This condition makes even the simplest tasks nearly impossible, as the individual cannot detect tactile feedback and is at high risk of injury.
 

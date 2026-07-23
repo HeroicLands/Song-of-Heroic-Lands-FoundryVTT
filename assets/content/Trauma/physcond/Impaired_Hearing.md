@@ -20,12 +20,12 @@ folder: 4h8qyMcGHlkrfN1g
 
 Impaired Hearing is a condition where one’s ability to hear sounds is diminished, making it difficult to perceive conversations and environmental noises. Without access to modern hearing aids or treatments, those afflicted must rely on alternative communication methods and heightened awareness to manage their condition.
 
-### Impulse
+### Impediment
 
 Difficulty hearing soft or distant sounds, leading to frequent misunderstandings and the need to ask others to repeat themselves. This can cause frustration and strain in communication.
 **Example:** Farmer Eadric often misses the sounds of approaching footsteps or distant calls while working in the fields. He frequently asks his family to speak louder, struggling to catch every word in conversation.
 
-### Disorder
+### Debility
 
 In addition to impulse intensity behaviors: Significant hearing loss that makes it challenging to engage in conversations, even in quiet settings. The individual may struggle to hear anything below a loud volume, leading to social isolation and difficulty performing daily tasks.
 

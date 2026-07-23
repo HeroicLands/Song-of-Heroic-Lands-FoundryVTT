@@ -25,13 +25,13 @@ The individual experiences mild itching and dryness, typically in localized area
 
 **Example:** Lydia, a farm worker, notices occasional patches of dry, itchy skin on her hands after long days working outdoors. The skin becomes a bit red and flaky, but after applying a simple herbal salve from the village healer, the irritation subsides. While it’s a mild inconvenience, Lydia hardly thinks about it and continues her daily tasks with ease.
 
-### Impulse
+### Impediment
 
 The eczema begins to worsen, with flare-ups occurring more frequently and covering larger areas of the skin. The itching becomes more intense and persistent, leading the individual to scratch, which further irritates the skin. The skin may become cracked, blistered, or infected due to constant scratching. The condition starts to interfere with daily life, causing discomfort during work or social situations. Despite efforts to manage the symptoms with remedies, flare-ups continue to occur, and the individual may start feeling self-conscious about the appearance of their skin.
 
 **Example:** Lydia’s eczema now flares up regularly, particularly after long hours spent in the sun or handling rough materials. Her hands and arms are constantly itchy, and despite trying not to, she often scratches them, leading to cracked and sore skin. The herbal salve provides only temporary relief, and the red, inflamed patches of skin make Lydia feel embarrassed when she’s around others. She starts wearing long sleeves, even in the heat, to hide the marks on her skin and finds herself distracted by the itching during conversations or while working.
 
-### Disorder
+### Debility
 
 At this stage, the eczema is severe, causing constant itching, pain, and inflammation across significant portions of the skin. The individual may develop open sores, bleeding, or secondary infections from scratching. The discomfort is unbearable, making it difficult to sleep, focus, or participate in daily activities. The visible appearance of the skin may lead to social withdrawal due to embarrassment or fear of judgment. The condition becomes a major source of physical and emotional distress, with the individual feeling overwhelmed by the inability to find relief. Their self-esteem may suffer, and the physical toll of the condition could lead to fatigue or depression.
 

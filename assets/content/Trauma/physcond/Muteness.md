@@ -19,7 +19,7 @@ folder: 4h8qyMcGHlkrfN1g
 
 Muteness is the complete inability to speak, either due to physical, neurological, or psychological factors. Individuals with muteness are unable to produce verbal speech and must rely entirely on alternative methods of communication, such as gestures, written language, or sign language. The loss of speech can lead to profound social isolation, frustration, and emotional distress.
 
-### Disorder
+### Debility
 
 The total loss of speech, where the individual is unable to produce any sounds or words, significantly impairing communication. This condition can lead to reliance on non-verbal forms of expression and may cause the individual to feel disconnected from others and socially isolated.
 

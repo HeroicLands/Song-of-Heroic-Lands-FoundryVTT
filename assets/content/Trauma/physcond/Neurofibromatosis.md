@@ -19,12 +19,12 @@ folder: 4h8qyMcGHlkrfN1g
 
 Neurofibromatosis is a genetic disorder that causes tumors, known as neurofibromas, to grow along nerves, affecting various parts of the body, including the skin, bones, and nervous system. These tumors, though typically benign, can lead to visible deformities, chronic pain, and significant neurological complications. The visible nature of the tumors often leads to social stigmatization and emotional distress as the individual contends with both physical and social challenges.
 
-### Impulse
+### Impediment
 
 The condition begins with the appearance of café-au-lait spots and small, visible neurofibromas, typically causing no pain but raising concerns about appearance and future health issues. While still in the early stages, the visibility of these spots and lumps can lead to social discomfort, with others noticing and reacting to the unusual markings.
 **Example:** Matthew has developed several café-au-lait spots on his arms and back, as well as small neurofibromas that are starting to become noticeable. Though the condition causes him no physical discomfort yet, the curious and sometimes uneasy glances from others in the village make him feel self-conscious. He begins wearing long sleeves even in warm weather to hide the marks.
 
-### Disorder
+### Debility
 
 As the condition worsens, neurofibromas grow larger and more numerous, often disfiguring the skin, face, and limbs. These visible tumors can cause severe social stigma, with the individual facing discrimination, avoidance, or even fear from others. Physical pain and neurological issues such as muscle weakness or numbness add to the difficulties, but the psychological toll of being visibly "different" can be even more damaging. Social isolation, anxiety, and depression often accompany the physical progression of the disease.
 

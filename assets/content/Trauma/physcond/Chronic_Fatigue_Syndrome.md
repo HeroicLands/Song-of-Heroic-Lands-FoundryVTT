@@ -20,12 +20,12 @@ folder: 4h8qyMcGHlkrfN1g
 
 Chronic Fatigue Syndrome (CFS) is a debilitating condition characterized by persistent and overwhelming fatigue that is not relieved by rest. Those afflicted find even simple tasks exhausting, and their energy levels are constantly depleted.
 
-### Impulse
+### Impediment
 
 Constant feelings of tiredness and lack of energy, even after a full night’s rest. Individuals may struggle to complete daily tasks and often require frequent breaks to manage their fatigue.
 **Example:** Merchant Alaric finds himself increasingly fatigued after a day in the marketplace. Once lively and energetic, he now struggles to keep up with the demands of his trade, often needing to sit and rest, despite the relatively simple nature of his work.
 
-### Disorder
+### Debility
 
 In addition to impulse intensity behaviors: Severe and debilitating exhaustion that makes even basic activities, such as walking or carrying out routine tasks, feel insurmountable. The individual may be bedridden or require significant assistance in daily life, with the condition severely impacting their ability to function.
 
