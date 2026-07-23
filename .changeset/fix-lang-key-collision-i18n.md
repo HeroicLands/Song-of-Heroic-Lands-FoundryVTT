@@ -15,8 +15,9 @@ strings and every SoHL label rendered as its raw key.
 - Align the Pall trauma with its sibling traumas (`SOHL.Trauma.Fear`,
   `SOHL.Trauma.Morale`) by moving its name to `SOHL.Trauma.Pall.DefaultSource`, so
   `SOHL.Trauma.Pall` is a pure branch and no key is both a leaf and a branch.
-- Add a fast unit guard (`tests/guards/lang-expandable.test.ts`) that fails the
-  build on any dotted-prefix key collision in a `lang/*.json` file, so this class
-  of regression can never ship again.
+- Add a `lint:lang` build guard (`utils/check-lang.mjs`, wired into `lint`) that
+  fails the build fast — before the type-check and tests — on any dotted-prefix
+  key collision in a `lang/*.json` file, so this class of regression can never
+  ship again.
 
 Closes #636
