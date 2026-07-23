@@ -20,11 +20,10 @@ encumbrance system. The lone descriptive straggler, handedness, is remodeled as
 two `physcond` trauma items, **Right Dominance** and **Left Dominance** — a
 whole-side (not hand-only) preference; the ambidextrous have neither.
 
-**Migration (automatic, lossless).** A world migration retires any existing `trait`
-documents: descriptive traits are re-created as `trauma` items (`personality` →
-`psycond`, `physique` → `physcond`, mapping `intensity` to the target category);
-measured traits are dropped (now modeled on the Being). Foundry cannot change a
-document's type in place, so the migration creates the replacement and deletes the
-original.
+**Legacy documents are flagged, not converted.** Surviving `trait` documents are
+**not** auto-migrated. On every GM world-load the system reports each one as an
+unrecognized retired type (console error plus a persistent UI notification) and
+leaves it untouched — the GM removes it or recreates its data as a
+`trauma`/`attribute` by hand. This avoids lossy guesswork about a removed type.
 
 Closes #651

@@ -1,106 +1,46 @@
 import { describe, it, expect } from "vitest";
-import { planTraitMigration } from "@src/core/foundry/migration";
+import { legacyTraitError } from "@src/core/foundry/migration";
 
-describe("planTraitMigration — retire the trait item type (#651)", () => {
-    it("returns null for a non-trait source", () => {
-        expect(planTraitMigration({ type: "skill", system: {} })).toBeNull();
-        expect(planTraitMigration(null)).toBeNull();
-        expect(planTraitMigration(undefined)).toBeNull();
+describe("legacyTraitError — retired trait item type is unrecognized (#651)", () => {
+    it("returns null for a non-trait document", () => {
+        expect(legacyTraitError({ type: "trauma", name: "x" })).toBeNull();
+        expect(legacyTraitError({ type: "skill" })).toBeNull();
+        expect(legacyTraitError(null)).toBeNull();
+        expect(legacyTraitError(undefined)).toBeNull();
     });
 
-    it("deletes a measured trait (now modeled on the Being)", () => {
+    it("flags a legacy trait document as an unrecognized retired type", () => {
+        const err = legacyTraitError({ type: "trait", name: "Bloodlust" });
+        expect(err).toContain('Unrecognized item type "trait"');
+        expect(err).toContain('"Bloodlust"');
+        expect(err).toContain("retired");
+        expect(err).toContain("not migrated automatically");
+    });
+
+    it("never auto-converts — it only reports (no trauma/attribute payload)", () => {
+        // The message tells the GM to resolve it by hand; it is not a conversion plan.
+        const err = legacyTraitError({ type: "trait", name: "X" }) as string;
+        expect(err).toContain("by hand");
+    });
+
+    it("falls back to the id, then to (unknown), when the name is absent", () => {
+        expect(legacyTraitError({ type: "trait", id: "abc123" })).toContain(
+            "[abc123]",
+        );
+        expect(legacyTraitError({ type: "trait" })).toContain("(unknown)");
+    });
+
+    it("also fires when Foundry fell the document back to base (type on _source)", () => {
         expect(
-            planTraitMigration({
-                type: "trait",
-                system: { subType: "measured" },
+            legacyTraitError({
+                type: "base",
+                name: "Legacy",
+                _source: { type: "trait" },
             }),
-        ).toEqual({ action: "delete" });
-    });
-
-    it("deletes a legacy numeric trait (pre-#532 isNumeric flag)", () => {
+        ).toContain('Unrecognized item type "trait"');
+        // A genuine base item is not flagged.
         expect(
-            planTraitMigration({
-                type: "trait",
-                system: { subType: "physique", isNumeric: true },
-            }),
-        ).toEqual({ action: "delete" });
-    });
-
-    it("replaces a descriptive personality trait with a psycond trauma", () => {
-        const plan = planTraitMigration({
-            type: "trait",
-            name: "Bloodlust",
-            img: "icons/x.svg",
-            folder: "F1",
-            flags: { sohl: { docArchetype: 0 } },
-            system: {
-                subType: "personality",
-                intensity: "impulse",
-                notes: "n",
-            },
-        });
-        expect(plan).toEqual({
-            action: "replace",
-            create: {
-                name: "Bloodlust",
-                type: "trauma",
-                img: "icons/x.svg",
-                folder: "F1",
-                flags: { sohl: { docArchetype: 0 } },
-                system: {
-                    subType: "psycond",
-                    category: "impulse",
-                    notes: "n",
-                },
-            },
-        });
-    });
-
-    it("replaces a descriptive physique trait with a physcond trauma", () => {
-        const plan = planTraitMigration({
-            type: "trait",
-            name: "Favored Parts",
-            img: "icons/hands.svg",
-            system: { subType: "physique", intensity: "trait" },
-        });
-        expect(plan).toEqual({
-            action: "replace",
-            create: {
-                name: "Favored Parts",
-                type: "trauma",
-                img: "icons/hands.svg",
-                system: { subType: "physcond", category: "trait" },
-            },
-        });
-    });
-
-    it("maps intensity to the target subtype's category enum", () => {
-        // personality → psycond (quirk / impulse / disorder)
-        const psy = (intensity: string) =>
-            (
-                planTraitMigration({
-                    type: "trait",
-                    name: "x",
-                    system: { subType: "personality", intensity },
-                }) as any
-            ).create.system.category;
-        expect(psy("benign")).toBe("quirk");
-        expect(psy("trait")).toBe("quirk");
-        expect(psy("impulse")).toBe("impulse");
-        expect(psy("disorder")).toBe("disorder");
-
-        // physique → physcond (trait / impediment / debility)
-        const phy = (intensity: string) =>
-            (
-                planTraitMigration({
-                    type: "trait",
-                    name: "x",
-                    system: { subType: "physique", intensity },
-                }) as any
-            ).create.system.category;
-        expect(phy("benign")).toBe("trait");
-        expect(phy("trait")).toBe("trait");
-        expect(phy("impulse")).toBe("impediment");
-        expect(phy("disorder")).toBe("debility");
+            legacyTraitError({ type: "base", _source: { type: "base" } }),
+        ).toBeNull();
     });
 });
