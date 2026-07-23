@@ -28,7 +28,7 @@ import {
     PSYCHE_PERMANENCE,
     PSYCHE_RECOVERY_INTERVAL_FORMULA,
     AURAL_SHOCK_RECOVERY_INTERVAL_FORMULA,
-} from "@src/document/item/logic/psyche";
+} from "@src/document/item/logic/psychological-trauma";
 import {
     TREATMENT_HEAL,
     injuryBand,

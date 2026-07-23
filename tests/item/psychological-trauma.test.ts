@@ -14,7 +14,7 @@ import {
     psychePresentation,
     psycheRecoveryOutcome,
     auralShockRecoveryOutcome,
-} from "@src/document/item/logic/psyche";
+} from "@src/document/item/logic/psychological-trauma";
 import {
     CRITICAL_FAILURE,
     CRITICAL_SUCCESS,
