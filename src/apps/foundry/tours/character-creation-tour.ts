@@ -166,29 +166,22 @@ export function buildCharacterCreationTour(): SohlTour {
 
     const steps: SohlTourStep[] = [
         {
-            // 1 — Free: highlight the Actors sidebar tab so the user knows where
-            // characters live. They click it themselves (coach-and-wait).
+            // 1 — Free: the tour selects the Actors tab (scene-setting nav) and
+            // SPOTLIGHTS the Create Actor button — a bright ring on the button
+            // while the step card stays centered/stable (a `selector` here would
+            // anchor the card to the button via Foundry's shared tooltip, which the
+            // sidebar's own hover-tooltips hijack and lose). The user clicks it.
             id: "create-actor",
             title: "SOHL.Tour.CharCreation.createActor.title",
             content: "SOHL.Tour.CharCreation.createActor.content",
-            selector: '#sidebar button[data-action="tab"][data-tab="actors"]',
-            tooltipDirection: "LEFT",
-        },
-        {
-            // 2 — Free: highlight the Create Actor button. `nav.sidebarTab` opens
-            // the Actors directory first so the button (hidden until its directory
-            // is active) is rendered and visible to highlight. The user clicks it.
-            id: "create-button",
-            title: "SOHL.Tour.CharCreation.createButton.title",
-            content: "SOHL.Tour.CharCreation.createButton.content",
-            selector: '#actors button.create-entry[data-action="createEntry"]',
             nav: { sidebarTab: "actors" },
-            tooltipDirection: "LEFT",
+            spotlight: '#actors button.create-entry[data-action="createEntry"]',
         },
         {
-            // 3 — Free: pick the Basic Folk archetype and confirm. The transient
+            // 2 — Free: pick the Basic Folk archetype and confirm. The transient
             // create dialog can't be reliably gated, so the archetype is enforced
-            // by the next (state-gated) step instead.
+            // by the next (state-gated) step instead. The dialog is un-dimmed by
+            // the framework so the user can read and fill it.
             id: "archetype",
             title: "SOHL.Tour.CharCreation.archetype.title",
             content: "SOHL.Tour.CharCreation.archetype.content",

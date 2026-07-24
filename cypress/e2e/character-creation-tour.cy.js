@@ -27,21 +27,22 @@
 const KEY = "sohl.character-creation";
 
 /**
- * Step indices (0-based) of the gated steps under test. The tour opens with two
- * free navigation steps — highlight the Actors tab, then the Create Actor button
- * — so the first gated step (`populated`) is index 3.
+ * Step indices (0-based) of the gated steps under test. The tour opens with a
+ * free create-actor step (selects the Actors tab, spotlights the Create Actor
+ * button) then the archetype step, so the first gated step (`populated`) is
+ * index 2.
  */
 const STEP = {
-    populated: 3,
-    gearWeapons: 9,
-    combatHold: 10,
-    strikeModes: 11,
-    gearTunic: 12,
-    mysteryAdd: 14,
-    backpack: 16,
-    tinderbox: 17,
-    dragIn: 18,
-    dragOut: 19,
+    populated: 2,
+    gearWeapons: 8,
+    combatHold: 9,
+    strikeModes: 10,
+    gearTunic: 11,
+    mysteryAdd: 13,
+    backpack: 15,
+    tinderbox: 16,
+    dragIn: 17,
+    dragOut: 18,
 };
 
 /** Read whether the tour's Next button is currently gate-disabled. */
@@ -136,11 +137,11 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         );
     });
 
-    it("opens with highlight steps for the Actors tab and Create Actor button", () => {
-        // The first two (free) steps coach the user to the sidebar: highlight the
-        // Actors tab, then auto-open the Actors directory and highlight its
-        // Create Actor button (hidden until that directory is active). The overlay
-        // must pass clicks through so the highlighted controls are actionable.
+    it("opens by selecting the Actors tab and spotlighting Create Actor", () => {
+        // The create-actor step selects the Actors tab (scene-setting nav) and
+        // spotlights the Create Actor button — a fade ring on the button while the
+        // step card stays centered/stable. The overlay must pass clicks through so
+        // the spotlighted control is actionable.
         cy.foundry((win) =>
             win.game.tours
                 .get(KEY)
@@ -148,37 +149,72 @@ describe("Character Creation tour (SohlTour, #614)", () => {
                 .then(() => true),
         );
 
-        // Step 0: highlights the Actors sidebar tab button.
         cy.window().should((win) => {
             const tour = win.game.tours.get(KEY);
             expect(tour.stepIndex, "on the create-actor step").to.eq(0);
-            const t = tour.targetElement;
-            expect(t, "targets an element").to.exist;
-            expect(t.getAttribute("data-action"), "is a tab control").to.eq(
-                "tab",
-            );
-            expect(t.getAttribute("data-tab"), "the Actors tab").to.eq(
-                "actors",
-            );
-        });
-
-        // Step 1: auto-opens the Actors directory and highlights Create Actor.
-        goTo(1).should("eq", 1);
-        cy.window().should((win) => {
-            const tour = win.game.tours.get(KEY);
-            const t = tour.targetElement;
-            expect(t, "targets an element").to.exist;
+            // The Actors directory was auto-selected.
             expect(
-                t.classList.contains("create-entry"),
+                win.ui.sidebar?.tabGroups?.primary,
+                "Actors tab selected",
+            ).to.eq("actors");
+            // The spotlight targets the Actors directory's Create Actor button.
+            const spot = tour.spotlightTarget;
+            expect(spot, "has a spotlight target").to.exist;
+            expect(
+                spot.classList.contains("create-entry"),
                 "the Create Actor button",
             ).to.be.true;
-            expect(t.closest("#actors"), "scoped to the actors directory").to
+            expect(spot.closest("#actors"), "scoped to the actors directory").to
                 .exist;
-            // Coach-and-wait: the overlay never blocks the highlighted control.
+            // The step card is NOT anchored to the button (stable/centered), so a
+            // sidebar hover can't hijack Foundry's shared tooltip and lose it.
+            expect(
+                tour.targetElement?.classList.contains("tour-center-step"),
+                "card is the centered step, not a tooltip",
+            ).to.be.true;
+            // Coach-and-wait: the overlay never blocks the spotlighted control.
             expect(
                 tour.overlayElement?.style.pointerEvents,
                 "overlay lets the click through",
             ).to.eq("none");
+        });
+    });
+
+    it("lifts an open dialog above the tour fade so it is not shadowed", () => {
+        // A dialog the user must type in must not be dimmed by the tour fade.
+        cy.foundry((win) =>
+            win.game.tours
+                .get(KEY)
+                .start()
+                .then(() => true),
+        );
+        // Open a dialog (the same DialogV2 class the Create Actor dialog uses)
+        // while the tour is active.
+        cy.foundry((win) => {
+            const dlg = new win.foundry.applications.api.DialogV2({
+                window: { title: "Tour Dialog Test" },
+                content: "<p>x</p>",
+                buttons: [{ action: "ok", label: "OK" }],
+            });
+            return dlg.render({ force: true }).then(() => true);
+        });
+        cy.window().should((win) => {
+            const dialog = win.document.querySelector("dialog.application");
+            expect(dialog, "a dialog is open").to.exist;
+            const dz = parseInt(win.getComputedStyle(dialog).zIndex, 10);
+            const fz = parseInt(
+                win.getComputedStyle(win.game.tours.get(KEY).fadeElement)
+                    .zIndex,
+                10,
+            );
+            expect(dz, "dialog sits above the tour fade").to.be.greaterThan(fz);
+        });
+        // Dismiss the dialog so it doesn't leak into later specs.
+        cy.foundry((win) => {
+            win.document
+                .querySelectorAll("dialog.application")
+                .forEach((d) => d.remove());
+            return true;
         });
     });
 
