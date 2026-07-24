@@ -62,6 +62,16 @@ export interface TourStepBase {
     content: string;
     /** CSS selector of the element to highlight; centered if omitted. */
     selector?: string;
+    /**
+     * CSS selector of an element to **spotlight** (ring with the fade "hole")
+     * while the step's card stays **centered and stable** — unlike
+     * {@link selector}, which anchors the card to the target via Foundry's shared
+     * tooltip. Use this to point at an element that itself has hover-tooltips or
+     * re-renders (a sidebar tab, a directory button): the card can't be hijacked
+     * or lost because it isn't tooltip-anchored, yet the target is still clearly
+     * indicated. Ignored when {@link selector} is set.
+     */
+    spotlight?: string;
     /** Preferred tooltip direction relative to the target. */
     tooltipDirection?: string;
     /** Whether the step is GM-only. */

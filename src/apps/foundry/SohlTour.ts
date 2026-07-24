@@ -188,6 +188,15 @@ export class SohlTour extends TourBase {
     /** `pagehide` restore hook — the navigation-away safety net, if seeded. */
     #unloadHandler: (() => void) | undefined;
 
+    /** The element currently spotlighted (fade ring) for a `spotlight` step. */
+    #spotlightEl: HTMLElement | undefined;
+
+    /**
+     * The injected stylesheet that lifts open dialogs above the tour fade so a
+     * dialog the user must type in is never shadowed. Present while the tour runs.
+     */
+    #dialogStyleEl: HTMLStyleElement | undefined;
+
     /* -------------------------------------------- */
     /*  Accessors                                   */
     /* -------------------------------------------- */
@@ -204,6 +213,15 @@ export class SohlTour extends TourBase {
     get canStart(): boolean {
         const fn = (this.config as SohlTourConfig).canStart;
         return fn ? Boolean(fn()) : true;
+    }
+
+    /**
+     * The element the current step spotlights (the fade ring is drawn around it),
+     * or `undefined` when the step has no {@link SohlTourStep.spotlight}. Exposed
+     * for tests and callers that need to confirm what the step is pointing at.
+     */
+    get spotlightTarget(): HTMLElement | undefined {
+        return this.#spotlightEl;
     }
 
     /* -------------------------------------------- */
@@ -278,6 +296,10 @@ export class SohlTour extends TourBase {
 
         // Give a post-navigation render a moment to attach the target element.
         if (step.selector) await this.#waitForElement(step.selector);
+        // A spotlight target must be VISIBLE before we ring it — the create button
+        // exists in the DOM even while its directory is hidden, so waiting only for
+        // existence would ring a zero-size (off-screen) rect.
+        else if (step.spotlight) await this.#waitForVisible(step.spotlight);
 
         // Re-arm watchers for this step.
         this.#teardownWatchers();
@@ -307,13 +329,61 @@ export class SohlTour extends TourBase {
         }
 
         await super._renderStep();
+        // Keep any open dialog above the fade so a dialog the user must type in is
+        // never shadowed (armed for the whole tour; removed on exit).
+        this.#ensureDialogUndimStyle();
+        // For a spotlight step, move the fade ring off the centered card and onto
+        // the target element, so the card stays stable/centered while the target
+        // is clearly indicated.
+        this.#applySpotlight(step);
         // Coach-and-wait: the tour must never block the app it is coaching. Let
         // pointer events pass through the fade/overlay on EVERY step — free or
         // gated — so the user can create the actor, switch tabs, type, or drag to
         // make progress. Applied here (not only for gated steps) so a free step
         // that asks the user to act (e.g. "create the actor") is interactive.
+        // After #applySpotlight so the relocated fade also passes clicks through.
         this.#allowAppInteraction();
         this.#applyGate(step);
+    }
+
+    /**
+     * Ring the step's {@link SohlTourStep.spotlight} target with the fade "hole"
+     * while leaving the step **card centered and stable**. Foundry couples a
+     * `selector` to tooltip-anchoring the card (which the sidebar's own
+     * hover-tooltips hijack, and which is lost when the sidebar re-renders); a
+     * spotlight step instead has no `selector`, so `super._renderStep()` renders
+     * the card as a centered `.tour-center-step` and puts the fade on that card.
+     * Here we discard that fade and re-create it around the actual target, and
+     * nudge the card off dead-centre so a centered dialog it may open is not
+     * hidden behind it. A no-op for non-spotlight steps.
+     * @param step - The current step (or `null`).
+     */
+    #applySpotlight(step: SohlTourStep | null): void {
+        this.#spotlightEl = undefined;
+        if (!step?.spotlight || step.selector) return;
+        const el = this._getTargetElement(step.spotlight) as HTMLElement | null;
+        if (!el) {
+            console.warn(
+                `SohlTour [${this.id}] | spotlight "${step.spotlight}" not found`,
+            );
+            return;
+        }
+        this.#spotlightEl = el;
+        // Replace the fade Foundry put on the centered card with one on the target.
+        if (this.fadeElement) {
+            this.fadeElement.remove();
+            this.fadeElement = undefined;
+        }
+        this.fadeElement = (TourBase as any).highlightElement(el, {
+            padding: (TourBase as any).HIGHLIGHT_PADDING,
+            preventInteraction: false,
+        });
+        // Lift the centered card to the top so it never sits over a centered
+        // dialog (e.g. the Create Actor dialog) the spotlighted control opens.
+        if (this.targetElement instanceof HTMLElement) {
+            this.targetElement.style.top = "6%";
+            this.targetElement.style.bottom = "auto";
+        }
     }
 
     /**
@@ -349,6 +419,7 @@ export class SohlTour extends TourBase {
      */
     exit(): void {
         this.#restoreRng();
+        this.#removeDialogUndimStyle();
         super.exit();
     }
 
@@ -368,6 +439,7 @@ export class SohlTour extends TourBase {
         const TERMINAL = (TourBase as any).STATUS ?? {};
         if (status === TERMINAL.COMPLETED || status === TERMINAL.UNSTARTED) {
             this.#restoreRng();
+            this.#removeDialogUndimStyle();
         }
     }
 
@@ -777,6 +849,54 @@ export class SohlTour extends TourBase {
         }
     }
 
+    /**
+     * Poll up to ~30 frames for the selector to resolve to a **visible** element
+     * (laid out, non-zero size) — not merely present. Used before spotlighting a
+     * control that exists while hidden (a directory's Create button before its tab
+     * is active), so the fade ring is placed on its real on-screen rect.
+     * @param selector - The selector to wait for.
+     * @param tries - Maximum number of animation frames to poll.
+     */
+    async #waitForVisible(selector: string, tries = 30): Promise<void> {
+        for (let i = 0; i < tries; i++) {
+            const el = this._getTargetElement(selector) as HTMLElement | null;
+            if (el && el.offsetParent !== null) {
+                const rect = el.getBoundingClientRect();
+                if (rect.width > 0 && rect.height > 0) return;
+            }
+            await this.#nextFrame();
+        }
+    }
+
+    /* -------------------------------------------- */
+    /*  Dialog un-dimming                           */
+    /* -------------------------------------------- */
+
+    /**
+     * Inject (idempotently) a stylesheet that lifts every open dialog above the
+     * tour fade, so a dialog the user must read or type in is never shadowed. An
+     * `!important` rule is used deliberately: Foundry re-stamps a dialog's inline
+     * `z-index` via `bringToFront()` on focus, and only `!important` outranks that
+     * inline value. `--z-index-tooltip - 1` sits above the fade/overlay but below
+     * the tour's own step card (`--z-index-tooltip`), which the spotlight steps
+     * lift to the top of the screen so the two never collide.
+     */
+    #ensureDialogUndimStyle(): void {
+        if (this.#dialogStyleEl?.isConnected) return;
+        const style = document.createElement("style");
+        style.setAttribute("data-sohl-tour", this.id);
+        style.textContent =
+            "dialog.application { z-index: calc(var(--z-index-tooltip) - 1) !important; }";
+        document.head.appendChild(style);
+        this.#dialogStyleEl = style;
+    }
+
+    /** Remove the dialog-undim stylesheet (safe if never injected). */
+    #removeDialogUndimStyle(): void {
+        this.#dialogStyleEl?.remove();
+        this.#dialogStyleEl = undefined;
+    }
+
     /* -------------------------------------------- */
     /*  DOM teardown                                */
     /* -------------------------------------------- */
@@ -787,6 +907,7 @@ export class SohlTour extends TourBase {
      */
     #teardownStepDom(): void {
         const step = this.currentSohlStep;
+        this.#spotlightEl = undefined;
         if (step && !step.selector) this.targetElement?.remove();
         else (game as any).tooltip?.deactivate();
         if (this.fadeElement) {
