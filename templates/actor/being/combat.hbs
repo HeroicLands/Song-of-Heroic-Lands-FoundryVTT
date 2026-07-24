@@ -149,19 +149,18 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     {{#if isGM}}
     {{!-- Default combat group: auto-assigns this actor's combatants on combat start --}}
-        <div class="form-group">
-            {{formGroup fields.defaultCombatGroup
-                classes="text-field"
-                placeholder="Opponents"
-                localize=true
-                stacked=false
-                value=system.defaultCombatGroup}}
-        </div>
+        {{formGroup fields.defaultCombatGroup
+            classes="text-field combat-default-group"
+            placeholder="Opponents"
+            localize=true
+            stacked=false
+            value=system.defaultCombatGroup}}
     {{/if}}
 
     {{!-- Body Locations: read-only Part → Location tree with effective armor
          totals (natural protection + worn armor) per location. --}}
     {{#if structure}}
+        <h2 class="being-section-heading">{{localize "SOHL.Being.Heading.BodyStructure"}}</h2>
         <div class="search-items">
             <input class="search-criteria" type="search" name="search-bodylocations" value=""
                 aria-label="Search Body Locations" placeholder="Search Body Locations" autocomplete="off" />

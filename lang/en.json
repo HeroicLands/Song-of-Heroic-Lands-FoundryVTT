@@ -358,6 +358,7 @@
     "SOHL.BASEDATA.label": "{name} {typeLabel}",
     "SOHL.BASEDATA.typeLabel": "{type}",
     "SOHL.BASEDATA.typeLabelWithSubtype": "{subType} {type}",
+    "SOHL.Being.Heading.BodyStructure": "Body Structure",
     "SOHL.Being.StatusLegend": "ASHK = Aural Shock<br>SLP = Asleep<br>PRN = Prone<br>FTG = Any Fatigue<br>STN = Stunned (Blue=Temporary, Red = Indefinite)<br>INC = Incapacitated<br>UNC = Unconscious (Blue=Temporary, Red = Coma)<br>KIA = Dead",
     "SOHL.Being.StatusPill.auralShock.abbr": "ASHK",
     "SOHL.Being.StatusPill.auralShock.label": "Aural Shock",

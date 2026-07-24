@@ -67,6 +67,36 @@
     }
 }
 
+// Section heading inside a Being tab (e.g. "Body Structure" on the Combat tab).
+// Same emphasis and leading whitespace as the Dossier label, so groups read as
+// consistent section headers rather than the default Cinzel <h2>.
+.being-section-heading {
+    @include typography.type-style("label-large");
+    margin: 1rem 0 0.25rem;
+    padding: 0;
+    border: none;
+    color: var(--sohl-color-text-primary);
+}
+
+// The Combat tab's "Default Combat Group" field. The SoHL `.form-group` renders
+// as a block (label inline, `.form-fields` block), so a plain `.text-field`
+// stacks the input under the label. This field is a single short text input, so
+// lay label and input out on one row instead.
+.combat-default-group.form-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    > label {
+        flex: 0 0 auto;
+        margin: 0;
+    }
+
+    > .form-fields {
+        flex: 1;
+    }
+}
+
 // Column widths — applied to the header row(s) AND the data rows so every
 // column lines up. This covers both a `<header class="list__header">` that sits
 // OUTSIDE `.list__items` (Combat strike modes and Body Locations put their
