@@ -26,18 +26,22 @@
 
 const KEY = "sohl.character-creation";
 
-/** Step indices (0-based) of the gated steps under test. */
+/**
+ * Step indices (0-based) of the gated steps under test. The tour opens with two
+ * free navigation steps — highlight the Actors tab, then the Create Actor button
+ * — so the first gated step (`populated`) is index 3.
+ */
 const STEP = {
-    populated: 2,
-    gearWeapons: 8,
-    combatHold: 9,
-    strikeModes: 10,
-    gearTunic: 11,
-    mysteryAdd: 13,
-    backpack: 15,
-    tinderbox: 16,
-    dragIn: 17,
-    dragOut: 18,
+    populated: 3,
+    gearWeapons: 9,
+    combatHold: 10,
+    strikeModes: 11,
+    gearTunic: 12,
+    mysteryAdd: 14,
+    backpack: 16,
+    tinderbox: 17,
+    dragIn: 18,
+    dragOut: 19,
 };
 
 /** Read whether the tour's Next button is currently gate-disabled. */
@@ -132,6 +136,52 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         );
     });
 
+    it("opens with highlight steps for the Actors tab and Create Actor button", () => {
+        // The first two (free) steps coach the user to the sidebar: highlight the
+        // Actors tab, then auto-open the Actors directory and highlight its
+        // Create Actor button (hidden until that directory is active). The overlay
+        // must pass clicks through so the highlighted controls are actionable.
+        cy.foundry((win) =>
+            win.game.tours
+                .get(KEY)
+                .start()
+                .then(() => true),
+        );
+
+        // Step 0: highlights the Actors sidebar tab button.
+        cy.window().should((win) => {
+            const tour = win.game.tours.get(KEY);
+            expect(tour.stepIndex, "on the create-actor step").to.eq(0);
+            const t = tour.targetElement;
+            expect(t, "targets an element").to.exist;
+            expect(t.getAttribute("data-action"), "is a tab control").to.eq(
+                "tab",
+            );
+            expect(t.getAttribute("data-tab"), "the Actors tab").to.eq(
+                "actors",
+            );
+        });
+
+        // Step 1: auto-opens the Actors directory and highlights Create Actor.
+        goTo(1).should("eq", 1);
+        cy.window().should((win) => {
+            const tour = win.game.tours.get(KEY);
+            const t = tour.targetElement;
+            expect(t, "targets an element").to.exist;
+            expect(
+                t.classList.contains("create-entry"),
+                "the Create Actor button",
+            ).to.be.true;
+            expect(t.closest("#actors"), "scoped to the actors directory").to
+                .exist;
+            // Coach-and-wait: the overlay never blocks the highlighted control.
+            expect(
+                tour.overlayElement?.style.pointerEvents,
+                "overlay lets the click through",
+            ).to.eq("none");
+        });
+    });
+
     it("gated steps hold Next until the user acts, building a full character", () => {
         // Basic Folk — a populated Being carrying the `basicfolk` archetype
         // shortcode, which is what the step-3 "populated" gate recognizes.
@@ -145,11 +195,11 @@ describe("Character Creation tour (SohlTour, #614)", () => {
                 .then(() => true),
         );
 
-        // Step 3 (populated): the imported Basic Folk satisfies it immediately.
+        // populated: the imported Basic Folk satisfies it immediately.
         goTo(STEP.populated).should("eq", STEP.populated);
         expectGated(false, "populated gate open for Basic Folk");
 
-        // Step 9 (gear-weapons): gated until a Broadsword AND a Roundshield exist.
+        // gear-weapons: gated until a Broadsword AND a Roundshield exist.
         goTo(STEP.gearWeapons).should("eq", STEP.gearWeapons);
         expectGated(true, "weapons gate closed with no weapons");
         cy.get("@being").then((being) => {
@@ -162,7 +212,7 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         });
         expectGated(false, "weapons gate opens once both exist");
 
-        // Step 10 (combat-hold): gated until Broadsword→right arm, Roundshield→left.
+        // combat-hold: gated until Broadsword→right arm, Roundshield→left.
         goTo(STEP.combatHold).should("eq", STEP.combatHold);
         expectGated(true, "hold gate closed before holding");
         cy.then(function () {
@@ -199,12 +249,12 @@ describe("Character Creation tour (SohlTour, #614)", () => {
             "hold gate opens once weapons are in the right arms",
         );
 
-        // Step 11 (strike-modes): a held weapon means the strike modes appear;
+        // strike-modes: a held weapon means the strike modes appear;
         // the gate is satisfied (and pointer pass-through makes ATK/BLK/CX live).
         goTo(STEP.strikeModes).should("eq", STEP.strikeModes);
         expectGated(false, "strike-modes gate open once a weapon is held");
 
-        // Step 12 (gear-tunic): gated until a Leather Tunic exists AND is equipped.
+        // gear-tunic: gated until a Leather Tunic exists AND is equipped.
         goTo(STEP.gearTunic).should("eq", STEP.gearTunic);
         expectGated(true, "tunic gate closed with no tunic");
         cy.get("@being").then((being) => {
@@ -228,7 +278,7 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         });
         expectGated(false, "tunic gate opens once equipped");
 
-        // Step 14 (mystery-add): gated until an Arcane Talent mystical ability exists.
+        // mystery-add: gated until an Arcane Talent mystical ability exists.
         goTo(STEP.mysteryAdd).should("eq", STEP.mysteryAdd);
         expectGated(true, "arcane-talent gate closed");
         cy.get("@being").then((being) => {
@@ -239,7 +289,7 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         });
         expectGated(false, "arcane-talent gate opens once the talent exists");
 
-        // Step 15a (backpack): gated until a Backpack container exists.
+        // backpack: gated until a Backpack container exists.
         goTo(STEP.backpack).should("eq", STEP.backpack);
         expectGated(true, "backpack gate closed");
         cy.get("@being").then((being) => {
@@ -249,7 +299,7 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         });
         expectGated(false, "backpack gate opens once it exists");
 
-        // Step 15b (tinderbox): gated until a Tinderbox exists.
+        // tinderbox: gated until a Tinderbox exists.
         goTo(STEP.tinderbox).should("eq", STEP.tinderbox);
         expectGated(true, "tinderbox gate closed");
         cy.get("@being").then((being) => {
@@ -259,7 +309,7 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         });
         expectGated(false, "tinderbox gate opens once it exists");
 
-        // Step 15c (drag-in): gated until the Tinderbox is inside the Backpack.
+        // drag-in: gated until the Tinderbox is inside the Backpack.
         goTo(STEP.dragIn).should("eq", STEP.dragIn);
         expectGated(true, "drag-in gate closed while loose");
         cy.then(function () {
@@ -282,7 +332,7 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         });
         expectGated(false, "drag-in gate opens once the tinderbox is packed");
 
-        // Step 15d (drag-out): gated until the Tinderbox is back on the person.
+        // drag-out: gated until the Tinderbox is back on the person.
         goTo(STEP.dragOut).should("eq", STEP.dragOut);
         expectGated(true, "drag-out gate closed while packed");
         cy.then(function () {

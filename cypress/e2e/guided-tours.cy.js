@@ -73,6 +73,33 @@ describe("guided-tour framework (SohlTour)", () => {
         });
     });
 
+    it("a free centered step never blocks interaction with the app", () => {
+        // Regression: a free step (here the centered `intro`, index 0) whispered
+        // to the user must leave the app clickable — Foundry's `.tour-overlay` is
+        // created to *block input*, so a coach-and-wait tour must pass pointer
+        // events through the fade AND overlay, otherwise the user cannot reach the
+        // sidebar / sheet the step is coaching (e.g. "create the actor").
+        cy.importActor();
+        cy.foundry((win) =>
+            win.game.tours
+                .get(TOUR_KEY)
+                .start()
+                .then(() => true),
+        );
+        cy.window().should((win) => {
+            const tour = win.game.tours.get(TOUR_KEY);
+            expect(tour.stepIndex, "on the free intro step").to.eq(0);
+            expect(
+                tour.fadeElement?.style.pointerEvents,
+                "fade lets clicks through",
+            ).to.eq("none");
+            expect(
+                tour.overlayElement?.style.pointerEvents,
+                "overlay lets clicks through",
+            ).to.eq("none");
+        });
+    });
+
     it("canStart gates on owning a Being actor", () => {
         // No Being at all → not startable.
         cy.foundry(deleteAllBeings);
