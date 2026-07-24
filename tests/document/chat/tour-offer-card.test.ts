@@ -35,4 +35,20 @@ describe("tour-offer-card", () => {
         // Inside the card-buttons region so client gating/dispatch can find it.
         expect(html).toContain("card-buttons");
     });
+
+    it("renders inline markup in the content as HTML, not escaped text", () => {
+        const html = renderTemplateReal(`${CHAT}/tour-offer-card.hbs`, {
+            title: "Welcome to Song of Heroic Lands",
+            content:
+                "New here? Take the <strong>Create a Character</strong> guided tour — start it any time from <em>Settings → Tour Management</em>.",
+            startLabel: "Start the tour",
+            tourId: "sohl.character-creation",
+        });
+        // The localized content carries <strong>/<em> markup; it must reach the
+        // DOM as real tags, not HTML-escaped literals shown to the reader.
+        expect(html).toContain("<strong>Create a Character</strong>");
+        expect(html).toContain("<em>Settings → Tour Management</em>");
+        expect(html).not.toContain("&lt;strong&gt;");
+        expect(html).not.toContain("&lt;em&gt;");
+    });
 });
