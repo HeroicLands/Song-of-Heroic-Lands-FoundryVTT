@@ -47,8 +47,9 @@ const STEP = {
 
 /** Read whether the tour's Next button is currently gate-disabled. */
 function isGated(win) {
-    const btn = win.game.tooltip?.tooltip?.querySelector(
-        '.step-button[data-action="next"]',
+    // The Next button lives in the centered step card, not the shared tooltip.
+    const btn = win.document.querySelector(
+        '.tour-center-step .step-button[data-action="next"]',
     );
     return !!btn && btn.classList.contains("sohl-tour-gate-disabled");
 }
@@ -187,41 +188,29 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         });
     });
 
-    it("lifts an open dialog above the tour fade so it is not shadowed", () => {
-        // A dialog the user must type in must not be dimmed by the tour fade.
+    it("does not dim the screen, so dialogs and sheets are not shadowed", () => {
+        // SoHL tours point with a bright ring, never Foundry's full-screen dim
+        // (a `.tour-fadeout` box-shadow with a huge spread). Assert the fade the
+        // create-actor step draws is a ring, not a screen dimmer.
         cy.foundry((win) =>
             win.game.tours
                 .get(KEY)
                 .start()
                 .then(() => true),
         );
-        // Open a dialog (the same DialogV2 class the Create Actor dialog uses)
-        // while the tour is active.
-        cy.foundry((win) => {
-            const dlg = new win.foundry.applications.api.DialogV2({
-                window: { title: "Tour Dialog Test" },
-                content: "<p>x</p>",
-                buttons: [{ action: "ok", label: "OK" }],
-            });
-            return dlg.render({ force: true }).then(() => true);
-        });
         cy.window().should((win) => {
-            const dialog = win.document.querySelector("dialog.application");
-            expect(dialog, "a dialog is open").to.exist;
-            const dz = parseInt(win.getComputedStyle(dialog).zIndex, 10);
-            const fz = parseInt(
-                win.getComputedStyle(win.game.tours.get(KEY).fadeElement)
-                    .zIndex,
-                10,
+            const fade = win.game.tours.get(KEY).fadeElement;
+            expect(fade, "the step draws a fade ring").to.exist;
+            const shadow = win.getComputedStyle(fade).boxShadow;
+            // The core dimmer uses a ~5000px spread; a ring does not.
+            const maxPx = Math.max(
+                0,
+                ...(shadow.match(/(\d+)px/g) || []).map((s) => parseInt(s, 10)),
             );
-            expect(dz, "dialog sits above the tour fade").to.be.greaterThan(fz);
-        });
-        // Dismiss the dialog so it doesn't leak into later specs.
-        cy.foundry((win) => {
-            win.document
-                .querySelectorAll("dialog.application")
-                .forEach((d) => d.remove());
-            return true;
+            expect(
+                maxPx,
+                "fade is a ring, not a full-screen dimmer",
+            ).to.be.lessThan(100);
         });
     });
 

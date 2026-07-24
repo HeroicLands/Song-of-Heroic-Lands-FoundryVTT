@@ -68,7 +68,7 @@ const INLINE_WEAPON = {
 function heldWeaponInjuredLimb(level, cb) {
     cy.importActor().then((actor) => {
         cy.createItemOn(actor, "weapongear", INLINE_WEAPON).then((weapon) => {
-            cy.runAction(weapon, "holdItem");
+            cy.holdItem(weapon);
             cy.prepare(actor);
             // Resolve a hit location on the limb that is now holding the weapon.
             cy.foundry((win) => {

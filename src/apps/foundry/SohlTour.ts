@@ -192,10 +192,19 @@ export class SohlTour extends TourBase {
     #spotlightEl: HTMLElement | undefined;
 
     /**
+     * The tour's own centered step card (`.tour-center-step`) for the current
+     * step. Tracked separately from `targetElement` because Foundry's
+     * `super._preStep()` overwrites `targetElement` with the *real* selector
+     * element — so teardown must remove this card, never `targetElement` (doing
+     * so once deleted the sheet control the step pointed at).
+     */
+    #cardEl: HTMLElement | undefined;
+
+    /**
      * The injected stylesheet that lifts open dialogs above the tour fade so a
      * dialog the user must type in is never shadowed. Present while the tour runs.
      */
-    #dialogStyleEl: HTMLStyleElement | undefined;
+    #tourStyleEl: HTMLStyleElement | undefined;
 
     /* -------------------------------------------- */
     /*  Accessors                                   */
@@ -300,17 +309,39 @@ export class SohlTour extends TourBase {
             await this.#nextFrame();
         }
 
-        // Give a post-navigation render a moment to attach the target element.
-        if (step.selector) await this.#waitForElement(step.selector);
-        // A spotlight target must be VISIBLE and SETTLED before we ring it — the
-        // create button exists in the DOM even while hidden, and expanding the
-        // sidebar animates it into place, so waiting for a stable rect avoids
-        // ringing a zero-size or mid-animation position.
-        else if (step.spotlight) await this.#waitForStableRect(step.spotlight);
+        // Scroll the ring target into view, then wait for its on-screen rect to
+        // SETTLE before it is ringed. Scrolling is needed because a target below
+        // the sheet's fold (e.g. the Dossier editor) would otherwise be ringed
+        // off-screen — Foundry's own tour scrolls the selector into view, but SoHL
+        // renders a centered card instead of anchoring to it, so we scroll here.
+        // Waiting for a stable rect then avoids ringing a mid-scroll/reflow rect.
+        const ringSelector = step.selector ?? step.spotlight;
+        if (ringSelector) {
+            const el = this._getTargetElement(
+                ringSelector,
+            ) as HTMLElement | null;
+            if (el) {
+                // A tall target (e.g. the Dossier editor block) can't fit on
+                // screen; `"nearest"` would align its bottom and hide its top
+                // label/toolbar, so align its TOP. A short target scrolls minimally.
+                const tall =
+                    el.getBoundingClientRect().height >
+                    (globalThis as any).innerHeight * 0.7;
+                el.scrollIntoView?.({
+                    block: tall ? "start" : "nearest",
+                    inline: "nearest",
+                });
+            }
+            await this.#waitForStableRect(ringSelector);
+        }
 
-        // Re-arm watchers for this step.
+        // Re-arm watchers for this step. Needed when the step is gated (re-evaluate
+        // the gate) OR points at a sheet element (re-anchor the ring when the sheet
+        // re-renders — e.g. opening an attribute's ⋮ menu shifts the row).
         this.#teardownWatchers();
-        if (stepKind(step) !== TOUR_STEP_KIND.FREE) this.#setupWatchers();
+        if (stepKind(step) !== TOUR_STEP_KIND.FREE || ringSelector) {
+            this.#setupWatchers();
+        }
     }
 
     /**
@@ -324,73 +355,106 @@ export class SohlTour extends TourBase {
         // stacks a second fade/overlay/tooltip.
         this.#teardownStepDom();
 
-        if (step?.selector) {
-            this.targetElement = this._getTargetElement(step.selector);
-            if (!this.targetElement) {
-                // Target not present yet (mid-render). A later mutation re-anchors.
-                console.warn(
-                    `SohlTour [${this.id}] | target "${step.selector}" not found; will re-anchor on render`,
-                );
-                return;
-            }
+        // Render the step card as a stable, centered `.tour-center-step` — never
+        // Foundry's shared `game.tooltip`, which sidebar tabs, sheet context-menus,
+        // and any hover-tooltip hijack, wiping the card mid-step. Core picks the
+        // tooltip path whenever `currentStep.selector` is set, so hide the selector
+        // across the `super._renderStep()` call and restore it after; we then ring
+        // the target ourselves. The card thus always renders (the user is never
+        // stranded) even before the ring target exists.
+        const savedSelector = step ? step.selector : undefined;
+        if (step) step.selector = undefined;
+        try {
+            await super._renderStep();
+        } finally {
+            if (step) step.selector = savedSelector;
         }
+        // super rendered the centered card as `targetElement`; track it so
+        // teardown removes the card, not the (restored-selector) real element.
+        this.#cardEl =
+            this.targetElement instanceof HTMLElement ?
+                this.targetElement
+            :   undefined;
 
-        await super._renderStep();
-        // Keep any open dialog above the fade so a dialog the user must type in is
-        // never shadowed (armed for the whole tour; removed on exit).
-        this.#ensureDialogUndimStyle();
-        // For a spotlight step, move the fade ring off the centered card and onto
-        // the target element, so the card stays stable/centered while the target
-        // is clearly indicated.
-        this.#applySpotlight(step);
-        // Coach-and-wait: the tour must never block the app it is coaching. Let
-        // pointer events pass through the fade/overlay on EVERY step — free or
-        // gated — so the user can create the actor, switch tabs, type, or drag to
-        // make progress. Applied here (not only for gated steps) so a free step
-        // that asks the user to act (e.g. "create the actor") is interactive.
-        // After #applySpotlight so the relocated fade also passes clicks through.
+        // Restyle the tour chrome (no screen dimming, card lifted to the top).
+        this.#ensureTourStyle();
+        // Ring the element the step points at — a `spotlight` target, else the
+        // (restored) `selector`. Both now share the stable-card treatment.
+        this.#ringTarget(step?.spotlight ?? step?.selector);
+        // Coach-and-wait: never block the app the step is coaching. Let pointer
+        // events pass through the fade/overlay so the user can click, type, and
+        // drag. After #ringTarget so the relocated fade also passes clicks through.
         this.#allowAppInteraction();
         this.#applyGate(step);
     }
 
     /**
-     * Ring the step's {@link SohlTourStep.spotlight} target with the fade "hole"
-     * while leaving the step **card centered and stable**. Foundry couples a
-     * `selector` to tooltip-anchoring the card (which the sidebar's own
-     * hover-tooltips hijack, and which is lost when the sidebar re-renders); a
-     * spotlight step instead has no `selector`, so `super._renderStep()` renders
-     * the card as a centered `.tour-center-step` and puts the fade on that card.
-     * Here we discard that fade and re-create it around the actual target, and
-     * nudge the card off dead-centre so a centered dialog it may open is not
-     * hidden behind it. A no-op for non-spotlight steps.
-     * @param step - The current step (or `null`).
+     * Ring the target element with the fade highlight, or clear the ring when
+     * there is no target. The step's **card is a separate centered element**
+     * (rendered in {@link _renderStep}); this only moves the fade "hole" onto the
+     * element the step points at. Records the ringed element in
+     * {@link spotlightTarget}. A missing target is not fatal — the ring is added
+     * when a later mutation re-anchors it.
+     * @param selector - The CSS selector to ring, or `undefined` for no ring.
      */
-    #applySpotlight(step: SohlTourStep | null): void {
+    #ringTarget(selector: string | undefined): void {
         this.#spotlightEl = undefined;
-        if (!step?.spotlight || step.selector) return;
-        const el = this._getTargetElement(step.spotlight) as HTMLElement | null;
-        if (!el) {
-            console.warn(
-                `SohlTour [${this.id}] | spotlight "${step.spotlight}" not found`,
-            );
-            return;
-        }
-        this.#spotlightEl = el;
-        // Replace the fade Foundry put on the centered card with one on the target.
         if (this.fadeElement) {
             this.fadeElement.remove();
             this.fadeElement = undefined;
         }
+        if (!selector) return;
+        const el = this._getTargetElement(selector) as HTMLElement | null;
+        if (!el) return;
+        this.#spotlightEl = el;
         this.fadeElement = (TourBase as any).highlightElement(el, {
             padding: (TourBase as any).HIGHLIGHT_PADDING,
             preventInteraction: false,
         });
-        // Lift the centered card to the top so it never sits over a centered
-        // dialog (e.g. the Create Actor dialog) the spotlighted control opens.
-        if (this.targetElement instanceof HTMLElement) {
-            this.targetElement.style.top = "6%";
-            this.targetElement.style.bottom = "auto";
+        this.#clampFadeToScrollport(el);
+    }
+
+    /**
+     * Clip the fade ring to the target's scroll viewport, so a target taller than
+     * the visible area (e.g. the Dossier editor) is ringed only over the part that
+     * is on screen — the ring never spills past the sheet's edges. A no-op when the
+     * target has no scrollable ancestor (e.g. a sidebar button).
+     * @param el - The ringed element.
+     */
+    #clampFadeToScrollport(el: HTMLElement): void {
+        const fade = this.fadeElement as HTMLElement | undefined;
+        const clip = this.#scrollViewport(el)?.getBoundingClientRect();
+        if (!fade || !clip) return;
+        const r = fade.getBoundingClientRect();
+        const top = Math.max(r.top, clip.top);
+        const left = Math.max(r.left, clip.left);
+        const bottom = Math.min(r.bottom, clip.bottom);
+        const right = Math.min(r.right, clip.right);
+        fade.style.top = `${top}px`;
+        fade.style.left = `${left}px`;
+        fade.style.width = `${Math.max(0, right - left)}px`;
+        fade.style.height = `${Math.max(0, bottom - top)}px`;
+    }
+
+    /**
+     * The nearest scrollable ancestor of `el` (the element whose overflow clips
+     * `el` when it is taller than the view), or `undefined` if none.
+     * @param el - The element whose scroll container to find.
+     * @returns The scroll container element, or `undefined`.
+     */
+    #scrollViewport(el: HTMLElement): HTMLElement | undefined {
+        let p = el.parentElement;
+        while (p) {
+            const oy = getComputedStyle(p).overflowY;
+            if (
+                (oy === "auto" || oy === "scroll") &&
+                p.scrollHeight > p.clientHeight
+            ) {
+                return p;
+            }
+            p = p.parentElement;
         }
+        return undefined;
     }
 
     /**
@@ -426,7 +490,8 @@ export class SohlTour extends TourBase {
      */
     exit(): void {
         this.#restoreRng();
-        this.#removeDialogUndimStyle();
+        this.#removeTourStyle();
+        this.#teardownStepDom();
         super.exit();
     }
 
@@ -446,7 +511,8 @@ export class SohlTour extends TourBase {
         const TERMINAL = (TourBase as any).STATUS ?? {};
         if (status === TERMINAL.COMPLETED || status === TERMINAL.UNSTARTED) {
             this.#restoreRng();
-            this.#removeDialogUndimStyle();
+            this.#removeTourStyle();
+            this.#teardownStepDom();
         }
     }
 
@@ -481,11 +547,9 @@ export class SohlTour extends TourBase {
 
         // Pointer events already pass through the fade/overlay (see
         // #allowAppInteraction in _renderStep), so the user can interact with the
-        // sheet to satisfy this gate.
-        const root =
-            step.selector ?
-                ((game as any).tooltip?.tooltip as HTMLElement | undefined)
-            :   (this.targetElement as HTMLElement | undefined);
+        // sheet to satisfy this gate. The Next button lives in the centered step
+        // card (SoHL never uses the shared tooltip), so always look there.
+        const root = this.targetElement as HTMLElement | undefined;
         this.#nextButton =
             (root?.querySelector(
                 '.step-button[data-action="next"]',
@@ -790,23 +854,27 @@ export class SohlTour extends TourBase {
     }
 
     /**
-     * On any sheet mutation: re-evaluate the gate and, if the highlighted
-     * target element was replaced by a re-render, re-anchor the tour to the
-     * fresh element. Re-anchoring only touches body-level tour chrome, not the
-     * observed sheet root, so it cannot feed back into this observer.
+     * On any sheet mutation: re-evaluate the gate and, if the ringed target moved
+     * or was replaced by a re-render (e.g. opening an attribute's ⋮ menu shifts
+     * the row), re-anchor the **ring** to the fresh element. Only the ring is
+     * repositioned — the centered card is untouched, so it never flickers, and
+     * re-anchoring cannot feed back into this observer (it edits body-level chrome,
+     * not the observed sheet root).
      */
     #onSheetMutation(): void {
         this.#scheduleRefresh();
         const step = this.currentSohlStep;
-        if (!step?.selector || this.#reanchoring) return;
-        const resolved = this._getTargetElement(step.selector);
+        const ringSelector = step?.spotlight ?? step?.selector;
+        if (!ringSelector || this.#reanchoring) return;
+        const resolved = this._getTargetElement(ringSelector);
         const stale =
-            !this.targetElement || !document.contains(this.targetElement);
-        if (resolved && (resolved !== this.targetElement || stale)) {
+            !this.#spotlightEl || !document.contains(this.#spotlightEl);
+        if (resolved && (resolved !== this.#spotlightEl || stale)) {
             this.#reanchoring = true;
-            requestAnimationFrame(async () => {
+            requestAnimationFrame(() => {
                 try {
-                    await this._renderStep();
+                    this.#ringTarget(ringSelector);
+                    this.#allowAppInteraction();
                 } finally {
                     this.#reanchoring = false;
                 }
@@ -892,32 +960,48 @@ export class SohlTour extends TourBase {
     }
 
     /* -------------------------------------------- */
-    /*  Dialog un-dimming                           */
+    /*  Tour chrome restyle                         */
     /* -------------------------------------------- */
 
     /**
-     * Inject (idempotently) a stylesheet that lifts every open dialog above the
-     * tour fade, so a dialog the user must read or type in is never shadowed. An
-     * `!important` rule is used deliberately: Foundry re-stamps a dialog's inline
-     * `z-index` via `bringToFront()` on focus, and only `!important` outranks that
-     * inline value. `--z-index-tooltip - 1` sits above the fade/overlay but below
-     * the tour's own step card (`--z-index-tooltip`), which the spotlight steps
-     * lift to the top of the screen so the two never collide.
+     * Inject (idempotently) a stylesheet that reshapes the tour chrome for a
+     * coach-and-wait SoHL tour, so the tour **points at** the target without
+     * obscuring the app the user must read and use:
+     *
+     * - **No screen dimming.** Foundry's `.tour-fadeout` dims the whole screen
+     *   (a `0 0 0 5000px` shadow) except the highlighted hole, which leaves the
+     *   Being sheet, the create dialog, and everything else greyed out. We replace
+     *   that with a bright ring — a pointer, not a shroud — so nothing is dimmed.
+     * - **Card off dead-centre.** `.tour-center-step` is pinned to screen centre
+     *   by core, so it sits on top of a centered dialog. We lift it to the top so
+     *   a dialog the user must fill is never covered.
+     *
+     * `!important` is required: both properties are set by core's own stylesheet.
      */
-    #ensureDialogUndimStyle(): void {
-        if (this.#dialogStyleEl?.isConnected) return;
+    #ensureTourStyle(): void {
+        if (this.#tourStyleEl?.isConnected) return;
         const style = document.createElement("style");
         style.setAttribute("data-sohl-tour", this.id);
-        style.textContent =
-            "dialog.application { z-index: calc(var(--z-index-tooltip) - 1) !important; }";
+        style.textContent = [
+            ".tour-fadeout {",
+            "  box-shadow: 0 0 0 2px rgba(255, 214, 140, 0.95),",
+            "    0 0 16px 5px rgba(255, 184, 74, 0.55) !important;",
+            "}",
+            "body.game .tour-center-step {",
+            "  top: 1.5rem !important;",
+            "  bottom: auto !important;",
+            "  left: 50% !important;",
+            "  transform: translateX(-50%) !important;",
+            "}",
+        ].join("\n");
         document.head.appendChild(style);
-        this.#dialogStyleEl = style;
+        this.#tourStyleEl = style;
     }
 
-    /** Remove the dialog-undim stylesheet (safe if never injected). */
-    #removeDialogUndimStyle(): void {
-        this.#dialogStyleEl?.remove();
-        this.#dialogStyleEl = undefined;
+    /** Remove the tour-chrome stylesheet (safe if never injected). */
+    #removeTourStyle(): void {
+        this.#tourStyleEl?.remove();
+        this.#tourStyleEl = undefined;
     }
 
     /* -------------------------------------------- */
@@ -929,10 +1013,14 @@ export class SohlTour extends TourBase {
      * without ending the step — the idempotent basis for re-anchoring.
      */
     #teardownStepDom(): void {
-        const step = this.currentSohlStep;
         this.#spotlightEl = undefined;
-        if (step && !step.selector) this.targetElement?.remove();
-        else (game as any).tooltip?.deactivate();
+        // Remove ONLY the tour's own centered card — never `targetElement`, which
+        // Foundry's `super._preStep()` sets to the real selector element (removing
+        // it once deleted the very sheet control the step pointed at). Deactivate
+        // the tooltip too, a no-op unless a core path ever activated it.
+        this.#cardEl?.remove();
+        this.#cardEl = undefined;
+        (game as any).tooltip?.deactivate?.();
         if (this.fadeElement) {
             this.fadeElement.remove();
             this.fadeElement = undefined;

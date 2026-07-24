@@ -150,191 +150,31 @@ export abstract class GearLogic<
     /* --------------------------------------------- */
 
     /**
-     * Marks this gear as carried on the character's person.
+     * Toggles whether this gear is carried on the character's person.
      *
-     * Intrinsic-action executor for the `setCarried` action.
-     *
-     * @param _context - The action context (unused).
-     * @returns Resolves once the item update completes.
-     */
-    async setCarried(_context: SohlActionContext): Promise<void> {
-        const updateData: PlainObject = { "system.isCarried": true };
-        await this.data.update(updateData);
-    }
-
-    /**
-     * Marks this gear as not carried (stowed somewhere off-person).
-     *
-     * Intrinsic-action executor for the `setNotCarried` action.
+     * Intrinsic-action executor for the `toggleCarried` action.
      *
      * @param _context - The action context (unused).
      * @returns Resolves once the item update completes.
      */
-    async setNotCarried(_context: SohlActionContext): Promise<void> {
-        const updateData: PlainObject = { "system.isCarried": false };
-        await this.data.update(updateData);
-    }
-
-    /**
-     * Marks this gear as equipped (worn/wielded, not just carried).
-     *
-     * Intrinsic-action executor for the `setEquipped` action.
-     *
-     * @param _context - The action context (unused).
-     * @returns Resolves once the item update completes.
-     */
-    async setEquipped(_context: SohlActionContext): Promise<void> {
-        await this.data.update({ "system.isEquipped": true });
-    }
-
-    /**
-     * Marks this gear as not equipped (stowed, not actively worn/wielded).
-     *
-     * Intrinsic-action executor for the `setNotEquipped` action.
-     *
-     * @param _context - The action context (unused).
-     * @returns Resolves once the item update completes.
-     */
-    async setNotEquipped(_context: SohlActionContext): Promise<void> {
-        await this.data.update({ "system.isEquipped": false });
-    }
-
-    /**
-     * The minimum number of free hold-capable limbs required to grip this
-     * item. Defaults to 1; subclasses (e.g. WeaponGearLogic) may override
-     * to reflect the item's actual grip requirement.
-     */
-    protected get minPartsToHold(): number {
-        return 1;
-    }
-
-    /**
-     * Assigns the first free hold-capable body part(s) on the owning actor
-     * to grip this item. Does nothing if the actor is incorporeal (no body) or
-     * there are fewer free limbs than `minPartsToHold`.
-     *
-     * Intrinsic-action executor for the `holdItem` action.
-     *
-     * @param _context - The action context (unused).
-     * @returns Resolves once the being update completes (or immediately if
-     *   no update is needed).
-     */
-    async holdItem(_context: SohlActionContext): Promise<void> {
-        const body = getActorBody(this.actorLogic);
-        if (!body) return;
-        const freeParts = body.structure.parts.filter(
-            (p: any) => p.canHoldItem && !p.heldItem,
-        );
-        const needed = this.minPartsToHold;
-        if (freeParts.length < needed) return;
-        // Full-array write — a partial `parts.${i}.heldItemId` update corrupts
-        // the whole parts array (#247). See BodyStructure.setPartFieldsUpdate.
-        const payload = body.structure.setPartFieldsUpdate(
-            freeParts.slice(0, needed).map((p: any) => ({
-                index: p.index,
-                changes: { heldItemId: this.id },
-            })),
-        );
-        if (Object.keys(payload).length) {
-            await this.actorLogic?.data.update(payload);
-        }
-    }
-
-    /**
-     * Clears `heldItemId` on every body part currently gripping this item,
-     * releasing it from the actor's grip. Does nothing if the actor is
-     * incorporeal (no body) or no part holds this item.
-     *
-     * Intrinsic-action executor for the `releaseItem` action.
-     *
-     * @param _context - The action context (unused).
-     * @returns Resolves once the being update completes (or immediately if
-     *   no update is needed).
-     */
-    async releaseItem(_context: SohlActionContext): Promise<void> {
-        const body = getActorBody(this.actorLogic);
-        if (!body) return;
-        const holdingParts = body.structure.parts.filter(
-            (p: any) => p.canHoldItem && p.heldItem?.id === this.id,
-        );
-        if (!holdingParts.length) return;
-        // Full-array write — a partial `parts.${i}.heldItemId` update corrupts
-        // the whole parts array (#247). See BodyStructure.setPartFieldsUpdate.
-        const payload = body.structure.setPartFieldsUpdate(
-            holdingParts.map((part: any) => ({
-                index: part.index,
-                changes: { heldItemId: null },
-            })),
-        );
-        if (Object.keys(payload).length) {
-            await this.actorLogic?.data.update(payload);
-        }
+    async toggleCarried(_context: SohlActionContext): Promise<void> {
+        await this.data.update({ "system.isCarried": !this.data.isCarried });
     }
 
     /**
      * Define and return all intrinsic actions for this logic type.
-     * @returns The base item actions plus gear equip/carry/hold actions.
+     * @returns The base item actions plus the gear carry toggle.
      */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlItemBaseLogic.defineIntrinsicActions(),
             {
-                shortcode: "setCarried",
+                shortcode: "toggleCarried",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Gear.Action.setCarried",
+                title: "SOHL.Gear.Action.toggleCarried",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-star",
-                executor: "setCarried",
-                visible: "true",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-            },
-            {
-                shortcode: "setNotCarried",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Gear.Action.setNotCarried",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "far fa-star",
-                executor: "setNotCarried",
-                visible: "true",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-            },
-            {
-                shortcode: "setEquipped",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Gear.Action.setEquipped",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-shield-halved",
-                executor: "setEquipped",
-                visible: "true",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-            },
-            {
-                shortcode: "setNotEquipped",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Gear.Action.setNotEquipped",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-shield-halved",
-                executor: "setNotEquipped",
-                visible: "true",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-            },
-            {
-                shortcode: "holdItem",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Gear.Action.holdItem",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-hand-fist",
-                executor: "holdItem",
-                visible: "true",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-            },
-            {
-                shortcode: "releaseItem",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Gear.Action.releaseItem",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-hand",
-                executor: "releaseItem",
+                iconFAClass: "fa-solid fa-sack",
+                executor: "toggleCarried",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },

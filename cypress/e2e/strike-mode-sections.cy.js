@@ -93,7 +93,7 @@ describe("derived strike mode sections", () => {
             cy.ensureSkillML(actor, "melee", 50);
             cy.createItemOn(actor, "weapongear", meleeWeapon("Sword")).then(
                 (w) => {
-                    cy.runAction(w, "holdItem");
+                    cy.holdItem(w);
                     cy.prepare(actor);
                     cy.openSheet(actor);
                     cy.switchTab("combat", "primary");
@@ -151,7 +151,7 @@ describe("derived strike mode sections", () => {
             cy.ensureSkillML(actor, "melee", 50);
             cy.createItemOn(actor, "weapongear", meleeWeapon("Mace")).then(
                 (w) => {
-                    cy.runAction(w, "holdItem");
+                    cy.holdItem(w);
                     cy.prepare(actor);
                     cy.openSheet(actor);
                     cy.switchTab("combat", "primary");
@@ -171,7 +171,7 @@ describe("derived strike mode sections", () => {
                         (r) => expect(r.has, "held weapon shown").to.be.true,
                     );
                     // Release it → its strike modes disappear.
-                    cy.runAction(w, "releaseItem");
+                    cy.releaseItem(w);
                     cy.prepare(actor);
                     cy.foundry((win) =>
                         win.game.actors.get(actor.id).sheet.render(true),

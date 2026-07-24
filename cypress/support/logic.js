@@ -59,3 +59,42 @@ Cypress.Commands.add("runAction", (doc, name, ctx) =>
         return action.execute(ctx ?? d.logic._getContext());
     }),
 );
+
+/**
+ * Grip an embedded item on the first free hold-capable body part of its actor
+ * (a full-array `parts` write, #247). Replaces the retired `holdItem` gear action
+ * — holding is a Combat-tab concern, not a gear action.
+ */
+Cypress.Commands.add("holdItem", (item) =>
+    cy.foundry((win) => {
+        const it = resolveDoc(win, item);
+        const actor = it.actor ?? it.parent;
+        const struct = actor.logic.body.structure;
+        const free = struct.parts.find((p) => p.canHoldItem && !p.heldItem);
+        if (!free) return false;
+        const payload = struct.setPartFieldsUpdate([
+            { index: free.index, changes: { heldItemId: it.id } },
+        ]);
+        return actor.logic.data.update(payload).then(() => true);
+    }),
+);
+
+/** Release an embedded item from every body part currently gripping it. */
+Cypress.Commands.add("releaseItem", (item) =>
+    cy.foundry((win) => {
+        const it = resolveDoc(win, item);
+        const actor = it.actor ?? it.parent;
+        const struct = actor.logic.body.structure;
+        const holding = struct.parts.filter(
+            (p) => p.canHoldItem && p.heldItem?.id === it.id,
+        );
+        if (!holding.length) return false;
+        const payload = struct.setPartFieldsUpdate(
+            holding.map((p) => ({
+                index: p.index,
+                changes: { heldItemId: null },
+            })),
+        );
+        return actor.logic.data.update(payload).then(() => true);
+    }),
+);

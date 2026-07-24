@@ -15,12 +15,15 @@
  * Gear equip / hold → combat-tab display.
  *
  * Covers the three inventory-state toggles and their downstream effects:
- * - carry state (`setCarried` / `setNotCarried`)
- * - equip state (`setEquipped` / `setNotEquipped`) and its armor-protection gate
- * - hold state (`holdItem` / `releaseItem`) and the combat-tab strike-mode gate
+ * - carry state (the `toggleCarried` gear action)
+ * - equip state (the `system.isEquipped` flag) and its armor-protection gate
+ * - hold state (assigned via a body-part write — `cy.holdItem` / `cy.releaseItem`,
+ *   a Combat-tab concern, not a gear action) and the combat-tab strike-mode gate
  *
- * The equip/hold write paths landed in #179; the display + aggregation gating in
- * #180; the hold roundtrip depends on the parts-array fix in #247.
+ * The display + aggregation gating landed in #180; the hold roundtrip depends on
+ * the parts-array fix in #247. (The `set*`/`holdItem`/`releaseItem` gear actions
+ * were retired: carry became a single toggle, equip moves to armor `isWorn`
+ * (#662), and hold is a Combat-tab operation.)
  *
  * Compendium weapongear cannot be embedded here: every weapon in `sohl.items`
  * still stores `strikeModes.defense` in the old flat schema, which throws in
@@ -85,6 +88,19 @@ function thoraxEdgedProtection(win, actorId) {
     return thrx.armorProtection.edged;
 }
 
+/**
+ * Set an armor's `isEquipped` flag directly. The `setEquipped`/`setNotEquipped`
+ * gear actions were retired; worn state is now a sheet toggle (and moves to an
+ * armor-scoped `isWorn` field, #662), so tests drive the flag directly.
+ */
+function setEquipped(win, actorId, itemId, value) {
+    return win.game.actors
+        .get(actorId)
+        .items.get(itemId)
+        .update(win.JSON.parse(JSON.stringify({ "system.isEquipped": value })))
+        .then(() => true);
+}
+
 describe("gear equip / hold → combat-tab display", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     beforeEach(() => cy.closeAllSheets());
@@ -95,7 +111,7 @@ describe("gear equip / hold → combat-tab display", () => {
 
     // ------------------------------------------------------------------ carry state
 
-    it("setNotCarried sets isCarried false; setCarried restores it", () => {
+    it("toggleCarried flips isCarried", () => {
         cy.createActor("being", { name: "Carry Being" }).then((actor) => {
             cy.importItem("sohl.items", MAIL_SHIRT_ID, { actor }).then(
                 (armor) => {
@@ -105,13 +121,13 @@ describe("gear equip / hold → combat-tab display", () => {
                         return a.items.get(armor.id).system.isCarried;
                     }).should("be.true");
 
-                    cy.runAction(armor, "setNotCarried");
+                    cy.runAction(armor, "toggleCarried");
                     cy.foundry((win) => {
                         const a = win.game.actors.get(actor.id);
                         return a.items.get(armor.id).system.isCarried;
                     }).should("be.false");
 
-                    cy.runAction(armor, "setCarried");
+                    cy.runAction(armor, "toggleCarried");
                     cy.foundry((win) => {
                         const a = win.game.actors.get(actor.id);
                         return a.items.get(armor.id).system.isCarried;
@@ -123,32 +139,6 @@ describe("gear equip / hold → combat-tab display", () => {
 
     // ------------------------------------------------------------------ equip state
 
-    it("setEquipped sets isEquipped true; setNotEquipped clears it", () => {
-        cy.createActor("being", { name: "Equip Being" }).then((actor) => {
-            cy.importItem("sohl.items", MAIL_SHIRT_ID, { actor }).then(
-                (armor) => {
-                    // Default: isEquipped = false
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        return a.items.get(armor.id).system.isEquipped;
-                    }).should("be.false");
-
-                    cy.runAction(armor, "setEquipped");
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        return a.items.get(armor.id).system.isEquipped;
-                    }).should("be.true");
-
-                    cy.runAction(armor, "setNotEquipped");
-                    cy.foundry((win) => {
-                        const a = win.game.actors.get(actor.id);
-                        return a.items.get(armor.id).system.isEquipped;
-                    }).should("be.false");
-                },
-            );
-        });
-    });
-
     it("armor protection aggregates only while equipped (#180 gate)", () => {
         cy.importActor().then((actor) => {
             cy.createItemOn(actor, "armorgear", INLINE_ARMOR).then((armor) => {
@@ -159,14 +149,16 @@ describe("gear equip / hold → combat-tab display", () => {
                 ).should("eq", 0);
 
                 // Equipping folds the armor's edged protection onto the thorax.
-                cy.runAction(armor, "setEquipped");
+                cy.foundry((win) => setEquipped(win, actor.id, armor.id, true));
                 cy.prepare(actor);
                 cy.foundry((win) =>
                     thoraxEdgedProtection(win, actor.id),
                 ).should("eq", 8);
 
                 // Unequipping removes it again.
-                cy.runAction(armor, "setNotEquipped");
+                cy.foundry((win) =>
+                    setEquipped(win, actor.id, armor.id, false),
+                );
                 cy.prepare(actor);
                 cy.foundry((win) =>
                     thoraxEdgedProtection(win, actor.id),
@@ -187,14 +179,14 @@ describe("gear equip / hold → combat-tab display", () => {
                         return a.items.get(weapon.id).logic.heldBy.length;
                     }).should("eq", 0);
 
-                    cy.runAction(weapon, "holdItem");
+                    cy.holdItem(weapon);
                     cy.prepare(actor);
                     cy.foundry((win) => {
                         const a = win.game.actors.get(actor.id);
                         return a.items.get(weapon.id).logic.heldBy.length;
                     }).should("be.greaterThan", 0);
 
-                    cy.runAction(weapon, "releaseItem");
+                    cy.releaseItem(weapon);
                     cy.prepare(actor);
                     cy.foundry((win) => {
                         const a = win.game.actors.get(actor.id);
@@ -220,7 +212,7 @@ describe("gear equip / hold → combat-tab display", () => {
                     cy.closeAllSheets();
 
                     // Held: the weapon's strike mode appears on the combat tab.
-                    cy.runAction(weapon, "holdItem");
+                    cy.holdItem(weapon);
                     cy.prepare(actor);
                     cy.openSheet(actor);
                     cy.switchTab("combat", "primary");
@@ -236,7 +228,9 @@ describe("gear equip / hold → combat-tab display", () => {
         cy.importActor().then((actor) => {
             cy.importItem("sohl.items", MAIL_SHIRT_ID, { actor }).then(
                 (armor) => {
-                    cy.runAction(armor, "setEquipped");
+                    cy.foundry((win) =>
+                        setEquipped(win, actor.id, armor.id, true),
+                    );
                     cy.prepare(actor);
                     cy.foundry((win) =>
                         thoraxEdgedProtection(win, actor.id),

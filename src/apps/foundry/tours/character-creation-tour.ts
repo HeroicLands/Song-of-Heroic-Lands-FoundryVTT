@@ -222,7 +222,9 @@ export function buildCharacterCreationTour(): SohlTour {
             id: "dossier",
             title: "SOHL.Tour.CharCreation.dossier.title",
             content: "SOHL.Tour.CharCreation.dossier.content",
-            selector: '[name="system.dossier"]',
+            // Ring the whole Dossier form-group (its "Dossier" label + editor
+            // toolbar + content), not just the editor's content area.
+            selector: ".dossier-group",
             resolveDocument: being,
             nav: { tab: "profile", group: "primary" },
         },

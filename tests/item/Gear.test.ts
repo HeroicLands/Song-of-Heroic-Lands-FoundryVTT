@@ -47,10 +47,9 @@ describe("GearLogic (via MiscGearLogic)", () => {
             expect(logic).toBeInstanceOf(MiscGearLogic);
         });
 
-        it("defines the setCarried / setNotCarried intrinsic actions", () => {
+        it("defines the toggleCarried intrinsic action", () => {
             const logic = makeGear();
-            expect(logic.actions.has("setCarried")).toBe(true);
-            expect(logic.actions.has("setNotCarried")).toBe(true);
+            expect(logic.actions.has("toggleCarried")).toBe(true);
             expect(logic.actions.has("editDocument")).toBe(true);
         });
     });
@@ -124,185 +123,19 @@ describe("GearLogic (via MiscGearLogic)", () => {
     });
 
     describe("intrinsic executors", () => {
-        it("setCarried - updates system.isCarried to true", async () => {
+        it("toggleCarried - flips system.isCarried from false to true", async () => {
             const logic = makeGear({ isCarried: false });
-            await logic.setCarried({} as any);
+            await logic.toggleCarried({} as any);
             expect(logic.item.update).toHaveBeenCalledWith({
                 "system.isCarried": true,
             });
         });
 
-        it("setNotCarried - updates system.isCarried to false", async () => {
+        it("toggleCarried - flips system.isCarried from true to false", async () => {
             const logic = makeGear({ isCarried: true });
-            await logic.setNotCarried({} as any);
+            await logic.toggleCarried({} as any);
             expect(logic.item.update).toHaveBeenCalledWith({
                 "system.isCarried": false,
-            });
-        });
-
-        describe("setEquipped / setNotEquipped (#179)", () => {
-            it("setEquipped writes system.isEquipped: true", async () => {
-                const logic = makeGear({ isEquipped: false });
-                await logic.setEquipped({} as any);
-                expect(logic.item.update).toHaveBeenCalledWith({
-                    "system.isEquipped": true,
-                });
-            });
-
-            it("setNotEquipped writes system.isEquipped: false", async () => {
-                const logic = makeGear({ isEquipped: true });
-                await logic.setNotEquipped({} as any);
-                expect(logic.item.update).toHaveBeenCalledWith({
-                    "system.isEquipped": false,
-                });
-            });
-
-            it("defineIntrinsicActions includes setEquipped and setNotEquipped", () => {
-                const logic = makeGear();
-                expect(logic.actions.has("setEquipped")).toBe(true);
-                expect(logic.actions.has("setNotEquipped")).toBe(true);
-            });
-        });
-
-        describe("holdItem / releaseItem (#179)", () => {
-            // The full-array write (#247) sources canonical part data from
-            // `being.data.body.structure.parts` and routes through the real
-            // BodyStructure.setPartFieldsUpdate, so the mock provides both the
-            // domain parts (for filtering) and canonical persisted parts. The
-            // being's body is reached via `getActorBody(actorLogic)` and the
-            // update is applied to the being document (`actorLogic.data.update`).
-            function makeGearWithParts(
-                partDefs: Array<{
-                    canHoldItem: boolean;
-                    heldItemId: string | null;
-                }> = [],
-            ) {
-                const actor = makeMockActor();
-                const bodyUpdate = vi.fn(async (d: any) => d);
-                const gearId = "item0000000mock";
-                const canonicalParts = partDefs.map((p, i) => ({
-                    shortcode: `part${i}`,
-                    roles: [],
-                    canHoldItem: p.canHoldItem,
-                    heldItemId: p.heldItemId,
-                    probWeight: 1,
-                    locations: [],
-                }));
-                const parts = partDefs.map((p, i) => ({
-                    canHoldItem: p.canHoldItem,
-                    heldItem: p.heldItemId ? { id: p.heldItemId } : undefined,
-                    index: i,
-                }));
-                const being: any = {
-                    data: {
-                        update: bodyUpdate,
-                        body: { structure: { parts: canonicalParts } },
-                    },
-                };
-                being.body = {
-                    structure: {
-                        parts,
-                        parent: being,
-                        setPartFieldsUpdate:
-                            BodyStructure.prototype.setPartFieldsUpdate,
-                    },
-                };
-                actor.logic = being;
-                const logic = makeGear({}, { actor, id: gearId });
-                logic.initialize();
-                return { logic, bodyUpdate, gearId, canonicalParts };
-            }
-
-            /** The parts from a full-array `system.body.structure.parts` write. */
-            function writtenParts(bodyUpdate: any): any[] {
-                expect(bodyUpdate).toHaveBeenCalledTimes(1);
-                const payload = bodyUpdate.mock.calls[0][0];
-                expect(Object.keys(payload)).toEqual([
-                    "system.body.structure.parts",
-                ]);
-                return payload["system.body.structure.parts"];
-            }
-
-            it("holdItem assigns the first free canHoldItem part (whole array preserved)", async () => {
-                const { logic, bodyUpdate, gearId } = makeGearWithParts([
-                    { canHoldItem: true, heldItemId: null },
-                    { canHoldItem: true, heldItemId: null },
-                ]);
-                await logic.holdItem({} as any);
-                const parts = writtenParts(bodyUpdate);
-                expect(parts).toHaveLength(2);
-                expect(parts[0].heldItemId).toBe(gearId);
-                expect(parts[0].shortcode).toBe("part0"); // fields retained
-                expect(parts[1].heldItemId).toBe(null); // sibling untouched
-            });
-
-            it("holdItem skips parts where canHoldItem is false", async () => {
-                const { logic, bodyUpdate, gearId } = makeGearWithParts([
-                    { canHoldItem: false, heldItemId: null },
-                    { canHoldItem: true, heldItemId: null },
-                ]);
-                await logic.holdItem({} as any);
-                const parts = writtenParts(bodyUpdate);
-                expect(parts).toHaveLength(2);
-                expect(parts[0].heldItemId).toBe(null);
-                expect(parts[1].heldItemId).toBe(gearId);
-            });
-
-            it("holdItem does nothing when no free parts exist", async () => {
-                const { bodyUpdate } = makeGearWithParts([
-                    { canHoldItem: true, heldItemId: "other-item-000" },
-                ]);
-                const logic = makeGearWithParts([
-                    { canHoldItem: true, heldItemId: "other-item-000" },
-                ]).logic;
-                await logic.holdItem({} as any);
-                expect(bodyUpdate).not.toHaveBeenCalled();
-            });
-
-            it("holdItem does nothing when the being is incorporeal (no body)", async () => {
-                const actor = makeMockActor();
-                actor.logic = { logicTypes: {} };
-                const logic = makeGear({}, { actor });
-                logic.initialize();
-                await logic.holdItem({} as any);
-                expect(logic.item.update).not.toHaveBeenCalled();
-            });
-
-            it("releaseItem clears heldItemId on all parts holding this gear", async () => {
-                const ownId = "item0000000mock";
-                const { logic, bodyUpdate } = makeGearWithParts([
-                    { canHoldItem: true, heldItemId: ownId },
-                    { canHoldItem: true, heldItemId: ownId },
-                ]);
-                await logic.releaseItem({} as any);
-                const parts = writtenParts(bodyUpdate);
-                expect(parts).toHaveLength(2);
-                expect(parts[0].heldItemId).toBe(null);
-                expect(parts[1].heldItemId).toBe(null);
-                expect(parts[0].shortcode).toBe("part0"); // fields retained
-            });
-
-            it("releaseItem does nothing when no parts hold this item", async () => {
-                const { logic, bodyUpdate } = makeGearWithParts([
-                    { canHoldItem: true, heldItemId: null },
-                ]);
-                await logic.releaseItem({} as any);
-                expect(bodyUpdate).not.toHaveBeenCalled();
-            });
-
-            it("releaseItem does nothing when the being is incorporeal (no body)", async () => {
-                const actor = makeMockActor();
-                actor.logic = { logicTypes: {} };
-                const logic = makeGear({}, { actor });
-                logic.initialize();
-                await logic.releaseItem({} as any);
-                expect(logic.item.update).not.toHaveBeenCalled();
-            });
-
-            it("defineIntrinsicActions includes holdItem and releaseItem", () => {
-                const logic = makeGear();
-                expect(logic.actions.has("holdItem")).toBe(true);
-                expect(logic.actions.has("releaseItem")).toBe(true);
             });
         });
     });

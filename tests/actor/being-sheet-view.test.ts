@@ -546,8 +546,8 @@ describe("being-sheet-view", () => {
                 TRAUMA_SUBTYPE.AURALSHOCK,
                 STATUS_EFFECT.SLEEP,
                 STATUS_EFFECT.PRONE,
-                STATUS_EFFECT.STUN,
                 TRAUMA_SUBTYPE.FATIGUE,
+                STATUS_EFFECT.STUN,
                 STATUS_EFFECT.INCAPACITATED,
                 STATUS_EFFECT.UNCONSCIOUS,
                 STATUS_EFFECT.DEAD,
@@ -597,14 +597,20 @@ describe("being-sheet-view", () => {
             );
         });
 
-        it("carries abbr and label for each pill", () => {
-            const stun = buildStatusPills(new Set()).find(
-                (p) => p.id === STATUS_EFFECT.STUN,
-            )!;
+        it("carries abbr and label localization keys for each pill", () => {
+            // `abbr` / `label` are i18n keys (localized in the header template).
+            const pills = buildStatusPills(new Set());
+            const stun = pills.find((p) => p.id === STATUS_EFFECT.STUN)!;
             expect(stun).toMatchObject({
-                abbr: "STN",
-                label: "Stun",
+                abbr: "SOHL.Being.StatusPill.stun.abbr",
+                label: "SOHL.Being.StatusPill.stun.label",
                 toggleable: true,
+            });
+            // The Dead pill is labelled KIA.
+            const dead = pills.find((p) => p.id === STATUS_EFFECT.DEAD)!;
+            expect(dead).toMatchObject({
+                abbr: "SOHL.Being.StatusPill.dead.abbr",
+                label: "SOHL.Being.StatusPill.dead.label",
             });
         });
     });

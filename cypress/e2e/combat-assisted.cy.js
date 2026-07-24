@@ -115,7 +115,7 @@ describe("assisted combat (sheet strike-mode cells)", () => {
             cy.ensureSkillML(actor, "melee", 50);
             cy.createItemOn(actor, "weapongear", meleeWeapon()).then(
                 (weapon) => {
-                    cy.runAction(weapon, "holdItem");
+                    cy.holdItem(weapon);
                     cy.prepare(actor);
                     cy.openSheet(actor);
                     cy.switchTab("combat", "primary");

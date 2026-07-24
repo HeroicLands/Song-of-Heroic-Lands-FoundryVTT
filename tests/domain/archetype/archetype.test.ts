@@ -205,15 +205,17 @@ describe("resolveArchetypes — ordering of the returned winners", () => {
 });
 
 describe("buildArchetypeOptions", () => {
-    it("emits UUID-valued options labelled with name and shortcode, plus (none)", () => {
+    it("emits UUID-valued options labelled with name and shortcode, sorted by name, plus (none)", () => {
         const winners = [
             cand({ uuid: "u1", name: "Human", shortcode: "human" }),
             cand({ uuid: "u2", name: "Dwarf", shortcode: "dwarf" }),
         ];
         const { options } = buildArchetypeOptions(winners, "(none)");
+        // The visible list is sorted alphabetically by label (Dwarf < Human) so a
+        // user can find an archetype by name; **(none)** is always kept last.
         expect(options).toEqual([
-            { value: "u1", label: "Human (human)", shortcode: "human" },
             { value: "u2", label: "Dwarf (dwarf)", shortcode: "dwarf" },
+            { value: "u1", label: "Human (human)", shortcode: "human" },
             { value: "", label: "(none)", shortcode: "" },
         ]);
     });

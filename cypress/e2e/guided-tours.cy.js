@@ -16,8 +16,8 @@
  * `canStart` gates on an owned Being, and its value- and action-gated steps hold
  * **Next** disabled until the user acts — driven against the live client.
  *
- * The steps are driven through the tour's own `targetElement` (the element it is
- * highlighting) so the assertions never depend on *which* Being the demo tour
+ * The steps are driven through the tour's own `spotlightTarget` (the element it
+ * is ringing) so the assertions never depend on *which* Being the demo tour
  * happened to open.
  */
 
@@ -26,8 +26,10 @@ const TOUR_KEY = "sohl.framework-demo";
 /** Read the current gate state of the tour's Next button. */
 function gateState(win) {
     const tour = win.game.tours.get(TOUR_KEY);
-    const btn = win.game.tooltip?.tooltip?.querySelector(
-        '.step-button[data-action="next"]',
+    // The Next button lives in the centered step card (SoHL never uses the shared
+    // tooltip), so read it from there.
+    const btn = win.document.querySelector(
+        '.tour-center-step .step-button[data-action="next"]',
     );
     return {
         stepIndex: tour?.stepIndex ?? null,
@@ -89,14 +91,19 @@ describe("guided-tour framework (SohlTour)", () => {
         cy.window().should((win) => {
             const tour = win.game.tours.get(TOUR_KEY);
             expect(tour.stepIndex, "on the free intro step").to.eq(0);
-            expect(
-                tour.fadeElement?.style.pointerEvents,
-                "fade lets clicks through",
-            ).to.eq("none");
+            // A centered intro step points at nothing, so there is no fade ring;
+            // the overlay is what would block input, and it must let clicks through.
             expect(
                 tour.overlayElement?.style.pointerEvents,
                 "overlay lets clicks through",
             ).to.eq("none");
+            // If a fade exists it must also be click-through.
+            if (tour.fadeElement) {
+                expect(
+                    tour.fadeElement.style.pointerEvents,
+                    "fade lets clicks through",
+                ).to.eq("none");
+            }
         });
     });
 
@@ -137,8 +144,9 @@ describe("guided-tour framework (SohlTour)", () => {
         });
 
         // Type into the (transient) skills search box → the gate is satisfied.
+        // The search input is the ringed target (the card is a separate element).
         cy.foundry((win) => {
-            const el = win.game.tours.get(TOUR_KEY).targetElement;
+            const el = win.game.tours.get(TOUR_KEY).spotlightTarget;
             el.value = "dagger";
             el.dispatchEvent(new win.Event("input", { bubbles: true }));
             return true;
@@ -148,10 +156,12 @@ describe("guided-tour framework (SohlTour)", () => {
                 .false;
         });
 
-        // Click the real tooltip Next button → advances to the action-gate step.
+        // Click the real Next button (in the step card) → the action-gate step.
         cy.foundry((win) => {
-            win.game.tooltip.tooltip
-                .querySelector('.step-button[data-action="next"]')
+            win.document
+                .querySelector(
+                    '.tour-center-step .step-button[data-action="next"]',
+                )
                 .click();
             return true;
         });
@@ -168,11 +178,10 @@ describe("guided-tour framework (SohlTour)", () => {
                 .be.true;
         });
 
-        // The user switches to the Combat tab themselves (the highlighted tab
-        // control) → the sheet re-renders, the highlight re-anchors, and the
-        // gate passes.
+        // The user switches to the Combat tab themselves (the ringed tab control)
+        // → the sheet re-renders, the ring re-anchors, and the gate passes.
         cy.foundry((win) => {
-            win.game.tours.get(TOUR_KEY).targetElement.click();
+            win.game.tours.get(TOUR_KEY).spotlightTarget.click();
             return true;
         });
         cy.window().should((win) => {
@@ -182,8 +191,10 @@ describe("guided-tour framework (SohlTour)", () => {
 
         // Finish: Next → the free wrap-up step (index 4).
         cy.foundry((win) => {
-            win.game.tooltip.tooltip
-                .querySelector('.step-button[data-action="next"]')
+            win.document
+                .querySelector(
+                    '.tour-center-step .step-button[data-action="next"]',
+                )
                 .click();
             return true;
         });

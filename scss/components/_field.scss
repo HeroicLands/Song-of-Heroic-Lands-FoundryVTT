@@ -13,3 +13,14 @@
         text-transform: uppercase;
     }
 }
+
+// The "?" help icon that replaces a field's always-on hint text: a small, muted
+// marker at the end of the label whose tooltip carries the guidance. Kept subtle
+// so it never competes with the field label or value.
+.hint-help {
+    margin-left: 0.35em;
+    font-size: 0.8em;
+    color: var(--sohl-color-text-muted);
+    cursor: help;
+    vertical-align: super;
+}

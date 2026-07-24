@@ -61,7 +61,7 @@ describe("Use Zone Die setting", () => {
             cy.ensureSkillML(actor, "melee", 50);
             cy.createItemOn(actor, "weapongear", spearWeapon()).then(
                 (weapon) => {
-                    cy.runAction(weapon, "holdItem");
+                    cy.holdItem(weapon);
                     cy.prepare(actor);
                     cy.openSheet(actor);
                     cy.switchTab("combat", "primary");
