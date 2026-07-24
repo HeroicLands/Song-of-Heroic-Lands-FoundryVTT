@@ -38,6 +38,14 @@ export interface SohlTourNav {
     tab?: string;
     /** The tab's group (`data-group`); defaults to the sheet's primary group. */
     group?: string;
+    /**
+     * A sidebar directory (`data-tab`) to activate before the step is shown —
+     * e.g. `"actors"` so the Actors directory's **Create Actor** button is
+     * rendered and visible for the step to highlight. Scene-setting only: it
+     * merely opens the directory; the user still clicks the control (PRIME
+     * DIRECTIVE — assist, don't play the game).
+     */
+    sidebarTab?: string;
 }
 
 /**

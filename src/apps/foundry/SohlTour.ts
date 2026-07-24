@@ -264,6 +264,18 @@ export class SohlTour extends TourBase {
                 (this.#sheetDoc.sheet.element as HTMLElement) ?? undefined;
         }
 
+        // Activate a sidebar directory (e.g. the Actors tab) so a control that
+        // lives in it — like the Create Actor button, which is hidden until its
+        // directory is the active tab — is rendered and visible before the step
+        // highlights it. Scene-setting only; the user still clicks the control.
+        if (step.nav?.sidebarTab) {
+            (globalThis as any).ui?.sidebar?.changeTab?.(
+                step.nav.sidebarTab,
+                step.nav.group ?? "primary",
+            );
+            await this.#nextFrame();
+        }
+
         // Give a post-navigation render a moment to attach the target element.
         if (step.selector) await this.#waitForElement(step.selector);
 
@@ -295,7 +307,31 @@ export class SohlTour extends TourBase {
         }
 
         await super._renderStep();
+        // Coach-and-wait: the tour must never block the app it is coaching. Let
+        // pointer events pass through the fade/overlay on EVERY step — free or
+        // gated — so the user can create the actor, switch tabs, type, or drag to
+        // make progress. Applied here (not only for gated steps) so a free step
+        // that asks the user to act (e.g. "create the actor") is interactive.
+        this.#allowAppInteraction();
         this.#applyGate(step);
+    }
+
+    /**
+     * Let pointer events pass through the tour's fade and overlay so the user
+     * can interact with the app the step is coaching. Foundry adds the
+     * `.tour-overlay` expressly to *block input*; a coach-and-wait SoHL tour must
+     * never block it — the user has to reach the sidebar, sheet, or dialog to
+     * make progress (PRIME DIRECTIVE — assist, don't play the game). The fade's
+     * box-shadow still dims the backdrop visually. Re-applied on every render
+     * (including a re-anchor), since Foundry recreates both elements each time.
+     */
+    #allowAppInteraction(): void {
+        if (this.fadeElement) {
+            (this.fadeElement as HTMLElement).style.pointerEvents = "none";
+        }
+        if (this.overlayElement) {
+            (this.overlayElement as HTMLElement).style.pointerEvents = "none";
+        }
     }
 
     /** Tear down this step's watchers and Next-button interceptor. */
@@ -364,17 +400,9 @@ export class SohlTour extends TourBase {
             return;
         }
 
-        // A gated step is satisfied by the user interacting with the sheet, so
-        // let pointer events pass through the tour's fade and overlay — they
-        // otherwise block input and would make the gate impossible to satisfy.
-        // The fade's box-shadow still dims the rest of the screen visually.
-        if (this.fadeElement) {
-            (this.fadeElement as HTMLElement).style.pointerEvents = "none";
-        }
-        if (this.overlayElement) {
-            (this.overlayElement as HTMLElement).style.pointerEvents = "none";
-        }
-
+        // Pointer events already pass through the fade/overlay (see
+        // #allowAppInteraction in _renderStep), so the user can interact with the
+        // sheet to satisfy this gate.
         const root =
             step.selector ?
                 ((game as any).tooltip?.tooltip as HTMLElement | undefined)
