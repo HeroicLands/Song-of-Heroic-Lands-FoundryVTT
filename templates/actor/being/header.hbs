@@ -21,14 +21,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <input class="sheet-header__shortcode" name="system.shortcode" type="text"
                 value="{{document.system.shortcode}}" placeholder="shortcode" />
         </div>
+        <i class="fa-solid fa-circle-question sheet-header__status-legend"
+            data-tooltip="{{localize 'SOHL.Being.StatusLegend'}}"
+            aria-label="{{localize 'SOHL.Being.StatusLegend'}}"></i>
         <div class="sheet-header__statuses">
             {{#each statusEffects}}
             {{#if this.toggleable}}
             <a class="sheet-header__status {{#if this.active}}active{{/if}}" data-action="toggleStatus"
-                data-status-id="{{this.id}}" data-tooltip="{{this.label}}">{{this.abbr}}</a>
+                data-status-id="{{this.id}}" data-tooltip="{{localize this.label}}">{{localize this.abbr}}</a>
             {{else}}
             <span class="sheet-header__status sheet-header__status--indicator {{#if this.active}}active{{/if}}"
-                data-tooltip="{{this.label}} (from affliction)">{{this.abbr}}</span>
+                data-tooltip="{{localize this.label}} (from affliction)">{{localize this.abbr}}</span>
             {{/if}}
             {{/each}}
         </div>

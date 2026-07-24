@@ -591,34 +591,58 @@ export interface StatusPill {
  * tooltip.
  */
 const STATUS_PILL_DEFS: readonly Omit<StatusPill, "active">[] = [
+    // `abbr` / `label` are localization KEYS (localized in the header template),
+    // not literals, so the pill text and its tooltip are translatable.
     {
         id: TRAUMA_SUBTYPE.AURALSHOCK,
-        abbr: "ASHK",
-        label: "Aural Shock",
+        abbr: "SOHL.Being.StatusPill.auralShock.abbr",
+        label: "SOHL.Being.StatusPill.auralShock.label",
         toggleable: false,
     },
-    { id: STATUS_EFFECT.SLEEP, abbr: "SLP", label: "Sleep", toggleable: true },
-    { id: STATUS_EFFECT.PRONE, abbr: "PRN", label: "Prone", toggleable: true },
-    { id: STATUS_EFFECT.STUN, abbr: "STN", label: "Stun", toggleable: true },
+    {
+        id: STATUS_EFFECT.SLEEP,
+        abbr: "SOHL.Being.StatusPill.sleep.abbr",
+        label: "SOHL.Being.StatusPill.sleep.label",
+        toggleable: true,
+    },
+    {
+        id: STATUS_EFFECT.PRONE,
+        abbr: "SOHL.Being.StatusPill.prone.abbr",
+        label: "SOHL.Being.StatusPill.prone.label",
+        toggleable: true,
+    },
+    // Row layout (4-col grid): top row ends with Fatigue, bottom row starts with
+    // Stun, so FTG precedes STN here.
     {
         id: TRAUMA_SUBTYPE.FATIGUE,
-        abbr: "FTG",
-        label: "Fatigue",
+        abbr: "SOHL.Being.StatusPill.fatigue.abbr",
+        label: "SOHL.Being.StatusPill.fatigue.label",
         toggleable: false,
+    },
+    {
+        id: STATUS_EFFECT.STUN,
+        abbr: "SOHL.Being.StatusPill.stun.abbr",
+        label: "SOHL.Being.StatusPill.stun.label",
+        toggleable: true,
     },
     {
         id: STATUS_EFFECT.INCAPACITATED,
-        abbr: "INC",
-        label: "Incapacitated",
+        abbr: "SOHL.Being.StatusPill.incapacitated.abbr",
+        label: "SOHL.Being.StatusPill.incapacitated.label",
         toggleable: true,
     },
     {
         id: STATUS_EFFECT.UNCONSCIOUS,
-        abbr: "UNC",
-        label: "Unconscious",
+        abbr: "SOHL.Being.StatusPill.unconscious.abbr",
+        label: "SOHL.Being.StatusPill.unconscious.label",
         toggleable: true,
     },
-    { id: STATUS_EFFECT.DEAD, abbr: "DED", label: "Dead", toggleable: true },
+    {
+        id: STATUS_EFFECT.DEAD,
+        abbr: "SOHL.Being.StatusPill.dead.abbr",
+        label: "SOHL.Being.StatusPill.dead.label",
+        toggleable: true,
+    },
 ];
 
 /**

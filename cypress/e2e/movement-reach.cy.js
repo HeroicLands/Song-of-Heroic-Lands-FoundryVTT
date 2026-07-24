@@ -238,7 +238,7 @@ describe("movement + reach read paths", () => {
 
                         // Held: the longer weapon mode becomes available.
                         // 8 (mode length) + 0 (Basic Folk body reachBase).
-                        cy.runAction(weapon, "holdItem");
+                        cy.holdItem(weapon);
                         cy.prepare(actor);
                         cy.foundry((win) => {
                             const a = win.game.actors.get(actor.id);

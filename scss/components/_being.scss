@@ -1,4 +1,5 @@
 @use "../abstracts/mixins";
+@use "../abstracts/typography";
 @use "list";
 
 // Being-sheet content styling.
@@ -35,6 +36,35 @@
 
 .list__items {
     @include list.reset;
+}
+
+// Held-items dropdowns (Combat tab): a fixed width wide enough to show full item
+// names like "Broadsword" / "Roundshield" without truncation, rather than the
+// narrow default that clipped them.
+.held-item-select {
+    width: 150px;
+}
+
+// The held-item row's detail column must SIZE TO and not clip that 150px select
+// — the generic `.list__detail` is a fixed 60px with truncation, which cut the
+// dropdown (and its arrow) off. Scoped through `.item` so it outranks the generic
+// `.list__items .list__detail` rule regardless of source order.
+.held-items .item .list__detail {
+    flex: 0 0 auto;
+    overflow: visible;
+    text-align: left;
+}
+
+// The Dossier editor (Profile tab). Its "Dossier" label is a section heading, so
+// give it heading weight/size and separate it from the attribute grid above with
+// whitespace, rather than the small inline form-label default.
+.dossier-group {
+    margin-top: 1rem;
+
+    > label {
+        @include typography.type-style("label-large");
+        color: var(--sohl-color-text-primary);
+    }
 }
 
 // Column widths — applied to the header row(s) AND the data rows so every
@@ -106,7 +136,17 @@
     }
 
     .list__controls {
-        @include list.controls(45px);
+        // Wide enough for the gear rows' three controls (worn + carried + menu,
+        // ~48px of icons); a narrower column wrapped them onto a second row.
+        @include list.controls(66px);
+
+        // Worn/carried toggle icons keep the default dark ink when their state is
+        // ON, and dim to light gray when OFF (the gear template's `disabled`
+        // class). Without this the being sheet inherited no `.disabled` rule, so
+        // an unequipped/uncarried icon stayed dark and looked active.
+        .disabled {
+            color: var(--sohl-color-text-muted);
+        }
     }
 }
 

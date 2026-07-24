@@ -175,6 +175,16 @@ span.sep {
 
     // Status pills — clickable rounded lozenges, grouped top-right, wrapping to
     // multiple rows. Each toggles its status on the actor.
+    // Legend "?" to the left of the status pills; its tooltip explains the abbrs.
+    .sheet-header__status-legend {
+        flex: 0 0 auto;
+        align-self: center;
+        margin-left: 5px;
+        color: var(--sohl-color-text-muted);
+        cursor: help;
+        font-size: 16px;
+    }
+
     .sheet-header__statuses {
         flex: 0 0 auto;
         display: flex;

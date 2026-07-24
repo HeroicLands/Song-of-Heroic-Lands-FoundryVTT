@@ -46,8 +46,7 @@ describe("ContainerGearLogic", () => {
 
         it("inherits the gear intrinsic actions (no container-specific ones)", () => {
             const logic = makeContainer();
-            expect(logic.actions.has("setCarried")).toBe(true);
-            expect(logic.actions.has("setNotCarried")).toBe(true);
+            expect(logic.actions.has("toggleCarried")).toBe(true);
             expect(logic.actions.has("editDocument")).toBe(true);
         });
     });

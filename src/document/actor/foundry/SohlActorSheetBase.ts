@@ -19,6 +19,7 @@ import { fvttCallHook, dialog } from "@src/core/FoundryHelpers";
 import { ITEM_KIND, GearKinds } from "@src/utils/constants";
 import { toHTMLString } from "@src/utils/helpers";
 import { stripDocArchetypeFlag } from "@src/entity/archetype/archetype";
+import { hintsToLabelTooltips } from "@src/apps/foundry/sheet-hints";
 
 // Define the base type for the sheet
 const SohlActorSheetBase_Base = SohlDataModel.SheetMixin<
@@ -187,6 +188,24 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
             },
         });
         return typeof result === "number" ? result : undefined;
+    }
+
+    /**
+     * After render, convert each field's always-on hint into a "?" tooltip on its
+     * label (shared with the item sheets), so the guidance no longer competes with
+     * the field value.
+     * @param context - The render context.
+     * @param options - The render options.
+     */
+    protected override async _onRender(
+        // Typed `any` to sidestep the fvtt-types deep-comparison blowup on the
+        // heavy `RenderContext<SohlActor>` type (see BeingSheet#_onRender).
+        context: any,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<void> {
+        await super._onRender(context, options);
+        const el = (this as any).element as HTMLElement | undefined;
+        if (el) hintsToLabelTooltips(el);
     }
 
     /**

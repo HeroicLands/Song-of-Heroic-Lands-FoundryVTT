@@ -292,13 +292,21 @@ export abstract class SohlLogic<
             `TYPE.${ActorKinds.includes(type) ? "ACTOR" : "ITEM"}.${type}`,
         );
         const subType = dataModel.subType;
+        // Localize the sub-type via its schema field's `choices` (a value → i18n
+        // key map from `defineType`), so e.g. a skill `subType` of "combat" reads
+        // "Combat" rather than the raw stored value. Falls back to the raw value
+        // when the field has no choices (a free-text sub-type).
+        const subTypeKey = (dataModel.schema as any)?.fields?.subType
+            ?.choices?.[subType];
+        const subTypeLabel =
+            subTypeKey ? sohl.i18n.localize(subTypeKey) : subType;
         const formatStr =
             subType ?
                 "SOHL.BASEDATA.typeLabelWithSubtype"
             :   "SOHL.BASEDATA.typeLabel";
         return sohl.i18n.format(formatStr, {
             type: typeLabel,
-            subType,
+            subType: subTypeLabel,
         });
     }
 

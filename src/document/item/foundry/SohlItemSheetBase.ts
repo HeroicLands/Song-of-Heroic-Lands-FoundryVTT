@@ -15,6 +15,7 @@ import { SohlItem } from "./SohlItem";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import { SohlDataModel } from "@src/core/foundry/SohlDataModel";
 import { openDatePickerDialog } from "@src/apps/foundry/date-picker-dialog";
+import { hintsToLabelTooltips } from "@src/apps/foundry/sheet-hints";
 import {
     createAction,
     editAction,
@@ -255,9 +256,15 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         options: PlainObject,
     ): Promise<void> {
         await super._onRender(context, options);
-        if (!this.isEditable) return;
 
         const el = (this as any).element as HTMLElement | undefined;
+        // Convert each field's always-on hint into a "?" tooltip on its label, so
+        // the guidance no longer competes with the field value (read-only view
+        // benefits too, so this runs before the editable-only bindings below).
+        if (el) hintsToLabelTooltips(el);
+
+        if (!this.isEditable) return;
+
         el?.querySelectorAll<HTMLElement>(".add-array-item").forEach(
             (control) =>
                 control.addEventListener("click", (event) =>

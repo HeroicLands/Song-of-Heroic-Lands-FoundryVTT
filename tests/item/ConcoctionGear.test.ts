@@ -51,8 +51,7 @@ describe("ConcoctionGearLogic", () => {
 
         it("inherits the gear intrinsic actions (no concoction-specific ones)", () => {
             const logic = makeConcoction();
-            expect(logic.actions.has("setCarried")).toBe(true);
-            expect(logic.actions.has("setNotCarried")).toBe(true);
+            expect(logic.actions.has("toggleCarried")).toBe(true);
             expect(logic.actions.has("editDocument")).toBe(true);
         });
     });

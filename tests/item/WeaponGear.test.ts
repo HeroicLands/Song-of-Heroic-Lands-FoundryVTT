@@ -184,8 +184,7 @@ describe("WeaponGearLogic", () => {
                 // gear only carries the inherited gear/lifecycle actions.
                 const logic = makeWeapon();
                 for (const shortcode of [
-                    "setCarried",
-                    "setNotCarried",
+                    "toggleCarried",
                     "editDocument",
                     "deleteDocument",
                 ]) {
