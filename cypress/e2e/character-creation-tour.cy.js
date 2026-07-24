@@ -142,6 +142,12 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         // spotlights the Create Actor button — a fade ring on the button while the
         // step card stays centered/stable. The overlay must pass clicks through so
         // the spotlighted control is actionable.
+        // Collapse the sidebar first: the step must EXPAND it (a collapsed sidebar
+        // hides the Create Actor button, so selecting the tab alone is not enough).
+        cy.foundry((win) => {
+            win.ui.sidebar.collapse();
+            return true;
+        });
         cy.foundry((win) =>
             win.game.tours
                 .get(KEY)
@@ -152,11 +158,12 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         cy.window().should((win) => {
             const tour = win.game.tours.get(KEY);
             expect(tour.stepIndex, "on the create-actor step").to.eq(0);
-            // The Actors directory was auto-selected.
+            // The Actors directory was auto-selected and the sidebar expanded.
             expect(
                 win.ui.sidebar?.tabGroups?.primary,
                 "Actors tab selected",
             ).to.eq("actors");
+            expect(win.ui.sidebar?.expanded, "sidebar expanded").to.be.true;
             // The spotlight targets the Actors directory's Create Actor button.
             const spot = tour.spotlightTarget;
             expect(spot, "has a spotlight target").to.exist;

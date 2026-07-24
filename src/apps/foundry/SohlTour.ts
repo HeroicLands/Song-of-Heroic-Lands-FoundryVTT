@@ -282,24 +282,31 @@ export class SohlTour extends TourBase {
                 (this.#sheetDoc.sheet.element as HTMLElement) ?? undefined;
         }
 
-        // Activate a sidebar directory (e.g. the Actors tab) so a control that
-        // lives in it — like the Create Actor button, which is hidden until its
-        // directory is the active tab — is rendered and visible before the step
-        // highlights it. Scene-setting only; the user still clicks the control.
+        // Open a sidebar directory (e.g. the Actors tab) so a control that lives
+        // in it — like the Create Actor button, hidden until its directory is
+        // shown — is rendered and visible before the step highlights it. The
+        // sidebar must be BOTH switched to the tab AND expanded: a user click
+        // auto-expands (`_onClickTab`), but the programmatic `changeTab` does not
+        // (and no-ops if the tab is already active), so a collapsed sidebar would
+        // otherwise stay collapsed and the control never becomes visible. Scene-
+        // setting only; the user still clicks the control.
         if (step.nav?.sidebarTab) {
-            (globalThis as any).ui?.sidebar?.changeTab?.(
+            const sidebar = (globalThis as any).ui?.sidebar;
+            sidebar?.changeTab?.(
                 step.nav.sidebarTab,
                 step.nav.group ?? "primary",
             );
+            if (sidebar && !sidebar.expanded) sidebar.expand?.();
             await this.#nextFrame();
         }
 
         // Give a post-navigation render a moment to attach the target element.
         if (step.selector) await this.#waitForElement(step.selector);
-        // A spotlight target must be VISIBLE before we ring it — the create button
-        // exists in the DOM even while its directory is hidden, so waiting only for
-        // existence would ring a zero-size (off-screen) rect.
-        else if (step.spotlight) await this.#waitForVisible(step.spotlight);
+        // A spotlight target must be VISIBLE and SETTLED before we ring it — the
+        // create button exists in the DOM even while hidden, and expanding the
+        // sidebar animates it into place, so waiting for a stable rect avoids
+        // ringing a zero-size or mid-animation position.
+        else if (step.spotlight) await this.#waitForStableRect(step.spotlight);
 
         // Re-arm watchers for this step.
         this.#teardownWatchers();
@@ -850,19 +857,35 @@ export class SohlTour extends TourBase {
     }
 
     /**
-     * Poll up to ~30 frames for the selector to resolve to a **visible** element
-     * (laid out, non-zero size) — not merely present. Used before spotlighting a
-     * control that exists while hidden (a directory's Create button before its tab
-     * is active), so the fade ring is placed on its real on-screen rect.
+     * Poll up to ~45 frames until the selector resolves to a **visible element
+     * whose on-screen rect has settled** — non-zero size and unchanged for two
+     * consecutive frames. Merely-visible is not enough: expanding the sidebar
+     * animates the directory in from the right, so a control read mid-animation
+     * has a transient position and the fade ring would land where it *was*, not
+     * where it comes to rest. Waiting for a stable rect fixes that.
      * @param selector - The selector to wait for.
      * @param tries - Maximum number of animation frames to poll.
      */
-    async #waitForVisible(selector: string, tries = 30): Promise<void> {
+    async #waitForStableRect(selector: string, tries = 45): Promise<void> {
+        let prev: DOMRect | undefined;
+        let stable = 0;
         for (let i = 0; i < tries; i++) {
             const el = this._getTargetElement(selector) as HTMLElement | null;
             if (el && el.offsetParent !== null) {
-                const rect = el.getBoundingClientRect();
-                if (rect.width > 0 && rect.height > 0) return;
+                const r = el.getBoundingClientRect();
+                if (r.width > 0 && r.height > 0) {
+                    if (
+                        prev &&
+                        Math.abs(r.left - prev.left) < 0.5 &&
+                        Math.abs(r.top - prev.top) < 0.5 &&
+                        Math.abs(r.width - prev.width) < 0.5
+                    ) {
+                        if (++stable >= 2) return;
+                    } else {
+                        stable = 0;
+                    }
+                    prev = r;
+                }
             }
             await this.#nextFrame();
         }
