@@ -14,6 +14,12 @@
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { SohlItemSheetBase } from "@src/document/item/foundry/SohlItemSheetBase";
 import { SKILL_SUBTYPE } from "@src/utils/constants";
+import {
+    addStrikeMode,
+    bindStrikeModeContextMenu,
+    prepareStrikeModesContext,
+    withStrikeModesTab,
+} from "@src/document/item/foundry/strike-mode-sheet";
 
 /** @internal */
 export class SkillSheet extends SohlItemSheetBase {
@@ -25,7 +31,92 @@ export class SkillSheet extends SohlItemSheetBase {
             template: "systems/sohl/templates/item/skill-properties.hbs",
             scrollable: [""],
         },
+        strikemodes: {
+            container: { classes: ["tab-body"], id: "tabs" },
+            template: "systems/sohl/templates/item/strikemodes.hbs",
+            scrollable: [""],
+        },
     };
+
+    /**
+     * Only a `combattechnique` skill has a strike mode, so the Strike Modes tab
+     * is declared here but shown only for that subtype (see
+     * {@link SkillSheet._getTabsConfig}).
+     */
+    static override TABS = withStrikeModesTab(SohlItemSheetBase.TABS);
+
+    /** @inheritDoc */
+    static override DEFAULT_OPTIONS: PlainObject = {
+        actions: {
+            addStrikeMode: SkillSheet._onAddStrikeMode,
+        },
+    };
+
+    /** Whether this skill is a combat technique (carries a strike mode). */
+    private get isCombatTechnique(): boolean {
+        return (
+            (this.document.system as any).subType ===
+            SKILL_SUBTYPE.COMBATTECHNIQUE
+        );
+    }
+
+    /**
+     * Hide the Strike Modes tab for every skill subtype except
+     * `combattechnique`, without mutating the shared static `TABS`.
+     * @param group - The tab group being prepared.
+     * @returns The tab configuration, with `strikemodes` filtered out for
+     *   non-technique skills.
+     */
+    protected override _getTabsConfig(group: string): any {
+        // Mirrors ApplicationV2#_getTabsConfig (returns `this.constructor.TABS[group]`),
+        // then drops the strike-modes tab for non-technique skills.
+        const cfg = (this.constructor as any).TABS?.[group] ?? null;
+        if (!cfg || group !== "sheet" || this.isCombatTechnique) return cfg;
+        return {
+            ...cfg,
+            tabs: cfg.tabs.filter((t: any) => t.id !== "strikemodes"),
+        };
+    }
+
+    /**
+     * `data-action="addStrikeMode"`: seed this combat technique's strike mode
+     * and open the editor on it (only reachable when it currently has none).
+     * @param _event - The triggering pointer event (unused).
+     * @param _target - The clicked add control (unused).
+     */
+    protected static async _onAddStrikeMode(
+        this: SkillSheet,
+        _event: PointerEvent,
+        _target: HTMLElement,
+    ): Promise<void> {
+        await addStrikeMode(this.document);
+    }
+
+    /** @inheritDoc */
+    protected override _configureRenderOptions(
+        options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
+    ): void {
+        super._configureRenderOptions(options);
+        if (!(this.document as any).limited && this.isCombatTechnique) {
+            options.parts?.push("strikemodes");
+        }
+    }
+
+    /**
+     * Add the strike-mode `⋮`-row context menus after the base render.
+     * @param context - The render context.
+     * @param options - The render options.
+     */
+    protected override async _onRender(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<void> {
+        await super._onRender(context, options);
+        const el = (this as any).element as HTMLElement | undefined;
+        if (el && this.isEditable && this.isCombatTechnique) {
+            bindStrikeModeContextMenu(this.document, el);
+        }
+    }
 
     /**
      * Adds skill-specific fields to the properties tab context.
@@ -41,14 +132,6 @@ export class SkillSheet extends SohlItemSheetBase {
     > {
         await super._preparePropertiesContext(context, options);
         const system = this.document.system as any;
-        // A `combattechnique` skill carries an embedded strike mode, edited via
-        // the strike-mode section shown only for that subtype. The context uses
-        // flat `system.strikeMode.<field>` paths, plus a hidden `type` to keep
-        // the discriminated update valid.
-        const isCombatTechnique =
-            system.subType === SKILL_SUBTYPE.COMBATTECHNIQUE;
-        const sm = system.strikeMode ?? {};
-        const smType = sm.type ?? "melee";
         return Object.assign(context, {
             skillBaseFormula: system.skillBaseFormula,
             masteryLevelBase: system.masteryLevelBase,
@@ -57,11 +140,21 @@ export class SkillSheet extends SohlItemSheetBase {
             weaponGroup: system.weaponGroup,
             baseSkill: system.baseSkill,
             domainCode: system.domainCode,
-            isCombatTechnique,
-            sm,
-            smType,
-            isMelee: smType === "melee",
-            isMissile: smType === "missile",
         });
+    }
+
+    /** @inheritDoc */
+    protected override async _preparePartContext(
+        partId: string,
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
+        context = await super._preparePartContext(partId, context, options);
+        if (partId === "strikemodes") {
+            Object.assign(context, prepareStrikeModesContext(this.document));
+        }
+        return context;
     }
 }

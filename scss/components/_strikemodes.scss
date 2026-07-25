@@ -1,0 +1,75 @@
+@use "../abstracts/mixins";
+@use "list";
+
+.strikemodes__list {
+    @include list.scroll-body;
+
+    .strikemodes__header {
+        @include list.header-row(
+            var(--sohl-color-bg-overlay-dark),
+            var(--sohl-color-border-subtle)
+        );
+
+        .name {
+            color: var(--sohl-color-text-primary);
+            flex: 1 0 140px;
+            border-right: 1px solid var(--sohl-color-border-default);
+            @include mixins.truncate;
+        }
+
+        .strikemodes__controls {
+            flex: 0 0 30px;
+            text-align: right;
+            padding-right: 5px;
+            color: var(--sohl-color-text-primary);
+        }
+    }
+
+    .strikemodes__items {
+        @include list.reset;
+    }
+
+    .strikemodes__row {
+        border-bottom: 1px solid var(--sohl-color-border-default);
+        @include mixins.truncate;
+
+        .name {
+            flex: 1 0 140px;
+            max-height: 30px;
+            border-right: 1px solid var(--sohl-color-border-default);
+            @include mixins.truncate;
+
+            h4 {
+                margin: 0;
+            }
+        }
+    }
+
+    .strikemodes__row:last-child {
+        border-bottom: none;
+    }
+
+    .ele {
+        flex: 0 0 90px;
+        text-align: center;
+        border-right: 1px solid var(--sohl-color-border-default);
+        @include mixins.truncate;
+    }
+
+    .type {
+        flex: 0 0 70px;
+    }
+
+    .aspect {
+        border-right: none;
+    }
+
+    .strikemodes__controls {
+        @include list.controls(30px);
+        color: var(--sohl-color-text-primary);
+
+        .strikemodes__control {
+            flex: 0 0 22px;
+        }
+    }
+}

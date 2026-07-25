@@ -1,0 +1,92 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<div class="strike-mode-config__body">
+<fieldset>
+    <legend>Strike Mode</legend>
+    <div class="grid grid-2col">
+        <label class="form-group stacked"><span>Type</span>
+            <select name="type">
+                <option value="melee" {{#if isMelee}}selected{{/if}}>{{localize "SOHL.StrikeMode.Type.melee"}}</option>
+                <option value="missile" {{#if isMissile}}selected{{/if}}>{{localize "SOHL.StrikeMode.Type.missile"}}</option>
+            </select></label>
+        <label class="form-group stacked"><span>Name</span>
+            <input type="text" name="name" value="{{sm.name}}" /></label>
+        <label class="form-group stacked"><span>Min Parts</span>
+            <input type="number" name="minParts" value="{{sm.minParts}}" /></label>
+        <label class="form-group stacked"><span>Governing Skill Override</span>
+            <input type="text" name="assocSkillCode" value="{{sm.assocSkillCode}}"
+                data-tooltip="Optional. Leave blank to use the item's own mastery level; set to another skill's code to borrow its mastery level." /></label>
+        {{#if isMelee}}
+        <label class="form-group stacked"><span>Length</span>
+            <input type="number" step="0.1" name="lengthBase" value="{{sm.lengthBase}}" /></label>
+        {{/if}}
+        {{#if isMissile}}
+        <label class="form-group stacked"><span>Projectile Type</span>
+            <input type="text" name="projectileType" value="{{sm.projectileType}}" /></label>
+        <label class="form-group stacked"><span>Base Range</span>
+            <input type="number" name="baseRangeBase" value="{{sm.baseRangeBase}}" /></label>
+        <label class="form-group stacked"><span>Draw</span>
+            <input type="number" name="drawBase" value="{{sm.drawBase}}" /></label>
+        <label class="form-group stacked"><span>Max Volley ×</span>
+            <input type="number" name="maxVolleyMult" value="{{sm.maxVolleyMult}}" /></label>
+        {{/if}}
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>Attack</legend>
+    <div class="grid grid-2col">
+        <label class="form-group stacked"><span>Spread</span>
+            <input type="number" name="attack.spread" value="{{sm.attack.spread}}" /></label>
+        <label class="form-group stacked"><span>Attack Modifier</span>
+            <input type="number" name="attack.modifier" value="{{sm.attack.modifier}}" /></label>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>Impact</legend>
+    <div class="grid grid-2col">
+        <label class="form-group stacked"><span>Dice</span>
+            <input type="number" name="impactBase.numDice" value="{{sm.impactBase.numDice}}" /></label>
+        <label class="form-group stacked"><span>Die</span>
+            <input type="number" name="impactBase.die" value="{{sm.impactBase.die}}" /></label>
+        <label class="form-group stacked"><span>Modifier</span>
+            <input type="number" name="impactBase.modifier" value="{{sm.impactBase.modifier}}" /></label>
+        <label class="form-group stacked"><span>Aspect</span>
+            <select name="impactBase.aspect">
+                {{#each aspectOptions}}
+                <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{localize this.label}}</option>
+                {{/each}}
+            </select></label>
+    </div>
+</fieldset>
+
+{{#if isMelee}}
+<fieldset>
+    <legend>Defense</legend>
+    <div class="grid grid-2col">
+        <label class="form-group stacked"><span>Block Modifier</span>
+            <input type="number" name="defense.block.modifier" value="{{sm.defense.block.modifier}}" /></label>
+        <label class="form-group stacked"><span>Counterstrike Modifier</span>
+            <input type="number" name="defense.counterstrike.modifier" value="{{sm.defense.counterstrike.modifier}}" /></label>
+    </div>
+</fieldset>
+{{/if}}
+
+<footer class="form-footer">
+    {{#each buttons}}
+    <button type="{{this.type}}"><i class="{{this.icon}}"></i> {{localize this.label}}</button>
+    {{/each}}
+</footer>
+</div>

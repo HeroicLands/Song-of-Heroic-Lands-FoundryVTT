@@ -1512,6 +1512,8 @@ export const {
     kind: STRIKE_MODE_TYPE,
     /** All strike-mode-type values, as an array. */
     values: StrikeModeTypes,
+    /** Value-keyed label map for `StringField({ choices })` and select helpers. */
+    choices: StrikeModeTypeChoices,
     /** Type guard for strike-mode-type values. */
     isValue: isStrikeModeType,
 } = defineType("SOHL.StrikeMode.Type", {
