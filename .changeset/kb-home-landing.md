@@ -13,5 +13,5 @@ KB root was therefore indistinguishable from www apart from its `<title>`.
 Adds a project-level `kb/layouts/index.html` override that renders a
 knowledgebase-specific landing: a hero, primary cards for the developer docs
 (`/dev/`) and the user guide (`/guide/`), and a content-reference row linking into
-the being, attribute/skill, gear, and affliction catalogs. Only the KB home is
-affected; the deep content pages were already correct.
+the being, attribute/skill, gear, affliction, and trauma catalogs. Only the KB
+home is affected; the deep content pages were already correct.
