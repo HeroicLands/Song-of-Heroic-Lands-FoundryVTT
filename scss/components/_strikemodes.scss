@@ -56,11 +56,17 @@
         @include mixins.truncate;
     }
 
+    .shortcode {
+        flex: 0 0 90px;
+    }
+
     .type {
         flex: 0 0 70px;
     }
 
-    .aspect {
+    // Impact formula — the last data column, can be a little wider, no divider.
+    .impact {
+        flex: 1 0 110px;
         border-right: none;
     }
 

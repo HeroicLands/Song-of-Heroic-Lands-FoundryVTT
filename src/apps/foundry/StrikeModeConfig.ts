@@ -18,9 +18,10 @@ import {
     ImpactAspectChoices,
     ITEM_KIND,
     STRIKE_MODE_TYPE,
-    isStrikeModeType,
+    StrikeModeTypeChoices,
     type StrikeModeType,
 } from "@src/utils/constants";
+import { fvttGetSetting } from "@src/core/FoundryHelpers";
 import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 
 const StrikeModeConfig_Base: any =
@@ -35,16 +36,16 @@ const StrikeModeConfig_Base: any =
  * This ApplicationV2 form edits one strike mode on the parent item — an element
  * of a weapon's `system.strikeModes` array (identified by its shortcode) or a
  * combat technique's single `system.strikeMode` — and persists via
- * `item.update()` on submit, writing the whole array back for a weapon.
+ * `item.update()`.
  *
- * A weapon strike mode's shortcode is editable and must stay unique among the
- * weapon's modes; a combat technique's single mode has no shortcode of its own,
- * so the field is shown read-only.
+ * The form **auto-saves**: every field change submits (`submitOnChange`) and
+ * writes back immediately, so there is no Save button and the window stays open.
  *
- * The melee/missile discriminated union is handled by a type `<select>`: when
- * the type changes the form re-renders with that subtype's fields, carrying the
- * common fields (name, min parts, attack, impact) across the switch and seeding
- * the new subtype-specific fields from {@link blankStrikeMode}.
+ * The strike-mode **type is fixed** at creation and shown read-only here — to
+ * change type, delete the mode and create a new one. A weapon strike mode's
+ * shortcode is editable and must stay unique among the weapon's modes; a combat
+ * technique's single mode has no shortcode of its own, so that field is
+ * read-only too.
  *
  * @internal Foundry UI binding; not part of the public API.
  */
@@ -57,10 +58,11 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
      * editable shortcode.
      */
     #isMulti: boolean;
-    /** The shortcode (row key) the strike mode is currently stored under. */
+    /**
+     * The shortcode (row key) the strike mode is currently stored under. Tracked
+     * so an auto-save after a shortcode edit targets the renamed element.
+     */
     #key: string;
-    /** The working copy of the strike mode, re-seeded on a type switch. */
-    #draft: StrikeModeBase.Data;
 
     /** @inheritDoc */
     static override DEFAULT_OPTIONS = {
@@ -77,8 +79,8 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
         tag: "form" as const,
         form: {
             handler: StrikeModeConfig.#onSubmit,
-            closeOnSubmit: true,
-            submitOnChange: false,
+            closeOnSubmit: false,
+            submitOnChange: true,
         },
     };
 
@@ -89,9 +91,7 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
     };
 
     /**
-     * Open the editor bound to one embedded strike mode on an item, seeding the
-     * working draft from the value currently stored under `key` (or a blank
-     * melee mode when nothing is found there yet).
+     * Open the editor bound to one embedded strike mode on an item.
      * @param item - The parent item whose strike mode is edited.
      * @param key - The strike mode's row key: its shortcode for a weapon, or any
      *   sentinel for a combat technique's single `system.strikeMode`.
@@ -105,20 +105,6 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
         this.#item = item;
         this.#isMulti = item.type === ITEM_KIND.WEAPONGEAR;
         this.#key = key;
-        const system = item.system as any;
-        const existing: StrikeModeBase.Data | undefined =
-            this.#isMulti ?
-                (system.strikeModes as StrikeModeBase.Data[] | undefined)?.find(
-                    (m) => m.shortcode === key,
-                )
-            :   ((system.strikeMode as
-                    | StrikeModeBase.Data
-                    | null
-                    | undefined) ?? undefined);
-        this.#draft =
-            existing ?
-                (foundry.utils.deepClone(existing) as StrikeModeBase.Data)
-            :   blankStrikeMode(STRIKE_MODE_TYPE.MELEE, item.name);
     }
 
     /** The item being edited (read-only accessor for callers/tests). */
@@ -134,14 +120,34 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
     }
 
     /**
-     * Build the render context from the working draft: the strike-mode fields
-     * plus the melee/missile flags the template branches on.
+     * The strike mode currently stored under {@link #key}, read live from the
+     * item so each render reflects the persisted state.
+     * @returns The strike-mode data, or `undefined` if not found.
+     */
+    #current(): StrikeModeBase.Data | undefined {
+        const system = this.#item.system as any;
+        if (this.#isMulti) {
+            return (
+                system.strikeModes as StrikeModeBase.Data[] | undefined
+            )?.find((m) => m.shortcode === this.#key);
+        }
+        return (
+            (system.strikeMode as StrikeModeBase.Data | null | undefined) ??
+            undefined
+        );
+    }
+
+    /**
+     * Build the render context from the persisted strike mode: its fields, the
+     * melee/missile flags the template branches on, the read-only type label, and
+     * the `useZoneDie`-dependent spread label.
      *
      * @param _options - The render options (unused).
-     * @returns The template context describing the current draft.
+     * @returns The template context describing the current strike mode.
      */
     protected override async _prepareContext(_options: any): Promise<any> {
-        const sm = this.#draft as any;
+        const sm = (this.#current() ??
+            blankStrikeMode(STRIKE_MODE_TYPE.MELEE, this.#item.name)) as any;
         const smType = sm.type as StrikeModeType;
         const aspectOptions = Object.entries(ImpactAspectChoices).map(
             ([value, label]) => ({
@@ -150,97 +156,29 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
                 selected: value === sm.impactBase?.aspect,
             }),
         );
+        const useZoneDie = !!fvttGetSetting("sohl", "useZoneDie");
         return {
             sm,
             smType,
+            typeLabel: game.i18n.localize(
+                StrikeModeTypeChoices[smType] ?? smType,
+            ),
             // For a weapon, the mode's own (editable) shortcode; for a combat
             // technique there is none, so fall back to the row key for display.
             shortcode: this.#isMulti ? (sm.shortcode ?? this.#key) : this.#key,
             isMulti: this.#isMulti,
             isMelee: smType === STRIKE_MODE_TYPE.MELEE,
             isMissile: smType === STRIKE_MODE_TYPE.MISSILE,
+            // HMK "Use Zone Die" relabels the melee attack spread (#327).
+            spreadLabel: useZoneDie ? "Zone Die" : "Spread",
             aspectOptions,
-            buttons: [
-                {
-                    type: "submit",
-                    icon: "fa-solid fa-floppy-disk",
-                    label: "SOHL.StrikeModeConfig.save",
-                },
-            ],
         };
     }
 
     /**
-     * After render, wire the type `<select>` so switching melee↔missile
-     * re-seeds the draft's subtype-specific fields (preserving the common
-     * fields the user has already entered) and re-renders the form.
-     *
-     * @param context - The render context.
-     * @param options - The render options.
-     */
-    protected override async _onRender(
-        context: any,
-        options: any,
-    ): Promise<void> {
-        await super._onRender(context, options);
-        const el = this.element as HTMLElement;
-        const typeSelect = el?.querySelector<HTMLSelectElement>(
-            'select[name="type"]',
-        );
-        typeSelect?.addEventListener("change", () => {
-            const newType = typeSelect.value;
-            if (!isStrikeModeType(newType)) return;
-            this.#draft = this.#reseedForType(newType);
-            void this.render();
-        });
-    }
-
-    /**
-     * Merge the current form values into a fresh strike mode of `newType`.
-     * Common fields (name, minParts, assocSkillCode, attack, impact, traits)
-     * are carried across the type switch; subtype-specific fields reset to the
-     * {@link blankStrikeMode} defaults for the new type.
-     *
-     * @param newType - The strike-mode type to switch to.
-     * @returns A schema-valid strike mode of the requested type.
-     */
-    #reseedForType(newType: StrikeModeType): StrikeModeBase.Data {
-        const current = this.#gatherForm();
-        const seeded = blankStrikeMode(
-            newType,
-            String(current.name || this.#item.name),
-        ) as any;
-        return {
-            ...seeded,
-            shortcode: current.shortcode ?? seeded.shortcode,
-            name: current.name ?? seeded.name,
-            minParts: current.minParts ?? seeded.minParts,
-            assocSkillCode: current.assocSkillCode ?? seeded.assocSkillCode,
-            attack: { ...seeded.attack, ...(current.attack ?? {}) },
-            impactBase: { ...seeded.impactBase, ...(current.impactBase ?? {}) },
-            type: newType,
-        } as StrikeModeBase.Data;
-    }
-
-    /**
-     * Read the live form into a nested plain object (via `FormDataExtended` +
-     * `expandObject`), so an in-flight edit survives a type-switch re-render.
-     *
-     * @returns The expanded form values, or an empty object before first render.
-     */
-    #gatherForm(): PlainObject {
-        const form = this.element as HTMLFormElement | undefined;
-        if (!form) return {};
-        const fd = new foundry.applications.ux.FormDataExtended(form);
-        return foundry.utils.expandObject(fd.object) as PlainObject;
-    }
-
-    /**
-     * Form submit handler: build a clean, schema-valid strike mode of the
-     * selected type from the submitted fields and write it back to the item.
-     * Writing the whole value (rather than a field-by-field merge) guarantees a
-     * clean type switch — no stale melee fields survive on a mode that is now
-     * missile, and vice versa.
+     * Auto-save handler (`submitOnChange`): build a clean, schema-valid strike
+     * mode from the submitted fields — preserving the fixed, read-only type — and
+     * write it back to the item.
      *
      * @param this - The bound {@link StrikeModeConfig} instance.
      * @param _event - The submit event (unused).
@@ -254,12 +192,12 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
         formData: any,
     ): Promise<void> {
         const submitted = foundry.utils.expandObject(formData.object) as any;
+        // The type is read-only (not a form field), so preserve the stored
+        // mode's type rather than reading it from the submission.
         const type: StrikeModeType =
-            isStrikeModeType(submitted.type) ?
-                submitted.type
-            :   this.#draft.type;
-        // Start from a blank of the target type so every subtype field is
-        // present and valid, then overlay the submitted values.
+            this.#current()?.type ?? STRIKE_MODE_TYPE.MELEE;
+        // Start from a blank of that type so every subtype field is present and
+        // valid, then overlay the submitted values.
         const clean = foundry.utils.mergeObject(
             blankStrikeMode(type, String(submitted.name || this.#item.name)),
             { ...submitted, type },
@@ -276,7 +214,9 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
      * the submitted shortcode is validated for uniqueness among the weapon's
      * *other* modes via {@link planShortcodeSave}: an unchanged or rejected
      * shortcode keeps the current one (warning the user on rejection), and the
-     * whole `system.strikeModes` array is written back with this element replaced.
+     * whole `system.strikeModes` array is written back with this element
+     * replaced. On a successful rename {@link #key} is updated so the next
+     * auto-save targets the renamed element.
      *
      * @param clean - The schema-valid strike-mode value to persist.
      */
@@ -304,5 +244,6 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
         await this.#item.update(
             logic.replaceStrikeModeUpdate(this.#key, clean),
         );
+        this.#key = plan.shortcode;
     }
 }

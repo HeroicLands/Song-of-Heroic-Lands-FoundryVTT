@@ -8,7 +8,7 @@
 import { describe, it, expect } from "vitest";
 import {
     planShortcodeSave,
-    uniqueShortcode,
+    validateShortcode,
 } from "@src/entity/strikemode/planShortcodeSave";
 
 describe("planShortcodeSave", () => {
@@ -64,21 +64,27 @@ describe("planShortcodeSave", () => {
     });
 });
 
-describe("uniqueShortcode", () => {
-    it("slugs the base and returns it when free", () => {
-        expect(uniqueShortcode("Broadsword", [])).toBe("broadsword");
+describe("validateShortcode", () => {
+    const existing = ["cut", "thrust"];
+
+    it("accepts a non-blank, unique, well-formed shortcode", () => {
+        expect(validateShortcode("pommel", existing)).toBeUndefined();
+        expect(validateShortcode("back-hand_2", existing)).toBeUndefined();
     });
 
-    it("strips characters outside [\\w-]", () => {
-        expect(uniqueShortcode("Ball & Chain", [])).toBe("ballchain");
+    it("trims before validating", () => {
+        expect(validateShortcode("  pommel  ", existing)).toBeUndefined();
     });
 
-    it("falls back to 'mode' when nothing survives slugging", () => {
-        expect(uniqueShortcode("!!!", [])).toBe("mode");
+    it("rejects a blank shortcode", () => {
+        expect(validateShortcode("   ", existing)).toMatch(/blank/i);
     });
 
-    it("appends an incrementing suffix to avoid collisions", () => {
-        expect(uniqueShortcode("sword", ["sword"])).toBe("sword2");
-        expect(uniqueShortcode("sword", ["sword", "sword2"])).toBe("sword3");
+    it("rejects characters outside [\\w-]", () => {
+        expect(validateShortcode("a.b", existing)).toMatch(/invalid/i);
+    });
+
+    it("rejects a shortcode already in use", () => {
+        expect(validateShortcode("cut", existing)).toMatch(/already exists/i);
     });
 });

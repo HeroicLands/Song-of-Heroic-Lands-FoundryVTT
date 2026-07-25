@@ -27,16 +27,18 @@ const TEMPLATE = "systems/sohl/templates/apps/strike-mode-config.hbs";
 function context(
     type: StrikeModeType,
     name = "Cut",
-    { shortcode = "cut", isMulti = true } = {},
+    { shortcode = "cut", isMulti = true, useZoneDie = false } = {},
 ) {
     const sm = blankStrikeMode(type, name) as any;
     return {
         sm,
         smType: type,
+        typeLabel: type === STRIKE_MODE_TYPE.MELEE ? "Melee" : "Missile",
         shortcode,
         isMulti,
         isMelee: type === STRIKE_MODE_TYPE.MELEE,
         isMissile: type === STRIKE_MODE_TYPE.MISSILE,
+        spreadLabel: useZoneDie ? "Zone Die" : "Spread",
         aspectOptions: Object.entries(ImpactAspectChoices).map(
             ([value, label]) => ({
                 value,
@@ -44,35 +46,28 @@ function context(
                 selected: value === sm.impactBase.aspect,
             }),
         ),
-        buttons: [
-            {
-                type: "submit",
-                icon: "fa-solid fa-floppy-disk",
-                label: "SOHL.StrikeModeConfig.save",
-            },
-        ],
     };
 }
 
 describe("strike-mode-config template", () => {
-    it("renders an item-sheet-style identity header: large name, small shortcode, medium type", () => {
+    it("renders an item-sheet-style identity header: large name, small shortcode, read-only type label", () => {
         const html = renderTemplateReal(
             TEMPLATE,
             context("melee", "Cut", { shortcode: "cut", isMulti: true }),
         );
         expect(html).toContain("strike-mode-config__header");
-        // The stacked identity structure (name / shortcode / type), mirroring the
-        // item-sheet header.
+        // The stacked identity structure, mirroring the item-sheet header.
         expect(html).toMatch(
             /class="strike-mode-config__name"[^>]*>\s*<input[^>]*name="name"/,
         );
         expect(html).toMatch(
             /<input[^>]*class="strike-mode-config__shortcode"[^>]*name="shortcode"/,
         );
+        // Type is a read-only label, not an editable control.
         expect(html).toMatch(
-            /class="strike-mode-config__type"[^>]*>\s*<select[^>]*name="type"/,
+            /class="strike-mode-config__type"[^>]*>\s*Melee\s*<\/div>/,
         );
-        // shortcode bound to the mode's shortcode, editable for a weapon (multi)
+        expect(html).not.toContain('name="type"');
         expect(html).toMatch(/name="shortcode"[^>]*value="cut"/);
         expect(html).not.toMatch(/name="shortcode"[^>]*readonly/);
     });
@@ -85,12 +80,34 @@ describe("strike-mode-config template", () => {
         expect(html).toMatch(/name="shortcode"[^>]*readonly/);
     });
 
-    it("renders melee fields (length, defense) and binds the type/name", () => {
+    it("has no Save button (the editor auto-saves)", () => {
         const html = renderTemplateReal(TEMPLATE, context("melee", "Cut"));
-        // type selector with melee selected
-        expect(html).toContain('name="type"');
-        expect(html).toMatch(/<option value="melee"\s+selected/);
-        // common + melee-only fields present
+        expect(html).not.toContain('type="submit"');
+        expect(html).not.toContain("<button");
+    });
+
+    it("uses the requested field labels (Associated Skill, Modifier, Num Dice, Spread)", () => {
+        const html = renderTemplateReal(TEMPLATE, context("melee", "Cut"));
+        expect(html).toContain("Associated Skill");
+        expect(html).not.toContain("Governing Skill Override");
+        expect(html).toContain("Num Dice");
+        // Attack-section modifier label is just "Modifier".
+        expect(html).toMatch(/<span>Modifier<\/span>/);
+        // Default (setting off) → "Spread".
+        expect(html).toContain("<span>Spread</span>");
+    });
+
+    it("relabels Spread → Zone Die when useZoneDie is on", () => {
+        const html = renderTemplateReal(
+            TEMPLATE,
+            context("melee", "Cut", { useZoneDie: true }),
+        );
+        expect(html).toContain("<span>Zone Die</span>");
+        expect(html).not.toContain("<span>Spread</span>");
+    });
+
+    it("renders melee fields (length, defense) and binds the name", () => {
+        const html = renderTemplateReal(TEMPLATE, context("melee", "Cut"));
         expect(html).toContain('name="name"');
         expect(html).toContain('value="Cut"');
         expect(html).toContain('name="lengthBase"');
@@ -101,13 +118,13 @@ describe("strike-mode-config template", () => {
         expect(html).not.toContain('name="baseRangeBase"');
         // aspect select rendered from the choices
         expect(html).toContain('name="impactBase.aspect"');
-        // save button
-        expect(html).toContain('type="submit"');
     });
 
     it("renders missile fields (projectile, range, draw) and no melee defense", () => {
         const html = renderTemplateReal(TEMPLATE, context("missile", "Shoot"));
-        expect(html).toMatch(/<option value="missile"\s+selected/);
+        expect(html).toMatch(
+            /class="strike-mode-config__type"[^>]*>\s*Missile\s*<\/div>/,
+        );
         expect(html).toContain('name="projectileType"');
         expect(html).toContain('name="baseRangeBase"');
         expect(html).toContain('name="drawBase"');

@@ -49,6 +49,9 @@ export class WeaponGearSheet extends SohlItemSheetBase {
         actions: {
             addStrikeMode: WeaponGearSheet._onAddStrikeMode,
         },
+        // 100px wider than the base item sheet (600) to give the Strike Modes
+        // tab's columns room. `position` deep-merges, so height (500) is kept.
+        position: { width: 700 },
     };
 
     /**

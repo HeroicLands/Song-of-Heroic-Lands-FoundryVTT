@@ -64,19 +64,13 @@
         }
     }
 
-    // Medium type, beneath the shortcode. Editable (it drives melee/missile), so
-    // it stays a select but reads like the item-sheet subtitle.
+    // Medium type, beneath the shortcode — a read-only label (the type is fixed
+    // at creation), styled like the item-sheet subtitle.
     .strike-mode-config__type {
         margin: var(--sohl-space-xs, 2px) 0 0 var(--sohl-space-xs, 2px);
-
-        select {
-            width: auto;
-            min-width: 130px;
-            height: auto;
-            padding: 2px 5px;
-            font-size: 16px;
-            font-weight: 600;
-        }
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--sohl-color-text-secondary);
     }
 }
 
@@ -135,11 +129,4 @@ fieldset {
         color: var(--sohl-color-text-muted);
         cursor: default;
     }
-}
-
-footer.form-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--sohl-space-sm, 5px);
-    padding-top: var(--sohl-space-xs, 2px);
 }

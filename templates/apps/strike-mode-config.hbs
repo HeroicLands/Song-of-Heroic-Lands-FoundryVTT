@@ -18,12 +18,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <input class="strike-mode-config__shortcode" type="text" name="shortcode" value="{{shortcode}}"
         placeholder="shortcode" {{#unless isMulti}}readonly{{/unless}}
         data-tooltip="A short code identifying this strike mode. Must be unique among the weapon's strike modes." />
-    <div class="strike-mode-config__type">
-        <select name="type">
-            <option value="melee" {{#if isMelee}}selected{{/if}}>{{localize "SOHL.StrikeMode.Type.melee"}}</option>
-            <option value="missile" {{#if isMissile}}selected{{/if}}>{{localize "SOHL.StrikeMode.Type.missile"}}</option>
-        </select>
-    </div>
+    <div class="strike-mode-config__type"
+        data-tooltip="A strike mode's type is fixed. To change it, delete this strike mode and create a new one.">{{typeLabel}}</div>
 </header>
 
 <fieldset>
@@ -31,7 +27,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="grid grid-2col">
         <label class="form-group stacked"><span>Min Parts</span>
             <input type="number" name="minParts" value="{{sm.minParts}}" /></label>
-        <label class="form-group stacked"><span>Governing Skill Override</span>
+        <label class="form-group stacked"><span>Associated Skill</span>
             <input type="text" name="assocSkillCode" value="{{sm.assocSkillCode}}"
                 data-tooltip="Optional. Leave blank to use the item's own mastery level; set to another skill's code to borrow its mastery level." /></label>
         {{#if isMelee}}
@@ -54,9 +50,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <fieldset>
     <legend>Attack</legend>
     <div class="grid grid-2col">
-        <label class="form-group stacked"><span>Spread</span>
+        <label class="form-group stacked"><span>{{spreadLabel}}</span>
             <input type="number" name="attack.spread" value="{{sm.attack.spread}}" /></label>
-        <label class="form-group stacked"><span>Attack Modifier</span>
+        <label class="form-group stacked"><span>Modifier</span>
             <input type="number" name="attack.modifier" value="{{sm.attack.modifier}}" /></label>
     </div>
 </fieldset>
@@ -64,7 +60,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <fieldset>
     <legend>Impact</legend>
     <div class="grid grid-2col">
-        <label class="form-group stacked"><span>Dice</span>
+        <label class="form-group stacked"><span>Num Dice</span>
             <input type="number" name="impactBase.numDice" value="{{sm.impactBase.numDice}}" /></label>
         <label class="form-group stacked"><span>Die</span>
             <input type="number" name="impactBase.die" value="{{sm.impactBase.die}}" /></label>
@@ -90,10 +86,4 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
 </fieldset>
 {{/if}}
-
-<footer class="form-footer">
-    {{#each buttons}}
-    <button type="{{this.type}}"><i class="{{this.icon}}"></i> {{localize this.label}}</button>
-    {{/each}}
-</footer>
 </div>

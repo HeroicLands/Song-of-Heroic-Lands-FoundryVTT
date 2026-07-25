@@ -39,13 +39,42 @@ export interface ShortcodeSavePlan {
 const VALID_SHORTCODE = /^[\w-]+$/;
 
 /**
+ * Validate a strike-mode shortcode against the weapon's other shortcodes.
+ *
+ * The shortcode must be non-blank, use only `[\w-]` characters, and not collide
+ * with any of `existing`. Used when creating a new mode (all current shortcodes
+ * are `existing`) and, via {@link planShortcodeSave}, when editing one (the
+ * edited mode's own shortcode excluded from `existing`).
+ *
+ * Pure and Foundry-free.
+ *
+ * @param candidate - The proposed shortcode (trimmed here).
+ * @param existing - The shortcodes it must not collide with.
+ * @returns A human-readable rejection reason, or `undefined` if it is valid.
+ */
+export function validateShortcode(
+    candidate: string,
+    existing: readonly string[],
+): string | undefined {
+    const sc = (candidate ?? "").trim();
+    if (sc === "") return "Shortcode cannot be blank.";
+    if (!VALID_SHORTCODE.test(sc)) {
+        return `Shortcode "${sc}" is invalid: use only letters, numbers, underscores, and dashes.`;
+    }
+    if (existing.includes(sc)) {
+        return `A strike mode with shortcode "${sc}" already exists on this weapon.`;
+    }
+    return undefined;
+}
+
+/**
  * Validate a possibly-changed shortcode for a weapon strike mode.
  *
  * A weapon's strike modes are stored as an array; each element carries its own
  * shortcode, and no two modes on one weapon may share one. When the submitted
- * shortcode is unchanged it is accepted as-is; otherwise it must be non-blank,
- * use only `[\w-]` characters, and not collide with any sibling. On rejection
- * the plan keeps the mode's current shortcode and reports the reason.
+ * shortcode is unchanged it is accepted as-is; otherwise it is checked with
+ * {@link validateShortcode}. On rejection the plan keeps the mode's current
+ * shortcode and reports the reason.
  *
  * Pure and Foundry-free.
  *
@@ -61,47 +90,8 @@ export function planShortcodeSave(
     siblingShortcodes: readonly string[],
 ): ShortcodeSavePlan {
     const next = (submittedShortcode ?? "").trim();
-    const keep = (error?: string): ShortcodeSavePlan => ({
-        shortcode: currentShortcode,
-        error,
-    });
-
     if (next === currentShortcode) return { shortcode: currentShortcode };
-    if (next === "") return keep("Shortcode cannot be blank.");
-    if (!VALID_SHORTCODE.test(next)) {
-        return keep(
-            `Shortcode "${next}" is invalid: use only letters, numbers, underscores, and dashes.`,
-        );
-    }
-    if (siblingShortcodes.includes(next)) {
-        return keep(
-            `A strike mode with shortcode "${next}" already exists on this weapon.`,
-        );
-    }
+    const error = validateShortcode(next, siblingShortcodes);
+    if (error) return { shortcode: currentShortcode, error };
     return { shortcode: next };
-}
-
-/**
- * Derive a unique strike-mode shortcode from a suggested base, avoiding any
- * already in use on the weapon. The base is slugged to `[\w-]` (falling back to
- * `"mode"` when nothing survives); if it is taken, an incrementing numeric
- * suffix is appended (`sword`, `sword2`, `sword3`, …).
- *
- * Pure and Foundry-free.
- *
- * @param base - The suggested shortcode (e.g. the new mode's name).
- * @param existing - Every shortcode already present on the weapon.
- * @returns A shortcode not present in `existing`.
- */
-export function uniqueShortcode(
-    base: string,
-    existing: readonly string[],
-): string {
-    const taken = new Set(existing);
-    const slug = (base ?? "").toLowerCase().replace(/[^\w-]+/g, "") || "mode";
-    if (!taken.has(slug)) return slug;
-    for (let n = 2; ; n++) {
-        const candidate = `${slug}${n}`;
-        if (!taken.has(candidate)) return candidate;
-    }
 }
