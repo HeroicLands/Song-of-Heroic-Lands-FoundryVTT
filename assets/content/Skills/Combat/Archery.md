@@ -12,6 +12,7 @@ shortcode: archery
 type: skill
 package: sohl
 sohl:
+    kbcat: combat
     archetype: 0
     subType: combat
     skillBaseFormula: "@per, @dex"

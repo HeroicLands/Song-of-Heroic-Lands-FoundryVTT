@@ -12,6 +12,7 @@ shortcode: lang
 type: skill
 package: sohl
 sohl:
+    kbcat: languages
     archetype: 0
     subType: language
     skillBaseFormula: "@elo, @rea"

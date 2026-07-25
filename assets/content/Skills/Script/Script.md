@@ -12,6 +12,7 @@ shortcode: script
 type: skill
 package: sohl
 sohl:
+    kbcat: script
     archetype: 0
     subType: script
     skillBaseFormula: "@rea, @per"

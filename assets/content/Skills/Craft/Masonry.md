@@ -12,6 +12,7 @@ shortcode: masn
 type: skill
 package: sohl
 sohl:
+    kbcat: craft
     archetype: 0
     subType: craft
     skillBaseFormula: "@dex, @str"

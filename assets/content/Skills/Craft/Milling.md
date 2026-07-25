@@ -12,6 +12,7 @@ shortcode: mill
 type: skill
 package: sohl
 sohl:
+    kbcat: craft
     archetype: 0
     subType: craft
     skillBaseFormula: "@per, @str"

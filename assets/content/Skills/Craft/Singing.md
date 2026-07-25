@@ -12,6 +12,7 @@ shortcode: sing
 type: skill
 package: sohl
 sohl:
+    kbcat: craft
     archetype: 0
     subType: social
     skillBaseFormula: "@voi, @cre"

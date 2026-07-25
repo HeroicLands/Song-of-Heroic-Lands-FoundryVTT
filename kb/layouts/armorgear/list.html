@@ -1,0 +1,56 @@
+{{ define "main" }}
+{{ partial "hero-banner.html" . }}
+{{ partial "breadcrumbs.html" . }}
+
+<article class="single">
+  <div class="single-content">
+    {{ if .Content }}<div class="single-body">{{ .Content }}</div>{{ end }}
+
+    {{- $titles := dict
+        "cloth" "Cloth" "leather" "Leather" "padded" "Padded" "mail" "Mail"
+        "plate" "Plate" "kurbul" "Kûrbúl" "quilted" "Quilted" "scale" "Scale"
+        "gambeson" "Gambeson" "ring" "Ring" -}}
+    {{- $order := slice "cloth" "leather" "padded" "mail" "plate" "kurbul" "quilted" "scale" "gambeson" "ring" -}}
+    {{- $groups := partial "kbcat-groups.html" (dict "section" "armorgear" "titles" $titles "order" $order "extras" true) -}}
+    {{- range $groups }}
+    <section class="kbcat-group">
+      <h2 id="kbcat-{{ .cat }}">{{ .title }}</h2>
+      <div class="kbcat-table-wrap">
+        <table class="kbcat-table">
+          <thead>
+            <tr>
+              <th>Name</th><th>Shortcode</th><th>Package</th>
+              <th>Dur</th><th>Weight</th><th>Value</th>
+              <th>Type</th><th>Material</th><th>Enc</th><th>Rigid</th>
+              <th>B</th><th>E</th><th>P</th><th>F</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{- range .pages }}
+            {{- $s := .Params.sohl }}
+            {{- $rigid := gt (len ($s.rigidloc | default slice)) 0 }}
+            <tr>
+              <td><a href="{{ .RelPermalink }}">{{ .Title }}</a></td>
+              <td>{{ .Params.shortcode }}</td>
+              <td>{{ .Params.package }}</td>
+              <td>{{ $s.durability }}</td>
+              <td>{{ $s.weight }}</td>
+              <td>{{ $s.value }}</td>
+              <td>{{ $s.armorType }}</td>
+              <td>{{ $s.detailMaterial }}</td>
+              <td>{{ $s.encumbrance }}</td>
+              <td>{{ $rigid }}</td>
+              <td>{{ $s.protection.blunt }}</td>
+              <td>{{ $s.protection.edged }}</td>
+              <td>{{ $s.protection.piercing }}</td>
+              <td>{{ $s.protection.fire }}</td>
+            </tr>
+            {{- end }}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    {{- end }}
+  </div>
+</article>
+{{ end }}
