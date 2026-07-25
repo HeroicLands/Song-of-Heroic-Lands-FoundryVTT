@@ -33,8 +33,9 @@ function meleeWeapon(name = "Arming Sword") {
     return {
         name,
         system: {
-            strikeModes: {
-                strike: {
+            strikeModes: [
+                {
+                    shortcode: "strike",
                     type: "melee",
                     name: "Strike",
                     assocSkillCode: "melee",
@@ -61,7 +62,7 @@ function meleeWeapon(name = "Arming Sword") {
                         },
                     },
                 },
-            },
+            ],
         },
     };
 }

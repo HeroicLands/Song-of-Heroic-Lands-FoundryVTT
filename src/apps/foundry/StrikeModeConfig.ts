@@ -13,8 +13,10 @@
 
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { blankStrikeMode } from "@src/entity/strikemode/blankStrikeMode";
+import { planShortcodeSave } from "@src/entity/strikemode/planShortcodeSave";
 import {
     ImpactAspectChoices,
+    ITEM_KIND,
     STRIKE_MODE_TYPE,
     isStrikeModeType,
     type StrikeModeType,
@@ -30,10 +32,14 @@ const StrikeModeConfig_Base: any =
  * A small, sheet-like editor for a single embedded strike mode.
  *
  * A strike mode is embedded data, not a document, so it has no document sheet.
- * This ApplicationV2 form edits the strike mode stored at a fixed `update()`
- * path on the parent item — `system.strikeModes.<id>` for a weapon (which holds
- * many) or `system.strikeMode` for a combat technique (which holds one) — and
- * persists via `item.update()` on submit.
+ * This ApplicationV2 form edits one strike mode on the parent item — an element
+ * of a weapon's `system.strikeModes` array (identified by its shortcode) or a
+ * combat technique's single `system.strikeMode` — and persists via
+ * `item.update()` on submit, writing the whole array back for a weapon.
+ *
+ * A weapon strike mode's shortcode is editable and must stay unique among the
+ * weapon's modes; a combat technique's single mode has no shortcode of its own,
+ * so the field is shown read-only.
  *
  * The melee/missile discriminated union is handled by a type `<select>`: when
  * the type changes the form re-renders with that subtype's fields, carrying the
@@ -45,8 +51,14 @@ const StrikeModeConfig_Base: any =
 export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.applications.api.ApplicationV2) {
     /** The item owning the strike mode being edited. */
     #item: SohlItem;
-    /** The `update()` path the edited strike mode is written to. */
-    #path: string;
+    /**
+     * Whether the parent stores many strike modes in an array (a weapon) versus
+     * a single one (a combat technique). Only a weapon's strike mode has an
+     * editable shortcode.
+     */
+    #isMulti: boolean;
+    /** The shortcode (row key) the strike mode is currently stored under. */
+    #key: string;
     /** The working copy of the strike mode, re-seeded on a type switch. */
     #draft: StrikeModeBase.Data;
 
@@ -78,24 +90,31 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
 
     /**
      * Open the editor bound to one embedded strike mode on an item, seeding the
-     * working draft from the value currently stored at `path` (or a blank melee
-     * mode when the path holds nothing yet).
+     * working draft from the value currently stored under `key` (or a blank
+     * melee mode when nothing is found there yet).
      * @param item - The parent item whose strike mode is edited.
-     * @param path - The `update()` path of the strike mode (`system.strikeModes.<id>`
-     *   for a weapon, or `system.strikeMode` for a combat technique).
+     * @param key - The strike mode's row key: its shortcode for a weapon, or any
+     *   sentinel for a combat technique's single `system.strikeMode`.
      * @param options - Additional ApplicationV2 options.
      */
-    constructor(item: SohlItem, path: string, options: PlainObject = {}) {
-        // Derive a stable, per-(item, path) id so editing two different modes on
+    constructor(item: SohlItem, key: string, options: PlainObject = {}) {
+        // Derive a stable, per-(item, key) id so editing two different modes on
         // the same weapon opens two distinct windows rather than reusing one.
-        const idSuffix = path.replace(/[^\w-]/g, "-");
+        const idSuffix = key.replace(/[^\w-]/g, "-");
         super({ id: `strike-mode-config-${item.id}-${idSuffix}`, ...options });
         this.#item = item;
-        this.#path = path;
-        const existing = foundry.utils.getProperty(item, path) as
-            | StrikeModeBase.Data
-            | null
-            | undefined;
+        this.#isMulti = item.type === ITEM_KIND.WEAPONGEAR;
+        this.#key = key;
+        const system = item.system as any;
+        const existing: StrikeModeBase.Data | undefined =
+            this.#isMulti ?
+                (system.strikeModes as StrikeModeBase.Data[] | undefined)?.find(
+                    (m) => m.shortcode === key,
+                )
+            :   ((system.strikeMode as
+                    | StrikeModeBase.Data
+                    | null
+                    | undefined) ?? undefined);
         this.#draft =
             existing ?
                 (foundry.utils.deepClone(existing) as StrikeModeBase.Data)
@@ -134,6 +153,10 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
         return {
             sm,
             smType,
+            // For a weapon, the mode's own (editable) shortcode; for a combat
+            // technique there is none, so fall back to the row key for display.
+            shortcode: this.#isMulti ? (sm.shortcode ?? this.#key) : this.#key,
+            isMulti: this.#isMulti,
             isMelee: smType === STRIKE_MODE_TYPE.MELEE,
             isMissile: smType === STRIKE_MODE_TYPE.MISSILE,
             aspectOptions,
@@ -189,6 +212,7 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
         ) as any;
         return {
             ...seeded,
+            shortcode: current.shortcode ?? seeded.shortcode,
             name: current.name ?? seeded.name,
             minParts: current.minParts ?? seeded.minParts,
             assocSkillCode: current.assocSkillCode ?? seeded.assocSkillCode,
@@ -213,10 +237,10 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
 
     /**
      * Form submit handler: build a clean, schema-valid strike mode of the
-     * selected type from the submitted fields and write it to the item at the
-     * configured path. Writing the whole value (rather than a field-by-field
-     * merge) guarantees a clean type switch — no stale melee fields survive on a
-     * mode that is now missile, and vice versa.
+     * selected type from the submitted fields and write it back to the item.
+     * Writing the whole value (rather than a field-by-field merge) guarantees a
+     * clean type switch — no stale melee fields survive on a mode that is now
+     * missile, and vice versa.
      *
      * @param this - The bound {@link StrikeModeConfig} instance.
      * @param _event - The submit event (unused).
@@ -240,7 +264,45 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
             blankStrikeMode(type, String(submitted.name || this.#item.name)),
             { ...submitted, type },
             { inplace: false },
+        ) as StrikeModeBase.Data;
+        await this.#persist(clean);
+    }
+
+    /**
+     * Write the cleaned strike mode back to the item.
+     *
+     * For a combat technique the mode has no shortcode of its own, so the field
+     * is cleared and the single `system.strikeMode` is overwritten. For a weapon
+     * the submitted shortcode is validated for uniqueness among the weapon's
+     * *other* modes via {@link planShortcodeSave}: an unchanged or rejected
+     * shortcode keeps the current one (warning the user on rejection), and the
+     * whole `system.strikeModes` array is written back with this element replaced.
+     *
+     * @param clean - The schema-valid strike-mode value to persist.
+     */
+    async #persist(clean: StrikeModeBase.Data): Promise<void> {
+        const logic = this.#item.logic as any;
+        if (!this.#isMulti) {
+            clean.shortcode = "";
+            await this.#item.update(logic.setStrikeModeUpdate(clean));
+            return;
+        }
+        const siblings = (
+            (this.#item.system as any).strikeModes as
+                | StrikeModeBase.Data[]
+                | undefined
+        )
+            ?.map((m) => m.shortcode)
+            .filter((sc) => sc !== this.#key);
+        const plan = planShortcodeSave(
+            this.#key,
+            String(clean.shortcode ?? ""),
+            siblings ?? [],
         );
-        await this.#item.update({ [this.#path]: clean });
+        if (plan.error) sohl.log.uiWarn(plan.error);
+        clean.shortcode = plan.shortcode;
+        await this.#item.update(
+            logic.replaceStrikeModeUpdate(this.#key, clean),
+        );
     }
 }

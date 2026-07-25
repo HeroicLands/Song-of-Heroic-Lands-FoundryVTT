@@ -709,17 +709,20 @@ export class SkillLogic<
         // governing mastery level in `finalize`.
         const smData = this.data.strikeMode;
         if (this.data.subType === SKILL_SUBTYPE.COMBATTECHNIQUE && smData) {
+            // A combat technique has a single strike mode with no shortcode of
+            // its own, so it is keyed by the skill's own id.
+            const shortcode = smData.shortcode || this.id;
             this.strikeMode =
                 smData.type === STRIKE_MODE_TYPE.MELEE ?
                     new entity.MeleeStrikeMode(
                         smData as MeleeStrikeMode.Data,
                         this,
-                        this.id,
+                        shortcode,
                     )
                 :   new entity.MissileStrikeMode(
                         smData as MissileStrikeMode.Data,
                         this,
-                        this.id,
+                        shortcode,
                     );
         }
     }

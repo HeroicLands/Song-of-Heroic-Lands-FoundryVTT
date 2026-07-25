@@ -24,11 +24,17 @@ import {
 const TEMPLATE = "systems/sohl/templates/apps/strike-mode-config.hbs";
 
 /** Build the render context exactly as StrikeModeConfig._prepareContext does. */
-function context(type: StrikeModeType, name = "Cut") {
+function context(
+    type: StrikeModeType,
+    name = "Cut",
+    { shortcode = "cut", isMulti = true } = {},
+) {
     const sm = blankStrikeMode(type, name) as any;
     return {
         sm,
         smType: type,
+        shortcode,
+        isMulti,
         isMelee: type === STRIKE_MODE_TYPE.MELEE,
         isMissile: type === STRIKE_MODE_TYPE.MISSILE,
         aspectOptions: Object.entries(ImpactAspectChoices).map(
@@ -49,6 +55,29 @@ function context(type: StrikeModeType, name = "Cut") {
 }
 
 describe("strike-mode-config template", () => {
+    it("renders an identity header with Name, Shortcode, and Type", () => {
+        const html = renderTemplateReal(
+            TEMPLATE,
+            context("melee", "Cut", { shortcode: "cut", isMulti: true }),
+        );
+        expect(html).toContain("strike-mode-config__header");
+        // the three identity fields
+        expect(html).toContain('name="name"');
+        expect(html).toContain('name="shortcode"');
+        expect(html).toContain('name="type"');
+        // shortcode bound to the map key, editable for a weapon (multi)
+        expect(html).toMatch(/name="shortcode"[^>]*value="cut"/);
+        expect(html).not.toMatch(/name="shortcode"[^>]*readonly/);
+    });
+
+    it("renders the shortcode read-only for a single-mode item (combat technique)", () => {
+        const html = renderTemplateReal(
+            TEMPLATE,
+            context("melee", "Thrust", { shortcode: "single", isMulti: false }),
+        );
+        expect(html).toMatch(/name="shortcode"[^>]*readonly/);
+    });
+
     it("renders melee fields (length, defense) and binds the type/name", () => {
         const html = renderTemplateReal(TEMPLATE, context("melee", "Cut"));
         // type selector with melee selected

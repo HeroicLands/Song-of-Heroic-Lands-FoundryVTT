@@ -25,8 +25,9 @@ describe("derived strike mode sections", () => {
         return {
             name,
             system: {
-                strikeModes: {
-                    strike: {
+                strikeModes: [
+                    {
+                        shortcode: "strike",
                         type: "melee",
                         name: "Strike",
                         assocSkillCode: "melee",
@@ -45,7 +46,7 @@ describe("derived strike mode sections", () => {
                             counterstrike: { modifier: 0 },
                         },
                     },
-                },
+                ],
             },
         };
     }

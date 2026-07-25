@@ -28,8 +28,9 @@ describe("Use Zone Die setting", () => {
         return {
             name: "Spear",
             system: {
-                strikeModes: {
-                    strike: {
+                strikeModes: [
+                    {
+                        shortcode: "strike",
                         type: "melee",
                         name: "Thrust",
                         assocSkillCode: "melee",
@@ -48,7 +49,7 @@ describe("Use Zone Die setting", () => {
                             counterstrike: { modifier: 0 },
                         },
                     },
-                },
+                ],
             },
         };
     }

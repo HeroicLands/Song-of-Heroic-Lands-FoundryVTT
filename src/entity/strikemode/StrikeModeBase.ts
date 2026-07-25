@@ -158,15 +158,6 @@ export abstract class StrikeModeBase extends SohlEntity {
         this.shortcode = shortcode;
     }
 
-    /**
-     * The dot-notation path prefix for Foundry `update()` calls targeting
-     * this strike mode's persisted fields, e.g.
-     * `"system.strikeModes.hJc8S26awwY0ahZj"`.
-     */
-    get updatePath(): string {
-        return `system.strikeModes.${this.shortcode}`;
-    }
-
     /** Whether this is a melee strike mode. */
     get isMelee(): boolean {
         return this.type === STRIKE_MODE_TYPE.MELEE;
@@ -248,6 +239,16 @@ export abstract class StrikeModeBase extends SohlEntity {
                 blank: false,
                 choices: StrikeModeTypes,
                 initial: STRIKE_MODE_TYPE.MELEE,
+            }),
+            // A weapon's strike modes are stored as an array, each element
+            // carrying its own shortcode (unique among that weapon's modes).
+            // Blank is permitted so a combat technique's single strike mode —
+            // which has no meaningful shortcode of its own — round-trips; the
+            // weapon "Add"/editor flows keep it non-blank and unique.
+            shortcode: new StringField({
+                required: true,
+                blank: true,
+                initial: "",
             }),
             name: new StringField({ required: true, blank: false }),
             minParts: new NumberField({
@@ -348,6 +349,12 @@ export namespace StrikeModeBase {
     export interface Data extends SohlEntity.Data {
         /** Discriminator selecting the concrete strike-mode type ("melee" or "missile"). */
         type: StrikeModeType;
+        /**
+         * Short code identifying this strike mode within its parent weapon's
+         * `strikeModes` array — unique among that weapon's modes. Blank for a
+         * combat technique's single strike mode (which is keyed by its skill).
+         */
+        shortcode: string;
         /** Display name of the mode (e.g., "Cut", "Thrust", "Shoot"). */
         name: string;
         /** Minimum body parts (limbs) required to wield the weapon in this mode. */

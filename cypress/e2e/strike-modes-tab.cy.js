@@ -60,7 +60,7 @@ describe("strike modes tab — weapongear (multi)", () => {
             // Poll (the update + render are async): one mode written, editor open.
             cy.window().should((win) => {
                 const modes = win.game.items.get(id).system.strikeModes;
-                expect(Object.keys(modes)).to.have.length(1);
+                expect(modes).to.have.length(1);
                 expect(findEditor(win), "editor open").to.exist;
             });
             // Edit the name in the editor and submit → persists via item.update.
@@ -73,7 +73,64 @@ describe("strike modes tab — weapongear (multi)", () => {
             });
             cy.window().should((win) => {
                 const modes = win.game.items.get(id).system.strikeModes;
-                expect(Object.values(modes)[0]?.name).to.eq("Cut");
+                expect(modes[0]?.name).to.eq("Cut");
+            });
+        });
+    });
+
+    it("editor shows an identity header (Name/Shortcode/Type) and edits the shortcode in place", () => {
+        cy.createWorldItem("weapongear", { name: "Longsword" }).as("wpn");
+        cy.then(function () {
+            const id = this.wpn.id;
+            cy.openSheet(this.wpn);
+            cy.switchTab("strikemodes", "sheet");
+            cy.get(
+                'section.tab[data-tab="strikemodes"] [data-action="addStrikeMode"]',
+            ).click();
+            // Editor open on the blank mode; capture its starting shortcode.
+            let startKey;
+            cy.window()
+                .should((win) => {
+                    const modes = win.game.items.get(id).system.strikeModes;
+                    expect(modes).to.have.length(1);
+                    expect(findEditor(win), "editor open").to.exist;
+                })
+                .then((win) => {
+                    startKey =
+                        win.game.items.get(id).system.strikeModes[0].shortcode;
+                    // The identity header renders with all three fields.
+                    const form = findEditor(win).element;
+                    expect(
+                        form.querySelector(".strike-mode-config__header"),
+                        "header present",
+                    ).to.exist;
+                    expect(form.querySelector('input[name="name"]')).to.exist;
+                    expect(form.querySelector('input[name="shortcode"]')).to
+                        .exist;
+                    expect(form.querySelector('select[name="type"]')).to.exist;
+                    // Shortcode is editable for a weapon (not read-only).
+                    expect(
+                        form.querySelector('input[name="shortcode"]').readOnly,
+                    ).to.eq(false);
+                    // Shortcode is bound to the mode's current shortcode.
+                    expect(
+                        form.querySelector('input[name="shortcode"]').value,
+                    ).to.eq(startKey);
+                });
+            // Change the shortcode + name and submit → the element is updated
+            // in place (array stays length 1, new shortcode persisted).
+            cy.foundry((win) => {
+                const form = findEditor(win).element;
+                form.querySelector('input[name="name"]').value = "Cut";
+                form.querySelector('input[name="shortcode"]').value = "cut";
+                form.requestSubmit();
+                return null;
+            });
+            cy.window().should((win) => {
+                const modes = win.game.items.get(id).system.strikeModes;
+                expect(modes).to.have.length(1);
+                expect(modes[0].shortcode).to.eq("cut");
+                expect(modes[0].name).to.eq("Cut");
             });
         });
     });
@@ -88,18 +145,22 @@ describe("strike modes tab — weapongear (multi)", () => {
                 const item = win.game.items.get(id);
                 return item.update(
                     win.structuredClone({
-                        "system.strikeModes.aaa": {
-                            type: "melee",
-                            name: "Chop",
-                            lengthBase: 2,
-                            impactBase: { aspect: "edged" },
-                        },
-                        "system.strikeModes.bbb": {
-                            type: "missile",
-                            name: "Throw",
-                            baseRangeBase: 15,
-                            impactBase: { aspect: "piercing" },
-                        },
+                        "system.strikeModes": [
+                            {
+                                shortcode: "aaa",
+                                type: "melee",
+                                name: "Chop",
+                                lengthBase: 2,
+                                impactBase: { aspect: "edged" },
+                            },
+                            {
+                                shortcode: "bbb",
+                                type: "missile",
+                                name: "Throw",
+                                baseRangeBase: 15,
+                                impactBase: { aspect: "piercing" },
+                            },
+                        ],
                     }),
                 );
             });
@@ -122,12 +183,12 @@ describe("strike modes tab — weapongear (multi)", () => {
             cy.submitDialog("yes");
             // Poll the store (the delete update is async).
             cy.window().should((win) => {
-                const keys = Object.keys(
-                    win.game.items.get(id).system.strikeModes,
-                );
-                expect(keys).to.have.length(1);
-                expect(keys).to.include("bbb");
-                expect(keys).to.not.include("aaa");
+                const codes = win.game.items
+                    .get(id)
+                    .system.strikeModes.map((m) => m.shortcode);
+                expect(codes).to.have.length(1);
+                expect(codes).to.include("bbb");
+                expect(codes).to.not.include("aaa");
             });
         });
     });

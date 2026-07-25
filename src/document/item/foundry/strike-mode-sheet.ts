@@ -15,6 +15,7 @@ import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { StrikeModeConfig } from "@src/apps/foundry/StrikeModeConfig";
 import { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 import { blankStrikeMode } from "@src/entity/strikemode/blankStrikeMode";
+import { uniqueShortcode } from "@src/entity/strikemode/planShortcodeSave";
 import {
     ImpactAspectChoices,
     ITEM_KIND,
@@ -39,7 +40,7 @@ export const SINGLE_STRIKE_MODE_KEY = "single";
 
 /**
  * Whether an item stores many strike modes (a weapon's `system.strikeModes`
- * dict) versus a single one (a combat technique's `system.strikeMode`).
+ * array) versus a single one (a combat technique's `system.strikeMode`).
  * @param item - The item to inspect.
  * @returns `true` for weapon gear (multi), `false` for a combat technique.
  */
@@ -48,15 +49,24 @@ function isMultiStrikeMode(item: SohlItem): boolean {
 }
 
 /**
- * The `update()` path a strike-mode row is stored at, resolved per item kind.
+ * Look up a strike mode on an item by its row key: a shortcode for a weapon's
+ * `strikeModes` array, or the sole `strikeMode` for a combat technique.
  * @param item - The owning item.
- * @param key - The row key (a dict id for a weapon, {@link SINGLE_STRIKE_MODE_KEY} for a technique).
- * @returns The dot-notation `update()` path.
+ * @param key - The row key ({@link StrikeModeBase.Data.shortcode | shortcode} for a
+ *   weapon, {@link SINGLE_STRIKE_MODE_KEY} for a technique).
+ * @returns The strike-mode data, or `undefined` if not found.
  */
-function strikeModePath(item: SohlItem, key: string): string {
-    return isMultiStrikeMode(item) ?
-            `system.strikeModes.${key}`
-        :   "system.strikeMode";
+function findStrikeMode(
+    item: SohlItem,
+    key: string,
+): StrikeModeBase.Data | undefined {
+    const system = item.system as any;
+    if (isMultiStrikeMode(item)) {
+        return (system.strikeModes as StrikeModeBase.Data[] | undefined)?.find(
+            (m) => m.shortcode === key,
+        );
+    }
+    return (system.strikeMode as StrikeModeBase.Data | undefined) ?? undefined;
 }
 
 /**
@@ -77,7 +87,7 @@ export function withStrikeModesTab<T extends PlainObject>(baseTabs: T): T {
 
 /** A single strike-mode row view model rendered on the Strike Modes tab. */
 export interface StrikeModeRowVM {
-    /** The row key (dict id for a weapon, {@link SINGLE_STRIKE_MODE_KEY} for a technique). */
+    /** The row key (shortcode for a weapon, {@link SINGLE_STRIKE_MODE_KEY} for a technique). */
     key: string;
     /** The strike mode's display name. */
     name: string;
@@ -105,10 +115,9 @@ export function prepareStrikeModesContext(item: SohlItem): {
     const system = item.system as any;
     const entries: [string, StrikeModeBase.Data][] =
         isMultiStrikeMode(item) ?
-            (Object.entries(system.strikeModes ?? {}) as [
-                string,
-                StrikeModeBase.Data,
-            ][])
+            ((system.strikeModes ?? []) as StrikeModeBase.Data[]).map(
+                (sm): [string, StrikeModeBase.Data] => [sm.shortcode, sm],
+            )
         : system.strikeMode ? [[SINGLE_STRIKE_MODE_KEY, system.strikeMode]]
         : [];
 
@@ -139,16 +148,19 @@ export function prepareStrikeModesContext(item: SohlItem): {
 /**
  * Open the `StrikeModeConfig` editor for a strike-mode row on an item.
  * @param item - The owning item.
- * @param key - The row key to edit.
+ * @param key - The row key to edit ({@link StrikeModeBase.Data.shortcode | shortcode}
+ *   for a weapon, {@link SINGLE_STRIKE_MODE_KEY} for a technique).
  */
 export function openStrikeModeEditor(item: SohlItem, key: string): void {
-    void new StrikeModeConfig(item, strikeModePath(item, key)).render(true);
+    void new StrikeModeConfig(item, key).render(true);
 }
 
 /**
  * Add a blank melee strike mode to an item and open the editor on it. Reuses
  * the item logic's payload helpers (`addStrikeModeUpdate` for a weapon,
- * `setStrikeModeUpdate` for a combat technique).
+ * `setStrikeModeUpdate` for a combat technique). A weapon's new mode gets a
+ * unique shortcode derived from the weapon name; the technique's single mode
+ * has none.
  * @param item - The item to add a strike mode to.
  */
 export async function addStrikeMode(item: SohlItem): Promise<void> {
@@ -156,8 +168,14 @@ export async function addStrikeMode(item: SohlItem): Promise<void> {
     const logic = item.logic as any;
     let key: string;
     if (isMultiStrikeMode(item)) {
-        key = foundry.utils.randomID();
-        await item.update(logic.addStrikeModeUpdate(blank, key));
+        const existing = (
+            (item.system as any).strikeModes as
+                | StrikeModeBase.Data[]
+                | undefined
+        )?.map((m) => m.shortcode);
+        key = uniqueShortcode(item.name, existing ?? []);
+        blank.shortcode = key;
+        await item.update(logic.addStrikeModeUpdate(blank));
     } else {
         key = SINGLE_STRIKE_MODE_KEY;
         await item.update(logic.setStrikeModeUpdate(blank));
@@ -167,7 +185,7 @@ export async function addStrikeMode(item: SohlItem): Promise<void> {
 
 /**
  * Delete a strike-mode row after a confirmation dialog. Reuses the item logic's
- * removal payload helper (id-keyed for a weapon, argument-less for a technique).
+ * removal payload helper (shortcode-keyed for a weapon, argument-less for a technique).
  * @param item - The owning item.
  * @param key - The row key to delete.
  */
@@ -175,10 +193,7 @@ export async function deleteStrikeMode(
     item: SohlItem,
     key: string,
 ): Promise<void> {
-    const path = strikeModePath(item, key);
-    const sm = foundry.utils.getProperty(item, path) as
-        | StrikeModeBase.Data
-        | undefined;
+    const sm = findStrikeMode(item, key);
     const name = sm?.name ?? "this strike mode";
     const confirmed = await foundry.applications.api.DialogV2.confirm({
         window: { title: "Delete Strike Mode?" },

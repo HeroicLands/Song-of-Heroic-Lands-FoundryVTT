@@ -260,27 +260,30 @@ function buildMysticalAbility(fm) {
 
 
 /**
- * Fold the authored strike-mode list into the persisted keyed object.
+ * Normalize the authored strike-mode list for the persisted array field.
  *
- * Strike modes are authored as an array whose elements each carry a
- * `shortcode`; the compiled item persists them as an object keyed by that
- * shortcode (the `strikeModes` field is a keyed dictionary). Reduce the array
- * into that shape, using each element's `shortcode` as the key and dropping it
- * from the stored value. A plain object is returned unchanged so any
- * not-yet-migrated entry still compiles.
+ * Strike modes are authored — and now persisted — as an array whose elements
+ * each carry a `shortcode`. Every element must have a non-blank shortcode, and
+ * no two on one weapon may share it (the shortcode is the mode's identity). The
+ * array is returned verbatim (shortcode retained on each element).
  */
 function normalizeStrikeModes(strikeModes) {
-    if (!Array.isArray(strikeModes)) return strikeModes ?? {};
-    const out = {};
-    for (const { shortcode, ...rest } of strikeModes) {
+    if (!Array.isArray(strikeModes)) return [];
+    const seen = new Set();
+    for (const { shortcode } of strikeModes) {
         if (!shortcode) {
             throw new Error(
                 "weapongear strikeModes array element requires a 'shortcode'",
             );
         }
-        out[shortcode] = rest;
+        if (seen.has(shortcode)) {
+            throw new Error(
+                `weapongear has duplicate strike-mode shortcode "${shortcode}"`,
+            );
+        }
+        seen.add(shortcode);
     }
-    return out;
+    return strikeModes;
 }
 
 function buildWeaponGear(fm) {

@@ -42,8 +42,9 @@ const MAIL_SHIRT_ID = "0S3xT8nBEex8PZJC"; // armorgear (carry & equip toggles)
 const INLINE_WEAPON = {
     name: "Test Sword",
     system: {
-        strikeModes: {
-            strike: {
+        strikeModes: [
+            {
+                shortcode: "strike",
                 type: "melee",
                 name: "Strike",
                 assocSkillCode: "melee",
@@ -66,7 +67,7 @@ const INLINE_WEAPON = {
                     },
                 },
             },
-        },
+        ],
     },
 };
 

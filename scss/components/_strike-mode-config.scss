@@ -1,0 +1,95 @@
+// Strike Mode editor (`StrikeModeConfig`) — a standalone ApplicationV2 window
+// (`templates/apps/strike-mode-config.hbs`) for editing one embedded strike mode.
+//
+// Loaded from `sohl.scss` under the COMPOUND `.sohl.strike-mode-config` selector,
+// because ApplicationV2 places the `sohl` and `strike-mode-config` classes on the
+// SAME frame element (the #87 same-element trap — see css-architecture.md §6). A
+// partial loaded under the plain `.sohl { }` wrapper compiles its top-level rules
+// to the never-matching descendant `.sohl .strike-mode-config …`; the compound
+// `.sohl.strike-mode-config …` matches.
+//
+// The form's fields use `.form-group.stacked` — label span above its control.
+// That variant has no core styling, so without these rules the label and control
+// fall back to Foundry's inline `.form-group` flow and overlap unreadably (#683).
+
+.strike-mode-config__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sohl-space-md, 10px);
+    padding: var(--sohl-space-md, 10px);
+}
+
+// Identity header: Name / Shortcode / Type. Name takes the lion's share; the
+// shortcode and type sit beside it.
+.strike-mode-config__header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--sohl-space-md, 10px);
+    align-items: end;
+    padding-bottom: var(--sohl-space-sm, 5px);
+    border-bottom: 1px solid var(--sohl-color-border-default);
+}
+
+fieldset {
+    margin: 0;
+    padding: var(--sohl-space-xs, 2px) var(--sohl-space-md, 10px)
+        var(--sohl-space-sm, 5px);
+    border: 1px solid var(--sohl-color-border-default);
+    border-radius: 4px;
+
+    legend {
+        padding: 0 var(--sohl-space-sm, 5px);
+        font-weight: bold;
+        color: var(--sohl-color-text-primary);
+    }
+}
+
+// Two-column field grid inside each fieldset.
+.grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sohl-space-sm, 5px) var(--sohl-space-md, 10px);
+}
+
+// The core of the fix: stack the label span above its control instead of letting
+// them overlap. The `> input`/`> select` height override beats the base
+// `input { height: calc(100% - 2px) }` reset (it resolves against an
+// unconstrained column-flex parent, which is what caused the overlap).
+.form-group.stacked {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--sohl-space-xs, 2px);
+    margin: 0;
+    padding: 0;
+
+    > span {
+        flex: 0 0 auto;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--sohl-color-text-secondary);
+    }
+
+    > input,
+    > select {
+        flex: 0 0 auto;
+        width: 100%;
+        height: 26px;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    // A read-only shortcode (a combat technique's single strike mode) reads as
+    // display, not an editable field.
+    > input[readonly] {
+        color: var(--sohl-color-text-muted);
+        cursor: default;
+    }
+}
+
+footer.form-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--sohl-space-sm, 5px);
+    padding-top: var(--sohl-space-xs, 2px);
+}

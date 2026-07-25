@@ -12,16 +12,22 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <div class="strike-mode-config__body">
+<header class="strike-mode-config__header">
+    <label class="form-group stacked smc-name"><span>Strike Mode Name</span>
+        <input type="text" name="name" value="{{sm.name}}" placeholder="e.g. Cut" /></label>
+    <label class="form-group stacked smc-shortcode"><span>Shortcode</span>
+        <input type="text" name="shortcode" value="{{shortcode}}" {{#unless isMulti}}readonly{{/unless}}
+            data-tooltip="A short code identifying this strike mode. Must be unique among the weapon's strike modes." /></label>
+    <label class="form-group stacked smc-type"><span>Type</span>
+        <select name="type">
+            <option value="melee" {{#if isMelee}}selected{{/if}}>{{localize "SOHL.StrikeMode.Type.melee"}}</option>
+            <option value="missile" {{#if isMissile}}selected{{/if}}>{{localize "SOHL.StrikeMode.Type.missile"}}</option>
+        </select></label>
+</header>
+
 <fieldset>
-    <legend>Strike Mode</legend>
+    <legend>General</legend>
     <div class="grid grid-2col">
-        <label class="form-group stacked"><span>Type</span>
-            <select name="type">
-                <option value="melee" {{#if isMelee}}selected{{/if}}>{{localize "SOHL.StrikeMode.Type.melee"}}</option>
-                <option value="missile" {{#if isMissile}}selected{{/if}}>{{localize "SOHL.StrikeMode.Type.missile"}}</option>
-            </select></label>
-        <label class="form-group stacked"><span>Name</span>
-            <input type="text" name="name" value="{{sm.name}}" /></label>
         <label class="form-group stacked"><span>Min Parts</span>
             <input type="number" name="minParts" value="{{sm.minParts}}" /></label>
         <label class="form-group stacked"><span>Governing Skill Override</span>

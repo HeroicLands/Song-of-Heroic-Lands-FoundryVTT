@@ -742,9 +742,10 @@ describe("being-sheet-view", () => {
                 containerId: null,
                 encumbrance: 1,
                 heftBase: 5,
-                strikeModes: {
-                    m1: {
+                strikeModes: [
+                    {
                         type: "melee",
+                        shortcode: "cut",
                         name: "Cut",
                         minParts: 1,
                         assocSkillCode: "swd",
@@ -762,7 +763,7 @@ describe("being-sheet-view", () => {
                             counterstrike: { modifier: cxMod },
                         },
                     },
-                },
+                ],
             });
             logic.initialize();
             logic.evaluate();
