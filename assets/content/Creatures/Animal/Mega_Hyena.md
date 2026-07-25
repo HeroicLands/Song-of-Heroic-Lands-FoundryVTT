@@ -1,0 +1,118 @@
+---
+aliases:
+  - Mega Hyena
+tags:
+  - animal
+name:
+  full: Mega Hyena
+  aliases: []
+id: IlxkCFlCStwY2ah0
+slug: mega-hyena
+img: images/mega-hyena-headshot.webp
+portrait: images/mega-hyena.webp
+type: creature
+package: thalorna
+sohl:
+  attributes:
+    str: 15
+    end: 13
+    dex: 12
+    agl: 14
+    per: 14
+    aur: 9
+    wil: 12
+    rea: 7
+    cre: 6
+  attrRollFormula:
+    str: 1d6+11
+    end: 1d6+9
+    dex: 1d6+8
+    agl: 1d6+10
+    per: 1d6+10
+    aur: 1d4+6
+    wil: 1d6+8
+    rea: 1d4+4
+    cre: 1d4+3
+  body:
+    structure:
+      parts: []
+      adjacent: []
+    weight:
+      base: 150
+      calc: 150
+    reachBase: 0
+    bodyScaleBase: 1.0
+    personalFatigue: enc + 5
+  currentMoveMedium: terrestrial
+  movementProfiles:
+    - medium: terrestrial
+      feetPerRound: 80
+      leaguesPerWatch: 7
+      encumbrance: floor(wt/4)
+      strMod: -5 * floor((str - 10) / 2)
+      factors:
+        - scope: surface_cover
+          key: mixed_forest
+          mode: add
+          textValue: '-1'
+        - scope: surface_cover
+          key: needleleaf_forest
+          mode: add
+          textValue: '0'
+      disabled: false
+  defaultCombatGroup: null
+  items: []
+---
+# Appearance {#appearance}
+
+The sound of it hits you first—a deep, whooping laugh that seems to vibrate from the very ground, raising hair on the back of your neck. Then the shape emerges from the scrubland, massive and wrong, its sloped back and barrel chest giving it a predatory crouch even while standing still. Its coarse, mottled fur bristles, each hair catching the light in a way that makes the creature seem larger than it already is. Its yellow eyes glow with ancient malevolence, and its jaws—underslung and bristling with oversized teeth—seem capable of consuming whole limbs. When it laughs again, the sound carries the promise of tearing flesh and crushing bone.
+
+# Dossier {#dossier}
+The Mega Hyena is a colossal version of its smaller relatives, standing nearly 4 feet tall at the shoulder and weighing 350-450 pounds. Its body is heavily muscled and compact, built for tremendous bite force and endurance rather than speed. The fur is coarse and bristling, mottled with dark brown and black patches, though individual coloration varies. The head is broad and powerful, with the distinctive sloped back and muscular front quarters of its kind. The tail is relatively short and held low.
+
+## Presentation
+Mega Hyenas display enormous musculature throughout their frame, particularly in the neck, shoulders, and forelimbs. The head is proportionally massive, with jaws capable of opening to an impressive width. The eyes are large and bright yellow, set forward for good binocular vision. The ears are rounded and alert. The legs are thickly built but less elegant than a true feline predator, suggesting power over finesse. The musk surrounding them is powerful and immediately recognizable. The mouth is often held slightly open, displaying the prominent teeth and creating the appearance of a perpetual snarl. Individual Mega Hyenas often bear extensive scarring from territorial disputes and pack conflicts.
+
+## Key Behaviors
+Mega Hyenas are scavengers and hunters in equal measure, thriving in arid savannas and broken terrain. They live in large packs with rigid hierarchies dominated by one or more alpha individuals whose status is determined through combat. Pack size typically ranges from 5-20 individuals. They hunt large prey cooperatively, but are also opportunistic and will steal kills from other predators, defend carcasses from competitors, or opportunistically hunt smaller prey when the opportunity arises. Lone Mega Hyenas are typically outcasts or young individuals seeking to establish a new pack, and they are considerably more aggressive and unpredictable than pack members.
+
+## Combat Strategy
+Mega Hyenas rely on pack tactics and overwhelming force. In a pack, they coordinate attacks, surrounding prey and attacking from multiple angles simultaneously while the prey is distracted. They target the weakest or most vulnerable opponent first, attempting to separate and isolate individuals from the group. A lone Mega Hyena uses direct aggression, relying on its massive bite force to disable or crush bone in a quick strike. Hyenas do not fight intelligently or tactically on an individual basis; rather, they rely on pack instinct and sheer ferocity.
+
+## Attack Methods
+
+### Bone-Crushing Bite
+The Mega Hyena lunges to clamp its enormous jaws on the target, aiming for limbs, throat, or belly; the bite delivers devastating damage capable of crushing bone, shattering light armor, and pinning an opponent in place if they fail a strength check to break free.
+
+### Pack Overwhelm
+Multiple Mega Hyenas attack simultaneously from different directions, each attempting to knock the opponent down or distract them; coordinated pack attacks gain substantial bonuses and can incapacitate isolated opponents quickly.
+
+## Special Abilities
+
+### Crushing Jaws
+The Mega Hyena’s bite force is extraordinary, capable of breaking bone, shattering weapons or shields, and penetrating armor; a successful bite deals massive damage and may incapacitate the victim if the bite connects with a vital area.
+
+### Pack Instincts
+Mega Hyenas gain significant bonuses to attack rolls, damage, and to resistance checks when fighting alongside other Mega Hyenas; a pack of hyenas is far more dangerous than the sum of its individual members would suggest.
+
+### Territorial Defense
+When defending a kill, den, or pack, a Mega Hyena becomes considerably more aggressive and gains bonuses to all combat rolls; they will fight to the death to protect pack resources or hierarchy status.
+
+## Attributes
+- **Strength:** 12-17 (1d6+11)
+
+- **Endurance:** 10-15 (1d6+9)
+
+- **Dexterity:** 9-14 (1d6+8)
+
+- **Agility:** 11-16 (1d6+10)
+
+- **Perception:** 11-16 (1d6+10)
+
+- **Aura:** 7-10 (1d4+6)
+
+- **Will:** 9-14 (1d6+8)
+
+- **Reasoning:** 5-8 (1d4+4)
+
+- **Creativity:** 4-7 (1d4+3)
