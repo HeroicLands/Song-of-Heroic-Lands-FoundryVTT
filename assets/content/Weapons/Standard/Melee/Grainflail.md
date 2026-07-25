@@ -13,7 +13,7 @@ shortcode: GrnFl
 type: weapongear
 package: sohl
 sohl:
-    kbcat: melee
+    kbcat: flail
     archetype: 0
     durability: 9
     weight: 3

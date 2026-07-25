@@ -13,7 +13,7 @@ shortcode: Slng
 type: weapongear
 package: sohl
 sohl:
-    kbcat: slings
+    kbcat: sling
     archetype: 0
     durability: 9
     weight: 0.1

@@ -13,7 +13,7 @@ shortcode: Whp
 type: weapongear
 package: sohl
 sohl:
-    kbcat: melee
+    kbcat: whip
     archetype: 0
     durability: 9
     weight: 2

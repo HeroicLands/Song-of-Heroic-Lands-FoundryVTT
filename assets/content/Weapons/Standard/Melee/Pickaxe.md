@@ -13,7 +13,7 @@ shortcode: PkAxe
 type: weapongear
 package: sohl
 sohl:
-    kbcat: melee
+    kbcat: axe
     archetype: 0
     durability: 9
     weight: 7

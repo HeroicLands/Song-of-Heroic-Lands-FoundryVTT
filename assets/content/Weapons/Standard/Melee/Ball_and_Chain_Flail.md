@@ -14,7 +14,7 @@ shortcode: B&CFl
 type: weapongear
 package: sohl
 sohl:
-    kbcat: melee
+    kbcat: flail
     archetype: 0
     durability: 12
     weight: 4

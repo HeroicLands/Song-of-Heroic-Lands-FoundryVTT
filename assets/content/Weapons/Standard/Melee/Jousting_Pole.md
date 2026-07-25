@@ -13,7 +13,7 @@ shortcode: JPole
 type: weapongear
 package: sohl
 sohl:
-    kbcat: melee
+    kbcat: polearm
     archetype: 0
     durability: 8
     weight: 6

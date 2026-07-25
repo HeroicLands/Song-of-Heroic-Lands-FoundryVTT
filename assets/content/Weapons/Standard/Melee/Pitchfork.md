@@ -13,7 +13,7 @@ shortcode: Pfrk
 type: weapongear
 package: sohl
 sohl:
-    kbcat: melee
+    kbcat: polearm
     archetype: 0
     durability: 9
     weight: 4

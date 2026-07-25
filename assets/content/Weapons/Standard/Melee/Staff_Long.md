@@ -13,7 +13,7 @@ shortcode: LStf
 type: weapongear
 package: sohl
 sohl:
-    kbcat: melee
+    kbcat: polearm
     archetype: 0
     durability: 11
     weight: 5

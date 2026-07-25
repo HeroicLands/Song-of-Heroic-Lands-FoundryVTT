@@ -13,7 +13,7 @@ shortcode: KiSh
 type: weapongear
 package: sohl
 sohl:
-    kbcat: shields
+    kbcat: shield
     archetype: 0
     durability: 11
     weight: 7

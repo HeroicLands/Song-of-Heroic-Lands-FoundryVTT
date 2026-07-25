@@ -13,7 +13,7 @@ shortcode: SlgHmr
 type: weapongear
 package: sohl
 sohl:
-    kbcat: melee
+    kbcat: axe
     archetype: 0
     durability: 10
     weight: 6
