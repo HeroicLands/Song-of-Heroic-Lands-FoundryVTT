@@ -13,7 +13,7 @@ shortcode: Whmr
 type: weapongear
 package: sohl
 sohl:
-    kbcat: melee
+    kbcat: axe
     archetype: 0
     durability: 11
     weight: 4

@@ -13,7 +13,7 @@ shortcode: LKni
 type: weapongear
 package: sohl
 sohl:
-    kbcat: melee
+    kbcat: sword
     archetype: 0
     durability: 13
     weight: 2

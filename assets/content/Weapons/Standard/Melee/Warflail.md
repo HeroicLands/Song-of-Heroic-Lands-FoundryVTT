@@ -13,7 +13,7 @@ shortcode: WFl
 type: weapongear
 package: sohl
 sohl:
-    kbcat: melee
+    kbcat: flail
     archetype: 0
     durability: 11
     weight: 5

@@ -13,7 +13,7 @@ shortcode: Bklr
 type: weapongear
 package: sohl
 sohl:
-    kbcat: shields
+    kbcat: shield
     archetype: 0
     durability: 9
     weight: 3

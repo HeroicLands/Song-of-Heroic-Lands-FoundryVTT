@@ -13,7 +13,7 @@ shortcode: Cdgl
 type: weapongear
 package: sohl
 sohl:
-    kbcat: melee
+    kbcat: club
     archetype: 0
     durability: 9
     weight: 3

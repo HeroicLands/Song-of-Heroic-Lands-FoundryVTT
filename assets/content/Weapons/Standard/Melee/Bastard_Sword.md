@@ -13,7 +13,7 @@ shortcode: BstdSwd
 type: weapongear
 package: sohl
 sohl:
-    kbcat: melee
+    kbcat: sword
     archetype: 0
     durability: 12
     weight: 5
