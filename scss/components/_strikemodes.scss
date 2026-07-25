@@ -56,12 +56,23 @@
         @include mixins.truncate;
     }
 
-    .type {
-        flex: 0 0 70px;
+    // Column widths + alignment applied to BOTH the header cells and the data
+    // cells (which also carry `.ele`), so the labels line up over their columns.
+    .shortcode {
+        flex: 0 0 140px;
+        text-align: center;
     }
 
-    .aspect {
+    .type {
+        flex: 0 0 70px;
+        text-align: center;
+    }
+
+    // Impact formula — the last data column, a little wider, no divider.
+    .impact {
+        flex: 1 0 110px;
         border-right: none;
+        text-align: center;
     }
 
     .strikemodes__controls {

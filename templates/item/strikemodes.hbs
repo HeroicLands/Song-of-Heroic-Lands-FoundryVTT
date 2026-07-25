@@ -15,9 +15,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <ol class="strikemodes__list">
         <li class="strikemodes__header flexrow">
             <h3 class="name">Strike Mode</h3>
+            <div class="shortcode">Shortcode</div>
             <div class="type">Type</div>
-            <div class="reach">Reach/Range</div>
-            <div class="aspect">Aspect</div>
+            <div class="impact">Impact</div>
             <div class="strikemodes__controls">
                 {{#if canAdd}}
                 <a class="strikemodes__control strikemode-add" data-action="addStrikeMode"
@@ -31,9 +31,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{#each strikeModes as |sm|}}
             <li class="strikemodes__row flexrow" data-strikemode-key="{{sm.key}}">
                 <div class="name"><h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4></div>
+                <div class="ele shortcode">{{sm.shortcode}}</div>
                 <div class="ele type">{{sm.typeLabel}}</div>
-                <div class="ele reach">{{sm.headline}}</div>
-                <div class="ele aspect">{{sm.aspectLabel}}</div>
+                <div class="ele impact">{{sm.impactFormula}}</div>
                 <div class="strikemodes__controls">
                     <a class="strikemodes__control strikemode-contextmenu" title="Menu">
                         <i class="fa-solid fa-ellipsis-vertical fa-fw"></i>

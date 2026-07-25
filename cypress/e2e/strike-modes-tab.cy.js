@@ -36,14 +36,43 @@ function findEditor(win) {
     );
 }
 
+/**
+ * Fill the open "Create Strike Mode" dialog's Type/Name/Shortcode fields. The
+ * dialog is the only rendered app carrying a `select[name="type"]` (the editor's
+ * type is a read-only label), so it's unambiguous.
+ */
+function fillCreateDialog(win, { type = "melee", name, shortcode } = {}) {
+    const dlg = Array.from(win.foundry.applications.instances.values()).find(
+        (a) => a.rendered && a.element?.querySelector('select[name="type"]'),
+    );
+    const form = dlg.element.querySelector("form") ?? dlg.element;
+    if (type) form.querySelector('select[name="type"]').value = type;
+    if (name != null) form.querySelector('input[name="name"]').value = name;
+    const sc = form.querySelector('input[name="shortcode"]');
+    if (sc && shortcode != null) sc.value = shortcode;
+    return null;
+}
+
+/** Close any open StrikeModeConfig editors (they auto-save, so stay open). */
+function closeEditors() {
+    cy.foundry((win) =>
+        Promise.all(
+            Array.from(win.foundry.applications.instances.values())
+                .filter((a) => a.id?.startsWith("strike-mode-config-"))
+                .map((a) => a.close()),
+        ).then(() => null),
+    );
+}
+
 describe("strike modes tab — weapongear (multi)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => {
+        closeEditors();
         cy.closeAllSheets();
         cy.cleanupWorld();
     });
 
-    it("adds a strike mode, opens the editor, and persists an edit", () => {
+    it("creates a strike mode via the dialog, opens the editor, and auto-saves an edit", () => {
         cy.createWorldItem("weapongear", { name: "Broadsword" }).as("wpn");
         cy.then(function () {
             const id = this.wpn.id;
@@ -53,32 +82,42 @@ describe("strike modes tab — weapongear (multi)", () => {
             cy.get(
                 'section.tab[data-tab="strikemodes"] .strikemodes__row',
             ).should("have.length", 0);
-            // Add → a blank mode is written and the editor opens on it.
+            // "+" opens the create dialog (Type / Name / Shortcode).
             cy.get(
                 'section.tab[data-tab="strikemodes"] [data-action="addStrikeMode"]',
             ).click();
-            // Poll (the update + render are async): one mode written, editor open.
+            cy.foundry((win) =>
+                fillCreateDialog(win, {
+                    type: "melee",
+                    name: "Cut",
+                    shortcode: "cut",
+                }),
+            );
+            cy.submitDialog("ok"); // "Create Strike Mode"
+            // One mode created with the dialog's values; editor opens on it.
             cy.window().should((win) => {
                 const modes = win.game.items.get(id).system.strikeModes;
                 expect(modes).to.have.length(1);
+                expect(modes[0].name).to.eq("Cut");
+                expect(modes[0].shortcode).to.eq("cut");
                 expect(findEditor(win), "editor open").to.exist;
             });
-            // Edit the name in the editor and submit → persists via item.update.
+            // Edit a field — the editor auto-saves (no Save button).
             cy.foundry((win) => {
-                const editor = findEditor(win);
-                const form = editor.element;
-                form.querySelector('input[name="name"]').value = "Cut";
+                const form = findEditor(win).element;
+                form.querySelector('input[name="minParts"]').value = "2";
                 form.requestSubmit();
                 return null;
             });
             cy.window().should((win) => {
-                const modes = win.game.items.get(id).system.strikeModes;
-                expect(modes[0]?.name).to.eq("Cut");
+                expect(
+                    win.game.items.get(id).system.strikeModes[0].minParts,
+                ).to.eq(2);
             });
         });
     });
 
-    it("editor shows an identity header (Name/Shortcode/Type) and edits the shortcode in place", () => {
+    it("editor shows the identity header with a read-only type label and edits the shortcode in place", () => {
         cy.createWorldItem("weapongear", { name: "Longsword" }).as("wpn");
         cy.then(function () {
             const id = this.wpn.id;
@@ -87,50 +126,88 @@ describe("strike modes tab — weapongear (multi)", () => {
             cy.get(
                 'section.tab[data-tab="strikemodes"] [data-action="addStrikeMode"]',
             ).click();
-            // Editor open on the blank mode; capture its starting shortcode.
-            let startKey;
-            cy.window()
-                .should((win) => {
-                    const modes = win.game.items.get(id).system.strikeModes;
-                    expect(modes).to.have.length(1);
-                    expect(findEditor(win), "editor open").to.exist;
-                })
-                .then((win) => {
-                    startKey =
-                        win.game.items.get(id).system.strikeModes[0].shortcode;
-                    // The identity header renders with all three fields.
-                    const form = findEditor(win).element;
-                    expect(
-                        form.querySelector(".strike-mode-config__header"),
-                        "header present",
-                    ).to.exist;
-                    expect(form.querySelector('input[name="name"]')).to.exist;
-                    expect(form.querySelector('input[name="shortcode"]')).to
-                        .exist;
-                    expect(form.querySelector('select[name="type"]')).to.exist;
-                    // Shortcode is editable for a weapon (not read-only).
-                    expect(
-                        form.querySelector('input[name="shortcode"]').readOnly,
-                    ).to.eq(false);
-                    // Shortcode is bound to the mode's current shortcode.
-                    expect(
-                        form.querySelector('input[name="shortcode"]').value,
-                    ).to.eq(startKey);
-                });
-            // Change the shortcode + name and submit → the element is updated
-            // in place (array stays length 1, new shortcode persisted).
+            cy.foundry((win) =>
+                fillCreateDialog(win, {
+                    type: "missile",
+                    name: "Shoot",
+                    shortcode: "shoot",
+                }),
+            );
+            cy.submitDialog("ok");
+            cy.window().should((win) => {
+                expect(
+                    win.game.items.get(id).system.strikeModes,
+                ).to.have.length(1);
+                expect(findEditor(win), "editor open").to.exist;
+            });
             cy.foundry((win) => {
                 const form = findEditor(win).element;
-                form.querySelector('input[name="name"]').value = "Cut";
-                form.querySelector('input[name="shortcode"]').value = "cut";
+                expect(
+                    form.querySelector(".strike-mode-config__header"),
+                    "header present",
+                ).to.exist;
+                expect(form.querySelector('input[name="name"]')).to.exist;
+                const sc = form.querySelector('input[name="shortcode"]');
+                expect(sc.value).to.eq("shoot");
+                expect(sc.readOnly).to.eq(false);
+                // Type is a read-only LABEL, not an editable control.
+                const typeEl = form.querySelector(".strike-mode-config__type");
+                expect(typeEl.textContent.trim()).to.match(/missile/i);
+                expect(form.querySelector('select[name="type"]')).to.eq(null);
+                return null;
+            });
+            // Rename the shortcode; the auto-save editor updates the element.
+            cy.foundry((win) => {
+                const form = findEditor(win).element;
+                form.querySelector('input[name="shortcode"]').value = "throw";
                 form.requestSubmit();
                 return null;
             });
             cy.window().should((win) => {
                 const modes = win.game.items.get(id).system.strikeModes;
                 expect(modes).to.have.length(1);
+                expect(modes[0].shortcode).to.eq("throw");
+            });
+        });
+    });
+
+    it("create dialog rejects a duplicate shortcode (adds nothing)", () => {
+        cy.createWorldItem("weapongear", { name: "Sabre" }).as("wpn");
+        cy.then(function () {
+            const id = this.wpn.id;
+            cy.foundry((win) =>
+                win.game.items.get(id).update(
+                    win.structuredClone({
+                        "system.strikeModes": [
+                            {
+                                shortcode: "cut",
+                                type: "melee",
+                                name: "Cut",
+                                impactBase: { aspect: "edged" },
+                            },
+                        ],
+                    }),
+                ),
+            );
+            cy.openSheet(this.wpn);
+            cy.switchTab("strikemodes", "sheet");
+            cy.get(
+                'section.tab[data-tab="strikemodes"] [data-action="addStrikeMode"]',
+            ).click();
+            cy.foundry((win) =>
+                fillCreateDialog(win, {
+                    type: "melee",
+                    name: "Slash",
+                    shortcode: "cut", // duplicate
+                }),
+            );
+            cy.submitDialog("ok");
+            // Still only the original mode; the duplicate was rejected.
+            cy.window().should((win) => {
+                const modes = win.game.items.get(id).system.strikeModes;
+                expect(modes).to.have.length(1);
                 expect(modes[0].shortcode).to.eq("cut");
-                expect(modes[0].name).to.eq("Cut");
+                expect(findEditor(win), "no editor opened").to.not.exist;
             });
         });
     });
@@ -151,7 +228,12 @@ describe("strike modes tab — weapongear (multi)", () => {
                                 type: "melee",
                                 name: "Chop",
                                 lengthBase: 2,
-                                impactBase: { aspect: "edged" },
+                                impactBase: {
+                                    numDice: 2,
+                                    die: 6,
+                                    modifier: 1,
+                                    aspect: "edged",
+                                },
                             },
                             {
                                 shortcode: "bbb",
@@ -169,9 +251,14 @@ describe("strike modes tab — weapongear (multi)", () => {
             cy.get(
                 'section.tab[data-tab="strikemodes"] .strikemodes__row',
             ).should("have.length", 2);
+            // Columns: Name, Shortcode, Type, Impact formula.
             cy.get(
                 'section.tab[data-tab="strikemodes"] .strikemodes__row[data-strikemode-key="aaa"]',
-            ).contains("Chop");
+            ).within(() => {
+                cy.get(".name").contains("Chop");
+                cy.get(".shortcode").contains("aaa");
+                cy.get(".impact").contains("2d6+1e");
+            });
             cy.get(
                 'section.tab[data-tab="strikemodes"] .strikemodes__row .strikemode-contextmenu',
             ).should("exist");

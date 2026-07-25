@@ -15,13 +15,14 @@ import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { StrikeModeConfig } from "@src/apps/foundry/StrikeModeConfig";
 import { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 import { blankStrikeMode } from "@src/entity/strikemode/blankStrikeMode";
-import { uniqueShortcode } from "@src/entity/strikemode/planShortcodeSave";
+import { validateShortcode } from "@src/entity/strikemode/planShortcodeSave";
 import {
-    ImpactAspectChoices,
     ITEM_KIND,
     STRIKE_MODE_TYPE,
     StrikeModeTypeChoices,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    isStrikeModeType,
+    type StrikeModeType,
 } from "@src/utils/constants";
 import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 
@@ -91,14 +92,37 @@ export interface StrikeModeRowVM {
     key: string;
     /** The strike mode's display name. */
     name: string;
+    /** The strike mode's shortcode (blank for a combat technique's single mode). */
+    shortcode: string;
     /** Localized type label (Melee / Missile). */
     typeLabel: string;
-    /** Whether this is a melee mode (drives the headline column). */
-    isMelee: boolean;
-    /** A one-line headline: reach for melee, base range for missile. */
-    headline: string;
-    /** Localized impact-aspect label. */
-    aspectLabel: string;
+    /** The impact damage formula, e.g. `"1d6+2 Edged"`. */
+    impactFormula: string;
+}
+
+/**
+ * Format a strike mode's base impact as a compact formula with the aspect as a
+ * trailing lowercase letter, e.g. `"1d10+3e"`, `"1d6b"`, `"3p"`, or `"—"` when it
+ * contributes no base impact.
+ * @param imp - The strike mode's base impact fields.
+ * @returns The formula string.
+ */
+function formatImpactFormula(imp: StrikeModeBase.Data["impactBase"]): string {
+    const dice = imp?.numDice && imp?.die ? `${imp.numDice}d${imp.die}` : "";
+    const mod = imp?.modifier;
+    let formula = dice;
+    if (mod != null && mod !== 0) {
+        formula +=
+            dice ?
+                mod > 0 ?
+                    `+${mod}`
+                :   `${mod}`
+            :   `${mod}`;
+    }
+    if (!formula) return "—";
+    // Aspect abbreviated to its initial letter (b/e/p/f), appended directly.
+    const letter = (imp?.aspect ?? "").charAt(0).toLowerCase();
+    return `${formula}${letter}`;
 }
 
 /**
@@ -122,20 +146,14 @@ export function prepareStrikeModesContext(item: SohlItem): {
         : [];
 
     const strikeModes = entries.map(([key, sm]): StrikeModeRowVM => {
-        const isMelee = sm.type === STRIKE_MODE_TYPE.MELEE;
-        const feet =
-            isMelee ? (sm as any).lengthBase : (sm as any).baseRangeBase;
         return {
             key,
             name: sm.name,
+            shortcode: sm.shortcode ?? "",
             typeLabel: game.i18n.localize(
                 StrikeModeTypeChoices[sm.type] ?? sm.type,
             ),
-            isMelee,
-            headline: `${feet ?? 0} ft`,
-            aspectLabel: game.i18n.localize(
-                ImpactAspectChoices[sm.impactBase?.aspect] ?? "",
-            ),
+            impactFormula: formatImpactFormula(sm.impactBase),
         };
     });
 
@@ -155,25 +173,108 @@ export function openStrikeModeEditor(item: SohlItem, key: string): void {
     void new StrikeModeConfig(item, key).render(true);
 }
 
+/** The type/name/shortcode collected by the "Create Strike Mode" dialog. */
+interface NewStrikeModeSpec {
+    /** The chosen strike-mode type. */
+    type: StrikeModeType;
+    /** The new mode's display name. */
+    name: string;
+    /** The new mode's shortcode (weapon only; blank for a combat technique). */
+    shortcode: string;
+}
+
 /**
- * Add a blank melee strike mode to an item and open the editor on it. Reuses
- * the item logic's payload helpers (`addStrikeModeUpdate` for a weapon,
- * `setStrikeModeUpdate` for a combat technique). A weapon's new mode gets a
- * unique shortcode derived from the weapon name; the technique's single mode
- * has none.
+ * Prompt for a new strike mode's Type, Name, and — for a weapon — Shortcode.
+ * Returns the entered values, or `undefined` if the dialog was dismissed (in
+ * which case nothing should be created).
+ *
+ * The content is static markup with only trusted, localized labels interpolated
+ * (never user data), so it does not build HTML from persisted values.
+ * @param isMulti - Whether the owner is a weapon (shows the Shortcode field).
+ * @returns The entered spec, or `undefined` on dismissal.
+ */
+async function promptNewStrikeMode(
+    isMulti: boolean,
+): Promise<NewStrikeModeSpec | undefined> {
+    const typeOptions = `
+        <option value="${STRIKE_MODE_TYPE.MELEE}">${game.i18n.localize("SOHL.StrikeMode.Type.melee")}</option>
+        <option value="${STRIKE_MODE_TYPE.MISSILE}">${game.i18n.localize("SOHL.StrikeMode.Type.missile")}</option>`;
+    const content = `
+        <form class="strike-mode-create standard-form">
+            <div class="form-group">
+                <label>Type</label>
+                <select name="type">${typeOptions}</select>
+            </div>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" placeholder="e.g. Cut" autofocus />
+            </div>
+            ${
+                isMulti ?
+                    `<div class="form-group">
+                <label>Shortcode</label>
+                <input type="text" name="shortcode" placeholder="e.g. cut" />
+            </div>`
+                :   ""
+            }
+        </form>`;
+
+    let fd: PlainObject | undefined;
+    try {
+        fd = (await foundry.applications.api.DialogV2.prompt({
+            window: {
+                title: "Create Strike Mode",
+                icon: "fa-solid fa-hand-fist",
+            },
+            content,
+            ok: {
+                label: "Create Strike Mode",
+                icon: "fa-solid fa-plus",
+                callback: (_event: Event, button: any) =>
+                    new foundry.applications.ux.FormDataExtended(button.form)
+                        .object,
+            },
+        } as any)) as PlainObject | undefined;
+    } catch {
+        // DialogV2.prompt rejects on dismissal (X / Escape) → treat as no-add.
+        return undefined;
+    }
+    if (!fd) return undefined;
+    return {
+        type: isStrikeModeType(fd.type) ? fd.type : STRIKE_MODE_TYPE.MELEE,
+        name: String(fd.name ?? ""),
+        shortcode: String(fd.shortcode ?? ""),
+    };
+}
+
+/**
+ * Prompt for a new strike mode (Type / Name / Shortcode) and, once confirmed,
+ * add it to the item and open the editor on it. Dismissing the dialog adds
+ * nothing. A weapon's shortcode is validated for uniqueness before the add; a
+ * combat technique's single mode has no shortcode.
  * @param item - The item to add a strike mode to.
  */
 export async function addStrikeMode(item: SohlItem): Promise<void> {
-    const blank = blankStrikeMode(STRIKE_MODE_TYPE.MELEE, item.name);
+    const isMulti = isMultiStrikeMode(item);
+    const spec = await promptNewStrikeMode(isMulti);
+    if (!spec) return;
+
     const logic = item.logic as any;
+    const blank = blankStrikeMode(spec.type, spec.name || item.name);
     let key: string;
-    if (isMultiStrikeMode(item)) {
-        const existing = (
-            (item.system as any).strikeModes as
-                | StrikeModeBase.Data[]
-                | undefined
-        )?.map((m) => m.shortcode);
-        key = uniqueShortcode(item.name, existing ?? []);
+    if (isMulti) {
+        const existing =
+            (
+                (item.system as any).strikeModes as
+                    | StrikeModeBase.Data[]
+                    | undefined
+            )?.map((m) => m.shortcode) ?? [];
+        const error = validateShortcode(spec.shortcode, existing);
+        if (error) {
+            sohl.log.uiWarn(error);
+            return;
+        }
+        key = spec.shortcode.trim();
         blank.shortcode = key;
         await item.update(logic.addStrikeModeUpdate(blank));
     } else {
