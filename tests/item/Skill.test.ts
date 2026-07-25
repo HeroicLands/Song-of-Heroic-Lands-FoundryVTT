@@ -9,7 +9,11 @@ import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
-import { IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
+import {
+    IMPACT_ASPECT,
+    ITEM_KIND,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@src/utils/constants";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import {
     makeItemLogic,
@@ -65,6 +69,26 @@ describe("SkillLogic", () => {
             ]) {
                 expect(logic.actions.has(shortcode), shortcode).toBe(true);
             }
+        });
+
+        it("hides the setImproveFlag/unsetImproveFlag entries (superseded by toggleImproveFlag)", () => {
+            const logic = makeSkill();
+            for (const shortcode of ["setImproveFlag", "unsetImproveFlag"]) {
+                const action = logic.actions.get(shortcode);
+                expect(action, shortcode).toBeDefined();
+                expect((action as any).data.visible, shortcode).toBe("false");
+                expect((action as any).data.group, shortcode).toBe(
+                    SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+                );
+            }
+        });
+
+        it("keeps toggleImproveFlag visible in the general group", () => {
+            const toggle = makeSkill().actions.get("toggleImproveFlag");
+            expect((toggle as any).data.visible).toBe("true");
+            expect((toggle as any).data.group).toBe(
+                SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            );
         });
 
         it("canImprove does not throw before initialize() — masteryLevel unset (#511)", () => {

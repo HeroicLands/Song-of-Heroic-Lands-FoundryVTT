@@ -8,6 +8,8 @@ import {
     isItemKind,
     KIND_KEY,
     SCHEMA_VERSION_KEY,
+    SOHL_SPEAKER_ROLL_MODE,
+    speakerRollModeOptions,
 } from "@src/utils/constants";
 
 describe("defineType", () => {
@@ -127,5 +129,36 @@ describe("constants", () => {
 
     it("SCHEMA_VERSION_KEY is __schemaVer", () => {
         expect(SCHEMA_VERSION_KEY).toBe("__schemaVer");
+    });
+});
+
+describe("speakerRollModeOptions", () => {
+    it("uses the stored roll-mode value (not the enum key) as the option value", () => {
+        const values = speakerRollModeOptions().map((o) => o.value);
+        expect(values).toEqual(Object.values(SOHL_SPEAKER_ROLL_MODE));
+        // e.g. "publicroll", never the enum key "PUBLIC"
+        expect(values).toContain(SOHL_SPEAKER_ROLL_MODE.PUBLIC);
+        expect(values).not.toContain("PUBLIC");
+    });
+
+    it("labels the visibility modes with Foundry CHAT.MODES.* keys", () => {
+        const byValue = Object.fromEntries(
+            speakerRollModeOptions().map((o) => [o.value, o.label]),
+        );
+        expect(byValue[SOHL_SPEAKER_ROLL_MODE.PUBLIC]).toBe(
+            "CHAT.MODES.public",
+        );
+        expect(byValue[SOHL_SPEAKER_ROLL_MODE.SELF]).toBe("CHAT.MODES.self");
+        expect(byValue[SOHL_SPEAKER_ROLL_MODE.BLIND]).toBe("CHAT.MODES.blind");
+        expect(byValue[SOHL_SPEAKER_ROLL_MODE.PRIVATE]).toBe("CHAT.MODES.gm");
+    });
+
+    it("keeps the SoHL label for the default (system) roll mode", () => {
+        const byValue = Object.fromEntries(
+            speakerRollModeOptions().map((o) => [o.value, o.label]),
+        );
+        expect(byValue[SOHL_SPEAKER_ROLL_MODE.SYSTEM]).toBe(
+            "SOHL.SohlSpeaker.ROLL_MODE.roll",
+        );
     });
 });

@@ -702,6 +702,40 @@ export const {
 export type SohlSpeakerRollMode =
     (typeof SOHL_SPEAKER_ROLL_MODE)[keyof typeof SOHL_SPEAKER_ROLL_MODE];
 
+/**
+ * Maps each SoHL speaker roll-mode value to the Foundry `CHAT.MODES.*`
+ * localization key for the equivalent chat-message visibility. Used to label
+ * the roll-visibility dropdown with Foundry's own visibility strings. The
+ * default `"roll"` (system) mode has no Foundry visibility equivalent, so it
+ * keeps its own SoHL label.
+ */
+export const CHAT_MODE_LABEL_BY_ROLL_MODE: Record<SohlSpeakerRollMode, string> =
+    {
+        [SOHL_SPEAKER_ROLL_MODE.SYSTEM]: "SOHL.SohlSpeaker.ROLL_MODE.roll",
+        [SOHL_SPEAKER_ROLL_MODE.PUBLIC]: "CHAT.MODES.public",
+        [SOHL_SPEAKER_ROLL_MODE.SELF]: "CHAT.MODES.self",
+        [SOHL_SPEAKER_ROLL_MODE.BLIND]: "CHAT.MODES.blind",
+        [SOHL_SPEAKER_ROLL_MODE.PRIVATE]: "CHAT.MODES.gm",
+    };
+
+/**
+ * Builds the option list for a roll-visibility `<select>`: each SoHL speaker
+ * roll-mode value paired with its localized `CHAT.MODES.*` label key (see
+ * {@link CHAT_MODE_LABEL_BY_ROLL_MODE}). The `value` is the stored roll-mode
+ * value (e.g. `"publicroll"`) so the selection round-trips correctly; the
+ * `label` is a localization key resolved by the template's `localize=true`.
+ *
+ * @returns Roll-visibility option descriptors, in enum order.
+ */
+export function speakerRollModeOptions(): {
+    value: SohlSpeakerRollMode;
+    label: string;
+}[] {
+    return (Object.values(SOHL_SPEAKER_ROLL_MODE) as SohlSpeakerRollMode[]).map(
+        (value) => ({ value, label: CHAT_MODE_LABEL_BY_ROLL_MODE[value] }),
+    );
+}
+
 export const {
     /** Map of speaker chat-style key → value. */
     kind: SOHL_SPEAKER_STYLE,
