@@ -30,8 +30,9 @@
 const INLINE_WEAPON = {
     name: "Test Sword",
     system: {
-        strikeModes: {
-            strike: {
+        strikeModes: [
+            {
+                shortcode: "strike",
                 type: "melee",
                 name: "Strike",
                 assocSkillCode: "melee",
@@ -54,7 +55,7 @@ const INLINE_WEAPON = {
                     },
                 },
             },
-        },
+        ],
     },
 };
 
@@ -125,7 +126,10 @@ describe("strike-mode required-limb impairment (#628)", () => {
                     .executeAction("attackTest", {
                         skipDialog: true,
                         noChat: true,
-                        scope: { strikeModeId: sm.id, situationalModifier: 0 },
+                        scope: {
+                            strikeModeId: sm.shortcode,
+                            situationalModifier: 0,
+                        },
                     })
                     .then((res) => ({
                         isCritical: res?.isCritical ?? null,
@@ -165,7 +169,10 @@ describe("strike-mode required-limb impairment (#628)", () => {
                     .executeAction("attackTest", {
                         skipDialog: true,
                         noChat: true,
-                        scope: { strikeModeId: sm.id, situationalModifier: 0 },
+                        scope: {
+                            strikeModeId: sm.shortcode,
+                            situationalModifier: 0,
+                        },
                     })
                     .then((res) => ({
                         baseAttack,

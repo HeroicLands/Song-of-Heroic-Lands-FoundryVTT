@@ -31,6 +31,9 @@ import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
  */
 function baseBlank(name: string): Omit<StrikeModeBase.Data, "type"> {
     return {
+        // Assigned a unique value by the weapon "Add" flow; blank for a combat
+        // technique's single mode.
+        shortcode: "",
         name,
         minParts: 1,
         assocSkillCode: "",
@@ -50,8 +53,8 @@ function baseBlank(name: string): Omit<StrikeModeBase.Data, "type"> {
  *
  * Every field is seeded to the same default the corresponding DataModel schema
  * field initializes to, so the returned object round-trips a Foundry
- * `update()` into `system.strikeModes.<id>` (weapon) or `system.strikeMode`
- * (combat technique) without validation churn. The discriminated `type` fixes
+ * `update()` into a weapon's `system.strikeModes` array or a combat technique's
+ * `system.strikeMode` without validation churn. The discriminated `type` fixes
  * which subtype-specific fields are present.
  *
  * @param type - The strike-mode discriminator (`"melee"` or `"missile"`).

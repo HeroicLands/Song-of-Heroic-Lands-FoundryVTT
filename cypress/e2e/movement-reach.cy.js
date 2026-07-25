@@ -70,8 +70,9 @@ function meleeWeapon(lengthBase, name = "Test Spear") {
     return {
         name,
         system: {
-            strikeModes: {
-                strike: {
+            strikeModes: [
+                {
+                    shortcode: "strike",
                     type: "melee",
                     name: "Strike",
                     assocSkillCode: "melee",
@@ -98,7 +99,7 @@ function meleeWeapon(lengthBase, name = "Test Spear") {
                         },
                     },
                 },
-            },
+            ],
         },
     };
 }

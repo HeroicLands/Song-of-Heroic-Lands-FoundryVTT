@@ -23,6 +23,7 @@ const MOCK_LOGIC = brandLogic({
 
 const MELEE_DATA: MeleeStrikeMode.Data = {
     type: "melee",
+    shortcode: "cut",
     name: "Cut",
     minParts: 1,
     assocSkillCode: "swd",

@@ -7,85 +7,6 @@ import { IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 
-/*
- * Helper-method behavior is mirrored here as inline pure functions so it can
- * be verified without dragging in the full WeaponGearLogic import chain
- * (which transitively requires a complete Foundry runtime). The actual
- * methods on WeaponGearLogic are thin wrappers over this same logic.
- */
-
-function addStrikeModeUpdate(
-    existing: Record<string, unknown>,
-    strikeMode: unknown,
-    id: string,
-): Record<string, unknown> {
-    if (existing[id]) {
-        throw new Error(
-            `Strike mode with id "${id}" already exists on this weapon.`,
-        );
-    }
-    return { [`system.strikeModes.${id}`]: strikeMode };
-}
-
-function removeStrikeModeUpdate(id: string): Record<string, unknown> {
-    return { [`system.strikeModes.-=${id}`]: null };
-}
-
-function updateStrikeModeUpdate(
-    id: string,
-    partial: Record<string, unknown>,
-): Record<string, unknown> {
-    const update: Record<string, unknown> = {};
-    for (const [key, value] of Object.entries(partial)) {
-        update[`system.strikeModes.${id}.${key}`] = value;
-    }
-    return update;
-}
-
-const SAMPLE = { type: "melee", name: "Cut", heftBase: 5 };
-
-describe("WeaponGearLogic strike mode update payloads", () => {
-    describe("addStrikeModeUpdate", () => {
-        it("returns a single-key payload at the supplied id", () => {
-            expect(addStrikeModeUpdate({}, SAMPLE, "abc123")).toEqual({
-                "system.strikeModes.abc123": SAMPLE,
-            });
-        });
-
-        it("throws when the id already exists", () => {
-            expect(() =>
-                addStrikeModeUpdate({ existing: SAMPLE }, SAMPLE, "existing"),
-            ).toThrow(/already exists/);
-        });
-    });
-
-    describe("removeStrikeModeUpdate", () => {
-        it("returns a Foundry -= deletion payload", () => {
-            expect(removeStrikeModeUpdate("abc123")).toEqual({
-                "system.strikeModes.-=abc123": null,
-            });
-        });
-    });
-
-    describe("updateStrikeModeUpdate", () => {
-        it("flattens partial fields under the id-prefixed path", () => {
-            expect(
-                updateStrikeModeUpdate("abc123", {
-                    minParts: 2,
-                    assocSkillCode: "axe",
-                }),
-            ).toEqual({
-                "system.strikeModes.abc123.minParts": 2,
-                "system.strikeModes.abc123.assocSkillCode": "axe",
-            });
-        });
-
-        it("returns an empty payload when partial is empty", () => {
-            expect(updateStrikeModeUpdate("abc123", {})).toEqual({});
-        });
-    });
-});
-
 /* ------------------------------------------------------------------ */
 /* Class-level WeaponGearLogic tests                                  */
 /* ------------------------------------------------------------------ */
@@ -103,15 +24,16 @@ function weaponFields(overrides: Record<string, unknown> = {}) {
         containerId: null as string | null,
         encumbranceBase: 2,
         heftBase: 5,
-        strikeModes: {} as Record<string, unknown>,
+        strikeModes: [] as Record<string, unknown>[],
         ...overrides,
     };
 }
 
-/** A persisted melee strike-mode payload. */
+/** A persisted melee strike-mode payload (carries its own shortcode). */
 function meleeModeData(overrides: Record<string, unknown> = {}) {
     return {
         type: "melee",
+        shortcode: "cut",
         name: "Cut",
         minParts: 1,
         assocSkillCode: "swd",
@@ -129,10 +51,11 @@ function meleeModeData(overrides: Record<string, unknown> = {}) {
     };
 }
 
-/** A persisted missile strike-mode payload. */
+/** A persisted missile strike-mode payload (carries its own shortcode). */
 function missileModeData(overrides: Record<string, unknown> = {}) {
     return {
         type: "missile",
+        shortcode: "throw",
         name: "Throw",
         minParts: 1,
         assocSkillCode: "spr",
@@ -207,27 +130,30 @@ describe("WeaponGearLogic", () => {
                 expect(logic.encumbrance.effective).toBe(3);
             });
 
-            it("builds strike-mode domain objects from the persisted map, preserving shortcodes", () => {
+            it("builds strike-mode domain objects from the persisted array, preserving shortcodes", () => {
                 const logic = makeWeapon({
-                    strikeModes: {
-                        cut00000000000id: meleeModeData(),
-                        thr00000000000id: missileModeData(),
-                    },
+                    strikeModes: [
+                        meleeModeData({ shortcode: "cut" }),
+                        missileModeData({ shortcode: "thr" }),
+                    ],
                 });
                 logic.initialize();
                 expect(logic.strikeModes).toHaveLength(2);
                 const [cut, thr] = logic.strikeModes;
                 expect(cut).toBeInstanceOf(MeleeStrikeMode);
-                expect(cut.shortcode).toBe("cut00000000000id");
+                expect(cut.shortcode).toBe("cut");
                 expect(cut.name).toBe("Cut");
                 expect(thr).toBeInstanceOf(MissileStrikeMode);
-                expect(thr.shortcode).toBe("thr00000000000id");
+                expect(thr.shortcode).toBe("thr");
                 expect(thr.name).toBe("Throw");
             });
 
             it("dispatches on the type discriminator (melee vs missile)", () => {
                 const logic = makeWeapon({
-                    strikeModes: { m1: meleeModeData(), m2: missileModeData() },
+                    strikeModes: [
+                        meleeModeData({ shortcode: "m1" }),
+                        missileModeData({ shortcode: "m2" }),
+                    ],
                 });
                 logic.initialize();
                 expect(logic.strikeModes[0].isMelee).toBe(true);
@@ -235,7 +161,7 @@ describe("WeaponGearLogic", () => {
             });
 
             it("produces an empty strikeModes array when none are persisted", () => {
-                const logic = makeWeapon({ strikeModes: {} });
+                const logic = makeWeapon({ strikeModes: [] });
                 logic.initialize();
                 expect(logic.strikeModes).toEqual([]);
             });
@@ -260,7 +186,7 @@ describe("WeaponGearLogic", () => {
                     new Set(["prone"]),
                 );
                 const weapon = makeWeapon(
-                    { strikeModes: { m1: meleeModeData() } },
+                    { strikeModes: [meleeModeData({ shortcode: "m1" })] },
                     { actor },
                 );
                 weapon.initialize();
@@ -277,7 +203,7 @@ describe("WeaponGearLogic", () => {
                     new Set(),
                 );
                 const weapon = makeWeapon(
-                    { strikeModes: { m1: meleeModeData() } },
+                    { strikeModes: [meleeModeData({ shortcode: "m1" })] },
                     { actor },
                 );
                 weapon.initialize();
@@ -294,9 +220,9 @@ describe("WeaponGearLogic", () => {
                 (actor.logic as any).body = { reach: { effective: 3 } };
                 const logic = makeWeapon(
                     {
-                        strikeModes: {
-                            m1: meleeModeData({ lengthBase: 4 }),
-                        },
+                        strikeModes: [
+                            meleeModeData({ shortcode: "m1", lengthBase: 4 }),
+                        ],
                     },
                     { actor },
                 );
@@ -309,7 +235,9 @@ describe("WeaponGearLogic", () => {
 
             it("leaves reach at weapon length when there is no actor/body", () => {
                 const logic = makeWeapon({
-                    strikeModes: { m1: meleeModeData({ lengthBase: 4 }) },
+                    strikeModes: [
+                        meleeModeData({ shortcode: "m1", lengthBase: 4 }),
+                    ],
                 });
                 logic.initialize();
                 logic.evaluate();
@@ -321,7 +249,7 @@ describe("WeaponGearLogic", () => {
                 const actor = makeMockActor();
                 (actor.logic as any).body = { reach: { effective: 3 } };
                 const logic = makeWeapon(
-                    { strikeModes: { m1: missileModeData() } },
+                    { strikeModes: [missileModeData({ shortcode: "m1" })] },
                     { actor },
                 );
                 logic.initialize();
@@ -334,7 +262,7 @@ describe("WeaponGearLogic", () => {
         describe("finalize", () => {
             it("runs without error after initialize/evaluate", () => {
                 const logic = makeWeapon({
-                    strikeModes: { m1: meleeModeData() },
+                    strikeModes: [meleeModeData({ shortcode: "m1" })],
                 });
                 logic.initialize();
                 logic.evaluate();
@@ -343,43 +271,56 @@ describe("WeaponGearLogic", () => {
         });
 
         describe("strike mode update helpers (real methods)", () => {
-            it("addStrikeModeUpdate - returns a payload keyed by the supplied id", () => {
-                const logic = makeWeapon();
-                const sm = meleeModeData();
-                expect(logic.addStrikeModeUpdate(sm as any, "abc123")).toEqual({
-                    "system.strikeModes.abc123": sm,
+            it("addStrikeModeUpdate - appends to the array, writing the whole array back", () => {
+                const existing = meleeModeData({ shortcode: "cut" });
+                const logic = makeWeapon({ strikeModes: [existing] });
+                const added = missileModeData({ shortcode: "throw" });
+                expect(logic.addStrikeModeUpdate(added as any)).toEqual({
+                    "system.strikeModes": [existing, added],
                 });
             });
 
-            it("addStrikeModeUpdate - throws when the id already exists in persisted data", () => {
+            it("addStrikeModeUpdate - appends to an empty weapon", () => {
+                const logic = makeWeapon({ strikeModes: [] });
+                const added = meleeModeData({ shortcode: "cut" });
+                expect(logic.addStrikeModeUpdate(added as any)).toEqual({
+                    "system.strikeModes": [added],
+                });
+            });
+
+            it("addStrikeModeUpdate - throws when the shortcode already exists", () => {
                 const logic = makeWeapon({
-                    strikeModes: { existing: meleeModeData() },
+                    strikeModes: [meleeModeData({ shortcode: "cut" })],
                 });
                 expect(() =>
                     logic.addStrikeModeUpdate(
-                        meleeModeData() as any,
-                        "existing",
+                        meleeModeData({ shortcode: "cut" }) as any,
                     ),
                 ).toThrow(/already exists/);
             });
 
-            it("removeStrikeModeUpdate - returns a Foundry -= deletion payload", () => {
-                const logic = makeWeapon();
-                expect(logic.removeStrikeModeUpdate("abc123")).toEqual({
-                    "system.strikeModes.-=abc123": null,
+            it("removeStrikeModeUpdate - writes back the array without the named mode", () => {
+                const keep = missileModeData({ shortcode: "throw" });
+                const logic = makeWeapon({
+                    strikeModes: [meleeModeData({ shortcode: "cut" }), keep],
+                });
+                expect(logic.removeStrikeModeUpdate("cut")).toEqual({
+                    "system.strikeModes": [keep],
                 });
             });
 
-            it("updateStrikeModeUpdate - flattens partial fields under the id-prefixed path", () => {
-                const logic = makeWeapon();
+            it("replaceStrikeModeUpdate - swaps the matching element, preserving order", () => {
+                const first = meleeModeData({ shortcode: "cut" });
+                const second = missileModeData({ shortcode: "throw" });
+                const logic = makeWeapon({ strikeModes: [first, second] });
+                const replacement = meleeModeData({
+                    shortcode: "slash",
+                    name: "Slash",
+                });
                 expect(
-                    logic.updateStrikeModeUpdate("abc123", {
-                        minParts: 2,
-                        assocSkillCode: "axe",
-                    }),
+                    logic.replaceStrikeModeUpdate("cut", replacement as any),
                 ).toEqual({
-                    "system.strikeModes.abc123.minParts": 2,
-                    "system.strikeModes.abc123.assocSkillCode": "axe",
+                    "system.strikeModes": [replacement, second],
                 });
             });
         });
@@ -395,7 +336,7 @@ describe("WeaponGearDataModel", () => {
         it.todo("defines encumbrance as NumberField with min 0");
         it.todo("defines heftBase as NumberField with min 0");
         it.todo(
-            "defines strikeModes as a mapping of id to TypedSchemaField over melee/missile shapes",
+            "defines strikeModes as an ArrayField of a TypedSchemaField over melee/missile shapes",
         );
     });
 });

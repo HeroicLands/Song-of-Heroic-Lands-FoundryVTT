@@ -20,7 +20,7 @@ import {
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import { ITEM_KIND, STRIKE_MODE_TYPE } from "@src/utils/constants";
-const { NumberField, TypedObjectField, TypedSchemaField, SchemaField } =
+const { NumberField, ArrayField, TypedSchemaField, SchemaField } =
     foundry.data.fields;
 
 /**
@@ -33,13 +33,14 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
         ...GearDataModel.defineSchema(),
         encumbranceBase: new NumberField({ initial: 0, min: 0 }),
         heftBase: new NumberField({ initial: 0, min: 0 }),
-        // A keyed dict of strike modes, each a discriminated melee/missile
-        // schema (the same schemas the combat-technique skill uses). Typing the
-        // element means every strike mode's sub-fields — including
-        // `defense.block` / `defense.counterstrike` — are validated and default
-        // to complete values, so partial strike-mode data can no longer be
-        // stored (the root cause of #512).
-        strikeModes: new TypedObjectField(
+        // An array of strike modes, each a discriminated melee/missile schema
+        // (the same schemas the combat-technique skill uses) carrying its own
+        // `shortcode` (unique among the weapon's modes). Typing the element
+        // means every strike mode's sub-fields — including `defense.block` /
+        // `defense.counterstrike` — are validated and default to complete
+        // values, so partial strike-mode data can no longer be stored (the root
+        // cause of #512).
+        strikeModes: new ArrayField(
             new TypedSchemaField({
                 [STRIKE_MODE_TYPE.MELEE]: new SchemaField(
                     MeleeStrikeMode.schemaFields(),
@@ -48,6 +49,7 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
                     MissileStrikeMode.schemaFields(),
                 ),
             }),
+            { initial: [] },
         ),
     };
 }
@@ -73,10 +75,10 @@ export class WeaponGearDataModel<
     static override readonly kind = ITEM_KIND.WEAPONGEAR;
     encumbranceBase!: number;
     heftBase!: number;
-    strikeModes!: StrictObject<StrikeModeBase.Data>;
+    strikeModes!: StrikeModeBase.Data[];
 
-    /** Alias for the persisted strikeModes dict (Data interface name). */
-    get strikeModeData(): StrictObject<StrikeModeBase.Data> {
+    /** Alias for the persisted strikeModes array (Data interface name). */
+    get strikeModeData(): StrikeModeBase.Data[] {
         return this.strikeModes;
     }
 

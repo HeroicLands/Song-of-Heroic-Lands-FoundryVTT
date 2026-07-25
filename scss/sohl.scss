@@ -79,6 +79,13 @@
     .sohl.being {
         @include meta.load-css("components/being");
     }
+
+    // Strike Mode editor window, loaded under the COMPOUND
+    // `.sohl.strike-mode-config` selector for the same #87 same-element reason as
+    // `.sohl.being`: ApplicationV2 puts both classes on the one frame element.
+    .sohl.strike-mode-config {
+        @include meta.load-css("components/strike-mode-config");
+    }
 }
 
 // utilities — single-purpose helpers; highest priority so they always win.

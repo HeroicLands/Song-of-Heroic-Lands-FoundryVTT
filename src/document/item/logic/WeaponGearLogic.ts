@@ -61,54 +61,63 @@ export class WeaponGearLogic<
     /* Strike mode helpers                           */
     /* --------------------------------------------- */
 
+    /** The persisted strike modes as an array (never `undefined`). */
+    get #strikeModeData(): StrikeModeBase.Data[] {
+        return this.data.strikeModes ?? [];
+    }
+
     /**
-     * Build an `update()` payload that adds a strike mode under a new id.
+     * Build an `update()` payload that appends a strike mode to this weapon's
+     * `strikeModes` array. The whole array is written back (never an element by
+     * index — see {@link https://kb.heroiclands.org/dev/reference/runtime-contracts/ | Runtime Contracts}).
      *
-     * @param strikeMode - The strike mode data to add.
-     * @param id - Optional id; a fresh `randomID()` is generated when omitted.
-     * @returns An `update()` payload writing the strike mode under `system.strikeModes.<id>`.
-     * @throws If a strike mode with the same id already exists on this weapon.
+     * @param strikeMode - The strike mode data to add (carries its own `shortcode`).
+     * @returns An `update()` payload writing the new `system.strikeModes` array.
+     * @throws If a strike mode with the same shortcode already exists on this weapon.
      */
-    addStrikeModeUpdate(
-        strikeMode: StrikeModeBase.Data,
-        id: string = foundry.utils.randomID(),
-    ): PlainObject {
-        if (this.data.strikeModes[id]) {
+    addStrikeModeUpdate(strikeMode: StrikeModeBase.Data): PlainObject {
+        const current = this.#strikeModeData;
+        if (current.some((m) => m.shortcode === strikeMode.shortcode)) {
             throw new Error(
-                `Strike mode with id "${id}" already exists on this weapon.`,
+                `Strike mode with shortcode "${strikeMode.shortcode}" already exists on this weapon.`,
             );
         }
-        return { [`system.strikeModes.${id}`]: strikeMode };
+        return { "system.strikeModes": [...current, strikeMode] };
     }
 
     /**
-     * Build an `update()` payload that removes a strike mode by id, using
-     * Foundry's `-=` deletion key syntax for object fields.
+     * Build an `update()` payload that removes a strike mode by shortcode,
+     * writing the whole filtered array back.
      *
-     * @param id - The id of the strike mode to remove.
-     * @returns An `update()` payload deleting `system.strikeModes.<id>`.
+     * @param shortcode - The shortcode of the strike mode to remove.
+     * @returns An `update()` payload writing the reduced `system.strikeModes` array.
      */
-    removeStrikeModeUpdate(id: string): PlainObject {
-        return { [`system.strikeModes.-=${id}`]: null };
+    removeStrikeModeUpdate(shortcode: string): PlainObject {
+        return {
+            "system.strikeModes": this.#strikeModeData.filter(
+                (m) => m.shortcode !== shortcode,
+            ),
+        };
     }
 
     /**
-     * Build an `update()` payload that applies a partial update to a single
-     * strike mode, leaving other strike modes untouched.
+     * Build an `update()` payload that replaces one strike mode (matched by its
+     * current shortcode) with new data, writing the whole array back. Used by
+     * the editor, whose `strikeMode.shortcode` may itself have changed.
      *
-     * @param id - The id of the strike mode to update.
-     * @param partial - The fields to change on that strike mode.
-     * @returns An `update()` payload writing each changed field under `system.strikeModes.<id>`.
+     * @param currentShortcode - The shortcode identifying the element to replace.
+     * @param strikeMode - The replacement strike-mode data.
+     * @returns An `update()` payload writing the updated `system.strikeModes` array.
      */
-    updateStrikeModeUpdate(
-        id: string,
-        partial: Partial<StrikeModeBase.Data>,
+    replaceStrikeModeUpdate(
+        currentShortcode: string,
+        strikeMode: StrikeModeBase.Data,
     ): PlainObject {
-        const update: PlainObject = {};
-        for (const [key, value] of Object.entries(partial)) {
-            update[`system.strikeModes.${id}.${key}`] = value;
-        }
-        return update;
+        return {
+            "system.strikeModes": this.#strikeModeData.map((m) =>
+                m.shortcode === currentShortcode ? strikeMode : m,
+            ),
+        };
     }
 
     /* --------------------------------------------- */
@@ -212,19 +221,18 @@ export class WeaponGearLogic<
             this.data.encumbranceBase,
         );
         this.heft = new entity.ValueModifier(this).setBase(this.data.heftBase);
-        this.strikeModes = Object.entries(this.data.strikeModes ?? {}).map(
-            ([shortcode, d]) =>
-                d.type === STRIKE_MODE_TYPE.MELEE ?
-                    new entity.MeleeStrikeMode(
-                        d as MeleeStrikeMode.Data,
-                        this,
-                        shortcode,
-                    )
-                :   new entity.MissileStrikeMode(
-                        d as MissileStrikeMode.Data,
-                        this,
-                        shortcode,
-                    ),
+        this.strikeModes = (this.data.strikeModes ?? []).map((d) =>
+            d.type === STRIKE_MODE_TYPE.MELEE ?
+                new entity.MeleeStrikeMode(
+                    d as MeleeStrikeMode.Data,
+                    this,
+                    d.shortcode,
+                )
+            :   new entity.MissileStrikeMode(
+                    d as MissileStrikeMode.Data,
+                    this,
+                    d.shortcode,
+                ),
         );
     }
 
@@ -272,6 +280,6 @@ export interface WeaponGearData<
     encumbranceBase: number;
     /** Heft of the weapon */
     heftBase: number;
-    /** Persisted strike modes, keyed by Foundry-style id. */
-    strikeModes: StrictObject<StrikeModeBase.Data>;
+    /** Persisted strike modes, each carrying its own unique `shortcode`. */
+    strikeModes: StrikeModeBase.Data[];
 }
