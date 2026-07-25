@@ -19,15 +19,65 @@
     padding: var(--sohl-space-md, 10px);
 }
 
-// Identity header: Name / Shortcode / Type. Name takes the lion's share; the
-// shortcode and type sit beside it.
+// Identity header, modeled on the item-sheet header (`.sohl.sheet .sheet-header`,
+// which this editor can't inherit — its frame is `.sohl.strike-mode-config`, not
+// `.sohl.sheet`). A vertical stack: the name large, the shortcode small beneath
+// it, the type medium beneath that. No image, no tabs.
 .strike-mode-config__header {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: var(--sohl-space-md, 10px);
-    align-items: end;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--sohl-space-sm, 5px);
     padding-bottom: var(--sohl-space-sm, 5px);
-    border-bottom: 1px solid var(--sohl-color-border-default);
+    border-bottom: 2px groove var(--sohl-color-border-subtle);
+
+    // Large name — the headline.
+    .strike-mode-config__name {
+        margin: 0;
+        padding: 0;
+        border-bottom: none;
+
+        input {
+            display: block;
+            width: 100%;
+            height: 44px;
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+    }
+
+    // Small shortcode, directly beneath the name — a short code, not the headline.
+    .strike-mode-config__shortcode {
+        display: block;
+        width: auto;
+        max-width: 180px;
+        margin: var(--sohl-space-xs, 2px) 0 0 var(--sohl-space-xs, 2px);
+        padding: 2px 5px;
+        font-size: 13px;
+        font-weight: 400;
+        color: var(--sohl-color-text-secondary);
+
+        // Read-only for a combat technique's single mode (no shortcode of its own).
+        &[readonly] {
+            color: var(--sohl-color-text-muted);
+            cursor: default;
+        }
+    }
+
+    // Medium type, beneath the shortcode. Editable (it drives melee/missile), so
+    // it stays a select but reads like the item-sheet subtitle.
+    .strike-mode-config__type {
+        margin: var(--sohl-space-xs, 2px) 0 0 var(--sohl-space-xs, 2px);
+
+        select {
+            width: auto;
+            min-width: 130px;
+            height: auto;
+            padding: 2px 5px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+    }
 }
 
 fieldset {

@@ -55,17 +55,24 @@ function context(
 }
 
 describe("strike-mode-config template", () => {
-    it("renders an identity header with Name, Shortcode, and Type", () => {
+    it("renders an item-sheet-style identity header: large name, small shortcode, medium type", () => {
         const html = renderTemplateReal(
             TEMPLATE,
             context("melee", "Cut", { shortcode: "cut", isMulti: true }),
         );
         expect(html).toContain("strike-mode-config__header");
-        // the three identity fields
-        expect(html).toContain('name="name"');
-        expect(html).toContain('name="shortcode"');
-        expect(html).toContain('name="type"');
-        // shortcode bound to the map key, editable for a weapon (multi)
+        // The stacked identity structure (name / shortcode / type), mirroring the
+        // item-sheet header.
+        expect(html).toMatch(
+            /class="strike-mode-config__name"[^>]*>\s*<input[^>]*name="name"/,
+        );
+        expect(html).toMatch(
+            /<input[^>]*class="strike-mode-config__shortcode"[^>]*name="shortcode"/,
+        );
+        expect(html).toMatch(
+            /class="strike-mode-config__type"[^>]*>\s*<select[^>]*name="type"/,
+        );
+        // shortcode bound to the mode's shortcode, editable for a weapon (multi)
         expect(html).toMatch(/name="shortcode"[^>]*value="cut"/);
         expect(html).not.toMatch(/name="shortcode"[^>]*readonly/);
     });
