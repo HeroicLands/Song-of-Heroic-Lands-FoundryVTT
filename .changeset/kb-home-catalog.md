@@ -15,5 +15,8 @@ To support the Actors group, the KB build (`utils/build-kb-content.mjs`) now
 routes `character` and `creature` content to their own `/character/` and
 `/creature/` sections (previously a combined `beings` section), and emits an
 empty titled landing for an actor subtype that has no content yet — so a browse
-button always resolves rather than 404ing. KB layouts and build only; no
-system-package impact.
+button always resolves rather than 404ing.
+
+The KB now also includes `package: thalorna` content (previously `sohl`-only), so
+Thalorna creatures and characters appear in the catalog alongside the core SoHL
+content. KB layouts and build only; no system-package impact.

@@ -324,10 +324,11 @@ let items = 0;
 let docs = 0;
 fs.rmSync(OUT, { recursive: true, force: true });
 
-// --- assets/content → reference pages (SoHL package only) ---
+// --- assets/content → reference pages (SoHL + Thalorna packages) ---
 // Parse every entry first so beings can resolve the items they embed (skills,
 // gear, corpus, …) against a content-wide `"<type>:<shortcode>" → { name, url }`
 // index before they are written.
+const KB_PACKAGES = new Set(["sohl", "thalorna"]);
 const entries = [];
 const refIndex = new Map();
 for (const file of walk(CONTENT_SRC)) {
@@ -338,7 +339,7 @@ for (const file of walk(CONTENT_SRC)) {
     } catch {
         continue;
     }
-    if (fm.package !== "sohl" || !fm.type) continue;
+    if (!KB_PACKAGES.has(fm.package) || !fm.type) continue;
 
     const name = fm.name?.full ?? path.basename(file, ".md");
     const slug = fm.slug ?? slugify(name);
