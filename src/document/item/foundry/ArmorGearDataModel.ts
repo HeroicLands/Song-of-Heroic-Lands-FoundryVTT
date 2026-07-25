@@ -17,7 +17,7 @@ import {
     ArmorGearData,
 } from "@src/document/item/logic/ArmorGearLogic";
 import { ImpactAspects, ITEM_KIND } from "@src/utils/constants";
-const { StringField, SchemaField, ArrayField, NumberField } =
+const { StringField, SchemaField, ArrayField, NumberField, BooleanField } =
     foundry.data.fields;
 
 /**
@@ -29,6 +29,7 @@ const { StringField, SchemaField, ArrayField, NumberField } =
 function defineArmorGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
+        isWorn: new BooleanField({ initial: false }),
         material: new StringField({ initial: "" }),
         locations: new SchemaField({
             flexible: new ArrayField(new StringField()),
@@ -63,6 +64,7 @@ export class ArmorGearDataModel<
     ];
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.ARMORGEAR;
+    isWorn!: boolean;
     material!: string;
     locations!: { flexible: string[]; rigid: string[] };
     protectionBase!: {

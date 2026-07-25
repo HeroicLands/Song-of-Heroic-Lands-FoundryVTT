@@ -46,8 +46,8 @@ import { getActorBody } from "@src/document/actor/logic/BodyLogic";
  * - **durability** — Current structural integrity; damaged gear may break
  *
  * Gear also tracks inventory state: whether it is **carried** (on the character's
- * person) and whether it is **equipped** (actively worn or wielded, as opposed
- * to stowed in a pack).
+ * person). The **worn** state is armor-specific and lives on
+ * {@link ArmorGearLogic} as `isWorn`.
  *
  * @typeParam TData - The gear data interface.
  */
@@ -246,8 +246,6 @@ export interface GearData<
     valueBase: number;
     /** Whether this item is on the character's person */
     isCarried: boolean;
-    /** Whether this item is actively worn or wielded */
-    isEquipped: boolean;
     /** Craftsmanship quality, generally ranging from 8-12 */
     qualityBase: number;
     /** Structural integrity rating */

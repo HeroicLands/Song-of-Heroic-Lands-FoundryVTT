@@ -97,7 +97,6 @@ function weaponFields(overrides: Record<string, unknown> = {}) {
         weightBase: 4,
         valueBase: 120,
         isCarried: true,
-        isEquipped: true,
         qualityBase: 10,
         durabilityBase: 14,
         sharedWithCohortIds: [] as string[],

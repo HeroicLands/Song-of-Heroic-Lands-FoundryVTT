@@ -46,7 +46,6 @@ export class WeaponGearSheet extends SohlItemSheetBase {
             weightBase: system.weightBase,
             valueBase: system.valueBase,
             isCarried: system.isCarried,
-            isEquipped: system.isEquipped,
             qualityBase: system.qualityBase,
             durabilityBase: system.durabilityBase,
             sharedWithCohortIds: system.sharedWithCohortIds,

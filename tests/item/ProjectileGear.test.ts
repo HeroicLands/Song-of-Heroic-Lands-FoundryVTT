@@ -18,7 +18,6 @@ function projectileFields(overrides: Record<string, unknown> = {}) {
         weightBase: 0.1,
         valueBase: 1,
         isCarried: true,
-        isEquipped: false,
         qualityBase: 9,
         durabilityBase: 4,
         sharedWithCohortIds: [] as string[],

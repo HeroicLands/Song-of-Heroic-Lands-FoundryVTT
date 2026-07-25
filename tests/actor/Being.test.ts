@@ -205,13 +205,13 @@ function makeArmorItem(
         fire: number;
     },
     locations: { flexible?: string[]; rigid?: string[] },
-    isEquipped = true,
+    isWorn = true,
 ): any {
     return {
         logic: {
             data: {
                 kind: ITEM_KIND.ARMORGEAR,
-                isEquipped,
+                isWorn,
                 material,
                 locations: {
                     flexible: locations.flexible ?? [],
@@ -449,7 +449,6 @@ describe("BeingLogic", () => {
                 weightBase: 2.5,
                 valueBase: 10,
                 isCarried: true,
-                isEquipped: false,
                 qualityBase: 9,
                 durabilityBase: 12,
                 sharedWithCohortIds: [] as string[],
@@ -2395,7 +2394,7 @@ describe("BeingLogic", () => {
 
     describe("aggregateArmorProtection (#180)", () => {
         function makeArmorStub(
-            isEquipped: boolean,
+            isWorn: boolean,
             blunt = 3,
             locations = {
                 flexible: ["head"],
@@ -2405,7 +2404,7 @@ describe("BeingLogic", () => {
             return {
                 data: {
                     kind: ITEM_KIND.ARMORGEAR,
-                    isEquipped,
+                    isWorn,
                     material: "leather",
                     locations,
                 },

@@ -16,7 +16,7 @@ function armorFields(overrides: Record<string, unknown> = {}) {
         weightBase: 8,
         valueBase: 60,
         isCarried: true,
-        isEquipped: true,
+        isWorn: true,
         qualityBase: 10,
         durabilityBase: 16,
         sharedWithCohortIds: [] as string[],
@@ -52,10 +52,29 @@ describe("ArmorGearLogic", () => {
             expect(logic.data.kind).toBe(ITEM_KIND.ARMORGEAR);
         });
 
-        it("inherits the gear intrinsic actions (no armor-specific ones)", () => {
+        it("inherits the gear intrinsic actions plus the armor worn toggle", () => {
             const logic = makeArmor();
             expect(logic.actions.has("toggleCarried")).toBe(true);
+            expect(logic.actions.has("toggleWorn")).toBe(true);
             expect(logic.actions.has("editDocument")).toBe(true);
+        });
+    });
+
+    describe("toggleWorn", () => {
+        it("flips system.isWorn from false to true", async () => {
+            const logic = makeArmor({ isWorn: false });
+            await logic.toggleWorn({} as any);
+            expect(logic.item.update).toHaveBeenCalledWith({
+                "system.isWorn": true,
+            });
+        });
+
+        it("flips system.isWorn from true to false", async () => {
+            const logic = makeArmor({ isWorn: true });
+            await logic.toggleWorn({} as any);
+            expect(logic.item.update).toHaveBeenCalledWith({
+                "system.isWorn": false,
+            });
         });
     });
 
@@ -156,6 +175,7 @@ describe("ArmorGearDataModel", () => {
     // in unit tests.
     describe("defineSchema", () => {
         it.todo("includes GearDataModel base schema fields");
+        it.todo("defines isWorn as BooleanField defaulting to false");
         it.todo("defines material as a StringField");
         it.todo(
             "defines locations.flexible and locations.rigid as arrays of strings",

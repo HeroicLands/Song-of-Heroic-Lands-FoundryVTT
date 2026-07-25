@@ -2064,7 +2064,7 @@ export class BeingLogic<
 
         const layers: ArmorLayer[] = [];
         for (const logic of lt[ITEM_KIND.ARMORGEAR].filter(
-            (a) => (a.data as any).isEquipped,
+            (a) => (a.data as any).isWorn,
         )) {
             layers.push({
                 material: (logic.data as any).material ?? "",

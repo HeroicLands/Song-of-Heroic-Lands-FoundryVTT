@@ -16,14 +16,15 @@
  *
  * Covers the three inventory-state toggles and their downstream effects:
  * - carry state (the `toggleCarried` gear action)
- * - equip state (the `system.isEquipped` flag) and its armor-protection gate
+ * - worn state (the armor-only `toggleWorn` action → `system.isWorn`) and its
+ *   armor-protection gate
  * - hold state (assigned via a body-part write — `cy.holdItem` / `cy.releaseItem`,
  *   a Combat-tab concern, not a gear action) and the combat-tab strike-mode gate
  *
  * The display + aggregation gating landed in #180; the hold roundtrip depends on
  * the parts-array fix in #247. (The `set*`/`holdItem`/`releaseItem` gear actions
- * were retired: carry became a single toggle, equip moves to armor `isWorn`
- * (#662), and hold is a Combat-tab operation.)
+ * were retired: carry became a single toggle, worn moved to the armor-scoped
+ * `toggleWorn` action / `isWorn` field (#662), and hold is a Combat-tab operation.)
  *
  * Compendium weapongear cannot be embedded here: every weapon in `sohl.items`
  * still stores `strikeModes.defense` in the old flat schema, which throws in
@@ -89,15 +90,15 @@ function thoraxEdgedProtection(win, actorId) {
 }
 
 /**
- * Set an armor's `isEquipped` flag directly. The `setEquipped`/`setNotEquipped`
- * gear actions were retired; worn state is now a sheet toggle (and moves to an
- * armor-scoped `isWorn` field, #662), so tests drive the flag directly.
+ * Set an armor's `isWorn` flag to a specific value directly — a deterministic
+ * input for the aggregation-gate test (the `toggleWorn` action only flips it).
+ * Worn state is armor-scoped (`system.isWorn`, #662).
  */
-function setEquipped(win, actorId, itemId, value) {
+function setWorn(win, actorId, itemId, value) {
     return win.game.actors
         .get(actorId)
         .items.get(itemId)
-        .update(win.JSON.parse(JSON.stringify({ "system.isEquipped": value })))
+        .update(win.JSON.parse(JSON.stringify({ "system.isWorn": value })))
         .then(() => true);
 }
 
@@ -137,9 +138,35 @@ describe("gear equip / hold → combat-tab display", () => {
         });
     });
 
-    // ------------------------------------------------------------------ equip state
+    // ------------------------------------------------------------------ worn state
 
-    it("armor protection aggregates only while equipped (#180 gate)", () => {
+    it("toggleWorn flips isWorn on armor (#662)", () => {
+        cy.createActor("being", { name: "Worn Being" }).then((actor) => {
+            cy.importItem("sohl.items", MAIL_SHIRT_ID, { actor }).then(
+                (armor) => {
+                    // Armor defaults to not worn.
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.items.get(armor.id).system.isWorn;
+                    }).should("be.false");
+
+                    cy.runAction(armor, "toggleWorn");
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.items.get(armor.id).system.isWorn;
+                    }).should("be.true");
+
+                    cy.runAction(armor, "toggleWorn");
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.items.get(armor.id).system.isWorn;
+                    }).should("be.false");
+                },
+            );
+        });
+    });
+
+    it("armor protection aggregates only while worn (#180 gate)", () => {
         cy.importActor().then((actor) => {
             cy.createItemOn(actor, "armorgear", INLINE_ARMOR).then((armor) => {
                 // Not equipped by default → no protection on the thorax.
@@ -149,16 +176,14 @@ describe("gear equip / hold → combat-tab display", () => {
                 ).should("eq", 0);
 
                 // Equipping folds the armor's edged protection onto the thorax.
-                cy.foundry((win) => setEquipped(win, actor.id, armor.id, true));
+                cy.foundry((win) => setWorn(win, actor.id, armor.id, true));
                 cy.prepare(actor);
                 cy.foundry((win) =>
                     thoraxEdgedProtection(win, actor.id),
                 ).should("eq", 8);
 
                 // Unequipping removes it again.
-                cy.foundry((win) =>
-                    setEquipped(win, actor.id, armor.id, false),
-                );
+                cy.foundry((win) => setWorn(win, actor.id, armor.id, false));
                 cy.prepare(actor);
                 cy.foundry((win) =>
                     thoraxEdgedProtection(win, actor.id),
@@ -228,9 +253,7 @@ describe("gear equip / hold → combat-tab display", () => {
         cy.importActor().then((actor) => {
             cy.importItem("sohl.items", MAIL_SHIRT_ID, { actor }).then(
                 (armor) => {
-                    cy.foundry((win) =>
-                        setEquipped(win, actor.id, armor.id, true),
-                    );
+                    cy.foundry((win) => setWorn(win, actor.id, armor.id, true));
                     cy.prepare(actor);
                     cy.foundry((win) =>
                         thoraxEdgedProtection(win, actor.id),

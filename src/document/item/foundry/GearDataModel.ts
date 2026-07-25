@@ -18,7 +18,9 @@ const { StringField, NumberField, BooleanField, ArrayField, DocumentIdField } =
 
 /**
  * Builds the Foundry data schema shared by all gear items (quantity, weight,
- * value, carried/equipped state, quality, durability, container and sharing).
+ * value, carried state, quality, durability, container and sharing). The
+ * worn/equipped concept is armor-only and lives on {@link ArmorGearDataModel}
+ * as `isWorn`.
  * @returns The gear data schema.
  */
 function defineGearDataSchema(): foundry.data.fields.DataSchema {
@@ -38,7 +40,6 @@ function defineGearDataSchema(): foundry.data.fields.DataSchema {
             min: 0,
         }),
         isCarried: new BooleanField({ initial: true }),
-        isEquipped: new BooleanField({ initial: false }),
         qualityBase: new NumberField({
             integer: true,
             initial: 0,
@@ -71,7 +72,6 @@ export abstract class GearDataModel<
     sharedWithCohortIds!: string[];
     containerId!: string | null;
     isCarried!: boolean;
-    isEquipped!: boolean;
 
     /**
      * Returns the Foundry data schema for the gear item.

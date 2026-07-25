@@ -736,7 +736,6 @@ describe("being-sheet-view", () => {
                 weightBase: 2,
                 valueBase: 10,
                 isCarried: true,
-                isEquipped: true,
                 qualityBase: 10,
                 durabilityBase: 10,
                 sharedWithCohortIds: [],
