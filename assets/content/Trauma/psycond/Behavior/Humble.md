@@ -2,12 +2,12 @@
 aliases: []
 tags: []
 name:
-    full: Humility
+    full: Humble
     aliases: []
 id: bhKvGoZnt2z0rv7p
-slug: humility
+slug: humble
 img: icons/user-gear.svg
-shortcode: humility
+shortcode: humble
 type: trauma
 package: sohl
 sohl:
@@ -17,7 +17,7 @@ sohl:
 folder: SpZzOv4eOwtdsMMo
 ---
 
-Humility is the quality of being modest, unassuming, and respectful of others. A humble individual recognizes their own strengths and weaknesses without seeking praise or placing themselves above others. They are open to feedback and are able to acknowledge their own limitations. While humility is a valued and constructive trait, excessive humility can lead to self-doubt, passivity, or allowing others to take advantage of them.
+Humble is the quality of being modest, unassuming, and respectful of others. A humble individual recognizes their own strengths and weaknesses without seeking praise or placing themselves above others. They are open to feedback and are able to acknowledge their own limitations. While humility is a valued and constructive trait, excessive humility can lead to self-doubt, passivity, or allowing others to take advantage of them.
 
 ### Quirk
 
