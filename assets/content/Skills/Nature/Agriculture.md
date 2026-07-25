@@ -12,6 +12,7 @@ shortcode: agri
 type: skill
 package: sohl
 sohl:
+    kbcat: nature
     archetype: 0
     subType: nature
     skillBaseFormula: "@per, @wil"

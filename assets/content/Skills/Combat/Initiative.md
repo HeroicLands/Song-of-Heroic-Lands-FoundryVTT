@@ -12,6 +12,7 @@ shortcode: init
 type: skill
 package: sohl
 sohl:
+    kbcat: combat
     archetype: 0
     subType: combat
     skillBaseFormula: "@wil, @rea"

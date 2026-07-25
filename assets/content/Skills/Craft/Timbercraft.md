@@ -12,6 +12,7 @@ shortcode: timb
 type: skill
 package: sohl
 sohl:
+    kbcat: craft
     archetype: 0
     subType: nature
     skillBaseFormula: "@per, @rea"

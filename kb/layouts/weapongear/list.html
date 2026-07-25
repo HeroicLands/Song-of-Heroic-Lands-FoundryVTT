@@ -1,0 +1,48 @@
+{{ define "main" }}
+{{ partial "hero-banner.html" . }}
+{{ partial "breadcrumbs.html" . }}
+
+<article class="single">
+  <div class="single-content">
+    {{ if .Content }}<div class="single-body">{{ .Content }}</div>{{ end }}
+
+    {{- $titles := dict
+        "axe" "Axes" "bow" "Bows" "club" "Clubs" "crossbow" "Crossbows"
+        "dart" "Darts" "flail" "Flails" "knife" "Knives" "net" "Nets"
+        "polearm" "Polearms" "shield" "Shields" "sling" "Slings"
+        "sword" "Swords" "thrown" "Thrown" "whip" "Whips" -}}
+    {{- /* order empty + extras: render every non-empty kbcat, then sort the
+           whole set alphabetically by display title (empty categories such as
+           "dart" never appear). */ -}}
+    {{- $groups := partial "kbcat-groups.html" (dict "section" "weapongear" "titles" $titles "extras" true) -}}
+    {{- range sort $groups "title" }}
+    <section class="kbcat-group">
+      <h2 id="kbcat-{{ .cat }}">{{ .title }}</h2>
+      <div class="kbcat-table-wrap">
+        <table class="kbcat-table">
+          <thead>
+            <tr>
+              <th>Name</th><th>Shortcode</th><th>Package</th>
+              <th>Dur</th><th>Weight</th><th>Value</th><th>Heft</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{- range .pages }}
+            <tr>
+              <td><a href="{{ .RelPermalink }}">{{ .Title }}</a></td>
+              <td>{{ .Params.shortcode }}</td>
+              <td>{{ .Params.package }}</td>
+              <td>{{ .Params.sohl.durability }}</td>
+              <td>{{ .Params.sohl.weight }}</td>
+              <td>{{ .Params.sohl.value }}</td>
+              <td>{{ .Params.sohl.heft }}</td>
+            </tr>
+            {{- end }}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    {{- end }}
+  </div>
+</article>
+{{ end }}

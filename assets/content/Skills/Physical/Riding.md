@@ -12,6 +12,7 @@ shortcode: ridg
 type: skill
 package: sohl
 sohl:
+    kbcat: physical
     archetype: 0
     subType: physical
     skillBaseFormula: "@emp, @agl"

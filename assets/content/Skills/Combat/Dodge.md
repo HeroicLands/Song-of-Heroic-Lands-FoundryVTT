@@ -12,6 +12,7 @@ shortcode: dge
 type: skill
 package: sohl
 sohl:
+    kbcat: combat
     archetype: 0
     subType: combat
     skillBaseFormula: "@agl, @per"

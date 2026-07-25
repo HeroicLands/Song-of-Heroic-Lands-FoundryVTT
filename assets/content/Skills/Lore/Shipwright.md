@@ -12,6 +12,7 @@ shortcode: shpw
 type: skill
 package: sohl
 sohl:
+    kbcat: lore
     archetype: 0
     subType: lore
     skillBaseFormula: "@rea, @cre"

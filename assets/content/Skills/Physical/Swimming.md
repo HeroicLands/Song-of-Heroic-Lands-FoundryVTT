@@ -12,6 +12,7 @@ shortcode: swim
 type: skill
 package: sohl
 sohl:
+    kbcat: physical
     archetype: 0
     subType: physical
     skillBaseFormula: "@agl, @end"

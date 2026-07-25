@@ -12,6 +12,7 @@ shortcode: ritual
 type: skill
 package: sohl
 sohl:
+    kbcat: mystical
     archetype: 0
     subType: ritual
     skillBaseFormula: "@wil, @rea"

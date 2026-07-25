@@ -12,6 +12,7 @@ shortcode: herb
 type: skill
 package: sohl
 sohl:
+    kbcat: nature
     archetype: 0
     subType: nature
     skillBaseFormula: "@rea, @per"

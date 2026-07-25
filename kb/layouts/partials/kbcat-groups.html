@@ -1,0 +1,49 @@
+{{- /*
+  kbcat-groups — group a section's pages by the nested frontmatter param
+  `sohl.kbcat` and return an ORDERED slice of groups for rendering.
+
+  Fully dynamic: it queries `site.RegularPages` at build time, so weapons,
+  armor, skills, etc. added to `assets/content/` later appear automatically on
+  the next `hugo` build — nothing here is hardcoded to the current catalog.
+
+  Params (dict):
+    section  (string)          Hugo section to scan (e.g. "weapongear").
+    titles   (dict kbcat->str) Display titles for known kbcat values.
+    order    (slice of kbcat)  kbcat values to emit first, in this order;
+                               a value with no pages is skipped.
+    extras   (bool)            When true, any kbcat present in the data but
+                               absent from `order` is appended afterwards
+                               (alphabetically, title humanized) so newly
+                               introduced categories are never dropped.
+
+  Returns a slice of dicts: { cat, title, pages } where pages is sorted by
+  title (ascending). Consumers render their own table/list markup.
+*/ -}}
+{{- $section := .section -}}
+{{- $titles := .titles | default dict -}}
+{{- $order := .order | default slice -}}
+{{- $extras := .extras | default false -}}
+{{- $pages := where site.RegularPages "Section" $section -}}
+{{- $grouped := $pages.GroupByParam "sohl.kbcat" -}}
+{{- $byCat := dict -}}
+{{- range $grouped -}}
+  {{- $byCat = merge $byCat (dict .Key .Pages) -}}
+{{- end -}}
+{{- $out := slice -}}
+{{- $seen := slice -}}
+{{- range $cat := $order -}}
+  {{- with index $byCat $cat -}}
+    {{- $title := index $titles $cat | default (humanize $cat) -}}
+    {{- $out = $out | append (dict "cat" $cat "title" $title "pages" (sort . "Title")) -}}
+    {{- $seen = $seen | append $cat -}}
+  {{- end -}}
+{{- end -}}
+{{- if $extras -}}
+  {{- range $g := $grouped -}}
+    {{- if not (in $seen $g.Key) -}}
+      {{- $title := index $titles $g.Key | default (humanize $g.Key) -}}
+      {{- $out = $out | append (dict "cat" $g.Key "title" $title "pages" (sort $g.Pages "Title")) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $out -}}

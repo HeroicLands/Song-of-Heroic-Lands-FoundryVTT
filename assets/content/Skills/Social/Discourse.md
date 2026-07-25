@@ -12,6 +12,7 @@ shortcode: dscr
 type: skill
 package: sohl
 sohl:
+    kbcat: social
     archetype: 0
     subType: social
     skillBaseFormula: "@rea, @elo"
