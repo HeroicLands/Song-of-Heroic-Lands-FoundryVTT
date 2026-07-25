@@ -34,7 +34,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <h3 class="list__name name">{{entry.weapon.name}}</h3>
                 </li>
                 {{#each entry.strikeModes as |sm|}}
-                <li class="item flexrow" data-sm-id="{{sm.id}}" data-item-id="{{entry.weapon.id}}">
+                <li class="item flexrow" data-sm-id="{{sm.shortcode}}" data-item-id="{{entry.weapon.id}}">
                     <div class="list__name default-action flexrow">
                         <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
                     </div>
@@ -94,7 +94,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <h3 class="list__name name">{{entry.weapon.name}}</h3>
                 </li>
                 {{#each entry.strikeModes as |sm|}}
-                <li class="item flexrow" data-sm-id="{{sm.id}}" data-item-id="{{entry.weapon.id}}">
+                <li class="item flexrow" data-sm-id="{{sm.shortcode}}" data-item-id="{{entry.weapon.id}}">
                     <div class="list__name default-action flexrow">
                         <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
                     </div>

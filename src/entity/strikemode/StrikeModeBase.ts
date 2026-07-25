@@ -76,8 +76,8 @@ import { SohlEntity } from "../SohlEntity";
  * penalties, weapon quality bonuses), but mutations are not persisted.
  */
 export abstract class StrikeModeBase extends SohlEntity {
-    /** Stable identifier of this strike mode within its parent's `strikeModes` map. */
-    id: string;
+    /** Stable shortcode of this strike mode within its parent's `strikeModes` map. */
+    shortcode: string;
     /** The strike mode type discriminator: "melee" or "missile". */
     type: StrikeModeType;
     /** Descriptive name of this mode (e.g., "Cut", "Thrust", "Shoot"). */
@@ -119,9 +119,13 @@ export abstract class StrikeModeBase extends SohlEntity {
      *
      * @param data - Persisted strike-mode fields (see {@link StrikeModeBase.Data}).
      * @param parentLogic - The owning Logic instance, used as the modifiers' parent.
-     * @param id - This strike mode's key within the parent's `strikeModes` map.
+     * @param shortcode - This strike mode's key within the parent's `strikeModes` map.
      */
-    constructor(data: StrikeModeBase.Data, parentLogic: SohlLogic, id: string) {
+    constructor(
+        data: StrikeModeBase.Data,
+        parentLogic: SohlLogic,
+        shortcode: string,
+    ) {
         super(data, { parent: parentLogic });
         this.type = data.type;
         this.name = data.name;
@@ -151,7 +155,7 @@ export abstract class StrikeModeBase extends SohlEntity {
             { parent: parentLogic },
         );
         this.traits = { ...(data.traits ?? {}) };
-        this.id = id;
+        this.shortcode = shortcode;
     }
 
     /**
@@ -160,7 +164,7 @@ export abstract class StrikeModeBase extends SohlEntity {
      * `"system.strikeModes.hJc8S26awwY0ahZj"`.
      */
     get updatePath(): string {
-        return `system.strikeModes.${this.id}`;
+        return `system.strikeModes.${this.shortcode}`;
     }
 
     /** Whether this is a melee strike mode. */
@@ -189,7 +193,7 @@ export abstract class StrikeModeBase extends SohlEntity {
     get pointerData(): StrikeModeBase.PointerData {
         return {
             itemUuid: this.parent.uuid,
-            smId: this.id,
+            smId: this.shortcode,
         };
     }
 
@@ -208,11 +212,11 @@ export abstract class StrikeModeBase extends SohlEntity {
         switch (itemLogic.kind) {
             case "weapon":
                 return (itemLogic as WeaponGearLogic).strikeModes.find(
-                    (sm) => sm.id === data.smId,
+                    (sm) => sm.shortcode === data.smId,
                 );
             case "skill":
                 return (itemLogic as SkillLogic).strikeModes.find(
-                    (sm) => sm.id === data.smId,
+                    (sm) => sm.shortcode === data.smId,
                 );
             default:
                 console.warn(
@@ -299,8 +303,8 @@ export abstract class StrikeModeBase extends SohlEntity {
         if (this.parent.uuid !== other.parent.uuid) {
             return this.parent.uuid.localeCompare(other.parent.uuid);
         }
-        if (this.id !== other.id) {
-            return this.id.localeCompare(other.id);
+        if (this.shortcode !== other.shortcode) {
+            return this.shortcode.localeCompare(other.shortcode);
         }
         return 0;
     }
