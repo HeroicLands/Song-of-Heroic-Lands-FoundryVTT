@@ -259,12 +259,36 @@ function buildMysticalAbility(fm) {
 }
 
 
+/**
+ * Fold the authored strike-mode list into the persisted keyed object.
+ *
+ * Strike modes are authored as an array whose elements each carry a
+ * `shortcode`; the compiled item persists them as an object keyed by that
+ * shortcode (the `strikeModes` field is a keyed dictionary). Reduce the array
+ * into that shape, using each element's `shortcode` as the key and dropping it
+ * from the stored value. A plain object is returned unchanged so any
+ * not-yet-migrated entry still compiles.
+ */
+function normalizeStrikeModes(strikeModes) {
+    if (!Array.isArray(strikeModes)) return strikeModes ?? {};
+    const out = {};
+    for (const { shortcode, ...rest } of strikeModes) {
+        if (!shortcode) {
+            throw new Error(
+                "weapongear strikeModes array element requires a 'shortcode'",
+            );
+        }
+        out[shortcode] = rest;
+    }
+    return out;
+}
+
 function buildWeaponGear(fm) {
     return {
         ...gearCommon(fm),
         encumbranceBase: Number(sohlField(fm, "encumbrance", 0)) || 0,
         heftBase: Number(sohlField(fm, "heft", 0)) || 0,
-        strikeModes: sohlField(fm, "strikeModes", {}),
+        strikeModes: normalizeStrikeModes(sohlField(fm, "strikeModes", [])),
     };
 }
 
