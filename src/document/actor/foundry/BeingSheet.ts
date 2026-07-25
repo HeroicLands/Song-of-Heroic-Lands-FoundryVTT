@@ -781,7 +781,7 @@ export class BeingSheet extends SohlActorSheetBase {
         if (!action) return;
 
         const sm = itemLogic.strikeModes?.find(
-            (m: StrikeModeBase) => m.id === smId,
+            (m: StrikeModeBase) => m.shortcode === smId,
         ) as StrikeModeBase | undefined;
         const context = new SohlActionContext({
             speaker: (this.document as any).getSpeaker(),
@@ -817,7 +817,7 @@ export class BeingSheet extends SohlActorSheetBase {
         const actorLogic = this.document.logic as BeingLogic;
         const itemLogic = this.document.items.get(itemId)?.logic;
         const sm = (itemLogic as any)?.strikeModes?.find(
-            (m: StrikeModeBase) => m.id === smId,
+            (m: StrikeModeBase) => m.shortcode === smId,
         );
         if (!sm) return;
         const impactMod = sm.impact;

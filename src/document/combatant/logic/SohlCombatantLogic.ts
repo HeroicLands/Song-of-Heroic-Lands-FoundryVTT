@@ -1579,7 +1579,9 @@ async function commonAttack(
             `${attackerLogic.name} vs. ${targetCombatantLogic.name} ${form} with ${availStrikeModes[defaultStrikeModeIdx].name}`,
             aimChoices,
             defaultAim,
-            Object.fromEntries(availStrikeModes.map((mode) => [mode.id, mode])),
+            Object.fromEntries(
+                availStrikeModes.map((mode) => [mode.shortcode, mode]),
+            ),
             defaultStrikeModeIdx,
         );
     }

@@ -75,7 +75,7 @@ export async function resolveStrikeMode(
     const scopeId = context.scope?.strikeModeId;
 
     if (scopeId) {
-        const found = modes.find((m) => m.id === scopeId);
+        const found = modes.find((m) => m.shortcode === scopeId);
         if (!found) {
             sohl.log.warn(
                 `Strike mode "${scopeId}" not found on "${logic.name}".`,
@@ -98,12 +98,15 @@ export async function resolveStrikeMode(
         content: toHTMLString(
             `<p>{{prompt}}</p>` +
                 `<select name="strikeModeId">` +
-                `{{#each strikeModes}}<option value="{{id}}">{{name}}</option>{{/each}}` +
+                `{{#each strikeModes}}<option value="{{shortcode}}">{{name}}</option>{{/each}}` +
                 `</select>`,
         ),
         data: {
             prompt: sohl.i18n.localize("SOHL.StrikeMode.picker.prompt"),
-            strikeModes: modes.map((m) => ({ id: m.id, name: m.name })),
+            strikeModes: modes.map((m) => ({
+                shortcode: m.shortcode,
+                name: m.name,
+            })),
         },
         buttons: [
             {
@@ -125,7 +128,7 @@ export async function resolveStrikeMode(
     });
 
     if (!picked) return undefined;
-    return modes.find((m) => m.id === picked);
+    return modes.find((m) => m.shortcode === picked);
 }
 
 /**

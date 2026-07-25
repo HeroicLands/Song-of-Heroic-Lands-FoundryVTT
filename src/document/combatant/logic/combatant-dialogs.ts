@@ -75,7 +75,7 @@ export function showAttackDialog(
     defaultModeIdx: number,
 ): Promise<AttackDialogResult | null> {
     const modeChoices: Record<string, string> = Object.fromEntries(
-        Object.entries(modes).map(([key, sm]) => [key, sm.id]),
+        Object.entries(modes).map(([key, sm]) => [key, sm.shortcode]),
     );
     return dialog({
         title,

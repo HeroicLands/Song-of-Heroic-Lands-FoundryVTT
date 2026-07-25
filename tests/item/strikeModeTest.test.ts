@@ -10,7 +10,7 @@ import * as FoundryHelpers from "@src/core/FoundryHelpers";
 /*
  * The shared strike-mode resolution + dispatch used by both WeaponGearLogic and
  * combat-technique SkillLogic. Strike modes are duck-typed here: the helper only
- * reads `id`, `name`, `attack`, and (for melee) `defense.block` /
+ * reads `shortcode`, `name`, `attack`, and (for melee) `defense.block` /
  * `defense.counterstrike`, each of which exposes `successTest`.
  */
 
@@ -20,22 +20,27 @@ function stubModifier(tag: string) {
 }
 
 /** A melee strike mode with attack + block + counterstrike modifiers. */
-function meleeMode(id: string, name: string): any {
+function meleeMode(shortcode: string, name: string): any {
     return {
-        id,
+        shortcode,
         name,
         isMelee: true,
-        attack: stubModifier(`${id}:attack`),
+        attack: stubModifier(`${shortcode}:attack`),
         defense: {
-            block: stubModifier(`${id}:block`),
-            counterstrike: stubModifier(`${id}:counterstrike`),
+            block: stubModifier(`${shortcode}:block`),
+            counterstrike: stubModifier(`${shortcode}:counterstrike`),
         },
     };
 }
 
 /** A missile strike mode — attack only, no `defense`. */
-function missileMode(id: string, name: string): any {
-    return { id, name, isMelee: false, attack: stubModifier(`${id}:attack`) };
+function missileMode(shortcode: string, name: string): any {
+    return {
+        shortcode,
+        name,
+        isMelee: false,
+        attack: stubModifier(`${shortcode}:attack`),
+    };
 }
 
 /** A minimal StrikeModeCombatant. */
@@ -131,7 +136,7 @@ describe("resolveStrikeMode", () => {
         const spec = spy.mock.calls[0]![0] as any;
         expect(spec.content).not.toContain("<img");
         expect(spec.data.strikeModes).toContainEqual({
-            id: "m1",
+            shortcode: "m1",
             name: "<img src=x onerror=alert(1)>",
         });
     });

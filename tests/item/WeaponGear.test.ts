@@ -207,7 +207,7 @@ describe("WeaponGearLogic", () => {
                 expect(logic.encumbrance.effective).toBe(3);
             });
 
-            it("builds strike-mode domain objects from the persisted map, preserving ids", () => {
+            it("builds strike-mode domain objects from the persisted map, preserving shortcodes", () => {
                 const logic = makeWeapon({
                     strikeModes: {
                         cut00000000000id: meleeModeData(),
@@ -218,10 +218,10 @@ describe("WeaponGearLogic", () => {
                 expect(logic.strikeModes).toHaveLength(2);
                 const [cut, thr] = logic.strikeModes;
                 expect(cut).toBeInstanceOf(MeleeStrikeMode);
-                expect(cut.id).toBe("cut00000000000id");
+                expect(cut.shortcode).toBe("cut00000000000id");
                 expect(cut.name).toBe("Cut");
                 expect(thr).toBeInstanceOf(MissileStrikeMode);
-                expect(thr.id).toBe("thr00000000000id");
+                expect(thr.shortcode).toBe("thr00000000000id");
                 expect(thr.name).toBe("Throw");
             });
 

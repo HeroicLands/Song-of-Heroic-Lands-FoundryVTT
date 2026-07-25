@@ -213,17 +213,17 @@ export class WeaponGearLogic<
         );
         this.heft = new entity.ValueModifier(this).setBase(this.data.heftBase);
         this.strikeModes = Object.entries(this.data.strikeModes ?? {}).map(
-            ([id, d]) =>
+            ([shortcode, d]) =>
                 d.type === STRIKE_MODE_TYPE.MELEE ?
                     new entity.MeleeStrikeMode(
                         d as MeleeStrikeMode.Data,
                         this,
-                        id,
+                        shortcode,
                     )
                 :   new entity.MissileStrikeMode(
                         d as MissileStrikeMode.Data,
                         this,
-                        id,
+                        shortcode,
                     ),
         );
     }

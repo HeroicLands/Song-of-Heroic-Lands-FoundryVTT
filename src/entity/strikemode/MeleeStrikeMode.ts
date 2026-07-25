@@ -52,14 +52,14 @@ export class MeleeStrikeMode extends StrikeModeBase {
      *
      * @param data - Persisted melee strike-mode fields (see {@link MeleeStrikeMode.Data}).
      * @param parentLogic - The owning Logic instance, used as the modifiers' parent.
-     * @param id - This strike mode's key within the parent's `strikeModes` map.
+     * @param shortcode - This strike mode's key within the parent's `strikeModes` map.
      */
     constructor(
         data: MeleeStrikeMode.Data,
         parentLogic: SohlLogic,
-        id: string,
+        shortcode: string,
     ) {
-        super(data, parentLogic, id);
+        super(data, parentLogic, shortcode);
         // Reach is seeded from the weapon's length; the wielder's body
         // reach is layered on during the owning logic's evaluate phase.
         this.reach = new entity.ValueModifier(parentLogic).setBase(
