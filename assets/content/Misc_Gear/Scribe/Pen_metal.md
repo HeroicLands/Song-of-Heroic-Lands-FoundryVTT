@@ -14,6 +14,7 @@ shortcode: penmetal
 type: miscgear
 package: sohl
 sohl:
+    kbcat: scribe
     archetype: 0
     quality: 0
     durability: 5

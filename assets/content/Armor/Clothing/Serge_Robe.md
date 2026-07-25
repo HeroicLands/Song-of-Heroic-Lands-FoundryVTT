@@ -13,6 +13,7 @@ shortcode: SgRobe
 type: armorgear
 package: sohl
 sohl:
+    kbcat: cloth
     archetype: 0
     armorType: Robe
     detailMaterial: Serge

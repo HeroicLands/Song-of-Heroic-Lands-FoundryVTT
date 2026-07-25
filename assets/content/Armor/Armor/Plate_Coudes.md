@@ -13,6 +13,7 @@ shortcode: PlCou
 type: armorgear
 package: sohl
 sohl:
+    kbcat: plate
     archetype: 0
     armorType: Coudes
     detailMaterial: Plate

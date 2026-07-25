@@ -13,6 +13,7 @@ shortcode: PSht
 type: armorgear
 package: sohl
 sohl:
+    kbcat: padded
     archetype: 0
     armorType: Shirt
     detailMaterial: Padded

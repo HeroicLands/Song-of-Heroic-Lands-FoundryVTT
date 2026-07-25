@@ -13,6 +13,7 @@ shortcode: Stk
 type: weapongear
 package: sohl
 sohl:
+    kbcat: melee
     archetype: 0
     durability: 8
     weight: 1

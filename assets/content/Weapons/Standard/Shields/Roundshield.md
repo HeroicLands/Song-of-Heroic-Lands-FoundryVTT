@@ -13,6 +13,7 @@ shortcode: RndSh
 type: weapongear
 package: sohl
 sohl:
+    kbcat: shields
     archetype: 0
     durability: 10
     weight: 6

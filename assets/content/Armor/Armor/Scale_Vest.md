@@ -13,6 +13,7 @@ shortcode: SVest
 type: armorgear
 package: sohl
 sohl:
+    kbcat: scale
     archetype: 0
     armorType: Vest
     detailMaterial: Scale

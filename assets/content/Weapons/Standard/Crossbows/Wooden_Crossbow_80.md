@@ -13,6 +13,7 @@ shortcode: WCxBw80
 type: weapongear
 package: sohl
 sohl:
+    kbcat: crossbows
     archetype: 0
     durability: 10
     weight: 3

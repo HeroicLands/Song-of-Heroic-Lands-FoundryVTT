@@ -13,6 +13,7 @@ shortcode: SlkClk
 type: armorgear
 package: sohl
 sohl:
+    kbcat: cloth
     archetype: 0
     armorType: Cloak
     detailMaterial: Silk

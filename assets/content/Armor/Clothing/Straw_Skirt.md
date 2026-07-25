@@ -13,6 +13,7 @@ shortcode: StSkirt
 type: armorgear
 package: sohl
 sohl:
+    kbcat: cloth
     archetype: 0
     armorType: Skirt
     detailMaterial: Straw

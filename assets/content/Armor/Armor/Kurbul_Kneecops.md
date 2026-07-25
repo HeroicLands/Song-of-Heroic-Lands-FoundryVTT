@@ -14,6 +14,7 @@ shortcode: KKnee
 type: armorgear
 package: sohl
 sohl:
+    kbcat: kurbul
     archetype: 0
     armorType: Kneecops
     detailMaterial: Kûrbúl

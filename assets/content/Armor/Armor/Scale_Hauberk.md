@@ -13,6 +13,7 @@ shortcode: SHaub
 type: armorgear
 package: sohl
 sohl:
+    kbcat: scale
     archetype: 0
     armorType: Hauberk
     detailMaterial: Scale

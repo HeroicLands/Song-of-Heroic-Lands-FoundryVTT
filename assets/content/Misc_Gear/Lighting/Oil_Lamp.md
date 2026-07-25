@@ -14,6 +14,7 @@ shortcode: oillamp
 type: miscgear
 package: sohl
 sohl:
+    kbcat: lighting
     archetype: 0
     quality: 0
     durability: 0

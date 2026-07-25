@@ -12,6 +12,7 @@ shortcode: nrotxn
 type: affliction
 package: sohl
 sohl:
+    kbcat: poisontoxin
     archetype: 0
     subType: poisontoxin
     diagnosisBonus: 0

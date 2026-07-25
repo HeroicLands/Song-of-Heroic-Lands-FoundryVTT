@@ -12,6 +12,7 @@ shortcode: ldmnc
 type: trauma
 package: sohl
 sohl:
+    kbcat: physfeature
     archetype: 0
     subType: physcond
     category: trait

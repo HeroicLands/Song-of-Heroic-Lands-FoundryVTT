@@ -13,6 +13,7 @@ shortcode: SlsCap
 type: armorgear
 package: sohl
 sohl:
+    kbcat: leather
     archetype: 0
     armorType: Cap
     detailMaterial: Sealskin

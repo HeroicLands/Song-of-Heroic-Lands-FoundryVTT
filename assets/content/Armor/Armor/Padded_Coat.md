@@ -13,6 +13,7 @@ shortcode: PCoat
 type: armorgear
 package: sohl
 sohl:
+    kbcat: padded
     archetype: 0
     armorType: Coat
     detailMaterial: Padded

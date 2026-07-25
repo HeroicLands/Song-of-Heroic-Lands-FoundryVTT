@@ -12,6 +12,7 @@ shortcode: cholera
 type: affliction
 package: sohl
 sohl:
+    kbcat: diseases
     archetype: 0
     subType: disease
     diagnosisBonus: 0

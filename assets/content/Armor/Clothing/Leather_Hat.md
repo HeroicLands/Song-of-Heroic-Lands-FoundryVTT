@@ -13,6 +13,7 @@ shortcode: LtHat
 type: armorgear
 package: sohl
 sohl:
+    kbcat: leather
     archetype: 0
     armorType: Hat
     detailMaterial: Leather

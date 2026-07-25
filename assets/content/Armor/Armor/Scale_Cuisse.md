@@ -13,6 +13,7 @@ shortcode: SCui
 type: armorgear
 package: sohl
 sohl:
+    kbcat: scale
     archetype: 0
     armorType: Cuisse
     detailMaterial: Scale

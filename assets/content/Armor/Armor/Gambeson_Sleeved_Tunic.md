@@ -13,6 +13,7 @@ shortcode: GSTnc
 type: armorgear
 package: sohl
 sohl:
+    kbcat: gambeson
     archetype: 0
     armorType: Sleeved Tunic
     detailMaterial: Gambeson

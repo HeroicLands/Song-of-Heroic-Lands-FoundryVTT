@@ -11,6 +11,7 @@ shortcode: tinnitus
 type: trauma
 package: sohl
 sohl:
+    kbcat: physdisability
     archetype: 0
     subType: physcond
     category: trait

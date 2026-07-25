@@ -13,6 +13,7 @@ shortcode: Falcstra
 type: weapongear
 package: sohl
 sohl:
+    kbcat: melee
     archetype: 0
     durability: 9
     weight: 7

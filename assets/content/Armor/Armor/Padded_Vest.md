@@ -13,6 +13,7 @@ shortcode: PVest
 type: armorgear
 package: sohl
 sohl:
+    kbcat: padded
     archetype: 0
     armorType: Vest
     detailMaterial: Padded

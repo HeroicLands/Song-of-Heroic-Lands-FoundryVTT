@@ -13,6 +13,7 @@ shortcode: LtKBoot
 type: armorgear
 package: sohl
 sohl:
+    kbcat: leather
     archetype: 0
     armorType: Knee Boots
     detailMaterial: Leather

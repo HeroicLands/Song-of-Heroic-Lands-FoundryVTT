@@ -12,6 +12,7 @@ shortcode: hypgly
 type: trauma
 package: sohl
 sohl:
+    kbcat: physprivations
     archetype: 0
     subType: physcond
     category: impediment

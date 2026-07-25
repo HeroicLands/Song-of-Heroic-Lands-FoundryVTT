@@ -13,6 +13,7 @@ shortcode: RnVest
 type: armorgear
 package: sohl
 sohl:
+    kbcat: ring
     archetype: 0
     armorType: Vest
     detailMaterial: Ring

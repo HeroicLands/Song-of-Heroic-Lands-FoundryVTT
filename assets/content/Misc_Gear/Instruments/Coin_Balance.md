@@ -14,6 +14,7 @@ shortcode: coinbalanc
 type: miscgear
 package: sohl
 sohl:
+    kbcat: instruments
     archetype: 0
     quality: 0
     durability: 5

@@ -13,6 +13,7 @@ shortcode: RHbk
 type: armorgear
 package: sohl
 sohl:
+    kbcat: ring
     archetype: 0
     armorType: Hauberk
     detailMaterial: Ring

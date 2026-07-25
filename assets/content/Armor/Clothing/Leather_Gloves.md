@@ -13,6 +13,7 @@ shortcode: LtGlove
 type: armorgear
 package: sohl
 sohl:
+    kbcat: leather
     archetype: 0
     armorType: Gloves
     detailMaterial: Leather

@@ -13,6 +13,7 @@ shortcode: QVest
 type: armorgear
 package: sohl
 sohl:
+    kbcat: quilted
     archetype: 0
     armorType: Vest
     detailMaterial: Quilted

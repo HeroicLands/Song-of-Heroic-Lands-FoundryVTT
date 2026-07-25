@@ -13,6 +13,7 @@ shortcode: SByrn
 type: armorgear
 package: sohl
 sohl:
+    kbcat: scale
     archetype: 0
     armorType: Byrnie
     detailMaterial: Scale

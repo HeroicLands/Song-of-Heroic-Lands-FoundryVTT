@@ -13,6 +13,7 @@ shortcode: PLeg
 type: armorgear
 package: sohl
 sohl:
+    kbcat: padded
     archetype: 0
     armorType: Leggings
     detailMaterial: Padded

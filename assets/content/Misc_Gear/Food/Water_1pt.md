@@ -16,6 +16,7 @@ package: sohl
 hmk:
     name: "Water, 1pt."
 sohl:
+    kbcat: food
     archetype: 0
     quality: 0
     durability: 0

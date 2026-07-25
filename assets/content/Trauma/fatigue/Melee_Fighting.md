@@ -13,6 +13,7 @@ shortcode: fight
 type: trauma
 package: sohl
 sohl:
+    kbcat: fatigue
     archetype: 0
     subType: fatigue
     category: windedness

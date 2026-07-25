@@ -13,6 +13,7 @@ shortcode: PlGrvs
 type: armorgear
 package: sohl
 sohl:
+    kbcat: plate
     archetype: 0
     armorType: Greaves
     detailMaterial: Plate

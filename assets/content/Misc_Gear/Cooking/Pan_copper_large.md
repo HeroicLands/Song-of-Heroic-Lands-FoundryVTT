@@ -14,6 +14,7 @@ shortcode: pancopperl
 type: miscgear
 package: sohl
 sohl:
+    kbcat: cooking
     archetype: 0
     quality: 0
     durability: 4

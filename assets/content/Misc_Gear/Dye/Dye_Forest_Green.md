@@ -14,6 +14,7 @@ shortcode: dyefst
 type: miscgear
 package: sohl
 sohl:
+    kbcat: dye
     archetype: 0
     quality: 0
     durability: 1

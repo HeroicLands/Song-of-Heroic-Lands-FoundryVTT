@@ -14,6 +14,7 @@ shortcode: clappersbo
 type: miscgear
 package: sohl
 sohl:
+    kbcat: music
     archetype: 0
     quality: 0
     durability: 5

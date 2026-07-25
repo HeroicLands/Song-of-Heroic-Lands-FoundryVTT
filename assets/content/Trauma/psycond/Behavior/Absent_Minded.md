@@ -12,6 +12,7 @@ shortcode: absntmd
 type: trauma
 package: sohl
 sohl:
+    kbcat: psybehavior
     archetype: 0
     subType: psycond
     category: quirk

@@ -13,6 +13,7 @@ shortcode: QCui
 type: armorgear
 package: sohl
 sohl:
+    kbcat: quilted
     archetype: 0
     armorType: Cuisse
     detailMaterial: Quilted

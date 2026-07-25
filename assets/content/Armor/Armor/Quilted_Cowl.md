@@ -13,6 +13,7 @@ shortcode: QCwl
 type: armorgear
 package: sohl
 sohl:
+    kbcat: quilted
     archetype: 0
     armorType: Cowl
     detailMaterial: Quilted
