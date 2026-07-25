@@ -14,7 +14,14 @@
 import { entity } from "@src/entity/registry";
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import { ImpactAspects } from "@src/utils/constants";
+import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import { SohlAction } from "@src/entity/action/SohlAction";
+import {
+    ACTION_SUBTYPE,
+    ImpactAspects,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@src/utils/constants";
 
 /**
  * Wearable protective equipment.
@@ -104,6 +111,43 @@ export class ArmorGearLogic<
     }
 
     /* --------------------------------------------- */
+    /* Intrinsic Actions                             */
+    /* --------------------------------------------- */
+
+    /**
+     * Toggles whether this armor is currently worn.
+     *
+     * Intrinsic-action executor for the `toggleWorn` action. Only worn armor
+     * contributes to a being's armor-protection totals.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async toggleWorn(_context: SohlActionContext): Promise<void> {
+        await this.data.update({ "system.isWorn": !this.data.isWorn });
+    }
+
+    /**
+     * Define and return all intrinsic actions for this logic type.
+     * @returns The gear intrinsic actions plus the armor worn toggle.
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...GearLogic.defineIntrinsicActions(),
+            {
+                shortcode: "toggleWorn",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.ArmorGear.Action.toggleWorn",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-shield-halved",
+                executor: "toggleWorn",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+        ];
+    }
+
+    /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 
@@ -148,6 +192,8 @@ export class ArmorGearLogic<
 export interface ArmorGearData<
     TLogic extends ArmorGearLogic<ArmorGearData> = ArmorGearLogic<any>,
 > extends GearData<TLogic> {
+    /** Whether this armor is currently worn */
+    isWorn: boolean;
     /** Primary material the armor is made from */
     material: string;
     /** Body locations covered, split by flexible and rigid coverage */

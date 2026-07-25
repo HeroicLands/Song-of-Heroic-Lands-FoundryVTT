@@ -19,7 +19,6 @@ function gearFields(overrides: Record<string, unknown> = {}) {
         weightBase: 2.5,
         valueBase: 10,
         isCarried: true,
-        isEquipped: false,
         qualityBase: 9,
         durabilityBase: 12,
         sharedWithCohortIds: [] as string[],
@@ -227,7 +226,6 @@ describe("GearDataModel", () => {
         it.todo("defines weightBase as NumberField with min 0");
         it.todo("defines valueBase as NumberField with min 0");
         it.todo("defines isCarried as BooleanField defaulting to true");
-        it.todo("defines isEquipped as BooleanField defaulting to false");
         it.todo("defines qualityBase as integer NumberField with min 0");
         it.todo("defines durabilityBase as integer NumberField with min 0");
         it.todo("defines visibleToCohort as BooleanField defaulting to false");

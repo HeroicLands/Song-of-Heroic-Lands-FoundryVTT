@@ -92,7 +92,7 @@ describe("Body Locations tree", () => {
                 cy.createItemOn(actor, "armorgear", {
                     name: "Test Plate",
                     system: {
-                        isEquipped: true,
+                        isWorn: true,
                         material: "Plate",
                         protectionBase: {
                             blunt: 6,

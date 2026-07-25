@@ -17,7 +17,6 @@ function concoctionFields(overrides: Record<string, unknown> = {}) {
         weightBase: 0.5,
         valueBase: 30,
         isCarried: true,
-        isEquipped: false,
         qualityBase: 9,
         durabilityBase: 2,
         sharedWithCohortIds: [] as string[],

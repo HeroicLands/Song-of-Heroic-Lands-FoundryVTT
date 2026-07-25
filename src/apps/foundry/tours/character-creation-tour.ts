@@ -330,7 +330,7 @@ export function buildCharacterCreationTour(): SohlTour {
                     ITEM_KIND.ARMORGEAR,
                     ARCHETYPE_SHORTCODE.leatherTunic,
                 );
-                return !!tunic && !!(tunic.system as any)?.isEquipped;
+                return !!tunic && !!(tunic.system as any)?.isWorn;
             },
         },
         {

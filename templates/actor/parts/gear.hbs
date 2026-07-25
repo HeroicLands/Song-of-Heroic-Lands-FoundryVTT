@@ -55,8 +55,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="list__detail list__notes" data-tooltip="{{item.notes}}">{{item.notes}}</div>
                 <div class="list__controls">
                     {{#if item.isArmor}}
-                    <a class="list__control item-worn" data-action="toggleEquipped" title="Worn">
-                        <i class="fa-solid fa-shield-halved {{#unless item.isEquipped}}disabled{{/unless}}"></i>
+                    <a class="list__control item-worn" data-action="toggleWorn" title="Worn">
+                        <i class="fa-solid fa-shield-halved {{#unless item.isWorn}}disabled{{/unless}}"></i>
                     </a>
                     {{/if}}
                     <a class="list__control item-carried" data-action="toggleCarried" title="Carried">

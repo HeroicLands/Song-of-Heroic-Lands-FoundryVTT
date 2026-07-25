@@ -15,7 +15,7 @@
  * Gear state controls (#294).
  *
  * - **Gear tab** per-row toggles: **carried** (`isCarried`) and **worn**
- *   (`isEquipped`, armor).
+ *   (`isWorn`, armor-only).
  * - **Combat tab** Held Items section: one dropdown per hold-capable limb,
  *   listing the actor's holdable gear (weapons + misc gear not in a container).
  *   Selecting an item sets that limb's `heldItemId`; a two-handed weapon is held
@@ -57,7 +57,7 @@ describe("gear state controls", () => {
                     const state = (win) => {
                         const A = win.game.actors.get(actor.id);
                         return {
-                            worn: A.items.get(aid).system.isEquipped,
+                            worn: A.items.get(aid).system.isWorn,
                             carried: A.items.get(wid).system.isCarried,
                         };
                     };
@@ -68,7 +68,7 @@ describe("gear state controls", () => {
                     });
 
                     cy.foundry((win) =>
-                        click(win, actor.id, aid, "toggleEquipped"),
+                        click(win, actor.id, aid, "toggleWorn"),
                     );
                     cy.wait(400);
                     cy.foundry(state).should(

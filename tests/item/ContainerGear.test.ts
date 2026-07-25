@@ -14,7 +14,6 @@ function containerFields(overrides: Record<string, unknown> = {}) {
         weightBase: 2,
         valueBase: 15,
         isCarried: true,
-        isEquipped: false,
         qualityBase: 9,
         durabilityBase: 10,
         sharedWithCohortIds: [] as string[],

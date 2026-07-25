@@ -444,7 +444,7 @@ export class BeingSheet extends SohlActorSheetBase {
             toggleStatus: BeingSheet._onToggleStatus,
             toggleImproveFlag: BeingSheet._onToggleImproveFlag,
             toggleCarried: BeingSheet._onToggleCarried,
-            toggleEquipped: BeingSheet._onToggleEquipped,
+            toggleWorn: BeingSheet._onToggleWorn,
             editItem: BeingSheet._onEditItem,
             deleteItem: BeingSheet._onDeleteItem,
             createItem: BeingSheet._onCreateItem,
@@ -686,13 +686,13 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Toggle a gear item's **equipped** (worn/wielded) state — feeds worn-armor
-     * protection totals for armor.
+     * Toggle an armor item's **worn** state — only worn armor feeds a being's
+     * armor-protection totals.
      *
      * @param _event - The triggering pointer event (unused).
      * @param target - The clicked control, within a `data-item-id` row.
      */
-    protected static async _onToggleEquipped(
+    protected static async _onToggleWorn(
         this: BeingSheet,
         _event: PointerEvent,
         target: HTMLElement,
@@ -700,7 +700,7 @@ export class BeingSheet extends SohlActorSheetBase {
         const item = this._itemFromControl(target);
         if (!item) return;
         await item.update({
-            "system.isEquipped": !(item.system as any).isEquipped,
+            "system.isWorn": !(item.system as any).isWorn,
         } as PlainObject);
     }
 
@@ -1554,7 +1554,7 @@ export class BeingSheet extends SohlActorSheetBase {
                 durability: sys.durabilityBase ?? 0,
                 notes: htmlToPlainText(sys.notes ?? ""),
                 isCarried: !!sys.isCarried,
-                isEquipped: !!sys.isEquipped,
+                isWorn: !!sys.isWorn,
                 isArmor: item.type === ITEM_KIND.ARMORGEAR,
             };
         };

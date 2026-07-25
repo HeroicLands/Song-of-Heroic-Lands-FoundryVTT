@@ -304,7 +304,7 @@ describe("Character Creation tour (SohlTour, #614)", () => {
                     .items.get(tunicId)
                     // Re-realm the payload into the game window (cross-realm literals
                     // are rejected by Foundry — "must be constructed with a … Object").
-                    .update(win.JSON.parse('{"system.isEquipped":true}'))
+                    .update(win.JSON.parse('{"system.isWorn":true}'))
                     .then(() => true),
             );
         });
@@ -406,7 +406,7 @@ describe("Character Creation tour (SohlTour, #614)", () => {
                 return {
                     broadsword: has("weapongear", "brdswd"),
                     roundshield: has("weapongear", "rndsh"),
-                    tunicEquipped: !!tunic?.system?.isEquipped,
+                    tunicEquipped: !!tunic?.system?.isWorn,
                     arcaneTalent: a.items.some(
                         (it) =>
                             it.type === "mysticalability" &&
