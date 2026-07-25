@@ -1467,7 +1467,7 @@ describe("TraumaLogic.categoryLabel", () => {
             category: "weariness",
         });
         expect(logic.categoryLabel).toBe(
-            "SOHL.Affliction.FATIGUE_CATEGORY.weariness",
+            "SOHL.Trauma.FATIGUE_CATEGORY.weariness",
         );
     });
 

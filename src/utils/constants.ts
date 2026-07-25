@@ -1281,7 +1281,7 @@ export const {
     isValue: isFatigueCategory,
     /** Localization keys per fatigue category. */
     labels: FatigueCategoryLabels,
-} = defineType("SOHL.Affliction.FATIGUE_CATEGORY", {
+} = defineType("SOHL.Trauma.FATIGUE_CATEGORY", {
     /** Fatigue resulting from great exertion. */
     WINDEDNESS: "windedness",
     /** Fatigue resulting from prolonged activity or deprivation. */
@@ -1292,31 +1292,6 @@ export const {
 /** Union of all fatigue-category values. */
 export type FatigueCategory =
     (typeof FATIGUE_CATEGORY)[keyof typeof FATIGUE_CATEGORY];
-
-export const {
-    /** Map of privation-category key → value. */
-    kind: PRIVATION_CATEGORY,
-    /** All privation-category values, as an array. */
-    values: PrivationCategories,
-    /** Type guard for privation-category values. */
-    isValue: isPrivationCategory,
-    /** Localization keys per privation category. */
-    labels: PrivationCategoryLabels,
-} = defineType("SOHL.Affliction.PRIVATION_CATEGORY", {
-    /** Lack of sufficient air. */
-    ASPHIXIA: "asphixia",
-    /** Lack of sufficient warmth. */
-    COLD: "cold",
-    /** Lack of sufficient heat. */
-    HEAT: "heat",
-    /** Lack of sufficient food. */
-    STARVATION: "starvation",
-    /** Lack of sufficient water. */
-    DEHYDRATION: "dehydration",
-});
-/** Union of all privation-category values. */
-export type PrivationCategory =
-    (typeof PRIVATION_CATEGORY)[keyof typeof PRIVATION_CATEGORY];
 
 export const {
     /** Map of fear-level key → numeric value. */
