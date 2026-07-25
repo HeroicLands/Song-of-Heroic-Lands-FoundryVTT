@@ -564,8 +564,10 @@ export class SkillLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-star",
                 executor: "setImproveFlag",
-                visible: "itemLogic.canImprove && !itemLogic.data.improveFlag",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+                // Superseded by the single `toggleImproveFlag` entry; kept as an
+                // executor but hidden from the context menu.
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
             {
                 shortcode: "unsetImproveFlag",
@@ -574,8 +576,10 @@ export class SkillLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-regular fa-star",
                 executor: "unsetImproveFlag",
-                visible: "itemLogic.canImprove && itemLogic.data.improveFlag",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+                // Superseded by the single `toggleImproveFlag` entry; kept as an
+                // executor but hidden from the context menu.
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
             {
                 shortcode: "toggleImproveFlag",

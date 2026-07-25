@@ -35,7 +35,7 @@ import "@src/entity/result/SuccessTestResult";
 import "@src/entity/result/OpposedTestResult";
 import { FilePath, toFilePath } from "@src/utils/helpers";
 import {
-    SOHL_SPEAKER_ROLL_MODE,
+    speakerRollModeOptions,
     TestType,
     VALUE_DELTA_INFO,
 } from "@src/utils/constants";
@@ -521,13 +521,7 @@ export class MasteryLevelModifier extends ValueModifier {
                 mlMod: testResult.masteryLevelModifier,
                 situationalModifier: context.scope.situationalModifier ?? 0,
                 rollMode: testResult.rollMode,
-                rollModes: Object.entries(SOHL_SPEAKER_ROLL_MODE).map(
-                    ([k, v]) => ({
-                        group: "CHAT.RollDefault",
-                        value: k,
-                        label: v,
-                    }),
-                ),
+                rollModes: speakerRollModeOptions(),
             };
             dlgResult = await dialog({
                 title: sohl.i18n.format(
