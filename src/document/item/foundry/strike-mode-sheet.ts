@@ -17,7 +17,6 @@ import { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 import { blankStrikeMode } from "@src/entity/strikemode/blankStrikeMode";
 import { validateShortcode } from "@src/entity/strikemode/planShortcodeSave";
 import {
-    ImpactAspectChoices,
     ITEM_KIND,
     STRIKE_MODE_TYPE,
     StrikeModeTypeChoices,
@@ -102,8 +101,9 @@ export interface StrikeModeRowVM {
 }
 
 /**
- * Format a strike mode's base impact as a compact formula, e.g. `"1d6+2 Edged"`,
- * `"2d6 Blunt"`, `"3 Piercing"`, or `"— Blunt"` when it contributes nothing.
+ * Format a strike mode's base impact as a compact formula with the aspect as a
+ * trailing lowercase letter, e.g. `"1d10+3e"`, `"1d6b"`, `"3p"`, or `"—"` when it
+ * contributes no base impact.
  * @param imp - The strike mode's base impact fields.
  * @returns The formula string.
  */
@@ -119,9 +119,10 @@ function formatImpactFormula(imp: StrikeModeBase.Data["impactBase"]): string {
                 :   `${mod}`
             :   `${mod}`;
     }
-    if (!formula) formula = "—";
-    const aspect = game.i18n.localize(ImpactAspectChoices[imp?.aspect] ?? "");
-    return aspect ? `${formula} ${aspect}` : formula;
+    if (!formula) return "—";
+    // Aspect abbreviated to its initial letter (b/e/p/f), appended directly.
+    const letter = (imp?.aspect ?? "").charAt(0).toLowerCase();
+    return `${formula}${letter}`;
 }
 
 /**

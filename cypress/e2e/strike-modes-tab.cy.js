@@ -257,7 +257,7 @@ describe("strike modes tab — weapongear (multi)", () => {
             ).within(() => {
                 cy.get(".name").contains("Chop");
                 cy.get(".shortcode").contains("aaa");
-                cy.get(".impact").contains("2d6+1");
+                cy.get(".impact").contains("2d6+1e");
             });
             cy.get(
                 'section.tab[data-tab="strikemodes"] .strikemodes__row .strikemode-contextmenu',
