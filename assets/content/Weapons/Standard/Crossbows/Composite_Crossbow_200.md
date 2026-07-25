@@ -13,7 +13,7 @@ shortcode: CCxBw200
 type: weapongear
 package: sohl
 sohl:
-    kbcat: crossbows
+    kbcat: crossbow
     archetype: 0
     durability: 11
     weight: 7

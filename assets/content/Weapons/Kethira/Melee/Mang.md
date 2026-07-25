@@ -13,7 +13,7 @@ shortcode: Mang
 type: weapongear
 package: kethira
 sohl:
-    kbcat: melee
+    kbcat: sword
     archetype: 0
     durability: 10
     weight: 3
