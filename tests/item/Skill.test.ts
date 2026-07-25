@@ -77,6 +77,23 @@ describe("SkillLogic", () => {
         });
     });
 
+    describe("strike mode update payloads (#663)", () => {
+        it("setStrikeModeUpdate writes the whole single strikeMode value", () => {
+            const logic = makeSkill({ subType: "combattechnique" });
+            const sm = { type: "melee", name: "Punch" } as any;
+            expect(logic.setStrikeModeUpdate(sm)).toEqual({
+                "system.strikeMode": sm,
+            });
+        });
+
+        it("removeStrikeModeUpdate nulls the single strikeMode field", () => {
+            const logic = makeSkill({ subType: "combattechnique" });
+            expect(logic.removeStrikeModeUpdate()).toEqual({
+                "system.strikeMode": null,
+            });
+        });
+    });
+
     describe("initialize", () => {
         it("seeds masteryLevel from masteryLevelBase", () => {
             const logic = makeSkill({ masteryLevelBase: 45 });

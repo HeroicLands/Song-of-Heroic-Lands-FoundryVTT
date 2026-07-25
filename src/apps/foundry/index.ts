@@ -19,6 +19,7 @@ export * from "./DomainManagerApp";
 export * from "./ExpressionLibraryMenu";
 export * from "./SohlContextMenu";
 export * from "./SohlTour";
+export * from "./StrikeModeConfig";
 export * from "./date-picker-dialog";
 export * from "./sheet-hints";
 /** The system's guided tours and their registration with Tour Management. */

@@ -40,6 +40,7 @@ export * from "./SkillSheet";
 export * from "./SohlItem";
 export * from "./SohlItemDataModel";
 export * from "./SohlItemSheetBase";
+export * from "./strike-mode-sheet";
 export * from "./temporal-fields";
 export * from "./TraumaDataModel";
 export * from "./TraumaSheet";

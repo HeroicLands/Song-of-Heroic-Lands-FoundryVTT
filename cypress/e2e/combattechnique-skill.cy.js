@@ -113,10 +113,11 @@ describe("combattechnique skill", () => {
         });
     });
 
-    it("shows the strike-mode editor on the skill sheet only for the technique subtype (#324)", () => {
+    it("shows the Strike Modes tab + editor only for the technique subtype (#324, #663)", () => {
         cy.createActor("being", { name: "Sheet Being" }).then((actor) => {
-            const editorSel = 'input[name="system.strikeMode.name"]';
-            // combattechnique → editor present, reflecting the seeded strike mode
+            const tabSel = '[data-tab="strikemodes"]';
+            // combattechnique → Strike Modes tab present with the seeded mode as a
+            // row; opening its editor reflects the mode's name/type.
             cy.createItemOn(actor, "skill", {
                 name: "Judo",
                 system: { subType: "combattechnique", masteryLevelBase: 30 },
@@ -130,19 +131,39 @@ describe("combattechnique skill", () => {
                 cy.foundry((win) => {
                     const el = win.fromUuidSync(ct.uuid).sheet.element;
                     return {
-                        hasEditor: !!el.querySelector(editorSel),
-                        name: el.querySelector(editorSel)?.value,
-                        type: el.querySelector(
-                            'input[name="system.strikeMode.type"]',
-                        )?.value,
+                        hasTab: !!el.querySelector(tabSel),
+                        rowName: el
+                            .querySelector(".strikemodes__row .name h4")
+                            ?.textContent?.trim(),
                     };
                 }).should((r) => {
-                    expect(r.hasEditor).to.be.true;
-                    expect(r.name).to.equal("Judo");
-                    expect(r.type).to.equal("melee");
+                    expect(r.hasTab).to.be.true;
+                    expect(r.rowName).to.equal("Judo");
+                });
+                // Open the editor on the single mode and check it binds the name.
+                cy.foundry((win) => {
+                    const item = win.fromUuidSync(ct.uuid);
+                    win.sohl.document.item.foundry.openStrikeModeEditor(
+                        item,
+                        "single",
+                    );
+                    return null;
+                });
+                cy.wait(300);
+                cy.window().should((win) => {
+                    const inst = win.foundry.applications.instances;
+                    const editor = Array.from(inst.values()).find(
+                        (a) =>
+                            a.id?.startsWith("strike-mode-config-") &&
+                            a.rendered,
+                    );
+                    expect(
+                        editor?.element.querySelector('input[name="name"]')
+                            ?.value,
+                    ).to.eq("Judo");
                 });
             });
-            // social → no editor
+            // social → no Strike Modes tab
             cy.createItemOn(actor, "skill", {
                 name: "Oratory",
                 system: { subType: "social", masteryLevelBase: 30 },
@@ -153,13 +174,12 @@ describe("combattechnique skill", () => {
                     ).then(() => null),
                 );
                 cy.wait(400);
-                cy.foundry((win) => ({
-                    hasEditor: !!win
-                        .fromUuidSync(soc.uuid)
-                        .sheet.element.querySelector(editorSel),
-                })).should((r) => {
-                    expect(r.hasEditor).to.be.false;
-                });
+                cy.foundry(
+                    (win) =>
+                        !!win
+                            .fromUuidSync(soc.uuid)
+                            .sheet.element.querySelector(tabSel),
+                ).should("be.false");
             });
         });
     });

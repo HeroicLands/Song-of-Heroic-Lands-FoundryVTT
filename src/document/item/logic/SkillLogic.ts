@@ -176,6 +176,33 @@ export class SkillLogic<
         return this.strikeMode ? [this.strikeMode] : [];
     }
 
+    /* --------------------------------------------- */
+    /* Strike mode helpers                           */
+    /* --------------------------------------------- */
+
+    /**
+     * Build an `update()` payload that replaces this combat technique's single
+     * strike mode. A `combattechnique` skill stores exactly one strike mode at
+     * `system.strikeMode` (a discriminated melee/missile field), so the whole
+     * value is written rather than the id-keyed dict a weapon uses.
+     *
+     * @param strikeMode - The strike-mode data to store.
+     * @returns An `update()` payload writing `system.strikeMode`.
+     */
+    setStrikeModeUpdate(strikeMode: StrikeModeBase.Data): PlainObject {
+        return { "system.strikeMode": strikeMode };
+    }
+
+    /**
+     * Build an `update()` payload that clears this combat technique's strike
+     * mode, setting the nullable `system.strikeMode` field to `null`.
+     *
+     * @returns An `update()` payload nulling `system.strikeMode`.
+     */
+    removeStrikeModeUpdate(): PlainObject {
+        return { "system.strikeMode": null };
+    }
+
     /**
      * Performs a fate test for this skill, consuming a charge from an
      * applicable Fate mystery on success.
