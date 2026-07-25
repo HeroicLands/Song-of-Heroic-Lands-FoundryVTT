@@ -13,7 +13,7 @@ shortcode: LBw100
 type: weapongear
 package: sohl
 sohl:
-    kbcat: bows
+    kbcat: bow
     archetype: 0
     durability: 10
     weight: 3
