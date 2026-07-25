@@ -192,10 +192,19 @@ const slugify = (s) =>
 
 /** Section a content entry routes to, keyed by its Foundry `type`. */
 function section(type) {
-    if (type === "character" || type === "creature") return "beings";
     if (type === "doc") return "guide";
-    return type; // weapongear, armorgear, skill, …
+    return type; // character, creature, weapongear, armorgear, skill, …
 }
+
+/**
+ * Actor subtypes that get a browse button on the KB home even before any
+ * content of that type ships. Each is guaranteed a section landing (a titled
+ * stub when empty) so the home-page "Actors" buttons resolve instead of 404ing.
+ */
+const ACTOR_SECTIONS = [
+    ["character", "Characters"],
+    ["creature", "Creatures"],
+];
 
 /** Gear item `type` → the `sohl.gear` group key the equipment sidebar renders. */
 const GEAR_TYPE_TO_KEY = {
@@ -356,6 +365,19 @@ for (const { fm, body, name, slug } of entries) {
         matter.stringify(protectCode(body, resolveLinks), data),
     );
     items++;
+}
+
+// Guarantee a landing page for each actor subtype (see ACTOR_SECTIONS). A
+// subtype with content gets a titled section index alongside its pages; an
+// empty one gets a titled stub that renders the theme's "Nothing here yet."
+// landing — so the home-page browse buttons never 404 while content is pending.
+for (const [sub, title] of ACTOR_SECTIONS) {
+    const dir = path.join(OUT, sub);
+    fs.mkdirSync(dir, { recursive: true });
+    const idx = path.join(dir, "_index.md");
+    if (!fs.existsSync(idx)) {
+        fs.writeFileSync(idx, matter.stringify("", { title }));
+    }
 }
 
 // --- docs/ → developer section (title from first H1) ---

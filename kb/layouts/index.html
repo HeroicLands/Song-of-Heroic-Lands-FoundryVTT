@@ -10,9 +10,48 @@
   root is indistinguishable from www (see issue #689). This renders a
   knowledgebase-specific landing that orients visitors and links into the KB's
   real top-level sections: the developer docs (/dev/), the user guide (/guide/),
-  and the game-content reference catalogs.
+  the rules, and the game-content reference catalogs — with Actors and Gear set
+  off as their own grouped categories.
 */ -}}
 {{ define "main" }}
+<style>
+  .catalog-groups {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.75rem;
+    justify-content: center;
+    margin: 1.5rem auto 0;
+  }
+  .catalog-group {
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: var(--bg-card);
+    padding: 0.5rem 1.5rem 1.5rem;
+    margin: 0;
+  }
+  .catalog-group > legend {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--gold);
+    padding: 0 0.6rem;
+    letter-spacing: 0.02em;
+  }
+  .catalog-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    justify-content: center;
+  }
+  .catalog-buttons .card-button {
+    margin-top: 0;
+  }
+  .catalog-standalone {
+    max-width: 780px;
+    margin: 2rem auto 0;
+  }
+</style>
+
 <section class="hero hero-with-image" style="background-image: url('https://cdn.heroiclands.org/images/sohl-banner.webp');">
   <div class="hero-inner">
     <h1>SoHL Knowledgebase</h1>
@@ -35,44 +74,45 @@
       <a href="/guide/" class="card-button">Open the guide →</a>
     </div>
 
+    <div class="home-card">
+      <h2><a href="/guide/sohl-rules/">Rules</a></h2>
+      <p>The Song of Heroic Lands rules reference: success and opposed tests, injury, healing, shock, bleeding, and the trauma system.</p>
+      <a href="/guide/sohl-rules/" class="card-button">Read the rules →</a>
+    </div>
+
   </div>
 </section>
 
 <section class="home-sections">
   <h2 style="text-align: center;">Content reference</h2>
-  <p class="hero-tagline">Browse the catalog of every being, item, skill, and affliction shipped with the system.</p>
-  <div class="home-grid">
+  <p class="hero-tagline">Browse the catalog of every actor, item, skill, and condition shipped with the system.</p>
 
-    <div class="home-card">
-      <h2><a href="/beings/">Beings</a></h2>
-      <p>Character and creature templates.</p>
-      <a href="/beings/" class="card-button">Browse →</a>
-    </div>
+  <div class="catalog-groups">
+    <fieldset class="catalog-group">
+      <legend>Actors</legend>
+      <div class="catalog-buttons">
+        <a href="/character/" class="card-button">Characters</a>
+        <a href="/creature/" class="card-button">Creatures</a>
+      </div>
+    </fieldset>
 
-    <div class="home-card">
-      <h2><a href="/attribute/">Attributes &amp; Skills</a></h2>
-      <p>Core attributes, skills, and mystical abilities.</p>
-      <a href="/skill/" class="card-button">Browse →</a>
-    </div>
+    <fieldset class="catalog-group">
+      <legend>Gear</legend>
+      <div class="catalog-buttons">
+        <a href="/armorgear/" class="card-button">Armor/Clothing</a>
+        <a href="/containergear/" class="card-button">Containers</a>
+        <a href="/miscgear/" class="card-button">Misc Gear</a>
+        <a href="/projectilegear/" class="card-button">Projectiles</a>
+        <a href="/weapongear/" class="card-button">Weapons</a>
+      </div>
+    </fieldset>
+  </div>
 
-    <div class="home-card">
-      <h2><a href="/weapongear/">Gear</a></h2>
-      <p>Weapons, armor, projectiles, containers, and miscellaneous gear.</p>
-      <a href="/weapongear/" class="card-button">Browse →</a>
-    </div>
-
-    <div class="home-card">
-      <h2><a href="/affliction/">Afflictions</a></h2>
-      <p>Diseases, poisons, and other conditions.</p>
-      <a href="/affliction/" class="card-button">Browse →</a>
-    </div>
-
-    <div class="home-card">
-      <h2><a href="/trauma/">Traumas</a></h2>
-      <p>Psychological and physical conditions.</p>
-      <a href="/trauma/" class="card-button">Browse →</a>
-    </div>
-
+  <div class="catalog-buttons catalog-standalone">
+    <a href="/affliction/" class="card-button">Afflictions</a>
+    <a href="/mysticalability/" class="card-button">Mystical Abilities</a>
+    <a href="/skill/" class="card-button">Skills/Attributes</a>
+    <a href="/trauma/" class="card-button">Trauma</a>
   </div>
 </section>
 {{ end }}
