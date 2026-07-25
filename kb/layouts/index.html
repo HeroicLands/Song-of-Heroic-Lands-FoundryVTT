@@ -1,0 +1,72 @@
+{{- /*
+  SPDX-License-Identifier: GPL-3.0-or-later
+  Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.org>
+
+  Knowledgebase home page.
+
+  Overrides the shared heroiclands-hugo-theme `layouts/index.html`, which is the
+  www marketing hero ("Explore Heroic Lands" → /thalorna/, /projects/, /blog/) —
+  sections that do not exist on the kb subdomain. Without this override the KB
+  root is indistinguishable from www (see issue #689). This renders a
+  knowledgebase-specific landing that orients visitors and links into the KB's
+  real top-level sections: the developer docs (/dev/), the user guide (/guide/),
+  and the game-content reference catalogs.
+*/ -}}
+{{ define "main" }}
+<section class="hero hero-with-image" style="background-image: url('https://cdn.heroiclands.org/images/sohl-banner.webp');">
+  <div class="hero-inner">
+    <h1>SoHL Knowledgebase</h1>
+    <p class="hero-tagline">Developer documentation, player guides, and the full game-content reference for Song of Heroic Lands — HârnMaster on Foundry VTT.</p>
+  </div>
+</section>
+
+<section class="home-sections">
+  <div class="home-grid">
+
+    <div class="home-card">
+      <h2><a href="/dev/">Developer Documentation</a></h2>
+      <p>Architecture, extension points, lifecycle hooks, testing, and reference material for building on — or contributing to — the SoHL system.</p>
+      <a href="/dev/" class="card-button">Read the docs →</a>
+    </div>
+
+    <div class="home-card">
+      <h2><a href="/guide/">User Guide</a></h2>
+      <p>Player- and GM-facing guides to running HârnMaster with Song of Heroic Lands: character creation, combat, and everyday play on Foundry VTT.</p>
+      <a href="/guide/" class="card-button">Open the guide →</a>
+    </div>
+
+  </div>
+</section>
+
+<section class="home-sections">
+  <h2 style="text-align: center;">Content reference</h2>
+  <p class="hero-tagline">Browse the catalog of every being, item, skill, and affliction shipped with the system.</p>
+  <div class="home-grid">
+
+    <div class="home-card">
+      <h2><a href="/beings/">Beings</a></h2>
+      <p>Character and creature templates.</p>
+      <a href="/beings/" class="card-button">Browse →</a>
+    </div>
+
+    <div class="home-card">
+      <h2><a href="/attribute/">Attributes &amp; Skills</a></h2>
+      <p>Core attributes, skills, and mystical abilities.</p>
+      <a href="/skill/" class="card-button">Browse →</a>
+    </div>
+
+    <div class="home-card">
+      <h2><a href="/weapongear/">Gear</a></h2>
+      <p>Weapons, armor, projectiles, containers, and miscellaneous gear.</p>
+      <a href="/weapongear/" class="card-button">Browse →</a>
+    </div>
+
+    <div class="home-card">
+      <h2><a href="/affliction/">Afflictions</a></h2>
+      <p>Diseases, poisons, and other conditions.</p>
+      <a href="/affliction/" class="card-button">Browse →</a>
+    </div>
+
+  </div>
+</section>
+{{ end }}
