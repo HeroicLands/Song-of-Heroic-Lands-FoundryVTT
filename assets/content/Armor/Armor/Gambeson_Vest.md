@@ -13,6 +13,7 @@ shortcode: GVest
 type: armorgear
 package: sohl
 sohl:
+    kbcat: gambeson
     archetype: 0
     armorType: Vest
     detailMaterial: Gambeson

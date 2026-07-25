@@ -14,6 +14,7 @@ shortcode: leash
 type: miscgear
 package: sohl
 sohl:
+    kbcat: tack
     archetype: 0
     quality: 0
     durability: 5

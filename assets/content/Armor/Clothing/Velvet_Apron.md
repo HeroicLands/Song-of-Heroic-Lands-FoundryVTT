@@ -13,6 +13,7 @@ shortcode: VApn
 type: armorgear
 package: sohl
 sohl:
+    kbcat: cloth
     archetype: 0
     armorType: Apron
     detailMaterial: Velvet

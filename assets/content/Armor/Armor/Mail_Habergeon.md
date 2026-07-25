@@ -13,6 +13,7 @@ shortcode: MHbgn
 type: armorgear
 package: sohl
 sohl:
+    kbcat: mail
     archetype: 0
     armorType: Habergeon
     detailMaterial: Mail

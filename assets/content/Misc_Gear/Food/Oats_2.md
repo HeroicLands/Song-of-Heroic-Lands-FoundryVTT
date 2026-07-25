@@ -14,6 +14,7 @@ shortcode: oats2
 type: miscgear
 package: sohl
 sohl:
+    kbcat: food
     archetype: 0
     quality: 0
     durability: 0

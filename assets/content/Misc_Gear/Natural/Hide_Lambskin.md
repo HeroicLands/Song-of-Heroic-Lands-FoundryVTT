@@ -14,6 +14,7 @@ shortcode: hidelambsk
 type: miscgear
 package: sohl
 sohl:
+    kbcat: natural
     archetype: 0
     quality: 0
     durability: 3

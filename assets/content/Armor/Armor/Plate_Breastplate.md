@@ -13,6 +13,7 @@ shortcode: PlBreast
 type: armorgear
 package: sohl
 sohl:
+    kbcat: plate
     archetype: 0
     armorType: Breastplate
     detailMaterial: Plate

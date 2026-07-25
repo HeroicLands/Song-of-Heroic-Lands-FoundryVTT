@@ -14,6 +14,7 @@ shortcode: gldcrwn
 type: miscgear
 package: sohl
 sohl:
+    kbcat: cash
     archetype: 0
     quality: 0
     durability: 7

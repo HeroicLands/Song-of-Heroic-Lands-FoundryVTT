@@ -13,6 +13,7 @@ shortcode: QScoat
 type: armorgear
 package: sohl
 sohl:
+    kbcat: quilted
     archetype: 0
     armorType: Surcoat
     detailMaterial: Quilted

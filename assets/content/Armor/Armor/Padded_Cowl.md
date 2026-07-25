@@ -13,6 +13,7 @@ shortcode: PCwl
 type: armorgear
 package: sohl
 sohl:
+    kbcat: padded
     archetype: 0
     armorType: Cowl
     detailMaterial: Padded

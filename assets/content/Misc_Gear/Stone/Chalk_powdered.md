@@ -14,6 +14,7 @@ shortcode: chalkpowde
 type: miscgear
 package: sohl
 sohl:
+    kbcat: stone
     archetype: 0
     quality: 0
     durability: 0

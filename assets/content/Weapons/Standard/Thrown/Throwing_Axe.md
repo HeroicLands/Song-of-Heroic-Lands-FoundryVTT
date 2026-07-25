@@ -13,6 +13,7 @@ shortcode: Shkn
 type: weapongear
 package: sohl
 sohl:
+    kbcat: thrown
     archetype: 0
     durability: 10
     weight: 2

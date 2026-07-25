@@ -13,6 +13,7 @@ shortcode: RByr
 type: armorgear
 package: sohl
 sohl:
+    kbcat: ring
     archetype: 0
     armorType: Byrnie
     detailMaterial: Ring

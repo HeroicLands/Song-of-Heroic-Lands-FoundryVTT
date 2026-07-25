@@ -14,6 +14,7 @@ shortcode: KHlfHelm
 type: armorgear
 package: sohl
 sohl:
+    kbcat: kurbul
     archetype: 0
     armorType: Halfhelm
     detailMaterial: Kûrbúl

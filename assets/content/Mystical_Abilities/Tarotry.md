@@ -12,6 +12,7 @@ shortcode: tarot
 type: mysticalability
 package: sohl
 sohl:
+    kbcat: divination
     archetype: 0
     subType: divination
     assocSkillCode: ""

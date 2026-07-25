@@ -14,6 +14,7 @@ shortcode: horndrinki
 type: miscgear
 package: sohl
 sohl:
+    kbcat: expedition
     archetype: 0
     quality: 0
     durability: 3

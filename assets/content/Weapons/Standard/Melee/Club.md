@@ -13,6 +13,7 @@ shortcode: Clb
 type: weapongear
 package: sohl
 sohl:
+    kbcat: melee
     archetype: 0
     durability: 9
     weight: 3

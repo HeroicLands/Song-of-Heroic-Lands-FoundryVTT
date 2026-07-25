@@ -11,6 +11,7 @@ shortcode: glssphb
 type: trauma
 package: sohl
 sohl:
+    kbcat: psyphobias
     archetype: 0
     subType: psycond
     category: impulse

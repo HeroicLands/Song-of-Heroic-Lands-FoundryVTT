@@ -13,6 +13,7 @@ shortcode: PMntl
 type: armorgear
 package: sohl
 sohl:
+    kbcat: padded
     archetype: 0
     armorType: Mantle
     detailMaterial: Padded

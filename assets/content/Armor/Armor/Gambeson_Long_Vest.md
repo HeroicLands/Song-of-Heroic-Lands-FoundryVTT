@@ -13,6 +13,7 @@ shortcode: GLngVest
 type: armorgear
 package: sohl
 sohl:
+    kbcat: gambeson
     archetype: 0
     armorType: Long Vest
     detailMaterial: Gambeson

@@ -13,6 +13,7 @@ shortcode: SCwl
 type: armorgear
 package: sohl
 sohl:
+    kbcat: scale
     archetype: 0
     armorType: Cowl
     detailMaterial: Scale

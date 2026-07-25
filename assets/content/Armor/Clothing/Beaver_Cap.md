@@ -13,6 +13,7 @@ shortcode: BvCap
 type: armorgear
 package: sohl
 sohl:
+    kbcat: leather
     archetype: 0
     armorType: Cap
     detailMaterial: Beaver

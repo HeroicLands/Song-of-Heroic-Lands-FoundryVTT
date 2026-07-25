@@ -13,6 +13,7 @@ shortcode: MVest
 type: armorgear
 package: sohl
 sohl:
+    kbcat: mail
     archetype: 0
     armorType: Vest
     detailMaterial: Mail

@@ -14,6 +14,7 @@ shortcode: iconreligi
 type: miscgear
 package: sohl
 sohl:
+    kbcat: religious
     archetype: 0
     quality: 0
     durability: 4

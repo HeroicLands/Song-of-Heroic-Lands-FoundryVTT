@@ -14,6 +14,7 @@ shortcode: KSpld
 type: armorgear
 package: sohl
 sohl:
+    kbcat: kurbul
     archetype: 0
     armorType: Spaulders
     detailMaterial: Kûrbúl

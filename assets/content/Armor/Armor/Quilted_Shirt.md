@@ -13,6 +13,7 @@ shortcode: QSht
 type: armorgear
 package: sohl
 sohl:
+    kbcat: quilted
     archetype: 0
     armorType: Shirt
     detailMaterial: Quilted

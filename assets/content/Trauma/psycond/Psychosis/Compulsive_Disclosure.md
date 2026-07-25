@@ -12,6 +12,7 @@ shortcode: cmpldsr
 type: trauma
 package: sohl
 sohl:
+    kbcat: psypsychosis
     archetype: 0
     subType: psycond
     category: impulse

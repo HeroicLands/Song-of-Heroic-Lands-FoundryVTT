@@ -13,6 +13,7 @@ shortcode: Scmtr
 type: weapongear
 package: sohl
 sohl:
+    kbcat: melee
     archetype: 0
     durability: 12
     weight: 3

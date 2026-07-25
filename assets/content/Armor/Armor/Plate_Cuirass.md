@@ -13,6 +13,7 @@ shortcode: PlCui
 type: armorgear
 package: sohl
 sohl:
+    kbcat: plate
     archetype: 0
     armorType: Cuirass
     detailMaterial: Plate

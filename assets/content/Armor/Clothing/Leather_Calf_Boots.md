@@ -13,6 +13,7 @@ shortcode: LtCBoot
 type: armorgear
 package: sohl
 sohl:
+    kbcat: leather
     archetype: 0
     armorType: Calf Boots
     detailMaterial: Leather

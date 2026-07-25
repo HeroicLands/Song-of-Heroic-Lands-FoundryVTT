@@ -14,6 +14,7 @@ shortcode: grimoire
 type: miscgear
 package: sohl
 sohl:
+    kbcat: scribe
     archetype: 0
     quality: 0
     durability: 7

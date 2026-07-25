@@ -14,6 +14,7 @@ shortcode: milkgoat
 type: miscgear
 package: sohl
 sohl:
+    kbcat: food
     archetype: 0
     quality: 0
     durability: 0

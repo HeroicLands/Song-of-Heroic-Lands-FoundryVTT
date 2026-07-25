@@ -12,6 +12,7 @@ shortcode: amnsttl
 type: trauma
 package: sohl
 sohl:
+    kbcat: psypsychosis
     archetype: 0
     subType: psycond
     category: disorder

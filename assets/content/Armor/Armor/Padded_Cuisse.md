@@ -13,6 +13,7 @@ shortcode: PCuis
 type: armorgear
 package: sohl
 sohl:
+    kbcat: padded
     archetype: 0
     armorType: Cuisse
     detailMaterial: Padded

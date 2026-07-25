@@ -14,6 +14,7 @@ shortcode: gwinecup
 type: miscgear
 package: sohl
 sohl:
+    kbcat: spirits
     archetype: 0
     quality: 0
     durability: 0

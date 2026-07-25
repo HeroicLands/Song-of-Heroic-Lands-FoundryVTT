@@ -13,6 +13,7 @@ shortcode: RhSkirt
 type: armorgear
 package: sohl
 sohl:
+    kbcat: leather
     archetype: 0
     armorType: Skirt
     detailMaterial: Rawhide

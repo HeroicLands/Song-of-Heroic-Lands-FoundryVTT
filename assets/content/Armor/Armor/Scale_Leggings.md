@@ -13,6 +13,7 @@ shortcode: SLeg
 type: armorgear
 package: sohl
 sohl:
+    kbcat: scale
     archetype: 0
     armorType: Leggings
     detailMaterial: Scale

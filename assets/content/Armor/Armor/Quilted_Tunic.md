@@ -13,6 +13,7 @@ shortcode: QTnc
 type: armorgear
 package: sohl
 sohl:
+    kbcat: quilted
     archetype: 0
     armorType: Tunic
     detailMaterial: Quilted

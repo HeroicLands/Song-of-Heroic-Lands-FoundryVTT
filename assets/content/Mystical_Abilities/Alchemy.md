@@ -12,6 +12,7 @@ shortcode: alch
 type: mysticalability
 package: sohl
 sohl:
+    kbcat: alchemy
     archetype: 0
     subType: alchemy
     assocSkillCode: ""

@@ -13,6 +13,7 @@ shortcode: QCap
 type: armorgear
 package: sohl
 sohl:
+    kbcat: quilted
     archetype: 0
     armorType: Cap
     detailMaterial: Quilted

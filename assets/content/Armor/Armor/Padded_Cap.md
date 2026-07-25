@@ -13,6 +13,7 @@ shortcode: PCap
 type: armorgear
 package: sohl
 sohl:
+    kbcat: padded
     archetype: 0
     armorType: Cap
     detailMaterial: Padded

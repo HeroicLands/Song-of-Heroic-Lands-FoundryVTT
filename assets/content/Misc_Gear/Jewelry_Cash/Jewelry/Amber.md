@@ -14,6 +14,7 @@ shortcode: amber
 type: miscgear
 package: sohl
 sohl:
+    kbcat: jewelry
     archetype: 0
     quality: 0
     durability: 1

@@ -13,6 +13,7 @@ shortcode: CBw80
 type: weapongear
 package: sohl
 sohl:
+    kbcat: bows
     archetype: 0
     durability: 11
     weight: 3

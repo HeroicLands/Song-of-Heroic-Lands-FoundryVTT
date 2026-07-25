@@ -13,6 +13,7 @@ shortcode: QMntl
 type: armorgear
 package: sohl
 sohl:
+    kbcat: quilted
     archetype: 0
     armorType: Mantle
     detailMaterial: Quilted

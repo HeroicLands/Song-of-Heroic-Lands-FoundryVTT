@@ -146,14 +146,6 @@
   id: ONXsqZAIZr2qzxTb
   parentFolderId: UIDNPBo3tTxDRwBv
   color: "#006400"
-- name: Privations
-  id: wz4hXqKLntkdXNue
-  parentFolderId: UIDNPBo3tTxDRwBv
-  color: "#696969"
-- name: Fatigue
-  id: Y22wv8plMCfPXYBT
-  parentFolderId: UIDNPBo3tTxDRwBv
-  color: "#4682B4"
 
 - name: Attributes
   id: FPitxvL8wCmXynax
@@ -226,6 +218,14 @@
   id: 4h8qyMcGHlkrfN1g
   parentFolderId: 3P28S6pewSJWziiQ
   color: "#B22222"
+- name: Privations
+  id: wz4hXqKLntkdXNue
+  parentFolderId: 4h8qyMcGHlkrfN1g
+  color: "#696969"
+- name: Fatigue
+  id: Y22wv8plMCfPXYBT
+  parentFolderId: 3P28S6pewSJWziiQ
+  color: "#4682B4"
 
 - name: Esoteric
   id: oPaj2BHhAX2fvkx6

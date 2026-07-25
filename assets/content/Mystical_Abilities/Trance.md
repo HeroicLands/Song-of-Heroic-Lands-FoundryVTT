@@ -12,6 +12,7 @@ shortcode: trnc
 type: mysticalability
 package: sohl
 sohl:
+    kbcat: spiritaction
     archetype: 0
     subType: spiritaction
     assocSkillCode: ""
