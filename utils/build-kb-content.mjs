@@ -343,7 +343,12 @@ for (const file of walk(CONTENT_SRC)) {
 
     const name = fm.name?.full ?? path.basename(file, ".md");
     const slug = fm.slug ?? slugify(name);
-    entries.push({ fm, body, name, slug });
+    // Immediate source subfolder (e.g. Creatures/Animal/Aurochs.md → "Animal").
+    // The KB tree is flat per section, so this is the only surviving record of
+    // the authoring folder — section landings group by it (e.g. the Creatures
+    // page renders one table per subfolder).
+    const folder = path.basename(path.dirname(file));
+    entries.push({ fm, body, name, slug, folder });
 
     if (typeof fm.shortcode === "string") {
         refIndex.set(`${fm.type}:${fm.shortcode}`, {
@@ -353,8 +358,8 @@ for (const file of walk(CONTENT_SRC)) {
     }
 }
 
-for (const { fm, body, name, slug } of entries) {
-    const data = { ...fm, title: fm.title ?? name };
+for (const { fm, body, name, slug, folder } of entries) {
+    const data = { ...fm, title: fm.title ?? name, kbfolder: folder };
     if (fm.type === "character" || fm.type === "creature") {
         data.sohl = deriveBeingSohl(fm.sohl, refIndex);
     }

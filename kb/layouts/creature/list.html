@@ -1,0 +1,45 @@
+{{ define "main" }}
+{{ partial "hero-banner.html" . }}
+{{ partial "breadcrumbs.html" . }}
+
+<article class="single">
+  <div class="single-content">
+    {{ if .Content }}<div class="single-body">{{ .Content }}</div>{{ end }}
+
+    {{- /* One table per source subfolder (Animal, Spirit, …), titled with the
+           folder basename; groups are alphabetical, rows sorted by name. Fully
+           dynamic — new creatures or subfolders appear on the next build. */ -}}
+    {{- $pages := where site.RegularPages "Section" "creature" -}}
+    {{- range $pages.GroupByParam "kbfolder" }}
+    <section class="kbcat-group">
+      <h2 id="folder-{{ .Key | urlize }}">{{ .Key }}</h2>
+      <div class="kbcat-table-wrap" style="overflow-x: auto;">
+        <table class="kbcat-table">
+          <thead>
+            <tr>
+              <th>Name</th><th>Shortcode</th><th>Package</th>
+              <th>STR</th><th>END</th><th>DEX</th><th>AGL</th><th>PER</th>
+              <th>AUR</th><th>WIL</th><th>REA</th><th>CRE</th>
+              <th>Weight</th><th>Body Scale</th><th>Movement (ft/round)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{- range (sort .Pages "Title") }}
+            <tr>
+              <td><a href="{{ .RelPermalink }}">{{ .Title }}</a></td>
+              <td>{{ .Params.shortcode }}</td>
+              <td>{{ .Params.package }}</td>
+              {{ partial "actor-attrs.html" . }}
+              <td>{{ .Params.sohl.body.weight.base }}</td>
+              <td>{{ .Params.sohl.body.bodyScaleBase }}</td>
+              <td>{{ partial "actor-movement.html" . }}</td>
+            </tr>
+            {{- end }}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    {{- end }}
+  </div>
+</article>
+{{ end }}

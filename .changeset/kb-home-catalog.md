@@ -19,4 +19,11 @@ button always resolves rather than 404ing.
 
 The KB now also includes `package: thalorna` content (previously `sohl`-only), so
 Thalorna creatures and characters appear in the catalog alongside the core SoHL
-content. KB layouts and build only; no system-package impact.
+content.
+
+The Characters and Creatures landing pages render attribute tables (Name,
+Shortcode, Package, the nine core attributes, Weight, Body Scale, Movement, and —
+for characters — Occupation/Class); the Creatures page groups its tables by source
+subfolder (Animal, Spirit, …), which the build now records as a `kbfolder` param
+since the KB tree is otherwise flat. KB layouts and build only; no system-package
+impact.

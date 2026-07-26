@@ -1,0 +1,39 @@
+{{ define "main" }}
+{{ partial "hero-banner.html" . }}
+{{ partial "breadcrumbs.html" . }}
+
+<article class="single">
+  <div class="single-content">
+    {{ if .Content }}<div class="single-body">{{ .Content }}</div>{{ end }}
+
+    {{- /* Single table of every character, sorted by name. */ -}}
+    <div class="kbcat-table-wrap" style="overflow-x: auto;">
+      <table class="kbcat-table">
+        <thead>
+          <tr>
+            <th>Name</th><th>Shortcode</th><th>Package</th><th>Occupation/Class</th>
+            <th>STR</th><th>END</th><th>DEX</th><th>AGL</th><th>PER</th>
+            <th>AUR</th><th>WIL</th><th>REA</th><th>CRE</th>
+            <th>Weight (lbs)</th><th>Body Scale</th><th>Movement (ft/round)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{- range (sort (where site.RegularPages "Section" "character") "Title") }}
+          {{- $s := .Params.social -}}
+          <tr>
+            <td><a href="{{ .RelPermalink }}">{{ .Title }}</a></td>
+            <td>{{ .Params.shortcode }}</td>
+            <td>{{ .Params.package }}</td>
+            <td>{{ with $s }}{{ .occupation }}{{ if and .occupation .class }} / {{ end }}{{ .class }}{{ end }}</td>
+            {{ partial "actor-attrs.html" . }}
+            <td>{{ .Params.sohl.body.weight.base }}</td>
+            <td>{{ .Params.sohl.body.bodyScaleBase }}</td>
+            <td>{{ partial "actor-movement.html" . }}</td>
+          </tr>
+          {{- end }}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</article>
+{{ end }}
