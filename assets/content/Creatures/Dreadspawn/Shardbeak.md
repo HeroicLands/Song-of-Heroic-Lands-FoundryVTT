@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Shardbeak
+    - Shardbeak
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Shardbeak
-  aliases: []
+    full: Shardbeak
+    aliases: []
 id: 76EahT1TyL7D0R9f
 slug: shardbeak
 img: images/shardbeak-headshot.webp
@@ -13,54 +13,54 @@ portrait: images/shardbeak.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 9
-    end: 11
-    dex: 13
-    agl: 15
-    per: 15
-    aur: 9
-    wil: 11
-    rea: 8
-    cre: 9
-  attrRollFormula:
-    str: 1d4+6
-    end: 1d4+8
-    dex: 1d4+10
-    agl: 1d4+12
-    per: 1d4+12
-    aur: 1d4+6
-    wil: 1d4+8
-    rea: 1d4+5
-    cre: 1d4+6
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 30
-      calc: 30
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: aerial
-      feetPerRound: 80
-      leaguesPerWatch: 6
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-    - medium: terrestrial
-      feetPerRound: 30
-      leaguesPerWatch: 2
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 9
+        end: 11
+        dex: 13
+        agl: 15
+        per: 15
+        aur: 9
+        wil: 11
+        rea: 8
+        cre: 9
+    attrRollFormula:
+        str: 1d4+6
+        end: 1d4+8
+        dex: 1d4+10
+        agl: 1d4+12
+        per: 1d4+12
+        aur: 1d4+6
+        wil: 1d4+8
+        rea: 1d4+5
+        cre: 1d4+6
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 30
+            calc: 30
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: aerial
+          feetPerRound: 80
+          leaguesPerWatch: 6
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+        - medium: terrestrial
+          feetPerRound: 30
+          leaguesPerWatch: 2
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -86,23 +86,29 @@ A Shardbeak attacks from the air, diving and striking with incredible speed and 
 ## Attack Methods
 
 ### Crystal-Beak Strike
+
 The Shardbeak dives and drives its needle-like beak into its target with tremendous force, capable of piercing armor. The beak itself is so sharp that even glancing blows can cause serious wounds.
 
 ### Shard Barrage
+
 The creature flares its wings, launching hundreds of razor-sharp crystal fragments in a cone pattern. These shards are small enough to pass through most armor gaps and can cause numerous deep cuts.
 
 ### Prismatic Dazzle
+
 The creature's crystalline body refracts and magnifies light to blinding intensity, filling an area with overwhelming radiance that blinds and disorients all creatures unfortunate enough to be in range.
 
 ## Special Abilities
 
 ### Arcane Affinity
+
 The Shardbeak is drawn to and feeds on magical energy. It can sense sources of magic at considerable distance and is strengthened by proximity to arcane power, gaining bonuses to healing and to all physical abilities while in areas of magical concentration.
 
 ### Crystal Armor
+
 The creature's crystalline form is resistant to slashing and piercing damage, though it is remarkably fragile against blunt force and sonic attacks, which can shatter its protective shell.
 
 ### Prismatic Refraction
+
 The Shardbeak's crystalline surface causes all light to refract in unpredictable ways, making it difficult to focus on or target. Attacks against it suffer disadvantage unless the attacker is particularly observant or uses magical means to track it.
 
 ## Additional Information
@@ -110,6 +116,7 @@ The Shardbeak's crystalline surface causes all light to refract in unpredictable
 Shardbeaks are extremely vulnerable to sonic attacks, which can shatter their crystalline bodies. Thunder and vibration-based magic is particularly effective. They are also weak to cold, which can cause their crystal to become brittle and prone to cracking. Blunt force trauma is also effective—while slashing weapons glance off their smooth surfaces, heavy hammers and mauls can deal serious damage. In areas where magic is suppressed or nullified, a Shardbeak will slowly weaken and eventually die from lack of sustenance. The creature's corpse, if preserved carefully, retains value—its crystalline components can be fashioned into gems of unusual properties, used in magical foci, or ground into components for potion creation. Some alchemists prize Shardbeak crystal above diamonds for its inherent magical reactivity.
 
 ## Attributes
+
 - **Strength:** 7-10 (1d4+6)
 
 - **Endurance:** 9-12 (1d4+8)

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Nightwraith
+    - Nightwraith
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Nightwraith
-  aliases: []
+    full: Nightwraith
+    aliases: []
 id: 0NE6dWbx8FtYiJdp
 slug: nightwraith
 img: images/nightwraith-headshot.webp
@@ -13,48 +13,49 @@ portrait: images/nightwraith.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 14
-    end: 16
-    dex: 18
-    agl: 20
-    per: 20
-    aur: 10
-    wil: 16
-    rea: 12
-    cre: 10
-  attrRollFormula:
-    str: 1d6+10
-    end: 1d4+13
-    dex: 1d6+14
-    agl: 1d6+16
-    per: 1d6+16
-    aur: 1d6+6
-    wil: 1d4+13
-    rea: 1d4+9
-    cre: 1d6+6
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 300
-      calc: 300
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: aerial
-      feetPerRound: 100
-      leaguesPerWatch: 10
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 14
+        end: 16
+        dex: 18
+        agl: 20
+        per: 20
+        aur: 10
+        wil: 16
+        rea: 12
+        cre: 10
+    attrRollFormula:
+        str: 1d6+10
+        end: 1d4+13
+        dex: 1d6+14
+        agl: 1d6+16
+        per: 1d6+16
+        aur: 1d6+6
+        wil: 1d4+13
+        rea: 1d4+9
+        cre: 1d6+6
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 300
+            calc: 300
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: aerial
+          feetPerRound: 100
+          leaguesPerWatch: 10
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
+
 # Appearance {#appearance}
 
 The darkness above you ripples with motion—a shadow that moves against the shadows themselves. Then you hear it: not the flap of wings but something worse, a wet, clicking chirp that seems to come from everywhere at once. The temperature plummets as an enormous winged shape passes overhead, blocking out even the starlight, and you catch the reek of blood and cave-rot. Two points of sickly crimson luminescence fixate on you from above—eyes that see you more clearly in utter darkness than you can see in daylight. Fangs the length of fingers curve downward, and you hear the thrash of leathery wings as the creature wheels for another pass, and the sound of its hunger is a thousand screaming voices condensed into a single, dripping maw.
@@ -78,23 +79,29 @@ A Nightwraith attacks from above and behind whenever possible, attempting to rak
 ## Attack Methods
 
 ### Blood-Draining Bite
+
 The Nightwraith dives from above, attempting to drive its elongated fangs into exposed flesh and anchoring itself while it feeds. Victims lose blood rapidly and begin to weaken from blood loss and the creature’s parasitic venom.
 
 ### Raking Talons
+
 The creature’s claws are nearly as formidable as its fangs, used to rake prey during aerial passes or to hold a victim immobile while it feeds.
 
 ### Sonic Screech
+
 The Nightwraith’s ultrasonic vocalizations can be focused into a devastating assault that disorients and dazes all creatures in a cone before it, disrupting spellcasting and balance alike.
 
 ## Special Abilities
 
 ### Echolocation Mastery
+
 The Nightwraith navigates and hunts with perfect precision in complete darkness, its echolocation revealing the world to it in perfect detail even when totally blind. It can perceive creatures by heartbeat, breath, and body heat with accuracy that rivals magical sight.
 
 ### Nocturnal Predation
+
 In darkness or low light, the Nightwraith’s movement and attacks are enhanced, and its perceptiveness is magnified. Creatures attempting to track or target it in darkness suffer significant disadvantage.
 
 ### Blood Hunger
+
 Once the Nightwraith has tasted blood, it enters a state of heightened aggression and focus on that particular victim, pursuing it with relentless determination. A bleeding target cannot easily escape or hide from the creature.
 
 ## Additional Information
@@ -102,6 +109,7 @@ Once the Nightwraith has tasted blood, it enters a state of heightened aggressio
 Bright light is the Nightwraith’s primary weakness—sustained illumination causes it physical pain and forces it to retreat. Daylight is nearly unbearable; a Nightwraith caught in direct sunlight will flee desperately to the nearest darkness. Fire is equally effective, not only harming the creature but overwhelming its sensitive senses and disrupting its echolocation. Roosts can sometimes be eliminated by smoke or by destroying the cavern entrances, trapping the creatures in daylight where they slowly weaken. The guano accumulated in Nightwraith roosts is extraordinarily valuable to alchemists and tends to accumulate in toxic, crystalline forms that can be harvested. Some desperate communities have attempted to negotiate with Nightwraith colonies by providing regular sacrificial livestock, reducing human predation in exchange for food—a practice viewed with deep moral ambiguity by most societies.
 
 ## Attributes
+
 - **Strength:** 11-16 (1d6+10)
 
 - **Endurance:** 14-17 (1d4+13)
@@ -122,7 +130,7 @@ Bright light is the Nightwraith’s primary weakness—sustained illumination ca
 
 ## Lineage Notes
 
-*The following notes are inherited from the original lineage description.*
+_The following notes are inherited from the original lineage description._
 
 Above you the darkness ripples with motion, a shadow moving against shadows themselves. Then you hear it—a wet, clicking chirp from everywhere at once. The temperature plummets, and you realize the thing has already marked you by the beat of your heart.
 

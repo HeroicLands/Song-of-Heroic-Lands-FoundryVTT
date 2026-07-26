@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Swampstrider
+    - Swampstrider
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Swampstrider
-  aliases: []
+    full: Swampstrider
+    aliases: []
 id: Xp59IPJIp337Wq2N
 slug: swampstrider
 img: images/swampstrider-headshot.webp
@@ -13,55 +13,55 @@ portrait: images/swampstrider.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 14
-    end: 16
-    dex: 16
-    agl: 18
-    per: 14
-    aur: 10
-    wil: 14
-    rea: 12
-    cre: 14
-  attrRollFormula:
-    str: 1d6+10
-    end: 1d4+13
-    dex: 1d4+13
-    agl: 1d6+14
-    per: 1d6+10
-    aur: 1d6+6
-    wil: 1d6+10
-    rea: 1d4+9
-    cre: 1d6+10
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 200
-      calc: 200
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 50
-      leaguesPerWatch: 3
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors:
-        - scope: surface_cover
-          key: wetlands
-          mode: add
-          textValue: '0'
-        - scope: hydrology
-          key: shallow
-          mode: add
-          textValue: '0'
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 14
+        end: 16
+        dex: 16
+        agl: 18
+        per: 14
+        aur: 10
+        wil: 14
+        rea: 12
+        cre: 14
+    attrRollFormula:
+        str: 1d6+10
+        end: 1d4+13
+        dex: 1d4+13
+        agl: 1d6+14
+        per: 1d6+10
+        aur: 1d6+6
+        wil: 1d6+10
+        rea: 1d4+9
+        cre: 1d6+10
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 200
+            calc: 200
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 50
+          leaguesPerWatch: 3
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors:
+              - scope: surface_cover
+                key: wetlands
+                mode: add
+                textValue: "0"
+              - scope: hydrology
+                key: shallow
+                mode: add
+                textValue: "0"
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -87,23 +87,29 @@ A Swampstrider initiates combat by launching itself at tremendous speed from wat
 ## Attack Methods
 
 ### Prehensile Tongue Strike
+
 The creature's tongue lashes out with adhesive power and surprising strength, attempting to capture prey or drag it closer. Victims caught by the tongue find escape nearly impossible and will be drawn toward the creature's massive jaws.
 
 ### Crushing Bite
+
 Once prey is within range, the Swampstrider's jaws snap down with power comparable to a bear trap, capable of causing catastrophic damage or severing limbs.
 
 ### Powerful Leap and Ram
+
 The creature's hind legs can propel it with explosive force across or through water, allowing it to ram opponents with shoulder or head strikes of devastating power.
 
 ## Special Abilities
 
 ### Toxic Secretions
+
 The Swampstrider's skin secretes a potent neurotoxin that affects anything it touches. Victims of the sticky tongue or who are grappled begin to experience numbness and eventual paralysis as the toxin spreads.
 
 ### Amphibious Adaptation
+
 The Swampstrider moves with equal ease in deep water and on land, though it is somewhat slower on land than in its native element. It can hold its breath indefinitely and sees perfectly in complete darkness.
 
 ### Predatory Cunning
+
 The Swampstrider demonstrates genuine tactical intelligence, learning prey patterns and adapting its hunting strategies. It understands concepts like luring prey or herding them into kill zones.
 
 ## Additional Information
@@ -111,6 +117,7 @@ The Swampstrider demonstrates genuine tactical intelligence, learning prey patte
 Extreme heat and desiccation are the Swampstrider's primary weaknesses—the creature cannot survive indefinitely out of water, and prolonged exposure to dry conditions will eventually kill it. Its toxins can be extracted and preserved, though doing so is extraordinarily dangerous and requires specialized knowledge. The creature's hide, if harvested carefully, can be fashioned into water-resistant armor of exceptional quality. The adhesive secretions from its tongue are highly prized by craftspeople and can be used in numerous specialized applications. Hunting a Swampstrider is considered a dangerous undertaking, and those few who succeed in killing one are celebrated throughout the region. The creature's remains are valuable enough that expeditions have been mounted purely to claim them, though most such expeditions end without a successful kill.
 
 ## Attributes
+
 - **Strength:** 11-16 (1d6+10)
 
 - **Endurance:** 14-17 (1d4+13)

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Nightshade Serpent
+    - Nightshade Serpent
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Nightshade Serpent
-  aliases: []
+    full: Nightshade Serpent
+    aliases: []
 id: YXVHuVQsvRY6kiZm
 slug: nightshade-serpent
 img: images/nightshade-serpent-headshot.webp
@@ -13,56 +13,57 @@ portrait: images/nightshade-serpent.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 15
-    end: 13
-    dex: 11
-    agl: 15
-    per: 13
-    aur: 11
-    wil: 11
-    rea: 9
-    cre: 9
-  attrRollFormula:
-    str: 1d4+12
-    end: 1d4+10
-    dex: 1d4+8
-    agl: 1d4+12
-    per: 1d4+10
-    aur: 1d4+8
-    wil: 1d4+8
-    rea: 1d4+6
-    cre: 1d4+6
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 150
-      calc: 150
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 40
-      leaguesPerWatch: 3
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors:
-        - scope: surface_cover
-          key: wetlands
-          mode: add
-          textValue: '-2'
-        - scope: hydrology
-          key: shallow
-          mode: add
-          textValue: '0'
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 15
+        end: 13
+        dex: 11
+        agl: 15
+        per: 13
+        aur: 11
+        wil: 11
+        rea: 9
+        cre: 9
+    attrRollFormula:
+        str: 1d4+12
+        end: 1d4+10
+        dex: 1d4+8
+        agl: 1d4+12
+        per: 1d4+10
+        aur: 1d4+8
+        wil: 1d4+8
+        rea: 1d4+6
+        cre: 1d4+6
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 150
+            calc: 150
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 40
+          leaguesPerWatch: 3
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors:
+              - scope: surface_cover
+                key: wetlands
+                mode: add
+                textValue: "-2"
+              - scope: hydrology
+                key: shallow
+                mode: add
+                textValue: "0"
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
+
 # Appearance {#appearance}
 
 The shadows between the stones seem wrong—deeper, more solid than they should be. You catch the glint of something like a jewel, then—movement that was never quite there, a shape that shifts at the edge of vision. The air grows cold and still, and you smell it: something like rotting nightflowers, a scent that makes your skin prickle with primal dread. Then you see the eyes—no, feel them—two points of sickly luminescence in the darkness, ancient and intelligent and utterly devoid of anything resembling mercy. A sinuous form rises from shadow itself, scales the color of midnight oil, and the whisper-sound of serpentine movement becomes deafening in your ears.
@@ -86,23 +87,29 @@ A Nightshade Serpent initiates combat by striking from darkness or obscurement, 
 ## Attack Methods
 
 ### Venomous Fang Strike
+
 The serpent’s head strikes like a whip-crack, its elongated fangs driving deep into flesh and injecting an incredible volume of potent neurotoxin. The venom begins its work almost immediately, spreading through the victim’s body in waves of pain and progressive paralysis.
 
 ### Constricting Coil
+
 Once prey is weakened or immobilized by venom, the serpent coils its massive length around the victim, crushing the life from them with inexorable pressure. Armor provides minimal protection against the absolute force of the creature’s muscular body.
 
 ### Shadow Strike
+
 The creature’s connection to darkness allows it to strike from obscurement even in well-lit areas, seeming to flow from shadow itself before striking and retreating back into darkness that shouldn’t exist.
 
 ## Special Abilities
 
 ### Shadow Affinity
+
 The Nightshade Serpent moves through shadows as though they were solid ground, able to disappear into darkness and emerge from any patch of shadow within line of sight. In areas of deep shadow or darkness, the creature is nearly invisible.
 
 ### Venom of Living Nightshade
+
 The creature’s venom is a cocktail of neurotoxins that causes progressive paralysis, searing pain, and eventual death. Those bitten find their limbs growing heavy and unresponsive even as the pain intensifies unbearably.
 
 ### Intelligent Predation
+
 Unlike natural serpents, Nightshade Serpents demonstrate cunning and malice. They learn and remember, exploiting weaknesses in their prey’s defenses and predicting evasive action with unsettling accuracy.
 
 ## Additional Information
@@ -110,6 +117,7 @@ Unlike natural serpents, Nightshade Serpents demonstrate cunning and malice. The
 Cold is the Nightshade Serpent’s primary weakness—sustained cold or freezing temperatures slow its metabolism and reduce the efficacy of its venom dramatically. Bright light does not harm it but does seem to make it uncomfortable, and the creature will usually avoid areas of direct sunlight if possible. Holy water and positive magical energy can damage it as well, as though the creature is partially sustained by negative or corrupted forces. The venom, if carefully harvested, is extraordinarily valuable and sought after by poisoners and dark sorcerers alike; a single vial can command a fortune from the right buyer. Some legends suggest that Nightshade Serpents are the corrupted remains of ancient serpent-gods, twisted into their current form by some primordial curse. Killing one provides little sense of victory—the creature’s cold, eternal smile seems to suggest it has already claimed some ultimate victory that mortal deaths are merely punctuation for.
 
 ## Attributes
+
 - **Strength:** 13-16 (1d4+12)
 
 - **Endurance:** 11-14 (1d4+10)

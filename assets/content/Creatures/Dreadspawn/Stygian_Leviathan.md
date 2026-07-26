@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Stygian Leviathan
+    - Stygian Leviathan
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Stygian Leviathan
-  aliases: []
+    full: Stygian Leviathan
+    aliases: []
 id: oyXPkVrtWEHRMqr8
 slug: stygian-leviathan
 img: images/stygian-leviathan-headshot.webp
@@ -13,47 +13,47 @@ portrait: images/stygian-leviathan.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 20
-    end: 22
-    dex: 14
-    agl: 14
-    per: 18
-    aur: 8
-    wil: 14
-    rea: 10
-    cre: 10
-  attrRollFormula:
-    str: 1d6+16
-    end: 1d6+18
-    dex: 1d6+10
-    agl: 1d6+10
-    per: 1d6+14
-    aur: 1d6+4
-    wil: 1d6+10
-    rea: 1d6+6
-    cre: 1d6+6
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 20000
-      calc: 20000
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: aquatic
-      feetPerRound: 100
-      leaguesPerWatch: 12
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 20
+        end: 22
+        dex: 14
+        agl: 14
+        per: 18
+        aur: 8
+        wil: 14
+        rea: 10
+        cre: 10
+    attrRollFormula:
+        str: 1d6+16
+        end: 1d6+18
+        dex: 1d6+10
+        agl: 1d6+10
+        per: 1d6+14
+        aur: 1d6+4
+        wil: 1d6+10
+        rea: 1d6+6
+        cre: 1d6+6
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 20000
+            calc: 20000
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: aquatic
+          feetPerRound: 100
+          leaguesPerWatch: 12
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -79,26 +79,33 @@ A Stygian Leviathan initiates combat by attacking with tentacles from a distance
 ## Attack Methods
 
 ### Tentacle Grasp and Drag
+
 One or more tentacles snake out toward a target, attempting to wrap around and drag the victim toward the creature's body or into water. The grip is nearly impossible to escape from without magical aid, and struggling prey simply tires faster.
 
 ### Tearing Bite
+
 The Leviathan's jaws snap shut with bone-crushing force, capable of severing limbs or crushing armor-clad warriors. A successful bite is typically the final act of a combat that the Leviathan wins.
 
 ### Drowning Embrace
+
 If a victim is successfully dragged into water, the creature uses tentacles and body to prevent surfacing, combining constriction with drowning in a terrible combination.
 
 ## Special Abilities
 
 ### Deep-Water Supremacy
+
 The Stygian Leviathan is perfectly adapted to extreme pressure and cold that would kill lesser creatures instantly. In deep water, its movement speed increases, and its attacks gain advantage. In shallow water or on land, it becomes slow and sluggish.
 
 ### Vibration Sense
+
 The creature detects vibrations in water with perfect accuracy, knowing the location of anything moving in its domain. It can sense prey miles away if sufficient ripples or disturbances are created.
 
 ### Tentacle Mastery
+
 The Leviathan commands its tentacles with incredible precision and coordination, allowing multiple simultaneous attacks and the manipulation of prey with dexterity that seems impossible for appendages of such size.
 
 ### Regeneration in Deep Water
+
 So long as the Leviathan remains in deep, cold water, it regenerates from damage. Removing it from its native environment or into warm, shallow water weakens it dramatically.
 
 ## Additional Information
@@ -106,6 +113,7 @@ So long as the Leviathan remains in deep, cold water, it regenerates from damage
 Light is the Leviathan's primary weakness—bright magical light, sunlight, or even sustained illumination in its dark domain causes it genuine pain and disrupts its sensory awareness. Heat is equally effective; exposure to warmth weakens it, and being removed from cold water causes it to weaken slowly. The creature cannot survive indefinitely out of water, and in dry conditions it becomes increasingly sluggish. The teeth and bones of a slain Leviathan are extraordinarily valuable, capable of being crafted into legendary weapons or tools. Some civilizations have based entire economies on the occasional discovery of a Leviathan corpse, spending generations harvesting and processing its remains. The creature's hide can be rendered into leather of exceptional quality and resilience. Hunting a living Leviathan is considered a suicidal undertaking, and those rare expeditions that attempt it do so only with armies of support and sohl. The few survivors of such expeditions are forever changed by the experience.
 
 ## Attributes
+
 - **Strength:** 17-22 (1d6+16)
 
 - **Endurance:** 19-24 (1d6+18)

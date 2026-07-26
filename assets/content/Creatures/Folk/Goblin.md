@@ -1,15 +1,15 @@
 ---
 aliases:
-  - Goblin
+    - Goblin
 tags:
-  - folk
+    - folk
 type: doc
 category: lore
 package: thalorna
 id: aTShFAUMufpLvzPO
 name:
-  full: Goblin
-  aliases: []
+    full: Goblin
+    aliases: []
 slug: goblin
 ---
 

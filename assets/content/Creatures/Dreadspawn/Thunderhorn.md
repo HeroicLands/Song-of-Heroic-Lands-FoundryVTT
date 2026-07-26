@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Thunderhorn
+    - Thunderhorn
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Thunderhorn
-  aliases: []
+    full: Thunderhorn
+    aliases: []
 id: yP2odUbLAIhD32an
 slug: thunderhorn
 img: images/thunderhorn-headshot.webp
@@ -13,47 +13,47 @@ portrait: images/thunderhorn.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 17
-    end: 17
-    dex: 8
-    agl: 9
-    per: 9
-    aur: 11
-    wil: 13
-    rea: 8
-    cre: 8
-  attrRollFormula:
-    str: 1d4+14
-    end: 1d4+14
-    dex: 1d4+5
-    agl: 1d4+6
-    per: 1d4+6
-    aur: 1d4+8
-    wil: 1d4+10
-    rea: 1d4+5
-    cre: 1d4+5
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 2000
-      calc: 2000
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 70
-      leaguesPerWatch: 5
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 17
+        end: 17
+        dex: 8
+        agl: 9
+        per: 9
+        aur: 11
+        wil: 13
+        rea: 8
+        cre: 8
+    attrRollFormula:
+        str: 1d4+14
+        end: 1d4+14
+        dex: 1d4+5
+        agl: 1d4+6
+        per: 1d4+6
+        aur: 1d4+8
+        wil: 1d4+10
+        rea: 1d4+5
+        cre: 1d4+5
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 2000
+            calc: 2000
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 70
+          leaguesPerWatch: 5
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -79,23 +79,29 @@ A Thunderhorn initiates combat by charging with its full mass and speed, attempt
 ## Attack Methods
 
 ### Electrified Charge
+
 The Thunderhorn lowers its horns and charges with terrible speed and force, attempting to gore the target. The horns discharge massive amounts of electrical energy simultaneously, and the impact combines both crushing physical force and electrical trauma.
 
 ### Thunderous Stomp
+
 The creature raises one of its massive hooves and brings it down with devastating force, creating a shockwave that radiates outward. The impact is accompanied by a burst of electrical discharge that radiates outward in a cone.
 
 ### Electrical Discharge
+
 Without charging, the Thunderhorn can channel electricity through its body and horns, creating a sphere or cone of electrical energy that damages everything in the area.
 
 ## Special Abilities
 
 ### Electrical Embodiment
+
 The Thunderhorn is composed partially of electrical energy and is highly resistant to electrical damage. Lightning strikes provide it sustenance, and thunderstorms energize it, making it faster and stronger during inclement weather.
 
 ### Lightning Authority
+
 The Thunderhorn can call lightning from storm clouds, though this ability seems limited and requires several rounds of concentration. The creature is most likely to use this ability in open terrain during active storms.
 
 ### Primal Fury
+
 When injured or cornered, the Thunderhorn's electrical discharge increases dramatically, and it enters a state of heightened aggression where it attacks with reckless abandon, electrical damage increasing but tactical sense decreasing.
 
 ## Additional Information
@@ -103,6 +109,7 @@ When injured or cornered, the Thunderhorn's electrical discharge increases drama
 Earth-based magic and grounding effects are the Thunderhorn's primary weakness, as they can dissipate or redirect its electrical discharges and prevent it from building up charge. The creature is also vulnerable to water, which conducts electricity away and can short-circuit its natural abilities if sufficient quantities are applied. The creature's horns, if somehow harvested from a slain Thunderhorn, retain electrical charge for years or even longer, making them extraordinarily valuable for crafting weapons or foci of electrical magic. The hide can be fashioned into armor that retains some electrical resistance. Hunting a Thunderhorn is considered an exceptionally dangerous undertaking, and most communities in Thunderhorn territory learn to simply avoid the creatures' ranges rather than attempting to oppose them.
 
 ## Attributes
+
 - **Strength:** 15-18 (1d4+14)
 
 - **Endurance:** 15-18 (1d4+14)

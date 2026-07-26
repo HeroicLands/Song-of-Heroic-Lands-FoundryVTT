@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Thornrat
+    - Thornrat
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Thornrat
-  aliases: []
+    full: Thornrat
+    aliases: []
 id: B0c1fyeTiCucXmUf
 slug: thornrat
 img: images/thornrat-headshot.webp
@@ -13,43 +13,43 @@ portrait: images/thornrat.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 6
-    end: 9
-    dex: 11
-    agl: 15
-    per: 9
-    wil: 8
-    cre: 9
-  attrRollFormula:
-    str: 1d4+3
-    end: 1d4+6
-    dex: 1d4+8
-    agl: 1d4+12
-    per: 1d4+6
-    wil: 1d4+5
-    cre: 1d4+6
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 25
-      calc: 25
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 60
-      leaguesPerWatch: 3
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 6
+        end: 9
+        dex: 11
+        agl: 15
+        per: 9
+        wil: 8
+        cre: 9
+    attrRollFormula:
+        str: 1d4+3
+        end: 1d4+6
+        dex: 1d4+8
+        agl: 1d4+12
+        per: 1d4+6
+        wil: 1d4+5
+        cre: 1d4+6
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 25
+            calc: 25
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 60
+          leaguesPerWatch: 3
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -75,20 +75,25 @@ A single Thornrat is a minor threat, but they are virtually never encountered al
 ## Attack Methods
 
 ### Barbed Spine Salvo
+
 The Thornrat contracts its entire body, launching dozens of razor-sharp, poisonous spines outward in all directions. Targets caught by the barrage suffer multiple shallow wounds and are exposed to the creature's toxins.
 
 ### Venomous Bite and Slash
+
 The creature darts in close, attempting to bite or rake with its fangs and tiny claws. While the damage is minor, the venom injected is potent, and the wounds tend to become infected and inflamed.
 
 ## Special Abilities
 
 ### Spine Regeneration
+
 The Thornrat can launch its spines as projectiles and quickly regenerate new ones. The creature never truly runs out of ammunition, making prolonged combat against multiple Thornrats exhausting.
 
 ### Plague Vector
+
 The Thornrat carries numerous diseases and infections. Those bitten or struck by spines are exposed to sickness, and even minor wounds from Thornrats have a tendency to become infected and fester.
 
 ### Colony Coordination
+
 When multiple Thornrats work together, they coordinate their attacks with unsettling precision, timing salvos and charges to overwhelm defenses.
 
 ## Additional Information
@@ -96,6 +101,7 @@ When multiple Thornrats work together, they coordinate their attacks with unsett
 Fire is the Thornrat's primary weakness—flames damage its spines, burn away the toxic secretions, and cause it genuine pain. A single Thornrat can be dispatched with fire relatively easily, and entire colonies can be eliminated by burning infested areas, though the process is dangerous and time-consuming. The creatures are also vulnerable to disease-neutralizing magic and to poison resistance. In areas where Thornrats infest, preventing infestation means maintaining cleanliness and immediately disposing of corpses, rotting food, and waste. Communities dealing with Thornrat colonies often employ professional exterminators, though the risk of contracting disease during the process is high. The creatures themselves have no inherent value—their hide is too thin and diseased to tan, and their spines contain so much toxin that harvesting them is extraordinarily hazardous.
 
 ## Attributes
+
 - **Strength:** 4-7 (1d4+3)
 
 - **Endurance:** 7-10 (1d4+6)

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Venomspitter
+    - Venomspitter
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Venomspitter
-  aliases: []
+    full: Venomspitter
+    aliases: []
 id: zjjV7KvZ1kwVT0L0
 slug: venomspitter
 img: images/venomspitter-headshot.webp
@@ -13,47 +13,47 @@ portrait: images/venomspitter.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 8
-    end: 9
-    dex: 15
-    agl: 13
-    per: 11
-    aur: 11
-    wil: 9
-    rea: 9
-    cre: 11
-  attrRollFormula:
-    str: 1d4+5
-    end: 1d4+6
-    dex: 1d4+12
-    agl: 1d4+10
-    per: 1d4+8
-    aur: 1d4+8
-    wil: 1d4+6
-    rea: 1d4+6
-    cre: 1d4+8
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 100
-      calc: 100
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 40
-      leaguesPerWatch: 3
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 8
+        end: 9
+        dex: 15
+        agl: 13
+        per: 11
+        aur: 11
+        wil: 9
+        rea: 9
+        cre: 11
+    attrRollFormula:
+        str: 1d4+5
+        end: 1d4+6
+        dex: 1d4+12
+        agl: 1d4+10
+        per: 1d4+8
+        aur: 1d4+8
+        wil: 1d4+6
+        rea: 1d4+6
+        cre: 1d4+8
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 100
+            calc: 100
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 40
+          leaguesPerWatch: 3
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -79,23 +79,29 @@ A Venomspitter fights by maintaining distance and using venom projection as its 
 ## Attack Methods
 
 ### Corrosive Venom Spray
+
 The Venomspitter projects streams of venom with surprising accuracy and distance, aimed at targets from 20 to 30 feet away. The venom corrodes armor and flesh alike, eating through protection and causing terrible chemical burns.
 
 ### Reactive Venom Projectiles
+
 When threatened more directly, the creature can launch projectiles—venom-coated rocks, regurgitated acidic globules, or other objects—at high speed and with precision targeting.
 
 ### Venomous Bite
+
 In close combat, the creature’s bite delivers venom directly into the victim’s body, causing paralysis that spreads from the bite point and eventual death if untreated.
 
 ## Special Abilities
 
 ### Venom Generation
+
 The Venomspitter produces its venom continuously and seems to have near-infinite supply. The creature can spray venom, coat ammunition, or concentrate it for more potent effects as needed.
 
 ### Precision Aim
+
 The Venomspitter’s venom projection is remarkably accurate, and it can target specific weak points in armor or aim for faces to blind opponents.
 
 ### Corrosive Secretions
+
 Everything the creature touches becomes tainted with acidic secretions, slowly degrading armor and equipment if the acid is not neutralized. Equipment that has been exposed to Venomspitter venom may be permanently damaged.
 
 ## Additional Information
@@ -103,6 +109,7 @@ Everything the creature touches becomes tainted with acidic secretions, slowly d
 Cold is the Venomspitter’s primary weakness—sustained cold slows its metabolism and reduces its venom production dramatically. Extreme cold can even cause the creature to become dormant or lethargic. Fire is also effective, though the creature’s venom can neutralize some heat-based attacks. Isolation from water reduces the creature’s effectiveness, as it requires humidity to maintain its venom production at peak efficiency. The venom itself, if carefully collected and preserved, is extraordinarily valuable to alchemists, poisoners, and dark sorcerers. A single vial of pure Venomspitter venom can command a fortune from the right buyer. The creature’s hide, if preserved, also has alchemical value. Hunting a Venomspitter requires exceptional caution and specialized protective gear, as mere exposure to its venom can cause severe injury.
 
 ## Attributes
+
 - **Strength:** 6-9 (1d4+5)
 
 - **Endurance:** 7-10 (1d4+6)

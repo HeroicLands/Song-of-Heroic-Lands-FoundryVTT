@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Webcrawler
+    - Webcrawler
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Webcrawler
-  aliases: []
+    full: Webcrawler
+    aliases: []
 id: toE8HQxOqaxBJ9X3
 slug: webcrawler
 img: images/webcrawler-headshot.webp
@@ -13,48 +13,49 @@ portrait: images/webcrawler.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 8
-    end: 9
-    dex: 17
-    agl: 15
-    per: 11
-    aur: 9
-    wil: 11
-    rea: 9
-    cre: 15
-  attrRollFormula:
-    str: 1d4+5
-    end: 1d4+6
-    dex: 1d4+14
-    agl: 1d4+12
-    per: 1d4+8
-    aur: 1d4+6
-    wil: 1d4+8
-    rea: 1d4+6
-    cre: 1d4+12
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 1
-      calc: 1
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 40
-      leaguesPerWatch: 2
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 8
+        end: 9
+        dex: 17
+        agl: 15
+        per: 11
+        aur: 9
+        wil: 11
+        rea: 9
+        cre: 15
+    attrRollFormula:
+        str: 1d4+5
+        end: 1d4+6
+        dex: 1d4+14
+        agl: 1d4+12
+        per: 1d4+8
+        aur: 1d4+6
+        wil: 1d4+8
+        rea: 1d4+6
+        cre: 1d4+12
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 1
+            calc: 1
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 40
+          leaguesPerWatch: 2
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
+
 # Appearance {#appearance}
 
 At first you cannot see it—there is only a shimmer in the air, something that might be dew on near-invisible thread, catching light that should not reach here. Then the spider itself emerges from hiding, and you see it: a creature the size of a human torso, its eight spindly legs moving with predatory grace, its body iridescent black with hints of deep purple and sickly green. The abdomen is grotesquely distended, constantly producing silken thread that glimmers with barely-visible luminescence. Its eyes are multifaceted and glowing, each one fixing on you with intelligent calculation. Fangs like curved needles protrude from its mouth, dripping venom that sizzles and steams when it touches stone. The air around it seems to vibrate with the tension of its web, and you realize with horror that you have already walked into the creature's territory—that what you thought was empty air is actually a labyrinth of nearly invisible threads waiting to ensnare you.
@@ -78,26 +79,33 @@ A Webcrawler engages enemies primarily through entanglement in its webs. Once pr
 ## Attack Methods
 
 ### Paralytic Bite
+
 The Webcrawler strikes with remarkable speed, driving its fangs into flesh and injecting a potent neurotoxin. The venom begins working almost immediately, numbing the injection site and spreading through the body.
 
 ### Web Constriction
+
 Rather than using web passively, the Webcrawler can actively manipulate the strands, tightening them around entangled prey, crushing and suffocating simultaneously.
 
 ### Guided Entanglement
+
 The creature can manipulate its webs to create new traps on the fly, positioning sticky strands in paths prey might take and creating barriers that seem invisible until touched.
 
 ## Special Abilities
 
 ### Web Mastery
+
 The Webcrawler commands its web network with perfect precision, capable of manipulating individual strands or entire sections simultaneously. The webs are nearly invisible, incredibly strong, and capable of supporting the creature's weight plus substantial additional burden.
 
 ### Silk Navigation
+
 The creature moves across its webs with perfect grace and speed, treating three-dimensional web networks as a humanoid would treat ground. It can traverse vertical surfaces, hang from ceilings, and maneuver in ways that would be impossible for less specialized creatures.
 
 ### Predatory Creativity
+
 The Webcrawler demonstrates genuine creativity and problem-solving ability in the design and construction of its web networks. It learns prey patterns, designs traps specifically for certain prey types, and adjusts its web designs based on success or failure.
 
 ### Venom Mastery
+
 The Webcrawler's venom is potent and complex, causing progressive paralysis, numbness, and eventual death. The venom seems designed to render prey immobile rather than kill quickly, allowing the creature to feed at leisure.
 
 ## Additional Information
@@ -105,6 +113,7 @@ The Webcrawler's venom is potent and complex, causing progressive paralysis, num
 Fire is the Webcrawler's primary weakness—flames destroy its web immediately and cause the creature severe distress. The destruction of a web section forces the Webcrawler to either retreat or spend time rebuilding. Acid is also effective against the web. Cold can slow the creature's venom production and metabolism. In areas where the creature is not supported by its web, it becomes slow and sluggish, losing much of its extraordinary agility. The silk itself is extraordinarily valuable—capable of being harvested and used for numerous purposes, from rope to specialized armor. Alchemists and crafters will pay substantial sums for high-quality Webcrawler silk. A Webcrawler's web of significant complexity can take months or years to construct, and the creature views its web almost as an extension of itself, becoming desperately aggressive if the web is threatened.
 
 ## Attributes
+
 - **Strength:** 6-9 (1d4+5)
 
 - **Endurance:** 7-10 (1d4+6)

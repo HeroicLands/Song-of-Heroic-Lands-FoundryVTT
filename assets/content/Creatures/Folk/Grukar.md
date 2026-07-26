@@ -1,15 +1,15 @@
 ---
 aliases:
-  - Grukar
+    - Grukar
 tags:
-  - folk
+    - folk
 type: doc
 category: lore
 package: thalorna
 id: dBMkyQtWZwutcJUp
 name:
-  full: Grukar
-  aliases: []
+    full: Grukar
+    aliases: []
 slug: grukar
 ---
 

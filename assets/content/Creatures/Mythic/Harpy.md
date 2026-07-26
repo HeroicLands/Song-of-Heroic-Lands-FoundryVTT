@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Harpy
+    - Harpy
 tags:
-  - mythic
-  - image-needed
+    - mythic
+    - image-needed
 name:
-  full: Harpy
-  aliases: []
+    full: Harpy
+    aliases: []
 id: Km7PvjRsX2wL9Tn4
 slug: harpy
 img: images/harpy-headshot.webp
@@ -14,54 +14,54 @@ portrait: images/harpy.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 9
-    end: 10
-    dex: 14
-    agl: 16
-    per: 15
-    aur: 7
-    wil: 11
-    rea: 8
-    cre: 6
-  attrRollFormula:
-    str: 1d4+6
-    end: 1d4+7
-    dex: 1d6+10
-    agl: 1d6+12
-    per: 1d6+11
-    aur: 1d4+4
-    wil: 1d4+8
-    rea: 1d4+5
-    cre: 1d4+3
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 80
-      calc: 80
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: aerial
-      feetPerRound: 80
-      leaguesPerWatch: 8
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-    - medium: terrestrial
-      feetPerRound: 30
-      leaguesPerWatch: 2
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 9
+        end: 10
+        dex: 14
+        agl: 16
+        per: 15
+        aur: 7
+        wil: 11
+        rea: 8
+        cre: 6
+    attrRollFormula:
+        str: 1d4+6
+        end: 1d4+7
+        dex: 1d6+10
+        agl: 1d6+12
+        per: 1d6+11
+        aur: 1d4+4
+        wil: 1d4+8
+        rea: 1d4+5
+        cre: 1d4+3
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 80
+            calc: 80
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: aerial
+          feetPerRound: 80
+          leaguesPerWatch: 8
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+        - medium: terrestrial
+          feetPerRound: 30
+          leaguesPerWatch: 2
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -87,32 +87,41 @@ A harpy flock's basic strategy is to use altitude and speed to conduct coordinat
 ## Attack Methods
 
 ### Raking Talons
+
 The harpy dives from above, raking with the claws on feet and hands, attempting to open wounds and drive targets prone. The impact of the dive itself can stagger targets.
 
 ### Beak Strike
+
 Using the sharp, pointed beak, the harpy pecks at eyes and exposed flesh, aiming to blind or disfigure. This attack is particularly dangerous to targets without helmets.
 
 ### Pack Tear
+
 When multiple harpies engage a single target, they coordinate attacks from different angles, each strike designed to create openings for the others. A target surrounded by three or more harpies is in mortal danger.
 
 ### Aerial Entanglement
+
 Harpies use their wings to tangle an opponent's arms or trip them, then press attacks while the target is disoriented.
 
 ## Special Abilities
 
 ### Aerial Superiority
+
 Harpies are creatures of the air, capable of maneuvering in three dimensions that ground-based opponents cannot match. A harpy in open sky against ground-based opponents gains enormous advantage. Enclosed spaces, forests, and low ceilings significantly reduce harpy effectiveness.
 
 ### Flock Coordination
+
 Harpies hunting together develop an uncanny synchronization, each member anticipating the actions of others. A flock shows tactical sophistication that individual harpies lack, executing multi-pronged attacks and feints that isolate targets.
 
 ### Shriek of Terror
+
 Harpies emit piercing shrieks—pure vocalizations evolved for communication—that cause psychological distress in hearing creatures. The sound is so discordant and unnatural that it triggers primal fear responses, potentially disorienting or panicking targets.
 
 ### Cliff Dwelling
+
 Harpies nest on cliff faces and rocky terrain inaccessible to ground-based pursuers. They can cling to vertical surfaces and maintain footing in places where humanoids would fall.
 
 ## Attributes
+
 - **Strength:** 7-10 (1d4+6) — Lighter-framed than humanoids; reliant on talons and technique rather than raw power
 - **Endurance:** 8-11 (1d4+7) — Capable of sustained flight and lengthy aerial chases
 - **Dexterity:** 11-16 (1d6+10) — Precise and controlled; excellent fine manipulation with claws

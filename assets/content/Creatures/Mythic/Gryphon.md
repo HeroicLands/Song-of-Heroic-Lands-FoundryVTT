@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Gryphon
+    - Gryphon
 tags:
-  - mythic
-  - image-needed
+    - mythic
+    - image-needed
 name:
-  full: Gryphon
-  aliases: []
+    full: Gryphon
+    aliases: []
 id: nK7mQxRp9fvWsLz2
 slug: gryphon
 img: images/gryphon-headshot.webp
@@ -14,55 +14,56 @@ portrait: images/gryphon.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 18
-    end: 15
-    dex: 15
-    agl: 16
-    per: 17
-    aur: 13
-    wil: 14
-    rea: 9
-    cre: 8
-  attrRollFormula:
-    str: 1d6+14
-    end: 1d6+11
-    dex: 1d6+11
-    agl: 1d6+12
-    per: 1d6+13
-    aur: 1d6+9
-    wil: 1d6+10
-    rea: 1d4+6
-    cre: 1d4+5
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 600
-      calc: 600
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 50
-      leaguesPerWatch: 4
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-    - medium: aerial
-      feetPerRound: 100
-      leaguesPerWatch: 12
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 18
+        end: 15
+        dex: 15
+        agl: 16
+        per: 17
+        aur: 13
+        wil: 14
+        rea: 9
+        cre: 8
+    attrRollFormula:
+        str: 1d6+14
+        end: 1d6+11
+        dex: 1d6+11
+        agl: 1d6+12
+        per: 1d6+13
+        aur: 1d6+9
+        wil: 1d6+10
+        rea: 1d4+6
+        cre: 1d4+5
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 600
+            calc: 600
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 50
+          leaguesPerWatch: 4
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+        - medium: aerial
+          feetPerRound: 100
+          leaguesPerWatch: 12
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
+
 # Appearance {#appearance}
 
 The first warning is the cry—a sound somewhere between a raptor's shriek and a lion's roar, echoing across the mountainside and setting your teeth on edge. Then you see it. The creature launches from its eyrie perch with terrible grace, its massive feathered wings catching the wind and climbing higher than any natural eagle should be able to reach. Yet this is no eagle. Where a bird's body should taper into a tail, the form of a great cat takes over—a lion's muscular frame, powerful haunches, and a tail that lashes the air with leonine authority. The contrast is startling: the fierce, intellectual precision of an avian predator merged with the raw carnivorous power of an apex terrestrial hunter.
@@ -104,29 +105,37 @@ Against multiple opponents, a gryphon's strategy becomes more conservative. It w
 ## Attack Methods
 
 ### Diving Strike
+
 The gryphon climbs high and accelerates downward in a controlled plunge, striking with both sets of talons extended. This attack combines the momentum of its aerial descent with the power of a creature weighing three hundred pounds, and it is capable of piercing armor, breaking bones, and opening grievous wounds. Targets struck by a successful diving strike are often knocked prone or staggered.
 
 ### Rending Claw
+
 In close combat, the gryphon slashes with its forelegs, talons extended to their full terrible length. These attacks are quick, capable of being executed in succession, and if they connect with a target's face or head, can cause deep lacerations. The combination of strength and sharpness means even glancing blows draw blood.
 
 ### Bite
+
 The gryphon's beak is an underutilized but formidable weapon. Unlike a lion's bite which is designed to crush, the gryphon's bite is designed to pierce and tear. It is typically used after a strike that has compromised an opponent's guard, or in circumstances where the gryphon is fully committed to a kill. The bite can sever limbs and is capable of cracking bone.
 
 ### Wing Buffer
+
 The gryphon uses its massive wings not just for flight but as striking weapons. A full-power wing stroke can knock a standing opponent off their feet or interrupt an attack. The gryphon will sometimes use these movements defensively, creating distance or disrupting incoming attacks.
 
 ## Special Abilities
 
 ### Mythic Perception
+
 The gryphon's sensory acuity combines the legendary sight of an eagle with the acute smell and hearing of a lion. It can spot movement from miles away, detect the presence of prey through dense forests, and hear the approach of riders from great distances. In combat, this translates to exceptional awareness of its surroundings and the activities of multiple opponents.
 
 ### Aerial Mastery
+
 The gryphon's control of the air is supreme. It can execute impossible maneuvers—vertical climbs, instant course changes, and stable hovering—that defy physical intuition. It can land on cliff faces, rotate its entire body mid-flight, and judge distances from altitude with perfect accuracy. This ability allows it to fight in three dimensions in ways that grounded creatures cannot match.
 
 ### Roar of Command
+
 The gryphon can issue a cry of such volume and harmonic intensity that it vibrates through bones and air alike. This roar can warn allies from incredible distances, disorient opponents (leaving them momentarily stunned or confused), or serve as a territorial declaration that carries for miles. The roar seems to resonate with power and intelligence, rather than being a mere animalistic sound.
 
 ### Bonding
+
 Under rare and specific circumstances, a gryphon can form a permanent empathic bond with a humanoid. This is never forced and must be chosen by the gryphon itself, typically after months or years of contact and respect-building. Once bonded, the gryphon will serve as mount, companion, and guardian to the chosen human, granting them access to the gryphon's perception, physical abilities (through riding), and tactical intelligence. A bonded gryphon will die defending its chosen human. The bond persists even after the human's death, often driving the grieving gryphon to extreme territorial aggression or, in rare cases, a form of melancholy that persists for years.
 
 ## Attributes

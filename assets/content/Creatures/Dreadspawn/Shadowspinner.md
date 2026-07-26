@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Shadowspinner
+    - Shadowspinner
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Shadowspinner
-  aliases: []
+    full: Shadowspinner
+    aliases: []
 id: aaQtfwxrLhjGFNPh
 slug: shadowspinner
 img: images/shadowspinner-headshot.webp
@@ -13,48 +13,49 @@ portrait: images/shadowspinner.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 16
-    end: 18
-    dex: 20
-    agl: 16
-    per: 16
-    aur: 12
-    wil: 16
-    rea: 14
-    cre: 14
-  attrRollFormula:
-    str: 1d4+13
-    end: 1d6+14
-    dex: 1d6+16
-    agl: 1d4+13
-    per: 1d4+13
-    aur: 1d4+9
-    wil: 1d4+13
-    rea: 1d6+10
-    cre: 1d6+10
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 1
-      calc: 1
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 40
-      leaguesPerWatch: 2
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 16
+        end: 18
+        dex: 20
+        agl: 16
+        per: 16
+        aur: 12
+        wil: 16
+        rea: 14
+        cre: 14
+    attrRollFormula:
+        str: 1d4+13
+        end: 1d6+14
+        dex: 1d6+16
+        agl: 1d4+13
+        per: 1d4+13
+        aur: 1d4+9
+        wil: 1d4+13
+        rea: 1d6+10
+        cre: 1d6+10
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 1
+            calc: 1
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 40
+          leaguesPerWatch: 2
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
+
 # Appearance {#appearance}
 
 You feel it before you see it—a sudden, terrible weight pressing against your chest as though the very shadows have turned solid and begun to strangle. Then you see them, or rather you see the absence—walls of something too dark to be spider silk, hung from corner to corner of the chamber, blocking light and obscuring sight. And within those walls of woven shadow, a shape moves with predatory grace—a spider the size of a horse, its body armored in gleaming black chitin, its eight eyes burning like poisonous topazes. The sound of its mandibles is the sound of bone breaking, and the silk it trails behind it seems to drink in light itself, leaving darker shadows than the surrounding darkness.
@@ -78,26 +79,33 @@ A Shadowspinner initiates combat by assuming a position in its web where it has 
 ## Attack Methods
 
 ### Venomous Bite
+
 The Shadowspinner's mandibles snap forward with terrible force, driving long chelicerae deep into flesh and injecting a potent neurotoxin that begins working immediately. Bitten targets experience spreading numbness and progressive paralysis.
 
 ### Raking Limbs
+
 The creature's legs are weaponized, tipped with natural points that can pierce armor and rip through flesh. Multiple limbs can strike simultaneously, and the Shadowspinner uses them in coordinated patterns difficult to defend against.
 
 ### Web Entanglement
+
 The creature uses its web not as a passive trap but as an active weapon, tightening strands around prey, constricting, and creating hazardous terrain that impedes movement and prevents escape.
 
 ## Special Abilities
 
 ### Web Mastery
+
 The Shadowspinner commands its web with complete perfection, capable of manipulating tension, creating new connections, or severing old ones instantly. The web can bear enormous weight, stretch to surprising distances, and move in response to the creature's will.
 
 ### Vibration Sense
+
 The Shadowspinner perceives the world primarily through vibrations in its web, detecting even microscopic movements with precision. In its web, it essentially has perfect awareness of everything touching it, and attempting to hide from it is futile.
 
 ### Predatory Intellect
+
 The Shadowspinner demonstrates genuine intelligence and planning ability. It remembers prey that escape, learns patterns, and designs increasingly sophisticated traps. It has been known to alter its behavior based on the weapons or tactics of repeating opponents.
 
 ### Venom Resistance
+
 The Shadowspinner is immune to most poisons and venoms, allowing it to feed on creatures that would be lethal to other animals.
 
 ## Additional Information
@@ -105,6 +113,7 @@ The Shadowspinner is immune to most poisons and venoms, allowing it to feed on c
 Fire is the Shadowspinner's primary weakness—flame damages its web immediately, destroys its exoskeleton, and seems to cause genuine panic in the creature. A sufficiently large fire can drive a Shadowspinner to abandon its territory entirely. The silk itself, if harvested carefully before the creature dies, is extraordinarily valuable—capable of holding tremendous weight and naturally resistant to most damage. Dark scholars and assassins prize Shadowspinner silk for creating nets, bindings, and armor. The creature's fangs can be crafted into weapons that retain venom for years. Entire careers have been built by hunters who specialize in raiding Shadowspinner territories, removing the creature, and harvesting its web and body parts—though the casualty rate for such work is terrifyingly high.
 
 ## Attributes
+
 - **Strength:** 14-17 (1d4+13)
 
 - **Endurance:** 15-20 (1d6+14)

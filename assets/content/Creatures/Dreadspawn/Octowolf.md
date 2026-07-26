@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Octowolf
+    - Octowolf
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Octowolf
-  aliases: []
+    full: Octowolf
+    aliases: []
 id: RwqeoPw5VVMnxPWE
 slug: octowolf
 img: images/octowolf-headshot.webp
@@ -13,54 +13,54 @@ portrait: images/octowolf.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 18
-    end: 16
-    dex: 18
-    agl: 16
-    per: 16
-    aur: 12
-    wil: 16
-    rea: 16
-    cre: 14
-  attrRollFormula:
-    str: 1d6+14
-    end: 1d4+13
-    dex: 1d6+14
-    agl: 1d4+13
-    per: 1d4+13
-    aur: 1d4+9
-    wil: 1d4+13
-    rea: 1d4+13
-    cre: 1d6+10
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 300
-      calc: 300
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 60
-      leaguesPerWatch: 4
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-    - medium: aquatic
-      feetPerRound: 50
-      leaguesPerWatch: 4
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 18
+        end: 16
+        dex: 18
+        agl: 16
+        per: 16
+        aur: 12
+        wil: 16
+        rea: 16
+        cre: 14
+    attrRollFormula:
+        str: 1d6+14
+        end: 1d4+13
+        dex: 1d6+14
+        agl: 1d4+13
+        per: 1d4+13
+        aur: 1d4+9
+        wil: 1d4+13
+        rea: 1d4+13
+        cre: 1d6+10
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 300
+            calc: 300
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 60
+          leaguesPerWatch: 4
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+        - medium: aquatic
+          feetPerRound: 50
+          leaguesPerWatch: 4
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -86,23 +86,29 @@ An Octowolf typically initiates combat from water or dense vegetation, using ran
 ## Attack Methods
 
 ### Rending Bite
+
 The Octowolf's massive jaws snap down with bone-crushing force, capable of severing limbs or tearing through armor. A successful bite does catastrophic damage and may prevent victims from further action.
 
 ### Tentacle Constriction
+
 One or more of the creature's tentacles wraps around a victim with relentless pressure, constricting their breath and crushing bones. A victim caught in a tentacle loses mobility and suffers progressive damage.
 
 ### Tentacle Rake
+
 Multiple tentacles lash out in rapid succession, each one capable of piercing or slashing with horrifying speed. Against multiple opponents, this allows the creature to strike several targets in quick succession.
 
 ## Special Abilities
 
 ### Amphibious Supremacy
+
 The Octowolf moves with equal ease in water and on land, and suffers no movement penalty or disadvantage in either medium. In water, it gains significant tactical advantages—increased speed, the ability to approach unseen, and access to escape routes land-bound creatures cannot follow.
 
 ### Tentacle Precision
+
 The creature's eight tentacles move with independent, highly precise coordination, allowing it to grapple multiple targets or perform complex actions simultaneously. The tentacles can extend surprising distances and manipulate objects with remarkable dexterity.
 
 ### Predatory Intellect
+
 The Octowolf demonstrates genuine intelligence, learning prey patterns, setting traps, and anticipating evasive action. It can coordinate with other Octowolves if they happen to meet, though these encounters often end in combat between them.
 
 ## Additional Information
@@ -110,6 +116,7 @@ The Octowolf demonstrates genuine intelligence, learning prey patterns, setting 
 Fire and extreme cold are the Octowolf's primary vulnerabilities—fire damages its flesh directly and overwhelms its sensory organs, while sustained cold immobilizes its tentacles and slows its reflexes dramatically. Deep, warm water is where the Octowolf is most dangerous; in cold waters or dry conditions, its performance degrades significantly. The creature's tentacles, if severed, will eventually regenerate over weeks or months, but significant tissue damage takes years to fully heal. Harvesting an Octowolf after death is dangerous—the creature's tentacle reflexes persist for hours, and the venom glands in its suckers remain active even in death. The fur can be crafted into water-resistant clothing of exceptional quality, and the teeth make formidable weapons or trophies. Some legendary hunters have made it their life's work to track and kill Octowolves, building elaborate traps or calling in aid from multiple communities; these hunts are often as deadly for the hunters as for the prey.
 
 ## Attributes
+
 - **Strength:** 15-20 (1d6+14)
 
 - **Endurance:** 14-17 (1d4+13)

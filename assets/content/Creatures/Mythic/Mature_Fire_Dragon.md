@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Mature Fire Dragon
+    - Mature Fire Dragon
 tags:
-  - mythic
-  - image-needed
+    - mythic
+    - image-needed
 name:
-  full: Mature Fire Dragon
-  aliases: []
+    full: Mature Fire Dragon
+    aliases: []
 id: FD8K4M7R9Q2X5W8B
 slug: mature-fire-dragon
 img: images/mature-fire-dragon-headshot.webp
@@ -14,62 +14,63 @@ portrait: images/mature-fire-dragon.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 25
-    end: 21
-    dex: 12
-    agl: 12
-    per: 17
-    aur: 18
-    wil: 19
-    rea: 13
-    cre: 12
-  attrRollFormula:
-    str: 1d6+21
-    end: 1d6+17
-    dex: 1d6+8
-    agl: 1d6+8
-    per: 1d6+13
-    aur: 1d6+14
-    wil: 1d6+15
-    rea: 1d6+9
-    cre: 1d6+8
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 10000
-      calc: 10000
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 50
-      leaguesPerWatch: 4
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-    - medium: aerial
-      feetPerRound: 140
-      leaguesPerWatch: 16
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 25
+        end: 21
+        dex: 12
+        agl: 12
+        per: 17
+        aur: 18
+        wil: 19
+        rea: 13
+        cre: 12
+    attrRollFormula:
+        str: 1d6+21
+        end: 1d6+17
+        dex: 1d6+8
+        agl: 1d6+8
+        per: 1d6+13
+        aur: 1d6+14
+        wil: 1d6+15
+        rea: 1d6+9
+        cre: 1d6+8
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 10000
+            calc: 10000
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 50
+          leaguesPerWatch: 4
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+        - medium: aerial
+          feetPerRound: 140
+          leaguesPerWatch: 16
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
+
 # Appearance {#appearance}
 
 The mountain itself seems to hold its breath.
 
 You climb through the pass at dawn, unaware that every stone beneath your feet, every ash drift on the wind, belongs to something vast and breathing. The sky ahead is wrong—hazier than it should be, darkened at the edges as if a storm is gathering. But there are no clouds. Instead, the air grows thick with heat and the stench of sulfur, a presence so heavy it presses against your skin like a living thing.
 
-Then you hear it. Not a roar—something deeper. A rumble that travels through the stone beneath your feet, shaking loose gravel from the cliffs above. Your body recognizes the sound before your mind can process it: *mine*. This place belongs to something, and you are trespassing.
+Then you hear it. Not a roar—something deeper. A rumble that travels through the stone beneath your feet, shaking loose gravel from the cliffs above. Your body recognizes the sound before your mind can process it: _mine_. This place belongs to something, and you are trespassing.
 
 The dragon emerges from the thermal haze like a god made manifest. Twenty-four feet of pure dominion, with wings that span thirty-six feet and catch the light like molten copper. Its scales burn in shades of crimson and gold so vivid they seem almost impossible—patterns that shift in the heat distortion, making the creature seem larger than it truly is. A crown of spines runs down its spine, each one wickedly sharp. Its eyes are ancient despite its relative youth, holding the weight of centuries of prey and conquest.
 
@@ -122,38 +123,49 @@ The mature dragon understands psychology and may attempt to break the will of it
 ## Attack Methods
 
 ### Bite
+
 The mature dragon's bite is a devastating attack capable of severing limbs or even decapitating larger creatures. The force involved is immense, and teeth long as daggers can pierce armor plating. The dragon often uses a bite to grab and pin prey before raking with claws or following up with fire breath.
 
 ### Claw Rake
+
 The dragon rakes with both front claws in precise, controlled combinations. A mature dragon has learned to use these attacks to force opponents into defensive postures, creating openings for more devastating follow-ups. The claws can shred plate armor and pierce scale.
 
 ### Wing Buffet
+
 The dragon sweeps its wings in powerful arcs, generating enough force to knock creatures prone or off balance. This attack can be used to create distance or to position enemies for fire breath attacks.
 
 ### Tail Sweep
+
 The dragon whips its powerful tail in wide arcs, striking multiple targets and using the appendage as a prehensile weapon. The tail is strong enough to topple walls or flip overturned wagons, and a direct hit from a mature dragon's tail can break bones.
 
 ### Fire Breath
+
 The dragon exhales a 30-foot cone of roiling flame. The fire is hot enough to melt stone and ignites all combustibles instantly. The breath weapon can be used repeatedly, though the dragon will pace its use to avoid complete exhaustion.
 
 ## Special Abilities
 
 ### Fire Breath
+
 The mature dragon can exhale a 30-foot cone of intense flame as an action. Creatures caught in the area of effect suffer severe thermal damage. Stone and earth take lasting damage; structures in the path may partially collapse. The dragon can use this ability multiple times before tiring.
 
 ### Flight
+
 The dragon is a powerful flier capable of carrying substantial loads and engaging in sophisticated aerial combat. It can remain aloft for extended periods and uses flight to gain tactical advantage in any engagement.
 
 ### Armored Scales
+
 The dragon's scales are thick and heavily beveled, providing substantial protection against physical damage. Most conventional weapons inflict minimal damage; magical weapons or sustained siege-weapon fire is required to penetrate deeply.
 
 ### Heat Aura
+
 Intense heat radiates from the dragon in a 60-foot radius. Temperatures in this area rise dramatically. Creatures are uncomfortable and fatigue more quickly; prolonged exposure can cause heat exhaustion or burns on exposed skin. Vegetation wilts, water evaporates, and stone begins to crack.
 
 ### Draconic Presence
+
 The dragon radiates an aura of predatory dominance. Intelligent creatures within 60 feet of the dragon experience a profound sense of dread and recognize the creature's overwhelming power. This presence can unsettle horses, dogs, and other animals into panic.
 
 ### Fire Immunity
+
 The dragon is completely immune to fire and heat. It can swim through lava, sleep on burning coals, and breathe in superheated environments without discomfort. Its immunity extends to its gear and possessions.
 
 ## Attributes

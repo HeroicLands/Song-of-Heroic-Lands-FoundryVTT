@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Stoneclimber
+    - Stoneclimber
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Stoneclimber
-  aliases: []
+    full: Stoneclimber
+    aliases: []
 id: 6IErjkJa4TPsReDk
 slug: stoneclimber
 img: images/stoneclimber-headshot.webp
@@ -13,59 +13,59 @@ portrait: images/stoneclimber.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 18
-    end: 18
-    dex: 16
-    agl: 16
-    per: 18
-    aur: 10
-    wil: 16
-    rea: 12
-    cre: 12
-  attrRollFormula:
-    str: 1d6+14
-    end: 1d6+14
-    dex: 1d4+13
-    agl: 1d4+13
-    per: 1d6+14
-    aur: 1d6+6
-    wil: 1d4+13
-    rea: 1d4+9
-    cre: 1d4+9
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 200
-      calc: 200
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 40
-      leaguesPerWatch: 3
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors:
-        - scope: topography
-          key: steep
-          mode: add
-          textValue: '0'
-        - scope: surface_cover
-          key: alpine
-          mode: add
-          textValue: '0'
-        - scope: surface_cover
-          key: barren
-          mode: add
-          textValue: '0'
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 18
+        end: 18
+        dex: 16
+        agl: 16
+        per: 18
+        aur: 10
+        wil: 16
+        rea: 12
+        cre: 12
+    attrRollFormula:
+        str: 1d6+14
+        end: 1d6+14
+        dex: 1d4+13
+        agl: 1d4+13
+        per: 1d6+14
+        aur: 1d6+6
+        wil: 1d4+13
+        rea: 1d4+9
+        cre: 1d4+9
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 200
+            calc: 200
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 40
+          leaguesPerWatch: 3
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors:
+              - scope: topography
+                key: steep
+                mode: add
+                textValue: "0"
+              - scope: surface_cover
+                key: alpine
+                mode: add
+                textValue: "0"
+              - scope: surface_cover
+                key: barren
+                mode: add
+                textValue: "0"
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -91,26 +91,33 @@ A Stoneclimber initiates combat by attacking from a position of advantage—usua
 ## Attack Methods
 
 ### Rending Claw Strike
+
 The Stoneclimber drives its hook-like claws into flesh, attempting to tear and slash. These attacks are often performed while the creature is clinging to a cliff face or ceiling, using gravity and leverage to add terrible force.
 
 ### Snapping Bite
+
 The creature's jaws are capable of terrible damage, particularly against necks and limbs. A successful bite can sever or cripple, and the creature often uses its weight and leverage to wrestle prey off balance.
 
 ### Diving Strike
+
 From a high vantage point, the Stoneclimber launches itself at a target, using gravity and momentum to deliver a devastating impact combined with claw and bite attacks.
 
 ## Special Abilities
 
 ### Cliffhanger Supremacy
+
 The Stoneclimber traverses all terrain as though it were level ground. Vertical cliff faces, ceilings, overhangs, and unstable surfaces all provide equivalent mobility. In rocky terrain, the creature's movement speed increases, and it can assume positions that would be impossible for other creatures.
 
 ### Environmental Camouflage
+
 In rocky terrain, the Stoneclimber's scales blend so perfectly with stone that spotting it requires exceptional perception. In its preferred environment, the creature is essentially invisible until it chooses to reveal itself.
 
 ### Predatory Awareness
+
 The Stoneclimber is perfectly attuned to its environment, reading stone and terrain with uncanny precision. In rocky environments, it knows the location and nature of every potential escape route, hiding spot, and vantage point within a considerable radius.
 
 ### Resilient Frame
+
 The Stoneclimber's body is as tough as the stone it climbs, resistant to environmental hazards that would kill lesser creatures. It survives falls that would be fatal to humans, endures extremes of temperature, and regenerates slowly from wounds.
 
 ## Additional Information
@@ -118,6 +125,7 @@ The Stoneclimber's body is as tough as the stone it climbs, resistant to environ
 Fire is the Stoneclimber's primary weakness—flames damage its scales, disrupt its climbing grip, and seem to cause it genuine discomfort and pain. Sustained heat will drive a Stoneclimber away from an area. Magic is also effective, particularly spells that would prevent climbing or dull its environmental perception. In flat, open terrain without stone or complex geometry, a Stoneclimber loses much of its advantage and becomes a comparatively normal predator. The creature's scales, if harvested carefully, can be fashioned into armor of exceptional quality that retains the creature's natural stone-gray coloration and grants modest resistance to physical damage. Its claws are prized by climbers and trappers as grappling tools. The creature's bones, being partially mineralized, make excellent tool hafts or construction materials.
 
 ## Attributes
+
 - **Strength:** 15-20 (1d6+14)
 
 - **Endurance:** 15-20 (1d6+14)

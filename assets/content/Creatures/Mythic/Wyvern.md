@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Wyvern
+    - Wyvern
 tags:
-  - mythic
-  - image-needed
+    - mythic
+    - image-needed
 name:
-  full: Wyvern
-  aliases: []
+    full: Wyvern
+    aliases: []
 id: Hy3KmRqLpBwT8Vsx
 slug: wyvern
 img: images/wyvern-headshot.webp
@@ -14,54 +14,54 @@ portrait: images/wyvern.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 19
-    end: 17
-    dex: 13
-    agl: 14
-    per: 15
-    aur: 12
-    wil: 14
-    rea: 8
-    cre: 7
-  attrRollFormula:
-    str: 1d6+15
-    end: 1d6+13
-    dex: 1d6+9
-    agl: 1d6+10
-    per: 1d6+11
-    aur: 1d6+8
-    wil: 1d6+10
-    rea: 1d4+5
-    cre: 1d4+4
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 1500
-      calc: 1500
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: aerial
-      feetPerRound: 130
-      leaguesPerWatch: 12
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-    - medium: terrestrial
-      feetPerRound: 50
-      leaguesPerWatch: 4
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 19
+        end: 17
+        dex: 13
+        agl: 14
+        per: 15
+        aur: 12
+        wil: 14
+        rea: 8
+        cre: 7
+    attrRollFormula:
+        str: 1d6+15
+        end: 1d6+13
+        dex: 1d6+9
+        agl: 1d6+10
+        per: 1d6+11
+        aur: 1d6+8
+        wil: 1d6+10
+        rea: 1d4+5
+        cre: 1d4+4
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 1500
+            calc: 1500
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: aerial
+          feetPerRound: 130
+          leaguesPerWatch: 12
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+        - medium: terrestrial
+          feetPerRound: 50
+          leaguesPerWatch: 4
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -87,32 +87,41 @@ A wyvern's hunting methodology is based on exploiting three-dimensional superior
 ## Attack Methods
 
 ### Venomous Tail Strike
+
 The wyvern whips its tail with blinding speed, attempting to drive the barb home and inject its deadly venom. The neurotoxin causes paralysis, weakness, and eventually death in exposed creatures. Even survival of the injection leaves lingering weakness and vulnerability.
 
 ### Diving Claw Rake
+
 The wyvern dives from above, extending its hind claws to rake across targets as it passes. The speed of the pass adds tremendous force, and the strike is designed to open major wounds.
 
 ### Snapping Bite
+
 At close range, the wyvern uses its powerful jaws to bite, aiming for exposed flesh, breaking bones, and potentially severing limbs in single strikes.
 
 ### Aerial Grapple
+
 Against airborne opponents of comparable size, the wyvern uses its hind claws and body to grapple, attempting to force opponents into positions where the tail can strike home.
 
 ## Special Abilities
 
 ### Aerial Mastery
+
 The wyvern is a creature evolved purely for flight. It can hover, bank, dive, and perform aerial maneuvers that ground-based opponents cannot replicate. In open sky, the wyvern possesses absolute superiority over grounded foes.
 
 ### Venomous Barb
+
 The wyvern's tail bears a barb that drips constantly with neurotoxin—a venom potent enough to kill large animals in minutes. Creatures struck by the barb suffer progressive paralysis, loss of coordination, and eventually death if the venom is not countered.
 
 ### Thermal Soaring
+
 The wyvern is evolved to exploit thermal updrafts, climbing to extreme altitudes with minimal energy expenditure. This allows the creature to maintain flight for hours, remain at crushing altitudes where lesser creatures cannot breathe, and position itself anywhere within its territory with ease.
 
 ### Predatory Intelligence
+
 While not intelligent enough for language or abstract reasoning, the wyvern demonstrates clear learning capacity, problem-solving ability, and the capacity to plan multi-stage hunts. A wyvern remembers individuals who have threatened it and adjusts behavior accordingly.
 
 ## Attributes
+
 - **Strength:** 16-21 (1d6+15) — Powerful enough to bear several hundred pounds aloft and tear apart armored prey
 - **Endurance:** 14-19 (1d6+13) — Capable of sustained flight and lengthy hunts across vast territories
 - **Dexterity:** 10-15 (1d6+9) — Precise in striking and tail placement; lacks the finesse of true dragons

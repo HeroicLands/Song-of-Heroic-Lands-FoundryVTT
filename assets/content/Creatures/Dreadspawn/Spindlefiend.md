@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Spindlefiend
+    - Spindlefiend
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Spindlefiend
-  aliases: []
+    full: Spindlefiend
+    aliases: []
 id: Xpvl9VOny6MfIxph
 slug: spindlefiend
 img: images/spindlefiend-headshot.webp
@@ -13,47 +13,47 @@ portrait: images/spindlefiend.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 10
-    end: 12
-    dex: 18
-    agl: 20
-    per: 16
-    aur: 14
-    wil: 12
-    rea: 14
-    cre: 16
-  attrRollFormula:
-    str: 1d6+6
-    end: 1d4+9
-    dex: 1d6+14
-    agl: 1d6+16
-    per: 1d4+13
-    aur: 1d6+10
-    wil: 1d4+9
-    rea: 1d6+10
-    cre: 1d4+13
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 80
-      calc: 80
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 60
-      leaguesPerWatch: 4
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 10
+        end: 12
+        dex: 18
+        agl: 20
+        per: 16
+        aur: 14
+        wil: 12
+        rea: 14
+        cre: 16
+    attrRollFormula:
+        str: 1d6+6
+        end: 1d4+9
+        dex: 1d6+14
+        agl: 1d6+16
+        per: 1d4+13
+        aur: 1d6+10
+        wil: 1d4+9
+        rea: 1d6+10
+        cre: 1d4+13
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 80
+            calc: 80
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 60
+          leaguesPerWatch: 4
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -79,26 +79,33 @@ A Spindlefiend’s primary goal is to force or trick opponents into its webbed t
 ## Attack Methods
 
 ### Paralyzing Bite
+
 The creature strikes with terrifying speed, its fangs driving deep into exposed flesh and injecting venom that begins its work almost immediately. Victims experience progressive paralysis beginning at the bite wound and spreading outward, eventually immobilizing the entire body.
 
 ### Razor Limb Slash
+
 The Spindlefiend’s elongated limbs are drawn into close proximity and used like swords, their pointed ends and articulated joints capable of slashing and piercing with precision. The creature can attack from seemingly impossible angles, striking around shields and armor.
 
 ### Web Entanglement
+
 Rather than merely trapping prey with web, the Spindlefiend actively manipulates web strands, tightening them around limbs, constricting the throat, or creating hazardous terrain on the fly.
 
 ## Special Abilities
 
 ### Nearly Invisible Silk
+
 The Spindlefiend’s webs are composed of strands so fine and dark that they are nearly impossible to perceive without exceptional light or magical sight. Areas filled with these webs appear empty to the untrained eye, making navigation a nightmare.
 
 ### Impossible Agility
+
 The Spindlefiend’s body is so perfectly adapted for three-dimensional movement that it moves on walls, ceilings, and across the span of wide gaps with the same ease a human walks on flat ground. Its movement speed increases dramatically in areas with complex geometry.
 
 ### Predatory Genius
+
 The creature’s creative and reasoning abilities exceed those of nearly all living creatures. It designs its territory, anticipates prey behavior, and sets traps with malicious cleverness. It learns from encounters and adjusts its tactics accordingly.
 
 ### Venom Mastery
+
 The Spindlefiend’s venom is potent, fast-acting, and complex in its effects. Different toxins seem designed for different purposes—some paralyze quickly, others cause extraordinary pain, still others drain life force directly.
 
 ## Additional Information
@@ -106,6 +113,7 @@ The Spindlefiend’s venom is potent, fast-acting, and complex in its effects. D
 Fire remains the Spindlefiend’s primary weakness, destroying its webs and damaging its body. Acid is equally effective. The creature’s nearly invisible webs can be revealed through powder, smoke, or magical light. In completely open, featureless terrain, a Spindlefiend loses much of its advantage and becomes a comparatively normal opponent. The creature’s web, if harvested carefully, is extraordinarily valuable—its ability to remain invisible makes it priceless to assassins, thieves, and warriors alike. The venom itself can be extracted, though doing so is extraordinarily dangerous. Some desperate communities have managed to contain Spindlefiends by destroying the geometry of their territory—collapsing structures, opening ceilings to the sky, or otherwise simplifying the environment until the creature’s advantage is negated.
 
 ## Attributes
+
 - **Strength:** 7-12 (1d6+6)
 
 - **Endurance:** 10-13 (1d4+9)

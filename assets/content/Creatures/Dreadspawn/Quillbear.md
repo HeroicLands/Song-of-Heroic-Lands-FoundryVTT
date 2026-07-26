@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Quillbear
+    - Quillbear
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Quillbear
-  aliases: []
+    full: Quillbear
+    aliases: []
 id: iscjRBNFxuL9fZGM
 slug: quillbear
 img: images/quillbear-headshot.webp
@@ -13,48 +13,49 @@ portrait: images/quillbear.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 22
-    end: 18
-    dex: 12
-    agl: 10
-    per: 14
-    aur: 10
-    wil: 16
-    rea: 8
-    cre: 8
-  attrRollFormula:
-    str: 1d6+18
-    end: 1d6+14
-    dex: 1d4+9
-    agl: 1d6+6
-    per: 1d6+10
-    aur: 1d6+6
-    wil: 1d4+13
-    rea: 1d6+4
-    cre: 1d4+5
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 300
-      calc: 300
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 60
-      leaguesPerWatch: 4
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 22
+        end: 18
+        dex: 12
+        agl: 10
+        per: 14
+        aur: 10
+        wil: 16
+        rea: 8
+        cre: 8
+    attrRollFormula:
+        str: 1d6+18
+        end: 1d6+14
+        dex: 1d4+9
+        agl: 1d6+6
+        per: 1d6+10
+        aur: 1d6+6
+        wil: 1d4+13
+        rea: 1d6+4
+        cre: 1d4+5
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 300
+            calc: 300
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 60
+          leaguesPerWatch: 4
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
+
 # Appearance {#appearance}
 
 The forest floor cracks and splinters as something massive erupts from the earth—a explosion of dirt and debris that blocks your vision. Through the dust, you see it: a creature that resembles a bear in gross shape alone, but its entire body is encased in thousands of spear-like quills that shimmer with sickly luminescence. The beast's fur bristles around the quills like some nightmare fusion of porcupine and ursine horror, and as it shakes itself clear of the soil, individual quills vibrate with an audible, high-pitched keening. Its low growl is the rumble of earth and stone, and you can see the venom glistening on each quill's barbed tip. The creature's eyes lock on you with feral intelligence, and you smell the burning-metal stench of its venom on the air.
@@ -78,26 +79,33 @@ A Quillbear typically initiates combat by charging with its full mass and speed,
 ## Attack Methods
 
 ### Pile-Driver Charge
+
 The Quillbear hurls its massive, quill-covered body forward at tremendous speed, attempting to knock opponents prone and impale them simultaneously. The force of the charge alone can break bones, and the quills add terrible additional trauma.
 
 ### Quill Barrage
+
 The creature vibrates and flexes, launching multiple quills from its body with ballistic speed and accuracy. The quills can strike from surprising distance and seem nearly guided in their flight, often targeting vital areas.
 
 ### Raking Claws
+
 The creature's forelimbs, though covered in quills, can still rake with terrible effect. The claws alone are enormous and sharp enough to tear through armor, and they work in coordinated combinations that are nearly impossible to defend against.
 
 ## Special Abilities
 
 ### Quill Regeneration
+
 The Quillbear's quills continuously regenerate, allowing it to launch them repeatedly without becoming depleted. A single creature can launch dozens of quills in combat and still maintain full coverage of its body.
 
 ### Paralyzing Venom
+
 The venom coating each quill is a complex cocktail of neurotoxins that begin their work immediately upon contact with blood. Victims experience progressive paralysis beginning with the injection site and spreading throughout the body, eventually leading to complete immobility and death if untreated.
 
 ### Burrow Network
+
 The Quillbear is an exceptional engineer and digger, capable of creating complex burrow systems with multiple exits and chambers. It can retreat through burrows, seal entrances, or even cause targeted collapses to trap pursuers.
 
 ### Venom Immunity
+
 The Quillbear is naturally immune to its own venom and to most other toxic substances, allowing it to feed on animals and plants that would be lethal to other creatures.
 
 ## Additional Information
@@ -105,6 +113,7 @@ The Quillbear is naturally immune to its own venom and to most other toxic subst
 Fire is the Quillbear's greatest weakness—flames damage its quill covering directly, can ignite the venom causing painful explosions, and burn the creature's underlying fur. Smoke and heat also seem to cause it genuine distress and disorientation. Its burrows can be rendered uninhabitable by fire or flooding, forcing a Quillbear to abandon its territory. The creature's quills, if harvested properly, are extraordinarily valuable—they can be fashioned into natural weapons that retain their venom for months or years, or processed into powerful poisons for sale on the black market. The hide beneath the quills is thick and can be crafted into armor of exceptional quality. Some desperate communities employ Quillbear hunters professionally, paying substantial sums for the removal of problem creatures; these hunts are among the most dangerous undertakings a mortal can pursue, and many hunters do not survive their pursuit.
 
 ## Attributes
+
 - **Strength:** 19-24 (1d6+18)
 
 - **Endurance:** 15-20 (1d6+14)
