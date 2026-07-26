@@ -1,16 +1,16 @@
 ---
 aliases:
-  - Áldrik Hárvenar
-  - Aldrik Harvenar
+    - Áldrik Hárvenar
+    - Aldrik Harvenar
 tags:
-  - todo-warrior
+    - todo-warrior
 name:
-  full: Áldrik Hárvenar
-  title: ""
-  given: Áldrik
-  clan: Hárvenar
-  home: ""
-  aliases: []
+    full: Áldrik Hárvenar
+    title: ""
+    given: Áldrik
+    clan: Hárvenar
+    home: ""
+    aliases: []
 id: 2qFl41sNLjVHWGau
 folder: J9R0fnGUTBY5z4pd
 shortcode: aldrikharvenar
@@ -20,531 +20,531 @@ portrait: images/aldrik-harvenar.webp
 type: character
 package: thalorna
 social:
-  occupation: Man-at-Arms
-  station: soldiery
-  class: freeman
-  society: Provenzal
+    occupation: Man-at-Arms
+    station: soldiery
+    class: freeman
+    society: Provenzal
 traits:
-  gender: male
-  age: 34
-  birthday: 686/4/2
-  height:
-    m: 1.8
-  weight:
-    kg: 67
-  build:
-    frame: medium
-  appearance:
-    eye_color: dark_brown
-    hair_color: blonde
-    skin_color: fair
-    complexion: weathered
-    extra_features:
-      - missing tooth
-gear:
-  weapons:
-    - BrdSwd:1
-    - PlBreast:1
-    - Bklr:1
-  armor:
-    - PlBreast:1
-    - LtShirt:1
-    - torch:2
-  misc:
-    - backpk:1
-    - FeRations:7
-    - wtrskin:1
-    - Bandg:3
-sohl:
-  attributes:
-    agl: 14
-    aur: 9
-    cml: 11
-    cre: 12
-    dex: 12
-    elo: 10
-    emp: 8
-    end: 13
-    mor: 12
-    per: 14
-    rea: 13
-    str: 15
-    voi: 10
-    wil: 13
-  body:
-    structure:
-      parts:
-        - name: Head
-          shortcode: headpart
-          roles:
-            - vital
-          canHoldItem: false
-          combatArea: 1
-          locations:
-            - name: Skull
-              shortcode: skullloc
-              bleedingSusceptibility: low
-              amputability: none
-              shockValue: 5
-              probWeight: 500
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Left Eye
-              shortcode: leyeloc
-              bleedingSusceptibility: medium
-              amputability: none
-              shockValue: 5
-              probWeight: 15
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Right Eye
-              shortcode: reyeloc
-              bleedingSusceptibility: medium
-              amputability: none
-              shockValue: 5
-              probWeight: 15
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Nose
-              shortcode: noseloc
-              bleedingSusceptibility: medium
-              amputability: none
-              shockValue: 5
-              probWeight: 30
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Left Cheek
-              shortcode: lcheekloc
-              bleedingSusceptibility: medium
-              amputability: none
-              shockValue: 4
-              probWeight: 60
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Right Cheek
-              shortcode: rcheekloc
-              bleedingSusceptibility: medium
-              amputability: none
-              shockValue: 4
-              probWeight: 60
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Left Ear
-              shortcode: learloc
-              bleedingSusceptibility: medium
-              amputability: none
-              shockValue: 4
-              probWeight: 15
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Right Ear
-              shortcode: rearloc
-              bleedingSusceptibility: medium
-              amputability: none
-              shockValue: 4
-              probWeight: 15
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Mouth
-              shortcode: mouthloc
-              bleedingSusceptibility: medium
-              amputability: none
-              shockValue: 4
-              probWeight: 30
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Jaw
-              shortcode: jawloc
-              bleedingSusceptibility: medium
-              amputability: none
-              shockValue: 4
-              probWeight: 60
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Neck
-              shortcode: neckloc
-              bleedingSusceptibility: high
-              amputability: low
-              shockValue: 5
-              probWeight: 200
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-        - name: Right Arm
-          shortcode: rarmpart
-          roles:
-            - manipulator
-          canHoldItem: true
-          combatArea: 2
-          locations:
-            - name: Right Shoulder
-              shortcode: rshldloc
-              bleedingSusceptibility: medium
-              amputability: none
-              shockValue: 3
-              probWeight: 30
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Right Upper Arm
-              shortcode: rupaloc
-              bleedingSusceptibility: low
-              amputability: medium
-              shockValue: 1
-              probWeight: 30
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Right Elbow
-              shortcode: relbloc
-              bleedingSusceptibility: low
-              amputability: medium
-              shockValue: 2
-              probWeight: 10
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Right Forearm
-              shortcode: rfraloc
-              bleedingSusceptibility: low
-              amputability: medium
-              shockValue: 1
-              probWeight: 20
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Right Hand
-              shortcode: rhandloc
-              bleedingSusceptibility: none
-              amputability: high
-              shockValue: 2
-              probWeight: 10
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-        - name: Left Arm
-          shortcode: larmpart
-          roles:
-            - manipulator
-          canHoldItem: true
-          combatArea: 2
-          locations:
-            - name: Left Shoulder
-              shortcode: lshldloc
-              bleedingSusceptibility: medium
-              amputability: none
-              shockValue: 3
-              probWeight: 30
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Left Upper Arm
-              shortcode: lupaloc
-              bleedingSusceptibility: low
-              amputability: medium
-              shockValue: 1
-              probWeight: 30
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Left Elbow
-              shortcode: lelbloc
-              bleedingSusceptibility: low
-              amputability: medium
-              shockValue: 2
-              probWeight: 10
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Left Forearm
-              shortcode: lfraloc
-              bleedingSusceptibility: low
-              amputability: medium
-              shockValue: 1
-              probWeight: 20
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Left Hand
-              shortcode: lhandloc
-              bleedingSusceptibility: none
-              amputability: high
-              shockValue: 2
-              probWeight: 10
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-        - name: Torso
-          shortcode: torsopart
-          roles:
-            - core
-          canHoldItem: false
-          combatArea: 4
-          locations:
-            - name: Thorax
-              shortcode: thrxloc
-              bleedingSusceptibility: medium
-              amputability: none
-              shockValue: 4
-              probWeight: 40
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Abdomen
-              shortcode: abdmnloc
-              bleedingSusceptibility: high
-              amputability: none
-              shockValue: 4
-              probWeight: 40
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Pelvis
-              shortcode: plvisloc
-              bleedingSusceptibility: medium
-              amputability: none
-              shockValue: 4
-              probWeight: 20
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-        - name: Right Leg
-          shortcode: rlegpart
-          roles:
-            - locomotor
-          canHoldItem: false
-          combatArea: 3
-          locations:
-            - name: Right Thigh
-              shortcode: rthghloc
-              bleedingSusceptibility: medium
-              amputability: low
-              shockValue: 3
-              probWeight: 40
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Right Knee
-              shortcode: rkneeloc
-              bleedingSusceptibility: low
-              amputability: medium
-              shockValue: 2
-              probWeight: 10
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Right Calf
-              shortcode: rcalfloc
-              bleedingSusceptibility: low
-              amputability: medium
-              shockValue: 1
-              probWeight: 30
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Right Foot
-              shortcode: rfootloc
-              bleedingSusceptibility: none
-              amputability: medium
-              shockValue: 2
-              probWeight: 20
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-        - name: Left Leg
-          shortcode: llegpart
-          roles:
-            - locomotor
-          canHoldItem: false
-          combatArea: 3
-          locations:
-            - name: Left Thigh
-              shortcode: lthghloc
-              bleedingSusceptibility: medium
-              amputability: low
-              shockValue: 3
-              probWeight: 40
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Left Knee
-              shortcode: lkneeloc
-              bleedingSusceptibility: low
-              amputability: medium
-              shockValue: 2
-              probWeight: 10
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Left Calf
-              shortcode: lcalfloc
-              bleedingSusceptibility: low
-              amputability: medium
-              shockValue: 1
-              probWeight: 30
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-            - name: Left Foot
-              shortcode: lfootloc
-              bleedingSusceptibility: none
-              amputability: medium
-              shockValue: 2
-              probWeight: 20
-              protectionBase:
-                blunt: 0
-                edged: 0
-                piercing: 0
-                fire: 0
-      adjacent:
-        - - headpart
-          - torsopart
-        - - headpart
-          - rarmpart
-        - - headpart
-          - larmpart
-        - - torsopart
-          - rarmpart
-        - - torsopart
-          - larmpart
-        - - torsopart
-          - rlegpart
-        - - torsopart
-          - llegpart
-        - - llegpart
-          - rlegpart
+    gender: male
+    age: 34
+    birthday: 686/4/2
+    height:
+        m: 1.8
     weight:
-      base: 148
-      calc: (9 * str) + 50
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 50
-      leaguesPerWatch: 5
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      disabled: false
-  defaultCombatGroup: null
-  items:
-    - shortcode: awar
-      type: skill
-      system:
-        masteryLevelBase: 42
-    - shortcode: cmd
-      type: skill
-      system:
-        masteryLevelBase: 27
-    - shortcode: dge
-      type: skill
-      system:
-        masteryLevelBase: 28
-    - shortcode: endur
-      type: skill
-      system:
-        masteryLevelBase: 37
-    - shortcode: init
-      type: skill
-      system:
-        masteryLevelBase: 44
-    - shortcode: melee
-      type: skill
-      system:
-        masteryLevelBase: 59
-    - shortcode: ridg
-      type: skill
-      system:
-        masteryLevelBase: 15
-    - shortcode: shok
-      type: skill
-      system:
-        masteryLevelBase: 46
-    - shortcode: swim
-      type: skill
-      system:
-        masteryLevelBase: 30
+        kg: 67
+    build:
+        frame: medium
+    appearance:
+        eye_color: dark_brown
+        hair_color: blonde
+        skin_color: fair
+        complexion: weathered
+        extra_features:
+            - missing tooth
+gear:
+    weapons:
+        - BrdSwd:1
+        - PlBreast:1
+        - Bklr:1
+    armor:
+        - PlBreast:1
+        - LtShirt:1
+        - torch:2
+    misc:
+        - backpk:1
+        - FeRations:7
+        - wtrskin:1
+        - Bandg:3
+sohl:
+    attributes:
+        agl: 14
+        aur: 9
+        cml: 11
+        cre: 12
+        dex: 12
+        elo: 10
+        emp: 8
+        end: 13
+        mor: 12
+        per: 14
+        rea: 13
+        str: 15
+        voi: 10
+        wil: 13
+    body:
+        structure:
+            parts:
+                - name: Head
+                  shortcode: headpart
+                  roles:
+                      - vital
+                  canHoldItem: false
+                  combatArea: 1
+                  locations:
+                      - name: Skull
+                        shortcode: skullloc
+                        bleedingSusceptibility: low
+                        amputability: none
+                        shockValue: 5
+                        probWeight: 500
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Left Eye
+                        shortcode: leyeloc
+                        bleedingSusceptibility: medium
+                        amputability: none
+                        shockValue: 5
+                        probWeight: 15
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Right Eye
+                        shortcode: reyeloc
+                        bleedingSusceptibility: medium
+                        amputability: none
+                        shockValue: 5
+                        probWeight: 15
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Nose
+                        shortcode: noseloc
+                        bleedingSusceptibility: medium
+                        amputability: none
+                        shockValue: 5
+                        probWeight: 30
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Left Cheek
+                        shortcode: lcheekloc
+                        bleedingSusceptibility: medium
+                        amputability: none
+                        shockValue: 4
+                        probWeight: 60
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Right Cheek
+                        shortcode: rcheekloc
+                        bleedingSusceptibility: medium
+                        amputability: none
+                        shockValue: 4
+                        probWeight: 60
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Left Ear
+                        shortcode: learloc
+                        bleedingSusceptibility: medium
+                        amputability: none
+                        shockValue: 4
+                        probWeight: 15
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Right Ear
+                        shortcode: rearloc
+                        bleedingSusceptibility: medium
+                        amputability: none
+                        shockValue: 4
+                        probWeight: 15
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Mouth
+                        shortcode: mouthloc
+                        bleedingSusceptibility: medium
+                        amputability: none
+                        shockValue: 4
+                        probWeight: 30
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Jaw
+                        shortcode: jawloc
+                        bleedingSusceptibility: medium
+                        amputability: none
+                        shockValue: 4
+                        probWeight: 60
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Neck
+                        shortcode: neckloc
+                        bleedingSusceptibility: high
+                        amputability: low
+                        shockValue: 5
+                        probWeight: 200
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                - name: Right Arm
+                  shortcode: rarmpart
+                  roles:
+                      - manipulator
+                  canHoldItem: true
+                  combatArea: 2
+                  locations:
+                      - name: Right Shoulder
+                        shortcode: rshldloc
+                        bleedingSusceptibility: medium
+                        amputability: none
+                        shockValue: 3
+                        probWeight: 30
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Right Upper Arm
+                        shortcode: rupaloc
+                        bleedingSusceptibility: low
+                        amputability: medium
+                        shockValue: 1
+                        probWeight: 30
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Right Elbow
+                        shortcode: relbloc
+                        bleedingSusceptibility: low
+                        amputability: medium
+                        shockValue: 2
+                        probWeight: 10
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Right Forearm
+                        shortcode: rfraloc
+                        bleedingSusceptibility: low
+                        amputability: medium
+                        shockValue: 1
+                        probWeight: 20
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Right Hand
+                        shortcode: rhandloc
+                        bleedingSusceptibility: none
+                        amputability: high
+                        shockValue: 2
+                        probWeight: 10
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                - name: Left Arm
+                  shortcode: larmpart
+                  roles:
+                      - manipulator
+                  canHoldItem: true
+                  combatArea: 2
+                  locations:
+                      - name: Left Shoulder
+                        shortcode: lshldloc
+                        bleedingSusceptibility: medium
+                        amputability: none
+                        shockValue: 3
+                        probWeight: 30
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Left Upper Arm
+                        shortcode: lupaloc
+                        bleedingSusceptibility: low
+                        amputability: medium
+                        shockValue: 1
+                        probWeight: 30
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Left Elbow
+                        shortcode: lelbloc
+                        bleedingSusceptibility: low
+                        amputability: medium
+                        shockValue: 2
+                        probWeight: 10
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Left Forearm
+                        shortcode: lfraloc
+                        bleedingSusceptibility: low
+                        amputability: medium
+                        shockValue: 1
+                        probWeight: 20
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Left Hand
+                        shortcode: lhandloc
+                        bleedingSusceptibility: none
+                        amputability: high
+                        shockValue: 2
+                        probWeight: 10
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                - name: Torso
+                  shortcode: torsopart
+                  roles:
+                      - core
+                  canHoldItem: false
+                  combatArea: 4
+                  locations:
+                      - name: Thorax
+                        shortcode: thrxloc
+                        bleedingSusceptibility: medium
+                        amputability: none
+                        shockValue: 4
+                        probWeight: 40
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Abdomen
+                        shortcode: abdmnloc
+                        bleedingSusceptibility: high
+                        amputability: none
+                        shockValue: 4
+                        probWeight: 40
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Pelvis
+                        shortcode: plvisloc
+                        bleedingSusceptibility: medium
+                        amputability: none
+                        shockValue: 4
+                        probWeight: 20
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                - name: Right Leg
+                  shortcode: rlegpart
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  combatArea: 3
+                  locations:
+                      - name: Right Thigh
+                        shortcode: rthghloc
+                        bleedingSusceptibility: medium
+                        amputability: low
+                        shockValue: 3
+                        probWeight: 40
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Right Knee
+                        shortcode: rkneeloc
+                        bleedingSusceptibility: low
+                        amputability: medium
+                        shockValue: 2
+                        probWeight: 10
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Right Calf
+                        shortcode: rcalfloc
+                        bleedingSusceptibility: low
+                        amputability: medium
+                        shockValue: 1
+                        probWeight: 30
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Right Foot
+                        shortcode: rfootloc
+                        bleedingSusceptibility: none
+                        amputability: medium
+                        shockValue: 2
+                        probWeight: 20
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                - name: Left Leg
+                  shortcode: llegpart
+                  roles:
+                      - locomotor
+                  canHoldItem: false
+                  combatArea: 3
+                  locations:
+                      - name: Left Thigh
+                        shortcode: lthghloc
+                        bleedingSusceptibility: medium
+                        amputability: low
+                        shockValue: 3
+                        probWeight: 40
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Left Knee
+                        shortcode: lkneeloc
+                        bleedingSusceptibility: low
+                        amputability: medium
+                        shockValue: 2
+                        probWeight: 10
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Left Calf
+                        shortcode: lcalfloc
+                        bleedingSusceptibility: low
+                        amputability: medium
+                        shockValue: 1
+                        probWeight: 30
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+                      - name: Left Foot
+                        shortcode: lfootloc
+                        bleedingSusceptibility: none
+                        amputability: medium
+                        shockValue: 2
+                        probWeight: 20
+                        protectionBase:
+                            blunt: 0
+                            edged: 0
+                            piercing: 0
+                            fire: 0
+            adjacent:
+                - - headpart
+                  - torsopart
+                - - headpart
+                  - rarmpart
+                - - headpart
+                  - larmpart
+                - - torsopart
+                  - rarmpart
+                - - torsopart
+                  - larmpart
+                - - torsopart
+                  - rlegpart
+                - - torsopart
+                  - llegpart
+                - - llegpart
+                  - rlegpart
+        weight:
+            base: 148
+            calc: (9 * str) + 50
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 50
+          leaguesPerWatch: 5
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          disabled: false
+    defaultCombatGroup: null
+    items:
+        - shortcode: awar
+          type: skill
+          system:
+              masteryLevelBase: 42
+        - shortcode: cmd
+          type: skill
+          system:
+              masteryLevelBase: 27
+        - shortcode: dge
+          type: skill
+          system:
+              masteryLevelBase: 28
+        - shortcode: endur
+          type: skill
+          system:
+              masteryLevelBase: 37
+        - shortcode: init
+          type: skill
+          system:
+              masteryLevelBase: 44
+        - shortcode: melee
+          type: skill
+          system:
+              masteryLevelBase: 59
+        - shortcode: ridg
+          type: skill
+          system:
+              masteryLevelBase: 15
+        - shortcode: shok
+          type: skill
+          system:
+              masteryLevelBase: 46
+        - shortcode: swim
+          type: skill
+          system:
+              masteryLevelBase: 30
 thalorna:
-  realm: kingdom-of-provenzia
-  region: provenzia-region
-  faith:
-    - "aureldian-pantheon"
+    realm: kingdom-of-provenzia
+    region: provenzia-region
+    faith:
+        - "aureldian-pantheon"
 harnworld:
-  realm: ""
-  ritual: []
+    realm: ""
+    ritual: []
 ---
 
 # Appearance {#appearance}
@@ -598,4 +598,3 @@ His competence is thorough rather than exceptional. He is accurate with his swor
 3. **The Conscription Order** — The Chastèlclair garrison receives orders for a major deployment. Soldiers over thirty years of service are being reassigned to the capital for training duty; soldiers under thirty are being sent to a distant border conflict. Áldrik has precisely one year until his full pension vests. The redeployment will separate him from that by making him unavailable for his target retirement date. He confronts Commander Lysard and discovers that Lysard tried and failed to prevent the reassignment. The only way to stay is to resign dishonorably before the orders take effect, which forfeits his pension entirely. Resign with pension denied, or serve where he is told and miss his family's needs.
 
 4. **The Broken Soldier** — A young soldier named **Tander Korsfeld** is assigned to Áldrik's squad. Tander is traumatized—his previous posting involved active combat, and he has developed a severe stutter and occasional paralysis during loud noises. The garrison's physicians say he is unfit for service but his discharge paperwork is incomplete due to bureaucratic delays. Meanwhile, other soldiers mock him relentlessly. Áldrik, unexpectedly, begins quietly protecting him and teaching him to function despite his trauma. This draws attention from officers who question whether Áldrik is "going soft," and from younger soldiers who resent the favoritism. Áldrik must choose between his single deep friendship and his reputation for stern professionalism.
-

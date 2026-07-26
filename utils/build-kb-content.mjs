@@ -203,7 +203,9 @@ function rewriteRepoLinks(body, docRel) {
             // README is its directory's landing, so drop the `readme` segment.
             const rel2 = repoRel.slice(5, -3).toLowerCase();
             const devPath =
-                path.basename(rel2) === "readme" ? path.posix.dirname(rel2) : rel2;
+                path.basename(rel2) === "readme" ?
+                    path.posix.dirname(rel2)
+                :   rel2;
             href2 = `/dev-docs/${devPath === "." ? "" : `${devPath}/`}${anchor}`;
         } else {
             href2 = `${GH_BLOB}${repoRel}${anchor}`;
