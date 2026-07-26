@@ -37,10 +37,15 @@ consistent format:
 The KB also now includes `package: thalorna` content (previously `sohl`-only), so
 Thalorna creatures and characters appear alongside the core SoHL content.
 
-The developer docs (`/dev/`), user guide (`/guide/`), and rules (`/rules/`) each
-render their README as the section landing (curated index + hero banner). The
-Rules are split into their own `/rules/` section (a `type: doc` page now routes
-by its top-level source folder), with redirects from the old `/guide/sohl-*`
-URLs. Obsidian-style `[[wikilinks]]` in the content now resolve to KB pages
-(by filename, slug, or name). KB layouts and build only; no system-package
-impact.
+A page's KB section is now its `type`, or its `category` when `type` is `doc` —
+so developer docs (`/dev-docs/`), the user guide (`/user-guide/`), rules
+(`/rules/`), and lore (`/lore/`) are each their own section. Each doc section
+renders its README as a curated landing (index + hero banner), and old URLs
+(`/dev/…`, `/guide/…`) redirect to the new ones.
+
+Obsidian-style `[[wikilinks]]` resolve to KB pages against a unique
+`section/slug` key plus collision-aware name/slug fallbacks — `[[Name]]` when the
+name is unique, `[[section/slug|Label]]` otherwise. The build **fails** on an
+ambiguous name or a broken intra-KB `section/slug`; an unknown bare target is
+treated as an external reference (e.g. a Thalorna world entity on the www site)
+and rendered as text. KB layouts and build only; no system-package impact.
