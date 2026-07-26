@@ -4,9 +4,9 @@ tags: []
 name:
     full: Photophobia
     aliases: []
-id: Flr72O8VzJf9zmxg
+id: 69Bur733yhdGFSWi
 slug: photophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: photophb
 type: trauma
 package: sohl

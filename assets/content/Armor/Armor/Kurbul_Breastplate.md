@@ -7,9 +7,9 @@ name:
     full: Kûrbúl Breastplate
     aliases: []
 description: "Treated leather chest armor offering agility without sacrificing defense."
-id: 4zNNtqfDKrkWC4YJ
+id: HiUQP9aeolV45y4R
 slug: kurbul-breastplate
-img: icons/breastplate.svg
+img: icons/game-icons/lorc/breastplate.svg
 shortcode: KBrst
 type: armorgear
 package: sohl

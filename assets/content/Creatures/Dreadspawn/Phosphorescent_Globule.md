@@ -6,12 +6,12 @@ tags:
 name:
     full: Phosphorescent Globule
     aliases: []
-id: E7tEOyjs0shS2rZe
+id: WQjWcb6PtRpcRxGe
 slug: phosphorescent-globule
-img: images/phosphorescent-globule-headshot.webp
-portrait: images/phosphorescent-globule.webp
+img: icons/game-icons/delapouite/slime.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 10

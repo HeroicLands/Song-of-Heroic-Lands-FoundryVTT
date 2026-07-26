@@ -6,12 +6,12 @@ tags:
 name:
     full: Hunting Dog
     aliases: []
-id: UTIvrbUXtiUw6IY5
+id: Po2VUAbp6OfYsojS
 slug: hunting-dog
-img: images/hunting-dog-headshot.webp
-portrait: images/hunting-dog.webp
+img: icons/game-icons/lorc/hound.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 11

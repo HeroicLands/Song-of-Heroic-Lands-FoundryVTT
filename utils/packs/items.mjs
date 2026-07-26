@@ -65,20 +65,20 @@ const ITEM_TYPES = new Set([
 ]);
 
 const DEFAULT_IMG = {
-    affiliation: "systems/sohl/assets/icons/shield.svg",
-    affliction: "systems/sohl/assets/icons/sick.svg",
-    armorgear: "systems/sohl/assets/icons/breastplate.svg",
-    attribute: "systems/sohl/assets/icons/charm.svg",
-    concoctiongear: "systems/sohl/assets/icons/flask.svg",
-    containergear: "systems/sohl/assets/icons/sack.svg",
-    miscgear: "systems/sohl/assets/icons/question-mark.svg",
-    mystery: "systems/sohl/assets/icons/sparkles.svg",
-    mysticalability: "systems/sohl/assets/icons/hand-sparkles.svg",
-    projectilegear: "systems/sohl/assets/icons/arrow.svg",
-    skill: "systems/sohl/assets/icons/head-gear.svg",
-    trait: "systems/sohl/assets/icons/user-gear.svg",
-    trauma: "systems/sohl/assets/icons/injury.svg",
-    weapongear: "systems/sohl/assets/icons/sword.svg",
+    affiliation: "systems/sohl/assets/icons/noun/shield.svg",
+    affliction: "systems/sohl/assets/icons/other/sick.svg",
+    armorgear: "systems/sohl/assets/icons/game-icons/lorc/breastplate.svg",
+    attribute: "systems/sohl/assets/icons/other/charm.svg",
+    concoctiongear: "systems/sohl/assets/icons/game-icons/badges/flask.svg",
+    containergear: "systems/sohl/assets/icons/other/sack.svg",
+    miscgear: "systems/sohl/assets/icons/other/question-mark.svg",
+    mystery: "systems/sohl/assets/icons/other/sparkles.svg",
+    mysticalability: "systems/sohl/assets/icons/other/hand-sparkles.svg",
+    projectilegear: "systems/sohl/assets/icons/noun/arrow.svg",
+    skill: "systems/sohl/assets/icons/other/head-gear.svg",
+    trait: "systems/sohl/assets/icons/other/user-gear.svg",
+    trauma: "systems/sohl/assets/icons/other/injury.svg",
+    weapongear: "systems/sohl/assets/icons/other/sword.svg",
 };
 
 const PERCEPTION_TEST =
@@ -86,8 +86,8 @@ const PERCEPTION_TEST =
     "||(doc.type==='attribute' && doc.system.shortcode==='per')";
 
 /**
- * Translate a vault-relative img path (`icons/user-gear.svg`) into the
- * Foundry-relative path (`systems/sohl/assets/icons/user-gear.svg`). Falls
+ * Translate a vault-relative img path (`icons/other/user-gear.svg`) into the
+ * Foundry-relative path (`systems/sohl/assets/icons/other/user-gear.svg`). Falls
  * back to the per-type default when the field is missing.
  */
 function resolveImg(fm, type) {

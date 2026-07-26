@@ -6,9 +6,9 @@ name:
     full: Plate Kneecops
     aliases: []
 description: "Steel knee-guards; protects joints from heavy blows."
-id: wOc6AioNe90azs1a
+id: Q3zaG4MFlXnGiqrg
 slug: plate-kneecops
-img: icons/knee-pad.svg
+img: icons/game-icons/delapouite/knee-pad.svg
 shortcode: PlKncp
 type: armorgear
 package: sohl

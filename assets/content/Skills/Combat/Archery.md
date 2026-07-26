@@ -5,9 +5,9 @@ name:
     full: Archery
     aliases: []
 description: "Striking distant targets with bows and crossbows; reading windage and elevation."
-id: sZWxSJSQoQccGYoi
+id: 6fgtfnfNablzp2SI
 slug: archery
-img: icons/longbow.svg
+img: icons/game-icons/lorc/pocket-bow.svg
 shortcode: archery
 type: skill
 package: sohl

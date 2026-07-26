@@ -6,12 +6,12 @@ tags:
 name:
     full: Tuskcrasher
     aliases: []
-id: S6L9K1scHUuwQ65a
+id: 1LGC1Tv40FQz4hXf
 slug: tuskcrasher
-img: images/tuskcrasher-headshot.webp
-portrait: images/tuskcrasher.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 27

@@ -7,9 +7,9 @@ name:
     full: "Ladle, copper"
     aliases: []
 description: "Tinned copper ladle with long handle; serves hot liquids from cauldron safely."
-id: AziVH9Mv7xTnjLYb
+id: dpNtTHN7b9OYEqJe
 slug: ladle-copper
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: ladlecoppe
 type: miscgear
 package: sohl

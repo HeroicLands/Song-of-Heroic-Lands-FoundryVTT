@@ -6,9 +6,9 @@ name:
     full: Linen Robe
     aliases: []
 description: "Light breathable long garment perfect for warm weather wear."
-id: qaJaY0dW8plj1xkj
+id: XqdQUWK4OzX3TxHx
 slug: linen-robe
-img: icons/robe.svg
+img: icons/game-icons/lorc/robe.svg
 shortcode: LRobe
 type: armorgear
 package: sohl

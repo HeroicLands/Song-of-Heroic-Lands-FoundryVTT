@@ -7,9 +7,9 @@ name:
     full: "Hide, Exotic"
     aliases: []
 description: "Rare distant pelts: crocodile, ostrich, tiger, python; premium prices for noble collectors."
-id: NjlLTxdiiqgzRpOX
+id: HnjQXdxSNuQdvbxj
 slug: hide-exotic
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideexotic
 type: miscgear
 package: sohl

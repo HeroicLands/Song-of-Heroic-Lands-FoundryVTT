@@ -6,12 +6,12 @@ tags:
 name:
     full: Dragonfly Hawk
     aliases: []
-id: lFo0P8VJ7Y3Xp4Oz
+id: Ld3BjQ7uxeuVYQa7
 slug: dragonfly-hawk
-img: images/dragonfly-hawk-headshot.webp
-portrait: images/dragonfly-hawk.webp
+img: icons/game-icons/lorc/dragonfly.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 12

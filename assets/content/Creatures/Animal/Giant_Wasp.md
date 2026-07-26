@@ -6,12 +6,12 @@ tags:
 name:
     full: Giant Wasp
     aliases: []
-id: 9TNl1hKOeYFfSahf
+id: 3gqGlLb8DWK538oW
 slug: giant-wasp
-img: images/giant-wasp-headshot.webp
-portrait: images/giant-wasp.webp
+img: icons/game-icons/lorc/wasp-sting.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

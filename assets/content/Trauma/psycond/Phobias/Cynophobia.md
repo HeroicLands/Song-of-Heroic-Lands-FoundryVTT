@@ -4,9 +4,9 @@ tags: []
 name:
     full: Cynophobia
     aliases: []
-id: NTiQn1BqiEQYifMD
+id: UJ5TzXCiIWonuc8C
 slug: cynophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: cynophb
 type: trauma
 package: sohl

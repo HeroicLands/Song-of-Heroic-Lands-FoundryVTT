@@ -4,9 +4,9 @@ tags: []
 name:
     full: Generous
     aliases: []
-id: Ezfl220jcCGtIk9P
+id: qdgboSZu0vOQXf4v
 slug: generous
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: generous
 type: trauma
 package: sohl

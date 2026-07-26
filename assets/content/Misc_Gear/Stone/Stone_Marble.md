@@ -7,9 +7,9 @@ name:
     full: "Stone, Marble"
     aliases: []
 description: "Banded metamorphic stone; costly beautiful durable; altars, memorials, noble halls."
-id: c5lO1CSxA3cewcXg
+id: cp3Sy3MceFAqdBaR
 slug: stone-marble
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: stonemarbl
 type: miscgear
 package: sohl

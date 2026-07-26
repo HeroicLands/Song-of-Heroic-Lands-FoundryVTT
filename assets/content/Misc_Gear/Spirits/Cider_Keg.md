@@ -7,9 +7,9 @@ name:
     full: "Cider, Keg"
     aliases: []
 description: "Pressed apple cider, fermented; gentler than ale, spoils in warm weather quickly."
-id: MA3Zirm2Bo8LNinK
+id: ACT2pBnhnqx7dQpx
 slug: cider-keg
-img: icons/ale.svg
+img: icons/game-icons/lorc/beer-stein.svg
 shortcode: cdrkeg
 type: miscgear
 package: sohl

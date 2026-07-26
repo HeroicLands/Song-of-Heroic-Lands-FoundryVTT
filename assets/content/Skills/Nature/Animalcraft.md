@@ -5,9 +5,9 @@ name:
     full: Animalcraft
     aliases: []
 description: "Domesticating, breeding, caring for animals; training and veterinary expertise."
-id: K1sBrJikLWiQIjjB
+id: DTPuFzFuaWPySSGj
 slug: animalcraft
-img: icons/animalcraft.svg
+img: icons/game-icons/badges/paw.svg
 shortcode: anmcft
 type: skill
 package: sohl

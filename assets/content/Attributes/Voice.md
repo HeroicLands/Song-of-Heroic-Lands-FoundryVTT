@@ -4,9 +4,9 @@ tags: []
 name:
     full: Voice
     aliases: []
-id: sJtinBCJ1DVPGeau
+id: FnaXc1K99zsHxghH
 slug: voice
-img: icons/sing.svg
+img: icons/game-icons/lorc/sing.svg
 shortcode: voi
 type: attribute
 package: sohl

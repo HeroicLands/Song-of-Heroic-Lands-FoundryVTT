@@ -4,9 +4,9 @@ tags: []
 name:
     full: Amaxophobia
     aliases: []
-id: QMq2hsIc0HOLzUEf
+id: 5VLo7wMDukJmWKWj
 slug: amaxophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: amaxphb
 type: trauma
 package: sohl

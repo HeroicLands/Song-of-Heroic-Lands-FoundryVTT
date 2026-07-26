@@ -6,12 +6,12 @@ tags:
 name:
     full: Cragclimber
     aliases: []
-id: GT3tS6NhPmMPrmwT
+id: lehcDkx0YgAsYjaw
 slug: cragclimber
-img: images/cragclimber-headshot.webp
-portrait: images/cragclimber.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

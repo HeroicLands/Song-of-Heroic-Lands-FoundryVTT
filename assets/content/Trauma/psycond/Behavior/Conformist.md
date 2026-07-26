@@ -4,9 +4,9 @@ tags: []
 name:
     full: Conformist
     aliases: []
-id: lsxzpN6U1C1T1wA9
+id: W2jFes7iMr1QY4kF
 slug: conformist
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cnfrmst
 type: trauma
 package: sohl

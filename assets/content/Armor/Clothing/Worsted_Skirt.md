@@ -6,9 +6,9 @@ name:
     full: Worsted Skirt
     aliases: []
 description: "Tightly-spun wool skirt; durable, practical versatile garment."
-id: LpWVh6EWHfPEI7qh
+id: EAzX278XjeWBRveI
 slug: worsted-skirt
-img: icons/skirt.svg
+img: icons/game-icons/delapouite/skirt.svg
 shortcode: WSkirt
 type: armorgear
 package: sohl

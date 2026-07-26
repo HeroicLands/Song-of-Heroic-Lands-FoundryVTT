@@ -5,9 +5,9 @@ name:
     full: Mathematics
     aliases: []
 description: "Numerical calculation, geometry, and reasoning for engineering and commerce."
-id: SLWaEQlzVIYj4MhH
+id: SOBolhplOfgbMpre
 slug: mathematics
-img: icons/mathematics.svg
+img: icons/game-icons/delapouite/abacus.svg
 shortcode: math
 type: skill
 package: sohl

@@ -6,12 +6,12 @@ tags:
 name:
     full: Shadowstalker
     aliases: []
-id: 4kNtOXURXzAXzc98
+id: K30OECnGa5hVR22R
 slug: shadowstalker
-img: images/shadowstalker-headshot.webp
-portrait: images/shadowstalker.webp
+img: icons/game-icons/lorc/spectre.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 14

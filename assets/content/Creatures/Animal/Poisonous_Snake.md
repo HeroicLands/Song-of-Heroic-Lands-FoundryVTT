@@ -6,12 +6,12 @@ tags:
 name:
     full: Poisonous Snake
     aliases: []
-id: mCogL4NzjOzG1G96
+id: VjtudyT7ZWs0T4bO
 slug: poisonous-snake
-img: images/poisonous-snake-headshot.webp
-portrait: images/poisonous-snake.webp
+img: icons/game-icons/lorc/snake.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 5

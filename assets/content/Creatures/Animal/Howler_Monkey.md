@@ -7,12 +7,12 @@ tags:
 name:
     full: Howler Monkey
     aliases: []
-id: Rx5nTqWv7YpKmB4L
+id: hakoBzpOt5uPwWkv
 slug: howler-monkey
-img: images/howler-monkey-headshot.webp
-portrait: images/howler-monkey.webp
+img: icons/game-icons/lorc/monkey.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 7

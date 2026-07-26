@@ -6,9 +6,9 @@ name:
     full: "Bottle, glass, small"
     aliases: []
 description: "Small pale glass bottle for tinctures and oils."
-id: rIkpeh4hUTS6roBJ
+id: 8kLkJWSXJxw2B2IK
 slug: bottle-glass-small
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bottleglas3
 type: containergear
 package: sohl

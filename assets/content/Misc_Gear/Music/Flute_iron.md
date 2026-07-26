@@ -7,9 +7,9 @@ name:
     full: "Flute, iron"
     aliases: []
 description: "Iron pipe with fipple and finger holes; bright piercing voice; durable, weather-resistant."
-id: rwcYRpUut6cJaksL
+id: muvrcEpY2PCkQkQk
 slug: flute-iron
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: fluteiron
 type: miscgear
 package: sohl

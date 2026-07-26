@@ -4,9 +4,9 @@ tags: []
 name:
     full: Precise
     aliases: []
-id: ws20vSp2G3Zd9H77
+id: ny13be08Ai05NFZN
 slug: precise
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: precise
 type: trauma
 package: sohl

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Hypochondriasis
     aliases: []
-id: Q40pCzMMvsJza7XT
+id: arinP2yON8CuTUIV
 slug: hypochondriasis
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: hypochon
 type: trauma
 package: sohl

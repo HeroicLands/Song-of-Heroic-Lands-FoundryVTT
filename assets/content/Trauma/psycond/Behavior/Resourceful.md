@@ -4,9 +4,9 @@ tags: []
 name:
     full: Resourceful
     aliases: []
-id: CfRVLxf00r94m5QN
+id: PoxDR3ZVBfB9Tbdw
 slug: resourceful
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: rsrcfl
 type: trauma
 package: sohl

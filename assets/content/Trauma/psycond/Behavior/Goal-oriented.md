@@ -4,9 +4,9 @@ tags: []
 name:
     full: Goal-oriented
     aliases: []
-id: KmwK0eO8pq0ZXOAH
+id: rqm9dILZX6cvw1Og
 slug: goal-oriented
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: glrntd
 type: trauma
 package: sohl

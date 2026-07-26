@@ -6,9 +6,9 @@ name:
     full: Leather Robe
     aliases: []
 description: "Rugged outer garment of treated leather for adventurers and wanderers."
-id: jOvADC4R2QNrbZ8g
+id: rjE671F4IQ0hh3KL
 slug: leather-robe
-img: icons/robe.svg
+img: icons/game-icons/lorc/robe.svg
 shortcode: LtRobe
 type: armorgear
 package: sohl

@@ -6,9 +6,9 @@ name:
     full: "Bottle, glass, large"
     aliases: []
 description: "Substantial blown glass bottle for liquids and provisions."
-id: hudvlMcCK0PnSeFe
+id: Y00juSETjg1pRve7
 slug: bottle-glass-large
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bottleglas
 type: containergear
 package: sohl

@@ -2,7 +2,7 @@
 aliases:
     - Song of Herioc Lands Quickstart
     - SoHL Quickstart
-id: sSqTzr1ss9MmduRW
+id: nXSQAexjRb8kxrvn
 type: doc
 package: sohl
 category: user-guide

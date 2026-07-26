@@ -6,9 +6,9 @@ name:
     full: Serge Trousers
     aliases: []
 description: "Twilled serge trousers; practical, versatile everyday leg wear."
-id: 7PUBxAvkFCrBdiyZ
+id: B0ZxXBBPqqOVLi0g
 slug: serge-trousers
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: SgTrsr
 type: armorgear
 package: sohl

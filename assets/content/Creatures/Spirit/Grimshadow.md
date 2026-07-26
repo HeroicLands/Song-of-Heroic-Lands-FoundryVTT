@@ -6,12 +6,12 @@ tags:
 name:
     full: Grimshadow
     aliases: []
-id: 8Yz5phZ3B5g3S5xw
+id: S7yW1LZ9GR7D7Zdg
 slug: grimshadow
-img: images/grimshadow-headshot.webp
-portrait: images/grimshadow.webp
+img: icons/game-icons/lorc/spectre.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 11

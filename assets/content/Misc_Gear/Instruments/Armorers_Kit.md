@@ -7,9 +7,9 @@ name:
     full: Armorer's Kit
     aliases: []
 description: "Heavy canvas roll with mail pliers, dollies, planishing hammers, rivet set, strap stock; armor fitting and repair."
-id: B8FjTxPq3VnYwKcR
+id: eS2AB2TfJXWazOFx
 slug: armorers-kit
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: armrkit
 type: miscgear
 package: sohl

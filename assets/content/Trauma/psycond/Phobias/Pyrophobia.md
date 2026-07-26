@@ -4,9 +4,9 @@ tags: []
 name:
     full: Pyrophobia
     aliases: []
-id: mwOACm8h2bt9mL6t
+id: br0GDJuHxFNz2TZj
 slug: pyrophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: pyrophb
 type: trauma
 package: sohl

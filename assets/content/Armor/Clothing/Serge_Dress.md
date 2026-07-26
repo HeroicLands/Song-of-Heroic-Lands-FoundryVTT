@@ -6,9 +6,9 @@ name:
     full: Serge Dress
     aliases: []
 description: "Durable twilled serge dress for everyday activities and general wear."
-id: 1PYKwPOQeJ9jVMMW
+id: ovMN4qWLa291vwpt
 slug: serge-dress
-img: icons/dress.svg
+img: icons/game-icons/skoll/dress.svg
 shortcode: SgDress
 type: armorgear
 package: sohl

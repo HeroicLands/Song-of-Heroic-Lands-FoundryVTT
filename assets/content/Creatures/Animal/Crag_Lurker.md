@@ -6,12 +6,12 @@ tags:
 name:
     full: Crag Lurker
     aliases: []
-id: bTzY0MY16ofbiVpH
+id: bnKZuFaJKbkhFJxn
 slug: crag-lurker
-img: images/crag-lurker-headshot.webp
-portrait: images/crag-lurker.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

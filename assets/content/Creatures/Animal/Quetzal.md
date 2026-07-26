@@ -7,12 +7,12 @@ tags:
 name:
     full: Quetzal
     aliases: []
-id: Kn8pTxWr5VyQmB2J
+id: vM0KoDFiLa917lSx
 slug: quetzal
-img: images/quetzal-headshot.webp
-portrait: images/quetzal.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 4

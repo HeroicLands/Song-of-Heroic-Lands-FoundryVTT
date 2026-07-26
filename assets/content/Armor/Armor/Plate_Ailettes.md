@@ -6,9 +6,9 @@ name:
     full: Plate Ailettes
     aliases: []
 description: "Broad steel shoulder-guards; display heraldic pride and shield upper arms."
-id: ushpz9bwNavj7xxt
+id: FicdL283PUVYcDBa
 slug: plate-ailettes
-img: icons/dorsal-scales.svg
+img: icons/game-icons/lorc/dorsal-scales.svg
 shortcode: PlAil
 type: armorgear
 package: sohl

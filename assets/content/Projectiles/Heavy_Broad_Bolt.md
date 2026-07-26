@@ -8,10 +8,10 @@ name:
 description: "Heavy quarrel with wide barbed head; bleeds flesh, unseats mounted rider."
 type: projectilegear
 package: sohl
-id: Sg9I9zNKTSADf3NY
+id: EjqzVPXe2q47OCWK
 slug: heavy-broad-bolt
 shortcode: BltHBrd
-img: icons/arrow.svg
+img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Heavy Broad
 sohl:
     archetype: 0

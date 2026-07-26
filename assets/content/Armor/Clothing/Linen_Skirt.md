@@ -6,9 +6,9 @@ name:
     full: Linen Skirt
     aliases: []
 description: "Light breathable leg covering for warm weather casual outings."
-id: Ap6kgcJrmy9vqhRb
+id: y3btwLS86WgSbxRk
 slug: linen-skirt
-img: icons/skirt.svg
+img: icons/game-icons/delapouite/skirt.svg
 shortcode: LSkirt
 type: armorgear
 package: sohl

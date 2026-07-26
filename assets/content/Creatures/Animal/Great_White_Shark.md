@@ -6,12 +6,12 @@ tags:
 name:
     full: Great White Shark
     aliases: []
-id: 7evWOKzzN2B1a7LO
+id: 7rJxMeCW3TSzstw6
 slug: great-white-shark
-img: images/great-white-shark-headshot.webp
-portrait: images/great-white-shark.webp
+img: icons/game-icons/lorc/shark-jaws.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 19

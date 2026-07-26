@@ -6,9 +6,9 @@ name:
     full: Silk Leggings
     aliases: []
 description: "Luxurious silk leggings; soft, elegant for formal occasions."
-id: pt7suEF3VyFya7tj
+id: dIatYlVHouBkZfxi
 slug: silk-leggings
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: SlkLeg
 type: armorgear
 package: sohl

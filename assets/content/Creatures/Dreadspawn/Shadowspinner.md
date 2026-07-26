@@ -6,12 +6,12 @@ tags:
 name:
     full: Shadowspinner
     aliases: []
-id: aaQtfwxrLhjGFNPh
+id: 0zzYLJWzwisk1CDQ
 slug: shadowspinner
-img: images/shadowspinner-headshot.webp
-portrait: images/shadowspinner.webp
+img: icons/game-icons/carl-olsen/spider-alt.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 16

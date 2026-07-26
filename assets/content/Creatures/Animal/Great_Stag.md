@@ -6,12 +6,12 @@ tags:
 name:
     full: Great Stag
     aliases: []
-id: ZybtA33vdv1Vc2xW
+id: SqaOIArv8es9t6IF
 slug: great-stag
-img: images/great-stag-headshot.webp
-portrait: images/great-stag.webp
+img: icons/game-icons/lorc/stag-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 16

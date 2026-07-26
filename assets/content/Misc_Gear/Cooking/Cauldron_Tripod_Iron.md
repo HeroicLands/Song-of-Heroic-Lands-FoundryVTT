@@ -7,9 +7,9 @@ name:
     full: "Cauldron Tripod, Iron"
     aliases: []
 description: "Wrought-iron tripod frame for hanging cauldron over open fire."
-id: eOWaXZgPgUFnQeqL
+id: KBLgA14HSoLxxDaQ
 slug: cauldron-tripod-iron
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cauldrontr
 type: miscgear
 package: sohl

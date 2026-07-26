@@ -5,7 +5,7 @@ aliases:
     - Course Test
     - Incubation Period
     - Symptomatic Period
-id: Afl1ct8mZp5cH3jY
+id: H3qjzYy0Er4Oxfs0
 type: doc
 package: sohl
 category: rules

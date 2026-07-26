@@ -6,9 +6,9 @@ name:
     full: Serge Mantle
     aliases: []
 description: "Durable twilled serge mantle; versatile protective outer garment."
-id: Y71uixCkKEpN5PlX
+id: vRrVRyYfchZbycS7
 slug: serge-mantle
-img: icons/mantle.svg
+img: icons/game-icons/delapouite/cape.svg
 shortcode: SgMntl
 type: armorgear
 package: sohl

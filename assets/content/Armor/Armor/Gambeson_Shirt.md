@@ -6,9 +6,9 @@ name:
     full: Gambeson Shirt
     aliases: []
 description: "Padded shirt for under-armor or standalone combat protection."
-id: 9erXPNuxNyuNqgMj
+id: EOTxV2VwVDSyer0L
 slug: gambeson-shirt
-img: icons/shirt.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: GSht
 type: armorgear
 package: sohl

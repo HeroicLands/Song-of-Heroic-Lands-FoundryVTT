@@ -4,9 +4,9 @@ tags: []
 name:
     full: Dentophobia
     aliases: []
-id: 4VBHeBargLnQtHbG
+id: LBJ80zK1VGngjWUe
 slug: dentophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: dentophb
 type: trauma
 package: sohl

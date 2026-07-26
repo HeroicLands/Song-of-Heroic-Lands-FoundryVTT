@@ -4,9 +4,9 @@ tags: []
 name:
     full: Frivolous
     aliases: []
-id: GvNn5KBOIfkqIu06
+id: DS3xePFIQI7OOKZm
 slug: frivolous
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: frvls
 type: trauma
 package: sohl

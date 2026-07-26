@@ -4,9 +4,9 @@ tags: []
 name:
     full: Spirit
     aliases: []
-id: lKVbkvzIGDFCC3UI
+id: ftsDAUwOXEKBcn0Q
 slug: spirit
-img: icons/psionics.svg
+img: icons/game-icons/lorc/psychic-waves.svg
 shortcode: sprt
 type: mysticalability
 package: sohl

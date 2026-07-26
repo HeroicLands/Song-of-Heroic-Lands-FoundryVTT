@@ -6,9 +6,9 @@ name:
     full: Basket, large
     aliases: []
 description: "Woven wicker or willow basket for produce or storage."
-id: VbXV36kl3FRBIAwy
+id: sgnSAOZzot3QW3k5
 slug: basket-large
-img: icons/basket.svg
+img: icons/game-icons/delapouite/basket.svg
 shortcode: bktlrg
 type: containergear
 package: sohl

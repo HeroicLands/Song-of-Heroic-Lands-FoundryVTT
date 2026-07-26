@@ -7,9 +7,9 @@ name:
     full: "Apples, crate"
     aliases: []
 description: "Straw-packed apples in wooden crate; heavy, protects fruit on long journeys."
-id: oyJZQInWH3R3g65Q
+id: n6PmXbPx9txmeI2x
 slug: apples-crate
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: applescrat
 type: miscgear
 package: sohl

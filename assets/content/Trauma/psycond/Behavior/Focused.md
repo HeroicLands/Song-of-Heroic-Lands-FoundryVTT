@@ -4,9 +4,9 @@ tags: []
 name:
     full: Focused
     aliases: []
-id: icrPuli3Hp72gH42
+id: SGu20H9HHfWtESm5
 slug: focused
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: focused
 type: trauma
 package: sohl

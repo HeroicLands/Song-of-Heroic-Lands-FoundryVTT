@@ -7,9 +7,9 @@ name:
     full: Oats
     aliases: []
 description: "Northern staple grain feeding both livestock and humans, years of storage."
-id: f5GVhbbMOLk9pZZJ
+id: X0l995RrWsgFBeUM
 slug: oats
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: oats
 type: miscgear
 package: sohl

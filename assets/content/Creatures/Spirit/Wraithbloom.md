@@ -6,12 +6,12 @@ tags:
 name:
     full: Wraithbloom
     aliases: []
-id: Y21XsX8Ti9lbKgn2
+id: NZjkwSdqmk6Tuf64
 slug: wraithbloom
-img: images/wraithbloom-headshot.webp
-portrait: images/wraithbloom.webp
+img: icons/game-icons/lorc/werewolf.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 6

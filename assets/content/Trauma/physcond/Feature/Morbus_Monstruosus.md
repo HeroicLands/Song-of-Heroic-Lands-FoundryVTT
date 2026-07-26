@@ -5,9 +5,9 @@ tags: []
 name:
     full: Morbus Monstruosus
     aliases: []
-id: G5OOEQEYspmSg33B
+id: mVwbl8ul2TZvwGd6
 slug: morbus-monstruosus
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: morbusmo
 type: trauma
 package: sohl

@@ -6,12 +6,12 @@ tags:
 name:
     full: Nightshade Serpent
     aliases: []
-id: YXVHuVQsvRY6kiZm
+id: sihuakxB0kpupEU6
 slug: nightshade-serpent
-img: images/nightshade-serpent-headshot.webp
-portrait: images/nightshade-serpent.webp
+img: icons/game-icons/lorc/snake.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

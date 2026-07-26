@@ -4,9 +4,9 @@ tags: []
 name:
     full: Allergy
     aliases: []
-id: VSbTDQSeGf228g5P
+id: 7aCydF9HDL1GT8Nh
 slug: allergy
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: alrgmjr
 type: trauma
 package: sohl

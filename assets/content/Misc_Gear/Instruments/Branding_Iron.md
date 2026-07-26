@@ -7,9 +7,9 @@ name:
     full: Branding Iron
     aliases: []
 description: "Forged rod with heraldic stamp, heated and pressed into cattle hide."
-id: OOUJnHm4TzUEY0D1
+id: 0OWw3K27DsaNlMEk
 slug: branding-iron
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: brandingir
 type: miscgear
 package: sohl

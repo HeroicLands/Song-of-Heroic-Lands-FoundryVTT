@@ -5,9 +5,9 @@ name:
     full: Alchemy
     aliases: []
 description: "Distilling herbal and mineral substances into magical elixirs and reagents."
-id: cps4oF5nVBFlLj0y
+id: uCTDMG4EGHB6dI5u
 slug: alchemy
-img: icons/alchemy.svg
+img: icons/game-icons/lorc/bubbling-flask.svg
 shortcode: alch
 type: mysticalability
 package: sohl

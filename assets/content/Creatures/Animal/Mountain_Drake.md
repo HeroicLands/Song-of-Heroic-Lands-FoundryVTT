@@ -6,12 +6,12 @@ tags:
 name:
     full: Mountain Drake
     aliases: []
-id: F6jsppmrMAXAbD9Q
+id: LtrwdR2jwzBxLm9J
 slug: mountain-drake
-img: images/mountain-drake-headshot.webp
-portrait: images/mountain-drake.webp
+img: icons/game-icons/faithtoken/dragon-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 14

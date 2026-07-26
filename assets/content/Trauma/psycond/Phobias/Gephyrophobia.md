@@ -4,9 +4,9 @@ tags: []
 name:
     full: Gephyrophobia
     aliases: []
-id: l8Yjs1bNPduZcsm2
+id: LAFCNEsjLF1wW4zP
 slug: gephyrophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: gphyrphb
 type: trauma
 package: sohl

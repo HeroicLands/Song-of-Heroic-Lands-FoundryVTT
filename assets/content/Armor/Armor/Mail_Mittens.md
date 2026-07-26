@@ -6,9 +6,9 @@ name:
     full: Mail Mittens
     aliases: []
 description: "Metal ring hand protection offering excellent defense in combat."
-id: avIWcFbEXA1n1q99
+id: yGq8YaZNfYYfwxT7
 slug: mail-mittens
-img: icons/mailed-fist.svg
+img: icons/game-icons/lorc/mailed-fist.svg
 shortcode: MMtn
 type: armorgear
 package: sohl

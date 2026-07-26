@@ -6,12 +6,12 @@ tags:
 name:
     full: Thornback Raptor
     aliases: []
-id: yyU8ROSKcWjexYuO
+id: 9nYhkvI252ewBJW3
 slug: thornback-raptor
-img: images/thornback-raptor-headshot.webp
-portrait: images/thornback-raptor.webp
+img: icons/game-icons/lorc/dinosaur-rex.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

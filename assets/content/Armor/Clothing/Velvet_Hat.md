@@ -6,9 +6,9 @@ name:
     full: Velvet Hat
     aliases: []
 description: "Soft plush velvet hat; luxury status symbol for formal occasions."
-id: 8EKReqqK3hGSqGD5
+id: 2AIwmtG1o8T3vhYs
 slug: velvet-hat
-img: icons/hat.svg
+img: icons/game-icons/lorc/pointy-hat.svg
 shortcode: VHat
 type: armorgear
 package: sohl

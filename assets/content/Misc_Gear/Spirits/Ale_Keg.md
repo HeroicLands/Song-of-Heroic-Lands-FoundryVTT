@@ -7,9 +7,9 @@ name:
     full: "Ale, Keg"
     aliases: []
 description: "Tarred stave-built keg; pale malty ale for tavern supply, military provisioning."
-id: Ie1wZdi8Z4LgwvGm
+id: M2KNdOVeOqikHgTD
 slug: ale-keg
-img: icons/ale.svg
+img: icons/game-icons/lorc/beer-stein.svg
 shortcode: alekeg
 type: miscgear
 package: sohl

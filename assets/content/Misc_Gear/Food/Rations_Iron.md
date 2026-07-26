@@ -7,9 +7,9 @@ name:
     full: Rations, Iron
     aliases: []
 description: "Compact military bundle of hardtack and salt pork, sustains one day."
-id: YFl2U3mTvoV1nzPy
+id: Jm1z1t42bg6Oag2b
 slug: rations-iron
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: FRtns
 type: miscgear
 package: sohl

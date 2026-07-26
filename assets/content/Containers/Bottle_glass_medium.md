@@ -6,9 +6,9 @@ name:
     full: "Bottle, glass, medium"
     aliases: []
 description: "Hand-blown glass bottle for apothecary use and merchants."
-id: JG0SBobBB6YrmEsk
+id: Dgxqydb5XTDEZRla
 slug: bottle-glass-medium
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bottleglas2
 type: containergear
 package: sohl

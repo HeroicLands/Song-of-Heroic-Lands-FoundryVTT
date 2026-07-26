@@ -6,9 +6,9 @@ name:
     full: "Jar, lidded, small"
     aliases: []
 description: "Compact stoneware jar with tight seal for spices and traveling supplies."
-id: 5v0V3klR1WDCULiF
+id: hm5bmi6Cp6klcQwK
 slug: jar-lidded-small
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jarliddeds
 type: containergear
 package: sohl

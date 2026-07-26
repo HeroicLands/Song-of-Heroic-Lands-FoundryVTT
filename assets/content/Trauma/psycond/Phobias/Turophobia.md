@@ -4,9 +4,9 @@ tags: []
 name:
     full: Turophobia
     aliases: []
-id: JF1yMtDdugpHIzeC
+id: wRihTBXBMx1fgFO5
 slug: turophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: turophb
 type: trauma
 package: sohl

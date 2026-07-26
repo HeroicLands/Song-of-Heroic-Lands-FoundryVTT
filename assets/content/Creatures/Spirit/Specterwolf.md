@@ -6,12 +6,12 @@ tags:
 name:
     full: Specterwolf
     aliases: []
-id: rOXQ83nqcF3wR8f9
+id: rD3EROAf0ElFfGjr
 slug: specterwolf
-img: images/specterwolf-headshot.webp
-portrait: images/specterwolf.webp
+img: icons/game-icons/lorc/wolf-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 11

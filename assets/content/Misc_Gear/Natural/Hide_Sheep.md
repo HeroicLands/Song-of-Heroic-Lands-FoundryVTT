@@ -7,9 +7,9 @@ name:
     full: "Hide, Sheep"
     aliases: []
 description: "Sturdy dried hide; yields suede for jerkins or tanned leather bookbindings."
-id: pxsLSXV2Q5yF30EH
+id: Utci3PodxcF5ZJo3
 slug: hide-sheep
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidesheep
 type: miscgear
 package: sohl

@@ -6,12 +6,12 @@ tags:
 name:
     full: Helthraals
     aliases: []
-id: LRWxjJCb1bRG6Fwg
+id: Y8roQ11S5nFysVFW
 slug: helthraal
-img: ""
+img: icons/game-icons/lorc/werewolf.svg
 portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 14

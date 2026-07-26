@@ -7,9 +7,9 @@ name:
     full: "Milk, cow"
     aliases: []
 description: "Fresh dairy, curdles into cheese and butter by afternoon daily."
-id: f0TCfZaCJNETdg2T
+id: 48qm03HEYQ96D8e1
 slug: milk-cow
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: milkcow
 type: miscgear
 package: sohl

@@ -6,12 +6,12 @@ tags:
 name:
     full: Common Shark
     aliases: []
-id: MinvuTiOSD4KX4Eq
+id: Dlb33sZtEOy97jZz
 slug: common-shark
-img: images/common-shark-headshot.webp
-portrait: images/common-shark.webp
+img: icons/game-icons/lorc/shark-jaws.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

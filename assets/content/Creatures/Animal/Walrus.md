@@ -7,12 +7,12 @@ tags:
 name:
     full: Walrus
     aliases: []
-id: Gx5nTqWr8VyKmB3J
+id: Ydk8zqgDTmqzr3uV
 slug: walrus
-img: images/walrus-headshot.webp
-portrait: images/walrus.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 21

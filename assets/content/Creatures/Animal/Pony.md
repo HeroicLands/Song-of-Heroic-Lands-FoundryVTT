@@ -6,12 +6,12 @@ tags:
 name:
     full: Pony
     aliases: []
-id: 625vGvBXR6QNoRdp
+id: dAk8STANJlO4S4YW
 slug: pony
-img: images/pony-headshot.webp
-portrait: images/pony.webp
+img: icons/game-icons/delapouite/horse-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 24

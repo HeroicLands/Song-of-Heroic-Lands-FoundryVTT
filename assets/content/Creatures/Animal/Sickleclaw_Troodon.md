@@ -6,12 +6,12 @@ tags:
 name:
     full: Sickleclaw Troodon
     aliases: []
-id: SV88gNdofUuW40qA
+id: Nhye3QyqJk7qjPvr
 slug: sickleclaw-troodon
-img: images/sickleclaw-troodon-headshot.webp
-portrait: images/sickleclaw-troodon.webp
+img: icons/game-icons/lorc/dinosaur-rex.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 11

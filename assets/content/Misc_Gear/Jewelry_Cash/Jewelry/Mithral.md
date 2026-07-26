@@ -7,9 +7,9 @@ name:
     full: Mithral
     aliases: []
 description: "Rare silvery metal harder than steel; prized by weaponcrafters and crown."
-id: HjoSVnc3pQMfp5uV
+id: ixv7k4H9lU1QAIug
 slug: mithral
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: mithral
 type: miscgear
 package: sohl

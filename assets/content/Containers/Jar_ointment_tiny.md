@@ -6,9 +6,9 @@ name:
     full: "Jar, ointment, tiny"
     aliases: []
 description: "Thumb-sized ceramic vessel for precious unguent or poison antidote."
-id: S4G7z0kdZ2uITseE
+id: 9LjGgpnbnS2pg1Nv
 slug: jar-ointment-tiny
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jarointmen4
 type: containergear
 package: sohl

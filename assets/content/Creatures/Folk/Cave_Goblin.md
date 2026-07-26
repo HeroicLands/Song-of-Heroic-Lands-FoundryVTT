@@ -6,12 +6,12 @@ tags:
 name:
     full: Cave Goblin
     aliases: []
-id: HiV8aZdNh785QzAt
+id: pDiXk1iBL5unp4Q3
 slug: cave-goblin
-img: images/cave-goblin-headshot.webp
-portrait: images/cave-goblin.webp
+img: icons/game-icons/caro-asercion/goblin.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 8

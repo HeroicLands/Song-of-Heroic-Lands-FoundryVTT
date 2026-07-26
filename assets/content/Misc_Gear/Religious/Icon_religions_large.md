@@ -7,9 +7,9 @@ name:
     full: "Icon, religions, large"
     aliases: []
 description: "Hand-painted oak or pine panel depicting saint or patron god in tempera."
-id: 6HLVGe8bpBZYzgWL
+id: 6wsqIDXFz4KiAIWd
 slug: icon-religions-large
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: iconreligi
 type: miscgear
 package: sohl

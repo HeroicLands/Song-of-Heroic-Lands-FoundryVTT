@@ -6,12 +6,12 @@ tags:
 name:
     full: Screechbat
     aliases: []
-id: cytx0wFacyCa1kQF
+id: lHuMVOj4m48jiGcS
 slug: screechbat
-img: images/screechbat-headshot.webp
-portrait: images/screechbat.webp
+img: icons/game-icons/delapouite/bat.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 10

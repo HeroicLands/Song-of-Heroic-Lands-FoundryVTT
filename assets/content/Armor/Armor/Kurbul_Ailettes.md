@@ -7,9 +7,9 @@ name:
     full: Kûrbúl Ailettes
     aliases: []
 description: "Lightweight decorated leather shoulder guards, ideal for agile combatants."
-id: 5HDZ9u3e0IXk2ECC
+id: 6Hbtu2iBZTd9d5Bb
 slug: kurbul-ailettes
-img: icons/dorsal-scales.svg
+img: icons/game-icons/lorc/dorsal-scales.svg
 shortcode: KAil
 type: armorgear
 package: sohl

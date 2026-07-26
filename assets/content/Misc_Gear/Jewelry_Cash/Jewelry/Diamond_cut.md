@@ -7,9 +7,9 @@ name:
     full: "Diamond, cut"
     aliases: []
 description: "Hardest stone, brilliant-cut gem refracting light into rainbow fire; marks extraordinary wealth."
-id: s7zqVHFYJ4YnpXIC
+id: GrZTXstLE78HD7t5
 slug: diamond-cut
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: diamondcut
 type: miscgear
 package: sohl

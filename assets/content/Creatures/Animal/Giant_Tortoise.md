@@ -6,12 +6,12 @@ tags:
 name:
     full: Giant Tortoise
     aliases: []
-id: 57qrfHdcDNcqmUMi
+id: ydAbGU9VRn1tdWQ5
 slug: giant-tortoise
-img: images/giant-tortoise-headshot.webp
-portrait: images/giant-tortoise.webp
+img: icons/game-icons/delapouite/tortoise.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

@@ -6,12 +6,12 @@ tags:
 name:
     full: Chimpanzee
     aliases: []
-id: zukyVA7IJLMRrF1r
+id: LifKo43B3FiV9ez0
 slug: chimpanzee
-img: images/chimpanzee-headshot.webp
-portrait: images/chimpanzee.webp
+img: icons/game-icons/lorc/monkey.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

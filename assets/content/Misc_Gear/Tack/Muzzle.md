@@ -7,9 +7,9 @@ name:
     full: Muzzle
     aliases: []
 description: "Leather or iron cage over snout; prevents biting; kennel and hunt use."
-id: cNdJ0HdU81QcQ97Z
+id: HwNlR1xeu8MatDnT
 slug: muzzle
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: muzzle
 type: miscgear
 package: sohl

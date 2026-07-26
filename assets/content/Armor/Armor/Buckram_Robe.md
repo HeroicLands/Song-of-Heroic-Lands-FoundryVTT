@@ -6,9 +6,9 @@ name:
     full: Buckram Robe
     aliases: []
 description: "Stiff buckram robe offering durability and reliable rigid coverage."
-id: uRrqN1cdZ6lfdKtp
+id: XV5pPcNxzlPhUuCo
 slug: buckram-robe
-img: icons/robe.svg
+img: icons/game-icons/lorc/robe.svg
 shortcode: BRobe
 type: armorgear
 package: sohl

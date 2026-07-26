@@ -6,12 +6,12 @@ tags:
 name:
     full: Donkey
     aliases: []
-id: WSJ9QNFXCMcd7tOB
+id: Z0cG8fAIzSARDUaH
 slug: donkey
-img: images/donkey-headshot.webp
-portrait: images/donkey.webp
+img: icons/game-icons/skoll/donkey.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 24

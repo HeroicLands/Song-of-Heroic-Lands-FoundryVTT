@@ -6,12 +6,12 @@ tags:
 name:
     full: Swampgolem
     aliases: []
-id: x4RrVkwOlUE0Vnh0
+id: rkqNzivEoFUry3Wa
 slug: swampgolem
-img: images/swampgolem-headshot.webp
-portrait: images/swampgolem.webp
+img: icons/game-icons/delapouite/golem-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 16

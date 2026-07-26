@@ -6,9 +6,9 @@ name:
     full: Serge Leggings
     aliases: []
 description: "Twilled serge leggings; warm, durable leg covering for daily activities."
-id: nsJ9hxNqyW6CC9i2
+id: ssDYeUm9wUDezqlP
 slug: serge-leggings
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: SgLeg
 type: armorgear
 package: sohl

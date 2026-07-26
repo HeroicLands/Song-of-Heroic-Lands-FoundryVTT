@@ -6,9 +6,9 @@ name:
     full: Velvet Dress
     aliases: []
 description: "Soft plush velvet dress; symbol of luxury and high status."
-id: IJ7FgxIDYIwVOR8v
+id: SzgIJv1rba3ps9IG
 slug: velvet-dress
-img: icons/dress.svg
+img: icons/game-icons/skoll/dress.svg
 shortcode: VDress
 type: armorgear
 package: sohl

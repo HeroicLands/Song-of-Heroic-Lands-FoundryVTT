@@ -4,9 +4,9 @@ tags: []
 name:
     full: Apiphobia
     aliases: []
-id: Gswbp8mnhBE9dnyV
+id: seS1A8yesJQTqO7G
 slug: apiphobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: apiphb
 type: trauma
 package: sohl

@@ -6,9 +6,9 @@ name:
     full: Cloth Loincloth
     aliases: []
 description: "Soft cloth loincloth offering basic coverage and casual comfort."
-id: lBpr00sx1aovgJ2G
+id: P4bLyiIsy0KUYAk0
 slug: cloth-loincloth
-img: icons/loincloth.svg
+img: icons/game-icons/delapouite/loincloth.svg
 shortcode: CLoin
 type: armorgear
 package: sohl

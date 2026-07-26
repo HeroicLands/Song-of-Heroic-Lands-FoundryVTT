@@ -1,7 +1,7 @@
 ---
 aliases:
     - Afflictions and Injuries
-id: usEQSnM05guRRXT7
+id: jzsvrPQas8ak9Ti0
 type: doc
 package: sohl
 category: user-guide

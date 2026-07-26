@@ -6,9 +6,9 @@ name:
     full: Velvet Cap
     aliases: []
 description: "Soft plush velvet cap; luxury status symbol for formal settings."
-id: mdr7FK9aysGCeN35
+id: 1SNl6MM84Unpoleo
 slug: velvet-cap
-img: icons/cap.svg
+img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: VCap
 type: armorgear
 package: sohl

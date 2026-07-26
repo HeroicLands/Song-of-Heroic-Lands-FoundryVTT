@@ -4,9 +4,9 @@ tags: []
 name:
     full: Duergarphobia
     aliases: []
-id: 7D1RgFwiRDifJToF
+id: P0MYWwPTpUQhABbW
 slug: duergarphobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: drgrphb
 type: trauma
 package: sohl

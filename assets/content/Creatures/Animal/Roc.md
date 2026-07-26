@@ -6,12 +6,12 @@ tags:
 name:
     full: Roc
     aliases: []
-id: SHrQwa7SbJsI6pFX
+id: MM4WsOp5MweEuH4U
 slug: roc
-img: images/roc-headshot.webp
-portrait: images/roc.webp
+img: icons/game-icons/delapouite/eagle-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 41

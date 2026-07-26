@@ -4,9 +4,9 @@ tags: []
 name:
     full: Agreeable
     aliases: []
-id: 2qqLIsnBTmgADSsw
+id: NRCshSzJzZWPjJKf
 slug: agreeable
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: agree
 type: trauma
 package: sohl

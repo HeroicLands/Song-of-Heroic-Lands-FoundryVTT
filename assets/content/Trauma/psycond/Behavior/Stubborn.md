@@ -4,9 +4,9 @@ tags: []
 name:
     full: Stubborn
     aliases: []
-id: Z43MxDNEi54IX4MD
+id: LxWK9FMZRwSxLh9G
 slug: stubborn
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: stubborn
 type: trauma
 package: sohl

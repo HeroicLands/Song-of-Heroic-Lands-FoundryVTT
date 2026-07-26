@@ -4,9 +4,9 @@ tags: []
 name:
     full: Team-oriented
     aliases: []
-id: e39heaM7Lc3Ltukg
+id: VPj3MrttXD1Ow5GJ
 slug: team-oriented
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: tmrntd
 type: trauma
 package: sohl

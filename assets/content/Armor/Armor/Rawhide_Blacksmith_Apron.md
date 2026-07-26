@@ -6,9 +6,9 @@ name:
     full: Rawhide Blacksmith Apron
     aliases: []
 description: "Thick hide apron; guards against forge-spark and heat."
-id: 8P1qXxWez6hM15T3
+id: 7sfKMsj67RzZGgbJ
 slug: rawhide-blacksmith-apron
-img: icons/apron.svg
+img: icons/game-icons/delapouite/cook.svg
 shortcode: RhApr
 type: armorgear
 package: sohl

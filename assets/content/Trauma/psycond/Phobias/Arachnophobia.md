@@ -4,9 +4,9 @@ tags: []
 name:
     full: Arachnophobia
     aliases: []
-id: 84WmkRRSb6K0t9wh
+id: NrP2jApnrRDINrUm
 slug: arachnophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: aracphb
 type: trauma
 package: sohl

@@ -7,9 +7,9 @@ name:
     full: Gold
     aliases: []
 description: "Precious metal beaten into ingots, coins by royal mints; foundation of trade."
-id: WbtsZ9lkdjcMjuXJ
+id: 5o3OuUfwclqwSbKL
 slug: gold
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: gold
 type: miscgear
 package: sohl

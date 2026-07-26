@@ -5,9 +5,9 @@ name:
     full: Cytotoxin
     aliases: []
 description: "Cell-destroying toxin; intense pain and necrosis at injection site."
-id: uXdY3E1OzXepSS9S
+id: vGt7VF9Q1Vbh7tf4
 slug: cytotoxin
-img: icons/poison-bottle.svg
+img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: cytotxn
 type: affliction
 package: sohl

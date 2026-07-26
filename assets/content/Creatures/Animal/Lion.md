@@ -6,12 +6,12 @@ tags:
 name:
     full: Lion
     aliases: []
-id: 4YhzZsNM4jwZpvMz
+id: TpFdKsRE286DXe8u
 slug: lion
-img: images/lion-headshot.webp
-portrait: images/lion.webp
+img: icons/game-icons/lorc/lion.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 19

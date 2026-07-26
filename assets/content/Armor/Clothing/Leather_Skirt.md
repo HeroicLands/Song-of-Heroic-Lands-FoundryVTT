@@ -6,9 +6,9 @@ name:
     full: Leather Skirt
     aliases: []
 description: "Lightweight styled leather leg garment adding edge with minimal protection."
-id: Q8xeNnOi9oYG4mi4
+id: IjMtdnkNhDNkN5Nn
 slug: leather-skirt
-img: icons/skirt.svg
+img: icons/game-icons/delapouite/skirt.svg
 shortcode: LtSkirt
 type: armorgear
 package: sohl

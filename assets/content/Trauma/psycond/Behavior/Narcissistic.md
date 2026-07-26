@@ -4,9 +4,9 @@ tags: []
 name:
     full: Narcissistic
     aliases: []
-id: 0AVHGqwHCtzZ8YFm
+id: odWkFnnjhkldU0XC
 slug: narcissistic
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: nrcssstc
 type: trauma
 package: sohl

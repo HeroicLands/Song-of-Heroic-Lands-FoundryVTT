@@ -4,9 +4,9 @@ tags: []
 name:
     full: Enthusiastic
     aliases: []
-id: AmlUQjFyd39p9oSs
+id: ZF80NMxf2tVWteeJ
 slug: enthusiastic
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: enthsstc
 type: trauma
 package: sohl

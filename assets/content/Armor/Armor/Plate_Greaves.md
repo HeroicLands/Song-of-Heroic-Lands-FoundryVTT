@@ -6,9 +6,9 @@ name:
     full: Plate Greaves
     aliases: []
 description: "Steel plates protecting lower legs and shins."
-id: lT2DMid6ecSU5oX0
+id: jJQidNhSSEQzP9oJ
 slug: plate-greaves
-img: icons/greaves.svg
+img: icons/game-icons/delapouite/greaves.svg
 shortcode: PlGrvs
 type: armorgear
 package: sohl

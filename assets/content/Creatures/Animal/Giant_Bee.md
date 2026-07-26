@@ -6,12 +6,12 @@ tags:
 name:
     full: Giant Bee
     aliases: []
-id: wvARV3QAcl3JkVBr
+id: LBdgt05Nh0uI1pIt
 slug: giant-bee
-img: images/giant-bee-headshot.webp
-portrait: images/giant-bee.webp
+img: icons/game-icons/lorc/bee.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 9

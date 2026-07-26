@@ -6,9 +6,9 @@ name:
     full: Linen Trousers
     aliases: []
 description: "Light breathable leg coverings ideal for warm weather comfort."
-id: 34c3qjUvU7GpqMLC
+id: qUWkcNqbvlPLiDCz
 slug: linen-trousers
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: LTrsr
 type: armorgear
 package: sohl

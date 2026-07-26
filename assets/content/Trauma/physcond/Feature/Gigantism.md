@@ -4,9 +4,9 @@ tags: []
 name:
     full: Gigantism
     aliases: []
-id: hhT4PkPRmZLK7cfN
+id: CUrZV9t7UWIBaqpQ
 slug: gigantism
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: ggntsm
 type: trauma
 package: sohl

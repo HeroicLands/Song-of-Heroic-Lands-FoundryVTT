@@ -5,9 +5,9 @@ name:
     full: Engineering
     aliases: []
 description: "Designing bridges, mills, siegeworks; managing stress, leverage, materials."
-id: Fip584W95bPFEJUp
+id: jKJI0RAuL2IEBDl3
 slug: engineering
-img: icons/engineering.svg
+img: icons/game-icons/lorc/gears.svg
 shortcode: eng
 type: skill
 package: sohl

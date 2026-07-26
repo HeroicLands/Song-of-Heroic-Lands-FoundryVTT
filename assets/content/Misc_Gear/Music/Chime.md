@@ -7,9 +7,9 @@ name:
     full: Chime
     aliases: []
 description: "Bronze tubes on frame, struck with mallet; marks prayer hours in temples."
-id: MntOoV933TmbxxmO
+id: w73KsFmuEevTnJHP
 slug: chime
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chime
 type: miscgear
 package: sohl

@@ -6,12 +6,12 @@ tags:
 name:
     full: Thunderhorn
     aliases: []
-id: yP2odUbLAIhD32an
+id: AimHPopglSXjxhWa
 slug: thunderhorn
-img: images/thunderhorn-headshot.webp
-portrait: images/thunderhorn.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

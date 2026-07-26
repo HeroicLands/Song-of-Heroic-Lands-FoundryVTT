@@ -6,9 +6,9 @@ name:
     full: Mail Vest
     aliases: []
 description: "Metal ring torso armor offering substantial protection and flexibility."
-id: RByGW7pB2rHNoC09
+id: ZLGe9LMsv6nafuhp
 slug: mail-vest
-img: icons/vest.svg
+img: icons/game-icons/lorc/leather-vest.svg
 shortcode: MVest
 type: armorgear
 package: sohl

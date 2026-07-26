@@ -5,9 +5,9 @@ name:
     full: Frostbitten
     aliases: []
 description: "Tissue freezes in extremities; numbness, waxy skin, blackened flesh."
-id: E0IUIsak6yX0FvGf
+id: XYxcQfNRWE3iLnfr
 slug: frostbitten
-img: icons/privation.svg
+img: icons/game-icons/delapouite/stomach.svg
 shortcode: frost
 type: trauma
 package: sohl

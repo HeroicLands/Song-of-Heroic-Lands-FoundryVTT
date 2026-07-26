@@ -6,9 +6,9 @@ name:
     full: Worsted Mantle
     aliases: []
 description: "Tightly-spun wool mantle; durable, practical protective garment."
-id: VzcbygkPs5X83tbq
+id: MOPmmLBlIOSxmCFM
 slug: worsted-mantle
-img: icons/mantle.svg
+img: icons/game-icons/delapouite/cape.svg
 shortcode: WMntl
 type: armorgear
 package: sohl

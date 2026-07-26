@@ -7,12 +7,12 @@ tags:
 name:
     full: Ibex
     aliases: []
-id: Ck9mNrYp4WxQvT6B
+id: Mbqn2UmueYKKnynf
 slug: ibex
-img: images/ibex-headshot.webp
-portrait: images/ibex.webp
+img: icons/game-icons/skoll/goat.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 12

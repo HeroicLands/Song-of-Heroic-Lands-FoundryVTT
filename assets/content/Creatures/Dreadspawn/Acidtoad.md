@@ -6,12 +6,12 @@ tags:
 name:
     full: Acidtoad
     aliases: []
-id: TkbJYKPWoNUuxO1k
+id: ho5hsRAglADOtInP
 slug: acidtoad
-img: images/acidtoad-headshot.webp
-portrait: images/acidtoad.webp
+img: icons/game-icons/lorc/toad-teeth.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 12

@@ -6,9 +6,9 @@ name:
     full: Plate Cuirass
     aliases: []
 description: "Shaped steel plates protecting torso and ribs."
-id: Dt6MOzT2pJXn6TDC
+id: 546myP182pUV4f30
 slug: plate-cuirass
-img: icons/breastplate.svg
+img: icons/game-icons/lorc/breastplate.svg
 shortcode: PlCui
 type: armorgear
 package: sohl

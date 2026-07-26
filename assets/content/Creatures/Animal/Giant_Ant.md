@@ -6,12 +6,12 @@ tags:
 name:
     full: Giant Ant
     aliases: []
-id: cUcGgqcQq2dnQLrx
+id: z1mE9iVDLalVjhSc
 slug: giant-ant
-img: images/giant-ant-headshot.webp
-portrait: images/giant-ant.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

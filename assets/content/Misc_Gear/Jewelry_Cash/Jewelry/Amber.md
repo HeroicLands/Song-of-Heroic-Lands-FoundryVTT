@@ -7,9 +7,9 @@ name:
     full: Amber
     aliases: []
 description: "Fossilized golden resin; craftspeople carve or polish into beads and ornaments."
-id: AHASqLSVWWPKMAdL
+id: P8KOgfPK1euQYrku
 slug: amber
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: amber
 type: miscgear
 package: sohl

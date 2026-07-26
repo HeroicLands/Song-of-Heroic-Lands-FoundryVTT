@@ -5,9 +5,9 @@ name:
     full: Measles
     aliases: []
 description: "Viral infection; fever, cough, characteristic red rash; highly contagious."
-id: Dlzv1oqgflmAtInB
+id: 0QfuuxGDTEZlrOg1
 slug: measles
-img: icons/disease.svg
+img: icons/game-icons/lorc/virus.svg
 shortcode: measles
 type: affliction
 package: sohl

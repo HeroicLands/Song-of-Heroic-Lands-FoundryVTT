@@ -4,9 +4,9 @@ tags: []
 name:
     full: Barophobia
     aliases: []
-id: eKsw5wXtpgvJWgvW
+id: TqVgHE7XzSyaD2J6
 slug: barophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: barophb
 type: trauma
 package: sohl

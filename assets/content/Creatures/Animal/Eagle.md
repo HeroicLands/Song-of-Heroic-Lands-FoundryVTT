@@ -6,12 +6,12 @@ tags:
 name:
     full: Eagle
     aliases: []
-id: e6k5Ieh2nU06Nr3M
+id: Q1LL76ihY4CmtAqA
 slug: eagle
-img: images/eagle-headshot.webp
-portrait: images/eagle.webp
+img: icons/game-icons/delapouite/eagle-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 7

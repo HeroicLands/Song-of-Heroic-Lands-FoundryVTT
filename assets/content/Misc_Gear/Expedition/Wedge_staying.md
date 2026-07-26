@@ -7,9 +7,9 @@ name:
     full: "Wedge, staying"
     aliases: []
 description: "Small wooden or bone wedge; prevents tent poles and wagon wheels slipping."
-id: SP6UEkt0R3yULAAu
+id: mmVSxF9PE02bES9l
 slug: wedge-staying
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: wedgestayi
 type: miscgear
 package: sohl

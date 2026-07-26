@@ -7,9 +7,9 @@ name:
     full: "Wool, Raw"
     aliases: []
 description: "Freshly sheared fleece, carded clean, traded by weight for spinning."
-id: oGPBLbmZpa4a0fSN
+id: QhXFBXG6OXliukiD
 slug: wool-raw
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: woolraw
 type: miscgear
 package: sohl

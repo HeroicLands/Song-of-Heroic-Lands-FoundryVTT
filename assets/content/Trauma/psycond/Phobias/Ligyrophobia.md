@@ -4,9 +4,9 @@ tags: []
 name:
     full: Ligyrophobia
     aliases: []
-id: eZT5iYbu6FruQFky
+id: MVDM93vscWJUYlVF
 slug: ligyrophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: lgyrphb
 type: trauma
 package: sohl

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Bibliophobia
     aliases: []
-id: KuIJSWPkqePsQ8uG
+id: 5TrJWLGmTi8spunC
 slug: bibliophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: biblphb
 type: trauma
 package: sohl

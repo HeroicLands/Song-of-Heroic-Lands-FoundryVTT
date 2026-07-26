@@ -6,9 +6,9 @@ name:
     full: Rawhide Tunic
     aliases: []
 description: "Stiff hide tunic; durable core protection."
-id: 07BmRahdwlzvUpTr
+id: 1yT1S5gyaj6BB1MS
 slug: rawhide-tunic
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: RhTunic
 type: armorgear
 package: sohl

@@ -7,9 +7,9 @@ name:
     full: "Ink, Black"
     aliases: []
 description: "Oak-gall ink; indelible black for clerks, scribes, chroniclers' work."
-id: 4HZelNWG65IdkNKm
+id: nxjytMpUChcgQfLM
 slug: ink-black
-img: icons/ink.svg
+img: icons/game-icons/lorc/ink-swirl.svg
 shortcode: inkblk
 type: miscgear
 package: sohl

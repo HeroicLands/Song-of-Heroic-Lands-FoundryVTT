@@ -6,9 +6,9 @@ name:
     full: Buckram Mantle
     aliases: []
 description: "Stiff buckram mantle providing durability and reliable rigid cloaking."
-id: 33Uy6jSYB651BQ0F
+id: o571LCZR0dPVHTlW
 slug: buckram-mantle
-img: icons/mantle.svg
+img: icons/game-icons/delapouite/cape.svg
 shortcode: BMntl
 type: armorgear
 package: sohl

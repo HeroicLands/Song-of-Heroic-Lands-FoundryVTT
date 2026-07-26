@@ -7,9 +7,9 @@ name:
     full: "Candle, Calibrated"
     aliases: []
 description: "Marked candle burned to measure hours; favored by scribes, scholars, astrologers."
-id: Wm4yhOtWriuadTFm
+id: Tysu8Gs9sCWF4BeS
 slug: candle-calibrated
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: candlecali
 type: miscgear
 package: sohl

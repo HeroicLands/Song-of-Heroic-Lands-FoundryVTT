@@ -5,9 +5,9 @@ tags: []
 name:
     full: Limb Weakness
     aliases: []
-id: jhxymB5bu2gZzdMB
+id: LSjtSYUXhPsCUwwL
 slug: limb-weakness
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: lmbwknss
 type: trauma
 package: sohl

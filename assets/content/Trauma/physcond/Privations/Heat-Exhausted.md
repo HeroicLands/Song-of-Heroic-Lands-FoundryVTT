@@ -5,9 +5,9 @@ name:
     full: Heat-Exhausted
     aliases: []
 description: "Moderate heat injury; pale, clammy skin, weak pulse, nausea, faintness."
-id: rl6cp1JGUqZAhgAl
+id: us65TjFmPUDBVg5s
 slug: heat-exhausted
-img: icons/privation.svg
+img: icons/game-icons/delapouite/stomach.svg
 shortcode: htexh
 type: trauma
 package: sohl

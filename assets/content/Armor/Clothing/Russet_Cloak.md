@@ -6,9 +6,9 @@ name:
     full: Russet Cloak
     aliases: []
 description: "Reddish-brown wool cloak; durable cold-weather outer garment."
-id: TPXTMxaLNZZYSsV6
+id: D6D82xNJMyqILYVx
 slug: russet-cloak
-img: icons/cloak.svg
+img: icons/game-icons/lucasms/cloak.svg
 shortcode: RClk
 type: armorgear
 package: sohl

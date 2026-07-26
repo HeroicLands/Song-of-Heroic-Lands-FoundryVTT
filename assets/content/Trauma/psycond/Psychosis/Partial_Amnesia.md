@@ -5,9 +5,9 @@ tags: []
 name:
     full: Partial Amnesia
     aliases: []
-id: FDNixdF49dmtpqSJ
+id: ICWyMofRDcMz9QwR
 slug: partial-amnesia
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: amnsprtl
 type: trauma
 package: sohl

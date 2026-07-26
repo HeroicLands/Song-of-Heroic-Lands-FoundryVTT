@@ -6,9 +6,9 @@ name:
     full: Sealskin Cap
     aliases: []
 description: "Water-resistant seal-fur cap; cold and wet climate protection."
-id: 3kemHP0L8lFHBIKZ
+id: BcK14tG91RKBihSs
 slug: sealskin-cap
-img: icons/cap.svg
+img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: SlsCap
 type: armorgear
 package: sohl

@@ -5,9 +5,9 @@ tags: []
 name:
     full: Impaired Smell
     aliases: []
-id: SV76XlXffG8R7WxY
+id: 4pNGYQxNYDE5gCPX
 slug: impaired-smell
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: impaire2
 type: trauma
 package: sohl

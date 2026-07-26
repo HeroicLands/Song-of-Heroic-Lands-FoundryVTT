@@ -9,11 +9,11 @@ name:
     clan: Folk
     aliases: []
     home: ""
-id: ImRkyb5P1KTxECbe
+id: d1cddnpaqRl0a0Q8
 folder:
 shortcode: basicfolk
 slug: basic-folk
-img: ""
+img: icons/game-icons/delapouite/person.svg
 portrait: ""
 type: character
 package: sohl

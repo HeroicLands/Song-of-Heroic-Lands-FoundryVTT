@@ -6,12 +6,12 @@ tags:
 name:
     full: Guard Dog
     aliases: []
-id: kZduD82aEHFmdLke
+id: BfM41VLgQk9RdUFa
 slug: guard-dog
-img: images/guard-dog-headshot.webp
-portrait: images/guard-dog.webp
+img: icons/game-icons/lorc/hound.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 11

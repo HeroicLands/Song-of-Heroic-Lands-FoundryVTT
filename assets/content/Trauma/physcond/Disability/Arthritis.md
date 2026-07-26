@@ -4,9 +4,9 @@ tags: []
 name:
     full: Arthritis
     aliases: []
-id: yKKuUXl5wmxFp2d0
+id: bIjL13tItFaEubGX
 slug: arthritis
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: arthrts
 type: trauma
 package: sohl

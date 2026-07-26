@@ -6,12 +6,12 @@ tags:
 name:
     full: Emberhound
     aliases: []
-id: bpjdEgLwBtXfXyPx
+id: WGeazrSoyg3VKwns
 slug: emberhound
-img: images/emberhound-headshot.webp
-portrait: images/emberhound.webp
+img: icons/game-icons/lorc/hound.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

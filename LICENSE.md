@@ -32,6 +32,7 @@ license your changes under the same terms.
 All creative content is located in the following files and folders:
 
 - All Markdown (`*.md`) files in the repository
+- The entire `kb` directory and its contents
 - The entire `assets` directory and its contents
 
 See the file `LICENSE` in the `assets` folder for the full license text. The full license can

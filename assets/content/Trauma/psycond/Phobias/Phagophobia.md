@@ -4,9 +4,9 @@ tags: []
 name:
     full: Phagophobia
     aliases: []
-id: VG2SYHcdMSNVdK3Z
+id: wIgWz2bCKVCzr3SU
 slug: phagophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: phagophb
 type: trauma
 package: sohl

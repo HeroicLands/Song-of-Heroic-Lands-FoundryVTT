@@ -6,9 +6,9 @@ name:
     full: Padded Pants
     aliases: []
 description: "Cushioned leg covering providing warmth under armor or standalone."
-id: xP9cs4kYsLefFPoV
+id: t8hOlYiXWaL8HPJr
 slug: padded-pants
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: PPant
 type: armorgear
 package: sohl

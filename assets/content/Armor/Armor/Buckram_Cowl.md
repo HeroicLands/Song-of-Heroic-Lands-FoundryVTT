@@ -6,9 +6,9 @@ name:
     full: Buckram Cowl
     aliases: []
 description: "Stiff buckram cowl providing durability and rigid head-shoulder coverage."
-id: NODwhSpUKB9OGWVi
+id: L1fA0Ad5QhtHRLFm
 slug: buckram-cowl
-img: icons/hood.svg
+img: icons/game-icons/lorc/hood.svg
 shortcode: BCowl
 type: armorgear
 package: sohl

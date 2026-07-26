@@ -6,12 +6,12 @@ tags:
 name:
     full: Earthcharger
     aliases: []
-id: lF4NnTKIkNnvexgb
+id: u8zP1zROlFGp2zuv
 slug: earthcharger
-img: images/earthcharger-headshot.webp
-portrait: images/earthcharger.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 19

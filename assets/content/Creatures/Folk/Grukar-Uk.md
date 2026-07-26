@@ -6,12 +6,12 @@ tags:
 name:
     full: Grukar-Uk
     aliases: []
-id: jyZ2cNeGlHYsTdwL
+id: VBfGJvhWaj4uisjN
 slug: grukar-uk
-img: images/grukar-uk-headshot.webp
-portrait: images/grukar-uk.webp
+img: icons/game-icons/delapouite/orc-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 12

@@ -7,12 +7,12 @@ tags:
 name:
     full: Condor
     aliases: []
-id: Tw6nRxWq4VpYmK9L
+id: IlgMSpMhh6Hel8gD
 slug: condor
-img: images/condor-headshot.webp
-portrait: images/condor.webp
+img: icons/game-icons/lorc/vulture.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 7

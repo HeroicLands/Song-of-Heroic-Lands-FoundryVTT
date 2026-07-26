@@ -7,9 +7,9 @@ name:
     full: "Stone, Rough"
     aliases: []
 description: "Unsquared fieldstone blocks; cheap practical; barn walls, boundary fences."
-id: hUTZUVV7ONlgRhH1
+id: HPVtEP2fGgaFFSNQ
 slug: stone-rough
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: stonerough
 type: miscgear
 package: sohl

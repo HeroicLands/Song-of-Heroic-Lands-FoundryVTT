@@ -4,9 +4,9 @@ tags: []
 name:
     full: Haematophobia
     aliases: []
-id: vnyPYt3qdW0KNgGr
+id: zimua24dvXMSJdBm
 slug: haematophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: hmtphb
 type: trauma
 package: sohl

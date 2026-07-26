@@ -4,9 +4,9 @@ tags: []
 name:
     full: Dexterity
     aliases: []
-id: EXXJU3HJnvd9MatX
+id: CK3tV3RtyxzcM6Sw
 slug: dexterity
-img: icons/juggler.svg
+img: icons/game-icons/lorc/juggler.svg
 shortcode: dex
 type: attribute
 package: sohl

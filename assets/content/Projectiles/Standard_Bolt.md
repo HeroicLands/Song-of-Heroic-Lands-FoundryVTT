@@ -8,10 +8,10 @@ name:
 description: "Stout hardwood quarrel, simple iron head; cheap volley fire against unarmoured."
 type: projectilegear
 package: sohl
-id: 7QhcrNVbi37iqHFJ
+id: 73z39WVsd1lvqIuG
 slug: standard-bolt
 shortcode: BltStd
-img: icons/arrow.svg
+img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Standard
 sohl:
     archetype: 0

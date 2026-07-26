@@ -5,9 +5,9 @@ name:
     full: Shock
     aliases: []
 description: "Physiological resilience to absorb violent blows without incapacitation."
-id: BAHwD5BQSFtfbfGD
+id: UufDJlNBkyC6FG7E
 slug: shock
-img: icons/shock.svg
+img: icons/game-icons/lorc/lightning-arc.svg
 shortcode: shok
 type: skill
 package: sohl

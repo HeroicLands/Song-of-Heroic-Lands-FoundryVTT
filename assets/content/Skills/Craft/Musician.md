@@ -5,9 +5,9 @@ name:
     full: Musician
     aliases: []
 description: "Playing various instruments with technical facility and musical interpretation."
-id: qXqSLyV8VRxs6p8o
+id: 5DPlnTLCpfyz4Rar
 slug: musician
-img: icons/harp.svg
+img: icons/game-icons/delapouite/harp.svg
 shortcode: musc
 type: skill
 package: sohl

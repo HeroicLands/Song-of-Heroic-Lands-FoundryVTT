@@ -7,12 +7,12 @@ tags:
 name:
     full: Warg
     aliases: []
-id: Nx5QyRsTdFmWj2Ub
+id: Fk5LGJPnTZLxzWuG
 slug: warg
-img: images/warg-headshot.webp
-portrait: images/warg.webp
+img: icons/game-icons/lorc/wolf-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 20

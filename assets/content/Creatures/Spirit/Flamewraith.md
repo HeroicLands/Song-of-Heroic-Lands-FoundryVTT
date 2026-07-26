@@ -6,12 +6,12 @@ tags:
 name:
     full: Flamewraith
     aliases: []
-id: KW5Yuli9gOBYc1io
+id: IkisGKow2uz3lPSw
 slug: flamewraith
-img: images/flamewraith-headshot.webp
-portrait: images/flamewraith.webp
+img: icons/game-icons/lorc/spectre.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 9

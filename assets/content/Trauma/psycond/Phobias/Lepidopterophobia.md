@@ -4,9 +4,9 @@ tags: []
 name:
     full: Lepidopterophobia
     aliases: []
-id: CMHjqCyh5EL34RTJ
+id: FmFmSEVFuXRwgMcx
 slug: lepidopterophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: lepidopt
 type: trauma
 package: sohl

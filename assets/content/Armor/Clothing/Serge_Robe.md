@@ -6,9 +6,9 @@ name:
     full: Serge Robe
     aliases: []
 description: "Twilled serge robe; practical, versatile everyday garment."
-id: gYBqXJZ6kZyBZ7yD
+id: lH6u0qkWTKCab8z2
 slug: serge-robe
-img: icons/robe.svg
+img: icons/game-icons/lorc/robe.svg
 shortcode: SgRobe
 type: armorgear
 package: sohl

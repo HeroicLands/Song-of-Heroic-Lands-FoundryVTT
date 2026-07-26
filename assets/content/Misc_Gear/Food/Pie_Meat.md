@@ -7,9 +7,9 @@ name:
     full: "Pie, Meat"
     aliases: []
 description: "Baked dough with minced spiced meat, feeds one hungry traveler daily."
-id: mrgNXfADTfio3S3t
+id: 5KTKyCgbX1JLHa6X
 slug: pie-meat
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: piemeat
 type: miscgear
 package: sohl

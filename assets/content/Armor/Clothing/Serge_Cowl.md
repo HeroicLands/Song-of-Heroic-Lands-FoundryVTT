@@ -6,9 +6,9 @@ name:
     full: Serge Cowl
     aliases: []
 description: "Twilled serge cowl; provides warmth and protection for everyday wear."
-id: 2w0FL46AnXC7wdI8
+id: XEq4pZ7z5nrtPHXW
 slug: serge-cowl
-img: icons/hood.svg
+img: icons/game-icons/lorc/hood.svg
 shortcode: SgCowl
 type: armorgear
 package: sohl

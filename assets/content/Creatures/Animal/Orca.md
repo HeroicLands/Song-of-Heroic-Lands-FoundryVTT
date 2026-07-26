@@ -8,12 +8,12 @@ tags:
 name:
     full: Orca
     aliases: []
-id: Jx6nTqWv3RpYmK5B
+id: HUbSiJXZrGu9Uz6t
 slug: orca
-img: images/orca-headshot.webp
-portrait: images/orca.webp
+img: icons/game-icons/delapouite/sperm-whale.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 23

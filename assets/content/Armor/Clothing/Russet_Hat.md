@@ -6,9 +6,9 @@ name:
     full: Russet Hat
     aliases: []
 description: "Reddish-brown wool hat; hardy and practical."
-id: omlaBs9NL0jrxRgL
+id: r9SIKlKCgq3vOJr7
 slug: russet-hat
-img: icons/hat.svg
+img: icons/game-icons/lorc/pointy-hat.svg
 shortcode: RHat
 type: armorgear
 package: sohl

@@ -7,12 +7,12 @@ tags:
 name:
     full: Caracal
     aliases: []
-id: Jw5nYpKr2VxTmQ9C
+id: IDVdbQRzboB9CFFT
 slug: caracal
-img: images/caracal-headshot.webp
-portrait: images/caracal.webp
+img: icons/game-icons/delapouite/lynx-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 9

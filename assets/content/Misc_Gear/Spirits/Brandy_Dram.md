@@ -7,9 +7,9 @@ name:
     full: "Brandy, Dram"
     aliases: []
 description: "Clear fiery distilled spirit; warms chest on winter roads, steadies trembling hands."
-id: ocYLaHpThqOn8DFc
+id: fD7GLm6IzHncHQvm
 slug: brandy-dram
-img: icons/brandy-bottle.svg
+img: icons/game-icons/lorc/brandy-bottle.svg
 shortcode: brdydrm
 type: miscgear
 package: sohl

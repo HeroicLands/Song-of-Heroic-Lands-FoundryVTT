@@ -6,9 +6,9 @@ name:
     full: Linen Surcoat
     aliases: []
 description: "Light breathable outer layer suitable for warm weather casual wear."
-id: Z2NTw3baAcxU6HVZ
+id: kxIo96u2ll5zSZxe
 slug: linen-surcoat
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: LScoat
 type: armorgear
 package: sohl

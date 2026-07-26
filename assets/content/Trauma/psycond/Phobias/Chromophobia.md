@@ -4,9 +4,9 @@ tags: []
 name:
     full: Chromophobia
     aliases: []
-id: RQue9pTmH7y03jlA
+id: j8xTwqrJDrcatBXq
 slug: chromophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: chrmphb
 type: trauma
 package: sohl

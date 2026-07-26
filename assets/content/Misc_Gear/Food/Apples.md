@@ -7,9 +7,9 @@ name:
     full: Apples
     aliases: []
 description: "Firm orchard fruit; edible into winter when stored cool, sliced dried."
-id: MnNVI5FZZ0xtvIp2
+id: umoGdaZCNH9O2xC6
 slug: apples
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: apples
 type: miscgear
 package: sohl

@@ -6,9 +6,9 @@ name:
     full: Homespun Cap
     aliases: []
 description: "Simple homemade cap offering warmth for common folk."
-id: aaJpiVosRI1mXMTD
+id: IflKi3IH83bU0ayw
 slug: homespun-cap
-img: icons/cap.svg
+img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: HsCap
 type: armorgear
 package: sohl

@@ -6,12 +6,12 @@ tags:
 name:
     full: Black Bear
     aliases: []
-id: ljFcsFMyODDXDexs
+id: 8ZGl0AAQhCMIrz8h
 slug: black-bear
-img: images/black-bear-headshot.webp
-portrait: images/black-bear.webp
+img: icons/game-icons/delapouite/bear-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

@@ -7,9 +7,9 @@ name:
     full: "Jeweler's Scales"
     aliases: []
 description: "Brass balance calibrated for carats and ounces; gem-merchants weigh precious metals."
-id: bljtZyai5wpRBuJc
+id: e2XKT96x3d8Ukskg
 slug: jewelers-scales
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jewelerssc
 type: miscgear
 package: sohl

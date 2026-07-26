@@ -7,12 +7,12 @@ tags:
 name:
     full: Young Fire Dragon
     aliases: []
-id: FD7K2M9R5Q3X8W1B
+id: x9FJYB3bym5ZUUgs
 slug: young-fire-dragon
-img: images/young-fire-dragon-headshot.webp
-portrait: images/young-fire-dragon.webp
+img: icons/game-icons/faithtoken/dragon-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 21

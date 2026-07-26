@@ -6,12 +6,12 @@ tags:
 name:
     full: Dire Wolf
     aliases: []
-id: aKpGtCEAn6ia2ELo
+id: ILqvei5kP8X84icm
 slug: dire-wolf
-img: images/dire-wolf-headshot.webp
-portrait: images/dire-wolf.webp
+img: icons/game-icons/lorc/wolf-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 20

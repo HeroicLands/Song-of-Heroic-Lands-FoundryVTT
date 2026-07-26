@@ -7,9 +7,9 @@ name:
     full: Pears
     aliases: []
 description: "Dried autumn fruit, hardened sweet traveler's treat and childhood prize."
-id: 06CogOR280NMNE4P
+id: 6mM62JZVn3FEZRaR
 slug: pears
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pears
 type: miscgear
 package: sohl

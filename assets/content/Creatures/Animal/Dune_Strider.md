@@ -6,12 +6,12 @@ tags:
 name:
     full: Dune Strider
     aliases: []
-id: Zcy2f4j1wqiR6G6Q
+id: FSZZ80hJvwUGnbkD
 slug: dune-strider
-img: images/dune-strider-headshot.webp
-portrait: images/dune-strider.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

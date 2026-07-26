@@ -5,9 +5,9 @@ name:
     full: Awareness
     aliases: []
 description: "Detecting movement, glint of metal, scents; opposing Stealth in vigilance."
-id: 5aSYfkXwlrZm6xzA
+id: k81PKEq5iaHjsehi
 slug: awareness
-img: icons/awareness.svg
+img: icons/game-icons/lorc/awareness.svg
 shortcode: awar
 type: skill
 package: sohl

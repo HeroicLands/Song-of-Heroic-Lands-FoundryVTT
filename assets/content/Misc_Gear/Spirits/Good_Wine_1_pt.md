@@ -7,9 +7,9 @@ name:
     full: "Good Wine, 1 pt."
     aliases: []
 description: "Oak-aged fine wine in bottle; body and sweetness beyond common vintage."
-id: 6EEm0pAcnGpEeGR4
+id: BzK8ME1Dc6FbjGu4
 slug: good-wine-1-pt
-img: icons/wine-bottle.svg
+img: icons/game-icons/delapouite/wine-bottle.svg
 shortcode: gwinept
 type: miscgear
 package: sohl

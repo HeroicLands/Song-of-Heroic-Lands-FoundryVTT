@@ -4,9 +4,9 @@ tags: []
 name:
     full: Hoplophobia
     aliases: []
-id: CYnX4Hf8TtzXdThU
+id: dslSFZ2Js4DVyRke
 slug: hoplophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: hoplophb
 type: trauma
 package: sohl

@@ -6,9 +6,9 @@ name:
     full: Beaver Mittens
     aliases: []
 description: "Beaver fur mittens offering comfort and warmth for cold climates."
-id: hfuaWFcDNu2p52cN
+id: AG4ZCM7Lt32ADlI1
 slug: beaver-mittens
-img: icons/gloves.svg
+img: icons/game-icons/delapouite/gloves.svg
 shortcode: BvMitt
 type: armorgear
 package: sohl

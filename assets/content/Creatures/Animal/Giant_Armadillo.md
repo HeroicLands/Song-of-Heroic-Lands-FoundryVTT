@@ -6,12 +6,12 @@ tags:
 name:
     full: Giant Armadillo
     aliases: []
-id: UkgVgYhsWaGL8Xeb
+id: n2nQ2Jd3wZHiIlb9
 slug: giant-armadillo
-img: images/giant-armadillo-headshot.webp
-portrait: images/giant-armadillo.webp
+img: icons/game-icons/caro-asercion/pangolin.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

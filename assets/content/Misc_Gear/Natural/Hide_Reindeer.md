@@ -7,9 +7,9 @@ name:
     full: "Hide, Reindeer"
     aliases: []
 description: "Thick northern hide; salted, dried, water-resistant; arctic cloaks."
-id: qVTXe4cPZFMsXGww
+id: 9n4GUpB7HjBkHnCP
 slug: hide-reindeer
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidereinde
 type: miscgear
 package: sohl

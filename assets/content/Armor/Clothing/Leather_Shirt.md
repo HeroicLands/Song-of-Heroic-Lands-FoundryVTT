@@ -6,9 +6,9 @@ name:
     full: Leather Shirt
     aliases: []
 description: "Stylish and practical leather garment offering minimal protection."
-id: PZeYSQZJsOtyrcYg
+id: lxcUqah1rKJCwp4D
 slug: leather-shirt
-img: icons/shirt.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: LtShirt
 type: armorgear
 package: sohl

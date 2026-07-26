@@ -7,9 +7,9 @@ name:
     full: "Dye, Black"
     aliases: []
 description: "Logwood or iron-tannate powder for deep, fast-set black cloth dye."
-id: DhmLhpSReCzBZpYg
+id: 0a4A0iNff5YQu2ua
 slug: dye-black
-img: icons/potion.svg
+img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: dyeblk
 type: miscgear
 package: sohl

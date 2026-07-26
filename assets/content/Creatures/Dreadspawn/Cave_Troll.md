@@ -6,12 +6,12 @@ tags:
 name:
     full: Cave Troll
     aliases: []
-id: bAS9MDWv8RCzG3MB
+id: LLdlPmp4JmXGcj1o
 slug: cave-troll
-img: images/cave-troll-headshot.webp
-portrait: images/cave-troll.webp
+img: icons/game-icons/skoll/troll.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 33

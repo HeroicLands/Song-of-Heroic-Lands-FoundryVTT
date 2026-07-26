@@ -6,12 +6,12 @@ tags:
 name:
     full: Shadow Lynx
     aliases: []
-id: r80Q9N385dQs1mGX
+id: i1hrH7tYkoFMzTzq
 slug: shadow-lynx
-img: images/shadow-lynx-headshot.webp
-portrait: images/shadow-lynx.webp
+img: icons/game-icons/delapouite/lynx-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

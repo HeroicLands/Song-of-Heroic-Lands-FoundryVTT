@@ -7,9 +7,9 @@ name:
     full: "Buttons, pack of 4 (matching)"
     aliases: []
 description: "Four identical bone, horn, or metal buttons; for garment fastening and repairs."
-id: whD3V8FTASjW77RM
+id: fdl3VvdhnDrhdTqx
 slug: buttons-pack-of-4-matching
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: buttonspac
 type: miscgear
 package: sohl

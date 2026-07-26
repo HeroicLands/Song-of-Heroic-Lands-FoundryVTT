@@ -6,9 +6,9 @@ name:
     full: "Lockbox, small"
     aliases: []
 description: "Portable iron-banded lockbox for coin, documents, or letters of credit."
-id: vZpiMCfNn55xTuiy
+id: 2Qro8O0kK0hypKrD
 slug: lockbox-small
-img: icons/chest.svg
+img: icons/game-icons/delapouite/chest.svg
 shortcode: lockboxsma
 type: containergear
 package: sohl

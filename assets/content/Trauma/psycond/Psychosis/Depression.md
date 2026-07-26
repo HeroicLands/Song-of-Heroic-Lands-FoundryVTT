@@ -4,9 +4,9 @@ tags: []
 name:
     full: Depression
     aliases: []
-id: xjoGDuYVh5ZzkTaC
+id: nm3hkD4ctKMzYOje
 slug: depression
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dprssn
 type: trauma
 package: sohl

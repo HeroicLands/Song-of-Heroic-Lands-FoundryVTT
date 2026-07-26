@@ -7,12 +7,12 @@ tags:
 name:
     full: Mature Fire Dragon
     aliases: []
-id: FD8K4M7R9Q2X5W8B
+id: KnuTXF76FU1MTtAN
 slug: mature-fire-dragon
-img: images/mature-fire-dragon-headshot.webp
-portrait: images/mature-fire-dragon.webp
+img: icons/game-icons/faithtoken/dragon-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 25

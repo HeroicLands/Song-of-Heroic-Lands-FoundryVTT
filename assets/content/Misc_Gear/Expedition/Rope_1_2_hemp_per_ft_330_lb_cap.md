@@ -7,9 +7,9 @@ name:
     full: "Rope, ½” hemp, per ft (330 lb cap.)"
     aliases: []
 description: "Tarred hemp rope for shipboard, hoisting, and tethering pack animals."
-id: B8xjUistL2N8Nvdi
+id: RwORU55bA3l73XEW
 slug: rope-1-2-hemp-per-ft-330-lb-cap
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: rope12hemp
 type: miscgear
 package: sohl

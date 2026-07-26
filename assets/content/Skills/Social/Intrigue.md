@@ -5,9 +5,9 @@ name:
     full: Intrigue
     aliases: []
 description: "Detecting hidden motives, deception; unraveling plots and conspiracies."
-id: 6HmrY8phCuDrflfO
+id: 2oOsN38lUZHGDinC
 slug: intrigue
-img: icons/cloak-dagger.svg
+img: icons/game-icons/lorc/cloak-dagger.svg
 shortcode: intr
 type: skill
 package: sohl

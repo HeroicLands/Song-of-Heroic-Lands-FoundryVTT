@@ -6,9 +6,9 @@ name:
     full: Beaver Cowl
     aliases: []
 description: "Beaver-fur cowl offering warmth and quiet opulence in cold weather."
-id: Ssz3vVZodt4PgP1K
+id: knMoqHS0uR7WqT4o
 slug: beaver-cowl
-img: icons/hood.svg
+img: icons/game-icons/lorc/hood.svg
 shortcode: BvCowl
 type: armorgear
 package: sohl

@@ -7,12 +7,12 @@ tags:
 name:
     full: Hippopotamus
     aliases: []
-id: 6Sgz7jP4eipxQWUW
+id: OB7yGxza3GSVUOFw
 slug: hippopotamus
-img: images/hippopotamus-headshot.webp
-portrait: images/hippopotamus.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 23

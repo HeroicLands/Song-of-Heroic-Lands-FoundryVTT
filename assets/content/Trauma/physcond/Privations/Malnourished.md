@@ -5,9 +5,9 @@ name:
     full: Malnourished
     aliases: []
 description: "Chronic shortage of nutrients; poor healing, scurvy-like signs."
-id: qCf0NQFtMyhCZWTs
+id: oKkk7uWZEiRChlmc
 slug: malnourished
-img: icons/privation.svg
+img: icons/game-icons/delapouite/stomach.svg
 shortcode: malnut
 type: trauma
 package: sohl

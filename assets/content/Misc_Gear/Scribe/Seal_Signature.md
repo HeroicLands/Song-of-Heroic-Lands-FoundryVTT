@@ -7,9 +7,9 @@ name:
     full: "Seal, Signature"
     aliases: []
 description: "Brass or iron seal carved with owner's mark; authenticates charters, contracts, deeds."
-id: g8zFaknOnkeyOLn8
+id: 8iW0isQgUMlnQtHw
 slug: seal-signature
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: sealsignat
 type: miscgear
 package: sohl

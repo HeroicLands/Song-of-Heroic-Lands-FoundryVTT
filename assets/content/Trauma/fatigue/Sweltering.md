@@ -6,9 +6,9 @@ name:
     aliases:
         - Heat Exposure
 description: "Sustained weariness from prolonged heat exposure short of heat injury."
-id: 8zH7gxN5oIGIO6vX
+id: Md5Txip6KMAelFK2
 slug: sweltering
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: swltr
 type: trauma
 package: sohl

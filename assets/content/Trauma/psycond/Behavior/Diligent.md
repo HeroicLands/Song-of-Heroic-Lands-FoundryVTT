@@ -4,9 +4,9 @@ tags: []
 name:
     full: Diligent
     aliases: []
-id: RmT8JPDpSb8sAcpb
+id: 6ogsEHCl84nLyDTt
 slug: diligent
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: diligent
 type: trauma
 package: sohl

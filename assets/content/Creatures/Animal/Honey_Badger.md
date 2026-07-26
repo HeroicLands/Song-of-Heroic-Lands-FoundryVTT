@@ -6,12 +6,12 @@ tags:
 name:
     full: Honey Badger
     aliases: []
-id: bLQVmhe6OuaVHSi8
+id: ChZvdUocVZoLXeL0
 slug: honey-badger
-img: images/honey-badger-headshot.webp
-portrait: images/honey-badger.webp
+img: icons/game-icons/caro-asercion/badger.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

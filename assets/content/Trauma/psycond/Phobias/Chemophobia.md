@@ -4,9 +4,9 @@ tags: []
 name:
     full: Chemophobia
     aliases: []
-id: XG5YCsGBH7sD3v3P
+id: It119DUjOzhfGtGz
 slug: chemophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: chemophb
 type: trauma
 package: sohl

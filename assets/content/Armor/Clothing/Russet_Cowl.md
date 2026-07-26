@@ -6,9 +6,9 @@ name:
     full: Russet Cowl
     aliases: []
 description: "Reddish-brown wool hood; practical head and neck covering."
-id: RIWSLQPqSFWciJCe
+id: 1kSnd3rtbipxUsJQ
 slug: russet-cowl
-img: icons/hood.svg
+img: icons/game-icons/lorc/hood.svg
 shortcode: RCowl
 type: armorgear
 package: sohl

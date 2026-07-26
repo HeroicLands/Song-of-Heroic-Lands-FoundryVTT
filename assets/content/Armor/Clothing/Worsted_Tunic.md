@@ -6,9 +6,9 @@ name:
     full: Worsted Tunic
     aliases: []
 description: "Tightly-spun wool tunic; durable, practical garment for activities."
-id: M2grH5TbNDo6aj9q
+id: GHvRvj1MmFKArZHE
 slug: worsted-tunic
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: WTunic
 type: armorgear
 package: sohl

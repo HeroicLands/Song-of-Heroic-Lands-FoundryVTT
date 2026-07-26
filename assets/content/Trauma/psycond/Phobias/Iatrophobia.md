@@ -4,9 +4,9 @@ tags: []
 name:
     full: Iatrophobia
     aliases: []
-id: cTn5v1jyg54HEpK3
+id: Xjnim9EdLlw6bPfr
 slug: iatrophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: iatrophb
 type: trauma
 package: sohl

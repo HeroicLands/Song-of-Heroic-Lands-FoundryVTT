@@ -6,12 +6,12 @@ tags:
 name:
     full: Luminshade
     aliases: []
-id: dh1pJLHlzmEuYqp7
+id: V51NYCYdbU2A7tse
 slug: luminshade
-img: images/luminshade-headshot.webp
-portrait: images/luminshade.webp
+img: icons/game-icons/lorc/spectre.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 11

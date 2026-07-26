@@ -6,12 +6,12 @@ tags:
 name:
     full: Aegiron Sentinel
     aliases: []
-id: 5fO4kS9RtiZH9L5p
+id: 0XIdKN3uKTf5qx8n
 slug: aegiron-sentinel
-img: images/aegiron-sentinel-headshot.webp
-portrait: images/aegiron-sentinel.webp
+img: icons/game-icons/delapouite/golem-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 31

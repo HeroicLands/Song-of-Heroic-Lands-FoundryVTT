@@ -6,12 +6,12 @@ tags:
 name:
     full: Stone Ram
     aliases: []
-id: 0WfEG9psRwMUT8yN
+id: ev0hqSRmPJlFtV7E
 slug: stone-ram
-img: images/stone-ram-headshot.webp
-portrait: images/stone-ram.webp
+img: icons/game-icons/delapouite/sheep.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 16

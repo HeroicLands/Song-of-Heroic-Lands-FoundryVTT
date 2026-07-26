@@ -7,12 +7,12 @@ tags:
 name:
     full: Wild Horse
     aliases: []
-id: Bk4xNrWv9TpQmF7Y
+id: O4pfq2TzV4c9SzsT
 slug: wild-horse
-img: images/wild-horse-headshot.webp
-portrait: images/wild-horse.webp
+img: icons/game-icons/delapouite/horse-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 26

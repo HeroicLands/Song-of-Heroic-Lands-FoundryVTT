@@ -5,9 +5,9 @@ name:
     full: Anaemia
     aliases: []
 description: "Long-term weakness from depleted blood reserves."
-id: 363vjLrNutnrbL5W
+id: sQsHFwWlXtlIazk3
 slug: anaemia
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: anaemia
 type: trauma
 package: sohl

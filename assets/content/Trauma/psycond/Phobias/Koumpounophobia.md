@@ -4,9 +4,9 @@ tags: []
 name:
     full: Koumpounophobia
     aliases: []
-id: Kj5Morx2Ejtno57C
+id: g32rVis8q7yT3BFf
 slug: koumpounophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: kmpnphb
 type: trauma
 package: sohl

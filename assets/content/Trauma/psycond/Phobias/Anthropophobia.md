@@ -4,9 +4,9 @@ tags: []
 name:
     full: Anthropophobia
     aliases: []
-id: v48yL6ItKyzwuE70
+id: ed3PHy0xOeqEiOV5
 slug: anthropophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: anthpphb
 type: trauma
 package: sohl

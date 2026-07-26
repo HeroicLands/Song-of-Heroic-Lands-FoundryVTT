@@ -4,9 +4,9 @@ tags: []
 name:
     full: Empathy
     aliases: []
-id: Pjlvi5DOwr2QLTg3
+id: ibMPowNe3RLSw06o
 slug: empathy
-img: icons/empathy.svg
+img: icons/game-icons/zeromancer/heart-plus.svg
 shortcode: emp
 type: attribute
 package: sohl

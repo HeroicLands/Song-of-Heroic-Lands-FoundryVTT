@@ -5,9 +5,9 @@ name:
     full: Fate
     aliases: []
 description: ""
-id: fEDCpEGM3G31AeQM
+id: vXrNYKTPRjCPF2n4
 slug: fate
-img: icons/fate.svg
+img: icons/game-icons/lorc/crystal-ball.svg
 shortcode: fate
 type: mysticalability
 package: sohl

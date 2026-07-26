@@ -4,9 +4,9 @@ tags: []
 name:
     full: Ophidiophobia
     aliases: []
-id: hnXbwGkcvYFda0D9
+id: xEjgU6mwDTNufZOu
 slug: ophidiophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: ophdphb
 type: trauma
 package: sohl

@@ -6,12 +6,12 @@ tags:
 name:
     full: Quillbear
     aliases: []
-id: iscjRBNFxuL9fZGM
+id: oqNIZvLCRl1RMynG
 slug: quillbear
-img: images/quillbear-headshot.webp
-portrait: images/quillbear.webp
+img: icons/game-icons/delapouite/bear-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 22

@@ -7,12 +7,12 @@ tags:
 name:
     full: Cobra
     aliases: []
-id: Hd6nLpQx3WvRfY8K
+id: NQZVX98HeA9QlGWY
 slug: cobra
-img: images/cobra-headshot.webp
-portrait: images/cobra.webp
+img: icons/game-icons/lorc/snake.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 6

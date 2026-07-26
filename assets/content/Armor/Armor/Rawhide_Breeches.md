@@ -6,9 +6,9 @@ name:
     full: Rawhide Breeches
     aliases: []
 description: "Tough hide leg-wear; harsh-climate work or rough labor."
-id: C7ybxR6fnljMNbrF
+id: 0kF4so7ufezAvDpW
 slug: rawhide-breeches
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: RhBrch
 type: armorgear
 package: sohl

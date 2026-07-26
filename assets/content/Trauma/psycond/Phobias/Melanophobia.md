@@ -4,9 +4,9 @@ tags: []
 name:
     full: Melanophobia
     aliases: []
-id: UGCKoMBInNL1A0jj
+id: z9pz8L76eUoBTVTG
 slug: melanophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: mlnphb
 type: trauma
 package: sohl

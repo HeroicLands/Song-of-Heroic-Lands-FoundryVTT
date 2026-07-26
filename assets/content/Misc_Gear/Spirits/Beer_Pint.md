@@ -7,9 +7,9 @@ name:
     full: "Beer, Pint"
     aliases: []
 description: "Weak cheap small-beer; laborer's drink; safe, ever-present in garrisons."
-id: cTQH6OPXqP2mentF
+id: k9HWSSECOIT1TaqZ
 slug: beer-pint
-img: icons/ale.svg
+img: icons/game-icons/lorc/beer-stein.svg
 shortcode: beerpt
 type: miscgear
 package: sohl

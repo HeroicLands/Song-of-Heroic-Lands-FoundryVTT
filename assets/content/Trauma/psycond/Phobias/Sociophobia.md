@@ -4,9 +4,9 @@ tags: []
 name:
     full: Sociophobia
     aliases: []
-id: 8Yfh7YvLv9Xa1jtt
+id: UOlTBNjJR5hQeYiU
 slug: sociophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: sociophb
 type: trauma
 package: sohl

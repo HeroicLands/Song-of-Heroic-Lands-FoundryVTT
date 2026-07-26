@@ -7,9 +7,9 @@ name:
     full: Rations, Standard
     aliases: []
 description: "Bread, dried meat, cheese, fruit bundle for traveler's day of moderate labor."
-id: 0jGZS74JTgQ4lTrA
+id: o2a755Xc5wOdNXJH
 slug: rations-standard
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: StdRtns
 type: miscgear
 package: sohl

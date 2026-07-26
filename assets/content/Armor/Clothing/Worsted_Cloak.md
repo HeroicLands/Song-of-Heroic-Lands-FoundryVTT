@@ -6,9 +6,9 @@ name:
     full: Worsted Cloak
     aliases: []
 description: "Tightly-spun wool cloak; durable, practical garment for weather."
-id: T0ZAzTBt45xyv6EW
+id: bgyHT5REPPpPhKW5
 slug: worsted-cloak
-img: icons/cloak.svg
+img: icons/game-icons/lucasms/cloak.svg
 shortcode: WClk
 type: armorgear
 package: sohl

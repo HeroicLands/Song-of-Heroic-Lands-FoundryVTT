@@ -7,9 +7,9 @@ name:
     full: "Sapphire, cut"
     aliases: []
 description: "Brilliant deep-blue corundum; reserved for the highest nobility and clergy."
-id: km9rIPHqU85VCL9K
+id: m91U82SryxhSlh7O
 slug: sapphire-cut
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: sapphirecu
 type: miscgear
 package: sohl

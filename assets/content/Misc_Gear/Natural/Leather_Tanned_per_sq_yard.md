@@ -7,9 +7,9 @@ name:
     full: "Leather, Tanned, per sq yard"
     aliases: []
 description: "Finished vegetable-tanned stock sold by the yard for cordwainers and saddlers."
-id: 3Lo5cMQU7d8crKPT
+id: CKbVnsgFF6oUH8Z4
 slug: leather-tanned-per-sq-yard
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: leathertan
 type: miscgear
 package: sohl

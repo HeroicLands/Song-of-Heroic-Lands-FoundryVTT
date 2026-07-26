@@ -4,9 +4,9 @@ tags: []
 name:
     full: Self-sufficient
     aliases: []
-id: WvLSKgq7rAeVpZiJ
+id: bNm2Q0383zIRo2wG
 slug: self-sufficient
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: self-suf
 type: trauma
 package: sohl

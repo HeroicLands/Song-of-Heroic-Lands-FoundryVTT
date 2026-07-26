@@ -7,9 +7,9 @@ name:
     full: Pork
     aliases: []
 description: "Fatty rich swine meat, salts and smokes excellently, garrison staple."
-id: AOEc2gGEhSc9mdMD
+id: zZNuSN5hvKPk0F0G
 slug: pork
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pork
 type: miscgear
 package: sohl

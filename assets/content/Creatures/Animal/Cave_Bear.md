@@ -6,12 +6,12 @@ tags:
 name:
     full: Cave Bear
     aliases: []
-id: HKoHq6tvQ7wvL6Ut
+id: R0digTz25VXmF4uo
 slug: cave-bear
-img: images/cave-bear-headshot.webp
-portrait: images/cave-bear.webp
+img: icons/game-icons/delapouite/bear-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 24

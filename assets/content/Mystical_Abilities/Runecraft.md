@@ -5,9 +5,9 @@ name:
     full: Runecraft
     aliases: []
 description: "Inscribing and activating runes imbued with arcane power and significance."
-id: BciFc8QyZNpeu03s
+id: 2J0wXp8grPjaA70I
 slug: runecraft
-img: icons/runecraft.svg
+img: icons/game-icons/lorc/rune-stone.svg
 shortcode: Rune
 type: mysticalability
 package: sohl

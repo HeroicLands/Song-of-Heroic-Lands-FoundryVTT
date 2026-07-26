@@ -4,9 +4,9 @@ tags: []
 name:
     full: Aura
     aliases: []
-id: KmwIUCSi0PJ0Wnay
+id: LwA1PJKKtH0DyGvg
 slug: aura
-img: icons/aura.svg
+img: icons/game-icons/lorc/aura.svg
 shortcode: aur
 type: attribute
 package: sohl

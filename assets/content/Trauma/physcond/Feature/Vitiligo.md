@@ -4,9 +4,9 @@ tags: []
 name:
     full: Vitiligo
     aliases: []
-id: wDBb1NDzQ61rm0Bx
+id: 59msy73NBMHpaVoR
 slug: vitiligo
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: vitiligo
 type: trauma
 package: sohl

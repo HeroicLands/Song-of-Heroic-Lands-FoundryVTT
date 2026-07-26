@@ -7,9 +7,9 @@ name:
     full: Fetters
     aliases: []
 description: "Iron leg-shackles joined by short chain with locks; restrains prisoners during transport."
-id: cJPbnYJ8TgGxeYcj
+id: ot5qOMTigtsh36Oy
 slug: fetters
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: fetters
 type: miscgear
 package: sohl

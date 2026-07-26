@@ -6,12 +6,12 @@ tags:
 name:
     full: Great Elk
     aliases: []
-id: bzdtXTxBpWnSfYCZ
+id: MMuW0ZSPSzJPFbmM
 slug: great-elk
-img: images/great-elk-headshot.webp
-portrait: images/great-elk.webp
+img: icons/game-icons/lorc/stag-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

@@ -7,9 +7,9 @@ name:
     full: "Dye, Indigo Blue"
     aliases: []
 description: "Precious indigo powder; rich permanent blue for wealthy merchants and court dyers."
-id: Y0BF78mLQOPaL0Gy
+id: LDFL0zBRTWryq45c
 slug: dye-indigo-blue
-img: icons/potion.svg
+img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: dyeindg
 type: miscgear
 package: sohl

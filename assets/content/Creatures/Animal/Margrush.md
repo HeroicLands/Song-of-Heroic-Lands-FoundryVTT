@@ -6,12 +6,12 @@ tags:
 name:
     full: Margrush
     aliases: []
-id: 3RcwSyEnqtKPNbjU
+id: hfTq2IglUl64LTn9
 slug: margrush
-img: images/margrush-headshot.webp
-portrait: images/margrush.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

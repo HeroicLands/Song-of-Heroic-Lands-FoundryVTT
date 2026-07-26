@@ -6,12 +6,12 @@ tags:
 name:
     full: Summitdrake
     aliases: []
-id: 62rxlW5qEp6TdPF0
+id: I96v45Ggz9t91r4o
 slug: summitdrake
-img: images/summitdrake-headshot.webp
-portrait: images/summitdrake.webp
+img: icons/game-icons/faithtoken/dragon-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 22

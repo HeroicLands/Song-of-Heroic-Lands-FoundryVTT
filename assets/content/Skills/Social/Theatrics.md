@@ -5,9 +5,9 @@ name:
     full: Theatrics
     aliases: []
 description: "Performance and disguise through role assumption and identity transformation."
-id: QiXS62ew4oy7fIEq
+id: LPAYj3D7r0QjsnFA
 slug: theatrics
-img: icons/drama-masks.svg
+img: icons/game-icons/lorc/drama-masks.svg
 shortcode: thtcs
 type: skill
 package: sohl

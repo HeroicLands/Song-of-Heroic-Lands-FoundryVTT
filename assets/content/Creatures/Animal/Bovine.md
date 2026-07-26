@@ -6,12 +6,12 @@ tags:
 name:
     full: Bovine
     aliases: []
-id: XH3kwWxUMRtLmPVa
+id: h55JBmYxilMVO7mS
 slug: bovine
-img: images/bovine-headshot.webp
-portrait: images/bovine.webp
+img: icons/game-icons/delapouite/cow.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 32

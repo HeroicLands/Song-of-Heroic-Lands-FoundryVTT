@@ -6,9 +6,9 @@ name:
     full: Quilted Shirt
     aliases: []
 description: "Stitched-layer shirt; winter-weight padding for torso."
-id: 1PX2nWbi5SJprAL8
+id: oOU7S9HnK60AJsiS
 slug: quilted-shirt
-img: icons/shirt.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: QSht
 type: armorgear
 package: sohl

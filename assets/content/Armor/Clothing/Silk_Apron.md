@@ -6,9 +6,9 @@ name:
     full: Silk Apron
     aliases: []
 description: "Soft silk apron for formal settings; luxurious but delicate."
-id: pCjc87Ier1Gz0TUq
+id: 7n8GwKMOqsGMe6Yo
 slug: silk-apron
-img: icons/apron.svg
+img: icons/game-icons/delapouite/cook.svg
 shortcode: SlkApn
 type: armorgear
 package: sohl

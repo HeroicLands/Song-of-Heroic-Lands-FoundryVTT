@@ -6,9 +6,9 @@ name:
     full: Sealskin Robe
     aliases: []
 description: "Water-resistant seal-fur robe; comfort for seafaring folk."
-id: 6CGHNmCXlTfr3hnX
+id: jqv0HhqIYH7RkqT8
 slug: sealskin-robe
-img: icons/robe.svg
+img: icons/game-icons/lorc/robe.svg
 shortcode: SlsRobe
 type: armorgear
 package: sohl

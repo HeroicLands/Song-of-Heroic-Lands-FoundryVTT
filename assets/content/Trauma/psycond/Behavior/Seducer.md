@@ -4,9 +4,9 @@ tags: []
 name:
     full: Seducer
     aliases: []
-id: zJ7K2sJUKG52vRpX
+id: wPARDi4HYN0v2dxP
 slug: seducer
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: seducer
 type: trauma
 package: sohl

@@ -6,12 +6,12 @@ tags:
 name:
     full: Ratter
     aliases: []
-id: O8XexxkZfkVdBzin
+id: 1rt4bCbVyGDW9hKA
 slug: ratter
-img: images/ratter-headshot.webp
-portrait: images/ratter.webp
+img: icons/game-icons/lorc/hound.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 7

@@ -7,12 +7,12 @@ tags:
 name:
     full: Cheetah
     aliases: []
-id: Rx6mVpNw4TyKbJ3H
+id: mjqQVrKXPAtQyUUN
 slug: cheetah
-img: images/cheetah-headshot.webp
-portrait: images/cheetah.webp
+img: icons/game-icons/lorc/lion.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 14

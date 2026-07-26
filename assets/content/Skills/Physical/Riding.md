@@ -5,9 +5,9 @@ name:
     full: Riding
     aliases: []
 description: "Controlling mounted animals through communication and empathic connection."
-id: DHSI4p4n2OBxf1bD
+id: mARFb83ni5upS4h3
 slug: riding
-img: icons/horse-riding.svg
+img: icons/game-icons/delapouite/cavalry.svg
 shortcode: ridg
 type: skill
 package: sohl

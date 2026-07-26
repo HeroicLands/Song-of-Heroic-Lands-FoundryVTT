@@ -6,12 +6,12 @@ tags:
 name:
     full: Wolverine
     aliases: []
-id: EJz2iAallzxJ3AGR
+id: bQLlmKIoRwxXeHV7
 slug: wolverine
-img: images/wolverine-headshot.webp
-portrait: images/wolverine.webp
+img: icons/game-icons/caro-asercion/badger.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

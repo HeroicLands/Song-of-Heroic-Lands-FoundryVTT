@@ -4,9 +4,9 @@ tags: []
 name:
     full: Kind
     aliases: []
-id: YONNvSmSlBcMBHQl
+id: mUurc02Xy7jsHjYE
 slug: kind
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: kind
 type: trauma
 package: sohl

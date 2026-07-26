@@ -4,9 +4,9 @@ tags: []
 name:
     full: Calm
     aliases: []
-id: z60IBUGFmjVJdZC3
+id: zDPRCmnsh7n5uxLX
 slug: calm
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: calm
 type: trauma
 package: sohl

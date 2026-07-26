@@ -5,9 +5,9 @@ name:
     full: Hypothermic
     aliases: []
 description: "Core body temperature drops; shivering, slurred speech, stupor, death."
-id: 20gNDYpV1x8KqavM
+id: gFddcXrtVs0xQQ2v
 slug: hypothermic
-img: icons/privation.svg
+img: icons/game-icons/delapouite/stomach.svg
 shortcode: hypth
 type: trauma
 package: sohl

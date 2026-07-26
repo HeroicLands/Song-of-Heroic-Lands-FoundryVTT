@@ -4,9 +4,9 @@ tags: []
 name:
     full: Ulcer
     aliases: []
-id: z8aijY8GVDsblSbL
+id: d2LF42meCO17Khog
 slug: ulcer
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: ulcer
 type: trauma
 package: sohl

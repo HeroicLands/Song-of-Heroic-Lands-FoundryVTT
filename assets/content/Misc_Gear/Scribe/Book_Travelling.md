@@ -7,9 +7,9 @@ name:
     full: "Book, Travelling"
     aliases: []
 description: "Wooden-bound parchment workbook; scribes, sages, herbalists carry afield."
-id: Bk7rTvMpXn2aQwLs
+id: PNCuUTA2GDVPQEWK
 slug: book-travelling
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: booktrvl
 type: miscgear
 package: sohl

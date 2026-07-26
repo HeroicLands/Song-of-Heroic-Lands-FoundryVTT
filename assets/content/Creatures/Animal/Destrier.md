@@ -6,12 +6,12 @@ tags:
 name:
     full: Destrier
     aliases: []
-id: Hrn35LAWjgQIV5mx
+id: AYrEr6jrDy802WIf
 slug: destrier
-img: images/destrier-headshot.webp
-portrait: images/destrier.webp
+img: icons/game-icons/delapouite/horse-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 30

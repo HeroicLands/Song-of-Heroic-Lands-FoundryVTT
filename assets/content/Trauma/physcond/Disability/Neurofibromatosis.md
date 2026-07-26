@@ -4,9 +4,9 @@ tags: []
 name:
     full: Neurofibromatosis
     aliases: []
-id: rzd8p7q9F7zD8M8F
+id: IUR07QqjO12bZ0Tk
 slug: neurofibromatosis
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: neurofib
 type: trauma
 package: sohl

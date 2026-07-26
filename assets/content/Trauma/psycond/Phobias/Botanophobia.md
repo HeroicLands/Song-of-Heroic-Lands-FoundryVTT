@@ -4,9 +4,9 @@ tags: []
 name:
     full: Botanophobia
     aliases: []
-id: 9CsrdimIL48fqdpl
+id: sVX9qQ3Qj4ghmr6F
 slug: botanophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: btnphb
 type: trauma
 package: sohl

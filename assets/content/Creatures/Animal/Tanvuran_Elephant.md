@@ -7,12 +7,12 @@ tags:
 name:
     full: Tānvüran Elephant
     aliases: []
-id: ra5FKZqGHGBjsdkd
+id: hKF5XSPgvAUIQtLc
 slug: tanvuran-elephant
-img: images/tanvuran-elephant-headshot.webp
-portrait: images/tanvuran-elephant.webp
+img: icons/game-icons/delapouite/elephant.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 29

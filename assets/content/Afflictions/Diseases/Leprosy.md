@@ -5,9 +5,9 @@ name:
     full: Leprosy
     aliases: []
 description: "Chronic bacterial infection; skin patches and nerve damage causing permanent disfigurement."
-id: JLwnXqD0Ih30vIQY
+id: ADyc8j8ugJpFufqk
 slug: leprosy
-img: icons/disease.svg
+img: icons/game-icons/lorc/virus.svg
 shortcode: leprosy
 type: affliction
 package: sohl

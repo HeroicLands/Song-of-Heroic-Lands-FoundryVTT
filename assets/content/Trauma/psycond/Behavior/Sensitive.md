@@ -4,9 +4,9 @@ tags: []
 name:
     full: Sensitive
     aliases: []
-id: MMkjYig9qFISMszW
+id: 7QSiWr7US4JKHNSg
 slug: sensitive
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: snstv
 type: trauma
 package: sohl

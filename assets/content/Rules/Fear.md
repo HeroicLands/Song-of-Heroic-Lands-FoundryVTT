@@ -2,7 +2,7 @@
 aliases:
     - Fear
     - Fear Test
-id: Fe4rTst6vZ9nH2kP
+id: DoXLhUO6nZNZrpvu
 type: doc
 package: sohl
 category: rules

@@ -7,9 +7,9 @@ name:
     full: Blanket, heavy
     aliases: []
 description: "Thick felted wool blanket; provides substantial winter warmth for sleeping."
-id: SZtXaMgdPUcKmB21
+id: HWcP6rzzo1I4jLh3
 slug: blanket-heavy
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: HvyBlkt
 type: miscgear
 package: sohl

@@ -1,7 +1,7 @@
 ---
 aliases:
     - Mystical Powers
-id: PlsGHQa9BZ44YwzP
+id: eg6jbFFPRgbKj2a2
 type: doc
 package: sohl
 category: user-guide

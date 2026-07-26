@@ -7,9 +7,9 @@ name:
     full: "Vellum, per page"
     aliases: []
 description: "Calf skin; finest white durable surface for royal charters, illuminated gospels."
-id: Eh1OAhPj4a5okM9U
+id: V7QZuj6IcixIikhT
 slug: vellum-per-page
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: vellumperp
 type: miscgear
 package: sohl

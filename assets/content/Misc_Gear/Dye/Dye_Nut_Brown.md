@@ -7,9 +7,9 @@ name:
     full: "Dye, Nut Brown"
     aliases: []
 description: "Walnut hulls and iron salts; warm earthy brown for everyday working garments."
-id: whZskojn7qDPJ6BD
+id: wDh2U8SPT6dqKtQV
 slug: dye-nut-brown
-img: icons/potion.svg
+img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: dyenut
 type: miscgear
 package: sohl

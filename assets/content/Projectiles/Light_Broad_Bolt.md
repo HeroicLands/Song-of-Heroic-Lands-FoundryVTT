@@ -8,10 +8,10 @@ name:
 description: "Light quarrel, leaf-bladed iron head; opens bleeding wound; hunters, scouts, brigand foes."
 type: projectilegear
 package: sohl
-id: VByJ7QzzIbtR7ifP
+id: GXOYUjcV8KKAIK7a
 slug: light-broad-bolt
 shortcode: BltLBrd
-img: icons/arrow.svg
+img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Broad
 sohl:
     archetype: 0

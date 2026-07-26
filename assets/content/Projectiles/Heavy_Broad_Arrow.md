@@ -8,10 +8,10 @@ name:
 description: "War-arrow with wide flanged barbs; mortal wounds, hooks bone in skirmish."
 type: projectilegear
 package: sohl
-id: rlUtsnS0uTXB5u64
+id: wzqyq4XbBxHJ7vyc
 slug: heavy-broad-arrow
 shortcode: ArwHBrd
-img: icons/arrow.svg
+img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Heavy Broad
 sohl:
     archetype: 0

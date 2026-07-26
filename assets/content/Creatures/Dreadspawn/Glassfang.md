@@ -6,12 +6,12 @@ tags:
 name:
     full: Glassfang
     aliases: []
-id: H2FJyQNWSlyLIIlp
+id: ehEf5wCFXsQmP6pd
 slug: glassfang
-img: images/glassfang-headshot.webp
-portrait: images/glassfang.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         end: 6

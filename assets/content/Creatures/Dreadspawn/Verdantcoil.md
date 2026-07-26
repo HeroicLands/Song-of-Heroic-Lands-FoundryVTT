@@ -6,12 +6,12 @@ tags:
 name:
     full: Verdantcoil
     aliases: []
-id: psRdWx0EhGmUwrEd
+id: e18xTUwy6qZEDvSE
 slug: verdantcoil
-img: images/verdantcoil-headshot.webp
-portrait: images/verdantcoil.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 18

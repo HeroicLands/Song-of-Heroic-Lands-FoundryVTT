@@ -6,12 +6,12 @@ tags:
 name:
     full: Cheeprow
     aliases: []
-id: N9idxXZPsB8JXaOt
+id: IlhU4aquYsNBK4Q1
 slug: cheeprow
-img: images/cheeprow-headshot.webp
-portrait: images/cheeprow.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 4

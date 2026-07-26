@@ -6,12 +6,12 @@ tags:
 name:
     full: Rockscale Anklyte
     aliases: []
-id: I0sHLjT9hGqfBvke
+id: UWITLnj5XOBDX43o
 slug: rockscale-anklyte
-img: images/rockscale-anklyte-headshot.webp
-portrait: images/rockscale-anklyte.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

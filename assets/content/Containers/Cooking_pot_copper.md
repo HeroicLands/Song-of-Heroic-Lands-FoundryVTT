@@ -6,9 +6,9 @@ name:
     full: "Cooking pot, copper"
     aliases: []
 description: "Tinned-copper pot with lid for simmering without metallic taste."
-id: Ug377r0buDH4Tx1i
+id: 0eiiEoznXlZ8Frvu
 slug: cooking-pot-copper
-img: icons/cookery.svg
+img: icons/game-icons/delapouite/cooking-pot.svg
 shortcode: cookingpot
 type: containergear
 package: sohl

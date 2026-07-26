@@ -6,12 +6,12 @@ tags:
 name:
     full: Giant Eagle
     aliases: []
-id: ykJDhhz0y5YtLq3n
+id: qXfebwntoioh2qjT
 slug: giant-eagle
-img: images/giant-eagle-headshot.webp
-portrait: images/giant-eagle.webp
+img: icons/game-icons/delapouite/eagle-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 25

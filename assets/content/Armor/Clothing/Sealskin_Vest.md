@@ -6,9 +6,9 @@ name:
     full: Sealskin Vest
     aliases: []
 description: "Water-resistant seal-fur sleeveless vest; core protection from wet."
-id: bHd6JMlG7sxplB53
+id: wbOxCZK4RdY680A2
 slug: sealskin-vest
-img: icons/vest.svg
+img: icons/game-icons/lorc/leather-vest.svg
 shortcode: SlsVest
 type: armorgear
 package: sohl

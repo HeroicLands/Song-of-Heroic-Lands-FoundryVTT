@@ -4,9 +4,9 @@ tags: []
 name:
     full: Deafness
     aliases: []
-id: dhEbirI3YbhROtB5
+id: j8Zh8nMXAlumoHMU
 slug: deafness
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: deafness
 type: trauma
 package: sohl

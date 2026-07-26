@@ -4,9 +4,9 @@ tags: []
 name:
     full: Catoptrophobia
     aliases: []
-id: Yn2fYu5hNZh7cqc1
+id: dKXcUoz8Ha0gBhDX
 slug: catoptrophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: ctptrphb
 type: trauma
 package: sohl

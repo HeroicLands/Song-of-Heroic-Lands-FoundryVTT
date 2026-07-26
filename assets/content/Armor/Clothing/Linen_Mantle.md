@@ -6,9 +6,9 @@ name:
     full: Linen Mantle
     aliases: []
 description: "Breathable outer layer providing sun protection without causing overheating."
-id: aigYVihLvZI82Lwo
+id: PrpF6ico4CLaZVHU
 slug: linen-mantle
-img: icons/mantle.svg
+img: icons/game-icons/delapouite/cape.svg
 shortcode: LMntl
 type: armorgear
 package: sohl

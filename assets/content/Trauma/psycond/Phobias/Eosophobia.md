@@ -4,9 +4,9 @@ tags: []
 name:
     full: Eosophobia
     aliases: []
-id: gpxh3PJ4cXweWeQd
+id: NY9t5YdzVChALCbC
 slug: eosophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: eosophb
 type: trauma
 package: sohl

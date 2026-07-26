@@ -7,9 +7,9 @@ name:
     full: "Mirror, bronze"
     aliases: []
 description: "Hand-sized bronze mirror for signaling, grooming, and spotting pursuers."
-id: Zw1EroCThMwNkbt6
+id: ipjrHJVFn6MUdWG0
 slug: mirror-bronze
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: mirrorbron
 type: miscgear
 package: sohl

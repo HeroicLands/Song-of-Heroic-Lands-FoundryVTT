@@ -7,9 +7,9 @@ name:
     full: Cheese
     aliases: []
 description: "Aged or fresh curd rounds; soft or hard, keeps weeks traveling safely."
-id: 7Tt68Asw0UPg0zaq
+id: DRHq9aOSoaQfgxFF
 slug: cheese
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cheese
 type: miscgear
 package: sohl

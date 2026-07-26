@@ -4,9 +4,9 @@ tags: []
 name:
     full: Reticent
     aliases: []
-id: Y1vVaOJ86qldrFdP
+id: ZweaBF2VSvxThOT1
 slug: reticent
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: reticent
 type: trauma
 package: sohl

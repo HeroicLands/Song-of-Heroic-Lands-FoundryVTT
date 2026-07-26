@@ -1,7 +1,7 @@
 ---
 aliases:
     - Trauma
-id: Tr8mAqL4vZ9nH2kP
+id: 8Wp11io0T3YQbVIO
 type: doc
 package: sohl
 category: rules

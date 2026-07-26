@@ -6,12 +6,12 @@ tags:
 name:
     full: Mirelurker
     aliases: []
-id: 9fc59Jyla53dTgTP
+id: EAg26B2pYAXS9TJv
 slug: mirelurker
-img: images/mirelurker-headshot.webp
-portrait: images/mirelurker.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

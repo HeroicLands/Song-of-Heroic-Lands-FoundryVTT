@@ -4,9 +4,9 @@ tags: []
 name:
     full: Indecisive
     aliases: []
-id: 70qXvkFG3nCbqwgT
+id: mku8sWHpsU2AbafD
 slug: indecisive
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: indcsv
 type: trauma
 package: sohl

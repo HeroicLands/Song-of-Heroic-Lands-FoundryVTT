@@ -6,12 +6,12 @@ tags:
 name:
     full: Ridged Skimmer
     aliases: []
-id: 7CEc5r5z3O8pcNlW
+id: 6dbt4Nbd3KY7TJta
 slug: ridged-skimmer
-img: images/ridged-skimmer-headshot.webp
-portrait: images/ridged-skimmer.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

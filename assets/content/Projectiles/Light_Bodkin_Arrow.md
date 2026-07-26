@@ -8,10 +8,10 @@ name:
 description: "Slender shaft, square-sectioned spike; splits light mail at distance; militia, skirmish use."
 type: projectilegear
 package: sohl
-id: YlmDsy5FfOTKSyP7
+id: 1TU7NC5Xy0q2NVmr
 slug: light-bodkin-arrow
 shortcode: ArwLBod
-img: icons/arrow.svg
+img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Bodkin
 sohl:
     archetype: 0

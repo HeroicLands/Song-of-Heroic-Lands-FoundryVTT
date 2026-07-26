@@ -6,12 +6,12 @@ tags:
 name:
     full: Giant Hedgehog
     aliases: []
-id: Sg6ZMMku9pgiX3i8
+id: DWJU5xSE5N4KxtaN
 slug: giant-hedgehog
-img: images/giant-hedgehog-headshot.webp
-portrait: images/giant-hedgehog.webp
+img: icons/game-icons/caro-asercion/hedgehog.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 11

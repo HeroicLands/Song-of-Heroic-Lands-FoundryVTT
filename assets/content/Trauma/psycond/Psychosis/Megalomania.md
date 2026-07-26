@@ -4,9 +4,9 @@ tags: []
 name:
     full: Megalomania
     aliases: []
-id: CQOwHamezwqdvfuO
+id: H2Dbs28M2NU20NlM
 slug: megalomania
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: mglmn
 type: trauma
 package: sohl

@@ -6,12 +6,12 @@ tags:
 name:
     full: Forest Troll
     aliases: []
-id: 3845edz7JOM2QXQh
+id: l4GBcRoNaHSO3RRn
 slug: forest-troll
-img: images/forest-troll-headshot.webp
-portrait: images/forest-troll.webp
+img: icons/game-icons/skoll/troll.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 31

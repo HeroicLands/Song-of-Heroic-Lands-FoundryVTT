@@ -4,9 +4,9 @@ tags: []
 name:
     full: Monophobia
     aliases: []
-id: r6eOJXUWO8mnkQZ9
+id: C0mcJriSUJrhOm68
 slug: monophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: monophb
 type: trauma
 package: sohl

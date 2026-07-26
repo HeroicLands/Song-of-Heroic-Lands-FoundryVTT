@@ -5,9 +5,9 @@ name:
     full: Throwing
     aliases: []
 description: "Hurling daggers, axes, javelins, and projectiles with accuracy and force."
-id: iOdCwOYdX9N6NeiD
+id: CVA6O8CNz68e9wFd
 slug: throwing
-img: icons/throw.svg
+img: icons/game-icons/delapouite/throwing-ball.svg
 shortcode: thro
 type: skill
 package: sohl

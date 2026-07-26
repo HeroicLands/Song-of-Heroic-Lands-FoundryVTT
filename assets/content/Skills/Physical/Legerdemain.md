@@ -5,9 +5,9 @@ name:
     full: Legerdemain
     aliases: []
 description: "Sleight of hand, purse-cutting, juggling; intricate manual dexterity."
-id: YDqesb2eObxgrdAj
+id: CJxIqMc6kNXL3dxb
 slug: legerdemain
-img: icons/juggler.svg
+img: icons/game-icons/lorc/juggler.svg
 shortcode: lgdm
 type: skill
 package: sohl

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Obsessive
     aliases: []
-id: 85BcUCz2NtcJyduh
+id: T1sdYjCY9Miy4Btx
 slug: obsessive
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: obsssv
 type: trauma
 package: sohl

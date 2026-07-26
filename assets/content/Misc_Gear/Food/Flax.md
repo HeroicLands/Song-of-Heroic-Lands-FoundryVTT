@@ -7,9 +7,9 @@ name:
     full: Flax
     aliases: []
 description: "Dried stalks; raw material of linen, seeds press for oil and meal."
-id: JM9iO6ZoKdjHWb4h
+id: 9nG57yrVhtg7YMkH
 slug: flax
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: flax
 type: miscgear
 package: sohl

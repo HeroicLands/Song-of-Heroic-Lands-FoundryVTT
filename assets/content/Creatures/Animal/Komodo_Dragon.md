@@ -6,12 +6,12 @@ tags:
 name:
     full: Komodo Dragon
     aliases: []
-id: 0TnltkVa8UfgoZ20
+id: getyv8Y5C6ktjC6B
 slug: komodo-dragon
-img: images/komodo-dragon-headshot.webp
-portrait: images/komodo-dragon.webp
+img: icons/game-icons/lorc/gecko.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Independent
     aliases: []
-id: i3YlL1ie9QNFO9dh
+id: DT52JKFZj5MVKqb1
 slug: independent
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: indpndnt
 type: trauma
 package: sohl

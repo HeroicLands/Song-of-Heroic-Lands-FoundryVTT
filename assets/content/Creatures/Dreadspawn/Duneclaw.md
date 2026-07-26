@@ -6,12 +6,12 @@ tags:
 name:
     full: Duneclaw
     aliases: []
-id: AcJinfRJfSP4WXAT
+id: 2DpHrcNw4BfmRgld
 slug: duneclaw
-img: images/duneclaw-headshot.webp
-portrait: images/duneclaw.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 20

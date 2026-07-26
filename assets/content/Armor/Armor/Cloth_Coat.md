@@ -6,9 +6,9 @@ name:
     full: Cloth Coat
     aliases: []
 description: "Simple cloth coat providing comfort and warmth for everyday use."
-id: hbyRqFz6JdivHn38
+id: l84fJfEPdMbtWROO
 slug: cloth-coat
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: CCoat
 type: armorgear
 package: sohl

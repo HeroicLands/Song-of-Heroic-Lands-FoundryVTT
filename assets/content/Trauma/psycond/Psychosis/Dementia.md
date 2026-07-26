@@ -4,9 +4,9 @@ tags: []
 name:
     full: Dementia
     aliases: []
-id: LJDH9DS7XwWIoFcO
+id: 0chhkNL2KxIEXxeE
 slug: dementia
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dementia
 type: trauma
 package: sohl

@@ -6,12 +6,12 @@ tags:
 name:
     full: Mammoth Centipede
     aliases: []
-id: DwpAJXOGfBrNcvQh
+id: DQLxBAAPzYaUa5K2
 slug: mammoth-centipede
-img: images/mammoth-centipede-headshot.webp
-portrait: images/mammoth-centipede.webp
+img: icons/game-icons/lorc/centipede.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 11

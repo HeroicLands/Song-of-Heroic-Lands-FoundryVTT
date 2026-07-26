@@ -6,12 +6,12 @@ tags:
 name:
     full: Abyssal Silt
     aliases: []
-id: GCS6qKbHuZdHpbcY
+id: 1afcBWsxQXPUIBxG
 slug: abyssal-silt
-img: images/abyssal-silt-headshot.webp
-portrait: images/abyssal-silt.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 14

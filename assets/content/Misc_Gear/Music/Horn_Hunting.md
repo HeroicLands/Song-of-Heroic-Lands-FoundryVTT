@@ -7,9 +7,9 @@ name:
     full: "Horn, Hunting"
     aliases: []
 description: "Curved ram-bullock horn; sharp clear signals coordinate huntsmen and call hounds."
-id: oMxquMAN0nIiaNMO
+id: WpGX1K3fmfuXFE9Y
 slug: horn-hunting
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hornhuntin
 type: miscgear
 package: sohl

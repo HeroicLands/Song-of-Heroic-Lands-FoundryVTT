@@ -1,7 +1,7 @@
 ---
 aliases:
     - Mystery
-id: 9iQzeBgORsCLKlYw
+id: 6fJTkfpqjc4srAqd
 type: doc
 package: sohl
 category: user-guide

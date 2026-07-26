@@ -6,12 +6,12 @@ tags:
 name:
     full: Wild Boar
     aliases: []
-id: UjYPmo9c2tSU4Qo0
+id: 8SaQoBO7t7QGurHE
 slug: wild-boar
-img: images/wild-boar-headshot.webp
-portrait: images/wild-boar.webp
+img: icons/game-icons/caro-asercion/boar.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 20

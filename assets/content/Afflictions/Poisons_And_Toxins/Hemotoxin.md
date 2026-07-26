@@ -5,9 +5,9 @@ name:
     full: Hemotoxin
     aliases: []
 description: "Venom that destroys red blood cells; severe tissue damage and bleeding."
-id: qgDF3vVDt9BX1B93
+id: YYZ9ERUcdCfROEK5
 slug: hemotoxin
-img: icons/poison-bottle.svg
+img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: hemotxn
 type: affliction
 package: sohl

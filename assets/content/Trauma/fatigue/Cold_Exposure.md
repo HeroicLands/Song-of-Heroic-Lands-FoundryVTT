@@ -6,9 +6,9 @@ name:
     full: Cold Exposure
     aliases: []
 description: "Sustained weariness from prolonged cold exposure short of hypothermia."
-id: vxMjGToFPuOzXihx
+id: 3r8IGjIBY9yG26cD
 slug: cold-exposure
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: coldexp
 type: trauma
 package: sohl

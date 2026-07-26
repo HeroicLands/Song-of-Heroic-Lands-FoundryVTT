@@ -4,9 +4,9 @@ tags: []
 name:
     full: Pteronophobia
     aliases: []
-id: 9aHymZBx4r5j4ztB
+id: tYbkwucE3cD8QITZ
 slug: pteronophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: ptrnphb
 type: trauma
 package: sohl

@@ -5,9 +5,9 @@ name:
     full: Dancing
     aliases: []
 description: "Performing formal and folk dances; elevating social gatherings with grace."
-id: SDwtBltYD0tQAXRG
+id: TF3mC3ZBxSZubKF4
 slug: dancing
-img: icons/dance.svg
+img: icons/game-icons/delapouite/ballerina-shoes.svg
 shortcode: dnce
 type: skill
 package: sohl

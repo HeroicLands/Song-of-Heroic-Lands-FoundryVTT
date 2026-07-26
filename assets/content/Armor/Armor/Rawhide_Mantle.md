@@ -6,9 +6,9 @@ name:
     full: Rawhide Mantle
     aliases: []
 description: "Heavy hide cloak; harsh-weather outer layer."
-id: aB6yRchVrmiDnQj4
+id: 3QTcJDMzx1IOZRTF
 slug: rawhide-mantle
-img: icons/mantle.svg
+img: icons/game-icons/delapouite/cape.svg
 shortcode: RhMntl
 type: armorgear
 package: sohl

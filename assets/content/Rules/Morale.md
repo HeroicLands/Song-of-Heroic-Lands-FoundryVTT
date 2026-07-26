@@ -4,7 +4,7 @@ aliases:
     - Morale Test
     - Rally Test
     - Reaction Test
-id: Mor4l3Kp9mQ2vT7x
+id: IU0kmnnoED2zPkay
 type: doc
 package: sohl
 category: rules

@@ -6,9 +6,9 @@ name:
     full: Rawhide Calf Boots
     aliases: []
 description: "Stout hide boots; heavy protection for rough travel."
-id: oOOMdsP9QBnFL6yp
+id: G4fHOgIaPuEswpDb
 slug: rawhide-calf-boots
-img: icons/leather-boot.svg
+img: icons/game-icons/lorc/leather-boot.svg
 shortcode: RhCBoot
 type: armorgear
 package: sohl

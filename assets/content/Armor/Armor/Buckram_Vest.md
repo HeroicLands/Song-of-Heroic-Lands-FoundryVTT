@@ -6,9 +6,9 @@ name:
     full: Buckram Vest
     aliases: []
 description: "Stiff buckram vest offering durable and reliable rigid fit."
-id: tA6c2cLWEbw5Cnzu
+id: 6z8YBH8EKWdilDr1
 slug: buckram-vest
-img: icons/vest.svg
+img: icons/game-icons/lorc/leather-vest.svg
 shortcode: BVest
 type: armorgear
 package: sohl

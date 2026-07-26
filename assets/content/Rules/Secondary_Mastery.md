@@ -3,7 +3,7 @@ aliases:
     - Secondary Mastery
     - Secondary Modifier
     - Secondary Roll
-id: l1HN7M0DP05cWxLm
+id: ZhOMhPquPY5qPyCU
 type: doc
 package: sohl
 category: rules

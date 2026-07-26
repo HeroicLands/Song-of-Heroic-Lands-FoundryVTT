@@ -7,12 +7,12 @@ tags:
 name:
     full: Gazelle
     aliases: []
-id: Qv7nWxTk3RpBmY8L
+id: RwQKjvaCuKSBw2TD
 slug: gazelle
-img: images/gazelle-headshot.webp
-portrait: images/gazelle.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 9

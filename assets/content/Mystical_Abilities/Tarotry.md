@@ -5,9 +5,9 @@ name:
     full: Tarotry
     aliases: []
 description: "Divining hidden truths through the reading of cards and symbolic tokens."
-id: V9Jm2BeuyksJEC4l
+id: fUCUOIumo1t0GIQ1
 slug: tarotry
-img: icons/tarotry.svg
+img: icons/game-icons/faithtoken/card-random.svg
 shortcode: tarot
 type: mysticalability
 package: sohl

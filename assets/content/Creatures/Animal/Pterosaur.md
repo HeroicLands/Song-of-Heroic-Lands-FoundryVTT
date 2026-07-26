@@ -6,12 +6,12 @@ tags:
 name:
     full: Pterosaur
     aliases: []
-id: 9LKRvtRnPkpb2JBi
+id: zueyvDAb2JF9wc8p
 slug: pterosaur
-img: images/pterosaur-headshot.webp
-portrait: images/pterosaur.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 19

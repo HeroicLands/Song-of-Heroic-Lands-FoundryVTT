@@ -6,12 +6,12 @@ tags:
 name:
     full: Nightwraith
     aliases: []
-id: 0NE6dWbx8FtYiJdp
+id: ep28BnO3DsmrKAf2
 slug: nightwraith
-img: images/nightwraith-headshot.webp
-portrait: images/nightwraith.webp
+img: icons/game-icons/lorc/spectre.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 14

@@ -6,12 +6,12 @@ tags:
 name:
     full: Steppe Lion
     aliases: []
-id: guPtg1E0QzSUlvzT
+id: qzveOIr4oOPGkWen
 slug: steppe-lion
-img: images/steppe-lion-headshot.webp
-portrait: images/steppe-lion.webp
+img: icons/game-icons/lorc/lion.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

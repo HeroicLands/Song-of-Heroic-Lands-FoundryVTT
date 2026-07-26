@@ -7,12 +7,12 @@ tags:
 name:
     full: Ostrich
     aliases: []
-id: Hp4zRtWn7VxKqM2Y
+id: a2TPhQDzEJLjlYMv
 slug: ostrich
-img: images/ostrich-headshot.webp
-portrait: images/ostrich.webp
+img: icons/game-icons/delapouite/cassowary-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 14

@@ -6,12 +6,12 @@ tags:
 name:
     full: Forest Goblin
     aliases: []
-id: aJaOTRRI9pJCkNOP
+id: B24v0x403YmclrJb
 slug: forest-goblin
-img: images/forest-goblin-headshot.webp
-portrait: images/forest-goblin.webp
+img: icons/game-icons/caro-asercion/goblin.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 8

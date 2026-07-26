@@ -8,10 +8,10 @@ name:
 description: "Light narrow shaft, small square spike; pierces light mail, flat trajectory."
 type: projectilegear
 package: sohl
-id: hirca00MJKT3lqA9
+id: NnOZe07hIf924QvY
 slug: light-bodkin-bolt
 shortcode: BltLBod
-img: icons/arrow.svg
+img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Bodkin
 sohl:
     archetype: 0

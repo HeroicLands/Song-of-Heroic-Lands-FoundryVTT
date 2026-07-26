@@ -4,9 +4,9 @@ tags: []
 name:
     full: Perfectionist
     aliases: []
-id: GsfY3HGCxLkhJNQB
+id: 4xBiroorPi6nLdal
 slug: perfectionist
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: prfctnst
 type: trauma
 package: sohl

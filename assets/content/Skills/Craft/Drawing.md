@@ -5,9 +5,9 @@ name:
     full: Drawing
     aliases: []
 description: "Painting, sketching, fresco work; creating artistic and technical designs."
-id: WaeJaU0YihDlJ2pY
+id: in1KGfGdrkpLzd9N
 slug: drawing
-img: icons/drawing.svg
+img: icons/game-icons/badges/pencil.svg
 shortcode: draw
 type: skill
 package: sohl

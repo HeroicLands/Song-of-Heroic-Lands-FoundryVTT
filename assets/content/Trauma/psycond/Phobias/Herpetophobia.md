@@ -4,9 +4,9 @@ tags: []
 name:
     full: Herpetophobia
     aliases: []
-id: qfm5oP7YGtA72I2j
+id: ewJ47b2h2aEwNULS
 slug: herpetophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: hrptphb
 type: trauma
 package: sohl

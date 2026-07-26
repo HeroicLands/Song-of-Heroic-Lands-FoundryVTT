@@ -6,9 +6,9 @@ name:
     full: "Inkwell, glass"
     aliases: []
 description: "Fine blown glass inkwell for wealthy scholar or scribe."
-id: g98pRZzh0BRrDXiw
+id: IL6RDwBDRTgCdZ1o
 slug: inkwell-glass
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: inkwellgla
 type: containergear
 package: sohl

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Heliophobia
     aliases: []
-id: Cibi8DwlN9BZfocP
+id: CnSrfzCfNcWtmrYO
 slug: heliophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: heliophb
 type: trauma
 package: sohl

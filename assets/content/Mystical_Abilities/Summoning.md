@@ -5,9 +5,9 @@ name:
     full: Summoning
     aliases: []
 description: "Calling and compelling spirits, forces, or beings from beyond the physical world."
-id: 2SAir9JKa3rd7UbR
+id: oXYa53IldDytbfFq
 slug: summoning
-img: icons/enrage.svg
+img: icons/game-icons/delapouite/enrage.svg
 shortcode: summ
 type: mysticalability
 package: sohl

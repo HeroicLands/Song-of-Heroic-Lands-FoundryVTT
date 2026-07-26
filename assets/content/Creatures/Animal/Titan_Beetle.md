@@ -6,12 +6,12 @@ tags:
 name:
     full: Titan Beetle
     aliases: []
-id: kb4xhF39tewQD9Mb
+id: uIJSscPVcBwVMyGp
 slug: titan-beetle
-img: images/titan-beetle-headshot.webp
-portrait: images/titan-beetle.webp
+img: icons/game-icons/lorc/scarab-beetle.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 21

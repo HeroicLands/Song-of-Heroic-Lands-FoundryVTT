@@ -4,9 +4,9 @@ tags: []
 name:
     full: Acrophobia
     aliases: []
-id: nSZ1V5R7JrSMFyI3
+id: RIMqNQLf9x9rCps3
 slug: acrophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: acrophb
 type: trauma
 package: sohl

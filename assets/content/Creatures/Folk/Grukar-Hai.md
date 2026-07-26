@@ -6,12 +6,12 @@ tags:
 name:
     full: Grukar-Hai
     aliases: []
-id: vbBAbyizJxpKpqYc
+id: NVtoBlsW4OFbRG4i
 slug: grukar-hai
-img: images/grukar-hai-headshot.webp
-portrait: images/grukar-hai.webp
+img: icons/game-icons/delapouite/orc-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 21

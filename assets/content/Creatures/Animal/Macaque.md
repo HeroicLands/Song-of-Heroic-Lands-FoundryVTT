@@ -8,12 +8,12 @@ tags:
 name:
     full: Macaque
     aliases: []
-id: Dp6nYxWk3TvRqM8C
+id: Wd9cQgzgGxgMomn7
 slug: macaque
-img: images/macaque-headshot.webp
-portrait: images/macaque.webp
+img: icons/game-icons/lorc/monkey.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 8

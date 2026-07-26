@@ -4,9 +4,9 @@ tags: []
 name:
     full: Stoic
     aliases: []
-id: vYZQa3HWedJDzOOh
+id: 45MGHY670oB7A5ln
 slug: stoic
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: stoic
 type: trauma
 package: sohl

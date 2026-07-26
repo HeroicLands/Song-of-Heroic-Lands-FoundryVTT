@@ -4,9 +4,9 @@ tags: []
 name:
     full: Thaumatophobia
     aliases: []
-id: iSyY0kLWhbgehtFa
+id: QDnPROa6EooJldMK
 slug: thaumatophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: thmtphb
 type: trauma
 package: sohl

@@ -7,9 +7,9 @@ name:
     full: "Dice, pack of 6"
     aliases: []
 description: "Six bone or wooden dice; used in taverns and camps for gaming."
-id: J2HDhv9H0bHl8e1u
+id: MfCpEdDwrJovwGCc
 slug: dice-pack-of-6
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: dicepackof
 type: miscgear
 package: sohl

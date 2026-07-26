@@ -8,10 +8,10 @@ name:
 description: "Thick shaft, four-sided iron spike; pierces plate, mail, gambeson up close."
 type: projectilegear
 package: sohl
-id: ZBYxuZe1wl5mKs6V
+id: rNZGHJbveWGRoidQ
 slug: heavy-bodkin-arrow
 shortcode: ArwHBod
-img: icons/arrow.svg
+img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Heavy Bodkin
 sohl:
     archetype: 0

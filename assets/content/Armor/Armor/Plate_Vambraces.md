@@ -6,9 +6,9 @@ name:
     full: Plate Vambraces
     aliases: []
 description: "Steel forearm-guards; protects wrists and inner arms."
-id: pdjZX817oAp0T2ON
+id: VNnWgvw6fBMJxx00
 slug: plate-vambraces
-img: icons/bracer.svg
+img: icons/game-icons/delapouite/bracer.svg
 shortcode: PlVamb
 type: armorgear
 package: sohl

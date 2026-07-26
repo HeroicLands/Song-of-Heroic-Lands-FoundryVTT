@@ -6,12 +6,12 @@ tags:
 name:
     full: Frostmaw
     aliases: []
-id: r1GDASfuRCrIN6qX
+id: eUOcXzXo2vWIG2sf
 slug: frostmaw
-img: images/frostmaw-headshot.webp
-portrait: images/frostmaw.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

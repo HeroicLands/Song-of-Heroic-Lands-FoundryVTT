@@ -7,9 +7,9 @@ name:
     full: "Jankorez, cut"
     aliases: []
 description: "Rare pale blue-white gem; clarity rivals diamonds; royal use only."
-id: k8xEDWkBpylxS89d
+id: hQmMPH6YyURDjcCB
 slug: jankorez-cut
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jankorezcu
 type: miscgear
 package: sohl

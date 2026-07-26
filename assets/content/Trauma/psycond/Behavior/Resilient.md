@@ -4,9 +4,9 @@ tags: []
 name:
     full: Resilient
     aliases: []
-id: dhwWuJM5gqXq1fBU
+id: g28yHTzC5UZKea80
 slug: resilient
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: rslnt
 type: trauma
 package: sohl

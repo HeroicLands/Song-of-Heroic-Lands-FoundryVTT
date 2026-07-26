@@ -6,12 +6,12 @@ tags:
 name:
     full: Ironjaw
     aliases: []
-id: XAufcUtKYQyICDDH
+id: HKFCGWSqLCYSzPqf
 slug: ironjaw
-img: images/ironjaw-headshot.webp
-portrait: images/ironjaw.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

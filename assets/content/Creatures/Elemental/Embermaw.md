@@ -6,12 +6,12 @@ tags:
 name:
     full: Embermaw
     aliases: []
-id: aE2vcXaEIbL1H3q9
+id: Q2oJByEiRbME0lGy
 slug: embermaw
-img: images/embermaw-headshot.webp
-portrait: images/embermaw.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

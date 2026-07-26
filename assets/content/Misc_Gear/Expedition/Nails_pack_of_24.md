@@ -7,9 +7,9 @@ name:
     full: "Nails, pack of 24"
     aliases: []
 description: "Mixed iron nails for quick repairs and affixing tent frames."
-id: 5qhxdoq30JjvkhUr
+id: MWtDunXasiSfpBca
 slug: nails-pack-of-24
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: nailspacko
 type: miscgear
 package: sohl

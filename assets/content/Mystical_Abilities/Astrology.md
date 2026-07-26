@@ -5,9 +5,9 @@ name:
     full: Astrology
     aliases: []
 description: "Charting celestial bodies; interpreting alignments to divine fate and truth."
-id: 5oD9W0X60sEkNsqH
+id: xSuXXuS0hRjrSdzR
 slug: astrology
-img: icons/astrology.svg
+img: icons/game-icons/lorc/star-swirl.svg
 shortcode: astr
 type: mysticalability
 package: sohl

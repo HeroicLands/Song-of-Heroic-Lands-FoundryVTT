@@ -7,12 +7,12 @@ tags:
 name:
     full: Leopard
     aliases: []
-id: Zy5gNcMv2XpTwK7Q
+id: lJN45xvUq16hhJYG
 slug: leopard
-img: images/leopard-headshot.webp
-portrait: images/leopard.webp
+img: icons/game-icons/delapouite/feline.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

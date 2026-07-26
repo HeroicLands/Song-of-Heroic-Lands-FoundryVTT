@@ -6,12 +6,12 @@ tags:
 name:
     full: Necrotic Mire
     aliases: []
-id: 9kj0im7ByCh6WOTA
+id: a2al6XRUzVftGyhp
 slug: necrotic-mire
-img: images/necrotic-mire-headshot.webp
-portrait: images/necrotic-mire.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 12

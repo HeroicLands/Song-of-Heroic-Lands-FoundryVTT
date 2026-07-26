@@ -4,9 +4,9 @@ tags: []
 name:
     full: Venustraphobia
     aliases: []
-id: YVCvUKX0zA3XDZlQ
+id: kstk9eIcAnEvuVQg
 slug: venustraphobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: vnstrphb
 type: trauma
 package: sohl

@@ -6,12 +6,12 @@ tags:
 name:
     full: Raven
     aliases: []
-id: 5Ub7SnHvhqhUDouP
+id: anLTCI9lpmxYgalD
 slug: raven
-img: images/raven-headshot.webp
-portrait: images/raven.webp
+img: icons/game-icons/lorc/raven.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 5

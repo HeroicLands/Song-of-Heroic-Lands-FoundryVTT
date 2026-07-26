@@ -12,13 +12,15 @@
  */
 
 /*
- * Builds the "SoHL Icons" webfont from every SVG in assets/icons/.
+ * Builds the "game-icons.net" webfont from every SVG in assets/icons/game-icons/.
+ * Each glyph is normalized to a bare black path (background rect dropped,
+ * foreground forced to #000) via transparentize-svg.mjs before rasterization.
  *
  * Pipeline: SVG files -> SVG font (svgicons2svgfont) -> TTF (svg2ttf)
  * -> WOFF2 (ttf2woff2). Emits three committed artifacts:
- *   - assets/fonts/sohl-icons.woff2       (the font)
+ *   - assets/fonts/game-icons.woff2       (the font)
  *   - scss/abstracts/_icons.scss              (@font-face + .sohl-<name> rules)
- *   - assets/icons/icon-codepoints.json   (stable name -> codepoint map)
+ *   - assets/icons/game-icons-codepoints.json (stable name -> codepoint map)
  *
  * The codepoint map is persisted so each icon keeps the same Private Use Area
  * glyph across regenerations — adding or removing an icon never shifts the
@@ -42,23 +44,30 @@ import { SVGIcons2SVGFontStream } from "svgicons2svgfont";
 import svg2ttf from "svg2ttf";
 import ttf2woff2 from "ttf2woff2";
 import { optimize } from "svgo";
+import { globSync } from "glob";
+import { transparentizeSvg } from "./transparentize-svg.mjs";
 
-const ICONS_DIR = "assets/icons";
+const ICONS_DIR = "assets/icons/game-icons";
 const TEMPLATES_DIR = "templates";
-const CODEPOINTS_PATH = join(ICONS_DIR, "icon-codepoints.json");
-const WOFF2_PATH = "assets/fonts/sohl-icons.woff2";
+const CODEPOINTS_PATH = "assets/icons/game-icons-codepoints.json";
+const WOFF2_PATH = "assets/fonts/game-icons.woff2";
+const WOFF2_BASENAME = "game-icons.woff2";
 const SCSS_PATH = "scss/abstracts/_icons.scss";
-const CLASS_PREFIX = "sohl-";
-const FONT_NAME = "SoHL Icons";
+const CLASS_PREFIX = "ginf-";
+const FONT_NAME = "game-icons.net";
 const FONT_HEIGHT = 1000;
 const PUA_START = 0xe001; // first Private Use Area codepoint
 
 /** Collect `{ name, path }` for every icon SVG, sorted by name. */
 function readIcons() {
-    return readdirSync(ICONS_DIR)
-        .filter((f) => f.toLowerCase().endsWith(".svg"))
-        .map((f) => ({ name: basename(f, ".svg"), path: join(ICONS_DIR, f) }))
-        .sort((a, b) => a.name.localeCompare(b.name));
+    // The game-icons set nests by author and has a few duplicate basenames
+    // across authors; sort paths so the winner is deterministic, keep first.
+    const seen = new Map();
+    for (const p of globSync(`${ICONS_DIR}/**/*.svg`).sort()) {
+        const name = basename(p, ".svg");
+        if (!seen.has(name)) seen.set(name, { name, path: p });
+    }
+    return [...seen.values()].sort((a, b) => a.name.localeCompare(b.name));
 }
 
 /**
@@ -203,7 +212,7 @@ function buildSvgFont(icons, codepoints) {
 
         for (const icon of icons) {
             const svg = normalizeSvg(
-                readFileSync(icon.path, "utf8"),
+                transparentizeSvg(readFileSync(icon.path, "utf8")),
                 icon.name,
             );
             const glyph = Readable.from(svg);
@@ -241,7 +250,7 @@ function writeScss(icons, codepoints) {
     font-family: "${FONT_NAME}";
     font-style: normal;
     font-weight: 400;
-    src: url("../assets/fonts/sohl-icons.woff2") format("woff2");
+    src: url("../assets/fonts/${WOFF2_BASENAME}") format("woff2");
 }
 
 [class^="${CLASS_PREFIX}"]::before,
@@ -262,14 +271,15 @@ ${rules}
     writeFileSync(SCSS_PATH, scss);
 }
 
-/** Recursively gather every `sohl-<name>` class token referenced in templates. */
+/** Recursively gather every `ginf-<name>` class token referenced in templates. */
 function collectTemplateRefs(dir, refs = new Set()) {
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
         const full = join(dir, entry.name);
         if (entry.isDirectory()) collectTemplateRefs(full, refs);
         else if (entry.name.endsWith(".hbs")) {
             const text = readFileSync(full, "utf8");
-            for (const m of text.matchAll(/\bsohl-[a-z0-9-]+/g)) refs.add(m[0]);
+            const re = new RegExp(`\\b${CLASS_PREFIX}[a-z0-9-]+`, "g");
+            for (const m of text.matchAll(re)) refs.add(m[0]);
         }
     }
     return refs;
@@ -283,11 +293,11 @@ function reportCoverage(icons) {
     const missing = refs.filter((r) => !glyphClasses.has(r));
     if (missing.length) {
         console.warn(
-            `\n⚠️  ${missing.length} \`sohl-*\` class(es) used in templates have NO matching glyph:`,
+            `\n⚠️  ${missing.length} \`${CLASS_PREFIX}*\` class(es) used in templates have NO matching glyph:`,
         );
         for (const r of missing) console.warn(`     • ${r}`);
         console.warn(
-            "     (add an SVG to assets/icons/ or keep these on Font Awesome)",
+            `     (add an SVG under ${ICONS_DIR}/ or keep these on Font Awesome)`,
         );
     }
 }

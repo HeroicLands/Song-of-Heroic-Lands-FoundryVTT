@@ -6,12 +6,12 @@ tags:
 name:
     full: Sky Serpent
     aliases: []
-id: w0TXT9cGJCo3qCDo
+id: IufOc6e3iYJZ46GV
 slug: sky-serpent
-img: images/sky-serpent-headshot.webp
-portrait: images/sky-serpent.webp
+img: icons/game-icons/lorc/harpy.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 21

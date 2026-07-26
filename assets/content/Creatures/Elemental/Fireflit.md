@@ -6,12 +6,12 @@ tags:
 name:
     full: Fireflit
     aliases: []
-id: bNx48eyaAIVjQNTo
+id: WTtS70pyqXortIMX
 slug: fireflit
-img: images/fireflit-headshot.webp
-portrait: images/fireflit.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         end: 6

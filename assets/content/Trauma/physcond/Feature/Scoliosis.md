@@ -4,9 +4,9 @@ tags: []
 name:
     full: Scoliosis
     aliases: []
-id: yzhCnjJtsjCSXq8S
+id: H7iZYjKLbxq25bRs
 slug: scoliosis
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: sclss
 type: trauma
 package: sohl

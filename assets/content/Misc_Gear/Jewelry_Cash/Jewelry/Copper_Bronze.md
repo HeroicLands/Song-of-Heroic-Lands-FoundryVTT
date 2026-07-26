@@ -7,9 +7,9 @@ name:
     full: Copper/Bronze
     aliases: []
 description: "Melted, cast ingots or sheets; resists weathering, worked into vessels and ornaments."
-id: 79B9Myc10z257sk1
+id: N4Qx4O6buCoIOQgP
 slug: copper-bronze
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: copperbron
 type: miscgear
 package: sohl

@@ -7,9 +7,9 @@ name:
     full: Garlic bulb
     aliases: []
 description: "Papery-skinned bulb of cloves; sharp pungent seasoning, keeps for months."
-id: bfCRFzGeKx5Ldg0A
+id: P1BWxECTXvblbBfV
 slug: garlic-bulb
-img: icons/herblore.svg
+img: icons/game-icons/delapouite/herbs-bundle.svg
 shortcode: garlic
 type: miscgear
 package: sohl

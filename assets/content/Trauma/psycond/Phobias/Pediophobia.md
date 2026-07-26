@@ -4,9 +4,9 @@ tags: []
 name:
     full: Pediophobia
     aliases: []
-id: H8XV0tS2HrBIgLj4
+id: TbK0FLyZdHmrdBQG
 slug: pediophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: pediophb
 type: trauma
 package: sohl

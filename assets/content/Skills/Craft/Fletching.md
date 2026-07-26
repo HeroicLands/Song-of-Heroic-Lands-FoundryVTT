@@ -5,9 +5,9 @@ name:
     full: Fletching
     aliases: []
 description: "Crafting bows, crossbows, arrows; producing reliable or masterwork projectile weapons."
-id: tXcVbkB8qJsiBENc
+id: MMWQAgkjekFMjaqw
 slug: fletching
-img: icons/arrow.svg
+img: icons/game-icons/lorc/broadhead-arrow.svg
 shortcode: fltch
 type: skill
 package: sohl

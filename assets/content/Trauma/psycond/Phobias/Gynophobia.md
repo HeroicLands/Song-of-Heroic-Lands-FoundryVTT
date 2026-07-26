@@ -4,9 +4,9 @@ tags: []
 name:
     full: Gynophobia
     aliases: []
-id: xTOqTJtdibWnsxZz
+id: kKzle4wma82HHV6P
 slug: gynophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: gynophb
 type: trauma
 package: sohl

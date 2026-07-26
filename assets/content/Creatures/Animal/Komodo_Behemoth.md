@@ -6,12 +6,12 @@ tags:
 name:
     full: Komodo Behemoth
     aliases: []
-id: Ys9KFAMsWRpI1QwK
+id: 2cHRBpFKXGd8RaX4
 slug: komodo-behemoth
-img: images/komodo-behemoth-headshot.webp
-portrait: images/komodo-behemoth.webp
+img: icons/game-icons/lorc/gecko.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Reliable
     aliases: []
-id: 5Zsxcn7h93tBRuXT
+id: HaH5IBQkedazZpYF
 slug: reliable
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: reliable
 type: trauma
 package: sohl

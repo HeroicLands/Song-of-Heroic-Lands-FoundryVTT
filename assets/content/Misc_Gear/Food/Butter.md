@@ -7,9 +7,9 @@ name:
     full: Butter
     aliases: []
 description: "Pale yellow churned cream; enriches vegetables, fries meat, keeps better salted."
-id: fuq6ux6kOcuTcrZP
+id: yE5edoNgm7mC9vmH
 slug: butter
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: butter
 type: miscgear
 package: sohl

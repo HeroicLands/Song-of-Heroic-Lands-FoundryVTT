@@ -5,9 +5,9 @@ name:
     full: Jewelcraft
     aliases: []
 description: "Gem-cutting, goldsmithing, creating fine ornamental metalwork and jewelry."
-id: pBeZLWzAeAEZAsWt
+id: 8CHbTSbJ1aOVyqx7
 slug: jewelcraft
-img: icons/jewel.svg
+img: icons/game-icons/lorc/gems.svg
 shortcode: jewl
 type: skill
 package: sohl

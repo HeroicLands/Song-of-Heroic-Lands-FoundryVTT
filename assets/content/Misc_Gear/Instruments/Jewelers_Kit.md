@@ -7,9 +7,9 @@ name:
     full: Jeweler's Kit
     aliases: []
 description: "Fine leather roll with graduated files, pin hammer, pliers, loupe, tweezers, drawplate, burnishers; goldsmiths' precision tools."
-id: kJ7rPq2nXmVbY4tL
+id: E00iP87U4KX47oJl
 slug: jewelers-kit
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jewelerskt
 type: miscgear
 package: sohl

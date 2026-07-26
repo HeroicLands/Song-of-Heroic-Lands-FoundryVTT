@@ -8,10 +8,10 @@ name:
 description: "Smooth river pebble or kiln-fired clay; cracks skulls, breaks hound legs."
 type: projectilegear
 package: sohl
-id: kAuoiJh4ONFQRVNG
+id: y4TUxJVQbQYoQThq
 slug: sling-stone
 shortcode: SSton
-img: icons/stones.svg
+img: icons/game-icons/delapouite/stone-pile.svg
 easyname: Stone
 sohl:
     archetype: 0

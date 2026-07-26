@@ -6,9 +6,9 @@ name:
     full: Worsted Swaddle
     aliases: []
 description: "Tightly-spun wool swaddle; warm, durable infant wrapping."
-id: jyRw6Eak0pvOYHj3
+id: XboDwT4ffMEJaGNr
 slug: worsted-swaddle
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: WSwd
 type: armorgear
 package: sohl

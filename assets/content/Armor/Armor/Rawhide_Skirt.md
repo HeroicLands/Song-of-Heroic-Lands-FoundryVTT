@@ -6,9 +6,9 @@ name:
     full: Rawhide Skirt
     aliases: []
 description: "Tough hide garment; leg coverage for hard labor."
-id: m8Ti0cVygASSOrTQ
+id: bmUPEN0bFc20MHqI
 slug: rawhide-skirt
-img: icons/skirt.svg
+img: icons/game-icons/delapouite/skirt.svg
 shortcode: RhSkirt
 type: armorgear
 package: sohl

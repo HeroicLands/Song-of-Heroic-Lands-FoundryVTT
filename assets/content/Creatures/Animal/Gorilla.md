@@ -6,12 +6,12 @@ tags:
 name:
     full: Gorilla
     aliases: []
-id: 8b84WfjOzOzxasfo
+id: bDs9MTm1QajerNwp
 slug: gorilla
-img: images/gorilla-headshot.webp
-portrait: images/gorilla.webp
+img: icons/game-icons/delapouite/gorilla.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 25

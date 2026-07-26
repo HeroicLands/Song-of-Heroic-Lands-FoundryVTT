@@ -7,9 +7,9 @@ name:
     full: Grimoire
     aliases: []
 description: "Leather-bound vellum tome for spells, catalogs, heraldry, scripture."
-id: Gm4vKzHj8cRyNpFu
+id: 4l2auY8DlPzAVMFN
 slug: grimoire
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: grimoire
 type: miscgear
 package: sohl

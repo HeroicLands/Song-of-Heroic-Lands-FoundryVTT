@@ -6,9 +6,9 @@ name:
     full: "Jar, lidded, medium"
     aliases: []
 description: "Stoneware jar for household storage of honey, jam, oil, or salt."
-id: 8VXvYrYf19amZ26S
+id: bldbp87wycGx7KL1
 slug: jar-lidded-medium
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jarliddedm
 type: containergear
 package: sohl

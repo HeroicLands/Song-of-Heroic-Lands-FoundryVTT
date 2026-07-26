@@ -5,9 +5,9 @@ name:
     full: Discourse
     aliases: []
 description: "Convincing through reasoned argument, evidence, and rhetorical skill."
-id: 8Bl2wEGbjtG0BIbh
+id: L3Glc3p57exL0wQK
 slug: discourse
-img: icons/face-to-face.svg
+img: icons/game-icons/delapouite/face-to-face.svg
 shortcode: dscr
 type: skill
 package: sohl

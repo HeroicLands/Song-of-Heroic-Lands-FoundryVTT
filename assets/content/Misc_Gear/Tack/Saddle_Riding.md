@@ -7,9 +7,9 @@ name:
     full: "Saddle, Riding"
     aliases: []
 description: "Ash-wood and leather frame, high pommel and cantle; supports rider comfortably."
-id: dvm9OsMDTGW6xggd
+id: gnMMGPDKR7revPLL
 slug: saddle-riding
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: saddleridi
 type: miscgear
 package: sohl

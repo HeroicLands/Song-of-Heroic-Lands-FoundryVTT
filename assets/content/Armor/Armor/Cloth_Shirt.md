@@ -6,9 +6,9 @@ name:
     full: Cloth Shirt
     aliases: []
 description: "Simple cloth shirt offering basic comfort and everyday coverage."
-id: DAsK1fJAoyZ6zH2t
+id: njwi2VwRTjXML9KJ
 slug: cloth-shirt
-img: icons/shirt.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: CShirt
 type: armorgear
 package: sohl

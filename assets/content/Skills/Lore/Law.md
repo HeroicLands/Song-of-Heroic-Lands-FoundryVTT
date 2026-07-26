@@ -5,9 +5,9 @@ name:
     full: Law
     aliases: []
 description: "Knowledge of legal codes, customs, judicial procedures, guild regulations."
-id: VsNFbPO46bCVDiMO
+id: fudqfR2nnjqpo5O7
 slug: law
-img: icons/law.svg
+img: icons/game-icons/lorc/scales.svg
 shortcode: law
 type: skill
 package: sohl

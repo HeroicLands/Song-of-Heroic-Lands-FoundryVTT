@@ -2,7 +2,7 @@
 aliases:
     - Infection
     - Infection Healing Test
-id: Inf3ct9nZp5cQ7wK
+id: IBt85lZEHXqxxoxp
 type: doc
 package: sohl
 category: rules

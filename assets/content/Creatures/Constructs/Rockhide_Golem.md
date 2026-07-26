@@ -6,12 +6,12 @@ tags:
 name:
     full: Rockhide Golem
     aliases: []
-id: macjCavPVAyzjGV9
+id: 5bCOMUSs7gQSkDPD
 slug: rockhide-golem
-img: images/rockhide-golem-headshot.webp
-portrait: images/rockhide-golem.webp
+img: icons/game-icons/delapouite/rock-golem.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 29

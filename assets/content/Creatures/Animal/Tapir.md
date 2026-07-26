@@ -7,12 +7,12 @@ tags:
 name:
     full: Tapir
     aliases: []
-id: Dn7pTxWq4RyKmB9L
+id: uL25TIgj48GJ02pY
 slug: tapir
-img: images/tapir-headshot.webp
-portrait: images/tapir.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 14

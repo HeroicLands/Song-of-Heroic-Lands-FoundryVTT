@@ -7,9 +7,9 @@ name:
     full: "Milk, goat"
     aliases: []
 description: "Tangy dairy curdles quickly into sharp cheese, richer than sheep's."
-id: igkphWJuv5nZwcq8
+id: jlsqjTtntXSF7cBi
 slug: milk-goat
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: milkgoat
 type: miscgear
 package: sohl

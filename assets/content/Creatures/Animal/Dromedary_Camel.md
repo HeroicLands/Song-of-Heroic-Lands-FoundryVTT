@@ -6,12 +6,12 @@ tags:
 name:
     full: Dromedary Camel
     aliases: []
-id: JPCPq1zKradYtOKZ
+id: pnpVKwADEnFpUPcL
 slug: dromedary-camel
-img: images/dromedary-camel-headshot.webp
-portrait: images/dromedary-camel.webp
+img: icons/game-icons/delapouite/camel-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 28

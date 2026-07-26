@@ -7,9 +7,9 @@ name:
     full: "Water, 1pt."
     aliases: []
 description: "Fresh-drawn well water, sustains traveler for light day, precious rationed."
-id: h7GKfseLjYDhBue2
+id: mxGYatEWGjscY4MH
 slug: water-1pt
-img: icons/potion.svg
+img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: Wtr1pt
 type: miscgear
 package: sohl

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Aggressive
     aliases: []
-id: 5ev18rXcqae4iKJw
+id: qwbbiKUydAbsn2tv
 slug: aggressive
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: aggr
 type: trauma
 package: sohl

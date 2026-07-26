@@ -4,9 +4,9 @@ tags: []
 name:
     full: Machiavellian
     aliases: []
-id: TZGyU6sVPMjbR0rM
+id: UyGbQku6nZrU9l78
 slug: machiavellian
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: mchvlln
 type: trauma
 package: sohl

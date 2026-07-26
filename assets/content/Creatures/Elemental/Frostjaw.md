@@ -6,12 +6,12 @@ tags:
 name:
     full: Frostjaw
     aliases: []
-id: S6fEafiurWlxZtJR
+id: 1qpvK28UB8kSIGR0
 slug: frostjaw
-img: images/frostjaw-headshot.webp
-portrait: images/frostjaw.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

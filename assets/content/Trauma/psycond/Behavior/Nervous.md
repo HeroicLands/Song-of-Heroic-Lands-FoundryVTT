@@ -4,9 +4,9 @@ tags: []
 name:
     full: Nervous
     aliases: []
-id: 6at32D2gYGRBmozj
+id: eAZExp10nrLByqV1
 slug: nervous
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: nervous
 type: trauma
 package: sohl

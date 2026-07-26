@@ -6,9 +6,9 @@ name:
     full: Padded Shirt
     aliases: []
 description: "Cushioned torso covering for warmth and cold weather protection."
-id: cHdatBhdqbwF9QOW
+id: 6xlSLAghi4ujcdEB
 slug: padded-shirt
-img: icons/shirt.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: PSht
 type: armorgear
 package: sohl

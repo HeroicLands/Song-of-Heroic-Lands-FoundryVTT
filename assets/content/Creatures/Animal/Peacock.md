@@ -8,12 +8,12 @@ tags:
 name:
     full: Peacock
     aliases: []
-id: Lm4nRxTq7WvYpK9B
+id: auTdTI38hYwuX3sr
 slug: peacock
-img: images/peacock-headshot.webp
-portrait: images/peacock.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 5

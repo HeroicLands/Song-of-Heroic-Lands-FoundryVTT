@@ -6,7 +6,7 @@ aliases:
     - Impairment
     - Injury Treatment
     - Injury Healing Test
-id: Inj9ryLv2Hk7pXq3
+id: uYTSRxsrEe4rBrM4
 type: doc
 package: sohl
 category: rules

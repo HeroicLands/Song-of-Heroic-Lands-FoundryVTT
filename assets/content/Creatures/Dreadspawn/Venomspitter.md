@@ -6,12 +6,12 @@ tags:
 name:
     full: Venomspitter
     aliases: []
-id: zjjV7KvZ1kwVT0L0
+id: YmCBrcF6Kw2CrctD
 slug: venomspitter
-img: images/venomspitter-headshot.webp
-portrait: images/venomspitter.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 8

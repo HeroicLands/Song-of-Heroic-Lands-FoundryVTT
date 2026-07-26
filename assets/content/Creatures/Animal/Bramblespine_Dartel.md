@@ -6,12 +6,12 @@ tags:
 name:
     full: Bramblespine Dartel
     aliases: []
-id: nDfT8uVUpvdQxW8F
+id: eDyiMoyAhdyDQpvk
 slug: bramblespine-dartel
-img: images/bramblespine-dartel-headshot.webp
-portrait: images/bramblespine-dartel.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

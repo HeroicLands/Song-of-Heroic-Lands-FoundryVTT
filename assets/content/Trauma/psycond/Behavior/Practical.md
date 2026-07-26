@@ -4,9 +4,9 @@ tags: []
 name:
     full: Practical
     aliases: []
-id: S9IdZB55skpgnmyr
+id: WyxYc20lGDaMlvyw
 slug: practical
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: prctcl
 type: trauma
 package: sohl

@@ -5,9 +5,9 @@ tags: []
 name:
     full: Cauliflower Ear
     aliases: []
-id: ZtFNokw8XgpFWSTX
+id: PHTurncaCRTdjyIj
 slug: cauliflower-ear
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: clflwrr
 type: trauma
 package: sohl

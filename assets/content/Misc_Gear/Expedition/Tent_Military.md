@@ -7,9 +7,9 @@ name:
     full: "Tent, Military"
     aliases: []
 description: "Rectangular pavilion for squads or command posts; requires wagon to haul."
-id: 75d4MqWJM0EQ7b22
+id: bicMXZpGW11RQ850
 slug: tent-military
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tentmilita
 type: miscgear
 package: sohl

@@ -6,9 +6,9 @@ name:
     full: Padded Leggings
     aliases: []
 description: "Cushioned leg coverings providing warmth for armor wear."
-id: 53VZLZbt0dYNqcM3
+id: puJfSP6LC70XqSOT
 slug: padded-leggings
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: PLeg
 type: armorgear
 package: sohl

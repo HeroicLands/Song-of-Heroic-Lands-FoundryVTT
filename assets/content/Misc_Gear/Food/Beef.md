@@ -7,9 +7,9 @@ name:
     full: Beef
     aliases: []
 description: "Fresh meat quartered or jointed; spoils quickly unless salted, smoked, jerked."
-id: gS306by6LbeePcB9
+id: ZsnHaMnpnDVEAdAg
 slug: beef
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: beef
 type: miscgear
 package: sohl

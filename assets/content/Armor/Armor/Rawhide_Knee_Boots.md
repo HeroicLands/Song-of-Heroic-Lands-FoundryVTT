@@ -6,9 +6,9 @@ name:
     full: Rawhide Knee Boots
     aliases: []
 description: "Rugged hide boots; leg protection in harsh terrain."
-id: sIfdA5eU8sTkwLHF
+id: EQ0pP5rQTr5vW5ZH
 slug: rawhide-knee-boots
-img: icons/leather-boot.svg
+img: icons/game-icons/lorc/leather-boot.svg
 shortcode: RhKBoot
 type: armorgear
 package: sohl

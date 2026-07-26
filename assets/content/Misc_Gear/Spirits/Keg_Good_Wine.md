@@ -7,9 +7,9 @@ name:
     full: Keg Good Wine
     aliases: []
 description: "Aged fine wine in keg; lord's cellar treasure, craftsman's yearly wage."
-id: mG9o4KXB3ZdTPKaA
+id: hGQxGAwqwXPVIhYf
 slug: keg-good-wine
-img: icons/wine-bottle.svg
+img: icons/game-icons/delapouite/wine-bottle.svg
 shortcode: gwinekeg
 type: miscgear
 package: sohl

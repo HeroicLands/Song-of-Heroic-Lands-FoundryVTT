@@ -6,9 +6,9 @@ name:
     full: Homespun Dress
     aliases: []
 description: "Simple homemade dress providing coverage and comfort."
-id: PV4cC3CyB5a3FfI1
+id: bDmChthDrGgnwJ8i
 slug: homespun-dress
-img: icons/dress.svg
+img: icons/game-icons/skoll/dress.svg
 shortcode: HsDress
 type: armorgear
 package: sohl

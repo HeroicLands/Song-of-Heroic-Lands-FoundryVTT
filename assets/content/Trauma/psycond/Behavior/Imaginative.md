@@ -4,9 +4,9 @@ tags: []
 name:
     full: Imaginative
     aliases: []
-id: r8UvDrxqEpKhB9kx
+id: iXMXRILiLs4Zbl8t
 slug: imaginative
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: imgntv
 type: trauma
 package: sohl

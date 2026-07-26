@@ -7,9 +7,9 @@ name:
     full: Raisins
     aliases: []
 description: "Dried grapes, chewy and portable, quick energy for soldiers and travelers."
-id: zxzQQo6rmeokvMNq
+id: GwlCKs0inxH9Bh9Y
 slug: raisins
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: raisins
 type: miscgear
 package: sohl

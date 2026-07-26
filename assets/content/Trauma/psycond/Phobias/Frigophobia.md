@@ -4,9 +4,9 @@ tags: []
 name:
     full: Frigophobia
     aliases: []
-id: 7yZSeugz0kIqAHTJ
+id: EC3nCe58jh7M4w26
 slug: frigophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: frigophb
 type: trauma
 package: sohl

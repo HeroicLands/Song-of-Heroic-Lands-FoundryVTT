@@ -4,9 +4,9 @@ tags: []
 name:
     full: Anthophobia
     aliases: []
-id: ChVKJ7tby0OahQcO
+id: XnufMkKabctrsnsH
 slug: anthophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: anthphb
 type: trauma
 package: sohl

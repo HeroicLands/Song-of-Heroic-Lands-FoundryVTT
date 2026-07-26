@@ -7,9 +7,9 @@ name:
     full: "Cider, Pint"
     aliases: []
 description: "Fermented apple cider; mellow lightly sour; autumn harvest-market drink."
-id: Nub0KfcQtcDjh72P
+id: 6EeWOWH2ZYEV3211
 slug: cider-pint
-img: icons/ale.svg
+img: icons/game-icons/lorc/beer-stein.svg
 shortcode: cdrpt
 type: miscgear
 package: sohl

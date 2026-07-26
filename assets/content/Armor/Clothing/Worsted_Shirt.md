@@ -6,9 +6,9 @@ name:
     full: Worsted Shirt
     aliases: []
 description: "Tightly-spun wool shirt; durable, practical garment for activities."
-id: msv34g3ueRmDyLm9
+id: 5b54D3dEpUwvhHbv
 slug: worsted-shirt
-img: icons/shirt.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: WShirt
 type: armorgear
 package: sohl

@@ -7,9 +7,9 @@ name:
     full: "Bell, tiny"
     aliases: []
 description: "Delicate brass bell; high thin tone; amulet or chamber summons."
-id: 9w0EKT6UxobJYmcr
+id: fJUhdF7Ltvntt56l
 slug: bell-tiny
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: belltiny
 type: miscgear
 package: sohl

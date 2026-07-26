@@ -4,9 +4,9 @@ tags: []
 name:
     full: Emetophobia
     aliases: []
-id: BvRoC2CR0VS5YaoE
+id: FGhuVRyPWItpRIS6
 slug: emetophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: emetophb
 type: trauma
 package: sohl

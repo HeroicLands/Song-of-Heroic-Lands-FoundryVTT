@@ -6,9 +6,9 @@ name:
     aliases:
         - Disease
 description: "Long-term weakness from carrying an active disease."
-id: gXK9Zm2AHlnglZsj
+id: gsxHptSAKPJcqCV3
 slug: diseased
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: disd
 type: trauma
 package: sohl

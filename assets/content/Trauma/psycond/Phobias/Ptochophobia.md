@@ -4,9 +4,9 @@ tags: []
 name:
     full: Ptochophobia
     aliases: []
-id: JECtd4Ed1Vp1b0te
+id: uceP15CRf8VGeqKv
 slug: ptochophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: ptchphb
 type: trauma
 package: sohl
