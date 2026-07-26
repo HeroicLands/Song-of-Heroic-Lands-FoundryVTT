@@ -16,7 +16,6 @@ folder: J9R0fnGUTBY5z4pd
 shortcode: aldrikharvenar
 slug: aldrik-harvenar
 img: images/aldrik-harvenar-headshot.webp
-draft: true
 portrait: images/aldrik-harvenar.webp
 type: character
 package: thalorna

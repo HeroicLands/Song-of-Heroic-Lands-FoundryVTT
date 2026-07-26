@@ -16,7 +16,6 @@ folder: 9t9O4iB5cYJtSaTG
 shortcode: alverriktarvall
 slug: alverrik-tarvallor
 img: images/alverrik-tarvallor-headshot.webp
-draft: true
 portrait: images/alverrik-tarvallor.webp
 type: character
 package: thalorna
