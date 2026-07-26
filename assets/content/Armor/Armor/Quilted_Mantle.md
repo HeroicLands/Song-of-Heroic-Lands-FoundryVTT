@@ -6,9 +6,9 @@ name:
     full: Quilted Mantle
     aliases: []
 description: "Layered shoulder-wrap; insulates without restriction."
-id: AOTxCBmXguJYUQ3B
+id: e6dlqgRLYAwuecer
 slug: quilted-mantle
-img: icons/mantle.svg
+img: icons/game-icons/delapouite/cape.svg
 shortcode: QMntl
 type: armorgear
 package: sohl

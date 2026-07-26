@@ -7,9 +7,9 @@ name:
     full: "Ink, Red"
     aliases: []
 description: "Vermilion or madder-root; reserved for titles, rubrication, illuminated capitals."
-id: Jt4DfHFx3I4Bqvjb
+id: fGtnJW4Or5chRpOZ
 slug: ink-red
-img: icons/ink.svg
+img: icons/game-icons/lorc/ink-swirl.svg
 shortcode: inkred
 type: miscgear
 package: sohl

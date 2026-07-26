@@ -6,12 +6,12 @@ tags:
 name:
     full: Falcon
     aliases: []
-id: vpoMu54qE7bHpemf
+id: Gs2wXshABfQ16Lc0
 slug: falcon
-img: images/falcon-headshot.webp
-portrait: images/falcon.webp
+img: icons/game-icons/delapouite/falcon-moon.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 6

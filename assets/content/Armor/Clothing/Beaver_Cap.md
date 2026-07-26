@@ -6,9 +6,9 @@ name:
     full: Beaver Cap
     aliases: []
 description: "Beaver fur cap offering warmth and luxury for high-status individuals."
-id: 11HXxzlylsxfNa2G
+id: WJr9xoOqr7eD70In
 slug: beaver-cap
-img: icons/cap.svg
+img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: BvCap
 type: armorgear
 package: sohl

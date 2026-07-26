@@ -4,9 +4,9 @@ tags: []
 name:
     full: Overconfident
     aliases: []
-id: KGyI4nHeKyUQVWUT
+id: fngDLImVxPbStZFh
 slug: overconfident
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: overconf
 type: trauma
 package: sohl

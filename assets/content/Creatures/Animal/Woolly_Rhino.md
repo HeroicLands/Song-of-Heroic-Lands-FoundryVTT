@@ -6,12 +6,12 @@ tags:
 name:
     full: Woolly Rhino
     aliases: []
-id: vAXZGM4F9KZUdNlL
+id: vxgCrkIE0FSMA3Ty
 slug: woolly-rhino
-img: images/woolly-rhino-headshot.webp
-portrait: images/woolly-rhino.webp
+img: icons/game-icons/delapouite/rhinoceros-horn.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

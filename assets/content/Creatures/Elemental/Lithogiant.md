@@ -6,12 +6,12 @@ tags:
 name:
     full: Lithogiant
     aliases: []
-id: 1dgZP3NELZVkbEay
+id: OBrElkIzfPrZaQbM
 slug: lithogiant
-img: images/lithogiant-headshot.webp
-portrait: images/lithogiant.webp
+img: icons/game-icons/delapouite/rock-golem.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 19

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Overachiever
     aliases: []
-id: iToEu4A6tvigomYB
+id: JBlNG1VriCxwttkR
 slug: overachiever
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: ovrchvr
 type: trauma
 package: sohl

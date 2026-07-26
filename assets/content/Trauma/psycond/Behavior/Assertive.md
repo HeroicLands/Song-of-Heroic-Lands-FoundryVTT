@@ -4,9 +4,9 @@ tags: []
 name:
     full: Assertive
     aliases: []
-id: pPonvD4K9NejLVpN
+id: FMQ41zaPzK0pVAjS
 slug: assertive
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: assrtv
 type: trauma
 package: sohl

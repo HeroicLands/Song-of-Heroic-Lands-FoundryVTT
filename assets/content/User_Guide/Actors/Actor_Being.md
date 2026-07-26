@@ -1,7 +1,7 @@
 ---
 aliases:
     - Being
-id: NNwX0CWqScS2HGsl
+id: yGlzMjLsBc8dCO6J
 type: doc
 package: sohl
 category: user-guide

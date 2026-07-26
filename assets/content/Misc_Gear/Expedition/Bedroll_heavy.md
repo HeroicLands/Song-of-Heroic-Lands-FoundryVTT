@@ -7,9 +7,9 @@ name:
     full: Bedroll, heavy
     aliases: []
 description: "Quilted wool and linen roll with oiled canvas cover; durable field bedding."
-id: I6gNf8y6ZgxFgxdI
+id: DHsXxtx82IVM5gu2
 slug: bedroll-heavy
-img: icons/sleeping-bag.svg
+img: icons/game-icons/delapouite/sleeping-bag.svg
 shortcode: HvyBdrl
 type: miscgear
 package: sohl

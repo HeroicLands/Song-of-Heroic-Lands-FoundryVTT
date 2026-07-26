@@ -1,7 +1,7 @@
 ---
 aliases:
     - Alchemical Optional Rules
-id: 5sZ3B4TDt2yGvIaH
+id: Szv8V5fyjv8TROUh
 type: doc
 package: sohl
 category: rules

@@ -6,9 +6,9 @@ name:
     full: Cloth Cowl
     aliases: []
 description: "Simple cloth cowl offering comfort and everyday warmth."
-id: OASgkgSf3zqBWhpI
+id: VYrQYoRDmEefkhbe
 slug: cloth-cowl
-img: icons/hood.svg
+img: icons/game-icons/lorc/hood.svg
 shortcode: CCowl
 type: armorgear
 package: sohl

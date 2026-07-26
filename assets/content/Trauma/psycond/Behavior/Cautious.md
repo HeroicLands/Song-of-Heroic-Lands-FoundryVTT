@@ -4,9 +4,9 @@ tags: []
 name:
     full: Cautious
     aliases: []
-id: 3IQfYbbYAls4AQjj
+id: 6tEe8fDexObE4xzg
 slug: cautious
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cautious
 type: trauma
 package: sohl

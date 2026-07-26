@@ -6,12 +6,12 @@ tags:
 name:
     full: Grukar-Sha
     aliases: []
-id: BixeMmr4YDPLZx7b
+id: FBrFf3Qr1QfvV4QY
 slug: grukar-sha
-img: images/grukar-sha-headshot.webp
-portrait: images/grukar-sha.webp
+img: icons/game-icons/delapouite/orc-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 6

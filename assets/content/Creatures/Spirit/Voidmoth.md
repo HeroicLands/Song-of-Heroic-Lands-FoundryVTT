@@ -6,12 +6,12 @@ tags:
 name:
     full: Voidmoth
     aliases: []
-id: IVA8zyVoDkmdbdqn
+id: 0YaWh1FabKCGtnAs
 slug: voidmoth
-img: images/voidmoth-headshot.webp
-portrait: images/voidmoth.webp
+img: icons/game-icons/lorc/butterfly.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 8

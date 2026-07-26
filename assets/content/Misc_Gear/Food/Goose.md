@@ -7,9 +7,9 @@ name:
     full: Goose
     aliases: []
 description: "Plucked rich waterfowl; dark robust meat, rendered fat serves kitchen and lamp."
-id: Tz4XWdYgLrCQJFJ5
+id: hTaeFJPOKwh8alau
 slug: goose
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: goose
 type: miscgear
 package: sohl

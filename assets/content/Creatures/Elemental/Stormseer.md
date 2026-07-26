@@ -6,12 +6,12 @@ tags:
 name:
     full: Stormseer
     aliases: []
-id: wvB063k8m85xOIZj
+id: TXoRX749dQrUkWYC
 slug: stormseer
-img: images/stormseer-headshot.webp
-portrait: images/stormseer.webp
+img: icons/game-icons/lorc/werewolf.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 9

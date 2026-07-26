@@ -5,9 +5,9 @@ tags: []
 name:
     full: Absent-Minded
     aliases: []
-id: FOoc8aLvj9BRMExf
+id: XMqegcBQDnAe1IIC
 slug: absentminded
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: absntmd
 type: trauma
 package: sohl

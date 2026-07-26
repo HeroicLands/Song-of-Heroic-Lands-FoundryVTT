@@ -4,9 +4,9 @@ tags: []
 name:
     full: Chiroptophobia
     aliases: []
-id: scPZkDZqWsQczOl7
+id: u8cYYNzMnYNQfmWO
 slug: chiroptophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: chrptphb
 type: trauma
 package: sohl

@@ -6,9 +6,9 @@ name:
     full: Ermine Cowl
     aliases: []
 description: "Soft white ermine cowl signifying nobility and wealth."
-id: EerjTNzJk31jSMyY
+id: IhtNJInLhgEPjiLV
 slug: ermine-cowl
-img: icons/hood.svg
+img: icons/game-icons/lorc/hood.svg
 shortcode: ECowl
 type: armorgear
 package: sohl

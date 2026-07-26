@@ -4,9 +4,9 @@ tags: []
 name:
     full: Reasoning
     aliases: []
-id: 6p1Mx0b9iatxBhfm
+id: l2gx8lA2IzZbeKOB
 slug: reasoning
-img: icons/reasoning.svg
+img: icons/game-icons/lorc/brain.svg
 shortcode: rea
 type: attribute
 package: sohl

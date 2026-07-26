@@ -5,9 +5,9 @@ name:
     full: Climbing
     aliases: []
 description: "Scaling cliffs, walls, trees using handholds, ropes, body technique."
-id: 4FAPvWAKNoRPbdtz
+id: cJnD2VAKWuxSdo5s
 slug: climbing
-img: icons/climbing.svg
+img: icons/game-icons/caro-asercion/mountain-climbing.svg
 shortcode: clmb
 type: skill
 package: sohl

@@ -6,9 +6,9 @@ name:
     full: Cloth Gauntlets
     aliases: []
 description: "Soft cloth hand coverings offering basic protection for light work."
-id: zkFsrpmOArwxO6Oi
+id: u1uvDDJXk21KeR7n
 slug: cloth-gauntlets
-img: icons/gloves.svg
+img: icons/game-icons/delapouite/gloves.svg
 shortcode: CGntl
 type: armorgear
 package: sohl

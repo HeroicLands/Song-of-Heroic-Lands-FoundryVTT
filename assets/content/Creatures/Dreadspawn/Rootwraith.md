@@ -6,12 +6,12 @@ tags:
 name:
     full: Rootwraith
     aliases: []
-id: 66taILu4BJQOEcvM
+id: 1deqLlOJoWRJ2sPS
 slug: rootwraith
-img: images/rootwraith-headshot.webp
-portrait: images/rootwraith.webp
+img: icons/game-icons/lorc/spectre.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 12

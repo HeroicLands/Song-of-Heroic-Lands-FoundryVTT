@@ -6,12 +6,12 @@ tags:
 name:
     full: Gloomhound
     aliases: []
-id: aCR0h39yo5nvfWml
+id: ldVaPfqXY1Mh4tK4
 slug: gloomhound
-img: images/gloomhound-headshot.webp
-portrait: images/gloomhound.webp
+img: icons/game-icons/lorc/hound.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 12

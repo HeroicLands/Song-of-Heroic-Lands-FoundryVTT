@@ -7,9 +7,9 @@ name:
     full: "Icon, religious, small"
     aliases: []
 description: "Portable palm-sized icon for pilgrims and soldiers; kept at chest or shelf."
-id: 4OFJccPOe0jH95je
+id: I4tzGdJLGklE8lsc
 slug: icon-religious-small
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: iconreligi2
 type: miscgear
 package: sohl

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Pteromerhanophobia
     aliases: []
-id: LQosx7BdIQ35Ytkb
+id: UW3rF6stfsPMXYYA
 slug: pteromerhanophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: pteromer
 type: trauma
 package: sohl

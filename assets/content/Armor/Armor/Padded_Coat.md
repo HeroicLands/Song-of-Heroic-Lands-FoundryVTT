@@ -6,9 +6,9 @@ name:
     full: Padded Coat
     aliases: []
 description: "Cushioned outer layer providing warmth for cold weather conditions."
-id: IUb0GI1P4v78tPBo
+id: GrueGMdrWW1fbZGa
 slug: padded-coat
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: PCoat
 type: armorgear
 package: sohl

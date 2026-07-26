@@ -6,9 +6,9 @@ name:
     full: Rawhide Gauntlets
     aliases: []
 description: "Thick hide hand-guards; resists abrasion and impact."
-id: O1QZeXl5c7XGVQKp
+id: 0ZrCUWYiONN27h3c
 slug: rawhide-gauntlets
-img: icons/gauntlet.svg
+img: icons/game-icons/delapouite/gauntlet.svg
 shortcode: RhGntl
 type: armorgear
 package: sohl

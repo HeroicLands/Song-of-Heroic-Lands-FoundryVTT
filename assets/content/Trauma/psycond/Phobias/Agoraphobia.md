@@ -4,9 +4,9 @@ tags: []
 name:
     full: Agoraphobia
     aliases: []
-id: qWYVjdWgVZPDamlU
+id: BalaG26I7UrG7Q1A
 slug: agoraphobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: agorphb
 type: trauma
 package: sohl

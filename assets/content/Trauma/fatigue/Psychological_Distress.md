@@ -6,9 +6,9 @@ name:
     full: Psychological Distress
     aliases: []
 description: "Long-term weakness from sustained psychological strain."
-id: YTquYtrE82UaI6If
+id: yd83oCkGuZe9cfxZ
 slug: psychological-distress
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: psydist
 type: trauma
 package: sohl

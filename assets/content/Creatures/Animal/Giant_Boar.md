@@ -6,12 +6,12 @@ tags:
 name:
     full: Giant Boar
     aliases: []
-id: tsP7wk2oJY0OK2wG
+id: lZvL9MY97JDX0GeN
 slug: giant-boar
-img: images/giant-boar-headshot.webp
-portrait: images/giant-boar.webp
+img: icons/game-icons/caro-asercion/boar.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

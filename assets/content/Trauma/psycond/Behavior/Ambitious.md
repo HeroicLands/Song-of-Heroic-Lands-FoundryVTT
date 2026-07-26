@@ -4,9 +4,9 @@ tags: []
 name:
     full: Ambitious
     aliases: []
-id: qvAXZ6gk0rEndTqr
+id: qaSlCdUJGcu8z1Ba
 slug: ambitious
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: ambx
 type: trauma
 package: sohl

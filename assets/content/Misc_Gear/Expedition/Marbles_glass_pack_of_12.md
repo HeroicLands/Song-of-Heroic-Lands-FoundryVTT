@@ -7,9 +7,9 @@ name:
     full: "Marbles, glass, pack of 12"
     aliases: []
 description: "Dozen polished glass spheres for play, ballast, and crude observation."
-id: W7niLcWfPk1kliK7
+id: wYVxakyrxjt4PpVp
 slug: marbles-glass-pack-of-12
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: marblesgla
 type: miscgear
 package: sohl

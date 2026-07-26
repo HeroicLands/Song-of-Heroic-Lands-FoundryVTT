@@ -7,9 +7,9 @@ name:
     full: "Rope, 3” hemp, per ft (8,000 lb cap.)"
     aliases: []
 description: "Massive cable for anchoring vessels and hoisting siege equipment."
-id: M4xU13Dqxjqc4B3q
+id: w29C3rXf0IvhwzcZ
 slug: rope-3-hemp-per-ft-8-000-lb-cap
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: rope3hempp
 type: miscgear
 package: sohl

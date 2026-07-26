@@ -6,9 +6,9 @@ name:
     full: Russet Shirt
     aliases: []
 description: "Reddish-brown wool shirt; basic cold-weather core."
-id: uDB8XN1vrnjvwKLk
+id: geIUiXJqAQ0J3vrb
 slug: russet-shirt
-img: icons/shirt.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: RShirt
 type: armorgear
 package: sohl

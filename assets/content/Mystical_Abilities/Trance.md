@@ -5,9 +5,9 @@ name:
     full: Trance
     aliases: []
 description: "Deep meditation opening consciousness to astral and spiritual perception."
-id: QUY1z2KG9kreEJTr
+id: W5zBa8cOWNIr58UE
 slug: trance
-img: icons/meditation.svg
+img: icons/game-icons/lorc/meditation.svg
 shortcode: trnc
 type: mysticalability
 package: sohl

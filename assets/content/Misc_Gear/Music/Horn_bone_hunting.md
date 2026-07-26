@@ -7,9 +7,9 @@ name:
     full: "Horn, bone, hunting"
     aliases: []
 description: "Deer-antler or boar-tusk tapered tube; shrill note; low-cost, portable for common huntsmen."
-id: gNw7NtfeZ55te5Rd
+id: wQeyZhSnCssepVXB
 slug: horn-bone-hunting
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hornbonehu
 type: miscgear
 package: sohl

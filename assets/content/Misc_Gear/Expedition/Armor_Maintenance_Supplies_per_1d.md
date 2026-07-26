@@ -7,9 +7,9 @@ name:
     full: "Armor Maintenance Supplies, per 1d"
     aliases: []
 description: "Rings, rivets, straps, buckles, waxed thread, patches, polish; one pence buys one pence of armor upkeep."
-id: 4BnLpZrK6VxT8MqW
+id: CnJ2CmuDagzXRGJ6
 slug: armor-maintenance-supplies-per-1d
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: armrsup
 type: miscgear
 package: sohl

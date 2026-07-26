@@ -7,9 +7,9 @@ name:
     full: Tomatoes
     aliases: []
 description: "Round soft garden fruit, cooked in soups and stews, preserved dried."
-id: huoQnfnCtL7UmHZG
+id: 9YQUZGdIvbxQXFwD
 slug: tomatoes
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tomatoes
 type: miscgear
 package: sohl

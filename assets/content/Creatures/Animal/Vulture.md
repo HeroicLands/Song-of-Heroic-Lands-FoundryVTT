@@ -7,12 +7,12 @@ tags:
 name:
     full: Vulture
     aliases: []
-id: Fn2pTrYk8WxCvM5J
+id: CDvOpm9UbhRybcAy
 slug: vulture
-img: images/vulture-headshot.webp
-portrait: images/vulture.webp
+img: icons/game-icons/lorc/vulture.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 6

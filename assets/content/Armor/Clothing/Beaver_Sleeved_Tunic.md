@@ -6,9 +6,9 @@ name:
     full: Beaver Sleeved Tunic
     aliases: []
 description: "Beaver fur tunic providing warmth and elegance for northern climates."
-id: EqcWLJ3uKuYLEtEd
+id: QAPvImElxCn9MMAX
 slug: beaver-sleeved-tunic
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: BvSTnc
 type: armorgear
 package: sohl

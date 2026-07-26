@@ -8,12 +8,12 @@ tags:
 name:
     full: Painted Dog
     aliases: []
-id: Wn5pTxKr8VyQmB4J
+id: 0tPcOrOwOP9EOWuE
 slug: painted-dog
-img: images/painted-dog-headshot.webp
-portrait: images/painted-dog.webp
+img: icons/game-icons/lorc/hound.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 12

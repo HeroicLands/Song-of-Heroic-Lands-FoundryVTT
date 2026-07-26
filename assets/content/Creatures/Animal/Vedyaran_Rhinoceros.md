@@ -7,12 +7,12 @@ tags:
 name:
     full: Vedyaran Rhinoceros
     aliases: []
-id: Fq8nYpWx5TvRmK3J
+id: gg3f6OB21jF3mg0f
 slug: vedyaran-rhinoceros
-img: images/vedyaran-rhinoceros-headshot.webp
-portrait: images/vedyaran-rhinoceros.webp
+img: icons/game-icons/delapouite/rhinoceros-horn.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 19

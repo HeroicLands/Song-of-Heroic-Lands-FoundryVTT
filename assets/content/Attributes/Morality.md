@@ -4,9 +4,9 @@ tags: []
 name:
     full: Morality
     aliases: []
-id: qcuatkrxBTDfhOu9
+id: 5eOjes9tQHVozVcl
 slug: morality
-img: icons/morality.svg
+img: icons/game-icons/lorc/scales.svg
 shortcode: mor
 type: attribute
 package: sohl

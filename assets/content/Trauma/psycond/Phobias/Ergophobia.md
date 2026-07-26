@@ -4,9 +4,9 @@ tags: []
 name:
     full: Ergophobia
     aliases: []
-id: p5IvSyKW9xLHc5gm
+id: nTU4fbViT5bQP2io
 slug: ergophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: ergophb
 type: trauma
 package: sohl

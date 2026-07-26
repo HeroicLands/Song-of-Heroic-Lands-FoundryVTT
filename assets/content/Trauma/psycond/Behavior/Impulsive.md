@@ -4,9 +4,9 @@ tags: []
 name:
     full: Impulsive
     aliases: []
-id: Y8sKCJ0YInWJzQdI
+id: k3h61qNB6NvMfFVS
 slug: impulsive
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: implsv
 type: trauma
 package: sohl

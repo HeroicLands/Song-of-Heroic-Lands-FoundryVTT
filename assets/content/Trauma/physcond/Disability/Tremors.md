@@ -4,9 +4,9 @@ tags: []
 name:
     full: Tremors
     aliases: []
-id: ZTUv0EzyqGa2WO1M
+id: 8wsl3ifOv5JxXgpC
 slug: tremors
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: tremors
 type: trauma
 package: sohl

@@ -5,9 +5,9 @@ name:
     full: Woodworking
     aliases: []
 description: "Shaping timber into furniture, tools, carts, and decorative carvings."
-id: sOVLNMohekLbnHs7
+id: IVp2za6i2KFNZxSJ
 slug: woodworking
-img: icons/woodcraft.svg
+img: icons/game-icons/delapouite/hand-saw.svg
 shortcode: wood
 type: skill
 package: sohl

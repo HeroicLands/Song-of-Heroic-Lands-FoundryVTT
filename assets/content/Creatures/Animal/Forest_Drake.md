@@ -6,12 +6,12 @@ tags:
 name:
     full: Forest Drake
     aliases: []
-id: c19KPVoEcpSNUxDR
+id: TD1mrTArS6vzQzxW
 slug: forest-drake
-img: images/forest-drake-headshot.webp
-portrait: images/forest-drake.webp
+img: icons/game-icons/faithtoken/dragon-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 14

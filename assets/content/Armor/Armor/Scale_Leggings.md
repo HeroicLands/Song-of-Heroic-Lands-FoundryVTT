@@ -6,9 +6,9 @@ name:
     full: Scale Leggings
     aliases: []
 description: "Leggings with sewn metal scales; leg-and-thigh armor."
-id: U4tGAFCfCWktT9He
+id: uQENsarY2Fo7u0U4
 slug: scale-leggings
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: SLeg
 type: armorgear
 package: sohl

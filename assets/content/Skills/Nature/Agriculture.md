@@ -5,9 +5,9 @@ name:
     full: Agriculture
     aliases: []
 description: "Cultivating crops, tending orchards, assessing land and harvest value."
-id: 31ZqIOMd9sPbgiqe
+id: i0ILSAgGcKWCKFa4
 slug: agriculture
-img: icons/agriculture.svg
+img: icons/game-icons/lorc/wheat.svg
 shortcode: agri
 type: skill
 package: sohl

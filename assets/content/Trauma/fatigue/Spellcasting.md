@@ -5,9 +5,9 @@ name:
     full: Spellcasting
     aliases: []
 description: "Acute windedness from casting a spell."
-id: vXknU4eX6IbaeELg
+id: mD6TdehNGD0XvWR7
 slug: casting
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: cast
 type: trauma
 package: sohl

@@ -7,9 +7,9 @@ name:
     full: "Candleholder, hand"
     aliases: []
 description: "Iron or brass cup with handle; holds single candle, drip-tray included."
-id: w9nLMuanphqv56Ih
+id: 4fZI1WVjyq4sN02V
 slug: candleholder-hand
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: candlehold
 type: miscgear
 package: sohl

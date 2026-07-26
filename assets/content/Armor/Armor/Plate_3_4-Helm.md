@@ -7,9 +7,9 @@ name:
     full: Plate ¾-Helm
     aliases: []
 description: "Steel helm covering crown and face; knight-favored with narrow sight-slit."
-id: rKuSn4P5aQVNWZ5y
+id: ssLbPwGRpgmg3CpB
 slug: plate-34-helm
-img: icons/crested-helmet.svg
+img: icons/game-icons/lorc/crested-helmet.svg
 shortcode: Pl34Hlm
 type: armorgear
 package: sohl

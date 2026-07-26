@@ -6,9 +6,9 @@ name:
     full: Rawhide Loincloth
     aliases: []
 description: "Stiff hide garment; minimal coverage for rough environments."
-id: 72cG4cFQDyjU5Vhw
+id: iXpPoCBEEa8V3plS
 slug: rawhide-loincloth
-img: icons/loincloth.svg
+img: icons/game-icons/delapouite/loincloth.svg
 shortcode: RhLoin
 type: armorgear
 package: sohl

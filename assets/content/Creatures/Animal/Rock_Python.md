@@ -6,12 +6,12 @@ tags:
 name:
     full: Rock Python
     aliases: []
-id: qhzHfQkvRlHKYEUW
+id: 5GlgTelIHgQGv4A9
 slug: rock-python
-img: images/rock-python-headshot.webp
-portrait: images/rock-python.webp
+img: icons/game-icons/lorc/snake.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

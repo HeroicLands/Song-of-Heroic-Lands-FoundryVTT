@@ -6,12 +6,12 @@ tags:
 name:
     full: Xerathian Forest Elephant
     aliases: []
-id: v4RWuySup1DcQtwK
+id: pGoe1xHOveNk8ycM
 slug: xerathian-forest-elephant
-img: images/xerathian-forest-elephant-headshot.webp
-portrait: images/xerathian-forest-elephant.webp
+img: icons/game-icons/delapouite/elephant.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 27

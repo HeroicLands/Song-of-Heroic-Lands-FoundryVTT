@@ -6,12 +6,12 @@ tags:
 name:
     full: Bactrian Camel
     aliases: []
-id: LQEhwDETkhXa1JQa
+id: 4MkB6ybeaITI3ntC
 slug: bactrian-camel
-img: images/bactrian-camel-headshot.webp
-portrait: images/bactrian-camel.webp
+img: icons/game-icons/delapouite/camel-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 16

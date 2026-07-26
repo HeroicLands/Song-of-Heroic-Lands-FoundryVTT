@@ -6,12 +6,12 @@ tags:
 name:
     full: Gloomsprite
     aliases: []
-id: dfm5IY8vwUmFbra0
+id: TzpgPd5BTOfbWPIY
 slug: gloomsprite
-img: images/gloomsprite-headshot.webp
-portrait: images/gloomsprite.webp
+img: icons/game-icons/delapouite/fairy.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         end: 8

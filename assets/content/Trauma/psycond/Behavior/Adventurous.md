@@ -4,9 +4,9 @@ tags: []
 name:
     full: Adventurous
     aliases: []
-id: h8norCLUDyf4t35X
+id: 0TZN0CGGianrV453
 slug: adventurous
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: advs
 type: trauma
 package: sohl

@@ -7,9 +7,9 @@ name:
     full: Scabbard
     aliases: []
 description: "Leather sheath with wooden core; protects blade and user from rust."
-id: Ckcs83sHF3ijRWfx
+id: CdhDhKsvUFp48uV6
 slug: scabbard
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: scabbard
 type: miscgear
 package: sohl

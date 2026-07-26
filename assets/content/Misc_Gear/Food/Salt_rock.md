@@ -7,9 +7,9 @@ name:
     full: "Salt, rock"
     aliases: []
 description: "Mined rock salt, pure and dense, grinds fine, stores indefinitely."
-id: EEklEMPJszuNNY5R
+id: 9jNyZzQIuDmE7KZz
 slug: salt-rock
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: saltrock
 type: miscgear
 package: sohl

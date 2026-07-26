@@ -4,9 +4,9 @@ tags: []
 name:
     full: Suspicious
     aliases: []
-id: DL0zhndKCEDUtPPa
+id: bcmfnzhm5Ky5X5te
 slug: suspicious
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: sspcs
 type: trauma
 package: sohl

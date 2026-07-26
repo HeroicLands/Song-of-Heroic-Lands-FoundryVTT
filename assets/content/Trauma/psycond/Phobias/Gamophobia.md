@@ -4,9 +4,9 @@ tags: []
 name:
     full: Gamophobia
     aliases: []
-id: zAa9GXWYGXv5kiqy
+id: Scf25GYuAd2U0tBM
 slug: gamophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: gamophb
 type: trauma
 package: sohl

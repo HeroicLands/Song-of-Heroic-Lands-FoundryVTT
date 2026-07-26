@@ -6,9 +6,9 @@ name:
     full: Leather Cowl
     aliases: []
 description: "Lightweight leather head and shoulder covering offering rugged simplicity."
-id: C7nKCau1YIm7TkqP
+id: 07QzvQFSODhKGV9m
 slug: leather-cowl
-img: icons/hood.svg
+img: icons/game-icons/lorc/hood.svg
 shortcode: LtCowl
 type: armorgear
 package: sohl

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Sociable
     aliases: []
-id: 2anybJYlXU3x7cYY
+id: V7SgIzOsc1osFt9Q
 slug: sociable
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: sociable
 type: trauma
 package: sohl

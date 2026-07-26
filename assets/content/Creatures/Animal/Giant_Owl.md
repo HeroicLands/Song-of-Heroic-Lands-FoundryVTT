@@ -6,12 +6,12 @@ tags:
 name:
     full: Giant Owl
     aliases: []
-id: NTOvBgwJCgNX8JRw
+id: QQBrXJej14IhQbcW
 slug: giant-owl
-img: images/giant-owl-headshot.webp
-portrait: images/giant-owl.webp
+img: icons/game-icons/lorc/owl.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 25

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Avoidant
     aliases: []
-id: EeFQthuKKKc5MySL
+id: WTWC6Z0qzDZIaK4L
 slug: avoidant
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: avoidant
 type: trauma
 package: sohl

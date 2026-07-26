@@ -7,9 +7,9 @@ name:
     full: Disguise Kit
     aliases: []
 description: "Cloth-wrapped case with pigments, wax, false hair, padding, voice-pipe, mirror; used with the Theatrics skill to alter one's appearance."
-id: xNq7PvB3LyHkZt4W
+id: X8piX0dZUKOIwPMQ
 slug: disguise-kit
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: disgkit
 type: miscgear
 package: sohl

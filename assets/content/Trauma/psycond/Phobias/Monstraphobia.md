@@ -4,9 +4,9 @@ tags: []
 name:
     full: Monstraphobia
     aliases: []
-id: 8EfYGBIq4ODIGnlF
+id: osjRQrub3oiIVMlb
 slug: monstraphobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: mnstrphb
 type: trauma
 package: sohl

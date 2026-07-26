@@ -4,9 +4,9 @@ tags: []
 name:
     full: Dwarfism
     aliases: []
-id: J0u1FakZedt5mCfo
+id: ShfK05q4kdaeCC9s
 slug: dwarfism
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dwarfism
 type: trauma
 package: sohl

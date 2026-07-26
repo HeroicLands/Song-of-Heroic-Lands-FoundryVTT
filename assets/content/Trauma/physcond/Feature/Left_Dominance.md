@@ -5,9 +5,9 @@ tags: []
 name:
     full: Left Dominance
     aliases: []
-id: ebyaM6swdOpxOAtu
+id: 4Nm0R6l7HXN8tMoP
 slug: left-dominance
-img: icons/hands.svg
+img: icons/game-icons/lorc/hand.svg
 shortcode: ldmnc
 type: trauma
 package: sohl

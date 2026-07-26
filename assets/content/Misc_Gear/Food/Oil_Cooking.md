@@ -7,9 +7,9 @@ name:
     full: "Oil, Cooking"
     aliases: []
 description: "Golden neutral vegetable oil for frying and lighting, gallons at markets."
-id: MF8uS4PIx6Ymc7Di
+id: KW0j7IrRWN8uDniz
 slug: oil-cooking
-img: icons/potion.svg
+img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: oilcook
 type: miscgear
 package: sohl

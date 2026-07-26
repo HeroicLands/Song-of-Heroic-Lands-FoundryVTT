@@ -7,9 +7,9 @@ name:
     full: "Drum, bass"
     aliases: []
 description: "Large oak-ash cylinder with ox-hide heads; deep boom signals maneuvers and cadence."
-id: 7f1EMYaetfno18Zt
+id: NCkn5appnYlVyyYt
 slug: drum-bass
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: drumbass
 type: miscgear
 package: sohl

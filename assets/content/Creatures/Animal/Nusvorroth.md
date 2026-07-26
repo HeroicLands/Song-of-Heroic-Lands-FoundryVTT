@@ -7,12 +7,12 @@ tags:
 name:
     full: Nüsvōrroth
     aliases: []
-id: nEluUjD720D91VLj
+id: 0ygZo8s6O9Rj2kRt
 slug: nusvorroth
-img: images/nusvorroth-headshot.webp
-portrait: images/nusvorroth.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 19

@@ -6,9 +6,9 @@ name:
     full: Buckram Skirt
     aliases: []
 description: "Stiff buckram skirt offering durability and dependable rigid structure."
-id: 6xB4GGdITq1pypDp
+id: eTv7lpuQg9Srur1Z
 slug: buckram-skirt
-img: icons/skirt.svg
+img: icons/game-icons/delapouite/skirt.svg
 shortcode: BSkirt
 type: armorgear
 package: sohl

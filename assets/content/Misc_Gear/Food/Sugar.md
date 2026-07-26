@@ -7,9 +7,9 @@ name:
     full: Sugar
     aliases: []
 description: "Luxury cane crystals from distant tropics, sweetens pastries and preserves."
-id: yYE46mnymIUf3KCR
+id: 7xdYHeV3djfjb6O8
 slug: sugar
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: sugar
 type: miscgear
 package: sohl

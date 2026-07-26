@@ -5,9 +5,9 @@ tags: []
 name:
     full: Heat Intolerance
     aliases: []
-id: 8vdvX2QhwiwVQ0mq
+id: doe6pBSFOr8KBgTr
 slug: heat-intolerance
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: htntlrnc
 type: trauma
 package: sohl

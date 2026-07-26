@@ -6,12 +6,12 @@ tags:
 name:
     full: Mirrorling
     aliases: []
-id: 5Se4Tjyu2dibdEAZ
+id: u7FShyu98eDuRwVS
 slug: mirrorling
-img: images/mirrorling-headshot.webp
-portrait: images/mirrorling.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 11

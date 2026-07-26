@@ -6,12 +6,12 @@ tags:
 name:
     full: Starcrawler
     aliases: []
-id: j2q1iX8ZgIUyJNbm
+id: KwgKiSFDeCgFjebo
 slug: starcrawler
-img: images/starcrawler-headshot.webp
-portrait: images/starcrawler.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 8

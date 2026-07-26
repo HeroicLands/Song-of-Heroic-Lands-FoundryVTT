@@ -7,9 +7,9 @@ name:
     full: "Carnelian, cut"
     aliases: []
 description: "Translucent warm orange-red gem from iron oxide; durable favorite for rings."
-id: 39EX5YUsgRMyqT0j
+id: FHQXXrnxUgs2vgbi
 slug: carnelian-cut
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: carnelianc
 type: miscgear
 package: sohl

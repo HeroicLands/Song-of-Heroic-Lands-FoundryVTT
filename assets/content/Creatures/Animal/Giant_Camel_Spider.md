@@ -7,12 +7,12 @@ tags:
 name:
     full: Giant Camel Spider
     aliases: []
-id: 4fKqP2xLmR8vNzQ1
+id: k5mpq1z2caMC2nJ0
 slug: giant-camel-spider
-img: images/giant-camel-spider-headshot.webp
-portrait: images/giant-camel-spider.webp
+img: icons/game-icons/carl-olsen/spider-alt.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 9

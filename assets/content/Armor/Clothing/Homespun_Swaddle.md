@@ -6,9 +6,9 @@ name:
     full: Homespun Swaddle
     aliases: []
 description: "Simple homemade infant swaddle offering comfort and warmth."
-id: uaxz0zjNXPKvbKgq
+id: PALEl9uIdzERSO65
 slug: homespun-swaddle
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: HsSwd
 type: armorgear
 package: sohl

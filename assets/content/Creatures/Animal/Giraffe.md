@@ -7,12 +7,12 @@ tags:
 name:
     full: Giraffe
     aliases: []
-id: Xr4nTqWv8YpKmB6L
+id: 087iR45QSKNTs1ze
 slug: giraffe
-img: images/giraffe-headshot.webp
-portrait: images/giraffe.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 18

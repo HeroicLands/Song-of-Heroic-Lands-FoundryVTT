@@ -6,12 +6,12 @@ tags:
 name:
     full: Mule
     aliases: []
-id: R3ZW12Kpd9jTHqan
+id: aquEJHnE8u8I9pur
 slug: mule
-img: images/mule-headshot.webp
-portrait: images/mule.webp
+img: icons/game-icons/skoll/donkey.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 25

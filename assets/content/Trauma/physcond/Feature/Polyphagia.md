@@ -4,9 +4,9 @@ tags: []
 name:
     full: Polyphagia
     aliases: []
-id: 7QDf1eQjNBeWasrV
+id: ZGQY1bfFMJFuEdtp
 slug: polyphagia
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: plyphg
 type: trauma
 package: sohl

@@ -1,7 +1,7 @@
 ---
 aliases:
     - Armor
-id: tB7A6qsBk0tqtmkz
+id: yh3LCFXRlhJWMqLW
 type: doc
 package: sohl
 category: user-guide

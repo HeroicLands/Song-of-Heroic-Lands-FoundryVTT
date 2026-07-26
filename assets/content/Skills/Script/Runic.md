@@ -5,9 +5,9 @@ name:
     full: Runic
     aliases: []
 description: "Reading and writing ancient runic scripts carved into stone and wood."
-id: zhF7K76YOQR30Vfg
+id: yuDVi9iJPhY2nIZ5
 slug: runic
-img: icons/scroll-unfurled.svg
+img: icons/game-icons/lorc/scroll-unfurled.svg
 shortcode: runic
 type: skill
 package: sohl

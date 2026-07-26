@@ -7,9 +7,9 @@ name:
     full: Tack & Grooming Kit
     aliases: []
 description: "Leather satchel with currycomb, brushes, hoof pick, bridle awl, strap stock, oil; mount care and tack repair."
-id: Qr3Yk8WnPvLzH5Tb
+id: 1rRMihBm9Rso96gE
 slug: tack-and-grooming-kit
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tackkit
 type: miscgear
 package: sohl

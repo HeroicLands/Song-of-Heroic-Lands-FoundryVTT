@@ -7,9 +7,9 @@ name:
     full: Bow case
     aliases: []
 description: "Ash-staved leather case on shoulder strap; protects finished bow during travel."
-id: 3gH2pBgjTsu73xEQ
+id: n3ddTfbaCQMgVZlp
 slug: bow-case
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bowcase
 type: miscgear
 package: sohl

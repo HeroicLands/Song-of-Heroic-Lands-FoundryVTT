@@ -8,12 +8,12 @@ tags:
 name:
     full: Polar Bear
     aliases: []
-id: Yw8nRxTq5VpKmF4L
+id: gFFrYYtroCDjUsx4
 slug: polar-bear
-img: images/polar-bear-headshot.webp
-portrait: images/polar-bear.webp
+img: icons/game-icons/cathelineau/polar-bear.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 21

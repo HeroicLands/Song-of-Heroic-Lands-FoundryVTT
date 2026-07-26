@@ -6,9 +6,9 @@ name:
     full: Physical Exertion
     aliases: []
 description: "Acute windedness from sustained physical exertion."
-id: ciK2Zu4qVeOxjG5o
+id: XLtLxA3TCiVJaNfw
 slug: physical-exertion
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: physex
 type: trauma
 package: sohl

@@ -7,9 +7,9 @@ name:
     full: Bone (for carving)
     aliases: []
 description: "Scraped bone scraps; used by carvers and flute-makers for chess, combs, ornaments."
-id: IaRqqiFEiyGtEmiC
+id: 1wwhljSwXWTm3eh1
 slug: bone-for-carving
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: boneforcar
 type: miscgear
 package: sohl

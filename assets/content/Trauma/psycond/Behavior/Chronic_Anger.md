@@ -5,9 +5,9 @@ tags: []
 name:
     full: Chronic Anger
     aliases: []
-id: fVhhZVGxCrrnhY0z
+id: RQjTqzkqElEYzwtd
 slug: chronic-anger
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: angerchr
 type: trauma
 package: sohl

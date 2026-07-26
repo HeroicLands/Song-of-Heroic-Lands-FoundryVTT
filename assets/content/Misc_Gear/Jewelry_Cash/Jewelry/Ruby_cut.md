@@ -7,9 +7,9 @@ name:
     full: "Ruby, cut"
     aliases: []
 description: "Rarest gem; deep crimson corundum glowing like fire; marks power and wealth."
-id: LUpuVFSTvoVsXMWW
+id: OAdHcMAcd2aqp2xx
 slug: ruby-cut
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: rubycut
 type: miscgear
 package: sohl

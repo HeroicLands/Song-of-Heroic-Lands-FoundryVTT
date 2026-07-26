@@ -7,9 +7,9 @@ name:
     full: Dulcimer
     aliases: []
 description: "Trapezoidal frame with gut strings struck by hammers; sweet, haunting chiming voice."
-id: 0nKkfTeo0qxvevtU
+id: QTedGo6TQqefe1s4
 slug: dulcimer
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: dulcimer
 type: miscgear
 package: sohl

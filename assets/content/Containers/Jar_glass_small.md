@@ -6,9 +6,9 @@ name:
     full: "Jar, glass, small"
     aliases: []
 description: "Hand-blown glass vessel with cork stopper; stores oils and inks safely."
-id: LCLpomXvdm3quuwX
+id: ynT0tn7GFS8TTbsP
 slug: jar-glass-small
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jarglasssm
 type: containergear
 package: sohl

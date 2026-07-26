@@ -6,9 +6,9 @@ name:
     full: Worsted Leggings
     aliases: []
 description: "Tightly-spun wool leggings; warm, durable leg coverage."
-id: xqqU1VZTRdHq4E5i
+id: t3SFBNKtKc5uTGhw
 slug: worsted-leggings
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: WLeg
 type: armorgear
 package: sohl

@@ -8,12 +8,12 @@ tags:
 name:
     full: Old Fire Dragon
     aliases: []
-id: FD9K6M5R8Q1X3W9B
+id: 4g9BryPNyWeQLBA0
 slug: old-fire-dragon
-img: images/old-fire-dragon-headshot.webp
-portrait: images/old-fire-dragon.webp
+img: icons/game-icons/faithtoken/dragon-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 29

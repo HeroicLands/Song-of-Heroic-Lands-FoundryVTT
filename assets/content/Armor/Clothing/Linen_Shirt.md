@@ -6,9 +6,9 @@ name:
     full: Linen Shirt
     aliases: []
 description: "Light breathable torso covering for warm weather and everyday activity."
-id: EX2tDSszdoC2fVUJ
+id: U2rXzQj0IQp8D1BB
 slug: linen-shirt
-img: icons/shirt.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: LShirt
 type: armorgear
 package: sohl

@@ -6,9 +6,9 @@ name:
     full: Velvet Leggings
     aliases: []
 description: "Plush velvet leggings; opulent garment for high-status formal occasions."
-id: IoMYWc6CAHK6VeWQ
+id: SRJPql92VlC8Ek5e
 slug: velvet-leggings
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: VLeg
 type: armorgear
 package: sohl

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Optimism
     aliases: []
-id: jQK5f82M6QSM82Ym
+id: Wn0xXFSWaEqLYo7j
 slug: optimism
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: optimism
 type: trauma
 package: sohl

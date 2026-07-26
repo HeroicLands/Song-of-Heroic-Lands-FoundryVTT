@@ -7,9 +7,9 @@ name:
     full: "Rope, 1” hemp, per ft  (1,125 lb cap.)"
     aliases: []
 description: "Stiff hemp rope for wagons and builders; tarred against weather damage."
-id: X9JkovholaxegKJE
+id: BpktBOd5GaPp39BH
 slug: rope-1-hemp-per-ft-1-125-lb-cap
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: rope1hempp
 type: miscgear
 package: sohl

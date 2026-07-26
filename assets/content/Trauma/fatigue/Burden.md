@@ -5,9 +5,9 @@ name:
     full: Burden
     aliases: []
 description: "Sustained weariness from carrying a heavy load."
-id: I6xp8MSJSCONRpz2
+id: AuSrW8gPY5nqihqT
 slug: burden
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: burden
 type: trauma
 package: sohl

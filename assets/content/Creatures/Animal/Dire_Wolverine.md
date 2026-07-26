@@ -6,12 +6,12 @@ tags:
 name:
     full: Dire Wolverine
     aliases: []
-id: izbT7QFMRPjA8Z8y
+id: 9zpdW3LB7gb3PZXi
 slug: dire-wolverine
-img: images/dire-wolverine-headshot.webp
-portrait: images/dire-wolverine.webp
+img: icons/game-icons/caro-asercion/badger.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 27

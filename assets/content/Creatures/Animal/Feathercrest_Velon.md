@@ -6,12 +6,12 @@ tags:
 name:
     full: Feathercrest Velon
     aliases: []
-id: bBmLZXKMzoL0k0Ii
+id: Or8DbTmkrdKMEqDi
 slug: feathercrest-velon
-img: images/feathercrest-velon-headshot.webp
-portrait: images/feathercrest-velon.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 11

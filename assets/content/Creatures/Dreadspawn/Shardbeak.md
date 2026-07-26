@@ -6,12 +6,12 @@ tags:
 name:
     full: Shardbeak
     aliases: []
-id: 76EahT1TyL7D0R9f
+id: P8wL9XPubsbvSFty
 slug: shardbeak
-img: images/shardbeak-headshot.webp
-portrait: images/shardbeak.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 9

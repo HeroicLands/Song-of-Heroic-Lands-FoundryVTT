@@ -6,9 +6,9 @@ name:
     full: Serge Cloak
     aliases: []
 description: "Durable twilled serge cloak; protective outer garment for all weather."
-id: 8c86eFn9CV8mGOwB
+id: fBhL7l3btLPu1moz
 slug: serge-cloak
-img: icons/cloak.svg
+img: icons/game-icons/lucasms/cloak.svg
 shortcode: SgClk
 type: armorgear
 package: sohl

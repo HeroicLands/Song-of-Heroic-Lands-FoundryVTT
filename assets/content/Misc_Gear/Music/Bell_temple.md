@@ -7,9 +7,9 @@ name:
     full: "Bell, temple"
     aliases: []
 description: "Substantial bronze bell on frame; deep tone carries far beyond sanctuary."
-id: nEQw6ieQrQeh0OWI
+id: 58zPXzLGkb5cDkvI
 slug: bell-temple
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: belltemple
 type: miscgear
 package: sohl

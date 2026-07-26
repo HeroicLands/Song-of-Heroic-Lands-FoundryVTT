@@ -8,10 +8,10 @@ name:
 description: "Ash or birch shaft, goose-feather fletching; workaday deer or skirmish arrow."
 type: projectilegear
 package: sohl
-id: 00sqjj7DAzAVpiwm
+id: vBAd1CyPEqHNJyb0
 slug: standard-arrow
 shortcode: ArwStd
-img: icons/arrow.svg
+img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Standard
 sohl:
     archetype: 0

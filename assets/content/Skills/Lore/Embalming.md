@@ -5,9 +5,9 @@ name:
     full: Embalming
     aliases: []
 description: "Preparing corpses for burial; delaying decomposition through preservation techniques."
-id: 73yZAkKbC0Azo4dw
+id: fBvSknN5B0nsvuLm
 slug: embalming
-img: icons/embalming.svg
+img: icons/game-icons/delapouite/mummy-head.svg
 shortcode: embl
 type: skill
 package: sohl

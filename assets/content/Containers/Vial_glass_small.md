@@ -6,9 +6,9 @@ name:
     full: "Vial, glass, small"
     aliases: []
 description: "Thumb-sized vial for single dose of poison, antidote, or rare oil."
-id: RfVGhWWJwUwy7gzd
+id: t8ob57FIXJjfkbfu
 slug: vial-glass-small
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: vialglasss
 type: containergear
 package: sohl

@@ -7,9 +7,9 @@ name:
     full: "Spit and Stand, iron"
     aliases: []
 description: "Iron roasting spit on adjustable stand for campfire or hearth cooking."
-id: nwEtp0xMP0cNx9op
+id: OfwJBd3Xmz4B6eMV
 slug: spit-and-stand-iron
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spitandsta
 type: miscgear
 package: sohl

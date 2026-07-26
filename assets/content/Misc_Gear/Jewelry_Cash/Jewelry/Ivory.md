@@ -7,9 +7,9 @@ name:
     full: Ivory
     aliases: []
 description: "Polished tooth of great beasts; creamy white, carved into combs, buttons, ornaments."
-id: jZtYDWzJmwh7uatw
+id: mi84Ze1ptsDMnY4x
 slug: ivory
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: ivory
 type: miscgear
 package: sohl

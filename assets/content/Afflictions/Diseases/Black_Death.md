@@ -6,9 +6,9 @@ name:
     full: Black Death
     aliases: []
 description: "Pestilential fever with black buboes; highly contagious, usually fatal."
-id: gNNVfPh0ooYkfJZU
+id: 2syFpxzmukGOSUxx
 slug: black-death
-img: icons/disease.svg
+img: icons/game-icons/lorc/virus.svg
 shortcode: blkdth
 type: affliction
 package: sohl

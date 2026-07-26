@@ -4,9 +4,9 @@ tags: []
 name:
     full: Irresponsible
     aliases: []
-id: 0JAM2U7UjFMjwBtA
+id: VQlpTGHFybZZ5d2u
 slug: irresponsible
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: irrespon
 type: trauma
 package: sohl

@@ -6,7 +6,7 @@ aliases:
     - Windedness
     - Weariness
     - Weakness
-id: Fat1gu5wLp3nH8kR
+id: MwA0F4zBwNr7bDvl
 type: doc
 package: sohl
 category: rules

@@ -6,9 +6,9 @@ name:
     full: Cloth Robe
     aliases: []
 description: "Simple cloth robe providing comfort and warmth for practical wear."
-id: iJVAEAaH6MWRkLr3
+id: Fd7OKQ9WDmH5Fgcp
 slug: cloth-robe
-img: icons/robe.svg
+img: icons/game-icons/lorc/robe.svg
 shortcode: CRobe
 type: armorgear
 package: sohl

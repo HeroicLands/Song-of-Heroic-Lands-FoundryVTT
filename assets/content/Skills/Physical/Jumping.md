@@ -5,9 +5,9 @@ name:
     full: Jumping
     aliases: []
 description: "Leaping horizontally and vertically; reaching above normal reach."
-id: NYysaIqvwz1Ir5mf
+id: kmkKoOgeVxj12Pbc
 slug: jumping
-img: icons/jump-across.svg
+img: icons/game-icons/delapouite/jump-across.svg
 shortcode: jump
 type: skill
 package: sohl

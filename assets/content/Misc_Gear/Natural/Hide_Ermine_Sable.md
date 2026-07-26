@@ -7,9 +7,9 @@ name:
     full: "Hide, Ermine/Sable"
     aliases: []
 description: "Small pelt of stoat or marten; snow-white or dark fur for cloak-trim."
-id: MJhFOQ9tHJu3RIoE
+id: 5e4HPnC1RcbhChnn
 slug: hide-ermine-sable
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideermine
 type: miscgear
 package: sohl

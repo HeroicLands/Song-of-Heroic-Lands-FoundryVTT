@@ -6,9 +6,9 @@ name:
     full: Cloth Leggings
     aliases: []
 description: "Simple cloth leg-wear offering comfort and warmth for everyday wear."
-id: jab9WobC8tFnG38X
+id: 4YLllmW2d5ahnPsC
 slug: cloth-leggings
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: CLeg
 type: armorgear
 package: sohl

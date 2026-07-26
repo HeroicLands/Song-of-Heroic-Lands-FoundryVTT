@@ -1,7 +1,7 @@
 ---
 aliases:
     - Healing Base
-id: HealBs3xKp9mQ2vT
+id: K3VhPOyP6CbxvXVb
 type: doc
 package: sohl
 category: rules

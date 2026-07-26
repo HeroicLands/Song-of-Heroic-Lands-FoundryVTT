@@ -5,9 +5,9 @@ name:
     full: Heatstruck
     aliases: []
 description: "Catastrophic heat injury; dry hot skin, confusion, seizure, death."
-id: Rfjv47YUnhsLhcZZ
+id: RLBiZ0UJrNwUN64O
 slug: heatstruck
-img: icons/privation.svg
+img: icons/game-icons/delapouite/stomach.svg
 shortcode: htstrk
 type: trauma
 package: sohl

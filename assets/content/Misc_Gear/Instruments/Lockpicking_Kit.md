@@ -7,9 +7,9 @@ name:
     full: Lockpicking Kit
     aliases: []
 description: "Concealable wallet of picks, rakes, and tension wrenches; thieves' lock-bypassing kit."
-id: mdYxhGtncuFu700Q
+id: rm5SGD57hKqA6iME
 slug: lockpicking-kit
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lkpickkit
 type: miscgear
 package: sohl

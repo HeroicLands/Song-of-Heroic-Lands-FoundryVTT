@@ -4,9 +4,9 @@ tags: []
 name:
     full: Perception
     aliases: []
-id: f3RTqhcs0l7npPAY
+id: qI1YEU3drmyEAiEl
 slug: perception
-img: icons/awareness.svg
+img: icons/game-icons/lorc/awareness.svg
 shortcode: per
 type: attribute
 package: sohl

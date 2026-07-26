@@ -6,9 +6,9 @@ name:
     full: Velvet Gloves
     aliases: []
 description: "Plush velvet gloves; opulent garment for high-status formal occasions."
-id: iZy5aFcokB4JMepb
+id: btNiEwcqDXtJw4Di
 slug: velvet-gloves
-img: icons/gloves.svg
+img: icons/game-icons/delapouite/gloves.svg
 shortcode: VGlv
 type: armorgear
 package: sohl

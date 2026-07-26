@@ -6,12 +6,12 @@ tags:
 name:
     full: Xerathian Savanna Elephant
     aliases: []
-id: BT4BnDOPrZzvlkf8
+id: XghBgeCi6JfLAZbD
 slug: xerathian-savanna-elephant
-img: images/xerathian-savanna-elephant-headshot.webp
-portrait: images/xerathian-savanna-elephant.webp
+img: icons/game-icons/delapouite/elephant.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 31

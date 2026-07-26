@@ -6,9 +6,9 @@ name:
     full: Velvet Breeches
     aliases: []
 description: "Plush velvet breeches; luxurious garment for high-status formal events."
-id: sf0pFkfy2FqnYzEi
+id: cCo141bVbd3rNwnA
 slug: velvet-breeches
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: VBrch
 type: armorgear
 package: sohl

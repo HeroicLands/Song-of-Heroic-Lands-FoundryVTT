@@ -6,12 +6,12 @@ tags:
 name:
     full: Phantomwing
     aliases: []
-id: NQ8yqLO2gCpUGJmv
+id: HgferELsOeHk6yUO
 slug: phantomwing
-img: images/phantomwing-headshot.webp
-portrait: images/phantomwing.webp
+img: icons/game-icons/lorc/spectre.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 9

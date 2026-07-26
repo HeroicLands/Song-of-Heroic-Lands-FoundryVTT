@@ -6,12 +6,12 @@ tags:
 name:
     full: Giant Scorpion
     aliases: []
-id: eIhEJhaSyLYzDGRX
+id: D8RLnGJ3DDuh4jNr
 slug: giant-scorpion
-img: images/giant-scorpion-headshot.webp
-portrait: images/giant-scorpion.webp
+img: icons/game-icons/lorc/scorpion.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

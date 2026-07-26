@@ -4,9 +4,9 @@ tags: []
 name:
     full: Catagelophobia
     aliases: []
-id: 578oVmqxkirXu5qY
+id: 2vcPf8isUC3TJSKY
 slug: catagelophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: ctglphb
 type: trauma
 package: sohl

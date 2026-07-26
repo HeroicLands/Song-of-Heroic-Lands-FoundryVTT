@@ -6,9 +6,9 @@ name:
     full: Hemorrhagic Venom
     aliases: []
 description: "Snake venom disrupts blood clotting; extensive internal and external bleeding."
-id: GF1c8zMqVPVGGAhW
+id: szGAt5jeXrQFKezN
 slug: hemorrhagic-venom
-img: icons/poison-bottle.svg
+img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: hmgfvr
 type: affliction
 package: sohl

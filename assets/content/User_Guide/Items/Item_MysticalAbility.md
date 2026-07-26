@@ -1,7 +1,7 @@
 ---
 aliases:
     - Mystical Ability
-id: M8SGEd4OeqV5stmJ
+id: k2BO5PGE97a6YEZe
 type: doc
 package: sohl
 category: user-guide

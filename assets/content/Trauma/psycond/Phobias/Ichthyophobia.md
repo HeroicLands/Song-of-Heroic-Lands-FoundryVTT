@@ -4,9 +4,9 @@ tags: []
 name:
     full: Ichthyophobia
     aliases: []
-id: IxBD8PWyLjdLbamj
+id: OgdmtfYX0VIxVBi1
 slug: ichthyophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: ichthyop
 type: trauma
 package: sohl

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Blindness
     aliases: []
-id: DfcJ3iO8c66JLAGq
+id: ToWzjyTHRq2a5fCn
 slug: blindness
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: blndnss
 type: trauma
 package: sohl

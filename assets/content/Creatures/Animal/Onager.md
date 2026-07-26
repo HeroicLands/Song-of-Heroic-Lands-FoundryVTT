@@ -7,12 +7,12 @@ tags:
 name:
     full: Onager
     aliases: []
-id: Gp3yTxRm6VwNkL8D
+id: GS7W7FIX26LUrAl2
 slug: onager
-img: images/onager-headshot.webp
-portrait: images/onager.webp
+img: icons/game-icons/skoll/donkey.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 12

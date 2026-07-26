@@ -7,9 +7,9 @@ name:
     full: Scallions
     aliases: []
 description: "Young onions with tender greens, fresh or dried, early spring crop."
-id: cQqvNuSYmw0Fs75w
+id: vy9PHXkco5cAtf75
 slug: scallions
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: scallions
 type: miscgear
 package: sohl

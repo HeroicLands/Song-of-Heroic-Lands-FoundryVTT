@@ -5,9 +5,9 @@ name:
     full: Cookery
     aliases: []
 description: "Preparing food; transforming ingredients into nourishing, delightful meals."
-id: RcPswIec44IFMKew
+id: vOMFCy5llDJ16W5G
 slug: cookery
-img: icons/cookery.svg
+img: icons/game-icons/delapouite/cooking-pot.svg
 shortcode: cook
 type: skill
 package: sohl

@@ -1,7 +1,7 @@
 ---
 aliases:
     - Combat Technique
-id: GiORHP44fLjhPSDf
+id: x6iRhqUMkwO9w6NC
 type: doc
 package: sohl
 category: user-guide

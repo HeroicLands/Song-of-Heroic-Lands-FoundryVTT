@@ -7,12 +7,12 @@ tags:
 name:
     full: Seal
     aliases: []
-id: Bk3nYpWx6TvRqM9F
+id: TvRddodNaxRqAUmo
 slug: seal
-img: images/seal-headshot.webp
-portrait: images/seal.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 9

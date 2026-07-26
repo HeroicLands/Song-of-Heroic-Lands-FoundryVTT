@@ -6,12 +6,12 @@ tags:
 name:
     full: Mountain Troll
     aliases: []
-id: Y35XjPOOR3GwPuvr
+id: CkpnCdKnSiNWnnjO
 slug: mountain-troll
-img: images/mountain-troll-headshot.webp
-portrait: images/mountain-troll.webp
+img: icons/game-icons/skoll/troll.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 33

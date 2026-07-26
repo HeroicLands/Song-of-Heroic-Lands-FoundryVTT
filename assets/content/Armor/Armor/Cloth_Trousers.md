@@ -6,9 +6,9 @@ name:
     full: Cloth Trousers
     aliases: []
 description: "Simple cloth trousers offering comfort and warmth for everyday wear."
-id: fzL4qWkf0Paapldb
+id: lpUOt6Pu4RLj0zBq
 slug: cloth-trousers
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: CTrsr
 type: armorgear
 package: sohl

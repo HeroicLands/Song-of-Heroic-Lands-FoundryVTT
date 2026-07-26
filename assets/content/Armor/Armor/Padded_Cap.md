@@ -6,9 +6,9 @@ name:
     full: Padded Cap
     aliases: []
 description: "Cushioned head covering providing warmth for wear under helmets."
-id: MzykBMvqECyB9AcH
+id: XClZwCLpLsWvnWbH
 slug: padded-cap
-img: icons/cap.svg
+img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: PCap
 type: armorgear
 package: sohl

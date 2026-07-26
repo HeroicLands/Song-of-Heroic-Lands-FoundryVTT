@@ -4,9 +4,9 @@ tags: []
 name:
     full: Schizophrenia
     aliases: []
-id: rd6nkUNkcIou5SBM
+id: b2GfR3llVmETAEbd
 slug: schizophrenia
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: schizop
 type: trauma
 package: sohl

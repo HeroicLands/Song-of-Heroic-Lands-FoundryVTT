@@ -565,22 +565,22 @@ export const SOHLCONFIG: SohlConfig = {
         {
             id: STATUS_EFFECT.INCAPACITATED,
             name: "Incapacitated",
-            img: "systems/sohl/assets/icons/knockout.svg",
+            img: "systems/sohl/assets/icons/game-icons/skoll/knockout.svg",
         },
         {
             id: STATUS_EFFECT.VANQUISHED,
             name: "Vanquished",
-            img: "systems/sohl/assets/icons/surrender.svg",
+            img: "systems/sohl/assets/icons/other/surrender.svg",
         },
         {
             id: STATUS_EFFECT.AURAL_SHOCK,
             name: "Aural Shock",
-            img: "systems/sohl/assets/icons/shock.svg",
+            img: "systems/sohl/assets/icons/other/shock.svg",
         },
         {
             id: STATUS_EFFECT.EVADING,
             name: "Evading",
-            img: "systems/sohl/assets/icons/evade.svg",
+            img: "systems/sohl/assets/icons/other/evade.svg",
         },
     ],
 
@@ -596,7 +596,7 @@ export const SOHLCONFIG: SohlConfig = {
     },
 
     controlIcons: {
-        defeated: toFilePath("systems/sohl/assets/icons/surrender.svg"),
+        defeated: toFilePath("systems/sohl/assets/icons/other/surrender.svg"),
     },
     time: {
         worldCalendarConfig: SOHL_DEFAULT_CALENDAR_CONFIG,

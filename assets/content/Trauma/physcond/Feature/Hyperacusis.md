@@ -4,9 +4,9 @@ tags: []
 name:
     full: Hyperacusis
     aliases: []
-id: 9ZxGBDQdNowCgrIE
+id: up0PMJxnaEFHqBDy
 slug: hyperacusis
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: hyprcss
 type: trauma
 package: sohl

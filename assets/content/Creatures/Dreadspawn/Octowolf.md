@@ -6,12 +6,12 @@ tags:
 name:
     full: Octowolf
     aliases: []
-id: RwqeoPw5VVMnxPWE
+id: BwTf4AoCnGxgkYyZ
 slug: octowolf
-img: images/octowolf-headshot.webp
-portrait: images/octowolf.webp
+img: icons/game-icons/lorc/wolf-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 18

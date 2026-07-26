@@ -6,9 +6,9 @@ name:
     full: Worsted Trousers
     aliases: []
 description: "Tightly-spun wool trousers; warm, durable leg wear."
-id: JK2jkjV7EPZXyLxJ
+id: RYEcin42vR205Lmk
 slug: worsted-trousers
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: WTrsr
 type: armorgear
 package: sohl

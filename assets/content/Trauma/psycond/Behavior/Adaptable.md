@@ -4,9 +4,9 @@ tags: []
 name:
     full: Adaptable
     aliases: []
-id: r5D9fkUcenN7evHl
+id: fYDcn2RjGBLWlTvi
 slug: adaptable
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: adapt
 type: trauma
 package: sohl

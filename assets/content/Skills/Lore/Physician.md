@@ -5,9 +5,9 @@ name:
     full: Physician
     aliases: []
 description: "Diagnosing illness, treating injuries, performing surgery, and healing wounds."
-id: k1krF4IVzO6hJgMl
+id: nMPKgtFbCnXMNzuI
 slug: physician
-img: icons/caduceus.svg
+img: icons/game-icons/delapouite/caduceus.svg
 shortcode: pysn
 type: skill
 package: sohl

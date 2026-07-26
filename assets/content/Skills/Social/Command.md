@@ -5,9 +5,9 @@ name:
     full: Command
     aliases: []
 description: "Compelling obedience through authority, intimidation, and commanding presence."
-id: uDJwA2LHQXHhHr6p
+id: tKieDfHG5pLS0Pca
 slug: command
-img: icons/rhetoric.svg
+img: icons/game-icons/lorc/conversation.svg
 shortcode: cmd
 type: skill
 package: sohl

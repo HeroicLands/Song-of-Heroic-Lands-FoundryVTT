@@ -7,9 +7,9 @@ name:
     full: Hogshead Wine
     aliases: []
 description: "Common wine in large cask; merchant households, feeds season of feasts."
-id: gmHurBb709lYtJds
+id: b3UfVzFWKyj86aOn
 slug: hogshead-wine
-img: icons/wine-bottle.svg
+img: icons/game-icons/delapouite/wine-bottle.svg
 shortcode: winehgsh
 type: miscgear
 package: sohl

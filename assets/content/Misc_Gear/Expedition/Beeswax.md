@@ -7,9 +7,9 @@ name:
     full: Beeswax
     aliases: []
 description: "Pale honey-colored cake; waterproofs leather, caulks wood, and makes fine candles."
-id: bkAvIciquAXZ2m8K
+id: 46pupDJw1uog74NJ
 slug: beeswax
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bswax
 type: miscgear
 package: sohl

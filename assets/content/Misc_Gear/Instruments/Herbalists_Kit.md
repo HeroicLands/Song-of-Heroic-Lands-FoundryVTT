@@ -7,9 +7,9 @@ name:
     full: Herbalist's Kit
     aliases: []
 description: "Leather satchel with mortar and pestle, pruning knife, vials, filter cloth, drying frame."
-id: J2wRkMpT9XyVbQ6s
+id: g6OjdIxbReVBO4Gl
 slug: herbalists-kit
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: herbkit
 type: miscgear
 package: sohl

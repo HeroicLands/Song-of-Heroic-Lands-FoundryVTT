@@ -6,12 +6,12 @@ tags:
 name:
     full: Crow
     aliases: []
-id: xGjIQvO7f6oCw3S9
+id: 12aoq5wWUTMD33Jm
 slug: crow
-img: images/crow-headshot.webp
-portrait: images/crow.webp
+img: icons/game-icons/lorc/crow-dive.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 4

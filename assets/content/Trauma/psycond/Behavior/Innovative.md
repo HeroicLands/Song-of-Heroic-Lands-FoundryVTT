@@ -4,9 +4,9 @@ tags: []
 name:
     full: Innovative
     aliases: []
-id: DauRvaal3b8COj44
+id: vBN4QkHETMR4kl9C
 slug: innovative
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: innvtv
 type: trauma
 package: sohl

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Eloquence
     aliases: []
-id: uX7asqHDkPWxVi1a
+id: fqNqvvCDHQx44iCe
 slug: eloquence
-img: icons/oratory.svg
+img: icons/game-icons/delapouite/megaphone.svg
 shortcode: elo
 type: attribute
 package: sohl

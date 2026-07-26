@@ -6,9 +6,9 @@ name:
     full: Mail Sleeved Byrnie
     aliases: []
 description: "Long sleeved metal ring shirt providing substantial torso and arm protection."
-id: ygNXuXwb1q7MqoUg
+id: ZlFF1DjLVD9SETMi
 slug: mail-sleeved-byrnie
-img: icons/chain-mail.svg
+img: icons/game-icons/willdabeast/chain-mail.svg
 shortcode: MSByr
 type: armorgear
 package: sohl

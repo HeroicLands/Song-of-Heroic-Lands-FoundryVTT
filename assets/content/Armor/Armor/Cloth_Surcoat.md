@@ -6,9 +6,9 @@ name:
     full: Cloth Surcoat
     aliases: []
 description: "Simple cloth surcoat providing comfort and practical outer wear."
-id: 1Vw2ZOHjOVbT3SAw
+id: kW4XEgFpOfaPS0dN
 slug: cloth-surcoat
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: CScoat
 type: armorgear
 package: sohl

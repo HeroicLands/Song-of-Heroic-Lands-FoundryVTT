@@ -6,12 +6,12 @@ tags:
 name:
     full: Crystalclaw
     aliases: []
-id: JFVXrAlzDrYVlvyd
+id: aR2QPYkOiyPmVC4k
 slug: crystalclaw
-img: images/crystalclaw-headshot.webp
-portrait: images/crystalclaw.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 18

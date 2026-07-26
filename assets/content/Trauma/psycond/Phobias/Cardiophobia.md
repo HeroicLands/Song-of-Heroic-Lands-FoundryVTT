@@ -4,9 +4,9 @@ tags: []
 name:
     full: Cardiophobia
     aliases: []
-id: n8dBsntYMUsOH7nh
+id: Zb1vpNJVp4sYVnec
 slug: cardiophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: crdphb
 type: trauma
 package: sohl

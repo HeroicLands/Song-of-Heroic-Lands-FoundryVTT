@@ -6,12 +6,12 @@ tags:
 name:
     full: Stygian Leviathan
     aliases: []
-id: oyXPkVrtWEHRMqr8
+id: NTZQh3DsxPrIxvtI
 slug: stygian-leviathan
-img: images/stygian-leviathan-headshot.webp
-portrait: images/stygian-leviathan.webp
+img: icons/game-icons/lorc/sea-serpent.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 20

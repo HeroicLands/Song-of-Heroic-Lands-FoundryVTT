@@ -7,9 +7,9 @@ name:
     full: Fleece
     aliases: []
 description: "Raw wool sheared or combed; fine yields soft yarn, coarse felts."
-id: 3vZwHuwig8AsU1Z5
+id: WU01IRdAXZkmXAB7
 slug: fleece
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: fleece
 type: miscgear
 package: sohl

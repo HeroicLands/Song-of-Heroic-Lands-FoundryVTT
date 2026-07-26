@@ -6,12 +6,12 @@ tags:
 name:
     full: Viper
     aliases: []
-id: IWqCcT52TPhaxQJZ
+id: TscKeVS3HigBRoWZ
 slug: viper
-img: images/viper-headshot.webp
-portrait: images/viper.webp
+img: icons/game-icons/lorc/snake.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 6

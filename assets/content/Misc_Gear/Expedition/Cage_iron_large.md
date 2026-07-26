@@ -7,9 +7,9 @@ name:
     full: "Cage, iron, large"
     aliases: []
 description: "Heavy forged iron cage with riveted bars; confines man or dangerous beasts."
-id: 076bjiCPPRQ8vObv
+id: 92Wj8lsopaK0Kzpb
 slug: cage-iron-large
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cageironla
 type: miscgear
 package: sohl

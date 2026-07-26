@@ -4,9 +4,9 @@ tags: []
 name:
     full: Vigilant
     aliases: []
-id: RI9iTNytVPvp3qVJ
+id: cS4CuhXNI9lsnDx4
 slug: vigilant
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: vigilant
 type: trauma
 package: sohl

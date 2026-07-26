@@ -4,9 +4,9 @@ tags: []
 name:
     full: Photosensitivity
     aliases: []
-id: KDRTA3a2CY4TtHu6
+id: XjdCLakpybIfqBsi
 slug: photosensitivity
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: photosen
 type: trauma
 package: sohl

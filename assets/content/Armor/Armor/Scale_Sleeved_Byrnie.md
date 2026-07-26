@@ -6,9 +6,9 @@ name:
     full: Scale Sleeved Byrnie
     aliases: []
 description: "Scale-armored torso and arms; sleeves add shoulder and arm coverage."
-id: VhBCW3Mjk1txZTSD
+id: jFIjELgQikuQX4WC
 slug: scale-sleeved-byrnie
-img: icons/scale-mail.svg
+img: icons/game-icons/lorc/scale-mail.svg
 shortcode: SSlByrn
 type: armorgear
 package: sohl

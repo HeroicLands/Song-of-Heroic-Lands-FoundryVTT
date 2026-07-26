@@ -6,12 +6,12 @@ tags:
 name:
     full: Feraldew
     aliases: []
-id: dnphCJCoaZFsze9L
+id: c9Dwi7Xceu24w4P6
 slug: feraldew
-img: images/feraldew-headshot.webp
-portrait: images/feraldew.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 18

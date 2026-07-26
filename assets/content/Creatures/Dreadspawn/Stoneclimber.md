@@ -6,12 +6,12 @@ tags:
 name:
     full: Stoneclimber
     aliases: []
-id: 6IErjkJa4TPsReDk
+id: K2ltSub3JftqQzbn
 slug: stoneclimber
-img: images/stoneclimber-headshot.webp
-portrait: images/stoneclimber.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 18

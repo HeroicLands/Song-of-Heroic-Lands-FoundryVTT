@@ -4,9 +4,9 @@ tags: []
 name:
     full: Ballistophobia
     aliases: []
-id: cY62hGkxpAcPZodS
+id: vhmdWQ1yBcrhPJpN
 slug: ballistophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: ballphb
 type: trauma
 package: sohl

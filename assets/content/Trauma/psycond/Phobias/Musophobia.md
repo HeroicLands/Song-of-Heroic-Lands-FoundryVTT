@@ -4,9 +4,9 @@ tags: []
 name:
     full: Musophobia
     aliases: []
-id: 13DJpPf6QmzpNGsH
+id: MtbIVfIdDaia4MHC
 slug: musophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: musophb
 type: trauma
 package: sohl

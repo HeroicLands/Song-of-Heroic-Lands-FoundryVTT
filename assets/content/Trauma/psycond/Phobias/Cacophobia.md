@@ -4,9 +4,9 @@ tags: []
 name:
     full: Cacophobia
     aliases: []
-id: OoI63FJOkaLYGaBw
+id: QXpIVIP33AGmgyUz
 slug: cacophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: cacophb
 type: trauma
 package: sohl

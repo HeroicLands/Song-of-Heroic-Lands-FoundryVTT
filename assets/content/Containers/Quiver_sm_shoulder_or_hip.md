@@ -6,9 +6,9 @@ name:
     full: "Quiver, sm (shoulder or hip)"
     aliases: []
 description: "Smaller quiver worn at shoulder or hip for light archery and hunting."
-id: tzDkrKjx1wm85Guw
+id: QlSTQXxXgKPSGwIx
 slug: quiver-sm-shoulder-or-hip
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: quiversmsh
 type: containergear
 package: sohl

@@ -6,12 +6,12 @@ tags:
 name:
     full: Thunderbird
     aliases: []
-id: vNz3fodkKo2JfvJ6
+id: cCvH3RbioiVmP5uA
 slug: thunderbird
-img: images/thunderbird-headshot.webp
-portrait: images/thunderbird.webp
+img: icons/game-icons/delapouite/eagle-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 36

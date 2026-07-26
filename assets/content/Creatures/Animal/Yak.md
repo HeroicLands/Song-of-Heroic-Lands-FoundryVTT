@@ -7,12 +7,12 @@ tags:
 name:
     full: Yak
     aliases: []
-id: Qr6nTxWv9YpKmB5J
+id: XoxshfojIWfr4kTc
 slug: yak
-img: images/yak-headshot.webp
-portrait: images/yak.webp
+img: icons/game-icons/delapouite/bison.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

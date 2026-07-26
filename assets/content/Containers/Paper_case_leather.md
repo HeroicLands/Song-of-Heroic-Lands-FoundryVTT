@@ -6,9 +6,9 @@ name:
     full: "Paper case, leather"
     aliases: []
 description: "Waxed leather tube for carrying folded documents and parchment safely."
-id: IiqQkYKogafRFC5r
+id: PKqzjZ1O9O86nyQH
 slug: paper-case-leather
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: papercasel
 type: containergear
 package: sohl

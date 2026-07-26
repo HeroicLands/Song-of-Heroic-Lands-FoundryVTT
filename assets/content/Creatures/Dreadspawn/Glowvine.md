@@ -6,12 +6,12 @@ tags:
 name:
     full: Glowvine
     aliases: []
-id: HO98Gwq0wXfNWy5J
+id: dQx4jt8bWKxTwaOT
 slug: glowvine
-img: images/glowvine-headshot.webp
-portrait: images/glowvine.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 14

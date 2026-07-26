@@ -5,9 +5,9 @@ name:
     full: Milling
     aliases: []
 description: "Processing grain into flour and meal using mill mechanics and stone-dressing."
-id: n4lzgjjiF2762IcU
+id: ojQ9h4Gv5xdDuCWm
 slug: milling
-img: icons/water-mill.svg
+img: icons/game-icons/caro-asercion/water-mill.svg
 shortcode: mill
 type: skill
 package: sohl

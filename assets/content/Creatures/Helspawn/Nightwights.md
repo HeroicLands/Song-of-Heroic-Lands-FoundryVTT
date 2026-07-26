@@ -6,12 +6,12 @@ tags:
 name:
     full: Nightwights
     aliases: []
-id: WIoHMBCWDWNviuBh
+id: Kpo7Htb3b9uJEh6x
 slug: nightwight
-img: ""
+img: icons/game-icons/delapouite/person.svg
 portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 16

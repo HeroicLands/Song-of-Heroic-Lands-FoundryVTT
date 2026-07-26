@@ -6,12 +6,12 @@ tags:
 name:
     full: Stonebeast
     aliases: []
-id: 1t2XTeDphB3VG0Ez
+id: vkJVD3VzKCKvgPCx
 slug: stonebeast
-img: images/stonebeast-headshot.webp
-portrait: images/stonebeast.webp
+img: icons/game-icons/delapouite/rock-golem.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         end: 19

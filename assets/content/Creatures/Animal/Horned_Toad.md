@@ -6,12 +6,12 @@ tags:
 name:
     full: Horned Toad
     aliases: []
-id: CIBkh7fouIhQhuoA
+id: Pw1yCo0E0c33EE6P
 slug: horned-toad
-img: images/horned-toad-headshot.webp
-portrait: images/horned-toad.webp
+img: icons/game-icons/delapouite/horned-reptile.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 11

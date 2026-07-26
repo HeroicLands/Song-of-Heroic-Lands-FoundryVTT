@@ -7,12 +7,12 @@ tags:
 name:
     full: Llama
     aliases: []
-id: Fm3nYpWx8TvRqK6B
+id: ZVyZDoJ0iDiQn5J9
 slug: llama
-img: images/llama-headshot.webp
-portrait: images/llama.webp
+img: icons/game-icons/delapouite/camel-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 12

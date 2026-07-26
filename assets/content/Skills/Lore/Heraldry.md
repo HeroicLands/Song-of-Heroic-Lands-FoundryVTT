@@ -5,9 +5,9 @@ name:
     full: Heraldry
     aliases: []
 description: "Interpreting coats of arms, crests, badges; revealing lineage and history."
-id: OlbJoKLPzyf04vVN
+id: A6dgxBXv4Tu6rua4
 slug: heraldry
-img: icons/heraldry.svg
+img: icons/game-icons/badges/shield.svg
 shortcode: hrld
 type: skill
 package: sohl

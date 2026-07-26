@@ -6,12 +6,12 @@ tags:
 name:
     full: Thundertalon
     aliases: []
-id: FmmD7CA1lZYkODAr
+id: BER0R5sENldRKjgM
 slug: thundertalon
-img: images/thundertalon-headshot.webp
-portrait: images/thundertalon.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

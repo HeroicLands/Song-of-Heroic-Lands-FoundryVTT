@@ -6,12 +6,12 @@ tags:
 name:
     full: Courser
     aliases: []
-id: rhOvfsftio0iD05m
+id: inCsJVZjrrZVkpJI
 slug: courser
-img: images/courser-headshot.webp
-portrait: images/courser.webp
+img: icons/game-icons/delapouite/horse-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 27

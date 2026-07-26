@@ -6,12 +6,12 @@ tags:
 name:
     full: Voidserpent
     aliases: []
-id: p9ibVfgYvfYSQdNy
+id: mXr47FnIDlmq2RCz
 slug: voidserpent
-img: images/voidserpent-headshot.webp
-portrait: images/voidserpent.webp
+img: icons/game-icons/lorc/snake.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

@@ -6,12 +6,12 @@ tags:
 name:
     full: Cat
     aliases: []
-id: clnfzbTybinck8kz
+id: HssiDLDnWMtX8Yp4
 slug: cat
-img: images/cat-headshot.webp
-portrait: images/cat.webp
+img: icons/game-icons/lorc/cat.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 5

@@ -5,9 +5,9 @@ name:
     full: Initiative
     aliases: []
 description: "Battlefield experience and tactical awareness; acting first in combat."
-id: m8pFDJhw72uj8kJ8
+id: RFWzRoQovoVqonca
 slug: initiative
-img: icons/initiative.svg
+img: icons/game-icons/lorc/sprint.svg
 shortcode: init
 type: skill
 package: sohl

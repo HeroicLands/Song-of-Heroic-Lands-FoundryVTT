@@ -7,9 +7,9 @@ name:
     full: Grease
     aliases: []
 description: "Rendered mutton-beef-hog fat; cooking, waterproofing leather, axle lubrication."
-id: XvwQMwn178ebK2KV
+id: tnQLJqOSADXL6gMh
 slug: grease
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: grease
 type: miscgear
 package: sohl

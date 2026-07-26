@@ -4,9 +4,9 @@ tags: []
 name:
     full: Antisocial
     aliases: []
-id: 9rDT4cqXppp1Lf63
+id: Mq4n9gCaxoUox4hZ
 slug: antisocial
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: antscl
 type: trauma
 package: sohl

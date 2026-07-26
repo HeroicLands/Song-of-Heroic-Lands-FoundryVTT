@@ -7,9 +7,9 @@ name:
     full: Millstone
     aliases: []
 description: "Large granite or basalt disc with dressed furrows; grinds grain for decades."
-id: qiz4zXbugy79EGLQ
+id: DH8AbckWaXc27pSf
 slug: millstone
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: millstone
 type: miscgear
 package: sohl

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Codependent
     aliases: []
-id: PzLFhcerUpEUbSjq
+id: ViIV4vp6PSpMqlsW
 slug: codependent
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cdpndnt
 type: trauma
 package: sohl

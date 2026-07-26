@@ -5,9 +5,9 @@ name:
     full: Hypoxic
     aliases: []
 description: "Insufficient oxygen reaching tissues; breathlessness, blue lips, confusion."
-id: VYnkaUfrrTCkkOlI
+id: Xk9uPqRbOH289xDf
 slug: hypoxic
-img: icons/privation.svg
+img: icons/game-icons/delapouite/stomach.svg
 shortcode: hypox
 type: trauma
 package: sohl

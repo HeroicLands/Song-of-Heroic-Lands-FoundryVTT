@@ -5,9 +5,9 @@ name:
     full: Arsenic
     aliases: []
 description: "Metalloid poison; causes gastrointestinal bleeding and organ failure."
-id: cKYHVFfg3w78eeEO
+id: EImQe8BdY1M61KPy
 slug: arsenic
-img: icons/poison-bottle.svg
+img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: arsenic
 type: affliction
 package: sohl

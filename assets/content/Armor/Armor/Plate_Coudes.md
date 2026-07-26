@@ -6,9 +6,9 @@ name:
     full: Plate Coudes
     aliases: []
 description: "Steel elbow-caps; joint-guard for armed combat or labor."
-id: efHQM4LRA4sCbAju
+id: 2ryS8kQlPEAX3raG
 slug: plate-coudes
-img: icons/elbow-pad.svg
+img: icons/game-icons/delapouite/elbow-pad.svg
 shortcode: PlCou
 type: armorgear
 package: sohl

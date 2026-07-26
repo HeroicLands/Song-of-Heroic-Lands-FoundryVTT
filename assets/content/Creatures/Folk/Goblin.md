@@ -5,8 +5,8 @@ tags:
     - folk
 type: doc
 category: lore
-package: thalorna
-id: aTShFAUMufpLvzPO
+package: sohl
+id: lMmw2KlMPGvuR6d3
 name:
     full: Goblin
     aliases: []

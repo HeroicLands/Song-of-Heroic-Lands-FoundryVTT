@@ -6,12 +6,12 @@ tags:
 name:
     full: Dire Honey Badger
     aliases: []
-id: SzMOyWQM5BClDY6k
+id: yfdwPLNfDfwLHV8b
 slug: dire-honey-badger
-img: images/dire-honey-badger-headshot.webp
-portrait: images/dire-honey-badger.webp
+img: icons/game-icons/caro-asercion/badger.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 25

@@ -7,9 +7,9 @@ name:
     full: Scones
     aliases: []
 description: "Wheat flour rounds lightly sweetened, bakery luxury keeping several days."
-id: mmrN3JYXnkLGSD1t
+id: zTO7w8pEronA9pry
 slug: scones
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: scones
 type: miscgear
 package: sohl

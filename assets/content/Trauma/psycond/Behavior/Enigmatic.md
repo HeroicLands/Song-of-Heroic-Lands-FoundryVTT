@@ -4,9 +4,9 @@ tags: []
 name:
     full: Enigmatic
     aliases: []
-id: dWo2fuKoyexq2SaI
+id: eiZ5TYf2XaCPtojK
 slug: enigmatic
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: engmtc
 type: trauma
 package: sohl

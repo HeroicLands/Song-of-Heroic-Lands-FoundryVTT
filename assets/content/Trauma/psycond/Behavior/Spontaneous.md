@@ -4,9 +4,9 @@ tags: []
 name:
     full: Spontaneous
     aliases: []
-id: vhphGbRMOKPY3Tu4
+id: vROxy4RTxxgFPXbd
 slug: spontaneous
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: spntns
 type: trauma
 package: sohl

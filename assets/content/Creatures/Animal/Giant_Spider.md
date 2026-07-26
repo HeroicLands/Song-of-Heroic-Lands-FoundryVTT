@@ -6,12 +6,12 @@ tags:
 name:
     full: Giant Spider
     aliases: []
-id: a46yPzIGp9tru2uR
+id: HzxG1auqS4IJfpH1
 slug: giant-spider
-img: images/giant-spider-headshot.webp
-portrait: images/giant-spider.webp
+img: icons/game-icons/carl-olsen/spider-alt.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

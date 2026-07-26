@@ -7,9 +7,9 @@ name:
     full: "Lock, miniature"
     aliases: []
 description: "Finger-length iron lock for jewelry boxes and caskets; master locksmith's fine craft."
-id: vZKEwg0WNAgZEqck
+id: gSSHi0qijOxfwjz7
 slug: lock-miniature
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lockminiat
 type: miscgear
 package: sohl

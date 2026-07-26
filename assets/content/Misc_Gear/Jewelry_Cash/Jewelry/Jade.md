@@ -7,9 +7,9 @@ name:
     full: Jade
     aliases: []
 description: "Tough green stone, pale celadon to deep forest; carved into amulets."
-id: MwwNWrav3IH8fqtR
+id: 0iypnRENI2leejE6
 slug: jade
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jade
 type: miscgear
 package: sohl

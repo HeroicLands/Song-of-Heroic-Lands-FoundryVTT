@@ -6,12 +6,12 @@ tags:
 name:
     full: Giant Jumping Spider
     aliases: []
-id: OOeU4ZGWuPGnEk6V
+id: A95HDhCBTL8EVKBO
 slug: giant-jumping-spider
-img: images/giant-jumping-spider-headshot.webp
-portrait: images/giant-jumping-spider.webp
+img: icons/game-icons/carl-olsen/spider-alt.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

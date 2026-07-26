@@ -6,9 +6,9 @@ name:
     full: Leather Breeches
     aliases: []
 description: "Lightweight stylish leather leg covering for rugged adventuring or everyday wear."
-id: GZjVef08RE8hsNzh
+id: aYp2LCPPci2Wl19T
 slug: leather-breeches
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: LtBrch
 type: armorgear
 package: sohl

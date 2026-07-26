@@ -4,9 +4,9 @@ tags: []
 name:
     full: Intuitive
     aliases: []
-id: DvyRAJwzIUt7E09f
+id: gCqxoueeDJlZuS8u
 slug: intuitive
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: inttv
 type: trauma
 package: sohl

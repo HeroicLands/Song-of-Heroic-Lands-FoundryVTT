@@ -6,9 +6,9 @@ name:
     full: Waterskin, 2qt.
     aliases: []
 description: "Pitch-lined hide waterskin with horn plug; essential traveling gear."
-id: DdlmMVb2ldCpGzkk
+id: XybyEdF3GrJWBhh2
 slug: waterskin-2qt
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: wtrskin
 type: containergear
 package: sohl

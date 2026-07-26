@@ -6,12 +6,12 @@ tags:
 name:
     full: Rockback Bear
     aliases: []
-id: W3jG8MgBoxm29iae
+id: KRJCfi3ZMuOYTwFd
 slug: rockback-bear
-img: images/rockback-bear-headshot.webp
-portrait: images/rockback-bear.webp
+img: icons/game-icons/delapouite/bear-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 18

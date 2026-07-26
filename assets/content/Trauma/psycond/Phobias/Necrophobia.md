@@ -4,9 +4,9 @@ tags: []
 name:
     full: Necrophobia
     aliases: []
-id: PpOsvVyBV0lAIc7E
+id: t4A2K9avcp5Rf6WE
 slug: necrophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: necrophb
 type: trauma
 package: sohl

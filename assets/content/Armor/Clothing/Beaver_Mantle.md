@@ -6,9 +6,9 @@ name:
     full: Beaver Mantle
     aliases: []
 description: "Beaver fur mantle blending function and status; warm and luxurious."
-id: TzFwvfVq8JLC9dpA
+id: mwtDg2zlnRkwj6ZT
 slug: beaver-mantle
-img: icons/mantle.svg
+img: icons/game-icons/delapouite/cape.svg
 shortcode: BvMntl
 type: armorgear
 package: sohl

@@ -5,9 +5,9 @@ name:
     full: Tracking
     aliases: []
 description: "Reading footprints, vegetation, and signs of passage through environments."
-id: r84g3zzaBmp1zDl4
+id: rve7MQf46F3L7gkU
 slug: tracking
-img: icons/tracking.svg
+img: icons/game-icons/lorc/footprint.svg
 shortcode: trak
 type: skill
 package: sohl

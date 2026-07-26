@@ -6,9 +6,9 @@ name:
     full: Russet Vest
     aliases: []
 description: "Reddish-brown wool vest; sleeveless torso warmth."
-id: qYPlaKSvAdvwOA4h
+id: an9WNX6s5tbXNhVg
 slug: russet-vest
-img: icons/vest.svg
+img: icons/game-icons/lorc/leather-vest.svg
 shortcode: RVest
 type: armorgear
 package: sohl

@@ -7,9 +7,9 @@ name:
     full: Hideworking Kit
     aliases: []
 description: "Leather roll with scrapers, stretching pegs, fleshing knife; tanners treat raw hides."
-id: Nljd751DTwKf993p
+id: GSnBMggD5ccGrIOg
 slug: hideworking-kit
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hdwkkit
 type: miscgear
 package: sohl

@@ -5,9 +5,9 @@ name:
     full: Folklore
     aliases: []
 description: "Knowledge of homeland culture, history, traditions, myth and social customs."
-id: ZwmwSFkiYoH6qRty
+id: Na0Kzoqj13YDU3Xt
 slug: folklore
-img: icons/unicorn.svg
+img: icons/game-icons/delapouite/unicorn.svg
 shortcode: folklr
 type: skill
 package: sohl

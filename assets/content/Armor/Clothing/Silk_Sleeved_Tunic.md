@@ -6,9 +6,9 @@ name:
     full: Silk Sleeved Tunic
     aliases: []
 description: "Elegant flowing silk sleeved tunic; perfect for formal occasions."
-id: TH6f8H6eFKRCm3PD
+id: Fk2pJOLPWi6SPHsI
 slug: silk-sleeved-tunic
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: SlkSTnc
 type: armorgear
 package: sohl

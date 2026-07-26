@@ -4,9 +4,9 @@ tags: []
 name:
     full: Syndactyly
     aliases: []
-id: Nm4Q0Yxe968r39sv
+id: YyQdZWfAYHdCE9Ft
 slug: syndactyly
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: syndacty
 type: trauma
 package: sohl

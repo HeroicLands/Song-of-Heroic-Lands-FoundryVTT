@@ -5,9 +5,9 @@ tags: []
 name:
     full: Cold Intolerance
     aliases: []
-id: EoBGpKNpDH2D5zF5
+id: xDDnjoQmg0Tlv9NG
 slug: cold-intolerance
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: coldinto
 type: trauma
 package: sohl

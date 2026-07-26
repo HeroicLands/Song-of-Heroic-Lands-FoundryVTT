@@ -4,9 +4,9 @@ tags: []
 name:
     full: Entomophobia
     aliases: []
-id: wzg05gE58HcxHfsh
+id: Jd2Lli0rggAbkUEX
 slug: entomophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: entmphb
 type: trauma
 package: sohl

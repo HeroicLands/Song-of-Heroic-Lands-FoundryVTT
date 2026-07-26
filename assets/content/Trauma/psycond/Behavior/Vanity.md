@@ -4,9 +4,9 @@ tags: []
 name:
     full: Vanity
     aliases: []
-id: FahmSOpTgbWlZn2h
+id: 4nXSwX5AzNJAVQbd
 slug: vanity
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: vanity
 type: trauma
 package: sohl

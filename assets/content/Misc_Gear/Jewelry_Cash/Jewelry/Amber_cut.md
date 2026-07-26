@@ -7,9 +7,9 @@ name:
     full: "Amber, cut"
     aliases: []
 description: "Translucent golden gem faceted by lapidary; glows warmly for modest jewelry."
-id: Z8xZA6uBFYPSBN39
+id: EMMjYTR3WFgCf6OL
 slug: amber-cut
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: ambercut
 type: miscgear
 package: sohl

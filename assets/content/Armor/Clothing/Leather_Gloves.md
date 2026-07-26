@@ -6,9 +6,9 @@ name:
     full: Leather Gloves
     aliases: []
 description: "Lightweight leather hand covering offering style and minor protection."
-id: FOxKjKieEAM3ZxRe
+id: BvAGqDqYnZWWxCsK
 slug: leather-gloves
-img: icons/gloves.svg
+img: icons/game-icons/delapouite/gloves.svg
 shortcode: LtGlove
 type: armorgear
 package: sohl

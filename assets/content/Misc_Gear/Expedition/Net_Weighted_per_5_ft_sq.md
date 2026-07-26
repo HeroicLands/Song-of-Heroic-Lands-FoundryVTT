@@ -7,9 +7,9 @@ name:
     full: "Net, Weighted, per 5 ft sq."
     aliases: []
 description: "Hempen fishing net with lead weights for casting and sinking."
-id: 0IH5xyRHi25xkMBf
+id: XwQlQpZX3XzLVrpm
 slug: net-weighted-per-5-ft-sq
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: netweighte
 type: miscgear
 package: sohl

@@ -5,9 +5,9 @@ name:
     full: Hypoglycemic
     aliases: []
 description: "Blood sugar crashes; tremor, sweating, confusion, collapse."
-id: QQFI12X5eYYT7SGc
+id: XHarmSgD2KoBYtJh
 slug: hypoglycemic
-img: icons/privation.svg
+img: icons/game-icons/delapouite/stomach.svg
 shortcode: hypgly
 type: trauma
 package: sohl

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Indigiphobia
     aliases: []
-id: SDxeTOgzlXxqDaLw
+id: cYal2nge3QuKPr03
 slug: indigiphobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: indgphb
 type: trauma
 package: sohl

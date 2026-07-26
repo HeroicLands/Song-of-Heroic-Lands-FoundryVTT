@@ -6,12 +6,12 @@ tags:
 name:
     full: Abyssdrake
     aliases: []
-id: n4bzZp6mXAB6ahFK
+id: MoaH3MMvKwCfPZpw
 slug: abyssdrake
-img: images/abyssdrake-headshot.webp
-portrait: images/abyssdrake.webp
+img: icons/game-icons/faithtoken/dragon-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

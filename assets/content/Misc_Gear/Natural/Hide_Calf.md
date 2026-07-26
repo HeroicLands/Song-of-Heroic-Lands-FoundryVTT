@@ -7,9 +7,9 @@ name:
     full: "Hide, Calf"
     aliases: []
 description: "Young bovine hide, soft and thin; fine leather for gloves, saddle linings."
-id: 8Bf4H11gMrKArnyf
+id: GOU7wJy8kXSSeiWS
 slug: hide-calf
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidecalf
 type: miscgear
 package: sohl

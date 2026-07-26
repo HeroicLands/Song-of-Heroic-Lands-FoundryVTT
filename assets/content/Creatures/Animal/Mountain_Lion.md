@@ -6,12 +6,12 @@ tags:
 name:
     full: Mountain Lion
     aliases: []
-id: 903anTMKyjPxvvmq
+id: izFUCMnqOWBiGfb5
 slug: mountain-lion
-img: images/mountain-lion-headshot.webp
-portrait: images/mountain-lion.webp
+img: icons/game-icons/lorc/lion.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 16

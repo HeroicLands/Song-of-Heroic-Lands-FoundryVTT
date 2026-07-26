@@ -6,9 +6,9 @@ name:
     full: Russet Breeches
     aliases: []
 description: "Reddish-brown wool breeches; warm and hardy leg-wear."
-id: rsRNAJUKs9S49Ve2
+id: azl99CUBdZoB3lgj
 slug: russet-breeches
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: RBrch
 type: armorgear
 package: sohl

@@ -7,12 +7,12 @@ tags:
 name:
     full: Giant Rat
     aliases: []
-id: Pw4nTxKr7VyQmB8L
+id: JYYfIP5IvvkQ0oJK
 slug: giant-rat
-img: images/giant-rat-headshot.webp
-portrait: images/giant-rat.webp
+img: icons/game-icons/delapouite/rat.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 7

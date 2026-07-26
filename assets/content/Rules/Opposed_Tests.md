@@ -3,7 +3,7 @@ aliases:
     - Opposed Test
     - Opposed Success Test
     - Victory Degrees
-id: YByfiRN9BxL5gTHK
+id: 9y7OKpMC3KqGs8oT
 type: doc
 package: sohl
 category: rules

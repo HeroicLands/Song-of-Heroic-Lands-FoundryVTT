@@ -6,9 +6,9 @@ name:
     full: Leather Surcoat
     aliases: []
 description: "Rugged styled leather outer layer offering minimal protection and flexibility."
-id: 3bgdmzalF11m0cP3
+id: Zzr3NABNlG96U9ll
 slug: leather-surcoat
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: LtScoat
 type: armorgear
 package: sohl

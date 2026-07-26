@@ -6,12 +6,12 @@ tags:
 name:
     full: Thornrat
     aliases: []
-id: B0c1fyeTiCucXmUf
+id: RIxGnXKWRth60BN7
 slug: thornrat
-img: images/thornrat-headshot.webp
-portrait: images/thornrat.webp
+img: icons/game-icons/delapouite/rat.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 6

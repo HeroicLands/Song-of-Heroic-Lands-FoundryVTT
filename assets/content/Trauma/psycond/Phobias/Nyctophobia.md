@@ -4,9 +4,9 @@ tags: []
 name:
     full: Nyctophobia
     aliases: []
-id: nsWS6twIY8gH7L3Z
+id: 9VsshUMRCPQULJ7X
 slug: nyctophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: nyctophb
 type: trauma
 package: sohl

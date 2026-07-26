@@ -4,9 +4,9 @@ tags: []
 name:
     full: Equinophobia
     aliases: []
-id: NmYfjDjevHGTqj0A
+id: nfa0D9vKnCm0MEqJ
 slug: equinophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: eqnphb
 type: trauma
 package: sohl

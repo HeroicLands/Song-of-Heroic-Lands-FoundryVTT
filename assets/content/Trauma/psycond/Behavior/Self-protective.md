@@ -4,9 +4,9 @@ tags: []
 name:
     full: Self-protective
     aliases: []
-id: cP6ZEVtkgYYtdXZn
+id: hYanCELEhmAkCpEo
 slug: self-protective
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: self-pro
 type: trauma
 package: sohl

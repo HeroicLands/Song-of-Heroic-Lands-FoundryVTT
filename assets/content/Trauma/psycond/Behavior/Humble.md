@@ -4,9 +4,9 @@ tags: []
 name:
     full: Humble
     aliases: []
-id: bhKvGoZnt2z0rv7p
+id: c995m1jIeSk2fR2g
 slug: humble
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: humble
 type: trauma
 package: sohl

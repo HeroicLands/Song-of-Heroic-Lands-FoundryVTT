@@ -7,9 +7,9 @@ name:
     full: Berries
     aliases: []
 description: "Dried summer berries; tart, bright in winter cooking, keeps seasons."
-id: MBmrjsm1LLKehVcr
+id: yBraSy6LKZWxvDky
 slug: berries
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: berries
 type: miscgear
 package: sohl

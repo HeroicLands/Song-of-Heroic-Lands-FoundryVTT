@@ -4,9 +4,9 @@ tags: []
 name:
     full: Dysphoria
     aliases: []
-id: 1R0jXZP5iyBQiNd0
+id: v0ROwdXmKi6IguNH
 slug: dysphoria
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dysphr
 type: trauma
 package: sohl

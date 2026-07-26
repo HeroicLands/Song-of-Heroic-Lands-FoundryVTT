@@ -4,9 +4,9 @@ tags: []
 name:
     full: Pessimistic
     aliases: []
-id: 5K8NYrp3gHk0a2c6
+id: LlfNyX9IWa1uG00R
 slug: pessimistic
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: pssmstc
 type: trauma
 package: sohl

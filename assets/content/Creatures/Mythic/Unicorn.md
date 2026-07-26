@@ -7,12 +7,12 @@ tags:
 name:
     full: Unicorn
     aliases: []
-id: sJ2wXzYm6hGtKpB5
+id: BHOxntPKnVng9YYZ
 slug: unicorn
-img: images/unicorn-headshot.webp
-portrait: images/unicorn.webp
+img: icons/game-icons/delapouite/unicorn.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

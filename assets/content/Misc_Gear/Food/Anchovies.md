@@ -7,9 +7,9 @@ name:
     full: Anchovies
     aliases: []
 description: "Salt-packed small fish; intense savory depth, travels well in sealed jars."
-id: Tlb6GviyUstyYlln
+id: Mb1azilrSPemvtyP
 slug: anchovies
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: anchovies
 type: miscgear
 package: sohl

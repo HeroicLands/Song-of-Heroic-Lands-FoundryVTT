@@ -4,9 +4,9 @@ tags: []
 name:
     full: Ephebiphobia
     aliases: []
-id: 6hZqLd67K88X0d9W
+id: fvJwWCQ9PMJFm5UM
 slug: ephebiphobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: ephbphb
 type: trauma
 package: sohl

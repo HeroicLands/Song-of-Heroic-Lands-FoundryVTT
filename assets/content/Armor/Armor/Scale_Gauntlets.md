@@ -6,9 +6,9 @@ name:
     full: Scale Gauntlets
     aliases: []
 description: "Reinforced gloves with sewn metal scales; hand-and-wrist protection."
-id: ZLhl80C3v18V8bou
+id: uoSLJxu3VTAiQXl9
 slug: scale-gauntlets
-img: icons/gauntlet.svg
+img: icons/game-icons/delapouite/gauntlet.svg
 shortcode: SGntl
 type: armorgear
 package: sohl

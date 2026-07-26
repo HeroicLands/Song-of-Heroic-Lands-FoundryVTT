@@ -7,9 +7,9 @@ name:
     full: "Hide, Rabbit"
     aliases: []
 description: "Tiny soft fur pelt; lined winter hoods and muffs by furriers."
-id: liOkmKrdN64v2wPs
+id: WdE1i0tIq2EUjIo4
 slug: hide-rabbit
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hiderabbit
 type: miscgear
 package: sohl

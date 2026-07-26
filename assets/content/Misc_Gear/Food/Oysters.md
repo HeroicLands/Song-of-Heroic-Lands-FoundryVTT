@@ -7,9 +7,9 @@ name:
     full: Oysters
     aliases: []
 description: "Briny shellfish fresh at harbor or preserved in salt and smoke."
-id: bD813ZOIhLFzpMcl
+id: zdED4g9i0CAy8Yqq
 slug: oysters
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: oysters
 type: miscgear
 package: sohl

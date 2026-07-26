@@ -6,9 +6,9 @@ name:
     full: Worsted Dress
     aliases: []
 description: "Tightly-spun wool dress; durable, versatile garment for activities."
-id: wPcQ8ykyivZCyikd
+id: nit9nJYs2wHJytyJ
 slug: worsted-dress
-img: icons/dress.svg
+img: icons/game-icons/skoll/dress.svg
 shortcode: WDress
 type: armorgear
 package: sohl

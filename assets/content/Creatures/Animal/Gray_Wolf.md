@@ -6,12 +6,12 @@ tags:
 name:
     full: Gray Wolf
     aliases: []
-id: ESJN7G29Z8nBBD7n
+id: nPuJf6mTzOMgeULk
 slug: gray-wolf
-img: images/gray-wolf-headshot.webp
-portrait: images/gray-wolf.webp
+img: icons/game-icons/lorc/wolf-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 11

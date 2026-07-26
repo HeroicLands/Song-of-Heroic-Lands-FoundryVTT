@@ -6,9 +6,9 @@ name:
     full: Buckram Trousers
     aliases: []
 description: "Stiff buckram trousers providing durability and dependable rigid fit."
-id: XB38UDLulxgQYJlz
+id: dqnPQ1U3w7r9czNl
 slug: buckram-trousers
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: BTrsr
 type: armorgear
 package: sohl

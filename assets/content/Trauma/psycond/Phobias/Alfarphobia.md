@@ -4,9 +4,9 @@ tags: []
 name:
     full: Alfarphobia
     aliases: []
-id: TUIimlRAZlkucLWd
+id: o235CKClsOpdzKpy
 slug: alfarphobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: alfrphb
 type: trauma
 package: sohl

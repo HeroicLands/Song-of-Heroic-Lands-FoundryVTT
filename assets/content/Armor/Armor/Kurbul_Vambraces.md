@@ -7,9 +7,9 @@ name:
     full: Kûrbúl Vambraces
     aliases: []
 description: "Leather forearm guards with intricate designs providing function and style."
-id: YNgC9RhtXT9UGqBk
+id: WQUI5MnoU4jf4t8v
 slug: kurbul-vambraces
-img: icons/bracer.svg
+img: icons/game-icons/delapouite/bracer.svg
 shortcode: KVamb
 type: armorgear
 package: sohl

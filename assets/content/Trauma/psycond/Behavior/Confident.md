@@ -4,9 +4,9 @@ tags: []
 name:
     full: Confident
     aliases: []
-id: YwlqH8R9uGJMty8Q
+id: shNugj93vne76oyF
 slug: confident
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cnfdnt
 type: trauma
 package: sohl

@@ -7,9 +7,9 @@ name:
     full: "Salt, bag"
     aliases: []
 description: "Coarse sea-salt crystals, preserves meat and fish, seasons cooking daily."
-id: gN6DmeE4bFBCn0g8
+id: ls3eb160aqkhQPSg
 slug: salt-bag
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: saltbag
 type: miscgear
 package: sohl

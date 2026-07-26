@@ -4,9 +4,9 @@ tags: []
 name:
     full: Agility
     aliases: []
-id: dri4kRojNyOo9oe7
+id: IQ6sKftvOoHAJOi5
 slug: agility
-img: icons/acrobatics.svg
+img: icons/game-icons/lorc/cartwheel.svg
 shortcode: agl
 type: attribute
 package: sohl

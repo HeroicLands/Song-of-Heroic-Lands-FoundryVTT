@@ -6,9 +6,9 @@ name:
     full: Cloth Swaddle
     aliases: []
 description: "Soft cloth infant swaddle offering comfort and basic warmth."
-id: Oog2ucPLSX1DNS5r
+id: pg2KPLop10LKIHHM
 slug: cloth-swaddle
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: CSwd
 type: armorgear
 package: sohl

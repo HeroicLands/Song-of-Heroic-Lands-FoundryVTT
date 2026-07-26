@@ -5,9 +5,9 @@ name:
     full: Mercantilism
     aliases: []
 description: "Trade, commerce, appraisal, negotiation, and understanding market principles."
-id: LafJjnaJfjef6cJI
+id: 0PErwXxsCUOTgoMV
 slug: mercantilism
-img: icons/coins.svg
+img: icons/game-icons/badges/coins.svg
 shortcode: mrcn
 type: skill
 package: sohl

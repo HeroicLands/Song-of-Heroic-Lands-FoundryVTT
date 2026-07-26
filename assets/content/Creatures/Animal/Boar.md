@@ -6,12 +6,12 @@ tags:
 name:
     full: Boar
     aliases: []
-id: owLAlbnATCVOJgXp
+id: uyxMgEZ2vyfT2W7A
 slug: boar
-img: images/boar-headshot.webp
-portrait: images/boar.webp
+img: icons/game-icons/caro-asercion/boar.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

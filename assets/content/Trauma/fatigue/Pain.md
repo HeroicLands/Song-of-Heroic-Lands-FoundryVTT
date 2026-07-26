@@ -6,9 +6,9 @@ name:
     aliases:
         - Injury
 description: "Long-term weakness from active wounds and persistent pain."
-id: PlGkHq29EDZyBXJ7
+id: Z9AqD3575gIg7BmW
 slug: pain
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: pain
 type: trauma
 package: sohl

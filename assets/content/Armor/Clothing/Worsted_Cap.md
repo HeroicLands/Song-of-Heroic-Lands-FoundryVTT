@@ -6,9 +6,9 @@ name:
     full: Worsted Cap
     aliases: []
 description: "Tightly-spun wool cap; durable, versatile head covering."
-id: Qwn5UsAO1F0EkDuG
+id: 8UDoUj75sDQCJX84
 slug: worsted-cap
-img: icons/cap.svg
+img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: WCap
 type: armorgear
 package: sohl

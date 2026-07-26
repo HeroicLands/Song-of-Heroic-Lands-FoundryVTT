@@ -6,9 +6,9 @@ name:
     full: Leather Cap
     aliases: []
 description: "Simple lightweight leather cap offering basic elemental protection and rugged charm."
-id: WyI3frx1kYXVtbC3
+id: Ll2GXzDMkBcvy89F
 slug: leather-cap
-img: icons/cap.svg
+img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: LtCap
 type: armorgear
 package: sohl

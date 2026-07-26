@@ -4,9 +4,9 @@ tags: []
 name:
     full: Glossophobia
     aliases: []
-id: DJNA9hAGS9WpIKGu
+id: lH0nz6gWlJDLILL8
 slug: glossophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: glssphb
 type: trauma
 package: sohl

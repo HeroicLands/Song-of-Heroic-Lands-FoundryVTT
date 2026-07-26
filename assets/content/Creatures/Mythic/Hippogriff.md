@@ -7,12 +7,12 @@ tags:
 name:
     full: Hippogryph
     aliases: []
-id: tQ3wRvL8jNmPxDf4
+id: 9JVkmvPhZ6b3UtGU
 slug: hippogryph
-img: images/hippogryph-headshot.webp
-portrait: images/hippogryph.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 16

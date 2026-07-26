@@ -6,12 +6,12 @@ tags:
 name:
     full: Orangutan
     aliases: []
-id: AwaNWFfRCrFpYZya
+id: Wbfpz2YIVuGcO8ZS
 slug: orangutan
-img: images/orangutan-headshot.webp
-portrait: images/orangutan.webp
+img: icons/game-icons/lorc/monkey.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 19

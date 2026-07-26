@@ -6,9 +6,9 @@ name:
     full: Wasp Venom
     aliases: []
 description: "Peptide and enzyme toxins from sting; intense pain and swelling."
-id: SZ2fZ54CUPIhJz8I
+id: I3rFAMgdPx9akg62
 slug: wasp-venom
-img: icons/poison-bottle.svg
+img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: waspvnm
 type: affliction
 package: sohl

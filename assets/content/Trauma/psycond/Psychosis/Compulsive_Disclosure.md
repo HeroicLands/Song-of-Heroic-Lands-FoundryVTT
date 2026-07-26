@@ -5,9 +5,9 @@ tags: []
 name:
     full: Compulsive Disclosure
     aliases: []
-id: 2rz6kU9a4omj4b0o
+id: cdUAhDMigdEaouPr
 slug: compulsive-disclosure
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cmpldsr
 type: trauma
 package: sohl

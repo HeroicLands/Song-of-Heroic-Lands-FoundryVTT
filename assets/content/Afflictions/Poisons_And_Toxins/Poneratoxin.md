@@ -5,9 +5,9 @@ name:
     full: Poneratoxin
     aliases: []
 description: "Ant venom neurotoxin; the most painful insect sting imaginable; lasts 24 hours."
-id: qzCiP0GibDhQ9mcg
+id: N9tOBTOJI1513kax
 slug: poneratoxin
-img: icons/poison-bottle.svg
+img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: ponrtxn
 type: affliction
 package: sohl

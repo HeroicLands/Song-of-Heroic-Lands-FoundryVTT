@@ -5,9 +5,9 @@ name:
     full: Dehydrated
     aliases: []
 description: "Insufficient water; thirst, dry mouth, dark urine, dizziness, collapse."
-id: EE9U3A5cqNDL67ZH
+id: xPisQgs7pKDaYaKs
 slug: dehydrated
-img: icons/privation.svg
+img: icons/game-icons/delapouite/stomach.svg
 shortcode: dehyd
 type: trauma
 package: sohl

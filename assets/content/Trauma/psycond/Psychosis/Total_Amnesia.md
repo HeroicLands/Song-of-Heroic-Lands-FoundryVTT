@@ -5,9 +5,9 @@ tags: []
 name:
     full: Total Amnesia
     aliases: []
-id: Q9OsFkhEwtkfPAD1
+id: omUTPahZRwHfuUJM
 slug: total-amnesia
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: amnsttl
 type: trauma
 package: sohl

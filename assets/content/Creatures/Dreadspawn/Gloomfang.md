@@ -6,12 +6,12 @@ tags:
 name:
     full: Gloomfang
     aliases: []
-id: jWjMrv0LTVgmOaDX
+id: PdsQX4rPIfQgbxtn
 slug: gloomfang
-img: images/gloomfang-headshot.webp
-portrait: images/gloomfang.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 12

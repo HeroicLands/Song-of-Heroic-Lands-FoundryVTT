@@ -7,10 +7,10 @@ type: macro
 name:
     full: Automated Attack
     aliases: []
-id: E49krgnOxfJrFnyF
+id: HSNwLca3kMYLN3Ag
 slug: autoattack
 shortcode: autoattack
-img: "systems/sohl/assets/icons/crossed-swords.svg"
+img: icons/game-icons/lorc/crossed-swords.svg
 package: sohl
 folder: null
 ---

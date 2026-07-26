@@ -6,12 +6,12 @@ tags:
 name:
     full: Sabertooth Cat
     aliases: []
-id: 4ah6QyYYJUgnUqpS
+id: pEWPIYv8UGQDka8v
 slug: sabertooth-cat
-img: images/sabertooth-cat-headshot.webp
-portrait: images/sabertooth-cat.webp
+img: icons/game-icons/lorc/lion.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 14

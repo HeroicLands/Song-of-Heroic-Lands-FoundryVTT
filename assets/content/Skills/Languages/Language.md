@@ -5,9 +5,9 @@ name:
     full: Language
     aliases: []
 description: "Proficiency in some particular tongue — the generic skill used wherever a named-language entry would overspecify."
-id: 0WMCAQZCegZRDOrJ
+id: WRboU6egxMwB6fnx
 slug: language
-img: icons/speaking.svg
+img: icons/game-icons/lorc/conversation.svg
 shortcode: lang
 type: skill
 package: sohl

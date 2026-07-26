@@ -4,9 +4,9 @@ tags: []
 name:
     full: Asthma
     aliases: []
-id: yZCpQz2lgtRK9w6u
+id: QI9bgiYrrQ4g2Tiq
 slug: asthma
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: asthma
 type: trauma
 package: sohl

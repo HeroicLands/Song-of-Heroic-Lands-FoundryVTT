@@ -6,9 +6,9 @@ name:
     aliases:
         - Poison
 description: "Long-term weakness from active poison or toxin in the body."
-id: e5DMokXvJJpKpHJl
+id: U5hPImsuxbuJVzJ4
 slug: poisoned
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: poison
 type: trauma
 package: sohl

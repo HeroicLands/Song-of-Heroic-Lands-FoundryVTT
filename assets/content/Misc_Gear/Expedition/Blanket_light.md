@@ -7,9 +7,9 @@ name:
     full: Blanket, light
     aliases: []
 description: "Thin linen or light wool blanket; pocketable and quick-drying for mild seasons."
-id: Jtg9nPvOVYYCQXpe
+id: SIAES0ePWmZnKFaC
 slug: blanket-light
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: LiteBlkt
 type: miscgear
 package: sohl

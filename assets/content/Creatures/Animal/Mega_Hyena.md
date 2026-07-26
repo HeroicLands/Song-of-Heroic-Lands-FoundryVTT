@@ -6,12 +6,12 @@ tags:
 name:
     full: Mega Hyena
     aliases: []
-id: IlxkCFlCStwY2ah0
+id: KwFBcUKIMJnaE7kG
 slug: mega-hyena
-img: images/mega-hyena-headshot.webp
-portrait: images/mega-hyena.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

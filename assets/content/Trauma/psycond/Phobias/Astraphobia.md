@@ -4,9 +4,9 @@ tags: []
 name:
     full: Astraphobia
     aliases: []
-id: OwMQOHEyDIE35tyF
+id: jLe9OLS9S0QHXDzJ
 slug: astraphobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: astrphb
 type: trauma
 package: sohl

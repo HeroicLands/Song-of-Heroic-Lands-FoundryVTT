@@ -7,9 +7,9 @@ name:
     full: Spikes
     aliases: []
 description: "Foot-long iron spikes for climbing, breaking charges, and lashing boards."
-id: 6tjqf0mjXm40eMvo
+id: 6h9UedIBm0jR4IBT
 slug: spikes
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spikes
 type: miscgear
 package: sohl

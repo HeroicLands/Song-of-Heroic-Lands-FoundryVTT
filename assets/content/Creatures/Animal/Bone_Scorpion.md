@@ -6,12 +6,12 @@ tags:
 name:
     full: Bone Scorpion
     aliases: []
-id: jroW9ZvD8WnJrXja
+id: 6qq2ohVEMdu3Lmwo
 slug: bone-scorpion
-img: images/bone-scorpion-headshot.webp
-portrait: images/bone-scorpion.webp
+img: icons/game-icons/lorc/scorpion.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

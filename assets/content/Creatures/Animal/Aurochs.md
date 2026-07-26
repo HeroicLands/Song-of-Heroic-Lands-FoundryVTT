@@ -6,12 +6,12 @@ tags:
 name:
     full: Aurochs
     aliases: []
-id: xprMaP0qAokcd1Uf
+id: nFUslZMExtT6iJVp
 slug: aurochs
-img: images/aurochs-headshot.webp
-portrait: images/aurochs.webp
+img: icons/game-icons/lorc/bull.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

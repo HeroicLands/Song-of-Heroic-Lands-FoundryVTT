@@ -7,9 +7,9 @@ name:
     full: Salmon
     aliases: []
 description: "Rich orange-fleshed river fish, firm and oily, smoked or salted."
-id: wuOztJyt73Ft5fQY
+id: XAl1HYIyDo1stvAQ
 slug: salmon
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: salmon
 type: miscgear
 package: sohl

@@ -6,12 +6,12 @@ tags:
 name:
     full: Constrictor Snake
     aliases: []
-id: MWCuRwbkil0eQeyr
+id: ypPZpDVq1apz4CiH
 slug: constrictor-snake
-img: images/constrictor-snake-headshot.webp
-portrait: images/constrictor-snake.webp
+img: icons/game-icons/lorc/snake.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 17

@@ -3,7 +3,7 @@ aliases:
     - Healing Roll
     - Healing Rolls
     - Healing Base
-id: EUjpntavZTe73ki9
+id: Y3UYIdsxpJFln6oo
 type: doc
 package: sohl
 category: rules

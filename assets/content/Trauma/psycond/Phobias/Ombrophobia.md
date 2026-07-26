@@ -4,9 +4,9 @@ tags: []
 name:
     full: Ombrophobia
     aliases: []
-id: 7wHX5OmdEQLoLlqQ
+id: qfWjzlEKoKt2Vh6b
 slug: ombrophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: ombrophb
 type: trauma
 package: sohl

@@ -6,9 +6,9 @@ name:
     full: Mail Habergeon
     aliases: []
 description: "Mid-length metal ring shirt offering substantial protection against bladed attacks."
-id: by89UOdBCjlBDocF
+id: zwEb3pZjccDUadjp
 slug: mail-habergeon
-img: icons/chain-mail.svg
+img: icons/game-icons/willdabeast/chain-mail.svg
 shortcode: MHbgn
 type: armorgear
 package: sohl

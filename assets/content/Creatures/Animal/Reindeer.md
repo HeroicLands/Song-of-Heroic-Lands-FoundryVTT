@@ -8,12 +8,12 @@ tags:
 name:
     full: Reindeer
     aliases: []
-id: Nt7pWxKv4RqYmB8L
+id: o5zGvTtdOAvkEa0u
 slug: reindeer
-img: images/reindeer-headshot.webp
-portrait: images/reindeer.webp
+img: icons/game-icons/caro-asercion/deer.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 12

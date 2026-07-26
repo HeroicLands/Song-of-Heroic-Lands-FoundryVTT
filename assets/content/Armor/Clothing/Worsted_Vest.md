@@ -6,9 +6,9 @@ name:
     full: Worsted Vest
     aliases: []
 description: "Tightly-spun wool vest; durable, practical protective garment."
-id: 8XMvH9YELdut0Q5o
+id: 7mMgwEnV0diVVp0p
 slug: worsted-vest
-img: icons/vest.svg
+img: icons/game-icons/lorc/leather-vest.svg
 shortcode: WVest
 type: armorgear
 package: sohl

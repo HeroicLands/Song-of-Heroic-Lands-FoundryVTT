@@ -6,9 +6,9 @@ name:
     full: Belt pouch, leather, med
     aliases: []
 description: "Moderate leather belt pouch for coins and small items."
-id: JMXUmoqI6uWt5LN4
+id: ob1pnMnpnXJ9hAYS
 slug: belt-pouch-leather-med
-img: icons/sack.svg
+img: icons/game-icons/lorc/knapsack.svg
 shortcode: bpchmd
 type: containergear
 package: sohl

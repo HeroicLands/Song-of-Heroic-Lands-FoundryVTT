@@ -6,9 +6,9 @@ name:
     full: Bee Venom
     aliases: []
 description: "Melittin; localized pain and swelling; systemic anaphylaxis in allergic individuals."
-id: EMqdYaJ7X8tGEhRi
+id: jM1bgGvOxRJjIWZz
 slug: bee-venom
-img: icons/poison-bottle.svg
+img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: beevnm
 type: affliction
 package: sohl

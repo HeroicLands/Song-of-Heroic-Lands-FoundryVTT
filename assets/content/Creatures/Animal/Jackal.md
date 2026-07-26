@@ -7,12 +7,12 @@ tags:
 name:
     full: Jackal
     aliases: []
-id: kR3mTxJv8YqNwP2L
+id: QwBtVq9RDqpwnf7s
 slug: jackal
-img: images/jackal-headshot.webp
-portrait: images/jackal.webp
+img: icons/game-icons/lorc/hound.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 8

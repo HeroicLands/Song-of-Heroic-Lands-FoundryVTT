@@ -8,9 +8,9 @@ name:
     full: Blotting Sand
     aliases: []
 description: "Fine sand scattered over wet ink; absorbs moisture, prevents smudging."
-id: yCGT0IVvpjFGvFV2
+id: 1x5UVdeZsWQb0xW2
 slug: blotting-sand
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: blotsand
 type: miscgear
 package: sohl

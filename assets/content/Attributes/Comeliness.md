@@ -4,9 +4,9 @@ tags: []
 name:
     full: Comeliness
     aliases: []
-id: fgMl4WCIvTTBDUJ8
+id: L4Dr0xLDD9EpAxlm
 slug: comeliness
-img: icons/charm.svg
+img: icons/game-icons/lorc/charm.svg
 shortcode: cml
 type: attribute
 package: sohl

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Creativity
     aliases: []
-id: AG6QHBQCbkcVgYrj
+id: R61ev5j1ZVltQ42m
 slug: creativity
-img: icons/creativity.svg
+img: icons/game-icons/lorc/light-bulb.svg
 shortcode: cre
 type: attribute
 package: sohl

@@ -5,9 +5,9 @@ tags: []
 name:
     full: Right Dominance
     aliases: []
-id: q3HwAgdMqF5ZMj3J
+id: idSEkL1vtiToutYV
 slug: right-dominance
-img: icons/hands.svg
+img: icons/game-icons/lorc/hand.svg
 shortcode: rdmnc
 type: trauma
 package: sohl

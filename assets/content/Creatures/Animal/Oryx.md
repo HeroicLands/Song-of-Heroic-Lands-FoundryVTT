@@ -7,12 +7,12 @@ tags:
 name:
     full: Oryx
     aliases: []
-id: Tv8nWqLx5RpKmY3F
+id: gIK5jksNoWu7af9z
 slug: oryx
-img: images/oryx-headshot.webp
-portrait: images/oryx.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

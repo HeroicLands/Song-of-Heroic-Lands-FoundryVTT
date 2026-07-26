@@ -4,9 +4,9 @@ tags: []
 name:
     full: Decisive
     aliases: []
-id: 0FPqLNVbOKnTKY7V
+id: Io04JX6x1b3reGYd
 slug: decisive
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: decisive
 type: trauma
 package: sohl

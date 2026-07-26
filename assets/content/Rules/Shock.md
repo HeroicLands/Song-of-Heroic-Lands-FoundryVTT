@@ -6,7 +6,7 @@ aliases:
     - Shock Re-Test
     - Extended Shock
     - Coma
-id: Sh0ckSt8Zn5cLwR4
+id: khHhYIPBaRSfXoLu
 type: doc
 package: sohl
 category: rules

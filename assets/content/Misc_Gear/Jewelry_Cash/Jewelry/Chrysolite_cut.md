@@ -7,9 +7,9 @@ name:
     full: "Chrysolite, cut"
     aliases: []
 description: "Pale yellow-green faceted gem; nobility and clergy set in rings."
-id: 0BGw5SjbBELYE8c3
+id: KR9GCv683WX64ogr
 slug: chrysolite-cut
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chrysolite
 type: miscgear
 package: sohl

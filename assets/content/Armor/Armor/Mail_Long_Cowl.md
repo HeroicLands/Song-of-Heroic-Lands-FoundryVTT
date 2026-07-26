@@ -6,9 +6,9 @@ name:
     full: Mail Long Cowl
     aliases: []
 description: "Extended metal ring head and neck armor for combat scenarios."
-id: c8QFTgRPMcRvMzlG
+id: PxXb0SdKVy4r5ww4
 slug: mail-long-cowl
-img: icons/hood.svg
+img: icons/game-icons/lorc/hood.svg
 shortcode: MLCowl
 type: armorgear
 package: sohl

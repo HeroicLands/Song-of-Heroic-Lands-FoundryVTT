@@ -7,12 +7,12 @@ tags:
 name:
     full: Harpy
     aliases: []
-id: Km7PvjRsX2wL9Tn4
+id: PE8La0dJVHwnZDWg
 slug: harpy
-img: images/harpy-headshot.webp
-portrait: images/harpy.webp
+img: icons/game-icons/lorc/harpy.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 9

@@ -6,9 +6,9 @@ name:
     full: Aural Shock
     aliases: []
 description: "Long-term weakness from spiritual aura damage."
-id: 03JiOSRL2z3QjB13
+id: iq1b2rwWQuvhSbGk
 slug: aural-shock
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: auralshk
 type: trauma
 package: sohl

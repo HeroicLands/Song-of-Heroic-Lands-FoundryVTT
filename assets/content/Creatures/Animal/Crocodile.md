@@ -6,12 +6,12 @@ tags:
 name:
     full: Crocodile
     aliases: []
-id: 5Gb3f8BEDq1PcbFt
+id: YzoFPpU5UVHmM52o
 slug: crocodile
-img: images/crocodile-headshot.webp
-portrait: images/crocodile.webp
+img: icons/game-icons/lorc/croc-jaws.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 21

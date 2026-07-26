@@ -4,9 +4,9 @@ tags: []
 name:
     full: Thoughtful
     aliases: []
-id: FJHw3A4gcO8Ft3uD
+id: QKJifafRn6JWFMu9
 slug: thoughtful
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: thghtfl
 type: trauma
 package: sohl

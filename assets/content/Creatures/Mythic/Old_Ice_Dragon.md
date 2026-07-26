@@ -8,12 +8,12 @@ tags:
 name:
     full: Old Ice Dragon
     aliases: []
-id: PfBPrWJrmXClXfvt
+id: IHBBFMFd2LieAudc
 slug: old-ice-dragon
-img: images/old-ice-dragon-headshot.webp
-portrait: images/old-ice-dragon.webp
+img: icons/game-icons/faithtoken/dragon-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 29

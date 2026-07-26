@@ -4,9 +4,9 @@ tags: []
 name:
     full: Silliness
     aliases: []
-id: ooiSB2g2OdBsJE9v
+id: uq8CXyXUlwx8eMVH
 slug: silliness
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: sllnss
 type: trauma
 package: sohl

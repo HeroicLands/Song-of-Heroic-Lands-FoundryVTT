@@ -6,12 +6,12 @@ tags:
 name:
     full: Glass Lizard
     aliases: []
-id: VK3zUOfOJoZhZ0qV
+id: UvyV0EEhmSwlCuSW
 slug: glass-lizard
-img: images/glass-lizard-headshot.webp
-portrait: images/glass-lizard.webp
+img: icons/game-icons/lorc/gecko.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 11

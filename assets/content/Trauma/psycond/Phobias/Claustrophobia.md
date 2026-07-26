@@ -4,9 +4,9 @@ tags: []
 name:
     full: Claustrophobia
     aliases: []
-id: HCi8NvmUp61z3fnw
+id: z5upL9KjhkxKmyOd
 slug: claustrophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: clstrphb
 type: trauma
 package: sohl

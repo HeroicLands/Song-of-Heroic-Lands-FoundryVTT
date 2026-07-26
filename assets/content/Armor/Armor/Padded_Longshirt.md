@@ -6,9 +6,9 @@ name:
     full: Padded Longshirt
     aliases: []
 description: "Cushioned long-sleeved garment for under-armor padding or standalone wear."
-id: KEyHgAcwXIyakJYO
+id: lAtBHsiHcSggFXOg
 slug: padded-longshirt
-img: icons/shirt.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: PLgSht
 type: armorgear
 package: sohl

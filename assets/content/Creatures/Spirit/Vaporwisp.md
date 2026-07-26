@@ -6,12 +6,12 @@ tags:
 name:
     full: Vaporwisp
     aliases: []
-id: Br4pbj66Ueq5TbYK
+id: SZSbxQbHhZFFCLQh
 slug: vaporwisp
-img: images/vaporwisp-headshot.webp
-portrait: images/vaporwisp.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 8

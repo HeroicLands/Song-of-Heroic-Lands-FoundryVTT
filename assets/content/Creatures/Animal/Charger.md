@@ -6,12 +6,12 @@ tags:
 name:
     full: Charger
     aliases: []
-id: FAswmKxBRuRHn98O
+id: Cxlwa3jzWHmPyVl7
 slug: charger
-img: images/charger-headshot.webp
-portrait: images/charger.webp
+img: icons/game-icons/delapouite/horse-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 28

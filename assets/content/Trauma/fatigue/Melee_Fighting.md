@@ -6,9 +6,9 @@ name:
     full: Melee Fighting
     aliases: []
 description: "Acute windedness from armed close combat."
-id: j3KqdhHzd5dJO3VI
+id: 4xM2HdylF5p2fWJJ
 slug: fighting
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: fight
 type: trauma
 package: sohl

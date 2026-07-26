@@ -4,9 +4,9 @@ tags: []
 name:
     full: Dramatic
     aliases: []
-id: rmyHccbOt3gJngwx
+id: 818J8niRG3lvFB9J
 slug: dramatic
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dramatic
 type: trauma
 package: sohl

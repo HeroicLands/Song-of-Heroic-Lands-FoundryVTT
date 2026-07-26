@@ -6,12 +6,12 @@ tags:
 name:
     full: Stag
     aliases: []
-id: hf3YZEKVVRZJ6R19
+id: N9K2ohKoe0Iv7iJ7
 slug: stag
-img: images/stag-headshot.webp
-portrait: images/stag.webp
+img: icons/game-icons/lorc/stag-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

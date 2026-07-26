@@ -6,9 +6,9 @@ name:
     full: Dengue Fever
     aliases: []
 description: "Mosquito-borne virus; high fever, joint pain, mild bleeding."
-id: wB9ANiSb5sC9YX5P
+id: xrF7d46zo1QswNPA
 slug: dengue-fever
-img: icons/disease.svg
+img: icons/game-icons/lorc/virus.svg
 shortcode: dngfvr
 type: affliction
 package: sohl

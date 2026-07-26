@@ -4,9 +4,9 @@ tags: []
 name:
     full: Obesity
     aliases: []
-id: 8ZngpBnkbbMqzSPi
+id: 33oRAs8m6lIf8yEQ
 slug: obesity
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: obesity
 type: trauma
 package: sohl

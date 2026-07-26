@@ -5,9 +5,9 @@ name:
     full: Guile
     aliases: []
 description: "Deliberate deception; distorting facts while appearing truthful oneself."
-id: QP88ELEOcT37u5iY
+id: WZblksWtuxXkT40X
 slug: guile
-img: icons/mischevous.svg
+img: icons/game-icons/lorc/imp.svg
 shortcode: guil
 type: skill
 package: sohl

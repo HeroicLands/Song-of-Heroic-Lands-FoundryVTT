@@ -6,12 +6,12 @@ tags:
 name:
     full: Sand Stalker
     aliases: []
-id: GqAzCGFvsywbyxE2
+id: cF5pl6GNTSOo7LyT
 slug: sand-stalker
-img: images/sand-stalker-headshot.webp
-portrait: images/sand-stalker.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

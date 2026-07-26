@@ -7,9 +7,9 @@ name:
     full: "Bowl, pewter"
     aliases: []
 description: "Cast pewter bowl; durable, soft-sheen, and safe for food and drink."
-id: saSFEbDWV7aCROzb
+id: 01swWIzNFp9hP4B3
 slug: bowl-pewter
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bowlpewter
 type: miscgear
 package: sohl

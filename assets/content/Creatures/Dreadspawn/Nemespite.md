@@ -6,12 +6,12 @@ tags:
 name:
     full: Nemespite
     aliases: []
-id: ZUXd3hJWUfc6Mu3P
+id: ZSoywGNHpw4z64RZ
 slug: nemespite
-img: images/nemespite-headshot.webp
-portrait: images/nemespite.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         end: 8

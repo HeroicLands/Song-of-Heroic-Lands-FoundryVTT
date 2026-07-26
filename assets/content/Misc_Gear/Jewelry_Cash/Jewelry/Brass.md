@@ -7,9 +7,9 @@ name:
     full: Brass
     aliases: []
 description: "Copper-and-tin alloy resistant to corrosion; merchants trade ingots by weight."
-id: WzWHnBc0pbb0dbSj
+id: p0tv5i6QrzL1Agtc
 slug: brass
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: brass
 type: miscgear
 package: sohl

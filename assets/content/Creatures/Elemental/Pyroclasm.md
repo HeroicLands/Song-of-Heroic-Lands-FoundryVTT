@@ -6,12 +6,12 @@ tags:
 name:
     full: Pyroclasm
     aliases: []
-id: d3ZoGV935zdshrhN
+id: 2ubjJNt3rPAcOeTj
 slug: pyroclasm
-img: images/pyroclasm-headshot.webp
-portrait: images/pyroclasm.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

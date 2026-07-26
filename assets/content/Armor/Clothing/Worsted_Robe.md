@@ -6,9 +6,9 @@ name:
     full: Worsted Robe
     aliases: []
 description: "Tightly-spun wool robe; durable, practical versatile garment."
-id: A0q2esETFwdkoFnC
+id: gawXBfAtXL0g5NKs
 slug: worsted-robe
-img: icons/robe.svg
+img: icons/game-icons/lorc/robe.svg
 shortcode: WRobe
 type: armorgear
 package: sohl

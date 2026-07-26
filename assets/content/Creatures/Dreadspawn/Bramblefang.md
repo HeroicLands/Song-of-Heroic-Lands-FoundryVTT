@@ -6,12 +6,12 @@ tags:
 name:
     full: Bramblefang
     aliases: []
-id: SXyEz3b3Yh2azNy7
+id: 6KSkMKbbQE2We7kA
 slug: bramblefang
-img: images/bramblefang-headshot.webp
-portrait: images/bramblefang.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

@@ -6,12 +6,12 @@ tags:
 name:
     full: Shadowclaw
     aliases: []
-id: 3RZHY5VjwMKC7gVo
+id: jjuIModhoOI5xUyv
 slug: shadowclaw
-img: images/shadowclaw-headshot.webp
-portrait: images/shadowclaw.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 16

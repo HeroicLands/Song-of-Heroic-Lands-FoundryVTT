@@ -6,9 +6,9 @@ name:
     full: Mental Strain
     aliases: []
 description: "Sustained weariness from prolonged mental effort — reading, scribing, calculation, deep focus."
-id: xaYcTMh2D5vHfMVw
+id: tz9rLDZ0N2vzJBJ8
 slug: mental-strain
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: mentstn
 type: trauma
 package: sohl

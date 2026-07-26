@@ -6,9 +6,9 @@ name:
     full: Serge Breeches
     aliases: []
 description: "Durable twilled serge breeches for everyday wear and reliable attire."
-id: 0ULai2IUT2mXgHVX
+id: nL570eUiUlcGujnT
 slug: serge-breeches
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: SgBrch
 type: armorgear
 package: sohl

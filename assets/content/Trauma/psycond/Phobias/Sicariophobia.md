@@ -4,9 +4,9 @@ tags: []
 name:
     full: Sicariophobia
     aliases: []
-id: eeMLjBZOU1nUseeM
+id: VO5fu6767h6Mojc5
 slug: sicariophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: scrphb
 type: trauma
 package: sohl

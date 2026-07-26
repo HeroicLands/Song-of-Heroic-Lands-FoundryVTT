@@ -7,9 +7,9 @@ name:
     full: "Hide, Otter/Weasel"
     aliases: []
 description: "Riverland otter-weasel pelt; dense guard hair sheds water; lining and collar facing."
-id: D4LGD2RO3qkweTSJ
+id: 3yI8J6wytWi6sQT2
 slug: hide-otter-weasel
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideotterw
 type: miscgear
 package: sohl

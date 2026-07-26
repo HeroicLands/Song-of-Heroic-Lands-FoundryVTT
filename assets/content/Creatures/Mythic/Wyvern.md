@@ -7,12 +7,12 @@ tags:
 name:
     full: Wyvern
     aliases: []
-id: Hy3KmRqLpBwT8Vsx
+id: f7qow0t2vLn2UWpk
 slug: wyvern
-img: images/wyvern-headshot.webp
-portrait: images/wyvern.webp
+img: icons/game-icons/lorc/wyvern.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 19

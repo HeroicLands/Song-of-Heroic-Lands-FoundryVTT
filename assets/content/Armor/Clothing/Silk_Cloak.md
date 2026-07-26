@@ -6,9 +6,9 @@ name:
     full: Silk Cloak
     aliases: []
 description: "Luxurious silk cloak for high-status occasions and formal events."
-id: XCy5hK6UksffdhVx
+id: X5appzIGFEX9OXYt
 slug: silk-cloak
-img: icons/cloak.svg
+img: icons/game-icons/lucasms/cloak.svg
 shortcode: SlkClk
 type: armorgear
 package: sohl

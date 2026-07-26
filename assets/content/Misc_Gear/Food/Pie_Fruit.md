@@ -7,9 +7,9 @@ name:
     full: "Pie, Fruit"
     aliases: []
 description: "Hand-sized pastry with sweet apple or berry filling from baker."
-id: X61HAUzAzKeR2IW4
+id: mb7G3sRyF4YwFVUs
 slug: pie-fruit
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: piefruit
 type: miscgear
 package: sohl

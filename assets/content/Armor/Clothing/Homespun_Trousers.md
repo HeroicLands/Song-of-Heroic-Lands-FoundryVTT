@@ -6,9 +6,9 @@ name:
     full: Homespun Trousers
     aliases: []
 description: "Simple homemade trousers offering comfort for laborers and folk."
-id: 0vXYcWGVOgZ0dluZ
+id: d5cpTp0L3DValYhs
 slug: homespun-trousers
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: HsTrsr
 type: armorgear
 package: sohl

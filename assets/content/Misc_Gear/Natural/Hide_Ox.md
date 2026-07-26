@@ -7,9 +7,9 @@ name:
     full: "Hide, Ox"
     aliases: []
 description: "Prime even-grained oxhide; strong stock for saddles, breeches, shoe uppers."
-id: 5IEAzTWqu3hyVlbO
+id: XYwOF5tafvjGEezx
 slug: hide-ox
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideox
 type: miscgear
 package: sohl

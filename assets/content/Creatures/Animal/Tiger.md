@@ -7,12 +7,12 @@ tags:
 name:
     full: Tiger
     aliases: []
-id: Nw7pTxKv3RqYmB5L
+id: j5rGiDYFcb0LAlmN
 slug: tiger
-img: images/tiger-headshot.webp
-portrait: images/tiger.webp
+img: icons/game-icons/delapouite/tiger.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 20

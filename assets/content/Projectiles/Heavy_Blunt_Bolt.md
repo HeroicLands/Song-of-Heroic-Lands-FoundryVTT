@@ -8,10 +8,10 @@ name:
 description: "Heavy hardwood quarrel with ball head; breaks ribs, clears crowds bloodlessly."
 type: projectilegear
 package: sohl
-id: 0Yheq0hOLbFgMaJN
+id: MjWznQvdlB5alUHo
 slug: heavy-blunt-bolt
 shortcode: BltHBlt
-img: icons/arrow.svg
+img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Heavy Blunt
 sohl:
     archetype: 0

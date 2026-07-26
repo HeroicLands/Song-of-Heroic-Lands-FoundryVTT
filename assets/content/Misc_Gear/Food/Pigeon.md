@@ -7,9 +7,9 @@ name:
     full: Pigeon
     aliases: []
 description: "Mild tender meat from trapped cotes, small carcass rich with fat."
-id: X4s6GgKmwT1iFtNA
+id: vm586aE7NdOdPaQ5
 slug: pigeon
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pigeon
 type: miscgear
 package: sohl

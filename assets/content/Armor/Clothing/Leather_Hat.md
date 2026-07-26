@@ -6,9 +6,9 @@ name:
     full: Leather Hat
     aliases: []
 description: "Rugged leather head covering providing basic weather protection with adventurer charm."
-id: Y4c1O31zGIzExv5g
+id: gIRZS8B8cDq8hukr
 slug: leather-hat
-img: icons/hat.svg
+img: icons/game-icons/lorc/pointy-hat.svg
 shortcode: LtHat
 type: armorgear
 package: sohl

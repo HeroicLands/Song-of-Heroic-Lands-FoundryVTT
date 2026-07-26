@@ -6,9 +6,9 @@ name:
     full: Cloth Shoes
     aliases: []
 description: "Breathable cloth footwear for casual, light-duty wear."
-id: PdjsDqu1IfqSbEeZ
+id: 73wwnx8gaScrhdiA
 slug: cloth-shoes
-img: icons/shoe.svg
+img: icons/game-icons/lorc/leather-boot.svg
 shortcode: CShoe
 type: armorgear
 package: sohl

@@ -6,9 +6,9 @@ name:
     full: Rawhide Cowl
     aliases: []
 description: "Sturdy hide hood; protects head and shoulders."
-id: OTXIPEDtQ2Gqv3Sh
+id: utFG7BbxmnCfwq3B
 slug: rawhide-cowl
-img: icons/hood.svg
+img: icons/game-icons/lorc/hood.svg
 shortcode: RhCowl
 type: armorgear
 package: sohl

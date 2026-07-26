@@ -4,9 +4,9 @@ tags: []
 name:
     full: Thanatophobia
     aliases: []
-id: CfoIL7yBqiLoqruO
+id: 9Jx2RiAlMXCgLYd5
 slug: thanatophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: thntphb
 type: trauma
 package: sohl

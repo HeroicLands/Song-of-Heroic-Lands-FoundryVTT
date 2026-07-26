@@ -7,9 +7,9 @@ name:
     full: "Hide, Cow"
     aliases: []
 description: "Dairy cow hide; tannery workhorse; russet leather for jerkins and breeches."
-id: 8qLBnGRM54ikWmh2
+id: N5o2pBP8MkCKsQZU
 slug: hide-cow
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hidecow
 type: miscgear
 package: sohl

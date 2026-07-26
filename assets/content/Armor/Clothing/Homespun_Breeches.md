@@ -6,9 +6,9 @@ name:
     full: Homespun Breeches
     aliases: []
 description: "Simple homemade cloth breeches; practical for laborers and farmers."
-id: KsaMy7oG2JlxQN3o
+id: kJmxSBfhUM187vSP
 slug: homespun-breeches
-img: icons/leggings.svg
+img: icons/game-icons/lorc/trousers.svg
 shortcode: HsBrch
 type: armorgear
 package: sohl

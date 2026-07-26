@@ -4,9 +4,9 @@ tags: []
 name:
     full: Meticulous
     aliases: []
-id: vNjUZJ9t3L3Xk5U3
+id: 2HTpgtuavYX4qI7C
 slug: meticulous
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: mtcls
 type: trauma
 package: sohl

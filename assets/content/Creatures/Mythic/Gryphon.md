@@ -7,12 +7,12 @@ tags:
 name:
     full: Gryphon
     aliases: []
-id: nK7mQxRp9fvWsLz2
+id: 3cvUtYLpqMrX5jpp
 slug: gryphon
-img: images/gryphon-headshot.webp
-portrait: images/gryphon.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 18

@@ -6,12 +6,12 @@ tags:
 name:
     full: Mossback Turtle
     aliases: []
-id: QXuRu1M3t9300oax
+id: 8e0pLwFIiIUuHOsb
 slug: mossback-turtle
-img: images/mossback-turtle-headshot.webp
-portrait: images/mossback-turtle.webp
+img: icons/game-icons/lorc/turtle.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

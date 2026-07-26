@@ -4,9 +4,9 @@ tags: []
 name:
     full: Coulrophobia
     aliases: []
-id: xO3RIBN9HuiOscp8
+id: vue9iUYrPF8WrpdN
 slug: coulrophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: clrphb
 type: trauma
 package: sohl

@@ -6,7 +6,7 @@ aliases:
     - Hit Location
     - Anatomy
     - Strike Accuracy
-id: IvAKtSOREdEBkSGj
+id: hhyXrIkdfDLedy10
 type: doc
 package: sohl
 category: rules

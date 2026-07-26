@@ -6,12 +6,12 @@ tags:
 name:
     full: Sand Wurm
     aliases: []
-id: 8DgBLKZobvbO4F60
+id: 7hW9W4pXEtgVMSMD
 slug: sand-wurm
-img: images/sand-wurm-headshot.webp
-portrait: images/sand-wurm.webp
+img: icons/game-icons/lorc/worm-mouth.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 37

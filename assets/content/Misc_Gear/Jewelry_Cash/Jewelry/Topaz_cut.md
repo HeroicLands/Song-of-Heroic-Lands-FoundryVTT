@@ -7,9 +7,9 @@ name:
     full: "Topaz, cut"
     aliases: []
 description: "Golden-yellow brilliant gem; hard and lustrous; throws light like a miniature sun."
-id: XNXZgZyxzNz0vR5M
+id: FIXSjmfSDNXqDtQr
 slug: topaz-cut
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: topazcut
 type: miscgear
 package: sohl

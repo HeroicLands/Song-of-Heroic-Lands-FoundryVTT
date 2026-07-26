@@ -8,12 +8,12 @@ tags:
 name:
     full: Wildebeest
     aliases: []
-id: Km7nRxTq4WvYpB8L
+id: fWFF00Xq9zTzMq0Z
 slug: wildebeest
-img: images/wildebeest-headshot.webp
-portrait: images/wildebeest.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 14

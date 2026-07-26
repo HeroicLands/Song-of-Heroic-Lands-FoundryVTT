@@ -4,9 +4,9 @@ tags: []
 name:
     full: Albinism
     aliases: []
-id: J06diTBIzK1ml5lC
+id: sCzXgO4xDCTBa2SS
 slug: albinism
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: albinism
 type: trauma
 package: sohl

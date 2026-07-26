@@ -6,12 +6,12 @@ tags:
 name:
     full: Brown Bear
     aliases: []
-id: gNOLggKzfaVVmUmX
+id: a9JXetcPtDFkcvRj
 slug: brown-bear
-img: images/brown-bear-headshot.webp
-portrait: images/brown-bear.webp
+img: icons/game-icons/delapouite/bear-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 21

@@ -8,12 +8,12 @@ tags:
 name:
     full: Saluki
     aliases: []
-id: Yw3nTqKp8VxRmF5L
+id: t7edWGJipMjipWWu
 slug: saluki
-img: images/saluki-headshot.webp
-portrait: images/saluki.webp
+img: icons/game-icons/lorc/hound.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 9

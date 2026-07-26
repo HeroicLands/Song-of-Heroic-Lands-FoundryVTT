@@ -5,9 +5,9 @@ name:
     full: Sling
     aliases: []
 description: "Hurling stones and lead bullets from a sling with accuracy and force."
-id: lR1rlTeStCJvDwTR
+id: 7BpaZQE9sEtgmAx5
 slug: sling
-img: icons/sling.svg
+img: icons/game-icons/delapouite/sling.svg
 shortcode: slng
 type: skill
 package: sohl

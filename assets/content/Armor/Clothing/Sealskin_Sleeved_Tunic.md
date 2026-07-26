@@ -6,9 +6,9 @@ name:
     full: Sealskin Sleeved Tunic
     aliases: []
 description: "Water-resistant seal-fur tunic; full arm-and-torso coverage."
-id: 0eFyFxbSfwhfWIqs
+id: 0CZZJ5FAOjyWGeMi
 slug: sealskin-sleeved-tunic
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: SlsSTnc
 type: armorgear
 package: sohl

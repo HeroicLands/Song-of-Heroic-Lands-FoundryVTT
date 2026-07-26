@@ -6,9 +6,9 @@ name:
     full: Bag, sm, canvas
     aliases: []
 description: "Small lightweight canvas pouch for grain or spices."
-id: DZVw51vpCgNHX7Qt
+id: UaIdTSgyfiT8sUIz
 slug: bag-sm-canvas
-img: icons/sack.svg
+img: icons/game-icons/lorc/knapsack.svg
 shortcode: bgsmcvs
 type: containergear
 package: sohl

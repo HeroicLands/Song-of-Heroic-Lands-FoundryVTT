@@ -6,12 +6,12 @@ tags:
 name:
     full: Palfrey
     aliases: []
-id: sPits9gqoJETVHn4
+id: tj9o2Ujavc9DuSxb
 slug: palfrey
-img: images/palfrey-headshot.webp
-portrait: images/palfrey.webp
+img: icons/game-icons/delapouite/horse-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 26

@@ -6,12 +6,12 @@ tags:
 name:
     full: Cliff Stalker
     aliases: []
-id: vrO3nIyDaIYs7xPw
+id: A2bZirKOMgCcZ7qS
 slug: cliff-stalker
-img: images/cliff-stalker-headshot.webp
-portrait: images/cliff-stalker.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

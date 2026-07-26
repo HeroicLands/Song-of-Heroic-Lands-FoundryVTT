@@ -4,9 +4,9 @@ tags: []
 name:
     full: Introverted
     aliases: []
-id: O5W6NQwSZT7XyJrF
+id: h1Psv3FRv7zzHHsV
 slug: introverted
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: intrvrtd
 type: trauma
 package: sohl

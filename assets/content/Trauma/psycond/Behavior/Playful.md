@@ -4,9 +4,9 @@ tags: []
 name:
     full: Playful
     aliases: []
-id: vng7fgrcKD6BfOZW
+id: NM0AUwRLfMP3q2ec
 slug: playful
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: playful
 type: trauma
 package: sohl

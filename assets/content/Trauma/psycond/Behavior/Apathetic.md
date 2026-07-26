@@ -4,9 +4,9 @@ tags: []
 name:
     full: Apathetic
     aliases: []
-id: hhnaXcsmMEWVWqOR
+id: 9foIScRpen8Bf7cl
 slug: apathetic
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: apthtc
 type: trauma
 package: sohl

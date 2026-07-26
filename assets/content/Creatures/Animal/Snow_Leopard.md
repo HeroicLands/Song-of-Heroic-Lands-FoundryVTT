@@ -6,12 +6,12 @@ tags:
 name:
     full: Snow Leopard
     aliases: []
-id: X2sHskoU4n6gTd0s
+id: LMyTG1K48t5guDBD
 slug: snow-leopard
-img: images/snow-leopard-headshot.webp
-portrait: images/snow-leopard.webp
+img: icons/game-icons/delapouite/feline.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

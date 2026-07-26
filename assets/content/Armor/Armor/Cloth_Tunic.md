@@ -6,9 +6,9 @@ name:
     full: Cloth Tunic
     aliases: []
 description: "Simple cloth tunic offering comfort and warmth for daily wear."
-id: yw5Ra6kjm6ELBEak
+id: v0mRcS0ebr2uLmLO
 slug: cloth-tunic
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: CTunic
 type: armorgear
 package: sohl

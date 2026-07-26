@@ -6,12 +6,12 @@ tags:
 name:
     full: Large Spider
     aliases: []
-id: dPrSa6c2QjLZV8yq
+id: 7z21KuX3vzQ2XC2E
 slug: large-spider
-img: images/large-spider-headshot.webp
-portrait: images/large-spider.webp
+img: icons/game-icons/carl-olsen/spider-alt.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 8

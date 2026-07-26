@@ -7,9 +7,9 @@ name:
     full: Gold Crown
     aliases: []
 description: "Royal-sealed gold coin; preferred exchange of merchants, nobles, realm foundation."
-id: dTnBQ2PphwVNdSsu
+id: ExbuiNKETmm6MxHv
 slug: gold-crown
-img: icons/coins.svg
+img: icons/game-icons/badges/coins.svg
 shortcode: gldcrwn
 type: miscgear
 package: sohl

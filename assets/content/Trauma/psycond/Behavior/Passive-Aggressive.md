@@ -4,9 +4,9 @@ tags: []
 name:
     full: Passive-Aggressive
     aliases: []
-id: PvYRpy8auZ4N3y3F
+id: VL5nGA9H8M4d5Uc3
 slug: passive-aggressive
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: passivea
 type: trauma
 package: sohl

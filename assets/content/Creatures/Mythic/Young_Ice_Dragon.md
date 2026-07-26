@@ -7,12 +7,12 @@ tags:
 name:
     full: Young Ice Dragon
     aliases: []
-id: CC4o0nyFDwmiDtvH
+id: 7ifxZxScmlMHr44B
 slug: young-ice-dragon
-img: images/young-ice-dragon-headshot.webp
-portrait: images/young-ice-dragon.webp
+img: icons/game-icons/faithtoken/dragon-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 21

@@ -6,9 +6,9 @@ name:
     full: Velvet Shirt
     aliases: []
 description: "Soft plush velvet shirt; luxurious garment for formal occasions and status."
-id: 7D4y2akbQuQ76r3U
+id: rMXFk26k9MNsVIaE
 slug: velvet-shirt
-img: icons/shirt.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: VShirt
 type: armorgear
 package: sohl

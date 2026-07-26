@@ -6,9 +6,9 @@ name:
     full: Worsted Coat
     aliases: []
 description: "Tightly-spun wool coat; warm, durable garment for protection."
-id: sweAj8dG7Nt3ePZp
+id: u3NYaAHhodHlarUe
 slug: worsted-coat
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: WCoat
 type: armorgear
 package: sohl

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Compassionate
     aliases: []
-id: l50VINyxSkIVOgPu
+id: gWEoZBDA8SG5JYW2
 slug: compassionate
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cmpssnt
 type: trauma
 package: sohl

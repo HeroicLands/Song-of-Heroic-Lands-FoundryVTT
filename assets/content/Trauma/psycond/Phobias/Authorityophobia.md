@@ -4,9 +4,9 @@ tags: []
 name:
     full: Authorityophobia
     aliases: []
-id: Wafp3wfqz9Gb2KUZ
+id: WZsRyt1yVFHbJWRA
 slug: authorityophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: arithphb
 type: trauma
 package: sohl

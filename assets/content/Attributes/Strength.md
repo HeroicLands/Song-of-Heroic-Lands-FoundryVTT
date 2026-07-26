@@ -4,9 +4,9 @@ tags: []
 name:
     full: Strength
     aliases: []
-id: bFJqb8DqPuPr5cwl
+id: LDCPcITBQjtXB87S
 slug: strength
-img: icons/biceps.svg
+img: icons/game-icons/delapouite/biceps.svg
 shortcode: str
 type: attribute
 package: sohl

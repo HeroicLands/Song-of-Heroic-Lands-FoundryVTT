@@ -5,9 +5,9 @@ tags: []
 name:
     full: Chronic Fatigue Syndrome
     aliases: []
-id: 4AvtK7IMvrRtdDlT
+id: 4f1uYKsUZ9dTs3nb
 slug: chronic-fatigue-syndrome
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cfs
 type: trauma
 package: sohl

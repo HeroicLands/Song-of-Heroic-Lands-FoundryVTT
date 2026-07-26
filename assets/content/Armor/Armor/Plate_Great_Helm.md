@@ -6,9 +6,9 @@ name:
     full: Plate Great Helm
     aliases: []
 description: "Fully enclosed steel helm; maximum head-and-face coverage for warriors."
-id: 3IC8ydK0Ky7v7lY6
+id: 7ixVyat08OnBx2nh
 slug: plate-great-helm
-img: icons/visored-helm.svg
+img: icons/game-icons/lorc/visored-helm.svg
 shortcode: PlGtHlm
 type: armorgear
 package: sohl

@@ -7,9 +7,9 @@ name:
     full: Herring
     aliases: []
 description: "Small oil-rich fish; smoked or salt-packed, heavily salted lasts indefinitely."
-id: oCwIaOoQgwlHwCf5
+id: ap7hFpUiRniVsNVG
 slug: herring
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: herring
 type: miscgear
 package: sohl

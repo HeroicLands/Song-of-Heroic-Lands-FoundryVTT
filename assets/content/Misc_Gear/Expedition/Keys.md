@@ -7,9 +7,9 @@ name:
     full: Keys
     aliases: []
 description: "Iron keys on leather thong or ring; merchants and stewards carry daily."
-id: Ekmw3aDcd29kkY8a
+id: KXOlFoSlmxtoDVtk
 slug: keys
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: keys
 type: miscgear
 package: sohl

@@ -7,9 +7,9 @@ name:
     full: "Candlestick, iron"
     aliases: []
 description: "Iron socket with weighted base; holds candle upright for table or shelf."
-id: fapm8jLMff08UaDP
+id: 3NcRPOVYawSguDXa
 slug: candlestick-iron
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: candlestic
 type: miscgear
 package: sohl

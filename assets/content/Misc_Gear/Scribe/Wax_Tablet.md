@@ -7,9 +7,9 @@ name:
     full: Wax Tablet
     aliases: []
 description: "Beeswax-faced hinged boards; erasable notes for merchants' quick reckoning."
-id: q5NMKWCl6x6hti9F
+id: 5ApDrA16iFkQMunn
 slug: wax-tablet
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: waxtablet
 type: miscgear
 package: sohl

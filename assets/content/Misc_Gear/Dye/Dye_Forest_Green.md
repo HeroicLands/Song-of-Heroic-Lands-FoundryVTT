@@ -7,9 +7,9 @@ name:
     full: "Dye, Forest Green"
     aliases: []
 description: "Woad and madder blend; dark sage green favored by hunters and foresters."
-id: EtTPHsdz6DxWajJV
+id: XpaDgSpzOeo8tNUx
 slug: dye-forest-green
-img: icons/potion.svg
+img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: dyefst
 type: miscgear
 package: sohl

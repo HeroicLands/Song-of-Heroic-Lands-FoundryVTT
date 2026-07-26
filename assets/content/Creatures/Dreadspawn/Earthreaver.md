@@ -6,12 +6,12 @@ tags:
 name:
     full: Earthreaver
     aliases: []
-id: uiVG8d8MN7khRbYy
+id: sSoExpz4Qk9l3k5m
 slug: earthreaver
-img: images/earthreaver-headshot.webp
-portrait: images/earthreaver.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 20

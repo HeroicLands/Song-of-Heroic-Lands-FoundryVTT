@@ -4,9 +4,9 @@ tags: []
 name:
     full: Watchful
     aliases: []
-id: oRIL5tDePzVE34MB
+id: 0E85eT5vUuk0Xu6f
 slug: watchful
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: watchful
 type: trauma
 package: sohl

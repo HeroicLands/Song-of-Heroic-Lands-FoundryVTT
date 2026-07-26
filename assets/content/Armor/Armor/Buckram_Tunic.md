@@ -6,9 +6,9 @@ name:
     full: Buckram Tunic
     aliases: []
 description: "Stiff buckram tunic offering durability and reliable rigid protection."
-id: dnu16hAs7livrm10
+id: 4XzFD0CVXGNq8gir
 slug: buckram-tunic
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: BTunic
 type: armorgear
 package: sohl

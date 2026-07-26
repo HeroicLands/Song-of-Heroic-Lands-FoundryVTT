@@ -8,12 +8,12 @@ tags:
 name:
     full: Jaguar
     aliases: []
-id: Vx4nTqWr7RpYmK8B
+id: tkljuvLrqQH2rXzd
 slug: jaguar
-img: images/jaguar-headshot.webp
-portrait: images/jaguar.webp
+img: icons/game-icons/delapouite/feline.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 18

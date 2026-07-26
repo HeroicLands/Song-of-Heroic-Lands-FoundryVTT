@@ -6,9 +6,9 @@ name:
     full: Sealskin Cloak
     aliases: []
 description: "Waterproof seal-fur cloak; harsh-weather outer garment for seafarers."
-id: Am2OdM7ZD8wsJ077
+id: s8Nt1u03uvZ4qsK4
 slug: sealskin-cloak
-img: icons/cloak.svg
+img: icons/game-icons/lucasms/cloak.svg
 shortcode: SlsCloak
 type: armorgear
 package: sohl

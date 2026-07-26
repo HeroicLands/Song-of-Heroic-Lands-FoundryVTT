@@ -2,7 +2,7 @@
 aliases:
     - Song of Heroic Lands User Guide
     - SoHL User Guide
-id: M1KZKy8BZW5467y1
+id: 9ULGczXC3UwIpgzI
 type: doc
 package: sohl
 category: user-guide

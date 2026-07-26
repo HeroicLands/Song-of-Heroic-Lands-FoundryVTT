@@ -4,9 +4,9 @@ tags: []
 name:
     full: Xenophobia
     aliases: []
-id: YFFYFDofeUHgZQEK
+id: nqCFqn4OB3WoOu61
 slug: xenophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: xenophb
 type: trauma
 package: sohl

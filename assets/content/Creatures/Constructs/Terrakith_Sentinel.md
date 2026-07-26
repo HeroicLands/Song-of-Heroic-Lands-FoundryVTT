@@ -6,12 +6,12 @@ tags:
 name:
     full: Terrakith Sentinel
     aliases: []
-id: 7wh9GhMsGfr8L1gz
+id: mYRlDMSiKnHIpUzq
 slug: terrakith-sentinel
-img: images/terrakith-sentinel-headshot.webp
-portrait: images/terrakith-sentinel.webp
+img: icons/game-icons/delapouite/rock-golem.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 21

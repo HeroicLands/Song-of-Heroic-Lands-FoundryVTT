@@ -6,9 +6,9 @@ name:
     full: "Belt pouch, leather, sm"
     aliases: []
 description: "Small leather belt pouch barely larger than a fist."
-id: 78TjvaaVaDvsdL0v
+id: 23fY6O8R0VZw82c4
 slug: belt-pouch-leather-sm
-img: icons/sack.svg
+img: icons/game-icons/lorc/knapsack.svg
 shortcode: beltpouchl3
 type: containergear
 package: sohl

@@ -11,14 +11,14 @@ name:
     home: Solárden
     aliases:
         - Roran Stonefist
-id: WvicwIv0Pl1XRDSE
+id: KSL4vCrnfP7FxZqU
 folder: 9t9O4iB5cYJtSaTG
 shortcode: alverriktarvall
 slug: alverrik-tarvallor
-img: images/alverrik-tarvallor-headshot.webp
-portrait: images/alverrik-tarvallor.webp
+img: icons/game-icons/delapouite/person.svg
+portrait: ""
 type: character
-package: thalorna
+package: sohl
 social:
     occupation: Caravan Guard
     station: soldiery

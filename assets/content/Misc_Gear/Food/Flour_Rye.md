@@ -7,9 +7,9 @@ name:
     full: "Flour, Rye"
     aliases: []
 description: "Coarse dark flour; staple for peasant bread, cheaper than wheat flour."
-id: tiZqPXSHcfOKckEj
+id: SmjoOTQiAhHhS0wn
 slug: flour-rye
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: flourrye
 type: miscgear
 package: sohl

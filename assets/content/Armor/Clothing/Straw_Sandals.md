@@ -6,9 +6,9 @@ name:
     full: Straw Sandals
     aliases: []
 description: "Light breathable straw sandals; minimal protection, maximum airflow."
-id: IUAochbD7cnF5a32
+id: 8YxOproKGlXe2Slh
 slug: straw-sandals
-img: icons/sandals.svg
+img: icons/game-icons/delapouite/flip-flops.svg
 shortcode: StShoes
 type: armorgear
 package: sohl

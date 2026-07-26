@@ -4,9 +4,9 @@ tags: []
 name:
     full: Will
     aliases: []
-id: 5Ujb7yXQ6ULMNIqY
+id: cSe7fh1LN9mEwwYs
 slug: will
-img: icons/will.svg
+img: icons/game-icons/lorc/meditation.svg
 shortcode: wil
 type: attribute
 package: sohl

@@ -4,9 +4,9 @@ tags: []
 name:
     full: Zoophobia
     aliases: []
-id: I15cDy9Rfah6aoo0
+id: PKfsH5edHX3OB8B6
 slug: zoophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: zoophb
 type: trauma
 package: sohl

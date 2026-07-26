@@ -4,9 +4,9 @@ tags: []
 name:
     full: Anxiety
     aliases: []
-id: 9II9RxYb1uxibIBa
+id: uBpPfDK9Q71U8n27
 slug: anxiety
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: anxiety
 type: trauma
 package: sohl

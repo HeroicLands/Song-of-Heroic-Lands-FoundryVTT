@@ -6,9 +6,9 @@ name:
     full: "Lockbox, large"
     aliases: []
 description: "Iron-banded hardwood chest with wardlock; merchant's vault for valuables."
-id: 3QyfrMVtSJ5TM7Y7
+id: QBT91J5YNc3zldPN
 slug: lockbox-large
-img: icons/chest.svg
+img: icons/game-icons/delapouite/chest.svg
 shortcode: lockboxlar
 type: containergear
 package: sohl

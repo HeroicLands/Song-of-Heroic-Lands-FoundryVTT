@@ -6,9 +6,9 @@ name:
     aliases:
         - Infection
 description: "Long-term weakness from septic injury or contaminated wound."
-id: 1qPbpqlUbYDWGyNP
+id: 3yd91D3xc5ygiWLQ
 slug: infected
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: infect
 type: trauma
 package: sohl

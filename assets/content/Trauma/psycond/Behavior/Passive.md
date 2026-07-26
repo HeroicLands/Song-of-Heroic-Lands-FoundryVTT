@@ -4,9 +4,9 @@ tags: []
 name:
     full: Passive
     aliases: []
-id: VXdpk5KrqPwUJFMG
+id: vq2reMcYYgDd8WCk
 slug: passive
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: passive
 type: trauma
 package: sohl

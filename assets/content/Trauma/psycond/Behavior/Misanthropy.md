@@ -4,9 +4,9 @@ tags: []
 name:
     full: Misanthropy
     aliases: []
-id: PHEiEzs7QW8kDvTG
+id: eJl63KsBXvPbCpNK
 slug: misanthropy
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: msnthrpy
 type: trauma
 package: sohl

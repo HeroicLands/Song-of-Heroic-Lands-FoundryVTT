@@ -5,9 +5,9 @@ tags: []
 name:
     full: Impaired Hearing
     aliases: []
-id: cscALulqsdsJVmBL
+id: NnySwLpA4EHqC42L
 slug: impaired-hearing
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: impaired
 type: trauma
 package: sohl

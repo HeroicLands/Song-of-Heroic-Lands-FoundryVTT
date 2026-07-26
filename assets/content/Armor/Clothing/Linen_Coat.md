@@ -6,9 +6,9 @@ name:
     full: Linen Coat
     aliases: []
 description: "Light breathable torso covering for warmer weather comfort."
-id: J3tbAIB2Te3Ac9Z3
+id: 3J0Uu57GRTND9Qpd
 slug: linen-coat
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: LCoat
 type: armorgear
 package: sohl

@@ -7,12 +7,12 @@ tags:
 name:
     full: Crane
     aliases: []
-id: Hv9nTxWq3RpYmK6B
+id: i63ZifkjQf8TYoHl
 slug: crane
-img: images/crane-headshot.webp
-portrait: images/crane.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 5

@@ -7,12 +7,12 @@ tags:
 name:
     full: Baboon
     aliases: []
-id: Wn4vKxRf7BqYmT9J
+id: XVM9UHpPPciqBXFy
 slug: baboon
-img: images/baboon-headshot.webp
-portrait: images/baboon.webp
+img: icons/game-icons/lorc/monkey.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 12

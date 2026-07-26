@@ -7,9 +7,9 @@ name:
     full: "Emerald, cut"
     aliases: []
 description: "Deep green beryl gem; set into crowns, brooches, and formal rings."
-id: 4Mu9tGksBV6n0b9e
+id: mF4Ubog9ycfXeJYO
 slug: emerald-cut
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: emeraldcut
 type: miscgear
 package: sohl

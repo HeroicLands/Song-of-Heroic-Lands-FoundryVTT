@@ -7,9 +7,9 @@ name:
     full: "Spinel, cut"
     aliases: []
 description: "Hard gemstone in red-pink-purple; brilliant and durable; often confused with ruby."
-id: ZDXmV3YMqMqOLoJB
+id: T5e6N6ftn0YD5dQx
 slug: spinel-cut
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spinelcut
 type: miscgear
 package: sohl

@@ -6,9 +6,9 @@ name:
     full: Spirit Conflict
     aliases: []
 description: "Acute windedness from spiritual struggle against a contesting entity."
-id: Z608wVYipe3y4tAp
+id: XuQiB0mzLPGDqqHt
 slug: spirit-conflict
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: spiritcnfl
 type: trauma
 package: sohl

@@ -6,12 +6,12 @@ tags:
 name:
     full: Boulderback
     aliases: []
-id: MJTYNrG4ZgXA8QzM
+id: yBv7xJJafJv5vXrt
 slug: boulderback
-img: images/boulderback-headshot.webp
-portrait: images/boulderback.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         per: 10

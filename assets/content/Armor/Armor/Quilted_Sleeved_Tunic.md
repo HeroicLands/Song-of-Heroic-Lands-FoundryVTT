@@ -6,9 +6,9 @@ name:
     full: Quilted Sleeved Tunic
     aliases: []
 description: "Padded sleeved tunic; cold-weather garment with full-arm coverage."
-id: 1oS8DKc2S1KAEFh4
+id: QNvLrEARBGmvPOjz
 slug: quilted-sleeved-tunic
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: QSTnc
 type: armorgear
 package: sohl

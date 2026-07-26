@@ -6,12 +6,12 @@ tags:
 name:
     full: Giant Beaver
     aliases: []
-id: a6li9vwCdgQCE4aj
+id: sChYtBXlCKoOHaHl
 slug: giant-beaver
-img: images/giant-beaver-headshot.webp
-portrait: images/giant-beaver.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

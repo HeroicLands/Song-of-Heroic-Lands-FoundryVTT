@@ -6,9 +6,9 @@ name:
     full: Worsted Apron
     aliases: []
 description: "Tightly-spun wool apron; durable for tasks requiring resilience."
-id: dAj4NC7jP7jp08Xr
+id: Ws3ZV2eQImgwVToE
 slug: worsted-apron
-img: icons/apron.svg
+img: icons/game-icons/delapouite/cook.svg
 shortcode: WApn
 type: armorgear
 package: sohl

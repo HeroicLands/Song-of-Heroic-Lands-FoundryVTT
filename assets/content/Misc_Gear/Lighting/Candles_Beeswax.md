@@ -7,9 +7,9 @@ name:
     full: "Candles, Beeswax"
     aliases: []
 description: "Pure beeswax candles; bright, sweet-scented; favored by churches and gentry."
-id: MW9cp0VIYQUbhN3Z
+id: Ko1iSbLYwxPgHPCr
 slug: candles-beeswax
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: candlesbee
 type: miscgear
 package: sohl

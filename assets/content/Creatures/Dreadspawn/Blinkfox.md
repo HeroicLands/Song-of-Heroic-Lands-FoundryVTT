@@ -6,12 +6,12 @@ tags:
 name:
     full: Blinkfox
     aliases: []
-id: iF3xSWKypVdammLl
+id: yWF2AXVSDAjJXF4f
 slug: blinkfox
-img: images/blinkfox-headshot.webp
-portrait: images/blinkfox.webp
+img: icons/game-icons/caro-asercion/fox.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 8

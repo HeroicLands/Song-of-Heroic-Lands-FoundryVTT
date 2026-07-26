@@ -1,7 +1,7 @@
 ---
 aliases:
     - Prone
-id: Pr0n3Aq8mZ5cH3jY
+id: uvMedrmi8r9ytAsZ
 type: doc
 package: sohl
 category: rules

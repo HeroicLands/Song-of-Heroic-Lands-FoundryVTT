@@ -7,9 +7,9 @@ name:
     full: "Ink, Green"
     aliases: []
 description: "Verdigris or woad-iron pigment; marks heraldic and legal ornament, light-sensitive."
-id: BtfHt2gE8gRDewWH
+id: oKaLH8ULCR8orm9W
 slug: ink-green
-img: icons/ink.svg
+img: icons/game-icons/lorc/ink-swirl.svg
 shortcode: inkgrn
 type: miscgear
 package: sohl

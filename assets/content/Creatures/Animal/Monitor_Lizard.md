@@ -6,12 +6,12 @@ tags:
 name:
     full: Monitor Lizard
     aliases: []
-id: 7WiahczITgE2fqZH
+id: buxdi9gtzv4CEBbs
 slug: monitor-lizard
-img: images/monitor-lizard-headshot.webp
-portrait: images/monitor-lizard.webp
+img: icons/game-icons/lorc/gecko.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

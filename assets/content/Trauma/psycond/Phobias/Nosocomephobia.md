@@ -4,9 +4,9 @@ tags: []
 name:
     full: Nosocomephobia
     aliases: []
-id: 8SCxFkEwl1pz7hmr
+id: 6G0piz89VWmuhHF3
 slug: nosocomephobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: nscmphb
 type: trauma
 package: sohl

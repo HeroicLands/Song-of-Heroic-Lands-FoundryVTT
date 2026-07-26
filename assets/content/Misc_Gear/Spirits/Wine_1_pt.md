@@ -7,9 +7,9 @@ name:
     full: "Wine, 1 pt."
     aliases: []
 description: "Tart thin grape wine in bottle; preferable to ale; merchant-class drink."
-id: bIsNUjMw4zqOdTpz
+id: EszOO6A0vMwlOBxH
 slug: wine-1-pt
-img: icons/wine-bottle.svg
+img: icons/game-icons/delapouite/wine-bottle.svg
 shortcode: winept
 type: miscgear
 package: sohl

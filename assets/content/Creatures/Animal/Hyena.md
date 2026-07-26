@@ -6,12 +6,12 @@ tags:
 name:
     full: Hyena
     aliases: []
-id: u80Za9H8WLrdOqy9
+id: qWLJoGsN56qVG65C
 slug: hyena
-img: images/hyena-headshot.webp
-portrait: images/hyena.webp
+img: icons/game-icons/lorc/paw-print.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 15

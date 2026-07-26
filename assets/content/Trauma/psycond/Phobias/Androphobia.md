@@ -4,9 +4,9 @@ tags: []
 name:
     full: Androphobia
     aliases: []
-id: Eq7Ph9EOlzU9BlcJ
+id: roP2bnXGS1zSOD45
 slug: androphobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: andphb
 type: trauma
 package: sohl

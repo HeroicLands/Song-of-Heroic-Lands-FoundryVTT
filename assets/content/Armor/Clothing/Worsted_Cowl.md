@@ -6,9 +6,9 @@ name:
     full: Worsted Cowl
     aliases: []
 description: "Tightly-spun wool cowl; durable, versatile head covering."
-id: HwAZqhOppRIqVbJs
+id: Pj5pzkJGmXXOFdiC
 slug: worsted-cowl
-img: icons/hood.svg
+img: icons/game-icons/lorc/hood.svg
 shortcode: WCowl
 type: armorgear
 package: sohl

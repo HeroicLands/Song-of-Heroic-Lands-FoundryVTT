@@ -4,9 +4,9 @@ tags: []
 name:
     full: Responsive
     aliases: []
-id: ZowkOgbTHyB9rIhS
+id: LH1loqMlF9CVW2n9
 slug: responsive
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: rspnsv
 type: trauma
 package: sohl

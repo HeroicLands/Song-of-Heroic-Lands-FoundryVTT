@@ -7,9 +7,9 @@ name:
     full: Trout
     aliases: []
 description: "Swift stream fish, delicate pink flesh, best cooked whole or smoked."
-id: IrGDdQeLHSkniajv
+id: KrbJcH3gpb9OKlra
 slug: trout
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: trout
 type: miscgear
 package: sohl

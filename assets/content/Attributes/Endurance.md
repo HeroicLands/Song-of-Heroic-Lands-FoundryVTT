@@ -4,9 +4,9 @@ tags: []
 name:
     full: Endurance
     aliases: []
-id: WRVbCGB5lFT9LZlY
+id: bZCm7bURkPsffnIW
 slug: endurance
-img: icons/climbing.svg
+img: icons/game-icons/caro-asercion/mountain-climbing.svg
 shortcode: end
 type: attribute
 package: sohl

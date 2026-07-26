@@ -6,9 +6,9 @@ name:
     full: Silk Shirt
     aliases: []
 description: "Elegant silk shirt; luxurious, refined garment for formal occasions."
-id: Vh1VmLvbWJOSmjxy
+id: ienUW21VKWqyMC1K
 slug: silk-shirt
-img: icons/shirt.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: SlkShirt
 type: armorgear
 package: sohl

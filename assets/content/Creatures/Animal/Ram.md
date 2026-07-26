@@ -6,12 +6,12 @@ tags:
 name:
     full: Ram
     aliases: []
-id: EtvwwNhHYApW1bq6
+id: ZwHwXKqpOkh0QMOt
 slug: ram
-img: images/ram-headshot.webp
-portrait: images/ram.webp
+img: icons/game-icons/delapouite/sheep.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 13

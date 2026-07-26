@@ -11,14 +11,14 @@ name:
     clan: Hárvenar
     home: ""
     aliases: []
-id: 2qFl41sNLjVHWGau
+id: 9xrT7pAeah4Li8qD
 folder: J9R0fnGUTBY5z4pd
 shortcode: aldrikharvenar
 slug: aldrik-harvenar
-img: images/aldrik-harvenar-headshot.webp
-portrait: images/aldrik-harvenar.webp
+img: icons/game-icons/delapouite/person.svg
+portrait: ""
 type: character
-package: thalorna
+package: sohl
 social:
     occupation: Man-at-Arms
     station: soldiery

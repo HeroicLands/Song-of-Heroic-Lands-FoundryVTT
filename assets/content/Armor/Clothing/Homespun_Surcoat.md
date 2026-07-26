@@ -6,9 +6,9 @@ name:
     full: Homespun Surcoat
     aliases: []
 description: "Simple homemade surcoat providing coverage and practical wear."
-id: KO2z2lfxO4XDeDgQ
+id: CSlrhTxvGVYFhKmz
 slug: homespun-surcoat
-img: icons/tunic.svg
+img: icons/game-icons/lucasms/shirt.svg
 shortcode: HsScoat
 type: armorgear
 package: sohl

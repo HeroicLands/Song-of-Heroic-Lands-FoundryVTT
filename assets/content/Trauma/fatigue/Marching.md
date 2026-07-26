@@ -6,9 +6,9 @@ name:
     aliases:
         - Walking
 description: "Sustained weariness from long-distance walking at travel pace."
-id: 5rUkCBrDJLoU5vTL
+id: q3cLJY0FJHMDiMaw
 slug: marching
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: march
 type: trauma
 package: sohl

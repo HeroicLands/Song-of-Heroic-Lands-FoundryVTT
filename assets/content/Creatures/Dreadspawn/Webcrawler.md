@@ -6,12 +6,12 @@ tags:
 name:
     full: Webcrawler
     aliases: []
-id: toE8HQxOqaxBJ9X3
+id: c0MYxLmxJqlP3eq6
 slug: webcrawler
-img: images/webcrawler-headshot.webp
-portrait: images/webcrawler.webp
+img: icons/game-icons/carl-olsen/spider-alt.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 8

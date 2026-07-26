@@ -5,9 +5,9 @@ name:
     full: Fishing
     aliases: []
 description: "Catching fish using hooks, nets, spears; adapting to local conditions."
-id: cyyEUOoomBDdXda9
+id: udl3mzMb0IyASIVy
 slug: fishing
-img: icons/fishing.svg
+img: icons/game-icons/delapouite/fishing.svg
 shortcode: fish
 type: skill
 package: sohl

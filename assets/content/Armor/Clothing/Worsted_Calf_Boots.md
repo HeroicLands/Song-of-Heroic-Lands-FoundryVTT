@@ -6,9 +6,9 @@ name:
     full: Worsted Calf Boots
     aliases: []
 description: "Tightly-spun wool calf boots; warm, practical footwear for cold."
-id: XUPd8moTyonp9AQJ
+id: TbZ91Cws37QhOG7Q
 slug: worsted-calf-boots
-img: icons/leather-boot.svg
+img: icons/game-icons/lorc/leather-boot.svg
 shortcode: WCBoot
 type: armorgear
 package: sohl

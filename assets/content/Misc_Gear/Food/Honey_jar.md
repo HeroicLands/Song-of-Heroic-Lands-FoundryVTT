@@ -7,9 +7,9 @@ name:
     full: "Honey, jar"
     aliases: []
 description: "Golden honey sealed in clay jar; sweetens porridge and mead, keeps years."
-id: XmngK76CKQYqfoyQ
+id: izW60sCh3KEQ9okV
 slug: honey-jar
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: honeyjar
 type: miscgear
 package: sohl

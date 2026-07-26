@@ -12,14 +12,14 @@ name:
     given: Brunjár
     clan: Skathhelm
     aliases: []
-id: bOpFPuyMSwUh5Cd5
+id: elrlXp3vtP02E0Tr
 folder: Nu7AgLZEmR26u2pk
 shortcode: brunjarskathhel
 slug: brunjar-skathhelm
-img: images/brunjar-skathhelm-headshot.webp
-portrait: images/brunjar-skathhelm.webp
+img: icons/game-icons/delapouite/person.svg
+portrait: ""
 type: character
-package: thalorna
+package: sohl
 social:
     occupation: Brigand
     station: underworld

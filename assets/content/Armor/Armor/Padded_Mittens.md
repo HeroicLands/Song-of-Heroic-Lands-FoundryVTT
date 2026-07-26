@@ -6,9 +6,9 @@ name:
     full: Padded Mittens
     aliases: []
 description: "Cushioned hand coverings providing warmth for cold weather conditions."
-id: fybBfDAuI4Y3VWFS
+id: IBwZA3n6zSzRPXVJ
 slug: padded-mittens
-img: icons/gauntlet.svg
+img: icons/game-icons/delapouite/gauntlet.svg
 shortcode: PMitn
 type: armorgear
 package: sohl

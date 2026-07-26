@@ -4,9 +4,9 @@ tags: []
 name:
     full: Galeophobia
     aliases: []
-id: lhIbM9v7CRc7pN9O
+id: 3Ui5Wkcg6iWFKm8L
 slug: galeophobia
-img: icons/dread.svg
+img: icons/game-icons/cathelineau/dread.svg
 shortcode: galeophb
 type: trauma
 package: sohl

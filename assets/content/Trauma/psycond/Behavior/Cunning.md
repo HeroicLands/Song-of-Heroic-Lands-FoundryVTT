@@ -4,9 +4,9 @@ tags: []
 name:
     full: Cunning
     aliases: []
-id: 0CzxPUMt3bYB0yt5
+id: Zp1K4nII41x8UGPU
 slug: cunning
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cunning
 type: trauma
 package: sohl

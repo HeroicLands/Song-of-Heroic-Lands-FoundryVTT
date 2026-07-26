@@ -7,9 +7,9 @@ name:
     full: "Bell, hand"
     aliases: []
 description: "Small bronze-iron bell with handle; bright clear note for summons and announcement."
-id: hJGFOGwPSFUq5C08
+id: Woak28XKFFBpgUPV
 slug: bell-hand
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bellhand
 type: miscgear
 package: sohl

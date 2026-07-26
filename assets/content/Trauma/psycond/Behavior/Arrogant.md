@@ -4,9 +4,9 @@ tags: []
 name:
     full: Arrogant
     aliases: []
-id: y2VSd3A8Rw4khWod
+id: 6LxKvoIxjeUOuAbE
 slug: arrogant
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: arrogant
 type: trauma
 package: sohl

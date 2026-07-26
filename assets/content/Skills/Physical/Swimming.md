@@ -5,9 +5,9 @@ name:
     full: Swimming
     aliases: []
 description: "Moving through water across rivers, during shipwrecks, or beneath surfaces."
-id: U1qbcjqVcFyiyaDe
+id: DlPCHm0GqMcwZyyh
 slug: swimming
-img: icons/swimming.svg
+img: icons/game-icons/delapouite/swimfins.svg
 shortcode: swim
 type: skill
 package: sohl

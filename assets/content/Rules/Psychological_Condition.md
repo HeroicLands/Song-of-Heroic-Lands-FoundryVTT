@@ -4,7 +4,7 @@ aliases:
     - Psyche Stress
     - Psyche Stress Level
     - Aural Shock
-id: Psy4hK9nRt2wQx7v
+id: V9srU6XwTJblSZ1s
 type: doc
 package: sohl
 category: rules

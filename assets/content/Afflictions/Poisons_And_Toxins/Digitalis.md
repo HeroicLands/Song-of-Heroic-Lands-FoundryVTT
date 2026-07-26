@@ -5,9 +5,9 @@ name:
     full: Digitalis
     aliases: []
 description: "Foxglove cardiac glycoside; nausea, visual disturbances, severe cardiac effects."
-id: ymlS24R2v3lM5fjO
+id: SAqg0v8Xgy2cFp8w
 slug: digitalis
-img: icons/poison-bottle.svg
+img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: dgtls
 type: affliction
 package: sohl

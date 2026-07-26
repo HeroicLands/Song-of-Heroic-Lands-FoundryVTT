@@ -6,12 +6,12 @@ tags:
 name:
     full: Spindlefiend
     aliases: []
-id: Xpvl9VOny6MfIxph
+id: uiCv7LNZzmeo0C5F
 slug: spindlefiend
-img: images/spindlefiend-headshot.webp
-portrait: images/spindlefiend.webp
+img: icons/game-icons/lorc/werewolf.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 10

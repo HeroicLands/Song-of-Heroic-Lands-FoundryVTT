@@ -6,12 +6,12 @@ tags:
 name:
     full: Swampstrider
     aliases: []
-id: Xp59IPJIp337Wq2N
+id: nx1JBaUtNq1pa3Ki
 slug: swampstrider
-img: images/swampstrider-headshot.webp
-portrait: images/swampstrider.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 14

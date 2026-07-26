@@ -7,9 +7,9 @@ name:
     full: Sewing Kit
     aliases: []
 description: "Small cloth roll with bone and iron needles, linen and silk thread, thimble, shears, awl, beeswax; seamstresses mend and sew."
-id: dR6vKmYn2jQ8xPbW
+id: EcsJrkGzz8K0ef7b
 slug: sewing-kit
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: sewkit
 type: miscgear
 package: sohl

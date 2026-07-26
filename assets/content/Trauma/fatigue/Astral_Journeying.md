@@ -6,9 +6,9 @@ name:
     full: Astral Journeying
     aliases:
 description: "Sustained weariness from astral travel, paid on reembodiment."
-id: bM068RlsHmI1CKFb
+id: PEmWjX4fBnNuPIha
 slug: astral-journeying
-img: icons/fatigue.svg
+img: icons/game-icons/lorc/sleepy.svg
 shortcode: astjourn
 type: trauma
 package: sohl

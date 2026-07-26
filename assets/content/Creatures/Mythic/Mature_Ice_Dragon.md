@@ -7,12 +7,12 @@ tags:
 name:
     full: Mature Ice Dragon
     aliases: []
-id: cAOrHbF8oIj6u3qK
+id: 2tsk1oPbOk4V5jJf
 slug: mature-ice-dragon
-img: images/mature-ice-dragon-headshot.webp
-portrait: images/mature-ice-dragon.webp
+img: icons/game-icons/faithtoken/dragon-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 25

@@ -6,12 +6,12 @@ tags:
 name:
     full: Fox
     aliases: []
-id: CK54kQXKSSBdCkw2
+id: Z7axZ4NaELTtdReY
 slug: fox
-img: images/fox-headshot.webp
-portrait: images/fox.webp
+img: icons/game-icons/caro-asercion/fox.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 6

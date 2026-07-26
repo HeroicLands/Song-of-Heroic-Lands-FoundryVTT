@@ -7,9 +7,9 @@ name:
     full: Crab
     aliases: []
 description: "Sweet firm crustacean meat; fresh at harbor, salted for inland trade."
-id: d5dChLDfdxr49lsT
+id: ht0rQJUtkZVHzWOO
 slug: crab
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: crab
 type: miscgear
 package: sohl

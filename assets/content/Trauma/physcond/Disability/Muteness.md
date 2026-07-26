@@ -4,9 +4,9 @@ tags: []
 name:
     full: Muteness
     aliases: []
-id: Wom0wSGya4jJgDCg
+id: RhLLOxWjOCztbWRY
 slug: muteness
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: muteness
 type: trauma
 package: sohl

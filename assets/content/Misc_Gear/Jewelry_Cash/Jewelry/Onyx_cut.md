@@ -7,9 +7,9 @@ name:
     full: "Onyx, cut"
     aliases: []
 description: "Black-and-white banded chalcedony; striking striped pattern, favored for signet rings."
-id: t86kYESG8mm3Qat8
+id: tNBtfRIBwXrvgW3a
 slug: onyx-cut
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: onyxcut
 type: miscgear
 package: sohl

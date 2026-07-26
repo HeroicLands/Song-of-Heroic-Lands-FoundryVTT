@@ -6,12 +6,12 @@ tags:
 name:
     full: Frostwing
     aliases: []
-id: 1r3GYysF5sAOCv97
+id: MzYAPPEnFLXmQ6Cg
 slug: frostwing
-img: images/frostwing-headshot.webp
-portrait: images/frostwing.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 11

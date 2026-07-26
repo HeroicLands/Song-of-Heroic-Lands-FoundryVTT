@@ -7,9 +7,9 @@ name:
     full: Mutton
     aliases: []
 description: "Dark meat of aging sheep, stronger than lamb, suits hearty dishes."
-id: CrlGGgHeHq91RYHB
+id: GXG1GyUYLgGBKg2s
 slug: mutton
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: mutton
 type: miscgear
 package: sohl

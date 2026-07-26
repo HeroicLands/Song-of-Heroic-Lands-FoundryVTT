@@ -4,9 +4,9 @@ tags: []
 name:
     full: Polydactyly
     aliases: []
-id: vbRKusDAufJ12BfX
+id: dhu4Ziv1CtzeFuX1
 slug: polydactyly
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: polydact
 type: trauma
 package: sohl

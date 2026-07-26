@@ -7,12 +7,12 @@ tags:
 name:
     full: Water Buffalo
     aliases: []
-id: Mx8rTqJn4VwFbC6P
+id: QpWdvTgOQceHrZhi
 slug: water-buffalo
-img: images/water-buffalo-headshot.webp
-portrait: images/water-buffalo.webp
+img: icons/game-icons/delapouite/buffalo-head.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 18

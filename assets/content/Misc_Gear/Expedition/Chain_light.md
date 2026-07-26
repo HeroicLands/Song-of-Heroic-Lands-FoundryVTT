@@ -7,9 +7,9 @@ name:
     full: "Chain, light"
     aliases: []
 description: "Thinner pliable iron link chain; secures smaller items and restrains prisoners' wrists."
-id: LSS4Y1xoXnM95C5T
+id: xJS2uE0JJHnhz7c0
 slug: chain-light
-img: icons/miscgear.svg
+img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chainlight
 type: miscgear
 package: sohl

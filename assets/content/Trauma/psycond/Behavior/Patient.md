@@ -4,9 +4,9 @@ tags: []
 name:
     full: Patient
     aliases: []
-id: areuJpaZ6i7JyoEO
+id: eYpPLqWzAVaTcL4N
 slug: patient
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: patient
 type: trauma
 package: sohl

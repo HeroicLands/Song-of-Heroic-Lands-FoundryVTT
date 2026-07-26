@@ -4,9 +4,9 @@ tags: []
 name:
     full: Eczema
     aliases: []
-id: MxoRrAp1mt03VvAM
+id: Jio2YGG0lXIm6KFU
 slug: eczema
-img: icons/user-gear.svg
+img: icons/game-icons/lorc/battle-gear.svg
 shortcode: eczema
 type: trauma
 package: sohl

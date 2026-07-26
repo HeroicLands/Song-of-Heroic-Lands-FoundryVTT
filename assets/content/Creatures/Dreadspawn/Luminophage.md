@@ -6,12 +6,12 @@ tags:
 name:
     full: Luminophage
     aliases: []
-id: jNzzuKp8U2y7rYyb
+id: Ul7aa7gAof3P8b46
 slug: luminophage
-img: images/luminophage-headshot.webp
-portrait: images/luminophage.webp
+img: icons/game-icons/delapouite/griffin-symbol.svg
+portrait: ""
 type: creature
-package: thalorna
+package: sohl
 sohl:
     attributes:
         str: 8
