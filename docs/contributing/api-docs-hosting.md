@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: API Docs Hosting (api.heroiclands.org)
+    aliases: []
+id: 0GAX0u0CJSY9EsNe
+slug: api-docs-hosting
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # API Docs Hosting (api.heroiclands.org)
 
 See also: [Getting Started](../how-to/getting-started.md), [Testing](../how-to/testing.md)

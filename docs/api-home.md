@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Song of Heroic Lands — API Reference
+    aliases: []
+id: m5LFacYPCiqTAmjQ
+slug: api-home
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 ![Song of Heroic Lands](../assets/ui/sohl-background.webp)
 
 # Song of Heroic Lands — API Reference

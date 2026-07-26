@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: House Rules Cookbook
+    aliases: []
+id: A5LW8vjcC46wNUQ2
+slug: house-rules-cookbook
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # House Rules Cookbook
 
 > **Audience:** GMs and developers who want to change behavior without forking SoHL.

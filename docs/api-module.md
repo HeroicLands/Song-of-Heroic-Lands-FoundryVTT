@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: api-module
+    aliases: []
+id: FfjTTYJRO3e1S7Gj
+slug: api-module
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 The complete Song of Heroic Lands public API — every exported class, interface, type, function, and constant — organized as a **namespace tree** that mirrors the `src/` layout and the live `sohl` runtime global. A symbol's documentation path is its real location: `sohl.document.effect.foundry.SohlActiveEffect` is exactly where the class lives in the source and how you reach it at runtime.
 
 Browse by namespace using the sidebar tree:

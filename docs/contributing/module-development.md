@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Writing Modules for SoHL
+    aliases: []
+id: KiLEkudeFGD7QBBE
+slug: module-development
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Writing Modules for SoHL
 
 _How to build a Foundry VTT **module** that integrates with or extends Song of

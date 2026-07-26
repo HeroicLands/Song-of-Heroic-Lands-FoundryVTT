@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Macros and Actions
+    aliases: []
+id: Hk17waT8fDxpYs6u
+slug: macros-and-actions
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Macros and Actions
 
 There are two ways to run custom behavior in a Song of Heroic Lands world, and

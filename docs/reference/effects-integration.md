@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Effects Integration
+    aliases: []
+id: tJSDDkjs0P3j2rOE
+slug: effects-integration
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Effects Integration
 
 > **Audience:** Developers extending Active Effect behavior and UI wiring.

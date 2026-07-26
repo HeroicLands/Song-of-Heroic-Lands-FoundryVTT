@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Result-description tables
+    aliases: []
+id: DkH5D79VOKoo875S
+slug: result-description-tables
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Result-description tables
 
 A **result-description table** (a `SuccessTestResult.LimitedDescription[]`) maps a

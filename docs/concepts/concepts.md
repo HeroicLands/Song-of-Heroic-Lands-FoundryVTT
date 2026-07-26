@@ -1,4 +1,14 @@
 ---
+aliases: []
+name:
+    full: Concepts
+    aliases: []
+id: GvCORNZp7nOCKkqx
+slug: concepts
+type: doc
+package: sohl
+category: dev-docs
+folder: null
 title: Concepts
 children:
     Architecture Overview: ./architecture.md

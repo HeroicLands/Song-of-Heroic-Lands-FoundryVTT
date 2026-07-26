@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: SoHL Developer & API Documentation
+    aliases: []
+id: TTyUIc3DZWDLHDcp
+slug: readme
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # SoHL Developer & API Documentation
 
 The entry point for working **on** the Song of Heroic Lands (SoHL) system — for developers extending the API, contributors changing core, and anyone who needs a mental model of the code.

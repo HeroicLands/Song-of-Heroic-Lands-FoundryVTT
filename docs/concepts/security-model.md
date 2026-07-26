@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Security Model & Guardrails
+    aliases: []
+id: 7mShMNnp3lYzSMpL
+slug: security-model
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Security Model & Guardrails
 
 This document is the security mental model for the SoHL system and the standing

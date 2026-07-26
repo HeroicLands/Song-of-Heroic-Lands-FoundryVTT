@@ -1,4 +1,14 @@
 ---
+aliases: []
+name:
+    full: Contributing
+    aliases: []
+id: d0uF9mEzCGxv7gMK
+slug: contributing
+type: doc
+package: sohl
+category: dev-docs
+folder: null
 title: Contributing
 children:
     System Development: ./system-development.md

@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Calendar Reference
+    aliases: []
+id: 3FnZNhXbtsrG5O2O
+slug: calendar
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Calendar Reference
 
 How SoHL displays in-world dates without depending on a calendar module, and how the system coexists with modules that manage calendars.

@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Lifecycle Hooks
+    aliases: []
+id: wAO09gIz6slBmjYb
+slug: lifecycle-hooks
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Lifecycle Hooks
 
 > **Audience:** Foundry module developers augmenting SoHL actor/item behavior

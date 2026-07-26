@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Extension Points (Developer Guide)
+    aliases: []
+id: scDyKKrrUFPyaMYF
+slug: extension-points
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Extension Points (Developer Guide)
 
 > **Audience:** Developers maintaining or extending SoHL.

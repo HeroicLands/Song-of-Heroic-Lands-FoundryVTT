@@ -5,11 +5,22 @@ aliases:
     - SohlEventQueue
     - sohl.events
     - SohlSubscription
+name:
+    full: Event Queue
+    aliases: []
+id: kFYL7iKZrOXIhF1j
+slug: event-queue
+type: doc
+package: sohl
+category: dev-docs
+folder: null
 tags:
     - core-system
     - time
     - lifecycle
-audience: Developers wiring document behavior to lifecycle moments (combat start/end, round/turn boundaries, world-time scheduling).
+audience: >-
+    Developers wiring document behavior to lifecycle moments (combat start/end,
+    round/turn boundaries, world-time scheduling).
 ---
 
 # Event Queue

@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: API Access Map (Macros and Modules)
+    aliases: []
+id: tRjRH3x7Z3Mqu2hB
+slug: api-access-map
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # API Access Map (Macros and Modules)
 
 > **Audience:** Macro authors and variant-module developers who want to reach
