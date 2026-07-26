@@ -27,7 +27,7 @@
  * (this barrel), which both populates and exposes the surface. The handful of
  * base classes that can't import the barrel without a load cycle import the leaf
  * directly instead — see the "Entity class registry" section of
- * docs/reference/runtime-contracts.md.
+ * kb/dev-docs/reference/runtime-contracts.md.
  *
  * Curated to the classes meant to be `new`ed or subclassed by macros and variant
  * modules: modifiers, test/combat results, strike modes, {@link sohl.entity.action.SohlAction}, and

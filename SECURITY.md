@@ -21,4 +21,4 @@ macro/script execution, and the handling of untrusted, serialized world data.
 
 For the system's full threat model and the standing security guardrails every
 change must respect, see
-[docs/concepts/security-model.md](docs/concepts/security-model.md).
+[kb/dev-docs/concepts/security-model.md](kb/dev-docs/concepts/security-model.md).

@@ -55,7 +55,7 @@ import { SohlEntity } from "../SohlEntity";
  * StrikeModeBase` mid-load → `TypeError: Class extends value undefined`). The
  * bare side-effect imports above guarantee the modifier classes self-register so
  * `entity.ValueModifier` etc. resolve even in a bare unit test. See the "Entity
- * class registry" section of docs/reference/runtime-contracts.md.
+ * class registry" section of kb/dev-docs/reference/runtime-contracts.md.
  * ────────────────────────────────────────────────────────────────────────────
  */
 

@@ -70,7 +70,7 @@ import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocum
  * undefined`). The bare side-effect import above guarantees MasteryLevelModifier
  * self-registers so `entity.MasteryLevelModifier` resolves even in a bare unit
  * test. See the "Entity class registry" section of
- * docs/reference/runtime-contracts.md.
+ * kb/dev-docs/reference/runtime-contracts.md.
  * ────────────────────────────────────────────────────────────────────────────
  */
 /**

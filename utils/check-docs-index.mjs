@@ -12,21 +12,18 @@
  */
 
 /**
- * CI guard: keep the two hand-maintained documentation indexes in sync with the
- * files on disk, so a new `docs/<section>/<page>.md` can never be silently
+ * CI guard: keep the hand-maintained developer-doc index in sync with the files
+ * on disk, so a new `kb/dev-docs/<section>/<page>.md` can never be silently
  * orphaned from the navigation.
  *
- * Every content page under `docs/{concepts,how-to,reference,contributing}/`
- * (excluding the per-section index stub itself) must be linked from BOTH:
+ * Every content page under `kb/dev-docs/{concepts,how-to,reference,contributing}/`
+ * must be linked from `kb/dev-docs/README.md` — the doc-tree landing (rendered as
+ * the `/dev-docs/` landing on the knowledgebase, and the GitHub-facing index).
+ * Exits non-zero on any omission.
  *
- *   1. its section stub's `children:` front-matter
- *      (`docs/<section>/<section>.md`) — this drives the published TypeDoc site
- *      navigation; and
- *   2. `docs/README.md` — the GitHub-facing index.
- *
- * TypeDoc already fails the build on a `children:` entry that points at a
- * missing file, so this guard covers the opposite direction (a file that no
- * index references). Exits non-zero on any omission.
+ * (The API site no longer carries the guide tree — `projectDocuments` was removed
+ * in #430 — so there is no per-section `children:` stub to cross-check anymore;
+ * the README is the single index.)
  *
  * Usage:
  *   npm run lint:docs-index
@@ -35,26 +32,21 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
+const DOCS = "kb/dev-docs";
 const SECTIONS = ["concepts", "how-to", "reference", "contributing"];
-const README = "docs/README.md";
+const README = join(DOCS, "README.md");
 
 const readme = readFileSync(README, "utf8");
 const violations = [];
 
 for (const section of SECTIONS) {
-    const dir = join("docs", section);
-    const stub = join(dir, `${section}.md`);
-    const stubText = readFileSync(stub, "utf8");
+    const dir = join(DOCS, section);
 
     for (const name of readdirSync(dir)) {
         if (!name.endsWith(".md")) continue;
-        if (name === `${section}.md`) continue; // the stub itself
 
         const rel = `${section}/${name}`;
-        // The stub links pages as `./<name>.md`; README as `<section>/<name>.md`.
-        if (!stubText.includes(`./${name}`)) {
-            violations.push(`${rel} is not in ${stub} children: front-matter`);
-        }
+        // README links pages as `<section>/<name>.md`.
         if (!readme.includes(rel)) {
             violations.push(`${rel} is not linked from ${README}`);
         }
@@ -63,13 +55,12 @@ for (const section of SECTIONS) {
 
 if (violations.length) {
     console.error(
-        `\ncheck-docs-index: ${violations.length} documentation page(s) missing from an index:\n`,
+        `\ncheck-docs-index: ${violations.length} documentation page(s) missing from the index:\n`,
     );
     for (const v of violations) console.error(`  ${v}`);
     console.error(
-        "\nEvery docs/<section>/<page>.md must be linked from both its section " +
-            "stub's `children:` front-matter and docs/README.md.\nAdd the missing " +
-            "link(s), or move the page out of the section directory.\n",
+        `\nEvery ${DOCS}/<section>/<page>.md must be linked from ${README}.\n` +
+            "Add the missing link(s), or move the page out of the section directory.\n",
     );
     process.exit(1);
 }

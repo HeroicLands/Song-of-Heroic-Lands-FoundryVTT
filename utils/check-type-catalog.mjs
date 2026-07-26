@@ -12,7 +12,7 @@
  */
 
 /**
- * Fail if the committed `docs/reference/type-catalog.md` is out of date with the
+ * Fail if the committed `kb/dev-docs/reference/type-catalog.md` is out of date with the
  * code. The catalog is generated (from the kind enums, `lang/en.json`, and each
  * Logic class's TSDoc) yet tracked in git because docs link to it; this guard —
  * wired into `npm run lint` — keeps the committed copy current, the same way
@@ -24,7 +24,7 @@ import fs from "fs";
 import path from "path";
 import { buildTypeCatalog } from "./build-type-catalog.mjs";
 
-const OUT = path.resolve("docs/reference/type-catalog.md");
+const OUT = path.resolve("kb/dev-docs/reference/type-catalog.md");
 const rel = path.relative(process.cwd(), OUT);
 
 const { md, warnings } = buildTypeCatalog();

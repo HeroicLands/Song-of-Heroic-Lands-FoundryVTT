@@ -3,7 +3,7 @@
 /resources/_gen/
 .hugo_build.lock
 
-# content/ is generated from assets/content/ + docs/ by
+# content/ is generated from assets/content/ + kb/dev-docs/ by
 # utils/build-kb-content.mjs; never committed.
 /content/
 

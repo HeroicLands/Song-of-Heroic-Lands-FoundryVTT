@@ -19,7 +19,7 @@
  * step runs after the TypeDoc build and rewrites every `api.heroiclands.org/latest`
  * occurrence in the generated site to `api.heroiclands.org/v<version>` (from
  * `package.json`). Because the published docs are versioned per ref
- * (`/v0.7.0/`, `/main/`, …; see docs/contributing/api-docs-hosting.md), this makes
+ * (`/v0.7.0/`, `/main/`, …; see kb/dev-docs/contributing/api-docs-hosting.md), this makes
  * each generated page link to the matching versioned docs instead of always
  * following `/latest`.
  *

@@ -6,7 +6,6 @@ on:
         branches: [main]
         paths:
             - "kb/**"
-            - "docs/**"
             - "assets/content/**"
             - "utils/build-kb-content.mjs"
             - ".github/workflows/deploy-kb.yml"

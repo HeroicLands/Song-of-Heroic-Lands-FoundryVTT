@@ -24,7 +24,7 @@
  * through the registry; there is no central hub to keep in sync.
  *
  * Two ways to reach these classes (see the "Entity class registry" section of
- * docs/reference/runtime-contracts.md):
+ * kb/dev-docs/reference/runtime-contracts.md):
  *
  * - **Inside SoHL** — `import { entity }` from here, then `new entity.X(...)`.
  * - **Outside SoHL** (macros / variant modules) — the same surface is exposed

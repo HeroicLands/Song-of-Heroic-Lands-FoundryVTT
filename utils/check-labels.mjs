@@ -14,7 +14,7 @@
 /**
  * CI guard: the label registry has two faces that MUST agree —
  * `.github/labels.yml` (the machine source synced to GitHub) and the §3 table in
- * `docs/how-to/issue-reporting.md` (the documented reference). This asserts the set of
+ * `kb/dev-docs/how-to/issue-reporting.md` (the documented reference). This asserts the set of
  * label names is identical in both, so neither can drift or "invent" a label the
  * other doesn't have.
  *
@@ -53,7 +53,7 @@ function registryNames() {
 /** Label names listed in the §3 table of the issue-reporting doc. */
 function docNames() {
     const md = readFileSync(
-        resolve("docs/how-to/issue-reporting.md"),
+        resolve("kb/dev-docs/how-to/issue-reporting.md"),
         "utf8",
     ).split("\n");
     const start = md.findIndex((l) => /^##\s+3\./.test(l));
