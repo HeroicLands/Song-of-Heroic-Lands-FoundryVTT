@@ -4,7 +4,7 @@ aliases:
 id: Pr0n3Aq8mZ5cH3jY
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Prone
     aliases: []

@@ -6,7 +6,7 @@ aliases:
 id: AtqkU88Zfef6tIyN
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Success Value Tests
     aliases: []

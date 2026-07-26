@@ -5,7 +5,7 @@ aliases:
 id: a9IFROJ7EMIJj50c
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Song of Heroic Lands Rules
     aliases: []

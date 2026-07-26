@@ -7,7 +7,7 @@ aliases:
 id: RomveiG4Z5GkOK6h
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Success Tests
     aliases: []

@@ -8,7 +8,7 @@ aliases:
 id: Pall7Zn5cLwR4Hk3
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: The Pall
     aliases: []

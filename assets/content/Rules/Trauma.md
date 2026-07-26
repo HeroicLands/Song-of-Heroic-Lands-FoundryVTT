@@ -4,7 +4,7 @@ aliases:
 id: Tr8mAqL4vZ9nH2kP
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Trauma
     aliases: []

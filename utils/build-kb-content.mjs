@@ -111,6 +111,33 @@ function resolveLinks(body) {
 }
 
 /**
+ * Resolve Obsidian-style `[[wikilinks]]` in a content body against a
+ * target → KB-URL `index` (keyed by source filename, slug, and display name,
+ * case-insensitively). Handles `[[Target]]`, `[[Target|Text]]`,
+ * `[[Target#anchor]]`, and `[[Target#anchor|Text]]`. An unresolved target
+ * renders as its plain text rather than a literal `[[…]]`.
+ * @param {string} body - The markdown body.
+ * @param {Map<string,string>} index - Lowercased target → KB URL.
+ * @returns {string} The body with wikilinks rewritten to markdown links.
+ */
+function resolveWikilinks(body, index) {
+    return body.replace(/\[\[([^\]]+)\]\]/g, (_m, inner) => {
+        const bar = inner.indexOf("|");
+        const linkPart = (bar === -1 ? inner : inner.slice(0, bar)).trim();
+        const hash = linkPart.indexOf("#");
+        const target = (hash === -1 ? linkPart : linkPart.slice(0, hash)).trim();
+        const anchor = hash === -1 ? "" : linkPart.slice(hash + 1).trim();
+        const text = (
+            bar === -1 ? target
+            : inner.slice(bar + 1)
+        ).trim();
+        const url = index.get(target.toLowerCase());
+        if (!url) return text;
+        return `[${text}](${anchor ? `${url}#${slugify(anchor)}` : url})`;
+    });
+}
+
+/**
  * Rewrite the relative links in a developer-doc body so they resolve in the KB.
  *
  * Dev docs are authored to link one another and the source tree with repo-relative
@@ -223,6 +250,22 @@ const SECTION_META = {
         title: "Skills/Attributes",
         banner: "banners/skills-attributes.webp",
     },
+};
+
+/**
+ * `type: doc` content routes to a section by its top-level source folder, so the
+ * User Guide and the Rules are their own sections (each with a README landing)
+ * rather than one flat `/guide/`. Anything else falls back to `guide`.
+ */
+const DOC_FOLDER_SECTION = { User_Guide: "guide", Rules: "rules" };
+
+/**
+ * Landing title + hero banner for sections whose index comes from a README
+ * (see the README → `_index.md` routing below), matching their home-page cards.
+ */
+const README_META = {
+    guide: { title: "User Guide", banner: "banners/user-guide.webp" },
+    rules: { title: "Rules", banner: "banners/rules.webp" },
 };
 
 /** Gear item `type` → the `sohl.gear` group key the equipment sidebar renders. */
@@ -362,32 +405,84 @@ for (const file of walk(CONTENT_SRC)) {
 
     const name = fm.name?.full ?? path.basename(file, ".md");
     const slug = fm.slug ?? slugify(name);
+    const base = path.basename(file);
     // Immediate source subfolder (e.g. Creatures/Animal/Aurochs.md → "Animal").
     // The KB tree is flat per section, so this is the only surviving record of
     // the authoring folder — section landings group by it (e.g. the Creatures
     // page renders one table per subfolder).
     const folder = path.basename(path.dirname(file));
-    entries.push({ fm, body, name, slug, folder });
+    // Section: docs route by their top-level source folder (User_Guide → guide,
+    // Rules → rules); everything else by item type. `section()` is the previous
+    // (type-only) routing, kept for the redirect from a moved page's old URL.
+    const topFolder = path.relative(CONTENT_SRC, file).split(path.sep)[0];
+    const sec =
+        fm.type === "doc" ?
+            (DOC_FOLDER_SECTION[topFolder] ?? "guide")
+        :   section(fm.type);
+    entries.push({ fm, body, name, slug, folder, base, sec });
 
     if (typeof fm.shortcode === "string") {
         refIndex.set(`${fm.type}:${fm.shortcode}`, {
             name,
-            url: `/${section(fm.type)}/${slug}/`,
+            url: `/${sec}/${slug}/`,
         });
     }
 }
 
-for (const { fm, body, name, slug, folder } of entries) {
+// Wikilink target → KB URL, keyed (lowercased) by source filename, slug, and
+// display name, so `[[Body_Structure]]`, `[[sohl-body-structure]]`, and
+// `[[Body Structure]]` all resolve. A README maps to its section landing.
+const wikiIndex = new Map();
+for (const e of entries) {
+    // A README maps to its section landing; index it only by its (unique) slug,
+    // since the filename/name "README" collides across sections.
+    const isReadme = e.base.toLowerCase() === "readme.md";
+    const url = isReadme ? `/${e.sec}/` : `/${e.sec}/${e.slug}/`;
+    if (!isReadme) {
+        wikiIndex.set(path.basename(e.base, ".md").toLowerCase(), url);
+        wikiIndex.set(e.name.toLowerCase(), url);
+    }
+    wikiIndex.set(e.slug.toLowerCase(), url);
+}
+
+for (const { fm, body, name, slug, folder, base, sec } of entries) {
     const data = { ...fm, title: fm.title ?? name, kbfolder: folder };
     if (fm.type === "character" || fm.type === "creature") {
         data.sohl = deriveBeingSohl(fm.sohl, refIndex);
     }
 
-    const dest = path.join(OUT, section(fm.type), `${slug}.md`);
+    // A README is its section's landing: route it to `_index.md` with the
+    // section's friendly title + hero banner. Otherwise a normal page at
+    // `/<section>/<slug>/`. When a page moved sections (docs re-routed by folder,
+    // or a README that used to live at `/<oldSection>/<slug>/`), alias the old
+    // URL so existing links redirect instead of 404ing.
+    const isReadme = base.toLowerCase() === "readme.md";
+    const oldUrl = `/${section(fm.type)}/${slug}/`;
+    const newUrl = isReadme ? `/${sec}/` : `/${sec}/${slug}/`;
+    let dest;
+    if (isReadme) {
+        const meta = README_META[sec];
+        if (meta) {
+            data.title = meta.title;
+            data.banner = meta.banner;
+        }
+        dest = path.join(OUT, sec, "_index.md");
+    } else {
+        dest = path.join(OUT, sec, `${slug}.md`);
+    }
+    if (oldUrl !== newUrl) {
+        const existing = Array.isArray(fm.aliases) ? fm.aliases : [];
+        data.aliases = [...existing, oldUrl];
+    }
     fs.mkdirSync(path.dirname(dest), { recursive: true });
     fs.writeFileSync(
         dest,
-        matter.stringify(protectCode(body, resolveLinks), data),
+        matter.stringify(
+            protectCode(body, (t) =>
+                resolveWikilinks(resolveLinks(t), wikiIndex),
+            ),
+            data,
+        ),
     );
     items++;
 }

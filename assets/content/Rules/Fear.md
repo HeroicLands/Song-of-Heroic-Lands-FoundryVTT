@@ -5,7 +5,7 @@ aliases:
 id: Fe4rTst6vZ9nH2kP
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Fear
     aliases: []

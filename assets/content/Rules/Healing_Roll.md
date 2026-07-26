@@ -6,7 +6,7 @@ aliases:
 id: EUjpntavZTe73ki9
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Healing Roll
     aliases: []

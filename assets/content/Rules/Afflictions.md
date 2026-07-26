@@ -8,7 +8,7 @@ aliases:
 id: Afl1ct8mZp5cH3jY
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Afflictions
     aliases: []

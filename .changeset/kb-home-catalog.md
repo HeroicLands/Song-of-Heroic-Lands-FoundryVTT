@@ -35,5 +35,12 @@ consistent format:
   Attributes and Trauma render the same rows grouped by `kbcat`.
 
 The KB also now includes `package: thalorna` content (previously `sohl`-only), so
-Thalorna creatures and characters appear alongside the core SoHL content. KB
-layouts and build only; no system-package impact.
+Thalorna creatures and characters appear alongside the core SoHL content.
+
+The developer docs (`/dev/`), user guide (`/guide/`), and rules (`/rules/`) each
+render their README as the section landing (curated index + hero banner). The
+Rules are split into their own `/rules/` section (a `type: doc` page now routes
+by its top-level source folder), with redirects from the old `/guide/sohl-*`
+URLs. Obsidian-style `[[wikilinks]]` in the content now resolve to KB pages
+(by filename, slug, or name). KB layouts and build only; no system-package
+impact.
