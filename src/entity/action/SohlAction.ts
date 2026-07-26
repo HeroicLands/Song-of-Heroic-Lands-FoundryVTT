@@ -242,7 +242,7 @@ export class SohlAction extends SohlEntity {
                 // Script actions reference a Foundry Macro by UUID (GM-authored
                 // "homebrew"). The macro runs through Macro#execute, which
                 // enforces MACRO_SCRIPT + ownership; no code is ever compiled
-                // from data. See docs/concepts/security-model.md.
+                // from data. See kb/dev-docs/concepts/security-model.md.
                 //
                 // The SohlActionContext is exposed to the macro as `sohlContext`,
                 // NOT `scope`: Foundry's `Macro##executeScript` already declares a

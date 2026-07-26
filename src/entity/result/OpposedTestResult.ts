@@ -39,7 +39,7 @@ import {
  * `TypeError: Class extends value undefined`). The bare side-effect import above
  * guarantees SuccessTestResult self-registers so `entity.SuccessTestResult`
  * resolves even in a bare unit test. See the "Entity class registry" section of
- * docs/reference/runtime-contracts.md.
+ * kb/dev-docs/reference/runtime-contracts.md.
  * ────────────────────────────────────────────────────────────────────────────
  */
 /**

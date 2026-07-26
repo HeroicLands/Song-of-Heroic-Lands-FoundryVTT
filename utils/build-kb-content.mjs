@@ -12,7 +12,7 @@
  */
 
 /**
- * Knowledgebase content prep — `assets/content/` + `docs/` → Hugo `kb/content/`.
+ * Knowledgebase content prep — `assets/content/` + `kb/dev-docs/` → Hugo `kb/content/`.
  *
  * The KB is a Hugo site on the shared Heroic Lands theme, which dispatches its
  * info-block sidebars by frontmatter `type` (weapongear, character, …). SoHL
@@ -33,7 +33,10 @@ import matter from "gray-matter";
 
 const REPO = path.resolve(".");
 const CONTENT_SRC = path.join(REPO, "assets/content");
-const DOCS_SRC = path.join(REPO, "docs");
+// Developer-doc source. Authored under the KB tree (`kb/dev-docs/`) and
+// generated into `kb/content/dev-docs/` (the `/dev-docs/` route) by this script.
+const DOCS_REL = "kb/dev-docs";
+const DOCS_SRC = path.join(REPO, DOCS_REL);
 const OUT = path.join(REPO, "kb/content");
 
 /** Base URL of the generated API site; the KB tracks `main`, so link to `/main`. */
@@ -169,15 +172,15 @@ function resolveWikilinks(body, ctx) {
  *
  * Dev docs are authored to link one another and the source tree with repo-relative
  * paths; neither target exists at the same path in the rendered KB. Resolving each
- * link against the doc's own location under `docs/`:
+ * link against the doc's own location under `kb/dev-docs/`:
  *
- * - a `*.md` link that lands under `docs/` → the KB dev route (`/dev-docs/<path>/`),
- *   preserving any `#anchor`.
+ * - a `*.md` link that lands under `kb/dev-docs/` → the KB dev route
+ *   (`/dev-docs/<path>/`), preserving any `#anchor`.
  * - anything else (source under `src/`, `lang/`, `templates/`, `package.json`, or
  *   repo-root `*.md` like `CONTRIBUTING.md`) → its GitHub blob URL.
  *
  * Absolute URLs, anchor-only, `mailto:`, and site-root links are left untouched.
- * `docRel` is the doc's path relative to `docs/` (e.g. `how-to/testing.md`).
+ * `docRel` is the doc's path relative to `kb/dev-docs/` (e.g. `how-to/testing.md`).
  */
 function rewriteRepoLinks(body, docRel) {
     const docDir = path.dirname(docRel);
@@ -198,10 +201,10 @@ function rewriteRepoLinks(body, docRel) {
             .replace(/\\/g, "/");
 
         let href2;
-        if (repoRel.startsWith("docs/") && repoRel.endsWith(".md")) {
-            // Path under /dev-docs/, minus the leading `docs/` and `.md`. A
-            // README is its directory's landing, so drop the `readme` segment.
-            const rel2 = repoRel.slice(5, -3).toLowerCase();
+        if (repoRel.startsWith(`${DOCS_REL}/`) && repoRel.endsWith(".md")) {
+            // Path under /dev-docs/, minus the leading `kb/dev-docs/` and `.md`.
+            // A README is its directory's landing, so drop the `readme` segment.
+            const rel2 = repoRel.slice(DOCS_REL.length + 1, -3).toLowerCase();
             const devPath =
                 path.basename(rel2) === "readme" ?
                     path.posix.dirname(rel2)
@@ -444,8 +447,8 @@ let docs = 0;
 fs.rmSync(OUT, { recursive: true, force: true });
 
 // --- Parse phase ---------------------------------------------------------
-// Gather every KB page — assets/content reference pages AND docs/ developer
-// docs — into one `entries` list before writing, so wikilinks resolve across
+// Gather every KB page — assets/content reference pages AND kb/dev-docs/
+// developer docs — into one `entries` list before writing, so wikilinks resolve across
 // the whole KB and the section/slug index is complete first.
 const KB_PACKAGES = new Set(["sohl", "thalorna"]);
 const entries = [];
@@ -486,7 +489,7 @@ for (const file of walk(CONTENT_SRC)) {
     }
 }
 
-// docs/ → developer docs. They preserve their source tree under the section
+// kb/dev-docs/ → developer docs. They preserve their source tree under the section
 // (e.g. /dev-docs/concepts/architecture/); a README is its directory's landing.
 // Files carry `category: dev-docs`; the generated type-catalog.md has none, so
 // default the section to "dev-docs".

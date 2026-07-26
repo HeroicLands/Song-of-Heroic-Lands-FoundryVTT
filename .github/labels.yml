@@ -1,7 +1,7 @@
 # Authoritative label registry for the Song of Heroic Lands repositories.
 #
 # This file is the machine-readable source of truth for §3 of
-# docs/how-to/issue-reporting.md — the two are kept in sync by
+# kb/dev-docs/how-to/issue-reporting.md — the two are kept in sync by
 # `utils/check-labels.mjs` (run as part of `npm run lint`). Editing the registry
 # means editing BOTH: this file (name/color/description) and the §3 table.
 #

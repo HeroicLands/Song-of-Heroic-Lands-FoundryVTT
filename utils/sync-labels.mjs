@@ -16,7 +16,7 @@
  * `.github/labels.yml`. The registry is a CLOSED set: labels present here are
  * created or updated (color + description); labels on GitHub that are absent
  * here are deleted. This is the "no invented labels" enforcement from
- * docs/how-to/issue-reporting.md §3.
+ * kb/dev-docs/how-to/issue-reporting.md §3.
  *
  * Usage:
  *   node utils/sync-labels.mjs --dry-run     # print the plan, change nothing

@@ -12,7 +12,7 @@
  */
 
 /**
- * Generates docs/reference/type-catalog.md from authoritative sources, so the
+ * Generates kb/dev-docs/reference/type-catalog.md from authoritative sources, so the
  * catalog can never drift from the code:
  *
  *   - The set of types comes from the `ACTOR_KIND` / `ITEM_KIND` enums in
@@ -32,7 +32,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { globSync } from "glob";
 
-const OUT = path.resolve("docs/reference/type-catalog.md");
+const OUT = path.resolve("kb/dev-docs/reference/type-catalog.md");
 const CONSTANTS = path.resolve("src/utils/constants.ts");
 const EN_JSON = path.resolve("lang/en.json");
 

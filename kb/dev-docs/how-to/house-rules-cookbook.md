@@ -15,7 +15,7 @@ folder: null
 
 > **Audience:** GMs and developers who want to change behavior without forking SoHL.
 
-See also: [Documentation](../documentation.md), [Extension Points](./extension-points.md)
+See also: [Documentation](../README.md), [Extension Points](./extension-points.md)
 
 This page gives quick, practical patterns for choosing and implementing house rules.
 

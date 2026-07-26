@@ -23,5 +23,5 @@ theme = "heroiclands-hugo-theme"
   taxonomy = ["HTML"]
   term = ["HTML"]
 
-# content/ is generated from the repo's assets/content/ + docs/ by
+# content/ is generated from the repo's assets/content/ + kb/dev-docs/ by
 # `utils/build-kb-content.mjs` (a build step; not committed).

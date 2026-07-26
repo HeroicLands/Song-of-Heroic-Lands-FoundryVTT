@@ -1082,7 +1082,7 @@ export function defaultToJSON(value: any): JsonValue | undefined {
     ) {
         // Functions are never serialized — no executable source, and no
         // reference either. Behavior travels as data + a `__kind` tag and is
-        // re-derived on the receiving client. See docs/concepts/security-model.md.
+        // re-derived on the receiving client. See kb/dev-docs/concepts/security-model.md.
         return undefined;
     }
 

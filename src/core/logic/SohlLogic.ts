@@ -488,7 +488,7 @@ export abstract class SohlLogic<
      * Phase-batched lifecycle methods, called by
      * SohlActor.prepareEmbeddedDocuments() in three barrier-separated passes across
      * ALL items, NOT per-item like Foundry's default. See the class-level JSDoc
-     * and the "Phase-batched lifecycle" section of docs/concepts/architecture.md.
+     * and the "Phase-batched lifecycle" section of kb/dev-docs/concepts/architecture.md.
      */
 
     /**

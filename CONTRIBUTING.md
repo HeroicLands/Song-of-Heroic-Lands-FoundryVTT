@@ -10,7 +10,7 @@ rules of development in this repo. It is published on the website and mirrored
 in-repo:
 
 - Website: <https://api.heroiclands.org/latest/documents/Documentation.Contributing.System_Development.html>
-- In-repo: [docs/contributing/system-development.md](docs/contributing/system-development.md)
+- In-repo: [kb/dev-docs/contributing/system-development.md](kb/dev-docs/contributing/system-development.md)
 
 # Writing Modules
 
@@ -20,7 +20,7 @@ guide**, which provides guidance on standard methods to extend the functionality
 of the system with a module. It is published on the website and mirrored in-repo:
 
 - Website: <https://api.heroiclands.org/latest/documents/Documentation.Contributing.Writing_Modules.html>
-- In-repo: [docs/contributing/module-development.md](docs/contributing/module-development.md)
+- In-repo: [kb/dev-docs/contributing/module-development.md](kb/dev-docs/contributing/module-development.md)
 
 # Macro or Actions developers
 
@@ -29,7 +29,7 @@ Macros** that utilize the capabilities of the system, please review the **Macros
 and Actions guide**. It is published on the website and mirrored in-repo:
 
 - Website: <https://api.heroiclands.org/latest/documents/Documentation.How-to.Macros_and_Actions.html>
-- In-repo: [docs/how-to/macros-and-actions.md](docs/how-to/macros-and-actions.md)
+- In-repo: [kb/dev-docs/concepts/macros-and-actions.md](kb/dev-docs/concepts/macros-and-actions.md)
 
 # Browse the API
 
