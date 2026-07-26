@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Young Ice Dragon
+    - Young Ice Dragon
 tags:
-  - mythic
-  - image-needed
+    - mythic
+    - image-needed
 name:
-  full: Young Ice Dragon
-  aliases: []
+    full: Young Ice Dragon
+    aliases: []
 id: CC4o0nyFDwmiDtvH
 slug: young-ice-dragon
 img: images/young-ice-dragon-headshot.webp
@@ -14,55 +14,56 @@ portrait: images/young-ice-dragon.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 21
-    end: 19
-    dex: 13
-    agl: 14
-    per: 16
-    aur: 15
-    wil: 15
-    rea: 11
-    cre: 10
-  attrRollFormula:
-    str: 1d6+17
-    end: 1d6+15
-    dex: 1d6+9
-    agl: 1d6+10
-    per: 1d6+12
-    aur: 1d6+11
-    wil: 1d6+11
-    rea: 1d6+7
-    cre: 1d6+6
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 5000
-      calc: 5000
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 60
-      leaguesPerWatch: 5
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-    - medium: aerial
-      feetPerRound: 130
-      leaguesPerWatch: 14
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 21
+        end: 19
+        dex: 13
+        agl: 14
+        per: 16
+        aur: 15
+        wil: 15
+        rea: 11
+        cre: 10
+    attrRollFormula:
+        str: 1d6+17
+        end: 1d6+15
+        dex: 1d6+9
+        agl: 1d6+10
+        per: 1d6+12
+        aur: 1d6+11
+        wil: 1d6+11
+        rea: 1d6+7
+        cre: 1d6+6
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 5000
+            calc: 5000
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 60
+          leaguesPerWatch: 5
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+        - medium: aerial
+          feetPerRound: 130
+          leaguesPerWatch: 14
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
+
 # Appearance {#appearance}
 
 The air crystallizes before you see it. Your breath freezes mid-exhale, turning to glittering needles that catch light that isn't there. The temperature drops so gradually, so deliberately, that by the time you realize something is wrong, your extremities have already begun to numb. Then you see it—pale silver scales catching the glacial light, almost translucent at the wing edges, a creature of perhaps twenty-four feet from snout to tail. It watches you with eyes like winter itself, patient and knowing. Where a fire dragon would announce itself with roaring fury and a cascade of flame, this one simply exists, and the world freezes around it. Your heartbeat slows. Your thoughts grow sluggish. It doesn't need to hunt you—the cold will do the work. The young ice dragon has already learned what takes its elder centuries to perfect: that patience is sharper than any blade, and the silence before the avalanche is more terrifying than the avalanche itself.
@@ -94,29 +95,37 @@ The dragon uses terrain ruthlessly. A single sweep of its tail near a glacier's 
 ## Attack Methods
 
 ### Bite
+
 The dragon's bite targets a single enemy within reach. The creature inflicts damage equal to its strength modifier plus weapon dice, and victims must resist cold exposure in addition to physical trauma.
 
 ### Claw Rake
+
 The dragon's claws extend and rake across one or more targets within reach, inflicting slashing damage and leaving wounds that frostbite rapidly. A claw rake can target multiple enemies in a small area.
 
 ### Tail Sweep
+
 The dragon's muscular tail whips in a broad arc, attempting to knock enemies prone or hurl them backward. Targets in the tail's path must resist a strength check or fall prone and take bludgeoning damage.
 
 ### Frost Breath
+
 The dragon exhales in a fifteen-foot cone of supercooled mist and crystalline shards. Targets in the cone take cold damage and must resist or suffer reduced movement and vulnerability to additional cold damage on the next round. Unprotected targets can suffer frostbite.
 
 ## Special Abilities
 
 ### Frost Breath
+
 The dragon's breath weapon manifests as a cone of supercooled air laced with razor-sharp ice crystals. The cold is so intense it burns, and the mist obscures vision. A young ice dragon can use this ability multiple times but must rest between uses.
 
 ### Flight
+
 The dragon is a masterful flier, capable of hovering and performing acrobatic maneuvers despite its size. Its wings generate no sound despite their span.
 
 ### Armored Scales
+
 The dragon's scales are supernaturally hard, shedding conventional weapons and providing natural armor superior to plate mail. Magical weapons and intense heat are required to penetrate the hide.
 
 ### Cold Aura
+
 The dragon's natural body temperature is so far below freezing that it radiates killing cold. Creatures within fifty feet of the dragon take incremental cold damage based on proximity and exposure duration. This aura cannot be dispelled without affecting the dragon itself.
 
 ## Attributes

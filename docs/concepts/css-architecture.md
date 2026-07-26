@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: CSS Architecture & Styleguide
+    aliases: []
+id: yPExBMoJ8a1t8Foi
+slug: css-architecture
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # CSS Architecture & Styleguide
 
 > **Audience:** Anyone writing or refactoring SCSS for the SoHL system — core

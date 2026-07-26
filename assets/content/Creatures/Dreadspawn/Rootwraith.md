@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Rootwraith
+    - Rootwraith
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Rootwraith
-  aliases: []
+    full: Rootwraith
+    aliases: []
 id: 66taILu4BJQOEcvM
 slug: rootwraith
 img: images/rootwraith-headshot.webp
@@ -13,64 +13,65 @@ portrait: images/rootwraith.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 12
-    end: 14
-    dex: 12
-    agl: 10
-    per: 16
-    aur: 18
-    wil: 16
-    rea: 14
-    cre: 16
-  attrRollFormula:
-    str: 1d4+9
-    end: 1d6+10
-    dex: 1d4+9
-    agl: 1d6+6
-    per: 1d4+13
-    aur: 1d6+14
-    wil: 1d4+13
-    rea: 1d6+10
-    cre: 1d4+13
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 600
-      calc: 600
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 30
-      leaguesPerWatch: 2
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors:
-        - scope: surface_cover
-          key: mixed_forest
-          mode: add
-          textValue: '0'
-        - scope: surface_cover
-          key: woodland
-          mode: add
-          textValue: '0'
-        - scope: surface_cover
-          key: needleleaf_forest
-          mode: add
-          textValue: '0'
-        - scope: surface_cover
-          key: cold_woodland
-          mode: add
-          textValue: '0'
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 12
+        end: 14
+        dex: 12
+        agl: 10
+        per: 16
+        aur: 18
+        wil: 16
+        rea: 14
+        cre: 16
+    attrRollFormula:
+        str: 1d4+9
+        end: 1d6+10
+        dex: 1d4+9
+        agl: 1d6+6
+        per: 1d4+13
+        aur: 1d6+14
+        wil: 1d4+13
+        rea: 1d6+10
+        cre: 1d4+13
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 600
+            calc: 600
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 30
+          leaguesPerWatch: 2
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors:
+              - scope: surface_cover
+                key: mixed_forest
+                mode: add
+                textValue: "0"
+              - scope: surface_cover
+                key: woodland
+                mode: add
+                textValue: "0"
+              - scope: surface_cover
+                key: needleleaf_forest
+                mode: add
+                textValue: "0"
+              - scope: surface_cover
+                key: cold_woodland
+                mode: add
+                textValue: "0"
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
+
 # Appearance {#appearance}
 
 The forest stirs around you though there is no wind—leaves rustle, branches creak and bend, and the very ground beneath your feet shifts with disturbing purpose. Then you see it rise from among the trees: a figure wrought from gnarled wood and twisted root, human in shape but horrifyingly plant-like in execution. Its eyes burn with a sickly green luminescence, and where it moves, the vegetation seems to sicken and wither despite—or perhaps because of—its passage. The air smells of rot and grave-earth, and you feel the temperature drop as if the creature carries an unnatural cold. Long, root-like appendages uncoil from its form, and you realize with terrible clarity that the forest itself is moving in concert with this thing, all of it dancing to a single malevolent will.
@@ -94,26 +95,33 @@ A Rootwraith opens combat by animate the surrounding environment—roots eruptin
 ## Attack Methods
 
 ### Vine Lash
+
 Long, whip-like vines unfurl from the Rootwraith’s form with terrible speed, capable of cutting, constricting, and dragging. These attacks can be launched from surprising distance and often come from unexpected angles as vines approach from sides and above.
 
 ### Thorned Appendage Strike
+
 The creature’s limbs transform or extend into appendages covered in wicked thorns, used for piercing and raking attacks. These strikes are surprisingly precise and often target vulnerable points in armor or exposed flesh.
 
 ### Decay Touch
+
 When the Rootwraith makes contact with living flesh, it can drain the life force directly, causing rapid decomposition of tissue. Victims experience a terrible, burning sensation as their own bodies begin to rot while still alive.
 
 ## Special Abilities
 
 ### Forest Authority
+
 The Rootwraith commands all plant life within line of sight as though it were an extension of its own body. Trees move, roots erupt from soil, vines lash out—all at the creature’s command. Terrain becomes a weapon in the Rootwraith’s arsenal.
 
 ### Life Drain
+
 The Rootwraith’s very presence saps vitality from living creatures nearby. Those within its aura feel weakened, sickened, and as though their strength is flowing into the corrupted soil beneath their feet.
 
 ### Terrain Melding
+
 The Rootwraith can sink into the earth, merge with a tree, or disappear into dense vegetation, allowing it to reposition, evade attacks, or launch surprise assaults from unexpected angles. In forested terrain, tracking it becomes nearly impossible.
 
 ### Regeneration Through Plant Life
+
 So long as the Rootwraith remains in contact with living vegetation, it regenerates from damage. Only by severing it from plant life or destroying all vegetation in its vicinity can sustained damage be achieved.
 
 ## Additional Information
@@ -121,6 +129,7 @@ So long as the Rootwraith remains in contact with living vegetation, it regenera
 Fire is the Rootwraith’s primary vulnerability, as flames destroy its plant-matter composition and sever its connection to surrounding vegetation. Radiant or holy magic is equally effective, as it seems to oppose the corrupted essence that animates the creature. Cutting down trees around a Rootwraith forces it to seek new vegetation, and in barren areas it becomes slowly weaker. The creatures cannot abide in deserts or desolate places, and transporting one to such an environment effectively kills it. Rootwraiths seem to hold particular hatred for those who harm forests deliberately, and they have been known to pursue loggers and settlers with terrible persistence. Some ancient forests are said to be entirely ruled by Rootwraiths, with every clearing held in check and every traveler who enters never emerging again.
 
 ## Attributes
+
 - **Strength:** 10-13 (1d4+9)
 
 - **Endurance:** 11-16 (1d6+10)
@@ -141,7 +150,7 @@ Fire is the Rootwraith’s primary vulnerability, as flames destroy its plant-ma
 
 ## Lineage Notes
 
-*The following notes are inherited from the original lineage description.*
+_The following notes are inherited from the original lineage description._
 
 The forest stirs around you though there is no wind, the very ground beneath your feet shifting with disturbing purpose. From the deeper trees something resolves out of the green dark—seven to nine feet tall, composed of intertwined vines and gnarled roots, trailing dead vegetation as it moves toward you.
 

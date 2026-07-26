@@ -1,8 +1,18 @@
 ---
+aliases: []
+name:
+    full: How-to
+    aliases: []
+id: YgVrFivKq3Rtj6gL
+slug: how-to
+type: doc
+package: sohl
+category: dev-docs
+folder: null
 title: How-to
 children:
     Getting Started: ./getting-started.md
-    Build, Deployment, and Release: ./build-and-deployment.md
+    "Build, Deployment, and Release": ./build-and-deployment.md
     Extension Points: ./extension-points.md
     API Access Map: ./api-access-map.md
     Lifecycle Hooks: ./lifecycle-hooks.md

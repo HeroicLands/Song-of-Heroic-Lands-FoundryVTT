@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Tapir
+    - Tapir
 tags:
-  - animal
-  - image-needed
+    - animal
+    - image-needed
 name:
-  full: Tapir
-  aliases: []
+    full: Tapir
+    aliases: []
 id: Dn7pTxWq4RyKmB9L
 slug: tapir
 img: images/tapir-headshot.webp
@@ -14,47 +14,47 @@ portrait: images/tapir.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 14
-    end: 13
-    dex: 9
-    agl: 10
-    per: 14
-    aur: 8
-    wil: 10
-    rea: 7
-    cre: 6
-  attrRollFormula:
-    str: 1d6+10
-    end: 1d6+9
-    dex: 1d4+6
-    agl: 1d4+7
-    per: 1d6+10
-    aur: 1d4+5
-    wil: 1d4+7
-    rea: 1d4+4
-    cre: 1d4+3
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 600
-      calc: 600
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 50
-      leaguesPerWatch: 3
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 14
+        end: 13
+        dex: 9
+        agl: 10
+        per: 14
+        aur: 8
+        wil: 10
+        rea: 7
+        cre: 6
+    attrRollFormula:
+        str: 1d6+10
+        end: 1d6+9
+        dex: 1d4+6
+        agl: 1d4+7
+        per: 1d6+10
+        aur: 1d4+5
+        wil: 1d4+7
+        rea: 1d4+4
+        cre: 1d4+3
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 600
+            calc: 600
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 50
+          leaguesPerWatch: 3
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -62,40 +62,51 @@ sohl:
 The undergrowth parts and something walks out of the jungle that your brain takes several seconds to classify. It is the size of a small pony, heavy-bodied and slung low to the ground, covered in short, dense fur of dark brown that is almost black. The head is the strangest part — elongated and oddly shaped, tapering to a short, flexible trunk or proboscis that writhes and probes the air like a fat, curious finger. The ears are round and edged with white, the eyes small and set deep in the skull, and the overall effect is of something assembled from parts that don't quite belong together — a pig's body, a horse's legs, an elephant's nose in miniature, and an expression of such mild, bewildered gentleness that you cannot help but feel sympathy for a creature so large and so obviously defenseless in a jungle full of jaguars. Then it turns and you see the hindquarters: solid, powerful, built with the same blunt engineering as a battering ram. The Ki'ichek say the tapir was the first animal the gods made, before they learned to make predators, and that it remembers the time when the forest was safe. Watching it shuffle into the undergrowth with patient, unhurried steps, trunk probing ahead for the path of least resistance, you can almost believe it.
 
 # Dossier {#dossier}
+
 The Tapir is the largest native land mammal in [[K'ich'chik]]'s lowland forests — a barrel-bodied, trunk-nosed herbivore weighing four hundred to seven hundred pounds that inhabits the jungle floor, river margins, and forest wetlands. Despite its bulk, the tapir is a shy, retiring creature that is primarily nocturnal and avoids confrontation whenever possible. It is an excellent swimmer and spends much of its time in or near water, using rivers and pools as refuge from predators, as feeding grounds for aquatic vegetation, and as trails through otherwise impenetrable jungle. In Ki'ichek culture, the tapir is associated with water, the forest floor, and the lower world — a creature of the deep places, the quiet paths, the hidden waterways. It is not sacred in the way the jaguar and quetzal are, but it is respected as the oldest animal, the forest's first inhabitant, and harming one needlessly is considered ill-mannered rather than criminal. The tapir is also an important prey animal for jaguars and human hunters alike, and tapir meat is a staple protein source for forest-dwelling communities. Adventurers encounter tapirs on jungle trails (especially near water), at river crossings, and occasionally in the cleared areas around settlements where they emerge at night to feed on cultivated crops — a behavior that makes them a persistent agricultural nuisance.
 
 ## Presentation
+
 The tapir presents one of the most unusual silhouettes in the animal kingdom — a heavily built quadruped with an oval, barrel-shaped body, short but sturdy legs, and a head that tapers to a short, prehensile proboscis formed from the upper lip and nose. The proboscis is in constant motion, probing, sniffing, and manipulating vegetation with surprising dexterity. The eyes are small and deep-set, positioned laterally on the head, and often partially hidden behind folds of skin — they provide limited vision, which the tapir compensates for with acute hearing and an exceptional sense of smell. The ears are round, prominent, and often edged with white — the most visually distinctive feature of the head. The coat is short and dense, typically uniform dark brown to reddish-brown in adults, though juveniles display a striking pattern of white spots and stripes on a dark background — camouflage for the dappled light of the forest floor that fades as the animal matures. The body is rounded and solidly muscled, with a vestigial tail and hindquarters that are disproportionately powerful — the tapir's primary means of forcing its way through dense undergrowth. The feet are splayed and partially webbed, with three toes on the hind feet and four on the front, adapted for walking on soft, muddy ground and swimming.
 
 ## Key Behaviors
+
 Tapirs are solitary, nocturnal herbivores that maintain loosely defined home ranges centered around water sources. They feed on leaves, fruits, branches, and aquatic vegetation, using their prehensile proboscis to reach foliage and strip leaves from branches. They follow established trails through the forest — tapir paths are well-worn, predictable routes that connect feeding areas, water sources, and resting sites. These trails are so consistent that hunters and other forest travelers use them as navigation aids. Tapirs are excellent and enthusiastic swimmers, entering water readily to feed, cool down, escape predators, and travel. They can walk along river bottoms, fully submerged, using their proboscis as a snorkel. They are shy around humans and will flee from any disturbance, crashing through the undergrowth with surprising speed and force — a fleeing tapir runs with its head lowered, using its solid body as a battering ram through vegetation that would stop lighter animals. Despite their timid nature, tapirs can be dangerous when cornered or wounded: they bite with strong jaws and can trample with their considerable weight.
 
 ## Combat Strategy
+
 The tapir's combat strategy is simple: flee. It runs with its head down, crashing through undergrowth with enough mass to clear a path, and makes for the nearest water where it can swim to safety. If cornered, a tapir becomes surprisingly aggressive — it bites with powerful jaws designed for processing tough vegetation, and it uses its body mass to slam and trample opponents. A wounded or cornered tapir will charge directly at a threat, head lowered, using its dense skull and heavy forequarters as a battering ram. These charges are not sophisticated but they are powerful, and a seven-hundred-pound animal moving at speed through close quarters is genuinely dangerous.
 
 ## Attack Methods
 
 ### Battering Charge
+
 The tapir lowers its head and charges directly at a threat, using its dense skull and heavy forequarters as a ram. The charge is straight-line and unsophisticated but delivers tremendous impact, capable of knocking humanoids off their feet and trampling them.
 
 ### Crushing Bite
+
 The tapir's jaws, designed for processing tough vegetation, can deliver a powerful bite when defending itself. The teeth are blunt but the jaw pressure is significant — capable of crushing bone and inflicting serious wounds.
 
 ### Water Escape
+
 Not an attack but the tapir's primary survival strategy — plunging into the nearest water source where it can swim, dive, and walk along the bottom until the threat passes. A tapir in water is effectively untouchable by land-based predators.
 
 ## Special Abilities
 
 ### Aquatic Refuge
+
 The tapir is an accomplished swimmer and diver that uses water as its primary escape route and sanctuary. It can swim strongly, dive to the bottom of rivers and pools, and walk along the river bed using its proboscis as a snorkel. In water, the tapir is faster, more agile, and more confident than on land, and it will always prefer aquatic escape to terrestrial flight.
 
 ### Jungle Ram
+
 The tapir's heavy, low-slung body and dense skull allow it to charge through undergrowth that would stop lighter animals. A fleeing tapir creates a temporary trail through even dense vegetation, and this crashing flight can itself be a navigational cue for hunters and forest travelers.
 
 ### Trail Memory
+
 Tapirs follow the same paths through the forest for years, creating well-worn trails that connect feeding areas, water sources, and resting sites. These trails are so consistent and well-maintained that they function as a secondary trail network through otherwise trackless jungle — used by hunters, other animals, and adventurers who learn to recognize them.
 
 ## Attributes
+
 - **Strength:** 11-16 (1d6+10) — Heavy and powerful; the battering charge is genuinely dangerous
 - **Endurance:** 10-15 (1d6+9) — Solid; good swimming stamina but not a long-distance runner
 - **Dexterity:** 7-10 (1d4+6) — Adequate; proboscis provides some manipulation ability

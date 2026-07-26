@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Warg
+    - Warg
 tags:
-  - mythic
-  - image-needed
+    - mythic
+    - image-needed
 name:
-  full: Warg
-  aliases: []
+    full: Warg
+    aliases: []
 id: Nx5QyRsTdFmWj2Ub
 slug: warg
 img: images/warg-headshot.webp
@@ -14,59 +14,60 @@ portrait: images/warg.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 20
-    end: 18
-    dex: 14
-    agl: 16
-    per: 17
-    aur: 13
-    wil: 17
-    rea: 12
-    cre: 9
-  attrRollFormula:
-    str: 1d6+16
-    end: 1d6+14
-    dex: 1d6+10
-    agl: 1d6+12
-    per: 1d6+13
-    aur: 1d6+9
-    wil: 1d6+13
-    rea: 1d6+8
-    cre: 1d4+6
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 150
-      calc: 150
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 80
-      leaguesPerWatch: 7
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors:
-        - scope: surface_cover
-          key: mixed_forest
-          mode: add
-          textValue: '-1'
-        - scope: surface_cover
-          key: needleleaf_forest
-          mode: add
-          textValue: '0'
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 20
+        end: 18
+        dex: 14
+        agl: 16
+        per: 17
+        aur: 13
+        wil: 17
+        rea: 12
+        cre: 9
+    attrRollFormula:
+        str: 1d6+16
+        end: 1d6+14
+        dex: 1d6+10
+        agl: 1d6+12
+        per: 1d6+13
+        aur: 1d6+9
+        wil: 1d6+13
+        rea: 1d6+8
+        cre: 1d4+6
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 150
+            calc: 150
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 80
+          leaguesPerWatch: 7
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors:
+              - scope: surface_cover
+                key: mixed_forest
+                mode: add
+                textValue: "-1"
+              - scope: surface_cover
+                key: needleleaf_forest
+                mode: add
+                textValue: "0"
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
+
 # Appearance {#appearance}
 
-The darkness seems to breathe. What emerges from the night is not wolf and not ordinary beast, but something touched by old, foul magic. It stands nearly four feet at the shoulder, but where a dire wolf is lean and quick, this creature is vast and heavy—muscles like iron beneath fur black as starless night, each bristle of its mane catching reflected firelight like dark metal. The eyes arrest you first: they burn with an intelligence that is utterly alien, utterly malevolent—not the simple predatory focus of beast but the calculating judgment of something that reasons, understands, and has decided your worth is measured in blood. When it breathes, you see that its breath steams even in mild air, and the sound is less growl than rumble of distant thunder. Around it, you sense movement in the darkness—other shapes, other eyes—and you understand with chilling clarity that this beast does not hunt alone, but commands. The thing fixes you in its gaze and you feel the weight of its attention like a physical force. It speaks—and though the sound that emerges is a subsonic howl, the meaning is clear: *We are here. We will feed.*
+The darkness seems to breathe. What emerges from the night is not wolf and not ordinary beast, but something touched by old, foul magic. It stands nearly four feet at the shoulder, but where a dire wolf is lean and quick, this creature is vast and heavy—muscles like iron beneath fur black as starless night, each bristle of its mane catching reflected firelight like dark metal. The eyes arrest you first: they burn with an intelligence that is utterly alien, utterly malevolent—not the simple predatory focus of beast but the calculating judgment of something that reasons, understands, and has decided your worth is measured in blood. When it breathes, you see that its breath steams even in mild air, and the sound is less growl than rumble of distant thunder. Around it, you sense movement in the darkness—other shapes, other eyes—and you understand with chilling clarity that this beast does not hunt alone, but commands. The thing fixes you in its gaze and you feel the weight of its attention like a physical force. It speaks—and though the sound that emerges is a subsonic howl, the meaning is clear: _We are here. We will feed._
 
 # Dossier {#dossier}
 
@@ -87,38 +88,49 @@ A warg pack's combat doctrine is organized and ruthless: flanking maneuvers that
 ## Attack Methods
 
 ### Crushing Bite
+
 The warg's bite force exceeds that of natural wolves and dire wolves combined. A single bite can crush bones, sever limbs, and penetrate armor of moderate strength. The warg's technique involves clamping and holding, pinning prey while pack-mates attack.
 
 ### Coordinated Pack Strike
+
 Multiple wargs attack simultaneously from different vectors, each strike designed to support the others' attempts to isolate and overwhelm targets. This coordination suggests genuine tactical communication and planning.
 
 ### Raking Claw Attack
+
 At close range, the warg tears with claws as readily as teeth, particularly effective against targets that are trying to flee or defend against the bite.
 
 ### Driving and Trapping
+
 The warg pack uses terrain and coordinated movement to drive prey toward specific locations—cliff edges, dead-ends, prepared ambush sites—forcing targets into positions of maximum vulnerability.
 
 ## Special Abilities
 
 ### Supernatural Intelligence
+
 The warg possesses genuine sapient-level reasoning: it understands tactics, hierarchy, cause and effect across time, and even the broader contexts of military campaigns. While not capable of language or abstract philosophy, the warg can plan multi-stage operations, remember specific individuals, and make decisions based on calculated risk versus reward.
 
 ### Pack Dominion
+
 A warg pack under a dominant alpha operates with supernatural synchronization. Individual wargs maintain formation without apparent communication, anticipate the actions of pack-mates with perfect accuracy, and adjust tactics mid-combat based on emerging circumstances. This coordination suggests shared consciousness or magical link between pack members.
 
 ### Darkvision
+
 The warg hunts as effectively in absolute darkness as in daylight, seeing in the infrared spectrum and through magical darkness with equal competence. This gives warg packs enormous advantage in nocturnal or subterranean environments.
 
 ### Aura of Dread
+
 The presence of a warg induces supernatural fear in prey creatures—a primal dread that transcends rational analysis. Creatures in the presence of a warg pack suffer psychological pressure that can lead to panic, flight, or paralysis.
 
 ### Terrible Howl
+
 The warg can vocalize in a subsonic howl that carries across distances of miles, conveying complex meaning to other wargs and disrupting the morale of hearing creatures. This howl can coordinate pack actions across great distances and shake the courage of lesser beings.
 
 ### Supernatural Endurance
+
 Wargs are less subject to fatigue than natural wolves and can maintain pursuit for days at a time without rest, seemingly driven by will and magic rather than mere physiology.
 
 ## Attributes
+
 - **Strength:** 17-22 (1d6+16) — Comparable to dire wolves but with superior bite force and crushing power
 - **Endurance:** 15-20 (1d6+14) — Capable of sustained pursuit across vast distances
 - **Dexterity:** 11-16 (1d6+10) — Quick and precise in striking; good coordination in pack movement

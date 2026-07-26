@@ -5,11 +5,22 @@ aliases:
     - sohl.random
     - Rng
     - SimpleRoll RNG
+name:
+    full: Randomness
+    aliases: []
+id: Cf4jBTS0hXERYCaT
+slug: randomness
+type: doc
+package: sohl
+category: dev-docs
+folder: null
 tags:
     - core-system
     - dice
     - testing
-audience: Developers generating randomness in the logic layer, or driving RNG-gated flows deterministically in tests.
+audience: >-
+    Developers generating randomness in the logic layer, or driving RNG-gated
+    flows deterministically in tests.
 ---
 
 # Randomness

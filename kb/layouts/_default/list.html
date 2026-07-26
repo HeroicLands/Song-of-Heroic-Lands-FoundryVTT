@@ -1,0 +1,47 @@
+{{- /*
+  KB override of the theme's `_default/list.html`.
+
+  Same behavior as the theme (hero + breadcrumbs + auto-list of child pages for
+  taxonomy/term/empty-body section landings, or the authored body otherwise),
+  but content rows show "Name (shortcode) + description" via the shared
+  `catalog-rows` partial. The shortcode is conditional, so guide/dev/blog list
+  pages (no shortcode) render exactly as before.
+*/ -}}
+{{ define "main" }}
+{{ partial "hero-banner.html" . }}
+{{ partial "breadcrumbs.html" . }}
+
+<article class="single">
+  <div class="single-content">
+    {{ if .Content }}
+    <div class="single-body">
+      {{ .Content }}
+    </div>
+    {{ end }}
+
+    {{- $showAutoList :=
+      or (eq .Kind "taxonomy")
+         (eq .Kind "term")
+         (and (eq .Kind "section") (not .Content))
+    -}}
+    {{- if $showAutoList -}}
+      {{- with .Pages -}}
+        {{- if eq $.Kind "taxonomy" -}}
+        <ul class="page-list">
+          {{- range . }}
+          <li class="page-list-item">
+            <a class="page-list-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+            <span class="page-list-count">{{ len .Pages }}</span>
+          </li>
+          {{- end }}
+        </ul>
+        {{- else -}}
+          {{ partial "catalog-rows.html" . }}
+        {{- end -}}
+      {{- else -}}
+      <p class="page-list-empty">Nothing here yet.</p>
+      {{- end -}}
+    {{- end }}
+  </div>
+</article>
+{{ end }}

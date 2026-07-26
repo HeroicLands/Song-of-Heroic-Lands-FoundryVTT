@@ -5,7 +5,7 @@ aliases:
 id: Inf3ct9nZp5cQ7wK
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Infection
     aliases: []

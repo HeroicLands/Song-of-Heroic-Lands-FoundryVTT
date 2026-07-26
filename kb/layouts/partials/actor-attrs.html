@@ -1,0 +1,7 @@
+{{- /*
+  Renders the nine actor attribute <td> cells (STR END DEX AGL PER AUR WIL REA
+  CRE) from `.Params.sohl.attributes`, in the column order the actor landing
+  tables use. Call with the page as context: {{ partial "actor-attrs.html" . }}
+*/ -}}
+{{- $a := .Params.sohl.attributes -}}
+<td>{{ $a.str }}</td><td>{{ $a.end }}</td><td>{{ $a.dex }}</td><td>{{ $a.agl }}</td><td>{{ $a.per }}</td><td>{{ $a.aur }}</td><td>{{ $a.wil }}</td><td>{{ $a.rea }}</td><td>{{ $a.cre }}</td>

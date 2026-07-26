@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Verdantcoil
+    - Verdantcoil
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Verdantcoil
-  aliases: []
+    full: Verdantcoil
+    aliases: []
 id: psRdWx0EhGmUwrEd
 slug: verdantcoil
 img: images/verdantcoil-headshot.webp
@@ -13,59 +13,59 @@ portrait: images/verdantcoil.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 18
-    end: 16
-    dex: 14
-    agl: 16
-    per: 18
-    aur: 10
-    wil: 14
-    rea: 10
-    cre: 10
-  attrRollFormula:
-    str: 1d6+14
-    end: 1d4+13
-    dex: 1d6+10
-    agl: 1d4+13
-    per: 1d6+14
-    aur: 1d6+6
-    wil: 1d6+10
-    rea: 1d6+6
-    cre: 1d6+6
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 300
-      calc: 300
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 30
-      leaguesPerWatch: 2
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors:
-        - scope: surface_cover
-          key: mixed_forest
-          mode: add
-          textValue: '0'
-        - scope: surface_cover
-          key: needleleaf_forest
-          mode: add
-          textValue: '0'
-        - scope: surface_cover
-          key: woodland
-          mode: add
-          textValue: '0'
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 18
+        end: 16
+        dex: 14
+        agl: 16
+        per: 18
+        aur: 10
+        wil: 14
+        rea: 10
+        cre: 10
+    attrRollFormula:
+        str: 1d6+14
+        end: 1d4+13
+        dex: 1d6+10
+        agl: 1d4+13
+        per: 1d6+14
+        aur: 1d6+6
+        wil: 1d6+10
+        rea: 1d6+6
+        cre: 1d6+6
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 300
+            calc: 300
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 30
+          leaguesPerWatch: 2
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors:
+              - scope: surface_cover
+                key: mixed_forest
+                mode: add
+                textValue: "0"
+              - scope: surface_cover
+                key: needleleaf_forest
+                mode: add
+                textValue: "0"
+              - scope: surface_cover
+                key: woodland
+                mode: add
+                textValue: "0"
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -91,26 +91,33 @@ A Verdantcoil initiates combat by dropping from above or from concealment at the
 ## Attack Methods
 
 ### Striking Constriction
+
 The Verdantcoil hurls itself at a target from concealment, attempting to wrap multiple coils around the victim and crush them with relentless pressure. Escape from this constriction is nearly impossible without magical aid.
 
 ### Venomous Bite
+
 Once prey is secured or cornered, the creature delivers a bite injecting potent neurotoxins that cause progressive paralysis and excruciating pain.
 
 ### Suffocating Squeeze
+
 By maintaining constriction over time, the Verdantcoil slowly suffocates victims, preventing them from breathing or calling for aid.
 
 ## Special Abilities
 
 ### Forest Supremacy
+
 The Verdantcoil moves through forest terrain with supernatural grace, traversing branches, vines, and dense undergrowth with perfect silent efficiency. In heavy forest, the creature is nearly invisible and can move at full speed while remaining undetected.
 
 ### Ambush Mastery
+
 The Verdantcoil can remain perfectly motionless for extraordinary lengths of time, blending completely with its surroundings. Spotting one requires exceptional perception or magical sight.
 
 ### Constriction Strength
+
 The Verdantcoil's muscular body can apply crushing pressure to anything it coils around, strong enough to rupture organs, crush armor, and suffocate even large creatures.
 
 ### Thermal Perception
+
 The Verdantcoil senses heat with perfect accuracy, allowing it to track prey in complete darkness and sense heartbeats from considerable distance.
 
 ## Additional Information
@@ -118,6 +125,7 @@ The Verdantcoil senses heat with perfect accuracy, allowing it to track prey in 
 Cold is the Verdantcoil's primary weakness—extreme cold slows its metabolism dramatically, reducing its speed and strength significantly. Fire is equally effective, as the creature abhors heat and will retreat from sustained flames. Repeated exposure to either extreme temperature can eventually drive a Verdantcoil from its territory. In areas where the forest has been cleared or where the canopy is thin, the creature loses much of its advantage and becomes a comparatively normal predator, though still formidable. The creature's scales, if harvested carefully, can be fashioned into armor that retains the creature's natural camouflage properties and grants the wearer partial invisibility in forest settings. Its fangs make weapons of deadly efficiency. The venom can be extracted and preserved, though doing so requires exceptional care and protective gear. Hunting a Verdantcoil is considered one of the most dangerous activities a human can undertake, and successful hunters achieve legendary status.
 
 ## Attributes
+
 - **Strength:** 15-20 (1d6+14)
 
 - **Endurance:** 14-17 (1d4+13)

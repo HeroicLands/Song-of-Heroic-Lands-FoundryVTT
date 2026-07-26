@@ -1,19 +1,13 @@
 {{- /*
   Combined "Attributes & Skills" landing body — shared by the /attribute/ and
-  /skill/ section pages so both entry points show the same page.
-
-  - Attributes: every `type: attribute` page, linked, sorted by name.
-  - Skills: `type: skill` pages grouped by `sohl.kbcat` into the nine skill
-    lists, each linked and sorted by name. Dynamic — new skills/categories in
-    `assets/content/Skills/` appear on the next build.
+  /skill/ section pages so both entry points show the same page. Rendered as the
+  theme's "Name (shortcode) + description" rows (via `catalog-rows`), grouped
+  under category headings: an Attributes group, then the nine skill lists keyed
+  by `sohl.kbcat`. Dynamic — new skills/categories appear on the next build.
 */ -}}
 <section class="kbcat-group">
   <h2 id="attributes">Attributes</h2>
-  <ul class="kbcat-list">
-    {{- range sort (where site.RegularPages "Section" "attribute") "Title" }}
-    <li><a href="{{ .RelPermalink }}">{{ .Title }} ({{ .Params.shortcode }})</a></li>
-    {{- end }}
-  </ul>
+  {{ partial "catalog-rows.html" (sort (where site.RegularPages "Section" "attribute") "Title") }}
 </section>
 
 {{- $titles := dict
@@ -25,10 +19,6 @@
 {{- range $groups }}
 <section class="kbcat-group">
   <h2 id="kbcat-{{ .cat }}">{{ .title }}</h2>
-  <ul class="kbcat-list">
-    {{- range .pages }}
-    <li><a href="{{ .RelPermalink }}">{{ .Title }} ({{ .Params.shortcode }})</a></li>
-    {{- end }}
-  </ul>
+  {{ partial "catalog-rows.html" .pages }}
 </section>
 {{- end }}

@@ -7,7 +7,7 @@
 When a scheduled effect comes due, the event queue now posts an owner-gated
 **[Perform] reminder card** instead of running the effect on its own — the core
 of the consent model (issue #579). Nothing mutates a character until that
-character's controller clicks [Perform]; the click runs the *same* action the
+character's controller clicks [Perform]; the click runs the _same_ action the
 queue used to run automatically, on the effect's document.
 
 - `SohlEventQueue.dispatchOne` posts `templates/chat/reminder-card.hbs` (a
@@ -17,11 +17,11 @@ queue used to run automatically, on the effect's document.
 - De-duplicated by `(uuid, actionName, fireAt)` so a due occurrence is offered
   once, not on every world-time advance while it sits unperformed.
 - Renamed `SohlSubscription.kind` → `actionName` (a runtime-only field): the
-  queue is a *deferred action runner* — it stores which action to run on which
+  queue is a _deferred action runner_ — it stores which action to run on which
   document, and `actionName` names that action.
 - The seven timed effects (#486, #487, #488, #489, #490, #556, #557) all flow
   through this — none of them can apply to a character without a click.
 
-Part of #579. Follow-ups: make the effect *offer to reschedule* the next
+Part of #579. Follow-ups: make the effect _offer to reschedule_ the next
 occurrence (dialog/scope, per the self-sufficient action contract) instead of
 auto-re-arming, and offer the first schedule at creation.

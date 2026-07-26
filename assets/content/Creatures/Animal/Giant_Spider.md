@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Giant Spider
+    - Giant Spider
 tags:
-  - animal
+    - animal
 name:
-  full: Giant Spider
-  aliases: []
+    full: Giant Spider
+    aliases: []
 id: a46yPzIGp9tru2uR
 slug: giant-spider
 img: images/giant-spider-headshot.webp
@@ -13,84 +13,95 @@ portrait: images/giant-spider.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 15
-    end: 13
-    dex: 16
-    agl: 17
-    per: 15
-    aur: 10
-    wil: 12
-    rea: 7
-    cre: 6
-  attrRollFormula:
-    str: 1d6+11
-    end: 1d6+9
-    dex: 1d6+12
-    agl: 1d6+13
-    per: 1d6+11
-    aur: 1d4+7
-    wil: 1d6+8
-    rea: 1d4+4
-    cre: 1d4+3
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 1
-      calc: 1
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 40
-      leaguesPerWatch: 2
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 15
+        end: 13
+        dex: 16
+        agl: 17
+        per: 15
+        aur: 10
+        wil: 12
+        rea: 7
+        cre: 6
+    attrRollFormula:
+        str: 1d6+11
+        end: 1d6+9
+        dex: 1d6+12
+        agl: 1d6+13
+        per: 1d6+11
+        aur: 1d4+7
+        wil: 1d6+8
+        rea: 1d4+4
+        cre: 1d4+3
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 1
+            calc: 1
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 40
+          leaguesPerWatch: 2
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
+
 # Appearance {#appearance}
 
 The smell reaches you first: acrid, wrong, the scent of digestive secretions and decaying flesh. You see the web before you see the creator—strands as thick as rope extending across the cavern or dense forest, catching light with an oily sheen. Then movement: something massive moving along a strand with absolute confidence, and your eyes struggle to fully process its size. The body is a bloated orb four feet across, glossy black or dark brown in color, covered in fine bristles that quiver constantly. The legs are impossibly long and articulate, jointed in ways that make your brain hurt to watch. There are eight eyes—arranged across the front of the head, each one catching light and reflecting it back with terrible intelligence. The mouth opens, revealing fangs that glisten with clear venom. The sound it makes—a skittering, clicking, rustling—is the sound of your own death approaching.
 
 # Dossier {#dossier}
+
 The Giant Spider is a masterwork of predatory evolution—a creature that has elevated web-hunting to an art form of terrible sophistication. With a body four feet in diameter and leg spans exceeding twenty feet, a single giant spider dominates a territory through webs and venom. These creatures establish vast web systems within caves, canyons, or dense forests, creating three-dimensional mazes of sticky silk that can trap creatures as large as deer or humanoids. Adventurers most commonly encounter them when entering caves, traversing deep forests, or when a web system forces them to find alternate routes.
 
 ## Presentation
+
 The Giant Spider is a creature of nightmarish proportions but distinctive arachnid form. The body (cephalothorax and abdomen) is heavily muscled and bulbous, covered in glossy chitin in colors ranging from jet black to dark brown or rust. Fine hairs cover the exoskeleton, serving sensory functions and creating a rippling effect with movement. Eight long, segmented legs extend from the body, each jointed and tipped with sharp claws designed for climbing and web-walking. The legs have a skeletal, articulate quality that emphasizes the creature's alien nature. The head bears eight large eyes arranged to provide nearly 360-degree vision, with the two largest set forward for binocular focus. The mouth opens to reveal sharp fangs dripping with clear, oily venom. The spinnerets at the rear of the abdomen produce silk of extraordinary strength and stickiness.
 
 ## Key Behaviors
+
 Giant Spiders are solitary creatures that establish vast territories defined by their web systems. A spider spends much of its time at rest at the center of its web, feeling for vibrations that indicate prey. The creature is patient—it can wait motionless for days if necessary, entering a state of minimal metabolic activity. When prey touches the web, the spider responds with shocking speed, rushing to wrap and inject venom. The spider consumes only the liquid contents of prey, leaving exoskeletons or bone behind as litter. A spider's territory is recognizable by the accumulated remains of meals.
 
 ## Combat Strategy
+
 A Giant Spider prefers to fight in its own web—the spider can move through the sticky strands at full speed while prey becomes progressively more entangled. If forced to fight outside its web, the spider becomes more cautious but retains tactical advantage through speed and agility. The spider uses webs as both offense and defense, creating new barriers during combat or fleeing through pre-positioned escape routes within the web maze. A spider defending its lair becomes absolutely desperate and commits fully to combat, apparently willing to sustain any injury to eliminate threats.
 
 ## Attack Methods
 
 ### Venomous Fangs
+
 The spider strikes with precise bites, injecting fast-acting venom designed to paralyze prey. The venom is potent enough to incapacitate humanoids, though it acts more slowly on humanoids than on smaller prey.
 
 ### Venom Spit
+
 The spider can eject a spray of venom-tinged webbing from its spinnerets—a sticky, paralyzing substance that coats anything in its path and entangles movement. Multiple applications compound the paralysis effect.
 
 ## Special Abilities
 
 ### Web Mastery
+
 The Giant Spider can create and manipulate vast webs of exceptional strength—the silk is multiple times stronger than steel wire of equivalent thickness. The spider can move through its own web at full speed while intruders become progressively more entangled. The web is invisible in darkness and difficult to spot even in good light.
 
 ### Climbing Mastery
+
 The spider can move across any surface (horizontal, vertical, or even inverted) with absolute grip and confidence. It can climb at full movement speed and never risks falling.
 
 ## Additional Information
+
 Giant Spider webs have value—the silk can be harvested and used for rope, armor reinforcement, or specialized sohl. However, harvesting silk from an active web almost always alerts the spider. A spider's venom is valuable to alchemists and can be harvested (extremely dangerously) by collectors. Fire is the spider's primary weakness—flames destroy the web and cause the creature to flee. Some characters claim spiders can be negotiated with through magical means, though such claims should be treated with deep skepticism.
 
 ## Attributes
+
 - **Strength:** 12-17 (1d6+11)
 
 - **Endurance:** 10-15 (1d6+9)

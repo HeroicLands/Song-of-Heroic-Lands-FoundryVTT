@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: "Build, Deployment, and Release"
+    aliases: []
+id: 2lkG02SkmKisa2xK
+slug: build-and-deployment
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Build, Deployment, and Release
 
 Everything you need to take Song of Heroic Lands (SoHL) from a fresh clone to a

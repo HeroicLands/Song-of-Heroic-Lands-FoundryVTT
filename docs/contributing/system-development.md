@@ -1,4 +1,14 @@
 ---
+aliases: []
+name:
+    full: System Development
+    aliases: []
+id: Kl4MXnx2WYSFaxqR
+slug: system-development
+type: doc
+package: sohl
+category: dev-docs
+folder: null
 title: System Development
 ---
 

@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Nemespite
+    - Nemespite
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Nemespite
-  aliases: []
+    full: Nemespite
+    aliases: []
 id: ZUXd3hJWUfc6Mu3P
 slug: nemespite
 img: images/nemespite-headshot.webp
@@ -13,45 +13,45 @@ portrait: images/nemespite.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    end: 8
-    dex: 13
-    agl: 15
-    per: 11
-    aur: 8
-    wil: 9
-    rea: 8
-    cre: 8
-  attrRollFormula:
-    end: 1d4+5
-    dex: 1d4+10
-    agl: 1d4+12
-    per: 1d4+8
-    aur: 1d4+5
-    wil: 1d4+6
-    rea: 1d4+5
-    cre: 1d4+5
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 80
-      calc: 80
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: aerial
-      feetPerRound: 80
-      leaguesPerWatch: 5
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        end: 8
+        dex: 13
+        agl: 15
+        per: 11
+        aur: 8
+        wil: 9
+        rea: 8
+        cre: 8
+    attrRollFormula:
+        end: 1d4+5
+        dex: 1d4+10
+        agl: 1d4+12
+        per: 1d4+8
+        aur: 1d4+5
+        wil: 1d4+6
+        rea: 1d4+5
+        cre: 1d4+5
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 80
+            calc: 80
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: aerial
+          feetPerRound: 80
+          leaguesPerWatch: 5
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -77,20 +77,25 @@ A single Nemespite is a hit-and-run killer, striking with explosive speed, injec
 ## Attack Methods
 
 ### Venomous Sting
+
 The creature’s curved stinger lashes out with vicious speed, driving deep into exposed flesh and injecting a potent neurotoxin. The venom begins working almost immediately, numbing limbs and clouding thought.
 
 ### Pheromone Cloud
+
 When threatened, Nemespites can release a cloud of chemical pheromones that confuses sensory perceptions and attracts more of their kind from considerable distances away. Those breathed in the cloud experience disorientation and burning in the eyes and lungs.
 
 ## Special Abilities
 
 ### Hive Coordination
+
 Nemespites in proximity to each other function as a single distributed intelligence, coordinating attacks with supernatural precision. A swarm of three or more acts as though guided by a single predatory mind.
 
 ### Rapid Regeneration
+
 The Nemespite’s wound rate is exceptionally fast for its size; minor punctures and scratches seal within heartbeats. Only significant trauma or cauterization can prevent it from healing.
 
 ### Paralytic Venom
+
 The Nemespite’s venom is a complex cocktail of neurotoxins that do not kill quickly but instead progressively paralyze the victim, rendering them immobile while the creatures feed. Victims remain conscious and aware throughout the process.
 
 ## Additional Information
@@ -98,6 +103,7 @@ The Nemespite’s venom is a complex cocktail of neurotoxins that do not kill qu
 Nemespites are highly vulnerable to cold, becoming sluggish and torpid when temperatures drop. Extreme heat actually seems to energize them, making swarms more active and aggressive. They are susceptible to psychic and mental magic, which seems to disrupt their hive coordination and cause them to attack each other or retreat in panic. The venom itself, while deadly, can be carefully harvested and preserved for alchemical purposes, though doing so requires exceptional care and protective gear. A single vial of purified Nemespite venom is extraordinarily valuable on the black market and lethal in even tiny quantities—a single drop can kill a human in minutes. Some sources suggest that Nemespites have a queen somewhere in their warren, and that killing the queen will cause the hive to collapse into mindless chaos; however, the location of these queens is unknown, and they are defended with fanatical intensity.
 
 ## Attributes
+
 - **Endurance:** 6-9 (1d4+5)
 
 - **Dexterity:** 11-14 (1d4+10)

@@ -1,15 +1,15 @@
 ---
 aliases:
-  - Golem
+    - Golem
 tags:
-  - construct
+    - construct
 type: doc
 category: lore
 package: thalorna
 id: noLDOQ4ChHEGOEmo
 name:
-  full: Golems
-  aliases: []
+    full: Golems
+    aliases: []
 slug: golem
 ---
 

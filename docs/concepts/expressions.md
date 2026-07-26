@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Expressions and Scripts
+    aliases: []
+id: WBg5LHbc23Vceh6u
+slug: expressions
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Expressions and Scripts
 
 SoHL lets content authors and GMs drive behavior from **data** — an effect's

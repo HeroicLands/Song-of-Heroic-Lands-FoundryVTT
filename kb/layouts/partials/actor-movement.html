@@ -1,0 +1,15 @@
+{{- /*
+  Returns an actor's movement rate in feet per round: the `feetPerRound` of the
+  `sohl.movementProfiles` entry matching `sohl.currentMoveMedium`, falling back
+  to the first profile. Empty string when the actor has no movement profiles.
+  Call: {{ partial "actor-movement.html" . }}
+*/ -}}
+{{- $move := "" -}}
+{{- with .Params.sohl.movementProfiles -}}
+  {{- $prof := index . 0 -}}
+  {{- range . -}}
+    {{- if eq .medium $.Params.sohl.currentMoveMedium -}}{{- $prof = . -}}{{- end -}}
+  {{- end -}}
+  {{- with $prof -}}{{- $move = .feetPerRound -}}{{- end -}}
+{{- end -}}
+{{- return $move -}}

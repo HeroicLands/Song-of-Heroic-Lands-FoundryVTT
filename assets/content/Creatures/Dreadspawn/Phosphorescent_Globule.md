@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Phosphorescent Globule
+    - Phosphorescent Globule
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Phosphorescent Globule
-  aliases: []
+    full: Phosphorescent Globule
+    aliases: []
 id: E7tEOyjs0shS2rZe
 slug: phosphorescent-globule
 img: images/phosphorescent-globule-headshot.webp
@@ -13,47 +13,47 @@ portrait: images/phosphorescent-globule.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 10
-    end: 18
-    dex: 14
-    agl: 12
-    per: 16
-    aur: 18
-    wil: 16
-    rea: 10
-    cre: 14
-  attrRollFormula:
-    str: 1d6+6
-    end: 1d6+14
-    dex: 1d6+10
-    agl: 1d4+9
-    per: 1d4+13
-    aur: 1d6+14
-    wil: 1d4+13
-    rea: 1d6+6
-    cre: 1d6+10
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 10
-      calc: 10
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: aerial
-      feetPerRound: 30
-      leaguesPerWatch: 2
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 10
+        end: 18
+        dex: 14
+        agl: 12
+        per: 16
+        aur: 18
+        wil: 16
+        rea: 10
+        cre: 14
+    attrRollFormula:
+        str: 1d6+6
+        end: 1d6+14
+        dex: 1d6+10
+        agl: 1d4+9
+        per: 1d4+13
+        aur: 1d6+14
+        wil: 1d4+13
+        rea: 1d6+6
+        cre: 1d6+10
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 10
+            calc: 10
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: aerial
+          feetPerRound: 30
+          leaguesPerWatch: 2
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -79,20 +79,25 @@ A Phosphorescent Globule opens combat by intensifying its luminescence, attempti
 ## Attack Methods
 
 ### Acidic Engulfment
+
 The creature surges forward and attempts to envelop a target partially or wholly within its corrosive form. Those caught experience rapidly accelerating dissolution as the ooze exerts pressure and dissolves flesh, bone, and equipment alike.
 
 ### Blinding Flash
+
 The creature's luminescence flares with brilliant intensity, flooding the area with overwhelming light that blinds and disorients those within range. Affected creatures struggle to track movement or coordinate attacks.
 
 ## Special Abilities
 
 ### Bioluminescent Lure
+
 The creature's constant glow is hypnotic and compelling to creatures of weak will, drawing them inexorably closer despite conscious misgivings. Those with strong will or high reasoning can resist the pull, but weaker minds find themselves walking toward the light as though compelled by strings.
 
 ### Fragmentation
+
 When severely damaged, the Phosphorescent Globule can voluntarily split into multiple smaller globs, each with a fraction of the parent's size and attributes. These fragments can act semi-independently to flank or surround opponents, creating multiple threat vectors.
 
 ### Acidic Body
+
 The Globule's very form is corrosive to most materials, slowly dissolving anything it touches. Weapons and armor exposed to the creature for prolonged periods suffer degradation, and flesh exposed directly to the creature experiences burning, caustic damage.
 
 ## Additional Information
@@ -100,6 +105,7 @@ The Globule's very form is corrosive to most materials, slowly dissolving anythi
 Fire is the Phosphorescent Globule's primary weakness—flames disrupt its bioluminescence and cause the acidic form to become unstable and painful. Extreme cold also damages it, hardening the gelatinous form and disrupting its movement and cohesion. The creature's luminescent organs, if harvested carefully after death, can be preserved and used as light sources or crafted into magical foci that retain dim bioluminescence for years. The creature's acidic secretions, properly neutralized and preserved, have value in alchemical processes. The greatest risk to removing a Phosphorescent Globule from an area is the certainty that if even a small fragment is left behind, it will regenerate into a full creature given enough time and food.
 
 ## Attributes
+
 - **Strength:** 7-12 (1d6+6)
 
 - **Endurance:** 15-20 (1d6+14)

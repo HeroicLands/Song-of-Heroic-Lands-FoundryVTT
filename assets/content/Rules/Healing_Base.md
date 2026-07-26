@@ -4,7 +4,7 @@ aliases:
 id: HealBs3xKp9mQ2vT
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Healing Base
     aliases: []

@@ -6,7 +6,7 @@ aliases:
 id: l1HN7M0DP05cWxLm
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Secondary Mastery
     aliases: []

@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Writing Guided Tours
+    aliases: []
+id: itInwUAn0CjjS0t2
+slug: guided-tours
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Writing Guided Tours
 
 > **Audience:** SoHL contributors adding an in-app guided **Tour** — an

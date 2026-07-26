@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: SoHL Architecture
+    aliases: []
+id: NuF7KlTBhlcriBxf
+slug: architecture
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # SoHL Architecture
 
 > **Audience:** Developers, contributors, and anyone needing a mental model of the system.

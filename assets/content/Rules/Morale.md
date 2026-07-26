@@ -7,7 +7,7 @@ aliases:
 id: Mor4l3Kp9mQ2vT7x
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Morale
     aliases: []

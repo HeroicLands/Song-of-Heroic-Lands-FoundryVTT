@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Getting Started (New Developer Guide)
+    aliases: []
+id: zbZL9MPvAYWgZMD3
+slug: getting-started
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Getting Started (New Developer Guide)
 
 > **Audience:** Someone who just cloned the repo and wants to understand the codebase.

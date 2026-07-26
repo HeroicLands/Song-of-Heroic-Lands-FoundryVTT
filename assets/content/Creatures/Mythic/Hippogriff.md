@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Hippogryph
+    - Hippogryph
 tags:
-  - mythic
-  - image-needed
+    - mythic
+    - image-needed
 name:
-  full: Hippogryph
-  aliases: []
+    full: Hippogryph
+    aliases: []
 id: tQ3wRvL8jNmPxDf4
 slug: hippogryph
 img: images/hippogryph-headshot.webp
@@ -14,55 +14,56 @@ portrait: images/hippogryph.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 16
-    end: 16
-    dex: 15
-    agl: 17
-    per: 16
-    aur: 12
-    wil: 13
-    rea: 8
-    cre: 7
-  attrRollFormula:
-    str: 1d6+12
-    end: 1d6+12
-    dex: 1d6+11
-    agl: 1d6+13
-    per: 1d6+12
-    aur: 1d6+8
-    wil: 1d6+9
-    rea: 1d4+5
-    cre: 1d4+4
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 600
-      calc: 600
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 50
-      leaguesPerWatch: 4
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-    - medium: aerial
-      feetPerRound: 100
-      leaguesPerWatch: 12
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 16
+        end: 16
+        dex: 15
+        agl: 17
+        per: 16
+        aur: 12
+        wil: 13
+        rea: 8
+        cre: 7
+    attrRollFormula:
+        str: 1d6+12
+        end: 1d6+12
+        dex: 1d6+11
+        agl: 1d6+13
+        per: 1d6+12
+        aur: 1d6+8
+        wil: 1d6+9
+        rea: 1d4+5
+        cre: 1d4+4
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 600
+            calc: 600
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 50
+          leaguesPerWatch: 4
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+        - medium: aerial
+          feetPerRound: 100
+          leaguesPerWatch: 12
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
+
 # Appearance {#appearance}
 
 The sound reaches you first—not the scream of a predator, but a clarion call, almost musical in its cadence, underlaid with the whinny of an intelligent horse. Then you see it banking between the peaks with an agility that seems impossible for something so large. The hippogriff descends in a wide spiral, and as it draws near, you grasp the nature of this creature: the proud head and piercing eyes of a war eagle, the powerful wings of a creature born to command the skies, and then—where one might expect a lion's body—the sleek, muscular frame of a noble horse, complete with four powerful legs and a flowing mane that ripples as though caught in wind.
@@ -106,32 +107,41 @@ If forced to land and fight on ground, a hippogriff will use its powerful hind l
 ## Attack Methods
 
 ### Aerial Dive Strike
+
 The hippogriff climbs high and dives at significant velocity, striking with both taloned forelegs. This is less devastating than a gryphon's dive due to the creature's lighter frame, but it is still capable of causing serious injury and is executed with precision. The hippogriff often follows a diving strike with immediate climb-out rather than remaining in close combat.
 
 ### Talon Rake
+
 In close combat or when landed, the hippogriff slashes with its eagle forelegs, talons extended. These strikes are quick and can be executed in rapid succession, and the creature often uses them while maintaining ground contact with its powerful hind legs.
 
 ### Rear and Strike
+
 When landed and pressed into combat, the hippogriff will rear on its hind legs and strike downward with both forelegs, using the full weight of its body and the leverage of its powerful horse-body. This is an explosive attack that can crush armor or break bones.
 
 ### Kick
+
 The hippogriff's hind legs are powerfully muscled and fully capable of delivering devastating kicks. These are often executed when the creature is backing away, using the motion to generate distance while still dealing damage. A well-placed hind-leg kick can break ribs or kill an unprepared opponent.
 
 ## Special Abilities
 
 ### Exceptional Speed
+
 The hippogriff is the fastest flyer among all non-dragon mythic creatures. Its lightweight frame and powerful wings allow it to achieve and sustain velocities that other flying creatures cannot match. In combat, this translates to the ability to make attacks from angles opponents cannot predict and to escape situations quickly.
 
 ### Endurance Flight
+
 While gryphons can fly for extended periods, hippogriffs demonstrate almost legendary endurance. They can fly for an entire day without tiring significantly, maintain high speeds for hours, and recover quickly from exertion. This makes them ideal for long-distance travel and exploration.
 
 ### Equine Intelligence
+
 The hippogriff inherits from its horse-half a form of intelligence that is different from but equal to the gryphon's. It understands simple language, remembers routes and places for decades, can problem-solve using physical objects, and can form deep emotional attachments. Hippogriffs have been known to return favors to humans who have treated them well, years or decades later.
 
 ### Sure-Footed Mastery
+
 The hippogriff's hooves are capable of gripping virtually any surface—rock faces that would make normal horses slip, muddy terrain, icy slopes. Combined with its wing power, this allows the creature to land and take off from locations other flying creatures cannot easily access. In ground combat, this balance and sure-footedness gives the creature an advantage on difficult terrain.
 
 ### Willing Bond
+
 More so than a gryphon, a hippogriff can form a willing partnership with a human—and importantly, this bond is mutual and can be refused by the hippogriff without resentment. A hippogriff that has chosen a human partner will carry them in flight with careful consideration for their safety, will alert them to danger, and will provide protection and companionship. Unlike the gryphon, however, the hippogriff bond is not exclusive; a hippogriff can maintain the bond while also interacting with other humans and creatures. A hippogriff whose bonded human dies will grieve but will not become destructively territorial; it may eventually bond with another human or simply return to its migration patterns.
 
 ## Attributes

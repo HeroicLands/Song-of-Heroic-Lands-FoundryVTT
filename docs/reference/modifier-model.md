@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Modifier Model
+    aliases: []
+id: 6cEVx2MHCyKiYW3C
+slug: modifier-model
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Modifier Model
 
 > **Audience:** Developers changing target values, impact calculations, or test modifiers.

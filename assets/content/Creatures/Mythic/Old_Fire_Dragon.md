@@ -1,13 +1,13 @@
 ---
 aliases:
-  - Old Fire Dragon
-  - Fire Wyrm
+    - Old Fire Dragon
+    - Fire Wyrm
 tags:
-  - mythic
-  - image-needed
+    - mythic
+    - image-needed
 name:
-  full: Old Fire Dragon
-  aliases: []
+    full: Old Fire Dragon
+    aliases: []
 id: FD9K6M5R8Q1X3W9B
 slug: old-fire-dragon
 img: images/old-fire-dragon-headshot.webp
@@ -15,62 +15,63 @@ portrait: images/old-fire-dragon.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 29
-    end: 25
-    dex: 10
-    agl: 9
-    per: 18
-    aur: 21
-    wil: 21
-    rea: 15
-    cre: 14
-  attrRollFormula:
-    str: 1d6+25
-    end: 1d6+21
-    dex: 1d4+7
-    agl: 1d4+6
-    per: 1d6+14
-    aur: 1d6+17
-    wil: 1d6+17
-    rea: 1d6+11
-    cre: 1d6+10
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 15000
-      calc: 15000
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 40
-      leaguesPerWatch: 3
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-    - medium: aerial
-      feetPerRound: 150
-      leaguesPerWatch: 18
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 29
+        end: 25
+        dex: 10
+        agl: 9
+        per: 18
+        aur: 21
+        wil: 21
+        rea: 15
+        cre: 14
+    attrRollFormula:
+        str: 1d6+25
+        end: 1d6+21
+        dex: 1d4+7
+        agl: 1d4+6
+        per: 1d6+14
+        aur: 1d6+17
+        wil: 1d6+17
+        rea: 1d6+11
+        cre: 1d6+10
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 15000
+            calc: 15000
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 40
+          leaguesPerWatch: 3
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+        - medium: aerial
+          feetPerRound: 150
+          leaguesPerWatch: 18
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
+
 # Appearance {#appearance}
 
 You should have known. In every story, in every warning passed between settlements, in every omen the seers read in fire and bone—you should have known not to come here.
 
-The moment you cross the threshold into the dragon's domain, the world transforms. The air becomes suffocating, thick with heat and the acrid stench of sulfur that burns your nostrils. The ground beneath your feet is blackened to glass in places, scarred by centuries of fire. The stone itself seems to remember pain. Ash drifts on the wind like snow in some nightmare of winter, and everything—*everything*—is the color of old blood and char.
+The moment you cross the threshold into the dragon's domain, the world transforms. The air becomes suffocating, thick with heat and the acrid stench of sulfur that burns your nostrils. The ground beneath your feet is blackened to glass in places, scarred by centuries of fire. The stone itself seems to remember pain. Ash drifts on the wind like snow in some nightmare of winter, and everything—_everything_—is the color of old blood and char.
 
-And then the mountain *speaks*.
+And then the mountain _speaks_.
 
 It is not a roar, not anymore. The Old Fire Dragon announces itself with a sound like an avalanche, like the earth splitting open, like the death cry of everything you hold dear. The sound reverberates through your bones, through stone, through the very air. It is a voice that has been speaking for a thousand years, and it speaks now with the absolute certainty that it will be heard.
 
@@ -133,50 +134,65 @@ If truly threatened, the old dragon will retreat to its volcanic lair, where it 
 ## Attack Methods
 
 ### Bite
+
 The old dragon's bite is apocalyptic in force. The teeth can pierce through steel plate and shear stone. A bite at full strength can sever limbs or decapitate large creatures. The dragon's bite is powerful enough to destroy siege equipment, demolish castle gates, and crush armor as though it were parchment.
 
 ### Claw Rake
+
 The dragon rakes with all four limbs in rapid sequence, a flurry of attacks that is nearly impossible to defend against. Each claw is as long as a sword and hard as adamant. A full claw rake from an old dragon can be absolutely fatal to unprepared opponents.
 
 ### Wing Buffet
+
 The dragon sweeps its massive wings with enough force to topple buildings. This attack can knock creatures prone, scatter formations, and even overturn siege equipment. The force is hurricane-strength.
 
 ### Tail Sweep
+
 The dragon's tail is a weapon unto itself—thick, powerful, and capable of striking a wide area in a sweeping arc. A full strength tail strike can shatter walls or overturn castle gates. Multiple creatures can be struck and potentially killed by a single tail sweep.
 
 ### Fire Breath
+
 The dragon exhales a 60-foot cone of roiling flame so hot it melts stone and vaporizes water instantly. The fire is hot enough to reduce solid stone to lava. Structures in the path of the breath weapon may partially collapse. The dragon can use this ability repeatedly, and its fires are effectively endless—it will not tire from using this weapon.
 
 ## Special Abilities
 
 ### Fire Breath
+
 The old dragon can exhale a 60-foot cone of apocalyptic flame. The fire is hot enough to melt castle stone, vaporize water, and reduce fortifications to rubble. It can be used repeatedly without fatigue. The flames can be directed in specific patterns, allowing the dragon to minimize collateral damage to specific objects while incinerating everything else.
 
 ### Flight
+
 The dragon is an incomparably powerful flier, capable of sustained flight at extreme altitudes and in severe weather. It can carry enormous loads—the ruins of a tower, a felled giant, or treasures beyond count. The dragon can engage in aerial combat against flying foes while maintaining superior positioning.
 
 ### Armored Scales
+
 The dragon's scales are nearly impervious to conventional weapons. Siege weapons, arrows, and swords inflict minimal damage. Magical weapons can penetrate, but extensive effort is required. The dragon's age has made it armor itself—a living fortress.
 
 ### Heat Aura
+
 Intense, lethal heat radiates from the dragon in a 100-foot radius. Temperatures within 50 feet cause burn damage to unprotected flesh. Within 20 feet, metal becomes hot enough to blister skin. The dragon can modulate this aura somewhat, allowing selected individuals safe passage if it chooses.
 
 ### Draconic Presence
+
 The dragon radiates absolute predatory dominance. Intelligent creatures within 100 feet experience profound dread and terror, recognizing the dragon as an apex threat beyond their capability to defeat. Animals panic, cavalry breaks, and many combatants experience overwhelming urges to flee.
 
 ### Fire Immunity
+
 The dragon is completely immune to all fire, heat, and thermal damage. It can swim through lava, rest in infernos, and breathe superheated air. Its immunity extends to its hoard and possessions.
 
 ### Spell Resistance
+
 The dragon has developed resistance to magic across its millennium of existence. Many magical effects are partially or completely ineffective against it. Spells that would devastate other creatures are merely inconveniences.
 
 ### Lair Awareness
+
 The dragon knows every stone, passage, and chamber within its lair. It knows the precise location of every object, every treasure, every corner. It can sense tremors and movement throughout the lair as though it were a direct extension of its senses. Sneaking within the dragon's own mountain is nearly impossible.
 
 ### Speech and Sapience
+
 The old dragon speaks. It speaks human languages, draconic speech, and languages that have been dead for centuries. It can engage in negotiation, philosophy, poetry, and threats. It uses language as a weapon, understanding psychological manipulation and the power of words.
 
 ### Immortal Memory
+
 The dragon remembers every significant event from over a thousand years of existence. It recalls the names of long-dead warriors, the locations of ancient treasures, the bloodlines of kingdoms now reduced to history. This perfect memory makes it an invaluable source of historical knowledge—should one survive negotiating with it.
 
 ## Attributes

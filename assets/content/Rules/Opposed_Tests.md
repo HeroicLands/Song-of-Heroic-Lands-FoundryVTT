@@ -6,7 +6,7 @@ aliases:
 id: YByfiRN9BxL5gTHK
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Opposed Tests
     aliases: []

@@ -9,7 +9,7 @@ aliases:
 id: Sh0ckSt8Zn5cLwR4
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Shock
     aliases: []

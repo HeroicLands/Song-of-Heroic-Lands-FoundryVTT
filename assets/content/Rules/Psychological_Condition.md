@@ -7,7 +7,7 @@ aliases:
 id: Psy4hK9nRt2wQx7v
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Psychological Condition
     aliases: []

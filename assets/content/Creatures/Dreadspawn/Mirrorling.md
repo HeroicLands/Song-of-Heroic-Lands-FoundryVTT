@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Mirrorling
+    - Mirrorling
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Mirrorling
-  aliases: []
+    full: Mirrorling
+    aliases: []
 id: 5Se4Tjyu2dibdEAZ
 slug: mirrorling
 img: images/mirrorling-headshot.webp
@@ -13,47 +13,47 @@ portrait: images/mirrorling.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 11
-    end: 11
-    dex: 15
-    agl: 13
-    per: 15
-    aur: 15
-    wil: 13
-    rea: 9
-    cre: 15
-  attrRollFormula:
-    str: 1d4+8
-    end: 1d4+8
-    dex: 1d4+12
-    agl: 1d4+10
-    per: 1d4+12
-    aur: 1d4+12
-    wil: 1d4+10
-    rea: 1d4+6
-    cre: 1d4+12
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 40
-      calc: 40
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 50
-      leaguesPerWatch: 3
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 11
+        end: 11
+        dex: 15
+        agl: 13
+        per: 15
+        aur: 15
+        wil: 13
+        rea: 9
+        cre: 15
+    attrRollFormula:
+        str: 1d4+8
+        end: 1d4+8
+        dex: 1d4+12
+        agl: 1d4+10
+        per: 1d4+12
+        aur: 1d4+12
+        wil: 1d4+10
+        rea: 1d4+6
+        cre: 1d4+12
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 40
+            calc: 40
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 50
+          leaguesPerWatch: 3
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -79,20 +79,25 @@ A Mirrorling opens combat by using its natural reflectivity to create the illusi
 ## Attack Methods
 
 ### Reflective Blade Strike
+
 The creature's limbs sharpen into edges of pure crystalline reflection, striking with surprising force and precision. These strikes leave wounds that seem to warp and distort, as though the flesh itself is confused about where it should be.
 
 ### Mirrored Retaliation
+
 When an opponent's attack glances off the creature's reflective surface, that same force is redirected back toward the attacker with perfect geometric precision. A sword swing might be sent back as a cutting beam of refracted light; an arrow might be turned aside to strike a nearby ally.
 
 ## Special Abilities
 
 ### Reflective Embodiment
+
 The creature's body reflects and refracts light with impossible perfection, making it extraordinarily difficult to strike. Physical attacks against it are resolved with disadvantage, and many strikes seem to pass through or around it without landing.
 
 ### Fractured Image
+
 The Mirrorling can create illusory duplicates of itself through careful manipulation of light and reflection. At least two of the images will move independently and seem tactilely real, forcing opponents to guess which version is the genuine article.
 
 ### Void Reflection
+
 When looking into the Mirrorling's surface, perceptive creatures can glimpse fleeting, disturbing images: scenes of violence, moments of vanity, echoes of the creature's feeding. Those who stare too long find their sense of self becoming distant and unreal.
 
 ## Additional Information
@@ -100,6 +105,7 @@ When looking into the Mirrorling's surface, perceptive creatures can glimpse fle
 Darkness and non-reflective environments pose the greatest challenge to a Mirrorling, negating both its illusory and defensive advantages. Magical attacks that create obscurement or shadow force the creature to fight at near-normal disadvantage. If a Mirrorling is forced to remain in absolute darkness for more than a few minutes, it begins to weaken, its form becoming sluggish and brittle. The creature is vulnerable to spells that damage or cloud reflective surfaces, including rusted metals, broken glass, and muddied water. Some scholars theorize that destroying every mirror in a Mirrorling's territory will starve it, forcing it to move on or perish. The creature's remains—if it is slain—dissolve into mercury-like drops that evaporate within hours, leaving no physical trace.
 
 ## Attributes
+
 - **Strength:** 9-12 (1d4+8)
 
 - **Endurance:** 9-12 (1d4+8)

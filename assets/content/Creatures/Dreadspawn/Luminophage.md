@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Luminophage
+    - Luminophage
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Luminophage
-  aliases: []
+    full: Luminophage
+    aliases: []
 id: jNzzuKp8U2y7rYyb
 slug: luminophage
 img: images/luminophage-headshot.webp
@@ -13,47 +13,47 @@ portrait: images/luminophage.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 8
-    end: 10
-    dex: 14
-    agl: 10
-    per: 16
-    aur: 14
-    wil: 12
-    rea: 10
-    cre: 12
-  attrRollFormula:
-    str: 1d4+5
-    end: 1d6+6
-    dex: 1d6+10
-    agl: 1d6+6
-    per: 1d4+13
-    aur: 1d6+10
-    wil: 1d4+9
-    rea: 1d6+6
-    cre: 1d4+9
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 20
-      calc: 20
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: aerial
-      feetPerRound: 60
-      leaguesPerWatch: 4
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 8
+        end: 10
+        dex: 14
+        agl: 10
+        per: 16
+        aur: 14
+        wil: 12
+        rea: 10
+        cre: 12
+    attrRollFormula:
+        str: 1d4+5
+        end: 1d6+6
+        dex: 1d6+10
+        agl: 1d6+6
+        per: 1d4+13
+        aur: 1d6+10
+        wil: 1d4+9
+        rea: 1d6+6
+        cre: 1d4+9
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 20
+            calc: 20
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: aerial
+          feetPerRound: 60
+          leaguesPerWatch: 4
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -79,20 +79,25 @@ A Luminophage begins an encounter by intensifying its glow, attempting to mesmer
 ## Attack Methods
 
 ### Needle Strike
+
 The creature's appendages lash out with surgeon-like precision, driving clusters of venomous proboscises into exposed flesh. These attacks are remarkably accurate, made more so by the creature's exceptional hand-eye coordination.
 
 ### Paralytic Venom Injection
+
 Successful needle strikes inject a potent neurotoxin that spreads rapidly through the victim's body. Affected targets lose mobility and find themselves helpless while the Luminophage feeds.
 
 ## Special Abilities
 
 ### Bioluminescent Lure
+
 The creature's hypnotic glow can fascinate weaker-minded targets, compelling them to approach despite conscious misgivings. Those with strong will or high reasoning can resist the compulsion, but others find themselves drawn inexorably forward.
 
 ### Light Absorption
+
 Luminophages drain the luminous energy from any light source they can reach, extinguishing flames, dimming magical light, and converting the absorbed energy into their own bioluminescence. A torch can be drained in a single round.
 
 ### Darkness Adaptation
+
 The creature sees perfectly in absolute darkness and moves as easily in the black as in daylight. In well-lit areas, it becomes slightly sluggish, its reflexes diminished.
 
 ## Additional Information
@@ -100,6 +105,7 @@ The creature sees perfectly in absolute darkness and moves as easily in the blac
 Fire poses the greatest threat to a Luminophage—flames damage its translucent body directly and overwhelm its sensory systems, causing it to withdraw. Its venom can be extracted and preserved in ceramic vessels, and alchemists prize it for medicinal purposes or the creation of poisons. The chitin plates along its back, when harvested carefully, can be fashioned into armor or magical foci that retain faint bioluminescent properties for years. Some isolated communities have learned to trap Luminophages in light-filled chambers, where the creatures become docile and can be contained; a few mad scholars keep them as living lanterns, accepting the constant threat of paralysis as the price of endless illumination.
 
 ## Attributes
+
 - **Strength:** 6-9 (1d4+5)
 
 - **Endurance:** 7-12 (1d6+6)

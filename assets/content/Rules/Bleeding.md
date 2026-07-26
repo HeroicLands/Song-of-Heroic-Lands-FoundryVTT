@@ -7,7 +7,7 @@ aliases:
 id: Bl33dK9nRt2wQx7v
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Bleeding
     aliases: []

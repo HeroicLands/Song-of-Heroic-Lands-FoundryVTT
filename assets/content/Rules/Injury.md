@@ -9,7 +9,7 @@ aliases:
 id: Inj9ryLv2Hk7pXq3
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Injury
     aliases: []

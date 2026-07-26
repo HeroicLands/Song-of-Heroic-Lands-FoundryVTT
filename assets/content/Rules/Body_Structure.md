@@ -9,7 +9,7 @@ aliases:
 id: IvAKtSOREdEBkSGj
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Body Structure
     aliases: []

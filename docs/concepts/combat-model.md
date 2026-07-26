@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Combat Model
+    aliases: []
+id: iESB3wp9JuxLYmqp
+slug: combat-model
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Combat Model
 
 > **Audience:** Developers extending combat — the two combat modes and how the

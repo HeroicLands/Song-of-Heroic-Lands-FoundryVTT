@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Action Cards & the Consent Model
+    aliases: []
+id: mk4wWsr1y3vaHHRP
+slug: action-cards
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Action Cards & the Consent Model
 
 How one player offers an action to another over the chat log — without ever

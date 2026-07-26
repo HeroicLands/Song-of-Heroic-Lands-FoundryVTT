@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Issue Reporting
+    aliases: []
+id: ZLeoKpUIOg1HUFZV
+slug: issue-reporting
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Issue Reporting
 
 This document defines how issues are created and classified in the `heroic-lands`

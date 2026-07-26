@@ -1,12 +1,12 @@
 ---
 aliases:
-  - Unicorn
+    - Unicorn
 tags:
-  - mythic
-  - image-needed
+    - mythic
+    - image-needed
 name:
-  full: Unicorn
-  aliases: []
+    full: Unicorn
+    aliases: []
 id: sJ2wXzYm6hGtKpB5
 slug: unicorn
 img: images/unicorn-headshot.webp
@@ -14,47 +14,47 @@ portrait: images/unicorn.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 15
-    end: 16
-    dex: 15
-    agl: 16
-    per: 15
-    aur: 17
-    wil: 16
-    rea: 11
-    cre: 10
-  attrRollFormula:
-    str: 1d6+11
-    end: 1d6+12
-    dex: 1d6+11
-    agl: 1d6+12
-    per: 1d6+11
-    aur: 1d6+13
-    wil: 1d6+12
-    rea: 1d6+7
-    cre: 1d6+6
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 800
-      calc: 800
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 100
-      leaguesPerWatch: 12
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 15
+        end: 16
+        dex: 15
+        agl: 16
+        per: 15
+        aur: 17
+        wil: 16
+        rea: 11
+        cre: 10
+    attrRollFormula:
+        str: 1d6+11
+        end: 1d6+12
+        dex: 1d6+11
+        agl: 1d6+12
+        per: 1d6+11
+        aur: 1d6+13
+        wil: 1d6+12
+        rea: 1d6+7
+        cre: 1d6+6
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 800
+            calc: 800
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 100
+          leaguesPerWatch: 12
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -108,34 +108,43 @@ It is important to note that unicorns possess a form of combat power that transc
 ## Attack Methods
 
 ### Horn Thrust
+
 The unicorn's primary attack is a direct thrust of its spiraling horn, executed with the precision and speed of a lance strike. The point is capable of penetrating armor, bone, and even magical barriers. The attack can be executed at speed during a charge or in a slow, measured strike when the unicorn is stationary. In either case, it is devastatingly effective. The unicorn often executes a horn thrust as part of a rearing motion, rising up on its hind legs and striking downward, using gravity and the full weight of its body to drive the horn home.
 
 ### Hoofstrike
+
 Both front and rear hooves can be used as devastating weapons. The unicorn will rear and strike downward with forehoof (often in conjunction with horn thrust), or pivot and deliver a crushing kick with rear hooves capable of breaking bones and shattering shields. The hooves are hard as stone and can strike with enough force to shake the ground.
 
 ### Trampling Charge
+
 A unicorn moving at full gallop and charging through ranks of enemies is a force of nature. The creature can trample with its hooves, strike with its body, and thrust with its horn all while maintaining perfect balance and momentum. This attack is devastating to organized military formations and to groups of unprepared opponents.
 
 ## Special Abilities
 
 ### Magical Purification
+
 The unicorn's primary magical gift is the ability to purify. A unicorn's horn, when touched to water, renders it fresh and potent—water that might be brackish or poisoned becomes clean and life-giving. When touched to food, the unicorn can remove poisons, diseases, and spoilage. When touched to a person, the unicorn can cure diseases, neutralize poisons in the blood, and mend wounds. The precise mechanics of this purification are not understood by any scholar—it is not healing magic as traditionally understood, but rather a fundamental alteration of a substance's nature toward purity.
 
 The unicorn can perform this purification once per day per individual or substance with no apparent limit to its power. A unicorn with sufficient motivation could purify the water supply of an entire city. Importantly, the purification works only on things that are physically corrupted or poisoned; it cannot repair moral failings or spiritual corruption, and it cannot raise the dead.
 
 ### Magical Resistance and Ward
+
 A unicorn's very presence creates a sphere of magical power around it. Within this sphere (roughly thirty to fifty feet), hostile magic becomes less effective, curses lose potency, and undead creatures become uncomfortable (though they are not driven away). This is a passive ability that functions constantly, though the unicorn can suppress it if it chooses. Some scholars theorize that this ability is what makes the unicorn impossible to capture or contain—magical bonds simply do not hold it, and physical boundaries become somewhat illusory in the presence of its power.
 
 ### Incorruptibility
+
 The unicorn cannot be poisoned, diseased, aged, or affected by magic designed to harm it unless the unicorn willingly permits it. This is not a defense that must be raised; it is a fundamental truth of the unicorn's nature. Blades that strike the unicorn may glance off or bite only partially. Spells designed to kill or injure the creature may fail entirely. The only thing that can harm a unicorn is violence accepted by the unicorn—that is, combat where the unicorn has chosen to fight and accepts the possibility of injury.
 
 ### Unmatchable Speed and Agility
+
 The unicorn's physical capabilities exceed those of even hippogriffs in terms of maneuverability and precision of movement. It can move with perfect silence, can turn with impossible sharpness, and can navigate terrain that no other horse could manage. In combat or flight, the unicorn is nearly impossible to catch, and its movements often seem to predict where an opponent will strike before the opponent has committed to the strike.
 
 ### Sentience and Volition
+
 The unicorn is fully intelligent—not in the sense of being clever or quick-thinking, but in the sense of possessing genuine self-awareness, memory spanning centuries, and a philosophical understanding of the nature of existence. A unicorn can understand language, can reason through complex problems, and can make judgments about the moral worth of human actions. This intelligence makes the unicorn dangerous to those with ill intent and potentially a powerful ally to those deemed worthy. A unicorn that has chosen a human to befriend will protect that human with the same ferocity it would protect its own offspring, and will do so for the rest of the unicorn's impossibly long life.
 
 ### Willing Bond
+
 A unicorn can choose to form a permanent bond with a human who has demonstrated absolute purity of heart and goodness of intent. This bond is rarer than the unicorn's appearance itself—perhaps one human per generation in a large realm might experience it. When bonded, the unicorn will permit the human to ride upon its back, will share its knowledge through a form of empathic communication, and will serve as both protector and companion. The bond is not one of servitude but of true partnership; a bonded unicorn can and will refuse orders it deems unjust.
 
 More remarkably, the bond grants certain benefits to the human: increased resistance to disease and poison, the ability to understand the speech of horses and certain other animals, and a form of protection from hostile magic. The bonded human will find that wounds heal more quickly, that they are less susceptible to aging, and that their presence brings peace and growth to places they linger. A unicorn bonded to a human typically remains bonded even after the human's death, and unicorns have been known to guard the graves of beloved bonded humans for centuries after the human's passing.

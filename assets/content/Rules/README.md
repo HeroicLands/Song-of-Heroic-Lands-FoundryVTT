@@ -5,7 +5,7 @@ aliases:
 id: a9IFROJ7EMIJj50c
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Song of Heroic Lands Rules
     aliases: []
@@ -47,10 +47,10 @@ TBD
 
 - [[Trauma|Trauma]] — the umbrella: harm to body, mind, and spirit, and how characters recover from it.
 - [[Healing_Base|Healing Base]] — the recovery factor (average of END and WIL) used in every healing test.
-- [[Injury|Injury]] — physical wounds: Injury Level, impairment, treatment tables, and the Injury Healing Test.
+- [[rules/sohl-injury|Injury]] — physical wounds: Injury Level, impairment, treatment tables, and the Injury Healing Test.
 - [[Bleeding|Bleeding]] — life-threatening blood loss: the Blood Loss Advance Test, Shock State, and the Blood Stoppage Test.
 - [[Infection|Infection]] — infected wounds, their weakness fatigue, and the Infection Healing Test.
-- [[Shock|Shock]] — the shock states, the Shock Re-Test, and the lasting Extended Shock and Coma.
+- [[rules/sohl-shock|Shock]] — the shock states, the Shock Re-Test, and the lasting Extended Shock and Coma.
 - [[Fatigue|Fatigue]] — windedness, weariness, and weakness, and the Fatigue Penalty.
 - [[Fear|Fear]] — the Fear Test and its states, from Catatonic to Brave.
 - [[Morale|Morale]] — the Morale Test, the Rally Test, and the Reaction Test.

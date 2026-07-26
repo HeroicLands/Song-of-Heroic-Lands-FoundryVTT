@@ -111,13 +111,67 @@ function resolveLinks(body) {
 }
 
 /**
+ * Resolve Obsidian-style `[[wikilinks]]` to KB markdown links. A target is
+ * looked up (case-insensitively) in `ctx.index`, which is keyed by the unique
+ * `section/slug` plus collision-aware `name`/`filename`/`slug` fallbacks — so
+ * `[[section/slug|Label]]` is always unambiguous, and a bare `[[Name]]` resolves
+ * when that name is unique. Handles `#anchor` and an optional `|Label`.
+ *
+ * A target that doesn't resolve fails the build only when it's a genuine
+ * intra-KB problem — an ambiguous name (`ctx.collide`) or an explicit
+ * `section/slug` under a real section (`ctx.sections`) with a bad slug. Anything
+ * else is treated as an external reference (e.g. a Thalorna world entity) and
+ * rendered as plain text; `ctx.errors` collects the failures.
+ * @param {string} body - The markdown body.
+ * @param {{index: Map, collide: Set, sections: Set, errors: object[], src: string}} ctx
+ * @returns {string} The body with wikilinks rewritten.
+ */
+function resolveWikilinks(body, ctx) {
+    return body.replace(/\[\[([^\]]+)\]\]/g, (_m, inner) => {
+        const bar = inner.indexOf("|");
+        const linkPart = (bar === -1 ? inner : inner.slice(0, bar)).trim();
+        const hash = linkPart.indexOf("#");
+        const target = (
+            hash === -1 ? linkPart : linkPart.slice(0, hash)).trim();
+        const anchor = hash === -1 ? "" : linkPart.slice(hash + 1).trim();
+        const display = bar === -1 ? null : inner.slice(bar + 1).trim();
+        const key = target.toLowerCase();
+        const hit = ctx.index.get(key);
+        if (hit) {
+            const text = display ?? hit.name;
+            return `[${text}](${anchor ? `${hit.url}#${slugify(anchor)}` : hit.url})`;
+        }
+        // Unresolved. Fail the build only on genuine intra-KB problems — an
+        // ambiguous `[[Name]]` (a name that maps to several KB pages), or an
+        // explicit `[[section/slug]]` whose section is a real KB section but the
+        // slug doesn't exist. A bare unknown target (or an unknown section) is
+        // treated as an external reference — e.g. Thalorna world entities that
+        // live on the www site — and rendered as plain text.
+        const slash = target.indexOf("/");
+        const badSectionSlug =
+            slash !== -1 &&
+            ctx.sections.has(target.slice(0, slash).toLowerCase());
+        if (ctx.collide.has(key)) {
+            ctx.errors.push({ file: ctx.src, target, reason: "ambiguous" });
+        } else if (badSectionSlug) {
+            ctx.errors.push({
+                file: ctx.src,
+                target,
+                reason: "broken section/slug",
+            });
+        }
+        return display ?? target;
+    });
+}
+
+/**
  * Rewrite the relative links in a developer-doc body so they resolve in the KB.
  *
  * Dev docs are authored to link one another and the source tree with repo-relative
  * paths; neither target exists at the same path in the rendered KB. Resolving each
  * link against the doc's own location under `docs/`:
  *
- * - a `*.md` link that lands under `docs/` → the KB dev route (`/dev/<path>/`),
+ * - a `*.md` link that lands under `docs/` → the KB dev route (`/dev-docs/<path>/`),
  *   preserving any `#anchor`.
  * - anything else (source under `src/`, `lang/`, `templates/`, `package.json`, or
  *   repo-root `*.md` like `CONTRIBUTING.md`) → its GitHub blob URL.
@@ -143,10 +197,19 @@ function rewriteRepoLinks(body, docRel) {
             .relative(REPO, path.resolve(DOCS_SRC, docDir, filePart))
             .replace(/\\/g, "/");
 
-        const href2 =
-            repoRel.startsWith("docs/") && repoRel.endsWith(".md") ?
-                `/dev/${repoRel.slice(5, -3).toLowerCase()}/${anchor}`
-            :   `${GH_BLOB}${repoRel}${anchor}`;
+        let href2;
+        if (repoRel.startsWith("docs/") && repoRel.endsWith(".md")) {
+            // Path under /dev-docs/, minus the leading `docs/` and `.md`. A
+            // README is its directory's landing, so drop the `readme` segment.
+            const rel2 = repoRel.slice(5, -3).toLowerCase();
+            const devPath =
+                path.basename(rel2) === "readme" ?
+                    path.posix.dirname(rel2)
+                :   rel2;
+            href2 = `/dev-docs/${devPath === "." ? "" : `${devPath}/`}${anchor}`;
+        } else {
+            href2 = `${GH_BLOB}${repoRel}${anchor}`;
+        }
         return `](${href2}${title})`;
     });
 }
@@ -190,11 +253,76 @@ const slugify = (s) =>
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)/g, "");
 
-/** Section a content entry routes to, keyed by its Foundry `type`. */
-function section(type) {
-    if (type === "character" || type === "creature") return "beings";
-    if (type === "doc") return "guide";
-    return type; // weapongear, armorgear, skill, …
+/**
+ * Section a content entry routes to: its `type`, except `type: doc` pages route
+ * by their `category` (so dev-docs / user-guide / rules / lore each become their
+ * own section). This is the one rule; `sectionOf` is used everywhere a section
+ * is computed.
+ */
+function sectionOf(fm) {
+    return fm.type === "doc" ? fm.category : fm.type;
+}
+
+/**
+ * Content section → landing-page title and hero banner. Each entry gets a
+ * generated `_index.md` (title + banner) so the section landing shows the same
+ * friendly label and image as its home-page card — instead of Hugo's
+ * auto-humanized section name (e.g. "Armorgears") and the default banner. The
+ * banner is a CDN fragment under `images/`; actor subtypes are included so
+ * their landing exists (titled) even before any content of that type ships.
+ */
+const SECTION_META = {
+    character: { title: "Characters", banner: "banners/character.webp" },
+    creature: { title: "Creatures", banner: "banners/creature.webp" },
+    weapongear: { title: "Weapons", banner: "banners/weapons.webp" },
+    armorgear: {
+        title: "Armor/Clothing",
+        banner: "banners/armor-clothing.webp",
+    },
+    projectilegear: {
+        title: "Projectiles",
+        banner: "banners/projectiles.webp",
+    },
+    containergear: { title: "Containers", banner: "banners/containers.webp" },
+    miscgear: { title: "Misc Gear", banner: "banners/misc-gear.webp" },
+    affliction: { title: "Afflictions", banner: "banners/affliction.webp" },
+    trauma: { title: "Trauma", banner: "banners/trauma.webp" },
+    mysticalability: {
+        title: "Mystical Abilities",
+        banner: "banners/mystical-abilities.webp",
+    },
+    skill: {
+        title: "Skills/Attributes",
+        banner: "banners/skills-attributes.webp",
+    },
+    attribute: {
+        title: "Skills/Attributes",
+        banner: "banners/skills-attributes.webp",
+    },
+};
+
+/**
+ * Landing title + hero banner for the doc sections, whose index comes from a
+ * README (see the README → `_index.md` routing below), matching their home-page
+ * cards. Keyed by section (= the doc's `category`).
+ */
+const README_META = {
+    "dev-docs": {
+        title: "Developer Documentation",
+        banner: "banners/dev-docs.webp",
+    },
+    "user-guide": { title: "User Guide", banner: "banners/user-guide.webp" },
+    rules: { title: "Rules", banner: "banners/rules.webp" },
+};
+
+/**
+ * Old (pre-split) section URL a moved page redirects from, so existing links and
+ * bookmarks don't 404: every `type: doc` page used to live under `/guide/`
+ * except the developer docs, which were under `/dev/`.
+ */
+function oldSectionOf(fm, isDevDoc) {
+    if (fm.type !== "doc") return fm.type;
+    return isDevDoc ? "dev" : "guide";
 }
 
 /** Gear item `type` → the `sohl.gear` group key the equipment sidebar renders. */
@@ -315,71 +443,219 @@ let items = 0;
 let docs = 0;
 fs.rmSync(OUT, { recursive: true, force: true });
 
-// --- assets/content → reference pages (SoHL package only) ---
-// Parse every entry first so beings can resolve the items they embed (skills,
-// gear, corpus, …) against a content-wide `"<type>:<shortcode>" → { name, url }`
-// index before they are written.
+// --- Parse phase ---------------------------------------------------------
+// Gather every KB page — assets/content reference pages AND docs/ developer
+// docs — into one `entries` list before writing, so wikilinks resolve across
+// the whole KB and the section/slug index is complete first.
+const KB_PACKAGES = new Set(["sohl", "thalorna"]);
 const entries = [];
 const refIndex = new Map();
+
+// assets/content → reference pages (SoHL + Thalorna packages).
 for (const file of walk(CONTENT_SRC)) {
-    const raw = fs.readFileSync(file, "utf8");
     let fm, body;
     try {
-        ({ data: fm, content: body } = matter(raw));
+        ({ data: fm, content: body } = matter(fs.readFileSync(file, "utf8")));
     } catch {
         continue;
     }
-    if (fm.package !== "sohl" || !fm.type) continue;
+    if (!KB_PACKAGES.has(fm.package) || !fm.type) continue;
 
     const name = fm.name?.full ?? path.basename(file, ".md");
     const slug = fm.slug ?? slugify(name);
-    entries.push({ fm, body, name, slug });
-
+    const base = path.basename(file);
+    const isReadme = base.toLowerCase() === "readme.md";
+    const sec = sectionOf(fm);
+    const url = isReadme ? `/${sec}/` : `/${sec}/${slug}/`;
+    entries.push({
+        kind: "content",
+        fm,
+        body,
+        name,
+        slug,
+        base,
+        // Immediate source subfolder (Creatures/Animal/Aurochs.md → "Animal") —
+        // the only surviving record of the authoring folder, for grouped landings.
+        folder: path.basename(path.dirname(file)),
+        sec,
+        url,
+        isReadme,
+    });
     if (typeof fm.shortcode === "string") {
-        refIndex.set(`${fm.type}:${fm.shortcode}`, {
-            name,
-            url: `/${section(fm.type)}/${slug}/`,
-        });
+        refIndex.set(`${fm.type}:${fm.shortcode}`, { name, url });
     }
 }
 
-for (const { fm, body, name, slug } of entries) {
-    const data = { ...fm, title: fm.title ?? name };
-    if (fm.type === "character" || fm.type === "creature") {
-        data.sohl = deriveBeingSohl(fm.sohl, refIndex);
-    }
-
-    const dest = path.join(OUT, section(fm.type), `${slug}.md`);
-    fs.mkdirSync(path.dirname(dest), { recursive: true });
-    fs.writeFileSync(
-        dest,
-        matter.stringify(protectCode(body, resolveLinks), data),
-    );
-    items++;
-}
-
-// --- docs/ → developer section (title from first H1) ---
+// docs/ → developer docs. They preserve their source tree under the section
+// (e.g. /dev-docs/concepts/architecture/); a README is its directory's landing.
+// Files carry `category: dev-docs`; the generated type-catalog.md has none, so
+// default the section to "dev-docs".
 for (const file of walk(DOCS_SRC)) {
-    const raw = fs.readFileSync(file, "utf8");
-    const { data: fm, content: body } = matter(raw);
+    let fm, body;
+    try {
+        ({ data: fm, content: body } = matter(fs.readFileSync(file, "utf8")));
+    } catch {
+        continue;
+    }
     const rel = path.relative(DOCS_SRC, file).replace(/\\/g, "/");
+    const base = path.basename(rel);
+    const isReadme = base.toLowerCase() === "readme.md";
+    const sec = fm.category ?? "dev-docs";
     const h1 = /^#\s+(.+?)\s*$/m.exec(body);
-    const title =
-        fm.title ?? (h1 ? h1[1].replace(/\{@link\s+[^}]*\}/g, "").trim() : rel);
-    // Strip the leading H1 (title renders it) and route under /dev/.
-    const stripped = body.replace(/^\s*#\s+.*$\r?\n?/m, "");
-    const dest = path.join(OUT, "dev", rel);
-    fs.mkdirSync(path.dirname(dest), { recursive: true });
-    fs.writeFileSync(
-        dest,
-        matter.stringify(
-            protectCode(stripped, (t) =>
-                rewriteRepoLinks(resolveLinks(t), rel),
+    const h1Title = h1 ? h1[1].replace(/\{@link\s+[^}]*\}/g, "").trim() : null;
+    const name =
+        fm.name?.full ?? fm.title ?? h1Title ?? path.basename(base, ".md");
+    const slug = fm.slug ?? slugify(path.basename(base, ".md"));
+    const relNoExt = rel.slice(0, -3).toLowerCase();
+    const dir = path.posix.dirname(relNoExt);
+    const url =
+        isReadme ?
+            dir === "." ?
+                `/${sec}/`
+            :   `/${sec}/${dir}/`
+        :   `/${sec}/${relNoExt}/`;
+    entries.push({
+        kind: "dev",
+        fm,
+        body: body.replace(/^\s*#\s+.*$\r?\n?/m, ""), // strip H1 (title renders it)
+        name,
+        slug,
+        base,
+        rel,
+        sec,
+        url,
+        isReadme,
+    });
+}
+
+// --- Wikilink index ------------------------------------------------------
+// `section/slug` is unique by construction and always resolves. Name, filename,
+// and bare slug are collision-aware fallbacks: a key mapping to two different
+// pages is dropped and remembered as ambiguous, so `[[Name]]` on it fails the
+// build (the author must disambiguate with `[[section/slug|Label]]`).
+const wikiIndex = new Map(); // key → { url, name }
+const wikiCollide = new Set();
+const addFallback = (k, v) => {
+    k = k.toLowerCase();
+    if (wikiCollide.has(k)) return;
+    const cur = wikiIndex.get(k);
+    if (cur && cur.url !== v.url) {
+        wikiIndex.delete(k);
+        wikiCollide.add(k);
+    } else if (!cur) {
+        wikiIndex.set(k, v);
+    }
+};
+for (const e of entries) {
+    const v = { url: e.url, name: e.name };
+    wikiIndex.set(`${e.sec}/${e.slug}`.toLowerCase(), v); // unique
+    addFallback(e.name, v);
+    if (!e.isReadme) addFallback(path.basename(e.base, ".md"), v);
+    addFallback(e.slug, v);
+}
+
+const knownSections = new Set(entries.map((e) => e.sec.toLowerCase()));
+const wikiErrors = [];
+const wikiCtx = (src) => ({
+    index: wikiIndex,
+    collide: wikiCollide,
+    sections: knownSections,
+    errors: wikiErrors,
+    src,
+});
+
+// --- Write phase ---------------------------------------------------------
+for (const e of entries) {
+    const { fm, name, slug, sec, url, base, isReadme } = e;
+    const src = e.rel ?? `${sec}/${base}`;
+    const resolve = (t) => resolveWikilinks(resolveLinks(t), wikiCtx(src));
+
+    // Redirect the page's old URL(s) so pre-split links don't 404: docs used to
+    // live under /guide/ (assets/content) or /dev/ (developer docs).
+    const aliases = new Set(Array.isArray(fm.aliases) ? fm.aliases : []);
+    const oldSec = e.kind === "dev" ? "dev" : oldSectionOf(fm, false);
+    if (oldSec !== sec) {
+        if (e.kind === "dev") {
+            const relNoExt = e.rel.slice(0, -3).toLowerCase();
+            const dir = path.posix.dirname(relNoExt);
+            aliases.add(
+                isReadme ?
+                    dir === "." ?
+                        `/${oldSec}/`
+                    :   `/${oldSec}/${dir}/`
+                :   `/${oldSec}/${relNoExt}/`,
+            );
+        } else {
+            aliases.add(`/${oldSec}/${slug}/`);
+            if (isReadme) aliases.add(`/${oldSec}/`);
+        }
+    }
+    aliases.delete(url);
+
+    if (e.kind === "content") {
+        const data = { ...fm, title: fm.title ?? name, kbfolder: e.folder };
+        if (fm.type === "character" || fm.type === "creature") {
+            data.sohl = deriveBeingSohl(fm.sohl, refIndex);
+        }
+        if (isReadme) {
+            const meta = README_META[sec];
+            if (meta)
+                Object.assign(data, { title: meta.title, banner: meta.banner });
+        }
+        if (aliases.size) data.aliases = [...aliases];
+        const dest =
+            isReadme ?
+                path.join(OUT, sec, "_index.md")
+            :   path.join(OUT, sec, `${slug}.md`);
+        fs.mkdirSync(path.dirname(dest), { recursive: true });
+        fs.writeFileSync(
+            dest,
+            matter.stringify(protectCode(e.body, resolve), data),
+        );
+        items++;
+    } else {
+        // Developer doc — preserve the source tree; a README is its dir's landing.
+        const meta = isReadme ? README_META[sec] : null;
+        const data = { ...fm, title: meta?.title ?? fm.title ?? name };
+        if (meta?.banner) data.banner = meta.banner;
+        if (aliases.size) data.aliases = [...aliases];
+        const relOut =
+            isReadme ?
+                path.posix.join(path.posix.dirname(e.rel), "_index.md")
+            :   e.rel;
+        const dest = path.join(OUT, sec, relOut);
+        fs.mkdirSync(path.dirname(dest), { recursive: true });
+        fs.writeFileSync(
+            dest,
+            matter.stringify(
+                protectCode(e.body, (t) => rewriteRepoLinks(resolve(t), e.rel)),
+                data,
             ),
-            { ...fm, title },
-        ),
+        );
+        docs++;
+    }
+}
+
+// Titled `_index.md` (title + hero banner) for the item sections (see
+// SECTION_META) so each landing matches its home-page card; an empty body lets
+// the theme auto-list children (or show "Nothing here yet." for an empty
+// section, e.g. an actor subtype with no content yet).
+for (const [sec, meta] of Object.entries(SECTION_META)) {
+    const dir = path.join(OUT, sec);
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(
+        path.join(dir, "_index.md"),
+        matter.stringify("", { title: meta.title, banner: meta.banner }),
     );
-    docs++;
+}
+
+// Fail the build on any unresolved or ambiguous wikilink.
+if (wikiErrors.length) {
+    console.error(`\n✖ ${wikiErrors.length} bad wikilink(s):`);
+    for (const e of wikiErrors) {
+        console.error(`  [${e.reason}] [[${e.target}]]  (in ${e.file})`);
+    }
+    process.exit(1);
 }
 
 console.log(

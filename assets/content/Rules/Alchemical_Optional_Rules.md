@@ -4,7 +4,7 @@ aliases:
 id: 5sZ3B4TDt2yGvIaH
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Alchemical Optional Rules
     aliases: []

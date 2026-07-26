@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Summitdrake
+    - Summitdrake
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Summitdrake
-  aliases: []
+    full: Summitdrake
+    aliases: []
 id: 62rxlW5qEp6TdPF0
 slug: summitdrake
 img: images/summitdrake-headshot.webp
@@ -13,66 +13,66 @@ portrait: images/summitdrake.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 22
-    end: 22
-    dex: 12
-    agl: 16
-    per: 18
-    aur: 12
-    wil: 18
-    rea: 14
-    cre: 12
-  attrRollFormula:
-    str: 1d6+18
-    end: 1d6+18
-    dex: 1d4+9
-    agl: 1d4+13
-    per: 1d6+14
-    aur: 1d4+9
-    wil: 1d6+14
-    rea: 1d6+10
-    cre: 1d4+9
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 1500
-      calc: 1500
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 60
-      leaguesPerWatch: 4
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors:
-        - scope: topography
-          key: steep
-          mode: add
-          textValue: '0'
-        - scope: surface_cover
-          key: alpine
-          mode: add
-          textValue: '0'
-        - scope: surface_cover
-          key: barren
-          mode: add
-          textValue: '0'
-      disabled: false
-    - medium: aerial
-      feetPerRound: 110
-      leaguesPerWatch: 12
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 22
+        end: 22
+        dex: 12
+        agl: 16
+        per: 18
+        aur: 12
+        wil: 18
+        rea: 14
+        cre: 12
+    attrRollFormula:
+        str: 1d6+18
+        end: 1d6+18
+        dex: 1d4+9
+        agl: 1d4+13
+        per: 1d6+14
+        aur: 1d4+9
+        wil: 1d6+14
+        rea: 1d6+10
+        cre: 1d4+9
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 1500
+            calc: 1500
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 60
+          leaguesPerWatch: 4
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors:
+              - scope: topography
+                key: steep
+                mode: add
+                textValue: "0"
+              - scope: surface_cover
+                key: alpine
+                mode: add
+                textValue: "0"
+              - scope: surface_cover
+                key: barren
+                mode: add
+                textValue: "0"
+          disabled: false
+        - medium: aerial
+          feetPerRound: 110
+          leaguesPerWatch: 12
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -98,26 +98,33 @@ A Summitdrake initiates combat by using the terrain to its advantage, attacking 
 ## Attack Methods
 
 ### Crushing Bite
+
 The Summitdrake's jaws snap closed with bone-breaking force, capable of crushing armor and bone alike. A successful bite can sever limbs or kill in a single strike.
 
 ### Raking Claws
+
 The creature's fore limbs strike with devastating power, each claw capable of piercing through armor and creating terrible wounds. Multiple strikes can be delivered in rapid succession.
 
 ### Tail Sweep
+
 The creature's massive tail swings in wide arcs, capable of knocking prone multiple opponents or crushing a single target with world-ending force.
 
 ## Special Abilities
 
 ### Mountain Mastery
+
 The Summitdrake moves through mountainous terrain with perfect ease, climbing vertical faces as readily as a spider moves across a wall. In rocky terrain, its movement speed increases, and it gains advantage on all checks related to traversing difficult ground.
 
 ### Thermal Resilience
+
 The Summitdrake is naturally resistant to extreme cold, thriving in high-altitude environments that would kill lesser creatures. It is comfortable in extremes that would freeze humans solid.
 
 ### Predatory Intellect
+
 The Summitdrake demonstrates intelligence comparable to that of humanoid races, capable of planning, remembering, and adapting its tactics. It recognizes weapons, armor, and tactical formations and will adjust its behavior accordingly.
 
 ### Regeneration in Natural Habitat
+
 While in mountainous terrain where it is most comfortable, the Summitdrake regenerates slowly from wounds. Removal to other environments or sustained magical damage can overcome this regeneration.
 
 ## Additional Information
@@ -125,6 +132,7 @@ While in mountainous terrain where it is most comfortable, the Summitdrake regen
 The Summitdrake is vulnerable to cold-based magic, which seems to disrupt its internal heat and slow its movements. Water and ice can also affect it, though it resists ordinary cold. Fire and heat-based attacks are largely ineffective. The creature's scales, if harvested after death, can be crafted into armor of legendary quality and durability. Its teeth can be fashioned into weapons that retain the creature's natural sharpness and durability. The bones are extraordinarily dense and valuable for tool-making or weaponcraft. A Summitdrake's corpse is such valuable resource that expeditions have been mounted specifically to claim one, though most such expeditions end in failure or death. The few communities successful in slaying a Summitdrake often base their entire regional economy on the sale and processing of its remains for decades.
 
 ## Attributes
+
 - **Strength:** 19-24 (1d6+18)
 
 - **Endurance:** 19-24 (1d6+18)

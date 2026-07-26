@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Tuskcrasher
+    - Tuskcrasher
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Tuskcrasher
-  aliases: []
+    full: Tuskcrasher
+    aliases: []
 id: S6L9K1scHUuwQ65a
 slug: tuskcrasher
 img: images/tuskcrasher-headshot.webp
@@ -13,47 +13,47 @@ portrait: images/tuskcrasher.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 27
-    end: 22
-    dex: 8
-    agl: 9
-    per: 11
-    aur: 6
-    wil: 20
-    rea: 8
-    cre: 6
-  attrRollFormula:
-    str: 1d6+23
-    end: 1d6+18
-    dex: 1d4+5
-    agl: 1d4+6
-    per: 1d4+8
-    aur: 1d4+3
-    wil: 1d6+16
-    rea: 1d4+5
-    cre: 1d4+3
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 3000
-      calc: 3000
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 50
-      leaguesPerWatch: 4
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors: []
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 27
+        end: 22
+        dex: 8
+        agl: 9
+        per: 11
+        aur: 6
+        wil: 20
+        rea: 8
+        cre: 6
+    attrRollFormula:
+        str: 1d6+23
+        end: 1d6+18
+        dex: 1d4+5
+        agl: 1d4+6
+        per: 1d4+8
+        aur: 1d4+3
+        wil: 1d6+16
+        rea: 1d4+5
+        cre: 1d4+3
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 3000
+            calc: 3000
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 50
+          leaguesPerWatch: 4
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors: []
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -79,23 +79,29 @@ A Tuskcrasher initiates combat by lowering its head and charging at maximum spee
 ## Attack Methods
 
 ### Goring Charge
+
 The Tuskcrasher lowers its head and charges at full speed, attempting to gore opponents on its tusks. The combined force of the creature's mass and speed makes this attack nearly impossible to defend against or dodge.
 
 ### Tusk Strike
+
 With tusks raised, the creature uses its tusks as slashing weapons, capable of cleaving through flesh, bone, and wood alike. Multiple strikes can be delivered if prey remains in close proximity.
 
 ### Destructive Trampling
+
 Once an opponent is prone, the Tuskcrasher will deliberately trample them, using its massive hooves to crush whatever lies beneath.
 
 ## Special Abilities
 
 ### Forest Authority
+
 The Tuskcrasher moves through dense forest and broken terrain with surprising ease, and its movement speed increases in such environments. It can crash through obstacles that would stop lesser creatures, clearing paths through forest or stone with its body.
 
 ### Relentless Aggression
+
 The Tuskcrasher does not tire. It will fight continuously for hours or days without rest, and its rage only intensifies as combat continues. The creature becomes faster and stronger when wounded, counterintuitively.
 
 ### Hide Resilience
+
 The Tuskcrasher's thick hide and massive size grant it resistance to physical damage. Most conventional weapons cause minimal damage unless the creature can be prevented from moving or unless attacks focus on vulnerable points.
 
 ## Additional Information
@@ -103,6 +109,7 @@ The Tuskcrasher's thick hide and massive size grant it resistance to physical da
 Fire is the Tuskcrasher's primary vulnerability—flames damage its thick hide and cause it genuine pain and distress. Sustained heat can eventually drive a Tuskcrasher away, though only fire of exceptional intensity will stop a determined charge. Agility-based combat tactics and ranged attacks can exploit the creature's slow reflexes and low dexterity, though this requires exceptional skill and coordination. The creature's tusks, if harvested from a slain specimen, are extraordinarily valuable and can be crafted into weapons or building materials of exceptional quality and durability. The hide can be tanned into leather tough enough to stop arrows. Some cultures have built entire traditions around hunting Tuskcrashers, and successful hunters are celebrated with legendary status. The corpse of a slain Tuskcrasher is valuable enough to support an expedition for months.
 
 ## Attributes
+
 - **Strength:** 24-29 (1d6+23)
 
 - **Endurance:** 19-24 (1d6+18)

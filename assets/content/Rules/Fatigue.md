@@ -9,7 +9,7 @@ aliases:
 id: Fat1gu5wLp3nH8kR
 type: doc
 package: sohl
-category: user-guide
+category: rules
 name:
     full: Fatigue
     aliases: []

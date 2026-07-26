@@ -1,12 +1,21 @@
 ---
 aliases:
     - Combat Resolution Pipeline
+name:
+    full: Combat Resolution Pipeline
+    aliases: []
+id: 3kScB1NX9zBdYHtz
+slug: combat-resolution-pipeline
+type: doc
+package: sohl
+category: dev-docs
+folder: null
 tags:
     - rules
     - core-system
     - combat
     - injury
-audience: SoHL maintainers extending tests, opposed rolls, or combat outcomes.
+audience: "SoHL maintainers extending tests, opposed rolls, or combat outcomes."
 ---
 
 # Combat Resolution Pipeline

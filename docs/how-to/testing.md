@@ -1,3 +1,16 @@
+---
+aliases: []
+name:
+    full: Testing
+    aliases: []
+id: N9XBbIadREP4tBDs
+slug: testing
+type: doc
+package: sohl
+category: dev-docs
+folder: null
+---
+
 # Testing
 
 See also: [Architecture Overview](../concepts/architecture.md), [Extension Points](./extension-points.md)

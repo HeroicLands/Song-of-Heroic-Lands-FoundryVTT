@@ -1,11 +1,11 @@
 ---
 aliases:
-  - Necrotic Mire
+    - Necrotic Mire
 tags:
-  - dreadspawn
+    - dreadspawn
 name:
-  full: Necrotic Mire
-  aliases: []
+    full: Necrotic Mire
+    aliases: []
 id: 9kj0im7ByCh6WOTA
 slug: necrotic-mire
 img: images/necrotic-mire-headshot.webp
@@ -13,55 +13,55 @@ portrait: images/necrotic-mire.webp
 type: creature
 package: thalorna
 sohl:
-  attributes:
-    str: 12
-    end: 20
-    dex: 10
-    agl: 8
-    per: 14
-    aur: 20
-    wil: 16
-    rea: 10
-    cre: 8
-  attrRollFormula:
-    str: 1d4+9
-    end: 1d6+16
-    dex: 1d6+6
-    agl: 1d6+4
-    per: 1d6+10
-    aur: 1d6+16
-    wil: 1d4+13
-    rea: 1d6+6
-    cre: 1d6+4
-  body:
-    structure:
-      parts: []
-      adjacent: []
-    weight:
-      base: 500
-      calc: 500
-    reachBase: 0
-    bodyScaleBase: 1.0
-    personalFatigue: enc + 5
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 20
-      leaguesPerWatch: 1
-      encumbrance: floor(wt/4)
-      strMod: -5 * floor((str - 10) / 2)
-      factors:
-        - scope: surface_cover
-          key: wetlands
-          mode: add
-          textValue: '0'
-        - scope: hydrology
-          key: shallow
-          mode: add
-          textValue: '0'
-      disabled: false
-  defaultCombatGroup: null
-  items: []
+    attributes:
+        str: 12
+        end: 20
+        dex: 10
+        agl: 8
+        per: 14
+        aur: 20
+        wil: 16
+        rea: 10
+        cre: 8
+    attrRollFormula:
+        str: 1d4+9
+        end: 1d6+16
+        dex: 1d6+6
+        agl: 1d6+4
+        per: 1d6+10
+        aur: 1d6+16
+        wil: 1d4+13
+        rea: 1d6+6
+        cre: 1d6+4
+    body:
+        structure:
+            parts: []
+            adjacent: []
+        weight:
+            base: 500
+            calc: 500
+        reachBase: 0
+        bodyScaleBase: 1.0
+        personalFatigue: enc + 5
+    currentMoveMedium: terrestrial
+    movementProfiles:
+        - medium: terrestrial
+          feetPerRound: 20
+          leaguesPerWatch: 1
+          encumbrance: floor(wt/4)
+          strMod: -5 * floor((str - 10) / 2)
+          factors:
+              - scope: surface_cover
+                key: wetlands
+                mode: add
+                textValue: "0"
+              - scope: hydrology
+                key: shallow
+                mode: add
+                textValue: "0"
+          disabled: false
+    defaultCombatGroup: null
+    items: []
 ---
 
 # Appearance {#appearance}
@@ -87,20 +87,25 @@ A Necrotic Mire does not flee or strategize in the sense that mobile creatures d
 ## Attack Methods
 
 ### Engulfing Surge
+
 The creature surges forward, attempting to envelope a target partially or wholly within its corrosive mass. Those caught experience rapidly accelerating dissolution of flesh and equipment as the ooze exerts constant, grinding pressure.
 
 ### Corrosive Spray
+
 The Mire expels acidic vapors or liquid, spraying opponents within several feet with caustic, bone-eating material that eats through armor and skin alike.
 
 ## Special Abilities
 
 ### Aura of Decay
+
 Everything within fifteen feet of the Necrotic Mire experiences the visceral presence of death and decay. Living creatures feel their life force sapped; plants wither; exposed flesh begins to rot. Those with weak constitutions may become physically ill from the miasma alone.
 
 ### Undying Regeneration
+
 As long as the creature remains in contact with organic matter—corpses, plants, soil rich with decay—it heals rapidly from all damage. Only sustained attacks from fire, acid, or powerful magical sources can overcome this regeneration.
 
 ### Death Feeding
+
 The creature grows larger and stronger with each organic meal. A Necrotic Mire that has feasted on a human corpse is noticeably more dangerous than one reduced to dining on swamp vegetation.
 
 ## Additional Information
@@ -108,6 +113,7 @@ The creature grows larger and stronger with each organic meal. A Necrotic Mire t
 Fire is the Necrotic Mire's greatest vulnerability, instantly destroying portions of its mass and preventing regeneration in the burned areas. Similarly, powerful acid or positive magical energy can force it into retreat. Isolation from organic matter causes it to weaken and eventually dissolve entirely, though this process takes weeks or months depending on the creature's size. Some desperate communities have attempted to contain a Necrotic Mire by surrounding it with salt circles or driving it into barren, dead earth where nothing grows. The creature's remains, if completely destroyed, leave behind only a toxic sludge with no useful properties—though the land underneath may take years to recover from its presence.
 
 ## Attributes
+
 - **Strength:** 10-13 (1d4+9)
 
 - **Endurance:** 17-22 (1d6+16)
