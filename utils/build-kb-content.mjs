@@ -416,7 +416,21 @@ for (const file of walk(DOCS_SRC)) {
         fm.title ?? (h1 ? h1[1].replace(/\{@link\s+[^}]*\}/g, "").trim() : rel);
     // Strip the leading H1 (title renders it) and route under /dev/.
     const stripped = body.replace(/^\s*#\s+.*$\r?\n?/m, "");
-    const dest = path.join(OUT, "dev", rel);
+    // A README is the curated index of its directory, so route it to that
+    // directory's section index (`_index.md`) — the landing then renders the
+    // README's structured overview instead of a flat auto-list of pages. The
+    // top-level docs/README.md is the Developer Documentation landing, with the
+    // friendly title and hero banner matching its home-page card.
+    const isReadme = path.basename(rel).toLowerCase() === "readme.md";
+    const relOut =
+        isReadme ?
+            path.posix.join(path.posix.dirname(rel), "_index.md")
+        :   rel;
+    const meta =
+        rel.toLowerCase() === "readme.md" ?
+            { title: "Developer Documentation", banner: "banners/dev-docs.webp" }
+        :   { title };
+    const dest = path.join(OUT, "dev", relOut);
     fs.mkdirSync(path.dirname(dest), { recursive: true });
     fs.writeFileSync(
         dest,
@@ -424,7 +438,7 @@ for (const file of walk(DOCS_SRC)) {
             protectCode(stripped, (t) =>
                 rewriteRepoLinks(resolveLinks(t), rel),
             ),
-            { ...fm, title },
+            { ...fm, ...meta },
         ),
     );
     docs++;
