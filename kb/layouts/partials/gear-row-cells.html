@@ -1,0 +1,12 @@
+{{- /*
+  The six common gear-table cells, in order: Name (linked), Shortcode, Package,
+  Dur (sohl.durability), Weight (sohl.weight), Value (sohl.value). A table adds
+  its own type-specific columns after these. Call with the page as context:
+  <tr>{{ partial "gear-row-cells.html" . }}<td>…extra…</td></tr>
+*/ -}}
+<td><a href="{{ .RelPermalink }}">{{ .Title }}</a></td>
+<td>{{ .Params.shortcode }}</td>
+<td>{{ .Params.package }}</td>
+<td>{{ .Params.sohl.durability }}</td>
+<td>{{ .Params.sohl.weight }}</td>
+<td>{{ .Params.sohl.value }}</td>

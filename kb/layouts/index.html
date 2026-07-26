@@ -8,13 +8,62 @@
   www marketing hero ("Explore Heroic Lands" → /thalorna/, /projects/, /blog/) —
   sections that do not exist on the kb subdomain. Without this override the KB
   root is indistinguishable from www (see issue #689). This renders a
-  knowledgebase-specific landing that orients visitors and links into the KB's
-  real top-level sections: the developer docs (/dev/), the user guide (/guide/),
-  the rules, and the game-content reference catalogs — with Actors and Gear set
-  off as their own grouped categories.
+  knowledgebase-specific landing: three large primary cards (developer docs,
+  user guide, rules) and the game-content reference catalogs, each a boxy card
+  with a hero banner (1792×768) — Actors and Gear set off as their own groups.
 */ -}}
 {{ define "main" }}
 <style>
+  /* Shared hero banner slot (1792×768). */
+  .card-hero {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1792 / 768;
+    object-fit: cover;
+    background: var(--bg-deeper);
+  }
+
+  /* Primary cards: developer docs, user guide, rules — large boxes. */
+  .top-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+  .top-card {
+    display: flex;
+    flex-direction: column;
+    width: 380px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg-card);
+  }
+  .top-card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    padding: 1.5rem 1.75rem 1.75rem;
+    text-align: center;
+  }
+  .top-card-body h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  .top-card-body h2 a { color: var(--text); }
+  .top-card-body h2 a:hover { color: var(--accent); }
+  .top-card-body p {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+  }
+  .top-card-body .card-button { margin-top: auto; }
+
+  /* Content-reference groups + cards. */
   .catalog-groups {
     display: flex;
     flex-wrap: wrap;
@@ -37,19 +86,36 @@
     padding: 0 0.6rem;
     letter-spacing: 0.02em;
   }
-  .catalog-buttons {
+  .catalog-cards {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.7rem;
+    gap: 1rem;
     justify-content: center;
   }
-  .catalog-buttons .card-button {
-    margin-top: 0;
-  }
   .catalog-standalone {
-    max-width: 780px;
+    max-width: 1040px;
     margin: 2rem auto 0;
   }
+  .catalog-card {
+    display: block;
+    width: 240px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--surface);
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .catalog-card:hover { border-color: var(--accent); }
+  .catalog-card-label {
+    display: block;
+    padding: 0.65rem;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--text);
+  }
+  .catalog-card:hover .catalog-card-label { color: var(--accent); }
 </style>
 
 <section class="hero hero-with-image" style="background-image: url('https://cdn.heroiclands.org/images/sohl-banner.webp');">
@@ -60,24 +126,33 @@
 </section>
 
 <section class="home-sections">
-  <div class="home-grid">
+  <div class="top-cards">
 
-    <div class="home-card">
-      <h2><a href="/dev/">Developer Documentation</a></h2>
-      <p>Architecture, extension points, lifecycle hooks, testing, and reference material for building on — or contributing to — the SoHL system.</p>
-      <a href="/dev/" class="card-button">Read the docs →</a>
+    <div class="top-card">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/dev-docs.webp" alt="Developer Documentation" loading="lazy">
+      <div class="top-card-body">
+        <h2><a href="/dev/">Developer Documentation</a></h2>
+        <p>Architecture, extension points, lifecycle hooks, testing, and reference material for building on — or contributing to — the SoHL system.</p>
+        <a href="/dev/" class="card-button">Read the docs →</a>
+      </div>
     </div>
 
-    <div class="home-card">
-      <h2><a href="/guide/">User Guide</a></h2>
-      <p>Player- and GM-facing guides to running HârnMaster with Song of Heroic Lands: character creation, combat, and everyday play on Foundry VTT.</p>
-      <a href="/guide/" class="card-button">Open the guide →</a>
+    <div class="top-card">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/user-guide.webp" alt="User Guide" loading="lazy">
+      <div class="top-card-body">
+        <h2><a href="/guide/">User Guide</a></h2>
+        <p>Player- and GM-facing guides to running HârnMaster with Song of Heroic Lands: character creation, combat, and everyday play on Foundry VTT.</p>
+        <a href="/guide/" class="card-button">Open the guide →</a>
+      </div>
     </div>
 
-    <div class="home-card">
-      <h2><a href="/guide/sohl-rules/">Rules</a></h2>
-      <p>The Song of Heroic Lands rules reference: success and opposed tests, injury, healing, shock, bleeding, and the trauma system.</p>
-      <a href="/guide/sohl-rules/" class="card-button">Read the rules →</a>
+    <div class="top-card">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/rules.webp" alt="Rules" loading="lazy">
+      <div class="top-card-body">
+        <h2><a href="/guide/sohl-rules/">Rules</a></h2>
+        <p>The Song of Heroic Lands rules reference: success and opposed tests, injury, healing, shock, bleeding, and the trauma system.</p>
+        <a href="/guide/sohl-rules/" class="card-button">Read the rules →</a>
+      </div>
     </div>
 
   </div>
@@ -90,29 +165,62 @@
   <div class="catalog-groups">
     <fieldset class="catalog-group">
       <legend>Actors</legend>
-      <div class="catalog-buttons">
-        <a href="/character/" class="card-button">Characters</a>
-        <a href="/creature/" class="card-button">Creatures</a>
+      <div class="catalog-cards">
+        <a class="catalog-card" href="/character/">
+          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/character.webp" alt="Characters" loading="lazy">
+          <span class="catalog-card-label">Characters</span>
+        </a>
+        <a class="catalog-card" href="/creature/">
+          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/creature.webp" alt="Creatures" loading="lazy">
+          <span class="catalog-card-label">Creatures</span>
+        </a>
       </div>
     </fieldset>
 
     <fieldset class="catalog-group">
       <legend>Gear</legend>
-      <div class="catalog-buttons">
-        <a href="/armorgear/" class="card-button">Armor/Clothing</a>
-        <a href="/containergear/" class="card-button">Containers</a>
-        <a href="/miscgear/" class="card-button">Misc Gear</a>
-        <a href="/projectilegear/" class="card-button">Projectiles</a>
-        <a href="/weapongear/" class="card-button">Weapons</a>
+      <div class="catalog-cards">
+        <a class="catalog-card" href="/armorgear/">
+          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/armor-clothing.webp" alt="Armor and Clothing" loading="lazy">
+          <span class="catalog-card-label">Armor/Clothing</span>
+        </a>
+        <a class="catalog-card" href="/containergear/">
+          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/containers.webp" alt="Containers" loading="lazy">
+          <span class="catalog-card-label">Containers</span>
+        </a>
+        <a class="catalog-card" href="/miscgear/">
+          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/misc-gear.webp" alt="Misc Gear" loading="lazy">
+          <span class="catalog-card-label">Misc Gear</span>
+        </a>
+        <a class="catalog-card" href="/projectilegear/">
+          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/projectiles.webp" alt="Projectiles" loading="lazy">
+          <span class="catalog-card-label">Projectiles</span>
+        </a>
+        <a class="catalog-card" href="/weapongear/">
+          <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/weapons.webp" alt="Weapons" loading="lazy">
+          <span class="catalog-card-label">Weapons</span>
+        </a>
       </div>
     </fieldset>
   </div>
 
-  <div class="catalog-buttons catalog-standalone">
-    <a href="/affliction/" class="card-button">Afflictions</a>
-    <a href="/mysticalability/" class="card-button">Mystical Abilities</a>
-    <a href="/skill/" class="card-button">Skills/Attributes</a>
-    <a href="/trauma/" class="card-button">Trauma</a>
+  <div class="catalog-cards catalog-standalone">
+    <a class="catalog-card" href="/affliction/">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/affliction.webp" alt="Afflictions" loading="lazy">
+      <span class="catalog-card-label">Afflictions</span>
+    </a>
+    <a class="catalog-card" href="/mysticalability/">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/mystical-abilities.webp" alt="Mystical Abilities" loading="lazy">
+      <span class="catalog-card-label">Mystical Abilities</span>
+    </a>
+    <a class="catalog-card" href="/skill/">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/skills-attributes.webp" alt="Skills and Attributes" loading="lazy">
+      <span class="catalog-card-label">Skills/Attributes</span>
+    </a>
+    <a class="catalog-card" href="/trauma/">
+      <img class="card-hero" src="https://cdn.heroiclands.org/images/banners/trauma.webp" alt="Trauma" loading="lazy">
+      <span class="catalog-card-label">Trauma</span>
+    </a>
   </div>
 </section>
 {{ end }}

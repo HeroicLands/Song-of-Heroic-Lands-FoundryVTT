@@ -15,11 +15,7 @@
     {{- range $groups }}
     <section class="kbcat-group">
       <h2 id="kbcat-{{ .cat }}">{{ .title }}</h2>
-      <ul class="kbcat-list">
-        {{- range .pages }}
-        <li><a href="{{ .RelPermalink }}">{{ .Title }} ({{ .Params.shortcode }})</a></li>
-        {{- end }}
-      </ul>
+      {{ partial "catalog-rows.html" .pages }}
     </section>
     {{- end }}
   </div>

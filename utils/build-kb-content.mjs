@@ -197,14 +197,33 @@ function section(type) {
 }
 
 /**
- * Actor subtypes that get a browse button on the KB home even before any
- * content of that type ships. Each is guaranteed a section landing (a titled
- * stub when empty) so the home-page "Actors" buttons resolve instead of 404ing.
+ * Content section → landing-page title and hero banner. Each entry gets a
+ * generated `_index.md` (title + banner) so the section landing shows the same
+ * friendly label and image as its home-page card — instead of Hugo's
+ * auto-humanized section name (e.g. "Armorgears") and the default banner. The
+ * banner is a CDN fragment under `images/`; actor subtypes are included so
+ * their landing exists (titled) even before any content of that type ships.
  */
-const ACTOR_SECTIONS = [
-    ["character", "Characters"],
-    ["creature", "Creatures"],
-];
+const SECTION_META = {
+    character: { title: "Characters", banner: "banners/character.webp" },
+    creature: { title: "Creatures", banner: "banners/creature.webp" },
+    weapongear: { title: "Weapons", banner: "banners/weapons.webp" },
+    armorgear: { title: "Armor/Clothing", banner: "banners/armor-clothing.webp" },
+    projectilegear: { title: "Projectiles", banner: "banners/projectiles.webp" },
+    containergear: { title: "Containers", banner: "banners/containers.webp" },
+    miscgear: { title: "Misc Gear", banner: "banners/misc-gear.webp" },
+    affliction: { title: "Afflictions", banner: "banners/affliction.webp" },
+    trauma: { title: "Trauma", banner: "banners/trauma.webp" },
+    mysticalability: {
+        title: "Mystical Abilities",
+        banner: "banners/mystical-abilities.webp",
+    },
+    skill: { title: "Skills/Attributes", banner: "banners/skills-attributes.webp" },
+    attribute: {
+        title: "Skills/Attributes",
+        banner: "banners/skills-attributes.webp",
+    },
+};
 
 /** Gear item `type` → the `sohl.gear` group key the equipment sidebar renders. */
 const GEAR_TYPE_TO_KEY = {
@@ -373,17 +392,18 @@ for (const { fm, body, name, slug, folder } of entries) {
     items++;
 }
 
-// Guarantee a landing page for each actor subtype (see ACTOR_SECTIONS). A
-// subtype with content gets a titled section index alongside its pages; an
-// empty one gets a titled stub that renders the theme's "Nothing here yet."
-// landing — so the home-page browse buttons never 404 while content is pending.
-for (const [sub, title] of ACTOR_SECTIONS) {
-    const dir = path.join(OUT, sub);
+// Emit a titled `_index.md` (title + hero banner) for each content section (see
+// SECTION_META) so its landing matches the home-page card — friendly title and
+// image, not Hugo's auto section name. An empty body lets the theme still
+// auto-list child pages (or show "Nothing here yet." when a section has none),
+// which also guarantees the actor-subtype landings resolve before content ships.
+for (const [sec, meta] of Object.entries(SECTION_META)) {
+    const dir = path.join(OUT, sec);
     fs.mkdirSync(dir, { recursive: true });
-    const idx = path.join(dir, "_index.md");
-    if (!fs.existsSync(idx)) {
-        fs.writeFileSync(idx, matter.stringify("", { title }));
-    }
+    fs.writeFileSync(
+        path.join(dir, "_index.md"),
+        matter.stringify("", { title: meta.title, banner: meta.banner }),
+    );
 }
 
 // --- docs/ → developer section (title from first H1) ---

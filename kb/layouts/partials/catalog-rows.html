@@ -1,0 +1,17 @@
+{{- /*
+  Renders a page collection as the theme's `page-list` rows, each showing
+  "Name (shortcode)" with the page description beneath. The shortcode and
+  description are each shown only when present (attributes have no description,
+  guide/dev pages have no shortcode). Call with a page collection as context:
+  {{ partial "catalog-rows.html" .Pages }}
+*/ -}}
+<ul class="page-list">
+  {{- range . }}
+  <li class="page-list-item">
+    <a class="page-list-title" href="{{ .RelPermalink }}">{{ .Title }}{{ with .Params.shortcode }} ({{ . }}){{ end }}</a>
+    {{- with .Description }}
+    <span class="page-list-desc">{{ . }}</span>
+    {{- end }}
+  </li>
+  {{- end }}
+</ul>

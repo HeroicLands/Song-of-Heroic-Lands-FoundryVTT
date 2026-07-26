@@ -2,14 +2,14 @@
 "sohl": minor
 ---
 
-**KnowledgeBase home: content catalog with set-off Actors and Gear groups**
+**KnowledgeBase home catalog and consistent section landings**
 
-The KB home page now leads with Developer Documentation, User Guide, and Rules,
-followed by a "Content reference" catalog of browse buttons. **Actors**
+The KB home page now leads with three large hero-image cards — Developer
+Documentation, User Guide, and Rules — followed by a "Content reference" catalog
+where every category is a boxy card with a 1792×768 hero banner. **Actors**
 (Characters, Creatures) and **Gear** (Armor/Clothing, Containers, Misc Gear,
 Projectiles, Weapons) are set off as their own bordered groups; Afflictions,
-Mystical Abilities, Skills/Attributes, and Trauma sit alongside as standalone
-buttons.
+Mystical Abilities, Skills/Attributes, and Trauma sit alongside.
 
 To support the Actors group, the KB build (`utils/build-kb-content.mjs`) now
 routes `character` and `creature` content to their own `/character/` and
@@ -21,9 +21,19 @@ The KB now also includes `package: thalorna` content (previously `sohl`-only), s
 Thalorna creatures and characters appear in the catalog alongside the core SoHL
 content.
 
-The Characters and Creatures landing pages render attribute tables (Name,
-Shortcode, Package, the nine core attributes, Weight, Body Scale, Movement, and —
-for characters — Occupation/Class); the Creatures page groups its tables by source
-subfolder (Animal, Spirit, …), which the build now records as a `kbfolder` param
-since the KB tree is otherwise flat. KB layouts and build only; no system-package
-impact.
+Each content section landing now shows its friendly title and hero banner (via a
+generated `_index.md`) instead of Hugo's auto section name, and renders in a
+consistent format:
+
+- **Tables** — Weapons and Armor (grouped by `kbcat`), Misc Gear (grouped tables),
+  Containers (+ Capacity) and Projectiles, all sharing Name / Shortcode / Package /
+  Dur / Weight / Value plus type-specific columns; and Characters / Creatures
+  attribute tables (the Creatures page grouped by source subfolder, recorded as a
+  `kbfolder` param since the KB tree is otherwise flat).
+- **"Name (shortcode) + description" rows** — Afflictions, Mystical Abilities, and
+  the ungrouped default sections via a `_default/list.html` override; Skills/
+  Attributes and Trauma render the same rows grouped by `kbcat`.
+
+The KB also now includes `package: thalorna` content (previously `sohl`-only), so
+Thalorna creatures and characters appear alongside the core SoHL content. KB
+layouts and build only; no system-package impact.
