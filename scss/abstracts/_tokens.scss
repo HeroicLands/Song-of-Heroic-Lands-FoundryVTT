@@ -44,7 +44,10 @@ $colors: (
     "success": #5f6f3a,
     "info": #4f6b73,
     "active": #2a52d6,
-    // saturated blue cue for toggled-on / selected state
+    // saturated blue cue for toggled-on / selected state, and the shared accent
+    // for interactive emphasis (rollable/hover glow, focused-field ring)
+    "focus-ring": rgba(42, 82, 214, 0.4),
+    // translucent form of `active` — the focus ring around the active input
     // Indicators
     "health-bar": #6f979a,
     // health/endurance bar fill
