@@ -15,6 +15,7 @@ import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { StrikeModeConfig } from "@src/apps/foundry/StrikeModeConfig";
 import { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 import { blankStrikeMode } from "@src/entity/strikemode/blankStrikeMode";
+import { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
 import { validateShortcode } from "@src/entity/strikemode/planShortcodeSave";
 import {
     ITEM_KIND,
@@ -96,19 +97,21 @@ export interface StrikeModeRowVM {
     shortcode: string;
     /** Localized type label (Melee / Missile). */
     typeLabel: string;
-    /** The impact damage formula, e.g. `"1d6+2 Edged"`. */
+    /** The impact damage formula, e.g. `"d6+2e"` or `"2d6+2e"`. */
     impactFormula: string;
 }
 
 /**
  * Format a strike mode's base impact as a compact formula with the aspect as a
- * trailing lowercase letter, e.g. `"1d10+3e"`, `"1d6b"`, `"3p"`, or `"—"` when it
- * contributes no base impact.
+ * trailing lowercase letter, e.g. `"d10+3e"`, `"2d6e"`, `"3p"`, or `"—"` when it
+ * contributes no base impact. The dice term follows the shared
+ * {@link ImpactModifier.formatDice} convention (a single die drops its count, and
+ * zero dice drops the dice term entirely).
  * @param imp - The strike mode's base impact fields.
  * @returns The formula string.
  */
 function formatImpactFormula(imp: StrikeModeBase.Data["impactBase"]): string {
-    const dice = imp?.numDice && imp?.die ? `${imp.numDice}d${imp.die}` : "";
+    const dice = ImpactModifier.formatDice(imp?.numDice ?? 0, imp?.die ?? null);
     const mod = imp?.modifier;
     let formula = dice;
     if (mod != null && mod !== 0) {

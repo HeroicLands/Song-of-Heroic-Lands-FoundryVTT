@@ -3295,6 +3295,7 @@
   "sohl.entity.modifier.ImpactModifier.empty": "classes/sohl.entity.modifier.ImpactModifier-1.html#empty",
   "sohl.entity.modifier.ImpactModifier.evaluate": "classes/sohl.entity.modifier.ImpactModifier-1.html#evaluate",
   "sohl.entity.modifier.ImpactModifier.floor": "classes/sohl.entity.modifier.ImpactModifier-1.html#floor",
+  "sohl.entity.modifier.ImpactModifier.formatDice": "classes/sohl.entity.modifier.ImpactModifier-1.html#formatdice",
   "sohl.entity.modifier.ImpactModifier.get": "classes/sohl.entity.modifier.ImpactModifier-1.html#get",
   "sohl.entity.modifier.ImpactModifier.has": "classes/sohl.entity.modifier.ImpactModifier-1.html#has",
   "sohl.entity.modifier.ImpactModifier.hasBase": "classes/sohl.entity.modifier.ImpactModifier-1.html#hasbase",

@@ -80,15 +80,77 @@ describe("ImpactModifier", () => {
         it.todo("returns roll numDice or 0 when no roll");
     });
 
+    describe("formatDice", () => {
+        it("drops the count for a single die (1dN → dN)", () => {
+            expect(ImpactModifier.formatDice(1, 6)).toBe("d6");
+            expect(ImpactModifier.formatDice(1, 10)).toBe("d10");
+        });
+
+        it("keeps the count for more than one die", () => {
+            expect(ImpactModifier.formatDice(2, 6)).toBe("2d6");
+            expect(ImpactModifier.formatDice(3, 8)).toBe("3d8");
+        });
+
+        it("returns an empty string when there are no dice", () => {
+            expect(ImpactModifier.formatDice(0, 6)).toBe("");
+        });
+
+        it("returns an empty string when the die size is absent", () => {
+            expect(ImpactModifier.formatDice(1, null)).toBe("");
+            expect(ImpactModifier.formatDice(2, 0)).toBe("");
+        });
+    });
+
     describe("diceFormula", () => {
-        it.todo("returns '0' when no dice and no effective value");
-        it.todo("returns correct formula with dice and positive modifier");
-        it.todo("returns correct formula with dice and negative modifier");
-        it.todo("returns effective value only when no dice");
+        // Build an ImpactModifier with a given roll + effective base.
+        function make(
+            numDice: number,
+            dieFaces: number,
+            baseValue: number,
+            aspect: string = IMPACT_ASPECT.BLUNT,
+        ): ImpactModifier {
+            const roll =
+                numDice ?
+                    new SimpleRoll({ numDice, dieFaces }, { parent })
+                :   null;
+            return new ImpactModifier({ baseValue, roll, aspect } as any, {
+                parent,
+            });
+        }
+
+        it("returns '0' when no dice and no effective value", () => {
+            expect(make(0, 0, 0).diceFormula).toBe("0");
+        });
+
+        it("returns correct formula with dice and positive modifier", () => {
+            expect(make(2, 6, 3).diceFormula).toBe("2d6+3");
+        });
+
+        it("drops the count for a single die", () => {
+            expect(make(1, 6, 3).diceFormula).toBe("d6+3");
+        });
+
+        it("returns correct formula with dice and negative modifier", () => {
+            expect(make(2, 6, -2).diceFormula).toBe("2d6-2");
+        });
+
+        it("returns effective value only when no dice", () => {
+            expect(make(0, 0, 4).diceFormula).toBe("4");
+        });
     });
 
     describe("label", () => {
-        it.todo("returns diceFormula plus aspect character");
+        it("returns diceFormula plus aspect character", () => {
+            const roll = new SimpleRoll(
+                { numDice: 1, dieFaces: 8 },
+                { parent },
+            );
+            const im = new ImpactModifier(
+                { baseValue: 1, roll, aspect: IMPACT_ASPECT.PIERCING } as any,
+                { parent },
+            );
+            expect(im.label).toBe("d8+1p");
+        });
     });
 
     describe("evaluate()", () => {
