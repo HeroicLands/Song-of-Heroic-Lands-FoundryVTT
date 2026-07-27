@@ -157,8 +157,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
             value=system.defaultCombatGroup}}
     {{/if}}
 
-    {{!-- Body Locations: read-only Part → Location tree with effective armor
-         totals (natural protection + worn armor) per location. --}}
+    {{!-- Body Structure: Part → Location tree with effective armor totals
+         (natural protection + worn armor) per location. Editing (#720) is
+         owner-gated: + Add controls, drag-to-sort, and the ⋮ Edit/Delete menu. --}}
     {{#if structure}}
         <h2 class="being-section-heading">{{localize "SOHL.Being.Heading.BodyStructure"}}</h2>
         <div class="search-items">
@@ -175,18 +176,26 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="list__detail" data-tooltip="Fire">F</div>
                 <div class="list__detail" data-tooltip="Shock">Shock</div>
                 <div class="list__detail" data-tooltip="Impairment">Impair</div>
+                {{#if canEditBody}}
+                <a class="list__control bodypart-add" data-action="addBodyPart" data-tooltip="Add Body Part"><i class="fa-solid fa-plus"></i></a>
+                {{/if}}
             </header>
             {{#each bodyParts as |part|}}
             <div class="list bodypart">
                 <header class="list__header bodypart__header flexrow"
-                    data-part-shortcode="{{part.shortcode}}" data-part-index="{{part.index}}">
+                    data-part-shortcode="{{part.shortcode}}" data-part-index="{{part.index}}"
+                    {{#if @root.canEditBody}}draggable="true"{{/if}}>
                     <h3 class="list__name">{{part.label}}</h3>
+                    {{#if @root.canEditBody}}
+                    <a class="list__control bodylocation-add" data-action="addBodyLocation" data-tooltip="Add Hit Location"><i class="fa-solid fa-plus"></i></a>
+                    {{/if}}
                     <a class="list__control bodypart-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                 </header>
                 <ol class="list__items">
                     {{#each part.locations as |loc|}}
                     <li class="item bodylocation flexrow" data-search-name="{{loc.name}}"
-                        data-part-shortcode="{{part.shortcode}}" data-location-shortcode="{{loc.shortcode}}">
+                        data-part-shortcode="{{part.shortcode}}" data-location-shortcode="{{loc.shortcode}}"
+                        {{#if @root.canEditBody}}draggable="true"{{/if}}>
                         <div class="list__name"><h4>{{loc.name}}</h4></div>
                         <div class="list__detail bodylocation__layers">{{loc.layers}}</div>
                         <div class="list__detail">{{loc.blunt}}</div>

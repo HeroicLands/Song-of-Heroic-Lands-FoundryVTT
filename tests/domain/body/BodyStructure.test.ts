@@ -494,6 +494,59 @@ describe("BodyStructure", () => {
         });
     });
 
+    describe("movePartUpdate", () => {
+        it("emits a complete, reordered parts array", () => {
+            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+            const update = body.movePartUpdate(1, 0);
+            expect(Object.keys(update)).toEqual([
+                "system.body.structure.parts",
+            ]);
+            const parts = update["system.body.structure.parts"];
+            expect(parts.map((p: BodyPart.Data) => p.shortcode)).toEqual([
+                "thorax",
+                "head",
+            ]);
+        });
+
+        it("is a no-op array on an out-of-range move", () => {
+            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+            const parts = body.movePartUpdate(0, 9)[
+                "system.body.structure.parts"
+            ];
+            expect(parts.map((p: BodyPart.Data) => p.shortcode)).toEqual([
+                "head",
+                "thorax",
+            ]);
+        });
+    });
+
+    describe("moveLocationUpdate", () => {
+        it("reorders a location within its part (full-array write)", () => {
+            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+            const update = body.moveLocationUpdate(0, 0, 0, 1);
+            expect(Object.keys(update)).toEqual([
+                "system.body.structure.parts",
+            ]);
+            const parts = update["system.body.structure.parts"];
+            expect(
+                parts[0].locations.map((l: BodyLocation.Data) => l.shortcode),
+            ).toEqual(["face", "skull"]);
+        });
+
+        it("relocates a location to another part", () => {
+            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+            const parts = body.moveLocationUpdate(0, 0, 1, 1)[
+                "system.body.structure.parts"
+            ];
+            expect(
+                parts[0].locations.map((l: BodyLocation.Data) => l.shortcode),
+            ).toEqual(["face"]);
+            expect(
+                parts[1].locations.map((l: BodyLocation.Data) => l.shortcode),
+            ).toEqual(["chest", "skull"]);
+        });
+    });
+
     describe("addEdgeUpdate", () => {
         it("returns update payload with new edge appended", () => {
             const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
