@@ -43,9 +43,8 @@ export function blankBodyPart(
         permanentImpairment: 0,
         permanentlyUnusable: false,
         // The persisted "area / random-selection weight" field; the entity's
-        // `probWeight` modifier is derived, not persisted directly.
+        // `probWeight` modifier is derived from this, not persisted directly.
         combatArea: 0,
-        probWeight: 0,
         locations: [],
     };
 }
