@@ -347,6 +347,18 @@ export interface SkillRow {
     eml: number;
     /** Fate Mastery Level — the effective fate ML. */
     fate: number;
+    /**
+     * The EML modifier abbreviation — the `ValueModifier` delta summary (e.g.
+     * `STR +2, ARM ×2`), shown as the EML cell's hover tooltip (#769). Empty
+     * when the mastery level has no deltas to explain.
+     */
+    emlAbbrev: string;
+    /**
+     * The Fate modifier abbreviation — the fate `ValueModifier` delta summary,
+     * shown as the Fate cell's hover tooltip (#769). Empty when there is
+     * nothing to explain.
+     */
+    fateAbbrev: string;
     /** Whether the mastery level is disabled (renders an ✕ in place of numbers). */
     disabled: boolean;
     /** Whether the skill is currently eligible for Skill Development. */
@@ -377,6 +389,8 @@ export interface SkillLike {
     index: number;
     eml: number;
     fate: number;
+    emlAbbrev: string;
+    fateAbbrev: string;
     disabled: boolean;
     canImprove: boolean;
     improveFlag: boolean;
@@ -433,6 +447,8 @@ export function buildSkillGroups(
         index: skill.index,
         eml: skill.eml,
         fate: skill.fate,
+        emlAbbrev: skill.emlAbbrev,
+        fateAbbrev: skill.fateAbbrev,
         disabled: skill.disabled,
         canImprove: skill.canImprove,
         improveFlag: skill.improveFlag,

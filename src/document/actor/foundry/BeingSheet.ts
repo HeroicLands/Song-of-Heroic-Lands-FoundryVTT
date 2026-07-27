@@ -1385,6 +1385,8 @@ export class BeingSheet extends SohlActorSheetBase {
                     index: skillLogic?.masteryLevel?.index ?? 0,
                     eml: skillLogic?.masteryLevel?.effective ?? 0,
                     fate: skillLogic?.fateMasteryLevel?.effective ?? 0,
+                    emlAbbrev: skillLogic?.masteryLevel?.shortcode ?? "",
+                    fateAbbrev: skillLogic?.fateMasteryLevel?.shortcode ?? "",
                     disabled: !!skillLogic?.masteryLevel?.disabled,
                     canImprove: !!skillLogic?.canImprove,
                     improveFlag: !!sys.improveFlag,

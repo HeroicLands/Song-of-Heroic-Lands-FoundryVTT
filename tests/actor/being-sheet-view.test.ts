@@ -156,6 +156,8 @@ describe("being-sheet-view", () => {
             index: 4,
             eml: 42,
             fate: 50,
+            emlAbbrev: "STR +2",
+            fateAbbrev: "FATE +5",
             disabled: false,
             canImprove: true,
             improveFlag: false,
@@ -196,6 +198,8 @@ describe("being-sheet-view", () => {
                 index: 5,
                 eml: 58,
                 fate: 60,
+                emlAbbrev: "STR +2, ARM ×2",
+                fateAbbrev: "FATE +5",
                 disabled: true,
                 canImprove: false,
                 improveFlag: true,
@@ -211,10 +215,19 @@ describe("being-sheet-view", () => {
                 index: 5,
                 eml: 58,
                 fate: 60,
+                emlAbbrev: "STR +2, ARM ×2",
+                fateAbbrev: "FATE +5",
                 disabled: true,
                 canImprove: false,
                 improveFlag: true,
             });
+        });
+
+        it("passes through the EML/Fate abbrev tooltips (#769)", () => {
+            const a = skill({ emlAbbrev: "STR +2, ARM ×2", fateAbbrev: "" });
+            const [group] = buildSkillGroups([a], order, subLabel);
+            expect(group.skills[0].emlAbbrev).toBe("STR +2, ARM ×2");
+            expect(group.skills[0].fateAbbrev).toBe("");
         });
     });
 

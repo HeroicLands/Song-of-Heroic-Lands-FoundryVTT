@@ -87,4 +87,49 @@ describe("being sheet", () => {
                 .should("be.greaterThan", 10);
         });
     });
+
+    // #769 — the EML and Fate value cells bind a hover tooltip to the
+    // mastery-level modifier abbrev. The attribute's presence (even when empty)
+    // proves the binding; before the fix the cells carried no data-tooltip.
+    it("binds a modifier-abbrev tooltip on the skills EML/Fate cells (#769)", () => {
+        cy.importActor().then((actor) => {
+            cy.openSheet(actor);
+            cy.switchTab("skills", "primary");
+            cy.get(
+                'section.tab[data-tab="skills"] li.item ' +
+                    '.list__detail.rollable[data-action="successTest"]',
+            )
+                .first()
+                .should("have.attr", "data-tooltip");
+            cy.get(
+                'section.tab[data-tab="skills"] li.item ' +
+                    '.list__detail.rollable[data-action="fateTest"]',
+            )
+                .first()
+                .should("have.attr", "data-tooltip");
+        });
+    });
+
+    // #769 — the strike-mode Impact/Atk/Blk/CX value cells bind a hover tooltip
+    // to the underlying ValueModifier abbrev. A combattechnique skill seeds a
+    // melee strike mode so the combat tab has a row to assert against. Only the
+    // enabled value cells carry the `rollable` class (a disabled column renders
+    // a plain ✕ cell), and each such cell must now carry a `data-tooltip`.
+    it("binds a modifier-abbrev tooltip on the combat strike-mode cells (#769)", () => {
+        cy.importActor().then((actor) => {
+            cy.createItemOn(actor, "skill", {
+                name: "Unarmed",
+                system: { subType: "combattechnique", masteryLevelBase: 30 },
+            });
+            cy.openSheet(actor);
+            cy.switchTab("combat", "primary");
+            cy.get(
+                'section.tab[data-tab="combat"] li[data-sm-id] .list__detail.rollable',
+            )
+                .should("have.length.greaterThan", 0)
+                .each(($cell) => {
+                    cy.wrap($cell).should("have.attr", "data-tooltip");
+                });
+        });
+    });
 });

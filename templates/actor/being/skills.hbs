@@ -41,8 +41,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="list__detail">{{skill.sb}}</div>
                 <div class="list__detail">{{skill.ml}}</div>
                 <div class="list__detail">{{#if skill.disabled}}<i class="fa-solid fa-xmark fa-lg"></i>{{else}}{{skill.index}}{{/if}}</div>
-                <div class="list__detail rollable" data-action="successTest">{{#if skill.disabled}}<i class="fa-solid fa-xmark fa-lg"></i>{{else}}{{skill.eml}}{{/if}}</div>
-                <div class="list__detail rollable" data-action="fateTest">{{skill.fate}}</div>
+                <div class="list__detail rollable" data-action="successTest" data-tooltip="{{skill.emlAbbrev}}">{{#if skill.disabled}}<i class="fa-solid fa-xmark fa-lg"></i>{{else}}{{skill.eml}}{{/if}}</div>
+                <div class="list__detail rollable" data-action="fateTest" data-tooltip="{{skill.fateAbbrev}}">{{skill.fate}}</div>
                 <div class="list__detail list__notes">{{skill.notes}}</div>
                 <div class="list__controls">
                     {{#if skill.canImprove}}
