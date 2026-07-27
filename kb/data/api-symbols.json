@@ -2923,7 +2923,6 @@
   "sohl.entity.body.BodyPart.Data.name": "interfaces/sohl.entity.body.BodyPart.Data.html#name",
   "sohl.entity.body.BodyPart.Data.permanentImpairment": "interfaces/sohl.entity.body.BodyPart.Data.html#permanentimpairment",
   "sohl.entity.body.BodyPart.Data.permanentlyUnusable": "interfaces/sohl.entity.body.BodyPart.Data.html#permanentlyunusable",
-  "sohl.entity.body.BodyPart.Data.probWeight": "interfaces/sohl.entity.body.BodyPart.Data.html#probweight",
   "sohl.entity.body.BodyPart.Data.roles": "interfaces/sohl.entity.body.BodyPart.Data.html#roles",
   "sohl.entity.body.BodyPart.Data.shortcode": "interfaces/sohl.entity.body.BodyPart.Data.html#shortcode",
   "sohl.entity.body.BodyPart.Kind": "variables/sohl.entity.body.BodyPart.Kind.html",

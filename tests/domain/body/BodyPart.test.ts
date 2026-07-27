@@ -7,7 +7,7 @@ const SAMPLE_DATA: BodyPart.Data = {
     roles: [],
     canHoldItem: true,
     heldItemId: null,
-    probWeight: 20,
+    combatArea: 20,
     locations: [
         {
             shortcode: "ularm",
@@ -50,6 +50,8 @@ describe("BodyPart", () => {
             // `heldItem` is `SohlItem | undefined` (optional); with no held
             // item it is `undefined`, not `null`.
             expect(part.heldItem).toBeUndefined();
+            // #739: probWeight is derived from the persisted `combatArea`
+            // field (parts persist `combatArea`, not `probWeight`).
             expect(part.probWeight.effective).toBe(20);
             expect(part.index).toBe(0);
         });

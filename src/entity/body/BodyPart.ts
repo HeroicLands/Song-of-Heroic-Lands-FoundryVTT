@@ -50,7 +50,10 @@ export class BodyPart extends SohlEntity {
     readonly canHoldItem: boolean;
     /** The item currently held by this part, resolved from `heldItemId`, or undefined. */
     readonly heldItem?: SohlItem;
-    /** Selection weight for this part in random hit-location rolls. */
+    /**
+     * Selection weight for this part in unaimed / hit-spread part rolls,
+     * derived from the persisted {@link BodyPart.Data.combatArea}.
+     */
     readonly probWeight: ValueModifier;
     /**
      * Manually-set permanent impairment for this part — a non-positive floor
@@ -97,7 +100,8 @@ export class BodyPart extends SohlEntity {
 
     /**
      * Builds a single body part from its persisted data, resolving its held
-     * item and probability weight and constructing its child locations.
+     * item and deriving its selection weight (from `combatArea`) and
+     * constructing its child locations.
      *
      * @param data - Persisted part data.
      * @param options - Construction options
@@ -128,7 +132,7 @@ export class BodyPart extends SohlEntity {
                     | undefined) ?? undefined)
             :   undefined;
         this.probWeight = new entity.ValueModifier(this.parent).setBase(
-            data.probWeight,
+            data.combatArea ?? 0,
         );
         this.permanentImpairment = Math.min(0, data.permanentImpairment ?? 0);
         this.permanentlyUnusable = data.permanentlyUnusable ?? false;
@@ -251,8 +255,6 @@ export namespace BodyPart {
         canHoldItem: boolean;
         /** Id of the item this part is holding, or null if empty. */
         heldItemId: string | null;
-        /** Base selection weight for random hit-location rolls. */
-        probWeight: number;
         /**
          * Target area of this part for hit-spread mechanics, in square feet;
          * doubles as the persisted weight for picking a random part on an

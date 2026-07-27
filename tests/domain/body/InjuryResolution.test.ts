@@ -54,7 +54,7 @@ const SAMPLE_DATA: BodyStructure.Data = {
             roles: [],
             canHoldItem: false,
             heldItemId: null,
-            probWeight: 15,
+            combatArea: 15,
             locations: [SKULL_LOC, NECK_LOC],
         },
         {
@@ -62,7 +62,7 @@ const SAMPLE_DATA: BodyStructure.Data = {
             roles: [],
             canHoldItem: false,
             heldItemId: null,
-            probWeight: 30,
+            combatArea: 30,
             locations: [CHEST_LOC],
         },
     ],
