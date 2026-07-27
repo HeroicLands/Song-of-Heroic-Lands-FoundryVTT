@@ -15,6 +15,7 @@ portrait: ""
 type: creature
 package: sohl
 sohl:
+    archetype: 0
     attributes:
         str: 18
         end: 15

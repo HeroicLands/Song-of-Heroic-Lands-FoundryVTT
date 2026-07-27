@@ -52,6 +52,7 @@ gear:
         - basic first aid kit
         - navigation tools
 sohl:
+    archetype: null
     attributes:
         str: 16
         end: 15
