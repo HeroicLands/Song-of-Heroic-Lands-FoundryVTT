@@ -8,6 +8,41 @@ document — `fvttFindItemByShortcode`, `fvttActorByShortcode`, the action regis
 override/dedup all resolve by it. This page is the contract for how that key is kept
 **unique and never-null**.
 
+## Identity semantics
+
+`(type, shortcode)` is a **logical identity**, not merely a lookup convenience:
+
+> Two documents of the same `type` bearing the same `shortcode` denote the **same
+> logical entity** — regardless of their Foundry `_id`s and regardless of their field
+> values.
+
+The Foundry `_id` identifies a _particular stored document instance_; `(type,
+shortcode)` identifies _which thing that instance is_. A compendium `WeaponGear`
+`bsw`, a world copy of it, and an embedded copy on an actor are three distinct
+instances (three `_id`s, possibly three different states of wear and modification) of
+**one** entity, the broadsword. Sameness of `(type, shortcode)` is what "the same
+thing" means in this system; `_id` equality and value equality are neither necessary
+nor sufficient for it.
+
+This is what makes **matching** well-defined, and matching is the reason the key
+exists:
+
+- **Compendium ↔ world reconciliation.** A world document is recognized as _the same
+  entity_ as its compendium origin because they share `(type, shortcode)`, even
+  though import gave the world copy a fresh `_id` and the user has since edited its
+  values.
+- **Archetype override / shadowing.** A world archetype with the same `(type,
+  shortcode)` as a shipped one _shadows_ it in the Create dialog — same identity,
+  world copy wins.
+- **Cross-scope lookup.** `fvttFindItemByShortcode` / `fvttActorByShortcode`,
+  `actions.get(shortcode)`, cohort membership, and expression/effect references all
+  resolve an entity by this identity rather than by a brittle, localizable name or a
+  scope-local `_id`.
+
+The uniqueness invariant below exists **to keep this identity well-defined**: if two
+different entities within one scope shared a `(type, shortcode)`, "the same thing"
+would be ambiguous and every match above would be unsound.
+
 ## The invariant
 
 `(type, shortcode)` is unique within each of four **scopes**, and `shortcode` is a

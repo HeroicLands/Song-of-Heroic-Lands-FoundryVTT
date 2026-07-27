@@ -35,7 +35,9 @@ profile already in place, not as a blank slate.
       leave it and the system derives and uniquifies one for you on create. If
       you type a code that is already taken by another document of the same type,
       the dialog flags it and **Create stays disabled until you pick a unique
-      one**. (Documents of _different_ types may safely share a code.)
+      one**. (Documents of _different_ types may safely share a code.) See
+      [[Shortcodes]] for why the shortcode is the actor's identity — two actors of
+      the same type that share one are treated as the same thing.
     - **Type** — the actor type (Being, Cohort, Structure, Vehicle).
     - **SubType** — shown only for types that have subtypes.
     - **Archetype** — the starting template. It defaults to the best-matching
