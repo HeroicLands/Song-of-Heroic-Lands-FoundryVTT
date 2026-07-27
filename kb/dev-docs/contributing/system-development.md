@@ -315,6 +315,23 @@ against real world data — migrations must never require manual user interventi
   distinguishable from _every_ valid value (an optional cap, a die size, an optional
   reference). Always set `initial` explicitly — a bare `new StringField()` is
   non-required and silently initializes to `undefined`, not `""`.
+    - _Optional "not specified" StringField → `null`, not `""`._ For an optional string
+      that means "unset" when empty (an optional reference/code/UUID, a formula, a
+      free-text field where blank and unset coincide), prefer
+      `{ nullable: true, blank: false, initial: null }` over an `""` sentinel: `blank:
+false` makes Foundry clean a cleared form input (and any legacy `""`) to `null`, so
+      "unset" is one honest value rather than two. Declare the field — and its
+      logic-`Data` interface — as `T | null`, and guard reads (`if (x)` / `x ?? ""`).
+      Canonical examples: `SkillDataModel.ts` `parentSkillCode`, `TraumaDataModel.ts`
+      `category`.
+- **A `required` field carries no default.** `required: true` **and** an `initial` are
+  contradictory: Foundry auto-fills a `required` field from its `initial` when the value
+  is absent, so a defaulted field is never actually caller-mandatory. Where a field has
+  a sensible default, make it optional-with-`initial` (**drop `required`**); reserve
+  bare `required: true` (no `initial`) for a field a caller genuinely must supply — a
+  TypedSchema discriminator, a mandatory key. Do **not** resolve the contradiction by
+  dropping the `initial` instead: document creation fills absent fields from `initial`,
+  so a `required` field with no default breaks bare creates.
 
 ## Extending SoHL instead of changing it
 
