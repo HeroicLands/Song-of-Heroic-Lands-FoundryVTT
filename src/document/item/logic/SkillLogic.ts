@@ -486,10 +486,12 @@ export class SkillLogic<
      * Attempts to improve the skill via a Skill Development Roll (SDR): rolls
      * `1d100 + skillBase` against the current base mastery level, and on a
      * success raises {@link SkillData.masteryLevelBase} by {@link sdrIncr}. The
-     * outcome is posted to chat regardless.
+     * outcome is persisted — the improve flag is cleared and, on success, the
+     * raised base mastery level is written back — and then posted to chat.
      *
      * @param context - The action context whose speaker receives the chat card.
-     * @returns Resolves once the roll is evaluated and the chat card is posted.
+     * @returns Resolves once the roll is evaluated, persisted, and the chat card
+     *   is posted.
      */
     async improveWithSDR(context: SohlActionContext): Promise<void> {
         const updateData: PlainObject = { "system.improveFlag": false };
@@ -556,6 +558,10 @@ export class SkillLogic<
             notes: "",
             sdrIncr: this.sdrIncr,
         };
+
+        // Persist the outcome: clear the improve flag and, on success, raise the
+        // stored base mastery level so the gain the chat card announces is real.
+        await this.data.update(updateData);
 
         void context.speaker.toChat(chatTemplate, chatTemplateData);
     }

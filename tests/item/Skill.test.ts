@@ -522,6 +522,35 @@ describe("SkillLogic", () => {
             expect(chatData.effTarget).toBe(26);
         });
 
+        it("persists the raised mastery level and clears the improve flag on success (#716)", async () => {
+            vi.spyOn(SimpleRoll, "fromFormula").mockReturnValue(mockRoll(95));
+            const logic = makeSkill({
+                masteryLevelBase: 40,
+                improveFlag: true,
+            });
+            logic.initialize();
+            const speaker = { toChat: vi.fn() };
+            await logic.improveWithSDR({ speaker } as any);
+            expect(logic.item.update).toHaveBeenCalledWith({
+                "system.improveFlag": false,
+                "system.masteryLevelBase": 41,
+            });
+        });
+
+        it("clears the improve flag without raising mastery on failure (#716)", async () => {
+            vi.spyOn(SimpleRoll, "fromFormula").mockReturnValue(mockRoll(10));
+            const logic = makeSkill({
+                masteryLevelBase: 40,
+                improveFlag: true,
+            });
+            logic.initialize();
+            const speaker = { toChat: vi.fn() };
+            await logic.improveWithSDR({ speaker } as any);
+            expect(logic.item.update).toHaveBeenCalledWith({
+                "system.improveFlag": false,
+            });
+        });
+
         it("includes the skill base value in the roll formula", async () => {
             const fromFormula = vi
                 .spyOn(SimpleRoll, "fromFormula")
