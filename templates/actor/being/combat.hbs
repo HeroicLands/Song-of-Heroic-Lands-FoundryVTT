@@ -42,7 +42,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="list__detail">{{sm.reach.effective}}</div>
                     <div class="list__detail">{{#if @root.useZoneDie}}d{{/if}}{{sm.spread.effective}}</div>
                     {{#unless sm.impact.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeImpact" data-tooltip="{{sm.impact.shortcode}}">
+                    <div class="list__detail rollable" data-action="rollStrikeModeImpact" data-tooltip="{{sm.impact.deltaLabel}}" data-tooltip-direction="UP">
                         {{sm.impact.label}}
                     </div>
                     {{else}}
@@ -51,17 +51,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     {{/unless}}
                     {{#unless sm.attack.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="{{sm.attack.shortcode}}">{{sm.attack.effective}}</div>
+                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="{{sm.attack.deltaLabel}}" data-tooltip-direction="UP">{{sm.attack.effective}}</div>
                     {{else}}
                     <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
                     {{/unless}}
                     {{#unless sm.defense.block.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="block" data-tooltip="{{sm.defense.block.shortcode}}">{{sm.defense.block.effective}}</div>
+                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="block" data-tooltip="{{sm.defense.block.deltaLabel}}" data-tooltip-direction="UP">{{sm.defense.block.effective}}</div>
                     {{else}}
                     <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
                     {{/unless}}
                     {{#unless sm.defense.counterstrike.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike" data-tooltip="{{sm.defense.counterstrike.shortcode}}">{{sm.defense.counterstrike.effective}}</div>
+                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike" data-tooltip="{{sm.defense.counterstrike.deltaLabel}}" data-tooltip-direction="UP">{{sm.defense.counterstrike.effective}}</div>
                     {{else}}
                     <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
                     {{/unless}}
@@ -103,7 +103,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="list__detail">{{sm.baseRange.effective}}</div>
                     <div class="list__detail">{{sm.maxVolleyMult}}</div>
                     {{#unless sm.impact.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeImpact" data-tooltip="{{sm.impact.shortcode}}">
+                    <div class="list__detail rollable" data-action="rollStrikeModeImpact" data-tooltip="{{sm.impact.deltaLabel}}" data-tooltip-direction="UP">
                         {{sm.impact.label}}
                     </div>
                     {{else}}
@@ -112,7 +112,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     {{/unless}}
                     {{#unless sm.attack.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="{{sm.attack.shortcode}}">{{sm.attack.effective}}</div>
+                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="{{sm.attack.deltaLabel}}" data-tooltip-direction="UP">{{sm.attack.effective}}</div>
                     {{else}}
                     <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
                     {{/unless}}

@@ -202,4 +202,4 @@ ImpactModifier is automatically disabled when both dice and effective modifier a
 - Add new shortcode deltas rather than overloading existing shortcodes.
 - Keep operator semantics stable globally.
 - If a subsystem needs special math, subclass `ValueModifier` and keep conversions explicit.
-- Keep chat/display formatting (`chatHtml`, abbreviations) aligned with mechanical behavior.
+- Keep chat/display formatting (`chatHtml`, the `deltaLabel` delta summary) aligned with mechanical behavior.

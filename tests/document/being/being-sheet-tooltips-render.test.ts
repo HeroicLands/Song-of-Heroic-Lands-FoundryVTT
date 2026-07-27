@@ -18,7 +18,7 @@ const COMBAT = "systems/sohl/templates/actor/being/combat.hbs";
 const SKILLS = "systems/sohl/templates/actor/being/skills.hbs";
 
 // A single melee strike-mode row whose four value modifiers each carry a
-// distinct abbrev (`.shortcode`) so the rendered tooltips are unambiguous.
+// distinct `deltaLabel` so the rendered tooltips are unambiguous.
 const meleeStrikeModes = [
     {
         weapon: { name: "Dagger", id: "w1" },
@@ -32,19 +32,23 @@ const meleeStrikeModes = [
                 impact: {
                     disabled: "",
                     label: "5",
-                    shortcode: "IMP STR +2",
+                    deltaLabel: "IMP STR +2",
                 },
                 attack: {
                     disabled: "",
                     effective: 45,
-                    shortcode: "ATK STR +2",
+                    deltaLabel: "ATK STR +2",
                 },
                 defense: {
-                    block: { disabled: "", effective: 40, shortcode: "BLK +1" },
+                    block: {
+                        disabled: "",
+                        effective: 40,
+                        deltaLabel: "BLK +1",
+                    },
                     counterstrike: {
                         disabled: "",
                         effective: 42,
-                        shortcode: "CX +3",
+                        deltaLabel: "CX +3",
                     },
                 },
             },
@@ -65,12 +69,12 @@ const missileStrikeModes = [
                 impact: {
                     disabled: "",
                     label: "6",
-                    shortcode: "IMP DEX +1",
+                    deltaLabel: "IMP DEX +1",
                 },
                 attack: {
                     disabled: "",
                     effective: 50,
-                    shortcode: "ATK DEX +1",
+                    deltaLabel: "ATK DEX +1",
                 },
             },
         ],
@@ -78,7 +82,7 @@ const missileStrikeModes = [
 ];
 
 describe("combat.hbs strike-mode value tooltips (#769)", () => {
-    it("binds each melee value cell's tooltip to the modifier abbrev", () => {
+    it("binds each melee value cell's tooltip to the modifier deltaLabel", () => {
         const html = renderTemplateReal(COMBAT, { meleeStrikeModes });
         expect(html).toContain('data-tooltip="IMP STR +2"');
         expect(html).toContain('data-tooltip="ATK STR +2"');
@@ -86,7 +90,19 @@ describe("combat.hbs strike-mode value tooltips (#769)", () => {
         expect(html).toContain('data-tooltip="CX +3"');
     });
 
-    it("binds each missile value cell's tooltip to the modifier abbrev", () => {
+    it("positions the melee value tooltips above the row (direction UP)", () => {
+        const html = renderTemplateReal(COMBAT, { meleeStrikeModes });
+        // Every value cell that carries a tooltip also declares UP so the
+        // tooltip renders above the row rather than overlapping it (#769).
+        const cells = html.match(/<div\b[^>]*\bdata-tooltip=[^>]*>/g) ?? [];
+        const valueCells = cells.filter((c) => c.includes("rollStrikeMode"));
+        expect(valueCells.length).toBeGreaterThan(0);
+        for (const cell of valueCells) {
+            expect(cell).toContain('data-tooltip-direction="UP"');
+        }
+    });
+
+    it("binds each missile value cell's tooltip to the modifier deltaLabel", () => {
         const html = renderTemplateReal(COMBAT, { missileStrikeModes });
         expect(html).toContain('data-tooltip="IMP DEX +1"');
         expect(html).toContain('data-tooltip="ATK DEX +1"');
@@ -109,8 +125,8 @@ describe("skills.hbs EML/Fate value tooltips (#769)", () => {
                     index: 4,
                     eml: 42,
                     fate: 50,
-                    emlAbbrev: "STR +2, ARM ×2",
-                    fateAbbrev: "FATE +5",
+                    emlDeltaLabel: "STR +2, ARM ×2",
+                    fateDeltaLabel: "FATE +5",
                     disabled: false,
                     canImprove: false,
                     improveFlag: false,
@@ -120,9 +136,21 @@ describe("skills.hbs EML/Fate value tooltips (#769)", () => {
         },
     ];
 
-    it("binds the EML and Fate cell tooltips to the modifier abbrev", () => {
+    it("binds the EML and Fate cell tooltips to the modifier deltaLabel", () => {
         const html = renderTemplateReal(SKILLS, { skillGroups });
         expect(html).toContain('data-tooltip="STR +2, ARM ×2"');
         expect(html).toContain('data-tooltip="FATE +5"');
+    });
+
+    it("positions the EML and Fate tooltips above the row (direction UP)", () => {
+        const html = renderTemplateReal(SKILLS, { skillGroups });
+        const cells = html.match(/<div\b[^>]*\bdata-tooltip=[^>]*>/g) ?? [];
+        const valueCells = cells.filter(
+            (c) => c.includes("successTest") || c.includes("fateTest"),
+        );
+        expect(valueCells.length).toBe(2);
+        for (const cell of valueCells) {
+            expect(cell).toContain('data-tooltip-direction="UP"');
+        }
     });
 });

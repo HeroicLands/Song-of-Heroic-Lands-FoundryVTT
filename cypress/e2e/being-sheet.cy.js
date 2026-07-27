@@ -89,33 +89,37 @@ describe("being sheet", () => {
     });
 
     // #769 — the EML and Fate value cells bind a hover tooltip to the
-    // mastery-level modifier abbrev. The attribute's presence (even when empty)
-    // proves the binding; before the fix the cells carried no data-tooltip.
-    it("binds a modifier-abbrev tooltip on the skills EML/Fate cells (#769)", () => {
+    // mastery-level modifier delta summary (deltaLabel), positioned above the
+    // row (data-tooltip-direction="UP"). The attributes' presence (the tooltip
+    // text is empty when a value has no deltas) proves the binding; before the
+    // fix the cells carried no data-tooltip.
+    it("binds an above-row deltaLabel tooltip on the skills EML/Fate cells (#769)", () => {
         cy.importActor().then((actor) => {
             cy.openSheet(actor);
             cy.switchTab("skills", "primary");
-            cy.get(
-                'section.tab[data-tab="skills"] li.item ' +
-                    '.list__detail.rollable[data-action="successTest"]',
-            )
-                .first()
-                .should("have.attr", "data-tooltip");
-            cy.get(
-                'section.tab[data-tab="skills"] li.item ' +
-                    '.list__detail.rollable[data-action="fateTest"]',
-            )
-                .first()
-                .should("have.attr", "data-tooltip");
+            for (const action of ["successTest", "fateTest"]) {
+                cy.get(
+                    'section.tab[data-tab="skills"] li.item ' +
+                        `.list__detail.rollable[data-action="${action}"]`,
+                )
+                    .first()
+                    .should(($el) => {
+                        expect($el).to.have.attr("data-tooltip");
+                        expect($el).to.have.attr(
+                            "data-tooltip-direction",
+                            "UP",
+                        );
+                    });
+            }
         });
     });
 
-    // #769 — the strike-mode Impact/Atk/Blk/CX value cells bind a hover tooltip
-    // to the underlying ValueModifier abbrev. A combattechnique skill seeds a
-    // melee strike mode so the combat tab has a row to assert against. Only the
-    // enabled value cells carry the `rollable` class (a disabled column renders
-    // a plain ✕ cell), and each such cell must now carry a `data-tooltip`.
-    it("binds a modifier-abbrev tooltip on the combat strike-mode cells (#769)", () => {
+    // #769 — the strike-mode Impact/Atk/Blk/CX value cells bind an above-row
+    // deltaLabel tooltip. A combattechnique skill seeds a melee strike mode so
+    // the combat tab has a row to assert against. Only the enabled value cells
+    // carry the `rollable` class (a disabled column renders a plain ✕ cell), and
+    // each such cell must carry both data-tooltip and the UP direction.
+    it("binds an above-row deltaLabel tooltip on the combat strike-mode cells (#769)", () => {
         cy.importActor().then((actor) => {
             cy.createItemOn(actor, "skill", {
                 name: "Unarmed",
@@ -128,7 +132,8 @@ describe("being sheet", () => {
             )
                 .should("have.length.greaterThan", 0)
                 .each(($cell) => {
-                    cy.wrap($cell).should("have.attr", "data-tooltip");
+                    expect($cell).to.have.attr("data-tooltip");
+                    expect($cell).to.have.attr("data-tooltip-direction", "UP");
                 });
         });
     });

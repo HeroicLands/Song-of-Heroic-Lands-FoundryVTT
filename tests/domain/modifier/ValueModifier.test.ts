@@ -2,6 +2,7 @@ import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { ValueDelta } from "@src/entity/modifier/ValueDelta";
 import {
     BRAND,
+    SYMBOL,
     VALUE_DELTA_ID,
     VALUE_DELTA_INFO,
     VALUE_DELTA_OPERATOR,
@@ -514,6 +515,29 @@ describe("ValueModifier", () => {
             pushNamedDelta(vm, '</span><img src=x onerror="alert(1)">', 3);
             const html = vm.chatHtml;
             expect(html).not.toMatch(/<img\s/);
+        });
+    });
+
+    // Renamed from `shortcode` (which collides with the document identity key)
+    // to `deltaLabel` — the compact summary of applied deltas (#769).
+    describe("deltaLabel", () => {
+        it("is empty when there are no deltas (value is just the base)", () => {
+            const vm = createVM({ baseValue: 42 });
+            expect(vm.deltaLabel).toBe("");
+        });
+
+        it("summarizes each applied delta with its shortcode and adjustment", () => {
+            const vm = createVM({ baseValue: 40 });
+            pushDelta(vm, "STR", VALUE_DELTA_OPERATOR.ADD, 2);
+            pushDelta(vm, "ARM", VALUE_DELTA_OPERATOR.MULTIPLY, 2);
+            expect(vm.deltaLabel).toBe(`STR +2, ARM ${SYMBOL.TIMES}2`);
+        });
+
+        it("is the disabled marker when the modifier is disabled", () => {
+            const vm = createVM({ baseValue: 40 });
+            pushDelta(vm, "STR", VALUE_DELTA_OPERATOR.ADD, 2);
+            vm.disabled = true;
+            expect(vm.deltaLabel).toBe(VALUE_DELTA_INFO.DISABLED);
         });
     });
 });

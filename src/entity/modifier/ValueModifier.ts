@@ -98,7 +98,7 @@ import { SohlEntity } from "../SohlEntity";
  * {@link delete} to inspect or remove specific deltas by shortcode.
  */
 export class ValueModifier extends SohlEntity {
-    private _shortcode!: string;
+    private _deltaLabel!: string;
     private dirty: boolean;
     private _effective!: number;
     /** Reason the value is disabled; empty string means enabled. See {@link disabled}. */
@@ -273,7 +273,7 @@ export class ValueModifier extends SohlEntity {
             this._effective = maxPrecision(this._effective, 3);
         }
 
-        this._calcAbbrev();
+        this._calcDeltaLabel();
     }
 
     /**
@@ -292,11 +292,16 @@ export class ValueModifier extends SohlEntity {
 
     /**
      * A compact, human-readable summary of the applied deltas (e.g.
-     * `STR +2, ARM ×2`), or the disabled marker when {@link disabled}.
+     * `STR +2, ARM ×2`), or the disabled marker when {@link disabled}. Empty
+     * when the value has no deltas (its effective value is just the base).
+     *
+     * Named `deltaLabel` — not `shortcode` — because a `ValueModifier`'s delta
+     * summary is unrelated to the document `system.shortcode` identity key used
+     * across the rest of the system.
      */
-    get shortcode(): string {
+    get deltaLabel(): string {
         this._apply();
-        return this._shortcode;
+        return this._deltaLabel;
     }
 
     /** A coarse index derived from the base value (`base / 10`, truncated). */
@@ -706,44 +711,44 @@ export class ValueModifier extends SohlEntity {
     }
 
     /**
-     * Recompute the {@link shortcode} summary string from the current deltas.
+     * Recompute the {@link deltaLabel} summary string from the current deltas.
      *
      * @internal
      */
-    protected _calcAbbrev(): void {
-        this._shortcode = "";
+    protected _calcDeltaLabel(): void {
+        this._deltaLabel = "";
         if (this.disabled) {
-            this._shortcode = VALUE_DELTA_INFO.DISABLED;
+            this._deltaLabel = VALUE_DELTA_INFO.DISABLED;
         } else {
             this.deltas.forEach((adj) => {
-                if (this._shortcode) {
-                    this._shortcode += ", ";
+                if (this._deltaLabel) {
+                    this._deltaLabel += ", ";
                 }
 
                 switch (adj.op) {
                     case VALUE_DELTA_OPERATOR.ADD:
-                        this._shortcode += `${adj.shortcode} ${adj.numValue > 0 ? "+" : ""}${adj.value}`;
+                        this._deltaLabel += `${adj.shortcode} ${adj.numValue > 0 ? "+" : ""}${adj.value}`;
                         break;
 
                     case VALUE_DELTA_OPERATOR.MULTIPLY:
-                        this._shortcode += `${adj.shortcode} ${SYMBOL.TIMES}${adj.value}`;
+                        this._deltaLabel += `${adj.shortcode} ${SYMBOL.TIMES}${adj.value}`;
                         break;
 
                     case VALUE_DELTA_OPERATOR.DOWNGRADE:
-                        this._shortcode += `${adj.shortcode} ${SYMBOL.LESSTHANOREQUAL}${adj.value}`;
+                        this._deltaLabel += `${adj.shortcode} ${SYMBOL.LESSTHANOREQUAL}${adj.value}`;
                         break;
 
                     case VALUE_DELTA_OPERATOR.UPGRADE:
-                        this._shortcode += `${adj.shortcode} ${SYMBOL.GREATERTHANOREQUAL}${adj.value}`;
+                        this._deltaLabel += `${adj.shortcode} ${SYMBOL.GREATERTHANOREQUAL}${adj.value}`;
                         break;
 
                     case VALUE_DELTA_OPERATOR.OVERRIDE:
-                        this._shortcode += `${adj.shortcode} =${adj.value}`;
+                        this._deltaLabel += `${adj.shortcode} =${adj.value}`;
                         break;
 
                     case VALUE_DELTA_OPERATOR.CUSTOM:
                         if (adj.value === "disabled")
-                            this._shortcode += `${adj.shortcode}`;
+                            this._deltaLabel += `${adj.shortcode}`;
                         break;
                 }
             });
