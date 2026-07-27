@@ -183,16 +183,28 @@ export class ImpactModifier extends ValueModifier {
         return this.roll?.numDice || 0;
     }
 
+    /**
+     * Format the dice term of an impact — `""`, `"d6"`, or `"2d6"` — applying the
+     * shared convention that a single die drops its redundant count (`d6`, not
+     * `1d6`) and that a count of zero (or an absent die size) yields no dice term
+     * at all. Shared by {@link diceFormula} and the strike-mode sheet's Impact
+     * column so both render identically.
+     * @param numDice - The number of dice.
+     * @param die - The die size (faces), or `null`/`0` when there is no die.
+     * @returns The dice term, or an empty string when there are no dice.
+     */
+    static formatDice(numDice: number, die: number | null): string {
+        if (!numDice || !die) return "";
+        return `${numDice > 1 ? numDice : ""}d${die}`;
+    }
+
     /** The impact as a formula string, e.g. `"2d6+3"` (or `"0"` when empty). */
     get diceFormula(): string {
         if (!this.numDice && !this.effective) return "0";
-        const result =
-            (this.numDice ?
-                `${this.numDice > 1 ? this.numDice : ""}d${this.die}${
-                    this.effective >= 0 ? "+" : ""
-                }`
-            :   "") + this.effective;
-        return result;
+        const dice = ImpactModifier.formatDice(this.numDice, this.die);
+        return dice ?
+                `${dice}${this.effective >= 0 ? "+" : ""}${this.effective}`
+            :   `${this.effective}`;
     }
 
     /** The {@link diceFormula} with the aspect suffix appended, e.g. `"2d6+3e"` for edged. */
