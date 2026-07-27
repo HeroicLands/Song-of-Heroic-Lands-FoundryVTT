@@ -634,10 +634,6 @@ sohl:
           type: skill
           system:
               masteryLevelBase: 56
-        - shortcode: tlnt
-          type: skill
-          system:
-              masteryLevelBase: 33
 thalorna:
     realm: kingdom-of-tarvenia
     region: tarvenia-region
