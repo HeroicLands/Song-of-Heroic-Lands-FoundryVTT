@@ -30,6 +30,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <legend>Affected Skills (all if none specified)</legend>
         <div class="flexrow">
             <a class="add-array-item"
+                data-action="addArrayItem"
                 data-array="system.skills"
                 data-dtype="String"
                 data-default-value=""
@@ -41,6 +42,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <li class="mystery-skill">
                 <span class="name">{{this}}</span>
                 <a class="delete-array-item"
+                    data-action="deleteArrayItem"
                     data-array="system.skills"
                     data-value="{{this}}"
                     title="Skill"
