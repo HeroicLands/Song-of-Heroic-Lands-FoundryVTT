@@ -17,6 +17,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{formGroup fields.masteryLevelBase rootId="skill-mlb" classes="text-field" stacked=true value=system.masteryLevelBase}}
         {{formGroup fields.initSkillMult rootId="skill-initmult" classes="text-field" stacked=true value=system.initSkillMult}}
         {{formGroup fields.parentSkillCode rootId="skill-parent" classes="text-field" stacked=true value=system.parentSkillCode}}
+        {{#if system.parentSkillCode}}
+        {{formGroup fields.adoptParentMasteryLevel rootId="skill-adoptml" classes="text-field" stacked=true value=system.adoptParentMasteryLevel}}
+        {{/if}}
         {{formGroup fields.improveFlag rootId="skill-improve" classes="text-field" stacked=true value=system.improveFlag}}
         {{#if (eq system.subType "combat")}}
         {{formGroup fields.combatCategory rootId="skill-combatcat" classes="text-field" stacked=true value=system.combatCategory}}

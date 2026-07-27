@@ -774,6 +774,18 @@ export class SkillLogic<
             );
             if (parentLogic) {
                 this.parentSkill = parentLogic;
+                // A specialization configured to track its parent adopts the
+                // parent skill's mastery-level base as its own before this
+                // skill's own boosts and maxTarget clamp apply on top. The
+                // static `masteryLevelBase` data field is read (not the parent's
+                // computed mastery level) so adoption is independent of
+                // cross-item evaluate() ordering; an unopened parent (null base)
+                // contributes 0.
+                if (this.data.adoptParentMasteryLevel) {
+                    this.masteryLevel.setBase(
+                        parentLogic.data.masteryLevelBase ?? 0,
+                    );
+                }
             }
         }
         if (this.masteryLevel.base > 0) {
@@ -1024,6 +1036,13 @@ export interface SkillData<
      * during {@link SkillLogic.evaluate}.
      */
     parentSkillCode: string | null;
+    /**
+     * When `true` and {@link parentSkillCode} resolves to a parent skill, this
+     * skill adopts the parent's {@link masteryLevelBase} as its own mastery-level
+     * base during {@link SkillLogic.evaluate}, before this skill's own boosts and
+     * clamp apply. Ignored when there is no resolvable parent.
+     */
+    adoptParentMasteryLevel: boolean;
     /** Multiplier applied to skill base when initializing a new character */
     initSkillMult: number;
     /**

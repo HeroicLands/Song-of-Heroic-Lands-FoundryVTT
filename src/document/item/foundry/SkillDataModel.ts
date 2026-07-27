@@ -81,6 +81,12 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
             initial: null,
             blank: false,
         }),
+        // When this skill specializes another (its `parentSkillCode` resolves
+        // to a parent skill), track that parent's mastery-level base instead of
+        // this skill's own: during `evaluate()` the mastery-level base is set
+        // from the parent's `masteryLevelBase` before this skill's own boosts
+        // and clamp apply on top. Ignored when there is no resolvable parent.
+        adoptParentMasteryLevel: new BooleanField({ initial: false }),
         initSkillMult: new NumberField({
             integer: false,
             initial: 0,
@@ -141,6 +147,7 @@ export class SkillDataModel<
     improveFlag!: boolean;
     combatCategory!: string;
     parentSkillCode!: string | null;
+    adoptParentMasteryLevel!: boolean;
     initSkillMult!: number;
     impairedByRoles!: string[];
     strikeMode!: MeleeStrikeMode.Data | MissileStrikeMode.Data | null;
