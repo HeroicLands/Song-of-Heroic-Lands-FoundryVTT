@@ -10,7 +10,9 @@
  * emitted binding placeholders. Covers #709: the Combat Category control
  * (`system.combatCategory`) must render only when `subType === "combat"`, and
  * the removed phantom fields (`weaponGroup` / `baseSkill` / `domain`) must no
- * longer be referenced.
+ * longer be referenced. Also covers #713: the Impaired By Roles array
+ * (`system.impairedByRoles`) must render with add/delete controls, at parity
+ * with the Attribute sheet.
  */
 
 import { describe, it, expect } from "vitest";
@@ -18,9 +20,10 @@ import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 
 const SKILL_PROPS = "systems/sohl/templates/item/skill-properties.hbs";
 
-function render(subType: string): string {
+function render(subType: string, impairedByRoles: string[] = []): string {
     return renderTemplateReal(SKILL_PROPS, {
         tab: { active: true, group: "sheet" },
+        impairedByRoles,
         system: {
             skillBaseFormula: "@str",
             masteryLevelBase: 0,
@@ -55,5 +58,36 @@ describe("skill properties sheet template (#709)", () => {
         expect(html).not.toContain("weaponGroup");
         expect(html).not.toContain("system.baseSkill");
         expect(html).not.toContain("system.domain");
+    });
+});
+
+describe("skill properties sheet — Impaired By Roles (#713)", () => {
+    it("renders the Impaired By Roles list with an Add control wired to the array editor", () => {
+        const html = render("social");
+        expect(html).toContain("Impaired By Roles");
+        // Wired via ApplicationV2's delegated data-action dispatch (#734).
+        expect(html).toContain('data-action="addArrayItem"');
+        expect(html).toContain('data-array="system.impairedByRoles"');
+    });
+
+    it("renders a row per role with a delete control carrying its value", () => {
+        const html = render("social", ["vital", "manipulator"]);
+        expect(html).toContain('data-action="deleteArrayItem"');
+        expect(html).toContain(
+            'data-array="system.impairedByRoles" data-value="vital"',
+        );
+        expect(html).toContain(
+            'data-array="system.impairedByRoles" data-value="manipulator"',
+        );
+    });
+
+    it("renders an empty-state placeholder row when no roles are set", () => {
+        const html = render("social", []);
+        // No delete control is emitted for the empty state.
+        expect(html).not.toContain(
+            'data-array="system.impairedByRoles" data-value=',
+        );
+        // The Add control is still present so a role can be added.
+        expect(html).toContain('data-action="addArrayItem"');
     });
 });
