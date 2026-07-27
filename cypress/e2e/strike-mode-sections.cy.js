@@ -145,6 +145,47 @@ describe("derived strike mode sections", () => {
         });
     });
 
+    it("renders the weapon's flat impact modifier on the Combat tab (#774)", () => {
+        // A strike mode carrying a nonzero flat impact bonus must show it on the
+        // Combat tab (and feed the rolled impact), matching the item sheet.
+        // Regression: the modifier was routed only into the inner dice roll, so
+        // the label rendered `d6+0e` instead of `d6+2e`.
+        const weapon = meleeWeapon("Broadsabre");
+        weapon.system.strikeModes[0].impactBase = {
+            numDice: 1,
+            die: 6,
+            modifier: 2,
+            aspect: "edged",
+        };
+        cy.importActor().then((actor) => {
+            cy.ensureSkillML(actor, "melee", 50);
+            cy.createItemOn(actor, "weapongear", weapon).then((w) => {
+                cy.holdItem(w);
+                cy.prepare(actor);
+                cy.openSheet(actor);
+                cy.switchTab("combat", "primary");
+                cy.wait(500);
+                cy.foundry((win) => {
+                    const fs = meleeSection(win, actor.id);
+                    const group = [...fs.querySelectorAll("div.list")].find(
+                        (g) =>
+                            g
+                                .querySelector("h3.list__name.name")
+                                ?.textContent?.trim() === "Broadsabre",
+                    );
+                    const impact = group
+                        ?.querySelector('[data-action="rollStrikeModeImpact"]')
+                        ?.textContent?.trim();
+                    return { impact };
+                }).should((r) => {
+                    expect(r.impact, "impact carries the flat +2").to.equal(
+                        "d6+2e",
+                    );
+                });
+            });
+        });
+    });
+
     it("drops a weapon's strike modes when it is no longer held", () => {
         cy.importActor().then((actor) => {
             // Basic Folk already owns `melee`; raise its ML instead of adding a
