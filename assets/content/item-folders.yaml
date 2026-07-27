@@ -238,3 +238,20 @@
 - name: Mystical Abilities
   id: gpLM4ElXNiI1rN7l
   parentFolderId: oPaj2BHhAX2fvkx6
+
+- name: Arcane Talents
+  id: ZEuidNMK3mhkNrL7
+  parentFolderId: gpLM4ElXNiI1rN7l
+  color: "#8B0000"
+- name: Alchemy
+  id: m0nRzDsS8uGisvDU
+  parentFolderId: gpLM4ElXNiI1rN7l
+  color: "#696969"
+- name: Divination
+  id: 0GxlNn2dYXCW24YF
+  parentFolderId: gpLM4ElXNiI1rN7l
+  color: "#4682B4"
+- name: Spirit Action
+  id: u2uL4fjE2nKMfgbW
+  parentFolderId: gpLM4ElXNiI1rN7l
+  color: "#8E44AD"

@@ -24,7 +24,7 @@ sohl:
         value: 0
         max: 0
 
-folder: gpLM4ElXNiI1rN7l
+folder: 0GxlNn2dYXCW24YF
 ---
 
 Astrology is the esoteric study of celestial bodies and their influence on mortal fate. Practitioners chart the movements of stars and planets, interpret astronomical alignments, and cast horoscopes to divine future events or reveal hidden truths. This arcane discipline sits at the intersection of mathematics and mysticism, requiring both precise observational technique and an intuitive connection to the astral currents that shape destiny.

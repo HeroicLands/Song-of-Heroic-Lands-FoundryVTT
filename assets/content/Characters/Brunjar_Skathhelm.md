@@ -575,9 +575,9 @@ sohl:
         - shortcode: LtShoe
           type: armorgear
         - shortcode: bgsmcvs
-          type: miscgear
+          type: containergear
         - shortcode: SSton
-          type: miscgear
+          type: projectilegear
           system:
               quantity: 2
         - shortcode: pence

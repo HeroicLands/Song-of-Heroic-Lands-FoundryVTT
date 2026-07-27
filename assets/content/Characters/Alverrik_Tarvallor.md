@@ -635,7 +635,7 @@ sohl:
           system:
               masteryLevelBase: 56
         - shortcode: tlnt
-          type: skill
+          type: arcanetalent
           system:
               masteryLevelBase: 33
 thalorna:
