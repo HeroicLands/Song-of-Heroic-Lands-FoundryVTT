@@ -21,7 +21,7 @@ The Item sheet displays information about the individual item. There are general
 
 Although each type of Item has different properties, some properties are common among all Items. These properties include:
 
-- **Shortcode:** A relatively short alphanumeric text string that uniquely identifies this item within similarly-typed items. The shortcode is often used in code to identify an item, since name can change through localization (shortcodes are never localized).
+- **Shortcode:** A relatively short alphanumeric text string that uniquely identifies this item within similarly-typed items. The shortcode is often used in code to identify an item, since name can change through localization (shortcodes are never localized). See [[Shortcodes]] for what a shortcode means and why two items that share one are treated as the same thing.
 - **Notes:** A single-line note associated with an item that is normally displayed on the character sheet next to the item. This differs from the Description, which is a rich text multi-line block of text.
 
 ## Documentation Tab

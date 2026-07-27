@@ -111,6 +111,11 @@ skills, or attributes to a character.
   the duplicate for each new character.
 - **Search works.** Use the search bar at the top of an open compendium
   to find specific entries by name.
+- **Your copy stays linked to its origin by shortcode.** An imported copy has a
+  new id and can be customized freely, but it still corresponds to the compendium
+  entry it came from because they share a type and **shortcode**. Keep the shortcode
+  to preserve that link; change it to make a genuinely separate thing. See
+  [[Shortcodes]].
 
 <!-- TODO: Document how to create custom compendium packs, how world
      compendiums differ from system compendiums, and how updates affect
