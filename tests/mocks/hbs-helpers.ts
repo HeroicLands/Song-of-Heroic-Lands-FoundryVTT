@@ -73,6 +73,9 @@ function fieldPlaceholder(name: string) {
             fieldName ? `data-field="${esc(String(fieldName))}"` : "",
             `data-value="${esc(String(value))}"`,
             hash.disabled ? "data-disabled" : "",
+            // Surface the localize binding: a choices control that omits it
+            // renders raw i18n keys as option labels (#751).
+            hash.localize ? "data-localize" : "",
         ]
             .filter(Boolean)
             .join(" ");

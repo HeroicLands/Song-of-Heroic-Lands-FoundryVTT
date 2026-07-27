@@ -47,6 +47,16 @@ describe("skill properties sheet template (#709)", () => {
         expect(html).toContain('data-value="melee"');
     });
 
+    it("localizes the Combat Category choice labels (#751)", () => {
+        // The choices map uses i18n keys as labels; without localize=true the
+        // select renders "SOHL.Skill.Combat.melee" instead of "Melee".
+        const html = render("combat");
+        const control = html.slice(
+            html.indexOf('data-field="system.combatCategory"'),
+        );
+        expect(control).toContain("data-localize");
+    });
+
     it("omits the Combat Category control for non-combat subtypes", () => {
         const html = render("social");
         expect(html).not.toContain('data-field="system.combatCategory"');
