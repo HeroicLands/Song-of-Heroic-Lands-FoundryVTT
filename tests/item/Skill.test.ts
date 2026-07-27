@@ -29,7 +29,7 @@ function skillFields(overrides: Record<string, unknown> = {}) {
         masteryLevelBase: 30,
         improveFlag: false,
         combatCategory: "none",
-        parentSkillCode: "",
+        parentSkillCode: null,
         initSkillMult: 1,
         ...overrides,
     };
@@ -833,6 +833,67 @@ describe("SkillLogic", () => {
             });
         });
     });
+
+    describe("label (#710)", () => {
+        it("appends the parent skill's name in parentheses when a parent resolves", () => {
+            const actor = makeMockActor();
+            makeSkill(
+                {},
+                {
+                    actor,
+                    shortcode: "lang",
+                    id: "langskill0000001",
+                    name: "Language",
+                },
+            );
+            const child = makeSkill(
+                { parentSkillCode: "lang" },
+                { actor, id: "tradetongue00001", name: "Trade-Tongue" },
+            );
+            child.initialize();
+            child.evaluate();
+            expect(child.parentSkill?.name).toBe("Language");
+
+            // The i18n mock returns keys verbatim, so drive the real format
+            // string to assert the emitted label, not just the key.
+            vi.spyOn(sohl.i18n, "format").mockImplementation(
+                (key: string, data: Record<string, unknown> = {}) =>
+                    key === "SOHL.Skill.labelWithParent" ?
+                        `${data.skill} (${data.parent})`
+                    :   key,
+            );
+            expect(child.label).toBe("SOHL.docLabelFormat (Language)");
+        });
+
+        it("does not add a parenthetical when the skill has no parent", () => {
+            const child = makeSkill({ parentSkillCode: null });
+            child.initialize();
+            child.evaluate();
+            const fmt = vi.spyOn(sohl.i18n, "format");
+            void child.label;
+            expect(fmt).not.toHaveBeenCalledWith(
+                "SOHL.Skill.labelWithParent",
+                expect.anything(),
+            );
+        });
+
+        it("does not add a parenthetical when parentSkillCode resolves to nothing", () => {
+            const actor = makeMockActor();
+            const child = makeSkill(
+                { parentSkillCode: "missing" },
+                { actor, id: "orphanskill00001" },
+            );
+            child.initialize();
+            child.evaluate();
+            expect(child.parentSkill).toBeNull();
+            const fmt = vi.spyOn(sohl.i18n, "format");
+            void child.label;
+            expect(fmt).not.toHaveBeenCalledWith(
+                "SOHL.Skill.labelWithParent",
+                expect.anything(),
+            );
+        });
+    });
 });
 
 describe("SkillDataModel", () => {
@@ -847,8 +908,10 @@ describe("SkillDataModel", () => {
         it.todo(
             "defines weaponGroup with SkillCombatCategories choices defaulting to NONE",
         );
-        it.todo("defines baseSkill as a StringField");
-        it.todo("defines domain as a StringField");
+        it.todo(
+            "defines parentSkillCode as a nullable StringField (initial null, blank false)",
+        );
+        it.todo("defines initSkillMult as a NumberField");
     });
 
     it.todo("has kind set to ITEM_KIND.SKILL");

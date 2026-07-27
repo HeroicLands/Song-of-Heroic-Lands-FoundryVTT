@@ -136,6 +136,7 @@ export class SkillSheet extends SohlItemSheetBase {
             skillBaseFormula: system.skillBaseFormula,
             masteryLevelBase: system.masteryLevelBase,
             initSkillMult: system.initSkillMult,
+            parentSkillCode: system.parentSkillCode,
             improveFlag: system.improveFlag,
             subType: system.subType,
             combatCategory: system.combatCategory,
