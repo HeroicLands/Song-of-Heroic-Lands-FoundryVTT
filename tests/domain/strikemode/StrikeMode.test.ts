@@ -141,6 +141,33 @@ describe("MeleeStrikeMode", () => {
         sm.reach.add("SOHL.INFO.Reach", "Size", 2); // corpus reach (large)
         expect(sm.reach.effective).toBe(7);
     });
+
+    it("seeds the impact modifier base from impactBase.modifier (#774)", () => {
+        // The weapon's flat impact bonus must live in the impact ValueModifier
+        // base so it survives into `effective`, the rendered label, and the
+        // rolled impact — not only in the inner dice roll (which the label and
+        // ImpactResult never read). MELEE_DATA carries impactBase.modifier = 5.
+        const sm = new MeleeStrikeMode(MELEE_DATA, MOCK_LOGIC, MELEE_SHORTCODE);
+        expect(sm.impact.base).toBe(5);
+        expect(sm.impact.effective).toBe(5);
+        // Aspect char for edged is "e"; 1 die is elided by diceFormula.
+        expect(sm.impact.label).toBe("d10+5e");
+        // Wielder deltas add on top of the weapon's flat base.
+        sm.impact.add("SOHL.MOD.Strength", "Str", 2);
+        expect(sm.impact.effective).toBe(7);
+        expect(sm.impact.label).toBe("d10+7e");
+    });
+
+    it("defaults the impact base to 0 when impactBase.modifier is null (#774)", () => {
+        // impactBase.modifier is nullable; a null must seed base 0, not throw.
+        const data = {
+            ...MELEE_DATA,
+            impactBase: { ...MELEE_DATA.impactBase, modifier: null as any },
+        };
+        const sm = new MeleeStrikeMode(data, MOCK_LOGIC, MELEE_SHORTCODE);
+        expect(sm.impact.base).toBe(0);
+        expect(sm.impact.label).toBe("d10+0e");
+    });
 });
 
 describe("MissileStrikeMode", () => {
