@@ -15,6 +15,7 @@ import { entity } from "@src/entity/registry";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import {
     SohlItemBaseLogic,
@@ -213,10 +214,10 @@ export class MysticalAbilityLogic<
         const actorLogic = this.actorLogic;
         if (!actorLogic) return;
 
-        this.assocSkill = actorLogic.getItemLogic(
-            this.data.assocSkillCode ?? "",
-            ITEM_KIND.SKILL,
-        ) as SkillLogic;
+        this.assocSkill = resolveAssocSkill(
+            actorLogic,
+            this.data.assocSkillCode,
+        );
         this.assocMystery = actorLogic.getItemLogic(
             this.data.assocMysteryCode ?? "",
             ITEM_KIND.MYSTERY,

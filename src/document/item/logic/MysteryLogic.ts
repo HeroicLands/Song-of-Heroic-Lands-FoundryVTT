@@ -14,13 +14,13 @@
 import { entity } from "@src/entity/registry";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
 import {
     SohlItemBaseLogic,
     type SohlItemData,
 } from "@src/document/item/logic/SohlItemBaseLogic";
 import {
     ACTION_SUBTYPE,
-    ITEM_KIND,
     MysterySubType,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
@@ -180,13 +180,10 @@ export class MysteryLogic<
         // fate re-roll applies to) from its shortcode, when the actor is known.
         const actorLogic = this.actorLogic;
         if (!actorLogic) return;
-        this.assocSkill =
-            this.data.assocSkillCode ?
-                (actorLogic.getItemLogic(
-                    this.data.assocSkillCode,
-                    ITEM_KIND.SKILL,
-                ) as SkillLogic)
-            :   undefined;
+        this.assocSkill = resolveAssocSkill(
+            actorLogic,
+            this.data.assocSkillCode,
+        );
     }
 
     /** @inheritdoc */

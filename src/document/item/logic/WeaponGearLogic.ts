@@ -27,6 +27,8 @@ import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { applyProneMeleePenalty } from "@src/entity/strikemode/prone";
+import { applyGoverningMasteryLevel } from "@src/entity/strikemode/governing";
+import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
 import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import type { CombatResult } from "@src/entity/result/CombatResult";
 import {
@@ -258,6 +260,20 @@ export class WeaponGearLogic<
     /** @inheritdoc */
     override finalize(): void {
         super.finalize();
+        // Drive each strike mode's Atk/Blk/CX from its associated skill's
+        // mastery level (#755). A weapon has no mastery level of its own, so —
+        // unlike a combat technique (SkillLogic), which falls back to its own ML
+        // — there is no self-fallback: a strike mode contributes only its flat
+        // Atk/Blk/CX modifiers unless its `assocSkillCode` resolves to a skill on
+        // the wielder. Skills are finalized in the same phase, so their mastery
+        // levels are complete here (the same cross-item read SkillLogic makes).
+        for (const sm of this.strikeModes) {
+            const governing = resolveAssocSkill(
+                this.actorLogic,
+                sm.assocSkillCode,
+            )?.masteryLevel;
+            if (governing) applyGoverningMasteryLevel(sm, governing);
+        }
     }
 }
 

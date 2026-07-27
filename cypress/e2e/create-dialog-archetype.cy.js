@@ -21,6 +21,13 @@
 
 import { tagName } from "../support/factories/ids.js";
 import { BASIC_FOLK } from "../support/factories/basicFolk.js";
+import { resolveDocId } from "../support/commands/import.js";
+
+/** The stable descriptor for Basic Folk (id-independent; survives pack rebuilds). */
+const BASIC_FOLK_REF = {
+    shortcode: BASIC_FOLK.shortcode,
+    name: BASIC_FOLK.name,
+};
 
 describe("Create dialog: archetype seeding (#604)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
@@ -176,7 +183,9 @@ describe("Create dialog: archetype seeding (#604)", () => {
     it("Import preserves the docArchetype flag (copy-verbatim)", () => {
         cy.foundry(async (win) => {
             const pack = win.game.packs.get(BASIC_FOLK.pack);
-            const src = await pack.getDocument(BASIC_FOLK.id);
+            const src = await pack.getDocument(
+                await resolveDocId(pack, BASIC_FOLK_REF),
+            );
             const data = src.toObject();
             // Import = toObject → create (no strip). Retag so cleanupWorld sweeps it.
             data.name = tagName("Imported Folk");
@@ -197,7 +206,9 @@ describe("Create dialog: archetype seeding (#604)", () => {
         // Seed a flagged world archetype, then duplicate it.
         cy.foundry(async (win) => {
             const pack = win.game.packs.get(BASIC_FOLK.pack);
-            const src = await pack.getDocument(BASIC_FOLK.id);
+            const src = await pack.getDocument(
+                await resolveDocId(pack, BASIC_FOLK_REF),
+            );
             const data = src.toObject();
             data.name = tagName("Dup Source");
             data.system.shortcode = `dup_${Date.now()}`;

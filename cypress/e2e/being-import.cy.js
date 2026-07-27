@@ -50,20 +50,17 @@ describe("being import — Basic Folk", () => {
         // fires. Each import gets a distinct shortcode (importActor uniquifies
         // the `(type, shortcode)` key), so only the name collides — isolating the
         // name-uniquify path. This test cleans up its own (untagged) artifacts.
-        cy.importActor(BASIC_FOLK.pack, BASIC_FOLK.id, { tag: false }).then(
-            (a1) => {
-                cy.importActor(BASIC_FOLK.pack, BASIC_FOLK.id, {
-                    tag: false,
-                }).then((a2) => {
-                    expect(a1.name).to.eq("Basic Folk");
-                    expect(a2.name, "second import renamed").to.not.eq(a1.name);
-                    expect(a2.name).to.match(/Basic Folk/);
-                    cy.foundry(async (win) => {
-                        await win.Actor.deleteDocuments([a1.id, a2.id]);
-                        return true;
-                    });
+        const ref = { shortcode: BASIC_FOLK.shortcode, name: BASIC_FOLK.name };
+        cy.importActor(BASIC_FOLK.pack, ref, { tag: false }).then((a1) => {
+            cy.importActor(BASIC_FOLK.pack, ref, { tag: false }).then((a2) => {
+                expect(a1.name).to.eq("Basic Folk");
+                expect(a2.name, "second import renamed").to.not.eq(a1.name);
+                expect(a2.name).to.match(/Basic Folk/);
+                cy.foundry(async (win) => {
+                    await win.Actor.deleteDocuments([a1.id, a2.id]);
+                    return true;
                 });
-            },
-        );
+            });
+        });
     });
 });

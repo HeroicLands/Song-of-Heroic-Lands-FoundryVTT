@@ -19,6 +19,8 @@ import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModi
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { applyProneMeleePenalty } from "@src/entity/strikemode/prone";
+import { applyGoverningMasteryLevel } from "@src/entity/strikemode/governing";
+import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
 import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
@@ -852,28 +854,16 @@ export class SkillLogic<
         // attack/defense modifiers layer on top with the full derivation intact.
         // A disabled governing ML disables the derived rolls (rendered as ✕).
         if (this.strikeMode) {
-            const overrideCode = this.strikeMode.assocSkillCode;
+            // A combat technique's strike mode is governed by an override skill
+            // named in `assocSkillCode` when present, else by this skill's own
+            // mastery level.
             const governing =
-                (overrideCode ?
-                    (
-                        this.actorLogic?.getItemLogic(
-                            overrideCode,
-                            ITEM_KIND.SKILL,
-                        ) as SkillLogic | undefined
-                    )?.masteryLevel
-                :   undefined) ?? this.masteryLevel;
+                resolveAssocSkill(
+                    this.actorLogic,
+                    this.strikeMode.assocSkillCode,
+                )?.masteryLevel ?? this.masteryLevel;
 
-            const derived: MasteryLevelModifier[] = [this.strikeMode.attack];
-            if (this.strikeMode instanceof MeleeStrikeMode) {
-                derived.push(
-                    this.strikeMode.defense.block,
-                    this.strikeMode.defense.counterstrike,
-                );
-            }
-            for (const mod of derived) {
-                mod.addVM(governing, { includeBase: true });
-                if (governing.disabled) mod.disabled = governing.disabled;
-            }
+            applyGoverningMasteryLevel(this.strikeMode, governing);
             // A prone wielder suffers −20 to all melee attacks and defenses
             // (#562) — a combat technique carries its own strike mode, so apply
             // it here as WeaponGearLogic does for weapon strike modes.
