@@ -201,6 +201,91 @@
     }
 }
 
+// Actions tab lists ("Custom Actions" / "Intrinsic Actions") on item sheets.
+// They use the shared `.list__*` item-list markup but sit directly in the tab
+// `<section>` — not inside the `.list-section .list` wrapper that carries the
+// item-list styling above. The generic `.list__*` styling lives in
+// `_being.scss`, loaded only under `.sohl.being`, so the actor Actions tab
+// looks right but item sheets had no rule: the `<h3>` header rendered as an
+// oversized Cinzel heading and the columns went unsized (#708). Give the
+// actions lists the same compact header row, column widths, and row chrome the
+// other item lists get. Keyed on `.actions-list` (unique to these lists), so it
+// also matches the Being sheet — harmlessly, with identical tokens/mixins.
+.actions-list {
+    @include list.reset;
+
+    .list__header {
+        @include list.header-row(
+            var(--sohl-color-bg-overlay-dark),
+            var(--sohl-color-border-subtle)
+        );
+
+        .list__name {
+            color: var(--sohl-color-text-primary);
+        }
+    }
+
+    // Name column: fixed width so every row aligns; the inner `<h4>` uses the
+    // sans body font at row size, clipped with an ellipsis on overflow.
+    .list__name {
+        flex: 0 0 200px;
+        min-width: 0;
+        @include mixins.truncate;
+
+        h4 {
+            flex: 1;
+            min-width: 0;
+            margin: 0;
+            font-family: var(--sohl-font-sans);
+            font-size: 14px;
+            font-weight: normal;
+            @include mixins.truncate;
+        }
+    }
+
+    // Row icon — without a size the background-image div collapses (cf. #508).
+    .list__image {
+        flex: 0 0 24px;
+        height: 24px;
+        margin-right: 5px;
+        background-size: 24px 24px;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .list__detail {
+        flex: 0 0 60px;
+        text-align: center;
+        font-size: 12px;
+        @include mixins.truncate;
+    }
+
+    // The notes column grows to fill the remaining row width, left-aligned.
+    .list__notes {
+        flex: 1 1 0;
+        min-width: 0;
+        text-align: left;
+        padding-left: 5px;
+        @include mixins.truncate;
+    }
+
+    .list__controls {
+        @include list.controls(66px);
+    }
+
+    // Compact single-line data rows with separators.
+    .item.flexrow {
+        align-items: center;
+        line-height: 24px;
+        padding: 0 2px;
+        border-bottom: 1px solid var(--sohl-color-border-default);
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+}
+
 // The item Description tab holds only the appearance/description editor: it
 // fills the tab and scrolls its own content, so the tab never shows a scrollbar
 // (item sheets never scroll). No minimum height — it just fills.
