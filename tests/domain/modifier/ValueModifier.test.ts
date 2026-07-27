@@ -519,18 +519,28 @@ describe("ValueModifier", () => {
     });
 
     // Renamed from `shortcode` (which collides with the document identity key)
-    // to `deltaLabel` — the compact summary of applied deltas (#769).
+    // to `deltaLabel` — the derivation summary: base contribution + deltas (#769).
     describe("deltaLabel", () => {
-        it("is empty when there are no deltas (value is just the base)", () => {
-            const vm = createVM({ baseValue: 42 });
-            expect(vm.deltaLabel).toBe("");
+        it("leads with the base contribution when there are no deltas", () => {
+            const vm = createVM({ baseValue: 30 });
+            expect(vm.deltaLabel).toBe(`${VALUE_DELTA_INFO.BASE} +30`);
         });
 
-        it("summarizes each applied delta with its shortcode and adjustment", () => {
+        it("appends each applied delta after the base", () => {
+            const vm = createVM({ baseValue: 30 });
+            pushDelta(vm, "SSMod", VALUE_DELTA_OPERATOR.ADD, 25);
+            expect(vm.deltaLabel).toBe(
+                `${VALUE_DELTA_INFO.BASE} +30, SSMod +25`,
+            );
+        });
+
+        it("summarizes multiple deltas with their operators", () => {
             const vm = createVM({ baseValue: 40 });
             pushDelta(vm, "STR", VALUE_DELTA_OPERATOR.ADD, 2);
             pushDelta(vm, "ARM", VALUE_DELTA_OPERATOR.MULTIPLY, 2);
-            expect(vm.deltaLabel).toBe(`STR +2, ARM ${SYMBOL.TIMES}2`);
+            expect(vm.deltaLabel).toBe(
+                `${VALUE_DELTA_INFO.BASE} +40, STR +2, ARM ${SYMBOL.TIMES}2`,
+            );
         });
 
         it("is the disabled marker when the modifier is disabled", () => {

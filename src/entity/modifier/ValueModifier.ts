@@ -146,7 +146,14 @@ export class ValueModifier extends SohlEntity {
         this.customFunction = data.customFunction ?? undefined;
         this.deltas = data.deltas ?? [];
         this.dirty = true;
-        this._apply();
+        // Apply only when this is the most-derived class being constructed. A
+        // subclass sets its own apply-affecting fields *after* this super()
+        // call (e.g. ImpactModifier's dice `roll`), so applying here would
+        // compute the effective value and delta summary from incomplete state
+        // and cache it (dirty=false) before those fields exist — leaving, e.g.,
+        // an enabled impact showing a stale "Dsbl" summary. Each subclass runs
+        // its own guarded _apply() at the end of its constructor instead (#769).
+        if (new.target === ValueModifier) this._apply();
     }
 
     /**
@@ -291,13 +298,15 @@ export class ValueModifier extends SohlEntity {
     }
 
     /**
-     * A compact, human-readable summary of the applied deltas (e.g.
-     * `STR +2, ARM ×2`), or the disabled marker when {@link disabled}. Empty
-     * when the value has no deltas (its effective value is just the base).
+     * A compact, human-readable summary of how the value is derived: the base
+     * contribution followed by each applied delta (e.g. `Base +30, SSMod +25`),
+     * or the disabled marker (`Dsbl`) when {@link disabled}. An unmodified value
+     * still summarizes as `Base +N`, so the summary is never empty for an
+     * enabled value.
      *
-     * Named `deltaLabel` — not `shortcode` — because a `ValueModifier`'s delta
-     * summary is unrelated to the document `system.shortcode` identity key used
-     * across the rest of the system.
+     * Named `deltaLabel` — not `shortcode` — because a `ValueModifier`'s
+     * derivation summary is unrelated to the document `system.shortcode`
+     * identity key used across the rest of the system.
      */
     get deltaLabel(): string {
         this._apply();
@@ -716,43 +725,55 @@ export class ValueModifier extends SohlEntity {
      * @internal
      */
     protected _calcDeltaLabel(): void {
-        this._deltaLabel = "";
         if (this.disabled) {
             this._deltaLabel = VALUE_DELTA_INFO.DISABLED;
-        } else {
-            this.deltas.forEach((adj) => {
-                if (this._deltaLabel) {
-                    this._deltaLabel += ", ";
-                }
-
-                switch (adj.op) {
-                    case VALUE_DELTA_OPERATOR.ADD:
-                        this._deltaLabel += `${adj.shortcode} ${adj.numValue > 0 ? "+" : ""}${adj.value}`;
-                        break;
-
-                    case VALUE_DELTA_OPERATOR.MULTIPLY:
-                        this._deltaLabel += `${adj.shortcode} ${SYMBOL.TIMES}${adj.value}`;
-                        break;
-
-                    case VALUE_DELTA_OPERATOR.DOWNGRADE:
-                        this._deltaLabel += `${adj.shortcode} ${SYMBOL.LESSTHANOREQUAL}${adj.value}`;
-                        break;
-
-                    case VALUE_DELTA_OPERATOR.UPGRADE:
-                        this._deltaLabel += `${adj.shortcode} ${SYMBOL.GREATERTHANOREQUAL}${adj.value}`;
-                        break;
-
-                    case VALUE_DELTA_OPERATOR.OVERRIDE:
-                        this._deltaLabel += `${adj.shortcode} =${adj.value}`;
-                        break;
-
-                    case VALUE_DELTA_OPERATOR.CUSTOM:
-                        if (adj.value === "disabled")
-                            this._deltaLabel += `${adj.shortcode}`;
-                        break;
-                }
-            });
+            return;
         }
+
+        // Lead with the base contribution (e.g. `Base +30`) so an unmodified
+        // value still has a meaningful summary, then append one entry per delta
+        // (`Base +30, SSMod +25`).
+        const base = this.base;
+        const parts: string[] = [
+            `${VALUE_DELTA_INFO.BASE} ${base >= 0 ? "+" : ""}${base}`,
+        ];
+
+        this.deltas.forEach((adj) => {
+            switch (adj.op) {
+                case VALUE_DELTA_OPERATOR.ADD:
+                    parts.push(
+                        `${adj.shortcode} ${adj.numValue > 0 ? "+" : ""}${adj.value}`,
+                    );
+                    break;
+
+                case VALUE_DELTA_OPERATOR.MULTIPLY:
+                    parts.push(`${adj.shortcode} ${SYMBOL.TIMES}${adj.value}`);
+                    break;
+
+                case VALUE_DELTA_OPERATOR.DOWNGRADE:
+                    parts.push(
+                        `${adj.shortcode} ${SYMBOL.LESSTHANOREQUAL}${adj.value}`,
+                    );
+                    break;
+
+                case VALUE_DELTA_OPERATOR.UPGRADE:
+                    parts.push(
+                        `${adj.shortcode} ${SYMBOL.GREATERTHANOREQUAL}${adj.value}`,
+                    );
+                    break;
+
+                case VALUE_DELTA_OPERATOR.OVERRIDE:
+                    parts.push(`${adj.shortcode} =${adj.value}`);
+                    break;
+
+                case VALUE_DELTA_OPERATOR.CUSTOM:
+                    if (adj.value === "disabled")
+                        parts.push(`${adj.shortcode}`);
+                    break;
+            }
+        });
+
+        this._deltaLabel = parts.join(", ");
     }
 }
 

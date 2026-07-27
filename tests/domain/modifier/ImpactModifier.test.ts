@@ -1,7 +1,7 @@
 import { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { defaultToJSON, defaultFromJSON } from "@src/utils/helpers";
-import { BRAND, IMPACT_ASPECT } from "@src/utils/constants";
+import { BRAND, IMPACT_ASPECT, VALUE_DELTA_INFO } from "@src/utils/constants";
 
 // A stand-in owning logic carrying the SohlLogic brand.
 const parent = { id: "p", [BRAND.SohlLogic]: true } as any;
@@ -96,5 +96,34 @@ describe("ImpactModifier", () => {
         it.todo(
             "creates a SimpleRoll from formula and rolls when no prior roll",
         );
+    });
+
+    // Regression (#769): the base constructor applied before ImpactModifier set
+    // its dice `roll`, caching a "Dsbl" delta summary for an impact that is
+    // actually enabled. The most-derived _apply() must run after the roll is set.
+    describe("deltaLabel staleness", () => {
+        it("summarizes an enabled impact (has dice) as Base +N, not Dsbl", () => {
+            const im = new ImpactModifier(
+                {
+                    baseValue: 0,
+                    roll: new SimpleRoll(
+                        { numDice: 1, dieFaces: 8 },
+                        { parent },
+                    ),
+                    aspect: IMPACT_ASPECT.PIERCING,
+                } as any,
+                { parent },
+            );
+            // die 8 → not auto-disabled → summary reflects the base, not "Dsbl".
+            expect(im.disabled).toBe("");
+            expect(im.deltaLabel).toBe(`${VALUE_DELTA_INFO.BASE} +0`);
+        });
+
+        it("summarizes a no-damage impact (no dice, zero modifier) as Dsbl", () => {
+            const im = new ImpactModifier({ baseValue: 0 } as any, { parent });
+            // die 0 and effective 0 → auto-disabled → "Dsbl".
+            expect(im.disabled).toBeTruthy();
+            expect(im.deltaLabel).toBe(VALUE_DELTA_INFO.DISABLED);
+        });
     });
 });

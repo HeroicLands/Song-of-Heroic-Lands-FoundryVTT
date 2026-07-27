@@ -507,6 +507,7 @@ export const {
     isValue: isValueDeltaInfo,
 } = defineType("SOHL.ValueDelta.INFO", {
     DISABLED: "Dsbl",
+    BASE: "Base",
     NOMSLDEF: "NoMslDef",
     NOMODIFIERNODIE: "NMND",
     NOBLOCK: "NoBlk",

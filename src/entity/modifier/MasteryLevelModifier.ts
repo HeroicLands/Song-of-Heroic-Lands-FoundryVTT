@@ -327,6 +327,9 @@ export class MasteryLevelModifier extends ValueModifier {
             sohl.i18n.format("SOHL.MasteryLevelModifier.successTest", {
                 label: this.parent.label,
             });
+        // Apply now that this subclass's fields are set (see ValueModifier's
+        // constructor for why the base defers the most-derived apply) (#769).
+        if (new.target === MasteryLevelModifier) this._apply();
     }
 
     /**

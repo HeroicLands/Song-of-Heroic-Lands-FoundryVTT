@@ -115,6 +115,9 @@ export class ImpactModifier extends ValueModifier {
         this._aimBodyPartCode = data.aimBodyPartCode ?? "";
         this._spread = data.spread ?? 0;
         this._variant = isImpactVariant(data.variant) ? data.variant : null;
+        // Apply now that the dice `roll` (which drives `disabled`) is set, so
+        // the cached effective value and delta summary reflect it (#769).
+        if (new.target === ImpactModifier) this._apply();
     }
 
     /** The body part shortcode this attack aims at (empty when unaimed). */
