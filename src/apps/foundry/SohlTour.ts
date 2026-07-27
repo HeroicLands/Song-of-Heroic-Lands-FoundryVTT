@@ -355,6 +355,18 @@ export class SohlTour extends TourBase {
         // stacks a second fade/overlay/tooltip.
         this.#teardownStepDom();
 
+        // Bail if the tour was exited while `progress()` was mid-flight. The base
+        // `progress()` awaits `#saveProgress()` and this override's `_preStep()`
+        // (sheet render, tab switch, stable-rect settle) BEFORE reaching here, and
+        // base `exit()` clears `Tour.activeTour` WITHOUT rewinding `stepIndex` (so
+        // `status` stays `IN_PROGRESS`). An `exit()` that interleaves those awaits —
+        // e.g. a spec's `afterEach` exiting an un-awaited button-launched tour, or a
+        // user pressing Escape mid-open — would otherwise let this render a centered
+        // card AFTER teardown already ran, stranding a ghost `.tour-center-step`
+        // that no later teardown reclaims (#679). Rendering only while this tour is
+        // still the active tour prevents the orphan at its source.
+        if ((TourBase as any).activeTour !== this) return;
+
         // Render the step card as a stable, centered `.tour-center-step` — never
         // Foundry's shared `game.tooltip`, which sidebar tabs, sheet context-menus,
         // and any hover-tooltip hijack, wiping the card mid-step. Core picks the

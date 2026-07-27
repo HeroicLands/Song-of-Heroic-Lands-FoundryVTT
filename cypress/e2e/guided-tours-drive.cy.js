@@ -161,6 +161,35 @@ describe("driven-tour: seeded RNG (SohlTour #624)", () => {
             expect(seeded).to.not.deep.equal(unseeded);
         });
     });
+
+    it("exiting while start() is mid-flight leaves no ghost step card (#679)", () => {
+        // Regression: a tour launched but not awaited (e.g. a button-launch) whose
+        // owner exits before the async `_preStep()` settles must not strand an
+        // orphan `.tour-center-step`. Base `exit()` clears `Tour.activeTour` but
+        // leaves `stepIndex` (so `status` stays IN_PROGRESS), so the in-flight
+        // `progress()` still reaches `_renderStep` — which must refuse to paint a
+        // card once this tour is no longer the active tour. Otherwise the ghost
+        // card is read by a later test's Next-button gate probe as "open",
+        // spuriously failing the character-creation gate assertions in full-suite
+        // runs. Interleaving `start()` and `exit()` in one synchronous frame lands
+        // the exit before any render await resolves.
+        cy.foundry((win) => {
+            for (const el of win.document.querySelectorAll(
+                ".tour-center-step",
+            )) {
+                el.remove();
+            }
+            const tour = buildSeededTour(win, "e2e-ghost-679");
+            const p = tour.start().catch(() => {}); // do NOT await the render
+            tour.exit(); // exit before the in-flight _preStep/_renderStep settles
+            return p.then(() => true);
+        });
+        // Give any stranded in-flight render a frame to (not) paint, then assert
+        // the DOM holds no orphaned centered step card.
+        cy.foundry(
+            (win) => win.document.querySelectorAll(".tour-center-step").length,
+        ).should("eq", 0);
+    });
 });
 
 describe("driven-tour: drive steps (SohlTour #624)", () => {
