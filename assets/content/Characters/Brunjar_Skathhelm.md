@@ -46,6 +46,7 @@ traits:
             - boyish face that makes him look younger than his years
             - fidgets constantly
 sohl:
+    archetype: null
     attributes:
         str: 10
         end: 10
