@@ -514,6 +514,10 @@ sohl:
           type: skill
           system:
               masteryLevelBase: 28
+        - shortcode: endur
+          type: skill
+          system:
+              masteryLevelBase: 37
         - shortcode: init
           type: skill
           system:
