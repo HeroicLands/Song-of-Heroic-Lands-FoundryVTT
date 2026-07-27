@@ -19,14 +19,14 @@ sohl:
         dex: 6
         agl: 6
         per: 6
-        sha: 11
+        pal: 11
     attrRollFormula:
         str: 1d6+10
         end: 1d4+13
         dex: 1d4+3
         agl: 1d4+3
         per: 1d4+3
-        sha: 1d6+7
+        pal: 1d6+7
     body:
         structure:
             parts:
