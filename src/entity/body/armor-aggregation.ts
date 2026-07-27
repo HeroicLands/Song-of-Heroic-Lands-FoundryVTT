@@ -21,7 +21,7 @@ import type { BodyStructure } from "@src/entity/body/BodyStructure";
  */
 export interface ArmorLayer {
     /** Display material, e.g. "Mail" — used to build the location's armorType. */
-    material: string;
+    material: string | null;
     /** Protection this layer adds per aspect (blunt, edged, piercing, fire). */
     protection: {
         /** Protection against blunt impact. */
@@ -85,8 +85,8 @@ export function aggregateArmor(
             if (rigid.has(code)) loc.isRigid = true;
             loc.armorType =
                 loc.armorType ?
-                    `${loc.armorType}, ${layer.material}`
-                :   layer.material;
+                    `${loc.armorType}, ${layer.material ?? ""}`
+                :   (layer.material ?? "");
         }
     }
 }

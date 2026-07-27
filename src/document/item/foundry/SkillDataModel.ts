@@ -52,10 +52,13 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
         ...SohlItemDataModel.defineSchema(),
         subType: new StringField({
             initial: SKILL_SUBTYPE.SOCIAL,
-            required: true,
             choices: SkillSubTypeChoices,
         }),
-        skillBaseFormula: new StringField({ initial: "" }),
+        skillBaseFormula: new StringField({
+            nullable: true,
+            blank: false,
+            initial: null,
+        }),
         // `null` = "not yet opened" (distinct from a deliberate 0). On an actor
         // an unopened skill opens at Skill Base × initSkillMult; see
         // SkillLogic.initialize.
@@ -142,7 +145,7 @@ export class SkillDataModel<
         "SOHL.Item",
     ];
     subType!: SkillSubType;
-    skillBaseFormula!: string;
+    skillBaseFormula!: string | null;
     masteryLevelBase!: number | null;
     improveFlag!: boolean;
     combatCategory!: string;

@@ -35,7 +35,7 @@ import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
  */
 export function resolveAssocSkill(
     actorLogic: SohlActorLogic<any> | null | undefined,
-    assocSkillCode: string | undefined,
+    assocSkillCode: string | null | undefined,
 ): SkillLogic | undefined {
     if (!actorLogic || !assocSkillCode) return undefined;
     return actorLogic.getItemLogic(assocSkillCode, ITEM_KIND.SKILL) as

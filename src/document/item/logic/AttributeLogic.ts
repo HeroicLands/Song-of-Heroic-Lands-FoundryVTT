@@ -190,7 +190,7 @@ export interface AttributeData<
         maxValue: number;
     }[];
     /** Dice formula used for random generation of this attribute's score */
-    initDiceFormula: string;
+    initDiceFormula: string | null;
     /** Body roles whose injury impairs this attribute */
     impairedByRoles: string[];
 }

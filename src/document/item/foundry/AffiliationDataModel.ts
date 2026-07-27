@@ -28,13 +28,19 @@ function defineAffiliationDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
         society: new StringField({
-            initial: "",
+            nullable: true,
+            blank: false,
+            initial: null,
         }),
         office: new StringField({
-            initial: "",
+            nullable: true,
+            blank: false,
+            initial: null,
         }),
         title: new StringField({
-            initial: "",
+            nullable: true,
+            blank: false,
+            initial: null,
         }),
         level: new NumberField({
             integer: true,
@@ -62,9 +68,9 @@ export class AffiliationDataModel<
     ];
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.AFFILIATION;
-    society!: string;
-    office!: string;
-    title!: string;
+    society!: string | null;
+    office!: string | null;
+    title!: string | null;
     level!: number;
 
     /**

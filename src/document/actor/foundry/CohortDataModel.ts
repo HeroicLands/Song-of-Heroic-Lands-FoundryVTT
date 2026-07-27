@@ -30,7 +30,11 @@ const { ArrayField, SchemaField, StringField } = foundry.data.fields;
 function defineCohortDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
-        leaderName: new StringField({ initial: "" }),
+        leaderName: new StringField({
+            nullable: true,
+            blank: false,
+            initial: null,
+        }),
         members: new ArrayField(
             new SchemaField({
                 shortcodeOrUuid: new StringField({
@@ -66,7 +70,7 @@ export class CohortDataModel<
     ];
     /** @inheritDoc */
     static override readonly kind = ACTOR_KIND.COHORT;
-    leaderName!: string;
+    leaderName!: string | null;
     members!: { shortcodeOrUuid: string; role: string }[];
 
     /**

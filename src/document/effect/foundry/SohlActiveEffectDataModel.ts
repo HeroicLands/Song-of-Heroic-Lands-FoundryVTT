@@ -49,17 +49,14 @@ function defineActiveEffectDataSchema(): foundry.data.fields.DataSchema {
             new SchemaField({
                 key: new StringField({ required: true }),
                 type: new StringField({
-                    required: true,
                     blank: false,
                     initial: "add",
                 }),
                 value: new AnyField({
-                    required: true,
                     nullable: false,
                     initial: "",
                 }),
                 phase: new StringField({
-                    required: true,
                     blank: false,
                     initial: "initial",
                 }),

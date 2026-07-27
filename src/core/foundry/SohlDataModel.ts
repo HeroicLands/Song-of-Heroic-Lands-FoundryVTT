@@ -84,7 +84,6 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                 title: new StringField({ initial: "" }),
                 scope: new StringField({
                     choices: SohlActionScopes,
-                    required: true,
                     initial: SOHL_ACTION_SCOPE.SELF,
                 }),
                 // A reference, never code: an intrinsic method name or a
@@ -127,9 +126,9 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                 /** The action shortcode to run on this document's logic. */
                 actionName: new StringField({ required: true, blank: false }),
                 /** World time (seconds) the schedule was last set from. */
-                anchor: new NumberField({ required: true, initial: 0 }),
+                anchor: new NumberField({ initial: 0 }),
                 /** Seconds from `anchor` to the next fire. */
-                interval: new NumberField({ required: true, initial: 0 }),
+                interval: new NumberField({ initial: 0 }),
                 /**
                  * The lifecycle trigger this schedule listens to (issue #622).
                  * Blank (the default) or `"updateWorldTime"` means a time-based

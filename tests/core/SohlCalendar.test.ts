@@ -120,35 +120,46 @@ describe("SohlCalendarData", () => {
             expect(eraField.fields.hasYearZero).toBeInstanceOf(BooleanField);
         });
 
-        it("defines era.name as a required StringField with empty initial", () => {
+        // Era name/abbrev fields are interpolated into rendered date strings,
+        // so they stay non-null strings with an empty-string default — but the
+        // redundant `required: true` is dropped (a field with a default is not
+        // caller-mandatory; Foundry auto-fills it from `initial`).
+        it("defines era.name as a defaulted (non-required) StringField", () => {
             const f = eraField.fields.name;
             expect(f).toBeInstanceOf(StringField);
-            expect(f.options.required).toBe(true);
+            expect(f.options.required).not.toBe(true);
             expect(f.options.initial).toBe("");
         });
 
-        it("defines era.abbrev as a required StringField", () => {
+        it("defines era.abbrev as a defaulted (non-required) StringField", () => {
             const f = eraField.fields.abbrev;
             expect(f).toBeInstanceOf(StringField);
-            expect(f.options.required).toBe(true);
+            expect(f.options.required).not.toBe(true);
+            expect(f.options.initial).toBe("");
         });
 
-        it("defines era.beforeName as a required StringField", () => {
+        it("defines era.beforeName as a defaulted (non-required) StringField", () => {
             const f = eraField.fields.beforeName;
             expect(f).toBeInstanceOf(StringField);
-            expect(f.options.required).toBe(true);
+            expect(f.options.required).not.toBe(true);
+            expect(f.options.initial).toBe("");
         });
 
-        it("defines era.beforeAbbrev as a required StringField", () => {
+        it("defines era.beforeAbbrev as a defaulted (non-required) StringField", () => {
             const f = eraField.fields.beforeAbbrev;
             expect(f).toBeInstanceOf(StringField);
-            expect(f.options.required).toBe(true);
+            expect(f.options.required).not.toBe(true);
+            expect(f.options.initial).toBe("");
         });
 
-        it("defines era.description as an optional StringField", () => {
+        // description is free-text where "unset" == "" == blank; represent
+        // unset as null (nullable, blank:false, initial:null).
+        it("defines era.description as a nullable (unset==null) StringField", () => {
             const f = eraField.fields.description;
             expect(f).toBeInstanceOf(StringField);
-            expect(f.options.required).toBe(false);
+            expect(f.options.nullable).toBe(true);
+            expect(f.options.blank).toBe(false);
+            expect(f.options.initial).toBe(null);
         });
     });
 

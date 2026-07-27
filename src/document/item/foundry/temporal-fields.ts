@@ -67,7 +67,7 @@ export function durationBaseField(): foundry.data.fields.DataField.Any {
  * @returns A `StringField` configured for an optional duration formula.
  */
 export function durationFormulaField(): foundry.data.fields.DataField.Any {
-    return new StringField({ initial: "" });
+    return new StringField({ nullable: true, blank: false, initial: null });
 }
 
 /**

@@ -41,12 +41,15 @@ function defineAttributeSchema(): foundry.data.fields.DataSchema {
                 }),
                 maxValue: new NumberField({
                     integer: true,
-                    required: true,
                     initial: 0,
                 }),
             }),
         ),
-        initDiceFormula: new StringField({ initial: "" }),
+        initDiceFormula: new StringField({
+            nullable: true,
+            blank: false,
+            initial: null,
+        }),
         /**
          * Body roles whose injury impairs this attribute. Mirrors the same
          * field on Skill — see SkillDataModel and BodyRole in constants.
@@ -85,7 +88,7 @@ export class AttributeDataModel<
         label: string;
         maxValue: number;
     }[];
-    initDiceFormula!: string;
+    initDiceFormula!: string | null;
     impairedByRoles!: string[];
 
     /**

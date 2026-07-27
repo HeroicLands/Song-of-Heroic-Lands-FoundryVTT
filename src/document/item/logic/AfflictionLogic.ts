@@ -595,7 +595,7 @@ export class AfflictionLogic<
      * @param formula - The duration formula (dice expression or bare seconds).
      * @returns The rolled duration in seconds.
      */
-    private rollDuration(formula: string): number {
+    private rollDuration(formula: string | null): number {
         if (!formula) return 0;
         try {
             const rolled = SimpleRoll.fromFormula(formula, this).roll();
@@ -837,7 +837,7 @@ export class AfflictionLogic<
      */
     private async contractOutcomeTraumas(): Promise<void> {
         const value = new SafeExpression(
-            { source: this.data.outcomeTrauma },
+            { source: this.data.outcomeTrauma ?? undefined },
             { parent: this },
         ).evaluate({});
         const shortcodes = (Array.isArray(value) ? value : [value])
@@ -870,7 +870,7 @@ export interface AfflictionData<
     /** Affliction category (Disease, Poison, Fatigue, etc.) */
     subType: AfflictionSubType;
     /** Additional sub-categorization within the affliction type */
-    category: string;
+    category: string | null;
     /** Whether the affliction is inactive but potentially contagious */
     isDormant: boolean;
     /** World-time (seconds) at which the affliction was contracted. */
@@ -885,7 +885,7 @@ export interface AfflictionData<
      * symptomatic at onset (a reference, never source). May schedule further
      * events. Blank means no onset macro.
      */
-    onsetMacroUuid: string;
+    onsetMacroUuid: string | null;
     /**
      * The authored outcome applied at resolution when the affliction was not
      * defeated — an `AFFLICTION_OUTCOME` value (`DEATH` or `CURED`).
@@ -896,19 +896,19 @@ export interface AfflictionData<
      * trauma shortcode — or an array of shortcodes — the host contracts as part
      * of the outcome. Blank means none; combines with {@link outcome}.
      */
-    outcomeTrauma: string;
+    outcomeTrauma: string | null;
     /** Formula rolled to seed the incubation (contract → onset) interval. */
-    onsetDurationFormula: string;
+    onsetDurationFormula: string | null;
     /** Rolled seconds of incubation; `null` until rolled. */
     onsetDurationBase: number | null;
     /** World-time at which symptoms began (onset crystallized); `null` while incubating. */
     onsetDate: number | null;
     /** Formula rolled to seed the recurring course/recovery-check interval. */
-    healingCheckDurationFormula: string;
+    healingCheckDurationFormula: string | null;
     /** Rolled seconds between course/recovery checks; `null` until rolled. */
     healingCheckDurationBase: number | null;
     /** Formula rolled to seed the onset → resolution interval. */
-    resolutionDurationFormula: string;
+    resolutionDurationFormula: string | null;
     /** Rolled seconds from onset to resolution; `null` until rolled. */
     resolutionDurationBase: number | null;
     /** World-time at which the affliction resolved (death/disability/cure); `null` until resolved. */

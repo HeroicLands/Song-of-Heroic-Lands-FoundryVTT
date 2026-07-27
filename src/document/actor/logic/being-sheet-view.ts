@@ -257,9 +257,9 @@ export interface AffiliationRow {
     /** Standing/rank within the organization. */
     level: number;
     /** Subdivision or branch of the organization. */
-    society: string;
+    society: string | null;
     /** Specific position held within the organization. */
-    office: string;
+    office: string | null;
     /** Formal title granted by the organization. */
     title: string;
     /** Notes, reduced to a plain-text snippet for the table cell. */
@@ -272,8 +272,8 @@ export interface AffiliationLike {
     uuid: string;
     name: string;
     level: number;
-    society: string;
-    office: string;
+    society: string | null;
+    office: string | null;
     title: string;
     notes: string;
 }

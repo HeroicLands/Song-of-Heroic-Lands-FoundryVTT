@@ -247,9 +247,9 @@ export interface MysticalAbilityData<
     /** Ability type (Incantation, Rite, Talent, etc.) */
     subType: MysticalAbilitySubType;
     /** Shortcode of the skill used to activate this ability */
-    assocSkillCode?: string;
+    assocSkillCode?: string | null;
     /** Shortcode of the mystery that determines this ability's tradition */
-    assocMysteryCode?: string;
+    assocMysteryCode?: string | null;
     /** Power level of this ability, or `null` when it has no level. */
     levelBase: number | null;
     /** Mastery level of this mystical ability if assocSkillCode is blank */

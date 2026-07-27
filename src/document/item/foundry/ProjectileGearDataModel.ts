@@ -39,7 +39,6 @@ function defineProjectileGearSchema(): foundry.data.fields.DataSchema {
         ...GearDataModel.defineSchema(),
         subType: new StringField({
             choices: ProjectileGearSubTypeChoices,
-            required: true,
             initial: PROJECTILEGEAR_SUBTYPE.NONE,
         }),
         impactBase: new SchemaField({
@@ -62,7 +61,6 @@ function defineProjectileGearSchema(): foundry.data.fields.DataSchema {
             }),
             aspect: new StringField({
                 initial: IMPACT_ASPECT.BLUNT,
-                required: true,
                 choices: ImpactAspectChoices,
             }),
             traits: new SchemaField({

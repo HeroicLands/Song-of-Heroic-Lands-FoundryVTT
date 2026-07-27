@@ -105,7 +105,7 @@ export interface CohortData<
     TLogic extends SohlActorLogic<CohortData> = SohlActorLogic<any>,
 > extends SohlActorData<TLogic> {
     /** Name of the cohort member serving as leader */
-    leaderName: string;
+    leaderName: string | null;
     /** The individuals that make up this cohort */
     members: {
         /** Shortcode of the world actor that defines this member's capabilities. */

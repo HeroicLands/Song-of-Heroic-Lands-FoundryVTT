@@ -195,7 +195,7 @@ export interface ArmorGearData<
     /** Whether this armor is currently worn */
     isWorn: boolean;
     /** Primary material the armor is made from */
-    material: string;
+    material: string | null;
     /** Body locations covered, split by flexible and rigid coverage */
     locations: {
         /** Body-location shortcodes with flexible coverage. */

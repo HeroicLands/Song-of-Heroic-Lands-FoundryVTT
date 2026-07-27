@@ -30,7 +30,11 @@ function defineArmorGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
         isWorn: new BooleanField({ initial: false }),
-        material: new StringField({ initial: "" }),
+        material: new StringField({
+            nullable: true,
+            blank: false,
+            initial: null,
+        }),
         locations: new SchemaField({
             flexible: new ArrayField(new StringField()),
             rigid: new ArrayField(new StringField()),
@@ -65,7 +69,7 @@ export class ArmorGearDataModel<
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.ARMORGEAR;
     isWorn!: boolean;
-    material!: string;
+    material!: string | null;
     locations!: { flexible: string[]; rigid: string[] };
     protectionBase!: {
         blunt: number;

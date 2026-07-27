@@ -337,7 +337,10 @@ export class SkillLogic<
      * two attributes (the minimum for a skill base average).
      */
     get valid() {
-        return skillBaseAttrShortcodes(this.data.skillBaseFormula).length >= 2;
+        return (
+            skillBaseAttrShortcodes(this.data.skillBaseFormula ?? "").length >=
+            2
+        );
     }
 
     /** The amount by which {@link improveWithSDR} raises the base mastery level on success. */
@@ -692,7 +695,7 @@ export class SkillLogic<
         // Calculate the Skill Base first — the opening mastery level may derive
         // from it (see below).
         this.skillBase = calcSkillBase(
-            this.data.skillBaseFormula,
+            this.data.skillBaseFormula ?? "",
             this.actorLogic,
         );
 
@@ -808,7 +811,9 @@ export class SkillLogic<
             this.masteryLevel.setBase(this.masteryLevel.maxTarget);
         }
         if (
-            skillBaseAttrShortcodes(this.data.skillBaseFormula).includes("aur")
+            skillBaseAttrShortcodes(this.data.skillBaseFormula ?? "").includes(
+                "aur",
+            )
         ) {
             // Any skill that has Aura in its SB formula cannot use fate
             this.fateMasteryLevel.disabled =
@@ -1015,7 +1020,7 @@ export interface SkillData<
     /** Skill category (Combat, Social, Physical, etc.) */
     subType: SkillSubType;
     /** Formula for calculating the skill base from referenced traits */
-    skillBaseFormula: string;
+    skillBaseFormula: string | null;
     /**
      * Base mastery level representing training and experience. `null` means the
      * skill has not been opened yet: when the skill is on an actor it opens

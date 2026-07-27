@@ -129,11 +129,11 @@ export class TraumaDataModel<
     aspect!: ImpactAspect | null;
     contractDate!: number | null;
     treatmentDate!: number | null;
-    healingCheckDurationFormula!: string;
+    healingCheckDurationFormula!: string | null;
     healingCheckDurationBase!: number | null;
-    bloodLossAdvanceDurationFormula!: string;
+    bloodLossAdvanceDurationFormula!: string | null;
     bloodLossAdvanceDurationBase!: number | null;
-    courseDurationFormula!: string;
+    courseDurationFormula!: string | null;
     courseDurationBase!: number | null;
     permanentImpairmentEligible!: boolean;
     infectable!: boolean;

@@ -147,7 +147,7 @@ export class SohlCalendarData extends foundry.data
         /** Era abbreviation for dates before the epoch. */
         beforeAbbrev: string;
         /** Free-text description of the era. */
-        description: string;
+        description: string | null;
     };
 
     /** @inheritdoc */
@@ -157,24 +157,21 @@ export class SohlCalendarData extends foundry.data
             era: new SchemaField({
                 hasYearZero: new BooleanField({ initial: false }),
                 name: new StringField({
-                    required: true,
                     initial: "",
                 }),
                 abbrev: new StringField({
-                    required: true,
                     initial: "",
                 }),
                 beforeName: new StringField({
-                    required: true,
                     initial: "",
                 }),
                 beforeAbbrev: new StringField({
-                    required: true,
                     initial: "",
                 }),
                 description: new StringField({
-                    required: false,
-                    initial: "",
+                    nullable: true,
+                    blank: false,
+                    initial: null,
                 }),
             }),
         };
