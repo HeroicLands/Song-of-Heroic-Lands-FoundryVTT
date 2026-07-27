@@ -25,4 +25,13 @@
 # Vault notes link to folders via `sohl.folder: <path>` in frontmatter,
 # where <path> is a slash-separated path of folder names from the root.
 # Unresolved paths fail the export loudly.
-[]
+
+- name: Pregens
+  id: Nu7AgLZEmR26u2pk
+  parentFolderId: ""
+  color: "#8B4513"
+
+- name: Archetypes
+  id: riXU4Q2fRsu2tyub
+  parentFolderId: ""
+  color: "#8B4513"
