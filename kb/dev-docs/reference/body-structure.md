@@ -298,6 +298,30 @@ To wire it into adjacency: `structure.addEdgeUpdate("tailpart", "hindquarterspar
 
 Localization keys for the bare shortcode (`SOHL.BodyPart.tail`, `SOHL.BodyLocation.<each location>`) belong in [lang/en.json](../../lang/en.json).
 
+### From the Being sheet
+
+An owner can also author the anatomy directly on the **Combat tab's Body
+Structure section** — no macro needed:
+
+- **Add** — the section header carries a **+ Add** control that creates a body
+  part; each body-part header carries a **+ Add** that creates a hit location
+  under it. Both prompt for a name and a unique shortcode.
+- **Edit** — each part header and location row has a **⋮** menu whose **Edit**
+  opens the `BodyPartConfig` / `BodyLocationConfig` editor for that entry, which
+  auto-saves each field change (roles, protection, bleeding / amputability
+  tiers, and so on).
+- **Delete** — the same **⋮** menu's **Delete** removes the entry after
+  confirmation. Deleting a part is refused while it still owns hit locations —
+  remove those first.
+- **Reorder** — parts and locations reorder, and locations move between parts,
+  by drag-and-drop.
+
+Every one of these writes rebuilds the whole `parts` array through the
+`BodyStructure` update builders (`addPartUpdate` / `removePartUpdate` /
+`movePartUpdate` / `moveLocationUpdate` / `setPartFieldsUpdate`) — never a
+by-index write (see the array-corruption note above). All controls are
+owner-gated; a non-owner sees the read-only tree.
+
 ## See Also
 
 - [Type Catalog](./type-catalog.md)

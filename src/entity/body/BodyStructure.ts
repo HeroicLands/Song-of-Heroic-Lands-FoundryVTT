@@ -16,6 +16,10 @@ import { registerEntity } from "@src/entity/entityRegistry";
 import type { BodyPart } from "@src/entity/body/BodyPart";
 import { BodyLocation } from "@src/entity/body/BodyLocation";
 import { weightedRandom } from "@src/entity/body/weighted-random";
+import {
+    moveArrayElement,
+    moveLocation,
+} from "@src/entity/body/body-structure-edit";
 import type { Rng } from "@src/entity/random/Rng";
 import { defaultRng } from "@src/entity/random/createRng";
 import { SohlEntity } from "../SohlEntity";
@@ -287,6 +291,64 @@ export class BodyStructure extends SohlEntity {
         return {
             "system.body.structure.parts": canonical.filter(
                 (p) => p.shortcode !== shortcode,
+            ),
+        };
+    }
+
+    /**
+     * Build an `update()` payload that relocates a part within the persisted
+     * `parts` array (drag-to-sort). Body parts have no `sort` field — their
+     * order *is* their array order — so reordering rewrites the whole array
+     * (never a by-index write; see {@link setPartFieldsUpdate} / #247). Sources
+     * the canonical array from the DataModel. A no-op move returns the array
+     * unchanged.
+     *
+     * @param fromIndex - The part's current index.
+     * @param toIndex - The destination index.
+     * @returns A complete-array `update()` payload with the part relocated.
+     */
+    movePartUpdate(fromIndex: number, toIndex: number): PlainObject {
+        const canonical: BodyPart.Data[] =
+            this.parent.data.body.structure.parts;
+        return {
+            "system.body.structure.parts": moveArrayElement(
+                canonical,
+                fromIndex,
+                toIndex,
+            ),
+        };
+    }
+
+    /**
+     * Build an `update()` payload that moves a hit location — either reordering
+     * it within its part or relocating it to another part — by rewriting the
+     * whole `parts` array. Same-part reorder is `fromPartIndex === toPartIndex`;
+     * a `toLocIndex` past the destination's end appends. Sources the canonical
+     * array from the DataModel and delegates the array math to the pure
+     * {@link moveLocation} helper, so the write is a #247-safe complete-array
+     * replacement.
+     *
+     * @param fromPartIndex - Index of the part the location currently lives on.
+     * @param fromLocIndex - Index of the location within that part.
+     * @param toPartIndex - Index of the destination part.
+     * @param toLocIndex - Target index within the destination part's locations.
+     * @returns A complete-array `update()` payload with the location moved.
+     */
+    moveLocationUpdate(
+        fromPartIndex: number,
+        fromLocIndex: number,
+        toPartIndex: number,
+        toLocIndex: number,
+    ): PlainObject {
+        const canonical: BodyPart.Data[] =
+            this.parent.data.body.structure.parts;
+        return {
+            "system.body.structure.parts": moveLocation(
+                canonical,
+                fromPartIndex,
+                fromLocIndex,
+                toPartIndex,
+                toLocIndex,
             ),
         };
     }

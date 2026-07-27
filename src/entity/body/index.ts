@@ -21,6 +21,7 @@ export * from "./armor-aggregation";
 export * from "./blankBodyLocation";
 export * from "./blankBodyPart";
 export * from "./blood-stoppage";
+export * from "./body-structure-edit";
 export * from "./impairment";
 export * from "./injury-defaults";
 export * from "./injury-resolution";

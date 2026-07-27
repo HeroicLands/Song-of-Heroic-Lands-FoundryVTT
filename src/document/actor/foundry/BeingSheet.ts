@@ -44,7 +44,11 @@ import {
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
-import { bindBodyStructureContextMenu } from "@src/document/actor/foundry/body-structure-sheet";
+import {
+    addBodyPart,
+    addBodyLocation,
+    bindBodyStructureContextMenu,
+} from "@src/document/actor/foundry/body-structure-sheet";
 import { NONE_MOVE_PROFILE } from "@src/document/actor/logic/movement";
 import type { LocationInjury } from "@src/entity/body/impairment";
 import type { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
@@ -430,6 +434,152 @@ export class BeingSheet extends SohlActorSheetBase {
         }));
     }
 
+    /**
+     * Begin a drag. A Body Structure row (a part header or hit-location row,
+     * marked `draggable` with `data-part-shortcode` / `data-location-shortcode`)
+     * carries a private `sohlBodyDrag` payload so {@link _onDrop} can reorder it;
+     * every other draggable (owned items, effects) defers to the base handler.
+     *
+     * @param event - The originating drag event.
+     */
+    protected _onDragStart(event: DragEvent): void {
+        const li = event.currentTarget as HTMLElement;
+        if (li?.dataset?.partShortcode != null) {
+            const isLocation = li.dataset.locationShortcode != null;
+            const dragData = {
+                sohlBodyDrag: {
+                    kind: isLocation ? "bodylocation" : "bodypart",
+                    partShortcode: li.dataset.partShortcode,
+                    locationShortcode:
+                        isLocation ? li.dataset.locationShortcode : null,
+                },
+            };
+            event.dataTransfer?.setData("text/plain", JSON.stringify(dragData));
+            return;
+        }
+        // The base drag handler lives on the SohlDataModel sheet mixin, which
+        // the static types don't surface here; reach it via the prototype chain.
+        (Object.getPrototypeOf(BeingSheet.prototype) as any)._onDragStart.call(
+            this,
+            event,
+        );
+    }
+
+    /**
+     * Conclude a drop. A `sohlBodyDrag` payload reorders a body part or moves a
+     * hit location (dropping a location onto a part header appends it to that
+     * part); anything else defers to the base handler. Source and destination are
+     * addressed by shortcode and resolved to indices against the live structure,
+     * then written through the structure's #247-safe whole-array update builders.
+     *
+     * @param event - The originating drop event.
+     */
+    protected async _onDrop(event: DragEvent): Promise<void> {
+        let data: any = {};
+        try {
+            data = JSON.parse(
+                event.dataTransfer?.getData("text/plain") || "{}",
+            );
+        } catch {
+            data = {};
+        }
+        const drag = data?.sohlBodyDrag;
+        if (!drag) {
+            // Defer to the base drop handler (item/effect/actor/folder), reached
+            // via the prototype chain since the static types don't surface it.
+            await (
+                Object.getPrototypeOf(BeingSheet.prototype) as any
+            )._onDrop.call(this, event);
+            return;
+        }
+
+        const structure = getActorBody(this.document.logic)?.structure;
+        if (!structure) return;
+        const fromPart = structure.getPartByCode(drag.partShortcode);
+        if (!fromPart) return;
+        const targetEl = event.target as HTMLElement | null;
+
+        if (drag.kind === "bodypart") {
+            const toEl = targetEl?.closest(
+                "[data-part-shortcode]",
+            ) as HTMLElement | null;
+            const toPart =
+                toEl ?
+                    structure.getPartByCode(toEl.dataset.partShortcode ?? "")
+                :   undefined;
+            if (!toPart || toPart.index === fromPart.index) return;
+            await this.document.update(
+                structure.movePartUpdate(fromPart.index, toPart.index),
+            );
+            return;
+        }
+
+        // A location drop: resolve the source location, then the destination —
+        // a specific location row (insert at its index) or a part group/header
+        // (append to that part's end).
+        const fromLoc = fromPart.getLocationByCode(drag.locationShortcode);
+        if (!fromLoc) return;
+        const partEl = targetEl?.closest(
+            "[data-part-shortcode]",
+        ) as HTMLElement | null;
+        const toPart =
+            partEl ?
+                structure.getPartByCode(partEl.dataset.partShortcode ?? "")
+            :   undefined;
+        if (!toPart) return;
+        const locEl = targetEl?.closest(
+            "[data-location-shortcode]",
+        ) as HTMLElement | null;
+        const toLoc =
+            locEl ?
+                (toPart.getLocationByCode(locEl.dataset.locationShortcode ?? "")
+                    ?.index ?? toPart.locations.length)
+            :   toPart.locations.length;
+        if (toPart.index === fromPart.index && toLoc === fromLoc.index) return;
+        await this.document.update(
+            structure.moveLocationUpdate(
+                fromPart.index,
+                fromLoc.index,
+                toPart.index,
+                toLoc,
+            ),
+        );
+    }
+
+    /**
+     * `data-action="addBodyPart"`: prompt for a new body part and append it to
+     * this being's body structure, opening its editor (#720).
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param _target - The clicked add control (unused).
+     */
+    protected static async _onAddBodyPart(
+        this: BeingSheet,
+        _event: PointerEvent,
+        _target: HTMLElement,
+    ): Promise<void> {
+        await addBodyPart(this.document);
+    }
+
+    /**
+     * `data-action="addBodyLocation"`: prompt for a new hit location and append
+     * it to the body part named by the control's `data-part-shortcode` (#720).
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked add control, inside a `data-part-shortcode` row.
+     */
+    protected static async _onAddBodyLocation(
+        this: BeingSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const code = target
+            .closest("[data-part-shortcode]")
+            ?.getAttribute("data-part-shortcode");
+        if (!code) return;
+        await addBodyLocation(this.document, code);
+    }
+
     /** @inheritDoc */
     static override DEFAULT_OPTIONS = {
         classes: ["being"],
@@ -442,8 +592,16 @@ export class BeingSheet extends SohlActorSheetBase {
                 dragSelector: ".gear-list .item",
                 dropSelector: null,
             },
+            {
+                // Body Structure editor: drag a part header or location row to
+                // reorder/move it within the Combat tab tree (#720).
+                dragSelector: ".bodylocations-list [draggable]",
+                dropSelector: ".bodylocations-list",
+            },
         ],
         actions: {
+            addBodyPart: BeingSheet._onAddBodyPart,
+            addBodyLocation: BeingSheet._onAddBodyLocation,
             rollStrikeModeTest: BeingSheet._onRollStrikeModeTest,
             rollStrikeModeImpact: BeingSheet._onRollStrikeModeImpact,
             rollSkillTest: BeingSheet._onRollSkillTest,
@@ -1359,6 +1517,9 @@ export class BeingSheet extends SohlActorSheetBase {
             heldItemLimbs,
             defaultCombatGroup: (actor.system as any).defaultCombatGroup ?? "",
             isGM: !!(game as any).user?.isGM,
+            // Body Structure add / drag-sort controls are shown only to a user
+            // who can edit this actor (owner/GM) — #720.
+            canEditBody: this.isEditable,
         });
     }
 
