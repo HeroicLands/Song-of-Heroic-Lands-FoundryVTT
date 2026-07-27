@@ -87,18 +87,20 @@ button {
     border: 2px groove var(--sohl-color-border-subtle);
 }
 
-// Checkbox appearance. SoHL draws its own box so the UNCHECKED state reads as
-// empty — a thick, foreground-colored outline around a transparent center —
-// instead of the filled dark square the native control renders, which looked
-// selected (#752). The CHECKED state stays filled (box in the foreground color
-// with a light checkmark) so it still clearly reads as on.
+// Checkbox appearance. Foundry core renders the whole checkbox as a Font Awesome
+// glyph in `::before` — `\f0c8` (fa-square) for unchecked, `\f14a` (fa-square-check)
+// for checked — colored `--checkbox-background-color`. Core's unchecked square is
+// *filled*, so it read as selected (#752). SoHL keeps core's glyph-as-control model
+// but draws its own `::after` glyph in the SoHL palette: a hollow `far fa-square`
+// when unchecked, a solid filled `fas fa-square-check` (box + knockout checkmark)
+// when checked. Core's `::before` is suppressed so only ours shows.
 input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
     box-sizing: border-box;
     // Explicit + min-* sizing keeps the box from collapsing where a layout rule
-    // sets width/height to `auto` (e.g. the body-config flags) now that there is
-    // no native glyph to give it intrinsic size.
+    // sets width/height to `auto` (e.g. the body-config flags); the `::after` glyph
+    // is absolutely positioned to this box, so the box must retain a size.
     width: 16px;
     height: 16px;
     min-width: 16px;
@@ -106,39 +108,49 @@ input[type="checkbox"] {
     margin: 0;
     padding: 0;
     position: relative;
-    border: 2px solid var(--sohl-color-text-primary);
-    border-radius: 3px;
+    border: 0;
     background: transparent;
     cursor: pointer;
     vertical-align: middle;
 }
 
-input[type="checkbox"]:checked {
-    background: var(--sohl-color-text-primary);
+// Suppress Foundry core's own checkbox glyph. `content: none` removes core's
+// `::before` entirely; a single unscoped-state rule covers checked and
+// indeterminate too because SoHL's `sohl.base` cascade layer outranks core's
+// `elements` layer regardless of selector specificity.
+input[type="checkbox"]::before {
+    content: none;
 }
 
-// The checkmark: a rotated bottom/right border in the inverse (light) color so
-// it reads on the filled box. Drawn as a pseudo-element, which Chromium (the
-// Foundry/Electron target) renders on an `appearance: none` checkbox.
-input[type="checkbox"]:checked::after {
-    content: "";
+// Draw the control as our own Font Awesome glyph filling the box. Unchecked is the
+// regular-weight (hollow) square; the checked rule below swaps to the solid
+// square-check. The checkmark is the glyph's knockout, so it shows the surface
+// behind the box (parchment) — reading as a light check on a dark box.
+input[type="checkbox"]::after {
+    content: "\f0c8"; // fa-square
     position: absolute;
-    left: 4px;
-    top: 1px;
-    width: 4px;
-    height: 8px;
-    border: solid var(--sohl-color-text-inverse);
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-awesome);
+    font-weight: 400; // regular → hollow outline square
+    font-size: 16px;
+    line-height: 1;
+    color: var(--sohl-color-text-primary);
+}
+
+input[type="checkbox"]:checked::after {
+    content: "\f14a"; // fa-square-check
+    font-weight: 900; // solid → filled box with checkmark
 }
 
 input[type="checkbox"]:disabled {
-    border-color: var(--sohl-color-text-muted);
     cursor: default;
 }
 
-input[type="checkbox"]:disabled:checked {
-    background: var(--sohl-color-text-muted);
+input[type="checkbox"]:disabled::after {
+    color: var(--sohl-color-text-muted);
 }
 
 input[type="checkbox"]:focus-visible {
