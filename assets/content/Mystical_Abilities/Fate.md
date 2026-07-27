@@ -12,9 +12,9 @@ shortcode: fate
 type: mysticalability
 package: sohl
 sohl:
-    kbcat: spiritaction
+    kbcat: divination
     archetype: 0
-    subType: spiritaction
+    subType: divination
     assocSkillCode: ""
     assocMysteryCode: ""
     levelBase: 0
@@ -23,5 +23,5 @@ sohl:
         usesCharges: true
         value: 5
         max: 5
-folder: gpLM4ElXNiI1rN7l
+folder: 0GxlNn2dYXCW24YF
 ---

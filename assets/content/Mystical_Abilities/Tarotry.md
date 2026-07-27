@@ -23,7 +23,7 @@ sohl:
         usesCharges: false
         value: 0
         max: 0
-folder: gpLM4ElXNiI1rN7l
+folder: 0GxlNn2dYXCW24YF
 ---
 
 Tarotry is the esoteric art of divination through the reading of cards, bones, rune-stones, or similar tokens of fate. The practitioner lays out symbolic tokens in prescribed patterns and interprets their arrangement to reveal hidden truths, forecast future events, or gain insight into the spiritual forces at work in a given situation. Like other divinatory arts, Tarotry requires both learned technique and an intuitive empathic connection to the currents of fate that the tokens are believed to channel.
