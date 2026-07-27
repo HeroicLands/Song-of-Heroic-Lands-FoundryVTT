@@ -21,7 +21,10 @@ import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
 import { SohlLogic } from "@src/core/logic/SohlLogic";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import { fvttCallHook, fvttCallHookCancel } from "@src/core/FoundryHelpers";
-import { resolveShortcodeKey } from "@src/utils/helpers";
+import {
+    enforceShortcodeOnCreate,
+    enforceShortcodeOnUpdate,
+} from "@src/core/foundry/shortcode-uniqueness";
 import { ITEM_KIND } from "@src/utils/constants";
 
 /**
@@ -363,15 +366,16 @@ export class SohlActor extends Actor {
      * @remarks
      * Renames the actor via {@link createUniqueName} when a same-type, same-name
      * world actor already exists (the name is a nicety, not the key), then
-     * resolves the world-unique `(type, shortcode)` key: a general create that
-     * collides is rejected, while an explicit duplicate (Foundry stamps
-     * `_stats.duplicateSource`) auto-bumps the shortcode so the copy is created.
-     * See {@link resolveShortcodeKey}. Foundry's native duplicate carries the
-     * source actor's data, so no manual clone copy is performed here.
+     * enforces the unique `(type, shortcode)` key via the shared
+     * {@link enforceShortcodeOnCreate} — across world actors **and** compendium-pack
+     * actors (issue #766). A collision (or a name-less create) is rejected unless
+     * the caller passes `shortcodeDedupe: true`, which auto-suffixes / generates a
+     * unique key. Foundry's native duplicate carries the source actor's data, so
+     * no manual clone copy is performed here.
      * @param createData - The pending actor source data.
-     * @param options - Document creation options.
+     * @param options - Document creation options (`shortcodeDedupe` opts into dedup).
      * @param user - The user requesting creation.
-     * @returns `false` to veto creation, otherwise `true`.
+     * @returns `false` to veto creation, otherwise void.
      */
     protected override async _preCreate(
         createData: PlainObject,
@@ -384,8 +388,8 @@ export class SohlActor extends Actor {
             user,
         );
         if (allowed === false) return false;
-        const updateData: PlainObject = {};
 
+        // De-duplicate the display name (a nicety, not the key).
         const similarActorExists =
             !this.pack &&
             (game as any).actors.some(
@@ -394,55 +398,24 @@ export class SohlActor extends Actor {
                     actor.name === createData.name,
             );
         if (similarActorExists) {
-            updateData["name"] = SohlActor.createUniqueName(createData.name);
+            this.updateSource({
+                name: SohlActor.createUniqueName(createData.name),
+            });
         }
 
-        // World-unique `(type, shortcode)` key. A synthetic token actor is the
-        // sole actor of its token (trivially unique); compendium-pack actors
-        // keep their source key — so only world actors are resolved here.
-        if (!this.pack) {
-            const type = createData.type;
-            const desired = (this.system as any)?.shortcode ?? "";
-            const taken = new Set<string>();
-            for (const actor of (game as any).actors) {
-                if (actor.id !== this.id && actor.type === type) {
-                    taken.add((actor.system as any)?.shortcode);
-                }
-            }
-            const isDuplicate = !!(
-                (createData as any)?._stats?.duplicateSource ??
-                (this as any)?._stats?.duplicateSource
-            );
-            const resolved = resolveShortcodeKey(
-                desired,
-                (createData.name as string) ?? (this as any).name ?? "",
-                type,
-                taken,
-                isDuplicate,
-            );
-            if ("reject" in resolved) {
-                (globalThis as any).ui?.notifications?.warn(
-                    `A ${type} actor with shortcode "${desired}" already exists.`,
-                );
-                return false;
-            }
-            if (resolved.shortcode !== desired) {
-                updateData["system.shortcode"] = resolved.shortcode;
-            }
-        }
-
-        this.updateSource(updateData);
-
-        return true;
+        // Enforce the unique `(type, shortcode)` key (world and pack actors).
+        return enforceShortcodeOnCreate(this, createData, options);
     }
 
     /**
-     * Authoring gate: block non-GM users from adding, removing, or modifying
-     * SCRIPT entries in `system.actionDefs`. SCRIPT actions run
-     * unsandboxed JavaScript, so authorship is restricted to the GM.
-     * Intrinsic actions and non-actionDefs updates are unaffected.
+     * Update-path gates: enforce the unique `(type, shortcode)` key when
+     * `system.shortcode` changes (issue #766, via {@link enforceShortcodeOnUpdate}),
+     * and block non-GM users from adding, removing, or modifying SCRIPT entries in
+     * `system.actionDefs` (SCRIPT actions run unsandboxed JavaScript, so authorship
+     * is restricted to the GM). Intrinsic actions and non-gated updates are
+     * unaffected.
      * @param changes - The changes about to be applied.
-     * @param options - Foundry update options.
+     * @param options - Foundry update options (`shortcodeDedupe` opts into dedup).
      * @param user - The user attempting the update.
      * @returns `false` to cancel the update, otherwise delegates to super.
      */
@@ -457,6 +430,11 @@ export class SohlActor extends Actor {
             user as any,
         );
         if (allowed === false) return false;
+        if (
+            (await enforceShortcodeOnUpdate(this, changes, options)) === false
+        ) {
+            return false;
+        }
         const newActionDefs = (changes as any)?.system?.actionDefs;
         if (newActionDefs !== undefined) {
             const oldActionDefs = (this.system as any)?.actionDefs;

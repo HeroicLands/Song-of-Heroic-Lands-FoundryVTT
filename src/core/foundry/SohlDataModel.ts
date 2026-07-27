@@ -63,11 +63,14 @@ const {
  */
 export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
     return {
-        // Shortcode is present on every SoHL data model, but only items and
-        // actors treat `(type, shortcode)` as a required, unique key — their
-        // schemas override this field to `required, blank: false` and enforce
-        // uniqueness in `_preCreate`. Other documents (combatant, …) keep it
-        // optional, so the base leaves it blank-defaulted.
+        // Shortcode is present on every SoHL data model and is blank-tolerant at
+        // construction so `_preCreate` can fill / dedup / reject it (Foundry
+        // validates *before* `_preCreate` runs, so a strict `blank: false` here
+        // would break bare creates). Items and actors treat `(type, shortcode)`
+        // as a unique key and enforce it at runtime — on create *and* update,
+        // across world / embedded / pack scopes — via `enforceShortcodeOnCreate`
+        // / `enforceShortcodeOnUpdate` (issue #766). Other documents (combatant,
+        // …) never key on it and leave it blank.
         shortcode: new StringField({ initial: "" }),
         docUrl: new URLField(),
         actionDefs: new ArrayField(

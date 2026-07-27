@@ -881,58 +881,114 @@ describe("uniqueShortcode", () => {
     });
 });
 
-describe("resolveShortcodeKey", () => {
-    const P = "projectilegear";
-    it("passes a free explicit shortcode through unchanged on any path", () => {
-        expect(
-            resolveShortcodeKey("arrow", "Arrow", P, new Set(["bolt"]), false),
-        ).toEqual({ shortcode: "arrow" });
-        expect(
-            resolveShortcodeKey("arrow", "Arrow", P, new Set(["bolt"]), true),
-        ).toEqual({ shortcode: "arrow" });
+describe("resolveShortcodeKey (shortcodeDedupe matrix)", () => {
+    // Deterministic 16-char stub standing in for the Foundry-id generator.
+    const rnd = () => "RANDOMID12345678";
+
+    describe("explicit shortcode supplied", () => {
+        it("accepts a free explicit shortcode (dedupe on or off)", () => {
+            expect(
+                resolveShortcodeKey("arrow", "Arrow", new Set(["bolt"]), {
+                    dedupe: false,
+                }),
+            ).toEqual({ shortcode: "arrow" });
+            expect(
+                resolveShortcodeKey("arrow", "Arrow", new Set(["bolt"]), {
+                    dedupe: true,
+                }),
+            ).toEqual({ shortcode: "arrow" });
+        });
+
+        it("suffixes a collision when dedupe is true", () => {
+            expect(
+                resolveShortcodeKey("arrow", "Arrow", new Set(["arrow"]), {
+                    dedupe: true,
+                }),
+            ).toEqual({ shortcode: "arrow2" });
+            expect(
+                resolveShortcodeKey(
+                    "arrow",
+                    "Arrow",
+                    new Set(["arrow", "arrow2"]),
+                    { dedupe: true },
+                ),
+            ).toEqual({ shortcode: "arrow3" });
+        });
+
+        it("rejects a collision when dedupe is false/absent", () => {
+            expect(
+                resolveShortcodeKey("arrow", "Arrow", new Set(["arrow"]), {
+                    dedupe: false,
+                }),
+            ).toEqual({ reject: true });
+        });
+
+        it("suffixes a collision for a Foundry duplicate even without dedupe", () => {
+            expect(
+                resolveShortcodeKey("arrow", "Arrow", new Set(["arrow"]), {
+                    dedupe: false,
+                    isDuplicate: true,
+                }),
+            ).toEqual({ shortcode: "arrow2" });
+        });
     });
 
-    it("rejects an explicit collision on a general create", () => {
-        expect(
-            resolveShortcodeKey("arrow", "Arrow", P, new Set(["arrow"]), false),
-        ).toEqual({ reject: true });
+    describe("no shortcode — name derives a slug", () => {
+        it("uses the name slug when it is free", () => {
+            expect(
+                resolveShortcodeKey("", "Deep Wound", new Set(), {
+                    dedupe: false,
+                }),
+            ).toEqual({ shortcode: "deepwound" });
+            expect(
+                resolveShortcodeKey("  ", "Deep Wound", new Set(), {
+                    dedupe: true,
+                }),
+            ).toEqual({ shortcode: "deepwound" });
+        });
+
+        it("suffixes a slug collision when dedupe is true", () => {
+            expect(
+                resolveShortcodeKey("", "Deep Wound", new Set(["deepwound"]), {
+                    dedupe: true,
+                }),
+            ).toEqual({ shortcode: "deepwound2" });
+        });
+
+        it("rejects a slug collision when dedupe is false/absent", () => {
+            expect(
+                resolveShortcodeKey("", "Deep Wound", new Set(["deepwound"]), {
+                    dedupe: false,
+                }),
+            ).toEqual({ reject: true });
+        });
     });
 
-    it("auto-uniquifies an explicit collision on a duplicate", () => {
-        expect(
-            resolveShortcodeKey("arrow", "Arrow", P, new Set(["arrow"]), true),
-        ).toEqual({ shortcode: "arrow2" });
-        expect(
-            resolveShortcodeKey(
-                "arrow",
-                "Arrow",
-                P,
-                new Set(["arrow", "arrow2"]),
-                true,
-            ),
-        ).toEqual({ shortcode: "arrow3" });
-    });
+    describe("no shortcode and no usable name", () => {
+        it("generates a random 16-char id when dedupe is true", () => {
+            expect(
+                resolveShortcodeKey("", "—", new Set(), {
+                    dedupe: true,
+                    makeRandomId: rnd,
+                }),
+            ).toEqual({ shortcode: "RANDOMID12345678" });
+        });
 
-    it("derives from the name and always uniquifies when no shortcode is supplied", () => {
-        // Blank shortcode → derive from name, uniquify — never reject, even on a
-        // general create (the system-generated / ad-hoc path).
-        expect(
-            resolveShortcodeKey("", "Deep Wound", "trauma", new Set(), false),
-        ).toEqual({ shortcode: "deepwound" });
-        expect(
-            resolveShortcodeKey(
-                "  ",
-                "Deep Wound",
-                "trauma",
-                new Set(["deepwound"]),
-                false,
-            ),
-        ).toEqual({ shortcode: "deepwound2" });
-    });
+        it("regenerates the random id until it is free", () => {
+            const ids = ["takenone12345678", "freeone123456789"];
+            let i = 0;
+            expect(
+                resolveShortcodeKey("", "", new Set(["takenone12345678"]), {
+                    dedupe: true,
+                    makeRandomId: () => ids[i++],
+                }),
+            ).toEqual({ shortcode: "freeone123456789" });
+        });
 
-    it("falls back to the type when the name has no usable slug", () => {
-        expect(
-            resolveShortcodeKey("", "—", "skill", new Set(["skill"]), false),
-        ).toEqual({ shortcode: "skill2" });
+        it("rejects when dedupe is false/absent", () => {
+            expect(
+                resolveShortcodeKey("", "—", new Set(), { dedupe: false }),
+            ).toEqual({ reject: true });
+        });
     });
 });

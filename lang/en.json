@@ -677,6 +677,7 @@
     "SOHL.ContextMenu.SortGroup.essential": "Essential",
     "SOHL.ContextMenu.SortGroup.general": "General",
     "SOHL.ContextMenu.SortGroup.hidden": "Hidden",
+    "SOHL.CreateDocument.duplicateShortcode": "That shortcode is already used by another document of this type. Choose a unique shortcode to continue.",
     "SOHL.DatePicker.cancel": "Cancel",
     "SOHL.DatePicker.clear": "Clear",
     "SOHL.DatePicker.day": "Day",

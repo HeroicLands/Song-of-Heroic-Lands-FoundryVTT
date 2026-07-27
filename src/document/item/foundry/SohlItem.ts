@@ -33,6 +33,7 @@ import {
     type ArchetypeIdentity,
 } from "@src/entity/archetype/archetype";
 import { dispatchChatCardAction } from "@src/document/chat/chat-card-dispatch";
+import { enforceShortcodeOnUpdate } from "@src/core/foundry/shortcode-uniqueness";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
 import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
@@ -296,6 +297,44 @@ export async function sohlCreateDialog(
                             )
                         :   "";
                 }
+                validateShortcode();
+            };
+
+            // Live duplicate-shortcode guard (#766): disable Create while the
+            // entered shortcode collides with an existing (type, shortcode) in
+            // scope, so the human resolves it before the create is attempted —
+            // the `_preCreate` reject remains the backstop.
+            let warnEl: HTMLElement | null = null;
+            const createButton = (): HTMLButtonElement | null =>
+                (
+                    element.closest(".application, dialog") ??
+                    element.ownerDocument
+                )?.querySelector<HTMLButtonElement>(
+                    'button[data-action="create"]',
+                ) ?? null;
+            const validateShortcode = () => {
+                if (!shortcodeInput) return;
+                const curType = typeSelect?.value || type;
+                const value = shortcodeInput.value.trim();
+                const isDup =
+                    !!value &&
+                    takenShortcodesFor(documentName, parent, curType).has(
+                        value,
+                    );
+                const btn = createButton();
+                if (btn) btn.disabled = isDup;
+                if (!warnEl) {
+                    warnEl = element.ownerDocument.createElement("p");
+                    warnEl.className = "hint shortcode-duplicate-warning";
+                    shortcodeInput.insertAdjacentElement("afterend", warnEl);
+                }
+                warnEl.textContent =
+                    isDup ?
+                        sohl.i18n.localize(
+                            "SOHL.CreateDocument.duplicateShortcode",
+                        )
+                    :   "";
+                warnEl.style.display = isDup ? "" : "none";
             };
 
             nameInput?.addEventListener("input", () => {
@@ -304,6 +343,7 @@ export async function sohlCreateDialog(
             });
             shortcodeInput?.addEventListener("input", () => {
                 shortcodeEdited = true;
+                validateShortcode();
             });
             archetypeSelect?.addEventListener("change", recomputeDefaults);
 
@@ -633,12 +673,14 @@ export class SohlItem extends Item {
     }
 
     /**
-     * Authoring gate: block non-GM users from adding, removing, or
-     * modifying SCRIPT entries in `system.actionDefs`. SCRIPT actions
-     * run unsandboxed JavaScript, so authorship is restricted to the GM.
-     * INTRINSIC actions and non-actionDefs updates are unaffected.
+     * Update-path gates: enforce the unique `(type, shortcode)` key when
+     * `system.shortcode` changes (issue #766, via {@link enforceShortcodeOnUpdate}),
+     * and block non-GM users from adding, removing, or modifying SCRIPT entries in
+     * `system.actionDefs` (SCRIPT actions run unsandboxed JavaScript, so authorship
+     * is restricted to the GM). INTRINSIC actions and non-gated updates are
+     * unaffected.
      * @param changes - The changes about to be applied.
-     * @param options - Foundry update options.
+     * @param options - Foundry update options (`shortcodeDedupe` opts into dedup).
      * @param user - The user attempting the update.
      * @returns `false` to cancel the update, otherwise delegates to super.
      */
@@ -653,6 +695,11 @@ export class SohlItem extends Item {
             user as any,
         );
         if (allowed === false) return false;
+        if (
+            (await enforceShortcodeOnUpdate(this, changes, options)) === false
+        ) {
+            return false;
+        }
         const newActionDefs = (changes as any)?.system?.actionDefs;
         if (newActionDefs !== undefined) {
             const oldActionDefs = (this.system as any)?.actionDefs;

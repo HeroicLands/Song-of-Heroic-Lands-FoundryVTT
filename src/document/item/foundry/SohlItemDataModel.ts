@@ -12,7 +12,8 @@
  */
 
 import type { SohlItem } from "./SohlItem";
-import { resolveShortcodeKey, type HTMLString } from "@src/utils/helpers";
+import { type HTMLString } from "@src/utils/helpers";
+import { enforceShortcodeOnCreate } from "@src/core/foundry/shortcode-uniqueness";
 import {
     SohlDataModel,
     defineSohlDataSchema,
@@ -132,16 +133,17 @@ export abstract class SohlItemDataModel<
     }
 
     /**
-     * Enforce the item-key invariant on create. `(type, shortcode)` is a unique
-     * key — per owning actor for an embedded item, per world item directory for a
-     * world item (compendium-pack items keep their source key). A create that
-     * names no shortcode gets one derived and uniquified; an explicitly-requested
-     * shortcode that collides is auto-bumped for a Foundry duplicate and rejected
-     * for a general create. See {@link resolveShortcodeKey}. Subtype `_preCreate`
+     * Enforce the `(type, shortcode)` uniqueness invariant on create (issue #766)
+     * via the shared {@link enforceShortcodeOnCreate}: the key is unique per owning
+     * actor for an embedded item, per world item directory for a world item, and
+     * per compendium pack for a pack item. A create that names no shortcode gets
+     * one derived from the name; a collision (or a name-less create) is rejected
+     * unless the caller passes `shortcodeDedupe: true` in the create options, which
+     * auto-suffixes / generates a unique key instead. Subtype `_preCreate`
      * overrides run this via their `super` call.
      *
      * @param data - The creation source data.
-     * @param options - The creation options.
+     * @param options - The creation options (`shortcodeDedupe` opts into dedup).
      * @param user - The requesting user.
      * @returns `false` to veto the creation, otherwise void.
      */
@@ -156,48 +158,6 @@ export abstract class SohlItemDataModel<
             user as any,
         );
         if (allowed === false) return false;
-
-        const item = this.parent;
-        const type = item.type;
-        const desired = (this as any).shortcode ?? "";
-
-        // Scope of the key: an embedded item is unique among its actor's items
-        // of the same type; a world item is unique across the world item
-        // directory. Items inside a compendium pack keep their source key.
-        const actor = (item as any)?.actor;
-        const siblings =
-            actor ? actor.items
-            : item.pack ? undefined
-            : (game as any).items;
-        const taken = new Set<string>();
-        if (siblings) {
-            for (const other of siblings) {
-                if (other.id !== item.id && other.type === type) {
-                    taken.add((other.system as any)?.shortcode);
-                }
-            }
-        }
-
-        const isDuplicate = !!(
-            (data as any)?._stats?.duplicateSource ??
-            (item as any)?._stats?.duplicateSource
-        );
-        const resolved = resolveShortcodeKey(
-            desired,
-            item.name ?? "",
-            type,
-            taken,
-            isDuplicate,
-        );
-        if ("reject" in resolved) {
-            (globalThis as any).ui?.notifications?.warn(
-                `${actor?.name ?? "The world"} already has a ${type} with shortcode "${desired}".`,
-            );
-            return false;
-        }
-        if (resolved.shortcode !== desired) {
-            this.updateSource({ shortcode: resolved.shortcode } as any);
-        }
-        return undefined;
+        return enforceShortcodeOnCreate(this.parent, data, options);
     }
 }
