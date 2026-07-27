@@ -186,6 +186,7 @@ describe("Create dialog: archetype seeding (#604)", () => {
             const src = await pack.getDocument(
                 await resolveDocId(pack, BASIC_FOLK_REF),
             );
+            const srcFlag = src.getFlag("sohl", "docArchetype");
             const data = src.toObject();
             // Import = toObject → create (no strip). Retag so cleanupWorld sweeps it.
             data.name = tagName("Imported Folk");
@@ -193,11 +194,15 @@ describe("Create dialog: archetype seeding (#604)", () => {
             const created = await win.Actor.create(data);
             return {
                 flag: created.getFlag("sohl", "docArchetype"),
+                srcFlag,
                 populated:
                     (created.system?.body?.structure?.parts?.length ?? 0) > 0,
             };
         }).should((r) => {
-            expect(r.flag, "flag preserved on import").to.eq(0);
+            // The flag is preserved verbatim — whatever priority the source
+            // carries (Basic Folk is priority 1 so it wins the create default).
+            expect(r.srcFlag, "source is an archetype").to.be.a("number");
+            expect(r.flag, "flag preserved on import").to.eq(r.srcFlag);
             expect(r.populated).to.be.true;
         });
     });
@@ -209,6 +214,7 @@ describe("Create dialog: archetype seeding (#604)", () => {
             const src = await pack.getDocument(
                 await resolveDocId(pack, BASIC_FOLK_REF),
             );
+            const srcFlag = src.getFlag("sohl", "docArchetype");
             const data = src.toObject();
             data.name = tagName("Dup Source");
             data.system.shortcode = `dup_${Date.now()}`;
@@ -221,8 +227,13 @@ describe("Create dialog: archetype seeding (#604)", () => {
             dup.system.shortcode = `dupc_${Date.now()}`;
             dup._stats = { ...(dup._stats || {}), duplicateSource: world.uuid };
             const copy = await win.Actor.create(dup);
-            return copy.getFlag("sohl", "docArchetype");
-        }).should("eq", 0);
+            // Preserved verbatim — equals the source's own priority, not a
+            // hardcoded 0 (Basic Folk is priority 1).
+            return { flag: copy.getFlag("sohl", "docArchetype"), srcFlag };
+        }).should((r) => {
+            expect(r.srcFlag, "source is an archetype").to.be.a("number");
+            expect(r.flag, "flag preserved on duplicate").to.eq(r.srcFlag);
+        });
     });
 
     it("Drop-to-embed strips the docArchetype flag", () => {

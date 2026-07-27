@@ -39,7 +39,7 @@ traits:
         complexion: fair
         extra_features: []
 sohl:
-    archetype: 0
+    archetype: 1
     attributes:
         str: 10
         end: 10
