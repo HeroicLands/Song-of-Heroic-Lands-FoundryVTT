@@ -44,6 +44,7 @@ import {
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
+import { bindBodyStructureContextMenu } from "@src/document/actor/foundry/body-structure-sheet";
 import { NONE_MOVE_PROFILE } from "@src/document/actor/logic/movement";
 import type { LocationInjury } from "@src/entity/body/impairment";
 import type { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
@@ -281,6 +282,12 @@ export class BeingSheet extends SohlActorSheetBase {
         // has no way to edit or delete any created item (#517). `_contextMenu`
         // is provided by the SohlDataModel sheet mixin.
         (this as any)._contextMenu?.((this as any).element);
+
+        // Combat tab Body Structure tree: click the per-row ⋮ to Edit a body
+        // part or body location in its own auto-saving editor (#721 / #722).
+        if ((this as any).isEditable && (this as any).element) {
+            bindBodyStructureContextMenu(this.document, (this as any).element);
+        }
     }
 
     /**
@@ -1316,8 +1323,11 @@ export class BeingSheet extends SohlActorSheetBase {
         // not here; hit probability and zones are no longer modeled (#509).
         const bodyParts = buildBodyLocationTree(
             (structure?.parts ?? []).map((part: any) => ({
+                shortcode: part.shortcode,
+                index: part.index,
                 label: part.name ?? part.shortcode,
                 locations: (part.locations ?? []).map((loc: any) => ({
+                    shortcode: loc.shortcode,
                     name: loc.name,
                     layers: loc.armorType ?? "",
                     base: {

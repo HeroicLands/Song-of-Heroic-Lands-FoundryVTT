@@ -245,12 +245,22 @@ export namespace BodyPart {
         permanentImpairment?: number;
         /** Whether the part is permanently unusable (withered/amputated). */
         permanentlyUnusable?: boolean;
+        /** Whether this part is favored for certain actions (legacy flag). */
+        favoredFlag?: boolean;
         /** Whether this part can grip a held item. */
         canHoldItem: boolean;
         /** Id of the item this part is holding, or null if empty. */
         heldItemId: string | null;
         /** Base selection weight for random hit-location rolls. */
         probWeight: number;
+        /**
+         * Target area of this part for hit-spread mechanics, in square feet;
+         * doubles as the persisted weight for picking a random part on an
+         * unaimed attack. (The persisted schema field; see
+         * {@link BodyPart.probWeight} for the derived modifier the entity
+         * exposes.)
+         */
+        combatArea?: number;
         /** Persisted hit locations within this part. */
         locations: BodyLocation.Data[];
     }

@@ -16,6 +16,7 @@
 
 export * from "./BeingDataModel";
 export * from "./BeingSheet";
+export * from "./body-structure-sheet";
 export * from "./CohortDataModel";
 export * from "./CohortSheet";
 export * from "./SohlActor";

@@ -178,12 +178,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </header>
             {{#each bodyParts as |part|}}
             <div class="list bodypart">
-                <header class="list__header bodypart__header flexrow">
+                <header class="list__header bodypart__header flexrow"
+                    data-part-shortcode="{{part.shortcode}}" data-part-index="{{part.index}}">
                     <h3 class="list__name">{{part.label}}</h3>
+                    <a class="list__control bodypart-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                 </header>
                 <ol class="list__items">
                     {{#each part.locations as |loc|}}
-                    <li class="item bodylocation flexrow" data-search-name="{{loc.name}}">
+                    <li class="item bodylocation flexrow" data-search-name="{{loc.name}}"
+                        data-part-shortcode="{{part.shortcode}}" data-location-shortcode="{{loc.shortcode}}">
                         <div class="list__name"><h4>{{loc.name}}</h4></div>
                         <div class="list__detail bodylocation__layers">{{loc.layers}}</div>
                         <div class="list__detail">{{loc.blunt}}</div>
@@ -192,6 +195,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         <div class="list__detail">{{loc.fire}}</div>
                         <div class="list__detail">{{loc.shock}}</div>
                         <div class="list__detail">{{loc.impair}}</div>
+                        <a class="list__control bodylocation-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </li>
                     {{/each}}
                 </ol>

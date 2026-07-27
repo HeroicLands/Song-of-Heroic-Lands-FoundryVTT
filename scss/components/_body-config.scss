@@ -1,0 +1,139 @@
+// Shared editor styling for the Body Part (`BodyPartConfig`) and Body Location
+// (`BodyLocationConfig`) ApplicationV2 windows
+// (`templates/apps/body-part-config.hbs`, `body-location-config.hbs`), modeled
+// on the strike-mode editor (`components/strike-mode-config`).
+//
+// Exposed as the `editor($prefix)` mixin so the two structurally-identical
+// windows share one rule set, applied in `sohl.scss` under each COMPOUND root
+// (`.sohl.body-part-config`, `.sohl.body-location-config`) — the #87
+// same-element reason a compound selector is required (see css-architecture.md
+// §6): ApplicationV2 puts both the `sohl` and component classes on the one frame
+// element, so a plain `.sohl` wrapper would compile to the never-matching
+// descendant `.sohl .body-part-config …`.
+//
+// The forms use `.form-group.stacked` (label span above its control); that
+// variant has no core styling, so without these rules the label and control
+// overlap unreadably (#683, as for the strike-mode editor).
+
+@mixin editor($prefix) {
+    .#{$prefix}__body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--sohl-space-md, 10px);
+        padding: var(--sohl-space-md, 10px);
+    }
+
+    // Identity header, modeled on the strike-mode editor's: a vertical stack
+    // with the name large and the shortcode small beneath it.
+    .#{$prefix}__header {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: var(--sohl-space-sm, 5px);
+        padding-bottom: var(--sohl-space-sm, 5px);
+        border-bottom: 2px groove var(--sohl-color-border-subtle);
+
+        .#{$prefix}__name {
+            margin: 0;
+            padding: 0;
+            border-bottom: none;
+
+            input {
+                display: block;
+                width: 100%;
+                height: 44px;
+                margin: 0;
+                font-size: 28px;
+                font-weight: 700;
+            }
+        }
+
+        .#{$prefix}__shortcode {
+            display: block;
+            width: auto;
+            max-width: 180px;
+            margin: var(--sohl-space-xs, 2px) 0 0 var(--sohl-space-xs, 2px);
+            padding: 2px 5px;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--sohl-color-text-secondary);
+        }
+
+        // A body location's owning-part label — a read-only subtitle, styled
+        // like the item-sheet subtitle. (Body parts have no such label.)
+        .#{$prefix}__part {
+            margin: var(--sohl-space-xs, 2px) 0 0 var(--sohl-space-xs, 2px);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--sohl-color-text-secondary);
+        }
+    }
+
+    fieldset {
+        margin: 0;
+        padding: var(--sohl-space-xs, 2px) var(--sohl-space-md, 10px)
+            var(--sohl-space-sm, 5px);
+        border: 1px solid var(--sohl-color-border-default);
+        border-radius: 4px;
+
+        legend {
+            padding: 0 var(--sohl-space-sm, 5px);
+            font-weight: bold;
+            color: var(--sohl-color-text-primary);
+        }
+    }
+
+    .grid-2col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--sohl-space-sm, 5px) var(--sohl-space-md, 10px);
+    }
+
+    .form-group.stacked {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--sohl-space-xs, 2px);
+        margin: 0;
+        padding: 0;
+
+        > span {
+            flex: 0 0 auto;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--sohl-color-text-secondary);
+        }
+
+        > input,
+        > select {
+            flex: 0 0 auto;
+            width: 100%;
+            height: 26px;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        // A multi-select (roles) needs room for several rows.
+        > select[multiple] {
+            height: auto;
+        }
+
+        // A boolean flag: label beside a checkbox, not stretched full-width.
+        &.checkbox {
+            flex-direction: row;
+            align-items: center;
+            gap: var(--sohl-space-sm, 5px);
+
+            > span {
+                order: 1;
+            }
+
+            > input[type="checkbox"] {
+                order: 0;
+                flex: 0 0 auto;
+                width: auto;
+                height: auto;
+                margin: 0;
+            }
+        }
+    }
+}

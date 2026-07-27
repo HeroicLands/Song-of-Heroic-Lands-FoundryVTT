@@ -120,6 +120,8 @@ export interface AspectProtection {
 
 /** A body location as consumed by the combat-tab Body Locations tree. */
 export interface BodyLocationRow {
+    /** The location's shortcode (its row key within its part), for the Edit action. */
+    shortcode: string;
     /** The location's display name (e.g. "Skull"). */
     name: string;
     /** Comma-joined covering armor materials (`armorType`), empty when bare. */
@@ -140,6 +142,10 @@ export interface BodyLocationRow {
 
 /** A body part paired with its hit locations, for the Body Locations tree. */
 export interface BodyPartNode {
+    /** The part's shortcode (its row key within the structure), for the Edit action. */
+    shortcode: string;
+    /** Zero-based index of the part within the structure. */
+    index: number;
     /** The part's display label. */
     label: string;
     /** The part's hit locations, in order. */
@@ -148,6 +154,7 @@ export interface BodyPartNode {
 
 /** The minimal per-location shape the tree builder consumes. */
 export interface BodyLocationLike {
+    shortcode: string;
     name: string;
     layers: string;
     /** Natural per-aspect protection (a location's `protectionBase`, resolved). */
@@ -160,6 +167,8 @@ export interface BodyLocationLike {
 
 /** The minimal per-part shape the tree builder consumes. */
 export interface BodyPartLike {
+    shortcode: string;
+    index: number;
     label: string;
     locations: readonly BodyLocationLike[];
 }
@@ -180,8 +189,11 @@ export function buildBodyLocationTree(
     parts: readonly BodyPartLike[],
 ): BodyPartNode[] {
     return parts.map((part) => ({
+        shortcode: part.shortcode,
+        index: part.index,
         label: part.label,
         locations: part.locations.map((loc) => ({
+            shortcode: loc.shortcode,
             name: loc.name,
             layers: loc.layers,
             blunt: loc.base.blunt + loc.armor.blunt,

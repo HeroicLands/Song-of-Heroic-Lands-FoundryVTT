@@ -6,6 +6,10 @@
 @use "abstracts/typography";
 @use "abstracts/mixins";
 
+// Shared editor styling for the Body Part / Body Location config windows,
+// applied under each compound root below (see the partial's header).
+@use "components/body-config";
+
 // @font-face declarations and generated icon glyphs. Left UNLAYERED on purpose:
 // neither has cascade competition. Loaded once via @use.
 @use "abstracts/icons";
@@ -85,6 +89,16 @@
     // `.sohl.being`: ApplicationV2 puts both classes on the one frame element.
     .sohl.strike-mode-config {
         @include meta.load-css("components/strike-mode-config");
+    }
+
+    // Body Part / Body Location editor windows, under their COMPOUND roots for
+    // the same #87 same-element reason as the strike-mode editor above. Both
+    // share one rule set via the `body-config.editor($prefix)` mixin.
+    .sohl.body-part-config {
+        @include body-config.editor("body-part-config");
+    }
+    .sohl.body-location-config {
+        @include body-config.editor("body-location-config");
     }
 }
 

@@ -1,0 +1,74 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<div class="body-location-config__body">
+<header class="body-location-config__header">
+    <h1 class="body-location-config__name">
+        <input type="text" name="name" value="{{loc.name}}" placeholder="Location Name" /></h1>
+    <input class="body-location-config__shortcode" type="text" name="shortcode" value="{{shortcode}}"
+        placeholder="shortcode"
+        data-tooltip="A short code identifying this location. Must be unique within its body part." />
+    <div class="body-location-config__part"
+        data-tooltip="The body part this location belongs to.">{{partLabel}}</div>
+</header>
+
+<fieldset>
+    <legend>General</legend>
+    <div class="grid grid-2col">
+        <label class="form-group stacked"><span>Probability Weight</span>
+            <input type="number" step="1" min="0" name="probWeight" value="{{loc.probWeight}}"
+                data-tooltip="Selection weight for random hit-location rolls within this part." /></label>
+        <label class="form-group stacked"><span>Shock</span>
+            <input type="number" step="1" min="0" name="shockValue" value="{{loc.shockValue}}"
+                data-tooltip="Base shock this location adds to the Shock Index when wounded." /></label>
+        <label class="form-group stacked"><span>Bleeding Susceptibility</span>
+            <select name="bleedingSusceptibility">
+                {{#each bleedingOptions}}
+                <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{localize this.label}}</option>
+                {{/each}}
+            </select></label>
+        <label class="form-group stacked"><span>Amputability</span>
+            <select name="amputability">
+                {{#each amputabilityOptions}}
+                <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{localize this.label}}</option>
+                {{/each}}
+            </select></label>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>Protection</legend>
+    <div class="grid grid-2col">
+        <label class="form-group stacked"><span>Blunt</span>
+            <input type="number" step="1" min="0" name="protectionBase.blunt" value="{{loc.protectionBase.blunt}}" /></label>
+        <label class="form-group stacked"><span>Edged</span>
+            <input type="number" step="1" min="0" name="protectionBase.edged" value="{{loc.protectionBase.edged}}" /></label>
+        <label class="form-group stacked"><span>Piercing</span>
+            <input type="number" step="1" min="0" name="protectionBase.piercing" value="{{loc.protectionBase.piercing}}" /></label>
+        <label class="form-group stacked"><span>Fire</span>
+            <input type="number" step="1" min="0" name="protectionBase.fire" value="{{loc.protectionBase.fire}}" /></label>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>Mishaps</legend>
+    <div class="grid grid-2col">
+        <label class="form-group stacked checkbox"><span>Causes Stumble</span>
+            <input type="checkbox" name="isStumble" {{#if loc.isStumble}}checked{{/if}}
+                data-tooltip="A Serious injury here forces a stumble roll; a Grievous injury stumbles automatically." /></label>
+        <label class="form-group stacked checkbox"><span>Causes Fumble</span>
+            <input type="checkbox" name="isFumble" {{#if loc.isFumble}}checked{{/if}}
+                data-tooltip="A Serious injury here forces a fumble roll; a Grievous injury fumbles automatically." /></label>
+    </div>
+</fieldset>
+</div>
