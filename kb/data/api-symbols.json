@@ -883,6 +883,7 @@
   "sohl.document.actor.logic.SHOCK_STATE": "variables/sohl.document.actor.logic.SHOCK_STATE.html",
   "sohl.document.actor.logic.SHOCK_STATUS_BY_LEVEL": "variables/sohl.document.actor.logic.SHOCK_STATUS_BY_LEVEL.html",
   "sohl.document.actor.logic.SHOCK_STATUS_IDS": "variables/sohl.document.actor.logic.SHOCK_STATUS_IDS.html",
+  "sohl.document.actor.logic.SKILL_DISPLAY_SUBTYPE_ORDER": "variables/sohl.document.actor.logic.SKILL_DISPLAY_SUBTYPE_ORDER.html",
   "sohl.document.actor.logic.ShockReTestOutcome": "types/sohl.document.actor.logic.ShockReTestOutcome.html",
   "sohl.document.actor.logic.ShockState": "types/sohl.document.actor.logic.ShockState.html",
   "sohl.document.actor.logic.SkillGroup": "interfaces/sohl.document.actor.logic.SkillGroup.html",

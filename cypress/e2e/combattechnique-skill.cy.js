@@ -113,6 +113,25 @@ describe("combattechnique skill", () => {
         });
     });
 
+    it("shows a Combat Technique section with a create control on the Skills tab even when empty (#714)", () => {
+        cy.createActor("being", { name: "Empty Being" }).then((actor) => {
+            cy.openSheet(actor);
+            cy.switchTab("skills", "primary");
+            cy.wait(300);
+            // The section is always present (no combat techniques yet), and its
+            // header offers the "+ Add" control seeded with the subtype.
+            cy.get('section.tab[data-tab="skills"]')
+                .find(".skills-list .list__header")
+                .contains(".list__name", "Combat Technique")
+                .should("exist");
+            cy.get('section.tab[data-tab="skills"]')
+                .find(
+                    '.item-create[data-type="skill"][data-sub-type="combattechnique"]',
+                )
+                .should("exist");
+        });
+    });
+
     it("shows the Strike Modes tab + editor only for the technique subtype (#324, #663)", () => {
         cy.createActor("being", { name: "Sheet Being" }).then((actor) => {
             const tabSel = '[data-tab="strikemodes"]';

@@ -16,6 +16,7 @@ import {
     groupBySubType,
     attributeDescriptor,
     buildSkillGroups,
+    SKILL_DISPLAY_SUBTYPE_ORDER,
     buildTraumaRows,
     traumaSeverityLabel,
     buildAfflictionGroups,
@@ -120,6 +121,24 @@ describe("being-sheet-view", () => {
                 { label: "Average", maxValue: 12 },
             ];
             expect(attributeDescriptor(10, unordered)).toBe("Average");
+        });
+    });
+
+    describe("SKILL_DISPLAY_SUBTYPE_ORDER", () => {
+        it("includes combattechnique so the Skills tab always shows a Combat Techniques section (#714)", () => {
+            expect(SKILL_DISPLAY_SUBTYPE_ORDER).toContain("combattechnique");
+        });
+
+        it("lists the display subtypes in their canonical order", () => {
+            expect(SKILL_DISPLAY_SUBTYPE_ORDER).toEqual([
+                "social",
+                "nature",
+                "craft",
+                "lore",
+                "language",
+                "script",
+                "combattechnique",
+            ]);
         });
     });
 

@@ -36,7 +36,6 @@ import {
     MysterySubTypeChoices,
     MysticalAbilitySubTypes,
     MysticalAbilitySubTypeChoices,
-    SKILL_SUBTYPE,
     SkillSubTypeChoices,
     AfflictionSubTypes,
     AfflictionSubTypeChoices,
@@ -53,6 +52,7 @@ import {
     groupBySubType,
     attributeDescriptor,
     buildSkillGroups,
+    SKILL_DISPLAY_SUBTYPE_ORDER,
     buildTraumaRows,
     buildAfflictionGroups,
     buildAffiliationRows,
@@ -1225,14 +1225,7 @@ export class BeingSheet extends SohlActorSheetBase {
                     improveFlag: !!sys.improveFlag,
                 };
             }),
-            [
-                SKILL_SUBTYPE.SOCIAL,
-                SKILL_SUBTYPE.NATURE,
-                SKILL_SUBTYPE.CRAFT,
-                SKILL_SUBTYPE.LORE,
-                SKILL_SUBTYPE.LANGUAGE,
-                SKILL_SUBTYPE.SCRIPT,
-            ],
+            SKILL_DISPLAY_SUBTYPE_ORDER,
             (subType) =>
                 game.i18n.localize(
                     (SkillSubTypeChoices as Record<string, string>)[subType] ??
