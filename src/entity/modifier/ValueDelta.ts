@@ -34,8 +34,8 @@ import { SohlEntity } from "../SohlEntity";
 export class ValueDelta extends SohlEntity {
     /** Human-readable name of the delta's source, for display. */
     name: string;
-    /** Short identity code for the delta's source (used to find or replace it). */
-    shortcode: string;
+    /** Short abbreviation for the delta's source (used to find or replace it). */
+    abbrev: string;
     /** The operator selecting how this delta combines with the running value. */
     op: ValueDeltaOperator;
     /** The delta's value as a string — numeric, or `"true"`/`"false"` for flags. */
@@ -53,7 +53,7 @@ export class ValueDelta extends SohlEntity {
      * that non-`CUSTOM` operators receive a numeric value.
      * @param data - Delta construction data.
      * @param data.name - Human-readable name of the delta's source.
-     * @param data.shortcode - Short identity code for the delta's source.
+     * @param data.abbrev - Short abbreviation for the delta's source.
      * @param data.op - The operator selecting how the delta combines with the value.
      * @param data.value - The delta's value (numeric, or a boolean flag).
      * @param options - Construction options.
@@ -65,13 +65,13 @@ export class ValueDelta extends SohlEntity {
         options: Partial<ValueDelta.Options> = {},
     ) {
         super(data, options);
-        const { name, shortcode, op, value } = data as ValueDelta.Data;
+        const { name, abbrev, op, value } = data as ValueDelta.Data;
         const strValue = String(value);
 
-        // `name` / `shortcode` are passed through as-is (display / identity
+        // `name` / `abbrev` are passed through as-is (display / identity
         // labels, not validated localization keys).
         this.name = name;
-        this.shortcode = shortcode;
+        this.abbrev = abbrev;
         this.op = op;
         if (op === VALUE_DELTA_OPERATOR.CUSTOM) {
             if (strValue.toLowerCase() === "true") {
@@ -99,7 +99,7 @@ export class ValueDelta extends SohlEntity {
         return {
             ...super.toJSON(),
             name: this.name,
-            shortcode: this.shortcode,
+            abbrev: this.abbrev,
             op: this.op,
             value: this.value,
         };
@@ -158,8 +158,8 @@ export namespace ValueDelta {
     export interface Data extends SohlEntity.Data {
         /** Human-readable name of the delta's source. */
         name: string;
-        /** Short identity code for the delta's source. */
-        shortcode: string;
+        /** Short abbreviation for the delta's source. */
+        abbrev: string;
         /** The operator selecting how the delta combines with the value. */
         op: ValueDeltaOperator;
         /** The delta's value (numeric, or a boolean flag). */

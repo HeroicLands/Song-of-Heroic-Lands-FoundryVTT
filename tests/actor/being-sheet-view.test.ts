@@ -156,6 +156,8 @@ describe("being-sheet-view", () => {
             index: 4,
             eml: 42,
             fate: 50,
+            emlDeltaLabel: "STR +2",
+            fateDeltaLabel: "FATE +5",
             disabled: false,
             canImprove: true,
             improveFlag: false,
@@ -196,6 +198,8 @@ describe("being-sheet-view", () => {
                 index: 5,
                 eml: 58,
                 fate: 60,
+                emlDeltaLabel: "STR +2, ARM ×2",
+                fateDeltaLabel: "FATE +5",
                 disabled: true,
                 canImprove: false,
                 improveFlag: true,
@@ -211,10 +215,22 @@ describe("being-sheet-view", () => {
                 index: 5,
                 eml: 58,
                 fate: 60,
+                emlDeltaLabel: "STR +2, ARM ×2",
+                fateDeltaLabel: "FATE +5",
                 disabled: true,
                 canImprove: false,
                 improveFlag: true,
             });
+        });
+
+        it("passes through the EML/Fate abbrev tooltips (#769)", () => {
+            const a = skill({
+                emlDeltaLabel: "STR +2, ARM ×2",
+                fateDeltaLabel: "",
+            });
+            const [group] = buildSkillGroups([a], order, subLabel);
+            expect(group.skills[0].emlDeltaLabel).toBe("STR +2, ARM ×2");
+            expect(group.skills[0].fateDeltaLabel).toBe("");
         });
     });
 
@@ -889,8 +905,10 @@ describe("being-sheet-view", () => {
             name: "Left Arm Crush",
             img: "icons/x.svg",
             level: 2,
+            severityDeltaLabel: "Base +2",
             healingRate: 6,
             healingRateDisabled: false,
+            healingRateDeltaLabel: "Base +6",
             isTreated: false,
             isBleeding: false,
             aspect: "blunt",
@@ -930,6 +948,12 @@ describe("being-sheet-view", () => {
             expect(row.healingRateDisabled).toBe(true);
             expect(row.isBleeding).toBe(true);
         });
+
+        it("passes through the severity/healing-rate deltaLabel tooltips (#769)", () => {
+            const [row] = buildTraumaRows([base], label);
+            expect(row.severityDeltaLabel).toBe("Base +2");
+            expect(row.healingRateDeltaLabel).toBe("Base +6");
+        });
     });
 
     describe("buildAfflictionGroups", () => {
@@ -940,8 +964,10 @@ describe("being-sheet-view", () => {
             img: "icons/x.svg",
             subType: "fatigue",
             levelLabel: "Weary",
+            levelDeltaLabel: "Base +3",
             healingRate: 4,
             healingRateDisabled: false,
+            healingRateDeltaLabel: "Base +4",
             source: "Cold",
             notes: "<p>shivering</p>",
             ...over,
@@ -967,6 +993,13 @@ describe("being-sheet-view", () => {
             expect(row.level).toBe("Weary");
             expect(row.source).toBe("Cold");
             expect(row.notes).toBe("shivering");
+        });
+
+        it("passes through the level/healing-rate deltaLabel tooltips (#769)", () => {
+            const [group] = buildAfflictionGroups([aff()], ["fatigue"], label);
+            const [row] = group.afflictions;
+            expect(row.levelDeltaLabel).toBe("Base +3");
+            expect(row.healingRateDeltaLabel).toBe("Base +4");
         });
 
         it("emits only non-empty groups", () => {

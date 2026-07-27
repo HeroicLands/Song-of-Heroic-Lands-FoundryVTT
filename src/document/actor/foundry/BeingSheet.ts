@@ -1302,6 +1302,9 @@ export class BeingSheet extends SohlActorSheetBase {
                 score,
                 descriptor: attributeDescriptor(score, bands),
                 tl: attrLogic?.masteryLevel?.effective ?? 0,
+                // Derivation summaries for the score / TL hover tooltips (#769).
+                scoreDeltaLabel: attrLogic?.score?.deltaLabel ?? "",
+                tlDeltaLabel: attrLogic?.masteryLevel?.deltaLabel ?? "",
             };
         });
 
@@ -1385,6 +1388,9 @@ export class BeingSheet extends SohlActorSheetBase {
                     index: skillLogic?.masteryLevel?.index ?? 0,
                     eml: skillLogic?.masteryLevel?.effective ?? 0,
                     fate: skillLogic?.fateMasteryLevel?.effective ?? 0,
+                    emlDeltaLabel: skillLogic?.masteryLevel?.deltaLabel ?? "",
+                    fateDeltaLabel:
+                        skillLogic?.fateMasteryLevel?.deltaLabel ?? "",
                     disabled: !!skillLogic?.masteryLevel?.disabled,
                     canImprove: !!skillLogic?.canImprove,
                     improveFlag: !!sys.improveFlag,
@@ -1555,8 +1561,10 @@ export class BeingSheet extends SohlActorSheetBase {
                         ] ?? sys.subType,
                     ),
                     level: tl?.level?.effective ?? 0,
+                    severityDeltaLabel: tl?.level?.deltaLabel ?? "",
                     healingRate: tl?.healingRate?.effective ?? 0,
                     healingRateDisabled: !!tl?.healingRate?.disabled,
+                    healingRateDeltaLabel: tl?.healingRate?.deltaLabel ?? "",
                     isTreated: !!tl?.isTreated,
                     isBleeding: !!tl?.isBleeding,
                     aspect: sys.aspect,
@@ -1587,8 +1595,10 @@ export class BeingSheet extends SohlActorSheetBase {
                     ),
                     levelLabel:
                         al?.levelLabel ?? String(al?.level?.effective ?? 0),
+                    levelDeltaLabel: al?.level?.deltaLabel ?? "",
                     healingRate: al?.healingRate?.effective ?? 0,
                     healingRateDisabled: !!al?.healingRate?.disabled,
+                    healingRateDeltaLabel: al?.healingRate?.deltaLabel ?? "",
                     source: al?.categoryLabel ?? "",
                     notes: sys.notes,
                 };
@@ -1716,6 +1726,11 @@ export class BeingSheet extends SohlActorSheetBase {
                 weight: gl?.weight?.effective ?? sys.weightBase ?? 0,
                 quality: `${q >= 0 ? "+" : ""}${q}`,
                 durability: sys.durabilityBase ?? 0,
+                // Derivation summaries for the weight/quality/durability
+                // hover tooltips (#769).
+                weightDeltaLabel: gl?.weight?.deltaLabel ?? "",
+                qualityDeltaLabel: gl?.quality?.deltaLabel ?? "",
+                durabilityDeltaLabel: gl?.durability?.deltaLabel ?? "",
                 notes: htmlToPlainText(sys.notes ?? ""),
                 isCarried: !!sys.isCarried,
                 isWorn: !!sys.isWorn,

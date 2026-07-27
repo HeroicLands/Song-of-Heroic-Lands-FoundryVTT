@@ -66,7 +66,7 @@ Setting `vm.disabled = "reason"` causes `effective` to always return 0, regardle
 
 ### Auditability
 
-Every delta carries a `name` and `shortcode` identifying its source:
+Every delta carries a `name` and `abbrev` identifying its source:
 
 ```typescript
 vm.add("SOHL.MOD.fatigue", "FTG", -5);
@@ -105,14 +105,14 @@ Deltas are never persisted. To change the base value permanently, update the und
 
 | Method                             | Description                     |
 | ---------------------------------- | ------------------------------- |
-| `add(name, shortcode, value)`      | Add an additive delta           |
-| `multiply(name, shortcode, value)` | Add a multiplicative delta      |
-| `set(name, shortcode, value)`      | Add an override delta           |
-| `floor(name, shortcode, value)`    | Add an upgrade (minimum) delta  |
-| `ceiling(name, shortcode, value)`  | Add a downgrade (maximum) delta |
-| `get(shortcode)`                   | Get a delta by shortcode        |
-| `has(shortcode)`                   | Check if a delta exists         |
-| `delete(shortcode)`                | Remove a delta by shortcode     |
+| `add(name, abbrev, value)`         | Add an additive delta           |
+| `multiply(name, abbrev, value)`    | Add a multiplicative delta      |
+| `set(name, abbrev, value)`         | Add an override delta           |
+| `floor(name, abbrev, value)`       | Add an upgrade (minimum) delta  |
+| `ceiling(name, abbrev, value)`     | Add a downgrade (maximum) delta |
+| `get(abbrev)`                      | Get a delta by abbrev           |
+| `has(abbrev)`                      | Check if a delta exists         |
+| `delete(abbrev)`                   | Remove a delta by abbrev        |
 
 ### State
 
@@ -199,7 +199,7 @@ ImpactModifier is automatically disabled when both dice and effective modifier a
 
 ## Extension guidance
 
-- Add new shortcode deltas rather than overloading existing shortcodes.
+- Add new abbrev deltas rather than overloading existing abbrevs.
 - Keep operator semantics stable globally.
 - If a subsystem needs special math, subclass `ValueModifier` and keep conversions explicit.
-- Keep chat/display formatting (`chatHtml`, abbreviations) aligned with mechanical behavior.
+- Keep chat/display formatting (`chatHtml`, the `deltaLabel` delta summary) aligned with mechanical behavior.

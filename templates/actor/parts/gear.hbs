@@ -49,9 +49,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 </div>
                 <div class="list__detail">{{item.typeLabel}}</div>
                 <div class="list__detail">{{item.quantity}}</div>
-                <div class="list__detail">{{item.weight}}</div>
-                <div class="list__detail">{{item.quality}}</div>
-                <div class="list__detail">{{item.durability}}</div>
+                <div class="list__detail" data-tooltip="{{item.weightDeltaLabel}}" data-tooltip-direction="UP">{{item.weight}}</div>
+                <div class="list__detail" data-tooltip="{{item.qualityDeltaLabel}}" data-tooltip-direction="UP">{{item.quality}}</div>
+                <div class="list__detail" data-tooltip="{{item.durabilityDeltaLabel}}" data-tooltip-direction="UP">{{item.durability}}</div>
                 <div class="list__detail list__notes" data-tooltip="{{item.notes}}">{{item.notes}}</div>
                 <div class="list__controls">
                     {{#if item.isArmor}}

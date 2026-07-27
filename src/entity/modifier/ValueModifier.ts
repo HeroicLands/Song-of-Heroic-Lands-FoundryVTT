@@ -92,13 +92,13 @@ import { SohlEntity } from "../SohlEntity";
  *
  * ## Auditability
  *
- * Each delta has a `name` and `shortcode` identifying its source, so
+ * Each delta has a `name` and `abbrev` identifying its source, so
  * the full breakdown of "why is this value X?" is always available via
  * the {@link deltas} array. Use {@link get}, {@link has}, and
- * {@link delete} to inspect or remove specific deltas by shortcode.
+ * {@link delete} to inspect or remove specific deltas by abbrev.
  */
 export class ValueModifier extends SohlEntity {
-    private _shortcode!: string;
+    private _deltaLabel!: string;
     private dirty: boolean;
     private _effective!: number;
     /** Reason the value is disabled; empty string means enabled. See {@link disabled}. */
@@ -146,7 +146,14 @@ export class ValueModifier extends SohlEntity {
         this.customFunction = data.customFunction ?? undefined;
         this.deltas = data.deltas ?? [];
         this.dirty = true;
-        this._apply();
+        // Apply only when this is the most-derived class being constructed. A
+        // subclass sets its own apply-affecting fields *after* this super()
+        // call (e.g. ImpactModifier's dice `roll`), so applying here would
+        // compute the effective value and delta summary from incomplete state
+        // and cache it (dirty=false) before those fields exist — leaving, e.g.,
+        // an enabled impact showing a stale "Dsbl" summary. Each subclass runs
+        // its own guarded _apply() at the end of its constructor instead (#769).
+        if (new.target === ValueModifier) this._apply();
     }
 
     /**
@@ -273,7 +280,7 @@ export class ValueModifier extends SohlEntity {
             this._effective = maxPrecision(this._effective, 3);
         }
 
-        this._calcAbbrev();
+        this._calcDeltaLabel();
     }
 
     /**
@@ -291,12 +298,19 @@ export class ValueModifier extends SohlEntity {
     }
 
     /**
-     * A compact, human-readable summary of the applied deltas (e.g.
-     * `STR +2, ARM ×2`), or the disabled marker when {@link disabled}.
+     * A compact, human-readable summary of how the value is derived: the base
+     * contribution followed by each applied delta (e.g. `Base +30, SSMod +25`),
+     * or the disabled marker (`Dsbl`) when {@link disabled}. An unmodified value
+     * still summarizes as `Base +N`, so the summary is never empty for an
+     * enabled value.
+     *
+     * Named `deltaLabel` — not `shortcode` — because a `ValueModifier`'s
+     * derivation summary is unrelated to the document `system.shortcode`
+     * identity key used across the rest of the system.
      */
-    get shortcode(): string {
+    get deltaLabel(): string {
         this._apply();
-        return this._shortcode;
+        return this._deltaLabel;
     }
 
     /** A coarse index derived from the base value (`base / 10`, truncated). */
@@ -377,11 +391,11 @@ export class ValueModifier extends SohlEntity {
      * {@link set}, {@link floor}, and {@link ceiling}.
      *
      * @param name - The delta's display name (a localization key).
-     * @param shortcode - The delta's identity shortcode; a new delta replaces
-     *   any existing one with the same shortcode.
+     * @param abbrev - The delta's identity abbrev; a new delta replaces
+     *   any existing one with the same abbrev.
      * @param value - The delta's value.
      * @param op - The operator to apply (defaults to `ADD`).
-     * @param data - Extra delta data; supplies a fallback `shortcode` when one
+     * @param data - Extra delta data; supplies a fallback `abbrev` when one
      *   is not given.
      * @returns `this`, for chaining.
      * @throws TypeError if `op` is not a valid operator, or if `op` is `CUSTOM`
@@ -390,7 +404,7 @@ export class ValueModifier extends SohlEntity {
      */
     protected _oper(
         name: string,
-        shortcode: string = "",
+        abbrev: string = "",
         value: string | number = 0,
         op: ValueDeltaOperator = VALUE_DELTA_OPERATOR.ADD,
         data: PlainObject = {},
@@ -400,12 +414,12 @@ export class ValueModifier extends SohlEntity {
         } else if (op === VALUE_DELTA_OPERATOR.CUSTOM && !this.customFunction) {
             throw new TypeError("custom handler is not defined");
         }
-        // `name` / `shortcode` arrive already resolved by the public
-        // operators: the `(shortcode, value)` form validates the shortcode
-        // against the registry, while the `(name, shortcode, value)` form
+        // `name` / `abbrev` arrive already resolved by the public
+        // operators: the `(abbrev, value)` form validates the abbrev
+        // against the registry, while the `(name, abbrev, value)` form
         // passes both through as-is for ad-hoc deltas.
 
-        shortcode ||= data.shortcode;
+        abbrev ||= data.abbrev;
 
         const existingOverride = this.deltas.find(
             (m) => m.op === VALUE_DELTA_OPERATOR.OVERRIDE,
@@ -418,17 +432,17 @@ export class ValueModifier extends SohlEntity {
                     // If this ValueModifier is being overriden, throw out all other modifications
                     this.deltas = [
                         new entity.ValueDelta(
-                            { name, shortcode, op, value },
+                            { name, abbrev, op, value },
                             { parent: this.parent },
                         ),
                     ];
                 }
             }
         } else {
-            this.deltas = this.deltas.filter((m) => m.shortcode !== shortcode);
+            this.deltas = this.deltas.filter((m) => m.abbrev !== abbrev);
             this.deltas.push(
                 new entity.ValueDelta(
-                    { name, shortcode, op, value },
+                    { name, abbrev, op, value },
                     { parent: this.parent },
                 ),
             );
@@ -439,119 +453,119 @@ export class ValueModifier extends SohlEntity {
     }
 
     /**
-     * Find the delta with the given shortcode.
+     * Find the delta with the given abbrev.
      *
-     * @param shortcode - The delta shortcode to look up.
+     * @param abbrev - The delta abbrev to look up.
      * @returns The matching {@link ValueDelta}, or `undefined`.
-     * @throws TypeError if `shortcode` is not a string.
+     * @throws TypeError if `abbrev` is not a string.
      */
-    get(shortcode: string): ValueDelta | undefined {
-        if (typeof shortcode !== "string")
-            throw new TypeError("shortcode is not a string");
-        return this.deltas.find((m) => m.shortcode === shortcode);
+    get(abbrev: string): ValueDelta | undefined {
+        if (typeof abbrev !== "string")
+            throw new TypeError("abbrev is not a string");
+        return this.deltas.find((m) => m.abbrev === abbrev);
     }
 
     /**
-     * Whether a delta with the given shortcode is present.
+     * Whether a delta with the given abbrev is present.
      *
-     * @param shortcode - The delta shortcode to test for.
+     * @param abbrev - The delta abbrev to test for.
      * @returns `true` if a matching delta exists.
-     * @throws TypeError if `shortcode` is not a string.
+     * @throws TypeError if `abbrev` is not a string.
      */
-    has(shortcode: string): boolean {
-        if (typeof shortcode !== "string")
-            throw new TypeError("shortcode is not a string");
-        return this.deltas.some((m) => m.shortcode === shortcode) || false;
+    has(abbrev: string): boolean {
+        if (typeof abbrev !== "string")
+            throw new TypeError("abbrev is not a string");
+        return this.deltas.some((m) => m.abbrev === abbrev) || false;
     }
 
     /**
-     * Remove the delta with the given shortcode, if present.
+     * Remove the delta with the given abbrev, if present.
      *
-     * @param shortcode - The delta shortcode to remove.
-     * @throws TypeError if `shortcode` is not a string.
+     * @param abbrev - The delta abbrev to remove.
+     * @throws TypeError if `abbrev` is not a string.
      */
-    delete(shortcode: string): void {
-        if (typeof shortcode !== "string")
-            throw new TypeError("shortcode is not a string");
-        this.deltas = this.deltas.filter((m) => m.shortcode !== shortcode);
+    delete(abbrev: string): void {
+        if (typeof abbrev !== "string")
+            throw new TypeError("abbrev is not a string");
+        this.deltas = this.deltas.filter((m) => m.abbrev !== abbrev);
         this.dirty = true;
     }
 
     /**
-     * Resolve operator arguments into a `{ name, shortcode, value }` triple.
+     * Resolve operator arguments into a `{ name, abbrev, value }` triple.
      *
      * Two call forms, dispatched by argument count:
      *
-     * - **`(shortcode, value)`** — the convenience form. `shortcode` must be
+     * - **`(abbrev, value)`** — the convenience form. `abbrev` must be
      *   a registered {@link VALUE_DELTA_INFO} value; its display name is
-     *   resolved from {@link VALUE_DELTA_ID}. Throws when the shortcode is
+     *   resolved from {@link VALUE_DELTA_ID}. Throws when the abbrev is
      *   not registered — use the three-argument form for ad-hoc deltas.
-     * - **`(name, shortcode, value)`** — the explicit form. `name` and
-     *   `shortcode` are used verbatim, with no registry lookup or validation.
+     * - **`(name, abbrev, value)`** — the explicit form. `name` and
+     *   `abbrev` are used verbatim, with no registry lookup or validation.
      *
      * @param args - The operator arguments, in either of the two forms above.
-     * @returns The resolved `{ name, shortcode, value }` triple.
-     * @throws Error if the two-argument `(shortcode, value)` form is given a
-     *   shortcode that is not a registered `VALUE_DELTA_INFO` value.
+     * @returns The resolved `{ name, abbrev, value }` triple.
+     * @throws Error if the two-argument `(abbrev, value)` form is given a
+     *   abbrev that is not a registered `VALUE_DELTA_INFO` value.
      * @internal
      */
     private _resolveDeltaArgs(args: unknown[]): {
         name: string;
-        shortcode: string;
+        abbrev: string;
         value: number;
     } {
         if (args.length <= 2) {
-            const shortcode = args[0] as string;
-            const info = VALUE_DELTA_ID[shortcode];
+            const abbrev = args[0] as string;
+            const info = VALUE_DELTA_ID[abbrev];
             if (!info) {
                 throw new Error(
-                    `ValueModifier: unknown value-delta shortcode "${shortcode}". ` +
-                        `Pass a registered VALUE_DELTA_INFO shortcode, or use the ` +
-                        `(name, shortcode, value) form for an ad-hoc delta.`,
+                    `ValueModifier: unknown value-delta abbrev "${abbrev}". ` +
+                        `Pass a registered VALUE_DELTA_INFO abbrev, or use the ` +
+                        `(name, abbrev, value) form for an ad-hoc delta.`,
                 );
             }
             return {
                 name: info.name,
-                shortcode: info.shortcode,
+                abbrev: info.abbrev,
                 value: args[1] as number,
             };
         }
         return {
             name: args[0] as string,
-            shortcode: args[1] as string,
+            abbrev: args[1] as string,
             value: args[2] as number,
         };
     }
 
     /**
      * Add an additive (`+value`) delta. A new delta replaces any existing one
-     * with the same shortcode.
+     * with the same abbrev.
      *
      * @remarks
-     * Two forms: `(shortcode, value)` resolves the display name from the
-     * {@link VALUE_DELTA_INFO} registry (and throws on an unknown shortcode);
-     * `(name, shortcode, value)` supplies both explicitly for ad-hoc deltas.
+     * Two forms: `(abbrev, value)` resolves the display name from the
+     * {@link VALUE_DELTA_INFO} registry (and throws on an unknown abbrev);
+     * `(name, abbrev, value)` supplies both explicitly for ad-hoc deltas.
      * @returns `this`, for chaining.
      */
-    add(shortcode: ValueDeltaInfo, value: number): this;
+    add(abbrev: ValueDeltaInfo, value: number): this;
     /** @inheritDoc */
-    add(name: string, shortcode: string, value: number): this;
+    add(name: string, abbrev: string, value: number): this;
     /** @inheritDoc */
     add(...args: unknown[]): this {
-        const { name, shortcode, value } = this._resolveDeltaArgs(args);
-        return this._oper(name, shortcode, value, VALUE_DELTA_OPERATOR.ADD);
+        const { name, abbrev, value } = this._resolveDeltaArgs(args);
+        return this._oper(name, abbrev, value, VALUE_DELTA_OPERATOR.ADD);
     }
 
     /**
      * Fold another modifier into this one, preserving the full auditable
-     * derivation: every labeled delta from `other` (its name, shortcode,
+     * derivation: every labeled delta from `other` (its name, abbrev,
      * operator, and value) is replayed onto this modifier, so the merged result
      * keeps each source justification in its tooltip and this modifier can then
      * layer its own deltas on top.
      *
      * Deltas are **additive** — `other`'s are appended to whatever this modifier
      * already carries (each replayed through the internal `_oper`, so
-     * same-shortcode replacement and OVERRIDE semantics apply, and the clones
+     * same-abbrev replacement and OVERRIDE semantics apply, and the clones
      * are re-parented to this modifier). The **base is not additive** — a
      * modifier has exactly
      * one base — so `other`'s base is adopted only when `includeBase` is set,
@@ -571,7 +585,7 @@ export class ValueModifier extends SohlEntity {
     ): ValueModifier {
         if (includeBase) this.base = other.base;
         for (const delta of other.deltas) {
-            this._oper(delta.name, delta.shortcode, delta.value, delta.op);
+            this._oper(delta.name, delta.abbrev, delta.value, delta.op);
         }
         return this;
     }
@@ -582,18 +596,13 @@ export class ValueModifier extends SohlEntity {
      *
      * @returns `this`, for chaining.
      */
-    multiply(shortcode: ValueDeltaInfo, value: number): this;
+    multiply(abbrev: ValueDeltaInfo, value: number): this;
     /** @inheritDoc */
-    multiply(name: string, shortcode: string, value: number): this;
+    multiply(name: string, abbrev: string, value: number): this;
     /** @inheritDoc */
     multiply(...args: unknown[]): this {
-        const { name, shortcode, value } = this._resolveDeltaArgs(args);
-        return this._oper(
-            name,
-            shortcode,
-            value,
-            VALUE_DELTA_OPERATOR.MULTIPLY,
-        );
+        const { name, abbrev, value } = this._resolveDeltaArgs(args);
+        return this._oper(name, abbrev, value, VALUE_DELTA_OPERATOR.MULTIPLY);
     }
 
     /**
@@ -605,18 +614,13 @@ export class ValueModifier extends SohlEntity {
      * is sticky — once set, further modifications are ignored.
      * @returns `this`, for chaining.
      */
-    set(shortcode: ValueDeltaInfo, value: number): this;
+    set(abbrev: ValueDeltaInfo, value: number): this;
     /** @inheritDoc */
-    set(name: string, shortcode: string, value: number): this;
+    set(name: string, abbrev: string, value: number): this;
     /** @inheritDoc */
     set(...args: unknown[]): this {
-        const { name, shortcode, value } = this._resolveDeltaArgs(args);
-        return this._oper(
-            name,
-            shortcode,
-            value,
-            VALUE_DELTA_OPERATOR.OVERRIDE,
-        );
+        const { name, abbrev, value } = this._resolveDeltaArgs(args);
+        return this._oper(name, abbrev, value, VALUE_DELTA_OPERATOR.OVERRIDE);
     }
 
     /**
@@ -625,13 +629,13 @@ export class ValueModifier extends SohlEntity {
      *
      * @returns `this`, for chaining.
      */
-    floor(shortcode: ValueDeltaInfo, value: number): this;
+    floor(abbrev: ValueDeltaInfo, value: number): this;
     /** @inheritDoc */
-    floor(name: string, shortcode: string, value: number): this;
+    floor(name: string, abbrev: string, value: number): this;
     /** @inheritDoc */
     floor(...args: unknown[]): this {
-        const { name, shortcode, value } = this._resolveDeltaArgs(args);
-        return this._oper(name, shortcode, value, VALUE_DELTA_OPERATOR.UPGRADE);
+        const { name, abbrev, value } = this._resolveDeltaArgs(args);
+        return this._oper(name, abbrev, value, VALUE_DELTA_OPERATOR.UPGRADE);
     }
 
     /**
@@ -640,18 +644,13 @@ export class ValueModifier extends SohlEntity {
      *
      * @returns `this`, for chaining.
      */
-    ceiling(shortcode: ValueDeltaInfo, value: number): this;
+    ceiling(abbrev: ValueDeltaInfo, value: number): this;
     /** @inheritDoc */
-    ceiling(name: string, shortcode: string, value: number): this;
+    ceiling(name: string, abbrev: string, value: number): this;
     /** @inheritDoc */
     ceiling(...args: unknown[]): this {
-        const { name, shortcode, value } = this._resolveDeltaArgs(args);
-        return this._oper(
-            name,
-            shortcode,
-            value,
-            VALUE_DELTA_OPERATOR.DOWNGRADE,
-        );
+        const { name, abbrev, value } = this._resolveDeltaArgs(args);
+        return this._oper(name, abbrev, value, VALUE_DELTA_OPERATOR.DOWNGRADE);
     }
 
     /** Render the deltas as an HTML breakdown (name + adjustment per row) for chat cards and tooltips; empty when disabled. */
@@ -684,7 +683,7 @@ export class ValueModifier extends SohlEntity {
 
                 default:
                     throw Error(
-                        `SoHL | Specified mode "${delta.op}" not recognized while processing ${delta.shortcode}`,
+                        `SoHL | Specified mode "${delta.op}" not recognized while processing ${delta.abbrev}`,
                     );
             }
         }
@@ -706,48 +705,59 @@ export class ValueModifier extends SohlEntity {
     }
 
     /**
-     * Recompute the {@link shortcode} summary string from the current deltas.
+     * Recompute the {@link deltaLabel} summary string from the current deltas.
      *
      * @internal
      */
-    protected _calcAbbrev(): void {
-        this._shortcode = "";
+    protected _calcDeltaLabel(): void {
         if (this.disabled) {
-            this._shortcode = VALUE_DELTA_INFO.DISABLED;
-        } else {
-            this.deltas.forEach((adj) => {
-                if (this._shortcode) {
-                    this._shortcode += ", ";
-                }
-
-                switch (adj.op) {
-                    case VALUE_DELTA_OPERATOR.ADD:
-                        this._shortcode += `${adj.shortcode} ${adj.numValue > 0 ? "+" : ""}${adj.value}`;
-                        break;
-
-                    case VALUE_DELTA_OPERATOR.MULTIPLY:
-                        this._shortcode += `${adj.shortcode} ${SYMBOL.TIMES}${adj.value}`;
-                        break;
-
-                    case VALUE_DELTA_OPERATOR.DOWNGRADE:
-                        this._shortcode += `${adj.shortcode} ${SYMBOL.LESSTHANOREQUAL}${adj.value}`;
-                        break;
-
-                    case VALUE_DELTA_OPERATOR.UPGRADE:
-                        this._shortcode += `${adj.shortcode} ${SYMBOL.GREATERTHANOREQUAL}${adj.value}`;
-                        break;
-
-                    case VALUE_DELTA_OPERATOR.OVERRIDE:
-                        this._shortcode += `${adj.shortcode} =${adj.value}`;
-                        break;
-
-                    case VALUE_DELTA_OPERATOR.CUSTOM:
-                        if (adj.value === "disabled")
-                            this._shortcode += `${adj.shortcode}`;
-                        break;
-                }
-            });
+            this._deltaLabel = VALUE_DELTA_INFO.DISABLED;
+            return;
         }
+
+        // Lead with the base contribution (e.g. `Base +30`) so an unmodified
+        // value still has a meaningful summary, then append one entry per delta
+        // (`Base +30, SSMod +25`).
+        const base = this.base;
+        const parts: string[] = [
+            `${VALUE_DELTA_INFO.BASE} ${base >= 0 ? "+" : ""}${base}`,
+        ];
+
+        this.deltas.forEach((adj) => {
+            switch (adj.op) {
+                case VALUE_DELTA_OPERATOR.ADD:
+                    parts.push(
+                        `${adj.abbrev} ${adj.numValue > 0 ? "+" : ""}${adj.value}`,
+                    );
+                    break;
+
+                case VALUE_DELTA_OPERATOR.MULTIPLY:
+                    parts.push(`${adj.abbrev} ${SYMBOL.TIMES}${adj.value}`);
+                    break;
+
+                case VALUE_DELTA_OPERATOR.DOWNGRADE:
+                    parts.push(
+                        `${adj.abbrev} ${SYMBOL.LESSTHANOREQUAL}${adj.value}`,
+                    );
+                    break;
+
+                case VALUE_DELTA_OPERATOR.UPGRADE:
+                    parts.push(
+                        `${adj.abbrev} ${SYMBOL.GREATERTHANOREQUAL}${adj.value}`,
+                    );
+                    break;
+
+                case VALUE_DELTA_OPERATOR.OVERRIDE:
+                    parts.push(`${adj.abbrev} =${adj.value}`);
+                    break;
+
+                case VALUE_DELTA_OPERATOR.CUSTOM:
+                    if (adj.value === "disabled") parts.push(`${adj.abbrev}`);
+                    break;
+            }
+        });
+
+        this._deltaLabel = parts.join(", ");
     }
 }
 

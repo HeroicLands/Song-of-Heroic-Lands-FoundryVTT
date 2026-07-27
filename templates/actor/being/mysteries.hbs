@@ -41,7 +41,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     <div class="list__detail">{{section.label}}</div>
                     <div class="list__detail">{{#if mystery.logic.assocSkill}}{{mystery.logic.assocSkill.name}}{{/if}}</div>
-                    <div class="list__detail">
+                    <div class="list__detail" data-tooltip="{{mystery.logic.level.deltaLabel}}" data-tooltip-direction="UP">
                         {{!-- Level: "×" when disabled (levelBase null), else signed value --}}
                         {{#if mystery.logic.level.disabled}}
                         <i class="fa-solid fa-xmark fa-lg"></i>
@@ -49,7 +49,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{numberFormat mystery.logic.level.effective sign=true}}
                         {{/if}}
                     </div>
-                    <div class="list__detail">
+                    <div class="list__detail" data-tooltip="{{mystery.logic.charges.value.deltaLabel}}" data-tooltip-direction="UP">
                         {{!-- Charges display rules (#310), first match wins:
                               max disabled → "×"; value disabled → "∞";
                               max 0 → "<value>/∞"; else "<value>/<max>" --}}
@@ -103,7 +103,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     <div class="list__detail">{{section.label}}</div>
                     <div class="list__detail">{{#if ability.logic.assocSkill}}{{ability.logic.assocSkill.name}}{{/if}}</div>
-                    <div class="list__detail">
+                    <div class="list__detail" data-tooltip="{{ability.logic.level.deltaLabel}}" data-tooltip-direction="UP">
                         {{!-- Level: "×" when disabled (levelBase null), else value --}}
                         {{#if ability.logic.level.disabled}}
                         <i class="fa-solid fa-xmark fa-lg"></i>
@@ -111,14 +111,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{ability.logic.level.effective}}
                         {{/if}}
                     </div>
-                    <div class="list__detail">
+                    <div class="list__detail" data-tooltip="{{ability.logic.masteryLevel.deltaLabel}}" data-tooltip-direction="UP">
                         {{#if ability.logic.masteryLevel.disabled}}
                         <i class="fa-solid fa-xmark fa-lg"></i>
                         {{else}}
                         {{ability.logic.masteryLevel.effective}}
                         {{/if}}
                     </div>
-                    <div class="list__detail">
+                    <div class="list__detail" data-tooltip="{{ability.logic.charges.value.deltaLabel}}" data-tooltip-direction="UP">
                         {{!-- Charges display rules (#311), first match wins:
                               max disabled → "×"; value disabled → "∞";
                               max 0 → "<value>/∞"; else "<value>/<max>" --}}

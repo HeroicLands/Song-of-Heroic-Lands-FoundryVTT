@@ -77,6 +77,9 @@ export class CombatModifier extends MasteryLevelModifier {
             SohlEntity.dataOf<CombatModifier.Data>(dataOrParent),
             SohlEntity.optionsOf<CombatModifier.Options>(dataOrParent, options),
         );
+        // Most-derived apply, matching the pattern in ValueModifier's
+        // constructor (a parent's guarded _apply() does not fire for us) (#769).
+        if (new.target === CombatModifier) this._apply();
     }
 }
 
