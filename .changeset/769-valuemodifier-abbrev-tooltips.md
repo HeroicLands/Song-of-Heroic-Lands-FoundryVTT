@@ -10,12 +10,23 @@ the value is derived — the base contribution followed by each modifier, e.g.
 values. A value with no modifiers still summarizes as `Base +30`; a disabled
 value shows `Dsbl`.
 
-- **Combat tab:** the strike-mode **Impact**, **Atk**, **Blk**, and **CX** value
-  cells (melee and missile) bind `data-tooltip` to the modifier's derivation
-  summary, with `data-tooltip-direction="UP"`.
-- **Skills tab:** the **EML** and **Fate** cells show the mastery-level and
-  fate-mastery-level derivation, surfaced through two new `SkillRow` fields
-  (`emlDeltaLabel` / `fateDeltaLabel`).
+The tooltip is applied to **every** value cell on the Being sheet that displays a
+`ValueModifier`:
+
+- **Combat tab:** strike-mode **Impact / Atk / Blk / CX** (melee and missile),
+  plus **Heft / Reach / Spread** (melee) and **Draw / BR** (missile).
+- **Skills tab:** **EML** and **Fate** (via new `SkillRow` fields
+  `emlDeltaLabel` / `fateDeltaLabel`).
+- **Mysteries tab:** mystery **Level** / **Charges**, and mystical-ability
+  **Lvl / ML / Charges** (the reported case: the ML cell was blank on hover).
+- **Profile tab:** attribute **score** and **TL**.
+- **Trauma tab:** trauma **Severity** / **Healing Rate**, affliction **Level** /
+  **Healing Rate**.
+- **Gear tab:** **Weight / Quality / Durability**.
+
+Cells whose ValueModifier is flattened to a number in the sheet context builder
+get a matching `*DeltaLabel` field surfaced (attributes, trauma/affliction rows,
+gear rows), mirroring the skills pattern.
 
 **`ValueModifier` changes**
 

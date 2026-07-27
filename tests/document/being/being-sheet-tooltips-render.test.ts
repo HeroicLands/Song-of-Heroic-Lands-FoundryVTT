@@ -14,6 +14,10 @@
 import { describe, it, expect } from "vitest";
 import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 
+const MYSTERIES = "systems/sohl/templates/actor/being/mysteries.hbs";
+const PROFILE = "systems/sohl/templates/actor/being/profile.hbs";
+const TRAUMA = "systems/sohl/templates/actor/being/trauma.hbs";
+const GEAR = "systems/sohl/templates/actor/parts/gear.hbs";
 const COMBAT = "systems/sohl/templates/actor/being/combat.hbs";
 const SKILLS = "systems/sohl/templates/actor/being/skills.hbs";
 
@@ -152,5 +156,173 @@ describe("skills.hbs EML/Fate value tooltips (#769)", () => {
         for (const cell of valueCells) {
             expect(cell).toContain('data-tooltip-direction="UP"');
         }
+    });
+});
+
+// A value-modifier stub as the templates see it off `item.logic.<field>`.
+const vm = (deltaLabel: string, effective = 1) => ({
+    disabled: "",
+    effective,
+    deltaLabel,
+});
+
+describe("mysteries.hbs value tooltips (#769)", () => {
+    const charges = { value: vm("", 3), max: vm("", 0) };
+    const context = {
+        mysterySections: [
+            {
+                label: "Spirit",
+                items: [
+                    {
+                        id: "m1",
+                        name: "Second Sight",
+                        img: "icons/m.svg",
+                        system: { notes: "" },
+                        logic: { level: vm("Base +2"), charges },
+                    },
+                ],
+            },
+        ],
+        abilitySections: [
+            {
+                label: "Spirit",
+                items: [
+                    {
+                        id: "a1",
+                        name: "Spirit",
+                        img: "icons/a.svg",
+                        system: { notes: "", improveFlag: false },
+                        logic: {
+                            level: vm("LVL Base +1"),
+                            masteryLevel: vm("ML Base +30", 30),
+                            charges,
+                        },
+                    },
+                ],
+            },
+        ],
+    };
+
+    it("binds the mystical-ability ML cell tooltip to its deltaLabel", () => {
+        const html = renderTemplateReal(MYSTERIES, context);
+        expect(html).toContain('data-tooltip="ML Base +30"');
+        expect(html).toContain('data-tooltip="LVL Base +1"');
+        expect(html).toContain('data-tooltip="Base +2"'); // mystery level
+    });
+
+    it("positions the ML tooltip above the row (direction UP)", () => {
+        const html = renderTemplateReal(MYSTERIES, context);
+        const cell = (html.match(
+            /<div\b[^>]*\bdata-tooltip="ML Base \+30"[^>]*>/,
+        ) ?? [])[0];
+        expect(cell).toContain('data-tooltip-direction="UP"');
+    });
+});
+
+describe("profile.hbs attribute tooltips (#769)", () => {
+    const context = {
+        attributes: [
+            {
+                id: "at1",
+                uuid: "Item.at1",
+                name: "Strength",
+                score: 14,
+                descriptor: "Strong",
+                tl: 45,
+                scoreDeltaLabel: "Base +14",
+                tlDeltaLabel: "Base +45",
+            },
+        ],
+    };
+
+    it("binds the attribute score and TL tooltips to their deltaLabels", () => {
+        const html = renderTemplateReal(PROFILE, context);
+        expect(html).toContain('data-tooltip="Base +14"');
+        expect(html).toContain('data-tooltip="Base +45"');
+        expect(html).toContain('data-tooltip-direction="UP"');
+    });
+});
+
+describe("trauma.hbs value tooltips (#769)", () => {
+    const context = {
+        traumas: [
+            {
+                id: "t1",
+                name: "Gash",
+                img: "icons/t.svg",
+                subTypeLabel: "Wound",
+                healed: false,
+                severity: "S2",
+                severityDeltaLabel: "Base +2",
+                healingRate: 6,
+                healingRateDisabled: false,
+                healingRateDeltaLabel: "Base +6",
+                isTreated: false,
+                aspect: "Edged",
+                area: "Torso",
+                notes: "",
+            },
+        ],
+        afflictionGroups: [
+            {
+                subType: "fatigue",
+                label: "Fatigue",
+                afflictions: [
+                    {
+                        id: "af1",
+                        name: "Weary",
+                        img: "icons/a.svg",
+                        level: "Weary",
+                        levelDeltaLabel: "Base +3",
+                        healingRate: 4,
+                        healingRateDisabled: false,
+                        healingRateDeltaLabel: "Base +4",
+                        source: "Cold",
+                        notes: "",
+                    },
+                ],
+            },
+        ],
+    };
+
+    it("binds the trauma and affliction value tooltips to their deltaLabels", () => {
+        const html = renderTemplateReal(TRAUMA, context);
+        expect(html).toContain('data-tooltip="Base +2"'); // severity
+        expect(html).toContain('data-tooltip="Base +6"'); // trauma healing rate
+        expect(html).toContain('data-tooltip="Base +3"'); // affliction level
+        expect(html).toContain('data-tooltip="Base +4"'); // affliction healing
+        expect(html).toContain('data-tooltip-direction="UP"');
+    });
+});
+
+describe("gear.hbs value tooltips (#769)", () => {
+    const context = {
+        onBody: {
+            capacity: { used: 3, max: 100 },
+            items: [
+                {
+                    id: "g1",
+                    name: "Sword",
+                    img: "icons/g.svg",
+                    typeLabel: "Weapon",
+                    quantity: 1,
+                    weight: 3,
+                    quality: "+2",
+                    durability: 15,
+                    weightDeltaLabel: "Base +3",
+                    qualityDeltaLabel: "Base +2",
+                    durabilityDeltaLabel: "Base +15",
+                    notes: "",
+                },
+            ],
+        },
+    };
+
+    it("binds the weight/quality/durability tooltips to their deltaLabels", () => {
+        const html = renderTemplateReal(GEAR, context);
+        expect(html).toContain('data-tooltip="Base +3"');
+        expect(html).toContain('data-tooltip="Base +2"');
+        expect(html).toContain('data-tooltip="Base +15"');
+        expect(html).toContain('data-tooltip-direction="UP"');
     });
 });

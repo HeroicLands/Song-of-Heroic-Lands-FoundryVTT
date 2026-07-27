@@ -892,10 +892,14 @@ export interface TraumaLike {
     img: string;
     /** Effective severity level (0 or below ⇒ healed). */
     level: number;
+    /** Severity (level) modifier derivation summary for the hover tooltip (#769). */
+    severityDeltaLabel: string;
     /** Effective healing rate. */
     healingRate: number;
     /** Whether the healing rate is disabled (no natural recovery). */
     healingRateDisabled: boolean;
+    /** Healing-rate modifier derivation summary for the hover tooltip (#769). */
+    healingRateDeltaLabel: string;
     isTreated: boolean;
     isBleeding: boolean;
     /** Impact-aspect enum value (e.g. `"blunt"`). */
@@ -916,8 +920,12 @@ export interface TraumaRow {
     healed: boolean;
     /** Severity band label (`M1`, `S2`, `S3`, `G4`, `G5`); empty when healed. */
     severity: string;
+    /** Severity (level) modifier derivation summary for the hover tooltip (#769). */
+    severityDeltaLabel: string;
     healingRate: number;
     healingRateDisabled: boolean;
+    /** Healing-rate modifier derivation summary for the hover tooltip (#769). */
+    healingRateDeltaLabel: string;
     isTreated: boolean;
     isBleeding: boolean;
     /** Localized impact-aspect label. */
@@ -964,8 +972,10 @@ export function buildTraumaRows(
         img: t.img,
         healed: t.level <= 0,
         severity: t.level <= 0 ? "" : traumaSeverityLabel(t.level),
+        severityDeltaLabel: t.severityDeltaLabel,
         healingRate: t.healingRate,
         healingRateDisabled: t.healingRateDisabled,
+        healingRateDeltaLabel: t.healingRateDeltaLabel,
         isTreated: t.isTreated,
         isBleeding: t.isBleeding,
         aspect: aspectLabel(t.aspect),
@@ -989,10 +999,14 @@ export interface AfflictionLike {
     subType: string | undefined;
     /** Localized qualitative level label. */
     levelLabel: string;
+    /** Level modifier derivation summary for the hover tooltip (#769). */
+    levelDeltaLabel: string;
     /** Effective healing rate. */
     healingRate: number;
     /** Whether the healing rate is disabled (no natural recovery). */
     healingRateDisabled: boolean;
+    /** Healing-rate modifier derivation summary for the hover tooltip (#769). */
+    healingRateDeltaLabel: string;
     /** Localized source/category label. */
     source: string;
     /** Raw notes HTML. */
@@ -1007,8 +1021,12 @@ export interface AfflictionRow {
     img: string;
     /** Localized level label. */
     level: string;
+    /** Level modifier derivation summary for the hover tooltip (#769). */
+    levelDeltaLabel: string;
     healingRate: number;
     healingRateDisabled: boolean;
+    /** Healing-rate modifier derivation summary for the hover tooltip (#769). */
+    healingRateDeltaLabel: string;
     source: string;
     /** Plain-text notes (HTML stripped). */
     notes: string;
@@ -1048,8 +1066,10 @@ export function buildAfflictionGroups(
         name: a.name,
         img: a.img,
         level: a.levelLabel,
+        levelDeltaLabel: a.levelDeltaLabel,
         healingRate: a.healingRate,
         healingRateDisabled: a.healingRateDisabled,
+        healingRateDeltaLabel: a.healingRateDeltaLabel,
         source: a.source,
         notes: htmlToPlainText(a.notes),
     });

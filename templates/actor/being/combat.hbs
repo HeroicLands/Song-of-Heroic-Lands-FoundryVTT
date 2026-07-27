@@ -38,9 +38,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="list__name default-action flexrow">
                         <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
                     </div>
-                    <div class="list__detail">{{sm.heft.effective}}</div>
-                    <div class="list__detail">{{sm.reach.effective}}</div>
-                    <div class="list__detail">{{#if @root.useZoneDie}}d{{/if}}{{sm.spread.effective}}</div>
+                    <div class="list__detail" data-tooltip="{{sm.heft.deltaLabel}}" data-tooltip-direction="UP">{{sm.heft.effective}}</div>
+                    <div class="list__detail" data-tooltip="{{sm.reach.deltaLabel}}" data-tooltip-direction="UP">{{sm.reach.effective}}</div>
+                    <div class="list__detail" data-tooltip="{{sm.spread.deltaLabel}}" data-tooltip-direction="UP">{{#if @root.useZoneDie}}d{{/if}}{{sm.spread.effective}}</div>
                     {{#unless sm.impact.disabled}}
                     <div class="list__detail rollable" data-action="rollStrikeModeImpact" data-tooltip="{{sm.impact.deltaLabel}}" data-tooltip-direction="UP">
                         {{sm.impact.label}}
@@ -98,9 +98,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="list__name default-action flexrow">
                         <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
                     </div>
-                    <div class="list__detail">{{sm.draw.effective}}</div>
-                    <div class="list__detail">{{sm.draw.effective}}</div>
-                    <div class="list__detail">{{sm.baseRange.effective}}</div>
+                    <div class="list__detail" data-tooltip="{{sm.draw.deltaLabel}}" data-tooltip-direction="UP">{{sm.draw.effective}}</div>
+                    <div class="list__detail" data-tooltip="{{sm.draw.deltaLabel}}" data-tooltip-direction="UP">{{sm.draw.effective}}</div>
+                    <div class="list__detail" data-tooltip="{{sm.baseRange.deltaLabel}}" data-tooltip-direction="UP">{{sm.baseRange.effective}}</div>
                     <div class="list__detail">{{sm.maxVolleyMult}}</div>
                     {{#unless sm.impact.disabled}}
                     <div class="list__detail rollable" data-action="rollStrikeModeImpact" data-tooltip="{{sm.impact.deltaLabel}}" data-tooltip-direction="UP">
