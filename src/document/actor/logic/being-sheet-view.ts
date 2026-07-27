@@ -23,7 +23,11 @@
  * (reading collections, enrichment, hooks) and delegates the shaping here.
  */
 
-import { STATUS_EFFECT, TRAUMA_SUBTYPE } from "@src/utils/constants";
+import {
+    STATUS_EFFECT,
+    TRAUMA_SUBTYPE,
+    SKILL_SUBTYPE,
+} from "@src/utils/constants";
 import {
     bodyPartImpairment,
     type BodyPartStatus,
@@ -365,6 +369,26 @@ export interface SkillLike {
     canImprove: boolean;
     improveFlag: boolean;
 }
+
+/**
+ * The canonical display order of skill subtypes on the Being sheet's Skills tab.
+ *
+ * Every subtype listed here is always rendered as its own section — including
+ * when empty — so each offers its "+ Add" control. `combattechnique` is included
+ * so combat techniques (a `combattechnique`-subtype skill) have a home on the
+ * Skills tab and can be created there; without it the section only appeared once
+ * a technique already existed and could never be added (#714). The `mystical`
+ * subtype is intentionally absent — those skills surface on the Mysteries tab.
+ */
+export const SKILL_DISPLAY_SUBTYPE_ORDER: readonly string[] = [
+    SKILL_SUBTYPE.SOCIAL,
+    SKILL_SUBTYPE.NATURE,
+    SKILL_SUBTYPE.CRAFT,
+    SKILL_SUBTYPE.LORE,
+    SKILL_SUBTYPE.LANGUAGE,
+    SKILL_SUBTYPE.SCRIPT,
+    SKILL_SUBTYPE.COMBATTECHNIQUE,
+];
 
 /**
  * Build the ordered, subtype-labeled skill groups for the Skills tab. Every
