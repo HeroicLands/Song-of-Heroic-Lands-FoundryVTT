@@ -71,7 +71,16 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
             blank: false,
             choices: SkillCombatCategoryChoices,
         }),
-        parentSkillCode: new StringField({ initial: "" }),
+        // Shortcode of the parent (base) skill this skill specializes, or
+        // `null` when it is not a specialization. Nullable and non-blank so
+        // Foundry cleans a blank form submission (and any legacy `""`) to
+        // `null` — null at the persistence edge, per the null/undefined
+        // discipline in docs/contributing/system-development.md.
+        parentSkillCode: new StringField({
+            nullable: true,
+            initial: null,
+            blank: false,
+        }),
         initSkillMult: new NumberField({
             integer: false,
             initial: 0,
@@ -131,7 +140,7 @@ export class SkillDataModel<
     masteryLevelBase!: number | null;
     improveFlag!: boolean;
     combatCategory!: string;
-    parentSkillCode!: string;
+    parentSkillCode!: string | null;
     initSkillMult!: number;
     impairedByRoles!: string[];
     strikeMode!: MeleeStrikeMode.Data | MissileStrikeMode.Data | null;

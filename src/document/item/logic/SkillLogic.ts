@@ -176,6 +176,24 @@ export class SkillLogic<
         return this.strikeMode ? [this.strikeMode] : [];
     }
 
+    /**
+     * The skill's display label. When this skill specializes another (its
+     * {@link SkillData.parentSkillCode} resolves to a {@link parentSkill}), the
+     * parent skill's name is appended in parentheses after the base label —
+     * e.g. `Sword (Combat)`. The parenthetical is built from the localizable
+     * `SOHL.Skill.labelWithParent` format string so the convention can be
+     * adapted per language. Falls back to the inherited label when the skill
+     * has no resolvable parent.
+     */
+    override get label(): string {
+        const base = super.label;
+        if (!this.parentSkill) return base;
+        return sohl.i18n.format("SOHL.Skill.labelWithParent", {
+            skill: base,
+            parent: this.parentSkill.name,
+        });
+    }
+
     /* --------------------------------------------- */
     /* Strike mode helpers                           */
     /* --------------------------------------------- */
@@ -1000,8 +1018,12 @@ export interface SkillData<
     improveFlag: boolean;
     /** Combat category this skill applies to, if any */
     combatCategory: string;
-    /** Name of the base skill if this is a specialization */
-    parentSkillCode: string;
+    /**
+     * Shortcode of the parent (base) skill this skill specializes, or `null`
+     * when it is not a specialization. Resolved to {@link SkillLogic.parentSkill}
+     * during {@link SkillLogic.evaluate}.
+     */
+    parentSkillCode: string | null;
     /** Multiplier applied to skill base when initializing a new character */
     initSkillMult: number;
     /**
