@@ -59,26 +59,26 @@ export function changeTypeToOperator(type: string): ValueDeltaOperator {
  * Push a `ValueDelta` constructed from the change directly onto the
  * `ValueModifier.deltas` array. Bypasses the `add/multiply/...` API so we
  * can use a stable `"SOHL.INFO.ActiveEffect"` name (the user-facing label
- * still surfaces through `effect.name` via the shortcode).
+ * still surfaces through `effect.name` via the abbrev).
  *
  * @param vm - The value modifier to receive the delta.
  * @param change - The effect change describing the operator and value.
  */
 export function pushDeltaToValueModifier(vm: ValueModifier, change: any): void {
     const effectName = change?.effect?.name ?? "Active Effect";
-    const shortcode = effectName.slice(0, 16);
+    const abbrev = effectName.slice(0, 16);
     try {
         const delta = new entity.ValueDelta(
             {
                 name: "SOHL.INFO.ActiveEffect",
-                shortcode,
+                abbrev,
                 op: changeTypeToOperator(String(change.type ?? "add")),
                 value: String(change.value ?? 0),
             },
             { parent: vm.parent },
         );
         // Remove any existing delta from this same effect, then push fresh.
-        vm.deltas = vm.deltas.filter((d) => d.shortcode !== shortcode);
+        vm.deltas = vm.deltas.filter((d) => d.abbrev !== abbrev);
         vm.deltas.push(delta);
         // Mark the modifier dirty so the next `effective` access recomputes.
         (vm as any).dirty = true;

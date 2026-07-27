@@ -11,34 +11,34 @@ describe("ValueDelta", () => {
         it("creates an instance with valid data", () => {
             const delta = makeDelta({
                 name: "SOHL.INFO.test",
-                shortcode: "TST",
+                abbrev: "TST",
                 op: VALUE_DELTA_OPERATOR.ADD,
                 value: "5",
             });
             expect(delta.name).toBe("SOHL.INFO.test");
-            expect(delta.shortcode).toBe("TST");
+            expect(delta.abbrev).toBe("TST");
             expect(delta.op).toBe(VALUE_DELTA_OPERATOR.ADD);
             expect(delta.value).toBe("5");
         });
 
-        it("passes name and shortcode through without validation", () => {
-            // name / shortcode are display / identity labels, not validated
+        it("passes name and abbrev through without validation", () => {
+            // name / abbrev are display / identity labels, not validated
             // localization keys — any value (incl. other namespaces) is kept.
             const delta = makeDelta({
                 name: "SOHL.ValueDelta.INFO.SitMod",
-                shortcode: "SitMod",
+                abbrev: "SitMod",
                 op: VALUE_DELTA_OPERATOR.ADD,
                 value: "5",
             });
             expect(delta.name).toBe("SOHL.ValueDelta.INFO.SitMod");
-            expect(delta.shortcode).toBe("SitMod");
+            expect(delta.abbrev).toBe("SitMod");
         });
 
         it("throws when value is non-numeric for non-CUSTOM operator", () => {
             expect(() =>
                 makeDelta({
                     name: "SOHL.INFO.test",
-                    shortcode: "TST",
+                    abbrev: "TST",
                     op: VALUE_DELTA_OPERATOR.ADD,
                     value: "abc",
                 }),
@@ -48,7 +48,7 @@ describe("ValueDelta", () => {
         it("accepts non-numeric value for CUSTOM operator", () => {
             const delta = makeDelta({
                 name: "SOHL.INFO.test",
-                shortcode: "TST",
+                abbrev: "TST",
                 op: VALUE_DELTA_OPERATOR.CUSTOM,
                 value: "someCustomValue",
             });
@@ -58,7 +58,7 @@ describe("ValueDelta", () => {
         it("normalizes boolean strings for CUSTOM operator", () => {
             const deltaTrue = makeDelta({
                 name: "SOHL.INFO.test",
-                shortcode: "TST",
+                abbrev: "TST",
                 op: VALUE_DELTA_OPERATOR.CUSTOM,
                 value: "TRUE",
             });
@@ -66,7 +66,7 @@ describe("ValueDelta", () => {
 
             const deltaFalse = makeDelta({
                 name: "SOHL.INFO.test",
-                shortcode: "TST2",
+                abbrev: "TST2",
                 op: VALUE_DELTA_OPERATOR.CUSTOM,
                 value: "FALSE",
             });
@@ -78,7 +78,7 @@ describe("ValueDelta", () => {
         it('returns 1 for "true"', () => {
             const delta = makeDelta({
                 name: "SOHL.INFO.test",
-                shortcode: "TST",
+                abbrev: "TST",
                 op: VALUE_DELTA_OPERATOR.CUSTOM,
                 value: "true",
             });
@@ -88,7 +88,7 @@ describe("ValueDelta", () => {
         it('returns 0 for "false"', () => {
             const delta = makeDelta({
                 name: "SOHL.INFO.test",
-                shortcode: "TST",
+                abbrev: "TST",
                 op: VALUE_DELTA_OPERATOR.CUSTOM,
                 value: "false",
             });
@@ -98,7 +98,7 @@ describe("ValueDelta", () => {
         it("returns numeric value for numeric strings", () => {
             const delta = makeDelta({
                 name: "SOHL.INFO.test",
-                shortcode: "TST",
+                abbrev: "TST",
                 op: VALUE_DELTA_OPERATOR.ADD,
                 value: "5",
             });
@@ -108,7 +108,7 @@ describe("ValueDelta", () => {
         it("returns 0 for non-numeric non-boolean strings (CUSTOM op)", () => {
             const delta = makeDelta({
                 name: "SOHL.INFO.test",
-                shortcode: "TST",
+                abbrev: "TST",
                 op: VALUE_DELTA_OPERATOR.CUSTOM,
                 value: "abc",
             });
@@ -121,7 +121,7 @@ describe("ValueDelta", () => {
             it("ADD: returns base + value", () => {
                 const delta = makeDelta({
                     name: "SOHL.INFO.test",
-                    shortcode: "TST",
+                    abbrev: "TST",
                     op: VALUE_DELTA_OPERATOR.ADD,
                     value: "3",
                 });
@@ -131,7 +131,7 @@ describe("ValueDelta", () => {
             it("ADD: handles negative values", () => {
                 const delta = makeDelta({
                     name: "SOHL.INFO.test",
-                    shortcode: "TST",
+                    abbrev: "TST",
                     op: VALUE_DELTA_OPERATOR.ADD,
                     value: "-3",
                 });
@@ -141,7 +141,7 @@ describe("ValueDelta", () => {
             it("MULTIPLY: returns base * value", () => {
                 const delta = makeDelta({
                     name: "SOHL.INFO.test",
-                    shortcode: "TST",
+                    abbrev: "TST",
                     op: VALUE_DELTA_OPERATOR.MULTIPLY,
                     value: "3",
                 });
@@ -151,7 +151,7 @@ describe("ValueDelta", () => {
             it("MULTIPLY: handles zero", () => {
                 const delta = makeDelta({
                     name: "SOHL.INFO.test",
-                    shortcode: "TST",
+                    abbrev: "TST",
                     op: VALUE_DELTA_OPERATOR.MULTIPLY,
                     value: "0",
                 });
@@ -161,7 +161,7 @@ describe("ValueDelta", () => {
             it("UPGRADE (floor): returns Math.max(base, value)", () => {
                 const delta = makeDelta({
                     name: "SOHL.INFO.test",
-                    shortcode: "TST",
+                    abbrev: "TST",
                     op: VALUE_DELTA_OPERATOR.UPGRADE,
                     value: "5",
                 });
@@ -172,7 +172,7 @@ describe("ValueDelta", () => {
             it("DOWNGRADE (ceiling): returns Math.min(base, value)", () => {
                 const delta = makeDelta({
                     name: "SOHL.INFO.test",
-                    shortcode: "TST",
+                    abbrev: "TST",
                     op: VALUE_DELTA_OPERATOR.DOWNGRADE,
                     value: "5",
                 });
@@ -183,7 +183,7 @@ describe("ValueDelta", () => {
             it("OVERRIDE: returns value regardless of base", () => {
                 const delta = makeDelta({
                     name: "SOHL.INFO.test",
-                    shortcode: "TST",
+                    abbrev: "TST",
                     op: VALUE_DELTA_OPERATOR.OVERRIDE,
                     value: "42",
                 });
@@ -197,7 +197,7 @@ describe("ValueDelta", () => {
             it('ADD with "true": returns 1 when base is truthy or value is true', () => {
                 const delta = makeDelta({
                     name: "SOHL.INFO.test",
-                    shortcode: "TST",
+                    abbrev: "TST",
                     op: VALUE_DELTA_OPERATOR.CUSTOM,
                     value: "true",
                 });
@@ -209,7 +209,7 @@ describe("ValueDelta", () => {
             it('CUSTOM with "false": returns 0', () => {
                 const delta = makeDelta({
                     name: "SOHL.INFO.test",
-                    shortcode: "TST",
+                    abbrev: "TST",
                     op: VALUE_DELTA_OPERATOR.CUSTOM,
                     value: "false",
                 });
@@ -223,13 +223,13 @@ describe("ValueDelta", () => {
         it("serializes the delta to a plain object", () => {
             const delta = makeDelta({
                 name: "SOHL.INFO.test",
-                shortcode: "TST",
+                abbrev: "TST",
                 op: VALUE_DELTA_OPERATOR.ADD,
                 value: "5",
             });
             const json = delta.toJSON();
             expect(json).toHaveProperty("name", "SOHL.INFO.test");
-            expect(json).toHaveProperty("shortcode", "TST");
+            expect(json).toHaveProperty("abbrev", "TST");
             expect(json).toHaveProperty("op", VALUE_DELTA_OPERATOR.ADD);
             expect(json).toHaveProperty("value", "5");
         });

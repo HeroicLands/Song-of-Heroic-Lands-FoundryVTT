@@ -26,7 +26,7 @@ function createVM(data: Partial<ValueModifier.Data> = {}): ValueModifier {
 /** Helper: push a delta directly into the VM's deltas array (bypasses _oper validation). */
 function pushDelta(
     vm: ValueModifier,
-    shortcode: string,
+    abbrev: string,
     op: ValueDeltaOperator,
     value: string | number,
 ): void {
@@ -34,7 +34,7 @@ function pushDelta(
         new ValueDelta(
             {
                 name: "SOHL.INFO.test",
-                shortcode,
+                abbrev,
                 op,
                 value: String(value),
             },
@@ -143,15 +143,15 @@ describe("ValueModifier", () => {
     });
 
     describe("get() / has()", () => {
-        it("get returns the delta by shortcode", () => {
+        it("get returns the delta by abbrev", () => {
             const vm = createVM();
             pushDelta(vm, "TST", VALUE_DELTA_OPERATOR.ADD, 5);
             const delta = vm.get("TST");
             expect(delta).toBeDefined();
-            expect(delta!.shortcode).toBe("TST");
+            expect(delta!.abbrev).toBe("TST");
         });
 
-        it("get returns undefined for non-existent shortcode", () => {
+        it("get returns undefined for non-existent abbrev", () => {
             const vm = createVM();
             expect(vm.get("NONE")).toBeUndefined();
         });
@@ -167,23 +167,19 @@ describe("ValueModifier", () => {
             expect(vm.has("NONE")).toBe(false);
         });
 
-        it("get throws for non-string shortcode", () => {
+        it("get throws for non-string abbrev", () => {
             const vm = createVM();
-            expect(() => vm.get(123 as any)).toThrow(
-                "shortcode is not a string",
-            );
+            expect(() => vm.get(123 as any)).toThrow("abbrev is not a string");
         });
 
-        it("has throws for non-string shortcode", () => {
+        it("has throws for non-string abbrev", () => {
             const vm = createVM();
-            expect(() => vm.has(123 as any)).toThrow(
-                "shortcode is not a string",
-            );
+            expect(() => vm.has(123 as any)).toThrow("abbrev is not a string");
         });
     });
 
     describe("delete()", () => {
-        it("removes a delta by shortcode", () => {
+        it("removes a delta by abbrev", () => {
             const vm = createVM();
             pushDelta(vm, "TST", VALUE_DELTA_OPERATOR.ADD, 5);
             expect(vm.has("TST")).toBe(true);
@@ -191,17 +187,17 @@ describe("ValueModifier", () => {
             expect(vm.has("TST")).toBe(false);
         });
 
-        it("does nothing when shortcode does not exist", () => {
+        it("does nothing when abbrev does not exist", () => {
             const vm = createVM();
             pushDelta(vm, "TST", VALUE_DELTA_OPERATOR.ADD, 5);
             vm.delete("NONE");
             expect(vm.has("TST")).toBe(true);
         });
 
-        it("throws for non-string shortcode", () => {
+        it("throws for non-string abbrev", () => {
             const vm = createVM();
             expect(() => vm.delete(123 as any)).toThrow(
-                "shortcode is not a string",
+                "abbrev is not a string",
             );
         });
     });
@@ -282,7 +278,7 @@ describe("ValueModifier", () => {
             expect(dst.has("INJ")).toBe(true);
         });
 
-        it("preserves each copied delta's name/shortcode/operator/value", () => {
+        it("preserves each copied delta's name/abbrev/operator/value", () => {
             const src = createVM();
             pushDelta(src, "SKA", VALUE_DELTA_OPERATOR.MULTIPLY, 2);
             const dst = createVM();
@@ -397,8 +393,8 @@ describe("ValueModifier", () => {
 
     describe("operator argument forms", () => {
         // The operators dispatch by arity:
-        //   (shortcode, value)        — registry lookup, validated
-        //   (name, shortcode, value)  — explicit, ad-hoc, unvalidated
+        //   (abbrev, value)        — registry lookup, validated
+        //   (name, abbrev, value)  — explicit, ad-hoc, unvalidated
 
         it("two-arg form resolves the display name from the registry", () => {
             const vm = createVM({ baseValue: 40 });
@@ -406,23 +402,23 @@ describe("ValueModifier", () => {
             expect(vm.effective).toBe(50);
             const delta = vm.get(VALUE_DELTA_INFO.PLAYER);
             expect(delta).toBeDefined();
-            expect(delta!.shortcode).toBe(VALUE_DELTA_INFO.PLAYER);
+            expect(delta!.abbrev).toBe(VALUE_DELTA_INFO.PLAYER);
             expect(delta!.name).toBe(
                 VALUE_DELTA_ID[VALUE_DELTA_INFO.PLAYER].name,
             );
         });
 
-        it("two-arg form throws on an unregistered shortcode", () => {
+        it("two-arg form throws on an unregistered abbrev", () => {
             const vm = createVM({ baseValue: 10 });
-            // "Size" is a real ad-hoc shortcode but is not a VALUE_DELTA_INFO
+            // "Size" is a real ad-hoc abbrev but is not a VALUE_DELTA_INFO
             // member, so the convenience form rejects it.
             expect(() => (vm as any).add("Size", 5)).toThrow(
-                /unknown value-delta shortcode/i,
+                /unknown value-delta abbrev/i,
             );
         });
 
-        it("three-arg form passes name/shortcode through without validation", () => {
-            // name / shortcode are display / identity labels, not validated
+        it("three-arg form passes name/abbrev through without validation", () => {
+            // name / abbrev are display / identity labels, not validated
             // localization keys — any value is accepted and the delta applies.
             const vm = createVM({ baseValue: 10 });
             expect(() => vm.add("SOHL.INFO.Reach", "Size", 5)).not.toThrow();
@@ -471,7 +467,7 @@ describe("ValueModifier", () => {
                 new ValueDelta(
                     {
                         name,
-                        shortcode: "test",
+                        abbrev: "test",
                         op: VALUE_DELTA_OPERATOR.ADD,
                         value: String(value),
                     },
@@ -497,7 +493,7 @@ describe("ValueModifier", () => {
                 new ValueDelta(
                     {
                         name: "SOHL.INFO.test",
-                        shortcode: "test",
+                        abbrev: "test",
                         op: VALUE_DELTA_OPERATOR.CUSTOM,
                         value: "<script>alert(1)</script>",
                     },

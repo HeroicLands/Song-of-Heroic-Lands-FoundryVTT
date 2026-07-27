@@ -70,7 +70,7 @@ function addDelta(m: { deltas: ValueDelta[] }, value: number): void {
         new ValueDelta(
             {
                 name: "SOHL.INFO.test",
-                shortcode: "TST",
+                abbrev: "TST",
                 op: VALUE_DELTA_OPERATOR.ADD,
                 value: String(value),
             },
@@ -394,7 +394,7 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
             const v = new ValueDelta(
                 {
                     name: "SOHL.INFO.test",
-                    shortcode: "TST",
+                    abbrev: "TST",
                     op: VALUE_DELTA_OPERATOR.ADD,
                     value: "7",
                 },
@@ -410,7 +410,7 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
             }) as ValueDelta;
 
             expect(revived).toBeInstanceOf(ValueDelta);
-            expect(revived.shortcode).toBe("TST");
+            expect(revived.abbrev).toBe("TST");
             expect(revived.op).toBe(VALUE_DELTA_OPERATOR.ADD);
             expect(revived.numValue).toBe(7);
         });

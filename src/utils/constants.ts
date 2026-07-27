@@ -537,14 +537,14 @@ export const {
 export type ValueDeltaInfo =
     (typeof VALUE_DELTA_INFO)[keyof typeof VALUE_DELTA_INFO];
 /** Map of value-delta info shortcode → its localization name and shortcode. */
-export const VALUE_DELTA_ID: StrictObject<{ name: string; shortcode: string }> =
+export const VALUE_DELTA_ID: StrictObject<{ name: string; abbrev: string }> =
     ValueDeltaInfos.reduce(
         (acc, val: string) => {
             const name = `SOHL.ValueDelta.INFO.${val}`;
-            acc[val] = { name, shortcode: val };
+            acc[val] = { name, abbrev: val };
             return acc;
         },
-        {} as StrictObject<{ name: string; shortcode: string }>,
+        {} as StrictObject<{ name: string; abbrev: string }>,
     );
 
 export const {

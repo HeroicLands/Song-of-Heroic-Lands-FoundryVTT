@@ -196,7 +196,7 @@ describe("ValueModifier", () => {
         // Push a delta manually (the add() method has naming requirements)
         vm.deltas.push({
             name: "SOHL.MOD.test",
-            shortcode: "TST",
+            abbrev: "TST",
             op: VALUE_DELTA_OPERATOR.ADD,
             value: "10",
             numValue: 10,

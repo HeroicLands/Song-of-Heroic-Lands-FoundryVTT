@@ -31,4 +31,14 @@ value shows `Dsbl`.
   wrong summary. Each modifier constructor now runs its `_apply()` as the
   most-derived class, after all its fields are set.
 
+**`ValueDelta` change**
+
+- `ValueDelta`'s identity property is renamed from `shortcode` to **`abbrev`**
+  (and the `VALUE_DELTA_ID` registry entries from `{ name, shortcode }` to
+  `{ name, abbrev }`) — a delta's short source label is an abbreviation, not the
+  document `system.shortcode` identity key, and sharing the term was confusing.
+  The `add`/`multiply`/`set`/`floor`/`ceiling`/`get`/`has`/`delete` argument
+  named `shortcode` is likewise now `abbrev`. Deltas are never persisted, so no
+  data migration is required.
+
 Closes #769
