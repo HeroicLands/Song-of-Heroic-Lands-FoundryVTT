@@ -80,6 +80,43 @@ Cypress.Commands.add("editSheetField", (doc, name, value) =>
     }),
 );
 
+/**
+ * Trigger a `[data-action]` control inside a document's OWN (open) sheet by
+ * dispatching a native bubbling click on the live node — the re-render-proof
+ * counterpart to `cy.editSheetField`. A document-level `cy.get(...).click()` can
+ * retrieve the control, then click it after the sheet re-renders under load,
+ * landing on a detached node so the AppV2 delegated action listener never fires
+ * (the action no-ops). Querying within `sheet.element` at dispatch time, and
+ * awaiting a settle, avoids that race (#748).
+ *
+ * The event must be a `PointerEvent` (not a bare `Event`): AppV2's frame click
+ * handler only runs a `[data-action]` handler when `event.button === 0`, which a
+ * `PointerEvent` defaults to but a plain `Event` leaves `undefined`.
+ *
+ * @param {object|string} doc - the document (or id) whose sheet is clicked.
+ * @param {string} selector - a CSS selector for the control, scoped to the sheet.
+ */
+Cypress.Commands.add("clickSheetAction", (doc, selector) =>
+    cy.foundry(async (win) => {
+        const d = resolveDoc(win, doc);
+        if (!d.sheet.rendered) await d.sheet.render(true);
+        await new Promise((r) => setTimeout(r, 150));
+        const el = d.sheet.element.querySelector(selector);
+        if (!el)
+            throw new Error(`No control '${selector}' on ${d.name}'s sheet`);
+        const w = el.ownerDocument.defaultView;
+        el.dispatchEvent(
+            new w.PointerEvent("click", {
+                bubbles: true,
+                cancelable: true,
+                button: 0,
+            }),
+        );
+        await new Promise((r) => setTimeout(r, 250));
+        return true;
+    }),
+);
+
 /** Close every open ApplicationV2 (and legacy) window (resets DOM between tests). */
 Cypress.Commands.add("closeAllSheets", () =>
     cy.foundry(async (win) => {
