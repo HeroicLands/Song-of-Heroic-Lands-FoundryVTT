@@ -12,7 +12,7 @@ name:
     aliases:
         - Roran Stonefist
 id: KSL4vCrnfP7FxZqU
-folder: 9t9O4iB5cYJtSaTG
+folder: Nu7AgLZEmR26u2pk
 shortcode: alverriktarvall
 slug: alverrik-tarvallor
 img: icons/game-icons/delapouite/person.svg
