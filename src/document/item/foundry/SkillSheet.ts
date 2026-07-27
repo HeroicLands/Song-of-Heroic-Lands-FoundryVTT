@@ -137,9 +137,7 @@ export class SkillSheet extends SohlItemSheetBase {
             masteryLevelBase: system.masteryLevelBase,
             improveFlag: system.improveFlag,
             subType: system.subType,
-            weaponGroup: system.weaponGroup,
-            baseSkill: system.baseSkill,
-            domainCode: system.domainCode,
+            combatCategory: system.combatCategory,
         });
     }
 

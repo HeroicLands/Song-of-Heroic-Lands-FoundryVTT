@@ -1216,6 +1216,8 @@
     "SOHL.Skill.EffectKey.SUCCESS_LEVEL": "Success Level",
     "SOHL.Skill.FIELDS.baseSkill.hint": "Name of the base skill if this is a specialization",
     "SOHL.Skill.FIELDS.baseSkill.label": "Base Skill",
+    "SOHL.Skill.FIELDS.combatCategory.hint": "Weapon/attack category this combat skill applies to",
+    "SOHL.Skill.FIELDS.combatCategory.label": "Combat Category",
     "SOHL.Skill.FIELDS.domainCode.hint": "Fully-qualified Domain registry shortcode associated with this skill, if any",
     "SOHL.Skill.FIELDS.domainCode.label": "Domain",
     "SOHL.Skill.FIELDS.expertiseParentSkill.hint": "Parent skill name for expertise specializations",
