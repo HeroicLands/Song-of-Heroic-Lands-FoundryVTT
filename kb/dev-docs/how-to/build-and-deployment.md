@@ -95,6 +95,7 @@ reads the Markdown directly.
 | `lint` / `lint:fix`       | ESLint over `src/` (with `--fix`).                                                                                            |
 | `lint:todos`              | Fail if any `TODO`/`FIXME` marker appears under `src/` (deferred work belongs in issues).                                     |
 | `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                         |
+| `lint:packs`              | Fail on a duplicate `(type, shortcode)` within a compendium pack (`assets/content/`). See [Shortcode Integrity](../reference/shortcode-integrity.md). |
 | `lint:dts`                | Validate the generated public type surface.                                                                                   |
 | `format` / `format:check` | Prettier write / check the whole repo.                                                                                        |
 

@@ -325,46 +325,95 @@ export function uniqueShortcode(
 }
 
 /**
- * Resolve the `(type, shortcode)` key on create, honoring the create path.
+ * Options governing how {@link resolveShortcodeKey} handles a collision or a
+ * missing shortcode.
+ */
+export interface ResolveShortcodeOptions {
+    /**
+     * When `true`, the caller opts into automatic deduplication: a colliding
+     * shortcode is suffixed (`arrow` → `arrow2`) until unique, and a create
+     * with neither a shortcode nor a usable name gets a random 16-char id — so
+     * the resolve can never fail. When `false`/absent, a collision (or a
+     * name-less create) is **rejected**.
+     */
+    dedupe: boolean;
+    /**
+     * Whether this create is an explicit Foundry duplicate (`_stats.duplicateSource`).
+     * A duplicate always carries the source shortcode, so a collision is
+     * expected and auto-suffixed even without `dedupe`.
+     */
+    isDuplicate?: boolean;
+    /**
+     * Generates a fresh id in the Foundry-id charset (`[A-Za-z0-9]`), used only
+     * for the "no shortcode and no usable name, dedupe on" corner. Injected by
+     * the Foundry-layer caller (the `fvttRandomId` shim) so this resolver stays
+     * Foundry-free and unit-testable; required to reach that branch.
+     */
+    makeRandomId?: () => string;
+}
+
+/**
+ * Resolve the `(type, shortcode)` key on create/update.
  *
- * `(type, shortcode)` is a unique key (per owning actor for embedded items;
- * per world for world actors/items). How the key is resolved depends on what the
- * caller supplied and how the create was initiated:
+ * `(type, shortcode)` is a unique key (per owning actor for embedded items; per
+ * world for world actors/items; per pack for pack contents). The desired code is
+ * `desired` if supplied, else the name slug; the collision/absence behavior is
+ * governed by {@link ResolveShortcodeOptions.dedupe}:
  *
- * - **No shortcode supplied** (`desired` blank) — a system-generated or ad-hoc
- *   create (a trauma from an injury, an API create) that names no key. Derive one
- *   from the name (falling back to the type) and **always uniquify**, so
- *   programmatic creation can never fail on the key. This is the same fill +
- *   uniquify the create dialog offers a human, applied to every path.
- * - **Explicit shortcode + duplicate** — an explicit "copy this document"
- *   (Foundry stamps `_stats.duplicateSource`). A collision is expected, so
- *   auto-uniquify (`arrow` → `arrow2`) and let the copy through.
- * - **Explicit shortcode + general create** (dialog, drag, API) — the caller
- *   asked for that specific code; if it collides, intent is unknown (they may be
- *   unaware it is taken), so the create is **rejected**.
+ * | shortcode | name → slug | `dedupe` | result |
+ * | --- | --- | --- | --- |
+ * | provided | — | true | collides → suffix; else accept |
+ * | provided | — | false | collides → reject; else accept |
+ * | blank | non-empty | true | base = slug; collides → suffix |
+ * | blank | non-empty | false | base = slug; collides → reject |
+ * | blank | blank | true | random 16-char id |
+ * | blank | blank | false | reject |
+ *
+ * A Foundry duplicate (`isDuplicate`) suffixes an explicit collision even when
+ * `dedupe` is off. `shortcode` is never `null`/blank on a resolved document.
  *
  * @param desired - The requested shortcode (blank/whitespace ⇒ "not supplied").
  * @param fallbackName - The document name a blank shortcode is derived from.
- * @param type - The document type, the last-resort base for a blank shortcode.
- * @param taken - Shortcodes already used by same-type siblings, excluding self.
- * @param isDuplicate - Whether this create is an explicit duplicate.
- * @returns `{ shortcode }` with the code to use, or `{ reject: true }` when an
- *   explicitly-requested shortcode collides on a general create.
+ * @param taken - Shortcodes already used by same-scope, same-type siblings,
+ *   excluding self.
+ * @param opts - Collision/absence behavior; see {@link ResolveShortcodeOptions}.
+ * @returns `{ shortcode }` with the code to use, or `{ reject: true }` when the
+ *   resolve fails (a collision or name-less create without `dedupe`).
  */
 export function resolveShortcodeKey(
     desired: string,
     fallbackName: string,
-    type: string,
     taken: ReadonlySet<string>,
-    isDuplicate: boolean,
+    opts: ResolveShortcodeOptions,
 ): { shortcode: string } | { reject: true } {
+    const { dedupe, isDuplicate = false, makeRandomId } = opts;
     const trimmed = (desired ?? "").trim();
-    if (!trimmed) {
-        const base = slugifyShortcode(fallbackName) || type;
+
+    let base: string;
+    if (trimmed) {
+        base = trimmed;
+    } else {
+        const slug = slugifyShortcode(fallbackName);
+        if (slug) {
+            base = slug;
+        } else {
+            // Neither a shortcode nor a usable name.
+            if (!dedupe) return { reject: true };
+            if (!makeRandomId) {
+                throw new Error(
+                    "resolveShortcodeKey: makeRandomId is required to generate a random shortcode",
+                );
+            }
+            let id = makeRandomId();
+            while (taken.has(id)) id = makeRandomId();
+            return { shortcode: id };
+        }
+    }
+
+    if (!taken.has(base)) return { shortcode: base };
+    if (dedupe || isDuplicate) {
         return { shortcode: uniqueShortcode(base, taken) };
     }
-    if (!taken.has(trimmed)) return { shortcode: trimmed };
-    if (isDuplicate) return { shortcode: uniqueShortcode(trimmed, taken) };
     return { reject: true };
 }
 

@@ -61,6 +61,14 @@ export function fvttResolveUuid(uuid: string): any {
     return (globalThis as any).fromUuidSync?.(uuid) ?? null;
 }
 
+let __fvttRandomIdCounter = 0;
+export function fvttRandomId(length = 16): string {
+    // Deterministic, unique-per-call stub. Tests needing a fixed value inject
+    // `makeRandomId` into `resolveShortcodeKey` directly.
+    const s = `mock${++__fvttRandomIdCounter}`;
+    return (s + "0".repeat(length)).slice(0, length);
+}
+
 export async function fvttResolveUuidAsync(uuid: string): Promise<any> {
     return (await (globalThis as any).fromUuid?.(uuid)) ?? null;
 }

@@ -21,4 +21,5 @@ export * from "./SohlLogger";
 export * from "./URLField";
 export * from "./migration";
 export * from "./sheet-actions";
+export * from "./shortcode-uniqueness";
 export * from "./sohl-config";

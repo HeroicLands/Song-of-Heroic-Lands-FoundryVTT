@@ -274,6 +274,17 @@ the Foundry-free, unit-tested {@link sohl.entity.archetype.resolveCreateIdentity
 (the dialog only wires the DOM and applies
 {@link sohl.utils.uniqueShortcode} against the taken set).
 
+**Shortcode uniqueness (create + update).** `(type, shortcode)` is a unique lookup
+key, enforced at runtime across world / embedded / pack scopes — see
+[Shortcode Integrity](../reference/shortcode-integrity.md). The Create dialog
+**live-checks** the entered shortcode against that scope and disables **Create**
+until it is unique (the `_preCreate` reject is the backstop). A programmatic caller
+opts into automatic key management with the **`shortcodeDedupe: true`** create/update
+option — a colliding code is suffixed and a name-less create gets a random id, so it
+never fails; without it, a collision is rejected. System-generated item creation
+(`fvttCreateEmbeddedItems`, cross-actor gear drops) opts in; the human dialog stays
+strict so the author picks a unique code deliberately.
+
 **Instantiation strips the flag; copy-verbatim preserves it.**
 `flags.sohl.docArchetype` is removed at every point where an archetype is
 _instantiated_ into a live document, and kept only when a document is copied _as

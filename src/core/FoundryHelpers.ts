@@ -101,6 +101,16 @@ export function fvttResolveUuid(uuid: string): any | undefined {
 }
 
 /**
+ * Generate a random id in the Foundry-id charset (`[A-Za-z0-9]`) — the same
+ * generator Foundry uses for document ids.
+ * @param length - Number of characters (default 16, matching document ids).
+ * @returns A random id string.
+ */
+export function fvttRandomId(length = 16): string {
+    return foundry.utils.randomID(length);
+}
+
+/**
  * Asynchronously resolve a document by UUID.
  * @param uuid - The document UUID to resolve.
  * @returns A promise resolving to the document, or `undefined` if not found.
@@ -604,7 +614,11 @@ export async function fvttCreateEmbeddedItems(
 ): Promise<any[]> {
     const actor = actorLogic?.actor;
     if (!actor) return [];
-    return (await actor.createEmbeddedDocuments("Item", itemsData)) as any[];
+    // System-generated items name no key of their own, so auto-manage the
+    // `(type, shortcode)` key (dedup on collision) rather than failing (#766).
+    return (await actor.createEmbeddedDocuments("Item", itemsData, {
+        shortcodeDedupe: true,
+    })) as any[];
 }
 
 /**

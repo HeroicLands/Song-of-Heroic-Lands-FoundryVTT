@@ -140,7 +140,9 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
                 moveQty = chosen;
             }
             (data.system as any).quantity = moveQty;
-            await actor.createEmbeddedDocuments("Item", [data]);
+            await actor.createEmbeddedDocuments("Item", [data], {
+                shortcodeDedupe: true,
+            } as any);
             if (moveQty >= qty) await droppedItem.delete();
             else
                 await droppedItem.update({
@@ -151,7 +153,9 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
 
         // Non-gear move between actors: recreate here, remove from the source.
         // Compendium/world (no source actor): plain clone.
-        await actor.createEmbeddedDocuments("Item", [data]);
+        await actor.createEmbeddedDocuments("Item", [data], {
+            shortcodeDedupe: true,
+        } as any);
         if (isMove) await droppedItem.delete();
     }
 

@@ -29,9 +29,13 @@ profile already in place, not as a blank slate.
 1. Click the **Create Actor** button at the top of the Actors sidebar tab.
 2. The Create dialog offers these fields:
     - **Name** — the actor's name.
-    - **Shortcode** — a short, unique code. It auto-fills from the name (and
-      stays in sync as you type) until you edit it by hand; leave it and the
-      system derives and uniquifies one for you on create.
+    - **Shortcode** — a short code that must be **unique among documents of the
+      same type** (it is how the system looks this document up). It auto-fills
+      from the name (and stays in sync as you type) until you edit it by hand;
+      leave it and the system derives and uniquifies one for you on create. If
+      you type a code that is already taken by another document of the same type,
+      the dialog flags it and **Create stays disabled until you pick a unique
+      one**. (Documents of _different_ types may safely share a code.)
     - **Type** — the actor type (Being, Cohort, Structure, Vehicle).
     - **SubType** — shown only for types that have subtypes.
     - **Archetype** — the starting template. It defaults to the best-matching
