@@ -35,6 +35,31 @@ type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 
+/**
+ * Return an event view whose `currentTarget` is `target`, forwarding every other
+ * property and method to the real event. ApplicationV2's delegated action
+ * dispatch reports the frame as `currentTarget` and passes the `[data-action]`
+ * element separately, but the shared array-editor handlers on the
+ * {@link SohlDataModel} sheet mixin read `event.currentTarget` for the control's
+ * dataset; this re-points it without mutating the read-only native event.
+ *
+ * @param event - The real pointer event from the action dispatcher.
+ * @param target - The `[data-action]` control to expose as `currentTarget`.
+ * @returns A proxy that reads as `event` except for `currentTarget`.
+ */
+function withCurrentTarget(
+    event: PointerEvent,
+    target: HTMLElement,
+): PointerEvent {
+    return new Proxy(event, {
+        get(evt, prop, receiver) {
+            if (prop === "currentTarget") return target;
+            const value = Reflect.get(evt, prop, receiver);
+            return typeof value === "function" ? value.bind(evt) : value;
+        },
+    });
+}
+
 // Define the base type for the sheet
 const SohlItemSheetBase_Base = SohlDataModel.SheetMixin<
     SohlItem,
@@ -122,6 +147,8 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             editAction: SohlItemSheetBase._onEditAction,
             deleteAction: SohlItemSheetBase._onDeleteAction,
             runAction: SohlItemSheetBase._onRunAction,
+            addArrayItem: SohlItemSheetBase._onAddArrayItem,
+            deleteArrayItem: SohlItemSheetBase._onDeleteArrayItem,
         },
     };
 
@@ -226,6 +253,42 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         await this.document.update({ [path]: result });
     }
 
+    /**
+     * `data-action="addArrayItem"`: append a value to an array field via the
+     * shared array-editor handler on the {@link SohlDataModel} sheet mixin,
+     * routed by the control's dataset (aim, value-descriptor, choice, or
+     * primitive). The mixin methods read `event.currentTarget` for that dataset,
+     * but ApplicationV2's delegated action dispatch sets `currentTarget` to the
+     * frame; `withCurrentTarget` re-points it at the `[data-action]` control.
+     *
+     * @param event - The triggering pointer event.
+     * @param target - The clicked control, carrying the array/object dataset.
+     */
+    protected static async _onAddArrayItem(
+        this: SohlItemSheetBase,
+        event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        await (this as any)._addArrayItem(withCurrentTarget(event, target));
+    }
+
+    /**
+     * `data-action="deleteArrayItem"`: remove a row from an array field via the
+     * shared array-editor handler on the {@link SohlDataModel} sheet mixin
+     * (delete-by-index for object rows, delete-by-value for primitives). See
+     * {@link _onAddArrayItem} for why `currentTarget` is re-pointed.
+     *
+     * @param event - The triggering pointer event.
+     * @param target - The clicked control, carrying the array/value dataset.
+     */
+    protected static async _onDeleteArrayItem(
+        this: SohlItemSheetBase,
+        event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        await (this as any)._deleteArrayItem(withCurrentTarget(event, target));
+    }
+
     /** The {@link SohlItem} document this sheet edits. */
     override get document(): SohlItem {
         return super.document as SohlItem;
@@ -242,11 +305,16 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     }
 
     /**
-     * After each render, wire the array-field editor controls that some
-     * properties templates render (e.g. armor coverage locations). Add/remove
-     * of array values is not a form field, so it is driven by these controls
-     * rather than `submitOnChange`. Each render replaces the DOM, so binding the
-     * freshly-queried controls does not accumulate listeners.
+     * After each render, convert field hints into label tooltips and bind the
+     * effect/action context menus.
+     *
+     * The array-field editor controls (`.add-array-item` / `.delete-array-item`)
+     * are wired declaratively via `data-action` (see `DEFAULT_OPTIONS.actions`),
+     * not bound here: ApplicationV2 delegates `data-action` clicks from a single
+     * listener on the frame that survives every part re-render, whereas
+     * per-node `addEventListener` calls made here bound to controls that a
+     * subsequent part swap detached, so the clicks never reached the handler
+     * (#734).
      *
      * @param context - The render context.
      * @param options - The render options.
@@ -264,19 +332,6 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         if (el) hintsToLabelTooltips(el);
 
         if (!this.isEditable) return;
-
-        el?.querySelectorAll<HTMLElement>(".add-array-item").forEach(
-            (control) =>
-                control.addEventListener("click", (event) =>
-                    (this as any)._addArrayItem(event as PointerEvent),
-                ),
-        );
-        el?.querySelectorAll<HTMLElement>(".delete-array-item").forEach(
-            (control) =>
-                control.addEventListener("click", (event) =>
-                    (this as any)._deleteArrayItem(event as PointerEvent),
-                ),
-        );
 
         // Bind the effect/action context menus (right-click on an effect row
         // and click on a `⋮` control). `_contextMenu` is provided by the
