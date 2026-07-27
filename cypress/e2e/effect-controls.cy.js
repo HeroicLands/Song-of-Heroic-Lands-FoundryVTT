@@ -67,18 +67,21 @@ describe("active-effect controls (#501)", () => {
             seedActorEffect(actor.id, "E2E Toggle Effect").then((effectId) => {
                 cy.openSheet(actor);
                 cy.switchTab("effects", "primary");
-                cy.get(
-                    `${EFFECTS} .effects__row[data-effect-id="${effectId}"] [data-action="effectToggle"]`,
-                ).click();
+                // Assert the row exists before dispatching, then trigger the
+                // toggle inside the live sheet element — a plain `cy.get(...)
+                // .click()` here flakes under full-suite load when the sheet
+                // re-renders and the click lands on a detached node (#748).
+                const toggle = `${EFFECTS} .effects__row[data-effect-id="${effectId}"] [data-action="effectToggle"]`;
+                cy.get(toggle).should("exist");
+                cy.clickSheetAction(actor, toggle);
                 cy.foundry(
                     (win) =>
                         win.game.actors.get(actor.id).effects.get(effectId)
                             .disabled,
                 ).should("eq", true);
                 // Toggle back.
-                cy.get(
-                    `${EFFECTS} .effects__row[data-effect-id="${effectId}"] [data-action="effectToggle"]`,
-                ).click();
+                cy.get(toggle).should("exist");
+                cy.clickSheetAction(actor, toggle);
                 cy.foundry(
                     (win) =>
                         win.game.actors.get(actor.id).effects.get(effectId)
