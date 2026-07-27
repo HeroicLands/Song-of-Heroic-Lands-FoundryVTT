@@ -170,9 +170,33 @@ describe("being build — manual character-build chain", () => {
         // document.
     });
 
-    it.skip("initSkillMult — opening mastery level is masteryLevelBase × multiplier at char init", () => {
-        // RED — blocked by #182: initSkillMult field exists on SkillData but
-        // has no consumer; masteryLevelBase is not scaled by a multiplier
-        // during character initialization.
+    it("initSkillMult — an unopened skill (masteryLevelBase null) opens at skillBase × initSkillMult on an actor (#715)", () => {
+        cy.importActor().then((actor) => {
+            cy.createItemOn(actor, "skill", {
+                name: "Auto Skill",
+                system: {
+                    skillBaseFormula: "@str, @agl",
+                    masteryLevelBase: null,
+                    initSkillMult: 3,
+                },
+            }).then(() => {
+                cy.prepare(actor);
+                cy.foundry((win) => {
+                    const a = win.game.actors.get(actor.id);
+                    const sk = a.items.find((i) => i.name === "Auto Skill");
+                    return {
+                        sb: sk.logic.skillBase,
+                        base: sk.logic.masteryLevel.base,
+                        mult: sk.system.initSkillMult,
+                    };
+                }).should((r) => {
+                    expect(r.sb, "skillBase").to.be.greaterThan(0);
+                    expect(
+                        r.base,
+                        "opening ML = skillBase × initSkillMult",
+                    ).to.eq(r.sb * r.mult);
+                });
+            });
+        });
     });
 });

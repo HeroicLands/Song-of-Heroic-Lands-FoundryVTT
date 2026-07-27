@@ -480,8 +480,11 @@ export class SkillLogic<
         const isSuccess = roll.total > this.masteryLevel.base;
 
         if (isSuccess) {
+            // Raise from the effective opening base (which may be derived from
+            // initSkillMult when masteryLevelBase is unset), never from the
+            // now-nullable stored field.
             updateData["system.masteryLevelBase"] =
-                this.data.masteryLevelBase + this.sdrIncr;
+                this.masteryLevel.base + this.sdrIncr;
         }
         const chatTemplate: FilePath = toFilePath(
             "systems/sohl/templates/chat/standard-test-card.hbs",
@@ -659,10 +662,27 @@ export class SkillLogic<
         super.initialize();
         this.parentSkill = null;
         this.boosts = 0;
+
+        // Calculate the Skill Base first — the opening mastery level may derive
+        // from it (see below).
+        this.skillBase = calcSkillBase(
+            this.data.skillBaseFormula,
+            this.actorLogic,
+        );
+
+        // Seed the mastery level base. When masteryLevelBase is unset (null)
+        // and the skill is on an actor, open the skill from its skill base:
+        // opening ML = Skill Base × initSkillMult (deterministic, no roll). A
+        // stored masteryLevelBase always takes precedence, and off an actor
+        // there is no skill base to open from, so the base is 0.
+        const masteryLevelBase =
+            this.data.masteryLevelBase == null && this.actorLogic ?
+                (this.skillBase ?? 0) * this.data.initSkillMult
+            :   (this.data.masteryLevelBase ?? 0);
         this.masteryLevel = new entity.MasteryLevelModifier(
             {},
             { parent: this },
-        ).setBase(this.data.masteryLevelBase);
+        ).setBase(masteryLevelBase);
         this.fateMasteryLevel = new entity.MasteryLevelModifier(
             {
                 testDescTable: getFateDescTable(),
@@ -700,12 +720,6 @@ export class SkillLogic<
                     "SOHL.MasteryLevel.FateNotSupported";
             }
         }
-
-        // Calculate Skill Base
-        this.skillBase = calcSkillBase(
-            this.data.skillBaseFormula,
-            this.actorLogic,
-        );
 
         // A combat-technique skill carries an embedded strike mode (a trained
         // maneuver such as an unarmed strike or grapple). Build the runtime
@@ -976,8 +990,12 @@ export interface SkillData<
     subType: SkillSubType;
     /** Formula for calculating the skill base from referenced traits */
     skillBaseFormula: string;
-    /** Base mastery level representing training and experience */
-    masteryLevelBase: number;
+    /**
+     * Base mastery level representing training and experience. `null` means the
+     * skill has not been opened yet: when the skill is on an actor it opens
+     * automatically at Skill Base × {@link SkillData.initSkillMult}.
+     */
+    masteryLevelBase: number | null;
     /** Whether this item is flagged for mastery improvement via SDR */
     improveFlag: boolean;
     /** Combat category this skill applies to, if any */

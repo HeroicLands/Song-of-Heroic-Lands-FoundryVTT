@@ -134,6 +134,68 @@ describe("SkillLogic", () => {
             expect(logic.boosts).toBe(0);
         });
 
+        it("opens ML from skillBase × initSkillMult when masteryLevelBase is null and on an actor (#715)", () => {
+            const actor = makeMockActor();
+            actor.items.set("str1", makeAttributeStub("str", 12));
+            actor.items.set("int1", makeAttributeStub("int", 14));
+            const logic = makeSkill(
+                {
+                    skillBaseFormula: "@str, @int",
+                    masteryLevelBase: null,
+                    initSkillMult: 2,
+                },
+                { actor },
+            );
+            logic.initialize();
+            // skillBase = (12 + 14) / 2 = 13; opening ML = 13 × 2 = 26
+            expect(logic.skillBase).toBe(13);
+            expect(logic.masteryLevel.base).toBe(26);
+        });
+
+        it("prefers a stored masteryLevelBase over the multiplier (#715)", () => {
+            const actor = makeMockActor();
+            actor.items.set("str1", makeAttributeStub("str", 12));
+            actor.items.set("int1", makeAttributeStub("int", 14));
+            const logic = makeSkill(
+                {
+                    skillBaseFormula: "@str, @int",
+                    masteryLevelBase: 40,
+                    initSkillMult: 2,
+                },
+                { actor },
+            );
+            logic.initialize();
+            expect(logic.masteryLevel.base).toBe(40);
+        });
+
+        it("does not open ML off an actor even with a multiplier (#715)", () => {
+            // A skill in a compendium / not embedded on an actor has no skill
+            // base to open from; masteryLevelBase null → base 0.
+            const logic = makeSkill({
+                skillBaseFormula: "@str, @int",
+                masteryLevelBase: null,
+                initSkillMult: 3,
+            });
+            logic.initialize();
+            expect(logic.masteryLevel.base).toBe(0);
+        });
+
+        it("treats a zero multiplier as an unopened skill (base 0) (#715)", () => {
+            const actor = makeMockActor();
+            actor.items.set("str1", makeAttributeStub("str", 12));
+            actor.items.set("int1", makeAttributeStub("int", 14));
+            const logic = makeSkill(
+                {
+                    skillBaseFormula: "@str, @int",
+                    masteryLevelBase: null,
+                    initSkillMult: 0,
+                },
+                { actor },
+            );
+            logic.initialize();
+            expect(logic.masteryLevel.base).toBe(0);
+        });
+
         it("builds skillBase from the formula and the actor's attribute items", () => {
             const actor = makeMockActor();
             actor.items.set("str1", makeAttributeStub("str", 12));
@@ -363,6 +425,31 @@ describe("SkillLogic", () => {
             await logic.improveWithSDR({ speaker } as any);
             const [, chatData] = speaker.toChat.mock.calls[0];
             expect(chatData.isSuccess).toBe(false);
+        });
+
+        it("uses the derived opening base (not a NaN from a null masteryLevelBase) on an auto-opened skill (#715)", async () => {
+            vi.spyOn(SimpleRoll, "fromFormula").mockReturnValue(mockRoll(100));
+            const actor = makeMockActor();
+            actor.items.set("str1", makeAttributeStub("str", 12));
+            actor.items.set("int1", makeAttributeStub("int", 14));
+            const logic = makeSkill(
+                {
+                    skillBaseFormula: "@str, @int",
+                    masteryLevelBase: null,
+                    initSkillMult: 2,
+                },
+                { actor },
+            );
+            logic.initialize();
+            // opening ML = skillBase 13 × 2 = 26
+            expect(logic.masteryLevel.base).toBe(26);
+            const speaker = { toChat: vi.fn() };
+            await logic.improveWithSDR({ speaker } as any);
+            const [, chatData] = speaker.toChat.mock.calls[0];
+            expect(chatData.isSuccess).toBe(true);
+            // The improve test targets the derived opening base, not a NaN from
+            // the null stored masteryLevelBase.
+            expect(chatData.effTarget).toBe(26);
         });
 
         it("includes the skill base value in the roll formula", async () => {

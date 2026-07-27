@@ -36,7 +36,7 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
     - **Script:**
     - **Ritual:**
 - **Skill Base Formula:** Formula for calculating the skill base from referenced attributes.
-- **Mastery Level Base:** Base mastery level representing training and experience
+- **Mastery Level Base:** Base mastery level representing training and experience. Leave it **blank** to have a skill on a character open automatically at _Skill Base × Initial Skill Multiplier_; enter a number to set the level explicitly.
 - **Improve Flag:** Whether this item is flagged for mastery improvement via _Skill Development Roll_ (SDR).
 - **Weapon Group:** Combat category this skill applies to, if any.
     - **None:** Skill not associated with a weapon.
@@ -47,7 +47,7 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
     - **Unarmed:** Skill associated with unarmed modes.
     - **Melee/Unarmed:** Skill associated with Melee and Unarmed modes.
 - **Parent Skill Code:** Shortcode of the base skill if this is a specialization.
-- **Initial Skill Multiplier:** Multiplier applied to skill base when initializing a new character.
+- **Initial Skill Multiplier:** Multiplier applied to the skill base to open the skill's mastery level for a new character. When _Mastery Level Base_ is blank and the skill is on a character, the opening mastery level is _Skill Base × Initial Skill Multiplier_.
 - <!-- TODO: Expand with details on skill tests (success/failure resolution),
        skill improvement through practice, opening new skills, and how
        modifiers affect skill rolls -->

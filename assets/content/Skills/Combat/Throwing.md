@@ -19,7 +19,7 @@ sohl:
     combatCategory: missile
     parentSkillCode: ""
     initSkillMult: 2
-    masteryLevelBase: 0
+    masteryLevelBase: null
     improveFlag: false
 folder: EphAMAfFhWBrJxyF
 ---

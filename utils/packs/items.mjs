@@ -153,10 +153,14 @@ function buildTrait(fm) {
 
 function buildSkill(fm) {
     const subType = sohlField(fm, "subType", "social");
+    // `masteryLevelBase` is nullable: an unset / blank value ships as `null`
+    // ("not yet opened"), so an embedded skill opens on its actor at
+    // Skill Base × initSkillMult. A numeric value is a deliberate opened level.
+    const rawMlb = sohlField(fm, "masteryLevelBase", null);
     const out = {
         subType,
         skillBaseFormula: sohlField(fm, "skillBaseFormula", ""),
-        masteryLevelBase: Number(sohlField(fm, "masteryLevelBase", 0)) || 0,
+        masteryLevelBase: rawMlb == null || rawMlb === "" ? null : Number(rawMlb),
         improveFlag: Boolean(sohlField(fm, "improveFlag", false)),
         combatCategory: sohlField(fm, "combatCategory", "none"),
         parentSkillCode: sohlField(fm, "parentSkillCode", ""),
