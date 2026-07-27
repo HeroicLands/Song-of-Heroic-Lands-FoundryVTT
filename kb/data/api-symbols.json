@@ -2282,6 +2282,7 @@
   "sohl.document.item.logic.SkillData": "interfaces/sohl.document.item.logic.SkillData.html",
   "sohl.document.item.logic.SkillData.actionDefs": "interfaces/sohl.document.item.logic.SkillData.html#actiondefs",
   "sohl.document.item.logic.SkillData.actorLogic": "interfaces/sohl.document.item.logic.SkillData.html#actorlogic",
+  "sohl.document.item.logic.SkillData.adoptParentMasteryLevel": "interfaces/sohl.document.item.logic.SkillData.html#adoptparentmasterylevel",
   "sohl.document.item.logic.SkillData.combatCategory": "interfaces/sohl.document.item.logic.SkillData.html#combatcategory",
   "sohl.document.item.logic.SkillData.docHtml": "interfaces/sohl.document.item.logic.SkillData.html#dochtml",
   "sohl.document.item.logic.SkillData.getFlag": "interfaces/sohl.document.item.logic.SkillData.html#getflag",

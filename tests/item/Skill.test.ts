@@ -30,6 +30,7 @@ function skillFields(overrides: Record<string, unknown> = {}) {
         improveFlag: false,
         combatCategory: "none",
         parentSkillCode: null,
+        adoptParentMasteryLevel: false,
         initSkillMult: 1,
         ...overrides,
     };
@@ -277,6 +278,75 @@ describe("SkillLogic", () => {
             logic.initialize();
             logic.evaluate();
             expect(logic.parentSkill).toBe(parentLogic);
+        });
+
+        it("adopts the parent skill's masteryLevelBase when adoptParentMasteryLevel is true (#719)", () => {
+            const actor = makeMockActor();
+            makeSkill(
+                { masteryLevelBase: 50 },
+                { actor, shortcode: "lang", id: "parentskill00001" },
+            );
+            const logic = makeSkill(
+                {
+                    masteryLevelBase: 30,
+                    parentSkillCode: "lang",
+                    adoptParentMasteryLevel: true,
+                },
+                { actor },
+            );
+            logic.initialize();
+            expect(logic.masteryLevel.base).toBe(30); // own base before evaluate
+            logic.evaluate();
+            expect(logic.masteryLevel.base).toBe(50); // adopted parent's base
+        });
+
+        it("leaves mastery level unchanged when adoptParentMasteryLevel is false (default) even with a parent (#719)", () => {
+            const actor = makeMockActor();
+            makeSkill(
+                { masteryLevelBase: 50 },
+                { actor, shortcode: "lang", id: "parentskill00001" },
+            );
+            const logic = makeSkill(
+                { masteryLevelBase: 30, parentSkillCode: "lang" },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.parentSkill).not.toBeNull();
+            expect(logic.masteryLevel.base).toBe(30); // own base kept
+        });
+
+        it("applies this skill's boosts on top of the adopted parent base (#719)", () => {
+            const actor = makeMockActor();
+            makeSkill(
+                { masteryLevelBase: 30 },
+                { actor, shortcode: "lang", id: "parentskill00001" },
+            );
+            const logic = makeSkill(
+                {
+                    masteryLevelBase: 0,
+                    parentSkillCode: "lang",
+                    adoptParentMasteryLevel: true,
+                },
+                { actor },
+            );
+            logic.initialize();
+            logic.boosts = 2;
+            logic.evaluate();
+            // adopt 30 → +10 (≤39) → 40 → +9 (≤44) → 49
+            expect(logic.masteryLevel.base).toBe(49);
+        });
+
+        it("does not adopt when adoptParentMasteryLevel is true but no parent resolves (#719)", () => {
+            const logic = makeSkill({
+                masteryLevelBase: 30,
+                parentSkillCode: null,
+                adoptParentMasteryLevel: true,
+            });
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.parentSkill).toBeNull();
+            expect(logic.masteryLevel.base).toBe(30);
         });
 
         it("applies mastery boosts with diminishing returns", () => {

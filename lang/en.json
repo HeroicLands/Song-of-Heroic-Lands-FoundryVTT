@@ -1214,6 +1214,8 @@
     "SOHL.Skill.EffectKey.FATE": "Fate",
     "SOHL.Skill.EffectKey.MASTERY_LEVEL": "Mastery Level",
     "SOHL.Skill.EffectKey.SUCCESS_LEVEL": "Success Level",
+    "SOHL.Skill.FIELDS.adoptParentMasteryLevel.hint": "When set, this specialization tracks its parent skill's mastery level instead of its own base.",
+    "SOHL.Skill.FIELDS.adoptParentMasteryLevel.label": "Adopt Parent Mastery",
     "SOHL.Skill.FIELDS.baseSkill.hint": "Name of the base skill if this is a specialization",
     "SOHL.Skill.FIELDS.baseSkill.label": "Base Skill",
     "SOHL.Skill.FIELDS.combatCategory.hint": "Weapon/attack category this combat skill applies to",
