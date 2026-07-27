@@ -190,6 +190,62 @@ describe("driven-tour: seeded RNG (SohlTour #624)", () => {
             (win) => win.document.querySelectorAll(".tour-center-step").length,
         ).should("eq", 0);
     });
+
+    it("exit interleaved with the render await leaves no ghost, and a residual ghost is swept by the next start (#737)", () => {
+        // The #679 guard only covers an `exit()` landing BEFORE the render begins.
+        // #737 is the residual race: `_renderStep` yields at `super._renderStep()`,
+        // and an `exit()` interleaving THAT await tears down before the card is
+        // tracked, so the card painted afterward strands as a ghost that a later
+        // gate probe (character-creation) reads as "open" in full-suite runs.
+
+        // (a) Source prevention. Start the tour, yield a frame so `_preStep`
+        // settles and the render reaches its `super._renderStep()` await, THEN
+        // exit — landing the exit inside the render window. No ghost may remain.
+        cy.foundry((win) => {
+            for (const el of win.document.querySelectorAll(
+                ".tour-center-step",
+            )) {
+                el.remove();
+            }
+            const tour = buildSeededTour(win, "e2e-ghost-737a");
+            const p = tour.start().catch(() => {}); // do NOT await the render
+            return new Promise((resolve) =>
+                win.requestAnimationFrame(() => {
+                    tour.exit(); // exit while the render await is in flight
+                    p.then(() => resolve(true));
+                }),
+            );
+        });
+        cy.foundry(
+            (win) => win.document.querySelectorAll(".tour-center-step").length,
+        ).should("eq", 0);
+
+        // (b) Safety net. Plant a residual ghost card (as an exit-interleaved
+        // render would leave), then fully start a fresh tour: its first
+        // `_renderStep` teardown must sweep the ghost, leaving exactly its own
+        // one card. This is what reclaims a ghost before the gate probe reads it.
+        cy.foundry((win) => {
+            const ghost = win.document.createElement("aside");
+            ghost.className = "tour-center-step";
+            ghost.innerHTML =
+                '<button class="step-button" data-action="next">Next</button>';
+            win.document.body.appendChild(ghost);
+            return buildSeededTour(win, "e2e-ghost-737b")
+                .start()
+                .then(() => true);
+        });
+        cy.foundry(
+            (win) => win.document.querySelectorAll(".tour-center-step").length,
+        ).should("eq", 1);
+        // Tear it back down so the shared world/DOM is clean for the next test.
+        cy.foundry((win) => {
+            win.foundry.nue.Tour.activeTour?.exit?.();
+            return true;
+        });
+        cy.foundry(
+            (win) => win.document.querySelectorAll(".tour-center-step").length,
+        ).should("eq", 0);
+    });
 });
 
 describe("driven-tour: drive steps (SohlTour #624)", () => {

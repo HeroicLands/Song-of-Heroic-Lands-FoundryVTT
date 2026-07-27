@@ -388,6 +388,20 @@ export class SohlTour extends TourBase {
                 this.targetElement
             :   undefined;
 
+        // Re-check after the `super._renderStep()` await: the top-of-method guard
+        // only covers an `exit()` that lands BEFORE this render begins. But
+        // `super._renderStep()` yields, and an `exit()` interleaving THAT await
+        // (an afterEach/Escape firing while the card paints) runs its teardown
+        // before `#cardEl` was set above — so the card super just painted is not
+        // the one teardown removed, and it strands as a ghost `.tour-center-step`
+        // that a later gate probe reads as "open" (#737). If this tour is no
+        // longer active, remove the card we just painted and bail before adding
+        // the ring/gate chrome the exited tour has no business owning.
+        if ((TourBase as any).activeTour !== this) {
+            this.#teardownStepDom();
+            return;
+        }
+
         // Restyle the tour chrome (no screen dimming, card lifted to the top).
         this.#ensureTourStyle();
         // Ring the element the step points at — a `spotlight` target, else the
@@ -1032,6 +1046,16 @@ export class SohlTour extends TourBase {
         // the tooltip too, a no-op unless a core path ever activated it.
         this.#cardEl?.remove();
         this.#cardEl = undefined;
+        // Safety net: sweep any stray centered step cards, not just the tracked
+        // `#cardEl`. A ghost painted by an `exit()`-interleaved render (#737) is
+        // not the node `#cardEl` points at, so tracking alone can't reclaim it —
+        // but this teardown runs at the top of every `_renderStep`, so the next
+        // tour start clears any residual ghost before painting its own card. Only
+        // one tour is active at a time (base `Tour` enforces this), so no live
+        // card other than the one being torn down can exist here.
+        document
+            .querySelectorAll(".tour-center-step")
+            .forEach((stray) => stray.remove());
         (game as any).tooltip?.deactivate?.();
         if (this.fadeElement) {
             this.fadeElement.remove();
