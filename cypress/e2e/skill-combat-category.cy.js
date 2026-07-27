@@ -79,15 +79,17 @@ describe("skill sheet combat category (#709)", () => {
             }).then((skill) => {
                 renderSheet(skill.uuid);
                 cy.then(() => {
-                    cy.foundry((win) =>
-                        win.fromUuidSync(skill.uuid),
-                    ).then((doc) =>
-                        cy.editSheetField(doc, "system.combatCategory", "missile"),
+                    cy.foundry((win) => win.fromUuidSync(skill.uuid)).then(
+                        (doc) =>
+                            cy.editSheetField(
+                                doc,
+                                "system.combatCategory",
+                                "missile",
+                            ),
                     );
                 });
                 cy.foundry(
-                    (win) =>
-                        win.fromUuidSync(skill.uuid).system.combatCategory,
+                    (win) => win.fromUuidSync(skill.uuid).system.combatCategory,
                 ).should("equal", "missile");
             });
         });
