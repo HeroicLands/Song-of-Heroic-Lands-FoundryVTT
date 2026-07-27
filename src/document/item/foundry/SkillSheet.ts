@@ -135,6 +135,7 @@ export class SkillSheet extends SohlItemSheetBase {
         return Object.assign(context, {
             skillBaseFormula: system.skillBaseFormula,
             masteryLevelBase: system.masteryLevelBase,
+            initSkillMult: system.initSkillMult,
             improveFlag: system.improveFlag,
             subType: system.subType,
             combatCategory: system.combatCategory,

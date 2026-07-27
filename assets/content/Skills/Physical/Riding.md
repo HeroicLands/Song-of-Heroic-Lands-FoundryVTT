@@ -19,7 +19,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 1
-    masteryLevelBase: 0
+    masteryLevelBase: null
     improveFlag: false
 folder: Yt9THlZ0NT8H6aSK
 ---

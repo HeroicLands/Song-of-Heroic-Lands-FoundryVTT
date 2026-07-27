@@ -19,7 +19,7 @@ sohl:
     combatCategory: melee
     parentSkillCode: ""
     initSkillMult: 1
-    masteryLevelBase: 0
+    masteryLevelBase: null
     improveFlag: false
 folder: EphAMAfFhWBrJxyF
 ---

@@ -43,7 +43,7 @@ const {
 /**
  * Builds the Skill data schema, extending the base item schema with skill
  * subtype, mastery/base formula fields, combat category, parent skill link,
- * initiative multiplier, and injury-impairment roles.
+ * opening-mastery multiplier (initSkillMult), and injury-impairment roles.
  *
  * @returns The Skill data schema.
  */
@@ -56,8 +56,13 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
             choices: SkillSubTypeChoices,
         }),
         skillBaseFormula: new StringField({ initial: "" }),
+        // `null` = "not yet opened" (distinct from a deliberate 0). On an actor
+        // an unopened skill opens at Skill Base × initSkillMult; see
+        // SkillLogic.initialize.
         masteryLevelBase: new NumberField({
-            initial: 0,
+            integer: true,
+            nullable: true,
+            initial: null,
             min: 0,
         }),
         improveFlag: new BooleanField({ initial: false }),
@@ -123,7 +128,7 @@ export class SkillDataModel<
     ];
     subType!: SkillSubType;
     skillBaseFormula!: string;
-    masteryLevelBase!: number;
+    masteryLevelBase!: number | null;
     improveFlag!: boolean;
     combatCategory!: string;
     parentSkillCode!: string;
