@@ -208,7 +208,7 @@ export interface MysteryData<
      * blessing boosts, a fate re-roll applies to, etc.); blank for mysteries
      * that name no skill (e.g. a birthsign).
      */
-    assocSkillCode?: string;
+    assocSkillCode?: string | null;
     /** The base level of the mystery, or null if not applicable */
     levelBase: number | null;
     /** Usage tracking: current charges and maximum */

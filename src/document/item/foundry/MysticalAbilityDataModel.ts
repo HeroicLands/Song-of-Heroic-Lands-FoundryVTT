@@ -39,10 +39,14 @@ function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
             required: true,
         }),
         assocSkillCode: new StringField({
-            initial: "",
+            nullable: true,
+            blank: false,
+            initial: null,
         }),
         assocMysteryCode: new StringField({
-            initial: "",
+            nullable: true,
+            blank: false,
+            initial: null,
         }),
         masteryLevelBase: new NumberField({
             integer: true,
@@ -100,8 +104,8 @@ export class MysticalAbilityDataModel<
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.MYSTICALABILITY;
     subType!: MysticalAbilitySubType;
-    assocSkillCode!: string;
-    assocMysteryCode!: string;
+    assocSkillCode!: string | null;
+    assocMysteryCode!: string | null;
     masteryLevelBase!: number;
     improveFlag!: boolean;
     levelBase!: number | null;

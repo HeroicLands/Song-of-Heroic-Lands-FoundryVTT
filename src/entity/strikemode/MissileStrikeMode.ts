@@ -79,7 +79,6 @@ export class MissileStrikeMode extends StrikeModeBase {
                 initial: STRIKE_MODE_TYPE.MISSILE,
             }),
             projectileType: new StringField({
-                required: true,
                 blank: false,
                 initial: "none",
             }),

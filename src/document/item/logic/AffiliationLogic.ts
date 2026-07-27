@@ -67,11 +67,11 @@ export interface AffiliationData<
     TLogic extends SohlItemLogic<AffiliationData> = SohlItemLogic<any>,
 > extends SohlItemData<TLogic> {
     /** Subdivision of the organization or faction */
-    society: string;
+    society: string | null;
     /** Specific position held within the organization */
-    office: string;
+    office: string | null;
     /** Formal title granted by the organization */
-    title: string;
+    title: string | null;
     /** Rank or standing within the organization */
     level: number;
 }

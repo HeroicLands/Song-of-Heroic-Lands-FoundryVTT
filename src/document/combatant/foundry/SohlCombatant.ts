@@ -439,7 +439,6 @@ function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
          * the actor's `currentMoveMedium`.
          */
         displayedMedium: new foundry.data.fields.StringField({
-            required: true,
             choices: MovementMediumChoices,
             initial: MOVEMENT_MEDIUM.TERRESTRIAL,
         }),

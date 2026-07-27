@@ -40,7 +40,6 @@ function defineConcoctionGearSchema(): foundry.data.fields.DataSchema {
         }),
         potency: new StringField({
             initial: CONCOCTIONGEAR_POTENCY.NOT_APPLICABLE,
-            required: true,
             choices: ConcoctionGearPotencyChoices,
         }),
         strength: new NumberField({

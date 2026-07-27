@@ -75,9 +75,9 @@ export class SohlRegionTriggerBehavior extends foundry.data.regionBehaviors
             // event fires. Blank = forward-only (fire the trigger for
             // subscriptions, but author no region-scoped offer).
             actionName: new fields.StringField({
-                required: false,
-                blank: true,
-                initial: "",
+                nullable: true,
+                blank: false,
+                initial: null,
                 label: "SOHL.RegionBehavior.trigger.FIELDS.actionName.label",
                 hint: "SOHL.RegionBehavior.trigger.FIELDS.actionName.hint",
             }),

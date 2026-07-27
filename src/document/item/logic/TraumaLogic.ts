@@ -1015,7 +1015,7 @@ export class TraumaLogic<
      * @param formula - The duration formula (dice expression or bare seconds).
      * @returns The rolled duration in seconds.
      */
-    private rollDuration(formula: string): number {
+    private rollDuration(formula: string | null): number {
         if (!formula) return 0;
         try {
             const rolled = SimpleRoll.fromFormula(formula, this).roll();
@@ -1656,15 +1656,15 @@ export interface TraumaData<
      */
     treatmentDate: number | null;
     /** Formula rolled to seed the healing-check interval. */
-    healingCheckDurationFormula: string;
+    healingCheckDurationFormula: string | null;
     /** Rolled seconds between healing checks; `null` until rolled. */
     healingCheckDurationBase: number | null;
     /** Formula rolled to seed the blood-loss-advance interval. */
-    bloodLossAdvanceDurationFormula: string;
+    bloodLossAdvanceDurationFormula: string | null;
     /** Rolled seconds between blood-loss advances; `null` until rolled. */
     bloodLossAdvanceDurationBase: number | null;
     /** Formula rolled to seed the Extended Shock / Coma course-check interval. */
-    courseDurationFormula: string;
+    courseDurationFormula: string | null;
     /** Rolled seconds between course checks; `null` until rolled. */
     courseDurationBase: number | null;
     /**

@@ -85,7 +85,7 @@ export abstract class StrikeModeBase extends SohlEntity {
     /** Minimum body parts needed to wield the weapon in this mode. */
     minParts: number;
     /** Shortcode of the associated skill (resolved to SkillLogic at runtime). */
-    assocSkillCode: string;
+    assocSkillCode: string | null;
     /** How precisely this mode can target a specific body part. */
     spread: ValueModifier;
     /** Attack roll mastery level modifier. */
@@ -256,7 +256,11 @@ export abstract class StrikeModeBase extends SohlEntity {
                 min: 1,
                 initial: 1,
             }),
-            assocSkillCode: new StringField({ blank: true, initial: "" }),
+            assocSkillCode: new StringField({
+                nullable: true,
+                blank: false,
+                initial: null,
+            }),
             attack: new SchemaField({
                 disabled: new BooleanField({ initial: false }),
                 spread: new NumberField({
@@ -360,7 +364,7 @@ export namespace StrikeModeBase {
         /** Minimum body parts (limbs) required to wield the weapon in this mode. */
         minParts: number;
         /** Shortcode of the skill governing this mode, resolved to a SkillLogic at runtime. */
-        assocSkillCode: string;
+        assocSkillCode: string | null;
         /** Attack-roll configuration for this mode. */
         attack: {
             /** When `true`, the mode cannot be used to attack. */

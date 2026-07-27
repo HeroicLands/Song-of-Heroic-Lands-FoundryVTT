@@ -48,7 +48,11 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
             choices: AfflictionSubTypeChoices,
             required: true,
         }),
-        category: new StringField({ initial: "" }),
+        category: new StringField({
+            nullable: true,
+            blank: false,
+            initial: null,
+        }),
         isDormant: new BooleanField({ initial: false }),
         levelBase: new NumberField({
             integer: true,
@@ -69,7 +73,6 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         }),
         transmission: new StringField({
             initial: AFFLICTION_TRANSMISSION.NONE,
-            required: true,
             choices: AfflictionTransmissionChoices,
         }),
         diagnosisBonusBase: new NumberField({
@@ -81,7 +84,11 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         // Optional author hook: a Macro (by UUID) run when the affliction becomes
         // symptomatic at onset. A reference, never source — see the security
         // model. May schedule further events. Blank means no onset macro.
-        onsetMacroUuid: new StringField({ initial: "" }),
+        onsetMacroUuid: new StringField({
+            nullable: true,
+            blank: false,
+            initial: null,
+        }),
         // The authored outcome applied at resolution if the affliction was not
         // defeated (#490): DEATH or CURED (defaults to the benign CURED).
         outcome: new StringField({
@@ -91,7 +98,11 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         // Optional SafeExpression source evaluating to a trauma shortcode — or an
         // array of them — the host contracts as part of the outcome. Blank means
         // none. Combines with `outcome`.
-        outcomeTrauma: new StringField({ initial: "" }),
+        outcomeTrauma: new StringField({
+            nullable: true,
+            blank: false,
+            initial: null,
+        }),
         ...phaseFields("onset"),
         ...durationFields("healingCheck"),
         ...phaseFields("resolution"),
@@ -117,19 +128,19 @@ export class AfflictionDataModel<
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.AFFLICTION;
     subType!: AfflictionSubType;
-    category!: string;
+    category!: string | null;
     isDormant!: boolean;
     contractDate!: number | null;
     treatmentDate!: number | null;
-    onsetMacroUuid!: string;
+    onsetMacroUuid!: string | null;
     outcome!: AfflictionOutcome;
-    outcomeTrauma!: string;
-    onsetDurationFormula!: string;
+    outcomeTrauma!: string | null;
+    onsetDurationFormula!: string | null;
     onsetDurationBase!: number | null;
     onsetDate!: number | null;
-    healingCheckDurationFormula!: string;
+    healingCheckDurationFormula!: string | null;
     healingCheckDurationBase!: number | null;
-    resolutionDurationFormula!: string;
+    resolutionDurationFormula!: string | null;
     resolutionDurationBase!: number | null;
     resolutionDate!: number | null;
     diagnosisBonusBase!: number;
