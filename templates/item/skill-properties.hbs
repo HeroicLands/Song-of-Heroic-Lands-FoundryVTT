@@ -22,7 +22,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{/if}}
         {{formGroup fields.improveFlag rootId="skill-improve" classes="text-field" stacked=true value=system.improveFlag}}
         {{#if (eq system.subType "combat")}}
-        {{formGroup fields.combatCategory rootId="skill-combatcat" classes="text-field" stacked=true value=system.combatCategory}}
+        {{formGroup fields.combatCategory rootId="skill-combatcat" classes="text-field" stacked=true localize=true value=system.combatCategory}}
         {{/if}}
     </div>
 

@@ -54,6 +54,35 @@ describe("skill sheet combat category (#709)", () => {
         });
     });
 
+    it("localizes the Combat Category option labels (#751)", () => {
+        cy.createActor("being", { name: "I18n Being" }).then((actor) => {
+            cy.createItemOn(actor, "skill", {
+                name: "Melee",
+                system: { subType: "combat", combatCategory: "melee" },
+            }).then((skill) => {
+                renderSheet(skill.uuid);
+                cy.foundry((win) => {
+                    const el = win.fromUuidSync(skill.uuid).sheet.element;
+                    const ctrl = el.querySelector(SEL);
+                    const selected = ctrl?.selectedOptions?.[0];
+                    return {
+                        label: selected?.textContent?.trim(),
+                        allLabels: Array.from(ctrl?.options ?? []).map((o) =>
+                            o.textContent.trim(),
+                        ),
+                    };
+                }).should((r) => {
+                    // The selected option must show the localized label, not the
+                    // raw i18n key.
+                    expect(r.label).to.equal("Melee");
+                    expect(r.allLabels).not.to.include(
+                        "SOHL.Skill.Combat.melee",
+                    );
+                });
+            });
+        });
+    });
+
     it("omits the Combat Category control for a non-combat skill", () => {
         cy.createActor("being", { name: "Social Being" }).then((actor) => {
             cy.createItemOn(actor, "skill", {
