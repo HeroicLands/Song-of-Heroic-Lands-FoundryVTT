@@ -2,35 +2,75 @@
 // rules: generic styling for inputs, selects, buttons, checkboxes, the form-group
 // layout, and the embedded TinyMCE editor area.
 
+// Editable fields carry a resting affordance so it is obvious where input is
+// accepted: a subtly filled "well" (the warm `bg-input-active` tan, offset from
+// the parchment), a 1px border, a small radius, and a faint inset shadow that
+// reads as recessed / typeable. This is the single source of truth for the input
+// look; it applies across every `.sohl` surface (sheets and standalone apps).
 input[type="text"],
 input[type="number"],
 input[type="search"],
+textarea,
 select {
     height: calc(100% - 2px);
-    border: 1px solid var(--sohl-color-bg-input);
-    background: var(--sohl-color-bg-overlay-light);
+    border: 1px solid var(--sohl-color-border-default);
+    border-radius: 3px;
+    background: var(--sohl-color-bg-input-active);
+    box-shadow: inset 0 1px 2px var(--sohl-color-bg-overlay-medium);
     color: var(--sohl-color-text-primary);
 }
 
+// Hover strengthens the border (neutral — no color shift, and never red).
 input[type="text"]:hover,
 input[type="number"]:hover,
 input[type="search"]:hover,
-input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="search"]:focus {
-    border: 1px solid var(--sohl-color-border-strong);
-    box-shadow: 0 0 8px red;
+textarea:hover,
+select:hover {
+    border-color: var(--sohl-color-border-strong);
 }
 
+// Focus is the active-field state: a stronger border plus a conventional blue
+// focus ring (replacing the former red glow), keeping the resting inset shadow.
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--sohl-color-border-strong);
+    box-shadow:
+        inset 0 1px 2px var(--sohl-color-bg-overlay-medium),
+        0 0 0 2px var(--sohl-color-focus-ring);
+    outline: none;
+}
+
+// Readonly / disabled fields are the inactive state: flat (no fill, no border,
+// no shadow) with muted text, so they read as display-only and are unmistakably
+// distinct from an editable well. `:read-only` covers the `readonly` attribute
+// on text-like inputs; `:disabled` covers disabled inputs and selects. These
+// outrank the plain `:hover`/`:focus` rules above by specificity, and SoHL sits
+// in a cascade layer that beats Foundry core, so no `!important` is needed.
+input[type="text"]:read-only,
+input[type="number"]:read-only,
+input[type="search"]:read-only,
+textarea:read-only,
 input:disabled,
 select:disabled,
 textarea:disabled {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
     color: var(--sohl-color-text-muted);
+    cursor: default;
 }
 
-// `:disabled:hover`/`:disabled:focus` already outrank the plain `:hover`/`:focus`
-// rules above by specificity, and SoHL sits in a cascade layer that beats Foundry
-// core (which sets no `!important` here) — so the override needs none.
+input[type="text"]:read-only:hover,
+input[type="number"]:read-only:hover,
+input[type="search"]:read-only:hover,
+textarea:read-only:hover,
+input[type="text"]:read-only:focus,
+input[type="number"]:read-only:focus,
+input[type="search"]:read-only:focus,
+textarea:read-only:focus,
 input:disabled:hover,
 select:disabled:hover,
 textarea:disabled:hover,
@@ -38,7 +78,7 @@ input:disabled:focus,
 select:disabled:focus,
 textarea:disabled:focus {
     box-shadow: none;
-    border: 1px solid transparent;
+    border-color: transparent;
     outline: none;
 }
 

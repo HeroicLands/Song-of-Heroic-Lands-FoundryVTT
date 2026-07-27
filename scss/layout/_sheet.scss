@@ -42,32 +42,20 @@
     align-content: flex-start;
 }
 
-input[type="text"],
-input[type="number"],
-input[type="search"] {
-    background: none;
-    border: 1px solid transparent;
-}
-
-input[type="text"]:hover,
-input[type="number"]:hover,
-input[type="search"]:hover,
-input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="search"]:focus {
-    border: 1px solid var(--sohl-color-border-strong);
-}
-
+// The input resting affordance (filled well, border, focus ring) is owned by the
+// base layer (`base/_elements.scss`) so it is consistent across every `.sohl`
+// surface. This sheet-frame partial only adds sheet-specific sizing; it must NOT
+// reset the background/border back to transparent, or fields become invisible on
+// the parchment (the #757 bug).
 select {
     flex: 1;
     font-size: 12px;
     height: 22px;
-    background: transparent;
 }
 
 .editable .rollable:hover {
     color: var(--sohl-color-text-primary);
-    text-shadow: 0 0 10px red;
+    text-shadow: 0 0 8px var(--sohl-color-active);
     cursor: pointer;
 }
 

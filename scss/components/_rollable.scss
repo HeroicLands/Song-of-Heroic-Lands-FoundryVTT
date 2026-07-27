@@ -1,8 +1,8 @@
 .rollable {
     &:hover,
     &:focus {
-        color: var(--sohl-color-border-default);
-        text-shadow: 0 0 10px red;
+        color: var(--sohl-color-active);
+        text-shadow: 0 0 8px var(--sohl-color-active);
         cursor: pointer;
     }
 }
