@@ -141,6 +141,7 @@ export class SkillSheet extends SohlItemSheetBase {
             improveFlag: system.improveFlag,
             subType: system.subType,
             combatCategory: system.combatCategory,
+            impairedByRoles: system.impairedByRoles ?? [],
         });
     }
 
