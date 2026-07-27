@@ -19,7 +19,7 @@ sohl:
         dex: 16
         agl: 16
         per: 16
-        sha: 16
+        pal: 16
         wil: 18
         rea: 15
         cre: 16
@@ -29,7 +29,7 @@ sohl:
         dex: 1d4+13
         agl: 1d4+13
         per: 1d4+13
-        sha: 1d4+13
+        pal: 1d4+13
         wil: 1d6+14
         rea: 1d8+10
         cre: 1d4+13
