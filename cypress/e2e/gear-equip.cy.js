@@ -35,8 +35,9 @@
  * locations were migrated from names to shortcodes in #358, closing #249).
  */
 
-// sohl.items compendium IDs
-const MAIL_SHIRT_ID = "0S3xT8nBEex8PZJC"; // armorgear (carry & equip toggles)
+// Stable, id-independent descriptor for the Mail Shirt armorgear (carry & equip
+// toggles) — resolved by `system.shortcode`, so it survives pack-id regeneration.
+const MAIL_SHIRT_REF = { shortcode: "MShirt", type: "armorgear" };
 
 /** Minimal weapongear with the correct nested defense schema (avoids #246). */
 const INLINE_WEAPON = {
@@ -115,7 +116,7 @@ describe("gear equip / hold → combat-tab display", () => {
 
     it("toggleCarried flips isCarried", () => {
         cy.createActor("being", { name: "Carry Being" }).then((actor) => {
-            cy.importItem("sohl.items", MAIL_SHIRT_ID, { actor }).then(
+            cy.importItem("sohl.items", MAIL_SHIRT_REF, { actor }).then(
                 (armor) => {
                     // Default: isCarried = true
                     cy.foundry((win) => {
@@ -143,7 +144,7 @@ describe("gear equip / hold → combat-tab display", () => {
 
     it("toggleWorn flips isWorn on armor (#662)", () => {
         cy.createActor("being", { name: "Worn Being" }).then((actor) => {
-            cy.importItem("sohl.items", MAIL_SHIRT_ID, { actor }).then(
+            cy.importItem("sohl.items", MAIL_SHIRT_REF, { actor }).then(
                 (armor) => {
                     // Armor defaults to not worn.
                     cy.foundry((win) => {
@@ -252,7 +253,7 @@ describe("gear equip / hold → combat-tab display", () => {
 
     it("equipped compendium Mail Shirt aggregates protection onto covered locations", () => {
         cy.importActor().then((actor) => {
-            cy.importItem("sohl.items", MAIL_SHIRT_ID, { actor }).then(
+            cy.importItem("sohl.items", MAIL_SHIRT_REF, { actor }).then(
                 (armor) => {
                     cy.foundry((win) => setWorn(win, actor.id, armor.id, true));
                     cy.prepare(actor);

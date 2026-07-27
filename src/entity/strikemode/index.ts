@@ -15,6 +15,7 @@
 // verifies every sibling module and subfolder here is re-exported.
 
 export * from "./blankStrikeMode";
+export * from "./governing";
 export * from "./MeleeStrikeMode";
 export * from "./MissileStrikeMode";
 export * from "./planShortcodeSave";

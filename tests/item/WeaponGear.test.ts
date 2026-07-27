@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
+import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
@@ -267,6 +268,227 @@ describe("WeaponGearLogic", () => {
                 logic.initialize();
                 logic.evaluate();
                 expect(() => logic.finalize()).not.toThrow();
+            });
+        });
+
+        describe("associated-skill derivation (#755)", () => {
+            /**
+             * Put a fully-initialized combat skill on `actor` under `shortcode`
+             * so a strike mode's `assocSkillCode` resolves to it via
+             * `getItemLogic`. Returns the skill logic.
+             */
+            function addSkill(
+                actor: any,
+                shortcode: string,
+                masteryLevelBase: number,
+            ): SkillLogic {
+                const skill = makeItemLogic(
+                    SkillLogic,
+                    ITEM_KIND.SKILL,
+                    {
+                        subType: "combattechnique",
+                        skillBaseFormula: "@str, @agl",
+                        masteryLevelBase,
+                    },
+                    // A distinct id per skill: the mock item id defaults to a
+                    // shared constant, so without this each new item clobbers
+                    // the previous one in `actor.items`.
+                    { actor, shortcode, id: `skill-${shortcode}` },
+                );
+                skill.initialize();
+                return skill;
+            }
+
+            it("folds the associated skill's mastery level into a melee mode's Atk/Blk/CX", () => {
+                const actor = makeMockActor();
+                addSkill(actor, "swd", 50);
+                const weapon = makeWeapon(
+                    {
+                        strikeModes: [
+                            meleeModeData({
+                                shortcode: "cut",
+                                assocSkillCode: "swd",
+                                attack: { modifier: 5, spread: 10 },
+                                defense: {
+                                    block: { modifier: 0 },
+                                    counterstrike: { modifier: 0 },
+                                },
+                            }),
+                        ],
+                    },
+                    { actor },
+                );
+                weapon.initialize();
+                weapon.evaluate();
+                weapon.finalize();
+                const sm = weapon.strikeModes[0] as MeleeStrikeMode;
+                // base 50 (skill ML) + its own labeled deltas
+                expect(sm.attack.effective).toBe(55); // 50 + AtkMod 5
+                expect(sm.defense.block.effective).toBe(50); // 50 + BlkMod 0
+                expect(sm.defense.counterstrike.effective).toBe(50); // 50 + CtrMod 0
+            });
+
+            it("drives a missile mode's attack from its associated skill", () => {
+                const actor = makeMockActor();
+                addSkill(actor, "bow", 40);
+                const weapon = makeWeapon(
+                    {
+                        strikeModes: [
+                            missileModeData({
+                                shortcode: "shoot",
+                                assocSkillCode: "bow",
+                                attack: { modifier: 3, spread: 5 },
+                            }),
+                        ],
+                    },
+                    { actor },
+                );
+                weapon.initialize();
+                weapon.evaluate();
+                weapon.finalize();
+                const sm = weapon.strikeModes[0] as MissileStrikeMode;
+                expect(sm.attack.effective).toBe(43); // 40 + AtkMod 3
+            });
+
+            it("resolves each mode against its own assocSkillCode", () => {
+                const actor = makeMockActor();
+                addSkill(actor, "swd", 50);
+                addSkill(actor, "axe", 30);
+                const weapon = makeWeapon(
+                    {
+                        strikeModes: [
+                            meleeModeData({
+                                shortcode: "cut",
+                                assocSkillCode: "swd",
+                                attack: { modifier: 0, spread: 10 },
+                                defense: {
+                                    block: { modifier: 0 },
+                                    counterstrike: { modifier: 0 },
+                                },
+                            }),
+                            meleeModeData({
+                                shortcode: "chop",
+                                assocSkillCode: "axe",
+                                attack: { modifier: 0, spread: 10 },
+                                defense: {
+                                    block: { modifier: 0 },
+                                    counterstrike: { modifier: 0 },
+                                },
+                            }),
+                        ],
+                    },
+                    { actor },
+                );
+                weapon.initialize();
+                weapon.evaluate();
+                weapon.finalize();
+                expect(weapon.strikeModes[0].attack.effective).toBe(50);
+                expect(weapon.strikeModes[1].attack.effective).toBe(30);
+            });
+
+            it("leaves a mode at its flat modifiers when assocSkillCode does not resolve", () => {
+                const actor = makeMockActor();
+                // No matching skill on the actor.
+                const weapon = makeWeapon(
+                    {
+                        strikeModes: [
+                            meleeModeData({
+                                shortcode: "cut",
+                                assocSkillCode: "swd",
+                                attack: { modifier: 5, spread: 10 },
+                                defense: {
+                                    block: { modifier: 0 },
+                                    counterstrike: { modifier: 0 },
+                                },
+                            }),
+                        ],
+                    },
+                    { actor },
+                );
+                weapon.initialize();
+                weapon.evaluate();
+                weapon.finalize();
+                const sm = weapon.strikeModes[0] as MeleeStrikeMode;
+                expect(sm.attack.effective).toBe(5); // AtkMod only, no skill base
+                expect(sm.defense.block.effective).toBe(0);
+            });
+
+            it("does not throw and derives nothing when the weapon has no actor", () => {
+                const weapon = makeWeapon({
+                    strikeModes: [
+                        meleeModeData({
+                            shortcode: "cut",
+                            assocSkillCode: "swd",
+                            attack: { modifier: 5, spread: 10 },
+                            defense: {
+                                block: { modifier: 0 },
+                                counterstrike: { modifier: 0 },
+                            },
+                        }),
+                    ],
+                });
+                weapon.initialize();
+                weapon.evaluate();
+                expect(() => weapon.finalize()).not.toThrow();
+                expect(weapon.strikeModes[0].attack.effective).toBe(5);
+            });
+
+            it("a disabled governing mastery level disables the derived rolls", () => {
+                const actor = makeMockActor();
+                const skill = addSkill(actor, "swd", 50);
+                skill.masteryLevel.disabled = "SOHL.MasteryLevel.Impaired";
+                const weapon = makeWeapon(
+                    {
+                        strikeModes: [
+                            meleeModeData({
+                                shortcode: "cut",
+                                assocSkillCode: "swd",
+                                attack: { modifier: 5, spread: 10 },
+                                defense: {
+                                    block: { modifier: 0 },
+                                    counterstrike: { modifier: 0 },
+                                },
+                            }),
+                        ],
+                    },
+                    { actor },
+                );
+                weapon.initialize();
+                weapon.evaluate();
+                weapon.finalize();
+                const sm = weapon.strikeModes[0] as MeleeStrikeMode;
+                expect(sm.attack.disabled).toBeTruthy();
+                expect(sm.attack.effective).toBe(0);
+            });
+
+            it("composes the prone penalty with the skill derivation", () => {
+                const actor = makeMockActor();
+                addSkill(actor, "swd", 50);
+                vi.spyOn(FoundryHelpers, "fvttActorStatuses").mockReturnValue(
+                    new Set(["prone"]),
+                );
+                const weapon = makeWeapon(
+                    {
+                        strikeModes: [
+                            meleeModeData({
+                                shortcode: "cut",
+                                assocSkillCode: "swd",
+                                attack: { modifier: 5, spread: 10 },
+                                defense: {
+                                    block: { modifier: 0 },
+                                    counterstrike: { modifier: 0 },
+                                },
+                            }),
+                        ],
+                    },
+                    { actor },
+                );
+                weapon.initialize();
+                weapon.evaluate(); // adds prone −20
+                weapon.finalize(); // folds in skill base 50
+                const sm = weapon.strikeModes[0] as MeleeStrikeMode;
+                expect(sm.attack.effective).toBe(50 + 5 - 20); // base + AtkMod + Prone
+                expect(sm.defense.block.effective).toBe(50 - 20);
             });
         });
 

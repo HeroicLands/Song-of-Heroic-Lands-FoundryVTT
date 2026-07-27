@@ -147,6 +147,41 @@ describe("assisted combat (sheet strike-mode cells)", () => {
         });
     });
 
+    it("derives the attack/block/counterstrike values from the associated skill (#755)", () => {
+        // Regression for #755: a weapon's strike-mode Atk/Blk/CX cells rendered
+        // 0 because the weapon never folded its associated skill's mastery level
+        // into the mode's attack/defense modifiers. Basic Folk's `melee` ML is
+        // raised to 50 above and the mode's own modifiers are all 0, so each
+        // derived cell must read the skill's effective ML (50) — not 0.
+        weaponBeing().then((actor) => {
+            cy.foundry((win) => {
+                const a = win.game.actors.get(actor.id);
+                const skillML = a.logic.getItemLogic("melee", "skill")
+                    ?.masteryLevel.effective;
+                const value = (kind) =>
+                    Number(
+                        cell(
+                            win,
+                            actor.id,
+                            "rollStrikeModeTest",
+                            kind,
+                        )?.textContent.trim(),
+                    );
+                return {
+                    skillML,
+                    attack: value("attack"),
+                    block: value("block"),
+                    counter: value("counterstrike"),
+                };
+            }).should((v) => {
+                expect(v.skillML, "melee ML").to.eq(50);
+                expect(v.attack, "attack cell value").to.eq(v.skillML);
+                expect(v.block, "block cell value").to.eq(v.skillML);
+                expect(v.counter, "counterstrike cell value").to.eq(v.skillML);
+            });
+        });
+    });
+
     it("clicking a test cell opens the assisted-roll modifier dialog", () => {
         weaponBeing().then((actor) => {
             // Clicking a test cell runs `_onRollStrikeModeTest` → `successTest`,
