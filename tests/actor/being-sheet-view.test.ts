@@ -239,6 +239,7 @@ describe("being-sheet-view", () => {
 
     describe("buildBodyLocationTree", () => {
         const loc = (over: Record<string, unknown> = {}) => ({
+            shortcode: "skull",
             name: "Skull",
             layers: "",
             base: { blunt: 2, edged: 3, piercing: 1, fire: 1 },
@@ -251,6 +252,8 @@ describe("being-sheet-view", () => {
         it("sums natural base + equipped armor per aspect", () => {
             const tree = buildBodyLocationTree([
                 {
+                    shortcode: "head",
+                    index: 0,
                     label: "Head",
                     locations: [
                         loc({
@@ -281,7 +284,12 @@ describe("being-sheet-view", () => {
 
         it("leaves totals at the natural base when no armor covers a location", () => {
             const [part] = buildBodyLocationTree([
-                { label: "Head", locations: [loc()] },
+                {
+                    shortcode: "head",
+                    index: 0,
+                    label: "Head",
+                    locations: [loc()],
+                },
             ]);
             expect(part.locations[0]).toMatchObject({
                 blunt: 2,
@@ -295,10 +303,12 @@ describe("being-sheet-view", () => {
         it("carries the part label and location order", () => {
             const tree = buildBodyLocationTree([
                 {
+                    shortcode: "rarm",
+                    index: 1,
                     label: "Right Arm",
                     locations: [
-                        loc({ name: "Shoulder" }),
-                        loc({ name: "Elbow" }),
+                        loc({ shortcode: "shoulder", name: "Shoulder" }),
+                        loc({ shortcode: "elbow", name: "Elbow" }),
                     ],
                 },
             ]);
@@ -307,6 +317,19 @@ describe("being-sheet-view", () => {
                 "Shoulder",
                 "Elbow",
             ]);
+        });
+
+        it("carries the part and location shortcodes/index for the Edit action", () => {
+            const [part] = buildBodyLocationTree([
+                {
+                    shortcode: "rarm",
+                    index: 1,
+                    label: "Right Arm",
+                    locations: [loc({ shortcode: "elbow", name: "Elbow" })],
+                },
+            ]);
+            expect(part).toMatchObject({ shortcode: "rarm", index: 1 });
+            expect(part.locations[0].shortcode).toBe("elbow");
         });
 
         it("returns an empty array for no parts", () => {
