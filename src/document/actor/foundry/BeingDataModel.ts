@@ -46,7 +46,6 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
          * actor (not the token) because tokens cannot carry typed system data.
          */
         defaultCombatGroup: new StringField({
-            required: false,
             blank: false,
             nullable: true,
             initial: null,

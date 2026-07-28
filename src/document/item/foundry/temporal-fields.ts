@@ -37,7 +37,6 @@ const { StringField, NumberField } = foundry.data.fields;
 export function worldTimeDateField(): foundry.data.fields.DataField.Any {
     return new NumberField({
         integer: true,
-        required: false,
         nullable: true,
         initial: null,
     });
@@ -52,7 +51,6 @@ export function worldTimeDateField(): foundry.data.fields.DataField.Any {
 export function durationBaseField(): foundry.data.fields.DataField.Any {
     return new NumberField({
         integer: true,
-        required: false,
         nullable: true,
         initial: null,
         min: 0,

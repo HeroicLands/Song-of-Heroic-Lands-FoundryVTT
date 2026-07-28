@@ -121,7 +121,7 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
                     MissileStrikeMode.schemaFields(),
                 ),
             },
-            { required: false, nullable: true, initial: null },
+            { nullable: true, initial: null },
         ),
     };
 }

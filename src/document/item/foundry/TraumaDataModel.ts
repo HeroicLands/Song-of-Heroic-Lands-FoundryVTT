@@ -51,7 +51,6 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         category: new StringField({
             nullable: true,
             blank: false,
-            required: false,
             initial: null,
         }),
         // Graduated severity (M1, S2-S3, G4-G5) for injuries and levelled
@@ -65,16 +64,18 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         }),
         healingRateBase: new NumberField({
             integer: true,
-            required: false,
             nullable: true,
             initial: null,
             min: 0,
+        }),
+        treatmentModifierBase: new NumberField({
+            integer: true,
+            initial: 0,
         }),
         // The damage aspect that caused an injury. Nullable: descriptive
         // conditions have no damage aspect (`null`).
         aspect: new StringField({
             nullable: true,
-            required: false,
             initial: null,
             choices: ImpactAspectChoices,
         }),
@@ -99,7 +100,6 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         bodyLocationCode: new StringField({
             nullable: true,
             blank: false,
-            required: false,
             initial: null,
         }),
     };

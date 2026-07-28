@@ -2590,23 +2590,23 @@ export class BeingLogic<
      * the assisted-combat `createInjury` flow and the character sheet's manual
      * Add Injury action. Pre-fills the dialog from `prefill`; an empty prefill
      * yields a blank manual-entry dialog.
-     * @param prefill - Initial values to pre-fill the dialog with.
-     * @param prefill.location - The hit-location shortcode.
-     * @param prefill.aspect - The weapon impact aspect.
-     * @param prefill.impact - The raw impact total.
-     * @param prefill.armorReduction - Manual armor reduction.
-     * @param prefill.extraBleedRisk - Force the wound to bleed.
+     * @param options - Initial values to pre-fill the dialog with.
+     * @param options.location - The hit-location shortcode.
+     * @param options.aspect - The weapon impact aspect.
+     * @param options.impact - The raw impact total.
+     * @param options.armorReduction - Manual armor reduction.
+     * @param options.extraBleedRisk - Force the wound to bleed.
      * @param context - Forwarded to the schedule offer (issue #579) so a
      *   scripted caller can pre-answer or suppress it; the interactive path prompts.
      */
     async addInjuryViaDialog(
-        prefill: {
-            location?: string;
-            aspect?: string;
-            impact?: number;
-            armorReduction?: number;
-            extraBleedRisk?: boolean;
-        } = {},
+        options: Partial<{
+            location: string;
+            aspect: string;
+            impact: number;
+            armorReduction: number;
+            extraBleedRisk: boolean;
+        }> = {},
         context: OfferContext = {},
     ): Promise<void> {
         const body = getActorBodyStructure(this);
@@ -2622,11 +2622,11 @@ export class BeingLogic<
                 .getAllLocations()
                 .map((l) => ({ code: l.shortcode, name: l.name })),
             aspectChoices: Object.values(IMPACT_ASPECT),
-            location: prefill.location ?? "",
-            aspect: prefill.aspect ?? "",
-            impactVal: prefill.impact ?? 0,
-            armorReduction: prefill.armorReduction ?? 0,
-            extraBleedRisk: !!prefill.extraBleedRisk,
+            location: options.location ?? "",
+            aspect: options.aspect ?? "",
+            impactVal: options.impact ?? 0,
+            armorReduction: options.armorReduction ?? 0,
+            extraBleedRisk: !!options.extraBleedRisk,
             addToCharSheet: true,
             askRecordInjury: true,
         };

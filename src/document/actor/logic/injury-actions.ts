@@ -266,6 +266,24 @@ export function getActorBodyStructure(logic: any): BodyStructure | undefined {
 }
 
 /**
+ * Create a human-readable name for a resolved injury.
+ * @param injury - The resolved injury.
+ * @returns The injury name.
+ */
+function createInjuryName(injury: ResolvedInjury): string {
+    const injuryDesc = {
+        blunt: { M: "Bruise", S: "Fracture", G: "Crush" },
+        edged: { M: "Cut", S: "Slash", G: "Gash" },
+        piercing: { M: "Poke", S: "Stab", G: "Impale" },
+        fire: { M: "Singe", S: "Burn", G: "Scorch" },
+    } as const;
+    const severity = injury.levelCode[0] as "M" | "S" | "G";
+    const aspect = injury.aspect;
+    const desc = injuryDesc[aspect]?.[severity] ?? "Injury";
+    return `${injury.location.name} ${desc}`;
+}
+
+/**
  * Create a physical Trauma item on the actor from a resolved injury, then
  * **offer** to schedule its first healing check (issue #579 — nothing
  * auto-schedules). Only call this for an actual wound (`injury.level >= 1`); a
@@ -287,10 +305,11 @@ export async function createTraumaFromInjury(
     injury: ResolvedInjury,
     context: OfferContext = {},
 ): Promise<void> {
+    let name = createInjuryName(injury);
     const created = await fvttCreateEmbeddedItems(logic, [
         {
             type: ITEM_KIND.TRAUMA,
-            name: `${injury.levelCode} ${injury.location.name}`,
+            name,
             system: buildTraumaData(injury),
         },
     ]);

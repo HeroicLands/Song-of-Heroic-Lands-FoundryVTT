@@ -1776,8 +1776,8 @@ export const {
     /** Type guard for trauma-subtype values. */
     isValue: isTraumaSubType,
 } = defineType("SOHL.Trauma.SubType", {
-    /** A physical trauma affecting the body. */
-    INJURY: "physical",
+    /** Physical harm caused by an external force. */
+    INJURY: "injury",
     /** Emotional response to a perceived threat or danger. */
     FEAR: "fear",
     /** Emotional state affecting group cohesion and individual morale. */

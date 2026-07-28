@@ -417,7 +417,6 @@ function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
             },
         }),
         didAction: new foundry.data.fields.BooleanField({
-            required: false,
             initial: false,
         }),
         /**
@@ -428,7 +427,6 @@ function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
          * encounter only.
          */
         moveFactor: new foundry.data.fields.NumberField({
-            required: false,
             initial: 1,
             min: 0,
             nullable: false,
@@ -449,7 +447,6 @@ function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
          * Combat-scoped (lives only for the encounter).
          */
         lastAttackMode: new foundry.data.fields.ObjectField({
-            required: false,
             nullable: true,
             initial: null,
         }),
@@ -458,7 +455,6 @@ function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
          * (`{ itemId, smId }`), or `null` — drives the default in the Block picker.
          */
         lastBlockMode: new foundry.data.fields.ObjectField({
-            required: false,
             nullable: true,
             initial: null,
         }),
