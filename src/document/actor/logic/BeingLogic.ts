@@ -1978,6 +1978,16 @@ export class BeingLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
+                shortcode: "createInjury",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.createInjury",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-bandage",
+                executor: "createInjury",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
                 shortcode: "contractDisease",
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Being.Action.contractDisease",

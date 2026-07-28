@@ -1649,6 +1649,7 @@
     "SOHL.Being.Action.automatedDodgeResume": "Resume (Dodge)",
     "SOHL.Being.Action.automatedIgnoreResume": "Resume (Ignore)",
     "SOHL.Being.Action.calcImpact": "Calculate Impact",
+    "SOHL.Being.Action.createInjury": "Create Injury",
     "SOHL.Being.Action.contractDisease": "Contract Disease",
     "SOHL.Being.Action.fearTest": "Fear Test",
     "SOHL.Being.Action.fumbleTest": "Fumble Test",
