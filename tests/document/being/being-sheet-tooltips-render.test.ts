@@ -67,7 +67,7 @@ const missileStrikeModes = [
             {
                 name: "Shoot",
                 shortcode: "shot",
-                draw: { effective: 3 },
+                draw: { effective: 3, deltaLabel: "DRW STR +1" },
                 baseRange: { effective: 30 },
                 maxVolleyMult: 2,
                 impact: {
@@ -110,6 +110,20 @@ describe("combat.hbs strike-mode value tooltips (#769)", () => {
         const html = renderTemplateReal(COMBAT, { missileStrikeModes });
         expect(html).toContain('data-tooltip="IMP DEX +1"');
         expect(html).toContain('data-tooltip="ATK DEX +1"');
+    });
+
+    // #773 — the missile header had a spurious "Pull" column with no backing
+    // data on MissileStrikeMode, so its cell was pointed at `draw` as a
+    // placeholder, duplicating the Draw column's value and tooltip.
+    it("has no spurious Pull column in the missile header", () => {
+        const html = renderTemplateReal(COMBAT, { missileStrikeModes });
+        expect(html).not.toContain('data-tooltip="Pull Strength"');
+    });
+
+    it("renders the missile draw value and tooltip exactly once per row", () => {
+        const html = renderTemplateReal(COMBAT, { missileStrikeModes });
+        const drawTooltips = html.match(/data-tooltip="DRW STR \+1"/g) ?? [];
+        expect(drawTooltips).toHaveLength(1);
     });
 });
 
