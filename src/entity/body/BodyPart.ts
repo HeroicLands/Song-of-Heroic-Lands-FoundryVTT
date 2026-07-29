@@ -58,8 +58,9 @@ export class BodyPart extends SohlEntity {
     /** The item currently held by this part, resolved from `heldItemId`, or undefined. */
     readonly heldItem?: SohlItem;
     /**
-     * Selection weight for this part in unaimed / hit-spread part rolls,
-     * derived from the persisted {@link BodyPart.Data.combatArea}.
+     * Selection weight for this part within its zone, derived from the
+     * persisted {@link BodyPart.Data.probWeight}. Once a zone is rolled, its
+     * parts are drawn in proportion to this weight.
      */
     readonly probWeight: ValueModifier;
     /**
@@ -107,8 +108,7 @@ export class BodyPart extends SohlEntity {
 
     /**
      * Builds a single body part from its persisted data, resolving its held
-     * item and deriving its selection weight (from `combatArea`) and
-     * constructing its child locations.
+     * item and deriving its selection weight and child locations.
      *
      * @param data - Persisted part data.
      * @param options - Construction options
@@ -140,7 +140,7 @@ export class BodyPart extends SohlEntity {
                     | undefined) ?? undefined)
             :   undefined;
         this.probWeight = new entity.ValueModifier(this.parent).setBase(
-            data.combatArea ?? 0,
+            data.probWeight ?? 0,
         );
         this.permanentImpairment = Math.min(0, data.permanentImpairment ?? 0);
         this.permanentlyUnusable = data.permanentlyUnusable ?? false;
@@ -260,13 +260,14 @@ export namespace BodyPart {
         /** Id of the item this part is holding, or null if empty. */
         heldItemId: string | null;
         /**
-         * Target area of this part for hit-spread mechanics, in square feet;
-         * doubles as the persisted weight for picking a random part on an
-         * unaimed attack. (The persisted schema field; see
-         * {@link BodyPart.probWeight} for the derived modifier the entity
-         * exposes.)
+         * Selection weight for this part **within its zone**: once a zone is
+         * rolled, each of its parts is drawn with probability
+         * `probWeight / (sum of the zone's parts' probWeight)`. Also the area
+         * the aimed-strike drift spends `spread` against. (The persisted schema
+         * field; see {@link BodyPart.probWeight} for the derived modifier the
+         * entity exposes.)
          */
-        combatArea?: number;
+        probWeight?: number;
         /**
          * Shortcode of the {@link sohl.entity.body.BodyZone} this part belongs
          * to. A part whose code matches no zone is not reachable in the

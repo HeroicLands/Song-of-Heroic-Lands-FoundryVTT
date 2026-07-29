@@ -43,14 +43,14 @@ export function zoneData(
  * Build a persisted body part.
  * @param shortcode - Unique part code.
  * @param bodyZoneCode - Shortcode of the owning zone.
- * @param combatArea - Target area, doubling as the part's selection weight.
+ * @param probWeight - Selection weight within its zone.
  * @param overrides - Extra persisted fields to merge.
  * @returns Persisted part data.
  */
 export function partData(
     shortcode: string,
     bodyZoneCode: string,
-    combatArea: number,
+    probWeight: number,
     overrides: Partial<BodyPart.Data> = {},
 ): BodyPart.Data {
     return {
@@ -60,7 +60,7 @@ export function partData(
         roles: [],
         canHoldItem: false,
         heldItemId: null,
-        combatArea,
+        probWeight,
         ...overrides,
     };
 }

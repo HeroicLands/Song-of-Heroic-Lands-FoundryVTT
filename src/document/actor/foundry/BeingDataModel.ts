@@ -150,11 +150,12 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
                             initial: false,
                         }),
                         /**
-                         * Target area of this part for hit-spread mechanics, in
-                         * square feet. Doubles as the weight used when picking a
-                         * random part for unaimed attacks.
+                         * Selection weight for this part within its zone: once
+                         * a zone is rolled, its parts are drawn in proportion
+                         * to this weight. Also the area the aimed-strike drift
+                         * spends its `spread` against.
                          */
-                        combatArea: new NumberField({
+                        probWeight: new NumberField({
                             integer: false,
                             initial: 0,
                             min: 0,

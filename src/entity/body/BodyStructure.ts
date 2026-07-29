@@ -47,9 +47,10 @@ import type { BodyRole } from "@src/utils/constants";
  * array.
  *
  * **Hit determination** runs top down: each zone owns a contiguous run of zone
- * numbers sized by its weight, so one roll against {@link totalZoneWeight}
- * picks a zone ({@link getRandomZone}), then a weighted part inside it, then a
- * weighted location.
+ * numbers sized by its weight — contiguous and gap-free across the body, so
+ * they run `1..`{@link maxZoneNumber} — and one roll against that range picks a
+ * zone ({@link getRandomZone}), then a weighted part inside it, then a weighted
+ * location.
  *
  * **Lifecycle:** This object is rebuilt from persisted schema data on every
  * preparation cycle. It may be mutated during the lifecycle (e.g., active
@@ -165,12 +166,19 @@ export class BodyStructure extends SohlEntity {
     }
 
     /**
-     * The highest zone number in play — the sum of every zone's weight, and so
-     * the upper bound of the zone roll. `0` for a body with no weighted zones
-     * (an incorporeal being), which makes {@link getRandomZone} return
-     * `undefined`.
+     * The highest zone number on this body — the `N` of the `1..N` run.
+     *
+     * Zone numbers are handed out in persisted zone order, each zone taking a
+     * contiguous block sized by its `probWeight`, so across the whole body they
+     * are **contiguous, unique, gap-free, and monotonically increasing by 1
+     * from 1**. That makes this both the sum of every zone's weight and the
+     * upper bound of the zone roll — they are the same number by construction.
+     * A zero-weight zone claims no numbers and does not interrupt the run.
+     *
+     * `0` for a body with no weighted zones (an incorporeal being), which makes
+     * {@link getRandomZone} return `undefined`.
      */
-    get totalZoneWeight(): number {
+    get maxZoneNumber(): number {
         return this.zones.reduce((sum, z) => sum + z.zoneNumbers.length, 0);
     }
 
@@ -200,10 +208,16 @@ export class BodyStructure extends SohlEntity {
 
     /**
      * Find the zone owning a given zone number (as rolled against
-     * {@link totalZoneWeight}).
+     * {@link maxZoneNumber}).
+     *
+     * Because the runs are contiguous and gap-free, every integer in
+     * `1..maxZoneNumber` resolves to exactly one zone. Anything else — `0` or
+     * below, above {@link maxZoneNumber}, or a non-integer — is not a zone
+     * number on this body and yields `undefined`.
      *
      * @param zoneNumber - The rolled zone number, `1`-based.
-     * @returns The zone owning that number, or `undefined` if out of range.
+     * @returns The zone owning that number, or `undefined` when the body has no
+     *   such zone number.
      */
     getZoneByNumber(zoneNumber: number): BodyZone | undefined {
         return this.zones.find((z) => z.ownsZoneNumber(zoneNumber));
@@ -334,7 +348,7 @@ export class BodyStructure extends SohlEntity {
     /* -------------------------------------------- */
 
     /**
-     * Roll a zone number in `1..`{@link totalZoneWeight} and return the zone
+     * Roll a zone number in `1..`{@link maxZoneNumber} and return the zone
      * owning it. Zones with no weight own no numbers and can never be rolled.
      *
      * @param rng - The random source; defaults to the shared {@link sohl.random}
@@ -343,9 +357,41 @@ export class BodyStructure extends SohlEntity {
      *   zones.
      */
     getRandomZone(rng: Rng = defaultRng()): BodyZone | undefined {
-        const total = this.totalZoneWeight;
+        const total = this.maxZoneNumber;
         if (total <= 0) return undefined;
         return this.getZoneByNumber(Math.ceil(rng.float() * total));
+    }
+
+    /**
+     * Roll a zone the way {@link getRandomZone} does, but over only those zones
+     * that actually hold a part — each drawn with probability
+     * `weight / (sum of the occupied zones' weights)`.
+     *
+     * A weighted zone with no parts is unhittable, so including it would leak
+     * its share of the roll into a body-wide fallback and skew every other
+     * zone's true frequency. Restricting the draw keeps
+     * `P(part) = P(zone) x P(part | zone)` exact for any authored body.
+     *
+     * @param rng - The random source; defaults to the shared {@link sohl.random}
+     *   singleton.
+     * @returns The selected zone, or `undefined` when no weighted zone holds a
+     *   part.
+     */
+    getRandomOccupiedZone(rng: Rng = defaultRng()): BodyZone | undefined {
+        const eligible = this.zones.filter(
+            (z) => z.zoneNumbers.length > 0 && z.parts.length > 0,
+        );
+        const total = eligible.reduce(
+            (sum, z) => sum + z.zoneNumbers.length,
+            0,
+        );
+        if (total <= 0) return undefined;
+        let roll = rng.float() * total;
+        for (const zone of eligible) {
+            roll -= zone.zoneNumbers.length;
+            if (roll <= 0) return zone;
+        }
+        return eligible[eligible.length - 1];
     }
 
     /**
@@ -371,11 +417,13 @@ export class BodyStructure extends SohlEntity {
     /**
      * Select a random body part.
      *
-     * Without parameters, hit determination runs top down: roll a zone number
-     * to pick the zone ({@link getRandomZone}), then draw a part inside it
-     * weighted by {@link BodyPart.probWeight}. A zone that rolls up empty falls
-     * back to a weighted draw across the whole body, so a half-authored body
-     * still yields a part.
+     * Without parameters, hit determination runs top down and is weighted at
+     * every tier: roll a zone weighted by its `probWeight`
+     * ({@link getRandomOccupiedZone}), then draw a part inside it weighted by
+     * {@link BodyPart.probWeight}. So
+     * `P(part) = P(zone) x P(part | zone)`, and with the location draw that
+     * follows in {@link getRandomLocation}, each tier's odds are that entry's
+     * weight over the sum of its siblings' weights.
      *
      * With a `target` parameter, simulates aimed strikes with spread drift:
      * 1. Roll a random number from 1 to `spread`.
@@ -404,8 +452,10 @@ export class BodyStructure extends SohlEntity {
         rng: Rng = defaultRng(),
     ): BodyPart {
         if (!target) {
-            const zone = this.getRandomZone(rng);
-            if (zone?.parts.length) return zone.getRandomPart(rng);
+            const zone = this.getRandomOccupiedZone(rng);
+            if (zone) return zone.getRandomPart(rng);
+            // No weighted zone holds a part (an unweighted or half-authored
+            // body); fall back to a body-wide draw so a part still comes out.
             return weightedRandom(this.parts, rng);
         }
 
@@ -454,6 +504,10 @@ export class BodyStructure extends SohlEntity {
      *   selection.
      * @param target.targetPart - The intended part to aim at.
      * @param target.spread - The accuracy spread driving drift.
+     * Unaimed, the composite odds of any one location are
+     * `(zone weight / total zone weight) x (part weight / its zone's part weights)
+     * x (location weight / its part's location weights)`.
+     *
      * @param rng - The random source; defaults to the shared {@link sohl.random}
      *   singleton. Inject a seeded generator to force a hit location
      *   deterministically end to end (zone, part, and location all draw from it).

@@ -86,12 +86,12 @@ describe("Body Structure editors (Combat tab)", () => {
                         "no Save button",
                     ).to.not.exist;
                 });
-                // Edit combatArea + name + a flag; the editor auto-saves.
+                // Edit probWeight + name + a flag; the editor auto-saves.
                 cy.foundry((win) => {
                     const form = findEditor(win, "body-part-config-").element;
                     form.querySelector('input[name="name"]').value =
                         "Edited Part";
-                    form.querySelector('input[name="combatArea"]').value = "7";
+                    form.querySelector('input[name="probWeight"]').value = "7";
                     form.querySelector('input[name="canHoldItem"]').checked =
                         true;
                     form.requestSubmit();
@@ -101,7 +101,7 @@ describe("Body Structure editors (Combat tab)", () => {
                     const part = win.game.actors.get(actor.id).system.body
                         .structure.parts[ref.index];
                     expect(part.name).to.eq("Edited Part");
-                    expect(part.combatArea).to.eq(7);
+                    expect(part.probWeight).to.eq(7);
                     expect(part.canHoldItem).to.eq(true);
                 });
             });
@@ -414,7 +414,7 @@ describe("Body Structure editing — add / sort / delete (#720)", () => {
                     heldItemId: null,
                     permanentImpairment: 0,
                     permanentlyUnusable: false,
-                    combatArea: 0,
+                    probWeight: 0,
                 });
                 const newLoc = win.structuredClone({
                     shortcode: "e2etailtip",

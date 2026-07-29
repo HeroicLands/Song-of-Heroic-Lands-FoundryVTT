@@ -57,37 +57,37 @@ sohl:
                   shortcode: headpart
                   bodyZoneCode: headzone
                   canHoldItem: false
-                  combatArea: 4
+                  probWeight: 4
                 - name: Left Foreleg
                   shortcode: lforelegpart
                   bodyZoneCode: forelegszone
                   canHoldItem: false
-                  combatArea: 2
+                  probWeight: 2
                 - name: Right Foreleg
                   shortcode: rforelegpart
                   bodyZoneCode: forelegszone
                   canHoldItem: false
-                  combatArea: 2
+                  probWeight: 2
                 - name: Torso
                   shortcode: torsopart
                   bodyZoneCode: torsozone
                   canHoldItem: false
-                  combatArea: 7
+                  probWeight: 7
                 - name: Left Rear Leg
                   shortcode: lrearlegpart
                   bodyZoneCode: hindlegszone
                   canHoldItem: false
-                  combatArea: 3
+                  probWeight: 3
                 - name: Right Rear Leg
                   shortcode: rrearlegpart
                   bodyZoneCode: hindlegszone
                   canHoldItem: false
-                  combatArea: 3
+                  probWeight: 3
                 - name: Tail
                   shortcode: tailpart
                   bodyZoneCode: tailzone
                   canHoldItem: false
-                  combatArea: 1
+                  probWeight: 1
             locations:
                 - name: Head
                   shortcode: headloc

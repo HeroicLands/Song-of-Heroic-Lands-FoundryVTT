@@ -51,8 +51,8 @@ describe("BodyPart", () => {
             // `heldItem` is `SohlItem | undefined` (optional); with no held
             // item it is `undefined`, not `null`.
             expect(part.heldItem).toBeUndefined();
-            // #739: probWeight is derived from the persisted `combatArea`
-            // field (parts persist `combatArea`, not `probWeight`).
+            // The entity's probWeight is a ValueModifier derived from the
+            // persisted scalar, so effects can adjust a part's odds (#739).
             expect(part.probWeight.effective).toBe(20);
             expect(part.index).toBe(0);
         });

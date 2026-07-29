@@ -56,42 +56,42 @@ sohl:
                   roles:
                       - vital
                   canHoldItem: false
-                  combatArea: 1
+                  probWeight: 1
                 - name: Right Arm
                   shortcode: rarmpart
                   bodyZoneCode: armszone
                   roles:
                       - manipulator
                   canHoldItem: true
-                  combatArea: 2
+                  probWeight: 2
                 - name: Left Arm
                   shortcode: larmpart
                   bodyZoneCode: armszone
                   roles:
                       - manipulator
                   canHoldItem: true
-                  combatArea: 2
+                  probWeight: 2
                 - name: Torso
                   shortcode: torsopart
                   bodyZoneCode: torsozone
                   roles:
                       - core
                   canHoldItem: false
-                  combatArea: 4
+                  probWeight: 4
                 - name: Right Leg
                   shortcode: rlegpart
                   bodyZoneCode: legszone
                   roles:
                       - locomotor
                   canHoldItem: false
-                  combatArea: 3
+                  probWeight: 3
                 - name: Left Leg
                   shortcode: llegpart
                   bodyZoneCode: legszone
                   roles:
                       - locomotor
                   canHoldItem: false
-                  combatArea: 3
+                  probWeight: 3
             locations:
                 - name: Skull
                   shortcode: skullloc

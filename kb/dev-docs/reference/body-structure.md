@@ -80,7 +80,7 @@ A body part is a primary anatomical division — Head, Torso, an arm, a leg, a w
 | `shortcode`           | string                | Stable identifier (e.g., `headpart`), unique body-wide. Named by its locations' `bodyPartCode`.                      |
 | `name`                | string                | Display name (e.g., `"Head"`). Stored literally; not a localization key.                                             |
 | `roles`               | `BodyRole[]`          | Functional tags the part fulfills — see [Body Roles](#body-roles).                                                   |
-| `combatArea`          | number                | Targetable surface area in square feet. Doubles as the weight for unaimed-attack random selection.                   |
+| `probWeight`          | number                | Selection weight **within its zone**: once the zone is rolled, its parts are drawn in proportion to this. Also the area an aimed strike spends its `spread` against. |
 | `canHoldItem`         | boolean               | Whether this part can grip an item. Arms typically `true`; others `false`.                                           |
 | `heldItemId`          | string \| null        | The ID of the item currently held, if any.                                                                           |
 | `favoredFlag`         | boolean               | Marks the part as favored (off-hand vs. main-hand semantics).                                                        |
@@ -221,7 +221,12 @@ A body zone is the broadest anatomical division and the **first stage of hit det
 | `name`       | string  | Display name (e.g., `"Arms"`). Stored literally; not a localization key.                             |
 | `probWeight` | integer | How many **zone numbers** this zone claims. `0` makes it unrollable.                                 |
 
-**Zone numbers** are allocated in persisted zone order, each zone taking a contiguous run sized by its weight. A body whose zones weigh 1 / 4 / 3 / 4 hands out `1`, `2–5`, `6–8`, `9–12`, and `structure.totalZoneWeight` is 12. `structure.getZoneByNumber(n)` resolves a roll back to its zone, and {@link sohl.entity.body.BodyZone.zoneNumbers} exposes the run.
+**Zone numbers** are allocated in persisted zone order, each zone taking a contiguous run sized by its weight. A body whose zones weigh 1 / 4 / 3 / 4 hands out `1`, `2–5`, `6–8`, `9–12`.
+
+Across the whole body the numbers are therefore **contiguous, unique, gap-free, and monotonically increasing by 1 from 1** — an invariant the suite asserts directly. A zero-weight zone claims no numbers and does not interrupt the run. Two consequences follow:
+
+- {@link sohl.entity.body.BodyStructure.maxZoneNumber} is the `N` of that `1..N` run (12 in the example above). It is the same number as the sum of every zone's weight, by construction.
+- {@link sohl.entity.body.BodyStructure.getZoneByNumber} resolves any integer in `1..N` to exactly one zone, and returns `undefined` for anything else — `0` or below, above `N`, or non-integer. {@link sohl.entity.body.BodyZone.zoneNumbers} exposes a single zone's run.
 
 Zone order therefore **matters**: `moveZoneUpdate` re-allocates every subsequent zone's numbers. `probWeight` is deliberately **not** wrapped in a `ValueModifier` — the runs are positional, so an active effect that moved one zone's weight mid-cycle would desync every zone above it.
 
@@ -243,8 +248,20 @@ Only the closest non-empty ring is returned, so a strike drifts exactly one step
 
 `BodyStructure.getRandomLocation(target?)` is the canonical entry point during attack resolution:
 
-1. `getRandomPart(target?)` selects a part. **Unaimed**, this rolls a zone number against `totalZoneWeight` to pick the zone ({@link sohl.entity.body.BodyStructure.getRandomZone}), then draws a part inside it weighted by `combatArea`; a zone that rolls up empty falls back to a body-wide weighted draw. **Aimed**, it runs the drift algorithm above.
+1. `getRandomPart(target?)` selects a part. **Unaimed**, this rolls a zone weighted by its `probWeight` ({@link sohl.entity.body.BodyStructure.getRandomOccupiedZone}), then draws a part inside it weighted by the part's `probWeight`. **Aimed**, it runs the drift algorithm above.
 2. The selected part's `getRandomLocation()` picks a location within it, weighted by each location's `probWeight`.
+
+**The same rule applies at all three tiers**: an entry is drawn with probability `probWeight / (sum of its siblings' probWeight)`. So for an unaimed strike,
+
+```
+P(location) =   zone.probWeight / sum(all zones' probWeight)
+              x part.probWeight / sum(that zone's parts' probWeight)
+              x loc.probWeight  / sum(that part's locations' probWeight)
+```
+
+A zone that carries weight but holds no parts is **excluded** from the roll rather than falling through to a body-wide draw — otherwise its share would leak out and skew every other zone's true frequency. `getRandomZone` still reports it, since it owns real zone numbers and the displayed table must say so.
+
+Two selectors deliberately sit outside this model: aimed strikes (the drift algorithm above bypasses the zone roll), and `getRandomPartByRole`, which is a flat weighted draw over every role-matching part body-wide — it answers "any vital part," not "where did the blow land."
 
 For the broader resolution flow (rolls → wound calculation → effects), see [Combat Resolution Pipeline](./combat-resolution-pipeline.md).
 
@@ -261,7 +278,7 @@ When authoring a new body structure, set the literal `name` field and add the co
 
 The Human body structure is the reference anatomy shipped today — carried on the "Basic Folk" being's `system.body.structure` (authored in [assets/content/Corpora/Human_Folk.md](../../assets/content/Corpora/Human_Folk.md)). Its structure:
 
-| Part shortcode | Name      | Roles         | `combatArea` | Can hold |
+| Part shortcode | Name      | Roles         | `probWeight` | Can hold |
 | -------------- | --------- | ------------- | -----------: | -------- |
 | `headpart`     | Head      | `vital`       |            1 | no       |
 | `torsopart`    | Torso     | `core`        |            4 | no       |
@@ -326,7 +343,7 @@ await beingActor.update(
         favoredFlag: false,
         canHoldItem: false,
         heldItemId: null,
-        combatArea: 1,
+        probWeight: 1,
     }),
 );
 ```

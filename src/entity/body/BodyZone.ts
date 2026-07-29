@@ -31,7 +31,7 @@ import { SohlEntity } from "../SohlEntity";
  * contiguous run of *zone numbers* sized by its {@link BodyZone.Data.probWeight},
  * allocated in persisted order across the whole body — so a body whose zones
  * weigh 3 / 5 / 2 hands out `1–3`, `4–8`, `9–10`. A single roll against
- * {@link sohl.entity.body.BodyStructure.totalZoneWeight} therefore selects a
+ * {@link sohl.entity.body.BodyStructure.maxZoneNumber} therefore selects a
  * zone; the part and location draws follow inside it.
  *
  * **Persistence:** zones are stored in the flat `body.structure.zones` array.

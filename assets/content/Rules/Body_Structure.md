@@ -31,7 +31,7 @@ A body part is the primary anatomical division. A standard humanoid has six part
 
 Each body part has several properties:
 
-**Area.** The body part's targetable surface area, measured in square feet. For a humanoid, the Head is about 1 sq ft, each arm about 2 sq ft, the Torso about 3 sq ft, and each leg about 2 sq ft, for a total body area of roughly 12 sq ft. Larger creatures have proportionally greater area. A bear might total 18 sq ft; a dragon might total 60 or more.
+**Weight.** The body part's share of its zone. Once a zone is struck, each part in it is hit in proportion to its weight — so two equally-weighted arms split their zone evenly, while a heavier part takes more of it. Weight is measured as targetable surface area in square feet, which is also what a weapon's strike accuracy is spent against when a blow scatters. For a humanoid, the Head is about 1 sq ft, each arm about 2 sq ft, the Torso about 3 sq ft, and each leg about 2 sq ft. Larger creatures have proportionally greater area: a bear might total 18 sq ft; a dragon 60 or more.
 
 **Zone.** Each body part belongs to exactly one body zone. The zone is what makes parts neighbours: a blow aimed at one part that scatters (see Determining Hit Location) drifts first to the other parts of the same zone — the left arm scatters to the right arm before it reaches anything else. When a zone holds only one part, or its parts are exhausted, the scatter widens to the neighbouring zones in turn.
 
@@ -47,7 +47,7 @@ Each body part contains several body locations — specific anatomical areas whe
 
 Injuries are always recorded against a specific body location. Armor protection is likewise tracked per location — a mail hauberk covers the thorax and abdomen but not the pelvis, while a helm protects the skull but not the neck. Each body location has several properties that govern how damage is resolved there:
 
-**Probability Weight.** A relative value determining how likely this location is to be struck within its parent body part. Larger or more exposed areas (the skull, the thorax, the thigh) have higher weights than smaller ones (an eye, the elbow, the hand).
+**Probability Weight.** How likely this location is to be struck once its body part is hit — its weight against the sum of the weights of every location in that part. Larger or more exposed areas (the skull, the thorax, the thigh) have higher weights than smaller ones (an eye, the elbow, the hand).
 
 **Shock Value.** The inherent shock inflicted when this location is struck, independent of injury severity. The skull and neck carry high shock values (5); the forearm and calf carry low ones (1). Shock contributes to whether the target must make a Shock test to remain conscious and functional.
 

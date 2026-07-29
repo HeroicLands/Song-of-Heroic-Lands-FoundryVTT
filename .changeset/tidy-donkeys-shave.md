@@ -20,6 +20,15 @@ first-class on the Combat tab: the Body Locations tree renders Zone → Part →
 Location again, with add / edit / delete / drag-sort at every tier and a new
 `BodyZoneConfig` editor.
 
+**One weighting rule at every tier.** All three tiers now spell their weight
+`probWeight`, and each is drawn with probability
+`probWeight / (sum of its siblings' probWeight)` — so an unaimed hit location's
+odds are the product of its zone's, its part's, and its own share. The body
+part's weight field was previously called `combatArea`; that name is gone. A zone
+carrying weight but holding no parts is excluded from the roll rather than
+falling through to a body-wide draw, which would have leaked its share and skewed
+every other zone's true frequency.
+
 **Aimed-strike drift no longer needs a hand-authored graph.** A scattering blow
 drifts to the target part's zone siblings first, then widens outward one zone at
 a time. Creature authors no longer maintain pairwise adjacency: the 240 shipped
@@ -39,5 +48,6 @@ _Breaking:_ `BodyStructure.adjacent`, `getAdjacentParts`, `hasEdge`,
 `addEdgeUpdate`, and `removeEdgeUpdate` are removed — use
 `getNeighborParts` and the zone tree. `BodyPart.Data.locations` and
 `BodyPart.Options.structure` are replaced by `bodyZoneCode` / `zone`; a part's
-locations are supplied by the structure. Hit-location shortcodes must now be
-unique body-wide rather than only within their part.
+locations are supplied by the structure. `BodyPart.Data.combatArea` is renamed
+`probWeight`. Hit-location shortcodes must now be unique body-wide rather than
+only within their part.

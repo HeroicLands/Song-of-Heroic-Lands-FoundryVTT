@@ -36,7 +36,7 @@ const BodyPartConfig_Base: any =
  * writes back immediately, so there is no Save button and the window stays open.
  *
  * Patterned on {@link sohl.apps.foundry.StrikeModeConfig}. It edits only the
- * part's own scalar fields (name, shortcode, roles, flags, area/weight); the
+ * part's own scalar fields (name, shortcode, roles, flags, weight); the
  * part's child **locations** are managed from the Combat-tab tree and edited by
  * {@link sohl.apps.foundry.BodyLocationConfig}, and are preserved untouched here.
  *
@@ -119,7 +119,7 @@ export class BodyPartConfig extends (BodyPartConfig_Base as typeof foundry.appli
     /**
      * The persisted part data currently stored under {@link #key}, read live
      * from the actor's DataModel so each render reflects the persisted state
-     * (including `combatArea`, which the {@link BodyPart} entity does not expose).
+     * (including the raw `probWeight`, which the {@link BodyPart} entity exposes only as a derived modifier).
      * @returns The part data, or `undefined` if not found.
      */
     #currentData(): BodyPart.Data | undefined {
@@ -204,7 +204,7 @@ export class BodyPartConfig extends (BodyPartConfig_Base as typeof foundry.appli
             name: String(submitted.name ?? "").trim() || part.name,
             shortcode: plan.shortcode,
             roles,
-            combatArea: Math.max(0, Number(submitted.combatArea) || 0),
+            probWeight: Math.max(0, Number(submitted.probWeight) || 0),
             permanentImpairment: Math.min(
                 0,
                 Math.round(Number(submitted.permanentImpairment) || 0),

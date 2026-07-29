@@ -56,7 +56,7 @@ describe("BodyStructure", () => {
             const body = makeBody();
             expect(body.zones[0].zoneNumbers).toEqual([1]);
             expect(body.zones[1].zoneNumbers).toEqual([2, 3]);
-            expect(body.totalZoneWeight).toBe(3);
+            expect(body.maxZoneNumber).toBe(3);
         });
 
         it("gives an unweighted zone no zone numbers", () => {
@@ -65,7 +65,7 @@ describe("BodyStructure", () => {
             const body = makeBody(data);
             expect(body.zones[0].zoneNumbers).toEqual([]);
             expect(body.zones[1].zoneNumbers).toEqual([1, 2]);
-            expect(body.totalZoneWeight).toBe(2);
+            expect(body.maxZoneNumber).toBe(2);
         });
 
         it("keeps a part whose zone code matches nothing out of the hierarchy", () => {
@@ -115,6 +115,72 @@ describe("BodyStructure", () => {
             expect(body.getZoneByCode("nope")).toBeUndefined();
             expect(body.getPartByCode("nope")).toBeUndefined();
             expect(body.getLocationByCode("nope")).toBeUndefined();
+        });
+
+        it("numbers the zones contiguously 1..maxZoneNumber, with no gaps or overlap", () => {
+            // Weights 3 / 0 / 5 / 2: the zero-weight zone claims nothing and
+            // must not interrupt the run.
+            const body = makeBody({
+                zones: [
+                    zoneData("z1", 3),
+                    zoneData("z0", 0),
+                    zoneData("z2", 5),
+                    zoneData("z3", 2),
+                ],
+                parts: [],
+                locations: [],
+            });
+
+            expect(body.zones.map((z) => z.zoneNumbers)).toEqual([
+                [1, 2, 3],
+                [],
+                [4, 5, 6, 7, 8],
+                [9, 10],
+            ]);
+
+            const all = body.zones.flatMap((z) => z.zoneNumbers);
+            // Unique...
+            expect(new Set(all).size).toBe(all.length);
+            // ...contiguous and monotonically increasing by 1 from 1...
+            expect(all).toEqual(
+                Array.from({ length: all.length }, (_, i) => i + 1),
+            );
+            // ...and maxZoneNumber is that run's N.
+            expect(body.maxZoneNumber).toBe(10);
+            expect(Math.max(...all)).toBe(body.maxZoneNumber);
+
+            // Every number in 1..N resolves to exactly one zone.
+            for (let n = 1; n <= body.maxZoneNumber; n++) {
+                const owners = body.zones.filter((z) => z.ownsZoneNumber(n));
+                expect(owners).toHaveLength(1);
+                expect(body.getZoneByNumber(n)).toBe(owners[0]);
+            }
+        });
+
+        it("maxZoneNumber is 0 for a body with no weighted zones", () => {
+            const body = makeBody({
+                zones: [zoneData("z0", 0)],
+                parts: [],
+                locations: [],
+            });
+            expect(body.maxZoneNumber).toBe(0);
+            expect(body.getZoneByNumber(1)).toBeUndefined();
+        });
+
+        it("getZoneByNumber returns undefined for any number not on the body", () => {
+            const body = makeBody(); // zone numbers 1..3
+            expect(body.maxZoneNumber).toBe(3);
+            for (const n of [
+                0,
+                -1,
+                4,
+                99,
+                1.5,
+                Number.NaN,
+                Number.POSITIVE_INFINITY,
+            ]) {
+                expect(body.getZoneByNumber(n)).toBeUndefined();
+            }
         });
 
         it("resolves a zone from a rolled zone number", () => {
@@ -269,19 +335,99 @@ describe("BodyStructure", () => {
             }
         });
 
-        it("getRandomPart falls back body-wide when the rolled zone is empty", () => {
-            // "emptyzone" owns numbers 1-8 but holds no parts; the draw must
-            // still yield the one real part rather than throwing.
+        it("getRandomOccupiedZone skips zones that hold no parts", () => {
+            // "emptyzone" owns numbers 1-8 but holds no parts, so it must never
+            // be drawn — its share would otherwise leak into a body-wide
+            // fallback and skew every other zone's true frequency.
             const body = makeBody({
                 zones: [zoneData("emptyzone", 8), zoneData("bodyzone", 1)],
                 parts: [partData("thorax", "bodyzone", 30)],
                 locations: [locationData("chest", "thorax", 20)],
             });
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 50; i++) {
+                expect(
+                    body.getRandomOccupiedZone(createRng(`e-${i}`))?.shortcode,
+                ).toBe("bodyzone");
                 expect(
                     body.getRandomPart(undefined, createRng(`e-${i}`))
                         .shortcode,
                 ).toBe("thorax");
+            }
+            // The plain zone roll still reports the empty zone — it owns real
+            // zone numbers and the displayed table must say so.
+            expect(body.getZoneByNumber(1)?.shortcode).toBe("emptyzone");
+        });
+
+        it("getRandomOccupiedZone renormalises over the occupied zones", () => {
+            // Occupied weights are 1 and 3, so the split must be 1:3 — the
+            // empty zone's 2 weight is excluded, not redistributed body-wide.
+            const body = makeBody({
+                zones: [
+                    zoneData("headzone", 1),
+                    zoneData("ghostzone", 2), // weighted but empty
+                    zoneData("legszone", 3),
+                ],
+                parts: [
+                    partData("head", "headzone", 1),
+                    partData("leg", "legszone", 1),
+                ],
+                locations: [],
+            });
+            const counts: Record<string, number> = {};
+            const N = 20_000;
+            for (let i = 0; i < N; i++) {
+                const z = body.getRandomOccupiedZone(createRng(`n-${i}`))!;
+                counts[z.shortcode] = (counts[z.shortcode] ?? 0) + 1;
+            }
+            expect(counts["ghostzone"]).toBeUndefined();
+            expect(counts["headzone"] / N).toBeCloseTo(1 / 4, 1);
+            expect(counts["legszone"] / N).toBeCloseTo(3 / 4, 1);
+        });
+
+        it("getRandomOccupiedZone is undefined when no weighted zone holds a part", () => {
+            const body = makeBody({
+                zones: [zoneData("emptyzone", 8)],
+                parts: [],
+                locations: [],
+            });
+            expect(body.getRandomOccupiedZone()).toBeUndefined();
+        });
+
+        it("weights every tier by probWeight over its siblings' sum", () => {
+            // Lopsided weights at all three tiers, so a mis-wired tier shows up.
+            const body = makeBody({
+                zones: [zoneData("z1", 1), zoneData("z2", 4)],
+                parts: [
+                    partData("p1", "z1", 7), // sole part of z1
+                    partData("p2", "z2", 3),
+                    partData("p3", "z2", 1), // z2 splits 3:1
+                ],
+                locations: [
+                    locationData("l1a", "p1", 9),
+                    locationData("l1b", "p1", 1), // p1 splits 9:1
+                    locationData("l2a", "p2", 1),
+                    locationData("l3a", "p3", 1),
+                ],
+            });
+            const expected: Record<string, number> = {
+                l1a: (1 / 5) * (7 / 7) * (9 / 10),
+                l1b: (1 / 5) * (7 / 7) * (1 / 10),
+                l2a: (4 / 5) * (3 / 4) * (1 / 1),
+                l3a: (4 / 5) * (1 / 4) * (1 / 1),
+            };
+            const N = 40_000;
+            const counts: Record<string, number> = {};
+            for (let i = 0; i < N; i++) {
+                const loc = body.getRandomLocation(
+                    undefined,
+                    createRng(`w-${i}`),
+                );
+                counts[loc.shortcode] = (counts[loc.shortcode] ?? 0) + 1;
+            }
+            for (const [code, p] of Object.entries(expected)) {
+                expect(Math.abs((counts[code] ?? 0) / N - p)).toBeLessThan(
+                    0.02,
+                );
             }
         });
 
@@ -513,10 +659,10 @@ describe("BodyStructure", () => {
             const body = makeBody();
             const parts = body.setPartFieldsUpdate([
                 { index: 0, changes: { canHoldItem: true } },
-                { index: 1, changes: { combatArea: 99 } },
+                { index: 1, changes: { probWeight: 99 } },
             ])["system.body.structure.parts"];
             expect(parts[0].canHoldItem).toBe(true);
-            expect(parts[1].combatArea).toBe(99);
+            expect(parts[1].probWeight).toBe(99);
         });
 
         it("movePartUpdate reorders within a zone", () => {

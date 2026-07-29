@@ -21,7 +21,7 @@ describe("blankBodyPart", () => {
         expect(p.heldItemId).toBeNull();
         expect(p.permanentImpairment).toBe(0);
         expect(p.permanentlyUnusable).toBe(false);
-        expect(p.combatArea).toBe(0);
+        expect(p.probWeight).toBe(0);
         expect(p.bodyZoneCode).toBe("armszone");
     });
 
