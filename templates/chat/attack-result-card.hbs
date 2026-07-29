@@ -178,8 +178,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
     {{/if}} {{#if (or hasAttackInjury hasDefendInjury)}}
     {{!--
-        Injury buttons route to the target actor's `createInjury` handler, which
-        opens the assisted Add Injury dialog from the forwarded { impact, aspect }.
+        Injury buttons route to the target actor's `resolveInjury` handler, which
+        opens the Resolve Injury dialog from the forwarded { impact, aspect }.
         (Stumble/Fumble/Tactical-Advantage follow-up buttons are deferred to a
         later slice; the card still surfaces those as text above.)
     --}}
@@ -187,7 +187,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{#if hasAttackInjury}}
         <button
             id="attacker-injury"
-            data-action="createInjury"
+            data-action="resolveInjury"
             data-handler-uuid="{{attackInjuryHandlerUuid}}"
             data-scope="{{toJSON attackInjuryScope}}">
             Calculate {{attackInjuryTargetName}} Injury
@@ -195,7 +195,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{/if}} {{#if hasDefendInjury}}
         <button
             id="defender-injury"
-            data-action="createInjury"
+            data-action="resolveInjury"
             data-handler-uuid="{{defendInjuryHandlerUuid}}"
             data-scope="{{toJSON defendInjuryScope}}">
             Calculate {{defendInjuryTargetName}} Injury

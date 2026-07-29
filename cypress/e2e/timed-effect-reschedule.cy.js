@@ -47,7 +47,7 @@ describe("Timed-effect reschedule (#579)", () => {
                             type: "trauma",
                             name: "Wound",
                             system: {
-                                subType: "physical",
+                                subType: "injury",
                                 levelBase: 3,
                                 healingRateBase: 4,
                                 treatmentDate: 0,
@@ -141,7 +141,7 @@ describe("Timed-effect reschedule (#579)", () => {
                             type: "trauma",
                             name: "Wound",
                             system: {
-                                subType: "physical",
+                                subType: "injury",
                                 levelBase: 3,
                                 healingRateBase: 4,
                                 treatmentDate: 0,

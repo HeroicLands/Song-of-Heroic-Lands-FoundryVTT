@@ -38,7 +38,7 @@ describe("trauma sheet sub-type localization (#754)", () => {
         cy.createActor("being", { name: "Trauma I18n Being" }).then((actor) => {
             cy.createItemOn(actor, "trauma", {
                 name: "Gash",
-                system: { subType: "physical" },
+                system: { subType: "injury" },
             }).then((trauma) => {
                 renderSheet(trauma.uuid);
                 cy.foundry((win) => {

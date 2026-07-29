@@ -88,20 +88,42 @@ describe("other action cards render with their logic helpers", () => {
 });
 
 describe("dialogs render through the same shim as cards", () => {
-    it("injury-dialog builds real <option> lists (selectOptions) + plain inputs", () => {
-        const html = renderTemplateReal(`${DIALOG}/injury-dialog.hbs`, {
+    it("resolve-injury-dialog builds real <option> lists (selectOptions) + inputs", () => {
+        const html = renderTemplateReal(`${DIALOG}/resolve-injury-dialog.hbs`, {
             hitLocations: [
                 { code: "th", name: "Thorax" },
                 { code: "hd", name: "Head" },
             ],
-            location: "th",
-            aspect: "",
-            aspectChoices: ["blunt", "edged", "piercing"],
+            bodyParts: [
+                { code: "head", name: "Head" },
+                { code: "thorax", name: "Thorax" },
+            ],
+            bodyLocationCode: "th",
+            targetBodyPartCode: "thorax",
+            spread: 6,
+            aspect: "edged",
+            impact: 12,
             armorReduction: 0,
+            treatmentModifier: 0,
+            bleedImpactPenalty: 0,
+            aspectChoices: ["blunt", "edged", "piercing"],
         });
         expect(html).toContain('<option value="th" selected>Thorax</option>');
         expect(html).toContain('<option value="hd">Head</option>');
         expect(html).toContain('name="armorReduction"');
+        expect(html).toContain('name="bleedImpactPenalty"');
+        expect(html).toContain('name="treatmentModifier"');
+        expect(html).toContain('name="autoAddInjury"');
+    });
+
+    it("amputation-test-dialog binds the location + editable modifier", () => {
+        const html = renderTemplateReal(
+            `${DIALOG}/amputation-test-dialog.hbs`,
+            { locationName: "Neck", modifier: -20 },
+        );
+        expect(html).toContain("Neck");
+        expect(html).toContain('name="modifier"');
+        expect(html).toContain('value="-20"');
     });
 
     it("treat-injury-dialog (my Healing Rate input) renders bound", () => {

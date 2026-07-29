@@ -76,7 +76,7 @@ describe("Being sheet header: health bar (#463)", () => {
                         cy.createItemOn(actor, "trauma", {
                             name: "Deep Gash",
                             system: {
-                                subType: "physical",
+                                subType: "injury",
                                 bodyLocationCode: pl.location,
                                 levelBase: 3, // S3 — serious
                                 healingRateBase: 4,

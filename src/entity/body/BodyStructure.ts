@@ -24,6 +24,7 @@ import type { Rng } from "@src/entity/random/Rng";
 import { defaultRng } from "@src/entity/random/createRng";
 import { SohlEntity } from "../SohlEntity";
 import { isA, BASE_INJURY_THRESHOLDS } from "@src/utils/constants";
+import type { BodyRole } from "@src/utils/constants";
 
 /**
  * The complete anatomical structure of a Being — all body parts, their
@@ -150,6 +151,38 @@ export class BodyStructure extends SohlEntity {
      */
     getAllLocations(): BodyLocation[] {
         return this.parts.flatMap((p) => p.locations);
+    }
+
+    /**
+     * Every body part carrying the given {@link sohl.utils.BODY_ROLE} — e.g.
+     * all `VITAL` parts. A part can hold several roles, so a part is included
+     * when its {@link BodyPart.roles} contains `role`.
+     *
+     * @param role - The body-role to filter by (a `BODY_ROLE` value).
+     * @returns The parts with that role, in persisted order (empty if none).
+     */
+    getPartsByRole(role: BodyRole | string): BodyPart[] {
+        return this.parts.filter((p) => p.roles.includes(role));
+    }
+
+    /**
+     * Select a random body part with the given {@link sohl.utils.BODY_ROLE},
+     * weighted by each candidate's `probWeight` (via {@link weightedRandom}).
+     * Used to pick an unaimed target — e.g. a random `VITAL` part for the
+     * Resolve Injury flow when no body part is specified.
+     *
+     * @param role - The body-role to draw from (a `BODY_ROLE` value).
+     * @param rng - The random source; defaults to the shared {@link sohl.random}
+     *   singleton. Inject a seeded generator for a deterministic draw.
+     * @returns A random part with that role, or `undefined` when none exists.
+     */
+    getRandomPartByRole(
+        role: BodyRole | string,
+        rng: Rng = defaultRng(),
+    ): BodyPart | undefined {
+        const candidates = this.getPartsByRole(role);
+        if (candidates.length === 0) return undefined;
+        return weightedRandom(candidates, rng);
     }
 
     /**

@@ -14,23 +14,26 @@
 /**
  * Impact → injury → trauma.
  *
- * `BeingLogic.addInjuryViaDialog` (the sheet's `addInjury` action and the
- * assisted-combat `createInjury` path) opens the Add Injury dialog, resolves the
- * blow through the pure `resolveInjury` pipeline, posts an injury card, and — for
- * a wound of level ≥ 1 with "add to character sheet" — records a `trauma` item.
- * The automated combat path (`onCreateInjury` with an aimed `targetPart` +
- * `spread`) resolves and records with no dialog.
+ * `BeingLogic.resolveInjury` is the single entry point behind the sheet's Add
+ * Injury action, the intrinsic action, and the combat cards' injury buttons. It
+ * seeds its parameters from the action `scope`, derives the hit location (an
+ * explicit `bodyLocationCode`, else the target body part — a random VITAL part
+ * when unspecified — and the strike `spread`), resolves the blow through the pure
+ * `resolveInjury` pipeline, rolls the amputation Strength test for a G5 edged
+ * wound, posts the Resolve Injury card, and — for a wound of level ≥ 1 with
+ * `autoAddInjury` — records a `trauma` item. Unless `skipDialog`, it first opens
+ * the Resolve Injury dialog so a human can confirm/tune the parameters.
  *
- * These cases drive the dialog end to end (open → submit via `cy.submitDialog`)
- * and assert the recorded trauma. The pure resolution *math* — level bands
- * (M1/S2/S3/G4/G5), shock index, the glancing-blow rule, and bleeder/amputation
- * flags — is exhaustively covered by the unit suite
- * (`tests/domain/body/InjuryResolution.test.ts`,
+ * These cases drive both the headless path (`skipDialog: true`) and the dialog
+ * end to end (open → submit via `cy.submitDialog`) and assert the recorded
+ * trauma. The pure resolution *math* — level bands (M1/S2/S3/G4/G5), shock index,
+ * the glancing-blow rule, and bleeder/amputation flags — is exhaustively covered
+ * by the unit suite (`tests/domain/body/InjuryResolution.test.ts`,
  * `tests/document/actor/injury-actions.test.ts`) and is asserted there.
  *
- * The automated case additionally dispatches the `createInjury` action through
- * the **document's** chat-card handler (`SohlActor.onChatCardButton` →
- * `dispatchChatCardAction` → `BeingLogic.createInjury`), exercising the
+ * The combat case additionally dispatches the `resolveInjury` action through the
+ * **document's** chat-card handler (`SohlActor.onChatCardButton` →
+ * `dispatchChatCardAction` → `BeingLogic.resolveInjury`), exercising the
  * actor-addressed chat-card dispatch path (issue #572).
  */
 
@@ -81,24 +84,28 @@ describe("impact → injury → trauma", () => {
         });
     });
 
-    it("Add Injury dialog records a trauma for a level ≥ 1 blow", () => {
+    it("resolveInjury records a trauma for a level ≥ 1 blow (headless)", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
                 const loc =
                     a.logic.body.structure.getAllLocations()[0].shortcode;
-                // Fire the dialog and stash its promise so we can await the whole
-                // flow (dialog → resolve → post card → record trauma).
-                // skipDialog on the 2nd arg pre-answers the schedule offer
-                // (issue #579) so this injury-creation spec doesn't stop on it.
-                win.__injury = a.logic.addInjuryViaDialog(
-                    { location: loc, aspect: "blunt", impact: 20 },
-                    { skipDialog: true },
-                );
+                // Headless resolve (skipDialog) → no dialog opens. `schedule:
+                // false` pre-answers the healing-check offer (issue #579) so the
+                // flow stays dialog-free; `autoAddInjury` defaults from the world
+                // "record trauma" setting (enable) → the wound is recorded.
+                win.__injury = a.logic.resolveInjury({
+                    skipDialog: true,
+                    scope: {
+                        bodyLocationCode: loc,
+                        aspect: "blunt",
+                        impact: 20,
+                        schedule: false,
+                    },
+                });
                 return null;
             });
-            cy.submitDialog("ok");
             cy.foundry((win) =>
                 win.__injury.then(() =>
                     win.game.actors
@@ -111,7 +118,7 @@ describe("impact → injury → trauma", () => {
         });
     });
 
-    it("Add Injury dialog records no trauma for a level-0 blow", () => {
+    it("resolveInjury records no trauma for a level-0 blow (headless)", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
             cy.foundry((win) => {
@@ -120,13 +127,17 @@ describe("impact → injury → trauma", () => {
                     a.logic.body.structure.getAllLocations()[0].shortcode;
                 // A zero-impact blow resolves to no injury (band: ≤0 → none):
                 // the card posts but no trauma is recorded.
-                win.__injury = a.logic.addInjuryViaDialog(
-                    { location: loc, aspect: "blunt", impact: 0 },
-                    { skipDialog: true },
-                );
+                win.__injury = a.logic.resolveInjury({
+                    skipDialog: true,
+                    scope: {
+                        bodyLocationCode: loc,
+                        aspect: "blunt",
+                        impact: 0,
+                        schedule: false,
+                    },
+                });
                 return null;
             });
-            cy.submitDialog("ok");
             cy.foundry((win) =>
                 win.__injury.then(
                     () => win.game.actors.get(actor.id).itemTypes.trauma.length,
@@ -135,46 +146,83 @@ describe("impact → injury → trauma", () => {
         });
     });
 
-    it("automated aimed blow records a trauma with no dialog (via actor chat-card dispatch)", () => {
+    it("Resolve Injury dialog records a trauma when submitted", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
                 const loc =
                     a.logic.body.structure.getAllLocations()[0].shortcode;
-                // An aimed request (targetPart + spread) resolves automatically;
-                // the explicit location override keeps it deterministic (no
-                // scatter roll). The createInjury button carries it as data-scope.
+                // Drive the real Resolve Injury dialog (skipDialog off). The
+                // scope seeds its fields; `schedule: false` pre-answers the
+                // healing-check offer so only the resolve dialog needs a click.
+                win.__injury = a.logic.resolveInjury({
+                    skipDialog: false,
+                    scope: {
+                        bodyLocationCode: loc,
+                        aspect: "blunt",
+                        impact: 20,
+                        schedule: false,
+                    },
+                });
+                return null;
+            });
+            cy.submitDialog("ok");
+            cy.foundry((win) =>
+                win.__injury.then(
+                    () => win.game.actors.get(actor.id).itemTypes.trauma.length,
+                ),
+            ).should("eq", 1);
+        });
+    });
+
+    it("combat injury button opens the Resolve Injury dialog and records on submit", () => {
+        cy.importActor().then((actor) => {
+            cy.prepare(actor);
+            cy.foundry((win) => {
+                const a = win.game.actors.get(actor.id);
+                const structure = a.logic.body.structure;
+                // Real body-part + location shortcodes (production forwards an
+                // aimed part that exists; the action errors on an unknown one). A
+                // non-amputable location keeps a G5 edged wound to the single
+                // Resolve Injury dialog (no follow-up amputation prompt).
+                const part = structure.parts[0].shortcode;
+                const locs = structure.getAllLocations();
+                const loc = (
+                    locs.find((l) => l.amputability === "none") || locs[0]
+                ).shortcode;
+                // The combat injury button forwards impact/aspect + an aimed
+                // targetPart/spread as data-scope; the explicit location keeps it
+                // deterministic. Under the unified action it opens the Resolve
+                // Injury dialog (a human confirms) rather than resolving silently.
+                // `schedule: false` pre-answers the healing-check offer.
                 const btn = win.document.createElement("button");
-                btn.dataset.action = "createInjury";
+                btn.dataset.action = "resolveInjury";
                 btn.dataset.scope = JSON.stringify({
                     impact: 20,
                     aspect: "edged",
-                    targetPart: "head",
+                    targetPart: part,
                     spread: 0,
                     location: loc,
-                    // Pre-answer the schedule offer (issue #579) so this
-                    // "no dialog" automated path stays dialog-free.
                     schedule: false,
                 });
                 // Dispatch through the *document's* chat-card handler — the real
                 // click path — exercising SohlActor.onChatCardButton →
-                // dispatchChatCardAction → BeingLogic.createInjury (issue #572).
-                return a.onChatCardButton(btn).then(() => ({
-                    dialogs: Array.from(
-                        win.foundry.applications.instances.values(),
-                    ).filter((x) => /dialog/i.test(x.constructor.name)).length,
-                    traumaCount: a.itemTypes.trauma.length,
-                }));
-            }).should((r) => {
-                expect(r.dialogs, "no dialog opened").to.eq(0);
-                expect(r.traumaCount, "one trauma recorded").to.eq(1);
+                // dispatchChatCardAction → BeingLogic.resolveInjury (issue #572).
+                win.__injury = a.onChatCardButton(btn);
+                return null;
             });
+            cy.submitDialog("ok");
+            cy.foundry((win) =>
+                win.__injury.then(
+                    () => win.game.actors.get(actor.id).itemTypes.trauma.length,
+                ),
+            ).should("eq", 1);
         });
     });
 
     // RED — blocked by #186: the attacker's landing (non-counterstrike) blow
-    // should emit a createInjury button, but buildCombatCardData hard-codes
+    // should emit a resolveInjury button, but buildCombatCardData hard-codes
     // `hasAttackInjury: false` (SohlCombatantLogic.ts:1501,1563) — only the
     // defend-side injury fields are live.
     it.skip("attacker's landing blow emits an injury button (#186)", () => {});

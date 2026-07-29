@@ -68,9 +68,13 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
             initial: null,
             min: 0,
         }),
+        // Treatment modifier applied to this wound's treatment test. Nullable
+        // with a `null` default meaning "no modifier" (reads coalesce via
+        // `?? 0`); may be negative, so no `min`.
         treatmentModifierBase: new NumberField({
             integer: true,
-            initial: 0,
+            nullable: true,
+            initial: null,
         }),
         // The damage aspect that caused an injury. Nullable: descriptive
         // conditions have no damage aspect (`null`).
@@ -126,6 +130,7 @@ export class TraumaDataModel<
     category!: string | null;
     levelBase!: number | null;
     healingRateBase!: number | null;
+    treatmentModifierBase!: number | null;
     aspect!: ImpactAspect | null;
     contractDate!: number | null;
     treatmentDate!: number | null;

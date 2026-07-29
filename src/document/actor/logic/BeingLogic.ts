@@ -47,6 +47,7 @@ import {
     fvttToggleActorStatus,
     fvttWorldTime,
     fvttLogicFromUuidSync,
+    fvttGetSetting,
 } from "@src/core/FoundryHelpers";
 import {
     TREATMENT_HEAL,
@@ -96,6 +97,7 @@ import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatan
 import {
     ACTION_SUBTYPE,
     ATTRIBUTE_CODE,
+    BODY_ROLE,
     CRITICAL_FAILURE,
     STATUS_EFFECT,
     IMPACT_ASPECT,
@@ -157,15 +159,17 @@ import { postActionCard } from "@src/document/chat/action-card";
 import { SELF_HANDLER } from "@src/document/chat/chat-card-dispatch";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import {
+    AmputationCardInfo,
     buildInjuryCardData,
+    buildResolveInjuryData,
     createTraumaFromInjury,
     getActorBodyStructure,
-    InjuryDialogForm,
-    isAutomatedRequest,
-    parseInjuryRequest,
-    readInjuryDialogForm,
-    resolveAutomatedInjury,
+    readResolveInjuryForm,
+    ResolveInjuryData,
 } from "@src/document/actor/logic/injury-actions";
+import { amputationOutcome } from "@src/entity/body/injury-defaults";
+import type { BodyStructure } from "@src/entity/body/BodyStructure";
+import type { BodyLocation } from "@src/entity/body/BodyLocation";
 import {
     offerSchedule,
     type OfferContext,
@@ -174,7 +178,7 @@ import { armScheduledActions } from "@src/entity/event/scheduled-actions";
 import { toFilePath, defaultToJSON } from "@src/utils/helpers";
 import {
     ResolvedInjury,
-    resolveInjury,
+    resolveInjury as resolveInjuryOutcome,
 } from "@src/entity/body/injury-resolution";
 import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import type { ImpactResult } from "@src/entity/result/ImpactResult";
@@ -617,7 +621,7 @@ export class BeingLogic<
             targetName: context.target?.name ?? "",
             handlerUuid: context.target?.actorLogic?.uuid ?? "",
             sourceActorUuid: this.uuid,
-            // The createInjury button's `scope` payload: a plain injury request
+            // The resolveInjury button's `scope` payload: a plain injury request
             // built from the impact (matching `injuryButton`), aimed hit-location
             // forwarded when present so the handler can resolve automatically.
             scopeData: defaultToJSON({
@@ -1978,12 +1982,12 @@ export class BeingLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
-                shortcode: "createInjury",
+                shortcode: "resolveInjury",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Being.Action.createInjury",
+                title: "SOHL.Being.Action.resolveInjury",
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-bandage",
-                executor: "createInjury",
+                executor: "resolveInjury",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
@@ -2301,19 +2305,31 @@ export class BeingLogic<
     }
 
     /**
-     * Resolve and post an injury from a chat-card `createInjury` action. The
-     * action's `scope` payload (a plain injury request, revived from the button's
-     * `data-scope`) discriminates the two modes: an automated request (aimed
-     * `targetPart` + `spread`) resolves with no player input; an assisted request
-     * opens the Add Injury dialog so the GM can pick the location and tune armor
-     * reduction.
+     * **Resolve Injury** — generate a wound on this being from a blow, the single
+     * entry point behind the intrinsic action, the combat cards' injury buttons,
+     * and the sheet's Add Injury. The action's `scope` seeds the parameters (a
+     * combat button forwards `impact`/`aspect` plus an aimed `targetPart` +
+     * `spread`; the manual paths start from defaults); unless `skipDialog`, a
+     * dialog lets a human confirm and tune them.
+     *
+     * The flow (see the Injury rules): resolve the hit location (an explicit
+     * `bodyLocationCode`, else derived from the target body part — a random
+     * `VITAL` part when unspecified — and the strike `spread`); subtract armor
+     * (an `armorReduction` applies only to a piercing aspect) to get the injury
+     * level and severity; judge bleeding on a separately-boosted impact
+     * (`bleedImpactPenalty`); and for a G5 edged wound at an amputable location,
+     * roll a **Strength test** whose result may sever the location (fatal if it
+     * is vital), make it bleed, or penalize the Shock Roll. It then records the
+     * Trauma (when `autoAddInjury`) with the given treatment modifier and posts
+     * the Resolve Injury card. Nothing is recorded for a no-injury result.
      *
      * Dispatched as a normal chat-card action through the shared
      * {@link sohl.document.chat.dispatchChatCardAction} chokepoint (issue #572).
      *
-     * @param context - The action context; its `scope` carries the injury request.
+     * @param context - The action context; its `scope` seeds the injury
+     *   parameters and `skipDialog` bypasses the configuration dialogs.
      */
-    async createInjury(context: SohlActionContext): Promise<void> {
+    async resolveInjury(context: SohlActionContext): Promise<void> {
         const body = getActorBodyStructure(this);
         if (!body) {
             sohl.log.uiWarn(
@@ -2322,34 +2338,198 @@ export class BeingLogic<
             return;
         }
 
-        const req = parseInjuryRequest(context.scope);
-        if (!req) {
+        // Seed the parameters from the scope + the world's record-trauma default.
+        const recordSetting = fvttGetSetting("sohl", "recordTrauma");
+        const data = buildResolveInjuryData(
+            context.scope,
+            recordSetting !== "disable",
+        );
+
+        // A supplied body part or location must exist.
+        if (
+            data.targetBodyPartCode &&
+            !body.getPartByCode(data.targetBodyPartCode)
+        ) {
             sohl.log.uiWarn(
-                `SoHL | createInjury action on ${this.name} carried no valid injury request.`,
+                `${this.name}: unknown body part "${data.targetBodyPartCode}".`,
+            );
+            return;
+        }
+        if (
+            data.bodyLocationCode &&
+            !this.findLocation(body, data.bodyLocationCode)
+        ) {
+            sohl.log.uiWarn(
+                `${this.name}: unknown hit location "${data.bodyLocationCode}".`,
             );
             return;
         }
 
-        // Automated: aim was forwarded, so resolve and record with no dialog.
-        if (isAutomatedRequest(req)) {
-            const injury = resolveAutomatedInjury(req, body);
-            await this.postInjury(injury, injury.level >= 1);
-            if (injury.level >= 1)
-                await createTraumaFromInjury(this, injury, context);
+        // Derive the hit location from the target part + spread when not given.
+        // With no target part either, aim at a random VITAL part.
+        if (!data.bodyLocationCode) {
+            const targetPart =
+                data.targetBodyPartCode ?
+                    body.getPartByCode(data.targetBodyPartCode)
+                :   body.getRandomPartByRole(BODY_ROLE.VITAL);
+            if (targetPart) data.targetBodyPartCode = targetPart.shortcode;
+            const location =
+                targetPart ?
+                    body.getRandomLocation({
+                        targetPart,
+                        spread: data.spread,
+                    })
+                :   body.getRandomLocation();
+            data.bodyLocationCode = location.shortcode;
+        }
+
+        // Confirm/tune via the dialog; flag a manual location override.
+        const derivedLocationCode = data.bodyLocationCode;
+        if (!context.skipDialog) {
+            const form = (await dialog({
+                title: `${this.name}: ${sohl.i18n.localize("SOHL.Being.Action.resolveInjury")}`,
+                template: toFilePath(
+                    "systems/sohl/templates/dialog/resolve-injury-dialog.hbs",
+                ),
+                data: {
+                    hitLocations: body
+                        .getAllLocations()
+                        .map((l) => ({ code: l.shortcode, name: l.name })),
+                    bodyParts: body.parts.map((p) => ({
+                        code: p.shortcode,
+                        name: p.name,
+                    })),
+                    aspectChoices: Object.values(IMPACT_ASPECT),
+                    ...data,
+                },
+                callback: (formData: PlainObject) =>
+                    readResolveInjuryForm(formData),
+                rejectClose: false,
+            })) as ResolveInjuryData | null;
+            if (!form) return; // dismissed
+            Object.assign(data, form);
+        }
+        data.bodyLocationOverriden =
+            data.bodyLocationCode !== derivedLocationCode;
+
+        const location = this.findLocation(body, data.bodyLocationCode);
+        if (!location) {
+            sohl.log.uiWarn(
+                `${this.name}: unknown hit location "${data.bodyLocationCode}".`,
+            );
             return;
         }
 
-        // Assisted: let the player confirm location, aspect, impact, and armor.
-        await this.addInjuryViaDialog(
-            {
-                location: req.location ?? "",
-                aspect: req.aspect,
-                impact: req.impact,
-                armorReduction: req.armorReduction ?? 0,
-                extraBleedRisk: !!req.extraBleedRisk,
-            },
-            context,
-        );
+        // Resolve the injury. Armor reduction applies only to a piercing aspect.
+        const injury = resolveInjuryOutcome({
+            impact: data.impact,
+            aspect: data.aspect,
+            body,
+            location,
+            armorReduction:
+                data.aspect === IMPACT_ASPECT.PIERCING ?
+                    data.armorReduction
+                :   0,
+            bleedImpactPenalty: data.bleedImpactPenalty,
+        });
+
+        // A G5 edged wound at an amputable location triggers a Strength test.
+        let amputation: AmputationCardInfo | undefined;
+        let finalBleeder = injury.isBleeder;
+        if (injury.canAmputate) {
+            const outcome = await this.rollAmputation(
+                injury,
+                location,
+                context.skipDialog,
+            );
+            if (outcome) {
+                amputation = {
+                    severed: outcome.severed,
+                    died: outcome.dies,
+                    shockPenalty: outcome.shockPenalty,
+                };
+                if (outcome.bleeder) finalBleeder = true;
+                if (outcome.dies) await this.setShockState(SHOCK_STATE.DEAD);
+            }
+        }
+
+        // Record the Trauma (only for an actual wound), then post the card.
+        const recorded = data.autoAddInjury && injury.level >= 1;
+        if (recorded) {
+            await createTraumaFromInjury(this, injury, context, {
+                treatmentModifier: data.treatmentModifier,
+                isBleeder: finalBleeder,
+            });
+        }
+        await this.postResolveInjuryCard(injury, data, {
+            recorded,
+            finalBleeder,
+            amputation,
+        });
+    }
+
+    /**
+     * Roll the amputation **Strength test** for a G5 edged wound at an amputable
+     * location. Unless `skipDialog`, first opens the Amputation Test dialog so a
+     * human can tune the modifier (seeded from the location's amputability). Rolls
+     * the being's Strength attribute headlessly at that modifier and maps the
+     * result via {@link sohl.entity.body.amputationOutcome}. Returns `undefined`
+     * when the being has no Strength attribute (the card then shows a manual note).
+     *
+     * @param injury - The resolved G5 injury.
+     * @param location - The struck location (its part's `VITAL` role decides fatality).
+     * @param skipDialog - When true, use the base modifier and roll with no prompt.
+     * @returns The amputation outcome, or `undefined` if it could not be rolled.
+     */
+    private async rollAmputation(
+        injury: ResolvedInjury,
+        location: BodyLocation,
+        skipDialog: boolean,
+    ): Promise<ReturnType<typeof amputationOutcome> | undefined> {
+        let modifier = injury.amputationModifier ?? 0;
+        if (!skipDialog) {
+            const form = (await dialog({
+                title: `${this.name}: ${sohl.i18n.localize("SOHL.Being.Action.amputationTest")}`,
+                template: toFilePath(
+                    "systems/sohl/templates/dialog/amputation-test-dialog.hbs",
+                ),
+                data: { locationName: location.name, modifier },
+                callback: (formData: PlainObject) => formData,
+                rejectClose: false,
+            })) as { modifier?: unknown } | null;
+            if (form && Number.isFinite(Number(form.modifier))) {
+                modifier = Number(form.modifier);
+            }
+        }
+
+        const strMl = (
+            this.getItemLogic(ATTRIBUTE_CODE.STRENGTH, ITEM_KIND.ATTRIBUTE) as
+                | AttributeLogic
+                | undefined
+        )?.masteryLevel?.effective;
+        if (strMl == null) return undefined;
+
+        const result = await rollTimedTest(this, strMl, {
+            type: "amputation",
+            title: sohl.i18n.localize("SOHL.Being.Action.amputationTest"),
+            situationalModifier: modifier,
+        });
+        if (!result) return undefined;
+
+        return amputationOutcome(result.normSuccessLevel, {
+            isVital: location.bodyPart.roles.includes(BODY_ROLE.VITAL),
+            bleedRisk: injury.bleedRisk,
+        });
+    }
+
+    /**
+     * Find a hit location on a body by shortcode.
+     * @param body - The being's body structure.
+     * @param code - The hit-location shortcode.
+     * @returns The matching location, or `undefined`.
+     */
+    private findLocation(body: BodyStructure, code: string) {
+        return body.getAllLocations().find((l) => l.shortcode === code);
     }
 
     /* --------------------------------------------- */
@@ -2585,96 +2765,35 @@ export class BeingLogic<
     }
 
     /**
-     * Open the Add Injury dialog, resolve the player's input into an injury,
-     * post the injury card, and (when requested) record the Trauma. Shared by
-     * the assisted-combat `createInjury` flow and the character sheet's manual
-     * Add Injury action. Pre-fills the dialog from `prefill`; an empty prefill
-     * yields a blank manual-entry dialog.
-     * @param options - Initial values to pre-fill the dialog with.
-     * @param options.location - The hit-location shortcode.
-     * @param options.aspect - The weapon impact aspect.
-     * @param options.impact - The raw impact total.
-     * @param options.armorReduction - Manual armor reduction.
-     * @param options.extraBleedRisk - Force the wound to bleed.
-     * @param context - Forwarded to the schedule offer (issue #579) so a
-     *   scripted caller can pre-answer or suppress it; the interactive path prompts.
-     */
-    async addInjuryViaDialog(
-        options: Partial<{
-            location: string;
-            aspect: string;
-            impact: number;
-            armorReduction: number;
-            extraBleedRisk: boolean;
-        }> = {},
-        context: OfferContext = {},
-    ): Promise<void> {
-        const body = getActorBodyStructure(this);
-        if (!body) {
-            sohl.log.uiWarn(
-                `${this.name} is incorporeal (no body structure); cannot add an injury.`,
-            );
-            return;
-        }
-
-        const dialogData = {
-            hitLocations: body
-                .getAllLocations()
-                .map((l) => ({ code: l.shortcode, name: l.name })),
-            aspectChoices: Object.values(IMPACT_ASPECT),
-            location: options.location ?? "",
-            aspect: options.aspect ?? "",
-            impactVal: options.impact ?? 0,
-            armorReduction: options.armorReduction ?? 0,
-            extraBleedRisk: !!options.extraBleedRisk,
-            addToCharSheet: true,
-            askRecordInjury: true,
-        };
-
-        const form = (await dialog({
-            title: `${this.name}: Add Injury`,
-            template: toFilePath(
-                "systems/sohl/templates/dialog/injury-dialog.hbs",
-            ),
-            data: dialogData,
-            callback: (data: PlainObject) => readInjuryDialogForm(data),
-            rejectClose: false,
-        })) as InjuryDialogForm | null;
-        if (!form) return;
-        const location = body
-            .getAllLocations()
-            .find((l) => l.shortcode === form.locationCode);
-        const injury = resolveInjury({
-            impact: form.impact,
-            aspect: form.aspect,
-            body,
-            location,
-            armorReduction: form.armorReduction,
-            extraBleedRisk: form.extraBleedRisk,
-        });
-        await this.postInjury(injury, form.addToCharSheet);
-        if (form.addToCharSheet && injury.level >= 1)
-            await createTraumaFromInjury(this, injury, context);
-    }
-
-    /**
-     * Post an `injury-card` to chat for a resolved injury on this actor.
+     * Post the Resolve Injury result card for a resolved injury on this actor.
      * @param injury - The resolved injury to render.
-     * @param addToCharSheet - Whether the injury was recorded on the sheet.
+     * @param data - The resolve-injury parameters (for the card's echoed values).
+     * @param result - The post-resolution outcome.
+     * @param result.recorded - Whether the Trauma was recorded on the sheet.
+     * @param result.finalBleeder - Final bleeder disposition (amputation may set it).
+     * @param result.amputation - The performed amputation outcome, if any.
      */
-    private async postInjury(
+    private async postResolveInjuryCard(
         injury: ResolvedInjury,
-        addToCharSheet: boolean,
+        data: ResolveInjuryData,
+        result: {
+            recorded: boolean;
+            finalBleeder: boolean;
+            amputation?: AmputationCardInfo;
+        },
     ): Promise<void> {
-        const data = buildInjuryCardData(injury, {
+        const cardData = buildInjuryCardData(injury, {
             actorId: this.id,
             handlerActorUuid: this.uuid,
             name: this.name ?? "",
-            addToCharSheet,
+            addToCharSheet: result.recorded,
+            isBleeder: result.finalBleeder,
+            treatmentModifier: data.treatmentModifier,
+            amputation: result.amputation,
         });
         await this.speaker.toChat(
             toFilePath("systems/sohl/templates/chat/injury-card.hbs"),
-            data,
+            cardData,
         );
     }
 }

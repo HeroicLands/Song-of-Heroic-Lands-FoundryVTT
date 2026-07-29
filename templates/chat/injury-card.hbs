@@ -95,7 +95,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
         {{#if shockRollBonus}}
         <div class="flexrow">
-            <span class="note">+{{shockRollBonus}} to the Shock roll (glancing blow).</span>
+            <span class="note">{{#if (gt shockRollBonus 0)}}+{{/if}}{{shockRollBonus}} Shock roll modifier.</span>
         </div>
         {{/if}}
     </div>
@@ -137,14 +137,32 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
     {{/unless}}
 
-    {{#if canAmputate}}
+    {{#if amputationTested}}
+    <div class="card-content center">
+        {{#if amputationSevered}}
+        <span class="note failure-text"
+            >Amputation: {{bodyZoneName}} severed!{{#if amputationDied}}<br
+            />The victim is slain.{{/if}}</span
+        >
+        {{else}}
+        <span class="note success-text"
+            >Amputation resisted: {{bodyZoneName}} not severed.</span
+        >
+        {{/if}}
+    </div>
+    {{else if canAmputate}}
     <div class="card-content center">
         <span class="note failure-text"
-            >NOTE: Perform Strength test<br />
-            {{#if amputationModifier}} with a {{amputationModifier}} modifier<br />
-            {{/if}} to determine if limb is amputated<br />
-            (you will have to make this roll manually).</span
+            >NOTE: an amputation Strength test applies{{#if amputationModifier}}
+            (with a {{amputationModifier}} modifier){{/if}}, but could not be
+            rolled automatically (no Strength attribute).</span
         >
+    </div>
+    {{/if}}
+
+    {{#if treatmentModifier}}
+    <div class="card-content center">
+        <span class="note">Treatment modifier: {{treatmentModifier}}</span>
     </div>
     {{/if}}
 

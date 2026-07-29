@@ -1655,7 +1655,7 @@ export interface TraumaData<
     levelBase: number | null;
     /** Base rate of wound healing per time period; `null` until established. */
     healingRateBase: number | null;
-    /** Treatment modifier for the trauma. */
+    /** Treatment modifier for the trauma; `null` (or 0) means no modifier. */
     treatmentModifierBase: number | null;
     /** Type of damage: Blunt, Edged, Piercing, or Fire; `null` for non-injuries. */
     aspect: ImpactAspect | null;

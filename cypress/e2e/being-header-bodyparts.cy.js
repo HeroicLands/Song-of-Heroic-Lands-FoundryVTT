@@ -63,7 +63,7 @@ describe("Being sheet header: body-part impairment grid (#464)", () => {
                 cy.createItemOn(actor, "trauma", {
                     name: "Cleft Skull",
                     system: {
-                        subType: "physical",
+                        subType: "injury",
                         bodyLocationCode: pl.location,
                         levelBase: 4, // G4 — grievous → unusable
                         healingRateBase: 4,
@@ -84,7 +84,7 @@ describe("Being sheet header: body-part impairment grid (#464)", () => {
                 cy.createItemOn(actor, "trauma", {
                     name: "Bruise",
                     system: {
-                        subType: "physical",
+                        subType: "injury",
                         bodyLocationCode: pl.location,
                         levelBase: 1, // M1 — minor
                         healingRateBase: 5, // slow-healing → impairs

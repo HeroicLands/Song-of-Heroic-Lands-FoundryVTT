@@ -14,7 +14,6 @@
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import {
-    resolveInjury,
     buildTraumaData,
     type ResolvedInjury,
 } from "@src/entity/body/injury-resolution";
@@ -31,43 +30,43 @@ import {
 } from "@src/document/item/logic/offer-schedule";
 
 /**
- * The forward-carried payload of a chat-card `createInjury` button
- * (`data-test-result-json`). Both combat modes serialize an injury request
- * here; the presence of {@link InjuryRequest.targetPart} + `spread`
- * discriminates an automated request (resolve with no dialog) from an
- * assisted one (open the Add Injury dialog).
+ * The parameter bag driving the **Resolve Injury** flow — the single vocabulary
+ * shared by the action's scope payload, its configuration dialog, and its result
+ * card. A chat-card injury button serializes the blow into this shape
+ * (`impact`/`aspect` plus an aimed `targetBodyPartCode` + `spread`); the manual
+ * Actions-tab path starts from defaults; either way the dialog reads and rewrites
+ * it before resolution.
  */
-export interface InjuryRequest {
-    /** Raw impact total delivered by the blow. */
+export interface ResolveInjuryData {
+    /**
+     * The struck hit-location shortcode. Empty when unspecified — the flow then
+     * derives it from {@link targetBodyPartCode} + {@link spread}.
+     */
+    bodyLocationCode: string;
+    /** Strike spread governing scatter from the target part (default 6). */
+    spread: number;
+    /**
+     * The aimed body-part shortcode. Empty when unspecified — the flow then
+     * picks a random `VITAL` part.
+     */
+    targetBodyPartCode: string;
+    /** Raw impact total delivered by the blow, before armor (default 0). */
     impact: number;
-    /** Weapon damage aspect. */
+    /** Weapon damage aspect (default Blunt). */
     aspect: ImpactAspect;
-    /** Aimed body-part shortcode (automated combat only). */
-    targetPart?: string;
-    /** Strike spread governing scatter (automated combat only). */
-    spread?: number;
-    /** Explicit hit-location shortcode override. */
-    location?: string;
-    /** Manual armor reduction. */
-    armorReduction?: number;
-    /** Force the wound to bleed. */
-    extraBleedRisk?: boolean;
-}
-
-/** The normalized result of reading the Add Injury dialog form. */
-export interface InjuryDialogForm {
-    /** Shortcode of the chosen hit location. */
-    locationCode: string;
-    /** Weapon damage aspect. */
-    aspect: ImpactAspect;
-    /** Raw impact total. */
-    impact: number;
-    /** Manual armor reduction. */
+    /** Armor reduction, applied to the location's armor **only for a piercing
+     *  aspect** (default 0). */
     armorReduction: number;
-    /** Force the wound to bleed. */
-    extraBleedRisk: boolean;
-    /** Whether to record the resulting Trauma on the character sheet. */
-    addToCharSheet: boolean;
+    /** Treatment modifier to seed on the resulting Trauma (default 0). */
+    treatmentModifier: number;
+    /** Extra impact added when determining whether the wound bleeds (default 0). */
+    bleedImpactPenalty: number;
+    /** Whether to record the resulting Trauma on the character sheet. Seeded
+     *  from the world's "record trauma" setting; the dialog may override it. */
+    autoAddInjury: boolean;
+    /** Set true when the dialog changed {@link bodyLocationCode} away from the
+     *  derived/aimed location (a manual GM override). */
+    bodyLocationOverriden: boolean;
 }
 
 /**
@@ -90,74 +89,98 @@ function toAspect(value: unknown): ImpactAspect {
     return isImpactAspect(s) ? (s as ImpactAspect) : IMPACT_ASPECT.BLUNT;
 }
 
+/** Default strike spread when the caller supplies none. */
+export const DEFAULT_INJURY_SPREAD = 6;
+
 /**
- * Parse a chat-card `data-scope` payload into an {@link InjuryRequest}.
- * Accepts an already-revived scope object or a raw JSON string; returns `null`
- * when the payload is missing or not valid. Pure and Foundry-free.
- * @param input - The revived `data-scope` object, or a raw JSON string.
- * @returns The parsed request, or `null` if missing or invalid.
+ * Seed a {@link ResolveInjuryData} from an action `scope` payload and the
+ * world's auto-record default. Accepts an already-revived scope object or a raw
+ * JSON string (a chat-card `data-scope`); unknown/blank fields fall back to the
+ * spec defaults. Reads both the resolve-injury vocabulary
+ * (`bodyLocationCode`/`targetBodyPartCode`) and the combat wire aliases
+ * (`location`/`targetPart`), so a combat injury button and the manual path feed
+ * the same shape. Pure and Foundry-free.
+ *
+ * @param input - The revived scope object, a raw JSON string, or nothing.
+ * @param autoAddInjury - The world default for recording the Trauma (from the
+ *   "record trauma" setting); the dialog may still override it.
+ * @returns The seeded resolve-injury parameters (never `bodyLocationOverriden`).
  */
-export function parseInjuryRequest(input: unknown): InjuryRequest | null {
-    // Accept either an already-parsed scope object (the `data-scope` payload,
-    // revived by the dispatch handler) or a raw JSON string.
-    let raw: Record<string, unknown>;
+export function buildResolveInjuryData(
+    input: unknown,
+    autoAddInjury: boolean,
+): ResolveInjuryData {
+    let raw: Record<string, unknown> = {};
     if (typeof input === "string") {
-        if (!input.trim()) return null;
-        try {
-            raw = JSON.parse(input);
-        } catch {
-            return null;
+        if (input.trim()) {
+            try {
+                raw = JSON.parse(input);
+            } catch {
+                raw = {};
+            }
         }
     } else if (input && typeof input === "object") {
         raw = input as Record<string, unknown>;
-    } else {
-        return null;
     }
-    if (!raw || typeof raw !== "object") return null;
-    const req: InjuryRequest = {
+
+    const str = (v: unknown): string => (typeof v === "string" && v ? v : "");
+    return {
+        bodyLocationCode: str(raw.bodyLocationCode ?? raw.location),
+        spread:
+            raw.spread != null && Number.isFinite(Number(raw.spread)) ?
+                Number(raw.spread)
+            :   DEFAULT_INJURY_SPREAD,
+        targetBodyPartCode: str(raw.targetBodyPartCode ?? raw.targetPart),
         impact: toInt(raw.impact),
         aspect: toAspect(raw.aspect),
+        armorReduction: toInt(raw.armorReduction),
+        treatmentModifier: toInt(raw.treatmentModifier),
+        bleedImpactPenalty: toInt(raw.bleedImpactPenalty),
+        autoAddInjury,
+        bodyLocationOverriden: false,
     };
-    if (typeof raw.targetPart === "string" && raw.targetPart)
-        req.targetPart = raw.targetPart;
-    if (raw.spread != null && Number.isFinite(Number(raw.spread)))
-        req.spread = Number(raw.spread);
-    if (typeof raw.location === "string" && raw.location)
-        req.location = raw.location;
-    if (raw.armorReduction != null)
-        req.armorReduction = toInt(raw.armorReduction);
-    if (raw.extraBleedRisk != null) req.extraBleedRisk = !!raw.extraBleedRisk;
-    return req;
 }
 
 /**
- * Whether an injury request should be resolved automatically (no dialog).
- * Automated combat forwards both an aimed `targetPart` and an `spread`,
- * letting the hit location be rolled with no player input.
- * @param req - The injury request to inspect.
- * @returns True if the request can be resolved without a dialog.
- */
-export function isAutomatedRequest(req: InjuryRequest): boolean {
-    return !!req.targetPart && req.spread != null;
-}
-
-/**
- * Read the Add Injury dialog form into a normalized {@link InjuryDialogForm}.
- * Pure and Foundry-free; takes the plain object produced by `FormDataExtended`.
+ * Read the Resolve Injury dialog form back into {@link ResolveInjuryData}. Pure
+ * and Foundry-free; takes the plain object produced by `FormDataExtended`.
+ * `bodyLocationOverriden` is not a form field — the action sets it by comparing
+ * the returned `bodyLocationCode` against the pre-dialog value.
+ *
  * @param formData - The plain object produced by `FormDataExtended`.
- * @returns The normalized dialog form values.
+ * @returns The normalized dialog values.
  */
-export function readInjuryDialogForm(
+export function readResolveInjuryForm(
     formData: Record<string, unknown>,
-): InjuryDialogForm {
+): ResolveInjuryData {
     return {
-        locationCode: String(formData.location ?? ""),
+        bodyLocationCode: String(formData.bodyLocationCode ?? ""),
+        spread:
+            (
+                formData.spread != null &&
+                Number.isFinite(Number(formData.spread))
+            ) ?
+                Number(formData.spread)
+            :   DEFAULT_INJURY_SPREAD,
+        targetBodyPartCode: String(formData.targetBodyPartCode ?? ""),
+        impact: toInt(formData.impact),
         aspect: toAspect(formData.aspect),
-        impact: toInt(formData.impactVal),
         armorReduction: toInt(formData.armorReduction),
-        extraBleedRisk: !!formData.extraBleedRisk,
-        addToCharSheet: !!formData.addToCharSheet,
+        treatmentModifier: toInt(formData.treatmentModifier),
+        bleedImpactPenalty: toInt(formData.bleedImpactPenalty),
+        autoAddInjury: !!formData.autoAddInjury,
+        bodyLocationOverriden: false,
     };
+}
+
+/** The outcome of a performed amputation Strength test, for the result card. */
+export interface AmputationCardInfo {
+    /** Whether the struck location was severed. */
+    severed: boolean;
+    /** Whether the victim died (a severed vital location). */
+    died: boolean;
+    /** Additional Shock Roll modifier from the test (−20 on a marginal success). */
+    shockPenalty: number;
 }
 
 /** Extra context the chat card needs beyond the resolved injury itself. */
@@ -170,6 +193,13 @@ export interface InjuryCardContext {
     name: string;
     /** Whether the injury was recorded on the character sheet. */
     addToCharSheet: boolean;
+    /** Final bleeder disposition, overriding the injury's own when an
+     *  amputation result makes an otherwise-non-bleeding wound bleed. */
+    isBleeder?: boolean;
+    /** Treatment modifier recorded on the wound (echoed onto the card). */
+    treatmentModifier?: number;
+    /** The performed amputation test's outcome, when the wound triggered one. */
+    amputation?: AmputationCardInfo;
 }
 
 /**
@@ -184,12 +214,19 @@ export interface InjuryCardContext {
  * @param ctx.name - Display name shown in the injury card header.
  * @param ctx.addToCharSheet - When true the injury should be written to the
  *   character sheet as a persistent trauma entry.
+ * @param ctx.isBleeder - Final bleeder disposition (overrides the injury's own).
+ * @param ctx.treatmentModifier - Treatment modifier recorded on the wound.
+ * @param ctx.amputation - The performed amputation test's outcome, if any.
  * @returns The render context for `injury-card.hbs`.
  */
 export function buildInjuryCardData(
     injury: ResolvedInjury,
     ctx: InjuryCardContext,
 ): Record<string, unknown> {
+    // An amputation marginal-success worsens the Shock Roll by −20; fold it into
+    // the shock bonus so the card's Shock Roll button carries the real penalty.
+    const shockBonus =
+        injury.shockRollBonus + (ctx.amputation?.shockPenalty ?? 0);
     return {
         actorId: ctx.actorId,
         handlerActorUuid: ctx.handlerActorUuid,
@@ -206,52 +243,29 @@ export function buildInjuryCardData(
         isGlancingBlow: injury.isGlancingBlow,
         shockIndex: injury.shockIndex,
         needsShockRoll: injury.needsShockRoll,
-        shockRollBonus: injury.shockRollBonus,
+        shockRollBonus: shockBonus,
         // Scope payload for the card's Shock Roll button (#555): the wound's
-        // precomputed shock contribution + glancing-blow roll bonus, which the
-        // being's `injuryShock` handler resolves into a shock-state change.
+        // precomputed shock contribution + glancing-blow roll bonus (and any
+        // amputation shock penalty), which the being's `injuryShock` handler
+        // resolves into a shock-state change.
         shockScope: {
             shockIndex: injury.shockIndex,
-            shockBonus: injury.shockRollBonus,
+            shockBonus,
         },
-        isBleeder: injury.isBleeder,
+        isBleeder: ctx.isBleeder ?? injury.isBleeder,
         stumble: injury.stumble,
         fumble: injury.fumble,
+        // The wound could trigger an amputation test. When one was performed,
+        // the card shows its outcome (severed / died / not severed) rather than
+        // the "roll manually" note.
         canAmputate: injury.canAmputate,
         amputationModifier: injury.amputationModifier,
+        amputationTested: !!ctx.amputation,
+        amputationSevered: !!ctx.amputation?.severed,
+        amputationDied: !!ctx.amputation?.died,
+        treatmentModifier: ctx.treatmentModifier ?? 0,
         addToCharSheet: ctx.addToCharSheet,
     };
-}
-
-/**
- * Resolve an automated {@link InjuryRequest} against a body structure with no
- * player input: the aimed `targetPart` + `spread` roll the hit location, and
- * an explicit `location` shortcode (if present) overrides it. Pure and
- * Foundry-free.
- * @param req - The automated injury request.
- * @param body - The target actor's body structure.
- * @returns The resolved injury.
- */
-export function resolveAutomatedInjury(
-    req: InjuryRequest,
-    body: BodyStructure,
-): ResolvedInjury {
-    const targetPart =
-        req.targetPart ? body.getPartByCode(req.targetPart) : undefined;
-    const location =
-        req.location ?
-            body.getAllLocations().find((l) => l.shortcode === req.location)
-        :   undefined;
-    return resolveInjury({
-        impact: req.impact,
-        aspect: req.aspect,
-        body,
-        targetPart,
-        spread: req.spread,
-        location,
-        armorReduction: req.armorReduction,
-        extraBleedRisk: req.extraBleedRisk,
-    });
 }
 
 /**
@@ -298,19 +312,24 @@ function createInjuryName(injury: ResolvedInjury): string {
  * @param injury - The resolved injury to record.
  * @param context - The creating action's context, forwarded to the schedule
  *   offer so a scripted caller can pre-answer or suppress it; omit to prompt.
+ * @param options - Overrides from the resolving action.
+ * @param options.treatmentModifier - Treatment modifier to seed on the wound.
+ * @param options.isBleeder - Final bleeder disposition (overrides the injury's
+ *   own — e.g. when an amputation makes an otherwise-dry wound bleed).
  * @returns A promise that resolves once the Trauma is created and the offer resolved.
  */
 export async function createTraumaFromInjury(
     logic: any,
     injury: ResolvedInjury,
     context: OfferContext = {},
+    options: { treatmentModifier?: number; isBleeder?: boolean } = {},
 ): Promise<void> {
     let name = createInjuryName(injury);
     const created = await fvttCreateEmbeddedItems(logic, [
         {
             type: ITEM_KIND.TRAUMA,
             name,
-            system: buildTraumaData(injury),
+            system: buildTraumaData(injury, options),
         },
     ]);
     const trauma = created?.[0];

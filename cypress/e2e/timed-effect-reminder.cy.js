@@ -40,7 +40,7 @@ describe("Timed-effect reminder", () => {
                             type: "trauma",
                             name: "Wound",
                             system: {
-                                subType: "physical",
+                                subType: "injury",
                                 levelBase: 3,
                                 healingRateBase: 4,
                                 treatmentDate: 0,
