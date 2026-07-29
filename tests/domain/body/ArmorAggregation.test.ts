@@ -6,63 +6,41 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { brandLogic } from "@tests/mocks/brandLogic";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
+import {
+    locationData,
+    makeBody as makeBodyFixture,
+    partData,
+    zoneData,
+} from "@tests/mocks/bodyFixture";
 import {
     aggregateArmor,
     type ArmorLayer,
 } from "@src/entity/body/armor-aggregation";
 
-const SKULL_LOC = {
-    shortcode: "skull",
-    name: "Skull",
-    bleedingSusceptibility: "medium",
-    amputability: "none",
-    shockValue: 5,
-    probWeight: 10,
-    protectionBase: { blunt: 1, edged: 1, piercing: 1, fire: 0 },
-};
-
-const CHEST_LOC = {
-    shortcode: "chest",
-    name: "Chest",
-    bleedingSusceptibility: "low",
-    amputability: "none",
-    shockValue: 4,
-    probWeight: 20,
-    protectionBase: { blunt: 0, edged: 0, piercing: 0, fire: 0 },
-};
-
 const SAMPLE_DATA: BodyStructure.Data = {
+    zones: [zoneData("headzone", 1), zoneData("bodyzone", 2)],
     parts: [
-        {
-            shortcode: "head",
-            roles: [],
-            canHoldItem: false,
-            heldItemId: null,
-            combatArea: 15,
-            locations: [SKULL_LOC],
-        },
-        {
-            shortcode: "thorax",
-            roles: [],
-            canHoldItem: false,
-            heldItemId: null,
-            combatArea: 30,
-            locations: [CHEST_LOC],
-        },
+        partData("head", "headzone", 15),
+        partData("thorax", "bodyzone", 30),
     ],
-    adjacent: [["head", "thorax"]],
-} as any;
-
-const MOCK_CORPUS_LOGIC = brandLogic({
-    kind: "corpus",
-    actor: null,
-    data: { body: { structure: SAMPLE_DATA } },
-}) as any;
+    locations: [
+        locationData("skull", "head", 10, {
+            name: "Skull",
+            bleedingSusceptibility: "medium",
+            shockValue: 5,
+            protectionBase: { blunt: 1, edged: 1, piercing: 1, fire: 0 },
+        }),
+        locationData("chest", "thorax", 20, {
+            name: "Chest",
+            bleedingSusceptibility: "low",
+            shockValue: 4,
+        }),
+    ],
+};
 
 function makeBody(): BodyStructure {
-    return new BodyStructure(SAMPLE_DATA, { parent: MOCK_CORPUS_LOGIC });
+    return makeBodyFixture(SAMPLE_DATA);
 }
 
 function loc(body: BodyStructure, code: string) {

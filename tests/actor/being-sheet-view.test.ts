@@ -265,27 +265,46 @@ describe("being-sheet-view", () => {
             ...over,
         });
 
+        /** Wrap parts in a single zone — the tree's root tier since #780. */
+        const inZone = (parts: any[], over: Record<string, unknown> = {}) => [
+            {
+                shortcode: "headzone",
+                index: 0,
+                label: "Head Zone",
+                zoneNumbers: [1, 2, 3],
+                parts,
+                ...over,
+            },
+        ];
+
         it("sums natural base + equipped armor per aspect", () => {
-            const tree = buildBodyLocationTree([
-                {
-                    shortcode: "head",
-                    index: 0,
-                    label: "Head",
-                    locations: [
-                        loc({
-                            layers: "Padded, Plate",
-                            base: { blunt: 2, edged: 4, piercing: 3, fire: 3 },
-                            armor: {
-                                blunt: 6,
-                                edged: 12,
-                                piercing: 7,
-                                fire: 7,
-                            },
-                        }),
-                    ],
-                },
-            ]);
-            const row = tree[0].locations[0];
+            const tree = buildBodyLocationTree(
+                inZone([
+                    {
+                        shortcode: "head",
+                        index: 0,
+                        label: "Head",
+                        locations: [
+                            loc({
+                                layers: "Padded, Plate",
+                                base: {
+                                    blunt: 2,
+                                    edged: 4,
+                                    piercing: 3,
+                                    fire: 3,
+                                },
+                                armor: {
+                                    blunt: 6,
+                                    edged: 12,
+                                    piercing: 7,
+                                    fire: 7,
+                                },
+                            }),
+                        ],
+                    },
+                ]),
+            );
+            const row = tree[0].parts[0].locations[0];
             expect(row).toMatchObject({
                 name: "Skull",
                 layers: "Padded, Plate",
@@ -299,15 +318,17 @@ describe("being-sheet-view", () => {
         });
 
         it("leaves totals at the natural base when no armor covers a location", () => {
-            const [part] = buildBodyLocationTree([
-                {
-                    shortcode: "head",
-                    index: 0,
-                    label: "Head",
-                    locations: [loc()],
-                },
-            ]);
-            expect(part.locations[0]).toMatchObject({
+            const [zone] = buildBodyLocationTree(
+                inZone([
+                    {
+                        shortcode: "head",
+                        index: 0,
+                        label: "Head",
+                        locations: [loc()],
+                    },
+                ]),
+            );
+            expect(zone.parts[0].locations[0]).toMatchObject({
                 blunt: 2,
                 edged: 3,
                 piercing: 1,
@@ -317,38 +338,60 @@ describe("being-sheet-view", () => {
         });
 
         it("carries the part label and location order", () => {
-            const tree = buildBodyLocationTree([
-                {
-                    shortcode: "rarm",
-                    index: 1,
-                    label: "Right Arm",
-                    locations: [
-                        loc({ shortcode: "shoulder", name: "Shoulder" }),
-                        loc({ shortcode: "elbow", name: "Elbow" }),
-                    ],
-                },
-            ]);
-            expect(tree[0].label).toBe("Right Arm");
-            expect(tree[0].locations.map((l) => l.name)).toEqual([
+            const tree = buildBodyLocationTree(
+                inZone([
+                    {
+                        shortcode: "rarm",
+                        index: 1,
+                        label: "Right Arm",
+                        locations: [
+                            loc({ shortcode: "shoulder", name: "Shoulder" }),
+                            loc({ shortcode: "elbow", name: "Elbow" }),
+                        ],
+                    },
+                ]),
+            );
+            expect(tree[0].parts[0].label).toBe("Right Arm");
+            expect(tree[0].parts[0].locations.map((l) => l.name)).toEqual([
                 "Shoulder",
                 "Elbow",
             ]);
         });
 
-        it("carries the part and location shortcodes/index for the Edit action", () => {
-            const [part] = buildBodyLocationTree([
-                {
-                    shortcode: "rarm",
-                    index: 1,
-                    label: "Right Arm",
-                    locations: [loc({ shortcode: "elbow", name: "Elbow" })],
-                },
-            ]);
-            expect(part).toMatchObject({ shortcode: "rarm", index: 1 });
-            expect(part.locations[0].shortcode).toBe("elbow");
+        it("carries the zone/part/location shortcodes and indices for the Edit actions", () => {
+            const [zone] = buildBodyLocationTree(
+                inZone([
+                    {
+                        shortcode: "rarm",
+                        index: 1,
+                        label: "Right Arm",
+                        locations: [loc({ shortcode: "elbow", name: "Elbow" })],
+                    },
+                ]),
+            );
+            expect(zone).toMatchObject({ shortcode: "headzone", index: 0 });
+            expect(zone.parts[0]).toMatchObject({
+                shortcode: "rarm",
+                index: 1,
+            });
+            expect(zone.parts[0].locations[0].shortcode).toBe("elbow");
         });
 
-        it("returns an empty array for no parts", () => {
+        it("renders a zone's number run, collapsing a single number", () => {
+            expect(buildBodyLocationTree(inZone([]))[0].zoneRange).toBe(
+                "1\u20133",
+            );
+            expect(
+                buildBodyLocationTree(inZone([], { zoneNumbers: [4] }))[0]
+                    .zoneRange,
+            ).toBe("4");
+            expect(
+                buildBodyLocationTree(inZone([], { zoneNumbers: [] }))[0]
+                    .zoneRange,
+            ).toBe("");
+        });
+
+        it("returns an empty array for no zones", () => {
             expect(buildBodyLocationTree([])).toEqual([]);
         });
     });

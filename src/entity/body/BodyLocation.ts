@@ -94,7 +94,7 @@ export class BodyLocation extends SohlEntity {
     armorType: string;
     /** Back-reference to the owning {@link BodyPart}. */
     readonly bodyPart: BodyPart;
-    /** Zero-based index of this location within {@link BodyPart.locations}. */
+    /** Zero-based index of this location within the flat `structure.locations` array. */
     readonly index: number;
 
     /**
@@ -159,10 +159,20 @@ export class BodyLocation extends SohlEntity {
     /**
      * The dot-notation path prefix for Foundry `update()` calls targeting
      * this location's persisted fields, e.g.
-     * `"system.body.structure.parts.2.locations.1"`.
+     * `"system.body.structure.locations.7"`.
      */
     get updatePath(): string {
-        return `${this.bodyPart.updatePath}.locations.${this.index}`;
+        return `system.body.structure.locations.${this.index}`;
+    }
+
+    /**
+     * This location's position **among its part's locations**, as opposed to
+     * {@link index}, its slot in the flat `structure.locations` array.
+     * Drag-to-sort addresses a destination by position; storage addresses it by
+     * index.
+     */
+    get position(): number {
+        return this.bodyPart.locations.indexOf(this);
     }
 }
 
@@ -199,11 +209,17 @@ export namespace BodyLocation {
             /** Base protection against fire impact. */
             fire: number;
         };
+        /**
+         * Shortcode of the {@link BodyPart} this location belongs to. A
+         * location whose code matches no part is not reachable in the
+         * hierarchy (see {@link sohl.entity.body.BodyStructure.orphanedLocations}).
+         */
+        bodyPartCode: string;
     }
 
     /** Construction options for a {@link BodyLocation} instance. */
     export interface Options extends SohlEntity.Options {
-        /** Zero-based index of this location within its body part's locations array. */
+        /** Zero-based index of this location within the flat `structure.locations` array. */
         index: number;
         /** Owning body part */
         bodyPart: BodyPart;

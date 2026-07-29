@@ -31,6 +31,7 @@ const EXPECTED_NAMES: SohlEntityName[] = [
     "MissileStrikeMode",
     "SohlAction",
     "BodyStructure",
+    "BodyZone",
     "BodyPart",
     "BodyLocation",
 ];

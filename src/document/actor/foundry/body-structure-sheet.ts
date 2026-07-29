@@ -13,13 +13,14 @@
 
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
+import { BodyZoneConfig } from "@src/apps/foundry/BodyZoneConfig";
 import { BodyPartConfig } from "@src/apps/foundry/BodyPartConfig";
 import { BodyLocationConfig } from "@src/apps/foundry/BodyLocationConfig";
 import { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
+import { blankBodyZone } from "@src/entity/body/blankBodyZone";
 import { blankBodyPart } from "@src/entity/body/blankBodyPart";
 import { blankBodyLocation } from "@src/entity/body/blankBodyLocation";
 import { validateBodyShortcode } from "@src/entity/body/planBodyShortcode";
-import { partHasLocations } from "@src/entity/body/body-structure-edit";
 import { SOHL_CONTEXT_MENU_SORT_GROUP } from "@src/utils/constants";
 
 /**
@@ -31,6 +32,15 @@ import { SOHL_CONTEXT_MENU_SORT_GROUP } from "@src/utils/constants";
  * helpers are pure and unit-tested; this only wires them to dialogs, the actor
  * document, and the context-menu UI.
  */
+
+/**
+ * Open the `BodyZoneConfig` editor for a body zone on an actor.
+ * @param actor - The being whose body zone is edited.
+ * @param shortcode - The zone's shortcode (its row key within the structure).
+ */
+export function openBodyZoneEditor(actor: SohlActor, shortcode: string): void {
+    void new BodyZoneConfig(actor, shortcode).render(true);
+}
 
 /**
  * Open the `BodyPartConfig` editor for a body part on an actor.
@@ -111,15 +121,61 @@ async function promptNewEntry(
 }
 
 /**
- * Prompt for a new body part (Name / Shortcode), append it to the actor's body
- * structure, and open the editor on it. Dismissing the dialog adds nothing; a
- * blank name, or a blank / duplicate shortcode, is refused with a warning.
- * @param actor - The being to add a part to.
+ * Prompt for a new body zone (Name / Shortcode) and append it to the actor's
+ * body structure. Dismissing the dialog adds nothing; a blank name, or a blank
+ * / duplicate shortcode, is refused with a warning. The new zone starts
+ * unweighted (and so unrollable) until edited.
+ * @param actor - The being to add a zone to.
  */
-export async function addBodyPart(actor: SohlActor): Promise<void> {
+export async function addBodyZone(actor: SohlActor): Promise<void> {
     const structure = getActorBody(actor.logic)?.structure;
     if (!structure) {
         sohl.log.uiWarn("This actor has no body structure to edit.");
+        return;
+    }
+    const spec = await promptNewEntry("Add Body Zone");
+    if (!spec) return;
+    if (!spec.name) {
+        sohl.log.uiWarn("Body zone name cannot be blank.");
+        return;
+    }
+    const existing = structure.zones.map((z) => z.shortcode);
+    const error = validateBodyShortcode(
+        spec.shortcode,
+        existing,
+        "body zone",
+        "this body",
+    );
+    if (error) {
+        sohl.log.uiWarn(error);
+        return;
+    }
+
+    await actor.update(
+        structure.addZoneUpdate(blankBodyZone(spec.name, spec.shortcode)),
+    );
+}
+
+/**
+ * Prompt for a new body part (Name / Shortcode), append it to the given zone,
+ * and open the editor on it. Dismissing the dialog adds nothing; a blank name,
+ * or a blank / duplicate shortcode, is refused with a warning. Part shortcodes
+ * are unique body-wide, not merely within the zone.
+ * @param actor - The being to add a part to.
+ * @param zoneShortcode - The shortcode of the zone to add the part to.
+ */
+export async function addBodyPart(
+    actor: SohlActor,
+    zoneShortcode: string,
+): Promise<void> {
+    const structure = getActorBody(actor.logic)?.structure;
+    if (!structure) {
+        sohl.log.uiWarn("This actor has no body structure to edit.");
+        return;
+    }
+    const zone = structure.getZoneByCode(zoneShortcode);
+    if (!zone) {
+        sohl.log.uiWarn("Add a body zone before adding body parts.");
         return;
     }
     const spec = await promptNewEntry("Add Body Part");
@@ -141,7 +197,9 @@ export async function addBodyPart(actor: SohlActor): Promise<void> {
     }
 
     await actor.update(
-        structure.addPartUpdate(blankBodyPart(spec.name, spec.shortcode)),
+        zone.addPartUpdate(
+            blankBodyPart(spec.name, spec.shortcode, zone.shortcode),
+        ),
     );
     openBodyPartEditor(actor, spec.shortcode);
 }
@@ -149,8 +207,8 @@ export async function addBodyPart(actor: SohlActor): Promise<void> {
 /**
  * Prompt for a new hit location (Name / Shortcode), append it to the given
  * body part, and open the editor on it. Dismissing the dialog adds nothing; a
- * blank name, or a blank / duplicate shortcode (within the part), is refused
- * with a warning.
+ * blank name, or a blank / duplicate shortcode, is refused with a warning.
+ * Location shortcodes are unique body-wide, not merely within the part (#780).
  * @param actor - The owning being.
  * @param partShortcode - The shortcode of the part to add a location to.
  */
@@ -168,12 +226,12 @@ export async function addBodyLocation(
         sohl.log.uiWarn("Body location name cannot be blank.");
         return;
     }
-    const existing = part.locations.map((l) => l.shortcode);
+    const existing = structure.locations.map((l) => l.shortcode);
     const error = validateBodyShortcode(
         spec.shortcode,
         existing,
         "body location",
-        "this part",
+        "this body",
     );
     if (error) {
         sohl.log.uiWarn(error);
@@ -181,15 +239,49 @@ export async function addBodyLocation(
     }
 
     await actor.update(
-        part.addLocationUpdate(blankBodyLocation(spec.name, spec.shortcode)),
+        part.addLocationUpdate(
+            blankBodyLocation(spec.name, spec.shortcode, part.shortcode),
+        ),
     );
     openBodyLocationEditor(actor, partShortcode, spec.shortcode);
 }
 
 /**
- * Delete a body part after confirmation. Deletion is **refused** while the part
- * still owns any hit locations — the user must remove those first — so a part is
- * never removed out from under its locations.
+ * Delete a body zone after confirmation. Deletion **cascades** to every part in
+ * the zone and every hit location on those parts, so the confirmation spells
+ * out what else goes with it.
+ * @param actor - The owning being.
+ * @param shortcode - The shortcode of the zone to delete.
+ */
+export async function deleteBodyZone(
+    actor: SohlActor,
+    shortcode: string,
+): Promise<void> {
+    const structure = getActorBody(actor.logic)?.structure;
+    const zone = structure?.getZoneByCode(shortcode);
+    if (!structure || !zone) return;
+
+    const partCount = zone.parts.length;
+    const locCount = zone.locations.length;
+    const confirmed = await foundry.applications.api.DialogV2.confirm({
+        window: { title: "Delete Body Zone?" },
+        content:
+            `<p>Delete body zone <strong>${foundry.utils.escapeHTML(
+                zone.name,
+            )}</strong>?</p>` +
+            (partCount ?
+                `<p>This also deletes its ${partCount} body part(s) and ` +
+                `${locCount} hit location(s).</p>`
+            :   "") +
+            `<p>This cannot be undone.</p>`,
+    } as any);
+    if (!confirmed) return;
+    await actor.update(structure.removeZoneUpdate(shortcode));
+}
+
+/**
+ * Delete a body part after confirmation. Deletion **cascades** to the part's
+ * hit locations, so the confirmation names how many go with it.
  * @param actor - The owning being.
  * @param shortcode - The shortcode of the part to delete.
  */
@@ -201,18 +293,17 @@ export async function deleteBodyPart(
     const part = structure?.getPartByCode(shortcode);
     if (!structure || !part) return;
 
-    if (partHasLocations(structure.parts as any, part.index)) {
-        sohl.log.uiWarn(
-            `Cannot delete "${part.name}": remove its hit locations first.`,
-        );
-        return;
-    }
-
+    const locCount = part.locations.length;
     const confirmed = await foundry.applications.api.DialogV2.confirm({
         window: { title: "Delete Body Part?" },
-        content: `<p>Delete body part <strong>${foundry.utils.escapeHTML(
-            part.name,
-        )}</strong>? This cannot be undone.</p>`,
+        content:
+            `<p>Delete body part <strong>${foundry.utils.escapeHTML(
+                part.name,
+            )}</strong>?</p>` +
+            (locCount ?
+                `<p>This also deletes its ${locCount} hit location(s).</p>`
+            :   "") +
+            `<p>This cannot be undone.</p>`,
     } as any);
     if (!confirmed) return;
     await actor.update(structure.removePartUpdate(shortcode));
@@ -262,12 +353,40 @@ export function bindBodyStructureContextMenu(
     actor: SohlActor,
     element: HTMLElement,
 ): void {
+    const zoneCodeOf = (target: HTMLElement): string | undefined =>
+        (target.closest("[data-zone-shortcode]") as HTMLElement | null)?.dataset
+            .zoneShortcode;
     const partCodeOf = (target: HTMLElement): string | undefined =>
         (target.closest("[data-part-shortcode]") as HTMLElement | null)?.dataset
             .partShortcode;
     const locCodeOf = (target: HTMLElement): string | undefined =>
         (target.closest("[data-location-shortcode]") as HTMLElement | null)
             ?.dataset.locationShortcode;
+
+    const zoneEntries = [
+        new SohlContextMenu.Entry({
+            id: "bodyzone-edit",
+            name: "Edit Body Zone",
+            iconFAClass: "fa-solid fa-pen-to-square",
+            condition: () => true,
+            callback: (target: HTMLElement) => {
+                const code = zoneCodeOf(target);
+                if (code) openBodyZoneEditor(actor, code);
+            },
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+        }),
+        new SohlContextMenu.Entry({
+            id: "bodyzone-delete",
+            name: "Delete Body Zone",
+            iconFAClass: "fa-solid fa-trash",
+            condition: () => true,
+            callback: (target: HTMLElement) => {
+                const code = zoneCodeOf(target);
+                if (code) void deleteBodyZone(actor, code);
+            },
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+        }),
+    ];
 
     const partEntries = [
         new SohlContextMenu.Entry({
@@ -325,6 +444,10 @@ export function bindBodyStructureContextMenu(
         }),
     ];
 
+    new SohlContextMenu(element, ".bodyzone-contextmenu", zoneEntries, {
+        eventName: "click",
+        parent: (actor as any).logic,
+    });
     new SohlContextMenu(element, ".bodypart-contextmenu", partEntries, {
         eventName: "click",
         parent: (actor as any).logic,

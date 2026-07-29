@@ -1,0 +1,34 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<div class="body-zone-config__body">
+<header class="body-zone-config__header">
+    <h1 class="body-zone-config__name">
+        <input type="text" name="name" value="{{zone.name}}" placeholder="Body Zone Name" /></h1>
+    <input class="body-zone-config__shortcode" type="text" name="shortcode" value="{{shortcode}}"
+        placeholder="shortcode"
+        data-tooltip="A short code identifying this body zone. Must be unique among the being's body zones." />
+</header>
+
+<fieldset>
+    <legend>Hit Determination</legend>
+    <div class="grid grid-2col">
+        <label class="form-group stacked"><span>Zone Weight</span>
+            <input type="number" step="1" min="0" name="probWeight" value="{{zone.probWeight}}"
+                data-tooltip="How many zone numbers this zone claims. Zones are allotted numbers in order, so a body weighing 3 / 5 / 2 covers 1–3, 4–8, 9–10. A weight of 0 makes the zone unrollable." /></label>
+        <div class="form-group stacked"><span>Zone Numbers</span>
+            <p class="body-zone-config__range">{{#if zoneRange}}{{zoneRange}}{{else}}&mdash;{{/if}}</p></div>
+    </div>
+    <p class="hint">This zone holds {{partCount}} body part(s). Renaming its shortcode keeps them attached.</p>
+</fieldset>
+</div>

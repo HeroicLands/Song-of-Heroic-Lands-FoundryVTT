@@ -24,8 +24,9 @@ sohl:
         per: 1d6+15
     body:
         structure:
+            zones: []
             parts: []
-            adjacent: []
+            locations: []
         weight:
             base: 1000
             calc: 1000

@@ -40,7 +40,12 @@ describe("Body Locations tree", () => {
                 const headers = [
                     ...fs.querySelectorAll("header.list__header .list__detail"),
                 ].map((d) => d.textContent.trim());
+                const zones = fs.querySelectorAll(".bodyzone").length;
                 const parts = fs.querySelectorAll(".bodypart").length;
+                // Every part row must sit inside a zone (#780's tree).
+                const partsOutsideZone = [
+                    ...fs.querySelectorAll(".bodypart"),
+                ].filter((p) => !p.closest(".bodyzone")).length;
                 const locRows = fs.querySelectorAll("li.bodylocation").length;
                 const firstLoc = fs.querySelector("li.bodylocation");
                 const cells =
@@ -51,6 +56,8 @@ describe("Body Locations tree", () => {
                     :   [];
                 return {
                     headers: [...new Set(headers)],
+                    zones,
+                    partsOutsideZone,
                     parts,
                     locRows,
                     firstName: firstLoc
@@ -68,7 +75,12 @@ describe("Body Locations tree", () => {
                     "Shock",
                     "Impair",
                 ]);
+                expect(r.zones, "body zones").to.be.at.least(1);
                 expect(r.parts, "body parts").to.be.at.least(1);
+                expect(
+                    r.partsOutsideZone,
+                    "every part nested under a zone",
+                ).to.eq(0);
                 expect(r.locRows, "location rows").to.be.at.least(1);
                 expect(r.firstName, "location has a name").to.be.a("string").and
                     .not.empty;

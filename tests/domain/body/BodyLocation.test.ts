@@ -1,20 +1,13 @@
 import { describe, it, expect } from "vitest";
 import { brandLogic } from "@tests/mocks/brandLogic";
 import { BodyLocation } from "@src/entity/body/BodyLocation";
+import { locationData, makeBody } from "@tests/mocks/bodyFixture";
 
-const SAMPLE_DATA: BodyLocation.Data = {
-    shortcode: "skull",
+const SAMPLE_DATA: BodyLocation.Data = locationData("skull", "head", 10, {
     bleedingSusceptibility: "medium",
-    amputability: "none",
     shockValue: 3,
-    probWeight: 10,
-    protectionBase: {
-        blunt: 3,
-        edged: 3,
-        piercing: 3,
-        fire: 0,
-    },
-};
+    protectionBase: { blunt: 3, edged: 3, piercing: 3, fire: 0 },
+});
 
 const MOCK_PART = {
     updatePath: "system.body.structure.parts.1",
@@ -42,15 +35,27 @@ describe("BodyLocation", () => {
     });
 
     describe("updatePath", () => {
-        it("builds dot-notation path from parent part and index", () => {
+        it("addresses the flat locations array by index (#780)", () => {
             const loc = new BodyLocation(SAMPLE_DATA, {
                 parent: MOCK_CORPUS,
                 bodyPart: MOCK_PART,
                 index: 2,
             });
-            expect(loc.updatePath).toBe(
-                "system.body.structure.parts.1.locations.2",
-            );
+            expect(loc.updatePath).toBe("system.body.structure.locations.2");
+        });
+    });
+
+    describe("position", () => {
+        it("is the slot within its part, while index is the flat slot", () => {
+            // The sample body's third location ("chest") is the first and only
+            // location of the "thorax" part.
+            const chest = makeBody().getLocationByCode("chest")!;
+            expect(chest.index).toBe(2);
+            expect(chest.position).toBe(0);
+
+            const face = makeBody().getLocationByCode("face")!;
+            expect(face.index).toBe(1);
+            expect(face.position).toBe(1);
         });
     });
 });

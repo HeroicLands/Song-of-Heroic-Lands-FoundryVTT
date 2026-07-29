@@ -495,6 +495,7 @@
     "SOHL.BodyPart.tail": "Tail",
     "SOHL.BodyPart.thorax": "Thorax",
     "SOHL.BodyPartConfig.title": "Edit Body Part",
+    "SOHL.BodyZoneConfig.title": "Edit Body Zone",
     "SOHL.BodyRole.core": "Core",
     "SOHL.BodyRole.locomotor": "Locomotor",
     "SOHL.BodyRole.manipulator": "Manipulator",

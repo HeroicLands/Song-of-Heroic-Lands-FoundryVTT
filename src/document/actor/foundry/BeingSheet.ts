@@ -45,6 +45,7 @@ import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import {
+    addBodyZone,
     addBodyPart,
     addBodyLocation,
     bindBodyStructureContextMenu,
@@ -435,21 +436,30 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Begin a drag. A Body Structure row (a part header or hit-location row,
-     * marked `draggable` with `data-part-shortcode` / `data-location-shortcode`)
-     * carries a private `sohlBodyDrag` payload so {@link _onDrop} can reorder it;
+     * Begin a drag. A Body Structure row (a zone header, a part header, or a
+     * hit-location row — marked `draggable` with `data-zone-shortcode` /
+     * `data-part-shortcode` / `data-location-shortcode`) carries a private
+     * `sohlBodyDrag` payload so {@link _onDrop} can reorder or re-parent it;
      * every other draggable (owned items, effects) defers to the base handler.
      *
      * @param event - The originating drag event.
      */
     protected _onDragStart(event: DragEvent): void {
         const li = event.currentTarget as HTMLElement;
-        if (li?.dataset?.partShortcode != null) {
+        if (
+            li?.dataset?.partShortcode != null ||
+            li?.dataset?.zoneShortcode != null
+        ) {
             const isLocation = li.dataset.locationShortcode != null;
+            const isPart = !isLocation && li.dataset.partShortcode != null;
             const dragData = {
                 sohlBodyDrag: {
-                    kind: isLocation ? "bodylocation" : "bodypart",
-                    partShortcode: li.dataset.partShortcode,
+                    kind:
+                        isLocation ? "bodylocation"
+                        : isPart ? "bodypart"
+                        : "bodyzone",
+                    zoneShortcode: li.dataset.zoneShortcode ?? null,
+                    partShortcode: li.dataset.partShortcode ?? null,
                     locationShortcode:
                         isLocation ? li.dataset.locationShortcode : null,
                 },
@@ -495,29 +505,61 @@ export class BeingSheet extends SohlActorSheetBase {
 
         const structure = getActorBody(this.document.logic)?.structure;
         if (!structure) return;
-        const fromPart = structure.getPartByCode(drag.partShortcode);
-        if (!fromPart) return;
         const targetEl = event.target as HTMLElement | null;
 
-        if (drag.kind === "bodypart") {
+        if (drag.kind === "bodyzone") {
+            const fromZone = structure.getZoneByCode(drag.zoneShortcode);
             const toEl = targetEl?.closest(
+                "[data-zone-shortcode]",
+            ) as HTMLElement | null;
+            const toZone =
+                toEl ?
+                    structure.getZoneByCode(toEl.dataset.zoneShortcode ?? "")
+                :   undefined;
+            if (!fromZone || !toZone || toZone.index === fromZone.index) return;
+            await this.document.update(
+                structure.moveZoneUpdate(fromZone.index, toZone.index),
+            );
+            return;
+        }
+
+        if (drag.kind === "bodypart") {
+            const fromPart = structure.getPartByCode(drag.partShortcode);
+            if (!fromPart) return;
+            // Dropping on a part inserts at that part's position within its
+            // zone; dropping on a bare zone header appends to that zone's end.
+            const partEl = targetEl?.closest(
                 "[data-part-shortcode]",
             ) as HTMLElement | null;
             const toPart =
-                toEl ?
-                    structure.getPartByCode(toEl.dataset.partShortcode ?? "")
+                partEl ?
+                    structure.getPartByCode(partEl.dataset.partShortcode ?? "")
                 :   undefined;
-            if (!toPart || toPart.index === fromPart.index) return;
+            const zoneEl = targetEl?.closest(
+                "[data-zone-shortcode]",
+            ) as HTMLElement | null;
+            const toZone =
+                toPart?.zone ??
+                (zoneEl ?
+                    structure.getZoneByCode(zoneEl.dataset.zoneShortcode ?? "")
+                :   undefined);
+            if (!toZone) return;
+            const toPosition = toPart?.position ?? toZone.parts.length;
+            if (toPart?.index === fromPart.index) return;
             await this.document.update(
-                structure.movePartUpdate(fromPart.index, toPart.index),
+                structure.movePartUpdate(
+                    fromPart.index,
+                    toZone.shortcode,
+                    toPosition,
+                ),
             );
             return;
         }
 
         // A location drop: resolve the source location, then the destination —
-        // a specific location row (insert at its index) or a part group/header
-        // (append to that part's end).
-        const fromLoc = fromPart.getLocationByCode(drag.locationShortcode);
+        // a specific location row (insert at its position) or a part
+        // group/header (append to that part's end).
+        const fromLoc = structure.getLocationByCode(drag.locationShortcode);
         if (!fromLoc) return;
         const partEl = targetEl?.closest(
             "[data-part-shortcode]",
@@ -533,32 +575,56 @@ export class BeingSheet extends SohlActorSheetBase {
         const toLoc =
             locEl ?
                 (toPart.getLocationByCode(locEl.dataset.locationShortcode ?? "")
-                    ?.index ?? toPart.locations.length)
+                    ?.position ?? toPart.locations.length)
             :   toPart.locations.length;
-        if (toPart.index === fromPart.index && toLoc === fromLoc.index) return;
+        if (
+            toPart.shortcode === fromLoc.bodyPart.shortcode &&
+            toLoc === fromLoc.position
+        ) {
+            return;
+        }
         await this.document.update(
             structure.moveLocationUpdate(
-                fromPart.index,
                 fromLoc.index,
-                toPart.index,
+                toPart.shortcode,
                 toLoc,
             ),
         );
     }
 
     /**
-     * `data-action="addBodyPart"`: prompt for a new body part and append it to
-     * this being's body structure, opening its editor (#720).
+     * `data-action="addBodyZone"`: prompt for a new body zone and append it to
+     * this being's body structure (#780).
      *
      * @param _event - The triggering pointer event (unused).
      * @param _target - The clicked add control (unused).
      */
-    protected static async _onAddBodyPart(
+    protected static async _onAddBodyZone(
         this: BeingSheet,
         _event: PointerEvent,
         _target: HTMLElement,
     ): Promise<void> {
-        await addBodyPart(this.document);
+        await addBodyZone(this.document);
+    }
+
+    /**
+     * `data-action="addBodyPart"`: prompt for a new body part and append it to
+     * the zone named by the control's `data-zone-shortcode`, opening its editor
+     * (#720/#780).
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked add control, inside a `data-zone-shortcode` row.
+     */
+    protected static async _onAddBodyPart(
+        this: BeingSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const code = target
+            .closest("[data-zone-shortcode]")
+            ?.getAttribute("data-zone-shortcode");
+        if (!code) return;
+        await addBodyPart(this.document, code);
     }
 
     /**
@@ -600,6 +666,7 @@ export class BeingSheet extends SohlActorSheetBase {
             },
         ],
         actions: {
+            addBodyZone: BeingSheet._onAddBodyZone,
             addBodyPart: BeingSheet._onAddBodyPart,
             addBodyLocation: BeingSheet._onAddBodyLocation,
             rollStrikeModeTest: BeingSheet._onRollStrikeModeTest,
@@ -1485,34 +1552,40 @@ export class BeingSheet extends SohlActorSheetBase {
                 heldItemId: part.heldItem?.id ?? "",
             }));
 
-        // Read-only Body Locations tree: each part with its locations' effective
-        // protection (natural `protectionBase` + worn-armor `armorProtection`,
-        // aggregated during the actor's evaluate phase), the covering material
-        // layers, and shock. Held items are shown via the Held Items dropdowns,
-        // not here; hit probability and zones are no longer modeled (#509).
-        const bodyParts = buildBodyLocationTree(
-            (structure?.parts ?? []).map((part: any) => ({
-                shortcode: part.shortcode,
-                index: part.index,
-                label: part.name ?? part.shortcode,
-                locations: (part.locations ?? []).map((loc: any) => ({
-                    shortcode: loc.shortcode,
-                    name: loc.name,
-                    layers: loc.armorType ?? "",
-                    base: {
-                        blunt: loc.protectionBase.blunt.effective,
-                        edged: loc.protectionBase.edged.effective,
-                        piercing: loc.protectionBase.piercing.effective,
-                        fire: loc.protectionBase.fire.effective,
-                    },
-                    armor: {
-                        blunt: loc.armorProtection?.blunt ?? 0,
-                        edged: loc.armorProtection?.edged ?? 0,
-                        piercing: loc.armorProtection?.piercing ?? 0,
-                        fire: loc.armorProtection?.fire ?? 0,
-                    },
-                    shock: loc.shockValue?.effective ?? 0,
-                    impair: 0,
+        // Read-only Body Locations tree: Zone → Part → Location (#509/#780),
+        // each location showing effective protection (natural `protectionBase` +
+        // worn-armor `armorProtection`, aggregated during the actor's evaluate
+        // phase), the covering material layers, and shock. Held items are shown
+        // via the Held Items dropdowns, not here.
+        const bodyZones = buildBodyLocationTree(
+            (structure?.zones ?? []).map((zone: any) => ({
+                shortcode: zone.shortcode,
+                index: zone.index,
+                label: zone.name ?? zone.shortcode,
+                zoneNumbers: zone.zoneNumbers ?? [],
+                parts: (zone.parts ?? []).map((part: any) => ({
+                    shortcode: part.shortcode,
+                    index: part.index,
+                    label: part.name ?? part.shortcode,
+                    locations: (part.locations ?? []).map((loc: any) => ({
+                        shortcode: loc.shortcode,
+                        name: loc.name,
+                        layers: loc.armorType ?? "",
+                        base: {
+                            blunt: loc.protectionBase.blunt.effective,
+                            edged: loc.protectionBase.edged.effective,
+                            piercing: loc.protectionBase.piercing.effective,
+                            fire: loc.protectionBase.fire.effective,
+                        },
+                        armor: {
+                            blunt: loc.armorProtection?.blunt ?? 0,
+                            edged: loc.armorProtection?.edged ?? 0,
+                            piercing: loc.armorProtection?.piercing ?? 0,
+                            fire: loc.armorProtection?.fire ?? 0,
+                        },
+                        shock: loc.shockValue?.effective ?? 0,
+                        impair: 0,
+                    })),
                 })),
             })),
         );
@@ -1521,7 +1594,7 @@ export class BeingSheet extends SohlActorSheetBase {
             meleeStrikeModes,
             missileStrikeModes,
             structure,
-            bodyParts,
+            bodyZones,
             useZoneDie,
             spreadLabel: useZoneDie ? "ZD" : "Spr",
             holdableItems,

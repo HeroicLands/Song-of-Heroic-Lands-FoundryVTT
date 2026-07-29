@@ -50,6 +50,7 @@ import type { SohlAction } from "@src/entity/action/SohlAction";
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { BodyPart } from "@src/entity/body/BodyPart";
 import type { BodyLocation } from "@src/entity/body/BodyLocation";
+import { BodyZone } from "./body/BodyZone";
 
 /**
  * The overridable entity-class registry, keyed by class name. Each value is the
@@ -95,6 +96,8 @@ export interface SohlEntityRegistry {
     SohlAction: typeof SohlAction;
     /** Root anatomy: parts, adjacency, and hit-location resolution. See {@link sohl.entity.body.BodyStructure}. */
     BodyStructure: typeof BodyStructure;
+    /** One anatomical region (head, arms, torso, legs). See {@link sohl.entity.body.BodyZone}. */
+    BodyZone: typeof BodyZone;
     /** One anatomical division (head, torso, a limb). See {@link sohl.entity.body.BodyPart}. */
     BodyPart: typeof BodyPart;
     /** One hit location within a {@link sohl.entity.body.BodyPart}. See {@link BodyLocation}. */
@@ -127,6 +130,7 @@ const ENTITY_NAMES = [
     "MissileStrikeMode",
     "SohlAction",
     "BodyStructure",
+    "BodyZone",
     "BodyPart",
     "BodyLocation",
 ] as const satisfies readonly SohlEntityName[];

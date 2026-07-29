@@ -216,12 +216,13 @@ neighboring part:
 2. Otherwise, a random number from 1 to accuracy is rolled. If the roll is within
    the part's probability weight, that part is hit.
 3. On a miss, the accuracy is reduced by the part's probability weight, and the
-   strike drifts to a random adjacent body part (weighted by probability). The
-   check repeats from step 1 with the new part and reduced accuracy.
-4. If there are no more adjacent parts to drift to, the current part is hit.
+   strike drifts to a random neighboring body part (weighted by probability) —
+   the other parts of the same body zone first, then outward to the adjoining
+   zones. The check repeats from step 1 with the new part and reduced accuracy.
+4. If there are no unvisited neighbors left to drift to, the current part is hit.
 
 High accuracy relative to the target makes aimed strikes reliable; low accuracy
-causes the strike to wander along the body's adjacency graph. Aiming at a small,
+causes the strike to wander outward through the body's zones. Aiming at a small,
 hard-to-hit part with insufficient accuracy will often hit a neighbor instead.
 
 # Impact, armor, and injury

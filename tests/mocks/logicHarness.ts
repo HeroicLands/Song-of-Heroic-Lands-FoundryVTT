@@ -86,7 +86,7 @@ function buildActorData(actor: any, kind: string): any {
         // is an incorporeal being. Tests override via `fields.body` (use
         // makeBodyData) to give a being real anatomy/weight/reach.
         body: {
-            structure: { parts: [], adjacent: [] },
+            structure: { zones: [], parts: [], locations: [] },
             weight: { base: 0, calc: "0" },
             reachBase: 0,
             bodyScaleBase: 1.0,
@@ -319,7 +319,7 @@ export function makeBodyData(
     overrides: Record<string, unknown> = {},
 ): Record<string, unknown> {
     return {
-        structure: { parts: [], adjacent: [] },
+        structure: { zones: [], parts: [], locations: [] },
         weight: { base: 0, calc: "0" },
         reachBase: 0,
         bodyScaleBase: 1.0,

@@ -59,12 +59,51 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
          * {@link SohlActorDataModel} (`currentMoveMedium` / `movementProfiles`).
          */
         body: new SchemaField({
-            /** The anatomical structure — body parts, hit locations, adjacency. */
+            /**
+             * The anatomical structure, stored as **three flat arrays** —
+             * zones, parts, and hit locations — where each child names its
+             * parent by shortcode (`bodyZoneCode` / `bodyPartCode`). The
+             * {@link sohl.entity.body.BodyStructure} entity assembles them into
+             * the Zone → Part → Location hierarchy at preparation time (#780).
+             *
+             * Flat storage keeps every edit a single whole-array write; a
+             * nested tree would force a by-index write into a sub-array, which
+             * Foundry rebuilds from a sparse map and corrupts (#247).
+             */
             structure: new SchemaField({
+                /**
+                 * Broad anatomical regions. Their **order matters**: each zone
+                 * is allocated a contiguous run of zone numbers sized by its
+                 * `probWeight`, so a body weighing 3 / 5 / 2 hands out 1–3,
+                 * 4–8, 9–10. One roll against the total picks the zone.
+                 */
+                zones: new ArrayField(
+                    new SchemaField({
+                        shortcode: new StringField({ blank: false }),
+                        name: new StringField({ blank: false }),
+                        /**
+                         * Selection weight for this zone in the zone-number
+                         * roll; sizes its run of zone numbers. `0` makes the
+                         * zone unrollable.
+                         */
+                        probWeight: new NumberField({
+                            integer: true,
+                            initial: 0,
+                            min: 0,
+                        }),
+                    }),
+                    { initial: [] },
+                ),
                 parts: new ArrayField(
                     new SchemaField({
                         shortcode: new StringField({ blank: false }),
                         name: new StringField({ blank: false }),
+                        /**
+                         * Shortcode of the zone this part belongs to. A part
+                         * whose code matches no zone is preserved in storage
+                         * but absent from the hierarchy.
+                         */
+                        bodyZoneCode: new StringField({ blank: false }),
                         /**
                          * Functional roles this part fulfills. Skills and
                          * attributes declare which roles impair them; injury at
@@ -111,93 +150,96 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
                             initial: false,
                         }),
                         /**
-                         * Target area of this part for hit-spread mechanics, in
-                         * square feet. Doubles as the weight used when picking a
-                         * random part for unaimed attacks.
+                         * Selection weight for this part within its zone: once
+                         * a zone is rolled, its parts are drawn in proportion
+                         * to this weight. Also the area the aimed-strike drift
+                         * spends its `spread` against.
                          */
-                        combatArea: new NumberField({
+                        probWeight: new NumberField({
                             integer: false,
                             initial: 0,
                             min: 0,
                         }),
-                        /** A list of the locations on this part */
-                        locations: new ArrayField(
-                            new SchemaField({
-                                shortcode: new StringField({ blank: false }),
-                                name: new StringField({ blank: false }),
-                                /**
-                                 * Bleeding susceptibility tier (none / low / mid
-                                 * / high). Combines with injury severity and
-                                 * weapon aspect to determine whether a wound is a
-                                 * Bleeder.
-                                 */
-                                bleedingSusceptibility: new StringField({
-                                    blank: false,
-                                    choices: BleedingSusceptibilityChoices,
-                                    initial: BLEEDING_SUSCEPTIBILITY.NONE,
-                                }),
-                                /**
-                                 * Amputability tier. Determines the Strength test
-                                 * modifier when a G5 Edge injury occurs at this
-                                 * location.
-                                 */
-                                amputability: new StringField({
-                                    blank: false,
-                                    choices: AmputabilityChoices,
-                                    initial: AMPUTABILITY.NONE,
-                                }),
-                                shockValue: new NumberField({
-                                    integer: true,
-                                    initial: 0,
-                                    min: 0,
-                                }),
-                                /**
-                                 * A Serious injury here forces a stumble roll; a
-                                 * Grievous injury stumbles automatically.
-                                 */
-                                isStumble: new BooleanField({ initial: false }),
-                                /**
-                                 * A Serious injury here forces a fumble roll; a
-                                 * Grievous injury fumbles automatically.
-                                 */
-                                isFumble: new BooleanField({ initial: false }),
-                                probWeight: new NumberField({
-                                    integer: true,
-                                    initial: 0,
-                                    min: 0,
-                                }),
-                                protectionBase: new SchemaField({
-                                    blunt: new NumberField({
-                                        integer: true,
-                                        initial: 0,
-                                        min: 0,
-                                    }),
-                                    edged: new NumberField({
-                                        integer: true,
-                                        initial: 0,
-                                        min: 0,
-                                    }),
-                                    piercing: new NumberField({
-                                        integer: true,
-                                        initial: 0,
-                                        min: 0,
-                                    }),
-                                    fire: new NumberField({
-                                        integer: true,
-                                        initial: 0,
-                                        min: 0,
-                                    }),
-                                }),
-                            }),
-                            { initial: [] },
-                        ),
                     }),
                     { initial: [] },
                 ),
-                /** A list of the parts adjacent to each part */
-                adjacent: new ArrayField(
-                    new ArrayField(new StringField({ blank: false }), {
-                        initial: [],
+                /**
+                 * Every hit location in the body, flat. Each names its owning
+                 * part via `bodyPartCode`; its position among that part's
+                 * locations is its relative order in this array.
+                 */
+                locations: new ArrayField(
+                    new SchemaField({
+                        shortcode: new StringField({ blank: false }),
+                        name: new StringField({ blank: false }),
+                        /**
+                         * Shortcode of the part this location belongs to. A
+                         * location whose code matches no part is preserved in
+                         * storage but absent from the hierarchy.
+                         */
+                        bodyPartCode: new StringField({ blank: false }),
+                        /**
+                         * Bleeding susceptibility tier (none / low / mid /
+                         * high). Combines with injury severity and weapon
+                         * aspect to determine whether a wound is a Bleeder.
+                         */
+                        bleedingSusceptibility: new StringField({
+                            blank: false,
+                            choices: BleedingSusceptibilityChoices,
+                            initial: BLEEDING_SUSCEPTIBILITY.NONE,
+                        }),
+                        /**
+                         * Amputability tier. Determines the Strength test
+                         * modifier when a G5 Edge injury occurs at this
+                         * location.
+                         */
+                        amputability: new StringField({
+                            blank: false,
+                            choices: AmputabilityChoices,
+                            initial: AMPUTABILITY.NONE,
+                        }),
+                        shockValue: new NumberField({
+                            integer: true,
+                            initial: 0,
+                            min: 0,
+                        }),
+                        /**
+                         * A Serious injury here forces a stumble roll; a
+                         * Grievous injury stumbles automatically.
+                         */
+                        isStumble: new BooleanField({ initial: false }),
+                        /**
+                         * A Serious injury here forces a fumble roll; a
+                         * Grievous injury fumbles automatically.
+                         */
+                        isFumble: new BooleanField({ initial: false }),
+                        probWeight: new NumberField({
+                            integer: true,
+                            initial: 0,
+                            min: 0,
+                        }),
+                        protectionBase: new SchemaField({
+                            blunt: new NumberField({
+                                integer: true,
+                                initial: 0,
+                                min: 0,
+                            }),
+                            edged: new NumberField({
+                                integer: true,
+                                initial: 0,
+                                min: 0,
+                            }),
+                            piercing: new NumberField({
+                                integer: true,
+                                initial: 0,
+                                min: 0,
+                            }),
+                            fire: new NumberField({
+                                integer: true,
+                                initial: 0,
+                                min: 0,
+                            }),
+                        }),
                     }),
                     { initial: [] },
                 ),

@@ -175,37 +175,53 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="list__detail" data-tooltip="Shock">Shock</div>
                 <div class="list__detail" data-tooltip="Impairment">Impair</div>
                 {{#if canEditBody}}
-                <a class="list__control bodypart-add" data-action="addBodyPart" data-tooltip="Add Body Part"><i class="fa-solid fa-plus"></i></a>
+                <a class="list__control bodyzone-add" data-action="addBodyZone" data-tooltip="Add Body Zone"><i class="fa-solid fa-plus"></i></a>
                 {{/if}}
             </header>
-            {{#each bodyParts as |part|}}
-            <div class="list bodypart">
-                <header class="list__header bodypart__header flexrow"
-                    data-part-shortcode="{{part.shortcode}}" data-part-index="{{part.index}}"
+            {{#each bodyZones as |zone|}}
+            <div class="list bodyzone" data-zone-shortcode="{{zone.shortcode}}" data-zone-index="{{zone.index}}">
+                <header class="list__header bodyzone__header flexrow"
+                    data-zone-shortcode="{{zone.shortcode}}" data-zone-index="{{zone.index}}"
                     {{#if @root.canEditBody}}draggable="true"{{/if}}>
-                    <h3 class="list__name">{{part.label}}</h3>
-                    {{#if @root.canEditBody}}
-                    <a class="list__control bodylocation-add" data-action="addBodyLocation" data-tooltip="Add Hit Location"><i class="fa-solid fa-plus"></i></a>
+                    <h3 class="list__name">{{zone.label}}</h3>
+                    {{#if zone.zoneRange}}
+                    <div class="list__detail bodyzone__range" data-tooltip="Zone Numbers">{{zone.zoneRange}}</div>
                     {{/if}}
-                    <a class="list__control bodypart-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                    {{#if @root.canEditBody}}
+                    <a class="list__control bodypart-add" data-action="addBodyPart" data-tooltip="Add Body Part"><i class="fa-solid fa-plus"></i></a>
+                    {{/if}}
+                    <a class="list__control bodyzone-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                 </header>
-                <ol class="list__items">
-                    {{#each part.locations as |loc|}}
-                    <li class="item bodylocation flexrow" data-search-name="{{loc.name}}"
-                        data-part-shortcode="{{part.shortcode}}" data-location-shortcode="{{loc.shortcode}}"
+                {{#each zone.parts as |part|}}
+                <div class="list bodypart">
+                    <header class="list__header bodypart__header flexrow"
+                        data-part-shortcode="{{part.shortcode}}" data-part-index="{{part.index}}"
                         {{#if @root.canEditBody}}draggable="true"{{/if}}>
-                        <div class="list__name"><h4>{{loc.name}}</h4></div>
-                        <div class="list__detail bodylocation__layers">{{loc.layers}}</div>
-                        <div class="list__detail">{{loc.blunt}}</div>
-                        <div class="list__detail">{{loc.edged}}</div>
-                        <div class="list__detail">{{loc.piercing}}</div>
-                        <div class="list__detail">{{loc.fire}}</div>
-                        <div class="list__detail">{{loc.shock}}</div>
-                        <div class="list__detail">{{loc.impair}}</div>
-                        <a class="list__control bodylocation-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
-                    </li>
-                    {{/each}}
-                </ol>
+                        <h3 class="list__name">{{part.label}}</h3>
+                        {{#if @root.canEditBody}}
+                        <a class="list__control bodylocation-add" data-action="addBodyLocation" data-tooltip="Add Hit Location"><i class="fa-solid fa-plus"></i></a>
+                        {{/if}}
+                        <a class="list__control bodypart-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                    </header>
+                    <ol class="list__items">
+                        {{#each part.locations as |loc|}}
+                        <li class="item bodylocation flexrow" data-search-name="{{loc.name}}"
+                            data-part-shortcode="{{part.shortcode}}" data-location-shortcode="{{loc.shortcode}}"
+                            {{#if @root.canEditBody}}draggable="true"{{/if}}>
+                            <div class="list__name"><h4>{{loc.name}}</h4></div>
+                            <div class="list__detail bodylocation__layers">{{loc.layers}}</div>
+                            <div class="list__detail">{{loc.blunt}}</div>
+                            <div class="list__detail">{{loc.edged}}</div>
+                            <div class="list__detail">{{loc.piercing}}</div>
+                            <div class="list__detail">{{loc.fire}}</div>
+                            <div class="list__detail">{{loc.shock}}</div>
+                            <div class="list__detail">{{loc.impair}}</div>
+                            <a class="list__control bodylocation-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                        </li>
+                        {{/each}}
+                    </ol>
+                </div>
+                {{/each}}
             </div>
             {{/each}}
         </div>

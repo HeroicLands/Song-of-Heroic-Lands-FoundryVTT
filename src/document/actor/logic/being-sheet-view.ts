@@ -144,12 +144,30 @@ export interface BodyLocationRow {
 export interface BodyPartNode {
     /** The part's shortcode (its row key within the structure), for the Edit action. */
     shortcode: string;
-    /** Zero-based index of the part within the structure. */
+    /** Zero-based index of the part within the structure's flat `parts` array. */
     index: number;
     /** The part's display label. */
     label: string;
     /** The part's hit locations, in order. */
     locations: BodyLocationRow[];
+}
+
+/** A body zone paired with its parts, the root of the Body Locations tree. */
+export interface BodyZoneNode {
+    /** The zone's shortcode (its row key within the structure), for the Edit action. */
+    shortcode: string;
+    /** Zero-based index of the zone within the structure's flat `zones` array. */
+    index: number;
+    /** The zone's display label. */
+    label: string;
+    /**
+     * The zone's run of zone numbers rendered for display, e.g. `"4–8"`, or the
+     * single number when the run is one long. Empty when the zone is unweighted
+     * and so unrollable.
+     */
+    zoneRange: string;
+    /** The zone's body parts, in order. */
+    parts: BodyPartNode[];
 }
 
 /** The minimal per-location shape the tree builder consumes. */
@@ -173,22 +191,64 @@ export interface BodyPartLike {
     locations: readonly BodyLocationLike[];
 }
 
+/** The minimal per-zone shape the tree builder consumes. */
+export interface BodyZoneLike {
+    shortcode: string;
+    index: number;
+    label: string;
+    /** The zone's allocated run of zone numbers, ascending (empty when unweighted). */
+    zoneNumbers: readonly number[];
+    parts: readonly BodyPartLike[];
+}
+
 /**
- * Build the read-only Body Locations tree for the Combat tab: each body part
- * with its hit locations, and per-location protection totals computed as
- * **natural base + equipped armor** for every aspect (blunt/edged/piercing/fire).
- * The armor contribution comes from the actor's worn armor aggregated onto the
- * body structure (see `aggregateArmor`); natural `protectionBase` is left
- * untouched, so the sum is the effective protection shown per location. Pure —
- * no Foundry dependency.
+ * Build the read-only Body Locations tree for the Combat tab: each **zone**
+ * with its body parts, each part with its hit locations, and per-location
+ * protection totals computed as **natural base + equipped armor** for every
+ * aspect (blunt/edged/piercing/fire). The armor contribution comes from the
+ * actor's worn armor aggregated onto the body structure (see `aggregateArmor`);
+ * natural `protectionBase` is left untouched, so the sum is the effective
+ * protection shown per location. Pure — no Foundry dependency.
  *
- * @param parts - The body parts with their locations' base/armor values.
- * @returns The parts with per-location totals, in input order.
+ * @param zones - The body zones with their parts and locations.
+ * @returns The zone tree with per-location totals, in input order.
  */
 export function buildBodyLocationTree(
-    parts: readonly BodyPartLike[],
-): BodyPartNode[] {
-    return parts.map((part) => ({
+    zones: readonly BodyZoneLike[],
+): BodyZoneNode[] {
+    return zones.map((zone) => ({
+        shortcode: zone.shortcode,
+        index: zone.index,
+        label: zone.label,
+        zoneRange: formatZoneRange(zone.zoneNumbers),
+        parts: zone.parts.map(buildBodyPartNode),
+    }));
+}
+
+/**
+ * Render a zone's allocated numbers as a compact display range — `"4–8"` for a
+ * run, `"4"` for a single number, `""` when the zone has no weight and can
+ * never be rolled.
+ *
+ * @param zoneNumbers - The zone's ascending run of zone numbers.
+ * @returns The display string for the zone's roll range.
+ */
+export function formatZoneRange(zoneNumbers: readonly number[]): string {
+    if (zoneNumbers.length === 0) return "";
+    const first = zoneNumbers[0];
+    const last = zoneNumbers[zoneNumbers.length - 1];
+    return first === last ? `${first}` : `${first}–${last}`;
+}
+
+/**
+ * Build one part node of the Body Locations tree, summing natural and worn
+ * protection per aspect for each of its locations.
+ *
+ * @param part - The body part with its locations' base/armor values.
+ * @returns The part with per-location totals, in input order.
+ */
+function buildBodyPartNode(part: BodyPartLike): BodyPartNode {
+    return {
         shortcode: part.shortcode,
         index: part.index,
         label: part.label,
@@ -203,7 +263,7 @@ export function buildBodyLocationTree(
             shock: loc.shock,
             impair: loc.impair,
         })),
-    }));
+    };
 }
 
 /* -------------------------------------------- */

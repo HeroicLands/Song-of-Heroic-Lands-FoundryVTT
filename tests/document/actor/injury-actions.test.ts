@@ -6,8 +6,13 @@
  */
 
 import { describe, it, expect, vi } from "vitest";
-import { brandLogic } from "@tests/mocks/brandLogic";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
+import {
+    locationData,
+    makeBody as makeBodyFixture,
+    partData,
+    zoneData,
+} from "@tests/mocks/bodyFixture";
 import {
     buildResolveInjuryData,
     readResolveInjuryForm,
@@ -20,48 +25,27 @@ import { resolveInjury } from "@src/entity/body/injury-resolution";
 import { IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
 
-const SKULL_LOC = {
-    shortcode: "skull",
-    name: "Skull",
-    bleedingSusceptibility: "medium",
-    amputability: "none",
-    shockValue: 3,
-    probWeight: 10,
-    protectionBase: { blunt: 3, edged: 3, piercing: 3, fire: 0 },
-};
-
-const NECK_LOC = {
-    shortcode: "neck",
-    name: "Neck",
-    bleedingSusceptibility: "high",
-    amputability: "medium",
-    shockValue: 5,
-    probWeight: 2,
-    protectionBase: { blunt: 0, edged: 0, piercing: 0, fire: 0 },
-};
-
 const SAMPLE_DATA: BodyStructure.Data = {
-    parts: [
-        {
-            shortcode: "head",
-            roles: [],
-            canHoldItem: false,
-            heldItemId: null,
-            combatArea: 15,
-            locations: [SKULL_LOC, NECK_LOC],
-        },
+    zones: [zoneData("headzone", 1)],
+    parts: [partData("head", "headzone", 15)],
+    locations: [
+        locationData("skull", "head", 10, {
+            name: "Skull",
+            bleedingSusceptibility: "medium",
+            shockValue: 3,
+            protectionBase: { blunt: 3, edged: 3, piercing: 3, fire: 0 },
+        }),
+        locationData("neck", "head", 2, {
+            name: "Neck",
+            bleedingSusceptibility: "high",
+            amputability: "medium",
+            shockValue: 5,
+        }),
     ],
-    adjacent: [],
-} as any;
-
-const MOCK_BODY_OWNER = brandLogic({
-    kind: "being",
-    actor: null,
-    data: { body: { structure: SAMPLE_DATA } },
-}) as any;
+};
 
 function makeBody(): BodyStructure {
-    return new BodyStructure(SAMPLE_DATA, { parent: MOCK_BODY_OWNER });
+    return makeBodyFixture(SAMPLE_DATA);
 }
 
 describe("buildResolveInjuryData", () => {

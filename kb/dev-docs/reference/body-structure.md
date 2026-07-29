@@ -29,7 +29,9 @@ audience: Developers and content authors defining creature anatomy.
 
 Every creature (a Being actor) carries its anatomy on the actor itself, under `system.body`, derived by the Being-owned {@link sohl.document.actor.logic.BodyLogic} (exposed as `being.body`). The being's body structure determines where blows land, how armor protects, which skills and attributes are impaired by injury, and whether a hit makes the target fumble a weapon or stumble. A being with an **empty body structure** (`being.body.structure.parts.length === 0`) is **incorporeal** — a spirit with no anatomy; check `being.body.isIncorporeal`.
 
-A body structure has three parts: a list of **body parts**, the **body locations** nested within each part, and an **adjacency graph** describing which parts are next to which. A cross-cutting tag set of **body roles** ties parts to the skills and attributes they affect.
+A body structure has three tiers: **body zones**, the **body parts** within each zone, and the **body locations** within each part. A cross-cutting tag set of **body roles** ties parts to the skills and attributes they affect.
+
+**Storage is flat; the hierarchy is derived.** The three tiers persist as three sibling arrays, each child naming its parent by shortcode; {@link sohl.entity.body.BodyStructure} assembles them into the tree on every prepare. Flat storage keeps every edit a single whole-array write — a nested tree would force a by-index write into a sub-array, which Foundry rebuilds from a sparse map and corrupts (#247).
 
 ## Where the data lives
 
@@ -37,17 +39,37 @@ The schema is the `body` `SchemaField` on the Being actor's DataModel. See [src/
 
 ```
 system.body.structure
-  ├── parts: BodyPart.Data[]   // each with its locations[]
-  └── adjacent: string[][]      // pairs of part shortcodes
+  ├── zones:     BodyZone.Data[]      // { shortcode, name, probWeight }
+  ├── parts:     BodyPart.Data[]      // each names its zone via bodyZoneCode
+  └── locations: BodyLocation.Data[]  // each names its part via bodyPartCode
 ```
 
 At runtime, the data is rebuilt into domain objects in `src/entity/body/`:
 
-- `BodyStructure` — the root object; provides hit-location resolution and adjacency queries
+- `BodyStructure` — the root object; assembles the hierarchy and provides hit-location resolution
+- `BodyZone` — one anatomical region, owning a run of zone numbers
 - `BodyPart` — one anatomical division
 - `BodyLocation` — one hit location within a part
 
-The `BodyStructure` and its parts/locations are parented to the being's {@link sohl.document.actor.logic.BodyLogic} (owned by {@link sohl.document.actor.logic.BeingLogic}); their persisted paths are `system.body.structure.parts` / `system.body.structure.adjacent`. Domain objects are reconstructed on every preparation cycle. Active effects may mutate them in-flight (e.g., adding protection modifiers), but only changes written through `document.update()` survive. To persist, use the `*Update()` helpers on `BodyStructure` (`addPartUpdate`, `removePartUpdate`, `addEdgeUpdate`, `removeEdgeUpdate`).
+**Every entity's `index` is its slot in the flat array**, so `structure.parts[i].index === i` and each `updatePath` is a plain two-segment path (`system.body.structure.parts.4`). A child's *position within its parent* — {@link sohl.entity.body.BodyPart.position} / {@link sohl.entity.body.BodyLocation.position} — is its relative order among the array elements sharing that parent, and is what drag-to-sort addresses.
+
+A child whose parent code matches nothing is preserved in storage but left out of the hierarchy; read them from `structure.orphanedParts` / `structure.orphanedLocations`.
+
+The `BodyStructure` and its zones/parts/locations are parented to the being's {@link sohl.document.actor.logic.BodyLogic} (owned by {@link sohl.document.actor.logic.BeingLogic}); their persisted paths are `system.body.structure.{zones,parts,locations}`. Domain objects are reconstructed on every preparation cycle. Active effects may mutate them in-flight (e.g., adding protection modifiers), but only changes written through `document.update()` survive.
+
+To persist, use the `*Update()` helpers on `BodyStructure`. They are symmetric across the three tiers, and each returns a **complete-array** payload:
+
+| Tier      | Add                 | Remove                                   | Reorder / re-parent  | Field edit                |
+| --------- | ------------------- | ---------------------------------------- | -------------------- | ------------------------- |
+| Zone      | `addZoneUpdate`     | `removeZoneUpdate` (cascades)            | `moveZoneUpdate`     | `setZoneFieldsUpdate`     |
+| Part      | `addPartUpdate`     | `removePartUpdate` (cascades)            | `movePartUpdate`     | `setPartFieldsUpdate`     |
+| Location  | `addLocationUpdate` | `removeLocationUpdate`                   | `moveLocationUpdate` | `setLocationFieldsUpdate` |
+
+**Deletes cascade down the tree.** Removing a zone also removes its parts and their locations; removing a part removes its locations. A child is never orphaned by a delete.
+
+**Renames re-point children.** Because a child links to its parent by *shortcode*, changing a zone's or part's shortcode must be paired with `repointPartsUpdate(old, new)` / `repointLocationsUpdate(old, new)`. The two payloads touch different arrays, so they merge by spread — see `BodyZoneConfig` / `BodyPartConfig` for the pattern.
+
+Convenience wrappers stamp the parent code for you: {@link sohl.entity.body.BodyZone.addPartUpdate} and {@link sohl.entity.body.BodyPart.addLocationUpdate}.
 
 ## Body parts
 
@@ -55,16 +77,16 @@ A body part is a primary anatomical division — Head, Torso, an arm, a leg, a w
 
 | Field                 | Type                  | Purpose                                                                                                              |
 | --------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `shortcode`           | string                | Stable identifier (e.g., `headpart`). Used in adjacency lookups and update paths.                                    |
+| `shortcode`           | string                | Stable identifier (e.g., `headpart`), unique body-wide. Named by its locations' `bodyPartCode`.                      |
 | `name`                | string                | Display name (e.g., `"Head"`). Stored literally; not a localization key.                                             |
 | `roles`               | `BodyRole[]`          | Functional tags the part fulfills — see [Body Roles](#body-roles).                                                   |
-| `combatArea`          | number                | Targetable surface area in square feet. Doubles as the weight for unaimed-attack random selection.                   |
+| `probWeight`          | number                | Selection weight **within its zone**: once the zone is rolled, its parts are drawn in proportion to this. Also the area an aimed strike spends its `spread` against. |
 | `canHoldItem`         | boolean               | Whether this part can grip an item. Arms typically `true`; others `false`.                                           |
 | `heldItemId`          | string \| null        | The ID of the item currently held, if any.                                                                           |
 | `favoredFlag`         | boolean               | Marks the part as favored (off-hand vs. main-hand semantics).                                                        |
 | `permanentImpairment` | integer ≤ 0           | Manually-set permanent impairment for the part (`0` = none). See [Body-part impairment](#body-part-impairment).      |
 | `permanentlyUnusable` | boolean               | Manually-set flag marking the part permanently unusable (withered / fully amputated), regardless of impairment tier. |
-| `locations`           | `BodyLocation.Data[]` | The hit locations nested within this part.                                                                           |
+| `bodyZoneCode`        | string                | Shortcode of the owning {@link sohl.entity.body.BodyZone}.                                                           |
 
 A convenience getter {@link sohl.entity.body.BodyPart.affectsMobility} is `true` when the part has any of the `vital`, `core`, or `locomotor` roles.
 
@@ -74,7 +96,8 @@ A body location is a specific hit point within a part — Skull, Thorax, Right E
 
 | Field                    | Type                             | Purpose                                                                                                                                                                                       |
 | ------------------------ | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `shortcode`              | string                           | Stable identifier (e.g., `skullloc`, `relbloc`).                                                                                                                                              |
+| `shortcode`              | string                           | Stable identifier (e.g., `skullloc`, `relbloc`), unique **body-wide**, not merely within its part.                                                                                            |
+| `bodyPartCode`           | string                           | Shortcode of the owning {@link sohl.entity.body.BodyPart}.                                                                                                                                    |
 | `name`                   | string                           | Display name (e.g., `"Skull"`). Stored literally.                                                                                                                                             |
 | `probWeight`             | integer                          | Relative weight for random hit selection within the parent part.                                                                                                                              |
 | `shockValue`             | integer                          | Inherent shock inflicted by an injury at this location, regardless of severity.                                                                                                               |
@@ -188,34 +211,57 @@ size-correct at the source, with no changes to those subsystems. An Active Effec
 on `system.body.bodyScaleBase` (shrink/enlarge) re-scales the table within the same
 prepare cycle.
 
-## Adjacency
+## Body zones
 
-The adjacency graph defines which parts are next to which, as an array of unordered pairs of part shortcodes:
+A body zone is the broadest anatomical division and the **first stage of hit determination**. Persisted fields:
 
-```json
-"adjacent": [
-    ["headpart", "torsopart"],
-    ["headpart", "rarmpart"],
-    ["torsopart", "rarmpart"],
-    ["torsopart", "rlegpart"]
-]
-```
+| Field        | Type    | Purpose                                                                                              |
+| ------------ | ------- | ---------------------------------------------------------------------------------------------------- |
+| `shortcode`  | string  | Stable identifier (e.g., `armszone`), unique body-wide. Named by its parts' `bodyZoneCode`.          |
+| `name`       | string  | Display name (e.g., `"Arms"`). Stored literally; not a localization key.                             |
+| `probWeight` | integer | How many **zone numbers** this zone claims. `0` makes it unrollable.                                 |
 
-Each pair is bidirectional. The adjacency graph drives the **aimed-strike drift algorithm** ({@link sohl.entity.body.BodyStructure.getRandomPart}):
+**Zone numbers** are allocated in persisted zone order, each zone taking a contiguous run sized by its weight. A body whose zones weigh 1 / 4 / 3 / 4 hands out `1`, `2–5`, `6–8`, `9–12`.
+
+Across the whole body the numbers are therefore **contiguous, unique, gap-free, and monotonically increasing by 1 from 1** — an invariant the suite asserts directly. A zero-weight zone claims no numbers and does not interrupt the run. Two consequences follow:
+
+- {@link sohl.entity.body.BodyStructure.maxZoneNumber} is the `N` of that `1..N` run (12 in the example above). It is the same number as the sum of every zone's weight, by construction.
+- {@link sohl.entity.body.BodyStructure.getZoneByNumber} resolves any integer in `1..N` to exactly one zone, and returns `undefined` for anything else — `0` or below, above `N`, or non-integer. {@link sohl.entity.body.BodyZone.zoneNumbers} exposes a single zone's run.
+
+Zone order therefore **matters**: `moveZoneUpdate` re-allocates every subsequent zone's numbers. `probWeight` is deliberately **not** wrapped in a `ValueModifier` — the runs are positional, so an active effect that moved one zone's weight mid-cycle would desync every zone above it.
+
+## Aimed-strike drift
+
+Zones also supply the neighbourhood the old part-adjacency graph used to provide (#780). {@link sohl.entity.body.BodyStructure.getNeighborParts} returns the nearest ring of candidates:
+
+1. The part's own **zone siblings** (a left arm drifts to the right arm first).
+2. Failing that, parts of the nearest zones by index distance, widening one step at a time in both directions at once.
+
+Only the closest non-empty ring is returned, so a strike drifts exactly one step per iteration. This drives {@link sohl.entity.body.BodyStructure.getRandomPart} when a target is supplied:
 
 1. Roll `1..spread`.
 2. If the roll ≤ the current target part's `probWeight`, that part is hit.
-3. Otherwise, reduce remaining spread by `probWeight` and drift to a random adjacent part. Repeat.
-4. If the drift reaches a part with no unvisited neighbors, hit that part.
-
-For unaimed attacks (`getRandomPart()` with no target), pure weighted random selection is used, with each part's `combatArea` as its weight.
+3. Otherwise, reduce remaining spread by `probWeight` and drift to a random part of the nearest ring. Repeat.
+4. If no unvisited neighbour remains, hit the current part.
 
 ## Hit-location pipeline
 
 `BodyStructure.getRandomLocation(target?)` is the canonical entry point during attack resolution:
 
-1. `getRandomPart(target?)` selects a part (aimed drift, or pure weighted random).
+1. `getRandomPart(target?)` selects a part. **Unaimed**, this rolls a zone weighted by its `probWeight` ({@link sohl.entity.body.BodyStructure.getRandomOccupiedZone}), then draws a part inside it weighted by the part's `probWeight`. **Aimed**, it runs the drift algorithm above.
 2. The selected part's `getRandomLocation()` picks a location within it, weighted by each location's `probWeight`.
+
+**The same rule applies at all three tiers**: an entry is drawn with probability `probWeight / (sum of its siblings' probWeight)`. So for an unaimed strike,
+
+```
+P(location) =   zone.probWeight / sum(all zones' probWeight)
+              x part.probWeight / sum(that zone's parts' probWeight)
+              x loc.probWeight  / sum(that part's locations' probWeight)
+```
+
+A zone that carries weight but holds no parts is **excluded** from the roll rather than falling through to a body-wide draw — otherwise its share would leak out and skew every other zone's true frequency. `getRandomZone` still reports it, since it owns real zone numbers and the displayed table must say so.
+
+Two selectors deliberately sit outside this model: aimed strikes (the drift algorithm above bypasses the zone roll), and `getRandomPartByRole`, which is a flat weighted draw over every role-matching part body-wide — it answers "any vital part," not "where did the blow land."
 
 For the broader resolution flow (rolls → wound calculation → effects), see [Combat Resolution Pipeline](./combat-resolution-pipeline.md).
 
@@ -232,7 +278,7 @@ When authoring a new body structure, set the literal `name` field and add the co
 
 The Human body structure is the reference anatomy shipped today — carried on the "Basic Folk" being's `system.body.structure` (authored in [assets/content/Corpora/Human_Folk.md](../../assets/content/Corpora/Human_Folk.md)). Its structure:
 
-| Part shortcode | Name      | Roles         | `combatArea` | Can hold |
+| Part shortcode | Name      | Roles         | `probWeight` | Can hold |
 | -------------- | --------- | ------------- | -----------: | -------- |
 | `headpart`     | Head      | `vital`       |            1 | no       |
 | `torsopart`    | Torso     | `core`        |            4 | no       |
@@ -252,11 +298,18 @@ Locations:
 | `llegpart`  | `lthghloc`, `lkneeloc`, `lcalfloc`, `lfootloc`                                                                               |
 | `rlegpart`  | `rthghloc`, `rkneeloc`, `rcalfloc`, `rfootloc`                                                                               |
 
-Adjacency: torso is the hub — head, both arms, and both legs all connect to it; head also connects directly to both arms.
+Zones (in order, with the numbers each claims):
+
+| Zone shortcode | Name  | `probWeight` | Zone numbers | Parts                    |
+| -------------- | ----- | -----------: | ------------ | ------------------------ |
+| `headzone`     | Head  |            1 | 1            | `headpart`               |
+| `armszone`     | Arms  |            4 | 2–5          | `rarmpart`, `larmpart`   |
+| `torsozone`    | Torso |            4 | 6–9          | `torsopart`              |
+| `legszone`     | Legs  |            6 | 10–15        | `rlegpart`, `llegpart`   |
 
 ## Suggested shortcode conventions for new body structures
 
-Suffix every part shortcode with `part` and every location shortcode with `loc`. Use `l*` / `r*` prefixes for left/right pairs. Beyond that, the suggestions below are conventions, not shipped data — only the Human body structure is authored today.
+Suffix every zone shortcode with `zone`, every part shortcode with `part`, and every location shortcode with `loc`. Use `l*` / `r*` prefixes for left/right pairs. Part and location shortcodes must be unique **body-wide**. Beyond that, the suggestions below are conventions, not shipped data — only the Human body structure is authored today.
 
 ### Quadruped (horse, wolf, bear)
 
@@ -279,22 +332,32 @@ Suffix every part shortcode with `part` and every location shortcode with `loc`.
 Use `BodyStructure.addPartUpdate(partData)` to build the update payload:
 
 ```typescript
-const update = structure.addPartUpdate({
-    shortcode: "tailpart",
-    name: "Tail",
-    roles: ["locomotor"],
-    favoredFlag: false,
-    canHoldItem: false,
-    heldItemId: null,
-    combatArea: 1,
-    locations: [
-        /* BodyLocation.Data entries */
-    ],
-});
-await beingActor.update(update);
+const zone = structure.getZoneByCode("tailzone");
+// `BodyZone.addPartUpdate` stamps `bodyZoneCode` for you.
+await beingActor.update(
+    zone.addPartUpdate({
+        shortcode: "tailpart",
+        name: "Tail",
+        bodyZoneCode: "tailzone",
+        roles: ["locomotor"],
+        favoredFlag: false,
+        canHoldItem: false,
+        heldItemId: null,
+        probWeight: 1,
+    }),
+);
 ```
 
-To wire it into adjacency: `structure.addEdgeUpdate("tailpart", "hindquarterspart")` returns the update payload to add the edge.
+Its hit locations are added separately, against the flat `locations` array — again with the parent code stamped for you:
+
+```typescript
+const part = beingActor.logic.body.structure.getPartByCode("tailpart");
+await beingActor.update(
+    part.addLocationUpdate(blankBodyLocation("Tail Tip", "tailtiploc")),
+);
+```
+
+Add the zone first if it does not exist (`structure.addZoneUpdate(blankBodyZone("Tail", "tailzone"))`); a part whose `bodyZoneCode` names no zone is stored but stays out of the hierarchy.
 
 Localization keys for the bare shortcode (`SOHL.BodyPart.tail`, `SOHL.BodyLocation.<each location>`) belong in [lang/en.json](../../lang/en.json).
 

@@ -15,7 +15,8 @@
  * Body Part (#721) and Body Location (#722) editors, opened from the Combat-tab
  * Body Structure tree's per-row ⋮ menu. Each editor is a small ApplicationV2
  * that auto-saves (submitOnChange, no Save button) and writes back to the
- * being's `system.body.structure.parts` via a whole-array update.
+ * being's flat `system.body.structure.{zones,parts,locations}` arrays via a
+ * whole-array update (#780).
  */
 
 /** Find the open Body Part / Location editor by its id prefix (minifier-safe). */
@@ -35,6 +36,7 @@ function closeEditors() {
             Array.from(win.foundry.applications.instances.values())
                 .filter(
                     (a) =>
+                        a.id?.startsWith("body-zone-config-") ||
                         a.id?.startsWith("body-part-config-") ||
                         a.id?.startsWith("body-location-config-"),
                 )
@@ -84,12 +86,12 @@ describe("Body Structure editors (Combat tab)", () => {
                         "no Save button",
                     ).to.not.exist;
                 });
-                // Edit combatArea + name + a flag; the editor auto-saves.
+                // Edit probWeight + name + a flag; the editor auto-saves.
                 cy.foundry((win) => {
                     const form = findEditor(win, "body-part-config-").element;
                     form.querySelector('input[name="name"]').value =
                         "Edited Part";
-                    form.querySelector('input[name="combatArea"]').value = "7";
+                    form.querySelector('input[name="probWeight"]').value = "7";
                     form.querySelector('input[name="canHoldItem"]').checked =
                         true;
                     form.requestSubmit();
@@ -99,7 +101,7 @@ describe("Body Structure editors (Combat tab)", () => {
                     const part = win.game.actors.get(actor.id).system.body
                         .structure.parts[ref.index];
                     expect(part.name).to.eq("Edited Part");
-                    expect(part.combatArea).to.eq(7);
+                    expect(part.probWeight).to.eq(7);
                     expect(part.canHoldItem).to.eq(true);
                 });
             });
@@ -155,9 +157,9 @@ describe("Body Structure editors (Combat tab)", () => {
                 cy.window().should((win) => {
                     const loc = win.game.actors
                         .get(actor.id)
-                        .system.body.structure.parts[
-                            ref.partIndex
-                        ].locations.find((l) => l.shortcode === ref.locCode);
+                        .system.body.structure.locations.find(
+                            (l) => l.shortcode === ref.locCode,
+                        );
                     expect(loc.shockValue).to.eq(9);
                     expect(loc.protectionBase.blunt).to.eq(4);
                     expect(loc.bleedingSusceptibility).to.eq("high");
@@ -230,11 +232,13 @@ describe("Body Structure editing — add / sort / delete (#720)", () => {
             .system.body.structure.parts.map((p) => p.shortcode);
 
     const totalLocations = (win, actorId) =>
+        win.game.actors.get(actorId).system.body.structure.locations.length;
+
+    const locationsOfPart = (win, actorId, partCode) =>
         win.game.actors
             .get(actorId)
-            .system.body.structure.parts.reduce(
-                (n, p) => n + p.locations.length,
-                0,
+            .system.body.structure.locations.filter(
+                (l) => l.bodyPartCode === partCode,
             );
 
     it("renders add / drag / context-menu controls for an owner", () => {
@@ -248,6 +252,9 @@ describe("Body Structure editing — add / sort / delete (#720)", () => {
                     .get(actor.id)
                     .sheet.element.querySelector('section[data-tab="combat"]');
                 const list = el.querySelector(".bodylocations-list");
+                const zoneHeader = list.querySelector(
+                    "header.bodyzone__header[data-zone-shortcode]",
+                );
                 const header = list.querySelector(
                     "header.bodypart__header[data-part-shortcode]",
                 );
@@ -255,11 +262,18 @@ describe("Body Structure editing — add / sort / delete (#720)", () => {
                     "li.bodylocation[data-part-shortcode][data-location-shortcode]",
                 );
                 return {
+                    addZone: !!list.querySelector(
+                        '[data-action="addBodyZone"]',
+                    ),
                     addPart: !!list.querySelector(
                         '[data-action="addBodyPart"]',
                     ),
                     addLoc: !!list.querySelector(
                         '[data-action="addBodyLocation"]',
+                    ),
+                    zoneDraggable: zoneHeader?.getAttribute("draggable"),
+                    zoneMenu: !!zoneHeader?.querySelector(
+                        ".bodyzone-contextmenu",
                     ),
                     partDraggable: header?.getAttribute("draggable"),
                     partMenu: !!header?.querySelector(".bodypart-contextmenu"),
@@ -269,8 +283,11 @@ describe("Body Structure editing — add / sort / delete (#720)", () => {
                     ),
                 };
             }).should((r) => {
+                expect(r.addZone, "add-zone control").to.be.true;
                 expect(r.addPart, "add-part control").to.be.true;
                 expect(r.addLoc, "add-location control").to.be.true;
+                expect(r.zoneDraggable, "zone draggable").to.equal("true");
+                expect(r.zoneMenu, "zone context menu").to.be.true;
                 expect(r.partDraggable, "part draggable").to.equal("true");
                 expect(r.locDraggable, "location draggable").to.equal("true");
                 expect(r.partMenu, "part context menu").to.be.true;
@@ -279,28 +296,65 @@ describe("Body Structure editing — add / sort / delete (#720)", () => {
         });
     });
 
-    it("reorders body parts with a whole-array write", () => {
+    it("re-parents a body part to another zone with a whole-array write", () => {
         cy.importActor().then((actor) => {
             cy.foundry((win) => {
                 const doc = win.game.actors.get(actor.id);
+                const structure = doc.logic.body.structure;
                 const before = partCodes(win, actor.id);
                 const totBefore = totalLocations(win, actor.id);
-                const payload = doc.logic.body.structure.movePartUpdate(
+                const moved = structure.parts[0];
+                // Send the first part to the last zone, at its end.
+                const destZone = structure.zones[structure.zones.length - 1];
+                const payload = structure.movePartUpdate(
+                    moved.index,
+                    destZone.shortcode,
+                    destZone.parts.length,
+                );
+                return doc.update(payload).then(() => ({
+                    before,
+                    movedCode: moved.shortcode,
+                    destZoneCode: destZone.shortcode,
+                    after: partCodes(win, actor.id),
+                    movedZone: doc.system.body.structure.parts.find(
+                        (p) => p.shortcode === moved.shortcode,
+                    ).bodyZoneCode,
+                    totBefore,
+                    totAfter: totalLocations(win, actor.id),
+                }));
+            }).should((r) => {
+                // The part now belongs to the destination zone...
+                expect(r.movedZone).to.equal(r.destZoneCode);
+                // ...and lands at the end of the flat array (its zone's end).
+                expect(r.after[r.after.length - 1]).to.equal(r.movedCode);
+                expect(r.after).to.have.length(r.before.length);
+                // No location was lost to the array-rewrite (#247 guard).
+                expect(r.totAfter).to.equal(r.totBefore);
+            });
+        });
+    });
+
+    it("reorders body zones with a whole-array write", () => {
+        cy.importActor().then((actor) => {
+            cy.foundry((win) => {
+                const doc = win.game.actors.get(actor.id);
+                const zoneCodes = () =>
+                    doc.system.body.structure.zones.map((z) => z.shortcode);
+                const before = zoneCodes();
+                const payload = doc.logic.body.structure.moveZoneUpdate(
                     0,
                     before.length - 1,
                 );
                 return doc.update(payload).then(() => ({
                     before,
-                    after: partCodes(win, actor.id),
-                    totBefore,
-                    totAfter: totalLocations(win, actor.id),
+                    after: zoneCodes(),
+                    partCount: partCodes(win, actor.id).length,
                 }));
             }).should((r) => {
-                // First part moved to the end; the rest shift up by one.
                 expect(r.after[r.after.length - 1]).to.equal(r.before[0]);
                 expect(r.after).to.have.length(r.before.length);
-                // No location was lost to the array-rewrite (#247 guard).
-                expect(r.totAfter).to.equal(r.totBefore);
+                // Re-ordering zones never disturbs their parts.
+                expect(r.partCount).to.be.greaterThan(0);
             });
         });
     });
@@ -309,29 +363,30 @@ describe("Body Structure editing — add / sort / delete (#720)", () => {
         cy.importActor().then((actor) => {
             cy.foundry((win) => {
                 const doc = win.game.actors.get(actor.id);
-                const parts = doc.system.body.structure.parts;
-                const movedCode = parts[0].locations[0].shortcode;
-                const destLen = parts[1].locations.length;
-                const totBefore = totalLocations(win, actor.id);
-                const payload = doc.logic.body.structure.moveLocationUpdate(
-                    0,
-                    0,
-                    1,
-                    destLen,
+                const structure = doc.logic.body.structure;
+                const moved = structure.locations[0];
+                const srcCode = moved.bodyPart.shortcode;
+                const destPart = structure.parts.find(
+                    (p) => p.shortcode !== srcCode,
                 );
-                return doc.update(payload).then(() => {
-                    const after = doc.system.body.structure.parts;
-                    return {
-                        inSource: after[0].locations.some(
-                            (l) => l.shortcode === movedCode,
-                        ),
-                        inDest: after[1].locations.some(
-                            (l) => l.shortcode === movedCode,
-                        ),
-                        totBefore,
-                        totAfter: totalLocations(win, actor.id),
-                    };
-                });
+                const totBefore = totalLocations(win, actor.id);
+                const payload = structure.moveLocationUpdate(
+                    moved.index,
+                    destPart.shortcode,
+                    destPart.locations.length,
+                );
+                return doc.update(payload).then(() => ({
+                    inSource: locationsOfPart(win, actor.id, srcCode).some(
+                        (l) => l.shortcode === moved.shortcode,
+                    ),
+                    inDest: locationsOfPart(
+                        win,
+                        actor.id,
+                        destPart.shortcode,
+                    ).some((l) => l.shortcode === moved.shortcode),
+                    totBefore,
+                    totAfter: totalLocations(win, actor.id),
+                }));
             }).should((r) => {
                 expect(r.inSource, "removed from source part").to.be.false;
                 expect(r.inDest, "added to destination part").to.be.true;
@@ -340,49 +395,128 @@ describe("Body Structure editing — add / sort / delete (#720)", () => {
         });
     });
 
-    it("adds then removes a body part (whole-array writes)", () => {
+    it("adds then removes a body part, cascading to its locations", () => {
         cy.importActor().then((actor) => {
             cy.foundry((win) => {
                 const doc = win.game.actors.get(actor.id);
                 const structure = doc.logic.body.structure;
                 const countBefore = partCodes(win, actor.id).length;
+                const locsBefore = totalLocations(win, actor.id);
+                const zoneCode = structure.zones[0].shortcode;
                 // Re-realm the new part into the game window before update.
                 const newPart = win.structuredClone({
                     shortcode: "e2etail",
                     name: "E2E Tail",
+                    bodyZoneCode: zoneCode,
                     roles: [],
                     favoredFlag: false,
                     canHoldItem: false,
                     heldItemId: null,
                     permanentImpairment: 0,
                     permanentlyUnusable: false,
-                    combatArea: 0,
                     probWeight: 0,
-                    locations: [],
                 });
-                return doc.update(structure.addPartUpdate(newPart)).then(() => {
-                    const added = partCodes(win, actor.id);
-                    return doc
-                        .update(
-                            doc.logic.body.structure.removePartUpdate(
-                                "e2etail",
-                            ),
-                        )
-                        .then(() => ({
-                            countBefore,
-                            addedHas: added.includes("e2etail"),
-                            addedLen: added.length,
-                            finalHas: partCodes(win, actor.id).includes(
-                                "e2etail",
-                            ),
-                            finalLen: partCodes(win, actor.id).length,
-                        }));
+                const newLoc = win.structuredClone({
+                    shortcode: "e2etailtip",
+                    name: "E2E Tail Tip",
+                    bodyPartCode: "e2etail",
+                    bleedingSusceptibility: "none",
+                    amputability: "none",
+                    isStumble: false,
+                    isFumble: false,
+                    shockValue: 0,
+                    probWeight: 1,
+                    protectionBase: {
+                        blunt: 0,
+                        edged: 0,
+                        piercing: 0,
+                        fire: 0,
+                    },
                 });
+                return doc
+                    .update(structure.addPartUpdate(newPart))
+                    .then(() =>
+                        doc.update(
+                            doc.logic.body.structure.addLocationUpdate(newLoc),
+                        ),
+                    )
+                    .then(() => {
+                        const added = partCodes(win, actor.id);
+                        const addedLocs = totalLocations(win, actor.id);
+                        return doc
+                            .update(
+                                doc.logic.body.structure.removePartUpdate(
+                                    "e2etail",
+                                ),
+                            )
+                            .then(() => ({
+                                countBefore,
+                                locsBefore,
+                                addedHas: added.includes("e2etail"),
+                                addedLen: added.length,
+                                addedLocs,
+                                finalHas: partCodes(win, actor.id).includes(
+                                    "e2etail",
+                                ),
+                                finalLen: partCodes(win, actor.id).length,
+                                finalLocs: totalLocations(win, actor.id),
+                            }));
+                    });
             }).should((r) => {
                 expect(r.addedHas, "part added").to.be.true;
                 expect(r.addedLen).to.equal(r.countBefore + 1);
+                expect(r.addedLocs).to.equal(r.locsBefore + 1);
                 expect(r.finalHas, "part removed").to.be.false;
                 expect(r.finalLen).to.equal(r.countBefore);
+                // The part's location went with it (cascade delete, #780).
+                expect(r.finalLocs, "location cascaded").to.equal(r.locsBefore);
+            });
+        });
+    });
+
+    it("removes a body zone, cascading to its parts and their locations", () => {
+        cy.importActor().then((actor) => {
+            cy.foundry((win) => {
+                const doc = win.game.actors.get(actor.id);
+                const structure = doc.logic.body.structure;
+                // Pick a zone that actually owns parts with locations.
+                const zone = structure.zones.find(
+                    (z) => z.parts.length > 0 && z.locations.length > 0,
+                );
+                const doomedParts = zone.parts.map((p) => p.shortcode);
+                const doomedLocs = zone.locations.map((l) => l.shortcode);
+                return doc
+                    .update(structure.removeZoneUpdate(zone.shortcode))
+                    .then(() => {
+                        const sys = doc.system.body.structure;
+                        return {
+                            zoneGone: !sys.zones.some(
+                                (z) => z.shortcode === zone.shortcode,
+                            ),
+                            partsGone: doomedParts.every(
+                                (c) =>
+                                    !sys.parts.some((p) => p.shortcode === c),
+                            ),
+                            locsGone: doomedLocs.every(
+                                (c) =>
+                                    !sys.locations.some(
+                                        (l) => l.shortcode === c,
+                                    ),
+                            ),
+                            // Nothing orphaned: every surviving location still
+                            // names a surviving part.
+                            noOrphans: sys.locations.every((l) =>
+                                sys.parts.some(
+                                    (p) => p.shortcode === l.bodyPartCode,
+                                ),
+                            ),
+                        };
+                    });
+            }).should((r) => {
+                expect(r.zoneGone, "zone removed").to.be.true;
+                expect(r.partsGone, "zone's parts removed").to.be.true;
+                expect(r.locsGone, "those parts' locations removed").to.be.true;
+                expect(r.noOrphans, "no orphaned locations").to.be.true;
             });
         });
     });

@@ -22,6 +22,7 @@ import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { BODY_ROLE, isA } from "@src/utils/constants";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { SohlEntity } from "../SohlEntity";
+import type { BodyZone } from "./BodyZone";
 
 /**
  * A body part containing one or more {@link BodyLocation | hit locations} —
@@ -33,6 +34,12 @@ import { SohlEntity } from "../SohlEntity";
  * and attributes declare which roles impair them; injury at a part impairs
  * every skill/attribute that lists any of the part's roles. Mishap behavior
  * (fumble/stumble checks) is also role-driven; see BodyRole in constants.
+ *
+ * **Persistence:** parts are stored in the flat `body.structure.parts` array
+ * and declare their owning zone via {@link BodyPart.Data.bodyZoneCode}. A part
+ * does *not* nest its locations — locations name their part via
+ * {@link sohl.entity.body.BodyLocation.Data.bodyPartCode}, and
+ * {@link BodyStructure} assembles the hierarchy at construction.
  *
  * **Lifecycle:** Rebuilt from persisted schema data on every preparation
  * cycle. May be mutated during the lifecycle (e.g., modifiers applied by
@@ -51,8 +58,9 @@ export class BodyPart extends SohlEntity {
     /** The item currently held by this part, resolved from `heldItemId`, or undefined. */
     readonly heldItem?: SohlItem;
     /**
-     * Selection weight for this part in unaimed / hit-spread part rolls,
-     * derived from the persisted {@link BodyPart.Data.combatArea}.
+     * Selection weight for this part within its zone, derived from the
+     * persisted {@link BodyPart.Data.probWeight}. Once a zone is rolled, its
+     * parts are drawn in proportion to this weight.
      */
     readonly probWeight: ValueModifier;
     /**
@@ -66,11 +74,11 @@ export class BodyPart extends SohlEntity {
      * unusable regardless of tier.
      */
     readonly permanentlyUnusable: boolean;
-    /** Hit locations contained within this part. */
+    /** Hit locations contained within this part, in persisted order. */
     readonly locations: BodyLocation[];
-    /** Back-reference to the owning {@link BodyStructure}. */
-    readonly structure: BodyStructure;
-    /** Zero-based index of this part within {@link BodyStructure.parts}. */
+    /** Back-reference to the owning {@link sohl.entity.body.BodyZone}. */
+    readonly zone: BodyZone;
+    /** Zero-based index of this part within the flat `structure.parts` array. */
     readonly index: number;
 
     /**
@@ -100,22 +108,22 @@ export class BodyPart extends SohlEntity {
 
     /**
      * Builds a single body part from its persisted data, resolving its held
-     * item and deriving its selection weight (from `combatArea`) and
-     * constructing its child locations.
+     * item and deriving its selection weight and child locations.
      *
      * @param data - Persisted part data.
      * @param options - Construction options
      * @param options.parent - Owning {@link sohl.document.actor.logic.BeingLogic} (the body's owner) for this part.
-     * @param options.structure - Owning {@link BodyStructure} for this part.
-     * @param options.index - Zero-based index of this part within {@link BodyStructure.parts}.
+     * @param options.zone - Owning {@link sohl.entity.body.BodyZone} for this part.
+     * @param options.index - Zero-based index of this part within the flat `structure.parts` array.
+     * @param options.locations - This part's locations, each paired with its flat `locations` index.
      * @throws If required fields are missing from `data` or `options`.
      */
     constructor(data: BodyPart.Data, options: BodyPart.Options) {
         if (!isA(options.parent, "SohlLogic")) {
             throw new Error("Requires a Logic parent");
         }
-        if (!options.structure) {
-            throw new Error("BodyPart requires a structure");
+        if (!options.zone) {
+            throw new Error("BodyPart requires a zone");
         }
         if (options.index === undefined) {
             throw new Error("BodyPart requires an index");
@@ -132,20 +140,34 @@ export class BodyPart extends SohlEntity {
                     | undefined) ?? undefined)
             :   undefined;
         this.probWeight = new entity.ValueModifier(this.parent).setBase(
-            data.combatArea ?? 0,
+            data.probWeight ?? 0,
         );
         this.permanentImpairment = Math.min(0, data.permanentImpairment ?? 0);
         this.permanentlyUnusable = data.permanentlyUnusable ?? false;
         this.index = options.index;
-        this.structure = options.structure;
-        this.locations = data.locations.map(
-            (d, i) =>
-                new entity.BodyLocation(d, {
+        this.zone = options.zone;
+        this.locations = options.locations.map(
+            ({ data: locData, index }) =>
+                new entity.BodyLocation(locData, {
                     parent: this.parent,
                     bodyPart: this,
-                    index: i,
+                    index,
                 }),
         );
+    }
+
+    /** The {@link BodyStructure} this part belongs to, via its zone. */
+    get structure(): BodyStructure {
+        return this.zone.structure;
+    }
+
+    /**
+     * This part's position **among its zone's parts**, as opposed to
+     * {@link index}, its slot in the flat `structure.parts` array. Drag-to-sort
+     * addresses a destination by position; storage addresses it by index.
+     */
+    get position(): number {
+        return this.zone.parts.indexOf(this);
     }
 
     /**
@@ -186,50 +208,32 @@ export class BodyPart extends SohlEntity {
     }
 
     /**
-     * Build an `update()` payload that appends a new location to this
-     * part's persisted locations array. Sources the current array from
-     * the canonical DataModel data, not from the (possibly mutated)
-     * domain objects.
-     * @param locationData - Persisted data for the location to append.
-     * @returns An update payload appending the location to this part.
+     * Build an `update()` payload that appends a new location to this part,
+     * stamping it with this part's shortcode. The location lands at the end of
+     * the flat `locations` array — and so at the end of this part's locations.
+     *
+     * @param locationData - Persisted data for the location to append; its
+     *   `bodyPartCode` is overwritten with this part's shortcode.
+     * @returns A complete-array `update()` payload appending the location.
      */
     addLocationUpdate(locationData: BodyLocation.Data): PlainObject {
-        const canonical: BodyLocation.Data[] =
-            this.structure.parent.data.body.structure.parts[this.index]
-                .locations;
-        // Full-array write — a partial `parts.${index}.locations` update
-        // corrupts the whole parts array (#247). See setPartFieldsUpdate.
-        return this.structure.setPartFieldsUpdate([
-            {
-                index: this.index,
-                changes: { locations: [...canonical, locationData] },
-            },
-        ]);
+        return this.structure.addLocationUpdate({
+            ...locationData,
+            bodyPartCode: this.shortcode,
+        });
     }
 
     /**
-     * Build an `update()` payload that removes a location by shortcode from
-     * this part's persisted locations array. Sources the current array
-     * from the canonical DataModel data.
+     * Build an `update()` payload that removes one of this part's locations by
+     * shortcode.
+     *
      * @param shortcode - Shortcode of the location to remove.
-     * @returns An update payload with the location filtered out of this part.
+     * @returns A complete-array `update()` payload with the location removed,
+     *   or `{}` when this part has no such location.
      */
     removeLocationUpdate(shortcode: string): PlainObject {
-        const canonical: BodyLocation.Data[] =
-            this.structure.parent.data.body.structure.parts[this.index]
-                .locations;
-        // Full-array write — a partial `parts.${index}.locations` update
-        // corrupts the whole parts array (#247). See setPartFieldsUpdate.
-        return this.structure.setPartFieldsUpdate([
-            {
-                index: this.index,
-                changes: {
-                    locations: canonical.filter(
-                        (l: BodyLocation.Data) => l.shortcode !== shortcode,
-                    ),
-                },
-            },
-        ]);
+        if (!this.getLocationByCode(shortcode)) return {};
+        return this.structure.removeLocationUpdate(shortcode);
     }
 }
 
@@ -256,23 +260,30 @@ export namespace BodyPart {
         /** Id of the item this part is holding, or null if empty. */
         heldItemId: string | null;
         /**
-         * Target area of this part for hit-spread mechanics, in square feet;
-         * doubles as the persisted weight for picking a random part on an
-         * unaimed attack. (The persisted schema field; see
-         * {@link BodyPart.probWeight} for the derived modifier the entity
-         * exposes.)
+         * Selection weight for this part **within its zone**: once a zone is
+         * rolled, each of its parts is drawn with probability
+         * `probWeight / (sum of the zone's parts' probWeight)`. Also the area
+         * the aimed-strike drift spends `spread` against. (The persisted schema
+         * field; see {@link BodyPart.probWeight} for the derived modifier the
+         * entity exposes.)
          */
-        combatArea?: number;
-        /** Persisted hit locations within this part. */
-        locations: BodyLocation.Data[];
+        probWeight?: number;
+        /**
+         * Shortcode of the {@link sohl.entity.body.BodyZone} this part belongs
+         * to. A part whose code matches no zone is not reachable in the
+         * hierarchy (see {@link BodyStructure.orphanedParts}).
+         */
+        bodyZoneCode: string;
     }
 
     /** Construction options for a {@link BodyPart} instance. */
     export interface Options extends SohlEntity.Options {
-        /** Owning body structure (supplies actor and body-owner logic). */
-        structure: BodyStructure;
-        /** Zero-based index of this part within {@link BodyStructure.parts}. */
+        /** Owning body zone (supplies actor and body-owner logic). */
+        zone: BodyZone;
+        /** Zero-based index of this part within the flat `structure.parts` array. */
         index: number;
+        /** This part's locations, each paired with its flat `locations` index. */
+        locations: BodyZone.Indexed<BodyLocation.Data>[];
     }
 }
 registerEntity("BodyPart", BodyPart);

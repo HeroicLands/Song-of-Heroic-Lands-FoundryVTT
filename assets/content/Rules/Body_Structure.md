@@ -17,7 +17,13 @@ slug: sohl-body-structure
 folder: RqKUTBUBN2Y3MHYB
 ---
 
-Every creature in the game is defined by a body structure — a hierarchical anatomy that determines where blows land, how armor protects, and how injuries impair function. The structure has two tiers: body parts and body locations.
+Every creature in the game is defined by a body structure — a hierarchical anatomy that determines where blows land, how armor protects, and how injuries impair function. The structure has three tiers: body zones, body parts, and body locations.
+
+## Body Zones
+
+A body zone is the broadest anatomical division — a region of the body a blow lands in before any finer detail is settled. A standard humanoid has four zones: Head, Arms, Torso, and Legs. A quadruped might instead have Head, Forelegs, Torso, Hind Legs, and Tail.
+
+Each zone carries a **zone weight** — how much of the creature's targetable bulk it represents. Zones are dealt a contiguous run of _zone numbers_ in order, sized by that weight: a body whose zones weigh 1 / 4 / 4 / 6 covers zone numbers 1, 2–5, 6–9, and 10–15. A single roll against the body's total weight therefore picks the zone struck, and the part and location follow from there. A zone with weight 0 owns no numbers and can never be rolled.
 
 ## Body Parts
 
@@ -25,9 +31,9 @@ A body part is the primary anatomical division. A standard humanoid has six part
 
 Each body part has several properties:
 
-**Area.** The body part's targetable surface area, measured in square feet. For a humanoid, the Head is about 1 sq ft, each arm about 2 sq ft, the Torso about 3 sq ft, and each leg about 2 sq ft, for a total body area of roughly 12 sq ft. Larger creatures have proportionally greater area. A bear might total 18 sq ft; a dragon might total 60 or more.
+**Weight.** The body part's share of its zone. Once a zone is struck, each part in it is hit in proportion to its weight — so two equally-weighted arms split their zone evenly, while a heavier part takes more of it. Weight is measured as targetable surface area in square feet, which is also what a weapon's strike accuracy is spent against when a blow scatters. For a humanoid, the Head is about 1 sq ft, each arm about 2 sq ft, the Torso about 3 sq ft, and each leg about 2 sq ft. Larger creatures have proportionally greater area: a bear might total 18 sq ft; a dragon 60 or more.
 
-**Adjacency.** Each body part is connected to one or more other parts, forming a graph that represents which parts of the body are near each other. In the humanoid layout, the Torso is the central hub: the Head, both Arms, and both Legs all connect to it. A blow aimed at one part that scatters (see Determining Hit Location) can only reach parts that are adjacent on this graph. The adjacency graph varies by creature type — a serpent's parts form a linear chain, while a dragon's branch out from the torso to neck, limbs, wings, and tail.
+**Zone.** Each body part belongs to exactly one body zone. The zone is what makes parts neighbours: a blow aimed at one part that scatters (see Determining Hit Location) drifts first to the other parts of the same zone — the left arm scatters to the right arm before it reaches anything else. When a zone holds only one part, or its parts are exhausted, the scatter widens to the neighbouring zones in turn.
 
 **Affected Skills and Attributes.** Each body part identifies which skills and attributes are impaired when it sustains injury. Arm parts affect Melee, Archery, Climbing, Legerdemain, and similar skills, as well as Dexterity and Strength. Leg parts affect Acrobatics, Climbing, Riding, and Agility. The Head and Torso affect broad ranges of physical skills and attributes. These lists may differ for non-humanoid creatures.
 
@@ -41,7 +47,7 @@ Each body part contains several body locations — specific anatomical areas whe
 
 Injuries are always recorded against a specific body location. Armor protection is likewise tracked per location — a mail hauberk covers the thorax and abdomen but not the pelvis, while a helm protects the skull but not the neck. Each body location has several properties that govern how damage is resolved there:
 
-**Probability Weight.** A relative value determining how likely this location is to be struck within its parent body part. Larger or more exposed areas (the skull, the thorax, the thigh) have higher weights than smaller ones (an eye, the elbow, the hand).
+**Probability Weight.** How likely this location is to be struck once its body part is hit — its weight against the sum of the weights of every location in that part. Larger or more exposed areas (the skull, the thorax, the thigh) have higher weights than smaller ones (an eye, the elbow, the hand).
 
 **Shock Value.** The inherent shock inflicted when this location is struck, independent of injury severity. The skull and neck carry high shock values (5); the forearm and calf carry low ones (1). Shock contributes to whether the target must make a Shock test to remain conscious and functional.
 
@@ -65,7 +71,7 @@ When an attack succeeds, the attacker's d100 roll — the same roll that determi
 
 **Solid Hit** (success roll ≤ ML − 20). The attacker hit well within their ability — nowhere near missing. The blow lands on the correct body part (the one containing the targeted location), but not necessarily the exact location aimed for. The specific location is determined randomly, weighted by each location's probability weight within that body part. Weapon strike accuracy does not apply; the attacker's skill has compensated for the weapon's natural imprecision.
 
-**Barely Hit** (success roll > ML − 20 but still a success). The attacker connected, but only just. The blow scatters away from the targeted location. Starting from the body part containing the target, the system distributes the weapon's strike accuracy across that part and its adjacent parts, weighted by their areas. The body part struck is determined from this distribution, and then a specific location within that part is selected by probability weight. A more precise weapon (lower strike accuracy) keeps the scatter close to the intended target; a less precise weapon allows it to wander further.
+**Barely Hit** (success roll > ML − 20 but still a success). The attacker connected, but only just. The blow scatters away from the targeted location. Starting from the body part containing the target, the system distributes the weapon's strike accuracy across that part and its neighbours — the other parts of its zone first, then outward to adjoining zones — weighted by their areas. The body part struck is determined from this distribution, and then a specific location within that part is selected by probability weight. A more precise weapon (lower strike accuracy) keeps the scatter close to the intended target; a less precise weapon allows it to wander further.
 
 This mechanism scales naturally with skill. A novice with ML 50 has a 20-point solid-hit band (rolls 1–30) and a 20-point barely-hit band (31–50) — roughly equal chances of each. A veteran with ML 80 has a 60-point solid-hit band (1–60) and only a 20-point barely-hit band (61–80). The veteran hits the intended body part three-quarters of the time even without a critical success. A master with ML 95 almost never scatters at all. Higher skill means not just hitting more often, but hitting where you intend.
 
@@ -77,25 +83,31 @@ When a new injury is inflicted on a body location that already bears one or more
 
 The standard humanoid body structure is reproduced here for reference. Non-humanoid creatures use different layouts appropriate to their anatomy (see [[anatomical-types]]).
 
-**Head** (1 sq ft) — adjacent to Torso — Skull, Left Eye, Right Eye, Nose, Left Cheek, Right Cheek, Left Ear, Right Ear, Mouth, Jaw, Neck
+**Head zone** (weight 1) — zone number 1
 
-**Right Arm** (2 sq ft) — adjacent to Torso — Right Shoulder, Right Upper Arm, Right Elbow, Right Forearm, Right Hand
+- **Head** (1 sq ft) — Skull, Left Eye, Right Eye, Nose, Left Cheek, Right Cheek, Left Ear, Right Ear, Mouth, Jaw, Neck
 
-**Left Arm** (2 sq ft) — adjacent to Torso — Left Shoulder, Left Upper Arm, Left Elbow, Left Forearm, Left Hand
+**Arms zone** (weight 4) — zone numbers 2–5
 
-**Torso** (3 sq ft) — adjacent to Head, Right Arm, Left Arm, Right Leg, Left Leg — Thorax, Abdomen, Pelvis
+- **Right Arm** (2 sq ft) — Right Shoulder, Right Upper Arm, Right Elbow, Right Forearm, Right Hand
+- **Left Arm** (2 sq ft) — Left Shoulder, Left Upper Arm, Left Elbow, Left Forearm, Left Hand
 
-**Right Leg** (2 sq ft) — adjacent to Torso — Right Thigh, Right Knee, Right Calf, Right Foot
+**Torso zone** (weight 3) — zone numbers 6–8
 
-**Left Leg** (2 sq ft) — adjacent to Torso — Left Thigh, Left Knee, Left Calf, Left Foot
+- **Torso** (3 sq ft) — Thorax, Abdomen, Pelvis
+
+**Legs zone** (weight 4) — zone numbers 9–12
+
+- **Right Leg** (2 sq ft) — Right Thigh, Right Knee, Right Calf, Right Foot
+- **Left Leg** (2 sq ft) — Left Thigh, Left Knee, Left Calf, Left Foot
 
 ## Anatomy as Actor Data
 
-A creature's body structure — its complete graph of parts, locations, and their properties — is stored directly on the actor as a single structured field, not as a collection of separate items. This reflects the fact that anatomy is intrinsic to what a creature _is_, not something it possesses. Every actor has exactly one anatomy, and it is always present.
+A creature's body structure — its complete set of zones, parts, locations, and their properties — is stored directly on the actor as a single structured field, not as a collection of separate items. This reflects the fact that anatomy is intrinsic to what a creature _is_, not something it possesses. Every actor has exactly one anatomy, and it is always present.
 
-The adjacency graph is represented as a set of unordered pairs of part names, where each pair defines a bidirectional edge. For the humanoid layout, the edge set is: {Head, Torso}, {Right Arm, Torso}, {Left Arm, Torso}, {Right Leg, Torso}, {Left Leg, Torso}. Because each edge is defined once at the graph level rather than duplicated on each part, consistency is guaranteed by construction — there is no possibility of one part claiming adjacency that the other does not reciprocate.
+The three tiers are stored as three flat lists — zones, parts, and locations — with each part naming the zone it belongs to and each location naming its part. The hierarchy is rebuilt from those names whenever the creature is prepared. Storing them flat rather than nested means adding, removing, or moving any single entry rewrites exactly one list, and a part can be moved between zones without disturbing its locations.
 
-Body locations are nested within their parent part's definition. Each part contains a list of its locations together with all location-level properties (probability weight, shock value, bleeding threshold, amputate modifier, fumble/stumble flags). The probability weights for locations within a part can be validated to sum correctly when the anatomy is defined.
+Each location carries all location-level properties (probability weight, shock value, bleeding threshold, amputate modifier, fumble/stumble flags). The probability weights for locations within a part can be validated to sum correctly when the anatomy is defined.
 
 Other game elements — injuries, armor, afflictions — are separate items that _reference_ body locations by key. An injury records which location it affects; armor records which locations it covers. These items change frequently during play. The anatomy they reference changes almost never; the only common runtime mutation is marking a part as permanently disabled, and even that is rare.
 

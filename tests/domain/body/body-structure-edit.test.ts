@@ -13,9 +13,9 @@
 
 import { describe, it, expect } from "vitest";
 import {
+    countGroupMembers,
     moveArrayElement,
-    moveLocation,
-    partHasLocations,
+    moveGroupedElement,
 } from "@src/entity/body/body-structure-edit";
 
 describe("moveArrayElement", () => {
@@ -58,69 +58,102 @@ describe("moveArrayElement", () => {
     });
 });
 
-describe("moveLocation", () => {
-    const makeParts = () => [
-        {
-            shortcode: "head",
-            locations: [{ shortcode: "skull" }, { shortcode: "face" }],
-        },
-        { shortcode: "arm", locations: [{ shortcode: "hand" }] },
+describe("moveGroupedElement", () => {
+    /** A flat locations array across two parts: head[skull, face], arm[hand]. */
+    const makeLocs = () => [
+        { shortcode: "skull", bodyPartCode: "head" },
+        { shortcode: "face", bodyPartCode: "head" },
+        { shortcode: "hand", bodyPartCode: "arm" },
     ];
+    const move = (
+        items: { shortcode: string; bodyPartCode: string }[],
+        from: number,
+        group: string,
+        pos: number,
+    ) =>
+        moveGroupedElement(
+            items,
+            from,
+            group,
+            pos,
+            (l) => l.bodyPartCode,
+            (l, bodyPartCode) => ({ ...l, bodyPartCode }),
+        );
 
-    it("reorders a location within the same part", () => {
-        const out = moveLocation(makeParts(), 0, 0, 0, 1);
-        expect(out[0].locations.map((l) => l.shortcode)).toEqual([
+    it("reorders an element within its own group", () => {
+        expect(move(makeLocs(), 0, "head", 1).map((l) => l.shortcode)).toEqual([
             "face",
-            "skull",
-        ]);
-        expect(out[1].locations.map((l) => l.shortcode)).toEqual(["hand"]);
-    });
-
-    it("moves a location from one part to another at the given index", () => {
-        const out = moveLocation(makeParts(), 0, 0, 1, 0);
-        expect(out[0].locations.map((l) => l.shortcode)).toEqual(["face"]);
-        expect(out[1].locations.map((l) => l.shortcode)).toEqual([
             "skull",
             "hand",
         ]);
     });
 
-    it("appends to the destination part when the target index is past the end", () => {
-        const out = moveLocation(makeParts(), 0, 1, 1, 99);
-        expect(out[1].locations.map((l) => l.shortcode)).toEqual([
-            "hand",
-            "face",
-        ]);
+    it("re-parents an element to another group at the given position", () => {
+        const out = move(makeLocs(), 0, "arm", 0);
+        expect(out.map((l) => l.shortcode)).toEqual(["face", "skull", "hand"]);
+        expect(out.find((l) => l.shortcode === "skull")!.bodyPartCode).toBe(
+            "arm",
+        );
     });
 
-    it("does not mutate the input parts or their location arrays", () => {
-        const src = makeParts();
-        moveLocation(src, 0, 0, 1, 0);
-        expect(src[0].locations.map((l) => l.shortcode)).toEqual([
-            "skull",
-            "face",
-        ]);
-        expect(src[1].locations.map((l) => l.shortcode)).toEqual(["hand"]);
+    it("inserts after the group's last member when the position is past the end", () => {
+        const out = move(makeLocs(), 1, "arm", 99);
+        expect(out.map((l) => l.shortcode)).toEqual(["skull", "hand", "face"]);
+        expect(out[2].bodyPartCode).toBe("arm");
+    });
+
+    it("appends to the end of the array when the destination group is empty", () => {
+        const out = move(makeLocs(), 2, "tail", 0);
+        expect(out.map((l) => l.shortcode)).toEqual(["skull", "face", "hand"]);
+        expect(out[2].bodyPartCode).toBe("tail");
+    });
+
+    it("clamps a negative position to the group's first slot", () => {
+        expect(move(makeLocs(), 2, "head", -5).map((l) => l.shortcode)).toEqual(
+            ["hand", "skull", "face"],
+        );
+    });
+
+    it("leaves the parent code untouched on a same-group move", () => {
+        const out = move(makeLocs(), 0, "head", 1);
+        expect(
+            out.every(
+                (l) =>
+                    l.bodyPartCode ===
+                    makeLocs().find((s) => s.shortcode === l.shortcode)!
+                        .bodyPartCode,
+            ),
+        ).toBe(true);
     });
 
     it("returns an unchanged copy on an out-of-range source", () => {
-        const out = moveLocation(makeParts(), 9, 0, 0, 0);
-        expect(out.map((p) => p.locations.map((l) => l.shortcode))).toEqual([
-            ["skull", "face"],
-            ["hand"],
-        ]);
+        const src = makeLocs();
+        expect(move(src, 9, "head", 0)).toEqual(src);
+        expect(move(src, -1, "head", 0)).toEqual(src);
+    });
+
+    it("does not mutate the input array or its elements", () => {
+        const src = makeLocs();
+        move(src, 0, "arm", 0);
+        expect(src.map((l) => l.shortcode)).toEqual(["skull", "face", "hand"]);
+        expect(src[0].bodyPartCode).toBe("head");
     });
 });
 
-describe("partHasLocations", () => {
-    const parts = [{ locations: [{ shortcode: "x" }] }, { locations: [] }];
-    it("is true for a part with locations", () => {
-        expect(partHasLocations(parts, 0)).toBe(true);
+describe("countGroupMembers", () => {
+    const locs = [
+        { bodyPartCode: "head" },
+        { bodyPartCode: "head" },
+        { bodyPartCode: "arm" },
+    ];
+    const by = (l: { bodyPartCode: string }) => l.bodyPartCode;
+
+    it("counts the children of a parent", () => {
+        expect(countGroupMembers(locs, "head", by)).toBe(2);
+        expect(countGroupMembers(locs, "arm", by)).toBe(1);
     });
-    it("is false for an empty locations array", () => {
-        expect(partHasLocations(parts, 1)).toBe(false);
-    });
-    it("is false for an out-of-range index", () => {
-        expect(partHasLocations(parts, 9)).toBe(false);
+
+    it("is 0 for a parent with no children", () => {
+        expect(countGroupMembers(locs, "tail", by)).toBe(0);
     });
 });

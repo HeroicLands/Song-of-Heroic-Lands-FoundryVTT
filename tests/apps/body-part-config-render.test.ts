@@ -25,7 +25,7 @@ function context(
     shortcode = "larm",
     roles: string[] = [BODY_ROLE.MANIPULATOR, BODY_ROLE.LOCOMOTOR],
 ) {
-    const part = { ...blankBodyPart(name, shortcode), roles, combatArea: 3 };
+    const part = { ...blankBodyPart(name, shortcode), roles, probWeight: 3 };
     return {
         part,
         shortcode,
@@ -68,7 +68,7 @@ describe("body-part-config template", () => {
 
     it("binds the general and flag fields to the part", () => {
         const html = renderTemplateReal(TEMPLATE, context());
-        expect(html).toMatch(/name="combatArea"[^>]*value="3"/);
+        expect(html).toMatch(/name="probWeight"[^>]*value="3"/);
         expect(html).toContain('name="permanentImpairment"');
         expect(html).toContain('name="canHoldItem"');
         expect(html).toContain('name="permanentlyUnusable"');
