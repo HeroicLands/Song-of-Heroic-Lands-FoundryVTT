@@ -48,81 +48,82 @@ export function moveArrayElement<T>(
     return out;
 }
 
-/** The minimal part shape the location mover needs: a `locations` array. */
-interface PartWithLocations<L> {
-    locations: L[];
-}
-
 /**
- * Move a hit location from one part to another (or reorder it within its own
- * part), returning a new `parts` array. The two affected parts are shallow-cloned
- * with fresh `locations` arrays; unaffected parts are carried through unchanged.
- * When `toLoc` is past the destination's end the location is appended. Returns an
- * unchanged copy when the source coordinates are out of range. Never mutates the
- * input.
+ * Move one element of a **flat, parent-referencing** array — either reordering
+ * it among its current siblings or re-parenting it to another group — and
+ * return a new array (#780).
  *
- * Same-part reordering is expressed as `fromPart === toPart`; `toLoc` is the
- * target index **after** the source has been removed.
+ * Since `body.structure` stores zones, parts, and locations as flat sibling
+ * arrays, a child's position "within its parent" is just its relative order
+ * among the array elements sharing that parent code. Moving it therefore means
+ * splicing it to the flat slot currently occupied by the destination group's
+ * `toPosition`-th member, after re-stamping its parent code.
  *
- * @typeParam P - The part shape (must expose a `locations` array).
- * @typeParam L - The location element type.
- * @param parts - The source parts array (not mutated).
- * @param fromPart - Index of the part the location currently lives on.
- * @param fromLoc - Index of the location within `fromPart`.
- * @param toPart - Index of the destination part.
- * @param toLoc - Target index within the destination part's locations.
- * @returns A new parts array with the location moved.
+ * Placement rules:
+ * - `toPosition` past the destination group's end inserts after its last member.
+ * - A destination group with no members appends to the end of the array.
+ * - An out-of-range `fromIndex` returns an unchanged copy.
+ *
+ * Never mutates the input.
+ *
+ * @typeParam T - The persisted element shape.
+ * @param items - The source flat array (not mutated).
+ * @param fromIndex - Index of the element to move.
+ * @param toGroup - Parent code of the destination group (its current parent for
+ *   a plain reorder).
+ * @param toPosition - Target position among the destination group's members,
+ *   counted **after** the element has been removed.
+ * @param getGroup - Reads an element's parent code.
+ * @param setGroup - Returns a copy of an element stamped with a new parent code.
+ * @returns A new array with the element moved (and re-parented if needed).
  */
-export function moveLocation<P extends PartWithLocations<L>, L>(
-    parts: readonly P[],
-    fromPart: number,
-    fromLoc: number,
-    toPart: number,
-    toLoc: number,
-): P[] {
-    const out = [...parts];
-    const src = out[fromPart];
-    const dest = out[toPart];
-    if (
-        !src ||
-        !dest ||
-        fromLoc < 0 ||
-        fromLoc >= src.locations.length ||
-        toPart < 0
-    ) {
-        return out;
-    }
+export function moveGroupedElement<T>(
+    items: readonly T[],
+    fromIndex: number,
+    toGroup: string,
+    toPosition: number,
+    getGroup: (item: T) => string,
+    setGroup: (item: T, group: string) => T,
+): T[] {
+    const out = [...items];
+    if (fromIndex < 0 || fromIndex >= out.length) return out;
 
-    if (fromPart === toPart) {
-        const locations = [...src.locations];
-        const [moved] = locations.splice(fromLoc, 1);
-        const insertAt = Math.min(Math.max(toLoc, 0), locations.length);
-        locations.splice(insertAt, 0, moved);
-        out[fromPart] = { ...src, locations };
-        return out;
-    }
+    const [moved] = out.splice(fromIndex, 1);
+    const reparented =
+        getGroup(moved) === toGroup ? moved : setGroup(moved, toGroup);
 
-    const srcLocations = [...src.locations];
-    const [moved] = srcLocations.splice(fromLoc, 1);
-    const destLocations = [...dest.locations];
-    const insertAt = Math.min(Math.max(toLoc, 0), destLocations.length);
-    destLocations.splice(insertAt, 0, moved);
-    out[fromPart] = { ...src, locations: srcLocations };
-    out[toPart] = { ...dest, locations: destLocations };
+    // Flat slots currently held by the destination group, in order.
+    const memberSlots: number[] = [];
+    out.forEach((item, i) => {
+        if (getGroup(item) === toGroup) memberSlots.push(i);
+    });
+
+    const position = Math.max(0, toPosition);
+    const insertAt =
+        memberSlots.length === 0 ? out.length
+        : position >= memberSlots.length ?
+            memberSlots[memberSlots.length - 1] + 1
+        :   memberSlots[position];
+
+    out.splice(insertAt, 0, reparented);
     return out;
 }
 
 /**
- * Whether the part at `index` currently has any hit locations. Used to refuse a
- * part deletion while it still owns locations (the user must remove those first).
+ * Count the elements of a flat array belonging to a given parent — the children
+ * a cascading delete would take with it, used to warn before removing a zone or
+ * a part.
  *
- * @param parts - The parts array.
- * @param index - The zero-based part index.
- * @returns `true` when the part exists and has at least one location.
+ * @typeParam T - The persisted element shape.
+ * @param items - The flat array to scan.
+ * @param group - The parent code to count members of.
+ * @param getGroup - Reads an element's parent code.
+ * @returns The number of elements naming `group` as their parent.
  */
-export function partHasLocations(
-    parts: readonly { locations?: readonly unknown[] }[],
-    index: number,
-): boolean {
-    return (parts[index]?.locations?.length ?? 0) > 0;
+export function countGroupMembers<T>(
+    items: readonly T[],
+    group: string,
+    getGroup: (item: T) => string,
+): number {
+    return items.reduce((n, item) => (getGroup(item) === group ? n + 1 : n), 0);
 }

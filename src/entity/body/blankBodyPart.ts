@@ -14,7 +14,7 @@
 import type { BodyPart } from "@src/entity/body/BodyPart";
 
 /**
- * Build a blank, schema-valid body part with no locations.
+ * Build a blank, schema-valid body part.
  *
  * Every field is seeded to the same default the corresponding DataModel schema
  * field (`BeingDataModel` `body.structure.parts[]`) initializes to, so the
@@ -23,19 +23,25 @@ import type { BodyPart } from "@src/entity/body/BodyPart";
  * {@link sohl.entity.body.BodyPart} editor can seed a valid blank without a live
  * DataModel.
  *
+ * Hit locations are **not** nested here — they live in the structure's flat
+ * `locations` array and name this part via `bodyPartCode` (#780).
+ *
  * @param name - The display name for the new part (defaults to `"Body Part"`).
  * @param shortcode - The part's shortcode (defaults to blank; assigned by the
  *   caller's add flow).
- * @returns A fully-populated {@link BodyPart.Data} with default values and an
- *   empty `locations` array.
+ * @param bodyZoneCode - Shortcode of the owning zone (defaults to blank; stamped
+ *   by {@link sohl.entity.body.BodyZone.addPartUpdate}).
+ * @returns A fully-populated {@link BodyPart.Data} with default values.
  */
 export function blankBodyPart(
     name: string = "Body Part",
     shortcode: string = "",
+    bodyZoneCode: string = "",
 ): BodyPart.Data {
     return {
         shortcode,
         name,
+        bodyZoneCode,
         roles: [],
         favoredFlag: false,
         canHoldItem: false,
@@ -45,6 +51,5 @@ export function blankBodyPart(
         // The persisted "area / random-selection weight" field; the entity's
         // `probWeight` modifier is derived from this, not persisted directly.
         combatArea: 0,
-        locations: [],
     };
 }

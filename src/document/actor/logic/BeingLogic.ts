@@ -302,15 +302,17 @@ export class BeingLogic<
         const structure = this.body?.structure;
         const parts = structure?.parts;
         if (!parts?.length) return;
-        const index = parts.findIndex((p) =>
+        const part = parts.find((p) =>
             p.locations.some((l) => l.shortcode === locationShortcode),
         );
-        if (index < 0) return;
-        const current = parts[index].permanentImpairment ?? 0;
+        if (!part) return;
+        const current = part.permanentImpairment ?? 0;
         const next = Math.min(current, magnitude); // worst-of
         if (next === current) return; // no worsening
+        // Address the part by its flat `parts` index, never its position in
+        // this filtered view.
         const payload = structure.setPartFieldsUpdate([
-            { index, changes: { permanentImpairment: next } },
+            { index: part.index, changes: { permanentImpairment: next } },
         ]);
         if (!Object.keys(payload).length) return;
         await this.actor.update(payload as PlainObject);

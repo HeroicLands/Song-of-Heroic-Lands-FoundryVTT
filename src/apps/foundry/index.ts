@@ -16,6 +16,7 @@
 
 export * from "./BodyLocationConfig";
 export * from "./BodyPartConfig";
+export * from "./BodyZoneConfig";
 export * from "./CalendarSettingsMenu";
 export * from "./DomainManagerApp";
 export * from "./ExpressionLibraryMenu";

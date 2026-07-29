@@ -36,8 +36,9 @@ sohl:
         cre: 1d4+12
     body:
         structure:
+            zones: []
             parts: []
-            adjacent: []
+            locations: []
         weight:
             base: 15
             calc: 15

@@ -6,8 +6,13 @@
  */
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { brandLogic } from "@tests/mocks/brandLogic";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
+import {
+    locationData,
+    makeBody as makeBodyFixture,
+    partData,
+    zoneData,
+} from "@tests/mocks/bodyFixture";
 import {
     injuryLevelFromImpact,
     resolveInjury,
@@ -15,68 +20,38 @@ import {
 } from "@src/entity/body/injury-resolution";
 import { IMPACT_ASPECT, TRAUMA_SUBTYPE } from "@src/utils/constants";
 
-// Skull: moderate bleeder, not amputable, real natural armor on all but fire.
-const SKULL_LOC = {
-    shortcode: "skull",
-    bleedingSusceptibility: "medium",
-    amputability: "none",
-    shockValue: 3,
-    probWeight: 10,
-    protectionBase: { blunt: 3, edged: 3, piercing: 3, fire: 0 },
-};
-
-// Neck: high bleeder, medium amputability, no armor.
-const NECK_LOC = {
-    shortcode: "neck",
-    bleedingSusceptibility: "high",
-    amputability: "medium",
-    shockValue: 5,
-    probWeight: 2,
-    protectionBase: { blunt: 0, edged: 0, piercing: 0, fire: 0 },
-};
-
-// Chest: low bleeder, light natural armor, flagged for both stumble and fumble.
-const CHEST_LOC = {
-    shortcode: "chest",
-    bleedingSusceptibility: "low",
-    amputability: "none",
-    isStumble: true,
-    isFumble: true,
-    shockValue: 4,
-    probWeight: 20,
-    protectionBase: { blunt: 2, edged: 2, piercing: 2, fire: 0 },
-};
-
 const SAMPLE_DATA: BodyStructure.Data = {
+    zones: [zoneData("headzone", 1), zoneData("bodyzone", 2)],
     parts: [
-        {
-            shortcode: "head",
-            roles: [],
-            canHoldItem: false,
-            heldItemId: null,
-            combatArea: 15,
-            locations: [SKULL_LOC, NECK_LOC],
-        },
-        {
-            shortcode: "thorax",
-            roles: [],
-            canHoldItem: false,
-            heldItemId: null,
-            combatArea: 30,
-            locations: [CHEST_LOC],
-        },
+        partData("head", "headzone", 15),
+        partData("thorax", "bodyzone", 30),
     ],
-    adjacent: [["head", "thorax"]],
-} as any;
-
-const MOCK_CORPUS_LOGIC = brandLogic({
-    kind: "corpus",
-    actor: null,
-    data: { body: { structure: SAMPLE_DATA } },
-}) as any;
+    locations: [
+        // Skull: moderate bleeder, not amputable, real natural armor on all but fire.
+        locationData("skull", "head", 10, {
+            bleedingSusceptibility: "medium",
+            shockValue: 3,
+            protectionBase: { blunt: 3, edged: 3, piercing: 3, fire: 0 },
+        }),
+        // Neck: high bleeder, medium amputability, no armor.
+        locationData("neck", "head", 2, {
+            bleedingSusceptibility: "high",
+            amputability: "medium",
+            shockValue: 5,
+        }),
+        // Chest: low bleeder, light natural armor, flagged for stumble and fumble.
+        locationData("chest", "thorax", 20, {
+            bleedingSusceptibility: "low",
+            isStumble: true,
+            isFumble: true,
+            shockValue: 4,
+            protectionBase: { blunt: 2, edged: 2, piercing: 2, fire: 0 },
+        }),
+    ],
+};
 
 function makeBody(): BodyStructure {
-    return new BodyStructure(SAMPLE_DATA, { parent: MOCK_CORPUS_LOGIC });
+    return makeBodyFixture(SAMPLE_DATA);
 }
 
 function loc(body: BodyStructure, code: string) {

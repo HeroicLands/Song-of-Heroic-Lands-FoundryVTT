@@ -55,6 +55,7 @@ import "@src/entity/strikemode/MeleeStrikeMode";
 import "@src/entity/strikemode/MissileStrikeMode";
 import "@src/entity/action/SohlAction";
 import "@src/entity/body/BodyStructure";
+import "@src/entity/body/BodyZone";
 import "@src/entity/body/BodyPart";
 import "@src/entity/body/BodyLocation";
 

@@ -142,18 +142,18 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
     }
 
     /**
-     * The persisted location data currently stored under {@link #key} within
-     * its part, read live from the actor's DataModel so each render reflects the
-     * persisted state.
+     * The persisted location data currently stored under {@link #key}, read
+     * live from the actor's DataModel (the flat `locations` array) so each
+     * render reflects the persisted state.
      * @returns The location data, or `undefined` if not found.
      */
     #currentData(): BodyLocation.Data | undefined {
-        const part = this.#part();
-        if (!part) return undefined;
-        const locations: BodyLocation.Data[] = (
-            this.#structure()!.parent as any
-        ).data.body.structure.parts[part.index].locations;
-        return locations.find((l) => l.shortcode === this.#key);
+        const structure = this.#structure();
+        const index = structure?.getLocationByCode(this.#key)?.index;
+        if (structure === undefined || index === undefined) return undefined;
+        return (structure.parent as any).data.body.structure.locations[
+            index
+        ] as BodyLocation.Data | undefined;
     }
 
     /**
@@ -189,10 +189,11 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
 
     /**
      * Auto-save handler (`submitOnChange`): overlay the submitted fields onto
-     * the stored location and write the owning part's whole `locations` array
-     * back. A changed shortcode is validated for uniqueness among the part's
-     * *other* locations; a rejected shortcode keeps the current one (warning the
-     * user).
+     * the stored location and write the structure's whole flat `locations`
+     * array back. A changed shortcode is validated for uniqueness among the
+     * being's *other* locations — location codes are unique body-wide, not just
+     * within their part (#780); a rejected shortcode keeps the current one
+     * (warning the user).
      *
      * @param this - The bound {@link BodyLocationConfig} instance.
      * @param _event - The submit event (unused).
@@ -211,9 +212,9 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
         const current = this.#currentData();
         if (!structure || !part || !current) return;
 
-        const canonical: BodyLocation.Data[] = (structure.parent as any).data
-            .body.structure.parts[part.index].locations;
-        const siblings = canonical
+        const location = structure.getLocationByCode(this.#key);
+        if (!location) return;
+        const siblings = structure.locations
             .filter((l) => l.shortcode !== this.#key)
             .map((l) => l.shortcode);
         const plan = planBodyShortcode(
@@ -221,7 +222,7 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
             String(submitted.shortcode ?? ""),
             siblings,
             "body location",
-            "this part",
+            "this body",
         );
         if (plan.error) sohl.log.uiWarn(plan.error);
 
@@ -255,15 +256,9 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
                 fire: Math.max(0, Math.round(Number(prot.fire) || 0)),
             },
         };
-        const locations = canonical.map((l) =>
-            l.shortcode === this.#key ? merged : l,
-        );
         await this.#actor.update(
-            structure.setPartFieldsUpdate([
-                {
-                    index: part.index,
-                    changes: { locations } as Partial<BodyPart.Data>,
-                },
+            structure.setLocationFieldsUpdate([
+                { index: location.index, changes: merged },
             ]),
         );
         this.#key = plan.shortcode;

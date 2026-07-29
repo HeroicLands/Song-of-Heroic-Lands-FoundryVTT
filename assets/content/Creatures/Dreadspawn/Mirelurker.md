@@ -30,8 +30,9 @@ sohl:
         aur: 1d4+5
     body:
         structure:
+            zones: []
             parts: []
-            adjacent: []
+            locations: []
         weight:
             base: 300
             calc: 300

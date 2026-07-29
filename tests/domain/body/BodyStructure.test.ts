@@ -1,680 +1,720 @@
 import { describe, it, expect } from "vitest";
-import { brandLogic } from "@tests/mocks/brandLogic";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { BodyPart } from "@src/entity/body/BodyPart";
-import type { BodyLocation } from "@src/entity/body/BodyLocation";
 import { createRng } from "@src/entity/random/createRng";
 import { weightedRandom } from "@src/entity/body/weighted-random";
-
-const SKULL_LOC = {
-    shortcode: "skull",
-    bleedingSusceptibility: "medium",
-    amputability: "none",
-    shockValue: 3,
-    probWeight: 10,
-    protectionBase: { blunt: 3, edged: 3, piercing: 3, fire: 0 },
-};
-
-const FACE_LOC = {
-    shortcode: "face",
-    bleedingSusceptibility: "none",
-    amputability: "none",
-    shockValue: 2,
-    probWeight: 5,
-    protectionBase: { blunt: 0, edged: 0, piercing: 0, fire: 0 },
-};
-
-const CHEST_LOC = {
-    shortcode: "chest",
-    bleedingSusceptibility: "low",
-    amputability: "none",
-    shockValue: 4,
-    probWeight: 20,
-    protectionBase: { blunt: 2, edged: 1, piercing: 1, fire: 0 },
-};
-
-const SAMPLE_DATA: BodyStructure.Data = {
-    parts: [
-        {
-            shortcode: "head",
-            roles: [],
-            canHoldItem: false,
-            heldItemId: null,
-            combatArea: 15,
-            locations: [SKULL_LOC, FACE_LOC],
-        },
-        {
-            shortcode: "thorax",
-            roles: [],
-            canHoldItem: false,
-            heldItemId: null,
-            combatArea: 30,
-            locations: [CHEST_LOC],
-        },
-    ],
-    adjacent: [["head", "thorax"]],
-};
-
-// Minimal construction options: a Corpus-kinded parent logic (null actor,
-// canonical data for the update methods) wrapped as the entity's options.
-const MOCK_BEING_LOGIC = {
-    parent: brandLogic({
-        kind: "corpus",
-        actor: null,
-        data: { body: { structure: SAMPLE_DATA } },
-    }),
-} as any;
+import {
+    bodyOptions,
+    locationData,
+    makeBody,
+    partData,
+    sampleBodyData,
+    zoneData,
+} from "@tests/mocks/bodyFixture";
 
 describe("BodyStructure", () => {
     describe("construction", () => {
-        it("creates BodyPart instances from data", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            expect(body.parts).toHaveLength(2);
-            expect(body.parts[0].shortcode).toBe("head");
-            expect(body.parts[1].shortcode).toBe("thorax");
+        it("assembles the zone -> part -> location hierarchy from flat arrays", () => {
+            const body = makeBody();
+            expect(body.zones.map((z) => z.shortcode)).toEqual([
+                "headzone",
+                "bodyzone",
+            ]);
+            expect(body.zones[0].parts.map((p) => p.shortcode)).toEqual([
+                "head",
+            ]);
+            expect(body.zones[1].parts.map((p) => p.shortcode)).toEqual([
+                "thorax",
+            ]);
+            expect(
+                body.zones[0].parts[0].locations.map((l) => l.shortcode),
+            ).toEqual(["skull", "face"]);
+            expect(
+                body.zones[1].parts[0].locations.map((l) => l.shortcode),
+            ).toEqual(["chest"]);
         });
 
-        it("assigns sequential indices to parts", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            expect(body.parts[0].index).toBe(0);
-            expect(body.parts[1].index).toBe(1);
+        it("indexes every entity by its slot in the flat persisted array", () => {
+            const body = makeBody();
+            expect(body.zones.map((z) => z.index)).toEqual([0, 1]);
+            expect(body.parts.map((p) => p.index)).toEqual([0, 1]);
+            expect(body.locations.map((l) => l.index)).toEqual([0, 1, 2]);
+            // The flat views are ordered by index, so parts[i].index === i.
+            body.parts.forEach((p, i) => expect(p.index).toBe(i));
+            body.locations.forEach((l, i) => expect(l.index).toBe(i));
         });
 
-        it("preserves adjacency matrix", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            expect(body.adjacent).toEqual([["head", "thorax"]]);
+        it("wires child back-references up the hierarchy", () => {
+            const body = makeBody();
+            const part = body.getPartByCode("head")!;
+            expect(part.zone.shortcode).toBe("headzone");
+            expect(part.structure).toBe(body);
+            expect(part.locations[0].bodyPart).toBe(part);
+        });
+
+        it("allocates each zone a contiguous run of zone numbers by weight", () => {
+            const body = makeBody();
+            expect(body.zones[0].zoneNumbers).toEqual([1]);
+            expect(body.zones[1].zoneNumbers).toEqual([2, 3]);
+            expect(body.totalZoneWeight).toBe(3);
+        });
+
+        it("gives an unweighted zone no zone numbers", () => {
+            const data = sampleBodyData();
+            data.zones = [zoneData("headzone", 0), zoneData("bodyzone", 2)];
+            const body = makeBody(data);
+            expect(body.zones[0].zoneNumbers).toEqual([]);
+            expect(body.zones[1].zoneNumbers).toEqual([1, 2]);
+            expect(body.totalZoneWeight).toBe(2);
+        });
+
+        it("keeps a part whose zone code matches nothing out of the hierarchy", () => {
+            const data = sampleBodyData();
+            data.parts.push(partData("stray", "nosuchzone", 5));
+            const body = makeBody(data);
+            expect(body.getPartByCode("stray")).toBeUndefined();
+            expect(body.orphanedParts.map((p) => p.shortcode)).toEqual([
+                "stray",
+            ]);
+        });
+
+        it("keeps a location whose part code matches nothing out of the hierarchy", () => {
+            const data = sampleBodyData();
+            data.locations.push(locationData("floating", "nosuchpart", 3));
+            const body = makeBody(data);
+            expect(body.getLocationByCode("floating")).toBeUndefined();
+            expect(body.orphanedLocations.map((l) => l.shortcode)).toEqual([
+                "floating",
+            ]);
+        });
+
+        it("throws when any of the three arrays is missing", () => {
+            for (const key of ["zones", "parts", "locations"] as const) {
+                const data = sampleBodyData();
+                delete (data as any)[key];
+                expect(
+                    () => new BodyStructure(data, bodyOptions(data)),
+                ).toThrow(`BodyStructure requires a '${key}' array`);
+            }
+        });
+    });
+
+    describe("lookups", () => {
+        it("finds zones, parts, and locations by code and index", () => {
+            const body = makeBody();
+            expect(body.getZoneByCode("bodyzone")?.index).toBe(1);
+            expect(body.getZoneByIndex(0)?.shortcode).toBe("headzone");
+            expect(body.getPartByCode("thorax")?.index).toBe(1);
+            expect(body.getPartByIndex(0)?.shortcode).toBe("head");
+            expect(body.getLocationByCode("chest")?.index).toBe(2);
+            expect(body.getLocationByIndex(1)?.shortcode).toBe("face");
+        });
+
+        it("returns undefined for unknown codes", () => {
+            const body = makeBody();
+            expect(body.getZoneByCode("nope")).toBeUndefined();
+            expect(body.getPartByCode("nope")).toBeUndefined();
+            expect(body.getLocationByCode("nope")).toBeUndefined();
+        });
+
+        it("resolves a zone from a rolled zone number", () => {
+            const body = makeBody();
+            expect(body.getZoneByNumber(1)?.shortcode).toBe("headzone");
+            expect(body.getZoneByNumber(2)?.shortcode).toBe("bodyzone");
+            expect(body.getZoneByNumber(3)?.shortcode).toBe("bodyzone");
+            expect(body.getZoneByNumber(4)).toBeUndefined();
+            expect(body.getZoneByNumber(0)).toBeUndefined();
+        });
+
+        it("getAllLocations returns every location in persisted order", () => {
+            const body = makeBody();
+            expect(body.getAllLocations().map((l) => l.shortcode)).toEqual([
+                "skull",
+                "face",
+                "chest",
+            ]);
+        });
+
+        it("exposes a zone's locations across all of its parts", () => {
+            const data = sampleBodyData();
+            data.parts.push(partData("gut", "bodyzone", 10));
+            data.locations.push(locationData("belly", "gut", 8));
+            const body = makeBody(data);
+            expect(
+                body
+                    .getZoneByCode("bodyzone")!
+                    .locations.map((l) => l.shortcode),
+            ).toEqual(["chest", "belly"]);
         });
     });
 
     describe("limbsHolding", () => {
         // Two hands grip "sword1"; the mouth references it too but cannot hold
         // items; the head holds nothing.
-        const HOLDING_DATA: BodyStructure.Data = {
+        const holdingData = () => ({
+            zones: [zoneData("armszone", 2), zoneData("headzone", 1)],
             parts: [
-                {
-                    shortcode: "rightHand",
-                    roles: [],
+                partData("rightHand", "armszone", 5, {
                     canHoldItem: true,
                     heldItemId: "sword1",
-                    combatArea: 5,
-                    locations: [],
-                },
-                {
-                    shortcode: "leftHand",
-                    roles: [],
-                    canHoldItem: true,
-                    heldItemId: "sword1",
-                    combatArea: 5,
-                    locations: [],
-                },
-                {
-                    shortcode: "mouth",
-                    roles: [],
-                    canHoldItem: false,
-                    heldItemId: "sword1",
-                    combatArea: 1,
-                    locations: [],
-                },
-                {
-                    shortcode: "head",
-                    roles: [],
-                    canHoldItem: false,
-                    heldItemId: null,
-                    combatArea: 15,
-                    locations: [],
-                },
-            ],
-            adjacent: [],
-        };
-
-        // Mock being-logic whose actor resolves heldItemId -> a stub item.
-        const logicResolving = (ids: string[]) =>
-            ({
-                parent: brandLogic({
-                    kind: "corpus",
-                    actor: {
-                        items: {
-                            get: (id: string) =>
-                                ids.includes(id) ? { id } : null,
-                        },
-                    },
-                    data: { body: { structure: HOLDING_DATA } },
                 }),
-            }) as any;
+                partData("leftHand", "armszone", 5, {
+                    canHoldItem: true,
+                    heldItemId: "sword1",
+                }),
+                partData("mouth", "headzone", 1, { heldItemId: "sword1" }),
+                partData("head", "headzone", 15),
+            ],
+            locations: [],
+        });
+
+        const actorResolving = (ids: string[]) => ({
+            items: { get: (id: string) => (ids.includes(id) ? { id } : null) },
+        });
 
         it("counts item-holding limbs whose held item matches", () => {
-            const body = new BodyStructure(
-                HOLDING_DATA,
-                logicResolving(["sword1"]),
-            );
-            // Both hands; the mouth is excluded (canHoldItem === false).
+            const body = makeBody(holdingData(), actorResolving(["sword1"]));
             expect(body.limbsHolding("sword1")).toBe(2);
         });
 
         it("returns 0 when no holdable limb grips the item", () => {
-            const body = new BodyStructure(
-                HOLDING_DATA,
-                logicResolving(["sword1"]),
-            );
+            const body = makeBody(holdingData(), actorResolving(["sword1"]));
             expect(body.limbsHolding("axe9")).toBe(0);
         });
 
         it("returns 0 when nothing is held at all", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+            const body = makeBody(holdingData(), actorResolving([]));
             expect(body.limbsHolding("sword1")).toBe(0);
         });
     });
 
-    describe("getPart", () => {
-        it("finds a part by name", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const part = body.getPartByCode("thorax");
-            expect(part).toBeDefined();
-            expect(part!.shortcode).toBe("thorax");
+    describe("getNeighborParts", () => {
+        // arms zone holds two arms; legs zone holds two legs; head zone one head.
+        const wideBody = () =>
+            makeBody({
+                zones: [
+                    zoneData("headzone", 1),
+                    zoneData("armszone", 4),
+                    zoneData("legszone", 4),
+                ],
+                parts: [
+                    partData("head", "headzone", 1),
+                    partData("rarm", "armszone", 2),
+                    partData("larm", "armszone", 2),
+                    partData("rleg", "legszone", 2),
+                    partData("lleg", "legszone", 2),
+                ],
+                locations: [],
+            });
+
+        it("drifts to zone siblings first", () => {
+            expect(
+                wideBody()
+                    .getNeighborParts("rarm")
+                    .map((p) => p.shortcode),
+            ).toEqual(["larm"]);
         });
 
-        it("returns undefined for unknown name", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            expect(body.getPartByCode("wings")).toBeUndefined();
+        it("widens to the nearest zones when the zone has no other part", () => {
+            // head is alone in zone 0; the nearest ring is zone 1 (the arms).
+            expect(
+                wideBody()
+                    .getNeighborParts("head")
+                    .map((p) => p.shortcode),
+            ).toEqual(["rarm", "larm"]);
+        });
+
+        it("skips excluded parts and widens past an exhausted ring", () => {
+            const body = wideBody();
+            expect(
+                body
+                    .getNeighborParts("rarm", new Set(["larm"]))
+                    .map((p) => p.shortcode)
+                    .sort(),
+            ).toEqual(["head", "lleg", "rleg"]);
+        });
+
+        it("returns empty when every other part is excluded", () => {
+            const body = wideBody();
+            const all = new Set(["head", "larm", "rleg", "lleg"]);
+            expect(body.getNeighborParts("rarm", all)).toEqual([]);
+        });
+
+        it("returns empty for an unknown part", () => {
+            expect(wideBody().getNeighborParts("nope")).toEqual([]);
         });
     });
 
-    describe("getAdjacentParts", () => {
-        it("returns parts adjacent to the given part", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const adj = body.getAdjacentParts("head");
-            expect(adj.map((p) => p.shortcode)).toContain("thorax");
-        });
-
-        it("returns empty array for part with no adjacency", () => {
-            const body = new BodyStructure(
-                { parts: SAMPLE_DATA.parts, adjacent: [] },
-                MOCK_BEING_LOGIC,
-            );
-            expect(body.getAdjacentParts("head")).toEqual([]);
-        });
-    });
-
-    describe("getAllLocations", () => {
-        it("returns all locations from all parts", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const locs = body.getAllLocations();
-            expect(locs).toHaveLength(3);
-            expect(locs.map((l) => l.shortcode)).toEqual(
-                expect.arrayContaining(["skull", "face", "chest"]),
-            );
-        });
-    });
-
-    describe("getRandomPart", () => {
-        it("returns a part from the structure when no target", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const part = body.getRandomPart();
-            expect(body.parts).toContain(part);
-        });
-
-        it("returns the target part when spread is very high", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            // Head has probWeight 15. With spread 1000, roll 1..1000
-            // will almost always be <= 15... but it's random.
-            // Use a statistical approach: over many tries, most should hit Head.
-            let headCount = 0;
-            for (let i = 0; i < 100; i++) {
-                const part = body.getRandomPart({
-                    targetPart: body.getPartByCode("head")!,
-                    spread: 1000,
-                });
-                if (part.shortcode === "head") headCount++;
+    describe("random selection", () => {
+        it("getRandomZone honours the zone-number allocation", () => {
+            const body = makeBody();
+            const seen = new Set<string>();
+            for (let i = 0; i < 200; i++) {
+                seen.add(body.getRandomZone(createRng(`z-${i}`))!.shortcode);
             }
-            // With spread 1000 and probWeight 15, chance of hit is 15/1000 = 1.5%
-            // So most will drift to adjacent. This is expected behavior.
-            expect(headCount).toBeGreaterThanOrEqual(0);
+            expect([...seen].sort()).toEqual(["bodyzone", "headzone"]);
+        });
+
+        it("getRandomZone returns undefined when no zone has weight", () => {
+            const data = sampleBodyData();
+            data.zones = data.zones.map((z) => ({ ...z, probWeight: 0 }));
+            expect(makeBody(data).getRandomZone()).toBeUndefined();
+        });
+
+        it("getRandomPart returns a part of the structure when no target", () => {
+            const body = makeBody();
+            for (let i = 0; i < 50; i++) {
+                const part = body.getRandomPart(undefined, createRng(`p-${i}`));
+                expect(["head", "thorax"]).toContain(part.shortcode);
+            }
+        });
+
+        it("getRandomPart falls back body-wide when the rolled zone is empty", () => {
+            // "emptyzone" owns numbers 1-8 but holds no parts; the draw must
+            // still yield the one real part rather than throwing.
+            const body = makeBody({
+                zones: [zoneData("emptyzone", 8), zoneData("bodyzone", 1)],
+                parts: [partData("thorax", "bodyzone", 30)],
+                locations: [locationData("chest", "thorax", 20)],
+            });
+            for (let i = 0; i < 20; i++) {
+                expect(
+                    body.getRandomPart(undefined, createRng(`e-${i}`))
+                        .shortcode,
+                ).toBe("thorax");
+            }
+        });
+
+        it("returns the target part when spread is at or below its weight", () => {
+            const body = makeBody();
+            const targetPart = body.getPartByCode("head")!;
+            for (let i = 0; i < 20; i++) {
+                expect(
+                    body.getRandomPart(
+                        { targetPart, spread: 15 },
+                        createRng(`t-${i}`),
+                    ).shortcode,
+                ).toBe("head");
+            }
         });
 
         it("always returns a valid part with targeted selection", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+            const body = makeBody();
+            const targetPart = body.getPartByCode("head")!;
             for (let i = 0; i < 100; i++) {
-                const part = body.getRandomPart({
-                    targetPart: body.getPartByCode("head")!,
-                    spread: 50,
-                });
-                expect(body.parts).toContain(part);
+                const part = body.getRandomPart(
+                    { targetPart, spread: 100 },
+                    createRng(`v-${i}`),
+                );
+                expect(["head", "thorax"]).toContain(part.shortcode);
             }
         });
 
-        it("with spread equal to probWeight, always hits target", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            // Head has probWeight 15. With spread 15, roll is 1..15,
-            // which is always <= 15, so it always hits.
-            for (let i = 0; i < 50; i++) {
-                const part = body.getRandomPart({
-                    targetPart: body.getPartByCode("head")!,
-                    spread: 15,
-                });
-                expect(part.shortcode).toBe("head");
-            }
-        });
-
-        it("drifts to adjacent parts when spread exceeds probWeight", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            // Head (probWeight 15), adjacent to Thorax (probWeight 30).
-            // With spread 100, many rolls will miss Head and drift to Thorax.
-            let thoraxCount = 0;
+        it("drifts to a neighbouring part when spread far exceeds the weight", () => {
+            const body = makeBody();
+            const targetPart = body.getPartByCode("head")!;
+            const hits = new Set<string>();
             for (let i = 0; i < 200; i++) {
-                const part = body.getRandomPart({
-                    targetPart: body.getPartByCode("head")!,
-                    spread: 100,
-                });
-                if (part.shortcode === "thorax") thoraxCount++;
+                hits.add(
+                    body.getRandomPart(
+                        { targetPart, spread: 1000 },
+                        createRng(`d-${i}`),
+                    ).shortcode,
+                );
             }
-            expect(thoraxCount).toBeGreaterThan(0);
+            expect(hits.has("thorax")).toBe(true);
+        });
+
+        it("getRandomLocation returns a location of the structure", () => {
+            const body = makeBody();
+            for (let i = 0; i < 50; i++) {
+                const loc = body.getRandomLocation(
+                    undefined,
+                    createRng(`l-${i}`),
+                );
+                expect(["skull", "face", "chest"]).toContain(loc.shortcode);
+            }
         });
     });
 
-    describe("getRandomLocation", () => {
-        it("returns a location from the structure", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const loc = body.getRandomLocation();
-            const allNames = body.getAllLocations().map((l) => l.shortcode);
-            expect(allNames).toContain(loc.shortcode);
-        });
-    });
-
-    // Issue #601 — hit-location selection draws from an injectable, seedable
-    // Rng, so a seed forces a location deterministically end to end (the part
-    // drift AND the within-part location draw share the one stream).
     describe("seeded determinism (#601)", () => {
         it("getRandomPart(target) is reproducible under the same seed", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+            const body = makeBody();
             const target = {
                 targetPart: body.getPartByCode("head")!,
-                spread: 100,
+                spread: 60,
             };
-            const runA = Array.from(
+            const first = Array.from(
                 { length: 20 },
-                (_v, i) =>
+                (_, i) =>
                     body.getRandomPart(target, createRng(`hit-${i}`)).shortcode,
             );
-            const runB = Array.from(
+            const again = Array.from(
                 { length: 20 },
-                (_v, i) =>
+                (_, i) =>
                     body.getRandomPart(target, createRng(`hit-${i}`)).shortcode,
             );
-            expect(runA).toEqual(runB);
+            expect(again).toEqual(first);
         });
 
-        it("getRandomLocation forces a location deterministically end to end", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const target = {
-                targetPart: body.getPartByCode("head")!,
-                spread: 100,
-            };
+        it("getRandomLocation is reproducible end to end", () => {
+            const body = makeBody();
             const first = body.getRandomLocation(
-                target,
-                createRng("aimed-strike-01"),
-            ).shortcode;
-            const again = body.getRandomLocation(
-                target,
-                createRng("aimed-strike-01"),
-            ).shortcode;
-            expect(again).toBe(first);
-            // A different seed is free to differ; the point is same-seed ⇒ same
-            // location. Sweep a few seeds to prove the outcome actually varies.
-            const outcomes = new Set(
-                Array.from(
-                    { length: 40 },
-                    (_v, i) =>
-                        body.getRandomLocation(target, createRng(`s-${i}`))
-                            .shortcode,
-                ),
+                undefined,
+                createRng("seed-1"),
             );
-            expect(outcomes.size).toBeGreaterThan(1);
+            const again = body.getRandomLocation(
+                undefined,
+                createRng("seed-1"),
+            );
+            expect(again.shortcode).toBe(first.shortcode);
         });
 
         it("weightedRandom is reproducible under the same seed", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const a = weightedRandom(body.parts, createRng("wr")).shortcode;
-            const b = weightedRandom(body.parts, createRng("wr")).shortcode;
-            expect(a).toBe(b);
+            const body = makeBody();
+            const pick = () =>
+                weightedRandom(body.parts, createRng("w-seed")).shortcode;
+            expect(pick()).toBe(pick());
         });
     });
 
     describe("updatePath", () => {
-        it("parts have correct update paths", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            expect(body.parts[0].updatePath).toBe(
-                "system.body.structure.parts.0",
+        it("addresses each tier by its flat index", () => {
+            const body = makeBody();
+            expect(body.zones[1].updatePath).toBe(
+                "system.body.structure.zones.1",
             );
             expect(body.parts[1].updatePath).toBe(
                 "system.body.structure.parts.1",
             );
-        });
-
-        it("locations have correct update paths", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            expect(body.parts[0].locations[0].updatePath).toBe(
-                "system.body.structure.parts.0.locations.0",
-            );
-            expect(body.parts[0].locations[1].updatePath).toBe(
-                "system.body.structure.parts.0.locations.1",
-            );
-            expect(body.parts[1].locations[0].updatePath).toBe(
-                "system.body.structure.parts.1.locations.0",
+            expect(body.locations[2].updatePath).toBe(
+                "system.body.structure.locations.2",
             );
         });
     });
 
-    describe("addPartUpdate", () => {
-        it("returns update payload with new part appended", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const newPart: BodyPart.Data = {
-                shortcode: "larm",
-                roles: [],
-                canHoldItem: true,
-                heldItemId: null,
-                combatArea: 10,
-                locations: [],
-            };
-            const update = body.addPartUpdate(newPart);
-            const parts = update["system.body.structure.parts"];
-            expect(parts).toHaveLength(3);
-            expect(parts[2].shortcode).toBe("larm");
-        });
-    });
-
-    describe("removePartUpdate", () => {
-        it("returns update payload with part removed by name", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const update = body.removePartUpdate("head");
-            const parts = update["system.body.structure.parts"];
-            expect(parts).toHaveLength(1);
-            expect(parts[0].shortcode).toBe("thorax");
+    describe("zone update payloads", () => {
+        it("addZoneUpdate appends to the whole zones array", () => {
+            const body = makeBody();
+            const payload = body.addZoneUpdate(zoneData("tailzone", 2));
+            expect(payload["system.body.structure.zones"]).toHaveLength(3);
+            expect(payload["system.body.structure.zones"][2].shortcode).toBe(
+                "tailzone",
+            );
         });
 
-        it("returns unchanged array if name not found", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const update = body.removePartUpdate("wings");
-            const parts = update["system.body.structure.parts"];
-            expect(parts).toHaveLength(2);
-        });
-    });
-
-    // Regression guard (#247): partial `parts.${i}.field` writes corrupt the
-    // whole parts array under Foundry. Every part-field mutation must emit a
-    // COMPLETE `system.body.structure.parts` array, never a by-index key.
-    describe("setPartFieldsUpdate", () => {
-        it("rewrites the complete parts array, changing only the target part", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const update = body.setPartFieldsUpdate([
-                { index: 1, changes: { heldItemId: "aaaaaaaaaaaaaaaa" } },
-            ]);
-            // Only the full-array key is present — no by-index key.
-            expect(Object.keys(update)).toEqual([
-                "system.body.structure.parts",
-            ]);
-            const parts = update["system.body.structure.parts"];
-            expect(parts).toHaveLength(2);
-            // Untouched part keeps every field.
-            expect(parts[0]).toEqual(SAMPLE_DATA.parts[0]);
-            // Target part gets the change, retaining its other fields.
-            expect(parts[1].heldItemId).toBe("aaaaaaaaaaaaaaaa");
-            expect(parts[1].shortcode).toBe("thorax");
-            expect(parts[1].locations).toEqual(SAMPLE_DATA.parts[1].locations);
-        });
-
-        it("applies changes to several parts at once", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const update = body.setPartFieldsUpdate([
-                { index: 0, changes: { heldItemId: "0000000000000000" } },
-                { index: 1, changes: { heldItemId: "1111111111111111" } },
-            ]);
-            const parts = update["system.body.structure.parts"];
-            expect(parts).toHaveLength(2);
-            expect(parts[0].heldItemId).toBe("0000000000000000");
-            expect(parts[1].heldItemId).toBe("1111111111111111");
-        });
-
-        it("ignores out-of-range indices and returns {} when nothing applies", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+        it("removeZoneUpdate cascades to its parts and their locations", () => {
+            const body = makeBody();
+            const payload = body.removeZoneUpdate("headzone");
             expect(
-                body.setPartFieldsUpdate([
-                    { index: 99, changes: { heldItemId: "x" } },
+                payload["system.body.structure.zones"].map(
+                    (z: any) => z.shortcode,
+                ),
+            ).toEqual(["bodyzone"]);
+            expect(
+                payload["system.body.structure.parts"].map(
+                    (p: any) => p.shortcode,
+                ),
+            ).toEqual(["thorax"]);
+            // skull + face belonged to the head part and go with it.
+            expect(
+                payload["system.body.structure.locations"].map(
+                    (l: any) => l.shortcode,
+                ),
+            ).toEqual(["chest"]);
+        });
+
+        it("moveZoneUpdate rewrites the whole zones array", () => {
+            const body = makeBody();
+            const payload = body.moveZoneUpdate(0, 1);
+            expect(
+                payload["system.body.structure.zones"].map(
+                    (z: any) => z.shortcode,
+                ),
+            ).toEqual(["bodyzone", "headzone"]);
+        });
+
+        it("setZoneFieldsUpdate changes only the addressed zone", () => {
+            const body = makeBody();
+            const payload = body.setZoneFieldsUpdate([
+                { index: 1, changes: { probWeight: 7 } },
+            ]);
+            const zones = payload["system.body.structure.zones"];
+            expect(zones).toHaveLength(2);
+            expect(zones[0].probWeight).toBe(1);
+            expect(zones[1].probWeight).toBe(7);
+            expect(zones[1].shortcode).toBe("bodyzone");
+        });
+
+        it("setZoneFieldsUpdate ignores out-of-range indices", () => {
+            const body = makeBody();
+            expect(
+                body.setZoneFieldsUpdate([
+                    { index: 9, changes: { probWeight: 1 } },
                 ]),
             ).toEqual({});
-            expect(body.setPartFieldsUpdate([])).toEqual({});
         });
     });
 
-    describe("addLocationUpdate", () => {
-        it("emits a complete parts array with the location appended", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const newLoc: BodyLocation.Data = {
-                shortcode: "neck",
-                bleedingSusceptibility: "high",
-                amputability: "none",
-                shockValue: 4,
-                probWeight: 5,
-                protectionBase: { blunt: 1, edged: 1, piercing: 1, fire: 0 },
-            };
-            const part = body.getPartByCode("head")!;
-            const update = part.addLocationUpdate(newLoc);
-            // Full-array write only — no `parts.0.locations` by-index key (#247).
-            expect(Object.keys(update)).toEqual([
-                "system.body.structure.parts",
+    describe("part update payloads", () => {
+        it("addPartUpdate appends to the whole parts array", () => {
+            const body = makeBody();
+            const payload = body.addPartUpdate(partData("tail", "bodyzone", 4));
+            const parts = payload["system.body.structure.parts"];
+            expect(parts).toHaveLength(3);
+            expect(parts[2].shortcode).toBe("tail");
+        });
+
+        it("BodyZone.addPartUpdate stamps the owning zone code", () => {
+            const body = makeBody();
+            const payload = body
+                .getZoneByCode("bodyzone")!
+                .addPartUpdate(partData("tail", "wrongzone", 4));
+            expect(payload["system.body.structure.parts"][2].bodyZoneCode).toBe(
+                "bodyzone",
+            );
+        });
+
+        it("removePartUpdate cascades to that part's locations", () => {
+            const body = makeBody();
+            const payload = body.removePartUpdate("head");
+            expect(
+                payload["system.body.structure.parts"].map(
+                    (p: any) => p.shortcode,
+                ),
+            ).toEqual(["thorax"]);
+            expect(
+                payload["system.body.structure.locations"].map(
+                    (l: any) => l.shortcode,
+                ),
+            ).toEqual(["chest"]);
+        });
+
+        it("removePartUpdate leaves everything alone for an unknown code", () => {
+            const body = makeBody();
+            const payload = body.removePartUpdate("nope");
+            expect(payload["system.body.structure.parts"]).toHaveLength(2);
+            expect(payload["system.body.structure.locations"]).toHaveLength(3);
+        });
+
+        it("setPartFieldsUpdate changes only the addressed part", () => {
+            const body = makeBody();
+            const payload = body.setPartFieldsUpdate([
+                { index: 0, changes: { permanentImpairment: -5 } },
             ]);
-            const parts = update["system.body.structure.parts"];
+            const parts = payload["system.body.structure.parts"];
             expect(parts).toHaveLength(2);
-            expect(parts[1]).toEqual(SAMPLE_DATA.parts[1]); // sibling intact
-            expect(parts[0].locations).toHaveLength(3);
-            expect(parts[0].locations[2].shortcode).toBe("neck");
+            expect(parts[0].permanentImpairment).toBe(-5);
+            expect(parts[0].shortcode).toBe("head");
+            expect(parts[1].permanentImpairment).toBeUndefined();
         });
-    });
 
-    describe("removeLocationUpdate", () => {
-        it("emits a complete parts array with the location removed", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const part = body.getPartByCode("head")!;
-            const update = part.removeLocationUpdate("skull");
-            expect(Object.keys(update)).toEqual([
-                "system.body.structure.parts",
+        it("setPartFieldsUpdate applies changes to several parts at once", () => {
+            const body = makeBody();
+            const parts = body.setPartFieldsUpdate([
+                { index: 0, changes: { canHoldItem: true } },
+                { index: 1, changes: { combatArea: 99 } },
+            ])["system.body.structure.parts"];
+            expect(parts[0].canHoldItem).toBe(true);
+            expect(parts[1].combatArea).toBe(99);
+        });
+
+        it("movePartUpdate reorders within a zone", () => {
+            const data = sampleBodyData();
+            data.parts.push(partData("gut", "bodyzone", 10));
+            const body = makeBody(data);
+            // Move "gut" (flat index 2) to the front of its zone.
+            const parts = body.movePartUpdate(2, "bodyzone", 0)[
+                "system.body.structure.parts"
+            ];
+            expect(parts.map((p: any) => p.shortcode)).toEqual([
+                "head",
+                "gut",
+                "thorax",
             ]);
-            const parts = update["system.body.structure.parts"];
-            expect(parts).toHaveLength(2);
-            expect(parts[1]).toEqual(SAMPLE_DATA.parts[1]); // sibling intact
-            expect(parts[0].locations).toHaveLength(1);
-            expect(parts[0].locations[0].shortcode).toBe("face");
         });
 
-        it("returns unchanged locations if name not found", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const part = body.getPartByCode("head")!;
-            const update = part.removeLocationUpdate("nonexistent");
-            const parts = update["system.body.structure.parts"];
-            expect(parts[0].locations).toHaveLength(2);
-        });
-    });
-
-    describe("movePartUpdate", () => {
-        it("emits a complete, reordered parts array", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const update = body.movePartUpdate(1, 0);
-            expect(Object.keys(update)).toEqual([
-                "system.body.structure.parts",
-            ]);
-            const parts = update["system.body.structure.parts"];
-            expect(parts.map((p: BodyPart.Data) => p.shortcode)).toEqual([
+        it("movePartUpdate re-parents a part to another zone", () => {
+            const body = makeBody();
+            const parts = body.movePartUpdate(1, "headzone", 0)[
+                "system.body.structure.parts"
+            ];
+            expect(parts.map((p: any) => p.shortcode)).toEqual([
                 "thorax",
                 "head",
             ]);
+            expect(parts[0].bodyZoneCode).toBe("headzone");
         });
 
-        it("is a no-op array on an out-of-range move", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const parts = body.movePartUpdate(0, 9)[
+        it("movePartUpdate appends when the destination zone is empty", () => {
+            const data = sampleBodyData();
+            data.zones.push(zoneData("tailzone", 1));
+            const body = makeBody(data);
+            const parts = body.movePartUpdate(0, "tailzone", 0)[
                 "system.body.structure.parts"
             ];
-            expect(parts.map((p: BodyPart.Data) => p.shortcode)).toEqual([
+            expect(parts.map((p: any) => p.shortcode)).toEqual([
+                "thorax",
+                "head",
+            ]);
+            expect(parts[1].bodyZoneCode).toBe("tailzone");
+        });
+
+        it("movePartUpdate is a no-op on an out-of-range index", () => {
+            const body = makeBody();
+            const parts = body.movePartUpdate(9, "headzone", 0)[
+                "system.body.structure.parts"
+            ];
+            expect(parts.map((p: any) => p.shortcode)).toEqual([
                 "head",
                 "thorax",
             ]);
         });
     });
 
-    describe("moveLocationUpdate", () => {
-        it("reorders a location within its part (full-array write)", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const update = body.moveLocationUpdate(0, 0, 0, 1);
-            expect(Object.keys(update)).toEqual([
-                "system.body.structure.parts",
-            ]);
-            const parts = update["system.body.structure.parts"];
-            expect(
-                parts[0].locations.map((l: BodyLocation.Data) => l.shortcode),
-            ).toEqual(["face", "skull"]);
+    describe("location update payloads", () => {
+        it("addLocationUpdate appends to the whole locations array", () => {
+            const body = makeBody();
+            const locs = body.addLocationUpdate(locationData("jaw", "head", 4))[
+                "system.body.structure.locations"
+            ];
+            expect(locs).toHaveLength(4);
+            expect(locs[3].shortcode).toBe("jaw");
         });
 
-        it("relocates a location to another part", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const parts = body.moveLocationUpdate(0, 0, 1, 1)[
+        it("BodyPart.addLocationUpdate stamps the owning part code", () => {
+            const body = makeBody();
+            const locs = body
+                .getPartByCode("thorax")!
+                .addLocationUpdate(locationData("jaw", "wrongpart", 4))[
+                "system.body.structure.locations"
+            ];
+            expect(locs[3].bodyPartCode).toBe("thorax");
+        });
+
+        it("removeLocationUpdate removes by body-wide shortcode", () => {
+            const body = makeBody();
+            const locs =
+                body.removeLocationUpdate("face")[
+                    "system.body.structure.locations"
+                ];
+            expect(locs.map((l: any) => l.shortcode)).toEqual([
+                "skull",
+                "chest",
+            ]);
+        });
+
+        it("BodyPart.removeLocationUpdate refuses a location of another part", () => {
+            const body = makeBody();
+            expect(
+                body.getPartByCode("thorax")!.removeLocationUpdate("skull"),
+            ).toEqual({});
+        });
+
+        it("setLocationFieldsUpdate changes only the addressed location", () => {
+            const body = makeBody();
+            const locs = body.setLocationFieldsUpdate([
+                { index: 1, changes: { shockValue: 9 } },
+            ])["system.body.structure.locations"];
+            expect(locs).toHaveLength(3);
+            expect(locs[1].shockValue).toBe(9);
+            expect(locs[0].shockValue).toBe(3);
+        });
+
+        it("moveLocationUpdate reorders within its part", () => {
+            const body = makeBody();
+            const locs = body.moveLocationUpdate(1, "head", 0)[
+                "system.body.structure.locations"
+            ];
+            expect(locs.map((l: any) => l.shortcode)).toEqual([
+                "face",
+                "skull",
+                "chest",
+            ]);
+        });
+
+        it("moveLocationUpdate relocates a location to another part", () => {
+            const body = makeBody();
+            const locs = body.moveLocationUpdate(0, "thorax", 0)[
+                "system.body.structure.locations"
+            ];
+            expect(locs.map((l: any) => l.shortcode)).toEqual([
+                "face",
+                "skull",
+                "chest",
+            ]);
+            expect(
+                locs.find((l: any) => l.shortcode === "skull").bodyPartCode,
+            ).toBe("thorax");
+        });
+    });
+
+    describe("re-parenting after a rename", () => {
+        it("repointPartsUpdate re-points a renamed zone's parts", () => {
+            const body = makeBody();
+            const parts = body.repointPartsUpdate("headzone", "cranium")[
                 "system.body.structure.parts"
             ];
-            expect(
-                parts[0].locations.map((l: BodyLocation.Data) => l.shortcode),
-            ).toEqual(["face"]);
-            expect(
-                parts[1].locations.map((l: BodyLocation.Data) => l.shortcode),
-            ).toEqual(["chest", "skull"]);
-        });
-    });
-
-    describe("addEdgeUpdate", () => {
-        it("returns update payload with new edge appended", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const update = body.addEdgeUpdate("head", "larm");
-            const adj = update["system.body.structure.adjacent"];
-            expect(adj).toHaveLength(2);
-            expect(adj[1]).toEqual(["head", "larm"]);
+            expect(parts[0].bodyZoneCode).toBe("cranium");
+            expect(parts[1].bodyZoneCode).toBe("bodyzone");
         });
 
-        it("does not add duplicate edge", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const update = body.addEdgeUpdate("head", "thorax");
-            const adj = update["system.body.structure.adjacent"];
-            expect(adj).toHaveLength(1);
+        it("repointLocationsUpdate re-points a renamed part's locations", () => {
+            const body = makeBody();
+            const locs = body.repointLocationsUpdate("head", "noggin")[
+                "system.body.structure.locations"
+            ];
+            expect(locs.map((l: any) => l.bodyPartCode)).toEqual([
+                "noggin",
+                "noggin",
+                "thorax",
+            ]);
         });
 
-        it("detects reverse-order duplicates", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const update = body.addEdgeUpdate("thorax", "head");
-            const adj = update["system.body.structure.adjacent"];
-            expect(adj).toHaveLength(1);
-        });
-    });
-
-    describe("removeEdgeUpdate", () => {
-        it("returns update payload with edge removed", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const update = body.removeEdgeUpdate("head", "thorax");
-            const adj = update["system.body.structure.adjacent"];
-            expect(adj).toHaveLength(0);
-        });
-
-        it("removes edge regardless of argument order", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const update = body.removeEdgeUpdate("thorax", "head");
-            const adj = update["system.body.structure.adjacent"];
-            expect(adj).toHaveLength(0);
-        });
-
-        it("returns unchanged array if edge not found", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            const update = body.removeEdgeUpdate("head", "larm");
-            const adj = update["system.body.structure.adjacent"];
-            expect(adj).toHaveLength(1);
-        });
-    });
-
-    describe("hasEdge", () => {
-        it("returns true for existing edge", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            expect(body.hasEdge("head", "thorax")).toBe(true);
-        });
-
-        it("returns true regardless of order", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            expect(body.hasEdge("thorax", "head")).toBe(true);
-        });
-
-        it("returns false for non-existent edge", () => {
-            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            expect(body.hasEdge("head", "larm")).toBe(false);
+        it("returns {} when the code is unchanged or unreferenced", () => {
+            const body = makeBody();
+            expect(body.repointPartsUpdate("headzone", "headzone")).toEqual({});
+            expect(body.repointLocationsUpdate("nosuch", "other")).toEqual({});
         });
     });
 
     describe("roles", () => {
-        // Head is a vital part; thorax is vital + core; arm is neither.
-        const ROLE_DATA: BodyStructure.Data = {
-            parts: [
-                {
-                    shortcode: "head",
-                    roles: ["vital"],
-                    canHoldItem: false,
-                    heldItemId: null,
-                    combatArea: 15,
-                    locations: [{ ...SKULL_LOC }],
-                },
-                {
-                    shortcode: "thorax",
-                    roles: ["vital", "core"],
-                    canHoldItem: false,
-                    heldItemId: null,
-                    combatArea: 30,
-                    locations: [{ ...CHEST_LOC }],
-                },
-                {
-                    shortcode: "larm",
-                    roles: ["manipulator"],
-                    canHoldItem: true,
-                    heldItemId: null,
-                    combatArea: 10,
-                    locations: [{ ...FACE_LOC, shortcode: "hand" }],
-                },
-            ],
-            adjacent: [],
-        };
-        const roleLogic = {
-            parent: brandLogic({
-                kind: "corpus",
-                actor: null,
-                data: { body: { structure: ROLE_DATA } },
-            }),
-        } as any;
+        const roleBody = () =>
+            makeBody({
+                zones: [zoneData("headzone", 1), zoneData("armszone", 4)],
+                parts: [
+                    partData("head", "headzone", 1, { roles: ["vital"] }),
+                    partData("rarm", "armszone", 2, {
+                        roles: ["manipulator"],
+                    }),
+                    partData("larm", "armszone", 2, {
+                        roles: ["manipulator", "vital"],
+                    }),
+                ],
+                locations: [],
+            });
 
         it("getPartsByRole returns every part carrying the role", () => {
-            const body = new BodyStructure(ROLE_DATA, roleLogic);
             expect(
-                body.getPartsByRole("vital").map((p) => p.shortcode),
-            ).toEqual(["head", "thorax"]);
-            expect(
-                body.getPartsByRole("manipulator").map((p) => p.shortcode),
-            ).toEqual(["larm"]);
-            expect(body.getPartsByRole("locomotor")).toEqual([]);
+                roleBody()
+                    .getPartsByRole("vital")
+                    .map((p: BodyPart) => p.shortcode),
+            ).toEqual(["head", "larm"]);
         });
 
         it("getRandomPartByRole only ever returns a part with that role", () => {
-            const body = new BodyStructure(ROLE_DATA, roleLogic);
+            const body = roleBody();
             for (let i = 0; i < 50; i++) {
                 const part = body.getRandomPartByRole(
-                    "vital",
-                    createRng(`vital-${i}`),
+                    "manipulator",
+                    createRng(`r-${i}`),
                 )!;
-                expect(part.roles).toContain("vital");
+                expect(part.roles).toContain("manipulator");
             }
         });
 
         it("getRandomPartByRole returns undefined when no part has the role", () => {
-            const body = new BodyStructure(ROLE_DATA, roleLogic);
-            expect(body.getRandomPartByRole("locomotor")).toBeUndefined();
+            expect(roleBody().getRandomPartByRole("locomotor")).toBeUndefined();
         });
     });
 });

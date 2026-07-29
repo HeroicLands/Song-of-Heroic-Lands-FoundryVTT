@@ -1,49 +1,50 @@
 import { describe, it, expect } from "vitest";
-import { brandLogic } from "@tests/mocks/brandLogic";
-import { BodyPart } from "@src/entity/body/BodyPart";
+import type { BodyPart } from "@src/entity/body/BodyPart";
+import type { BodyStructure } from "@src/entity/body/BodyStructure";
+import {
+    locationData,
+    makeBody,
+    partData,
+    zoneData,
+} from "@tests/mocks/bodyFixture";
 
-const SAMPLE_DATA: BodyPart.Data = {
-    shortcode: "larm",
-    roles: [],
-    canHoldItem: true,
-    heldItemId: null,
-    combatArea: 20,
-    locations: [
-        {
-            shortcode: "ularm",
-            bleedingSusceptibility: "high",
-            amputability: "low",
-            shockValue: 2,
-            probWeight: 15,
-            protectionBase: { blunt: 1, edged: 0, piercing: 0, fire: 0 },
-        },
-        {
-            shortcode: "lhand",
-            bleedingSusceptibility: "none",
-            amputability: "none",
-            shockValue: 1,
-            probWeight: 5,
-            protectionBase: { blunt: 0, edged: 0, piercing: 0, fire: 0 },
-        },
-    ],
-};
+/**
+ * A part is built by its zone, which is built by the structure, so these tests
+ * compose a one-part body and read the part back out rather than constructing a
+ * `BodyPart` directly.
+ */
+function armBody(
+    partOverrides: Partial<BodyPart.Data> = {},
+    extra: { parts?: BodyPart.Data[] } = {},
+): BodyStructure {
+    return makeBody({
+        zones: [zoneData("armszone", 4)],
+        parts: [
+            partData("larm", "armszone", 20, {
+                canHoldItem: true,
+                ...partOverrides,
+            }),
+            ...(extra.parts ?? []),
+        ],
+        locations: [
+            locationData("ularm", "larm", 15, {
+                bleedingSusceptibility: "high",
+                amputability: "low",
+                shockValue: 2,
+                protectionBase: { blunt: 1, edged: 0, piercing: 0, fire: 0 },
+            }),
+            locationData("lhand", "larm", 5, { shockValue: 1 }),
+        ],
+    });
+}
 
-// Minimal mock: corpusLogic with a null actor (no item resolution)
-const MOCK_BODY_STRUCTURE = {
-    corpusLogic: { actor: null },
-} as any;
-
-// A Corpus-kinded owning logic (the parent every body entity requires).
-const MOCK_CORPUS = brandLogic({ kind: "corpus", actor: null }) as any;
+const arm = (overrides: Partial<BodyPart.Data> = {}): BodyPart =>
+    armBody(overrides).getPartByCode("larm")!;
 
 describe("BodyPart", () => {
     describe("construction", () => {
         it("creates from data with all properties", () => {
-            const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_CORPUS,
-                structure: MOCK_BODY_STRUCTURE,
-                index: 0,
-            });
+            const part = arm();
             expect(part.shortcode).toBe("larm");
             expect(part.affectsMobility).toBe(false);
             expect(part.canHoldItem).toBe(true);
@@ -56,137 +57,118 @@ describe("BodyPart", () => {
             expect(part.index).toBe(0);
         });
 
-        it("falls back name to shortcode and defaults permanentImpairment to 0 (#464)", () => {
-            const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_CORPUS,
-                structure: MOCK_BODY_STRUCTURE,
-                index: 0,
-            });
-            expect(part.name).toBe("larm"); // no name in data → shortcode
-            expect(part.permanentImpairment).toBe(0);
+        it("defaults permanentImpairment to 0 (#464)", () => {
+            expect(arm().permanentImpairment).toBe(0);
+        });
+
+        it("falls back name to shortcode", () => {
+            const part = armBody({ name: undefined }).getPartByCode("larm")!;
+            expect(part.name).toBe("larm");
         });
 
         it("defaults permanentlyUnusable to false; isCritical follows VITAL/CORE (#470)", () => {
-            const opts = {
-                parent: MOCK_CORPUS,
-                structure: MOCK_BODY_STRUCTURE,
-                index: 0,
-            };
-            const plain = new BodyPart(SAMPLE_DATA, opts);
-            expect(plain.permanentlyUnusable).toBe(false);
-            expect(plain.isCritical).toBe(false); // roles: []
-
-            expect(
-                new BodyPart({ ...SAMPLE_DATA, roles: ["core"] }, opts)
-                    .isCritical,
-            ).toBe(true);
-            expect(
-                new BodyPart({ ...SAMPLE_DATA, roles: ["locomotor"] }, opts)
-                    .isCritical,
-            ).toBe(false);
-            expect(
-                new BodyPart(
-                    { ...SAMPLE_DATA, permanentlyUnusable: true },
-                    opts,
-                ).permanentlyUnusable,
-            ).toBe(true);
+            expect(arm().permanentlyUnusable).toBe(false);
+            expect(arm().isCritical).toBe(false); // roles: []
+            expect(arm({ roles: ["core"] }).isCritical).toBe(true);
+            expect(arm({ roles: ["locomotor"] }).isCritical).toBe(false);
+            expect(arm({ permanentlyUnusable: true }).permanentlyUnusable).toBe(
+                true,
+            );
         });
 
         it("reads a negative permanent impairment and clamps a positive one to 0 (#464)", () => {
-            const maimed = new BodyPart(
-                { ...SAMPLE_DATA, name: "Left Arm", permanentImpairment: -10 },
-                {
-                    parent: MOCK_CORPUS,
-                    structure: MOCK_BODY_STRUCTURE,
-                    index: 0,
-                },
-            );
+            const maimed = arm({ name: "Left Arm", permanentImpairment: -10 });
             expect(maimed.name).toBe("Left Arm");
             expect(maimed.permanentImpairment).toBe(-10);
-
-            const positive = new BodyPart(
-                { ...SAMPLE_DATA, permanentImpairment: 5 },
-                {
-                    parent: MOCK_CORPUS,
-                    structure: MOCK_BODY_STRUCTURE,
-                    index: 0,
-                },
-            );
-            expect(positive.permanentImpairment).toBe(0);
+            expect(arm({ permanentImpairment: 5 }).permanentImpairment).toBe(0);
         });
 
-        it("constructs BodyLocation instances for each location", () => {
-            const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_CORPUS,
-                structure: MOCK_BODY_STRUCTURE,
-                index: 0,
-            });
+        it("constructs BodyLocation instances for each of its locations", () => {
+            const part = arm();
             expect(part.locations).toHaveLength(2);
-            expect(part.locations[0].shortcode).toBe("ularm");
-            expect(part.locations[1].shortcode).toBe("lhand");
+            expect(part.locations.map((l) => l.shortcode)).toEqual([
+                "ularm",
+                "lhand",
+            ]);
         });
 
-        it("assigns sequential indices to locations", () => {
-            const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_CORPUS,
-                structure: MOCK_BODY_STRUCTURE,
-                index: 0,
-            });
-            expect(part.locations[0].index).toBe(0);
-            expect(part.locations[1].index).toBe(1);
+        it("gives locations their flat index, and position within the part", () => {
+            const part = arm();
+            expect(part.locations.map((l) => l.index)).toEqual([0, 1]);
+            expect(part.locations.map((l) => l.position)).toEqual([0, 1]);
+        });
+
+        it("links back to its zone and structure", () => {
+            const body = armBody();
+            const part = body.getPartByCode("larm")!;
+            expect(part.zone.shortcode).toBe("armszone");
+            expect(part.structure).toBe(body);
         });
     });
 
-    describe("updatePath", () => {
-        it("builds dot-notation path from index", () => {
-            const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_CORPUS,
-                structure: MOCK_BODY_STRUCTURE,
-                index: 3,
+    describe("indices", () => {
+        it("updatePath addresses the flat parts array", () => {
+            const body = armBody(
+                {},
+                { parts: [partData("rarm", "armszone", 20)] },
+            );
+            expect(body.getPartByCode("rarm")!.index).toBe(1);
+            expect(body.getPartByCode("rarm")!.updatePath).toBe(
+                "system.body.structure.parts.1",
+            );
+        });
+
+        it("position is the slot within the zone, index the flat slot", () => {
+            const body = makeBody({
+                zones: [zoneData("headzone", 1), zoneData("armszone", 4)],
+                parts: [
+                    partData("head", "headzone", 1),
+                    partData("rarm", "armszone", 2),
+                    partData("larm", "armszone", 2),
+                ],
+                locations: [],
             });
-            expect(part.updatePath).toBe("system.body.structure.parts.3");
+            const larm = body.getPartByCode("larm")!;
+            expect(larm.index).toBe(2); // third in the flat array
+            expect(larm.position).toBe(1); // second in its zone
         });
     });
 
     describe("getLocation", () => {
-        it("finds a location by name", () => {
-            const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_CORPUS,
-                structure: MOCK_BODY_STRUCTURE,
-                index: 0,
-            });
-            const loc = part.getLocationByCode("lhand");
-            expect(loc).toBeDefined();
-            expect(loc!.shortcode).toBe("lhand");
+        it("finds a location by code", () => {
+            expect(arm().getLocationByCode("lhand")?.shortcode).toBe("lhand");
         });
 
-        it("returns undefined for unknown name", () => {
-            const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_CORPUS,
-                structure: MOCK_BODY_STRUCTURE,
-                index: 0,
+        it("returns undefined for an unknown code", () => {
+            expect(arm().getLocationByCode("nonexistent")).toBeUndefined();
+        });
+
+        it("does not find a location belonging to another part", () => {
+            const body = makeBody({
+                zones: [zoneData("armszone", 4)],
+                parts: [
+                    partData("larm", "armszone", 20),
+                    partData("rarm", "armszone", 20),
+                ],
+                locations: [
+                    locationData("lhand", "larm", 5),
+                    locationData("rhand", "rarm", 5),
+                ],
             });
-            expect(part.getLocationByCode("nonexistent")).toBeUndefined();
+            expect(
+                body.getPartByCode("larm")!.getLocationByCode("rhand"),
+            ).toBeUndefined();
         });
     });
 
     describe("getRandomLocation", () => {
         it("returns a location from this part", () => {
-            const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_CORPUS,
-                structure: MOCK_BODY_STRUCTURE,
-                index: 0,
-            });
-            const loc = part.getRandomLocation();
-            expect(part.locations).toContain(loc);
+            const part = arm();
+            expect(part.locations).toContain(part.getRandomLocation());
         });
 
         it("respects probability weights", () => {
-            const part = new BodyPart(SAMPLE_DATA, {
-                parent: MOCK_CORPUS,
-                structure: MOCK_BODY_STRUCTURE,
-                index: 0,
-            });
+            const part = arm();
             // Upper Left Arm has weight 15, Left Hand has weight 5
             const counts: Record<string, number> = {};
             for (let i = 0; i < 1000; i++) {

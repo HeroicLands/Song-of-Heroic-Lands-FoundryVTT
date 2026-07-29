@@ -16,52 +16,75 @@ import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 
 const COMBAT = "systems/sohl/templates/actor/being/combat.hbs";
 
-const bodyParts = [
+const bodyZones = [
     {
-        shortcode: "head",
+        shortcode: "headzone",
         index: 0,
-        label: "Head",
-        locations: [
+        label: "Head Zone",
+        zoneRange: "1\u20133",
+        parts: [
             {
-                shortcode: "skull",
-                name: "Skull",
-                layers: "",
-                blunt: 3,
-                edged: 3,
-                piercing: 3,
-                fire: 0,
-                shock: 5,
-                impair: 0,
+                shortcode: "head",
+                index: 0,
+                label: "Head",
+                locations: [
+                    {
+                        shortcode: "skull",
+                        name: "Skull",
+                        layers: "",
+                        blunt: 3,
+                        edged: 3,
+                        piercing: 3,
+                        fire: 0,
+                        shock: 5,
+                        impair: 0,
+                    },
+                ],
             },
         ],
     },
 ];
 
-describe("combat.hbs Body Structure add / drag controls (#720)", () => {
+describe("combat.hbs Body Structure add / drag controls (#720/#780)", () => {
     it("renders the + Add controls and draggable rows for an editor", () => {
         const html = renderTemplateReal(COMBAT, {
             structure: true,
             canEditBody: true,
-            bodyParts,
+            bodyZones,
         });
-        // Add controls: one on the structure header, one per part header.
+        // Add controls: one on the structure header (zone), one per zone
+        // header (part), one per part header (location).
+        expect(html).toContain('data-action="addBodyZone"');
         expect(html).toContain('data-action="addBodyPart"');
         expect(html).toContain('data-action="addBodyLocation"');
         // Rows are draggable and addressable by shortcode (matches #742's tree).
         expect(html).toContain('draggable="true"');
+        expect(html).toContain('data-zone-shortcode="headzone"');
         expect(html).toContain('data-part-shortcode="head"');
         expect(html).toContain('data-location-shortcode="skull"');
-        // The Edit/Delete ⋮ menus (from #742) still render.
+        // The Edit/Delete ⋮ menus (from #742) still render, now at all three tiers.
+        expect(html).toContain("bodyzone-contextmenu");
         expect(html).toContain("bodypart-contextmenu");
         expect(html).toContain("bodylocation-contextmenu");
+    });
+
+    it("renders the zone tier with its label and rolled number range", () => {
+        const html = renderTemplateReal(COMBAT, {
+            structure: true,
+            canEditBody: false,
+            bodyZones,
+        });
+        expect(html).toContain("Head Zone");
+        expect(html).toContain("1\u20133");
     });
 
     it("omits the add controls and draggable for a non-owner", () => {
         const html = renderTemplateReal(COMBAT, {
             structure: true,
             canEditBody: false,
-            bodyParts,
+            bodyZones,
         });
+        expect(html).not.toContain('data-action="addBodyZone"');
         expect(html).not.toContain('data-action="addBodyPart"');
         expect(html).not.toContain('data-action="addBodyLocation"');
         expect(html).not.toContain('draggable="true"');

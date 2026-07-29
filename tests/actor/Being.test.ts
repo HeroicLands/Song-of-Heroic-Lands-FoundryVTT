@@ -6,6 +6,7 @@ import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { MiscGearLogic } from "@src/document/item/logic/MiscGearLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
+import { locationData, partData, zoneData } from "@tests/mocks/bodyFixture";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     ACTOR_KIND,
@@ -44,53 +45,23 @@ function makeBeing(
 
 /** Minimal persisted body structure: a head (skull) and a thorax (chest). */
 const BODY_STRUCTURE_DATA: BodyStructure.Data = {
+    zones: [zoneData("headzone", 1), zoneData("bodyzone", 2)],
     parts: [
-        {
-            shortcode: "head",
-            roles: [],
-            canHoldItem: false,
-            heldItemId: null,
-            combatArea: 15,
-            locations: [
-                {
-                    shortcode: "skull",
-                    bleedingSusceptibility: "medium",
-                    amputability: "none",
-                    shockValue: 3,
-                    probWeight: 10,
-                    protectionBase: {
-                        blunt: 3,
-                        edged: 3,
-                        piercing: 3,
-                        fire: 0,
-                    },
-                },
-            ],
-        },
-        {
-            shortcode: "thorax",
-            roles: [],
-            canHoldItem: false,
-            heldItemId: null,
-            combatArea: 30,
-            locations: [
-                {
-                    shortcode: "chest",
-                    bleedingSusceptibility: "low",
-                    amputability: "none",
-                    shockValue: 4,
-                    probWeight: 20,
-                    protectionBase: {
-                        blunt: 2,
-                        edged: 1,
-                        piercing: 1,
-                        fire: 0,
-                    },
-                },
-            ],
-        },
+        partData("head", "headzone", 15),
+        partData("thorax", "bodyzone", 30),
     ],
-    adjacent: [["head", "thorax"]],
+    locations: [
+        locationData("skull", "head", 10, {
+            bleedingSusceptibility: "medium",
+            shockValue: 3,
+            protectionBase: { blunt: 3, edged: 3, piercing: 3, fire: 0 },
+        }),
+        locationData("chest", "thorax", 20, {
+            bleedingSusceptibility: "low",
+            shockValue: 4,
+            protectionBase: { blunt: 2, edged: 1, piercing: 1, fire: 0 },
+        }),
+    ],
 };
 
 /** A complete `system.body` with the sample structure; override per test. */

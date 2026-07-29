@@ -18,8 +18,8 @@ import type { BodyLocation } from "@src/entity/body/BodyLocation";
  * Build a blank, schema-valid body location.
  *
  * Every field is seeded to the same default the corresponding DataModel schema
- * field (`BeingDataModel` `body.structure.parts[].locations[]`) initializes to,
- * so the returned object round-trips a Foundry `update()` into a part's
+ * field (`BeingDataModel` `body.structure.locations[]`) initializes to, so the
+ * returned object round-trips a Foundry `update()` into the structure's flat
  * `locations` array without validation churn. Kept Foundry-free so the
  * {@link sohl.entity.body.BodyLocation} editor can seed a valid blank without a
  * live DataModel.
@@ -27,15 +27,19 @@ import type { BodyLocation } from "@src/entity/body/BodyLocation";
  * @param name - The display name for the new location (defaults to `"Location"`).
  * @param shortcode - The location's shortcode (defaults to blank; assigned by
  *   the caller's add flow).
+ * @param bodyPartCode - Shortcode of the owning part (defaults to blank; stamped
+ *   by {@link sohl.entity.body.BodyPart.addLocationUpdate}).
  * @returns A fully-populated {@link BodyLocation.Data} with default values.
  */
 export function blankBodyLocation(
     name: string = "Location",
     shortcode: string = "",
+    bodyPartCode: string = "",
 ): BodyLocation.Data {
     return {
         shortcode,
         name,
+        bodyPartCode,
         bleedingSusceptibility: BLEEDING_SUSCEPTIBILITY.NONE,
         amputability: AMPUTABILITY.NONE,
         isStumble: false,

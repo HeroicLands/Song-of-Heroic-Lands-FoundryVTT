@@ -156,11 +156,13 @@ export class BodyPartConfig extends (BodyPartConfig_Base as typeof foundry.appli
 
     /**
      * Auto-save handler (`submitOnChange`): overlay the submitted scalar fields
-     * onto the stored part and write it back. The part's child locations,
-     * held item, and legacy flags are preserved (a
+     * onto the stored part and write it back. The part's held item and legacy
+     * flags are preserved (a
      * {@link BodyStructure.setPartFieldsUpdate | whole-array field merge}). A
      * changed shortcode is validated for uniqueness among the being's *other*
-     * parts; a rejected shortcode keeps the current one (warning the user).
+     * parts; a rejected shortcode keeps the current one (warning the user). An
+     * accepted rename also re-points the part's hit locations, which link to it
+     * by shortcode ({@link BodyStructure.repointLocationsUpdate}).
      *
      * @param this - The bound {@link BodyPartConfig} instance.
      * @param _event - The submit event (unused).
@@ -210,9 +212,12 @@ export class BodyPartConfig extends (BodyPartConfig_Base as typeof foundry.appli
             canHoldItem: !!submitted.canHoldItem,
             permanentlyUnusable: !!submitted.permanentlyUnusable,
         };
-        await this.#actor.update(
-            structure.setPartFieldsUpdate([{ index: part.index, changes }]),
-        );
+        // The field write and the location re-point touch different arrays
+        // (`parts` / `locations`), so they merge into one payload by spread.
+        await this.#actor.update({
+            ...structure.setPartFieldsUpdate([{ index: part.index, changes }]),
+            ...structure.repointLocationsUpdate(this.#key, plan.shortcode),
+        });
         this.#key = plan.shortcode;
     }
 }
