@@ -61,7 +61,6 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         }),
         healingRateBase: new NumberField({
             integer: true,
-            required: false,
             nullable: true,
             initial: null,
             min: 0,

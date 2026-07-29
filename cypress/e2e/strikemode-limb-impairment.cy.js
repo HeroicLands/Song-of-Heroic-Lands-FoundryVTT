@@ -86,7 +86,7 @@ function heldWeaponInjuredLimb(level, cb) {
                 cy.createItemOn(actor, "trauma", {
                     name: "Limb Wound",
                     system: {
-                        subType: "physical",
+                        subType: "injury",
                         levelBase: level,
                         bodyLocationCode: loc,
                     },

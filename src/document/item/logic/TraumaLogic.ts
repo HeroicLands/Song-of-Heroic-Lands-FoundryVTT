@@ -170,6 +170,11 @@ export class TraumaLogic<
      */
     healingRate!: ValueModifier;
     /**
+     * Treatment modifier for the trauma, as a {@link sohl.entity.modifier.ValueModifier}, seeded from
+     * {@link TraumaData.treatmentModifierBase}.
+     */
+    treatmentModifier!: ValueModifier;
+    /**
      * Effective seconds between healing checks, as a
      * {@link sohl.entity.modifier.ValueModifier}, seeded from
      * {@link TraumaData.healingCheckDurationBase}.
@@ -946,6 +951,10 @@ export class TraumaLogic<
             {},
             { parent: this },
         ).setBase(this.data.healingRateBase ?? 0);
+        this.treatmentModifier = new entity.ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.treatmentModifierBase ?? 0);
         this.healingCheckDurationBase = new entity.ValueModifier(
             {},
             { parent: this },
@@ -1646,6 +1655,8 @@ export interface TraumaData<
     levelBase: number | null;
     /** Base rate of wound healing per time period; `null` until established. */
     healingRateBase: number | null;
+    /** Treatment modifier for the trauma; `null` (or 0) means no modifier. */
+    treatmentModifierBase: number | null;
     /** Type of damage: Blunt, Edged, Piercing, or Fire; `null` for non-injuries. */
     aspect: ImpactAspect | null;
     /** World-time (seconds) at which the injury was contracted. */

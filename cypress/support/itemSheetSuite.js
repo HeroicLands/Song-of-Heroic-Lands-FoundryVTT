@@ -160,7 +160,7 @@ export function itemSheetSuite(kind, opts = {}) {
                         fields.forEach((f) => {
                             // Editing one choice field can re-render the sheet
                             // and conditionally hide another (e.g. trauma shows
-                            // `aspect` only when `subType` is "physical"). Skip a
+                            // `aspect` only when `subType` is "injury"). Skip a
                             // planned field a prior edit removed — a field not
                             // shown in the current state can't be set.
                             cy.then(function () {

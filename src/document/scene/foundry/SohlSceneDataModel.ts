@@ -22,7 +22,6 @@ import { SohlSceneLogic } from "@src/document/scene/logic/SohlSceneLogic";
 function defineSohlSceneDataSchema(): foundry.data.fields.DataSchema {
     return {
         isTotm: new foundry.data.fields.BooleanField({
-            required: false,
             initial: false,
             label: "SOHL.Scene.FIELDS.isTotm.label",
             hint: "SOHL.Scene.FIELDS.isTotm.hint",

@@ -50,7 +50,7 @@ function defineGearDataSchema(): foundry.data.fields.DataSchema {
             initial: 0,
             min: 0,
         }),
-        containerId: new DocumentIdField({ required: false }),
+        containerId: new DocumentIdField(),
         sharedWithCohortIds: new ArrayField(new StringField(), {
             initial: [],
         }),

@@ -14,7 +14,10 @@
 import {
     AMPUTABILITY,
     BLEEDING_SUSCEPTIBILITY,
+    CRITICAL_FAILURE,
     IMPACT_ASPECT,
+    MARGINAL_FAILURE,
+    MARGINAL_SUCCESS,
     type Amputability,
     type BleedingSusceptibility,
     type ImpactAspect,
@@ -152,4 +155,72 @@ export function canAmputate(
  */
 export function amputationModifier(amputability: string): number | null {
     return AMPUTABILITY_MODIFIER[amputability as Amputability] ?? null;
+}
+
+/** The resolved consequence of an amputation Strength test (section 3.4). */
+export interface AmputationOutcome {
+    /** Whether the struck location is severed. */
+    severed: boolean;
+    /** Whether the victim dies (a severed **vital** location is fatal). */
+    dies: boolean;
+    /** Whether the wound becomes (or remains) a Bleeder as a result. */
+    bleeder: boolean;
+    /** Additional modifier applied to the resulting Shock Roll (−20 on MS, else 0). */
+    shockPenalty: number;
+}
+
+/**
+ * Map an amputation **Strength-test** result to its consequence (section 3.4):
+ *
+ * - **Critical Failure** — severed; a Bleeder even at a non-bleeding location;
+ *   fatal if the location is vital.
+ * - **Marginal Failure** — severed; a Bleeder only where the location normally
+ *   bleeds; fatal if the location is vital.
+ * - **Marginal Success** — not severed, but the resulting Shock Roll takes −20.
+ * - **Critical Success** — not severed, no further consequence.
+ *
+ * Pure and Foundry-free: the Foundry layer rolls the Strength test and passes
+ * its normalized success level (`SuccessTestResult.normSuccessLevel`) and the
+ * location facts here.
+ *
+ * @param normSuccessLevel - The Strength test's normalized success level
+ *   (`CRITICAL_FAILURE` … `CRITICAL_SUCCESS`).
+ * @param location - Facts about the struck location.
+ * @param location.isVital - Whether the struck body part is a `VITAL` role
+ *   (a severed vital location is fatal).
+ * @param location.bleedRisk - The location's bleeding-susceptibility tier; a
+ *   marginal-failure severance bleeds only when this is not `NONE`.
+ * @returns The resolved amputation outcome.
+ */
+export function amputationOutcome(
+    normSuccessLevel: number,
+    location: { isVital: boolean; bleedRisk: string },
+): AmputationOutcome {
+    const canBleed = location.bleedRisk !== BLEEDING_SUSCEPTIBILITY.NONE;
+    if (normSuccessLevel <= CRITICAL_FAILURE) {
+        return {
+            severed: true,
+            dies: location.isVital,
+            bleeder: true,
+            shockPenalty: 0,
+        };
+    }
+    if (normSuccessLevel === MARGINAL_FAILURE) {
+        return {
+            severed: true,
+            dies: location.isVital,
+            bleeder: canBleed,
+            shockPenalty: 0,
+        };
+    }
+    if (normSuccessLevel === MARGINAL_SUCCESS) {
+        return {
+            severed: false,
+            dies: false,
+            bleeder: false,
+            shockPenalty: -20,
+        };
+    }
+    // Critical Success (or any better-than-marginal result): a clean miss.
+    return { severed: false, dies: false, bleeder: false, shockPenalty: 0 };
 }

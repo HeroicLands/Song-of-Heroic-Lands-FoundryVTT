@@ -142,7 +142,6 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                  * before #622 has no trigger and stays time-based.
                  */
                 triggerName: new StringField({
-                    required: false,
                     blank: true,
                     initial: "",
                 }),
@@ -155,7 +154,6 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                  * schedule to the subscriber's own turn. Blank ⇒ unconditional.
                  */
                 predicate: new StringField({
-                    required: false,
                     blank: true,
                     initial: "",
                 }),
@@ -165,7 +163,6 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                  * (the default) means world-wide (fires regardless of scene).
                  */
                 sceneUuid: new StringField({
-                    required: false,
                     blank: true,
                     initial: "",
                 }),

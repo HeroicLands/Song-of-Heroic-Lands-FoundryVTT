@@ -19,9 +19,7 @@ export class URLField extends foundry.data.fields.StringField {
     /** Default field options: optional, blank-allowed, trimmed, non-nullable string. */
     protected static override get _defaults(): foundry.data.fields.StringField.Options<unknown> {
         return foundry.utils.mergeObject(super._defaults, {
-            required: false,
             blank: true,
-            nullable: false,
             trim: true,
             initial: "",
         });

@@ -610,4 +610,71 @@ describe("BodyStructure", () => {
             expect(body.hasEdge("head", "larm")).toBe(false);
         });
     });
+
+    describe("roles", () => {
+        // Head is a vital part; thorax is vital + core; arm is neither.
+        const ROLE_DATA: BodyStructure.Data = {
+            parts: [
+                {
+                    shortcode: "head",
+                    roles: ["vital"],
+                    canHoldItem: false,
+                    heldItemId: null,
+                    combatArea: 15,
+                    locations: [{ ...SKULL_LOC }],
+                },
+                {
+                    shortcode: "thorax",
+                    roles: ["vital", "core"],
+                    canHoldItem: false,
+                    heldItemId: null,
+                    combatArea: 30,
+                    locations: [{ ...CHEST_LOC }],
+                },
+                {
+                    shortcode: "larm",
+                    roles: ["manipulator"],
+                    canHoldItem: true,
+                    heldItemId: null,
+                    combatArea: 10,
+                    locations: [{ ...FACE_LOC, shortcode: "hand" }],
+                },
+            ],
+            adjacent: [],
+        };
+        const roleLogic = {
+            parent: brandLogic({
+                kind: "corpus",
+                actor: null,
+                data: { body: { structure: ROLE_DATA } },
+            }),
+        } as any;
+
+        it("getPartsByRole returns every part carrying the role", () => {
+            const body = new BodyStructure(ROLE_DATA, roleLogic);
+            expect(
+                body.getPartsByRole("vital").map((p) => p.shortcode),
+            ).toEqual(["head", "thorax"]);
+            expect(
+                body.getPartsByRole("manipulator").map((p) => p.shortcode),
+            ).toEqual(["larm"]);
+            expect(body.getPartsByRole("locomotor")).toEqual([]);
+        });
+
+        it("getRandomPartByRole only ever returns a part with that role", () => {
+            const body = new BodyStructure(ROLE_DATA, roleLogic);
+            for (let i = 0; i < 50; i++) {
+                const part = body.getRandomPartByRole(
+                    "vital",
+                    createRng(`vital-${i}`),
+                )!;
+                expect(part.roles).toContain("vital");
+            }
+        });
+
+        it("getRandomPartByRole returns undefined when no part has the role", () => {
+            const body = new BodyStructure(ROLE_DATA, roleLogic);
+            expect(body.getRandomPartByRole("locomotor")).toBeUndefined();
+        });
+    });
 });

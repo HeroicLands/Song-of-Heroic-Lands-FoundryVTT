@@ -9,13 +9,12 @@ import { describe, it, expect, vi } from "vitest";
 import { brandLogic } from "@tests/mocks/brandLogic";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
 import {
-    parseInjuryRequest,
-    isAutomatedRequest,
-    readInjuryDialogForm,
+    buildResolveInjuryData,
+    readResolveInjuryForm,
     buildInjuryCardData,
-    resolveAutomatedInjury,
     getActorBodyStructure,
     createTraumaFromInjury,
+    DEFAULT_INJURY_SPREAD,
 } from "@src/document/actor/logic/injury-actions";
 import { resolveInjury } from "@src/entity/body/injury-resolution";
 import { IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
@@ -65,147 +64,119 @@ function makeBody(): BodyStructure {
     return new BodyStructure(SAMPLE_DATA, { parent: MOCK_BODY_OWNER });
 }
 
-describe("parseInjuryRequest", () => {
-    it("returns null for missing / blank / invalid JSON", () => {
-        expect(parseInjuryRequest(undefined)).toBeNull();
-        expect(parseInjuryRequest("")).toBeNull();
-        expect(parseInjuryRequest("  ")).toBeNull();
-        expect(parseInjuryRequest("{not json")).toBeNull();
+describe("buildResolveInjuryData", () => {
+    it("fills spec defaults for an empty / missing / invalid scope", () => {
+        for (const input of [undefined, "", "  ", "{not json", {}]) {
+            expect(buildResolveInjuryData(input, true)).toEqual({
+                bodyLocationCode: "",
+                spread: DEFAULT_INJURY_SPREAD,
+                targetBodyPartCode: "",
+                impact: 0,
+                aspect: IMPACT_ASPECT.BLUNT,
+                armorReduction: 0,
+                treatmentModifier: 0,
+                bleedImpactPenalty: 0,
+                autoAddInjury: true,
+                bodyLocationOverriden: false,
+            });
+        }
     });
 
-    it("parses an assisted request (impact + aspect only)", () => {
-        const req = parseInjuryRequest(
-            JSON.stringify({ impact: 12, aspect: "edged" }),
+    it("reads the resolve-injury vocabulary from an object scope", () => {
+        const data = buildResolveInjuryData(
+            {
+                bodyLocationCode: "neck",
+                targetBodyPartCode: "head",
+                spread: 4,
+                impact: 12,
+                aspect: "edged",
+                armorReduction: 2,
+                treatmentModifier: -5,
+                bleedImpactPenalty: 3,
+            },
+            false,
         );
-        expect(req).toEqual({ impact: 12, aspect: IMPACT_ASPECT.EDGED });
+        expect(data).toMatchObject({
+            bodyLocationCode: "neck",
+            targetBodyPartCode: "head",
+            spread: 4,
+            impact: 12,
+            aspect: IMPACT_ASPECT.EDGED,
+            armorReduction: 2,
+            treatmentModifier: -5,
+            bleedImpactPenalty: 3,
+            autoAddInjury: false,
+        });
     });
 
-    it("parses an automated request with aim + overrides", () => {
-        const req = parseInjuryRequest(
+    it("accepts the combat wire aliases (location / targetPart) from a JSON string", () => {
+        const data = buildResolveInjuryData(
             JSON.stringify({
                 impact: 9,
                 aspect: "piercing",
                 targetPart: "head",
                 spread: 5,
                 location: "skull",
-                armorReduction: 2,
-                extraBleedRisk: true,
             }),
+            true,
         );
-        expect(req).toMatchObject({
+        expect(data).toMatchObject({
             impact: 9,
             aspect: IMPACT_ASPECT.PIERCING,
-            targetPart: "head",
+            targetBodyPartCode: "head",
             spread: 5,
-            location: "skull",
-            armorReduction: 2,
-            extraBleedRisk: true,
+            bodyLocationCode: "skull",
         });
     });
 
     it("defaults an unknown aspect to blunt", () => {
-        const req = parseInjuryRequest(
-            JSON.stringify({ impact: 5, aspect: "frostbite" }),
-        );
-        expect(req?.aspect).toBe(IMPACT_ASPECT.BLUNT);
+        expect(
+            buildResolveInjuryData({ impact: 5, aspect: "frostbite" }, true)
+                .aspect,
+        ).toBe(IMPACT_ASPECT.BLUNT);
     });
 });
 
-describe("isAutomatedRequest", () => {
-    it("is automated only when both targetPart and spread are present", () => {
-        expect(
-            isAutomatedRequest({
-                impact: 1,
-                aspect: IMPACT_ASPECT.EDGED,
-                targetPart: "head",
-                spread: 0,
-            }),
-        ).toBe(true);
-        expect(
-            isAutomatedRequest({
-                impact: 1,
-                aspect: IMPACT_ASPECT.EDGED,
-                targetPart: "head",
-            }),
-        ).toBe(false);
-        expect(
-            isAutomatedRequest({ impact: 1, aspect: IMPACT_ASPECT.EDGED }),
-        ).toBe(false);
-    });
-});
-
-describe("readInjuryDialogForm", () => {
+describe("readResolveInjuryForm", () => {
     it("normalizes the dialog form data", () => {
-        const form = readInjuryDialogForm({
-            location: "neck",
+        const form = readResolveInjuryForm({
+            bodyLocationCode: "neck",
+            targetBodyPartCode: "head",
+            spread: "4",
             aspect: "edged",
-            impactVal: "14",
+            impact: "14",
             armorReduction: "3",
-            extraBleedRisk: true,
-            addToCharSheet: true,
+            treatmentModifier: "-5",
+            bleedImpactPenalty: "2",
+            autoAddInjury: true,
         });
         expect(form).toEqual({
-            locationCode: "neck",
+            bodyLocationCode: "neck",
+            targetBodyPartCode: "head",
+            spread: 4,
             aspect: IMPACT_ASPECT.EDGED,
             impact: 14,
             armorReduction: 3,
-            extraBleedRisk: true,
-            addToCharSheet: true,
+            treatmentModifier: -5,
+            bleedImpactPenalty: 2,
+            autoAddInjury: true,
+            bodyLocationOverriden: false,
         });
     });
 
     it("falls back to sane defaults for empty fields", () => {
-        const form = readInjuryDialogForm({});
-        expect(form).toEqual({
-            locationCode: "",
+        expect(readResolveInjuryForm({})).toEqual({
+            bodyLocationCode: "",
+            targetBodyPartCode: "",
+            spread: DEFAULT_INJURY_SPREAD,
             aspect: IMPACT_ASPECT.BLUNT,
             impact: 0,
             armorReduction: 0,
-            extraBleedRisk: false,
-            addToCharSheet: false,
+            treatmentModifier: 0,
+            bleedImpactPenalty: 0,
+            autoAddInjury: false,
+            bodyLocationOverriden: false,
         });
-    });
-});
-
-describe("resolveAutomatedInjury", () => {
-    it("rolls the aimed location via targetPart + spread", () => {
-        const body = makeBody();
-        const skull = body
-            .getAllLocations()
-            .find((l) => l.shortcode === "skull")!;
-        const spy = vi.spyOn(body, "getRandomLocation").mockReturnValue(skull);
-        const injury = resolveAutomatedInjury(
-            {
-                impact: 8,
-                aspect: IMPACT_ASPECT.EDGED,
-                targetPart: "head",
-                spread: 6,
-            },
-            body,
-        );
-        expect(spy).toHaveBeenCalledWith({
-            targetPart: body.getPartByCode("head"),
-            spread: 6,
-        });
-        expect(injury.location.shortcode).toBe("skull");
-    });
-
-    it("honours an explicit location override without rolling", () => {
-        const body = makeBody();
-        const spy = vi.spyOn(body, "getRandomLocation");
-        const injury = resolveAutomatedInjury(
-            {
-                impact: 20,
-                aspect: IMPACT_ASPECT.EDGED,
-                targetPart: "head",
-                spread: 6,
-                location: "neck",
-            },
-            body,
-        );
-        expect(spy).not.toHaveBeenCalled();
-        expect(injury.location.shortcode).toBe("neck");
-        expect(injury.levelCode).toBe("G5");
     });
 });
 
@@ -263,6 +234,41 @@ describe("buildInjuryCardData", () => {
         expect(data.shockScope).toEqual({
             shockIndex: injury.shockIndex,
             shockBonus: injury.shockRollBonus,
+        });
+    });
+
+    it("renders a performed amputation outcome and folds the shock penalty in", () => {
+        const body = makeBody();
+        const neck = body
+            .getAllLocations()
+            .find((l) => l.shortcode === "neck")!;
+        const injury = resolveInjury({
+            impact: 22,
+            aspect: IMPACT_ASPECT.EDGED,
+            body,
+            location: neck,
+        });
+        const data = buildInjuryCardData(injury, {
+            actorId: "a1",
+            handlerActorUuid: "Actor.a1",
+            name: "Axe",
+            addToCharSheet: true,
+            treatmentModifier: -5,
+            isBleeder: true,
+            amputation: { severed: false, died: false, shockPenalty: -20 },
+        });
+        expect(data).toMatchObject({
+            amputationTested: true,
+            amputationSevered: false,
+            amputationDied: false,
+            treatmentModifier: -5,
+            isBleeder: true,
+            // -20 amputation penalty folded into the shock bonus + button scope.
+            shockRollBonus: injury.shockRollBonus - 20,
+        });
+        expect(data.shockScope).toEqual({
+            shockIndex: injury.shockIndex,
+            shockBonus: injury.shockRollBonus - 20,
         });
     });
 });

@@ -1607,7 +1607,7 @@ export interface CombatCardData {
  *
  * Shows the exchange in two columns (Attack | Defend); for **Ignore** the
  * defender did not contest, so its column is dashed. Each side that lands a
- * blow gets a "Calculate <Token> Injury" button wired to the `createInjury`
+ * blow gets a "Calculate <Token> Injury" button wired to the `resolveInjury`
  * action (assisted). Counterstrike can land both sides at once.
  * @param combatResult - The resolved combat exchange.
  * @returns The render context for `attack-result-card.hbs`.
@@ -1694,7 +1694,7 @@ export function buildCombatCardData(
             defenderContested ?
                 (defResult?.mishaps?.has(DEFEND_MISHAP.STUMBLE_TEST) ?? false)
             :   false,
-        // Injury buttons (createInjury) — one per landing side.
+        // Injury buttons (resolveInjury) — one per landing side.
         hasAttackInjury: !!atkInjury,
         attackInjuryHandlerUuid: atkInjury?.handlerUuid ?? "",
         attackInjuryTargetName: atkInjury?.targetName ?? "",
@@ -1762,7 +1762,7 @@ export function buildCombatCardData(
                 atkResult.mishaps?.has(ATTACK_MISHAP.STUMBLE_TEST) ?? false,
             isDefFumbleTest: false,
             isDefStumbleTest: false,
-            // Injury buttons (createInjury) — one per landing side.
+            // Injury buttons (resolveInjury) — one per landing side.
             hasAttackInjury: !!atkInjury,
             attackInjuryHandlerUuid: atkInjury?.handlerUuid ?? "",
             attackInjuryTargetName: atkInjury?.targetName ?? "",
@@ -1972,7 +1972,7 @@ export interface DamageCardInput {
     handlerUuid: string;
     /** The attacker actor's UUID (source of the blow). */
     sourceActorUuid: string;
-    /** The createInjury button's `scope` payload (a plain injury request). */
+    /** The resolveInjury button's `scope` payload (a plain injury request). */
     scopeData: PlainObject;
 }
 
@@ -2114,7 +2114,7 @@ export function collectBlockableStrikeModes(
 /**
  * Build the injury button payload for a landing side, or `null` when the side
  * did not land (no `ImpactResult`) or has no target. When the blow was aimed, the
- * `createInjury` handler resolves the hit location automatically from the
+ * `resolveInjury` handler resolves the hit location automatically from the
  * forwarded `targetPart`/`spread` (the automated, no-dialog path); an unaimed blow
  * forwards only `{ impact, aspect }`, so the handler opens the Add Injury dialog.
  * @param impactResult - The landing side's impact result, or `undefined` if it missed.
@@ -2128,7 +2128,7 @@ function injuryButton(
 ): { handlerUuid: string; targetName: string; scopeData: PlainObject } | null {
     if (!impactResult || !targetCombatantUuid) return null;
     // When the blow was aimed, forward `targetPart` + `spread` so the
-    // `createInjury` handler resolves the hit location automatically; otherwise
+    // `resolveInjury` handler resolves the hit location automatically; otherwise
     // omit them and the handler opens the assisted Add Injury dialog.
     const aim =
         impactResult.aimBodyPartCode ?
@@ -2143,7 +2143,7 @@ function injuryButton(
     return {
         handlerUuid: targetCombatantLogic?.actor?.uuid ?? "",
         targetName: targetCombatantLogic.name,
-        // The createInjury button's `scope` payload: a plain injury request the
+        // The resolveInjury button's `scope` payload: a plain injury request the
         // `onCreateInjury` handler reads from `data-scope`.
         scopeData: defaultToJSON({
             impact: impactResult.total,

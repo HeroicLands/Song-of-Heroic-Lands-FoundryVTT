@@ -93,13 +93,13 @@ describe("HTML sanitization (#161)", () => {
     it("preserves benign chat-card markup and data-* dispatch attributes", () => {
         const input =
             `<div class="card-buttons">` +
-            `<button data-action="createInjury" ` +
+            `<button data-action="resolveInjury" ` +
             `data-scope='{"attackResult":1}' ` +
             `data-handler-uuid="Actor.abc123">Calculate Injury</button>` +
             `<img src="icons/svg/aura.svg" alt="aura"></div>`;
         cy.foundry((win) => win.foundry.utils.cleanHTML(input)).then((out) => {
             expect(out).to.include("data-action");
-            expect(out).to.include("createInjury");
+            expect(out).to.include("resolveInjury");
             expect(out).to.include("data-scope");
             expect(out).to.include("data-handler-uuid");
             expect(out).to.include("<button");

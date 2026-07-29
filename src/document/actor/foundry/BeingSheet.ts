@@ -896,8 +896,8 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Handle the "Add Injury" button on the Trauma tab: open the Add Injury
-     * dialog for manual entry of a wound on this being.
+     * Handle the "Add Injury" button on the Trauma tab: run the being's
+     * **Resolve Injury** action, opening its dialog for manual entry of a wound.
      *
      * @param _event - The triggering pointer event (unused).
      * @param _target - The clicked element (unused).
@@ -907,9 +907,14 @@ export class BeingSheet extends SohlActorSheetBase {
         _event: PointerEvent,
         _target: HTMLElement,
     ): Promise<void> {
-        // `addInjuryViaDialog` lives on the actor's BeingLogic, not the actor
-        // document itself — route through `.logic` (#268).
-        await (this.document as any).logic.addInjuryViaDialog();
+        // `resolveInjury` lives on the actor's BeingLogic, not the actor
+        // document itself — dispatch it with an empty-scope context so the
+        // dialog gathers the wound from scratch (#268).
+        const actorLogic = this.document.logic as BeingLogic;
+        const context = new SohlActionContext({
+            speaker: actorLogic.speaker,
+        });
+        await actorLogic.executeAction("resolveInjury", context);
     }
 
     /**

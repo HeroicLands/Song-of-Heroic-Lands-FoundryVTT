@@ -483,6 +483,49 @@ describe("resolveInjury — bleeding & amputation", () => {
     });
 });
 
+describe("resolveInjury — bleedImpactPenalty", () => {
+    it("bleeds a wound whose boosted bleed impact reaches a bleeding severity", () => {
+        const body = makeBody();
+        // Neck (high susceptibility), edged. Impact 9 → effImpact 9 → level 2
+        // (S2, never bleeds). +6 bleed penalty → bleed impact 15 → G4 → bleeds.
+        const injury = resolveInjury({
+            impact: 9,
+            aspect: IMPACT_ASPECT.EDGED,
+            body,
+            location: loc(body, "neck"),
+            bleedImpactPenalty: 6,
+        });
+        expect(injury.level).toBe(2); // injury level unaffected by the penalty
+        expect(injury.isBleeder).toBe(true); // bleed severity is boosted
+        expect(injury.bleedRisk).toBe("high");
+    });
+
+    it("with no penalty the bleed severity equals the injury severity", () => {
+        const body = makeBody();
+        const injury = resolveInjury({
+            impact: 9,
+            aspect: IMPACT_ASPECT.EDGED,
+            body,
+            location: loc(body, "neck"),
+        });
+        expect(injury.level).toBe(2);
+        expect(injury.isBleeder).toBe(false); // S2 never bleeds
+    });
+
+    it("never bleeds a no-injury (level 0) wound even with a large penalty", () => {
+        const body = makeBody();
+        const injury = resolveInjury({
+            impact: 0,
+            aspect: IMPACT_ASPECT.EDGED,
+            body,
+            location: loc(body, "neck"),
+            bleedImpactPenalty: 50,
+        });
+        expect(injury.level).toBe(0);
+        expect(injury.isBleeder).toBe(false);
+    });
+});
+
 describe("buildTraumaData", () => {
     it("produces a physical Trauma data shape from a resolved injury", () => {
         const body = makeBody();
@@ -497,6 +540,7 @@ describe("buildTraumaData", () => {
             subType: TRAUMA_SUBTYPE.INJURY,
             levelBase: 5,
             healingRateBase: 0,
+            treatmentModifierBase: 0,
             aspect: IMPACT_ASPECT.EDGED,
             // Bleeding is derived (#482): a bleeder is marked by a non-null
             // blood-loss timer placeholder (seeded to its real interval in
@@ -504,6 +548,24 @@ describe("buildTraumaData", () => {
             bloodLossAdvanceDurationBase: 0,
             bodyLocationCode: "neck",
         });
+    });
+
+    it("seeds the treatment modifier and honours a bleeder override", () => {
+        const body = makeBody();
+        // A minor blunt neck wound — not a table bleeder.
+        const injury = resolveInjury({
+            impact: 3,
+            aspect: IMPACT_ASPECT.BLUNT,
+            body,
+            location: loc(body, "neck"),
+        });
+        expect(injury.isBleeder).toBe(false);
+        const data = buildTraumaData(injury, {
+            treatmentModifier: -10,
+            isBleeder: true, // e.g. amputation made it bleed
+        });
+        expect(data.treatmentModifierBase).toBe(-10);
+        expect(data.bloodLossAdvanceDurationBase).toBe(0); // overridden to bleed
     });
 
     it("marks a non-bleeder with a null blood-loss timer (#482)", () => {

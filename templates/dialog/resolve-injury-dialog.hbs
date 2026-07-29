@@ -1,0 +1,105 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<form>
+    <div class="grid grid-2col">
+        <div class="form-group">
+            <label>Target Body Part:</label>
+            <select name="targetBodyPartCode">
+                <option value="">(random vital)</option>
+                {{selectOptions bodyParts selected=targetBodyPartCode
+                valueAttr="code" labelAttr="name"}}
+            </select>
+        </div>
+
+        <div class="form-group" data-tooltip="Scatter used to derive the hit location">
+            <label>Spread:</label>
+            <input type="number" name="spread" value="{{spread}}" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Location:</label>
+        <select name="bodyLocationCode">
+            <option value="">(derive from target + spread)</option>
+            {{selectOptions hitLocations selected=bodyLocationCode
+            valueAttr="code" labelAttr="name"}}
+        </select>
+    </div>
+
+    <div class="grid grid-2col">
+        <div class="form-group">
+            <label>Aspect:</label>
+            <select name="aspect">
+                {{#each aspectChoices}}
+                <option
+                    value="{{this}}"
+                    {{#if (eq this ../aspect)}}selected{{/if}}
+                >
+                    {{this}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+
+        <div class="form-group" data-tooltip="Impact damage value (before armor)">
+            <label>Impact:</label>
+            <input type="number" name="impact" value="{{impact}}" />
+        </div>
+    </div>
+
+    <div class="grid grid-2col">
+        <div
+            class="form-group"
+            data-tooltip="Reduces armor — applied only for a piercing aspect"
+        >
+            <label>Armor Reduction:</label>
+            <input
+                type="number"
+                name="armorReduction"
+                value="{{armorReduction}}"
+            />
+        </div>
+
+        <div
+            class="form-group"
+            data-tooltip="Extra impact used only when deciding whether the wound bleeds"
+        >
+            <label>Bleed Impact Penalty:</label>
+            <input
+                type="number"
+                name="bleedImpactPenalty"
+                value="{{bleedImpactPenalty}}"
+            />
+        </div>
+    </div>
+
+    <div class="form-group" data-tooltip="Treatment modifier set on the resulting injury">
+        <label>Treatment Modifier:</label>
+        <input
+            type="number"
+            name="treatmentModifier"
+            value="{{treatmentModifier}}"
+        />
+    </div>
+
+    <div class="form-group">
+        <input
+            type="checkbox"
+            name="autoAddInjury"
+            value="{{autoAddInjury}}"
+            data-dtype="Boolean"
+            {{checked autoAddInjury}} />
+        <label for="autoAddInjury">Add to Character Sheet</label>
+    </div>
+</form>

@@ -99,7 +99,7 @@ export class SohlActor extends Actor {
     /**
      * Dispatch a chat-card button click to this actor's logic through the shared
      * {@link sohl.document.chat.dispatchChatCardAction} chokepoint — so
-     * actor-addressed card buttons (e.g. `createInjury`, the injury card's Shock
+     * actor-addressed card buttons (e.g. `resolveInjury`, the injury card's Shock
      * Roll) reach their action/method on the actor logic. Mirrors
      * {@link sohl.document.item.foundry.SohlItem.onChatCardButton} (issue #572).
      *

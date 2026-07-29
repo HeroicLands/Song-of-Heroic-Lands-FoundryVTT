@@ -55,24 +55,36 @@ describe("Timed-effect creation offer (#595)", () => {
                 .scheduledActions || []
         ).filter((e) => e.actionName === name).length;
 
-    // Inflict a guaranteed bleeder (extraBleedRisk → isBleeder) via the real
-    // interactive flow, DECLINING the incidental healing-check offer so the
-    // blood-loss offer is the one under test; answer blood-loss via its button.
+    // Inflict a guaranteed bleeder via the real interactive flow, DECLINING the
+    // incidental healing-check offer so the blood-loss offer is the one under
+    // test; answer blood-loss via its button. A G5 edged wound (impact 20) at a
+    // bleed-prone, non-amputable location is a certain bleeder with no amputation
+    // dialog in the way.
     function inflictBleeder(actor, bloodLossAnswer) {
         cy.prepare(actor);
         cy.foundry((win) => {
             const a = win.game.actors.get(actor.id);
-            const loc = a.logic.body.structure.getAllLocations()[0].shortcode;
-            // No context → the real dialogs open (interactive path).
-            win.__inj = a.logic.addInjuryViaDialog({
-                location: loc,
-                aspect: "edged",
-                impact: 20,
-                extraBleedRisk: true,
+            const locs = a.logic.body.structure.getAllLocations();
+            const bleedLoc = (
+                locs.find(
+                    (l) =>
+                        l.bleedingSusceptibility &&
+                        l.bleedingSusceptibility !== "none" &&
+                        l.amputability === "none",
+                ) || locs[0]
+            ).shortcode;
+            // skipDialog off → the real dialogs open (interactive path).
+            win.__inj = a.logic.resolveInjury({
+                skipDialog: false,
+                scope: {
+                    bodyLocationCode: bleedLoc,
+                    aspect: "edged",
+                    impact: 20,
+                },
             });
             return null;
         });
-        cy.submitDialog("ok"); // the Add-Injury form dialog
+        cy.submitDialog("ok"); // the Resolve Injury form dialog
         cy.submitDialogMatching("Healing Check", "no"); // decline healing (incidental)
         cy.submitDialogMatching("Blood Loss Advance", bloodLossAnswer); // the subject
     }
@@ -92,7 +104,7 @@ describe("Timed-effect creation offer (#595)", () => {
                             wound.id,
                             "bloodLossAdvanceCheck",
                         ),
-                        // Safe here: addInjuryViaDialog (and the schedule's own
+                        // Safe here: resolveInjury (and the schedule's own
                         // finalize) has resolved, so the in-memory view is settled.
                         armed: win.sohl.events.isScheduled(
                             wound.uuid,
@@ -171,7 +183,7 @@ describe("Timed-effect creation offer (#595)", () => {
                             type: "trauma",
                             name: "Wound",
                             system: {
-                                subType: "physical",
+                                subType: "injury",
                                 levelBase: 3,
                                 healingRateBase: 4,
                                 treatmentDate: 0,

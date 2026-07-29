@@ -44,7 +44,7 @@ describe("Action cards — treatment flow", () => {
                         type: "trauma",
                         name: "Wound",
                         system: {
-                            subType: "physical",
+                            subType: "injury",
                             levelBase: 4,
                             aspect: "edged",
                         },

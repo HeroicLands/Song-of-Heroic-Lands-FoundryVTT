@@ -57,6 +57,14 @@ export interface InjuryInput {
     /** Manual reduction applied to the armor value (assisted dialog), e.g. for
      *  armor-defeating effects. Defaults to 0. */
     armorReduction?: number;
+    /**
+     * Extra impact added to the post-armor effective impact **for bleeding
+     * determination only** (never for the injury level). A barbed, envenomed,
+     * or otherwise bleed-prone strike can bleed at a higher effective severity
+     * than its injury level implies. Defaults to 0, in which case the bleed
+     * severity equals the injury severity. See the Resolve Injury flow.
+     */
+    bleedImpactPenalty?: number;
     /** Force the wound to bleed regardless of the bleeding table. */
     extraBleedRisk?: boolean;
 }
@@ -84,6 +92,13 @@ export interface ResolvedInjury {
     levelCode: string;
     /** Whether the wound is a Bleeder. */
     isBleeder: boolean;
+    /**
+     * The struck location's bleeding-susceptibility tier
+     * (`none`/`low`/`medium`/`high`). A `none` tier means the location cannot
+     * bleed from the table; consulted by the amputation-outcome rule (a
+     * marginal-failure severance bleeds only at a non-`none` location).
+     */
+    bleedRisk: string;
     /**
      * A glancing blow: an edged/piercing strike of effective impact 1–4 against
      * a rigid location, which produces no Minor injury (level 0) but adds an
@@ -210,16 +225,29 @@ export function resolveInjury(input: InjuryInput): ResolvedInjury {
         return "none";
     };
 
-    // Bleeding and amputation are only defined for S3+ wounds; the bleeding
-    // table has no entries for M1/S2.
+    // Amputation is defined only for a G5 injury (keyed to the injury level).
     const severity: InjurySeverity | null =
         level >= 3 ? (levelCode as InjurySeverity) : null;
-    const tableBleeder =
-        severity ?
-            isBleeder(location.bleedingSusceptibility, severity, aspect)
-        :   false;
     const amputates =
         severity ? canAmputate(location.amputability, severity, aspect) : false;
+
+    // Bleeding is judged on its own (possibly boosted) impact: the post-armor
+    // effective impact plus `bleedImpactPenalty`. With no penalty this equals
+    // the effective impact, so the bleed severity equals the injury severity
+    // and behavior is unchanged; a penalty lets a bleed-prone strike bleed at a
+    // higher effective severity than its injury level implies. The bleeding
+    // table itself has no S3-below entries, so M1/S2-equivalent never bleeds.
+    const bleedImpact = effectiveImpact + (input.bleedImpactPenalty ?? 0);
+    const bleedLevel = injuryLevelFromImpact(
+        bleedImpact,
+        input.body.injuryTable,
+    );
+    const bleedSeverity: InjurySeverity | null =
+        bleedLevel >= 3 ? (INJURY_LEVELS[bleedLevel] as InjurySeverity) : null;
+    const tableBleeder =
+        bleedSeverity ?
+            isBleeder(location.bleedingSusceptibility, bleedSeverity, aspect)
+        :   false;
 
     return {
         location,
@@ -231,6 +259,7 @@ export function resolveInjury(input: InjuryInput): ResolvedInjury {
         level,
         levelCode,
         isBleeder: level >= 1 && (tableBleeder || !!input.extraBleedRisk),
+        bleedRisk: location.bleedingSusceptibility,
         isGlancingBlow,
         shockIndex,
         needsShockRoll,
@@ -251,17 +280,28 @@ export function resolveInjury(input: InjuryInput): ResolvedInjury {
  * `healingRateBase` starts at 0: Healing Rate (1–6) is established by
  * treatment, not at the moment of wounding.
  * @param injury - The resolved injury to convert.
+ * @param options - Overrides supplied by the resolving action.
+ * @param options.treatmentModifier - A treatment modifier to seed on the wound
+ *   (`treatmentModifierBase`), e.g. from the Resolve Injury dialog. Defaults to 0.
+ * @param options.isBleeder - Final bleeder disposition, overriding the injury's
+ *   own `isBleeder` when an amputation result makes an otherwise-non-bleeding
+ *   wound bleed. Defaults to the injury's `isBleeder`.
  * @returns Partial Trauma item `system` data.
  */
-export function buildTraumaData(injury: ResolvedInjury): Partial<TraumaData> {
+export function buildTraumaData(
+    injury: ResolvedInjury,
+    options: { treatmentModifier?: number; isBleeder?: boolean } = {},
+): Partial<TraumaData> {
+    const bleeds = options.isBleeder ?? injury.isBleeder;
     return {
         subType: TRAUMA_SUBTYPE.INJURY,
         levelBase: injury.level,
         healingRateBase: 0,
+        treatmentModifierBase: options.treatmentModifier ?? 0,
         aspect: injury.aspect,
         // A bleeder is marked by a non-null blood-loss timer (#482); the
         // real interval is seeded from world settings in TraumaDataModel._preCreate.
-        bloodLossAdvanceDurationBase: injury.isBleeder ? 0 : null,
+        bloodLossAdvanceDurationBase: bleeds ? 0 : null,
         bodyLocationCode: injury.location.shortcode,
     };
 }
