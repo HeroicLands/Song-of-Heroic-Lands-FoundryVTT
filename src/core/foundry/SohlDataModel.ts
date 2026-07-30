@@ -478,6 +478,71 @@ export namespace SohlDataModel {
                 return super.document as TDocument;
             }
 
+            /**
+             * Process a form submission, guarding the one case Foundry's base
+             * handler turns into a spurious red error (#817, #822).
+             *
+             * Every SoHL sheet sets `submitOnChange`, so a stray `change` event
+             * dispatches a document submit — and Foundry deliberately still
+             * allows submits while a sheet is in the `CLOSING` state (so an
+             * in-progress field edit blurred on close still saves). A
+             * `<prose-mirror>` (the actor facade's `system.appearance`, an
+             * item's `system.notes`/description) commits its content on
+             * teardown, firing exactly such a `change`. When the sheet is
+             * closing *because its document was just deleted* (routine in the
+             * e2e cleanup, and possible in play), that edit has nowhere to
+             * land and the base `_processSubmitData` throws — so skip it
+             * silently instead of surfacing a red error. Two shapes:
+             *
+             * - A **world** document (an actor, a world item) leaves its own
+             *   collection, so the base — finding it neither in its collection
+             *   nor creatable from a sheet — throws "Document creation from
+             *   _<Sheet> is not supported" (#817).
+             * - An **embedded** document (an item on an actor) is deleted by
+             *   cascade when its owning actor is deleted. Its embedded
+             *   collection is orphaned but *still retains* it, so checking the
+             *   document's own collection is not enough; the base reaches the
+             *   update path and throws "The Actor <id> does not exist in
+             *   actors" (#822).
+             *
+             * Both reduce to the same fact — the document's **root** (primary)
+             * document has left its world collection — so walk to the root and
+             * test that. Lives here in the shared mixin so both the actor and
+             * item sheet families inherit one implementation (#822).
+             *
+             * @param event - The originating submit event.
+             * @param form - The submitted form element.
+             * @param submitData - The processed submit data.
+             * @param options - Additional update/create options.
+             */
+            protected override async _processSubmitData(
+                event: SubmitEvent,
+                form: HTMLFormElement,
+                submitData: foundry.applications.ux.FormDataExtended,
+                options?: unknown,
+            ): Promise<void> {
+                // Walk to the primary document: an embedded document's home is
+                // its ancestor's collection, which the ancestor's deletion
+                // orphans but does not clear — so only the root's own
+                // collection tells us the edit still has somewhere to land.
+                let root: { id: string | null; parent: any; collection?: any } =
+                    this.document;
+                while (root.parent) root = root.parent;
+                const rootId = root.id;
+                if (
+                    (!rootId || !root.collection?.has(rootId)) &&
+                    !(this.options as { canCreate?: boolean }).canCreate
+                ) {
+                    return;
+                }
+                return super._processSubmitData(
+                    event,
+                    form,
+                    submitData,
+                    options,
+                );
+            }
+
             /** @inheritDoc */
             protected override _configureRenderOptions(
                 options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
