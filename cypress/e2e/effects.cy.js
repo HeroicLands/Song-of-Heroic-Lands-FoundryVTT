@@ -45,6 +45,8 @@ describe("active effects", () => {
                     // Data-model fields present ⇒ SohlActiveEffectDataModel applied.
                     hasScope: eff?.system?.scope !== undefined,
                     hasChanges: Array.isArray(eff?.system?.changes),
+                    // #796: the Effects-tab Target column binds this getter.
+                    targetLabel: eff?.system?.targetLabel,
                 };
             }).then((r) => {
                 expect(r.created, "effect created").to.be.true;
@@ -52,6 +54,10 @@ describe("active effects", () => {
                 expect(r.hasScope, "system.scope present (data model applied)")
                     .to.be.true;
                 expect(r.hasChanges, "system.changes array present").to.be.true;
+                // Default 'this' scope on a miscgear item ⇒ "This Misc Gear".
+                expect(r.targetLabel, "targetLabel populated").to.eq(
+                    "This Misc Gear",
+                );
             });
         });
     });
@@ -78,6 +84,12 @@ describe("active effects", () => {
                 "have.length.greaterThan",
                 0,
             );
+            // #796: the Target column renders the effect's targetLabel (a
+            // default 'this'-scoped effect on a miscgear item ⇒ "This Misc
+            // Gear"), not an empty cell.
+            cy.get('section.tab[data-tab="effects"] .effects__row')
+                .first()
+                .should("contain.text", "Misc Gear");
         });
     });
 });

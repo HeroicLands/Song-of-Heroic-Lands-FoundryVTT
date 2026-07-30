@@ -16,6 +16,7 @@ import {
     buildChangeTypesMap,
     resolveEffectMetadataType,
     resolveEffectKeyChoices,
+    resolveEffectTargetLabel,
 } from "@src/document/effect/logic/effect-sheet-view";
 import { ACTIVE_EFFECT_SCOPE, ITEM_KIND } from "@src/utils/constants";
 
@@ -140,6 +141,82 @@ describe("effect-sheet-view", () => {
             expect(choices["mod:draw"]).toBe(
                 "SOHL.MissileStrikeMode.EffectKey.DRAW",
             );
+        });
+    });
+
+    describe("resolveEffectTargetLabel", () => {
+        it("labels a 'this' scope on an actor effect with the actor name", () => {
+            // format() replaces {actorName} in the returned key text.
+            expect(
+                resolveEffectTargetLabel(ACTIVE_EFFECT_SCOPE.THIS, {
+                    isActorEffect: true,
+                    actorName: "Aldric",
+                }),
+            ).toBe("SOHL.ActiveEffect.targetLabel.ThisActor");
+            // Assert the format call carries the actor name.
+            const spy = vi.spyOn(sohl.i18n, "format");
+            resolveEffectTargetLabel(ACTIVE_EFFECT_SCOPE.THIS, {
+                isActorEffect: true,
+                actorName: "Aldric",
+            });
+            expect(spy).toHaveBeenCalledWith(
+                "SOHL.ActiveEffect.targetLabel.ThisActor",
+                { actorName: "Aldric" },
+            );
+        });
+
+        it("labels a 'this' scope on an item effect with the item type", () => {
+            const spy = vi.spyOn(sohl.i18n, "format");
+            resolveEffectTargetLabel(ACTIVE_EFFECT_SCOPE.THIS, {
+                isActorEffect: false,
+                parentItemType: ITEM_KIND.WEAPONGEAR,
+            });
+            // localize() is identity in tests, so the item type resolves to
+            // its TYPE.ITEM.* key and is passed through to the format call.
+            expect(spy).toHaveBeenCalledWith(
+                "SOHL.ActiveEffect.targetLabel.ThisItem",
+                { itemName: "TYPE.ITEM.weapongear" },
+            );
+        });
+
+        it("labels an 'actor' scope with the localized Actor label", () => {
+            expect(
+                resolveEffectTargetLabel(ACTIVE_EFFECT_SCOPE.ACTOR, {
+                    isActorEffect: false,
+                }),
+            ).toBe("SOHL.ActiveEffect.TARGET_TYPE.actor");
+        });
+
+        it("labels the strike-mode scopes with their scope label", () => {
+            expect(
+                resolveEffectTargetLabel(
+                    ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE,
+                    { isActorEffect: false },
+                ),
+            ).toBe("SOHL.ActiveEffect.Scope.meleestrikemode");
+            expect(
+                resolveEffectTargetLabel(
+                    ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE,
+                    { isActorEffect: false },
+                ),
+            ).toBe("SOHL.ActiveEffect.Scope.missilestrikemode");
+        });
+
+        it("labels an item-kind scope with that item type's label", () => {
+            expect(
+                resolveEffectTargetLabel(ITEM_KIND.SKILL, {
+                    isActorEffect: false,
+                }),
+            ).toBe("TYPE.ITEM.skill");
+        });
+
+        it("falls back to the raw scope for an unrecognized value", () => {
+            expect(
+                resolveEffectTargetLabel("bogus", { isActorEffect: false }),
+            ).toBe("bogus");
+            expect(
+                resolveEffectTargetLabel(undefined, { isActorEffect: false }),
+            ).toBe("");
         });
     });
 });

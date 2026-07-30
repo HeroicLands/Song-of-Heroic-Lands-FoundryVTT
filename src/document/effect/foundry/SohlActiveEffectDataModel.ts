@@ -16,6 +16,7 @@ import {
     ActiveEffectScopeChoices,
 } from "@src/utils/constants";
 import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
+import { resolveEffectTargetLabel } from "@src/document/effect/logic/effect-sheet-view";
 
 const {
     StringField,
@@ -86,6 +87,24 @@ export class SohlActiveEffectDataModel<
         phase: string;
         priority?: number | null;
     }>;
+
+    /**
+     * A human-readable, localized label for what this effect targets, derived
+     * from {@link SohlActiveEffectDataModel#scope} and the documents the effect
+     * is embedded in. Bound by the actor- and item-sheet Effects rows
+     * (`effect.system.targetLabel`) as the Target column's text and tooltip.
+     *
+     * @returns The localized target label (see {@link resolveEffectTargetLabel}).
+     */
+    get targetLabel(): string {
+        const doc = this.parent;
+        const item = doc?.item ?? undefined;
+        return resolveEffectTargetLabel(this.scope, {
+            isActorEffect: !item,
+            parentItemType: item?.type,
+            actorName: doc?.actor?.name ?? undefined,
+        });
+    }
 
     /**
      * Returns the SoHL active-effect data schema.

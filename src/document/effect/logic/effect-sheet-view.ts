@@ -25,6 +25,7 @@ import {
     meleeStrikeModeEffectKeyLabels,
     MISSILESTRIKEMODE_EFFECT_KEY,
     missileStrikeModeEffectKeyLabels,
+    isItemKind,
 } from "@src/utils/constants";
 
 /**
@@ -125,4 +126,63 @@ export function resolveEffectKeyChoices(
         :   undefined;
     const kc = (itemData as { KeyChoices?: unknown } | undefined)?.KeyChoices;
     return kc && !Array.isArray(kc) ? (kc as Record<string, string>) : {};
+}
+
+/**
+ * The human-readable, localized label for an active effect's target, derived
+ * from its `system.scope` and the documents it is embedded in. Mirrors the
+ * scope semantics of `SohlActiveEffect.targets`:
+ *
+ * - `"this"` → `"This {itemType}"` for an item-embedded effect, or
+ *   `"This Actor: {actorName}"` for an actor-embedded effect;
+ * - `"actor"` → the localized "Actor" label;
+ * - `"meleestrikemode"` / `"missilestrikemode"` → the strike-mode scope label;
+ * - an item kind (e.g. `"weapongear"`) → that item type's localized label
+ *   (the effect targets every item of the kind, filtered by its predicate);
+ * - anything else → the raw scope string.
+ *
+ * @param scope - The effect's `system.scope`, or `undefined`.
+ * @param ctx - The embedding context.
+ * @param ctx.isActorEffect - Whether the effect is embedded directly on an
+ *   actor (rather than on an item).
+ * @param ctx.parentItemType - The owning item's kind, for the `"this"` label on
+ *   an item effect.
+ * @param ctx.actorName - The owning actor's name, for the `"this"` label on an
+ *   actor effect.
+ * @returns The localized target label.
+ */
+export function resolveEffectTargetLabel(
+    scope: string | undefined,
+    ctx: {
+        isActorEffect: boolean;
+        parentItemType?: string | undefined;
+        actorName?: string | undefined;
+    },
+): string {
+    switch (scope) {
+        case ACTIVE_EFFECT_SCOPE.THIS:
+            return ctx.isActorEffect ?
+                    sohl.i18n.format(
+                        "SOHL.ActiveEffect.targetLabel.ThisActor",
+                        { actorName: ctx.actorName ?? "" },
+                    )
+                :   sohl.i18n.format("SOHL.ActiveEffect.targetLabel.ThisItem", {
+                        itemName:
+                            ctx.parentItemType ?
+                                sohl.i18n.localize(
+                                    `TYPE.ITEM.${ctx.parentItemType}`,
+                                )
+                            :   "",
+                    });
+        case ACTIVE_EFFECT_SCOPE.ACTOR:
+            return sohl.i18n.localize("SOHL.ActiveEffect.TARGET_TYPE.actor");
+        case ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE:
+        case ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE:
+            return sohl.i18n.localize(`SOHL.ActiveEffect.Scope.${scope}`);
+        default:
+            if (scope && isItemKind(scope)) {
+                return sohl.i18n.localize(`TYPE.ITEM.${scope}`);
+            }
+            return scope ?? "";
+    }
 }
