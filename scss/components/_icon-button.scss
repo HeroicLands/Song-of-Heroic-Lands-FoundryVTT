@@ -50,4 +50,22 @@
     &.is-on {
         color: var(--sohl-color-accent);
     }
+
+    // Disabled — a control the current context can't act on. Foundry disables
+    // every form field (buttons included) when a DocumentSheetV2 isn't editable
+    // (e.g. an actor opened from a locked compendium), and a disabled `<button>`
+    // silently swallows clicks; without a disabled style it looks identical to a
+    // live control. Read it as disabled with reduced opacity + a `not-allowed`
+    // cursor (opacity before hue, per the token rule), and drop the hover
+    // affordance so it does not appear actionable.
+    &:disabled,
+    &[disabled] {
+        opacity: 0.4;
+        cursor: not-allowed;
+
+        &:hover {
+            background: none;
+            color: var(--sohl-color-text-muted);
+        }
+    }
 }

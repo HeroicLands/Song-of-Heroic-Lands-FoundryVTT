@@ -97,15 +97,26 @@ img.sheet-header__portrait {
     border-radius: var(--sohl-radius-sm);
 }
 
-// Edit-identity pencil — a calm header that reveals the affordance only on
-// hover / keyboard focus of the identity row.
+// Edit-identity pencil — always present but low-emphasis at rest, so the
+// affordance is discoverable (and touch/keyboard reachable) rather than hidden
+// until hover. It brightens to full on hover / keyboard focus of the identity
+// row.
 .sheet-header__edit-identity {
-    opacity: 0;
+    opacity: 0.6;
     transition: opacity 0.12s ease;
 }
-.sheet-header__identity:hover .sheet-header__edit-identity,
-.sheet-header__identity:focus-within .sheet-header__edit-identity {
+.sheet-header__identity:hover .sheet-header__edit-identity:not(:disabled),
+.sheet-header__identity:focus-within
+    .sheet-header__edit-identity:not(:disabled) {
     opacity: 1;
+}
+// Read-only sheet: the pencil is disabled along with the rest of the controls
+// (the component layer adds the `not-allowed` cursor). Dim it further so it
+// plainly reads as unavailable — this apps-layer rule wins the cascade over the
+// resting opacity above, and the `:not(:disabled)` guard keeps the hover/focus
+// brighten from re-lighting it.
+.sheet-header__edit-identity:disabled {
+    opacity: 0.3;
 }
 
 // Status-legend "?" sits at the right edge of the identity row.
