@@ -13,8 +13,9 @@
 
 /**
  * The flagship Character Creation tour (#614): the SohlTour registers and is
- * listed in Tour Management, is offered once per user as a non-blocking whisper
- * card, and its gated steps hold **Next** disabled until the user has done the
+ * listed in Tour Management, is recommended by the general welcome card (a
+ * non-blocking, once-per-user whisper), and its gated steps hold **Next**
+ * disabled until the user has done the
  * thing — producing, along the happy path, a fully-populated, equipped, armoured
  * Being with an Arcane Talent and a packed backpack.
  *
@@ -102,16 +103,16 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         });
     });
 
-    it("is offered once per user and its Start button launches the tour", () => {
-        // The first-run offer fires on ready (in `before`), recorded by a per-user
-        // flag so it is never re-offered — the tour stays launchable on demand.
+    it("is offered on the welcome card and its Start button launches the tour", () => {
+        // The tour is recommended by the general welcome card, which posts once
+        // per user on ready (in `before`), recorded by a per-user flag so it is
+        // never re-shown — the tour stays launchable on demand.
         cy.foundry(
-            (win) =>
-                !!win.game.user.getFlag("sohl", "characterCreationTourOffered"),
+            (win) => !!win.game.user.getFlag("sohl", "welcomeCardShown"),
         ).should("eq", true);
 
-        // The offer surface is a chat card whose Start button launches the tour
-        // through the delegated `renderChatMessageHTML` handler.
+        // The offer surface is the welcome chat card whose Start button launches
+        // the tour through the delegated `renderChatMessageHTML` handler.
         cy.foundry((win) =>
             win.ChatMessage.create(
                 win.JSON.parse(

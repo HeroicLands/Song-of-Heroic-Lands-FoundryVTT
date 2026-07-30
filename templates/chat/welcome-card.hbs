@@ -11,12 +11,24 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
-<div class="sohl chat-card tour-offer-card">
+<div class="sohl chat-card welcome-card">
     <header class="card-header">
         <h3>{{title}}</h3>
     </header>
     <div class="card-content">
-        <p>{{{content}}}</p>
+        <p>{{{intro}}}</p>
+        <p class="welcome-website" style="text-align: center; margin: 0.75em 0;">
+            <a
+                href="https://www.heroiclands.org/"
+                target="_blank"
+                rel="noopener"
+                style="font-size: 1.15em; font-weight: bold;"
+            >
+                <i class="fa-solid fa-globe"></i> {{visitSite}}
+            </a>
+        </p>
+        <p>{{{moreInfo}}}</p>
+        <p>{{{tours}}}</p>
     </div>
     <div class="card-buttons">
         <button type="button" data-sohl-tour-start="{{tourId}}">
