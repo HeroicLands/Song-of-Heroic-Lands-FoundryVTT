@@ -133,7 +133,7 @@ export abstract class SohlItemDataModel<
     }
 
     /**
-     * Enforce the `(type, shortcode)` uniqueness invariant on create (issue #766)
+     * Enforce the `(type, shortcode)` uniqueness invariant on create
      * via the shared {@link enforceShortcodeOnCreate}: the key is unique per owning
      * actor for an embedded item, per world item directory for a world item, and
      * per compendium pack for a pack item. A create that names no shortcode gets

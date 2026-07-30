@@ -133,7 +133,7 @@ type SohlTriggerContextVariant =
       }
     | ({
           /**
-           * A scene-region trigger (issue #593) — a token entering/exiting a
+           * A scene-region trigger — a token entering/exiting a
            * region, or taking its combat turn/round inside one. Event-driven:
            * there is no `fireAt`, so `nextFireTime` is `undefined` and the
            * queryable temporal fact is `system.lastRun`. See
@@ -149,7 +149,7 @@ type SohlTriggerContextVariant =
       } & SohlRegionTriggerData)
     | {
           /**
-           * A scene environment change (issue #593) — the active scene's
+           * A scene environment change — the active scene's
            * darkness level changed. Event-driven, like the region triggers.
            */
           name: "sceneDarknessChange";
@@ -168,7 +168,7 @@ type SohlTriggerContextVariant =
       };
 
 /**
- * The context payload common to every scene-region trigger (issue #593). The
+ * The context payload common to every scene-region trigger. The
  * bridge (a SoHL `RegionBehaviorType`) resolves the entering token to its actor
  * at the Foundry boundary, so the logic layer sees only UUIDs and names — a
  * predicate can scope a subscription to a specific region (`regionId`) or a

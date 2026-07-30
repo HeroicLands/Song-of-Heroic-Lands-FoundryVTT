@@ -623,7 +623,7 @@ export function escapeHTML(s: string): string {
 
 // HTML sanitization lives in the Foundry-coupled shim
 // (`FoundryHelpers.toSanitizedHTML`), since it delegates to Foundry's
-// allowlist sanitizer `foundry.utils.cleanHTML` (issue #161).
+// allowlist sanitizer `foundry.utils.cleanHTML`.
 
 const DISALLOWED_KEYWORDS = [
     "window",
@@ -997,7 +997,7 @@ export function buildActionScope(
     const scopeJson = dataset.scope;
     if (!scopeJson) return {};
     // Defense-in-depth on the untrusted cross-client path: `defaultFromJSON`
-    // no longer revives code, but reject a legacy `__func__:` code payload
+    // does not revive code; reject a legacy `__func__:` code payload
     // outright rather than silently carrying it as an inert string.
     if (scopeJson.includes("__func__:")) {
         throw new Error(
@@ -1171,7 +1171,7 @@ export function defaultToJSON(value: any): JsonValue | undefined {
  * values recurse, and every other value — including arrays — replaces wholesale.
  *
  * @remarks
- * Pure and Foundry-free: this exists so `cloneInstance` no longer depends on the
+ * Pure and Foundry-free: this exists so `cloneInstance` does not depend on the
  * Foundry shim. It mutates and returns `original` (which is always the throwaway
  * `defaultToJSON` output at the sole call site), matching `mergeObject`'s
  * in-place default.

@@ -193,8 +193,8 @@ import { DamageCardInput } from "@src/document/combatant/logic/SohlCombatantLogi
  * are the primary participants in combat, skill tests, and social interactions.
  *
  * The being's **physical body — anatomy, body weight, reach, body-scale —
- * lives on its own {@link body} sub-object** (`system.body`), dissolved from the
- * former Corpus item into the Being (#535). **Movement** (`feetPerRound` /
+ * lives on its own {@link body} sub-object** (`system.body`) on the Being.
+ * **Movement** (`feetPerRound` /
  * `leaguesPerWatch` / `moveProfile`) is a universal actor capability on
  * {@link sohl.document.actor.logic.SohlActorBaseLogic}. `BeingLogic` additionally
  * derives movement's {@link strengthModifier} / {@link encumbrance} from its
@@ -279,7 +279,7 @@ export class BeingLogic<
     }
 
     /**
-     * Record a **permanent impairment** (#554) on the body part containing
+     * Record a **permanent impairment** on the body part containing
      * `locationShortcode`, worsening its persisted `permanentImpairment` to at
      * most `magnitude` (the worse — more negative — of the two). A no-op for a
      * non-negative `magnitude`, an unknown location, or when it would not worsen
@@ -679,7 +679,7 @@ export class BeingLogic<
     }
 
     /**
-     * Resolve the **Injury Shock Test** (#555) for a wound just taken, worsening
+     * Resolve the **Injury Shock Test** for a wound just taken, worsening
      * the being's {@link shockState} accordingly.
      *
      * Intrinsic handler for the injury card's Shock Roll button. The card's
@@ -691,7 +691,7 @@ export class BeingLogic<
      * penalties do not — and its result adjusts the **Shock State Index**
      * (CF +2 / MF +1 / MS 0 / CS −1). The resulting index maps to a shock state
      * ({@link shockStateFromIndex}); the being is then worsened to that state
-     * (shock only ever worsens here — an improving Re-Test is #556).
+     * (shock only ever worsens here — an improving Re-Test is {@link shockReTest}).
      *
      * @param context - The action context; its `scope` carries `shockIndex` and
      *   an optional `shockBonus`.
@@ -730,13 +730,13 @@ export class BeingLogic<
         // Worsen only — an injury never improves an already-worse shock state.
         await this.setShockState(Math.max(this.shockState, target));
         // Entering ordinary shock offers (never auto-arms) the Re-Test reminder
-        // on the state's cadence — end of each turn / +10 min (#569).
+        // on the state's cadence — end of each turn / +10 min.
         await this.offerShockReTest(context);
         return result;
     }
 
     /**
-     * Resolve a **Shock Re-Test** (#556) for an Incapacitated or Unconscious
+     * Resolve a **Shock Re-Test** for an Incapacitated or Unconscious
      * being, attempting to shake off ordinary shock.
      *
      * Rolls the being's **Shock** skill headlessly at −20 (the being's fatigue
@@ -792,15 +792,15 @@ export class BeingLogic<
         // A performed Re-Test always ends the ordinary-shock cycle — the victim
         // recovers/improves out of it, or falls into a lasting Extended Shock /
         // Coma that recovers through its own Course Test. Either way the ordinary
-        // Re-Test reminder is done; clear it rather than auto-re-arming (#569).
+        // Re-Test reminder is done; clear it rather than auto-re-arming.
         if (this.actor) await sohl.unschedule(this.actor, "shockReTest");
         return result;
     }
 
     /**
      * **Offer** to schedule (or, when it no longer applies, clear) the being's
-     * Shock **Re-Test** reminder for its current state (#569) — the being-level
-     * timing half of #556, routed through the shared {@link offerSchedule} consent
+     * Shock **Re-Test** reminder for its current state — the being-level timing
+     * half of {@link shockReTest}, routed through the shared {@link offerSchedule} consent
      * step so nothing auto-arms (Prime Directive: offer, remind, perform).
      *
      * While in **ordinary** shock the reminder rides the state's cadence: an
@@ -823,9 +823,9 @@ export class BeingLogic<
             return;
         }
         if (this.shockState === SHOCK_STATE.INCAPACITATED) {
-            // End of the being's OWN turn — an event-driven cadence (#622), no
+            // End of the being's OWN turn — an event-driven cadence, no
             // fixed delay, gated to this being's combatant so the reminder comes
-            // once per round on its turn, not on every combatant's (#569).
+            // once per round on its turn, not on every combatant's.
             await offerSchedule(
                 context,
                 this.actor,
@@ -850,7 +850,7 @@ export class BeingLogic<
      * Unconscious, and **not** already in a lasting Extended Shock / Coma (a
      * `shock`- or `coma`-subtype trauma). Ordinary shock shakes off via the Shock
      * Re-Test; a lasting condition recovers through its own Course Test, so the
-     * ordinary Re-Test reminder must not apply while one is present (#569).
+     * ordinary Re-Test reminder must not apply while one is present.
      *
      * @returns True when the ordinary Shock Re-Test applies.
      */
@@ -921,7 +921,7 @@ export class BeingLogic<
 
     /**
      * Create an Extended Shock / Coma lasting-shock trauma, then **offer** to
-     * track its recovery Course Test (issue #579 — nothing auto-schedules; the
+     * track its recovery Course Test (nothing auto-schedules; the
      * cadence config is seeded by the Trauma data model on creation).
      *
      * @param subType - `SHOCK` (Extended Shock) or `COMA`.
@@ -1074,7 +1074,7 @@ export class BeingLogic<
     }
 
     /**
-     * The being's current **morale state** (#559) — the most severe (most-failed)
+     * The being's current **morale state** — the most severe (most-failed)
      * {@link sohl.utils.MORALE_LEVEL} across its active morale-failure traumas, or
      * `NONE` when it carries none.
      */
@@ -1099,7 +1099,7 @@ export class BeingLogic<
     }
 
     /**
-     * Resolve a **Morale Test** (#559) — a test of the **Initiative** skill —
+     * Resolve a **Morale Test** — a test of the **Initiative** skill —
      * against a morale-failure source, recording the resulting {@link moraleState}.
      *
      * A self-sufficient action on the affected being: it rolls Initiative
@@ -1198,7 +1198,7 @@ export class BeingLogic<
     }
 
     /**
-     * Resolve a **Reaction Test** (#559) — an Initiative test a shaken combatant
+     * Resolve a **Reaction Test** — an Initiative test a shaken combatant
      * makes to shake off a compromised morale state (or in response to an ally's
      * {@link rallyTest | Rally}). On success a Catatonic victim improves to Routed
      * and any other shaken victim snaps back to **Steady**
@@ -1269,7 +1269,7 @@ export class BeingLogic<
     }
 
     /**
-     * Resolve a **Rally Test** (#559) — a leader's Command/Initiative test, made
+     * Resolve a **Rally Test** — a leader's Command/Initiative test, made
      * once per round as a free action, that steadies Routed and Withdrawing allies
      * ({@link sohl.document.actor.logic.rallyOutcome}). Under the Prime Directive a
      * rally is **offered, not imposed**: on a success this posts an **open** action
@@ -1356,7 +1356,7 @@ export class BeingLogic<
     }
 
     /**
-     * The being's accrued **Pall Stress Levels (PSL)** (#561) — the level of its
+     * The being's accrued **Pall Stress Levels (PSL)** — the level of its
      * single `pall`-subtype trauma (the Pall Cloud), or 0 when it carries none.
      */
     get pallStress(): number {
@@ -1375,7 +1375,7 @@ export class BeingLogic<
     }
 
     /**
-     * Resolve a **Resist the Pall** test (#561) — a **Spirit** test with a Pall
+     * Resolve a **Resist the Pall** test — a **Spirit** test with a Pall
      * Depth penalty of `5 × total PAL` — at the start of the being's turn while in
      * an affected area.
      *
@@ -1482,7 +1482,7 @@ export class BeingLogic<
     }
 
     /**
-     * The being's current **fear state** (#558) — the most severe (most-failed)
+     * The being's current **fear state** — the most severe (most-failed)
      * {@link sohl.utils.FEAR_LEVEL} across its active fear-source traumas, or
      * `NONE` when it carries none. "When several fear sources are present, only
      * the most severe state affects the victim" (Fear rules).
@@ -1609,7 +1609,7 @@ export class BeingLogic<
     }
 
     /**
-     * Resolve a **Fear Test** (#558) — a test against **Will** — against a
+     * Resolve a **Fear Test** — a test against **Will** — against a
      * frightening source, and record the resulting {@link fearState}.
      *
      * A self-sufficient action on the affected being: it rolls the being's Will
@@ -1826,10 +1826,10 @@ export class BeingLogic<
             ]);
             sohl.log.uiInfo(`${this.name} contracted ${choice.name}.`);
             // Offer to track its onset (incubation → symptomatic) rather than
-            // auto-arming it — the last creation-time auto-schedule (issue #579).
+            // auto-arming it — the last creation-time auto-schedule.
             // The onset *phase transition*, when performed, still auto-schedules
             // the resolution and recurring healing checks (a consequence of the
-            // human-performed step, consent-gated by #587).
+            // human-performed step, consent-gated).
             const affliction = created?.[0];
             if (affliction) {
                 const onsetInterval =
@@ -2104,7 +2104,7 @@ export class BeingLogic<
         super.finalize();
 
         // Re-arm any persisted schedules the being owns — notably the Shock
-        // Re-Test reminder (#569). Runs on every client every prep, so it is the
+        // Re-Test reminder. Runs on every client every prep, so it is the
         // load-side re-arm; `offerShockReTest` keeps the persisted store in step
         // with the shock state, and this only re-arms what is already there.
         if (this.actor?.uuid) {
@@ -2182,7 +2182,7 @@ export class BeingLogic<
      * of every body part that is {@link bodyPartImpairment | unusable} (a grievous
      * injury or a permanent-unusable flag). A test whose governing skill or
      * attribute lists any of these roles in its `impairedByRoles` automatically
-     * Critically Fails (#568).
+     * Critically Fails.
      *
      * @returns The roles of every unusable body part (empty for an incorporeal
      *   being).
@@ -2207,7 +2207,7 @@ export class BeingLogic<
     /**
      * Each body-part **role** the being can still use but is *impaired* in, mapped
      * to the worst (most negative) −5 (minor) / −10 (serious) indefinite-impairment
-     * penalty among the usable parts carrying that role (#568). A test whose
+     * penalty among the usable parts carrying that role. A test whose
      * governing skill or attribute lists any of these roles in its
      * `impairedByRoles` takes that penalty on its effective mastery level.
      *
@@ -2247,7 +2247,7 @@ export class BeingLogic<
     /**
      * The derived {@link BodyPartImpairment} of each given body part — the
      * per-part view behind the held-limb gating for weapon
-     * strike modes (#628), as opposed to the role-aggregated
+     * strike modes, as opposed to the role-aggregated
      * {@link unusableRoles} / {@link impairedRolePenalties}. Each part is scored
      * against the being's active injuries (only its own locations match) plus its
      * permanent impairment/unusable flags, so a caller passes the being's own
@@ -2273,7 +2273,7 @@ export class BeingLogic<
     /**
      * Populate the being's derived health (`system.health` and the qualitative
      * {@link healthBand}) from its Endurance, active injuries, body-part
-     * impairment, and incapacitating statuses (#463). Runs in {@link finalize},
+     * impairment, and incapacitating statuses. Runs in {@link finalize},
      * after all items (body, traumas) are prepared. The math lives in the pure
      * {@link deriveHealth}; this method only gathers the inputs and writes the
      * `{ value, max }` numbers back into `system.health`.
@@ -2281,7 +2281,7 @@ export class BeingLogic<
     private deriveHealthState(): void {
         const injuries = this.locationInjuries();
 
-        // Each part's impairment tier + usability + criticality (#470).
+        // Each part's impairment tier + usability + criticality.
         const parts: PartHealthInput[] = this.body.structure.parts.map((p) => {
             const imp = bodyPartImpairment(
                 p.locations.map((l) => l.shortcode),
@@ -2326,7 +2326,7 @@ export class BeingLogic<
      * the Resolve Injury card. Nothing is recorded for a no-injury result.
      *
      * Dispatched as a normal chat-card action through the shared
-     * {@link sohl.document.chat.dispatchChatCardAction} chokepoint (issue #572).
+     * {@link sohl.document.chat.dispatchChatCardAction} chokepoint.
      *
      * @param context - The action context; its `scope` seeds the injury
      *   parameters and `skipDialog` bypasses the configuration dialogs.
@@ -2685,7 +2685,7 @@ export class BeingLogic<
     }
 
     /**
-     * Perform a **Blood Stoppage Test** for a bleeding character (#547) — the
+     * Perform a **Blood Stoppage Test** for a bleeding character — the
      * physician's step of the interactive flow, run from a *Request Blood
      * Stoppage* card's open `@self` button (or by hand). Self-gates: only a
      * Physician-skilled character answers. Rolls **this** physician's own

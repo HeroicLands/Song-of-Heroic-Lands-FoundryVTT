@@ -215,7 +215,7 @@ export interface CombatantStartLocation {
  * token position as `system.startLocation` — the field
  * {@link SohlCombatantLogic.spacesMovedThisTurn} reads — plus a reset of
  * `system.didAction`. Pure; the `updateCombat` hook supplies the token center
- * and elevation. Guards against writing the wrong field name (#386).
+ * and elevation. Guards against writing the wrong field name.
  *
  * @param center - The token's canvas center at turn start.
  * @param center.x - Pixel x-coordinate of the token center.
@@ -1890,7 +1890,7 @@ export function buildAttackResult(input: BuildAttackInput): AttackResult {
         {},
         { parent: input.parent },
     );
-    // Embed aim/spread in the impact modifier — the single source of truth (#207).
+    // Embed aim/spread in the impact modifier — the single source of truth.
     const impact = input.impact.clone(
         {
             aimBodyPartCode: input.aimBodyPartCode ?? "",

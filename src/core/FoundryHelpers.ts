@@ -351,7 +351,7 @@ export function fvttGetActor(id: string): any {
 
 /**
  * All world (top-level) actors, as an array. Used to re-arm persisted scheduled
- * actions on load (issue #588) — the client's own permission-scoped view.
+ * actions on load — the client's own permission-scoped view.
  * @returns The world actors, or an empty array before `game` is ready.
  */
 export function fvttWorldActors(): any[] {
@@ -412,8 +412,8 @@ export function fvttActorStatuses(
  * Add or remove a status effect on an actor (a toggleable Active Effect such as
  * Stunned, Prone, or Dead), via Foundry's `Actor#toggleStatusEffect`.
  *
- * Lets Foundry-free logic drive status-based state (e.g. the being's shock state,
- * #550) without touching the document directly. A no-op when the actor or the API
+ * Lets Foundry-free logic drive status-based state (e.g. the being's shock state)
+ * without touching the document directly. A no-op when the actor or the API
  * is unavailable. Read the resulting state back with {@link fvttActorStatuses}.
  *
  * @param actor - The actor to modify.
@@ -473,7 +473,7 @@ function readArchetypePriority(flags: any): number | undefined {
 /**
  * Discover every archetype candidate for a document type across the world
  * directory and all compendium packs whose `metadata.type` matches — the
- * Foundry-boundary half of the Create-dialog archetype picker (issue #604).
+ * Foundry-boundary half of the Create-dialog archetype picker.
  *
  * A candidate is any document carrying a **numeric** `flags.sohl.docArchetype`
  * (its priority). This gathers them into the plain
@@ -615,7 +615,7 @@ export async function fvttCreateEmbeddedItems(
     const actor = actorLogic?.actor;
     if (!actor) return [];
     // System-generated items name no key of their own, so auto-manage the
-    // `(type, shortcode)` key (dedup on collision) rather than failing (#766).
+    // `(type, shortcode)` key (dedup on collision) rather than failing.
     return (await actor.createEmbeddedDocuments("Item", itemsData, {
         shortcodeDedupe: true,
     })) as any[];
@@ -715,7 +715,7 @@ export async function fvttEnrichHTML(content: string): Promise<string> {
  * `<script>`, `on*` event handlers, whitespace/entity-obfuscated `javascript:`
  * URLs, `<base>`, SVG `xlink:href`, surviving inline `style`, and the
  * sanitize→serialize→reparse mutation-XSS (mXSS) that a tag/attribute denylist
- * misses (issue #161).
+ * misses.
  *
  * `foundry.utils.cleanHTML` is a real client-side v14 API but is currently
  * absent from `fvtt-types`, so it is reached through an explicit cast here — the
@@ -948,8 +948,8 @@ export function getActiveScene(): SohlScene | undefined {
 
 /**
  * The uuid of the world's currently **active** scene, or `undefined` when the
- * game is unavailable or no scene is active. Used by the event queue (issue
- * #590) to gate scene-bound scheduled actions in the Foundry-free logic layer
+ * game is unavailable or no scene is active. Used by the event queue to gate
+ * scene-bound scheduled actions in the Foundry-free logic layer
  * without handling a Foundry document.
  *
  * @returns The active scene's uuid, or `undefined` if none is active.

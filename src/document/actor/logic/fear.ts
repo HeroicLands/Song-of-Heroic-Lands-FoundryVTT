@@ -12,7 +12,7 @@
  */
 
 /**
- * Fear-test model (#558) — the pure, Foundry-free core of the **Fear Test**
+ * Fear-test model — the pure, Foundry-free core of the **Fear Test**
  * (a test against **Will**) and its states.
  *
  * A traumatic fear source demands a Fear Test; the result maps to a

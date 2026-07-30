@@ -12,14 +12,14 @@
  */
 
 /**
- * **Generic scheduled actions** (issue #588) — the data-driven half of the
+ * **Generic scheduled actions** — the data-driven half of the
  * {@link sohl.entity.event.SohlEventQueue | deferred action runner}.
  *
  * A recurring schedule is stored as data on **any** SoHL document, in the
  * `system.scheduledActions` field on the base data model (beside `actionDefs`).
  * Each entry defers an action — run `actionName` on that document's logic — to a
  * **moment**: either a **time** (`anchor + interval`, the default) or, when the
- * entry names a `triggerName` (issue #622), a **lifecycle trigger** (`turnEnd`,
+ * entry names a `triggerName`, a **lifecycle trigger** (`turnEnd`,
  * `combatStart`, a scene-region trigger, …) armed as a live subscription with no
  * fire time. Both families persist here and re-arm the same way. Two halves keep
  * it working:
@@ -52,7 +52,7 @@ export interface ScheduledAction {
     /** Seconds from {@link anchor} to the next fire. */
     interval: number;
     /**
-     * The lifecycle trigger this schedule listens to (issue #622). Absent or
+     * The lifecycle trigger this schedule listens to. Absent or
      * `"updateWorldTime"` means a **time-based** schedule that fires at
      * `anchor + interval` — the original and default behavior. Any other value
      * (`"turnEnd"`, `"roundEnd"`, `"combatStart"`, a scene-region trigger, …)
@@ -63,7 +63,7 @@ export interface ScheduledAction {
     triggerName?: string;
     /**
      * Optional predicate **source** (a {@link sohl.entity.expr.SafeExpression}
-     * string) gating an event-driven schedule (issue #622/#569). When set, the
+     * string) gating an event-driven schedule. When set, the
      * armed subscription fires only when it evaluates truthy against the trigger
      * context, with `subscriberUuid` bound to this document's uuid — e.g.
      * `"combatant.actor.uuid === subscriberUuid"` scopes a `turnEnd` schedule to
@@ -71,7 +71,7 @@ export interface ScheduledAction {
      */
     predicate?: string;
     /**
-     * The uuid of the scene this schedule is bound to (issue #590). When set,
+     * The uuid of the scene this schedule is bound to. When set,
      * the schedule is offered only while that scene is the **active** scene — a
      * location-bound event (bandits at a hideout) does not fire while the party
      * is elsewhere, and a check that came due while away surfaces when they
@@ -83,14 +83,14 @@ export interface ScheduledAction {
     payload?: Record<string, unknown>;
 }
 
-/** The trigger name of a **time-based** schedule (issue #588 / #622). */
+/** The trigger name of a **time-based** schedule. */
 export const WORLD_TIME_TRIGGER = "updateWorldTime";
 
 /**
  * Whether a schedule entry's trigger is **time-based** (fires at
  * `anchor + interval` via `updateWorldTime`) rather than **event-driven** (a
  * lifecycle subscription). Absent or `"updateWorldTime"` ⇒ time-based, so a
- * legacy entry with no `triggerName` keeps its original behavior (issue #622).
+ * legacy entry with no `triggerName` keeps its original behavior.
  *
  * @param triggerName - A schedule entry's `triggerName` (may be absent/blank).
  * @returns True for a time-based schedule, false for an event-driven one.
@@ -187,7 +187,7 @@ export function armScheduledActions(
                 entry.sceneUuid || undefined,
             );
         } else {
-            // Event-driven (issue #622): a live subscription on the lifecycle
+            // Event-driven: a live subscription on the lifecycle
             // trigger — no `fireAt`, re-offers on every fire until unscheduled.
             queue.subscribe({
                 uuid,
@@ -211,7 +211,7 @@ export interface Schedulable {
     update(data: Record<string, unknown>): Promise<unknown>;
     /**
      * The document's Logic — parents an event-driven schedule's
-     * {@link ScheduledAction.predicate} (issue #569). Every SoHL document exposes
+     * {@link ScheduledAction.predicate}. Every SoHL document exposes
      * it; only an event schedule *with* a predicate reads it.
      */
     logic?: SohlLogic<any>;
@@ -229,13 +229,13 @@ export interface Schedulable {
  * @param interval - Seconds until the next fire.
  * @param payload - Opaque scope handed to the action on `[Perform]`.
  * @param now - The current world time (the schedule anchor).
- * @param sceneUuid - The scene the schedule is bound to (issue #590); offered
+ * @param sceneUuid - The scene the schedule is bound to; offered
  *   only while that scene is active. Omit for a world-wide schedule.
- * @param triggerName - The lifecycle trigger to bind to (issue #622). Omitted or
+ * @param triggerName - The lifecycle trigger to bind to. Omitted or
  *   `"updateWorldTime"` ⇒ a time-based schedule at `now + interval` (the
  *   default); any other value ⇒ an event-driven subscription (`interval` unused).
  * @param predicate - Optional {@link sohl.entity.expr.SafeExpression} source
- *   gating an event-driven schedule (issue #569); ignored for a time schedule.
+ *   gating an event-driven schedule; ignored for a time schedule.
  */
 export async function scheduleAction(
     doc: Schedulable,

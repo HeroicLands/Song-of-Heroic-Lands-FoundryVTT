@@ -428,7 +428,7 @@ export class SohlSystem {
     }
 
     /**
-     * Schedule a recurring **action** on a document (issue #588) — `sohl.schedule`.
+     * Schedule a recurring **action** on a document — `sohl.schedule`.
      * Persists the schedule to the document's `system.scheduledActions` (the
      * durable record, anchored at the current world time) **and** arms the event
      * queue (the live entry), so when it comes due the queue offers it as a
@@ -442,7 +442,7 @@ export class SohlSystem {
      * Must run as an owner of `doc` (a document write). Both halves derive the
      * fire time from the same anchor + interval, so they cannot drift.
      *
-     * A schedule may be **scene-bound** (issue #590): pass `sceneUuid` and the
+     * A schedule may be **scene-bound**: pass `sceneUuid` and the
      * `[Perform]` reminder is offered only while that scene is the active scene —
      * a bandit check at a hideout does not fire while the party is elsewhere, and
      * a check that came due while away surfaces when they return. Omit `sceneUuid`
@@ -455,12 +455,12 @@ export class SohlSystem {
      * @param payload - Opaque scope handed to the action on `[Perform]`.
      * @param sceneUuid - The scene the schedule is bound to, or `undefined` for a
      *   world-wide schedule.
-     * @param triggerName - The lifecycle trigger to bind to (issue #622). Omitted
+     * @param triggerName - The lifecycle trigger to bind to. Omitted
      *   or `"updateWorldTime"` ⇒ a time-based schedule fired at `now + interval`
      *   (the default); any other value (`"turnEnd"`, `"combatStart"`, …) ⇒ an
      *   event-driven schedule (`interval` is then unused).
      * @param predicate - Optional {@link sohl.entity.expr.SafeExpression} source
-     *   gating an event-driven schedule (issue #569; `subscriberUuid` is bound to
+     *   gating an event-driven schedule (`subscriberUuid` is bound to
      *   `doc`). Ignored for a time schedule.
      * @returns A promise that resolves once the schedule is persisted and armed.
      */
@@ -502,7 +502,7 @@ export class SohlSystem {
     /**
      * Find (or, for a GM, create) the singleton **world host** actor —
      * `sohl.worldHost()`. It is the document world-scoped scheduled actions and
-     * events hang off of (issue #588): an Actor, so it already has the execution
+     * events hang off of: an Actor, so it already has the execution
      * surface (`onChatCardButton` + an `actions` collection) that a scheduled
      * action's `[Perform]` needs.
      *
@@ -528,8 +528,8 @@ export class SohlSystem {
     /**
      * Attach a Foundry Macro to `doc` as a SCRIPT action —
      * `sohl.addScriptAction`. The clean programmatic sibling of the sheet's
-     * "create action" control and of `sohl.schedule` / `sohl.worldHost`
-     * (issue #588, deliverable §7): a module or macro hands a minimal spec
+     * "create action" control and of `sohl.schedule` / `sohl.worldHost`:
+     * a module or macro hands a minimal spec
      * (`{ name, executor }` plus optional overrides) and gets a persisted,
      * runnable action back — without knowing the full `actionDefs` shape.
      *

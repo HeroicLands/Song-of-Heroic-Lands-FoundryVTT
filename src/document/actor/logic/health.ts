@@ -12,7 +12,7 @@
  */
 
 /**
- * Being health derivation (#470) — impairment-based, banded.
+ * Being health derivation — impairment-based, banded.
  *
  * SoHL has **no hit points**: health is a banded assessment of capability, not a
  * pool. It is driven by **impaired body parts only** — an injury that impairs no

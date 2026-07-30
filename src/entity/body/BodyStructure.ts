@@ -38,7 +38,7 @@ import type { BodyRole } from "@src/utils/constants";
  * parent by shortcode (`bodyZoneCode` / `bodyPartCode`). The constructor
  * assembles them into the Zone → Part → Location tree exposed by
  * {@link BodyStructure.zones}. Flat storage keeps every `update()` a
- * single whole-array write (see {@link setPartFieldsUpdate} and #247) instead of
+ * single whole-array write (see {@link setPartFieldsUpdate}) instead of
  * the nested rewrite a tree would force.
  *
  * Every entity's `index` is its position in its **flat** array, so
@@ -287,14 +287,12 @@ export class BodyStructure extends SohlEntity {
 
     /**
      * The parts a strike drifts to when it misses `partCode` — the nearest ring
-     * of anatomy, now that adjacency is implied by the zone tree rather than a
-     * hand-authored part graph (#780).
+     * of anatomy; adjacency is implied by the zone tree.
      *
      * The nearest ring is the part's own **zone siblings**; when those are
      * exhausted the search widens one zone at a time by index distance (both
      * directions at once, so a zone's two neighbours rank equally). Only the
-     * closest non-empty ring is returned, mirroring the old behavior of
-     * drifting exactly one adjacency step.
+     * closest non-empty ring is returned, drifting exactly one adjacency step.
      *
      * @param partCode - The shortcode of the part being drifted away from.
      * @param exclude - Shortcodes already visited, skipped at every ring.
@@ -678,7 +676,7 @@ export class BodyStructure extends SohlEntity {
      * Foundry expands the dotted key to `{ parts: { i: {…} } }` and rebuilds
      * the array field from that sparse map, **truncating it and default-filling
      * every other element** — silently destroying every part but the one
-     * touched (issue #247). Sourcing the full canonical array and replacing the
+     * touched. Sourcing the full canonical array and replacing the
      * target element(s) makes the write a complete-array replacement, which
      * Foundry applies faithfully.
      *
@@ -764,7 +762,7 @@ export class BodyStructure extends SohlEntity {
      * Build an `update()` payload that sets fields on one or more hit
      * locations, addressed by flat index, by rewriting the **entire**
      * `locations` array. See {@link setPartFieldsUpdate} for why the write is
-     * never a by-index one (#247).
+     * never a by-index one.
      *
      * @param updates - One `{ index, changes }` per location to modify;
      *   `changes` is a partial of that location's persisted fields.
@@ -858,7 +856,7 @@ export class BodyStructure extends SohlEntity {
     /**
      * Shared whole-array field merge behind the three `set*FieldsUpdate`
      * helpers: replace the addressed elements in a copy of the canonical array
-     * and write the entire array back (#247).
+     * and write the entire array back.
      *
      * @typeParam T - The persisted element shape.
      * @param field - The `body.structure` array being written.

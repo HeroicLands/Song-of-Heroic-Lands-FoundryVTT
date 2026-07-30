@@ -29,8 +29,8 @@ export const CHARACTER_CREATION_TOUR = Object.freeze({
 /**
  * The archetype shortcodes the tour's gated steps recognize. These are the
  * `system.shortcode` values the create-dialog stamps onto an instance seeded
- * from each content archetype (#643 makes an archetype-seeded instance inherit
- * the archetype's own shortcode, even when the document is renamed), reduced to
+ * from each content archetype (an archetype-seeded instance inherits the
+ * archetype's own shortcode, even when the document is renamed), reduced to
  * their {@link shortcodeBase | uniqueness-stripped base}. Matching on shortcode —
  * not name — is what lets a gate confirm the user picked the *correct archetype*
  * while still allowing them to rename their character or gear.
@@ -147,7 +147,7 @@ function limbHolding(
 
 /**
  * Build the flagship **Character Creation** tour — the first content story on the
- * {@link SohlTour} framework (#614). It *coaches and waits* the user from an
+ * {@link SohlTour} framework. It *coaches and waits* the user from an
  * empty sidebar to a combat-ready Being: create from the *Basic Folk* archetype,
  * flesh out the Facade / Profile / Skills, arm and armour the character on the
  * Gear and Combat tabs, add an Arcane Talent, and pack a container — teaching most
@@ -155,8 +155,8 @@ function limbHolding(
  *
  * Per the framework's step kinds, each step is **free** (advise an example, advance
  * on Next) or **gated** (refuse to advance until the user has actually done the
- * thing). Gated archetype steps key off the instance's inherited **shortcode**
- * (#643), so the gate confirms the *right archetype* was chosen without forcing a
+ * thing). Gated archetype steps key off the instance's inherited **shortcode**,
+ * so the gate confirms the *right archetype* was chosen without forcing a
  * particular name. Nothing is ever performed on the user's behalf beyond
  * scene-setting navigation (PRIME DIRECTIVE — assist, don't play the game).
  * @returns A ready-to-register {@link SohlTour} instance.

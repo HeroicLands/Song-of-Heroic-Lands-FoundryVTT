@@ -67,7 +67,7 @@ export class SohlCombatant<
     async onChatCardButton(btn: HTMLElement): Promise<void> {
         // Only an owner of this combatant (a GM owns all) may run a chat-card
         // action against it; the render-time gate is UX only and a direct or
-        // synthesized call bypasses it (issue #167).
+        // synthesized call bypasses it.
         if (!this.isOwner) return;
         await dispatchChatCardAction(this.logic, btn);
     }
@@ -336,7 +336,7 @@ export class SohlCombatant<
 
         const userSetMedium = data?.system?.displayedMedium;
         // Movement is a universal actor capability; seed from the actor's own
-        // current move medium (formerly the corpus default).
+        // current move medium.
         const actorDefault = (this.actor?.system as any)?.currentMoveMedium;
         const chosen = chooseInitialDisplayedMedium(
             userSetMedium,

@@ -87,17 +87,17 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         treatmentDate: worldTimeDateField(),
         ...durationFields("healingCheck"),
         ...durationFields("bloodLossAdvance"),
-        // Extended Shock / Coma recovery Course Test (#556): its own recurring
+        // Extended Shock / Coma recovery Course Test: its own recurring
         // cadence (Extended Shock every 4 hours; Coma every d10 days).
         ...durationFields("course"),
         // Whether this injury, once treated, is eligible for permanent
-        // impairment if it heals slowly (#553 sets it; #554 applies the
-        // magnitude). A blank sentinel (`false`), not nullable: "not eligible"
-        // is the valid default, not a distinct unset state.
+        // impairment if it heals slowly. A blank sentinel (`false`), not
+        // nullable: "not eligible" is the valid default, not a distinct unset
+        // state.
         permanentImpairmentEligible: new BooleanField({ initial: false }),
-        // Whether this injury is exposed to infection — a poorly-treated wound
-        // (#553 sets it). A Critical-Failure Injury Healing Test on an infectable
-        // wound contracts an infection (#557).
+        // Whether this injury is exposed to infection — a poorly-treated wound.
+        // A Critical-Failure Injury Healing Test on an infectable
+        // wound contracts an infection.
         infectable: new BooleanField({ initial: false }),
         // Body location the trauma affects. Nullable: a whole-body trauma or a
         // descriptive condition has no specific location (`null`).
@@ -160,12 +160,12 @@ export class TraumaDataModel<
      * settings and their duration bases from a numeric read of the formula (the
      * defaults are bare second counts). The recurring checks are seeded as
      * `system.scheduledActions` entries anchored at the current world time — the
-     * generic store (issue #588) replaces the retired bespoke `last*Date` anchors
+     * recurrence anchor and interval live in the generic store
      * — so {@link TraumaLogic.finalize} arms them on the following preparation
      * (a `0` interval fires the first check immediately, at which point the
      * executor rolls the real interval). Creation still auto-arms the first
-     * occurrence; the *reschedule* of later occurrences is offered, not automatic
-     * (issue #579).
+     * occurrence; the *reschedule* of later occurrences is offered, not
+     * automatic.
      *
      * @param data - The pending creation data.
      * @param options - The create operation options.
@@ -192,7 +192,7 @@ export class TraumaDataModel<
             game.settings.get("sohl", "bloodLossAdvanceDurationFormula") ?? "",
         );
         const healInterval = Number(healFormula) || 0;
-        // NO recurring check is auto-armed at creation (issue #579 — nothing
+        // NO recurring check is auto-armed at creation (nothing
         // auto-schedules): the creating flow OFFERS each one — the injury flow
         // offers `healingCheck` / `bloodLossAdvanceCheck` (`createTraumaFromInjury`),
         // treatment offers blood-loss, and the shock/infection flows offer
@@ -205,13 +205,13 @@ export class TraumaDataModel<
             healingCheckDurationBase: healInterval,
         };
         // A bleeder arrives with a non-null bloodLossAdvanceDurationBase
-        // (a placeholder set at injury resolution, #482); seed its real interval.
+        // (a placeholder set at injury resolution); seed its real interval.
         if (this.bloodLossAdvanceDurationBase != null) {
             seed.bloodLossAdvanceDurationFormula = bloodFormula;
             seed.bloodLossAdvanceDurationBase = Number(bloodFormula) || 0;
         }
 
-        // Recovery Course Test cadence (#556/#557) — seeded for the lasting-
+        // Recovery Course Test cadence — seeded for the lasting-
         // condition subtypes when the caller has not supplied it. Extended Shock
         // runs every 4 hours, a Coma every d10 days, and an Infection on the
         // standard healing-check period.

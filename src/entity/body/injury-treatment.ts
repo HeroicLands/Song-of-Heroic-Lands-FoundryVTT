@@ -12,14 +12,14 @@
  */
 
 /**
- * Injury Treatment tables (#553) — the Physician **Treatment Test** and its
+ * Injury Treatment tables — the Physician **Treatment Test** and its
  * consequences, as pure, Foundry-free lookups over the tables in the Injury
  * rules (`https://kb.heroiclands.org/dev/` → Injury → _Injury Treatment_).
  *
  * A new injury is untreated; treatment establishes its
  * {@link sohl.document.item.logic.TraumaData.healingRateBase | Healing Rate}
  * (which then governs {@link sohl.document.item.logic.TraumaLogic.healingCheck |
- * Injury Healing Tests}, #486). The Physician test's result and the wound's
+ * Injury Healing Tests}). The Physician test's result and the wound's
  * severity band select the Healing Rate; the wound's aspect and severity select
  * the required treatment action and its difficulty; and the resulting Healing
  * Rate (with the aspect) determines the special injury effects — bleeders and
@@ -219,7 +219,7 @@ export function isBleederFromHealingRate(
  * Permanent-impairment eligibility by aspect, band, and Healing Rate (Injury
  * rules — Special Injury Effects). An eligible wound that takes a long time to
  * heal leaves a lasting impairment (the magnitude is applied by the Impairment
- * system, #554).
+ * system).
  *
  * @param aspect - The wound's impact aspect.
  * @param band - The wound's severity band.
