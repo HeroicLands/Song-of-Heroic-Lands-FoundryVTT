@@ -27,8 +27,8 @@ read-only, flat armor-reference table of the same locations.
 subtype headers, and adopt **present-only hiding** (`{{#if …length}}`): empty
 subtype groups are not rendered. One consequence: the always-visible empty
 _Combat Technique_ section from #714 no longer shows for a being with none
-(creation is still reachable via the tab's global _Add Skill_ footer) — tracked
-in #797.
+(creation is still reachable via the tab's global _Add Skill_ footer) — that
+affordance was formally retired in #797.
 
 Stable JS hooks and `data-*` attributes are preserved, so actions, drag/drop,
 context menus, search filters, and the character-creation tour continue to work
