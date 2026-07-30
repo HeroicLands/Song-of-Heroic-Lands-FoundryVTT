@@ -6,7 +6,11 @@
 //
 // Loaded under `.sohl { }` (components layer); selectors written bare.
 
-.facade {
+// Gate the flex layout to the active state: `.facade` is the `.tab` element
+// itself, so declaring `display` unconditionally would override Foundry's
+// inactive-tab hiding (`.tab:not(.active) { display: none }`) and leak the
+// portrait/appearance onto every other tab. Only lay it out when shown.
+.facade.active {
     display: flex;
     gap: 1rem;
     padding: 0.7rem 0.95rem;
