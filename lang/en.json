@@ -969,6 +969,8 @@
     "SOHL.Mystery.EffectKey.CHARGES": "Charges",
     "SOHL.Mystery.EffectKey.LEVEL": "Level",
     "SOHL.Mystery.EffectKey.MAX_CHARGES": "Maximum Charges",
+    "SOHL.Mystery.FIELDS.assocSkillCode.hint": "Shortcode of the skill this mystery is associated with (the skill a blessing boosts, a fate re-roll applies to, etc.); leave blank when the mystery names no skill",
+    "SOHL.Mystery.FIELDS.assocSkillCode.label": "Associated Skill",
     "SOHL.Mystery.FIELDS.charges.hint": "Usage tracking",
     "SOHL.Mystery.FIELDS.charges.label": "Charges",
     "SOHL.Mystery.FIELDS.charges.max.hint": "Maximum charges possible; leave blank for no limit",
