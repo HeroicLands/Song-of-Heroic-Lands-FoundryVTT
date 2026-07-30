@@ -2115,8 +2115,9 @@ export function collectBlockableStrikeModes(
  * Build the injury button payload for a landing side, or `null` when the side
  * did not land (no `ImpactResult`) or has no target. When the blow was aimed, the
  * `resolveInjury` handler resolves the hit location automatically from the
- * forwarded `targetPart`/`spread` (the automated, no-dialog path); an unaimed blow
- * forwards only `{ impact, aspect }`, so the handler opens the Add Injury dialog.
+ * forwarded `targetZoneNumber`/`zoneDie` (the automated, no-dialog path); an
+ * unaimed blow forwards only `{ impact, aspect }`, so the handler opens the Add
+ * Injury dialog.
  * @param impactResult - The landing side's impact result, or `undefined` if it missed.
  * @param targetCombatantUuid - The struck combatant's injury-button data, or `null`.
  * @returns The injury-button payload, or `null` if the side did not land or has
@@ -2127,19 +2128,27 @@ function injuryButton(
     targetCombatantUuid: string,
 ): { handlerUuid: string; targetName: string; scopeData: PlainObject } | null {
     if (!impactResult || !targetCombatantUuid) return null;
-    // When the blow was aimed, forward `targetPart` + `spread` so the
-    // `resolveInjury` handler resolves the hit location automatically; otherwise
-    // omit them and the handler opens the assisted Add Injury dialog.
-    const aim =
-        impactResult.aimBodyPartCode ?
-            {
-                targetPart: impactResult.aimBodyPartCode,
-                spread: impactResult.spread,
-            }
-        :   {};
     const targetCombatantLogic = fvttLogicFromUuidSync(
         targetCombatantUuid,
     ) as SohlCombatantLogic;
+    // When the blow was aimed, forward the aimed part's zone as `targetZoneNumber`
+    // + `zoneDie` (from the strike-mode spread) so the `resolveInjury` handler
+    // resolves the hit location automatically; otherwise omit them and the
+    // handler opens the assisted Add Injury dialog. The aimed part lives on the
+    // target's body, so resolve its zone number there.
+    const aimPart =
+        impactResult.aimBodyPartCode ?
+            getActorBody(
+                targetCombatantLogic?.actorLogic,
+            )?.structure?.getPartByCode(impactResult.aimBodyPartCode)
+        :   undefined;
+    const aim =
+        aimPart ?
+            {
+                targetZoneNumber: aimPart.zone.zoneNumbers[0] ?? 1,
+                zoneDie: impactResult.spread,
+            }
+        :   {};
     return {
         handlerUuid: targetCombatantLogic?.actor?.uuid ?? "",
         targetName: targetCombatantLogic.name,

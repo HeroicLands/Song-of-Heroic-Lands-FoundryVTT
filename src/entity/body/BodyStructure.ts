@@ -28,6 +28,31 @@ import { isA, BASE_INJURY_THRESHOLDS } from "@src/utils/constants";
 import type { BodyRole } from "@src/utils/constants";
 
 /**
+ * The full trace of a Zone-Number + Zone-Die hit determination
+ * ({@link BodyStructure.aimZone}): the aim, the rolled die, the resulting zone
+ * number, and the resolved zone / part / location. When `hitZoneNumber` owns no
+ * zone (it exceeds {@link BodyStructure.maxZoneNumber}, or the zone it lands in
+ * holds no hittable part) the blow misses — `zone` and `location` are
+ * `undefined` and `isMiss` is `true`.
+ */
+export interface ZoneAimResult {
+    /** The zone number aimed at (clamped up to 1). */
+    targetZoneNumber: number;
+    /** The zone die rolled (clamped up to 1); result is uniform in `1..zoneDie`. */
+    zoneDie: number;
+    /** The rolled die value, `1..zoneDie`. */
+    zoneDieResult: number;
+    /** `(targetZoneNumber - 1) + zoneDieResult`. */
+    hitZoneNumber: number;
+    /** The zone owning {@link hitZoneNumber}, or `undefined` on a miss. */
+    zone?: BodyZone;
+    /** The resolved hit location, or `undefined` on a miss. */
+    location?: BodyLocation;
+    /** Whether the blow missed — no hittable zone owns {@link hitZoneNumber}. */
+    isMiss: boolean;
+}
+
+/**
  * The complete anatomical structure of a Being — its zones, body parts, and
  * hit locations.
  *
@@ -521,6 +546,54 @@ export class BodyStructure extends SohlEntity {
         rng: Rng = defaultRng(),
     ): BodyLocation {
         return this.getRandomPart(target, rng).getRandomLocation(rng);
+    }
+
+    /**
+     * Resolve a hit location by **Zone-Number aiming with a Zone Die**.
+     *
+     * The first stage of an aimed strike: roll the zone die (uniform in
+     * `1..zoneDie`), offset the aimed zone number by it —
+     * `Hit ZN = (targetZoneNumber - 1) + result` — and look up the owning zone
+     * ({@link getZoneByNumber}). When the hit zone number exceeds
+     * {@link maxZoneNumber} (or lands in a zone that holds no hittable part) the
+     * blow **misses**: `zone` and `location` are `undefined` and `isMiss` is
+     * `true`. Otherwise a weighted body part is drawn within that zone, then a
+     * weighted location within that part.
+     *
+     * @param target - The aim.
+     * @param target.targetZoneNumber - The zone number aimed at (clamped up to 1).
+     * @param target.zoneDie - The zone die to roll (clamped up to 1).
+     * @param rng - The random source; defaults to the shared {@link sohl.random}
+     *   singleton. Inject a seeded generator to make the draw reproducible.
+     * @returns The full aim trace (see {@link ZoneAimResult}).
+     */
+    aimZone(
+        target: { targetZoneNumber: number; zoneDie: number },
+        rng: Rng = defaultRng(),
+    ): ZoneAimResult {
+        const targetZoneNumber = Math.max(
+            1,
+            Math.trunc(target.targetZoneNumber) || 1,
+        );
+        const zoneDie = Math.max(1, Math.trunc(target.zoneDie) || 1);
+        const zoneDieResult = 1 + Math.floor(rng.float() * zoneDie);
+        const hitZoneNumber = targetZoneNumber - 1 + zoneDieResult;
+        const zone = this.getZoneByNumber(hitZoneNumber);
+        const trace = {
+            targetZoneNumber,
+            zoneDie,
+            zoneDieResult,
+            hitZoneNumber,
+        };
+        if (!zone) return { ...trace, isMiss: true };
+        // A weighted zone can still hold no part with a hittable location (a
+        // half-authored body); such a landing has nothing to strike, so it
+        // misses rather than throwing on an empty weighted draw.
+        const hittableParts = zone.parts.filter((p) => p.locations.length > 0);
+        if (hittableParts.length === 0) return { ...trace, zone, isMiss: true };
+        const part = weightedRandom(hittableParts, rng);
+        const location = part.getRandomLocation(rng);
+        return { ...trace, zone, location, isMiss: false };
     }
 
     /* -------------------------------------------- */

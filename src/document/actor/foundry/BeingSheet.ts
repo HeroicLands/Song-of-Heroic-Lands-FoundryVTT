@@ -22,7 +22,6 @@ import {
 import {
     fvttCallHook,
     fvttEnrichHTML,
-    fvttGetSetting,
     fvttRenderSheet,
 } from "@src/core/FoundryHelpers";
 import {
@@ -2358,11 +2357,6 @@ html, body { margin: 0; padding: 0; background: #fff; }
         // an incorporeal being).
         const structure = getActorBody(actor.logic)?.structure;
 
-        // HMK compatibility: the "Use Zone Die" world setting presents a strike
-        // mode's spread as a Zone Die (`d{n}`, column "ZD") instead of a Spread
-        // radius (`{n}`, column "Spr"). Same underlying `spread.effective` value.
-        const useZoneDie = !!fvttGetSetting("sohl", "useZoneDie");
-
         // Held Items: one dropdown per hold-capable body part, each listing the
         // actor's holdable gear (weapons + misc gear not stowed in a container).
         // Selecting an item sets that part's `heldItemId`; a two-handed weapon is
@@ -2405,8 +2399,9 @@ html, body { margin: 0; padding: 0; background: #fff; }
             missileStrikeModes,
             structure,
             bodyZones,
-            useZoneDie,
-            spreadLabel: useZoneDie ? "ZD" : "Spr",
+            // The strike-mode scatter is always presented as a Zone Die (`d{n}`,
+            // column "ZD"); its underlying value is `spread.effective`.
+            spreadLabel: "ZD",
             holdableItems,
             heldItemLimbs,
             defaultCombatGroup: (actor.system as any).defaultCombatGroup ?? "",

@@ -261,7 +261,18 @@ P(location) =   zone.probWeight / sum(all zones' probWeight)
 
 A zone that carries weight but holds no parts is **excluded** from the roll rather than falling through to a body-wide draw — otherwise its share would leak out and skew every other zone's true frequency. `getRandomZone` still reports it, since it owns real zone numbers and the displayed table must say so.
 
-Two selectors deliberately sit outside this model: aimed strikes (the drift algorithm above bypasses the zone roll), and `getRandomPartByRole`, which is a flat weighted draw over every role-matching part body-wide — it answers "any vital part," not "where did the blow land."
+Two selectors deliberately sit outside this model: the drift algorithm above (`getRandomPart(target)`, a general aimed-selection utility), and `getRandomPartByRole`, which is a flat weighted draw over every role-matching part body-wide — it answers "any vital part," not "where did the blow land."
+
+## Zone-Die aiming (Resolve Injury)
+
+The **Resolve Injury** action determines its hit location by **Zone-Number aiming with a Zone Die** via {@link sohl.entity.body.BodyStructure.aimZone}, not the drift algorithm:
+
+1. Roll the zone die uniformly in `1..zoneDie`.
+2. `Hit ZN = (targetZoneNumber − 1) + result`.
+3. Look up the zone owning `Hit ZN` ({@link sohl.entity.body.BodyStructure.getZoneByNumber}). A `Hit ZN` above {@link sohl.entity.body.BodyStructure.maxZoneNumber} (or a zone with no hittable part) is a **miss** — no location.
+4. Otherwise draw a weighted part in that zone, then a weighted location within that part.
+
+`aimZone` returns the full trace (`targetZoneNumber`, `zoneDie`, `zoneDieResult`, `hitZoneNumber`, `zone`, `location`, `isMiss`) so the result card can echo how the location was determined. `targetZoneNumber` defaults to 1 and an unaimed strike uses `zoneDie = maxZoneNumber`, which reproduces the whole-body weighted distribution above.
 
 For the broader resolution flow (rolls → wound calculation → effects), see [Combat Resolution Pipeline](./combat-resolution-pipeline.md).
 

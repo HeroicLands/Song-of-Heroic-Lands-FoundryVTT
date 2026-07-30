@@ -13,25 +13,39 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <form>
     <div class="grid grid-2col">
-        <div class="form-group">
-            <label>Target Body Part:</label>
-            <select name="targetBodyPartCode">
-                <option value="">(random vital)</option>
-                {{selectOptions bodyParts selected=targetBodyPartCode
-                valueAttr="code" labelAttr="name"}}
-            </select>
+        <div
+            class="form-group"
+            data-tooltip="Zone Number aimed at (1..{{maxZoneNumber}}); used only when the Location derives"
+        >
+            <label>Target ZN:</label>
+            <input
+                type="number"
+                name="targetZoneNumber"
+                value="{{targetZoneNumber}}"
+                min="1"
+                {{#if bodyLocationCode}}disabled{{/if}}
+            />
         </div>
 
-        <div class="form-group" data-tooltip="Scatter used to derive the hit location">
-            <label>Spread:</label>
-            <input type="number" name="spread" value="{{spread}}" />
+        <div
+            class="form-group"
+            data-tooltip="Zone Die rolled to scatter the hit from the Target ZN"
+        >
+            <label>Zone Die:</label>
+            <input
+                type="number"
+                name="zoneDie"
+                value="{{zoneDie}}"
+                min="1"
+                {{#if bodyLocationCode}}disabled{{/if}}
+            />
         </div>
     </div>
 
     <div class="form-group">
         <label>Location:</label>
         <select name="bodyLocationCode">
-            <option value="">(derive from target + spread)</option>
+            <option value="">(derive from Target ZN + ZD)</option>
             {{selectOptions hitLocations selected=bodyLocationCode
             valueAttr="code" labelAttr="name"}}
         </select>
@@ -41,14 +55,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <div class="form-group">
             <label>Aspect:</label>
             <select name="aspect">
-                {{#each aspectChoices}}
-                <option
-                    value="{{this}}"
-                    {{#if (eq this ../aspect)}}selected{{/if}}
-                >
-                    {{this}}
-                </option>
-                {{/each}}
+                {{selectOptions aspectChoices selected=aspect localize=true}}
             </select>
         </div>
 

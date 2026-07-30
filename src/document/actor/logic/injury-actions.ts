@@ -33,23 +33,28 @@ import {
  * The parameter bag driving the **Resolve Injury** flow — the single vocabulary
  * shared by the action's scope payload, its configuration dialog, and its result
  * card. A chat-card injury button serializes the blow into this shape
- * (`impact`/`aspect` plus an aimed `targetBodyPartCode` + `spread`); the manual
+ * (`impact`/`aspect` plus an aimed `targetZoneNumber` + `zoneDie`); the manual
  * Actions-tab path starts from defaults; either way the dialog reads and rewrites
  * it before resolution.
  */
 export interface ResolveInjuryData {
     /**
      * The struck hit-location shortcode. Empty when unspecified — the flow then
-     * derives it from {@link targetBodyPartCode} + {@link spread}.
+     * derives it from {@link targetZoneNumber} + {@link zoneDie} via
+     * {@link sohl.entity.body.BodyStructure.aimZone | Zone-Die aiming}.
      */
     bodyLocationCode: string;
-    /** Strike spread governing scatter from the target part (default 6). */
-    spread: number;
     /**
-     * The aimed body-part shortcode. Empty when unspecified — the flow then
-     * picks a random `VITAL` part.
+     * The Zone Number aimed at (`1`-based; default 1). The zone-die roll offsets
+     * it: `Hit ZN = (targetZoneNumber - 1) + roll(1..zoneDie)`.
      */
-    targetBodyPartCode: string;
+    targetZoneNumber: number;
+    /**
+     * The Zone Die rolled to scatter the hit (uniform `1..zoneDie`). `0` is the
+     * "unset" sentinel — the executor fills it with the body's max zone number
+     * so an unaimed derive covers the whole body.
+     */
+    zoneDie: number;
     /** Raw impact total delivered by the blow, before armor (default 0). */
     impact: number;
     /** Weapon damage aspect (default Blunt). */
@@ -89,17 +94,20 @@ function toAspect(value: unknown): ImpactAspect {
     return isImpactAspect(s) ? (s as ImpactAspect) : IMPACT_ASPECT.BLUNT;
 }
 
-/** Default strike spread when the caller supplies none. */
-export const DEFAULT_INJURY_SPREAD = 6;
+/** Default Target Zone Number when the caller supplies none. */
+export const DEFAULT_TARGET_ZONE_NUMBER = 1;
 
 /**
  * Seed a {@link ResolveInjuryData} from an action `scope` payload and the
  * world's auto-record default. Accepts an already-revived scope object or a raw
  * JSON string (a chat-card `data-scope`); unknown/blank fields fall back to the
- * spec defaults. Reads both the resolve-injury vocabulary
- * (`bodyLocationCode`/`targetBodyPartCode`) and the combat wire aliases
- * (`location`/`targetPart`), so a combat injury button and the manual path feed
- * the same shape. Pure and Foundry-free.
+ * spec defaults. Reads the zone-die vocabulary
+ * (`bodyLocationCode`/`targetZoneNumber`/`zoneDie`), with `location` accepted as
+ * an alias for `bodyLocationCode`, so a combat injury button and the manual path
+ * feed the same shape. Pure and Foundry-free.
+ *
+ * `zoneDie` defaults to `0`, the "unset" sentinel — the executor fills it with
+ * the body's max zone number so an unaimed derive covers the whole body.
  *
  * @param input - The revived scope object, a raw JSON string, or nothing.
  * @param autoAddInjury - The world default for recording the Trauma (from the
@@ -126,11 +134,11 @@ export function buildResolveInjuryData(
     const str = (v: unknown): string => (typeof v === "string" && v ? v : "");
     return {
         bodyLocationCode: str(raw.bodyLocationCode ?? raw.location),
-        spread:
-            raw.spread != null && Number.isFinite(Number(raw.spread)) ?
-                Number(raw.spread)
-            :   DEFAULT_INJURY_SPREAD,
-        targetBodyPartCode: str(raw.targetBodyPartCode ?? raw.targetPart),
+        targetZoneNumber:
+            raw.targetZoneNumber != null ?
+                toInt(raw.targetZoneNumber)
+            :   DEFAULT_TARGET_ZONE_NUMBER,
+        zoneDie: toInt(raw.zoneDie),
         impact: toInt(raw.impact),
         aspect: toAspect(raw.aspect),
         armorReduction: toInt(raw.armorReduction),
@@ -155,14 +163,14 @@ export function readResolveInjuryForm(
 ): ResolveInjuryData {
     return {
         bodyLocationCode: String(formData.bodyLocationCode ?? ""),
-        spread:
+        targetZoneNumber:
             (
-                formData.spread != null &&
-                Number.isFinite(Number(formData.spread))
+                formData.targetZoneNumber != null &&
+                String(formData.targetZoneNumber) !== ""
             ) ?
-                Number(formData.spread)
-            :   DEFAULT_INJURY_SPREAD,
-        targetBodyPartCode: String(formData.targetBodyPartCode ?? ""),
+                toInt(formData.targetZoneNumber)
+            :   DEFAULT_TARGET_ZONE_NUMBER,
+        zoneDie: toInt(formData.zoneDie),
         impact: toInt(formData.impact),
         aspect: toAspect(formData.aspect),
         armorReduction: toInt(formData.armorReduction),
@@ -183,6 +191,24 @@ export interface AmputationCardInfo {
     shockPenalty: number;
 }
 
+/**
+ * The Zone-Number + Zone-Die aim trace echoed onto the result card when the hit
+ * location was **derived** (not manually chosen). Sourced from
+ * {@link sohl.entity.body.BodyStructure.aimZone}; `zoneName` is absent on a miss.
+ */
+export interface InjuryAimTrace {
+    /** The Zone Number aimed at. */
+    targetZoneNumber: number;
+    /** The Zone Die rolled (die size). */
+    zoneDie: number;
+    /** The rolled die value, `1..zoneDie`. */
+    zoneDieResult: number;
+    /** `(targetZoneNumber - 1) + zoneDieResult`. */
+    hitZoneNumber: number;
+    /** The struck zone's name; absent when the blow missed. */
+    zoneName?: string;
+}
+
 /** Extra context the chat card needs beyond the resolved injury itself. */
 export interface InjuryCardContext {
     /** The injured actor's id (for the card's `data-actor-id`). */
@@ -200,6 +226,12 @@ export interface InjuryCardContext {
     treatmentModifier?: number;
     /** The performed amputation test's outcome, when the wound triggered one. */
     amputation?: AmputationCardInfo;
+    /** The zone-die aim trace, present only when the location was **derived**;
+     *  the card shows it in place of the "location overridden" notice. */
+    aim?: InjuryAimTrace;
+    /** True when the player specified the hit location by hand rather than
+     *  deriving it; the card then shows a "Location overridden by player" note. */
+    locationOverridden?: boolean;
 }
 
 /**
@@ -265,6 +297,58 @@ export function buildInjuryCardData(
         amputationDied: !!ctx.amputation?.died,
         treatmentModifier: ctx.treatmentModifier ?? 0,
         addToCharSheet: ctx.addToCharSheet,
+        // A resolved injury is never a miss; the miss card is built separately.
+        isMiss: false,
+        // How the location was determined: the zone-die aim trace (derived) or a
+        // player override notice — mutually exclusive on the card.
+        locationDerived: !!ctx.aim,
+        locationOverridden: !!ctx.locationOverridden,
+        ...(ctx.aim ? aimTraceCardFields(ctx.aim) : {}),
+    };
+}
+
+/**
+ * Flatten an {@link InjuryAimTrace} into the card fields the template reads,
+ * including the `d<zoneDie>` display label.
+ * @param aim - The zone-die aim trace.
+ * @returns The card render fields for the aim trace.
+ */
+function aimTraceCardFields(aim: InjuryAimTrace): Record<string, unknown> {
+    return {
+        targetZoneNumber: aim.targetZoneNumber,
+        zoneDie: aim.zoneDie,
+        zoneDieLabel: `d${aim.zoneDie}`,
+        zoneDieResult: aim.zoneDieResult,
+        hitZoneNumber: aim.hitZoneNumber,
+        hitZoneName: aim.zoneName ?? "",
+    };
+}
+
+/**
+ * Build the render context for `injury-card.hbs` in its **miss** state — a
+ * zone-die aim whose Hit ZN found no zone, so the blow finds no target. There is
+ * no injury: no location, level, or Trauma. Pure and Foundry-free.
+ * @param aim - The zone-die aim trace that missed.
+ * @param ctx - Foundry-supplied card context.
+ * @param ctx.actorId - The Foundry id of the actor that was aimed at.
+ * @param ctx.handlerActorUuid - UUID of the actor handling the card.
+ * @param ctx.name - Display name shown in the card header.
+ * @returns The render context for `injury-card.hbs`.
+ */
+export function buildMissCardData(
+    aim: InjuryAimTrace,
+    ctx: { actorId: string | null; handlerActorUuid: string; name: string },
+): Record<string, unknown> {
+    return {
+        actorId: ctx.actorId,
+        handlerActorUuid: ctx.handlerActorUuid,
+        name: ctx.name,
+        isMiss: true,
+        isInjured: false,
+        locationDerived: true,
+        locationOverridden: false,
+        addToCharSheet: false,
+        ...aimTraceCardFields(aim),
     };
 }
 

@@ -864,3 +864,98 @@ describe("BodyStructure", () => {
         });
     });
 });
+
+// Zone-Number + Zone-Die aiming (#828). The sample body has zone numbers
+// 1 (headzone) and 2-3 (bodyzone), so maxZoneNumber === 3. With zoneDie === 1
+// the die result is always 1, so hitZoneNumber === targetZoneNumber — which
+// makes the zone/part/location resolution deterministic to assert.
+describe("BodyStructure.aimZone", () => {
+    it("computes Hit ZN = (targetZoneNumber - 1) + zoneDieResult", () => {
+        const body = makeBody();
+        const aim = body.aimZone(
+            { targetZoneNumber: 2, zoneDie: 1 },
+            createRng("aim-hitzn"),
+        );
+        expect(aim.zoneDieResult).toBe(1);
+        expect(aim.hitZoneNumber).toBe(2);
+        expect(aim.targetZoneNumber).toBe(2);
+        expect(aim.zoneDie).toBe(1);
+        expect(aim.isMiss).toBe(false);
+    });
+
+    it("resolves the zone owning the hit zone number, then a part and location within it", () => {
+        const body = makeBody();
+        // Hit ZN 1 -> headzone -> head -> skull|face.
+        const head = body.aimZone(
+            { targetZoneNumber: 1, zoneDie: 1 },
+            createRng("aim-head"),
+        );
+        expect(head.zone?.shortcode).toBe("headzone");
+        expect(head.location?.bodyPart.shortcode).toBe("head");
+        expect(["skull", "face"]).toContain(head.location?.shortcode);
+
+        // Hit ZN 2 -> bodyzone -> thorax -> chest.
+        const body2 = body.aimZone(
+            { targetZoneNumber: 2, zoneDie: 1 },
+            createRng("aim-body"),
+        );
+        expect(body2.zone?.shortcode).toBe("bodyzone");
+        expect(body2.location?.shortcode).toBe("chest");
+    });
+
+    it("is a miss when the hit zone number exceeds the body's max zone number", () => {
+        const body = makeBody();
+        // maxZoneNumber is 3; targetZoneNumber 4 with zoneDie 1 -> Hit ZN 4.
+        const aim = body.aimZone(
+            { targetZoneNumber: 4, zoneDie: 1 },
+            createRng("aim-miss"),
+        );
+        expect(aim.hitZoneNumber).toBe(4);
+        expect(aim.isMiss).toBe(true);
+        expect(aim.zone).toBeUndefined();
+        expect(aim.location).toBeUndefined();
+    });
+
+    it("draws the zone die uniformly in 1..zoneDie", () => {
+        const body = makeBody();
+        const seen = new Set<number>();
+        for (let i = 0; i < 200; i++) {
+            const aim = body.aimZone(
+                { targetZoneNumber: 1, zoneDie: 6 },
+                createRng(`aim-die-${i}`),
+            );
+            expect(aim.zoneDieResult).toBeGreaterThanOrEqual(1);
+            expect(aim.zoneDieResult).toBeLessThanOrEqual(6);
+            expect(aim.hitZoneNumber).toBe(aim.zoneDieResult); // targetZN 1
+            seen.add(aim.zoneDieResult);
+        }
+        // Over 200 draws every face of a d6 should appear.
+        expect(seen.size).toBe(6);
+    });
+
+    it("weights the location draw within the chosen part (skull > face)", () => {
+        const body = makeBody();
+        const counts: Record<string, number> = { skull: 0, face: 0 };
+        for (let i = 0; i < 400; i++) {
+            const aim = body.aimZone(
+                { targetZoneNumber: 1, zoneDie: 1 },
+                createRng(`aim-loc-${i}`),
+            );
+            counts[aim.location!.shortcode]++;
+        }
+        // skull probWeight 10 vs face 5 -> skull is drawn about twice as often.
+        expect(counts.skull).toBeGreaterThan(counts.face);
+    });
+
+    it("clamps a target zone number below 1 up to 1 and a zone die below 1 up to 1", () => {
+        const body = makeBody();
+        const aim = body.aimZone(
+            { targetZoneNumber: 0, zoneDie: 0 },
+            createRng("aim-clamp"),
+        );
+        expect(aim.targetZoneNumber).toBe(1);
+        expect(aim.zoneDie).toBe(1);
+        expect(aim.hitZoneNumber).toBe(1);
+        expect(aim.zone?.shortcode).toBe("headzone");
+    });
+});

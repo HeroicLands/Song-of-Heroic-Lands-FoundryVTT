@@ -161,9 +161,11 @@ import { SohlAction } from "@src/entity/action/SohlAction";
 import {
     AmputationCardInfo,
     buildInjuryCardData,
+    buildMissCardData,
     buildResolveInjuryData,
     createTraumaFromInjury,
     getActorBodyStructure,
+    type InjuryAimTrace,
     readResolveInjuryForm,
     ResolveInjuryData,
 } from "@src/document/actor/logic/injury-actions";
@@ -183,6 +185,37 @@ import {
 import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import type { ImpactResult } from "@src/entity/result/ImpactResult";
 import { DamageCardInput } from "@src/document/combatant/logic/SohlCombatantLogic";
+
+/**
+ * Wire the Resolve Injury dialog's dynamic behaviour: **Target ZN** and **Zone
+ * Die** are enabled and required only while the **Location** is left at its
+ * default "(derive from Target ZN + ZD)"; choosing a specific location disables
+ * and un-requires them. Passed as the dialog's `render` hook, so it runs on the
+ * initial render and every re-render. DOM-only (no Foundry API), and invoked
+ * solely in the browser.
+ * @param element - The dialog's root element.
+ */
+function wireResolveInjuryDialog(element: HTMLElement): void {
+    const form = element.querySelector("form");
+    if (!form) return;
+    const loc = form.querySelector<HTMLSelectElement>(
+        '[name="bodyLocationCode"]',
+    );
+    const zn = form.querySelector<HTMLInputElement>(
+        '[name="targetZoneNumber"]',
+    );
+    const zd = form.querySelector<HTMLInputElement>('[name="zoneDie"]');
+    if (!loc || !zn || !zd) return;
+    const sync = (): void => {
+        const deriving = !loc.value;
+        for (const field of [zn, zd]) {
+            field.disabled = !deriving;
+            field.required = deriving;
+        }
+    };
+    loc.addEventListener("change", sync);
+    sync();
+}
 
 /**
  * A single person, creature, or NPC.
@@ -606,6 +639,17 @@ export class BeingLogic<
             impactResult = context.scope.priorTestResult;
         }
 
+        // Map an aimed body part onto the zone-die vocabulary the resolveInjury
+        // action now consumes: aim at the part's zone (its first zone number),
+        // scattered by the strike-mode spread as the Zone Die. The part lives on
+        // the *target's* body, so resolve the zone number there.
+        const aimPart =
+            impactResult.aimBodyPartCode ?
+                getActorBodyStructure(
+                    context.target?.actorLogic,
+                )?.getPartByCode(impactResult.aimBodyPartCode)
+            :   undefined;
+
         const cardData: DamageCardInput = {
             title:
                 context.scope.mode ?
@@ -624,15 +668,16 @@ export class BeingLogic<
             handlerUuid: context.target?.actorLogic?.uuid ?? "",
             sourceActorUuid: this.uuid,
             // The resolveInjury button's `scope` payload: a plain injury request
-            // built from the impact (matching `injuryButton`), aimed hit-location
-            // forwarded when present so the handler can resolve automatically.
+            // built from the impact (matching `injuryButton`), with the aimed
+            // zone forwarded when present so the handler can resolve the hit
+            // location automatically.
             scopeData: defaultToJSON({
                 impact: impactResult.total,
                 aspect: impactResult.aspect,
-                ...(impactResult.aimBodyPartCode ?
+                ...(aimPart ?
                     {
-                        targetPart: impactResult.aimBodyPartCode,
-                        spread: impactResult.spread,
+                        targetZoneNumber: aimPart.zone.zoneNumbers[0] ?? 1,
+                        zoneDie: impactResult.spread,
                     }
                 :   {}),
             }) as PlainObject,
@@ -2335,7 +2380,15 @@ export class BeingLogic<
         const body = getActorBodyStructure(this);
         if (!body) {
             sohl.log.uiWarn(
-                `${this.name} is incorporeal (no body structure); cannot resolve an injury.`,
+                `${this.name} has no body; it cannot take an injury.`,
+            );
+            return;
+        }
+        // An incorporeal being (empty body — no parts, hence no zones) cannot
+        // take a physical injury: abort with a notice rather than resolving one.
+        if (body.parts.length === 0) {
+            sohl.log.uiWarn(
+                `${this.name} is incorporeal; a physical injury has no effect.`,
             );
             return;
         }
@@ -2346,17 +2399,11 @@ export class BeingLogic<
             context.scope,
             recordSetting !== "disable",
         );
+        // An unset zone die (the sentinel 0) covers the whole body: default it to
+        // the body's max zone number so an unaimed derive can land anywhere.
+        if (data.zoneDie < 1) data.zoneDie = body.maxZoneNumber || 1;
 
-        // A supplied body part or location must exist.
-        if (
-            data.targetBodyPartCode &&
-            !body.getPartByCode(data.targetBodyPartCode)
-        ) {
-            sohl.log.uiWarn(
-                `${this.name}: unknown body part "${data.targetBodyPartCode}".`,
-            );
-            return;
-        }
+        // A supplied hit location must exist.
         if (
             data.bodyLocationCode &&
             !this.findLocation(body, data.bodyLocationCode)
@@ -2367,26 +2414,9 @@ export class BeingLogic<
             return;
         }
 
-        // Derive the hit location from the target part + spread when not given.
-        // With no target part either, aim at a random VITAL part.
-        if (!data.bodyLocationCode) {
-            const targetPart =
-                data.targetBodyPartCode ?
-                    body.getPartByCode(data.targetBodyPartCode)
-                :   body.getRandomPartByRole(BODY_ROLE.VITAL);
-            if (targetPart) data.targetBodyPartCode = targetPart.shortcode;
-            const location =
-                targetPart ?
-                    body.getRandomLocation({
-                        targetPart,
-                        spread: data.spread,
-                    })
-                :   body.getRandomLocation();
-            data.bodyLocationCode = location.shortcode;
-        }
-
-        // Confirm/tune via the dialog; flag a manual location override.
-        const derivedLocationCode = data.bodyLocationCode;
+        // Confirm/tune via the dialog. The Location dropdown defaults to
+        // "(derive from Target ZN + ZD)"; Target ZN and Zone Die drive that
+        // derivation and are enabled/required only while it is selected.
         if (!context.skipDialog) {
             const form = (await dialog({
                 title: `${this.name}: ${sohl.i18n.localize("SOHL.Being.Action.resolveInjury")}`,
@@ -2397,30 +2427,56 @@ export class BeingLogic<
                     hitLocations: body
                         .getAllLocations()
                         .map((l) => ({ code: l.shortcode, name: l.name })),
-                    bodyParts: body.parts.map((p) => ({
-                        code: p.shortcode,
-                        name: p.name,
-                    })),
-                    aspectChoices: Object.values(IMPACT_ASPECT),
+                    aspectChoices: ImpactAspectChoices,
+                    maxZoneNumber: body.maxZoneNumber,
                     ...data,
                 },
                 callback: (formData: PlainObject) =>
                     readResolveInjuryForm(formData),
+                render: wireResolveInjuryDialog,
                 rejectClose: false,
             })) as ResolveInjuryData | null;
             if (!form) return; // dismissed
             Object.assign(data, form);
+            if (data.zoneDie < 1) data.zoneDie = body.maxZoneNumber || 1;
         }
-        data.bodyLocationOverriden =
-            data.bodyLocationCode !== derivedLocationCode;
 
-        const location = this.findLocation(body, data.bodyLocationCode);
-        if (!location) {
-            sohl.log.uiWarn(
-                `${this.name}: unknown hit location "${data.bodyLocationCode}".`,
-            );
-            return;
+        // Determine the hit location: a specified Location is a player override;
+        // otherwise derive it by Zone-Number + Zone-Die aiming, which may miss.
+        let location: BodyLocation | undefined;
+        let aim: InjuryAimTrace | undefined;
+        const locationOverridden = !!data.bodyLocationCode;
+        if (locationOverridden) {
+            location = this.findLocation(body, data.bodyLocationCode);
+            if (!location) {
+                sohl.log.uiWarn(
+                    `${this.name}: unknown hit location "${data.bodyLocationCode}".`,
+                );
+                return;
+            }
+        } else {
+            const result = body.aimZone({
+                targetZoneNumber: data.targetZoneNumber,
+                zoneDie: data.zoneDie,
+            });
+            data.targetZoneNumber = result.targetZoneNumber;
+            data.zoneDie = result.zoneDie;
+            aim = {
+                targetZoneNumber: result.targetZoneNumber,
+                zoneDie: result.zoneDie,
+                zoneDieResult: result.zoneDieResult,
+                hitZoneNumber: result.hitZoneNumber,
+                zoneName: result.zone?.name,
+            };
+            if (result.isMiss || !result.location) {
+                // The blow found no zone — a miss. No injury, no Trauma; post the
+                // no-impact card carrying the aim trace.
+                await this.postInjuryMissCard(aim);
+                return;
+            }
+            location = result.location;
         }
+        data.bodyLocationOverriden = locationOverridden;
 
         // Resolve the injury. Armor reduction applies only to a piercing aspect.
         const injury = resolveInjuryOutcome({
@@ -2467,6 +2523,8 @@ export class BeingLogic<
             recorded,
             finalBleeder,
             amputation,
+            aim,
+            locationOverridden,
         });
     }
 
@@ -2774,6 +2832,8 @@ export class BeingLogic<
      * @param result.recorded - Whether the Trauma was recorded on the sheet.
      * @param result.finalBleeder - Final bleeder disposition (amputation may set it).
      * @param result.amputation - The performed amputation outcome, if any.
+     * @param result.aim - The zone-die aim trace, when the location was derived.
+     * @param result.locationOverridden - Whether the player set the location by hand.
      */
     private async postResolveInjuryCard(
         injury: ResolvedInjury,
@@ -2782,6 +2842,8 @@ export class BeingLogic<
             recorded: boolean;
             finalBleeder: boolean;
             amputation?: AmputationCardInfo;
+            aim?: InjuryAimTrace;
+            locationOverridden: boolean;
         },
     ): Promise<void> {
         const cardData = buildInjuryCardData(injury, {
@@ -2792,6 +2854,26 @@ export class BeingLogic<
             isBleeder: result.finalBleeder,
             treatmentModifier: data.treatmentModifier,
             amputation: result.amputation,
+            aim: result.aim,
+            locationOverridden: result.locationOverridden,
+        });
+        await this.speaker.toChat(
+            toFilePath("systems/sohl/templates/chat/injury-card.hbs"),
+            cardData,
+        );
+    }
+
+    /**
+     * Post the Resolve Injury **miss** card — a zone-die aim whose Hit ZN found
+     * no zone, so the blow finds no target. No injury and no Trauma; the card
+     * shows the aim trace and a "Missed" note.
+     * @param aim - The zone-die aim trace that missed.
+     */
+    private async postInjuryMissCard(aim: InjuryAimTrace): Promise<void> {
+        const cardData = buildMissCardData(aim, {
+            actorId: this.id,
+            handlerActorUuid: this.uuid,
+            name: this.name ?? "",
         });
         await this.speaker.toChat(
             toFilePath("systems/sohl/templates/chat/injury-card.hbs"),

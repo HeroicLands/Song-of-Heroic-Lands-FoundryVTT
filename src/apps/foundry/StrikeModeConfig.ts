@@ -21,7 +21,6 @@ import {
     StrikeModeTypeChoices,
     type StrikeModeType,
 } from "@src/utils/constants";
-import { fvttGetSetting } from "@src/core/FoundryHelpers";
 import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 
 const StrikeModeConfig_Base: any =
@@ -140,7 +139,7 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
     /**
      * Build the render context from the persisted strike mode: its fields, the
      * melee/missile flags the template branches on, the read-only type label, and
-     * the `useZoneDie`-dependent spread label.
+     * the Zone Die spread label.
      *
      * @param _options - The render options (unused).
      * @returns The template context describing the current strike mode.
@@ -156,7 +155,6 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
                 selected: value === sm.impactBase?.aspect,
             }),
         );
-        const useZoneDie = !!fvttGetSetting("sohl", "useZoneDie");
         return {
             sm,
             smType,
@@ -169,8 +167,8 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
             isMulti: this.#isMulti,
             isMelee: smType === STRIKE_MODE_TYPE.MELEE,
             isMissile: smType === STRIKE_MODE_TYPE.MISSILE,
-            // HMK "Use Zone Die" relabels the melee attack spread (#327).
-            spreadLabel: useZoneDie ? "Zone Die" : "Spread",
+            // The melee attack scatter is always presented as a Zone Die.
+            spreadLabel: "Zone Die",
             aspectOptions,
         };
     }
