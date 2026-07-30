@@ -1,0 +1,469 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!-- Being print / export view (#795). A dedicated, document-first character
+      record rendered from the SAME view-models as the interactive sheet — all
+      sections at once, static text (no inputs, no rollable cells, no chrome),
+      paginated for print / PDF / save-HTML. See docs/concepts/css-architecture
+      and the Being-sheet redesign epic (#782 §4.13). --}}
+<article class="being-print">
+
+    {{!-- Letterhead: title rule + identity block. The color-coded header
+          lozenges/pills are re-expressed here as print-safe text summaries. --}}
+    <header class="being-print__letterhead">
+        <div class="being-print__masthead">
+            <span class="being-print__masthead-title">{{localize "SOHL.Print.masthead"}}</span>
+            {{#if printedOn}}<span class="being-print__masthead-date">{{printedOn}}</span>{{/if}}
+        </div>
+        <div class="being-print__identity">
+            <div class="being-print__identity-text">
+                <h1 class="being-print__name">{{actorName}}{{#if shortcode}}
+                    <span class="being-print__shortcode">{{shortcode}}</span>{{/if}}</h1>
+                {{#if healthLine}}
+                <div class="being-print__meta"><span class="being-print__meta-label">{{localize "Health"}}</span>
+                    {{healthLine}}</div>
+                {{/if}}
+                <div class="being-print__meta"><span class="being-print__meta-label">{{localize "SOHL.Print.status"}}</span>
+                    {{#if statusSummary}}{{statusSummary}}{{else}}{{localize "SOHL.Print.none"}}{{/if}}</div>
+                <div class="being-print__meta"><span class="being-print__meta-label">{{localize "SOHL.Print.injuries"}}</span>
+                    {{#if injurySummary}}{{injurySummary}}{{else}}{{localize "SOHL.Print.none"}}{{/if}}</div>
+            </div>
+        </div>
+    </header>
+
+    {{!-- Band A — a three-column magazine row: the attribute roster, the
+          portrait, and the descriptive prose (the `appearance` field). Each
+          column carries its own rubric section header. --}}
+    <div class="being-print__band being-print__band--top">
+        <div class="being-print__col being-print__col--attributes">
+            <h2 class="being-print__section-title">{{localize "TYPES.Item.attributePl"}}</h2>
+            {{#if attributes.length}}
+            <table class="being-print__table being-print__table--attributes">
+                <thead>
+                    <tr>
+                        <th>{{localize "SOHL.Print.attrName"}}</th>
+                        <th class="num">{{localize "SOHL.Print.score"}}</th>
+                        <th class="num" data-title="Mastery Level">{{localize "SOHL.Print.tl"}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each attributes as |attr|}}
+                    <tr>
+                        <td>{{attr.name}}{{#if attr.descriptor}} <span class="being-print__inline-desc">{{attr.descriptor}}</span>{{/if}}</td>
+                        <td class="num">{{attr.score}}</td>
+                        <td class="num">{{attr.tl}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            {{/if}}
+        </div>
+        <div class="being-print__col being-print__col--portrait">
+            <h2 class="being-print__section-title">{{localize "SOHL.Print.portrait"}}</h2>
+            {{#if actorImg}}
+            <img class="being-print__portrait" src="{{actorImg}}" alt="{{actorName}}" />
+            {{/if}}
+        </div>
+        <div class="being-print__col being-print__col--description">
+            <h2 class="being-print__section-title">{{localize "SOHL.Print.description"}}</h2>
+            {{#if appearanceHTML}}
+            <div class="being-print__prose">{{{appearanceHTML}}}</div>
+            {{/if}}
+        </div>
+    </div>
+
+    {{!-- Band B — movement beside affiliations. --}}
+    <div class="being-print__band being-print__band--split">
+        <div class="being-print__col being-print__col--movement">
+            <h2 class="being-print__section-title">{{localize "SOHL.Actor.SHEET.tab.movement.label"}}</h2>
+            {{#if movement.length}}
+            <table class="being-print__table">
+                <thead>
+                    <tr>
+                        <th>{{localize "SOHL.Print.medium"}}</th>
+                        <th class="num" data-title="Feet per Round">{{localize "SOHL.Print.ftRd"}}</th>
+                        <th class="num" data-title="Leagues per Watch">{{localize "SOHL.Print.lgsWatch"}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each movement as |row|}}
+                    <tr>
+                        <td>{{localize row.label}}{{#if row.isCurrent}} <span class="being-print__tag">{{localize "SOHL.Print.current"}}</span>{{/if}}</td>
+                        <td class="num">{{row.value}}</td>
+                        <td class="num">{{row.leagues}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            {{/if}}
+        </div>
+        <div class="being-print__col being-print__col--affiliations">
+            <h2 class="being-print__section-title">{{localize "TYPES.Item.affiliationPl"}}</h2>
+            {{#if affiliations.length}}
+            <table class="being-print__table">
+                <thead>
+                    <tr>
+                        <th>{{localize "Name"}}</th>
+                        <th class="num">{{localize "SOHL.Affiliation.FIELDS.level.label"}}</th>
+                        <th>{{localize "SOHL.Affiliation.FIELDS.society.label"}}</th>
+                        <th>{{localize "SOHL.Affiliation.FIELDS.office.label"}}</th>
+                        <th>{{localize "SOHL.Affiliation.FIELDS.title.label"}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each affiliations as |aff|}}
+                    <tr>
+                        <td>{{aff.name}}</td>
+                        <td class="num">{{aff.level}}</td>
+                        <td>{{aff.society}}</td>
+                        <td>{{aff.office}}</td>
+                        <td>{{aff.title}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            {{/if}}
+        </div>
+    </div>
+
+    {{!-- Skills — one compact per-subtype table, laid out as magazine columns
+          (present-only). Each subtype gets its own rubric header, mirroring the
+          Attributes/Portrait/Description band above. --}}
+    {{#if hasSkills}}
+    <div class="being-print__skill-columns">
+        {{#each skillGroups as |group|}}
+        {{#if group.skills.length}}
+        <div class="being-print__skill-group">
+            <h2 class="being-print__section-title">{{group.label}}</h2>
+            <table class="being-print__table being-print__table--skill">
+                <thead>
+                    <tr>
+                        <th>{{localize "SOHL.Print.attrName"}}</th>
+                        <th class="num" data-title="Skill Base">SB</th>
+                        <th class="num" data-title="Mastery Level">ML</th>
+                        <th class="num" data-title="Effective Mastery Level">EML</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each group.skills as |skill|}}
+                    <tr>
+                        <td>{{skill.name}}</td>
+                        <td class="num">{{skill.sb}}</td>
+                        <td class="num">{{skill.ml}}</td>
+                        <td class="num">{{#if skill.disabled}}{{emDash}}{{else}}{{skill.eml}}{{/if}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        {{/if}}
+        {{/each}}
+    </div>
+    {{/if}}
+
+    {{!-- Combat: melee & missile strike modes (flattened to static cells) --}}
+    {{#if hasCombat}}
+    <section class="being-print__section">
+        <h2 class="being-print__section-title">{{localize "SOHL.Actor.SHEET.tab.combat.label"}}</h2>
+
+        {{#if meleeStrikeModes.length}}
+        <h3 class="being-print__subhead">{{localize "SOHL.Print.meleeStrikeModes"}}</h3>
+        <table class="being-print__table">
+            <thead>
+                <tr>
+                    <th>{{localize "SOHL.Print.mode"}}</th>
+                    <th class="num" data-title="Heft">HFT</th>
+                    <th class="num" data-title="Reach">RCH</th>
+                    <th class="num" data-title="Zone Die">{{localize "SOHL.Print.zd"}}</th>
+                    <th class="num" data-title="Impact">Impact</th>
+                    <th class="num" data-title="Attack">Atk</th>
+                    <th class="num" data-title="Block">Blk</th>
+                    <th class="num" data-title="Counterstrike">CX</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each meleeStrikeModes as |entry|}}
+                <tr class="being-print__group-row">
+                    <td colspan="8">{{entry.weaponName}}</td>
+                </tr>
+                {{#each entry.modes as |sm|}}
+                <tr>
+                    <td>{{sm.name}}</td>
+                    <td class="num">{{sm.heft}}</td>
+                    <td class="num">{{sm.reach}}</td>
+                    <td class="num">{{sm.spread}}</td>
+                    <td class="num">{{sm.impact}}</td>
+                    <td class="num">{{sm.attack}}</td>
+                    <td class="num">{{sm.block}}</td>
+                    <td class="num">{{sm.counterstrike}}</td>
+                </tr>
+                {{/each}}
+                {{/each}}
+            </tbody>
+        </table>
+        {{/if}}
+
+        {{#if missileStrikeModes.length}}
+        <h3 class="being-print__subhead">{{localize "SOHL.Print.missileStrikeModes"}}</h3>
+        <table class="being-print__table">
+            <thead>
+                <tr>
+                    <th>{{localize "SOHL.Print.mode"}}</th>
+                    <th class="num" data-title="Draw">Draw</th>
+                    <th class="num" data-title="Base Range">BR</th>
+                    <th class="num" data-title="Max Volley Multiplier">MaxVM</th>
+                    <th class="num" data-title="Impact">Impact</th>
+                    <th class="num" data-title="Attack">Atk</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each missileStrikeModes as |entry|}}
+                <tr class="being-print__group-row">
+                    <td colspan="6">{{entry.weaponName}}</td>
+                </tr>
+                {{#each entry.modes as |sm|}}
+                <tr>
+                    <td>{{sm.name}}</td>
+                    <td class="num">{{sm.draw}}</td>
+                    <td class="num">{{sm.baseRange}}</td>
+                    <td class="num">{{sm.maxVolley}}</td>
+                    <td class="num">{{sm.impact}}</td>
+                    <td class="num">{{sm.attack}}</td>
+                </tr>
+                {{/each}}
+                {{/each}}
+            </tbody>
+        </table>
+        {{/if}}
+    </section>
+    {{/if}}
+
+    {{!-- Body: anatomy protection reference (zone → part → location) --}}
+    {{#if bodyZones.length}}
+    <section class="being-print__section">
+        <h2 class="being-print__section-title">{{localize "SOHL.Being.Heading.BodyStructure"}}</h2>
+        <table class="being-print__table">
+            <thead>
+                <tr>
+                    <th>{{localize "SOHL.Print.location"}}</th>
+                    <th>{{localize "SOHL.Print.material"}}</th>
+                    <th class="num" data-title="Blunt">B</th>
+                    <th class="num" data-title="Edged">E</th>
+                    <th class="num" data-title="Piercing">P</th>
+                    <th class="num" data-title="Fire">F</th>
+                    <th class="num" data-title="Shock">Shk</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each bodyZones as |zone|}}
+                {{#each zone.parts as |part|}}
+                <tr class="being-print__group-row">
+                    <td colspan="7">{{zone.label}} · {{part.label}}{{#if part.role}} <span class="being-print__tag">{{part.role}}</span>{{/if}}</td>
+                </tr>
+                {{#each part.locations as |loc|}}
+                <tr>
+                    <td>{{loc.name}}</td>
+                    <td>{{#if loc.layers}}{{loc.layers}}{{else}}{{emDash}}{{/if}}</td>
+                    <td class="num">{{loc.blunt}}</td>
+                    <td class="num">{{loc.edged}}</td>
+                    <td class="num">{{loc.piercing}}</td>
+                    <td class="num">{{loc.fire}}</td>
+                    <td class="num">{{loc.shock}}</td>
+                </tr>
+                {{/each}}
+                {{/each}}
+                {{/each}}
+            </tbody>
+        </table>
+    </section>
+    {{/if}}
+
+    {{!-- Trauma: injuries then afflictions, each grouped present-only --}}
+    {{#if hasInjuries}}
+    <section class="being-print__section">
+        <h2 class="being-print__section-title">{{localize "SOHL.Print.injuriesHeading"}}</h2>
+        {{#each injurySections as |section|}}
+        {{#if section.injuries.length}}
+        <h3 class="being-print__subhead">{{section.label}}</h3>
+        <table class="being-print__table">
+            <thead>
+                <tr>
+                    <th>{{localize "SOHL.Print.trauma"}}</th>
+                    <th class="num" data-title="Severity">Sev</th>
+                    <th class="num" data-title="Healing Rate">HR</th>
+                    <th>{{localize "SOHL.Print.aspect"}}</th>
+                    <th>{{localize "SOHL.Print.area"}}</th>
+                    <th class="num" data-title="Bleeding">Bld</th>
+                    <th>{{localize "SOHL.Item.FIELDS.notes.label"}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each section.injuries as |injury|}}
+                <tr>
+                    <td>{{injury.name}}</td>
+                    <td class="num">{{#if injury.healed}}{{localize "SOHL.Print.healed"}}{{else}}{{injury.severity}}{{/if}}</td>
+                    <td class="num">{{#if injury.healingRateDisabled}}{{emDash}}{{else}}{{#unless injury.isTreated}}NT{{/unless}}{{injury.healingRate}}{{/if}}</td>
+                    <td>{{injury.aspect}}</td>
+                    <td>{{injury.area}}</td>
+                    <td class="num">{{#if injury.isBleeding}}{{localize "SOHL.Print.yes"}}{{else}}{{localize "SOHL.Print.no"}}{{/if}}</td>
+                    <td class="notes">{{injury.notes}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{/if}}
+        {{/each}}
+    </section>
+    {{/if}}
+
+    {{#if hasAfflictions}}
+    <section class="being-print__section">
+        <h2 class="being-print__section-title">{{localize "SOHL.Print.afflictionsHeading"}}</h2>
+        {{#each afflictionGroups as |group|}}
+        {{#if group.afflictions.length}}
+        <h3 class="being-print__subhead">{{group.label}}</h3>
+        <table class="being-print__table">
+            <thead>
+                <tr>
+                    <th>{{localize "SOHL.Print.affliction"}}</th>
+                    <th>{{localize "SOHL.Print.level"}}</th>
+                    <th class="num" data-title="Healing Rate">HR</th>
+                    <th>{{localize "SOHL.Print.source"}}</th>
+                    <th>{{localize "SOHL.Item.FIELDS.notes.label"}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each group.afflictions as |aff|}}
+                <tr>
+                    <td>{{aff.name}}</td>
+                    <td>{{aff.level}}</td>
+                    <td class="num">{{#if aff.healingRateDisabled}}{{emDash}}{{else}}{{aff.healingRate}}{{/if}}</td>
+                    <td>{{aff.source}}</td>
+                    <td class="notes">{{aff.notes}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{/if}}
+        {{/each}}
+    </section>
+    {{/if}}
+
+    {{!-- Mysteries & mystical abilities (flattened to static rows) --}}
+    {{#if mysteryRows.length}}
+    <section class="being-print__section">
+        <h2 class="being-print__section-title">{{localize "SOHL.Print.mysteriesHeading"}}</h2>
+        <table class="being-print__table">
+            <thead>
+                <tr>
+                    <th>{{localize "SOHL.Print.mystery"}}</th>
+                    <th>{{localize "SOHL.Print.skill"}}</th>
+                    <th class="num">{{localize "SOHL.Print.level"}}</th>
+                    <th class="num">{{localize "SOHL.Print.charges"}}</th>
+                    <th>{{localize "SOHL.Item.FIELDS.notes.label"}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each mysteryRows as |row|}}
+                <tr>
+                    <td>{{row.name}}</td>
+                    <td>{{#if row.skill}}{{row.skill}}{{else}}{{emDash}}{{/if}}</td>
+                    <td class="num">{{row.level}}</td>
+                    <td class="num">{{row.charges}}</td>
+                    <td class="notes">{{row.notes}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </section>
+    {{/if}}
+
+    {{#if abilityRows.length}}
+    <section class="being-print__section">
+        <h2 class="being-print__section-title">{{localize "SOHL.Print.abilitiesHeading"}}</h2>
+        <table class="being-print__table">
+            <thead>
+                <tr>
+                    <th>{{localize "SOHL.Print.ability"}}</th>
+                    <th>{{localize "SOHL.Print.skill"}}</th>
+                    <th class="num">{{localize "SOHL.Print.level"}}</th>
+                    <th class="num" data-title="Mastery Level">ML</th>
+                    <th class="num">{{localize "SOHL.Print.charges"}}</th>
+                    <th>{{localize "SOHL.Item.FIELDS.notes.label"}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each abilityRows as |row|}}
+                <tr>
+                    <td>{{row.name}}</td>
+                    <td>{{#if row.skill}}{{row.skill}}{{else}}{{emDash}}{{/if}}</td>
+                    <td class="num">{{row.level}}</td>
+                    <td class="num">{{row.ml}}</td>
+                    <td class="num">{{row.charges}}</td>
+                    <td class="notes">{{row.notes}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </section>
+    {{/if}}
+
+    {{!-- Gear: On Body then each container --}}
+    {{#if hasGear}}
+    <section class="being-print__section">
+        <h2 class="being-print__section-title">{{localize "SOHL.Actor.SHEET.tab.gear.label"}}</h2>
+        {{#each gearSections as |gsec|}}
+        <h3 class="being-print__subhead">{{gsec.title}}<span class="being-print__subhead-meta">{{gsec.capacityText}}</span></h3>
+        {{#if gsec.items.length}}
+        <table class="being-print__table">
+            <thead>
+                <tr>
+                    <th>{{localize "SOHL.Print.item"}}</th>
+                    <th>{{localize "SOHL.Print.type"}}</th>
+                    <th class="num" data-title="Quantity">Qty</th>
+                    <th class="num" data-title="Weight">Wt</th>
+                    <th class="num" data-title="Quality">Qual</th>
+                    <th class="num" data-title="Durability">Dur</th>
+                    <th>{{localize "SOHL.Item.FIELDS.notes.label"}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each gsec.items as |item|}}
+                <tr>
+                    <td>{{item.name}}{{#if item.isWorn}} <span class="being-print__tag">{{localize "SOHL.Print.worn"}}</span>{{/if}}{{#if item.isCarried}} <span class="being-print__tag">{{localize "SOHL.Print.carried"}}</span>{{/if}}</td>
+                    <td>{{item.typeLabel}}</td>
+                    <td class="num">{{item.quantity}}</td>
+                    <td class="num">{{item.weight}}</td>
+                    <td class="num">{{item.quality}}</td>
+                    <td class="num">{{item.durability}}</td>
+                    <td class="notes">{{item.notes}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{else}}
+        <p class="being-print__empty">{{localize "SOHL.Print.emptyContainer"}}</p>
+        {{/if}}
+        {{/each}}
+    </section>
+    {{/if}}
+
+    {{!-- Biography / dossier (enriched rich text) --}}
+    {{#if dossierHTML}}
+    <section class="being-print__section being-print__section--prose">
+        <h2 class="being-print__section-title">{{localize "SOHL.Actor.SHEET.profile.biography.label"}}</h2>
+        <div class="being-print__prose">{{{dossierHTML}}}</div>
+    </section>
+    {{/if}}
+
+</article>

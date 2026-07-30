@@ -21,6 +21,7 @@ import {
 } from "@src/core/foundry/sheet-actions";
 import {
     fvttCallHook,
+    fvttEnrichHTML,
     fvttGetSetting,
     fvttRenderSheet,
 } from "@src/core/FoundryHelpers";
@@ -76,6 +77,15 @@ import {
     filterHeldWeapons,
     splitWeaponsByRange,
 } from "@src/document/actor/logic/being-sheet-view";
+import {
+    formatPrintHealthLine,
+    summarizeActiveStatuses,
+    summarizeInjuredParts,
+    formatPrintChargesDisplay,
+    formatPrintLevel,
+    PRINT_EM_DASH,
+} from "@src/document/actor/logic/being-print-view";
+import type { BodyPartStatus } from "@src/entity/body/impairment";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
@@ -1007,8 +1017,30 @@ export class BeingSheet extends SohlActorSheetBase {
             editAction: BeingSheet._onEditAction,
             deleteAction: BeingSheet._onDeleteAction,
             makeDefaultMedium: BeingSheet._onMakeDefaultMedium,
+            printSheet: BeingSheet._onPrintSheet,
         },
     };
+
+    /**
+     * Add the window-header **print** control (#795). Clicking it renders the
+     * dedicated, document-first print/export view (all sections at once, static
+     * text) into a new browser window and opens that window's print dialog — from
+     * which the viewer chooses print-to-printer, save-as-PDF, or (cancel and)
+     * save-HTML, all native browser behavior. The control is available to any
+     * viewer of the sheet (no GM gating), matching the read-only nature of a
+     * character record.
+     *
+     * @returns The header-control entries, with the print control appended.
+     */
+    protected override _getHeaderControls(): foundry.applications.api.ApplicationV2.HeaderControlsEntry[] {
+        const controls = super._getHeaderControls();
+        controls.push({
+            icon: "fa-solid fa-print",
+            label: "SOHL.Print.control",
+            action: "printSheet",
+        });
+        return controls;
+    }
 
     /**
      * Handle clicks on an item-create control (class `item-create`,
@@ -1030,6 +1062,393 @@ export class BeingSheet extends SohlActorSheetBase {
         if (type) data.type = type;
         if (subType) data.system = { subType };
         await SohlItem.createDialog(data, { parent: this.document });
+    }
+
+    /* -------------------------------------------- */
+    /*  Print / Export (#795)                       */
+    /* -------------------------------------------- */
+
+    /**
+     * `data-action="printSheet"` (window-header print control): render the
+     * being's dedicated print/export view — the same view-models the tabs use,
+     * re-presented as one static, paginated character record — into a **new
+     * browser window** and open that window's print dialog. The viewer then
+     * chooses printer / PDF / (cancel and) save-HTML natively; SoHL adds no
+     * further UI.
+     *
+     * The header-control click is a user gesture, so `window.open` is not
+     * popup-blocked. Reference assets (portrait, fonts, the system stylesheet)
+     * load by **absolute URL** so they resolve in the detached window, and
+     * `print()` fires only after the window's `load` (and a fonts-ready tick) so
+     * styles and web fonts are applied first.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param _target - The clicked print control (unused).
+     */
+    protected static async _onPrintSheet(
+        this: BeingSheet,
+        _event: PointerEvent,
+        _target: HTMLElement,
+    ): Promise<void> {
+        const doc = await this._renderPrintDocument();
+
+        // The header-control click is a user gesture, so this is not blocked.
+        const win = window.open("", "_blank", "width=880,height=1100");
+        if (!win) {
+            sohl.log.uiWarn(
+                "Could not open a print window — please allow pop-ups for this site.",
+            );
+            return;
+        }
+        win.document.open();
+        win.document.write(doc);
+        win.document.close();
+
+        // Fire print() only after styles + web fonts have loaded, so the record
+        // is laid out before the dialog snapshots it. `load` covers the linked
+        // stylesheet and images; `document.fonts.ready` covers the web fonts.
+        const fire = (): void => {
+            try {
+                win.focus();
+                win.print();
+            } catch {
+                /* the viewer closed the window before it could print */
+            }
+        };
+        const gate = (): void => {
+            const fonts = (
+                win.document as { fonts?: { ready?: Promise<unknown> } }
+            ).fonts;
+            if (fonts?.ready) void fonts.ready.then(fire);
+            else fire();
+        };
+        if (win.document.readyState === "complete") gate();
+        else win.addEventListener("load", gate, { once: true });
+    }
+
+    /**
+     * Assemble the full standalone HTML document for the print/export window:
+     * the rendered print view wrapped in a minimal page that links the system
+     * stylesheet by **absolute URL** (so it resolves in the detached window) and
+     * carries the `@page` margins and body reset the print form needs. The print
+     * view itself is trusted, system-authored markup, so it is rendered
+     * **unsanitized** (`renderTemplate`, not the card sanitizer) — only the two
+     * enriched rich-text fields carry user content, and those are enriched
+     * through Foundry's own pipeline in {@link _buildPrintContext}.
+     *
+     * @returns The complete `<!doctype html>` document string.
+     */
+    protected async _renderPrintDocument(): Promise<string> {
+        const context = await this._buildPrintContext();
+        const body = await foundry.applications.handlebars.renderTemplate(
+            "systems/sohl/templates/actor/being/print.hbs",
+            context,
+        );
+        const cssHref = `${window.location.origin}/systems/sohl/css/sohl.css`;
+        const title = `${this.document.name ?? "Character"} — ${game.i18n.localize(
+            "SOHL.Print.masthead",
+        )}`;
+        // `@page` and the body reset are inlined (a fixed literal, no data) so
+        // they apply only to this detached window and never to Foundry's own
+        // print path; all visual styling lives in the linked stylesheet.
+        // Force the light theme: the Manuscript light palette IS the print form,
+        // and it must not flip to the dark token swap when the viewer's browser
+        // prefers dark (`prefers-color-scheme`), which would waste ink and read
+        // wrong on paper (#782 — light-first / print-native).
+        return `<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<title>${foundry.utils.escapeHTML(title)}</title>
+<link rel="stylesheet" href="${cssHref}" />
+<style>
+@page { margin: 16mm 14mm; }
+html, body { margin: 0; padding: 0; background: #fff; }
+</style>
+</head>
+<body class="sohl">${body}</body>
+</html>`;
+    }
+
+    /**
+     * Build the render context for the print/export view (#795) by reusing the
+     * interactive sheet's own `_prepare*Context` builders — the **same** data
+     * layer — and re-presenting it for a static record: the letterhead's
+     * health/status/injury summary lines (the color-coded header pills and
+     * lozenges have no meaning in grayscale print), the two rich-text fields
+     * enriched to static HTML, and the combat strike modes / mysteries / gear
+     * flattened from interactive (icon + tooltip) cells to plain text.
+     *
+     * @returns The print-view render context.
+     */
+    protected async _buildPrintContext(): Promise<PlainObject> {
+        const opts = {} as RenderOptions;
+        const rc = (): RenderContext => ({}) as RenderContext;
+        const h = (await this._prepareHeaderContext(rc(), opts)) as PlainObject;
+        const profile = (await this._prepareProfileContext(
+            rc(),
+            opts,
+        )) as PlainObject;
+        const skills = (await this._prepareSkillsContext(
+            rc(),
+            opts,
+        )) as PlainObject;
+        const combat = (await this._prepareCombatContext(
+            rc(),
+            opts,
+        )) as PlainObject;
+        const trauma = (await this._prepareTraumaContext(
+            rc(),
+            opts,
+        )) as PlainObject;
+        const mysteries = (await this._prepareMysteriesContext(
+            rc(),
+            opts,
+        )) as PlainObject;
+        const gear = (await this._prepareGearContext(
+            rc(),
+            opts,
+        )) as PlainObject;
+        const system = this.document.system as PlainObject;
+
+        // Letterhead summaries — the print-safe re-expression of the header's
+        // color-coded status pills and body-part lozenges (#464 print rule).
+        const healthLine =
+            (h.health as unknown) ?
+                formatPrintHealthLine(
+                    h.healthBand as string | undefined,
+                    (h.healthPct as number) ?? 0,
+                )
+            :   "";
+        const statusSummary = summarizeActiveStatuses(
+            (h.statusEffects as Parameters<
+                typeof summarizeActiveStatuses
+            >[0]) ?? [],
+            (key) => game.i18n.localize(key),
+        );
+        const injurySummary = summarizeInjuredParts(
+            (h.bodyParts as Parameters<typeof summarizeInjuredParts>[0]) ?? [],
+            (status: BodyPartStatus) =>
+                game.i18n.localize(`SOHL.Print.impair.${status}`),
+        );
+
+        // Enrich the two rich-text fields to static HTML (a detached window has
+        // no <prose-mirror> element to hydrate them).
+        const appearanceHTML = await fvttEnrichHTML(
+            (system.appearance as string) ?? "",
+        );
+        const dossierHTML = await fvttEnrichHTML(
+            (system.dossier as string) ?? "",
+        );
+
+        // Flatten combat strike modes to static cells (disabled → em dash).
+        const cell = (mod: PlainObject | undefined): string =>
+            !mod || mod.disabled ? PRINT_EM_DASH : String(mod.effective ?? "");
+        const impactCell = (mod: PlainObject | undefined): string =>
+            !mod || mod.disabled ?
+                PRINT_EM_DASH
+            :   String(mod.label ?? mod.effective ?? "");
+        // The strike-mode spread is presented as a Zone Die (column "ZD"): the
+        // effective value in `d`-notation (e.g. `d6`), never a bare radius.
+        const zoneDieCell = (mod: PlainObject | undefined): string => {
+            const n = mod?.effective;
+            return n == null ? PRINT_EM_DASH : `d${n}`;
+        };
+        const flattenMelee = (groups: PlainObject[] = []): PlainObject[] =>
+            groups.map((g) => ({
+                weaponName: (g.weapon as PlainObject)?.name ?? "",
+                modes: ((g.strikeModes as PlainObject[]) ?? []).map((sm) => ({
+                    name: sm.name,
+                    heft: cell(sm.heft as PlainObject),
+                    reach: cell(sm.reach as PlainObject),
+                    spread: zoneDieCell(sm.spread as PlainObject),
+                    impact: impactCell(sm.impact as PlainObject),
+                    attack: cell(sm.attack as PlainObject),
+                    block: cell(
+                        (sm.defense as PlainObject)?.block as PlainObject,
+                    ),
+                    counterstrike: cell(
+                        (sm.defense as PlainObject)
+                            ?.counterstrike as PlainObject,
+                    ),
+                })),
+            }));
+        const flattenMissile = (groups: PlainObject[] = []): PlainObject[] =>
+            groups.map((g) => ({
+                weaponName: (g.weapon as PlainObject)?.name ?? "",
+                modes: ((g.strikeModes as PlainObject[]) ?? []).map((sm) => ({
+                    name: sm.name,
+                    draw: cell(sm.draw as PlainObject),
+                    baseRange: cell(sm.baseRange as PlainObject),
+                    maxVolley: String(sm.maxVolleyMult ?? PRINT_EM_DASH),
+                    impact: impactCell(sm.impact as PlainObject),
+                    attack: cell(sm.attack as PlainObject),
+                })),
+            }));
+        const meleeStrikeModes = flattenMelee(
+            combat.meleeStrikeModes as PlainObject[],
+        );
+        const missileStrikeModes = flattenMissile(
+            combat.missileStrikeModes as PlainObject[],
+        );
+
+        // Flatten mysteries / mystical abilities to static rows.
+        const mysteryRows: PlainObject[] = [];
+        for (const section of (mysteries.mysterySections as PlainObject[]) ??
+            []) {
+            for (const item of (section.items as SohlItem[]) ?? []) {
+                const ml = item.logic as PlainObject | undefined;
+                mysteryRows.push(
+                    this._mysticalRow(item, ml, {
+                        signed: true,
+                        withMl: false,
+                    }),
+                );
+            }
+        }
+        const abilityRows: PlainObject[] = [];
+        for (const section of (mysteries.abilitySections as PlainObject[]) ??
+            []) {
+            for (const item of (section.items as SohlItem[]) ?? []) {
+                const ml = item.logic as PlainObject | undefined;
+                abilityRows.push(
+                    this._mysticalRow(item, ml, {
+                        signed: false,
+                        withMl: true,
+                    }),
+                );
+            }
+        }
+
+        // Flatten gear (On Body + each container) into printable sections.
+        const onBody = gear.onBody as PlainObject;
+        const containers = (gear.containers as PlainObject[]) ?? [];
+        const gearSections: PlainObject[] = [
+            {
+                title: game.i18n.localize("SOHL.Print.onBody"),
+                capacityText: `${game.i18n.localize("SOHL.Print.carriedLabel")} ${
+                    (onBody.capacity as PlainObject)?.used ?? 0
+                } lb · ${game.i18n.localize("SOHL.Print.encLabel")} ${
+                    (onBody.capacity as PlainObject)?.encumbrance ?? 0
+                }`,
+                items: onBody.items,
+            },
+            ...containers.map((c) => ({
+                title: c.name,
+                capacityText: `${game.i18n.localize("SOHL.Print.capacityLabel")} ${
+                    (c.capacity as PlainObject)?.used ?? 0
+                }/${(c.capacity as PlainObject)?.max ?? 0}`,
+                items: c.items,
+            })),
+        ];
+
+        // Movement rows for print carry the strategic pace (leagues/watch)
+        // beside the tactical one (feet/round); the interactive profile view
+        // only surfaces feet/round, so the leagues are zipped in by medium here.
+        const leaguesByMedium = new Map<string, number>();
+        for (const p of (this.document.logic as BeingLogic | undefined)?.data
+            .movementProfiles ?? []) {
+            leaguesByMedium.set(p.medium, p.leaguesPerWatch ?? 0);
+        }
+        const movement = ((profile.movement as PlainObject[]) ?? []).map(
+            (row) => ({
+                ...row,
+                leagues: leaguesByMedium.get(row.medium as string) ?? 0,
+            }),
+        );
+
+        const skillGroups = (skills.skillGroups as PlainObject[]) ?? [];
+        const injurySections = (trauma.injurySections as PlainObject[]) ?? [];
+        const afflictionGroups =
+            (trauma.afflictionGroups as PlainObject[]) ?? [];
+
+        return {
+            emDash: PRINT_EM_DASH,
+            printedOn: new Date().toLocaleDateString(),
+            actorName: this.document.name,
+            shortcode: system.shortcode ?? "",
+            actorImg: (system.portrait as string) || this.document.img,
+            healthLine,
+            statusSummary,
+            injurySummary,
+            appearanceHTML,
+            dossierHTML,
+            attributes: profile.attributes,
+            affiliations: profile.affiliations,
+            movement,
+            bodyZones: profile.bodyZones,
+            skillGroups,
+            hasSkills: skillGroups.some(
+                (g) => ((g.skills as unknown[]) ?? []).length > 0,
+            ),
+            meleeStrikeModes,
+            missileStrikeModes,
+            hasCombat:
+                meleeStrikeModes.length > 0 || missileStrikeModes.length > 0,
+            injurySections,
+            hasInjuries: injurySections.some(
+                (s) => ((s.injuries as unknown[]) ?? []).length > 0,
+            ),
+            afflictionGroups,
+            hasAfflictions: afflictionGroups.some(
+                (g) => ((g.afflictions as unknown[]) ?? []).length > 0,
+            ),
+            mysteryRows,
+            abilityRows,
+            gearSections,
+            hasGear:
+                ((onBody.items as unknown[]) ?? []).length > 0 ||
+                containers.length > 0,
+        };
+    }
+
+    /**
+     * Shape one mystery / mystical-ability item into a static print row, reading
+     * its logic for the associated skill, level, optional mastery level, and
+     * charge pool and formatting each through the Foundry-free print formatters.
+     *
+     * @param item - The mystery or mystical-ability item.
+     * @param ml - The item's logic (read for computed level/charges).
+     * @param options - Row-shape options.
+     * @param options.signed - Whether the level is rendered signed (mysteries).
+     * @param options.withMl - Whether to include a mastery-level cell (abilities).
+     * @returns The flattened print row.
+     */
+    private _mysticalRow(
+        item: SohlItem,
+        ml: PlainObject | undefined,
+        options: { signed: boolean; withMl: boolean },
+    ): PlainObject {
+        const level = ml?.level as PlainObject | undefined;
+        const charges = ml?.charges as PlainObject | undefined;
+        const chargeValue = charges?.value as PlainObject | undefined;
+        const chargeMax = charges?.max as PlainObject | undefined;
+        const masteryLevel = ml?.masteryLevel as PlainObject | undefined;
+        const row: PlainObject = {
+            name: item.name,
+            skill: (ml?.assocSkill as PlainObject | undefined)?.name ?? "",
+            level: formatPrintLevel(
+                !!level?.disabled,
+                (level?.effective as number) ?? 0,
+                { signed: options.signed },
+            ),
+            charges: formatPrintChargesDisplay({
+                valueDisabled: !!chargeValue?.disabled,
+                maxDisabled: !!chargeMax?.disabled,
+                value: (chargeValue?.effective as number) ?? 0,
+                max: (chargeMax?.effective as number) ?? 0,
+            }),
+            notes: htmlToPlainText(
+                (item.system as PlainObject).notes as string,
+            ),
+        };
+        if (options.withMl) {
+            row.ml =
+                masteryLevel?.disabled ? PRINT_EM_DASH : (
+                    String((masteryLevel?.effective as number) ?? "")
+                );
+        }
+        return row;
     }
 
     /**

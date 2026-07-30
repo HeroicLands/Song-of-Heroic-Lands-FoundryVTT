@@ -97,6 +97,11 @@
         @include meta.load-css("components/field-grid");
         @include meta.load-css("components/item-fieldset");
         @include meta.load-css("components/prose-panel");
+
+        // Being print / export view (#795) — the standalone print window's
+        // <body> carries `.sohl`, so the record styles resolve here as
+        // `.sohl .being-print`.
+        @include meta.load-css("components/print");
     }
 
     // Strike Mode editor window, loaded under the COMPOUND
