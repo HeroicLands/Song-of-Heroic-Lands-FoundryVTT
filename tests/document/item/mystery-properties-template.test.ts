@@ -10,7 +10,8 @@
  * emitted binding placeholders. Covers #808: the phantom "Affected Skills"
  * array editor bound to a nonexistent `system.skills` field must be gone,
  * replaced by the single-skill control bound to the existing
- * `system.assocSkillCode` field.
+ * `system.assocSkillCode` field. Also covers #815: the phantom
+ * `system.domainCode` control (no such schema field) must be gone.
  */
 
 import { describe, it, expect } from "vitest";
@@ -23,11 +24,15 @@ function render(assocSkillCode: string | null = null): string {
         tab: { active: true, group: "sheet" },
         system: {
             subType: "grace",
+            domainCode: "arcane",
             assocSkillCode,
             levelBase: 3,
             charges: { usesCharges: false, value: null, max: null },
         },
         fields: {
+            // Provided so that any surviving domainCode control would bind and
+            // render — proving the phantom control is gone by its absence.
+            domainCode: { fieldPath: "system.domainCode" },
             assocSkillCode: { fieldPath: "system.assocSkillCode" },
             levelBase: { fieldPath: "system.levelBase" },
             charges: {
@@ -49,6 +54,14 @@ describe("mystery properties sheet template (#808)", () => {
         expect(html).not.toContain("system.skills");
         expect(html).not.toContain('data-array="system.skills"');
         expect(html).not.toContain("Affected Skills");
+    });
+
+    it("no longer references the phantom system.domainCode field (#815)", () => {
+        const html = render();
+        // MysteryDataModel defines no domainCode field; the Domain-registry
+        // integration is incomplete, so this control could never bind.
+        expect(html).not.toContain("system.domainCode");
+        expect(html).not.toContain('data-field="system.domainCode"');
     });
 
     it("renders the associated-skill control bound to system.assocSkillCode", () => {
