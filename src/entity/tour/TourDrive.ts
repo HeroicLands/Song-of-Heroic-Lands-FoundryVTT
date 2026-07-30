@@ -13,7 +13,7 @@
 
 /**
  * The **drive** step vocabulary for a railroaded tour — the Foundry-free half of
- * the `SohlTour` drive-primitives capability.
+ * the `SohlTour` drive-primitives capability (#624).
  *
  * A coach-and-wait tour only ever automates *scene-setting* navigation and
  * otherwise waits for the human (the PRIME DIRECTIVE). The **Automated Combat**

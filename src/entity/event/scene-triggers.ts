@@ -12,7 +12,7 @@
  */
 
 /**
- * **Scene environment triggers** — the environmental sibling of the
+ * **Scene environment triggers** (issue #593) — the environmental sibling of the
  * spatial {@link sohl.entity.event.SohlRegionTriggerName | region triggers}.
  * Where a region trigger fires on *where* a token is, an environment trigger
  * fires on *what the scene is doing* — currently the scene's darkness level.

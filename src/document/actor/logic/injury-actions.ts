@@ -244,7 +244,7 @@ export function buildInjuryCardData(
         shockIndex: injury.shockIndex,
         needsShockRoll: injury.needsShockRoll,
         shockRollBonus: shockBonus,
-        // Scope payload for the card's Shock Roll button: the wound's
+        // Scope payload for the card's Shock Roll button (#555): the wound's
         // precomputed shock contribution + glancing-blow roll bonus (and any
         // amputation shock penalty), which the being's `injuryShock` handler
         // resolves into a shock-state change.
@@ -299,8 +299,8 @@ function createInjuryName(injury: ResolvedInjury): string {
 
 /**
  * Create a physical Trauma item on the actor from a resolved injury, then
- * **offer** to schedule its first healing check (nothing auto-schedules). Only
- * call this for an actual wound (`injury.level >= 1`); a
+ * **offer** to schedule its first healing check (issue #579 — nothing
+ * auto-schedules). Only call this for an actual wound (`injury.level >= 1`); a
  * glancing blow or no-injury result must not create a Trauma.
  *
  * The offer is a dialog (default **Schedule**) shown to the human who is present
@@ -337,7 +337,7 @@ export async function createTraumaFromInjury(
     const healInterval = Number(trauma.system?.healingCheckDurationBase) || 0;
     await offerSchedule(context, trauma, "healingCheck", healInterval);
     // A wound that bleeds on infliction (a non-null blood-loss base) also offers
-    // its blood-loss advance rather than auto-arming it.
+    // its blood-loss advance (issue #579) rather than auto-arming it.
     if (trauma.system?.bloodLossAdvanceDurationBase != null) {
         const bloodInterval =
             Number(trauma.system.bloodLossAdvanceDurationBase) || 0;

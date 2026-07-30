@@ -55,7 +55,7 @@ interface PriorCombatState {
 export function wireSohlHookBridge(queue: SohlEventQueue): void {
     const priorByCombat = new WeakMap<object, PriorCombatState>();
 
-    // Load-side re-arm of persisted schedules. The queue is a
+    // Load-side re-arm of persisted schedules (issue #588). The queue is a
     // projection of document state, so this runs on *every* client (not just the
     // active GM) — each populates its own queue from the documents it can see.
     //
@@ -79,7 +79,7 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
         }
     });
 
-    // Scene-bound schedules flush on activation. When a scene's
+    // Scene-bound schedules flush on activation (issue #590). When a scene's
     // `active` flag flips true, re-scan the queue at the current world time so a
     // check that came due while the scene was inactive surfaces the instant the
     // party arrives — rather than waiting for the next time advance. `fire` is
@@ -100,7 +100,7 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
                 });
             }
 
-            // Environment darkness trigger: a scene-level
+            // Environment darkness trigger (issue #593): a scene-level
             // darkness-level change is an event-driven trigger, fired here (not
             // from a RegionBehavior). Custom trigger → fireSohlTrigger so effects
             // subscribed via expiry react too. Fires regardless of active scene:

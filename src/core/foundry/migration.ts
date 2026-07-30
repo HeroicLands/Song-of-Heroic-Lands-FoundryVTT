@@ -20,7 +20,7 @@
 
 /**
  * Build the "unrecognized retired type" error message for a single document, or
- * `null` when the document is not a legacy `trait`. Pure and Foundry-free
+ * `null` when the document is not a legacy `trait` (#651). Pure and Foundry-free
  * so it can be unit-tested.
  *
  * The `trait` item type was retired and is deliberately **not** auto-converted:
@@ -63,9 +63,9 @@ export function legacyTraitError(
 
 /**
  * Run world-load checks (GM-only). Flags every surviving legacy `trait` document
- * as an unrecognized retired type — it is **not** auto-converted — without ever
- * modifying or deleting it. Runs on every GM load so the error persists until the
- * documents are resolved by hand.
+ * as an unrecognized retired type — the type was removed in #651 and is **not**
+ * auto-converted — without ever modifying or deleting it. Runs on every GM load
+ * so the error persists until the documents are resolved by hand.
  */
 export function migrateWorld(): void {
     const game = (globalThis as any).game;

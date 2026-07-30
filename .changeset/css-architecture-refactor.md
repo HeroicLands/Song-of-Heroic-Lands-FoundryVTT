@@ -34,4 +34,10 @@ work is structural, and lays the foundation for runtime theming.
   classes (`.item`, event hooks, `SearchFilter` `contentSelector`s), Foundry-owned
   classes, and `data-*` / `lang` keys are deliberately left unchanged.
 
-Closes the CSS refactor epic (#95): #87, #92, #93, #94.
+Closes the CSS refactor epic:
+
+Closes #95
+Closes #87
+Closes #92
+Closes #93
+Closes #94

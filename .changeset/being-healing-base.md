@@ -7,7 +7,7 @@
 `BeingLogic.healingBase` — previously declared but never assigned — is now a
 derived `ValueModifier`, seeded during `evaluate()` to the average of the being's
 **Endurance** and **Will** scores (the fraction rounded **up when END > WIL**,
-**down otherwise**), and left open to trait and treatment deltas on top. A being
+**down otherwise**), and left open to trauma and treatment deltas on top. A being
 with no Endurance or Will attribute (e.g. an incorporeal being) keeps an empty
 modifier (base `0`).
 

@@ -297,13 +297,13 @@ export class BeingSheet extends SohlActorSheetBase {
 
         // Bind the item/effect context menus (right-click on a `.item` row and
         // click on its `.item-contextmenu` ⋮ control). Without this the sheet
-        // has no way to edit or delete any created item. `_contextMenu`
+        // has no way to edit or delete any created item (#517). `_contextMenu`
         // is provided by the SohlDataModel sheet mixin.
         (this as any)._contextMenu?.((this as any).element);
 
         // Profile tab Body Structure tree: click the per-row ⋮ to Edit a body
-        // zone, part, or location in its own auto-saving editor.
-        // The tree lives on the Profile tab; the menu binds at the
+        // zone, part, or location in its own auto-saving editor (#721 / #722).
+        // The tree moved from Combat to Profile in #782; the menu binds at the
         // sheet root, matching whichever tab carries the `*-contextmenu` hooks.
         if ((this as any).isEditable && (this as any).element) {
             bindBodyStructureContextMenu(this.document, (this as any).element);
@@ -495,7 +495,7 @@ export class BeingSheet extends SohlActorSheetBase {
      * hit location (dropping a location onto a part header appends it to that
      * part); anything else defers to the base handler. Source and destination are
      * addressed by shortcode and resolved to indices against the live structure,
-     * then written through the structure's whole-array update builders.
+     * then written through the structure's #247-safe whole-array update builders.
      *
      * @param event - The originating drop event.
      */
@@ -609,7 +609,7 @@ export class BeingSheet extends SohlActorSheetBase {
 
     /**
      * `data-action="addBodyZone"`: prompt for a new body zone and append it to
-     * this being's body structure.
+     * this being's body structure (#780).
      *
      * @param _event - The triggering pointer event (unused).
      * @param _target - The clicked add control (unused).
@@ -624,7 +624,8 @@ export class BeingSheet extends SohlActorSheetBase {
 
     /**
      * `data-action="addBodyPart"`: prompt for a new body part and append it to
-     * the zone named by the control's `data-zone-shortcode`, opening its editor.
+     * the zone named by the control's `data-zone-shortcode`, opening its editor
+     * (#720/#780).
      *
      * @param _event - The triggering pointer event (unused).
      * @param target - The clicked add control, inside a `data-zone-shortcode` row.
@@ -643,7 +644,7 @@ export class BeingSheet extends SohlActorSheetBase {
 
     /**
      * `data-action="addBodyLocation"`: prompt for a new hit location and append
-     * it to the body part named by the control's `data-part-shortcode`.
+     * it to the body part named by the control's `data-part-shortcode` (#720).
      *
      * @param _event - The triggering pointer event (unused).
      * @param target - The clicked add control, inside a `data-part-shortcode` row.
@@ -664,7 +665,7 @@ export class BeingSheet extends SohlActorSheetBase {
      * `data-action="editIdentity"`: open a dialog to edit the being's `name` and
      * `system.shortcode` together (the header identity pencil). Both are applied
      * in a single `actor.update`; the document's update-path guard enforces the
-     * unique `(type, shortcode)` key and warns on a duplicate. A blank
+     * unique `(type, shortcode)` key and warns on a duplicate (#766). A blank
      * name is refused; only changed fields are written. The dialog content is
      * static markup with the current values HTML-escaped into value attributes —
      * never interpolated as markup.
@@ -729,7 +730,7 @@ export class BeingSheet extends SohlActorSheetBase {
      * `data-action="addMovementProfile"`: prompt for a movement medium (limited
      * to media the being does not yet have a profile for) and a tactical move
      * (feet/round), then append the new profile to `system.movementProfiles`.
-     * The whole array is written back (never an element-by-index update).
+     * The whole array is written back (never an element-by-index update — #247).
      * The option list is built from the trusted, localized `MovementMediumChoices`
      * enum labels, never from persisted user data.
      *
@@ -985,7 +986,7 @@ export class BeingSheet extends SohlActorSheetBase {
             {
                 // Body Structure editor: drag a zone header, part header, or
                 // location row to reorder/move it within the Profile tab tree
-                // (the tree lives on Profile — Combat is read-only).
+                // (#720; the tree lives on Profile now — Combat is read-only).
                 dragSelector: ".body-structure [draggable]",
                 dropSelector: ".body-structure",
             },
@@ -1021,7 +1022,7 @@ export class BeingSheet extends SohlActorSheetBase {
     };
 
     /**
-     * Add the window-header **print** control. Clicking it renders the
+     * Add the window-header **print** control (#795). Clicking it renders the
      * dedicated, document-first print/export view (all sections at once, static
      * text) into a new browser window and opens that window's print dialog — from
      * which the viewer chooses print-to-printer, save-as-PDF, or (cancel and)
@@ -1064,7 +1065,7 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /* -------------------------------------------- */
-    /*  Print / Export                              */
+    /*  Print / Export (#795)                       */
     /* -------------------------------------------- */
 
     /**
@@ -1153,7 +1154,7 @@ export class BeingSheet extends SohlActorSheetBase {
         // Force the light theme: the Manuscript light palette IS the print form,
         // and it must not flip to the dark token swap when the viewer's browser
         // prefers dark (`prefers-color-scheme`), which would waste ink and read
-        // wrong on paper (light-first / print-native).
+        // wrong on paper (#782 — light-first / print-native).
         return `<!doctype html>
 <html lang="en" data-theme="light">
 <head>
@@ -1170,7 +1171,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
     }
 
     /**
-     * Build the render context for the print/export view by reusing the
+     * Build the render context for the print/export view (#795) by reusing the
      * interactive sheet's own `_prepare*Context` builders — the **same** data
      * layer — and re-presenting it for a static record: the letterhead's
      * health/status/injury summary lines (the color-coded header pills and
@@ -1211,7 +1212,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
         const system = this.document.system as PlainObject;
 
         // Letterhead summaries — the print-safe re-expression of the header's
-        // color-coded status pills and body-part lozenges (print rule).
+        // color-coded status pills and body-part lozenges (#464 print rule).
         const healthLine =
             (h.health as unknown) ?
                 formatPrintHealthLine(
@@ -1716,7 +1717,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
     ): Promise<void> {
         // `resolveInjury` lives on the actor's BeingLogic, not the actor
         // document itself — dispatch it with an empty-scope context so the
-        // dialog gathers the wound from scratch.
+        // dialog gathers the wound from scratch (#268).
         const actorLogic = this.document.logic as BeingLogic;
         const context = new SohlActionContext({
             speaker: actorLogic.speaker,
@@ -2025,7 +2026,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
 
         // Aural-Shock and Fatigue are read-only indicators lit from the actor's
         // active traumas of that subtype (they are modeled as traumas, not
-        // toggleable statuses; Fatigue is not a status).
+        // toggleable statuses; Fatigue is not a status) — #306.
         const activeTraumaSubTypes = new Set<string>();
         for (const item of ((actor.itemTypes as any)?.[ITEM_KIND.TRAUMA] ??
             []) as Iterable<any>) {
@@ -2038,7 +2039,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
 
         // Body-part lozenges, sourced from the being's body structure
         // (dynamic — varies by being), each colored by its derived impairment
-        // status. Impairment comes from the actor's active injuries,
+        // status (#464). Impairment comes from the actor's active injuries,
         // grouped onto parts by the injured location's shortcode.
         const structure = getActorBody(actor.logic)?.structure;
         const injuries: LocationInjury[] = [];
@@ -2057,8 +2058,8 @@ html, body { margin: 0; padding: 0; background: #fff; }
         }
         const bodyParts = buildBodyPartLozenges(structure, injuries);
 
-        // Health bar: the banded impairment value against a fixed max of 100.
-        // `healthBand` is the qualitative label shown to the player.
+        // Health bar: the banded impairment value against a fixed max of 100
+        // (#470). `healthBand` is the qualitative label shown to the player.
         const health = logic?.data?.health;
         const healthMax = health?.max ?? 0;
         const healthPct =
@@ -2199,7 +2200,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
                 score,
                 descriptor: attributeDescriptor(score, bands),
                 tl: attrLogic?.masteryLevel?.effective ?? 0,
-                // Derivation summaries for the score / TL hover tooltips.
+                // Derivation summaries for the score / TL hover tooltips (#769).
                 scoreDeltaLabel: attrLogic?.score?.deltaLabel ?? "",
                 tlDeltaLabel: attrLogic?.masteryLevel?.deltaLabel ?? "",
             };
@@ -2248,7 +2249,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
         }
 
         // Body structure editor: the editable Zone → Part → Location tree lives
-        // on the Profile tab. `structure` gates the whole section;
+        // on the Profile tab (#782). `structure` gates the whole section;
         // `bodyZones` is the same tree Combat renders read-only; `canEditBody`
         // gates the add / drag-sort / ⋮ authoring affordances (owner/GM only).
         const structure = getActorBody(actor.logic)?.structure;
@@ -2385,12 +2386,12 @@ html, body { margin: 0; padding: 0; background: #fff; }
             .map((part: any) => ({
                 index: part.index,
                 // Readable limb name ("Right Arm"), not the raw part code
-                // ("RARMPART") — the code is only a fallback.
+                // ("RARMPART") — the code is only a fallback (#509).
                 label: part.name ?? part.shortcode,
                 heldItemId: part.heldItem?.id ?? "",
             }));
 
-        // Read-only Body Locations tree: Zone → Part → Location,
+        // Read-only Body Locations tree: Zone → Part → Location (#509/#780),
         // each location showing effective protection (natural `protectionBase` +
         // worn-armor `armorProtection`, aggregated during the actor's evaluate
         // phase), the covering material layers, and shock. Held items are shown
@@ -2411,7 +2412,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
             defaultCombatGroup: (actor.system as any).defaultCombatGroup ?? "",
             isGM: !!(game as any).user?.isGM,
             // Body Structure add / drag-sort controls are shown only to a user
-            // who can edit this actor (owner/GM).
+            // who can edit this actor (owner/GM) — #720.
             canEditBody: this.isEditable,
         });
     }
@@ -2616,7 +2617,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
                 quality: `${q >= 0 ? "+" : ""}${q}`,
                 durability: sys.durabilityBase ?? 0,
                 // Derivation summaries for the weight/quality/durability
-                // hover tooltips.
+                // hover tooltips (#769).
                 weightDeltaLabel: gl?.weight?.deltaLabel ?? "",
                 qualityDeltaLabel: gl?.quality?.deltaLabel ?? "",
                 durabilityDeltaLabel: gl?.durability?.deltaLabel ?? "",

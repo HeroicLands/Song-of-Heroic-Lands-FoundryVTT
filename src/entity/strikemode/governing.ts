@@ -12,7 +12,7 @@
  */
 
 /**
- * Governing mastery level — the pure, Foundry-free derivation of a strike
+ * Governing mastery level (#755) — the pure, Foundry-free derivation of a strike
  * mode's Atk/Blk/CX rolls from the mastery level of the skill that governs it.
  *
  * A strike mode's own `attack`/`block`/`counterstrike` modifiers carry only its

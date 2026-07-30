@@ -21,8 +21,8 @@ import { BASE_INJURY_THRESHOLDS, ITEM_KIND } from "@src/utils/constants";
 /**
  * A being's **body** — its physical baseline, derived from `system.body`.
  *
- * Rather than a separate embedded document, a Being owns its body directly.
- * `BodyLogic` is a
+ * Dissolved from the former Corpus item into the Being (#535): rather than a
+ * separate embedded document, a Being owns its body directly. `BodyLogic` is a
  * plain, Being-owned domain object (not a `SohlLogic`) that wraps the persisted
  * {@link BodyLogic.Data | body data} into live derived state — the
  * {@link sohl.entity.body.BodyStructure | anatomy}, and `weight` / `reach` /

@@ -57,7 +57,7 @@ import {
 import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
 
 /*
- * ── Construction indirection: base class ─────────────────────────────────────
+ * ── Construction indirection: base class (#83) ───────────────────────────────
  * Registered entity classes are constructed through the registry so a variant
  * module can override them. Inside SoHL that means `import { entity }` then
  * `new entity.X(...)`; outside SoHL it is `new sohl.entity.X(...)`.
@@ -126,7 +126,7 @@ export class SuccessTestResult extends TestResult {
     protected _rollSupplied: boolean;
     /**
      * Whether this test **auto-Critically-Fails** because it requires a body part
-     * the actor cannot use. When `true`, {@link evaluate} still casts the
+     * the actor cannot use (#568). When `true`, {@link evaluate} still casts the
      * die (for display) but short-circuits the outcome to a Critical Failure, and
      * {@link isCritical} reports `true` regardless of the modifier's crit digits.
      */
@@ -272,10 +272,11 @@ export class SuccessTestResult extends TestResult {
      * on reconstruction. The derived outcome data (`resultText`, `resultDesc`,
      * `successStars`) is deliberately **not** emitted — it recomputes on read
      * from the serialized table
-     * plus the success level (see the getters).
+     * plus the success level (see the getters and issue #205).
      *
      * Two fields are carried in full as a deliberate exception to the
-     * "store only the minimum" corollary of the reference-on-wire rule:
+     * "store only the minimum" corollary of the reference-on-wire rule
+     * (see issue #202):
      * - `masteryLevelModifier` carries its complete delta breakdown across the
      *   wire because the receiver renders it verbatim for combat transparency —
      *   `mlMod.chatHtml` (the per-delta name/adjustment breakdown) is shown on
@@ -285,7 +286,7 @@ export class SuccessTestResult extends TestResult {
      * - `successStarTable` is serialized as data (not a table reference)
      *   because custom, per-result tables are a supported design goal; the
      *   table is the datum the receiver renders against, so it travels with the
-     *   result rather than through a registry.
+     *   result rather than through a registry (see issue #206).
      * @returns The plain-object representation.
      */
     override toJSON(): PlainObject {
@@ -352,7 +353,7 @@ export class SuccessTestResult extends TestResult {
     /**
      * Number of success "stars" (quality grade), **derived on read** from the
      * description table. Never
-     * stored — recomputed from the table plus the evaluated
+     * stored (issue #205) — recomputed from the table plus the evaluated
      * success level / target value / roll last-digit.
      */
     get successStars(): number {
@@ -384,8 +385,8 @@ export class SuccessTestResult extends TestResult {
      * {@link sohl.entity.expr.SafeExpression} row against the test bindings.
      *
      * Purely computed — the source of {@link resultText}, {@link resultDesc},
-     * and {@link successStars}, none of which are stored (the
-     * table itself rides the wire as data). Returns empty text and a zero
+     * and {@link successStars}, none of which are stored (issue #205; the
+     * table itself rides the wire as data, #206). Returns empty text and a zero
      * star count when the table is empty or no row matches.
      *
      * @returns The resolved label, description, and star count.
@@ -513,8 +514,8 @@ export class SuccessTestResult extends TestResult {
 
     /**
      * Whether this result is a critical (success or failure). Always `false` when
-     * {@link critAllowed} is `false` — except a forced auto-Critical-Failure,
-     * which is always critical.
+     * {@link critAllowed} is `false` — except a forced auto-Critical-Failure
+     * (#568), which is always critical.
      */
     get isCritical() {
         return (
@@ -655,7 +656,7 @@ export class SuccessTestResult extends TestResult {
             this._roll.roll();
         }
 
-        // A test that requires an unusable body part auto-Critically-Fails:
+        // A test that requires an unusable body part auto-Critically-Fails (#568):
         // the die is cast for display, but the outcome is forced to a Critical
         // Failure regardless of the roll.
         if (this._autoCriticalFail) {
@@ -738,7 +739,7 @@ export class SuccessTestResult extends TestResult {
      * @remarks
      * The derived display outcome (`resultText`, `resultDesc`, `successStars`)
      * is not carried by {@link toJSON} — it is folded into the card data here,
-     * rendered once by the sender with a live `targetValueFunc`.
+     * rendered once by the sender with a live `targetValueFunc` (issue #205).
      * @param data - Extra template data merged into the card.
      */
     async toChat(data: PlainObject = {}): Promise<void> {
@@ -826,9 +827,9 @@ export namespace SuccessTestResult {
         masteryLevelModifier: MasteryLevelModifier;
         /**
          * The description table used to derive result text and stars. Rides the
-         * wire as data; the display outcome ({@link SuccessTestResult.resultText | text},
+         * wire as data (#206); the display outcome ({@link SuccessTestResult.resultText | text},
          * {@link SuccessTestResult.successStars | stars}) is computed from it on
-         * read, never stored.
+         * read, never stored (#205).
          */
         successStarTable: LimitedDescription[];
         /** Foundry roll mode for chat output. */
@@ -838,7 +839,7 @@ export namespace SuccessTestResult {
         /** A pre-seeded d100 roll (omit to roll fresh in {@link SuccessTestResult.evaluate}). */
         roll: SimpleRoll;
         /**
-         * Force an auto-Critical-Failure — the test requires a body part
+         * Force an auto-Critical-Failure (#568) — the test requires a body part
          * the actor cannot use. Defaults `false`.
          */
         autoCriticalFail?: boolean;

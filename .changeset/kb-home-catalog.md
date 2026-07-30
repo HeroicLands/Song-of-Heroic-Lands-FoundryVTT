@@ -49,3 +49,5 @@ name is unique, `[[section/slug|Label]]` otherwise. The build **fails** on an
 ambiguous name or a broken intra-KB `section/slug`; an unknown bare target is
 treated as an external reference (e.g. a Thalorna world entity on the www site)
 and rendered as text. KB layouts and build only; no system-package impact.
+
+Closes #689

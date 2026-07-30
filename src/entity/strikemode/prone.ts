@@ -12,7 +12,7 @@
  */
 
 /**
- * Prone combat effects — the pure, Foundry-free application of the prone
+ * Prone combat effects (#562) — the pure, Foundry-free application of the prone
  * penalty to a melee strike mode.
  *
  * A prone being suffers **−20 to all melee attacks and defenses** (Prone rules,

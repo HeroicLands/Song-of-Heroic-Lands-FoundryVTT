@@ -75,7 +75,7 @@ export function resolveChatCardHandlerUuid(
  * (`gateAutomatedDefenseButtons`) hides buttons the client can't use. The
  * render-time gate is UX only and is bypassable by a synthesized click or a
  * direct handler call, so this authorization gate is the real boundary before
- * any dialog, scope revival, or intrinsic logic runs.
+ * any dialog, scope revival, or intrinsic logic runs (issue #167).
  *
  * Pure: Foundry document resolution is injected via `resolveDoc` (the caller
  * passes `foundry.utils.fromUuidSync`), so this stays Foundry-free and

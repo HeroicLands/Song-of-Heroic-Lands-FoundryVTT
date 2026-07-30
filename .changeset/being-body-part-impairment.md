@@ -19,8 +19,8 @@ impairment, colored by severity, instead of a bare shortcode list.
 - `BodyPart` now surfaces its `name` (mirroring `BodyLocation`), which the grid
   and other callers can use.
 - **Permanent impairment** is a new per-body-part `permanentImpairment` field on
-  the Corpus data model (a manually-set, non-positive integer floor; `0` = none).
-  It is additive with a safe default, so existing corpora need no migration. No
+  the Being body model (a manually-set, non-positive integer floor; `0` = none).
+  It is additive with a safe default, so existing beings need no migration. No
   dedicated editor UI yet — it is set via a data update; a sheet control is a
   follow-up.
 

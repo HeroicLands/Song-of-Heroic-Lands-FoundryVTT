@@ -12,7 +12,7 @@
  */
 
 /**
- * Blood Stoppage — the pure, Foundry-free outcome of a **Blood Stoppage
+ * Blood Stoppage (#547) — the pure, Foundry-free outcome of a **Blood Stoppage
  * Test** (a Physician skill test on a bleeding injury).
  *
  * A physician may answer a bleeder's request and roll a Blood Stoppage Test; the
@@ -21,7 +21,7 @@
  * test, `MS` stops the bleeding after the next Blood Loss Advance, and `CS` stops
  * it immediately. If no physician accepts by the end of the round, the Blood Loss
  * Advance proceeds as though the Stoppage Test were a Critical Failure — the
- * auto-resolve fallback.
+ * auto-resolve fallback already delivered by #487.
  */
 
 import {

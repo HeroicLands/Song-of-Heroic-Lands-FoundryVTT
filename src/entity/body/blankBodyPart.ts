@@ -24,7 +24,7 @@ import type { BodyPart } from "@src/entity/body/BodyPart";
  * DataModel.
  *
  * Hit locations are **not** nested here — they live in the structure's flat
- * `locations` array and name this part via `bodyPartCode`.
+ * `locations` array and name this part via `bodyPartCode` (#780).
  *
  * @param name - The display name for the new part (defaults to `"Body Part"`).
  * @param shortcode - The part's shortcode (defaults to blank; assigned by the

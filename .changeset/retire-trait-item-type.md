@@ -27,3 +27,4 @@ leaves it untouched — the GM removes it or recreates its data as a
 `trauma`/`attribute` by hand. This avoids lossy guesswork about a removed type.
 
 Closes #651
+Closes #532

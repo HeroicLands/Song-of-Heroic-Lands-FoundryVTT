@@ -98,7 +98,7 @@ export class BodyPart extends SohlEntity {
 
     /**
      * Whether this part is **critical** for overall health — it holds a VITAL or
-     * CORE role. Critical parts drive the harsher health-ceiling column.
+     * CORE role. Critical parts drive the harsher health-ceiling column (#470).
      */
     get isCritical(): boolean {
         return this.roles.some(

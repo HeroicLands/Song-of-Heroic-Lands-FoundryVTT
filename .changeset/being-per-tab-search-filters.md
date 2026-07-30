@@ -8,7 +8,7 @@ Resolves #312. The Being sheet's list tabs now have live search-criteria inputs
 that filter their lists as you type.
 
 - **New inputs.** Adds the missing `search-criteria` boxes on the **Profile**
-  (traits) and **Mysteries** (mysteries and mystical abilities) tabs. Each list's
+  and **Mysteries** (mysteries and mystical abilities) tabs. Each list's
   groups are wrapped in a single filter container so the search spans _all_
   subtype groups, not just the first — matching the existing Skills / Combat
   body-locations / Gear inputs.
@@ -24,5 +24,5 @@ that filter their lists as you type.
   removed; the affliction create-control is kept.
 
 Covered by a new `normalizeText` unit suite (the ASCII-folding regression) and a
-`being-search-filters` e2e spec (traits filter live across groups; the Mysteries
-inputs render; the Trauma tab exposes no search).
+`being-search-filters` e2e spec (the Profile filter works across groups; the
+Mysteries inputs render; the Trauma tab exposes no search).

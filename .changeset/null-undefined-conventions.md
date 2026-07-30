@@ -58,9 +58,8 @@ explicitly.
 - Fixed the lone contradictory field: `ActiveEffect` `changes[].value` was
   `nullable: true` with `initial: ""`; it is now non-nullable (a change value is
   always present).
-- Left correctly-nullable fields as-is: `AttributeDataModel.scoreBase` (`null` =
-  trait has no score, e.g. Scarred) and `TraitDataModel.score.max` (`null` = no
-  cap).
+- Left the correctly-nullable field as-is: `AttributeDataModel.scoreBase`
+  (`null` = the attribute has no score).
 - Made the `MysteryDataModel` fields whose documented `null` semantics were
   unreachable actually nullable (`initial: null`): `charges.max` (`0` = no
   maximum, `null` = does not use charges), `charges.value` (`null` = infinite

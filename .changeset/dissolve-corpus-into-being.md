@@ -33,3 +33,4 @@ _No data migration:_ there are no live worlds; throwaway worlds are regenerated
 from the packs.
 
 Closes #535
+Closes #371

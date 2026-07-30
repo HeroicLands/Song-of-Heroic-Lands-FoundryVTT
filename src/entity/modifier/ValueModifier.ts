@@ -37,7 +37,7 @@ import {
 import { SohlEntity } from "../SohlEntity";
 
 /*
- * ── Construction indirection: base class ─────────────────────────────────────
+ * ── Construction indirection: base class (#83) ───────────────────────────────
  * Registered entity classes are constructed through the registry so a variant
  * module can override them:
  *   - Inside SoHL:            `import { entity }` then `new entity.X(...)`
@@ -152,7 +152,7 @@ export class ValueModifier extends SohlEntity {
         // compute the effective value and delta summary from incomplete state
         // and cache it (dirty=false) before those fields exist — leaving, e.g.,
         // an enabled impact showing a stale "Dsbl" summary. Each subclass runs
-        // its own guarded _apply() at the end of its constructor instead.
+        // its own guarded _apply() at the end of its constructor instead (#769).
         if (new.target === ValueModifier) this._apply();
     }
 

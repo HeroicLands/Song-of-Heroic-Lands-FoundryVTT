@@ -69,7 +69,7 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
         // would break bare creates). Items and actors treat `(type, shortcode)`
         // as a unique key and enforce it at runtime — on create *and* update,
         // across world / embedded / pack scopes — via `enforceShortcodeOnCreate`
-        // / `enforceShortcodeOnUpdate`. Other documents (combatant,
+        // / `enforceShortcodeOnUpdate` (issue #766). Other documents (combatant,
         // …) never key on it and leave it blank.
         shortcode: new StringField({ initial: "" }),
         docUrl: new URLField(),
@@ -117,7 +117,7 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
             }),
             { initial: [] },
         ),
-        // Generic recurring schedule. Each entry defers an action
+        // Generic recurring schedule (issue #588). Each entry defers an action
         // (`actionName`, run on this document's logic) to `anchor + interval`;
         // the event queue offers it as a [Perform] reminder when due, and
         // `sohl.schedule` / the scope-matched re-arm hook keep it in sync with
@@ -133,12 +133,13 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                 /** Seconds from `anchor` to the next fire. */
                 interval: new NumberField({ initial: 0 }),
                 /**
-                 * The lifecycle trigger this schedule listens to.
+                 * The lifecycle trigger this schedule listens to (issue #622).
                  * Blank (the default) or `"updateWorldTime"` means a time-based
                  * schedule that fires at `anchor + interval`; any other value
                  * (`"turnEnd"`, `"combatStart"`, a scene-region trigger, …) makes
                  * it event-driven — armed as a live subscription on that trigger,
-                 * with `interval` unused. An entry with no trigger is time-based.
+                 * with `interval` unused. Backwards compatible: an entry written
+                 * before #622 has no trigger and stays time-based.
                  */
                 triggerName: new StringField({
                     blank: true,
@@ -146,7 +147,7 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                 }),
                 /**
                  * Optional predicate source (a SafeExpression string) gating an
-                 * event-driven schedule: the armed subscription
+                 * event-driven schedule (issue #569): the armed subscription
                  * fires only when it evaluates truthy against the trigger
                  * context, with `subscriberUuid` bound to this document — e.g.
                  * `"combatant.actor.uuid === subscriberUuid"` scopes a `turnEnd`
@@ -157,7 +158,7 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                     initial: "",
                 }),
                 /**
-                 * The uuid of the scene this schedule is bound to.
+                 * The uuid of the scene this schedule is bound to (issue #590).
                  * When set, it is offered only while that scene is active; blank
                  * (the default) means world-wide (fires regardless of scene).
                  */
@@ -170,7 +171,7 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
             }),
             { initial: [] },
         ),
-        // Generic run record: a map of `actionName` → the world
+        // Generic run record (issue #579): a map of `actionName` → the world
         // time (seconds) that action last *performed* on this document. Stamped
         // at the action chokepoint (`SohlAction.execute`) for actions flagged
         // `recordsLastRun`, so "when did X last happen here?" is answerable for
@@ -479,7 +480,7 @@ export namespace SohlDataModel {
 
             /**
              * Process a form submission, guarding the one case Foundry's base
-             * handler turns into a spurious red error.
+             * handler turns into a spurious red error (#817, #822).
              *
              * Every SoHL sheet sets `submitOnChange`, so a stray `change` event
              * dispatches a document submit — and Foundry deliberately still
@@ -496,18 +497,18 @@ export namespace SohlDataModel {
              * - A **world** document (an actor, a world item) leaves its own
              *   collection, so the base — finding it neither in its collection
              *   nor creatable from a sheet — throws "Document creation from
-             *   _<Sheet> is not supported".
+             *   _<Sheet> is not supported" (#817).
              * - An **embedded** document (an item on an actor) is deleted by
              *   cascade when its owning actor is deleted. Its embedded
              *   collection is orphaned but *still retains* it, so checking the
              *   document's own collection is not enough; the base reaches the
              *   update path and throws "The Actor <id> does not exist in
-             *   actors".
+             *   actors" (#822).
              *
              * Both reduce to the same fact — the document's **root** (primary)
              * document has left its world collection — so walk to the root and
              * test that. Lives here in the shared mixin so both the actor and
-             * item sheet families inherit one implementation.
+             * item sheet families inherit one implementation (#822).
              *
              * @param event - The originating submit event.
              * @param form - The submitted form element.

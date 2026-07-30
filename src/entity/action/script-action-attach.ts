@@ -12,7 +12,7 @@
  */
 
 /**
- * **Programmatic Script Action attach** — the clean
+ * **Programmatic Script Action attach** (issue #588, deliverable §7) — the clean
  * API a module or macro uses to bind a Foundry Macro to a host document as a
  * SCRIPT action, so it can then be scheduled ({@link sohl.core.logic.SohlSystem.schedule})
  * or offered on a context menu.

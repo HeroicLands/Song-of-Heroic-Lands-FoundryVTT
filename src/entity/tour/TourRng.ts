@@ -13,7 +13,7 @@
 
 /**
  * The seeded-roll lifecycle for a **driven** tour — the Foundry-free half of the
- * `SohlTour` deterministic-RNG capability.
+ * `SohlTour` deterministic-RNG capability (#624).
  *
  * A driven tour (the Automated Combat tour) is railroaded: it performs a fixed
  * sequence of actions whose scripted rolls must come out the same every run. To
