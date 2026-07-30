@@ -1,11 +1,15 @@
 // Design tokens — the single source of truth for SoHL's themeable values.
 //
 // SCSS maps below are the compile-time source (usable in loops/functions); the
-// `emit-tokens` mixin renders them to CSS custom properties on `:root` so the
-// whole UI — including unscoped surfaces like chat cards and tooltips — can read
-// them, and so a theme or variant module can re-skin at runtime by overriding
-// `--sohl-*` without recompiling. Components consume the custom properties
-// (`var(--sohl-color-*)`), never the SCSS maps directly.
+// `emit-tokens` mixin renders them to CSS custom properties so the whole UI —
+// including unscoped surfaces like chat cards and tooltips — can read them, and
+// so a theme or variant module can re-skin at runtime by overriding `--sohl-*`.
+// Components consume the custom properties (`var(--sohl-color-*)`), never the
+// SCSS maps directly.
+//
+// Palette: **Manuscript** — vellum ground, iron-gall ink, rubrication-red accent.
+// Light is primary (and doubles as the print form); dark is a runtime token swap
+// emitted under `prefers-color-scheme` and the `[data-theme]` toggle.
 //
 // Palette rule: if a new color is needed, first try solving the problem with
 // weight, spacing, border strength, or opacity before adding hue.
@@ -14,56 +18,117 @@
 @use "../abstracts/typography";
 
 $colors: (
-    // Primary text
-    "text-primary": #191813,
-    // body text
-    "text-secondary": #343225,
-    // UI, tabs, labels
-    "text-muted": #8e8c7f,
+    // Ink (text)
+    "text-primary": #211d16,
+    // body text / icons — the black-on-vellum "ink"
+    "text-secondary": #3a3327,
+    "text-muted": #6b6250,
     // hints, metadata, disabled
-    "text-inverse": #f6f4ea,
-    // text on dark backgrounds
-    // Borders
-    "border-subtle": #eeede0,
-    // separators, table lines
-    "border-default": #c9c7b8,
-    // panels, inputs
-    "border-strong": #8a887c,
-    // active / focus / emphasis
-    // Backgrounds
-    "bg-header": #c9c7b8,
-    "bg-overlay-light": rgba(0, 0, 0, 0.04),
-    "bg-overlay-medium": rgba(0, 0, 0, 0.08),
-    "bg-overlay-dark": rgba(0, 0, 0, 0.12),
-    "bg-input": #7a7971,
-    "bg-input-active": #d6d2b4,
+    "text-inverse": #f6f1e2,
+    // Rules / borders
+    "border-subtle": #e3dbc4,
+    // hairline separators, table rules
+    "border-default": #d6ccb2,
+    "border-strong": #b9a878,
+    // Surfaces (vellum family)
+    "bg-page": #e9e3d4,
+    // window/app ground behind the sheet
+    "bg-sheet": #f7f1e2,
+    // the paper the sheet is written on
+    "bg-surface": #efe8d6,
+    // raised rows / zebra
+    "bg-stamp": #e7ddc2,
+    // chips, icon wells, inset controls
+    "bg-header": #efe6d0,
+    // section-legend band base (darkened by mix at use site)
+    "bg-input": #efe8d6,
+    "bg-input-active": #f7f1e2,
+    "bg-overlay-light": rgba(33, 29, 22, 0.04),
+    "bg-overlay-medium": rgba(33, 29, 22, 0.08),
+    "bg-overlay-dark": rgba(33, 29, 22, 0.14),
+    // Accent — rubrication red: the one interactive/emphasis hue
+    "accent": #9c2f26,
+    "accent-ink": #fdf6ec,
+    // text/icon on an accent fill
+    "active": #9c2f26,
+    // toggled-on / selected == the accent
+    "focus-ring": rgba(156, 47, 38, 0.38),
     // State
-    "warning": #a8a200,
-    "alert": #a87c00,
-    "danger": #c84a3a,
-    "success": #5f6f3a,
+    "danger": #9c2f26,
+    // destructive / bleeding
+    "warn": #a85417,
+    // unusable limb / caution — burnt orange, distinct from accent
+    "warn-ink": #fdf6ec,
+    "warning": #a8862a,
+    "alert": #a85417,
+    "success": #5f9c34,
     "info": #4f6b73,
-    "active": #2a52d6,
-    // saturated blue cue for toggled-on / selected state, and the shared accent
-    // for interactive emphasis (rollable/hover glow, focused-field ring)
-    "focus-ring": rgba(42, 82, 214, 0.4),
-    // translucent form of `active` — the focus ring around the active input
-    // Indicators
-    "health-bar": #6f979a,
-    // health/endurance bar fill
-    // Accents
-    "tooltip-bg": #c7b35a,
-    "tooltip-text": #191813
+    // Health bar ramp (good → mid → low[=danger])
+    "health-bar": #5f9c34,
+    "health-mid": #bd9527,
+    "health-track": #ddd4bd,
+    // unfilled groove behind the health fill
+    // Tooltip
+    "tooltip-bg": #2b2619,
+    "tooltip-text": #f1e9d6
+);
+
+// Dark theme — only the keys that change from light. Warm near-black ground,
+// cream ink, brightened accent/state hues for contrast on dark vellum.
+$colors-dark: (
+    "text-primary": #ece3cf,
+    "text-secondary": #cdc3aa,
+    "text-muted": #9a917c,
+    "text-inverse": #1a120f,
+    "border-subtle": #2f2917,
+    "border-default": #45402f,
+    "border-strong": #5c543c,
+    "bg-page": #100e0b,
+    "bg-sheet": #1e1a13,
+    "bg-surface": #241f16,
+    "bg-stamp": #2a2417,
+    "bg-header": #2b2619,
+    "bg-input": #241f16,
+    "bg-input-active": #2a2417,
+    "bg-overlay-light": rgba(255, 248, 235, 0.05),
+    "bg-overlay-medium": rgba(255, 248, 235, 0.09),
+    "bg-overlay-dark": rgba(255, 248, 235, 0.14),
+    "accent": #e0655a,
+    "accent-ink": #1a120f,
+    "active": #e0655a,
+    "focus-ring": rgba(224, 101, 90, 0.4),
+    "danger": #e0655a,
+    "warn": #d98a3c,
+    "warn-ink": #1a120f,
+    "warning": #d4b04a,
+    "alert": #d98a3c,
+    "success": #86c24a,
+    "info": #6fa6b0,
+    "health-bar": #86c24a,
+    "health-mid": #d8b23f,
+    "health-track": #2c2718,
+    "tooltip-bg": #ece3cf,
+    "tooltip-text": #1a120f,
 );
 
 $space: (
     "xs": 2px,
-    // tight gaps between chips/badges
     "sm": 5px,
-    // default control padding
     "md": 10px,
-    // block separation
-    "lg": 20px, // section spacing
+    "lg": 20px,
+    "xl": 32px,
+);
+
+$radius: (
+    "sm": 4px,
+    "md": 6px,
+    "lg": 9px,
+    "pill": 999px,
+);
+
+$shadow: (
+    "panel": 0 14px 40px -22px rgba(0, 0, 0, 0.5),
+    "pop": 0 10px 24px -12px rgba(0, 0, 0, 0.45),
 );
 
 $fonts: (
@@ -73,17 +138,41 @@ $fonts: (
     "title": typography.$font-title,
 );
 
-// Render every map to `--sohl-*` custom properties on :root.
+@mixin -emit-colors($map) {
+    @each $name, $value in $map {
+        --sohl-color-#{$name}: #{$value};
+    }
+}
+
+// Render tokens to `--sohl-*` custom properties, with light as the default and
+// dark applied via OS preference + the explicit `[data-theme]` toggle (which
+// must win in both directions).
 @mixin emit-tokens {
     :root {
-        @each $name, $value in $colors {
-            --sohl-color-#{$name}: #{$value};
-        }
+        @include -emit-colors($colors);
         @each $name, $value in $space {
             --sohl-space-#{$name}: #{$value};
+        }
+        @each $name, $value in $radius {
+            --sohl-radius-#{$name}: #{$value};
+        }
+        @each $name, $value in $shadow {
+            --sohl-shadow-#{$name}: #{$value};
         }
         @each $name, $value in $fonts {
             --sohl-font-#{$name}: #{$value};
         }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            @include -emit-colors($colors-dark);
+        }
+    }
+    :root[data-theme="dark"] {
+        @include -emit-colors($colors-dark);
+    }
+    :root[data-theme="light"] {
+        @include -emit-colors($colors);
     }
 }

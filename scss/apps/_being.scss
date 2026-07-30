@@ -1,0 +1,142 @@
+@use "../abstracts/typography";
+
+// Being-sheet per-tab styling (Manuscript redesign, epic #783). Sheet-specific
+// presentation layered on top of the shared Feature-0 component blocks and the
+// generic sheet frame in layout/_sheet.scss.
+//
+// Loaded from sohl.scss under the COMPOUND `.sohl.being` selector — ApplicationV2
+// puts `sohl` and the `being` sheet-type class on the SAME frame element (the #87
+// same-element trap; a plain `.sohl .being` descendant would never match). It
+// sits in the `sohl.apps` layer so these being-only overrides beat the shared
+// `layout`/`components` layers without `!important`. Selectors are written bare
+// because the compound wrapper is applied in sohl.scss.
+
+// --- Header band -------------------------------------------------------------
+// A warm band behind the whole identity block (manuscript `.hd`), replacing the
+// generic frame's plain bottom rule for this sheet only.
+.sheet-header {
+    padding: 0.6rem 0.7rem;
+    background: var(--sohl-color-bg-header);
+    border-bottom: 1px solid var(--sohl-color-border-strong);
+}
+
+.sheet-header__main {
+    gap: 0.9rem;
+    align-items: stretch;
+}
+
+// Portrait — a small rounded stamp (manuscript `.portrait`), replacing the 100px
+// right-ruled slab the shared frame gives every actor header.
+img.sheet-header__portrait {
+    flex: 0 0 66px;
+    width: 66px;
+    max-width: 66px;
+    height: 66px;
+    margin-right: 0;
+    object-fit: cover;
+    border: 1.5px solid var(--sohl-color-text-primary);
+    border-radius: var(--sohl-radius-md);
+}
+
+// Details column — identity row, health bar, then status pills, stacked with an
+// even rhythm (manuscript `.hd__id`). Neutralize the frame's 20px/700 default.
+.sheet-header__details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: inherit;
+    font-weight: inherit;
+    text-align: left;
+}
+
+// --- Identity row ------------------------------------------------------------
+// Name + shortcode + edit-pencil on one baseline; the legend "?" pushes right
+// (manuscript `.hd__namerow`).
+.sheet-header__identity {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+// Character name — Cinzel display, no input chrome (the frame's h1/input styling
+// is for the editable item/vehicle headers, not this read-only row).
+.sheet-header__name {
+    flex: 0 0 auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-family: var(--sohl-font-title);
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+// Shortcode — a compact mono code chip beside the name (manuscript `.hd__code`).
+// The frame styles the shared shortcode `<input>` for other sheets; here it is a
+// read-only `<span>`, so restyle it as the bordered code lozenge.
+.sheet-header__shortcode {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0.02rem 0.35rem;
+    font-family: var(--sohl-font-mono);
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--sohl-color-text-muted);
+    background: none;
+    border: 1px solid var(--sohl-color-border-default);
+    border-radius: var(--sohl-radius-sm);
+}
+
+// Edit-identity pencil — a calm header that reveals the affordance only on
+// hover / keyboard focus of the identity row.
+.sheet-header__edit-identity {
+    opacity: 0;
+    transition: opacity 0.12s ease;
+}
+.sheet-header__identity:hover .sheet-header__edit-identity,
+.sheet-header__identity:focus-within .sheet-header__edit-identity {
+    opacity: 1;
+}
+
+// Status-legend "?" sits at the right edge of the identity row.
+.sheet-header__identity .sheet-header__status-legend {
+    margin-left: auto;
+    align-self: center;
+}
+
+// --- Profile tab -------------------------------------------------------------
+// Dossier editor label reads as a section heading, set off from the tree above.
+.dossier-group {
+    margin-top: 1rem;
+
+    > label {
+        @include typography.type-style("label-large");
+        color: var(--sohl-color-text-primary);
+    }
+}
+
+// --- Combat tab --------------------------------------------------------------
+// Held-item dropdowns — wide enough to show full weapon names ("Broadsword").
+.held-item-select {
+    width: 150px;
+}
+
+// "Default Combat Group" — label + input on one row rather than stacked.
+.combat-default-group.form-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    > label {
+        flex: 0 0 auto;
+        margin: 0;
+    }
+
+    > .form-fields {
+        flex: 1;
+    }
+}

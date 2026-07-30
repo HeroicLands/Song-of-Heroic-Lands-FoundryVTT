@@ -17,41 +17,55 @@ SPDX-License-Identifier: GPL-3.0-or-later
             aria-label="{{localize 'SOHL.Skill.Search.label'}}" placeholder="{{localize 'SOHL.Skill.Search.label'}}" autocomplete="off" />
     </div>
     {{#each skillGroups as |group|}}
-        <ol class="list__items skills-list">
-            <li class="list__header flexrow">
-                <div class="list__name">{{group.label}}</div>
-                <div class="list__detail" data-tooltip="{{localize 'SOHL.Skill.Heading.SkillBase.tooltip'}}">{{localize 'SOHL.Skill.Heading.SkillBase.label'}}</div>
-                <div class="list__detail" data-tooltip="{{localize 'SOHL.Skill.Heading.MasteryLevel.tooltip'}}">{{localize 'SOHL.Skill.Heading.MasteryLevel.label'}}</div>
-                <div class="list__detail" data-tooltip="{{localize 'SOHL.Skill.Heading.Index.tooltip'}}">{{localize 'SOHL.Skill.Heading.Index.label'}}</div>
-                <div class="list__detail" data-tooltip="{{localize 'SOHL.Skill.Heading.EffectiveMasteryLevel.tooltip'}}">{{localize 'SOHL.Skill.Heading.EffectiveMasteryLevel.label'}}</div>
-                <div class="list__detail" data-tooltip="{{localize 'SOHL.Skill.Heading.FateMasteryLevel.tooltip'}}">{{localize 'SOHL.Skill.Heading.FateMasteryLevel.label'}}</div>
-                <div class="list__detail list__notes" data-tooltip="{{localize 'SOHL.Skill.Heading.Notes.tooltip'}}">{{localize 'SOHL.Skill.Heading.Notes.label'}}</div>
-                <div class="list__controls">
-                    <a class="item-create" data-action="createItem" data-tooltip="{{localize 'SOHL.Skill.Heading.Add.label'}}" data-type="skill" data-sub-type="{{group.subType}}">
-                        <i class="fa-solid fa-file-plus"></i>
-                    </a>
-                </div>
-            </li>
+        {{#if group.skills.length}}
+        <div class="section-legend section-legend--subtype">
+            <span class="section-legend__name">{{group.label}}</span>
+            <span class="section-legend__meta">{{group.skills.length}} skill{{#if (gt group.skills.length 1)}}s{{/if}}</span>
+            <span class="section-legend__rule"></span>
+            <span class="section-legend__add">
+                <a class="add-button add-button--small item-create" data-action="createItem" data-type="skill" data-sub-type="{{group.subType}}">
+                    <i class="fa-solid fa-plus"></i><span>Add {{group.label}} Skill</span>
+                </a>
+            </span>
+        </div>
+        <div class="ledger" style="--ledger-cols:1.2rem 1.5rem minmax(120px,1fr) 2.4rem 2.4rem 2.6rem 2.6rem 2.4rem 1.2fr 3rem">
+            <div class="ledger__head">
+                <div></div>
+                <div></div>
+                <div>Skill</div>
+                <div data-tooltip="{{localize 'SOHL.Skill.Heading.SkillBase.tooltip'}}">{{localize 'SOHL.Skill.Heading.SkillBase.label'}}</div>
+                <div data-tooltip="{{localize 'SOHL.Skill.Heading.MasteryLevel.tooltip'}}">{{localize 'SOHL.Skill.Heading.MasteryLevel.label'}}</div>
+                <div data-tooltip="{{localize 'SOHL.Skill.Heading.Index.tooltip'}}">{{localize 'SOHL.Skill.Heading.Index.label'}}</div>
+                <div data-tooltip="{{localize 'SOHL.Skill.Heading.EffectiveMasteryLevel.tooltip'}}">{{localize 'SOHL.Skill.Heading.EffectiveMasteryLevel.label'}}</div>
+                <div data-tooltip="{{localize 'SOHL.Skill.Heading.FateMasteryLevel.tooltip'}}">{{localize 'SOHL.Skill.Heading.FateMasteryLevel.label'}}</div>
+                <div data-tooltip="{{localize 'SOHL.Skill.Heading.Notes.tooltip'}}">{{localize 'SOHL.Skill.Heading.Notes.label'}}</div>
+                <div></div>
+            </div>
             {{#each group.skills as |skill|}}
-            <li class="item flexrow" data-search-name="{{skill.name}}" data-item-id="{{skill.id}}" data-uuid="{{skill.uuid}}" data-item-name="{{skill.name}}">
-                <div class="list__name flexrow">
-                    <div class="list__image" style="background-image: url('{{skill.img}}')"></div>
-                    <h4>{{skill.name}}</h4>
-                </div>
-                <div class="list__detail">{{skill.sb}}</div>
-                <div class="list__detail">{{skill.ml}}</div>
-                <div class="list__detail">{{#if skill.disabled}}<i class="fa-solid fa-xmark fa-lg"></i>{{else}}{{skill.index}}{{/if}}</div>
-                <div class="list__detail rollable" data-action="successTest" data-tooltip="{{skill.emlDeltaLabel}}" data-tooltip-direction="UP">{{#if skill.disabled}}<i class="fa-solid fa-xmark fa-lg"></i>{{else}}{{skill.eml}}{{/if}}</div>
-                <div class="list__detail rollable" data-action="fateTest" data-tooltip="{{skill.fateDeltaLabel}}" data-tooltip-direction="UP">{{skill.fate}}</div>
-                <div class="list__detail list__notes">{{skill.notes}}</div>
-                <div class="list__controls">
+            <div class="ledger__row" data-search-name="{{skill.name}}" data-item-id="{{skill.id}}" data-uuid="{{skill.uuid}}" data-item-name="{{skill.name}}">
+                <div class="ledger__grip"><i class="fa-solid fa-grip-vertical"></i></div>
+                <div class="ledger__icon"><img src="{{skill.img}}" alt="{{skill.name}}" /></div>
+                <div class="ledger__name">{{skill.name}}</div>
+                <div class="ledger__cell">{{skill.sb}}</div>
+                <div class="ledger__cell">{{skill.ml}}</div>
+                <div class="ledger__cell{{#if skill.disabled}} ledger__cell--dim{{/if}}">{{#if skill.disabled}}<i class="fa-solid fa-xmark fa-lg"></i>{{else}}{{skill.index}}{{/if}}</div>
+                <div class="ledger__cell ledger__cell--rollable{{#if skill.disabled}} ledger__cell--dim{{/if}}" data-action="successTest" data-tooltip="{{skill.emlDeltaLabel}}" data-tooltip-direction="UP">{{#if skill.disabled}}<i class="fa-solid fa-xmark fa-lg"></i>{{else}}{{skill.eml}}{{/if}}</div>
+                <div class="ledger__cell ledger__cell--rollable" data-action="fateTest" data-tooltip="{{skill.fateDeltaLabel}}" data-tooltip-direction="UP">{{skill.fate}}</div>
+                <div class="ledger__notes">{{skill.notes}}</div>
+                <div class="ledger__controls">
                     {{#if skill.canImprove}}
-                    <a class="list__control toggle-improve-flag" data-action="toggleImproveFlag" title="Improve"><i class="{{#if skill.improveFlag}}fas fa-star{{else}}far fa-star{{/if}}"></i></a>
+                    <a class="icon-button toggle-improve-flag{{#if skill.improveFlag}} icon-button--on{{/if}}" data-action="toggleImproveFlag" title="Improve"><i class="{{#if skill.improveFlag}}fas fa-star ledger__flag{{else}}far fa-star{{/if}}"></i></a>
                     {{/if}}
-                    <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                    <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                 </div>
-            </li>
+            </div>
             {{/each}}
-        </ol>
+        </div>
+        {{/if}}
     {{/each}}
+    <div class="add-footer">
+        <a class="add-button item-create" data-action="createItem" data-tooltip="{{localize 'SOHL.Skill.Heading.Add.label'}}" data-type="skill">
+            <i class="fa-solid fa-plus"></i><span>{{localize 'SOHL.Skill.Heading.Add.label'}}</span>
+        </a>
+    </div>
 </section>

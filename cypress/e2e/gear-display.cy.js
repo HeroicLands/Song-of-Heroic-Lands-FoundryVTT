@@ -42,15 +42,15 @@ describe("Being Gear tab: display (#302)", () => {
             cy.openSheet(actor);
             cy.switchTab("gear");
             cy.get('section.tab[data-tab="gear"]').within(() => {
-                cy.contains(".list__name", "On Body");
+                cy.contains(".section-legend__name", "On Body");
                 // Heavy Rock: 5 lb × 2 = 10 lb carried → floor(10 / 4) = Enc 2.
-                cy.contains(".list__capacity", "Carried: 10 lb");
-                cy.contains(".list__capacity", "Enc 2");
+                cy.contains(".section-legend__meta", "Carried: 10 lb");
+                cy.contains(".section-legend__meta", "Enc 2");
                 cy.contains(".item", "Heavy Rock").within(() => {
-                    cy.contains(".list__detail", "Misc Gear"); // type label
-                    cy.contains(".list__detail", "2"); // quantity
-                    cy.contains(".list__detail", "+0"); // quality
-                    cy.contains(".list__detail", "8"); // durability
+                    cy.contains(".ledger__cell", "Misc Gear"); // type label
+                    cy.contains(".ledger__cell", "2"); // quantity
+                    cy.contains(".ledger__cell", "+0"); // quality
+                    cy.contains(".ledger__cell", "8"); // durability
                 });
             });
         });
@@ -72,8 +72,8 @@ describe("Being Gear tab: display (#302)", () => {
                 cy.get(
                     `section.tab[data-tab="gear"] [data-container-id="${bag.id}"]`,
                 ).within(() => {
-                    cy.contains(".list__name", "Field Backpack");
-                    cy.contains(".list__capacity", "/30"); // container maxCapacity
+                    cy.contains(".section-legend__name", "Field Backpack");
+                    cy.contains(".section-legend__meta", "/30"); // container maxCapacity
                     cy.contains(".item", "Rations"); // nested content
                 });
             });

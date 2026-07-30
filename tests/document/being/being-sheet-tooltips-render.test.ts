@@ -259,22 +259,28 @@ describe("profile.hbs attribute tooltips (#769)", () => {
 
 describe("trauma.hbs value tooltips (#769)", () => {
     const context = {
-        traumas: [
+        injurySections: [
             {
-                id: "t1",
-                name: "Gash",
-                img: "icons/t.svg",
-                subTypeLabel: "Wound",
-                healed: false,
-                severity: "S2",
-                severityDeltaLabel: "Base +2",
-                healingRate: 6,
-                healingRateDisabled: false,
-                healingRateDeltaLabel: "Base +6",
-                isTreated: false,
-                aspect: "Edged",
-                area: "Torso",
-                notes: "",
+                subType: "injury",
+                label: "Injury",
+                injuries: [
+                    {
+                        id: "t1",
+                        name: "Gash",
+                        img: "icons/t.svg",
+                        healed: false,
+                        severity: "S2",
+                        severityDeltaLabel: "Base +2",
+                        healingRate: 6,
+                        healingRateDisabled: false,
+                        healingRateDeltaLabel: "Base +6",
+                        isTreated: false,
+                        isBleeding: false,
+                        aspect: "Edged",
+                        area: "Torso",
+                        notes: "",
+                    },
+                ],
             },
         ],
         afflictionGroups: [

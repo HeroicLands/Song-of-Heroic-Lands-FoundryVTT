@@ -12,137 +12,130 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab combat{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="combat">
-    {{!-- Melee Strike Modes: combat techniques + held melee weapons --}}
-    {{#if meleeStrikeModes.length}}
-        <header class="list__header flexrow">
-            <h3 class="list__name">Melee Strike Modes</h3>
-            <div class="list__detail" data-tooltip="Heft">HFT</div>
-            <div class="list__detail" data-tooltip="Reach">RCH</div>
-            <div class="list__detail" data-tooltip="{{#if @root.useZoneDie}}Zone Dice{{else}}Spread{{/if}}">{{@root.spreadLabel}}</div>
-            <div class="list__detail" data-tooltip="Impact">Impact</div>
-            <div class="list__detail" data-tooltip="Attack ML">Atk</div>
-            <div class="list__detail" data-tooltip="Block ML">Blk</div>
-            <div class="list__detail" data-tooltip="Counterstrike ML">CX</div>
-            <div class="list__controls">
-            </div>
-        </header>
 
+    {{!-- Melee Strike Modes: combat techniques + held melee weapons, grouped
+         per weapon under a small-caps SubType-style sub-header. One ledger,
+         one column header, for the whole family. --}}
+    {{#if meleeStrikeModes.length}}
+    <div class="section-legend">
+        <span class="section-legend__name">Melee Strike Modes</span>
+    </div>
+    <div class="ledger" style="--ledger-cols: minmax(120px,1fr) 2.3rem 2.3rem 2.6rem 3rem 2.4rem 2.4rem 2.4rem">
+        <div class="ledger__head">
+            <div>Mode</div>
+            <div data-tooltip="Heft">HFT</div>
+            <div data-tooltip="Reach">RCH</div>
+            <div data-tooltip="{{#if @root.useZoneDie}}Zone Dice{{else}}Spread{{/if}}">{{@root.spreadLabel}}</div>
+            <div data-tooltip="Impact">Impact</div>
+            <div data-tooltip="Attack ML">Atk</div>
+            <div data-tooltip="Block ML">Blk</div>
+            <div data-tooltip="Counterstrike ML">CX</div>
+        </div>
         {{#each meleeStrikeModes as |entry|}}
-        <div class="list">
-            <ol class="list__items">
-                <li class="list__header flexrow">
-                    <h3 class="list__name name">{{entry.weapon.name}}</h3>
-                </li>
-                {{#each entry.strikeModes as |sm|}}
-                <li class="item flexrow" data-sm-id="{{sm.shortcode}}" data-item-id="{{entry.weapon.id}}">
-                    <div class="list__name default-action flexrow">
-                        <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
-                    </div>
-                    <div class="list__detail" data-tooltip="{{sm.heft.deltaLabel}}" data-tooltip-direction="UP">{{sm.heft.effective}}</div>
-                    <div class="list__detail" data-tooltip="{{sm.reach.deltaLabel}}" data-tooltip-direction="UP">{{sm.reach.effective}}</div>
-                    <div class="list__detail" data-tooltip="{{sm.spread.deltaLabel}}" data-tooltip-direction="UP">{{#if @root.useZoneDie}}d{{/if}}{{sm.spread.effective}}</div>
-                    {{#unless sm.impact.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeImpact" data-tooltip="{{sm.impact.deltaLabel}}" data-tooltip-direction="UP">
-                        {{sm.impact.label}}
-                    </div>
-                    {{else}}
-                    <div class="list__detail">
-                        <i class="fa-solid fa-xmark fa-lg"></i>
-                    </div>
-                    {{/unless}}
-                    {{#unless sm.attack.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="{{sm.attack.deltaLabel}}" data-tooltip-direction="UP">{{sm.attack.effective}}</div>
-                    {{else}}
-                    <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
-                    {{/unless}}
-                    {{#unless sm.defense.block.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="block" data-tooltip="{{sm.defense.block.deltaLabel}}" data-tooltip-direction="UP">{{sm.defense.block.effective}}</div>
-                    {{else}}
-                    <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
-                    {{/unless}}
-                    {{#unless sm.defense.counterstrike.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike" data-tooltip="{{sm.defense.counterstrike.deltaLabel}}" data-tooltip-direction="UP">{{sm.defense.counterstrike.effective}}</div>
-                    {{else}}
-                    <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
-                    {{/unless}}
-                    <div class="list__controls">
-                    </div>
-                </li>
-                {{/each}}
-            </ol>
+        <div class="section-legend section-legend--subtype">
+            <span class="section-legend__name">{{entry.weapon.name}}</span>
+        </div>
+        {{#each entry.strikeModes as |sm|}}
+        <div class="ledger__row" data-sm-id="{{sm.shortcode}}" data-item-id="{{entry.weapon.id}}">
+            <div class="ledger__name" data-tooltip="{{sm.name}}">{{sm.name}}</div>
+            <div class="ledger__cell" data-tooltip="{{sm.heft.deltaLabel}}" data-tooltip-direction="UP">{{sm.heft.effective}}</div>
+            <div class="ledger__cell" data-tooltip="{{sm.reach.deltaLabel}}" data-tooltip-direction="UP">{{sm.reach.effective}}</div>
+            <div class="ledger__cell" data-tooltip="{{sm.spread.deltaLabel}}" data-tooltip-direction="UP">{{#if @root.useZoneDie}}d{{/if}}{{sm.spread.effective}}</div>
+            {{#unless sm.impact.disabled}}
+            <div class="ledger__cell ledger__cell--rollable" data-action="rollStrikeModeImpact" data-tooltip="{{sm.impact.deltaLabel}}" data-tooltip-direction="UP">
+                {{sm.impact.label}}
+            </div>
+            {{else}}
+            <div class="ledger__cell ledger__cell--dim"><i class="fa-solid fa-xmark fa-lg"></i></div>
+            {{/unless}}
+            {{#unless sm.attack.disabled}}
+            <div class="ledger__cell ledger__cell--rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="{{sm.attack.deltaLabel}}" data-tooltip-direction="UP">{{sm.attack.effective}}</div>
+            {{else}}
+            <div class="ledger__cell ledger__cell--dim"><i class="fa-solid fa-xmark fa-lg"></i></div>
+            {{/unless}}
+            {{#unless sm.defense.block.disabled}}
+            <div class="ledger__cell ledger__cell--rollable" data-action="rollStrikeModeTest" data-test-kind="block" data-tooltip="{{sm.defense.block.deltaLabel}}" data-tooltip-direction="UP">{{sm.defense.block.effective}}</div>
+            {{else}}
+            <div class="ledger__cell ledger__cell--dim"><i class="fa-solid fa-xmark fa-lg"></i></div>
+            {{/unless}}
+            {{#unless sm.defense.counterstrike.disabled}}
+            <div class="ledger__cell ledger__cell--rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike" data-tooltip="{{sm.defense.counterstrike.deltaLabel}}" data-tooltip-direction="UP">{{sm.defense.counterstrike.effective}}</div>
+            {{else}}
+            <div class="ledger__cell ledger__cell--dim"><i class="fa-solid fa-xmark fa-lg"></i></div>
+            {{/unless}}
         </div>
         {{/each}}
+        {{/each}}
+    </div>
     {{/if}}
 
-    {{!-- Missile Strike Modes: combat techniques + held missile weapons --}}
+    {{!-- Missile Strike Modes: combat techniques + held missile weapons, same
+         one-ledger-per-family / per-weapon-subheader pattern as Melee. --}}
     {{#if missileStrikeModes.length}}
+    <div class="section-legend">
+        <span class="section-legend__name">Missile Strike Modes</span>
+    </div>
+    <div class="ledger" style="--ledger-cols: minmax(120px,1fr) 2.6rem 2.6rem 3rem 3rem 2.6rem">
+        <div class="ledger__head">
+            <div>Mode</div>
+            <div data-tooltip="Draw Time">Draw</div>
+            <div data-tooltip="Base Range">BR</div>
+            <div data-tooltip="Max Volley Multiplier">MaxVM</div>
+            <div data-tooltip="Impact">Impact</div>
+            <div data-tooltip="Attack ML">Atk</div>
+        </div>
         {{#each missileStrikeModes as |entry|}}
-        <div class="list">
-            <header class="list__header flexrow">
-                <h3 class="list__name">Missile Strike Modes</h3>
-                <div class="list__detail" data-tooltip="Draw Time">Draw</div>
-                <div class="list__detail" data-tooltip="Base Range">BR</div>
-                <div class="list__detail" data-tooltip="Max Volley Multiplier">MaxVM</div>
-                <div class="list__detail" data-tooltip="Impact">Impact</div>
-                <div class="list__detail" data-tooltip="Attack ML">Atk</div>
-                <div class="list__controls">
-                </div>
-            </header>
-            <ol class="list__items">
-                <li class="list__header flexrow">
-                    <h3 class="list__name name">{{entry.weapon.name}}</h3>
-                </li>
-                {{#each entry.strikeModes as |sm|}}
-                <li class="item flexrow" data-sm-id="{{sm.shortcode}}" data-item-id="{{entry.weapon.id}}">
-                    <div class="list__name default-action flexrow">
-                        <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
-                    </div>
-                    <div class="list__detail" data-tooltip="{{sm.draw.deltaLabel}}" data-tooltip-direction="UP">{{sm.draw.effective}}</div>
-                    <div class="list__detail" data-tooltip="{{sm.baseRange.deltaLabel}}" data-tooltip-direction="UP">{{sm.baseRange.effective}}</div>
-                    <div class="list__detail">{{sm.maxVolleyMult}}</div>
-                    {{#unless sm.impact.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeImpact" data-tooltip="{{sm.impact.deltaLabel}}" data-tooltip-direction="UP">
-                        {{sm.impact.label}}
-                    </div>
-                    {{else}}
-                    <div class="list__detail">
-                        <i class="fa-solid fa-xmark fa-lg"></i>
-                    </div>
-                    {{/unless}}
-                    {{#unless sm.attack.disabled}}
-                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="{{sm.attack.deltaLabel}}" data-tooltip-direction="UP">{{sm.attack.effective}}</div>
-                    {{else}}
-                    <div class="list__detail"><i class="fa-solid fa-xmark fa-lg"></i></div>
-                    {{/unless}}
-                    <div class="list__controls">
-                    </div>
-                </li>
-                {{/each}}
-            </ol>
+        <div class="section-legend section-legend--subtype">
+            <span class="section-legend__name">{{entry.weapon.name}}</span>
+        </div>
+        {{#each entry.strikeModes as |sm|}}
+        <div class="ledger__row" data-sm-id="{{sm.shortcode}}" data-item-id="{{entry.weapon.id}}">
+            <div class="ledger__name" data-tooltip="{{sm.name}}">{{sm.name}}</div>
+            <div class="ledger__cell" data-tooltip="{{sm.draw.deltaLabel}}" data-tooltip-direction="UP">{{sm.draw.effective}}</div>
+            <div class="ledger__cell" data-tooltip="{{sm.baseRange.deltaLabel}}" data-tooltip-direction="UP">{{sm.baseRange.effective}}</div>
+            <div class="ledger__cell">{{sm.maxVolleyMult}}</div>
+            {{#unless sm.impact.disabled}}
+            <div class="ledger__cell ledger__cell--rollable" data-action="rollStrikeModeImpact" data-tooltip="{{sm.impact.deltaLabel}}" data-tooltip-direction="UP">
+                {{sm.impact.label}}
+            </div>
+            {{else}}
+            <div class="ledger__cell ledger__cell--dim"><i class="fa-solid fa-xmark fa-lg"></i></div>
+            {{/unless}}
+            {{#unless sm.attack.disabled}}
+            <div class="ledger__cell ledger__cell--rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="{{sm.attack.deltaLabel}}" data-tooltip-direction="UP">{{sm.attack.effective}}</div>
+            {{else}}
+            <div class="ledger__cell ledger__cell--dim"><i class="fa-solid fa-xmark fa-lg"></i></div>
+            {{/unless}}
         </div>
         {{/each}}
+        {{/each}}
+    </div>
     {{/if}}
 
     {{!-- Held Items — one dropdown per hold-capable limb --}}
     {{#if heldItemLimbs.length}}
-    <fieldset>
-        <legend>Held Items</legend>
-        <ol class="list__items held-items">
-            {{#each heldItemLimbs as |limb|}}
-            <li class="item flexrow" data-part-index="{{limb.index}}">
-                <div class="list__name"><h4>{{limb.label}}</h4></div>
-                <div class="list__detail">
-                    <select class="held-item-select" data-part-index="{{limb.index}}">
-                        <option value="">—</option>
-                        {{#each @root.holdableItems as |it|}}
-                        <option value="{{it.id}}" {{#if (eq it.id limb.heldItemId)}}selected{{/if}}>{{it.name}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-            </li>
-            {{/each}}
-        </ol>
-    </fieldset>
+    <div class="section-legend">
+        <span class="section-legend__name">Held Items</span>
+    </div>
+    <div class="ledger held-items" style="--ledger-cols: minmax(120px,1fr) 14rem">
+        <div class="ledger__head">
+            <div>Limb</div>
+            <div>Item Held</div>
+        </div>
+        {{#each heldItemLimbs as |limb|}}
+        <div class="ledger__row" data-part-index="{{limb.index}}">
+            <div class="ledger__name">{{limb.label}}</div>
+            <div>
+                <select class="held-item-select" data-part-index="{{limb.index}}">
+                    <option value="">—</option>
+                    {{#each @root.holdableItems as |it|}}
+                    <option value="{{it.id}}" {{#if (eq it.id limb.heldItemId)}}selected{{/if}}>{{it.name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+        {{/each}}
+    </div>
     {{/if}}
 
     {{#if isGM}}
@@ -155,75 +148,50 @@ SPDX-License-Identifier: GPL-3.0-or-later
             value=system.defaultCombatGroup}}
     {{/if}}
 
-    {{!-- Body Structure: Part → Location tree with effective armor totals
-         (natural protection + worn armor) per location. Editing (#720) is
-         owner-gated: + Add controls, drag-to-sort, and the ⋮ Edit/Delete menu. --}}
+    {{!-- Body Locations: a FLAT, read-only reference table — armor totals
+         (natural protection + worn armor), covering material, shock, and
+         impairment per location, in anatomical (head-to-toe) order. Zone/part
+         grouping, the hit-range chip, and all authoring chrome (add / drag /
+         context-menu) live on the Profile tab's Body Structure editor now —
+         Combat is armor-lookup reference only, so there is no rail here. --}}
     {{#if structure}}
-        <h2 class="being-section-heading">{{localize "SOHL.Being.Heading.BodyStructure"}}</h2>
-        <div class="search-items">
-            <input class="search-criteria" type="search" name="search-bodylocations" value=""
-                aria-label="Search Body Locations" placeholder="Search Body Locations" autocomplete="off" />
-        </div>
-        <div class="bodylocations-list">
-            <header class="list__header flexrow">
-                <h3 class="list__name">Location</h3>
-                <div class="list__detail">Layers</div>
-                <div class="list__detail" data-tooltip="Blunt">B</div>
-                <div class="list__detail" data-tooltip="Edged">E</div>
-                <div class="list__detail" data-tooltip="Piercing">P</div>
-                <div class="list__detail" data-tooltip="Fire">F</div>
-                <div class="list__detail" data-tooltip="Shock">Shock</div>
-                <div class="list__detail" data-tooltip="Impairment">Impair</div>
-                {{#if canEditBody}}
-                <a class="list__control bodyzone-add" data-action="addBodyZone" data-tooltip="Add Body Zone"><i class="fa-solid fa-plus"></i></a>
-                {{/if}}
-            </header>
+    <div class="section-legend">
+        <span class="section-legend__name">{{localize "SOHL.Being.Heading.BodyStructure"}}</span>
+        <span class="section-legend__meta">read-only — zones &amp; parts on Profile</span>
+    </div>
+    <div class="search-items">
+        <input class="search-criteria" type="search" name="search-bodylocations" value=""
+            aria-label="Search Body Locations" placeholder="Search Body Locations" autocomplete="off" />
+    </div>
+    <div class="bodylocations-list">
+        <div class="ledger" style="--ledger-cols: minmax(130px,1fr) 3.2rem 2rem 2rem 2rem 2rem 2.4rem 2.4rem">
+            <div class="ledger__head">
+                <div>Location</div>
+                <div>Material</div>
+                <div data-tooltip="Blunt">B</div>
+                <div data-tooltip="Edged">E</div>
+                <div data-tooltip="Piercing">P</div>
+                <div data-tooltip="Fire">F</div>
+                <div data-tooltip="Shock">Shk</div>
+                <div data-tooltip="Impairment">Imp</div>
+            </div>
             {{#each bodyZones as |zone|}}
-            <div class="list bodyzone" data-zone-shortcode="{{zone.shortcode}}" data-zone-index="{{zone.index}}">
-                <header class="list__header bodyzone__header flexrow"
-                    data-zone-shortcode="{{zone.shortcode}}" data-zone-index="{{zone.index}}"
-                    {{#if @root.canEditBody}}draggable="true"{{/if}}>
-                    <h3 class="list__name">{{zone.label}}</h3>
-                    {{#if zone.zoneRange}}
-                    <div class="list__detail bodyzone__range" data-tooltip="Zone Numbers">{{zone.zoneRange}}</div>
-                    {{/if}}
-                    {{#if @root.canEditBody}}
-                    <a class="list__control bodypart-add" data-action="addBodyPart" data-tooltip="Add Body Part"><i class="fa-solid fa-plus"></i></a>
-                    {{/if}}
-                    <a class="list__control bodyzone-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
-                </header>
-                {{#each zone.parts as |part|}}
-                <div class="list bodypart">
-                    <header class="list__header bodypart__header flexrow"
-                        data-part-shortcode="{{part.shortcode}}" data-part-index="{{part.index}}"
-                        {{#if @root.canEditBody}}draggable="true"{{/if}}>
-                        <h3 class="list__name">{{part.label}}</h3>
-                        {{#if @root.canEditBody}}
-                        <a class="list__control bodylocation-add" data-action="addBodyLocation" data-tooltip="Add Hit Location"><i class="fa-solid fa-plus"></i></a>
-                        {{/if}}
-                        <a class="list__control bodypart-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
-                    </header>
-                    <ol class="list__items">
-                        {{#each part.locations as |loc|}}
-                        <li class="item bodylocation flexrow" data-search-name="{{loc.name}}"
-                            data-part-shortcode="{{part.shortcode}}" data-location-shortcode="{{loc.shortcode}}"
-                            {{#if @root.canEditBody}}draggable="true"{{/if}}>
-                            <div class="list__name"><h4>{{loc.name}}</h4></div>
-                            <div class="list__detail bodylocation__layers">{{loc.layers}}</div>
-                            <div class="list__detail">{{loc.blunt}}</div>
-                            <div class="list__detail">{{loc.edged}}</div>
-                            <div class="list__detail">{{loc.piercing}}</div>
-                            <div class="list__detail">{{loc.fire}}</div>
-                            <div class="list__detail">{{loc.shock}}</div>
-                            <div class="list__detail">{{loc.impair}}</div>
-                            <a class="list__control bodylocation-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
-                        </li>
-                        {{/each}}
-                    </ol>
-                </div>
-                {{/each}}
+            {{#each zone.parts as |part|}}
+            {{#each part.locations as |loc|}}
+            <div class="ledger__row" data-search-name="{{loc.name}}">
+                <div class="ledger__name">{{loc.name}}</div>
+                <div class="ledger__cell ledger__cell--dim">{{loc.layers}}</div>
+                <div class="ledger__cell">{{loc.blunt}}</div>
+                <div class="ledger__cell">{{loc.edged}}</div>
+                <div class="ledger__cell">{{loc.piercing}}</div>
+                <div class="ledger__cell">{{loc.fire}}</div>
+                <div class="ledger__cell">{{loc.shock}}</div>
+                <div class="ledger__cell ledger__cell--dim">{{loc.impair}}</div>
             </div>
             {{/each}}
+            {{/each}}
+            {{/each}}
         </div>
+    </div>
     {{/if}}
 </section>

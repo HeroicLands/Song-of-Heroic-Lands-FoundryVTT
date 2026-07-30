@@ -1,0 +1,45 @@
+// Status pill — the small "stamp" lozenges in the sheet header (Manuscript
+// redesign, epic #783 / Feature 0). Ink-on-stamp by default; a lit pill fills
+// with the accent (a toggled-on status). An indicator pill (`--indicator`) is a
+// read-only, dashed reflection of an affliction-driven state (aural-shock /
+// fatigue) — not clickable, cursor:help.
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--sohl-font-sans);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 0.1rem 0.42rem;
+    border-radius: var(--sohl-radius-pill);
+    border: 1px solid var(--sohl-color-border-subtle);
+    background: var(--sohl-color-bg-stamp);
+    color: var(--sohl-color-text-muted);
+    cursor: pointer;
+
+    // Lit — the status is active. Supports the BEM modifier and the Foundry/JS
+    // `.active` state class equivalently.
+    &--lit,
+    &.active {
+        background: var(--sohl-color-accent);
+        color: var(--sohl-color-accent-ink);
+        border-color: var(--sohl-color-accent);
+    }
+
+    // Read-only affliction-derived indicator — dashed, not clickable.
+    &--indicator {
+        border-style: dashed;
+        cursor: help;
+    }
+}
+
+// Host strip — wraps freely and left-packs the pills.
+.status-pill-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 0.28rem;
+}

@@ -18,6 +18,7 @@ import {
     buildSkillGroups,
     SKILL_DISPLAY_SUBTYPE_ORDER,
     buildTraumaRows,
+    buildInjurySections,
     traumaSeverityLabel,
     buildAfflictionGroups,
     buildAffiliationRows,
@@ -161,6 +162,7 @@ describe("being-sheet-view", () => {
             disabled: false,
             canImprove: true,
             improveFlag: false,
+            notes: "",
             ...over,
         });
 
@@ -220,6 +222,7 @@ describe("being-sheet-view", () => {
                 disabled: true,
                 canImprove: false,
                 improveFlag: true,
+                notes: "",
             });
         });
 
@@ -947,6 +950,7 @@ describe("being-sheet-view", () => {
             uuid: "Item.t1",
             name: "Left Arm Crush",
             img: "icons/x.svg",
+            subType: "injury",
             level: 2,
             severityDeltaLabel: "Base +2",
             healingRate: 6,
@@ -996,6 +1000,81 @@ describe("being-sheet-view", () => {
             const [row] = buildTraumaRows([base], label);
             expect(row.severityDeltaLabel).toBe("Base +2");
             expect(row.healingRateDeltaLabel).toBe("Base +6");
+        });
+    });
+
+    describe("buildInjurySections", () => {
+        const label = (a: string) => a.toUpperCase();
+        const aspect = (a: string) => `asp:${a}`;
+        const trauma = (over = {}) => ({
+            id: "t1",
+            uuid: "Item.t1",
+            name: "Gash",
+            img: "icons/x.svg",
+            subType: "injury" as string | undefined,
+            level: 2,
+            severityDeltaLabel: "",
+            healingRate: 5,
+            healingRateDisabled: false,
+            healingRateDeltaLabel: "",
+            isTreated: false,
+            isBleeding: false,
+            aspect: "edged",
+            area: "Left Forearm" as string | undefined,
+            notes: "",
+            ...over,
+        });
+
+        it("emits every ordered subtype (including empty) with localized labels", () => {
+            const sections = buildInjurySections(
+                [trauma()],
+                ["injury", "fatigue"],
+                label,
+                aspect,
+            );
+            expect(sections.map((s) => s.subType)).toEqual([
+                "injury",
+                "fatigue",
+            ]);
+            expect(sections[0].label).toBe("INJURY");
+            expect(sections[0].injuries).toHaveLength(1);
+            // Empty ordered subtype still emitted (template filters by length).
+            expect(sections[1].injuries).toEqual([]);
+        });
+
+        it("groups traumas into their subtype sections and formats rows", () => {
+            const sections = buildInjurySections(
+                [
+                    trauma({ id: "a", subType: "injury", level: 3 }),
+                    trauma({ id: "b", subType: "fatigue", level: 1 }),
+                    trauma({ id: "c", subType: "injury", level: 4 }),
+                ],
+                ["injury", "fatigue"],
+                label,
+                aspect,
+            );
+            const injury = sections.find((s) => s.subType === "injury");
+            const fatigue = sections.find((s) => s.subType === "fatigue");
+            expect(injury?.injuries.map((r) => r.id)).toEqual(["a", "c"]);
+            expect(fatigue?.injuries.map((r) => r.id)).toEqual(["b"]);
+            // Rows are formatted through buildTraumaRows (severity band + aspect).
+            expect(injury?.injuries[0].severity).toBe("S3");
+            expect(injury?.injuries[0].aspect).toBe("asp:edged");
+        });
+
+        it("appends populated subtypes absent from the order after the ordered ones", () => {
+            const sections = buildInjurySections(
+                [trauma({ subType: "pall" })],
+                ["injury", "fatigue"],
+                label,
+                aspect,
+            );
+            expect(sections.map((s) => s.subType)).toEqual([
+                "injury",
+                "fatigue",
+                "pall",
+            ]);
+            expect(sections[2].injuries).toHaveLength(1);
         });
     });
 

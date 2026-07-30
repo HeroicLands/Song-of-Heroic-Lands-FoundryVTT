@@ -39,7 +39,9 @@ import {
     SkillSubTypeChoices,
     AfflictionSubTypes,
     AfflictionSubTypeChoices,
+    TraumaSubTypes,
     TraumaSubTypeChoices,
+    BodyRoleChoices,
 } from "@src/utils/constants";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
@@ -59,11 +61,12 @@ import {
     attributeDescriptor,
     buildSkillGroups,
     SKILL_DISPLAY_SUBTYPE_ORDER,
-    buildTraumaRows,
+    buildInjurySections,
     buildAfflictionGroups,
     buildAffiliationRows,
     buildHoldableGear,
     buildBodyLocationTree,
+    type BodyZoneLike,
     buildContainerTree,
     resolveGearContainerMove,
     htmlToPlainText,
@@ -288,8 +291,10 @@ export class BeingSheet extends SohlActorSheetBase {
         // is provided by the SohlDataModel sheet mixin.
         (this as any)._contextMenu?.((this as any).element);
 
-        // Combat tab Body Structure tree: click the per-row ⋮ to Edit a body
-        // part or body location in its own auto-saving editor (#721 / #722).
+        // Profile tab Body Structure tree: click the per-row ⋮ to Edit a body
+        // zone, part, or location in its own auto-saving editor (#721 / #722).
+        // The tree moved from Combat to Profile in #782; the menu binds at the
+        // sheet root, matching whichever tab carries the `*-contextmenu` hooks.
         if ((this as any).isEditable && (this as any).element) {
             bindBodyStructureContextMenu(this.document, (this as any).element);
         }
@@ -646,6 +651,316 @@ export class BeingSheet extends SohlActorSheetBase {
         await addBodyLocation(this.document, code);
     }
 
+    /**
+     * `data-action="editIdentity"`: open a dialog to edit the being's `name` and
+     * `system.shortcode` together (the header identity pencil). Both are applied
+     * in a single `actor.update`; the document's update-path guard enforces the
+     * unique `(type, shortcode)` key and warns on a duplicate (#766). A blank
+     * name is refused; only changed fields are written. The dialog content is
+     * static markup with the current values HTML-escaped into value attributes —
+     * never interpolated as markup.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param _target - The clicked pencil (unused).
+     */
+    protected static async _onEditIdentity(
+        this: BeingSheet,
+        _event: PointerEvent,
+        _target: HTMLElement,
+    ): Promise<void> {
+        const actor = this.document;
+        const currentName = actor.name ?? "";
+        const currentCode = (actor.system as any).shortcode ?? "";
+        const esc = foundry.utils.escapeHTML;
+        const content = `
+            <form class="edit-identity standard-form">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="name" value="${esc(currentName)}" autofocus />
+                </div>
+                <div class="form-group">
+                    <label>Shortcode</label>
+                    <input type="text" name="shortcode" value="${esc(currentCode)}" />
+                </div>
+            </form>`;
+        let fd: PlainObject | undefined;
+        try {
+            fd = (await foundry.applications.api.DialogV2.prompt({
+                window: {
+                    title: game.i18n.localize("SOHL.Being.EditIdentity"),
+                    icon: "fa-solid fa-pen",
+                },
+                content,
+                ok: {
+                    label: "Save",
+                    icon: "fa-solid fa-save",
+                    callback: (_event: Event, button: any) =>
+                        new foundry.applications.ux.FormDataExtended(
+                            button.form,
+                        ).object,
+                },
+            } as any)) as PlainObject | undefined;
+        } catch {
+            return;
+        }
+        if (!fd) return;
+        const name = String(fd.name ?? "").trim();
+        const shortcode = String(fd.shortcode ?? "").trim();
+        if (!name) {
+            sohl.log.uiWarn("Name cannot be blank.");
+            return;
+        }
+        const update: PlainObject = {};
+        if (name !== currentName) update.name = name;
+        if (shortcode !== currentCode) update["system.shortcode"] = shortcode;
+        if (Object.keys(update).length) await actor.update(update);
+    }
+
+    /**
+     * `data-action="addMovementProfile"`: prompt for a movement medium (limited
+     * to media the being does not yet have a profile for) and a tactical move
+     * (feet/round), then append the new profile to `system.movementProfiles`.
+     * The whole array is written back (never an element-by-index update — #247).
+     * The option list is built from the trusted, localized `MovementMediumChoices`
+     * enum labels, never from persisted user data.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param _target - The clicked add control (unused).
+     */
+    protected static async _onAddMovementProfile(
+        this: BeingSheet,
+        _event: PointerEvent,
+        _target: HTMLElement,
+    ): Promise<void> {
+        const actor = this.document;
+        const logic = actor.logic as BeingLogic | undefined;
+        const profiles = logic?.data.movementProfiles ?? [];
+        const used = new Set(profiles.map((p) => p.medium));
+        const available = (
+            Object.entries(MovementMediumChoices) as [MovementMedium, string][]
+        ).filter(
+            ([value]) => value !== MOVEMENT_MEDIUM.NONE && !used.has(value),
+        );
+        if (!available.length) {
+            sohl.log.uiWarn(
+                "Every movement medium already has a movement profile.",
+            );
+            return;
+        }
+        const options = available
+            .map(
+                ([value, label]) =>
+                    `<option value="${value}">${foundry.utils.escapeHTML(
+                        game.i18n.localize(label),
+                    )}</option>`,
+            )
+            .join("");
+        const content = `
+            <form class="add-movement-profile standard-form">
+                <div class="form-group">
+                    <label>${game.i18n.localize("SOHL.Actor.SHEET.tab.movement.label")}</label>
+                    <select name="medium">${options}</select>
+                </div>
+                <div class="form-group">
+                    <label>${game.i18n.localize("SOHL.Being.movement.unit")}</label>
+                    <input type="number" name="feetPerRound" value="0" min="0" step="1" />
+                </div>
+            </form>`;
+        let fd: PlainObject | undefined;
+        try {
+            fd = (await foundry.applications.api.DialogV2.prompt({
+                window: {
+                    title: "Add Movement Profile",
+                    icon: "fa-solid fa-person-running",
+                },
+                content,
+                ok: {
+                    label: "Create",
+                    icon: "fa-solid fa-plus",
+                    callback: (_event: Event, button: any) =>
+                        new foundry.applications.ux.FormDataExtended(
+                            button.form,
+                        ).object,
+                },
+            } as any)) as PlainObject | undefined;
+        } catch {
+            return;
+        }
+        if (!fd) return;
+        const medium = String(fd.medium ?? "") as MovementMedium;
+        if (!medium || used.has(medium)) return;
+        const feetPerRound = Math.max(
+            0,
+            Math.round(Number(fd.feetPerRound) || 0),
+        );
+        const next = [
+            ...profiles,
+            {
+                medium,
+                feetPerRound,
+                leaguesPerWatch: 0,
+                encumbrance: "0",
+                strMod: "0",
+                disabled: false,
+            },
+        ];
+        await actor.update({ "system.movementProfiles": next } as PlainObject);
+    }
+
+    /**
+     * Set a Profile body-structure disclosure row's open state: toggle its
+     * `is-open` class and swap its chevron icon (right ↔ down). Pure DOM — no
+     * document mutation.
+     *
+     * @param el - The zone or part row element.
+     * @param open - Whether the row should render as expanded.
+     */
+    private static _setDisclosureState(el: Element, open: boolean): void {
+        el.classList.toggle("is-open", open);
+        const icon = el.querySelector(":scope > .disclosure i");
+        if (icon) {
+            icon.classList.toggle("fa-chevron-down", open);
+            icon.classList.toggle("fa-chevron-right", !open);
+        }
+    }
+
+    /**
+     * `data-action="toggleBodyStructureAll"`: expand or collapse the entire
+     * Profile body-structure tree at once, swapping the toggle button's state,
+     * icon, and label. Pure DOM disclosure — no document mutation.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked toggle-all button.
+     */
+    protected static _onToggleBodyStructureAll(
+        this: BeingSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): void {
+        const btn = target.closest(
+            ".body-structure__toggle-all",
+        ) as HTMLElement | null;
+        if (!btn) return;
+        const expandAll = btn.dataset.state !== "expanded";
+        const section =
+            btn.closest("section.tab") ?? ((this as any).element as Element);
+        const container = section?.querySelector(".body-structure");
+        if (!container) return;
+
+        container
+            .querySelectorAll(".body-structure__part")
+            .forEach((el) =>
+                el.classList.toggle(
+                    "body-structure__part--collapsed",
+                    !expandAll,
+                ),
+            );
+        container
+            .querySelectorAll(".body-structure__location")
+            .forEach((el) =>
+                el.classList.toggle(
+                    "body-structure__location--collapsed",
+                    !expandAll,
+                ),
+            );
+        container
+            .querySelectorAll(".body-structure__zone, .body-structure__part")
+            .forEach((el) => BeingSheet._setDisclosureState(el, expandAll));
+
+        btn.dataset.state = expandAll ? "expanded" : "collapsed";
+        const icon = btn.querySelector("i");
+        if (icon) {
+            icon.classList.toggle("fa-angles-up", expandAll);
+            icon.classList.toggle("fa-angles-down", !expandAll);
+        }
+        const label = btn.querySelector("span");
+        if (label)
+            label.textContent = expandAll ? "Collapse All" : "Expand All";
+    }
+
+    /**
+     * `data-action="toggleZone"`: expand or collapse one body zone's parts (and,
+     * for its expanded parts, their locations). Parts and locations are flat DOM
+     * siblings following the zone header, so they are gathered by sibling-walking
+     * up to the next zone. Pure DOM disclosure — no document mutation.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked zone disclosure control.
+     */
+    protected static _onToggleZone(
+        this: BeingSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): void {
+        const zoneEl = target.closest(
+            ".body-structure__zone",
+        ) as HTMLElement | null;
+        if (!zoneEl) return;
+        const open = !zoneEl.classList.contains("is-open");
+        BeingSheet._setDisclosureState(zoneEl, open);
+
+        const parts: HTMLElement[] = [];
+        const locs: HTMLElement[] = [];
+        let sib = zoneEl.nextElementSibling as HTMLElement | null;
+        while (sib && !sib.classList.contains("body-structure__zone")) {
+            if (sib.classList.contains("body-structure__part")) parts.push(sib);
+            else if (sib.classList.contains("body-structure__location"))
+                locs.push(sib);
+            sib = sib.nextElementSibling as HTMLElement | null;
+        }
+
+        for (const part of parts) {
+            part.classList.toggle("body-structure__part--collapsed", !open);
+        }
+        for (const loc of locs) {
+            const code = loc.dataset.partShortcode;
+            const partEl = parts.find((p) => p.dataset.partShortcode === code);
+            const visible = open && !!partEl?.classList.contains("is-open");
+            loc.classList.toggle(
+                "body-structure__location--collapsed",
+                !visible,
+            );
+        }
+    }
+
+    /**
+     * `data-action="togglePart"`: expand or collapse one body part's hit
+     * locations. Locations carry the owning part's shortcode
+     * (`data-part-shortcode`), so they are matched directly. Pure DOM
+     * disclosure — no document mutation.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked part disclosure control.
+     */
+    protected static _onTogglePart(
+        this: BeingSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): void {
+        const partEl = target.closest(
+            ".body-structure__part",
+        ) as HTMLElement | null;
+        if (!partEl) return;
+        const code = partEl.dataset.partShortcode;
+        if (!code) return;
+        const open = !partEl.classList.contains("is-open");
+        BeingSheet._setDisclosureState(partEl, open);
+
+        const container = partEl.closest(".body-structure");
+        container
+            ?.querySelectorAll(
+                `.body-structure__location[data-part-shortcode="${CSS.escape(
+                    code,
+                )}"]`,
+            )
+            .forEach((loc) =>
+                loc.classList.toggle(
+                    "body-structure__location--collapsed",
+                    !open,
+                ),
+            );
+    }
+
     /** @inheritDoc */
     static override DEFAULT_OPTIONS = {
         classes: ["being"],
@@ -659,19 +974,26 @@ export class BeingSheet extends SohlActorSheetBase {
                 dropSelector: null,
             },
             {
-                // Body Structure editor: drag a part header or location row to
-                // reorder/move it within the Combat tab tree (#720).
-                dragSelector: ".bodylocations-list [draggable]",
-                dropSelector: ".bodylocations-list",
+                // Body Structure editor: drag a zone header, part header, or
+                // location row to reorder/move it within the Profile tab tree
+                // (#720; the tree lives on Profile now — Combat is read-only).
+                dragSelector: ".body-structure [draggable]",
+                dropSelector: ".body-structure",
             },
         ],
         actions: {
             addBodyZone: BeingSheet._onAddBodyZone,
             addBodyPart: BeingSheet._onAddBodyPart,
             addBodyLocation: BeingSheet._onAddBodyLocation,
+            editIdentity: BeingSheet._onEditIdentity,
+            addMovementProfile: BeingSheet._onAddMovementProfile,
+            toggleBodyStructureAll: BeingSheet._onToggleBodyStructureAll,
+            toggleZone: BeingSheet._onToggleZone,
+            togglePart: BeingSheet._onTogglePart,
             rollStrikeModeTest: BeingSheet._onRollStrikeModeTest,
             rollStrikeModeImpact: BeingSheet._onRollStrikeModeImpact,
-            rollSkillTest: BeingSheet._onRollSkillTest,
+            successTest: BeingSheet._onRollSkillTest,
+            fateTest: BeingSheet._onRollFateTest,
             addInjury: BeingSheet._onAddInjury,
             toggleStatus: BeingSheet._onToggleStatus,
             toggleImproveFlag: BeingSheet._onToggleImproveFlag,
@@ -1101,6 +1423,39 @@ export class BeingSheet extends SohlActorSheetBase {
         await skillLogic.successTest(context);
     }
 
+    /**
+     * Handle clicks on a skill's Fate cell in the Skills tab. Runs a fate test
+     * against that skill (consuming an applicable Fate charge on success) and
+     * posts the result to chat. Hold Shift to skip the dialog.
+     *
+     * @param event - The triggering pointer event.
+     * @param target - The clicked Fate cell, on or inside an element carrying
+     *   `data-item-id`.
+     */
+    protected static async _onRollFateTest(
+        this: BeingSheet,
+        event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const row = target.closest("[data-item-id]");
+        if (!row) return;
+        const itemId = row.getAttribute("data-item-id");
+        if (!itemId) return;
+
+        const actor = this.document;
+        const item = actor.items.get(itemId);
+        const skillLogic = item?.logic as any;
+        if (typeof skillLogic?.fateTest !== "function") return;
+
+        const context = new SohlActionContext({
+            speaker: (actor as any).getSpeaker(),
+            type: `skill-${item!.name}-fate-test`,
+            title: `${item!.name} – Fate`,
+            skipDialog: event.shiftKey,
+        });
+        await skillLogic.fateTest(context);
+    }
+
     /* -------------------------------------------- */
     /*  Part Context Dispatcher                     */
     /* -------------------------------------------- */
@@ -1340,7 +1695,59 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Prepare context for the Profile tab: attributes, traits, affiliations, dossier.
+     * Shape a being's body structure into the Foundry-free
+     * {@link BodyZoneLike}[] input consumed by {@link buildBodyLocationTree}.
+     * Shared by the Profile tab's editable body-structure tree and the Combat
+     * tab's read-only Body Locations reference table so both render identical
+     * zone/part/location data. Per-part functional roles are pre-localized into
+     * a compact badge string for the Profile tree's `chip--role`.
+     *
+     * @param structure - The being's body structure, or `undefined`.
+     * @returns The zone/part/location input array (empty when no structure).
+     */
+    private _buildBodyZoneInput(structure: any): BodyZoneLike[] {
+        return ((structure?.zones ?? []) as any[]).map((zone: any) => ({
+            shortcode: zone.shortcode,
+            index: zone.index,
+            label: zone.name ?? zone.shortcode,
+            zoneNumbers: zone.zoneNumbers ?? [],
+            parts: (zone.parts ?? []).map((part: any) => ({
+                shortcode: part.shortcode,
+                index: part.index,
+                label: part.name ?? part.shortcode,
+                role: (part.roles ?? [])
+                    .map((r: string) =>
+                        game.i18n.localize(
+                            (BodyRoleChoices as Record<string, string>)[r] ?? r,
+                        ),
+                    )
+                    .join(", "),
+                locations: (part.locations ?? []).map((loc: any) => ({
+                    shortcode: loc.shortcode,
+                    name: loc.name,
+                    layers: loc.armorType ?? "",
+                    base: {
+                        blunt: loc.protectionBase.blunt.effective,
+                        edged: loc.protectionBase.edged.effective,
+                        piercing: loc.protectionBase.piercing.effective,
+                        fire: loc.protectionBase.fire.effective,
+                    },
+                    armor: {
+                        blunt: loc.armorProtection?.blunt ?? 0,
+                        edged: loc.armorProtection?.edged ?? 0,
+                        piercing: loc.armorProtection?.piercing ?? 0,
+                        fire: loc.armorProtection?.fire ?? 0,
+                    },
+                    shock: loc.shockValue?.effective ?? 0,
+                    impair: 0,
+                })),
+            })),
+        }));
+    }
+
+    /**
+     * Prepare context for the Profile tab: attributes, affiliations, movement,
+     * the editable body-structure tree, and the biography.
      *
      * @param context - The render context to augment.
      * @param _options - The render options (unused).
@@ -1422,10 +1829,22 @@ export class BeingSheet extends SohlActorSheetBase {
             });
         }
 
+        // Body structure editor: the editable Zone → Part → Location tree lives
+        // on the Profile tab (#782). `structure` gates the whole section;
+        // `bodyZones` is the same tree Combat renders read-only; `canEditBody`
+        // gates the add / drag-sort / ⋮ authoring affordances (owner/GM only).
+        const structure = getActorBody(actor.logic)?.structure;
+        const bodyZones = buildBodyLocationTree(
+            this._buildBodyZoneInput(structure),
+        );
+
         return Object.assign(context, {
             attributes,
             affiliations,
             movement,
+            structure,
+            bodyZones,
+            canEditBody: this.isEditable,
         });
     }
 
@@ -1466,6 +1885,7 @@ export class BeingSheet extends SohlActorSheetBase {
                     disabled: !!skillLogic?.masteryLevel?.disabled,
                     canImprove: !!skillLogic?.canImprove,
                     improveFlag: !!sys.improveFlag,
+                    notes: htmlToPlainText(sys.notes ?? ""),
                 };
             }),
             SKILL_DISPLAY_SUBTYPE_ORDER,
@@ -1558,36 +1978,7 @@ export class BeingSheet extends SohlActorSheetBase {
         // phase), the covering material layers, and shock. Held items are shown
         // via the Held Items dropdowns, not here.
         const bodyZones = buildBodyLocationTree(
-            (structure?.zones ?? []).map((zone: any) => ({
-                shortcode: zone.shortcode,
-                index: zone.index,
-                label: zone.name ?? zone.shortcode,
-                zoneNumbers: zone.zoneNumbers ?? [],
-                parts: (zone.parts ?? []).map((part: any) => ({
-                    shortcode: part.shortcode,
-                    index: part.index,
-                    label: part.name ?? part.shortcode,
-                    locations: (part.locations ?? []).map((loc: any) => ({
-                        shortcode: loc.shortcode,
-                        name: loc.name,
-                        layers: loc.armorType ?? "",
-                        base: {
-                            blunt: loc.protectionBase.blunt.effective,
-                            edged: loc.protectionBase.edged.effective,
-                            piercing: loc.protectionBase.piercing.effective,
-                            fire: loc.protectionBase.fire.effective,
-                        },
-                        armor: {
-                            blunt: loc.armorProtection?.blunt ?? 0,
-                            edged: loc.armorProtection?.edged ?? 0,
-                            piercing: loc.armorProtection?.piercing ?? 0,
-                            fire: loc.armorProtection?.fire ?? 0,
-                        },
-                        shock: loc.shockValue?.effective ?? 0,
-                        impair: 0,
-                    })),
-                })),
-            })),
+            this._buildBodyZoneInput(structure),
         );
 
         return Object.assign(context, {
@@ -1621,9 +2012,10 @@ export class BeingSheet extends SohlActorSheetBase {
         const actor = this.document;
         const logic = actor.logic as BeingLogic;
 
-        // Traumas (injuries): extract each item's display values from its logic
-        // and system data, then format into compact rows for the list.
-        const traumas = buildTraumaRows(
+        // Injuries (traumas), grouped into present-only subtype sections
+        // (mirroring afflictions): extract each item's display values from its
+        // logic and system data, then group + format for the injuries list.
+        const injurySections = buildInjurySections(
             (actor.itemTypes[ITEM_KIND.TRAUMA] ?? []).map((item) => {
                 const tl = item.logic as any;
                 const sys = item.system as any;
@@ -1633,11 +2025,6 @@ export class BeingSheet extends SohlActorSheetBase {
                     name: item.name,
                     img: item.img ?? "",
                     subType: sys.subType,
-                    subTypeLabel: game.i18n.localize(
-                        (TraumaSubTypeChoices as Record<string, string>)[
-                            sys.subType
-                        ] ?? sys.subType,
-                    ),
                     level: tl?.level?.effective ?? 0,
                     severityDeltaLabel: tl?.level?.deltaLabel ?? "",
                     healingRate: tl?.healingRate?.effective ?? 0,
@@ -1650,6 +2037,12 @@ export class BeingSheet extends SohlActorSheetBase {
                     notes: sys.notes,
                 };
             }),
+            TraumaSubTypes,
+            (subType) =>
+                game.i18n.localize(
+                    (TraumaSubTypeChoices as Record<string, string>)[subType] ??
+                        subType,
+                ),
             (aspect) =>
                 sohl.i18n.localize(`SOHL.ImpactModifier.ASPECT.${aspect}`),
         );
@@ -1691,7 +2084,7 @@ export class BeingSheet extends SohlActorSheetBase {
         );
 
         return Object.assign(context, {
-            traumas,
+            injurySections,
             afflictionGroups,
             shockState: logic?.shockState,
         });

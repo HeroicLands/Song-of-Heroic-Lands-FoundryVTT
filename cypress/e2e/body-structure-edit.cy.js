@@ -12,11 +12,12 @@
  */
 
 /**
- * Body Part (#721) and Body Location (#722) editors, opened from the Combat-tab
- * Body Structure tree's per-row ⋮ menu. Each editor is a small ApplicationV2
- * that auto-saves (submitOnChange, no Save button) and writes back to the
- * being's flat `system.body.structure.{zones,parts,locations}` arrays via a
- * whole-array update (#780).
+ * Body Part (#721) and Body Location (#722) editors, opened from the Profile-tab
+ * Body Structure tree's per-row ⋮ menu (the editable tree moved to Profile in
+ * the Manuscript redesign; Combat keeps a read-only armor table). Each editor is
+ * a small ApplicationV2 that auto-saves (submitOnChange, no Save button) and
+ * writes back to the being's flat `system.body.structure.{zones,parts,locations}`
+ * arrays via a whole-array update (#780).
  */
 
 /** Find the open Body Part / Location editor by its id prefix (minifier-safe). */
@@ -45,7 +46,7 @@ function closeEditors() {
     );
 }
 
-describe("Body Structure editors (Combat tab)", () => {
+describe("Body Structure editors (Profile tab)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => {
         closeEditors();
@@ -65,10 +66,14 @@ describe("Body Structure editors (Combat tab)", () => {
             }).then((ref) => {
                 cy.openSheet(actor);
                 cy.wait(500); // let post-open re-renders settle before switching
-                cy.switchTab("combat", "primary");
-                // Open the part's ⋮ → Edit Body Part.
+                cy.switchTab("profile", "primary");
+                // The tree is collapsed by default — expand it so the part row
+                // and its ⋮ menu are visible, then open ⋮ → Edit Body Part.
                 cy.get(
-                    `section[data-tab="combat"] .bodypart__header[data-part-shortcode="${ref.code}"] .bodypart-contextmenu`,
+                    'section[data-tab="profile"] [data-action="toggleBodyStructureAll"]',
+                ).click();
+                cy.get(
+                    `section[data-tab="profile"] .body-structure__part[data-part-shortcode="${ref.code}"] .bodypart-contextmenu`,
                 ).click({ force: true });
                 cy.get("#context-menu")
                     .contains(".context-item", "Edit Body Part")
@@ -123,9 +128,12 @@ describe("Body Structure editors (Combat tab)", () => {
             }).then((ref) => {
                 cy.openSheet(actor);
                 cy.wait(500); // let post-open re-renders settle before switching
-                cy.switchTab("combat", "primary");
+                cy.switchTab("profile", "primary");
                 cy.get(
-                    `section[data-tab="combat"] li.bodylocation[data-part-shortcode="${ref.partCode}"][data-location-shortcode="${ref.locCode}"] .bodylocation-contextmenu`,
+                    'section[data-tab="profile"] [data-action="toggleBodyStructureAll"]',
+                ).click();
+                cy.get(
+                    `section[data-tab="profile"] .body-structure__location[data-part-shortcode="${ref.partCode}"][data-location-shortcode="${ref.locCode}"] .bodylocation-contextmenu`,
                 ).click({ force: true });
                 cy.get("#context-menu")
                     .contains(".context-item", "Edit Location")
@@ -182,9 +190,12 @@ describe("Body Structure editors (Combat tab)", () => {
             }).then((ref) => {
                 cy.openSheet(actor);
                 cy.wait(500); // let post-open re-renders settle before switching
-                cy.switchTab("combat", "primary");
+                cy.switchTab("profile", "primary");
                 cy.get(
-                    `section[data-tab="combat"] .bodypart__header[data-part-shortcode="${ref.code}"] .bodypart-contextmenu`,
+                    'section[data-tab="profile"] [data-action="toggleBodyStructureAll"]',
+                ).click();
+                cy.get(
+                    `section[data-tab="profile"] .body-structure__part[data-part-shortcode="${ref.code}"] .bodypart-contextmenu`,
                 ).click({ force: true });
                 cy.get("#context-menu")
                     .contains(".context-item", "Edit Body Part")
@@ -246,25 +257,25 @@ describe("Body Structure editing — add / sort / delete (#720)", () => {
             cy.prepare(actor);
             cy.openSheet(actor);
             cy.wait(500);
-            cy.switchTab("combat", "primary");
+            cy.switchTab("profile", "primary");
             cy.foundry((win) => {
                 const el = win.game.actors
                     .get(actor.id)
-                    .sheet.element.querySelector('section[data-tab="combat"]');
-                const list = el.querySelector(".bodylocations-list");
+                    .sheet.element.querySelector('section[data-tab="profile"]');
+                const list = el.querySelector(".body-structure");
                 const zoneHeader = list.querySelector(
-                    "header.bodyzone__header[data-zone-shortcode]",
+                    ".body-structure__zone[data-zone-shortcode]",
                 );
                 const header = list.querySelector(
-                    "header.bodypart__header[data-part-shortcode]",
+                    ".body-structure__part[data-part-shortcode]",
                 );
                 const locRow = list.querySelector(
-                    "li.bodylocation[data-part-shortcode][data-location-shortcode]",
+                    ".body-structure__location[data-part-shortcode][data-location-shortcode]",
                 );
                 return {
-                    addZone: !!list.querySelector(
-                        '[data-action="addBodyZone"]',
-                    ),
+                    // Add-Zone lives in the section-legend beside the tree,
+                    // not inside `.body-structure` — scope it to the whole tab.
+                    addZone: !!el.querySelector('[data-action="addBodyZone"]'),
                     addPart: !!list.querySelector(
                         '[data-action="addBodyPart"]',
                     ),

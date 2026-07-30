@@ -46,11 +46,8 @@ describe("Being sheet header: body-part impairment grid (#464)", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
             cy.openSheet(actor);
-            cy.get(".sheet-header__location").should(
-                "have.length.greaterThan",
-                0,
-            );
-            cy.get('.sheet-header__location:not([data-status="none"])').should(
+            cy.get(".body-lozenge").should("have.length.greaterThan", 0);
+            cy.get('.body-lozenge:not([data-status="none"])').should(
                 "not.exist",
             );
         });
@@ -71,9 +68,11 @@ describe("Being sheet header: body-part impairment grid (#464)", () => {
                 });
                 cy.prepare(actor);
                 cy.openSheet(actor);
-                cy.get(
-                    `.sheet-header__location[data-shortcode="${pl.part}"]`,
-                ).should("have.attr", "data-status", "unusable");
+                cy.get(`.body-lozenge[data-shortcode="${pl.part}"]`).should(
+                    "have.attr",
+                    "data-status",
+                    "unusable",
+                );
             });
         });
     });
@@ -92,9 +91,11 @@ describe("Being sheet header: body-part impairment grid (#464)", () => {
                 });
                 cy.prepare(actor);
                 cy.openSheet(actor);
-                cy.get(
-                    `.sheet-header__location[data-shortcode="${pl.part}"]`,
-                ).should("have.attr", "data-status", "minor");
+                cy.get(`.body-lozenge[data-shortcode="${pl.part}"]`).should(
+                    "have.attr",
+                    "data-status",
+                    "minor",
+                );
             });
         });
     });
@@ -118,9 +119,11 @@ describe("Being sheet header: body-part impairment grid (#464)", () => {
                 cy.prepare(actor);
                 cy.openSheet(actor);
                 // Permanent −10 with no injury → major.
-                cy.get(
-                    `.sheet-header__location[data-shortcode="${shortcode}"]`,
-                ).should("have.attr", "data-status", "major");
+                cy.get(`.body-lozenge[data-shortcode="${shortcode}"]`).should(
+                    "have.attr",
+                    "data-status",
+                    "major",
+                );
             });
         });
     });

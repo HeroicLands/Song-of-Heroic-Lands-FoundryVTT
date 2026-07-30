@@ -148,6 +148,12 @@ export interface BodyPartNode {
     index: number;
     /** The part's display label. */
     label: string;
+    /**
+     * The part's functional roles rendered as a compact display badge (e.g.
+     * `"Vital, Core"`), or empty when the part fulfills no roles. Shown by the
+     * Profile body-structure tree's `chip--role` badge.
+     */
+    role?: string;
     /** The part's hit locations, in order. */
     locations: BodyLocationRow[];
 }
@@ -188,6 +194,8 @@ export interface BodyPartLike {
     shortcode: string;
     index: number;
     label: string;
+    /** Pre-formatted functional-role badge text; omitted when the part has no roles. */
+    role?: string;
     locations: readonly BodyLocationLike[];
 }
 
@@ -252,6 +260,7 @@ function buildBodyPartNode(part: BodyPartLike): BodyPartNode {
         shortcode: part.shortcode,
         index: part.index,
         label: part.label,
+        role: part.role,
         locations: part.locations.map((loc) => ({
             shortcode: loc.shortcode,
             name: loc.name,
@@ -426,6 +435,8 @@ export interface SkillRow {
     canImprove: boolean;
     /** Whether the skill is flagged for improvement (the SDR star). */
     improveFlag: boolean;
+    /** Plain-text notes snippet shown in the Notes column. */
+    notes: string;
 }
 
 /** A subtype-labeled group of skills, ready to render. */
@@ -455,6 +466,7 @@ export interface SkillLike {
     disabled: boolean;
     canImprove: boolean;
     improveFlag: boolean;
+    notes: string;
 }
 
 /**
@@ -513,6 +525,7 @@ export function buildSkillGroups(
         disabled: skill.disabled,
         canImprove: skill.canImprove,
         improveFlag: skill.improveFlag,
+        notes: skill.notes,
     });
 
     const seen = new Set<string>();
@@ -950,6 +963,8 @@ export interface TraumaLike {
     uuid: string;
     name: string;
     img: string;
+    /** Trauma subtype key (e.g. `"injury"`), used to group into injury sections. */
+    subType: string | undefined;
     /** Effective severity level (0 or below ⇒ healed). */
     level: number;
     /** Severity (level) modifier derivation summary for the hover tooltip (#769). */
@@ -1042,6 +1057,60 @@ export function buildTraumaRows(
         area: t.area ?? "—",
         notes: htmlToPlainText(t.notes),
     }));
+}
+
+/** A subtype-labeled section of injuries (traumas), ready to render. */
+export interface InjurySection {
+    /** The subtype key (e.g. `"injury"`), used to seed new trauma items. */
+    subType: string;
+    /** Localized subtype label shown in the section legend. */
+    label: string;
+    /** The injuries in this section, in the order supplied. */
+    injuries: TraumaRow[];
+}
+
+/**
+ * Build the subtype-labeled injury sections for the Trauma tab's injuries list.
+ * **Every** subtype in `order` is emitted — including empty ones — so the
+ * template can decide (via `{{#if section.injuries.length}}`) which to show and
+ * so each populated subtype carries a stable per-subtype "+ Add" control.
+ * Subtypes present on items but absent from `order` are appended after the
+ * ordered ones, in first-seen order, so nothing is silently dropped.
+ *
+ * Grouping happens upstream of {@link buildTraumaRows} (mirroring
+ * {@link buildAfflictionGroups}), so each section's rows are formatted exactly
+ * as the flat list once was.
+ *
+ * @param traumas - The pre-extracted trauma values.
+ * @param order - The subtype keys in their canonical display order.
+ * @param subTypeLabel - Resolves a subtype key to its display label.
+ * @param aspectLabel - Localizer mapping an aspect enum value to its label.
+ * @returns The injury sections, ordered subtypes first (including empty ones).
+ */
+export function buildInjurySections(
+    traumas: readonly TraumaLike[],
+    order: readonly string[],
+    subTypeLabel: (subType: string) => string,
+    aspectLabel: (aspect: string) => string,
+): InjurySection[] {
+    const buckets = groupBySubType(traumas, (t) => t.subType);
+    const build = (subType: string, bucket: TraumaLike[]): InjurySection => ({
+        subType,
+        label: subTypeLabel(subType),
+        injuries: buildTraumaRows(bucket, aspectLabel),
+    });
+
+    const seen = new Set<string>();
+    const sections: InjurySection[] = [];
+    for (const subType of order) {
+        seen.add(subType);
+        sections.push(build(subType, buckets[subType] ?? []));
+    }
+    for (const [subType, bucket] of Object.entries(buckets)) {
+        if (seen.has(subType) || !bucket.length) continue;
+        sections.push(build(subType, bucket));
+    }
+    return sections;
 }
 
 /**

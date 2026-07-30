@@ -1,43 +1,78 @@
+// Facade tab (Manuscript redesign, epic #783) — the portrait beside the
+// appearance prose editor (manuscript `.facade`). The portrait is a fixed rounded
+// panel anchored to the top; the appearance column fills the remaining width and
+// its editor fills the tab height, scrolling its own content so the tab never
+// shows a scrollbar.
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
+
 .facade {
-    // The Facade tab is just the portrait + the appearance editor: the editor
-    // fills all available space and scrolls its own content, so the tab itself
-    // never shows a scrollbar.
+    display: flex;
+    gap: 1rem;
+    padding: 0.7rem 0.95rem;
+    height: 100%;
+    align-items: stretch;
+    // The editor fills all available space and scrolls internally, so the tab
+    // itself never shows a scrollbar.
     overflow: hidden;
+}
 
-    img.facade__image {
-        flex: 0 0 200px;
-        object-fit: contain;
-        background: var(--sohl-color-text-inverse);
-    }
+// Portrait panel — anchored to the top at its natural size (never stretched to
+// the full row height).
+.facade__portrait {
+    flex: none;
+    align-self: flex-start;
+}
 
-    // The image + editor row fills the tab height. Override Foundry's
-    // `.flexrow { align-items: center }` so the portrait and editor sit at the
-    // top of the tab instead of floating in the vertical center; `stretch` lets
-    // the editor column fill the height.
-    .flexrow {
-        height: 100%;
-        align-items: stretch;
-    }
+img.facade__image {
+    display: block;
+    width: 180px;
+    height: 260px;
+    object-fit: cover;
+    background: linear-gradient(
+        160deg,
+        var(--sohl-color-bg-surface),
+        var(--sohl-color-bg-stamp)
+    );
+    border: 1.5px solid var(--sohl-color-text-primary);
+    border-radius: var(--sohl-radius-md);
+    cursor: pointer;
+}
 
-    // Keep the portrait anchored to the top at its natural size (don't stretch
-    // it to the full row height).
-    img.facade__image {
-        align-self: flex-start;
-    }
+// Appearance column — grows to fill the row and stacks its label over the editor.
+.facade__appearance {
+    flex: 1 1 260px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
 
-    .facade__description {
-        margin-left: 5px;
+.facade__appearance-label {
+    margin-bottom: 0.3rem;
+    font-family: var(--sohl-font-sans);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sohl-color-text-muted);
+}
+
+// Prose panel — a bordered card whose ProseMirror editor fills the cell and
+// scrolls internally (override the global `.editor { height: 100% }`).
+.facade__editor {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--sohl-color-bg-surface);
+    border: 1px solid var(--sohl-color-border-default);
+    border-radius: var(--sohl-radius-md);
+    padding: 0.6rem 0.7rem;
+
+    prose-mirror,
+    prose-mirror.editor {
+        display: block;
         flex: 1;
-        min-width: 0;
-        display: flex;
-        flex-direction: column;
-
-        // <prose-mirror class="editor"> fills the cell (override the global
-        // `.editor { height: 100% }` in this flex context).
-        prose-mirror.editor {
-            flex: 1;
-            height: auto;
-            min-height: 0;
-        }
+        height: auto;
+        min-height: 0;
     }
 }

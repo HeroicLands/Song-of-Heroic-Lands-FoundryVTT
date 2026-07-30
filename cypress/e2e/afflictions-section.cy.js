@@ -41,8 +41,8 @@ describe("Being Trauma tab: Afflictions section (#309)", () => {
             cy.get('section.tab[data-tab="trauma"] .afflictions-list')
                 .contains(".item", "Wasting Fever")
                 .within(() => {
-                    cy.contains(".list__detail", "2"); // level
-                    cy.contains(".list__detail", "4"); // healing rate
+                    cy.contains(".ledger__cell", "2"); // level
+                    cy.contains(".ledger__cell", "4"); // healing rate
                 });
         });
     });

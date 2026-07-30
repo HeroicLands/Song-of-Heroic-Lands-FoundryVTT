@@ -1,0 +1,53 @@
+// Icon button — the dense, icon-only control used for edit / delete / toggle /
+// run / menu (Manuscript redesign, epic #783 / Feature 0). Ink glyph on a
+// transparent ground, stamp background on hover. `--danger` reddens on hover;
+// the `.is-on` state (worn / carried / enabled toggles) fills the glyph with
+// the accent. Icons render in `currentColor` — the signature ink line look.
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
+
+.icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    border: 0;
+    border-radius: var(--sohl-radius-sm);
+    background: none;
+    color: var(--sohl-color-text-muted);
+    cursor: pointer;
+
+    svg {
+        width: 0.95rem;
+        height: 0.95rem;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.6;
+    }
+
+    .fas,
+    .far,
+    .fa-solid,
+    .fa-regular {
+        font-size: 0.95rem;
+    }
+
+    &:hover {
+        background: var(--sohl-color-bg-stamp);
+        color: var(--sohl-color-text-primary);
+    }
+
+    // Destructive control — reddens on hover.
+    &--danger:hover {
+        color: var(--sohl-color-danger);
+    }
+
+    // Toggled-on state (worn / carried / effect-enabled). Accent glyph; supports
+    // the BEM modifier and the `.is-on` JS state class equivalently.
+    &--on,
+    &.is-on {
+        color: var(--sohl-color-accent);
+    }
+}

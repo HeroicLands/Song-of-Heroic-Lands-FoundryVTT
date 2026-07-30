@@ -1,0 +1,63 @@
+// Chip — a small rounded qualitative/status label (Manuscript redesign, epic
+// #783 / Feature 0). Neutral ink-on-stamp by default; semantic variants tint
+// for bleeding/critical (`--danger`) and caution (`--warn`). `--role` is the
+// body-part role tag; `--hit` is a mono tabular tag for zone numbers / hit
+// ranges.
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--sohl-font-sans);
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 0.06rem 0.4rem;
+    border-radius: var(--sohl-radius-pill);
+    background: var(--sohl-color-bg-stamp);
+    color: var(--sohl-color-text-muted);
+    border: 1px solid var(--sohl-color-border-subtle);
+    white-space: nowrap;
+
+    // Bleeding / critical / destructive.
+    &--danger {
+        background: color-mix(
+            in srgb,
+            var(--sohl-color-danger) 16%,
+            transparent
+        );
+        color: var(--sohl-color-danger);
+        border-color: color-mix(
+            in srgb,
+            var(--sohl-color-danger) 35%,
+            var(--sohl-color-border-subtle)
+        );
+    }
+
+    // Caution — unusable / warn state, distinct from danger.
+    &--warn {
+        background: color-mix(in srgb, var(--sohl-color-warn) 16%, transparent);
+        color: var(--sohl-color-warn);
+        border-color: color-mix(
+            in srgb,
+            var(--sohl-color-warn) 35%,
+            var(--sohl-color-border-subtle)
+        );
+    }
+
+    // Body-part role tag (manipulator / locomotor / core / vital …). Body serif,
+    // normal weight, so it reads as a descriptor rather than a status.
+    &--role {
+        font-family: var(--sohl-font-body);
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        text-transform: none;
+    }
+
+    // Zone-number / hit-range tag — mono tabular so digits align.
+    &--hit {
+        font-family: var(--sohl-font-mono);
+        font-variant-numeric: tabular-nums;
+    }
+}

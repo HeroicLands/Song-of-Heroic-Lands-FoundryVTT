@@ -1,6 +1,14 @@
 @use "../abstracts/mixins";
 @use "list";
 
+// Effects tab. The item-sheet effects tab (templates/item/parts/effects.hbs)
+// still renders the legacy `<ol class="effects__list">` markup with the flat
+// `.name`/`.target`/`.duration`/`.changes`/`.source`/`.ele`/`.image` columns
+// styled below. The Being (actor) effects tab was rewritten to the Manuscript
+// `.ledger` grid (`<div class="ledger effects__list">`) for epic #783, so the
+// list-scaffold rules are gated with `:not(.ledger)` to skip the actor ledger
+// (which the shared `.ledger` component styles) while still dressing the legacy
+// item-sheet list. The top-level `.danger` / `.disabled` cues apply to both.
 .effects {
     h2 {
         @include list.section-title(
@@ -18,7 +26,7 @@
         color: var(--sohl-color-text-muted);
     }
 
-    .effects__list {
+    .effects__list:not(.ledger) {
         @include list.scroll-body;
 
         .effects__header {

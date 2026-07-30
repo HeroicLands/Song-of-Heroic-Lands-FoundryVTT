@@ -1,0 +1,86 @@
+// Health bar — the ruled vitality bar in the sheet header (Manuscript redesign,
+// epic #783 / Feature 0). A label ("Health · <band>"), a ruled track, a colored
+// fill, and a mono percentage. The band word is colored to match the bar tier
+// (green → gold → red); the `%` value and band word carry the state redundantly
+// so it survives grayscale print and color-blind viewers.
+//
+// JS hook: `--hp-fill` sets the fill color (set inline by the header context,
+// ramped health-bar → health-mid → danger by level); it falls back to the
+// health-bar token. The fill MUST be `display:block` or an inline element
+// collapses to zero width and the bar renders blank.
+//
+// These elements belong to the `sheet-header` block (defined in
+// layout/_sheet.scss). This partial delivers the Manuscript treatment in the
+// components layer, which beats the layout layer. The reflow of the `__health`
+// container and its label is gated behind `:has(.sheet-header__health-track)`
+// so it applies ONLY to the new header markup (which introduces `__health-track`
+// in the header wave) and does not disturb the current header before then.
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
+
+.sheet-header__health {
+    // New inline-row layout only when the redesigned track element is present.
+    &:has(.sheet-header__health-track) {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex: 1 1 auto;
+        padding: 0;
+        text-align: left;
+
+        .sheet-header__health-label {
+            font-family: var(--sohl-font-sans);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            color: var(--sohl-color-text-muted);
+        }
+    }
+}
+
+// The band word (e.g. "Bloodied"), colored to the current tier. The header
+// context adds one tier modifier; `--good`/`--mid`/`--low` map to the ramp.
+.sheet-header__health-band {
+    font-weight: 700;
+
+    &--good {
+        color: var(--sohl-color-health-bar);
+    }
+    &--mid {
+        color: var(--sohl-color-health-mid);
+    }
+    &--low {
+        color: var(--sohl-color-danger);
+    }
+}
+
+// Ruled unfilled track.
+.sheet-header__health-track {
+    flex: 1 1 auto;
+    height: 8px;
+    border-radius: 5px;
+    background: var(--sohl-color-health-track);
+    border: 1px solid var(--sohl-color-border-subtle);
+    overflow: hidden;
+}
+
+// Colored fill — block-level so it never collapses. Width is set inline by the
+// header context; color via the `--hp-fill` hook (falls back to health-bar).
+.sheet-header__health-fill {
+    display: block;
+    height: 100%;
+    background: var(--hp-fill, var(--sohl-color-health-bar));
+    transition:
+        width 0.2s ease,
+        background 0.2s ease;
+}
+
+// Mono percentage readout.
+.sheet-header__health-pct {
+    font-family: var(--sohl-font-mono);
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--sohl-color-text-muted);
+}

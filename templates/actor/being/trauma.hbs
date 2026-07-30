@@ -12,98 +12,144 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab trauma{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="trauma">
-    {{!-- Injuries (trauma items) --}}
-    <ol class="list__items">
-        <li class="list__header flexrow">
-            <h3 class="list__name">Trauma</h3>
-            <div class="list__detail">SubType</div>
-            <div class="list__detail" data-tooltip="Severity">Sev</div>
-            <div class="list__detail" data-tooltip="Healing Rate (NT = not treated)">HR</div>
-            <div class="list__detail">Aspect</div>
-            <div class="list__detail">Area</div>
-            <div class="list__detail" data-tooltip="Bleeding">Bld</div>
-            <div class="list__detail list__notes">Notes</div>
-            <div class="list__controls">
-                <a class="item-create" data-action="createItem" data-type="trauma" data-tooltip="Add Trauma">
-                    <i class="fa-solid fa-file-plus"></i>
-                </a>
-            </div>
-        </li>
-        {{#each traumas as |injury|}}
-        <li class="item flexrow" data-search-name="{{injury.name}}" data-item-id="{{injury.id}}" data-item-name="{{injury.name}}">
-            <div class="list__name default-action flexrow">
-                <div class="list__image" style="background-image: url('{{injury.img}}')"></div>
-                <h4 data-tooltip="{{injury.name}}">{{injury.name}}</h4>
-            </div>
-            <div class="list__detail">{{injury.subTypeLabel}}</div>
-            <div class="list__detail" data-tooltip="{{injury.severityDeltaLabel}}" data-tooltip-direction="UP">
-                {{#if injury.healed}}
-                <i class="fa-solid fa-heart-circle-plus" data-tooltip="Healed"></i>
-                {{else}}
-                {{injury.severity}}
-                {{/if}}
-            </div>
-            <div class="list__detail" data-tooltip="{{injury.healingRateDeltaLabel}}" data-tooltip-direction="UP">
-                {{#if injury.healingRateDisabled}}
-                <i class="fa-solid fa-xmark fa-lg"></i>
-                {{else}}
-                {{#unless injury.isTreated}}NT{{/unless}}{{injury.healingRate}}
-                {{/if}}
-            </div>
-            <div class="list__detail">{{injury.aspect}}</div>
-            <div class="list__detail">{{injury.area}}</div>
-            <div class="list__detail">
-                {{#if injury.isBleeding}}
-                <span class="danger">Yes</span>
-                {{else}}
-                No
-                {{/if}}
-            </div>
-            <div class="list__detail list__notes" data-tooltip="{{injury.notes}}">{{injury.notes}}</div>
-            <div class="list__controls">
-                <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
-            </div>
-        </li>
-        {{/each}}
-    </ol>
+    {{!-- Injuries family: subtype-item pattern (§2.3a) — present-only SubType
+    groups, per-subtype add, generic footer add. --}}
+    <div class="section-legend">
+        <span class="section-legend__name">Injuries</span>
+        <span class="section-legend__rule"></span>
+    </div>
 
-    <ol class="list__items afflictions-list">
-        <li class="list__header flexrow">
-            <h3 class="list__name">{{group.label}} Afflictions</h3>
-            <div class="list__detail">SubType</div>
-            <div class="list__detail">Level</div>
-            <div class="list__detail" data-tooltip="Healing Rate">HR</div>
-            <div class="list__detail">Source</div>
-            <div class="list__detail list__notes">Notes</div>
-            <div class="list__controls">
-                <a class="item-create" data-action="createItem" data-type="affliction" data-tooltip="Create Affliction">
-                    <i class="fa-solid fa-file-plus"></i>
-                </a>
+    <div class="injuries-list">
+        {{#each injurySections as |section|}}
+            {{#if section.injuries.length}}
+            <div class="section-legend section-legend--subtype">
+                <span class="section-legend__name">{{section.label}}</span>
+                <span class="section-legend__meta">{{section.injuries.length}}</span>
+                <span class="section-legend__rule"></span>
+                <span class="section-legend__add">
+                    <a class="add-button add-button--small item-create" data-action="createItem"
+                        data-type="trauma" data-sub-type="{{section.subType}}"
+                        data-tooltip="Add {{section.label}} Trauma">
+                        <i class="fa-solid fa-plus"></i><span>Add {{section.label}} Trauma</span>
+                    </a>
+                </span>
             </div>
-        </li>
-        {{#each afflictionGroups as |group|}}
-            {{#each group.afflictions as |aff|}}
-                <li class="item flexrow" data-search-name="{{aff.name}}" data-item-id="{{aff.id}}" data-item-name="{{aff.name}}">
-                    <div class="list__name default-action flexrow">
-                        <div class="list__image" style="background-image: url('{{aff.img}}')"></div>
-                        <h4 data-tooltip="{{aff.name}}">{{aff.name}}</h4>
+            <div class="ledger" style="--ledger-cols:1.2rem 1.5rem minmax(140px,1.4fr) 2.8rem 3.4rem 4.4rem 3.8rem 2.6rem 1fr 1.6rem">
+                <div class="ledger__head">
+                    <div></div>
+                    <div></div>
+                    <div>Trauma</div>
+                    <div data-tooltip="Severity">Sev</div>
+                    <div data-tooltip="Healing Rate (NT = not treated)">HR</div>
+                    <div>Aspect</div>
+                    <div>Area</div>
+                    <div data-tooltip="Bleeding">Bld</div>
+                    <div>Notes</div>
+                    <div></div>
+                </div>
+                {{#each section.injuries as |injury|}}
+                <div class="ledger__row item" data-search-name="{{injury.name}}" data-item-id="{{injury.id}}" data-item-name="{{injury.name}}">
+                    <div class="ledger__grip"><i class="fa-solid fa-grip-vertical"></i></div>
+                    <div class="ledger__icon default-action"><img src="{{injury.img}}" alt="" /></div>
+                    <div class="ledger__name default-action" data-tooltip="{{injury.name}}">{{injury.name}}</div>
+                    <div class="ledger__cell" data-tooltip="{{injury.severityDeltaLabel}}" data-tooltip-direction="UP">
+                        {{#if injury.healed}}
+                        <i class="ledger__heal fa-solid fa-heart-circle-plus" data-tooltip="Healed"></i>
+                        {{else}}
+                        {{injury.severity}}
+                        {{/if}}
                     </div>
-                    <div class="list__detail">{{group.label}}</div>
-                    <div class="list__detail" data-tooltip="{{aff.levelDeltaLabel}}" data-tooltip-direction="UP">{{aff.level}}</div>
-                    <div class="list__detail" data-tooltip="{{aff.healingRateDeltaLabel}}" data-tooltip-direction="UP">
+                    <div class="ledger__cell{{#if injury.healingRateDisabled}} ledger__cell--dim{{/if}}"
+                        data-tooltip="{{injury.healingRateDeltaLabel}}" data-tooltip-direction="UP">
+                        {{#if injury.healingRateDisabled}}
+                        <i class="fa-solid fa-xmark fa-lg"></i>
+                        {{else}}
+                        {{#unless injury.isTreated}}NT{{/unless}}{{injury.healingRate}}
+                        {{/if}}
+                    </div>
+                    <div class="ledger__cell ledger__cell--text">{{injury.aspect}}</div>
+                    <div class="ledger__cell ledger__cell--text">{{injury.area}}</div>
+                    <div class="ledger__cell">
+                        <span class="chip{{#if injury.isBleeding}} chip--danger{{/if}}">{{#if injury.isBleeding}}Yes{{else}}No{{/if}}</span>
+                    </div>
+                    <div class="ledger__notes" data-tooltip="{{injury.notes}}">{{injury.notes}}</div>
+                    <div class="ledger__controls">
+                        <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+            {{/if}}
+        {{/each}}
+    </div>
+    <div class="add-footer">
+        <a class="add-button item-create" data-action="createItem" data-type="trauma" data-tooltip="Add Trauma">
+            <i class="fa-solid fa-plus"></i><span>Add Trauma</span>
+        </a>
+    </div>
+
+    {{!-- Afflictions family: subtype-item pattern (§2.3a) — already grouped
+    present-only by _prepareTraumaContext (buildAfflictionGroups); the SubType
+    column is dropped in favor of the SubType header + per-subtype add. --}}
+    <div class="section-legend">
+        <span class="section-legend__name">Afflictions</span>
+        <span class="section-legend__rule"></span>
+    </div>
+
+    <div class="afflictions-list">
+        {{#each afflictionGroups as |group|}}
+            {{#if group.afflictions.length}}
+            <div class="section-legend section-legend--subtype">
+                <span class="section-legend__name">{{group.label}}</span>
+                <span class="section-legend__meta">{{group.afflictions.length}}</span>
+                <span class="section-legend__rule"></span>
+                <span class="section-legend__add">
+                    <a class="add-button add-button--small item-create" data-action="createItem"
+                        data-type="affliction" data-sub-type="{{group.subType}}"
+                        data-tooltip="Add {{group.label}} Affliction">
+                        <i class="fa-solid fa-plus"></i><span>Add {{group.label}} Affliction</span>
+                    </a>
+                </span>
+            </div>
+            <div class="ledger" style="--ledger-cols:1.2rem 1.5rem minmax(140px,1.4fr) 4rem 2.6rem 5.5rem 1fr 1.6rem">
+                <div class="ledger__head">
+                    <div></div>
+                    <div></div>
+                    <div>Affliction</div>
+                    <div>Level</div>
+                    <div data-tooltip="Healing Rate">HR</div>
+                    <div>Source</div>
+                    <div>Notes</div>
+                    <div></div>
+                </div>
+                {{#each group.afflictions as |aff|}}
+                <div class="ledger__row item" data-search-name="{{aff.name}}" data-item-id="{{aff.id}}" data-item-name="{{aff.name}}">
+                    <div class="ledger__grip"><i class="fa-solid fa-grip-vertical"></i></div>
+                    <div class="ledger__icon default-action"><img src="{{aff.img}}" alt="" /></div>
+                    <div class="ledger__name default-action" data-tooltip="{{aff.name}}">{{aff.name}}</div>
+                    <div class="ledger__cell ledger__cell--text" data-tooltip="{{aff.levelDeltaLabel}}" data-tooltip-direction="UP">{{aff.level}}</div>
+                    <div class="ledger__cell{{#if aff.healingRateDisabled}} ledger__cell--dim{{/if}}"
+                        data-tooltip="{{aff.healingRateDeltaLabel}}" data-tooltip-direction="UP">
                         {{#if aff.healingRateDisabled}}
                         <i class="fa-solid fa-xmark fa-lg"></i>
                         {{else}}
                         {{aff.healingRate}}
                         {{/if}}
                     </div>
-                    <div class="list__detail">{{aff.source}}</div>
-                    <div class="list__detail list__notes">{{aff.notes}}</div>
-                    <div class="list__controls">
-                        <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                    <div class="ledger__cell ledger__cell--text">{{aff.source}}</div>
+                    <div class="ledger__notes" data-tooltip="{{aff.notes}}">{{aff.notes}}</div>
+                    <div class="ledger__controls">
+                        <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
-                </li>
-            {{/each}}
+                </div>
+                {{/each}}
+            </div>
+            {{/if}}
         {{/each}}
-    </ol>
+    </div>
+    <div class="add-footer">
+        <a class="add-button item-create" data-action="createItem" data-type="affliction" data-tooltip="{{localize 'SOHL.Affliction.Heading.Add.label'}}">
+            <i class="fa-solid fa-plus"></i><span>{{localize "SOHL.Affliction.Heading.Add.label"}}</span>
+        </a>
+    </div>
 </section>

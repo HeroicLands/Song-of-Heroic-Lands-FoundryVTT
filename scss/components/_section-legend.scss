@@ -1,0 +1,84 @@
+// Section legend — the full-width banded section header shared by every tab
+// (Manuscript redesign, epic #783 / Feature 0). A warm band with iron-hairline
+// top/bottom rules: a Cinzel section name on the left, optional mono meta, a
+// flexible spacer, and a labeled add-control on the right. No left accent bar —
+// the band itself is the divider.
+//
+// The `--subtype` modifier is the single SubType-header style used by EVERY
+// subtype grouping (Skill subtypes, Trauma/Affliction subtypes, Mystery
+// families) AND combat weapon groups: a lighter ink-mixed band, smaller Cinzel.
+//
+// Loaded under `.sohl { }` (components layer), so selectors are written bare.
+
+.section-legend {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.95rem;
+    // Band = ink mixed into the header base, per the manuscript.
+    background: color-mix(
+        in srgb,
+        var(--sohl-color-text-primary) 20%,
+        var(--sohl-color-bg-header)
+    );
+    border-top: 1px solid var(--sohl-color-border-default);
+    border-bottom: 1px solid
+        color-mix(
+            in srgb,
+            var(--sohl-color-text-primary) 30%,
+            var(--sohl-color-border-default)
+        );
+
+    &__name {
+        font-family: var(--sohl-font-title);
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: 0.015em;
+        color: var(--sohl-color-text-primary);
+    }
+
+    // Optional mono meta beside the name (counts, units, "read-only" notes).
+    &__meta {
+        font-family: var(--sohl-font-mono);
+        font-size: 0.72rem;
+        font-variant-numeric: tabular-nums;
+        color: var(--sohl-color-text-muted);
+    }
+
+    // Flexible spacer that pushes the add-control cluster to the right edge.
+    &__rule {
+        flex: 1 1 auto;
+        height: 0;
+    }
+
+    // Right-aligned add-control slot (holds one or more `.add-button`s).
+    &__add {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    // SubType header — the lighter, smaller band used for every subtype
+    // grouping and for combat weapon groups. Serif (Cinzel) at a subordinate
+    // size keeps it below the section legend but above the paper rows.
+    &--subtype {
+        padding: 0.3rem 0.95rem;
+        background: color-mix(
+            in srgb,
+            var(--sohl-color-text-primary) 9%,
+            var(--sohl-color-bg-header)
+        );
+        border-top: 1px solid var(--sohl-color-border-subtle);
+        border-bottom: 1px solid var(--sohl-color-border-subtle);
+
+        .section-legend__name {
+            font-size: 0.92rem;
+            font-weight: 600;
+            letter-spacing: 0.045em;
+            // Cinzel is inscriptional caps already; small-caps is a harmless
+            // fallback for any substituted body serif.
+            font-variant-caps: small-caps;
+        }
+    }
+}

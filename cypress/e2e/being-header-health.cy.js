@@ -60,7 +60,7 @@ describe("Being sheet header: health bar (#463)", () => {
             cy.openSheet(actor);
             cy.get(".sheet-header__health-label")
                 .invoke("text")
-                .should("match", /Health:\s*Excellent/);
+                .should("match", /Health\s*·\s*Excellent/);
             cy.get(".sheet-header__health-fill").should(($el) => {
                 expect($el[0].style.width).to.eq("100%");
             });

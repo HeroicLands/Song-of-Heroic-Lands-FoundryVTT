@@ -14,7 +14,10 @@
 import { describe, it, expect } from "vitest";
 import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 
-const COMBAT = "systems/sohl/templates/actor/being/combat.hbs";
+// The editable Body Structure tree (add / drag / ⋮) moved from the Combat tab
+// to the Profile tab in the #782 redesign; Combat now shows a flat, read-only
+// Body Locations reference table. These specs assert the Profile-tab editor.
+const PROFILE = "systems/sohl/templates/actor/being/profile.hbs";
 
 const bodyZones = [
     {
@@ -45,9 +48,9 @@ const bodyZones = [
     },
 ];
 
-describe("combat.hbs Body Structure add / drag controls (#720/#780)", () => {
+describe("profile.hbs Body Structure add / drag controls (#720/#780/#782)", () => {
     it("renders the + Add controls and draggable rows for an editor", () => {
-        const html = renderTemplateReal(COMBAT, {
+        const html = renderTemplateReal(PROFILE, {
             structure: true,
             canEditBody: true,
             bodyZones,
@@ -69,7 +72,7 @@ describe("combat.hbs Body Structure add / drag controls (#720/#780)", () => {
     });
 
     it("renders the zone tier with its label and rolled number range", () => {
-        const html = renderTemplateReal(COMBAT, {
+        const html = renderTemplateReal(PROFILE, {
             structure: true,
             canEditBody: false,
             bodyZones,
@@ -79,7 +82,7 @@ describe("combat.hbs Body Structure add / drag controls (#720/#780)", () => {
     });
 
     it("omits the add controls and draggable for a non-owner", () => {
-        const html = renderTemplateReal(COMBAT, {
+        const html = renderTemplateReal(PROFILE, {
             structure: true,
             canEditBody: false,
             bodyZones,
