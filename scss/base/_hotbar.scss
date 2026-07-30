@@ -1,4 +1,8 @@
 #hotbar li.macro {
-    background: url("../assets/ui/parchment.jpg");
-    //    background: rgba(0, 0, 0, 0)
+    // Same theme-aware parchment as `.window-content` (#810): multiply the light
+    // texture onto the paper token so the macro wells darken with the palette in
+    // dark mode instead of staying a fixed light image.
+    background-color: var(--sohl-color-bg-sheet);
+    background-image: url("../assets/ui/parchment.jpg");
+    background-blend-mode: multiply;
 }

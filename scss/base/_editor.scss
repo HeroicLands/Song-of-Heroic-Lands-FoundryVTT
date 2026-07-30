@@ -10,3 +10,25 @@ section.highlight {
 .editor-content {
     @include typography.type-style("editor");
 }
+
+// ProseMirror toolbar — re-theme to Manuscript tokens (#810). Foundry paints the
+// menu bar with its fixed dark "cool" palette (`--menu-background: --color-cool-4`,
+// a plum near-black) which stays dark in both themes and clashes badly on the light
+// vellum. Point the bar's background and the button icons at SoHL tokens so the
+// toolbar follows the light/dark swap like the rest of the sheet. Shared by every
+// ProseMirror editor (the Being Façade appearance field and each Item sheet's
+// Description tab), so it lives in the base layer under the plain `.sohl` scope.
+prose-mirror menu {
+    --menu-background: var(--sohl-color-bg-stamp);
+    color: var(--sohl-color-text-primary);
+}
+
+prose-mirror menu button {
+    color: var(--sohl-color-text-primary);
+}
+
+prose-mirror menu button:hover,
+prose-mirror menu button.active {
+    background: var(--sohl-color-bg-overlay-dark);
+    color: var(--sohl-color-text-primary);
+}
