@@ -12,13 +12,13 @@
  */
 
 /**
- * "Use Zone Die" world setting (#327, HMK compatibility).
+ * Zone Die presentation on the Combat tab (#828).
  *
- * The setting toggles how a melee strike mode's `spread.effective` is presented
- * on the Combat tab — the same value shown as a Spread radius (`{n}`, column
- * "Spr") or a Zone Die (`d{n}`, column "ZD").
+ * A melee strike mode's `spread.effective` is always presented as a Zone Die
+ * (`d{n}`, column "ZD"). The former "Use Zone Die" toggle was removed — zone-die
+ * presentation is now unconditional.
  */
-describe("Use Zone Die setting", () => {
+describe("Zone Die presentation", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
     Cypress.on("uncaught:exception", () => false);
@@ -81,7 +81,7 @@ describe("Use Zone Die setting", () => {
                 // row (one <div> per column) after the Manuscript redesign.
                 'section[data-tab="combat"] .ledger__head > div',
             ),
-        ].find((d) => /^(Spr|ZD)$/.test(d.textContent.trim()));
+        ].find((d) => /^ZD$/.test(d.textContent.trim()));
         const row = el.querySelector(
             'section[data-tab="combat"] .ledger__row[data-sm-id="strike"]',
         );
@@ -94,37 +94,12 @@ describe("Use Zone Die setting", () => {
         };
     }
 
-    it("shows Spr / plain radius when the setting is off (default)", () => {
-        cy.foundry((win) =>
-            Cypress.Promise.resolve(
-                win.game.settings.set("sohl", "useZoneDie", false),
-            ).then(() => null),
-        );
-        beingWithSpear().then((actor) => {
-            cy.foundry((win) => spreadCells(win, actor.id)).should((r) => {
-                expect(r.header).to.equal("Spr");
-                expect(r.cell).to.equal("6");
-            });
-        });
-    });
-
-    it("shows ZD / d-notation when the setting is on", () => {
-        cy.foundry((win) =>
-            Cypress.Promise.resolve(
-                win.game.settings.set("sohl", "useZoneDie", true),
-            ).then(() => null),
-        );
+    it("always shows ZD / d-notation on the Combat tab", () => {
         beingWithSpear().then((actor) => {
             cy.foundry((win) => spreadCells(win, actor.id)).should((r) => {
                 expect(r.header).to.equal("ZD");
                 expect(r.cell).to.equal("d6");
             });
         });
-        // restore default so world state doesn't leak to other specs
-        cy.foundry((win) =>
-            Cypress.Promise.resolve(
-                win.game.settings.set("sohl", "useZoneDie", false),
-            ).then(() => null),
-        );
     });
 });

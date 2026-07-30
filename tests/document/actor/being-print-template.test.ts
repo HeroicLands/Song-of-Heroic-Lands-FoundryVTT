@@ -98,8 +98,6 @@ function fullContext() {
             },
         ],
         hasCombat: true,
-        useZoneDie: false,
-        spreadLabel: "Spr",
         meleeStrikeModes: [
             {
                 weaponName: "Dagger",

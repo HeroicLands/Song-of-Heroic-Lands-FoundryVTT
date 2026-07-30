@@ -17,9 +17,10 @@
  * `BeingLogic.resolveInjury` is the single entry point behind the sheet's Add
  * Injury action, the intrinsic action, and the combat cards' injury buttons. It
  * seeds its parameters from the action `scope`, derives the hit location (an
- * explicit `bodyLocationCode`, else the target body part — a random VITAL part
- * when unspecified — and the strike `spread`), resolves the blow through the pure
- * `resolveInjury` pipeline, rolls the amputation Strength test for a G5 edged
+ * explicit `bodyLocationCode`, else Zone-Number + Zone-Die aiming — Target ZN
+ * plus a `zoneDie` roll, defaulting to a whole-body draw), resolves the blow
+ * through the pure `resolveInjury` pipeline, rolls the amputation Strength test
+ * for a G5 edged
  * wound, posts the Resolve Injury card, and — for a wound of level ≥ 1 with
  * `autoAddInjury` — records a `trauma` item. Unless `skipDialog`, it first opens
  * the Resolve Injury dialog so a human can confirm/tune the parameters.
@@ -192,17 +193,19 @@ describe("impact → injury → trauma", () => {
                     locs.find((l) => l.amputability === "none") || locs[0]
                 ).shortcode;
                 // The combat injury button forwards impact/aspect + an aimed
-                // targetPart/spread as data-scope; the explicit location keeps it
-                // deterministic. Under the unified action it opens the Resolve
-                // Injury dialog (a human confirms) rather than resolving silently.
+                // zone (targetZoneNumber/zoneDie) as data-scope; here an explicit
+                // location pins a non-amputable hit so the flow stays a single
+                // Resolve Injury dialog. Under the unified action it opens that
+                // dialog (a human confirms) rather than resolving silently.
                 // `schedule: false` pre-answers the healing-check offer.
+                const zn = structure.getPartByCode(part)?.zone.zoneNumbers[0];
                 const btn = win.document.createElement("button");
                 btn.dataset.action = "resolveInjury";
                 btn.dataset.scope = JSON.stringify({
                     impact: 20,
                     aspect: "edged",
-                    targetPart: part,
-                    spread: 0,
+                    targetZoneNumber: zn,
+                    zoneDie: 1,
                     location: loc,
                     schedule: false,
                 });

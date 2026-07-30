@@ -27,7 +27,7 @@ const TEMPLATE = "systems/sohl/templates/apps/strike-mode-config.hbs";
 function context(
     type: StrikeModeType,
     name = "Cut",
-    { shortcode = "cut", isMulti = true, useZoneDie = false } = {},
+    { shortcode = "cut", isMulti = true } = {},
 ) {
     const sm = blankStrikeMode(type, name) as any;
     return {
@@ -38,7 +38,8 @@ function context(
         isMulti,
         isMelee: type === STRIKE_MODE_TYPE.MELEE,
         isMissile: type === STRIKE_MODE_TYPE.MISSILE,
-        spreadLabel: useZoneDie ? "Zone Die" : "Spread",
+        // The scatter is always presented as a Zone Die.
+        spreadLabel: "Zone Die",
         aspectOptions: Object.entries(ImpactAspectChoices).map(
             ([value, label]) => ({
                 value,
@@ -86,22 +87,14 @@ describe("strike-mode-config template", () => {
         expect(html).not.toContain("<button");
     });
 
-    it("uses the requested field labels (Associated Skill, Modifier, Num Dice, Spread)", () => {
+    it("uses the requested field labels (Associated Skill, Modifier, Num Dice, Zone Die)", () => {
         const html = renderTemplateReal(TEMPLATE, context("melee", "Cut"));
         expect(html).toContain("Associated Skill");
         expect(html).not.toContain("Governing Skill Override");
         expect(html).toContain("Num Dice");
         // Attack-section modifier label is just "Modifier".
         expect(html).toMatch(/<span>Modifier<\/span>/);
-        // Default (setting off) → "Spread".
-        expect(html).toContain("<span>Spread</span>");
-    });
-
-    it("relabels Spread → Zone Die when useZoneDie is on", () => {
-        const html = renderTemplateReal(
-            TEMPLATE,
-            context("melee", "Cut", { useZoneDie: true }),
-        );
+        // The scatter is always presented as a Zone Die (#828).
         expect(html).toContain("<span>Zone Die</span>");
         expect(html).not.toContain("<span>Spread</span>");
     });

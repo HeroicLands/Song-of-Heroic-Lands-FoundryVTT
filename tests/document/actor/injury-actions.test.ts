@@ -17,9 +17,9 @@ import {
     buildResolveInjuryData,
     readResolveInjuryForm,
     buildInjuryCardData,
+    buildMissCardData,
     getActorBodyStructure,
     createTraumaFromInjury,
-    DEFAULT_INJURY_SPREAD,
 } from "@src/document/actor/logic/injury-actions";
 import { resolveInjury } from "@src/entity/body/injury-resolution";
 import { IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
@@ -53,8 +53,11 @@ describe("buildResolveInjuryData", () => {
         for (const input of [undefined, "", "  ", "{not json", {}]) {
             expect(buildResolveInjuryData(input, true)).toEqual({
                 bodyLocationCode: "",
-                spread: DEFAULT_INJURY_SPREAD,
-                targetBodyPartCode: "",
+                // targetZoneNumber defaults to 1; zoneDie 0 is the "unset"
+                // sentinel — the executor fills it with the body's max zone
+                // number so an unaimed derive covers the whole body.
+                targetZoneNumber: 1,
+                zoneDie: 0,
                 impact: 0,
                 aspect: IMPACT_ASPECT.BLUNT,
                 armorReduction: 0,
@@ -66,12 +69,12 @@ describe("buildResolveInjuryData", () => {
         }
     });
 
-    it("reads the resolve-injury vocabulary from an object scope", () => {
+    it("reads the zone-die vocabulary from an object scope", () => {
         const data = buildResolveInjuryData(
             {
                 bodyLocationCode: "neck",
-                targetBodyPartCode: "head",
-                spread: 4,
+                targetZoneNumber: 3,
+                zoneDie: 4,
                 impact: 12,
                 aspect: "edged",
                 armorReduction: 2,
@@ -82,8 +85,8 @@ describe("buildResolveInjuryData", () => {
         );
         expect(data).toMatchObject({
             bodyLocationCode: "neck",
-            targetBodyPartCode: "head",
-            spread: 4,
+            targetZoneNumber: 3,
+            zoneDie: 4,
             impact: 12,
             aspect: IMPACT_ASPECT.EDGED,
             armorReduction: 2,
@@ -93,13 +96,13 @@ describe("buildResolveInjuryData", () => {
         });
     });
 
-    it("accepts the combat wire aliases (location / targetPart) from a JSON string", () => {
+    it("accepts the combat wire from a JSON string (zone aim + location alias)", () => {
         const data = buildResolveInjuryData(
             JSON.stringify({
                 impact: 9,
                 aspect: "piercing",
-                targetPart: "head",
-                spread: 5,
+                targetZoneNumber: 2,
+                zoneDie: 5,
                 location: "skull",
             }),
             true,
@@ -107,8 +110,8 @@ describe("buildResolveInjuryData", () => {
         expect(data).toMatchObject({
             impact: 9,
             aspect: IMPACT_ASPECT.PIERCING,
-            targetBodyPartCode: "head",
-            spread: 5,
+            targetZoneNumber: 2,
+            zoneDie: 5,
             bodyLocationCode: "skull",
         });
     });
@@ -125,8 +128,8 @@ describe("readResolveInjuryForm", () => {
     it("normalizes the dialog form data", () => {
         const form = readResolveInjuryForm({
             bodyLocationCode: "neck",
-            targetBodyPartCode: "head",
-            spread: "4",
+            targetZoneNumber: "3",
+            zoneDie: "4",
             aspect: "edged",
             impact: "14",
             armorReduction: "3",
@@ -136,8 +139,8 @@ describe("readResolveInjuryForm", () => {
         });
         expect(form).toEqual({
             bodyLocationCode: "neck",
-            targetBodyPartCode: "head",
-            spread: 4,
+            targetZoneNumber: 3,
+            zoneDie: 4,
             aspect: IMPACT_ASPECT.EDGED,
             impact: 14,
             armorReduction: 3,
@@ -151,8 +154,8 @@ describe("readResolveInjuryForm", () => {
     it("falls back to sane defaults for empty fields", () => {
         expect(readResolveInjuryForm({})).toEqual({
             bodyLocationCode: "",
-            targetBodyPartCode: "",
-            spread: DEFAULT_INJURY_SPREAD,
+            targetZoneNumber: 1,
+            zoneDie: 0,
             aspect: IMPACT_ASPECT.BLUNT,
             impact: 0,
             armorReduction: 0,
@@ -253,6 +256,99 @@ describe("buildInjuryCardData", () => {
         expect(data.shockScope).toEqual({
             shockIndex: injury.shockIndex,
             shockBonus: injury.shockRollBonus - 20,
+        });
+    });
+
+    it("carries the zone-die aim trace when the location was derived (#828)", () => {
+        const body = makeBody();
+        const neck = body
+            .getAllLocations()
+            .find((l) => l.shortcode === "neck")!;
+        const injury = resolveInjury({
+            impact: 22,
+            aspect: IMPACT_ASPECT.EDGED,
+            body,
+            location: neck,
+        });
+        const data = buildInjuryCardData(injury, {
+            actorId: "a1",
+            handlerActorUuid: "Actor.a1",
+            name: "Axe",
+            addToCharSheet: true,
+            aim: {
+                targetZoneNumber: 2,
+                zoneDie: 6,
+                zoneDieResult: 3,
+                hitZoneNumber: 4,
+                zoneName: "Torso",
+            },
+        });
+        expect(data).toMatchObject({
+            locationDerived: true,
+            locationOverridden: false,
+            targetZoneNumber: 2,
+            zoneDie: 6,
+            zoneDieLabel: "d6",
+            zoneDieResult: 3,
+            hitZoneNumber: 4,
+            hitZoneName: "Torso",
+            isMiss: false,
+        });
+    });
+
+    it("flags a player-overridden location when set manually (#828)", () => {
+        const body = makeBody();
+        const neck = body
+            .getAllLocations()
+            .find((l) => l.shortcode === "neck")!;
+        const injury = resolveInjury({
+            impact: 22,
+            aspect: IMPACT_ASPECT.EDGED,
+            body,
+            location: neck,
+        });
+        const data = buildInjuryCardData(injury, {
+            actorId: "a1",
+            handlerActorUuid: "Actor.a1",
+            name: "Axe",
+            addToCharSheet: true,
+            locationOverridden: true,
+        });
+        expect(data).toMatchObject({
+            locationDerived: false,
+            locationOverridden: true,
+            isMiss: false,
+        });
+    });
+});
+
+describe("buildMissCardData (#828)", () => {
+    it("builds a no-impact card carrying the aim trace and a miss flag", () => {
+        const data = buildMissCardData(
+            {
+                targetZoneNumber: 3,
+                zoneDie: 6,
+                zoneDieResult: 5,
+                hitZoneNumber: 7,
+            },
+            {
+                actorId: "a1",
+                handlerActorUuid: "Actor.a1",
+                name: "Arrow",
+            },
+        );
+        expect(data).toMatchObject({
+            isMiss: true,
+            actorId: "a1",
+            handlerActorUuid: "Actor.a1",
+            name: "Arrow",
+            targetZoneNumber: 3,
+            zoneDie: 6,
+            zoneDieLabel: "d6",
+            zoneDieResult: 5,
+            hitZoneNumber: 7,
+            isInjured: false,
+            addToCharSheet: false,
         });
     });
 });

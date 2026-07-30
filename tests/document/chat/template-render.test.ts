@@ -88,32 +88,63 @@ describe("other action cards render with their logic helpers", () => {
 });
 
 describe("dialogs render through the same shim as cards", () => {
-    it("resolve-injury-dialog builds real <option> lists (selectOptions) + inputs", () => {
+    it("resolve-injury-dialog builds Target ZN / Zone Die inputs, a derive-default location list, and localized aspect labels (#828)", () => {
         const html = renderTemplateReal(`${DIALOG}/resolve-injury-dialog.hbs`, {
             hitLocations: [
                 { code: "th", name: "Thorax" },
                 { code: "hd", name: "Head" },
             ],
-            bodyParts: [
-                { code: "head", name: "Head" },
-                { code: "thorax", name: "Thorax" },
-            ],
-            bodyLocationCode: "th",
-            targetBodyPartCode: "thorax",
-            spread: 6,
+            // Default: derive from Target ZN + ZD (no specific location chosen).
+            bodyLocationCode: "",
+            targetZoneNumber: 1,
+            zoneDie: 3,
+            maxZoneNumber: 3,
             aspect: "edged",
             impact: 12,
             armorReduction: 0,
             treatmentModifier: 0,
             bleedImpactPenalty: 0,
-            aspectChoices: ["blunt", "edged", "piercing"],
+            aspectChoices: {
+                blunt: "SOHL.ImpactModifier.Aspect.blunt",
+                edged: "SOHL.ImpactModifier.Aspect.edged",
+                piercing: "SOHL.ImpactModifier.Aspect.piercing",
+            },
         });
-        expect(html).toContain('<option value="th" selected>Thorax</option>');
-        expect(html).toContain('<option value="hd">Head</option>');
-        expect(html).toContain('name="armorReduction"');
-        expect(html).toContain('name="bleedImpactPenalty"');
-        expect(html).toContain('name="treatmentModifier"');
+        // Zone-die targeting fields (not a body-part select).
+        expect(html).toContain('name="targetZoneNumber"');
+        expect(html).toContain('name="zoneDie"');
+        expect(html).not.toContain('name="targetBodyPartCode"');
+        expect(html).not.toContain('name="spread"');
+        // Location dropdown defaults to derive.
+        expect(html).toContain("(derive from Target ZN + ZD)");
+        expect(html).toContain('<option value="th">Thorax</option>');
+        // Aspect renders localized labels, not the bare enum value.
+        expect(html).toContain('<option value="edged" selected>Edged</option>');
+        expect(html).toContain('<option value="blunt">Blunt</option>');
+        // Deriving by default, the aim fields are not disabled.
+        expect(html).not.toMatch(/name="targetZoneNumber"[^>]*disabled/);
         expect(html).toContain('name="autoAddInjury"');
+    });
+
+    it("resolve-injury-dialog disables the aim fields when a specific location is chosen (#828)", () => {
+        const html = renderTemplateReal(`${DIALOG}/resolve-injury-dialog.hbs`, {
+            hitLocations: [{ code: "th", name: "Thorax" }],
+            bodyLocationCode: "th", // a manual override
+            targetZoneNumber: 1,
+            zoneDie: 3,
+            maxZoneNumber: 3,
+            aspect: "blunt",
+            impact: 0,
+            armorReduction: 0,
+            treatmentModifier: 0,
+            bleedImpactPenalty: 0,
+            aspectChoices: {
+                blunt: "SOHL.ImpactModifier.Aspect.blunt",
+                edged: "SOHL.ImpactModifier.Aspect.edged",
+            },
+        });
+        expect(html).toMatch(/name="targetZoneNumber"[\s\S]*?disabled/);
+        expect(html).toMatch(/name="zoneDie"[\s\S]*?disabled/);
     });
 
     it("amputation-test-dialog binds the location + editable modifier", () => {
@@ -132,6 +163,80 @@ describe("dialogs render through the same shim as cards", () => {
         });
         expect(html).toContain('name="healingRate"');
         expect(html).toContain('value="3"');
+    });
+});
+
+describe("injury-card zone-die states (#828)", () => {
+    const base = {
+        actorId: "a1",
+        handlerActorUuid: "Actor.a1",
+        name: "Longsword",
+        bodyZoneName: "Torso",
+        bodyPartName: "thorax",
+        aspect: "edged",
+        armorType: "",
+        armorValue: 0,
+        armorReduction: 0,
+        impactVal: 12,
+        isInjured: true,
+        injuryLevelText: "S3",
+        shockIndex: 3,
+        needsShockRoll: false,
+        addToCharSheet: false,
+    };
+
+    it("shows the aim trace when the location was derived", () => {
+        const html = renderTemplateReal(`${CHAT}/injury-card.hbs`, {
+            ...base,
+            isMiss: false,
+            locationDerived: true,
+            locationOverridden: false,
+            targetZoneNumber: 2,
+            zoneDie: 6,
+            zoneDieLabel: "d6",
+            zoneDieResult: 3,
+            hitZoneNumber: 4,
+            hitZoneName: "Torso",
+        });
+        expect(html).toContain("Hit Location Roll:");
+        expect(html.replace(/\s+/g, " ")).toContain("ZN 2 + d6 (3) = ZN 4");
+        expect(html).toContain("Torso");
+        expect(html).not.toContain("Location overridden by player");
+    });
+
+    it("shows a red override notice when the location was set by hand", () => {
+        const html = renderTemplateReal(`${CHAT}/injury-card.hbs`, {
+            ...base,
+            isMiss: false,
+            locationDerived: false,
+            locationOverridden: true,
+        });
+        expect(html).toContain("Location overridden by player");
+        expect(html).toContain("failure-text");
+        expect(html).not.toContain("Hit Location Roll:");
+    });
+
+    it("renders the miss card with the aim trace and no injury details", () => {
+        const html = renderTemplateReal(`${CHAT}/injury-card.hbs`, {
+            actorId: "a1",
+            handlerActorUuid: "Actor.a1",
+            name: "Arrow",
+            isMiss: true,
+            isInjured: false,
+            locationDerived: true,
+            targetZoneNumber: 3,
+            zoneDie: 6,
+            zoneDieLabel: "d6",
+            zoneDieResult: 5,
+            hitZoneNumber: 7,
+            addToCharSheet: false,
+        });
+        expect(html).toContain("Missed");
+        expect(html.replace(/\s+/g, " ")).toContain("ZN 3 + d6 (5) = ZN 7");
+        expect(html).toContain("no impact");
+        // No injury rows on a miss.
+        expect(html).not.toContain("Injury Level:");
+        expect(html).not.toContain('data-action="injuryShock"');
     });
 });
 

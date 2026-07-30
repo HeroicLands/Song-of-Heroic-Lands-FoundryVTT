@@ -12,7 +12,6 @@
  */
 
 import type { BodyLocation } from "@src/entity/body/BodyLocation";
-import type { BodyPart } from "@src/entity/body/BodyPart";
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
@@ -30,12 +29,10 @@ import {
 } from "@src/entity/body/injury-defaults";
 
 /**
- * Inputs to the injury-resolution pipeline. Both combat modes feed this:
- *
- * - **Assisted** (Add Injury dialog) supplies an explicit `location` and/or
- *   `armorReduction` entered by the player.
- * - **Automated** carries `targetPart` + `spread` forward from the attack,
- *   letting the hit location be rolled here with no player input.
+ * Inputs to the injury-resolution pipeline. The hit location is resolved
+ * upstream — by Zone-Number + Zone-Die aiming ({@link BodyStructure.aimZone}) or
+ * a manual pick — and handed in as `location`; with none, an unaimed weighted
+ * location is drawn here as a fallback.
  */
 export interface InjuryInput {
     /** Raw impact total delivered by the blow (post-roll, pre-armor). */
@@ -44,11 +41,8 @@ export interface InjuryInput {
     aspect: ImpactAspect;
     /** The target's anatomy, used to resolve the hit location. */
     body: BodyStructure;
-    /** Aimed body part; with `spread`, drives weighted/drift selection. */
-    targetPart?: BodyPart;
-    /** Strike spread governing scatter from `targetPart`. */
-    spread?: number;
-    /** Explicit hit location override (assisted dialog / GM call). */
+    /** The struck hit location (from zone-die aiming or a manual pick). When
+     *  omitted, an unaimed weighted location is drawn from {@link body}. */
     location?: BodyLocation;
     /** Override the total protection at the location. When omitted, the value
      *  is derived from the location's natural protection plus worn armor for
@@ -154,19 +148,13 @@ export function injuryLevelFromImpact(
 }
 
 /**
- * Resolve the hit location: an explicit override wins; otherwise an aimed
- * (targetPart + spread) roll; otherwise a pure weighted random selection.
+ * Resolve the hit location: the upstream-resolved {@link InjuryInput.location}
+ * wins; otherwise a pure weighted random selection across the body.
  * @param input - The injury input describing the blow and target body.
  * @returns The resolved body location.
  */
 function resolveLocation(input: InjuryInput): BodyLocation {
     if (input.location) return input.location;
-    if (input.targetPart && input.spread != null) {
-        return input.body.getRandomLocation({
-            targetPart: input.targetPart,
-            spread: input.spread,
-        });
-    }
     return input.body.getRandomLocation();
 }
 

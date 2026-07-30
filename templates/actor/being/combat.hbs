@@ -25,7 +25,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div>Mode</div>
             <div data-tooltip="Heft">HFT</div>
             <div data-tooltip="Reach">RCH</div>
-            <div data-tooltip="{{#if @root.useZoneDie}}Zone Dice{{else}}Spread{{/if}}">{{@root.spreadLabel}}</div>
+            <div data-tooltip="Zone Dice">{{@root.spreadLabel}}</div>
             <div data-tooltip="Impact">Impact</div>
             <div data-tooltip="Attack ML">Atk</div>
             <div data-tooltip="Block ML">Blk</div>
@@ -40,7 +40,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="ledger__name" data-tooltip="{{sm.name}}">{{sm.name}}</div>
             <div class="ledger__cell" data-tooltip="{{sm.heft.deltaLabel}}" data-tooltip-direction="UP">{{sm.heft.effective}}</div>
             <div class="ledger__cell" data-tooltip="{{sm.reach.deltaLabel}}" data-tooltip-direction="UP">{{sm.reach.effective}}</div>
-            <div class="ledger__cell" data-tooltip="{{sm.spread.deltaLabel}}" data-tooltip-direction="UP">{{#if @root.useZoneDie}}d{{/if}}{{sm.spread.effective}}</div>
+            <div class="ledger__cell" data-tooltip="{{sm.spread.deltaLabel}}" data-tooltip-direction="UP">d{{sm.spread.effective}}</div>
             {{#unless sm.impact.disabled}}
             <div class="ledger__cell ledger__cell--rollable" data-action="rollStrikeModeImpact" data-tooltip="{{sm.impact.deltaLabel}}" data-tooltip-direction="UP">
                 {{sm.impact.label}}

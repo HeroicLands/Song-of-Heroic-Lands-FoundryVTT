@@ -202,24 +202,20 @@ describe("resolveInjury — armor & effective impact", () => {
 });
 
 describe("resolveInjury — hit location", () => {
-    it("resolves the location via the aimed path when targetPart + spread given", () => {
+    it("uses the explicit location override when one is given", () => {
+        // Zone-Number + Zone-Die aiming is resolved upstream (BodyStructure.aimZone);
+        // resolveInjury itself takes the already-chosen location.
         const body = makeBody();
-        const target = body.getPartByCode("head")!;
-        const spy = vi
-            .spyOn(body, "getRandomLocation")
-            .mockReturnValue(loc(body, "skull"));
         const injury = resolveInjury({
             impact: 10,
             aspect: IMPACT_ASPECT.EDGED,
             body,
-            targetPart: target,
-            spread: 6,
+            location: loc(body, "skull"),
         });
-        expect(spy).toHaveBeenCalledWith({ targetPart: target, spread: 6 });
         expect(injury.location.shortcode).toBe("skull");
     });
 
-    it("falls back to unaimed weighted selection when no target part is given", () => {
+    it("falls back to unaimed weighted selection when no location is given", () => {
         const body = makeBody();
         const spy = vi
             .spyOn(body, "getRandomLocation")
