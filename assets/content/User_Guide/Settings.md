@@ -194,14 +194,6 @@ When enabled, combat actions (attacks, blocks, impacts) play flavor sound
 effects. Disable this if you prefer a quieter experience or are using your
 own ambient audio.
 
-## Show Welcome Dialog
-
-**Default:** Enabled
-
-When enabled, a welcome dialog is displayed each time you log in to the
-world. The dialog provides quick links and version information. Disable it
-once you are familiar with the system.
-
 ## Log Level
 
 **Default:** Info

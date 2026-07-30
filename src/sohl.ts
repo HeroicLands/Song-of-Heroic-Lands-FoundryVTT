@@ -35,6 +35,7 @@ import { CalendarSettingsMenu } from "@src/apps/foundry/CalendarSettingsMenu";
 import { DomainManagerApp } from "@src/apps/foundry/DomainManagerApp";
 import { ExpressionLibraryMenu } from "@src/apps/foundry/ExpressionLibraryMenu";
 import { registerSystemTours } from "@src/apps/foundry/tours/register-tours";
+import { postWelcomeCard } from "@src/apps/foundry/welcome-card";
 import { expressionHelpers } from "@src/entity/expr/ExpressionHelperRegistry";
 import { DomainRegistry } from "@src/entity/domain/DomainRegistry";
 import { BUILTIN_DOMAINS } from "@src/entity/domain/builtin-domains";
@@ -117,14 +118,6 @@ function registerSystemSettings() {
         onChange: (value: string): void => {
             sohl.log.setLogThreshold(value);
         },
-    });
-    game.settings.register("sohl", "showWelcomeDialog", {
-        name: "SOHL.Settings.showWelcomeDialog.label",
-        hint: "SOHL.Settings.showWelcomeDialog.hint",
-        scope: "client",
-        config: true,
-        type: Boolean,
-        default: true,
     });
     game.settings.register("sohl", "combatAudio", {
         name: "SOHL.Settings.combatAudio.label",
@@ -586,6 +579,7 @@ function registerSystemHooks() {
 (Hooks as any).once("ready", () => {
     registerHandlebarsHelpers();
     registerSystemTours();
+    void postWelcomeCard();
     SohlSystem.ready = true;
     void migrateWorld();
 });
