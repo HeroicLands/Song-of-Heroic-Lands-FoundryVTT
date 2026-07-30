@@ -117,6 +117,16 @@ dialog](../../src/document/item/foundry/SohlItem.ts)) to confirm the _right
 archetype_ was chosen without forcing a name. It is driven end to end by
 `cypress/e2e/character-creation-tour.cy.js`.
 
+`src/apps/foundry/tours/assisted-combat-tour.ts` is a second content tour, the
+**Assisted Combat** tour: single-actor and "pretend" throughout (no token, scene,
+or encounter), it coaches one existing Being from a weapon on the sheet to an
+attack, an impact, and a recorded injury. It is worth studying for its _non_-archetype
+state gates — the bow held in two limbs (`structure.limbsHolding(bowId) >= 2`, the
+exact transition that surfaces a two-handed weapon's strike mode) and a recorded
+wound (an `injury`-subtype Trauma on the Being) — and for _not_ gating the roll
+steps, matching how Assisted Combat leaves the opposed outcome to the players'
+rulebook ruling. It is driven by `cypress/e2e/assisted-combat-tour.cy.js`.
+
 ### Offering a tour on first run
 
 A tour listed with `display: true` is always launchable from **Tour Management**.
