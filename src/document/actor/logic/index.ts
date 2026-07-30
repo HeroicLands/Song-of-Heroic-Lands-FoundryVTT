@@ -21,6 +21,7 @@ export * from "./SohlActorBaseLogic";
 export * from "./StructureLogic";
 export * from "./VehicleLogic";
 export * from "./affliction-contract";
+export * from "./being-print-view";
 export * from "./being-sheet-view";
 export * from "./display-filter";
 export * from "./fear";

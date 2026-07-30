@@ -1,0 +1,329 @@
+// =============================================================================
+// Being print / export view (#795)
+// -----------------------------------------------------------------------------
+// The document-first Manuscript character record produced by the window-header
+// print control. Rendered into a standalone browser window whose <body> carries
+// `.sohl` (so the design tokens on :root and the base element styles apply) with
+// this `.being-print` article inside it — see BeingSheet `_renderPrintDocument`.
+//
+// This is the *print form* of the light-first Manuscript language: black ink on
+// paper, rubrication-red section rules, no interactive chrome. The @page box and
+// body reset are inlined by the window itself; everything visual lives here.
+//
+// Loaded under `.sohl` from scss/sohl.scss (→ `.sohl .being-print`).
+// See https://kb.heroiclands.org/dev/concepts/css-architecture/.
+// =============================================================================
+
+.being-print {
+    box-sizing: border-box;
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 1rem 1.25rem 2rem;
+    // True black ink for the printed record: maximum legibility on paper, and a
+    // hard guarantee the body text is black regardless of how the token theme
+    // resolves in the detached print window. The deliberately-muted bits (notes,
+    // descriptors, muted labels) keep their warm-gray tokens for hierarchy, and
+    // section titles keep the rubrication-red accent.
+    color: #000;
+    font-family: var(--sohl-font-body);
+    font-size: 11pt;
+    line-height: 1.35;
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    // ---- Letterhead -------------------------------------------------------
+    &__masthead {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-bottom: 0.35rem;
+        border-bottom: 2px solid var(--sohl-color-accent);
+    }
+
+    &__masthead-title {
+        font-family: var(--sohl-font-title);
+        font-size: 10pt;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--sohl-color-accent);
+    }
+
+    &__masthead-date {
+        font-size: 8.5pt;
+        color: var(--sohl-color-text-muted);
+    }
+
+    &__identity {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+        margin: 0.75rem 0 0.5rem;
+    }
+
+    &__identity-text {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    &__name {
+        margin: 0 0 0.25rem;
+        font-family: var(--sohl-font-title);
+        font-size: 20pt;
+        line-height: 1.1;
+        border: 0;
+    }
+
+    &__shortcode {
+        margin-left: 0.4rem;
+        font-family: var(--sohl-font-body);
+        font-size: 11pt;
+        font-weight: 400;
+        color: var(--sohl-color-text-muted);
+
+        &::before {
+            content: "(";
+        }
+        &::after {
+            content: ")";
+        }
+    }
+
+    &__meta {
+        font-size: 10pt;
+        line-height: 1.5;
+    }
+
+    &__meta-label {
+        display: inline-block;
+        min-width: 4.5rem;
+        margin-right: 0.4rem;
+        font-variant: small-caps;
+        letter-spacing: 0.04em;
+        color: var(--sohl-color-text-muted);
+    }
+
+    // ---- Sections ---------------------------------------------------------
+    &__section {
+        margin-top: 1.1rem;
+    }
+
+    &__section-title {
+        margin: 0 0 0.4rem;
+        padding-bottom: 0.15rem;
+        font-family: var(--sohl-font-title);
+        font-size: 12pt;
+        font-variant: small-caps;
+        letter-spacing: 0.06em;
+        color: var(--sohl-color-accent);
+        border-bottom: 1px solid var(--sohl-color-border-strong);
+        break-after: avoid;
+    }
+
+    &__subhead {
+        margin: 0.7rem 0 0.3rem;
+        font-family: var(--sohl-font-body);
+        font-size: 10.5pt;
+        font-weight: 600;
+        font-variant: small-caps;
+        letter-spacing: 0.05em;
+        color: var(--sohl-color-text-secondary);
+        break-after: avoid;
+    }
+
+    &__subhead-meta {
+        margin-left: 0.5rem;
+        font-weight: 400;
+        font-variant: normal;
+        letter-spacing: 0;
+        font-size: 9pt;
+        color: var(--sohl-color-text-muted);
+    }
+
+    // ---- Magazine bands (top of the record) -------------------------------
+    // Band A: attributes | portrait | description. Band B: movement |
+    // affiliations. Each column carries its own rubric section header.
+    &__band {
+        display: grid;
+        gap: 0 1.4rem;
+        align-items: start;
+        margin-top: 1rem;
+        break-inside: avoid;
+    }
+
+    &__band--top {
+        grid-template-columns: minmax(11rem, 0.95fr) 9rem minmax(0, 1.7fr);
+    }
+
+    &__band--split {
+        grid-template-columns: minmax(11rem, 0.85fr) minmax(0, 1.6fr);
+        break-inside: auto;
+    }
+
+    &__col {
+        min-width: 0;
+
+        // The per-column rubric headers share a baseline across the band.
+        > .being-print__section-title {
+            margin-top: 0;
+        }
+    }
+
+    &__portrait {
+        display: block;
+        width: 100%;
+        max-width: 9rem;
+        height: auto;
+        // No frame — the record shows the portrait as-is (a placeholder box in
+        // the layout mock only marked where it sits).
+    }
+
+    // Inline attribute descriptor beside the name (e.g. "Strong").
+    &__inline-desc {
+        color: var(--sohl-color-text-muted);
+        font-style: italic;
+        font-size: 8.5pt;
+    }
+
+    // ---- Skills as magazine columns ---------------------------------------
+    &__skill-columns {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+        gap: 0 1.4rem;
+        margin-top: 1rem;
+        align-items: start;
+    }
+
+    &__skill-group {
+        break-inside: avoid;
+
+        > .being-print__section-title {
+            margin-top: 0.6rem;
+        }
+    }
+
+    // ---- Tables -----------------------------------------------------------
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 9.5pt;
+        margin: 0.1rem 0 0.3rem;
+
+        thead {
+            // Repeat the header row atop each printed page a table spans.
+            display: table-header-group;
+        }
+
+        th,
+        td {
+            padding: 0.16rem 0.4rem;
+            text-align: left;
+            vertical-align: top;
+            border-bottom: 1px solid var(--sohl-color-border-subtle);
+        }
+
+        th {
+            font-variant: small-caps;
+            letter-spacing: 0.03em;
+            font-weight: 600;
+            color: #000;
+            border-bottom: 1px solid var(--sohl-color-border-strong);
+            white-space: nowrap;
+        }
+
+        td.num,
+        th.num {
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        td.notes {
+            color: var(--sohl-color-text-muted);
+            font-style: italic;
+        }
+
+        tbody tr {
+            break-inside: avoid;
+        }
+    }
+
+    // The attribute roster and the per-subtype skill tables: horizontal rules
+    // only — no left/right (column) borders, no outer box.
+    &__table--attributes,
+    &__table--skill {
+        th,
+        td {
+            border-left: 0;
+            border-right: 0;
+        }
+    }
+
+    &__table--skill {
+        font-size: 9pt;
+
+        th,
+        td {
+            padding: 0.14rem 0.3rem;
+        }
+    }
+
+    // A spanning sub-group row inside a table (a weapon family, a zone·part).
+    &__group-row td {
+        padding-top: 0.3rem;
+        font-variant: small-caps;
+        letter-spacing: 0.04em;
+        font-weight: 600;
+        color: #000;
+        background: var(--sohl-color-bg-stamp);
+        border-bottom: 1px solid var(--sohl-color-border-default);
+    }
+
+    // ---- Prose (enriched appearance / biography) --------------------------
+    &__prose {
+        font-size: 10.5pt;
+
+        :first-child {
+            margin-top: 0;
+        }
+        p {
+            margin: 0 0 0.5rem;
+        }
+    }
+
+    // ---- Bits -------------------------------------------------------------
+    &__tag {
+        display: inline-block;
+        padding: 0 0.3rem;
+        font-size: 7.5pt;
+        font-variant: small-caps;
+        letter-spacing: 0.04em;
+        color: var(--sohl-color-accent);
+        border: 1px solid var(--sohl-color-border-default);
+        border-radius: 2px;
+        vertical-align: middle;
+    }
+
+    &__empty {
+        margin: 0 0 0.4rem;
+        color: var(--sohl-color-text-muted);
+        font-style: italic;
+        font-size: 9.5pt;
+    }
+}
+
+// Force the ink/paper contrast and the rubric accents to survive the print
+// pipeline (browsers strip backgrounds/colors by default when printing).
+@media print {
+    .being-print {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
