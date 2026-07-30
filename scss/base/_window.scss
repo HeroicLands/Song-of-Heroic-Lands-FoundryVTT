@@ -3,7 +3,16 @@
 // lives in layout/_sheet.scss.
 
 .window-content {
-    background: url("../assets/ui/parchment.jpg") repeat;
+    // Paint the parchment texture OVER the theme's paper token and multiply the
+    // two, so the ground follows the light/dark token swap instead of staying a
+    // fixed light image (the #810 dark-mode split). The texture is light
+    // (luminance ≈216/255): in light mode the near-white token leaves it ~as-is;
+    // in dark mode the warm near-black token multiplies it down to a dark,
+    // subtly-grained vellum. One asset, always in lockstep with the palette.
+    background-color: var(--sohl-color-bg-sheet);
+    background-image: url("../assets/ui/parchment.jpg");
+    background-repeat: repeat;
+    background-blend-mode: multiply;
     font-size: 16px;
     color: var(--sohl-color-text-primary);
 }

@@ -71,6 +71,12 @@ img.sheet-header__portrait {
     font-size: 1.2rem;
     font-weight: 600;
     line-height: 1.2;
+    // As an <h1>, Foundry core colors this via `--color-text-light-primary`,
+    // which `.sohl` remaps to `--sohl-color-text-inverse` (cream in light mode) —
+    // leaving the name pale and unreadable on the light vellum band (#810). Pin
+    // it to the primary ink so it reads dark in light and cream in dark, like the
+    // rest of the sheet.
+    color: var(--sohl-color-text-primary);
 }
 
 // Shortcode — a compact mono code chip beside the name (manuscript `.hd__code`).
