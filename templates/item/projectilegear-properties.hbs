@@ -14,7 +14,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <fieldset>
         <legend>Gear</legend>
-        <div class="grid grid-3col">
+        <div class="field-grid field-grid--3col">
             {{formGroup fields.quantity rootId="projgear-quant" classes="text-field" stacked=true value=system.quantity}}
             {{formGroup fields.weightBase rootId="projgear-wt" classes="text-field" stacked=true value=system.weightBase}}
             {{formGroup fields.valueBase rootId="projgear-val" classes="text-field" stacked=true value=system.valueBase}}
@@ -24,13 +24,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
     </fieldset>
 
-    <div class="grid grid-3col">
+    <div class="field-grid field-grid--3col">
         {{formGroup fields.shortName rootId="projgear-shortname" classes="text-field" stacked=true value=system.shortName}}
     </div>
 
     <fieldset>
         <legend>Impact</legend>
-        <div class="grid grid-4col">
+        <div class="field-grid field-grid--4col">
             {{formGroup fields.impactBase.fields.numDice rootId="projgear-imp-numdice" classes="text-field" stacked=true value=system.impactBase.numDice}}
             {{formGroup fields.impactBase.fields.die rootId="projgear-imp-die" classes="text-field" stacked=true value=system.impactBase.die}}
             {{formGroup fields.impactBase.fields.modifier rootId="projgear-imp-mod" classes="text-field" stacked=true value=system.impactBase.modifier}}

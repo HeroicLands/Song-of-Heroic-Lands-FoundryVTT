@@ -1,0 +1,117 @@
+// Array-list — the editable String/object-array widget shared by every item
+// property tab (Manuscript redesign, epic #800 / Feature 1). It re-skins the
+// declarative array editor wired via `data-action="addArrayItem"` /
+// `data-action="deleteArrayItem"` (see SohlDataModel's array-field handlers):
+// attribute Value-Descriptors + Impaired-By-Roles, skill roles, mystery
+// Affected-Skills, armorgear flexible/rigid Body-Armor-Locations.
+//
+// It composes the shared Manuscript vocabulary — `ledger`-style paper rows,
+// `add-button` for the create control, `icon-button` for the per-row delete —
+// rather than reinventing them. Two shapes are supported:
+//
+//   * SCALAR arrays (one value per row): each `__row` is a single `__field`
+//     plus a `__remove`. The default single-value grid is built in; no
+//     `--array-cols` needed.
+//   * OBJECT arrays (label + maxValue, e.g. Value Descriptors): set the inline
+//     `--array-cols` hook on the `.array-list` (head and rows both read it) so
+//     the `__head` labels align with each row's `__field` cells.
+//
+// The JS binds on `data-action` + the `data-array` / `data-index` / `data-value`
+// dataset — never on these class names — so this is pure presentation skin.
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
+@use "../abstracts/mixins";
+
+.array-list {
+    display: block;
+    border: 1px solid var(--sohl-color-border-subtle);
+    border-radius: var(--sohl-radius-md);
+    overflow: hidden;
+
+    // Column-label row for object arrays (aligns with `--array-cols`).
+    &__head {
+        display: grid;
+        grid-template-columns: var(--array-cols, 1fr auto);
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.24rem 0.7rem;
+        font-family: var(--sohl-font-sans);
+        font-size: 0.62rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--sohl-color-text-muted);
+        background: var(--sohl-color-bg-header);
+        border-bottom: 1px solid var(--sohl-color-border-subtle);
+    }
+
+    // Data row — a paper row with the delete control pinned right. Scalar rows
+    // use the built-in `1fr auto` template; object rows inherit `--array-cols`.
+    &__row {
+        display: grid;
+        grid-template-columns: var(--array-cols, minmax(0, 1fr) auto);
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.24rem 0.7rem;
+        font-size: 0.83rem;
+        border-bottom: 1px solid var(--sohl-color-border-subtle);
+
+        &:nth-child(even of .array-list__row) {
+            background: var(--sohl-color-bg-surface);
+        }
+
+        &:last-of-type {
+            border-bottom: none;
+        }
+
+        &:hover .array-list__remove {
+            opacity: 1;
+        }
+    }
+
+    // A value cell — sans body text, clipped. Multiple per row for object arrays.
+    &__field {
+        font-family: var(--sohl-font-sans);
+        min-width: 0;
+        @include mixins.truncate;
+
+        // An inline editable input inside a cell (object-array authoring).
+        input {
+            width: 100%;
+        }
+    }
+
+    // Numeric value cell (e.g. Value-Descriptor Max Value) — mono, tabular.
+    &__value {
+        font-family: var(--sohl-font-mono);
+        font-variant-numeric: tabular-nums;
+        font-size: 0.8rem;
+        text-align: center;
+    }
+
+    // Per-row delete — an `icon-button--danger`; faded until the row is hovered
+    // so a dense list stays calm.
+    &__remove {
+        justify-self: end;
+        opacity: 0.45;
+        transition: opacity 0.12s ease;
+    }
+
+    // Empty-state row ("—" when the array has no entries).
+    &__empty {
+        padding: 0.3rem 0.7rem;
+        color: var(--sohl-color-text-muted);
+        font-style: italic;
+        font-size: 0.8rem;
+    }
+
+    // The create control strip below the rows (holds one or more `.add-button`).
+    &__add {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.35rem 0.7rem;
+        background: var(--sohl-color-bg-header);
+        border-top: 1px solid var(--sohl-color-border-subtle);
+    }
+}

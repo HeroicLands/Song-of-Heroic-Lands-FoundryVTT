@@ -1,0 +1,77 @@
+// Field-grid — the Manuscript wrapper for the item property `formGroup` layouts
+// (Manuscript redesign, epic #800 / Feature 1). It replaces the ad-hoc
+// `grid grid-3col` / `grid grid-4col` containers the property tabs wrap their
+// `{{formGroup … classes="text-field" stacked=true}}` calls in, and retunes the
+// emitted Foundry `.form-group.text-field` chrome (label · hint · input) to the
+// Manuscript tokens.
+//
+// It works WITH Foundry's `formGroup` output — it does not replace the helper.
+// Templates adopt `.field-grid` in later waves; until then the same retune is
+// applied to the current `.tab.properties .grid` containers so every item sheet
+// picks up the Manuscript field look now with zero template churn. Both scopes
+// are item-only (`.field-grid` is only emitted on item tabs; `.tab.properties`
+// is the item property tab), so nothing leaks onto actor sheets or dialogs.
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
+
+// Shared field-chrome retune, applied to both the new wrapper and the legacy
+// property grids. `%` placeholder so it emits once per selector list.
+%field-grid-fields {
+    // Stacked formGroup: label above a full-width field row.
+    .form-group {
+        align-content: start;
+
+        > label {
+            font-family: var(--sohl-font-sans);
+            font-size: 0.66rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--sohl-color-text-muted);
+        }
+
+        // The "?" help marker at the end of a label (replaces always-on hints).
+        .hint-help {
+            color: var(--sohl-color-text-muted);
+        }
+
+        > .form-fields {
+            gap: 0.35rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            font-family: var(--sohl-font-sans);
+            font-size: 0.8rem;
+        }
+
+        // Numeric / formula values read as mono so they align and echo the
+        // ledger's tabular figures.
+        input[type="number"] {
+            font-family: var(--sohl-font-mono);
+            font-variant-numeric: tabular-nums;
+        }
+    }
+}
+
+.field-grid {
+    display: grid;
+    gap: 0.35rem 0.9rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    &--3col {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    &--4col {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    @extend %field-grid-fields;
+}
+
+// Legacy property grids get the same field retune until the templates adopt
+// `.field-grid` (Wave 2+). Scoped to the item property tab so it stays item-only.
+.tab.properties .grid {
+    @extend %field-grid-fields;
+}

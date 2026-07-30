@@ -1,0 +1,35 @@
+// Item fieldset — the Manuscript treatment for the grouped property blocks the
+// gear / charges / impact tabs already build with `<fieldset><legend>` (epic
+// #800 / Feature 1).
+//
+// DECISION — style the native `fieldset` / `legend` in place, scoped to the item
+// property tab, rather than converting every template to a `section-legend`
+// wrapper. This is the LOWER-CHURN option: the six gear + mystery + projectile
+// property templates keep their existing `<fieldset><legend>…</legend></fieldset>`
+// markup untouched and pick up the Manuscript look immediately. The `.tab.properties`
+// scope is item-only, so no `<fieldset>` on an actor sheet or a dialog is touched.
+//
+// A `section-legend`-based equivalent (the Being-sheet banded header) is the
+// heavier alternative and is NOT used here; templates that genuinely want a
+// full-width banded section can still adopt `section-legend` directly.
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
+
+.tab.properties {
+    fieldset {
+        margin: 0 0 0.7rem;
+        padding: 0.5rem 0.7rem 0.6rem;
+        border: 1px solid var(--sohl-color-border-default);
+        border-radius: var(--sohl-radius-md);
+        background: var(--sohl-color-bg-sheet);
+    }
+
+    legend {
+        padding: 0 0.4rem;
+        font-family: var(--sohl-font-title);
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        color: var(--sohl-color-text-primary);
+    }
+}

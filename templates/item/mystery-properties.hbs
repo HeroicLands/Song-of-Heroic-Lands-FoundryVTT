@@ -12,14 +12,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
-    <div class="grid grid-3col">
+    <div class="field-grid field-grid--3col">
         {{formGroup fields.domainCode rootId="mystery-domaincode" classes="text-field" stacked=true value=system.domainCode}}
         {{formGroup fields.levelBase rootId="mystery-levelbase" classes="text-field" stacked=true value=system.levelBase}}
     </div>
 
     <fieldset>
         <legend>Charges</legend>
-        <div class="grid grid-3col">
+        <div class="field-grid field-grid--3col">
             {{formGroup fields.charges.fields.usesCharges rootId="mystery-charges-uses" classes="text-field" stacked=true value=system.charges.usesCharges}}
             {{formGroup fields.charges.fields.value rootId="mystery-charges-val" classes="text-field" stacked=true value=system.charges.value}}
             {{formGroup fields.charges.fields.max rootId="mystery-charges-max" classes="text-field" stacked=true value=system.charges.max}}
@@ -28,27 +28,29 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     <fieldset>
         <legend>Affected Skills (all if none specified)</legend>
-        <div class="flexrow">
-            <a class="add-array-item"
-                data-action="addArrayItem"
-                data-array="system.skills"
-                data-dtype="String"
-                data-default-value=""
-                data-title="Skill"
-                ><i class="fa-solid fa-plus"></i> Add Skill</a>
-        </div>
-        <ol class="grid grid-4col">
+        <div class="array-list">
             {{#each skills}}
-            <li class="mystery-skill">
-                <span class="name">{{this}}</span>
-                <a class="delete-array-item"
+            <div class="array-list__row">
+                <span class="array-list__field chip">{{this}}</span>
+                <a class="array-list__remove delete-array-item icon-button icon-button--danger"
                     data-action="deleteArrayItem"
                     data-array="system.skills"
                     data-value="{{this}}"
                     title="Skill"
                     ><i class="fa-solid fa-trash"></i></a>
-            </li>
+            </div>
+            {{else}}
+            <div class="array-list__empty">—</div>
             {{/each}}
-        </ol>
+            <div class="array-list__add">
+                <button class="add-button add-button--small add-array-item"
+                    data-action="addArrayItem"
+                    data-array="system.skills"
+                    data-dtype="String"
+                    data-default-value=""
+                    data-title="Skill"
+                    ><i class="fa-solid fa-plus"></i><span>Add Skill</span></button>
+            </div>
+        </div>
     </fieldset>
 </section>

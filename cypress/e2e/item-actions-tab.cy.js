@@ -104,9 +104,10 @@ describe("Item Actions tab (#501)", () => {
                             win.game.items.get(item.id).system.actionDefs ?? []
                         ).map((d) => d.executor),
                     ).should("include", macroUuid);
-                    cy.get(ACTIONS)
-                        .contains("ol.actions-list", "Custom Actions")
-                        .contains(".item", "E2E Item Bound Action");
+                    cy.get(ACTIONS).contains(
+                        ".ledger__row",
+                        "E2E Item Bound Action",
+                    );
                 },
             );
         });
@@ -152,7 +153,7 @@ describe("Item Actions tab (#501)", () => {
                         cy.openSheet(item);
                         cy.switchTab("actions", "sheet");
                         cy.get(ACTIONS)
-                            .contains("ol.actions-list", "Custom Actions")
+                            .contains(".ledger__row", "E2E Item Run Action")
                             .find('[data-action="runAction"]')
                             .click();
                         cy.wait(700);
@@ -171,7 +172,7 @@ describe("Item Actions tab (#501)", () => {
                     cy.openSheet(item);
                     cy.switchTab("actions", "sheet");
                     cy.get(ACTIONS)
-                        .contains("ol.actions-list", "Custom Actions")
+                        .contains(".ledger__row", "E2E Item Edit Action")
                         .find('[data-action="editAction"]')
                         .click();
                     cy.wait(500);
@@ -193,7 +194,7 @@ describe("Item Actions tab (#501)", () => {
                     cy.openSheet(item);
                     cy.switchTab("actions", "sheet");
                     cy.get(ACTIONS)
-                        .contains("ol.actions-list", "Custom Actions")
+                        .contains(".ledger__row", "E2E Item Del Action")
                         .find('[data-action="deleteAction"]')
                         .click();
                     cy.submitDialog("yes");
