@@ -14,6 +14,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="field-grid field-grid--3col">
         {{formGroup fields.domainCode rootId="mystery-domaincode" classes="text-field" stacked=true value=system.domainCode}}
+        {{formGroup fields.assocSkillCode rootId="mystery-assocskill" classes="text-field" stacked=true value=system.assocSkillCode}}
         {{formGroup fields.levelBase rootId="mystery-levelbase" classes="text-field" stacked=true value=system.levelBase}}
     </div>
 
@@ -23,34 +24,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{formGroup fields.charges.fields.usesCharges rootId="mystery-charges-uses" classes="text-field" stacked=true value=system.charges.usesCharges}}
             {{formGroup fields.charges.fields.value rootId="mystery-charges-val" classes="text-field" stacked=true value=system.charges.value}}
             {{formGroup fields.charges.fields.max rootId="mystery-charges-max" classes="text-field" stacked=true value=system.charges.max}}
-        </div>
-    </fieldset>
-
-    <fieldset>
-        <legend>Affected Skills (all if none specified)</legend>
-        <div class="array-list">
-            {{#each skills}}
-            <div class="array-list__row">
-                <span class="array-list__field chip">{{this}}</span>
-                <a class="array-list__remove delete-array-item icon-button icon-button--danger"
-                    data-action="deleteArrayItem"
-                    data-array="system.skills"
-                    data-value="{{this}}"
-                    title="Skill"
-                    ><i class="fa-solid fa-trash"></i></a>
-            </div>
-            {{else}}
-            <div class="array-list__empty">—</div>
-            {{/each}}
-            <div class="array-list__add">
-                <button class="add-button add-button--small add-array-item"
-                    data-action="addArrayItem"
-                    data-array="system.skills"
-                    data-dtype="String"
-                    data-default-value=""
-                    data-title="Skill"
-                    ><i class="fa-solid fa-plus"></i><span>Add Skill</span></button>
-            </div>
         </div>
     </fieldset>
 </section>
