@@ -96,14 +96,15 @@ describe("Being Facade tab (#307)", () => {
             );
             cy.openSheet(actor);
             cy.switchTab("facade", "primary");
-            cy.get(
-                'section.tab[data-tab="facade"] .facade__description',
-            ).should("contain.text", "Weathered and scarred.");
+            cy.get('section.tab[data-tab="facade"] .facade__editor').should(
+                "contain.text",
+                "Weathered and scarred.",
+            );
             // The ProseMirror editor binds the real field via `name` so edits
             // persist. Re-query (rather than chaining `.find`) — the editor
             // enriches asynchronously and detaches the prior subtree.
             cy.get(
-                'section.tab[data-tab="facade"] .facade__description [name="system.appearance"]',
+                'section.tab[data-tab="facade"] .facade__editor [name="system.appearance"]',
             ).should("exist");
         });
     });
