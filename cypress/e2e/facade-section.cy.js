@@ -45,6 +45,42 @@ describe("Being Facade tab (#307)", () => {
         });
     });
 
+    it("is hidden when another tab is active (#812)", () => {
+        // Regression: the Facade tab declared `display` on its own `.tab`
+        // element, overriding Foundry's inactive-tab hiding, so its portrait
+        // and appearance editor leaked onto every tab. Switching away must now
+        // collapse the Facade section (display:none) like any other inactive
+        // tab. Assert through the actor's own sheet element — a document-level
+        // `cy.get` can match a leftover facade section from a prior test's
+        // sheet (testIsolation is off), which reads as still-active.
+        cy.importActor().then((actor) => {
+            // Close any sheet left open by a prior test (testIsolation is off),
+            // so `switchTab`'s document-level nav click targets this sheet and
+            // not a leftover one.
+            cy.closeAllSheets();
+            cy.openSheet(actor);
+            // `switchTab` waits until the profile section carries `.active`.
+            cy.switchTab("profile", "primary");
+            cy.foundry((win) => {
+                const el = win.game.actors.get(actor.id)?.sheet?.element;
+                const facade = el?.querySelector(
+                    'section.tab[data-tab="facade"]',
+                );
+                return {
+                    facadeActive: facade?.classList.contains("active") ?? null,
+                    facadeDisplay:
+                        facade ? win.getComputedStyle(facade).display : null,
+                };
+            }).should("deep.equal", {
+                facadeActive: false,
+                facadeDisplay: "none",
+            });
+            cy.screenshot("facade-812-profile-tab-no-leak", {
+                capture: "viewport",
+            });
+        });
+    });
+
     it("renders the enriched appearance in the description editor", () => {
         cy.importActor().then((actor) => {
             cy.foundry((win) =>
