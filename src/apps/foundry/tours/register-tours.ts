@@ -19,6 +19,10 @@ import {
     CHARACTER_CREATION_TOUR,
     buildCharacterCreationTour,
 } from "./character-creation-tour";
+import {
+    ASSISTED_COMBAT_TOUR,
+    buildAssistedCombatTour,
+} from "./assisted-combat-tour";
 
 /** Guards {@link bindTourStartButtons} so the render hook is installed only once. */
 let startHookBound = false;
@@ -46,6 +50,12 @@ export function registerSystemTours(): void {
         CHARACTER_CREATION_TOUR.namespace,
         CHARACTER_CREATION_TOUR.id,
         buildCharacterCreationTour,
+    );
+    registerTour(
+        tours,
+        ASSISTED_COMBAT_TOUR.namespace,
+        ASSISTED_COMBAT_TOUR.id,
+        buildAssistedCombatTour,
     );
     bindTourStartButtons();
 }

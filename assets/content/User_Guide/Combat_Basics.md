@@ -83,6 +83,13 @@ shown as clickable.
 > **Dodge** is rolled from the **Dodge skill** (a normal skill test), not from a
 > weapon's Combat-tab row — dodging is not tied to a particular weapon.
 
+> 🧭 **Guided tour.** For a hands-on walkthrough of everything above — arming a
+> character, the two-handed/bow arm rule, rolling ATK/BLK/CX, and turning a hit
+> into an injury — run the **SoHL: Assisted Combat** tour from
+> **Settings → Tour Management**. It is single-actor and needs no token, scene, or
+> encounter, and it makes clear that the system rolls but leaves the win/loss
+> ruling to you and the rulebook.
+
 # Automated Combat
 
 Assisted Combat speeds up the _rolls_, but it does not address the real burden:
