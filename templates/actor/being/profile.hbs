@@ -13,20 +13,21 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab profile{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="profile">
     {{!-- Attributes --}}
-    <div class="list__header flexrow">
-        <div class="list__name">{{localize "TYPES.Item.attributePl"}}</div>
-        <div class="list__controls">
-            <a class="item-create" data-action="createItem" data-tooltip="Add Attribute" data-type="attribute">
-                <i class="fa-solid fa-file-plus"></i>
+    <div class="section-legend">
+        <span class="section-legend__name">{{localize "TYPES.Item.attributePl"}}</span>
+        <span class="section-legend__rule"></span>
+        <span class="section-legend__add">
+            <a class="add-button item-create" data-action="createItem" data-tooltip="Add Attribute" data-type="attribute">
+                <i class="fa-solid fa-file-plus"></i><span>Add Attribute</span>
             </a>
-        </div>
+        </span>
     </div>
     <div class="grid grid-6col attribute-scores">
         {{#each attributes as |attr|}}
         <div class="attribute-score item" data-item-id="{{attr.id}}" data-uuid="{{attr.uuid}}" data-item-name="{{attr.name}}">
             <div class="attribute-score__header flexrow">
                 <h4 class="attribute-score__name">{{attr.name}}</h4>
-                <a class="item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
             </div>
             <div class="attribute-score__value" data-tooltip="{{attr.scoreDeltaLabel}}" data-tooltip-direction="UP">{{attr.score}}</div>
             <div class="attribute-score__descriptor">{{attr.descriptor}}</div>
@@ -36,58 +37,161 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
 
     {{!-- Affiliations --}}
-    <div class="list__header flexrow">
-        <div class="list__name">{{localize "TYPES.Item.affiliationPl"}}</div>
-        <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.level.label"}}</div>
-        <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.society.label"}}</div>
-        <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.office.label"}}</div>
-        <div class="list__detail">{{localize "SOHL.Affiliation.FIELDS.title.label"}}</div>
-        <div class="list__detail list__notes">{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
-        <div class="list__controls">
-            <a class="item-create" data-action="createItem" data-tooltip="{{localize 'SOHL.Affiliation.Heading.Add.label'}}" data-type="affiliation">
-                <i class="fa-solid fa-file-plus"></i>
+    <div class="section-legend">
+        <span class="section-legend__name">{{localize "TYPES.Item.affiliationPl"}}</span>
+        <span class="section-legend__rule"></span>
+        <span class="section-legend__add">
+            <a class="add-button item-create" data-action="createItem" data-tooltip="{{localize 'SOHL.Affiliation.Heading.Add.label'}}" data-type="affiliation">
+                <i class="fa-solid fa-file-plus"></i><span>{{localize "SOHL.Affiliation.Heading.Add.label"}}</span>
             </a>
-        </div>
+        </span>
     </div>
-    <ol class="list__items affiliations">
+    <div class="ledger" style="--ledger-cols:minmax(140px,1.4fr) 2.6rem 5.5rem 5rem 5rem 1.2fr 1.8rem">
+        <div class="ledger__head">
+            <div></div>
+            <div>{{localize "SOHL.Affiliation.FIELDS.level.label"}}</div>
+            <div>{{localize "SOHL.Affiliation.FIELDS.society.label"}}</div>
+            <div>{{localize "SOHL.Affiliation.FIELDS.office.label"}}</div>
+            <div>{{localize "SOHL.Affiliation.FIELDS.title.label"}}</div>
+            <div>{{localize "SOHL.Item.FIELDS.notes.label"}}</div>
+            <div></div>
+        </div>
         {{#each affiliations as |aff|}}
-        <li class="item flexrow" data-search-name="{{aff.name}}" data-item-id="{{aff.id}}" data-uuid="{{aff.uuid}}" data-item-name="{{aff.name}}">
-            <div class="list__name flexrow"><h4>{{aff.name}}</h4></div>
-            <div class="list__detail">{{aff.level}}</div>
-            <div class="list__detail">{{aff.society}}</div>
-            <div class="list__detail">{{aff.office}}</div>
-            <div class="list__detail">{{aff.title}}</div>
-            <div class="list__detail list__notes">{{aff.notes}}</div>
-            <div class="list__controls">
-                <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+        <div class="ledger__row" data-search-name="{{aff.name}}" data-item-id="{{aff.id}}" data-uuid="{{aff.uuid}}" data-item-name="{{aff.name}}">
+            <div class="ledger__name">{{aff.name}}</div>
+            <div class="ledger__cell">{{aff.level}}</div>
+            <div class="ledger__cell ledger__cell--text">{{aff.society}}</div>
+            <div class="ledger__cell ledger__cell--text">{{aff.office}}</div>
+            <div class="ledger__cell ledger__cell--text">{{aff.title}}</div>
+            <div class="ledger__notes" title="{{aff.notes}}">{{aff.notes}}</div>
+            <div class="ledger__controls">
+                <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
             </div>
-        </li>
+        </div>
         {{/each}}
-    </ol>
+    </div>
 
     {{!-- Movement --}}
     {{#if movement.length}}
-    <div class="list__header flexrow">
-        <div class="list__name">{{localize "SOHL.Actor.SHEET.tab.movement.label"}}</div>
-        <div class="list__controls"></div>
+    <div class="section-legend">
+        <span class="section-legend__name">{{localize "SOHL.Actor.SHEET.tab.movement.label"}}</span>
+        <span class="section-legend__meta">{{localize "SOHL.Being.movement.unit"}}</span>
+        <span class="section-legend__rule"></span>
+        <span class="section-legend__add">
+            <a class="add-button" data-action="addMovementProfile" data-tooltip="Add Movement Profile">
+                <i class="fa-solid fa-file-plus"></i><span>Add Movement Profile</span>
+            </a>
+        </span>
     </div>
-    <ol class="list__items movement">
+    <div class="ledger" style="--ledger-cols:minmax(140px,1fr) 6rem 1.8rem">
+        <div class="ledger__head">
+            <div>{{localize "SOHL.Actor.SHEET.tab.movement.label"}}</div>
+            <div></div>
+            <div></div>
+        </div>
         {{#each movement as |row|}}
-        <li class="item flexrow" data-medium="{{row.medium}}">
-            <div class="list__name"><h4>{{localize row.label}}</h4></div>
-            <div class="list__detail">{{row.value}} {{localize "SOHL.Being.movement.unit"}}</div>
-            <div class="list__controls">
+        <div class="ledger__row" data-medium="{{row.medium}}">
+            <div class="ledger__name">{{localize row.label}}</div>
+            <div class="ledger__cell">{{row.value}} {{localize "SOHL.Being.movement.unit"}}</div>
+            <div class="ledger__controls">
                 {{#if row.isCurrent}}
-                <i class="fa-solid fa-star" data-tooltip="{{localize 'SOHL.Actor.movement.default'}}"></i>
+                <span class="icon-button is-on" data-tooltip="{{localize 'SOHL.Actor.movement.default'}}"><i class="fa-solid fa-star"></i></span>
                 {{else}}
-                <a data-action="makeDefaultMedium" data-medium="{{row.medium}}" data-tooltip="{{localize 'SOHL.Actor.movement.makeDefault'}}"><i class="far fa-star"></i></a>
+                <a class="icon-button" data-action="makeDefaultMedium" data-medium="{{row.medium}}" data-tooltip="{{localize 'SOHL.Actor.movement.makeDefault'}}"><i class="fa-regular fa-star"></i></a>
                 {{/if}}
             </div>
-        </li>
+        </div>
         {{/each}}
-    </ol>
+    </div>
+    {{/if}}
+
+    {{!-- Body Structure editor: the editable Zone → Part → Location tree.
+         Collapsed by default (only zone headers shown); the toggle in the
+         section legend flips every zone/part open or closed at once, and each
+         zone/part also has its own chevron. Editing (#720) is owner-gated:
+         + Add controls, drag-to-sort, and the ⋮ Edit/Delete menu. --}}
+    {{#if structure}}
+    <div class="section-legend">
+        <span class="section-legend__name">{{localize "SOHL.Being.Heading.BodyStructure"}}</span>
+        <span class="section-legend__meta">{{bodyZones.length}} zones</span>
+        <span class="section-legend__rule"></span>
+        <span class="section-legend__add">
+            <button type="button" class="add-button add-button--small body-structure__toggle-all" data-action="toggleBodyStructureAll" data-state="collapsed" data-tooltip="Expand or collapse the whole tree">
+                <i class="fa-solid fa-angles-down"></i><span>Expand All</span>
+            </button>
+            {{#if canEditBody}}
+            <a class="add-button add-button--small bodyzone-add" data-action="addBodyZone" data-tooltip="Add Body Zone">
+                <i class="fa-solid fa-plus"></i><span>Add Zone</span>
+            </a>
+            {{/if}}
+        </span>
+    </div>
+    <div class="body-structure">
+        {{#each bodyZones as |zone|}}
+        <div class="body-structure__zone" data-zone-shortcode="{{zone.shortcode}}" data-zone-index="{{zone.index}}"
+            {{#if @root.canEditBody}}draggable="true"{{/if}}>
+            <button type="button" class="disclosure" data-action="toggleZone" data-zone-shortcode="{{zone.shortcode}}" data-tooltip="Expand {{zone.label}}">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+            <span class="body-structure__zone-name">{{zone.label}}</span>
+            {{#if zone.zoneRange}}
+            <span class="chip chip--hit" data-tooltip="Zone Numbers">ZN {{zone.zoneRange}}</span>
+            {{/if}}
+            <span class="body-structure__controls">
+                {{#if @root.canEditBody}}
+                <a class="add-button add-button--small bodypart-add" data-action="addBodyPart" data-tooltip="Add Body Part">
+                    <i class="fa-solid fa-plus"></i><span>Add Part</span>
+                </a>
+                {{/if}}
+                <a class="icon-button bodyzone-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                {{#if @root.canEditBody}}
+                <span class="drag-grip" data-tooltip="Drag to reorder"><i class="fa-solid fa-grip-vertical"></i></span>
+                {{/if}}
+            </span>
+        </div>
+        {{#each zone.parts as |part|}}
+        <div class="body-structure__part body-structure__part--collapsed" data-part-shortcode="{{part.shortcode}}" data-part-index="{{part.index}}"
+            {{#if @root.canEditBody}}draggable="true"{{/if}}>
+            <button type="button" class="disclosure" data-action="togglePart" data-part-shortcode="{{part.shortcode}}" data-tooltip="Expand {{part.label}}">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+            <span class="body-structure__part-name">{{part.label}}</span>
+            {{#if part.role}}
+            <span class="chip chip--role">{{part.role}}</span>
+            {{/if}}
+            <span class="body-structure__controls">
+                {{#if @root.canEditBody}}
+                <a class="add-button add-button--small bodylocation-add" data-action="addBodyLocation" data-tooltip="Add Hit Location">
+                    <i class="fa-solid fa-plus"></i><span>Add Location</span>
+                </a>
+                {{/if}}
+                <a class="icon-button bodypart-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                {{#if @root.canEditBody}}
+                <span class="drag-grip" data-tooltip="Drag to reorder"><i class="fa-solid fa-grip-vertical"></i></span>
+                {{/if}}
+            </span>
+        </div>
+        {{#each part.locations as |loc|}}
+        <div class="body-structure__location body-structure__location--collapsed" data-search-name="{{loc.name}}"
+            data-part-shortcode="{{part.shortcode}}" data-location-shortcode="{{loc.shortcode}}"
+            {{#if @root.canEditBody}}draggable="true"{{/if}}>
+            {{#if @root.canEditBody}}
+            <span class="drag-grip" data-tooltip="Drag to reorder"><i class="fa-solid fa-grip-vertical"></i></span>
+            {{/if}}
+            <span class="body-structure__location-name">{{loc.name}}</span>
+            <span class="body-structure__controls">
+                <a class="icon-button bodylocation-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+            </span>
+        </div>
+        {{/each}}
+        {{/each}}
+        {{/each}}
+    </div>
     {{/if}}
 
     {{!-- Biography --}}
+    <div class="section-legend">
+        <span class="section-legend__name">{{localize "SOHL.Actor.SHEET.profile.biography.label"}}</span>
+    </div>
     {{formGroup fields.dossier value=system.dossier rootId="dossier" classes="stacked dossier-group" elementType="prose-mirror" }}
 </section>

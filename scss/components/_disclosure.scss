@@ -1,0 +1,51 @@
+// Disclosure chevron — a rotatable expand/collapse control (Manuscript
+// redesign, epic #783 / Feature 0). Points right when closed; the icon rotates
+// 90° to point down when the `.is-open` state class is present. Used by the
+// Profile body-structure tree (zone / part rows).
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
+
+.disclosure {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: currentColor;
+    border-radius: var(--sohl-radius-sm);
+    cursor: pointer;
+
+    svg {
+        width: 0.66rem;
+        height: 0.66rem;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2.2;
+        transition: transform 0.15s ease;
+    }
+
+    .fas,
+    .fa-solid {
+        font-size: 0.66rem;
+        transition: transform 0.15s ease;
+    }
+
+    &:hover {
+        background: color-mix(
+            in srgb,
+            var(--sohl-color-text-primary) 10%,
+            transparent
+        );
+    }
+
+    // Open — chevron rotated to point down.
+    &.is-open svg,
+    &.is-open .fas,
+    &.is-open .fa-solid {
+        transform: rotate(90deg);
+    }
+}

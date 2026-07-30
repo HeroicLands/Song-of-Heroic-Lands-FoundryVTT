@@ -11,42 +11,60 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
+{{!-- Health-tier ramp (green -> gold -> red), shared by the band-word
+      modifier class and the --hp-fill color hook so both stay in lockstep.
+      Thresholds match the Manuscript mockup (>66 good, >33 mid, else low). --}}
+{{#*inline "healthTierClass"}}{{#if (gt healthPct 66)}}good{{else}}{{#if
+(gt healthPct 33)}}mid{{else}}low{{/if}}{{/if}}{{/inline}}
+{{#*inline "healthTierColor"}}{{#if (gt healthPct 66)}}var(--sohl-color-health-bar){{else}}{{#if
+(gt healthPct 33)}}var(--sohl-color-health-mid){{else}}var(--sohl-color-danger){{/if}}{{/if}}{{/inline}}
+
 <header class="sheet-header">
     <div class="sheet-header__main flexrow">
         <img class="sheet-header__portrait" src="{{actorImg}}" data-edit="img" alt="{{actorName}}" />
         <div class="sheet-header__details">
-            <h1 class="actor-name">
-                <input name="name" type="text" value="{{actorName}}" placeholder="{{localize 'Name'}}" />
-            </h1>
-            <input class="sheet-header__shortcode" name="system.shortcode" type="text"
-                value="{{document.system.shortcode}}" placeholder="shortcode" />
-        </div>
-        <i class="fa-solid fa-circle-question sheet-header__status-legend"
-            data-tooltip="{{localize 'SOHL.Being.StatusLegend'}}"
-            aria-label="{{localize 'SOHL.Being.StatusLegend'}}"></i>
-        <div class="sheet-header__statuses">
-            {{#each statusEffects}}
-            {{#if this.toggleable}}
-            <a class="sheet-header__status {{#if this.active}}active{{/if}}" data-action="toggleStatus"
-                data-status-id="{{this.id}}" data-tooltip="{{localize this.label}}">{{localize this.abbr}}</a>
-            {{else}}
-            <span class="sheet-header__status sheet-header__status--indicator {{#if this.active}}active{{/if}}"
-                data-tooltip="{{localize this.label}} (from affliction)">{{localize this.abbr}}</span>
-            {{/if}}
-            {{/each}}
-        </div>
-        <div class="sheet-header__health">
-            <div class="sheet-header__health-label" data-tooltip="{{healthPct}}%">{{localize "Health"}}: {{healthBand}}</div>
-            <div class="sheet-header__health-bar" data-tooltip="{{healthPct}}%">
-                <div class="sheet-header__health-fill" style="width: {{healthPct}}%"></div>
+            <div class="sheet-header__identity">
+                <h1 class="sheet-header__name">{{actorName}}</h1>
+                <span class="sheet-header__shortcode">{{document.system.shortcode}}</span>
+                <button type="button" class="icon-button sheet-header__edit-identity" data-action="editIdentity"
+                    data-tooltip="{{localize 'SOHL.Being.EditIdentity'}}"
+                    aria-label="{{localize 'SOHL.Being.EditIdentity'}}">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+                <i class="fa-solid fa-circle-question sheet-header__status-legend"
+                    data-tooltip="{{localize 'SOHL.Being.StatusLegend'}}"
+                    aria-label="{{localize 'SOHL.Being.StatusLegend'}}"></i>
+            </div>
+            <div class="sheet-header__health">
+                <span class="sheet-header__health-label" data-tooltip="{{healthPct}}%">{{localize "Health"}} ·
+                    <span
+                        class="sheet-header__health-band sheet-header__health-band--{{> healthTierClass}}">{{healthBand}}</span>
+                </span>
+                <span class="sheet-header__health-track">
+                    <span class="sheet-header__health-fill"
+                        style="--hp-fill: {{> healthTierColor}}; width: {{healthPct}}%"></span>
+                </span>
+                <span class="sheet-header__health-pct" data-tooltip="{{healthPct}}%">{{healthPct}}%</span>
+            </div>
+            <div class="status-pill-strip">
+                {{#each statusEffects}}
+                {{#if this.toggleable}}
+                <a class="status-pill {{#if this.active}}status-pill--lit{{/if}}" data-action="toggleStatus"
+                    data-status-id="{{this.id}}" data-tooltip="{{localize this.label}}">{{localize this.abbr}}</a>
+                {{else}}
+                <span class="status-pill status-pill--indicator {{#if this.active}}status-pill--lit{{/if}}"
+                    data-tooltip="{{localize this.label}} (from affliction)">{{localize this.abbr}}</span>
+                {{/if}}
+                {{/each}}
             </div>
         </div>
     </div>
     {{#if bodyParts.length}}
-    <div class="sheet-header__locations">
+    <div class="body-lozenge-strip">
         {{#each bodyParts}}
-        <span class="sheet-header__location sheet-header__location--{{this.status}}"
-            data-status="{{this.status}}" data-shortcode="{{this.shortcode}}">{{this.name}}</span>
+        <span class="body-lozenge" data-status="{{this.status}}"
+            data-shortcode="{{this.shortcode}}">{{#if (eq this.status "unusable")}}<span
+                class="body-lozenge__mark">✕</span>{{/if}}{{this.name}}</span>
         {{/each}}
     </div>
     {{/if}}

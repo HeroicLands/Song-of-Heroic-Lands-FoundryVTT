@@ -32,12 +32,14 @@ describe("Being sheet header: status toggles + affliction indicators (#306)", ()
             cy.prepare(actor);
             cy.openSheet(actor);
 
-            const prone = '.sheet-header__status[data-status-id="prone"]';
-            cy.get(prone).should("exist").and("not.have.class", "active");
+            const prone = '.status-pill[data-status-id="prone"]';
+            cy.get(prone)
+                .should("exist")
+                .and("not.have.class", "status-pill--lit");
             cy.get(prone).click();
-            cy.get(prone).should("have.class", "active");
+            cy.get(prone).should("have.class", "status-pill--lit");
             cy.get(prone).click();
-            cy.get(prone).should("not.have.class", "active");
+            cy.get(prone).should("not.have.class", "status-pill--lit");
         });
     });
 
@@ -54,15 +56,15 @@ describe("Being sheet header: status toggles + affliction indicators (#306)", ()
 
             // Exactly one indicator lights (Fatigue), and it is read-only — a
             // <span> with no toggle action or status id.
-            cy.get(".sheet-header__status--indicator.active").should(
+            cy.get(".status-pill--indicator.status-pill--lit").should(
                 "have.length",
                 1,
             );
             cy.contains(
-                ".sheet-header__status--indicator.active",
+                ".status-pill--indicator.status-pill--lit",
                 "FTG",
             ).should("exist");
-            cy.get(".sheet-header__status--indicator.active").should(
+            cy.get(".status-pill--indicator.status-pill--lit").should(
                 "not.have.attr",
                 "data-action",
             );
@@ -73,8 +75,8 @@ describe("Being sheet header: status toggles + affliction indicators (#306)", ()
         cy.importActor().then((actor) => {
             cy.prepare(actor);
             cy.openSheet(actor);
-            cy.get(".sheet-header__status--indicator").should("have.length", 2);
-            cy.get(".sheet-header__status--indicator.active").should(
+            cy.get(".status-pill--indicator").should("have.length", 2);
+            cy.get(".status-pill--indicator.status-pill--lit").should(
                 "not.exist",
             );
         });

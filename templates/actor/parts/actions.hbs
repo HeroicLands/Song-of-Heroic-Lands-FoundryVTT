@@ -19,62 +19,71 @@ SPDX-License-Identifier: GPL-3.0-or-later
             aria-label="Search Actions" placeholder="Search Actions" autocomplete="off" />
     </div>
 
-    <ol class="list__items actions-list">
-        <li class="list__header flexrow">
-            <h3 class="list__name">Custom Actions</h3>
-            <div class="list__detail">Group</div>
-            <div class="list__detail list__notes"></div>
-            <div class="list__controls">
-                <a class="list__control action-create" data-action="createAction" data-tooltip="Create Action">
-                    <i class="fa-solid fa-file-plus"></i>
-                </a>
-            </div>
-        </li>
+    <div class="section-legend">
+        <span class="section-legend__name">Custom Actions</span>
+        <span class="section-legend__rule"></span>
+        <span class="section-legend__add">
+            <a class="add-button action-create" data-action="createAction" data-tooltip="Create Action">
+                <i class="fa-solid fa-file-plus"></i>
+                <span>Create Action</span>
+            </a>
+        </span>
+    </div>
+    <div class="ledger" style="--ledger-cols:1.5rem minmax(150px,1fr) 6rem 1fr 5rem">
+        <div class="ledger__head">
+            <div></div>
+            <div>Action</div>
+            <div>Group</div>
+            <div>Notes</div>
+            <div></div>
+        </div>
         {{#each customActions as |action|}}
-        <li class="item flexrow" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
-            <div class="list__name flexrow">
-                <div class="list__image" style="background-image: url('{{action.data.img}}')"></div>
-                <h4>{{localize action.data.title}}</h4>
-            </div>
-            <div class="list__detail">{{action.data.group}}</div>
-            <div class="list__detail list__notes"></div>
-            <div class="list__controls">
-                <a class="list__control" data-action="editAction" title="Edit Macro">
+        <div class="ledger__row" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
+            <div class="ledger__icon"><img src="{{action.data.img}}" alt="" /></div>
+            <div class="ledger__name">{{localize action.data.title}}</div>
+            <div class="ledger__cell ledger__cell--text">{{action.data.group}}</div>
+            <div class="ledger__notes"></div>
+            <div class="ledger__controls">
+                <a class="icon-button" data-action="editAction" title="Edit Macro">
                     <i class="fa-solid fa-file-pen"></i>
                 </a>
-                <a class="list__control" data-action="deleteAction" title="Remove Action">
+                <a class="icon-button icon-button--danger" data-action="deleteAction" title="Remove Action">
                     <i class="fa-solid fa-trash"></i>
                 </a>
-                <a class="list__control" data-action="runAction" data-tooltip="Run {{localize action.data.title}}">
+                <a class="icon-button" data-action="runAction" data-tooltip="Run {{localize action.data.title}}">
                     <i class="fa-solid fa-play"></i>
                 </a>
             </div>
-        </li>
+        </div>
         {{/each}}
-    </ol>
+    </div>
 
     {{!-- Intrinsic actions --}}
-    <ol class="list__items actions-list">
-        <li class="list__header flexrow">
-            <h3 class="list__name">Intrinsic Actions</h3>
-            <div class="list__detail">Group</div>
-            <div class="list__detail list__notes"></div>
-            <div class="list__controls"></div>
-        </li>
+    <div class="section-legend">
+        <span class="section-legend__name">Intrinsic Actions</span>
+        <span class="section-legend__meta">read-only</span>
+        <span class="section-legend__rule"></span>
+    </div>
+    <div class="ledger" style="--ledger-cols:1.5rem minmax(150px,1fr) 6rem 1fr 2rem">
+        <div class="ledger__head">
+            <div></div>
+            <div>Action</div>
+            <div>Group</div>
+            <div>Notes</div>
+            <div></div>
+        </div>
         {{#each intrinsicActions as |action|}}
-        <li class="item flexrow" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
-            <div class="list__name flexrow" >
-                <div class="list__image" style="background-image: url('{{action.data.img}}')"></div>
-                <h4>{{localize action.data.title}}</h4>
-            </div>
-            <div class="list__detail">{{action.data.group}}</div>
-            <div class="list__detail list__notes"></div>
-            <div class="list__controls">
-                <a class="list__control" data-action="runAction" data-tooltip="Run {{localize action.data.title}}">
+        <div class="ledger__row" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
+            <div class="ledger__icon"><img src="{{action.data.img}}" alt="" /></div>
+            <div class="ledger__name">{{localize action.data.title}}</div>
+            <div class="ledger__cell ledger__cell--text">{{action.data.group}}</div>
+            <div class="ledger__notes"></div>
+            <div class="ledger__controls">
+                <a class="icon-button" data-action="runAction" data-tooltip="Run {{localize action.data.title}}">
                     <i class="fa-solid fa-play"></i>
                 </a>
             </div>
-        </li>
+        </div>
         {{/each}}
-    </ol>
+    </div>
 </section>

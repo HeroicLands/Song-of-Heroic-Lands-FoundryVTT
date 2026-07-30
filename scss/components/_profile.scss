@@ -1,254 +1,72 @@
-@use "../abstracts/typography";
+// Profile tab — attribute cards + the dossier editor (Manuscript redesign, epic
+// #783). Affiliations, movement, and the body-structure tree render through the
+// shared Feature-0 `.ledger` / `.body-structure` components; only the attribute
+// score-cards and the dossier editor need bespoke rules here.
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
 
-// Attribute cards — a dense grid of compact, value-forward bordered cards
-// (`.grid.grid-6col`). Keyed on the `.attribute-score__*` BEM classes the
-// template emits; the pre-rename `.attribute`/`.value`/`.label` rules never
-// applied, so attributes rendered as loose unstyled text (#507).
+// Attribute cards — a responsive grid of compact, value-forward panels
+// (manuscript `.attrgrid` / `.attr`). The template puts `grid grid-6col` on the
+// container; this components-layer rule overrides the fixed 6-column layout with
+// an auto-filling track so the cards reflow to the sheet width.
 .attribute-scores {
-    gap: 4px;
-    margin: 0 0 6px;
+    grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0.4rem 0.95rem 0.6rem;
     grid-auto-rows: auto;
 
     .attribute-score {
-        position: relative;
         display: flex;
         flex-direction: column;
-        text-align: center;
-        padding: 2px 4px 0;
-        background: var(--sohl-color-bg-overlay-light);
-        border: 2px groove var(--sohl-color-border-subtle);
+        padding: 0.6rem 0.66rem;
+        background: var(--sohl-color-bg-surface);
+        border: 1px solid var(--sohl-color-border-default);
+        border-radius: var(--sohl-radius-lg);
 
+        // Name on the left, the ⋮ menu on the right (manuscript `.attr__nm`).
         &__header {
+            display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 2px;
+            justify-content: space-between;
+            gap: 0.3rem;
         }
 
         &__name {
-            flex: 1;
+            flex: 1 1 auto;
+            min-width: 0;
             margin: 0;
-            // Symmetric padding keeps a long name clear of the corner ⋮ while
-            // staying centered.
-            padding: 0 12px;
-            font-size: 20px;
-            font-weight: normal;
-            text-align: center;
+            font-family: var(--sohl-font-body);
+            font-weight: 600;
+            font-size: 1.03rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        // The ⋮ control floats in the card's top-right corner so the name can
-        // center across the full card width.
-        .item-contextmenu {
-            position: absolute;
-            top: 2px;
-            right: 4px;
-            font-size: 12px;
-        }
-
         &__value {
-            font-size: 25px;
-            font-weight: bold;
-            line-height: 1.15;
+            font-family: var(--sohl-font-mono);
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1.1;
+            cursor: help;
         }
 
         &__descriptor {
-            font-size: 13px;
+            font-size: 0.86rem;
+            color: var(--sohl-color-text-muted);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         &__tl {
-            margin-top: 2px;
-            padding-top: 1px;
-            border-top: 1px solid var(--sohl-color-border-strong);
-            font-size: 12px;
+            margin-top: 0.18rem;
+            font-family: var(--sohl-font-mono);
+            font-size: 0.82rem;
+            color: var(--sohl-color-text-muted);
+            cursor: help;
         }
-    }
-}
-
-.traits {
-    h2 {
-        flex: 1;
-        margin: 0;
-        line-height: 36px;
-        @include typography.type-style("label");
-        color: var(--sohl-color-text-primary);
-        background-color: var(--sohl-color-bg-header);
-        border-top: 2px groove var(--sohl-color-border-subtle);
-        border-bottom: 2px groove var(--sohl-color-border-subtle);
-        padding: 5px;
-    }
-
-    .traits-list {
-        list-style: none;
-        margin: 7px 2px;
-        padding: 0;
-        overflow-y: hidden;
-
-        .trait {
-            .trait-name {
-                flex: 0 0 150px;
-            }
-
-            .trait-notes {
-                flex: 1 0 50px;
-                text-align: left;
-                padding-left: 5px;
-                border-right: 1px solid var(--sohl-color-border-default);
-            }
-
-            .trait-type {
-                flex: 0 0 80px;
-                text-align: center;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
-                border-right: 1px solid var(--sohl-color-border-default);
-            }
-
-            .trait-intensity {
-                flex: 0 0 80px;
-                text-align: center;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
-                border-right: 1px solid var(--sohl-color-border-default);
-            }
-
-            .trait-value {
-                flex: 0 0 120px;
-                text-align: center;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
-                border-right: 1px solid var(--sohl-color-border-default);
-            }
-        }
-    }
-}
-
-.affiliations {
-    h2 {
-        padding: 5px;
-    }
-
-    .affiliation-list {
-        list-style: none;
-        margin: 7px 0;
-        padding: 0;
-        overflow-y: hidden;
-
-        .affiliation {
-            border-bottom: 1px solid var(--sohl-color-border-default);
-
-            .image {
-                flex: 0 0 24px;
-                margin-right: 5px;
-            }
-
-            img {
-                display: block;
-            }
-        }
-
-        .name {
-            flex: 0 0 150px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-            border-right: 1px solid var(--sohl-color-border-default);
-        }
-
-        .ele {
-            flex: 0 0 40px;
-            text-align: center;
-            border-right: 1px solid var(--sohl-color-border-default);
-        }
-
-        .notes {
-            flex: 1 1 0;
-            min-width: 0;
-            text-align: left;
-            padding-left: 5px;
-            border-right: 1px solid var(--sohl-color-border-default);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .wideele {
-            flex: 0 0 120px;
-            text-align: center;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-            border-right: 1px solid var(--sohl-color-border-default);
-        }
-    }
-}
-
-.profile-params {
-    margin-top: 5px;
-    align-items: center;
-    flex: 0 1 10px;
-
-    .profile-item {
-        align-items: center;
-        border-top: 2px groove var(--sohl-color-border-subtle);
-        border-bottom: 2px groove var(--sohl-color-border-subtle);
-        margin-top: 12px;
-        padding: 5px 0;
-
-        .attribute {
-            align-items: center;
-
-            .label {
-                flex: 0 0 60px;
-                font-weight: bold;
-                text-transform: uppercase;
-                text-align: right;
-                padding-right: 4px;
-            }
-
-            .value {
-                flex: 0 0 150px;
-            }
-        }
-    }
-}
-
-.profile-desc {
-    margin-top: 5px;
-
-    .label {
-        padding-left: 5px;
-        @include typography.type-style("label-small");
-        margin: 2px 0;
-        align-items: center;
-        background: var(--sohl-color-bg-overlay-light);
-        border: 2px groove var(--sohl-color-border-subtle);
-        font-weight: bold;
-        line-height: 24px;
-
-        i {
-            font-size: 12px;
-            padding-left: 5px;
-        }
-    }
-
-    .description {
-        margin-left: 5px;
-    }
-}
-
-.profile {
-    img.bio-image {
-        flex: 0 0 200px;
-        object-fit: contain;
-        background: var(--sohl-color-text-inverse);
     }
 }
 

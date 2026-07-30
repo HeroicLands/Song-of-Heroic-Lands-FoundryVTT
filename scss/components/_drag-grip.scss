@@ -1,0 +1,33 @@
+// Drag grip — the first-class reorder affordance (Manuscript redesign, epic
+// #783 / Feature 0). A ruled "gutter" grip with `cursor:grab`, faded until its
+// row is hovered. Inside a `.ledger` the gutter cell is `.ledger__grip`; this
+// standalone block is for non-ledger reorder rows (the Profile body-structure
+// tree). The two share the same look.
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
+
+.drag-grip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--sohl-color-text-muted);
+    opacity: 0.4;
+    cursor: grab;
+
+    svg {
+        width: 0.7rem;
+        height: 1rem;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.4;
+    }
+
+    .fas,
+    .fa-solid {
+        font-size: 0.7rem;
+    }
+
+    &:hover {
+        opacity: 0.85;
+    }
+}

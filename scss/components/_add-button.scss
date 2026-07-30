@@ -1,0 +1,60 @@
+// Add button — the labeled "ghost" create-control (Manuscript redesign, epic
+// #783 / Feature 0). A plus glyph plus the item's own wording ("+ Add Skill",
+// "+ Add Craft Skill", "+ Create Effect"): a quiet outlined button that turns
+// accent on hover. The `--small` variant is for dense band contexts (SubType
+// headers, the body-structure tree).
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
+
+.add-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+    font-family: var(--sohl-font-sans);
+    font-size: 0.74rem;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 0.2rem 0.58rem;
+    border: 1px solid var(--sohl-color-border-subtle);
+    border-radius: var(--sohl-radius-md);
+    background: var(--sohl-color-bg-sheet);
+    color: var(--sohl-color-text-muted);
+    cursor: pointer;
+
+    svg {
+        width: 0.78rem;
+        height: 0.78rem;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.9;
+    }
+
+    .fas,
+    .fa-solid {
+        font-size: 0.72rem;
+    }
+
+    &:hover {
+        color: var(--sohl-color-accent);
+        border-color: var(--sohl-color-accent);
+        background: var(--sohl-color-bg-stamp);
+    }
+
+    // Compact variant for band rows (zone/part controls, SubType headers).
+    &--small {
+        font-size: 0.68rem;
+        padding: 0.1rem 0.42rem;
+    }
+}
+
+// Generic footer add — a full-width strip below all present subtype groups,
+// carrying the generic `+ Add <Item>` (no `data-sub-type`).
+.add-footer {
+    padding: 0.5rem 0.95rem;
+    border-top: 1px solid var(--sohl-color-border-default);
+
+    .add-button {
+        font-size: 0.78rem;
+        padding: 0.28rem 0.7rem;
+    }
+}

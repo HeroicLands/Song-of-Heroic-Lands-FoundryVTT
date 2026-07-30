@@ -1,0 +1,76 @@
+// Body-part lozenge — one chip per body part in the header impairment strip
+// (Manuscript redesign, epic #783 / Feature 0). Impairment severity is encoded
+// legibly, not subtly: `--minor`/`--major` keep an accent under-rule whose
+// weight grows with severity (major adds a faint accent tint + bold);
+// `--unusable` is a solid warn-orange fill with contrast ink — categorically
+// different from the underline. Because color alone fails in grayscale print and
+// for color-blind viewers, `--unusable` also carries a leading `✕`
+// (`body-lozenge__mark`, added in markup).
+//
+// State is expressed two equivalent ways so the header wave can emit either: the
+// BEM modifier (`body-lozenge--minor`) or the `data-status` attribute the
+// view-model already produces (`data-status="minor"`).
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
+
+.body-lozenge {
+    flex: 0 0 auto;
+    font-family: var(--sohl-font-sans);
+    font-size: 0.66rem;
+    font-weight: 600;
+    padding: 0.1rem 0.45rem;
+    border-radius: var(--sohl-radius-sm);
+    border: 1px solid var(--sohl-color-border-subtle);
+    color: var(--sohl-color-text-primary);
+    background: var(--sohl-color-bg-sheet);
+
+    // Minor impairment — thin accent under-rule.
+    &--minor,
+    &[data-status="minor"] {
+        box-shadow: inset 0 -2px 0 var(--sohl-color-accent);
+        font-weight: 700;
+    }
+
+    // Major impairment — heavier under-rule + faint accent tint.
+    &--major,
+    &[data-status="major"] {
+        box-shadow: inset 0 -3px 0 var(--sohl-color-accent);
+        border-color: color-mix(
+            in srgb,
+            var(--sohl-color-accent) 45%,
+            var(--sohl-color-border-subtle)
+        );
+        background: color-mix(
+            in srgb,
+            var(--sohl-color-accent) 9%,
+            var(--sohl-color-bg-sheet)
+        );
+        font-weight: 700;
+    }
+
+    // Unusable — solid warn fill with contrast ink (a categorical cue).
+    &--unusable,
+    &[data-status="unusable"] {
+        background: var(--sohl-color-warn);
+        color: var(--sohl-color-warn-ink);
+        border-color: var(--sohl-color-warn);
+        font-weight: 700;
+    }
+
+    // Leading non-color cue for `--unusable` (grayscale / color-blind safe).
+    &__mark {
+        margin-right: 0.22rem;
+        font-weight: 900;
+    }
+}
+
+// Host strip — wraps freely for large creatures (dragons &c.), left-packs, and
+// caps its height with a scrollbar so a big body never balloons the header.
+.body-lozenge-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 0.28rem;
+    max-height: 5.5rem;
+    overflow-y: auto;
+}

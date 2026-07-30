@@ -43,7 +43,13 @@ describe("being sheet", () => {
                 expect(el).to.exist;
             });
             cy.get(".sohl.being").should("be.visible");
-            cy.get(".sohl.being input[name='name']").should("exist");
+            // The redesigned header shows the name as read-only text with an
+            // edit-identity pencil (name + shortcode are edited via a dialog),
+            // rather than an inline <input name="name">.
+            cy.get(".sohl.being .sheet-header__name")
+                .invoke("text")
+                .should("not.be.empty");
+            cy.get(".sohl.being [data-action='editIdentity']").should("exist");
         });
     });
 
@@ -61,14 +67,47 @@ describe("being sheet", () => {
 
     it("edits the actor name and persists it", () => {
         cy.importActor().then((actor) => {
-            // The sheet submits on change (SheetMixin form.submitOnChange), so a
-            // native `change` (via editSheetField) is required — Cypress
-            // `.type().blur()` does not reliably trigger it. (#349)
-            cy.editSheetField(actor, "name", "Renamed Hero");
-            cy.foundry((win) => win.game.actors.get(actor.id).name).should(
-                "eq",
-                "Renamed Hero",
-            );
+            // The redesigned header edits name + shortcode together through the
+            // editIdentity DialogV2 (no inline <input name="name">). Open the
+            // dialog from the header pencil, set the name field, and Save.
+            cy.openSheet(actor);
+            // The pencil is revealed on hover (opacity), so force the click.
+            cy.get(".sohl.being [data-action='editIdentity']").click({
+                force: true,
+            });
+            // Wait for the identity dialog to actually render (cy.foundry's
+            // callback isn't retriable), then set the name field and Save.
+            const findIdentityDlg = (win) =>
+                Array.from(win.foundry.applications.instances.values())
+                    .reverse()
+                    .find(
+                        (app) =>
+                            /dialog/i.test(app.constructor.name) &&
+                            app.rendered &&
+                            app.element?.querySelector("input[name='name']"),
+                    );
+            cy.window({ log: false }).should((win) => {
+                expect(findIdentityDlg(win), "edit-identity dialog rendered").to
+                    .exist;
+            });
+            // Set the name field and press Save atomically — the DialogV2 ok
+            // button reads its form via FormDataExtended on click, so the value
+            // must be in place at the moment of the click.
+            cy.foundry((win) => {
+                const dlg = findIdentityDlg(win);
+                dlg.element.querySelector("input[name='name']").value =
+                    "Renamed Hero";
+                dlg.element.querySelector("button[data-action='ok']").click();
+                return null;
+            });
+            // actor.update from the dialog callback is async — poll the live
+            // document (cy.foundry reads once and would not re-observe the
+            // rename) until the persisted name updates.
+            cy.window({ log: false }).should((win) => {
+                expect(win.game.actors.get(actor.id).name).to.eq(
+                    "Renamed Hero",
+                );
+            });
             // Renaming detaches the run tag, so cleanupWorld (tag-based) can no
             // longer reclaim this actor — delete it by id to avoid leaking it
             // into the persistent e2e world.
@@ -82,7 +121,7 @@ describe("being sheet", () => {
         cy.importActor().then((actor) => {
             cy.openSheet(actor);
             cy.switchTab("skills", "primary");
-            cy.get('section.tab[data-tab="skills"] li.item')
+            cy.get('section.tab[data-tab="skills"] .ledger__row')
                 .its("length")
                 .should("be.greaterThan", 10);
         });
@@ -99,8 +138,8 @@ describe("being sheet", () => {
             cy.switchTab("skills", "primary");
             for (const action of ["successTest", "fateTest"]) {
                 cy.get(
-                    'section.tab[data-tab="skills"] li.item ' +
-                        `.list__detail.rollable[data-action="${action}"]`,
+                    'section.tab[data-tab="skills"] .ledger__row ' +
+                        `.ledger__cell--rollable[data-action="${action}"]`,
                 )
                     .first()
                     .should(($el) => {
@@ -128,7 +167,7 @@ describe("being sheet", () => {
             cy.openSheet(actor);
             cy.switchTab("combat", "primary");
             cy.get(
-                'section.tab[data-tab="combat"] li[data-sm-id] .list__detail.rollable',
+                'section.tab[data-tab="combat"] .ledger__row[data-sm-id] .ledger__cell--rollable',
             )
                 .should("have.length.greaterThan", 0)
                 .each(($cell) => {

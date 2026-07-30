@@ -52,14 +52,48 @@ describe("derived strike mode sections", () => {
     }
 
     function meleeSection(win, actorId) {
-        // Each held melee weapon (and combat-technique) renders as its own
-        // `div.list` headed "Melee Strike Modes" — there is no enclosing
-        // fieldset. Return the whole Combat section; these tests add only melee
-        // sources, so the `h3.list__name.name` weapon-name queries below stay
-        // melee-specific.
+        // After the Manuscript redesign each melee source (held weapon or
+        // combat-technique) is a `.section-legend--subtype` sub-header followed
+        // by its `.ledger__row` strike modes inside one shared `.ledger`. Return
+        // the whole Combat section; these tests add only melee sources.
         return win.game.actors
             .get(actorId)
             .sheet.element.querySelector('section[data-tab="combat"]');
+    }
+
+    /** The strike-mode source (weapon / technique) names shown in the Combat tab. */
+    function sourceNames(fs) {
+        return [
+            ...fs.querySelectorAll(
+                ".section-legend--subtype .section-legend__name",
+            ),
+        ].map((h) => h.textContent.trim());
+    }
+
+    /**
+     * Text of the first cell matching `selector` among the strike-mode rows that
+     * belong to the named source — the `.ledger__row`s following that source's
+     * `.section-legend--subtype` sub-header, up to the next section legend.
+     */
+    function cellForSource(fs, name, selector) {
+        const legend = [
+            ...fs.querySelectorAll(".section-legend--subtype"),
+        ].find(
+            (l) =>
+                l
+                    .querySelector(".section-legend__name")
+                    ?.textContent?.trim() === name,
+        );
+        if (!legend) return undefined;
+        let n = legend.nextElementSibling;
+        while (n && !n.classList.contains("section-legend")) {
+            if (n.classList.contains("ledger__row")) {
+                const cell = n.querySelector(selector);
+                if (cell) return cell.textContent.trim();
+            }
+            n = n.nextElementSibling;
+        }
+        return undefined;
     }
 
     it("aggregates a combat-technique skill and a held weapon, both rollable", () => {
@@ -101,9 +135,7 @@ describe("derived strike mode sections", () => {
                     cy.wait(500);
                     cy.foundry((win) => {
                         const fs = meleeSection(win, actor.id);
-                        const sources = [
-                            ...fs.querySelectorAll("h3.list__name.name"),
-                        ].map((h) => h.textContent.trim());
+                        const sources = sourceNames(fs);
                         const atkCells = fs.querySelectorAll(
                             '[data-action="rollStrikeModeTest"][data-test-kind="attack"]',
                         ).length;
@@ -111,17 +143,11 @@ describe("derived strike mode sections", () => {
                             '[data-action="rollStrikeModeTest"][data-test-kind="block"]',
                         ).length;
                         // The technique's Atk cell value.
-                        const boxingGroup = [
-                            ...fs.querySelectorAll("div.list"),
-                        ].find(
-                            (g) =>
-                                g
-                                    .querySelector("h3.list__name.name")
-                                    ?.textContent?.trim() === "Boxing",
+                        const atk = cellForSource(
+                            fs,
+                            "Boxing",
+                            '[data-test-kind="attack"]',
                         );
-                        const atk = boxingGroup
-                            ?.querySelector('[data-test-kind="attack"]')
-                            ?.textContent?.trim();
                         return { sources, atkCells, blkCells, boxingAtk: atk };
                     }).should((r) => {
                         expect(
@@ -167,15 +193,11 @@ describe("derived strike mode sections", () => {
                 cy.wait(500);
                 cy.foundry((win) => {
                     const fs = meleeSection(win, actor.id);
-                    const group = [...fs.querySelectorAll("div.list")].find(
-                        (g) =>
-                            g
-                                .querySelector("h3.list__name.name")
-                                ?.textContent?.trim() === "Broadsabre",
+                    const impact = cellForSource(
+                        fs,
+                        "Broadsabre",
+                        '[data-action="rollStrikeModeImpact"]',
                     );
-                    const impact = group
-                        ?.querySelector('[data-action="rollStrikeModeImpact"]')
-                        ?.textContent?.trim();
                     return { impact };
                 }).should((r) => {
                     expect(r.impact, "impact carries the flat +2").to.equal(
@@ -202,11 +224,7 @@ describe("derived strike mode sections", () => {
                         const fs = meleeSection(win, actor.id);
                         const has =
                             fs ?
-                                [
-                                    ...fs.querySelectorAll(
-                                        "h3.list__name.name",
-                                    ),
-                                ].some((h) => h.textContent.trim() === "Mace")
+                                sourceNames(fs).some((n) => n === "Mace")
                             :   false;
                         return { has };
                     }).should(
@@ -223,11 +241,7 @@ describe("derived strike mode sections", () => {
                         const fs = meleeSection(win, actor.id);
                         const has =
                             fs ?
-                                [
-                                    ...fs.querySelectorAll(
-                                        "h3.list__name.name",
-                                    ),
-                                ].some((h) => h.textContent.trim() === "Mace")
+                                sourceNames(fs).some((n) => n === "Mace")
                             :   false;
                         return { has };
                     }).should(

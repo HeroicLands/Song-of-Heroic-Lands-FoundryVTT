@@ -12,10 +12,13 @@
  */
 
 /**
- * Combat-tab Body Locations tree (#295). Read-only Part → Location display; each
- * location shows effective protection = natural base + worn-armor aggregate.
+ * Combat-tab Body Locations table (#295). After the Manuscript redesign the
+ * editable Zone → Part → Location tree lives on the Profile tab; the Combat tab
+ * shows a FLAT, read-only armor-reference ledger — one row per hit location with
+ * Material / B / E / P / F / Shock / Impair. Each location's protection is the
+ * natural base plus the worn-armor aggregate.
  */
-describe("Body Locations tree", () => {
+describe("Body Locations table", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
     Cypress.on("uncaught:exception", () => false);
@@ -26,7 +29,7 @@ describe("Body Locations tree", () => {
             .sheet.element.querySelector('section[data-tab="combat"]');
     }
 
-    it("renders the Part → Location tree with header and natural values", () => {
+    it("renders the flat location table with headers and natural values", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
             cy.openSheet(actor);
@@ -34,53 +37,33 @@ describe("Body Locations tree", () => {
             cy.wait(500);
             cy.foundry((win) => {
                 const el = combatSection(win, actor.id);
-                // The Body Locations list is no longer wrapped in a fieldset;
-                // it is the `.bodylocations-list` container.
+                // Combat's Body Locations is a flat `.bodylocations-list`
+                // wrapping one `.ledger` — column labels in `.ledger__head`,
+                // one `.ledger__row` per hit location.
                 const fs = el.querySelector(".bodylocations-list");
                 const headers = [
-                    ...fs.querySelectorAll("header.list__header .list__detail"),
+                    ...fs.querySelectorAll(".ledger__head > div"),
                 ].map((d) => d.textContent.trim());
-                const zones = fs.querySelectorAll(".bodyzone").length;
-                const parts = fs.querySelectorAll(".bodypart").length;
-                // Every part row must sit inside a zone (#780's tree).
-                const partsOutsideZone = [
-                    ...fs.querySelectorAll(".bodypart"),
-                ].filter((p) => !p.closest(".bodyzone")).length;
-                const locRows = fs.querySelectorAll("li.bodylocation").length;
-                const firstLoc = fs.querySelector("li.bodylocation");
-                const cells =
-                    firstLoc ?
-                        [...firstLoc.querySelectorAll(".list__detail")].map(
-                            (c) => c.textContent.trim(),
-                        )
-                    :   [];
+                const locRows = fs.querySelectorAll(".ledger__row").length;
+                const firstLoc = fs.querySelector(".ledger__row");
                 return {
                     headers: [...new Set(headers)],
-                    zones,
-                    partsOutsideZone,
-                    parts,
                     locRows,
                     firstName: firstLoc
-                        ?.querySelector("h4")
+                        ?.querySelector(".ledger__name")
                         ?.textContent?.trim(),
-                    cellCount: cells.length,
                 };
             }).should((r) => {
                 expect(r.headers).to.include.members([
-                    "Layers",
+                    "Location",
+                    "Material",
                     "B",
                     "E",
                     "P",
                     "F",
-                    "Shock",
-                    "Impair",
+                    "Shk",
+                    "Imp",
                 ]);
-                expect(r.zones, "body zones").to.be.at.least(1);
-                expect(r.parts, "body parts").to.be.at.least(1);
-                expect(
-                    r.partsOutsideZone,
-                    "every part nested under a zone",
-                ).to.eq(0);
                 expect(r.locRows, "location rows").to.be.at.least(1);
                 expect(r.firstName, "location has a name").to.be.a("string").and
                     .not.empty;
@@ -122,14 +105,17 @@ describe("Body Locations tree", () => {
                     cy.foundry((win) => {
                         const el = combatSection(win, actor.id);
                         const row = [
-                            ...el.querySelectorAll("li.bodylocation"),
+                            ...el.querySelectorAll(
+                                ".bodylocations-list .ledger__row",
+                            ),
                         ].find(
-                            (li) =>
-                                li.querySelector("h4")?.textContent?.trim() ===
-                                ref.name,
+                            (r) =>
+                                r
+                                    .querySelector(".ledger__name")
+                                    ?.textContent?.trim() === ref.name,
                         );
-                        const d = row.querySelectorAll(".list__detail");
-                        // cells: Layers, B, E, P, F, Shock, Impair
+                        const d = row.querySelectorAll(".ledger__cell");
+                        // cells: Material, B, E, P, F, Shock, Impair
                         return {
                             layers: d[0].textContent.trim(),
                             blunt: Number(d[1].textContent.trim()),

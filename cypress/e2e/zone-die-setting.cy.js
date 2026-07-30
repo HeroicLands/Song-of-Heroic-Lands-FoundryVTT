@@ -77,15 +77,17 @@ describe("Use Zone Die setting", () => {
         const el = win.game.actors.get(actorId).sheet.element;
         const header = [
             ...el.querySelectorAll(
-                // Column labels live in the strike-mode group's outer
-                // `<header class="list__header">` (no longer an `<li>`).
-                'section[data-tab="combat"] header.list__header .list__detail',
+                // Column labels live in the strike-mode ledger's `.ledger__head`
+                // row (one <div> per column) after the Manuscript redesign.
+                'section[data-tab="combat"] .ledger__head > div',
             ),
         ].find((d) => /^(Spr|ZD)$/.test(d.textContent.trim()));
         const row = el.querySelector(
-            'section[data-tab="combat"] li[data-sm-id="strike"]',
+            'section[data-tab="combat"] .ledger__row[data-sm-id="strike"]',
         );
-        const cell = row?.querySelectorAll(".list__detail")[2]; // HFT, RCH, [spread]
+        // Row cells in column order: HFT, RCH, [spread], … (the name lives in a
+        // separate `.ledger__name`, so spread is the third `.ledger__cell`).
+        const cell = row?.querySelectorAll(".ledger__cell")[2];
         return {
             header: header?.textContent.trim(),
             cell: cell?.textContent.trim(),

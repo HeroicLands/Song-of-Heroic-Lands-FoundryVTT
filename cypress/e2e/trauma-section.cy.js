@@ -47,11 +47,11 @@ describe("Being Trauma tab: Traumas section (#308)", () => {
                 cy.get('section.tab[data-tab="trauma"]')
                     .contains(".item", "Left Arm Crush")
                     .within(() => {
-                        cy.contains(".list__detail", "S2"); // severity band
-                        cy.contains(".list__detail", "NT6"); // not-treated + HR
-                        cy.contains(".list__detail", "Blunt"); // localized aspect
-                        cy.contains(".list__detail", loc.name); // area
-                        cy.contains(".list__detail", "No"); // not bleeding
+                        cy.contains(".ledger__cell", "S2"); // severity band
+                        cy.contains(".ledger__cell", "NT6"); // not-treated + HR
+                        cy.contains(".ledger__cell", "Blunt"); // localized aspect
+                        cy.contains(".ledger__cell", loc.name); // area
+                        cy.contains(".ledger__cell", "No"); // not bleeding
                     });
             });
         });

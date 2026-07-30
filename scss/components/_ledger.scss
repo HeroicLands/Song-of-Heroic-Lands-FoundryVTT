@@ -1,0 +1,171 @@
+// Ledger — the CSS-grid data table shared by every list/section on the Being
+// sheet (Manuscript redesign, epic #783 / Feature 0). Replaces the old flexbox
+// `.list` rows. Each ledger sets its own column template with the inline
+// `--ledger-cols` custom property; the head and each row are grids that consume
+// it, so columns stay aligned. Numeric cells are mono + tabular-nums.
+//
+// A SubType header (`.section-legend--subtype`) or weapon-group header may be
+// placed as a direct child between rows — the ledger itself is `display:block`
+// so such a header spans the full width naturally.
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
+@use "../abstracts/mixins";
+
+.ledger {
+    display: block;
+
+    &__head,
+    &__row {
+        display: grid;
+        grid-template-columns: var(--ledger-cols);
+        align-items: center;
+    }
+
+    &__head {
+        padding: 0.24rem 0.95rem;
+        font-family: var(--sohl-font-sans);
+        font-size: 0.62rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--sohl-color-text-muted);
+        border-bottom: 1px solid var(--sohl-color-border-subtle);
+    }
+
+    &__row {
+        padding: 0.3rem 0.95rem;
+        font-size: 0.83rem;
+        border-bottom: 1px solid var(--sohl-color-border-subtle);
+
+        // Zebra striping on rows only (the head is skipped by the "of" filter).
+        &:nth-child(even of .ledger__row) {
+            background: var(--sohl-color-bg-surface);
+        }
+
+        &:hover .ledger__grip,
+        &:hover .drag-grip {
+            opacity: 0.85;
+        }
+    }
+
+    // Grip gutter cell — a drag handle, faded until the row is hovered.
+    &__grip {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--sohl-color-text-muted);
+        opacity: 0.4;
+        cursor: grab;
+
+        svg {
+            width: 0.7rem;
+            height: 1rem;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.4;
+        }
+
+        .fas,
+        .far,
+        .fa-solid {
+            font-size: 0.7rem;
+        }
+    }
+
+    // Inked icon well — a bordered stamp box holding the row's line icon.
+    &__icon {
+        width: 1.2rem;
+        height: 1.2rem;
+        border-radius: var(--sohl-radius-sm);
+        border: 1px solid var(--sohl-color-border-subtle);
+        background: var(--sohl-color-bg-stamp);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+
+        svg {
+            width: 0.82rem;
+            height: 0.82rem;
+            stroke: var(--sohl-color-text-primary);
+            fill: none;
+            stroke-width: 1.4;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    }
+
+    // Name column — sans, clipped with an ellipsis.
+    &__name {
+        font-family: var(--sohl-font-sans);
+        font-weight: 500;
+        padding-left: 0.42rem;
+        @include mixins.truncate;
+    }
+
+    // Numeric cell — mono, centered, tabular-nums.
+    &__cell {
+        text-align: center;
+        font-family: var(--sohl-font-mono);
+        font-variant-numeric: tabular-nums;
+        font-size: 0.8rem;
+
+        // Dimmed: disabled / not-applicable ("—", "✕").
+        &--dim {
+            color: var(--sohl-color-text-muted);
+        }
+
+        // Rollable: ink by default, accent + stamp background on hover. Carries
+        // the row's roll `data-action`; the delta tooltip lives on the element.
+        &--rollable {
+            cursor: pointer;
+            font-weight: 700;
+            border-radius: var(--sohl-radius-sm);
+
+            &:hover {
+                color: var(--sohl-color-accent);
+                background: var(--sohl-color-bg-stamp);
+            }
+        }
+
+        // Text detail cell (non-numeric): left-aligned, muted, body font. Use
+        // for columns like Society / Office / Skill / Aspect / Area / Source.
+        &--text {
+            text-align: left;
+            font-family: var(--sohl-font-body);
+            font-variant-numeric: normal;
+            font-size: 0.83rem;
+            color: var(--sohl-color-text-muted);
+            @include mixins.truncate;
+        }
+    }
+
+    // Notes column — grows to fill remaining width, muted, clipped.
+    &__notes {
+        padding-left: 0.2rem;
+        color: var(--sohl-color-text-muted);
+        font-size: 0.76rem;
+        @include mixins.truncate;
+    }
+
+    // Right-aligned dense control cluster (edit / delete / run / menu).
+    &__controls {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.05rem;
+    }
+
+    // Inline glyph helpers used inside cells.
+    &__flag {
+        color: var(--sohl-color-accent);
+    } // improve-flag star
+    &__heal {
+        color: var(--sohl-color-health-bar);
+    } // healed-severity mark
+}

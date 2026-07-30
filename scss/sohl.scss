@@ -74,14 +74,21 @@
         @include meta.load-css("components/effects");
         @include meta.load-css("components/strikemodes");
         @include meta.load-css("components/context-menu");
-    }
 
-    // Being-sheet content, loaded under the COMPOUND `.sohl.being` selector:
-    // ApplicationV2 puts `sohl` and the `being` type-class on the same frame
-    // element, so a plain `.sohl` wrapper would yield the never-matching
-    // descendant `.sohl .being` (the #87 trap the sheet frame also avoids).
-    .sohl.being {
-        @include meta.load-css("components/being");
+        // Manuscript redesign (epic #783, Feature 0) — the shared BEM component
+        // blocks every re-skinned Being-sheet tab consumes. See
+        // nogit/CONTRACT.md for the class inventory and HTML skeletons.
+        @include meta.load-css("components/section-legend");
+        @include meta.load-css("components/ledger");
+        @include meta.load-css("components/chip");
+        @include meta.load-css("components/icon-button");
+        @include meta.load-css("components/add-button");
+        @include meta.load-css("components/drag-grip");
+        @include meta.load-css("components/health-bar");
+        @include meta.load-css("components/status-pill");
+        @include meta.load-css("components/body-lozenge");
+        @include meta.load-css("components/disclosure");
+        @include meta.load-css("components/body-structure");
     }
 
     // Strike Mode editor window, loaded under the COMPOUND
@@ -99,6 +106,16 @@
     }
     .sohl.body-location-config {
         @include body-config.editor("body-location-config");
+    }
+}
+
+// apps — sheet-specific styling that layers on top of the shared components.
+// The Being sheet is loaded under the COMPOUND `.sohl.being` selector for the
+// same #87 same-element reason as the strike-mode/body-config editors above:
+// ApplicationV2 puts `sohl` and the `being` type-class on the one frame element.
+@layer sohl.apps {
+    .sohl.being {
+        @include meta.load-css("apps/being");
     }
 }
 

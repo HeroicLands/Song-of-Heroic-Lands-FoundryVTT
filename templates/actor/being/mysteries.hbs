@@ -17,31 +17,46 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <input class="search-criteria" type="search" name="search-mysteries" value=""
             aria-label="Search Mysteries" placeholder="Search Mysteries" autocomplete="off" />
     </div>
+
+    <div class="section-legend">
+        <span class="section-legend__name">Mysteries</span>
+        <span class="section-legend__rule"></span>
+    </div>
+
     <div class="mysteries-list">
-        <ol class="list__items">
-            <li class="list__header flexrow">
-                <h3 class="list__name">Mysteries</h3>
-                <div class="list__detail">SubType</div>
-                <div class="list__detail">Skill</div>
-                <div class="list__detail">Level</div>
-                <div class="list__detail">Charges</div>
-                <div class="list__detail list__notes">Notes</div>
-                <div class="list__controls">
-                    <a class="item-create" data-action="createItem" data-type="mystery" data-tooltip="Create mystery">
-                        <i class="fa-solid fa-file-plus"></i>
+        {{#each mysterySections as |section|}}
+            {{#if section.items.length}}
+            <div class="section-legend section-legend--subtype">
+                <span class="section-legend__name">{{section.label}}</span>
+                <span class="section-legend__meta">{{section.items.length}}</span>
+                <span class="section-legend__rule"></span>
+                <span class="section-legend__add">
+                    <a class="item-create add-button add-button--small" data-action="createItem"
+                        data-type="mystery" data-sub-type="{{section.subType}}"
+                        data-tooltip="Add {{section.label}} Mystery">
+                        <i class="fa-solid fa-file-plus"></i><span>Add {{section.label}} Mystery</span>
                     </a>
+                </span>
+            </div>
+            <div class="ledger" style="--ledger-cols:1.5rem minmax(140px,1.4fr) 6rem 3.6rem 4rem 1fr 1.6rem">
+                <div class="ledger__head">
+                    <div></div>
+                    <div>Mystery</div>
+                    <div>Skill</div>
+                    <div>Level</div>
+                    <div>Charges</div>
+                    <div>Notes</div>
+                    <div></div>
                 </div>
-            </li>
-            {{#each mysterySections as |section|}}
                 {{#each section.items as |mystery|}}
-                <li class="item flexrow" data-search-name="{{mystery.name}}" data-item-id="{{mystery.id}}" data-item-name="{{mystery.name}}">
-                    <div class="list__name default-action flexrow">
-                        <div class="list__image" style="background-image: url('{{mystery.img}}')"></div>
-                        <h4 data-tooltip="{{mystery.name}}">{{mystery.name}}</h4>
+                <li class="ledger__row item" data-search-name="{{mystery.name}}" data-item-id="{{mystery.id}}" data-item-name="{{mystery.name}}">
+                    <div class="ledger__icon default-action">
+                        <img src="{{mystery.img}}" alt="" />
                     </div>
-                    <div class="list__detail">{{section.label}}</div>
-                    <div class="list__detail">{{#if mystery.logic.assocSkill}}{{mystery.logic.assocSkill.name}}{{/if}}</div>
-                    <div class="list__detail" data-tooltip="{{mystery.logic.level.deltaLabel}}" data-tooltip-direction="UP">
+                    <div class="ledger__name default-action" data-tooltip="{{mystery.name}}">{{mystery.name}}</div>
+                    <div class="ledger__cell ledger__cell--text">{{#if mystery.logic.assocSkill}}{{mystery.logic.assocSkill.name}}{{/if}}</div>
+                    <div class="ledger__cell{{#if mystery.logic.level.disabled}} ledger__cell--dim{{/if}}"
+                        data-tooltip="{{mystery.logic.level.deltaLabel}}" data-tooltip-direction="UP">
                         {{!-- Level: "×" when disabled (levelBase null), else signed value --}}
                         {{#if mystery.logic.level.disabled}}
                         <i class="fa-solid fa-xmark fa-lg"></i>
@@ -49,7 +64,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{numberFormat mystery.logic.level.effective sign=true}}
                         {{/if}}
                     </div>
-                    <div class="list__detail" data-tooltip="{{mystery.logic.charges.value.deltaLabel}}" data-tooltip-direction="UP">
+                    <div class="ledger__cell{{#if mystery.logic.charges.max.disabled}} ledger__cell--dim{{/if}}"
+                        data-tooltip="{{mystery.logic.charges.value.deltaLabel}}" data-tooltip-direction="UP">
                         {{!-- Charges display rules (#310), first match wins:
                               max disabled → "×"; value disabled → "∞";
                               max 0 → "<value>/∞"; else "<value>/<max>" --}}
@@ -63,14 +79,20 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{/if}}
                         {{/if}}
                     </div>
-                    <div class="list__detail list__notes">{{mystery.system.notes}}</div>
-                    <div class="list__controls">
-                        <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                    <div class="ledger__notes">{{mystery.system.notes}}</div>
+                    <div class="ledger__controls">
+                        <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </li>
                 {{/each}}
-            {{/each}}
-        </ol>
+            </div>
+            {{/if}}
+        {{/each}}
+    </div>
+    <div class="add-footer">
+        <a class="item-create add-button" data-action="createItem" data-type="mystery" data-tooltip="Add Mystery">
+            <i class="fa-solid fa-file-plus"></i><span>Add Mystery</span>
+        </a>
     </div>
 
     {{!-- Mystical Abilities --}}
@@ -78,32 +100,47 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <input class="search-criteria" type="search" name="search-mysticalabilities" value=""
             aria-label="Search Mystical Abilities" placeholder="Search Mystical Abilities" autocomplete="off" />
     </div>
+
+    <div class="section-legend">
+        <span class="section-legend__name">Mystical Abilities</span>
+        <span class="section-legend__rule"></span>
+    </div>
+
     <div class="mysticalabilities-list">
-        <ol class="list__items">
-            <li class="list__header flexrow">
-                <h3 class="list__name">Mystical Abilities</h3>
-                <div class="list__detail">SubType</div>
-                <div class="list__detail">Skill</div>
-                <div class="list__detail" data-tooltip="Level">Lvl</div>
-                <div class="list__detail" data-tooltip="Mastery Level">ML</div>
-                <div class="list__detail">Charges</div>
-                <div class="list__detail list__notes">Notes</div>
-                <div class="list__controls">
-                    <a class="item-create" data-action="createItem" data-type="mysticalability" data-tooltip="Create Mystical Ability">
-                        <i class="fa-solid fa-file-plus"></i>
+        {{#each abilitySections as |section|}}
+            {{#if section.items.length}}
+            <div class="section-legend section-legend--subtype">
+                <span class="section-legend__name">{{section.label}}</span>
+                <span class="section-legend__meta">{{section.items.length}}</span>
+                <span class="section-legend__rule"></span>
+                <span class="section-legend__add">
+                    <a class="item-create add-button add-button--small" data-action="createItem"
+                        data-type="mysticalability" data-sub-type="{{section.subType}}"
+                        data-tooltip="Add {{section.label}} Mystical Ability">
+                        <i class="fa-solid fa-file-plus"></i><span>Add {{section.label}} Mystical Ability</span>
                     </a>
+                </span>
+            </div>
+            <div class="ledger" style="--ledger-cols:1.5rem minmax(140px,1.3fr) 5.4rem 2.6rem 2.6rem 3.4rem 1fr 2.8rem">
+                <div class="ledger__head">
+                    <div></div>
+                    <div>Ability</div>
+                    <div>Skill</div>
+                    <div data-tooltip="Level">Lvl</div>
+                    <div data-tooltip="Mastery Level">ML</div>
+                    <div>Charges</div>
+                    <div>Notes</div>
+                    <div></div>
                 </div>
-            </li>
-            {{#each abilitySections as |section|}}
                 {{#each section.items as |ability|}}
-                <li class="item flexrow" data-search-name="{{ability.name}}" data-item-id="{{ability.id}}" data-item-name="{{ability.name}}">
-                    <div class="list__name default-action flexrow">
-                        <div class="list__image" style="background-image: url('{{ability.img}}')"></div>
-                        <h4 data-tooltip="{{ability.name}}">{{ability.name}}</h4>
+                <li class="ledger__row item" data-search-name="{{ability.name}}" data-item-id="{{ability.id}}" data-item-name="{{ability.name}}">
+                    <div class="ledger__icon default-action">
+                        <img src="{{ability.img}}" alt="" />
                     </div>
-                    <div class="list__detail">{{section.label}}</div>
-                    <div class="list__detail">{{#if ability.logic.assocSkill}}{{ability.logic.assocSkill.name}}{{/if}}</div>
-                    <div class="list__detail" data-tooltip="{{ability.logic.level.deltaLabel}}" data-tooltip-direction="UP">
+                    <div class="ledger__name default-action" data-tooltip="{{ability.name}}">{{ability.name}}</div>
+                    <div class="ledger__cell ledger__cell--text">{{#if ability.logic.assocSkill}}{{ability.logic.assocSkill.name}}{{/if}}</div>
+                    <div class="ledger__cell{{#if ability.logic.level.disabled}} ledger__cell--dim{{/if}}"
+                        data-tooltip="{{ability.logic.level.deltaLabel}}" data-tooltip-direction="UP">
                         {{!-- Level: "×" when disabled (levelBase null), else value --}}
                         {{#if ability.logic.level.disabled}}
                         <i class="fa-solid fa-xmark fa-lg"></i>
@@ -111,14 +148,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{ability.logic.level.effective}}
                         {{/if}}
                     </div>
-                    <div class="list__detail" data-tooltip="{{ability.logic.masteryLevel.deltaLabel}}" data-tooltip-direction="UP">
+                    <div class="ledger__cell{{#if ability.logic.masteryLevel.disabled}} ledger__cell--dim{{/if}}"
+                        data-tooltip="{{ability.logic.masteryLevel.deltaLabel}}" data-tooltip-direction="UP">
                         {{#if ability.logic.masteryLevel.disabled}}
                         <i class="fa-solid fa-xmark fa-lg"></i>
                         {{else}}
                         {{ability.logic.masteryLevel.effective}}
                         {{/if}}
                     </div>
-                    <div class="list__detail" data-tooltip="{{ability.logic.charges.value.deltaLabel}}" data-tooltip-direction="UP">
+                    <div class="ledger__cell{{#if ability.logic.charges.max.disabled}} ledger__cell--dim{{/if}}"
+                        data-tooltip="{{ability.logic.charges.value.deltaLabel}}" data-tooltip-direction="UP">
                         {{!-- Charges display rules (#311), first match wins:
                               max disabled → "×"; value disabled → "∞";
                               max 0 → "<value>/∞"; else "<value>/<max>" --}}
@@ -132,16 +171,22 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{/if}}
                         {{/if}}
                     </div>
-                    <div class="list__detail list__notes">{{ability.system.notes}}</div>
-                    <div class="list__controls">
-                        <a class="list__control toggle-improve-flag" data-action="toggleImproveFlag" title="Improve">
-                            <i class="{{#if ability.system.improveFlag}}fas fa-star{{else}}far fa-star{{/if}}"></i>
+                    <div class="ledger__notes">{{ability.system.notes}}</div>
+                    <div class="ledger__controls">
+                        <a class="icon-button toggle-improve-flag" data-action="toggleImproveFlag" title="Improve">
+                            <i class="{{#if ability.system.improveFlag}}fas fa-star ledger__flag{{else}}far fa-star{{/if}}"></i>
                         </a>
-                        <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
+                        <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </li>
                 {{/each}}
-            {{/each}}
-        </ol>
+            </div>
+            {{/if}}
+        {{/each}}
+    </div>
+    <div class="add-footer">
+        <a class="item-create add-button" data-action="createItem" data-type="mysticalability" data-tooltip="Add Mystical Ability">
+            <i class="fa-solid fa-file-plus"></i><span>Add Mystical Ability</span>
+        </a>
     </div>
 </section>

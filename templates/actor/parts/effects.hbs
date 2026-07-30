@@ -16,67 +16,73 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <input class="search-criteria" type="search" name="search-effects" value=""
             aria-label="Search Effects" placeholder="Search Effects" autocomplete="off" />
     </div>
-    <ol class="effects__list">
-        <li class="effects__header flexrow">
-            <h3 class="name">Effect</h3>
-            <div class="target">Target</div>
-            <div class="duration">Remaining</div>
-            <div class="changes">Changes</div>
-            <div class="effects__controls">
-                <a class="effects__control effect-create" data-action="effectCreate" data-tooltip="Create Effect">
-                    <i class="fa-solid fa-file-plus"></i>
+
+    <div class="section-legend">
+        <span class="section-legend__name">Own Effects</span>
+        <span class="section-legend__rule"></span>
+        <span class="section-legend__add">
+            <button class="add-button" data-action="effectCreate" data-tooltip="Create Effect">
+                <i class="fa-solid fa-plus"></i><span>Create Effect</span>
+            </button>
+        </span>
+    </div>
+    <div class="ledger effects__list" style="--ledger-cols:1.5rem minmax(150px,1.3fr) 6.5rem 6rem 5.5rem 4rem">
+        <div class="ledger__head">
+            <div></div>
+            <div>Effect</div>
+            <div>Target</div>
+            <div title="Remaining">Remaining</div>
+            <div>Changes</div>
+            <div></div>
+        </div>
+        {{#each effects as |effect|}}
+        <div class="ledger__row effects__row{{#if effect.disabled}} disabled{{/if}}"
+            data-search-name="{{effect.name}}" data-effect-name="{{effect.name}}" data-effect-id="{{effect.id}}"
+            data-effect-parent-uuid="{{effect.parent.uuid}}">
+            <div class="ledger__icon"><img src="{{effect.img}}" alt="" /></div>
+            <div class="ledger__name" data-tooltip="{{effect.name}}">{{effect.name}}</div>
+            <div class="ledger__cell ledger__cell--text" data-tooltip="{{effect.system.targetLabel}}">{{effect.system.targetLabel}}</div>
+            <div class="ledger__cell ledger__cell--text">{{#if effect.isTemporary}}{{effect.duration.label}}{{else}}Indefinite{{/if}}</div>
+            <div class="ledger__cell ledger__cell--text">{{effect.system.changes.length}} changes</div>
+            <div class="ledger__controls">
+                <a class="icon-button{{#unless effect.disabled}} is-on{{/unless}} effect-toggle" data-action="effectToggle"
+                    data-tooltip="{{#if effect.disabled}}Enable Effect{{else}}Disable Effect{{/if}}">
+                    <i class="{{#if effect.disabled}}fas fa-toggle-off{{else}}fas fa-toggle-on{{/if}}"></i>
+                </a>
+                <a class="icon-button icon-button--danger effect-delete" data-action="effectDelete" data-tooltip="Delete Effect">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+                <a class="icon-button effect-contextmenu" title="Menu">
+                    <i class="fa-solid fa-ellipsis-vertical fa-fw"></i>
                 </a>
             </div>
-        </li>
-        <ol class="effects__items">
-            {{#each effects as |effect|}}
-            <li class="effects__row {{#if effect.disabled}}disabled{{/if}} flexrow"
-                data-search-name="{{effect.name}}" data-effect-name="{{effect.name}}" data-effect-id="{{effect.id}}"
-                data-effect-parent-uuid="{{effect.parent.uuid}}">
-                <div class="name">
-                    <div class="image" style="background-image: url('{{effect.img}}')"></div>
-                    <h4 data-tooltip="{{effect.name}}">{{effect.name}}</h4>
-                </div>
-                <div class="ele target" data-tooltip="{{effect.system.targetLabel}}">{{effect.system.targetLabel}}</div>
-                <div class="ele duration">{{#if effect.isTemporary}}{{effect.duration.label}}{{else}}Indefinite{{/if}}</div>
-                <div class="ele changes">{{effect.system.changes.length}} changes</div>
-                <div class="effects__controls">
-                    <a class="effects__control effect-toggle" data-action="effectToggle"
-                        data-tooltip="{{#if effect.disabled}}Enable Effect{{else}}Disable Effect{{/if}}">
-                        <i class="{{#if effect.disabled}}fas fa-toggle-off{{else}}fas fa-toggle-on{{/if}}"></i>
-                    </a>
-                    <a class="effects__control effect-delete" data-action="effectDelete" data-tooltip="Delete Effect">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
-                    <a class="effects__control effect-contextmenu" title="Menu">
-                        <i class="fa-solid fa-ellipsis-vertical fa-fw"></i>
-                    </a>
-                </div>
-            </li>
-            {{/each}}
-        </ol>
-    </ol>
-    {{!-- Transferred Effects --}}
-    <ol class="effects__list">
-        <li class="effects__header flexrow">
-            <h3 class="name">Transferred Effect</h3>
-            <div class="source">Source</div>
-            <div class="duration">Remaining</div>
-            <div class="changes">Changes</div>
-        </li>
-        <ol class="effects__items">
-            {{#each trxEffects as |effect|}}
-            <li class="effects__row {{#if effect.disabled}}disabled{{/if}} flexrow"
-                data-search-name="{{effect.name}}" data-effect-name="{{effect.name}}" data-effect-id="{{effect.id}}">
-                <div class="name">
-                    <div class="image" style="background-image: url('{{effect.img}}')"></div>
-                    <h4 data-tooltip="{{effect.name}}">{{effect.name}}</h4>
-                </div>
-                <div class="ele source" data-tooltip="{{effect.sourceName}}">{{effect.sourceName}}</div>
-                <div class="ele duration">{{#if effect.isTemporary}}{{effect.duration.label}}{{else}}Indefinite{{/if}}</div>
-                <div class="ele changes">{{effect.system.changes.length}} changes</div>
-            </li>
-            {{/each}}
-        </ol>
-    </ol>
+        </div>
+        {{/each}}
+    </div>
+
+    {{!-- Transferred Effects (read-only) --}}
+    <div class="section-legend">
+        <span class="section-legend__name">Transferred Effects</span>
+        <span class="section-legend__meta">read-only</span>
+        <span class="section-legend__rule"></span>
+    </div>
+    <div class="ledger" style="--ledger-cols:1.5rem minmax(150px,1.3fr) 7rem 6rem 5.5rem">
+        <div class="ledger__head">
+            <div></div>
+            <div>Effect</div>
+            <div>Source</div>
+            <div>Remaining</div>
+            <div>Changes</div>
+        </div>
+        {{#each trxEffects as |effect|}}
+        <div class="ledger__row effects__row{{#if effect.disabled}} disabled{{/if}}"
+            data-search-name="{{effect.name}}" data-effect-name="{{effect.name}}" data-effect-id="{{effect.id}}">
+            <div class="ledger__icon"><img src="{{effect.img}}" alt="" /></div>
+            <div class="ledger__name" data-tooltip="{{effect.name}}">{{effect.name}}</div>
+            <div class="ledger__cell ledger__cell--text" data-tooltip="{{effect.sourceName}}">{{effect.sourceName}}</div>
+            <div class="ledger__cell ledger__cell--text">{{#if effect.isTemporary}}{{effect.duration.label}}{{else}}Indefinite{{/if}}</div>
+            <div class="ledger__cell ledger__cell--text">{{effect.system.changes.length}} changes</div>
+        </div>
+        {{/each}}
+    </div>
 </section>

@@ -1,0 +1,92 @@
+// Body-structure tree — the editable Zone → Part → Location tree on the Profile
+// tab (Manuscript redesign, epic #783 / Feature 4.12). This lineage rail is a
+// construct UNIQUE to the Profile editor; Combat's Body Locations is a flat
+// ledger with no rail. Each level carries an accent left rail; parts and
+// locations are indented and add an inset-shadow "part rail" so the hierarchy
+// reads at a glance. Default-collapsed friendly — parts/locations hide until
+// their ancestor disclosure is `.is-open` (the sheet toggles `--collapsed`).
+//
+// Rows compose the shared blocks: `.disclosure`, `.chip`/`--role`/`--hit`,
+// `.add-button--small`, `.icon-button`, `.drag-grip`.
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
+@use "../abstracts/mixins";
+
+.body-structure {
+    display: block;
+
+    // Zone band — accent left rail, banded like a light section header.
+    &__zone {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.3rem 0.95rem;
+        background: var(--sohl-color-bg-header);
+        border-top: 1px solid var(--sohl-color-border-default);
+        border-left: 4px solid var(--sohl-color-accent);
+        font-weight: 700;
+        font-size: 0.82rem;
+    }
+
+    &__zone-name {
+        font-family: var(--sohl-font-title);
+        font-variant-caps: small-caps;
+        letter-spacing: 0.03em;
+        font-size: 0.94rem;
+    }
+
+    // Part band — indented, with the accent rail plus an inset "part rail"
+    // (a short inner rule) marking the lineage.
+    &__part {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.28rem 0.95rem 0.28rem 1.9rem;
+        background: var(--sohl-color-bg-surface);
+        border-left: 4px solid var(--sohl-color-accent);
+        box-shadow: inset 1.1rem 0 0 -0.95rem var(--sohl-color-text-muted);
+        font-weight: 600;
+        font-size: 0.78rem;
+    }
+
+    &__part-name {
+        @include mixins.truncate;
+    }
+
+    // Location row — deepest indent, both rails, grip + name + controls.
+    &__location {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.24rem 0.95rem 0.24rem 2.7rem;
+        background: var(--sohl-color-bg-sheet);
+        border-bottom: 1px solid var(--sohl-color-border-subtle);
+        border-left: 4px solid var(--sohl-color-accent);
+        box-shadow: inset 1.1rem 0 0 -0.95rem var(--sohl-color-text-muted);
+        font-size: 0.82rem;
+
+        &:hover {
+            background: var(--sohl-color-bg-surface);
+        }
+    }
+
+    &__location-name {
+        flex: 1 1 auto;
+        @include mixins.truncate;
+    }
+
+    // Right-aligned per-row control cluster (add-child / edit / menu / grip).
+    &__controls {
+        display: flex;
+        align-items: center;
+        gap: 0.12rem;
+        margin-left: auto;
+    }
+
+    // Collapse state — the sheet hides descendant rows by toggling this class
+    // (or the `hidden` attribute) when the ancestor disclosure is closed.
+    &__part--collapsed,
+    &__location--collapsed {
+        display: none;
+    }
+}
