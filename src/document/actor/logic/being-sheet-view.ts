@@ -472,12 +472,16 @@ export interface SkillLike {
 /**
  * The canonical display order of skill subtypes on the Being sheet's Skills tab.
  *
- * Every subtype listed here is always rendered as its own section — including
- * when empty — so each offers its "+ Add" control. `combattechnique` is included
- * so combat techniques (a `combattechnique`-subtype skill) have a home on the
- * Skills tab and can be created there; without it the section only appeared once
- * a technique already existed and could never be added (#714). The `mystical`
- * subtype is intentionally absent — those skills surface on the Mysteries tab.
+ * The order pins each subtype's display position; the template renders only the
+ * subtypes that have skills (the redesign's present-only pattern, shared across
+ * every Being tab), so each *populated* subtype section carries its own "+ Add"
+ * control and empty subtypes are hidden. `combattechnique` (a
+ * `combattechnique`-subtype skill) keeps a defined position here so its section
+ * sorts stably when a being has combat techniques; a being with none creates its
+ * first via the tab's global "Add Skill" footer, which opens the subtype picker
+ * (issue #797 retired the always-visible empty Combat Technique section that
+ * #714 added). The `mystical` subtype is intentionally absent — those skills
+ * surface on the Mysteries tab.
  */
 export const SKILL_DISPLAY_SUBTYPE_ORDER: readonly string[] = [
     SKILL_SUBTYPE.SOCIAL,
@@ -492,9 +496,10 @@ export const SKILL_DISPLAY_SUBTYPE_ORDER: readonly string[] = [
 /**
  * Build the ordered, subtype-labeled skill groups for the Skills tab. Every
  * subtype in `order` (the display subtype order) is emitted — including empty
- * ones, so each defined subtype always offers its "+ Add" control. Subtypes
- * present on skills but absent from `order` are appended after the ordered ones,
- * in first-seen order, so nothing is silently dropped.
+ * ones — so the template can decide (via `{{#if group.skills.length}}`) which to
+ * show; only populated subtypes render, each carrying its own "+ Add" control.
+ * Subtypes present on skills but absent from `order` are appended after the
+ * ordered ones, in first-seen order, so nothing is silently dropped.
  *
  * Labels are resolved through the supplied callback so this stays Foundry-free
  * (the sheet passes a `game.i18n`-backed resolver).

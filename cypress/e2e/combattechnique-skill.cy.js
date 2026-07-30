@@ -113,32 +113,12 @@ describe("combattechnique skill", () => {
         });
     });
 
-    // RED — blocked by #797 (regressed by the epic #782 Manuscript redesign):
-    // the redesigned Skills tab hides empty subtype groups
-    // (`{{#if group.skills.length}}`, the present-only pattern used across every
-    // redesigned Being tab), so the always-present empty Combat Technique
-    // section + its seeded create control (#714) no longer renders for a being
-    // with no combat techniques. A being can still create one via the tab's
-    // global "Add Skill" footer (subtype picker). Un-skip when #797 restores the
-    // affordance (or delete if #714 is formally retired).
-    it.skip("shows a Combat Technique section with a create control on the Skills tab even when empty (#714)", () => {
-        cy.createActor("being", { name: "Empty Being" }).then((actor) => {
-            cy.openSheet(actor);
-            cy.switchTab("skills", "primary");
-            cy.wait(300);
-            // The section is always present (no combat techniques yet), and its
-            // header offers the "+ Add" control seeded with the subtype.
-            cy.get('section.tab[data-tab="skills"]')
-                .find(".skills-list .list__header")
-                .contains(".list__name", "Combat Technique")
-                .should("exist");
-            cy.get('section.tab[data-tab="skills"]')
-                .find(
-                    '.item-create[data-type="skill"][data-sub-type="combattechnique"]',
-                )
-                .should("exist");
-        });
-    });
+    // #714's always-visible empty Combat Technique section (with its seeded
+    // create control) was formally retired by #797: the redesigned Skills tab is
+    // uniformly present-only, so a being with no combat techniques shows no empty
+    // section — it creates its first technique via the tab's global "Add Skill"
+    // footer (the subtype picker). The corresponding empty-section e2e assertion
+    // was removed with that decision.
 
     it("shows the Strike Modes tab + editor only for the technique subtype (#324, #663)", () => {
         cy.createActor("being", { name: "Sheet Being" }).then((actor) => {

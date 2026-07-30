@@ -126,7 +126,7 @@ describe("being-sheet-view", () => {
     });
 
     describe("SKILL_DISPLAY_SUBTYPE_ORDER", () => {
-        it("includes combattechnique so the Skills tab always shows a Combat Techniques section (#714)", () => {
+        it("includes combattechnique so its section sorts stably when a being has combat techniques (#797)", () => {
             expect(SKILL_DISPLAY_SUBTYPE_ORDER).toContain("combattechnique");
         });
 
