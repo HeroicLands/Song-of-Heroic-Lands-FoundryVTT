@@ -1385,7 +1385,7 @@
     "SOHL.Welcome.intro": "This system <strong>assists</strong> players and GMs playing Song of Heroic Lands (and other compatible systems) — it takes over the bookkeeping and mundane rolls and speeds up combat, while leaving every decision to you.",
     "SOHL.Welcome.visitSite": "Visit heroiclands.org",
     "SOHL.Welcome.moreInfo": "Head there for rules, guides, and everything else about the game. You can also read the <strong>User Guide</strong> journal entries bundled with the system — open the <em>Compendium Packs</em> sidebar and look in the <strong>Journals</strong> compendium.",
-    "SOHL.Welcome.tours": "New here? We <strong>highly recommend the guided tours</strong> — they walk you through the system right inside Foundry. Start the flagship <strong>Create a Character</strong> tour with the button below, or open any tour later from <em>Settings → Tour Management</em> (the ⚙️ <em>Settings</em> sidebar tab).",
+    "SOHL.Welcome.tours": "New here? We <strong>highly recommend the guided tours</strong> — they walk you through the system right inside Foundry. Start the flagship <strong>Create a Character</strong> tour with the button below, or open any tour later from <em>Settings → Tour Management</em> (the <i class=\"fa-solid fa-gears\"></i> <em>Settings</em> sidebar tab).",
     "SOHL.Welcome.start": "Start the Character Creation tour",
     "SOHL.Welcome.speaker": "Song of Heroic Lands",
     "SOHL.Tour.Demo.title": "SoHL: Guided-Tour Framework Demo",
