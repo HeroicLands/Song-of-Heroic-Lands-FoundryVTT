@@ -53,6 +53,56 @@ describe("being sheet", () => {
         });
     });
 
+    // #833 — affordance clarity. The edit-identity pencil must be discoverable
+    // at rest (present-but-muted), not hidden at opacity:0 until the identity row
+    // is hovered. Assert a resting (un-hovered) opacity greater than 0.
+    it("shows the edit-identity pencil at rest, not hidden until hover (#833)", () => {
+        cy.importActor().then((actor) => {
+            cy.openSheet(actor);
+            cy.get(".sohl.being [data-action='editIdentity']").should(($el) => {
+                const op = parseFloat(getComputedStyle($el[0]).opacity);
+                expect(op, "resting pencil opacity").to.be.greaterThan(0);
+            });
+        });
+    });
+
+    // #833 — a Being opened straight from the locked `sohl.actors` compendium is
+    // read-only, so Foundry disables every control. A disabled `.icon-button`
+    // must READ as disabled (a `not-allowed` cursor) rather than looking
+    // clickable; before the fix `.icon-button` had no disabled style, so a
+    // disabled control was visually identical to a live one and silently
+    // swallowed clicks. Render the compendium sheet read-only and assert the
+    // cursor on a disabled icon-button.
+    it("marks disabled icon-buttons on a read-only compendium sheet as not-allowed (#833)", () => {
+        cy.foundry(async (win) => {
+            const pack = win.game.packs.get("sohl.actors");
+            const index = await pack.getIndex({
+                fields: ["system.shortcode"],
+            });
+            const entry = index.find(
+                (e) =>
+                    e.type === "being" && e.system?.shortcode === "basicfolk",
+            );
+            const doc = await pack.getDocument(entry._id);
+            await doc.sheet.render(true);
+            return doc.sheet.isEditable;
+        }).should("eq", false);
+        // The read-only sheet is now rendered; find a disabled icon-button
+        // (the header pencil at minimum) and assert its cursor.
+        cy.foundry((win) => {
+            const app = Array.from(
+                win.foundry.applications.instances.values(),
+            ).find(
+                (a) =>
+                    a.rendered &&
+                    a.document?.inCompendium &&
+                    a.element?.querySelector(".icon-button:disabled"),
+            );
+            const btn = app?.element.querySelector(".icon-button:disabled");
+            return btn ? win.getComputedStyle(btn).cursor : null;
+        }).should("eq", "not-allowed");
+    });
+
     BEING_TABS.forEach((tab) => {
         it(`activates the ${tab} tab and renders its content`, () => {
             cy.importActor().then((actor) => {
