@@ -9,7 +9,7 @@ The "Expressions and Scripts" concept doc now documents how to author a
 hand-walked evaluation), the exact grammar (what is allowed and what is rejected
 at parse time), the **bindings each call site provides** (action `visible` /
 `trigger`, active-effect `test` for item and strike-mode scopes, context-menu
-`condition`, and Corpus movement-profile value fields), a full **reference table
+`condition`, and actor movement-profile value fields), a full **reference table
 of the built-in helpers with their signatures and return values**, and worked
 examples for both predicates and computed values.
 

@@ -14,4 +14,5 @@ uses `system.portrait` and the physical-appearance description editor uses
 `system.appearance`. Adds an e2e spec (`facade-section.cy.js`) asserting both
 bindings.
 
-Closes #303, #307
+Closes #303
+Closes #307

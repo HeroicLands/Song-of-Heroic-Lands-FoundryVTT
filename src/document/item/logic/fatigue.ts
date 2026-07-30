@@ -15,7 +15,7 @@
  * Shared helper for inflicting **weakness fatigue** — the long-term fatigue tied
  * to lingering ailments (anaemia of blood loss, disease/infection reactions). It
  * is modeled, like all fatigue, as a `fatigue`-subtype trauma (see the Fatigue
- * system); its Fatigue Levels fold into the being's Fatigue Penalty.
+ * system, #552); its Fatigue Levels fold into the being's Fatigue Penalty.
  */
 
 import { fvttCreateEmbeddedItems } from "@src/core/FoundryHelpers";

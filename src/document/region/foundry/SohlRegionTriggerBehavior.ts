@@ -19,7 +19,7 @@ import {
 } from "@src/entity/event/region-triggers";
 
 /**
- * **The scene-region → event-queue bridge**: a Foundry v14
+ * **The scene-region → event-queue bridge** (issue #593): a Foundry v14
  * `RegionBehaviorType` a GM drops onto a scene region to opt it into SoHL
  * triggering. Registered as the `trigger` RegionBehavior subtype; Foundry
  * auto-generates its config sheet from this schema.

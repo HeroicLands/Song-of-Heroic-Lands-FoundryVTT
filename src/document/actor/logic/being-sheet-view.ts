@@ -404,7 +404,7 @@ export interface SkillRow {
     uuid: string;
     /** The skill's display name. */
     name: string;
-    /** The skill's icon image path, shown before the name. */
+    /** The skill's icon image path, shown before the name (#508). */
     img: string;
     /** Skill Base — the derived attribute-driven base score. */
     sb: number;
@@ -419,13 +419,13 @@ export interface SkillRow {
     /**
      * The EML modifier delta summary — the mastery-level `ValueModifier`'s
      * `deltaLabel` (e.g. `STR +2, ARM ×2`), shown as the EML cell's hover
-     * tooltip. Empty when the mastery level has no deltas to explain
+     * tooltip (#769). Empty when the mastery level has no deltas to explain
      * (its effective value is just the base).
      */
     emlDeltaLabel: string;
     /**
      * The Fate modifier delta summary — the fate `ValueModifier`'s `deltaLabel`,
-     * shown as the Fate cell's hover tooltip. Empty when there is nothing
+     * shown as the Fate cell's hover tooltip (#769). Empty when there is nothing
      * to explain.
      */
     fateDeltaLabel: string;
@@ -478,8 +478,9 @@ export interface SkillLike {
  * control and empty subtypes are hidden. `combattechnique` (a
  * `combattechnique`-subtype skill) keeps a defined position here so its section
  * sorts stably when a being has combat techniques; a being with none creates its
- * first via the tab's global "Add Skill" footer, which opens the subtype picker.
- * The `mystical` subtype is intentionally absent — those skills
+ * first via the tab's global "Add Skill" footer, which opens the subtype picker
+ * (issue #797 retired the always-visible empty Combat Technique section that
+ * #714 added). The `mystical` subtype is intentionally absent — those skills
  * surface on the Mysteries tab.
  */
 export const SKILL_DISPLAY_SUBTYPE_ORDER: readonly string[] = [
@@ -707,7 +708,7 @@ export interface StatusPill {
      * `true` → clicking the pill toggles the corresponding ActiveEffect status;
      * `false` → a read-only indicator lit from an active trauma subtype
      * (Aural-Shock / Fatigue), which are modeled as traumas rather than
-     * toggleable statuses.
+     * toggleable statuses (#306).
      */
     toggleable: boolean;
 }
@@ -797,7 +798,7 @@ export function buildStatusPills(
     }));
 }
 
-/** A read-only body-part lozenge, with its derived impairment status. */
+/** A read-only body-part lozenge, with its derived impairment status (#464). */
 export interface BodyPartLozenge {
     /** The body-part shortcode (stable identity). */
     shortcode: string;
@@ -809,7 +810,7 @@ export interface BodyPartLozenge {
 
 /**
  * Build the body-part lozenges from a being's body structure, deriving each
- * part's impairment status from the actor's active injuries. A part takes
+ * part's impairment status from the actor's active injuries (#464). A part takes
  * the most serious injury across its hit locations (see {@link bodyPartImpairment}).
  *
  * @param structure - The being's body structure, or `undefined`.
@@ -971,13 +972,13 @@ export interface TraumaLike {
     subType: string | undefined;
     /** Effective severity level (0 or below ⇒ healed). */
     level: number;
-    /** Severity (level) modifier derivation summary for the hover tooltip. */
+    /** Severity (level) modifier derivation summary for the hover tooltip (#769). */
     severityDeltaLabel: string;
     /** Effective healing rate. */
     healingRate: number;
     /** Whether the healing rate is disabled (no natural recovery). */
     healingRateDisabled: boolean;
-    /** Healing-rate modifier derivation summary for the hover tooltip. */
+    /** Healing-rate modifier derivation summary for the hover tooltip (#769). */
     healingRateDeltaLabel: string;
     isTreated: boolean;
     isBleeding: boolean;
@@ -999,11 +1000,11 @@ export interface TraumaRow {
     healed: boolean;
     /** Severity band label (`M1`, `S2`, `S3`, `G4`, `G5`); empty when healed. */
     severity: string;
-    /** Severity (level) modifier derivation summary for the hover tooltip. */
+    /** Severity (level) modifier derivation summary for the hover tooltip (#769). */
     severityDeltaLabel: string;
     healingRate: number;
     healingRateDisabled: boolean;
-    /** Healing-rate modifier derivation summary for the hover tooltip. */
+    /** Healing-rate modifier derivation summary for the hover tooltip (#769). */
     healingRateDeltaLabel: string;
     isTreated: boolean;
     isBleeding: boolean;
@@ -1132,13 +1133,13 @@ export interface AfflictionLike {
     subType: string | undefined;
     /** Localized qualitative level label. */
     levelLabel: string;
-    /** Level modifier derivation summary for the hover tooltip. */
+    /** Level modifier derivation summary for the hover tooltip (#769). */
     levelDeltaLabel: string;
     /** Effective healing rate. */
     healingRate: number;
     /** Whether the healing rate is disabled (no natural recovery). */
     healingRateDisabled: boolean;
-    /** Healing-rate modifier derivation summary for the hover tooltip. */
+    /** Healing-rate modifier derivation summary for the hover tooltip (#769). */
     healingRateDeltaLabel: string;
     /** Localized source/category label. */
     source: string;
@@ -1154,11 +1155,11 @@ export interface AfflictionRow {
     img: string;
     /** Localized level label. */
     level: string;
-    /** Level modifier derivation summary for the hover tooltip. */
+    /** Level modifier derivation summary for the hover tooltip (#769). */
     levelDeltaLabel: string;
     healingRate: number;
     healingRateDisabled: boolean;
-    /** Healing-rate modifier derivation summary for the hover tooltip. */
+    /** Healing-rate modifier derivation summary for the hover tooltip (#769). */
     healingRateDeltaLabel: string;
     source: string;
     /** Plain-text notes (HTML stripped). */

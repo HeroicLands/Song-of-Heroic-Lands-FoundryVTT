@@ -29,4 +29,7 @@ the consent-gated offer.
 A new consent primitive `sohl.events.offer(uuid, actionName, ctx)` is extracted
 from the queue's existing reminder path and reused by the region bridge.
 
-Closes #593, #606, #607, #608
+Closes #593
+Closes #606
+Closes #607
+Closes #608

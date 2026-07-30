@@ -57,15 +57,15 @@ modifiers, and results rehydrate as live instances with their computed values
 intact, and an embedded `AttackResult`/`CombatResult` is self-contained (its
 `combatantUuid` travels with the payload).
 
-_Body / Lineage construction:_
+_Body construction:_
 
-The body entities are `SohlEntity` subclasses owned by their `LineageLogic`, but
+The body entities are `SohlEntity` subclasses owned by their `BodyLogic`, but
 two construction paths didn't thread the parent through — a runtime break at
-lineage initialize:
+body initialize:
 
-- **`LineageLogic.initialize` passed the logic as the options object** rather
-  than `{ parent: this }`, so `BodyStructure` received no parent and threw
-  `Requires a Lineage parent`. It now passes `{ parent: this }`.
+- **The body logic's `initialize` passed the logic as the options object** rather
+  than `{ parent: this }`, so `BodyStructure` received no parent and threw a
+  missing-parent error. It now passes `{ parent: this }`.
 - **`BodyLocation` called `super()` with no arguments**, dropping the validated
   parent before it reached `SohlEntity` (and its `Data` now extends
   `SohlEntity.Data`, consistent with `BodyPart`/`BodyStructure`).

@@ -44,8 +44,8 @@ export interface HandlebarsLike {
 /**
  * Register SoHL's pure Handlebars helpers on the given Handlebars instance.
  *
- * The pure, Foundry-free Handlebars helpers registered at system init — call it
- * once during setup (production) or before rendering (tests).
+ * Behavior-preserving extraction of the pure helpers formerly inlined in system
+ * init — call it once during setup (production) or before rendering (tests).
  *
  * Registers: `selectArray`, `endswith`, `optionalString`, `setHas`, `contains`,
  * `toJSON`, `toLowerCase`, `arrayToString`, `injurySeverity`, `array`.

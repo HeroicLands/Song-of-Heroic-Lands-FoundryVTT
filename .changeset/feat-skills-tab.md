@@ -5,7 +5,7 @@
 **Reimplement the Being sheet Skills tab**
 
 The Being sheet's Skills tab now renders skills grouped by subtype, matching the
-Traits and Affiliations sections.
+Affiliations section.
 
 - **Grouped sections.** Skills are grouped into the six display subtypes
   (Social, Nature, Craft, Lore, Language, Script), each shown as its own

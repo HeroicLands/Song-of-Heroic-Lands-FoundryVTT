@@ -18,7 +18,7 @@ with full type narrowing.
   `SohlCombatantLogic` gain Symbol brands (inherited getters on their base
   classes), so `isA(x, "SohlItemLogic")` matches any item logic across the whole
   subtype hierarchy — which a leaf `.kind` string can't express.
-- Converted the logic-side kind checks (lineage-parent guards, the
+- Converted the logic-side kind checks (body-parent guards, the
   skill/attribute opposed-test filter, and the weapongear/combattechnique and
   being combat checks) to `isA`. Foundry-document `.type` checks are unchanged.
 

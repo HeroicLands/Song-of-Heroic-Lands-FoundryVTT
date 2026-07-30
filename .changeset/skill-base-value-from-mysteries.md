@@ -9,8 +9,8 @@ The skill base is now a plain number produced by a Foundry-free
 `SkillBase` entity object. `SkillLogic.skillBase` is now a `number`.
 
 - **Birthsigns are Mystery items of subtype `buff`.** Birthsign bonuses in a
-  skill-base formula are matched by the mystery's shortcode, instead of a
-  trait's hyphen-split `textValue`. A `subType` field was added to the Mystery
+  skill-base formula are matched by the mystery's shortcode, instead of the
+  earlier hyphen-split `textValue` match. A `subType` field was added to the Mystery
   data model — `buff` marks a birthsign — completing the field the mystery
   sheet already read. The field has a default, so no world migration is needed.
 - **Formula evaluation follows the documented rules.** `@code` (optionally

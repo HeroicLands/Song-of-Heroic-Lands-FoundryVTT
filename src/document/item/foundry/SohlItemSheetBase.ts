@@ -318,7 +318,8 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * not bound here: ApplicationV2 delegates `data-action` clicks from a single
      * listener on the frame that survives every part re-render, whereas
      * per-node `addEventListener` calls made here bound to controls that a
-     * subsequent part swap detached, so the clicks never reached the handler.
+     * subsequent part swap detached, so the clicks never reached the handler
+     * (#734).
      *
      * @param context - The render context.
      * @param options - The render options.
@@ -331,7 +332,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
 
         const el = (this as any).element as HTMLElement | undefined;
         // Convert each field's always-on hint into a "?" tooltip on its label, so
-        // the guidance does not compete with the field value (read-only view
+        // the guidance no longer competes with the field value (read-only view
         // benefits too, so this runs before the editable-only bindings below).
         if (el) hintsToLabelTooltips(el);
 
@@ -339,7 +340,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
 
         // Bind the effect/action context menus (right-click on an effect row
         // and click on a `⋮` control). `_contextMenu` is provided by the
-        // SohlDataModel sheet mixin.
+        // SohlDataModel sheet mixin (#501).
         if (el) (this as any)._contextMenu?.(el);
     }
 

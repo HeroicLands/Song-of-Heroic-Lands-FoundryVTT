@@ -12,7 +12,7 @@
  */
 
 /**
- * Morale-test model — the pure, Foundry-free core of the **Morale Test**
+ * Morale-test model (#559) — the pure, Foundry-free core of the **Morale Test**
  * (a test of the **Initiative** skill), the **Rally Test**, and the **Reaction
  * Test**.
  *

@@ -2,10 +2,10 @@
 "sohl": minor
 ---
 
-**Lineage: per-movement-medium data accessors + ground-up carried weight**
+**Per-movement-medium data accessors + ground-up carried weight**
 
-Adds medium-aware read accessors to `LineageLogic`, each taking an optional
-`medium` that defaults to `defaultMoveMedium`:
+Adds medium-aware read accessors to the being's movement logic, each taking an
+optional `medium` that defaults to `defaultMoveMedium`:
 
 - `getMoveBase(medium?)` — the persisted per-medium `moveBase` scalar.
 - `getFeetPerRound(medium?)` / `getLeaguesPerWatch(medium?)` — the matching
@@ -22,6 +22,6 @@ profile yields `0` — the accessors never throw.
 Introduces a ground-up **carried-weight** mechanism: each carried gear item adds
 its `weight × quantity` to the owning being during its own `evaluate()` phase,
 exposed via a new **`BeingLogic.carriedWeight`** getter (reset each prepare
-cycle). `LineageLogic.getEncumbrance` reads it for `wt`.
+cycle). The `getEncumbrance` accessor reads it for `wt`.
 
 Closes #367

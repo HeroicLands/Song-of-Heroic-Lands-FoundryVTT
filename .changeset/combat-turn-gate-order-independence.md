@@ -14,4 +14,7 @@ instead of the turn (a full-suite-only failure).
 The spec now pins the combat's current turn to the **defender** and drives the
 **attacker**, so the current combatant is never the attacker and the gate always
 short-circuits with a turn reason, regardless of how `game.combat` resolves.
-Test-only change; the gate logic is unchanged. Closes #638 and #644.
+Test-only change; the gate logic is unchanged.
+
+Closes #638
+Closes #644

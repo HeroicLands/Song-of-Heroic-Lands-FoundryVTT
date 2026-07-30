@@ -45,4 +45,7 @@ afflictions-section fixtures use valid affliction subtypes; and the header
 Fatigue-indicator spec now creates a **fatigue trauma** (fatigue is a trauma
 subtype now, and the indicator lights from active traumas).
 
-Closes #602, #570. Refs #579, #595, #598.
+Closes #602
+Closes #570
+
+Refs #579, #595, #598.

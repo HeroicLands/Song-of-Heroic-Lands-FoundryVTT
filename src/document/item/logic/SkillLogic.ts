@@ -327,7 +327,7 @@ export class SkillLogic<
             (fvttIsCurrentUserGM() || this.data.isOwner) &&
             // `masteryLevel` is seeded in initialize(); guard against reading it
             // on a not-yet-initialized skill (e.g. the sheet rendering before the
-            // actor's prepare completes) so this getter can't throw.
+            // actor's prepare completes) so this getter can't throw (#511 class).
             !this.masteryLevel?.disabled
         );
     }
@@ -596,8 +596,8 @@ export class SkillLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-star",
                 executor: "setImproveFlag",
-                // Hidden in favor of the single `toggleImproveFlag` entry; kept
-                // as an executor for programmatic callers.
+                // Superseded by the single `toggleImproveFlag` entry; kept as an
+                // executor but hidden from the context menu.
                 visible: "false",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
@@ -608,8 +608,8 @@ export class SkillLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-regular fa-star",
                 executor: "unsetImproveFlag",
-                // Hidden in favor of the single `toggleImproveFlag` entry; kept
-                // as an executor for programmatic callers.
+                // Superseded by the single `toggleImproveFlag` entry; kept as an
+                // executor but hidden from the context menu.
                 visible: "false",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
@@ -870,7 +870,7 @@ export class SkillLogic<
 
             applyGoverningMasteryLevel(this.strikeMode, governing);
             // A prone wielder suffers −20 to all melee attacks and defenses
-            // — a combat technique carries its own strike mode, so apply
+            // (#562) — a combat technique carries its own strike mode, so apply
             // it here as WeaponGearLogic does for weapon strike modes.
             if (
                 this.strikeMode instanceof MeleeStrikeMode &&

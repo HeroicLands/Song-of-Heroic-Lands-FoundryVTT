@@ -73,7 +73,7 @@ export class MeleeStrikeMode extends StrikeModeBase {
         // (or its block / counterstrike sub-objects) can be absent on a
         // partially-created weapon. Read them defensively — an unguarded read
         // here threw during WeaponGearLogic.initialize and aborted the actor's
-        // whole data preparation, silently hiding every strike mode.
+        // whole data preparation, silently hiding every strike mode (#512).
         const block = data.defense?.block;
         const counterstrike = data.defense?.counterstrike;
         if (block?.modifier) {

@@ -22,7 +22,7 @@ trauma/shock/affliction system, with tables throughout:
 The **Trauma** page is rewritten as the umbrella over these forms, **Bleeding**
 and **Afflictions** are updated to cross-link the new pages, and the Rules index
 gains a full "Health, Injury & Recovery" section. Reflects two model changes:
-psyche and physical conditions are now **traumas** (only score-based traits
-remain), and an affliction's outcome uses a single **`outcomeTrauma`** field.
+psyche and physical conditions are now **traumas**, and an affliction's outcome
+uses a single **`outcomeTrauma`** field.
 
 Closes #545

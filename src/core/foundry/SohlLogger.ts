@@ -341,7 +341,7 @@ export class SohlLogger {
         // Surface the notification directly through Foundry's notification
         // manager. This must NOT call back into `uiInfo`/`uiWarn`/`uiError`,
         // which re-enter `log()` with the same `notifyLevel` and recurse without
-        // bound, blowing the stack.
+        // bound, blowing the stack (#267).
         if (notifyLevel && message) {
             switch (notifyLevel) {
                 case LOGLEVEL.INFO:

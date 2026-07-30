@@ -53,4 +53,7 @@ golden streams; `SimpleRoll` and `BodyStructure` gain seeded-determinism specs.
 A new e2e (`seedable-random.cy.js`) re-seeds `window.sohl.random` and drives a
 real skill success test and the `rand()` helper reproducibly.
 
-Closes #599, #601. Refs #598.
+Closes #599
+Closes #601
+
+Refs #598.

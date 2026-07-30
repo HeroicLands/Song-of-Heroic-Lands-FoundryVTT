@@ -32,4 +32,5 @@ The SafeExpression user guide is also expanded into a complete reference — eve
 built-in helper documented (the string-building helpers were previously missing),
 fuller language coverage, and a "developing an expression" section.
 
-Closes #540, #541
+Closes #540
+Closes #541

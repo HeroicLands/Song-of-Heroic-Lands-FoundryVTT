@@ -15,7 +15,7 @@ driven by that skill's mastery level.
   melee/missile shape, mirroring `CombatTechniqueDataModel`); `null` for every
   other skill subtype.
 - `SkillLogic` builds the strike-mode instance for the subtype, adds the
-  wielder's lineage reach (melee), and folds the **governing** mastery level into
+  wielder's body reach (melee), and folds the **governing** mastery level into
   the strike mode's Atk/Blk/CX — the skill's **own** mastery level by default, or
   an override skill named by the strike mode's `assocSkillCode` — with the full
   base→skill-modifiers→technique-modifiers derivation preserved (via the

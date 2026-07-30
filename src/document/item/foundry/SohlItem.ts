@@ -244,7 +244,7 @@ export async function sohlCreateDialog(
             const subtypeSelect =
                 element.querySelector<HTMLSelectElement>("#subtype-select");
 
-            // Archetype-first defaulting: the Name / Shortcode fields are
+            // Archetype-first defaulting (#643): the Name / Shortcode fields are
             // optional and pre-fill from the chosen archetype's own name /
             // shortcode, staying live until the user edits them by hand. A
             // pre-seeded `data.name` counts as an edit so it is never clobbered.
@@ -300,7 +300,7 @@ export async function sohlCreateDialog(
                 validateShortcode();
             };
 
-            // Live duplicate-shortcode guard: disable Create while the
+            // Live duplicate-shortcode guard (#766): disable Create while the
             // entered shortcode collides with an existing (type, shortcode) in
             // scope, so the human resolves it before the create is attempted —
             // the `_preCreate` reject remains the backstop.
@@ -412,8 +412,8 @@ export async function sohlCreateDialog(
     type = result.type;
     subType = result.subType;
 
-    // Resolve the final Name and Shortcode base under the archetype-first rules:
-    // a blank Name/Shortcode defaults to the chosen archetype's own
+    // Resolve the final Name and Shortcode base under the archetype-first rules
+    // (#643): a blank Name/Shortcode defaults to the chosen archetype's own
     // name/shortcode; **(none)** falls back to the class default and a
     // name-derived shortcode. The archetype's identity comes from the discovered
     // candidate list (still in scope) so a field cleared back to blank still
@@ -674,7 +674,7 @@ export class SohlItem extends Item {
 
     /**
      * Update-path gates: enforce the unique `(type, shortcode)` key when
-     * `system.shortcode` changes (via {@link enforceShortcodeOnUpdate}),
+     * `system.shortcode` changes (issue #766, via {@link enforceShortcodeOnUpdate}),
      * and block non-GM users from adding, removing, or modifying SCRIPT entries in
      * `system.actionDefs` (SCRIPT actions run unsandboxed JavaScript, so authorship
      * is restricted to the GM). INTRINSIC actions and non-gated updates are
@@ -828,7 +828,7 @@ export class SohlItem extends Item {
     async onChatCardButton(btn: HTMLElement): Promise<void> {
         // Only an owner of this item (a GM owns all) may run a chat-card action
         // against it; the render-time gate is UX only and a direct or
-        // synthesized call bypasses it. Mirrors onChatCardEditAction.
+        // synthesized call bypasses it (issue #167). Mirrors onChatCardEditAction.
         if (!this.isOwner) return;
         await dispatchChatCardAction(this.logic, btn);
     }

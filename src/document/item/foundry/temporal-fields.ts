@@ -86,9 +86,9 @@ export function phaseFields(name: string): foundry.data.fields.DataSchema {
 
 /**
  * The interval pair for a **recurring** timed process: `{name}DurationFormula`
- * and `{name}DurationBase` (the rolled interval). The recurrence **anchor**
- * lives in the generic `system.scheduledActions`
- * store, whose entry's `anchor + interval` is the next fire time and
+ * and `{name}DurationBase` (the rolled interval). The recurrence **anchor** is
+ * no longer a bespoke field — it lives in the generic `system.scheduledActions`
+ * store (issue #588), whose entry's `anchor + interval` is the next fire time and
  * whose reload re-arm is generic. A recurring effect therefore keeps only its
  * author-editable interval formula and the last rolled base (still read for
  * display and derivations such as `TraumaLogic.isBleeding`).

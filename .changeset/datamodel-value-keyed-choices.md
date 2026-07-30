@@ -13,8 +13,8 @@ across the item / actor / combatant / strike-mode data models to the value-keyed
 
 - Item: skill (`subType`, `combatCategory`), mystery, mysticalability, trauma
   (`subType`, `aspect`), affliction (`subType`), concoctiongear (`subType`),
-  projectilegear (`subType`), attribute (`bodyRole`), lineage (`bodyRole`,
-  bleeding, amputation, move medium).
+  projectilegear (`subType`), attribute (`bodyRole`), and the being's body /
+  movement fields (`bodyRole`, bleeding, amputation, move medium).
 - Actor: cohort (member role), vehicle (occupant role); Combatant: displayed
   medium; StrikeModeBase: impact aspect.
 

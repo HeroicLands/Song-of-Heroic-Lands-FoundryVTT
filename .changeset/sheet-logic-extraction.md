@@ -12,8 +12,8 @@ it was excluded from test coverage and sat outside the Foundry-free boundary gua
 helper modules under each document's `logic/` directory, each with unit tests. The
 sheets keep only their Foundry-facing orchestration. No user-facing behavior change.
 
-_BeingSheet_ → new `being-sheet-view.ts`: `groupBySubType` (replacing five inline
-copies across skills, traits, afflictions, mysteries, and abilities),
+_BeingSheet_ → new `being-sheet-view.ts`: `groupBySubType` (replacing four inline
+copies across skills, afflictions, mysteries, and abilities),
 `buildContainerTree` (the gear hierarchy and virtual "On Body" list),
 `buildStatusPills`, `buildBodyPartLozenges`, `clampHealthPct`, and
 `splitWeaponsByRange`. The in-sheet `fvttEnrichHTML` proxy is replaced with a direct

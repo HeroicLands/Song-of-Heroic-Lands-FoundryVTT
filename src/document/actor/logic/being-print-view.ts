@@ -38,7 +38,7 @@ export const PRINT_INFINITY = "∞";
 /**
  * Plain-text labels for a body part's impairment status, used in the
  * letterhead's injury summary (the interactive header encodes these as lozenge
- * colors, which do not survive grayscale print — print-safe rule).
+ * colors, which do not survive grayscale print — #464 print-safe rule).
  */
 export const BODY_PART_STATUS_PRINT_LABEL: Record<BodyPartStatus, string> = {
     none: "healthy",
@@ -117,7 +117,7 @@ export interface PrintChargesInput {
 
 /**
  * Format a mystery / mystical-ability charge pool as static text, mirroring the
- * interactive sheet's rules with print-safe glyphs, first match
+ * interactive sheet's rules (#310/#311) with print-safe glyphs, first match
  * wins:
  *
  * - max disabled → em dash (no charge pool);

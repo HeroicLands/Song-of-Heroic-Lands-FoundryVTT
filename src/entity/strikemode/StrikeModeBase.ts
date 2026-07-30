@@ -42,7 +42,7 @@ import { SohlActionContext } from "../action/SohlActionContext";
 import { SohlEntity } from "../SohlEntity";
 
 /*
- * ── Construction indirection: base class ─────────────────────────────────────
+ * ── Construction indirection: base class (#83) ───────────────────────────────
  * Registered entity classes are constructed through the registry so a variant
  * module can override them:
  *   - Inside SoHL:            `import { entity }` then `new entity.X(...)`
@@ -145,7 +145,7 @@ export abstract class StrikeModeBase extends SohlEntity {
         // The flat impact bonus lives in the ValueModifier base — the single
         // home read by `effective`, the rendered label, and the rolled impact
         // (via `diceFormula`). The roll seed defines only the dice; putting the
-        // modifier there too would leave it unread and hidden. The
+        // modifier there too would leave it unread and hidden (see #774). The
         // field is nullable, so a `null` seeds base 0.
         this.impact = new entity.ImpactModifier(
             {

@@ -101,14 +101,14 @@ export class SohlActor extends Actor {
      * {@link sohl.document.chat.dispatchChatCardAction} chokepoint — so
      * actor-addressed card buttons (e.g. `resolveInjury`, the injury card's Shock
      * Roll) reach their action/method on the actor logic. Mirrors
-     * {@link sohl.document.item.foundry.SohlItem.onChatCardButton}.
+     * {@link sohl.document.item.foundry.SohlItem.onChatCardButton} (issue #572).
      *
      * @param btn - The clicked chat-card button element.
      */
     async onChatCardButton(btn: HTMLElement): Promise<void> {
         // Only an owner of this actor (a GM owns all) may run a chat-card action
         // against it; the render-time gate is UX only and a direct or synthesized
-        // call bypasses it.
+        // call bypasses it (issue #167).
         if (!this.isOwner) return;
         await dispatchChatCardAction(this.logic, btn);
     }
@@ -368,7 +368,7 @@ export class SohlActor extends Actor {
      * world actor already exists (the name is a nicety, not the key), then
      * enforces the unique `(type, shortcode)` key via the shared
      * {@link enforceShortcodeOnCreate} — across world actors **and** compendium-pack
-     * actors. A collision (or a name-less create) is rejected unless
+     * actors (issue #766). A collision (or a name-less create) is rejected unless
      * the caller passes `shortcodeDedupe: true`, which auto-suffixes / generates a
      * unique key. Foundry's native duplicate carries the source actor's data, so
      * no manual clone copy is performed here.
@@ -409,7 +409,7 @@ export class SohlActor extends Actor {
 
     /**
      * Update-path gates: enforce the unique `(type, shortcode)` key when
-     * `system.shortcode` changes (via {@link enforceShortcodeOnUpdate}),
+     * `system.shortcode` changes (issue #766, via {@link enforceShortcodeOnUpdate}),
      * and block non-GM users from adding, removing, or modifying SCRIPT entries in
      * `system.actionDefs` (SCRIPT actions run unsandboxed JavaScript, so authorship
      * is restricted to the GM). Intrinsic actions and non-gated updates are

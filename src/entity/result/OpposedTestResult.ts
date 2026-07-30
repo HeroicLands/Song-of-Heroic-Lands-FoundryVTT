@@ -27,7 +27,7 @@ import {
 } from "@src/utils/constants";
 
 /*
- * ── Construction indirection: base class ─────────────────────────────────────
+ * ── Construction indirection: base class (#83) ───────────────────────────────
  * Registered entity classes are constructed through the registry so a variant
  * module can override them. Inside SoHL that means `import { entity }` then
  * `new entity.X(...)`; outside SoHL it is `new sohl.entity.X(...)`.

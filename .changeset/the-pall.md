@@ -21,7 +21,7 @@ Implement the Pall — the forces of death that assail **Spirit**.
   `pallResistState`, `pallStressGain`, `pallCloudPenalties` (PSL × 5 to vision
   Perception/Agility, PSL × 10 to Dodge/Move/Stealth), and `pallRecoveryOutcome`.
 
-The application of the Pall Cloud test penalties and the permanent-psyche-trait
+The application of the Pall Cloud test penalties and the permanent-psyche-condition
 permanence conversion are follow-ups (the former joins the test-resolution work).
 
 Part of #548. Closes #561.

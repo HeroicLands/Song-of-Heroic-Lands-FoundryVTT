@@ -308,7 +308,7 @@ export class SohlAction extends SohlEntity {
             return undefined;
         }
         const result = await Promise.resolve(this.executor(actionContext));
-        // Generic run record: stamp `system.lastRun[shortcode]` on
+        // Generic run record (issue #579): stamp `system.lastRun[shortcode]` on
         // the owning document for flagged actions, so "when did X last happen
         // here?" is answerable without a bespoke field. This is the one
         // chokepoint every invocation funnels through (context menu, actions tab,
@@ -416,7 +416,7 @@ export namespace SohlAction {
         /**
          * When `true`, {@link SohlAction.execute} stamps this document's
          * `system.lastRun[shortcode]` with the current world time each time the
-         * action performs — a generic run record, no bespoke field.
+         * action performs (issue #579) — a generic run record, no bespoke field.
          * Set it on actions where "when did this last happen here?" is worth
          * answering (recurring checks, tests); omit for trivial/UI actions so
          * they don't force a write. Optional; defaults to off.

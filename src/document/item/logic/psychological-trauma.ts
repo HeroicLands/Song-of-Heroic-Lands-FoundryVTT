@@ -19,7 +19,8 @@
  * Morale critical, an Aural Shock recovery failure). Each occurrence is recorded
  * as its own **`psycond`-subtype trauma** whose `levelBase` is its PSY level. This
  * module is the create-the-trauma primitive that the trauma tests call; the PSY
- * recovery test and behavioral effects are the Psychological Condition feature.
+ * recovery test and behavioral effects are the Psychological Condition feature
+ * (#560).
  */
 
 import { fvttCreateEmbeddedItems } from "@src/core/FoundryHelpers";

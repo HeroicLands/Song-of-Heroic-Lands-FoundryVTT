@@ -10,6 +10,6 @@
 `undefined` and the flow aborted before any dialog (whose "no body" warning then
 hit the logger recursion). And `BeingSheet._onAddInjury` called
 `this.document.addInjuryViaDialog()`, a method the actor does not define (it lives
-on `BeingLogic`). `getActorBodyStructure` now reads the lineage body through the
+on `BeingLogic`). `getActorBodyStructure` now reads the body through the
 logic's `logicTypes` (matching how the rest of `BeingLogic` reaches it), and the
 sheet action routes through `.logic`. (#268)

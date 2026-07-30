@@ -38,7 +38,7 @@ const BodyZoneConfig_Base: any =
  * It edits only the zone's own fields (name, shortcode, weight); the zone's
  * child **parts** are managed from the Combat-tab tree and edited by
  * {@link sohl.apps.foundry.BodyPartConfig}, and are preserved untouched here —
- * including across a shortcode rename, which re-points them.
+ * including across a shortcode rename, which re-points them (#780).
  *
  * @internal Foundry UI binding; not part of the public API.
  */
