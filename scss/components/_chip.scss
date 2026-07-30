@@ -61,3 +61,42 @@
         font-variant-numeric: tabular-nums;
     }
 }
+
+// Legacy removable-tag aliases (epic #800 / Feature 1). The mystery
+// Affected-Skills and armorgear Body-Armor-Location templates still emit ad-hoc
+// `.mystery-skill` / `.armor-location` `<li>`s (a `.name` value + a delete `<a>`).
+// Give them the descriptor-chip look NOW so they match the Manuscript language
+// before the templates adopt `chip` markup in a later wave. Each is a `--role`
+// style chip with a trailing delete affordance revealed on hover.
+.mystery-skill,
+.armor-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: var(--sohl-font-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    padding: 0.06rem 0.5rem;
+    border-radius: var(--sohl-radius-pill);
+    background: var(--sohl-color-bg-stamp);
+    color: var(--sohl-color-text-primary);
+    border: 1px solid var(--sohl-color-border-subtle);
+    white-space: nowrap;
+
+    .name {
+        min-width: 0;
+    }
+
+    .delete-array-item {
+        display: inline-flex;
+        color: var(--sohl-color-text-muted);
+        opacity: 0.55;
+        cursor: pointer;
+
+        &:hover {
+            color: var(--sohl-color-danger);
+            opacity: 1;
+        }
+    }
+}

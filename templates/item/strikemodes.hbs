@@ -12,37 +12,41 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab strikemodes{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="strikemodes">
-    <ol class="strikemodes__list">
-        <li class="strikemodes__header flexrow">
-            <h3 class="name">Strike Mode</h3>
-            <div class="shortcode">Shortcode</div>
-            <div class="type">Type</div>
-            <div class="impact">Impact</div>
-            <div class="strikemodes__controls">
-                {{#if canAdd}}
-                <a class="strikemodes__control strikemode-add" data-action="addStrikeMode"
-                    data-tooltip="Add Strike Mode">
-                    <i class="fa-solid fa-plus"></i>
+    <div class="section-legend">
+        <span class="section-legend__name">Strike Modes</span>
+        <span class="section-legend__rule"></span>
+        {{#if canAdd}}
+        <span class="section-legend__add">
+            <button type="button" class="add-button strikemode-add" data-action="addStrikeMode"
+                data-tooltip="Add Strike Mode">
+                <i class="fa-solid fa-plus"></i>
+                <span>Add Strike Mode</span>
+            </button>
+        </span>
+        {{/if}}
+    </div>
+    <div class="ledger" style="--ledger-cols:minmax(120px,1fr) 6rem 6rem 6rem 3rem">
+        <div class="ledger__head">
+            <div>Strike Mode</div>
+            <div>Shortcode</div>
+            <div>Type</div>
+            <div>Impact</div>
+            <div></div>
+        </div>
+        {{#each strikeModes as |sm|}}
+        <div class="ledger__row strikemodes__row" data-strikemode-key="{{sm.key}}">
+            <div class="ledger__name name" data-tooltip="{{sm.name}}"><h4>{{sm.name}}</h4></div>
+            <div class="ledger__cell ledger__cell--text ele shortcode">{{sm.shortcode}}</div>
+            <div class="ledger__cell ledger__cell--text ele type">{{sm.typeLabel}}</div>
+            <div class="ledger__cell ele impact">{{sm.impactFormula}}</div>
+            <div class="ledger__controls">
+                <a class="icon-button strikemode-contextmenu" title="Menu">
+                    <i class="fa-solid fa-ellipsis-vertical fa-fw"></i>
                 </a>
-                {{/if}}
             </div>
-        </li>
-        <ol class="strikemodes__items">
-            {{#each strikeModes as |sm|}}
-            <li class="strikemodes__row flexrow" data-strikemode-key="{{sm.key}}">
-                <div class="name"><h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4></div>
-                <div class="ele shortcode">{{sm.shortcode}}</div>
-                <div class="ele type">{{sm.typeLabel}}</div>
-                <div class="ele impact">{{sm.impactFormula}}</div>
-                <div class="strikemodes__controls">
-                    <a class="strikemodes__control strikemode-contextmenu" title="Menu">
-                        <i class="fa-solid fa-ellipsis-vertical fa-fw"></i>
-                    </a>
-                </div>
-            </li>
-            {{/each}}
-        </ol>
-    </ol>
+        </div>
+        {{/each}}
+    </div>
 
     {{#unless strikeModes.length}}
     <p class="notification info">No strike modes yet.{{#if canAdd}} Use the <i class="fa-solid fa-plus"></i>

@@ -14,13 +14,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <header class="sheet-header flexrow">
     <img class="item-img" src="{{itemImg}}" data-edit="img" alt="{{itemName}}" />
     <div class="sheet-header__details">
-        <h1 class="list__name">
-            <input name="name" type="text" value="{{itemName}}" placeholder="{{localize 'Name'}}" />
-        </h1>
-        <input class="sheet-header__shortcode" name="system.shortcode" type="text"
-            value="{{logic.data.shortcode}}" placeholder="shortcode" />
-        <div class="item-subtitle">
-            {{typeLabel}}
+        <div class="sheet-header__identity">
+            <input class="sheet-header__name-input" name="name" type="text" value="{{itemName}}"
+                placeholder="{{localize 'Name'}}" />
+            <input class="sheet-header__shortcode" name="system.shortcode" type="text"
+                value="{{logic.data.shortcode}}" placeholder="shortcode" />
         </div>
+        <div class="sheet-header__type item-subtitle">{{typeLabel}}</div>
     </div>
 </header>

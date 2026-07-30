@@ -1,0 +1,37 @@
+// Prose panel (Manuscript redesign, epic #800) — the bordered card wrapping a
+// ProseMirror editor on an item sheet's Description tab. Modeled on
+// `_facade.scss`'s `facade__editor`: the card fills the tab and its editor grows
+// to fill the cell, scrolling its own content so the tab never shows a scrollbar
+// (overriding the global `.editor { height: 100% }`).
+//
+// Loaded under `.sohl { }` (components layer); selectors written bare.
+
+.prose-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0.7rem 0.95rem;
+    // The editor fills the panel and scrolls internally, so the tab itself
+    // never shows a scrollbar.
+    overflow: hidden;
+}
+
+// The bordered editor card — grows to fill the panel and scrolls its own content.
+.prose-panel__editor {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--sohl-color-bg-surface);
+    border: 1px solid var(--sohl-color-border-default);
+    border-radius: var(--sohl-radius-md);
+    padding: 0.6rem 0.7rem;
+
+    prose-mirror,
+    prose-mirror.editor {
+        display: block;
+        flex: 1;
+        height: auto;
+        min-height: 0;
+    }
+}

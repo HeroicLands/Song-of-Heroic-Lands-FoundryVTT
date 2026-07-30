@@ -14,7 +14,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <fieldset>
         <legend>Gear</legend>
-        <div class="grid grid-3col">
+        <div class="field-grid field-grid--3col">
             {{formGroup fields.quantity rootId="wpngear-quant" classes="text-field" stacked=true value=system.quantity}}
             {{formGroup fields.weightBase rootId="wpngear-wt" classes="text-field" stacked=true value=system.weightBase}}
             {{formGroup fields.valueBase rootId="wpngear-val" classes="text-field" stacked=true value=system.valueBase}}

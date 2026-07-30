@@ -12,7 +12,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
-    <div class="grid grid-3col">
+    <div class="field-grid field-grid--3col">
         {{formGroup fields.skillBaseFormula rootId="mystabl-sbf" classes="text-field" stacked=true value=system.skillBaseFormula}}
         {{formGroup fields.masteryLevelBase rootId="mystabl-mlb" classes="text-field" stacked=true value=system.masteryLevelBase}}
         {{formGroup fields.improveFlag rootId="mystabl-improve" classes="text-field" stacked=true value=system.improveFlag}}
@@ -24,7 +24,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     <fieldset>
         <legend>Charges</legend>
-        <div class="grid grid-3col">
+        <div class="field-grid field-grid--3col">
             {{formGroup fields.charges.fields.usesCharges rootId="mystabl-charges-uses" classes="text-field" stacked=true value=system.charges.usesCharges}}
             {{formGroup fields.charges.fields.value rootId="mystabl-charges-val" classes="text-field" stacked=true value=system.charges.value}}
             {{formGroup fields.charges.fields.max rootId="mystabl-charges-max" classes="text-field" stacked=true value=system.charges.max}}

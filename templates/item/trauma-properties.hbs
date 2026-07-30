@@ -12,26 +12,30 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
-    <div class="grid grid-3col">
+    <div class="field-grid field-grid--3col">
         {{formGroup fields.subType rootId="trauma-subtype" classes="text-field" stacked=true localize=true value=system.subType}}
         {{formGroup fields.levelBase rootId="trauma-level" classes="text-field" stacked=true value=system.levelBase}}
         {{formGroup fields.healingRateBase rootId="trauma-hr" classes="text-field" stacked=true value=system.healingRateBase}}
-        {{#if (eq system.subType "physical")}}
-        {{formGroup fields.aspect rootId="trauma-aspect" classes="text-field" stacked=true value=system.aspect}}
-        {{formGroup fields.bodyLocationCode rootId="trauma-bodyloc" classes="text-field" stacked=true value=system.bodyLocationCode}}
-        {{/if}}
         <div class="form-group stacked">
             <label>{{localize "SOHL.Trauma.FIELDS.treatmentDate.label"}}</label>
             {{datePicker system.treatmentDate name="system.treatmentDate"}}
         </div>
-        {{#if (eq system.subType "physical")}}
-        {{!-- Bleeding is derived (#482): a wound bleeds while its blood-loss
-              timer is armed. Set an interval (seconds) to make it bleed; clear
-              it to stop. --}}
-        <div class="form-group stacked">
-            <label>{{localize "SOHL.Trauma.FIELDS.bloodLossAdvanceDurationBase.label"}}</label>
-            {{clearableNumberInput fields.bloodLossAdvanceDurationBase name="system.bloodLossAdvanceDurationBase" value=system.bloodLossAdvanceDurationBase}}
-        </div>
-        {{/if}}
     </div>
+
+    {{#if (eq system.subType "physical")}}
+    <fieldset>
+        <legend>Physical</legend>
+        <div class="field-grid field-grid--3col">
+            {{formGroup fields.aspect rootId="trauma-aspect" classes="text-field" stacked=true value=system.aspect}}
+            {{formGroup fields.bodyLocationCode rootId="trauma-bodyloc" classes="text-field" stacked=true value=system.bodyLocationCode}}
+            {{!-- Bleeding is derived (#482): a wound bleeds while its blood-loss
+                  timer is armed. Set an interval (seconds) to make it bleed; clear
+                  it to stop. --}}
+            <div class="form-group stacked">
+                <label>{{localize "SOHL.Trauma.FIELDS.bloodLossAdvanceDurationBase.label"}}</label>
+                {{clearableNumberInput fields.bloodLossAdvanceDurationBase name="system.bloodLossAdvanceDurationBase" value=system.bloodLossAdvanceDurationBase}}
+            </div>
+        </div>
+    </fieldset>
+    {{/if}}
 </section>

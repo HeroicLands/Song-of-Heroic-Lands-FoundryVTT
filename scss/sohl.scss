@@ -89,6 +89,14 @@
         @include meta.load-css("components/body-lozenge");
         @include meta.load-css("components/disclosure");
         @include meta.load-css("components/body-structure");
+
+        // Item-sheet Manuscript foundation (epic #800, Feature 1) — the shared
+        // BEM blocks the re-skinned item property tabs consume. See
+        // nogit/ITEM-CONTRACT.md for the class inventory and HTML skeletons.
+        @include meta.load-css("components/array-list");
+        @include meta.load-css("components/field-grid");
+        @include meta.load-css("components/item-fieldset");
+        @include meta.load-css("components/prose-panel");
     }
 
     // Strike Mode editor window, loaded under the COMPOUND
@@ -116,6 +124,15 @@
 @layer sohl.apps {
     .sohl.being {
         @include meta.load-css("apps/being");
+    }
+
+    // Item sheets carry the type-class + `sohl` on the one frame element (the #87
+    // same-element trap), so this loads under the COMPOUND `.sohl.item` selector,
+    // mirroring `.sohl.being` above. See the integration note in apps/_item.scss:
+    // the item frame needs the `item` class added in the TS wave for these rules
+    // to match.
+    .sohl.item {
+        @include meta.load-css("apps/item");
     }
 }
 

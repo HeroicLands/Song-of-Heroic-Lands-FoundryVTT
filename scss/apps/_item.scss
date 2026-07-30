@@ -1,0 +1,124 @@
+// Item-sheet frame styling (Manuscript redesign, epic #800 / Feature 1). The
+// slim, edit-focused item header — image + name + shortcode + type label, and
+// deliberately NO health / status / body chrome (that belongs to the Being
+// sheet). Sheet-specific presentation layered on top of the shared Feature-0
+// component blocks and the generic sheet frame in layout/_sheet.scss.
+//
+// Loaded from sohl.scss under the COMPOUND `.sohl.item` selector — ApplicationV2
+// puts the sheet-type class and `sohl` on the SAME frame element (the #87
+// same-element trap; a plain `.sohl .item` descendant would never match), so
+// this mirrors how apps/_being.scss is wired under `.sohl.being`. It sits in the
+// `sohl.apps` layer so these item-only overrides beat the shared
+// `layout`/`components` layers without `!important`. Selectors are written bare
+// because the compound wrapper is applied in sohl.scss.
+//
+// !! INTEGRATION NOTE: the item sheet frame does NOT yet carry the `item` class.
+// SohlItemSheetBase.DEFAULT_OPTIONS.classes is `["sohl"]` (+ Foundry's `["sheet"]`)
+// with no per-type class, unlike BeingSheet which sets `classes: ["being"]`. The
+// TS/integration wave that owns the item sheet classes must add `"item"` (e.g.
+// `classes: ["item"]` on SohlItemSheetBase.DEFAULT_OPTIONS) for these rules to
+// match. Until then the header still renders via the base `.sohl.sheet
+// .sheet-header` rules in layout/_sheet.scss — functional, just un-refined.
+
+// --- Header band -------------------------------------------------------------
+// A warm band behind the identity block, mirroring the Being header treatment.
+.sheet-header {
+    padding: 0.55rem 0.7rem;
+    background: var(--sohl-color-bg-header);
+    border-bottom: 1px solid var(--sohl-color-border-strong);
+    gap: 0.8rem;
+    align-items: center;
+}
+
+// Item image — a small rounded stamp, replacing the 80px right-ruled slab the
+// generic frame gives the item header.
+img.item-img {
+    flex: 0 0 58px;
+    width: 58px;
+    max-width: 58px;
+    height: 58px;
+    margin-right: 0;
+    object-fit: cover;
+    border: 1.5px solid var(--sohl-color-text-primary);
+    border-right: 1.5px solid var(--sohl-color-text-primary);
+    border-radius: var(--sohl-radius-md);
+}
+
+// Details column — identity row then the type label, stacked (neutralizes the
+// frame's 20px/700 default so the inline inputs sit at body scale).
+.sheet-header__details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: inherit;
+    font-weight: inherit;
+    text-align: left;
+}
+
+// --- Identity row ------------------------------------------------------------
+// Name + shortcode on one baseline. Item sheets are edit-focused, so both are
+// re-skinned inline inputs (no name-dialog affordance — that is a Being pattern).
+.sheet-header__identity {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+// Name input — Cinzel display in an underline-only field (no boxed input chrome),
+// so it reads as the headline yet stays directly editable.
+.sheet-header__name-input {
+    flex: 1 1 12rem;
+    min-width: 8rem;
+    height: auto;
+    margin: 0;
+    padding: 0.05rem 0.1rem;
+    font-family: var(--sohl-font-title);
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--sohl-color-text-primary);
+    background: none;
+    border: none;
+    border-bottom: 1px solid transparent;
+    border-radius: 0;
+
+    &:hover {
+        border-bottom-color: var(--sohl-color-border-default);
+    }
+    &:focus {
+        border-bottom-color: var(--sohl-color-accent);
+        background: none;
+        box-shadow: none;
+        outline: none;
+    }
+}
+
+// Shortcode input — a compact mono code lozenge beside the name (a short unique
+// code, not the headline). Restyle the shared shortcode `<input>` as a bordered
+// code chip that stays editable.
+.sheet-header__shortcode {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 10rem;
+    margin: 0;
+    padding: 0.06rem 0.4rem;
+    font-family: var(--sohl-font-mono);
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--sohl-color-text-muted);
+    background: var(--sohl-color-bg-sheet);
+    border: 1px solid var(--sohl-color-border-default);
+    border-radius: var(--sohl-radius-sm);
+}
+
+// --- Type label --------------------------------------------------------------
+// The localized item type name below the identity row — muted, uppercase, sans.
+.sheet-header__type {
+    font-family: var(--sohl-font-sans);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sohl-color-text-muted);
+}

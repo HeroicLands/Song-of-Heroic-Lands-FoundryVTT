@@ -136,6 +136,11 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * the `pickDate` action (for the `datePicker` helper).
      */
     static override DEFAULT_OPTIONS: PlainObject = {
+        // Per-type frame class. ApplicationV2 auto-merges (concatenates) the
+        // `classes` arrays up the chain, so the frame ends up `sohl sheet item`
+        // (`sohl` from the SheetMixin, `sheet` from DocumentSheetV2). The compound
+        // `.sohl.item` header/apps rules match only once this `item` class is present.
+        classes: ["item"],
         // Give item sheets a fixed initial size. Without it the sheet has no
         // definite height, so ApplicationV2 re-fits it to each tab's content and
         // the window jumps size when switching tabs (and grows very wide).

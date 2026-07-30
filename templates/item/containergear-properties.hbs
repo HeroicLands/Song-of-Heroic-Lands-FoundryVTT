@@ -14,7 +14,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <fieldset>
         <legend>Gear</legend>
-        <div class="grid grid-3col">
+        <div class="field-grid field-grid--3col">
             {{formGroup fields.quantity rootId="contgear-quant" classes="text-field" stacked=true value=system.quantity}}
             {{formGroup fields.weightBase rootId="contgear-wt" classes="text-field" stacked=true value=system.weightBase}}
             {{formGroup fields.valueBase rootId="contgear-val" classes="text-field" stacked=true value=system.valueBase}}
@@ -24,7 +24,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
     </fieldset>
 
-    <div class="grid grid-3col">
+    <div class="field-grid field-grid--3col">
         {{formGroup fields.maxCapacityBase rootId="contgear-maxcap" classes="text-field" stacked=true value=system.maxCapacityBase}}
     </div>
 </section>

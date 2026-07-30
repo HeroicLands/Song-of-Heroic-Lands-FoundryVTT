@@ -12,5 +12,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab description{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="description">
-    <prose-mirror name="system.docHtml" value="{{system.docHtml}}" data-document-uuid="{{document.uuid}}"></prose-mirror>
+    <div class="prose-panel">
+        <div class="prose-panel__editor">
+            <prose-mirror name="system.docHtml" value="{{system.docHtml}}" data-document-uuid="{{document.uuid}}"></prose-mirror>
+        </div>
+    </div>
 </section>
