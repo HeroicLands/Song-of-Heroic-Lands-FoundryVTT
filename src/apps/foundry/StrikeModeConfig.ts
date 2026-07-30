@@ -169,7 +169,7 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
             isMulti: this.#isMulti,
             isMelee: smType === STRIKE_MODE_TYPE.MELEE,
             isMissile: smType === STRIKE_MODE_TYPE.MISSILE,
-            // HMK "Use Zone Die" relabels the melee attack spread (#327).
+            // HMK "Use Zone Die" relabels the melee attack spread.
             spreadLabel: useZoneDie ? "Zone Die" : "Spread",
             aspectOptions,
         };

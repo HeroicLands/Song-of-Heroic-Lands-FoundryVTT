@@ -60,7 +60,7 @@ function setupSystem(): SohlSystem {
     // flow dispatches to.
     CONFIG.Token.documentClass = SohlTokenDocument as any;
 
-    // Scene-region event-trigger bridge (issue #593). RegionBehavior is a
+    // Scene-region event-trigger bridge. RegionBehavior is a
     // Foundry document with core subtypes, so — like the Token document class —
     // augment its CONFIG directly rather than through a SOHLCONFIG block: add
     // the SoHL `trigger` data model beside the core behaviors (deep-merge would
@@ -77,7 +77,7 @@ function setupSystem(): SohlSystem {
     regionCfg.typeIcons["trigger"] = "fa-solid fa-diamond-exclamation";
     // Register the curated region + environment trigger names in Foundry's
     // expiry-event registry so they appear in the effect-config duration→expiry
-    // dropdown (issue #593).
+    // dropdown.
     for (const { name, label } of [
         ...SOHL_REGION_TRIGGERS,
         ...SOHL_ENVIRONMENT_TRIGGERS,
@@ -472,7 +472,7 @@ function registerSystemHooks() {
 
             // Authorize the click by the resolved handler document's ownership
             // (a GM owns all) before running anything — the render gate above is
-            // UX only and is bypassable (issue #167). An `@self` handler resolves
+            // UX only and is bypassable. An `@self` handler resolves
             // to the clicking user's own default character.
             const resolveDoc = (uuid: string) =>
                 foundry.utils.fromUuidSync(uuid) as {

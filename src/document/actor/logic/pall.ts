@@ -12,7 +12,7 @@
  */
 
 /**
- * The Pall (#561) — the pure, Foundry-free core of the forces of death that assail
+ * The Pall — the pure, Foundry-free core of the forces of death that assail
  * **Spirit**. Covers **Pall Strength (PAL)** and its falloff, **resisting the
  * Pall** (a Spirit test with a Pall Depth penalty and its states), the **Pall
  * Cloud** (Pall Stress Level penalties), and **Pall recovery**. See the Pall rules

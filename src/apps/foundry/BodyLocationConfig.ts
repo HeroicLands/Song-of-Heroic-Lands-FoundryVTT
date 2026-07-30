@@ -38,7 +38,7 @@ const BodyLocationConfig_Base: any =
  * identified by its shortcode within that part), not a document, so it has no
  * document sheet. This ApplicationV2 form edits one location and persists via
  * `actor.update()` by rewriting the owning part with its updated locations
- * array (a whole-array write; never by index — see #247).
+ * array (a whole-array write; never by index).
  *
  * The form **auto-saves**: every field change submits (`submitOnChange`) and
  * writes back immediately, so there is no Save button and the window stays open.
@@ -192,7 +192,7 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
      * the stored location and write the structure's whole flat `locations`
      * array back. A changed shortcode is validated for uniqueness among the
      * being's *other* locations — location codes are unique body-wide, not just
-     * within their part (#780); a rejected shortcode keeps the current one
+     * within their part; a rejected shortcode keeps the current one
      * (warning the user).
      *
      * @param this - The bound {@link BodyLocationConfig} instance.

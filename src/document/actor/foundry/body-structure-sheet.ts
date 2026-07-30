@@ -24,9 +24,9 @@ import { validateBodyShortcode } from "@src/entity/body/planBodyShortcode";
 import { SOHL_CONTEXT_MENU_SORT_GROUP } from "@src/utils/constants";
 
 /**
- * Foundry-coupled orchestration for the Being sheet's Combat-tab Body Structure
- * tree. The **Edit** editors (`BodyPartConfig` / `BodyLocationConfig`) come from
- * #721 / #722; this module adds the tree-level affordances of #720 — the add
+ * Foundry-coupled orchestration for the Being sheet's Profile-tab Body Structure
+ * tree. The **Edit** editors are `BodyPartConfig` / `BodyLocationConfig`; this
+ * module adds the tree-level affordances — the add
  * flows, the delete flows (with the part-delete guard), and the per-row `⋮`
  * context menus wiring Edit + Delete. The domain math and blank/validation
  * helpers are pure and unit-tested; this only wires them to dialogs, the actor
@@ -208,7 +208,7 @@ export async function addBodyPart(
  * Prompt for a new hit location (Name / Shortcode), append it to the given
  * body part, and open the editor on it. Dismissing the dialog adds nothing; a
  * blank name, or a blank / duplicate shortcode, is refused with a warning.
- * Location shortcodes are unique body-wide, not merely within the part (#780).
+ * Location shortcodes are unique body-wide, not merely within the part.
  * @param actor - The owning being.
  * @param partShortcode - The shortcode of the part to add a location to.
  */
@@ -336,11 +336,11 @@ export async function deleteBodyLocation(
 }
 
 /**
- * Bind the per-row `⋮` context menu to the Combat-tab Body Structure tree,
+ * Bind the per-row `⋮` context menu to the Profile-tab Body Structure tree,
  * offering **Edit** and **Delete** on each body-part header and each
- * body-location row. Edit opens the relevant config editor (#721 / #722);
- * Delete removes the entry after confirmation, with the part-delete guard
- * (#720). The add / drag-sort affordances are wired on the sheet.
+ * body-location row. Edit opens the relevant config editor;
+ * Delete removes the entry after confirmation, with the part-delete guard.
+ * The add / drag-sort affordances are wired on the sheet.
  *
  * Part headers carry `data-part-shortcode`; location rows carry
  * `data-part-shortcode` **and** `data-location-shortcode`, so a single handler

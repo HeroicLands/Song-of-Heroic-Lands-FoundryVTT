@@ -179,7 +179,7 @@ function getStandardSuccessDescriptionTable(
 }
 
 /*
- * ── Construction indirection: base class (#83) ───────────────────────────────
+ * ── Construction indirection: base class ─────────────────────────────────────
  * Registered entity classes are constructed through the registry so a variant
  * module can override them. Inside SoHL that means `import { entity }` then
  * `new entity.X(...)`; outside SoHL it is `new sohl.entity.X(...)`.
@@ -328,7 +328,7 @@ export class MasteryLevelModifier extends ValueModifier {
                 label: this.parent.label,
             });
         // Apply now that this subclass's fields are set (see ValueModifier's
-        // constructor for why the base defers the most-derived apply) (#769).
+        // constructor for why the base defers the most-derived apply).
         if (new.target === MasteryLevelModifier) this._apply();
     }
 
@@ -394,7 +394,7 @@ export class MasteryLevelModifier extends ValueModifier {
         context.scope.successStarTable ??= this.testDescTable;
 
         // A test whose governing skill/attribute depends on a body part the actor
-        // cannot use auto-Critically-Fails (#568). Derived from the owning logic's
+        // cannot use auto-Critically-Fails. Derived from the owning logic's
         // `impairedByRoles` and the being's unusable-part roles; a no-op for tests
         // with neither (e.g. a weapon strike mode, whose parent has no roles).
         const impairedByRoles = (
@@ -411,7 +411,7 @@ export class MasteryLevelModifier extends ValueModifier {
         );
 
         // A weapon strike mode names no roles; it depends on the *specific* limb(s)
-        // holding it (#628). If any required limb is unusable the test likewise
+        // holding it. If any required limb is unusable the test likewise
         // auto-Critically-Fails; the impairment of each holding limb is exposed by
         // the parent gear logic. A no-op for a parent that holds nothing (a skill,
         // attribute, or unheld item → empty array).
@@ -428,8 +428,8 @@ export class MasteryLevelModifier extends ValueModifier {
 
         // If the test does not auto-fail, an impaired-but-usable part it depends on
         // still penalizes it by −5 (minor) / −10 (serious) — the numeric counterpart
-        // to the auto-CF above, from either the role-gated parts (#568) or the held
-        // limbs (#628). The worst (most negative) of the two applies, never their
+        // to the auto-CF above, from either the role-gated parts or the held
+        // limbs. The worst (most negative) of the two applies, never their
         // sum. A no-op for tests with no roles/limbs or no impaired parts.
         const impairmentPenalty =
             autoCriticalFail ? 0 : (
@@ -480,7 +480,7 @@ export class MasteryLevelModifier extends ValueModifier {
             throw new Error("Failed to create SuccessTestResult.");
         }
 
-        // Fold in the impaired-but-usable body-part penalty (#568). Only on a
+        // Fold in the impaired-but-usable body-part penalty. Only on a
         // freshly-created test — a resumed `priorTestResult` already carries it,
         // so re-adding would double-apply.
         if (!context.scope.priorTestResult && impairmentPenalty < 0) {

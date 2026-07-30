@@ -15,8 +15,8 @@ import { resolveShortcodeKey } from "@src/utils/helpers";
 import { fvttRandomId } from "@src/core/FoundryHelpers";
 
 /**
- * Shared runtime enforcement of the `(type, shortcode)` uniqueness invariant
- * (issue #766). `shortcode` is the system's lookup key; it must be a non-null,
+ * Shared runtime enforcement of the `(type, shortcode)` uniqueness invariant.
+ * `shortcode` is the system's lookup key; it must be a non-null,
  * non-blank string that is unique within its scope. The pure decision logic lives
  * in {@link resolveShortcodeKey}; this module supplies the Foundry-layer scope
  * resolution and applies the result on create/update for any SoHL document.

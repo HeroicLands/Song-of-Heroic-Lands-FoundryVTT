@@ -90,7 +90,7 @@ export abstract class GearLogic<
 
     /**
      * The derived impairment of the body part(s) currently holding this item —
-     * the per-part input to a held-weapon strike mode's impairment gating (#628).
+     * the per-part input to a held-weapon strike mode's impairment gating.
      * A weapon strike mode names its required limbs by count (`minParts`), not by
      * role, so this resolves the *specific* holding limbs (via {@link heldBy}) and
      * scores each through the being's body-part impairment. When any holding limb

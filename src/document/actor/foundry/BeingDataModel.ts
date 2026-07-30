@@ -52,10 +52,10 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
         }),
         /**
          * The being's **physical body** — its anatomy, weight, reach, and
-         * body-scale. Dissolved from the former Corpus item into the Being
-         * (#535). An **incorporeal** being (a spirit) is modeled as an empty
-         * {@link body.structure} (`parts: []`), not an absent item. Movement,
-         * once part of the corpus, is now a universal actor capability on
+         * body-scale. It lives on the Being itself, not a separate Corpus
+         * item. An **incorporeal** being (a spirit) is modeled as an empty
+         * {@link body.structure} (`parts: []`), not an absent item. Movement
+         * is a universal actor capability on
          * {@link SohlActorDataModel} (`currentMoveMedium` / `movementProfiles`).
          */
         body: new SchemaField({
@@ -64,11 +64,11 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
              * zones, parts, and hit locations — where each child names its
              * parent by shortcode (`bodyZoneCode` / `bodyPartCode`). The
              * {@link sohl.entity.body.BodyStructure} entity assembles them into
-             * the Zone → Part → Location hierarchy at preparation time (#780).
+             * the Zone → Part → Location hierarchy at preparation time.
              *
              * Flat storage keeps every edit a single whole-array write; a
              * nested tree would force a by-index write into a sub-array, which
-             * Foundry rebuilds from a sparse map and corrupts (#247).
+             * Foundry rebuilds from a sparse map and corrupts.
              */
             structure: new SchemaField({
                 /**

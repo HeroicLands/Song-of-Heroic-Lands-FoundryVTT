@@ -12,7 +12,7 @@
  */
 
 /**
- * **Offer to schedule** a timed effect (issue #579) — the consent step that
+ * **Offer to schedule** a timed effect — the consent step that
  * replaces auto-scheduling. It serves both moments in a recurring effect's life:
  * the **first** schedule when the effect is created ("set a reminder to perform a
  * healing check in 5 days?"), and the **next** schedule after a check is performed.
@@ -79,7 +79,7 @@ export function describeInterval(seconds: number): string {
 /**
  * Render the **cadence phrase** for the offer prompt: a duration (`"in 5 days"`)
  * for a time-based schedule, or a lifecycle phrase (`"at the end of each turn"`)
- * for an event-driven one (issue #622). An unknown trigger falls back to its raw
+ * for an event-driven one. An unknown trigger falls back to its raw
  * name so the prompt stays coherent.
  *
  * @param interval - The interval in seconds (used only when time-based).
@@ -95,10 +95,10 @@ function describeCadence(interval: number, triggerName?: string): string {
 }
 
 /**
- * Offer to schedule (or reschedule) `actionName` on `doc`, per the consent model
- * (issue #579). Time-based by default (fire `interval` seconds from now); pass
+ * Offer to schedule (or reschedule) `actionName` on `doc`, per the consent model.
+ * Time-based by default (fire `interval` seconds from now); pass
  * `triggerName` for an event-driven schedule bound to a lifecycle moment
- * (issue #622) — a combat `turnEnd`, `combatStart`, a scene-region trigger, …
+ * — a combat `turnEnd`, `combatStart`, a scene-region trigger, …
  *
  * @param context - The action context; `scope.schedule` (a boolean) pre-answers
  *   the offer, and `skipDialog` suppresses the interactive prompt.
@@ -108,9 +108,9 @@ function describeCadence(interval: number, triggerName?: string): string {
  * @param interval - Seconds until the occurrence (the rolled cadence / default);
  *   unused for an event-driven schedule.
  * @param triggerName - The lifecycle trigger to bind to, or omitted for a
- *   time-based schedule (issue #622).
+ *   time-based schedule.
  * @param predicate - Optional {@link sohl.entity.expr.SafeExpression} source
- *   gating an event-driven schedule (issue #569; e.g. scoping a `turnEnd`
+ *   gating an event-driven schedule (e.g. scoping a `turnEnd`
  *   schedule to the subscriber's own turn). Ignored for a time schedule.
  * @returns A promise that resolves once the schedule is armed or cleared.
  */

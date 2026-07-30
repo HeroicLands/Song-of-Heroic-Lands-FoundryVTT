@@ -122,7 +122,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         // the archetype marker so it can't ride onto the owner and pollute
         // discovery (or be re-instantiated as if it were a template). Import and
         // Duplicate deliberately keep the flag; the strip lives here and in the
-        // Create dialog, never in the universal `_preCreate` (issue #604).
+        // Create dialog, never in the universal `_preCreate`.
         stripDocArchetypeFlag(data as any);
 
         if (isMove && GearKinds.includes(droppedItem.type as any)) {
@@ -196,7 +196,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
 
     /**
      * After render, convert each field's always-on hint into a "?" tooltip on its
-     * label (shared with the item sheets), so the guidance no longer competes with
+     * label (shared with the item sheets), so the guidance does not compete with
      * the field value.
      * @param context - The render context.
      * @param options - The render options.

@@ -626,17 +626,17 @@ export interface SohlLogicData<
     /** Serialized action definitions used to build the logic's `actions` map. */
     actionDefs: SohlAction.Data[];
     /**
-     * Persisted recurring/deferred schedules for this document (issue #588) —
-     * each entry defers `actionName` to `anchor + interval`. The generic store
-     * that replaces the retired bespoke `last*Date` anchors; a recurring effect's
-     * `finalize()` re-arms these into the event queue on every preparation. Only
+     * Persisted recurring/deferred schedules for this document — the generic
+     * store on which each entry defers `actionName` to `anchor + interval`. A
+     * recurring effect's `finalize()` re-arms these into the event queue on
+     * every preparation. Only
      * documents whose data model extends the base `SohlDataModel` (actors, items,
      * combatants) carry it — hence optional here. See
      * https://kb.heroiclands.org/dev/reference/event-queue/.
      */
     scheduledActions?: ScheduledAction[];
     /**
-     * Generic **run record** (issue #579) — a map of `actionName` → the world
+     * Generic **run record** — a map of `actionName` → the world
      * time (seconds) that action last performed on this document, stamped at the
      * action chokepoint for actions flagged `recordsLastRun`. The past-tense
      * mirror of {@link scheduledActions}: "when did X last happen here?" for any

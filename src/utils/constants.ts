@@ -29,7 +29,7 @@ export const KIND_KEY = "__kind" as const;
 export const SCHEMA_VERSION_KEY: string = "__schemaVer" as const;
 /**
  * Reserved shortcode identifying the singleton **world host** actor — the
- * document world-scoped scheduled actions and events hang off of (issue #588).
+ * document world-scoped scheduled actions and events hang off of.
  * Found or created via `sohl.worldHost()`.
  */
 export const WORLD_HOST_SHORTCODE = "_sohlworld" as const;

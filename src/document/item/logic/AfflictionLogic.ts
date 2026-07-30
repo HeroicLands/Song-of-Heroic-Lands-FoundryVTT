@@ -144,7 +144,7 @@ export class AfflictionLogic<
         // `level` is a ValueModifier seeded in initialize(); guard against it
         // being unset (a not-yet-initialized affliction, e.g. freshly dropped
         // and read by the sheet before its lifecycle runs) so this getter can
-        // never throw and brick the whole sheet render (#511).
+        // never throw and brick the whole sheet render.
         const lvl = Math.max(0, Math.round(this.level?.effective ?? 0));
         return String(lvl);
     }
@@ -228,7 +228,7 @@ export class AfflictionLogic<
      */
     get canHeal(): boolean {
         // `healingRate` is seeded in initialize(); guard against reading it on a
-        // not-yet-initialized affliction so this getter can't throw (#511 class).
+        // not-yet-initialized affliction so this getter can't throw.
         return !this.healingRate?.disabled && this.hasUsableEndurance;
     }
 
@@ -567,8 +567,8 @@ export class AfflictionLogic<
 
     /**
      * Re-arm the affliction's persisted schedules into the event queue on every
-     * preparation, on every client (issue #588 generic store; #579 consent). The
-     * phase machine's arming now lives in the executors: `onsetCheck` schedules
+     * preparation, on every client. The phase machine's arming lives in the
+     * executors: `onsetCheck` schedules
      * the resolution and recurring healing-check events at onset and clears
      * itself; `resolutionCheck` clears the rest at resolution; the recurring
      * `healingCheck` *offers* its own reschedule. `finalize()` therefore only
@@ -618,10 +618,10 @@ export class AfflictionLogic<
      * @returns A promise that resolves once the phase transition is persisted.
      * @remarks The onset **effect** marks the affliction symptomatic (crystallizes
      *   `onsetDate`) and starts its course/resolution cycle; the symptoms
-     *   themselves are role-played, out of VTT scope (#488). Scheduling the next
-     *   phase is the direct consequence of this human-performed transition (issue
-     *   #579 gates the *firing* via the `[Perform]` reminder, not the phase
-     *   progression itself). An optional author
+     *   themselves are role-played, out of VTT scope. Scheduling the next
+     *   phase is the direct consequence of this human-performed transition (the
+     *   consent model gates the *firing* via the `[Perform]` reminder, not the
+     *   phase progression itself). An optional author
      *   {@link AfflictionData.onsetMacroUuid | onset Macro} then runs and may
      *   schedule further events.
      */
@@ -661,13 +661,13 @@ export class AfflictionLogic<
     /**
      * Intrinsic-action executor for the recurring `healingCheck` (course /
      * recovery) event. Catches up the Course Test over every elapsed interval,
-     * rolls the next interval, then **offers** the next occurrence (issue #579) —
+     * rolls the next interval, then **offers** the next occurrence —
      * reusable from the `[Perform]` reminder, the timed event, or manually.
      *
      * @param context - The action context; `scope.schedule` (or the offer
      *   dialog) decides whether the next occurrence is scheduled.
      * @returns A promise that resolves once the outcome and schedule are persisted.
-     * @remarks Applies the **Course Test** (#489) at each elapsed checkpoint (only
+     * @remarks Applies the **Course Test** at each elapsed checkpoint (only
      *   for a naturally-healing affliction). Each is a headless test of
      *   `Healing Base × Healing Rate` that changes the affliction's Healing Rate
      *   (CF −2, MF −1, MS +1, CS +2); the resulting HR then drives the host's
@@ -676,8 +676,8 @@ export class AfflictionLogic<
      *   Incapacitated / Unconscious / Dead shock (never improving an already-worse
      *   shock state). The recurrence anchor and interval are read from the
      *   persisted `system.scheduledActions` entry; a **defeated** affliction (HR
-     *   6+) ends the recurrence, otherwise the next check is **offered** (issue
-     *   #579) rather than auto-re-armed.
+     *   6+) ends the recurrence, otherwise the next check is **offered**
+     *   rather than auto-re-armed.
      */
     async healingCheck(context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
@@ -716,7 +716,7 @@ export class AfflictionLogic<
         } as PlainObject);
 
         // A defeated affliction (HR 6+) ends its recurring course; otherwise offer
-        // the next course check rather than auto-re-arming (issue #579).
+        // the next course check rather than auto-re-arming.
         if (hr >= 6) await sohl.unschedule(this.item, "healingCheck");
         else
             await offerSchedule(
@@ -791,7 +791,7 @@ export class AfflictionLogic<
      * @param _context - The action context (its `scope` is the trigger context).
      * @returns A promise that resolves once the resolution is persisted.
      * @remarks Crystallizes `resolutionDate` and, when the affliction was **not**
-     *   defeated (Healing Rate below 6), applies its authored **outcome** (#490):
+     *   defeated (Healing Rate below 6), applies its authored **outcome**:
      *   `DEATH` sets the being's shock state to Dead; `CURED` sets Healing Rate to
      *   6. Either combines with an optional `outcomeTrauma`
      *   {@link sohl.entity.expr.SafeExpression} whose result — a trauma shortcode

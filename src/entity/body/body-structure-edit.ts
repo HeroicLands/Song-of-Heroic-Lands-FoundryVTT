@@ -13,10 +13,10 @@
 
 /**
  * Pure, Foundry-free array operations backing the Being sheet's Body Structure
- * **reorder and delete** affordances (#720). They operate on plain
+ * **reorder and delete** affordances. They operate on plain
  * persisted-data arrays and always return **new** arrays, so a caller can hand
  * the result straight to a whole-array Foundry `update()` — never a by-index
- * write, which corrupts the array (#247). Keeping the logic here makes it
+ * write, which corrupts the array. Keeping the logic here makes it
  * unit-testable without a live DataModel.
  *
  * (Shortcode validation and the blank factories used by the *add* flow live in
@@ -51,7 +51,7 @@ export function moveArrayElement<T>(
 /**
  * Move one element of a **flat, parent-referencing** array — either reordering
  * it among its current siblings or re-parenting it to another group — and
- * return a new array (#780).
+ * return a new array.
  *
  * Since `body.structure` stores zones, parts, and locations as flat sibling
  * arrays, a child's position "within its parent" is just its relative order

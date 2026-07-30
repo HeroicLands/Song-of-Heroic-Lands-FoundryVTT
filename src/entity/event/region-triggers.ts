@@ -12,7 +12,7 @@
  */
 
 /**
- * **Scene-region trigger vocabulary** (issue #593) — the curated set of Foundry
+ * **Scene-region trigger vocabulary** — the curated set of Foundry
  * v14 scene-region events SoHL bridges into its {@link SohlEventQueue | event
  * queue}, and the SoHL trigger names they arrive under.
  *
