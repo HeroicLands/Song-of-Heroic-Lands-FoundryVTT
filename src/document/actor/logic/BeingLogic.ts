@@ -99,6 +99,7 @@ import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatan
 import {
     ACTION_SUBTYPE,
     ATTRIBUTE_CODE,
+    type AttributeCode,
     BODY_ROLE,
     CRITICAL_FAILURE,
     STATUS_EFFECT,
@@ -108,8 +109,11 @@ import {
     type ImpactAspect,
     ITEM_KIND,
     SKILL_CODE,
+    type SkillCode,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    TEST_TYPE,
+    type TestType,
     TRAUMA_SUBTYPE,
     FEAR_LEVEL,
     FearLevelLabels,
@@ -140,6 +144,7 @@ import {
     moraleLevelLabelKey,
     MORALE_BRAVE_BONUS,
 } from "@src/document/actor/logic/morale";
+import { keepControlTable } from "@src/document/actor/logic/keep-control";
 import { inflictPsycheStress } from "@src/document/item/logic/psychological-trauma";
 import {
     pallDepthPenalty,
@@ -1238,76 +1243,119 @@ export class BeingLogic<
     }
 
     /**
-     * Roll the being's stumble test, used to keep its footing. Tests the better
-     * of the being's Agility trait and Acrobatics skill.
+     * Roll the being's **Stumble** test (#851) — a "keep your footing" check a
+     * combat mishap can flag (`ATTACK_MISHAP.STUMBLE_TEST` /
+     * `DEFEND_MISHAP.STUMBLE_TEST`). Rolls the **better of** the being's Agility
+     * attribute and its Acrobatics skill and posts a result card whose bespoke
+     * keep-footing text comes from a {@link keepControlTable} passed in scope.
+     *
+     * Offered, never auto-performed: it runs only when its controlling player
+     * picks the action (the mishap surfaces on the attack card as a prompt).
      *
      * @param context - The action context for the test.
      * @returns The success test result, or `null` if the test could not be run.
-     * @remarks Not yet implemented; currently returns `null`.
      */
     async stumbleTest(
         context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
-        // if (!options.testResult) {
-        //     const agility = this.actor.getItem("agl", { types: ["trait"] });
-        //     const acrobatics = this.actor.getItem("acro", { types: ["skill"] });
-        //     const item =
-        //         (
-        //             agility?.system.$masteryLevel.effective >
-        //             acrobatics?.system.$masteryLevel.effective
-        //         ) ?
-        //             agility
-        //         :   acrobatics;
-        //     if (!item) return null;
-        //     options.testResult = new CONFIG.SOHL.class.SuccessTestResult(
-        //         {
-        //             speaker,
-        //             testType: SuccessTestResult.TEST_TYPE.STUMBLE,
-        //             mlMod: Utility.deepClone(item.system.$masteryLevel),
-        //         },
-        //         { parent: item.system },
-        //     );
-        // }
-        // return options.testResult.item.system.successTest(options);
-        return null;
+        return this.keepControlTest(context, {
+            attrCode: ATTRIBUTE_CODE.AGILITY,
+            skillCode: SKILL_CODE.ACROBATICS,
+            type: TEST_TYPE.STUMBLETEST.id,
+            titleKey: "SOHL.Being.Action.stumbleTest",
+            tablePrefix: "SOHL.Being.StumbleTest",
+            noAbilityKey: "SOHL.Being.StumbleTest.NoAbility",
+        });
     }
 
     /**
-     * Roll the being's fumble test, used to avoid dropping or mishandling an
-     * item. Tests the better of the being's Dexterity trait and Legerdemain
-     * skill.
+     * Roll the being's **Fumble** test (#852) — an "avoid dropping / mishandling"
+     * check a combat mishap can flag (`ATTACK_MISHAP.FUMBLE_TEST` /
+     * `DEFEND_MISHAP.FUMBLE_TEST`). Rolls the **better of** the being's Dexterity
+     * attribute and its Legerdemain skill and posts a result card whose bespoke
+     * keep-grip text comes from a {@link keepControlTable} passed in scope.
+     *
+     * Offered, never auto-performed: it runs only when its controlling player
+     * picks the action (the mishap surfaces on the attack card as a prompt).
      *
      * @param context - The action context for the test.
      * @returns The success test result, or `null` if the test could not be run.
-     * @remarks Not yet implemented; currently returns `null`.
      */
     async fumbleTest(
         context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
-        // if (!options.testResult) {
-        //     const dexterity = this.actor.getItem("dex", { types: ["trait"] });
-        //     const legerdemain = this.actor.getItem("lgdm", {
-        //         types: ["skill"],
-        //     });
-        //     const item =
-        //         (
-        //             dexterity?.system.$masteryLevel.effective >
-        //             legerdemain?.system.$masteryLevel.effective
-        //         ) ?
-        //             dexterity
-        //         :   legerdemain;
-        //     if (!item) return null;
-        //     options.testResult = new CONFIG.SOHL.class.SuccessTestResult(
-        //         {
-        //             speaker,
-        //             testType: SuccessTestResult.TEST_TYPE.FUMBLE,
-        //             mlMod: Utility.deepClone(item.system.$masteryLevel),
-        //         },
-        //         { parent: item.system },
-        //     );
-        // }
-        // return options.testResult.item.system.successTest(options);
-        return null;
+        return this.keepControlTest(context, {
+            attrCode: ATTRIBUTE_CODE.DEXTERITY,
+            skillCode: SKILL_CODE.LEGERDEMAIN,
+            type: TEST_TYPE.FUMBLETEST.id,
+            titleKey: "SOHL.Being.Action.fumbleTest",
+            tablePrefix: "SOHL.Being.FumbleTest",
+            noAbilityKey: "SOHL.Being.FumbleTest.NoAbility",
+        });
+    }
+
+    /**
+     * Shared core of the Stumble (#851) and Fumble (#852) keep-control tests:
+     * pick the **better of** an attribute and a skill by effective mastery level,
+     * then roll that ability's own success test with a bespoke keep-control
+     * result table ({@link keepControlTable}) supplied in scope — reusing the one
+     * well-tested {@link sohl.entity.modifier.MasteryLevelModifier.successTest}
+     * path rather than bespoke test code. Ties go to the skill (the trained
+     * response); either ability alone is used when the other is absent, and a
+     * being with neither warns and does not roll.
+     *
+     * @param context - The action context for the test.
+     * @param opts - The attribute/skill shortcodes, test type, and localization
+     *   keys distinguishing Stumble from Fumble.
+     * @param opts.attrCode - Shortcode of the governing attribute (e.g. Agility).
+     * @param opts.skillCode - Shortcode of the governing skill (e.g. Acrobatics).
+     * @param opts.type - The {@link sohl.utils.TEST_TYPE} id for the test.
+     * @param opts.titleKey - Localization key for the card/dialog title.
+     * @param opts.tablePrefix - Localization key prefix for the result table.
+     * @param opts.noAbilityKey - Localization key for the "no ability" warning.
+     * @returns The success test result, or `null` if the test could not be run.
+     */
+    private async keepControlTest(
+        context: SohlActionContext<EmptyObject>,
+        opts: {
+            attrCode: AttributeCode;
+            skillCode: SkillCode;
+            type: TestType;
+            titleKey: string;
+            tablePrefix: string;
+            noAbilityKey: string;
+        },
+    ): Promise<SuccessTestResult | null> {
+        const attr = this.getItemLogic(opts.attrCode, ITEM_KIND.ATTRIBUTE) as
+            | AttributeLogic
+            | undefined;
+        const skill = this.getItemLogic(opts.skillCode, ITEM_KIND.SKILL) as
+            | SkillLogic
+            | undefined;
+
+        // Better of the two, ties to the skill; either alone if the other is
+        // absent (a being commonly has no Acrobatics / Legerdemain skill).
+        const attrMl = attr?.masteryLevel?.effective ?? 0;
+        const skillMl = skill?.masteryLevel?.effective ?? 0;
+        const winner = attr && (!skill || attrMl > skillMl) ? attr : skill;
+        if (!winner) {
+            sohl.log.uiWarn(sohl.i18n.localize(opts.noAbilityKey));
+            return null;
+        }
+
+        const testContext = context.clone({
+            type: opts.type,
+            title: sohl.i18n.localize(opts.titleKey),
+        }) as unknown as SohlActionContext<
+            Partial<SuccessTestResult.ContextScope>
+        >;
+        testContext.scope = {
+            ...testContext.scope,
+            successStarTable: keepControlTable(winner, opts.tablePrefix),
+        };
+
+        const result = await winner.masteryLevel.successTest(testContext);
+        return result || null;
     }
 
     /**

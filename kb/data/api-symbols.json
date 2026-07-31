@@ -1303,6 +1303,7 @@
   "sohl.document.actor.logic.isFearfulState": "functions/sohl.document.actor.logic.isFearfulState.html",
   "sohl.document.actor.logic.isPallFailure": "functions/sohl.document.actor.logic.isPallFailure.html",
   "sohl.document.actor.logic.isShakenMorale": "functions/sohl.document.actor.logic.isShakenMorale.html",
+  "sohl.document.actor.logic.keepControlTable": "functions/sohl.document.actor.logic.keepControlTable.html",
   "sohl.document.actor.logic.moraleHelpless": "functions/sohl.document.actor.logic.moraleHelpless.html",
   "sohl.document.actor.logic.moraleLevelLabelKey": "functions/sohl.document.actor.logic.moraleLevelLabelKey.html",
   "sohl.document.actor.logic.moralePsyGain": "functions/sohl.document.actor.logic.moralePsyGain.html",

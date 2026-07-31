@@ -1,8 +1,16 @@
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import { BodyLogic } from "@src/document/actor/logic/BodyLogic";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
+import { keepControlTable } from "@src/document/actor/logic/keep-control";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
+import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 import { MiscGearLogic } from "@src/document/item/logic/MiscGearLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
@@ -10,6 +18,7 @@ import { locationData, partData, zoneData } from "@tests/mocks/bodyFixture";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     ACTOR_KIND,
+    ATTRIBUTE_CODE,
     CRITICAL_FAILURE,
     CRITICAL_SUCCESS,
     FATIGUE_CATEGORY,
@@ -20,7 +29,9 @@ import {
     MARGINAL_SUCCESS,
     MORALE_LEVEL,
     MOVEMENT_MEDIUM,
+    SKILL_CODE,
     STATUS_EFFECT,
+    TEST_TYPE,
     TRAUMA_SUBTYPE,
 } from "@src/utils/constants";
 import { SHOCK_STATE } from "@src/document/actor/logic/shock";
@@ -660,8 +671,6 @@ describe("BeingLogic", () => {
         it("resolve to null (not yet implemented)", async () => {
             const logic = makeBeing();
             const ctx = { scope: {} } as any;
-            await expect(logic.stumbleTest(ctx)).resolves.toBeNull();
-            await expect(logic.fumbleTest(ctx)).resolves.toBeNull();
             await expect(logic.moraleTest(ctx)).resolves.toBeNull();
             await expect(logic.fearTest(ctx)).resolves.toBeNull();
         });
@@ -675,12 +684,6 @@ describe("BeingLogic", () => {
             await expect(logic.calcImpact(ctx)).resolves.toBeUndefined();
         });
 
-        it.todo(
-            "stumbleTest - uses the better of agility trait or acrobatics skill",
-        );
-        it.todo(
-            "fumbleTest - uses the better of dexterity trait or legerdemain skill",
-        );
         it.todo("moraleTest / fearTest - roll the Initiative skill");
         it.todo(
             "calcImpact - calculates location and damage from CombatResult",
@@ -1038,6 +1041,195 @@ describe("BeingLogic", () => {
 
             expect(schedule).not.toHaveBeenCalled();
             expect(unschedule).toHaveBeenCalledWith(affliction, "onsetCheck");
+        });
+    });
+
+    describe("Stumble & Fumble keep-control tests (#851, #852)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        // The unit i18n stub echoes keys; resolve against the real lang/en.json
+        // so the bespoke keep-control result text is asserted for real.
+        beforeEach(() => {
+            const lang = JSON.parse(
+                readFileSync(resolve(process.cwd(), "lang/en.json"), "utf8"),
+            ) as Record<string, string>;
+            vi.spyOn(sohl.i18n, "localize").mockImplementation(
+                (key: string) => lang[key] ?? key,
+            );
+        });
+
+        /** A real action context (so `.clone()` works) with an owned speaker. */
+        function makeCtx() {
+            return new SohlActionContext({
+                speaker: new SohlSpeaker({ alias: "Tester" }),
+                scope: {},
+            });
+        }
+
+        /** Embed a skill with a known effective mastery level; return its logic. */
+        function embedSkill(being: any, code: string, ml: number) {
+            const s = makeItemLogic(
+                SkillLogic,
+                ITEM_KIND.SKILL,
+                {
+                    masteryLevelBase: ml,
+                    skillBaseFormula: "",
+                    initSkillMult: 1,
+                },
+                { actor: being.actor, shortcode: code, id: `skill-${code}` },
+            );
+            s.initialize();
+            return s;
+        }
+
+        /** Embed an attribute and force its effective mastery level. */
+        function embedAttribute(being: any, code: string, ml: number) {
+            const a = makeItemLogic(
+                AttributeLogic,
+                ITEM_KIND.ATTRIBUTE,
+                { scoreBase: 10 },
+                { actor: being.actor, shortcode: code, id: `attr-${code}` },
+            );
+            a.initialize();
+            a.masteryLevel.setBase(ml);
+            return a;
+        }
+
+        /**
+         * Spy the shared success-test path, capturing the modifier it was called
+         * on (whose `.parent` is the winning ability) and returning a stub result.
+         */
+        function spySuccessTest() {
+            return vi
+                .spyOn(MasteryLevelModifier.prototype, "successTest")
+                .mockResolvedValue({ isSuccess: true } as any);
+        }
+
+        it("stumbleTest rolls the better ability — Agility when it beats Acrobatics", async () => {
+            const being = makeBeing();
+            const agility = embedAttribute(being, ATTRIBUTE_CODE.AGILITY, 70);
+            embedSkill(being, SKILL_CODE.ACROBATICS, 40);
+            const spy = spySuccessTest();
+
+            await (being as any).stumbleTest(makeCtx());
+
+            expect(spy).toHaveBeenCalledTimes(1);
+            // The modifier rolled belongs to Agility (the better ability).
+            expect((spy.mock.instances[0] as any).parent).toBe(agility);
+            // Labelled and scoped as a Stumble test carrying the bespoke table.
+            const ctx = spy.mock.calls[0][0] as any;
+            expect(ctx.type).toBe(TEST_TYPE.STUMBLETEST.id);
+            expect(ctx.scope.successStarTable).toHaveLength(4);
+        });
+
+        it("stumbleTest rolls Acrobatics when it beats Agility", async () => {
+            const being = makeBeing();
+            embedAttribute(being, ATTRIBUTE_CODE.AGILITY, 30);
+            const acro = embedSkill(being, SKILL_CODE.ACROBATICS, 65);
+            const spy = spySuccessTest();
+
+            await (being as any).stumbleTest(makeCtx());
+
+            expect((spy.mock.instances[0] as any).parent).toBe(acro);
+        });
+
+        it("breaks a tie in favour of the skill (the trained response)", async () => {
+            const being = makeBeing();
+            embedAttribute(being, ATTRIBUTE_CODE.AGILITY, 50);
+            const acro = embedSkill(being, SKILL_CODE.ACROBATICS, 50);
+            const spy = spySuccessTest();
+
+            await (being as any).stumbleTest(makeCtx());
+
+            expect((spy.mock.instances[0] as any).parent).toBe(acro);
+        });
+
+        it("falls back to the attribute when the skill is absent", async () => {
+            const being = makeBeing();
+            const agility = embedAttribute(being, ATTRIBUTE_CODE.AGILITY, 45);
+            const spy = spySuccessTest();
+
+            await (being as any).stumbleTest(makeCtx());
+
+            expect((spy.mock.instances[0] as any).parent).toBe(agility);
+        });
+
+        it("warns and does not roll when neither ability is present", async () => {
+            const being = makeBeing();
+            const warn = vi
+                .spyOn(sohl.log, "uiWarn")
+                .mockImplementation(() => undefined);
+            const spy = spySuccessTest();
+
+            await expect(
+                (being as any).stumbleTest(makeCtx()),
+            ).resolves.toBeNull();
+            expect(spy).not.toHaveBeenCalled();
+            expect(warn).toHaveBeenCalledTimes(1);
+        });
+
+        it("fumbleTest rolls the better of Dexterity and Legerdemain", async () => {
+            const being = makeBeing();
+            embedAttribute(being, ATTRIBUTE_CODE.DEXTERITY, 40);
+            const lgdm = embedSkill(being, SKILL_CODE.LEGERDEMAIN, 60);
+            const spy = spySuccessTest();
+
+            await (being as any).fumbleTest(makeCtx());
+
+            expect((spy.mock.instances[0] as any).parent).toBe(lgdm);
+            const ctx = spy.mock.calls[0][0] as any;
+            expect(ctx.type).toBe(TEST_TYPE.FUMBLETEST.id);
+        });
+
+        it("keepControlTable maps each success level to bespoke result text", () => {
+            const being = makeBeing();
+            const table = keepControlTable(
+                being as any,
+                "SOHL.Being.StumbleTest",
+            );
+            expect(table).toHaveLength(4);
+            // Boundaries: CF ≤ -1, MF ≤ 0, MS ≤ 1, CS beyond.
+            expect(table.map((r) => r.maxValue)).toEqual([
+                -1,
+                0,
+                1,
+                Number.MAX_SAFE_INTEGER,
+            ]);
+            expect(table[1].label).toBe("Stumbles"); // marginal failure
+            expect(table[2].label).toBe("Keeps Footing"); // marginal success
+            expect(table[2].success).toBe(true);
+            // The critical rows compute their star count off the success level,
+            // mirroring the standard success-level table.
+            expect(table[0].result).toBeInstanceOf(SafeExpression);
+            expect(
+                Number(
+                    (table[3].result as SafeExpression).evaluate({
+                        successLevel: 3,
+                        targetValue: 3,
+                        lastDigit: 0,
+                    }),
+                ),
+            ).toBe(2);
+        });
+
+        it("the bespoke result text renders on the standard test card", () => {
+            const being = makeBeing();
+            const row = keepControlTable(
+                being as any,
+                "SOHL.Being.StumbleTest",
+            )[2]; // marginal success → "Keeps Footing"
+            const html = renderTemplateReal(
+                "systems/sohl/templates/chat/standard-test-card.hbs",
+                {
+                    title: sohl.i18n.localize("SOHL.Being.Action.stumbleTest"),
+                    isSuccess: true,
+                    resultText: row.label,
+                    resultDesc: row.description,
+                },
+            );
+            expect(html).toContain("Stumble Test");
+            expect(html).toContain("Keeps Footing");
+            expect(html).toContain("Recovers balance and stays upright.");
         });
     });
 
