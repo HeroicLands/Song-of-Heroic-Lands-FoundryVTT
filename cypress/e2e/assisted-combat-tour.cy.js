@@ -29,17 +29,19 @@
 const KEY = "sohl.assisted-combat";
 
 /**
- * Step indices (0-based) of the steps under test. The tour opens with a free
- * intro, so the first gated step (`gear`) is index 1.
+ * Step indices (0-based) of the steps under test. The tour opens with a gated
+ * `prepare` step (index 0) that coaches the user to an owned Being, then a free
+ * intro (index 1), so the first gear step is index 2.
  */
 const STEP = {
-    gear: 1,
-    bowArmRule: 2,
-    holdBroadsword: 3,
-    atkBlkCx: 4,
-    impact: 5,
-    resolveInjury: 6,
-    standaloneInjury: 7,
+    prepare: 0,
+    gear: 2,
+    bowArmRule: 3,
+    holdBroadsword: 4,
+    atkBlkCx: 5,
+    impact: 6,
+    resolveInjury: 7,
+    standaloneInjury: 8,
 };
 
 /** Read whether the tour's Next button is currently gate-disabled. */
@@ -129,18 +131,29 @@ describe("Assisted Combat tour (SohlTour, #620)", () => {
         });
     });
 
-    it("is startable only when the user owns a Being", () => {
-        // Assisted Combat assumes a populated Being already exists — it does not
-        // create one — so it is not startable in an empty world.
-        cy.foundry((win) => win.game.tours.get(KEY).canStart).should(
-            "eq",
-            false,
-        );
-        cy.importActor();
+    it("is always startable; its first step gates on an owned Being", () => {
+        // canStart no longer depends on owning a Being: rather than silently grey
+        // out Start (Foundry gives no reason), the tour always starts and its
+        // first `prepare` step coaches the user to a Being, holding Next until one
+        // is owned.
         cy.foundry((win) => win.game.tours.get(KEY).canStart).should(
             "eq",
             true,
         );
+
+        // Start in an empty world → the prepare step's Next is gated shut.
+        cy.foundry((win) =>
+            win.game.tours
+                .get(KEY)
+                .start()
+                .then(() => true),
+        );
+        goTo(STEP.prepare).should("eq", STEP.prepare);
+        expectGated(true, "prepare gate closed with no Being owned");
+
+        // Import a populated Being → the createActor state gate opens Next.
+        cy.importActor();
+        expectGated(false, "prepare gate opens once a Being is owned");
     });
 
     it("gated steps hold Next until the user acts", () => {

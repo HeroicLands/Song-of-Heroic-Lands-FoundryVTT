@@ -58,7 +58,7 @@ describe("guided-tour framework (SohlTour)", () => {
         cy.cleanupWorld();
     });
 
-    it("registers the demo tour in Tour Management", () => {
+    it("registers the demo tour but hides it from Tour Management", () => {
         cy.foundry((win) => {
             const tour = win.game.tours.get(TOUR_KEY);
             return {
@@ -68,8 +68,10 @@ describe("guided-tour framework (SohlTour)", () => {
                 title: tour?.title ?? "",
             };
         }).should((r) => {
-            expect(r.exists, "tour registered").to.be.true;
-            expect(r.display, "listed in Tour Management").to.be.true;
+            expect(r.exists, "tour registered for e2e").to.be.true;
+            // The demo is the framework's e2e subject, not a player-facing tour,
+            // so it must NOT appear in the user's Tour Management list.
+            expect(r.display, "hidden from Tour Management").to.be.false;
             expect(r.steps, "has all five steps").to.eq(5);
             expect(r.title).to.contain("Framework Demo");
         });

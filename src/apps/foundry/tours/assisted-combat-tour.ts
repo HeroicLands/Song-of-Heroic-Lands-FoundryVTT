@@ -60,8 +60,8 @@ function shortcodeBase(shortcode: unknown): string {
  * Character Creation tour, Assisted Combat does **not** create the character — it
  * *assumes a populated Being already exists* (Basic Folk, a compendium character
  * like Áldrik Hárvenar, or one built by the Character Creation tour). The tour is
- * single-actor and only startable ({@link SohlTourConfig.canStart}) when such a
- * Being is present.
+ * single-actor; its first `prepare` step gates on this returning a Being, so the
+ * later sheet steps always have a subject.
  * @returns The first owned Being actor, or `undefined`.
  */
 function currentBeing(): any {
@@ -166,14 +166,29 @@ export function buildAssistedCombatTour(): SohlTour {
 
     const steps: SohlTourStep[] = [
         {
-            // 1 — Free: the mental model + independence call-out. No sheet yet;
+            // 1 — Prerequisite (state gate): Assisted Combat coaches an existing,
+            // populated Being — it never builds one. If the user already owns a
+            // ready character this gate is satisfied at once and they click Next;
+            // otherwise it coaches importing the Áldrik Hárvenar pregen (Actors
+            // compendium → Pregens folder → right-click → Import Entry), or any
+            // populated Being. Next stays disabled until an owned Being exists.
+            // No sheet nav: the sheet steps that follow resolve currentBeing(),
+            // which — thanks to this gate — is guaranteed to exist by then.
+            id: "prepare",
+            title: "SOHL.Tour.AssistedCombat.prepare.title",
+            content: "SOHL.Tour.AssistedCombat.prepare.content",
+            gate: TourGate.state((ctx) => ctx.state === true),
+            readState: () => Boolean(currentBeing()),
+        },
+        {
+            // 2 — Free: the mental model + independence call-out. No sheet yet;
             // centered card.
             id: "intro",
             title: "SOHL.Tour.AssistedCombat.intro.title",
             content: "SOHL.Tour.AssistedCombat.intro.content",
         },
         {
-            // 2 — Gated (archetypes): add the four gear shapes the arm rule needs —
+            // 3 — Gated (archetypes): add the four gear shapes the arm rule needs —
             // a one-handed weapon, a two-handed weapon, a bow, and a shield — each
             // via Create Gear + the correct Gear archetype.
             id: "gear",
@@ -193,7 +208,7 @@ export function buildAssistedCombatTour(): SohlTour {
                 hasGear(ITEM_KIND.WEAPONGEAR, ARCHETYPE_SHORTCODE.roundshield),
         },
         {
-            // 3 — Gated (arm rule): a bow needs TWO hands. Held in a single arm its
+            // 4 — Gated (arm rule): a bow needs TWO hands. Held in a single arm its
             // Ranged strike mode does not appear; add it to the second arm and it
             // appears. The gate opens only when the bow is held in ≥2 limbs.
             id: "bow-arm-rule",
@@ -206,7 +221,7 @@ export function buildAssistedCombatTour(): SohlTour {
             readState: () => bowLimbsHeld(),
         },
         {
-            // 4 — Free: switch to a one-handed weapon so its melee strike modes are
+            // 5 — Free: switch to a one-handed weapon so its melee strike modes are
             // available for the next steps. A 1H weapon needs only one hand, so its
             // strike modes appear the moment it is held. Not gated (per the "gate
             // only where a wrong choice breaks the lesson" rule).
@@ -218,7 +233,7 @@ export function buildAssistedCombatTour(): SohlTour {
             nav: { tab: "combat", group: "primary" },
         },
         {
-            // 5 — Free/advisory: click ATK / BLK / CX to roll. Point out the
+            // 6 — Free/advisory: click ATK / BLK / CX to roll. Point out the
             // hover-tooltip calculation, the chat-log result, and that each roll is
             // independent and runnable anytime — no target required.
             id: "atk-blk-cx",
@@ -230,7 +245,7 @@ export function buildAssistedCombatTour(): SohlTour {
             nav: { tab: "combat", group: "primary" },
         },
         {
-            // 6 — Free/advisory: adjudicate manually (rulebook), then PRETEND the
+            // 7 — Free/advisory: adjudicate manually (rulebook), then PRETEND the
             // broadsword hit and click Impact. The impact calculation card appears
             // in chat. Computing impact is optional and equally independent.
             id: "impact",
@@ -241,7 +256,7 @@ export function buildAssistedCombatTour(): SohlTour {
             nav: { tab: "combat", group: "primary" },
         },
         {
-            // 7 — Gated (a wound is recorded): on the Actions tab, run the Resolve
+            // 8 — Gated (a wound is recorded): on the Actions tab, run the Resolve
             // Injury intrinsic action; fill aspect + impact from the impact card and
             // let it derive a random location. The gate opens once an injury Trauma
             // exists on the Being.
@@ -256,7 +271,7 @@ export function buildAssistedCombatTour(): SohlTour {
             readState: () => injuryCount(),
         },
         {
-            // 8 — Gated (a second wound): the SAME action needs no roll and no card.
+            // 9 — Gated (a second wound): the SAME action needs no roll and no card.
             // Given only GM-supplied numbers ("you fell 10 feet: blunt, impact 10"),
             // run Resolve Injury again and type them in — the injury is created just
             // the same. The gate opens once a second injury Trauma exists.
@@ -271,7 +286,7 @@ export function buildAssistedCombatTour(): SohlTour {
             readState: () => injuryCount(),
         },
         {
-            // 9 — Free wrap-up.
+            // 10 — Free wrap-up.
             id: "done",
             title: "SOHL.Tour.AssistedCombat.done.title",
             content: "SOHL.Tour.AssistedCombat.done.content",
@@ -285,7 +300,12 @@ export function buildAssistedCombatTour(): SohlTour {
         description: "SOHL.Tour.AssistedCombat.description",
         display: true,
         canBeResumed: true,
-        canStart: () => Boolean(currentBeing()),
+        // No canStart Being-guard: rather than silently grey out the Start button
+        // when no Being exists (Foundry shows no reason), the tour is always
+        // startable and its first "prepare" step *coaches* the user to a populated
+        // Being, gating Next until one is owned. Guiding the prerequisite beats
+        // refusing without explanation (and matches Character Creation, which is
+        // likewise always startable).
         steps,
     };
     return new SohlTour(config);
