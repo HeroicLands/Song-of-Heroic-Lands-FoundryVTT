@@ -50,7 +50,7 @@ import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
  * Supported subtypes:
  * - Grace (Divine): Divine favor manifesting as a granted wish
  * - Piety (Divine): Deep religious devotion
- * - Fate (Skill): Ability to influence random outcomes (re-rolls)
+ * - Fate (Skill): Ability to influence random outcomes (raises the success level of an already-rolled test)
  * - FateBonus (Skill): Temporary bonus to fate rolls
  * - FatePointBonus: Increase in available fate points
  * - Blessing (Divine): Religious fervor boosting a skill's mastery level
@@ -177,7 +177,7 @@ export class MysteryLogic<
         super.evaluate();
 
         // Resolve the associated skill (e.g. the skill a blessing boosts or a
-        // fate re-roll applies to) from its shortcode, when the actor is known.
+        // fate success-level bump applies to) from its shortcode, when the actor is known.
         const actorLogic = this.actorLogic;
         if (!actorLogic) return;
         this.assocSkill = resolveAssocSkill(
@@ -205,7 +205,7 @@ export interface MysteryData<
     subType: MysterySubType;
     /**
      * Shortcode of the skill this mystery is associated with (the skill a
-     * blessing boosts, a fate re-roll applies to, etc.); blank for mysteries
+     * blessing boosts, a fate success-level bump applies to, etc.); blank for mysteries
      * that name no skill (e.g. a birthsign).
      */
     assocSkillCode?: string | null;

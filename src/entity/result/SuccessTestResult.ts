@@ -531,7 +531,7 @@ export class SuccessTestResult extends TestResult {
         return this.successLevel >= MARGINAL_SUCCESS;
     }
 
-    /** Whether fate may be spent to re-roll — true only if the item has available fate and the test permits it. */
+    /** Whether fate may be spent to raise this test's success level (e.g. MF→MS) — true only if the item has available fate and the test permits it. Fate never re-rolls; the die is frozen and the outcome re-derives from the same roll. */
     get canFate() {
         return this._canFate;
     }
