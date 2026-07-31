@@ -42,7 +42,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     <div class="card-content">
         <span class="label">Target:</span>
-        <span class="value">{{mlMod.effective}}</span>
+        <span class="value">{{mlMod.constrainedEffective}}</span>
     </div>
 
     {{#if mlMod.successLevelMod}}
@@ -98,21 +98,21 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{#if isSuccess}}
         {{#if isCritical}}
             <footer class="card-footer critical-success-block">
-                <span>{{description}}</span>
+                <span>{{localize description}}</span>
             </footer>
         {{else}}
             <footer class="card-footer success-text">
-                <span>{{description}}</span>
+                <span>{{localize description}}</span>
             </footer>
         {{/if}}
     {{else}}
         {{#if isCritical}}
             <footer class="card-footer critical-failure-block">
-                <span>{{description}}</span>
+                <span>{{localize description}}</span>
             </footer>
         {{else}}
             <footer class="card-footer failure-text">
-                <span>{{description}}</span>
+                <span>{{localize description}}</span>
             </footer>
         {{/if}}
     {{/if}}

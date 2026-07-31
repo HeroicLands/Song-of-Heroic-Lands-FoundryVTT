@@ -749,6 +749,24 @@ export class SuccessTestResult extends TestResult {
             resultText: label,
             resultDesc: description,
             successStars: result,
+            // Derived display fields the card template reads. These are folded in
+            // as plain values because `fvttMergeObject` deep-copies its arguments,
+            // which would strip a live class instance's prototype getters. `mlMod`
+            // carries the modifier's display fields (its constrained target, the
+            // per-delta `chatHtml` breakdown, `empty`, and `successLevelMod`); the
+            // roll gains its `total` (a getter absent from `SimpleRoll.toJSON`);
+            // and the outcome booleans drive the styling and localized footer.
+            mlMod: {
+                constrainedEffective:
+                    this._masteryLevelModifier.constrainedEffective,
+                effective: this._masteryLevelModifier.effective,
+                chatHtml: this._masteryLevelModifier.chatHtml,
+                empty: this._masteryLevelModifier.empty,
+                successLevelMod: this._masteryLevelModifier.successLevelMod,
+            },
+            roll: { ...this._roll.toJSON(), total: this._roll.total },
+            isSuccess: this.isSuccess,
+            isCritical: this.isCritical,
             template: "systems/sohl/templates/chat/standard-test-card.hbs",
             movementOptions: SuccessTestResultMovements.map((val) => [
                 val,
