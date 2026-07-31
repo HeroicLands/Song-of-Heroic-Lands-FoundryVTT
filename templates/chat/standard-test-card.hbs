@@ -91,7 +91,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     {{#if canFate}}
     <div class="card-buttons">
-        <button data-action="fateTest" data-handler-uuid="{{item.uuid}}">Perform Fate Test</button>
+        <button
+            class="action-card-button"
+            data-action="fateTest"
+            data-handler-uuid="{{item.uuid}}"
+            data-scope="{{fateScopeJSON}}">{{localize "SOHL.Skill.Fate.button"}}</button>
     </div>
     {{/if}}
 

@@ -30,6 +30,7 @@ export * from "./SkillLogic";
 export * from "./SohlItemBaseLogic";
 export * from "./TraumaLogic";
 export * from "./WeaponGearLogic";
+export * from "./fate";
 export * from "./fatigue";
 export * from "./item-sheet-view";
 export * from "./offer-schedule";

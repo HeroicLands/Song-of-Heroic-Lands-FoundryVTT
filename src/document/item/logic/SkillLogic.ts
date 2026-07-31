@@ -21,32 +21,41 @@ import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { applyProneMeleePenalty } from "@src/entity/strikemode/prone";
 import { applyGoverningMasteryLevel } from "@src/entity/strikemode/governing";
 import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
+import {
+    eligibleFateSources,
+    preferredFateSource,
+    resolveFateOutcome,
+    type FateCritChoice,
+} from "@src/document/item/logic/fate";
 import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
 import {
     ACTION_SUBTYPE,
+    CRITICAL_SUCCESS,
     ITEM_KIND,
     MYSTERY_SUBTYPE,
     SKILL_SUBTYPE,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    SOHL_SPEAKER_SOUND,
     STATUS_EFFECT,
     STRIKE_MODE_TYPE,
     VALUE_DELTA_ID,
     VALUE_DELTA_INFO,
     type SkillSubType,
 } from "@src/utils/constants";
-import { FilePath, toFilePath } from "@src/utils/helpers";
+import { FilePath, toFilePath, toHTMLString } from "@src/utils/helpers";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
-import type { SohlItem } from "../foundry/SohlItem";
 import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
 import { runStrikeModeTest, type StrikeModeTestScope } from "./strikeModeTest";
 import {
+    dialog,
     fvttGetSetting,
     fvttIsCurrentUserGM,
     fvttActiveTokenLogicForActor,
     fvttActorStatuses,
+    fvttToFoundryRoll,
 } from "@src/core/FoundryHelpers";
 import { AttributeLogic } from "./AttributeLogic";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
@@ -224,46 +233,264 @@ export class SkillLogic<
     }
 
     /**
-     * Performs a fate test for this skill, consuming a charge from an
-     * applicable Fate mystery on success.
+     * Spend Fate on a test: roll a Fate test and apply its **post-roll
+     * success-level bump** to the original test — the die is never re-rolled
+     * (#854).
      *
-     * @param context - The action context (speaker, scope) for the test.
-     * @returns Resolves once the test and any charge consumption complete. No-op
-     *   when {@link fateMasteryLevel} is disabled or no charged fate item is found.
+     * The flow, all at the player's behest (the card's Fate button or the sheet
+     * cell is the human trigger):
+     * 1. **Gate** on an eligible, charged Fate Point ({@link availableFate}); no
+     *    point ⇒ a warning and no-op.
+     * 2. **Roll** the Fate test against {@link fateMasteryLevel} (its own success
+     *    test, resolved by {@link getFateDescTable}); its result posts nothing
+     *    here — this method posts a single Fate card describing the resolved path.
+     * 3. **Resolve the rung** via {@link resolveFateOutcome} — consumption and the
+     *    level delta are driven by the matched rung, never `isSuccess`. A critical
+     *    success prompts the player's **spend (+2) / keep (+1)** choice.
+     * 4. **Consume a point** when the rung requires it, decrementing one eligible
+     *    Fate Mystery — chosen by the player when more than one is eligible
+     *    (auto-picked otherwise).
+     * 5. **Bump the original** result's stored success level by the delta and
+     *    **re-post** its card, which re-resolves its description table against the
+     *    new level. The original result rides in `context.scope.priorTestResult`
+     *    (serialized on the Fate button, revived on click).
+     *
+     * @param context - The action context; `context.scope.priorTestResult` is the
+     *   original {@link sohl.entity.result.SuccessTestResult} being fated (absent
+     *   when invoked with no card to amend — then only the Fate test is rolled).
+     * @returns Resolves once the Fate test, any consumption, and the re-post
+     *   complete. A no-op (with a warning) when Fate is unavailable, and a silent
+     *   return when the player dismisses the Fate roll or a required choice.
      */
-    async fateTest(context: SohlActionContext): Promise<void> {
+    async fateTest(
+        context: SohlActionContext<Partial<SuccessTestResult.ContextScope>>,
+    ): Promise<void> {
         if (this.fateMasteryLevel.disabled) return;
 
-        const fateItem = this.availableFate.find(
-            (it) =>
-                (it.logic as unknown as MysteryLogic).charges.value.effective >
-                0,
-        );
-        if (!fateItem) return;
+        const eligible = this.availableFate;
+        if (!eligible.length) {
+            sohl.log.uiWarn(
+                sohl.i18n.format("SOHL.Skill.Fate.noPoints", {
+                    label: this.label,
+                }),
+            );
+            return;
+        }
 
+        const original = context.scope?.priorTestResult;
+
+        // Roll the Fate test — its own fresh success test (never the original's
+        // die). `noChat` suppresses the generic card; this method posts a Fate
+        // card that names the resolved path instead.
         const fateContext = new SohlActionContext({
             speaker: context.speaker,
             type: `${this.data.kind}-${this.name}-fate-test`,
-            title: sohl.i18n.format("SOHL.MasteryLevel.fateTest.title", {
+            title: sohl.i18n.format("SOHL.Skill.Fate.testTitle", {
                 label: this.label,
             }),
+            skipDialog: context.skipDialog,
+            noChat: true,
             scope: {
                 situationalModifier: 0,
                 targetValueFunc: (successLevel: number) => successLevel,
                 successStarTable: getFateDescTable(),
+                // A Fate roll cannot itself be fated.
+                canFate: false,
             },
         });
+        const fateResult = await this.fateMasteryLevel.successTest(fateContext);
+        if (!fateResult) return; // dismissed / not owned
 
-        const result = await this.fateMasteryLevel.successTest(fateContext);
-
-        if (result && result.isSuccess) {
-            const updateData: PlainObject = {};
-            updateData["system.charges.value"] = Math.max(
-                (fateItem.system.charges?.value ?? 0) - 1,
-                0,
-            );
-            void fateItem.update(updateData);
+        // A critical success is the one branching outcome — ask the player.
+        let critChoice: FateCritChoice | undefined;
+        if (fateResult.successLevel >= CRITICAL_SUCCESS) {
+            critChoice = await this._promptFateCritChoice();
+            if (!critChoice) return; // dismissed → cancel the whole spend
         }
+
+        const outcome = resolveFateOutcome(fateResult.successLevel, critChoice);
+
+        // Consume a Fate Point when the rung requires it; the player picks the
+        // source when more than one is eligible.
+        let spentSource: MysteryLogic | undefined;
+        if (outcome.consumesPoint) {
+            spentSource = await this._chooseFateSource(eligible);
+            if (!spentSource) return; // dismissed → cancel
+            await this._consumeFateCharge(spentSource);
+        }
+
+        // Apply the bump to the original test and re-post its card.
+        if (original && outcome.levelDelta) {
+            original.bumpSuccessLevel(outcome.levelDelta);
+            // Re-post with Fate disabled: this result has now been fated, so the
+            // amended card should not re-offer the same spend. The card re-derives
+            // its outcome text/stars from the bumped level. (The revived original
+            // carries the identity `targetValueFunc` a plain success test needs; a
+            // bespoke non-identity test would have to re-supply it here — #854.)
+            await original.toChat({ canFate: false });
+        }
+
+        await this._postFateResultCard(fateResult, outcome, spentSource);
+    }
+
+    /**
+     * Prompt the player's choice on a **critical-success** Fate test: spend the
+     * point for +2 success levels, or keep it for +1 (consent model — the one
+     * branching outcome is asked, never auto-picked).
+     *
+     * @returns The chosen branch, or `undefined` if the dialog was dismissed.
+     */
+    private async _promptFateCritChoice(): Promise<FateCritChoice | undefined> {
+        const result = await dialog({
+            title: sohl.i18n.localize("SOHL.Skill.Fate.critChoice.title"),
+            content: toHTMLString(`<p>{{prompt}}</p>`),
+            data: {
+                prompt: sohl.i18n.localize("SOHL.Skill.Fate.critChoice.prompt"),
+            },
+            buttons: [
+                {
+                    action: "spend",
+                    label: sohl.i18n.localize(
+                        "SOHL.Skill.Fate.critChoice.spend",
+                    ),
+                    icon: "fa-solid fa-star",
+                    default: true,
+                },
+                {
+                    action: "keep",
+                    label: sohl.i18n.localize(
+                        "SOHL.Skill.Fate.critChoice.keep",
+                    ),
+                    icon: "fa-solid fa-hand-holding",
+                },
+            ],
+        });
+        const action = result?.action;
+        return action === "spend" || action === "keep" ? action : undefined;
+    }
+
+    /**
+     * Resolve which eligible Fate Mystery to spend a point from: auto-pick when
+     * exactly one is eligible, otherwise ask the player (pre-selecting the
+     * most-restricted point via {@link preferredFateSource} so flexible general
+     * points are preserved).
+     *
+     * @param eligible - The eligible Fate Mystery logics ({@link availableFate}).
+     * @returns The chosen mystery, or `undefined` if the dialog was dismissed.
+     */
+    private async _chooseFateSource(
+        eligible: MysteryLogic[],
+    ): Promise<MysteryLogic | undefined> {
+        if (eligible.length === 1) return eligible[0];
+
+        const preferred = preferredFateSource(
+            eligible.map((m) => ({
+                ref: m,
+                subType: m.data.subType,
+                assocSkillCode: m.data.assocSkillCode ?? null,
+                infinite: !!m.charges?.value.disabled,
+                remaining: m.charges?.value.effective ?? 0,
+            })),
+        )?.ref;
+
+        const options = eligible.map((m) => ({
+            id: m.id,
+            name: m.name,
+            scope:
+                m.data.assocSkillCode ?
+                    sohl.i18n.format("SOHL.Skill.Fate.source.specific", {
+                        skill: m.data.assocSkillCode,
+                    })
+                :   sohl.i18n.localize("SOHL.Skill.Fate.source.general"),
+            remaining:
+                m.charges?.value.disabled ?
+                    "∞"
+                :   String(m.charges?.value.effective ?? 0),
+            selected: m.id === preferred?.id,
+        }));
+
+        const result = await dialog({
+            title: sohl.i18n.localize("SOHL.Skill.Fate.source.title"),
+            content: toHTMLString(`<form>
+                <div class="form-group">
+                    <label>{{label}}</label>
+                    <select name="mysteryId">
+                        {{#each options}}
+                        <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.name}} — {{this.scope}} ({{this.remaining}})</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </form>`),
+            data: {
+                label: sohl.i18n.localize("SOHL.Skill.Fate.source.label"),
+                options,
+            },
+        });
+        if (!result) return undefined; // dismissed
+        const chosenId = result.data?.mysteryId;
+        return (
+            eligible.find((m) => m.id === chosenId) ?? preferred ?? eligible[0]
+        );
+    }
+
+    /**
+     * Decrement one charge on the chosen Fate Mystery, unless its charges are
+     * infinite (a disabled `charges.value`), in which case nothing is written.
+     *
+     * @param mystery - The Fate Mystery to spend a point from.
+     */
+    private async _consumeFateCharge(mystery: MysteryLogic): Promise<void> {
+        if (mystery.charges?.value.disabled) return; // infinite — never decrement
+        const remaining = mystery.charges?.value.effective ?? 0;
+        await mystery.data.update({
+            "system.charges.value": Math.max(remaining - 1, 0),
+        });
+    }
+
+    /**
+     * Post the Fate result card naming the resolved path (CF "point lost" / MF
+     * "no effect" / MS "+1" / CS the chosen "+2" or "retained +1") and the Fate
+     * Mystery a point was spent from, attaching the Fate roll for display.
+     *
+     * @param fateResult - The evaluated Fate test result.
+     * @param outcome - The resolved {@link resolveFateOutcome} outcome.
+     * @param spentSource - The Fate Mystery a point was consumed from, if any.
+     */
+    private async _postFateResultCard(
+        fateResult: SuccessTestResult,
+        outcome: ReturnType<typeof resolveFateOutcome>,
+        spentSource: MysteryLogic | undefined,
+    ): Promise<void> {
+        const cardData: PlainObject = {
+            actorUuid: this.actorLogic?.uuid,
+            title: sohl.i18n.format("SOHL.Skill.Fate.testTitle", {
+                label: this.label,
+            }),
+            mlModHtml: fateResult.masteryLevelModifier.chatHtml,
+            target: fateResult.masteryLevelModifier.effective,
+            rollTotal: fateResult.roll.total,
+            isSuccess: fateResult.isSuccess,
+            isCritical: fateResult.isCritical,
+            outcomeLabel: fateResult.resultText,
+            pathText: sohl.i18n.localize(
+                `SOHL.Skill.Fate.path.${outcome.path}`,
+            ),
+            sourceText:
+                spentSource ?
+                    sohl.i18n.format("SOHL.Skill.Fate.path.source", {
+                        name: spentSource.name,
+                    })
+                :   "",
+        };
+        const options: PlainObject = {
+            roll: await fvttToFoundryRoll(fateResult.roll),
+            sound: SOHL_SPEAKER_SOUND.DICE,
+        };
+        void this.speaker.toChat(
+            toFilePath("systems/sohl/templates/chat/fate-roll-card.hbs"),
+            cardData,
+            options,
+        );
     }
 
     /**
@@ -309,13 +536,37 @@ export class SkillLogic<
     }
 
     /**
-     * Searches through all of the Fate mysteries on the actor, gathering any that
-     * are applicable to this skill, and returns them.
+     * The Fate Mysteries on the actor that may be spent on this skill's tests:
+     * every `fate`-subtype Mystery whose scope matches (a **general** point with
+     * no `assocSkillCode`, or one **specific** to this skill's shortcode) that
+     * still has a charge available (infinite, or `charges.value > 0`).
      *
-     * @returns An array of Mystery fate items that apply to this skill.
+     * This is the eligibility set the Fate action is gated on (available iff ≥1)
+     * and the source list a spend is drawn from. Fate Points are not a scalar —
+     * they live as charges distributed across these Mystery items (#854).
+     *
+     * @returns The eligible-and-charged Fate {@link MysteryLogic} instances
+     *   (empty off an actor).
      */
-    get availableFate(): SohlItem[] {
-        return [];
+    get availableFate(): MysteryLogic[] {
+        const actorLogic = this.actorLogic;
+        if (!actorLogic) return [];
+        const mysteries = (actorLogic.logicTypes?.[ITEM_KIND.MYSTERY] ??
+            []) as MysteryLogic[];
+        return eligibleFateSources(
+            mysteries.map((m) => ({
+                ref: m,
+                subType: m.data.subType,
+                assocSkillCode: m.data.assocSkillCode ?? null,
+                // A disabled `charges.value` means infinite charges (or a
+                // mystery that does not track charges at all) — always available,
+                // never decremented.
+                infinite: !!m.charges?.value.disabled,
+                remaining: m.charges?.value.effective ?? 0,
+            })),
+            MYSTERY_SUBTYPE.FATE,
+            this.data.shortcode,
+        ).map((p) => p.ref);
     }
 
     /**

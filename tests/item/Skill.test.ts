@@ -652,7 +652,10 @@ describe("SkillLogic", () => {
             expect(logic.magicMod).toBe(0);
         });
 
-        it("availableFate is [] (full lookup is roadmap T2-2)", () => {
+        it("availableFate is [] off an actor (no mysteries to search)", () => {
+            // Eligibility resolution against the actor's Fate mysteries is
+            // covered in skill-fate.test.ts; off an actor there is nothing to
+            // search, so the set is empty.
             const logic = makeSkill();
             logic.initialize();
             expect(logic.availableFate).toEqual([]);
