@@ -927,6 +927,33 @@ export function filterHeldWeapons<W>(
     return weapons.filter((w) => getHeldBy(w).length > 0);
 }
 
+/**
+ * Filter a source's strike modes to those usable given how many limbs currently
+ * grip it. A weapon strike mode declares the limb count it needs to wield
+ * (`minParts`) — a longbow's missile mode is `minParts: 2` because it takes two
+ * hands to draw — so a mode whose `minParts` exceeds the holding-limb count is
+ * dropped. Intrinsic sources that no limb "holds" (combat-technique skills,
+ * signalled by `heldLimbs === null`) keep every mode.
+ *
+ * Mirrors the availability rule in
+ * {@link sohl.document.actor.logic.BeingLogic.availableStrikeModes} so the combat-tab
+ * listing and the roll-time usable-mode set agree (#836).
+ *
+ * @param modes - The source's strike modes.
+ * @param heldLimbs - Number of limbs gripping the source, or `null` for an
+ *   intrinsic source (always available).
+ * @returns The subset of modes usable at this grip.
+ */
+export function usableHeldStrikeModes<SM extends object>(
+    modes: readonly SM[],
+    heldLimbs: number | null,
+): SM[] {
+    if (heldLimbs === null) return [...modes];
+    return modes.filter(
+        (sm) => ((sm as { minParts?: number }).minParts ?? 1) <= heldLimbs,
+    );
+}
+
 /* -------------------------------------------- */
 /*  Strike-mode modifier selection              */
 /* -------------------------------------------- */
