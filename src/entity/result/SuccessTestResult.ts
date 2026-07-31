@@ -767,6 +767,11 @@ export class SuccessTestResult extends TestResult {
             roll: { ...this._roll.toJSON(), total: this._roll.total },
             isSuccess: this.isSuccess,
             isCritical: this.isCritical,
+            // The card's root element and its edit-pencil / fate-test buttons
+            // dispatch against the owning item (and reference the actor), so both
+            // uuids must reach the template.
+            item: { uuid: this._item.uuid },
+            actor: { uuid: this._item.actor?.uuid },
             template: "systems/sohl/templates/chat/standard-test-card.hbs",
             movementOptions: SuccessTestResultMovements.map((val) => [
                 val,

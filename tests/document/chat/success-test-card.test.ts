@@ -21,6 +21,8 @@ const parent = {
     id: "actor0000000001",
     name: "Hero",
     label: "Hero",
+    uuid: "Item.itm1",
+    actor: { uuid: "Actor.act1" },
     data: { kind: "skill" },
     item: { logic: { availableFate: [] } },
     [BRAND.SohlLogic]: true,
@@ -97,5 +99,13 @@ describe("standard-test-card renders the evaluated success test", () => {
         expect(html).not.toContain("SOHL.SuccessTestResult.");
         // Marginal success on a plain (crit-allowed) skill test.
         expect(html).toMatch(/card-footer[\s\S]*?Success/);
+    });
+
+    it("wires the item/actor uuids so the edit and fate buttons dispatch", async () => {
+        const { html } = await renderCard(50, 32);
+        // Root element and the edit-pencil / fate-test buttons all need the
+        // owning item's uuid (and the actor's) to dispatch their actions.
+        expect(html).toContain('data-actor-uuid="Actor.act1"');
+        expect(html).toContain('data-action-handler-uuid="Item.itm1"');
     });
 });

@@ -22,9 +22,13 @@ resolved:
   folded in, so the Roll shows the d100 total and the card styles a pass as a
   success.
 - **Localized footer.** Added the six `SOHL.SuccessTestResult.{Success,Failure,
-  MarginalSuccess,MarginalFailure,CriticalSuccess,CriticalFailure}` keys (none
+MarginalSuccess,MarginalFailure,CriticalSuccess,CriticalFailure}` keys (none
   existed) and localized the footer (`{{localize description}}`), so it shows e.g.
   "Marginal Success" rather than the raw key.
+- **Live edit / fate buttons.** The card's root element, its edit-pencil, and its
+  Fate Test button read `{{actor.uuid}}` / `{{item.uuid}}`, which `toChat` never
+  supplied — so all three rendered empty and the buttons could not dispatch. The
+  owning item's and actor's uuids are now folded in.
 
 Affected every success-test card (skills, attributes, and combat), since they all
 share this render path.
