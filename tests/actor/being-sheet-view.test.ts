@@ -31,6 +31,7 @@ import {
     buildBodyPartLozenges,
     clampHealthPct,
     splitWeaponsByRange,
+    usableHeldStrikeModes,
     selectStrikeModeModifier,
     filterHeldWeapons,
 } from "@src/document/actor/logic/being-sheet-view";
@@ -830,6 +831,37 @@ describe("being-sheet-view", () => {
             const split = splitWeaponsByRange([w], modes);
             expect(split.meleeWeapons).toEqual([]);
             expect(split.missileWeapons).toEqual([]);
+        });
+    });
+
+    describe("usableHeldStrikeModes (#836)", () => {
+        const oneHand = { name: "swing", minParts: 1 };
+        const twoHand = { name: "draw", minParts: 2 };
+
+        it("keeps every mode for an intrinsic source (heldLimbs null)", () => {
+            expect(usableHeldStrikeModes([oneHand, twoHand], null)).toEqual([
+                oneHand,
+                twoHand,
+            ]);
+        });
+
+        it("drops a two-hand mode when held in a single limb", () => {
+            expect(usableHeldStrikeModes([oneHand, twoHand], 1)).toEqual([
+                oneHand,
+            ]);
+        });
+
+        it("keeps a two-hand mode when held in two limbs", () => {
+            expect(usableHeldStrikeModes([oneHand, twoHand], 2)).toEqual([
+                oneHand,
+                twoHand,
+            ]);
+        });
+
+        it("treats a missing minParts as 1", () => {
+            const noReq = { name: "jab" };
+            expect(usableHeldStrikeModes([noReq], 1)).toEqual([noReq]);
+            expect(usableHeldStrikeModes([noReq], 0)).toEqual([]);
         });
     });
 

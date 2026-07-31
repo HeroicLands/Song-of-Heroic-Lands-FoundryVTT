@@ -75,6 +75,7 @@ import {
     clampHealthPct,
     filterHeldWeapons,
     splitWeaponsByRange,
+    usableHeldStrikeModes,
 } from "@src/document/actor/logic/being-sheet-view";
 import {
     formatPrintHealthLine,
@@ -2350,7 +2351,20 @@ html, body { margin: 0; padding: 0; background: #fff; }
             missileWeapons: missileStrikeModes,
         } = splitWeaponsByRange(
             [...techniqueSkills, ...heldWeapons],
-            (source) => (source.logic as any)?.strikeModes ?? [],
+            (source) => {
+                const modes = (source.logic as any)?.strikeModes ?? [];
+                // Weapons expose the limbs gripping them (`heldBy`); a mode is
+                // usable only when enough limbs hold the weapon to satisfy its
+                // `minParts` (a longbow's missile mode needs two hands to draw).
+                // Combat-technique skills have no `heldBy` — they are intrinsic
+                // and always available (`null`). Mirrors
+                // `BeingLogic.availableStrikeModes` (#836).
+                const heldBy = (source.logic as any)?.heldBy;
+                return usableHeldStrikeModes(
+                    modes,
+                    heldBy ? heldBy.length : null,
+                );
+            },
         );
 
         // Body structure for anatomy display — the being's own body (empty for
