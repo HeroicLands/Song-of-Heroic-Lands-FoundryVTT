@@ -48,7 +48,11 @@ export function buildFrameworkDemoTour(): SohlTour {
         id: FRAMEWORK_DEMO_TOUR.id,
         title: "SOHL.Tour.Demo.title",
         description: "SOHL.Tour.Demo.description",
-        display: true,
+        // Registered (so the e2e suite can drive `sohl.framework-demo`) but NOT
+        // listed in Tour Management: this is the framework's worked example and
+        // e2e subject, not a player-facing content tour. `display: false` keeps
+        // it out of the user's tour list while leaving it in `game.tours`.
+        display: false,
         canStart: () => Boolean(firstOwnedBeing()),
         steps: [
             {
