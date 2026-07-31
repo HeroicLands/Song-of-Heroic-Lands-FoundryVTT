@@ -1,9 +1,14 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { SohlItemBaseLogic } from "@src/document/item/logic/SohlItemBaseLogic";
+import {
+    SohlItemBaseLogic,
+    buildItemDescCardData,
+} from "@src/document/item/logic/SohlItemBaseLogic";
 import { ContainerGearLogic } from "@src/document/item/logic/ContainerGearLogic";
 import { ITEM_KIND } from "@src/utils/constants";
-import { makeItemLogic } from "@tests/mocks/logicHarness";
+import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
+import { buildActionCard } from "@src/document/chat/action-card";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
+import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 
 describe("SohlItemBaseLogic intrinsic actions", () => {
     afterEach(() => vi.restoreAllMocks());
@@ -113,5 +118,123 @@ describe("SohlItemBaseLogic intrinsic actions", () => {
         expect((spy.mock.calls[0]![0] as any).data.warning).toBe(
             "SOHL.ContainerGear.delete.warning",
         );
+    });
+
+    it("defines an outputDescription intrinsic action on every item kind", () => {
+        const action = SohlItemBaseLogic.defineIntrinsicActions().find(
+            (a) => a.shortcode === "outputDescription",
+        );
+        expect(action).toBeDefined();
+        expect(action!.executor).toBe("outputDescription");
+        expect(action!.title).toBe(
+            "SOHL.SohlItemBaseLogic.Action.outputDescription.title",
+        );
+    });
+});
+
+describe("buildItemDescCardData → item-desc-card", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    it("populates the card from the item, enriching the description", async () => {
+        const actor = makeMockActor();
+        const logic = makeItemLogic(
+            SohlItemBaseLogic,
+            ITEM_KIND.SKILL,
+            {
+                notes: "A short note",
+                docHtml: "<p>The long description.</p>",
+            },
+            { actor, name: "Sword & Board" },
+        );
+        logic.initialize();
+
+        const spec = await buildItemDescCardData(logic);
+        expect(spec.template).toContain("item-desc-card.hbs");
+        expect(spec.buttons).toBeUndefined(); // informational — no follow-up
+        expect(spec.data).toMatchObject({
+            actorId: actor.id,
+            name: "Sword & Board",
+            notes: "A short note",
+            desc: "<p>The long description.</p>",
+        });
+    });
+
+    it("renders (real Handlebars) the item's name, subtitle, notes and description", async () => {
+        vi.spyOn(FoundryHelpersMock, "toHTMLWithTemplate").mockImplementation(((
+            tpl: any,
+            data: any,
+        ) => Promise.resolve(renderTemplateReal(String(tpl), data))) as any);
+
+        const actor = makeMockActor();
+        const logic = makeItemLogic(
+            SohlItemBaseLogic,
+            ITEM_KIND.SKILL,
+            {
+                notes: "Guild-taught",
+                docHtml: "<p>A trusty broadsword.</p>",
+            },
+            { actor, name: "Broadsword" },
+        );
+        logic.initialize();
+
+        const html = await buildActionCard(await buildItemDescCardData(logic));
+        expect(html).toContain(`data-actor-id="${actor.id}"`);
+        expect(html).toContain("Broadsword");
+        expect(html).toContain("Guild-taught");
+        expect(html).toContain("A trusty broadsword.");
+        // No charges on a skill → the charges row is omitted.
+        expect(html).not.toContain("Charges:");
+    });
+
+    it("does not interpolate item data into template source (escaped, never raw)", async () => {
+        vi.spyOn(FoundryHelpersMock, "toHTMLWithTemplate").mockImplementation(((
+            tpl: any,
+            data: any,
+        ) => Promise.resolve(renderTemplateReal(String(tpl), data))) as any);
+
+        const logic = makeItemLogic(SohlItemBaseLogic, ITEM_KIND.SKILL, {}, {
+            name: "<script>alert(1)</script>",
+        } as any);
+        logic.initialize();
+
+        const html = await buildActionCard(await buildItemDescCardData(logic));
+        // The name rides in `data`, where Handlebars escapes it in the `{{name}}`
+        // title — it must never reach the card as a live tag.
+        expect(html).not.toContain("<script>alert(1)</script>");
+        expect(html).toContain("&lt;script&gt;");
+    });
+
+    it("shows a concrete charges count when the item uses charges", async () => {
+        vi.spyOn(FoundryHelpersMock, "toHTMLWithTemplate").mockImplementation(((
+            tpl: any,
+            data: any,
+        ) => Promise.resolve(renderTemplateReal(String(tpl), data))) as any);
+
+        const logic = makeItemLogic(SohlItemBaseLogic, ITEM_KIND.SKILL, {
+            charges: { value: 3, max: 5 },
+        });
+        logic.initialize();
+
+        const spec = await buildItemDescCardData(logic);
+        expect(spec.data!.charges).toBe("3 / 5");
+        const html = await buildActionCard(spec);
+        expect(html).toContain("Charges:");
+        expect(html).toContain("3 / 5");
+    });
+
+    it("omits charges when the item has infinite (null value) or no charges", async () => {
+        const infinite = makeItemLogic(SohlItemBaseLogic, ITEM_KIND.SKILL, {
+            charges: { value: null, max: 5 },
+        });
+        infinite.initialize();
+        expect(
+            (await buildItemDescCardData(infinite)).data!.charges,
+        ).toBeUndefined();
+
+        const none = makeItemLogic(SohlItemBaseLogic, ITEM_KIND.SKILL);
+        none.initialize();
+        expect(
+            (await buildItemDescCardData(none)).data!.charges,
+        ).toBeUndefined();
     });
 });
