@@ -3,6 +3,7 @@ import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import { BRAND, SUCCESS_TEST_RESULT_MOVEMENT } from "@src/utils/constants";
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
 
@@ -195,6 +196,69 @@ describe("SuccessTestResult", () => {
     describe("toChat()", () => {
         it.todo("sends chat message with test result data");
         it.todo("includes roll in chat options");
+
+        it("folds caller-supplied `buttons` through toRenderableButtons into the card data (#853)", async () => {
+            const result = makeResult();
+            const spy = vi
+                .spyOn(SohlSpeaker.prototype, "toChat")
+                .mockResolvedValue(undefined as any);
+            await result.toChat({
+                buttons: {
+                    action: "treatInjury",
+                    handlerUuid: "@self",
+                    scope: { woundId: "w1" },
+                    label: "Accept Treatment",
+                    iconFAClass: "fa-solid fa-kit-medical",
+                },
+            });
+            expect(spy).toHaveBeenCalledTimes(1);
+            const chatData = spy.mock.calls[0][1] as any;
+            // The raw ActionCardButton spec is normalized (scope pre-serialized,
+            // skipDialog defaulted), never passed through as template data.
+            expect(chatData.buttons).toEqual([
+                {
+                    action: "treatInjury",
+                    handlerUuid: "@self",
+                    scopeJSON: JSON.stringify({ woundId: "w1" }),
+                    label: "Accept Treatment",
+                    iconFAClass: "fa-solid fa-kit-medical",
+                    skipDialog: true,
+                },
+            ]);
+        });
+
+        it("normalizes an array of buttons and defaults skipDialog per-button (#853)", async () => {
+            const result = makeResult();
+            const spy = vi
+                .spyOn(SohlSpeaker.prototype, "toChat")
+                .mockResolvedValue(undefined as any);
+            await result.toChat({
+                buttons: [
+                    { action: "a1", handlerUuid: "Actor.x", label: "One" },
+                    {
+                        action: "a2",
+                        handlerUuid: "@self",
+                        label: "Two",
+                        skipDialog: false,
+                    },
+                ],
+            });
+            const chatData = spy.mock.calls[0][1] as any;
+            expect(chatData.buttons).toHaveLength(2);
+            expect(chatData.buttons[0].skipDialog).toBe(true);
+            expect(chatData.buttons[1].skipDialog).toBe(false);
+            expect(chatData.buttons[0].scopeJSON).toBe("{}");
+        });
+
+        it("omits `buttons` from the card data when none are supplied (#853)", async () => {
+            const result = makeResult();
+            const spy = vi
+                .spyOn(SohlSpeaker.prototype, "toChat")
+                .mockResolvedValue(undefined as any);
+            await result.toChat();
+            const chatData = spy.mock.calls[0][1] as any;
+            expect(chatData.buttons).toBeUndefined();
+        });
     });
 
     // Derived outcome data (resultText / resultDesc / successStars) is never

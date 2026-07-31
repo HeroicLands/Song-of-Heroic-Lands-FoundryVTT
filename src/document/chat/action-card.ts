@@ -98,7 +98,7 @@ export interface ActionCardSpec {
 }
 
 /** The per-button shape handed to the button template (scope pre-serialized). */
-interface RenderableButton {
+export interface RenderableButton {
     action: string;
     handlerUuid: string;
     scopeJSON: string;
@@ -112,10 +112,15 @@ interface RenderableButton {
  * pre-serializing each scope so the template only emits it (never builds HTML
  * from data). `skipDialog` defaults to `true`.
  *
+ * Exported so any card that renders the shared `action-buttons` block — the
+ * action-card body {@link buildActionCard}, or the standard test card
+ * ({@link sohl.entity.result.SuccessTestResult.toChat}) — folds its follow-up
+ * buttons through the one normalizer.
+ *
  * @param buttons - The spec's buttons.
  * @returns The renderable button array (possibly empty).
  */
-function toRenderableButtons(
+export function toRenderableButtons(
     buttons: ActionCardSpec["buttons"],
 ): RenderableButton[] {
     if (!buttons) return [];
