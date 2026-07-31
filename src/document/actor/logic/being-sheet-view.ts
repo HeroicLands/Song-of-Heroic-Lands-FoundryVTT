@@ -936,7 +936,7 @@ export function filterHeldWeapons<W>(
  * signalled by `heldLimbs === null`) keep every mode.
  *
  * Mirrors the availability rule in
- * {@link sohl.document.actor.BeingLogic.availableStrikeModes} so the combat-tab
+ * {@link sohl.document.actor.logic.BeingLogic.availableStrikeModes} so the combat-tab
  * listing and the roll-time usable-mode set agree (#836).
  *
  * @param modes - The source's strike modes.
