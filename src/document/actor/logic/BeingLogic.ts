@@ -67,6 +67,8 @@ import {
     clampShockState,
     shockStateFromIndex,
     shockIndexAdjustment,
+    shockRollNeeded,
+    shockStateLabelKey,
     shockReTestOutcome,
     comaHealingRate,
     type ShockReTestOutcome,
@@ -177,7 +179,7 @@ import {
     type OfferContext,
 } from "@src/document/item/logic/offer-schedule";
 import { armScheduledActions } from "@src/entity/event/scheduled-actions";
-import { toFilePath, defaultToJSON } from "@src/utils/helpers";
+import { toFilePath, toHTMLString, defaultToJSON } from "@src/utils/helpers";
 import {
     ResolvedInjury,
     resolveInjury as resolveInjuryOutcome,
@@ -691,52 +693,251 @@ export class BeingLogic<
     }
 
     /**
-     * Roll the being's shock test (Shock skill), used to resist losing
-     * consciousness or capability after taking injury. The resulting success
-     * level feeds the being's shock modifier.
+     * Roll the being's **Shock** skill test for a base Shock State Index and
+     * resolve the resulting shock state — the shared core of {@link shockTest}
+     * (#850) and {@link injuryShock} (#555).
      *
-     * @param context - The action context for the test.
-     * @returns The success test result, or `null` if the test could not be run.
-     * @remarks Not yet implemented; currently returns `null`.
+     * A base index **below 5** is always No Shock and **above 10** is always Dead,
+     * so no roll can change the outcome and it is skipped
+     * ({@link shockRollNeeded}). Otherwise a **Shock** skill test is rolled
+     * headlessly and its result adjusts the index (CF +2 / MF +1 / MS 0 / CS −1);
+     * the final index maps to a shock state via {@link shockStateFromIndex}.
+     *
+     * The being's fatigue penalty (and any glancing-blow bonus) is passed as
+     * `situationalModifier`; **injury-impairment penalties do not apply**, because
+     * the modifier is being-parented rather than skill-parented, so the
+     * impairment logic in {@link sohl.entity.modifier.MasteryLevelModifier.successTest}
+     * finds no `impairedByRoles` and adds no `BPImp` delta. Applying the state
+     * (worsen-only, offered or direct) is the caller's responsibility.
+     *
+     * @param baseIndex - The Shock State Index before the roll.
+     * @param options - Roll options.
+     * @param options.situationalModifier - A flat modifier on the roll (the
+     *   fatigue penalty plus any glancing-blow bonus).
+     * @param options.type - The chat test-type id.
+     * @param options.title - The chat card title.
+     * @returns The roll result (or `null` when none was rolled), the final index,
+     *   and the target shock state; or `undefined` if the roll was cancelled.
+     */
+    private async resolveShockRoll(
+        baseIndex: number,
+        options: {
+            situationalModifier?: number;
+            type?: string;
+            title?: string;
+        },
+    ): Promise<
+        | {
+              result: SuccessTestResult | null;
+              finalIndex: number;
+              targetState: number;
+          }
+        | undefined
+    > {
+        if (!shockRollNeeded(baseIndex)) {
+            return {
+                result: null,
+                finalIndex: baseIndex,
+                targetState: shockStateFromIndex(baseIndex),
+            };
+        }
+        const shockMl =
+            (
+                this.getItemLogic(SKILL_CODE.SHOCK, ITEM_KIND.SKILL) as
+                    | SkillLogic
+                    | undefined
+            )?.masteryLevel?.effective ?? 0;
+        const result = await rollTimedTest(this, shockMl, {
+            type: options.type ?? "shock-test",
+            title:
+                options.title ??
+                sohl.i18n.localize("SOHL.Being.Action.shockTest"),
+            situationalModifier: options.situationalModifier ?? 0,
+        });
+        if (!result) return undefined; // cancelled or unowned
+        const finalIndex =
+            baseIndex + shockIndexAdjustment(result.normSuccessLevel);
+        return {
+            result,
+            finalIndex,
+            targetState: shockStateFromIndex(finalIndex),
+        };
+    }
+
+    /**
+     * Offer to set the being's {@link shockState} to `target` and, on acceptance,
+     * apply it (via {@link setShockState}, which clears every other shock status).
+     * The offer is a yes/no dialog — the state change is never applied without a
+     * human (consent model, Prime Directive). A scripted caller pre-answers with
+     * `scope.applyShockState` and suppresses the prompt with `skipDialog`; a no-op
+     * when `target` already equals the current state.
+     *
+     * @param context - The action context; `scope.applyShockState` pre-answers the
+     *   offer and `skipDialog` suppresses the prompt.
+     * @param target - The shock-state level to set (the caller has already applied
+     *   the worsen-only clamp).
+     * @returns A promise that resolves once the state is set or the offer declined.
+     */
+    private async offerSetShockState(
+        context: SohlActionContext,
+        target: number,
+    ): Promise<void> {
+        if (target === this.shockState) return;
+        let apply = (context.scope as { applyShockState?: boolean } | undefined)
+            ?.applyShockState;
+        if (apply == null && !context.skipDialog) {
+            apply =
+                (await dialog({
+                    title: sohl.i18n.localize(
+                        "SOHL.Being.ShockTest.setStateTitle",
+                    ),
+                    content: toHTMLString(`<p>{{prompt}}</p>`),
+                    data: {
+                        prompt: sohl.i18n.format(
+                            "SOHL.Being.ShockTest.setStatePrompt",
+                            {
+                                name: this.name,
+                                state: sohl.i18n.localize(
+                                    shockStateLabelKey(target),
+                                ),
+                            },
+                        ),
+                    },
+                    buttons: [
+                        {
+                            action: "yes",
+                            label: sohl.i18n.localize(
+                                "SOHL.Being.ShockTest.setStateYes",
+                            ),
+                            icon: "far fa-face-eyes-xmarks",
+                            default: true,
+                        },
+                        {
+                            action: "no",
+                            label: sohl.i18n.localize(
+                                "SOHL.Being.ShockTest.setStateNo",
+                            ),
+                        },
+                    ],
+                    callback: (_formData: PlainObject, action: string) =>
+                        action === "yes",
+                    rejectClose: false,
+                })) === true;
+        }
+        if (apply) await this.setShockState(target);
+    }
+
+    /**
+     * Roll a **Shock** skill test (#850) — the general shock primitive. Shock is
+     * not specific to injury: blood loss, fear, and other systemic or
+     * psychological forces all drive a shock test by supplying a **base Shock
+     * State Index (SSI)**. The base SSI comes from `context.scope`
+     * (`shockIndex`/`baseShockIndex`) for a scripted cause, or is collected via a
+     * dialog when the action is run by hand.
+     *
+     * The Shock skill is rolled **without** the body-part impairment penalty (the
+     * being's fatigue penalty still applies); the result adjusts the SSI
+     * (CF +2 / MF +1 / MS 0 / CS −1), which maps to a shock state
+     * ({@link shockStateFromIndex}). A base SSI below 5 is No Shock and above 10
+     * is immediate Dead, with no roll ({@link shockRollNeeded}). The being is then
+     * **offered** the resulting state (worsen-only — a fresh shock never improves
+     * an already-worse state; recovery is the {@link shockReTest}, #556), and, if
+     * it enters ordinary shock, offered the Re-Test reminder.
+     *
+     * @param context - The action context; `scope.shockIndex`/`baseShockIndex`
+     *   supplies the base SSI and `scope.applyShockState` pre-answers the
+     *   set-state offer.
+     * @returns The Shock-test result, or `null` when no roll was made or the
+     *   action was dismissed.
      */
     async shockTest(
-        context: SohlActionContext<EmptyObject>,
+        context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
-        // let { testResult } = options;
-        // if (!testResult) {
-        //     const shockSkill = this.actor.getItem("shk", { types: ["skill"] });
-        //     if (!shockSkill) return null;
-        //     testResult = new CONFIG.SOHL.class.SuccessTestResult(
-        //         {
-        //             speaker,
-        //             testType: SuccessTestResult.TEST_TYPE.SHOCK,
-        //             mlMod: Utility.deepClone(shockSkill.system.$masteryLevel),
-        //         },
-        //         { parent: shockSkill.system },
-        //     );
-        //     // For the shock test, the test should not include the impairment penalty
-        //     testResult.mlMod.delete("BPImp");
-        // }
-        // testResult = testResult.item.system.successTest(optionws);
-        // testResult.shockMod = 1 - testResult.successLevel;
-        // return testResult;
-        return null;
+        const scope = (context.scope ?? {}) as {
+            shockIndex?: number;
+            baseShockIndex?: number;
+            applyShockState?: boolean;
+        };
+
+        let baseIndex = Number(scope.shockIndex ?? scope.baseShockIndex ?? NaN);
+        if (Number.isNaN(baseIndex)) {
+            if (context.skipDialog) {
+                baseIndex = 0;
+            } else {
+                const collected = (await dialog({
+                    title: `${this.name}: ${sohl.i18n.localize(
+                        "SOHL.Being.Action.shockTest",
+                    )}`,
+                    content: toHTMLString(
+                        `<form><div class="form-group">` +
+                            `<label>{{label}}</label>` +
+                            `<input type="number" name="shockIndex" value="{{shockIndex}}" autofocus />` +
+                            `</div></form>`,
+                    ),
+                    data: {
+                        label: sohl.i18n.localize(
+                            "SOHL.Being.ShockTest.indexLabel",
+                        ),
+                        shockIndex: 0,
+                    },
+                    buttons: [
+                        {
+                            action: "roll",
+                            label: sohl.i18n.localize(
+                                "SOHL.Being.ShockTest.roll",
+                            ),
+                            icon: "fa-solid fa-dice-d20",
+                            default: true,
+                        },
+                        {
+                            action: "cancel",
+                            label: sohl.i18n.localize(
+                                "SOHL.Being.ShockTest.cancel",
+                            ),
+                        },
+                    ],
+                    callback: (formData: PlainObject, action: string) =>
+                        action === "cancel" ? null : (
+                            { shockIndex: Number(formData.shockIndex) || 0 }
+                        ),
+                    rejectClose: false,
+                })) as { shockIndex: number } | null;
+                if (!collected) return null; // dismissed / cancelled
+                baseIndex = collected.shockIndex;
+            }
+        }
+
+        const outcome = await this.resolveShockRoll(baseIndex, {
+            type: "shock-test",
+            title: sohl.i18n.localize("SOHL.Being.Action.shockTest"),
+            situationalModifier: -(this.fatiguePenalty?.effective ?? 0),
+        });
+        if (!outcome) return null;
+
+        // Worsen only — a fresh shock never improves an already-worse state.
+        const target = Math.max(this.shockState, outcome.targetState);
+        await this.offerSetShockState(context, target);
+        // Entering ordinary shock offers (never auto-arms) the Re-Test reminder.
+        await this.offerShockReTest(context);
+        return outcome.result;
     }
 
     /**
      * Resolve the **Injury Shock Test** (#555) for a wound just taken, worsening
      * the being's {@link shockState} accordingly.
      *
-     * Intrinsic handler for the injury card's Shock Roll button. The card's
-     * `scope` carries the wound's precomputed shock contribution
-     * (`shockIndex` = body-location Shock Value + Injury Level, already including
-     * the glancing-blow point) and a `shockBonus` (the +10 glancing-blow roll
-     * bonus). A **Shock** skill test is rolled headlessly — the being's fatigue
-     * penalty applies and the glancing bonus is added, but injury-impairment
-     * penalties do not — and its result adjusts the **Shock State Index**
-     * (CF +2 / MF +1 / MS 0 / CS −1). The resulting index maps to a shock state
-     * ({@link shockStateFromIndex}); the being is then worsened to that state
-     * (shock only ever worsens here — an improving Re-Test is #556).
+     * Intrinsic handler for the injury card's Shock Roll button — a specialization
+     * of the general {@link shockTest}, with the base Shock State Index computed
+     * from the wound. The card's `scope` carries the wound's precomputed shock
+     * contribution (`shockIndex` = body-location Shock Value + Injury Level,
+     * already including the glancing-blow point) and a `shockBonus` (the +10
+     * glancing-blow roll bonus). The shared `resolveShockRoll` core rolls a
+     * headless **Shock** test (fatigue applies, the glancing bonus is added, and
+     * injury-impairment penalties do not); its result maps to a shock state, and
+     * the being is worsened to it (shock only ever worsens here — an improving
+     * Re-Test is #556). The state is applied **directly** — the player's click on
+     * the injury card's Shock Roll button was the consent — and the Re-Test
+     * reminder is then offered.
      *
      * @param context - The action context; its `scope` carries `shockIndex` and
      *   an optional `shockBonus`.
@@ -752,32 +953,23 @@ export class BeingLogic<
         const shockIndex = Number(scope.shockIndex ?? 0);
         const shockBonus = Number(scope.shockBonus ?? 0);
 
-        const shockMl =
-            (
-                this.getItemLogic(SKILL_CODE.SHOCK, ITEM_KIND.SKILL) as
-                    | SkillLogic
-                    | undefined
-            )?.masteryLevel?.effective ?? 0;
-        // Fatigue penalty applies; injury-impairment penalties do not. The
-        // glancing-blow bonus is added to the roll.
-        const situationalModifier =
-            shockBonus - (this.fatiguePenalty?.effective ?? 0);
-
-        const result = await rollTimedTest(this, shockMl, {
+        const outcome = await this.resolveShockRoll(shockIndex, {
             type: "injury-shock",
             title: sohl.i18n.localize("SOHL.Being.Action.shockTest"),
-            situationalModifier,
+            // Fatigue penalty applies; the glancing-blow bonus is added.
+            situationalModifier:
+                shockBonus - (this.fatiguePenalty?.effective ?? 0),
         });
-        if (!result) return null;
+        if (!outcome) return null;
 
-        const ssi = shockIndex + shockIndexAdjustment(result.normSuccessLevel);
-        const target = shockStateFromIndex(ssi);
         // Worsen only — an injury never improves an already-worse shock state.
-        await this.setShockState(Math.max(this.shockState, target));
+        await this.setShockState(
+            Math.max(this.shockState, outcome.targetState),
+        );
         // Entering ordinary shock offers (never auto-arms) the Re-Test reminder
         // on the state's cadence — end of each turn / +10 min (#569).
         await this.offerShockReTest(context);
-        return result;
+        return outcome.result;
     }
 
     /**

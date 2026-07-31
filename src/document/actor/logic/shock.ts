@@ -145,6 +145,50 @@ export function shockIndexAdjustment(normSuccessLevel: number): number {
 }
 
 /**
+ * Whether a **Shock Test** roll can change the outcome for a given base Shock
+ * State Index, or the result is a foregone conclusion (Shock rules — Shock State
+ * Index). A Shock roll adjusts the index by `+2` (CF) … `−1` (CS), so:
+ *
+ * - a base index **below 5** can never reach 7 even on a Critical Failure
+ *   (`4 + 2 = 6 → None`) — always **No Shock**, no roll needed;
+ * - a base index **above 10** can never fall below 10 even on a Critical Success
+ *   (`11 − 1 = 10 → Dead`) — always **Dead**, no roll needed.
+ *
+ * In both those cases the state is {@link shockStateFromIndex} of the base index
+ * directly. Only a base index in `[5, 10]` is decided by the roll.
+ *
+ * @param baseIndex - The Shock State Index before the roll.
+ * @returns `true` when a roll is needed, `false` when the outcome is fixed.
+ */
+export function shockRollNeeded(baseIndex: number): boolean {
+    return baseIndex >= 5 && baseIndex <= 10;
+}
+
+/**
+ * The localization key for each shock-state level's display label, indexed by
+ * level (`NONE` … `DEAD`). See {@link shockStateLabelKey}.
+ */
+export const SHOCK_STATE_LABEL_KEYS: readonly string[] = [
+    "SOHL.Being.ShockState.none",
+    "SOHL.Being.ShockState.stunned",
+    "SOHL.Being.ShockState.incapacitated",
+    "SOHL.Being.ShockState.unconscious",
+    "SOHL.Being.ShockState.dead",
+];
+
+/**
+ * The localization key for a shock-state level's display label (used in the
+ * Shock Test's offer-to-set-state prompt and result card). Out-of-range levels
+ * are clamped to `[NONE, DEAD]`.
+ *
+ * @param level - A shock-state level.
+ * @returns The localization key for that level's label.
+ */
+export function shockStateLabelKey(level: number): string {
+    return SHOCK_STATE_LABEL_KEYS[clampShockState(level)];
+}
+
+/**
  * The situational modifier on a **Shock Re-Test** (Shock rules — Shock Re-Test):
  * a Shock skill test at −20.
  */

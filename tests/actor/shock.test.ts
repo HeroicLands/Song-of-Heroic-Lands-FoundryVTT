@@ -15,6 +15,8 @@ import {
     clampShockState,
     shockStateFromIndex,
     shockIndexAdjustment,
+    shockRollNeeded,
+    shockStateLabelKey,
     shockReTestOutcome,
     shockCourseHrDelta,
     comaHealingRate,
@@ -114,6 +116,49 @@ describe("shock (#550)", () => {
             expect(shockIndexAdjustment(MARGINAL_FAILURE)).toBe(1);
             expect(shockIndexAdjustment(MARGINAL_SUCCESS)).toBe(0);
             expect(shockIndexAdjustment(CRITICAL_SUCCESS)).toBe(-1);
+        });
+    });
+
+    describe("shockRollNeeded (#850)", () => {
+        it("is false below 5 (always No Shock even on a Critical Failure)", () => {
+            expect(shockRollNeeded(0)).toBe(false);
+            expect(shockRollNeeded(4)).toBe(false);
+        });
+
+        it("is true within the decided range [5, 10]", () => {
+            expect(shockRollNeeded(5)).toBe(true);
+            expect(shockRollNeeded(7)).toBe(true);
+            expect(shockRollNeeded(10)).toBe(true);
+        });
+
+        it("is false above 10 (always Dead even on a Critical Success)", () => {
+            expect(shockRollNeeded(11)).toBe(false);
+            expect(shockRollNeeded(20)).toBe(false);
+        });
+    });
+
+    describe("shockStateLabelKey (#850)", () => {
+        it("maps each level to its label key", () => {
+            expect(shockStateLabelKey(SHOCK_STATE.NONE)).toBe(
+                "SOHL.Being.ShockState.none",
+            );
+            expect(shockStateLabelKey(SHOCK_STATE.STUNNED)).toBe(
+                "SOHL.Being.ShockState.stunned",
+            );
+            expect(shockStateLabelKey(SHOCK_STATE.INCAPACITATED)).toBe(
+                "SOHL.Being.ShockState.incapacitated",
+            );
+            expect(shockStateLabelKey(SHOCK_STATE.UNCONSCIOUS)).toBe(
+                "SOHL.Being.ShockState.unconscious",
+            );
+            expect(shockStateLabelKey(SHOCK_STATE.DEAD)).toBe(
+                "SOHL.Being.ShockState.dead",
+            );
+        });
+
+        it("clamps out-of-range levels", () => {
+            expect(shockStateLabelKey(-3)).toBe("SOHL.Being.ShockState.none");
+            expect(shockStateLabelKey(99)).toBe("SOHL.Being.ShockState.dead");
         });
     });
 

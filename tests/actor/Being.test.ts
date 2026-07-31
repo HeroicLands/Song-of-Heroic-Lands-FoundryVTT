@@ -20,8 +20,10 @@ import {
     MARGINAL_SUCCESS,
     MORALE_LEVEL,
     MOVEMENT_MEDIUM,
+    STATUS_EFFECT,
     TRAUMA_SUBTYPE,
 } from "@src/utils/constants";
+import { SHOCK_STATE } from "@src/document/actor/logic/shock";
 import { TraumaLogic } from "@src/document/item/logic/TraumaLogic";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import * as ActionCard from "@src/document/chat/action-card";
@@ -658,7 +660,6 @@ describe("BeingLogic", () => {
         it("resolve to null (not yet implemented)", async () => {
             const logic = makeBeing();
             const ctx = { scope: {} } as any;
-            await expect(logic.shockTest(ctx)).resolves.toBeNull();
             await expect(logic.stumbleTest(ctx)).resolves.toBeNull();
             await expect(logic.fumbleTest(ctx)).resolves.toBeNull();
             await expect(logic.moraleTest(ctx)).resolves.toBeNull();
@@ -674,7 +675,6 @@ describe("BeingLogic", () => {
             await expect(logic.calcImpact(ctx)).resolves.toBeUndefined();
         });
 
-        it.todo("shockTest - rolls the Shock skill without impairment penalty");
         it.todo(
             "stumbleTest - uses the better of agility trait or acrobatics skill",
         );
@@ -685,6 +685,218 @@ describe("BeingLogic", () => {
         it.todo(
             "calcImpact - calculates location and damage from CombatResult",
         );
+    });
+
+    describe("shockTest (#850)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        /** A being with `setShockState` / `offerShockReTest` stubbed for isolation. */
+        function makeShockBeing() {
+            const being = makeBeing();
+            const setState = vi
+                .spyOn(being as any, "setShockState")
+                .mockResolvedValue(undefined);
+            const reTest = vi
+                .spyOn(being as any, "offerShockReTest")
+                .mockResolvedValue(undefined);
+            return { being, setState, reTest };
+        }
+
+        /** Spy the underlying roll, resolving each call to the given level. */
+        function mockRoll(...levels: number[]) {
+            const spy = vi.spyOn(MasteryLevelModifier.prototype, "successTest");
+            for (const lvl of levels) {
+                spy.mockResolvedValueOnce({ normSuccessLevel: lvl } as any);
+            }
+            return spy;
+        }
+
+        it("short-circuits to No Shock without rolling when base SSI < 5", async () => {
+            const { being, setState } = makeShockBeing();
+            const roll = mockRoll();
+            await being.shockTest({
+                skipDialog: true,
+                scope: { shockIndex: 4 },
+            } as any);
+            expect(roll).not.toHaveBeenCalled();
+            // Result is None; the being was already None → no change offered.
+            expect(setState).not.toHaveBeenCalled();
+        });
+
+        it("short-circuits to Dead without rolling when base SSI > 10, offering to set Dead", async () => {
+            const { being, setState } = makeShockBeing();
+            const roll = mockRoll();
+            await being.shockTest({
+                skipDialog: true,
+                scope: { shockIndex: 11, applyShockState: true },
+            } as any);
+            expect(roll).not.toHaveBeenCalled();
+            expect(setState).toHaveBeenCalledWith(SHOCK_STATE.DEAD);
+        });
+
+        it.each([
+            [CRITICAL_FAILURE, SHOCK_STATE.UNCONSCIOUS], // 7 + 2 = 9
+            [MARGINAL_FAILURE, SHOCK_STATE.INCAPACITATED], // 7 + 1 = 8
+            [MARGINAL_SUCCESS, SHOCK_STATE.STUNNED], // 7 + 0 = 7
+        ])(
+            "base SSI 7 with success level %i maps to and applies state %i",
+            async (sl, state) => {
+                const { being, setState } = makeShockBeing();
+                mockRoll(sl);
+                await being.shockTest({
+                    skipDialog: true,
+                    scope: { shockIndex: 7, applyShockState: true },
+                } as any);
+                expect(setState).toHaveBeenCalledWith(state);
+            },
+        );
+
+        it("a Critical Success on base SSI 7 maps to None and (worsen-only) changes nothing", async () => {
+            const { being, setState } = makeShockBeing();
+            mockRoll(CRITICAL_SUCCESS); // 7 − 1 = 6 → None
+            await being.shockTest({
+                skipDialog: true,
+                scope: { shockIndex: 7, applyShockState: true },
+            } as any);
+            expect(setState).not.toHaveBeenCalled();
+        });
+
+        it("never lowers an already-worse shock state (worsen-only)", async () => {
+            const { being, setState } = makeShockBeing();
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
+                new Set([STATUS_EFFECT.UNCONSCIOUS]),
+            );
+            mockRoll(CRITICAL_SUCCESS); // → None, but max(Unconscious, None) = Unconscious
+            await being.shockTest({
+                skipDialog: true,
+                scope: { shockIndex: 7, applyShockState: true },
+            } as any);
+            expect(setState).not.toHaveBeenCalled();
+        });
+
+        it("rolls the Shock skill through a being-parented modifier (no impairment penalty)", async () => {
+            const { being } = makeShockBeing();
+            let capturedParent: unknown;
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockImplementation(function (this: any) {
+                capturedParent = this.parent;
+                return Promise.resolve({
+                    normSuccessLevel: MARGINAL_FAILURE,
+                } as any);
+            });
+            await being.shockTest({
+                skipDialog: true,
+                scope: { shockIndex: 7, applyShockState: true },
+            } as any);
+            // A being-parented modifier exposes no `impairedByRoles`, so
+            // successTest adds no BPImp penalty (#850).
+            expect(capturedParent).toBe(being);
+        });
+
+        it("offers to set the state via dialog and applies on Yes", async () => {
+            const { being, setState } = makeShockBeing();
+            mockRoll(MARGINAL_FAILURE); // 7 + 1 = 8 → Incapacitated
+            const dlg = vi
+                .spyOn(FoundryHelpersMock, "dialog")
+                .mockResolvedValue(true);
+            await being.shockTest({ scope: { shockIndex: 7 } } as any);
+            expect(dlg).toHaveBeenCalled();
+            expect(setState).toHaveBeenCalledWith(SHOCK_STATE.INCAPACITATED);
+        });
+
+        it("leaves the state unchanged when the offer is declined (dialog No)", async () => {
+            const { being, setState } = makeShockBeing();
+            mockRoll(MARGINAL_FAILURE);
+            vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(false);
+            await being.shockTest({ scope: { shockIndex: 7 } } as any);
+            expect(setState).not.toHaveBeenCalled();
+        });
+
+        it("opens a dialog to collect the base SSI when none is supplied, then rolls", async () => {
+            const { being, setState } = makeShockBeing();
+            mockRoll(MARGINAL_FAILURE);
+            const dlg = vi
+                .spyOn(FoundryHelpersMock, "dialog")
+                .mockResolvedValueOnce({ shockIndex: 7 }) // collect base SSI
+                .mockResolvedValueOnce(true); // accept the offer
+            await being.shockTest({ scope: {} } as any);
+            expect(dlg).toHaveBeenCalledTimes(2);
+            expect(setState).toHaveBeenCalledWith(SHOCK_STATE.INCAPACITATED);
+        });
+
+        it("aborts (null, no roll) when the base-SSI dialog is dismissed", async () => {
+            const { being, setState } = makeShockBeing();
+            const roll = mockRoll();
+            vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(null);
+            await expect(
+                being.shockTest({ scope: {} } as any),
+            ).resolves.toBeNull();
+            expect(roll).not.toHaveBeenCalled();
+            expect(setState).not.toHaveBeenCalled();
+        });
+
+        it("offers a Shock Re-Test after resolving", async () => {
+            const { being, reTest } = makeShockBeing();
+            mockRoll(MARGINAL_FAILURE);
+            await being.shockTest({
+                skipDialog: true,
+                scope: { shockIndex: 7, applyShockState: true },
+            } as any);
+            expect(reTest).toHaveBeenCalled();
+        });
+    });
+
+    describe("injuryShock (#555, via the shared shock core)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        function makeShockBeing() {
+            const being = makeBeing();
+            const setState = vi
+                .spyOn(being as any, "setShockState")
+                .mockResolvedValue(undefined);
+            const reTest = vi
+                .spyOn(being as any, "offerShockReTest")
+                .mockResolvedValue(undefined);
+            return { being, setState, reTest };
+        }
+
+        it("rolls, worsens the shock state, and offers the re-test", async () => {
+            const { being, setState, reTest } = makeShockBeing();
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({ normSuccessLevel: MARGINAL_FAILURE } as any); // 7 + 1 = 8
+            await (being as any).injuryShock({
+                scope: { shockIndex: 7, shockBonus: 0 },
+            });
+            expect(setState).toHaveBeenCalledWith(SHOCK_STATE.INCAPACITATED);
+            expect(reTest).toHaveBeenCalled();
+        });
+
+        it("applies the state directly (no offer dialog — the card click was the consent)", async () => {
+            const { being, setState } = makeShockBeing();
+            vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            ).mockResolvedValue({ normSuccessLevel: MARGINAL_FAILURE } as any);
+            const dlg = vi.spyOn(FoundryHelpersMock, "dialog");
+            await (being as any).injuryShock({ scope: { shockIndex: 7 } });
+            expect(dlg).not.toHaveBeenCalled();
+            expect(setState).toHaveBeenCalledWith(SHOCK_STATE.INCAPACITATED);
+        });
+
+        it("short-circuits to Dead without rolling when the wound's index exceeds 10", async () => {
+            const { being, setState } = makeShockBeing();
+            const roll = vi.spyOn(
+                MasteryLevelModifier.prototype,
+                "successTest",
+            );
+            await (being as any).injuryShock({ scope: { shockIndex: 11 } });
+            expect(roll).not.toHaveBeenCalled();
+            expect(setState).toHaveBeenCalledWith(SHOCK_STATE.DEAD);
+        });
     });
 
     describe("contractDisease", () => {
