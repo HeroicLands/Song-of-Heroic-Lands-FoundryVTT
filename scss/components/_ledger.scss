@@ -138,15 +138,25 @@
             }
         }
 
-        // Text detail cell (non-numeric): left-aligned, muted, body font. Use
-        // for columns like Society / Office / Skill / Aspect / Area / Source.
-        &--text {
-            text-align: left;
+        // Text detail cell (non-numeric): muted, body font, truncated — for
+        // columns like Society / Office / Skill / Source. `--text` is
+        // left-aligned; `--text-center` is the same prose treatment centered in
+        // its column (e.g. an Injury's Aspect / Area — text, but centered).
+        &--text,
+        &--text-center {
             font-family: var(--sohl-font-body);
             font-variant-numeric: normal;
             font-size: 0.95rem;
             color: var(--sohl-color-text-muted);
             @include mixins.truncate;
+        }
+
+        &--text {
+            text-align: left;
+        }
+
+        &--text-center {
+            text-align: center;
         }
     }
 

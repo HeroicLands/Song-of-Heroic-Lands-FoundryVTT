@@ -39,11 +39,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div></div>
                     <div></div>
                     <div>Trauma</div>
-                    <div data-tooltip="Severity">Sev</div>
-                    <div data-tooltip="Healing Rate (NT = not treated)">HR</div>
-                    <div>Aspect</div>
+                    <div class="ledger__head-num" data-tooltip="Severity">Sev</div>
+                    <div class="ledger__head-num" data-tooltip="Healing Rate (NT = not treated)">HR</div>
+                    <div class="ledger__head-num">Aspect</div>
                     <div>Area</div>
-                    <div data-tooltip="Bleeding">Bld</div>
+                    <div class="ledger__head-num" data-tooltip="Bleeding">Bld</div>
                     <div>Notes</div>
                     <div></div>
                 </div>
@@ -67,7 +67,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{#unless injury.isTreated}}NT{{/unless}}{{injury.healingRate}}
                         {{/if}}
                     </div>
-                    <div class="ledger__cell ledger__cell--text">{{injury.aspect}}</div>
+                    <div class="ledger__cell ledger__cell--text-center">{{injury.aspect}}</div>
                     <div class="ledger__cell ledger__cell--text">{{injury.area}}</div>
                     <div class="ledger__cell">
                         <span class="chip{{#if injury.isBleeding}} chip--danger{{/if}}">{{#if injury.isBleeding}}Yes{{else}}No{{/if}}</span>
@@ -116,8 +116,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div></div>
                     <div></div>
                     <div>Affliction</div>
-                    <div>Level</div>
-                    <div data-tooltip="Healing Rate">HR</div>
+                    <div class="ledger__head-num">Level</div>
+                    <div class="ledger__head-num" data-tooltip="Healing Rate">HR</div>
                     <div>Source</div>
                     <div>Notes</div>
                     <div></div>
@@ -127,7 +127,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="ledger__grip"><i class="fa-solid fa-grip-vertical"></i></div>
                     <div class="ledger__icon default-action"><img src="{{aff.img}}" alt="" /></div>
                     <div class="ledger__name default-action" data-tooltip="{{aff.name}}">{{aff.name}}</div>
-                    <div class="ledger__cell ledger__cell--text" data-tooltip="{{aff.levelDeltaLabel}}" data-tooltip-direction="UP">{{aff.level}}</div>
+                    <div class="ledger__cell" data-tooltip="{{aff.levelDeltaLabel}}" data-tooltip-direction="UP">{{aff.level}}</div>
                     <div class="ledger__cell{{#if aff.healingRateDisabled}} ledger__cell--dim{{/if}}"
                         data-tooltip="{{aff.healingRateDeltaLabel}}" data-tooltip-direction="UP">
                         {{#if aff.healingRateDisabled}}
