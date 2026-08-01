@@ -1564,6 +1564,8 @@
     "SOHL.Reminder.effect.onsetCheck": "Affliction Onset",
     "SOHL.Reminder.effect.resolutionCheck": "Affliction Resolution",
     "SOHL.Reminder.effect.shockReTest": "Shock Re-Test",
+    "SOHL.ResultEdit.dialogTitle": "Edit Test Result",
+    "SOHL.ResultEdit.gmOnly": "Only a GM may edit a test result.",
     "SOHL.Schedule.title": "Set a {actionName} Reminder?",
     "SOHL.Schedule.prompt": "Set a reminder to perform the {effect} in {when}?",
     "SOHL.Schedule.promptEvent": "Set a reminder to perform the {effect} {when}?",

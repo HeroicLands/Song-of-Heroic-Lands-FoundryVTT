@@ -9,6 +9,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
     gateAutomatedDefenseButtons,
     gateActionCardButtons,
+    gateEditActionPencil,
     hasUsableDodgeSkill,
 } from "@src/document/chat/chat-card-gating";
 import * as CombatantLogic from "@src/document/combatant/logic/SohlCombatantLogic";
@@ -93,6 +94,34 @@ function makeDefender(
         },
     };
 }
+
+describe("gateEditActionPencil (#856)", () => {
+    /** A stub root whose `querySelectorAll("a.edit-action")` yields `pencils`. */
+    function makeElement(pencils: any[]): HTMLElement {
+        return {
+            querySelectorAll: (sel: string) =>
+                sel === "a.edit-action" ? pencils : [],
+        } as unknown as HTMLElement;
+    }
+
+    it("removes the edit pencil for a non-GM viewer", () => {
+        const pencil = { remove: vi.fn() };
+        gateEditActionPencil(makeElement([pencil]), false);
+        expect(pencil.remove).toHaveBeenCalledTimes(1);
+    });
+
+    it("leaves the edit pencil in place for a GM viewer", () => {
+        const pencil = { remove: vi.fn() };
+        gateEditActionPencil(makeElement([pencil]), true);
+        expect(pencil.remove).not.toHaveBeenCalled();
+    });
+
+    it("removes every edit pencil on the card for a non-GM", () => {
+        const pencils = [{ remove: vi.fn() }, { remove: vi.fn() }];
+        gateEditActionPencil(makeElement(pencils), false);
+        for (const p of pencils) expect(p.remove).toHaveBeenCalledTimes(1);
+    });
+});
 
 describe("hasUsableDodgeSkill (#64)", () => {
     it("returns true when the actor has a Dodge skill", () => {

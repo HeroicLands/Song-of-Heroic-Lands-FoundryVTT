@@ -96,9 +96,14 @@ describe("standard-test-card renders the evaluated success test", () => {
 
     it("shows a localized outcome in the footer, not a raw i18n key", async () => {
         const { html } = await renderCard(50, 32);
-        expect(html).not.toContain("SOHL.SuccessTestResult.");
+        // Assert on the footer specifically: the edit pencil's `data-scope`
+        // (#856) legitimately serializes the result — including the
+        // `successStarTable`, whose entries are i18n keys — so a whole-HTML key
+        // check would match that reconstruction payload, not a display string.
+        const footer = html.match(/<footer[\s\S]*?<\/footer>/)?.[0] ?? "";
+        expect(footer).not.toContain("SOHL.SuccessTestResult.");
         // Marginal success on a plain (crit-allowed) skill test.
-        expect(html).toMatch(/card-footer[\s\S]*?Success/);
+        expect(footer).toMatch(/Success/);
     });
 
     it("wires the item/actor uuids so the edit and fate buttons dispatch", async () => {
@@ -107,5 +112,20 @@ describe("standard-test-card renders the evaluated success test", () => {
         // owning item's uuid (and the actor's) to dispatch their actions.
         expect(html).toContain('data-actor-uuid="Actor.act1"');
         expect(html).toContain('data-action-handler-uuid="Item.itm1"');
+    });
+
+    it("the edit pencil dispatches the GM result-edit, carrying this result as scope (#856)", async () => {
+        const { html } = await renderCard(50, 32);
+        // The pencil re-evaluates on the frozen roll, not a fresh test — it must
+        // dispatch `resultEdit`, never `successTest`.
+        expect(html).toMatch(
+            /class="edit-action"[\s\S]*?data-action="resultEdit"/,
+        );
+        expect(html).not.toContain('data-action="successTest"');
+        // It carries this result serialized under `priorTestResult` so the click
+        // revives and re-evaluates *this* result (non-empty data-scope).
+        expect(html).toMatch(
+            /class="edit-action"[\s\S]*?data-scope="[^"]*priorTestResult/,
+        );
     });
 });

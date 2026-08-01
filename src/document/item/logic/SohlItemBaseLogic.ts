@@ -13,18 +13,22 @@
 
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
-import { toHTMLString, type HTMLString } from "@src/utils/helpers";
+import { toFilePath, toHTMLString, type HTMLString } from "@src/utils/helpers";
 import {
     ACTION_SUBTYPE,
     BRAND,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    VALUE_DELTA_INFO,
+    speakerRollModeOptions,
 } from "@src/utils/constants";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import {
     dialog,
     fvttEnrichHTML,
+    fvttIsCurrentUserGM,
     fvttRenderSheet,
 } from "@src/core/FoundryHelpers";
 // `action-card` is a pure, Foundry-free module (it touches Foundry only through
@@ -132,6 +136,107 @@ export class SohlItemBaseLogic<
      */
     async outputDescription(_context: SohlActionContext): Promise<void> {
         await postActionCard(this.speaker, await buildItemDescCardData(this));
+    }
+
+    /**
+     * **GM result-edit** for a posted test card (#856) — the higher-fidelity
+     * counterpart to Fate. Re-opens the standard test dialog pre-filled with the
+     * result's current situational and success-level modifiers; on submit it
+     * applies the new modifiers and **re-evaluates on the SAME frozen roll**
+     * (never a re-roll, no Fate cost), then reposts the card. The prior result
+     * rides in `context.scope.priorTestResult` (the reconstruction seam), so this
+     * works for any standard test card — skill, attribute, or combat strike mode.
+     *
+     * Changing the **situational modifier** changes the effective target, so the
+     * base success level re-derives from the frozen roll; the success-level
+     * modifier is a flat offset applied after. Clicking OK without a change is a
+     * no-op (nothing re-evaluated, nothing reposted).
+     *
+     * **GM-only.** The pencil is render-hidden from non-GMs
+     * ({@link sohl.document.chat.gateEditActionPencil}); this is the click-time
+     * half of that gate — a synthesized click from a non-GM is refused here.
+     *
+     * @param context - The action context; `context.scope.priorTestResult` is the
+     *   result being edited. When `skipDialog` is set, the new
+     *   `situationalModifier` / `successLevelMod` are taken from `context.scope`
+     *   instead of the dialog.
+     * @returns The re-evaluated result, or `undefined` when refused (non-GM),
+     *   cancelled (dialog dismissed), or unchanged (no-op).
+     */
+    async resultEdit(
+        context: SohlActionContext<{
+            priorTestResult?: SuccessTestResult;
+            situationalModifier?: number;
+            successLevelMod?: number;
+        }>,
+    ): Promise<SuccessTestResult | undefined> {
+        // Click-time GM gate (defense-in-depth): the render gate hides the pencil
+        // from non-GMs, but a synthesized click bypasses it, so refuse here too.
+        if (!fvttIsCurrentUserGM()) {
+            sohl.log.uiWarn("SOHL.ResultEdit.gmOnly");
+            return undefined;
+        }
+
+        const original = context.scope?.priorTestResult;
+        if (!original) {
+            sohl.log.warn(
+                "resultEdit invoked without a priorTestResult in scope.",
+            );
+            return undefined;
+        }
+
+        const mlMod = original.masteryLevelModifier;
+        const priorSit = mlMod.get(VALUE_DELTA_INFO.PLAYER)?.numValue ?? 0;
+        const priorSLM = mlMod.successLevelMod;
+
+        // New modifiers come from the pre-filled dialog, or — when skipDialog
+        // bypasses it (headless / scripted) — straight from the action scope.
+        let newSit: number;
+        let newSLM: number;
+        if (context.skipDialog) {
+            newSit = context.scope.situationalModifier ?? priorSit;
+            newSLM = context.scope.successLevelMod ?? priorSLM;
+        } else {
+            const dlgResult = await dialog({
+                title: sohl.i18n.localize("SOHL.ResultEdit.dialogTitle"),
+                template: toFilePath(
+                    "systems/sohl/templates/dialog/standard-test-dialog.hbs",
+                ),
+                data: {
+                    type: original.testType,
+                    mlMod,
+                    situationalModifier: priorSit,
+                    rollMode: original.rollMode,
+                    rollModes: speakerRollModeOptions(),
+                },
+                callback: (formData: PlainObject) => ({
+                    situationalModifier:
+                        parseInt(String(formData.situationalModifier), 10) || 0,
+                    successLevelMod:
+                        parseInt(String(formData.successLevelMod), 10) || 0,
+                }),
+                rejectClose: false,
+            });
+            // A dismissed dialog cancels the edit; nothing changes.
+            if (!dlgResult) return undefined;
+            newSit = dlgResult.situationalModifier;
+            newSLM = dlgResult.successLevelMod;
+        }
+
+        // OK-without-change is a no-op: no re-evaluation, no repost.
+        if (newSit === priorSit && newSLM === priorSLM) return original;
+
+        // Replace (or clear) the situational delta — a 0 removes it so the target
+        // is not left carrying a stale modifier — then set the success-level mod.
+        if (newSit) mlMod.add(VALUE_DELTA_INFO.PLAYER, newSit);
+        else mlMod.delete(VALUE_DELTA_INFO.PLAYER);
+        mlMod.successLevelMod = newSLM;
+
+        // Re-evaluate on the SAME frozen roll (idempotent; never re-rolls) and
+        // repost the card with the new outcome.
+        await original.evaluate();
+        await original.toChat({});
+        return original;
     }
 
     /* --------------------------------------------- */

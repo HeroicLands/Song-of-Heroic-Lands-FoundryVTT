@@ -788,17 +788,21 @@ export class SuccessTestResult extends TestResult {
         // pre-serialized) before it reaches the card.
         const { buttons, ...rest } = data;
         const { label, description, result } = this.resolveDescription();
-        // The Fate button carries this result serialized under `priorTestResult`
-        // so a click can revive it and apply the post-roll success-level bump to
-        // *this* result (#854) — only serialized when Fate is actually offered.
-        // (The item/actor uuids the buttons dispatch against are folded into the
-        // card data below.)
+        // Serialize this result once under `priorTestResult` — the reconstruction
+        // seam a card control revives to act on *this* result without re-rolling.
+        // The GM edit pencil (`editScopeJSON`, #856) carries it on every card; the
+        // Fate button (`fateScopeJSON`, #854) carries it only when Fate is offered.
+        // (The item/actor uuids these controls dispatch against are folded into
+        // the card data below.)
+        const priorResultScopeJSON = JSON.stringify(
+            defaultToJSON({ priorTestResult: this }),
+        );
+        const editScopeJSON = priorResultScopeJSON;
         const fateScopeJSON =
-            this._canFate && data.canFate !== false ?
-                JSON.stringify(defaultToJSON({ priorTestResult: this }))
-            :   "";
+            this._canFate && data.canFate !== false ? priorResultScopeJSON : "";
         let chatData = fvttMergeObject(this.toJSON() as PlainObject, {
             ...rest,
+            editScopeJSON,
             fateScopeJSON,
             resultText: label,
             resultDesc: description,
