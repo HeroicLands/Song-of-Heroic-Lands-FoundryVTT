@@ -124,13 +124,15 @@ describe("Fate spend — post-roll success-level bump (#854)", () => {
                         // marginal failure (success level 0).
                         expect(r.beforeCanFate, "original offers Fate").to.be
                             .true;
-                        expect(r.beforeLevel, "started a marginal failure").to.eq(
-                            0,
-                        );
+                        expect(
+                            r.beforeLevel,
+                            "started a marginal failure",
+                        ).to.eq(0);
                         // Fate bumped it to a marginal success (level 1)…
-                        expect(r.afterLevel, "bumped to marginal success").to.eq(
-                            1,
-                        );
+                        expect(
+                            r.afterLevel,
+                            "bumped to marginal success",
+                        ).to.eq(1);
                         expect(r.afterSuccess, "now a success").to.be.true;
                         // …and consumed exactly one charge (2 → 1).
                         expect(r.remaining, "one charge consumed").to.eq(1);
