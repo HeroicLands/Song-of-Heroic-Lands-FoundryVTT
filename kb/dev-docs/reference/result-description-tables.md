@@ -115,3 +115,62 @@ reference-on-wire / live-object-in-memory rule:
 - **Per test** — a {@link sohl.entity.modifier.MasteryLevelModifier} may be built
   with a custom `testDescTable`/`svTable`, or a result with a custom
   `successStarTable`, to attach a bespoke set of descriptions to that test.
+
+A `successStarTable` is how a **generic** `successTest()` becomes a bespoke
+graded test **without a subclass or a bespoke card** — it is the "outcome
+mapping as data" half of the pattern in
+[Extension Points §3](../how-to/extension-points.md#adding-a-graded--special-result-test--pass-data-dont-subclass).
+The other half — offering a follow-up action from the result — is the `buttons`
+input documented next.
+
+## The `toChat` card-data contract
+
+`SuccessTestResult.toChat(data?)` renders the standard test card
+(`templates/chat/standard-test-card.hbs`). The card template binds directly to
+the result's serialized `toJSON()` payload, so `toChat` **folds several derived,
+non-serialized fields into the card data** (they are getters `toJSON` omits, or
+live objects `fvttMergeObject`'s deep-copy would strip of their prototype). An
+author reading the template — or supplying extra `data` — relies on this
+contract:
+
+| Card-data field           | Source                                                                 | Why it must be folded                                                      |
+| ------------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `resultText` / `resultDesc` / `successStars` | `resolveDescription()` against the `successStarTable`     | Derived-on-read, never stored (see [above](#derived-on-read-never-stored)) |
+| `mlMod`                   | the `MasteryLevelModifier`'s `constrainedEffective`, `effective`, `chatHtml`, `empty`, `successLevelMod` | The **Target** (roll-at-or-under value) and the per-delta breakdown — live getters |
+| `roll.total`              | `SimpleRoll.total`                                                      | A getter absent from `SimpleRoll.toJSON`                                    |
+| `isSuccess` / `isCritical`| the result's outcome getters                                           | Drive pass/fail styling and the localized footer                           |
+| `item.uuid` / `actor.uuid`| the owning item and its actor                                          | The card root, edit-pencil, and Fate button dispatch against these         |
+| `fateScopeJSON`           | serialized `{ priorTestResult: this }`, only when Fate is offered      | Lets a Fate click reconstruct _this_ result (never a re-roll)              |
+
+> A subclass or a caller that reposts the card must fold the same fields, or the
+> Target, Roll, styling, and buttons render blank — the class binds to `toJSON`,
+> not the live object.
+
+### Follow-up buttons (`data.buttons`)
+
+`toChat` accepts an optional **`buttons`** entry in `data` — one
+{@link sohl.document.chat.ActionCardButton} or an array. It is folded through the
+shared `toRenderableButtons` normalizer (the same one the action-card framework
+uses), so the standard card can carry arbitrary **follow-up consent buttons**
+without a bespoke template:
+
+```ts
+await result.toChat({
+    buttons: {
+        action: "applyShockState",
+        handlerUuid: beingUuid,
+        scope: { priorTestResult: result },
+        label: sohl.i18n.localize("SOHL.Being.ShockTest.apply"),
+        iconFAClass: "fa-solid fa-face-dizzy",
+    },
+});
+```
+
+Each rendered button carries the well-known `action-card-button` handles
+(`data-action` / `data-handler-uuid` / `data-scope` / `data-skip-dialog`) and
+dispatches through the shared chat-card chokepoint. **Nothing auto-fires** — the
+button is _offered_ and the target's controlling player accepts (the consent
+model). Combined with `successStarTable`, a graded test is now the outcome
+_mapping_ (`successStarTable`) **plus** the follow-up _actions_ (`buttons`), both
+as data — removing the last reason several bespoke result cards existed. The
+existing edit-pencil and _Perform Fate Test_ buttons are unaffected.
