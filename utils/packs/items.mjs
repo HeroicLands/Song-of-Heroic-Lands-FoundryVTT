@@ -139,18 +139,6 @@ function gearCommon(fm) {
 /*  Per-type system builders                                            */
 /* -------------------------------------------------------------------- */
 
-function buildTrait(fm) {
-    return {
-        subType: sohlField(fm, "subType", "physique"),
-        textValue: String(sohlField(fm, "textValue", "")),
-        isNumeric: Boolean(sohlField(fm, "isNumeric", false)),
-        intensity: sohlField(fm, "intensity", "trait"),
-        valueDesc: parseValueDesc(sohlField(fm, "valueDesc", [])),
-        score: sohlField(fm, "score", { value: 0, max: 0 }),
-        choices: sohlField(fm, "choices", []),
-    };
-}
-
 function buildSkill(fm) {
     const subType = sohlField(fm, "subType", "social");
     // `masteryLevelBase` is nullable: an unset / blank value ships as `null`
@@ -367,7 +355,6 @@ const BUILDERS = {
     mysticalability: buildMysticalAbility,
     projectilegear: buildProjectileGear,
     skill: buildSkill,
-    trait: buildTrait,
     trauma: buildTrauma,
     weapongear: buildWeaponGear,
 };

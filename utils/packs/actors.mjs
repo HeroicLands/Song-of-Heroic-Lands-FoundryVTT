@@ -48,7 +48,23 @@ import {
 const STATS = buildStats("0.6.0");
 
 const ACTOR_VAULT_TYPES = new Set(["character", "creature"]);
-const DEFAULT_IMG = "icons/svg/mystery-man.svg";
+const DEFAULT_IMG = {
+    being: "systems/sohl/assets/icons/game-icons/delapouite/person.svg",
+};
+
+/**
+ * Translate a vault-relative img path (`icons/other/user-gear.svg`) into the
+ * Foundry-relative path (`systems/sohl/assets/icons/other/user-gear.svg`). Falls
+ * back to the per-type default when the field is missing.
+ */
+function resolveImg(fm, type) {
+    const raw = fm.img;
+    if (!raw) return DEFAULT_IMG[type] || DEFAULT_IMG.being;
+    const s = String(raw);
+    if (s.startsWith("systems/") || s.startsWith("icons/svg/")) return s;
+    if (s.startsWith("icons/")) return `systems/sohl/assets/${s}`;
+    return s;
+}
 
 /**
  * Strip compendium-only fields from a predefined item before embedding it
@@ -56,6 +72,7 @@ const DEFAULT_IMG = "icons/svg/mystery-man.svg";
  * compendium document, not on an embedded one.
  */
 function stripCompendiumFields(item) {
+    // eslint-disable-next-line no-unused-vars
     const { _key, _stats, ownership, folder, ...rest } = item;
     return rest;
 }
@@ -161,6 +178,7 @@ function loadItemsMap(itemsSourceDir) {
         }
         const shortcode = doc?.system?.shortcode;
         if (!doc?.type || !shortcode) continue;
+        // eslint-disable-next-line no-unused-vars
         const { _key, ...rest } = doc;
         map.set(`${doc.type}:${shortcode}`, rest);
     }
@@ -363,7 +381,7 @@ export class Actors {
         return items;
     }
 
-    buildEntry(itemsMap, fm, body) {
+    buildBeing(itemsMap, fm, body) {
         const name = resolveName(fm);
         const id = fm.id;
         const ctx = `actor "${name}"`;
@@ -378,7 +396,7 @@ export class Actors {
             // key — and, for a `docArchetype`-flagged being, its archetype
             // identity (the dedup/override key of the Create-dialog picker, #604).
             shortcode: fm.shortcode || "",
-            portrait: fm.portrait || "",
+            portrait: resolveImg(fm.portrait, "being"),
             appearance: renderSection(body || "", "appearance"),
             dossier: renderSection(body || "", "dossier"),
         };
@@ -411,7 +429,7 @@ export class Actors {
         return {
             name,
             type: "being",
-            img: fm.img || DEFAULT_IMG,
+            img: resolveImg(fm, "being"),
             _id: id,
             system,
             items,
@@ -419,7 +437,7 @@ export class Actors {
                 name,
                 displayName: 0,
                 actorLink: false,
-                texture: { src: fm.img || DEFAULT_IMG },
+                texture: { src: resolveImg(fm.img, "being") },
                 width: 1,
                 height: 1,
                 sight: { enabled: false },
@@ -470,7 +488,7 @@ export class Actors {
 
             log.debug(`Processing actor: ${resolveName(fm)} (${absPath})`);
             try {
-                const doc = this.buildEntry(itemsMap, fm, body);
+                const doc = this.buildBeing(itemsMap, fm, body);
                 this.writeActor(doc);
                 compiled++;
             } catch (err) {
