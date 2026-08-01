@@ -40,6 +40,7 @@ import {
     makeFilename,
     makeId,
     resolveName,
+    resolveImg,
     buildStats,
     withArchetypeFlag,
     md,
@@ -48,23 +49,13 @@ import {
 const STATS = buildStats("0.6.0");
 
 const ACTOR_VAULT_TYPES = new Set(["character", "creature"]);
+
+// Default art per actor type, applied when frontmatter supplies no `img` /
+// `portrait`. Beings default to the generic person icon; other actor types add
+// their own default here as they gain a builder.
 const DEFAULT_IMG = {
     being: "systems/sohl/assets/icons/game-icons/delapouite/person.svg",
 };
-
-/**
- * Translate a vault-relative img path (`icons/other/user-gear.svg`) into the
- * Foundry-relative path (`systems/sohl/assets/icons/other/user-gear.svg`). Falls
- * back to the per-type default when the field is missing.
- */
-function resolveImg(fm, type) {
-    const raw = fm.img;
-    if (!raw) return DEFAULT_IMG[type] || DEFAULT_IMG.being;
-    const s = String(raw);
-    if (s.startsWith("systems/") || s.startsWith("icons/svg/")) return s;
-    if (s.startsWith("icons/")) return `systems/sohl/assets/${s}`;
-    return s;
-}
 
 /**
  * Strip compendium-only fields from a predefined item before embedding it
@@ -396,7 +387,7 @@ export class Actors {
             // key — and, for a `docArchetype`-flagged being, its archetype
             // identity (the dedup/override key of the Create-dialog picker, #604).
             shortcode: fm.shortcode || "",
-            portrait: resolveImg(fm.portrait, "being"),
+            portrait: resolveImg(fm.portrait) || DEFAULT_IMG.being,
             appearance: renderSection(body || "", "appearance"),
             dossier: renderSection(body || "", "dossier"),
         };
@@ -429,7 +420,7 @@ export class Actors {
         return {
             name,
             type: "being",
-            img: resolveImg(fm, "being"),
+            img: resolveImg(fm.img) || DEFAULT_IMG.being,
             _id: id,
             system,
             items,
@@ -437,7 +428,7 @@ export class Actors {
                 name,
                 displayName: 0,
                 actorLink: false,
-                texture: { src: resolveImg(fm.img, "being") },
+                texture: { src: resolveImg(fm.img) || DEFAULT_IMG.being },
                 width: 1,
                 height: 1,
                 sight: { enabled: false },

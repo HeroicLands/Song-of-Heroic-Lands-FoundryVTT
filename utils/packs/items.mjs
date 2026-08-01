@@ -41,6 +41,7 @@ import {
     buildDocUrl,
     parseValueDesc,
     resolveName,
+    resolveImg,
     buildStats,
     withArchetypeFlag,
 } from "./helpers.mjs";
@@ -64,6 +65,9 @@ const ITEM_TYPES = new Set([
     "weapongear",
 ]);
 
+// Default art per item type, applied when frontmatter supplies no `img`.
+// Every item type the builder handles must have an entry here; an unknown type
+// is a builder/`DEFAULT_IMG` mismatch and aborts the build (see `defaultImg`).
 const DEFAULT_IMG = {
     affiliation: "systems/sohl/assets/icons/noun/shield.svg",
     affliction: "systems/sohl/assets/icons/other/sick.svg",
@@ -86,17 +90,20 @@ const PERCEPTION_TEST =
     "||(doc.type==='attribute' && doc.system.shortcode==='per')";
 
 /**
- * Translate a vault-relative img path (`icons/other/user-gear.svg`) into the
- * Foundry-relative path (`systems/sohl/assets/icons/other/user-gear.svg`). Falls
- * back to the per-type default when the field is missing.
+ * The default image for an item `type`. Throws (aborting the build) when the
+ * type has no `DEFAULT_IMG` entry — a type the builder doesn't know is never
+ * silently defaulted.
+ *
+ * @param {string} type - the item type.
+ * @returns {string} the default image path for that type.
  */
-function resolveImg(fm, type) {
-    const raw = fm.img;
-    if (!raw) return DEFAULT_IMG[type] || DEFAULT_IMG.miscgear;
-    const s = String(raw);
-    if (s.startsWith("systems/") || s.startsWith("icons/svg/")) return s;
-    if (s.startsWith("icons/")) return `systems/sohl/assets/${s}`;
-    return s;
+export function defaultImg(type) {
+    if (!(type in DEFAULT_IMG)) {
+        throw new Error(
+            `No DEFAULT_IMG entry for item type "${type}" — add one to utils/packs/items.mjs`,
+        );
+    }
+    return DEFAULT_IMG[type];
 }
 
 /**
@@ -468,7 +475,7 @@ export class Items {
         return {
             name,
             type,
-            img: resolveImg(fm, type),
+            img: resolveImg(fm.img) || defaultImg(type),
             _id: id,
             system,
             effects,
