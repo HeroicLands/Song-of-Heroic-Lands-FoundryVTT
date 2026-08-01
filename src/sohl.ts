@@ -26,6 +26,7 @@ import { resolveAuthorizedChatCardHandler } from "@src/document/chat/chat-card-d
 import {
     gateAutomatedDefenseButtons,
     gateActionCardButtons,
+    gateEditActionPencil,
 } from "@src/document/chat/chat-card-gating";
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 import { registerCombatTrackerHooks } from "@src/document/combat/combat-tracker-hooks";
@@ -454,6 +455,8 @@ function registerSystemHooks() {
             gateActionCardButtons(element, (uuid) =>
                 foundry.utils.fromUuidSync(uuid),
             );
+            // GM result-edit pencil: shown only to a GM (#856).
+            gateEditActionPencil(element, !!(game as any).user?.isGM);
 
             // Authorize the click by the resolved handler document's ownership
             // (a GM owns all) before running anything — the render gate above is

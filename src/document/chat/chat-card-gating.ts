@@ -62,6 +62,32 @@ export function gateActionCardButtons(
 }
 
 /**
+ * Render-time gating for the test-card **edit pencil** (#856).
+ *
+ * The result-edit control (`a.edit-action`) re-evaluates a settled test with GM
+ * fidelity — it is the GM's counterpart to Fate — so it is shown **only to a GM**
+ * and removed for every other client. Like the button gates, this is per-viewer
+ * (the card HTML is baked once by the sender, so the GM/non-GM decision must be
+ * made when it renders on each client), and it is **cosmetic only**: the real
+ * gate is the click-time GM refusal in
+ * {@link sohl.document.item.logic.SohlItemBaseLogic.resultEdit} (a synthesized
+ * click bypasses the removed DOM node). A no-op on any card without an edit
+ * pencil, and for a GM viewer.
+ *
+ * @param element - The chat message's rendered root element.
+ * @param isGM - Whether the viewing client is a GM.
+ */
+export function gateEditActionPencil(
+    element: HTMLElement,
+    isGM: boolean,
+): void {
+    if (isGM) return;
+    element
+        .querySelectorAll<HTMLElement>("a.edit-action")
+        .forEach((pencil) => pencil.remove());
+}
+
+/**
  * Render-time gating for an attack card's defender-response buttons.
  *
  * The attack card is built once (on the attacker's client) and emits **all four**

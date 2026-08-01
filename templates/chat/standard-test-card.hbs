@@ -27,9 +27,18 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <div class="sohl chat-card item-card" data-actor-uuid="{{actor.uuid}}">
     <header class="card-header">
         <h3 class="title">{{title}}
+            {{!--
+            GM result-edit (#856): re-evaluate this settled test on its frozen
+            roll (adjust the situational / success-level modifier, no re-roll, no
+            Fate cost). The pencil is render-hidden from non-GMs by
+            `gateEditActionPencil`; `data-scope` carries this result serialized
+            under `priorTestResult` so the click revives and re-evaluates *this*
+            result. GM-refused again at click time in `resultEdit`.
+            --}}
             <a class="edit-action"
-                data-action="successTest"
+                data-action="resultEdit"
                 data-action-handler-uuid="{{item.uuid}}"
+                data-scope="{{editScopeJSON}}"
                 ><i class="fa-solid fa-edit"></i></a>
             </h3>
     </header>
