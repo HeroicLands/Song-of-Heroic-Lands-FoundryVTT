@@ -117,13 +117,13 @@ jobs:
                   # Replace just this ref's directory (clean, no stale files)
                   rm -rf "${TARGET_DIR}"
                   mkdir -p "${TARGET_DIR}"
-                  cp -R "${GITHUB_WORKSPACE}/build/stage/docs/." "${TARGET_DIR}/"
+                  cp -R "${GITHUB_WORKSPACE}/build/docs-html/." "${TARGET_DIR}/"
 
                   # On a release, mirror the same build into /latest
                   if [ "${IS_RELEASE}" = "true" ]; then
                       rm -rf latest
                       mkdir -p latest
-                      cp -R "${GITHUB_WORKSPACE}/build/stage/docs/." latest/
+                      cp -R "${GITHUB_WORKSPACE}/build/docs-html/." latest/
                   fi
 
                   # Root files: custom domain, Jekyll opt-out, redirect to /latest

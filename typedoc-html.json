@@ -8,7 +8,7 @@
         "includeCategories": false
     },
     "tsconfig": "./tsconfig.docs.json",
-    "out": "build/stage/docs",
+    "out": "build/docs-html",
     "plugin": [
         "typedoc-github-theme",
         "./utils/typedoc-plugin-datafield-schema.mjs",
