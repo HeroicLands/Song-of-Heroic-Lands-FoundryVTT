@@ -81,6 +81,19 @@ document's context menu. The only difference is where the `executor` comes from:
   {@link sohl.core.logic.SohlLogic.defineIntrinsicActions} — e.g. a Mystery's `useMystery`, a
   Trauma's healing test — and the system binds that named method as the executor.
 
+Because `defineIntrinsicActions` composes up the class hierarchy (each override
+spreads `super.defineIntrinsicActions()`), the **base Logic classes contribute
+actions shared by _every_ document of that layer**, not just per-kind ones. The
+`SohlLogic` base pair is edit / delete; on top of it {@link sohl.document.item.logic.SohlItemBaseLogic}
+adds **Output Description to Chat** — a `SELF`-scoped intrinsic action
+(`outputDescription`) that every item kind therefore carries. It posts the item's
+own description to the chat log through the pure, unit-testable
+`buildItemDescCardData` (name, type-label subtitle, notes, an optional text
+reference, and a charge count where the kind uses charges; the description HTML is
+enriched and the card sanitized by `buildActionCard`). It is purely informational —
+no follow-up buttons, taking no action on any character — the "assist, never act"
+consent model at its simplest.
+
 So "intrinsic actions" are simply the system doing, in code, what a GM does with a
 Script Action: attaching an executable, context-menu-activated behavior to a
 document. Developers adding a new built-in action define it this way on the relevant

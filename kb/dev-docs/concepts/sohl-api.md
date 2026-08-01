@@ -34,6 +34,11 @@ const being = actor.logic; // the actor's logic
 const sword = actor.items.getName("Broadsword").logic; // an item's logic
 ```
 
+The **actions** it holds include both per-kind ones and the universal actions every
+document shares — e.g. every item's logic carries **Output Description to Chat**
+(`outputDescription`), which posts that item's description to the chat log. See
+[Macros and Actions](./macros-and-actions.md#how-sohl-uses-this-internally-intrinsic-actions).
+
 For typed fields, read **`document.logic.data`** — the document's `*Data` interface,
 so editors autocomplete and the API reference links straight to it. {@link sohl.core.logic.SohlLogic}
 documents the layer and its lifecycle;
