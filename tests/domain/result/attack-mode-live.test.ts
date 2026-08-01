@@ -106,3 +106,25 @@ describe("AttackResult.mode — live object in memory (#204)", () => {
         expect(revived.toJSON().mode).toEqual(POINTER);
     });
 });
+
+describe("AttackResult.fateSkillCode — Fate resolves to the strike mode's skill (#854)", () => {
+    it("is null when the mode is unresolved (no governing skill)", () => {
+        const ar = makeAttackResult(); // mode stays undefined in the test env
+        expect(ar.fateSkillCode).toBeNull();
+    });
+
+    it("exposes the melee skill behind the strike mode", () => {
+        const ar = makeAttackResult();
+        // The attack's Fate is rolled against the skill named by the strike
+        // mode, not the weapon item; a caller resolves this shortcode on the
+        // actor to reach that skill's fateMasteryLevel / availableFate.
+        ar.mode = { assocSkillCode: "melee" } as any;
+        expect(ar.fateSkillCode).toBe("melee");
+    });
+
+    it("is null when the strike mode names no skill", () => {
+        const ar = makeAttackResult();
+        ar.mode = { assocSkillCode: null } as any;
+        expect(ar.fateSkillCode).toBeNull();
+    });
+});

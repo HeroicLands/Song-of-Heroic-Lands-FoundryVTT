@@ -136,6 +136,19 @@ export class AttackResult extends SuccessTestResult {
     }
 
     /**
+     * The shortcode of the skill an attack's **Fate** is rolled against — the
+     * melee skill behind this strike mode (its `assocSkillCode`), not the weapon
+     * item itself. A caller resolves it against the actor (e.g. with
+     * {@link sohl.document.item.logic.resolveAssocSkill}) to reach that skill's
+     * `fateMasteryLevel` and `availableFate`, then runs its `fateTest` with this
+     * result as `context.scope.priorTestResult` (#854). `null` when the mode
+     * names no skill (an untrained/innate strike).
+     */
+    get fateSkillCode(): string | null {
+        return this.mode?.assocSkillCode ?? null;
+    }
+
+    /**
      * Serialize to a plain object satisfying {@link AttackResult.Data}: the
      * inherited {@link SuccessTestResult} fields plus the combatant reference,
      * strike-mode pointer, impact modifier, aim, spread, and label.

@@ -466,6 +466,12 @@ export class MasteryLevelModifier extends ValueModifier {
                     targetValueFunc: context.scope.targetValueFunc,
                     successStarTable: context.scope.successStarTable,
                     autoCriticalFail,
+                    // A success test is Fate-eligible by default: its card offers
+                    // a Fate spend when the owning item has an available Fate
+                    // Point (gated by `availableFate`). A caller opts out with
+                    // `scope.canFate: false` — notably the Fate test itself, so a
+                    // Fate roll can't in turn be fated (#854).
+                    canFate: context.scope.canFate ?? true,
                 },
                 {
                     parent: this.parent,

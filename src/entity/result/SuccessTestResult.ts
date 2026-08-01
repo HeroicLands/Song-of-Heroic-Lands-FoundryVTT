@@ -33,7 +33,7 @@ import { TestResult } from "@src/entity/result/TestResult";
 import { SohlEntity } from "@src/entity/SohlEntity";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
-import { toFilePath, defaultFromJSON } from "@src/utils/helpers";
+import { toFilePath, defaultFromJSON, defaultToJSON } from "@src/utils/helpers";
 import {
     dialog,
     fvttMergeObject,
@@ -342,6 +342,26 @@ export class SuccessTestResult extends TestResult {
         }
     }
 
+    /**
+     * Raise this result's stored success level by `delta` — the **post-roll Fate
+     * bump** (#854). This mutates the already-settled outcome: it does **not**
+     * re-roll and does **not** re-evaluate. Because the outcome text/stars are
+     * derived on read (see {@link resultText} / {@link successStars}), re-posting
+     * the card after a bump re-resolves the description table against the new
+     * level automatically.
+     *
+     * Fate is defined as `successLevel += delta` on the original result's stored
+     * level; the {@link successLevel} getter re-clamps to the four-point scale on
+     * read (e.g. a marginal failure bumped by +2 reads as a critical success).
+     *
+     * @param delta - Success levels to add (Fate contributes +1 or +2).
+     * @returns This result, for chaining.
+     */
+    bumpSuccessLevel(delta: number): this {
+        this._successLevel += delta;
+        return this;
+    }
+
     /** The token this test is associated with, if any. */
     get token(): SohlTokenDocumentLogic | undefined {
         return this._tokenLogic;
@@ -537,7 +557,12 @@ export class SuccessTestResult extends TestResult {
         return this.successLevel >= MARGINAL_SUCCESS;
     }
 
-    /** Whether fate may be spent to raise this test's success level (e.g. MF→MS) — true only if the item has available fate and the test permits it. Fate never re-rolls; the die is frozen and the outcome re-derives from the same roll. */
+    /**
+     * Whether a Fate Point may be spent on this test — true only when the owning
+     * item has an eligible, charged Fate Mystery (`availableFate`) and the test
+     * permits it. Fate is a **post-roll success-level bump**, never a re-roll: a
+     * spend raises this result's stored {@link successLevel} (#854).
+     */
     get canFate() {
         return this._canFate;
     }
@@ -763,8 +788,18 @@ export class SuccessTestResult extends TestResult {
         // pre-serialized) before it reaches the card.
         const { buttons, ...rest } = data;
         const { label, description, result } = this.resolveDescription();
+        // The Fate button carries this result serialized under `priorTestResult`
+        // so a click can revive it and apply the post-roll success-level bump to
+        // *this* result (#854) — only serialized when Fate is actually offered.
+        // (The item/actor uuids the buttons dispatch against are folded into the
+        // card data below.)
+        const fateScopeJSON =
+            this._canFate && data.canFate !== false ?
+                JSON.stringify(defaultToJSON({ priorTestResult: this }))
+            :   "";
         let chatData = fvttMergeObject(this.toJSON() as PlainObject, {
             ...rest,
+            fateScopeJSON,
             resultText: label,
             resultDesc: description,
             successStars: result,
@@ -913,6 +948,12 @@ export namespace SuccessTestResult {
         targetValueFunc: (sl: number) => number;
         /** The description table used to resolve result text and stars. */
         successStarTable: LimitedDescription[];
+        /**
+         * Whether the resulting card may offer a Fate spend (gated further by the
+         * item's `availableFate`). Defaults `true`; the Fate test itself passes
+         * `false` so a Fate roll cannot in turn be fated (#854).
+         */
+        canFate?: boolean;
     }
 
     /**
