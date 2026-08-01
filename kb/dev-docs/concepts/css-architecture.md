@@ -171,6 +171,18 @@ system surface — including the **unscoped** global UI that SoHL restyles (chat
 tooltips) which is not nested under `.sohl`. A theme can still narrow an override to
 `.sohl` if it only wants to retint SoHL's own surfaces.
 
+**Light-locking a surface Foundry keeps light.** One unscoped surface is special: the
+chat log. Foundry paints every chat message on a fixed-light `/ui/parchment.jpg` in
+both light and dark mode, and the surrounding message frame is not ours to theme. A
+SoHL chat card that read the theme-flipping `--sohl-*` tokens would therefore go dark
+inside that permanently-light frame (a dark island in a grey box). So `.chat-card`
+calls the `light-lock` mixin (`scss/abstracts/_tokens.scss`), which re-emits every
+`--sohl-color-*` at its **light** value on the card. The card keeps reading from
+`var(--sohl-color-*)` as usual, but those references resolve to fixed light ink and
+accents regardless of the OS / `[data-theme]` swap — so it blends into the grey log in
+both modes. Reserve `light-lock` for surfaces whose enclosing frame Foundry pins light;
+everywhere else, let the tokens follow the theme.
+
 **Keep these distinct from Foundry's own variables.** `scss/utils/_foundry-vars.scss`
 redefines Foundry-core properties (`--color-text-primary`, `--color-border-*`, …) so
 core UI picks up our palette. Those use Foundry's `--color-*` namespace by necessity

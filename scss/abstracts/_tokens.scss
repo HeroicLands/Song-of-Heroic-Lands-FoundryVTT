@@ -144,6 +144,18 @@ $fonts: (
     }
 }
 
+// Pin every `--sohl-color-*` token to its LIGHT value on the scoped element and
+// its descendants, so the surface never follows the OS / `[data-theme]` dark
+// swap. Reserved for surfaces whose *enclosing frame* is pinned light by Foundry
+// and is not ours to theme — above all the chat log, where Foundry paints every
+// message on a fixed-light `parchment.jpg` in both modes. Re-pinning the tokens
+// here lets a card keep reading from `var(--sohl-color-*)` yet resolve to fixed
+// light ink and accents, so it blends into the grey log instead of flipping to a
+// dark island inside a light frame. See components/_chat.scss.
+@mixin light-lock {
+    @include -emit-colors($colors);
+}
+
 // Render tokens to `--sohl-*` custom properties, with light as the default and
 // dark applied via OS preference + the explicit `[data-theme]` toggle (which
 // must win in both directions).
