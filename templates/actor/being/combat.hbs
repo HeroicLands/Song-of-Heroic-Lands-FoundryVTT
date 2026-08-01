@@ -23,13 +23,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="ledger" style="--ledger-cols: minmax(120px,1fr) 2.3rem 2.3rem 2.6rem 3rem 2.4rem 2.4rem 2.4rem">
         <div class="ledger__head">
             <div>Mode</div>
-            <div data-tooltip="Heft">HFT</div>
-            <div data-tooltip="Reach">RCH</div>
-            <div data-tooltip="Zone Dice">{{@root.spreadLabel}}</div>
-            <div data-tooltip="Impact">Impact</div>
-            <div data-tooltip="Attack ML">Atk</div>
-            <div data-tooltip="Block ML">Blk</div>
-            <div data-tooltip="Counterstrike ML">CX</div>
+            <div class="ledger__head-num" data-tooltip="Heft">HFT</div>
+            <div class="ledger__head-num" data-tooltip="Reach">RCH</div>
+            <div class="ledger__head-num" data-tooltip="Zone Dice">{{@root.spreadLabel}}</div>
+            <div class="ledger__head-num" data-tooltip="Impact">Impact</div>
+            <div class="ledger__head-num" data-tooltip="Attack ML">Atk</div>
+            <div class="ledger__head-num" data-tooltip="Block ML">Blk</div>
+            <div class="ledger__head-num" data-tooltip="Counterstrike ML">CX</div>
         </div>
         {{#each meleeStrikeModes as |entry|}}
         <div class="section-legend section-legend--subtype">
@@ -78,11 +78,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="ledger" style="--ledger-cols: minmax(120px,1fr) 2.6rem 2.6rem 3rem 3rem 2.6rem">
         <div class="ledger__head">
             <div>Mode</div>
-            <div data-tooltip="Draw Time">Draw</div>
-            <div data-tooltip="Base Range">BR</div>
-            <div data-tooltip="Max Volley Multiplier">MaxVM</div>
-            <div data-tooltip="Impact">Impact</div>
-            <div data-tooltip="Attack ML">Atk</div>
+            <div class="ledger__head-num" data-tooltip="Draw Time">Draw</div>
+            <div class="ledger__head-num" data-tooltip="Base Range">BR</div>
+            <div class="ledger__head-num" data-tooltip="Max Volley Multiplier">MaxVM</div>
+            <div class="ledger__head-num" data-tooltip="Impact">Impact</div>
+            <div class="ledger__head-num" data-tooltip="Attack ML">Atk</div>
         </div>
         {{#each missileStrikeModes as |entry|}}
         <div class="section-legend section-legend--subtype">
@@ -167,13 +167,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <div class="ledger" style="--ledger-cols: minmax(130px,1fr) 3.2rem 2rem 2rem 2rem 2rem 2.4rem 2.4rem">
             <div class="ledger__head">
                 <div>Location</div>
-                <div>Material</div>
-                <div data-tooltip="Blunt">B</div>
-                <div data-tooltip="Edged">E</div>
-                <div data-tooltip="Piercing">P</div>
-                <div data-tooltip="Fire">F</div>
-                <div data-tooltip="Shock">Shk</div>
-                <div data-tooltip="Impairment">Imp</div>
+                <div class="ledger__head-num">Material</div>
+                <div class="ledger__head-num" data-tooltip="Blunt">B</div>
+                <div class="ledger__head-num" data-tooltip="Edged">E</div>
+                <div class="ledger__head-num" data-tooltip="Piercing">P</div>
+                <div class="ledger__head-num" data-tooltip="Fire">F</div>
+                <div class="ledger__head-num" data-tooltip="Shock">Shk</div>
+                <div class="ledger__head-num" data-tooltip="Impairment">Imp</div>
             </div>
             {{#each bodyZones as |zone|}}
             {{#each zone.parts as |part|}}
