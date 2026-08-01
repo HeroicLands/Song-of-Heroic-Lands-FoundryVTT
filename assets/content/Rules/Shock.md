@@ -17,10 +17,11 @@ folder: RqKUTBUBN2Y3MHYB
 slug: sohl-shock
 ---
 
-Violent injury and heavy blood loss can drive a creature into **shock** — a
-worsening spiral from disorientation to death. A creature is always in exactly
-one **Shock State**, and while in any shock state it **cannot concentrate** until
-it recovers.
+A sudden, overwhelming strain can drive a creature into **shock** — a worsening
+spiral from disorientation to death. Violent injury and heavy blood loss are the
+most common causes, but fear and other systemic or psychological forces can bring
+it on just the same. A creature is always in exactly one **Shock State**, and
+while in any shock state it **cannot concentrate** until it recovers.
 
 Ordinary (normal) shock is a **very temporary** condition: a stunned, incapacitated,
 or unconscious victim shakes it off quickly through a [Shock Re-Test](#shock-re-test).
@@ -51,20 +52,36 @@ a running numeric index that maps to a state:
 | 9                 | Unconscious   |
 | ≥ 10              | Dead          |
 
-When an injury is sustained, its shock contribution is computed as the **body
-location's Shock Value + the Injury Level + the result of a Shock Skill test**
-(fatigue penalty applies; injury-impairment penalties do not):
+### The Shock Test
 
-| Shock Test | Shock State Index |
-| ---------- | ----------------- |
-| CF (−1)    | +2                |
-| MF (0)     | +1                |
-| MS (1)     | 0                 |
-| CS (2)     | −1                |
+Whenever a force threatens a creature with shock, it makes a **Shock Test**. The
+force supplies a **base SSI**, and the creature rolls its **Shock** skill to resist;
+the result adjusts the base index up or down (the creature's fatigue penalty
+applies, but body-part impairment penalties do not):
 
-Other effects raise a creature's shock state by their own means — most notably
-[blood loss](Bleeding.md#blood-loss-advance-test), which advances the shock state
-one step per Blood Loss Point.
+| Shock Test | Adjustment to base SSI |
+| ---------- | ---------------------- |
+| CF (−1)    | +2                     |
+| MF (0)     | +1                     |
+| MS (1)     | 0                      |
+| CS (2)     | −1                     |
+
+The adjusted index maps to a shock state on the table above. That state is then
+**offered** to the creature's controlling player, never imposed — and only ever to
+_worsen_ the current state (a lesser result never lifts a worse one; recovery is
+the [Shock Re-Test](#shock-re-test)). Two shortcuts skip the roll entirely: a base
+SSI **below 5** is too slight to threaten shock at all, and a base SSI **above 10**
+is immediately **Dead**.
+
+**Sources of a base SSI.** Shock is not specific to injury — the base index can
+come from any cause:
+
+- **Injury** — the struck body **location's Shock Value + the Injury Level**.
+- **Fear and other systemic or psychological forces** — each by its own measure.
+
+Some effects instead raise the shock state directly, by their own means — most
+notably [blood loss](Bleeding.md#blood-loss-advance-test), which advances the shock
+state one step per Blood Loss Point.
 
 ### Implementation
 
