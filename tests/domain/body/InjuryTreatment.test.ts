@@ -8,6 +8,8 @@ import {
     treatmentCausesBleeder,
     isBleederFromHealingRate,
     isPermanentImpairmentEligible,
+    amputationInjury,
+    treatmentOutcome,
 } from "@src/entity/body/injury-treatment";
 import {
     CRITICAL_FAILURE,
@@ -215,5 +217,116 @@ describe("isPermanentImpairmentEligible", () => {
         expect(
             isPermanentImpairmentEligible(IMPACT_ASPECT.BLUNT, "minor", 4),
         ).toBe(false);
+    });
+});
+
+describe("amputationInjury — the new edged wound an AMP inflicts", () => {
+    // Amputation table (Injury.md):
+    // CF (-1) → G5 edged, bleeder
+    // MF (0)  → G4 edged, bleeder
+    // MS (1)  → S3 edged, bleeder
+    // CS (2)  → S2 edged, no bleeder
+    it.each([
+        [CRITICAL_FAILURE, "G", 5, true],
+        [MARGINAL_FAILURE, "G", 4, true],
+        [MARGINAL_SUCCESS, "S", 3, true],
+        [CRITICAL_SUCCESS, "S", 2, false],
+    ] as const)(
+        "roll %i → %s%i edged (bleeder=%s)",
+        (sl, severity, level, bleeder) => {
+            expect(amputationInjury(sl)).toEqual({ severity, level, bleeder });
+        },
+    );
+});
+
+describe("treatmentOutcome — every special effect a treatment produces", () => {
+    it("a clean success leaves no special effects", () => {
+        expect(
+            treatmentOutcome(
+                IMPACT_ASPECT.EDGED,
+                "minor",
+                TREATMENT_CODE.CLEAN,
+                CRITICAL_SUCCESS,
+            ),
+        ).toEqual({
+            healingRate: TREATMENT_HEAL,
+            infectable: false,
+            bleeder: false,
+            permanentImpairmentEligible: false,
+        });
+    });
+
+    it("a failed treatment exposes the wound to infection", () => {
+        const out = treatmentOutcome(
+            IMPACT_ASPECT.EDGED,
+            "serious",
+            TREATMENT_CODE.CLEAN,
+            MARGINAL_FAILURE,
+        );
+        expect(out.infectable).toBe(true);
+        expect(out.healingRate).toBe(4);
+    });
+
+    it("a marginal/critical success clears the infection risk", () => {
+        expect(
+            treatmentOutcome(
+                IMPACT_ASPECT.EDGED,
+                "serious",
+                TREATMENT_CODE.CLEAN,
+                MARGINAL_SUCCESS,
+            ).infectable,
+        ).toBe(false);
+    });
+
+    it("a grievous edged wound at HR 2–3 is a bleeder and impairment-eligible", () => {
+        const out = treatmentOutcome(
+            IMPACT_ASPECT.EDGED,
+            "grievous",
+            TREATMENT_CODE.SURGERY,
+            CRITICAL_FAILURE,
+        );
+        expect(out.healingRate).toBe(2);
+        expect(out.bleeder).toBe(true);
+        expect(out.permanentImpairmentEligible).toBe(true);
+    });
+
+    it("a surgical mishap (SUR/EXT on a failure) causes a bleeder", () => {
+        expect(
+            treatmentOutcome(
+                IMPACT_ASPECT.PIERCING,
+                "grievous",
+                TREATMENT_CODE.SURGERY,
+                MARGINAL_FAILURE,
+            ).bleeder,
+        ).toBe(true);
+    });
+
+    it("an AMP reports the amputation wound and folds its bleeder in", () => {
+        const out = treatmentOutcome(
+            IMPACT_ASPECT.EDGED,
+            "grievous",
+            TREATMENT_CODE.AMPUTATE,
+            MARGINAL_SUCCESS,
+        );
+        expect(out.amputation).toEqual({
+            severity: "S",
+            level: 3,
+            bleeder: true,
+        });
+        expect(out.bleeder).toBe(true);
+    });
+
+    it("a HEAL result carries no special effects", () => {
+        const out = treatmentOutcome(
+            IMPACT_ASPECT.BLUNT,
+            "minor",
+            TREATMENT_CODE.COMPRESS,
+            CRITICAL_SUCCESS,
+        );
+        expect(out.healingRate).toBe(TREATMENT_HEAL);
+        expect(out.infectable).toBe(false);
+        expect(out.bleeder).toBe(false);
+        expect(out.permanentImpairmentEligible).toBe(false);
+        expect(out.amputation).toBeUndefined();
     });
 });

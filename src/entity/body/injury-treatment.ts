@@ -33,7 +33,9 @@
  */
 
 import {
+    CRITICAL_FAILURE,
     IMPACT_ASPECT,
+    MARGINAL_FAILURE,
     MARGINAL_SUCCESS,
     type ImpactAspect,
     type SuccessLevel,
@@ -247,4 +249,110 @@ export function isPermanentImpairmentEligible(
         default:
             return false;
     }
+}
+
+/** The edged wound an amputation (`AMP`) treatment inflicts on the location. */
+export interface AmputationInjury {
+    /** The new wound's severity-band letter (`"G"` grievous, `"S"` serious). */
+    severity: "G" | "S";
+    /** The new wound's Injury Level. */
+    level: number;
+    /** Whether the amputation also leaves a bleeder. */
+    bleeder: boolean;
+}
+
+/**
+ * The new edged wound an amputation (`AMP`) treatment inflicts on the affected
+ * location, by Treatment-Test result (Injury rules — amputation table): a worse
+ * roll leaves a worse wound, and every result but a critical success also leaves
+ * a bleeder.
+ *
+ * @param normSuccessLevel - The Treatment-Test result (CF −1 … CS 2).
+ * @returns The amputation's new edged wound and whether it bleeds.
+ */
+export function amputationInjury(
+    normSuccessLevel: SuccessLevel,
+): AmputationInjury {
+    if (normSuccessLevel <= CRITICAL_FAILURE) {
+        return { severity: "G", level: 5, bleeder: true };
+    }
+    if (normSuccessLevel <= MARGINAL_FAILURE) {
+        return { severity: "G", level: 4, bleeder: true };
+    }
+    if (normSuccessLevel <= MARGINAL_SUCCESS) {
+        return { severity: "S", level: 3, bleeder: true };
+    }
+    return { severity: "S", level: 2, bleeder: false };
+}
+
+/** The full set of special effects a Treatment Test produces. */
+export interface TreatmentOutcome {
+    /** The Healing Rate assigned, or {@link TREATMENT_HEAL} for an immediate heal. */
+    healingRate: number | typeof TREATMENT_HEAL;
+    /** Whether the poorly-treated wound is exposed to infection. */
+    infectable: boolean;
+    /** Whether the treatment leaves the wound bleeding. */
+    bleeder: boolean;
+    /** Whether the wound is eligible for permanent impairment. */
+    permanentImpairmentEligible: boolean;
+    /** The new edged wound an amputation inflicts, when the treatment is `AMP`. */
+    amputation?: AmputationInjury;
+}
+
+/**
+ * Every special effect a Treatment Test produces, derived once from the wound's
+ * aspect and severity band, the required treatment action, and the test result —
+ * the single source of truth shared by the persist path
+ * ({@link sohl.document.item.logic.TraumaLogic.treatInjury}) and the
+ * *Treatment Result* card so the card shows exactly what the treatment did.
+ *
+ * A {@link TREATMENT_HEAL} result heals the wound outright and carries no further
+ * effects.
+ *
+ * @param aspect - The wound's impact aspect.
+ * @param band - The wound's severity band.
+ * @param code - The required treatment action (or `undefined` when the aspect has
+ *   no table entry).
+ * @param normSuccessLevel - The Physician-test result (CF −1 … CS 2).
+ * @returns The treatment's Healing Rate and special effects.
+ */
+export function treatmentOutcome(
+    aspect: ImpactAspect,
+    band: InjuryBand,
+    code: TreatmentCode | undefined,
+    normSuccessLevel: SuccessLevel,
+): TreatmentOutcome {
+    const healingRate = treatmentHealingRate(normSuccessLevel, band);
+    if (healingRate === TREATMENT_HEAL) {
+        return {
+            healingRate,
+            infectable: false,
+            bleeder: false,
+            permanentImpairmentEligible: false,
+        };
+    }
+
+    const amputation =
+        code === TREATMENT_CODE.AMPUTATE ?
+            amputationInjury(normSuccessLevel)
+        :   undefined;
+
+    const bleeder =
+        treatmentCausesBleeder(code, normSuccessLevel) ||
+        isBleederFromHealingRate(aspect, band, healingRate) ||
+        (amputation?.bleeder ?? false);
+
+    return {
+        healingRate,
+        // A failed Treatment Test exposes the wound to infection (#557); a
+        // marginal/critical success clears the risk.
+        infectable: normSuccessLevel < MARGINAL_SUCCESS,
+        bleeder,
+        permanentImpairmentEligible: isPermanentImpairmentEligible(
+            aspect,
+            band,
+            healingRate,
+        ),
+        amputation,
+    };
 }

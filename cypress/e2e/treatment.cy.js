@@ -29,7 +29,14 @@
 
 describe("Action cards — treatment flow", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
-    afterEach(() => cy.cleanupWorld());
+    afterEach(() => {
+        // A leftover forced die value would leak into the next spec's roll.
+        cy.foundry((win) => {
+            win.sohl.entity.roll.SimpleRoll.clearForced();
+            return null;
+        });
+        cy.cleanupWorld();
+    });
 
     it("Request Treatment → open Perform (@self) → Accept records the Healing Rate", () => {
         cy.importActor().then((actor) => {
@@ -111,6 +118,73 @@ describe("Action cards — treatment flow", () => {
                     r.healingRate,
                     "a Healing Rate was set for the grievous wound",
                 ).to.be.gte(1);
+            });
+        });
+    });
+
+    it("the Treatment Result card shows the infection / impairment / bleeder warnings a botched treatment causes (#846)", () => {
+        cy.importActor().then((actor) => {
+            cy.prepare(actor);
+            cy.foundry(async (win) => {
+                const a = win.game.actors.get(actor.id);
+                const items = win.structuredClone([
+                    {
+                        type: "trauma",
+                        name: "Wound",
+                        system: {
+                            subType: "injury",
+                            levelBase: 4, // grievous
+                            aspect: "edged",
+                        },
+                    },
+                    {
+                        type: "skill",
+                        name: "Physician",
+                        system: { shortcode: "pysn", masteryLevelBase: 50 },
+                    },
+                ]);
+                const created = await a.createEmbeddedDocuments("Item", items);
+                const injury = created.find((i) => i.type === "trauma");
+                await win.game.user.update(
+                    win.structuredClone({ character: a.id }),
+                );
+
+                // Force a critical failure: a d100 total of 100 is > ML 50
+                // (failure) and ends in 0 (critical). A grievous edged wound left
+                // at HR 2 is then infectable, impairment-eligible, and a bleeder —
+                // all three warnings must render on the Treatment Result card.
+                win.sohl.entity.roll.SimpleRoll.forceValues(100);
+
+                await win.fromUuidSync(injury.uuid).logic.requestTreatment({});
+
+                const dispatch = async (btn) => {
+                    const uuid = btn.dataset.handlerUuid;
+                    const doc =
+                        uuid === "@self" ?
+                            win.game.user.character
+                        :   win.fromUuidSync(uuid);
+                    await doc.onChatCardButton(btn);
+                };
+                const latestButton = (action) => {
+                    const msg = win.game.messages.contents.at(-1);
+                    const div = win.document.createElement("div");
+                    div.innerHTML = msg.content;
+                    return div.querySelector(
+                        `button.action-card-button[data-action="${action}"]`,
+                    );
+                };
+
+                // Perform → posts the Treatment Result card; capture its HTML.
+                await dispatch(latestButton("performTreatmentTest"));
+                return win.game.messages.contents.at(-1).content;
+            }).should((html) => {
+                expect(html, "infection warning").to.contain("Infection risk");
+                expect(html, "impairment warning").to.contain(
+                    "Permanent impairment risk",
+                );
+                expect(html, "bleeder warning").to.contain(
+                    "Treatment results in a bleeder",
+                );
             });
         });
     });
