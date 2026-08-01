@@ -1641,6 +1641,20 @@ export function buildCombatCardData(
 
     let atkWeapon = atkResult?.mode?.parent;
 
+    // The attack-result card's adjustment tables (#844): each side's mastery-level
+    // modifier deltas as `{ name, value }` rows. The card renders the sign itself
+    // (`+` for positive), so the numeric `numValue` is passed through.
+    const deltaRows = (
+        mlMod: { deltas?: { name: string; numValue: number }[] } | undefined,
+    ): { name: string; value: number }[] =>
+        (mlMod?.deltas ?? []).map((d) => ({ name: d.name, value: d.numValue }));
+
+    // The exchange's victory degrees (the difference in success levels) as that
+    // many filled stars, attributed to neither side (the TA lines name the side).
+    // Zero on a tie, so the card falls to its "None" branch (#844).
+    const victoryStars = (margin: number): string =>
+        SYMBOL.STARF.repeat(Math.abs(margin));
+
     let cxCardData: Record<string, unknown> | undefined;
     const atkCardData: Record<string, unknown> = {
         actorId: atkResult.combatant.actorLogic!.id,
@@ -1648,6 +1662,11 @@ export function buildCombatCardData(
         attacker: atkResult.combatant.name,
         defender: defResult.combatant.name,
         attackWeapon: atkWeapon?.name ?? "",
+        defendWeapon: defResult?.mode?.parent?.name ?? "",
+        attackMods: deltaRows(atkResult.masteryLevelModifier),
+        defendMods:
+            defenderContested ? deltaRows(defResult.masteryLevelModifier) : [],
+        vsText: victoryStars(combatResult.margin),
         defense: defResult?.label,
         effAML: atkResult.masteryLevelModifier?.constrainedEffective ?? 0,
         effDML:
@@ -1729,6 +1748,13 @@ export function buildCombatCardData(
             attacker: atkResult.combatant.name,
             defender: combatResult.attackResult.combatant.name,
             attackWeapon: atkWeapon?.name ?? "",
+            // The counterstrike side is shown as an unopposed attack (no contested
+            // defense), so the defender adjustment table and weapon are empty; the
+            // attacker table and victory stars mirror the attack side (#844).
+            defendWeapon: "",
+            attackMods: deltaRows(atkResult.masteryLevelModifier),
+            defendMods: [],
+            vsText: victoryStars(combatResult.margin),
             defense: SYMBOL.EMDASH,
             effAML: atkResult.masteryLevelModifier?.constrainedEffective ?? 0,
             effDML: "",
