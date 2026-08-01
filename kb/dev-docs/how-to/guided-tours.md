@@ -101,12 +101,15 @@ target to appear after a post-navigation render.
 
 ## A worked example
 
-`src/apps/foundry/tours/framework-demo-tour.ts` is a small, registered tour that
-exercises the whole framework against a Being sheet — a free intro, sheet
-navigation, a value gate (a search field), an action gate (the user switches to
-the Combat tab), and a free wrap-up. Read it alongside this guide; it is the
-template a new tour is written from. The e2e spec
-`cypress/e2e/guided-tours.cy.js` drives it end to end.
+`src/apps/foundry/tours/framework-demo-tour.ts` is a small tour that exercises the
+whole framework against a Being sheet — a free intro, sheet navigation, a value
+gate (a search field), an action gate (the user switches to the Combat tab), and a
+free wrap-up. Read it alongside this guide; it is the template a new tour is written
+from. The e2e spec `cypress/e2e/guided-tours.cy.js` drives it end to end. It is
+**registered but hidden** — `display: false` (see [Listing vs. hiding a
+tour](#listing-vs-hiding-a-tour)) keeps it in `game.tours` for the e2e suite to
+drive (`sohl.framework-demo`) while it stays out of players' _Tour Management_,
+since it is a framework demo, not a content tour.
 
 For a full-scale example, `src/apps/foundry/tours/character-creation-tour.ts` is
 the flagship **Character Creation** tour: ~20 steps that walk the whole Being sheet
@@ -127,6 +130,17 @@ wound (an `injury`-subtype Trauma on the Being) — and for _not_ gating the rol
 steps, matching how Assisted Combat leaves the opposed outcome to the players'
 rulebook ruling. It is driven by `cypress/e2e/assisted-combat-tour.cy.js`.
 
+### Listing vs. hiding a tour
+
+`display` controls whether a **registered** tour appears in _Settings → Tour
+Management_ — it does not control registration. A content tour meant for players
+uses `display: true` so they can find and launch it. An **internal** tour — a
+framework demo, or a fixture that exists only for the e2e suite to drive — should
+be registered with `display: false`: it stays in `game.tours` (so a spec can
+`game.tours.get("sohl.framework-demo").start()`), but never clutters a player's
+Tour Management list. Registration and visibility are independent: hiding a tour
+does not unregister it.
+
 ### Offering a tour on first run
 
 A tour listed with `display: true` is always launchable from **Tour Management**.
@@ -145,8 +159,10 @@ const config: SohlTourConfig = {
     namespace: "sohl",
     id: "my-tour",
     title: "SOHL.Tour.MyTour.title",
-    display: true, // list it in Tour Management
-    canStart: () => Boolean(firstOwnedBeing()), // eligibility
+    display: true, // list in Tour Management (vs. false — see "Listing vs. hiding")
+    // canStart omitted → always startable. Add it ONLY for hard eligibility the
+    // user can't fix from within the tour; coach a satisfiable prerequisite in a
+    // first step instead (see "Gate on eligibility, or coach the prerequisite?").
     steps: [
         // Free — centered intro.
         { id: "intro", title: "…", content: "…" },
@@ -174,6 +190,38 @@ const config: SohlTourConfig = {
 };
 return new SohlTour(config);
 ```
+
+### Gate on eligibility, or coach the prerequisite?
+
+`canStart` is a **hard eligibility gate**: when it returns `false`, Foundry greys
+out the tour's **Start** button — with **no reason shown** to the user. That is the
+right behavior only when the tour genuinely cannot run and the user cannot fix it
+from within the tour (a feature is disabled, the wrong document type is open).
+
+When the prerequisite is something the user _can_ satisfy — owning a populated
+Being, having a particular item — **do not gate `canStart` on it.** A greyed-out
+Start with no explanation is a dead end. Instead leave the tour **always startable**
+and make its **first step a Next-disabled state gate that coaches the user to
+satisfy the prerequisite**, so the later steps (which assume it) always have a
+subject. The Assisted Combat tour does exactly this: it omits the `canStart` gate
+and opens with a `prepare` step —
+
+```ts
+{
+    id: "prepare",
+    title: "SOHL.Tour.AssistedCombat.prepare.title",
+    // Coaches: keep the Being you own, or import the Áldrik Hárvenar pregen
+    // (Actors compendium → Pregens → right-click → Import Entry).
+    content: "SOHL.Tour.AssistedCombat.prepare.content",
+    gate: TourGate.state((ctx) => ctx.state === true),
+    readState: () => Boolean(firstOwnedBeing()),
+}
+```
+
+— whose **Next stays disabled until an owned Being exists**. The user is told what
+to do and how, rather than meeting a Start button they cannot press. Rule of thumb:
+_can the user act on it right now?_ If yes, coach it in a first step; if no, gate
+`canStart`.
 
 ## Driven (railroaded) tours
 
