@@ -720,6 +720,45 @@ export const CHAT_MODE_LABEL_BY_ROLL_MODE: Record<SohlSpeakerRollMode, string> =
     };
 
 /**
+ * Maps each SoHL speaker roll-mode value to the Foundry v14 message-mode key
+ * consumed by `ChatMessage.applyMode` (`public` / `self` / `blind` / `gm`).
+ * Foundry v14 renamed `applyRollMode` → `applyMode` and switched from the
+ * legacy roll-mode vocabulary to these keys. SoHL still stores the legacy
+ * values (they are serialized in test results and back stable lang keys), so
+ * the mapping happens only where a value crosses into the Foundry API.
+ *
+ * The default `"roll"` (system) mode has no explicit key — it means "use the
+ * client's configured default" — so it maps to `undefined`, which `applyMode`
+ * treats as "apply the `core.messageMode` setting".
+ */
+export const MESSAGE_MODE_BY_ROLL_MODE: Record<
+    SohlSpeakerRollMode,
+    string | undefined
+> = {
+    [SOHL_SPEAKER_ROLL_MODE.SYSTEM]: undefined,
+    [SOHL_SPEAKER_ROLL_MODE.PUBLIC]: "public",
+    [SOHL_SPEAKER_ROLL_MODE.SELF]: "self",
+    [SOHL_SPEAKER_ROLL_MODE.BLIND]: "blind",
+    [SOHL_SPEAKER_ROLL_MODE.PRIVATE]: "gm",
+};
+
+/**
+ * Translates a SoHL speaker roll-mode value into the Foundry v14 message-mode
+ * key for `ChatMessage.applyMode` (see {@link MESSAGE_MODE_BY_ROLL_MODE}).
+ * A value that is not a known SoHL roll mode — an already-translated
+ * message-mode key or a custom mode — is returned unchanged.
+ *
+ * @param rollMode - A SoHL speaker roll-mode value (e.g. `"publicroll"`).
+ * @returns The equivalent v14 message-mode key, `undefined` for the default
+ *   (system) mode, or the input unchanged if it is not a known roll mode.
+ */
+export function toMessageMode(rollMode: string): string | undefined {
+    return rollMode in MESSAGE_MODE_BY_ROLL_MODE ?
+            MESSAGE_MODE_BY_ROLL_MODE[rollMode as SohlSpeakerRollMode]
+        :   rollMode;
+}
+
+/**
  * Builds the option list for a roll-visibility `<select>`: each SoHL speaker
  * roll-mode value paired with its localized `CHAT.MODES.*` label key (see
  * {@link CHAT_MODE_LABEL_BY_ROLL_MODE}). The `value` is the stored roll-mode

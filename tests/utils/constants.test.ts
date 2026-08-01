@@ -10,6 +10,7 @@ import {
     SCHEMA_VERSION_KEY,
     SOHL_SPEAKER_ROLL_MODE,
     speakerRollModeOptions,
+    toMessageMode,
 } from "@src/utils/constants";
 
 describe("defineType", () => {
@@ -160,5 +161,26 @@ describe("speakerRollModeOptions", () => {
         expect(byValue[SOHL_SPEAKER_ROLL_MODE.SYSTEM]).toBe(
             "SOHL.SohlSpeaker.ROLL_MODE.roll",
         );
+    });
+});
+
+describe("toMessageMode", () => {
+    it("translates each legacy SoHL roll mode to its v14 message-mode key", () => {
+        expect(toMessageMode(SOHL_SPEAKER_ROLL_MODE.PUBLIC)).toBe("public");
+        expect(toMessageMode(SOHL_SPEAKER_ROLL_MODE.SELF)).toBe("self");
+        expect(toMessageMode(SOHL_SPEAKER_ROLL_MODE.BLIND)).toBe("blind");
+        expect(toMessageMode(SOHL_SPEAKER_ROLL_MODE.PRIVATE)).toBe("gm");
+    });
+
+    it("maps the default (system) roll mode to undefined so applyMode uses the client default", () => {
+        expect(toMessageMode(SOHL_SPEAKER_ROLL_MODE.SYSTEM)).toBeUndefined();
+    });
+
+    it("passes an already-translated / unknown mode through unchanged", () => {
+        // A v14 message-mode key given directly stays as-is.
+        expect(toMessageMode("public")).toBe("public");
+        expect(toMessageMode("gm")).toBe("gm");
+        // A custom mode key is not clobbered.
+        expect(toMessageMode("custom")).toBe("custom");
     });
 });

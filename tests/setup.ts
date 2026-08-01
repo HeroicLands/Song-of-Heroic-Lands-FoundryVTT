@@ -364,6 +364,7 @@ const sohlMock = {
 };
 
 (globalThis as any).ChatMessage = {
+    applyMode(_data: any, _mode?: string) {},
     applyRollMode(_data: any, _mode: string) {},
 };
 

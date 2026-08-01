@@ -20,7 +20,11 @@ import {
     setUuidResolver,
 } from "@src/utils/helpers";
 import type { DialogSpec } from "@src/utils/types";
-import { AFFLICTION_SUBTYPE, ITEM_KIND } from "@src/utils/constants";
+import {
+    AFFLICTION_SUBTYPE,
+    ITEM_KIND,
+    toMessageMode,
+} from "@src/utils/constants";
 import type { AfflictionChoice } from "@src/document/actor/logic/affliction-contract";
 import {
     ARCHETYPE_TIER,
@@ -679,11 +683,17 @@ export async function fvttFindDiseases(): Promise<AfflictionChoice[]> {
 
 /**
  * Apply the specified roll mode to chat message data.
+ *
+ * SoHL stores legacy roll-mode values (`publicroll`, `gmroll`, …); Foundry v14
+ * renamed `ChatMessage.applyRollMode` → `ChatMessage.applyMode` and switched to
+ * message-mode keys (`public`, `gm`, …), so the value is translated at this
+ * boundary via {@link toMessageMode}.
+ *
  * @param data - The chat message data to mutate in place.
- * @param mode - The roll mode to apply.
+ * @param mode - The SoHL roll mode to apply.
  */
 export function fvttApplyRollMode(data: object, mode: string): void {
-    ChatMessage.applyRollMode(data, mode as any);
+    (ChatMessage as any).applyMode(data, toMessageMode(mode));
 }
 
 // ---------------------------------------------------------------------------
