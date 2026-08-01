@@ -376,6 +376,11 @@ export class SuccessTestResult extends TestResult {
         return this._tokenLogic;
     }
 
+    /** The item logic this test was rolled from (its skill/attribute/weapon). */
+    get item(): SohlItemLogic<any> {
+        return this._item;
+    }
+
     /**
      * The mastery-level modifier rolled against; its
      * {@link sohl.entity.modifier.MasteryLevelModifier.constrainedEffective | constrainedEffective}
@@ -867,7 +872,13 @@ export class SuccessTestResult extends TestResult {
             // uuids must reach the template.
             item: { uuid: this._item.uuid },
             actor: { uuid: this._item.actor?.uuid },
-            template: "systems/sohl/templates/chat/standard-test-card.hbs",
+            // Default to the standard card, but let a caller render a different
+            // one (e.g. OpposedTestResult delegates its shaped data here to render
+            // the opposed request/result cards). Placed after `...rest` so the
+            // caller's `template` is honored, not clobbered (#845).
+            template:
+                (rest.template as string | undefined) ??
+                "systems/sohl/templates/chat/standard-test-card.hbs",
             movementOptions: SuccessTestResultMovements.map((val) => [
                 val,
                 `SOHL.SuccessTestResult.Movement.${val}`,

@@ -23,6 +23,7 @@ import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDoc
 import {
     isOpposedTestResultTieBreak,
     OPPOSED_TEST_RESULT_TIEBREAK,
+    SYMBOL,
     TestType,
 } from "@src/utils/constants";
 
@@ -222,17 +223,64 @@ export class OpposedTestResult extends TestResult {
     }
 
     /**
-     * Post the opposed-test request card
-     * (`templates/chat/opposed-request-card.hbs`) via the source's speaker,
-     * including both sides' rolls and a prompt for the target to respond.
+     * Post the opposed-test card via the source's speaker — the **request** card
+     * (`opposed-request-card.hbs`, with the Respond button) by default, or the
+     * **result** card (`opposed-result-card.hbs`) when the caller supplies that
+     * `template` (as {@link sohl.entity.modifier.MasteryLevelModifier.opposedTestResume} does).
      *
-     * @param data - Extra template data merged into the card.
+     * Both sides are shaped into **plain** `sourceTestResult` / `targetTestResult`
+     * data (title, token, item, mlMod display fields, roll, outcome flags) rather
+     * than the live results, because the delegated
+     * {@link sohl.entity.result.SuccessTestResult.toChat} folds this through
+     * `fvttMergeObject`, which deep-copies and would strip a live instance's
+     * getters. That delegation also honors the caller's `template` now (#845), so
+     * the opposed card is no longer overridden by the standard test card.
+     *
+     * @param data - Extra template data; `template` / `title` select and label
+     *   the card (request vs. result).
      */
     async toChat(data: PlainObject = {}): Promise<void> {
+        const shape = (r: SuccessTestResult) => ({
+            title: r.title,
+            description: r.description,
+            testType: r.testType,
+            isSuccess: r.isSuccess,
+            isCritical: r.isCritical,
+            targetMovement: r.movement,
+            roll: { total: r.roll.total },
+            mlMod: {
+                chatHtml: r.masteryLevelModifier.chatHtml,
+                effective: r.masteryLevelModifier.effective,
+                successLevelMod: r.masteryLevelModifier.successLevelMod,
+            },
+            token: {
+                name: r.token?.name ?? "",
+                uuid: r.token?.uuid ?? "",
+                actor: { uuid: r.item?.actor?.uuid ?? "" },
+            },
+            item: { name: r.item?.name ?? "", uuid: r.item?.uuid ?? "" },
+            actor: { uuid: r.item?.actor?.uuid ?? "" },
+        });
+
+        // Victory degrees — the difference in the two normalized success levels —
+        // shown as that many filled stars on the result card (#845).
+        const victoryDegrees = Math.abs(
+            this.sourceTestResult.normSuccessLevel -
+                this.targetTestResult.normSuccessLevel,
+        );
+
         const msgData: PlainObject = {
-            template: "systems/sohl/templates/chat/opposed-request-card.hbs",
-            title: "SOHL.OpposedTestResult.toChat.title",
-            opposedTestResult: this,
+            template:
+                (data.template as string | undefined) ??
+                "systems/sohl/templates/chat/opposed-request-card.hbs",
+            title:
+                (data.title as string | undefined) ??
+                "SOHL.OpposedTestResult.toChat.title",
+            sourceTestResult: shape(this.sourceTestResult),
+            targetTestResult: shape(this.targetTestResult),
+            sourceWins: this.sourceWins,
+            targetWins: this.targetWins,
+            vsText: { text: SYMBOL.STARF.repeat(victoryDegrees) },
             // The Respond button's `scope` payload: the whole opposed test,
             // serialized as one `data-scope` blob and revived as a live
             // `OpposedTestResult` by the dispatch handler.
@@ -240,7 +288,10 @@ export class OpposedTestResult extends TestResult {
             // The opposed test is token-addressed: the Respond button resolves on
             // the TARGET token (`SohlTokenDocument.onChatCardButton` →
             // `SohlTokenDocumentLogic.opposedTestResume`).
-            targetToken: this.targetTestResult.token,
+            targetToken: {
+                name: this.targetTestResult.token?.name ?? "",
+                uuid: this.targetTestResult.token?.uuid ?? "",
+            },
             opposedTests: [
                 {
                     action: "opposedTestResume",
