@@ -1464,6 +1464,7 @@
   "sohl.document.combatant.logic.CombatantStartLocation.y": "interfaces/sohl.document.combatant.logic.CombatantStartLocation.html#y",
   "sohl.document.combatant.logic.DEFENSE_DISABLING_STATUSES": "variables/sohl.document.combatant.logic.DEFENSE_DISABLING_STATUSES.html",
   "sohl.document.combatant.logic.DamageCardInput": "interfaces/sohl.document.combatant.logic.DamageCardInput.html",
+  "sohl.document.combatant.logic.DamageCardInput.actorId": "interfaces/sohl.document.combatant.logic.DamageCardInput.html#actorid",
   "sohl.document.combatant.logic.DamageCardInput.aspect": "interfaces/sohl.document.combatant.logic.DamageCardInput.html#aspect",
   "sohl.document.combatant.logic.DamageCardInput.handlerUuid": "interfaces/sohl.document.combatant.logic.DamageCardInput.html#handleruuid",
   "sohl.document.combatant.logic.DamageCardInput.hasTarget": "interfaces/sohl.document.combatant.logic.DamageCardInput.html#hastarget",

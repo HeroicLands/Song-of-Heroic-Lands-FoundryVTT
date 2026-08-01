@@ -10,6 +10,8 @@ import { keepControlTable } from "@src/document/actor/logic/keep-control";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { ImpactResult } from "@src/entity/result/ImpactResult";
+import { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
 import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 import { MiscGearLogic } from "@src/document/item/logic/MiscGearLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
@@ -2835,6 +2837,45 @@ describe("BeingLogic", () => {
             const logic = setup(makeArmorStub(true, 5), headLoc);
             logic.evaluate();
             expect(headLoc.armorProtection.blunt).toBe(5);
+        });
+    });
+
+    describe("calcImpact damage card (#847)", () => {
+        afterEach(() => vi.restoreAllMocks());
+
+        /** A real, evaluated ImpactResult usable as `scope.priorTestResult`. */
+        function makeImpactResult() {
+            const parent = {
+                data: { kind: "weapongear" },
+                name: "Broadsword",
+                label: "Broadsword",
+                item: { logic: { availableFate: [] } },
+            } as any;
+            const impactModifier = new ImpactModifier(
+                {
+                    roll: { numDice: 2, dieFaces: 6, modifier: 5 },
+                    aspect: IMPACT_ASPECT.EDGED,
+                    aimBodyPartCode: "",
+                    spread: 0,
+                } as any,
+                { parent },
+            );
+            return new ImpactResult({ impactModifier } as any, { parent });
+        }
+
+        it("provides the owning actor's id so the card's data-actor-id is populated", async () => {
+            const being = makeBeing({}, { id: "atk123456789012" });
+            const speaker = new SohlSpeaker({ alias: "Attacker" });
+            vi.spyOn(speaker, "toChat").mockResolvedValue(undefined as any);
+            const ctx = new SohlActionContext({
+                speaker,
+                scope: { priorTestResult: makeImpactResult() },
+            });
+
+            const cardData = (await (being as any).calcImpact(ctx)) as any;
+
+            expect(cardData.actorId).toBe("atk123456789012");
+            expect(cardData.actorId).not.toBe("");
         });
     });
 });

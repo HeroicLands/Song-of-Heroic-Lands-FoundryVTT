@@ -1952,6 +1952,8 @@ export interface DamageCardTarget {
 
 /** Inputs for building a damage chat card (`buildDamageCardData`). */
 export interface DamageCardInput {
+    /** The owning (attacking) actor's id, for the card's `data-actor-id`. */
+    actorId: string;
     /** Card title, e.g. "Broadsword – Cut". */
     title: string;
     /** Additional notes for the damage card. */

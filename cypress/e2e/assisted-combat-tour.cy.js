@@ -285,5 +285,15 @@ describe("Assisted Combat tour (SohlTour, #620)", () => {
                 return win.game.messages.size - before;
             }).should("be.greaterThan", 0);
         });
+
+        // #847: the posted damage card carries the attacker's id in its root
+        // `data-actor-id` (was rendered empty because the builder never set it).
+        cy.then(function () {
+            const beingId = this.being.id;
+            cy.foundry((win) => {
+                const last = win.game.messages.contents.at(-1);
+                return last?.content ?? "";
+            }).should("contain", `data-actor-id="${beingId}"`);
+        });
     });
 });
