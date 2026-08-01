@@ -380,7 +380,33 @@ export class MasteryLevelModifier extends ValueModifier {
      * speaker is not owned by the running user (a GM-fired event owns every
      * actor).
      *
-     * @param context - The context in which to perform the test.
+     * **Recognized `context.scope` fields** (all optional — see
+     * {@link sohl.entity.result.SuccessTestResult.ContextScope} for the typed
+     * shape and per-field docs). Supplying these is how a **generic** success test
+     * becomes a bespoke graded test _without a subclass_ (see the
+     * [pass-data pattern](https://kb.heroiclands.org/dev/how-to/extension-points/)):
+     *
+     * - `successStarTable` — the {@link sohl.entity.result.SuccessTestResult.LimitedDescription | result-description table}
+     *   mapping each rung to its label / description / star count. Defaults to this
+     *   modifier's `testDescTable`.
+     * - `targetValueFunc` — remaps the value the outcome grades against when the
+     *   test keys off something other than the raw mastery level. Defaults to
+     *   identity (`sl => sl`).
+     * - `priorTestResult` — reuse an already-rolled result instead of rolling
+     *   fresh (Fate, GM edits, opposed resume); the die is **not** re-rolled.
+     * - `situationalModifier` — the pre-roll modifier applied when `skipDialog`
+     *   bypasses the dialog.
+     * - `canFate` — whether the posted card may offer a Fate spend (default
+     *   `true`; the Fate test itself passes `false`).
+     *
+     * Context-level (not `scope`) switches: `context.skipDialog` bypasses the
+     * pre-roll dialog; `context.noChat` suppresses the result card (post it
+     * yourself with {@link sohl.entity.result.SuccessTestResult.toChat} — e.g. to
+     * attach follow-up `buttons`).
+     *
+     * @param context - The context in which to perform the test. Its `scope` is a
+     *   `Partial<`{@link sohl.entity.result.SuccessTestResult.ContextScope}`>`;
+     *   the recognized fields are listed above.
      * @returns A Promise resolving to `undefined` if the test was cancelled, `false`
      * if there was an error during the test (including an unowned speaker), or the
      * result of the success test.

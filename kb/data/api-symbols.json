@@ -3953,6 +3953,7 @@
   "sohl.entity.result.OpposedTestResult.toJSON": "classes/sohl.entity.result.OpposedTestResult-1.html#tojson",
   "sohl.entity.result.SuccessTestResult": "classes/sohl.entity.result.SuccessTestResult-1.html",
   "sohl.entity.result.SuccessTestResult.ContextScope": "interfaces/sohl.entity.result.SuccessTestResult.ContextScope.html",
+  "sohl.entity.result.SuccessTestResult.ContextScope.canFate": "interfaces/sohl.entity.result.SuccessTestResult.ContextScope.html#canfate",
   "sohl.entity.result.SuccessTestResult.ContextScope.priorTestResult": "interfaces/sohl.entity.result.SuccessTestResult.ContextScope.html#priortestresult",
   "sohl.entity.result.SuccessTestResult.ContextScope.situationalModifier": "interfaces/sohl.entity.result.SuccessTestResult.ContextScope.html#situationalmodifier",
   "sohl.entity.result.SuccessTestResult.ContextScope.successStarTable": "interfaces/sohl.entity.result.SuccessTestResult.ContextScope.html#successstartable",

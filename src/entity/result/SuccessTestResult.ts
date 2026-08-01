@@ -938,9 +938,23 @@ export namespace SuccessTestResult {
 
     export interface Options extends TestResult.Options {}
 
-    /** Scope passed to actions that resume a prior success test. */
+    /**
+     * The recognized `context.scope` fields for a
+     * {@link sohl.entity.modifier.MasteryLevelModifier.successTest} — **not** only
+     * for resuming one. All are optional (the method reads them as a
+     * `Partial<ContextScope>`); together they turn the single generic success test
+     * into any bespoke graded test as **data**, with no subclass. `successStarTable`
+     * carries the outcome mapping and `targetValueFunc` the grading value; follow-up
+     * consent buttons are passed separately to
+     * {@link SuccessTestResult.toChat}. See the
+     * [pass-data pattern](https://kb.heroiclands.org/dev/how-to/extension-points/).
+     */
     export interface ContextScope {
-        /** The success test being resumed. */
+        /**
+         * Reuse an already-evaluated success test instead of rolling fresh (Fate,
+         * a GM edit, an opposed resume) — the die is **not** re-rolled. Omit to
+         * roll a new test.
+         */
         priorTestResult: SuccessTestResult;
         /** A situational modifier to apply to the mastery level. */
         situationalModifier: number;

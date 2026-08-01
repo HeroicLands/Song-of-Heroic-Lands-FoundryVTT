@@ -217,7 +217,26 @@ manual Add Injury flow:
 
 ## Extension guidance
 
-- **New test type:** Subclass `SuccessTestResult` if you need custom evaluation logic. Override `evaluate()` and `toChat()`.
+- **New graded / special-result test — do _not_ subclass.** A test that rolls a
+  d100 against a mastery level and reports a bespoke set of outcomes ("Keeps
+  Footing" / "Stumbles" / "Drops It", a shock state, a fear reaction) is **not** a
+  new class. Drive the one generic `MasteryLevelModifier.successTest(context)` and
+  pass the outcome mapping as **data** in the action scope:
+  `scope.successStarTable` supplies the [result-description
+  table](./result-description-tables.md) (label / description / stars per rung),
+  and an optional `scope.targetValueFunc` remaps the target when the test grades
+  off something other than the raw mastery level. Follow-up **consent buttons** ride
+  the same standard card — pass `buttons` to `SuccessTestResult.toChat` (see the
+  [card-data contract](./result-description-tables.md#the-tochat-card-data-contract)).
+  This inherits impairment/fatigue gating, Fate eligibility, `priorTestResult`
+  reconstruction, and card rendering for free; a subclass re-implements all of it
+  and drifts. Worked example: `keepControlTable` + `BeingLogic.stumbleTest` /
+  `fumbleTest`. See [Extension Points §3](../how-to/extension-points.md#3-combat--tests--resolution-pipeline).
+- **Subclass `SuccessTestResult` only for genuinely different roll math** — a test
+  whose evaluation is not "d100 ≤ constrained mastery level" (a different die, a
+  multi-roll resolution, a non-threshold outcome). New result _text_ or a new
+  follow-up _button_ is never a reason to subclass. When you do subclass, override
+  `evaluate()` and keep `toChat()` payloads compatible.
 - **New combat mechanic:** Extend `AttackResult`/`DefendResult` (or `SuccessTestResult`) for new test types, or `CombatResult` for new combat exchange patterns.
 - **Custom modifiers:** Add deltas to the `MasteryLevelModifier` before `evaluate()` is called — don't modify the result after evaluation.
 - **Keep `evaluate()` deterministic** from input state; avoid hidden side effects.

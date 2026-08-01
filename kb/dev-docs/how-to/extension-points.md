@@ -113,14 +113,79 @@ Core components:
 
 **Safe extension:**
 
-- Add new `*Result` types for new outcomes
-- Add new `*Modifier` types for new influences
-- Keep results serializable for chat/UI
+- Add a graded / special-result test as **data** — see [the recipe below](#adding-a-graded--special-result-test--pass-data-dont-subclass) — not a new class.
+- Add new `*Modifier` types for new influences.
+- Keep results serializable for chat/UI.
 
 **High-risk:**
 
 - Changing shared modifier interpretation rules
 - Changing success thresholds or resolution order
+
+### Adding a graded / special-result test — pass data, don't subclass
+
+The most common "new test" need is a d100-vs-mastery-level roll that reports a
+**bespoke set of outcomes** and optionally **offers a follow-up action** — a
+Stumble ("Keeps Footing" / "Stumbles"), a Fumble ("Retains Grip" / "Drops It"),
+a Shock test, a Fear test. **None of these is a new class.** Do not subclass
+`SuccessTestResult`, and do not write a bespoke result card. Drive the single,
+well-tested generic path — {@link sohl.entity.modifier.MasteryLevelModifier.successTest} — and
+supply everything bespoke as **data in the action scope**:
+
+- **`scope.successStarTable`** — a [result-description
+  table](../reference/result-description-tables.md) (`LimitedDescription[]`) that
+  maps each success rung to its label / description / star count. This _is_ the
+  bespoke result text, carried as serializable data.
+- **`scope.targetValueFunc`** _(optional)_ — remaps the value the outcome grades
+  against when the test keys off something other than the raw constrained mastery
+  level (e.g. the success-value tests use `index + successLevel - 1`).
+- **`scope.priorTestResult`** _(optional)_ — reuse an already-rolled result instead
+  of rolling fresh (Fate, GM edits, opposed resume). The die is **not** re-rolled;
+  see the [prior-result seam](../reference/modifier-model.md).
+
+Because you drove the generic path, the test inherits **impairment/fatigue
+gating, Fate eligibility, `priorTestResult` reconstruction, and standard-card
+rendering** with no extra code. A subclass re-implements all of that and drifts
+from the one path everyone else fixes bugs in.
+
+**Follow-up consent buttons ride the standard card.** When a graded result should
+_offer_ an action (apply the shock state, record a healing rate), you no longer
+need a bespoke `postActionCard` template. Post the standard card yourself and hand
+it `buttons` — one {@link sohl.document.chat.ActionCardButton} or an array:
+
+```ts
+// Roll the generic test but don't auto-post (`noChat`), then post with a button.
+const result = await mlMod.successTest(
+    new SohlActionContext({
+        speaker,
+        scope: { successStarTable: keepControlTable(winner), noChat: true },
+    }),
+);
+if (result) {
+    await result.toChat({
+        buttons: {
+            action: "applyStumble",
+            handlerUuid: this.uuid,
+            scope: { priorTestResult: result },
+            label: sohl.i18n.localize("SOHL.Being.Stumble.apply"),
+            iconFAClass: "fa-solid fa-person-falling",
+        },
+    });
+}
+```
+
+`toChat` folds `buttons` through the same `toRenderableButtons` normalizer the
+action-card framework uses (scope pre-serialized, `skipDialog` defaulted), so each
+button carries the well-known `action-card-button` handles and dispatches through
+the shared chat-card chokepoint. **Nothing auto-fires** — the button is _offered_,
+and the target's controlling player accepts (the consent model). See the
+[`toChat` card-data contract](../reference/result-description-tables.md#the-tochat-card-data-contract).
+
+**When you _do_ subclass.** Reserve a `SuccessTestResult` subclass for a test whose
+**roll math genuinely differs** — a different die, a multi-roll resolution, a
+non-threshold outcome. New result _text_ or a new follow-up _button_ is never, by
+itself, a reason to subclass. `AttackResult` / `OpposedTestResult` are the
+existing examples of a legitimately different resolution.
 
 See [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md) and [Modifier Model](../reference/modifier-model.md).
 
