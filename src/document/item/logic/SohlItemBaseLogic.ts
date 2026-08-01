@@ -110,6 +110,7 @@ export class SohlItemBaseLogic<
      * Intrinsic actions shared by every item kind: the {@link SohlLogic} base
      * pair (edit/delete) plus {@link outputDescription}, which posts the item's
      * description to the chat log.
+     * @returns The intrinsic action definitions shared by every item kind.
      */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
