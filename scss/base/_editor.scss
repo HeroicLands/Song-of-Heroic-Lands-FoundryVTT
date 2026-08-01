@@ -9,6 +9,18 @@ section.highlight {
 .editor,
 .editor-content {
     @include typography.type-style("editor");
+    // Own the content color so it follows the light/dark token swap instead of
+    // falling through to Foundry's editor default (dark, invisible on the dark
+    // sheet — #893). The toolbar is themed below; this is the typed text itself.
+    color: var(--sohl-color-text-primary);
+}
+
+// ProseMirror renders the editable body as `.editor-content.ProseMirror` inside
+// the `<prose-mirror>` element; pin its color to the token too so typed text is
+// legible in both themes.
+prose-mirror .editor-content,
+prose-mirror .ProseMirror {
+    color: var(--sohl-color-text-primary);
 }
 
 // ProseMirror toolbar — re-theme to Manuscript tokens (#810). Foundry paints the
