@@ -1278,6 +1278,7 @@
     "SOHL.SohlContextMenu.SortGroupS.HIDDEN": "Hidden",
     "SOHL.SohlItemBaseLogic.Action.delete.title": "Delete",
     "SOHL.SohlItemBaseLogic.Action.edit.title": "Edit",
+    "SOHL.SohlItemBaseLogic.Action.outputDescription.title": "Output Description to Chat",
     "SOHL.SohlLogic.Action.delete.title": "Delete",
     "SOHL.SohlLogic.Action.edit.title": "Edit",
     "SOHL.SohlLogic.delete.caution": "This {{docType}} will be deleted and cannot be recovered. Are you sure?",

@@ -22,7 +22,19 @@ import {
 } from "@src/utils/constants";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
-import { dialog, fvttRenderSheet } from "@src/core/FoundryHelpers";
+import {
+    dialog,
+    fvttEnrichHTML,
+    fvttRenderSheet,
+} from "@src/core/FoundryHelpers";
+// `action-card` is a pure, Foundry-free module (it touches Foundry only through
+// the `FoundryHelpers` shims); the path-based boundary rule can't tell it apart
+// from the Foundry-coupled files under `document/chat/`, so allow this import.
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import {
+    postActionCard,
+    type ActionCardSpec,
+} from "@src/document/chat/action-card";
 
 /**
  * The Foundry-free foundation of the item logic layer.
@@ -87,6 +99,42 @@ export class SohlItemBaseLogic<
     }
 
     /* --------------------------------------------- */
+    /* Intrinsic Actions                             */
+    /* --------------------------------------------- */
+
+    /**
+     * Intrinsic actions shared by every item kind: the {@link SohlLogic} base
+     * pair (edit/delete) plus {@link outputDescription}, which posts the item's
+     * description to the chat log.
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...super.defineIntrinsicActions(),
+            {
+                shortcode: "outputDescription",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.SohlItemBaseLogic.Action.outputDescription.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-message-lines",
+                executor: "outputDescription",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+        ];
+    }
+
+    /**
+     * Post this item's description to the chat log — a human-triggered,
+     * informational card (no follow-up buttons) built by
+     * {@link buildItemDescCardData}. Assist, never act: this only *shows* the
+     * item's own text; it takes no action on any character.
+     * @param _context - The action context; unused.
+     */
+    async outputDescription(_context: SohlActionContext): Promise<void> {
+        await postActionCard(this.speaker, await buildItemDescCardData(this));
+    }
+
+    /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 
@@ -96,4 +144,53 @@ export class SohlItemBaseLogic<
     override evaluate(): void {}
     /** @inheritDoc */
     override finalize(): void {}
+}
+
+/**
+ * Assemble the informational **description card** for an item — the body of the
+ * {@link SohlItemBaseLogic.outputDescription} action. Pure (Foundry access only
+ * through the enrich shim), so it is unit-testable and carries no posting side
+ * effect. The description HTML is enriched through the normal
+ * {@link fvttEnrichHTML} path and the card is rendered/sanitized by
+ * {@link sohl.document.chat.buildActionCard}; item data is never interpolated
+ * into template source.
+ *
+ * @param logic - The item logic whose description is being output.
+ * @returns The {@link ActionCardSpec} for `item-desc-card.hbs` (no buttons).
+ */
+export async function buildItemDescCardData(
+    logic: SohlItemBaseLogic,
+): Promise<ActionCardSpec> {
+    const data = logic.data;
+    // `charges` is a type-specific field (mysteries, mystical abilities) shaped
+    // `{ value, max }`, where a null `value` means infinite and a null `max`
+    // means the item does not use charges. Show a concrete count where one
+    // applies; omit it otherwise.
+    const chargesData = (data as unknown as { charges?: unknown }).charges as
+        | { value?: number | null; max?: number | null }
+        | undefined;
+    let charges: string | undefined;
+    if (chargesData && typeof chargesData === "object") {
+        const { value, max } = chargesData;
+        if (value != null) {
+            charges = max != null ? `${value} / ${max}` : `${value}`;
+        }
+    }
+    return {
+        template: "systems/sohl/templates/chat/item-desc-card.hbs",
+        data: {
+            actorId: logic.actor?.id ?? null,
+            name: logic.name,
+            subtitle: logic.typeLabel,
+            notes: data.notes ?? "",
+            // `textReference` is an optional, loosely-typed field present only on
+            // some item kinds; read it defensively so the card's `{{#if textRef}}`
+            // simply hides when it is absent.
+            textRef:
+                (data as unknown as { textReference?: string }).textReference ??
+                "",
+            charges,
+            desc: await fvttEnrichHTML(data.docHtml ?? ""),
+        },
+    };
 }
