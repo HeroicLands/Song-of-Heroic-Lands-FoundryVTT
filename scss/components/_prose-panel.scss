@@ -29,7 +29,16 @@
 
     prose-mirror,
     prose-mirror.editor {
-        display: block;
+        // Keep Foundry's `display: flex; flex-direction: column` — the
+        // ProseMirror `menu-container` / `editor-container` are its flex
+        // children and the editable `.editor-content` is `position: absolute;
+        // inset: 0` inside the `flex: 1` container. Forcing `display: block`
+        // here drops both children out of flex flow, collapsing the editor to
+        // zero height (empty WYSIWYG + source view over the toolbar, #897).
+        // `flex: 1; min-height: 0` fills the card; `height: auto` neutralizes
+        // the global `.editor { height: 100% }`.
+        display: flex;
+        flex-direction: column;
         flex: 1;
         height: auto;
         min-height: 0;

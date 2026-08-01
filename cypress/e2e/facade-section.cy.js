@@ -108,4 +108,55 @@ describe("Being Facade tab (#307)", () => {
             ).should("exist");
         });
     });
+
+    it("gives the active editor a non-zero content height (#897)", () => {
+        // Regression: `.facade__editor` forced `prose-mirror { display: block }`,
+        // dropping Foundry's `menu-container` / `editor-container` out of flex
+        // flow so both collapsed to zero height — the WYSIWYG content was
+        // invisible and source view rendered over the toolbar. `contain.text`
+        // does NOT catch this (the text is in the DOM at 0px), so assert the
+        // rendered box heights of the active editor instead.
+        cy.importActor().then((actor) => {
+            cy.foundry((win) =>
+                win.game.actors
+                    .get(actor.id)
+                    .update(
+                        toRealm(win, {
+                            "system.appearance": "<p>Legibility probe.</p>",
+                        }),
+                    )
+                    .then(() => null),
+            );
+            cy.openSheet(actor);
+            cy.switchTab("facade", "primary");
+            // The editor auto-activates asynchronously; poll until ProseMirror
+            // has mounted and the boxes have laid out, then assert non-zero
+            // heights for the toolbar and the editable content.
+            cy.window().should((win) => {
+                const el = win.game.actors.get(actor.id)?.sheet?.element;
+                const pm = el?.querySelector(
+                    '.facade__editor prose-mirror[name="system.appearance"]',
+                );
+                expect(pm, "prose-mirror element").to.exist;
+                expect(pm.classList.contains("active"), "editor active").to.be
+                    .true;
+                const menuC = pm.querySelector(".menu-container");
+                const container = pm.querySelector(".editor-container");
+                const content = pm.querySelector(".editor-content");
+                expect(
+                    menuC?.getBoundingClientRect().height,
+                    "toolbar height",
+                ).to.be.greaterThan(0);
+                expect(
+                    container?.getBoundingClientRect().height,
+                    "editor-container height",
+                ).to.be.greaterThan(0);
+                expect(
+                    content?.getBoundingClientRect().height,
+                    "editor-content height",
+                ).to.be.greaterThan(0);
+            });
+            cy.screenshot("facade-897-editor-visible", { capture: "viewport" });
+        });
+    });
 });
