@@ -342,6 +342,85 @@ describe("blood-stoppage cards (#547)", () => {
     });
 });
 
+describe("standard-test-card follow-up buttons (#853)", () => {
+    const base = {
+        title: "Rally Test",
+        item: { uuid: "Item.rally1" },
+        mlMod: { empty: true, effective: 50 },
+        roll: { total: 42 },
+        isSuccess: true,
+    };
+
+    it("renders caller-supplied action buttons alongside the Fate button", () => {
+        const html = renderTemplateReal(`${CHAT}/standard-test-card.hbs`, {
+            ...base,
+            canFate: true,
+            buttons: [
+                {
+                    action: "treatInjury",
+                    handlerUuid: "@self",
+                    scopeJSON: '{"woundId":"w1"}',
+                    label: "Accept Treatment",
+                    iconFAClass: "fa-solid fa-kit-medical",
+                    skipDialog: true,
+                },
+            ],
+        });
+        // The follow-up action button dispatches through the shared chokepoint,
+        // carrying the well-known handles the dispatcher/gater read.
+        expect(html).toContain('class="action-card-button"');
+        expect(html).toContain('data-action="treatInjury"');
+        expect(html).toContain('data-handler-uuid="@self"');
+        // scopeJSON is HTML-escaped inside the attribute (never HTML-from-data).
+        expect(html).toContain(
+            'data-scope="{&quot;woundId&quot;:&quot;w1&quot;}"',
+        );
+        expect(html).toContain('data-skip-dialog="true"');
+        expect(html).toContain("Accept Treatment");
+        expect(html).toContain("fa-kit-medical");
+        // The existing edit-pencil and Fate Test buttons still render.
+        expect(html).toContain('data-action="successTest"');
+        expect(html).toContain('data-action="fateTest"');
+    });
+
+    it("renders multiple buttons, each with its own action/handler/scope", () => {
+        const html = renderTemplateReal(`${CHAT}/standard-test-card.hbs`, {
+            ...base,
+            canFate: false,
+            buttons: [
+                {
+                    action: "acceptRally",
+                    handlerUuid: "Actor.a1",
+                    scopeJSON: "{}",
+                    label: "Steady",
+                    skipDialog: true,
+                },
+                {
+                    action: "reactionTest",
+                    handlerUuid: "@self",
+                    scopeJSON: "{}",
+                    label: "Reaction Test",
+                    skipDialog: false,
+                },
+            ],
+        });
+        expect(html).toContain('data-action="acceptRally"');
+        expect(html).toContain('data-handler-uuid="Actor.a1"');
+        expect(html).toContain('data-action="reactionTest"');
+        expect(html).toContain('data-skip-dialog="false"');
+    });
+
+    it("renders no action-button block when no buttons are supplied", () => {
+        const html = renderTemplateReal(`${CHAT}/standard-test-card.hbs`, {
+            ...base,
+            canFate: false,
+        });
+        expect(html).not.toContain("action-card-button");
+        // The edit pencil is always present regardless.
+        expect(html).toContain('data-action="successTest"');
+    });
+});
+
 describe("harness fidelity notes", () => {
     it("formGroup (sheet-tier) renders a binding placeholder, not Foundry markup", () => {
         registerTestHbsHelpers();

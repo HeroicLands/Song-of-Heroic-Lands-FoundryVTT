@@ -22,6 +22,12 @@ import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
+// `action-card` touches Foundry only through the `FoundryHelpers` shims; the
+// path-based boundary rule can't tell it apart from the Foundry-coupled files
+// under `document/chat/`, so allow the button-normalizer import.
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import { toRenderableButtons } from "@src/document/chat/action-card";
+import type { ActionCardButton } from "@src/document/chat/action-card";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { TestResult } from "@src/entity/result/TestResult";
 import { SohlEntity } from "@src/entity/SohlEntity";
@@ -740,12 +746,25 @@ export class SuccessTestResult extends TestResult {
      * The derived display outcome (`resultText`, `resultDesc`, `successStars`)
      * is not carried by {@link toJSON} — it is folded into the card data here,
      * rendered once by the sender with a live `targetValueFunc` (issue #205).
-     * @param data - Extra template data merged into the card.
+     *
+     * An optional `buttons` entry in `data` (one {@link ActionCardButton} or an
+     * array) is folded through {@link toRenderableButtons} — the same normalizer
+     * the action-card framework uses — so the standard card can carry arbitrary
+     * follow-up consent buttons (a graded test = `successStarTable` mapping +
+     * `buttons` follow-ups), dispatched through the shared chat-card chokepoint
+     * exactly like an action card. Nothing auto-fires (#853).
+     * @param data - Extra template data merged into the card. A `buttons` key
+     *   ({@link ActionCardButton} or `ActionCardButton[]`) becomes follow-up
+     *   action buttons on the card.
      */
     async toChat(data: PlainObject = {}): Promise<void> {
+        // Pull `buttons` out of the passthrough data: it is an ActionCardButton
+        // spec, not raw template data, and must be normalized (scope
+        // pre-serialized) before it reaches the card.
+        const { buttons, ...rest } = data;
         const { label, description, result } = this.resolveDescription();
         let chatData = fvttMergeObject(this.toJSON() as PlainObject, {
-            ...data,
+            ...rest,
             resultText: label,
             resultDesc: description,
             successStars: result,
@@ -783,6 +802,12 @@ export class SuccessTestResult extends TestResult {
                 label: v,
             })),
         }) as PlainObject;
+
+        if (buttons) {
+            chatData.buttons = toRenderableButtons(
+                buttons as ActionCardButton | ActionCardButton[],
+            );
+        }
 
         const options: PlainObject = {};
         options.roll = await fvttToFoundryRoll(this.roll);

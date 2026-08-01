@@ -95,6 +95,30 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
     {{/if}}
 
+    {{!--
+    Optional caller-supplied follow-up buttons. Same shape and markup as the
+    action-card button block (`action-buttons.hbs`): each is a pre-filled
+    invocation of a self-sufficient action, gated targeted-vs-open by the
+    `action-card-button` class (`gateActionCardButtons`) and dispatched through
+    the shared chat-card chokepoint. Folded in by `SuccessTestResult.toChat` via
+    `toRenderableButtons`, so a graded success test carries its own consent
+    follow-ups (#853) without a bespoke result card.
+    --}}
+    {{#if buttons}}
+    <div class="card-buttons">
+        {{#each buttons}}
+        <button
+            class="action-card-button"
+            data-action="{{this.action}}"
+            data-handler-uuid="{{this.handlerUuid}}"
+            data-scope="{{this.scopeJSON}}"
+            data-skip-dialog="{{this.skipDialog}}">
+            {{#if this.iconFAClass}}<i class="{{this.iconFAClass}}"></i> {{/if}}{{this.label}}
+        </button>
+        {{/each}}
+    </div>
+    {{/if}}
+
     {{#if isSuccess}}
         {{#if isCritical}}
             <footer class="card-footer critical-success-block">
