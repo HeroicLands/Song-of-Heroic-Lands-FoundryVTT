@@ -37,18 +37,20 @@ Make a [[Success Tests|Success Test]] that includes any applicable bonuses or pe
 
 ## \[3\] Success Value
 
-The sum of the Index (step 1) and the Modifier (step 2) equals the Success Value. Some skills further modify this SV or interpret it uniquely, as described in their specific entries. Otherwise, the following standard table applies:
+The sum of the Index (step 1) and the Modifier (step 2) equals the Success Value. Some skills further modify this SV or read it in their own way, as described in their specific entries. Where a skill gives no special reading, the standard interpretation applies:
 
-| SV  | Result                                                                                     |
-| --- | ------------------------------------------------------------------------------------------ |
-| ≤ 0 | No Value: test fails to produce a usable result                                            |
-| 1–2 | Little Value: test produces a limited or flawed result                                     |
-| 3–4 | Base Value: test produces an average result                                                |
-| 5+  | Bonus Value: test produces a superior result (each point above 4 adds one star of quality) |
+| SV  | Grade        | Meaning                                                                                                                 |
+| --- | ------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| ≤ 0 | No Value     | The effort comes to nothing the character can use.                                                                      |
+| 1–2 | Little Value | The effort yields only a poor or partial outcome.                                                                       |
+| 3–4 | Base Value   | The effort yields a sound, workmanlike outcome.                                                                         |
+| 5+  | Bonus Value  | A superior outcome; every point past 4 adds one **Success Star** of quality (SV 5 = one star, up to SV 9 = five stars). |
+
+The number of **Success Stars** — zero at Base Value or below, one through five above it — measures how far the work exceeds a plain result.
 
 ## \[4\] Critical Failure
 
-Whatever the resulting SV in step 3, rolling a Critical Failure on the Success Test in step 2 can have independent negative consequences. This varies by skill and is noted in each skill's Success Value table.
+The Success Value from step 3 stands on its own, but a Critical Failure on the step 2 Success Test may carry its own separate penalty regardless of that value. What that penalty is depends on the skill, and is listed with that skill's own Success Value entry.
 
 ## SV Tests and Secondary Mastery
 

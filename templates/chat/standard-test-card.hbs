@@ -72,10 +72,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
         >{{roll.total}}</span>
     </div>    
         
+    {{!--
+    Success Value test (#848): the graded outcome — the Success Value (Index +
+    Modifier) and the number of Success Stars (0–5). The meaning of the grade is
+    shown in the Result row below (resultText / resultDesc from the svTable).
+    --}}
     {{#if isSuccessValue}}
     <div class="card-content">
         <span class="label">Success Value:</span>
-        <span class="value">{{successValueExpr}} = {{successValue}}</span>
+        <span class="value">{{successValue}}</span>
+    </div>
+    <div class="card-content">
+        <span class="label">Success Stars:</span>
+        <span class="value">{{successStars}}</span>
     </div>
     {{/if}}
 

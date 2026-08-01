@@ -619,6 +619,26 @@ export class SkillLogic<
     }
 
     /**
+     * Performs a **Success Value test** against this skill's mastery level — a
+     * success test graded into a Success Value (Index + Modifier) and Success
+     * Stars via the skill's `svTable`, for resolving sustained work (crafting,
+     * sailing, research) in a single roll instead of many (#848).
+     *
+     * Intrinsic-action executor for the `successValueTest` action; delegates to
+     * {@link sohl.entity.modifier.MasteryLevelModifier.successValueTest}, which
+     * drives the one generic success-test path with the svTable and grading
+     * `targetValueFunc` supplied as data — no bespoke test code.
+     *
+     * @param context - The action context (speaker, scope) for the test.
+     * @returns The graded test result, `undefined` if cancelled, or `false` on error.
+     */
+    async successValueTest(
+        context: SohlActionContext,
+    ): Promise<SuccessTestResult | undefined | false> {
+        return this.masteryLevel.successValueTest(context);
+    }
+
+    /**
      * Perform an assisted attack with this combat technique's strike mode.
      *
      * Intrinsic-action executor for the `attackTest` action (combat techniques
@@ -837,6 +857,16 @@ export class SkillLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-bullseye-arrow",
                 executor: "successTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "successValueTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Skill.Action.successValueTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-stars",
+                executor: "successValueTest",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },

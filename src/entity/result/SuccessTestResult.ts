@@ -140,6 +140,13 @@ export class SuccessTestResult extends TestResult {
     protected _movement: SuccessTestResultMovement;
     protected _mishaps: Set<string>;
     protected _canFate: boolean;
+    /**
+     * Whether this is a **Success Value test** (#848) — a success test whose
+     * roll is graded into a Success Value (Index + Modifier) and Success Stars
+     * via the `successStarTable`. Drives the card's Success Value / Success Stars
+     * display. Serialized so a reconstructed result keeps the distinction.
+     */
+    protected _isSuccessValue: boolean;
     protected _item: SohlItemLogic<any>;
     /** Foundry roll mode (public / private GM / blind / self) used when posting to chat. */
     rollMode: string;
@@ -246,6 +253,7 @@ export class SuccessTestResult extends TestResult {
         this._item = this.parent;
         this._canFate =
             (this._item as any).availableFate?.length > 0 && !!data.canFate;
+        this._isSuccessValue = !!data.isSuccessValue;
         if (options.chatSpeaker) {
             this._speaker = options.chatSpeaker;
         } else {
@@ -310,6 +318,7 @@ export class SuccessTestResult extends TestResult {
             movement: this._movement,
             mishaps: [...this._mishaps],
             canFate: this._canFate,
+            isSuccessValue: this._isSuccessValue,
         };
     }
 
@@ -421,8 +430,14 @@ export class SuccessTestResult extends TestResult {
         label: string;
         description: string;
         result: number;
+        success: boolean;
     } {
-        const empty = { label: "", description: "", result: 0 };
+        const empty = {
+            label: "",
+            description: "",
+            result: 0,
+            success: false,
+        };
         const table = this._successStarTable;
         if (table.length === 0) return empty;
         const targetValue = this.targetValue;
@@ -454,7 +469,12 @@ export class SuccessTestResult extends TestResult {
             row.result instanceof SafeExpression ?
                 Number(row.result.evaluate(bindings))
             :   row.result;
-        return { label: label || "", description: description || "", result };
+        return {
+            label: label || "",
+            description: description || "",
+            result,
+            success: row.success ?? true,
+        };
     }
 
     /** Which kind of test this is — a {@link TEST_TYPE} id (e.g. success test, attack, block). */
@@ -565,6 +585,15 @@ export class SuccessTestResult extends TestResult {
      */
     get canFate() {
         return this._canFate;
+    }
+
+    /**
+     * Whether this is a Success Value test (#848) — its roll is graded into a
+     * Success Value and Success Stars rather than a plain pass/fail. Drives the
+     * card's Success Value / Success Stars rows.
+     */
+    get isSuccessValue(): boolean {
+        return this._isSuccessValue;
     }
 
     /**
@@ -787,7 +816,8 @@ export class SuccessTestResult extends TestResult {
         // spec, not raw template data, and must be normalized (scope
         // pre-serialized) before it reaches the card.
         const { buttons, ...rest } = data;
-        const { label, description, result } = this.resolveDescription();
+        const { label, description, result, success } =
+            this.resolveDescription();
         // Serialize this result once under `priorTestResult` — the reconstruction
         // seam a card control revives to act on *this* result without re-rolling.
         // The GM edit pencil (`editScopeJSON`, #856) carries it on every card; the
@@ -807,6 +837,13 @@ export class SuccessTestResult extends TestResult {
             resultText: label,
             resultDesc: description,
             successStars: result,
+            // Success Value test (#848): the card shows the Success Value (the
+            // graded target value = Index + Modifier) and the Success Stars
+            // (`successStars` above). `svSuccess` styles the graded outcome the
+            // way `isSuccess` styles a plain one.
+            isSuccessValue: this._isSuccessValue,
+            successValue: this.targetValue,
+            svSuccess: success,
             // Derived display fields the card template reads. These are folded in
             // as plain values because `fvttMergeObject` deep-copies its arguments,
             // which would strip a live class instance's prototype getters. `mlMod`
@@ -936,6 +973,11 @@ export namespace SuccessTestResult {
         mishaps: string[];
         /** Whether fate may be spent on this test. */
         canFate: boolean;
+        /**
+         * Whether this is a Success Value test (#848) — graded into a Success
+         * Value and Success Stars via {@link successStarTable}. Defaults `false`.
+         */
+        isSuccessValue?: boolean;
         /** Maps a success level to the test's target value (identity for a plain success test). */
         targetValueFunc: (sl: number) => number;
     }
@@ -972,6 +1014,13 @@ export namespace SuccessTestResult {
          * `false` so a Fate roll cannot in turn be fated (#854).
          */
         canFate?: boolean;
+        /**
+         * Mark the test as a **Success Value test** (#848), so its card shows the
+         * Success Value and Success Stars. Set by
+         * {@link sohl.entity.modifier.MasteryLevelModifier.successValueTest}
+         * alongside the svTable and grading `targetValueFunc`.
+         */
+        isSuccessValue?: boolean;
     }
 
     /**
