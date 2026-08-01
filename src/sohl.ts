@@ -37,6 +37,7 @@ import { DomainManagerApp } from "@src/apps/foundry/DomainManagerApp";
 import { ExpressionLibraryMenu } from "@src/apps/foundry/ExpressionLibraryMenu";
 import { registerSystemTours } from "@src/apps/foundry/tours/register-tours";
 import { postWelcomeCard } from "@src/apps/foundry/welcome-card";
+import { injectSettingsLinks } from "@src/apps/foundry/settings-sidebar-links";
 import { expressionHelpers } from "@src/entity/expr/ExpressionHelperRegistry";
 import { DomainRegistry } from "@src/entity/domain/DomainRegistry";
 import { BUILTIN_DOMAINS } from "@src/entity/domain/builtin-domains";
@@ -440,6 +441,15 @@ function registerSystemHooks() {
             await CohortDataModel.spawnCohortMembers(actor, x, y, elevation);
         });
         leftCol.appendChild(btn);
+    });
+
+    // Add a "Song of Heroic Lands" links section (Main Site / Knowledgebase /
+    // API Documentation) to the Game Settings sidebar tab, styled to match
+    // Foundry's own Documentation block.
+    (Hooks as any).on("renderSettings", (_app: any, element: HTMLElement) => {
+        void injectSettingsLinks(element, (key: string) =>
+            game.i18n.localize(key),
+        );
     });
 
     (Hooks as any).on(
