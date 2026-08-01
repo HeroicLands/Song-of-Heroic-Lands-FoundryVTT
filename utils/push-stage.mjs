@@ -19,6 +19,15 @@
  * `build/stage/` → `<dataRoot>/Data/systems/sohl/`, deleting stale files at
  * the destination so it ends up an exact copy of the staged build.
  *
+ * **Safe with the server running.** The staged build is uploaded to a sibling
+ * `…sohl.staging-<pid>` directory and then swapped into place with an atomic
+ * rename — the live `…/systems/sohl` directory is never mutated in place. A
+ * running Foundry keeps its open file descriptors to the old (now-unlinked)
+ * inodes, so its LevelDB compendium packs are never corrupted underneath it;
+ * the new build takes effect on the next world reload. (Replacing pack files
+ * in place under a live server is what empties the packs — LevelDB finds an
+ * inconsistent directory on its next open and repairs it to zero.)
+ *
  * Two transports are chosen automatically from the destination value:
  *   - **Local path** (e.g. `/Users/me/fvtt/data`) → intrinsic Node file copy.
  *   - **Remote target** (`[user@]host:/path`) → SFTP over SSH.
@@ -146,20 +155,53 @@ async function buildConnection(stageUpper, remote) {
 }
 
 /**
- * Mirror the staged build into a local directory, removing stale files.
+ * Whether a local path exists.
+ *
+ * @param {string} p
+ * @returns {Promise<boolean>}
+ */
+async function localExists(p) {
+    try {
+        await fs.stat(p);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+/**
+ * Mirror the staged build into a local directory via a staged, atomic swap.
+ *
+ * The build is copied to a sibling `…-staging-<pid>` directory and then renamed
+ * into place, so the live destination is never mutated in place — see the
+ * module header for why this matters for LevelDB packs under a running server.
  *
  * @param {string} srcAbs
  * @param {string} destDir
  */
 async function deployLocal(srcAbs, destDir) {
     console.log(`Deploying ${srcAbs} → ${destDir} (local copy)`);
-    await fs.rm(destDir, { recursive: true, force: true });
-    await fs.mkdir(destDir, { recursive: true });
-    await fs.cp(srcAbs, destDir, { recursive: true });
+    const staging = `${destDir}.staging-${process.pid}`;
+    const old = `${destDir}.old-${process.pid}`;
+
+    // 1. Build a fresh staging copy alongside the destination.
+    await fs.rm(staging, { recursive: true, force: true });
+    await fs.mkdir(path.dirname(destDir), { recursive: true });
+    await fs.cp(srcAbs, staging, { recursive: true });
+
+    // 2. Swap staging into place with atomic renames. Renaming onto a
+    //    non-existent name is atomic; the old tree is moved aside first (its
+    //    inodes stay alive for any process holding them open) and then removed.
+    await fs.rm(old, { recursive: true, force: true });
+    const hadDest = await localExists(destDir);
+    if (hadDest) await fs.rename(destDir, old);
+    await fs.rename(staging, destDir);
+    if (hadDest) await fs.rm(old, { recursive: true, force: true });
 }
 
 /**
- * Mirror the staged build into a remote directory over SFTP.
+ * Mirror the staged build into a remote directory over SFTP via a staged,
+ * atomic swap (the remote counterpart of {@link deployLocal}).
  *
  * @param {object} conn - ssh2-sftp-client connection config.
  * @param {string} srcAbs
@@ -169,15 +211,24 @@ async function deployRemote(conn, srcAbs, remoteDir) {
     console.log(
         `Deploying ${srcAbs} → ${conn.username}@${conn.host}:${remoteDir} (sftp)`,
     );
+    const staging = `${remoteDir}.staging-${process.pid}`;
+    const old = `${remoteDir}.old-${process.pid}`;
     const sftp = new Client();
     sftp.on("upload", ({ source }) => console.log(`  ${source}`));
     await sftp.connect(conn);
     try {
-        if (await sftp.exists(remoteDir)) {
-            await sftp.rmdir(remoteDir, true);
-        }
-        await sftp.mkdir(remoteDir, true);
-        await sftp.uploadDir(srcAbs, remoteDir);
+        // 1. Upload the build to a fresh staging dir (mkdir is recursive, so it
+        //    also creates the parent tree on a first-ever deploy).
+        if (await sftp.exists(staging)) await sftp.rmdir(staging, true);
+        await sftp.mkdir(staging, true);
+        await sftp.uploadDir(srcAbs, staging);
+
+        // 2. Atomically swap it into place — never touch the live dir in place.
+        if (await sftp.exists(old)) await sftp.rmdir(old, true);
+        const hadDest = Boolean(await sftp.exists(remoteDir));
+        if (hadDest) await sftp.rename(remoteDir, old);
+        await sftp.rename(staging, remoteDir);
+        if (hadDest) await sftp.rmdir(old, true);
     } finally {
         await sftp.end();
     }
@@ -233,4 +284,11 @@ async function main() {
     console.log(`Deployed stage '${stage}' successfully.`);
 }
 
-main();
+export { deployLocal, deployRemote, parseRemote, resolveStage };
+
+// Only run the deploy when executed directly (`node utils/push-stage.mjs …`),
+// not when imported by a test.
+const invokedDirectly =
+    process.argv[1] &&
+    path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (invokedDirectly) main();
