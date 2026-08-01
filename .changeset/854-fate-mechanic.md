@@ -12,13 +12,13 @@ test's **success level** — the die is never re-rolled. Fate operates below the
 Fate test's **matched rung**, fixing the prior hiccup where a critical failure
 did not consume a point and the critical-success "keep" branch did:
 
-| Fate test result | Fate Point | Bump |
-| ---------------- | ---------- | ---- |
-| Critical Failure | −1 | +0 |
-| Marginal Failure | none | +0 |
-| Marginal Success | −1 | +1 |
-| Critical Success — spend | −1 | +2 |
-| Critical Success — keep | none | +1 |
+| Fate test result         | Fate Point | Bump |
+| ------------------------ | ---------- | ---- |
+| Critical Failure         | −1         | +0   |
+| Marginal Failure         | none       | +0   |
+| Marginal Success         | −1         | +1   |
+| Critical Success — spend | −1         | +2   |
+| Critical Success — keep  | none       | +1   |
 
 **Consent model.** The one branching outcome — a critical success — is asked via
 a **spend (+2) / keep (+1)** dialog, never auto-picked. When a point is consumed
