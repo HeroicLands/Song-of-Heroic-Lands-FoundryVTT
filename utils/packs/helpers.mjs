@@ -248,6 +248,33 @@ export function parseValueDesc(raw) {
 }
 
 /**
+ * Translate a content-relative image path into its Foundry-relative form.
+ *
+ * Content frontmatter (`img` / `portrait`) authors a single path that has to
+ * work for Foundry, the knowledgebase, and the website. For Foundry the bundled
+ * asset roots — `icons/...` and `images/...` — are served from the system
+ * directory, so they are rewritten to `systems/sohl/assets/<path>`. Any other
+ * path (already `systems/...`-rooted, a `modules/...` path, an absolute URL) is
+ * returned unchanged, and an empty path yields `""`.
+ *
+ * This is translation only: the per-type default for an empty result is
+ * domain-specific (actors default differently from items, and gear differently
+ * again), so each builder owns its own default map and applies it to the
+ * result — `resolveImg(fm.img) || DEFAULT_IMG[type]`.
+ *
+ * @param {string | null | undefined} raw - content-relative path from frontmatter.
+ * @returns {string} the Foundry-relative path, or `""` when `raw` is empty.
+ */
+export function resolveImg(raw) {
+    if (!raw) return "";
+    const s = String(raw);
+    if (s.startsWith("icons/") || s.startsWith("images/")) {
+        return `systems/sohl/assets/${s}`;
+    }
+    return s;
+}
+
+/**
  * Resolves the display name from frontmatter, preferring `name.full`,
  * falling back to `name` (if string), then `defaultValue`.
  */
