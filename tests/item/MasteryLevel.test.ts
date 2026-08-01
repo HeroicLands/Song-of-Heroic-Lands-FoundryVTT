@@ -60,10 +60,10 @@ describe("MasteryLevelModifier", () => {
             expect(ml.successLevelMod).toBe(0);
         });
 
-        it("defaults the critical digit lists to empty", () => {
+        it("defaults the critical digit lists to the multiple-of-5 set [0, 5] (#908)", () => {
             const ml = makeMLMod();
-            expect(ml.critFailureDigits).toEqual([]);
-            expect(ml.critSuccessDigits).toEqual([]);
+            expect(ml.critFailureDigits).toEqual([0, 5]);
+            expect(ml.critSuccessDigits).toEqual([0, 5]);
         });
 
         it("defaults the description and success-value tables to the standard ones", () => {

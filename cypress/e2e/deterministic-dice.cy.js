@@ -97,4 +97,76 @@ describe("Deterministic dice via SimpleRoll.forceValues (#598)", () => {
             });
         });
     });
+
+    // A standard skill test crits on any roll ending in 0 or 5 (#908): the
+    // MasteryLevelModifier default crit-digit lists are [0, 5]. This is a
+    // regression guard — the TS port had dropped that default to empty, so
+    // every standard test resolved as a plain (marginal) success/failure.
+    it("a forced multiple-of-5 roll produces a critical outcome on a standard skill test (#908)", () => {
+        cy.importActor().then((actor) => {
+            cy.createItemOn(actor, "skill", {
+                name: "Sword",
+                system: { shortcode: "swo", masteryLevelBase: 50 },
+            }).then((skill) => {
+                cy.prepare(actor);
+                cy.foundry(async (win) => {
+                    const s = win.game.actors.get(actor.id).items.get(skill.id);
+                    const SimpleRoll = win.sohl.entity.roll.SimpleRoll;
+                    const test = async (forced) => {
+                        SimpleRoll.forceValues(forced);
+                        const result = await s.logic.executeAction(
+                            "successTest",
+                            { skipDialog: true, scope: {} },
+                        );
+                        return {
+                            rollTotal: result?.roll?.total ?? null,
+                            isSuccess: result?.isSuccess ?? null,
+                            isCritical: result?.isCritical ?? null,
+                            successLevel: result?.successLevel ?? null,
+                            description: result?.description ?? null,
+                        };
+                    };
+                    // 5 ≤ ML 50, ends in 5 → critical success.
+                    const critSuccess = await test(5);
+                    // 65 > ML 50, ends in 5 → critical failure.
+                    const critFailure = await test(65);
+                    // 23 ≤ ML 50, ends in 3 → marginal (non-critical) success.
+                    const marginal = await test(23);
+                    return { critSuccess, critFailure, marginal };
+                }).should((r) => {
+                    expect(r.critSuccess.isSuccess, "5 ≤ 50 → success").to.be
+                        .true;
+                    expect(r.critSuccess.isCritical, "ends in 5 → critical").to
+                        .be.true;
+                    expect(
+                        r.critSuccess.successLevel,
+                        "CRITICAL_SUCCESS",
+                    ).to.eq(2);
+                    expect(r.critSuccess.description).to.eq(
+                        "SOHL.SuccessTestResult.CriticalSuccess",
+                    );
+
+                    expect(r.critFailure.isSuccess, "65 > 50 → failure").to.be
+                        .false;
+                    expect(r.critFailure.isCritical, "ends in 5 → critical").to
+                        .be.true;
+                    expect(
+                        r.critFailure.successLevel,
+                        "CRITICAL_FAILURE",
+                    ).to.eq(-1);
+                    expect(r.critFailure.description).to.eq(
+                        "SOHL.SuccessTestResult.CriticalFailure",
+                    );
+
+                    expect(r.marginal.isSuccess, "23 ≤ 50 → success").to.be
+                        .true;
+                    expect(r.marginal.isCritical, "ends in 3 → not critical").to
+                        .be.false;
+                    expect(r.marginal.successLevel, "MARGINAL_SUCCESS").to.eq(
+                        1,
+                    );
+                });
+            });
+        });
+    });
 });

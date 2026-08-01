@@ -278,7 +278,8 @@ export class MasteryLevelModifier extends ValueModifier {
      * crit-digit lists, success/value tables, and the test type and title.
      *
      * @param data - Test data; targets default to unbounded, crit-digit lists to
-     *   empty, and the description/value tables to the standard ones.
+     *   the canonical multiple-of-5 set (`[0, 5]`), and the description/value
+     *   tables to the standard ones.
      * @param options - Must provide `options.parent` (base {@link ValueModifier}).
      */
     constructor(
@@ -308,8 +309,11 @@ export class MasteryLevelModifier extends ValueModifier {
         this.minTarget = data.minTarget ?? Number.MIN_SAFE_INTEGER;
         this.maxTarget = data.maxTarget ?? Number.MAX_SAFE_INTEGER;
         this.successLevelMod = data.successLevelMod ?? 0;
-        this.critFailureDigits = data.critFailureDigits ?? [];
-        this.critSuccessDigits = data.critSuccessDigits ?? [];
+        // The canonical HârnMaster success test crits on any roll ending in a
+        // multiple of 5, so both lists default to [0, 5]; a test that wants no
+        // criticals passes an explicit [] (which `??` preserves) (#908).
+        this.critFailureDigits = data.critFailureDigits ?? [0, 5];
+        this.critSuccessDigits = data.critSuccessDigits ?? [0, 5];
         // Tables ride the wire as data; revive any serialized SafeExpression rows
         // into live expressions owned by this modifier's parent.
         this.testDescTable =

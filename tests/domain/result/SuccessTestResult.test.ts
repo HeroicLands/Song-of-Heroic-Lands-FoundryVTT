@@ -129,15 +129,11 @@ describe("SuccessTestResult", () => {
         it.todo(
             "sets MARGINAL_FAILURE when roll > constrainedEffective (no crits)",
         );
-        it.todo(
-            "sets CRITICAL_SUCCESS when roll succeeds and last digit is in critSuccessDigits",
-        );
-        it.todo(
-            "sets CRITICAL_FAILURE when roll fails and last digit is in critFailureDigits",
-        );
+        // CRITICAL_SUCCESS / CRITICAL_FAILURE from the last digit, and the
+        // matching descriptions, are covered by the
+        // "critical outcomes on a standard test (#908)" block below.
         it.todo("applies successLevelMod to the success level");
         it.todo("clamps success level to MS/MF range when crits not allowed");
-        it.todo("sets description based on success/critical state");
         // successStars is no longer computed in evaluate() — it derives on read
         // from the description table (see the "derived outcome data (#205)" block).
     });
@@ -386,6 +382,96 @@ describe("SuccessTestResult", () => {
             );
             expect(await result.evaluate()).toBe(false);
             expect(result.roll.rolls.length).toBe(0);
+        });
+    });
+
+    describe("critical outcomes on a standard test (#908)", () => {
+        const owned = { isOwner: true, name: "GM" } as any;
+
+        /**
+         * A result owned by `owned`, built from a modifier at the given base ML
+         * with the constructor's default crit digits ([0, 5]) — i.e. a plain
+         * standard success test, exactly as attribute/skill logic builds one.
+         */
+        function makeStandardResult(baseValue: number): SuccessTestResult {
+            const mlMod = new MasteryLevelModifier({ baseValue } as any, {
+                parent,
+            });
+            return new SuccessTestResult(
+                { masteryLevelModifier: mlMod } as any,
+                {
+                    parent,
+                    chatSpeaker: owned,
+                },
+            );
+        }
+
+        afterEach(() => SimpleRoll.clearForced());
+
+        it("crits are allowed by default on a standard test", () => {
+            expect(makeStandardResult(42).critAllowed).toBe(true);
+        });
+
+        it("a succeeding roll ending in 5 is a Critical Success", async () => {
+            SimpleRoll.forceValues(15); // 15 <= 42, last digit 5 -> crit success
+            const result = makeStandardResult(42);
+            await result.evaluate();
+            expect(result.roll.total).toBe(15);
+            expect(result.isSuccess).toBe(true);
+            expect(result.isCritical).toBe(true);
+            expect(result.successLevel).toBe(2); // CRITICAL_SUCCESS
+            expect(result.description).toBe(
+                "SOHL.SuccessTestResult.CriticalSuccess",
+            );
+        });
+
+        it("a failing roll ending in 5 is a Critical Failure", async () => {
+            SimpleRoll.forceValues(65); // 65 > 42, last digit 5 -> crit failure
+            const result = makeStandardResult(42);
+            await result.evaluate();
+            expect(result.roll.total).toBe(65);
+            expect(result.isSuccess).toBe(false);
+            expect(result.isCritical).toBe(true);
+            expect(result.successLevel).toBe(-1); // CRITICAL_FAILURE
+            expect(result.description).toBe(
+                "SOHL.SuccessTestResult.CriticalFailure",
+            );
+        });
+
+        it("a roll of 100 is a Critical Failure", async () => {
+            SimpleRoll.forceValues(100); // last digit 0, always a failure
+            const result = makeStandardResult(42);
+            await result.evaluate();
+            expect(result.roll.total).toBe(100);
+            expect(result.isCritical).toBe(true);
+            expect(result.successLevel).toBe(-1);
+            expect(result.description).toBe(
+                "SOHL.SuccessTestResult.CriticalFailure",
+            );
+        });
+
+        it("a succeeding roll not ending in 0 or 5 is a Marginal Success", async () => {
+            SimpleRoll.forceValues(23); // 23 <= 42, last digit 3 -> marginal
+            const result = makeStandardResult(42);
+            await result.evaluate();
+            expect(result.isSuccess).toBe(true);
+            expect(result.isCritical).toBe(false);
+            expect(result.successLevel).toBe(1); // MARGINAL_SUCCESS
+            expect(result.description).toBe(
+                "SOHL.SuccessTestResult.MarginalSuccess",
+            );
+        });
+
+        it("a failing roll not ending in 0 or 5 is a Marginal Failure", async () => {
+            SimpleRoll.forceValues(63); // 63 > 42, last digit 3 -> marginal
+            const result = makeStandardResult(42);
+            await result.evaluate();
+            expect(result.isSuccess).toBe(false);
+            expect(result.isCritical).toBe(false);
+            expect(result.successLevel).toBe(0); // MARGINAL_FAILURE
+            expect(result.description).toBe(
+                "SOHL.SuccessTestResult.MarginalFailure",
+            );
         });
     });
 

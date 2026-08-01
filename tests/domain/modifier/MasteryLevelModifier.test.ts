@@ -68,9 +68,30 @@ describe("MasteryLevelModifier", () => {
         it.todo("throws when constructed without a parent");
         it.todo("initializes minTarget and maxTarget from data");
         it.todo("initializes successLevelMod from data");
-        it.todo(
-            "initializes critFailureDigits and critSuccessDigits from data",
-        );
+        it("initializes critFailureDigits and critSuccessDigits from data", () => {
+            const ml = new MasteryLevelModifier(
+                { critFailureDigits: [0], critSuccessDigits: [5] } as any,
+                { parent },
+            );
+            expect(ml.critFailureDigits).toEqual([0]);
+            expect(ml.critSuccessDigits).toEqual([5]);
+        });
+        it("defaults the crit-digit lists to [0, 5] (multiple-of-5 crits) when omitted (#908)", () => {
+            // The canonical HârnMaster success test crits on any roll ending in
+            // 0 or 5; a standard test constructs the modifier with no crit data,
+            // so the default must carry those digits or criticals never fire.
+            const ml = new MasteryLevelModifier({} as any, { parent });
+            expect(ml.critFailureDigits).toEqual([0, 5]);
+            expect(ml.critSuccessDigits).toEqual([0, 5]);
+        });
+        it("honors an explicit empty crit-digit list to disable criticals (#908)", () => {
+            const ml = new MasteryLevelModifier(
+                { critFailureDigits: [], critSuccessDigits: [] } as any,
+                { parent },
+            );
+            expect(ml.critFailureDigits).toEqual([]);
+            expect(ml.critSuccessDigits).toEqual([]);
+        });
         it.todo("initializes testDescTable and svTable from data or defaults");
         it.todo("constructs type from parent.data.kind and parent.name");
         it.todo("constructs title from localized format string");
