@@ -108,7 +108,7 @@ reads the Markdown directly.
 | `docs:html` / `docs:md`     | TypeDoc HTML / Markdown output.                                                        |
 | `docs:version`              | Rewrite `api.heroiclands.org/latest` → `…/v<version>` in the generated output.         |
 | `docs:coverage`             | Report doc-comment coverage.                                                           |
-| `docs:serve` / `docs:watch` | Serve `build/stage/docs` / rebuild-and-serve on change.                                |
+| `docs:serve` / `docs:watch` | Serve `build/docs-html` / rebuild-and-serve on change.                                |
 
 ### Deploy and release
 

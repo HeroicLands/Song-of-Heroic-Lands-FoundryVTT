@@ -71,7 +71,7 @@
         "docs:version": "node utils/sync-doc-version.mjs",
         "docs:coverage": "run-s docs:prepare docs:coverage:check",
         "docs:coverage:check": "node utils/docs-coverage.mjs",
-        "docs:serve": "http-server build/stage/docs -o -c-1",
+        "docs:serve": "http-server build/docs-html -o -c-1",
         "predocs:watch": "run-s docs:prepare docs:html",
         "docs:watch": "run-p \"docs:html -- --watch\" docs:serve",
         "codeanddocs": "run-p build:code docs:html",

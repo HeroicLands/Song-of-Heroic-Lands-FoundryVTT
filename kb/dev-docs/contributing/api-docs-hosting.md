@@ -40,7 +40,7 @@ The branch root also carries the `CNAME` (custom domain) and `.nojekyll` (so gen
 
 ## How publishing works
 
-The docs are served by GitHub Pages from the **`gh-pages` branch** (Pages source: _Deploy from a branch → `gh-pages` → `/ (root)`_). The workflow builds the HTML (`npm run docs:prepare && npm run docs:html`, output in `build/stage/docs`), then commits the result into the appropriate subdirectory of `gh-pages`, **replacing only that subdirectory** and leaving every other version untouched. That selective replacement is what lets versions accumulate.
+The docs are served by GitHub Pages from the **`gh-pages` branch** (Pages source: _Deploy from a branch → `gh-pages` → `/ (root)`_). The workflow builds the HTML (`npm run docs:prepare && npm run docs:html`, output in `build/docs-html`), then commits the result into the appropriate subdirectory of `gh-pages`, **replacing only that subdirectory** and leaving every other version untouched. That selective replacement is what lets versions accumulate.
 
 The workflow runs on four events:
 

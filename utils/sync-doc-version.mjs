@@ -38,7 +38,7 @@ const version = pkg.version;
 const NEEDLE = "api.heroiclands.org/latest";
 const REPLACEMENT = `api.heroiclands.org/v${version}`;
 
-const outDir = process.env.SOHL_DOCS_OUT || "build/stage/docs";
+const outDir = process.env.SOHL_DOCS_OUT || "build/docs-html";
 
 if (!fs.existsSync(outDir)) {
     console.warn(

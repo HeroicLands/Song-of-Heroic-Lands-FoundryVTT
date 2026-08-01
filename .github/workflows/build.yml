@@ -55,4 +55,4 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: api-docs
-                  path: build/stage/docs/
+                  path: build/docs-html/
