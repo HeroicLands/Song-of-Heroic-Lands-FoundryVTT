@@ -136,7 +136,7 @@ describe("OpposedTestResult.toChat builds shaped opposed-card data (#845)", () =
         expect(msg.sourceWins).toBe(true);
         expect(msg.targetWins).toBe(false);
         // Victory degrees CS(2) − CF(−1) = 3 → three stars.
-        expect(msg.vsText.text).toBe("★★★");
+        expect(msg.vsText).toBe("★★★");
 
         expect(msg.opposedTests[0].action).toBe("opposedTestResume");
         expect(msg.scopeData).toBeTruthy();
