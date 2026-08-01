@@ -17,16 +17,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <h4 class="subtitle">{{attacker}} vs. {{defender}}</h4>
     </header>
 
-    {{#if notes}}
-    <div class="card-note">
-        <span>{{notes}}</span>
-    </div>
-    {{/if}} {{#if outnumbered}}
-    <div class="card-content center">
-        <span class="notice-header">Outnumbered {{outnumbered}}:1</span>
-    </div>
-    {{/if}}
-
     <div class="card-content">
         <span class="label center">Attacker</span>
         <div class="card-content">
@@ -111,7 +101,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
 
     <div class="card-content center">
-        <span class="label">Victory Stars:</span>
+        <span class="label">Success Stars:</span>
         <span class="value"
             >{{#if vsText}}{{vsText}}{{else}}<strong>None</strong>{{/if}}</span
         >
@@ -166,14 +156,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="card-content center">
         <span class="value failure-text"
             >{{defender}} must make Stumble test!</span
-        >
-    </div>
-    {{/if}} {{#if nextSuccessLevelMod}}
-    <div class="card-content center">
-        <span class="value"
-            >{{attacker}} may increase by {{nextSuccessLevelMod}}<br />
-            success level(s) a test made within the<br />
-            next round</span
         >
     </div>
     {{/if}} {{#if (or hasAttackInjury hasDefendInjury)}}
