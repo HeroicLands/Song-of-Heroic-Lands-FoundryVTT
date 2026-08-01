@@ -3,6 +3,10 @@
 .chat-card {
     @include typography.type-style("chat-body");
     font-style: normal;
+    // Own an adaptive body color so labels/values stay legible in dark mode —
+    // without this the card body falls back to default black, invisible on the
+    // dark token surface (result/critical text set their own colors below).
+    color: var(--sohl-color-text-primary);
 
     .card-header {
         text-align: center;
@@ -139,10 +143,12 @@
 
     .success-text {
         color: var(--sohl-color-success);
+        font-weight: bold;
     }
 
     .failure-text {
         color: var(--sohl-color-danger);
+        font-weight: bold;
     }
 
     .emphasize-text {
