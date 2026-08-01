@@ -33,10 +33,7 @@ import {
     TREATMENT_HEAL,
     injuryBand,
     requiredTreatment,
-    treatmentHealingRate,
-    treatmentCausesBleeder,
-    isBleederFromHealingRate,
-    isPermanentImpairmentEligible,
+    treatmentOutcome,
     type InjuryBand,
     type TreatmentCode,
 } from "@src/entity/body/injury-treatment";
@@ -320,7 +317,7 @@ export class TraumaLogic<
      * Physician skill is rolled headlessly at that modifier; and the result maps,
      * with the severity band, to the injury's
      * {@link TraumaData.healingRateBase | Healing Rate}
-     * ({@link treatmentHealingRate}). A `HEAL` result heals the wound outright. The
+     * ({@link treatmentOutcome}). A `HEAL` result heals the wound outright. The
      * resulting Healing Rate (with the aspect and any surgical mishap) then
      * determines the special injury effects — a bleeder (which arms the
      * blood-loss timer) and permanent-impairment eligibility.
@@ -399,34 +396,34 @@ export class TraumaLogic<
         context: SohlActionContext,
     ): Promise<void> {
         const now = fvttWorldTime();
-        const hr = treatmentHealingRate(normSuccessLevel, band);
+        // Derive every special effect once, from the same `treatmentOutcome` the
+        // Treatment Result card displays, so persisted state and card agree (#846).
+        const outcome = treatmentOutcome(
+            this.data.aspect ?? IMPACT_ASPECT.BLUNT,
+            band,
+            code,
+            normSuccessLevel,
+        );
         const update: PlainObject = { "system.treatmentDate": now };
 
-        if (hr === TREATMENT_HEAL) {
+        if (outcome.healingRate === TREATMENT_HEAL) {
             // A HEAL result heals the wound immediately (Injury Level 0).
             update["system.levelBase"] = 0;
             await this.item.update(update);
             return;
         }
 
-        update["system.healingRateBase"] = hr;
+        update["system.healingRateBase"] = outcome.healingRate;
 
         // A poorly-treated wound (a failed Treatment Test) is exposed to infection
         // (#557); a marginal/critical success clears the risk.
-        update["system.infectable"] = normSuccessLevel < MARGINAL_SUCCESS;
+        update["system.infectable"] = outcome.infectable;
 
         // Special injury effects. A surgical mishap (EXT/SUR on a failure) or a
         // grievous blunt/edged/piercing wound left at HR 2–3 becomes a bleeder;
         // arm the blood-loss timer if it is not already bleeding.
-        const bleeder =
-            treatmentCausesBleeder(code, normSuccessLevel) ||
-            isBleederFromHealingRate(
-                this.data.aspect ?? IMPACT_ASPECT.BLUNT,
-                band,
-                hr,
-            );
         let bleederInterval: number | undefined;
-        if (bleeder && !this.isBleeding) {
+        if (outcome.bleeder && !this.isBleeding) {
             const formula = String(
                 fvttGetSetting("sohl", "bloodLossAdvanceDurationFormula") ?? "",
             );
@@ -435,13 +432,7 @@ export class TraumaLogic<
             update["system.bloodLossAdvanceDurationBase"] = bleederInterval;
         }
 
-        if (
-            isPermanentImpairmentEligible(
-                this.data.aspect ?? IMPACT_ASPECT.BLUNT,
-                band,
-                hr,
-            )
-        ) {
+        if (outcome.permanentImpairmentEligible) {
             update["system.permanentImpairmentEligible"] = true;
         }
 

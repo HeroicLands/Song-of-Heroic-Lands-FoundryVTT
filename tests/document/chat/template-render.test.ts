@@ -59,6 +59,49 @@ describe("treatment cards (TraumaLogic.requestTreatment / performTreatmentTest)"
         });
         expect(html).toContain("Healed");
     });
+
+    it("treatment-result-card shows the infection / impairment / bleeder warnings when the builder flags them (#846)", () => {
+        const html = renderTemplateReal(`${CHAT}/treatment-result-card.hbs`, {
+            physicianName: "Brother Cede",
+            aspect: "edged",
+            severity: 4,
+            treatment: "SUR",
+            hr: 2,
+            infect: true,
+            impair: true,
+            bleed: true,
+        });
+        expect(html).toContain("Infection risk");
+        expect(html).toContain("Permanent impairment risk");
+        expect(html).toContain("Treatment results in a bleeder");
+    });
+
+    it("treatment-result-card shows the amputation branch when newInj/newSev are provided (#846)", () => {
+        const html = renderTemplateReal(`${CHAT}/treatment-result-card.hbs`, {
+            physicianName: "Brother Cede",
+            aspect: "edged",
+            severity: 5,
+            treatment: "AMP",
+            hr: 2,
+            newInj: 5,
+            newSev: "G",
+        });
+        expect(html).toContain("Amputation results in a new G5 edged");
+    });
+
+    it("treatment-result-card omits every warning when no flags are set", () => {
+        const html = renderTemplateReal(`${CHAT}/treatment-result-card.hbs`, {
+            physicianName: "Brother Cede",
+            aspect: "edged",
+            severity: 1,
+            treatment: "CLN",
+            hr: 5,
+        });
+        expect(html).not.toContain("Infection risk");
+        expect(html).not.toContain("Permanent impairment risk");
+        expect(html).not.toContain("results in a bleeder");
+        expect(html).not.toContain("Amputation results");
+    });
 });
 
 describe("other action cards render with their logic helpers", () => {

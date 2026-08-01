@@ -53,7 +53,7 @@ import {
     TREATMENT_HEAL,
     injuryBand,
     requiredTreatment,
-    treatmentHealingRate,
+    treatmentOutcome,
     type InjuryBand,
 } from "@src/entity/body/injury-treatment";
 import {
@@ -2952,11 +2952,14 @@ export class BeingLogic<
         });
         if (result === undefined) return undefined; // cancelled
         const sl = result ? result.normSuccessLevel : CRITICAL_FAILURE;
-        const healingRate = treatmentHealingRate(sl, band);
+        const outcome = treatmentOutcome(aspect, band, req?.code, sl);
+        const healingRate = outcome.healingRate;
 
         // Post the result. A real wound gets an owner-gated Accept button (the
         // patient records the rate); a GM-directed test posts an informational
-        // result with no button.
+        // result with no button. The special-effect flags come from the same
+        // `treatmentOutcome` the Accept path persists, so the card shows exactly
+        // what the treatment did (#846).
         await postActionCard(this.speaker, {
             template: "systems/sohl/templates/chat/treatment-result-card.hbs",
             data: {
@@ -2965,6 +2968,11 @@ export class BeingLogic<
                 severity,
                 treatment: req?.code ?? "",
                 hr: healingRate === TREATMENT_HEAL ? -1 : healingRate,
+                infect: outcome.infectable,
+                impair: outcome.permanentImpairmentEligible,
+                bleed: outcome.bleeder,
+                newInj: outcome.amputation?.level ?? 0,
+                newSev: outcome.amputation?.severity ?? "",
             },
             buttons:
                 injuryUuid ?
