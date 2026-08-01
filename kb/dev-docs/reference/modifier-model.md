@@ -152,6 +152,41 @@ Deltas are never persisted. To change the base value permanently, update the und
 
 All test methods accept a `priorTestResult` in `context.scope`. When provided, the dialog redisplays for modifier adjustment but reuses the prior roll — the dice are not re-rolled. This supports mechanics like fate points that modify an already-rolled test.
 
+### Fate (post-roll success-level bump)
+
+Fate is the canonical `priorTestResult` consumer, and a worked example of a
+mechanic that adds no bespoke test type. A player spends a Fate Point **after** a
+test is rolled to raise its **stored success level** — the die is never re-rolled,
+and the change sits _below_ the [`successStarTable`](./result-description-tables.md)
+mapping, so it applies to **any** success test (skill, attribute, or combat) for
+free. The pieces, all on `SkillLogic`:
+
+- **Where points live.** Fate Points are not a scalar — they are **charges on
+  `fate`-subtype Mystery items**. {@link sohl.document.item.logic.SkillLogic.availableFate | `availableFate`}
+  resolves the eligible, still-charged Mysteries for a skill — a **general** point
+  (`assocSkillCode` null) or one **specific** to that skill's shortcode; an
+  infinite charge (`charges.value` disabled) is honored and never decremented. The
+  Fate offer is gated on this set being non-empty.
+- **The Fate Test.** {@link sohl.document.item.logic.SkillLogic.fateMasteryLevel | `fateMasteryLevel`}
+  is a `MasteryLevelModifier` seeded at **base 50 + ⌊Aura EML ÷ 2⌋**, gated by the
+  `optionFate` world setting (`everyone` / `pconly` / off) and disabled when the
+  actor has no Aura. {@link sohl.document.item.logic.SkillLogic.fateTest | `fateTest`}
+  rolls it as its own success test (resolved by `getFateDescTable`, `canFate:
+  false` so a Fate roll can't itself be fated) — the generic `successTest` path
+  again, not a subclass.
+- **Rung → (consume, delta).** The matched **rung** drives the outcome (never
+  `isSuccess`): CF → lose a point, +0; MF → keep, +0; MS → spend, +1; CS → the
+  player's **spend (+2) / keep (+1)** choice. A consumed point is decremented from
+  one eligible Mystery (the player picks when more than one qualifies, pre-selecting
+  the most-restricted so general points are preserved).
+- **Applying it.** On a nonzero delta the original result's success level is bumped
+  and its card **re-posted** (`toChat({ canFate: false })`) — the description table
+  re-resolves against the new level with no frozen copy to reconcile. The original
+  rides on the card's Fate button as a serialized `priorTestResult`, revived on
+  click.
+
+Player-facing rule: the **Fate** entry in the [SoHL Rules](https://heroiclands.org/sohl/user-guide/sohl-rules/) (source: `assets/content/Rules/Fate.md`).
+
 ## CombatModifier
 
 `CombatModifier` extends `MasteryLevelModifier` with no additional properties or methods. Its purpose is **type discrimination**: combat-specific modifiers (attack rolls, defense rolls, combat technique tests) can be identified and filtered separately from general mastery level modifiers.
