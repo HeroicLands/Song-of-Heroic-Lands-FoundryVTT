@@ -280,7 +280,7 @@ export class OpposedTestResult extends TestResult {
             targetTestResult: shape(this.targetTestResult),
             sourceWins: this.sourceWins,
             targetWins: this.targetWins,
-            vsText: { text: SYMBOL.STARF.repeat(victoryDegrees) },
+            vsText: SYMBOL.STARF.repeat(victoryDegrees),
             // The Respond button's `scope` payload: the whole opposed test,
             // serialized as one `data-scope` blob and revived as a live
             // `OpposedTestResult` by the dispatch handler.
