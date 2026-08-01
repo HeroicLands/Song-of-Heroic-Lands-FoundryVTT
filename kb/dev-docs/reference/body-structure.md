@@ -130,6 +130,27 @@ A part may carry multiple roles. A wolf's foreleg might be `[locomotor, manipula
     - `manipulator` Serious → fumble check; Grievous → auto fumble
     - `locomotor` Serious → stumble check; Grievous → auto stumble
 
+### Resolving a flagged mishap — the keep-control test
+
+A flagged fumble or stumble (whether from the injury-severity checks above or a
+combat critical failure — the `mishaps: Set<string>` on an attack/defense result,
+see [Combat Resolution Pipeline](./combat-resolution-pipeline.md)) is resolved by a
+**keep-control test** on the affected being (#851 / #852):
+
+- **Stumble** — a "keep your footing" test rolling the **better of** the being's
+  **Agility** attribute and **Acrobatics** skill. A failure falls prone.
+- **Fumble** — a "keep your grip" test rolling the **better of** the being's
+  **Dexterity** attribute and **Legerdemain** skill. A failure drops the held item.
+
+Selection is by effective mastery level, with **ties to the trained skill**; either
+ability alone is used when the other is absent, and a being with neither warns and
+does not roll. Both `BeingLogic.stumbleTest` / `fumbleTest` are **offered, never
+auto-performed** — the mishap surfaces on the attack card as a prompt the target's
+controlling player accepts. Each is an ordinary `successTest` whose only bespoke
+part is a `keepControlTable` result mapping passed in scope — see the
+[graded-test-as-data recipe](../how-to/extension-points.md#adding-a-graded--special-result-test--pass-data-dont-subclass)
+and `src/document/actor/logic/keep-control.ts`.
+
 ## Body-part impairment
 
 Impairment is the penalty to any use of a body part — it grows with wounds and
