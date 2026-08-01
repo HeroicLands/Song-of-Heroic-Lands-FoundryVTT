@@ -658,6 +658,7 @@ export class BeingLogic<
             :   undefined;
 
         const cardData: DamageCardInput = {
+            actorId: this.id ?? "",
             title:
                 context.scope.mode ?
                     `${context.scope.mode.fullLabel}`
