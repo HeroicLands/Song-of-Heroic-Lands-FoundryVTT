@@ -19,6 +19,15 @@ author is the name of the sub-folder the icon came from. This file, retained in
 the distribution, satisfies that requirement for the bundled set. The original
 upstream notice is preserved alongside as `license.txt`.
 
+## Modifications
+
+CC BY 3.0 §4(a) requires indicating when the licensed material has been changed.
+SoHL injects a theme-aware `@media (prefers-color-scheme: dark)` fill rule into
+each SVG at build time (via `utils/svg-theme.mjs`) so the solid-black artwork
+adapts to light and dark UI. The original artwork is otherwise unchanged. Icons
+by _Viscious Speed_ and _Zeromancer_ are CC0, so this notice is a courtesy for
+them rather than a requirement.
+
 More info: <https://game-icons.net>
 
 ## Contributors

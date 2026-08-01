@@ -45,6 +45,15 @@ Please consider joining [the community on Discord](https://bit.ly/44vZ10j) to di
 
 The following images were taken from [The Noun Project](https://thenounproject.com/) and [Game-Icons](https://game-icons.net/).
 
+SoHL vendors the **complete** Game-Icons.net collection under
+`assets/icons/game-icons/`. The authoritative, per-author credit for that
+bundled set — all contributors, their licenses (CC BY 3.0, or CC0 where noted),
+and the build-time modifications made to the SVGs — lives in
+[`assets/icons/game-icons/ATTRIBUTION.md`](./assets/icons/game-icons/ATTRIBUTION.md)
+alongside the upstream `license.txt`. The individual credits below name specific
+icons used in the interface (and cover the Noun Project icons, which are not part
+of the Game-Icons set).
+
 - acting by Flatart
 - advice by Adrien Coquet
 - Agriculture by Made
@@ -102,7 +111,7 @@ The following images were taken from [The Noun Project](https://thenounproject.c
 - Drama by Cuputo
 - drawing by Nibras@design
 - Drop by Lorc
-- drop weapon by Skol
+- drop weapon by Skoll
 - drowning by Lorc
 - Duck by delapouite
 - Duplicate Files by IconSrc
@@ -228,7 +237,7 @@ A number of icons were also produced by:
 
 - delapouite
 - lorc
-- skol
+- Skoll
 - willdabeast
 
 Lakise and Runic Fonts are copyright N. Robin Crossby, redistributed under the terms of the [CC BY-NC-SA 3.0 AU](https://creativecommons.org/licenses/by-nc-sa/3.0/au/legalcode) license.
