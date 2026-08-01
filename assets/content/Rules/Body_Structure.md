@@ -57,6 +57,13 @@ Injuries are always recorded against a specific body location. Armor protection 
 
 **Fumble and Stumble.** Certain locations, when struck, can cause the target to lose control of held items or lose footing. All arm locations are marked as fumble locations — a blow to the shoulder, elbow, or hand may cause the character to drop a weapon or tool. All leg locations are marked as stumble locations — a blow to the thigh, knee, or foot may cause the character to fall or stagger.
 
+When a blow flags a fumble or stumble — a serious wound to such a location, or a critical fumble in the heat of combat — the character makes a **keep-control test** to hold on:
+
+- A **Stumble Test** — keeping your footing — rolls the **better of your Agility or your Acrobatics skill**. Keep control and you stay upright; fail and you [fall prone](Prone.md), the worse the failure the harder the fall.
+- A **Fumble Test** — keeping your grip — rolls the **better of your Dexterity or your Legerdemain skill**. Keep control and the item stays in hand; fail and you drop it, a critical fumble flinging it from your grasp entirely.
+
+You roll whichever of the attribute or skill serves you better (a trained skill breaks a tie), and a character with neither cannot make the test. Like every consequence in SoHL, a keep-control test is **offered** to the affected character's player, never imposed — it appears as a prompt on the attack that flagged it.
+
 ## Strike Accuracy
 
 Every weapon has a strike accuracy value that represents the area of the body (in square feet) that the weapon can threaten in a single strike. A precise, close-range weapon like a dagger has a low strike accuracy (4), meaning its blow is confined to a small region. A broad-swinging weapon like a broadsword has a higher strike accuracy (6), and a long polearm or flail higher still. The value corresponds directly to the zone die size used in compatible systems (a d4 zone die = strike accuracy 4, a d6 = 6, and so on).
