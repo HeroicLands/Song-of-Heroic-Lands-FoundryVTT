@@ -514,6 +514,9 @@ export namespace SohlDataModel {
              * @param form - The submitted form element.
              * @param submitData - The processed submit data.
              * @param options - Additional update/create options.
+             * @returns A promise that resolves once the submit is
+             *   persisted, or immediately when it is skipped for a
+             *   deleted root document.
              */
             protected override async _processSubmitData(
                 event: SubmitEvent,
