@@ -129,3 +129,121 @@ describe("standard-test-card renders the evaluated success test", () => {
         );
     });
 });
+
+describe("standard-test-card renders a Skill Value Test (#848)", () => {
+    /**
+     * Render a Skill Value Test result. It is an ordinary success test carrying
+     * `isSuccessValue`, a graded `successStarTable`, and a `targetValueFunc` that
+     * maps the success level to the Success Value (Index + Modifier). A small
+     * inline table with literal labels keeps the card assertions independent of
+     * localization.
+     */
+    async function renderSvCard(effective: number, rollTotal: number) {
+        let captured = "";
+        const speaker = {
+            isOwner: true,
+            name: "GM",
+            toJSON: () => ({ name: "GM" }),
+            toChat: (tpl: unknown, data: unknown) => {
+                captured = renderTemplateReal(String(tpl), data as any);
+                return Promise.resolve(undefined);
+            },
+        } as any;
+        vi.spyOn(FoundryHelpersMock, "fvttToFoundryRoll").mockResolvedValue(
+            {} as any,
+        );
+        const svTable = [
+            {
+                maxValue: 0,
+                label: "No Value",
+                description: "Nothing usable.",
+                lastDigits: [],
+                success: false,
+                result: 0,
+            },
+            {
+                maxValue: 4,
+                label: "Base Value",
+                description: "A sound result.",
+                lastDigits: [],
+                success: true,
+                result: 0,
+            },
+            {
+                maxValue: 5,
+                label: "Bonus Value",
+                description: "One Success Star.",
+                lastDigits: [],
+                success: true,
+                result: 1,
+            },
+            {
+                maxValue: Number.MAX_SAFE_INTEGER,
+                label: "Bonus Value",
+                description: "Two Success Stars.",
+                lastDigits: [],
+                success: true,
+                result: 2,
+            },
+        ];
+        const mlMod = new MasteryLevelModifier(
+            { baseValue: effective } as any,
+            {
+                parent,
+            },
+        );
+        const roll = new SimpleRoll(
+            {
+                numDice: 1,
+                dieFaces: 100,
+                modifier: 0,
+                rolls: [rollTotal],
+            } as any,
+            { parent },
+        );
+        const result = new SuccessTestResult(
+            {
+                masteryLevelModifier: mlMod,
+                roll,
+                title: "Weaponcraft SV Test",
+                isSuccessValue: true,
+                successStarTable: svTable,
+                // Index 5 (ML 50) → SV = 5 + successLevel − 1.
+                targetValueFunc: (sl: number) => 5 + sl - 1,
+            } as any,
+            { parent, chatSpeaker: speaker },
+        );
+        await result.evaluate();
+        await result.toChat();
+        return { html: captured, result };
+    }
+
+    it("shows the Success Value number", async () => {
+        // 32 ≤ 50 → marginal success (level 1) → SV = 5 + 1 − 1 = 5.
+        const { html, result } = await renderSvCard(50, 32);
+        expect(result.targetValue).toBe(5);
+        expect(html).toMatch(
+            /Success Value:<\/span>\s*<span class="value">5<\/span>/,
+        );
+    });
+
+    it("shows the number of Success Stars", async () => {
+        const { html, result } = await renderSvCard(50, 32);
+        // SV 5 → one Success Star.
+        expect(result.successStars).toBe(1);
+        expect(html).toMatch(
+            /Success Stars:<\/span>\s*<span class="value">1<\/span>/,
+        );
+    });
+
+    it("shows the graded meaning text", async () => {
+        const { html } = await renderSvCard(50, 32);
+        expect(html).toContain("Bonus Value");
+    });
+
+    it("omits the Success Value block for a plain (non-SV) success test", async () => {
+        const { html } = await renderCard(50, 32);
+        expect(html).not.toContain("Success Value:");
+        expect(html).not.toContain("Success Stars:");
+    });
+});

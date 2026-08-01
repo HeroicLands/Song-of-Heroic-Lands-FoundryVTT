@@ -491,6 +491,10 @@ export class MasteryLevelModifier extends ValueModifier {
                     ) as MasteryLevelModifier,
                     targetValueFunc: context.scope.targetValueFunc,
                     successStarTable: context.scope.successStarTable,
+                    // A Success Value test (#848) marks the result so its card
+                    // shows the Success Value / Success Stars; a plain test does
+                    // not. Passed as data via scope, no bespoke test method.
+                    isSuccessValue: context.scope.isSuccessValue ?? false,
                     autoCriticalFail,
                     // A success test is Fate-eligible by default: its card offers
                     // a Fate spend when the owning item has an available Fate
@@ -611,7 +615,10 @@ export class MasteryLevelModifier extends ValueModifier {
         const callerScope =
             context.scope as Partial<SuccessTestResult.ContextScope>;
         const svTestContext = new SohlActionContext({
-            speaker: context.speaker,
+            // Fall back to the owning logic's speaker when the action context
+            // carries none (a menu/card dispatch), mirroring the result's own
+            // `context.speaker ?? this.parent.speaker` attribution in successTest.
+            speaker: context.speaker ?? this.parent.speaker,
             type: `${this.parent.data.kind}-${this.parent.name}-success-value-test`,
             title: sohl.i18n.format(
                 "SOHL.MasteryLevelModifier.successValueTest",
@@ -619,10 +626,16 @@ export class MasteryLevelModifier extends ValueModifier {
                     name: this.parent.label,
                 },
             ),
-            noChat: true,
+            // Post the graded card (unless the caller suppresses chat). The SV
+            // test is a normal success test whose result is graded into a Success
+            // Value and Success Stars — the "special results" are the svTable data
+            // in scope, not a bespoke test method (#848).
+            noChat: context.noChat,
+            skipDialog: context.skipDialog,
             scope: {
                 ...callerScope,
                 situationalModifier: callerScope.situationalModifier ?? 0,
+                isSuccessValue: true,
                 targetValueFunc: (successLevel: number) =>
                     this.index + successLevel - 1,
                 successStarTable: this.svTable,

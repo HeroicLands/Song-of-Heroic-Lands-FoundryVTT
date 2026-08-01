@@ -2,6 +2,9 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
+import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { ITEM_KIND, VALUE_DELTA_INFO } from "@src/utils/constants";
 import { makeItemLogic } from "@tests/mocks/logicHarness";
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
@@ -325,10 +328,73 @@ describe("MasteryLevelModifier", () => {
         });
     });
 
+    describe("successValueTest grades via svTable (#848)", () => {
+        /** An owned speaker so evaluate() may resolve the forced roll. */
+        function ownedSpeaker(): SohlSpeaker {
+            const speaker = new SohlSpeaker({ alias: "GM" });
+            Object.defineProperty(speaker, "isOwner", {
+                get: () => true,
+                configurable: true,
+            });
+            return speaker;
+        }
+
+        afterEach(() => SimpleRoll.clearForced());
+
+        it("grades the frozen roll into a Success Value and Success Stars", async () => {
+            vi.spyOn(SuccessTestResult.prototype, "toChat").mockResolvedValue(
+                undefined,
+            );
+            // base 50 → index 5; crit digits so a plain 34 is not critical.
+            const ml = makeMLMod({
+                baseValue: 50,
+                critSuccessDigits: [0, 5],
+                critFailureDigits: [0, 5],
+            } as any);
+            // 34 ≤ 50, last digit 4 → a Marginal Success (level 1).
+            SimpleRoll.forceValues(34);
+            const result = (await ml.successValueTest(
+                new SohlActionContext({
+                    speaker: ownedSpeaker(),
+                    skipDialog: true,
+                    scope: {},
+                }),
+            )) as SuccessTestResult;
+
+            // SV = index(5) + level(1) − 1 = 5 → Bonus Value, one Success Star.
+            expect(result.isSuccessValue).toBe(true);
+            expect(result.targetValue).toBe(5);
+            expect(result.successStars).toBe(1);
+        });
+
+        it("a marginal failure grades to Base Value (zero Success Stars)", async () => {
+            vi.spyOn(SuccessTestResult.prototype, "toChat").mockResolvedValue(
+                undefined,
+            );
+            const ml = makeMLMod({
+                baseValue: 50,
+                critSuccessDigits: [0, 5],
+                critFailureDigits: [0, 5],
+            } as any);
+            // 88 > 50, last digit 8 → a Marginal Failure (level 0).
+            SimpleRoll.forceValues(88);
+            const result = (await ml.successValueTest(
+                new SohlActionContext({
+                    speaker: ownedSpeaker(),
+                    skipDialog: true,
+                    scope: {},
+                }),
+            )) as SuccessTestResult;
+
+            // SV = index(5) + level(0) − 1 = 4 → Base Value, zero stars.
+            expect(result.targetValue).toBe(4);
+            expect(result.successStars).toBe(0);
+        });
+    });
+
     describe("Foundry-entangled test flows", () => {
         // These drive real dialogs, targeting, and chat across two actors;
         // they are exercised in Foundry integration, not unit tests.
-        it.todo("successValueTest grades the outcome via svTable");
         it.todo(
             "opposedTestStart requires a targeted token and posts an OpposedTestResult",
         );

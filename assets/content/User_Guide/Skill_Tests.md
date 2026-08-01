@@ -61,6 +61,28 @@ The EML is shown in the Success Test Dialog before you roll.
      (ValueModifier system), and how players can view what's affecting
      their EML -->
 
+# Success Value Tests {#tests-sv}
+
+Some tasks represent sustained effort — crafting an item, sailing a passage,
+researching a question — where rolling dozens of individual tests would be
+tedious and swingy. A **Success Value Test** resolves the whole task with one
+roll, producing a graded outcome instead of a simple pass or fail.
+
+Run one from a skill the same way you run a Success Test: click the skill's
+**Success Value Test** action. The system makes an ordinary success test, then
+reads the result on a graded scale. The chat card shows:
+
+- **Success Value** — the graded number, derived from the skill's Index (its
+  mastery level ÷ 10) plus a modifier for how well the roll went.
+- **Success Stars** — how far the work exceeds an ordinary result, from zero up
+  to five stars.
+- **Result** — the plain-language meaning of that Success Value (no value, little
+  value, base value, or a starred bonus value).
+
+The card also shows the underlying roll and target, so you can see how the grade
+was reached. See the [Success Value Tests](rules/sohl-success-value-tests.md)
+rules for the full scale.
+
 # Editing a Test Result (GM) {#tests-gm-edit}
 
 Every posted test result card carries a small **edit pencil** in its header.
