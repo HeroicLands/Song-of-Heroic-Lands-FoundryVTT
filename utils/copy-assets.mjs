@@ -24,20 +24,43 @@
  *   node utils/copy-assets.mjs  // direct invocation (no args)
  */
 
-import { copyFileSync, mkdirSync, readdirSync, statSync } from "fs";
+import {
+    copyFileSync,
+    mkdirSync,
+    readdirSync,
+    readFileSync,
+    statSync,
+    writeFileSync,
+} from "fs";
 import { join, dirname } from "path";
+import { injectAdaptiveFill } from "./svg-theme.mjs";
 
-function copyFolder(src, dest) {
+/**
+ * Recursively copy `src` → `dest`. An optional `transformFile(srcPath)` may
+ * return a string to write instead of a raw byte copy (used to theme SVGs);
+ * returning `null`/`undefined` falls back to `copyFileSync`.
+ */
+function copyFolder(src, dest, transformFile) {
     mkdirSync(dest, { recursive: true });
     for (const file of readdirSync(src)) {
         const srcPath = join(src, file);
         const destPath = join(dest, file);
-        if (statSync(srcPath).isDirectory()) copyFolder(srcPath, destPath);
-        else {
+        if (statSync(srcPath).isDirectory()) {
+            copyFolder(srcPath, destPath, transformFile);
+        } else {
             mkdirSync(dirname(destPath), { recursive: true });
-            copyFileSync(srcPath, destPath);
+            const transformed = transformFile ? transformFile(srcPath) : null;
+            if (transformed != null) writeFileSync(destPath, transformed);
+            else copyFileSync(srcPath, destPath);
         }
     }
+}
+
+// Make bundled icon SVGs adapt to light/dark mode (#893). Only `.svg` files are
+// transformed; everything else copies byte-for-byte.
+function themeSvg(srcPath) {
+    if (!srcPath.endsWith(".svg")) return null;
+    return injectAdaptiveFill(readFileSync(srcPath, "utf8"));
 }
 
 function copyFile(src, dest) {
@@ -50,7 +73,7 @@ copyFolder("assets/docs", "build/docs");
 
 // Copy static assets to build/stage
 copyFolder("assets/audio", "build/stage/assets/audio");
-copyFolder("assets/icons", "build/stage/assets/icons");
+copyFolder("assets/icons", "build/stage/assets/icons", themeSvg);
 copyFolder("assets/silhouette", "build/stage/assets/silhouette");
 copyFolder("assets/fonts", "build/stage/assets/fonts");
 copyFolder("assets/ui", "build/stage/assets/ui");
