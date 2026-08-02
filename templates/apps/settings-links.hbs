@@ -11,14 +11,18 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
-{{!-- Mirrors Foundry's native settings-sidebar Documentation block
-      (section.documentation.flexcol + h4.divider + a.button) so it inherits
-      the tab's own styling rather than looking bolted on. --}}
-<section class="documentation flexcol" data-sohl-links>
+{{!-- Branded "Game System" section for the settings sidebar (issue #915),
+      modelled on how dnd5e/SWADE present themselves there. Reuses Foundry's
+      native section + h4.divider markup so the header inherits the tab's own
+      styling; the emblem, version, and inline links are styled by
+      scss/base/_settings-links.scss. --}}
+<section class="flexcol sohl-game-system" data-sohl-links>
     <h4 class="divider">{{title}}</h4>
-    {{#each links}}
-    <a class="button" href="{{this.url}}" rel="noopener nofollow" target="_blank">
-        <i class="fa-solid {{this.icon}}" inert></i> {{this.label}}
-    </a>
-    {{/each}}
+    <img class="sohl-game-system__emblem" src="{{emblem}}" alt="{{title}}" />
+    <div class="sohl-game-system__version">{{version}}</div>
+    <nav class="sohl-game-system__links">
+        {{#each links}}
+        <a href="{{this.url}}" rel="noopener nofollow" target="_blank">{{this.label}}</a>
+        {{/each}}
+    </nav>
 </section>

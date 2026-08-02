@@ -12,38 +12,50 @@
  */
 
 /**
- * The "Song of Heroic Lands" links section injected into the Game Settings
- * sidebar tab by the `renderSettings` hook. Unit tests cover the pure link
- * table + template HTML; this proves the hook actually injects the section into
- * the live settings tab and that it survives re-render without duplicating.
+ * The branded "Game System" section injected into the Game Settings sidebar
+ * tab by the `renderSettings` hook (issue #915). Unit tests cover the pure
+ * builder + template HTML; this proves the hook injects the branded section
+ * into the live tab, sources its links from `system.json` `flags.sohl`, removes
+ * Foundry's native system row, and survives re-render without duplicating.
  */
 
-const EXPECTED = [
-    { label: "Main Site", href: "https://www.heroiclands.org/" },
-    { label: "Knowledgebase", href: "https://kb.heroiclands.org/" },
-    { label: "API Documentation", href: "https://api.heroiclands.org/latest" },
+const EXPECTED_LABELS = [
+    "Main Site",
+    "Knowledgebase",
+    "API Documentation",
+    "Issues",
+    "Discord",
 ];
 
-/** Read back the injected links section from the live Settings sidebar tab. */
-function readLinksSection(win) {
+/** Read back the injected branded section from the live Settings sidebar tab. */
+function readGameSystemSection(win) {
     const settings = win.ui.settings;
-    const section = settings?.element?.querySelector("[data-sohl-links]");
+    const el = settings?.element;
+    const section = el?.querySelector("[data-sohl-links]");
     if (!section) return null;
-    const anchors = [...section.querySelectorAll("a.button")];
+    const anchors = [...section.querySelectorAll("a")];
     return {
-        count: settings.element.querySelectorAll("[data-sohl-links]").length,
+        count: el.querySelectorAll("[data-sohl-links]").length,
         classes: section.getAttribute("class"),
         title: section.querySelector("h4.divider")?.textContent?.trim(),
+        emblemSrc: section
+            .querySelector("img.sohl-game-system__emblem")
+            ?.getAttribute("src"),
+        version: section
+            .querySelector(".sohl-game-system__version")
+            ?.textContent?.trim(),
         links: anchors.map((a) => ({
             label: a.textContent.trim(),
             href: a.getAttribute("href"),
             target: a.getAttribute("target"),
             rel: a.getAttribute("rel"),
         })),
+        // Foundry's native system-info row (title + version) should be gone.
+        nativeSystemRow: !!el.querySelector("section.info .system"),
     };
 }
 
-describe("settings sidebar — Song of Heroic Lands links", () => {
+describe("settings sidebar — branded Game System section", () => {
     before(() => cy.login());
 
     beforeEach(() => {
@@ -51,22 +63,35 @@ describe("settings sidebar — Song of Heroic Lands links", () => {
         // The section is injected asynchronously by the render hook — wait for it.
         cy.window().should((win) => {
             const el = win.ui.settings.element;
-            expect(el?.querySelector("[data-sohl-links]"), "links section").to
-                .exist;
+            expect(el?.querySelector("[data-sohl-links]"), "section").to.exist;
         });
     });
 
-    it("injects a native-styled section with the three project links", () => {
-        cy.foundry(readLinksSection).should((s) => {
+    it("injects the branded section with emblem, version, and inline links", () => {
+        cy.foundry((win) => {
+            const s = readGameSystemSection(win);
+            const flags = win.game.system.flags.sohl;
+            return { s, flags, version: win.game.system.version };
+        }).should(({ s, flags, version }) => {
             expect(s.title).to.eq("Song of Heroic Lands");
-            // Reuses core's Documentation-block classes → native styling.
-            expect(s.classes).to.contain("documentation");
-            expect(s.classes).to.contain("flexcol");
-            expect(s.links.map((l) => l.label)).to.deep.eq(
-                EXPECTED.map((e) => e.label),
+            expect(s.classes).to.contain("sohl-game-system");
+            // Branding: the coiled-dragon emblem and the running version.
+            expect(s.emblemSrc).to.contain(
+                "assets/icons/brand/sohl-dragon.svg",
             );
-            expect(s.links.map((l) => l.href)).to.deep.eq(
-                EXPECTED.map((e) => e.href),
+            expect(s.version).to.eq(version);
+            // Inline links (plain anchors, not full-width buttons).
+            expect(s.links.map((l) => l.label)).to.deep.eq(EXPECTED_LABELS);
+            expect(s.links.map((l) => l.href)).to.deep.eq([
+                flags.mainSiteUrl,
+                flags.knowledgeBaseUrl,
+                flags.apiDocsUrl,
+                flags.issuesUrl,
+                flags.discordInviteUrl,
+            ]);
+            // API link targets this exact version's docs, not /latest.
+            expect(flags.apiDocsUrl).to.eq(
+                `https://api.heroiclands.org/v${version}`,
             );
             s.links.forEach((l) => {
                 expect(l.target).to.eq("_blank");
@@ -75,10 +100,16 @@ describe("settings sidebar — Song of Heroic Lands links", () => {
         });
     });
 
+    it("removes Foundry's redundant native system row", () => {
+        cy.foundry(readGameSystemSection).should((s) => {
+            expect(s.nativeSystemRow, "native system row present").to.be.false;
+        });
+    });
+
     it("injects exactly one section even across re-renders", () => {
         cy.foundry((win) => win.ui.settings.render({ force: true }));
         cy.window().should((win) => {
-            const s = readLinksSection(win);
+            const s = readGameSystemSection(win);
             expect(s, "section present after re-render").to.not.be.null;
             expect(s.count, "single section").to.eq(1);
         });

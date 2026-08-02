@@ -138,6 +138,22 @@ export async function fvttSetSetting(
     return undefined;
 }
 
+export function fvttSystemLinks(): any {
+    const sys = (globalThis as any).game?.system ?? {};
+    const links = sys.flags?.sohl ?? {};
+    return {
+        title: sys.title ?? "",
+        version: sys.version ?? "",
+        links: {
+            mainSiteUrl: links.mainSiteUrl ?? "",
+            knowledgeBaseUrl: links.knowledgeBaseUrl ?? "",
+            apiDocsUrl: links.apiDocsUrl ?? "",
+            issuesUrl: links.issuesUrl ?? "",
+            discordInviteUrl: links.discordInviteUrl ?? "",
+        },
+    };
+}
+
 export function fvttIsActiveGM(): boolean {
     return !!(globalThis as any).game?.user?.isActiveGM;
 }

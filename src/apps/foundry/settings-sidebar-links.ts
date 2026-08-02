@@ -15,15 +15,35 @@ import { toFilePath } from "@src/utils/helpers";
 import { toHTMLWithTemplate } from "@src/core/FoundryHelpers";
 
 /**
- * A single external project link shown in the settings-sidebar section.
+ * The project's external web destinations, surfaced to the client from
+ * `system.json` `flags.sohl` (which the build copies from `package.json` — the
+ * single source of truth; see `utils/build-system-json.mjs`).
  */
-export interface SettingsSidebarLink {
-    /** `lang/en.json` key for the button label. */
-    labelKey: string;
-    /** Absolute destination URL, opened in a new browser tab. */
-    url: string;
-    /** Font Awesome class (without the `fa-solid` style prefix). */
-    icon: string;
+export interface SystemLinks {
+    /** The main site — `package.json` `homepage`. */
+    mainSiteUrl: string;
+    /** The knowledgebase — `heroicLands.knowledgeBaseUrl`. */
+    knowledgeBaseUrl: string;
+    /** The generated API docs for *this* version — `…/v<version>`. */
+    apiDocsUrl: string;
+    /** The GitHub issue tracker — `package.json` `bugs`. */
+    issuesUrl: string;
+    /** The community Discord invite — `heroicLands.discordInviteUrl`. */
+    discordInviteUrl: string;
+}
+
+/**
+ * The system identity and links read from `game.system` at render time (via
+ * `fvttSystemLinks`). Kept Foundry-free so the context builder below can
+ * be exercised in Node.
+ */
+export interface SohlSystemInfo {
+    /** The system title (`game.system.title`). */
+    title: string;
+    /** The running system version (`game.system.version`). */
+    version: string;
+    /** The external destinations, from `game.system.flags.sohl`. */
+    links: SystemLinks;
 }
 
 /** The section template rendered into the settings sidebar. */
@@ -34,77 +54,102 @@ export const SETTINGS_LINKS_TEMPLATE =
 export const SETTINGS_LINKS_MARKER = "data-sohl-links";
 
 /**
- * The project's always-available web destinations, in display order: the main
- * site, the knowledgebase, and the generated API documentation.
+ * The coiled-dragon emblem. Ships as a solid black SVG under `assets/icons/`,
+ * which the build (`copy-assets.mjs` → `svg-theme.mjs`) recolors to adapt to
+ * light/dark mode, so the same mark reads as ink on the light settings sidebar
+ * and cream on the dark one.
  */
-export const SETTINGS_SIDEBAR_LINKS: readonly SettingsSidebarLink[] = [
-    {
-        labelKey: "SOHL.Settings.HeroicLands.mainSite",
-        url: "https://www.heroiclands.org/",
-        icon: "fa-house",
-    },
+export const SOHL_EMBLEM_PATH =
+    "systems/sohl/assets/icons/brand/sohl-dragon.svg";
+
+/**
+ * The inline links, in display order, each paired with its `lang/en.json`
+ * label key and the {@link SystemLinks} field that supplies its URL.
+ */
+export const SETTINGS_LINK_ORDER: ReadonlyArray<{
+    labelKey: string;
+    key: keyof SystemLinks;
+}> = [
+    { labelKey: "SOHL.Settings.HeroicLands.mainSite", key: "mainSiteUrl" },
     {
         labelKey: "SOHL.Settings.HeroicLands.knowledgebase",
-        url: "https://kb.heroiclands.org/",
-        icon: "fa-book",
+        key: "knowledgeBaseUrl",
     },
-    {
-        labelKey: "SOHL.Settings.HeroicLands.apiDocs",
-        url: "https://api.heroiclands.org/latest",
-        icon: "fa-code",
-    },
+    { labelKey: "SOHL.Settings.HeroicLands.apiDocs", key: "apiDocsUrl" },
+    { labelKey: "SOHL.Settings.HeroicLands.issues", key: "issuesUrl" },
+    { labelKey: "SOHL.Settings.HeroicLands.discord", key: "discordInviteUrl" },
 ] as const;
 
 /** The render context for {@link SETTINGS_LINKS_TEMPLATE}. */
 export interface SettingsLinksContext {
+    /** The section heading — the system title. */
     title: string;
-    links: Array<{ label: string; url: string; icon: string }>;
+    /** The running version, shown beneath the emblem. */
+    version: string;
+    /** The emblem image path. */
+    emblem: string;
+    /** Each inline link's resolved label and destination URL. */
+    links: Array<{ label: string; url: string }>;
 }
 
 /**
- * Build the localized render context for the settings-sidebar links section.
+ * Build the localized render context for the branded "Game System" section.
  *
- * Pure — the caller supplies the localizer (Foundry's `game.i18n.localize` in
- * production, an identity function in tests), so this has no Foundry dependency.
+ * Pure — the caller supplies the system read (`fvttSystemLinks` in
+ * production) and the localizer (`game.i18n.localize`), so this has no Foundry
+ * dependency. A link whose URL is absent is dropped rather than rendered as an
+ * empty anchor.
  *
+ * @param system - The system identity and links (from `game.system`).
  * @param localize - Resolves a `lang/en.json` key to display text.
- * @returns The section title and each link's resolved label, URL, and icon.
+ * @returns The section title, version, emblem path, and resolved links.
  */
 export function buildSettingsLinksContext(
+    system: SohlSystemInfo,
     localize: (key: string) => string,
 ): SettingsLinksContext {
     return {
-        title: localize("SOHL.Settings.HeroicLands.title"),
-        links: SETTINGS_SIDEBAR_LINKS.map((link) => ({
-            label: localize(link.labelKey),
-            url: link.url,
-            icon: link.icon,
-        })),
+        title: system.title || localize("SOHL.Settings.HeroicLands.title"),
+        version: system.version,
+        emblem: SOHL_EMBLEM_PATH,
+        links: SETTINGS_LINK_ORDER.filter(({ key }) => !!system.links[key]).map(
+            ({ labelKey, key }) => ({
+                label: localize(labelKey),
+                url: system.links[key],
+            }),
+        ),
     };
 }
 
 /**
- * Render the "Song of Heroic Lands" links section and inject it into the Game
- * Settings sidebar tab, mirroring Foundry's own Documentation block so it reads
- * as a native part of the tab.
+ * Render the branded "Game System" section and inject it into the Game
+ * Settings sidebar tab, mirroring how other systems (dnd5e, SWADE) present
+ * themselves there: a native `section` + `h4.divider` header, the SoHL emblem,
+ * the version, and a compact row of external links.
  *
- * Idempotent: a second render of the same sidebar (Foundry re-renders it on
- * various events) is ignored via the {@link SETTINGS_LINKS_MARKER} guard. The
- * section is placed immediately after core's Documentation block when present,
- * otherwise appended to the sidebar root.
+ * Placed immediately after Foundry's own info block (`section.info`) and before
+ * the Settings block, matching dnd5e's placement. Foundry's native system-info
+ * row (`section.info .system`, which repeats the title + version) is removed
+ * **only after** our section successfully injects, so the version never
+ * disappears if rendering fails.
+ *
+ * Idempotent: a second render of the same sidebar is ignored via the
+ * {@link SETTINGS_LINKS_MARKER} guard.
  *
  * @param element - The rendered settings-tab root element.
+ * @param system - The system identity and links (from `fvttSystemLinks`).
  * @param localize - Resolves `lang/en.json` keys (`game.i18n.localize`).
  */
 export async function injectSettingsLinks(
     element: HTMLElement,
+    system: SohlSystemInfo,
     localize: (key: string) => string,
 ): Promise<void> {
     if (element.querySelector(`[${SETTINGS_LINKS_MARKER}]`)) return;
 
     const html = await toHTMLWithTemplate(
         toFilePath(SETTINGS_LINKS_TEMPLATE),
-        buildSettingsLinksContext(localize),
+        buildSettingsLinksContext(system, localize),
     );
 
     const template = document.createElement("template");
@@ -115,9 +160,14 @@ export async function injectSettingsLinks(
     // Guard again in case a concurrent render slipped in while awaiting.
     if (element.querySelector(`[${SETTINGS_LINKS_MARKER}]`)) return;
 
-    const coreDocs = element.querySelector(
-        "section.documentation:not([" + SETTINGS_LINKS_MARKER + "])",
-    );
-    if (coreDocs) coreDocs.after(section);
+    // Place after core's info block (title / build / system / modules) — before
+    // the Settings block — so the branding sits at the top of the tab. Fall back
+    // to appending if the expected structure is absent.
+    const info = element.querySelector("section.info");
+    if (info) info.after(section);
     else element.appendChild(section);
+
+    // Our section now shows the title + version, so retire core's redundant
+    // system row. Done last, so a failed inject above leaves it in place.
+    element.querySelector("section.info .system")?.remove();
 }

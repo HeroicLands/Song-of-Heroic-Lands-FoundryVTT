@@ -15,9 +15,12 @@
  * Generates the Foundry `system.json` manifest for the build.
  *
  * Reads `assets/templates/system.template.json` and `package.json`, then
- * stamps the template with the current `version` and the GitHub
- * url/bugs/manifest/download URLs, and writes the result to
- * `build/stage/system.json` (creating the stage directory if needed).
+ * stamps the template with the current `version`, the GitHub
+ * url/bugs/manifest/download URLs, and the project's external links under
+ * `flags.sohl` (copied from `package.json` — the single source of truth — so
+ * the settings-sidebar section reads them at runtime rather than hardcoding
+ * them). The result is written to `build/stage/system.json` (creating the
+ * stage directory if needed).
  *
  * Usage:
  *   npm run build:system             // node utils/build-system-json.mjs
@@ -50,6 +53,22 @@ template.bugs =
     "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues";
 template.manifest = `https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/latest/download/system.json`;
 template.download = `https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/download/v${pkg.version}/system.zip`;
+
+// External links for the settings-sidebar "Game System" section, single-sourced
+// from package.json. The API URL targets THIS version's docs — releases publish
+// to `/v<version>` and `/latest` only ever tracks the newest release, so a
+// running system should point at its own version. Preserve any existing
+// `flags.sohl` keys the template may carry.
+const apiBase = pkg.heroicLands.apiDocsBaseUrl.replace(/\/+$/, "");
+template.flags = template.flags ?? {};
+template.flags.sohl = {
+    ...(template.flags.sohl ?? {}),
+    mainSiteUrl: pkg.homepage,
+    knowledgeBaseUrl: pkg.heroicLands.knowledgeBaseUrl,
+    apiDocsUrl: `${apiBase}/v${pkg.version}`,
+    issuesUrl: template.bugs,
+    discordInviteUrl: pkg.heroicLands.discordInviteUrl,
+};
 
 // --- Write final system.json ---
 await writeFile(systemJsonPath, JSON.stringify(template, null, 2), "utf-8");

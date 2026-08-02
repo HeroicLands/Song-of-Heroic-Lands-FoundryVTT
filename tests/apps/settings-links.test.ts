@@ -6,88 +6,156 @@
  */
 
 /**
- * The "Song of Heroic Lands" links section injected into the Game Settings
- * sidebar tab. The link table and its localized context builder are pure, and
- * the section template renders in Node — so both are asserted here (the DOM
- * injection into the live sidebar is an e2e concern).
+ * The branded "Game System" section injected into the Game Settings sidebar
+ * tab (issue #915). The context builder is pure and the section template
+ * renders in Node, so both are asserted here; the DOM injection into the live
+ * sidebar — and removal of Foundry's native system row — is an e2e concern.
  */
 
 import { describe, it, expect } from "vitest";
 import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 import {
-    SETTINGS_SIDEBAR_LINKS,
+    SETTINGS_LINK_ORDER,
     SETTINGS_LINKS_TEMPLATE,
+    SOHL_EMBLEM_PATH,
     buildSettingsLinksContext,
+    type SohlSystemInfo,
 } from "@src/apps/foundry/settings-sidebar-links";
 
 /** Identity localizer — returns the key so assertions can match on keys. */
 const idLocalize = (key: string) => key;
 
-describe("settings sidebar links — link table", () => {
-    it("defines exactly the three project links, in order", () => {
-        expect(SETTINGS_SIDEBAR_LINKS.map((l) => l.url)).toEqual([
-            "https://www.heroiclands.org/",
-            "https://kb.heroiclands.org/",
-            "https://api.heroiclands.org/latest",
+/** A representative `game.system` read (as the shim would return it). */
+const SYSTEM: SohlSystemInfo = {
+    title: "Song of Heroic Lands",
+    version: "0.7.0",
+    links: {
+        mainSiteUrl: "https://www.heroiclands.org/",
+        knowledgeBaseUrl: "https://kb.heroiclands.org/",
+        apiDocsUrl: "https://api.heroiclands.org/v0.7.0",
+        issuesUrl:
+            "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues",
+        discordInviteUrl: "https://discord.gg/EwMfkNd3az/",
+    },
+};
+
+describe("settings sidebar — link order", () => {
+    it("lists the five links in display order", () => {
+        expect(SETTINGS_LINK_ORDER.map((l) => l.key)).toEqual([
+            "mainSiteUrl",
+            "knowledgeBaseUrl",
+            "apiDocsUrl",
+            "issuesUrl",
+            "discordInviteUrl",
         ]);
     });
 
-    it("every link carries a label key and a Font Awesome icon", () => {
-        for (const link of SETTINGS_SIDEBAR_LINKS) {
+    it("every link carries a HeroicLands label key", () => {
+        for (const link of SETTINGS_LINK_ORDER) {
             expect(link.labelKey).toMatch(/^SOHL\.Settings\.HeroicLands\./);
-            expect(link.icon).toMatch(/^fa-/);
         }
     });
 });
 
-describe("settings sidebar links — context builder", () => {
-    it("localizes the title and every link label", () => {
-        const ctx = buildSettingsLinksContext(idLocalize);
-        expect(ctx.title).toBe("SOHL.Settings.HeroicLands.title");
-        expect(ctx.links).toHaveLength(3);
-        expect(ctx.links[0]).toMatchObject({
-            label: "SOHL.Settings.HeroicLands.mainSite",
-            url: "https://www.heroiclands.org/",
-        });
-        expect(ctx.links[2].url).toBe("https://api.heroiclands.org/latest");
+describe("settings sidebar — context builder", () => {
+    it("carries the system title, version, and emblem path", () => {
+        const ctx = buildSettingsLinksContext(SYSTEM, idLocalize);
+        expect(ctx.title).toBe("Song of Heroic Lands");
+        expect(ctx.version).toBe("0.7.0");
+        expect(ctx.emblem).toBe(SOHL_EMBLEM_PATH);
     });
 
-    it("resolves real labels through a localizer", () => {
-        const ctx = buildSettingsLinksContext((k) =>
-            k === "SOHL.Settings.HeroicLands.title" ?
-                "Song of Heroic Lands"
-            :   k,
+    it("localizes each link label and preserves the source URLs in order", () => {
+        const ctx = buildSettingsLinksContext(SYSTEM, idLocalize);
+        expect(ctx.links).toEqual([
+            {
+                label: "SOHL.Settings.HeroicLands.mainSite",
+                url: SYSTEM.links.mainSiteUrl,
+            },
+            {
+                label: "SOHL.Settings.HeroicLands.knowledgebase",
+                url: SYSTEM.links.knowledgeBaseUrl,
+            },
+            {
+                label: "SOHL.Settings.HeroicLands.apiDocs",
+                url: SYSTEM.links.apiDocsUrl,
+            },
+            {
+                label: "SOHL.Settings.HeroicLands.issues",
+                url: SYSTEM.links.issuesUrl,
+            },
+            {
+                label: "SOHL.Settings.HeroicLands.discord",
+                url: SYSTEM.links.discordInviteUrl,
+            },
+        ]);
+    });
+
+    it("surfaces the exact-version API docs URL, not /latest", () => {
+        const ctx = buildSettingsLinksContext(SYSTEM, idLocalize);
+        const api = ctx.links.find(
+            (l) => l.label === "SOHL.Settings.HeroicLands.apiDocs",
         );
-        expect(ctx.title).toBe("Song of Heroic Lands");
+        expect(api?.url).toBe("https://api.heroiclands.org/v0.7.0");
+        expect(api?.url).not.toContain("/latest");
+    });
+
+    it("omits a link whose URL is absent rather than rendering an empty href", () => {
+        const noDiscord: SohlSystemInfo = {
+            ...SYSTEM,
+            links: { ...SYSTEM.links, discordInviteUrl: "" },
+        };
+        const ctx = buildSettingsLinksContext(noDiscord, idLocalize);
+        expect(ctx.links).toHaveLength(4);
+        expect(
+            ctx.links.some(
+                (l) => l.label === "SOHL.Settings.HeroicLands.discord",
+            ),
+        ).toBe(false);
+    });
+
+    it("falls back to the localized title when system.title is empty", () => {
+        const noTitle: SohlSystemInfo = { ...SYSTEM, title: "" };
+        const ctx = buildSettingsLinksContext(noTitle, idLocalize);
+        expect(ctx.title).toBe("SOHL.Settings.HeroicLands.title");
     });
 });
 
-describe("settings sidebar links — rendered section", () => {
+describe("settings sidebar — rendered branded section", () => {
     const html = renderTemplateReal(SETTINGS_LINKS_TEMPLATE, {
-        ...buildSettingsLinksContext(idLocalize),
+        ...buildSettingsLinksContext(SYSTEM, idLocalize),
     });
 
-    it("uses Foundry's native sidebar section markup", () => {
-        // Same classes core's own Documentation block uses, so it inherits the
-        // native styling rather than looking bolted on.
-        expect(html).toContain('class="documentation flexcol"');
-        expect(html).toContain('<h4 class="divider">');
-    });
-
-    it("carries an idempotency marker for double-injection guarding", () => {
+    it("is a branded 'game system' section carrying the idempotency marker", () => {
+        expect(html).toContain("sohl-game-system");
         expect(html).toContain("data-sohl-links");
     });
 
-    it("renders each link as a native anchor button opening a new tab", () => {
-        for (const link of SETTINGS_SIDEBAR_LINKS) {
-            expect(html).toContain(`href="${link.url}"`);
-            expect(html).toContain(link.icon);
+    it("renders the title in a native divider header", () => {
+        expect(html).toContain('<h4 class="divider">');
+        expect(html).toContain("Song of Heroic Lands");
+    });
+
+    it("shows the coiled-dragon emblem and the version", () => {
+        expect(html).toContain(`src="${SOHL_EMBLEM_PATH}"`);
+        expect(html).toContain("0.7.0");
+    });
+
+    it("renders each link as a new-tab anchor — no full-width buttons", () => {
+        for (const url of [
+            SYSTEM.links.mainSiteUrl,
+            SYSTEM.links.apiDocsUrl,
+            SYSTEM.links.discordInviteUrl,
+        ]) {
+            expect(html).toContain(`href="${url}"`);
         }
-        // three anchor buttons, all new-tab + no-opener
-        const anchors = html.match(/<a class="button"/g) ?? [];
-        expect(anchors).toHaveLength(3);
-        expect(html).not.toContain('target="_self"');
-        expect(html.match(/target="_blank"/g) ?? []).toHaveLength(3);
-        expect(html.match(/rel="noopener/g) ?? []).toHaveLength(3);
+        // Five inline anchors, every one a safe new-tab link.
+        const anchors = html.match(/<a\b/g) ?? [];
+        expect(anchors).toHaveLength(5);
+        expect(html.match(/target="_blank"/g) ?? []).toHaveLength(5);
+        expect(html.match(/rel="noopener/g) ?? []).toHaveLength(5);
+        // The old button treatment is gone.
+        expect(html).not.toContain('class="button"');
+        expect(html).not.toContain("<button");
     });
 });
