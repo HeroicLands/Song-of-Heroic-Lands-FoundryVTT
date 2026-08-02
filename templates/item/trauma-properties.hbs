@@ -24,7 +24,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
     </div>
 
-    {{#if (eq system.subType "physical")}}
+    {{!-- The physical-harm sub-type is "injury" (TRAUMA_SUBTYPE.INJURY); there
+          is no "physical" value. Aspect / body location / blood loss are
+          injury-specific, so the Physical fieldset is gated on that sub-type
+          (#927). --}}
+    {{#if (eq system.subType "injury")}}
     <fieldset>
         <legend>Physical</legend>
         <div class="field-grid field-grid--3col">
