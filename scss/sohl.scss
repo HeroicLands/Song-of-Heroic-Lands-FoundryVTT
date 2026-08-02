@@ -17,6 +17,11 @@
 // Render design tokens to `:root` custom properties.
 @include tokens.emit-tokens;
 
+// Pin `color-scheme` on SoHL's own scoped surfaces so `<img>`-embedded SVG icons
+// (whose fill follows the used `color-scheme`) track the same OS/`[data-theme]`
+// signal as the vellum ground, instead of Foundry's independent UI theme (#917).
+@include tokens.emit-color-scheme;
+
 // Cascade layers — see css-architecture.md §5. SoHL's `sohl.*` layers register
 // after Foundry core's stack, so each beats core without `!important`. Order is
 // low → high priority. The `.sohl` / compound `.sohl.sheet` wrappers below carry

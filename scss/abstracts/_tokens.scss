@@ -152,7 +152,14 @@ $fonts: (
 // here lets a card keep reading from `var(--sohl-color-*)` yet resolve to fixed
 // light ink and accents, so it blends into the grey log instead of flipping to a
 // dark island inside a light frame. See components/_chat.scss.
+//
+// Also pin the used `color-scheme` to `light`: `<img>`-embedded SVG icons resolve
+// their injected `prefers-color-scheme` fill swap from the element's used
+// `color-scheme`, so a light-locked surface must declare `light` or its icons
+// would flip to the dark (cream) fill under an OS/Foundry dark preference and
+// vanish on the fixed-light ground (see `emit-color-scheme`).
 @mixin light-lock {
+    color-scheme: light;
     @include -emit-colors($colors);
 }
 
@@ -186,5 +193,37 @@ $fonts: (
     }
     :root[data-theme="light"] {
         @include -emit-colors($colors);
+    }
+}
+
+// Pin the used `color-scheme` of SoHL's own scoped surfaces to the SAME signal
+// the colour tokens above follow (OS `prefers-color-scheme`, overridable by the
+// `[data-theme]` toggle).
+//
+// Why this is needed: the bundled icons ship as black-on-transparent SVGs made
+// theme-adaptive at build time (`utils/svg-theme.mjs` injects a
+// `@media (prefers-color-scheme: dark)` fill swap). Loaded via `<img>`, an SVG is
+// an isolated document — its `prefers-color-scheme` resolves from the element's
+// used `color-scheme`, which **Foundry stamps from _its own_ UI theme** onto the
+// enclosing chrome (`#interface.themed.theme-dark`, in `configureUI()`). But
+// SoHL's surface themes from the OS, so without this the icon fill follows
+// Foundry's theme while the vellum ground follows the OS, and the icons vanish on
+// a mismatched surface (kb.heroiclands.org / issue #917).
+//
+// Scoped to `.sohl` — NEVER `:root` — so Foundry's own windows and the compendium
+// keep inheriting Foundry's `color-scheme`; there the icons SHOULD track the
+// themed chrome they sit on, and they already agree. `light-lock` pins its own
+// surfaces to `color-scheme: light` separately.
+@mixin emit-color-scheme {
+    .sohl {
+        color-scheme: light dark;
+    }
+    :root[data-theme="dark"] .sohl,
+    .sohl[data-theme="dark"] {
+        color-scheme: dark;
+    }
+    :root[data-theme="light"] .sohl,
+    .sohl[data-theme="light"] {
+        color-scheme: light;
     }
 }
