@@ -177,8 +177,15 @@ export class SohlContextMenu
             throw Error("Container not found");
         }
 
-        // Set styles on the target
-        target.style.position = "relative";
+        // Prepare the menu element for off-screen measurement. Do NOT touch
+        // `target.style.position`: the menu is appended to (and positioned
+        // within) the `.application` container using container-relative
+        // coordinates derived from the mouse event, so the target's own
+        // position is never read. Forcing `position: relative` onto the target
+        // used to drop absolutely-positioned corner triggers (`.item-contextmenu`
+        // and siblings) back into normal flow — shifting the ⋮ icon and the
+        // card's text — and, because nothing cleared the inline style on close,
+        // the layout never recovered (#924).
         element.style.visibility = "hidden";
         element.style.width = "fit-content";
 
