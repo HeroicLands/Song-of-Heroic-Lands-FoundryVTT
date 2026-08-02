@@ -1930,6 +1930,7 @@
   "sohl.document.item.logic.AttributeLogic.resultEdit": "classes/sohl.document.item.logic.AttributeLogic.html#resultedit",
   "sohl.document.item.logic.AttributeLogic.score": "classes/sohl.document.item.logic.AttributeLogic.html#score",
   "sohl.document.item.logic.AttributeLogic.speaker": "classes/sohl.document.item.logic.AttributeLogic.html#speaker",
+  "sohl.document.item.logic.AttributeLogic.successTest": "classes/sohl.document.item.logic.AttributeLogic.html#successtest",
   "sohl.document.item.logic.AttributeLogic.toJSON": "classes/sohl.document.item.logic.AttributeLogic.html#tojson",
   "sohl.document.item.logic.AttributeLogic.typeLabel": "classes/sohl.document.item.logic.AttributeLogic.html#typelabel",
   "sohl.document.item.logic.AttributeLogic.uuid": "classes/sohl.document.item.logic.AttributeLogic.html#uuid",

@@ -17,6 +17,7 @@ import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
 import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
+import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import { fvttActiveTokenLogicForActor } from "@src/core/FoundryHelpers";
 import {
@@ -98,6 +99,25 @@ export class AttributeLogic<
     /* --------------------------------------------- */
 
     /**
+     * Performs a success test against this attribute's mastery level.
+     *
+     * Intrinsic-action executor for the `successTest` action; delegates to
+     * {@link sohl.entity.modifier.MasteryLevelModifier.successTest}. An
+     * attribute's mastery level is its effective score × 5 (the "TL" shown on
+     * the attribute card), so this rolls the attribute against its own target
+     * level exactly the way {@link sohl.document.item.logic.SkillLogic.successTest}
+     * rolls a skill.
+     *
+     * @param context - The action context (speaker, scope) for the test.
+     * @returns The test result, `undefined` if cancelled, or `false` on error.
+     */
+    async successTest(
+        context: SohlActionContext,
+    ): Promise<SuccessTestResult | undefined | false> {
+        return this.masteryLevel.successTest(context);
+    }
+
+    /**
      * Begins an opposed test backed by this attribute's mastery level.
      *
      * Intrinsic-action executor for the `opposedTestStart` action. Opposed tests
@@ -129,6 +149,16 @@ export class AttributeLogic<
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "successTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Skill.Action.successTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-bullseye-arrow",
+                executor: "successTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
             {
                 shortcode: "opposedTestStart",
                 subType: ACTION_SUBTYPE.INTRINSIC,

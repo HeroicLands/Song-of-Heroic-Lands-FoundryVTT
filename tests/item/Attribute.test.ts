@@ -50,9 +50,26 @@ describe("AttributeLogic", () => {
             const logic = makeAttribute();
             expect(logic.actions.has("opposedTestStart")).toBe(true);
         });
+
+        it("declares the successTest intrinsic action", () => {
+            const logic = makeAttribute();
+            expect(logic.actions.has("successTest")).toBe(true);
+        });
     });
 
     describe("intrinsic executors", () => {
+        it("successTest - delegates to masteryLevel.successTest", async () => {
+            const logic = makeAttribute();
+            logic.initialize();
+            const result = { isSuccess: true } as any;
+            const spy = vi
+                .spyOn(logic.masteryLevel, "successTest")
+                .mockResolvedValue(result);
+            const ctx = { scope: {} } as any;
+            await expect(logic.successTest(ctx)).resolves.toBe(result);
+            expect(spy).toHaveBeenCalledWith(ctx);
+        });
+
         it("opposedTestStart - delegates to the actor's token logic with this attribute's uuid in scope", async () => {
             const result = { isOpposed: true } as any;
             const opposedTestStart = vi.fn().mockResolvedValue(result);
