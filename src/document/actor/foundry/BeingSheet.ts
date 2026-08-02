@@ -41,6 +41,7 @@ import {
     AfflictionSubTypeChoices,
     TraumaSubTypes,
     TraumaSubTypeChoices,
+    TRAUMA_SUBTYPE,
     BodyRoleChoices,
 } from "@src/utils/constants";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
@@ -2433,6 +2434,37 @@ html, body { margin: 0; padding: 0; background: #fff; }
      * @param _options - The render options (unused).
      * @returns The augmented render context.
      */
+    /**
+     * Format a trauma's next recovery/heal/course test world time as a compact
+     * relative label ("in 5 days") for the Trauma tab, or an em-dash when no
+     * test is scheduled (#939). The schedule is the source of truth — nothing is
+     * auto-armed (consent model, #579).
+     *
+     * @param at - The next-test world time (seconds), or `undefined`.
+     * @returns A relative date label, or `"—"`.
+     */
+    private formatTraumaNextTest(at: number | undefined): string {
+        const cal = sohl.calendar;
+        if (at == null || !Number.isFinite(at) || !cal) return "—";
+        // fvtt-types omits the named-formatter (+ options) overload of
+        // CalendarData.format; call it the way `displayWorldTime` does at runtime.
+        const format = cal.format as (
+            time: number,
+            formatter: string,
+            opts?: { short?: boolean; maxTerms?: number },
+        ) => string;
+        try {
+            return (
+                format.call(cal, at, "sohl.relative", {
+                    short: true,
+                    maxTerms: 2,
+                }) || "—"
+            );
+        } catch {
+            return "—";
+        }
+    }
+
     protected async _prepareTraumaContext(
         context: RenderContext,
         _options: RenderOptions,
@@ -2447,6 +2479,16 @@ html, body { margin: 0; padding: 0; background: #fff; }
             (actor.itemTypes[ITEM_KIND.TRAUMA] ?? []).map((item) => {
                 const tl = item.logic as any;
                 const sys = item.system as any;
+                // The "Category" column shows the localized sub-category for
+                // FATIGUE / PSYCOND / PHYSCOND, but for FEAR / MORALE it shows
+                // the named severity level (Afraid, Routed, …) (#939).
+                const categoryDisplay =
+                    (
+                        sys.subType === TRAUMA_SUBTYPE.FEAR ||
+                        sys.subType === TRAUMA_SUBTYPE.MORALE
+                    ) ?
+                        (tl?.levelLabel ?? "")
+                    :   (tl?.categoryLabel ?? "");
                 return {
                     id: item.id!,
                     uuid: item.uuid,
@@ -2462,6 +2504,8 @@ html, body { margin: 0; padding: 0; background: #fff; }
                     isBleeding: !!tl?.isBleeding,
                     aspect: sys.aspect,
                     area: tl?.bodyLocation?.name,
+                    categoryDisplay,
+                    nextTest: this.formatTraumaNextTest(tl?.nextRecoveryTestAt),
                     notes: sys.notes,
                 };
             }),

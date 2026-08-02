@@ -56,7 +56,11 @@ import {
 } from "@src/document/actor/logic/pall";
 import { BLOOD_STOPPAGE_NEXT_BONUS } from "@src/entity/body/blood-stoppage";
 import { elapsedCheckpoints } from "@src/entity/event/scheduling";
-import { armScheduledActions } from "@src/entity/event/scheduled-actions";
+import {
+    armScheduledActions,
+    isTimeTrigger,
+    scheduledFireAt,
+} from "@src/entity/event/scheduled-actions";
 import { offerSchedule } from "@src/document/item/logic/offer-schedule";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -80,6 +84,8 @@ import {
     isFatigueCategory,
     isFearLevel,
     isMoraleLevel,
+    isTraumaPhyscondCategory,
+    isTraumaPsycondCategory,
     ITEM_KIND,
     MARGINAL_SUCCESS,
     MORALE_LEVEL,
@@ -87,6 +93,10 @@ import {
     SKILL_CODE,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    TRAUMA_PHYSCOND_CATEGORY,
+    TRAUMA_PSYCOND_CATEGORY,
+    TraumaPhyscondCategoryLabels,
+    TraumaPsycondCategoryLabels,
     TRAUMA_SUBTYPE,
     TraumaSubType,
 } from "@src/utils/constants";
@@ -121,6 +131,40 @@ const FATIGUE_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
         FatigueCategoryLabels[k as keyof typeof FatigueCategoryLabels],
     ]),
 );
+
+const PSYCOND_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
+    Object.entries(TRAUMA_PSYCOND_CATEGORY).map(([k, v]) => [
+        v as string,
+        TraumaPsycondCategoryLabels[
+            k as keyof typeof TraumaPsycondCategoryLabels
+        ],
+    ]),
+);
+
+const PHYSCOND_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
+    Object.entries(TRAUMA_PHYSCOND_CATEGORY).map(([k, v]) => [
+        v as string,
+        TraumaPhyscondCategoryLabels[
+            k as keyof typeof TraumaPhyscondCategoryLabels
+        ],
+    ]),
+);
+
+/**
+ * The recurring-schedule action whose next fire time is the "next recovery
+ * test" date for a given trauma sub-type, or `undefined` for sub-types that
+ * have no recurring recovery/heal/course check. Drives
+ * {@link TraumaLogic.nextRecoveryTestAt}.
+ */
+const RECOVERY_ACTION_BY_SUBTYPE: Record<string, string> = {
+    [TRAUMA_SUBTYPE.INJURY]: "healingCheck",
+    [TRAUMA_SUBTYPE.INFECTION]: "healingCheck",
+    [TRAUMA_SUBTYPE.SHOCK]: "courseCheck",
+    [TRAUMA_SUBTYPE.COMA]: "courseCheck",
+    [TRAUMA_SUBTYPE.PALL]: "pallRecovery",
+    [TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION]: "psycheRecovery",
+    [TRAUMA_SUBTYPE.AURALSHOCK]: "auralShockRecovery",
+};
 
 /**
  * An instance of harm to a character.
@@ -911,10 +955,12 @@ export class TraumaLogic<
     /**
      * Localized qualitative label for the current sub-category.
      *
-     * For the `FATIGUE` subtype the {@link TraumaData.category | category} field
-     * is expected to be one of `FATIGUE_CATEGORY`.
-     * Other subtypes return the raw category string (or an empty string if
-     * unset).
+     * The {@link TraumaData.category | category} field is a sub-type-specific
+     * enum: `FATIGUE_CATEGORY` for `FATIGUE`, `TRAUMA_PSYCOND_CATEGORY` for
+     * `PSYCHOLOGICAL_CONDITION`, `TRAUMA_PHYSCOND_CATEGORY` for
+     * `PHYSICAL_CONDITION` — each mapped to its localized label. Other subtypes
+     * (or an unrecognized value) return the raw category string, or an empty
+     * string when unset.
      */
     get categoryLabel(): string {
         const cat = this.data.category;
@@ -925,7 +971,41 @@ export class TraumaLogic<
         ) {
             return sohl.i18n.localize(FATIGUE_LABEL_BY_CATEGORY[cat]);
         }
+        if (
+            this.data.subType === TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION &&
+            isTraumaPsycondCategory(cat)
+        ) {
+            return sohl.i18n.localize(PSYCOND_LABEL_BY_CATEGORY[cat]);
+        }
+        if (
+            this.data.subType === TRAUMA_SUBTYPE.PHYSICAL_CONDITION &&
+            isTraumaPhyscondCategory(cat)
+        ) {
+            return sohl.i18n.localize(PHYSCOND_LABEL_BY_CATEGORY[cat]);
+        }
         return cat;
+    }
+
+    /**
+     * The world time (in seconds) of this trauma's next scheduled recovery /
+     * heal / course test, or `undefined` when none is scheduled.
+     *
+     * This is a **view-only** derivation for the sheets — it reads the recurring
+     * `ScheduledAction` the sub-type's recovery check runs on (mapped by
+     * `RECOVERY_ACTION_BY_SUBTYPE`) from the generic `system.scheduledActions`
+     * store and returns its `anchor + interval`. The
+     * store is the source of truth: nothing is auto-armed (consent model,
+     * issue #579), so an unscheduled trauma — or one whose only matching entry is
+     * event-driven rather than time-based — reports `undefined`, which the sheets
+     * render as an em-dash.
+     */
+    get nextRecoveryTestAt(): number | undefined {
+        const actionName = RECOVERY_ACTION_BY_SUBTYPE[this.data.subType];
+        if (!actionName) return undefined;
+        const entry = this.data.scheduledActions?.find(
+            (e) => e.actionName === actionName && isTimeTrigger(e.triggerName),
+        );
+        return entry ? scheduledFireAt(entry) : undefined;
     }
 
     /* --------------------------------------------- */

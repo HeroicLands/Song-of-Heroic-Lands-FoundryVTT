@@ -12,17 +12,17 @@
  */
 
 /**
- * Being Trauma tab — Traumas (injuries) section (#308): lists trauma items with
- * Sev / HR / Aspect / Area / Bld / Notes, a custom-create control
- * (data-type=trauma), and a per-row context menu. (Created / Next-Healing timers
- * are deferred — they depend on the #73 healing-test mechanic.)
+ * Being Trauma tab — Traumas (injuries) section (#308, #939): an Injury sub-type
+ * lists Sev / HR / Area / Next Heal Test (Aspect and Bleeding moved to the item
+ * sheet in #939), with a custom-create control (data-type=trauma) and a per-row
+ * context menu.
  */
 describe("Being Trauma tab: Traumas section (#308)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
     Cypress.on("uncaught:exception", () => false);
 
-    it("lists a trauma with severity, healing rate, aspect, and area", () => {
+    it("lists an injury with severity, healing rate, and area (#939)", () => {
         cy.importActor().then((actor) => {
             // A real body-location code from the body, so Area resolves.
             cy.foundry((win) => {
@@ -49,11 +49,52 @@ describe("Being Trauma tab: Traumas section (#308)", () => {
                     .within(() => {
                         cy.contains(".ledger__cell", "S2"); // severity band
                         cy.contains(".ledger__cell", "NT6"); // not-treated + HR
-                        cy.contains(".ledger__cell", "Blunt"); // localized aspect
                         cy.contains(".ledger__cell", loc.name); // area
-                        cy.contains(".ledger__cell", "No"); // not bleeding
                     });
+                // The Injury column header no longer carries Aspect or Bleeding.
+                cy.get('section.tab[data-tab="trauma"] .ledger__head').within(
+                    () => {
+                        cy.contains("Sev");
+                        cy.contains("Area");
+                        cy.contains("Aspect").should("not.exist");
+                        cy.contains("Bld").should("not.exist");
+                    },
+                );
             });
+        });
+    });
+
+    it("renders a Fatigue sub-type with its own columns (Category / FL / Notes) (#939)", () => {
+        cy.importActor().then((actor) => {
+            cy.createItemOn(actor, "trauma", {
+                name: "Winded",
+                system: {
+                    subType: "fatigue",
+                    category: "weariness",
+                    levelBase: 3,
+                    notes: "short of breath",
+                },
+            });
+            cy.prepare(actor);
+            cy.openSheet(actor);
+            cy.switchTab("trauma");
+            // Scope to the Fatigue ledger (the one holding "Winded"); Basic Folk
+            // may carry other sub-types whose ledgers have different headers.
+            cy.get('section.tab[data-tab="trauma"]')
+                .contains(".ledger", "Winded")
+                .within(() => {
+                    // Fatigue columns: Category / FL / Notes — not Sev / Area.
+                    cy.get(".ledger__head").within(() => {
+                        cy.contains("Category");
+                        cy.contains("FL");
+                        cy.contains("Notes");
+                        cy.contains("Sev").should("not.exist");
+                        cy.contains("Area").should("not.exist");
+                    });
+                    cy.contains(".ledger__cell", "Weariness"); // localized category
+                    cy.contains(".ledger__cell", "3"); // FL = level modifier
+                    cy.contains(".ledger__notes", "short of breath");
+                });
         });
     });
 

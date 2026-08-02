@@ -14,26 +14,57 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     {{!-- Sub-type is fixed at creation and is presented read-only in the sheet
           header (via the localized typeLabel), so it has no editable control
-          here (#926). --}}
+          here (#926). Each sub-type edits only its relevant fields (#939). --}}
     <div class="field-grid field-grid--3col">
+        {{#if showLevel}}
         {{formGroup fields.levelBase rootId="trauma-level" classes="text-field" stacked=true value=system.levelBase}}
+        {{/if}}
+        {{#if showHealingRate}}
         {{formGroup fields.healingRateBase rootId="trauma-hr" classes="text-field" stacked=true value=system.healingRateBase}}
+        {{/if}}
+        {{#if showCategory}}
+        <div class="form-group stacked">
+            <label>{{localize "SOHL.Trauma.FIELDS.category.label"}}</label>
+            <select name="system.category">
+                {{selectOptions categoryChoices selected=system.category localize=true blank=""}}
+            </select>
+        </div>
+        {{/if}}
+    </div>
+
+    {{!-- Contracted (all sub-types) + Treated (injury / infection). --}}
+    <div class="field-grid field-grid--3col">
+        <div class="form-group stacked">
+            <label>{{localize "SOHL.Trauma.FIELDS.contractDate.label"}}</label>
+            {{datePicker system.contractDate name="system.contractDate"}}
+        </div>
+        {{#if showTreatmentDate}}
         <div class="form-group stacked">
             <label>{{localize "SOHL.Trauma.FIELDS.treatmentDate.label"}}</label>
             {{datePicker system.treatmentDate name="system.treatmentDate"}}
         </div>
+        {{/if}}
     </div>
 
-    {{!-- The physical-harm sub-type is "injury" (TRAUMA_SUBTYPE.INJURY); there
-          is no "physical" value. Aspect / body location / blood loss are
-          injury-specific, so the Physical fieldset is gated on that sub-type
-          (#927). --}}
-    {{#if (eq system.subType "injury")}}
+    {{#if showNotes}}
+    <div class="form-group stacked">
+        <label>{{localize "SOHL.Item.FIELDS.notes.label"}}</label>
+        <input type="text" name="system.notes" value="{{system.notes}}" />
+    </div>
+    {{/if}}
+
+    {{!-- Physical details: aspect / body location / blood-loss interval. Body
+          location is shown for injury and infection; aspect and blood loss are
+          injury-only (#927, #939). --}}
+    {{#if showBodyLocation}}
     <fieldset>
         <legend>Physical</legend>
         <div class="field-grid field-grid--3col">
+            {{#if showAspect}}
             {{formGroup fields.aspect rootId="trauma-aspect" classes="text-field" stacked=true value=system.aspect}}
+            {{/if}}
             {{formGroup fields.bodyLocationCode rootId="trauma-bodyloc" classes="text-field" stacked=true value=system.bodyLocationCode}}
+            {{#if showBloodLoss}}
             {{!-- Bleeding is derived (#482): a wound bleeds while its blood-loss
                   timer is armed. Set an interval (seconds) to make it bleed; clear
                   it to stop. --}}
@@ -41,7 +72,46 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <label>{{localize "SOHL.Trauma.FIELDS.bloodLossAdvanceDurationBase.label"}}</label>
                 {{clearableNumberInput fields.bloodLossAdvanceDurationBase name="system.bloodLossAdvanceDurationBase" value=system.bloodLossAdvanceDurationBase}}
             </div>
+            {{/if}}
+        </div>
+        {{#if showInjuryFlags}}
+        <div class="field-grid field-grid--3col">
+            {{formGroup fields.infectable rootId="trauma-infectable" stacked=true value=system.infectable}}
+            {{formGroup fields.permanentImpairmentEligible rootId="trauma-permimpair" stacked=true value=system.permanentImpairmentEligible}}
+        </div>
+        {{/if}}
+    </fieldset>
+    {{/if}}
+
+    {{!-- Recurring test cadence: the author-editable interval formula + last
+          rolled base, and the computed (view-only) next test date (#939). --}}
+    {{#if showHealDuration}}
+    <fieldset>
+        <legend>Healing Check</legend>
+        <div class="field-grid field-grid--3col">
+            {{formGroup fields.healingCheckDurationFormula rootId="trauma-healformula" classes="text-field" stacked=true value=system.healingCheckDurationFormula}}
+            {{formGroup fields.healingCheckDurationBase rootId="trauma-healbase" classes="text-field" stacked=true value=system.healingCheckDurationBase}}
         </div>
     </fieldset>
+    {{/if}}
+
+    {{#if showCourseDuration}}
+    <fieldset>
+        <legend>Course Check</legend>
+        <div class="field-grid field-grid--3col">
+            {{formGroup fields.courseDurationFormula rootId="trauma-courseformula" classes="text-field" stacked=true value=system.courseDurationFormula}}
+            {{formGroup fields.courseDurationBase rootId="trauma-coursebase" classes="text-field" stacked=true value=system.courseDurationBase}}
+        </div>
+    </fieldset>
+    {{/if}}
+
+    {{!-- View-only next recovery/heal/course test — derived from the schedule
+          (nothing is auto-armed; consent model #579). Shown for every sub-type
+          that has a recurring test (#939). --}}
+    {{#if nextTestLabelKey}}
+    <div class="form-group stacked">
+        <label>{{localize nextTestLabelKey}}</label>
+        <span class="readonly-value" data-trauma-next-test>{{nextTestDisplay}}</span>
+    </div>
     {{/if}}
 </section>

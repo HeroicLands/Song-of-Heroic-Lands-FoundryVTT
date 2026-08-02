@@ -13,6 +13,10 @@
 
 import { describe, it, expect } from "vitest";
 import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
+import {
+    TRAUMA_SUBTYPE_COLUMNS,
+    traumaLedgerCols,
+} from "@src/document/actor/logic/being-sheet-view";
 
 const MYSTERIES = "systems/sohl/templates/actor/being/mysteries.hbs";
 const PROFILE = "systems/sohl/templates/actor/being/profile.hbs";
@@ -263,12 +267,15 @@ describe("trauma.hbs value tooltips (#769)", () => {
             {
                 subType: "injury",
                 label: "Injury",
+                columns: TRAUMA_SUBTYPE_COLUMNS["injury"],
+                ledgerCols: traumaLedgerCols(TRAUMA_SUBTYPE_COLUMNS["injury"]),
                 injuries: [
                     {
                         id: "t1",
                         name: "Gash",
                         img: "icons/t.svg",
                         healed: false,
+                        level: 2,
                         severity: "S2",
                         severityDeltaLabel: "Base +2",
                         healingRate: 6,
@@ -278,6 +285,8 @@ describe("trauma.hbs value tooltips (#769)", () => {
                         isBleeding: false,
                         aspect: "Edged",
                         area: "Torso",
+                        categoryDisplay: "",
+                        nextTest: "—",
                         notes: "",
                     },
                 ],
