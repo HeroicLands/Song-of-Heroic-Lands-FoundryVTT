@@ -125,7 +125,7 @@ describe("ValueModifier", () => {
         it("setting disabled=true sets a default reason", () => {
             const vm = createVM();
             vm.disabled = true;
-            expect(vm.disabled).toBe("SOHL.DELTAINFO.DISABLED");
+            expect(vm.disabled).toBe("SOHL.ValueDelta.INFO.Dsbl");
         });
 
         it("setting disabled=false clears the disabled state", () => {

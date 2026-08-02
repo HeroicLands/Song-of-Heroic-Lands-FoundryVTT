@@ -332,7 +332,7 @@ export class ValueModifier extends SohlEntity {
             this.disabledReason = reason;
         } else {
             if (!reason) this.disabledReason = "";
-            else this.disabledReason = "SOHL.DELTAINFO.DISABLED";
+            else this.disabledReason = "SOHL.ValueDelta.INFO.Dsbl";
         }
         this.dirty = true;
     }
