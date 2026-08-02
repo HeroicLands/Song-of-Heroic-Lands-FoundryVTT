@@ -15,6 +15,73 @@ section.highlight {
     color: var(--sohl-color-text-primary);
 }
 
+// Prose headings (#949) — give the editor's `h1`–`h6` an explicit Manuscript
+// scale instead of letting them inherit the `"editor"` body serif + Foundry's
+// default UA bold/sizing (which reads as a generic word-processor heading and
+// breaks the vellum identity). A split hierarchy models the page:
+//   • H1–H2 → the display face (Cinzel, `$font-title`), echoing the sheet's
+//     section rubrics so prose titles read as the *same book* as the chrome;
+//     H1 carries the rubrication-red ink as an illuminated top level.
+//   • H3–H6 → Cormorant Garamond semibold (`$font-body` @ 600) so subheads stay
+//     inside the running-text family and read as emphasis, not six competing
+//     inscriptions (Cinzel is caps-only and gets monumental at small sizes).
+// Colors come from `--sohl-color-*` tokens so headings follow the light/dark
+// swap. Body / blockquote / code-block styling is deliberately left untouched.
+// Scoped to `.editor-content` so it targets the rendered prose in both the
+// WYSIWYG editor and the read-only enriched view, never the toolbar.
+.editor-content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: var(--sohl-color-text-primary);
+        line-height: 1.15;
+        margin: 0.9em 0 0.35em;
+    }
+
+    h1,
+    h2 {
+        font-family: typography.$font-title;
+        font-weight: 700;
+    }
+
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: typography.$font-body;
+        font-weight: 600;
+    }
+
+    h1 {
+        font-size: 1.9em;
+        color: var(--sohl-color-accent);
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    h3 {
+        font-size: 1.3em;
+    }
+
+    h4 {
+        font-size: 1.15em;
+    }
+
+    h5 {
+        font-size: 1.05em;
+    }
+
+    h6 {
+        font-size: 1em;
+        color: var(--sohl-color-text-secondary);
+    }
+}
+
 // ProseMirror renders the editable body as `.editor-content.ProseMirror` inside
 // the `<prose-mirror>` element; pin its color to the token too so typed text is
 // legible in both themes.
