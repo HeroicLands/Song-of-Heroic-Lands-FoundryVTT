@@ -28,23 +28,23 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <div class="sohl chat-card item-card" data-actor-id="{{actorId}}">
     <header class="card-header">
         <h3 class="title">{{title}}</h3>
-        <h4 class="subtitle">{{attackerName}} vs. {{defenderName}}</h4>
+        <h4 class="subtitle">{{localize "SOHL.Chat.Attack.subtitle" attacker=attackerName defender=defenderName}}</h4>
     </header>
 
     <div class="grid grid-2col">
         <div class="card-content">
-            <span class="label">Aim:</span>
+            <span class="label">{{localize "SOHL.Chat.Attack.aim"}}:</span>
             <span class="value">{{aimLabel}}</span>
         </div>
 
         <div class="card-content">
-            <span class="label">Aspect:</span>
-            <span class="value">{{aspect}}</span>
+            <span class="label">{{localize "SOHL.ImpactModifier.Aspect.label"}}:</span>
+            <span class="value">{{#if aspect}}{{localize (concat "SOHL.ImpactModifier.Aspect." aspect)}}{{/if}}</span>
         </div>
     </div>
 
     <div class="card-content center">
-        <span class="label">AML:</span>
+        <span class="label">{{localize "SOHL.Chat.Attack.aml"}}:</span>
         <span class="value">{{aml}}</span>
     </div>
 </div>

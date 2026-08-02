@@ -34,7 +34,9 @@ describe("treatment cards (TraumaLogic.requestTreatment / performTreatmentTest)"
         expect(html).toContain("Treatment Requested");
         expect(html).toContain("Aldric");
         expect(html).toContain("gash on the thorax");
-        expect(html).toContain("edged");
+        // Aspect renders the localized label, not the bare enum value (#951).
+        expect(html).toContain("Edged");
+        expect(html).not.toContain(">edged<");
     });
 
     it("treatment-result-card shows the physician + a numeric Healing Rate", () => {
@@ -485,5 +487,113 @@ describe("harness fidelity notes", () => {
         registerTestHbsHelpers();
         const tpl = Handlebars.compile(`{{localize "SOHL.Clear"}}`);
         expect(tpl({})).not.toBe("");
+    });
+
+    it("localize performs {placeholder} format substitution from the options hash", () => {
+        registerTestHbsHelpers();
+        const tpl = Handlebars.compile(
+            `{{localize "SOHL.Chat.Attack.subtitle" attacker="Aldric" defender="Bandit"}}`,
+        );
+        expect(tpl({})).toBe("Aldric vs. Bandit");
+    });
+});
+
+const ITEM = "systems/sohl/templates/item";
+
+describe("displayed enum values + labels are localized (#951)", () => {
+    it("attack-card localizes the aspect value, the Aim/AML labels, and the subtitle", () => {
+        const html = renderTemplateReal(`${CHAT}/attack-card.hbs`, {
+            actorId: "a1",
+            title: "Broadsword Swing",
+            attackerName: "Aldric",
+            defenderName: "Bandit",
+            aimLabel: "High",
+            aspect: "edged",
+            aml: 75,
+        });
+        // Localized field labels + interpolated subtitle, not hardcoded English.
+        expect(html).toContain("Aim:");
+        expect(html).toContain("Aspect:");
+        expect(html).toContain("AML:");
+        expect(html).toContain("Aldric vs. Bandit");
+        // Aspect enum value renders its localized label.
+        expect(html).toContain(">Edged<");
+        expect(html).not.toContain(">edged<");
+    });
+
+    it("damage-card localizes aspect + the calculate-injury button", () => {
+        const html = renderTemplateReal(`${CHAT}/damage-card.hbs`, {
+            actorId: "a1",
+            title: "Dagger Damage",
+            impactLabel: "1d6+2",
+            rollResult: "5",
+            impact: 7,
+            aspect: "piercing",
+            hasTarget: true,
+            targetName: "Bandit",
+        });
+        expect(html).toContain("Formula:");
+        expect(html).toContain("Roll:");
+        expect(html).toContain(">Piercing<");
+        expect(html).toContain("Calculate Bandit Injury");
+    });
+
+    it("missile-damage-card localizes aspect and its impact labels", () => {
+        const html = renderTemplateReal(`${CHAT}/missile-damage-card.hbs`, {
+            actorId: "a1",
+            title: "Arrow Damage",
+            damageDice: 2,
+            aspect: "blunt",
+            range: "Medium",
+            rangeImpact: 3,
+            addlImpact: 0,
+            rollValue: 4,
+            totalImpact: 7,
+        });
+        expect(html).toContain("Num. Damage Dice:");
+        expect(html).toContain(">Blunt<");
+        expect(html).toContain("Range (+ Impact):");
+    });
+
+    it("action ledger localizes the Group column value + header (concat over the SortGroup enum)", () => {
+        const html = renderTemplateReal(`${ITEM}/parts/actions.hbs`, {
+            tab: { active: true, group: "primary" },
+            customActions: [
+                {
+                    data: {
+                        title: "Custom Strike",
+                        shortcode: "cstrk",
+                        img: "icons/x.svg",
+                        group: "general",
+                    },
+                },
+            ],
+            intrinsicActions: [],
+        });
+        // Column headers are localized.
+        expect(html).toContain(">Group<");
+        expect(html).toContain(">Action<");
+        expect(html).toContain(">Custom Actions<");
+        // The stored sort-group value renders its localized label, not "general".
+        expect(html).toContain(">General<");
+        expect(html).not.toContain(">general<");
+        // Interpolated run tooltip.
+        expect(html).toContain('data-tooltip="Run Custom Strike"');
+    });
+
+    it("treatment-test-dialog localizes the aspect <option> labels", () => {
+        const html = renderTemplateReal(`${DIALOG}/treatment-test-dialog.hbs`, {
+            aspectChoices: {
+                blunt: "SOHL.ImpactModifier.Aspect.blunt",
+                edged: "SOHL.ImpactModifier.Aspect.edged",
+                piercing: "SOHL.ImpactModifier.Aspect.piercing",
+            },
+        });
+        expect(html).toContain("Severity:");
+        expect(html).toContain("Aspect:");
+        // Options show the localized labels, never the raw i18n key.
+        expect(html).toContain('<option value="edged">Edged</option>');
+        expect(html).toContain('<option value="blunt">Blunt</option>');
+        expect(html).not.toContain("SOHL.ImpactModifier.Aspect.edged");
     });
 });

@@ -36,28 +36,28 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{/if}}
 
     <div class="card-content">
-        <span class="label">Num. Damage Dice:</span>
+        <span class="label">{{localize "SOHL.Chat.MissileDamage.numDamageDice"}}:</span>
         <span class="value">{{damageDice}}</span>
     </div>
 
     <div class="card-content">
-        <span class="label">Aspect:</span>
-        <span class="value">{{aspect}}</span>
+        <span class="label">{{localize "SOHL.ImpactModifier.Aspect.label"}}:</span>
+        <span class="value">{{#if aspect}}{{localize (concat "SOHL.ImpactModifier.Aspect." aspect)}}{{/if}}</span>
     </div>
 
     <div class="card-content">
-        <span class="label">Range (&plus; Impact):</span>
+        <span class="label">{{localize "SOHL.Chat.MissileDamage.rangeImpact"}}:</span>
         <span class="value">{{range}} ({{rangeImpact}})</span>
     </div>
 
     {{#if (ne addlImpact 0)}}
     <div class="card-content">
-        <span class="label">Additional Damage:</span>
+        <span class="label">{{localize "SOHL.Chat.MissileDamage.additionalDamage"}}:</span>
         <span class="value">{{addlImpact}}</span>
     </div>
 
     <div class="card-content">
-        <span class="label">Impact (Range + Addl + Roll):</span>
+        <span class="label">{{localize "SOHL.Chat.MissileDamage.impactRangeAddlRoll"}}:</span>
         <span class="value"
             >{{rangeImpact}} + {{addlImpact}} + {{rollValue}} =
             <strong>{{totalImpact}}</strong></span
@@ -65,7 +65,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
     {{else}}
     <div class="card-content">
-        <span class="label">Impact (Range + Roll):</span>
+        <span class="label">{{localize "SOHL.Chat.MissileDamage.impactRangeRoll"}}:</span>
         <span class="value"
             >{{rangeImpact}} + {{rollValue}} =
             <strong>{{totalImpact}}</strong></span

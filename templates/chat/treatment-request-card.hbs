@@ -19,20 +19,20 @@ has the Physician skill. Body only — no buttons here.
 --}}
 <div class="sohl chat-card">
     <header class="card-header flexrow">
-        <h3 class="title">Treatment Requested</h3>
+        <h3 class="title">{{localize "SOHL.Chat.TreatmentRequest.title"}}</h3>
     </header>
 
     <div class="card-content center">
-        <span>{{patientName}} asks a physician to treat {{woundName}}.</span>
+        <span>{{localize "SOHL.Chat.TreatmentRequest.asks" patient=patientName wound=woundName}}</span>
     </div>
 
     <div class="grid grid-2col flex-center">
         <div class="card-content flexrow">
-            <span class="label">Aspect:</span>
-            <span class="value">{{aspect}}</span>
+            <span class="label">{{localize "SOHL.ImpactModifier.Aspect.label"}}:</span>
+            <span class="value">{{#if aspect}}{{localize (concat "SOHL.ImpactModifier.Aspect." aspect)}}{{/if}}</span>
         </div>
         <div class="card-content flexrow">
-            <span class="label">Severity:</span>
+            <span class="label">{{localize "SOHL.Chat.Common.severity"}}:</span>
             <span class="value">{{severity}}</span>
         </div>
     </div>

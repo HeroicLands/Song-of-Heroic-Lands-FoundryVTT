@@ -50,14 +50,29 @@ function variadic(args: IArguments): unknown[] {
 }
 
 let LANG: Record<string, string> | undefined;
-/** Localize against the real `lang/en.json`, falling back to the key. */
-function localize(key: unknown): string {
+/**
+ * Localize against the real `lang/en.json`, falling back to the key — and, when
+ * called with a Handlebars options hash (`{{localize "KEY" foo=bar}}`), perform
+ * Foundry's `game.i18n.format` `{placeholder}` substitution so interpolated
+ * strings render as they do in production. Called with no hash it is a plain
+ * key lookup, matching `game.i18n.localize`.
+ */
+function localize(
+    key: unknown,
+    options?: { hash?: Record<string, unknown> },
+): string {
     if (!LANG)
         LANG = JSON.parse(
             readFileSync(resolve(process.cwd(), "lang/en.json"), "utf8"),
         );
     const k = String(key);
-    return LANG![k] ?? k;
+    let str = LANG![k] ?? k;
+    const data = options?.hash;
+    if (data && typeof data === "object") {
+        for (const [name, value] of Object.entries(data))
+            str = str.replaceAll(`{${name}}`, String(value));
+    }
+    return str;
 }
 
 /** A stub Foundry form-builder: emit a placeholder carrying the binding. */
