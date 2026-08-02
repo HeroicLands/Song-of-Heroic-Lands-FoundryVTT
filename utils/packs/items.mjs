@@ -45,6 +45,11 @@ import {
     buildStats,
     withArchetypeFlag,
 } from "./helpers.mjs";
+// Per-type default art lives in one framework-free module shared with the
+// runtime (`SohlItem.getDefaultArtwork`), so the two can't drift — see #932.
+// Imported by relative path because the pack scripts run under bare `node`,
+// outside the `@src` alias tree.
+import { defaultItemArt } from "../../src/utils/default-item-art.mjs";
 
 const STATS = buildStats("0.6.0");
 
@@ -65,46 +70,9 @@ const ITEM_TYPES = new Set([
     "weapongear",
 ]);
 
-// Default art per item type, applied when frontmatter supplies no `img`.
-// Every item type the builder handles must have an entry here; an unknown type
-// is a builder/`DEFAULT_IMG` mismatch and aborts the build (see `defaultImg`).
-const DEFAULT_IMG = {
-    affiliation: "systems/sohl/assets/icons/noun/shield.svg",
-    affliction: "systems/sohl/assets/icons/other/sick.svg",
-    armorgear: "systems/sohl/assets/icons/game-icons/lorc/breastplate.svg",
-    attribute: "systems/sohl/assets/icons/other/charm.svg",
-    concoctiongear: "systems/sohl/assets/icons/game-icons/badges/flask.svg",
-    containergear: "systems/sohl/assets/icons/other/sack.svg",
-    miscgear: "systems/sohl/assets/icons/other/question-mark.svg",
-    mystery: "systems/sohl/assets/icons/other/sparkles.svg",
-    mysticalability: "systems/sohl/assets/icons/other/hand-sparkles.svg",
-    projectilegear: "systems/sohl/assets/icons/noun/arrow.svg",
-    skill: "systems/sohl/assets/icons/other/head-gear.svg",
-    trait: "systems/sohl/assets/icons/other/user-gear.svg",
-    trauma: "systems/sohl/assets/icons/other/injury.svg",
-    weapongear: "systems/sohl/assets/icons/other/sword.svg",
-};
-
 const PERCEPTION_TEST =
     "(doc.type==='skill' && doc.logic.hasAttr('per'))" +
     "||(doc.type==='attribute' && doc.system.shortcode==='per')";
-
-/**
- * The default image for an item `type`. Throws (aborting the build) when the
- * type has no `DEFAULT_IMG` entry — a type the builder doesn't know is never
- * silently defaulted.
- *
- * @param {string} type - the item type.
- * @returns {string} the default image path for that type.
- */
-export function defaultImg(type) {
-    if (!(type in DEFAULT_IMG)) {
-        throw new Error(
-            `No DEFAULT_IMG entry for item type "${type}" — add one to utils/packs/items.mjs`,
-        );
-    }
-    return DEFAULT_IMG[type];
-}
 
 /**
  * Build the `system.*` fields shared by every item type:
@@ -475,7 +443,7 @@ export class Items {
         return {
             name,
             type,
-            img: resolveImg(fm.img) || defaultImg(type),
+            img: resolveImg(fm.img) || defaultItemArt(type),
             _id: id,
             system,
             effects,
