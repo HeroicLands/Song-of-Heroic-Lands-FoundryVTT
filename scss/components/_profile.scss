@@ -5,40 +5,52 @@
 //
 // Loaded under `.sohl { }` (components layer); selectors written bare.
 
-// Attribute cards — a responsive grid of compact, value-forward panels
-// (manuscript `.attrgrid` / `.attr`). The template puts `grid grid-6col` on the
-// container; this components-layer rule overrides the fixed 6-column layout with
-// an auto-filling track so the cards reflow to the sheet width.
+// Attribute cards — a grid of compact, value-forward panels (manuscript
+// `.attrgrid` / `.attr`). The template puts `grid grid-6col` on the container;
+// this components-layer rule pins the six-across layout with an even track so
+// the cards stay small and six fit on a row.
 .attribute-scores {
-    grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
-    gap: 0.6rem;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.5rem;
     margin: 0;
     padding: 0.4rem 0.95rem 0.6rem;
     grid-auto-rows: auto;
 
     .attribute-score {
+        position: relative;
         display: flex;
         flex-direction: column;
-        padding: 0.6rem 0.66rem;
+        align-items: center;
+        text-align: center;
+        padding: 0.5rem 0.45rem;
         background: var(--sohl-color-bg-surface);
         border: 1px solid var(--sohl-color-border-default);
         border-radius: var(--sohl-radius-lg);
 
-        // Name on the left, the ⋮ menu on the right (manuscript `.attr__nm`).
+        // Name centered; the ⋮ menu floats in the top-right corner so it never
+        // pulls the name off-center (manuscript `.attr__nm`).
         &__header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 0.3rem;
+            justify-content: center;
+            width: 100%;
+            // Reserve room at both edges so the centered name clears the
+            // corner ⋮ menu instead of sliding under it.
+            padding: 0 0.85rem;
+        }
+
+        .item-contextmenu {
+            position: absolute;
+            top: 0.2rem;
+            right: 0.25rem;
         }
 
         &__name {
-            flex: 1 1 auto;
             min-width: 0;
             margin: 0;
             font-family: var(--sohl-font-body);
             font-weight: 600;
-            font-size: 1.03rem;
+            font-size: 0.95rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -46,7 +58,7 @@
 
         &__value {
             font-family: var(--sohl-font-mono);
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 700;
             line-height: 1.1;
             cursor: help;

@@ -115,6 +115,32 @@ describe("being sheet", () => {
         });
     });
 
+    // #922 — the Profile → Attributes score cards render six across (a pinned
+    // six-column grid, not the old auto-fill track) and center their contents.
+    // Assert the computed column count and that a card's score value is centered.
+    it("renders attribute cards six across, contents centered (#922)", () => {
+        cy.importActor().then((actor) => {
+            cy.openSheet(actor);
+            cy.switchTab("profile", "primary");
+            cy.get('section.tab[data-tab="profile"] .attribute-scores').should(
+                ($grid) => {
+                    const cols = getComputedStyle($grid[0])
+                        .gridTemplateColumns.trim()
+                        .split(/\s+/)
+                        .filter(Boolean);
+                    expect(cols, "attribute grid column count").to.have.length(
+                        6,
+                    );
+                },
+            );
+            cy.get('section.tab[data-tab="profile"] .attribute-score__value')
+                .first()
+                .should(($el) => {
+                    expect(getComputedStyle($el[0]).textAlign).to.eq("center");
+                });
+        });
+    });
+
     it("edits the actor name and persists it", () => {
         cy.importActor().then((actor) => {
             // The redesigned header edits name + shortcode together through the
