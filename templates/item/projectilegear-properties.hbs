@@ -13,7 +13,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <fieldset>
-        <legend>Gear</legend>
+        <legend>{{localize "SOHL.ProjectileGear.SECTION.gear"}}</legend>
         <div class="field-grid field-grid--3col">
             {{formGroup fields.quantity rootId="projgear-quant" classes="text-field" stacked=true value=system.quantity}}
             {{formGroup fields.weightBase rootId="projgear-wt" classes="text-field" stacked=true value=system.weightBase}}
@@ -29,12 +29,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
 
     <fieldset>
-        <legend>Impact</legend>
+        <legend>{{localize "SOHL.ProjectileGear.FIELDS.impactBase.label"}}</legend>
         <div class="field-grid field-grid--4col">
             {{formGroup fields.impactBase.fields.numDice rootId="projgear-imp-numdice" classes="text-field" stacked=true value=system.impactBase.numDice}}
             {{formGroup fields.impactBase.fields.die rootId="projgear-imp-die" classes="text-field" stacked=true value=system.impactBase.die}}
             {{formGroup fields.impactBase.fields.modifier rootId="projgear-imp-mod" classes="text-field" stacked=true value=system.impactBase.modifier}}
-            {{formGroup fields.impactBase.fields.aspect rootId="projgear-imp-asp" classes="text-field" stacked=true value=system.impactBase.aspect}}
+            {{formGroup fields.impactBase.fields.aspect rootId="projgear-imp-asp" classes="text-field" stacked=true localize=true value=system.impactBase.aspect}}
         </div>
     </fieldset>
 </section>

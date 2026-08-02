@@ -26,54 +26,53 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <div class="sohl chat-card">
     <header class="card-header flexrow">
-        <h3 class="title">Treatment Result</h3>
+        <h3 class="title">{{localize "SOHL.Chat.TreatmentResult.title"}}</h3>
     </header>
 
     {{#if physicianName}}
     <div class="card-content center">
-        <span>{{physicianName}} performed the treatment test.</span>
+        <span>{{localize "SOHL.Chat.TreatmentResult.performed" physician=physicianName}}</span>
     </div>
     {{/if}}
 
     <div class="grid grid-2col flex-center">
         <div class="card-content flexrow">
-            <span class="label">Aspect:</span>
-            <span class="value">{{aspect}}</span>
+            <span class="label">{{localize "SOHL.ImpactModifier.Aspect.label"}}:</span>
+            <span class="value">{{#if aspect}}{{localize (concat "SOHL.ImpactModifier.Aspect." aspect)}}{{/if}}</span>
         </div>
 
         <div class="card-content flexrow">
-            <span class="label">Severity:</span>
+            <span class="label">{{localize "SOHL.Chat.Common.severity"}}:</span>
             <span class="value">{{severity}}</span>
         </div>
     </div>
 
     <div class="card-content center">
-        <span class="label">Treatment:</span>
+        <span class="label">{{localize "SOHL.Chat.TreatmentResult.treatment"}}:</span>
         <span class="value">{{treatment}}</span>
     </div>
 
     <div class="card-content center">
-        <span class="label">Heal Rate:</span>
-        <span class="value">{{#if (lt hr 0)}}Healed{{else}}H{{hr}}{{/if}}</span>
+        <span class="label">{{localize "SOHL.Chat.TreatmentResult.healRate"}}:</span>
+        <span class="value">{{#if (lt hr 0)}}{{localize "SOHL.Chat.TreatmentResult.healed"}}{{else}}H{{hr}}{{/if}}</span>
     </div>
 
     {{#if infect}}
     <div class="card-content center">
-        <span>NOTE: Infection risk.</span>
+        <span>{{localize "SOHL.Chat.TreatmentResult.infectionRisk"}}</span>
     </div>
     {{/if}} {{#if impair}}
     <div class="card-content center">
-        <span>NOTE: Permanent impairment risk.</span>
+        <span>{{localize "SOHL.Chat.TreatmentResult.impairmentRisk"}}</span>
     </div>
     {{/if}} {{#if bleed}}
     <div class="card-content center">
-        <span>Treatment results in a bleeder.</span>
+        <span>{{localize "SOHL.Chat.TreatmentResult.bleeder"}}</span>
     </div>
     {{/if}} {{#if (gt newInj 0)}}
     <div class="card-content center">
         <span
-            >Amputation results in a new {{newSev}}{{newInj}} edged
-            injury.</span
+            >{{localize "SOHL.Chat.TreatmentResult.amputationNewInjury" sev=newSev inj=newInj}}</span
         >
     </div>
     {{/if}}

@@ -25,14 +25,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="grid grid-2col">
         <div class="card-content center">
             <div class="flexrow">
-                <span class="label">Formula:</span>
+                <span class="label">{{localize "SOHL.Chat.Damage.formula"}}:</span>
                 <span class="value">{{impactLabel}}</span>
             </div>
         </div>
 
         <div class="card-content center">
             <div class="flexrow">
-                <span class="label">Roll:</span>
+                <span class="label">{{localize "SOHL.Chat.Damage.roll"}}:</span>
                 <span class="value"
                     >{{rollResult}} = <strong>{{impact}}</strong></span
                 >
@@ -42,8 +42,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     <div class="card-content center">
         <div class="flexrow">
-            <span class="label">Aspect:</span>
-            <span class="value">{{aspect}}</span>
+            <span class="label">{{localize "SOHL.ImpactModifier.Aspect.label"}}:</span>
+            <span class="value">{{#if aspect}}{{localize (concat "SOHL.ImpactModifier.Aspect." aspect)}}{{/if}}</span>
         </div>
     </div>
 
@@ -54,7 +54,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             data-handler-uuid="{{handlerUuid}}"
             data-source-actor-uuid="{{sourceActorUuid}}"
             data-scope="{{toJSON scopeData}}">
-            Calculate {{targetName}} Injury
+            {{localize "SOHL.Chat.Damage.calculateInjury" target=targetName}}
         </button>
     </div>
     {{/if}}

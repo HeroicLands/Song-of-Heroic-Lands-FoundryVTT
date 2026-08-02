@@ -27,7 +27,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <form class="{{cssClass}} flexcol" spellcheck="false" autocomplete="off">
     <header class="sheet-header">
         <img src="{{data.img}}" data-edit="img" title="{{data.name}}" height="64" width="64" />
-        <h1><input name="name" type="text" value="{{data.name}}"  placeholder="Name" /></h1>
+        <h1><input name="name" type="text" value="{{data.name}}"  placeholder="{{localize "SOHL.Dialog.MacroConfig.namePlaceholder"}}" /></h1>
     </header>
 
     <div class="grid grid-3col">
@@ -37,7 +37,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 {{selectOptions macroScopes selected=data.scope}}
             </select>
         </div>
-    
+
         <div class="form-group stacked">
             <label>{{ localize "Type" }}</label>
             <select name="type">
@@ -49,24 +49,24 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{#unless flags.sohl.isIntrinsicAction}}
         <div class="form-group">
             <input type="checkbox" name="flags.sohl.useAsync" {{checked data.useAsync}} data-dtype="Boolean" />
-            <label>Async</label>
+            <label>{{localize "SOHL.Dialog.MacroConfig.async"}}</label>
         </div>
         {{/unless}}
 
         {{#if flags.sohl.isIntrinsicAction}}
         <div class="form-group stacked">
-            <label data-tooltip="Name of Action to call on parent">Action Name</label>
+            <label data-tooltip="{{localize "SOHL.Dialog.MacroConfig.actionNameTip"}}">{{localize "SOHL.Actions.name.label"}}</label>
             {{textInput data.functionName name="flags.sohl.functionName"}}
         </div>
         {{/if}}
 
         <div class="form-group stacked">
-            <label data-tooltip="Icon CSS Class (e.g., &ldquo;fas fa-stars&rdquo;)">Icon Class</label>
+            <label data-tooltip="{{localize "SOHL.Dialog.MacroConfig.iconClassTip"}}">{{localize "SOHL.Dialog.MacroConfig.iconClass"}}</label>
             {{textInput flags.sohl.contextIconClass name="flags.sohl.contextIconClass"}}
         </div>
 
         <div class="form-group stacked">
-            <label>Group</label>
+            <label>{{localize "SOHL.ContextMenu.SortGroup.label"}}</label>
             <select name="flags.sohl.contextGroup">
                 {{selectOptions config.Helper.contextMenu.sortGroups selected=flags.sohl.contextGroup}}
             </select>
@@ -75,27 +75,27 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
 
     <div class="form-group">
-        <label>Notes</label>
+        <label>{{localize "SOHL.Item.FIELDS.notes.label"}}</label>
         <input class="notes" name="flags.sohl.notes" type="text" value="{{flags.sohl.notes}}" data-dtype="String" />
     </div>
 
     {{#if isAction}}
     <div class="form-group stacked condition">
-        <label>Condition Function</label>
+        <label>{{localize "SOHL.Dialog.MacroConfig.conditionFunction"}}</label>
         <textarea name="flags.sohl.contextCondition">{{flags.sohl.contextCondition}}</textarea>
     </div>
     {{/if}}
 
     {{#unless (and isAction flags.sohl.isIntrinsicAction)}}
     <div class="form-group stacked command">
-        <label>Command</label>
+        <label>{{localize "SOHL.Dialog.MacroConfig.command"}}</label>
         <textarea name="command">{{data.command}}</textarea>
     </div>
     {{/unless}}
 
 
     <footer class="sheet-footer flexrow">
-        <button type="submit"><i class="fa-solid fa-check"></i> Save</button>
-        <button class="execute" type="button"><i class="fa-solid fa-cogs"></i> Execute</button>
+        <button type="submit"><i class="fa-solid fa-check"></i> {{localize "SOHL.Dialog.MacroConfig.save"}}</button>
+        <button class="execute" type="button"><i class="fa-solid fa-cogs"></i> {{localize "SOHL.Dialog.MacroConfig.execute"}}</button>
     </footer>
 </form>

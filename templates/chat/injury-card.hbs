@@ -14,37 +14,38 @@ SPDX-License-Identifier: GPL-3.0-or-later
 {{#if isMiss}}
 <div class="sohl chat-card item-card" data-actor-id="{{actorId}}">
     <header class="card-header">
-        <h3 class="title">Missed</h3>
+        <h3 class="title">{{localize "SOHL.Chat.Injury.missed"}}</h3>
         <h4 class="subtitle">{{name}}</h4>
     </header>
 
     <div class="card-content center">
         <div class="flexrow">
-            <span class="label">Hit Location Roll:</span>
+            <span class="label">{{localize "SOHL.Chat.Injury.hitLocationRoll"}}:</span>
             <span class="value"
                 >ZN {{targetZoneNumber}} + {{zoneDieLabel}}
-                ({{zoneDieResult}}) = ZN {{hitZoneNumber}} &rarr; Missed</span
+                ({{zoneDieResult}}) = ZN {{hitZoneNumber}} &rarr;
+                {{localize "SOHL.Chat.Injury.missed"}}</span
             >
         </div>
     </div>
 
     <div class="card-content center">
         <span class="note success-text"
-            >The blow finds no target &mdash; no impact.</span
+            >{{localize "SOHL.Chat.Injury.noTarget"}}</span
         >
     </div>
 </div>
 {{else}}
 <div class="sohl chat-card item-card" data-actor-id="{{actorId}}">
     <header class="card-header">
-        <h3 class="title">{{bodyZoneName}} Injury</h3>
+        <h3 class="title">{{localize "SOHL.Chat.Injury.title" zone=bodyZoneName}}</h3>
         <h4 class="subtitle">{{name}}</h4>
     </header>
 
     {{#if locationDerived}}
     <div class="card-content center">
         <div class="flexrow">
-            <span class="label">Hit Location Roll:</span>
+            <span class="label">{{localize "SOHL.Chat.Injury.hitLocationRoll"}}:</span>
             <span class="value"
                 >ZN {{targetZoneNumber}} + {{zoneDieLabel}}
                 ({{zoneDieResult}}) = ZN
@@ -55,32 +56,31 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
     {{else if locationOverridden}}
     <div class="card-content center">
-        <span class="note failure-text">Location overridden by player</span>
+        <span class="note failure-text">{{localize "SOHL.Chat.Injury.locationOverridden"}}</span>
     </div>
     {{/if}}
 
     <div class="card-content center">
         <div class="flexrow">
-            <span class="label">Body Part:</span>
+            <span class="label">{{localize "SOHL.Chat.Injury.bodyPart"}}:</span>
             <span class="value">{{bodyPartName}}</span>
         </div>
     </div>
 
     <div class="card-content center">
         <div class="flexrow">
-            <span class="label">Aspect:</span>
-            <span class="value">{{aspect}}</span>
+            <span class="label">{{localize "SOHL.ImpactModifier.Aspect.label"}}:</span>
+            <span class="value">{{#if aspect}}{{localize (concat "SOHL.ImpactModifier.Aspect." aspect)}}{{/if}}</span>
         </div>
     </div>
 
     {{#if armorReduction}}
     <div class="card-content center">
         <div class="flexrow">
-            <span class="label">Armor Reduction:</span>
+            <span class="label">{{localize "SOHL.Chat.Injury.armorReduction"}}:</span>
             <span class="value">{{armorReduction}}</span>
             <span class="note"
-                >Armor value has been reduced by<br />Armor Reduction
-                value</span
+                >{{localize "SOHL.Chat.Injury.armorReductionNote"}}</span
             >
         </div>
     </div>
@@ -88,14 +88,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     <div class="card-content center">
         <div class="flexrow">
-            <span class="label">Armor Layers (prot):</span>
-            <span class="value">{{#if armorType}}{{armorType}}{{else}}None{{/if}} ({{armorValue}})</span>
+            <span class="label">{{localize "SOHL.Chat.Injury.armorLayers"}}:</span>
+            <span class="value">{{#if armorType}}{{armorType}}{{else}}{{localize "SOHL.Chat.Injury.none"}}{{/if}} ({{armorValue}})</span>
         </div>
     </div>
 
     <div class="card-content center">
         <div class="flexrow">
-            <span class="label">Impact:</span>
+            <span class="label">{{localize "SOHL.Chat.Injury.impact"}}:</span>
             <span class="value"><strong>{{impactVal}}</strong></span>
         </div>
     </div>
@@ -104,7 +104,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="card-content center">
         <div class="flexrow">
             <span class="note success-test"
-                >Rigid armor minimizes impact.<br />Glancing Blow!</span
+                >{{localize "SOHL.Chat.Injury.glancingBlow"}}</span
             >
         </div>
     </div>
@@ -113,14 +113,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{#unless isInjured}}
     <div class="card-content center">
         <div class="flexrow">
-            <span class="label">Injury Level:</span>
-            <span class="value success-text">No Injury</span>
+            <span class="label">{{localize "SOHL.Chat.Injury.injuryLevel"}}:</span>
+            <span class="value success-text">{{localize "SOHL.Chat.Injury.noInjury"}}</span>
         </div>
     </div>
     {{else}}
     <div class="card-content center">
         <div class="flexrow">
-            <span class="label">Injury Level:</span>
+            <span class="label">{{localize "SOHL.Chat.Injury.injuryLevel"}}:</span>
             <span class="value failure-text">{{injuryLevelText}}</span>
         </div>
     </div>
@@ -129,42 +129,42 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{#if needsShockRoll}}
     <div class="card-content center">
         <div class="flexrow">
-            <span class="label">Shock Index:</span>
+            <span class="label">{{localize "SOHL.Chat.Injury.shockIndex"}}:</span>
             <span class="value">{{shockIndex}}</span>
         </div>
         <div class="flexrow">
-            <span class="note failure-text">Make a Shock roll!</span>
+            <span class="note failure-text">{{localize "SOHL.Chat.Injury.makeShockRoll"}}</span>
         </div>
         {{#if shockRollBonus}}
         <div class="flexrow">
-            <span class="note">{{#if (gt shockRollBonus 0)}}+{{/if}}{{shockRollBonus}} Shock roll modifier.</span>
+            <span class="note">{{#if (gt shockRollBonus 0)}}+{{/if}}{{shockRollBonus}} {{localize "SOHL.Chat.Injury.shockRollModifier"}}</span>
         </div>
         {{/if}}
     </div>
     {{else}}
     <div class="card-content center">
         <div class="flexrow">
-            <span class="label">Shock Index:</span>
+            <span class="label">{{localize "SOHL.Chat.Injury.shockIndex"}}:</span>
             <span class="value">{{shockIndex}}</span>
         </div>
         <div class="flexrow">
-            <span class="note">Shock roll not needed</span>
+            <span class="note">{{localize "SOHL.Chat.Injury.shockNotNeeded"}}</span>
         </div>
     </div>
     {{/if}}
 
     {{#if isBleeder}}
     <div class="card-content center">
-        <span class="note failure-text">NOTE: Injury is a bleeder</span>
+        <span class="note failure-text">{{localize "SOHL.Chat.Injury.bleederNote"}}</span>
     </div>
     {{/if}}
 
     {{#unless (eq fumble "none")}}
     <div class="card-content center">
         {{#if (eq fumble "auto")}}
-        <span class="note failure-text">Grievous Mishap: Fumbles (automatic)</span>
+        <span class="note failure-text">{{localize "SOHL.Chat.Injury.fumbleAuto"}}</span>
         {{else}}
-        <span class="note failure-text">Mishap: roll to avoid a Fumble</span>
+        <span class="note failure-text">{{localize "SOHL.Chat.Injury.fumbleRoll"}}</span>
         {{/if}}
     </div>
     {{/unless}}
@@ -172,9 +172,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{#unless (eq stumble "none")}}
     <div class="card-content center">
         {{#if (eq stumble "auto")}}
-        <span class="note failure-text">Grievous Mishap: Stumbles (automatic)</span>
+        <span class="note failure-text">{{localize "SOHL.Chat.Injury.stumbleAuto"}}</span>
         {{else}}
-        <span class="note failure-text">Mishap: roll to avoid a Stumble</span>
+        <span class="note failure-text">{{localize "SOHL.Chat.Injury.stumbleRoll"}}</span>
         {{/if}}
     </div>
     {{/unless}}
@@ -183,34 +183,33 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="card-content center">
         {{#if amputationSevered}}
         <span class="note failure-text"
-            >Amputation: {{bodyZoneName}} severed!{{#if amputationDied}}<br
-            />The victim is slain.{{/if}}</span
+            >{{localize "SOHL.Chat.Injury.severed" zone=bodyZoneName}}{{#if amputationDied}}<br
+            />{{localize "SOHL.Chat.Injury.victimSlain"}}{{/if}}</span
         >
         {{else}}
         <span class="note success-text"
-            >Amputation resisted: {{bodyZoneName}} not severed.</span
+            >{{localize "SOHL.Chat.Injury.amputationResisted" zone=bodyZoneName}}</span
         >
         {{/if}}
     </div>
     {{else if canAmputate}}
     <div class="card-content center">
         <span class="note failure-text"
-            >NOTE: an amputation Strength test applies{{#if amputationModifier}}
-            (with a {{amputationModifier}} modifier){{/if}}, but could not be
-            rolled automatically (no Strength attribute).</span
+            >{{localize "SOHL.Chat.Injury.amputationApplies"}}{{#if amputationModifier}}
+            {{localize "SOHL.Chat.Injury.amputationModifier" modifier=amputationModifier}}{{/if}}{{localize "SOHL.Chat.Injury.amputationUnrolled"}}</span
         >
     </div>
     {{/if}}
 
     {{#if treatmentModifier}}
     <div class="card-content center">
-        <span class="note">Treatment modifier: {{treatmentModifier}}</span>
+        <span class="note">{{localize "SOHL.Chat.Injury.treatmentModifier" modifier=treatmentModifier}}</span>
     </div>
     {{/if}}
 
     {{#if addToCharSheet}}
     <div class="card-content center">
-        <span>Injury recorded on character sheet</span>
+        <span>{{localize "SOHL.Chat.Injury.recorded"}}</span>
     </div>
     {{/if}}
 
@@ -220,7 +219,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             data-action="injuryShock"
             data-handler-uuid="{{handlerActorUuid}}"
             data-scope="{{toJSON shockScope}}">
-            Shock Roll
+            {{localize "SOHL.Chat.Injury.shockRollButton"}}
         </button>
         {{/if}}
     </div>
