@@ -7,13 +7,14 @@
     "author": {
         "name": "Tom Rodriguez",
         "email": "toasty@heroiclands.org",
-        "url": "https://www.heroiclands.org"
+        "url": "https://www.heroiclands.org/"
     },
-    "x-contact": {
-        "discord": "toasty#8538",
-        "bluesky": "@toasty.heroiclands.org"
+    "heroicLands": {
+        "discordInviteUrl": "https://discord.gg/EwMfkNd3az/",
+        "knowledgeBaseUrl": "https://kb.heroiclands.org/",
+        "apiDocsBaseUrl": "https://api.heroiclands.org/"
     },
-    "homepage": "https://www.heroiclands.org",
+    "homepage": "https://www.heroiclands.org/",
     "license": "GPL-3.0-or-later AND CC-BY-SA-4.0",
     "repository": {
         "type": "git",
