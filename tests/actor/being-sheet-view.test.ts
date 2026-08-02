@@ -20,6 +20,8 @@ import {
     buildTraumaRows,
     buildInjurySections,
     traumaSeverityLabel,
+    TRAUMA_SUBTYPE_COLUMNS,
+    traumaLedgerCols,
     buildAfflictionGroups,
     buildAffiliationRows,
     buildHoldableGear,
@@ -976,6 +978,58 @@ describe("being-sheet-view", () => {
         });
     });
 
+    describe("TRAUMA_SUBTYPE_COLUMNS (#939)", () => {
+        // The column set each Trauma sub-type shows on the Being sheet, keyed by
+        // TRAUMA_SUBTYPE value. Every "level" column renders the level modifier.
+        const EXPECTED: Record<string, string[]> = {
+            [TRAUMA_SUBTYPE.FATIGUE]: ["category", "level", "notes"],
+            [TRAUMA_SUBTYPE.FEAR]: ["category", "notes"],
+            [TRAUMA_SUBTYPE.MORALE]: ["category", "notes"],
+            [TRAUMA_SUBTYPE.PALL]: ["level", "nextTest"],
+            [TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION]: [
+                "level",
+                "category",
+                "nextTest",
+            ],
+            [TRAUMA_SUBTYPE.PHYSICAL_CONDITION]: ["category", "notes"],
+            [TRAUMA_SUBTYPE.AURALSHOCK]: ["level", "nextTest"],
+            [TRAUMA_SUBTYPE.INFECTION]: ["severity", "hr", "area", "nextTest"],
+            [TRAUMA_SUBTYPE.INJURY]: ["severity", "hr", "area", "nextTest"],
+            [TRAUMA_SUBTYPE.SHOCK]: ["hr", "nextTest"],
+            [TRAUMA_SUBTYPE.COMA]: ["hr", "nextTest"],
+        };
+
+        it.each(Object.entries(EXPECTED))(
+            "%s renders exactly its spec'd columns",
+            (subType, kinds) => {
+                expect(
+                    TRAUMA_SUBTYPE_COLUMNS[subType].map((c) => c.kind),
+                ).toEqual(kinds);
+            },
+        );
+
+        it("covers every trauma sub-type", () => {
+            expect(Object.keys(TRAUMA_SUBTYPE_COLUMNS).sort()).toEqual(
+                Object.keys(EXPECTED).sort(),
+            );
+        });
+
+        it("gives every column a localization key", () => {
+            for (const cols of Object.values(TRAUMA_SUBTYPE_COLUMNS)) {
+                for (const col of cols) {
+                    expect(col.labelKey).toMatch(/^SOHL\.Trauma\.COLUMN\./);
+                }
+            }
+        });
+
+        it("traumaLedgerCols prepends grip/icon/name and appends controls", () => {
+            const cols = TRAUMA_SUBTYPE_COLUMNS[TRAUMA_SUBTYPE.SHOCK];
+            const grid = traumaLedgerCols(cols).split(" ");
+            // 3 leading (grip/icon/name-ish) + 2 columns + 1 trailing control.
+            expect(grid.length).toBe(3 + cols.length + 1);
+        });
+    });
+
     describe("buildTraumaRows", () => {
         const base = {
             id: "t1",
@@ -992,6 +1046,8 @@ describe("being-sheet-view", () => {
             isBleeding: false,
             aspect: "blunt",
             area: "Left Forearm" as string | undefined,
+            categoryDisplay: "",
+            nextTest: "—",
             notes: "<p>bruised</p>",
         };
         const label = (a: string) => a.toUpperCase();
@@ -1003,6 +1059,23 @@ describe("being-sheet-view", () => {
             expect(row.aspect).toBe("BLUNT");
             expect(row.area).toBe("Left Forearm");
             expect(row.notes).toBe("bruised");
+        });
+
+        it("passes through the numeric level, category display, and next-test", () => {
+            const [row] = buildTraumaRows(
+                [
+                    {
+                        ...base,
+                        level: 3,
+                        categoryDisplay: "Weariness",
+                        nextTest: "in 5 days",
+                    },
+                ],
+                label,
+            );
+            expect(row.level).toBe(3);
+            expect(row.categoryDisplay).toBe("Weariness");
+            expect(row.nextTest).toBe("in 5 days");
         });
 
         it("marks a healed trauma (level ≤ 0) with an empty severity", () => {
@@ -1053,6 +1126,8 @@ describe("being-sheet-view", () => {
             isBleeding: false,
             aspect: "edged",
             area: "Left Forearm" as string | undefined,
+            categoryDisplay: "",
+            nextTest: "—",
             notes: "",
             ...over,
         });
@@ -1072,6 +1147,35 @@ describe("being-sheet-view", () => {
             expect(sections[0].injuries).toHaveLength(1);
             // Empty ordered subtype still emitted (template filters by length).
             expect(sections[1].injuries).toEqual([]);
+        });
+
+        it("attaches each subtype's column set and ledger grid string", () => {
+            const sections = buildInjurySections(
+                [trauma()],
+                ["injury", "fatigue"],
+                label,
+                aspect,
+            );
+            const injury = sections.find((s) => s.subType === "injury")!;
+            const fatigue = sections.find((s) => s.subType === "fatigue")!;
+            // Injury: Sev, HR, Area, Next Heal Test.
+            expect(injury.columns.map((c) => c.kind)).toEqual([
+                "severity",
+                "hr",
+                "area",
+                "nextTest",
+            ]);
+            // Fatigue: Category, FL (level), Notes.
+            expect(fatigue.columns.map((c) => c.kind)).toEqual([
+                "category",
+                "level",
+                "notes",
+            ]);
+            // ledgerCols = grip + icon + name + column widths + controls.
+            expect(injury.ledgerCols).toBe(traumaLedgerCols(injury.columns));
+            expect(injury.ledgerCols.split(" ").length).toBeGreaterThan(
+                injury.columns.length,
+            );
         });
 
         it("groups traumas into their subtype sections and formats rows", () => {

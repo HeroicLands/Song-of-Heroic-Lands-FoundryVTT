@@ -1319,6 +1319,8 @@ export const {
     values: FatigueCategories,
     /** Type guard for fatigue-category values. */
     isValue: isFatigueCategory,
+    /** Value-keyed choices map (value → localization key) for `StringField`. */
+    choices: FatigueCategoryChoices,
     /** Localization keys per fatigue category. */
     labels: FatigueCategoryLabels,
 } = defineType("SOHL.Trauma.FATIGUE_CATEGORY", {

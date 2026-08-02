@@ -1486,6 +1486,112 @@ describe("TraumaLogic.categoryLabel", () => {
         });
         expect(logic.categoryLabel).toBe("not-a-category");
     });
+
+    it("maps PSYCOND categories to their localized labels", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+            category: TRAUMA_PSYCOND_CATEGORY.QUIRK,
+        });
+        expect(logic.categoryLabel).toBe("SOHL.Trauma.PSYCOND_CATEGORY.quirk");
+    });
+
+    it("maps PHYSCOND categories to their localized labels", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.PHYSICAL_CONDITION,
+            category: TRAUMA_PHYSCOND_CATEGORY.DEBILITY,
+        });
+        expect(logic.categoryLabel).toBe(
+            "SOHL.Trauma.PHYSCOND_CATEGORY.debility",
+        );
+    });
+
+    it("returns the raw category for an unknown PSYCOND/PHYSCOND category", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
+            category: "not-a-category",
+        });
+        expect(logic.categoryLabel).toBe("not-a-category");
+    });
+});
+
+describe("TraumaLogic.nextRecoveryTestAt (#939 — view-only next-test date)", () => {
+    /** Seed a single scheduledActions entry. */
+    function withSched(
+        subType: string,
+        actionName: string,
+        anchor: number,
+        interval: number,
+        extra: Record<string, unknown> = {},
+    ) {
+        return makeTrauma({
+            subType,
+            scheduledActions: [
+                {
+                    actionName,
+                    anchor,
+                    interval,
+                    sceneUuid: "",
+                    payload: {},
+                    ...extra,
+                },
+            ],
+        });
+    }
+
+    it.each([
+        [TRAUMA_SUBTYPE.INJURY, "healingCheck"],
+        [TRAUMA_SUBTYPE.INFECTION, "healingCheck"],
+        [TRAUMA_SUBTYPE.SHOCK, "courseCheck"],
+        [TRAUMA_SUBTYPE.COMA, "courseCheck"],
+        [TRAUMA_SUBTYPE.PALL, "pallRecovery"],
+        [TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION, "psycheRecovery"],
+        [TRAUMA_SUBTYPE.AURALSHOCK, "auralShockRecovery"],
+    ])(
+        "%s returns anchor+interval of its %s schedule",
+        (subType, actionName) => {
+            const logic = withSched(subType, actionName, 1000, 500);
+            expect(logic.nextRecoveryTestAt).toBe(1500);
+        },
+    );
+
+    it("is undefined for a subtype with no recovery action (e.g. fatigue)", () => {
+        const logic = withSched(
+            TRAUMA_SUBTYPE.FATIGUE,
+            "healingCheck",
+            1000,
+            500,
+        );
+        expect(logic.nextRecoveryTestAt).toBeUndefined();
+    });
+
+    it("is undefined when no matching schedule entry exists", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.INJURY,
+            scheduledActions: [],
+        });
+        expect(logic.nextRecoveryTestAt).toBeUndefined();
+    });
+
+    it("ignores an event-driven (non-time) schedule for the same action", () => {
+        const logic = withSched(
+            TRAUMA_SUBTYPE.SHOCK,
+            "courseCheck",
+            1000,
+            500,
+            { triggerName: "turnEnd" },
+        );
+        expect(logic.nextRecoveryTestAt).toBeUndefined();
+    });
+
+    it("treats an absent triggerName as time-based", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.INJURY,
+            scheduledActions: [
+                { actionName: "healingCheck", anchor: 2000, interval: 250 },
+            ],
+        });
+        expect(logic.nextRecoveryTestAt).toBe(2250);
+    });
 });
 
 describe("Psyche Stress & Aural Shock recovery (#560)", () => {

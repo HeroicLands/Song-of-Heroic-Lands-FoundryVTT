@@ -1013,6 +1013,19 @@ export interface TraumaLike {
     aspect: string;
     /** Resolved body-location name, or `undefined` for a whole-body trauma. */
     area: string | undefined;
+    /**
+     * Localized sub-category display (#939): the FATIGUE / PSYCOND / PHYSCOND
+     * category label, or — for FEAR / MORALE — the named severity level. The
+     * sheet resolves the sub-type-specific choice; blank when not applicable.
+     */
+    categoryDisplay: string;
+    /**
+     * Pre-formatted next recovery/heal/course test date (#939), or an em-dash
+     * when none is scheduled. Derived from
+     * {@link sohl.document.item.logic.TraumaLogic.nextRecoveryTestAt} and
+     * formatted by the sheet.
+     */
+    nextTest: string;
     /** Raw notes HTML. */
     notes: string;
 }
@@ -1025,6 +1038,8 @@ export interface TraumaRow {
     img: string;
     /** True when the trauma has healed (level ≤ 0); the list shows an icon. */
     healed: boolean;
+    /** Effective severity level, as a number — rendered by the `level` column (#939). */
+    level: number;
     /** Severity band label (`M1`, `S2`, `S3`, `G4`, `G5`); empty when healed. */
     severity: string;
     /** Severity (level) modifier derivation summary for the hover tooltip (#769). */
@@ -1039,6 +1054,10 @@ export interface TraumaRow {
     aspect: string;
     /** Body-location name, or `"—"` when whole-body. */
     area: string;
+    /** Localized sub-category (or named level) display (#939). */
+    categoryDisplay: string;
+    /** Pre-formatted next-test date, or an em-dash when unscheduled (#939). */
+    nextTest: string;
     /** Plain-text notes (HTML stripped). */
     notes: string;
 }
@@ -1060,6 +1079,142 @@ export function traumaSeverityLabel(level: number): string {
 }
 
 /**
+ * What a Trauma ledger cell renders (#939) — selects the row field and the
+ * cell markup: `category` / `area` / `notes` / `nextTest` are text, `level`
+ * (FL / PSL / PSY / ASL) is the numeric level modifier, `severity` is the
+ * banded injury level (with a healed icon), and `hr` is the healing rate (with
+ * an untreated marker).
+ */
+export type TraumaColumnKind =
+    | "category"
+    | "level"
+    | "severity"
+    | "hr"
+    | "area"
+    | "notes"
+    | "nextTest";
+
+/** One column in a Trauma sub-type's Being-sheet ledger (#939). */
+export interface TraumaColumn {
+    /** Which row field this column renders and how. */
+    kind: TraumaColumnKind;
+    /** Localization key for the column header label. */
+    labelKey: string;
+    /** Optional localization key for the header tooltip (spells out an abbreviation). */
+    tooltipKey?: string;
+    /** CSS grid track width — a single token (no internal spaces). */
+    width: string;
+    /** Optional header cell class (e.g. `ledger__head-num` for numeric columns). */
+    headClass?: string;
+}
+
+const col = (
+    kind: TraumaColumnKind,
+    labelKey: string,
+    width: string,
+    opts: { tooltipKey?: string; headClass?: string } = {},
+): TraumaColumn => ({ kind, labelKey, width, ...opts });
+
+// Shared, sub-type-agnostic columns.
+const CATEGORY = col(
+    "category",
+    "SOHL.Trauma.COLUMN.category",
+    "minmax(64px,1fr)",
+);
+const NOTES = col("notes", "SOHL.Trauma.COLUMN.notes", "minmax(90px,1.4fr)");
+const AREA = col("area", "SOHL.Trauma.COLUMN.area", "minmax(64px,1fr)");
+const SEV = col("severity", "SOHL.Trauma.COLUMN.sev", "2.8rem", {
+    tooltipKey: "SOHL.Trauma.COLTIP.sev",
+    headClass: "ledger__head-num",
+});
+const HR = col("hr", "SOHL.Trauma.COLUMN.hr", "3.4rem", {
+    tooltipKey: "SOHL.Trauma.COLTIP.hr",
+    headClass: "ledger__head-num",
+});
+// A "level" column renders the level modifier under a sub-type-specific header
+// (FL / PSL / PSY / ASL), so each carries its own label + tooltip.
+const levelCol = (labelKey: string, tooltipKey: string): TraumaColumn =>
+    col("level", labelKey, "3rem", {
+        tooltipKey,
+        headClass: "ledger__head-num",
+    });
+const nextCol = (labelKey: string): TraumaColumn =>
+    col("nextTest", labelKey, "minmax(104px,1.2fr)");
+
+/**
+ * The ordered column set each Trauma sub-type shows on the Being sheet (#939),
+ * keyed by `TRAUMA_SUBTYPE` value. The name/grip/icon lead and the controls
+ * trail are fixed (see {@link traumaLedgerCols}); these are the variable middle
+ * columns. Every `level` column renders the level
+ * {@link sohl.entity.modifier.ValueModifier}.
+ */
+export const TRAUMA_SUBTYPE_COLUMNS: Record<string, TraumaColumn[]> = {
+    [TRAUMA_SUBTYPE.FATIGUE]: [
+        CATEGORY,
+        levelCol("SOHL.Trauma.COLUMN.fl", "SOHL.Trauma.COLTIP.fl"),
+        NOTES,
+    ],
+    [TRAUMA_SUBTYPE.FEAR]: [CATEGORY, NOTES],
+    [TRAUMA_SUBTYPE.MORALE]: [CATEGORY, NOTES],
+    [TRAUMA_SUBTYPE.PALL]: [
+        levelCol("SOHL.Trauma.COLUMN.psl", "SOHL.Trauma.COLTIP.psl"),
+        nextCol("SOHL.Trauma.COLUMN.nextPall"),
+    ],
+    [TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION]: [
+        levelCol("SOHL.Trauma.COLUMN.psy", "SOHL.Trauma.COLTIP.psy"),
+        CATEGORY,
+        nextCol("SOHL.Trauma.COLUMN.nextPsyche"),
+    ],
+    [TRAUMA_SUBTYPE.PHYSICAL_CONDITION]: [CATEGORY, NOTES],
+    [TRAUMA_SUBTYPE.AURALSHOCK]: [
+        levelCol("SOHL.Trauma.COLUMN.asl", "SOHL.Trauma.COLTIP.asl"),
+        nextCol("SOHL.Trauma.COLUMN.nextAural"),
+    ],
+    [TRAUMA_SUBTYPE.INFECTION]: [
+        SEV,
+        HR,
+        AREA,
+        nextCol("SOHL.Trauma.COLUMN.nextHeal"),
+    ],
+    [TRAUMA_SUBTYPE.INJURY]: [
+        SEV,
+        HR,
+        AREA,
+        nextCol("SOHL.Trauma.COLUMN.nextHeal"),
+    ],
+    [TRAUMA_SUBTYPE.SHOCK]: [HR, nextCol("SOHL.Trauma.COLUMN.nextCourse")],
+    [TRAUMA_SUBTYPE.COMA]: [HR, nextCol("SOHL.Trauma.COLUMN.nextCourse")],
+};
+
+/**
+ * Fallback columns for a Trauma sub-type not covered by
+ * {@link TRAUMA_SUBTYPE_COLUMNS} — defensive only (the sub-type set is closed),
+ * chosen to never brick the sheet render. Mirrors the injury column set.
+ */
+const DEFAULT_TRAUMA_COLUMNS = TRAUMA_SUBTYPE_COLUMNS[TRAUMA_SUBTYPE.INJURY];
+
+// Fixed grid tracks framing every Trauma ledger: grip, icon, name … controls.
+const TRAUMA_LEDGER_LEAD = ["1.2rem", "1.5rem", "minmax(90px,1.4fr)"] as const;
+const TRAUMA_LEDGER_TRAIL = "1.6rem";
+
+/**
+ * The CSS `--ledger-cols` grid-template value for a Trauma sub-type's ledger
+ * (#939): the fixed grip / icon / name lead, then each column's width, then the
+ * controls trail. Widths are single tokens, so the returned string has
+ * `3 + columns.length + 1` space-separated tracks.
+ *
+ * @param columns - The sub-type's variable columns.
+ * @returns The space-joined grid-template track list.
+ */
+export function traumaLedgerCols(columns: readonly TraumaColumn[]): string {
+    return [
+        ...TRAUMA_LEDGER_LEAD,
+        ...columns.map((c) => c.width),
+        TRAUMA_LEDGER_TRAIL,
+    ].join(" ");
+}
+
+/**
  * Build compact display rows for the Trauma tab's injuries list — computing the
  * severity band label, localizing the impact aspect, defaulting the body
  * location, and reducing notes to plain text.
@@ -1078,6 +1233,7 @@ export function buildTraumaRows(
         name: t.name,
         img: t.img,
         healed: t.level <= 0,
+        level: t.level,
         severity: t.level <= 0 ? "" : traumaSeverityLabel(t.level),
         severityDeltaLabel: t.severityDeltaLabel,
         healingRate: t.healingRate,
@@ -1087,6 +1243,8 @@ export function buildTraumaRows(
         isBleeding: t.isBleeding,
         aspect: aspectLabel(t.aspect),
         area: t.area ?? "—",
+        categoryDisplay: t.categoryDisplay,
+        nextTest: t.nextTest,
         notes: htmlToPlainText(t.notes),
     }));
 }
@@ -1099,6 +1257,10 @@ export interface InjurySection {
     label: string;
     /** The injuries in this section, in the order supplied. */
     injuries: TraumaRow[];
+    /** The columns this sub-type renders (#939) — headers + per-row cells. */
+    columns: TraumaColumn[];
+    /** The `--ledger-cols` grid-template value for this sub-type's ledger (#939). */
+    ledgerCols: string;
 }
 
 /**
@@ -1126,11 +1288,17 @@ export function buildInjurySections(
     aspectLabel: (aspect: string) => string,
 ): InjurySection[] {
     const buckets = groupBySubType(traumas, (t) => t.subType);
-    const build = (subType: string, bucket: TraumaLike[]): InjurySection => ({
-        subType,
-        label: subTypeLabel(subType),
-        injuries: buildTraumaRows(bucket, aspectLabel),
-    });
+    const build = (subType: string, bucket: TraumaLike[]): InjurySection => {
+        const columns =
+            TRAUMA_SUBTYPE_COLUMNS[subType] ?? DEFAULT_TRAUMA_COLUMNS;
+        return {
+            subType,
+            label: subTypeLabel(subType),
+            injuries: buildTraumaRows(bucket, aspectLabel),
+            columns,
+            ledgerCols: traumaLedgerCols(columns),
+        };
+    };
 
     const seen = new Set<string>();
     const sections: InjurySection[] = [];

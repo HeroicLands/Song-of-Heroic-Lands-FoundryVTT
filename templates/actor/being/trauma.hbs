@@ -19,6 +19,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <span class="section-legend__rule"></span>
     </div>
 
+    {{!-- Each sub-type renders only its own columns (#939); the column set +
+    ledger grid come pre-built from being-sheet-view (TRAUMA_SUBTYPE_COLUMNS). --}}
     <div class="injuries-list">
         {{#each injurySections as |section|}}
             {{#if section.injuries.length}}
@@ -34,17 +36,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </a>
                 </span>
             </div>
-            <div class="ledger" style="--ledger-cols:1.2rem 1.5rem minmax(90px,1.4fr) 2.8rem 3.4rem 4.4rem calc(3.8rem + 50px) 2.6rem 1fr 1.6rem">
+            <div class="ledger" style="--ledger-cols:{{section.ledgerCols}}">
                 <div class="ledger__head">
                     <div></div>
                     <div></div>
-                    <div>Trauma</div>
-                    <div class="ledger__head-num" data-tooltip="Severity">Sev</div>
-                    <div class="ledger__head-num" data-tooltip="Healing Rate (NT = not treated)">HR</div>
-                    <div class="ledger__head-num">Aspect</div>
-                    <div>Area</div>
-                    <div class="ledger__head-num" data-tooltip="Bleeding">Bld</div>
-                    <div>Notes</div>
+                    <div>{{localize "SOHL.Trauma.COLUMN.name"}}</div>
+                    {{#each section.columns as |col|}}
+                    <div class="{{col.headClass}}"{{#if col.tooltipKey}} data-tooltip="{{localize col.tooltipKey}}"{{/if}}>{{localize col.labelKey}}</div>
+                    {{/each}}
                     <div></div>
                 </div>
                 {{#each section.injuries as |injury|}}
@@ -52,27 +51,36 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="ledger__grip"><i class="fa-solid fa-grip-vertical"></i></div>
                     <div class="ledger__icon default-action"><img src="{{injury.img}}" alt="" /></div>
                     <div class="ledger__name default-action" data-tooltip="{{injury.name}}">{{injury.name}}</div>
-                    <div class="ledger__cell" data-tooltip="{{injury.severityDeltaLabel}}" data-tooltip-direction="UP">
-                        {{#if injury.healed}}
-                        <i class="ledger__heal fa-solid fa-heart-circle-plus" data-tooltip="Healed"></i>
+                    {{#each section.columns as |col|}}
+                        {{#if (eq col.kind "severity")}}
+                        <div class="ledger__cell" data-tooltip="{{injury.severityDeltaLabel}}" data-tooltip-direction="UP">
+                            {{#if injury.healed}}
+                            <i class="ledger__heal fa-solid fa-heart-circle-plus" data-tooltip="Healed"></i>
+                            {{else}}
+                            {{injury.severity}}
+                            {{/if}}
+                        </div>
+                        {{else if (eq col.kind "hr")}}
+                        <div class="ledger__cell{{#if injury.healingRateDisabled}} ledger__cell--dim{{/if}}"
+                            data-tooltip="{{injury.healingRateDeltaLabel}}" data-tooltip-direction="UP">
+                            {{#if injury.healingRateDisabled}}
+                            <i class="fa-solid fa-xmark fa-lg"></i>
+                            {{else}}
+                            {{#unless injury.isTreated}}NT{{/unless}}{{injury.healingRate}}
+                            {{/if}}
+                        </div>
+                        {{else if (eq col.kind "level")}}
+                        <div class="ledger__cell" data-tooltip="{{injury.severityDeltaLabel}}" data-tooltip-direction="UP">{{injury.level}}</div>
+                        {{else if (eq col.kind "category")}}
+                        <div class="ledger__cell ledger__cell--text">{{injury.categoryDisplay}}</div>
+                        {{else if (eq col.kind "area")}}
+                        <div class="ledger__cell ledger__cell--text">{{injury.area}}</div>
+                        {{else if (eq col.kind "nextTest")}}
+                        <div class="ledger__cell ledger__cell--text">{{injury.nextTest}}</div>
                         {{else}}
-                        {{injury.severity}}
+                        <div class="ledger__notes" data-tooltip="{{injury.notes}}">{{injury.notes}}</div>
                         {{/if}}
-                    </div>
-                    <div class="ledger__cell{{#if injury.healingRateDisabled}} ledger__cell--dim{{/if}}"
-                        data-tooltip="{{injury.healingRateDeltaLabel}}" data-tooltip-direction="UP">
-                        {{#if injury.healingRateDisabled}}
-                        <i class="fa-solid fa-xmark fa-lg"></i>
-                        {{else}}
-                        {{#unless injury.isTreated}}NT{{/unless}}{{injury.healingRate}}
-                        {{/if}}
-                    </div>
-                    <div class="ledger__cell ledger__cell--text-center">{{injury.aspect}}</div>
-                    <div class="ledger__cell ledger__cell--text">{{injury.area}}</div>
-                    <div class="ledger__cell">
-                        <span class="chip{{#if injury.isBleeding}} chip--danger{{/if}}">{{#if injury.isBleeding}}Yes{{else}}No{{/if}}</span>
-                    </div>
-                    <div class="ledger__notes" data-tooltip="{{injury.notes}}">{{injury.notes}}</div>
+                    {{/each}}
                     <div class="ledger__controls">
                         <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>

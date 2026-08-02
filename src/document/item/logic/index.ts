@@ -37,3 +37,4 @@ export * from "./offer-schedule";
 export * from "./psychological-trauma";
 export * from "./strikeModeTest";
 export * from "./timed-test";
+export * from "./trauma-sheet-view";
