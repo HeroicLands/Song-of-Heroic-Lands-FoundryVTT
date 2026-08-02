@@ -38,6 +38,7 @@ import { ExpressionLibraryMenu } from "@src/apps/foundry/ExpressionLibraryMenu";
 import { registerSystemTours } from "@src/apps/foundry/tours/register-tours";
 import { postWelcomeCard } from "@src/apps/foundry/welcome-card";
 import { injectSettingsLinks } from "@src/apps/foundry/settings-sidebar-links";
+import { fvttSystemLinks } from "@src/core/FoundryHelpers";
 import { expressionHelpers } from "@src/entity/expr/ExpressionHelperRegistry";
 import { DomainRegistry } from "@src/entity/domain/DomainRegistry";
 import { BUILTIN_DOMAINS } from "@src/entity/domain/builtin-domains";
@@ -443,11 +444,11 @@ function registerSystemHooks() {
         leftCol.appendChild(btn);
     });
 
-    // Add a "Song of Heroic Lands" links section (Main Site / Knowledgebase /
-    // API Documentation) to the Game Settings sidebar tab, styled to match
-    // Foundry's own Documentation block.
+    // Add the branded "Game System" section (emblem, version, and external
+    // links — Main Site / Knowledgebase / API Docs / Issues / Discord) to the
+    // Game Settings sidebar tab, modelled on how dnd5e/SWADE present themselves.
     (Hooks as any).on("renderSettings", (_app: any, element: HTMLElement) => {
-        void injectSettingsLinks(element, (key: string) =>
+        void injectSettingsLinks(element, fvttSystemLinks(), (key: string) =>
             game.i18n.localize(key),
         );
     });

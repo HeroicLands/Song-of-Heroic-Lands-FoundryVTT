@@ -29,6 +29,9 @@
     @include meta.load-css("base/foundry-vars");
     @include meta.load-css("base/editor");
     @include meta.load-css("base/hotbar");
+    // Unscoped: the branded "Game System" section injected into the settings
+    // sidebar (Foundry chrome, outside the `.sohl` frame). #915.
+    @include meta.load-css("base/settings-links");
 
     .sohl {
         @include meta.load-css("base/elements");

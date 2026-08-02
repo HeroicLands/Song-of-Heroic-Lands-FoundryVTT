@@ -1,0 +1,50 @@
+// The branded "Game System" section injected into the Game Settings sidebar
+// (issue #915). UNSCOPED — the settings sidebar is Foundry chrome, outside the
+// `.sohl` frame — so rules target only our own `.sohl-game-system` block. The
+// `--sohl-color-*` tokens resolve on `:root` and follow the light/dark swap, so
+// the section matches the emblem (which self-themes via prefers-color-scheme).
+
+.sohl-game-system {
+    align-items: center;
+    gap: var(--sohl-space-xs, 0.35rem);
+    text-align: center;
+
+    // The emblem self-themes to ink/cream (build-time SVG fill swap), so no
+    // filter is needed here — just size and centre it.
+    &__emblem {
+        display: block;
+        width: 4.5rem;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    &__version {
+        font-family: var(--sohl-font-mono);
+        font-size: var(--font-size-12, 0.75rem);
+        color: var(--sohl-color-text-muted);
+        letter-spacing: 0.02em;
+    }
+
+    &__links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        // Comfortable row/column gap rather than inline separators: with five
+        // links the narrow sidebar wraps, and a CSS `::before` middot would
+        // dangle at the start of a wrapped line. The gap reads cleanly on any
+        // number of rows.
+        gap: 0.2rem 0.75rem;
+        font-size: var(--font-size-13, 0.8125rem);
+
+        a {
+            color: var(--sohl-color-accent);
+            text-decoration: none;
+            white-space: nowrap;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

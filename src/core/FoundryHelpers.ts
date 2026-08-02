@@ -39,6 +39,7 @@ import type { SohlCombatantLogic } from "@src/document/combatant/logic/SohlComba
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
 import { SohlCombat } from "@src/document/combat/foundry/SohlCombat";
+import type { SohlSystemInfo } from "@src/apps/foundry/settings-sidebar-links";
 
 /**
  * Foundry VTT runtime shim.
@@ -314,6 +315,31 @@ export function fvttSetSetting(
     value: unknown,
 ): Promise<unknown> {
     return (game as any).settings.set(module, key, value);
+}
+
+/**
+ * Read the running system's identity and external links from `game.system`.
+ *
+ * The link URLs live under `flags.sohl`, which the build copies from
+ * `package.json` (the single source of truth — see `build-system-json.mjs`).
+ * Missing flags resolve to empty strings, which the section builder drops.
+ *
+ * @returns The system title, version, and external link URLs.
+ */
+export function fvttSystemLinks(): SohlSystemInfo {
+    const sys = (game as any).system ?? {};
+    const links = sys.flags?.sohl ?? {};
+    return {
+        title: sys.title ?? "",
+        version: sys.version ?? "",
+        links: {
+            mainSiteUrl: links.mainSiteUrl ?? "",
+            knowledgeBaseUrl: links.knowledgeBaseUrl ?? "",
+            apiDocsUrl: links.apiDocsUrl ?? "",
+            issuesUrl: links.issuesUrl ?? "",
+            discordInviteUrl: links.discordInviteUrl ?? "",
+        },
+    };
 }
 
 /**
