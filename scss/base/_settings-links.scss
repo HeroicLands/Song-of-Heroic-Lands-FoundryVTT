@@ -1,13 +1,17 @@
 // The branded "Game System" section injected into the Game Settings sidebar
-// (issue #915). UNSCOPED — the settings sidebar is Foundry chrome, outside the
-// `.sohl` frame — so rules target only our own `.sohl-game-system` block. The
-// `--sohl-color-*` tokens resolve on `:root` and follow the light/dark swap, so
-// the section matches the emblem (which self-themes via prefers-color-scheme).
+// (issue #915, polished in the follow-up). UNSCOPED — the settings sidebar is
+// Foundry chrome, outside the `.sohl` frame — so rules target only our own
+// `.sohl-game-system` block. The `--sohl-color-*` tokens resolve on `:root` and
+// follow the light/dark swap, so the section matches the emblem (which
+// self-themes via prefers-color-scheme).
 
 .sohl-game-system {
-    align-items: center;
-    gap: var(--sohl-space-xs, 0.35rem);
-    text-align: center;
+    // NB: deliberately NO `align-items: center`. The header is a native
+    // `h4.divider` whose flanking lines are `::before`/`::after` at `width: 50%`;
+    // centering shrinks the h4 to its text and collapses those lines (and makes
+    // the title read smaller than the neighbouring section headers). Leave the
+    // column stretched and centre each child individually instead.
+    gap: 0.3rem;
 
     // The emblem self-themes to ink/cream (build-time SVG fill swap), so no
     // filter is needed here — just size and centre it.
@@ -15,35 +19,58 @@
         display: block;
         width: 4.5rem;
         height: auto;
-        margin: 0 auto;
+        margin: 0.15rem auto 0;
     }
 
     &__version {
-        font-family: var(--sohl-font-mono);
-        font-size: var(--font-size-12, 0.75rem);
-        color: var(--sohl-color-text-muted);
-        letter-spacing: 0.02em;
+        // Extra space from the emblem; the sidebar's sans face, bold.
+        margin-top: 0.55rem;
+        font-family: var(--sohl-font-sans);
+        font-weight: 700;
+        font-size: var(--font-size-14, 0.875rem);
+        color: var(--sohl-color-text-secondary);
+        text-align: center;
+        letter-spacing: 0.01em;
+        font-variant-numeric: tabular-nums;
     }
 
     &__links {
+        // Centred block, but its wrapped lines left-align inside it so the clip
+        // below can hide a separator that falls at a line's start. `fit-content`
+        // keeps the block only as wide as its content (centred via auto margins)
+        // when the links fit on one line, and grows to full width when they wrap.
+        width: fit-content;
+        max-width: 100%;
+        margin-inline: auto;
+        overflow: hidden;
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        // Comfortable row/column gap rather than inline separators: with five
-        // links the narrow sidebar wraps, and a CSS `::before` middot would
-        // dangle at the start of a wrapped line. The gap reads cleanly on any
-        // number of rows.
-        gap: 0.2rem 0.75rem;
-        font-size: var(--font-size-13, 0.8125rem);
+        justify-content: flex-start;
+        column-gap: 0.85rem;
+        row-gap: 0.1rem;
+        font-size: var(--font-size-14, 0.875rem);
+        line-height: 1.6;
 
         a {
+            position: relative;
             color: var(--sohl-color-accent);
             text-decoration: none;
             white-space: nowrap;
 
             &:hover {
                 text-decoration: underline;
+            }
+
+            // Middot separator BEFORE each link after the first, sitting in the
+            // column gap to its left. On a wrapped line the first link is at the
+            // container's left edge, so its separator hangs into negative space
+            // and `overflow: hidden` clips it — a dot therefore only ever appears
+            // BETWEEN two links on the same line, never at a line's start or end.
+            & + a::before {
+                content: "·";
+                position: absolute;
+                right: calc(100% + 0.3rem);
+                color: var(--sohl-color-text-muted);
             }
         }
     }

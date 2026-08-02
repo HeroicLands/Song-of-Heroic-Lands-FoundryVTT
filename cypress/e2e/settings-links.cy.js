@@ -22,7 +22,7 @@
 const EXPECTED_LABELS = [
     "Main Site",
     "Knowledgebase",
-    "API Documentation",
+    "API Docs",
     "Issues",
     "Discord",
 ];
