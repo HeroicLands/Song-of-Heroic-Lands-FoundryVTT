@@ -17,10 +17,20 @@
  * hidden-group lifecycle actions omitted. Custom actions bind a Macro; this
  * spec drives the real UI — create (bind an existing Macro), run, edit (open
  * the Macro sheet), and remove (disassociate) — plus the grouped display.
+ *
+ * The Manuscript redesign (#782/#798) rebuilt the tab as `.section-legend`
+ * headers ("Custom Actions" / "Intrinsic Actions") each followed by a sibling
+ * `.ledger` of `.ledger__row` rows (no longer `ol.actions-list` / `li.item`);
+ * the per-row `data-action` control names are unchanged.
  */
 import { toRealm } from "../support/resolve";
 
 const ACTIONS = 'section.tab[data-tab="actions"]';
+
+/** The `.ledger` following a named section legend, scoped to the Actions tab. */
+function ledger(section) {
+    return cy.get(ACTIONS).contains(".section-legend", section).next(".ledger");
+}
 
 /** Create a script Macro in the game realm; yields its uuid. */
 function makeMacro(name, command) {
@@ -83,11 +93,12 @@ describe("Being Actions tab (#313)", () => {
             cy.openSheet(actor);
             cy.switchTab("actions", "primary");
             cy.get(ACTIONS).within(() => {
-                cy.contains("ol.actions-list", "Intrinsic Actions")
-                    .find("li.item")
+                cy.contains(".section-legend", "Intrinsic Actions")
+                    .next(".ledger")
+                    .find(".ledger__row")
                     .its("length")
                     .should("be.greaterThan", 0);
-                cy.contains("li.item", "postfinalize").should("not.exist");
+                cy.contains(".ledger__row", "postfinalize").should("not.exist");
             });
         });
     });
@@ -124,9 +135,10 @@ describe("Being Actions tab (#313)", () => {
                         ).map((d) => d.executor),
                     ).should("include", macroUuid);
                     // …titled by the Action name, under Custom Actions.
-                    cy.get(ACTIONS)
-                        .contains("ol.actions-list", "Custom Actions")
-                        .contains(".item", "E2E Bound Action");
+                    ledger("Custom Actions").contains(
+                        ".ledger__row",
+                        "E2E Bound Action",
+                    );
                 },
             );
         });
@@ -150,9 +162,10 @@ describe("Being Actions tab (#313)", () => {
                 expect(m.type, "macro is a script").to.eq("script");
             });
             // …and the action is bound and listed under Custom Actions.
-            cy.get(ACTIONS)
-                .contains("ol.actions-list", "Custom Actions")
-                .contains(".item", "E2E Fresh Action");
+            ledger("Custom Actions").contains(
+                ".ledger__row",
+                "E2E Fresh Action",
+            );
         });
     });
 
@@ -169,8 +182,7 @@ describe("Being Actions tab (#313)", () => {
                 });
                 cy.openSheet(actor);
                 cy.switchTab("actions", "primary");
-                cy.get(ACTIONS)
-                    .contains("ol.actions-list", "Custom Actions")
+                ledger("Custom Actions")
                     .find('[data-action="runAction"]')
                     .click();
                 cy.wait(700);
@@ -186,8 +198,7 @@ describe("Being Actions tab (#313)", () => {
                     bindAction(actor.id, macroUuid, "E2E Edit Action");
                     cy.openSheet(actor);
                     cy.switchTab("actions", "primary");
-                    cy.get(ACTIONS)
-                        .contains("ol.actions-list", "Custom Actions")
+                    ledger("Custom Actions")
                         .find('[data-action="editAction"]')
                         .click();
                     cy.wait(500);
@@ -209,8 +220,7 @@ describe("Being Actions tab (#313)", () => {
                     bindAction(actor.id, macroUuid, "E2E Remove Action");
                     cy.openSheet(actor);
                     cy.switchTab("actions", "primary");
-                    cy.get(ACTIONS)
-                        .contains("ol.actions-list", "Custom Actions")
+                    ledger("Custom Actions")
                         .find('[data-action="deleteAction"]')
                         .click();
                     cy.submitDialog("yes"); // DialogV2.confirm
