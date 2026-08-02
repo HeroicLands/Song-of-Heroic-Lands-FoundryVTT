@@ -37,6 +37,14 @@ All content under the `assets` folder is licensed under the
 
 All other content outside of the `assets` folder is licensed under the GNU GPLv3 license. See the file [LICENSE.GPLv3](./LICENSE.GPLv3) for more information.
 
+### Trademarks
+
+**"Heroic Lands," "Song of Heroic Lands," "SoHL,"** and the **coiled-dragon
+device** are marks of Tom Rodriguez (&copy; 2024–2026, All Rights Reserved) and are
+**not** covered by the CC-BY-SA-4.0 or GPLv3 licenses above. You may fork the
+code, but a modified version must be renamed and must not use these marks — see
+the _Trademarks & Service Marks_ section of [LICENSE.md](./LICENSE.md).
+
 ## Discord
 
 Please consider joining [the community on Discord](https://bit.ly/44vZ10j) to discuss **Song of Heroic Lands** and find related modules and content.

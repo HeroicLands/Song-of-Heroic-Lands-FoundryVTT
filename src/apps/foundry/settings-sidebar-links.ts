@@ -58,6 +58,11 @@ export const SETTINGS_LINKS_MARKER = "data-sohl-links";
  * which the build (`copy-assets.mjs` → `svg-theme.mjs`) recolors to adapt to
  * light/dark mode, so the same mark reads as ink on the light settings sidebar
  * and cream on the dark one.
+ *
+ * Note: this emblem is the Heroic Lands **service mark** — © Tom Rodriguez, All
+ * Rights Reserved, and excepted from the CC-BY-SA-4.0 asset license. See the
+ * Trademarks & Service Marks section of LICENSE.md (and
+ * assets/icons/brand/NOTICE.md). Do not relicense or repurpose it.
  */
 export const SOHL_EMBLEM_PATH =
     "systems/sohl/assets/icons/brand/sohl-dragon.svg";
