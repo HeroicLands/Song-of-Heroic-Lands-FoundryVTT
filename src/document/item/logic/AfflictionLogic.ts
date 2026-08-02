@@ -21,7 +21,10 @@ import {
 } from "@src/core/FoundryHelpers";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { elapsedCheckpoints } from "@src/entity/event/scheduling";
-import { armScheduledActions } from "@src/entity/event/scheduled-actions";
+import {
+    armScheduledActions,
+    scheduledFireAt,
+} from "@src/entity/event/scheduled-actions";
 import { offerSchedule } from "@src/document/item/logic/offer-schedule";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -159,6 +162,85 @@ export class AfflictionLogic<
      */
     get categoryLabel(): string {
         return this.data.category || "";
+    }
+
+    /**
+     * The effective seconds of a duration modifier, guarded so a not-yet-
+     * initialized affliction (freshly dropped, read by the sheet before its
+     * lifecycle runs — the #511 class) reads the persisted base rather than
+     * throwing on an unset `ValueModifier`.
+     *
+     * @param modifier - The seeded duration modifier (may be unset).
+     * @param base - The persisted base seconds to fall back to.
+     * @returns The effective seconds.
+     */
+    private durationSeconds(
+        modifier: ValueModifier | undefined,
+        base: number | null,
+    ): number {
+        return modifier?.effective ?? base ?? 0;
+    }
+
+    /**
+     * Estimated world time (seconds) at which incubation completes and the
+     * affliction becomes symptomatic — `contractDate + onsetDurationBase` — for
+     * **display only** (never persisted). `undefined` when the affliction has no
+     * contract anchor. Once onset actually occurs the crystallized
+     * {@link AfflictionData.onsetDate} is the authoritative fact; this remains the
+     * projection from the contract anchor.
+     */
+    get estOnsetDate(): number | undefined {
+        const contract = this.data.contractDate;
+        if (contract == null) return undefined;
+        return (
+            contract +
+            this.durationSeconds(
+                this.onsetDurationBase,
+                this.data.onsetDurationBase,
+            )
+        );
+    }
+
+    /**
+     * Estimated world time (seconds) at which the affliction resolves —
+     * `(onsetDate ?? contractDate) + resolutionDurationBase` — for **display
+     * only** (never persisted). Anchors on {@link AfflictionData.onsetDate | onset}
+     * once symptomatic, else the contract anchor while incubating; `undefined`
+     * when neither anchor is set.
+     */
+    get estResolutionDate(): number | undefined {
+        const anchor = this.data.onsetDate ?? this.data.contractDate;
+        if (anchor == null) return undefined;
+        return (
+            anchor +
+            this.durationSeconds(
+                this.resolutionDurationBase,
+                this.data.resolutionDurationBase,
+            )
+        );
+    }
+
+    /**
+     * World time (seconds) of the affliction's next course/recovery check, for
+     * **display only** (never persisted). Queue-first: the live
+     * `system.scheduledActions` entry for the armed `healingCheck`
+     * (`anchor + interval`) when present — so an accepted reschedule is reflected
+     * — otherwise the arithmetic projection
+     * `(onsetDate ?? contractDate) + healingCheckDurationBase`. `undefined` when
+     * there is no armed check and no anchored interval to project from.
+     */
+    get nextHealTest(): number | undefined {
+        const entry = this.data.scheduledActions?.find(
+            (e) => e.actionName === "healingCheck",
+        );
+        if (entry) return scheduledFireAt(entry);
+        const anchor = this.data.onsetDate ?? this.data.contractDate;
+        if (anchor == null) return undefined;
+        const interval = this.durationSeconds(
+            this.healingCheckDurationBase,
+            this.data.healingCheckDurationBase,
+        );
+        return interval > 0 ? anchor + interval : undefined;
     }
 
     /**

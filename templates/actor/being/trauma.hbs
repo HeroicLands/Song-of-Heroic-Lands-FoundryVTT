@@ -119,15 +119,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </a>
                 </span>
             </div>
-            <div class="ledger" style="--ledger-cols:1.2rem 1.5rem minmax(140px,1.4fr) 4rem 2.6rem 5.5rem 1fr 1.6rem">
+            <div class="ledger" style="--ledger-cols:1.2rem 1.5rem minmax(140px,1.4fr) 1fr 4rem 2.6rem minmax(7rem,1fr) 1.6rem">
                 <div class="ledger__head">
                     <div></div>
                     <div></div>
                     <div>Affliction</div>
+                    <div>Category</div>
                     <div class="ledger__head-num">Level</div>
                     <div class="ledger__head-num" data-tooltip="Healing Rate">HR</div>
-                    <div>Source</div>
-                    <div>Notes</div>
+                    <div data-tooltip="Next course/recovery check">Next Heal Test</div>
                     <div></div>
                 </div>
                 {{#each group.afflictions as |aff|}}
@@ -135,6 +135,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="ledger__grip"><i class="fa-solid fa-grip-vertical"></i></div>
                     <div class="ledger__icon default-action"><img src="{{aff.img}}" alt="" /></div>
                     <div class="ledger__name default-action" data-tooltip="{{aff.name}}">{{aff.name}}</div>
+                    <div class="ledger__cell ledger__cell--text">{{aff.source}}</div>
                     <div class="ledger__cell" data-tooltip="{{aff.levelDeltaLabel}}" data-tooltip-direction="UP">{{aff.level}}</div>
                     <div class="ledger__cell{{#if aff.healingRateDisabled}} ledger__cell--dim{{/if}}"
                         data-tooltip="{{aff.healingRateDeltaLabel}}" data-tooltip-direction="UP">
@@ -144,8 +145,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{aff.healingRate}}
                         {{/if}}
                     </div>
-                    <div class="ledger__cell ledger__cell--text">{{aff.source}}</div>
-                    <div class="ledger__notes" data-tooltip="{{aff.notes}}">{{aff.notes}}</div>
+                    <div class="ledger__cell ledger__cell--text">{{displayWorldTime aff.nextHealTest}}</div>
                     <div class="ledger__controls">
                         <a class="icon-button item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
                     </div>

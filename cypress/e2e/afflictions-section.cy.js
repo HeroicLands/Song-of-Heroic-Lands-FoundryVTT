@@ -13,14 +13,14 @@
 
 /**
  * Being Trauma tab — Afflictions section (#309): afflictions grouped by subtype
- * with Level / HR / Source / Notes, a custom-create control (data-type=affliction),
- * and a per-row context menu. (The Trauma tab has no search filter — #312.
- * Created / Course-Test / Recovery-Test timers are deferred — they depend on the
- * affliction course/recovery mechanics #65/#67/#68.)
+ * with Name / Category / Level / HR / Next Heal Test columns (#943 — the former
+ * Source column is now the explicit Category column, and a calendar-formatted
+ * Next Heal Test replaces Notes), a custom-create control (data-type=affliction),
+ * and a per-row context menu. (The Trauma tab has no search filter — #312.)
  */
 describe("Being Trauma tab: Afflictions section (#309)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
-    afterEach(() => cy.cleanupWorld());
+    afterEach(() => cy.closeAllSheets().then(() => cy.cleanupWorld()));
     Cypress.on("uncaught:exception", () => false);
 
     it("lists an affliction grouped by subtype with level and healing rate", () => {
@@ -44,6 +44,36 @@ describe("Being Trauma tab: Afflictions section (#309)", () => {
                     cy.contains(".ledger__cell", "2"); // level
                     cy.contains(".ledger__cell", "4"); // healing rate
                 });
+        });
+    });
+
+    it("renders the Category, Level, HR and Next Heal Test columns (#943)", () => {
+        cy.importActor().then((actor) => {
+            cy.createItemOn(actor, "affliction", {
+                name: "Marsh Ague",
+                system: {
+                    subType: "disease",
+                    category: "Swamp Miasma",
+                    levelBase: 3,
+                    healingRateBase: 4,
+                },
+            });
+            cy.prepare(actor);
+            cy.openSheet(actor);
+            cy.switchTab("trauma");
+            // The ledger header carries the redesigned columns.
+            cy.get(
+                'section.tab[data-tab="trauma"] .afflictions-list .ledger__head',
+            )
+                .first()
+                .within(() => {
+                    cy.contains("div", "Category");
+                    cy.contains("div", "Next Heal Test");
+                });
+            // The Category cell surfaces the affliction's `category` field.
+            cy.get('section.tab[data-tab="trauma"] .afflictions-list')
+                .contains(".item", "Marsh Ague")
+                .contains(".ledger__cell", "Swamp Miasma");
         });
     });
 

@@ -1227,6 +1227,7 @@ describe("being-sheet-view", () => {
             healingRateDisabled: false,
             healingRateDeltaLabel: "Base +4",
             source: "Cold",
+            nextHealTest: 5700,
             notes: "<p>shivering</p>",
             ...over,
         });
@@ -1251,6 +1252,22 @@ describe("being-sheet-view", () => {
             expect(row.level).toBe("Weary");
             expect(row.source).toBe("Cold");
             expect(row.notes).toBe("shivering");
+        });
+
+        it("passes through the next-heal-test world time (#943)", () => {
+            const [group] = buildAfflictionGroups([aff()], ["fatigue"], label);
+            const [row] = group.afflictions;
+            expect(row.nextHealTest).toBe(5700);
+        });
+
+        it("carries a null next-heal-test through unchanged (#943)", () => {
+            const [group] = buildAfflictionGroups(
+                [aff({ nextHealTest: null })],
+                ["fatigue"],
+                label,
+            );
+            const [row] = group.afflictions;
+            expect(row.nextHealTest).toBeNull();
         });
 
         it("passes through the level/healing-rate deltaLabel tooltips (#769)", () => {
