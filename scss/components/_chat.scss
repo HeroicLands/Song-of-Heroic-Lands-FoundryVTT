@@ -21,8 +21,9 @@
 
     // Card buttons carry an explicit foreground AND background so Foundry's
     // fixed-dark default button text is overridden on the card ground. Mirrors the
-    // `.sohl button` treatment (base/_elements), keyed off the unscoped
-    // `.chat-card` so it covers every card root — `sohl`, legacy `hmk`, and bare.
+    // `.sohl button` treatment (base/_elements). Every card root now carries `.sohl`
+    // (#900), but this stays keyed off the unscoped `.chat-card` so it remains
+    // independent of the root namespace and self-contained to the card surface.
     button {
         color: var(--sohl-color-text-primary);
         background: var(--sohl-color-bg-overlay-medium);
