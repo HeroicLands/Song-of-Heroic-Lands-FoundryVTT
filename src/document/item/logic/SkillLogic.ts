@@ -829,8 +829,8 @@ export class SkillLogic<
                     ),
             description:
                 isSuccess ?
-                    sohl.i18n.format("SOHL.TestResult.SUCCESS")
-                :   sohl.i18n.format("SOHL.TestResult.FAILURE"),
+                    sohl.i18n.format("SOHL.SuccessTestResult.Success")
+                :   sohl.i18n.format("SOHL.SuccessTestResult.Failure"),
             notes: "",
             sdrIncr: this.sdrIncr,
         };

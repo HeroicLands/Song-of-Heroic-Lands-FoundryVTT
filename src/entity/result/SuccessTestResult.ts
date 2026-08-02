@@ -709,7 +709,7 @@ export class SuccessTestResult extends TestResult {
         if (allowed === false) return false;
         if (!this._speaker.isOwner) {
             sohl.log.uiWarn(
-                sohl.i18n.format("SOHL.SUCCESSTESTRESULT.evaluate.NoPerm", {
+                sohl.i18n.format("SOHL.SuccessTestResult.evaluate.NoPerm", {
                     name: this._speaker.name,
                 }),
             );

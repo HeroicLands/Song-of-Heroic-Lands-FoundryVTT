@@ -194,68 +194,68 @@ export const {
     isValue: isItemMetadata,
     /** Localization keys per item-metadata entry. */
     labels: itemMetadataLabels,
-} = defineType(`SOHL.Item.METADATA`, {
-    [ITEM_KIND.AFFILIATION]: {
+} = defineType("SOHL.Item.METADATA", {
+    affiliation: {
         IconCssClass: "fa-duotone fa-solid fa-handshake",
         Image: "systems/sohl/assets/icons/other/people-group.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.AFFLICTION]: {
+    affliction: {
         IconCssClass: "fa-solid fa-face-nauseated",
         Image: "systems/sohl/assets/icons/game-icons/lorc/oppression.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.ARMORGEAR]: {
+    armorgear: {
         IconCssClass: "fa-solid fa-shield-halved",
         Image: "systems/sohl/assets/icons/noun/armor.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.ATTRIBUTE]: {
+    attribute: {
         IconCssClass: "fa-solid fa-user-gear",
         Image: "systems/sohl/assets/icons/other/user-gear.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.CONCOCTIONGEAR]: {
+    concoctiongear: {
         IconCssClass: "fa-solid fa-flask-round-potion",
         Image: "systems/sohl/assets/icons/other/potion.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.CONTAINERGEAR]: {
+    containergear: {
         IconCssClass: "fa-solid fa-sack",
         Image: "systems/sohl/assets/icons/other/sack.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.TRAUMA]: {
+    trauma: {
         IconCssClass: "fa-solid fa-user-injured",
         Image: "systems/sohl/assets/icons/other/injury.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.MISCGEAR]: {
+    miscgear: {
         IconCssClass: "fa-solid fa-ball-pile",
         Image: "systems/sohl/assets/icons/other/miscgear.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.MYSTERY]: {
+    mystery: {
         IconCssClass: "fa-solid fa-sparkles",
         Image: "systems/sohl/assets/icons/other/sparkles.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.MYSTICALABILITY]: {
+    mysticalability: {
         IconCssClass: "fa-solid fa-hand-sparkles",
         Image: "systems/sohl/assets/icons/other/hand-sparkles.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.PROJECTILEGEAR]: {
+    projectilegear: {
         IconCssClass: "fa-solid fa-bow-arrow",
         Image: "systems/sohl/assets/icons/noun/arrow.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.SKILL]: {
+    skill: {
         IconCssClass: "fa-solid fa-head-side-gear",
         Image: "systems/sohl/assets/icons/other/head-gear.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.WEAPONGEAR]: {
+    weapongear: {
         IconCssClass: "fa-solid fa-sword",
         Image: "systems/sohl/assets/icons/other/sword.svg",
         KeyChoices: [] as StrictObject<string>[],
@@ -278,23 +278,23 @@ export const {
     isValue: isActorMetadata,
     /** Localization keys per actor-metadata entry. */
     labels: actorMetadataLabels,
-} = defineType(`SOHL.Actor.METADATA`, {
-    [ACTOR_KIND.BEING]: {
+} = defineType("SOHL.Actor.METADATA", {
+    being: {
         IconCssClass: "fa-solid fa-user",
         Image: "systems/sohl/assets/icons/game-icons/delapouite/person.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ACTOR_KIND.COHORT]: {
+    cohort: {
         IconCssClass: "fa-solid fa-people-group",
         Image: "systems/sohl/assets/icons/other/people-group.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ACTOR_KIND.STRUCTURE]: {
+    structure: {
         IconCssClass: "fa-solid fa-building-columns",
         Image: "systems/sohl/assets/icons/game-icons/delapouite/house.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ACTOR_KIND.VEHICLE]: {
+    vehicle: {
         IconCssClass: "fa-solid fa-wagon-covered",
         Image: "systems/sohl/assets/icons/game-icons/delapouite/old-wagon.svg",
         KeyChoices: [] as StrictObject<string>[],
@@ -487,7 +487,7 @@ export const {
     isValue: isGearKind,
     /** Localization keys per gear kind. */
     labels: gearKindLabels,
-} = defineType(`SOHL.Gear.GEAR_KIND`, {
+} = defineType("SOHL.Gear.GEAR_KIND", {
     ARMOR: "armorgear",
     WEAPON: "weapongear",
     PROJECTILE: "projectilegear",
@@ -958,7 +958,7 @@ export const {
     isValue: isAttributeEffectKey,
     /** Localization keys per attribute effect key. */
     labels: attributeEffectKeyLabels,
-} = defineType(`SOHL.Attribute.EffectKey`, {
+} = defineType("SOHL.Attribute.EffectKey", {
     SCORE: "mod:logic.score",
     MASTERY_LEVEL: "mod:logic.masteryLevel",
     FATE: "mod:logic.fateMasteryLevel",
@@ -977,7 +977,7 @@ export const {
     isValue: isAfflictionEffectKey,
     /** Localization keys per affliction effect key. */
     labels: afflictionEffectKeyLabels,
-} = defineType(`SOHL.Affliction.EffectKey`, {
+} = defineType("SOHL.Affliction.EffectKey", {
     LEVEL: "mod:logic.level",
     HEALING_RATE: "mod:logic.healingRate",
     CONTAGION_INDEX: "mod:logic.contagionIndex",
@@ -996,7 +996,7 @@ export const {
     isValue: isArmorGearEffectKey,
     /** Localization keys per armor-gear effect key. */
     labels: armorGearEffectKeyLabels,
-} = defineType(`SOHL.ArmorGear.EffectKey`, {
+} = defineType("SOHL.ArmorGear.EffectKey", {
     WEIGHT: "mod:logic.weight",
     VALUE: "mod:logic.value",
     QUALITY: "mod:logic.quality",
@@ -1020,7 +1020,7 @@ export const {
     isValue: isMysteryEffectKey,
     /** Localization keys per mystery effect key. */
     labels: mysteryEffectKeyLabels,
-} = defineType(`SOHL.Mystery.EffectKey`, {
+} = defineType("SOHL.Mystery.EffectKey", {
     LEVEL: "mod:logic.level",
     CHARGES: "mod:logic.charges.value",
     MAX_CHARGES: "mod:logic.charges.max",
@@ -1038,7 +1038,7 @@ export const {
     isValue: isMysticalAbilityEffectKey,
     /** Localization keys per mystical-ability effect key. */
     labels: mysticalAbilityEffectKeyLabels,
-} = defineType(`SOHL.MysticalAbility.EffectKey`, {
+} = defineType("SOHL.MysticalAbility.EffectKey", {
     MASTERY_LEVEL: "mod:logic.masteryLevel",
     SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
     LEVEL: "mod:logic.level",
@@ -1058,7 +1058,7 @@ export const {
     isValue: isSkillEffectKey,
     /** Localization keys per skill effect key. */
     labels: skillEffectKeyLabels,
-} = defineType(`SOHL.Skill.EffectKey`, {
+} = defineType("SOHL.Skill.EffectKey", {
     BOOSTS: "logic.boosts",
     MASTERY_LEVEL: "mod:logic.masteryLevel",
     FATE: "mod:logic.fateMasteryLevel",
@@ -1077,7 +1077,7 @@ export const {
     isValue: isConcoctionGearEffectKey,
     /** Localization keys per concoction-gear effect key. */
     labels: concoctionGearEffectKeyLabels,
-} = defineType(`SOHL.ConcoctionGear.EffectKey`, {
+} = defineType("SOHL.ConcoctionGear.EffectKey", {
     WEIGHT: "mod:logic.weight",
     VALUE: "mod:logic.value",
     QUALITY: "mod:logic.quality",
@@ -1097,7 +1097,7 @@ export const {
     isValue: isContainerGearEffectKey,
     /** Localization keys per container-gear effect key. */
     labels: containerGearEffectKeyLabels,
-} = defineType(`SOHL.ContainerGear.EffectKey`, {
+} = defineType("SOHL.ContainerGear.EffectKey", {
     WEIGHT: "mod:logic.weight",
     VALUE: "mod:logic.value",
     QUALITY: "mod:logic.quality",
@@ -1117,7 +1117,7 @@ export const {
     isValue: isMiscGearEffectKey,
     /** Localization keys per misc-gear effect key. */
     labels: miscGearEffectKeyLabels,
-} = defineType(`SOHL.MiscGear.EffectKey`, {
+} = defineType("SOHL.MiscGear.EffectKey", {
     WEIGHT: "mod:logic.weight",
     VALUE: "mod:logic.value",
     QUALITY: "mod:logic.quality",
@@ -1136,7 +1136,7 @@ export const {
     isValue: isProjectileGearEffectKey,
     /** Localization keys per projectile-gear effect key. */
     labels: projectileGearEffectKeyLabels,
-} = defineType(`SOHL.ProjectileGear.EffectKey`, {
+} = defineType("SOHL.ProjectileGear.EffectKey", {
     WEIGHT: "mod:logic.weight",
     VALUE: "mod:logic.value",
     QUALITY: "mod:logic.quality",
@@ -1156,7 +1156,7 @@ export const {
     isValue: isTraumaEffectKey,
     /** Localization keys per trauma effect key. */
     labels: traumaEffectKeyLabels,
-} = defineType(`SOHL.Trauma.EffectKey`, {
+} = defineType("SOHL.Trauma.EffectKey", {
     LEVEL: "mod:logic.level",
     HEALING_RATE: "mod:logic.healingRate",
 });
@@ -1173,7 +1173,7 @@ export const {
     isValue: isWeaponGearEffectKey,
     /** Localization keys per weapon-gear effect key. */
     labels: weaponGearEffectKeyLabels,
-} = defineType(`SOHL.WeaponGear.EffectKey`, {
+} = defineType("SOHL.WeaponGear.EffectKey", {
     WEIGHT: "mod:logic.weight",
     VALUE: "mod:logic.value",
     QUALITY: "mod:logic.quality",
@@ -1193,7 +1193,7 @@ export const {
     isValue: isMeleeStrikeModeEffectKey,
     /** Localization keys per melee-strike-mode effect key. */
     labels: meleeStrikeModeEffectKeyLabels,
-} = defineType(`SOHL.MeleeStrikeMode.EffectKey`, {
+} = defineType("SOHL.MeleeStrikeMode.EffectKey", {
     // Change paths are rooted at the strike-mode entity (the effect's target
     // when `scope` is `meleestrikemode`), so no `sm:` prefix — the change is
     // applied directly to the matched strike mode.
@@ -1216,7 +1216,7 @@ export const {
     isValue: isMissileStrikeModeEffectKey,
     /** Localization keys per missile-strike-mode effect key. */
     labels: missileStrikeModeEffectKeyLabels,
-} = defineType(`SOHL.MissileStrikeMode.EffectKey`, {
+} = defineType("SOHL.MissileStrikeMode.EffectKey", {
     // Change paths are rooted at the strike-mode entity (the effect's target
     // when `scope` is `missilestrikemode`).
     ATTACK: "mod:attack",

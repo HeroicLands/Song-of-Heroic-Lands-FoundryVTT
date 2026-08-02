@@ -136,10 +136,10 @@ export type ActorDMMap = Record<
 >;
 /** Canonical actor-kind → DataModel registry, keyed by {@link sohl.utils.ACTOR_KIND}. */
 export const ACTOR_DM_DEF: ActorDMMap = {
-    [ACTOR_KIND.BEING]: BeingDataModel,
-    [ACTOR_KIND.COHORT]: CohortDataModel,
-    [ACTOR_KIND.STRUCTURE]: StructureDataModel,
-    [ACTOR_KIND.VEHICLE]: VehicleDataModel,
+    being: BeingDataModel,
+    cohort: CohortDataModel,
+    structure: StructureDataModel,
+    vehicle: VehicleDataModel,
 } satisfies ActorDMMap;
 const defActor: DefinedType<ActorDMMap> = defineType<ActorDMMap>(
     "TYPES.Actor",
@@ -167,13 +167,13 @@ export const CommonActorDataModels: ActorDMMap[keyof ActorDMMap][] =
  */
 export const ACTOR_LOGIC_DEF = {
     /** Logic class for being (humanoid/creature) actors. */
-    [ACTOR_KIND.BEING]: BeingLogic,
+    being: BeingLogic,
     /** Logic class for cohort actors (group of beings). */
-    [ACTOR_KIND.COHORT]: CohortLogic,
+    cohort: CohortLogic,
     /** Logic class for structure actors (buildings, fortifications). */
-    [ACTOR_KIND.STRUCTURE]: StructureLogic,
+    structure: StructureLogic,
     /** Logic class for vehicle actors (wagons, ships, etc.). */
-    [ACTOR_KIND.VEHICLE]: VehicleLogic,
+    vehicle: VehicleLogic,
 };
 
 // Compile-time check: ensure every ActorKind has an ACTOR_LOGIC_DEF entry.
@@ -224,10 +224,10 @@ export const {
     /** Localized labels keyed by actor kind. */
     labels: CommonActorSheetLabels,
 } = defineType("SOHL.Actor.Sheet", {
-    [ACTOR_KIND.BEING]: BeingSheet as any,
-    [ACTOR_KIND.COHORT]: CohortSheet as any,
-    [ACTOR_KIND.STRUCTURE]: StructureSheet as any,
-    [ACTOR_KIND.VEHICLE]: VehicleSheet as any,
+    being: BeingSheet as any,
+    cohort: CohortSheet as any,
+    structure: StructureSheet as any,
+    vehicle: VehicleSheet as any,
 } as StrictObject<Constructor<SohlActorSheetBase>>);
 
 /** Map of item kind → its `SohlDataModel` constructor. */
@@ -237,19 +237,19 @@ export type ItemDMMap = Record<
 >;
 /** Canonical item-kind → DataModel registry, keyed by {@link sohl.utils.ITEM_KIND}. */
 export const ITEM_DM_DEF: ItemDMMap = {
-    [ITEM_KIND.AFFILIATION]: AffiliationDataModel,
-    [ITEM_KIND.AFFLICTION]: AfflictionDataModel,
-    [ITEM_KIND.ARMORGEAR]: ArmorGearDataModel,
-    [ITEM_KIND.ATTRIBUTE]: AttributeDataModel,
-    [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearDataModel,
-    [ITEM_KIND.CONTAINERGEAR]: ContainerGearDataModel,
-    [ITEM_KIND.TRAUMA]: TraumaDataModel,
-    [ITEM_KIND.MISCGEAR]: MiscGearDataModel,
-    [ITEM_KIND.MYSTERY]: MysteryDataModel,
-    [ITEM_KIND.MYSTICALABILITY]: MysticalAbilityDataModel,
-    [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearDataModel,
-    [ITEM_KIND.SKILL]: SkillDataModel,
-    [ITEM_KIND.WEAPONGEAR]: WeaponGearDataModel,
+    affiliation: AffiliationDataModel,
+    affliction: AfflictionDataModel,
+    armorgear: ArmorGearDataModel,
+    attribute: AttributeDataModel,
+    concoctiongear: ConcoctionGearDataModel,
+    containergear: ContainerGearDataModel,
+    trauma: TraumaDataModel,
+    miscgear: MiscGearDataModel,
+    mystery: MysteryDataModel,
+    mysticalability: MysticalAbilityDataModel,
+    projectilegear: ProjectileGearDataModel,
+    skill: SkillDataModel,
+    weapongear: WeaponGearDataModel,
 } satisfies ItemDMMap;
 const defItem: DefinedType<ItemDMMap> = defineType<ItemDMMap>(
     "TYPES.Item",
@@ -283,31 +283,31 @@ export const CommonItemDataModels: ItemDMMap[keyof ItemDMMap][] = Object.values(
  */
 export const ITEM_LOGIC_DEF = {
     /** Logic class for affiliation items (factions, organizations). */
-    [ITEM_KIND.AFFILIATION]: AffiliationLogic,
+    affiliation: AffiliationLogic,
     /** Logic class for affliction items (disease, poison, injuries). */
-    [ITEM_KIND.AFFLICTION]: AfflictionLogic,
+    affliction: AfflictionLogic,
     /** Logic class for armor gear items. */
-    [ITEM_KIND.ARMORGEAR]: ArmorGearLogic,
+    armorgear: ArmorGearLogic,
     /** Logic class for attribute items (strength, agility, etc.). */
-    [ITEM_KIND.ATTRIBUTE]: AttributeLogic,
+    attribute: AttributeLogic,
     /** Logic class for concoction gear items (potions, poisons). */
-    [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearLogic,
+    concoctiongear: ConcoctionGearLogic,
     /** Logic class for container gear items (bags, chests). */
-    [ITEM_KIND.CONTAINERGEAR]: ContainerGearLogic,
+    containergear: ContainerGearLogic,
     /** Logic class for trauma items (wounds, injuries). */
-    [ITEM_KIND.TRAUMA]: TraumaLogic,
+    trauma: TraumaLogic,
     /** Logic class for miscellaneous gear items. */
-    [ITEM_KIND.MISCGEAR]: MiscGearLogic,
+    miscgear: MiscGearLogic,
     /** Logic class for mystery items (magic schools, arcane traditions). */
-    [ITEM_KIND.MYSTERY]: MysteryLogic,
+    mystery: MysteryLogic,
     /** Logic class for mystical ability items (spells, powers). */
-    [ITEM_KIND.MYSTICALABILITY]: MysticalAbilityLogic,
+    mysticalability: MysticalAbilityLogic,
     /** Logic class for projectile gear items (arrows, bolts). */
-    [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearLogic,
+    projectilegear: ProjectileGearLogic,
     /** Logic class for skill items (combat, crafting, social, etc.). */
-    [ITEM_KIND.SKILL]: SkillLogic,
+    skill: SkillLogic,
     /** Logic class for weapon gear items. */
-    [ITEM_KIND.WEAPONGEAR]: WeaponGearLogic,
+    weapongear: WeaponGearLogic,
 };
 
 // Compile-time check: ensure every ItemKind has an ITEM_LOGIC_DEF entry.
@@ -416,19 +416,19 @@ export const {
     /** Localized labels keyed by item kind. */
     labels: CommonItemSheetLabels,
 } = defineType("SOHL.Item.Sheet", {
-    [ITEM_KIND.AFFILIATION]: AffiliationSheet,
-    [ITEM_KIND.AFFLICTION]: AfflictionSheet,
-    [ITEM_KIND.ARMORGEAR]: ArmorGearSheet,
-    [ITEM_KIND.ATTRIBUTE]: AttributeSheet,
-    [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearSheet,
-    [ITEM_KIND.CONTAINERGEAR]: ContainerGearSheet,
-    [ITEM_KIND.TRAUMA]: TraumaSheet,
-    [ITEM_KIND.MISCGEAR]: MiscGearSheet,
-    [ITEM_KIND.MYSTERY]: MysterySheet,
-    [ITEM_KIND.MYSTICALABILITY]: MysticalAbilitySheet,
-    [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearSheet,
-    [ITEM_KIND.SKILL]: SkillSheet,
-    [ITEM_KIND.WEAPONGEAR]: WeaponGearSheet,
+    affiliation: AffiliationSheet,
+    affliction: AfflictionSheet,
+    armorgear: ArmorGearSheet,
+    attribute: AttributeSheet,
+    concoctiongear: ConcoctionGearSheet,
+    containergear: ContainerGearSheet,
+    trauma: TraumaSheet,
+    miscgear: MiscGearSheet,
+    mystery: MysterySheet,
+    mysticalability: MysticalAbilitySheet,
+    projectilegear: ProjectileGearSheet,
+    skill: SkillSheet,
+    weapongear: WeaponGearSheet,
 } as StrictObject<Constructor<SohlItemSheetBase>>);
 
 /** A calendar entry in the {@link sohl.core.logic.SohlSystem} calendar registry. */
