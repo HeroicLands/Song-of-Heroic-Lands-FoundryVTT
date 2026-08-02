@@ -7,11 +7,12 @@
 
 /**
  * Render the real Trauma properties sheet template in Node and assert the
- * emitted binding placeholders. Covers #754: the Sub-type control
- * (`system.subType`) must pass `localize=true` so its choices map — whose
- * labels are i18n keys (`SOHL.Trauma.SubType.physical`) — renders the localized
- * label ("Injury") rather than the raw key. Parallels the Skill sheet Combat
- * Category fix (#751).
+ * emitted binding placeholders. Covers #926: a document's sub-type is fixed at
+ * creation, so the Trauma Properties tab must NOT render an editable
+ * `system.subType` control. The sub-type is presented read-only in the sheet
+ * header (via the localized `typeLabel`); this template only edits the mutable
+ * trauma fields. (Supersedes #754, which localized the now-removed dropdown's
+ * choice labels.)
  */
 
 import { describe, it, expect } from "vitest";
@@ -44,18 +45,19 @@ function render(subType: string): string {
     });
 }
 
-describe("trauma properties sheet template (#754)", () => {
-    it("renders the Sub-type control bound to system.subType", () => {
-        const html = render("physical");
-        expect(html).toContain('data-field="system.subType"');
-        expect(html).toContain('data-value="physical"');
+describe("trauma properties sheet template (#926)", () => {
+    it("does NOT render an editable sub-type control", () => {
+        // Sub-type is immutable after creation, so the Properties tab must not
+        // bind an editable control to system.subType (the header shows it
+        // read-only via typeLabel).
+        const html = render("injury");
+        expect(html).not.toContain('data-field="system.subType"');
+        expect(html).not.toContain('name="system.subType"');
     });
 
-    it("localizes the Sub-type choice labels (#754)", () => {
-        // The choices map uses i18n keys as labels; without localize=true the
-        // select renders "SOHL.Trauma.SubType.physical" instead of "Injury".
-        const html = render("physical");
-        const control = html.slice(html.indexOf('data-field="system.subType"'));
-        expect(control).toContain("data-localize");
+    it("still renders the mutable trauma fields", () => {
+        const html = render("injury");
+        expect(html).toContain('data-field="system.levelBase"');
+        expect(html).toContain('data-field="system.healingRateBase"');
     });
 });
