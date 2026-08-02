@@ -1170,6 +1170,11 @@ export interface AfflictionLike {
     healingRateDeltaLabel: string;
     /** Localized source/category label. */
     source: string;
+    /**
+     * World time (seconds) of the next course/recovery check, or `null` when
+     * none is projectable — rendered calendar-formatted (#943).
+     */
+    nextHealTest: number | null;
     /** Raw notes HTML. */
     notes: string;
 }
@@ -1189,6 +1194,11 @@ export interface AfflictionRow {
     /** Healing-rate modifier derivation summary for the hover tooltip (#769). */
     healingRateDeltaLabel: string;
     source: string;
+    /**
+     * World time (seconds) of the next course/recovery check, or `null` when
+     * none is projectable — rendered calendar-formatted (#943).
+     */
+    nextHealTest: number | null;
     /** Plain-text notes (HTML stripped). */
     notes: string;
 }
@@ -1232,6 +1242,7 @@ export function buildAfflictionGroups(
         healingRateDisabled: a.healingRateDisabled,
         healingRateDeltaLabel: a.healingRateDeltaLabel,
         source: a.source,
+        nextHealTest: a.nextHealTest,
         notes: htmlToPlainText(a.notes),
     });
 

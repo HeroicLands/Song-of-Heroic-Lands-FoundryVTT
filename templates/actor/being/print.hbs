@@ -336,20 +336,20 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <thead>
                 <tr>
                     <th>{{localize "SOHL.Print.affliction"}}</th>
+                    <th>{{localize "SOHL.Print.category"}}</th>
                     <th>{{localize "SOHL.Print.level"}}</th>
                     <th class="num" data-title="Healing Rate">HR</th>
-                    <th>{{localize "SOHL.Print.source"}}</th>
-                    <th>{{localize "SOHL.Item.FIELDS.notes.label"}}</th>
+                    <th>{{localize "SOHL.Print.nextHealTest"}}</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each group.afflictions as |aff|}}
                 <tr>
                     <td>{{aff.name}}</td>
+                    <td>{{aff.source}}</td>
                     <td>{{aff.level}}</td>
                     <td class="num">{{#if aff.healingRateDisabled}}{{emDash}}{{else}}{{aff.healingRate}}{{/if}}</td>
-                    <td>{{aff.source}}</td>
-                    <td class="notes">{{aff.notes}}</td>
+                    <td>{{displayWorldTime aff.nextHealTest}}</td>
                 </tr>
                 {{/each}}
             </tbody>

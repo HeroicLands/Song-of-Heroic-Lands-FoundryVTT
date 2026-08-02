@@ -23,10 +23,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{formGroup fields.contagionIndexBase rootId="ail-contidx" classes="stacked" value=logic.data.contagionIndexBase}}
         {{formGroup fields.transmission rootId="ail-trx" classes="stacked" value=logic.data.transmission}}
         {{formGroup fields.diagnosisBonusBase rootId="ail-diag" classes="stacked" value=logic.data.diagnosisBonusBase}}
-        {{formGroup fields.contractDate rootId="ail-contract" classes="stacked" value=logic.data.contractDate}}
+        {{formGroup fields.onsetMacroUuid rootId="ail-onset-macro" classes="stacked" value=logic.data.onsetMacroUuid}}
+        {{formGroup fields.outcomeTrauma rootId="ail-outcome-trauma" classes="stacked" value=logic.data.outcomeTrauma}}
         <div class="form-group stacked">
-            <label>Treated (world-time)</label>
-            {{clearableNumberInput fields.treatmentDate name="system.treatmentDate" value=logic.data.treatmentDate}}
+            <label>{{localize "SOHL.Affliction.FIELDS.contractDate.label"}}</label>
+            {{datePicker logic.data.contractDate name="system.contractDate"}}
+        </div>
+        <div class="form-group stacked">
+            <label>{{localize "SOHL.Affliction.FIELDS.treatmentDate.label"}}</label>
+            {{datePicker logic.data.treatmentDate name="system.treatmentDate"}}
         </div>
     </div>
 
@@ -35,15 +40,26 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <div class="field-grid field-grid--3col">
             {{formGroup fields.onsetDurationFormula rootId="ail-onset-duration-formula" classes="stacked" value=logic.data.onsetDurationFormula}}
             {{formGroup fields.onsetDurationBase rootId="ail-onset-duration-base" classes="stacked" value=logic.data.onsetDurationBase}}
-            {{formGroup fields.onsetDate rootId="ail-onset-date" classes="stacked" value=logic.data.onsetDate}}
+            <div class="form-group stacked">
+                <label>{{localize "SOHL.Affliction.Calc.estOnsetDate.label"}}</label>
+                <span class="date-picker__display">{{displayWorldTime logic.estOnsetDate}}</span>
+            </div>
+            <div class="form-group stacked">
+                <label>{{localize "SOHL.Affliction.FIELDS.onsetDate.label"}}</label>
+                {{datePicker logic.data.onsetDate name="system.onsetDate"}}
+            </div>
         </div>
     </fieldset>
 
     <fieldset>
         <legend>Healing Check</legend>
-        <div class="field-grid">
+        <div class="field-grid field-grid--3col">
             {{formGroup fields.healingCheckDurationFormula rootId="ail-healing-check-duration-formula" classes="stacked" value=logic.data.healingCheckDurationFormula}}
             {{formGroup fields.healingCheckDurationBase rootId="ail-healing-check-duration-base" classes="stacked" value=logic.data.healingCheckDurationBase}}
+            <div class="form-group stacked">
+                <label>{{localize "SOHL.Affliction.Calc.nextHealTest.label"}}</label>
+                <span class="date-picker__display">{{displayWorldTime logic.nextHealTest}}</span>
+            </div>
         </div>
     </fieldset>
 
@@ -52,7 +68,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <div class="field-grid field-grid--3col">
             {{formGroup fields.resolutionDurationFormula rootId="ail-resolution-duration-formula" classes="stacked" value=logic.data.resolutionDurationFormula}}
             {{formGroup fields.resolutionDurationBase rootId="ail-resolution-duration-base" classes="stacked" value=logic.data.resolutionDurationBase}}
-            {{formGroup fields.resolutionDate rootId="ail-resolution-date" classes="stacked" value=logic.data.resolutionDate}}
+            <div class="form-group stacked">
+                <label>{{localize "SOHL.Affliction.Calc.estResolutionDate.label"}}</label>
+                <span class="date-picker__display">{{displayWorldTime logic.estResolutionDate}}</span>
+            </div>
+            <div class="form-group stacked">
+                <label>{{localize "SOHL.Affliction.FIELDS.resolutionDate.label"}}</label>
+                {{datePicker logic.data.resolutionDate name="system.resolutionDate"}}
+            </div>
         </div>
     </fieldset>
 </section>

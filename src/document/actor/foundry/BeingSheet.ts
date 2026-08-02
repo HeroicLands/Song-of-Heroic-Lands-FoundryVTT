@@ -2499,6 +2499,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
                     healingRateDisabled: !!al?.healingRate?.disabled,
                     healingRateDeltaLabel: al?.healingRate?.deltaLabel ?? "",
                     source: al?.categoryLabel ?? "",
+                    nextHealTest: al?.nextHealTest ?? null,
                     notes: sys.notes,
                 };
             }),

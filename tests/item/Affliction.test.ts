@@ -929,3 +929,83 @@ describe("resolution outcome effect (#490)", () => {
         expect(create).not.toHaveBeenCalled();
     });
 });
+
+describe("view-only computed dates (#943)", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    /** A `system.scheduledActions` seed (generic store, issue #588). */
+    function sched(actionName: string, anchor: number, interval: number) {
+        return { actionName, anchor, interval, sceneUuid: "", payload: {} };
+    }
+
+    it("estOnsetDate = contractDate + onsetDurationBase", () => {
+        const logic = makeAffliction({
+            contractDate: 1000,
+            onsetDurationBase: 500,
+        });
+        logic.initialize();
+        expect(logic.estOnsetDate).toBe(1500);
+    });
+
+    it("estOnsetDate is undefined without a contract date", () => {
+        const logic = makeAffliction({
+            contractDate: null,
+            onsetDurationBase: 500,
+        });
+        logic.initialize();
+        expect(logic.estOnsetDate).toBeUndefined();
+    });
+
+    it("estResolutionDate anchors on onsetDate once symptomatic", () => {
+        const logic = makeAffliction({
+            contractDate: 1000,
+            onsetDate: 2000,
+            resolutionDurationBase: 300,
+        });
+        logic.initialize();
+        expect(logic.estResolutionDate).toBe(2300);
+    });
+
+    it("estResolutionDate falls back to contractDate while incubating", () => {
+        const logic = makeAffliction({
+            contractDate: 1000,
+            onsetDate: null,
+            resolutionDurationBase: 300,
+        });
+        logic.initialize();
+        expect(logic.estResolutionDate).toBe(1300);
+    });
+
+    it("nextHealTest uses the armed healingCheck schedule (anchor + interval)", () => {
+        const logic = makeAffliction({
+            contractDate: 1000,
+            onsetDate: 2000,
+            healingCheckDurationBase: 400,
+            scheduledActions: [sched("healingCheck", 5000, 700)],
+        });
+        logic.initialize();
+        // The live schedule wins over the arithmetic fallback.
+        expect(logic.nextHealTest).toBe(5700);
+    });
+
+    it("nextHealTest falls back to (onsetDate ?? contractDate) + healingCheckDurationBase", () => {
+        const logic = makeAffliction({
+            contractDate: 1000,
+            onsetDate: 2000,
+            healingCheckDurationBase: 400,
+            scheduledActions: [],
+        });
+        logic.initialize();
+        expect(logic.nextHealTest).toBe(2400);
+    });
+
+    it("nextHealTest is undefined with no schedule and no interval", () => {
+        const logic = makeAffliction({
+            contractDate: 1000,
+            healingCheckDurationBase: 0,
+            scheduledActions: [],
+        });
+        logic.initialize();
+        expect(logic.nextHealTest).toBeUndefined();
+    });
+});
