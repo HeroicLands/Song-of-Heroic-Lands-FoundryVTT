@@ -60,4 +60,22 @@ describe("trauma properties sheet template (#926)", () => {
         expect(html).toContain('data-field="system.levelBase"');
         expect(html).toContain('data-field="system.healingRateBase"');
     });
+
+    // #927: the Physical fieldset (aspect / body location / blood-loss) is gated
+    // on the sub-type. The physical-harm sub-type is `injury` (there is no
+    // `physical` value in TRAUMA_SUBTYPE), so the gate must render for `injury`.
+    it("renders the Physical fieldset for the injury sub-type", () => {
+        const html = render("injury");
+        expect(html).toContain('data-field="system.aspect"');
+        expect(html).toContain('data-field="system.bodyLocationCode"');
+        expect(html).toContain(
+            'data-field="system.bloodLossAdvanceDurationBase"',
+        );
+    });
+
+    it("does NOT render the Physical fieldset for a non-injury sub-type", () => {
+        const html = render("psycond");
+        expect(html).not.toContain('data-field="system.aspect"');
+        expect(html).not.toContain('data-field="system.bodyLocationCode"');
+    });
 });
