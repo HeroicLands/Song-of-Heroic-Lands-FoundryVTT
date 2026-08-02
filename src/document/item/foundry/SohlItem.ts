@@ -18,6 +18,7 @@ import {
     type SubTypeOption,
 } from "@src/utils/helpers";
 import { toFilePath } from "@src/utils/helpers";
+import { DEFAULT_ITEM_ART } from "@src/utils/default-item-art.mjs";
 import {
     dialog,
     fvttRenderSheet,
@@ -643,6 +644,36 @@ export class SohlItem extends Item {
         options: { types?: string[]; [k: string]: any } = {},
     ): Promise<any> {
         return sohlCreateDialog(this as any, data, createOptions, options);
+    }
+
+    /**
+     * Default artwork for a freshly-created item, keyed by its `type`.
+     *
+     * Foundry's base `Item.getDefaultArtwork` returns `Item.DEFAULT_ICON`
+     * (`icons/svg/item-bag.svg`) — a white bag that is invisible on the light
+     * Manuscript sheet and does not adapt to theme. This override gives every
+     * known SoHL item type the same themed default the compendium builder
+     * applies to pack content, from the shared {@link DEFAULT_ITEM_ART} map, so
+     * an item created without an explicit `img` (e.g. via **Add Trauma**) is no
+     * longer stuck with the white bag (issue #932).
+     *
+     * The base `img` schema field seeds its `initial` from this method, so the
+     * mapped art lands on the created document, not just the create dialog.
+     * Unknown or `base`-typed items fall back to Foundry's default rather than
+     * throwing, keeping ad-hoc/core creation robust.
+     *
+     * @param itemData - The source item data (its `type` selects the art).
+     * @returns The candidate item image.
+     */
+    static override getDefaultArtwork(itemData: PlainObject = {}): {
+        img: string;
+    } {
+        const type = (itemData as { type?: string }).type ?? "";
+        const art = DEFAULT_ITEM_ART[type as keyof typeof DEFAULT_ITEM_ART];
+        if (art) return { img: art };
+        // Delegate to Foundry's built-in default (the white bag) for types we
+        // don't map — same as prior behavior, so nothing regresses.
+        return super.getDefaultArtwork(itemData as any);
     }
 
     /**
