@@ -1,9 +1,33 @@
 // The branded "Game System" section injected into the Game Settings sidebar
 // (issue #915, polished in the follow-up). UNSCOPED — the settings sidebar is
 // Foundry chrome, outside the `.sohl` frame — so rules target only our own
-// `.sohl-game-system` block. The `--sohl-color-*` tokens resolve on `:root` and
-// follow the light/dark swap, so the section matches the emblem (which
-// self-themes via prefers-color-scheme).
+// `.sohl-game-system` block.
+//
+// Palette: the section must match the sidebar ground, and that ground is painted
+// by FOUNDRY'S interface theme, not the OS. Foundry stamps `theme-light` /
+// `theme-dark` (+ the matching `color-scheme`) on the chrome (`body`,
+// `#interface`, the sidebar tab); its light theme is a parchment ground, its dark
+// theme a near-black one. SoHL's own `--sohl-color-*` tokens, by contrast, follow
+// the OS `prefers-color-scheme`. When the two disagree the section's text mismatch
+// its ground — a Foundry-dark sidebar under an OS-light preference rendered dark
+// ink on black (issue #931), and a fixed dark pin then vanished on the light
+// parchment. So we bind the palette to Foundry's theme class instead: light tokens
+// (dark ink, `color-scheme: light` → ink emblem) under `theme-light`, dark tokens
+// (cream, `color-scheme: dark` → cream emblem) under `theme-dark`. The section then
+// stays legible in whichever theme Foundry is using, and follows a live toggle.
+
+@use "../abstracts/tokens";
+
+// Track Foundry's interface theme (the sidebar ground), keyed off the theme class
+// Foundry puts on the enclosing chrome — never the OS swap. `light-lock` /
+// `dark-lock` emit the matching palette + `color-scheme` (which also drives the
+// `<img>` emblem's fill).
+.theme-light .sohl-game-system {
+    @include tokens.light-lock;
+}
+.theme-dark .sohl-game-system {
+    @include tokens.dark-lock;
+}
 
 .sohl-game-system {
     // NB: deliberately NO `align-items: center`. The header is a native
@@ -35,42 +59,29 @@
     }
 
     &__links {
-        // Centred block, but its wrapped lines left-align inside it so the clip
-        // below can hide a separator that falls at a line's start. `fit-content`
-        // keeps the block only as wide as its content (centred via auto margins)
-        // when the links fit on one line, and grows to full width when they wrap.
-        width: fit-content;
-        max-width: 100%;
-        margin-inline: auto;
-        overflow: hidden;
+        // Every wrapped line is centred, links separated by whitespace only. A
+        // middot separator strictly BETWEEN links can't survive centring: on a
+        // wrapped line a pseudo-element dot orphans at the line edge (a leading or
+        // trailing dot), and the earlier left-align + overflow clip that hid it
+        // only worked because each line started at the container's left edge.
+        // Centring is the priority here, so the dots are dropped rather than
+        // orphaned — the column-gap carries the separation.
         display: flex;
         flex-wrap: wrap;
-        justify-content: flex-start;
-        column-gap: 0.85rem;
+        justify-content: center;
+        max-width: 100%;
+        column-gap: 0.9rem;
         row-gap: 0.1rem;
         font-size: var(--font-size-14, 0.875rem);
         line-height: 1.6;
 
         a {
-            position: relative;
             color: var(--sohl-color-accent);
             text-decoration: none;
             white-space: nowrap;
 
             &:hover {
                 text-decoration: underline;
-            }
-
-            // Middot separator BEFORE each link after the first, sitting in the
-            // column gap to its left. On a wrapped line the first link is at the
-            // container's left edge, so its separator hangs into negative space
-            // and `overflow: hidden` clips it — a dot therefore only ever appears
-            // BETWEEN two links on the same line, never at a line's start or end.
-            & + a::before {
-                content: "·";
-                position: absolute;
-                right: calc(100% + 0.3rem);
-                color: var(--sohl-color-text-muted);
             }
         }
     }

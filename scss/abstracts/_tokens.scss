@@ -163,6 +163,20 @@ $fonts: (
     @include -emit-colors($colors);
 }
 
+// The mirror of `light-lock`: emit every `--sohl-color-*` token at its DARK value
+// (and `color-scheme: dark`) on the scoped element, independent of the OS /
+// `[data-theme]` swap. Use it — paired with `light-lock` under the matching
+// theme class — when a surface must track the palette of an *enclosing Foundry
+// frame that Foundry themes itself*, not the OS: the Game Settings sidebar, whose
+// ground Foundry paints per its interface theme (`theme-dark`/`theme-light` on the
+// chrome), independent of SoHL's OS-driven tokens. Binding the two mixins to those
+// theme classes keeps the section's text and its `<img>` emblem contrasting the
+// sidebar ground in whichever theme Foundry chose. See base/_settings-links.scss.
+@mixin dark-lock {
+    color-scheme: dark;
+    @include -emit-colors($colors-dark);
+}
+
 // Render tokens to `--sohl-*` custom properties, with light as the default and
 // dark applied via OS preference + the explicit `[data-theme]` toggle (which
 // must win in both directions).
