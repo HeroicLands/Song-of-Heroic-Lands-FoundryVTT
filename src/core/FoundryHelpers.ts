@@ -343,6 +343,18 @@ export function fvttSystemLinks(): SohlSystemInfo {
 }
 
 /**
+ * The running system's version string (e.g. `"0.7.0"`).
+ *
+ * The migration runner compares this against the world's stored
+ * `systemMigrationVersion` to decide which migrations to apply.
+ *
+ * @returns The `game.system.version` string, or `""` when unavailable.
+ */
+export function fvttSystemVersion(): string {
+    return (game as any).system?.version ?? "";
+}
+
+/**
  * Whether the current user is the active GM.
  * @returns `true` if the current user is the active GM.
  */
