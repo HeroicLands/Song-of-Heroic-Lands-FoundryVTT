@@ -246,6 +246,72 @@ describe("ExpressionHelperRegistry", () => {
         });
     });
 
+    describe("sb — Skill Base reduction (#972)", () => {
+        const sb = () => STANDARD_HELPERS.sb as (...v: unknown[]) => number;
+
+        it("returns the value itself for a single argument", () => {
+            expect(sb()(37)).toBe(37);
+        });
+
+        it("2 values — ceils when the primary exceeds the secondary", () => {
+            // (11 + 10) / 2 = 10.5, primary > secondary → ceil = 11
+            expect(sb()(11, 10)).toBe(11);
+        });
+
+        it("2 values — floors when the primary does not exceed the secondary", () => {
+            // (10 + 11) / 2 = 10.5, primary < secondary → floor = 10
+            expect(sb()(10, 11)).toBe(10);
+        });
+
+        it("2 values — equal values floor (strict-> tiebreak)", () => {
+            expect(sb()(10, 10)).toBe(10);
+        });
+
+        it("3+ values — rounds the average to nearest", () => {
+            expect(sb()(10, 10, 11)).toBe(10); // round(31/3) = 10
+            expect(sb()(10, 10, 12)).toBe(11); // round(32/3) = 11
+        });
+
+        it("does not clamp — negative values pass through", () => {
+            expect(sb()(-4, -4)).toBe(-4);
+        });
+
+        it("throws when called with no arguments", () => {
+            expect(() => sb()()).toThrow(SafeExpressionError);
+        });
+    });
+
+    describe("birthsignBonus (#972)", () => {
+        const bb = () =>
+            STANDARD_HELPERS.birthsignBonus as (
+                signs: unknown,
+                code: unknown,
+                amount: unknown,
+            ) => number;
+
+        it("returns the amount when the birthsign is present", () => {
+            expect(bb()(["hirin", "ahnu"], "hirin", 2)).toBe(2);
+        });
+
+        it("returns 0 when the birthsign is absent", () => {
+            expect(bb()(["ahnu"], "hirin", 2)).toBe(0);
+        });
+
+        it("matches case-insensitively", () => {
+            expect(bb()(["hirin"], "HIRIN", 3)).toBe(3);
+        });
+
+        it("returns 0 when the first argument is not an array", () => {
+            expect(bb()(null, "hirin", 2)).toBe(0);
+            expect(bb()(undefined, "hirin", 2)).toBe(0);
+        });
+
+        it("stacks when summed across terms (each returns its own amount)", () => {
+            const signs = ["hirin", "ahnu"];
+            expect(bb()(signs, "hirin", 2) + bb()(signs, "ahnu", 3)).toBe(5);
+        });
+    });
+
     describe("custom function helpers", () => {
         it("registers and invokes a function helper", () => {
             reg.register("double", (n) => (n as number) * 2);

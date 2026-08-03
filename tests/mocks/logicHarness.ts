@@ -440,7 +440,8 @@ export function makeTokenLogic(opts: { actor?: any; name?: string } = {}): any {
 /**
  * Build an attribute item stub satisfying BOTH consumers of actor-embedded
  * attributes:
- * - `calcSkillBase` reads `logic.data.shortcode` and `logic.score.effective`
+ * - the Skill-Base `attr` context reads `logic.data.shortcode` and
+ *   `logic.score.effective`
  * - `SkillLogic.initialize` reads `system.shortcode` and
  *   `logic.masteryLevel.{disabled,effective}`
  *

@@ -13,6 +13,7 @@
 
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { SohlItemSheetBase } from "@src/document/item/foundry/SohlItemSheetBase";
+import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { SKILL_SUBTYPE } from "@src/utils/constants";
 import {
     addStrikeMode,
@@ -132,8 +133,12 @@ export class SkillSheet extends SohlItemSheetBase {
     > {
         await super._preparePropertiesContext(context, options);
         const system = this.document.system as any;
+        const logic = this.document.logic as SkillLogic | undefined;
         return Object.assign(context, {
             skillBaseFormula: system.skillBaseFormula,
+            // Surface a malformed Skill-Base expression next to its field so the
+            // author can fix it (#972); `undefined` when the formula is valid.
+            skillBaseError: logic?.skillBaseError,
             masteryLevelBase: system.masteryLevelBase,
             initSkillMult: system.initSkillMult,
             parentSkillCode: system.parentSkillCode,

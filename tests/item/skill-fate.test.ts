@@ -61,7 +61,7 @@ function makeSkill(actor: any): SkillLogic {
         "skill",
         {
             subType: "combat",
-            skillBaseFormula: "@str,@dex",
+            skillBaseFormula: "sb(attr.str, attr.dex)",
             masteryLevelBase: 30,
             initSkillMult: 1,
         },
@@ -348,7 +348,10 @@ describe("SkillLogic.availableFate — eligibility (#854)", () => {
         const skill = makeItemLogic(
             SkillLogic,
             "skill",
-            { skillBaseFormula: "@str,@dex", masteryLevelBase: 30 },
+            {
+                skillBaseFormula: "sb(attr.str, attr.dex)",
+                masteryLevelBase: 30,
+            },
             { id: "loose", shortcode: "melee" },
         ) as SkillLogic;
         skill.initialize();

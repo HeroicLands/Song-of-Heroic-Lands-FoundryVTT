@@ -15,7 +15,7 @@ sohl:
     kbcat: languages
     archetype: 0
     subType: language
-    skillBaseFormula: "@elo, @rea"
+    skillBaseFormula: "sb(attr.elo, attr.rea)"
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0

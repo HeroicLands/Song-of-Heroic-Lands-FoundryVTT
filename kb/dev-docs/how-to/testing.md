@@ -121,7 +121,7 @@ actor.items.set("str1", makeAttributeStub("str", 12));
 const logic = makeItemLogic(
     SkillLogic,
     "skill",
-    { skillBaseFormula: "@str", masteryLevelBase: 30 },
+    { skillBaseFormula: "sb(attr.str)", masteryLevelBase: 30 },
     { actor },
 );
 logic.initialize(); // lifecycle is NOT auto-run

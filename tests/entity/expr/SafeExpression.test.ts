@@ -432,6 +432,51 @@ describe("SafeExpression", () => {
         });
     });
 
+    describe("attrRefs / memberRefs (#972)", () => {
+        const attrRefs = (source: string): string[] =>
+            new SafeExpression({ source }, { parent: mockParent }).attrRefs();
+
+        it("collects dot-access attr member names, lowercased and de-duplicated", () => {
+            expect(attrRefs("sb(attr.str, attr.dex)")).toEqual(["str", "dex"]);
+            expect(attrRefs("sb(attr.STR, attr.Str)")).toEqual(["str"]);
+        });
+
+        it("collects string-literal computed access", () => {
+            expect(attrRefs('sb(attr["aur"], attr.wil)')).toEqual([
+                "aur",
+                "wil",
+            ]);
+        });
+
+        it("includes aur when the formula reads it, excludes it otherwise", () => {
+            expect(attrRefs("sb(attr.aur, attr.wil)").includes("aur")).toBe(
+                true,
+            );
+            expect(attrRefs("sb(attr.str, attr.dex)").includes("aur")).toBe(
+                false,
+            );
+        });
+
+        it("walks nested operators, conditionals, and helper args", () => {
+            const refs = attrRefs(
+                "sb(attr.str, attr.dex) + (attr.end > 10 ? attr.wil : 0)",
+            );
+            expect(refs.sort()).toEqual(["dex", "end", "str", "wil"]);
+        });
+
+        it("ignores non-literal computed access and other base identifiers", () => {
+            expect(attrRefs("attr[x] + other.str")).toEqual([]);
+        });
+
+        it("memberRefs generalizes to any base identifier", () => {
+            const expr = new SafeExpression(
+                { source: "birthsigns.hirin + attr.str" },
+                { parent: mockParent },
+            );
+            expect(expr.memberRefs("birthsigns")).toEqual(["hirin"]);
+        });
+    });
+
     describe("serialization (SohlEntity)", () => {
         it("requires a parent", () => {
             expect(() => new SafeExpression({ source: "1 + 1" }, {})).toThrow(

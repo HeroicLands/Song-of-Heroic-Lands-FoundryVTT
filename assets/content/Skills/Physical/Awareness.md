@@ -15,7 +15,7 @@ sohl:
     kbcat: physical
     archetype: 0
     subType: physical
-    skillBaseFormula: "@per, @wil"
+    skillBaseFormula: "sb(attr.per, attr.wil)"
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 3
