@@ -39,8 +39,10 @@ const { NumberField, BooleanField, StringField } = foundry.data.fields;
 function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
+        // Required with no default: a Trauma must declare its kind at creation
+        // (subType is never silently defaulted).
         subType: new StringField({
-            initial: TRAUMA_SUBTYPE.INJURY,
+            required: true,
             choices: TraumaSubTypeChoices,
         }),
         // Sub-category within a subtype — e.g. a FATIGUE trauma's category is a

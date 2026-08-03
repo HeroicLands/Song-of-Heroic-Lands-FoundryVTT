@@ -21,7 +21,6 @@ import {
     ImpactAspect,
     ImpactAspectChoices,
     ITEM_KIND,
-    PROJECTILEGEAR_SUBTYPE,
     ProjectileGearSubType,
     ProjectileGearSubTypes,
     ProjectileGearSubTypeChoices,
@@ -37,9 +36,11 @@ const { NumberField, StringField, SchemaField, BooleanField } =
 function defineProjectileGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
+        // Required with no default: projectile gear must declare its kind at
+        // creation (subType is never silently defaulted).
         subType: new StringField({
             choices: ProjectileGearSubTypeChoices,
-            initial: PROJECTILEGEAR_SUBTYPE.NONE,
+            required: true,
         }),
         impactBase: new SchemaField({
             numDice: new NumberField({

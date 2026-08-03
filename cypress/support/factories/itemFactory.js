@@ -55,10 +55,13 @@ export const GEAR_KINDS = new Set([
  */
 const KIND_DEFAULTS = {
     attribute: { scoreBase: 10 },
-    skill: { masteryLevelBase: 0 },
-    // These kinds declare a `required` field with no `initial`, so a bare create
-    // fails validation — a valid document must supply it. `subType` picks the
-    // first valid choice.
+    // Every subType-bearing kind declares `subType` as `required` with no
+    // `initial`, so a bare create fails validation — a valid fixture must supply
+    // it. subType is never silently defaulted (see `requireSubType` in the pack
+    // builder); each entry names a valid choice.
+    skill: { masteryLevelBase: 0, subType: "social" },
+    trauma: { subType: "injury" },
+    projectilegear: { subType: "arrow" },
     concoctiongear: { quantity: 1, subType: "mundane" },
     affliction: { subType: "other" },
     mysticalability: { subType: "shamanicrite" },

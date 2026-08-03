@@ -127,6 +127,33 @@ export function sohlField(fm, key, defaultValue = undefined) {
 }
 
 /**
+ * Read the mandatory `subType` from an item's frontmatter, throwing when it is
+ * absent or blank.
+ *
+ * Every subType-bearing item type declares `subType` as `required` with **no**
+ * default in its DataModel — a subtype must always be specified, and it is an
+ * error to omit it. The builder therefore substitutes no fallback: a content
+ * file missing `subType` is a build error, surfaced here rather than shipped as
+ * an invalid (typeless-fallback) item.
+ *
+ * @param {object} fm - The item frontmatter.
+ * @param {string} [ctx] - Optional label for the error (defaults to the item's
+ *   title/name, else "item").
+ * @returns {string} The declared subType.
+ * @throws {Error} When `subType` is missing or blank.
+ */
+export function requireSubType(fm, ctx) {
+    const subType = sohlField(fm, "subType", undefined);
+    if (subType == null || subType === "") {
+        const label = ctx || fm?.title || fm?.name || "item";
+        throw new Error(
+            `${label}: missing required 'subType' — every subType-bearing item must declare its kind (the builder substitutes no default).`,
+        );
+    }
+    return String(subType);
+}
+
+/**
  * Resolve the required `sohl.archetype` frontmatter for an Item/Actor entry
  * (see the archetype contract, #604 — `flags.sohl.docArchetype`). The property
  * is a nullable number that authors must state explicitly:

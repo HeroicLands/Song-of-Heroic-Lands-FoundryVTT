@@ -36,6 +36,7 @@ import log from "loglevel";
 import {
     walkMarkdownTree,
     sohlField,
+    requireSubType,
     makeFilename,
     slugify,
     buildDocUrl,
@@ -115,7 +116,7 @@ function gearCommon(fm) {
 /* -------------------------------------------------------------------- */
 
 function buildSkill(fm) {
-    const subType = sohlField(fm, "subType", "social");
+    const subType = requireSubType(fm);
     // `masteryLevelBase` is nullable: an unset / blank value ships as `null`
     // ("not yet opened"), so an embedded skill opens on its actor at
     // Skill Base × initSkillMult. A numeric value is a deliberate opened level.
@@ -160,7 +161,7 @@ function buildAttribute(fm) {
 
 function buildAffliction(fm) {
     return {
-        subType: sohlField(fm, "subType", ""),
+        subType: requireSubType(fm),
         category: sohlField(fm, "category", ""),
         isDormant: false,
         isTreated: false,
@@ -187,7 +188,7 @@ function buildTrauma(fm) {
     // `null` (their schema initial) rather than a misleading 0/"blunt"/"".
     const rawLevel = sohlField(fm, "levelBase", null);
     return {
-        subType: sohlField(fm, "subType", "physical"),
+        subType: requireSubType(fm),
         category: sohlField(fm, "category", null),
         levelBase: rawLevel == null ? null : Number(rawLevel) || 0,
         healingRateBase: Number(sohlField(fm, "healingRateBase", 0)) || 0,
@@ -200,6 +201,7 @@ function buildTrauma(fm) {
 
 function buildMystery(fm) {
     return {
+        subType: requireSubType(fm),
         levelBase: Number(sohlField(fm, "levelBase", 0)) || 0,
         charges: {
             usesCharges: Boolean(sohlField(fm, "charges.usesCharges", false)),
@@ -211,7 +213,7 @@ function buildMystery(fm) {
 
 function buildMysticalAbility(fm) {
     return {
-        subType: sohlField(fm, "subType", ""),
+        subType: requireSubType(fm),
         assocSkillCode: sohlField(fm, "assocSkillCode", ""),
         assocMysteryCode: sohlField(fm, "assocMysteryCode", ""),
         masteryLevelBase: Number(sohlField(fm, "masteryLevelBase", 0)) || 0,
@@ -286,7 +288,7 @@ function buildProjectileGear(fm) {
     const die = Number(impact.die) || 0;
     return {
         ...gearCommon(fm),
-        subType: sohlField(fm, "subType", ""),
+        subType: requireSubType(fm),
         impactBase: {
             overrideDice: Boolean(impact.overrideDice ?? (die > 0)),
             overrideModifier: Boolean(impact.overrideModifier ?? false),
@@ -312,7 +314,7 @@ function buildMiscGear(fm) {
 function buildConcoctionGear(fm) {
     return {
         ...gearCommon(fm),
-        subType: sohlField(fm, "subType", ""),
+        subType: requireSubType(fm),
         potency: sohlField(fm, "potency", "notApplicable"),
         strength: Number(sohlField(fm, "strength", 0)) || 0,
     };
