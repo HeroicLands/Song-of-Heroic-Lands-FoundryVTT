@@ -616,7 +616,7 @@ export class AfflictionLogic<
 
         this.healingRate = new entity.ValueModifier(this);
         if (this.data.healingRateBase == null) {
-            this.healingRate.disabled = "No Healing Rate";
+            this.healingRate.disabled = "SOHL.Affliction.NoHealingRate";
         } else {
             this.healingRate.base = this.data.healingRateBase;
         }

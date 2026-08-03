@@ -106,9 +106,7 @@ describe("MysteryLogic", () => {
         it("disables level when levelBase is null", () => {
             const logic = makeMystery({ levelBase: null });
             logic.initialize();
-            expect(logic.level.disabled).toBe(
-                "This mystery doesn't have a level",
-            );
+            expect(logic.level.disabled).toBe("SOHL.Mystery.NoLevel");
             // a disabled modifier always reports an effective value of 0
             expect(logic.level.effective).toBe(0);
         });
@@ -134,10 +132,10 @@ describe("MysteryLogic", () => {
             });
             logic.initialize();
             expect(logic.charges.value.disabled).toBe(
-                "This mystery doesn't use charges",
+                "SOHL.Mystery.DoesNotUseCharges",
             );
             expect(logic.charges.max.disabled).toBe(
-                "This mystery doesn't use charges",
+                "SOHL.Mystery.DoesNotUseCharges",
             );
         });
 
@@ -161,7 +159,7 @@ describe("MysteryLogic", () => {
             expect(logic.charges.max.disabled).toBeFalsy();
             expect(logic.charges.max.effective).toBe(5);
             expect(logic.charges.value.disabled).toBe(
-                "Infinite charges remaining",
+                "SOHL.Mystery.InfiniteCharges",
             );
         });
 

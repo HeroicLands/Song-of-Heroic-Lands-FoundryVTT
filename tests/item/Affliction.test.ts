@@ -559,7 +559,9 @@ describe("AfflictionLogic", () => {
         it("disables healingRate when healingRateBase is null", () => {
             const logic = makeAffliction({ healingRateBase: null });
             logic.initialize();
-            expect(logic.healingRate.disabled).toBe("No Healing Rate");
+            expect(logic.healingRate.disabled).toBe(
+                "SOHL.Affliction.NoHealingRate",
+            );
             expect(logic.healingRate.effective).toBe(0);
         });
 

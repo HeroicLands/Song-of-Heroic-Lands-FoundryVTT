@@ -330,6 +330,65 @@ describe("SohlCalendarData", () => {
             expect((c as any).eraYear).toBeUndefined();
             expect(() => formatDefault(cal, c)).not.toThrow();
         });
+
+        // #941 / #944: the SoHL branch previously emitted the month name and era
+        // abbreviation verbatim, so an i18n-key-valued month/era rendered as the
+        // raw key (e.g. `SOHL.Calendar.Default.Month.0.label`,
+        // `SOHL.CALENDAR.DEFAULT.EraAbbr`). Both must be localized, exactly as the
+        // generic (foreign-calendar) branch already localizes the month.
+        it("SoHL calendar: localizes both the month name and the era abbreviation (i18n keys)", () => {
+            const cal = new SohlCalendarData(
+                makeSohlConfig({
+                    era: {
+                        name: "SOHL.CALENDAR.DEFAULT.EraName",
+                        abbrev: "SOHL.CALENDAR.DEFAULT.EraAbbr",
+                        beforeName: "SOHL.CALENDAR.DEFAULT.BeforeEraName",
+                        beforeAbbrev: "SOHL.CALENDAR.DEFAULT.BeforeEraAbbr",
+                    },
+                    months: {
+                        values: Array.from({ length: 12 }, (_, i) => ({
+                            name: `SOHL.Calendar.Default.Month.${i}.label`,
+                            abbreviation: `M${i}`,
+                            ordinal: i + 1,
+                            days: 30,
+                        })),
+                    },
+                }),
+            );
+            const localize = vi
+                .spyOn((globalThis as any).sohl.i18n, "localize")
+                .mockImplementation((k: any) =>
+                    k === "SOHL.Calendar.Default.Month.0.label" ? "Nuzyael"
+                    : k === "SOHL.CALENDAR.DEFAULT.EraAbbr" ? "TR"
+                    : k,
+                );
+            const c = cal.timeToComponents(
+                14 * SECONDS_PER_DAY + 14 * 3600 + 30 * 60,
+            );
+            expect(formatDefault(cal, c)).toBe("15 Nuzyael 1TR 14:30:00");
+            localize.mockRestore();
+        });
+
+        it("SoHL calendar: localizes the before-era abbreviation for negative years", () => {
+            const cal = new SohlCalendarData(
+                makeSohlConfig({
+                    era: {
+                        name: "SOHL.CALENDAR.DEFAULT.EraName",
+                        abbrev: "SOHL.CALENDAR.DEFAULT.EraAbbr",
+                        beforeName: "SOHL.CALENDAR.DEFAULT.BeforeEraName",
+                        beforeAbbrev: "SOHL.CALENDAR.DEFAULT.BeforeEraAbbr",
+                    },
+                }),
+            );
+            const localize = vi
+                .spyOn((globalThis as any).sohl.i18n, "localize")
+                .mockImplementation((k: any) =>
+                    k === "SOHL.CALENDAR.DEFAULT.BeforeEraAbbr" ? "BR" : k,
+                );
+            const c = cal.timeToComponents(-51 * SOHL_YEAR_SECONDS);
+            expect(formatDefault(cal, c)).toContain("51BR");
+            localize.mockRestore();
+        });
     });
 
     describe("formatRelativeTime (static)", () => {

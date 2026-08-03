@@ -222,7 +222,7 @@ export class AttackResult extends SuccessTestResult {
                     this.mishaps.add(ATTACK_MISHAP.MISSILE_MISFIRE);
                 }
             }
-            this.impact.disabledReason = "Attack missed";
+            this.impact.disabledReason = "SOHL.AttackResult.Missed";
         }
 
         return true;
