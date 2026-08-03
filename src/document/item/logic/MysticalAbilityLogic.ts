@@ -23,13 +23,12 @@ import {
 } from "@src/document/item/logic/SohlItemBaseLogic";
 import {
     ACTION_SUBTYPE,
-    ITEM_KIND,
     MYSTICALABILITY_SUBTYPE,
     MysticalAbilitySubType,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
-import { MysteryLogic } from "./MysteryLogic";
+import type { MysteryLogic } from "./MysteryLogic";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
@@ -43,8 +42,7 @@ import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
  * and their success is typically determined by a skill test.
  *
  * Each ability is linked to an **associated skill** (via shortcode) that
- * governs its activation test, and to a mystery that
- * determines its mystical tradition. Abilities track a **level** (power),
+ * governs its activation test. Abilities track a **level** (power),
  * **charges** (uses remaining), and track mastery level progression via
  * {@link sohl.entity.modifier.MasteryLevelModifier}.
  *
@@ -72,13 +70,6 @@ export class MysticalAbilityLogic<
      * `undefined` if the ability uses its own mastery level.
      */
     assocSkill?: SkillLogic;
-
-    /**
-     * The associated mystery (a {@link MysteryLogic}) resolved during
-     * {@link evaluate} from {@link MysticalAbilityData.assocMysteryCode}, which
-     * determines this ability's mystical tradition.
-     */
-    assocMystery?: MysteryLogic;
 
     /**
      * The mastery level as a {@link sohl.entity.modifier.MasteryLevelModifier}. When the ability has
@@ -251,10 +242,6 @@ export class MysticalAbilityLogic<
             actorLogic,
             this.data.assocSkillCode,
         );
-        this.assocMystery = actorLogic.getItemLogic(
-            this.data.assocMysteryCode ?? "",
-            ITEM_KIND.MYSTERY,
-        ) as MysteryLogic;
     }
 
     /** @inheritdoc */
@@ -281,8 +268,6 @@ export interface MysticalAbilityData<
     subType: MysticalAbilitySubType;
     /** Shortcode of the skill used to activate this ability */
     assocSkillCode?: string | null;
-    /** Shortcode of the mystery that determines this ability's tradition */
-    assocMysteryCode?: string | null;
     /** Power level of this ability, or `null` when it has no level. */
     levelBase: number | null;
     /** Mastery level of this mystical ability if assocSkillCode is blank */

@@ -11,7 +11,6 @@ function abilityFields(overrides: Record<string, unknown> = {}) {
     return {
         subType: "arcaneincantation",
         assocSkillCode: "",
-        assocMysteryCode: "",
         levelBase: 0,
         masteryLevelBase: 30,
         improveFlag: false,
@@ -63,13 +62,6 @@ function makeSkillOnActor(
         { actor, shortcode, id: `skill${shortcode}`.padEnd(16, "0") },
     );
     actor.itemTypes.skill.push(logic.item);
-    return logic;
-}
-
-/** Register a stub mystery item (evaluate only reads shortcode and .logic). */
-function makeMysteryStubOnActor(actor: any, shortcode: string) {
-    const logic = { stub: "mystery", data: { shortcode } };
-    actor.itemTypes.mystery.push({ system: { shortcode }, logic });
     return logic;
 }
 
@@ -212,7 +204,6 @@ describe("MysticalAbilityLogic", () => {
             logic.initialize();
             expect(() => logic.evaluate()).not.toThrow();
             expect(logic.assocSkill).toBeUndefined();
-            expect(logic.assocMystery).toBeUndefined();
         });
 
         it("resolves assocSkill from the actor's skills by assocSkillCode", () => {
@@ -227,27 +218,13 @@ describe("MysticalAbilityLogic", () => {
             expect(logic.assocSkill).toBe(skill);
         });
 
-        it("resolves assocMystery from the actor's mysteries by assocMysteryCode", () => {
-            const actor = makeAbilityActor();
-            const mystery = makeMysteryStubOnActor(actor, "totem");
-            const logic = makeAbility({ assocMysteryCode: "totem" }, { actor });
-            logic.initialize();
-            logic.evaluate();
-            expect(logic.assocMystery).toBe(mystery);
-        });
-
-        it("leaves assocSkill/assocMystery undefined when no shortcode matches", () => {
+        it("leaves assocSkill undefined when no shortcode matches", () => {
             const actor = makeAbilityActor();
             makeSkillOnActor(actor, "spellcraft");
-            makeMysteryStubOnActor(actor, "totem");
-            const logic = makeAbility(
-                { assocSkillCode: "missing", assocMysteryCode: "missing" },
-                { actor },
-            );
+            const logic = makeAbility({ assocSkillCode: "missing" }, { actor });
             logic.initialize();
             logic.evaluate();
             expect(logic.assocSkill).toBeUndefined();
-            expect(logic.assocMystery).toBeUndefined();
         });
     });
 
@@ -413,7 +390,6 @@ describe("MysticalAbilityDataModel", () => {
             "defines subType with MysticalAbilitySubTypes choices, required",
         );
         it.todo("defines assocSkillCode as StringField with empty initial");
-        it.todo("defines assocMysteryCode as StringField with empty initial");
         it.todo("defines masteryLevelBase as integer NumberField with min 0");
         it.todo("defines improveFlag as BooleanField defaulting to false");
         it.todo("defines levelBase as integer NumberField with min 0");

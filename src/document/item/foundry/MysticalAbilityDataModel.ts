@@ -27,8 +27,8 @@ const { SchemaField, NumberField, StringField, BooleanField, DocumentIdField } =
 
 /**
  * Builds the data schema for the Mystical Ability item, extending the base item
- * schema with mystical-ability-specific fields (subtype, associated skill and
- * mystery codes, mastery level, charges, etc.).
+ * schema with mystical-ability-specific fields (subtype, associated skill code,
+ * mastery level, charges, etc.).
  * @returns The Foundry data schema for the mystical ability.
  */
 function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
@@ -39,11 +39,6 @@ function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
             required: true,
         }),
         assocSkillCode: new StringField({
-            nullable: true,
-            blank: false,
-            initial: null,
-        }),
-        assocMysteryCode: new StringField({
             nullable: true,
             blank: false,
             initial: null,
@@ -105,7 +100,6 @@ export class MysticalAbilityDataModel<
     static override readonly kind = ITEM_KIND.MYSTICALABILITY;
     subType!: MysticalAbilitySubType;
     assocSkillCode!: string | null;
-    assocMysteryCode!: string | null;
     masteryLevelBase!: number;
     improveFlag!: boolean;
     levelBase!: number | null;

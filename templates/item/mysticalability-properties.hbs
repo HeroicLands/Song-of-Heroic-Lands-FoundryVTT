@@ -13,7 +13,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="field-grid field-grid--3col">
-        {{formGroup fields.skillBaseFormula rootId="mystabl-sbf" classes="text-field" stacked=true value=system.skillBaseFormula}}
         {{formGroup fields.masteryLevelBase rootId="mystabl-mlb" classes="text-field" stacked=true value=system.masteryLevelBase}}
         {{formGroup fields.improveFlag rootId="mystabl-improve" classes="text-field" stacked=true value=system.improveFlag}}
         {{formGroup fields.assocSkillCode rootId="mystabl-assocskill" classes="text-field" stacked=true value=system.assocSkillCode}}
