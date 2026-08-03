@@ -148,7 +148,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{ability.logic.level.effective}}
                         {{/if}}
                     </div>
-                    <div class="ledger__cell{{#if ability.logic.masteryLevel.disabled}} ledger__cell--dim{{/if}}"
+                    <div class="ledger__cell ledger__cell--rollable{{#if ability.logic.masteryLevel.disabled}} ledger__cell--dim{{/if}}"
+                        data-action="successTest"
                         data-tooltip="{{ability.logic.masteryLevel.deltaLabel}}" data-tooltip-direction="UP">
                         {{#if ability.logic.masteryLevel.disabled}}
                         <i class="fa-solid fa-xmark fa-lg"></i>

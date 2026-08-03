@@ -22,9 +22,11 @@ capabilities.
 To use a mystical ability:
 
 1. Open the character's sheet and go to the **Mystery** tab.
-2. Find the ability you want to use.
-3. Click the ability name to initiate a test.
-4. The system resolves the test based on the ability's skill requirements.
+2. Find the ability you want to use, under **Mystical Abilities**.
+3. Click its **EML** value to roll a success test — the same way you roll a
+   skill. (Hold **Shift** while clicking to skip the roll dialog.)
+4. The system rolls the test against the ability's Effective Mastery Level;
+   read the outcome and apply the ability's effect from the rulebook.
 
 <!-- TODO: Document the full spellcasting workflow — preparation,
      casting test, fatigue cost, duration, range, and effect resolution.

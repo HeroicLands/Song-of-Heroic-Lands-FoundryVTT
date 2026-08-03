@@ -12,12 +12,18 @@
  */
 
 /**
- * Mysteries — the `useMystery` intrinsic action.
+ * Mysteries & Mystical Abilities — the `useMystery` and `successTest` actions.
  *
  * `MysteryLogic` registers a `useMystery` intrinsic action (GREEN: it is present
- * on the item's logic), but the executor and the mystical-ability "perform" flow
- * are not fully wired (RED against #72 Use Mystery / #74 Mystical Ability
- * perform).
+ * on the item's logic), but its executor is not yet wired (RED against #72 Use
+ * Mystery).
+ *
+ * A Mystical Ability is *invoked* by rolling a Success Test against its mastery
+ * level (EML) — the same seam a skill uses — not a bespoke "perform" that
+ * adjudicates the effect (#74): the system rolls, the player reads the rulebook
+ * and applies the result. `MysticalAbilityLogic` therefore registers a
+ * `successTest` intrinsic action (replacing the retired `perform` stub), and the
+ * Mysteries-tab EML cell is rollable.
  */
 
 describe("mysteries", () => {
@@ -48,9 +54,111 @@ describe("mysteries", () => {
         });
     });
 
-    // RED — blocked by #72 (Use Mystery action) / #74 (Mystical Ability perform):
-    // the useMystery executor and the mystical-ability perform flow are not fully
-    // implemented. Un-skip and assert the produced effect / chat card once wired.
-    it.skip("useMystery performs the mystery's effect (#72, #74)", () => {});
-    it.skip("a mystical ability performs its effect (#74)", () => {});
+    // GREEN (#74): a mystical ability registers a visible `successTest` action —
+    // the same shortcode a skill uses — and no longer carries the retired
+    // `perform` stub.
+    it("a mystical ability registers successTest, not the retired perform stub (#74)", () => {
+        cy.createActor("being", { name: "mystic" }).then((actor) => {
+            cy.createItemOn(actor, "mysticalability", {
+                name: "Fox Totem",
+                system: { masteryLevelBase: 40 },
+            }).then((item) => {
+                cy.foundry((win) => {
+                    const a = win.game.actors.get(actor.id);
+                    const it = a.items.get(item.id);
+                    const action = it?.logic?.actions?.get("successTest");
+                    // The trigger row carries the item's id, as the rendered
+                    // ledger row does (data-item-id on .item).
+                    const el = {
+                        closest: (sel) =>
+                            sel === "[data-item-id]" ?
+                                { dataset: { itemId: it.id } }
+                            : sel === "[data-actor-id]" ?
+                                { dataset: { actorId: a.id } }
+                            :   null,
+                    };
+                    return {
+                        type: it?.type,
+                        hasSuccessTest: !!action,
+                        visible: !!action && action.visible(el),
+                        hasPerform: !!it?.logic?.actions?.get("perform"),
+                    };
+                }).should((r) => {
+                    expect(r.type, "mysticalability item").to.eq(
+                        "mysticalability",
+                    );
+                    expect(r.hasSuccessTest, "successTest action registered").to
+                        .be.true;
+                    expect(r.visible, "successTest is visible").to.be.true;
+                    expect(r.hasPerform, "perform stub removed").to.be.false;
+                });
+            });
+        });
+    });
+
+    // GREEN (#74): invoking the ability runs a real success test against its
+    // mastery level, exactly like a skill's EML roll.
+    it("a mystical ability rolls a success test against its EML (#74)", () => {
+        cy.createActor("being", { name: "mystic" }).then((actor) => {
+            cy.createItemOn(actor, "mysticalability", {
+                name: "Fox Totem",
+                system: { masteryLevelBase: 40 },
+            }).then((item) => {
+                // prepare() resolves the actor's speaker (owner) so the success
+                // test is allowed to roll — see the ownership guard in
+                // SuccessTestResult.evaluate.
+                cy.prepare(actor);
+                cy.foundry((win) => {
+                    const it = win.game.actors.get(actor.id).items.get(item.id);
+                    return it.logic
+                        .executeAction("successTest", {
+                            skipDialog: true,
+                            scope: {},
+                        })
+                        .then((res) => ({
+                            ml: it.logic.masteryLevel.effective,
+                            ctorName: res?.constructor?.name ?? null,
+                            hasResult: !!res,
+                        }));
+                }).should((s) => {
+                    expect(s.ml, "mastery level seeded from base").to.eq(40);
+                    expect(s.hasResult, "successTest produced a result").to.be
+                        .true;
+                    expect(s.ctorName, "result is a SuccessTestResult").to.eq(
+                        "SuccessTestResult",
+                    );
+                });
+            });
+        });
+    });
+
+    // GREEN (#74): the Mysteries-tab EML cell is rollable — it carries the
+    // successTest action and the rollable affordance, mirroring the Skills tab.
+    it("renders the Mystical Abilities EML cell as a rollable successTest (#74)", () => {
+        cy.createActor("being", { name: "mystic" }).then((actor) => {
+            cy.createItemOn(actor, "mysticalability", {
+                name: "Fox Totem",
+                system: { masteryLevelBase: 40 },
+            }).then(() => {
+                cy.openSheet(actor);
+                cy.switchTab("mysteries", "primary");
+                cy.get(
+                    'section.tab[data-tab="mysteries"] .mysticalabilities-list ' +
+                        '.ledger__cell--rollable[data-action="successTest"]',
+                )
+                    .first()
+                    .should(($el) => {
+                        expect($el).to.have.attr("data-tooltip");
+                        expect($el).to.have.attr(
+                            "data-tooltip-direction",
+                            "UP",
+                        );
+                    });
+            });
+        });
+    });
+
+    // RED — blocked by #72 (Use Mystery action): the useMystery executor is not
+    // yet implemented. Un-skip and assert the produced effect / chat card once wired.
+    it.skip("useMystery performs the mystery's effect (#72)", () => {});
 });

@@ -70,7 +70,6 @@ const FENCED_RED_ALLOWLIST = {
     // --- Post-freeze behavior (schema frozen; action layer deferred) ---
     71: "Fate availability and consumption",
     72: "Use Mystery action",
-    74: "Mystical Ability perform action",
     67: "Affliction condition predicates (canTransmit / canContract)",
     68: "Affliction lifecycle test suite (contract / transmit / course / treat)",
 };
