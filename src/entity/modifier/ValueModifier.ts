@@ -101,7 +101,7 @@ export class ValueModifier extends SohlEntity {
     private _deltaLabel!: string;
     private dirty: boolean;
     private _effective!: number;
-    /** Reason the value is disabled; empty string means enabled. See {@link disabled}. */
+    /** Reason the value is disabled as an i18n **key**; empty string means enabled. Localize for display via {@link disabledLabel}. See {@link disabled}. */
     disabledReason!: string;
     /** The base value before deltas (undefined until set; treated as 0 by {@link base}). */
     baseValue?: number;
@@ -318,14 +318,32 @@ export class ValueModifier extends SohlEntity {
         return Math.trunc((this.baseValue || 0) / 10);
     }
 
-    /** The disabled reason, or `""` when enabled. A non-empty value forces {@link effective} to 0. */
+    /**
+     * The disabled reason as stored — an i18n **key** (or `""` when enabled).
+     * A non-empty value forces {@link effective} to 0. This is the serialized
+     * form; use {@link disabledLabel} for localized display (#948).
+     */
     get disabled(): string {
         return this.disabledReason ?? "";
     }
 
     /**
+     * The disabled reason localized for display, or `""` when enabled.
+     *
+     * {@link disabledReason} always stores an i18n key (never localized prose),
+     * so callers that surface the reason to a human must localize it here rather
+     * than emitting the raw key (#948). Idempotent on already-plain text.
+     */
+    get disabledLabel(): string {
+        const reason = this.disabledReason ?? "";
+        return reason ? sohl.i18n.localize(reason) : "";
+    }
+
+    /**
      * Disable with a reason string, or toggle via a boolean (passing `true`
-     * applies a default reason; `false` clears it).
+     * applies a default reason; `false` clears it). A string reason must be an
+     * i18n **key** (see {@link disabled}); it is localized for display by
+     * {@link disabledLabel}.
      */
     set disabled(reason: string | boolean) {
         if (typeof reason === "string") {
@@ -653,7 +671,7 @@ export class ValueModifier extends SohlEntity {
         return this._oper(name, abbrev, value, VALUE_DELTA_OPERATOR.DOWNGRADE);
     }
 
-    /** Render the deltas as an HTML breakdown (name + adjustment per row) for chat cards and tooltips; empty when disabled. */
+    /** Render the deltas as an HTML breakdown (name + adjustment per row) for chat cards and tooltips; when disabled, renders the localized disabled reason instead. */
     get chatHtml(): string {
         /**
          * Format a single delta's adjustment for display (e.g. `+2`, `×2`).
@@ -688,7 +706,12 @@ export class ValueModifier extends SohlEntity {
             }
         }
 
-        if (this.disabled) return "";
+        // When disabled, the delta breakdown is moot — surface *why* instead of
+        // rendering nothing, localizing the stored i18n-key reason (#948).
+        if (this.disabled)
+            return `<div class="adjustment adjustment--disabled">${escapeHTML(
+                this.disabledLabel,
+            )}</div>`;
         const fragHtml = `<div class="adjustment">
         <div class="flexrow">
             <span class="label adj-name">${sohl.i18n.format("SOHL.ValueModifier.Adjustment")}</span>

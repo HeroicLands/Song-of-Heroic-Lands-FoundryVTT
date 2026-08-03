@@ -125,10 +125,10 @@ describe("MysticalAbilityLogic", () => {
             });
             logic.initialize();
             expect(logic.charges.value.disabled).toBe(
-                "This ability doesn't use charges",
+                "SOHL.MysticalAbility.DoesNotUseCharges",
             );
             expect(logic.charges.max.disabled).toBe(
-                "This ability doesn't use charges",
+                "SOHL.MysticalAbility.DoesNotUseCharges",
             );
         });
 
@@ -140,7 +140,7 @@ describe("MysticalAbilityLogic", () => {
             expect(logic.charges.max.disabled).toBeFalsy();
             expect(logic.charges.max.effective).toBe(5);
             expect(logic.charges.value.disabled).toBe(
-                "Infinite charges remaining",
+                "SOHL.MysticalAbility.InfiniteCharges",
             );
         });
 
@@ -173,9 +173,7 @@ describe("MysticalAbilityLogic", () => {
         it("disables level when levelBase is null", () => {
             const logic = makeAbility({ levelBase: null });
             logic.initialize();
-            expect(logic.level.disabled).toBe(
-                "This mystical ability doesn't have a level",
-            );
+            expect(logic.level.disabled).toBe("SOHL.MysticalAbility.NoLevel");
             expect(logic.level.effective).toBe(0);
         });
 

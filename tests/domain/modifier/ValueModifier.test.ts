@@ -142,6 +142,52 @@ describe("ValueModifier", () => {
         });
     });
 
+    // #948: `disabledReason` is one contract everywhere — it always stores an
+    // i18n *key* (or ""), never localized prose, so serialized data stays
+    // language-neutral; localization happens only at the render boundary via
+    // `disabledLabel`.
+    describe("disabledLabel (localized reason) — #948", () => {
+        it("is empty when the modifier is enabled", () => {
+            const vm = createVM();
+            expect(vm.disabledLabel).toBe("");
+        });
+
+        it("localizes the stored i18n-key reason for display", () => {
+            const vm = createVM();
+            vm.disabled = true; // stores the key "SOHL.ValueDelta.INFO.Dsbl"
+            const spy = vi
+                .spyOn((globalThis as any).sohl.i18n, "localize")
+                .mockImplementation((k: any) =>
+                    k === "SOHL.ValueDelta.INFO.Dsbl" ? "Disabled" : k,
+                );
+            expect(vm.disabledLabel).toBe("Disabled");
+            spy.mockRestore();
+        });
+
+        it("keeps the raw i18n key in the stored/serialized reason (localizes only for display)", () => {
+            const vm = createVM();
+            vm.disabled = true;
+            // The store and serialization keep the key, not the localized text.
+            expect(vm.disabled).toBe("SOHL.ValueDelta.INFO.Dsbl");
+            expect((vm.toJSON() as any).disabledReason).toBe(
+                "SOHL.ValueDelta.INFO.Dsbl",
+            );
+        });
+
+        it("chatHtml surfaces the localized disabled reason instead of rendering empty", () => {
+            const vm = createVM();
+            vm.disabled = true;
+            const spy = vi
+                .spyOn((globalThis as any).sohl.i18n, "localize")
+                .mockImplementation((k: any) =>
+                    k === "SOHL.ValueDelta.INFO.Dsbl" ? "Disabled" : k,
+                );
+            const html = vm.chatHtml;
+            expect(html).toContain("Disabled");
+            spy.mockRestore();
+        });
+    });
+
     describe("get() / has()", () => {
         it("get returns the delta by abbrev", () => {
             const vm = createVM();

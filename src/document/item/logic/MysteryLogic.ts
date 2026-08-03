@@ -144,7 +144,7 @@ export class MysteryLogic<
         // disabled (shown as "×"); 0 is a real level and stays enabled.
         this.level = new entity.ValueModifier(this);
         if (this.data.levelBase === null) {
-            this.level.setDisabled("This mystery doesn't have a level");
+            this.level.setDisabled("SOHL.Mystery.NoLevel");
         } else {
             this.level.setBase(this.data.levelBase);
         }
@@ -160,12 +160,12 @@ export class MysteryLogic<
             max: new entity.ValueModifier(this),
         };
         if (this.data.charges.max === null) {
-            this.charges.value.setDisabled("This mystery doesn't use charges");
-            this.charges.max.setDisabled("This mystery doesn't use charges");
+            this.charges.value.setDisabled("SOHL.Mystery.DoesNotUseCharges");
+            this.charges.max.setDisabled("SOHL.Mystery.DoesNotUseCharges");
         } else {
             this.charges.max.setBase(this.data.charges.max);
             if (this.data.charges.value === null) {
-                this.charges.value.setDisabled("Infinite charges remaining");
+                this.charges.value.setDisabled("SOHL.Mystery.InfiniteCharges");
             } else {
                 this.charges.value.setBase(this.data.charges.value);
             }

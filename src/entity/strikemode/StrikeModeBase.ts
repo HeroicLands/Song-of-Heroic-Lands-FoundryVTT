@@ -139,8 +139,7 @@ export abstract class StrikeModeBase extends SohlEntity {
             this.attack.add("Attack Modifier", "AtkMod", data.attack.modifier);
         }
         if (data.attack.disabled || data.traits?.noAttack) {
-            this.attack.disabledReason =
-                "This strike mode cannot be used for attacking.";
+            this.attack.disabledReason = "SOHL.StrikeMode.NoAttack";
         }
         // The flat impact bonus lives in the ValueModifier base — the single
         // home read by `effective`, the rendered label, and the rolled impact
