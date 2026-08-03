@@ -35,9 +35,24 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
     - **Arcane Talent:** Use innate capacity to direct arcane forces for some effect.
     - **Spirit Talent:** Use innate capacity to direct spirits to produce an effect.
     - **Alchemical Action:** Perform taught arcane recipies and rituals to produce an alchemical elixir or effect.
-- **Level:** The difficulty or power tier of the ability.
+- **Level:** The difficulty or power tier of the ability. Higher-level incantations are also harder to invoke — see _How the Effective Mastery Level Is Determined_ below.
 - **Associated Mystery:** Which Mystery is associated with this ability (optional).
 - **Associated Skill:** Which Skill this mystery draws upon (optional).
 - **Charges:** If this mystical ability can be used up, this represents the number of charges
     - **Value:** Current number of charges avaiable
     - **Max:** Maximum number of charges
+
+# How the Effective Mastery Level Is Determined
+
+Invoking a Mystical Ability is resolved as a mastery level test. The **Effective Mastery Level (EML)** used for that test is determined by whether the ability has an **Associated Skill**:
+
+- **If an Associated Skill is set,** the ability draws its mastery level from that skill. This is the usual case: many abilities share a single governing skill, so they improve together and inherit any modifiers applied to that skill — including Active Effects (for example, an effect representing a caster's resistance to a particular tradition applies to every ability that skill governs).
+- **If no Associated Skill is set,** the ability uses its own internal mastery level instead.
+
+Either way, the ability's own modifiers still stack on top of the mastery level it draws upon.
+
+## The Incantation Casting Penalty
+
+**Arcane Incantations** and **Divine Incantations** become harder to invoke the more powerful they are. When one of these abilities is invoked, a penalty equal to **Level × 2** is applied to its EML — so a Level 3 incantation is invoked at EML − 6, a Level 4 at EML − 8, and so on. The penalty appears in the roll breakdown as **Level Penalty**.
+
+Abilities with no level (and abilities at Level 0) take no penalty, and other subtypes — talents, rites, benedictions, and the like — are not affected.
