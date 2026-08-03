@@ -11,7 +11,9 @@
  * `system.domainCode` control (no such schema field — the Domain-registry
  * integration is incomplete) and the phantom `system.isImprovable` control (a
  * mis-named duplicate of the existing `improveFlag`) must both be gone, while
- * the real `system.improveFlag` control still renders.
+ * the real `system.improveFlag` control still renders. Also covers #973: the
+ * dead `system.skillBaseFormula` control (a Mystical Ability has no Skill Base —
+ * its rolled value derives from `masteryLevelBase`) must be gone too.
  */
 
 import { describe, it, expect } from "vitest";
@@ -65,6 +67,12 @@ describe("mystical ability properties sheet template (#815)", () => {
         const html = render();
         expect(html).not.toContain("system.isImprovable");
         expect(html).not.toContain('data-field="system.isImprovable"');
+    });
+
+    it("no longer references the dead system.skillBaseFormula field (#973)", () => {
+        const html = render();
+        expect(html).not.toContain("system.skillBaseFormula");
+        expect(html).not.toContain('data-field="system.skillBaseFormula"');
     });
 
     it("still renders the real improveFlag control", () => {
