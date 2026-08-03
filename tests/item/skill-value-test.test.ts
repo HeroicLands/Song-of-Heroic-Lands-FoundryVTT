@@ -28,7 +28,7 @@ function makeSkill(): SkillLogic {
         "skill",
         {
             subType: "craft",
-            skillBaseFormula: "@str",
+            skillBaseFormula: "sb(attr.str)",
             masteryLevelBase: 50,
             initSkillMult: 1,
         },

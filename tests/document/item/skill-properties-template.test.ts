@@ -25,7 +25,7 @@ function render(subType: string, impairedByRoles: string[] = []): string {
         tab: { active: true, group: "sheet" },
         impairedByRoles,
         system: {
-            skillBaseFormula: "@str",
+            skillBaseFormula: "sb(attr.str)",
             masteryLevelBase: 0,
             improveFlag: false,
             subType,

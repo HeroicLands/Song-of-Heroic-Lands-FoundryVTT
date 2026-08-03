@@ -12,14 +12,15 @@
  */
 
 /**
- * Skillbase calculation contract — `calcSkillBase` (`SkillLogic.ts`).
+ * Skillbase calculation contract — the Skill-Base `SafeExpression` pipeline
+ * (`SkillLogic.computeSkillBase`, #972).
  *
- * Tests the full surface of `calcSkillBase`: two-attribute averaging with the
- * round-up/down tiebreak rule, 3+-attribute Math.round, flat numeric modifiers,
- * birthsign (buff-mystery) bonuses, and the dependency contract when a referenced
- * attribute is absent. Uses a mix of the Basic Folk compendium actor (for the
- * "all real skills at once" case) and synthetic actors (for isolated formula
- * variants).
+ * Tests the full surface: `sb(attr.a, attr.b)` two-attribute averaging with the
+ * round-up/down tiebreak rule, 3+-attribute nearest rounding, flat numeric
+ * modifiers written into the expression, `birthsignBonus(birthsigns, …)` bonuses
+ * (now stacking), and the dependency contract when a referenced attribute is
+ * absent (→ 0). Uses a mix of the Basic Folk compendium actor (for the "all real
+ * skills at once" case) and synthetic actors (for isolated formula variants).
  */
 describe("skillbase calculation contract", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
@@ -92,7 +93,7 @@ describe("skillbase calculation contract", () => {
                 { code: "prim", score: 11 },
                 { code: "sec", score: 10 },
             ],
-            "@prim, @sec",
+            "sb(attr.prim, attr.sec)",
         ).should("eq", 11); // ceil((11+10)/2) = ceil(10.5) = 11
     });
 
@@ -102,7 +103,7 @@ describe("skillbase calculation contract", () => {
                 { code: "prim", score: 10 },
                 { code: "sec", score: 11 },
             ],
-            "@prim, @sec",
+            "sb(attr.prim, attr.sec)",
         ).should("eq", 10); // floor((10+11)/2) = floor(10.5) = 10
     });
 
@@ -112,7 +113,7 @@ describe("skillbase calculation contract", () => {
                 { code: "a", score: 10 },
                 { code: "b", score: 10 },
             ],
-            "@a, @b",
+            "sb(attr.a, attr.b)",
         ).should("eq", 10); // floor((10+10)/2) = 10
     });
 
@@ -123,7 +124,7 @@ describe("skillbase calculation contract", () => {
                 { code: "b", score: 10 },
                 { code: "c", score: 11 },
             ],
-            "@a, @b, @c",
+            "sb(attr.a, attr.b, attr.c)",
         ).should("eq", 10); // round(31/3) = round(10.33) = 10
     });
 
@@ -134,7 +135,7 @@ describe("skillbase calculation contract", () => {
                 { code: "b", score: 10 },
                 { code: "c", score: 12 },
             ],
-            "@a, @b, @c",
+            "sb(attr.a, attr.b, attr.c)",
         ).should("eq", 11); // round(32/3) = round(10.67) = 11
     });
 
@@ -144,7 +145,7 @@ describe("skillbase calculation contract", () => {
                 { code: "a", score: 10 },
                 { code: "b", score: 10 },
             ],
-            "@a, @b, +5",
+            "sb(attr.a, attr.b) + 5",
         ).should("eq", 15); // floor(10) + 5 = 15
     });
 
@@ -154,7 +155,7 @@ describe("skillbase calculation contract", () => {
                 { code: "a", score: 10 },
                 { code: "b", score: 10 },
             ],
-            "@a, @b, -3",
+            "sb(attr.a, attr.b) - 3",
         ).should("eq", 7); // floor(10) - 3 = 7
     });
 
@@ -183,7 +184,8 @@ describe("skillbase calculation contract", () => {
                             .createItemOn(actor, "skill", {
                                 name: "Born Skill",
                                 system: {
-                                    skillBaseFormula: "@a, @b, heron",
+                                    skillBaseFormula:
+                                        "sb(attr.a, attr.b) + birthsignBonus(birthsigns, 'heron', 1)",
                                 },
                             })
                             .then(() => {
@@ -201,7 +203,7 @@ describe("skillbase calculation contract", () => {
         });
     });
 
-    it("birthsign term — two matching buff mysteries, only the largest bonus applies", () => {
+    it("birthsign term — two matching buff mysteries stack (#972)", () => {
         cy.createActor("being", { name: "Multi-Sign Being" }).then((actor) => {
             // Create attributes first so they initialize before the skill.
             cy.createItemsOn(actor, [
@@ -233,10 +235,10 @@ describe("skillbase calculation contract", () => {
                         cy
                             .createItemOn(actor, "skill", {
                                 name: "Dual-Sign Skill",
-                                // heron:2 and dragon:3 → max(2,3) = 3
+                                // heron:2 and dragon:3 now STACK → +2 +3 = +5
                                 system: {
                                     skillBaseFormula:
-                                        "@a, @b, heron:2, dragon:3",
+                                        "sb(attr.a, attr.b) + birthsignBonus(birthsigns, 'heron', 2) + birthsignBonus(birthsigns, 'dragon', 3)",
                                 },
                             })
                             .then(() => {
@@ -247,7 +249,7 @@ describe("skillbase calculation contract", () => {
                                         (i) => i.type === "skill",
                                     );
                                     return sk.logic.skillBase;
-                                }).should("eq", 13); // floor(10) + max(2,3) = 13
+                                }).should("eq", 15); // floor(10) + 2 + 3 = 15
                             }),
                     ),
             );
@@ -271,7 +273,7 @@ describe("skillbase calculation contract", () => {
                 .then(() =>
                     cy.createItemOn(actor, "skill", {
                         name: "Dep Skill",
-                        system: { skillBaseFormula: "@prim, @sec" },
+                        system: { skillBaseFormula: "sb(attr.prim, attr.sec)" },
                     }),
                 )
                 .then(() => {
@@ -298,5 +300,44 @@ describe("skillbase calculation contract", () => {
                     }).should("eq", 5); // prim missing → 0; floor((0+10)/2) = 5
                 });
         });
+    });
+
+    it("invalid formula — Being sheet SB cell shows ✕ (#972)", () => {
+        cy.createActor("being", { name: "Invalid SB Being" }).then((actor) => {
+            cy.createItemOn(actor, "skill", {
+                name: "Broken Skill",
+                system: {
+                    subType: "lore",
+                    skillBaseFormula: "sb(attr.str,", // syntax error
+                },
+            }).then((skill) => {
+                cy.openSheet(actor);
+                cy.switchTab("skills", "primary");
+                cy.get(
+                    `section.tab[data-tab="skills"] .ledger__row[data-item-id="${skill.id}"] .ledger__cell`,
+                )
+                    .first()
+                    .find("i.fa-xmark")
+                    .should("exist");
+            });
+        });
+    });
+
+    it("invalid formula — Skill item sheet shows the 'Invalid expression' hint (#972)", () => {
+        cy.createActor("being", { name: "Invalid SB Sheet Being" }).then(
+            (actor) => {
+                cy.createItemOn(actor, "skill", {
+                    name: "Broken Skill",
+                    system: { skillBaseFormula: "bogus(attr.str)" },
+                }).then((skill) => {
+                    cy.prepare(actor);
+                    cy.openSheet(skill);
+                    cy.switchTab("properties", "sheet");
+                    cy.get('section.tab[data-tab="properties"] .hint--error')
+                        .should("be.visible")
+                        .and("contain.text", "Invalid expression");
+                });
+            },
+        );
     });
 });

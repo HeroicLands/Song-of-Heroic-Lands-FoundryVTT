@@ -13,7 +13,10 @@
 
 import { entity } from "@src/entity/registry";
 import type { MysteryLogic } from "./MysteryLogic";
-import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
+import {
+    SafeExpression,
+    SafeExpressionError,
+} from "@src/entity/expr/SafeExpression";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
@@ -149,11 +152,30 @@ export class SkillLogic<
     boosts!: number;
 
     /**
-     * The computed skill base value, derived by {@link calcSkillBase} from
-     * {@link SkillData.skillBaseFormula} and resolved against the actor's
-     * attributes and birthsign mysteries.
+     * The computed skill base value, derived from
+     * {@link SkillData.skillBaseFormula} — a value-returning
+     * {@link sohl.entity.expr.SafeExpression} — evaluated against the actor's
+     * attribute **values** (the `attr.<shortcode>` namespace) and birthsigns.
+     * `0` when the formula is blank, invalid, or off an actor.
      */
     skillBase!: number;
+
+    /**
+     * The parsed Skill-Base {@link sohl.entity.expr.SafeExpression}, or `null`
+     * when the formula is blank or failed to compile/evaluate. Retained so
+     * attribute-dependency predicates (e.g. the Aura → no-fate gate) can walk the
+     * AST via {@link sohl.entity.expr.SafeExpression.attrRefs} rather than a regex.
+     */
+    skillBaseExpr!: SafeExpression | null;
+
+    /**
+     * The Skill-Base error message when the formula failed to compile or
+     * evaluate (a {@link sohl.entity.expr.SafeExpressionError} message, or a
+     * "did not return a number" message), otherwise `undefined`. A non-blank
+     * value flags the skill invalid (see {@link skillBaseValid}); the sheet
+     * surfaces it and the internal {@link skillBase} falls back to `0`.
+     */
+    skillBaseError?: string;
 
     /**
      * The mastery level as a {@link sohl.entity.modifier.MasteryLevelModifier}, seeded from
@@ -584,14 +606,22 @@ export class SkillLogic<
     }
 
     /**
-     * Whether the skill's base formula is valid — i.e. it references at least
-     * two attributes (the minimum for a skill base average).
+     * Whether the Skill-Base formula compiled and evaluated to a number. `true`
+     * for a blank formula (blank ≠ invalid — it simply yields SB 0); `false` only
+     * when a non-blank formula failed to compile or did not return a number
+     * ({@link skillBaseError} carries the reason).
+     */
+    get skillBaseValid(): boolean {
+        return this.skillBaseError == null;
+    }
+
+    /**
+     * Whether the skill's base formula is valid (an alias of
+     * {@link skillBaseValid}). A blank formula is valid; a malformed expression or
+     * one that does not return a number is not.
      */
     get valid() {
-        return (
-            skillBaseAttrShortcodes(this.data.skillBaseFormula ?? "").length >=
-            2
-        );
+        return this.skillBaseValid;
     }
 
     /** The amount by which {@link improveWithSDR} raises the base mastery level on success. */
@@ -964,6 +994,104 @@ export class SkillLogic<
     }
 
     /* --------------------------------------------- */
+    /* Skill Base computation                        */
+    /* --------------------------------------------- */
+
+    /**
+     * Compute the Skill Base from a raw formula source by evaluating it as a
+     * value-returning {@link sohl.entity.expr.SafeExpression} against a
+     * Foundry-free context of attribute **values** (`attr.<shortcode>`) and
+     * `birthsigns`. The raw string is compiled here at evaluation time, never at
+     * author time (rule #10) — a world-item skill (no actor) simply evaluates
+     * against an empty context where every `attr.*` is `0`.
+     *
+     * - A blank/absent source yields `{ value: 0, expr: null }` — blank is not
+     *   invalid.
+     * - A syntax error, unknown helper, or a result that is not a finite number
+     *   yields `{ value: 0, error, expr: null }` — SB stays a safe `0` internally
+     *   while the skill is flagged invalid.
+     * - Otherwise the numeric result is clamped to ≥ 0 and returned with the
+     *   parsed expression (retained for {@link sohl.entity.expr.SafeExpression.attrRefs}).
+     *
+     * @param source - The skill's `skillBaseFormula` (raw expression source).
+     * @returns The clamped value, the parsed expression (or `null`), and an error
+     *   message when the formula is invalid.
+     */
+    private computeSkillBase(source: string | null): {
+        value: number;
+        expr: SafeExpression | null;
+        error?: string;
+    } {
+        if (!source) return { value: 0, expr: null };
+        try {
+            const expr = new SafeExpression({ source }, { parent: this });
+            const raw = expr.evaluate({
+                attr: this.buildAttrContext(),
+                birthsigns: this.buildBirthsigns(),
+            });
+            const n = Number(raw);
+            if (!Number.isFinite(n)) {
+                return {
+                    value: 0,
+                    expr: null,
+                    error: `Skill Base expression did not return a number (got ${String(raw)})`,
+                };
+            }
+            return { value: Math.max(0, n), expr };
+        } catch (err) {
+            if (err instanceof SafeExpressionError) {
+                return { value: 0, expr: null, error: err.message };
+            }
+            throw err;
+        }
+    }
+
+    /**
+     * Build the zero-defaulting `attr` context: a map of the actor's attribute
+     * shortcodes (lowercased) to their `.score.effective`, wrapped in a Proxy so
+     * that any absent reference resolves to `0` (case-insensitively) instead of
+     * throwing. Off an actor the map is empty, so every `attr.*` is `0` — the
+     * legacy `?? 0` semantics, preserved as an intentional non-error.
+     *
+     * @returns The `attr` namespace object for expression evaluation.
+     */
+    private buildAttrContext(): Record<string, number> {
+        const scores: Record<string, number> = {};
+        const attributes =
+            this.actorLogic?.logicTypes?.[ITEM_KIND.ATTRIBUTE] ?? [];
+        for (const a of attributes) {
+            const code = a.data.shortcode?.toLowerCase();
+            if (code) scores[code] = a.score.effective ?? 0;
+        }
+        return new Proxy(scores, {
+            get(target, prop) {
+                if (typeof prop === "string") {
+                    const key = prop.toLowerCase();
+                    return Object.prototype.hasOwnProperty.call(target, key) ?
+                            target[key]
+                        :   0;
+                }
+                return Reflect.get(target, prop);
+            },
+        });
+    }
+
+    /**
+     * The actor's birthsign shortcodes (lowercased) — the `buff`-subtype Mystery
+     * items — as passed to the `birthsignBonus` expression helper. Empty off an
+     * actor.
+     *
+     * @returns The birthsign shortcodes.
+     */
+    private buildBirthsigns(): string[] {
+        const mysteries =
+            this.actorLogic?.logicTypes?.[ITEM_KIND.MYSTERY] ?? [];
+        return mysteries
+            .filter((m) => m.data.subType === MYSTERY_SUBTYPE.BUFF)
+            .map((m) => m.data.shortcode.toLowerCase());
+    }
+
+    /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 
@@ -974,11 +1102,12 @@ export class SkillLogic<
         this.boosts = 0;
 
         // Calculate the Skill Base first — the opening mastery level may derive
-        // from it (see below).
-        this.skillBase = calcSkillBase(
-            this.data.skillBaseFormula ?? "",
-            this.actorLogic,
-        );
+        // from it (see below). The formula is a value-returning SafeExpression;
+        // an invalid one flags the skill (skillBaseError) and falls back to 0.
+        const sb = this.computeSkillBase(this.data.skillBaseFormula);
+        this.skillBase = sb.value;
+        this.skillBaseExpr = sb.expr;
+        this.skillBaseError = sb.error;
 
         // Seed the mastery level base. When masteryLevelBase is unset (null)
         // and the skill is on an actor, open the skill from its skill base:
@@ -1091,12 +1220,9 @@ export class SkillLogic<
         if (this.masteryLevel.base > this.masteryLevel.maxTarget) {
             this.masteryLevel.setBase(this.masteryLevel.maxTarget);
         }
-        if (
-            skillBaseAttrShortcodes(this.data.skillBaseFormula ?? "").includes(
-                "aur",
-            )
-        ) {
-            // Any skill that has Aura in its SB formula cannot use fate
+        if (this.skillBaseExpr?.attrRefs().includes("aur")) {
+            // Any skill that reads Aura (attr.aur) in its SB formula cannot use
+            // fate. The dependency is read off the parsed AST, not a regex.
             this.fateMasteryLevel.disabled =
                 "SOHL.MasteryLevel.AuraBasedNoFate";
         }
@@ -1162,117 +1288,6 @@ export class SkillLogic<
             }
         }
     }
-}
-
-/**
- * Calculates the mastery boost based on the given mastery level. Returns different boost values based on different ranges of mastery levels.
- *
- * @param ml - The current Mastery Level
- * @returns The calculated Mastery Boost
- */
-/**
- * The attribute shortcodes referenced by a skill-base formula — its `@code`
- * terms, lowercased and stripped of any `:multiplier`. Used to validate a
- * formula (needs ≥ 2 attributes) and to detect Aura-based skills.
- *
- * @param skillBaseFormula - The skill's `skillBaseFormula` string.
- * @returns The referenced attribute shortcodes, in formula order.
- */
-function skillBaseAttrShortcodes(skillBaseFormula: string): string[] {
-    return (skillBaseFormula || "")
-        .toLowerCase()
-        .split(",")
-        .map((term) => term.trim())
-        .filter((term) => term.startsWith("@") && term.length > 1)
-        .map((term) => term.slice(1).split(":")[0]);
-}
-
-/**
- * Computes a skill's **skill base** (SB) value from its formula, resolving
- * attribute references and birthsign bonuses against the owning actor.
- *
- * The formula is a comma-separated, case-insensitive list of terms:
- *
- * - `@code` — average in the actor's attribute with that shortcode; `@code:2`
- *   weights it ×2.
- * - `hirin:2` — add 2 if the actor has the `hirin` birthsign; `ahnu` adds 1.
- *   Birthsigns are Mystery items of subtype `buff`, matched by shortcode; only
- *   the single largest matching birthsign bonus applies.
- * - `5` — a flat numeric modifier.
- *
- * The attribute average rounds up when exactly two attributes are given and the
- * first (primary) exceeds the second, down when it does not, and to nearest
- * otherwise. The result is clamped to ≥ 0. A formula referencing fewer than two
- * attributes (or an absent formula/actor) yields 0.
- *
- * @param skillBaseFormula - The skill's `skillBaseFormula` string.
- * @param actorLogic - The owning actor's logic, source of attribute scores and
- *   birthsign mysteries; a falsy value yields 0.
- * @returns The computed skill base value (≥ 0).
- */
-export function calcSkillBase(
-    skillBaseFormula: string,
-    actorLogic: SohlActorLogic<any> | null | undefined,
-): number {
-    if (!skillBaseFormula || !actorLogic) return 0;
-
-    const attributes = actorLogic.logicTypes[ITEM_KIND.ATTRIBUTE];
-    // Birthsigns are `buff`-subtype Mystery items; the shortcode is the token.
-    const birthsigns = new Set(
-        actorLogic.logicTypes[ITEM_KIND.MYSTERY]
-            .filter((m) => m.data.subType === MYSTERY_SUBTYPE.BUFF)
-            .map((m) => m.data.shortcode.toLowerCase()),
-    );
-
-    const attrScores: number[] = [];
-    let birthsignBonus = 0;
-    let modifier = 0;
-
-    for (const raw of skillBaseFormula.toLowerCase().split(",")) {
-        const term = raw.trim();
-        if (!term) continue;
-
-        if (term.startsWith("@")) {
-            // Attribute reference: `@code`, optionally `@code:multiplier`.
-            const [code, multRaw] = term.slice(1).split(":");
-            if (!code) continue;
-            const mult = multRaw ? Number.parseInt(multRaw, 10) || 1 : 1;
-            const attr = attributes.find((a) => a.data.shortcode === code);
-            attrScores.push((attr?.score.effective ?? 0) * mult);
-            continue;
-        }
-
-        if (/^[-+]?\d+$/.test(term)) {
-            // Flat numeric modifier.
-            modifier += Number.parseInt(term, 10);
-            continue;
-        }
-
-        // Birthsign term: `code` (adds 1) or `code:count`. Only the largest
-        // matching birthsign bonus applies.
-        const [code, countRaw] = term.split(":");
-        const count = countRaw ? Number.parseInt(countRaw, 10) || 1 : 1;
-        if (birthsigns.has(code)) {
-            birthsignBonus = Math.max(birthsignBonus, count);
-        }
-    }
-
-    // A valid skill base averages two or more attributes.
-    if (attrScores.length < 2) return 0;
-
-    const sum = attrScores.reduce((acc, score) => acc + score, 0);
-    let average = sum / attrScores.length;
-    if (attrScores.length === 2) {
-        // Two-attribute rounding: up when the primary exceeds the secondary.
-        average =
-            attrScores[0] > attrScores[1] ?
-                Math.ceil(average)
-            :   Math.floor(average);
-    } else {
-        average = Math.round(average);
-    }
-
-    return Math.max(0, average + birthsignBonus + modifier);
 }
 
 /**

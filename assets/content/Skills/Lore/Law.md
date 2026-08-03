@@ -15,7 +15,7 @@ sohl:
     kbcat: lore
     archetype: 0
     subType: lore
-    skillBaseFormula: "@rea, @wil"
+    skillBaseFormula: "sb(attr.rea, attr.wil)"
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0

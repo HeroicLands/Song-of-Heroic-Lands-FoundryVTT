@@ -287,7 +287,7 @@ describe("WeaponGearLogic", () => {
                     ITEM_KIND.SKILL,
                     {
                         subType: "combattechnique",
-                        skillBaseFormula: "@str, @agl",
+                        skillBaseFormula: "sb(attr.str, attr.agl)",
                         masteryLevelBase,
                     },
                     // A distinct id per skill: the mock item id defaults to a

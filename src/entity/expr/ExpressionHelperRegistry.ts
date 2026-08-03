@@ -578,6 +578,65 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
     },
 
     /**
+     * The HârnMaster **Skill Base** (SB) reduction of one or more attribute
+     * values — the canonical rounding rule, shipped as a helper so the common
+     * case stays a one-liner (`sb(attr.str, attr.dex)`) while worlds that
+     * home-rule SB write their own arithmetic instead.
+     *
+     * - **1 value** → the value itself.
+     * - **2 values** → their average, rounded **up** iff the first (primary)
+     *   exceeds the second, otherwise **down** (equal values round down, matching
+     *   the strict-`>` tiebreak).
+     * - **3+ values** → their average, rounded to nearest.
+     *
+     * No clamping is applied here — the caller clamps the final SB to ≥ 0. Absent
+     * attribute references resolve to `0` upstream (via the `attr` context), so a
+     * missing attribute simply contributes `0` to the average.
+     * @param values - One or more attribute values (numbers).
+     * @returns The reduced Skill Base value.
+     * @throws {SafeExpressionError} If called with no arguments.
+     */
+    sb(...values: unknown[]): number {
+        if (values.length === 0) {
+            throw new SafeExpressionError(
+                "sb() requires at least one attribute value",
+            );
+        }
+        const nums = values.map((v) => Number(v));
+        if (nums.length === 1) return nums[0];
+        if (nums.length === 2) {
+            const average = (nums[0] + nums[1]) / 2;
+            return nums[0] > nums[1] ? Math.ceil(average) : Math.floor(average);
+        }
+        const sum = nums.reduce((acc, n) => acc + n, 0);
+        return Math.round(sum / nums.length);
+    },
+
+    /**
+     * A birthsign Skill-Base bonus: `amount` when `code` is among the actor's
+     * `birthsigns`, otherwise `0`. Multiple terms **stack** — sum them with `+`
+     * (`sb(attr.str, attr.dex) + birthsignBonus(birthsigns, 'hirin', 2)`), or take
+     * the largest with `max(...)`.
+     * @param birthsigns - The actor's birthsign shortcodes (lowercased); passed
+     *   explicitly from the expression context.
+     * @param code - The birthsign shortcode to test for (matched case-insensitively).
+     * @param amount - The bonus contributed when the birthsign is present.
+     * @returns `amount` if `code ∈ birthsigns`, else `0`.
+     */
+    birthsignBonus(
+        birthsigns: unknown,
+        code: unknown,
+        amount: unknown,
+    ): number {
+        return (
+                Array.isArray(birthsigns) &&
+                    birthsigns.includes(String(code).toLowerCase())
+            ) ?
+                Number(amount)
+            :   0;
+    },
+
+    /**
      * Whether an actor's logic layer has a skill with the given shortcode.
      * Used in action trigger/visibility predicates and context-menu
      * conditions — all of which bind the actor **logic** (as `actorLogic`),

@@ -15,7 +15,7 @@ sohl:
     kbcat: social
     archetype: 0
     subType: social
-    skillBaseFormula: "@cre, @elo"
+    skillBaseFormula: "sb(attr.cre, attr.elo)"
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 1

@@ -12,6 +12,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
+    {{#if skillBaseError}}
+    <p class="hint hint--error">{{localize "SOHL.Skill.sbInvalid" error=skillBaseError}}</p>
+    {{/if}}
     <div class="field-grid field-grid--3col">
         {{formGroup fields.skillBaseFormula rootId="skill-sbf" classes="text-field" stacked=true value=system.skillBaseFormula}}
         {{formGroup fields.masteryLevelBase rootId="skill-mlb" classes="text-field" stacked=true value=system.masteryLevelBase}}

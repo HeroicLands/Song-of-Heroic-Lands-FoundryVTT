@@ -141,7 +141,7 @@ describe("SkillLogic", () => {
             actor.items.set("int1", makeAttributeStub("int", 14));
             const logic = makeSkill(
                 {
-                    skillBaseFormula: "@str, @int",
+                    skillBaseFormula: "sb(attr.str, attr.int)",
                     masteryLevelBase: null,
                     initSkillMult: 2,
                 },
@@ -159,7 +159,7 @@ describe("SkillLogic", () => {
             actor.items.set("int1", makeAttributeStub("int", 14));
             const logic = makeSkill(
                 {
-                    skillBaseFormula: "@str, @int",
+                    skillBaseFormula: "sb(attr.str, attr.int)",
                     masteryLevelBase: 40,
                     initSkillMult: 2,
                 },
@@ -173,7 +173,7 @@ describe("SkillLogic", () => {
             // A skill in a compendium / not embedded on an actor has no skill
             // base to open from; masteryLevelBase null → base 0.
             const logic = makeSkill({
-                skillBaseFormula: "@str, @int",
+                skillBaseFormula: "sb(attr.str, attr.int)",
                 masteryLevelBase: null,
                 initSkillMult: 3,
             });
@@ -187,7 +187,7 @@ describe("SkillLogic", () => {
             actor.items.set("int1", makeAttributeStub("int", 14));
             const logic = makeSkill(
                 {
-                    skillBaseFormula: "@str, @int",
+                    skillBaseFormula: "sb(attr.str, attr.int)",
                     masteryLevelBase: null,
                     initSkillMult: 0,
                 },
@@ -202,13 +202,49 @@ describe("SkillLogic", () => {
             actor.items.set("str1", makeAttributeStub("str", 12));
             actor.items.set("int1", makeAttributeStub("int", 14));
             const logic = makeSkill(
-                { skillBaseFormula: "@str, @int" },
+                { skillBaseFormula: "sb(attr.str, attr.int)" },
                 { actor },
             );
             logic.initialize();
             expect(logic.valid).toBe(true);
-            // calcSkillBase averages the referenced attribute scores: (12+14)/2
+            // sb() averages the referenced attribute values: (12+14)/2 = 13,
+            // primary (12) < secondary (14) → floor(13) = 13.
             expect(logic.skillBase).toBe(13);
+        });
+
+        it("flags an invalid Skill-Base expression (SB 0, not valid) (#972)", () => {
+            const actor = makeMockActor();
+            actor.items.set("str1", makeAttributeStub("str", 12));
+            const logic = makeSkill(
+                { skillBaseFormula: "sb(attr.str," }, // syntax error
+                { actor },
+            );
+            logic.initialize();
+            expect(logic.valid).toBe(false);
+            expect(logic.skillBaseValid).toBe(false);
+            expect(logic.skillBase).toBe(0);
+            expect(logic.skillBaseError).toBeTruthy();
+        });
+
+        it("flags an unknown helper as invalid (#972)", () => {
+            const actor = makeMockActor();
+            actor.items.set("str1", makeAttributeStub("str", 12));
+            const logic = makeSkill(
+                { skillBaseFormula: "bogus(attr.str)" },
+                { actor },
+            );
+            logic.initialize();
+            expect(logic.skillBaseValid).toBe(false);
+            expect(logic.skillBase).toBe(0);
+        });
+
+        it("treats a blank formula as valid with skillBase 0 (#972)", () => {
+            const actor = makeMockActor();
+            const logic = makeSkill({ skillBaseFormula: "" }, { actor });
+            logic.initialize();
+            expect(logic.skillBaseValid).toBe(true);
+            expect(logic.skillBase).toBe(0);
+            expect(logic.skillBaseError).toBeUndefined();
         });
 
         it("disables fate when the actor has no Aura attribute", () => {
@@ -372,7 +408,10 @@ describe("SkillLogic", () => {
             );
             const actor = makeMockActor();
             actor.items.set("aur1", makeAttributeStub("aur", 14));
-            const logic = makeSkill({ skillBaseFormula: "@aur" }, { actor });
+            const logic = makeSkill(
+                { skillBaseFormula: "sb(attr.aur)" },
+                { actor },
+            );
             logic.initialize();
             expect(logic.fateMasteryLevel.disabled).toBeFalsy();
             logic.evaluate();
@@ -504,7 +543,7 @@ describe("SkillLogic", () => {
             actor.items.set("int1", makeAttributeStub("int", 14));
             const logic = makeSkill(
                 {
-                    skillBaseFormula: "@str, @int",
+                    skillBaseFormula: "sb(attr.str, attr.int)",
                     masteryLevelBase: null,
                     initSkillMult: 2,
                 },
@@ -557,7 +596,10 @@ describe("SkillLogic", () => {
                 .mockReturnValue(mockRoll(50));
             const actor = makeMockActor();
             actor.items.set("str1", makeAttributeStub("str", 12));
-            const logic = makeSkill({ skillBaseFormula: "@str" }, { actor });
+            const logic = makeSkill(
+                { skillBaseFormula: "sb(attr.str)" },
+                { actor },
+            );
             logic.initialize();
             await logic.improveWithSDR({
                 speaker: { toChat: vi.fn() },
@@ -633,7 +675,7 @@ describe("SkillLogic", () => {
             actor.items.set("str1", makeAttributeStub("str", 10));
             actor.items.set("dex1", makeAttributeStub("dex", 10));
             const logic = makeSkill(
-                { skillBaseFormula: "@str,@dex" },
+                { skillBaseFormula: "sb(attr.str, attr.dex)" },
                 { actor, flags: { "sohl.rollFormula": "2d6+sb" } },
             );
             logic.initialize();
@@ -661,12 +703,18 @@ describe("SkillLogic", () => {
             expect(logic.availableFate).toEqual([]);
         });
 
-        it("valid is false when the formula references fewer than two attributes", () => {
+        it("valid is true for a single-attribute formula now that sb() accepts one value (#972)", () => {
+            // The legacy ≥2-attribute rule is dropped: validity is now purely
+            // whether the expression compiled and returned a number.
             const actor = makeMockActor();
             actor.items.set("str1", makeAttributeStub("str", 12));
-            const logic = makeSkill({ skillBaseFormula: "@str" }, { actor });
+            const logic = makeSkill(
+                { skillBaseFormula: "sb(attr.str)" },
+                { actor },
+            );
             logic.initialize();
-            expect(logic.valid).toBe(false);
+            expect(logic.valid).toBe(true);
+            expect(logic.skillBase).toBe(12);
         });
 
         it("canImprove requires ownership/GM and an enabled mastery level", () => {

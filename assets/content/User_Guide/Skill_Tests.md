@@ -142,7 +142,8 @@ Opposed tests are used for:
 
 Every skill has a **skill base formula** that determines its starting value
 from the character's attributes. For example, the Sword skill might have a
-base formula of `@str, @dex` — meaning it averages Strength and Dexterity.
+base formula of `sb(attr.str, attr.dex)` — meaning it averages Strength and
+Dexterity.
 
 The skill base is calculated automatically when attributes are set. The
 mastery level builds on top of the skill base through training and experience.

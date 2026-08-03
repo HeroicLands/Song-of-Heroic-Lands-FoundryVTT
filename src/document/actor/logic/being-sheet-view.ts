@@ -408,6 +408,11 @@ export interface SkillRow {
     img: string;
     /** Skill Base — the derived attribute-driven base score. */
     sb: number;
+    /**
+     * Whether the Skill-Base formula is valid. `false` → the SB cell renders an
+     * ✕ (a malformed / non-numeric expression) instead of {@link sb} (#972).
+     */
+    sbValid: boolean;
     /** Mastery Level — the base mastery level. */
     ml: number;
     /** The mastery-level index (a coarse band derived from the ML). */
@@ -457,6 +462,7 @@ export interface SkillLike {
     img: string;
     subType: string | undefined;
     sb: number;
+    sbValid: boolean;
     ml: number;
     index: number;
     eml: number;
@@ -521,6 +527,7 @@ export function buildSkillGroups(
         name: skill.name,
         img: skill.img,
         sb: skill.sb,
+        sbValid: skill.sbValid,
         ml: skill.ml,
         index: skill.index,
         eml: skill.eml,

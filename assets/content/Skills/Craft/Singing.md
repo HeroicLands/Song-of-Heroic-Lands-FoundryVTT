@@ -15,7 +15,7 @@ sohl:
     kbcat: craft
     archetype: 0
     subType: social
-    skillBaseFormula: "@voi, @cre"
+    skillBaseFormula: "sb(attr.voi, attr.cre)"
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 3

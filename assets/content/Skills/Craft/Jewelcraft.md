@@ -15,7 +15,7 @@ sohl:
     kbcat: craft
     archetype: 0
     subType: craft
-    skillBaseFormula: "@per, @dex"
+    skillBaseFormula: "sb(attr.per, attr.dex)"
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0

@@ -97,7 +97,7 @@ describe("SohlItemBaseLogic.resultEdit — GM result-edit on the frozen roll (#8
             "skill",
             {
                 subType: "combat",
-                skillBaseFormula: "@str",
+                skillBaseFormula: "sb(attr.str)",
                 masteryLevelBase: 50,
                 initSkillMult: 1,
             },

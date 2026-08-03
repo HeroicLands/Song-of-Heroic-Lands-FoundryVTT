@@ -15,7 +15,7 @@ sohl:
     kbcat: script
     archetype: 0
     subType: script
-    skillBaseFormula: "@rea, @per"
+    skillBaseFormula: "sb(attr.rea, attr.per)"
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0

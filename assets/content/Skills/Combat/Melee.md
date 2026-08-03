@@ -15,7 +15,7 @@ sohl:
     kbcat: combat
     archetype: 0
     subType: combat
-    skillBaseFormula: "@dex, @agl"
+    skillBaseFormula: "sb(attr.dex, attr.agl)"
     combatCategory: melee
     parentSkillCode: ""
     initSkillMult: 2

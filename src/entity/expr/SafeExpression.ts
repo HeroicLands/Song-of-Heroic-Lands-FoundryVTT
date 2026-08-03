@@ -225,6 +225,93 @@ export class SafeExpression extends SohlEntity {
     }
 
     /**
+     * The distinct member names read off a given base identifier anywhere in the
+     * expression — e.g. `attrRefs()` returns every `attr.<name>` accessed. Both
+     * dot access (`attr.str`) and string-literal computed access (`attr["str"]`)
+     * are collected; the names are lowercased and de-duplicated, in first-seen
+     * order. Computed access by a non-literal key (`attr[x]`) cannot be resolved
+     * statically and is ignored.
+     *
+     * A read-only static walk over the already-validated AST (no re-parse). Used
+     * to derive a skill's attribute dependencies from its Skill-Base expression —
+     * e.g. gating fate off when the formula reads `attr.aur` — without a regex on
+     * the source.
+     * @param base - The base identifier whose member accesses to collect
+     *   (defaults to `"attr"`).
+     * @returns The distinct, lowercased member names, in first-seen order.
+     */
+    memberRefs(base: string = "attr"): string[] {
+        const found = new Set<string>();
+        const walk = (node: jsep.Expression | null | undefined): void => {
+            if (!node || typeof node.type !== "string") return;
+            switch (node.type) {
+                case "MemberExpression": {
+                    const member = node as jsep.MemberExpression;
+                    const object = member.object as jsep.Identifier;
+                    if (object.type === "Identifier" && object.name === base) {
+                        if (!member.computed) {
+                            const name = (member.property as jsep.Identifier)
+                                .name;
+                            if (name) found.add(name.toLowerCase());
+                        } else {
+                            const prop = member.property as jsep.Literal;
+                            if (
+                                prop.type === "Literal" &&
+                                typeof prop.value === "string"
+                            ) {
+                                found.add(prop.value.toLowerCase());
+                            }
+                        }
+                    }
+                    walk(member.object);
+                    if (member.computed) walk(member.property);
+                    return;
+                }
+                case "UnaryExpression":
+                    walk((node as jsep.UnaryExpression).argument);
+                    return;
+                case "BinaryExpression": {
+                    const binary = node as jsep.BinaryExpression;
+                    walk(binary.left);
+                    walk(binary.right);
+                    return;
+                }
+                case "ConditionalExpression": {
+                    const cond = node as jsep.ConditionalExpression;
+                    walk(cond.test);
+                    walk(cond.consequent);
+                    walk(cond.alternate);
+                    return;
+                }
+                case "ArrayExpression":
+                    for (const el of (node as jsep.ArrayExpression).elements) {
+                        walk(el);
+                    }
+                    return;
+                case "CallExpression":
+                    for (const arg of (node as jsep.CallExpression).arguments) {
+                        walk(arg);
+                    }
+                    return;
+                default:
+                    return;
+            }
+        };
+        walk(this.ast);
+        return [...found];
+    }
+
+    /**
+     * The distinct attribute shortcodes an expression reads via the `attr`
+     * context namespace (`attr.str`, `attr["dex"]`) — the {@link memberRefs}
+     * walk specialized to `"attr"`. Lowercased and de-duplicated.
+     * @returns The referenced attribute shortcodes, in first-seen order.
+     */
+    attrRefs(): string[] {
+        return this.memberRefs("attr");
+    }
+
+    /**
      * Recursively reject any node type, operator, callee, or property name
      * that is not part of the safe expression language.
      * @param node - The AST node to check.

@@ -15,7 +15,7 @@ sohl:
     kbcat: mystical
     archetype: 0
     subType: ritual
-    skillBaseFormula: "@wil, @rea"
+    skillBaseFormula: "sb(attr.wil, attr.rea)"
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0

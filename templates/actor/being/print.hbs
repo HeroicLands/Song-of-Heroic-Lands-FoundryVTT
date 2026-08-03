@@ -158,7 +158,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     {{#each group.skills as |skill|}}
                     <tr>
                         <td>{{skill.name}}</td>
-                        <td class="num">{{skill.sb}}</td>
+                        <td class="num">{{#if skill.sbValid}}{{skill.sb}}{{else}}{{emDash}}{{/if}}</td>
                         <td class="num">{{skill.ml}}</td>
                         <td class="num">{{#if skill.disabled}}{{emDash}}{{else}}{{skill.eml}}{{/if}}</td>
                     </tr>

@@ -15,7 +15,7 @@ sohl:
     kbcat: nature
     archetype: 0
     subType: nature
-    skillBaseFormula: "@wil, @rea"
+    skillBaseFormula: "sb(attr.wil, attr.rea)"
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 1
