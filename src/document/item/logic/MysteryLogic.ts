@@ -15,12 +15,14 @@ import { entity } from "@src/entity/registry";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
+import { computeBoostContribution } from "@src/document/item/logic/masteryBoost";
 import {
     SohlItemBaseLogic,
     type SohlItemData,
 } from "@src/document/item/logic/SohlItemBaseLogic";
 import {
     ACTION_SUBTYPE,
+    MYSTERY_SUBTYPE,
     MysterySubType,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
@@ -39,16 +41,22 @@ import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
  *
  * Each mystery tracks a **level** and optional **charges** (value and max); a
  * `null` charge value denotes infinite uses. A mystery may name an associated
- * {@link SkillLogic | Skill} (e.g. the skill a blessing boosts).
+ * {@link SkillLogic | Skill} (e.g. the skill a boon or boost affects).
  *
  * Subtypes ({@link MysterySubType}):
- * - **Birthsign** — a passive influence conferred by the celestial sign the being was born under.
- * - **Blessing** — divine intervention or inspiration giving a temporary increase in a skill's mastery.
- * - **Buff** — a temporary enhancement or boon.
+ * - **Birthsign** — a passive influence conferred by the celestial sign the being was born under; contributes to associated skills' Skill Base (matched by shortcode).
+ * - **Boon** — a flat `±N` modifier to an associated skill's mastery level, from any source.
+ * - **Boost** — one or more temporary Mastery Boosts to an associated skill (the Mastery Boost table).
  * - **Fate** — quantifies the ability to alter destiny or fate (the stored fate pool). The "Fate" *invocation* is a Divination {@link MysticalAbilityLogic | Mystical Ability}; a per-skill fate bonus is modelled with Active Effects, and a fate-point bonus is not yet modelled.
  * - **Grace** — quantifies the ability to call effectually on divine favour.
  * - **Other** — does not fit the other predefined categories.
  * - **Piety** — quantifies devotion to a religion.
+ *
+ * A **Boon** or **Boost** mystery names its target skill via
+ * {@link MysteryData.assocSkillCode} and, while active (a present, non-zero
+ * {@link level}), contributes a live delta onto that skill's mastery level in
+ * {@link finalize}. The mystery's {@link level | level} carries the effect's
+ * magnitude — `±N` for a Boon, the boost count `N` for a Boost.
  *
  * @typeParam TData - The Mystery data interface.
  */
@@ -169,7 +177,7 @@ export class MysteryLogic<
     override evaluate(): void {
         super.evaluate();
 
-        // Resolve the associated skill (e.g. the skill a blessing boosts or a
+        // Resolve the associated skill (e.g. the skill a boon/boost affects or a
         // fate success-level bump applies to) from its shortcode, when the actor is known.
         const actorLogic = this.actorLogic;
         if (!actorLogic) return;
@@ -182,6 +190,51 @@ export class MysteryLogic<
     /** @inheritdoc */
     override finalize(): void {
         super.finalize();
+        this.contributeSkillEffect();
+    }
+
+    /**
+     * Push this mystery's skill-affecting effect (a `boon` or `boost`) onto its
+     * associated skill's mastery-level modifier as a live delta.
+     *
+     * Both effects are **derived state**: the delta is recomputed every prepare
+     * cycle and added to the real skill's {@link SkillLogic.masteryLevel}, which
+     * is read at roll time. So the effect applies only while the mystery is
+     * active (a present, non-zero {@link level}) and reverts automatically when
+     * it lapses — nothing is persisted to unwind.
+     *
+     * - **Boon:** a flat `±N` modifier, where `N` is the mystery's
+     *   {@link level | level.effective}.
+     * - **Boost:** `N` temporary Mastery Boosts (see
+     *   {@link computeBoostContribution}) compounded off the skill's seeded
+     *   mastery level, contributed as the resulting EML delta.
+     *
+     * The absent-skill Boost path (conferring a skill the character lacks as a
+     * transient, rollable skill) is deferred to a later phase; here a `boost`
+     * with no resolvable skill simply contributes nothing.
+     */
+    protected contributeSkillEffect(): void {
+        const skill = this.assocSkill;
+        if (!skill) return;
+
+        // Active gate: a mystery with no level (disabled) or a zero level is
+        // inactive and contributes nothing.
+        if (this.level.disabled) return;
+        const n = this.level.effective;
+        if (n === 0) return;
+
+        if (this.data.subType === MYSTERY_SUBTYPE.BOON) {
+            skill.masteryLevel.add("SOHL.Mystery.BoonMod", "Boon", n);
+        } else if (this.data.subType === MYSTERY_SUBTYPE.BOOST) {
+            const { delta } = computeBoostContribution({
+                hasSkill: true,
+                seedML: skill.masteryLevelSeed,
+                count: n,
+            });
+            if (delta !== 0) {
+                skill.masteryLevel.add("SOHL.Mystery.BoostMod", "Boost", delta);
+            }
+        }
     }
 }
 
@@ -192,17 +245,22 @@ export interface MysteryData<
     TLogic extends MysteryLogic<MysteryData> = MysteryLogic<any>,
 > extends SohlItemData<TLogic> {
     /**
-     * The mystery's subtype. `buff` marks a birthsign (matched by
-     * {@link SohlItemData.shortcode | shortcode} in skill-base formulas).
+     * The mystery's subtype. `birthsign` marks a birthsign (matched by
+     * {@link SohlItemData.shortcode | shortcode} in skill-base formulas);
+     * `boon` / `boost` name a skill-affecting mystery.
      */
     subType: MysterySubType;
     /**
-     * Shortcode of the skill this mystery is associated with (the skill a
-     * blessing boosts, a fate success-level bump applies to, etc.); blank for mysteries
-     * that name no skill (e.g. a birthsign).
+     * Shortcode of the skill this mystery is associated with (the skill a boon
+     * or boost affects, a fate success-level bump applies to, etc.); blank for
+     * mysteries that name no skill (e.g. a birthsign).
      */
     assocSkillCode?: string | null;
-    /** The base level of the mystery, or null if not applicable */
+    /**
+     * The base level of the mystery, or null if not applicable. For a `boon` it
+     * is the flat `±N` modifier magnitude; for a `boost` it is the boost count
+     * `N` applied to the associated skill.
+     */
     levelBase: number | null;
     /** Usage tracking: current charges and maximum */
     charges: {

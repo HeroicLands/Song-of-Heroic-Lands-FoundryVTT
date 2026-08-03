@@ -24,6 +24,7 @@ import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { applyProneMeleePenalty } from "@src/entity/strikemode/prone";
 import { applyGoverningMasteryLevel } from "@src/entity/strikemode/governing";
 import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
+import { calcMasteryBoost } from "@src/document/item/logic/masteryBoost";
 import {
     eligibleFateSources,
     preferredFateSource,
@@ -176,6 +177,17 @@ export class SkillLogic<
      * surfaces it and the internal {@link skillBase} falls back to `0`.
      */
     skillBaseError?: string;
+
+    /**
+     * The seeded mastery-level base — the value {@link masteryLevel} was seeded
+     * with in {@link initialize} (a stored {@link SkillData.masteryLevelBase},
+     * or an on-actor skill's opening `Skill Base × initSkillMult`), captured
+     * **before** {@link evaluate} folds in this skill's own {@link boosts} and
+     * clamp. Cross-item effects that boost this skill (a `boost` Mystery) compute
+     * their contribution from this baseline rather than the mutated
+     * {@link masteryLevel | masteryLevel.base}.
+     */
+    masteryLevelSeed!: number;
 
     /**
      * The mastery level as a {@link sohl.entity.modifier.MasteryLevelModifier}, seeded from
@@ -1077,9 +1089,9 @@ export class SkillLogic<
     }
 
     /**
-     * The actor's birthsign shortcodes (lowercased) — the `buff`-subtype Mystery
-     * items — as passed to the `birthsignBonus` expression helper. Empty off an
-     * actor.
+     * The actor's birthsign shortcodes (lowercased) — the `birthsign`-subtype
+     * Mystery items — as passed to the `birthsignBonus` expression helper. Empty
+     * off an actor.
      *
      * @returns The birthsign shortcodes.
      */
@@ -1087,7 +1099,7 @@ export class SkillLogic<
         const mysteries =
             this.actorLogic?.logicTypes?.[ITEM_KIND.MYSTERY] ?? [];
         return mysteries
-            .filter((m) => m.data.subType === MYSTERY_SUBTYPE.BUFF)
+            .filter((m) => m.data.subType === MYSTERY_SUBTYPE.BIRTHSIGN)
             .map((m) => m.data.shortcode.toLowerCase());
     }
 
@@ -1118,6 +1130,9 @@ export class SkillLogic<
             this.data.masteryLevelBase == null && this.actorLogic ?
                 (this.skillBase ?? 0) * this.data.initSkillMult
             :   (this.data.masteryLevelBase ?? 0);
+        // Capture the pre-boost seed for cross-item boost effects (see the field
+        // docs); evaluate() will fold this skill's own boosts into masteryLevel.
+        this.masteryLevelSeed = masteryLevelBase;
         this.masteryLevel = new entity.MasteryLevelModifier(
             {},
             { parent: this },
@@ -1288,23 +1303,6 @@ export class SkillLogic<
             }
         }
     }
-}
-
-/**
- * The mastery-level bonus applied at each ML tier for the base-skill calculation.
- *
- * @param ml - The mastery level (0–100+).
- * @returns The bonus to add: 10 at ML ≤ 39, decreasing to 3 at ML > 99.
- */
-function calcMasteryBoost(ml: number): number {
-    if (ml <= 39) return 10;
-    else if (ml <= 44) return 9;
-    else if (ml <= 49) return 8;
-    else if (ml <= 59) return 7;
-    else if (ml <= 69) return 6;
-    else if (ml <= 79) return 5;
-    else if (ml <= 99) return 4;
-    else return 3;
 }
 
 /**

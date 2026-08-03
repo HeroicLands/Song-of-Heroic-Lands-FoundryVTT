@@ -33,6 +33,7 @@ export * from "./WeaponGearLogic";
 export * from "./fate";
 export * from "./fatigue";
 export * from "./item-sheet-view";
+export * from "./masteryBoost";
 export * from "./offer-schedule";
 export * from "./psychological-trauma";
 export * from "./strikeModeTest";

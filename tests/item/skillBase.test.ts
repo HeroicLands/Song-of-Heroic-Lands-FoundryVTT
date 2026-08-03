@@ -50,7 +50,7 @@ function skillFields(overrides: Record<string, unknown> = {}) {
 
 /**
  * Build an actor with the given attribute (shortcode → score) and optional
- * `buff`-subtype birthsign mysteries, then a skill whose formula is `formula`,
+ * `birthsign`-subtype birthsign mysteries, then a skill whose formula is `formula`,
  * initialize it, and return the initialized SkillLogic.
  */
 function skillFor(
@@ -66,8 +66,8 @@ function skillFor(
         actor.items.set(`mys-${shortcode}`, {
             id: `mys-${shortcode}`,
             type: "mystery",
-            system: { shortcode, subType: MYSTERY_SUBTYPE.BUFF },
-            logic: { data: { shortcode, subType: MYSTERY_SUBTYPE.BUFF } },
+            system: { shortcode, subType: MYSTERY_SUBTYPE.BIRTHSIGN },
+            logic: { data: { shortcode, subType: MYSTERY_SUBTYPE.BIRTHSIGN } },
         } as any);
     }
     const logic = makeItemLogic(
@@ -181,7 +181,7 @@ describe("SkillLogic Skill-Base pipeline (#972)", () => {
         });
     });
 
-    describe("birthsign bonuses (buff mysteries) — now stack", () => {
+    describe("birthsign bonuses (birthsign mysteries) — now stack", () => {
         it("adds the bonus when the actor has the matching birthsign", () => {
             const logic = skillFor(
                 "sb(attr.str, attr.dex) + birthsignBonus(birthsigns, 'hirin', 2)",

@@ -1550,10 +1550,10 @@ export const {
 } = defineType("SOHL.Mystery.SubType", {
     /** A passive influence conferred by the celestial sign the being was born under. */
     BIRTHSIGN: "birthsign",
-    /** Divine intervention or inspiration resulting in a temporary increase in mastery of a skill. */
-    BLESSING: "blessing",
-    /** A mystery that represents a temporary enhancement or boon. */
-    BUFF: "buff",
+    /** A flat ±N modifier to an associated skill's mastery level, from any source. */
+    BOON: "boon",
+    /** One or more temporary mastery boosts to an associated skill (Mastery Boost table). */
+    BOOST: "boost",
     /** A mystery that quantifies the ability to alter destiny or fate. */
     FATE: "fate",
     /** A mystery that quantifies ability to call effectually on divine favor. */

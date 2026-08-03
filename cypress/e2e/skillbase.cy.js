@@ -159,7 +159,7 @@ describe("skillbase calculation contract", () => {
         ).should("eq", 7); // floor(10) - 3 = 7
     });
 
-    it("birthsign term — single buff mystery whose shortcode matches adds 1", () => {
+    it("birthsign term — single birthsign mystery whose shortcode matches adds 1", () => {
         cy.createActor("being", { name: "Birthsign Being" }).then((actor) => {
             // Create attributes first so they initialize before the skill.
             cy.createItemsOn(actor, [
@@ -177,7 +177,7 @@ describe("skillbase calculation contract", () => {
                 cy
                     .createItemOn(actor, "mystery", {
                         name: "Heron Birthsign",
-                        system: { shortcode: "heron", subType: "buff" },
+                        system: { shortcode: "heron", subType: "birthsign" },
                     })
                     .then(() =>
                         cy
@@ -203,7 +203,7 @@ describe("skillbase calculation contract", () => {
         });
     });
 
-    it("birthsign term — two matching buff mysteries stack (#972)", () => {
+    it("birthsign term — two matching birthsign mysteries stack (#972)", () => {
         cy.createActor("being", { name: "Multi-Sign Being" }).then((actor) => {
             // Create attributes first so they initialize before the skill.
             cy.createItemsOn(actor, [
@@ -223,12 +223,18 @@ describe("skillbase calculation contract", () => {
                         {
                             kind: "mystery",
                             name: "Heron Birthsign",
-                            system: { shortcode: "heron", subType: "buff" },
+                            system: {
+                                shortcode: "heron",
+                                subType: "birthsign",
+                            },
                         },
                         {
                             kind: "mystery",
                             name: "Dragon Birthsign",
-                            system: { shortcode: "dragon", subType: "buff" },
+                            system: {
+                                shortcode: "dragon",
+                                subType: "birthsign",
+                            },
                         },
                     ])
                     .then(() =>
