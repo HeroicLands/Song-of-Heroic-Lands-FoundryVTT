@@ -20,6 +20,17 @@ Key Features:
 
 Whether you’re delving into political intrigue, navigating treacherous wilderness, or unraveling ancient mysteries, Song of Heroic Lands offers an unparalleled experience for exploring your own Heroic Lands. Begin your adventure today and let the song of the heroic echo through your campaigns!
 
+## System status (scoped beta)
+
+SoHL is in a **scoped beta**: the Being-centric core is frozen and safe to build campaigns on, while a few document types are still evolving. **Experimental** types are usable — you can create and exercise them — but their data schema is **not final** and may change without an automatic migration, so don't build a campaign on them yet. The create dialog suffixes these with **(Experimental)** and their sheets carry a dismissible banner.
+
+| Ready for play (schema frozen)                                                                                                                             | Experimental (schema not final)                              |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **Being** actor (body, health, shock, fear, morale, movement, injury)                                                                                      | **Cohort** actor                                             |
+| Items: attribute, skill, trauma, affliction, affiliation, mystery, mystical ability, and all gear (weapon, armor, projectile, container, concoction, misc) | **Structure** actor                                          |
+| Active Effects, Assisted Combat, the consent / scheduled-actions / calendar stack                                                                          | **Vehicle** actor                                            |
+|                                                                                                                                                            | Automated attack resolution; scene-region `trigger` behavior |
+
 ## Documentation
 
 - How to contribute: [CONTRIBUTING.md](CONTRIBUTING.md)

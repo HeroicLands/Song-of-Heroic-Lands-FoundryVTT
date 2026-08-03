@@ -16,7 +16,7 @@ import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { applySearchFilter } from "@src/document/actor/logic/display-filter";
 import { SohlDataModel } from "@src/core/foundry/SohlDataModel";
 import { fvttCallHook, dialog } from "@src/core/FoundryHelpers";
-import { ITEM_KIND, GearKinds } from "@src/utils/constants";
+import { ITEM_KIND, GearKinds, isFencedType } from "@src/utils/constants";
 import { toHTMLString } from "@src/utils/helpers";
 import { stripDocArchetypeFlag } from "@src/entity/archetype/archetype";
 import { hintsToLabelTooltips } from "@src/apps/foundry/sheet-hints";
@@ -42,8 +42,39 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     static override DEFAULT_OPTIONS: PlainObject = {
         actions: {
             clearField: SohlActorSheetBase._onClearField,
+            dismissFenceNotice: SohlActorSheetBase._onDismissFenceNotice,
         },
     };
+
+    /**
+     * Render-part id and template for the dismissible experimental-schema banner
+     * shown on fenced (experimental) actor sheets. The fenced concrete sheets add
+     * this entry to their `PARTS`; the base prepends it to the render list when the
+     * document type is fenced (see {@link _configureRenderOptions}).
+     * @internal
+     */
+    static readonly FENCED_BANNER_PART = {
+        fencedBanner: {
+            template: "systems/sohl/templates/actor/parts/fenced-banner.hbs",
+        },
+    } as const;
+
+    /**
+     * `data-action="dismissFenceNotice"`: hide the experimental-schema banner for
+     * the current view. Dismissal is intentionally per-view (not persisted) — the
+     * caution re-appears next time the sheet is opened, since the schema really is
+     * not final. Removes the banner element so the sheet reflows.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked dismiss control, inside the banner.
+     */
+    protected static _onDismissFenceNotice(
+        this: SohlActorSheetBase,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): void {
+        target.closest<HTMLElement>(".fence-banner")?.remove();
+    }
 
     /**
      * `data-action="clearField"`: reset a nullable field to `null`. Reads the
@@ -225,6 +256,13 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
 
         // All actor sheets have these parts
         options.parts = ["header", "tabs", "facade"];
+
+        // Fenced (experimental) actor sheets prepend the dismissible
+        // "schema not final" banner above the header (issue #959). BeingSheet
+        // overrides this method and is never fenced, so it is unaffected.
+        if (isFencedType("Actor", this.document.type)) {
+            options.parts.unshift("fencedBanner");
+        }
     }
 
     /**
@@ -242,6 +280,11 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         // Add any shared data needed across all parts here
         // options.parts contains array of partIds being rendered
         // e.g., ["header", "tabs", "facade"]
+
+        // Gate the experimental-schema banner (issue #959). The fenced-banner
+        // part reads this flag; setting it on the shared context makes it
+        // available to every part.
+        (context as any).isFenced = isFencedType("Actor", this.document.type);
 
         return context;
     }

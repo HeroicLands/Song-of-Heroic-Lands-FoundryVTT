@@ -17,6 +17,7 @@ import {
     uniqueShortcode,
     type SubTypeOption,
 } from "@src/utils/helpers";
+import { labelWithFenceSuffix } from "@src/utils/constants";
 import { toFilePath } from "@src/utils/helpers";
 import { DEFAULT_ITEM_ART } from "@src/utils/default-item-art.mjs";
 import {
@@ -146,7 +147,15 @@ export async function sohlCreateDialog(
         .filter((t) => t !== baseType && (!types || types.includes(t)))
         .map((value) => ({
             value,
-            label: sohl.i18n.localize(typeLabels[value] ?? value),
+            // Fenced (experimental) types carry an "(Experimental)" suffix so
+            // testers can still pick them but are warned the schema isn't final
+            // (issue #959). Sorting on the suffixed label keeps them grouped.
+            label: labelWithFenceSuffix(
+                documentName,
+                value,
+                sohl.i18n.localize(typeLabels[value] ?? value),
+                (key) => sohl.i18n.localize(key),
+            ),
         }))
         .sort((a, b) => a.label.localeCompare(b.label));
 

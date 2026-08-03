@@ -1,0 +1,32 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!--
+Dismissible "Experimental — schema not final" notice shown on fenced (experimental)
+actor sheets (cohort / structure / vehicle). Rendered only when the render context
+sets `isFenced` (see SohlActorSheetBase). The dismiss button hides the banner for
+the current view via the `dismissFenceNotice` sheet action (issue #959).
+--}}
+{{#if isFenced}}
+<aside class="fence-banner" role="note" aria-label="{{localize 'SOHL.Fence.banner.title'}}">
+    <i class="fence-banner__icon fa-solid fa-flask" aria-hidden="true"></i>
+    <div class="fence-banner__text">
+        <strong class="fence-banner__title">{{localize "SOHL.Fence.banner.title"}}</strong>
+        <span class="fence-banner__body">{{localize "SOHL.Fence.banner.body"}}</span>
+    </div>
+    <button type="button" class="fence-banner__dismiss" data-action="dismissFenceNotice"
+        title="{{localize 'SOHL.Fence.banner.dismiss'}}" aria-label="{{localize 'SOHL.Fence.banner.dismiss'}}">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+    </button>
+</aside>
+{{/if}}

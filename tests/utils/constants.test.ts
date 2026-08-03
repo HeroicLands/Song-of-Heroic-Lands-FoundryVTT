@@ -11,6 +11,10 @@ import {
     SOHL_SPEAKER_ROLL_MODE,
     speakerRollModeOptions,
     toMessageMode,
+    FENCED_TYPES,
+    FENCE_EXPERIMENTAL_LABEL_KEY,
+    isFencedType,
+    labelWithFenceSuffix,
 } from "@src/utils/constants";
 
 describe("defineType", () => {
@@ -182,5 +186,50 @@ describe("toMessageMode", () => {
         expect(toMessageMode("gm")).toBe("gm");
         // A custom mode key is not clobbered.
         expect(toMessageMode("custom")).toBe("custom");
+    });
+});
+
+describe("fenced (experimental) types", () => {
+    const localize = (key: string) =>
+        key === FENCE_EXPERIMENTAL_LABEL_KEY ? "Experimental" : key;
+
+    it("fences exactly the cohort/structure/vehicle actor kinds", () => {
+        expect([...(FENCED_TYPES.Actor ?? [])].sort()).toEqual([
+            "cohort",
+            "structure",
+            "vehicle",
+        ]);
+    });
+
+    it("does not fence being, nor the graduated mystery/mysticalability items", () => {
+        expect(isFencedType("Actor", "being")).toBe(false);
+        expect(isFencedType("Item", "mystery")).toBe(false);
+        expect(isFencedType("Item", "mysticalability")).toBe(false);
+    });
+
+    it("isFencedType is true only for listed (documentName, type) pairs", () => {
+        expect(isFencedType("Actor", "cohort")).toBe(true);
+        expect(isFencedType("Actor", "structure")).toBe(true);
+        expect(isFencedType("Actor", "vehicle")).toBe(true);
+        // Same value under the wrong document name is not fenced.
+        expect(isFencedType("Item", "cohort")).toBe(false);
+        // Unknown document name / type.
+        expect(isFencedType("JournalEntry", "cohort")).toBe(false);
+        expect(isFencedType("Actor", "nonesuch")).toBe(false);
+    });
+
+    it("labelWithFenceSuffix appends the localized suffix for fenced types", () => {
+        expect(
+            labelWithFenceSuffix("Actor", "cohort", "Cohort", localize),
+        ).toBe("Cohort (Experimental)");
+    });
+
+    it("labelWithFenceSuffix leaves non-fenced labels untouched", () => {
+        expect(labelWithFenceSuffix("Actor", "being", "Being", localize)).toBe(
+            "Being",
+        );
+        expect(labelWithFenceSuffix("Item", "skill", "Skill", localize)).toBe(
+            "Skill",
+        );
     });
 });

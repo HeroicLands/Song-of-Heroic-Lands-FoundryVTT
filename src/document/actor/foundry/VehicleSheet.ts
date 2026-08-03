@@ -25,6 +25,7 @@ export class VehicleSheet extends SohlActorSheetBase {
     };
 
     static PARTS = {
+        ...SohlActorSheetBase.FENCED_BANNER_PART,
         header: { template: "systems/sohl/templates/actor/vehicle/header.hbs" },
         tabs: { template: "templates/generic/tab-navigation.hbs" },
         facade: { template: "systems/sohl/templates/actor/parts/facade.hbs" },

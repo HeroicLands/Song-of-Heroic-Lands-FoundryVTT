@@ -25,6 +25,7 @@ export class StructureSheet extends SohlActorSheetBase {
     };
 
     static PARTS = {
+        ...SohlActorSheetBase.FENCED_BANNER_PART,
         header: {
             template: "systems/sohl/templates/actor/structure/header.hbs",
         },
