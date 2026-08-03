@@ -1,5 +1,10 @@
-import { describe, it, expect } from "vitest";
-import { legacyTraitError } from "@src/core/foundry/migration";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import {
+    legacyTraitError,
+    runWorldMigrations,
+} from "@src/core/foundry/migration";
+import * as FH from "@src/core/FoundryHelpers";
+import type { MigrationStep } from "@src/entity/migration/MigrationRegistry";
 
 describe("legacyTraitError — retired trait item type is unrecognized (#651)", () => {
     it("returns null for a non-trait document", () => {
@@ -42,5 +47,165 @@ describe("legacyTraitError — retired trait item type is unrecognized (#651)", 
         expect(
             legacyTraitError({ type: "base", _source: { type: "base" } }),
         ).toBeNull();
+    });
+});
+
+// ---------------------------------------------------------------------------
+// runWorldMigrations — the version-keyed runner (#957)
+// ---------------------------------------------------------------------------
+
+/** A live-document double: carries a source and records update calls. */
+function mkDoc(over: Record<string, unknown> = {}): any {
+    return {
+        id: "id-" + Math.random().toString(36).slice(2, 8),
+        type: "base",
+        toObject() {
+            return { type: this.type, system: {} };
+        },
+        update: vi.fn(async () => {}),
+        updateEmbeddedDocuments: vi.fn(async () => {}),
+        items: [],
+        effects: [],
+        ...over,
+    };
+}
+
+/** A minimal `game`-like world with sized collections. */
+function mkGame(
+    actors: any[] = [],
+    items: any[] = [],
+    scenes: any[] = [],
+): any {
+    const coll = (arr: any[]): any => {
+        const c: any = arr.slice();
+        c.size = arr.length;
+        return c;
+    };
+    return { actors: coll(actors), items: coll(items), scenes: coll(scenes) };
+}
+
+describe("runWorldMigrations — version-keyed runner (#957)", () => {
+    let getSpy: any;
+    let setSpy: any;
+    let verSpy: any;
+
+    beforeEach(() => {
+        getSpy = vi.spyOn(FH, "fvttGetSetting");
+        setSpy = vi.spyOn(FH, "fvttSetSetting").mockResolvedValue(undefined);
+        verSpy = vi.spyOn(FH, "fvttSystemVersion").mockReturnValue("0.7.0");
+    });
+
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
+    it("stamps a fresh (empty) world to the current version, running nothing", async () => {
+        getSpy.mockReturnValue(""); // no stored version
+        const summary = await runWorldMigrations(mkGame());
+        expect(summary.to).toBe("0.7.0");
+        expect(summary.from).toBe("0.7.0"); // fresh world resolves from === current
+        expect(summary.planned).toBe(0);
+        expect(summary.applied).toBe(0);
+        expect(summary.stamped).toBe(true);
+        expect(setSpy).toHaveBeenCalledWith(
+            "sohl",
+            "systemMigrationVersion",
+            "0.7.0",
+        );
+    });
+
+    it("does nothing when the world is already at the current version", async () => {
+        getSpy.mockReturnValue("0.7.0");
+        const actor = mkDoc({ type: "being" });
+        const summary = await runWorldMigrations(mkGame([actor]));
+        expect(summary.planned).toBe(0);
+        expect(summary.stamped).toBe(false);
+        expect(setSpy).not.toHaveBeenCalled();
+        expect(actor.update).not.toHaveBeenCalled();
+    });
+
+    it("returns early without stamping when the system version is unknown", async () => {
+        getSpy.mockReturnValue("0.6.0");
+        verSpy.mockReturnValue("");
+        const summary = await runWorldMigrations(mkGame([mkDoc()]));
+        expect(summary.to).toBe("");
+        expect(summary.planned).toBe(0);
+        expect(summary.stamped).toBe(false);
+        expect(setSpy).not.toHaveBeenCalled();
+    });
+
+    it("migrates a populated legacy world across the in-scope types, then stamps", async () => {
+        getSpy.mockReturnValue(""); // empty + populated → legacy → from 0.0.0
+        const steps: MigrationStep[] = [
+            {
+                version: "0.7.0",
+                description: "touch every in-scope kind",
+                migrators: {
+                    Actor: () => ({ "system.a": 1 }),
+                    Item: () => ({ "system.i": 1 }),
+                    ActiveEffect: () => ({ "system.e": 1 }),
+                },
+            },
+        ];
+        const effect = mkDoc();
+        const item = mkDoc({ type: "skill", effects: [mkDoc()] });
+        const actor = mkDoc({
+            type: "being",
+            items: [item],
+            effects: [effect],
+        });
+        const summary = await runWorldMigrations(mkGame([actor]), steps);
+
+        expect(summary.from).toBe("0.0.0");
+        expect(summary.planned).toBe(1);
+        expect(summary.stamped).toBe(true);
+        // Top-level actor updated.
+        expect(actor.update).toHaveBeenCalledTimes(1);
+        // Embedded items updated as a batch on the actor.
+        expect(actor.updateEmbeddedDocuments).toHaveBeenCalledWith(
+            "Item",
+            expect.arrayContaining([
+                expect.objectContaining({ _id: item.id, "system.i": 1 }),
+            ]),
+        );
+        // Embedded effects updated on the actor and on the item.
+        expect(actor.updateEmbeddedDocuments).toHaveBeenCalledWith(
+            "ActiveEffect",
+            expect.arrayContaining([
+                expect.objectContaining({ "system.e": 1 }),
+            ]),
+        );
+        expect(item.updateEmbeddedDocuments).toHaveBeenCalledWith(
+            "ActiveEffect",
+            expect.any(Array),
+        );
+        expect(setSpy).toHaveBeenCalledWith(
+            "sohl",
+            "systemMigrationVersion",
+            "0.7.0",
+        );
+    });
+
+    it("catches a per-document error, counts it, and still stamps the version", async () => {
+        getSpy.mockReturnValue("0.6.0");
+        const steps: MigrationStep[] = [
+            {
+                version: "0.7.0",
+                description: "bump",
+                migrators: { Actor: () => ({ "system.a": 1 }) },
+            },
+        ];
+        const bad = mkDoc({
+            type: "being",
+            update: vi.fn(async () => {
+                throw new Error("boom");
+            }),
+        });
+        const good = mkDoc({ type: "being" });
+        const summary = await runWorldMigrations(mkGame([bad, good]), steps);
+        expect(summary.errors).toBe(1);
+        expect(summary.applied).toBe(1); // the good actor still migrated
+        expect(good.update).toHaveBeenCalledTimes(1);
+        expect(summary.stamped).toBe(true);
     });
 });

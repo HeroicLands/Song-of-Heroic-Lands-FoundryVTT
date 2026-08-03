@@ -154,6 +154,10 @@ export function fvttSystemLinks(): any {
     };
 }
 
+export function fvttSystemVersion(): string {
+    return (globalThis as any).game?.system?.version ?? "";
+}
+
 export function fvttIsActiveGM(): boolean {
     return !!(globalThis as any).game?.user?.isActiveGM;
 }

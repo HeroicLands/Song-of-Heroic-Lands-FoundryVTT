@@ -68,6 +68,7 @@ Contracts, catalogs, and specifications.
 - [Body Structure](reference/body-structure.md)
 - [Effects Integration](reference/effects-integration.md)
 - [Runtime Contracts](reference/runtime-contracts.md)
+- [World Migration Runner](reference/migration.md)
 - [Shortcode Integrity](reference/shortcode-integrity.md)
 - [Scene, Token, and Combatant Systems](reference/scene-token-combatant.md)
 - [Calendar](reference/calendar.md)

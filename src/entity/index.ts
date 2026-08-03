@@ -26,6 +26,8 @@ export * as domain from "./domain";
 export * as event from "./event";
 /** SafeExpression — the sandboxed expression evaluator and its helper registry. */
 export * as expr from "./expr";
+/** The version-keyed world-migration model — the Foundry-free registry, planner, and per-source folder behind the migration runner. */
+export * as migration from "./migration";
 /** The calculation pipeline — value and mastery-level modifiers and deltas. */
 export * as modifier from "./modifier";
 /** Seedable, Foundry-free PRNGs — the reproducible RNG streams backing dice and hit-location selection (`sohl.entity.random.*`, `sohl.random`). */
