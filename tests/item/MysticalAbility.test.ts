@@ -290,6 +290,111 @@ describe("MysticalAbilityLogic", () => {
             expect(logic.masteryLevel.effective).toBe(55);
         });
     });
+
+    describe("level-based casting penalty (incantations)", () => {
+        it("arcane incantation subtracts Level x 2 from its EML", () => {
+            const logic = makeAbility({
+                subType: "arcaneincantation",
+                assocSkillCode: "",
+                masteryLevelBase: 30,
+                levelBase: 3,
+            });
+            logic.initialize();
+            logic.evaluate();
+            // 30 - (3 x 2) = 24
+            expect(logic.masteryLevel.effective).toBe(24);
+            expect(logic.masteryLevel.has("LvlPen")).toBe(true);
+        });
+
+        it("divine incantation subtracts Level x 2 from its EML", () => {
+            const logic = makeAbility({
+                subType: "divineincantation",
+                assocSkillCode: "",
+                masteryLevelBase: 40,
+                levelBase: 2,
+            });
+            logic.initialize();
+            logic.evaluate();
+            // 40 - (2 x 2) = 36
+            expect(logic.masteryLevel.effective).toBe(36);
+        });
+
+        it("stacks the penalty on top of the merged skill EML", () => {
+            const actor = makeAbilityActor();
+            const skill = makeSkillOnActor(actor, "pyrethos", 45);
+            skill.initialize();
+            const logic = makeAbility(
+                {
+                    subType: "arcaneincantation",
+                    assocSkillCode: "pyrethos",
+                    masteryLevelBase: 0,
+                    levelBase: 2,
+                },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+            // 45 (merged skill ML) - (2 x 2) = 41; penalty survives addVM.
+            expect(logic.masteryLevel.effective).toBe(41);
+            expect(logic.masteryLevel.has("LvlPen")).toBe(true);
+        });
+
+        it("reads the level's effective value at evaluate (after an AE on level)", () => {
+            const logic = makeAbility({
+                subType: "arcaneincantation",
+                assocSkillCode: "",
+                masteryLevelBase: 30,
+                levelBase: 2,
+            });
+            logic.initialize();
+            // Simulate an Active Effect raising the level from 2 to 3 (applied
+            // between initialize and evaluate).
+            logic.level.add("SOHL.INFO.ActiveEffect", "AE", 1);
+            logic.evaluate();
+            // Penalty uses the effective level (3), not the base (2): 30 - 6.
+            expect(logic.masteryLevel.effective).toBe(24);
+        });
+
+        it("adds no penalty for a non-incantation subtype", () => {
+            const logic = makeAbility({
+                subType: "arcanetalent",
+                assocSkillCode: "",
+                masteryLevelBase: 30,
+                levelBase: 3,
+            });
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.masteryLevel.effective).toBe(30);
+            expect(logic.masteryLevel.has("LvlPen")).toBe(false);
+        });
+
+        it("adds no penalty at level 0", () => {
+            const logic = makeAbility({
+                subType: "arcaneincantation",
+                assocSkillCode: "",
+                masteryLevelBase: 30,
+                levelBase: 0,
+            });
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.masteryLevel.effective).toBe(30);
+            expect(logic.masteryLevel.has("LvlPen")).toBe(false);
+        });
+
+        it("adds no penalty when the ability has no level (levelBase null)", () => {
+            const logic = makeAbility({
+                subType: "arcaneincantation",
+                assocSkillCode: "",
+                masteryLevelBase: 30,
+                levelBase: null,
+            });
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.masteryLevel.effective).toBe(30);
+            expect(logic.masteryLevel.has("LvlPen")).toBe(false);
+        });
+    });
 });
 
 describe("MysticalAbilityDataModel", () => {
