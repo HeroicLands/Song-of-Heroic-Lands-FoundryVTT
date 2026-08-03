@@ -115,37 +115,40 @@ export class MysticalAbilityLogic<
     /* --------------------------------------------- */
 
     /**
-     * Actively invoke this mystical ability (cast the spell, perform the rite,
-     * channel the power, etc.), resolving its activation test.
+     * Performs a success test against this ability's mastery level (EML) —
+     * invoking the ability is the same roll-for-success-or-failure a skill
+     * makes, so this shares the skill's exact seam.
      *
-     * Intrinsic-action executor for the `perform` action.
+     * Intrinsic-action executor for the `successTest` action; delegates to
+     * {@link sohl.entity.modifier.MasteryLevelModifier.successTest}. The system
+     * rolls but does not adjudicate the ability's effect — the outcome is read
+     * off the rulebook and applied by the player. Bespoke activation behavior is
+     * left to author-supplied Script Actions rather than a built-in executor.
      *
-     * @param _context - The action context (speaker, scope) for the activation.
-     * @returns The activation test result, or `null` if it could not be run.
-     * @remarks Not yet implemented; warns and returns `null`.
+     * @param context - The action context (speaker, scope) for the test.
+     * @returns The test result, `undefined` if cancelled, or `false` on error.
      */
-    async perform(
-        _context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        sohl.log.uiWarn(`Performing "${this.name}" is not yet implemented.`);
-        return null;
+    async successTest(
+        context: SohlActionContext,
+    ): Promise<SuccessTestResult | undefined | false> {
+        return this.masteryLevel.successTest(context);
     }
 
     /**
      * Define and return all intrinsic actions for mystical ability logic,
-     * adding the "perform" action to those inherited from the base logic.
+     * adding the `successTest` action to those inherited from the base logic.
      * @returns The intrinsic action definitions.
      */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlItemBaseLogic.defineIntrinsicActions(),
             {
-                shortcode: "perform",
+                shortcode: "successTest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.MysticalAbility.Action.perform.title",
+                title: "SOHL.MysticalAbility.Action.successTest",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-sparkles",
-                executor: "perform",
+                iconFAClass: "fa-solid fa-bullseye-arrow",
+                executor: "successTest",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },

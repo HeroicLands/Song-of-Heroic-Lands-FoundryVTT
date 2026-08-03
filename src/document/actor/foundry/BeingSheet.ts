@@ -1810,12 +1810,14 @@ html, body { margin: 0; padding: 0; background: #fff; }
     }
 
     /**
-     * Handle clicks on a skill's ML cell in the Skills tab. Runs a success
-     * test against that skill's mastery level and posts the result to chat.
-     * Hold Shift to skip the dialog.
+     * Handle clicks on an EML cell that rolls a success test against its item's
+     * mastery level — the Skills tab (skills, combat techniques) and the
+     * Mysteries tab (mystical abilities), which share the same `successTest`
+     * action because both back their EML with a `MasteryLevelModifier`. Posts
+     * the result to chat. Hold Shift to skip the dialog.
      *
      * @param event - The triggering pointer event.
-     * @param target - The clicked ML cell, on or inside an element carrying
+     * @param target - The clicked EML cell, on or inside an element carrying
      *   `data-item-id`.
      */
     protected static async _onRollSkillTest(

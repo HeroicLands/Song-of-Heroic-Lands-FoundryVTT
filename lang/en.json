@@ -1077,7 +1077,7 @@
     "SOHL.Mystery.SubType.grace": "Grace",
     "SOHL.Mystery.SubType.other": "Other",
     "SOHL.Mystery.SubType.piety": "Piety",
-    "SOHL.MysticalAbility.Action.perform.title": "Perform",
+    "SOHL.MysticalAbility.Action.successTest": "Success Test",
     "SOHL.MysticalAbility.Category.alchemy": "Alchemy",
     "SOHL.MysticalAbility.Category.arcaneincantation": "Arcane Incantation",
     "SOHL.MysticalAbility.Category.arcaneinvocation": "Arcane Invocation",

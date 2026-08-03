@@ -79,16 +79,22 @@ afterEach(() => {
 
 describe("MysticalAbilityLogic", () => {
     describe("construction", () => {
-        it("constructs with its real intrinsic actions (perform is wired)", () => {
+        it("constructs with its real intrinsic actions (successTest is wired, not the retired perform stub)", () => {
             const logic = makeAbility();
-            expect(logic.actions.has("perform")).toBe(true);
+            expect(logic.actions.has("successTest")).toBe(true);
+            expect(logic.actions.has("perform")).toBe(false);
         });
 
-        it("perform — warns and resolves null (not yet implemented)", async () => {
+        it("successTest — delegates to masteryLevel.successTest (same seam as a skill)", async () => {
             const logic = makeAbility();
-            const warn = vi.spyOn(sohl.log, "uiWarn");
-            await expect(logic.perform({} as any)).resolves.toBeNull();
-            expect(warn).toHaveBeenCalled();
+            logic.initialize();
+            const result = { isSuccess: true } as any;
+            const spy = vi
+                .spyOn(logic.masteryLevel, "successTest")
+                .mockResolvedValue(result);
+            const ctx = { scope: {} } as any;
+            await expect(logic.successTest(ctx)).resolves.toBe(result);
+            expect(spy).toHaveBeenCalledWith(ctx);
         });
 
         it("constructs against a plain-object MysticalAbilityData (no Foundry)", () => {
