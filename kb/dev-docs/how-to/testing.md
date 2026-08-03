@@ -519,6 +519,20 @@ write the test and `it.skip(...)` / `describe.skip(...)` it with a
 `red` options). CI stays green; the skip list is the capability backlog. Flip it
 to `it(...)` when the gap closes.
 
+**Frozen-subset gate (`npm run lint:e2e-red`).** For the Being-centric beta the
+whole `cypress/e2e` suite is **in scope** — every spec must pass on the frozen
+path — so a RED skip is permitted **only** for a fenced (out-of-beta) feature or
+explicitly post-freeze behavior. `utils/check-e2e-red.mjs` (wired into
+`npm run lint`, so it gates every build) enforces this: every `it.skip` /
+`describe.skip` must **cite its blocking issue as `(#NN)` in the test title**
+(or in the `red` / `persistRed` option value), and that issue must appear in the
+script's `FENCED_RED_ALLOWLIST`. A skip citing an unlisted issue — or none — fails
+the build as an in-scope spec gone RED; the fix is to make it green, not to
+silence it. Fencing a feature is a maintainer decision: add its issue to the
+allowlist with a one-line justification. When a fenced feature lands, un-skip its
+spec(s) and remove the entry (an unused entry is warned about, keeping the
+allowlist honest).
+
 ### Consent dialogs are landmines — press the button, or pre-answer it
 
 The [consent model](../concepts/action-cards.md) means SoHL constantly surfaces

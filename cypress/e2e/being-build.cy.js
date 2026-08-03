@@ -161,15 +161,6 @@ describe("being build — manual character-build chain", () => {
         });
     });
 
-    // ------------------------------------------------------------------ RED
-
-    it.skip("body-template import — orchestration brings body parts, attributes, and traits from a body template", () => {
-        // RED — blocked by #181: body-template import/apply orchestration not
-        // implemented; there is no flow to populate a being's inline body
-        // (`system.body`), attributes, or traits from a template source
-        // document.
-    });
-
     it("initSkillMult — an unopened skill (masteryLevelBase null) opens at skillBase × initSkillMult on an actor (#715)", () => {
         cy.importActor().then((actor) => {
             cy.createItemOn(actor, "skill", {
