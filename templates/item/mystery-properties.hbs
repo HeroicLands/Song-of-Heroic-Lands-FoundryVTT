@@ -13,7 +13,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     <div class="field-grid field-grid--3col">
-        {{formGroup fields.assocSkillCode rootId="mystery-assocskill" classes="text-field" stacked=true value=system.assocSkillCode}}
+        {{> shortcodeRefField embedded=embedded field=fields.assocSkillCode rootId="mystery-assocskill" name="system.assocSkillCode" value=system.assocSkillCode options=assocSkillCodeOptions label="SOHL.Mystery.FIELDS.assocSkillCode.label" hint="SOHL.Mystery.FIELDS.assocSkillCode.hint" blankLabel=(localize "SOHL.Key.None")}}
         {{formGroup fields.levelBase rootId="mystery-levelbase" classes="text-field" stacked=true value=system.levelBase}}
     </div>
 

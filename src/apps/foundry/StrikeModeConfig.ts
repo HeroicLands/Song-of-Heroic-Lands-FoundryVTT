@@ -14,6 +14,7 @@
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { blankStrikeMode } from "@src/entity/strikemode/blankStrikeMode";
 import { planShortcodeSave } from "@src/entity/strikemode/planShortcodeSave";
+import { actorItemRefOptions } from "@src/document/item/logic/refOptions";
 import {
     ImpactAspectChoices,
     ITEM_KIND,
@@ -170,6 +171,15 @@ export class StrikeModeConfig extends (StrikeModeConfig_Base as typeof foundry.a
             // The melee attack scatter is always presented as a Zone Die.
             spreadLabel: "Zone Die",
             aspectOptions,
+            // Associated-skill dropdown (#974): the owning actor's skills when the
+            // weapon/technique is embedded; empty for a world item, so the field
+            // falls back to free-text entry.
+            embedded: this.#item.actor != null,
+            assocSkillCodeOptions: actorItemRefOptions(
+                this.#item.actor?.logic,
+                ITEM_KIND.SKILL,
+                sm.assocSkillCode,
+            ),
         };
     }
 

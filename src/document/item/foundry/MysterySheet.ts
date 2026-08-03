@@ -13,6 +13,8 @@
 
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { SohlItemSheetBase } from "@src/document/item/foundry/SohlItemSheetBase";
+import { ITEM_KIND } from "@src/utils/constants";
+import { actorItemRefOptions } from "@src/document/item/logic/refOptions";
 
 /** @internal */
 export class MysterySheet extends SohlItemSheetBase {
@@ -48,6 +50,14 @@ export class MysterySheet extends SohlItemSheetBase {
             domain: system.domain,
             levelBase: system.levelBase,
             charges: system.charges,
+            // Associated-skill dropdown (#974): the actor's skills when embedded;
+            // empty off-actor, so the template falls back to free-text entry.
+            embedded: this.document.actor != null,
+            assocSkillCodeOptions: actorItemRefOptions(
+                this.document.actor?.logic,
+                ITEM_KIND.SKILL,
+                system.assocSkillCode,
+            ),
         });
     }
 }

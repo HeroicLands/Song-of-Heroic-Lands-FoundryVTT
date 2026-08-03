@@ -25,6 +25,7 @@ export * from "./MiscGearLogic";
 export * from "./MysteryLogic";
 export * from "./MysticalAbilityLogic";
 export * from "./ProjectileGearLogic";
+export * from "./refOptions";
 export * from "./resolveAssocSkill";
 export * from "./SkillLogic";
 export * from "./SohlItemBaseLogic";

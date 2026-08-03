@@ -63,7 +63,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{#if showAspect}}
             {{formGroup fields.aspect rootId="trauma-aspect" classes="text-field" stacked=true localize=true value=system.aspect}}
             {{/if}}
-            {{formGroup fields.bodyLocationCode rootId="trauma-bodyloc" classes="text-field" stacked=true value=system.bodyLocationCode}}
+            {{> shortcodeRefField embedded=embedded field=fields.bodyLocationCode rootId="trauma-bodyloc" name="system.bodyLocationCode" value=system.bodyLocationCode options=bodyLocationCodeOptions label="SOHL.Trauma.FIELDS.bodyLocationCode.label" hint="SOHL.Trauma.FIELDS.bodyLocationCode.hint" blankLabel=(localize "SOHL.Key.None")}}
             {{#if showBloodLoss}}
             {{!-- Bleeding is derived (#482): a wound bleeds while its blood-loss
                   timer is armed. Set an interval (seconds) to make it bleed; clear

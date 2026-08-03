@@ -39,7 +39,45 @@ export interface HandlebarsLike {
     escapeExpression(value: unknown): string;
     /** Wrapper marking a string as already-safe HTML. */
     SafeString: new (str: string) => unknown;
+    /** Register a named partial from its template source. */
+    registerPartial(name: string, template: string): void;
 }
+
+/** Name of the shared shortcode-reference field partial ({@link SHORTCODE_REF_PARTIAL}). */
+export const SHORTCODE_REF_PARTIAL_NAME = "shortcodeRefField";
+
+/**
+ * The reusable shortcode-reference field widget (#974), registered as the named
+ * partial `shortcodeRefField`. It renders a reference to another document by its
+ * shortcode either as a **dropdown** (when the referencing item is embedded on an
+ * actor, so a candidate list exists) or as the current **free-text input** (for a
+ * world/pack item, where no candidate list exists).
+ *
+ * Invocation context (all optional unless noted):
+ * - `embedded` — dropdown when truthy, free-text fallback otherwise.
+ * - `name` (required) — the form field path (e.g. `"system.parentSkillCode"`).
+ * - `value` — the currently-stored shortcode.
+ * - `options` — `{value,label,unresolved?}[]` from `buildRefOptions`
+ *   (`sohl.document.item.logic.buildRefOptions`).
+ * - `label` / `hint` — localization keys for the control's label and tooltip.
+ * - `blankLabel` — when present, a leading blank `<option>` with this (already
+ *   localized) label, letting the author clear the reference.
+ * - `field` / `rootId` — the DataModel field and its id for the free-text
+ *   fallback via `formGroup`; when `field` is absent the fallback is a plain
+ *   labeled text input (for app-config dialogs that hand-roll their inputs).
+ *
+ * The stored value is unchanged in either mode — always the shortcode string —
+ * so no data-model change or migration is involved.
+ */
+export const SHORTCODE_REF_PARTIAL = `{{#if embedded}}
+<div class="form-group stacked">
+    <label>{{localize label}}</label>
+    <select name="{{name}}"{{#if hint}} data-tooltip="{{localize hint}}"{{/if}}>
+        {{selectOptions options selected=value valueAttr="value" labelAttr="label" blank=blankLabel}}
+    </select>
+</div>
+{{else}}{{#if field}}{{formGroup field rootId=rootId classes="text-field" stacked=true value=value}}{{else}}<label class="form-group stacked"><span>{{localize label}}</span>
+    <input type="text" name="{{name}}" value="{{value}}"{{#if hint}} data-tooltip="{{localize hint}}"{{/if}} /></label>{{/if}}{{/if}}`;
 
 /**
  * Register SoHL's pure Handlebars helpers on the given Handlebars instance.
@@ -48,7 +86,8 @@ export interface HandlebarsLike {
  * init — call it once during setup (production) or before rendering (tests).
  *
  * Registers: `selectArray`, `endswith`, `optionalString`, `setHas`, `contains`,
- * `toJSON`, `toLowerCase`, `arrayToString`, `injurySeverity`, `array`.
+ * `toJSON`, `toLowerCase`, `arrayToString`, `injurySeverity`, `array`, and the
+ * `shortcodeRefField` partial ({@link SHORTCODE_REF_PARTIAL}).
  *
  * @param H - The Handlebars instance to register onto (Foundry's global, or the
  *   `handlebars` package in tests).
@@ -171,4 +210,9 @@ export function registerPureHandlebarsHelpers(H: HandlebarsLike): void {
         // Drop Handlebars' trailing options object.
         return args.slice(0, args.length - 1);
     });
+
+    // The shared shortcode-reference field widget (#974). Registered here — the
+    // one seam both production init and the Node render harness call — so the
+    // two register it identically and template rendering never drifts.
+    H.registerPartial(SHORTCODE_REF_PARTIAL_NAME, SHORTCODE_REF_PARTIAL);
 }

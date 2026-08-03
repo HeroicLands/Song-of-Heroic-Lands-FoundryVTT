@@ -27,9 +27,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="grid grid-2col">
         <label class="form-group stacked"><span>Min Parts</span>
             <input type="number" name="minParts" value="{{sm.minParts}}" /></label>
-        <label class="form-group stacked"><span>Associated Skill</span>
-            <input type="text" name="assocSkillCode" value="{{sm.assocSkillCode}}"
-                data-tooltip="Optional. Leave blank to use the item's own mastery level; set to another skill's code to borrow its mastery level." /></label>
+        {{> shortcodeRefField embedded=embedded name="assocSkillCode" value=sm.assocSkillCode options=assocSkillCodeOptions label="Associated Skill" hint="Optional. Leave blank to use the item's own mastery level; set to another skill's code to borrow its mastery level." blankLabel=(localize "SOHL.Key.None")}}
         {{#if isMelee}}
         <label class="form-group stacked"><span>Length</span>
             <input type="number" step="0.1" name="lengthBase" value="{{sm.lengthBase}}" /></label>
