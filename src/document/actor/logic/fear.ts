@@ -16,13 +16,13 @@
  * (a test against **Will**) and its states.
  *
  * A traumatic fear source demands a Fear Test; the result maps to a
- * {@link sohl.utils.FEAR_LEVEL} state — **Brave** / **Steady** / **Afraid** /
+ * {@link sohl.utils.FEAR_CATEGORY} state — **Brave** / **Steady** / **Afraid** /
  * **Terrified** / **Catatonic** — that drives combat and movement effects and any
  * Psyche Stress ([Psychological Condition](https://kb.heroiclands.org/dev/reference/randomness/))
  * gain. Each fear source is recorded as its own **`fear`-subtype trauma** (its
- * `levelBase` is the `FEAR_LEVEL`); when several are present, only the **most
- * severe (most-failed)** state affects the victim. See the Fear rules
- * (`assets/content/Rules/Fear.md`).
+ * `category` is the {@link sohl.utils.FEAR_CATEGORY}); when several are present,
+ * only the **most severe (most-failed)** state affects the victim. See the Fear
+ * rules (`assets/content/Rules/Fear.md`).
  *
  * This module is only the rule mapping and effect predicates; the Foundry-touching
  * roll, trauma creation, and PSY gain live on {@link BeingLogic}.
@@ -32,27 +32,41 @@ import {
     CRITICAL_SUCCESS,
     MARGINAL_SUCCESS,
     MARGINAL_FAILURE,
-    FEAR_LEVEL,
-    FearLevelLabels,
+    FEAR_CATEGORY,
+    FearCategories,
+    FearCategoryChoices,
+    type FearCategory,
 } from "@src/utils/constants";
 
-/** Localization key for each {@link sohl.utils.FEAR_LEVEL}, indexed by value. */
-const FEAR_LABEL_KEY_BY_LEVEL: Record<number, string> = Object.fromEntries(
-    Object.entries(FEAR_LEVEL).map(([k, v]) => [
-        v as number,
-        FearLevelLabels[k as keyof typeof FearLevelLabels],
-    ]),
+/**
+ * Severity rank of each fear category — its index in the ascending-severity
+ * {@link sohl.utils.FearCategories} list (`none` 0 … `catatonic` 5). Ranking lets
+ * "the most severe state wins" and the `>=` gates work on the string categories.
+ */
+const FEAR_RANK: Record<string, number> = Object.fromEntries(
+    FearCategories.map((v, i) => [v, i]),
 );
 
 /**
- * The localization key for a {@link sohl.utils.FEAR_LEVEL}, or `""` for an
- * unknown level.
+ * The severity rank of a {@link sohl.utils.FEAR_CATEGORY} (an unknown value ranks
+ * as `NONE`).
  *
- * @param level - A fear level.
+ * @param category - A fear category.
+ * @returns Its 0-based severity rank.
+ */
+function fearRank(category: FearCategory): number {
+    return FEAR_RANK[category] ?? 0;
+}
+
+/**
+ * The localization key for a {@link sohl.utils.FEAR_CATEGORY}, or `""` for an
+ * unknown category.
+ *
+ * @param category - A fear category.
  * @returns The localization key.
  */
-export function fearLevelLabelKey(level: number): string {
-    return FEAR_LABEL_KEY_BY_LEVEL[level] ?? "";
+export function fearCategoryLabelKey(category: FearCategory): string {
+    return FearCategoryChoices[category] ?? "";
 }
 
 /**
@@ -77,7 +91,7 @@ export const FEAR_TERRIFIED_CLEAR = 600;
 export const FEAR_AFRAID_CLEAR = 60;
 
 /**
- * Map a **Fear Test** result to a {@link sohl.utils.FEAR_LEVEL} (Fear rules):
+ * Map a **Fear Test** result to a {@link sohl.utils.FEAR_CATEGORY} (Fear rules):
  * `CS → Brave`, `MS → Steady`, `MF → Afraid`, and a critical failure splits by
  * least-significant digit — **CF0** (last digit 0) is the more severe
  * **Catatonic**, **CF5** (last digit 5) the less severe **Terrified**.
@@ -89,48 +103,53 @@ export const FEAR_AFRAID_CLEAR = 60;
 export function fearStateFromTest(
     normSuccessLevel: number,
     lastDigit: number,
-): number {
-    if (normSuccessLevel >= CRITICAL_SUCCESS) return FEAR_LEVEL.BRAVE;
-    if (normSuccessLevel === MARGINAL_SUCCESS) return FEAR_LEVEL.STEADY;
-    if (normSuccessLevel === MARGINAL_FAILURE) return FEAR_LEVEL.AFRAID;
+): FearCategory {
+    if (normSuccessLevel >= CRITICAL_SUCCESS) return FEAR_CATEGORY.BRAVE;
+    if (normSuccessLevel === MARGINAL_SUCCESS) return FEAR_CATEGORY.STEADY;
+    if (normSuccessLevel === MARGINAL_FAILURE) return FEAR_CATEGORY.AFRAID;
     // Critical failure — CF0 (last digit 0) is Catatonic, CF5 (5) Terrified.
-    return lastDigit === 0 ? FEAR_LEVEL.CATATONIC : FEAR_LEVEL.TERRIFIED;
+    return lastDigit === 0 ? FEAR_CATEGORY.CATATONIC : FEAR_CATEGORY.TERRIFIED;
 }
 
 /**
  * The Psyche Stress Levels a fear state grants (Fear rules): **Catatonic +2**,
  * **Terrified +1**, none for the milder states.
  *
- * @param level - A {@link sohl.utils.FEAR_LEVEL}.
+ * @param category - A {@link sohl.utils.FEAR_CATEGORY}.
  * @returns The PSY gain.
  */
-export function fearPsyGain(level: number): number {
-    if (level >= FEAR_LEVEL.CATATONIC) return 2;
-    if (level === FEAR_LEVEL.TERRIFIED) return 1;
+export function fearPsyGain(category: FearCategory): number {
+    if (fearRank(category) >= fearRank(FEAR_CATEGORY.CATATONIC)) return 2;
+    if (category === FEAR_CATEGORY.TERRIFIED) return 1;
     return 0;
 }
 
 /**
- * The most severe (highest) fear level among `levels`, or `NONE` when empty —
- * "when several fear sources are present, only the most severe state affects the
- * victim" (Fear rules).
+ * The most severe (highest-ranked) fear category among `categories`, or `NONE`
+ * when empty — "when several fear sources are present, only the most severe state
+ * affects the victim" (Fear rules).
  *
- * @param levels - The fear levels of every active fear source.
- * @returns The most severe fear level.
+ * @param categories - The fear categories of every active fear source.
+ * @returns The most severe fear category.
  */
-export function mostSevereFear(levels: readonly number[]): number {
-    return levels.reduce<number>((m, l) => Math.max(m, l), FEAR_LEVEL.NONE);
+export function mostSevereFear(
+    categories: readonly FearCategory[],
+): FearCategory {
+    return categories.reduce<FearCategory>(
+        (m, c) => (fearRank(c) > fearRank(m) ? c : m),
+        FEAR_CATEGORY.NONE,
+    );
 }
 
 /**
- * Whether a fear level is a **recorded harmful state** (Afraid or worse) — the
+ * Whether a fear category is a **recorded harmful state** (Afraid or worse) — the
  * states that become a `fear`-subtype trauma. Brave and Steady are not recorded.
  *
- * @param level - A {@link sohl.utils.FEAR_LEVEL}.
+ * @param category - A {@link sohl.utils.FEAR_CATEGORY}.
  * @returns `true` for Afraid, Terrified, or Catatonic.
  */
-export function isFearfulState(level: number): boolean {
-    return level >= FEAR_LEVEL.AFRAID;
+export function isFearfulState(category: FearCategory): boolean {
+    return fearRank(category) >= fearRank(FEAR_CATEGORY.AFRAID);
 }
 
 /**
@@ -138,33 +157,39 @@ export function isFearfulState(level: number): boolean {
  * while **Afraid** or **Terrified** (a Catatonic victim is {@link fearHelpless},
  * a stronger condition).
  *
- * @param level - A {@link sohl.utils.FEAR_LEVEL}.
+ * @param category - A {@link sohl.utils.FEAR_CATEGORY}.
  * @returns `true` when defense is restricted to Block/Dodge.
  */
-export function fearDefenseRestricted(level: number): boolean {
-    return level === FEAR_LEVEL.AFRAID || level === FEAR_LEVEL.TERRIFIED;
+export function fearDefenseRestricted(category: FearCategory): boolean {
+    return (
+        category === FEAR_CATEGORY.AFRAID ||
+        category === FEAR_CATEGORY.TERRIFIED
+    );
 }
 
 /**
  * Whether the victim is **Helpless** (melee attackers score a Critical Success
  * Ignore) — true only while **Catatonic** (Fear rules — CF0/Catatonic).
  *
- * @param level - A {@link sohl.utils.FEAR_LEVEL}.
+ * @param category - A {@link sohl.utils.FEAR_CATEGORY}.
  * @returns `true` when Catatonic.
  */
-export function fearHelpless(level: number): boolean {
-    return level >= FEAR_LEVEL.CATATONIC;
+export function fearHelpless(category: FearCategory): boolean {
+    return fearRank(category) >= fearRank(FEAR_CATEGORY.CATATONIC);
 }
 
 /**
  * Whether the victim **must flee** the source at full Move on the next turn —
  * true while **Afraid** or **Terrified** (Fear rules).
  *
- * @param level - A {@link sohl.utils.FEAR_LEVEL}.
+ * @param category - A {@link sohl.utils.FEAR_CATEGORY}.
  * @returns `true` when the victim must flee.
  */
-export function fearMustFlee(level: number): boolean {
-    return level === FEAR_LEVEL.AFRAID || level === FEAR_LEVEL.TERRIFIED;
+export function fearMustFlee(category: FearCategory): boolean {
+    return (
+        category === FEAR_CATEGORY.AFRAID ||
+        category === FEAR_CATEGORY.TERRIFIED
+    );
 }
 
 /**
@@ -172,11 +197,11 @@ export function fearMustFlee(level: number): boolean {
  * Steady, or `undefined` when the state has no clear-of-source timer (Fear rules):
  * Terrified ten minutes, Afraid one minute.
  *
- * @param level - A {@link sohl.utils.FEAR_LEVEL}.
+ * @param category - A {@link sohl.utils.FEAR_CATEGORY}.
  * @returns The clear duration in seconds, or `undefined`.
  */
-export function fearClearDuration(level: number): number | undefined {
-    if (level === FEAR_LEVEL.TERRIFIED) return FEAR_TERRIFIED_CLEAR;
-    if (level === FEAR_LEVEL.AFRAID) return FEAR_AFRAID_CLEAR;
+export function fearClearDuration(category: FearCategory): number | undefined {
+    if (category === FEAR_CATEGORY.TERRIFIED) return FEAR_TERRIFIED_CLEAR;
+    if (category === FEAR_CATEGORY.AFRAID) return FEAR_AFRAID_CLEAR;
     return undefined;
 }

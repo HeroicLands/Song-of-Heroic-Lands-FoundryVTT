@@ -41,7 +41,6 @@ import {
     AfflictionSubTypeChoices,
     TraumaSubTypes,
     TraumaSubTypeChoices,
-    TRAUMA_SUBTYPE,
     BodyRoleChoices,
 } from "@src/utils/constants";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
@@ -2479,16 +2478,11 @@ html, body { margin: 0; padding: 0; background: #fff; }
             (actor.itemTypes[ITEM_KIND.TRAUMA] ?? []).map((item) => {
                 const tl = item.logic as any;
                 const sys = item.system as any;
-                // The "Category" column shows the localized sub-category for
-                // FATIGUE / PSYCOND / PHYSCOND, but for FEAR / MORALE it shows
-                // the named severity level (Afraid, Routed, …) (#939).
-                const categoryDisplay =
-                    (
-                        sys.subType === TRAUMA_SUBTYPE.FEAR ||
-                        sys.subType === TRAUMA_SUBTYPE.MORALE
-                    ) ?
-                        (tl?.levelLabel ?? "")
-                    :   (tl?.categoryLabel ?? "");
+                // The "Category" column shows the localized sub-category for every
+                // category-bearing sub-type — FATIGUE / PSYCOND / PHYSCOND and the
+                // named severity state (Afraid, Routed, …) for FEAR / MORALE, all of
+                // which now live in the `category` field (#961).
+                const categoryDisplay = tl?.categoryLabel ?? "";
                 return {
                     id: item.id!,
                     uuid: item.uuid,

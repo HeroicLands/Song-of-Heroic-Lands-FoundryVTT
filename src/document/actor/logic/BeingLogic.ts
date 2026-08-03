@@ -115,9 +115,10 @@ import {
     TEST_TYPE,
     type TestType,
     TRAUMA_SUBTYPE,
-    FEAR_LEVEL,
-    FearLevelLabels,
-    MORALE_LEVEL,
+    FEAR_CATEGORY,
+    type FearCategory,
+    MORALE_CATEGORY,
+    type MoraleCategory,
 } from "@src/utils/constants";
 import {
     fearStateFromTest,
@@ -127,7 +128,7 @@ import {
     fearDefenseRestricted,
     fearHelpless,
     fearMustFlee,
-    fearLevelLabelKey,
+    fearCategoryLabelKey,
     FEAR_BRAVE_BONUS,
     FEAR_BRAVE_DURATION,
 } from "@src/document/actor/logic/fear";
@@ -135,13 +136,14 @@ import {
     moraleStateFromTest,
     moralePsyGain,
     mostSevereMorale,
+    moraleMoreSevere,
     isShakenMorale,
     moraleHelpless,
     moraleRouts,
     moraleWithdraws,
     reactionOutcome,
     rallyOutcome,
-    moraleLevelLabelKey,
+    moraleCategoryLabelKey,
     MORALE_BRAVE_BONUS,
 } from "@src/document/actor/logic/morale";
 import { keepControlTable } from "@src/document/actor/logic/keep-control";
@@ -1361,12 +1363,15 @@ export class BeingLogic<
 
     /**
      * The being's current **morale state** (#559) — the most severe (most-failed)
-     * {@link sohl.utils.MORALE_LEVEL} across its active morale-failure traumas, or
+     * {@link sohl.utils.MORALE_CATEGORY} across its active morale-failure traumas, or
      * `NONE` when it carries none.
      */
-    get moraleState(): number {
+    get moraleState(): MoraleCategory {
         return mostSevereMorale(
-            this.activeMoraleTraumas().map((t) => t.data.levelBase ?? 0),
+            this.activeMoraleTraumas().map(
+                (t) =>
+                    (t.data.category ?? MORALE_CATEGORY.NONE) as MoraleCategory,
+            ),
         );
     }
 
@@ -1380,7 +1385,9 @@ export class BeingLogic<
         return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).filter(
             (t) =>
                 t.data.subType === TRAUMA_SUBTYPE.MORALE &&
-                isShakenMorale(t.data.levelBase ?? 0),
+                isShakenMorale(
+                    (t.data.category ?? MORALE_CATEGORY.NONE) as MoraleCategory,
+                ),
         );
     }
 
@@ -1390,7 +1397,7 @@ export class BeingLogic<
      *
      * A self-sufficient action on the affected being: it rolls Initiative
      * headlessly (adding the Brave bonus if active) and maps the result to a
-     * {@link sohl.utils.MORALE_LEVEL} (the CF0/CF5 split decides Catatonic vs
+     * {@link sohl.utils.MORALE_CATEGORY} (the CF0/CF5 split decides Catatonic vs
      * Routed). A shaken result records or worsens a `morale`-subtype trauma and
      * inflicts any Psyche Stress; a success clears the source (Steady) or grants
      * the Brave bonus.
@@ -1433,42 +1440,43 @@ export class BeingLogic<
      * and post the state card. Morale carries no status effect — the trauma items
      * are the record.
      *
-     * @param level - The {@link sohl.utils.MORALE_LEVEL} produced.
+     * @param level - The {@link sohl.utils.MORALE_CATEGORY} produced.
      * @param sourceName - The morale source's display name.
      * @param isSuccess - Whether the test succeeded.
      * @returns A promise that resolves once the outcome is persisted.
      */
     private async applyMoraleResult(
-        level: number,
+        category: MoraleCategory,
         sourceName: string,
         isSuccess: boolean,
     ): Promise<void> {
         const psyGain = await this.recordLadderTrauma(
             TRAUMA_SUBTYPE.MORALE,
-            level,
+            category,
             sourceName,
             isShakenMorale,
             moralePsyGain,
-            MORALE_LEVEL.BRAVE,
+            MORALE_CATEGORY.BRAVE,
+            MORALE_CATEGORY.NONE,
         );
         if (psyGain > 0) await inflictPsycheStress(this, psyGain, sourceName);
 
         const notes: string[] = [];
-        if (isShakenMorale(level)) {
-            if (moraleHelpless(level)) {
+        if (isShakenMorale(category)) {
+            if (moraleHelpless(category)) {
                 notes.push(
                     sohl.i18n.localize("SOHL.Trauma.Morale.Note.Helpless"),
                 );
-            } else if (moraleRouts(level)) {
+            } else if (moraleRouts(category)) {
                 notes.push(
                     sohl.i18n.localize("SOHL.Trauma.Morale.Note.Routed"),
                 );
-            } else if (moraleWithdraws(level)) {
+            } else if (moraleWithdraws(category)) {
                 notes.push(
                     sohl.i18n.localize("SOHL.Trauma.Morale.Note.Withdrawing"),
                 );
             }
-        } else if (level === MORALE_LEVEL.BRAVE) {
+        } else if (category === MORALE_CATEGORY.BRAVE) {
             notes.push(sohl.i18n.localize("SOHL.Trauma.Morale.Note.Brave"));
         } else {
             notes.push(sohl.i18n.localize("SOHL.Trauma.Morale.Note.Steady"));
@@ -1476,7 +1484,7 @@ export class BeingLogic<
 
         await this.postTraumaStateCard(
             sohl.i18n.localize("SOHL.Being.Action.moraleTest"),
-            moraleLevelLabelKey(level),
+            moraleCategoryLabelKey(category),
             isSuccess,
             psyGain,
             notes,
@@ -1525,29 +1533,31 @@ export class BeingLogic<
      * Apply a Reaction/Rally transition to the being's morale: Steady clears every
      * shaken morale trauma, otherwise the shaken sources are lowered to `target`.
      *
-     * @param target - The {@link sohl.utils.MORALE_LEVEL} to move to.
+     * @param target - The {@link sohl.utils.MORALE_CATEGORY} to move to.
      * @param isSuccess - Whether the reaction succeeded (colors the card).
      * @returns A promise that resolves once applied.
      */
     private async applyReaction(
-        target: number,
+        target: MoraleCategory,
         isSuccess: boolean,
     ): Promise<void> {
         const shaken = this.activeMoraleTraumas();
-        if (target <= MORALE_LEVEL.STEADY) {
+        if (!isShakenMorale(target)) {
             for (const t of shaken) await t.item.delete();
         } else {
             for (const t of shaken) {
-                if ((t.data.levelBase ?? 0) > target) {
+                const current = (t.data.category ??
+                    MORALE_CATEGORY.NONE) as MoraleCategory;
+                if (moraleMoreSevere(current, target)) {
                     await t.item.update({
-                        "system.levelBase": target,
+                        "system.category": target,
                     } as PlainObject);
                 }
             }
         }
         await this.postTraumaStateCard(
             sohl.i18n.localize("SOHL.Being.Action.reactionTest"),
-            moraleLevelLabelKey(target),
+            moraleCategoryLabelKey(target),
             isSuccess,
             0,
             [],
@@ -1635,7 +1645,7 @@ export class BeingLogic<
         }
         const scope = (context.scope ?? {}) as { mode?: string };
         if (scope.mode === "steady") {
-            await this.applyReaction(MORALE_LEVEL.STEADY, true);
+            await this.applyReaction(MORALE_CATEGORY.STEADY, true);
         } else {
             await this.reactionTest(context);
         }
@@ -1769,13 +1779,15 @@ export class BeingLogic<
 
     /**
      * The being's current **fear state** (#558) — the most severe (most-failed)
-     * {@link sohl.utils.FEAR_LEVEL} across its active fear-source traumas, or
+     * {@link sohl.utils.FEAR_CATEGORY} across its active fear-source traumas, or
      * `NONE` when it carries none. "When several fear sources are present, only
      * the most severe state affects the victim" (Fear rules).
      */
-    get fearState(): number {
+    get fearState(): FearCategory {
         return mostSevereFear(
-            this.activeFearTraumas().map((t) => t.data.levelBase ?? 0),
+            this.activeFearTraumas().map(
+                (t) => (t.data.category ?? FEAR_CATEGORY.NONE) as FearCategory,
+            ),
         );
     }
 
@@ -1789,7 +1801,9 @@ export class BeingLogic<
         return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).filter(
             (t) =>
                 t.data.subType === TRAUMA_SUBTYPE.FEAR &&
-                isFearfulState(t.data.levelBase ?? 0),
+                isFearfulState(
+                    (t.data.category ?? FEAR_CATEGORY.NONE) as FearCategory,
+                ),
         );
     }
 
@@ -1825,7 +1839,7 @@ export class BeingLogic<
             (t) =>
                 (t.data.subType === TRAUMA_SUBTYPE.FEAR ||
                     t.data.subType === TRAUMA_SUBTYPE.MORALE) &&
-                t.data.levelBase === FEAR_LEVEL.BRAVE &&
+                t.data.category === FEAR_CATEGORY.BRAVE &&
                 t.data.contractDate != null &&
                 now - t.data.contractDate < FEAR_BRAVE_DURATION,
         );
@@ -1833,37 +1847,42 @@ export class BeingLogic<
 
     /**
      * Upsert or clear a Fear/Morale **state-ladder** trauma for `sourceName` to
-     * `level`, returning the **incremental** Psyche Stress to inflict (the PSY for
-     * the newly-reached severity, never re-charged at the same state). A shaken
-     * `level` records or worsens the source trauma; a success clears it, recording
-     * a Brave marker for a `braveLevel` result. Foundry-touching create/update/
-     * delete only — the caller inflicts the returned PSY and posts the card.
+     * `category`, returning the **incremental** Psyche Stress to inflict (the PSY
+     * for the newly-reached severity, never re-charged at the same state). The
+     * state is stored in the trauma's `category` field (not `levelBase`). A shaken
+     * `category` records or worsens the source trauma; a success clears it,
+     * recording a Brave marker for a `braveCategory` result. Foundry-touching
+     * create/update/delete only — the caller inflicts the returned PSY and posts
+     * the card.
      *
      * @param subType - The trauma subtype (`fear` / `morale`).
-     * @param level - The state level just produced.
+     * @param category - The state category just produced.
      * @param sourceName - The source's display name.
-     * @param isShaken - Predicate: whether a level is a recorded (harmful) state.
-     * @param psyGainFor - The PSY a level grants.
-     * @param braveLevel - The subtype's Brave level (records a marker on success).
+     * @param isShaken - Predicate: whether a category is a recorded (harmful) state.
+     * @param psyGainFor - The PSY a category grants.
+     * @param braveCategory - The subtype's Brave category (records a marker on
+     *   success).
+     * @param noneCategory - The subtype's `NONE` category (the absent-state
+     *   baseline for the incremental-PSY computation).
      * @returns The incremental Psyche Stress to inflict (0 for none).
      */
-    private async recordLadderTrauma(
+    private async recordLadderTrauma<C extends string>(
         subType: string,
-        level: number,
+        category: C,
         sourceName: string,
-        isShaken: (l: number) => boolean,
-        psyGainFor: (l: number) => number,
-        braveLevel: number,
+        isShaken: (c: C) => boolean,
+        psyGainFor: (c: C) => number,
+        braveCategory: C,
+        noneCategory: C,
     ): Promise<number> {
         const existing = this.findTraumaBySource(subType, sourceName);
-        const currentLevel =
-            isShaken(existing?.data.levelBase ?? 0) ?
-                (existing?.data.levelBase ?? 0)
-            :   0;
-        if (isShaken(level)) {
+        const existingCategory = (existing?.data.category ?? noneCategory) as C;
+        const currentCategory =
+            isShaken(existingCategory) ? existingCategory : noneCategory;
+        if (isShaken(category)) {
             if (existing) {
                 await existing.item.update({
-                    "system.levelBase": level,
+                    "system.category": category,
                 } as PlainObject);
             } else {
                 await fvttCreateEmbeddedItems(this, [
@@ -1872,22 +1891,25 @@ export class BeingLogic<
                         name: sourceName,
                         system: {
                             subType,
-                            levelBase: level,
+                            category,
                             aspect: IMPACT_ASPECT.BLUNT,
                         },
                     },
                 ]);
             }
-            return Math.max(0, psyGainFor(level) - psyGainFor(currentLevel));
+            return Math.max(
+                0,
+                psyGainFor(category) - psyGainFor(currentCategory),
+            );
         }
         // A success clears the source; a Brave result records a short-lived marker.
         if (existing) await existing.item.delete();
-        if (level === braveLevel) {
+        if (category === braveCategory) {
             await fvttCreateEmbeddedItems(this, [
                 {
                     type: ITEM_KIND.TRAUMA,
                     name: sourceName,
-                    system: { subType, levelBase: braveLevel },
+                    system: { subType, category: braveCategory },
                 },
             ]);
         }
@@ -1900,7 +1922,7 @@ export class BeingLogic<
      *
      * A self-sufficient action on the affected being: it rolls the being's Will
      * headlessly (adding the Brave bonus if active), maps
-     * the result to a {@link sohl.utils.FEAR_LEVEL}
+     * the result to a {@link sohl.utils.FEAR_CATEGORY}
      * ({@link sohl.document.actor.logic.fearStateFromTest} — the CF0/CF5 split
      * decides Catatonic vs Terrified), and applies it: a fearful result records
      * (or worsens) a `fear`-subtype trauma for the source and inflicts any Psyche
@@ -1945,54 +1967,55 @@ export class BeingLogic<
      * source on a success (Steady) or record a Brave marker, then sync the
      * `fear` status and post an informational state card.
      *
-     * @param level - The {@link sohl.utils.FEAR_LEVEL} the test produced.
+     * @param category - The {@link sohl.utils.FEAR_CATEGORY} the test produced.
      * @param sourceName - The fear source's display name.
      * @param isSuccess - Whether the Fear Test succeeded.
      * @returns A promise that resolves once the outcome is persisted.
      */
     private async applyFearResult(
-        level: number,
+        category: FearCategory,
         sourceName: string,
         isSuccess: boolean,
     ): Promise<void> {
         const psyGain = await this.recordLadderTrauma(
             TRAUMA_SUBTYPE.FEAR,
-            level,
+            category,
             sourceName,
             isFearfulState,
             fearPsyGain,
-            FEAR_LEVEL.BRAVE,
+            FEAR_CATEGORY.BRAVE,
+            FEAR_CATEGORY.NONE,
         );
         if (psyGain > 0) await inflictPsycheStress(this, psyGain, sourceName);
 
         const notes: string[] = [];
-        if (isFearfulState(level)) {
-            if (fearHelpless(level)) {
+        if (isFearfulState(category)) {
+            if (fearHelpless(category)) {
                 notes.push(
                     sohl.i18n.localize("SOHL.Trauma.Fear.Note.Helpless"),
                 );
-            } else if (fearDefenseRestricted(level)) {
+            } else if (fearDefenseRestricted(category)) {
                 notes.push(
                     sohl.i18n.localize(
                         "SOHL.Trauma.Fear.Note.DefenseRestricted",
                     ),
                 );
             }
-            if (fearMustFlee(level)) {
+            if (fearMustFlee(category)) {
                 notes.push(
                     sohl.i18n.localize("SOHL.Trauma.Fear.Note.MustFlee"),
                 );
             }
-        } else if (level === FEAR_LEVEL.BRAVE) {
+        } else if (category === FEAR_CATEGORY.BRAVE) {
             notes.push(sohl.i18n.localize("SOHL.Trauma.Fear.Note.Brave"));
         } else {
             notes.push(sohl.i18n.localize("SOHL.Trauma.Fear.Note.Immune"));
         }
 
-        await this.syncFearStatus(sourceName, level);
+        await this.syncFearStatus(sourceName, category);
         await this.postTraumaStateCard(
             sohl.i18n.localize("SOHL.Being.Action.fearTest"),
-            fearLevelLabelKey(level),
+            fearCategoryLabelKey(category),
             isSuccess,
             psyGain,
             notes,
@@ -2001,23 +2024,27 @@ export class BeingLogic<
 
     /**
      * Toggle the being's `fear` status effect to match its fear state after the
-     * just-applied result for `sourceName` reached `level`. Computed from `level`
-     * plus every **other** active fear source, so it is correct even before a
-     * freshly-created/updated fear trauma is reflected in {@link fearState}.
+     * just-applied result for `sourceName` reached `category`. Computed from
+     * `category` plus every **other** active fear source, so it is correct even
+     * before a freshly-created/updated fear trauma is reflected in
+     * {@link fearState}.
      *
      * @param sourceName - The fear source just resolved (excluded from the scan).
-     * @param level - The {@link sohl.utils.FEAR_LEVEL} just applied for it.
+     * @param category - The {@link sohl.utils.FEAR_CATEGORY} just applied for it.
      * @returns A promise that resolves once the status is in sync.
      */
     private async syncFearStatus(
         sourceName: string,
-        level: number,
+        category: FearCategory,
     ): Promise<void> {
         const others = this.activeFearTraumas()
             .filter((t) => t.item?.name !== sourceName)
-            .map((t) => t.data.levelBase ?? 0);
-        const shouldBeFearful =
-            mostSevereFear([...others, level]) >= FEAR_LEVEL.AFRAID;
+            .map(
+                (t) => (t.data.category ?? FEAR_CATEGORY.NONE) as FearCategory,
+            );
+        const shouldBeFearful = isFearfulState(
+            mostSevereFear([...others, category]),
+        );
         const has = fvttActorStatuses(this.actor).has(STATUS_EFFECT.FEARFUL);
         if (shouldBeFearful !== has) {
             await fvttToggleActorStatus(

@@ -76,20 +76,18 @@ import {
     defineType,
     FATIGUE_CATEGORY,
     FatigueCategoryLabels,
-    FEAR_LEVEL,
-    FearLevelLabels,
+    FearCategoryChoices,
     IMPACT_ASPECT,
     ImpactAspect,
     INJURY_LEVELS,
     isFatigueCategory,
-    isFearLevel,
-    isMoraleLevel,
+    isFearCategory,
+    isMoraleCategory,
     isTraumaPhyscondCategory,
     isTraumaPsycondCategory,
     ITEM_KIND,
     MARGINAL_SUCCESS,
-    MORALE_LEVEL,
-    MoraleLevelLabels,
+    MoraleCategoryChoices,
     SKILL_CODE,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
@@ -109,22 +107,10 @@ import { rollTimedTest } from "@src/document/item/logic/timed-test";
 /** Seconds in a day — for converting healing world-time spans to days (#554). */
 const SECONDS_PER_DAY = 86400;
 
-// Level/category → localization-key maps, derived once from the enums so
-// levelLabel/categoryLabel are simple lookups.
-const FEAR_LABEL_BY_LEVEL: Record<number, string> = Object.fromEntries(
-    Object.entries(FEAR_LEVEL).map(([k, v]) => [
-        v as number,
-        FearLevelLabels[k as keyof typeof FearLevelLabels],
-    ]),
-);
-
-const MORALE_LABEL_BY_LEVEL: Record<number, string> = Object.fromEntries(
-    Object.entries(MORALE_LEVEL).map(([k, v]) => [
-        v as number,
-        MoraleLevelLabels[k as keyof typeof MoraleLevelLabels],
-    ]),
-);
-
+// Category → localization-key maps, derived once from the enums so
+// categoryLabel is a simple lookup. Fear/Morale reuse the enums' value-keyed
+// `choices` maps directly (value → localization key). Injury and the other
+// numeric-level subtypes label their level in levelLabel.
 const FATIGUE_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
     Object.entries(FATIGUE_CATEGORY).map(([k, v]) => [
         v as string,
@@ -933,9 +919,10 @@ export class TraumaLogic<
     /**
      * Localized qualitative label for the current effective level.
      *
-     * For `FEAR` and `MORALE` subtypes the level (0–5) maps to a named severity
-     * (Brave, Steady, Afraid/Withdrawing, Terrified/Routed, Catatonic). Other
-     * subtypes return the numeric level as a string.
+     * The graduated-level subtypes (Injury, Infection, Pall, Auralshock,
+     * Fatigue, Psychological Condition) return the numeric level as a string.
+     * Fear and Morale carry no numeric level — their qualitative state lives in
+     * the `category` field, so they are labelled by {@link categoryLabel}.
      */
     get levelLabel(): string {
         // `level` is a ValueModifier seeded in initialize(); guard against it
@@ -943,12 +930,6 @@ export class TraumaLogic<
         // read by the sheet before its lifecycle runs) so this getter can never
         // throw and brick the whole sheet render (#511).
         const lvl = Math.max(0, Math.round(this.level?.effective ?? 0));
-        if (this.data.subType === TRAUMA_SUBTYPE.FEAR && isFearLevel(lvl)) {
-            return sohl.i18n.localize(FEAR_LABEL_BY_LEVEL[lvl]);
-        }
-        if (this.data.subType === TRAUMA_SUBTYPE.MORALE && isMoraleLevel(lvl)) {
-            return sohl.i18n.localize(MORALE_LABEL_BY_LEVEL[lvl]);
-        }
         return String(lvl);
     }
 
@@ -956,7 +937,8 @@ export class TraumaLogic<
      * Localized qualitative label for the current sub-category.
      *
      * The {@link TraumaData.category | category} field is a sub-type-specific
-     * enum: `FATIGUE_CATEGORY` for `FATIGUE`, `TRAUMA_PSYCOND_CATEGORY` for
+     * enum: `FEAR_CATEGORY` for `FEAR`, `MORALE_CATEGORY` for `MORALE`,
+     * `FATIGUE_CATEGORY` for `FATIGUE`, `TRAUMA_PSYCOND_CATEGORY` for
      * `PSYCHOLOGICAL_CONDITION`, `TRAUMA_PHYSCOND_CATEGORY` for
      * `PHYSICAL_CONDITION` — each mapped to its localized label. Other subtypes
      * (or an unrecognized value) return the raw category string, or an empty
@@ -965,6 +947,15 @@ export class TraumaLogic<
     get categoryLabel(): string {
         const cat = this.data.category;
         if (!cat) return "";
+        if (this.data.subType === TRAUMA_SUBTYPE.FEAR && isFearCategory(cat)) {
+            return sohl.i18n.localize(FearCategoryChoices[cat]);
+        }
+        if (
+            this.data.subType === TRAUMA_SUBTYPE.MORALE &&
+            isMoraleCategory(cat)
+        ) {
+            return sohl.i18n.localize(MoraleCategoryChoices[cat]);
+        }
         if (
             this.data.subType === TRAUMA_SUBTYPE.FATIGUE &&
             isFatigueCategory(cat)
