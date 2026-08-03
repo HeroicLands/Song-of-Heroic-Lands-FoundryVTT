@@ -1483,17 +1483,17 @@ export const {
 } = defineType("SOHL.Mystery.SubType", {
     /** A passive influence conferred by the celestial sign the being was born under. */
     BIRTHSIGN: "birthsign",
-    /** A mystery that does not fit into the other predefined categories. */
+    /** Divine intervention or inspiration resulting in a temporary increase in mastery of a skill. */
     BLESSING: "blessing",
-    /** A mystery that represents an enhancement or boon. */
+    /** A mystery that represents a temporary enhancement or boon. */
     BUFF: "buff",
-    /** A mystery that represents ability to alter destiny or fate. */
+    /** A mystery that quantifies the ability to alter destiny or fate. */
     FATE: "fate",
-    /** A mystery that represents divine favor. */
+    /** A mystery that quantifies ability to call effectually on divine favor. */
     GRACE: "grace",
     /** A mystery that does not fit into the other predefined categories. */
     OTHER: "other",
-    /** A mystery that represents devotion to a religion. */
+    /** A mystery that quantifies devotion to a religion. */
     PIETY: "piety",
 });
 /** Union of all mystery-subtype values. */

@@ -18,7 +18,6 @@ import {
 } from "@src/document/item/logic/MysteryLogic";
 import {
     ITEM_KIND,
-    MYSTERY_SUBTYPE,
     MysterySubTypes,
     type MysterySubType,
     MysterySubTypeChoices,
@@ -34,10 +33,11 @@ const { SchemaField, NumberField, BooleanField, StringField } =
 function defineMysterySchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
-        // The mystery's subtype; `buff` marks birthsigns (matched by shortcode
-        // in skill-base formulas).
+        // The mystery's subtype — required with no default: a Mystery must
+        // declare its kind at creation (matching MysticalAbility.subType).
+        // (`buff` marks birthsigns, matched by shortcode in skill-base formulas.)
         subType: new StringField({
-            initial: MYSTERY_SUBTYPE.OTHER,
+            required: true,
             choices: MysterySubTypeChoices,
         }),
         // Shortcode of the skill this mystery is associated with; blank when

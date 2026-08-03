@@ -57,4 +57,22 @@ describe("DataModel choices are value-keyed objects (#148)", () => {
             ).to.have.length(0);
         });
     });
+
+    // #955: a Mystery/Mystical-Ability must declare its kind at creation, so
+    // `subType` is `required` with no `initial` default (a bare create fails).
+    it("mystery & mystical-ability subType is required with no default (#955)", () => {
+        cy.foundry((win) => {
+            const bad = [];
+            for (const kind of ["mystery", "mysticalability"]) {
+                const field =
+                    win.CONFIG.Item.dataModels[kind].schema.fields.subType;
+                if (!field?.required) bad.push(`${kind}.subType not required`);
+                if (field?.initial !== undefined)
+                    bad.push(`${kind}.subType has a default`);
+            }
+            return bad;
+        }).should((bad) => {
+            expect(bad, bad.join(", ")).to.have.length(0);
+        });
+    });
 });

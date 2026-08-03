@@ -62,6 +62,7 @@ const KIND_DEFAULTS = {
     concoctiongear: { quantity: 1, subType: "mundane" },
     affliction: { subType: "other" },
     mysticalability: { subType: "shamanicrite" },
+    mystery: { subType: "other" },
 };
 
 /** Monotonic per-run counter making every auto-derived shortcode unique. */

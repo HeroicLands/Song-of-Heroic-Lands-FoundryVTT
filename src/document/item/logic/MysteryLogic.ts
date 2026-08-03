@@ -37,25 +37,18 @@ import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
  * (which are actively cast), mysteries are often passive or limited-use
  * powers that enhance skills, grant re-rolls, or provide divine favor.
  *
- * Each mystery tracks a **level** and optional **charges** (value and max),
- * where charges of −1 indicate infinite uses. Mysteries link to a
- * a domain and/or specific {@link SkillLogic | Skills}
- * that they affect.
+ * Each mystery tracks a **level** and optional **charges** (value and max); a
+ * `null` charge value denotes infinite uses. A mystery may name an associated
+ * {@link SkillLogic | Skill} (e.g. the skill a blessing boosts).
  *
- * Mysteries are organized by category:
- * - **Skill** — Enhance a character's success with specific skills
- * - **Creature** — Tied to a specific creature type
- * - **Divine** — Granted by a divine entity or force
- *
- * Supported subtypes:
- * - Grace (Divine): Divine favor manifesting as a granted wish
- * - Piety (Divine): Deep religious devotion
- * - Fate (Skill): Ability to influence random outcomes (raises the success level of an already-rolled test)
- * - FateBonus (Skill): Temporary bonus to fate rolls
- * - FatePointBonus: Increase in available fate points
- * - Blessing (Divine): Religious fervor boosting a skill's mastery level
- * - Ancestor Spirit Power (Skill): Ancestral connection boosting a skill
- * - Totem Spirit Power (Creature): Animal spirit connection granting skill bonuses
+ * Subtypes ({@link MysterySubType}):
+ * - **Birthsign** — a passive influence conferred by the celestial sign the being was born under.
+ * - **Blessing** — divine intervention or inspiration giving a temporary increase in a skill's mastery.
+ * - **Buff** — a temporary enhancement or boon.
+ * - **Fate** — quantifies the ability to alter destiny or fate (the stored fate pool). The "Fate" *invocation* is a Divination {@link MysticalAbilityLogic | Mystical Ability}; a per-skill fate bonus is modelled with Active Effects, and a fate-point bonus is not yet modelled.
+ * - **Grace** — quantifies the ability to call effectually on divine favour.
+ * - **Other** — does not fit the other predefined categories.
+ * - **Piety** — quantifies devotion to a religion.
  *
  * @typeParam TData - The Mystery data interface.
  */
