@@ -14,7 +14,8 @@
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { SohlItemSheetBase } from "@src/document/item/foundry/SohlItemSheetBase";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
-import { SKILL_SUBTYPE } from "@src/utils/constants";
+import { ITEM_KIND, SKILL_SUBTYPE } from "@src/utils/constants";
+import { actorItemRefOptions } from "@src/document/item/logic/refOptions";
 import {
     addStrikeMode,
     bindStrikeModeContextMenu,
@@ -147,6 +148,16 @@ export class SkillSheet extends SohlItemSheetBase {
             subType: system.subType,
             combatCategory: system.combatCategory,
             impairedByRoles: system.impairedByRoles ?? [],
+            // Shortcode-reference dropdown (#974): the actor's other skills when
+            // embedded (excluding this skill, which cannot be its own parent);
+            // empty off-actor, so the template falls back to free-text entry.
+            embedded: this.document.actor != null,
+            parentSkillCodeOptions: actorItemRefOptions(
+                this.document.actor?.logic,
+                ITEM_KIND.SKILL,
+                system.parentSkillCode,
+                system.shortcode,
+            ),
         });
     }
 

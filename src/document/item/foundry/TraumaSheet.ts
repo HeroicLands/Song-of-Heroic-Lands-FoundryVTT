@@ -14,6 +14,7 @@
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { SohlItemSheetBase } from "@src/document/item/foundry/SohlItemSheetBase";
 import { traumaSheetFields } from "@src/document/item/logic/trauma-sheet-view";
+import { buildRefOptions } from "@src/document/item/logic/refOptions";
 import {
     FatigueCategoryChoices,
     FearCategoryChoices,
@@ -62,6 +63,14 @@ export class TraumaSheet extends SohlItemSheetBase {
         const system = this.document.system as any;
         const logic = this.document.logic as any;
         const fieldsView = traumaSheetFields(system.subType);
+        // Body-location dropdown (#974): the hit locations of the owning being's
+        // body when embedded; empty off-actor, so the template falls back to
+        // free-text entry. Sourced from the body hierarchy, not from actor items.
+        const bodyLocations: Array<{ shortcode: string; name: string }> =
+            (this.document.actor?.logic as any)?.body?.structure
+                ?.getAllLocations?.()
+                ?.map((l: any) => ({ shortcode: l.shortcode, name: l.name })) ??
+            [];
         return Object.assign(context, {
             subType: system.subType,
             levelBase: system.levelBase,
@@ -70,6 +79,11 @@ export class TraumaSheet extends SohlItemSheetBase {
             treatmentDate: system.treatmentDate,
             isBleeding: logic?.isBleeding ?? false,
             bodyLocationCode: system.bodyLocationCode,
+            embedded: this.document.actor != null,
+            bodyLocationCodeOptions: buildRefOptions(
+                bodyLocations,
+                system.bodyLocationCode,
+            ),
             // Per-sub-type field visibility (#939).
             ...fieldsView,
             categoryChoices:
