@@ -185,6 +185,62 @@ export const {
 /** Union of all actor-kind values. */
 export type ActorKind = (typeof ACTOR_KIND)[keyof typeof ACTOR_KIND];
 
+/**
+ * Localization key for the short "Experimental" word used to mark fenced types —
+ * the create-dialog label suffix (`Cohort (Experimental)`) and the sheet-banner
+ * title both localize this key. See {@link FENCED_TYPES}.
+ */
+export const FENCE_EXPERIMENTAL_LABEL_KEY = "SOHL.Fence.experimental";
+
+/**
+ * Experimental ("fenced") document types for the scoped beta — schemas that are
+ * still moving and therefore **not** under the beta migration promise. This is
+ * the single source of truth every fence surface reads (issue #959, Blocker IV of
+ * the scoped-beta plan): the create-dialog "(Experimental)" label
+ * ({@link labelWithFenceSuffix}), the dismissible sheet banner, and the
+ * Ready-for-play vs Experimental table in the README / release notes. Keyed by
+ * Foundry `documentName` → the fenced type values.
+ *
+ * Fenced actor kinds are `cohort` / `structure` / `vehicle` (logic stubs). Mystery
+ * and Mystical Ability graduated into the frozen subset (#956) and are **not**
+ * fenced; the region-behavior `trigger` is GM-only and Automated Attack is a flow,
+ * not a creatable type, so neither appears here.
+ */
+export const FENCED_TYPES: Readonly<Record<string, readonly string[]>> = {
+    Actor: [ACTOR_KIND.COHORT, ACTOR_KIND.STRUCTURE, ACTOR_KIND.VEHICLE],
+};
+
+/**
+ * Whether a given `(documentName, type)` pair is a fenced/experimental type.
+ * @param documentName - The Foundry document name (e.g. `"Actor"`).
+ * @param type - The document sub-type value (e.g. `"cohort"`).
+ * @returns `true` when the type is listed in {@link FENCED_TYPES}.
+ */
+export function isFencedType(documentName: string, type: string): boolean {
+    return FENCED_TYPES[documentName]?.includes(type) ?? false;
+}
+
+/**
+ * Append a localized "(Experimental)" suffix to a type's display label when that
+ * `(documentName, type)` is fenced; otherwise return the label unchanged. Pure so
+ * the create-dialog label logic is unit-testable without Foundry — the caller
+ * injects the localizer.
+ * @param documentName - The Foundry document name (e.g. `"Actor"`).
+ * @param type - The document sub-type value (e.g. `"cohort"`).
+ * @param label - The already-localized base label for the type.
+ * @param localize - A localization function (`sohl.i18n.localize` in production).
+ * @returns The label, suffixed with `(Experimental)` when the type is fenced.
+ */
+export function labelWithFenceSuffix(
+    documentName: string,
+    type: string,
+    label: string,
+    localize: (key: string) => string,
+): string {
+    if (!isFencedType(documentName, type)) return label;
+    return `${label} (${localize(FENCE_EXPERIMENTAL_LABEL_KEY)})`;
+}
+
 export const {
     /** Map of item kind → display metadata (icon, image, key choices). */
     kind: ITEM_METADATA,

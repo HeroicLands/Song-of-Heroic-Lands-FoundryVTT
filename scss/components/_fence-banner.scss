@@ -1,0 +1,70 @@
+// Fenced (experimental) document banner — the dismissible "Experimental — schema
+// not final" notice shown at the top of fenced actor sheets (cohort / structure /
+// vehicle). See issue #959. Loaded under `.sohl { }` (components layer); selectors
+// written bare. Uses the `warn` (burnt-orange caution) token pair so it reads as a
+// heads-up without the alarm of `danger`.
+
+.fence-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sohl-space-md);
+    margin: 0 0 var(--sohl-space-md);
+    padding: var(--sohl-space-sm) var(--sohl-space-md);
+    border: 1px solid var(--sohl-color-warn);
+    border-left-width: 4px;
+    border-radius: var(--sohl-radius-md);
+    background: color-mix(in srgb, var(--sohl-color-warn) 12%, transparent);
+    color: var(--sohl-color-text-primary);
+    font-family: var(--sohl-font-sans);
+
+    &__icon {
+        flex: 0 0 auto;
+        margin-top: 0.1rem;
+        color: var(--sohl-color-warn);
+        font-size: 1rem;
+    }
+
+    &__text {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        min-width: 0;
+    }
+
+    &__title {
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        color: var(--sohl-color-warn);
+    }
+
+    &__body {
+        font-size: 0.8rem;
+        line-height: 1.35;
+        color: var(--sohl-color-text-muted);
+    }
+
+    &__dismiss {
+        flex: 0 0 auto;
+        width: 1.4rem;
+        height: 1.4rem;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        border-radius: var(--sohl-radius-sm);
+        background: transparent;
+        color: var(--sohl-color-text-muted);
+        cursor: pointer;
+
+        &:hover {
+            background: color-mix(
+                in srgb,
+                var(--sohl-color-warn) 22%,
+                transparent
+            );
+            color: var(--sohl-color-warn);
+        }
+    }
+}

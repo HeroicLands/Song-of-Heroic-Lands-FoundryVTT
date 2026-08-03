@@ -25,6 +25,7 @@ export class CohortSheet extends SohlActorSheetBase {
     };
 
     static PARTS = {
+        ...SohlActorSheetBase.FENCED_BANNER_PART,
         header: { template: "systems/sohl/templates/actor/cohort/header.hbs" },
         tabs: { template: "templates/generic/tab-navigation.hbs" },
         facade: { template: "systems/sohl/templates/actor/parts/facade.hbs" },

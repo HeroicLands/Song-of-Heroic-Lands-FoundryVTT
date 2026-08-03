@@ -82,6 +82,7 @@
         @include meta.load-css("components/effects");
         @include meta.load-css("components/strikemodes");
         @include meta.load-css("components/context-menu");
+        @include meta.load-css("components/fence-banner");
 
         // Manuscript redesign (epic #783, Feature 0) — the shared BEM component
         // blocks every re-skinned Being-sheet tab consumes. See
