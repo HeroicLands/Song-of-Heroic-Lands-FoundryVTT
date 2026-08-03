@@ -2,7 +2,7 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { MysteryLogic } from "@src/document/item/logic/MysteryLogic";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import { ITEM_KIND } from "@src/utils/constants";
+import { ITEM_KIND, MYSTERY_SUBTYPE } from "@src/utils/constants";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 
 /**
@@ -16,14 +16,18 @@ function makeMysteryActor() {
 }
 
 /** Embed a real SkillLogic on the actor and register it in itemTypes. */
-function makeSkillOnActor(actor: any, shortcode: string) {
+function makeSkillOnActor(
+    actor: any,
+    shortcode: string,
+    masteryLevelBase = 40,
+) {
     const logic = makeItemLogic(
         SkillLogic,
         ITEM_KIND.SKILL,
         {
             subType: "social",
             skillBaseFormula: "",
-            masteryLevelBase: 40,
+            masteryLevelBase,
             improveFlag: false,
             combatCategory: "none",
             parentSkillCode: "",
@@ -31,6 +35,10 @@ function makeSkillOnActor(actor: any, shortcode: string) {
         },
         { actor, shortcode, id: `skill${shortcode}`.padEnd(16, "0") },
     );
+    // Run the skill's lifecycle so masteryLevelSeed / masteryLevel are populated
+    // the way a Boon/Boost Mystery reads them during finalize.
+    logic.initialize();
+    logic.evaluate();
     actor.itemTypes.skill.push(logic.item);
     return logic;
 }
@@ -213,6 +221,111 @@ describe("MysteryLogic", () => {
             logic.initialize();
             expect(() => logic.evaluate()).not.toThrow();
             expect(logic.assocSkill).toBeUndefined();
+        });
+    });
+
+    describe("finalize (Boon / Boost skill contribution)", () => {
+        /** Run the mystery's full lifecycle. */
+        function prepare(logic: MysteryLogic) {
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+        }
+
+        it("Boon adds a flat +N delta to the associated skill's EML", () => {
+            const actor = makeMysteryActor();
+            const skill = makeSkillOnActor(actor, "sword", 50);
+            const before = skill.masteryLevel.effective;
+            const logic = makeMystery(
+                {
+                    subType: MYSTERY_SUBTYPE.BOON,
+                    assocSkillCode: "sword",
+                    levelBase: 5,
+                },
+                { actor },
+            );
+            prepare(logic);
+            expect(skill.masteryLevel.effective).toBe(before + 5);
+        });
+
+        it("Boost adds the Mastery-Boost-table delta to the associated skill's EML", () => {
+            // seed 52, N=3 → 52(+7)59(+7)66(+6)72 ⇒ +20 EML.
+            const actor = makeMysteryActor();
+            const skill = makeSkillOnActor(actor, "sword", 52);
+            const before = skill.masteryLevel.effective;
+            const logic = makeMystery(
+                {
+                    subType: MYSTERY_SUBTYPE.BOOST,
+                    assocSkillCode: "sword",
+                    levelBase: 3,
+                },
+                { actor },
+            );
+            prepare(logic);
+            expect(skill.masteryLevel.effective).toBe(before + 20);
+        });
+
+        it("contributes nothing when the mystery has no level (disabled)", () => {
+            const actor = makeMysteryActor();
+            const skill = makeSkillOnActor(actor, "sword", 50);
+            const before = skill.masteryLevel.effective;
+            const logic = makeMystery(
+                {
+                    subType: MYSTERY_SUBTYPE.BOON,
+                    assocSkillCode: "sword",
+                    levelBase: null,
+                },
+                { actor },
+            );
+            prepare(logic);
+            expect(skill.masteryLevel.effective).toBe(before);
+        });
+
+        it("contributes nothing when the level is 0", () => {
+            const actor = makeMysteryActor();
+            const skill = makeSkillOnActor(actor, "sword", 50);
+            const before = skill.masteryLevel.effective;
+            const logic = makeMystery(
+                {
+                    subType: MYSTERY_SUBTYPE.BOOST,
+                    assocSkillCode: "sword",
+                    levelBase: 0,
+                },
+                { actor },
+            );
+            prepare(logic);
+            expect(skill.masteryLevel.effective).toBe(before);
+        });
+
+        it("contributes nothing when no associated skill resolves", () => {
+            const actor = makeMysteryActor();
+            makeSkillOnActor(actor, "sword", 50);
+            const logic = makeMystery(
+                {
+                    subType: MYSTERY_SUBTYPE.BOON,
+                    assocSkillCode: "missing",
+                    levelBase: 5,
+                },
+                { actor },
+            );
+            expect(() => prepare(logic)).not.toThrow();
+            expect(logic.assocSkill).toBeUndefined();
+        });
+
+        it("a non-skill-affecting subtype (grace) contributes no delta", () => {
+            const actor = makeMysteryActor();
+            const skill = makeSkillOnActor(actor, "sword", 50);
+            const before = skill.masteryLevel.effective;
+            const logic = makeMystery(
+                {
+                    subType: MYSTERY_SUBTYPE.GRACE,
+                    assocSkillCode: "sword",
+                    levelBase: 5,
+                },
+                { actor },
+            );
+            prepare(logic);
+            expect(skill.masteryLevel.effective).toBe(before);
         });
     });
 
