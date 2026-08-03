@@ -98,6 +98,67 @@ describe("Being Trauma tab: Traumas section (#308)", () => {
         });
     });
 
+    it("renders a Fear sub-type with its named state in the Category column (#961)", () => {
+        // Fear/Morale state lives in the `category` field (not a numeric level),
+        // so the ledger shows the named state (Afraid, Routed, …) under Category
+        // and carries no FL / Sev column.
+        cy.importActor().then((actor) => {
+            cy.createItemOn(actor, "trauma", {
+                name: "The Wraith",
+                system: {
+                    subType: "fear",
+                    category: "afraid",
+                    notes: "cornered",
+                },
+            });
+            cy.prepare(actor);
+            cy.openSheet(actor);
+            cy.switchTab("trauma");
+            cy.get('section.tab[data-tab="trauma"]')
+                .contains(".ledger", "The Wraith")
+                .within(() => {
+                    cy.get(".ledger__head").within(() => {
+                        cy.contains("Category");
+                        cy.contains("Notes");
+                        cy.contains("FL").should("not.exist");
+                        cy.contains("Sev").should("not.exist");
+                    });
+                    cy.contains(".ledger__cell", "Afraid"); // named category state
+                    cy.contains(".ledger__notes", "cornered");
+                });
+        });
+    });
+
+    it("shows a Morale trauma's state in the per-subtype Category dropdown, not a level field (#961)", () => {
+        cy.createWorldItem("trauma", {
+            name: "Broken Line",
+            system: { subType: "morale", category: "withdrawing" },
+        }).then((item) => {
+            const id = item.id;
+            // The state is persisted in `category`, not `levelBase`.
+            cy.foundry((win) => win.game.items.get(id)?.system.category).should(
+                "eq",
+                "withdrawing",
+            );
+            cy.openSheet(item);
+            // The properties part renders into the DOM regardless of the active
+            // tab, so assert on element presence rather than visibility.
+            cy.get(
+                'section.tab[data-tab="properties"] select[name="system.category"]',
+            ).within(() => {
+                // Dropdown is populated from the MORALE_CATEGORY choices, with the
+                // stored state pre-selected.
+                cy.get('option[value="routed"]').should("exist");
+                cy.get('option[value="catatonic"]').should("exist");
+                cy.get("option:selected").should("have.value", "withdrawing");
+            });
+            // No numeric level field is shown for a morale trauma.
+            cy.get(
+                'section.tab[data-tab="properties"] [name="system.levelBase"]',
+            ).should("not.exist");
+        });
+    });
+
     it("offers a custom-create control (data-type=trauma) and a row context menu", () => {
         cy.importActor().then((actor) => {
             cy.createItemOn(actor, "trauma", {
