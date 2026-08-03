@@ -50,8 +50,11 @@ const {
 function defineSkillSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
+        // Required with no default: a Skill must declare its kind at creation
+        // (subType is never silently defaulted). SKILL_SUBTYPE stays imported
+        // for the COMBATTECHNIQUE check below.
         subType: new StringField({
-            initial: SKILL_SUBTYPE.SOCIAL,
+            required: true,
             choices: SkillSubTypeChoices,
         }),
         skillBaseFormula: new StringField({
