@@ -1112,6 +1112,7 @@
     "SOHL.MysticalAbility.FIELDS.subType.hint": "Ability category (Incantation, Rite, Talent, etc.)",
     "SOHL.MysticalAbility.FIELDS.subType.label": "Type",
     "SOHL.MysticalAbility.InfiniteCharges": "Infinite charges remaining",
+    "SOHL.MysticalAbility.LevelPenalty": "Level Penalty",
     "SOHL.MysticalAbility.NoLevel": "This mystical ability doesn't have a level",
     "SOHL.MysticalAbility.SubType.alchemy": "Alchemy",
     "SOHL.MysticalAbility.SubType.arcaneincantation": "Arcane Incantation",

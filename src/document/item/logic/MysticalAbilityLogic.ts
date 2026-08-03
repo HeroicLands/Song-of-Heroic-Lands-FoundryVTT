@@ -24,6 +24,7 @@ import {
 import {
     ACTION_SUBTYPE,
     ITEM_KIND,
+    MYSTICALABILITY_SUBTYPE,
     MysticalAbilitySubType,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
@@ -87,6 +88,10 @@ export class MysticalAbilityLogic<
      * empty until {@link finalize} copies the {@link assocSkill}'s mastery level
      * in via {@link sohl.entity.modifier.ValueModifier.addVM | addVM} (so the ability's own custom
      * modifiers still stack on top of the skill's).
+     *
+     * For `arcaneincantation` and `divineincantation` subtypes, {@link evaluate}
+     * adds a **Level × 2** casting penalty as an auditable delta (higher-level
+     * incantations are harder to cast); other subtypes carry no such penalty.
      */
     masteryLevel!: MasteryLevelModifier;
 
@@ -216,6 +221,28 @@ export class MysticalAbilityLogic<
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
+
+        // Incantations become harder to cast the higher their level: an Arcane
+        // or Divine Incantation takes a Level x 2 penalty to its EML. The level
+        // is read here, during evaluate(), so any Active Effect on it has
+        // already been applied. The penalty is intrinsic to the spell, so it is
+        // added regardless of actor context; for skill-associated abilities it
+        // survives the finalize() skill merge, because addVM sets the base and
+        // replays the skill's deltas without clearing this modifier's own.
+        // Other subtypes carry no level-based penalty.
+        if (
+            this.data.subType === MYSTICALABILITY_SUBTYPE.ARCANEINCANTATION ||
+            this.data.subType === MYSTICALABILITY_SUBTYPE.DIVINEINCANTATION
+        ) {
+            const levelPenalty = this.level.effective * 2;
+            if (levelPenalty > 0) {
+                this.masteryLevel.add(
+                    "SOHL.MysticalAbility.LevelPenalty",
+                    "LvlPen",
+                    -levelPenalty,
+                );
+            }
+        }
 
         const actorLogic = this.actorLogic;
         if (!actorLogic) return;
