@@ -24,12 +24,13 @@ import {
     CRITICAL_FAILURE,
     CRITICAL_SUCCESS,
     FATIGUE_CATEGORY,
-    FEAR_LEVEL,
+    FEAR_CATEGORY,
     IMPACT_ASPECT,
     ITEM_KIND,
     MARGINAL_FAILURE,
     MARGINAL_SUCCESS,
-    MORALE_LEVEL,
+    MORALE_CATEGORY,
+    type MoraleCategory,
     MOVEMENT_MEDIUM,
     SKILL_CODE,
     STATUS_EFFECT,
@@ -1298,7 +1299,7 @@ describe("BeingLogic", () => {
                 name: "Wraith",
                 system: {
                     subType: TRAUMA_SUBTYPE.FEAR,
-                    levelBase: FEAR_LEVEL.AFRAID,
+                    category: FEAR_CATEGORY.AFRAID,
                 },
             });
             // FEARFUL status is switched on.
@@ -1320,7 +1321,7 @@ describe("BeingLogic", () => {
             expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
                 system: {
                     subType: TRAUMA_SUBTYPE.FEAR,
-                    levelBase: FEAR_LEVEL.TERRIFIED,
+                    category: FEAR_CATEGORY.TERRIFIED,
                 },
             });
             expect((create.mock.calls[1][1] as any[])[0]).toMatchObject({
@@ -1339,7 +1340,7 @@ describe("BeingLogic", () => {
             await (being as any).fearTest({ scope: { sourceName: "Wraith" } });
 
             expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
-                system: { levelBase: FEAR_LEVEL.CATATONIC },
+                system: { category: FEAR_CATEGORY.CATATONIC },
             });
             expect((create.mock.calls[1][1] as any[])[0]).toMatchObject({
                 system: {
@@ -1360,7 +1361,7 @@ describe("BeingLogic", () => {
             expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
                 system: {
                     subType: TRAUMA_SUBTYPE.FEAR,
-                    levelBase: FEAR_LEVEL.BRAVE,
+                    category: FEAR_CATEGORY.BRAVE,
                 },
             });
         });
@@ -1380,7 +1381,7 @@ describe("BeingLogic", () => {
                 ITEM_KIND.TRAUMA,
                 {
                     subType: TRAUMA_SUBTYPE.FEAR,
-                    levelBase: FEAR_LEVEL.AFRAID,
+                    category: FEAR_CATEGORY.AFRAID,
                 },
                 { actor: (being as any).actor, name: "Wraith" },
             );
@@ -1406,7 +1407,10 @@ describe("BeingLogic", () => {
             makeItemLogic(
                 TraumaLogic,
                 ITEM_KIND.TRAUMA,
-                { subType: TRAUMA_SUBTYPE.FEAR, levelBase: FEAR_LEVEL.AFRAID },
+                {
+                    subType: TRAUMA_SUBTYPE.FEAR,
+                    category: FEAR_CATEGORY.AFRAID,
+                },
                 { actor: (being as any).actor, name: "Wraith" },
             );
             makeItemLogic(
@@ -1414,11 +1418,11 @@ describe("BeingLogic", () => {
                 ITEM_KIND.TRAUMA,
                 {
                     subType: TRAUMA_SUBTYPE.FEAR,
-                    levelBase: FEAR_LEVEL.CATATONIC,
+                    category: FEAR_CATEGORY.CATATONIC,
                 },
                 { actor: (being as any).actor, name: "Horror" },
             );
-            expect(being.fearState).toBe(FEAR_LEVEL.CATATONIC);
+            expect(being.fearState).toBe(FEAR_CATEGORY.CATATONIC);
         });
     });
 
@@ -1449,12 +1453,16 @@ describe("BeingLogic", () => {
                 .mockResolvedValue([]);
         }
 
-        /** Attach a morale trauma at `level` (source `name`) and return it. */
-        function attachMorale(being: any, level: number, name: string) {
+        /** Attach a morale trauma at `category` (source `name`) and return it. */
+        function attachMorale(
+            being: any,
+            category: MoraleCategory,
+            name: string,
+        ) {
             makeItemLogic(
                 TraumaLogic,
                 ITEM_KIND.TRAUMA,
-                { subType: TRAUMA_SUBTYPE.MORALE, levelBase: level },
+                { subType: TRAUMA_SUBTYPE.MORALE, category },
                 { actor: being.actor, name },
             );
             const t = (
@@ -1473,7 +1481,7 @@ describe("BeingLogic", () => {
             expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
                 system: {
                     subType: TRAUMA_SUBTYPE.MORALE,
-                    levelBase: MORALE_LEVEL.WITHDRAWING,
+                    category: MORALE_CATEGORY.WITHDRAWING,
                 },
             });
         });
@@ -1483,7 +1491,7 @@ describe("BeingLogic", () => {
             const create = stubEffects();
             await (makeBeing() as any).moraleTest({ scope: {} });
             expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
-                system: { levelBase: MORALE_LEVEL.CATATONIC },
+                system: { category: MORALE_CATEGORY.CATATONIC },
             });
             expect((create.mock.calls[1][1] as any[])[0]).toMatchObject({
                 system: {
@@ -1498,7 +1506,7 @@ describe("BeingLogic", () => {
             const create = stubEffects();
             await (makeBeing() as any).moraleTest({ scope: {} });
             expect((create.mock.calls[0][1] as any[])[0]).toMatchObject({
-                system: { levelBase: MORALE_LEVEL.ROUTED },
+                system: { category: MORALE_CATEGORY.ROUTED },
             });
             expect((create.mock.calls[1][1] as any[])[0]).toMatchObject({
                 system: { levelBase: 1 },
@@ -1511,7 +1519,7 @@ describe("BeingLogic", () => {
             const being = makeBeing();
             const routed = attachMorale(
                 being,
-                MORALE_LEVEL.ROUTED,
+                MORALE_CATEGORY.ROUTED,
                 "Broken line",
             );
             await (being as any).reactionTest({ scope: {} });
@@ -1522,10 +1530,14 @@ describe("BeingLogic", () => {
             forceRoll(MARGINAL_SUCCESS, 3, true);
             stubEffects();
             const being = makeBeing();
-            const cat = attachMorale(being, MORALE_LEVEL.CATATONIC, "Terror");
+            const cat = attachMorale(
+                being,
+                MORALE_CATEGORY.CATATONIC,
+                "Terror",
+            );
             await (being as any).reactionTest({ scope: {} });
             expect((cat.item as any).update).toHaveBeenCalledWith({
-                "system.levelBase": MORALE_LEVEL.ROUTED,
+                "system.category": MORALE_CATEGORY.ROUTED,
             });
             expect((cat.item as any).delete).not.toHaveBeenCalled();
         });
@@ -1565,9 +1577,9 @@ describe("BeingLogic", () => {
 
         it("moraleState reports the most severe active morale source", () => {
             const being = makeBeing();
-            attachMorale(being, MORALE_LEVEL.WITHDRAWING, "A");
-            attachMorale(being, MORALE_LEVEL.ROUTED, "B");
-            expect(being.moraleState).toBe(MORALE_LEVEL.ROUTED);
+            attachMorale(being, MORALE_CATEGORY.WITHDRAWING, "A");
+            attachMorale(being, MORALE_CATEGORY.ROUTED, "B");
+            expect(being.moraleState).toBe(MORALE_CATEGORY.ROUTED);
         });
     });
 

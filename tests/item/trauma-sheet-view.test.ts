@@ -34,12 +34,14 @@ describe("traumaSheetFields (#939)", () => {
         expect(f.nextTestLabelKey).toBeUndefined();
     });
 
-    it("fear / morale: level + notes, no category", () => {
+    it("fear / morale: category + notes, no level (#961)", () => {
+        // Fear/Morale state lives in the `category` field (a per-subtype
+        // dropdown), not a numeric level.
         for (const st of [TRAUMA_SUBTYPE.FEAR, TRAUMA_SUBTYPE.MORALE]) {
             const f = traumaSheetFields(st);
-            expect(f.showLevel).toBe(true);
+            expect(f.showCategory).toBe(true);
             expect(f.showNotes).toBe(true);
-            expect(f.showCategory).toBe(false);
+            expect(f.showLevel).toBe(false);
             expect(f.nextTestLabelKey).toBeUndefined();
         }
     });

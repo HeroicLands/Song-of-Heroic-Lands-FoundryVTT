@@ -1336,44 +1336,55 @@ export type FatigueCategory =
     (typeof FATIGUE_CATEGORY)[keyof typeof FATIGUE_CATEGORY];
 
 export const {
-    /** Map of fear-level key → numeric value. */
-    kind: FEAR_LEVEL,
-    /** All fear-level numeric values, as an array. */
-    values: FearLevels,
-    /** Type guard for fear-level values. */
-    isValue: isFearLevel,
-    /** Localization keys per fear level. */
-    labels: FearLevelLabels,
-} = defineType("SOHL.Affliction.FEAR_LEVEL", {
-    NONE: 0,
-    BRAVE: 1,
-    STEADY: 2,
-    AFRAID: 3,
-    TERRIFIED: 4,
-    CATATONIC: 5,
+    /** Map of fear-category key → string value. */
+    kind: FEAR_CATEGORY,
+    /**
+     * All fear-category string values, in ascending severity order — the array
+     * index is the category's severity rank (`none` < `brave` < … < `catatonic`).
+     */
+    values: FearCategories,
+    /** Type guard for fear-category values. */
+    isValue: isFearCategory,
+    /** Localization keys per fear category, keyed by enum key. */
+    labels: FearCategoryLabels,
+    /** Value-keyed choices map (value → localization key) for `StringField`. */
+    choices: FearCategoryChoices,
+} = defineType("SOHL.Trauma.FEAR_CATEGORY", {
+    NONE: "none",
+    BRAVE: "brave",
+    STEADY: "steady",
+    AFRAID: "afraid",
+    TERRIFIED: "terrified",
+    CATATONIC: "catatonic",
 });
-/** Union of all fear-level values. */
-export type FearLevel = (typeof FEAR_LEVEL)[keyof typeof FEAR_LEVEL];
+/** Union of all fear-category values. */
+export type FearCategory = (typeof FEAR_CATEGORY)[keyof typeof FEAR_CATEGORY];
 
 export const {
-    /** Map of morale-level key → numeric value. */
-    kind: MORALE_LEVEL,
-    /** All morale-level numeric values, as an array. */
-    values: MoraleLevels,
-    /** Type guard for morale-level values. */
-    isValue: isMoraleLevel,
-    /** Localization keys per morale level. */
-    labels: MoraleLevelLabels,
-} = defineType("SOHL.Affliction.MORALE_LEVEL", {
-    NONE: 0,
-    BRAVE: 1,
-    STEADY: 2,
-    WITHDRAWING: 3,
-    ROUTED: 4,
-    CATATONIC: 5,
+    /** Map of morale-category key → string value. */
+    kind: MORALE_CATEGORY,
+    /**
+     * All morale-category string values, in ascending severity order — the array
+     * index is the category's severity rank (`none` < `brave` < … < `catatonic`).
+     */
+    values: MoraleCategories,
+    /** Type guard for morale-category values. */
+    isValue: isMoraleCategory,
+    /** Localization keys per morale category, keyed by enum key. */
+    labels: MoraleCategoryLabels,
+    /** Value-keyed choices map (value → localization key) for `StringField`. */
+    choices: MoraleCategoryChoices,
+} = defineType("SOHL.Trauma.MORALE_CATEGORY", {
+    NONE: "none",
+    BRAVE: "brave",
+    STEADY: "steady",
+    WITHDRAWING: "withdrawing",
+    ROUTED: "routed",
+    CATATONIC: "catatonic",
 });
-/** Union of all morale-level values. */
-export type MoraleLevel = (typeof MORALE_LEVEL)[keyof typeof MORALE_LEVEL];
+/** Union of all morale-category values. */
+export type MoraleCategory =
+    (typeof MORALE_CATEGORY)[keyof typeof MORALE_CATEGORY];
 
 export const {
     /** Map of concoction-gear subtype key → value. */

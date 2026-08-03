@@ -16,6 +16,8 @@ import { SohlItemSheetBase } from "@src/document/item/foundry/SohlItemSheetBase"
 import { traumaSheetFields } from "@src/document/item/logic/trauma-sheet-view";
 import {
     FatigueCategoryChoices,
+    FearCategoryChoices,
+    MoraleCategoryChoices,
     TraumaPhyscondCategoryChoices,
     TraumaPsycondCategoryChoices,
     TRAUMA_SUBTYPE,
@@ -24,6 +26,8 @@ import {
 /** Category `choices` map for each sub-type that shows a sub-category select (#939). */
 const CATEGORY_CHOICES_BY_SUBTYPE: Record<string, Record<string, string>> = {
     [TRAUMA_SUBTYPE.FATIGUE]: FatigueCategoryChoices,
+    [TRAUMA_SUBTYPE.FEAR]: FearCategoryChoices,
+    [TRAUMA_SUBTYPE.MORALE]: MoraleCategoryChoices,
     [TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION]: TraumaPsycondCategoryChoices,
     [TRAUMA_SUBTYPE.PHYSICAL_CONDITION]: TraumaPhyscondCategoryChoices,
 };

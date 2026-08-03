@@ -62,6 +62,8 @@ const HEAL_SUBTYPES = new Set<string>([
 ]);
 const CATEGORY_SUBTYPES = new Set<string>([
     TRAUMA_SUBTYPE.FATIGUE,
+    TRAUMA_SUBTYPE.FEAR,
+    TRAUMA_SUBTYPE.MORALE,
     TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
     TRAUMA_SUBTYPE.PHYSICAL_CONDITION,
 ]);
@@ -71,12 +73,12 @@ const NOTES_SUBTYPES = new Set<string>([
     TRAUMA_SUBTYPE.MORALE,
     TRAUMA_SUBTYPE.PHYSICAL_CONDITION,
 ]);
-// Sub-types with a graduated level — everything except the purely descriptive
-// physical condition and the two healing-rate-only course traumas.
+// Sub-types with a graduated numeric level. Fear and Morale are excluded — their
+// qualitative state lives in the `category` field (a per-subtype dropdown), not a
+// numeric level; the purely descriptive physical condition and the two
+// healing-rate-only course traumas have no level either.
 const LEVEL_SUBTYPES = new Set<string>([
     TRAUMA_SUBTYPE.FATIGUE,
-    TRAUMA_SUBTYPE.FEAR,
-    TRAUMA_SUBTYPE.MORALE,
     TRAUMA_SUBTYPE.PALL,
     TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
     TRAUMA_SUBTYPE.AURALSHOCK,

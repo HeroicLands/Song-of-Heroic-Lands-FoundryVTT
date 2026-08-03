@@ -10,9 +10,11 @@ import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier"
 import {
     CRITICAL_FAILURE,
     CRITICAL_SUCCESS,
+    FEAR_CATEGORY,
     ITEM_KIND,
     MARGINAL_FAILURE,
     MARGINAL_SUCCESS,
+    MORALE_CATEGORY,
     TRAUMA_SUBTYPE,
     TRAUMA_PSYCOND_CATEGORY,
     TRAUMA_PHYSCOND_CATEGORY,
@@ -1396,49 +1398,24 @@ describe("Injury Treatment Test effect (#553)", () => {
 // categorized (fatigue) condition subtypes are now traumas. sohl.i18n.localize
 // is identity in tests, so localized labels surface as their localization keys.
 describe("TraumaLogic.levelLabel", () => {
-    it("maps FEAR levels to named severity labels", () => {
-        const logic = makeTrauma({
-            subType: TRAUMA_SUBTYPE.FEAR,
-            levelBase: 3,
-        });
-        logic.initialize();
-        expect(logic.levelLabel).toBe("SOHL.Affliction.FEAR_LEVEL.AFRAID");
-    });
-
-    it("maps MORALE levels to named severity labels", () => {
-        const logic = makeTrauma({
-            subType: TRAUMA_SUBTYPE.MORALE,
-            levelBase: 4,
-        });
-        logic.initialize();
-        expect(logic.levelLabel).toBe("SOHL.Affliction.MORALE_LEVEL.ROUTED");
-    });
-
     it("clamps negative effective levels to 0", () => {
         const logic = makeTrauma({
-            subType: TRAUMA_SUBTYPE.FEAR,
+            subType: TRAUMA_SUBTYPE.INJURY,
             levelBase: -2,
         });
         logic.initialize();
-        expect(logic.levelLabel).toBe("SOHL.Affliction.FEAR_LEVEL.NONE");
+        expect(logic.levelLabel).toBe("0");
     });
 
-    it("returns the numeric level as a string for other subtypes", () => {
+    it("returns the numeric level as a string (#961 — every level subtype)", () => {
+        // Fear/Morale no longer carry a numeric level (their state is in the
+        // `category` field), so levelLabel is always the numeric string now.
         const logic = makeTrauma({
             subType: TRAUMA_SUBTYPE.INJURY,
             levelBase: 3,
         });
         logic.initialize();
         expect(logic.levelLabel).toBe("3");
-    });
-
-    it("falls back to the numeric string for out-of-range FEAR levels", () => {
-        const logic = makeTrauma({
-            subType: TRAUMA_SUBTYPE.FEAR,
-            levelBase: 7,
-        });
-        logic.initialize();
-        expect(logic.levelLabel).toBe("7");
     });
 
     it("does not throw before initialize() — level not yet seeded (#511)", () => {
@@ -1459,6 +1436,22 @@ describe("TraumaLogic.categoryLabel", () => {
     it("returns empty string when category is unset", () => {
         const logic = makeTrauma({ category: "" });
         expect(logic.categoryLabel).toBe("");
+    });
+
+    it("maps FEAR categories to their localized labels (#961)", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.FEAR,
+            category: FEAR_CATEGORY.AFRAID,
+        });
+        expect(logic.categoryLabel).toBe("SOHL.Trauma.FEAR_CATEGORY.afraid");
+    });
+
+    it("maps MORALE categories to their localized labels (#961)", () => {
+        const logic = makeTrauma({
+            subType: TRAUMA_SUBTYPE.MORALE,
+            category: MORALE_CATEGORY.ROUTED,
+        });
+        expect(logic.categoryLabel).toBe("SOHL.Trauma.MORALE_CATEGORY.routed");
     });
 
     it("maps FATIGUE categories to their localized labels", () => {

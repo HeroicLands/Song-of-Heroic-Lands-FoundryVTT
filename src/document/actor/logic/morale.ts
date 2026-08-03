@@ -16,7 +16,7 @@
  * (a test of the **Initiative** skill), the **Rally Test**, and the **Reaction
  * Test**.
  *
- * The Morale Test maps to a {@link sohl.utils.MORALE_LEVEL} state — **Brave** /
+ * The Morale Test maps to a {@link sohl.utils.MORALE_CATEGORY} state — **Brave** /
  * **Steady** / **Withdrawing** / **Routed** / **Catatonic** — recorded, like fear,
  * as its own `morale`-subtype trauma; when several failure sources are present,
  * only the **most severe** affects the victim. A **Rally Test** (a leader's
@@ -33,8 +33,10 @@ import {
     CRITICAL_SUCCESS,
     MARGINAL_SUCCESS,
     MARGINAL_FAILURE,
-    MORALE_LEVEL,
-    MoraleLevelLabels,
+    MORALE_CATEGORY,
+    MoraleCategories,
+    MoraleCategoryChoices,
+    type MoraleCategory,
 } from "@src/utils/constants";
 
 /**
@@ -46,16 +48,29 @@ export const MORALE_BRAVE_BONUS = 20;
 /** How long (seconds) the {@link MORALE_BRAVE_BONUS} lasts — five minutes. */
 export const MORALE_BRAVE_DURATION = 300;
 
-/** Localization key for each {@link sohl.utils.MORALE_LEVEL}, indexed by value. */
-const MORALE_LABEL_KEY_BY_LEVEL: Record<number, string> = Object.fromEntries(
-    Object.entries(MORALE_LEVEL).map(([k, v]) => [
-        v as number,
-        MoraleLevelLabels[k as keyof typeof MoraleLevelLabels],
-    ]),
+/**
+ * Severity rank of each morale category — its index in the ascending-severity
+ * {@link sohl.utils.MoraleCategories} list (`none` 0 … `catatonic` 5). Ranking
+ * lets "the most severe state wins" and the `>=` gates work on the string
+ * categories.
+ */
+const MORALE_RANK: Record<string, number> = Object.fromEntries(
+    MoraleCategories.map((v, i) => [v, i]),
 );
 
 /**
- * Map a **Morale Test** result to a {@link sohl.utils.MORALE_LEVEL} (Morale
+ * The severity rank of a {@link sohl.utils.MORALE_CATEGORY} (an unknown value
+ * ranks as `NONE`).
+ *
+ * @param category - A morale category.
+ * @returns Its 0-based severity rank.
+ */
+function moraleRank(category: MoraleCategory): number {
+    return MORALE_RANK[category] ?? 0;
+}
+
+/**
+ * Map a **Morale Test** result to a {@link sohl.utils.MORALE_CATEGORY} (Morale
  * rules): `CS → Brave`, `MS → Steady`, `MF → Withdrawing`, and a critical failure
  * splits by least-significant digit — **CF0** (last digit 0) is the more severe
  * **Catatonic**, **CF5** (last digit 5) the less severe **Routed**.
@@ -67,48 +82,70 @@ const MORALE_LABEL_KEY_BY_LEVEL: Record<number, string> = Object.fromEntries(
 export function moraleStateFromTest(
     normSuccessLevel: number,
     lastDigit: number,
-): number {
-    if (normSuccessLevel >= CRITICAL_SUCCESS) return MORALE_LEVEL.BRAVE;
-    if (normSuccessLevel === MARGINAL_SUCCESS) return MORALE_LEVEL.STEADY;
-    if (normSuccessLevel === MARGINAL_FAILURE) return MORALE_LEVEL.WITHDRAWING;
+): MoraleCategory {
+    if (normSuccessLevel >= CRITICAL_SUCCESS) return MORALE_CATEGORY.BRAVE;
+    if (normSuccessLevel === MARGINAL_SUCCESS) return MORALE_CATEGORY.STEADY;
+    if (normSuccessLevel === MARGINAL_FAILURE)
+        return MORALE_CATEGORY.WITHDRAWING;
     // Critical failure — CF0 (last digit 0) is Catatonic, CF5 (5) Routed.
-    return lastDigit === 0 ? MORALE_LEVEL.CATATONIC : MORALE_LEVEL.ROUTED;
+    return lastDigit === 0 ? MORALE_CATEGORY.CATATONIC : MORALE_CATEGORY.ROUTED;
 }
 
 /**
  * The Psyche Stress Levels a morale state grants (Morale rules): **Catatonic +2**,
  * **Routed +1**, none for the milder states.
  *
- * @param level - A {@link sohl.utils.MORALE_LEVEL}.
+ * @param category - A {@link sohl.utils.MORALE_CATEGORY}.
  * @returns The PSY gain.
  */
-export function moralePsyGain(level: number): number {
-    if (level >= MORALE_LEVEL.CATATONIC) return 2;
-    if (level === MORALE_LEVEL.ROUTED) return 1;
+export function moralePsyGain(category: MoraleCategory): number {
+    if (moraleRank(category) >= moraleRank(MORALE_CATEGORY.CATATONIC)) return 2;
+    if (category === MORALE_CATEGORY.ROUTED) return 1;
     return 0;
 }
 
 /**
- * The most severe (highest) morale level among `levels`, or `NONE` when empty —
- * "only the most severe state affects the victim" (Morale rules).
+ * The most severe (highest-ranked) morale category among `categories`, or `NONE`
+ * when empty — "only the most severe state affects the victim" (Morale rules).
  *
- * @param levels - The morale levels of every active morale-failure source.
- * @returns The most severe morale level.
+ * @param categories - The morale categories of every active morale-failure source.
+ * @returns The most severe morale category.
  */
-export function mostSevereMorale(levels: readonly number[]): number {
-    return levels.reduce<number>((m, l) => Math.max(m, l), MORALE_LEVEL.NONE);
+export function mostSevereMorale(
+    categories: readonly MoraleCategory[],
+): MoraleCategory {
+    return categories.reduce<MoraleCategory>(
+        (m, c) => (moraleRank(c) > moraleRank(m) ? c : m),
+        MORALE_CATEGORY.NONE,
+    );
 }
 
 /**
- * Whether a morale level is a **recorded shaken state** (Withdrawing or worse) —
- * the states that become a `morale`-subtype trauma. Brave and Steady are not
+ * Whether morale category `a` is **strictly more severe** than `b` (by severity
+ * rank) — used to decide whether a Reaction/Rally transition should lower an
+ * existing trauma toward the target state.
+ *
+ * @param a - The candidate more-severe category.
+ * @param b - The category to compare against.
+ * @returns `true` when `a` outranks `b`.
+ */
+export function moraleMoreSevere(
+    a: MoraleCategory,
+    b: MoraleCategory,
+): boolean {
+    return moraleRank(a) > moraleRank(b);
+}
+
+/**
+ * Whether a morale category is a **recorded shaken state** (Withdrawing or worse)
+ * — the states that become a `morale`-subtype trauma. Brave and Steady are not
  * recorded.
  *
- * @param level - A {@link sohl.utils.MORALE_LEVEL}.
+ * @param category - A {@link sohl.utils.MORALE_CATEGORY}.
  * @returns `true` for Withdrawing, Routed, or Catatonic.
  */
-export function isShakenMorale(level: number): boolean {
-    return level >= MORALE_LEVEL.WITHDRAWING;
+export function isShakenMorale(category: MoraleCategory): boolean {
+    return moraleRank(category) >= moraleRank(MORALE_CATEGORY.WITHDRAWING);
 }
 
 /**
@@ -116,33 +153,33 @@ export function isShakenMorale(level: number): boolean {
  * analogue of {@link sohl.document.actor.logic.fearHelpless} (Morale rules —
  * CF0/Catatonic).
  *
- * @param level - A {@link sohl.utils.MORALE_LEVEL}.
+ * @param category - A {@link sohl.utils.MORALE_CATEGORY}.
  * @returns `true` when Catatonic.
  */
-export function moraleHelpless(level: number): boolean {
-    return level >= MORALE_LEVEL.CATATONIC;
+export function moraleHelpless(category: MoraleCategory): boolean {
+    return moraleRank(category) >= moraleRank(MORALE_CATEGORY.CATATONIC);
 }
 
 /**
  * Whether the victim **flees** the source at full Move (Routed) on the next turn
  * (Morale rules — CF5/Routed).
  *
- * @param level - A {@link sohl.utils.MORALE_LEVEL}.
+ * @param category - A {@link sohl.utils.MORALE_CATEGORY}.
  * @returns `true` when Routed.
  */
-export function moraleRouts(level: number): boolean {
-    return level === MORALE_LEVEL.ROUTED;
+export function moraleRouts(category: MoraleCategory): boolean {
+    return category === MORALE_CATEGORY.ROUTED;
 }
 
 /**
  * Whether the victim **withdraws** — retreating at half Move or more each turn
  * (Morale rules — MF/Withdrawing).
  *
- * @param level - A {@link sohl.utils.MORALE_LEVEL}.
+ * @param category - A {@link sohl.utils.MORALE_CATEGORY}.
  * @returns `true` when Withdrawing.
  */
-export function moraleWithdraws(level: number): boolean {
-    return level === MORALE_LEVEL.WITHDRAWING;
+export function moraleWithdraws(category: MoraleCategory): boolean {
+    return category === MORALE_CATEGORY.WITHDRAWING;
 }
 
 /**
@@ -151,14 +188,19 @@ export function moraleWithdraws(level: number): boolean {
  * other shaken victim snaps back to **Steady**. On failure the state persists
  * (`current` unchanged).
  *
- * @param current - The victim's current morale level.
+ * @param current - The victim's current morale category.
  * @param isSuccess - Whether the Reaction Test succeeded.
- * @returns The resulting morale level.
+ * @returns The resulting morale category.
  */
-export function reactionOutcome(current: number, isSuccess: boolean): number {
+export function reactionOutcome(
+    current: MoraleCategory,
+    isSuccess: boolean,
+): MoraleCategory {
     if (!isSuccess) return current;
-    if (current >= MORALE_LEVEL.CATATONIC) return MORALE_LEVEL.ROUTED;
-    return MORALE_LEVEL.STEADY;
+    if (moraleRank(current) >= moraleRank(MORALE_CATEGORY.CATATONIC)) {
+        return MORALE_CATEGORY.ROUTED;
+    }
+    return MORALE_CATEGORY.STEADY;
 }
 
 /**
@@ -197,12 +239,12 @@ export function rallyOutcome(normSuccessLevel: number): RallyOutcome {
 }
 
 /**
- * The localization key for a {@link sohl.utils.MORALE_LEVEL}, or `""` for an
- * unknown level.
+ * The localization key for a {@link sohl.utils.MORALE_CATEGORY}, or `""` for an
+ * unknown category.
  *
- * @param level - A morale level.
+ * @param category - A morale category.
  * @returns The localization key.
  */
-export function moraleLevelLabelKey(level: number): string {
-    return MORALE_LABEL_KEY_BY_LEVEL[level] ?? "";
+export function moraleCategoryLabelKey(category: MoraleCategory): string {
+    return MoraleCategoryChoices[category] ?? "";
 }
