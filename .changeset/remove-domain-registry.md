@@ -1,5 +1,5 @@
 ---
-"sohl": major
+"sohl": minor
 ---
 
 **Remove the Domain and DomainRegistry concept**
@@ -31,8 +31,5 @@ on Affiliations, not on Domains.
 This supersedes the interim `SohlDomains` → `DomainRegistry` rename and the
 `DomainManagerApp` stored-XSS fix (#160): the code carrying both is gone, so the
 vulnerability is eliminated with it.
-
-Any world that saved GM overrides under the `sohl.domains` setting will find the
-setting inert; no per-item data referenced it, so no world migration is required.
 
 Closes #1019
