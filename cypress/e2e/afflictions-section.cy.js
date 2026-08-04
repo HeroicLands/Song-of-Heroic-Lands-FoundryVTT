@@ -29,7 +29,7 @@ describe("Being Trauma tab: Afflictions section (#309)", () => {
                 name: "Wasting Fever",
                 system: {
                     // fatigue moved to TRAUMA_SUBTYPE (#565); afflictions are
-                    // other / disease / poisontoxin.
+                    // other / disease / poisontoxin / maladiction (#1003).
                     subType: "disease",
                     levelBase: 2,
                     healingRateBase: 4,
@@ -102,6 +102,35 @@ describe("Being Trauma tab: Afflictions section (#309)", () => {
             cy.get(
                 'section.tab[data-tab="trauma"] input[name="search-afflictions"]',
             ).should("not.exist");
+        });
+    });
+
+    it("renders a maladiction (supernatural) affliction with its subtype label (#1003)", () => {
+        cy.importActor().then((actor) => {
+            cy.createItemOn(actor, "affliction", {
+                name: "Withering Curse",
+                system: {
+                    // maladiction: the supernatural affliction subtype added in
+                    // #1003 (curse/hex/divine blight).
+                    subType: "maladiction",
+                    levelBase: 2,
+                    healingRateBase: 3,
+                },
+            });
+            cy.prepare(actor);
+            // The stored subtype round-trips through the schema.
+            cy.foundry((win) => {
+                const item = win.game.actors
+                    .get(actor.id)
+                    .items.find((i) => i.name === "Withering Curse");
+                return item?.system.subType;
+            }).should("eq", "maladiction");
+            cy.openSheet(actor);
+            cy.switchTab("trauma");
+            // The affliction renders on the Trauma tab under its localized label.
+            cy.get('section.tab[data-tab="trauma"] .afflictions-list')
+                .should("contain", "Withering Curse")
+                .and("contain", "Maladiction");
         });
     });
 });

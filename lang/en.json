@@ -265,6 +265,7 @@
     "SOHL.Affliction.PRIVATION.heat": "Heat Exposure",
     "SOHL.Affliction.PRIVATION.starvation": "Starvation",
     "SOHL.Affliction.SubType.disease": "Disease",
+    "SOHL.Affliction.SubType.maladiction": "Maladiction",
     "SOHL.Affliction.SubType.other": "Other",
     "SOHL.Affliction.SubType.poisontoxin": "Poison/Toxin",
     "SOHL.Affliction.SubTypeAbbrev.auralshock": "AShk",

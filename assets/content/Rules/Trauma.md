@@ -21,6 +21,13 @@ processes by which a character recovers from — or succumbs to — it.
 > _acquires_ (disorders, phobias, scars, and the like) are **traumas**, recorded
 > and recovered under the rules below.
 
+> **Trauma vs. Affliction.** A trauma is a _condition the character is in_ — a
+> state they carry and recover from. An [affliction](Afflictions.md) is instead
+> an ongoing hostile _agent_ (a disease, a poison, a maladiction) that runs a
+> course and ends in death or cure. See
+> [Affliction vs. Trauma](Afflictions.md#affliction-vs-trauma) for the full
+> distinction and worked examples.
+
 ## Forms of trauma
 
 ### Body
@@ -33,8 +40,9 @@ processes by which a character recovers from — or succumbs to — it.
       heals badly; it halts injury healing until defeated.
 - **[Fatigue](Fatigue.md)** — windedness, weariness, and weakness, measured in
   Fatigue Levels and summed into the Fatigue Penalty.
-- **[Shock](Shock.md)** — the stunned/incapacitated/unconscious/dead spiral from
-  violent injury and blood loss, plus the lasting Extended Shock and Coma states.
+- **[Shock](Shock.md)** — the **Shock Test**, the **Shock Index** that drives it,
+  and the stunned/incapacitated/unconscious/dead states it produces from violent
+  injury and blood loss, plus the lasting Extended Shock and Coma states.
 
 ### Mind
 

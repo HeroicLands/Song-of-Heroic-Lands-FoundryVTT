@@ -35,6 +35,71 @@ from contract date to onset date) and an **outcome duration** (the Symptomatic
 Period, from onset date to outcome date), plus a **healing-check period** — how
 often the body's [Course Test](#course-test-healing) is made.
 
+## Affliction vs. Trauma
+
+An affliction and a [trauma](Trauma.md) are the two ways the system records
+lasting harm, and they are easy to confuse. The distinction is **process vs.
+state**:
+
+- An **affliction** is an ongoing, hostile _agent_ acting on the Being over
+  time. It has a source, a means of transmission, a course it runs (incubation →
+  onset → symptomatic → outcome), a **Healing Rate** that its
+  [Course Test](#course-test-healing) drives up or down, and a terminal
+  [outcome](#outcome) of death or cure. Diseases, poisons, and maladictions are
+  afflictions: _something is attacking the Being_, and it will get better or
+  worse.
+- A **[trauma](Trauma.md)** is a _condition the Being is in_ — usually the
+  result of harm or stress that it then carries and recovers from. Injuries,
+  fatigue, fear, morale, shock, infection, aural shock, and the Pall are traumas.
+
+The same event can produce both: a snakebite inflicts a **poison/toxin
+affliction** (the venom running its course) and, where it breaks the skin, an
+**[injury](Injury.md) trauma** (the wound). When in doubt, ask _"is this an
+agent running a course, or a condition being carried?"_ — the former is an
+affliction, the latter a trauma.
+
+## Subtypes
+
+An affliction's **subtype** classifies it by the _nature of the afflicting
+agent_:
+
+| Subtype          | Nature       | Examples                                  |
+| ---------------- | ------------ | ----------------------------------------- |
+| **Poison/Toxin** | Chemical     | venom, mandrake, hemotoxin                |
+| **Disease**      | Biological   | typhoid, tuberculosis, river blindness    |
+| **Maladiction**  | Supernatural | a curse, a hex, a divine or spirit blight |
+| **Other**        | —            | anything not covered above                |
+
+The subtype is descriptive: it does **not** change the
+[Course Test](#course-test-healing) or [outcome](#outcome) machinery, which is the
+same for every affliction. It classifies the affliction thematically and governs
+which afflictions the system treats as **contagious diseases** when modelling
+exposure — only **Disease**-subtype afflictions appear there. A **maladiction**
+is never contagious in that sense; it reaches a victim only by the arcane,
+divine, or spirit means its author specifies.
+
+## Transmission and contagion
+
+How an affliction reaches a new victim is set by its **transmission** mode:
+
+- **Physical** — airborne, contact, body-fluid, ingested, proximity, or by a
+  **vector** (an insect or animal bite).
+- **Supernatural** — by **perception** (sight or sound), or by **arcane**,
+  **divine**, or **spirit** means.
+- **None** — not transmissible at all.
+
+A contagious disease also carries a **Contagion Index (CI)**, from 1 to 5,
+describing how readily it spreads: **the lower the index, the more contagious**.
+When a character is exposed, whether they contract it is a success test against a
+target of **CI × the character's Endurance** — a lower index yields a lower target
+and so a greater chance of contraction. Only **[Disease](#subtypes)**-subtype
+afflictions are offered for contagion this way; poisons and maladictions reach a
+victim by their own specific means, not by casual exposure.
+
+As with everything the system automates, contracting a disease is **offered, not
+imposed** — the exposure is presented as an action the target's controlling player
+accepts, and only then is the contraction test resolved and the affliction added.
+
 ## Dormancy
 
 An affliction may lie **dormant**, having no onset or other effect on its host.
@@ -86,6 +151,18 @@ determines the host's reaction:
 | HR 1         | Unconscious.                                    |
 | HR &lt; 1    | Dead.                                           |
 
+## Diagnosis and treatment
+
+An affliction records a **Diagnosis Bonus** — a modifier applied when a physician
+tries to identify what the affliction is — and a **treated** flag. In HârnMaster a
+physician first diagnoses an affliction and then treats it, and effective
+treatment improves the host's odds on the [Course Test](#course-test-healing).
+
+The system currently **tracks these fields but leaves the affliction diagnosis and
+treatment _tests_ to the table**: the GM adjudicates them and adjusts the
+affliction's Healing Rate or its treated flag directly. (Injury treatment, by
+contrast, is fully automated — see [Injury Treatment](Injury.md#injury-treatment).)
+
 ## Outcome
 
 When the Symptomatic Period ends, if the affliction has **not** been defeated
@@ -135,4 +212,4 @@ infection has been defeated.
 - [Healing Roll](Healing_Roll.md) — Healing Base and Healing Rate, and the
   recovery of ordinary injuries.
 - [Safe Expressions](../User_Guide/Safe_Expressions.md) — the language used by the
-  `outcomeTraits` / `outcomeTraumas` fields.
+  `outcomeTrauma` field.
