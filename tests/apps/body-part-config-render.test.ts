@@ -14,21 +14,35 @@
 
 import { describe, it, expect } from "vitest";
 import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
+import { buildRefOptions } from "@src/document/item/logic/refOptions";
 import { blankBodyPart } from "@src/entity/body/blankBodyPart";
 import { BODY_ROLE, BodyRoleChoices } from "@src/utils/constants";
 
 const TEMPLATE = "systems/sohl/templates/apps/body-part-config.hbs";
+
+/** The body's zones, as `BodyPartConfig._prepareContext` maps them. */
+const ZONES = [
+    { shortcode: "manipzone", name: "Manipulator Zone" },
+    { shortcode: "locozone", name: "Locomotor Zone" },
+];
 
 /** Build the render context exactly as BodyPartConfig._prepareContext does. */
 function context(
     name = "Left Arm",
     shortcode = "larm",
     roles: string[] = [BODY_ROLE.MANIPULATOR, BODY_ROLE.LOCOMOTOR],
+    bodyZoneCode = "manipzone",
 ) {
-    const part = { ...blankBodyPart(name, shortcode), roles, probWeight: 3 };
+    const part = {
+        ...blankBodyPart(name, shortcode),
+        roles,
+        probWeight: 3,
+        bodyZoneCode,
+    };
     return {
         part,
         shortcode,
+        bodyZoneCodeOptions: buildRefOptions(ZONES, bodyZoneCode),
         roleOptions: Object.entries(BodyRoleChoices).map(([value, label]) => ({
             value,
             label,
@@ -55,6 +69,27 @@ describe("body-part-config template", () => {
         const html = renderTemplateReal(TEMPLATE, context());
         expect(html).not.toContain('type="submit"');
         expect(html).not.toContain("<button");
+    });
+
+    it("renders the zone dropdown pre-selected to bodyZoneCode (#982)", () => {
+        const html = renderTemplateReal(TEMPLATE, context());
+        expect(html).toMatch(/<select[^>]*name="bodyZoneCode"/);
+        expect(html).toMatch(
+            /<option value="manipzone"[^>]*selected[^>]*>\s*Manipulator Zone\s*<\/option>/,
+        );
+        expect(html).toMatch(
+            /<option value="locozone"(?![^>]*selected)[^>]*>\s*Locomotor Zone\s*<\/option>/,
+        );
+    });
+
+    it("flags a dangling bodyZoneCode as an unresolved option, never blanked (#982)", () => {
+        const html = renderTemplateReal(
+            TEMPLATE,
+            context("Left Arm", "larm", [], "gone"),
+        );
+        expect(html).toMatch(
+            /<option value="gone"[^>]*selected[^>]*>\s*gone \(unresolved\)\s*<\/option>/,
+        );
     });
 
     it("renders the roles multi-select with the part's current roles pre-selected", () => {

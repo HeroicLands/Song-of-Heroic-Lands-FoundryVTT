@@ -290,6 +290,30 @@ export class BodyStructure extends SohlEntity {
     }
 
     /**
+     * Get all zones as a flat array — the roots of the Zone → Part → Location
+     * hierarchy. The parent tier of {@link getAllParts}; used to source the
+     * shortcode-reference dropdown for a body part's `bodyZoneCode` (#982),
+     * mapping each to `{value: shortcode, label: name}`.
+     *
+     * @returns Every zone, in persisted order.
+     */
+    getAllZones(): BodyZone[] {
+        return [...this.zones];
+    }
+
+    /**
+     * Get all parts from all zones as a flat array — the parent tier of
+     * {@link getAllLocations}. Used to source the shortcode-reference dropdown
+     * for a hit location's `bodyPartCode` (#982), mapping each to
+     * `{value: shortcode, label: name}`.
+     *
+     * @returns Every part across all zones, in persisted order.
+     */
+    getAllParts(): BodyPart[] {
+        return [...this.parts];
+    }
+
+    /**
      * Get all locations from all parts as a flat array.
      *
      * @returns Every location across all parts, in persisted order.

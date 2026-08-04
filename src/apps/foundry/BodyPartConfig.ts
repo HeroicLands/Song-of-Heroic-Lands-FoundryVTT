@@ -17,6 +17,7 @@ import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import { blankBodyPart } from "@src/entity/body/blankBodyPart";
 import { planBodyShortcode } from "@src/entity/body/planBodyShortcode";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
+import { buildRefOptions } from "@src/document/item/logic/refOptions";
 import { BodyRoleChoices, isBodyRole } from "@src/utils/constants";
 
 const BodyPartConfig_Base: any =
@@ -141,9 +142,17 @@ export class BodyPartConfig extends (BodyPartConfig_Base as typeof foundry.appli
         const part =
             this.#currentData() ?? blankBodyPart(this.#actor.name, this.#key);
         const roles = part.roles ?? [];
+        // Zone-reference dropdown (#982): the body's own zones, so a part picks
+        // its parent zone by display name. A dangling `bodyZoneCode` (a zone
+        // that no longer exists) is surfaced as a flagged option, never blanked.
+        const zones =
+            this.#structure()
+                ?.getAllZones()
+                .map((z) => ({ shortcode: z.shortcode, name: z.name })) ?? [];
         return {
             part,
             shortcode: part.shortcode || this.#key,
+            bodyZoneCodeOptions: buildRefOptions(zones, part.bodyZoneCode),
             roleOptions: Object.entries(BodyRoleChoices).map(
                 ([value, label]) => ({
                     value,
@@ -162,7 +171,9 @@ export class BodyPartConfig extends (BodyPartConfig_Base as typeof foundry.appli
      * changed shortcode is validated for uniqueness among the being's *other*
      * parts; a rejected shortcode keeps the current one (warning the user). An
      * accepted rename also re-points the part's hit locations, which link to it
-     * by shortcode ({@link BodyStructure.repointLocationsUpdate}).
+     * by shortcode ({@link BodyStructure.repointLocationsUpdate}). A changed
+     * `bodyZoneCode` (the zone dropdown, #982) re-parents the part to another
+     * zone, accepted only when it names an existing zone.
      *
      * @param this - The bound {@link BodyPartConfig} instance.
      * @param _event - The submit event (unused).
@@ -200,9 +211,20 @@ export class BodyPartConfig extends (BodyPartConfig_Base as typeof foundry.appli
             : rawRoles ? [rawRoles]
             : []).filter((r: unknown): r is string => isBodyRole(r));
 
+        // Re-parenting via the zone dropdown (#982): accept a submitted
+        // `bodyZoneCode` only when it names an existing zone; otherwise keep the
+        // current one (preserving a dangling code rather than orphaning to a
+        // typo). The dropdown only ever offers real zones plus the current value.
+        const submittedZone = String(submitted.bodyZoneCode ?? "");
+        const bodyZoneCode =
+            structure.getZoneByCode(submittedZone) ? submittedZone : (
+                part.zone.shortcode
+            );
+
         const changes: Partial<BodyPart.Data> = {
             name: String(submitted.name ?? "").trim() || part.name,
             shortcode: plan.shortcode,
+            bodyZoneCode,
             roles,
             probWeight: Math.max(0, Number(submitted.probWeight) || 0),
             permanentImpairment: Math.min(

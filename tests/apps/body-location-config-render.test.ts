@@ -7,14 +7,16 @@
 
 /**
  * Render the real BodyLocationConfig editor template in Node and assert the
- * emitted HTML — the identity header with its owning-part label, the tier
- * selects pre-selected to the location's current values, the four
- * protectionBase inputs, the mishap checkboxes, and no Save button. Mirrors what
+ * emitted HTML — the identity header, the owning-part dropdown (#982) pre-selected
+ * to the location's `bodyPartCode`, the tier selects pre-selected to the
+ * location's current values, the four protectionBase inputs, the mishap
+ * checkboxes, and no Save button. Mirrors what
  * `BodyLocationConfig._prepareContext` hands the template.
  */
 
 import { describe, it, expect } from "vitest";
 import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
+import { buildRefOptions } from "@src/document/item/logic/refOptions";
 import { blankBodyLocation } from "@src/entity/body/blankBodyLocation";
 import {
     AMPUTABILITY,
@@ -25,10 +27,17 @@ import {
 
 const TEMPLATE = "systems/sohl/templates/apps/body-location-config.hbs";
 
+/** The body's parts, as `BodyLocationConfig._prepareContext` maps them. */
+const PARTS = [
+    { shortcode: "head", name: "Head" },
+    { shortcode: "thorax", name: "Thorax" },
+];
+
 /** Build the render context exactly as BodyLocationConfig._prepareContext does. */
 function context(name = "Skull", shortcode = "skull") {
     const loc = {
         ...blankBodyLocation(name, shortcode),
+        bodyPartCode: "head",
         bleedingSusceptibility: BLEEDING_SUSCEPTIBILITY.HIGH,
         amputability: AMPUTABILITY.LOW,
         shockValue: 5,
@@ -38,7 +47,7 @@ function context(name = "Skull", shortcode = "skull") {
     return {
         loc,
         shortcode,
-        partLabel: "Head",
+        bodyPartCodeOptions: buildRefOptions(PARTS, loc.bodyPartCode),
         bleedingOptions: Object.entries(BleedingSusceptibilityChoices).map(
             ([value, label]) => ({
                 value,
@@ -57,15 +66,34 @@ function context(name = "Skull", shortcode = "skull") {
 }
 
 describe("body-location-config template", () => {
-    it("renders an identity header: name, unique shortcode, owning-part label", () => {
+    it("renders an identity header: name and unique shortcode", () => {
         const html = renderTemplateReal(TEMPLATE, context());
         expect(html).toContain("body-location-config__header");
         expect(html).toMatch(
             /class="body-location-config__name"[^>]*>\s*<input[^>]*name="name"/,
         );
         expect(html).toMatch(/name="shortcode"[^>]*value="skull"/);
+    });
+
+    it("renders the owning-part dropdown pre-selected to bodyPartCode (#982)", () => {
+        const html = renderTemplateReal(TEMPLATE, context());
+        expect(html).toMatch(/<select[^>]*name="bodyPartCode"/);
+        // Both parts are offered; the location's current part is selected.
         expect(html).toMatch(
-            /class="body-location-config__part"[^>]*>\s*Head\s*<\/div>/,
+            /<option value="head"[^>]*selected[^>]*>\s*Head\s*<\/option>/,
+        );
+        expect(html).toMatch(
+            /<option value="thorax"(?![^>]*selected)[^>]*>\s*Thorax\s*<\/option>/,
+        );
+    });
+
+    it("flags a dangling bodyPartCode as an unresolved option, never blanked (#982)", () => {
+        const ctx = context();
+        ctx.loc.bodyPartCode = "gone";
+        ctx.bodyPartCodeOptions = buildRefOptions(PARTS, "gone");
+        const html = renderTemplateReal(TEMPLATE, ctx);
+        expect(html).toMatch(
+            /<option value="gone"[^>]*selected[^>]*>\s*gone \(unresolved\)\s*<\/option>/,
         );
     });
 

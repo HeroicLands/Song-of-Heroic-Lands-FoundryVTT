@@ -18,9 +18,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <input class="body-location-config__shortcode" type="text" name="shortcode" value="{{shortcode}}"
         placeholder="shortcode"
         data-tooltip="A short code identifying this location. Must be unique within its body part." />
-    <div class="body-location-config__part"
-        data-tooltip="The body part this location belongs to.">{{partLabel}}</div>
 </header>
+
+<fieldset>
+    <legend>Parent</legend>
+    {{> shortcodeRefField embedded=true rootId="bodyloc-part" name="bodyPartCode"
+        value=loc.bodyPartCode options=bodyPartCodeOptions
+        label="SOHL.BodyLocationConfig.partLabel" hint="SOHL.BodyLocationConfig.partHint"}}
+</fieldset>
 
 <fieldset>
     <legend>General</legend>

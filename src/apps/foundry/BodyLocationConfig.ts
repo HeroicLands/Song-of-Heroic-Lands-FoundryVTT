@@ -18,6 +18,7 @@ import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import { blankBodyLocation } from "@src/entity/body/blankBodyLocation";
 import { planBodyShortcode } from "@src/entity/body/planBodyShortcode";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
+import { buildRefOptions } from "@src/document/item/logic/refOptions";
 import {
     AmputabilityChoices,
     BleedingSusceptibilityChoices,
@@ -158,18 +159,25 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
 
     /**
      * Build the render context from the persisted location: its fields, the
-     * owning-part label, and the tier-select options with the location's current
-     * values pre-selected.
+     * owning-part dropdown options (#982), and the tier-select options with the
+     * location's current values pre-selected.
      * @param _options - The render options (unused).
      * @returns The template context describing the current location.
      */
     protected override async _prepareContext(_options: any): Promise<any> {
         const loc = this.#currentData() ?? blankBodyLocation("", this.#key);
-        const part = this.#part();
+        // Part-reference dropdown (#982): the body's own parts, so a location
+        // picks its parent part by display name. A dangling `bodyPartCode` (a
+        // part that no longer exists) is surfaced as a flagged option, never
+        // blanked — the same treatment `orphanedLocations` gets in storage.
+        const parts =
+            this.#structure()
+                ?.getAllParts()
+                .map((p) => ({ shortcode: p.shortcode, name: p.name })) ?? [];
         return {
             loc,
             shortcode: loc.shortcode || this.#key,
-            partLabel: part?.name || part?.shortcode || this.#partKey,
+            bodyPartCodeOptions: buildRefOptions(parts, loc.bodyPartCode),
             bleedingOptions: Object.entries(BleedingSusceptibilityChoices).map(
                 ([value, label]) => ({
                     value,
@@ -193,7 +201,9 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
      * array back. A changed shortcode is validated for uniqueness among the
      * being's *other* locations — location codes are unique body-wide, not just
      * within their part (#780); a rejected shortcode keeps the current one
-     * (warning the user).
+     * (warning the user). A changed `bodyPartCode` (the part dropdown, #982)
+     * re-parents the location to another part, accepted only when it names an
+     * existing part.
      *
      * @param this - The bound {@link BodyLocationConfig} instance.
      * @param _event - The submit event (unused).
@@ -226,11 +236,22 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
         );
         if (plan.error) sohl.log.uiWarn(plan.error);
 
+        // Re-parenting via the part dropdown (#982): accept a submitted
+        // `bodyPartCode` only when it names an existing part; otherwise keep the
+        // current one (preserving a dangling code rather than orphaning to a
+        // typo). The dropdown only ever offers real parts plus the current value.
+        const submittedPart = String(submitted.bodyPartCode ?? "");
+        const bodyPartCode =
+            structure.getPartByCode(submittedPart) ? submittedPart : (
+                current.bodyPartCode
+            );
+
         const prot = submitted.protectionBase ?? {};
         const merged: BodyLocation.Data = {
             ...current,
             name: String(submitted.name ?? "").trim() || current.name,
             shortcode: plan.shortcode,
+            bodyPartCode,
             bleedingSusceptibility:
                 isBleedingSusceptibility(submitted.bleedingSusceptibility) ?
                     submitted.bleedingSusceptibility
@@ -262,5 +283,8 @@ export class BodyLocationConfig extends (BodyLocationConfig_Base as typeof found
             ]),
         );
         this.#key = plan.shortcode;
+        // Track the (possibly new) owning part so the still-open form re-renders
+        // against the location's new parent (#982).
+        this.#partKey = bodyPartCode;
     }
 }

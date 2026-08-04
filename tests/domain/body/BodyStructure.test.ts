@@ -201,6 +201,27 @@ describe("BodyStructure", () => {
             ]);
         });
 
+        it("getAllZones returns every zone in persisted order (#982)", () => {
+            const body = makeBody();
+            expect(body.getAllZones().map((z) => z.shortcode)).toEqual([
+                "headzone",
+                "bodyzone",
+            ]);
+            // Carries the display name for {value: shortcode, label: name} mapping.
+            expect(body.getAllZones().map((z) => z.name)).toEqual([
+                "headzone",
+                "bodyzone",
+            ]);
+        });
+
+        it("getAllParts returns every part in persisted order (#982)", () => {
+            const body = makeBody();
+            expect(body.getAllParts().map((p) => p.shortcode)).toEqual([
+                "head",
+                "thorax",
+            ]);
+        });
+
         it("exposes a zone's locations across all of its parts", () => {
             const data = sampleBodyData();
             data.parts.push(partData("gut", "bodyzone", 10));
