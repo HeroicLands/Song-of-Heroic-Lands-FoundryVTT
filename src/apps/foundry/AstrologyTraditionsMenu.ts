@@ -70,7 +70,10 @@ export class AstrologyTraditionsMenu extends (AstrologyTraditionsMenu_Base as ty
         },
     };
 
-    /** The persisted world traditions setting (map of tradition key → tradition). */
+    /**
+     * The persisted world traditions setting (map of tradition key → tradition).
+     * @returns The world-authored traditions (empty when none are set).
+     */
     private static worldTraditions(): AstrologyTraditions {
         return (
             (game.settings.get(

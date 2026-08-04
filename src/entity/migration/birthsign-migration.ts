@@ -72,7 +72,12 @@ export function stripBirthsignBonus(formula: string): string {
     return f === "" ? "0" : f;
 }
 
-/** Migrate a single Item source (reclassify birthsign, strip the helper). */
+/**
+ * Migrate a single Item source: reclassify a legacy birthsign Mystery and strip
+ * `birthsignBonus(...)` from a Skill's `skillBaseFormula`.
+ * @param source - The serialized Item source.
+ * @returns The update payload, or `undefined` for a no-op.
+ */
 function migrateItem(
     source: MigrationSource,
 ): Record<string, unknown> | undefined {

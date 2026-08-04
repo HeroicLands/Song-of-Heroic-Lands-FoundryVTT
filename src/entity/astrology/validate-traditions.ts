@@ -34,13 +34,21 @@ export interface ValidateTraditionsResult {
     skipped: SkippedEntry[];
 }
 
-/** Coerce to a finite number, or `undefined` when not numeric. */
+/**
+ * Coerce to a finite number, or `undefined` when not numeric.
+ * @param value - The value to coerce.
+ * @returns The finite number, or `undefined`.
+ */
 function num(value: unknown): number | undefined {
     const n = Number(value);
     return Number.isFinite(n) ? n : undefined;
 }
 
-/** Validate a `{ month, day }` pair; returns `undefined` when malformed. */
+/**
+ * Validate a `{ month, day }` pair.
+ * @param value - The candidate month/day object.
+ * @returns The validated pair, or `undefined` when malformed.
+ */
 function monthDay(value: unknown): MonthDay | undefined {
     if (!value || typeof value !== "object") return undefined;
     const month = num((value as MonthDay).month);
@@ -49,7 +57,11 @@ function monthDay(value: unknown): MonthDay | undefined {
     return { month, day };
 }
 
-/** Validate a `skillModifiers` map into `{ [key]: number }` (bad values dropped). */
+/**
+ * Validate a `skillModifiers` map into `{ [key]: number }` (bad values dropped).
+ * @param value - The candidate modifiers map.
+ * @returns A map of key → finite number (empty when absent/invalid).
+ */
 function skillModifiers(value: unknown): Record<string, number> {
     const out: Record<string, number> = {};
     if (!value || typeof value !== "object") return out;
