@@ -16,3 +16,4 @@
 
 export * from "./version";
 export * from "./MigrationRegistry";
+export * from "./birthsign-migration";

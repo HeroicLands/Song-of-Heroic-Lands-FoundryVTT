@@ -2417,9 +2417,9 @@ export class BeingLogic<
         const astrologyTraditions = fvttAstrologyTraditions();
         const birthDate = this.data.birthDate;
         const date =
-            birthDate == null ?
-                undefined
-            :   fvttBirthDateToAstrologyDate(birthDate);
+            birthDate == null ? undefined : (
+                fvttBirthDateToAstrologyDate(birthDate)
+            );
 
         const dicts: Record<string, number>[] = [];
         for (const affiliation of birthsignAffiliations) {

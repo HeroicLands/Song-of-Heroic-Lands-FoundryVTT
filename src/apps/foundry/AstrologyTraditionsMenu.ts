@@ -120,15 +120,19 @@ export class AstrologyTraditionsMenu extends (AstrologyTraditionsMenu_Base as ty
             callback: async (path: string) => {
                 if (!path.endsWith(".json")) {
                     ui.notifications.error(
-                        game.i18n.format("SOHL.Astrology.Settings.import.error", {
-                            error: "File must be a .json file",
-                        }),
+                        game.i18n.format(
+                            "SOHL.Astrology.Settings.import.error",
+                            {
+                                error: "File must be a .json file",
+                            },
+                        ),
                     );
                     return;
                 }
                 try {
                     const response = await fetch(path);
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    if (!response.ok)
+                        throw new Error(`HTTP ${response.status}`);
                     const raw = await response.json();
                     const { traditions, skipped } = validateTraditions(raw);
                     if (!Object.keys(traditions).length) {
@@ -173,9 +177,12 @@ export class AstrologyTraditionsMenu extends (AstrologyTraditionsMenu_Base as ty
                     void this.render();
                 } catch (err: any) {
                     ui.notifications.error(
-                        game.i18n.format("SOHL.Astrology.Settings.import.error", {
-                            error: err.message ?? String(err),
-                        }),
+                        game.i18n.format(
+                            "SOHL.Astrology.Settings.import.error",
+                            {
+                                error: err.message ?? String(err),
+                            },
+                        ),
                     );
                 }
             },

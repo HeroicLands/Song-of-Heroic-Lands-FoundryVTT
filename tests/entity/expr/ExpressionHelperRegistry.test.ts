@@ -281,37 +281,6 @@ describe("ExpressionHelperRegistry", () => {
         });
     });
 
-    describe("birthsignBonus (#972)", () => {
-        const bb = () =>
-            STANDARD_HELPERS.birthsignBonus as (
-                signs: unknown,
-                code: unknown,
-                amount: unknown,
-            ) => number;
-
-        it("returns the amount when the birthsign is present", () => {
-            expect(bb()(["hirin", "ahnu"], "hirin", 2)).toBe(2);
-        });
-
-        it("returns 0 when the birthsign is absent", () => {
-            expect(bb()(["ahnu"], "hirin", 2)).toBe(0);
-        });
-
-        it("matches case-insensitively", () => {
-            expect(bb()(["hirin"], "HIRIN", 3)).toBe(3);
-        });
-
-        it("returns 0 when the first argument is not an array", () => {
-            expect(bb()(null, "hirin", 2)).toBe(0);
-            expect(bb()(undefined, "hirin", 2)).toBe(0);
-        });
-
-        it("stacks when summed across terms (each returns its own amount)", () => {
-            const signs = ["hirin", "ahnu"];
-            expect(bb()(signs, "hirin", 2) + bb()(signs, "ahnu", 3)).toBe(5);
-        });
-    });
-
     describe("sum (#1024)", () => {
         const sum = () => STANDARD_HELPERS.sum as (...v: unknown[]) => number;
         it("adds its arguments", () => {

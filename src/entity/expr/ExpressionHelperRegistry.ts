@@ -673,30 +673,6 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
     },
 
     /**
-     * A birthsign Skill-Base bonus: `amount` when `code` is among the actor's
-     * `birthsigns`, otherwise `0`. Multiple terms **stack** — sum them with `+`
-     * (`sb(attr.str, attr.dex) + birthsignBonus(birthsigns, 'hirin', 2)`), or take
-     * the largest with `max(...)`.
-     * @param birthsigns - The actor's birthsign shortcodes (lowercased); passed
-     *   explicitly from the expression context.
-     * @param code - The birthsign shortcode to test for (matched case-insensitively).
-     * @param amount - The bonus contributed when the birthsign is present.
-     * @returns `amount` if `code ∈ birthsigns`, else `0`.
-     */
-    birthsignBonus(
-        birthsigns: unknown,
-        code: unknown,
-        amount: unknown,
-    ): number {
-        return (
-                Array.isArray(birthsigns) &&
-                    birthsigns.includes(String(code).toLowerCase())
-            ) ?
-                Number(amount)
-            :   0;
-    },
-
-    /**
      * Build a **dict** (plain object) from alternating key/value arguments —
      * the grammar has no object literals, so this is how an expression
      * constructs one. `settings("peleahn", 15, "subtype:combat", 5)` yields
@@ -755,7 +731,7 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
             const entries: [string, unknown][] =
                 Array.isArray(el) ?
                     el.map((v, i) => [String(i), v] as [string, unknown])
-                :   typeof el === "object" ?
+                : typeof el === "object" ?
                     Object.entries(el as Record<string, unknown>)
                 :   [];
             for (const [k, v] of entries) {

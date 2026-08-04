@@ -128,7 +128,7 @@ export function daysInYear(monthLengths: number[]): number {
  * @returns The equivalent day in `1..yearLen`.
  */
 function wrapDay(day: number, yearLen: number): number {
-    const m = ((day - 1) % yearLen + yearLen) % yearLen;
+    const m = (((day - 1) % yearLen) + yearLen) % yearLen;
     return m + 1;
 }
 
@@ -223,7 +223,5 @@ export function signByShortcode(
     shortcode: string,
 ): AstrologySign | undefined {
     const needle = String(shortcode).toLowerCase();
-    return tradition.signs.find(
-        (s) => s.shortcode.toLowerCase() === needle,
-    );
+    return tradition.signs.find((s) => s.shortcode.toLowerCase() === needle);
 }

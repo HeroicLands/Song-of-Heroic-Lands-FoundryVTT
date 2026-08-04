@@ -157,7 +157,7 @@ export class SkillLogic<
      * The computed skill base value, derived from
      * {@link SkillData.skillBaseFormula} — a value-returning
      * {@link sohl.entity.expr.SafeExpression} — evaluated against the actor's
-     * attribute **values** (the `attr.<shortcode>` namespace) and birthsigns.
+     * attribute **values** (the `attr.<shortcode>` namespace).
      * `0` when the formula is blank, invalid, or off an actor.
      */
     skillBase!: number;
@@ -1021,8 +1021,8 @@ export class SkillLogic<
     /**
      * Compute the Skill Base from a raw formula source by evaluating it as a
      * value-returning {@link sohl.entity.expr.SafeExpression} against a
-     * Foundry-free context of attribute **values** (`attr.<shortcode>`) and
-     * `birthsigns`. The raw string is compiled here at evaluation time, never at
+     * Foundry-free context of attribute **values** (`attr.<shortcode>`).
+     * The raw string is compiled here at evaluation time, never at
      * author time (rule #10) — a world-item skill (no actor) simply evaluates
      * against an empty context where every `attr.*` is `0`.
      *
@@ -1048,7 +1048,6 @@ export class SkillLogic<
             const expr = new SafeExpression({ source }, { parent: this });
             const raw = expr.evaluate({
                 attr: this.buildAttrContext(),
-                birthsigns: this.buildBirthsigns(),
             });
             const n = Number(raw);
             if (!Number.isFinite(n)) {
@@ -1095,21 +1094,6 @@ export class SkillLogic<
                 return Reflect.get(target, prop);
             },
         });
-    }
-
-    /**
-     * The actor's birthsign shortcodes (lowercased) — the `birthsign`-subtype
-     * Mystery items — as passed to the `birthsignBonus` expression helper. Empty
-     * off an actor.
-     *
-     * @returns The birthsign shortcodes.
-     */
-    private buildBirthsigns(): string[] {
-        const mysteries =
-            this.actorLogic?.logicTypes?.[ITEM_KIND.MYSTERY] ?? [];
-        return mysteries
-            .filter((m) => m.data.subType === MYSTERY_SUBTYPE.BIRTHSIGN)
-            .map((m) => m.data.shortcode.toLowerCase());
     }
 
     /* --------------------------------------------- */

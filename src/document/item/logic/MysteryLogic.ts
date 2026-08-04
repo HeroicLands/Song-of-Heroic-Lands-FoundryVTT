@@ -100,7 +100,7 @@ export class MysteryLogic<
     /**
      * The associated skill (a {@link SkillLogic}) resolved during
      * {@link evaluate} from {@link MysteryData.assocSkillCode}, or `undefined`
-     * when the mystery names no skill (e.g. a birthsign).
+     * when the mystery names no skill.
      */
     assocSkill?: SkillLogic;
 
@@ -336,15 +336,14 @@ export interface MysteryData<
     TLogic extends MysteryLogic<MysteryData> = MysteryLogic<any>,
 > extends SohlItemData<TLogic> {
     /**
-     * The mystery's subtype. `birthsign` marks a birthsign (matched by
-     * {@link SohlItemData.shortcode | shortcode} in skill-base formulas);
-     * `boon` / `boost` name a skill-affecting mystery.
+     * The mystery's subtype: `boon` / `boost` name a skill-affecting mystery,
+     * `fate` / `grace` / `piety` a passive pool, and `other` a catch-all.
      */
     subType: MysterySubType;
     /**
      * Shortcode of the skill this mystery is associated with (the skill a boon
      * or boost affects, a fate success-level bump applies to, etc.); blank for
-     * mysteries that name no skill (e.g. a birthsign).
+     * mysteries that name no skill.
      */
     assocSkillCode?: string | null;
     /**
