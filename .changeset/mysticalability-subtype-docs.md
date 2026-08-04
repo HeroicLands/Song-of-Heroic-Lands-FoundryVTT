@@ -4,7 +4,7 @@
 
 **Docs: define each `MYSTICALABILITY_SUBTYPE` value, and fix its display labels**
 
-The twelve mystical-ability subtypes (`SHAMANICRITE`, `SPIRITACTION`, `BENEDICTION`, …)
+The mystical-ability subtypes (`SHAMANICRITE`, `SPIRITACTION`, `SPIRITPOWER`, …)
 had no definition anywhere: not in TSDoc, not in `lang/en.json`, not in consuming code.
 The constant is part of the published API (every `src/**/*.ts` export is bundled into the
 TypeDoc entry point), so readers saw twelve bare identifiers with no explanation.
