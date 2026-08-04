@@ -13,6 +13,8 @@
 
 import { entity } from "@src/entity/registry";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
+import { combineModifierDicts } from "@src/entity/astrology";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -48,6 +50,8 @@ import {
     fvttWorldTime,
     fvttLogicFromUuidSync,
     fvttGetSetting,
+    fvttAstrologyTraditions,
+    fvttBirthDateToAstrologyDate,
 } from "@src/core/FoundryHelpers";
 import {
     TREATMENT_HEAL,
@@ -384,6 +388,15 @@ export class BeingLogic<
      * by the time the being's own `evaluate()`/`finalize()` and the sheet read it.
      */
     carriedWeight!: ValueModifier;
+
+    /**
+     * Memoized per-prepare cache of the being's combined **birthsign modifiers**
+     * — a dict keyed by skill shortcode or `"subtype:<skillSubType>"` → signed
+     * number. Reset to `undefined` in {@link initialize} and computed lazily on
+     * first read (see {@link astrologyModifiers}). `undefined` = not yet
+     * computed this cycle.
+     */
+    private _astrologyModifiers?: Record<string, number>;
 
     /**
      * The being's {@link sohl.document.actor.logic.BodyLogic | body} — its
@@ -2339,6 +2352,9 @@ export class BeingLogic<
         // An empty modifier now; its base is summed from the fatigue traumas in
         // finalize() (once the trauma items have prepared their levels).
         this.fatiguePenalty = new entity.ValueModifier(this);
+        // Drop last cycle's memoized birthsign modifiers; they are recomputed
+        // lazily on first read (affiliation items have prepared by then).
+        this._astrologyModifiers = undefined;
         // Build the being's body directly from system.body — no embedded item,
         // no cross-document registration, no lifecycle-ordering hazard.
         this.body = new BodyLogic(this);
@@ -2360,6 +2376,82 @@ export class BeingLogic<
         this.strengthModifier.setBase(strModExpr.evaluate({ str }) as number);
         this.deriveHealingBase();
         this.aggregateArmorProtection();
+    }
+
+    /**
+     * The being's combined **birthsign modifiers** — a dict keyed by skill
+     * shortcode or `"subtype:<skillSubType>"` → signed number — *derived* from
+     * its {@link BeingData.birthDate} and every birthsign
+     * {@link sohl.document.item.logic.AffiliationLogic | Affiliation}
+     * ({@link sohl.document.item.logic.AffiliationLogic.isBirthsignAffiliation}),
+     * never stored. Each affiliation's `astrologicalExpression` is evaluated
+     * against its tradition (`society`) with the resolved traditions registry
+     * and the calendar-converted birth date injected into the context; the
+     * per-affiliation dicts are combined **per key by algebraic max** (independent
+     * traditions each contribute their own value; a skill named by only one keeps
+     * it). Consumed by {@link sohl.document.item.logic.SkillLogic} as a `BSMod`
+     * mastery-level delta (a specific skill shortcode overrides a `subtype:`
+     * wildcard there). Memoized for the prepare cycle. Empty when the being has
+     * no birthsign affiliation. See the
+     * {@link https://kb.heroiclands.org/dev/concepts/expressions/ | Expressions} doc.
+     * @returns The combined birthsign modifier dict (possibly empty).
+     */
+    get astrologyModifiers(): Record<string, number> {
+        return (this._astrologyModifiers ??= this.computeAstrologyModifiers());
+    }
+
+    /**
+     * Compute {@link astrologyModifiers} from scratch (memoized by the getter).
+     * @returns The combined birthsign modifier dict.
+     */
+    private computeAstrologyModifiers(): Record<string, number> {
+        const affiliations =
+            this.logicTypes[ITEM_KIND.AFFILIATION]?.filter(
+                (a): a is AffiliationLogic => a instanceof AffiliationLogic,
+            ) ?? [];
+        const birthsignAffiliations = affiliations.filter(
+            (a) => a.isBirthsignAffiliation,
+        );
+        if (!birthsignAffiliations.length) return {};
+
+        const astrologyTraditions = fvttAstrologyTraditions();
+        const birthDate = this.data.birthDate;
+        const date =
+            birthDate == null ?
+                undefined
+            :   fvttBirthDateToAstrologyDate(birthDate);
+
+        const dicts: Record<string, number>[] = [];
+        for (const affiliation of birthsignAffiliations) {
+            const source = affiliation.data.astrologicalExpression;
+            if (!source) continue;
+            try {
+                const result = new SafeExpression(
+                    { source },
+                    { parent: affiliation },
+                ).evaluate({
+                    tradition: affiliation.data.society,
+                    date,
+                    astrologyTraditions,
+                });
+                if (
+                    result &&
+                    typeof result === "object" &&
+                    !Array.isArray(result)
+                ) {
+                    dicts.push(result as Record<string, number>);
+                }
+            } catch (err) {
+                sohl.log.warn(
+                    `Birthsign astrology expression on "${affiliation.name}" failed: ${
+                        (err as Error).message
+                    }`,
+                );
+            }
+        }
+        // Cross-affiliation combination: per-key algebraic max (present values
+        // only) — independent traditions each contribute for their own purpose.
+        return combineModifierDicts(dicts, (values) => Math.max(...values));
     }
 
     /**

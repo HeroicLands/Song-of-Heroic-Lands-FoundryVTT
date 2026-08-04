@@ -182,6 +182,37 @@ export function signsForDate(
 }
 
 /**
+ * Fold several **modifier dicts** into one, **per key**, applying `combine` to
+ * the **present values only** for each key (a key only one dict supplies keeps
+ * that value — it is never combined against an implicit `0`). This is the
+ * cross-affiliation combination rule: a being with two birthsign affiliations
+ * touching the same skill combines them per-key (default: algebraic max), and
+ * it matches the in-expression {@link ExpressionHelperRegistry | `merge`} helper
+ * for the single-affiliation case. Non-numeric values are coerced with `Number`.
+ * @param dicts - The modifier dicts to fold.
+ * @param combine - Reduces the present values for a key to its folded value.
+ * @returns The folded dict (empty when no dicts have keys).
+ */
+export function combineModifierDicts(
+    dicts: Record<string, number>[],
+    combine: (values: number[]) => number,
+): Record<string, number> {
+    const perKey = new Map<string, number[]>();
+    for (const dict of dicts) {
+        if (!dict || typeof dict !== "object") continue;
+        for (const [k, v] of Object.entries(dict)) {
+            if (v === undefined || v === null) continue;
+            const bucket = perKey.get(k);
+            if (bucket) bucket.push(Number(v));
+            else perKey.set(k, [Number(v)]);
+        }
+    }
+    const out: Record<string, number> = {};
+    for (const [k, values] of perKey) out[k] = combine(values);
+    return out;
+}
+
+/**
  * Look up a sign by shortcode within a tradition (case-insensitively).
  * @param tradition - The tradition to search.
  * @param shortcode - The sign shortcode to find.

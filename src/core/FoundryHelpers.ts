@@ -12,6 +12,7 @@
  */
 
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
+import * as astrology from "@src/entity/astrology";
 import {
     FilePath,
     HTMLString,
@@ -300,6 +301,49 @@ export function fvttWorldTime(): number {
  */
 export function fvttGetSetting(module: string, key: string): unknown {
     return (game as any).settings.get(module, key);
+}
+
+/**
+ * The resolved astrology **traditions registry** as plain data: the shipped
+ * built-in traditions with the world's `sohl.astrologyTraditions` overrides
+ * layered on top (a world entry replaces a built-in of the same key). This is
+ * the Foundry boundary the logic layer crosses to reach the world-setting-backed
+ * registry — the producer injects the result into a SafeExpression eval context
+ * (`astrologyTraditions`) so the astrology helpers stay pure (#1018 / #1023).
+ * @returns The merged tradition key → tradition map.
+ */
+export function fvttAstrologyTraditions(): astrology.AstrologyTraditions {
+    const world =
+        ((game as any).settings?.get?.("sohl", "astrologyTraditions") as
+            | astrology.AstrologyTraditions
+            | undefined) ?? {};
+    return { ...astrology.builtinTraditions(), ...world };
+}
+
+/**
+ * Convert a **world-time** value (seconds — a `Being.birthDate`) into the
+ * calendar-agnostic {@link astrology.AstrologyDate} the astrology helpers
+ * consume: the 1-based month/day of the active calendar plus its month lengths.
+ * Reads `game.time.calendar` at call time (the Foundry boundary), so the logic
+ * layer never touches the calendar directly.
+ * @param worldTime - The birth date as a world-time value in seconds.
+ * @returns The resolved astrology date, or `undefined` when no calendar is available.
+ */
+export function fvttBirthDateToAstrologyDate(
+    worldTime: number,
+): astrology.AstrologyDate | undefined {
+    const calendar = (game as any).time?.calendar;
+    if (!calendar) return undefined;
+    const monthLengths: number[] = (calendar.months?.values ?? []).map(
+        (m: { days: number }) => m.days,
+    );
+    if (!monthLengths.length) return undefined;
+    const c = calendar.timeToComponents(worldTime);
+    return {
+        month: (c.month ?? 0) + 1,
+        day: (c.dayOfMonth ?? 0) + 1,
+        monthLengths,
+    };
 }
 
 /**
