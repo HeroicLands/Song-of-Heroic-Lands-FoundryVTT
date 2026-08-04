@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { MysticalAbilityLogic } from "@src/document/item/logic/MysticalAbilityLogic";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import { ITEM_KIND, VALUE_DELTA_INFO } from "@src/utils/constants";
@@ -41,6 +42,7 @@ function makeAbilityActor() {
         skill: [] as any[],
         mystery: [] as any[],
         mysticalability: [] as any[],
+        affiliation: [] as any[],
     };
     return actor;
 }
@@ -88,6 +90,23 @@ function makeSkillOnActor(
         { actor, shortcode, id: `skill${shortcode}`.padEnd(16, "0") },
     );
     actor.itemTypes.skill.push(logic.item);
+    return logic;
+}
+
+/** Embed a real AffiliationLogic on the actor and register it in itemTypes. */
+function makeAffiliationOnActor(
+    actor: any,
+    shortcode: string,
+    name = "Church of Larani",
+    level = 0,
+) {
+    const logic = makeItemLogic(
+        AffiliationLogic,
+        ITEM_KIND.AFFILIATION,
+        { society: null, office: null, title: null, level },
+        { actor, name, shortcode, id: `aff${shortcode}`.padEnd(16, "0") },
+    );
+    actor.itemTypes.affiliation.push(logic.item);
     return logic;
 }
 
@@ -251,6 +270,58 @@ describe("MysticalAbilityLogic", () => {
             logic.initialize();
             logic.evaluate();
             expect(logic.assocSkill).toBeUndefined();
+        });
+    });
+
+    // A Mystical Ability can also draw its standing from a faction/Affiliation
+    // (e.g. an Arcane Incantation's arcane school), stored independently of the
+    // activating skill as assocAffiliationCode and resolved to an
+    // AffiliationLogic on the same actor (#1012).
+    describe("assocAffiliation", () => {
+        it("resolves assocAffiliation from the actor's affiliations by shortcode", () => {
+            const actor = makeAbilityActor();
+            const aff = makeAffiliationOnActor(actor, "larani");
+            const logic = makeAbility(
+                {
+                    subType: "divineincantation",
+                    assocAffiliationCode: "larani",
+                },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.assocAffiliation).toBe(aff);
+        });
+
+        it("leaves assocAffiliation undefined when no shortcode matches", () => {
+            const actor = makeAbilityActor();
+            makeAffiliationOnActor(actor, "larani");
+            const logic = makeAbility(
+                { assocAffiliationCode: "missing" },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.assocAffiliation).toBeUndefined();
+        });
+
+        it("leaves assocAffiliation undefined when the ability has no actor", () => {
+            const logic = makeAbility({ assocAffiliationCode: "larani" });
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.assocAffiliation).toBeUndefined();
+        });
+
+        it("leaves assocAffiliation undefined when the code is blank", () => {
+            const actor = makeAbilityActor();
+            makeAffiliationOnActor(actor, "larani");
+            const logic = makeAbility(
+                { assocAffiliationCode: null },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.assocAffiliation).toBeUndefined();
         });
     });
 

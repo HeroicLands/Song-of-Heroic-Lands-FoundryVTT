@@ -34,6 +34,7 @@ function render(): string {
             isImprovable: true,
             domainCode: "arcane",
             assocSkillCode: "dodge",
+            assocAffiliationCode: "larani",
             levelBase: 3,
             charges: { usesCharges: false, value: null, max: null },
         },
@@ -44,6 +45,7 @@ function render(): string {
             isImprovable: { fieldPath: "system.isImprovable" },
             domainCode: { fieldPath: "system.domainCode" },
             assocSkillCode: { fieldPath: "system.assocSkillCode" },
+            assocAffiliationCode: { fieldPath: "system.assocAffiliationCode" },
             levelBase: { fieldPath: "system.levelBase" },
             charges: {
                 fields: {
@@ -84,6 +86,14 @@ describe("mystical ability properties sheet template (#815)", () => {
         const html = render();
         expect(html).toContain('data-field="system.assocSkillCode"');
         expect(html).toContain('data-value="dodge"');
+    });
+
+    it("renders the associated-affiliation control bound to system.assocAffiliationCode (#1012)", () => {
+        // Off-actor render (no `embedded`): the shortcodeRefField partial falls
+        // back to a free-text control, so the binding placeholder surfaces.
+        const html = render();
+        expect(html).toContain('data-field="system.assocAffiliationCode"');
+        expect(html).toContain('data-value="larani"');
     });
 
     it("still renders the charges controls", () => {

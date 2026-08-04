@@ -1075,6 +1075,7 @@ describe("being-sheet-view", () => {
             ],
             [MYSTICALABILITY_SUBTYPE.SPIRITPOWER]: [
                 "skill",
+                "affiliation",
                 "level",
                 "eml",
                 "charges",
@@ -1082,12 +1083,14 @@ describe("being-sheet-view", () => {
             ],
             [MYSTICALABILITY_SUBTYPE.RITUALACTION]: [
                 "skill",
+                "affiliation",
                 "eml",
                 "charges",
                 "notes",
             ],
             [MYSTICALABILITY_SUBTYPE.DIVINEINCANTATION]: [
                 "skill",
+                "affiliation",
                 "level",
                 "eml",
                 "charges",
@@ -1095,6 +1098,7 @@ describe("being-sheet-view", () => {
             ],
             [MYSTICALABILITY_SUBTYPE.ARCANEINCANTATION]: [
                 "skill",
+                "affiliation",
                 "level",
                 "eml",
                 "charges",
@@ -1114,6 +1118,7 @@ describe("being-sheet-view", () => {
             ],
             [MYSTICALABILITY_SUBTYPE.ALCHEMY]: [
                 "skill",
+                "affiliation",
                 "eml",
                 "charges",
                 "notes",
@@ -1179,6 +1184,32 @@ describe("being-sheet-view", () => {
                     );
                 } else if (label) {
                     expect(label).toBe("SOHL.MysticalAbility.COLUMN.skill");
+                }
+            }
+        });
+
+        it("places an Affiliation column immediately after Skill for the affiliation-bearing subtypes (#1012)", () => {
+            // The invocation/ritual/standing kinds whose capability draws on an
+            // Affiliation credential; other subtypes carry no Affiliation column.
+            const AFFILIATED: string[] = [
+                MYSTICALABILITY_SUBTYPE.SPIRITPOWER,
+                MYSTICALABILITY_SUBTYPE.RITUALACTION,
+                MYSTICALABILITY_SUBTYPE.DIVINEINCANTATION,
+                MYSTICALABILITY_SUBTYPE.ARCANEINCANTATION,
+                MYSTICALABILITY_SUBTYPE.ALCHEMY,
+            ];
+            for (const subType of MysticalAbilitySubTypes) {
+                const cols = mysticalAbilityColumns(subType);
+                const kinds = cols.map((c) => c.kind);
+                const affIdx = kinds.indexOf("affiliation");
+                if (AFFILIATED.includes(subType)) {
+                    expect(affIdx).toBeGreaterThan(0);
+                    expect(kinds[affIdx - 1]).toBe("skill");
+                    expect(cols[affIdx].labelKey).toBe(
+                        "SOHL.MysticalAbility.COLUMN.affiliation",
+                    );
+                } else {
+                    expect(affIdx).toBe(-1);
                 }
             }
         });

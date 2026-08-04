@@ -15,7 +15,9 @@ import { entity } from "@src/entity/registry";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import type { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
 import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
+import { resolveAssocAffiliation } from "@src/document/item/logic/resolveAssocAffiliation";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import {
     SohlItemBaseLogic,
@@ -83,6 +85,19 @@ export class MysticalAbilityLogic<
      * leaves the ability {@link isDisabled | disabled}).
      */
     assocSpiritPower?: MysticalAbilityLogic;
+
+    /**
+     * The faction/**Affiliation** (an {@link AffiliationLogic}) this ability
+     * draws its standing from, resolved during {@link evaluate} from
+     * {@link MysticalAbilityData.assocAffiliationCode}, or `undefined` when the
+     * ability names no Affiliation, the item is not on an actor, or the
+     * shortcode matches none. This is separate from the activating
+     * {@link assocSkill | skill}: a religion, arcane or alchemical school, or
+     * ancestor/totem/spirit whose membership confers an available area, level,
+     * or capability. Surfaced as the Being sheet's Affiliation column and (via
+     * its shortcode) available to capability derivations.
+     */
+    assocAffiliation?: AffiliationLogic;
 
     /**
      * Whether this ability's activation test is governed by a **Spirit Power**
@@ -369,6 +384,16 @@ export class MysticalAbilityLogic<
                 this.data.assocSkillCode,
             );
         }
+
+        // The associated Affiliation is independent of the activating skill /
+        // spirit power: it records the faction (religion, arcane/alchemical
+        // school, ancestor/totem/spirit) whose standing this ability draws on.
+        // Resolved for every subtype that names one; undefined when blank or
+        // unmatched.
+        this.assocAffiliation = resolveAssocAffiliation(
+            actorLogic,
+            this.data.assocAffiliationCode,
+        );
     }
 
     /** @inheritdoc */
@@ -415,6 +440,14 @@ export interface MysticalAbilityData<
     subType: MysticalAbilitySubType;
     /** Shortcode of the skill used to activate this ability */
     assocSkillCode?: string | null;
+    /**
+     * Shortcode of the faction/Affiliation whose standing this ability draws on
+     * (a religion, arcane/alchemical school, or ancestor/totem/spirit), or
+     * `null` when the ability is not affiliation-associated. Resolved to
+     * {@link MysticalAbilityLogic.assocAffiliation} during
+     * {@link MysticalAbilityLogic.evaluate}.
+     */
+    assocAffiliationCode?: string | null;
     /** Power level of this ability, or `null` when it has no level. */
     levelBase: number | null;
     /** Mastery level of this mystical ability if assocSkillCode is blank */

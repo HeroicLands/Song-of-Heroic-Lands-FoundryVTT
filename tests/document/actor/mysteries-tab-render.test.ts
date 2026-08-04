@@ -33,6 +33,9 @@ function mod(effective: number, disabled: unknown = false) {
 function abilityLike(over: Record<string, any> = {}) {
     const logic = {
         assocRef: { name: "Spellcraft" } as { name: string } | undefined,
+        assocAffiliation: { name: "Church of Larani" } as
+            | { name: string }
+            | undefined,
         level: mod(3),
         masteryLevel: mod(42),
         charges: { value: mod(3), max: mod(5) },
@@ -86,6 +89,34 @@ describe("Being Mysteries tab — per-sub-type Mystical Ability columns (#990)",
         expect(html).not.toContain(">Skill<");
         expect(html).toContain(">Lvl<");
         expect(html).toContain(">EML<");
+    });
+
+    it("shows an Affiliation column with the affiliation name after Skill (arcane incantation) (#1012)", () => {
+        const html = render(MYSTICALABILITY_SUBTYPE.ARCANEINCANTATION, [
+            abilityLike({
+                name: "Fire Bolt",
+                logic: {
+                    assocRef: { name: "Pyrethos" },
+                    assocAffiliation: { name: "Lyahvi Convocation" },
+                },
+            }),
+        ]);
+        expect(html).toContain(">Affiliation<");
+        expect(html).toContain("Lyahvi Convocation");
+    });
+
+    it("renders an fa-xmark in the Affiliation cell when none is associated (#1012)", () => {
+        const html = render(MYSTICALABILITY_SUBTYPE.ALCHEMY, [
+            abilityLike({
+                name: "Distill",
+                logic: {
+                    assocRef: { name: "Alchemy" },
+                    assocAffiliation: undefined,
+                },
+            }),
+        ]);
+        expect(html).toContain(">Affiliation<");
+        expect(html).toContain("fa-xmark");
     });
 
     it("hides the Lvl column for a subtype without a level (ritual action)", () => {

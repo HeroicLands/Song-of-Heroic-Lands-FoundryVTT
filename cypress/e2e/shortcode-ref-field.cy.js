@@ -129,4 +129,69 @@ describe("shortcode-reference field (#974)", () => {
             ).should("eq", "zzz");
         });
     });
+
+    // A Mystical Ability's associated-Affiliation reference (#1012) drives the
+    // same widget against the actor's Affiliations (Mystical Ability →
+    // Affiliation), independent of its assocSkillCode.
+    it("lists the actor's Affiliations for a Mystical Ability's assocAffiliationCode and persists the pick (#1012)", () => {
+        cy.createActor("being").as("actor");
+        cy.then(function () {
+            cy.createItemOn(this.actor, "affiliation", {
+                name: "Church of Larani",
+                system: { shortcode: "larani", level: 3 },
+            });
+            cy.createItemOn(this.actor, "mysticalability", {
+                name: "Fire Bolt",
+                system: {
+                    subType: "arcaneincantation",
+                    masteryLevelBase: 40,
+                },
+            }).as("ability");
+        });
+        cy.then(function () {
+            cy.openSheet(this.ability);
+            cy.switchTab("properties", "sheet");
+            // Dropdown of the actor's affiliations, listed by display name.
+            cy.get(PROPS + 'select[name="system.assocAffiliationCode"]').should(
+                "exist",
+            );
+            cy.get(
+                PROPS +
+                    'select[name="system.assocAffiliationCode"] option[value="larani"]',
+            ).should("contain.text", "Church of Larani");
+        });
+        cy.then(function () {
+            cy.editSheetField(
+                this.ability,
+                "system.assocAffiliationCode",
+                "larani",
+            );
+        });
+        cy.then(function () {
+            const id = this.ability.id;
+            const actorId = this.ability.parent.id;
+            cy.foundry(
+                (win) =>
+                    win.game.actors.get(actorId).items.get(id).system
+                        .assocAffiliationCode,
+            ).should("eq", "larani");
+        });
+    });
+
+    it("falls back to a free-text assocAffiliationCode input on a world (unowned) Mystical Ability (#1012)", () => {
+        cy.createWorldItem("mysticalability", {
+            name: "Loose Spell",
+            system: { subType: "arcaneincantation", masteryLevelBase: 40 },
+        }).as("world");
+        cy.then(function () {
+            cy.openSheet(this.world);
+            cy.switchTab("properties", "sheet");
+            cy.get(PROPS + 'select[name="system.assocAffiliationCode"]').should(
+                "not.exist",
+            );
+            cy.get(PROPS + 'input[name="system.assocAffiliationCode"]').should(
+                "exist",
+            );
+        });
+    });
 });

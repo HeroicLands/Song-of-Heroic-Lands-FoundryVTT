@@ -51,6 +51,7 @@ export class MysticalAbilitySheet extends SohlItemSheetBase {
             improveFlag: system.improveFlag,
             subType: system.subType,
             assocSkillCode: system.assocSkillCode,
+            assocAffiliationCode: system.assocAffiliationCode,
             isImprovable: system.isImprovable,
             domainCode: system.domainCode,
             levelBase: system.levelBase,
@@ -62,6 +63,13 @@ export class MysticalAbilitySheet extends SohlItemSheetBase {
                 this.document.actor?.logic,
                 ITEM_KIND.SKILL,
                 system.assocSkillCode,
+            ),
+            // Associated-affiliation dropdown (#1012): the actor's affiliations
+            // when embedded; empty off-actor → free-text shortcode entry.
+            assocAffiliationCodeOptions: actorItemRefOptions(
+                this.document.actor?.logic,
+                ITEM_KIND.AFFILIATION,
+                system.assocAffiliationCode,
             ),
         });
     }

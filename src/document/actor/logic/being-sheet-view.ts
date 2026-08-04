@@ -1236,6 +1236,7 @@ export function traumaLedgerCols(columns: readonly TraumaColumn[]): string {
 /** Which row field a Mystical Ability ledger column renders (#990). */
 export type MysticalAbilityColumnKind =
     | "skill"
+    | "affiliation"
     | "level"
     | "eml"
     | "charges"
@@ -1271,6 +1272,14 @@ const MA_SKILL = maCol("skill", "SOHL.MysticalAbility.COLUMN.skill", "5.4rem");
 const MA_SPIRITPOWER = maCol(
     "skill",
     "SOHL.MysticalAbility.COLUMN.spiritpower",
+    "5.4rem",
+);
+// The faction/Affiliation whose standing gates this ability (#1012) — a
+// religion, arcane/alchemical school, or ancestor/totem/spirit. Shown right
+// after the assoc (Skill) column for the affiliation-bearing subtypes.
+const MA_AFFILIATION = maCol(
+    "affiliation",
+    "SOHL.MysticalAbility.COLUMN.affiliation",
     "5.4rem",
 );
 const MA_LEVEL = maCol("level", "SOHL.MysticalAbility.COLUMN.lvl", "2.6rem", {
@@ -1328,6 +1337,7 @@ export const MYSTICALABILITY_SUBTYPE_COLUMNS: Record<
     ],
     [MYSTICALABILITY_SUBTYPE.SPIRITPOWER]: [
         MA_SKILL,
+        MA_AFFILIATION,
         MA_LEVEL,
         MA_EML,
         MA_CHARGES,
@@ -1335,12 +1345,14 @@ export const MYSTICALABILITY_SUBTYPE_COLUMNS: Record<
     ],
     [MYSTICALABILITY_SUBTYPE.RITUALACTION]: [
         MA_SKILL,
+        MA_AFFILIATION,
         MA_EML,
         MA_CHARGES,
         MA_NOTES,
     ],
     [MYSTICALABILITY_SUBTYPE.DIVINEINCANTATION]: [
         MA_SKILL,
+        MA_AFFILIATION,
         MA_LEVEL,
         MA_EML,
         MA_CHARGES,
@@ -1348,6 +1360,7 @@ export const MYSTICALABILITY_SUBTYPE_COLUMNS: Record<
     ],
     [MYSTICALABILITY_SUBTYPE.ARCANEINCANTATION]: [
         MA_SKILL,
+        MA_AFFILIATION,
         MA_LEVEL,
         MA_EML,
         MA_CHARGES,
@@ -1365,7 +1378,13 @@ export const MYSTICALABILITY_SUBTYPE_COLUMNS: Record<
         MA_CHARGES,
         MA_NOTES,
     ],
-    [MYSTICALABILITY_SUBTYPE.ALCHEMY]: [MA_SKILL, MA_EML, MA_CHARGES, MA_NOTES],
+    [MYSTICALABILITY_SUBTYPE.ALCHEMY]: [
+        MA_SKILL,
+        MA_AFFILIATION,
+        MA_EML,
+        MA_CHARGES,
+        MA_NOTES,
+    ],
     [MYSTICALABILITY_SUBTYPE.DIVINATION]: [
         MA_SKILL,
         MA_EML,

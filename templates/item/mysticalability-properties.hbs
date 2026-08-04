@@ -16,6 +16,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{formGroup fields.masteryLevelBase rootId="mystabl-mlb" classes="text-field" stacked=true value=system.masteryLevelBase}}
         {{formGroup fields.improveFlag rootId="mystabl-improve" classes="text-field" stacked=true value=system.improveFlag}}
         {{> shortcodeRefField embedded=embedded field=fields.assocSkillCode rootId="mystabl-assocskill" name="system.assocSkillCode" value=system.assocSkillCode options=assocSkillCodeOptions label="SOHL.MysticalAbility.FIELDS.assocSkillCode.label" hint="SOHL.MysticalAbility.FIELDS.assocSkillCode.hint" blankLabel=(localize "SOHL.Key.None")}}
+        {{> shortcodeRefField embedded=embedded field=fields.assocAffiliationCode rootId="mystabl-assocaff" name="system.assocAffiliationCode" value=system.assocAffiliationCode options=assocAffiliationCodeOptions label="SOHL.MysticalAbility.FIELDS.assocAffiliationCode.label" hint="SOHL.MysticalAbility.FIELDS.assocAffiliationCode.hint" blankLabel=(localize "SOHL.Key.None")}}
         {{formGroup fields.levelBase rootId="mystabl-levelbase" classes="text-field" stacked=true value=system.levelBase}}
     </div>
 
