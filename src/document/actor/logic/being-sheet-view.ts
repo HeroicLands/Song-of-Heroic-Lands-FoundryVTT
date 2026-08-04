@@ -26,6 +26,7 @@
 import {
     STATUS_EFFECT,
     TRAUMA_SUBTYPE,
+    MYSTICALABILITY_SUBTYPE,
     SKILL_SUBTYPE,
 } from "@src/utils/constants";
 import {
@@ -1218,6 +1219,199 @@ export function traumaLedgerCols(columns: readonly TraumaColumn[]): string {
         ...TRAUMA_LEDGER_LEAD,
         ...columns.map((c) => c.width),
         TRAUMA_LEDGER_TRAIL,
+    ].join(" ");
+}
+
+/** Which row field a Mystical Ability ledger column renders (#990). */
+export type MysticalAbilityColumnKind =
+    | "skill"
+    | "level"
+    | "eml"
+    | "charges"
+    | "notes";
+
+/** One column in a Mystical Ability sub-type's Being-sheet ledger (#990). */
+export interface MysticalAbilityColumn {
+    /** Which row field this column renders and how. */
+    kind: MysticalAbilityColumnKind;
+    /** Localization key for the column header label. */
+    labelKey: string;
+    /** Optional localization key for the header tooltip (spells out an abbreviation). */
+    tooltipKey?: string;
+    /** CSS grid track width — a single token (no internal spaces). */
+    width: string;
+    /** Optional header cell class (e.g. `ledger__head-num` for numeric columns). */
+    headClass?: string;
+}
+
+const maCol = (
+    kind: MysticalAbilityColumnKind,
+    labelKey: string,
+    width: string,
+    opts: { tooltipKey?: string; headClass?: string } = {},
+): MysticalAbilityColumn => ({ kind, labelKey, width, ...opts });
+
+// The shared Mystical Ability columns. skill/level are the variable middle
+// columns; eml/charges/notes appear for every sub-type. EML reuses the Skill
+// heading keys, since an ability's EML is rolled exactly like a skill's.
+const MA_SKILL = maCol("skill", "SOHL.MysticalAbility.COLUMN.skill", "5.4rem");
+const MA_LEVEL = maCol("level", "SOHL.MysticalAbility.COLUMN.lvl", "2.6rem", {
+    tooltipKey: "SOHL.MysticalAbility.COLTIP.lvl",
+    headClass: "ledger__head-num",
+});
+const MA_EML = maCol(
+    "eml",
+    "SOHL.Skill.Heading.EffectiveMasteryLevel.label",
+    "3.4rem",
+    {
+        tooltipKey: "SOHL.Skill.Heading.EffectiveMasteryLevel.tooltip",
+        headClass: "ledger__head-num",
+    },
+);
+const MA_CHARGES = maCol(
+    "charges",
+    "SOHL.MysticalAbility.COLUMN.charges",
+    "4rem",
+    {
+        tooltipKey: "SOHL.MysticalAbility.COLTIP.charges",
+        headClass: "ledger__head-num",
+    },
+);
+const MA_NOTES = maCol(
+    "notes",
+    "SOHL.MysticalAbility.COLUMN.notes",
+    "minmax(90px,1.4fr)",
+);
+
+/**
+ * The ordered column set each Mystical Ability sub-type shows on the Being
+ * sheet (#990), keyed by `MYSTICALABILITY_SUBTYPE` value. `Ability` (name) is
+ * the fixed lead and the controls are the fixed trail (see
+ * {@link mysticalAbilityLedgerCols}); these are the variable middle columns.
+ * `eml` / `charges` / `notes` appear for every sub-type; `skill` is dropped for
+ * the intrinsic talents (they have no associated skill) and `level` only shows
+ * where the sub-type has a meaningful power level.
+ */
+export const MYSTICALABILITY_SUBTYPE_COLUMNS: Record<
+    string,
+    MysticalAbilityColumn[]
+> = {
+    [MYSTICALABILITY_SUBTYPE.SHAMANICRITE]: [
+        MA_SKILL,
+        MA_LEVEL,
+        MA_EML,
+        MA_CHARGES,
+        MA_NOTES,
+    ],
+    [MYSTICALABILITY_SUBTYPE.SPIRITACTION]: [
+        MA_SKILL,
+        MA_EML,
+        MA_CHARGES,
+        MA_NOTES,
+    ],
+    [MYSTICALABILITY_SUBTYPE.SPIRITPOWER]: [
+        MA_SKILL,
+        MA_LEVEL,
+        MA_EML,
+        MA_CHARGES,
+        MA_NOTES,
+    ],
+    [MYSTICALABILITY_SUBTYPE.BENEDICTION]: [
+        MA_SKILL,
+        MA_EML,
+        MA_CHARGES,
+        MA_NOTES,
+    ],
+    [MYSTICALABILITY_SUBTYPE.DIVINEDEVOTION]: [
+        MA_SKILL,
+        MA_EML,
+        MA_CHARGES,
+        MA_NOTES,
+    ],
+    [MYSTICALABILITY_SUBTYPE.DIVINEINCANTATION]: [
+        MA_SKILL,
+        MA_LEVEL,
+        MA_EML,
+        MA_CHARGES,
+        MA_NOTES,
+    ],
+    [MYSTICALABILITY_SUBTYPE.ARCANEINCANTATION]: [
+        MA_SKILL,
+        MA_LEVEL,
+        MA_EML,
+        MA_CHARGES,
+        MA_NOTES,
+    ],
+    [MYSTICALABILITY_SUBTYPE.ARCANETALENT]: [
+        MA_LEVEL,
+        MA_EML,
+        MA_CHARGES,
+        MA_NOTES,
+    ],
+    [MYSTICALABILITY_SUBTYPE.SPIRITTALENT]: [
+        MA_LEVEL,
+        MA_EML,
+        MA_CHARGES,
+        MA_NOTES,
+    ],
+    [MYSTICALABILITY_SUBTYPE.ALCHEMY]: [MA_SKILL, MA_EML, MA_CHARGES, MA_NOTES],
+    [MYSTICALABILITY_SUBTYPE.DIVINATION]: [
+        MA_SKILL,
+        MA_EML,
+        MA_CHARGES,
+        MA_NOTES,
+    ],
+};
+
+/**
+ * Fallback columns for a Mystical Ability sub-type not covered by
+ * {@link MYSTICALABILITY_SUBTYPE_COLUMNS} — defensive only (the sub-type set is
+ * closed), chosen to never brick the sheet render (the full column set).
+ */
+const DEFAULT_MYSTICALABILITY_COLUMNS = [
+    MA_SKILL,
+    MA_LEVEL,
+    MA_EML,
+    MA_CHARGES,
+    MA_NOTES,
+];
+
+/**
+ * The ordered column set for a Mystical Ability sub-type, falling back to the
+ * full set for an unknown sub-type (defensive).
+ *
+ * @param subType - A `MYSTICALABILITY_SUBTYPE` value.
+ * @returns The columns to render for that sub-type.
+ */
+export function mysticalAbilityColumns(
+    subType: string,
+): MysticalAbilityColumn[] {
+    return (
+        MYSTICALABILITY_SUBTYPE_COLUMNS[subType] ??
+        DEFAULT_MYSTICALABILITY_COLUMNS
+    );
+}
+
+// Fixed grid tracks framing every Mystical Ability ledger: icon, name … controls.
+const MA_LEDGER_LEAD = ["1.5rem", "minmax(140px,1.3fr)"] as const;
+const MA_LEDGER_TRAIL = "2.8rem";
+
+/**
+ * The CSS `--ledger-cols` grid-template value for a Mystical Ability sub-type's
+ * ledger (#990): the fixed icon / name lead, then each column's width, then the
+ * controls trail. Widths are single tokens, so the returned string has
+ * `2 + columns.length + 1` space-separated tracks.
+ *
+ * @param columns - The sub-type's variable columns.
+ * @returns The space-joined grid-template track list.
+ */
+export function mysticalAbilityLedgerCols(
+    columns: readonly MysticalAbilityColumn[],
+): string {
+    return [
+        ...MA_LEDGER_LEAD,
+        ...columns.map((c) => c.width),
+        MA_LEDGER_TRAIL,
     ].join(" ");
 }
 

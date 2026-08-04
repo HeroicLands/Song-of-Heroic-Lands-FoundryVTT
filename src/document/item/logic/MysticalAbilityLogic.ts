@@ -106,6 +106,23 @@ export class MysticalAbilityLogic<
         max: ValueModifier;
     };
 
+    /**
+     * Whether the ability uses finite, capped charges and none remain (#990).
+     * An exhausted ability's Being-sheet row is greyed out and its EML roll is
+     * blocked until it is recharged. This is distinct from an ability that does
+     * not use charges (`max` disabled), one with infinite remaining charges
+     * (`value` disabled), or one with no maximum cap (`max` effective `0`, shown
+     * as `∞`) — none of which is ever exhausted.
+     */
+    get isExhausted(): boolean {
+        return (
+            !this.charges.max.disabled &&
+            !this.charges.value.disabled &&
+            this.charges.max.effective > 0 &&
+            this.charges.value.effective <= 0
+        );
+    }
+
     /* --------------------------------------------- */
     /* Intrinsic Actions                             */
     /* --------------------------------------------- */
@@ -121,13 +138,46 @@ export class MysticalAbilityLogic<
      * off the rulebook and applied by the player. Bespoke activation behavior is
      * left to author-supplied Script Actions rather than a built-in executor.
      *
+     * When the ability uses finite charges, invoking it consumes one: after a
+     * completed roll (a real result, not a cancel or error) the persisted charge
+     * count is decremented by one (#990). An {@link isExhausted | exhausted}
+     * ability cannot be invoked at all — the roll is refused with a notice —
+     * until it is recharged. Consumption is a direct consequence of the player's
+     * own roll, so it needs no separate consent.
+     *
      * @param context - The action context (speaker, scope) for the test.
-     * @returns The test result, `undefined` if cancelled, or `false` on error.
+     * @returns The test result, `undefined` if cancelled/blocked, or `false` on error.
      */
     async successTest(
         context: SohlActionContext,
     ): Promise<SuccessTestResult | undefined | false> {
-        return this.masteryLevel.successTest(context);
+        if (this.isExhausted) {
+            sohl.log.uiWarn("SOHL.MysticalAbility.NoChargesRemaining", {
+                name: this.name,
+            });
+            return undefined;
+        }
+
+        const result = await this.masteryLevel.successTest(context);
+
+        // Consume a charge only when the roll actually happened (a real result,
+        // not a cancel/undefined or error/false) and the ability uses finite
+        // charges (max enabled, value not infinite). Decrement the persisted
+        // base; Active-Effect deltas still stack on top of the stored value.
+        if (
+            result &&
+            !this.charges.max.disabled &&
+            !this.charges.value.disabled
+        ) {
+            const remaining = this.data.charges.value;
+            if (typeof remaining === "number" && remaining > 0) {
+                await this.item.update({
+                    "system.charges.value": remaining - 1,
+                } as PlainObject);
+            }
+        }
+
+        return result;
     }
 
     /**

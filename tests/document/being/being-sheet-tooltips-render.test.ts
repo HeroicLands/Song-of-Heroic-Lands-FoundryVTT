@@ -16,7 +16,10 @@ import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 import {
     TRAUMA_SUBTYPE_COLUMNS,
     traumaLedgerCols,
+    mysticalAbilityColumns,
+    mysticalAbilityLedgerCols,
 } from "@src/document/actor/logic/being-sheet-view";
+import { MYSTICALABILITY_SUBTYPE } from "@src/utils/constants";
 
 const MYSTERIES = "systems/sohl/templates/actor/being/mysteries.hbs";
 const PROFILE = "systems/sohl/templates/actor/being/profile.hbs";
@@ -203,7 +206,16 @@ describe("mysteries.hbs value tooltips (#769)", () => {
         ],
         abilitySections: [
             {
+                subType: MYSTICALABILITY_SUBTYPE.SHAMANICRITE,
                 label: "Spirit",
+                columns: mysticalAbilityColumns(
+                    MYSTICALABILITY_SUBTYPE.SHAMANICRITE,
+                ),
+                ledgerCols: mysticalAbilityLedgerCols(
+                    mysticalAbilityColumns(
+                        MYSTICALABILITY_SUBTYPE.SHAMANICRITE,
+                    ),
+                ),
                 items: [
                     {
                         id: "a1",
@@ -214,6 +226,7 @@ describe("mysteries.hbs value tooltips (#769)", () => {
                             level: vm("LVL Base +1"),
                             masteryLevel: vm("ML Base +30", 30),
                             charges,
+                            isExhausted: false,
                         },
                     },
                 ],

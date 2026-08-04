@@ -378,6 +378,125 @@ describe("MysticalAbilityLogic", () => {
             expect(logic.masteryLevel.has("LvlPen")).toBe(false);
         });
     });
+
+    describe("isExhausted (#990)", () => {
+        it("is true when the ability uses finite charges and none remain", () => {
+            const logic = makeAbility({
+                charges: { usesCharges: true, value: 0, max: 5 },
+            });
+            logic.initialize();
+            expect(logic.isExhausted).toBe(true);
+        });
+
+        it("is false while finite charges remain", () => {
+            const logic = makeAbility({
+                charges: { usesCharges: true, value: 2, max: 5 },
+            });
+            logic.initialize();
+            expect(logic.isExhausted).toBe(false);
+        });
+
+        it("is false when remaining charges are infinite (value null)", () => {
+            const logic = makeAbility({
+                charges: { usesCharges: true, value: null, max: 5 },
+            });
+            logic.initialize();
+            expect(logic.isExhausted).toBe(false);
+        });
+
+        it("is false when the ability does not use charges (max null)", () => {
+            const logic = makeAbility({
+                charges: { usesCharges: false, value: 0, max: null },
+            });
+            logic.initialize();
+            expect(logic.isExhausted).toBe(false);
+        });
+    });
+
+    describe("successTest — charge consumption (#990)", () => {
+        const realResult = { isSuccess: true } as any;
+
+        // resultValue is passed explicitly (never via a defaulted parameter —
+        // passing `undefined` to a default would substitute the default value).
+        function armedAbility(
+            charges: Record<string, unknown>,
+            resultValue: unknown,
+        ) {
+            const logic = makeAbility({ charges });
+            logic.initialize();
+            const spy = vi
+                .spyOn(logic.masteryLevel, "successTest")
+                .mockResolvedValue(resultValue as any);
+            return { logic, spy };
+        }
+
+        it("decrements the persisted charge count by 1 after a completed roll", async () => {
+            const { logic } = armedAbility(
+                { usesCharges: true, value: 3, max: 5 },
+                realResult,
+            );
+            await logic.successTest({ scope: {} } as any);
+            expect(logic.item.update).toHaveBeenCalledWith({
+                "system.charges.value": 2,
+            });
+        });
+
+        it("does not decrement when the roll is cancelled (undefined result)", async () => {
+            const { logic } = armedAbility(
+                { usesCharges: true, value: 3, max: 5 },
+                undefined,
+            );
+            await logic.successTest({ scope: {} } as any);
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+
+        it("does not decrement when the roll errors (false result)", async () => {
+            const { logic } = armedAbility(
+                { usesCharges: true, value: 3, max: 5 },
+                false,
+            );
+            await logic.successTest({ scope: {} } as any);
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+
+        it("does not decrement when charges are infinite (value null)", async () => {
+            const { logic } = armedAbility(
+                { usesCharges: true, value: null, max: 5 },
+                realResult,
+            );
+            await logic.successTest({ scope: {} } as any);
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+
+        it("does not decrement when the ability has no maximum cap (max 0, shown as infinity)", async () => {
+            const { logic } = armedAbility(
+                { usesCharges: true, value: 0, max: 0 },
+                realResult,
+            );
+            await logic.successTest({ scope: {} } as any);
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+
+        it("does not decrement when the ability does not use charges (max null)", async () => {
+            const { logic } = armedAbility(
+                { usesCharges: false, value: 0, max: null },
+                realResult,
+            );
+            await logic.successTest({ scope: {} } as any);
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+
+        it("blocks the roll entirely when the ability is exhausted (0 charges)", async () => {
+            const { logic, spy } = armedAbility(
+                { usesCharges: true, value: 0, max: 5 },
+                realResult,
+            );
+            const result = await logic.successTest({ scope: {} } as any);
+            expect(result).toBeUndefined();
+            expect(spy).not.toHaveBeenCalled();
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+    });
 });
 
 describe("MysticalAbilityDataModel", () => {

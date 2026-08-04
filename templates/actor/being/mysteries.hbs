@@ -121,58 +121,86 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </a>
                 </span>
             </div>
-            <div class="ledger" style="--ledger-cols:1.5rem minmax(140px,1.3fr) 5.4rem 2.6rem 2.6rem 3.4rem 1fr 2.8rem">
+            {{!-- Each sub-type renders only its own columns (#990); the column
+            set + ledger grid come pre-built from being-sheet-view
+            (MYSTICALABILITY_SUBTYPE_COLUMNS). --}}
+            <div class="ledger" style="--ledger-cols:{{section.ledgerCols}}">
                 <div class="ledger__head">
                     <div></div>
-                    <div>Ability</div>
-                    <div>Skill</div>
-                    <div class="ledger__head-num" data-tooltip="Level">Lvl</div>
-                    <div class="ledger__head-num" data-tooltip="{{localize 'SOHL.Skill.Heading.EffectiveMasteryLevel.tooltip'}}">{{localize 'SOHL.Skill.Heading.EffectiveMasteryLevel.label'}}</div>
-                    <div class="ledger__head-num">Charges</div>
-                    <div>Notes</div>
+                    <div>{{localize "SOHL.MysticalAbility.COLUMN.ability"}}</div>
+                    {{#each section.columns as |col|}}
+                    <div class="{{col.headClass}}"{{#if col.tooltipKey}} data-tooltip="{{localize col.tooltipKey}}"{{/if}}>{{localize col.labelKey}}</div>
+                    {{/each}}
                     <div></div>
                 </div>
                 {{#each section.items as |ability|}}
-                <li class="ledger__row item" data-search-name="{{ability.name}}" data-item-id="{{ability.id}}" data-item-name="{{ability.name}}">
+                {{!-- An exhausted ability (finite charges, none left) is greyed
+                out and its EML roll is blocked until it is recharged (#990). --}}
+                <li class="ledger__row item{{#if ability.logic.isExhausted}} ledger__row--disabled{{/if}}" data-search-name="{{ability.name}}" data-item-id="{{ability.id}}" data-item-name="{{ability.name}}">
                     <div class="ledger__icon default-action">
                         <img src="{{ability.img}}" alt="" />
                     </div>
                     <div class="ledger__name default-action" data-tooltip="{{ability.name}}">{{ability.name}}</div>
-                    <div class="ledger__cell ledger__cell--text">{{#if ability.logic.assocSkill}}{{ability.logic.assocSkill.name}}{{/if}}</div>
-                    <div class="ledger__cell{{#if ability.logic.level.disabled}} ledger__cell--dim{{/if}}"
-                        data-tooltip="{{ability.logic.level.deltaLabel}}" data-tooltip-direction="UP">
-                        {{!-- Level: "×" when disabled (levelBase null), else value --}}
-                        {{#if ability.logic.level.disabled}}
-                        <i class="fa-solid fa-xmark fa-lg"></i>
+                    {{#each section.columns as |col|}}
+                        {{#if (eq col.kind "skill")}}
+                        {{!-- Skill: the associated skill's name, or "✕" when the
+                              ability uses its own mastery level instead. --}}
+                        <div class="ledger__cell ledger__cell--text{{#unless ability.logic.assocSkill}} ledger__cell--dim{{/unless}}">
+                            {{#if ability.logic.assocSkill}}{{ability.logic.assocSkill.name}}{{else}}<i class="fa-solid fa-xmark fa-lg"></i>{{/if}}
+                        </div>
+                        {{else if (eq col.kind "level")}}
+                        <div class="ledger__cell{{#if ability.logic.level.disabled}} ledger__cell--dim{{/if}}"
+                            data-tooltip="{{ability.logic.level.deltaLabel}}" data-tooltip-direction="UP">
+                            {{!-- Level: "×" when disabled (levelBase null), else value --}}
+                            {{#if ability.logic.level.disabled}}
+                            <i class="fa-solid fa-xmark fa-lg"></i>
+                            {{else}}
+                            {{ability.logic.level.effective}}
+                            {{/if}}
+                        </div>
+                        {{else if (eq col.kind "eml")}}
+                        {{#if ability.logic.isExhausted}}
+                        {{!-- Exhausted: EML shown but not rollable. --}}
+                        <div class="ledger__cell ledger__cell--dim"
+                            data-tooltip="{{ability.logic.masteryLevel.deltaLabel}}" data-tooltip-direction="UP">
+                            {{#if ability.logic.masteryLevel.disabled}}
+                            <i class="fa-solid fa-xmark fa-lg"></i>
+                            {{else}}
+                            {{ability.logic.masteryLevel.effective}}
+                            {{/if}}
+                        </div>
                         {{else}}
-                        {{ability.logic.level.effective}}
+                        <div class="ledger__cell ledger__cell--rollable{{#if ability.logic.masteryLevel.disabled}} ledger__cell--dim{{/if}}"
+                            data-action="successTest"
+                            data-tooltip="{{ability.logic.masteryLevel.deltaLabel}}" data-tooltip-direction="UP">
+                            {{#if ability.logic.masteryLevel.disabled}}
+                            <i class="fa-solid fa-xmark fa-lg"></i>
+                            {{else}}
+                            {{ability.logic.masteryLevel.effective}}
+                            {{/if}}
+                        </div>
                         {{/if}}
-                    </div>
-                    <div class="ledger__cell ledger__cell--rollable{{#if ability.logic.masteryLevel.disabled}} ledger__cell--dim{{/if}}"
-                        data-action="successTest"
-                        data-tooltip="{{ability.logic.masteryLevel.deltaLabel}}" data-tooltip-direction="UP">
-                        {{#if ability.logic.masteryLevel.disabled}}
-                        <i class="fa-solid fa-xmark fa-lg"></i>
+                        {{else if (eq col.kind "charges")}}
+                        <div class="ledger__cell{{#if ability.logic.charges.max.disabled}} ledger__cell--dim{{/if}}"
+                            data-tooltip="{{ability.logic.charges.value.deltaLabel}}" data-tooltip-direction="UP">
+                            {{!-- Chgs/Max display rules (#990), first match wins:
+                                  charges disabled (doesn't use charges) → "✕";
+                                  infinite remaining → "∞"; infinite max → "<value>/∞";
+                                  else "<value>/<max>". --}}
+                            {{#if ability.logic.charges.max.disabled}}
+                            <i class="fa-solid fa-xmark fa-lg"></i>
+                            {{else}}
+                            {{#if ability.logic.charges.value.disabled}}
+                            <i class="fa-solid fa-infinity"></i>
+                            {{else}}
+                            {{ability.logic.charges.value.effective}}/{{#if (eq ability.logic.charges.max.effective 0)}}<i class="fa-solid fa-infinity"></i>{{else}}{{numberFormat ability.logic.charges.max.effective}}{{/if}}
+                            {{/if}}
+                            {{/if}}
+                        </div>
                         {{else}}
-                        {{ability.logic.masteryLevel.effective}}
+                        <div class="ledger__notes" data-tooltip="{{ability.system.notes}}">{{ability.system.notes}}</div>
                         {{/if}}
-                    </div>
-                    <div class="ledger__cell{{#if ability.logic.charges.max.disabled}} ledger__cell--dim{{/if}}"
-                        data-tooltip="{{ability.logic.charges.value.deltaLabel}}" data-tooltip-direction="UP">
-                        {{!-- Charges display rules (#311), first match wins:
-                              max disabled → "×"; value disabled → "∞";
-                              max 0 → "<value>/∞"; else "<value>/<max>" --}}
-                        {{#if ability.logic.charges.max.disabled}}
-                        <i class="fa-solid fa-xmark fa-lg"></i>
-                        {{else}}
-                        {{#if ability.logic.charges.value.disabled}}
-                        &infin;
-                        {{else}}
-                        {{ability.logic.charges.value.effective}}/{{#if (eq ability.logic.charges.max.effective 0)}}&infin;{{else}}{{numberFormat ability.logic.charges.max.effective}}{{/if}}
-                        {{/if}}
-                        {{/if}}
-                    </div>
-                    <div class="ledger__notes">{{ability.system.notes}}</div>
+                    {{/each}}
                     <div class="ledger__controls">
                         <a class="icon-button toggle-improve-flag" data-action="toggleImproveFlag" title="Improve">
                             <i class="{{#if ability.system.improveFlag}}fas fa-star ledger__flag{{else}}far fa-star{{/if}}"></i>
