@@ -1,0 +1,79 @@
+// SafeExpression editor. Two surfaces (mirrors the date-picker split):
+//   - `.expression-field` — the sheet control: a formula form-group plus an
+//     edit button that opens the editor dialog. Rendered inside a `.sohl` sheet.
+//   - `.expression-editor` — the editor dialog body. A DialogV2 window has no
+//     `.sohl` frame class, so these rules are unscoped and colours use literal
+//     fallbacks (the `--sohl-color-*` vars are `.sohl`-scoped).
+
+.sohl .expression-field {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+
+    // The form-group takes the width; the edit button sits beside it.
+    > .form-group {
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__edit {
+        flex: 0 0 auto;
+        cursor: pointer;
+        align-self: center;
+    }
+}
+
+.expression-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 34rem;
+
+    // Monospace code editor (Phase 1). A dark surface with light text reads as a
+    // code field and keeps good contrast in the unthemed dialog chrome.
+    &__code {
+        display: block;
+        width: 100%;
+        min-height: 6rem;
+        max-height: 20rem;
+        resize: vertical;
+        padding: 6px 8px;
+        border: 1px solid var(--color-border-dark-tertiary, #444);
+        border-radius: 3px;
+        background: #1e1e2a;
+        color: #e6e6e6;
+        font-family: var(--font-mono, ui-monospace, monospace);
+        font-size: var(--font-size-14, 14px);
+        line-height: 1.5;
+        white-space: pre-wrap;
+    }
+
+    &__status {
+        min-height: 1.2em;
+        font-size: var(--font-size-12, 12px);
+
+        &.is-valid {
+            color: #2e7d32;
+        }
+
+        &.is-error {
+            color: #b60205;
+        }
+    }
+
+    &__palette {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-top: 4px;
+    }
+
+    &__chip {
+        flex: 0 0 auto;
+        width: auto;
+        padding: 1px 6px;
+        font-family: var(--font-mono, monospace);
+        font-size: var(--font-size-12, 12px);
+        cursor: pointer;
+    }
+}
