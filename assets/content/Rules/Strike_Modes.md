@@ -73,7 +73,11 @@ exist only to enable a weapon's defensive use.
 
 ## Melee and Missile
 
-Strike modes come in two types.
+Strike modes come in two types — **melee** and **missile** — and a single weapon
+may carry **both**. A thrown spear has a melee **Thrust** and a missile **Throw**;
+a **bow** shoots arrows through a missile mode but can also be swung in melee as a
+sort of fragile club through a (poor) melee mode. Which types a weapon offers, and
+how many of each, is simply a matter of which strike modes it carries.
 
 ### Melee Strike Modes
 
