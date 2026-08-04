@@ -20,8 +20,6 @@ export * as action from "./action";
 export * as archetype from "./archetype";
 /** Body modeling — structure, parts, locations, armor aggregation, and injury resolution. */
 export * as body from "./body";
-/** The domain registry and the built-in domains. */
-export * as domain from "./domain";
 /** The event queue and event triggers. */
 export * as event from "./event";
 /** SafeExpression — the sandboxed expression evaluator and its helper registry. */

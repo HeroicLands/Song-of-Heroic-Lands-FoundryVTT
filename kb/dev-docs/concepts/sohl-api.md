@@ -66,7 +66,7 @@ class as the source of truth rather than any list here.
 
 Every SoHL class is also reachable through `sohl` by a **source-mirroring path**:
 `sohl.document.effect.foundry.SohlActiveEffect`,
-`sohl.entity.modifier.ValueModifier`, `sohl.apps.foundry.DomainManagerApp`, and so
+`sohl.entity.modifier.ValueModifier`, `sohl.apps.foundry.CalendarSettingsMenu`, and so
 on — the path equals the file's location under `src/`, so a reference is
 unambiguous and easy to locate. The top-level namespaces are `sohl.document`,
 `sohl.core`, `sohl.apps`, and `sohl.entity`.

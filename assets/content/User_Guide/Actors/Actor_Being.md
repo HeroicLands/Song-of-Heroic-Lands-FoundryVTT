@@ -45,7 +45,7 @@ The Being sheet is organized into several tabs:
 - **Skills** — all skills grouped by category
 - **Gear** — carried and worn equipment, with encumbrance tracking
 - **Combat** — equipped weapons, armor, and combat-relevant information
-- **Mystical** — domains, mysteries, philosophies, and mystical abilities
+- **Mystical** — mysteries, philosophies, and mystical abilities
 - **Actions** — available actions for this character
 - **Effects** — active effects modifying this character
 

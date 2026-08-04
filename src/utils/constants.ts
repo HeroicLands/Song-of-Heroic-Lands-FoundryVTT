@@ -148,26 +148,6 @@ export const {
 export type ItemKind = (typeof ITEM_KIND)[keyof typeof ITEM_KIND];
 
 export const {
-    /** Map of domain-family key → value. */
-    kind: DOMAIN_FAMILY,
-    /** All domain-family values, as an array. */
-    values: DomainFamilies,
-    /** Type guard for domain-family values. */
-    isValue: isDomainFamily,
-    /** Localization keys per domain family. */
-    labels: domainFamilyLabels,
-} = defineType("SOHL.Domain.FAMILY", {
-    ARCANE: "arcane", // schools of magic, elements
-    DIVINE: "divine", // deities, divine aspects
-    RELIGION: "religion", // faiths, sects, cults — usually parented to a deity
-    SPIRIT: "spirit", // totems, ancestor spirits
-    ASTRAL: "astral", // birthsigns
-    NATURAL: "natural", // geology, mathematics, biology, etc.
-});
-/** Union of all domain-family values. */
-export type DomainFamily = (typeof DOMAIN_FAMILY)[keyof typeof DOMAIN_FAMILY];
-
-export const {
     /** Map of actor-kind key → value. */
     kind: ACTOR_KIND,
     /** All actor-kind values, as an array. */

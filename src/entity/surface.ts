@@ -33,7 +33,6 @@ import { entity as classRegistry } from "@src/entity/registry";
 import type { SohlEntitySurface } from "@src/entity/registry";
 import * as action from "@src/entity/action";
 import * as body from "@src/entity/body";
-import * as domain from "@src/entity/domain";
 import * as event from "@src/entity/event";
 import * as expr from "@src/entity/expr";
 import * as modifier from "@src/entity/modifier";
@@ -46,7 +45,6 @@ import * as tour from "@src/entity/tour";
 type EntityNamespaces = {
     action: typeof action;
     body: typeof body;
-    domain: typeof domain;
     event: typeof event;
     expr: typeof expr;
     modifier: typeof modifier;
@@ -75,7 +73,6 @@ export const entitySurface: SohlEntitySurface & EntityNamespaces = (() => {
     Object.assign(surface, {
         action,
         body,
-        domain,
         event,
         expr,
         modifier,

@@ -33,15 +33,12 @@ import { registerCombatTrackerHooks } from "@src/document/combat/combat-tracker-
 import { registerCombatantConfigHooks } from "@src/document/combatant/combatant-config-hooks";
 import { wireSohlHookBridge } from "@src/core/logic/SohlHookBridge";
 import { CalendarSettingsMenu } from "@src/apps/foundry/CalendarSettingsMenu";
-import { DomainManagerApp } from "@src/apps/foundry/DomainManagerApp";
 import { ExpressionLibraryMenu } from "@src/apps/foundry/ExpressionLibraryMenu";
 import { registerSystemTours } from "@src/apps/foundry/tours/register-tours";
 import { postWelcomeCard } from "@src/apps/foundry/welcome-card";
 import { injectSettingsLinks } from "@src/apps/foundry/settings-sidebar-links";
 import { fvttSystemLinks } from "@src/core/FoundryHelpers";
 import { expressionHelpers } from "@src/entity/expr/ExpressionHelperRegistry";
-import { DomainRegistry } from "@src/entity/domain/DomainRegistry";
-import { BUILTIN_DOMAINS } from "@src/entity/domain/builtin-domains";
 import { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import { SohlRegionTriggerBehavior } from "@src/document/region/foundry/SohlRegionTriggerBehavior";
 import { registerSohlTrigger } from "@src/entity/event/event-trigger";
@@ -254,25 +251,6 @@ function registerSystemSettings() {
         restricted: true,
     });
 
-    // Domain registry settings
-    game.settings.register("sohl", "domains", {
-        name: "SOHL.Settings.domains.label",
-        hint: "SOHL.Settings.domains.hint",
-        scope: "world",
-        config: false,
-        type: Object,
-        default: {},
-        requiresReload: false,
-    });
-    game.settings.registerMenu("sohl", "domainsMenu", {
-        name: "SOHL.Settings.domainsMenu.name",
-        label: "SOHL.Settings.domainsMenu.label",
-        hint: "SOHL.Settings.domainsMenu.hint",
-        icon: "fa-solid fa-circle",
-        type: DomainManagerApp as any,
-        restricted: true,
-    });
-
     // Expression helper library settings. The parsed custom-helper map and the
     // chosen file path are persisted so helpers reload on world start.
     game.settings.register("sohl", "expressionHelpers", {
@@ -296,30 +274,6 @@ function registerSystemSettings() {
         icon: "fa-solid fa-scroll",
         type: ExpressionLibraryMenu as any,
         restricted: true,
-    });
-}
-
-/**
- * Seed the world domain registry with system built-ins. Only fills in
- * shortcodes that are not already present, so any GM-saved overrides win
- * on subsequent world loads. Idempotent and safe to call once per session.
- */
-let __builtinDomainsSeeded = false;
-/**
- * Registers any built-in domains missing from the world registry.
- * Idempotent: runs at most once per session and never overwrites
- * GM-saved overrides.
- */
-function registerBuiltinDomains(): void {
-    if (__builtinDomainsSeeded) return;
-    __builtinDomainsSeeded = true;
-    const existing = DomainRegistry.getAll();
-    const missing = BUILTIN_DOMAINS.filter(
-        (entry) => !(entry.shortcode in existing),
-    );
-    if (missing.length === 0) return;
-    void DomainRegistry.register(missing, "sohl").catch((err) => {
-        sohl.log.error("SoHL | Failed to register built-in domains", err);
     });
 }
 
@@ -575,7 +529,6 @@ function registerSystemHooks() {
     system.utils = utilsNs;
     globalThis.sohl = system as unknown as SohlSystem;
 
-    registerBuiltinDomains();
     rehydrateCalendars();
     applyActiveCalendar();
     rehydrateExpressionHelpers();

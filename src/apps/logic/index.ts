@@ -16,5 +16,4 @@
 
 export * from "./ContextMenuEntry";
 export * from "./calendar-settings-view";
-export * from "./domain-manager-view";
 export * from "./expression-library-view";

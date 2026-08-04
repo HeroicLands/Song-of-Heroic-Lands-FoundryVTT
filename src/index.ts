@@ -20,7 +20,7 @@
 // Namespace barrel — hand-maintained. `npm run lint` (check-ns-barrels)
 // verifies every sibling module and subfolder here is re-exported.
 
-/** Standalone applications — the settings, calendar, and domain-manager UIs — and their Foundry-free view logic. */
+/** Standalone applications — the settings and calendar UIs — and their Foundry-free view logic. */
 export * as apps from "./apps";
 /** System wiring and foundations: registration, config, the SohlLogic / SohlSpeaker / SohlSystem core, and the FoundryHelpers boundary. */
 export * as core from "./core";

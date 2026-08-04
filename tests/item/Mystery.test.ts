@@ -397,20 +397,13 @@ describe("MysteryLogic", () => {
 
     /*
      * The behaviors below are not present in the current MysteryLogic —
-     * MysteryData no longer carries domain/skills machinery, and no
+     * MysteryData no longer carries skills machinery, and no
      * fieldData/getApplicableFate/fateBonusItems helpers exist on the class.
      * The todos are retained until that functionality is (re)implemented.
      */
-    describe("properties", () => {
-        it.todo("domain - is undefined initially, resolved during evaluate");
-    });
-
     describe("fieldData", () => {
-        it.todo("returns domain name for DIVINE category");
         it.todo("returns formatted skill list for SKILL category");
         it.todo("returns 'SOHL.AllSkills' when no specific skills are listed");
-        it.todo("returns domain name for CREATURE category");
-        it.todo("returns unknown domain string for unknown category");
     });
 
     describe("getApplicableFate", () => {
@@ -440,10 +433,7 @@ describe("MysteryLogic", () => {
         it.todo("returns matching FATEBONUS mystery items from actor");
     });
 
-    describe("evaluate (domain/skill resolution)", () => {
-        it.todo(
-            "resolves domain from SohlDomains registry by domainCode shortcode",
-        );
+    describe("evaluate (skill resolution)", () => {
         it.todo(
             "resolves skills from actor items matching data.skills shortcodes",
         );
@@ -458,7 +448,6 @@ describe("MysteryDataModel", () => {
     describe("defineSchema", () => {
         it.todo("includes SohlItemDataModel base schema fields");
         it.todo("defines subType with MysterySubTypes choices");
-        it.todo("defines domainCode as optional StringField");
         it.todo("defines skills as ArrayField of StringFields");
         it.todo(
             "defines levelBase as nullable integer NumberField, initial null, min 0",

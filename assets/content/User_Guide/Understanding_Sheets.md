@@ -92,7 +92,7 @@ and protection, and combat-relevant information.
 
 ## Mystical (Beings only)
 
-The **Mystical** tab shows domains, mysteries, philosophies, and mystical
+The **Mystical** tab shows mysteries, philosophies, and mystical
 abilities. This is where spellcasters and priests manage their supernatural
 capabilities.
 

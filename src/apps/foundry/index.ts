@@ -18,7 +18,6 @@ export * from "./BodyLocationConfig";
 export * from "./BodyPartConfig";
 export * from "./BodyZoneConfig";
 export * from "./CalendarSettingsMenu";
-export * from "./DomainManagerApp";
 export * from "./ExpressionLibraryMenu";
 export * from "./SohlContextMenu";
 export * from "./SohlTour";

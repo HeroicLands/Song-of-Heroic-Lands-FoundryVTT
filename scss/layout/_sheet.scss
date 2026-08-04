@@ -10,7 +10,7 @@
 // space) never matches. The compound `.sohl.sheet …` does. (See issue #87.)
 //
 // Likewise it must stay scoped to `.sheet` rather than bare `.sohl`: chat cards
-// and the standalone SoHL apps (Domain Manager, Calendar Settings) also carry
+// and the standalone SoHL apps (Calendar Settings, Expression Library) also carry
 // `.sohl`, and the bare `input` / `select` resets below would otherwise leak
 // into them.
 

@@ -32,7 +32,7 @@ src/
 │                foundry/ (the DataModel base, calendar) plus the FoundryHelpers shim.
 ├── entity/      Pure, Foundry-free game-mechanics objects: modifier/, result/,
 │                body/, movement/, action/, roll/, event/, expr/ (SafeExpression),
-│                strikemode/, domain/ (the DomainRegistry game concept), skill base.
+│                strikemode/, skill base.
 ├── document/    Foundry document classes, grouped by kind:
 │   ├── actor/       actors — foundry/ holds DataModel + Sheet, logic/ holds Logic + Data
 │   ├── item/        items  — same foundry/ + logic/ split

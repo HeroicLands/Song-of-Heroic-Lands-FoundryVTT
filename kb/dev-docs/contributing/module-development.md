@@ -108,13 +108,13 @@ for the full hook reference, the arguments each receives, and the recommended
 **module guard pattern** (a world setting toggle plus a GM guard) so your module
 is opt-in and side-effect-safe.
 
-### Registries — domains and calendars
+### Registries — calendars
 
 The system keeps registries a module can add to during `init`, including the
-**domain** registry (`SohlDomains`) and the **calendar** registry. The exact
-registration calls live in [Extension Points](../how-to/extension-points.md) (§7
-System registries, §8 Calendar registration) — follow that document so your code
-matches the maintained API.
+**calendar** registry. The exact registration calls live in
+[Extension Points](../how-to/extension-points.md) (§7 System registries,
+§8 Calendar registration) — follow that document so your code matches the
+maintained API.
 
 ### New types, sheets, effects, and chat cards
 
