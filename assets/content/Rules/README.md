@@ -44,6 +44,11 @@ Skills improve through use. Characters who test their abilities in play develop 
 
 - [[Skills|Skills]] — how skills are rated and tested: Success Tests and success levels (CF/MF/MS/CS, and extended CS+1/CF−1), Opposed Tests, Success Value Tests and Success Stars, Secondary Mastery, and the optional **level** (or **circle**) some skills carry.
 
+## Gear & Equipment
+
+- [[Gear|Gear]] — the property a character owns and carries: the common gear properties, carrying and encumbrance, and each gear type (Miscellaneous, Container, Weapons, Projectiles, Armor, Concoctions). Covers worn vs. carried armor, armor protection by aspect (Blunt/Edged/Piercing/Fire), layering and coverage, and the sensory penalties some armor imposes.
+- [[Strike_Modes|Strike Modes]] — the ways an attack is delivered: the melee and missile strike modes a weapon (one or more each) or combat technique uses, and the attack, impact, reach, defense, and range they carry.
+
 ## Combat
 
 TBD
