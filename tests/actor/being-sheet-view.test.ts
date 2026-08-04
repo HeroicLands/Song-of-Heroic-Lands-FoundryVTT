@@ -36,10 +36,15 @@ import {
     usableHeldStrikeModes,
     selectStrikeModeModifier,
     filterHeldWeapons,
+    MYSTICALABILITY_SUBTYPE_COLUMNS,
+    mysticalAbilityColumns,
+    mysticalAbilityLedgerCols,
 } from "@src/document/actor/logic/being-sheet-view";
 import {
     STATUS_EFFECT,
     TRAUMA_SUBTYPE,
+    MYSTICALABILITY_SUBTYPE,
+    MysticalAbilitySubTypes,
     ITEM_KIND,
     IMPACT_ASPECT,
 } from "@src/utils/constants";
@@ -1049,6 +1054,149 @@ describe("being-sheet-view", () => {
             const grid = traumaLedgerCols(cols).split(" ");
             // 3 leading (grip/icon/name-ish) + 2 columns + 1 trailing control.
             expect(grid.length).toBe(3 + cols.length + 1);
+        });
+    });
+
+    describe("MYSTICALABILITY_SUBTYPE_COLUMNS (#990)", () => {
+        // The column set each Mystical Ability sub-type shows on the Being
+        // sheet. eml / charges / notes are always present; skill and level vary.
+        const EXPECTED: Record<string, string[]> = {
+            [MYSTICALABILITY_SUBTYPE.SHAMANICRITE]: [
+                "skill",
+                "eml",
+                "charges",
+                "notes",
+            ],
+            [MYSTICALABILITY_SUBTYPE.SPIRITACTION]: [
+                "skill",
+                "eml",
+                "charges",
+                "notes",
+            ],
+            [MYSTICALABILITY_SUBTYPE.SPIRITPOWER]: [
+                "skill",
+                "level",
+                "eml",
+                "charges",
+                "notes",
+            ],
+            [MYSTICALABILITY_SUBTYPE.BENEDICTION]: [
+                "skill",
+                "eml",
+                "charges",
+                "notes",
+            ],
+            [MYSTICALABILITY_SUBTYPE.RITUALACTION]: [
+                "skill",
+                "eml",
+                "charges",
+                "notes",
+            ],
+            [MYSTICALABILITY_SUBTYPE.DIVINEINCANTATION]: [
+                "skill",
+                "level",
+                "eml",
+                "charges",
+                "notes",
+            ],
+            [MYSTICALABILITY_SUBTYPE.ARCANEINCANTATION]: [
+                "skill",
+                "level",
+                "eml",
+                "charges",
+                "notes",
+            ],
+            [MYSTICALABILITY_SUBTYPE.ARCANETALENT]: [
+                "level",
+                "eml",
+                "charges",
+                "notes",
+            ],
+            [MYSTICALABILITY_SUBTYPE.SPIRITTALENT]: [
+                "level",
+                "eml",
+                "charges",
+                "notes",
+            ],
+            [MYSTICALABILITY_SUBTYPE.ALCHEMY]: [
+                "skill",
+                "eml",
+                "charges",
+                "notes",
+            ],
+            [MYSTICALABILITY_SUBTYPE.DIVINATION]: [
+                "skill",
+                "eml",
+                "charges",
+                "notes",
+            ],
+        };
+
+        it.each(Object.entries(EXPECTED))(
+            "%s renders exactly its spec'd columns",
+            (subType, kinds) => {
+                expect(
+                    MYSTICALABILITY_SUBTYPE_COLUMNS[subType].map((c) => c.kind),
+                ).toEqual(kinds);
+            },
+        );
+
+        it("covers every mystical-ability sub-type", () => {
+            expect(Object.keys(MYSTICALABILITY_SUBTYPE_COLUMNS).sort()).toEqual(
+                [...MysticalAbilitySubTypes].sort(),
+            );
+        });
+
+        it("hides Skill only for the intrinsic talents", () => {
+            for (const subType of MysticalAbilitySubTypes) {
+                const hasSkill = mysticalAbilityColumns(subType).some(
+                    (c) => c.kind === "skill",
+                );
+                const isTalent =
+                    subType === MYSTICALABILITY_SUBTYPE.ARCANETALENT ||
+                    subType === MYSTICALABILITY_SUBTYPE.SPIRITTALENT;
+                expect(hasSkill).toBe(!isTalent);
+            }
+        });
+
+        it("gives every non-EML column a MysticalAbility localization key", () => {
+            for (const cols of Object.values(MYSTICALABILITY_SUBTYPE_COLUMNS)) {
+                for (const col of cols) {
+                    if (col.kind === "eml") continue; // EML reuses Skill.Heading keys
+                    expect(col.labelKey).toMatch(
+                        /^SOHL\.MysticalAbility\.COLUMN\./,
+                    );
+                }
+            }
+        });
+
+        it("labels the assoc column 'Spirit Power' only for the spirit-power subtypes", () => {
+            const assocLabel = (subType: string) =>
+                mysticalAbilityColumns(subType).find((c) => c.kind === "skill")
+                    ?.labelKey;
+            for (const subType of MysticalAbilitySubTypes) {
+                const usesSpiritPower =
+                    subType === MYSTICALABILITY_SUBTYPE.SHAMANICRITE ||
+                    subType === MYSTICALABILITY_SUBTYPE.SPIRITACTION;
+                const label = assocLabel(subType);
+                if (usesSpiritPower) {
+                    expect(label).toBe(
+                        "SOHL.MysticalAbility.COLUMN.spiritpower",
+                    );
+                } else if (label) {
+                    expect(label).toBe("SOHL.MysticalAbility.COLUMN.skill");
+                }
+            }
+        });
+
+        it("mysticalAbilityLedgerCols prepends icon/name and appends controls", () => {
+            const cols =
+                MYSTICALABILITY_SUBTYPE_COLUMNS[
+                    MYSTICALABILITY_SUBTYPE.ARCANETALENT
+                ];
+            const grid = mysticalAbilityLedgerCols(cols).split(" ");
+            // 2 leading (icon/name) + N columns + 1 trailing control.
+            expect(grid.length).toBe(2 + cols.length + 1);
         });
     });
 

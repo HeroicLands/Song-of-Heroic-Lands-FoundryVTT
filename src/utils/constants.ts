@@ -1585,8 +1585,8 @@ export const {
     SPIRITPOWER: "spiritpower",
     /** A minor blessing granted in answer to prayer. */
     BENEDICTION: "benediction",
-    /** An extended act of worship that earns the favour of a deity. */
-    DIVINEDEVOTION: "divinedevotion",
+    /** A prescribed ritual act performed to earn the favour of a deity. */
+    RITUALACTION: "ritualaction",
     /** A spoken invocation channelling the power of a deity. */
     DIVINEINCANTATION: "divineincantation",
     /** A formally learned spell, invoked by word and gesture. */

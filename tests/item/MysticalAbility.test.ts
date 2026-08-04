@@ -37,8 +37,34 @@ function makeAbility(
  */
 function makeAbilityActor() {
     const actor = makeMockActor();
-    actor.itemTypes = { skill: [] as any[], mystery: [] as any[] };
+    actor.itemTypes = {
+        skill: [] as any[],
+        mystery: [] as any[],
+        mysticalability: [] as any[],
+    };
     return actor;
+}
+
+/**
+ * Embed a real MysticalAbilityLogic on the actor (default subType SPIRITPOWER)
+ * and register it in itemTypes, so a spirit-power subtype can resolve it by
+ * shortcode. Returns the initialized logic.
+ */
+function makeAbilityOnActor(
+    actor: any,
+    shortcode: string,
+    masteryLevelBase = 40,
+    subType = "spiritpower",
+) {
+    const logic = makeItemLogic(
+        MysticalAbilityLogic,
+        ITEM_KIND.MYSTICALABILITY,
+        abilityFields({ subType, assocSkillCode: "", masteryLevelBase }),
+        { actor, shortcode, id: `sp${shortcode}`.padEnd(16, "0") },
+    );
+    logic.initialize();
+    actor.itemTypes.mysticalability.push(logic.item);
+    return logic;
 }
 
 /** Embed a real SkillLogic on the actor and register it in itemTypes. */
@@ -376,6 +402,262 @@ describe("MysticalAbilityLogic", () => {
             logic.evaluate();
             expect(logic.masteryLevel.effective).toBe(30);
             expect(logic.masteryLevel.has("LvlPen")).toBe(false);
+        });
+    });
+
+    describe("isExhausted (#990)", () => {
+        it("is true when the ability uses finite charges and none remain", () => {
+            const logic = makeAbility({
+                charges: { usesCharges: true, value: 0, max: 5 },
+            });
+            logic.initialize();
+            expect(logic.isExhausted).toBe(true);
+        });
+
+        it("is false while finite charges remain", () => {
+            const logic = makeAbility({
+                charges: { usesCharges: true, value: 2, max: 5 },
+            });
+            logic.initialize();
+            expect(logic.isExhausted).toBe(false);
+        });
+
+        it("is false when remaining charges are infinite (value null)", () => {
+            const logic = makeAbility({
+                charges: { usesCharges: true, value: null, max: 5 },
+            });
+            logic.initialize();
+            expect(logic.isExhausted).toBe(false);
+        });
+
+        it("is false when the ability does not use charges (max null)", () => {
+            const logic = makeAbility({
+                charges: { usesCharges: false, value: 0, max: null },
+            });
+            logic.initialize();
+            expect(logic.isExhausted).toBe(false);
+        });
+    });
+
+    describe("successTest — charge consumption (#990)", () => {
+        const realResult = { isSuccess: true } as any;
+
+        // resultValue is passed explicitly (never via a defaulted parameter —
+        // passing `undefined` to a default would substitute the default value).
+        function armedAbility(
+            charges: Record<string, unknown>,
+            resultValue: unknown,
+        ) {
+            const logic = makeAbility({ charges });
+            logic.initialize();
+            const spy = vi
+                .spyOn(logic.masteryLevel, "successTest")
+                .mockResolvedValue(resultValue as any);
+            return { logic, spy };
+        }
+
+        it("decrements the persisted charge count by 1 after a completed roll", async () => {
+            const { logic } = armedAbility(
+                { usesCharges: true, value: 3, max: 5 },
+                realResult,
+            );
+            await logic.successTest({ scope: {} } as any);
+            expect(logic.item.update).toHaveBeenCalledWith({
+                "system.charges.value": 2,
+            });
+        });
+
+        it("does not decrement when the roll is cancelled (undefined result)", async () => {
+            const { logic } = armedAbility(
+                { usesCharges: true, value: 3, max: 5 },
+                undefined,
+            );
+            await logic.successTest({ scope: {} } as any);
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+
+        it("does not decrement when the roll errors (false result)", async () => {
+            const { logic } = armedAbility(
+                { usesCharges: true, value: 3, max: 5 },
+                false,
+            );
+            await logic.successTest({ scope: {} } as any);
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+
+        it("does not decrement when charges are infinite (value null)", async () => {
+            const { logic } = armedAbility(
+                { usesCharges: true, value: null, max: 5 },
+                realResult,
+            );
+            await logic.successTest({ scope: {} } as any);
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+
+        it("does not decrement when the ability has no maximum cap (max 0, shown as infinity)", async () => {
+            const { logic } = armedAbility(
+                { usesCharges: true, value: 0, max: 0 },
+                realResult,
+            );
+            await logic.successTest({ scope: {} } as any);
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+
+        it("does not decrement when the ability does not use charges (max null)", async () => {
+            const { logic } = armedAbility(
+                { usesCharges: false, value: 0, max: null },
+                realResult,
+            );
+            await logic.successTest({ scope: {} } as any);
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+
+        it("blocks the roll entirely when the ability is exhausted (0 charges)", async () => {
+            const { logic, spy } = armedAbility(
+                { usesCharges: true, value: 0, max: 5 },
+                realResult,
+            );
+            const result = await logic.successTest({ scope: {} } as any);
+            expect(result).toBeUndefined();
+            expect(spy).not.toHaveBeenCalled();
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("spirit-power association (#990)", () => {
+        it("usesSpiritPower is true only for shamanicrite/spiritaction", () => {
+            expect(
+                makeAbility({ subType: "shamanicrite" }).usesSpiritPower,
+            ).toBe(true);
+            expect(
+                makeAbility({ subType: "spiritaction" }).usesSpiritPower,
+            ).toBe(true);
+            expect(
+                makeAbility({ subType: "spiritpower" }).usesSpiritPower,
+            ).toBe(false);
+            expect(
+                makeAbility({ subType: "ritualaction" }).usesSpiritPower,
+            ).toBe(false);
+        });
+
+        it("resolves the Spirit Power, is enabled, and merges its mastery level", () => {
+            const actor = makeAbilityActor();
+            const sp = makeAbilityOnActor(actor, "totem", 40);
+            const logic = makeAbility(
+                {
+                    subType: "shamanicrite",
+                    assocSkillCode: "totem",
+                    masteryLevelBase: 0,
+                },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.assocSpiritPower).toBe(sp);
+            expect(logic.hasValidSpiritPower).toBe(true);
+            expect(logic.isDisabled).toBe(false);
+            expect(logic.assocRef).toBe(sp);
+            logic.finalize();
+            expect(logic.masteryLevel.effective).toBe(40);
+        });
+
+        it("is disabled when no Spirit Power resolves", () => {
+            const actor = makeAbilityActor();
+            const logic = makeAbility(
+                { subType: "shamanicrite", assocSkillCode: "missing" },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.assocSpiritPower).toBeUndefined();
+            expect(logic.hasValidSpiritPower).toBe(false);
+            expect(logic.isDisabled).toBe(true);
+        });
+
+        it("is disabled when the reference is not a SPIRITPOWER ability", () => {
+            const actor = makeAbilityActor();
+            makeAbilityOnActor(actor, "wrongtype", 40, "alchemy");
+            const logic = makeAbility(
+                { subType: "shamanicrite", assocSkillCode: "wrongtype" },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.assocSpiritPower).toBeDefined();
+            expect(logic.hasValidSpiritPower).toBe(false);
+            expect(logic.isDisabled).toBe(true);
+        });
+
+        it("does not merge a mastery level when the Spirit Power is invalid", () => {
+            const actor = makeAbilityActor();
+            makeAbilityOnActor(actor, "wrongtype", 40, "alchemy");
+            const logic = makeAbility(
+                {
+                    subType: "shamanicrite",
+                    assocSkillCode: "wrongtype",
+                    masteryLevelBase: 0,
+                },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+            expect(logic.masteryLevel.hasBase).toBe(false);
+        });
+
+        it("successTest refuses (no roll) when the Spirit Power is invalid", async () => {
+            const actor = makeAbilityActor();
+            const logic = makeAbility(
+                { subType: "shamanicrite", assocSkillCode: "missing" },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            const spy = vi
+                .spyOn(logic.masteryLevel, "successTest")
+                .mockResolvedValue({ isSuccess: true } as any);
+            const result = await logic.successTest({ scope: {} } as any);
+            expect(result).toBeUndefined();
+            expect(spy).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("ritual action skill merge (#990)", () => {
+        it("merges its ritual skill's mastery level when the skill has one", () => {
+            const actor = makeAbilityActor();
+            const skill = makeSkillOnActor(actor, "ritefire", 40);
+            skill.initialize();
+            const logic = makeAbility(
+                {
+                    subType: "ritualaction",
+                    assocSkillCode: "ritefire",
+                    masteryLevelBase: 0,
+                },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+            expect(logic.masteryLevel.effective).toBe(40);
+        });
+
+        it("does not merge a disabled ritual-skill mastery level", () => {
+            const actor = makeAbilityActor();
+            const skill = makeSkillOnActor(actor, "ritefire", 40);
+            skill.initialize();
+            skill.masteryLevel.setDisabled("SOHL.Test.Disabled");
+            const logic = makeAbility(
+                {
+                    subType: "ritualaction",
+                    assocSkillCode: "ritefire",
+                    masteryLevelBase: 0,
+                },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+            expect(logic.masteryLevel.hasBase).toBe(false);
         });
     });
 });

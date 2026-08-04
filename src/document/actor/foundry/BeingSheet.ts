@@ -76,6 +76,8 @@ import {
     filterHeldWeapons,
     splitWeaponsByRange,
     usableHeldStrikeModes,
+    mysticalAbilityColumns,
+    mysticalAbilityLedgerCols,
 } from "@src/document/actor/logic/being-sheet-view";
 import {
     formatPrintHealthLine,
@@ -2598,15 +2600,20 @@ html, body { margin: 0; padding: 0; background: #fff; }
             abilities,
             (ability) => (ability.system as any).subType,
         );
-        const abilitySections = MysticalAbilitySubTypes.map((subType) => ({
-            subType,
-            label: game.i18n.localize(
-                (MysticalAbilitySubTypeChoices as Record<string, string>)[
-                    subType
-                ] ?? subType,
-            ),
-            items: abilityBuckets[subType] ?? [],
-        }));
+        const abilitySections = MysticalAbilitySubTypes.map((subType) => {
+            const columns = mysticalAbilityColumns(subType);
+            return {
+                subType,
+                label: game.i18n.localize(
+                    (MysticalAbilitySubTypeChoices as Record<string, string>)[
+                        subType
+                    ] ?? subType,
+                ),
+                items: abilityBuckets[subType] ?? [],
+                columns,
+                ledgerCols: mysticalAbilityLedgerCols(columns),
+            };
+        });
 
         return Object.assign(context, {
             mysterySections,

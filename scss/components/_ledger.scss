@@ -54,6 +54,17 @@
         }
     }
 
+    // Charge-exhausted row (#990) — a Mystical Ability with 0 remaining charges:
+    // greyed out and its EML roll suppressed until it is recharged. The row's
+    // context menu stays reachable so it can still be edited / recharged.
+    &__row--disabled {
+        opacity: 0.5;
+
+        .ledger__cell--rollable {
+            pointer-events: none;
+        }
+    }
+
     // Grip gutter cell — a drag handle, faded until the row is hovered.
     &__grip {
         display: flex;
