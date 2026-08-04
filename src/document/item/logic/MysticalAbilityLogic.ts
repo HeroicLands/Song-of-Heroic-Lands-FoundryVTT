@@ -48,7 +48,7 @@ import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
  * {@link sohl.entity.modifier.MasteryLevelModifier}.
  *
  * Supported subtypes:
- * - Shamanic Rite: Perform a shamanic rite on target(s)
+ * - Spirit Rite: Perform a spirit rite on target(s)
  * - Spirit Action: Spirit world interaction (Roaming, Sensing, Communing, etc.)
  * - Spirit Power: Channel spirit power (Ancestor, Totem, or Energy)
  * - Benediction: Bestow a blessing
@@ -77,7 +77,7 @@ export class MysticalAbilityLogic<
     /**
      * The associated **Spirit Power** (a SPIRITPOWER-subtype
      * {@link MysticalAbilityLogic}) resolved during {@link evaluate} for the
-     * {@link usesSpiritPower | spirit-power subtypes} (`shamanicrite` /
+     * {@link usesSpiritPower | spirit-power subtypes} (`spiritrite` /
      * `spiritaction`), from {@link MysticalAbilityData.assocSkillCode} — for
      * these subtypes the shortcode names a Spirit Power on the same actor rather
      * than a skill. `undefined` when the reference is blank or unresolved (which
@@ -87,14 +87,14 @@ export class MysticalAbilityLogic<
 
     /**
      * Whether this ability's activation test is governed by a **Spirit Power**
-     * rather than a skill — true for the `shamanicrite` and `spiritaction`
+     * rather than a skill — true for the `spiritrite` and `spiritaction`
      * subtypes. For these, the association shortcode names a Spirit Power (a
      * SPIRITPOWER Mystical Ability) on the actor, the sheet shows a "Spirit
      * Power" column, and the ability is disabled unless a valid one resolves.
      */
     get usesSpiritPower(): boolean {
         return (
-            this.data.subType === MYSTICALABILITY_SUBTYPE.SHAMANICRITE ||
+            this.data.subType === MYSTICALABILITY_SUBTYPE.SPIRITRITE ||
             this.data.subType === MYSTICALABILITY_SUBTYPE.SPIRITACTION
         );
     }
