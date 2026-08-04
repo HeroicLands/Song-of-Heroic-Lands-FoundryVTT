@@ -1299,10 +1299,23 @@ export const {
 } = defineType("SOHL.Affliction.SubType", {
     /** A catch-all category for afflictions not covered by other subtypes. */
     OTHER: "other",
-    /** Illness, parasite, or maladiction affecting the body or mind. */
+    /**
+     * A biological affliction: an illness or parasite that infects the body or
+     * mind (e.g. typhoid, tuberculosis, river blindness).
+     */
     DISEASE: "disease",
-    /** Toxic substances or venoms affecting the body. */
+    /**
+     * A chemical affliction: a toxic substance or venom that impairs or kills
+     * the host (e.g. hemotoxin, mandrake, wasp venom).
+     */
     POISONTOXIN: "poisontoxin",
+    /**
+     * A supernatural affliction: a curse, hex, or divine/spiritual blight that
+     * assails the body, mind, or aura by arcane, divine, or spirit means. The
+     * affliction is a metaphysical agent with a course and outcome — distinct
+     * from the *conditions* (auralshock, the Pall) that a Trauma records.
+     */
+    MALADICTION: "maladiction",
 });
 /** Union of all affliction-subtype values. */
 export type AfflictionSubType = (typeof AfflictionSubTypes)[number];

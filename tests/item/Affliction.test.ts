@@ -22,10 +22,12 @@ import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 describe("AFFLICTION_SUBTYPE", () => {
     // The long-duration / psychological / physiological categories (shock, coma,
     // fatigue, infection, fear, morale, pall, psychological-condition,
-    // aural-shock) are now TRAUMA subtypes; afflictions keep only these three.
-    it("is limited to OTHER, DISEASE, and POISONTOXIN", () => {
+    // aural-shock) are now TRAUMA subtypes. Afflictions classify the incoming
+    // agent by nature: POISONTOXIN (chemical), DISEASE (biological),
+    // MALADICTION (supernatural — curse/hex/divine blight), plus OTHER.
+    it("is limited to OTHER, DISEASE, POISONTOXIN, and MALADICTION", () => {
         expect(Object.keys(AfflictionSubTypeChoices).sort()).toEqual(
-            ["disease", "other", "poisontoxin"].sort(),
+            ["disease", "maladiction", "other", "poisontoxin"].sort(),
         );
     });
     it("exposes each subtype as a value-keyed choice with an i18n label", () => {
@@ -34,6 +36,9 @@ describe("AFFLICTION_SUBTYPE", () => {
         );
         expect(AfflictionSubTypeChoices["disease"]).toBe(
             "SOHL.Affliction.SubType.disease",
+        );
+        expect(AfflictionSubTypeChoices["maladiction"]).toBe(
+            "SOHL.Affliction.SubType.maladiction",
         );
     });
 });

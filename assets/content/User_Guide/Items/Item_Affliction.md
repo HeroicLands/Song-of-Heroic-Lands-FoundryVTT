@@ -23,18 +23,12 @@ Afflictions appear on the **Trauma** tab of the Being sheet and track the condit
 
 Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
-- **SubType:** Represents what type of affliction this is.
-    - **Privation**: Represents lack of something needed for life. Dehydration, Hypothermia, Hyperthermia, Starvation, and such are forms of privation.
-    - **Fatigue**: Windedness, weariness, weakness, and similar conditions.
-    - **Disease**: Physical ailments caused by parasites or similar.
-    - **Infection**: A form of disease that affects wounds specifically.
-    - **Poison/Toxin**: Biological or chemical reactions that impair or kill the host.
-    - **Fear**: Response to a perceived threat.
-    - **Morale**: The level of confidence, enthusiasm, and willingness-to-persist against a difficult circumstance.
-    - **Shadow**: Resistance to the spiritual attack from undead or metaphysically-evil actors.
-    - **Psyche**: Psychological disturbances.
-    - **Aural Shock**: Disturbances and imbalance to the connection to the spirit/soul and Aura
-- **Category:** For some SubTypes, there are different forms. For example, for Fatigue the different categories are _Windedness_, _Weariness_, and _Weakness_. Not applicable to all SubTypes.
+- **SubType:** Classifies the affliction by the _nature of the agent_ afflicting the Being. (Conditions that a character _carries_ — fatigue, fear, morale, infection, aural shock, and the like — are **[[Trauma|Traumas]]**, not afflictions. See [[Afflictions|the Afflictions rules]] for the full distinction.)
+    - **Poison/Toxin**: A _chemical_ affliction — a toxic substance or venom that impairs or kills the host.
+    - **Disease**: A _biological_ affliction — an illness or parasite that infects the body or mind.
+    - **Maladiction**: A _supernatural_ affliction — a curse, hex, or divine/spiritual blight, transmitted by arcane, divine, or spirit means.
+    - **Other**: A catch-all for afflictions not covered above.
+- **Category:** An optional free sub-classification for a given SubType. Not applicable to all afflictions.
 - **Is Dormant:** Whether the affliction is currently present but inactive.
 - **Is Treated:** Whether the affliction has had treatment applied.
 - **Diagnosis Bonus Base:** Bonus applied to diagnosis rolls.
