@@ -4,6 +4,7 @@ import {
     getFateDescTable,
 } from "@src/document/item/logic/SkillLogic";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
@@ -27,6 +28,7 @@ function skillFields(overrides: Record<string, unknown> = {}) {
         subType: "social",
         skillBaseFormula: "",
         masteryLevelBase: 30,
+        levelBase: null,
         improveFlag: false,
         combatCategory: "none",
         parentSkillCode: null,
@@ -126,6 +128,30 @@ describe("SkillLogic", () => {
             expect(logic.masteryLevel).toBeInstanceOf(MasteryLevelModifier);
             expect(logic.masteryLevel.base).toBe(45);
             expect(logic.masteryLevel.effective).toBe(45);
+        });
+
+        it("seeds level from levelBase", () => {
+            const logic = makeSkill({ levelBase: 3 });
+            logic.initialize();
+            expect(logic.level).toBeInstanceOf(ValueModifier);
+            expect(logic.level.base).toBe(3);
+            expect(logic.level.effective).toBe(3);
+            expect(logic.level.disabled).toBeFalsy();
+        });
+
+        it("seeds level even when levelBase is 0 (only null disables)", () => {
+            const logic = makeSkill({ levelBase: 0 });
+            logic.initialize();
+            expect(logic.level.disabled).toBeFalsy();
+            expect(logic.level.base).toBe(0);
+        });
+
+        it("disables level when levelBase is null", () => {
+            const logic = makeSkill({ levelBase: null });
+            logic.initialize();
+            expect(logic.level.disabled).toBe("SOHL.Skill.NoLevel");
+            // a disabled modifier always reports an effective value of 0
+            expect(logic.level.effective).toBe(0);
         });
 
         it("resets parentSkill and boosts", () => {

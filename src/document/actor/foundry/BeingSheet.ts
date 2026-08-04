@@ -2295,6 +2295,8 @@ html, body { margin: 0; padding: 0; background: #fff; }
                     name: skill.name,
                     img: skill.img ?? "",
                     subType: sys.subType,
+                    level: skillLogic?.level?.effective ?? 0,
+                    levelDisabled: !!skillLogic?.level?.disabled,
                     sb: skillLogic?.skillBase ?? 0,
                     sbValid: skillLogic?.skillBaseValid ?? true,
                     ml: skillLogic?.masteryLevel?.base ?? 0,

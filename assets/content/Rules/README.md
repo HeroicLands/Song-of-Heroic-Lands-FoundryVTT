@@ -40,6 +40,10 @@ The system emphasizes graduated outcomes over binary pass/fail. A character who 
 
 Skills improve through use. Characters who test their abilities in play develop them organically, reflecting the principle that practice and experience—not abstract experience points—drive growth.
 
+## Skills
+
+- [[Skill_Levels|Skill Levels]] — the optional **level** (or **circle**) carried by some skills, particularly the arcane and divine/ritual skills of the Mystical group.
+
 ## Combat
 
 TBD
