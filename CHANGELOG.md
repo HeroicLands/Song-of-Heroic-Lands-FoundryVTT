@@ -474,7 +474,7 @@
       and its `DefinedType` result are documented in depth (with `@typeParam`,
       `@example`, and `@remarks`). The thousands of self-describing individual
       members of those tables are intentionally **not** documented per-member; that
-      reference data lives in CLAUDE.md and the player rules site.
+      reference data lives in the contributor guidelines and the player rules site.
     - **A documentation-coverage gate** (`npm run docs:coverage`,
       `utils/docs-coverage.mjs`) runs the TypeDoc `notDocumented` validation and
       fails on any undocumented symbol outside `constants.ts`, so the "fully

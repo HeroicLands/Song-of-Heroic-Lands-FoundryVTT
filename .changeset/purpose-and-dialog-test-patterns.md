@@ -9,7 +9,7 @@ Now that the consent model reaches all the way to the timed-effect flows (issue
 contributors — and make the e2e suite model the pattern it now describes.
 
 - **User guide — "What to Expect: SoHL Assists, It Doesn't Play for You."** A short
-  up-front section on the system's purpose (an _assistant_ for playing HârnMaster,
+  up-front section on the system's purpose (an _aid_ for playing HârnMaster,
   not a video game that plays it for you) and the one rule everything follows: _it
   guides, prompts, and reminds — it never acts on your character without your
   say-so._ It explains the two shapes an offer takes (a **dialog** when the choice
