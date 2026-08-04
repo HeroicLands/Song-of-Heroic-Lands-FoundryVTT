@@ -71,6 +71,15 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
             initial: null,
             min: 0,
         }),
+        // `null` = "no level" — the skill's level modifier is disabled and the
+        // Skills-tab Level cell renders an ✕ (distinct from a deliberate 0,
+        // which is a real level). Absent in source ⇒ initialized to `null`.
+        levelBase: new NumberField({
+            integer: true,
+            nullable: true,
+            initial: null,
+            min: 0,
+        }),
         improveFlag: new BooleanField({ initial: false }),
         combatCategory: new StringField({
             initial: SKILL_COMBAT_CATEGORY.NONE,
@@ -150,6 +159,7 @@ export class SkillDataModel<
     subType!: SkillSubType;
     skillBaseFormula!: string | null;
     masteryLevelBase!: number | null;
+    levelBase!: number | null;
     improveFlag!: boolean;
     combatCategory!: string;
     parentSkillCode!: string | null;

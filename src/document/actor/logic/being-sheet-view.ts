@@ -406,6 +406,13 @@ export interface SkillRow {
     name: string;
     /** The skill's icon image path, shown before the name (#508). */
     img: string;
+    /** The skill's level (the `levelBase`-seeded modifier's effective value). */
+    level: number;
+    /**
+     * Whether the skill has no level (`levelBase === null`). `true` → the Level
+     * cell renders an ✕ instead of {@link level}.
+     */
+    levelDisabled: boolean;
     /** Skill Base — the derived attribute-driven base score. */
     sb: number;
     /**
@@ -461,6 +468,8 @@ export interface SkillLike {
     name: string;
     img: string;
     subType: string | undefined;
+    level: number;
+    levelDisabled: boolean;
     sb: number;
     sbValid: boolean;
     ml: number;
@@ -526,6 +535,8 @@ export function buildSkillGroups(
         uuid: skill.uuid,
         name: skill.name,
         img: skill.img,
+        level: skill.level,
+        levelDisabled: skill.levelDisabled,
         sb: skill.sb,
         sbValid: skill.sbValid,
         ml: skill.ml,
