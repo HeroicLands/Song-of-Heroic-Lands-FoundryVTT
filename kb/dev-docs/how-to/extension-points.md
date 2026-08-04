@@ -288,7 +288,29 @@ appear in the GM's calendar settings. The registry API
 format are documented in the
 [Calendar Reference](../reference/calendar.md#calendar-registry-and-gm-workflow).
 
-## 10) Create-dialog archetypes (`flags.sohl.docArchetype`)
+## 10) Astrology traditions (birthsign derivation)
+
+A character's birthsign is **derived**, not stored: it is a function of the
+being's `birthDate` read through an **astrological tradition** named by a
+birthsign Affiliation's `society`. Traditions live in a world-setting-backed
+registry (shipped built-ins layered under `sohl.astrologyTraditions` world
+overrides), edited by the GM through the **Astrology Traditions** settings menu
+(import/replace or clear from a validated JSON file). Each sign carries a date
+window, `cuspDays`, and a map of skill-shortcode (or `subtype:<skillSubType>`)
+modifiers.
+
+To extend the mechanism, add a tradition — no code change needed: import a
+traditions JSON via the settings menu, or (from a module) write the
+`sohl.astrologyTraditions` world setting. The derivation, the SafeExpression
+helpers (`astrologySign` / `astrologySettings` / `astrologySetting` / `merge`),
+and the `BSMod` consumption are all Foundry-free
+({@link sohl.entity.astrology}); the Foundry boundary
+({@link sohl.core.FoundryHelpers.fvttAstrologyTraditions}) resolves the registry
+and injects it into the eval context. See
+[Expressions and Scripts](../concepts/expressions.md#the-standard-helpers) for the
+helpers and the per-being expression forms.
+
+## 11) Create-dialog archetypes (`flags.sohl.docArchetype`)
 
 The shared Create dialog (`sohlCreateDialog`, used by both `SohlActor` and
 `SohlItem`) offers an **Archetype** picker that seeds a new document from an

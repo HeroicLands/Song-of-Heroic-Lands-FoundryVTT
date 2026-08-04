@@ -187,7 +187,7 @@ export function signsForDate(
  * that value — it is never combined against an implicit `0`). This is the
  * cross-affiliation combination rule: a being with two birthsign affiliations
  * touching the same skill combines them per-key (default: algebraic max), and
- * it matches the in-expression {@link ExpressionHelperRegistry | `merge`} helper
+ * it matches the in-expression `merge` helper (in `ExpressionHelperRegistry`)
  * for the single-affiliation case. Non-numeric values are coerced with `Number`.
  * @param dicts - The modifier dicts to fold.
  * @param combine - Reduces the present values for a key to its folded value.
