@@ -370,6 +370,80 @@ describe("SafeExpression", () => {
         });
     });
 
+    describe("context-bound astrology helpers (#1024)", () => {
+        // The producer injects the resolved traditions registry into the eval
+        // context under `astrologyTraditions`; SafeExpression feeds it to the
+        // astrology helpers as their first argument (the CONTEXT_BOUND seam), so
+        // the author writes only `astrologySettings(tradition, date)`.
+        const traditions = {
+            arc: {
+                key: "arc",
+                label: "Arc",
+                signs: [
+                    {
+                        shortcode: "alpha",
+                        label: "Alpha",
+                        start: { month: 1, day: 1 },
+                        end: { month: 6, day: 30 },
+                        cuspDays: 2,
+                        skillModifiers: { aaa: 15, "subtype:combat": 5 },
+                    },
+                    {
+                        shortcode: "beta",
+                        label: "Beta",
+                        start: { month: 7, day: 1 },
+                        end: { month: 12, day: 30 },
+                        cuspDays: 2,
+                        skillModifiers: { aaa: -15, bbb: 10 },
+                    },
+                ],
+            },
+        };
+        const months = Array(12).fill(30);
+        const ctx = (month: number, day: number) => ({
+            tradition: "arc",
+            date: { month, day, monthLengths: months },
+            astrologyTraditions: traditions,
+        });
+
+        it("evaluates the default cusp pipeline: merge(astrologySettings(...), 'max')", () => {
+            const source =
+                'merge(astrologySettings(tradition, date), "max")';
+            // Ordinary day → one sign.
+            expect(run(source, ctx(3, 15))).toEqual({
+                aaa: 15,
+                "subtype:combat": 5,
+            });
+            // Cusp day (6/29, within cuspDays=2 of the 6/30–7/1 boundary) →
+            // both signs, per-key max over present values: aaa max(15,-15)=15,
+            // subtype:combat kept 5, bbb kept 10.
+            expect(run(source, ctx(6, 29))).toEqual({
+                aaa: 15,
+                "subtype:combat": 5,
+                bbb: 10,
+            });
+        });
+
+        it("supports a sum policy and an explicit-sign override", () => {
+            expect(
+                run('merge(astrologySettings(tradition, date), "sum")', ctx(6, 29)),
+            ).toEqual({ aaa: 0, "subtype:combat": 5, bbb: 10 });
+            expect(run('astrologySetting(tradition, "beta")', ctx(3, 15))).toEqual(
+                { aaa: -15, bbb: 10 },
+            );
+        });
+
+        it("degrades to empty when the registry is not injected", () => {
+            // No astrologyTraditions in context → helper receives undefined.
+            expect(
+                run('merge(astrologySettings(tradition, date), "max")', {
+                    tradition: "arc",
+                    date: { month: 3, day: 15, monthLengths: months },
+                }),
+            ).toEqual({});
+        });
+    });
+
     describe("rejects unsafe or unsupported syntax", () => {
         it("rejects method calls", () => {
             expect(compile("item.logic.hasAttr('per')")).toThrow(

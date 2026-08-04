@@ -3173,6 +3173,13 @@ export interface BeingData<
      * incorporeal being has an empty `body.structure.parts`.
      */
     body: BodyLogic.Data;
+    /**
+     * The being's birth date as a world-time value (seconds), or `null` when
+     * unspecified. Anchors age/birthday derivation and — through a birthsign
+     * {@link sohl.document.item.logic.AffiliationLogic} — birthsign derivation
+     * (#1018).
+     */
+    birthDate: number | null;
 }
 
 /** A weapon (or combat-technique skill) paired with its usable strike modes for a combat encounter. */

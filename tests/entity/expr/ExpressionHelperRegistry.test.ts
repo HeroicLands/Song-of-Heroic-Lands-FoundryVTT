@@ -312,6 +312,148 @@ describe("ExpressionHelperRegistry", () => {
         });
     });
 
+    describe("sum (#1024)", () => {
+        const sum = () => STANDARD_HELPERS.sum as (...v: unknown[]) => number;
+        it("adds its arguments", () => {
+            expect(sum()(1, 2, 3)).toBe(6);
+            expect(sum()(-5, 15)).toBe(10);
+        });
+        it("is 0 with no arguments", () => {
+            expect(sum()()).toBe(0);
+        });
+    });
+
+    describe("settings dict builder (#1024)", () => {
+        const settings = () =>
+            STANDARD_HELPERS.settings as (...v: unknown[]) => PlainObject;
+        it("builds a dict from alternating key/value pairs", () => {
+            expect(settings()("peleahn", 15, "subtype:combat", 5)).toEqual({
+                peleahn: 15,
+                "subtype:combat": 5,
+            });
+        });
+        it("throws on an odd argument count", () => {
+            expect(() => settings()("a", 1, "b")).toThrow(SafeExpressionError);
+        });
+        it("is empty with no arguments", () => {
+            expect(settings()()).toEqual({});
+        });
+    });
+
+    describe("merge per-key fold (#1024)", () => {
+        const merge = () =>
+            STANDARD_HELPERS.merge as (
+                iters: unknown,
+                combiner: unknown,
+            ) => PlainObject | unknown[];
+
+        it("folds dicts per key with max, over present values only", () => {
+            // aaa present in both → max(15, -15) = 15; bbb only in the second →
+            // kept as 10 (never maxed against an implicit 0).
+            expect(
+                merge()([{ aaa: 15, ccc: 5 }, { aaa: -15, bbb: 10 }], "max"),
+            ).toEqual({ aaa: 15, ccc: 5, bbb: 10 });
+        });
+
+        it("folds with sum", () => {
+            expect(merge()([{ a: 3 }, { a: 4 }, { a: 5 }], "sum")).toEqual({
+                a: 12,
+            });
+        });
+
+        it("folds arrays by index and returns an array", () => {
+            expect(merge()([[1, 9], [4]], "max")).toEqual([4, 9]);
+        });
+
+        it("rejects a combiner outside the pure allowlist", () => {
+            expect(() => merge()([{ a: 1 }], "concat")).toThrow(
+                SafeExpressionError,
+            );
+            expect(() => merge()([{ a: 1 }], "rand")).toThrow(
+                SafeExpressionError,
+            );
+        });
+
+        it("ignores nullish elements and values", () => {
+            expect(
+                merge()([null, { a: 1 }, { a: null, b: 2 }], "sum"),
+            ).toEqual({ a: 1, b: 2 });
+        });
+    });
+
+    describe("astrology helpers (#1024)", () => {
+        const TRADITIONS = {
+            t: {
+                key: "t",
+                label: "T",
+                signs: [
+                    {
+                        shortcode: "alpha",
+                        label: "Alpha",
+                        start: { month: 1, day: 1 },
+                        end: { month: 6, day: 30 },
+                        cuspDays: 0,
+                        skillModifiers: { aaa: 15, "subtype:combat": 5 },
+                    },
+                    {
+                        shortcode: "beta",
+                        label: "Beta",
+                        start: { month: 7, day: 1 },
+                        end: { month: 12, day: 30 },
+                        cuspDays: 0,
+                        skillModifiers: { aaa: -15 },
+                    },
+                ],
+            },
+        };
+        const MONTHS_30 = Array(12).fill(30);
+        const dateOf = (month: number, day: number) => ({
+            month,
+            day,
+            monthLengths: MONTHS_30,
+        });
+
+        const sign = () =>
+            STANDARD_HELPERS.astrologySign as (
+                traditions: unknown,
+                t: unknown,
+                d: unknown,
+            ) => string[];
+        const settings = () =>
+            STANDARD_HELPERS.astrologySettings as (
+                traditions: unknown,
+                t: unknown,
+                d: unknown,
+            ) => PlainObject[];
+        const setting = () =>
+            STANDARD_HELPERS.astrologySetting as (
+                traditions: unknown,
+                t: unknown,
+                s: unknown,
+            ) => PlainObject;
+
+        it("astrologySign derives sign shortcodes from a date", () => {
+            expect(sign()(TRADITIONS, "t", dateOf(3, 15))).toEqual(["alpha"]);
+            expect(sign()(TRADITIONS, "t", dateOf(9, 15))).toEqual(["beta"]);
+        });
+
+        it("astrologySettings returns one modifier dict per governing sign", () => {
+            expect(settings()(TRADITIONS, "t", dateOf(3, 15))).toEqual([
+                { aaa: 15, "subtype:combat": 5 },
+            ]);
+        });
+
+        it("astrologySetting resolves an explicit sign's modifiers", () => {
+            expect(setting()(TRADITIONS, "t", "beta")).toEqual({ aaa: -15 });
+        });
+
+        it("degrade to empty when the tradition or sign is absent", () => {
+            expect(sign()(TRADITIONS, "missing", dateOf(3, 15))).toEqual([]);
+            expect(settings()(undefined, "t", dateOf(3, 15))).toEqual([]);
+            expect(setting()(TRADITIONS, "t", "gamma")).toEqual({});
+        });
+    });
+
     describe("custom function helpers", () => {
         it("registers and invokes a function helper", () => {
             reg.register("double", (n) => (n as number) * 2);

@@ -259,6 +259,18 @@ describe("BeingLogic", () => {
         });
     });
 
+    describe("birthDate", () => {
+        it("defaults to null when unset in the harness", () => {
+            const logic = makeBeing();
+            expect(logic.data.birthDate ?? null).toBe(null);
+        });
+
+        it("carries a world-time birth date through data", () => {
+            const logic = makeBeing({ birthDate: 62_208_000 });
+            expect(logic.data.birthDate).toBe(62_208_000);
+        });
+    });
+
     describe("body sub-object", () => {
         it("is built directly from system.body on initialize (no embedded item)", () => {
             const being = makeBeing({ body: makeBodyData() });
@@ -2922,7 +2934,9 @@ describe("BeingLogic health (#470)", () => {
 describe("BeingDataModel", () => {
     describe("defineSchema", () => {
         it.todo("includes SohlActorDataModel base schema fields");
-        it.todo("has no additional fields beyond base actor schema");
+        it.todo(
+            "defines birthDate as a nullable NumberField (world time; initial null)",
+        );
     });
 
     it.todo("has kind set to ACTOR_KIND.BEING");
