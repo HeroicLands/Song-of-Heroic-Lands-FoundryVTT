@@ -23,6 +23,7 @@ import {
 } from "@src/document/item/logic/SohlItemBaseLogic";
 import {
     ACTION_SUBTYPE,
+    ITEM_KIND,
     MYSTICALABILITY_SUBTYPE,
     MysticalAbilitySubType,
     SOHL_ACTION_SCOPE,
@@ -51,7 +52,7 @@ import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
  * - Spirit Action: Spirit world interaction (Roaming, Sensing, Communing, etc.)
  * - Spirit Power: Channel spirit power (Ancestor, Totem, or Energy)
  * - Benediction: Bestow a blessing
- * - Divine Devotion: Request blessing or miracle from a deity
+ * - Ritual Action: Perform a prescribed ritual to earn a deity's favour
  * - Divine Incantation: Cast divine spells
  * - Arcane Incantation: Cast arcane spells
  * - Arcane Talent: Intrinsic spell-like arcane powers
@@ -67,9 +68,73 @@ export class MysticalAbilityLogic<
     /**
      * The associated skill (a {@link SkillLogic}) resolved during
      * {@link evaluate} from {@link MysticalAbilityData.assocSkillCode}, or
-     * `undefined` if the ability uses its own mastery level.
+     * `undefined` if the ability uses its own mastery level. Only the
+     * skill-governed subtypes resolve a skill; the {@link usesSpiritPower |
+     * spirit-power subtypes} resolve {@link assocSpiritPower} instead.
      */
     assocSkill?: SkillLogic;
+
+    /**
+     * The associated **Spirit Power** (a SPIRITPOWER-subtype
+     * {@link MysticalAbilityLogic}) resolved during {@link evaluate} for the
+     * {@link usesSpiritPower | spirit-power subtypes} (`shamanicrite` /
+     * `spiritaction`), from {@link MysticalAbilityData.assocSkillCode} — for
+     * these subtypes the shortcode names a Spirit Power on the same actor rather
+     * than a skill. `undefined` when the reference is blank or unresolved (which
+     * leaves the ability {@link isDisabled | disabled}).
+     */
+    assocSpiritPower?: MysticalAbilityLogic;
+
+    /**
+     * Whether this ability's activation test is governed by a **Spirit Power**
+     * rather than a skill — true for the `shamanicrite` and `spiritaction`
+     * subtypes. For these, the association shortcode names a Spirit Power (a
+     * SPIRITPOWER Mystical Ability) on the actor, the sheet shows a "Spirit
+     * Power" column, and the ability is disabled unless a valid one resolves.
+     */
+    get usesSpiritPower(): boolean {
+        return (
+            this.data.subType === MYSTICALABILITY_SUBTYPE.SHAMANICRITE ||
+            this.data.subType === MYSTICALABILITY_SUBTYPE.SPIRITACTION
+        );
+    }
+
+    /**
+     * Whether a valid Spirit Power is associated — the reference resolved and is
+     * itself a SPIRITPOWER-subtype ability. Only meaningful for the
+     * {@link usesSpiritPower | spirit-power subtypes}; a spirit-power ability
+     * with no valid Spirit Power is {@link isDisabled | disabled}.
+     */
+    get hasValidSpiritPower(): boolean {
+        return (
+            !!this.assocSpiritPower &&
+            this.assocSpiritPower.data.subType ===
+                MYSTICALABILITY_SUBTYPE.SPIRITPOWER
+        );
+    }
+
+    /**
+     * The association shown in the sheet's assoc column — the Spirit Power for
+     * the {@link usesSpiritPower | spirit-power subtypes}, otherwise the
+     * {@link assocSkill}. `undefined` renders an `✕` in that column.
+     */
+    get assocRef(): SkillLogic | MysticalAbilityLogic | undefined {
+        return this.usesSpiritPower ? this.assocSpiritPower : this.assocSkill;
+    }
+
+    /**
+     * Whether the ability cannot currently be invoked (its Being-sheet row is
+     * greyed out and its EML roll is blocked): either it is
+     * {@link isExhausted | out of charges}, or it is a
+     * {@link usesSpiritPower | spirit-power subtype} without a
+     * {@link hasValidSpiritPower | valid Spirit Power}.
+     */
+    get isDisabled(): boolean {
+        return (
+            this.isExhausted ||
+            (this.usesSpiritPower && !this.hasValidSpiritPower)
+        );
+    }
 
     /**
      * The mastery level as a {@link sohl.entity.modifier.MasteryLevelModifier}. When the ability has
@@ -140,10 +205,11 @@ export class MysticalAbilityLogic<
      *
      * When the ability uses finite charges, invoking it consumes one: after a
      * completed roll (a real result, not a cancel or error) the persisted charge
-     * count is decremented by one (#990). An {@link isExhausted | exhausted}
-     * ability cannot be invoked at all — the roll is refused with a notice —
-     * until it is recharged. Consumption is a direct consequence of the player's
-     * own roll, so it needs no separate consent.
+     * count is decremented by one (#990). A {@link isDisabled | disabled}
+     * ability — one that is exhausted, or a spirit-power subtype without a valid
+     * Spirit Power — cannot be invoked at all: the roll is refused with a notice.
+     * Consumption is a direct consequence of the player's own roll, so it needs
+     * no separate consent.
      *
      * @param context - The action context (speaker, scope) for the test.
      * @returns The test result, `undefined` if cancelled/blocked, or `false` on error.
@@ -151,10 +217,13 @@ export class MysticalAbilityLogic<
     async successTest(
         context: SohlActionContext,
     ): Promise<SuccessTestResult | undefined | false> {
-        if (this.isExhausted) {
-            sohl.log.uiWarn("SOHL.MysticalAbility.NoChargesRemaining", {
-                name: this.name,
-            });
+        if (this.isDisabled) {
+            sohl.log.uiWarn(
+                this.isExhausted ?
+                    "SOHL.MysticalAbility.NoChargesRemaining"
+                :   "SOHL.MysticalAbility.NoSpiritPower",
+                { name: this.name },
+            );
             return undefined;
         }
 
@@ -288,19 +357,48 @@ export class MysticalAbilityLogic<
         const actorLogic = this.actorLogic;
         if (!actorLogic) return;
 
-        this.assocSkill = resolveAssocSkill(
-            actorLogic,
-            this.data.assocSkillCode,
-        );
+        if (this.usesSpiritPower) {
+            // Spirit-power subtypes resolve a SPIRITPOWER ability by shortcode
+            // instead of a skill; validity is checked via hasValidSpiritPower.
+            this.assocSpiritPower = actorLogic.getItemLogic(
+                this.data.assocSkillCode ?? "",
+                ITEM_KIND.MYSTICALABILITY,
+            ) as MysticalAbilityLogic | undefined;
+        } else {
+            this.assocSkill = resolveAssocSkill(
+                actorLogic,
+                this.data.assocSkillCode,
+            );
+        }
     }
 
     /** @inheritdoc */
     override finalize(): void {
         super.finalize();
 
-        // Now, if we have an associated skill, merge that skill's mastery level into this ability's mastery level.
-        if (this.assocSkill) {
-            this.masteryLevel.addVM(this.assocSkill.masteryLevel, {
+        // Merge the governing mastery level into this ability's EML: a valid
+        // Spirit Power for the spirit-power subtypes, otherwise the associated
+        // skill. addVM keeps the ability's own modifiers stacked on top.
+        let source: SkillLogic | MysticalAbilityLogic | undefined =
+            this.usesSpiritPower ?
+                this.hasValidSpiritPower ?
+                    this.assocSpiritPower
+                :   undefined
+            :   this.assocSkill;
+
+        // A Ritual Action only pulls its ritual skill's mastery level when that
+        // skill actually has one — an unlearned ritual's mastery level is
+        // disabled, and must not seed the ability's EML.
+        if (
+            source &&
+            this.data.subType === MYSTICALABILITY_SUBTYPE.RITUALACTION &&
+            source.masteryLevel.disabled
+        ) {
+            source = undefined;
+        }
+
+        if (source) {
+            this.masteryLevel.addVM(source.masteryLevel, {
                 includeBase: true,
             });
         }

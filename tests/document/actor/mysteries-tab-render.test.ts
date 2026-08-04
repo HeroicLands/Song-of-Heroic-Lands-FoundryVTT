@@ -32,11 +32,11 @@ function mod(effective: number, disabled: unknown = false) {
  */
 function abilityLike(over: Record<string, any> = {}) {
     const logic = {
-        assocSkill: { name: "Spellcraft" } as { name: string } | undefined,
+        assocRef: { name: "Spellcraft" } as { name: string } | undefined,
         level: mod(3),
         masteryLevel: mod(42),
         charges: { value: mod(3), max: mod(5) },
-        isExhausted: false,
+        isDisabled: false,
         ...(over.logic ?? {}),
     };
     return {
@@ -65,22 +65,22 @@ function render(subType: string, abilities: ReturnType<typeof abilityLike>[]) {
 }
 
 describe("Being Mysteries tab — per-sub-type Mystical Ability columns (#990)", () => {
-    it("shows Skill + Lvl for a shamanic rite", () => {
-        const html = render(MYSTICALABILITY_SUBTYPE.SHAMANICRITE, [
-            abilityLike({ name: "Rite of Passage" }),
+    it("shows Skill + Lvl + EML + Chgs/Max for a spirit power", () => {
+        const html = render(MYSTICALABILITY_SUBTYPE.SPIRITPOWER, [
+            abilityLike({ name: "Totem Bond" }),
         ]);
         expect(html).toContain(">Skill<");
         expect(html).toContain(">Lvl<");
         expect(html).toContain(">EML<");
         expect(html).toContain(">Chgs/Max<");
-        expect(html).toContain("Rite of Passage");
+        expect(html).toContain("Totem Bond");
     });
 
     it("hides the Skill column for an intrinsic talent (arcanetalent)", () => {
         const html = render(MYSTICALABILITY_SUBTYPE.ARCANETALENT, [
             abilityLike({
                 name: "Sixth Sense",
-                logic: { assocSkill: undefined },
+                logic: { assocRef: undefined },
             }),
         ]);
         expect(html).not.toContain(">Skill<");
@@ -88,18 +88,43 @@ describe("Being Mysteries tab — per-sub-type Mystical Ability columns (#990)",
         expect(html).toContain(">EML<");
     });
 
-    it("hides the Lvl column for a subtype without a level (spiritaction)", () => {
-        const html = render(MYSTICALABILITY_SUBTYPE.SPIRITACTION, [
-            abilityLike({ name: "Sensing" }),
+    it("hides the Lvl column for a subtype without a level (benediction)", () => {
+        const html = render(MYSTICALABILITY_SUBTYPE.BENEDICTION, [
+            abilityLike({ name: "Blessing" }),
         ]);
         expect(html).toContain(">Skill<");
         expect(html).not.toContain(">Lvl<");
         expect(html).toContain(">EML<");
     });
 
-    it("renders an fa-xmark in the Skill cell when no skill is associated", () => {
+    it("labels the assoc column 'Spirit Power' (not Skill/Lvl) for a shamanic rite", () => {
+        const html = render(MYSTICALABILITY_SUBTYPE.SHAMANICRITE, [
+            abilityLike({
+                name: "Rite of Passage",
+                logic: { assocRef: { name: "Fox Totem" }, isDisabled: false },
+            }),
+        ]);
+        expect(html).toContain(">Spirit Power<");
+        expect(html).not.toContain(">Skill<");
+        expect(html).not.toContain(">Lvl<");
+        expect(html).toContain("Fox Totem"); // the associated spirit power's name
+    });
+
+    it("disables a spirit-power ability and blocks its roll when no Spirit Power is associated", () => {
+        const html = render(MYSTICALABILITY_SUBTYPE.SHAMANICRITE, [
+            abilityLike({
+                name: "Orphan Rite",
+                logic: { assocRef: undefined, isDisabled: true },
+            }),
+        ]);
+        expect(html).toContain("ledger__row--disabled");
+        expect(html).toContain("fa-xmark"); // ✕ in the Spirit Power cell
+        expect(html).not.toContain('data-action="successTest"');
+    });
+
+    it("renders an fa-xmark in the assoc cell when none is associated (skill subtype)", () => {
         const html = render(MYSTICALABILITY_SUBTYPE.ALCHEMY, [
-            abilityLike({ name: "Distill", logic: { assocSkill: undefined } }),
+            abilityLike({ name: "Distill", logic: { assocRef: undefined } }),
         ]);
         expect(html).toContain("fa-xmark");
     });
@@ -119,16 +144,16 @@ describe("Being Mysteries tab — per-sub-type Mystical Ability columns (#990)",
                 name: "Spent Blessing",
                 logic: {
                     charges: { value: mod(0), max: mod(4) },
-                    isExhausted: true,
+                    isDisabled: true,
                 },
             }),
         ]);
         expect(html).toContain("ledger__row--disabled");
-        // The EML cell of an exhausted row is not rollable.
+        // The EML cell of a disabled row is not rollable.
         expect(html).not.toContain('data-action="successTest"');
     });
 
-    it("keeps the EML cell rollable while charges remain", () => {
+    it("keeps the EML cell rollable while the ability is enabled", () => {
         const html = render(MYSTICALABILITY_SUBTYPE.BENEDICTION, [
             abilityLike({}),
         ]);

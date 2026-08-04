@@ -37,8 +37,34 @@ function makeAbility(
  */
 function makeAbilityActor() {
     const actor = makeMockActor();
-    actor.itemTypes = { skill: [] as any[], mystery: [] as any[] };
+    actor.itemTypes = {
+        skill: [] as any[],
+        mystery: [] as any[],
+        mysticalability: [] as any[],
+    };
     return actor;
+}
+
+/**
+ * Embed a real MysticalAbilityLogic on the actor (default subType SPIRITPOWER)
+ * and register it in itemTypes, so a spirit-power subtype can resolve it by
+ * shortcode. Returns the initialized logic.
+ */
+function makeAbilityOnActor(
+    actor: any,
+    shortcode: string,
+    masteryLevelBase = 40,
+    subType = "spiritpower",
+) {
+    const logic = makeItemLogic(
+        MysticalAbilityLogic,
+        ITEM_KIND.MYSTICALABILITY,
+        abilityFields({ subType, assocSkillCode: "", masteryLevelBase }),
+        { actor, shortcode, id: `sp${shortcode}`.padEnd(16, "0") },
+    );
+    logic.initialize();
+    actor.itemTypes.mysticalability.push(logic.item);
+    return logic;
 }
 
 /** Embed a real SkillLogic on the actor and register it in itemTypes. */
@@ -495,6 +521,143 @@ describe("MysticalAbilityLogic", () => {
             expect(result).toBeUndefined();
             expect(spy).not.toHaveBeenCalled();
             expect(logic.item.update).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("spirit-power association (#990)", () => {
+        it("usesSpiritPower is true only for shamanicrite/spiritaction", () => {
+            expect(
+                makeAbility({ subType: "shamanicrite" }).usesSpiritPower,
+            ).toBe(true);
+            expect(
+                makeAbility({ subType: "spiritaction" }).usesSpiritPower,
+            ).toBe(true);
+            expect(
+                makeAbility({ subType: "spiritpower" }).usesSpiritPower,
+            ).toBe(false);
+            expect(
+                makeAbility({ subType: "ritualaction" }).usesSpiritPower,
+            ).toBe(false);
+        });
+
+        it("resolves the Spirit Power, is enabled, and merges its mastery level", () => {
+            const actor = makeAbilityActor();
+            const sp = makeAbilityOnActor(actor, "totem", 40);
+            const logic = makeAbility(
+                {
+                    subType: "shamanicrite",
+                    assocSkillCode: "totem",
+                    masteryLevelBase: 0,
+                },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.assocSpiritPower).toBe(sp);
+            expect(logic.hasValidSpiritPower).toBe(true);
+            expect(logic.isDisabled).toBe(false);
+            expect(logic.assocRef).toBe(sp);
+            logic.finalize();
+            expect(logic.masteryLevel.effective).toBe(40);
+        });
+
+        it("is disabled when no Spirit Power resolves", () => {
+            const actor = makeAbilityActor();
+            const logic = makeAbility(
+                { subType: "shamanicrite", assocSkillCode: "missing" },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.assocSpiritPower).toBeUndefined();
+            expect(logic.hasValidSpiritPower).toBe(false);
+            expect(logic.isDisabled).toBe(true);
+        });
+
+        it("is disabled when the reference is not a SPIRITPOWER ability", () => {
+            const actor = makeAbilityActor();
+            makeAbilityOnActor(actor, "wrongtype", 40, "alchemy");
+            const logic = makeAbility(
+                { subType: "shamanicrite", assocSkillCode: "wrongtype" },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.assocSpiritPower).toBeDefined();
+            expect(logic.hasValidSpiritPower).toBe(false);
+            expect(logic.isDisabled).toBe(true);
+        });
+
+        it("does not merge a mastery level when the Spirit Power is invalid", () => {
+            const actor = makeAbilityActor();
+            makeAbilityOnActor(actor, "wrongtype", 40, "alchemy");
+            const logic = makeAbility(
+                {
+                    subType: "shamanicrite",
+                    assocSkillCode: "wrongtype",
+                    masteryLevelBase: 0,
+                },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+            expect(logic.masteryLevel.hasBase).toBe(false);
+        });
+
+        it("successTest refuses (no roll) when the Spirit Power is invalid", async () => {
+            const actor = makeAbilityActor();
+            const logic = makeAbility(
+                { subType: "shamanicrite", assocSkillCode: "missing" },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            const spy = vi
+                .spyOn(logic.masteryLevel, "successTest")
+                .mockResolvedValue({ isSuccess: true } as any);
+            const result = await logic.successTest({ scope: {} } as any);
+            expect(result).toBeUndefined();
+            expect(spy).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("ritual action skill merge (#990)", () => {
+        it("merges its ritual skill's mastery level when the skill has one", () => {
+            const actor = makeAbilityActor();
+            const skill = makeSkillOnActor(actor, "ritefire", 40);
+            skill.initialize();
+            const logic = makeAbility(
+                {
+                    subType: "ritualaction",
+                    assocSkillCode: "ritefire",
+                    masteryLevelBase: 0,
+                },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+            expect(logic.masteryLevel.effective).toBe(40);
+        });
+
+        it("does not merge a disabled ritual-skill mastery level", () => {
+            const actor = makeAbilityActor();
+            const skill = makeSkillOnActor(actor, "ritefire", 40);
+            skill.initialize();
+            skill.masteryLevel.setDisabled("SOHL.Test.Disabled");
+            const logic = makeAbility(
+                {
+                    subType: "ritualaction",
+                    assocSkillCode: "ritefire",
+                    masteryLevelBase: 0,
+                },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            logic.finalize();
+            expect(logic.masteryLevel.hasBase).toBe(false);
         });
     });
 });

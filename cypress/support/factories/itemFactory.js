@@ -64,7 +64,11 @@ const KIND_DEFAULTS = {
     projectilegear: { subType: "arrow" },
     concoctiongear: { quantity: 1, subType: "mundane" },
     affliction: { subType: "other" },
-    mysticalability: { subType: "shamanicrite" },
+    // A self-sufficient default: divination is skill-governed but works with no
+    // association (its EML falls back to masteryLevelBase). The spirit-power
+    // subtypes (shamanicrite/spiritaction) are intentionally disabled until a
+    // Spirit Power is associated (#990), so they make a poor bare default.
+    mysticalability: { subType: "divination" },
     mystery: { subType: "other" },
 };
 

@@ -134,19 +134,21 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div></div>
                 </div>
                 {{#each section.items as |ability|}}
-                {{!-- An exhausted ability (finite charges, none left) is greyed
-                out and its EML roll is blocked until it is recharged (#990). --}}
-                <li class="ledger__row item{{#if ability.logic.isExhausted}} ledger__row--disabled{{/if}}" data-search-name="{{ability.name}}" data-item-id="{{ability.id}}" data-item-name="{{ability.name}}">
+                {{!-- A disabled ability — out of charges, or a spirit-power
+                subtype without a valid Spirit Power — is greyed out and its EML
+                roll is blocked until the condition clears (#990). --}}
+                <li class="ledger__row item{{#if ability.logic.isDisabled}} ledger__row--disabled{{/if}}" data-search-name="{{ability.name}}" data-item-id="{{ability.id}}" data-item-name="{{ability.name}}">
                     <div class="ledger__icon default-action">
                         <img src="{{ability.img}}" alt="" />
                     </div>
                     <div class="ledger__name default-action" data-tooltip="{{ability.name}}">{{ability.name}}</div>
                     {{#each section.columns as |col|}}
                         {{#if (eq col.kind "skill")}}
-                        {{!-- Skill: the associated skill's name, or "✕" when the
-                              ability uses its own mastery level instead. --}}
-                        <div class="ledger__cell ledger__cell--text{{#unless ability.logic.assocSkill}} ledger__cell--dim{{/unless}}">
-                            {{#if ability.logic.assocSkill}}{{ability.logic.assocSkill.name}}{{else}}<i class="fa-solid fa-xmark fa-lg"></i>{{/if}}
+                        {{!-- Assoc column (Skill, or "Spirit Power" for the
+                              spirit-power subtypes): the reference's name, or
+                              "✕" when none is associated. --}}
+                        <div class="ledger__cell ledger__cell--text{{#unless ability.logic.assocRef}} ledger__cell--dim{{/unless}}">
+                            {{#if ability.logic.assocRef}}{{ability.logic.assocRef.name}}{{else}}<i class="fa-solid fa-xmark fa-lg"></i>{{/if}}
                         </div>
                         {{else if (eq col.kind "level")}}
                         <div class="ledger__cell{{#if ability.logic.level.disabled}} ledger__cell--dim{{/if}}"
@@ -159,8 +161,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                             {{/if}}
                         </div>
                         {{else if (eq col.kind "eml")}}
-                        {{#if ability.logic.isExhausted}}
-                        {{!-- Exhausted: EML shown but not rollable. --}}
+                        {{#if ability.logic.isDisabled}}
+                        {{!-- Disabled: EML shown but not rollable. --}}
                         <div class="ledger__cell ledger__cell--dim"
                             data-tooltip="{{ability.logic.masteryLevel.deltaLabel}}" data-tooltip-direction="UP">
                             {{#if ability.logic.masteryLevel.disabled}}

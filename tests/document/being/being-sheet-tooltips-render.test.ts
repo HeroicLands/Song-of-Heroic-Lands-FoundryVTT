@@ -206,15 +206,13 @@ describe("mysteries.hbs value tooltips (#769)", () => {
         ],
         abilitySections: [
             {
-                subType: MYSTICALABILITY_SUBTYPE.SHAMANICRITE,
+                subType: MYSTICALABILITY_SUBTYPE.SPIRITPOWER,
                 label: "Spirit",
                 columns: mysticalAbilityColumns(
-                    MYSTICALABILITY_SUBTYPE.SHAMANICRITE,
+                    MYSTICALABILITY_SUBTYPE.SPIRITPOWER,
                 ),
                 ledgerCols: mysticalAbilityLedgerCols(
-                    mysticalAbilityColumns(
-                        MYSTICALABILITY_SUBTYPE.SHAMANICRITE,
-                    ),
+                    mysticalAbilityColumns(MYSTICALABILITY_SUBTYPE.SPIRITPOWER),
                 ),
                 items: [
                     {
@@ -223,10 +221,11 @@ describe("mysteries.hbs value tooltips (#769)", () => {
                         img: "icons/a.svg",
                         system: { notes: "", improveFlag: false },
                         logic: {
+                            assocRef: { name: "Spellcraft" },
                             level: vm("LVL Base +1"),
                             masteryLevel: vm("ML Base +30", 30),
                             charges,
-                            isExhausted: false,
+                            isDisabled: false,
                         },
                     },
                 ],

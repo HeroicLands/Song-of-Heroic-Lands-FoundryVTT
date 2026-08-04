@@ -1043,7 +1043,6 @@ describe("being-sheet-view", () => {
         const EXPECTED: Record<string, string[]> = {
             [MYSTICALABILITY_SUBTYPE.SHAMANICRITE]: [
                 "skill",
-                "level",
                 "eml",
                 "charges",
                 "notes",
@@ -1067,7 +1066,7 @@ describe("being-sheet-view", () => {
                 "charges",
                 "notes",
             ],
-            [MYSTICALABILITY_SUBTYPE.DIVINEDEVOTION]: [
+            [MYSTICALABILITY_SUBTYPE.RITUALACTION]: [
                 "skill",
                 "eml",
                 "charges",
@@ -1147,6 +1146,25 @@ describe("being-sheet-view", () => {
                     expect(col.labelKey).toMatch(
                         /^SOHL\.MysticalAbility\.COLUMN\./,
                     );
+                }
+            }
+        });
+
+        it("labels the assoc column 'Spirit Power' only for the spirit-power subtypes", () => {
+            const assocLabel = (subType: string) =>
+                mysticalAbilityColumns(subType).find((c) => c.kind === "skill")
+                    ?.labelKey;
+            for (const subType of MysticalAbilitySubTypes) {
+                const usesSpiritPower =
+                    subType === MYSTICALABILITY_SUBTYPE.SHAMANICRITE ||
+                    subType === MYSTICALABILITY_SUBTYPE.SPIRITACTION;
+                const label = assocLabel(subType);
+                if (usesSpiritPower) {
+                    expect(label).toBe(
+                        "SOHL.MysticalAbility.COLUMN.spiritpower",
+                    );
+                } else if (label) {
+                    expect(label).toBe("SOHL.MysticalAbility.COLUMN.skill");
                 }
             }
         });
