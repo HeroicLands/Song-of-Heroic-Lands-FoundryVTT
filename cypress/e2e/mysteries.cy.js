@@ -158,6 +158,45 @@ describe("mysteries", () => {
         });
     });
 
+    // GREEN (#1012): a Mystical Ability can name a faction/Affiliation it draws
+    // its standing from; the logic resolves it on the same actor and the
+    // Mysteries-tab shows its name in the Affiliation column (after Skill).
+    it("resolves and shows the associated Affiliation's name in the Mysteries tab (#1012)", () => {
+        cy.createActor("being", { name: "mystic" }).then((actor) => {
+            cy.createItemOn(actor, "affiliation", {
+                name: "Church of Larani",
+                system: { shortcode: "larani", level: 3 },
+            });
+            cy.createItemOn(actor, "mysticalability", {
+                name: "Fire Bolt",
+                system: {
+                    subType: "arcaneincantation",
+                    masteryLevelBase: 40,
+                    assocAffiliationCode: "larani",
+                },
+            }).then((item) => {
+                // The logic resolves the affiliation on the same actor.
+                cy.prepare(actor);
+                cy.foundry((win) => {
+                    const it = win.game.actors.get(actor.id).items.get(item.id);
+                    return it.logic.assocAffiliation?.name ?? null;
+                }).should("eq", "Church of Larani");
+
+                cy.openSheet(actor);
+                cy.switchTab("mysteries", "primary");
+                const tab = 'section.tab[data-tab="mysteries"] ';
+                // The Affiliation column header renders…
+                cy.get(tab + ".mysticalabilities-list .ledger__head").contains(
+                    "Affiliation",
+                );
+                // …and the ability row shows the affiliation name.
+                cy.get(tab + ".mysticalabilities-list .ledger__row").contains(
+                    "Church of Larani",
+                );
+            });
+        });
+    });
+
     // RED — blocked by #72 (Use Mystery action): the useMystery executor is not
     // yet implemented. Un-skip and assert the produced effect / chat card once wired.
     it.skip("useMystery performs the mystery's effect (#72)", () => {});
