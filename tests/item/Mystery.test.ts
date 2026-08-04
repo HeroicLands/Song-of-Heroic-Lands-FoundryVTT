@@ -3,7 +3,11 @@ import { MysteryLogic } from "@src/document/item/logic/MysteryLogic";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { ITEM_KIND, MYSTERY_SUBTYPE } from "@src/utils/constants";
-import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
+import {
+    makeItemLogic,
+    makeMockActor,
+    makeAttributeStub,
+} from "@tests/mocks/logicHarness";
 
 /**
  * Build a mock actor exposing the `itemTypes.skill` list that
@@ -263,6 +267,68 @@ describe("MysteryLogic", () => {
             );
             prepare(logic);
             expect(skill.masteryLevel.effective).toBe(before + 20);
+        });
+
+        /**
+         * Embed an unlearned skill (masteryLevelBase 0) whose SB derives from a
+         * `str` attribute, so a Boost must open it at Skill Base rather than
+         * boost off a zero seed. #981.
+         */
+        function makeUnlearnedSkillOnActor(actor: any, sb: number) {
+            actor.items.set("str1", makeAttributeStub("str", sb));
+            const skill = makeItemLogic(
+                SkillLogic,
+                ITEM_KIND.SKILL,
+                {
+                    subType: "social",
+                    skillBaseFormula: "sb(attr.str)",
+                    masteryLevelBase: 0,
+                    improveFlag: false,
+                    combatCategory: "none",
+                    parentSkillCode: "",
+                    initSkillMult: 1,
+                },
+                { actor, shortcode: "stealth", id: "skillstealth0000" },
+            );
+            skill.initialize();
+            skill.evaluate();
+            actor.itemTypes.skill.push(skill.item);
+            return skill;
+        }
+
+        it("Boost on an unlearned (ML-0) skill opens it at Skill Base and compounds (#981)", () => {
+            // SB 40, N=3 → open 40, then 40(+9)49(+8)57 ⇒ conferred EML 57.
+            // (Contrast the present-skill path, which would boost off seed 0.)
+            const actor = makeMysteryActor();
+            const skill = makeUnlearnedSkillOnActor(actor, 40);
+            expect(skill.masteryLevelSeed).toBe(0);
+            expect(skill.skillBase).toBe(40);
+            const logic = makeMystery(
+                {
+                    subType: MYSTERY_SUBTYPE.BOOST,
+                    assocSkillCode: "stealth",
+                    levelBase: 3,
+                },
+                { actor },
+            );
+            prepare(logic);
+            expect(skill.masteryLevel.effective).toBe(57);
+        });
+
+        it("Boost N=1 on an unlearned skill confers it at exactly Skill Base (#981)", () => {
+            // N=1 spends its only boost opening the skill: EML = SB, no compounding.
+            const actor = makeMysteryActor();
+            const skill = makeUnlearnedSkillOnActor(actor, 40);
+            const logic = makeMystery(
+                {
+                    subType: MYSTERY_SUBTYPE.BOOST,
+                    assocSkillCode: "stealth",
+                    levelBase: 1,
+                },
+                { actor },
+            );
+            prepare(logic);
+            expect(skill.masteryLevel.effective).toBe(40);
         });
 
         it("contributes nothing when the mystery has no level (disabled)", () => {

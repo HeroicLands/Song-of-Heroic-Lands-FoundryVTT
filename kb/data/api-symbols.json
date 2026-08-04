@@ -2322,6 +2322,7 @@
   "sohl.document.item.logic.MysteryLogic.kind": "classes/sohl.document.item.logic.MysteryLogic.html#kind",
   "sohl.document.item.logic.MysteryLogic.label": "classes/sohl.document.item.logic.MysteryLogic.html#label",
   "sohl.document.item.logic.MysteryLogic.level": "classes/sohl.document.item.logic.MysteryLogic.html#level",
+  "sohl.document.item.logic.MysteryLogic.maybeOfferConferredSkill": "classes/sohl.document.item.logic.MysteryLogic.html#maybeofferconferredskill",
   "sohl.document.item.logic.MysteryLogic.name": "classes/sohl.document.item.logic.MysteryLogic.html#name",
   "sohl.document.item.logic.MysteryLogic.outputDescription": "classes/sohl.document.item.logic.MysteryLogic.html#outputdescription",
   "sohl.document.item.logic.MysteryLogic.parent": "classes/sohl.document.item.logic.MysteryLogic.html#parent",

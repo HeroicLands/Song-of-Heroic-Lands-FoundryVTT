@@ -481,20 +481,23 @@ export async function fvttToggleActorStatus(
  * `game.packs` directly.
  *
  * @param shortcode - The `system.shortcode` to match.
+ * @param type - When given, only match items of this `type` (e.g. `"skill"`), so
+ *   a shortcode shared across item kinds resolves to the intended one.
  * @returns The matching item's create-data, or `undefined`.
  */
 export async function fvttFindItemByShortcode(
     shortcode: string,
+    type?: string,
 ): Promise<PlainObject | undefined> {
     if (!shortcode) return undefined;
-    const worldItem = (game as any).items?.find(
-        (i: any) => i.system?.shortcode === shortcode,
-    );
+    const matches = (i: any): boolean =>
+        i?.system?.shortcode === shortcode && (!type || i?.type === type);
+    const worldItem = (game as any).items?.find(matches);
     if (worldItem) return worldItem.toObject();
     for (const pack of ((game as any).packs ?? []) as Iterable<any>) {
         if (pack.documentName !== "Item") continue;
         const docs = await pack.getDocuments();
-        const match = docs.find((d: any) => d.system?.shortcode === shortcode);
+        const match = docs.find(matches);
         if (match) return match.toObject();
     }
     return undefined;
