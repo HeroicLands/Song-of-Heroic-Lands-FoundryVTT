@@ -190,7 +190,12 @@ describe("buildInjuryCardData", () => {
             handlerActorUuid: "Actor.actor1",
             name: "Longsword",
             bodyZoneName: "Neck",
-            bodyPartName: "head",
+            // Zone / Location resolve to their human-readable names (never a
+            // shortcode): the neck location sits in the "headzone" zone. The
+            // body part is deliberately not surfaced — it is inferable from
+            // the location.
+            zoneName: "headzone",
+            locationName: "Neck",
             aspect: IMPACT_ASPECT.EDGED,
             impactVal: 22,
             isInjured: true,
@@ -199,6 +204,40 @@ describe("buildInjuryCardData", () => {
             canAmputate: true,
             addToCharSheet: true,
         });
+    });
+
+    it("resolves Zone / Location to their names, never their shortcodes", () => {
+        // A body whose zone and location carry display names distinct from
+        // their shortcodes, so a name-vs-shortcode regression cannot pass
+        // silently.
+        const body = makeBodyFixture({
+            zones: [zoneData("z1", 1, { name: "Arms" })],
+            parts: [partData("p1", "z1", 10, { name: "Left Arm" })],
+            locations: [
+                locationData("l1", "p1", 10, { name: "Upper Left Arm" }),
+            ],
+        });
+        const loc = body.getAllLocations().find((l) => l.shortcode === "l1")!;
+        const injury = resolveInjury({
+            impact: 10,
+            aspect: IMPACT_ASPECT.BLUNT,
+            body,
+            location: loc,
+        });
+        const data = buildInjuryCardData(injury, {
+            actorId: "a1",
+            handlerActorUuid: "Actor.a1",
+            name: "Club",
+            addToCharSheet: false,
+        });
+        expect(data).toMatchObject({
+            zoneName: "Arms",
+            locationName: "Upper Left Arm",
+        });
+        // The body part is not surfaced on the card (inferable from location),
+        // and the old shortcode-based field is gone.
+        expect(data.bodyPartName).toBeUndefined();
+        expect(data.partName).toBeUndefined();
     });
 
     it("carries the Shock Roll button's scope (#555)", () => {

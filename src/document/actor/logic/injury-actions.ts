@@ -264,7 +264,11 @@ export function buildInjuryCardData(
         handlerActorUuid: ctx.handlerActorUuid,
         name: ctx.name,
         bodyZoneName: injury.location.name,
-        bodyPartName: injury.location.bodyPart.shortcode,
+        // Zone and Location are shown by their human-readable names (never a
+        // shortcode). The Body Part is deliberately omitted from the card — it
+        // is inferable from the location.
+        zoneName: injury.location.bodyPart.zone.name,
+        locationName: injury.location.name,
         aspect: injury.aspect,
         armorType: injury.armorType,
         armorValue: injury.armorValue,

@@ -22,9 +22,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <div class="flexrow">
             <span class="label">{{localize "SOHL.Chat.Injury.hitLocationRoll"}}:</span>
             <span class="value"
-                >ZN {{targetZoneNumber}} + {{zoneDieLabel}}
-                ({{zoneDieResult}}) = ZN {{hitZoneNumber}} &rarr;
-                {{localize "SOHL.Chat.Injury.missed"}}</span
+                >{{localize "SOHL.Chat.Injury.zoneRoll"
+                targetZoneNumber=targetZoneNumber zoneDieLabel=zoneDieLabel
+                zoneDieResult=zoneDieResult hitZoneNumber=hitZoneNumber
+                zoneName=(localize "SOHL.Chat.Injury.missed")}}</span
             >
         </div>
     </div>
@@ -42,28 +43,36 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <h4 class="subtitle">{{name}}</h4>
     </header>
 
-    {{#if locationDerived}}
+    {{!-- Zone: the Zone-Number + Zone-Die aim trace ending in the zone name
+    when the location was derived, else just the zone name. --}}
     <div class="card-content center">
         <div class="flexrow">
-            <span class="label">{{localize "SOHL.Chat.Injury.hitLocationRoll"}}:</span>
+            <span class="label">{{localize "SOHL.Chat.Injury.zone"}}:</span>
+            {{#if locationDerived}}
             <span class="value"
-                >ZN {{targetZoneNumber}} + {{zoneDieLabel}}
-                ({{zoneDieResult}}) = ZN
-                {{hitZoneNumber}}{{#if hitZoneName}} &rarr;
-                {{hitZoneName}}{{/if}}</span
+                >{{localize "SOHL.Chat.Injury.zoneRoll"
+                targetZoneNumber=targetZoneNumber zoneDieLabel=zoneDieLabel
+                zoneDieResult=zoneDieResult hitZoneNumber=hitZoneNumber
+                zoneName=zoneName}}</span
             >
+            {{else}}
+            <span class="value">{{zoneName}}</span>
+            {{/if}}
         </div>
     </div>
-    {{else if locationOverridden}}
+
+    {{#if locationOverridden}}
     <div class="card-content center">
         <span class="note failure-text">{{localize "SOHL.Chat.Injury.locationOverridden"}}</span>
     </div>
     {{/if}}
 
+    {{!-- Location: the struck hit-location's name. The Body Part is intentionally
+    not shown — it is inferable from the location. --}}
     <div class="card-content center">
         <div class="flexrow">
-            <span class="label">{{localize "SOHL.Chat.Injury.bodyPart"}}:</span>
-            <span class="value">{{bodyPartName}}</span>
+            <span class="label">{{localize "SOHL.Chat.Injury.location"}}:</span>
+            <span class="value">{{locationName}}</span>
         </div>
     </div>
 
@@ -93,10 +102,26 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
     </div>
 
+    {{!-- Summary: Impact (Imp), Injury Level (IL), Shock Index (Shk) as three
+    inline label:value cells on a single row. --}}
     <div class="card-content center">
-        <div class="flexrow">
-            <span class="label">{{localize "SOHL.Chat.Injury.impact"}}:</span>
-            <span class="value"><strong>{{impactVal}}</strong></span>
+        <div class="flexrow injury-summary">
+            <span class="summary-cell">
+                <span class="label">{{localize "SOHL.Chat.Injury.impact"}}:</span>
+                <span class="value"><strong>{{impactVal}}</strong></span>
+            </span>
+            <span class="summary-cell">
+                <span class="label">{{localize "SOHL.Chat.Injury.injuryLevel"}}:</span>
+                {{#if isInjured}}
+                <span class="value failure-text">{{injuryLevelText}}</span>
+                {{else}}
+                <span class="value success-text">{{localize "SOHL.Chat.Injury.noInjury"}}</span>
+                {{/if}}
+            </span>
+            <span class="summary-cell">
+                <span class="label">{{localize "SOHL.Chat.Injury.shockIndex"}}:</span>
+                <span class="value">{{shockIndex}}</span>
+            </span>
         </div>
     </div>
 
@@ -110,28 +135,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
     {{/if}}
 
-    {{#unless isInjured}}
-    <div class="card-content center">
-        <div class="flexrow">
-            <span class="label">{{localize "SOHL.Chat.Injury.injuryLevel"}}:</span>
-            <span class="value success-text">{{localize "SOHL.Chat.Injury.noInjury"}}</span>
-        </div>
-    </div>
-    {{else}}
-    <div class="card-content center">
-        <div class="flexrow">
-            <span class="label">{{localize "SOHL.Chat.Injury.injuryLevel"}}:</span>
-            <span class="value failure-text">{{injuryLevelText}}</span>
-        </div>
-    </div>
-    {{/unless}}
-
     {{#if needsShockRoll}}
     <div class="card-content center">
-        <div class="flexrow">
-            <span class="label">{{localize "SOHL.Chat.Injury.shockIndex"}}:</span>
-            <span class="value">{{shockIndex}}</span>
-        </div>
         <div class="flexrow">
             <span class="note failure-text">{{localize "SOHL.Chat.Injury.makeShockRoll"}}</span>
         </div>
@@ -143,10 +148,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
     {{else}}
     <div class="card-content center">
-        <div class="flexrow">
-            <span class="label">{{localize "SOHL.Chat.Injury.shockIndex"}}:</span>
-            <span class="value">{{shockIndex}}</span>
-        </div>
         <div class="flexrow">
             <span class="note">{{localize "SOHL.Chat.Injury.shockNotNeeded"}}</span>
         </div>
