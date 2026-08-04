@@ -217,7 +217,8 @@ describe("injury-card zone-die states (#828)", () => {
         handlerActorUuid: "Actor.a1",
         name: "Longsword",
         bodyZoneName: "Torso",
-        bodyPartName: "thorax",
+        zoneName: "Torso",
+        locationName: "Thorax",
         aspect: "edged",
         armorType: "",
         armorValue: 0,
@@ -230,7 +231,7 @@ describe("injury-card zone-die states (#828)", () => {
         addToCharSheet: false,
     };
 
-    it("shows the aim trace when the location was derived", () => {
+    it("shows the Zone aim trace and the Location name, but never the Body Part", () => {
         const html = renderTemplateReal(`${CHAT}/injury-card.hbs`, {
             ...base,
             isMiss: false,
@@ -243,10 +244,43 @@ describe("injury-card zone-die states (#828)", () => {
             hitZoneNumber: 4,
             hitZoneName: "Torso",
         });
-        expect(html).toContain("Hit Location Roll:");
-        expect(html.replace(/\s+/g, " ")).toContain("ZN 2 + d6 (3) = ZN 4");
-        expect(html).toContain("Torso");
+        const flat = html.replace(/\s+/g, " ");
+        // Localized Zone / Location labels.
+        expect(html).toContain("Zone:");
+        expect(html).toContain("Location:");
+        // Zone value is the full aim trace ending in the zone name. The "="
+        // comes from inside the localized string, so Handlebars HTML-escapes
+        // it (still renders as "=" in the browser); assert around it.
+        expect(flat).toContain("ZN 2 + d6 (3)");
+        expect(flat).toContain("ZN 4 → Torso");
+        // Location value is the location's name (its own value span).
+        expect(flat).toContain('<span class="value">Thorax</span>');
+        // The Body Part is not shown at all (inferable from the location).
+        expect(html).not.toContain("Body Part");
         expect(html).not.toContain("Location overridden by player");
+    });
+
+    it("renders the Imp / IL / Shk three-column summary with localized headers", () => {
+        const html = renderTemplateReal(`${CHAT}/injury-card.hbs`, {
+            ...base,
+            isMiss: false,
+            locationDerived: true,
+            locationOverridden: false,
+            targetZoneNumber: 2,
+            zoneDie: 6,
+            zoneDieLabel: "d6",
+            zoneDieResult: 3,
+            hitZoneNumber: 4,
+            hitZoneName: "Torso",
+        });
+        // Compact column headers (localized).
+        expect(html).toContain("Imp");
+        expect(html).toContain("IL");
+        expect(html).toContain("Shk");
+        // Their values render together in the summary.
+        expect(html).toContain("12"); // impact
+        expect(html).toContain("S3"); // injury level
+        expect(html).toContain("3"); // shock index
     });
 
     it("shows a red override notice when the location was set by hand", () => {
@@ -277,7 +311,11 @@ describe("injury-card zone-die states (#828)", () => {
             addToCharSheet: false,
         });
         expect(html).toContain("Missed");
-        expect(html.replace(/\s+/g, " ")).toContain("ZN 3 + d6 (5) = ZN 7");
+        const flatMiss = html.replace(/\s+/g, " ");
+        // The "=" inside the localized roll string is HTML-escaped; assert
+        // around it. The trace ends in the localized "Missed".
+        expect(flatMiss).toContain("ZN 3 + d6 (5)");
+        expect(flatMiss).toContain("ZN 7 → Missed");
         expect(html).toContain("no impact");
         // No injury rows on a miss.
         expect(html).not.toContain("Injury Level:");

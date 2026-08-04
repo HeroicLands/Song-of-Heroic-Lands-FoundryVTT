@@ -103,6 +103,26 @@
             text-align: left;
         }
 
+        // The injury card's Imp / IL / Shk summary: three inline "label: value"
+        // cells spread across a single row.
+        .injury-summary {
+            justify-content: space-around;
+
+            .summary-cell {
+                display: inline-flex;
+                gap: 4px;
+                white-space: nowrap;
+            }
+
+            .label {
+                padding-right: 0;
+            }
+
+            .value {
+                text-align: left;
+            }
+        }
+
         .adjustment {
             border-top: 2px groove var(--sohl-color-border-subtle);
             border-bottom: 2px groove var(--sohl-color-border-subtle);
