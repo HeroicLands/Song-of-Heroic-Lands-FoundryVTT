@@ -108,4 +108,29 @@ export class MysteryDataModel<
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineMysterySchema();
     }
+
+    /**
+     * On creation, when a **Boost** mystery lands on an actor and names a skill
+     * the actor does not have (only possible for a world/compendium Boost dropped
+     * onto the actor — an embedded mystery picks its `assocSkillCode` from the
+     * actor's own skills), offer to add that skill at mastery level 0 so the
+     * Boost can confer it. The offer runs only on the initiating client and is
+     * fire-and-forget; see {@link MysteryLogic.maybeOfferConferredSkill}. #981.
+     *
+     * @param data - The create source data.
+     * @param options - The creation options.
+     * @param userId - The id of the user who initiated the creation.
+     */
+    protected override _onCreate(
+        data: PlainObject,
+        options: PlainObject,
+        userId: string,
+    ): void {
+        super._onCreate(data as any, options as any, userId);
+        // Only the initiating client offers, and only for a mystery embedded on
+        // an actor.
+        if ((game as any).user?.id !== userId) return;
+        if (!(this.parent as any)?.actor) return;
+        void this.logic.maybeOfferConferredSkill();
+    }
 }

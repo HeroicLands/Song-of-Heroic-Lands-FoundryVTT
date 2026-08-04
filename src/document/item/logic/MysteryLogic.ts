@@ -17,11 +17,18 @@ import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
 import { computeBoostContribution } from "@src/document/item/logic/masteryBoost";
 import {
+    dialog,
+    fvttCreateEmbeddedItems,
+    fvttFindItemByShortcode,
+} from "@src/core/FoundryHelpers";
+import { toHTMLString } from "@src/utils/helpers";
+import {
     SohlItemBaseLogic,
     type SohlItemData,
 } from "@src/document/item/logic/SohlItemBaseLogic";
 import {
     ACTION_SUBTYPE,
+    ITEM_KIND,
     MYSTERY_SUBTYPE,
     MysterySubType,
     SOHL_ACTION_SCOPE,
@@ -206,12 +213,15 @@ export class MysteryLogic<
      * - **Boon:** a flat `±N` modifier, where `N` is the mystery's
      *   {@link level | level.effective}.
      * - **Boost:** `N` temporary Mastery Boosts (see
-     *   {@link computeBoostContribution}) compounded off the skill's seeded
-     *   mastery level, contributed as the resulting EML delta.
+     *   {@link computeBoostContribution}). Off a **learned** skill they compound
+     *   off its seeded mastery level; off an **unlearned** skill (seeded ML 0)
+     *   the first boost opens it at its Skill Base and the rest compound, so the
+     *   skill is conferred at that EML. Either way the result is a live delta.
      *
-     * The absent-skill Boost path (conferring a skill the character lacks as a
-     * transient, rollable skill) is deferred to a later phase; here a `boost`
-     * with no resolvable skill simply contributes nothing.
+     * A `boost` naming a skill the actor lacks entirely contributes nothing here;
+     * materializing that skill (at ML 0, so this method then confers it) is
+     * offered once when the Boost is dropped onto the actor — see
+     * {@link maybeOfferConferredSkill}. #981.
      */
     protected contributeSkillEffect(): void {
         const skill = this.assocSkill;
@@ -226,15 +236,96 @@ export class MysteryLogic<
         if (this.data.subType === MYSTERY_SUBTYPE.BOON) {
             skill.masteryLevel.add("SOHL.Mystery.BoonMod", "Boon", n);
         } else if (this.data.subType === MYSTERY_SUBTYPE.BOOST) {
-            const { delta } = computeBoostContribution({
-                hasSkill: true,
-                seedML: skill.masteryLevelSeed,
-                count: n,
-            });
+            // An unlearned skill (seeded mastery level 0 — e.g. one conferred at
+            // ML 0 by dropping this Boost, see maybeOfferConferredSkill) is
+            // *opened at its Skill Base* and the remaining boosts compound off
+            // that; a learned skill boosts off its own seed. #981.
+            const seedML = skill.masteryLevelSeed;
+            const { delta } = computeBoostContribution(
+                seedML === 0 ?
+                    {
+                        hasSkill: false,
+                        skillBase: skill.skillBase ?? 0,
+                        count: n,
+                    }
+                :   { hasSkill: true, seedML, count: n },
+            );
             if (delta !== 0) {
                 skill.masteryLevel.add("SOHL.Mystery.BoostMod", "Boost", delta);
             }
         }
+    }
+
+    /**
+     * When this Boost names a skill the actor does not have, offer to add that
+     * skill — resolved from the world/compendiums by its shortcode — as an
+     * **unlearned** embedded skill (mastery level base 0). Once present, the
+     * Boost opens it at its Skill Base and boosts it (see the boost-contribution
+     * logic in `contributeSkillEffect`); should the Boost later lapse, the skill
+     * simply sits at ML 0 (harmless) until its owner deletes it.
+     *
+     * This is the only way an absent-skill Boost arises: an *embedded* mystery's
+     * `assocSkillCode` is picked from the actor's own skills, so a code the actor
+     * lacks can only come from a world/compendium Boost **dropped onto the
+     * actor** — which is exactly the human-initiated moment this offer belongs to
+     * (the consent model: offer at a behest, never act unbidden). Driven from
+     * `MysteryDataModel._onCreate`, on the initiating client only.
+     *
+     * No-op unless this is a `boost` naming a skill absent from the actor; a
+     * shortcode resolving to no skill anywhere is reported, not offered. #981.
+     *
+     * @returns Resolves once the offer — and any resulting skill creation —
+     *   settles.
+     */
+    async maybeOfferConferredSkill(): Promise<void> {
+        if (this.data.subType !== MYSTERY_SUBTYPE.BOOST) return;
+        const code = this.data.assocSkillCode;
+        if (!code) return;
+        const actorLogic = this.actorLogic;
+        if (!actorLogic) return;
+        // Already on the actor? Nothing to confer.
+        if (resolveAssocSkill(actorLogic, code)) return;
+
+        const def = await fvttFindItemByShortcode(code, ITEM_KIND.SKILL);
+        if (!def) {
+            sohl.log.uiWarn("SOHL.Mystery.ConferSkill.notFound", { code });
+            return;
+        }
+
+        const skillName = String(def.name ?? code);
+        const answer = await dialog({
+            title: sohl.i18n.localize("SOHL.Mystery.ConferSkill.title"),
+            content: toHTMLString("<p>{{prompt}}</p>"),
+            data: {
+                prompt: sohl.i18n.format("SOHL.Mystery.ConferSkill.prompt", {
+                    skill: skillName,
+                    actor: actorLogic.name ?? "",
+                }),
+            },
+            buttons: [
+                {
+                    action: "add",
+                    label: sohl.i18n.localize("SOHL.Mystery.ConferSkill.add"),
+                    icon: "fa-solid fa-plus",
+                    default: true,
+                },
+                {
+                    action: "no",
+                    label: sohl.i18n.localize("SOHL.Mystery.ConferSkill.no"),
+                },
+            ],
+            callback: (_formData: unknown, action: string) => action,
+        });
+        if (answer !== "add") return;
+
+        // Add as an unlearned skill: masteryLevelBase 0 so the Boost opens it at
+        // Skill Base. Drop the source `_id` so Foundry mints a fresh embedded id.
+        const skillData: PlainObject = {
+            ...def,
+            system: { ...(def.system as object), masteryLevelBase: 0 },
+        };
+        delete skillData._id;
+        await fvttCreateEmbeddedItems(actorLogic, [skillData]);
     }
 }
 

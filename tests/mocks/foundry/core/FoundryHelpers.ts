@@ -367,6 +367,7 @@ export async function fvttToggleActorStatus(
 
 export async function fvttFindItemByShortcode(
     _shortcode: string,
+    _type?: string,
 ): Promise<any> {
     return undefined;
 }
