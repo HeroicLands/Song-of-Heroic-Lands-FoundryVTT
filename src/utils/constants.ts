@@ -1590,14 +1590,12 @@ export const {
     /** Type guard for mystical-ability subtype values. */
     isValue: isMysticalAbilitySubType,
 } = defineType("SOHL.MysticalAbility.SubType", {
-    /** A prepared ceremony by which a shaman petitions the spirit world. */
-    SHAMANICRITE: "shamanicrite",
+    /** A prepared ceremony by which a practitioner petitions the spirit world. */
+    SPIRITRITE: "spiritrite",
     /** A discrete supernatural act performed through an allied or bound spirit. */
     SPIRITACTION: "spiritaction",
     /** A standing power conferred on its bearer by a spirit. */
     SPIRITPOWER: "spiritpower",
-    /** A minor blessing granted in answer to prayer. */
-    BENEDICTION: "benediction",
     /** A prescribed ritual act performed to earn the favour of a deity. */
     RITUALACTION: "ritualaction",
     /** A spoken invocation channelling the power of a deity. */

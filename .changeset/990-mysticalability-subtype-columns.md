@@ -15,7 +15,7 @@ invoking an ability consumes a charge.
   `spirittalent`). The column set is data-driven, mirroring the Trauma tab's
   `MYSTICALABILITY_SUBTYPE_COLUMNS`. A sub-type section still appears only when at
   least one item of that sub-type exists.
-- **Spirit Power association.** `shamanicrite` and `spiritaction` are governed by a
+- **Spirit Power association.** `spiritrite` and `spiritaction` are governed by a
   **Spirit Power** rather than a skill: their assoc column is labelled "Spirit
   Power", the shortcode resolves to a SPIRITPOWER Mystical Ability on the actor,
   and the ability's EML is derived from that Spirit Power's mastery level. When no

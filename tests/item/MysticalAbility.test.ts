@@ -596,10 +596,10 @@ describe("MysticalAbilityLogic", () => {
     });
 
     describe("spirit-power association (#990)", () => {
-        it("usesSpiritPower is true only for shamanicrite/spiritaction", () => {
-            expect(
-                makeAbility({ subType: "shamanicrite" }).usesSpiritPower,
-            ).toBe(true);
+        it("usesSpiritPower is true only for spiritrite/spiritaction", () => {
+            expect(makeAbility({ subType: "spiritrite" }).usesSpiritPower).toBe(
+                true,
+            );
             expect(
                 makeAbility({ subType: "spiritaction" }).usesSpiritPower,
             ).toBe(true);
@@ -616,7 +616,7 @@ describe("MysticalAbilityLogic", () => {
             const sp = makeAbilityOnActor(actor, "totem", 40);
             const logic = makeAbility(
                 {
-                    subType: "shamanicrite",
+                    subType: "spiritrite",
                     assocSkillCode: "totem",
                     masteryLevelBase: 0,
                 },
@@ -635,7 +635,7 @@ describe("MysticalAbilityLogic", () => {
         it("is disabled when no Spirit Power resolves", () => {
             const actor = makeAbilityActor();
             const logic = makeAbility(
-                { subType: "shamanicrite", assocSkillCode: "missing" },
+                { subType: "spiritrite", assocSkillCode: "missing" },
                 { actor },
             );
             logic.initialize();
@@ -649,7 +649,7 @@ describe("MysticalAbilityLogic", () => {
             const actor = makeAbilityActor();
             makeAbilityOnActor(actor, "wrongtype", 40, "alchemy");
             const logic = makeAbility(
-                { subType: "shamanicrite", assocSkillCode: "wrongtype" },
+                { subType: "spiritrite", assocSkillCode: "wrongtype" },
                 { actor },
             );
             logic.initialize();
@@ -664,7 +664,7 @@ describe("MysticalAbilityLogic", () => {
             makeAbilityOnActor(actor, "wrongtype", 40, "alchemy");
             const logic = makeAbility(
                 {
-                    subType: "shamanicrite",
+                    subType: "spiritrite",
                     assocSkillCode: "wrongtype",
                     masteryLevelBase: 0,
                 },
@@ -679,7 +679,7 @@ describe("MysticalAbilityLogic", () => {
         it("successTest refuses (no roll) when the Spirit Power is invalid", async () => {
             const actor = makeAbilityActor();
             const logic = makeAbility(
-                { subType: "shamanicrite", assocSkillCode: "missing" },
+                { subType: "spiritrite", assocSkillCode: "missing" },
                 { actor },
             );
             logic.initialize();

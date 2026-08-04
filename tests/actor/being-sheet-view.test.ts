@@ -1061,7 +1061,7 @@ describe("being-sheet-view", () => {
         // The column set each Mystical Ability sub-type shows on the Being
         // sheet. eml / charges / notes are always present; skill and level vary.
         const EXPECTED: Record<string, string[]> = {
-            [MYSTICALABILITY_SUBTYPE.SHAMANICRITE]: [
+            [MYSTICALABILITY_SUBTYPE.SPIRITRITE]: [
                 "skill",
                 "eml",
                 "charges",
@@ -1077,12 +1077,6 @@ describe("being-sheet-view", () => {
                 "skill",
                 "affiliation",
                 "level",
-                "eml",
-                "charges",
-                "notes",
-            ],
-            [MYSTICALABILITY_SUBTYPE.BENEDICTION]: [
-                "skill",
                 "eml",
                 "charges",
                 "notes",
@@ -1181,7 +1175,7 @@ describe("being-sheet-view", () => {
                     ?.labelKey;
             for (const subType of MysticalAbilitySubTypes) {
                 const usesSpiritPower =
-                    subType === MYSTICALABILITY_SUBTYPE.SHAMANICRITE ||
+                    subType === MYSTICALABILITY_SUBTYPE.SPIRITRITE ||
                     subType === MYSTICALABILITY_SUBTYPE.SPIRITACTION;
                 const label = assocLabel(subType);
                 if (usesSpiritPower) {
