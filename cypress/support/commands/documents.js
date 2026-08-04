@@ -220,22 +220,55 @@ Cypress.Commands.add("dropOnItem", (item, doc) =>
 Cypress.Commands.add("cleanupWorld", () =>
     cy.foundry(async (win) => {
         const g = win.game;
-        const taggedIds = (coll) =>
-            coll.filter((d) => isE2EArtifact(d)).map((d) => d.id);
+        const tagged = (coll) => coll.filter((d) => isE2EArtifact(d));
 
-        const actorIds = taggedIds(g.actors);
-        if (actorIds.length) await win.Actor.deleteDocuments(actorIds);
+        const actors = tagged(g.actors);
+        const items = tagged(g.items);
+        const scenes = tagged(g.scenes);
 
-        const itemIds = taggedIds(g.items);
-        if (itemIds.length) await win.Item.deleteDocuments(itemIds);
+        // Close the open sheets of the docs we're about to delete FIRST, awaiting
+        // each close so its root element is removed from the DOM synchronously
+        // (within this command). Deleting a document triggers a fire-and-forget
+        // sheet close whose async element removal can outlive `deleteDocuments`;
+        // because `testIsolation` is off, that orphaned sheet then lingers in the
+        // DOM and accumulates across tests, where a later un-scoped global
+        // selector (e.g. `switchTab`'s `section.tab[data-tab=…]`) matches the
+        // stale sheet instead of the current one — breaking the third+
+        // sheet-opening test in a spec (#979). `animate: false` skips the exit
+        // animation so removal is immediate and deterministic headless.
+        const doomed = new Set([...actors, ...items, ...scenes]);
+        await Promise.all(
+            [...(win.foundry.applications.instances?.values?.() ?? [])]
+                .filter((app) => app.rendered && doomed.has(app.document))
+                .map((app) => app.close({ animate: false })),
+        );
 
-        const sceneIds = taggedIds(g.scenes);
-        if (sceneIds.length) await win.Scene.deleteDocuments(sceneIds);
+        const del = async (Cls, docs) => {
+            if (docs.length) await Cls.deleteDocuments(docs.map((d) => d.id));
+        };
+        await del(win.Actor, actors);
+        await del(win.Item, items);
+        await del(win.Scene, scenes);
 
         if (g.combats.size)
             await win.Combat.deleteDocuments(g.combats.map((c) => c.id));
         if (g.messages.size)
             await win.ChatMessage.deleteDocuments(g.messages.map((m) => m.id));
+
+        // Belt-and-suspenders: sweep any already-orphaned sheet elements left in
+        // the DOM by an earlier fire-and-forget close (closed instance whose root
+        // element is still attached), so no stale sheet can survive a cleanup.
+        for (const app of win.foundry.applications.instances?.values?.() ??
+            []) {
+            if (
+                app?.document &&
+                !app.rendered &&
+                app.element &&
+                win.document.body.contains(app.element)
+            ) {
+                app.element.remove();
+            }
+        }
 
         return true;
     }),
