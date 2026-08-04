@@ -34,6 +34,7 @@ import { registerCombatantConfigHooks } from "@src/document/combatant/combatant-
 import { wireSohlHookBridge } from "@src/core/logic/SohlHookBridge";
 import { CalendarSettingsMenu } from "@src/apps/foundry/CalendarSettingsMenu";
 import { ExpressionLibraryMenu } from "@src/apps/foundry/ExpressionLibraryMenu";
+import { AstrologyTraditionsMenu } from "@src/apps/foundry/AstrologyTraditionsMenu";
 import { registerSystemTours } from "@src/apps/foundry/tours/register-tours";
 import { postWelcomeCard } from "@src/apps/foundry/welcome-card";
 import { injectSettingsLinks } from "@src/apps/foundry/settings-sidebar-links";
@@ -273,6 +274,25 @@ function registerSystemSettings() {
         hint: "SOHL.Settings.expressionHelpersMenu.hint",
         icon: "fa-solid fa-scroll",
         type: ExpressionLibraryMenu as any,
+        restricted: true,
+    });
+
+    // Astrology traditions registry: the world-authored birthsign traditions,
+    // layered over the built-ins by fvttAstrologyTraditions and edited through
+    // the AstrologyTraditionsMenu (#1018).
+    game.settings.register("sohl", "astrologyTraditions", {
+        name: "SOHL.Astrology.Settings.name",
+        scope: "world",
+        config: false,
+        type: Object,
+        default: {},
+    });
+    game.settings.registerMenu("sohl", "astrologyTraditionsMenu", {
+        name: "SOHL.Astrology.Settings.menu.name",
+        label: "SOHL.Astrology.Settings.menu.label",
+        hint: "SOHL.Astrology.Settings.menu.hint",
+        icon: "fa-solid fa-star-and-crescent",
+        type: AstrologyTraditionsMenu as any,
         restricted: true,
     });
 }

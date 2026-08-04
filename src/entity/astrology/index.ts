@@ -16,3 +16,4 @@
 
 export * from "./AstrologyTradition";
 export * from "./builtin-traditions";
+export * from "./validate-traditions";
