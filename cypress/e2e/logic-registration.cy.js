@@ -67,6 +67,9 @@ describe("logic-class registration", () => {
                             JSON.stringify({
                                 name: "Reg Skill",
                                 type: "skill",
+                                // subType is required with no initial (#956), so a
+                                // bare skill create is vetoed at validation.
+                                system: { subType: "social" },
                             }),
                         ),
                     ]);
@@ -102,7 +105,12 @@ describe("logic-class registration", () => {
                 const a = win.game.actors.get(actor.id);
                 const [skill] = await a.createEmbeddedDocuments("Item", [
                     win.JSON.parse(
-                        JSON.stringify({ name: "Base Skill", type: "skill" }),
+                        JSON.stringify({
+                            name: "Base Skill",
+                            type: "skill",
+                            // subType is required with no initial (#956).
+                            system: { subType: "social" },
+                        }),
                     ),
                 ]);
                 return {

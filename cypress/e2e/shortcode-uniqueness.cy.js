@@ -45,7 +45,9 @@ describe("shortcode uniqueness (#766)", () => {
                     toRealm(win, {
                         name: tagName("Beta"),
                         type: "skill",
-                        system: { shortcode: "dupsc" },
+                        // subType is required with no initial (#956); without it
+                        // the create is vetoed and the dedupe never runs.
+                        system: { subType: "social", shortcode: "dupsc" },
                     }),
                     { shortcodeDedupe: true },
                 ).then((doc) => doc?.system?.shortcode),
