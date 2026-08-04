@@ -88,9 +88,9 @@ describe("Being Mysteries tab — per-sub-type Mystical Ability columns (#990)",
         expect(html).toContain(">EML<");
     });
 
-    it("hides the Lvl column for a subtype without a level (benediction)", () => {
-        const html = render(MYSTICALABILITY_SUBTYPE.BENEDICTION, [
-            abilityLike({ name: "Blessing" }),
+    it("hides the Lvl column for a subtype without a level (ritual action)", () => {
+        const html = render(MYSTICALABILITY_SUBTYPE.RITUALACTION, [
+            abilityLike({ name: "Devotion" }),
         ]);
         expect(html).toContain(">Skill<");
         expect(html).not.toContain(">Lvl<");
@@ -130,7 +130,7 @@ describe("Being Mysteries tab — per-sub-type Mystical Ability columns (#990)",
     });
 
     it("renders the Chgs/Max cell as left/max for finite charges", () => {
-        const html = render(MYSTICALABILITY_SUBTYPE.BENEDICTION, [
+        const html = render(MYSTICALABILITY_SUBTYPE.RITUALACTION, [
             abilityLike({
                 logic: { charges: { value: mod(2), max: mod(4) } },
             }),
@@ -139,9 +139,9 @@ describe("Being Mysteries tab — per-sub-type Mystical Ability columns (#990)",
     });
 
     it("greys and disables the row of an exhausted ability, blocking its roll", () => {
-        const html = render(MYSTICALABILITY_SUBTYPE.BENEDICTION, [
+        const html = render(MYSTICALABILITY_SUBTYPE.RITUALACTION, [
             abilityLike({
-                name: "Spent Blessing",
+                name: "Spent Devotion",
                 logic: {
                     charges: { value: mod(0), max: mod(4) },
                     isDisabled: true,
@@ -154,7 +154,7 @@ describe("Being Mysteries tab — per-sub-type Mystical Ability columns (#990)",
     });
 
     it("keeps the EML cell rollable while the ability is enabled", () => {
-        const html = render(MYSTICALABILITY_SUBTYPE.BENEDICTION, [
+        const html = render(MYSTICALABILITY_SUBTYPE.RITUALACTION, [
             abilityLike({}),
         ]);
         expect(html).toContain('data-action="successTest"');

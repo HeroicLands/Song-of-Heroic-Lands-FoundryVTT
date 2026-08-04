@@ -1596,8 +1596,6 @@ export const {
     SPIRITACTION: "spiritaction",
     /** A standing power conferred on its bearer by a spirit. */
     SPIRITPOWER: "spiritpower",
-    /** A minor blessing granted in answer to prayer. */
-    BENEDICTION: "benediction",
     /** A prescribed ritual act performed to earn the favour of a deity. */
     RITUALACTION: "ritualaction",
     /** A spoken invocation channelling the power of a deity. */
