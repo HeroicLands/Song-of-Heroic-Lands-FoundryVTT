@@ -49,6 +49,15 @@ Skills improve through use. Characters who test their abilities in play develop 
 - [[Gear|Gear]] — the property a character owns and carries: the common gear properties, carrying and encumbrance, and each gear type (Miscellaneous, Container, Weapons, Projectiles, Armor, Concoctions). Covers worn vs. carried armor, armor protection by aspect (Blunt/Edged/Piercing/Fire), layering and coverage, and the sensory penalties some armor imposes.
 - [[Strike_Modes|Strike Modes]] — the ways an attack is delivered: the melee and missile strike modes a weapon (one or more each) or combat technique uses, and the attack, impact, reach, defense, and range they carry.
 
+## Esoterica
+
+The supernatural: standing mystical conditions (**Mysteries**) and the mystical acts performed (**Mystical Abilities**), organised by tradition.
+
+- [[rules/sohl-esoterica|Esoterica Introduction]] — the distinction between a **Mystery** (what a character _is_) and a **Mystical Ability** (what a character _does_), the three traditions, how abilities are tested (and the Incantation Casting Penalty), and the general mysteries (Boon, Boost, Other).
+- [[rules/sohl-arcane|Arcane]] — power from the caster's own aura and taught lore: the Birthsign and Fate mysteries, and the Arcane Incantation, Arcane Talent, Alchemy, and Divination abilities.
+- [[rules/sohl-divine|Divine]] — power granted by a deity in answer to devotion: the Grace and Piety mysteries, and the Ritual Action and Divine Incantation abilities.
+- [[rules/sohl-spirit|Spirit]] — power channelled through spirits: Spirit Powers, and the Spirit Rites, Spirit Actions, and Spirit Talents performed through them.
+
 ## Combat
 
 TBD
