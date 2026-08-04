@@ -4,7 +4,7 @@
 
 **Docs: define each `MYSTICALABILITY_SUBTYPE` value, and fix its display labels**
 
-The mystical-ability subtypes (`SHAMANICRITE`, `SPIRITACTION`, `SPIRITPOWER`, …)
+The mystical-ability subtypes (`SPIRITRITE`, `SPIRITACTION`, `SPIRITPOWER`, …)
 had no definition anywhere: not in TSDoc, not in `lang/en.json`, not in consuming code.
 The constant is part of the published API (every `src/**/*.ts` export is bundled into the
 TypeDoc entry point), so readers saw twelve bare identifiers with no explanation.
@@ -18,8 +18,8 @@ Two localization defects are fixed at the same time:
 - `SOHL.MysticalAbility.SubType.BIRTHSIGN` was **missing entirely**. Because
   `MysticalAbilityDataModel` builds its `subType` dropdown from these keys, a Birthsign
   ability rendered its raw localization key in the sheet.
-- The other eleven labels were mechanical title-case of the identifier — `"Shamanicrite"`,
-  `"Spiritaction"`, `"Divineincantation"`. They are now properly spaced (`"Shamanic Rite"`,
+- The other eleven labels were mechanical title-case of the identifier — `"Spiritrite"`,
+  `"Spiritaction"`, `"Divineincantation"`. They are now properly spaced (`"Spirit Rite"`,
   `"Spirit Action"`, `"Divine Incantation"`), taken from the long-unused
   `SOHL.MysticalAbility.Category.*` strings.
 

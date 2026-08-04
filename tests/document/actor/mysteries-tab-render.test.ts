@@ -97,8 +97,8 @@ describe("Being Mysteries tab — per-sub-type Mystical Ability columns (#990)",
         expect(html).toContain(">EML<");
     });
 
-    it("labels the assoc column 'Spirit Power' (not Skill/Lvl) for a shamanic rite", () => {
-        const html = render(MYSTICALABILITY_SUBTYPE.SHAMANICRITE, [
+    it("labels the assoc column 'Spirit Power' (not Skill/Lvl) for a spirit rite", () => {
+        const html = render(MYSTICALABILITY_SUBTYPE.SPIRITRITE, [
             abilityLike({
                 name: "Rite of Passage",
                 logic: { assocRef: { name: "Fox Totem" }, isDisabled: false },
@@ -111,7 +111,7 @@ describe("Being Mysteries tab — per-sub-type Mystical Ability columns (#990)",
     });
 
     it("disables a spirit-power ability and blocks its roll when no Spirit Power is associated", () => {
-        const html = render(MYSTICALABILITY_SUBTYPE.SHAMANICRITE, [
+        const html = render(MYSTICALABILITY_SUBTYPE.SPIRITRITE, [
             abilityLike({
                 name: "Orphan Rite",
                 logic: { assocRef: undefined, isDisabled: true },

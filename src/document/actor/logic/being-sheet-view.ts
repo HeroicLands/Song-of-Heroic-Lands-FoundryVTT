@@ -1266,7 +1266,7 @@ const maCol = (
 // columns; eml/charges/notes appear for every sub-type. EML reuses the Skill
 // heading keys, since an ability's EML is rolled exactly like a skill's.
 const MA_SKILL = maCol("skill", "SOHL.MysticalAbility.COLUMN.skill", "5.4rem");
-// Spirit-power subtypes (shamanicrite / spiritaction) label the same assoc
+// Spirit-power subtypes (spiritrite / spiritaction) label the same assoc
 // column "Spirit Power" — the reference is a SPIRITPOWER ability, not a skill.
 const MA_SPIRITPOWER = maCol(
     "skill",
@@ -1314,7 +1314,7 @@ export const MYSTICALABILITY_SUBTYPE_COLUMNS: Record<
     string,
     MysticalAbilityColumn[]
 > = {
-    [MYSTICALABILITY_SUBTYPE.SHAMANICRITE]: [
+    [MYSTICALABILITY_SUBTYPE.SPIRITRITE]: [
         MA_SPIRITPOWER,
         MA_EML,
         MA_CHARGES,

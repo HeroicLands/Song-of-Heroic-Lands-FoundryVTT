@@ -26,7 +26,7 @@ Mystical Abilities appear on the Being sheet's **Mystical** tab. A Mystical Abil
 Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **SubType:** The type of Mystical Ability, one of:
-    - **Shamanic Rite:** A shamanic action such as transiting to the spirit world, petitioning a spirit for some power, or performing a rite to share spirit wisdom.
+    - **Spirit Rite:** A rite performed by anyone attuned to the spirit realm — transiting to the spirit world, petitioning a spirit for some power, or performing a rite to share spirit wisdom.
     - **Spirit Power:** Using a power the spirits have granted to perform some action.
     - **Ritual Action:** Perform a prescribed ritual to earn a deity's favour.
     - **Divine Incantation:** Perform a ritual to request a divine entity to perform some action.
