@@ -38,12 +38,10 @@ combined birthsign dict, with a specific skill shortcode overriding a `subtype:`
 wildcard. Combat techniques and Mystical Abilities inherit it automatically
 through the mastery-level merge.
 
-**Breaking — with seamless, automatic migration (no manual intervention):**
+**Breaking (pre-beta — no migration provided):**
 
 - The `BIRTHSIGN` Mystery subtype and the `birthsignBonus` Skill-Base helper are
-  **removed**.
-- A world migration reclassifies existing `birthsign` Mystery items to the `other`
-  subtype (preserving the item and its notes as a plain marker) and strips
-  `birthsignBonus(...)` terms from Skill `skillBaseFormula`s so they keep
-  evaluating. Re-author birthsigns via a birthsign Affiliation + the being's birth
-  date.
+  **removed**. As the system is pre-beta, no data migration ships: re-author
+  birthsigns via a birthsign Affiliation + the being's birth date, drop any
+  leftover `BIRTHSIGN` Mystery items, and remove `birthsignBonus(...)` terms from
+  Skill `skillBaseFormula`s.

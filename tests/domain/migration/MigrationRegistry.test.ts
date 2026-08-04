@@ -138,19 +138,8 @@ describe("resolveFromVersion", () => {
 });
 
 describe("SOHL_MIGRATIONS", () => {
-    it("is a non-empty list of frozen, version-ordered steps", () => {
-        expect(SOHL_MIGRATIONS.length).toBeGreaterThan(0);
-        const versions = SOHL_MIGRATIONS.map((s) => s.version);
-        const sorted = [...versions].sort((a, b) =>
-            a.localeCompare(b, undefined, { numeric: true }),
-        );
-        expect(versions).toEqual(sorted);
-    });
-
-    it("includes the birthsign-retirement migration (#1026)", () => {
-        expect(
-            SOHL_MIGRATIONS.some((s) => s.version === "0.8.0" && s.migrators?.Item),
-        ).toBe(true);
+    it("ships empty — infrastructure only (#957)", () => {
+        expect(SOHL_MIGRATIONS).toEqual([]);
     });
 
     it("is frozen so the registry cannot be mutated at runtime", () => {

@@ -27,7 +27,6 @@
  */
 
 import { compareVersions, isNewerVersion } from "./version";
-import { BIRTHSIGN_RETIREMENT_MIGRATION } from "./birthsign-migration";
 
 /**
  * The document classes a migration can target. These are Foundry document-class
@@ -95,14 +94,14 @@ export interface MigrationStep {
 }
 
 /**
- * The ordered list of world migrations, appended in version order (the planner
- * sorts defensively regardless). Each entry is a frozen {@link MigrationStep};
- * the runner, version comparison, per-type dispatch, and version stamping do the
- * rest (#957).
+ * The ordered list of world migrations.
+ *
+ * **Empty — this is infrastructure only (#957).** No data migration is required
+ * at this time; the runner, version comparison, per-type dispatch, and version
+ * stamping are all in place so a future migration plugs in as one frozen entry
+ * here (append in version order — the planner sorts defensively regardless).
  */
-export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([
-    BIRTHSIGN_RETIREMENT_MIGRATION,
-]);
+export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([]);
 
 /**
  * Select the migration steps to run for a world, in ascending version order.
