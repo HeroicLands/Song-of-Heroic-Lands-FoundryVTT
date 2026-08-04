@@ -8,7 +8,7 @@ Reimplements the Mystical Abilities section of the Being sheet's Mysteries tab
 (#311).
 
 - **A header per subtype, always shown.** Each ability category (Spirit Rite,
-  Spirit Action, Spirit Power, Benediction, Ritual Devotion, Divine/Arcane
+  Spirit Action, Spirit Power, Ritual Devotion, Divine/Arcane
   Incantation, Arcane/Spirit Talent, Alchemy, Divination) renders its own
   section header in declared order, whether or not the being has any abilities of
   that kind, with Skill / Level / ML / Charges / Improve / Notes columns.

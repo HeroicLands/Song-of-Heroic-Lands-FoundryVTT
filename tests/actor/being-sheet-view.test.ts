@@ -1080,12 +1080,6 @@ describe("being-sheet-view", () => {
                 "charges",
                 "notes",
             ],
-            [MYSTICALABILITY_SUBTYPE.BENEDICTION]: [
-                "skill",
-                "eml",
-                "charges",
-                "notes",
-            ],
             [MYSTICALABILITY_SUBTYPE.RITUALACTION]: [
                 "skill",
                 "eml",

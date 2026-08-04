@@ -51,7 +51,6 @@ import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
  * - Spirit Rite: Perform a spirit rite on target(s)
  * - Spirit Action: Spirit world interaction (Roaming, Sensing, Communing, etc.)
  * - Spirit Power: Channel spirit power (Ancestor, Totem, or Energy)
- * - Benediction: Bestow a blessing
  * - Ritual Action: Perform a prescribed ritual to earn a deity's favour
  * - Divine Incantation: Cast divine spells
  * - Arcane Incantation: Cast arcane spells

@@ -28,7 +28,7 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
 - **SubType:** The type of Mystical Ability, one of:
     - **Spirit Rite:** A rite performed by anyone attuned to the spirit realm — transiting to the spirit world, petitioning a spirit for some power, or performing a rite to share spirit wisdom.
     - **Spirit Power:** Using a power the spirits have granted to perform some action.
-    - **Benediction:** Use piety to deliver a divine blessing (or curse).
+    - **Ritual Action:** Perform a prescribed ritual to earn a deity's favour.
     - **Divine Incantation:** Perform a ritual to request a divine entity to perform some action.
     - **Arcane Incantation:** Perform a taught ritual to use the caster's own aura to direct arcane forces for some effect.
     - **Spirit Incantation:** Perform a taught ritual to request the spirits to perform some action.
@@ -55,4 +55,4 @@ Either way, the ability's own modifiers still stack on top of the mastery level 
 
 **Arcane Incantations** and **Divine Incantations** become harder to invoke the more powerful they are. When one of these abilities is invoked, a penalty equal to **Level × 2** is applied to its EML — so a Level 3 incantation is invoked at EML − 6, a Level 4 at EML − 8, and so on. The penalty appears in the roll breakdown as **Level Penalty**.
 
-Abilities with no level (and abilities at Level 0) take no penalty, and other subtypes — talents, rites, benedictions, and the like — are not affected.
+Abilities with no level (and abilities at Level 0) take no penalty, and other subtypes — talents, rites, ritual actions, and the like — are not affected.

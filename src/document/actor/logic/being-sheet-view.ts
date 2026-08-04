@@ -1333,12 +1333,6 @@ export const MYSTICALABILITY_SUBTYPE_COLUMNS: Record<
         MA_CHARGES,
         MA_NOTES,
     ],
-    [MYSTICALABILITY_SUBTYPE.BENEDICTION]: [
-        MA_SKILL,
-        MA_EML,
-        MA_CHARGES,
-        MA_NOTES,
-    ],
     [MYSTICALABILITY_SUBTYPE.RITUALACTION]: [
         MA_SKILL,
         MA_EML,
