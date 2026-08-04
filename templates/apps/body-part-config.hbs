@@ -21,6 +21,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
 </header>
 
 <fieldset>
+    <legend>Parent</legend>
+    {{> shortcodeRefField embedded=true rootId="bodypart-zone" name="bodyZoneCode"
+        value=part.bodyZoneCode options=bodyZoneCodeOptions
+        label="SOHL.BodyPartConfig.zoneLabel" hint="SOHL.BodyPartConfig.zoneHint"}}
+</fieldset>
+
+<fieldset>
     <legend>Roles</legend>
     <label class="form-group stacked"><span>Functional Roles</span>
         <select name="roles" multiple size="4"

@@ -57,15 +57,6 @@
             font-weight: 400;
             color: var(--sohl-color-text-secondary);
         }
-
-        // A body location's owning-part label — a read-only subtitle, styled
-        // like the item-sheet subtitle. (Body parts have no such label.)
-        .#{$prefix}__part {
-            margin: var(--sohl-space-xs, 2px) 0 0 var(--sohl-space-xs, 2px);
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--sohl-color-text-secondary);
-        }
     }
 
     fieldset {
@@ -96,7 +87,11 @@
         margin: 0;
         padding: 0;
 
-        > span {
+        // `> label` covers the shortcodeRefField partial's own label element
+        // (#982); it renders a `<label>` where the hand-rolled controls use a
+        // `<span>`, so both must read identically.
+        > span,
+        > label {
             flex: 0 0 auto;
             font-size: 12px;
             font-weight: 600;

@@ -176,6 +176,123 @@ describe("Body Structure editors (Profile tab)", () => {
         });
     });
 
+    it("re-parents a body part to another zone via the zone dropdown (#982)", () => {
+        cy.importActor().then((actor) => {
+            cy.prepare(actor);
+            cy.foundry((win) => {
+                const structure = win.game.actors.get(actor.id).logic.body
+                    .structure;
+                const part = structure.parts[0];
+                // A different zone to move the part into.
+                const destZone = structure.zones.find(
+                    (z) => z.shortcode !== part.zone.shortcode,
+                );
+                return {
+                    code: part.shortcode,
+                    index: part.index,
+                    fromZone: part.zone.shortcode,
+                    toZone: destZone.shortcode,
+                };
+            }).then((ref) => {
+                cy.openSheet(actor);
+                cy.wait(500);
+                cy.switchTab("profile", "primary");
+                cy.get(
+                    'section[data-tab="profile"] [data-action="toggleBodyStructureAll"]',
+                ).click();
+                cy.get(
+                    `section[data-tab="profile"] .body-structure__part[data-part-shortcode="${ref.code}"] .bodypart-contextmenu`,
+                ).click({ force: true });
+                cy.get("#context-menu")
+                    .contains(".context-item", "Edit Body Part")
+                    .click();
+                // The zone dropdown renders, pre-selected to the current zone.
+                cy.window().should((win) => {
+                    const sel = findEditor(
+                        win,
+                        "body-part-config-",
+                    ).element.querySelector('select[name="bodyZoneCode"]');
+                    expect(sel, "zone dropdown present").to.exist;
+                    expect(sel.value).to.eq(ref.fromZone);
+                });
+                // Pick the other zone; the editor auto-saves and re-parents.
+                cy.foundry((win) => {
+                    const form = findEditor(win, "body-part-config-").element;
+                    form.querySelector('select[name="bodyZoneCode"]').value =
+                        ref.toZone;
+                    form.requestSubmit();
+                    return null;
+                });
+                cy.window().should((win) => {
+                    const part = win.game.actors.get(actor.id).system.body
+                        .structure.parts[ref.index];
+                    expect(part.bodyZoneCode).to.eq(ref.toZone);
+                });
+            });
+        });
+    });
+
+    it("re-parents a hit location to another part via the part dropdown (#982)", () => {
+        cy.importActor().then((actor) => {
+            cy.prepare(actor);
+            cy.foundry((win) => {
+                const structure = win.game.actors.get(actor.id).logic.body
+                    .structure;
+                const part = structure.parts.find(
+                    (p) => p.locations.length > 0,
+                );
+                const loc = part.locations[0];
+                const destPart = structure.parts.find(
+                    (p) => p.shortcode !== part.shortcode,
+                );
+                return {
+                    partCode: part.shortcode,
+                    locCode: loc.shortcode,
+                    toPart: destPart.shortcode,
+                };
+            }).then((ref) => {
+                cy.openSheet(actor);
+                cy.wait(500);
+                cy.switchTab("profile", "primary");
+                cy.get(
+                    'section[data-tab="profile"] [data-action="toggleBodyStructureAll"]',
+                ).click();
+                cy.get(
+                    `section[data-tab="profile"] .body-structure__location[data-part-shortcode="${ref.partCode}"][data-location-shortcode="${ref.locCode}"] .bodylocation-contextmenu`,
+                ).click({ force: true });
+                cy.get("#context-menu")
+                    .contains(".context-item", "Edit Location")
+                    .click();
+                cy.window().should((win) => {
+                    const sel = findEditor(
+                        win,
+                        "body-location-config-",
+                    ).element.querySelector('select[name="bodyPartCode"]');
+                    expect(sel, "part dropdown present").to.exist;
+                    expect(sel.value).to.eq(ref.partCode);
+                });
+                cy.foundry((win) => {
+                    const form = findEditor(
+                        win,
+                        "body-location-config-",
+                    ).element;
+                    form.querySelector('select[name="bodyPartCode"]').value =
+                        ref.toPart;
+                    form.requestSubmit();
+                    return null;
+                });
+                cy.window().should((win) => {
+                    const loc = win.game.actors
+                        .get(actor.id)
+                        .system.body.structure.locations.find(
+                            (l) => l.shortcode === ref.locCode,
+                        );
+                    expect(loc.bodyPartCode).to.eq(ref.toPart);
+                });
+            });
+        });
+    });
+
     it("refuses a duplicate part shortcode, keeping the original", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
