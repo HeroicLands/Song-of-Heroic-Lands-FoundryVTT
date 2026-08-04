@@ -151,6 +151,17 @@ export class ArmorGearLogic<
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 
+    /**
+     * Worn armor is excluded from the being's carried weight: a fitted harness
+     * rides the body rather than hanging off it as load. Armor that is carried
+     * but **not** worn counts its full weight like any other cargo (#1009).
+     *
+     * @returns `true` only when this armor is carried and not currently worn.
+     */
+    protected override get countsAsCarriedWeight(): boolean {
+        return this.data.isCarried && !this.data.isWorn;
+    }
+
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
