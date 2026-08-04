@@ -12,6 +12,7 @@
  */
 
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel";
+import { SafeExpressionField } from "@src/core/foundry/SafeExpressionField";
 import {
     worldTimeDateField,
     phaseFields,
@@ -96,12 +97,9 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         }),
         // Optional SafeExpression source evaluating to a trauma shortcode — or an
         // array of them — the host contracts as part of the outcome. Blank means
-        // none. Combines with `outcome`.
-        outcomeTrauma: new StringField({
-            nullable: true,
-            blank: false,
-            initial: null,
-        }),
+        // none. Combines with `outcome`. A SafeExpressionField so the sheet offers
+        // the code editor; its defaults are nullable / non-blank / `initial: null`.
+        outcomeTrauma: new SafeExpressionField(),
         ...phaseFields("onset"),
         ...durationFields("healingCheck"),
         ...phaseFields("resolution"),

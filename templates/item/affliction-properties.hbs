@@ -24,7 +24,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{formGroup fields.transmission rootId="ail-trx" classes="stacked" value=logic.data.transmission}}
         {{formGroup fields.diagnosisBonusBase rootId="ail-diag" classes="stacked" value=logic.data.diagnosisBonusBase}}
         {{formGroup fields.onsetMacroUuid rootId="ail-onset-macro" classes="stacked" value=logic.data.onsetMacroUuid}}
-        {{formGroup fields.outcomeTrauma rootId="ail-outcome-trauma" classes="stacked" value=logic.data.outcomeTrauma}}
+        {{> expressionField field=fields.outcomeTrauma rootId="ail-outcome-trauma" name="system.outcomeTrauma" value=logic.data.outcomeTrauma}}
         <div class="form-group stacked">
             <label>{{localize "SOHL.Affliction.FIELDS.contractDate.label"}}</label>
             {{datePicker logic.data.contractDate name="system.contractDate"}}

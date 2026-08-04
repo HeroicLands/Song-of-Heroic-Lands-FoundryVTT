@@ -357,8 +357,13 @@ Some formula fields provide an **edit button** (a `</>` icon) beside the input.
 Clicking it opens the **expression editor** — a larger, code-style window that
 makes writing an expression far easier than the single-line field:
 
-- A roomy **monospace editor** for the expression, with space to read a long
-  formula across multiple lines.
+- A roomy **code editor** with **syntax highlighting** — helper functions,
+  context variables, strings, numbers, and operators are each coloured, so the
+  shape of the expression is easy to read at a glance.
+- **Autocomplete**: as you type a name, a list of matching
+  [helper functions](#helper-functions) and the [context variables](#context-variables)
+  available at that field pops up — pick one to insert it (helpers come in with
+  their `()` ready for arguments).
 - **Live validation** checks what you've written against the Safe Expression
   language on every keystroke and reports the result just below the editor. The
   **Save** button stays disabled while the expression is invalid, so you can't

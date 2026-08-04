@@ -79,6 +79,29 @@ export const SHORTCODE_REF_PARTIAL = `{{#if embedded}}
 {{else}}{{#if field}}{{formGroup field rootId=rootId classes="text-field" stacked=true value=value}}{{else}}<label class="form-group stacked"><span>{{localize label}}</span>
     <input type="text" name="{{name}}" value="{{value}}"{{#if hint}} data-tooltip="{{localize hint}}"{{/if}} /></label>{{/if}}{{/if}}`;
 
+/** Name of the shared SafeExpression field partial ({@link EXPRESSION_FIELD_PARTIAL}). */
+export const EXPRESSION_FIELD_PARTIAL_NAME = "expressionField";
+
+/**
+ * The reusable SafeExpression formula-field widget, registered as the named
+ * partial `expressionField`. It renders the field's `formGroup` plus an **edit
+ * button** that opens the SafeExpression code editor (the `editExpression` sheet
+ * action). The stored value is unchanged — always the expression source string.
+ *
+ * Invocation context:
+ * - `field` (required) — the DataModel field for `formGroup`.
+ * - `rootId` — the control's id.
+ * - `name` (required) — the form/update field path (e.g. `"system.skillBaseFormula"`).
+ * - `value` — the current expression source.
+ * - `context` — optional comma-separated context-identifier names the field's
+ *   call site binds (e.g. `"attr,birthsigns"`), forwarded to the editor's
+ *   autocomplete via `data-context`.
+ */
+export const EXPRESSION_FIELD_PARTIAL = `<div class="expression-field">
+    {{formGroup field rootId=rootId classes="text-field" stacked=true value=value}}
+    <button type="button" class="expression-field__edit" data-action="editExpression" data-field-path="{{name}}"{{#if context}} data-context="{{context}}"{{/if}} data-tooltip="{{localize "SOHL.ExpressionEditor.editTooltip"}}"><i class="fa-solid fa-code"></i></button>
+</div>`;
+
 /**
  * Register SoHL's pure Handlebars helpers on the given Handlebars instance.
  *
@@ -215,4 +238,5 @@ export function registerPureHandlebarsHelpers(H: HandlebarsLike): void {
     // one seam both production init and the Node render harness call — so the
     // two register it identically and template rendering never drifts.
     H.registerPartial(SHORTCODE_REF_PARTIAL_NAME, SHORTCODE_REF_PARTIAL);
+    H.registerPartial(EXPRESSION_FIELD_PARTIAL_NAME, EXPRESSION_FIELD_PARTIAL);
 }
