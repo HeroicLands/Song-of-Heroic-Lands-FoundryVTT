@@ -42,7 +42,7 @@ Skills improve through use. Characters who test their abilities in play develop 
 
 ## Skills
 
-- [[Skill_Levels|Skill Levels]] — the optional **level** (or **circle**) carried by some skills, particularly the arcane and divine/ritual skills of the Mystical group.
+- [[Skills|Skills]] — how skills are rated and tested: Success Tests and success levels (CF/MF/MS/CS, and extended CS+1/CF−1), Opposed Tests, Success Value Tests and Success Stars, Secondary Mastery, and the optional **level** (or **circle**) some skills carry.
 
 ## Combat
 
