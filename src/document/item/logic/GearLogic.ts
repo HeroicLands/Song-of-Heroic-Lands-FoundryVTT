@@ -217,13 +217,31 @@ export abstract class GearLogic<
         // Ground-up carried-weight accumulation: contribute this item's
         // weight × quantity to the owning being while it evaluates, so the
         // being's total is complete by the time anything reads it.
-        if (this.data.isCarried && this.actorLogic instanceof BeingLogic) {
+        if (
+            this.countsAsCarriedWeight &&
+            this.actorLogic instanceof BeingLogic
+        ) {
             this.actorLogic.carriedWeight.add(
                 `${this.data.shortcode}Wt`,
                 `${this.name} Weight`,
                 this.weight.effective * (this.data.quantity ?? 1),
             );
         }
+    }
+
+    /**
+     * Whether this gear's weight counts against the owning being's carried
+     * weight (and therefore encumbrance). By default, any carried gear does.
+     *
+     * {@link sohl.document.item.logic.ArmorGearLogic} overrides this so that
+     * **worn** armor is excluded — a fitted harness rides the body rather than
+     * hanging off it as load, while the same armor carried but not worn counts
+     * its full weight like any other cargo (#1009).
+     *
+     * @returns `true` when this item's weight should be tallied as carried load.
+     */
+    protected get countsAsCarriedWeight(): boolean {
+        return this.data.isCarried;
     }
 
     /** @inheritdoc */

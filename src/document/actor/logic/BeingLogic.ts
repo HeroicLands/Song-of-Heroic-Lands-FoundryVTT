@@ -2439,6 +2439,33 @@ export class BeingLogic<
             encExpr.evaluate({ wt: this.carriedWeight.effective }) as number,
         );
 
+        // Per-item encumbrance value (#1010): armor and weapons may declare an
+        // explicit encumbrance value representing awkwardness beyond raw weight.
+        // While the item is in use — armor worn, a weapon carried ready for use —
+        // that value is added on top of the weight-derived base.
+        for (const armor of this.logicTypes[ITEM_KIND.ARMORGEAR]) {
+            if (!armor.data.isWorn) continue;
+            const enc = armor.encumbrance.effective;
+            if (enc) {
+                this.encumbrance.add(
+                    `${armor.data.shortcode}Enc`,
+                    `${armor.name} Encumbrance`,
+                    enc,
+                );
+            }
+        }
+        for (const weapon of this.logicTypes[ITEM_KIND.WEAPONGEAR]) {
+            if (!weapon.data.isCarried) continue;
+            const enc = weapon.encumbrance.effective;
+            if (enc) {
+                this.encumbrance.add(
+                    `${weapon.data.shortcode}Enc`,
+                    `${weapon.name} Encumbrance`,
+                    enc,
+                );
+            }
+        }
+
         // An **incorporeal** being (empty body structure, e.g. a spirit) is a
         // supported, first-class state: no body parts, so no reach, weight, or
         // carry capacity. The body reads degrade to their empty behavior; this
