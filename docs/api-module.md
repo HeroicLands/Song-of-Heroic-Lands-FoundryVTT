@@ -15,7 +15,7 @@ The complete Song of Heroic Lands public API — every exported class, interface
 
 Browse by namespace using the sidebar tree:
 
-- **`sohl.apps`** — standalone application windows (settings, calendar, domain manager) and their Foundry-free view logic.
+- **`sohl.apps`** — standalone application windows (settings, calendar) and their Foundry-free view logic.
 - **`sohl.core`** — system wiring and foundations: registration, config, the `SohlLogic` / `SohlSpeaker` / `SohlSystem` core, and the `FoundryHelpers` boundary.
 - **`sohl.document`** — Foundry document types by kind (actor, item, effect, combat, combatant, chat, scene, token), each split into its Foundry-facing layer (`.foundry`) and its Foundry-free game logic (`.logic`).
 - **`sohl.entity`** — Foundry-free domain entities macros and modules construct: modifiers, test and combat results, strike modes, actions, body modeling, expressions, and the event queue.

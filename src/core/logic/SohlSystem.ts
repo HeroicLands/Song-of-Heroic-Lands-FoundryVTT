@@ -122,7 +122,7 @@ export class SohlSystem {
     declare readonly document: typeof import("@src/document");
     /** The `core` namespace tree (`sohl.core.logic.SohlSystem`, …). Bound at init. */
     declare readonly core: typeof import("@src/core");
-    /** The `apps` namespace tree (`sohl.apps.foundry.DomainManagerApp`, …). Bound at init. */
+    /** The `apps` namespace tree (`sohl.apps.foundry.CalendarSettingsMenu`, …). Bound at init. */
     declare readonly apps: typeof import("@src/apps");
     /**
      * The `utils` namespace (`sohl.utils`) — the Foundry-free utility superset:

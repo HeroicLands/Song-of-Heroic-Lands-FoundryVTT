@@ -25,7 +25,7 @@ import {
  * other immovable (or semi-permanent) physical entity that can be targeted,
  * damaged, and repaired. Structures can own items such as Protection entries
  * (representing walls, doors, or barriers), Injuries (structural damage),
- * Domains (jurisdiction), and Affiliations (ownership).
+ * and Affiliations (ownership).
  *
  * Structures do not have anatomy, skills, or movement profiles. Their primary
  * mechanical role is as targets in siege or environmental encounters and as

@@ -30,7 +30,7 @@ export class MysterySheet extends SohlItemSheetBase {
 
     /**
      * Augments the render context for the mystery properties tab with the
-     * mystery's system fields (subtype, associated skill, domain, base level,
+     * mystery's system fields (subtype, associated skill, base level,
      * charges).
      * @param context - The sheet render context to extend.
      * @param options - The sheet render options.
@@ -47,7 +47,6 @@ export class MysterySheet extends SohlItemSheetBase {
         return Object.assign(context, {
             subType: system.subType,
             assocSkillCode: system.assocSkillCode,
-            domain: system.domain,
             levelBase: system.levelBase,
             charges: system.charges,
             // Associated-skill dropdown (#974): the actor's skills when embedded;

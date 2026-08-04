@@ -201,7 +201,6 @@ declare module "fvtt-types/configuration" {
         "sohl.logThreshold": string;
         "sohl.activeCalendar": string;
         "sohl.importedCalendars": Record<string, any>;
-        "sohl.domains": Record<string, any>;
         "sohl.expressionHelpers": Record<string, any>;
         "sohl.expressionHelpersPath": string;
     }
