@@ -70,6 +70,26 @@ describe("SohlActiveEffect._applyChangeUnguided", () => {
             expect(vm.effective).toBe(13);
         });
 
+        it("birthsign carrier: mod:logic.masteryLevel add shifts a skill's EML", () => {
+            // The shipped birthsign items (Mystery(OTHER) + Active Effects) carry
+            // exactly this change: `mod:logic.masteryLevel`, type add, a signed
+            // string value. Applied to a matched skill (see the subType-predicate
+            // case in SohlActiveEffectTargets.test.ts), it pushes a delta onto the
+            // skill's masteryLevel modifier so its EML moves by the sign's value.
+            const masteryLevel = newVM(45);
+            const skill = { uuid: "SK", logic: { masteryLevel } };
+            call(skill, fakeChange("mod:logic.masteryLevel", "15"));
+            expect(masteryLevel.deltas).toHaveLength(1);
+            expect(masteryLevel.effective).toBe(60); // 45 + 15
+        });
+
+        it("birthsign carrier: a negative delta lowers EML", () => {
+            const masteryLevel = newVM(45);
+            const skill = { uuid: "SK", logic: { masteryLevel } };
+            call(skill, fakeChange("mod:logic.masteryLevel", "-15"));
+            expect(masteryLevel.effective).toBe(30); // 45 - 15
+        });
+
         it("multiplies via change.type 'multiply'", () => {
             const vm = newVM(10);
             const target = { uuid: "X", logic: { score: vm } };

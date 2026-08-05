@@ -679,11 +679,10 @@ export class SafeExpression extends SohlEntity {
             throw new SafeExpressionError(`Unknown helper: ${name}`);
         }
         const args = node.arguments.map((arg) => this.evalNode(arg, context));
-        // Context-bound helpers (e.g. the astrology helpers) receive a named
-        // slice of the evaluation context as their first argument — the same
-        // seam as parent binding, but sourcing the injected value from the
-        // context rather than the owning Logic. The author still calls them
-        // with only their own arguments.
+        // Context-bound helpers receive a named slice of the evaluation context
+        // as their first argument — the same seam as parent binding, but sourcing
+        // the injected value from the context rather than the owning Logic. The
+        // author still calls them with only their own arguments.
         const contextKey = CONTEXT_BOUND_HELPERS.get(name);
         if (contextKey !== undefined) {
             args.unshift(context[contextKey]);

@@ -46,14 +46,6 @@ import {
     withArchetypeFlag,
     md,
 } from "./helpers.mjs";
-import {
-    DEFAULT_CALENDAR_SHORTCODE,
-    resolveCalendarConfig,
-} from "./calendars.mjs";
-import {
-    parseBirthday,
-    componentsToWorldTime,
-} from "../../src/utils/calendar-birthdate.mjs";
 
 const STATS = buildStats("0.6.0");
 
@@ -424,30 +416,6 @@ export class Actors {
         const defaultCombatGroup = sohlField(fm, "defaultCombatGroup", undefined);
         if (defaultCombatGroup !== undefined) {
             system.defaultCombatGroup = defaultCombatGroup;
-        }
-
-        // Birth date (#1039): the character's `traits.birthday` (`Y/M/D`) is
-        // authored in a calendar (`social.calendar`, or the default active
-        // calendar when omitted) and stored as the calendar-agnostic
-        // `system.birthDate` world-time integer that birthsign astrology (#1018)
-        // derives from. Absent ⇒ leave the schema default (`null`).
-        const birthdayRaw = getFrontmatter(fm, "traits.birthday");
-        if (birthdayRaw != null && birthdayRaw !== "") {
-            const parts = parseBirthday(String(birthdayRaw));
-            if (!parts) {
-                log.error(
-                    `${ctx}: traits.birthday "${birthdayRaw}" is not a valid Y/M/D date`,
-                );
-                this.errorCount++;
-            } else {
-                // An unknown calendar shortcode throws here; the per-actor
-                // try/catch in compile() records it and skips the actor.
-                const calShortcode =
-                    getFrontmatter(fm, "social.calendar") ||
-                    DEFAULT_CALENDAR_SHORTCODE;
-                const config = resolveCalendarConfig(calShortcode);
-                system.birthDate = componentsToWorldTime(config, parts);
-            }
         }
 
         return {

@@ -282,7 +282,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             | string
             | null
             | undefined;
-        // Optional `data-context="attr,birthsigns"` names the identifiers the
+        // Optional `data-context="attr"` names the identifiers the
         // field's call site binds, offered in the editor's autocomplete.
         const contextNames = (target.dataset.context ?? "")
             .split(",")

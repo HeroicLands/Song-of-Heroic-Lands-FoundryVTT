@@ -51,12 +51,11 @@ import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
  * {@link SkillLogic | Skill} (e.g. the skill a boon or boost affects).
  *
  * Subtypes ({@link MysterySubType}):
- * - **Birthsign** — a passive influence conferred by the celestial sign the being was born under; contributes to associated skills' Skill Base (matched by shortcode).
  * - **Boon** — a flat `±N` modifier to an associated skill's mastery level, from any source.
  * - **Boost** — one or more temporary Mastery Boosts to an associated skill (the Mastery Boost table).
  * - **Fate** — quantifies the ability to alter destiny or fate (the stored fate pool). The "Fate" *invocation* is a Divination {@link MysticalAbilityLogic | Mystical Ability}; a per-skill fate bonus is modelled with Active Effects, and a fate-point bonus is not yet modelled.
  * - **Grace** — quantifies the ability to call effectually on divine favour.
- * - **Other** — does not fit the other predefined categories.
+ * - **Other** — a mechanically inert carrier whose entire effect lives in its Active Effects; a birthsign (a passive standing influence on associated skills) is authored this way.
  * - **Piety** — quantifies devotion to a religion.
  *
  * A **Boon** or **Boost** mystery names its target skill via

@@ -32,7 +32,6 @@
 import { entity as classRegistry } from "@src/entity/registry";
 import type { SohlEntitySurface } from "@src/entity/registry";
 import * as action from "@src/entity/action";
-import * as astrology from "@src/entity/astrology";
 import * as body from "@src/entity/body";
 import * as event from "@src/entity/event";
 import * as expr from "@src/entity/expr";
@@ -45,7 +44,6 @@ import * as tour from "@src/entity/tour";
 /** The entity sub-namespaces, merged onto the class registry for addressing. */
 type EntityNamespaces = {
     action: typeof action;
-    astrology: typeof astrology;
     body: typeof body;
     event: typeof event;
     expr: typeof expr;
@@ -74,7 +72,6 @@ export const entitySurface: SohlEntitySurface & EntityNamespaces = (() => {
     }
     Object.assign(surface, {
         action,
-        astrology,
         body,
         event,
         expr,

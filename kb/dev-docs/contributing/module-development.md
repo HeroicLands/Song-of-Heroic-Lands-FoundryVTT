@@ -108,46 +108,13 @@ for the full hook reference, the arguments each receives, and the recommended
 **module guard pattern** (a world setting toggle plus a GM guard) so your module
 is opt-in and side-effect-safe.
 
-### Registries — calendars and astrology traditions
+### Registries — calendars
 
 The system keeps registries a module can add to during `init`, including the
 **calendar** registry. The exact registration calls live in
 [Extension Points](../how-to/extension-points.md) (§7 System registries,
 §8 Calendar registration) — follow that document so your code matches the
 maintained API.
-
-A module can also register its own **birthsign astrology traditions** through
-`sohl.astrologyRegistry`, typically in its `init` hook after loading its
-tradition JSON:
-
-```js
-Hooks.once("init", async () => {
-    const traditions = await foundry.utils.fetchJsonWithTimeout(
-        "modules/my-module/data/my-traditions.json",
-    );
-    const { installed, skipped } = sohl.astrologyRegistry.register(traditions);
-    if (skipped.length) console.warn("SoHL astrology: skipped", skipped);
-});
-```
-
-A tradition file is a **self-describing** object carrying its own `shortcode`,
-`label`, and `signs` (the shape shipped in `astrokyklos.json`); `register` accepts
-one such tradition or an **array** of them, keying each by its `shortcode`:
-
-```json
-{ "shortcode": "my-tradition", "label": "…", "signs": [ … ] }
-```
-
-Each tradition's `shortcode` matches an Affiliation `society`, so a birthsign
-Affiliation picks the tradition to interpret its member's birth date through. The
-registry resolves three layers — the shipped **built-in** (Astrokýklos), any
-**module**-registered traditions, and the GM's **world** overrides (world wins).
-`register(json, source?)` validates the JSON (skipping malformed entries with
-reasons, never throwing); `unregister(key)` removes one; `all()` returns the
-resolved set. Because a birthsign is read synchronously during document
-`prepareData`, register in `init` (and `await` your fetch) so your traditions are
-present before your actors prepare. See §10 in
-[Extension Points](../how-to/extension-points.md).
 
 ### New types, sheets, effects, and chat cards
 

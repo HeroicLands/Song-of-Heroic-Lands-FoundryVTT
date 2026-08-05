@@ -51,20 +51,6 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
             initial: null,
         }),
         /**
-         * The being's **birth date** as a world-time value (seconds, the same
-         * scale as `game.time.worldTime`) — `null` when unspecified. Additive
-         * and optional: it is the anchor from which the being's age and
-         * calendar birthdays are computed, and (interpreted through an
-         * astrological **tradition** on a birthsign {@link AffiliationDataModel})
-         * from which its birthsign — and thus its per-skill `BSMod` modifiers —
-         * is *derived* rather than stored (#1018).
-         */
-        birthDate: new NumberField({
-            integer: true,
-            nullable: true,
-            initial: null,
-        }),
-        /**
          * The being's **physical body** — its anatomy, weight, reach, and
          * body-scale. Dissolved from the former Corpus item into the Being
          * (#535). An **incorporeal** being (a spirit) is modeled as an empty
@@ -330,7 +316,6 @@ export class BeingDataModel<
      * to on entering combat; unset (`null`) uses the default group.
      */
     defaultCombatGroup!: string | null;
-    birthDate!: number | null;
 
     /**
      * The being's physical body (anatomy, weight, reach, body-scale). An

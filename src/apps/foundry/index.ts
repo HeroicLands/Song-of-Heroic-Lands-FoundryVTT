@@ -17,7 +17,6 @@
 export * from "./BodyLocationConfig";
 export * from "./BodyPartConfig";
 export * from "./BodyZoneConfig";
-export * from "./AstrologyTraditionsMenu";
 export * from "./CalendarSettingsMenu";
 export * from "./ExpressionLibraryMenu";
 export * from "./SohlContextMenu";
