@@ -18,19 +18,27 @@
  * stored version and reloading re-runs the real `ready` path and re-stamps
  * forward (the registry is empty, so no documents change — this exercises the
  * runner's plan → stamp path end to end through the live lifecycle).
+ *
+ * The `ready` hook fires `void migrateWorld()` (fire-and-forget), and the stamp
+ * is a world-setting write that round-trips to the server — so `game.ready`
+ * (what `cy.login()` waits on) can flip true *before* the migration's stamp
+ * lands. Both specs therefore poll the setting with a retry-able
+ * `cy.window().should(...)` rather than reading it once, letting the async
+ * migration settle instead of racing it (#1032).
  */
 describe("migration runner — systemMigrationVersion (#957)", () => {
     before(() => cy.login());
 
     it("stamps the stored migration version to the system version on boot", () => {
-        cy.foundry((win) => ({
-            stored: win.game.settings.get("sohl", "systemMigrationVersion"),
-            version: win.game.system.version,
-        })).then(({ stored, version }) => {
+        cy.window({ timeout: 20000 }).should((win) => {
+            const version = win.game.system.version;
             expect(version, "system version")
                 .to.be.a("string")
                 .and.not.equal("");
-            expect(stored, "stored migration version").to.equal(version);
+            expect(
+                win.game.settings.get("sohl", "systemMigrationVersion"),
+                "stored migration version",
+            ).to.equal(version);
         });
     });
 
@@ -48,13 +56,13 @@ describe("migration runner — systemMigrationVersion (#957)", () => {
 
         cy.login(); // fresh /game load → ready → migrateWorld → runWorldMigrations
 
-        cy.foundry((win) => ({
-            stored: win.game.settings.get("sohl", "systemMigrationVersion"),
-            version: win.game.system.version,
-        })).then(({ stored, version }) => {
-            expect(stored, "stored migration version after reload").to.equal(
-                version,
-            );
+        // migrateWorld is not awaited by the ready hook, so poll until the async
+        // stamp catches up to the system version rather than reading it once.
+        cy.window({ timeout: 20000 }).should((win) => {
+            expect(
+                win.game.settings.get("sohl", "systemMigrationVersion"),
+                "stored migration version after reload",
+            ).to.equal(win.game.system.version);
         });
     });
 });
