@@ -16,14 +16,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <p class="hint hint--error">{{localize "SOHL.Skill.sbInvalid" error=skillBaseError}}</p>
     {{/if}}
     <div class="field-grid field-grid--3col">
-        <div class="expression-field">
-            {{formGroup fields.skillBaseFormula rootId="skill-sbf" classes="text-field" stacked=true value=system.skillBaseFormula}}
-            <button type="button" class="expression-field__edit" data-action="editExpression"
-                data-field-path="system.skillBaseFormula"
-                data-tooltip="{{localize "SOHL.ExpressionEditor.editTooltip"}}">
-                <i class="fa-solid fa-code"></i>
-            </button>
-        </div>
+        {{> expressionField field=fields.skillBaseFormula rootId="skill-sbf" name="system.skillBaseFormula" value=system.skillBaseFormula context="attr,birthsigns"}}
         {{formGroup fields.masteryLevelBase rootId="skill-mlb" classes="text-field" stacked=true value=system.masteryLevelBase}}
         {{formGroup fields.initSkillMult rootId="skill-initmult" classes="text-field" stacked=true value=system.initSkillMult}}
         {{> shortcodeRefField embedded=embedded field=fields.parentSkillCode rootId="skill-parent" name="system.parentSkillCode" value=system.parentSkillCode options=parentSkillCodeOptions label="SOHL.Skill.FIELDS.parentSkillCode.label" hint="SOHL.Skill.FIELDS.parentSkillCode.hint" blankLabel=(localize "SOHL.Key.None")}}

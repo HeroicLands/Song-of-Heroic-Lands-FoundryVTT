@@ -15,9 +15,30 @@ const licenseBanner = `/*!
  * Copyright (c) ${licenseYears} by Tom Rodriguez
  */`;
 
+/**
+ * `style-mod` (a transitive dependency of `@codemirror/view`, which the
+ * SafeExpression editor bundles) declares its global reference as a top-level
+ * `const top`. In a browser, `window.top` is `[Unforgeable]`, so a top-level
+ * lexical `top` binding throws "Identifier 'top' has already been declared" at
+ * load. Foundry's own CodeMirror build sidesteps this because it is minified
+ * (the identifier is renamed); our release build is intentionally unminified, so
+ * we rename it ourselves. `top` appears only three times in style-mod's source
+ * (the declaration and two `top[COUNT]` accesses) — all identifier uses, none in
+ * CSS strings — so a word-boundary rename scoped to that module is safe.
+ */
+const renameStyleModTop = {
+    name: "sohl-rename-style-mod-top",
+    transform(code: string, id: string) {
+        if (!id.includes("style-mod")) return null;
+        if (!/\btop\b/.test(code)) return null;
+        return { code: code.replace(/\btop\b/g, "styleModGlobal"), map: null };
+    },
+};
+
 export default defineConfig((ctx: ConfigEnv): UserConfig => {
     return {
         root: ".",
+        plugins: [renameStyleModTop],
         build: {
             outDir: path.resolve(__dirname, "build/stage"),
             emptyOutDir: false,

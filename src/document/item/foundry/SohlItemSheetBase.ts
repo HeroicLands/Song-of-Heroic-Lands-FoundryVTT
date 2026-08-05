@@ -282,7 +282,15 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             | string
             | null
             | undefined;
-        const result = await openExpressionEditorDialog(current);
+        // Optional `data-context="attr,birthsigns"` names the identifiers the
+        // field's call site binds, offered in the editor's autocomplete.
+        const contextNames = (target.dataset.context ?? "")
+            .split(",")
+            .map((s) => s.trim())
+            .filter((s) => s.length > 0);
+        const result = await openExpressionEditorDialog(current, {
+            contextNames,
+        });
         if (result === undefined) return;
         await this.document.update({ [path]: result });
     }
