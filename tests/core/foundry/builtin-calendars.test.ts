@@ -20,11 +20,10 @@ function cfg(shortcode: string): any {
     return BUILTIN_CALENDARS.find((c) => c.shortcode === shortcode)?.config;
 }
 
-describe("built-in calendars (loaded from JSON data files)", () => {
-    it("ships the Vylarian Reckoning (default) and the Turning Wheel", () => {
+describe("built-in calendars (hardcoded)", () => {
+    it("ships only the Vylarian Reckoning, as the default", () => {
         const shortcodes = BUILTIN_CALENDARS.map((c) => c.shortcode);
-        expect(shortcodes).toContain("vylrec");
-        expect(shortcodes).toContain("twheel");
+        expect(shortcodes).toEqual(["vylrec"]);
         expect(DEFAULT_CALENDAR_SHORTCODE).toBe("vylrec");
     });
 
@@ -45,17 +44,15 @@ describe("built-in calendars (loaded from JSON data files)", () => {
         }
     });
 
-    it("both calendars are twelve 30-day months on a 360-day year", () => {
-        for (const shortcode of ["vylrec", "twheel"]) {
-            const c = cfg(shortcode);
-            expect(c.months.values, shortcode).toHaveLength(12);
-            expect(c.months.values.every((m: any) => m.days === 30)).toBe(true);
-            expect(c.days.daysPerYear).toBe(360);
-            expect(c.days.values).toHaveLength(10); // 10-day week
-        }
+    it("is twelve 30-day months on a 360-day, 10-day-week year", () => {
+        const c = cfg("vylrec");
+        expect(c.months.values).toHaveLength(12);
+        expect(c.months.values.every((m: any) => m.days === 30)).toBe(true);
+        expect(c.days.daysPerYear).toBe(360);
+        expect(c.days.values).toHaveLength(10); // 10-day week
     });
 
-    it("the Vylarian Reckoning uses the VR era, year 720, no year zero", () => {
+    it("uses the VR era, year 720, no year zero, with Vylarian month keys", () => {
         const c = cfg("vylrec");
         expect(c.years.yearZero).toBe(720);
         expect(c.era.hasYearZero).toBe(false);
@@ -67,15 +64,6 @@ describe("built-in calendars (loaded from JSON data files)", () => {
         );
         expect(c.months.values[11].name).toBe(
             "SOHL.Calendar.Vylarian.Month.11.label",
-        );
-    });
-
-    it("the Turning Wheel keeps its own month/era keys (unchanged content)", () => {
-        const c = cfg("twheel");
-        expect(c.name).toBe("Turning Wheel");
-        expect(c.era.name).toBe("SOHL.CALENDAR.DEFAULT.EraName");
-        expect(c.months.values[0].name).toBe(
-            "SOHL.Calendar.Default.Month.0.label",
         );
     });
 });

@@ -356,6 +356,7 @@
   "sohl.core.foundry.TemporalDirection": "variables/sohl.core.foundry.TemporalDirection-1.html",
   "sohl.core.foundry.URLField": "classes/sohl.core.foundry.URLField.html",
   "sohl.core.foundry.URLField.constructor": "classes/sohl.core.foundry.URLField.html#constructor",
+  "sohl.core.foundry.VYLARIAN_RECKONING": "variables/sohl.core.foundry.VYLARIAN_RECKONING.html",
   "sohl.core.foundry.actionFromRow": "functions/sohl.core.foundry.actionFromRow.html",
   "sohl.core.foundry.collectTakenShortcodes": "functions/sohl.core.foundry.collectTakenShortcodes.html",
   "sohl.core.foundry.createAction": "functions/sohl.core.foundry.createAction.html",
