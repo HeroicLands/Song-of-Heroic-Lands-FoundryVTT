@@ -31,8 +31,14 @@ import type {
  * Traditions settings editor.
  */
 
-/** No cusp overlap: the Astrokýklos windows tile the year exactly (birth ⇒ one sign). */
-const CUSP_DAYS = 0;
+/**
+ * The first two and last two days of each sign's period are a **cusp**, where
+ * both the sign and its neighbour are in force. With the padded-window model a
+ * `cuspDays` of 2 means each sign's window extends 2 days past each boundary, so
+ * those four days around every boundary (a sign's last 2 + the next sign's
+ * first 2) fall under both signs; the interior stays a single sign.
+ */
+const CUSP_DAYS = 2;
 
 /**
  * Héx Hodäi element → the skill subtype(s) it governs, in the six-column order

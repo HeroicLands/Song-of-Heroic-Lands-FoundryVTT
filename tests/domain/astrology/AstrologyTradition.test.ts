@@ -155,16 +155,36 @@ describe("builtinTraditions", () => {
         expect(b["extra"]).toBeUndefined();
     });
 
-    it("every day of the year is governed by exactly one sign (exact tiling)", () => {
+    it("every day of the year is governed by a sign (one, or two on a cusp)", () => {
         const tradition = builtinTraditions()["astrokyklos"];
         for (let m = 1; m <= 12; m++) {
             for (let d = 1; d <= 30; d++) {
-                expect(
-                    signsForDate(tradition, date(m, d)).length,
-                    `${m}/${d}`,
-                ).toBe(1);
+                const n = signsForDate(tradition, date(m, d)).length;
+                expect(n, `${m}/${d}`).toBeGreaterThanOrEqual(1);
+                expect(n, `${m}/${d}`).toBeLessThanOrEqual(2);
             }
         }
+    });
+
+    it("treats the first two and last two days of a period as a cusp (both signs)", () => {
+        const tradition = builtinTraditions()["astrokyklos"];
+        // Arnos ends Blossomreach day 3; Bourax starts Blossomreach day 4. The
+        // last 2 days of Arnos (Bls 2–3) and first 2 of Bourax (Bls 4–5) are cusps.
+        for (const d of [2, 3, 4, 5]) {
+            expect(
+                signsForDate(tradition, date(2, d))
+                    .map((s) => s.shortcode)
+                    .sort(),
+                `Blossomreach ${d}`,
+            ).toEqual(["arnos", "bourax"]);
+        }
+        // Just outside the cusp on each side → a single sign.
+        expect(
+            signsForDate(tradition, date(2, 1)).map((s) => s.shortcode),
+        ).toEqual(["arnos"]);
+        expect(
+            signsForDate(tradition, date(2, 6)).map((s) => s.shortcode),
+        ).toEqual(["bourax"]);
     });
 
     it("maps Héx Hodäi elements to their skill subtypes (Arnos)", () => {
