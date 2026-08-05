@@ -46,6 +46,14 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
             blank: false,
             initial: null,
         }),
+        // Shortcode of the faction/Affiliation whose standing confers this
+        // mystery (a religion, school, ancestor/totem/spirit); null when the
+        // mystery names no affiliation.
+        assocAffiliationCode: new StringField({
+            nullable: true,
+            blank: false,
+            initial: null,
+        }),
         // Note: if levelBase is null, then there is no defined level
         levelBase: new NumberField({
             integer: true,
@@ -93,6 +101,7 @@ export class MysteryDataModel<
     static override readonly kind = ITEM_KIND.MYSTERY;
     subType!: MysterySubType;
     assocSkillCode!: string | null;
+    assocAffiliationCode!: string | null;
     levelBase!: number;
     charges!: {
         usesCharges: boolean;

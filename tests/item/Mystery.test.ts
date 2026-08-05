@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { MysteryLogic } from "@src/document/item/logic/MysteryLogic";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { ITEM_KIND, MYSTERY_SUBTYPE } from "@src/utils/constants";
 import {
@@ -10,13 +11,31 @@ import {
 } from "@tests/mocks/logicHarness";
 
 /**
- * Build a mock actor exposing the `itemTypes.skill` list that
- * MysteryLogic.evaluate() reads for assocSkill resolution.
+ * Build a mock actor exposing the `itemTypes.skill` / `itemTypes.affiliation`
+ * lists that MysteryLogic.evaluate() reads for assocSkill / affiliation
+ * resolution.
  */
 function makeMysteryActor() {
     const actor = makeMockActor();
-    actor.itemTypes = { skill: [] as any[] };
+    actor.itemTypes = { skill: [] as any[], affiliation: [] as any[] };
     return actor;
+}
+
+/** Embed a real AffiliationLogic on the actor and register it in itemTypes. */
+function makeAffiliationOnActor(
+    actor: any,
+    shortcode: string,
+    name = "Church of Larani",
+    level = 0,
+) {
+    const logic = makeItemLogic(
+        AffiliationLogic,
+        ITEM_KIND.AFFILIATION,
+        { society: null, office: null, title: null, level },
+        { actor, name, shortcode, id: `aff${shortcode}`.padEnd(16, "0") },
+    );
+    actor.itemTypes.affiliation.push(logic.item);
+    return logic;
 }
 
 /** Embed a real SkillLogic on the actor and register it in itemTypes. */
@@ -225,6 +244,58 @@ describe("MysteryLogic", () => {
             logic.initialize();
             expect(() => logic.evaluate()).not.toThrow();
             expect(logic.assocSkill).toBeUndefined();
+        });
+    });
+
+    // A Mystery can also name the faction/Affiliation whose standing it draws on
+    // (a Piety or Grace pool conferred by a religion, an ancestor/totem/spirit),
+    // stored independently of the associated skill as assocAffiliationCode and
+    // resolved to an AffiliationLogic on the same actor (#1076).
+    describe("affiliation", () => {
+        it("resolves affiliation from the actor's affiliations by shortcode", () => {
+            const actor = makeMysteryActor();
+            const aff = makeAffiliationOnActor(actor, "larani");
+            const logic = makeMystery(
+                {
+                    subType: MYSTERY_SUBTYPE.PIETY,
+                    assocAffiliationCode: "larani",
+                },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.affiliation).toBe(aff);
+        });
+
+        it("leaves affiliation undefined when no shortcode matches", () => {
+            const actor = makeMysteryActor();
+            makeAffiliationOnActor(actor, "larani");
+            const logic = makeMystery(
+                { assocAffiliationCode: "missing" },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.affiliation).toBeUndefined();
+        });
+
+        it("leaves affiliation undefined when the mystery has no actor", () => {
+            const logic = makeMystery({ assocAffiliationCode: "larani" });
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.affiliation).toBeUndefined();
+        });
+
+        it("leaves affiliation undefined when the code is blank", () => {
+            const actor = makeMysteryActor();
+            makeAffiliationOnActor(actor, "larani");
+            const logic = makeMystery(
+                { assocAffiliationCode: null },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.affiliation).toBeUndefined();
         });
     });
 

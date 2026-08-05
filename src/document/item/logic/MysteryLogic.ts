@@ -14,7 +14,9 @@
 import { entity } from "@src/entity/registry";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import type { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
 import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
+import { resolveAssocAffiliation } from "@src/document/item/logic/resolveAssocAffiliation";
 import { computeBoostContribution } from "@src/document/item/logic/masteryBoost";
 import {
     dialog,
@@ -103,6 +105,20 @@ export class MysteryLogic<
      */
     assocSkill?: SkillLogic;
 
+    /**
+     * The faction/**Affiliation** (an {@link AffiliationLogic}) this mystery
+     * draws its standing from, resolved during {@link evaluate} from
+     * {@link MysteryData.assocAffiliationCode}, or `undefined` when the mystery
+     * names no Affiliation, the item is not on an actor, or the shortcode
+     * matches none. This is separate from the associated
+     * {@link assocSkill | skill}: a religion, arcane or alchemical school, or
+     * ancestor/totem/spirit whose membership confers the mystery (the source of
+     * a Piety or Grace pool, say). Surfaced as the Being sheet's Affiliation
+     * column; a subtype may consult its {@link AffiliationLogic.level | rank} to
+     * inform a capability derivation.
+     */
+    affiliation?: AffiliationLogic;
+
     /* --------------------------------------------- */
     /* Intrinsic Actions                             */
     /* --------------------------------------------- */
@@ -190,6 +206,15 @@ export class MysteryLogic<
         this.assocSkill = resolveAssocSkill(
             actorLogic,
             this.data.assocSkillCode,
+        );
+
+        // The associated Affiliation is independent of the associated skill: it
+        // records the faction (religion, arcane/alchemical school,
+        // ancestor/totem/spirit) whose standing confers this mystery. Undefined
+        // when blank or unmatched.
+        this.affiliation = resolveAssocAffiliation(
+            actorLogic,
+            this.data.assocAffiliationCode,
         );
     }
 
@@ -345,6 +370,14 @@ export interface MysteryData<
      * mysteries that name no skill.
      */
     assocSkillCode?: string | null;
+    /**
+     * Shortcode of the faction/**Affiliation** whose standing confers this
+     * mystery — a religion, an arcane or alchemical school, an
+     * ancestor/totem/spirit — `null` when the mystery is not
+     * affiliation-associated. Resolved to {@link MysteryLogic.affiliation}
+     * during {@link MysteryLogic.evaluate}.
+     */
+    assocAffiliationCode?: string | null;
     /**
      * The base level of the mystery, or null if not applicable. For a `boon` it
      * is the flat `±N` modifier magnitude; for a `boost` it is the boost count

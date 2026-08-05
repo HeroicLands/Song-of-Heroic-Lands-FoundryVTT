@@ -19,13 +19,17 @@ import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 
 const MYSTERY_PROPS = "systems/sohl/templates/item/mystery-properties.hbs";
 
-function render(assocSkillCode: string | null = null): string {
+function render(
+    assocSkillCode: string | null = null,
+    assocAffiliationCode: string | null = null,
+): string {
     return renderTemplateReal(MYSTERY_PROPS, {
         tab: { active: true, group: "sheet" },
         system: {
             subType: "grace",
             domainCode: "arcane",
             assocSkillCode,
+            assocAffiliationCode,
             levelBase: 3,
             charges: { usesCharges: false, value: null, max: null },
         },
@@ -34,6 +38,7 @@ function render(assocSkillCode: string | null = null): string {
             // render — proving the phantom control is gone by its absence.
             domainCode: { fieldPath: "system.domainCode" },
             assocSkillCode: { fieldPath: "system.assocSkillCode" },
+            assocAffiliationCode: { fieldPath: "system.assocAffiliationCode" },
             levelBase: { fieldPath: "system.levelBase" },
             charges: {
                 fields: {
@@ -68,6 +73,14 @@ describe("mystery properties sheet template (#808)", () => {
         const html = render("dodge");
         expect(html).toContain('data-field="system.assocSkillCode"');
         expect(html).toContain('data-value="dodge"');
+    });
+
+    it("renders the associated-affiliation control bound to system.assocAffiliationCode (#1076)", () => {
+        // A mystery can name the faction whose standing confers it (a religion,
+        // school, or ancestor/totem/spirit), the same way a Mystical Ability does.
+        const html = render(null, "larani");
+        expect(html).toContain('data-field="system.assocAffiliationCode"');
+        expect(html).toContain('data-value="larani"');
     });
 
     it("still renders the charges controls", () => {
