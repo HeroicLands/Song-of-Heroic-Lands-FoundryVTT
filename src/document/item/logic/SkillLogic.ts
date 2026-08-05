@@ -197,14 +197,6 @@ export class SkillLogic<
     masteryLevel!: MasteryLevelModifier;
 
     /**
-     * The skill's level as a {@link sohl.entity.modifier.ValueModifier}, seeded
-     * from {@link SkillData.levelBase}. Disabled when the skill has no level
-     * (`levelBase === null`), in which case the Skills-tab Level cell renders an
-     * ✕; a stored `0` is a real level and stays enabled.
-     */
-    level!: ValueModifier;
-
-    /**
      * The fate mastery level as a {@link sohl.entity.modifier.MasteryLevelModifier}, used to resolve
      * {@link fateTest | fate tests}. Seeded from the actor's Aura attribute and
      * the `optionFate` setting; disabled when fate does not apply.
@@ -1021,10 +1013,14 @@ export class SkillLogic<
     /**
      * Compute the Skill Base from a raw formula source by evaluating it as a
      * value-returning {@link sohl.entity.expr.SafeExpression} against a
-     * Foundry-free context of attribute **values** (`attr.<shortcode>`).
-     * The raw string is compiled here at evaluation time, never at
-     * author time (rule #10) — a world-item skill (no actor) simply evaluates
-     * against an empty context where every `attr.*` is `0`.
+     * Foundry-free context of attribute **values** (`attr.<shortcode>`) and
+     * **affiliation ranks** (`affiliation.<shortcode>.level`) — the latter lets a
+     * mystical skill's base scale with the character's standing in a church or
+     * arcane school (Affiliation is the capability credential; the context is
+     * built by `buildAffiliationContext`). The raw string is compiled here at
+     * evaluation time, never at author time (rule #10) — a world-item skill (no
+     * actor) simply evaluates against empty contexts where every `attr.*` is `0`
+     * and every `affiliation.*.level` is `0`.
      *
      * - A blank/absent source yields `{ value: 0, expr: null }` — blank is not
      *   invalid.
@@ -1048,6 +1044,7 @@ export class SkillLogic<
             const expr = new SafeExpression({ source }, { parent: this });
             const raw = expr.evaluate({
                 attr: this.buildAttrContext(),
+                affiliation: this.buildAffiliationContext(),
             });
             const n = Number(raw);
             if (!Number.isFinite(n)) {
@@ -1096,6 +1093,44 @@ export class SkillLogic<
         });
     }
 
+    /**
+     * Build the zero-defaulting `affiliation` context: a map of the actor's
+     * affiliation shortcodes (lowercased) to a small record exposing that
+     * affiliation's `level` (its
+     * {@link sohl.document.item.logic.AffiliationLogic.level | rank / standing}).
+     * A Skill-Base formula references it as `affiliation.<code>.level`, so a
+     * character's grade in a church or arcane school can scale a mystical skill's
+     * base — the credential-driven replacement for the retired `Skill.level`.
+     *
+     * Wrapped in a Proxy so any absent affiliation resolves (case-insensitively)
+     * to a `{ level: 0 }` stub rather than throwing: `affiliation.<unknown>.level`
+     * is a benign `0`, mirroring the `attr` proxy's `?? 0` semantics. Off an
+     * actor the map is empty, so every `affiliation.*.level` is `0`.
+     *
+     * @returns The `affiliation` namespace object for expression evaluation.
+     */
+    private buildAffiliationContext(): Record<string, { level: number }> {
+        const ranks: Record<string, { level: number }> = {};
+        const affiliations =
+            this.actorLogic?.logicTypes?.[ITEM_KIND.AFFILIATION] ?? [];
+        for (const a of affiliations) {
+            const code = a.data.shortcode?.toLowerCase();
+            if (code) ranks[code] = { level: a.level ?? 0 };
+        }
+        const absent = { level: 0 };
+        return new Proxy(ranks, {
+            get(target, prop) {
+                if (typeof prop === "string") {
+                    const key = prop.toLowerCase();
+                    return Object.prototype.hasOwnProperty.call(target, key) ?
+                            target[key]
+                        :   absent;
+                }
+                return Reflect.get(target, prop);
+            },
+        });
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
@@ -1131,15 +1166,6 @@ export class SkillLogic<
             { parent: this },
         ).setBase(masteryLevelBase);
 
-        // Level: a null base means "no level" and leaves the modifier disabled
-        // (the Skills-tab Level cell then renders an ✕); 0 is a real level and
-        // stays enabled. Mirrors MysteryLogic's level handling.
-        this.level = new entity.ValueModifier(this);
-        if (this.data.levelBase === null) {
-            this.level.setDisabled("SOHL.Skill.NoLevel");
-        } else {
-            this.level.setBase(this.data.levelBase);
-        }
         this.fateMasteryLevel = new entity.MasteryLevelModifier(
             {
                 testDescTable: getFateDescTable(),
@@ -1325,12 +1351,6 @@ export interface SkillData<
      * automatically at Skill Base × {@link SkillData.initSkillMult}.
      */
     masteryLevelBase: number | null;
-    /**
-     * The skill's level, or `null` when the skill has no level (which disables
-     * {@link SkillLogic.level} and renders the Skills-tab Level cell as an ✕). A
-     * stored `0` is a real level. Absent in source ⇒ `null`.
-     */
-    levelBase: number | null;
     /** Whether this item is flagged for mastery improvement via SDR */
     improveFlag: boolean;
     /** Combat category this skill applies to, if any */

@@ -39,7 +39,7 @@ Reach for an Affiliation for any organized body the character belongs to. Common
 - **Criminal organizations** — thieves' guilds, smuggling rings, or other outlaw bodies, with **Level** marking the character's place in the pecking order.
 - **Guilds, noble houses, and military units** — a trade guild, a house the character is sworn to, or a rank in a fighting company.
 
-> **Recording religious and arcane rank.** The **Level** field is the natural home for a character's rank in a religion or grade in an arcane school. If you have been tracking that standing as a _Level_ on the character's ritual or arcane [[Item_Skill|Skills]], prefer the Affiliation's **Level** going forward — it keeps "what the character _is_ within an order" together with the rest of their membership. In future, a character's Mysteries and Mystical Abilities may take this rank into account.
+> **Recording religious and arcane rank.** The **Level** field is the home for a character's rank in a religion or grade in an arcane school — it keeps "what the character _is_ within an order" together with the rest of their membership. This standing is a **capability credential** the rest of the sheet can draw on: a religious or arcane [[Item_Skill|Skill]] can scale with it by referencing the affiliation's rank as `affiliation.<code>.level` in its **Skill Base Formula** (using the affiliation's shortcode), and a [[Item_MysticalAbility|Mystical Ability]] tied to this affiliation can take the rank into account. The affiliation only _informs_ such derivations — invoking a power is always the player's deliberate act, never something the system does on its own.
 
 # Additional Properties
 

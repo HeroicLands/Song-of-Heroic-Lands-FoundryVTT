@@ -203,44 +203,6 @@ describe("being sheet", () => {
         });
     });
 
-    // The Level column sits immediately after the skill name and renders the
-    // `levelBase`-seeded level, or an ✕ (fa-xmark) when the skill has no level
-    // (`levelBase === null`). The cell is the `.ledger__cell` adjacent to the
-    // row's `.ledger__name`.
-    it("shows a Level column after the name: value when set, ✕ when null", () => {
-        cy.createActor("being", { name: "Level Column Subject" }).then(
-            (actor) => {
-                cy.createItemOn(actor, "skill", {
-                    name: "Leveled Skill",
-                    system: { subType: "social", levelBase: 3 },
-                });
-                cy.createItemOn(actor, "skill", {
-                    name: "Unleveled Skill",
-                    system: { subType: "social", levelBase: null },
-                });
-                cy.openSheet(actor);
-                cy.switchTab("skills", "primary");
-
-                const skills = 'section.tab[data-tab="skills"]';
-                // The Level heading is present in the ledger head.
-                cy.get(`${skills} .ledger__head .ledger__head-num`).should(
-                    "contain.text",
-                    "Lvl",
-                );
-                // A set level renders its number in the cell after the name.
-                cy.get(
-                    `${skills} .ledger__row[data-item-name="Leveled Skill"] ` +
-                        ".ledger__name + .ledger__cell",
-                ).should("contain.text", "3");
-                // A null level renders an ✕ instead.
-                cy.get(
-                    `${skills} .ledger__row[data-item-name="Unleveled Skill"] ` +
-                        ".ledger__name + .ledger__cell .fa-xmark",
-                ).should("exist");
-            },
-        );
-    });
-
     // #769 — the EML and Fate value cells bind a hover tooltip to the
     // mastery-level modifier delta summary (deltaLabel), positioned above the
     // row (data-tooltip-direction="UP"). The attributes' presence (the tooltip

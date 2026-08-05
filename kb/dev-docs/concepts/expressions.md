@@ -99,11 +99,21 @@ computed value** from a data field; these are the call sites today:
 | Active effect, strike-mode targeting (`SohlActiveEffect`)                  | `test`                                 | `itemLogic`, `sm`                   | boolean |
 | Context-menu entry (`ContextMenuEntry`)                                    | `condition`                            | `target`, `itemLogic`, `actorLogic` | boolean |
 | Being body/movement profile ({@link sohl.document.actor.logic.BeingLogic}) | `strMod`, `encumbrance`, `weight.calc` | `str` or `wt`                       | number  |
+| Skill Base ({@link sohl.document.item.logic.SkillLogic})                   | `skillBaseFormula`                     | `attr`, `affiliation`               | number  |
 
 The same `SohlActiveEffect.test` field is bound differently by the effect's
 scope: item-kind scopes see the candidate item's logic as `itemLogic`; the
 strike-mode scopes (`meleestrikemode` / `missilestrikemode`) additionally bind
 the strike mode as `sm`.
+
+The Skill Base bindings are **zero-defaulting namespaces** indexed by an item's
+shortcode: `attr.<code>` is an actor attribute's effective score (e.g.
+`sb(attr.str, attr.dex)`), and `affiliation.<code>.level` is the character's rank
+in an [Affiliation](https://kb.heroiclands.org/user-guide/items/item-affiliation/)
+— the capability credential where religious rank and arcane grade live. A
+reference to a shortcode the actor lacks resolves to `0` rather than throwing, so
+a mystical skill's base can scale with the character's standing in a church or
+arcane school without failing for a character who has not joined one.
 
 ### The standard helpers
 

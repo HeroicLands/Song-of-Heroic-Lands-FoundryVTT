@@ -180,51 +180,6 @@ describe("skills.hbs EML/Fate value tooltips (#769)", () => {
     });
 });
 
-describe("skills.hbs Level column", () => {
-    const row = (over = {}) => ({
-        id: "s1",
-        uuid: "Item.s1",
-        name: "Climbing",
-        img: "icons/skill.svg",
-        level: 4,
-        levelDisabled: false,
-        sb: 5,
-        sbValid: true,
-        ml: 40,
-        index: 4,
-        eml: 42,
-        fate: 50,
-        emlDeltaLabel: "",
-        fateDeltaLabel: "",
-        disabled: false,
-        canImprove: false,
-        improveFlag: false,
-        notes: "",
-        ...over,
-    });
-    const groups = (skill: Record<string, unknown>) => [
-        { subType: "social", label: "Social", skills: [skill] },
-    ];
-
-    it("renders the numeric level right after the name", () => {
-        const html = renderTemplateReal(SKILLS, {
-            skillGroups: groups(row({ level: 4, levelDisabled: false })),
-        });
-        // The Level cell follows the name cell in document order.
-        const nameIdx = html.indexOf('class="ledger__name"');
-        const levelIdx = html.indexOf(">4<", nameIdx);
-        expect(nameIdx).toBeGreaterThanOrEqual(0);
-        expect(levelIdx).toBeGreaterThan(nameIdx);
-    });
-
-    it("renders an ✕ (fa-xmark) when the level is disabled", () => {
-        const html = renderTemplateReal(SKILLS, {
-            skillGroups: groups(row({ level: 0, levelDisabled: true })),
-        });
-        expect(html).toContain("fa-xmark");
-    });
-});
-
 // A value-modifier stub as the templates see it off `item.logic.<field>`.
 const vm = (deltaLabel: string, effective = 1) => ({
     disabled: "",

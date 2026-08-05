@@ -3,6 +3,7 @@ import {
     SkillLogic,
     getFateDescTable,
 } from "@src/document/item/logic/SkillLogic";
+import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
@@ -28,7 +29,6 @@ function skillFields(overrides: Record<string, unknown> = {}) {
         subType: "social",
         skillBaseFormula: "",
         masteryLevelBase: 30,
-        levelBase: null,
         improveFlag: false,
         combatCategory: "none",
         parentSkillCode: null,
@@ -130,30 +130,6 @@ describe("SkillLogic", () => {
             expect(logic.masteryLevel.effective).toBe(45);
         });
 
-        it("seeds level from levelBase", () => {
-            const logic = makeSkill({ levelBase: 3 });
-            logic.initialize();
-            expect(logic.level).toBeInstanceOf(ValueModifier);
-            expect(logic.level.base).toBe(3);
-            expect(logic.level.effective).toBe(3);
-            expect(logic.level.disabled).toBeFalsy();
-        });
-
-        it("seeds level even when levelBase is 0 (only null disables)", () => {
-            const logic = makeSkill({ levelBase: 0 });
-            logic.initialize();
-            expect(logic.level.disabled).toBeFalsy();
-            expect(logic.level.base).toBe(0);
-        });
-
-        it("disables level when levelBase is null", () => {
-            const logic = makeSkill({ levelBase: null });
-            logic.initialize();
-            expect(logic.level.disabled).toBe("SOHL.Skill.NoLevel");
-            // a disabled modifier always reports an effective value of 0
-            expect(logic.level.effective).toBe(0);
-        });
-
         it("resets parentSkill and boosts", () => {
             const logic = makeSkill();
             logic.initialize();
@@ -236,6 +212,49 @@ describe("SkillLogic", () => {
             // sb() averages the referenced attribute values: (12+14)/2 = 13,
             // primary (12) < secondary (14) → floor(13) = 13.
             expect(logic.skillBase).toBe(13);
+        });
+
+        it("exposes affiliation ranks as affiliation.<code>.level in the Skill-Base formula (#1000)", () => {
+            const actor = makeMockActor();
+            actor.items.set("aur1", makeAttributeStub("aur", 15));
+            // Affiliation is the capability credential: a mystical skill's base
+            // can scale with the character's rank in a church / arcane school.
+            makeItemLogic(
+                AffiliationLogic,
+                ITEM_KIND.AFFILIATION,
+                { society: null, office: null, title: null, level: 3 },
+                {
+                    actor,
+                    id: "aff1",
+                    name: "Church of Agrik",
+                    shortcode: "agrik",
+                },
+            );
+            const logic = makeSkill(
+                { skillBaseFormula: "sb(attr.aur) + affiliation.agrik.level" },
+                { actor },
+            );
+            logic.initialize();
+            expect(logic.skillBaseValid).toBe(true);
+            // sb(attr.aur) = 15; + affiliation.agrik.level (3) = 18.
+            expect(logic.skillBase).toBe(18);
+        });
+
+        it("defaults an unknown affiliation's level to 0 in the Skill-Base formula (#1000)", () => {
+            const actor = makeMockActor();
+            actor.items.set("aur1", makeAttributeStub("aur", 15));
+            const logic = makeSkill(
+                {
+                    skillBaseFormula:
+                        "sb(attr.aur) + affiliation.nemesis.level",
+                },
+                { actor },
+            );
+            logic.initialize();
+            // A reference to an affiliation the character lacks is a benign 0,
+            // not an error — mirrors the zero-defaulting `attr` proxy.
+            expect(logic.skillBaseValid).toBe(true);
+            expect(logic.skillBase).toBe(15);
         });
 
         it("flags an invalid Skill-Base expression (SB 0, not valid) (#972)", () => {

@@ -94,14 +94,39 @@ export interface MigrationStep {
 }
 
 /**
+ * Strip the retired `Skill.levelBase` field from a skill's source (#1000).
+ *
+ * Religious / arcane rank was formerly approximated by a `level` on ritual and
+ * arcane **Skills**; it now lives on **Affiliation** (the capability credential),
+ * so the `levelBase` field was removed from the Skill schema. This migrator
+ * deletes the now-dead source key via Foundry's `-=` deletion syntax; it is a
+ * clean break (pre-Beta, no world carries meaningful standing on a Skill yet),
+ * so the value is dropped rather than moved — no data links a Skill to the
+ * Affiliation it would belong to, and standing is re-entered on the Affiliation's
+ * `level`. A skill with no stored `levelBase`, or any non-skill item, is a no-op.
+ *
+ * @param source - The item's serialized source.
+ * @returns A `{ "system.-=levelBase": null }` deletion payload, or `undefined`.
+ */
+const retireSkillLevelBase: DocMigrator = (source) => {
+    if (source.type !== "skill") return undefined;
+    if (!source.system || !("levelBase" in source.system)) return undefined;
+    return { "system.-=levelBase": null };
+};
+
+/**
  * The ordered list of world migrations.
  *
- * **Empty — this is infrastructure only (#957).** No data migration is required
- * at this time; the runner, version comparison, per-type dispatch, and version
- * stamping are all in place so a future migration plugs in as one frozen entry
- * here (append in version order — the planner sorts defensively regardless).
+ * Append new steps in version order (the planner sorts defensively regardless);
+ * the array is frozen so the registry cannot be mutated at runtime.
  */
-export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([]);
+export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([
+    {
+        version: "0.8.0",
+        description: "Retire the dead Skill.levelBase field (#1000)",
+        migrators: { Item: retireSkillLevelBase },
+    },
+]);
 
 /**
  * Select the migration steps to run for a world, in ascending version order.

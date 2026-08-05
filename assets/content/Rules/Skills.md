@@ -2,10 +2,6 @@
 aliases:
     - Skills
     - Skill
-    - Skill Levels
-    - Skill Level
-    - Circle
-    - Circles
 id: HZBjHDtekoQBOgwq
 type: doc
 package: sohl
@@ -17,7 +13,7 @@ folder: RqKUTBUBN2Y3MHYB
 slug: sohl-skills
 ---
 
-A **skill** represents a character's trained ability at some activity — a weapon, a craft, a lore, a social art. Each skill is rated by a **Mastery Level (ML)**, and whenever the outcome of using a skill is uncertain, the character makes a test against it. This page introduces the kinds of test skills use, and the optional level some skills carry; each links to its detailed rules.
+A **skill** represents a character's trained ability at some activity — a weapon, a craft, a lore, a social art. Each skill is rated by a **Mastery Level (ML)**, and whenever the outcome of using a skill is uncertain, the character makes a test against it. This page introduces the kinds of test skills use; each links to its detailed rules.
 
 # Success Tests
 
@@ -51,18 +47,3 @@ See [[Success_Value_Tests|Success Value Tests]] for the full four-step procedure
 A test uses one primary skill at a time, but other skills and attributes can influence it as **Secondary Mastery**, in one of two ways. A **Secondary Modifier** lends a bonus or penalty to the EML, derived from the secondary skill or attribute's Index. A **Secondary Roll** instead accompanies the test as a separate d10 check, using that Index as its target number.
 
 See [[Secondary_Mastery|Secondary Mastery]] for the modifier table, Secondary Rolls, and the rule on missing mastery.
-
-# Skill Levels
-
-Most skills have no level. Some skills — particularly the **arcane** and **divine/ritual** skills of the **Mystical** skills group — carry a **level**, sometimes called a **circle**, that ranks the skill within its tradition.
-
-## Setting a Skill's Level
-
-A skill's level is a whole number recorded on the skill itself (its **Level** property):
-
-- When a level (or circle) applies to the skill, set the **Level** to that numeric value.
-- When no level applies, leave the **Level** blank — meaning _not applicable_. A blank level is the norm; only arcane and divine/ritual skills typically have one.
-
-## Where It Appears
-
-On the Being sheet's **Skills** tab, a skill's level is shown in the **Lvl** column, immediately after the skill's name. A skill with no level shows an ✕ in that column instead of a number.

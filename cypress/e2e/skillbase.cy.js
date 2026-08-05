@@ -205,6 +205,75 @@ describe("skillbase calculation contract", () => {
         });
     });
 
+    it("affiliation rank scales the skill base — affiliation.<code>.level (#1000)", () => {
+        // Affiliation is the capability credential: a mystical skill's base can
+        // scale with the character's rank in a church / arcane school.
+        cy.createActor("being", { name: "Credential Being" }).then((actor) => {
+            cy.createItemsOn(actor, [
+                {
+                    kind: "attribute",
+                    name: "AUR",
+                    system: { shortcode: "aur", scoreBase: 10 },
+                },
+                {
+                    kind: "affiliation",
+                    name: "Church of Agrik",
+                    system: { shortcode: "agrik", level: 3 },
+                },
+            ])
+                .then(() =>
+                    cy.createItemOn(actor, "skill", {
+                        name: "Agrik Ritual",
+                        system: {
+                            subType: "lore",
+                            skillBaseFormula:
+                                "sb(attr.aur) + affiliation.agrik.level",
+                        },
+                    }),
+                )
+                .then(() => {
+                    cy.prepare(actor);
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        const sk = a.items.find((i) => i.type === "skill");
+                        return sk.logic.skillBase;
+                    }).should("eq", 13); // sb(aur=10)=10 + affiliation.agrik.level(3)
+                });
+        });
+    });
+
+    it("absent affiliation contributes 0 to the skill base (#1000)", () => {
+        cy.createActor("being", { name: "No Credential Being" }).then(
+            (actor) => {
+                cy.createItemsOn(actor, [
+                    {
+                        kind: "attribute",
+                        name: "AUR",
+                        system: { shortcode: "aur", scoreBase: 10 },
+                    },
+                ])
+                    .then(() =>
+                        cy.createItemOn(actor, "skill", {
+                            name: "Unaffiliated Ritual",
+                            system: {
+                                subType: "lore",
+                                skillBaseFormula:
+                                    "sb(attr.aur) + affiliation.nemesis.level",
+                            },
+                        }),
+                    )
+                    .then(() => {
+                        cy.prepare(actor);
+                        cy.foundry((win) => {
+                            const a = win.game.actors.get(actor.id);
+                            const sk = a.items.find((i) => i.type === "skill");
+                            return sk.logic.skillBase;
+                        }).should("eq", 10); // unknown affiliation.*.level → 0
+                    });
+            },
+        );
+    });
+
     it("invalid formula — Being sheet SB cell shows ✕ (#972)", () => {
         cy.createActor("being", { name: "Invalid SB Being" }).then((actor) => {
             cy.createItemOn(actor, "skill", {
