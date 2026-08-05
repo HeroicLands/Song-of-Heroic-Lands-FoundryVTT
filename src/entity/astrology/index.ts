@@ -14,7 +14,6 @@
 // Namespace barrel — hand-maintained. `npm run lint` (check-ns-barrels)
 // verifies every sibling module and subfolder here is re-exported.
 
-export * from "./ContextMenuEntry";
-export * from "./astrology-traditions-view";
-export * from "./calendar-settings-view";
-export * from "./expression-library-view";
+export * from "./AstrologyTradition";
+export * from "./builtin-traditions";
+export * from "./validate-traditions";

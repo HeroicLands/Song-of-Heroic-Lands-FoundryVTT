@@ -30,7 +30,7 @@ Most mystical traditions combine the two. A spirit-worker _is_ bonded to spirits
 
 Every mystical ability — and most mysteries — belongs to one of three broad traditions, which shape how it is learned, where its power comes from, and what it costs. Each has its own page.
 
-- **[[rules/sohl-arcane|Arcane]]** — power drawn from the caster's own aura and from formally taught lore. Arcane practitioners shape unseen forces directly. Their abilities are _Arcane Incantations_ (taught) and _Arcane Talents_ (innate), with _Alchemy_ and much _Divination_ in the same tradition; their mysteries include the _Birthsign_ a character is born under.
+- **[[rules/sohl-arcane|Arcane]]** — power drawn from the caster's own aura and from formally taught lore. Arcane practitioners shape unseen forces directly. Their abilities are _Arcane Incantations_ (taught) and _Arcane Talents_ (innate), with _Alchemy_ and much _Divination_ in the same tradition; the tradition also reads the _Birthsign_ a character is born under (a property derived from the character's birth date, not a mystery they carry).
 - **[[rules/sohl-divine|Divine]]** — power granted by a deity in answer to devotion. Divine practitioners do not command power so much as request it, and their standing with their god (their **Piety**) governs how readily it is granted. Their abilities are _Ritual Actions_ (including the blessings a priest calls down) and _Divine Incantations_; their mysteries are _Grace_ and _Piety_.
 - **[[rules/sohl-spirit|Spirit]]** — power granted by, or channelled through, spirits: ancestors, totems, and the wild energies of the world. Spirit practitioners cultivate relationships with spirits, who confer **Spirit Powers** on them; those powers are then exercised through _Spirit Rites_ and _Spirit Actions_, and some folk have an innate _Spirit Talent_.
 
@@ -58,7 +58,7 @@ Some abilities and mysteries can be spent a limited number of times before they 
 
 # General Mysteries
 
-Some mysteries belong to no single tradition — they can attach to a skill of any tradition, and are described here once rather than repeated on each tradition page. (The tradition-specific mysteries appear on their own pages: the [[rules/sohl-arcane|Arcane]] Birthsign and Fate, and the [[rules/sohl-divine|Divine]] Grace and Piety.)
+Some mysteries belong to no single tradition — they can attach to a skill of any tradition, and are described here once rather than repeated on each tradition page. (The tradition-specific mysteries appear on their own pages: the [[rules/sohl-arcane|Arcane]] Fate, and the [[rules/sohl-divine|Divine]] Grace and Piety. The Arcane [[rules/sohl-arcane|Birthsign]] is not a mystery but a property derived from the character's birth date.)
 
 ## Boon
 

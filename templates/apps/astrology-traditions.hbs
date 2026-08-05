@@ -1,0 +1,66 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="astrology-traditions">
+    {{!-- Import / manage the world's astrology traditions --}}
+    <fieldset>
+        <legend>{{localize "SOHL.Astrology.Settings.import.label"}}</legend>
+        <p class="hint">{{localize "SOHL.Astrology.Settings.import.hint"}}</p>
+        <div class="form-group">
+            <button type="button" data-action="importTraditions">
+                <i class="fa-solid fa-file-import"></i>
+                {{localize "SOHL.Astrology.Settings.import.button"}}
+            </button>
+            {{#if hasWorld}}
+            <button type="button" data-action="clearTraditions">
+                <i class="fa-solid fa-trash"></i>
+                {{localize "SOHL.Astrology.Settings.clear.button"}}
+            </button>
+            {{/if}}
+        </div>
+    </fieldset>
+
+    {{!-- The traditions currently available (built-in + world) --}}
+    <fieldset>
+        <legend>{{localize "SOHL.Astrology.Settings.list.label"}}</legend>
+        {{#if hasTraditions}}
+        <ul class="astrology-tradition-list">
+            {{#each traditions}}
+            <li class="astrology-tradition">
+                <code class="tradition-key">{{this.key}}</code>
+                <span class="tradition-label">{{localize this.label}}</span>
+                <span class="tradition-sign-count">
+                    {{this.signCount}}
+                    {{localize "SOHL.Astrology.Settings.list.signs"}}
+                </span>
+                {{#if (eq this.source "world")}}
+                <span class="tradition-source tradition-source-world">
+                    {{localize "SOHL.Astrology.Settings.list.world"}}
+                </span>
+                {{else if (eq this.source "module")}}
+                <span class="tradition-source tradition-source-module">
+                    {{localize "SOHL.Astrology.Settings.list.module"}}
+                </span>
+                {{else}}
+                <span class="tradition-source tradition-source-builtin">
+                    {{localize "SOHL.Astrology.Settings.list.builtin"}}
+                </span>
+                {{/if}}
+            </li>
+            {{/each}}
+        </ul>
+        {{else}}
+        <p class="hint">{{localize "SOHL.Astrology.Settings.list.none"}}</p>
+        {{/if}}
+    </fieldset>
+</section>

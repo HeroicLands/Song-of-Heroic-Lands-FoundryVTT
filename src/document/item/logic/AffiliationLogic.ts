@@ -37,6 +37,18 @@ import {
 export class AffiliationLogic<
     TData extends AffiliationData = AffiliationData,
 > extends SohlItemBaseLogic<TData> {
+    /**
+     * Whether this affiliation confers a **birthsign** — i.e. it carries a
+     * non-empty {@link AffiliationData.astrologicalExpression}. Presence of the
+     * expression *is* the identity of a birthsign affiliation (no subtype or
+     * flag); a `null`, empty, or whitespace-only source is not one.
+     * @returns `true` when a non-blank astrological expression is present.
+     */
+    get isBirthsignAffiliation(): boolean {
+        const src = this.data.astrologicalExpression;
+        return typeof src === "string" && src.trim().length > 0;
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
@@ -74,4 +86,14 @@ export interface AffiliationData<
     title: string | null;
     /** Rank or standing within the organization */
     level: number;
+    /**
+     * A {@link sohl.entity.expr.SafeExpression} source that derives the being's
+     * birthsign skill modifiers from its birth date, interpreted through the
+     * astrological **tradition** named by {@link society}. **Presence is
+     * identity:** a non-empty expression by definition makes this a *birthsign
+     * affiliation* — there is no subtype or flag. `null`/blank when the
+     * affiliation confers no birthsign (the common case). See
+     * {@link AffiliationLogic.isBirthsignAffiliation}.
+     */
+    astrologicalExpression: string | null;
 }

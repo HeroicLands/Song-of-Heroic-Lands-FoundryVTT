@@ -99,11 +99,20 @@ computed value** from a data field; these are the call sites today:
 | Active effect, strike-mode targeting (`SohlActiveEffect`)                  | `test`                                 | `itemLogic`, `sm`                   | boolean |
 | Context-menu entry (`ContextMenuEntry`)                                    | `condition`                            | `target`, `itemLogic`, `actorLogic` | boolean |
 | Being body/movement profile ({@link sohl.document.actor.logic.BeingLogic}) | `strMod`, `encumbrance`, `weight.calc` | `str` or `wt`                       | number  |
+| Birthsign affiliation ({@link sohl.document.item.logic.AffiliationLogic})  | `astrologicalExpression`               | `tradition`, `date`, _(registry injected)_ | dict |
 
 The same `SohlActiveEffect.test` field is bound differently by the effect's
 scope: item-kind scopes see the candidate item's logic as `itemLogic`; the
 strike-mode scopes (`meleestrikemode` / `missilestrikemode`) additionally bind
 the strike mode as `sm`.
+
+A birthsign affiliation's `astrologicalExpression` returns a **dict** of per-skill
+birthsign modifiers, derived from the being's `date` (its birth date, calendar-
+resolved) interpreted through its `tradition` (the affiliation's `society`). The
+resolved traditions registry is not a bound variable — it is injected straight
+into the astrology helpers (see [context-bound helpers](#the-standard-helpers)),
+keeping the logic layer Foundry-free. The dict is consumed in
+{@link sohl.document.item.logic.SkillLogic} as a `BSMod` mastery-level delta.
 
 ### The standard helpers
 
@@ -179,6 +188,36 @@ valid regular expression. `padStart`, `padEnd`, and `repeat` throw a
 | Helper                                  | Returns   | Description                                                                         |
 | --------------------------------------- | --------- | ----------------------------------------------------------------------------------- |
 | `hasUsableSkill(actorLogic, shortcode)` | `boolean` | Whether the actor (given its logic) has a skill with that shortcode (e.g. `"dge"`). |
+
+**Dicts and folding** _(the grammar has no object literals, so a dict is built and
+combined through helpers)_
+
+| Helper                    | Returns             | Description                                                                                                                                                                                                       |
+| ------------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `settings(...pairs)`      | `object`            | A dict from alternating key/value arguments — `settings("pel", 15, "subtype:combat", 5)` → `{ pel: 15, "subtype:combat": 5 }`. Throws on an odd argument count.                                                   |
+| `sum(...values)`          | `number`            | The sum of the given numbers (`0` with none). Also usable as a `merge` fold policy.                                                                                                                              |
+| `merge(iters, combiner)`  | `object` or `array` | Fold an array of dicts (or arrays) **per key**, applying the named pure combiner to the **present values only** for each key. `combiner` is a **string** naming a registered pure combiner — `"max"`, `"min"`, or `"sum"`. Arrays fold by index. |
+
+`merge`'s combiner is _selected_ from the registry by name (never injected code)
+and is restricted to the pure combiners `max` / `min` / `sum`.
+
+**Astrology (birthsign derivation)** _(receive the world's traditions registry as
+an injected first argument — an author supplies only the documented arguments)_
+
+| Helper                                | Returns    | Description                                                                                                       |
+| ------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------- |
+| `astrologySign(tradition, date)`      | `string[]` | The sign shortcode(s) governing `date` in `tradition` — one on an ordinary day, two on a cusp.                   |
+| `astrologySettings(tradition, date)`  | `object[]` | One skill-modifier dict per governing sign — the input to `merge`.                                               |
+| `astrologySetting(tradition, sign)`   | `object`   | The skill-modifier dict for an **explicit** sign (bypassing date derivation); `{}` when the sign is absent.       |
+
+`tradition` is a tradition key (an Affiliation `society`) and `date` is the
+being's calendar-resolved birth date (`{ month, day, monthLengths }`). These
+helpers are **context-bound** (see below): SafeExpression injects the resolved
+traditions registry as their hidden first argument, so the author writes only
+`astrologySettings(tradition, date)`. The canonical per-being expression is
+`merge(astrologySettings(tradition, date), "max")` (cusp = per-key max); use
+`"sum"` to stack instead, or `astrologySetting(tradition, "Hirin")` to pin an
+explicit sign. See the birthsign-affiliation call site in the table above.
 
 **Randomness and dice** _(stochastic — unlike every other helper, successive
 calls differ)_

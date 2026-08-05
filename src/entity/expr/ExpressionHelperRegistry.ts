@@ -17,6 +17,13 @@ import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { defaultRng } from "@src/entity/random/createRng";
 import { fvttWorldTime, fvttCombatTime } from "@src/core/FoundryHelpers";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
+import {
+    signsForDate,
+    signByShortcode,
+    type AstrologyDate,
+    type AstrologyTradition,
+    type AstrologyTraditions,
+} from "@src/entity/astrology";
 
 /** A helper function callable from an expression; receives evaluated args. */
 export type ExpressionHelper = (...args: unknown[]) => unknown;
@@ -93,6 +100,48 @@ function collectionSize(value: unknown): number {
  * `SafeExpression` merely honors it.
  */
 export const PARENT_BOUND_HELPERS: ReadonlySet<string> = new Set(["roll"]);
+
+/**
+ * Helper names that receive a **slice of the evaluation context** as an injected
+ * **first argument**, mapped to the context key to inject. `SafeExpression`
+ * prepends `context[key]` for these before calling the helper, so an expression
+ * author still calls them with only their documented arguments — exactly as
+ * {@link PARENT_BOUND_HELPERS} injects the owning `parent`.
+ *
+ * The astrology helpers use this to receive the resolved **traditions registry**
+ * (the Foundry boundary injects it into the context under `astrologyTraditions`),
+ * keeping the helpers pure and the logic layer Foundry-free.
+ */
+export const CONTEXT_BOUND_HELPERS: ReadonlyMap<string, string> = new Map([
+    ["astrologySign", "astrologyTraditions"],
+    ["astrologySettings", "astrologyTraditions"],
+    ["astrologySetting", "astrologyTraditions"],
+]);
+
+/**
+ * The pure combiners {@link STANDARD_HELPERS.merge | merge} may fold with,
+ * resolved from the registry by name. Restricted to side-effect-free numeric
+ * reducers so an author can select but never inject a fold policy.
+ */
+const ALLOWED_MERGE_COMBINERS: ReadonlySet<string> = new Set([
+    "max",
+    "min",
+    "sum",
+]);
+
+/**
+ * Resolve a tradition from an injected traditions registry by key.
+ * @param traditions - The injected registry (tradition key → tradition).
+ * @param key - The tradition key (an Affiliation `society`).
+ * @returns The matching tradition, or `undefined` when the registry or key is absent.
+ */
+function resolveTradition(
+    traditions: unknown,
+    key: unknown,
+): AstrologyTradition | undefined {
+    if (!traditions || typeof traditions !== "object") return undefined;
+    return (traditions as AstrologyTraditions)[String(key)];
+}
 
 /**
  * The built-in helper library — null-tolerant utility functions for collection
@@ -431,6 +480,17 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
     },
 
     /**
+     * Sum of the given numbers (`0` with no arguments). A pure combiner, usable
+     * as the {@link merge} fold policy (`merge(iters, "sum")`) as well as on its
+     * own.
+     * @param values - The numbers to add.
+     * @returns Their sum.
+     */
+    sum(...values: unknown[]): number {
+        return (values as number[]).reduce((acc, n) => acc + Number(n), 0);
+    },
+
+    /**
      * Round a number to the nearest integer.
      * @param value - The number to round.
      * @returns The rounded value.
@@ -613,27 +673,145 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
     },
 
     /**
-     * A birthsign Skill-Base bonus: `amount` when `code` is among the actor's
-     * `birthsigns`, otherwise `0`. Multiple terms **stack** — sum them with `+`
-     * (`sb(attr.str, attr.dex) + birthsignBonus(birthsigns, 'hirin', 2)`), or take
-     * the largest with `max(...)`.
-     * @param birthsigns - The actor's birthsign shortcodes (lowercased); passed
-     *   explicitly from the expression context.
-     * @param code - The birthsign shortcode to test for (matched case-insensitively).
-     * @param amount - The bonus contributed when the birthsign is present.
-     * @returns `amount` if `code ∈ birthsigns`, else `0`.
+     * Build a **dict** (plain object) from alternating key/value arguments —
+     * the grammar has no object literals, so this is how an expression
+     * constructs one. `settings("peleahn", 15, "subtype:combat", 5)` yields
+     * `{ peleahn: 15, "subtype:combat": 5 }`. Keys are coerced to strings.
+     * @param pairs - Alternating key, value, key, value, … arguments.
+     * @returns The constructed dict.
+     * @throws {SafeExpressionError} If given an odd number of arguments.
      */
-    birthsignBonus(
-        birthsigns: unknown,
-        code: unknown,
-        amount: unknown,
-    ): number {
-        return (
-                Array.isArray(birthsigns) &&
-                    birthsigns.includes(String(code).toLowerCase())
-            ) ?
-                Number(amount)
-            :   0;
+    settings(...pairs: unknown[]): PlainObject {
+        if (pairs.length % 2 !== 0) {
+            throw new SafeExpressionError(
+                "settings() requires an even number of key/value arguments",
+            );
+        }
+        const out: PlainObject = {};
+        for (let i = 0; i < pairs.length; i += 2) {
+            out[String(pairs[i])] = pairs[i + 1];
+        }
+        return out;
+    },
+
+    /**
+     * Fold an array of **dicts** (or arrays) into one, **per key**, using a
+     * named pure combiner. For each key present in any element, the combiner is
+     * applied to the **present values only** (a key only one element supplies
+     * keeps that value — it is never combined against an implicit `0`). Array
+     * elements fold by index (`key = index`) and yield an array; dict elements
+     * yield a dict.
+     *
+     * The combiner is passed **as a string** and resolved from the registry —
+     * *selecting* a registered helper, never injecting code — and is restricted
+     * to the pure combiners `max`, `min`, and `sum`. This is the astrology cusp
+     * rule: `merge(astrologySettings(tradition, date), "max")`.
+     * @param iters - The array of dicts/arrays to fold.
+     * @param combinerName - The pure combiner to fold with (`"max"`, `"min"`, `"sum"`).
+     * @returns The merged dict (or array when every element is an array).
+     * @throws {SafeExpressionError} If the combiner is not an allowed pure combiner.
+     */
+    merge(iters: unknown, combinerName: unknown): PlainObject | unknown[] {
+        const list = Array.isArray(iters) ? iters : [];
+        const name = String(combinerName);
+        if (!ALLOWED_MERGE_COMBINERS.has(name)) {
+            throw new SafeExpressionError(
+                `merge() combiner "${name}" is not an allowed pure combiner (max, min, sum)`,
+            );
+        }
+        const combiner = expressionHelpers.get(name);
+        if (!combiner) {
+            throw new SafeExpressionError(`merge() unknown combiner "${name}"`);
+        }
+        const allArrays =
+            list.length > 0 && list.every((el) => Array.isArray(el));
+        const perKey = new Map<string, unknown[]>();
+        for (const el of list) {
+            if (el === null || el === undefined) continue;
+            const entries: [string, unknown][] =
+                Array.isArray(el) ?
+                    el.map((v, i) => [String(i), v] as [string, unknown])
+                : typeof el === "object" ?
+                    Object.entries(el as Record<string, unknown>)
+                :   [];
+            for (const [k, v] of entries) {
+                if (v === undefined || v === null) continue;
+                const bucket = perKey.get(k);
+                if (bucket) bucket.push(v);
+                else perKey.set(k, [v]);
+            }
+        }
+        if (allArrays) {
+            const out: unknown[] = [];
+            for (const [k, vals] of perKey) out[Number(k)] = combiner(...vals);
+            return out;
+        }
+        const out: PlainObject = {};
+        for (const [k, vals] of perKey) out[k] = combiner(...vals);
+        return out;
+    },
+
+    /**
+     * The birthsign shortcode(s) governing a birth date within an astrological
+     * **tradition** — one on an ordinary day, two on a cusp. The traditions
+     * **registry** is injected as the first argument by `SafeExpression` (see
+     * {@link CONTEXT_BOUND_HELPERS}); an author calls `astrologySign(tradition, date)`.
+     * @param traditions - The traditions registry, injected from the context.
+     * @param tradition - The tradition key (an Affiliation `society`).
+     * @param date - The resolved birth date (`{ month, day, monthLengths }`).
+     * @returns The governing sign shortcodes (empty when the tradition/date is absent).
+     */
+    astrologySign(
+        traditions: unknown,
+        tradition: unknown,
+        date: unknown,
+    ): string[] {
+        const t = resolveTradition(traditions, tradition);
+        if (!t || !date) return [];
+        return signsForDate(t, date as AstrologyDate).map((s) => s.shortcode);
+    },
+
+    /**
+     * One **modifier dict per governing sign** for a birth date within a
+     * tradition — the input to {@link STANDARD_HELPERS.merge | merge}. The
+     * registry is injected as the first argument; an author calls
+     * `astrologySettings(tradition, date)`.
+     * @param traditions - The traditions registry, injected from the context.
+     * @param tradition - The tradition key (an Affiliation `society`).
+     * @param date - The resolved birth date (`{ month, day, monthLengths }`).
+     * @returns One `skillModifiers` dict per governing sign (empty array when none).
+     */
+    astrologySettings(
+        traditions: unknown,
+        tradition: unknown,
+        date: unknown,
+    ): PlainObject[] {
+        const t = resolveTradition(traditions, tradition);
+        if (!t || !date) return [];
+        return signsForDate(t, date as AstrologyDate).map((s) => ({
+            ...s.skillModifiers,
+        }));
+    },
+
+    /**
+     * The modifier dict for an **explicit** sign in a tradition (bypassing
+     * date derivation) — for a bespoke "this being is a Hirin regardless of
+     * birth date" override. The registry is injected as the first argument; an
+     * author calls `astrologySetting(tradition, "Hirin")`.
+     * @param traditions - The traditions registry, injected from the context.
+     * @param tradition - The tradition key (an Affiliation `society`).
+     * @param sign - The sign shortcode to resolve.
+     * @returns The sign's `skillModifiers` dict, or `{}` when the sign is absent.
+     */
+    astrologySetting(
+        traditions: unknown,
+        tradition: unknown,
+        sign: unknown,
+    ): PlainObject {
+        const t = resolveTradition(traditions, tradition);
+        if (!t) return {};
+        const s = signByShortcode(t, String(sign));
+        return s ? { ...s.skillModifiers } : {};
     },
 
     /**
