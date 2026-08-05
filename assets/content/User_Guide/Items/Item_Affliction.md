@@ -23,7 +23,7 @@ Afflictions appear on the **Trauma** tab of the Being sheet and track the condit
 
 Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
-- **SubType:** Classifies the affliction by the _nature of the agent_ afflicting the Being. (Conditions that a character _carries_ — fatigue, fear, morale, infection, aural shock, and the like — are **[[Trauma|Traumas]]**, not afflictions. See [[Afflictions|the Afflictions rules]] for the full distinction.)
+- **SubType:** Classifies the affliction by the _nature of the agent_ afflicting the Being. (Conditions that a character _carries_ — fatigue, fear, morale, infection, aural shock, and the like — are **[[Item_Trauma|Traumas]]**, not afflictions. See [[Afflictions|the Afflictions rules]] for the full distinction.)
     - **Poison/Toxin**: A _chemical_ affliction — a toxic substance or venom that impairs or kills the host.
     - **Disease**: A _biological_ affliction — an illness or parasite that infects the body or mind.
     - **Maladiction**: A _supernatural_ affliction — a curse, hex, or divine/spiritual blight, transmitted by arcane, divine, or spirit means.

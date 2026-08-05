@@ -18,13 +18,18 @@ wounds from combat or accidents) and **afflictions** (ongoing conditions like
 diseases, poisons, and curses). Both have their own lifecycle and can
 significantly affect a character's capabilities.
 
-See also: [Injuries](user-guide/item-injury.md), [Afflictions](user-guide/item-affliction.md), [Combat Basics](user-guide/combat-basics.md)
+See also: [Trauma](user-guide/item-trauma.md), [Afflictions](user-guide/item-affliction.md), [Combat Basics](user-guide/combat-basics.md)
 
 # Injuries {#conditions-injuries}
 
 An **injury** represents a specific wound — a sword cut, a broken bone, a
 burn. Injuries are tied to specific **body locations** on the character's
 anatomy model.
+
+An injury is one kind of **[[Item_Trauma|Trauma]]** — the item that records every
+sort of harm a character carries, from wounds and bleeding to fatigue, fear, and
+shock. See that page for the wound's properties and for the treatment, bleeding,
+and healing actions described below.
 
 ## How Injuries Happen
 
