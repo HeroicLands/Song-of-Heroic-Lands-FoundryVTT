@@ -104,21 +104,6 @@ describe("SohlLogic", () => {
             );
         });
 
-        it("keeps the shadowed intrinsic individually invocable via intrinsicActions", () => {
-            const logic = makeItemLogic(SohlItemBaseLogic, "misc", {
-                actionDefs: [
-                    scriptAction(
-                        "editDocument",
-                        SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-                    ),
-                ],
-            });
-            const intrinsic = logic.intrinsicActions.get("editDocument")!;
-            expect(intrinsic.data.subType).toBe(ACTION_SUBTYPE.INTRINSIC);
-            // Every intrinsic is retained, override or not.
-            expect(logic.intrinsicActions.has("deleteDocument")).toBe(true);
-        });
-
         it("executeAction runs the overriding script, never the shadowed intrinsic", async () => {
             const actor = makeMockActor();
             const logic = makeItemLogic(
@@ -135,50 +120,35 @@ describe("SohlLogic", () => {
                 { actor },
             );
             const script = logic.actions.get("editDocument")!;
-            const intrinsic = logic.intrinsicActions.get("editDocument")!;
             const scriptSpy = vi
                 .spyOn(script, "execute")
                 .mockResolvedValue("script-ran");
-            const intrinsicSpy = vi
-                .spyOn(intrinsic, "execute")
-                .mockResolvedValue("intrinsic-ran");
+            // The intrinsic action is never built; its executor method must not
+            // be reached through the (now script-only) action dispatch.
+            const intrinsicMethodSpy = vi
+                .spyOn(logic, "editDocument")
+                .mockResolvedValue(undefined);
 
             const result = await logic.executeAction("editDocument");
 
             expect(result).toBe("script-ran");
             expect(scriptSpy).toHaveBeenCalledTimes(1);
-            expect(intrinsicSpy).not.toHaveBeenCalled();
+            expect(intrinsicMethodSpy).not.toHaveBeenCalled();
         });
 
-        it("executeIntrinsicAction reaches the intrinsic even when a script shadows it", async () => {
-            const actor = makeMockActor();
-            const logic = makeItemLogic(
-                SohlItemBaseLogic,
-                "misc",
-                {
-                    actionDefs: [
-                        scriptAction(
-                            "editDocument",
-                            SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-                        ),
-                    ],
-                },
-                { actor },
-            );
-            const script = logic.actions.get("editDocument")!;
-            const intrinsic = logic.intrinsicActions.get("editDocument")!;
-            const scriptSpy = vi
-                .spyOn(script, "execute")
-                .mockResolvedValue("script-ran");
-            const intrinsicSpy = vi
-                .spyOn(intrinsic, "execute")
-                .mockResolvedValue("intrinsic-ran");
-
-            const result = await logic.executeIntrinsicAction("editDocument");
-
-            expect(result).toBe("intrinsic-ran");
-            expect(intrinsicSpy).toHaveBeenCalledTimes(1);
-            expect(scriptSpy).not.toHaveBeenCalled();
+        it("leaves the shadowed intrinsic's method on the logic so a script can build on it", () => {
+            const logic = makeItemLogic(SohlItemBaseLogic, "misc", {
+                actionDefs: [
+                    scriptAction(
+                        "editDocument",
+                        SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+                    ),
+                ],
+            });
+            // The override hides the intrinsic action, but its capability — the
+            // executor method — is untouched, so an overriding macro can call
+            // `item.logic.editDocument(sohlContext)` directly.
+            expect(typeof logic.editDocument).toBe("function");
         });
 
         it("leaves non-overridden intrinsics and non-colliding scripts intact", () => {

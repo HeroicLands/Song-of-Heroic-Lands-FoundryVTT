@@ -113,12 +113,23 @@ from {@link sohl.core.logic.SohlLogic.actions} entirely.
 
 The override is _total_ — the system does not chain the intrinsic before or after
 the script. If the script means only to **build on** the existing capability, it is
-responsible for invoking the intrinsic itself. Every intrinsic action stays
-individually reachable through {@link sohl.core.logic.SohlLogic.intrinsicActions}
-and {@link sohl.core.logic.SohlLogic.executeIntrinsicAction}, so an overriding
-script calls `logic.executeIntrinsicAction(shortcode)` to run the intrinsic it
-hides. (Calling `executeAction(shortcode)` from the overriding script would resolve
-back to the script itself and re-enter it.)
+responsible for invoking the intrinsic itself. The intrinsic's capability is a plain
+method on the Logic (the action's `executor`, e.g. `toggleCarried`), untouched by
+the override, so the macro calls it directly. Inside a Script Action's macro, `this`
+is the Foundry Macro (not the Logic), but the macro receives `item`, `actor`,
+`speaker`, and `sohlContext`, so it reaches the method through the owning logic —
+`item.logic` for a `SELF`/`ITEM`-scoped action, `actor.logic` for an `ACTOR`-scoped
+one:
+
+```js
+// A Script Action macro overriding the intrinsic `toggleCarried`, then
+// building on it. `sohlContext` is the SohlActionContext.
+await item.logic.toggleCarried(sohlContext); // run the built-in behavior
+// …then apply the house rule on top.
+```
+
+(Calling `item.logic.executeAction("toggleCarried")` instead would resolve back to
+this same script and re-enter it — call the executor method, not the action.)
 
 The same action can also be **offered across the chat log** — a card button that
 runs it, pre-filled, on whoever is entitled to click. That is the same executor,

@@ -15,22 +15,23 @@
  * Overriding an intrinsic action (#1060). A Script action whose `shortcode`
  * matches a built-in (intrinsic) action WHOLLY OVERRIDES it: the live `actions`
  * map, the context menu, and `executeAction` resolve only the script, never the
- * intrinsic. The shadowed intrinsic stays reachable on `intrinsicActions` /
- * `executeIntrinsicAction` so an overriding script can build on it without
- * re-entering itself.
+ * intrinsic. The intrinsic's capability is the executor METHOD on the Logic,
+ * untouched by the override, so the overriding macro can build on it by calling
+ * that method directly.
  *
  * This drives the real running client (not the Node unit harness): a genuine
- * `Macro#execute` behind the overriding script, dispatched through the same
- * `SohlAction.execute` production uses. The action lives on an item embedded in
- * an owned actor so `resolveContext` finds an actor for the execute-permission
- * check.
+ * `Macro#execute` behind the overriding script — which itself reaches
+ * `item.logic.editDocument` to prove the intrinsic capability is still
+ * accessible — dispatched through the same `SohlAction.execute` production uses.
+ * The action lives on an item embedded in an owned actor so `resolveContext`
+ * finds an actor for the execute-permission check.
  */
 
 describe("a script action overrides the intrinsic of the same shortcode", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
 
-    it("hides the intrinsic in the live client yet keeps it invocable", () => {
+    it("hides the intrinsic in the live client, leaving its method reachable", () => {
         cy.importActor().as("actor");
         cy.then(function () {
             cy.createItemOn(this.actor, "miscgear", {
@@ -50,15 +51,18 @@ describe("a script action overrides the intrinsic of the same shortcode", () => 
                 item.prepareData?.();
                 const baseSize = item.logic.actions.size();
 
-                // A macro that records each run so we can prove which path ran,
-                // and returns a sentinel distinct from the intrinsic's result.
+                // A macro standing in for a house rule that builds on the
+                // intrinsic: it returns whether the intrinsic's executor method
+                // is still reachable on the logic (an overriding macro would call
+                // `item.logic.editDocument(sohlContext)` to run the built-in
+                // behaviour). The `logic` global lets it reach its own logic.
                 const macro = await win.Macro.create(
                     win.JSON.parse(
                         JSON.stringify({
                             name: "e2e-override-editDocument",
                             type: "script",
                             command:
-                                "globalThis.__e2eOverrideRuns = (globalThis.__e2eOverrideRuns || 0) + 1; return 'script-override';",
+                                "return typeof item.logic.editDocument === 'function' ? 'built-on-intrinsic' : 'intrinsic-lost';",
                         }),
                     ),
                 );
@@ -92,7 +96,6 @@ describe("a script action overrides the intrinsic of the same shortcode", () => 
                 const logic = item.logic;
 
                 const live = logic.actions.get("editDocument");
-                const intrinsic = logic.intrinsicActions.get("editDocument");
 
                 // Count context-menu entries for this shortcode: it must appear
                 // exactly once (the intrinsic is hidden, not duplicated).
@@ -100,63 +103,42 @@ describe("a script action overrides the intrinsic of the same shortcode", () => 
                     .getContextOptions()
                     .filter((e) => e.name === "Homebrew Edit").length;
 
-                win.globalThis.__e2eOverrideRuns = 0;
-
-                // executeAction resolves the SCRIPT — runs the macro.
+                // executeAction resolves the SCRIPT — runs the macro, which in
+                // turn confirms the intrinsic method is still reachable.
                 const viaExecute = await logic.executeAction("editDocument");
-                const runsAfterExecute = win.globalThis.__e2eOverrideRuns;
-
-                // executeIntrinsicAction reaches the shadowed intrinsic — the
-                // macro must NOT run again (its counter stays put), and the
-                // result is not the script sentinel.
-                const viaIntrinsic =
-                    await logic.executeIntrinsicAction("editDocument");
-                const runsAfterIntrinsic = win.globalThis.__e2eOverrideRuns;
 
                 await macro.delete();
-                delete win.globalThis.__e2eOverrideRuns;
 
                 return {
                     baseSize,
                     liveSize: logic.actions.size(),
                     liveSubType: live?.data.subType,
-                    intrinsicSubType: intrinsic?.data.subType,
+                    intrinsicMethodPresent:
+                        typeof logic.editDocument === "function",
                     menuForShortcode,
                     viaExecute,
-                    runsAfterExecute,
-                    viaIntrinsic,
-                    runsAfterIntrinsic,
                 };
             }).then((r) => {
                 // Override replaces, never grows, the action set.
                 expect(r.liveSize, "override does not add an action").to.eq(
                     r.baseSize,
                 );
-                // The live action for the shortcode is the script; the intrinsic
-                // is retained separately.
+                // The live action for the shortcode is the script.
                 expect(r.liveSubType, "live action is the script").to.eq(
                     "script",
                 );
-                expect(
-                    r.intrinsicSubType,
-                    "intrinsic is retained on intrinsicActions",
-                ).to.eq("intrinsic");
                 // Exactly one context-menu entry for the shortcode.
                 expect(r.menuForShortcode, "one menu entry, not two").to.eq(1);
-                // executeAction runs the script (macro), returning its sentinel.
-                expect(r.viaExecute, "executeAction runs the script").to.eq(
-                    "script-override",
-                );
-                expect(r.runsAfterExecute, "macro ran once").to.eq(1);
-                // executeIntrinsicAction runs the intrinsic, NOT the macro.
+                // The intrinsic's executor method is untouched by the override.
                 expect(
-                    r.runsAfterIntrinsic,
-                    "intrinsic path does not re-run the macro",
-                ).to.eq(1);
+                    r.intrinsicMethodPresent,
+                    "intrinsic method remains on the logic",
+                ).to.be.true;
+                // executeAction runs the script, which built on the intrinsic.
                 expect(
-                    r.viaIntrinsic,
-                    "intrinsic result is not the script sentinel",
-                ).to.not.eq("script-override");
+                    r.viaExecute,
+                    "executeAction runs the script; it reaches the intrinsic method",
+                ).to.eq("built-on-intrinsic");
             });
         });
     });
