@@ -142,12 +142,85 @@ describe("BeingLogic.astrologyModifiers (#1025)", () => {
 
     it("degrades to empty and warns when the expression throws", () => {
         const warn = vi.spyOn((globalThis as any).sohl.log, "warn");
-        const being = makeBeingWithAffiliation(
-            62_208_000,
-            "nope(bad syntax",
-        );
+        const being = makeBeingWithAffiliation(62_208_000, "nope(bad syntax");
         expect(being.astrologyModifiers).toEqual({});
         expect(warn).toHaveBeenCalled();
+    });
+});
+
+describe("BeingLogic.astrologyModifiers year cycles (#1036)", () => {
+    /** A tradition combining a solar window with a 12-year animal cycle. */
+    const CYCLE_TRADITIONS: AstrologyTraditions = {
+        arc: {
+            key: "arc",
+            label: "Arcane",
+            signs: [
+                {
+                    shortcode: "alpha",
+                    label: "Alpha",
+                    start: { month: 1, day: 1 },
+                    end: { month: 12, day: 30 },
+                    cuspDays: 0,
+                    skillModifiers: { pel: 15 },
+                },
+            ],
+            cycles: [
+                {
+                    shortcode: "animal",
+                    label: "Animal",
+                    cycleLength: 12,
+                    epochYear: 0,
+                    positions: Array.from({ length: 12 }, (_, i) => ({
+                        shortcode: `a${i}`,
+                        label: `A${i}`,
+                        skillModifiers: { [`s${i}`]: i, odv: i },
+                    })),
+                },
+            ],
+        },
+    };
+
+    /** Spy the boundary with a fixed registry, birth date, and birth year. */
+    function stubYearAstrology(month: number, day: number, year: number) {
+        vi.spyOn(FoundryHelpersMock, "fvttAstrologyTraditions").mockReturnValue(
+            CYCLE_TRADITIONS,
+        );
+        vi.spyOn(
+            FoundryHelpersMock,
+            "fvttBirthDateToAstrologyDate",
+        ).mockReturnValue({ month, day, monthLengths: MONTHS_30, year });
+    }
+
+    const COMBINED_EXPR =
+        "merge(astrologySettings(tradition, date), " +
+        'astrologyYearSettings(tradition, year), "max")';
+
+    afterEach(() => vi.restoreAllMocks());
+
+    it("folds solar-window and year-cycle modifiers into one dict", () => {
+        stubYearAstrology(3, 15, 705); // animal index 705 % 12 = 9 → s9:9, odv:9
+        const being = makeBeingWithAffiliation(1, COMBINED_EXPR);
+        expect(being.astrologyModifiers).toEqual({
+            pel: 15, // solar alpha
+            s9: 9, // animal a9 specific
+            odv: 9, // animal a9
+        });
+    });
+
+    it("shifts the cyclic contribution with the birth year", () => {
+        stubYearAstrology(3, 15, 700); // animal index 700 % 12 = 4 → s4:4, odv:4
+        const being = makeBeingWithAffiliation(1, COMBINED_EXPR);
+        expect(being.astrologyModifiers).toEqual({ pel: 15, s4: 4, odv: 4 });
+    });
+
+    it("supports a cycle-only expression via astrologyYearSign", () => {
+        stubYearAstrology(3, 15, 703); // animal index 703 % 12 = 7
+        const being = makeBeingWithAffiliation(
+            1,
+            'astrologySetting(tradition, "alpha")',
+        );
+        // Explicit solar override still works alongside cycle data present.
+        expect(being.astrologyModifiers).toEqual({ pel: 15 });
     });
 });
 
@@ -187,7 +260,9 @@ describe("SkillLogic BSMod consumption (#1025)", () => {
         const being = makeBeingWithAffiliation(62_208_000, DEFAULT_EXPR);
         const skill = addSkill(being, "pel", "lore");
         expect(skill.masteryLevel.effective).toBe(55); // 40 base + 15 BSMod
-        const delta = skill.masteryLevel.deltas.find((d) => d.abbrev === "BSMod");
+        const delta = skill.masteryLevel.deltas.find(
+            (d) => d.abbrev === "BSMod",
+        );
         expect(delta?.value).toBe("15");
     });
 

@@ -173,4 +173,137 @@ describe("validateTraditions", () => {
         });
         expect(traditions.t.signs[0].skillModifiers).toEqual({ good: 5 });
     });
+
+    describe("year cycles (#1036)", () => {
+        it("accepts a tradition with signs and cycles", () => {
+            const { traditions, skipped } = validateTraditions({
+                shortcode: "t",
+                signs: [
+                    {
+                        shortcode: "s",
+                        start: { month: 1, day: 1 },
+                        end: { month: 12, day: 30 },
+                    },
+                ],
+                cycles: [
+                    {
+                        shortcode: "animal",
+                        label: "Animal",
+                        cycleLength: 12,
+                        epochYear: 0,
+                        positions: [
+                            {
+                                shortcode: "rat",
+                                label: "Rat",
+                                skillModifiers: { stealth: 5 },
+                            },
+                            { shortcode: "ox", skillModifiers: { toil: 3 } },
+                        ],
+                    },
+                ],
+            });
+            expect(skipped).toEqual([]);
+            const cycle = traditions.t.cycles?.[0];
+            expect(cycle?.shortcode).toBe("animal");
+            expect(cycle?.cycleLength).toBe(12);
+            expect(cycle?.epochYear).toBe(0);
+            expect(cycle?.positions.map((p) => p.shortcode)).toEqual([
+                "rat",
+                "ox",
+            ]);
+            // label defaults to the position shortcode; modifiers numeric-coerced.
+            expect(cycle?.positions[1].label).toBe("ox");
+            expect(cycle?.positions[0].skillModifiers).toEqual({ stealth: 5 });
+        });
+
+        it("accepts a cycle-only tradition (no solar signs)", () => {
+            const { traditions, skipped } = validateTraditions({
+                shortcode: "cyc",
+                cycles: [
+                    {
+                        shortcode: "element",
+                        cycleLength: 3,
+                        positions: [
+                            { shortcode: "fire", skillModifiers: { hot: 5 } },
+                        ],
+                    },
+                ],
+            });
+            expect(skipped).toEqual([]);
+            expect(traditions.cyc.signs).toEqual([]);
+            expect(traditions.cyc.cycles?.[0].shortcode).toBe("element");
+            expect(traditions.cyc.cycles?.[0].epochYear).toBe(0); // defaulted
+        });
+
+        it("drops a tradition with neither valid signs nor valid cycles", () => {
+            const { traditions, skipped } = validateTraditions({
+                shortcode: "empty",
+                label: "Empty",
+            });
+            expect(traditions.empty).toBeUndefined();
+            expect(skipped.some((s) => s.key === "empty")).toBe(true);
+        });
+
+        it("skips a cycle with a non-positive cycleLength", () => {
+            const { traditions, skipped } = validateTraditions({
+                shortcode: "t",
+                signs: [
+                    {
+                        shortcode: "s",
+                        start: { month: 1, day: 1 },
+                        end: { month: 12, day: 30 },
+                    },
+                ],
+                cycles: [
+                    {
+                        shortcode: "bad",
+                        cycleLength: 0,
+                        positions: [{ shortcode: "x" }],
+                    },
+                ],
+            });
+            expect(traditions.t.cycles ?? []).toEqual([]);
+            expect(skipped.map((s) => s.key)).toContain("t.cycles[0]");
+        });
+
+        it("skips a cycle with no valid positions but keeps the tradition's signs", () => {
+            const { traditions, skipped } = validateTraditions({
+                shortcode: "t",
+                signs: [
+                    {
+                        shortcode: "s",
+                        start: { month: 1, day: 1 },
+                        end: { month: 12, day: 30 },
+                    },
+                ],
+                cycles: [{ shortcode: "bad", cycleLength: 3, positions: [{}] }],
+            });
+            expect(traditions.t.signs).toHaveLength(1);
+            expect(traditions.t.cycles ?? []).toEqual([]);
+            expect(skipped.map((s) => s.key)).toContain("t.cycles[0]");
+        });
+
+        it("skips malformed positions by index, keeping valid ones", () => {
+            const { traditions, skipped } = validateTraditions({
+                shortcode: "cyc",
+                cycles: [
+                    {
+                        shortcode: "element",
+                        cycleLength: 3,
+                        positions: [
+                            { shortcode: "fire" },
+                            {}, // no shortcode
+                            { shortcode: "air" },
+                        ],
+                    },
+                ],
+            });
+            expect(
+                traditions.cyc.cycles?.[0].positions.map((p) => p.shortcode),
+            ).toEqual(["fire", "air"]);
+            expect(skipped.map((s) => s.key)).toContain(
+                "cyc.cycles[0].positions[1]",
+            );
+        });
+    });
 });

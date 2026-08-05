@@ -320,7 +320,13 @@ describe("ExpressionHelperRegistry", () => {
             // aaa present in both → max(15, -15) = 15; bbb only in the second →
             // kept as 10 (never maxed against an implicit 0).
             expect(
-                merge()([{ aaa: 15, ccc: 5 }, { aaa: -15, bbb: 10 }], "max"),
+                merge()(
+                    [
+                        { aaa: 15, ccc: 5 },
+                        { aaa: -15, bbb: 10 },
+                    ],
+                    "max",
+                ),
             ).toEqual({ aaa: 15, ccc: 5, bbb: 10 });
         });
 
@@ -344,9 +350,24 @@ describe("ExpressionHelperRegistry", () => {
         });
 
         it("ignores nullish elements and values", () => {
+            expect(merge()([null, { a: 1 }, { a: null, b: 2 }], "sum")).toEqual(
+                { a: 1, b: 2 },
+            );
+        });
+
+        it("folds several dict-lists together when variadic (#1036)", () => {
+            // merge(listA, listB, combiner) concatenates the leading lists, so a
+            // solar list and a cyclic list fold into one BSMod result.
+            const variadic = STANDARD_HELPERS.merge as (
+                ...args: unknown[]
+            ) => PlainObject;
             expect(
-                merge()([null, { a: 1 }, { a: null, b: 2 }], "sum"),
-            ).toEqual({ a: 1, b: 2 });
+                variadic([{ aaa: 15 }], [{ aaa: -15, bbb: 10 }], "max"),
+            ).toEqual({ aaa: 15, bbb: 10 });
+            // A non-array leading arg is ignored, not folded as a value.
+            expect(variadic([{ a: 1 }], null, [{ a: 4 }], "sum")).toEqual({
+                a: 5,
+            });
         });
     });
 
@@ -420,6 +441,82 @@ describe("ExpressionHelperRegistry", () => {
             expect(sign()(TRADITIONS, "missing", dateOf(3, 15))).toEqual([]);
             expect(settings()(undefined, "t", dateOf(3, 15))).toEqual([]);
             expect(setting()(TRADITIONS, "t", "gamma")).toEqual({});
+        });
+    });
+
+    describe("year-cycle helpers (#1036)", () => {
+        const TRADITIONS = {
+            t: {
+                key: "t",
+                label: "T",
+                signs: [],
+                cycles: [
+                    {
+                        shortcode: "animal",
+                        label: "Animal",
+                        cycleLength: 12,
+                        epochYear: 0,
+                        positions: Array.from({ length: 12 }, (_, i) => ({
+                            shortcode: `a${i}`,
+                            label: `A${i}`,
+                            skillModifiers: { [`s${i}`]: i },
+                        })),
+                    },
+                    {
+                        shortcode: "element",
+                        label: "Element",
+                        cycleLength: 3,
+                        epochYear: 700,
+                        positions: [
+                            { shortcode: "fire", skillModifiers: { hot: 5 } },
+                            { shortcode: "water", skillModifiers: { wet: 5 } },
+                            { shortcode: "air", skillModifiers: { dry: 5 } },
+                        ],
+                    },
+                ],
+            },
+        };
+
+        const yearSign = () =>
+            STANDARD_HELPERS.astrologyYearSign as (
+                traditions: unknown,
+                t: unknown,
+                y: unknown,
+            ) => string[];
+        const yearSettings = () =>
+            STANDARD_HELPERS.astrologyYearSettings as (
+                traditions: unknown,
+                t: unknown,
+                y: unknown,
+            ) => PlainObject[];
+        const yearInCycle = () =>
+            STANDARD_HELPERS.yearInCycle as (
+                y: unknown,
+                len: unknown,
+                epoch?: unknown,
+            ) => number;
+
+        it("astrologyYearSign derives one position shortcode per cycle", () => {
+            // year 701 → animal index 5 (a5) + element index 1 (water).
+            expect(yearSign()(TRADITIONS, "t", 701)).toEqual(["a5", "water"]);
+        });
+
+        it("astrologyYearSettings returns one modifier dict per cycle position", () => {
+            expect(yearSettings()(TRADITIONS, "t", 701)).toEqual([
+                { s5: 5 },
+                { wet: 5 },
+            ]);
+        });
+
+        it("degrades to empty when the tradition is absent", () => {
+            expect(yearSign()(TRADITIONS, "missing", 701)).toEqual([]);
+            expect(yearSettings()(undefined, "t", 701)).toEqual([]);
+        });
+
+        it("yearInCycle computes the 0-based position (default epoch 0)", () => {
+            expect(yearInCycle()(13, 12)).toBe(1);
+            expect(yearInCycle()(701, 3, 700)).toBe(1);
+            expect(yearInCycle()(699, 3, 700)).toBe(2); // wraps before epoch
         });
     });
 

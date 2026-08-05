@@ -5,7 +5,12 @@ import {
     signsForDate,
     signByShortcode,
     builtinTraditions,
+    positionIndexForYear,
+    positionForYear,
+    positionsForYear,
+    monthLengthsForYear,
     type AstrologyTradition,
+    type AstrologyCycle,
     type AstrologyDate,
 } from "@src/entity/astrology";
 
@@ -122,6 +127,139 @@ describe("signsForDate", () => {
         ).toEqual(["alpha"]);
         expect(signsForDate(exact, date(7, 1)).map((s) => s.shortcode)).toEqual(
             ["beta"],
+        );
+    });
+});
+
+describe("year cycles (#1036)", () => {
+    /** A 12-year animal cycle: position 0 is year 0 (epoch), 12 positions. */
+    const ANIMAL: AstrologyCycle = {
+        shortcode: "animal",
+        label: "Animal",
+        cycleLength: 12,
+        epochYear: 0,
+        positions: Array.from({ length: 12 }, (_, i) => ({
+            shortcode: `a${i}`,
+            label: `A${i}`,
+            skillModifiers: { [`skill${i}`]: i },
+        })),
+    };
+
+    /** A 3-year element cycle with a non-zero epoch year (700 → position 0). */
+    const ELEMENT: AstrologyCycle = {
+        shortcode: "element",
+        label: "Element",
+        cycleLength: 3,
+        epochYear: 700,
+        positions: [
+            { shortcode: "fire", label: "Fire", skillModifiers: { hot: 5 } },
+            { shortcode: "water", label: "Water", skillModifiers: { wet: 5 } },
+            { shortcode: "air", label: "Air", skillModifiers: { dry: 5 } },
+        ],
+    };
+
+    describe("positionIndexForYear", () => {
+        it("is the 0-based offset from the epoch, modulo the cycle length", () => {
+            expect(positionIndexForYear(ANIMAL, 0)).toBe(0);
+            expect(positionIndexForYear(ANIMAL, 5)).toBe(5);
+            expect(positionIndexForYear(ANIMAL, 12)).toBe(0);
+            expect(positionIndexForYear(ANIMAL, 13)).toBe(1);
+        });
+
+        it("honors a non-zero epoch year", () => {
+            expect(positionIndexForYear(ELEMENT, 700)).toBe(0);
+            expect(positionIndexForYear(ELEMENT, 702)).toBe(2);
+            expect(positionIndexForYear(ELEMENT, 703)).toBe(0);
+        });
+
+        it("wraps negative offsets into range (years before the epoch)", () => {
+            expect(positionIndexForYear(ELEMENT, 699)).toBe(2);
+            expect(positionIndexForYear(ELEMENT, 697)).toBe(0);
+        });
+
+        it("returns -1 for a non-positive cycle length", () => {
+            expect(positionIndexForYear({ ...ANIMAL, cycleLength: 0 }, 5)).toBe(
+                -1,
+            );
+        });
+    });
+
+    describe("positionForYear", () => {
+        it("returns the governing position for a year", () => {
+            expect(positionForYear(ANIMAL, 5)?.shortcode).toBe("a5");
+            expect(positionForYear(ELEMENT, 701)?.shortcode).toBe("water");
+        });
+
+        it("returns undefined when the index has no authored position", () => {
+            // cycleLength 12 but only 2 positions authored — year 5 → index 5,
+            // beyond the positions array.
+            const sparse: AstrologyCycle = {
+                ...ANIMAL,
+                positions: ANIMAL.positions.slice(0, 2),
+            };
+            expect(positionForYear(sparse, 5)).toBeUndefined();
+            expect(positionForYear(sparse, 1)?.shortcode).toBe("a1");
+        });
+    });
+
+    describe("positionsForYear", () => {
+        it("returns one position per cycle that resolves, in tradition order", () => {
+            const tradition: AstrologyTradition = {
+                key: "multi",
+                label: "Multi",
+                signs: [],
+                cycles: [ANIMAL, ELEMENT],
+            };
+            expect(
+                positionsForYear(tradition, 701).map((p) => p.shortcode),
+            ).toEqual(["a5", "water"]);
+        });
+
+        it("is empty when the tradition declares no cycles", () => {
+            const tradition: AstrologyTradition = {
+                key: "solar",
+                label: "Solar",
+                signs: TWO_SIGN.signs,
+            };
+            expect(positionsForYear(tradition, 700)).toEqual([]);
+        });
+
+        it("skips a cycle whose position index is unauthored", () => {
+            const tradition: AstrologyTradition = {
+                key: "multi",
+                label: "Multi",
+                signs: [],
+                cycles: [
+                    { ...ANIMAL, positions: ANIMAL.positions.slice(0, 2) },
+                    ELEMENT,
+                ],
+            };
+            // year 701 → animal index 5 (unauthored, skipped) + element water.
+            expect(
+                positionsForYear(tradition, 701).map((p) => p.shortcode),
+            ).toEqual(["water"]);
+        });
+    });
+});
+
+describe("monthLengthsForYear (#1036 leap-aware)", () => {
+    const MONTHS = [
+        { days: 31, leapDays: 31 },
+        { days: 28, leapDays: 29 },
+        { days: 31, leapDays: 31 },
+    ];
+
+    it("uses base days in a common year", () => {
+        expect(monthLengthsForYear(MONTHS, false)).toEqual([31, 28, 31]);
+    });
+
+    it("uses leapDays in a leap year", () => {
+        expect(monthLengthsForYear(MONTHS, true)).toEqual([31, 29, 31]);
+    });
+
+    it("falls back to base days when leapDays is absent", () => {
+        expect(monthLengthsForYear([{ days: 30 }, { days: 30 }], true)).toEqual(
+            [30, 30],
         );
     });
 });
