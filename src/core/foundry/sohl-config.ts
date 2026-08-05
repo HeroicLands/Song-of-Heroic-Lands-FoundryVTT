@@ -37,10 +37,10 @@ import {
     ItemKind,
     itemKindLabels,
     ItemKinds,
-    SOHL_DEFAULT_CALENDAR_CONFIG,
     STATUS_EFFECT,
 } from "@src/utils/constants";
 import { SohlCalendarData } from "./SohlCalendar";
+import { DEFAULT_CALENDAR_CONFIG } from "./builtin-calendars";
 import { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBase";
@@ -599,7 +599,7 @@ export const SOHLCONFIG: SohlConfig = {
         defeated: toFilePath("systems/sohl/assets/icons/other/surrender.svg"),
     },
     time: {
-        worldCalendarConfig: SOHL_DEFAULT_CALENDAR_CONFIG,
+        worldCalendarConfig: DEFAULT_CALENDAR_CONFIG,
         worldCalendarClass: SohlCalendarData,
         formatters: {
             "sohl.timestamp": formatTimestamp,

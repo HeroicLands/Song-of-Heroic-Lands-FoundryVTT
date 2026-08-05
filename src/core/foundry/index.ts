@@ -15,6 +15,7 @@
 // verifies every sibling module and subfolder here is re-exported.
 
 export * from "./SafeExpressionField";
+export * from "./builtin-calendars";
 export * from "./SohlCalendar";
 export * from "./SohlDataModel";
 export * from "./SohlLocalize";

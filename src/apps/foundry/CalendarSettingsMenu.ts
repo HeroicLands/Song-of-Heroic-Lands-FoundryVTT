@@ -12,6 +12,7 @@
  */
 
 import { SohlSystem } from "@src/core/logic/SohlSystem";
+import { DEFAULT_CALENDAR_SHORTCODE } from "@src/core/foundry/builtin-calendars";
 import { buildCalendarViewModel } from "@src/apps/logic/calendar-settings-view";
 
 const CalendarSettingsMenu_Base: any =
@@ -228,7 +229,11 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
         // If the deleted calendar was active, switch to default
         const activeId = game.settings.get("sohl", "activeCalendar");
         if (activeId === calendarId) {
-            await game.settings.set("sohl", "activeCalendar", "sohl-default");
+            await game.settings.set(
+                "sohl",
+                "activeCalendar",
+                DEFAULT_CALENDAR_SHORTCODE,
+            );
             ui.notifications.warn(
                 game.i18n.localize(
                     "SOHL.CalendarSettings.delete.activeWarning",
@@ -253,7 +258,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
         const form = this.element as HTMLFormElement;
         const formData = new FormDataExtended(form);
         const data = formData.object as { activeCalendar?: string };
-        const newActiveId = data.activeCalendar ?? "sohl-default";
+        const newActiveId = data.activeCalendar ?? DEFAULT_CALENDAR_SHORTCODE;
 
         const currentId = game.settings.get("sohl", "activeCalendar");
         if (newActiveId !== currentId) {
