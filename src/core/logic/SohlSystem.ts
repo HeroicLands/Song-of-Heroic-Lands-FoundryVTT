@@ -125,6 +125,15 @@ export class SohlSystem {
     /** The `apps` namespace tree (`sohl.apps.foundry.CalendarSettingsMenu`, …). Bound at init. */
     declare readonly apps: typeof import("@src/apps");
     /**
+     * The runtime **astrology traditions registry** (`sohl.astrologyRegistry`) —
+     * `register` / `unregister` / `get` / `all` over the birthsign traditions
+     * (built-in + module + world). A module registers its own traditions in its
+     * `init` hook via `sohl.astrologyRegistry.register(json)`. Bound at init (in
+     * `sohl.ts`); the type is declared here without a runtime import so the
+     * binding stays cycle-free.
+     */
+    declare readonly astrologyRegistry: import("@src/core/foundry/astrology-registry").AstrologyRegistry;
+    /**
      * The `utils` namespace (`sohl.utils`) — the Foundry-free utility superset:
      * the {@link sohl.utils.romanize}-style helpers and the constants (`ACTOR_KIND`, …)
      * re-exported at its top level, plus the nested `collection` sub-namespace

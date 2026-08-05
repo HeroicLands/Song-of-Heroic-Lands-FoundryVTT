@@ -15,10 +15,10 @@
  * Skill-Base pipeline contract (#972) — `SkillLogic.initialize()` computing
  * `skillBase` / `skillBaseValid` / `skillBaseError` by evaluating the
  * `skillBaseFormula` as a value-returning `SafeExpression` against a Foundry-free
- * context of attribute **values** (`attr.<shortcode>`) and `birthsigns`.
+ * context of attribute **values** (`attr.<shortcode>`).
  *
  * This replaces the old comma-DSL `calcSkillBase` unit suite: the helper math
- * (`sb`, `birthsignBonus`) is unit-tested in
+ * (`sb`) is unit-tested in
  * `tests/entity/expr/ExpressionHelperRegistry.test.ts` and the AST accessor
  * (`attrRefs`) in `tests/entity/expr/SafeExpression.test.ts`; here we exercise
  * the whole pipeline and the value-preservation carried from the DSL era.
@@ -26,7 +26,7 @@
 
 import { describe, it, expect } from "vitest";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
-import { ITEM_KIND, MYSTERY_SUBTYPE } from "@src/utils/constants";
+import { ITEM_KIND } from "@src/utils/constants";
 import {
     makeItemLogic,
     makeMockActor,
@@ -49,26 +49,17 @@ function skillFields(overrides: Record<string, unknown> = {}) {
 }
 
 /**
- * Build an actor with the given attribute (shortcode → score) and optional
- * `birthsign`-subtype birthsign mysteries, then a skill whose formula is `formula`,
- * initialize it, and return the initialized SkillLogic.
+ * Build an actor with the given attribute (shortcode → score), then a skill
+ * whose formula is `formula`, initialize it, and return the initialized
+ * SkillLogic.
  */
 function skillFor(
     formula: string,
     attrs: Record<string, number> = {},
-    birthsigns: string[] = [],
 ): SkillLogic {
     const actor = makeMockActor();
     for (const [code, score] of Object.entries(attrs)) {
         actor.items.set(`${code}1`, makeAttributeStub(code, score));
-    }
-    for (const shortcode of birthsigns) {
-        actor.items.set(`mys-${shortcode}`, {
-            id: `mys-${shortcode}`,
-            type: "mystery",
-            system: { shortcode, subType: MYSTERY_SUBTYPE.BIRTHSIGN },
-            logic: { data: { shortcode, subType: MYSTERY_SUBTYPE.BIRTHSIGN } },
-        } as any);
     }
     const logic = makeItemLogic(
         SkillLogic,
@@ -178,35 +169,6 @@ describe("SkillLogic Skill-Base pipeline (#972)", () => {
                 skillFor("sb(attr.str, attr.dex) - 60", { str: 60, dex: 40 })
                     .skillBase,
             ).toBe(0);
-        });
-    });
-
-    describe("birthsign bonuses (birthsign mysteries) — now stack", () => {
-        it("adds the bonus when the actor has the matching birthsign", () => {
-            const logic = skillFor(
-                "sb(attr.str, attr.dex) + birthsignBonus(birthsigns, 'hirin', 2)",
-                { str: 60, dex: 40 },
-                ["hirin"],
-            );
-            expect(logic.skillBase).toBe(52);
-        });
-
-        it("adds nothing when the actor lacks the birthsign", () => {
-            const logic = skillFor(
-                "sb(attr.str, attr.dex) + birthsignBonus(birthsigns, 'hirin', 2)",
-                { str: 60, dex: 40 },
-                [],
-            );
-            expect(logic.skillBase).toBe(50);
-        });
-
-        it("stacks multiple matching birthsign terms (replaces largest-only)", () => {
-            const logic = skillFor(
-                "sb(attr.str, attr.dex) + birthsignBonus(birthsigns, 'hirin', 2) + birthsignBonus(birthsigns, 'ahnu', 3)",
-                { str: 60, dex: 40 },
-                ["hirin", "ahnu"],
-            );
-            expect(logic.skillBase).toBe(55); // 50 + 2 + 3
         });
     });
 

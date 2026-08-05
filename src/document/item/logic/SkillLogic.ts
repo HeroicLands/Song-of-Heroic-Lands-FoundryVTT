@@ -157,7 +157,7 @@ export class SkillLogic<
      * The computed skill base value, derived from
      * {@link SkillData.skillBaseFormula} — a value-returning
      * {@link sohl.entity.expr.SafeExpression} — evaluated against the actor's
-     * attribute **values** (the `attr.<shortcode>` namespace) and birthsigns.
+     * attribute **values** (the `attr.<shortcode>` namespace).
      * `0` when the formula is blank, invalid, or off an actor.
      */
     skillBase!: number;
@@ -1021,8 +1021,8 @@ export class SkillLogic<
     /**
      * Compute the Skill Base from a raw formula source by evaluating it as a
      * value-returning {@link sohl.entity.expr.SafeExpression} against a
-     * Foundry-free context of attribute **values** (`attr.<shortcode>`) and
-     * `birthsigns`. The raw string is compiled here at evaluation time, never at
+     * Foundry-free context of attribute **values** (`attr.<shortcode>`).
+     * The raw string is compiled here at evaluation time, never at
      * author time (rule #10) — a world-item skill (no actor) simply evaluates
      * against an empty context where every `attr.*` is `0`.
      *
@@ -1048,7 +1048,6 @@ export class SkillLogic<
             const expr = new SafeExpression({ source }, { parent: this });
             const raw = expr.evaluate({
                 attr: this.buildAttrContext(),
-                birthsigns: this.buildBirthsigns(),
             });
             const n = Number(raw);
             if (!Number.isFinite(n)) {
@@ -1095,21 +1094,6 @@ export class SkillLogic<
                 return Reflect.get(target, prop);
             },
         });
-    }
-
-    /**
-     * The actor's birthsign shortcodes (lowercased) — the `birthsign`-subtype
-     * Mystery items — as passed to the `birthsignBonus` expression helper. Empty
-     * off an actor.
-     *
-     * @returns The birthsign shortcodes.
-     */
-    private buildBirthsigns(): string[] {
-        const mysteries =
-            this.actorLogic?.logicTypes?.[ITEM_KIND.MYSTERY] ?? [];
-        return mysteries
-            .filter((m) => m.data.subType === MYSTERY_SUBTYPE.BIRTHSIGN)
-            .map((m) => m.data.shortcode.toLowerCase());
     }
 
     /* --------------------------------------------- */
@@ -1274,6 +1258,29 @@ export class SkillLogic<
     /** @inheritdoc */
     override finalize(): void {
         super.finalize();
+
+        // Birthsign modifier (BSMod): a per-skill mastery-level delta *derived*
+        // from the being's birth date + birthsign affiliations — its combined
+        // modifier dict (see {@link BeingLogic.astrologyModifiers}). A specific
+        // skill-shortcode entry overrides a `subtype:` wildcard for that skill
+        // (specificity). Applied before the strike-mode governing-ML fold below
+        // so a combat technique's derived Atk/Blk inherit it. Mystical Abilities
+        // inherit automatically via their associated skill's mastery-level merge.
+        if (!this.masteryLevel.disabled) {
+            const birthsignMods =
+                (
+                    this.actorLogic as {
+                        astrologyModifiers?: Record<string, number>;
+                    }
+                )?.astrologyModifiers ?? {};
+            const bsMod =
+                birthsignMods[this.data.shortcode] ??
+                birthsignMods[`subtype:${this.data.subType}`];
+            if (typeof bsMod === "number" && Number.isFinite(bsMod) && bsMod) {
+                this.masteryLevel.add(VALUE_DELTA_INFO.BSMOD, bsMod);
+            }
+        }
+
         if (this.masteryLevel.disabled) {
             this.fateMasteryLevel.disabled =
                 VALUE_DELTA_ID[VALUE_DELTA_INFO.MLDSBL].name;

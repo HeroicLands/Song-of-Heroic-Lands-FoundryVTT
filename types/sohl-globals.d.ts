@@ -203,6 +203,7 @@ declare module "fvtt-types/configuration" {
         "sohl.importedCalendars": Record<string, any>;
         "sohl.expressionHelpers": Record<string, any>;
         "sohl.expressionHelpersPath": string;
+        "sohl.astrologyTraditions": Record<string, any>;
     }
 
     interface DocumentClassConfig {

@@ -20,6 +20,11 @@ import * as coreNs from "@src/core";
 import * as appsNs from "@src/apps";
 import * as utilsNs from "@src/utils";
 import { entitySurface } from "@src/entity/surface";
+import { builtinTraditions } from "@src/entity/astrology";
+import {
+    astrologyRegistry,
+    setAstrologyWorldProvider,
+} from "@src/core/foundry/astrology-registry";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import { turnStartCombatantUpdate } from "@src/document/combatant/logic/SohlCombatantLogic";
@@ -35,6 +40,7 @@ import { registerCombatantConfigHooks } from "@src/document/combatant/combatant-
 import { wireSohlHookBridge } from "@src/core/logic/SohlHookBridge";
 import { CalendarSettingsMenu } from "@src/apps/foundry/CalendarSettingsMenu";
 import { ExpressionLibraryMenu } from "@src/apps/foundry/ExpressionLibraryMenu";
+import { AstrologyTraditionsMenu } from "@src/apps/foundry/AstrologyTraditionsMenu";
 import { registerSystemTours } from "@src/apps/foundry/tours/register-tours";
 import { postWelcomeCard } from "@src/apps/foundry/welcome-card";
 import { injectSettingsLinks } from "@src/apps/foundry/settings-sidebar-links";
@@ -274,6 +280,25 @@ function registerSystemSettings() {
         hint: "SOHL.Settings.expressionHelpersMenu.hint",
         icon: "fa-solid fa-scroll",
         type: ExpressionLibraryMenu as any,
+        restricted: true,
+    });
+
+    // Astrology traditions registry: the world-authored birthsign traditions,
+    // layered over the built-ins by fvttAstrologyTraditions and edited through
+    // the AstrologyTraditionsMenu (#1018).
+    game.settings.register("sohl", "astrologyTraditions", {
+        name: "SOHL.Astrology.Settings.name",
+        scope: "world",
+        config: false,
+        type: Object,
+        default: {},
+    });
+    game.settings.registerMenu("sohl", "astrologyTraditionsMenu", {
+        name: "SOHL.Astrology.Settings.menu.name",
+        label: "SOHL.Astrology.Settings.menu.label",
+        hint: "SOHL.Astrology.Settings.menu.hint",
+        icon: "fa-solid fa-star-and-crescent",
+        type: AstrologyTraditionsMenu as any,
         restricted: true,
     });
 }
@@ -528,7 +553,24 @@ function registerSystemHooks() {
     system.core = coreNs;
     system.apps = appsNs;
     system.utils = utilsNs;
+    system.astrologyRegistry = astrologyRegistry;
     globalThis.sohl = system as unknown as SohlSystem;
+
+    // Seed the shipped built-in astrology tradition (Astrokýklos, from its data
+    // file) into the registry. Synchronous so birthsigns resolve during the
+    // first document prepare; modules add their own via
+    // `sohl.astrologyRegistry.register(...)` in their `init` hook.
+    astrologyRegistry.reset();
+    astrologyRegistry.register(builtinTraditions(), "builtin");
+    // Wire the world-override layer: the registry reads the GM's per-world
+    // traditions through this provider (so the registry itself never touches
+    // `game`), resolved on top of the built-in + module layers.
+    setAstrologyWorldProvider(
+        () =>
+            ((game as any).settings?.get?.("sohl", "astrologyTraditions") as
+                | Record<string, any>
+                | undefined) ?? {},
+    );
 
     rehydrateCalendars();
     applyActiveCalendar();

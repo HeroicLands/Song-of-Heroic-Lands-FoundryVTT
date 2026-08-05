@@ -14,15 +14,6 @@
 // Namespace barrel — hand-maintained. `npm run lint` (check-ns-barrels)
 // verifies every sibling module and subfolder here is re-exported.
 
-export * from "./astrology-registry";
-export * from "./SafeExpressionField";
-export * from "./builtin-calendars";
-export * from "./SohlCalendar";
-export * from "./SohlDataModel";
-export * from "./SohlLocalize";
-export * from "./SohlLogger";
-export * from "./URLField";
-export * from "./migration";
-export * from "./sheet-actions";
-export * from "./shortcode-uniqueness";
-export * from "./sohl-config";
+export * from "./AstrologyTradition";
+export * from "./builtin-traditions";
+export * from "./validate-traditions";

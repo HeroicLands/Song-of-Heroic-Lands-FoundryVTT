@@ -35,13 +35,12 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
         ...SohlItemDataModel.defineSchema(),
         // The mystery's subtype — required with no default: a Mystery must
         // declare its kind at creation (matching MysticalAbility.subType).
-        // (`birthsign` marks birthsigns, matched by shortcode in skill-base formulas.)
         subType: new StringField({
             required: true,
             choices: MysterySubTypeChoices,
         }),
         // Shortcode of the skill this mystery is associated with; blank when
-        // the mystery names no skill (e.g. a birthsign).
+        // the mystery names no skill.
         assocSkillCode: new StringField({
             nullable: true,
             blank: false,

@@ -17,6 +17,7 @@ import { SohlEntity } from "../SohlEntity";
 import {
     expressionHelpers,
     PARENT_BOUND_HELPERS,
+    CONTEXT_BOUND_HELPERS,
 } from "./ExpressionHelperRegistry";
 import { SafeExpressionError, errorMessage } from "./SafeExpressionError";
 
@@ -678,6 +679,15 @@ export class SafeExpression extends SohlEntity {
             throw new SafeExpressionError(`Unknown helper: ${name}`);
         }
         const args = node.arguments.map((arg) => this.evalNode(arg, context));
+        // Context-bound helpers (e.g. the astrology helpers) receive a named
+        // slice of the evaluation context as their first argument — the same
+        // seam as parent binding, but sourcing the injected value from the
+        // context rather than the owning Logic. The author still calls them
+        // with only their own arguments.
+        const contextKey = CONTEXT_BOUND_HELPERS.get(name);
+        if (contextKey !== undefined) {
+            args.unshift(context[contextKey]);
+        }
         // Parent-bound helpers (e.g. `roll`) need the owning Logic to build
         // parent-owned domain objects; it is injected as their first argument,
         // so the author still calls them with only their own arguments. The

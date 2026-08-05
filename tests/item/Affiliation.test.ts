@@ -10,6 +10,7 @@ function affiliationFields(overrides: Record<string, unknown> = {}) {
         office: "Archivist",
         title: "Keeper",
         level: 3,
+        astrologicalExpression: null,
         ...overrides,
     };
 }
@@ -55,6 +56,36 @@ describe("AffiliationLogic", () => {
             expect(logic.data.title).toBe("Sir");
             expect(logic.data.level).toBe(5);
         });
+
+        it("carries the astrologicalExpression source through data", () => {
+            const logic = makeAffiliation({
+                astrologicalExpression:
+                    'merge(astrologySettings(tradition, date), "max")',
+            });
+            expect(logic.data.astrologicalExpression).toBe(
+                'merge(astrologySettings(tradition, date), "max")',
+            );
+        });
+    });
+
+    describe("birthsign identity", () => {
+        it("a non-empty astrologicalExpression makes it a birthsign affiliation", () => {
+            const logic = makeAffiliation({
+                astrologicalExpression:
+                    'astrologySetting(tradition, "Hirin")',
+            });
+            expect(logic.isBirthsignAffiliation).toBe(true);
+        });
+
+        it("a null astrologicalExpression is not a birthsign affiliation", () => {
+            const logic = makeAffiliation({ astrologicalExpression: null });
+            expect(logic.isBirthsignAffiliation).toBe(false);
+        });
+
+        it("a blank/whitespace astrologicalExpression is not a birthsign affiliation", () => {
+            const logic = makeAffiliation({ astrologicalExpression: "   " });
+            expect(logic.isBirthsignAffiliation).toBe(false);
+        });
     });
 
     describe("lifecycle", () => {
@@ -89,6 +120,9 @@ describe("AffiliationDataModel", () => {
         it.todo("defines title as a StringField");
         it.todo(
             "defines level as a NumberField with integer constraint and min 0",
+        );
+        it.todo(
+            "defines astrologicalExpression as a nullable StringField (initial null)",
         );
     });
 

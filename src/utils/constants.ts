@@ -1541,8 +1541,6 @@ export const {
     /** Type guard for mystery-subtype values. */
     isValue: isMysterySubType,
 } = defineType("SOHL.Mystery.SubType", {
-    /** A passive influence conferred by the celestial sign the being was born under. */
-    BIRTHSIGN: "birthsign",
     /** A flat ±N modifier to an associated skill's mastery level, from any source. */
     BOON: "boon",
     /** One or more temporary mastery boosts to an associated skill (Mastery Boost table). */
