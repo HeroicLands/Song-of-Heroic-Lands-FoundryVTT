@@ -997,9 +997,12 @@ export class BeingLogic<
      * {@link sohl.document.item.logic.TraumaLogic.courseCheck}).
      *
      * A no-op (returns `null`) unless the being is Incapacitated or Unconscious.
-     * The re-test is currently invoked manually / on demand; its automatic
-     * scheduling (end of the next turn for Incapacitated, ten minutes later for
-     * Unconscious) awaits a follow-up.
+     * The re-test is offered on the state's own cadence by
+     * {@link offerShockReTest} (end of the being's own turn for Incapacitated,
+     * ten minutes later for Unconscious): when due the event queue posts an
+     * owner-gated `[Perform]` card, and the re-test runs only on the
+     * controller's click — nothing auto-fires (Prime Directive: offer, remind,
+     * perform).
      *
      * @param context - The action context for the test; forwarded to the
      *   course-check schedule offer for any Extended Shock / Coma created.

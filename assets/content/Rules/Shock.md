@@ -136,7 +136,7 @@ applicable) and Location set to the body location that caused it.
 
 ### Extended Shock Course Test
 
-Once every **four hours** the victim rolls an **Initiative** skill test against
+Once every **four hours** the victim makes a Course Roll — a test of
 **`Healing Base × HR`** (HR 4 or 5). Fatigue continues to affect this test, and
 there is **no recovery from fatigue** while in Extended Shock.
 
