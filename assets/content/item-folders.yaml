@@ -238,6 +238,10 @@
 - name: Mystical Abilities
   id: gpLM4ElXNiI1rN7l
   parentFolderId: oPaj2BHhAX2fvkx6
+- name: Birthsigns
+  id: b1rthS1gnFldr001
+  parentFolderId: oPaj2BHhAX2fvkx6
+  color: "#4B0082"
 
 - name: Arcane Talents
   id: ZEuidNMK3mhkNrL7

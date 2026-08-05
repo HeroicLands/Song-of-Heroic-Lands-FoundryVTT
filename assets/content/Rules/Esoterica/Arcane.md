@@ -18,9 +18,9 @@ The **Arcane** tradition draws its power from the caster's own aura and from for
 
 # Birthsign
 
-A passive influence conferred by the celestial sign under which the character was born. A birthsign is never invoked; it quietly shapes the character, strengthening the aptitudes it favours and weakening others. It belongs to the arcane tradition alongside the astrological and divinatory lore that reads the same signs.
+A passive influence conferred by the celestial sign under which the character was born. A birthsign is never invoked; it quietly shapes the character, strengthening the aptitudes it favours and weakening others.
 
-A birthsign is not something the character _carries_ as a marker — it is **derived** from the character's **birth date**, read through an **astrological tradition**. In the system, a character's birth date lives on the character, and a **birthsign affiliation** (an Affiliation whose Society names the tradition) reads that date to determine the sign — including the two signs of a **cusp** birth near a boundary — and applies the sign's modifiers to the mastery levels of the skills it governs. The traditions themselves — their signs, date windows, and modifiers — are configured by the GM under the game system's **Astrology Traditions** settings, so each world's celestial lore is its own.
+A birthsign is a standing **Mystery** the character carries: attach the sign the character was born under, and it adjusts the Effective Mastery Level of the skills it governs — a bonus to those the sign favours, a penalty to those it hinders. The signs are named, droppable items in the compendium; a character bears the one under which they were born.
 
 # Mysteries
 

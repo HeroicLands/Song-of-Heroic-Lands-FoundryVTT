@@ -28,7 +28,7 @@ import { expressionHelpers } from "@src/entity/expr/ExpressionHelperRegistry";
  * `autocompletion()`.
  *
  * @param contextNames - Context-identifier names the field's call site binds
- *   (e.g. `attr`, `birthsigns`), offered alongside the helper functions.
+ *   (e.g. `attr`), offered alongside the helper functions.
  * @returns A CodeMirror completion source.
  */
 export function makeExpressionCompletionSource(

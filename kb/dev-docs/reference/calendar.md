@@ -65,7 +65,7 @@ Defined as standalone functions in `src/core/logic/sohl-calendar-logic.ts` and r
 
 ### Built-in calendar — hardcoded
 
-The shipped built-in calendar is **hardcoded in code**, not a data file. Its definition lives in `src/core/foundry/vylarian-reckoning.mjs` (a framework-free `.mjs` `VYLARIAN_RECKONING` constant) so it is a single source shared by the TypeScript runtime and the Node content build. `src/core/foundry/builtin-calendars.ts` imports it and exposes `BUILTIN_CALENDARS`, `DEFAULT_CALENDAR_SHORTCODE`, and `DEFAULT_CALENDAR_CONFIG`; `SohlSystem` registers it into the calendar registry at module load, so it is present before Foundry builds `game.time` with no fetch or timing concerns. Each entry is self-describing — a stable **`shortcode`** (its registry id, and the value a character's `social.calendar` names), a display `label`, and the Foundry `CalendarData` `config`.
+The shipped built-in calendar is **hardcoded in code**, not a data file. Its definition is the `VYLARIAN_RECKONING` constant in `src/core/foundry/builtin-calendars.ts`, which exposes `BUILTIN_CALENDARS`, `DEFAULT_CALENDAR_SHORTCODE`, and `DEFAULT_CALENDAR_CONFIG`; `SohlSystem` registers it into the calendar registry at module load, so it is present before Foundry builds `game.time` with no fetch or timing concerns. Each entry is self-describing — a stable **`shortcode`** (its registry id, and the value a character's `social.calendar` names), a display `label`, and the Foundry `CalendarData` `config`.
 
 One ships — twelve 30-day months on a 10-day week (360-day year, four seasons, `yearZero: 720`, no year zero):
 
@@ -73,20 +73,7 @@ One ships — twelve 30-day months on a 10-day week (360-day year, four seasons,
 | --------- | -------------------- | ------- | ------------------------------------------------------- |
 | `vylrec`  | **Vylarian Reckoning** (default) | VR / BVR | Floralis, Lusenar, Murkas, Taranis, Vulcar, Menaris, Venuris, Karnavar, Morveth, Thanaris, Aetheris, Janar |
 
-The **Vylarian Reckoning** (`vylrec`) — the reckoning of the world of Thalorna — is the default active calendar; its months are what the Astrokýklos birthsign sign windows read as. All names are localization keys. A world adds more calendars through the Calendar Settings menu; a module via `SohlSystem.registerCalendar(...)`.
-
-### Authoring birth dates in content
-
-A being's `birthDate` (a world-time integer in seconds — the anchor birthsign astrology derives from, #1018) is authored in character content as a calendar date, not a raw timestamp. The content build maps it (#1039):
-
-- **Authoring.** A character's YAML frontmatter carries `traits.birthday: Y/M/D` (era-year / month / day, e.g. `686/4/2`), alongside `traits.age`. Absent ⇒ no birthday ⇒ `birthDate` stays `null` (most creatures).
-- **Birth calendar.** An optional `social.calendar` names the calendar the date is expressed in (its `shortcode`, e.g. `vylrec`). When omitted, the build uses the default calendar (`DEFAULT_CALENDAR_SHORTCODE`, currently `vylrec`). An unknown shortcode fails the build.
-- **Conversion.** `utils/packs/calendars.mjs` imports the hardcoded `VYLARIAN_RECKONING` definition (the same one the runtime registers) to resolve the calendar `config`; the Foundry-free `src/utils/calendar-birthdate.mjs` then converts `Y/M/D` to seconds, mirroring Foundry's `CalendarData.componentsToTime`. That helper is a pure module (no Foundry), so it is unit-tested in Node against the calendar definition.
-
-Two design points settled here:
-
-- **Stored value is calendar-agnostic; the birth calendar only interprets the authored date.** `birthDate` is a plain world-time integer. The birth calendar is used **once, at build time**, to turn the authored components into that integer; the birthsign derivation then reads the **active** calendar at runtime (the existing #1018 behavior), never the birth calendar. Because the shipped calendars share an identical structure (both 12 × 30-day months), a date authored in one and run under the other yields the same numeric `birthDate` and the same sign; only differently-structured calendars would reinterpret month/day.
-- **`traits.age` is independent.** Age is left as authored free-standing content; the build neither derives it from `traits.birthday` nor validates it against the birthday. (Deriving a live age would require a campaign "current date" the packs do not carry.)
+The **Vylarian Reckoning** (`vylrec`) — the reckoning of the world of Thalorna — is the default active calendar. All names are localization keys. A world adds more calendars through the Calendar Settings menu; a module via `SohlSystem.registerCalendar(...)`.
 
 ## Calendar registry and GM workflow
 
@@ -196,7 +183,7 @@ _None tracked at present. Add entries here as they surface._
 
 ## References
 
-- Source: `src/core/foundry/SohlCalendar.ts`, `src/core/logic/SohlSystem.ts`, `src/apps/foundry/CalendarSettingsMenu.ts`, `src/sohl.ts`, `src/core/foundry/builtin-calendars.ts`, `src/core/foundry/vylarian-reckoning.mjs`
+- Source: `src/core/foundry/SohlCalendar.ts`, `src/core/logic/SohlSystem.ts`, `src/apps/foundry/CalendarSettingsMenu.ts`, `src/sohl.ts`, `src/core/foundry/builtin-calendars.ts`
 - Tests: `tests/core/foundry/SohlCalendar.test.ts`
 - Foundry v14: `client/helpers/time.mjs` (`GameTime`, `initializeCalendar`), `client/data/calendar.mjs` (`CalendarData`), `client/game.mjs` (`Game#initializeGame` and `Game#setupGame`)
 - Foundry TS types: `node_modules/fvtt-types/src/foundry/client/data/calendar.d.mts`

@@ -18,8 +18,6 @@
 export * as action from "./action";
 /** Archetype discovery — the Foundry-free rules behind the Create-dialog archetype picker. */
 export * as archetype from "./archetype";
-/** Astrology — the Foundry-free birthsign model: traditions, signs, and date-driven sign derivation (#1018). */
-export * as astrology from "./astrology";
 /** Body modeling — structure, parts, locations, armor aggregation, and injury resolution. */
 export * as body from "./body";
 /** The event queue and event triggers. */

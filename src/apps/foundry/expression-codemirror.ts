@@ -67,7 +67,7 @@ export interface ExpressionEditorOptions {
     /**
      * Context-identifier names to offer in autocomplete alongside the helper
      * functions (e.g. the namespaces the field's call site binds: `attr`,
-     * `birthsigns`, `actorLogic`). Helper names come from the registry.
+     * `actorLogic`). Helper names come from the registry.
      */
     contextNames?: string[];
 }
@@ -75,7 +75,6 @@ export interface ExpressionEditorOptions {
 /** Identifiers that read as a bound namespace rather than a plain variable. */
 const NAMESPACE_WORDS = new Set([
     "attr",
-    "birthsigns",
     "actorLogic",
     "itemLogic",
     "sm",

@@ -370,163 +370,6 @@ describe("SafeExpression", () => {
         });
     });
 
-    describe("context-bound astrology helpers (#1024)", () => {
-        // The producer injects the resolved traditions registry into the eval
-        // context under `astrologyTraditions`; SafeExpression feeds it to the
-        // astrology helpers as their first argument (the CONTEXT_BOUND seam), so
-        // the author writes only `astrologySettings(tradition, date)`.
-        const traditions = {
-            arc: {
-                key: "arc",
-                label: "Arc",
-                signs: [
-                    {
-                        shortcode: "alpha",
-                        label: "Alpha",
-                        start: { month: 1, day: 1 },
-                        end: { month: 6, day: 30 },
-                        cuspDays: 2,
-                        skillModifiers: { aaa: 15, "subtype:combat": 5 },
-                    },
-                    {
-                        shortcode: "beta",
-                        label: "Beta",
-                        start: { month: 7, day: 1 },
-                        end: { month: 12, day: 30 },
-                        cuspDays: 2,
-                        skillModifiers: { aaa: -15, bbb: 10 },
-                    },
-                ],
-            },
-        };
-        const months = Array(12).fill(30);
-        const ctx = (month: number, day: number) => ({
-            tradition: "arc",
-            date: { month, day, monthLengths: months },
-            astrologyTraditions: traditions,
-        });
-
-        it("evaluates the default cusp pipeline: merge(astrologySettings(...), 'max')", () => {
-            const source = 'merge(astrologySettings(tradition, date), "max")';
-            // Ordinary day → one sign.
-            expect(run(source, ctx(3, 15))).toEqual({
-                aaa: 15,
-                "subtype:combat": 5,
-            });
-            // Cusp day (6/29, within cuspDays=2 of the 6/30–7/1 boundary) →
-            // both signs, per-key max over present values: aaa max(15,-15)=15,
-            // subtype:combat kept 5, bbb kept 10.
-            expect(run(source, ctx(6, 29))).toEqual({
-                aaa: 15,
-                "subtype:combat": 5,
-                bbb: 10,
-            });
-        });
-
-        it("supports a sum policy and an explicit-sign override", () => {
-            expect(
-                run(
-                    'merge(astrologySettings(tradition, date), "sum")',
-                    ctx(6, 29),
-                ),
-            ).toEqual({ aaa: 0, "subtype:combat": 5, bbb: 10 });
-            expect(
-                run('astrologySetting(tradition, "beta")', ctx(3, 15)),
-            ).toEqual({ aaa: -15, bbb: 10 });
-        });
-
-        it("degrades to empty when the registry is not injected", () => {
-            // No astrologyTraditions in context → helper receives undefined.
-            expect(
-                run('merge(astrologySettings(tradition, date), "max")', {
-                    tradition: "arc",
-                    date: { month: 3, day: 15, monthLengths: months },
-                }),
-            ).toEqual({});
-        });
-    });
-
-    describe("year-cycle astrology pipeline (#1036)", () => {
-        // A tradition combining a solar window with two year cycles; the author
-        // folds solar + cyclic dicts through one variadic merge, with `year`
-        // injected into the context beside `date`.
-        const traditions = {
-            arc: {
-                key: "arc",
-                label: "Arc",
-                signs: [
-                    {
-                        shortcode: "alpha",
-                        label: "Alpha",
-                        start: { month: 1, day: 1 },
-                        end: { month: 12, day: 30 },
-                        cuspDays: 0,
-                        skillModifiers: { aaa: 15 },
-                    },
-                ],
-                cycles: [
-                    {
-                        shortcode: "animal",
-                        label: "Animal",
-                        cycleLength: 12,
-                        epochYear: 0,
-                        positions: Array.from({ length: 12 }, (_, i) => ({
-                            shortcode: `a${i}`,
-                            label: `A${i}`,
-                            skillModifiers: { aaa: i, [`s${i}`]: i },
-                        })),
-                    },
-                    {
-                        shortcode: "element",
-                        label: "Element",
-                        cycleLength: 3,
-                        epochYear: 700,
-                        positions: [
-                            { shortcode: "fire", skillModifiers: { hot: 5 } },
-                            { shortcode: "water", skillModifiers: { wet: 5 } },
-                            { shortcode: "air", skillModifiers: { dry: 5 } },
-                        ],
-                    },
-                ],
-            },
-        };
-        const months = Array(12).fill(30);
-        const ctx = (month: number, day: number, year: number) => ({
-            tradition: "arc",
-            date: { month, day, monthLengths: months, year },
-            year,
-            astrologyTraditions: traditions,
-        });
-
-        const SOURCE =
-            "merge(astrologySettings(tradition, date), " +
-            'astrologyYearSettings(tradition, year), "max")';
-
-        it("folds a solar window and two year cycles into one BSMod dict", () => {
-            // year 701 → animal a5 (aaa:5, s5:5) + element water (wet:5); solar
-            // alpha (aaa:15). Per-key max: aaa max(15,5)=15, plus s5:5, wet:5.
-            expect(run(SOURCE, ctx(3, 15, 701))).toEqual({
-                aaa: 15,
-                s5: 5,
-                wet: 5,
-            });
-        });
-
-        it("shifts the cyclic contribution as the year advances", () => {
-            // year 700 → animal a4 (aaa:4, s4:4) + element fire (hot:5).
-            expect(run(SOURCE, ctx(3, 15, 700))).toEqual({
-                aaa: 15,
-                s4: 4,
-                hot: 5,
-            });
-        });
-
-        it("exposes year and yearInCycle for author arithmetic", () => {
-            expect(run("year", ctx(3, 15, 701))).toBe(701);
-            expect(run("yearInCycle(year, 12)", ctx(3, 15, 701))).toBe(5);
-        });
-    });
-
     describe("rejects unsafe or unsupported syntax", () => {
         it("rejects method calls", () => {
             expect(compile("item.logic.hasAttr('per')")).toThrow(
@@ -627,10 +470,10 @@ describe("SafeExpression", () => {
 
         it("memberRefs generalizes to any base identifier", () => {
             const expr = new SafeExpression(
-                { source: "birthsigns.hirin + attr.str" },
+                { source: "custom.alpha + attr.str" },
                 { parent: mockParent },
             );
-            expect(expr.memberRefs("birthsigns")).toEqual(["hirin"]);
+            expect(expr.memberRefs("custom")).toEqual(["alpha"]);
         });
     });
 

@@ -288,35 +288,7 @@ appear in the GM's calendar settings. The registry API
 format are documented in the
 [Calendar Reference](../reference/calendar.md#calendar-registry-and-gm-workflow).
 
-## 10) Astrology traditions (birthsign derivation)
-
-A character's birthsign is **derived**, not stored: it is a function of the
-being's `birthDate` read through an **astrological tradition** named by a
-birthsign Affiliation's `society`. Traditions live in the **`sohl.astrologyRegistry`**,
-which resolves three layers (later wins):
-
-1. **Built-in** — the shipped default (**Astrokýklos**), loaded from its
-   `astrokyklos.json` data file at system init.
-2. **Module** — traditions a module registers, typically in its `init` hook:
-   `sohl.astrologyRegistry.register(traditionsJson)` (`register` / `unregister` /
-   `get` / `all`). Register in `init` and `await` any fetch — a birthsign is read
-   synchronously during document `prepareData`.
-3. **World** — the GM's per-world overrides in the `sohl.astrologyTraditions`
-   world setting, edited through the **Astrology Traditions** settings menu
-   (import/replace or clear a validated JSON file).
-
-Each sign carries a date window, `cuspDays`, and a map of skill-shortcode (or
-`subtype:<skillSubType>`) modifiers. To extend the mechanism, add a tradition —
-no source change needed: register one from a module, import one via the settings
-menu, or edit `astrokyklos.json`. The derivation, the SafeExpression helpers
-(`astrologySign` / `astrologySettings` / `astrologySetting` / `merge`), and the
-`BSMod` consumption are all Foundry-free ({@link sohl.entity.astrology}); the
-Foundry boundary ({@link sohl.core.FoundryHelpers.fvttAstrologyTraditions})
-resolves the registry and injects it into the eval context. See
-[Expressions and Scripts](../concepts/expressions.md#the-standard-helpers) for the
-helpers and the per-being expression forms.
-
-## 11) Create-dialog archetypes (`flags.sohl.docArchetype`)
+## 10) Create-dialog archetypes (`flags.sohl.docArchetype`)
 
 The shared Create dialog (`sohlCreateDialog`, used by both `SohlActor` and
 `SohlItem`) offers an **Archetype** picker that seeds a new document from an

@@ -8,9 +8,9 @@ Builds on the Phase 1 editor (#1031). The formula-field editor is now a full
 CodeMirror editor:
 
 - **Syntax highlighting** via a custom SafeExpression tokenizer (not JavaScript):
-  registered helper names read as functions, the bound namespaces (`attr`,
-  `birthsigns`, …) as namespaces, and only the operators the evaluator implements
-  are recognized — so highlighting matches the real grammar.
+  registered helper names read as functions, the bound namespaces (`attr`, …) as
+  namespaces, and only the operators the evaluator implements are recognized — so
+  highlighting matches the real grammar.
 - **Autocomplete** fed by the live helper registry plus each field's context
   identifiers (helpers insert with their call parentheses).
 - **Rollout** via a shared `expressionField` Handlebars partial (form field + edit

@@ -48,8 +48,8 @@ const EDITOR_CONTENT = toHTMLString(
 /** Options for {@link openExpressionEditorDialog}. */
 export interface ExpressionEditorDialogOptions {
     /**
-     * Context-identifier names the field's call site binds (e.g. `attr`,
-     * `birthsigns`), offered in autocomplete alongside the helper functions.
+     * Context-identifier names the field's call site binds (e.g. `attr`),
+     * offered in autocomplete alongside the helper functions.
      */
     contextNames?: string[];
 }

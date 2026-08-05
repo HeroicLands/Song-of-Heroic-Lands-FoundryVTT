@@ -12,9 +12,8 @@ MysticalAbility, and Skill items. That field was never added to any DataModel,
 so the only remaining consumers were orphaned sheet-context reads that always
 resolved to `undefined`.
 
-The astrology-traditions model (epic #1018) supersedes it: birthsign and
-magic-school modifiers are keyed on skill shortcodes via a Traditions registry
-on Affiliations, not on Domains.
+Per-skill modifiers such as a birthsign's are expressed instead through Active
+Effects keyed on a skill's shortcode or subType, not on Domains.
 
 **Removed**
 

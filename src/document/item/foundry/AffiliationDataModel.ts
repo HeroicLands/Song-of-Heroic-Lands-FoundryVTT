@@ -47,11 +47,6 @@ function defineAffiliationDataSchema(): foundry.data.fields.DataSchema {
             initial: 0,
             min: 0,
         }),
-        astrologicalExpression: new StringField({
-            nullable: true,
-            blank: false,
-            initial: null,
-        }),
     };
 }
 
@@ -77,7 +72,6 @@ export class AffiliationDataModel<
     office!: string | null;
     title!: string | null;
     level!: number;
-    astrologicalExpression!: string | null;
 
     /**
      * Returns the Foundry data schema for the affiliation item.
