@@ -28,13 +28,13 @@ describe("makeExpressionCompletionSource", () => {
         const result = makeExpressionCompletionSource([])(ctx("birth"));
         expect(result).not.toBeNull();
         const sb = result!.options.find((o) => o.label === "sb");
-        const birthsign = result!.options.find(
-            (o) => o.label === "birthsignBonus",
+        const astrologySign = result!.options.find(
+            (o) => o.label === "astrologySign",
         );
         expect(sb).toBeDefined();
         expect(sb!.type).toBe("function");
         expect((sb as any).apply).toBe("sb()");
-        expect(birthsign).toBeDefined();
+        expect(astrologySign).toBeDefined();
     });
 
     it("offers the field's context identifiers as variables", () => {
