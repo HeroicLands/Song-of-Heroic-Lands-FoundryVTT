@@ -28,12 +28,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 </a>
             </span>
         </div>
-        <div class="ledger" style="--ledger-cols:1.2rem 1.8rem minmax(120px,1fr) 2.4rem 2.4rem 2.4rem 2.6rem 2.6rem 2.4rem 1.2fr 3rem">
+        <div class="ledger" style="--ledger-cols:1.2rem 1.8rem minmax(120px,1fr) 2.4rem 2.4rem 2.6rem 2.6rem 2.4rem 1.2fr 3rem">
             <div class="ledger__head">
                 <div></div>
                 <div></div>
                 <div>Skill</div>
-                <div class="ledger__head-num" data-tooltip="{{localize 'SOHL.Skill.Heading.Level.tooltip'}}">{{localize 'SOHL.Skill.Heading.Level.label'}}</div>
                 <div class="ledger__head-num" data-tooltip="{{localize 'SOHL.Skill.Heading.SkillBase.tooltip'}}">{{localize 'SOHL.Skill.Heading.SkillBase.label'}}</div>
                 <div class="ledger__head-num" data-tooltip="{{localize 'SOHL.Skill.Heading.MasteryLevel.tooltip'}}">{{localize 'SOHL.Skill.Heading.MasteryLevel.label'}}</div>
                 <div class="ledger__head-num" data-tooltip="{{localize 'SOHL.Skill.Heading.Index.tooltip'}}">{{localize 'SOHL.Skill.Heading.Index.label'}}</div>
@@ -47,7 +46,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="ledger__grip"><i class="fa-solid fa-grip-vertical"></i></div>
                 <div class="ledger__icon"><img src="{{skill.img}}" alt="{{skill.name}}" /></div>
                 <div class="ledger__name">{{skill.name}}</div>
-                <div class="ledger__cell{{#if skill.levelDisabled}} ledger__cell--dim{{/if}}">{{#if skill.levelDisabled}}<i class="fa-solid fa-xmark fa-lg"></i>{{else}}{{skill.level}}{{/if}}</div>
                 <div class="ledger__cell{{#unless skill.sbValid}} ledger__cell--dim{{/unless}}"{{#unless skill.sbValid}} data-tooltip="{{localize "SOHL.Skill.sbInvalidCell"}}" data-tooltip-direction="UP"{{/unless}}>{{#if skill.sbValid}}{{skill.sb}}{{else}}<i class="fa-solid fa-xmark fa-lg"></i>{{/if}}</div>
                 <div class="ledger__cell">{{skill.ml}}</div>
                 <div class="ledger__cell{{#if skill.disabled}} ledger__cell--dim{{/if}}">{{#if skill.disabled}}<i class="fa-solid fa-xmark fa-lg"></i>{{else}}{{skill.index}}{{/if}}</div>

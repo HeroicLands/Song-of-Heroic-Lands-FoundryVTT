@@ -56,6 +56,7 @@ import { NONE_MOVE_PROFILE } from "@src/document/actor/logic/movement";
 import type { LocationInjury } from "@src/entity/body/impairment";
 import type { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import type { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
 import {
     groupBySubType,
     attributeDescriptor,
@@ -2213,11 +2214,14 @@ html, body { margin: 0; padding: 0; background: #fff; }
         const affiliations = buildAffiliationRows(
             (actor.itemTypes[ITEM_KIND.AFFILIATION] ?? []).map((aff) => {
                 const sys = aff.system as any;
+                const affLogic = aff.logic as AffiliationLogic | undefined;
                 return {
                     id: aff.id ?? "",
                     uuid: aff.uuid,
                     name: aff.name,
-                    level: sys.level ?? 0,
+                    // Effective rank (post-Active-Effect), read off the level
+                    // ValueModifier rather than the raw source value.
+                    level: affLogic?.level?.effective ?? sys.level ?? 0,
                     society: sys.society ?? "",
                     office: sys.office ?? "",
                     title: sys.title ?? "",
@@ -2297,8 +2301,6 @@ html, body { margin: 0; padding: 0; background: #fff; }
                     name: skill.name,
                     img: skill.img ?? "",
                     subType: sys.subType,
-                    level: skillLogic?.level?.effective ?? 0,
-                    levelDisabled: !!skillLogic?.level?.disabled,
                     sb: skillLogic?.skillBase ?? 0,
                     sbValid: skillLogic?.skillBaseValid ?? true,
                     ml: skillLogic?.masteryLevel?.base ?? 0,

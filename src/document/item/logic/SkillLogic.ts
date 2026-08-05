@@ -197,14 +197,6 @@ export class SkillLogic<
     masteryLevel!: MasteryLevelModifier;
 
     /**
-     * The skill's level as a {@link sohl.entity.modifier.ValueModifier}, seeded
-     * from {@link SkillData.levelBase}. Disabled when the skill has no level
-     * (`levelBase === null`), in which case the Skills-tab Level cell renders an
-     * ✕; a stored `0` is a real level and stays enabled.
-     */
-    level!: ValueModifier;
-
-    /**
      * The fate mastery level as a {@link sohl.entity.modifier.MasteryLevelModifier}, used to resolve
      * {@link fateTest | fate tests}. Seeded from the actor's Aura attribute and
      * the `optionFate` setting; disabled when fate does not apply.
@@ -1131,15 +1123,6 @@ export class SkillLogic<
             { parent: this },
         ).setBase(masteryLevelBase);
 
-        // Level: a null base means "no level" and leaves the modifier disabled
-        // (the Skills-tab Level cell then renders an ✕); 0 is a real level and
-        // stays enabled. Mirrors MysteryLogic's level handling.
-        this.level = new entity.ValueModifier(this);
-        if (this.data.levelBase === null) {
-            this.level.setDisabled("SOHL.Skill.NoLevel");
-        } else {
-            this.level.setBase(this.data.levelBase);
-        }
         this.fateMasteryLevel = new entity.MasteryLevelModifier(
             {
                 testDescTable: getFateDescTable(),
@@ -1325,12 +1308,6 @@ export interface SkillData<
      * automatically at Skill Base × {@link SkillData.initSkillMult}.
      */
     masteryLevelBase: number | null;
-    /**
-     * The skill's level, or `null` when the skill has no level (which disables
-     * {@link SkillLogic.level} and renders the Skills-tab Level cell as an ✕). A
-     * stored `0` is a real level. Absent in source ⇒ `null`.
-     */
-    levelBase: number | null;
     /** Whether this item is flagged for mastery improvement via SDR */
     improveFlag: boolean;
     /** Combat category this skill applies to, if any */

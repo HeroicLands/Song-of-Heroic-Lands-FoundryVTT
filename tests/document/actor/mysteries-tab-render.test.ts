@@ -33,7 +33,7 @@ function mod(effective: number, disabled: unknown = false) {
 function abilityLike(over: Record<string, any> = {}) {
     const logic = {
         assocRef: { name: "Spellcraft" } as { name: string } | undefined,
-        assocAffiliation: { name: "Church of Larani" } as
+        affiliation: { name: "Church of Larani" } as
             | { name: string }
             | undefined,
         level: mod(3),
@@ -97,7 +97,7 @@ describe("Being Mysteries tab — per-sub-type Mystical Ability columns (#990)",
                 name: "Fire Bolt",
                 logic: {
                     assocRef: { name: "Pyrethos" },
-                    assocAffiliation: { name: "Lyahvi Convocation" },
+                    affiliation: { name: "Lyahvi Convocation" },
                 },
             }),
         ]);
@@ -111,7 +111,7 @@ describe("Being Mysteries tab — per-sub-type Mystical Ability columns (#990)",
                 name: "Distill",
                 logic: {
                     assocRef: { name: "Alchemy" },
-                    assocAffiliation: undefined,
+                    affiliation: undefined,
                 },
             }),
         ]);

@@ -38,6 +38,7 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
 - **Level:** The difficulty or power tier of the ability. Higher-level incantations are also harder to invoke — see _How the Effective Mastery Level Is Determined_ below.
 - **Associated Mystery:** Which Mystery is associated with this ability (optional).
 - **Associated Skill:** Which Skill this mystery draws upon (optional).
+- **Associated Affiliation:** Which [[Item_Affiliation|Affiliation]] this ability draws its standing from (optional) — the church, arcane or alchemical school, or ancestor/totem/spirit whose membership the ability belongs to. Recording it lets the ability's behaviour take the character's **rank** in that body into account (its **Level**): a full priest and a layperson of the same faith can differ in what they can invoke. This only _informs_ the ability — the player still deliberately triggers every invocation.
 - **Charges:** If this mystical ability can be used up, this represents the number of charges
     - **Value:** Current number of charges avaiable
     - **Max:** Maximum number of charges

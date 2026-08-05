@@ -37,7 +37,6 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
     - **Ritual:**
 - **Skill Base Formula:** Formula for calculating the skill base from referenced attributes.
 - **Mastery Level Base:** Base mastery level representing training and experience. Leave it **blank** to have a skill on a character open automatically at _Skill Base × Initial Skill Multiplier_; enter a number to set the level explicitly.
-- **Level:** For some skills — particularly the arcane and divine/ritual skills in the **Mystical** skills section — a level (sometimes called a **circle**) is associated with the skill. When one applies, set this to that numeric value (numbers only); when no level applies, leave it **blank**, meaning _not applicable_. The level appears as the **Lvl** column, immediately after the skill's name, on the Skills tab; a skill with no level shows an ✕ there instead.
 - **Improve Flag:** Whether this item is flagged for mastery improvement via _Skill Development Roll_ (SDR).
 - **Weapon Group:** Combat category this skill applies to, if any.
     - **None:** Skill not associated with a weapon.

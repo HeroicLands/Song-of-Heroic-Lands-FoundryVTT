@@ -160,8 +160,6 @@ describe("being-sheet-view", () => {
             name: "Climbing",
             img: "icons/skill.svg",
             subType: "social",
-            level: 2,
-            levelDisabled: false,
             sb: 5,
             sbValid: true,
             ml: 40,
@@ -206,8 +204,6 @@ describe("being-sheet-view", () => {
 
         it("maps every row field", () => {
             const a = skill({
-                level: 7,
-                levelDisabled: false,
                 sb: 6,
                 ml: 55,
                 index: 5,
@@ -225,8 +221,6 @@ describe("being-sheet-view", () => {
                 uuid: "Item.s1",
                 name: "Climbing",
                 img: "icons/skill.svg",
-                level: 7,
-                levelDisabled: false,
                 sb: 6,
                 sbValid: true,
                 ml: 55,
@@ -240,20 +234,6 @@ describe("being-sheet-view", () => {
                 improveFlag: true,
                 notes: "",
             });
-        });
-
-        it("maps the level and its disabled flag (null levelBase → disabled)", () => {
-            const enabled = skill({ id: "a", level: 4, levelDisabled: false });
-            const disabled = skill({ id: "b", level: 0, levelDisabled: true });
-            const [group] = buildSkillGroups(
-                [enabled, disabled],
-                order,
-                subLabel,
-            );
-            expect(group.skills[0].level).toBe(4);
-            expect(group.skills[0].levelDisabled).toBe(false);
-            expect(group.skills[1].level).toBe(0);
-            expect(group.skills[1].levelDisabled).toBe(true);
         });
 
         it("passes through the EML/Fate abbrev tooltips (#769)", () => {

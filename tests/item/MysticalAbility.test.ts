@@ -277,8 +277,8 @@ describe("MysticalAbilityLogic", () => {
     // (e.g. an Arcane Incantation's arcane school), stored independently of the
     // activating skill as assocAffiliationCode and resolved to an
     // AffiliationLogic on the same actor (#1012).
-    describe("assocAffiliation", () => {
-        it("resolves assocAffiliation from the actor's affiliations by shortcode", () => {
+    describe("affiliation", () => {
+        it("resolves affiliation from the actor's affiliations by shortcode", () => {
             const actor = makeAbilityActor();
             const aff = makeAffiliationOnActor(actor, "larani");
             const logic = makeAbility(
@@ -290,10 +290,10 @@ describe("MysticalAbilityLogic", () => {
             );
             logic.initialize();
             logic.evaluate();
-            expect(logic.assocAffiliation).toBe(aff);
+            expect(logic.affiliation).toBe(aff);
         });
 
-        it("leaves assocAffiliation undefined when no shortcode matches", () => {
+        it("leaves affiliation undefined when no shortcode matches", () => {
             const actor = makeAbilityActor();
             makeAffiliationOnActor(actor, "larani");
             const logic = makeAbility(
@@ -302,17 +302,17 @@ describe("MysticalAbilityLogic", () => {
             );
             logic.initialize();
             logic.evaluate();
-            expect(logic.assocAffiliation).toBeUndefined();
+            expect(logic.affiliation).toBeUndefined();
         });
 
-        it("leaves assocAffiliation undefined when the ability has no actor", () => {
+        it("leaves affiliation undefined when the ability has no actor", () => {
             const logic = makeAbility({ assocAffiliationCode: "larani" });
             logic.initialize();
             logic.evaluate();
-            expect(logic.assocAffiliation).toBeUndefined();
+            expect(logic.affiliation).toBeUndefined();
         });
 
-        it("leaves assocAffiliation undefined when the code is blank", () => {
+        it("leaves affiliation undefined when the code is blank", () => {
             const actor = makeAbilityActor();
             makeAffiliationOnActor(actor, "larani");
             const logic = makeAbility(
@@ -321,7 +321,7 @@ describe("MysticalAbilityLogic", () => {
             );
             logic.initialize();
             logic.evaluate();
-            expect(logic.assocAffiliation).toBeUndefined();
+            expect(logic.affiliation).toBeUndefined();
         });
     });
 
