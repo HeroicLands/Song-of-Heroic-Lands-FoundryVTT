@@ -99,7 +99,7 @@ export abstract class SohlLogic<
     TData extends SohlLogicData<any> = SohlLogicData<any>,
 > {
     private readonly _parent: TData;
-    /** Executable actions for this document, keyed by title — context-menu entries, chat-card buttons, and lifecycle hooks. */
+    /** Executable actions for this document, keyed by shortcode — context-menu entries, chat-card buttons, and lifecycle hooks. A script action shadows (wholly overrides) the intrinsic action of the same shortcode (see the constructor). */
     actions!: SohlMap<string, SohlAction>;
 
     /**
@@ -342,14 +342,31 @@ export abstract class SohlLogic<
         }
         this._parent = options.parent;
 
-        // Initialize all actions, both intrinsic ones and scripts
-        const actns = [
-            ...(this.constructor as any).defineIntrinsicActions(),
+        // Combine this logic type's intrinsic actions with the author-supplied
+        // script actions (`actionDefs`), keyed by shortcode. A script action
+        // whose shortcode matches an intrinsic one WHOLLY OVERRIDES (hides) it:
+        // deduplicating the definitions here — script wins, before any
+        // SohlAction is constructed — leaves exactly one action per shortcode
+        // for `actions`, the context menu, and `executeAction`, so the system
+        // runs only the script, never both. The shadowed intrinsic's capability
+        // is a plain method on this logic (the action's `executor`), untouched
+        // by the override, so an overriding script that wants to build on it
+        // simply calls that method directly (e.g. `item.logic.<executor>(ctx)`).
+        const defs = new SohlMap<string, Partial<SohlAction.Data>>();
+        for (const data of [
+            ...((
+                this.constructor as any
+            ).defineIntrinsicActions() as Partial<SohlAction.Data>[]),
             ...this.data.actionDefs,
-        ].map((data) => new entity.SohlAction(data, { parent: this }));
+        ]) {
+            defs.set(data.shortcode as string, data);
+        }
+        const actns = [...defs.values()].map(
+            (data) => new entity.SohlAction(data, { parent: this }),
+        );
 
-        // Set the default action based on the parent's settings
-        // and generate a map from the array of actions.
+        // Set the default action based on the parent's settings and generate a
+        // map from the deduplicated actions.
         this.actions = new SohlMap<string, SohlAction>(
             setDefaultAction(actns).map((act) => [act.shortcode, act]),
         );

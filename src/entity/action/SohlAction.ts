@@ -136,6 +136,15 @@ export class SohlAction extends SohlEntity {
      * execute permission and {@link trigger}. See {@link ActionVisibilityFn}.
      */
     visible: ActionVisibilityFn;
+    /**
+     * The scope-resolved logic the executor runs on (SELF → this action's
+     * logic, ITEM → the parent item's logic, ACTOR → the parent actor's logic) —
+     * the same target an Intrinsic executor is bound to. Stamped onto the
+     * context as {@link sohl.entity.action.SohlActionContext.thisLogic} at
+     * dispatch, so inside an intrinsic method `this === ctx.thisLogic`, and an
+     * overriding macro calls the intrinsic via `ctx.thisLogic.<executor>(ctx)`.
+     */
+    executorTarget?: SohlLogic;
 
     /**
      * Builds a new action for a given actor, merging the actor's speaker into
@@ -228,6 +237,10 @@ export class SohlAction extends SohlEntity {
                 default:
                     throw new Error(`Unknown action scope: ${this.data.scope}`);
             }
+            // The logic the executor runs on — exposed as `ctx.thisLogic` at
+            // dispatch. For an intrinsic this is the very target its method is
+            // bound to, so `this === ctx.thisLogic` inside the method.
+            this.executorTarget = target;
 
             if (this.data.subType === ACTION_SUBTYPE.INTRINSIC) {
                 func = (target as any)?.[this.data.executor ?? ""];
@@ -244,21 +257,19 @@ export class SohlAction extends SohlEntity {
                 // enforces MACRO_SCRIPT + ownership; no code is ever compiled
                 // from data. See kb/dev-docs/concepts/security-model.md.
                 //
-                // The SohlActionContext is exposed to the macro as `sohlContext`,
-                // NOT `scope`: Foundry's `Macro##executeScript` already declares a
-                // fixed `scope` parameter, so passing a `scope` scope-key builds
-                // an AsyncFunction with a duplicate parameter name (SyntaxError),
-                // silently swallowing the macro's return value.
+                // Every executor — intrinsic method or macro — receives the same
+                // single argument: the SohlActionContext. It is exposed to the
+                // macro as `ctx` (NOT `scope`: Foundry's `Macro##executeScript`
+                // already declares a fixed `scope` parameter, so a `scope`
+                // scope-key builds an AsyncFunction with a duplicate parameter
+                // name — a SyntaxError that silently swallows the return value).
+                // The macro reaches everything through `ctx`: the owning logic as
+                // `ctx.thisLogic` (its `actor`/`item`), `ctx.speaker`,
+                // `ctx.target`, `ctx.scope`. A macro overriding an intrinsic
+                // calls it via `ctx.thisLogic.<executor>(ctx)`.
                 const macroUuid = this.data.executor ?? "";
-                this.executor = (ctx: SohlActionContext) => {
-                    const { item, actor } = this.resolveContext();
-                    return fvttExecuteMacro(macroUuid, {
-                        actor,
-                        item,
-                        speaker: ctx?.speaker,
-                        sohlContext: ctx,
-                    });
-                };
+                this.executor = (ctx: SohlActionContext) =>
+                    fvttExecuteMacro(macroUuid, { ctx });
             }
         } else {
             this.executor = (ctx: SohlActionContext) => Promise.resolve();
@@ -307,6 +318,12 @@ export class SohlAction extends SohlEntity {
             );
             return undefined;
         }
+        // Expose the executor's target logic to the executor (intrinsic method
+        // or macro) as `ctx.thisLogic` — the stand-in for `this` a Script Action
+        // macro uses to reach the intrinsic it overrides
+        // (`ctx.thisLogic.<executor>(ctx)`). It is the same target an intrinsic
+        // method is bound to, so `this === ctx.thisLogic` inside that method.
+        actionContext.thisLogic = this.executorTarget;
         const result = await Promise.resolve(this.executor(actionContext));
         // Generic run record (issue #579): stamp `system.lastRun[shortcode]` on
         // the owning document for flagged actions, so "when did X last happen

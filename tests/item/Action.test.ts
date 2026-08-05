@@ -464,12 +464,46 @@ describe("SohlAction SCRIPT action runs a referenced Macro (no compiled code)", 
         expect(macroSpy).toHaveBeenCalledTimes(1);
         const [uuidArg, scopeArg] = macroSpy.mock.calls[0];
         expect(uuidArg).toBe(MACRO_UUID);
-        // The action context is exposed to the macro as `sohlContext`, not
-        // `scope` — the latter collides with Foundry's fixed macro parameter.
-        expect(scopeArg).toEqual(
-            expect.objectContaining({ actor, sohlContext: ctx }),
-        );
+        // Every executor gets the same single argument: the SohlActionContext,
+        // exposed to the macro as `ctx` (not `scope`, which collides with
+        // Foundry's fixed macro parameter).
+        expect(Object.keys(scopeArg as object)).toEqual(["ctx"]);
+        expect((scopeArg as any).ctx).toBe(ctx);
+        // The executor's target logic is stamped on the context as `ctx.thisLogic`
+        // (SELF scope → the action's own logic).
+        expect(ctx.thisLogic).toBeDefined();
         expect(result).toBe("macro-ran");
+    });
+
+    it("stamps ctx.thisLogic to the executor target, so `this === ctx.thisLogic` inside an intrinsic", async () => {
+        let capturedThis: unknown;
+        let capturedCtx: unknown;
+        const logicStub: any = {
+            parent: { parent: stubActor(true) },
+            myIntrinsic(c: unknown) {
+                capturedThis = this;
+                capturedCtx = c;
+                return "intrinsic-ran";
+            },
+        };
+        const action = new SohlAction(
+            makeActionData({
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                executor: "myIntrinsic",
+                scope: "self",
+            }),
+            { parent: logicStub },
+        );
+        const ctx = { speaker: { alias: "Ivy" } } as any;
+
+        const result = await action.execute(ctx);
+
+        expect(result).toBe("intrinsic-ran");
+        // The intrinsic receives the same single `ctx`, bound to its target.
+        expect(capturedCtx).toBe(ctx);
+        expect(ctx.thisLogic).toBe(logicStub);
+        // The invariant: inside an intrinsic, `this` and `ctx.thisLogic` match.
+        expect(capturedThis).toBe(ctx.thisLogic);
     });
 
     it("never compiles the executor string as code — an invalid-JS executor does not throw at construction", () => {

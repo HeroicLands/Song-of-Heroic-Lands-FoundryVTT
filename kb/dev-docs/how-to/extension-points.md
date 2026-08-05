@@ -21,7 +21,7 @@ See also: [Architecture Overview](../concepts/architecture.md), [House Rules Coo
 ## Choosing extension scope
 
 - Use a **Module hook** for additive behavior without modifying SoHL source — best for house rules that affect many items or actors.
-- Use **actions** (context-menu entries on a document) for single-item behavior overrides (e.g., one specific spell).
+- Use **actions** (context-menu entries on a document) for single-item behavior overrides (e.g., one specific spell). A Script Action can also **override an intrinsic action** on that one document by reusing its `shortcode` — see [Overriding an intrinsic action](../concepts/macros-and-actions.md).
 
 Lifecycle hooks are emitted with item-type granularity (`sohl.<itemType>.<stage>`). Filter by `item.system.shortcode` inside the handler for narrower targeting.
 
