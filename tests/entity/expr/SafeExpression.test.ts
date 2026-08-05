@@ -627,4 +627,55 @@ describe("SafeExpression", () => {
             expect(run(EXPR, { item: gear })).toBe(false);
         });
     });
+
+    describe("validateSource (static)", () => {
+        it("returns undefined for a valid expression", () => {
+            expect(
+                SafeExpression.validateSource("sb(attr.str)"),
+            ).toBeUndefined();
+            expect(
+                SafeExpression.validateSource("level >= 3 && !injured"),
+            ).toBeUndefined();
+            expect(SafeExpression.validateSource("5")).toBeUndefined();
+        });
+
+        it("treats blank / null / undefined as valid (unset)", () => {
+            expect(SafeExpression.validateSource("")).toBeUndefined();
+            expect(SafeExpression.validateSource("   ")).toBeUndefined();
+            expect(SafeExpression.validateSource(null)).toBeUndefined();
+            expect(SafeExpression.validateSource(undefined)).toBeUndefined();
+        });
+
+        it("returns a non-empty error message for a parse failure", () => {
+            const err = SafeExpression.validateSource("sb(");
+            expect(typeof err).toBe("string");
+            expect(err).toBeTruthy();
+        });
+
+        it("rejects loose equality (a removed operator)", () => {
+            expect(SafeExpression.validateSource("a == b")).toBeTruthy();
+        });
+
+        it("rejects a call to an unregistered helper", () => {
+            expect(
+                SafeExpression.validateSource("bogusHelper(1)"),
+            ).toBeTruthy();
+        });
+
+        it("rejects assignment", () => {
+            expect(SafeExpression.validateSource("x = 1")).toBeTruthy();
+        });
+
+        it("rejects a method call (only registered helpers are callable)", () => {
+            expect(SafeExpression.validateSource("actor.die()")).toBeTruthy();
+        });
+
+        it("does not require the caller to supply a parent logic", () => {
+            // A pure static check — construction is internal, so callers
+            // (a DataModel field, the editor dialog) need no live parent.
+            expect(() =>
+                SafeExpression.validateSource("sb(attr.str)"),
+            ).not.toThrow();
+        });
+    });
 });

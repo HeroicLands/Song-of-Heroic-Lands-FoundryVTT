@@ -29,6 +29,7 @@ import {
     BodyRoleChoices,
 } from "@src/utils/constants";
 import { SohlItemDataModel } from "./SohlItemDataModel";
+import { SafeExpressionField } from "@src/core/foundry/SafeExpressionField";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 const {
@@ -57,11 +58,12 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
             required: true,
             choices: SkillSubTypeChoices,
         }),
-        skillBaseFormula: new StringField({
-            nullable: true,
-            blank: false,
-            initial: null,
-        }),
+        // A SafeExpression source (e.g. `sb(attr.str, attr.dex)`). Stored as a
+        // plain string; the SafeExpressionField adds grammar validation and
+        // marks the field for the code editor (edit button on the Skill sheet).
+        // Its defaults are exactly this field's shape — nullable, non-blank,
+        // `initial: null` (unset-when-blank) — so no options are needed.
+        skillBaseFormula: new SafeExpressionField(),
         // `null` = "not yet opened" (distinct from a deliberate 0). On an actor
         // an unopened skill opens at Skill Base × initSkillMult; see
         // SkillLogic.initialize.

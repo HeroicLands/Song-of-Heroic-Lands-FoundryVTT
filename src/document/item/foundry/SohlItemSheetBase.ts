@@ -15,6 +15,7 @@ import { SohlItem } from "./SohlItem";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import { SohlDataModel } from "@src/core/foundry/SohlDataModel";
 import { openDatePickerDialog } from "@src/apps/foundry/date-picker-dialog";
+import { openExpressionEditorDialog } from "@src/apps/foundry/expression-editor-dialog";
 import { hintsToLabelTooltips } from "@src/apps/foundry/sheet-hints";
 import {
     createAction,
@@ -148,6 +149,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         actions: {
             clearField: SohlItemSheetBase._onClearField,
             pickDate: SohlItemSheetBase._onPickDate,
+            editExpression: SohlItemSheetBase._onEditExpression,
             createAction: SohlItemSheetBase._onCreateAction,
             editAction: SohlItemSheetBase._onEditAction,
             deleteAction: SohlItemSheetBase._onDeleteAction,
@@ -254,6 +256,33 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             | null
             | undefined;
         const result = await openDatePickerDialog(current);
+        if (result === undefined) return;
+        await this.document.update({ [path]: result });
+    }
+
+    /**
+     * `data-action="editExpression"`: open the SafeExpression code editor for a
+     * formula field (a {@link SafeExpressionField}). Reads the update path from
+     * the control's `data-field-path`, opens the editor on the field's current
+     * source, and writes the result via `document.update`. The dialog returns the
+     * edited string (Save), `null` (Clear), or `undefined` (Cancel); only a
+     * definite choice is persisted.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, carrying `data-field-path`.
+     */
+    protected static async _onEditExpression(
+        this: SohlItemSheetBase,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const path = target.dataset.fieldPath;
+        if (!path) return;
+        const current = foundry.utils.getProperty(this.document, path) as
+            | string
+            | null
+            | undefined;
+        const result = await openExpressionEditorDialog(current);
         if (result === undefined) return;
         await this.document.update({ [path]: result });
     }

@@ -193,6 +193,48 @@ export class SafeExpression extends SohlEntity {
     }
 
     /**
+     * Statically check whether `source` is a well-formed, allowlist-valid
+     * expression — **without** evaluating it or requiring a live parent Logic.
+     *
+     * This is the shared validation seam for editing surfaces: a DataModel
+     * field's `_validateType`, or the live "is this valid?" feedback in the
+     * expression editor dialog. It runs the exact same parse-and-allowlist path
+     * the runtime uses at construction (a bad operator, a denied key, a method
+     * or unregistered-helper call, or a parse failure all fail here), so editor
+     * validity never drifts from runtime behavior. Only the constructor's static
+     * checks run; the parent is a throwaway stub because static validation never
+     * reads it (only {@link evaluate} does, for parent-bound helpers).
+     *
+     * A blank, whitespace-only, `null`, or `undefined` source is treated as
+     * **valid (unset)** — an empty formula field means "no expression", not a
+     * broken one.
+     *
+     * @param source - The expression text to check (or blank/nullish for unset).
+     * @returns `undefined` when the source is valid or unset; otherwise the
+     *   {@link SafeExpressionError} message describing why it is invalid.
+     */
+    static validateSource(
+        source: string | null | undefined,
+    ): string | undefined {
+        if (source == null || source.trim() === "") return undefined;
+        try {
+            // Construction parses and statically validates; the result is
+            // discarded — we only care whether it throws.
+            new SafeExpression(
+                { source },
+                // A stub parent satisfies SohlEntity's presence check; static
+                // validation never dereferences it.
+                { parent: { id: "validate", name: "validate" } as never },
+            );
+            return undefined;
+        } catch (err) {
+            return err instanceof SafeExpressionError ?
+                    err.message
+                :   errorMessage(err);
+        }
+    }
+
+    /**
      * Serialize to a plain object — only the {@link source} is persisted; the
      * AST is rebuilt from it on reconstruction.
      * @returns The serialized expression data.

@@ -15,6 +15,7 @@
 // verifies every sibling module and subfolder here is re-exported.
 
 export * from "./astrology-registry";
+export * from "./SafeExpressionField";
 export * from "./SohlCalendar";
 export * from "./SohlDataModel";
 export * from "./SohlLocalize";

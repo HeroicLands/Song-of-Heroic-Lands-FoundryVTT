@@ -14,6 +14,8 @@ import { ImpactResult } from "@src/entity/result/ImpactResult";
 import { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
 import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 import { MiscGearLogic } from "@src/document/item/logic/MiscGearLogic";
+import { ArmorGearLogic } from "@src/document/item/logic/ArmorGearLogic";
+import { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
 import { locationData, partData, zoneData } from "@tests/mocks/bodyFixture";
@@ -438,6 +440,165 @@ describe("BeingLogic", () => {
             // floor(10 / 4) = 2
             expect(being.encumbrance.effective).toBe(2);
         });
+
+        /**
+         * Per-item encumbrance value (#1010): worn armor and carried/wielded
+         * weapons may declare an explicit encumbrance value that is added on top
+         * of the weight-derived base while the item is in use. These builders and
+         * setup wire real armor/weapon logics onto a being with a movement profile.
+         */
+        describe("per-item encumbrance value (#1010)", () => {
+            function makeEncBeing() {
+                const being = makeBeing({ body: bodyData() });
+                (being.data as any).currentMoveMedium =
+                    MOVEMENT_MEDIUM.TERRESTRIAL;
+                (being.data as any).movementProfiles = [
+                    {
+                        medium: MOVEMENT_MEDIUM.TERRESTRIAL,
+                        feetPerRound: 50,
+                        leaguesPerWatch: 5,
+                        // No weight-derived base, so the assertion reads the
+                        // per-item contribution alone.
+                        encumbrance: "0",
+                        strMod: "0",
+                        disabled: false,
+                    },
+                ];
+                return being;
+            }
+
+            function armorEncFields(overrides: Record<string, unknown> = {}) {
+                return {
+                    quantity: 1,
+                    weightBase: 8,
+                    valueBase: 60,
+                    isCarried: true,
+                    isWorn: true,
+                    qualityBase: 10,
+                    durabilityBase: 16,
+                    sharedWithCohortIds: [] as string[],
+                    containerId: null as string | null,
+                    material: "leather",
+                    locations: {
+                        flexible: [] as string[],
+                        rigid: [] as string[],
+                    },
+                    protectionBase: {
+                        blunt: 2,
+                        edged: 4,
+                        piercing: 3,
+                        fire: 1,
+                    },
+                    encumbrance: 3,
+                    ...overrides,
+                };
+            }
+
+            function weaponEncFields(overrides: Record<string, unknown> = {}) {
+                return {
+                    quantity: 1,
+                    weightBase: 4,
+                    valueBase: 120,
+                    isCarried: true,
+                    qualityBase: 10,
+                    durabilityBase: 14,
+                    sharedWithCohortIds: [] as string[],
+                    containerId: null as string | null,
+                    encumbranceBase: 2,
+                    heftBase: 5,
+                    strikeModes: [] as Record<string, unknown>[],
+                    ...overrides,
+                };
+            }
+
+            function finalizeWith(being: any, item: any) {
+                item.initialize();
+                being.initialize();
+                being.evaluate();
+                being.finalize();
+            }
+
+            it("adds a worn armor's encumbrance value to the being", () => {
+                const being = makeEncBeing();
+                const armor = makeItemLogic(
+                    ArmorGearLogic,
+                    ITEM_KIND.ARMORGEAR,
+                    armorEncFields({ isWorn: true, encumbrance: 3 }),
+                    { actor: being.actor, shortcode: "mail" },
+                );
+                finalizeWith(being, armor);
+                expect(being.encumbrance.effective).toBe(3);
+            });
+
+            it("ignores a carried-but-not-worn armor's encumbrance value", () => {
+                const being = makeEncBeing();
+                const armor = makeItemLogic(
+                    ArmorGearLogic,
+                    ITEM_KIND.ARMORGEAR,
+                    armorEncFields({
+                        isCarried: true,
+                        isWorn: false,
+                        encumbrance: 3,
+                    }),
+                    { actor: being.actor, shortcode: "mail" },
+                );
+                finalizeWith(being, armor);
+                expect(being.encumbrance.effective).toBe(0);
+            });
+
+            it("adds a carried weapon's encumbrance value to the being", () => {
+                const being = makeEncBeing();
+                const weapon = makeItemLogic(
+                    WeaponGearLogic,
+                    ITEM_KIND.WEAPONGEAR,
+                    weaponEncFields({ isCarried: true, encumbranceBase: 2 }),
+                    { actor: being.actor, shortcode: "spear" },
+                );
+                finalizeWith(being, weapon);
+                expect(being.encumbrance.effective).toBe(2);
+            });
+
+            it("ignores an uncarried weapon's encumbrance value", () => {
+                const being = makeEncBeing();
+                const weapon = makeItemLogic(
+                    WeaponGearLogic,
+                    ITEM_KIND.WEAPONGEAR,
+                    weaponEncFields({ isCarried: false, encumbranceBase: 2 }),
+                    { actor: being.actor, shortcode: "spear" },
+                );
+                finalizeWith(being, weapon);
+                expect(being.encumbrance.effective).toBe(0);
+            });
+
+            it("stacks per-item encumbrance on top of the weight-derived base", () => {
+                const being = makeBeing({ body: bodyData() });
+                (being.data as any).currentMoveMedium =
+                    MOVEMENT_MEDIUM.TERRESTRIAL;
+                (being.data as any).movementProfiles = [
+                    {
+                        medium: MOVEMENT_MEDIUM.TERRESTRIAL,
+                        feetPerRound: 50,
+                        leaguesPerWatch: 5,
+                        encumbrance: "floor(wt / 4)",
+                        strMod: "0",
+                        disabled: false,
+                    },
+                ];
+                const armor = makeItemLogic(
+                    ArmorGearLogic,
+                    ITEM_KIND.ARMORGEAR,
+                    armorEncFields({ isWorn: true, encumbrance: 3 }),
+                    { actor: being.actor, shortcode: "mail" },
+                );
+                armor.initialize();
+                being.initialize();
+                being.carriedWeight.add("load", "Load", 12); // floor(12/4) = 3
+                being.evaluate();
+                being.finalize();
+                // 3 (weight-derived) + 3 (worn armor encumbrance value) = 6
+                expect(being.encumbrance.effective).toBe(6);
+            });
+        });
     });
 
     describe("carriedWeight", () => {
@@ -501,6 +662,47 @@ describe("BeingLogic", () => {
             gear.initialize();
             gear.evaluate();
             expect(being.carriedWeight.effective).toBe(0);
+        });
+
+        /** Full ArmorGear field set for carried-weight tests. */
+        function armorFields(overrides: Record<string, unknown> = {}) {
+            return gearFields({
+                weightBase: 8,
+                isWorn: true,
+                material: "leather",
+                locations: { flexible: [] as string[], rigid: [] as string[] },
+                protectionBase: { blunt: 2, edged: 4, piercing: 3, fire: 1 },
+                encumbrance: 0,
+                ...overrides,
+            });
+        }
+
+        it("excludes worn armor weight from carried weight (#1009)", () => {
+            const being = makeBeing();
+            being.initialize();
+            const armor = makeItemLogic(
+                ArmorGearLogic,
+                ITEM_KIND.ARMORGEAR,
+                armorFields({ weightBase: 8, isCarried: true, isWorn: true }),
+                { actor: being.actor },
+            );
+            armor.initialize();
+            armor.evaluate();
+            expect(being.carriedWeight.effective).toBe(0);
+        });
+
+        it("counts carried-but-not-worn armor weight normally (#1009)", () => {
+            const being = makeBeing();
+            being.initialize();
+            const armor = makeItemLogic(
+                ArmorGearLogic,
+                ITEM_KIND.ARMORGEAR,
+                armorFields({ weightBase: 8, isCarried: true, isWorn: false }),
+                { actor: being.actor },
+            );
+            armor.initialize();
+            armor.evaluate();
+            expect(being.carriedWeight.effective).toBe(8);
         });
     });
 

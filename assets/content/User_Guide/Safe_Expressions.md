@@ -351,6 +351,25 @@ hasUsableSkill(actorLogic, "dge")                       // actor knows Dodge?
 hasUsableSkill(itemLogic.actorLogic, "dge")             // from an item context
 ```
 
+# The expression editor
+
+Some formula fields provide an **edit button** (a `</>` icon) beside the input.
+Clicking it opens the **expression editor** — a larger, code-style window that
+makes writing an expression far easier than the single-line field:
+
+- A roomy **monospace editor** for the expression, with space to read a long
+  formula across multiple lines.
+- **Live validation** checks what you've written against the Safe Expression
+  language on every keystroke and reports the result just below the editor. The
+  **Save** button stays disabled while the expression is invalid, so you can't
+  commit a broken one.
+- A **helper palette** lists every available [helper function](#helper-functions);
+  click one to insert it at the cursor.
+
+**Save** writes the expression back to the field, **Clear** empties it, and
+**Cancel** discards your changes. Fields without an edit button are still edited
+inline in the text box, and are validated the same way the moment you save.
+
 # Developing an expression
 
 A repeatable way to write one that works the first time.
