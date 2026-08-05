@@ -76,6 +76,19 @@ Two ship, both twelve 30-day months on a 10-day week (360-day year, four seasons
 
 The **Vylarian Reckoning** (`vylrec`) — the reckoning of the world of Thalorna — is the default active calendar; its months are what the Astrokýklos birthsign sign windows read as. All names are localization keys.
 
+### Authoring birth dates in content
+
+A being's `birthDate` (a world-time integer in seconds — the anchor birthsign astrology derives from, #1018) is authored in character content as a calendar date, not a raw timestamp. The content build maps it (#1039):
+
+- **Authoring.** A character's YAML frontmatter carries `traits.birthday: Y/M/D` (era-year / month / day, e.g. `686/4/2`), alongside `traits.age`. Absent ⇒ no birthday ⇒ `birthDate` stays `null` (most creatures).
+- **Birth calendar.** An optional `social.calendar` names the calendar the date is expressed in (its `shortcode`, e.g. `vylrec`). When omitted, the build uses the default calendar (`DEFAULT_CALENDAR_SHORTCODE`, currently `vylrec`). An unknown shortcode fails the build.
+- **Conversion.** `utils/packs/calendars.mjs` reads the shipped `calendars/*.json` (the same data the runtime registers) to resolve the calendar `config`; the Foundry-free `src/utils/calendar-birthdate.mjs` then converts `Y/M/D` to seconds, mirroring Foundry's `CalendarData.componentsToTime`. That helper is a pure module (no Foundry, no `fs`), so it is unit-tested in Node against the calendar JSON.
+
+Two design points settled here:
+
+- **Stored value is calendar-agnostic; the birth calendar only interprets the authored date.** `birthDate` is a plain world-time integer. The birth calendar is used **once, at build time**, to turn the authored components into that integer; the birthsign derivation then reads the **active** calendar at runtime (the existing #1018 behavior), never the birth calendar. Because the shipped calendars share an identical structure (both 12 × 30-day months), a date authored in one and run under the other yields the same numeric `birthDate` and the same sign; only differently-structured calendars would reinterpret month/day.
+- **`traits.age` is independent.** Age is left as authored free-standing content; the build neither derives it from `traits.birthday` nor validates it against the birthday. (Deriving a live age would require a campaign "current date" the packs do not carry.)
+
 ## Calendar registry and GM workflow
 
 SoHL keeps a registry of calendars keyed by ID. `SohlSystem.registerCalendar(id, registration)` adds one; `applyCalendar(id)` makes it the active one by writing into `CONFIG.time.*`. The registry distinguishes **built-in** calendars (cannot be deleted) from **imported** ones (can be).
