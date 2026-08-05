@@ -16,124 +16,112 @@
  * a live world: a being with a birth date plus a birthsign Affiliation (its
  * `society` naming a tradition, its `astrologicalExpression` deriving the
  * modifiers) produces a per-skill `BSMod` mastery-level delta. Exercises the
- * built-in "Wheel of the Year" tradition, whose Dawnsign (months 1–3) confers
- * `subtype:combat` +5.
+ * built-in **Astrokýklos** tradition — its Arnos sign (Springtide window) confers
+ * earth +15 (→ `subtype:nature`) and fire −5 (→ `subtype:combat`); its Bourax
+ * sign (Blossomreach window) has no fire element (→ no `subtype:combat` delta).
  */
 describe("birthsign astrology — derived BSMod skill delta (#1018)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
 
-    // A birth date safely inside Dawnsign (day 15 of the 360-day year), away
-    // from any cusp boundary — worldTime is seconds, one day is 86400s.
-    const DAWNSIGN_BIRTHDATE = 15 * 86400;
+    // worldTime is seconds; one day is 86400s; the Turning Wheel is 12×30 days,
+    // and worldTime N*86400 is day (N+1) of the year. Day 16 of Springtide falls
+    // in Arnos (window Springtide 4 → Blossomreach 3); day 15 of Blossomreach
+    // (day 45 of the year) falls in Bourax (window Blossomreach 4 → Greengold 2).
+    const ARNOS_BIRTHDATE = 15 * 86400; // Springtide day 16
+    const BOURAX_BIRTHDATE = 44 * 86400; // Blossomreach day 15
     const DEFAULT_EXPR = 'merge(astrologySettings(tradition, date), "max")';
 
-    it("adds a subtype:combat BSMod delta to a combat skill from the Dawnsign", () => {
-        cy.createActor("being", {
-            system: { birthDate: DAWNSIGN_BIRTHDATE },
-        }).as("being");
+    /** Add a birthsign affiliation + a skill to a fresh being, then prepare. */
+    function beingWithSkill(birthDate, skill, withAffiliation = true) {
+        cy.createActor("being", { system: { birthDate } }).as("being");
         cy.then(function () {
-            cy.createItemOn(this.being, "affiliation", {
-                name: "Wheel Astrology",
-                system: {
-                    society: "wheel-of-the-year",
-                    astrologicalExpression: DEFAULT_EXPR,
-                },
-            });
+            if (withAffiliation) {
+                cy.createItemOn(this.being, "affiliation", {
+                    name: "Astrokýklos",
+                    system: {
+                        society: "astrokyklos",
+                        astrologicalExpression: DEFAULT_EXPR,
+                    },
+                });
+            }
             cy.createItemOn(this.being, "skill", {
-                name: "Broadsword",
+                name: skill.name,
                 system: {
-                    shortcode: "bsw",
-                    subType: "combat",
+                    shortcode: skill.shortcode,
+                    subType: skill.subType,
                     skillBaseFormula: "5",
                     masteryLevelBase: 40,
                 },
             });
             cy.prepare(this.being);
+        });
+    }
+
+    /** Read a skill's mastery-level effective + BSMod delta value. */
+    function readSkill(shortcode) {
+        return cy.get("@being").then((being) =>
             cy.foundry((win) => {
-                const actor = win.game.actors.get(this.being.id ?? this.being);
+                const actor = win.game.actors.get(being.id ?? being);
                 const skill = actor.itemTypes.skill.find(
-                    (i) => i.system.shortcode === "bsw",
+                    (i) => i.system.shortcode === shortcode,
                 );
                 const ml = skill.logic.masteryLevel;
                 return {
                     effective: ml.effective,
-                    hasBsMod: ml.deltas.some((d) => d.abbrev === "BSMod"),
-                    bsModValue: ml.deltas.find((d) => d.abbrev === "BSMod")
-                        ?.value,
+                    bsMod:
+                        ml.deltas.find((d) => d.abbrev === "BSMod")?.value ??
+                        null,
                 };
-            }).then((r) => {
-                expect(r.hasBsMod, "combat skill has a BSMod delta").to.be.true;
-                expect(String(r.bsModValue)).to.eq("5");
-                expect(r.effective, "40 base + 5 BSMod").to.eq(45);
-            });
+            }),
+        );
+    }
+
+    it("adds a subtype:combat BSMod (−5, fire) to a combat skill under Arnos", () => {
+        beingWithSkill(ARNOS_BIRTHDATE, {
+            name: "Broadsword",
+            shortcode: "bsw",
+            subType: "combat",
+        });
+        readSkill("bsw").then((r) => {
+            expect(String(r.bsMod)).to.eq("-5");
+            expect(r.effective, "40 base − 5 BSMod").to.eq(35);
         });
     });
 
-    it("adds no BSMod delta to a skill the birthsign does not touch", () => {
-        cy.createActor("being", {
-            system: { birthDate: DAWNSIGN_BIRTHDATE },
-        }).as("being");
-        cy.then(function () {
-            cy.createItemOn(this.being, "affiliation", {
-                name: "Wheel Astrology",
-                system: {
-                    society: "wheel-of-the-year",
-                    astrologicalExpression: DEFAULT_EXPR,
-                },
-            });
-            cy.createItemOn(this.being, "skill", {
-                name: "Cooking",
-                system: {
-                    shortcode: "cook",
-                    subType: "craft",
-                    skillBaseFormula: "5",
-                    masteryLevelBase: 40,
-                },
-            });
-            cy.prepare(this.being);
-            cy.foundry((win) => {
-                const actor = win.game.actors.get(this.being.id ?? this.being);
-                const skill = actor.itemTypes.skill.find(
-                    (i) => i.system.shortcode === "cook",
-                );
-                const ml = skill.logic.masteryLevel;
-                return {
-                    effective: ml.effective,
-                    hasBsMod: ml.deltas.some((d) => d.abbrev === "BSMod"),
-                };
-            }).then((r) => {
-                expect(r.hasBsMod, "craft skill untouched by Dawnsign").to.be
-                    .false;
-                expect(r.effective).to.eq(40);
-            });
+    it("adds a subtype:nature BSMod (+15, earth) to a nature skill under Arnos", () => {
+        beingWithSkill(ARNOS_BIRTHDATE, {
+            name: "Tracking",
+            shortcode: "trk",
+            subType: "nature",
+        });
+        readSkill("trk").then((r) => {
+            expect(String(r.bsMod)).to.eq("15");
+            expect(r.effective, "40 base + 15 BSMod").to.eq(55);
         });
     });
 
-    it("derives nothing without a birthsign affiliation (plain marker only)", () => {
-        cy.createActor("being", {
-            system: { birthDate: DAWNSIGN_BIRTHDATE },
-        }).as("being");
-        cy.then(function () {
-            cy.createItemOn(this.being, "skill", {
-                name: "Broadsword",
-                system: {
-                    shortcode: "bsw",
-                    subType: "combat",
-                    skillBaseFormula: "5",
-                    masteryLevelBase: 40,
-                },
-            });
-            cy.prepare(this.being);
-            cy.foundry((win) => {
-                const actor = win.game.actors.get(this.being.id ?? this.being);
-                const skill = actor.itemTypes.skill.find(
-                    (i) => i.system.shortcode === "bsw",
-                );
-                return skill.logic.masteryLevel.effective;
-            }).then((effective) => {
-                expect(effective, "no affiliation → no BSMod").to.eq(40);
-            });
+    it("adds no BSMod to a combat skill under Bourax (no fire element)", () => {
+        beingWithSkill(BOURAX_BIRTHDATE, {
+            name: "Broadsword",
+            shortcode: "bsw",
+            subType: "combat",
+        });
+        readSkill("bsw").then((r) => {
+            expect(r.bsMod, "Bourax has no fire → no combat delta").to.be.null;
+            expect(r.effective).to.eq(40);
+        });
+    });
+
+    it("derives nothing without a birthsign affiliation", () => {
+        beingWithSkill(
+            ARNOS_BIRTHDATE,
+            { name: "Broadsword", shortcode: "bsw", subType: "combat" },
+            false,
+        );
+        readSkill("bsw").then((r) => {
+            expect(r.bsMod, "no affiliation → no BSMod").to.be.null;
+            expect(r.effective).to.eq(40);
         });
     });
 });

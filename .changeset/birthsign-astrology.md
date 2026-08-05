@@ -23,8 +23,8 @@ modifier (`BSMod`). Closes #1018 and its sub-issues #1021–#1028.
 (built-in defaults + per-world overrides), keyed by `society`, edited through a
 new **Astrology Traditions** settings menu (import/replace or clear from a
 validated JSON file). Each sign carries a date window, cusp width, and a map of
-skill-shortcode or `subtype:<skillSubType>` modifiers. The system ships one
-generic built-in tradition (the _Wheel of the Year_) to demonstrate the mechanic.
+skill-shortcode or `subtype:<skillSubType>` modifiers. The system ships the
+**Astrokýklos** — Thalorna's twelve-sign tradition — as its built-in default.
 
 **New `SafeExpression` helpers** — `astrologySign` / `astrologySettings` /
 `astrologySetting` (fed the resolved registry through a new context-injection

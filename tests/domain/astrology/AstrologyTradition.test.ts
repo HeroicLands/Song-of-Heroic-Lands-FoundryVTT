@@ -57,22 +57,26 @@ describe("astrology day arithmetic", () => {
 
 describe("signsForDate", () => {
     it("returns the single governing sign on an ordinary day", () => {
-        expect(signsForDate(TWO_SIGN, date(3, 15)).map((s) => s.shortcode)).toEqual(
-            ["alpha"],
-        );
-        expect(signsForDate(TWO_SIGN, date(9, 15)).map((s) => s.shortcode)).toEqual(
-            ["beta"],
-        );
+        expect(
+            signsForDate(TWO_SIGN, date(3, 15)).map((s) => s.shortcode),
+        ).toEqual(["alpha"]);
+        expect(
+            signsForDate(TWO_SIGN, date(9, 15)).map((s) => s.shortcode),
+        ).toEqual(["beta"]);
     });
 
     it("returns both signs on a cusp (within cuspDays of a shared boundary)", () => {
         // Alpha ends day 180 (6/30); Beta starts day 181 (7/1). cuspDays=2, so
         // 6/29 (179) and 7/2 (182) both fall under both signs.
         expect(
-            signsForDate(TWO_SIGN, date(6, 29)).map((s) => s.shortcode).sort(),
+            signsForDate(TWO_SIGN, date(6, 29))
+                .map((s) => s.shortcode)
+                .sort(),
         ).toEqual(["alpha", "beta"]);
         expect(
-            signsForDate(TWO_SIGN, date(7, 2)).map((s) => s.shortcode).sort(),
+            signsForDate(TWO_SIGN, date(7, 2))
+                .map((s) => s.shortcode)
+                .sort(),
         ).toEqual(["alpha", "beta"]);
     });
 
@@ -98,12 +102,12 @@ describe("signsForDate", () => {
                 },
             ],
         };
-        expect(signsForDate(wrap, date(12, 15)).map((s) => s.shortcode)).toEqual([
-            "wrapper",
-        ]);
-        expect(signsForDate(wrap, date(1, 20)).map((s) => s.shortcode)).toEqual([
-            "wrapper",
-        ]);
+        expect(
+            signsForDate(wrap, date(12, 15)).map((s) => s.shortcode),
+        ).toEqual(["wrapper"]);
+        expect(signsForDate(wrap, date(1, 20)).map((s) => s.shortcode)).toEqual(
+            ["wrapper"],
+        );
         expect(signsForDate(wrap, date(6, 15))).toEqual([]);
     });
 
@@ -113,12 +117,12 @@ describe("signsForDate", () => {
             label: "E",
             signs: TWO_SIGN.signs.map((s) => ({ ...s, cuspDays: 0 })),
         };
-        expect(signsForDate(exact, date(6, 30)).map((s) => s.shortcode)).toEqual([
-            "alpha",
-        ]);
-        expect(signsForDate(exact, date(7, 1)).map((s) => s.shortcode)).toEqual([
-            "beta",
-        ]);
+        expect(
+            signsForDate(exact, date(6, 30)).map((s) => s.shortcode),
+        ).toEqual(["alpha"]);
+        expect(signsForDate(exact, date(7, 1)).map((s) => s.shortcode)).toEqual(
+            ["beta"],
+        );
     });
 });
 
@@ -134,12 +138,13 @@ describe("signByShortcode", () => {
 });
 
 describe("builtinTraditions", () => {
-    it("ships the Wheel of the Year with four quarter-signs", () => {
+    it("ships the Astrokýklos with twelve signs", () => {
         const reg = builtinTraditions();
-        const tradition = reg["wheel-of-the-year"];
+        const tradition = reg["astrokyklos"];
         expect(tradition).toBeDefined();
-        expect(tradition.signs).toHaveLength(4);
+        expect(tradition.signs).toHaveLength(12);
         expect(tradition.source).toBe("builtin");
+        expect(tradition.signs.map((s) => s.shortcode)).toContain("arnos");
     });
 
     it("returns a fresh object each call (caller may mutate its copy)", () => {
@@ -150,15 +155,49 @@ describe("builtinTraditions", () => {
         expect(b["extra"]).toBeUndefined();
     });
 
-    it("every day of the default year is governed by at least one sign", () => {
-        const tradition = builtinTraditions()["wheel-of-the-year"];
+    it("every day of the year is governed by exactly one sign (exact tiling)", () => {
+        const tradition = builtinTraditions()["astrokyklos"];
         for (let m = 1; m <= 12; m++) {
             for (let d = 1; d <= 30; d++) {
                 expect(
                     signsForDate(tradition, date(m, d)).length,
                     `${m}/${d}`,
-                ).toBeGreaterThanOrEqual(1);
+                ).toBe(1);
             }
         }
+    });
+
+    it("maps Héx Hodäi elements to their skill subtypes (Arnos)", () => {
+        // Arnos: earth +15, metal +5, fire -5, air -15, spirit -5, water +5.
+        const arnos = builtinTraditions()["astrokyklos"].signs.find(
+            (s) => s.shortcode === "arnos",
+        )!;
+        expect(arnos.skillModifiers).toEqual({
+            "subtype:nature": 15, // earth
+            "subtype:script": 5, // metal
+            "subtype:craft": 5, // metal
+            "subtype:combattechnique": -5, // fire
+            "subtype:combat": -5, // fire
+            "subtype:physical": -15, // air
+            "subtype:mystical": -5, // spirit
+            "subtype:lore": -5, // spirit
+            "subtype:language": 5, // water
+            "subtype:social": 5, // water
+        });
+    });
+
+    it("omits zero-valued elements (Bourax has no fire or water)", () => {
+        // Bourax: earth +10, metal +10, fire 0, air -10, spirit -10, water 0.
+        const bourax = builtinTraditions()["astrokyklos"].signs.find(
+            (s) => s.shortcode === "bourax",
+        )!;
+        expect(bourax.skillModifiers).toEqual({
+            "subtype:nature": 10,
+            "subtype:script": 10,
+            "subtype:craft": 10,
+            "subtype:physical": -10,
+            "subtype:mystical": -10,
+            "subtype:lore": -10,
+        });
     });
 });

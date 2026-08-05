@@ -14,7 +14,7 @@
 /**
  * Astrology Traditions settings (#1023 / #1028) — the world-setting-backed
  * registry and its editor menu in a live world: the setting and menu are
- * registered, the built-in "Wheel of the Year" tradition resolves, a world
+ * registered, the built-in "Astrokýklos" tradition resolves, a world
  * tradition round-trips through the setting, and the editor renders the list.
  */
 describe("astrology traditions settings (#1023)", () => {
@@ -43,14 +43,19 @@ describe("astrology traditions settings (#1023)", () => {
         });
     });
 
-    it("resolves the shipped built-in Wheel of the Year tradition", () => {
+    it("resolves the shipped built-in Astrokýklos tradition", () => {
         cy.foundry((win) => {
             const reg = win.sohl.entity.astrology.builtinTraditions();
-            const t = reg["wheel-of-the-year"];
-            return { key: t?.key, signCount: t?.signs?.length };
+            const t = reg["astrokyklos"];
+            return {
+                key: t?.key,
+                signCount: t?.signs?.length,
+                firstSign: t?.signs?.[0]?.shortcode,
+            };
         }).then((r) => {
-            expect(r.key).to.eq("wheel-of-the-year");
-            expect(r.signCount).to.eq(4);
+            expect(r.key).to.eq("astrokyklos");
+            expect(r.signCount).to.eq(12);
+            expect(r.firstSign).to.eq("arnos");
         });
     });
 
@@ -96,7 +101,7 @@ describe("astrology traditions settings (#1023)", () => {
         // The rendered app lists the built-in tradition by its localized label.
         cy.get(".astrology-traditions", { timeout: 10000 }).should(
             "contain.text",
-            "Wheel of the Year",
+            "Astrokýklos",
         );
         cy.foundry((win) => {
             win.__astroMenu?.close();
