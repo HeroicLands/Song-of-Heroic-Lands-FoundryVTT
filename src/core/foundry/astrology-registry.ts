@@ -79,7 +79,9 @@ export interface AstrologyRegistry {
      * Validate and install a tradition set into the registry (built-in + module
      * layer). Invalid traditions/signs are skipped with reasons, never thrown; a
      * registered key replaces any earlier registration of the same key.
-     * @param raw - The parsed traditions object (key → tradition), e.g. a module's JSON.
+     * @param raw - The parsed tradition JSON: a single self-describing tradition
+     *   (its own `shortcode`, `label`, `signs`) or an array of them, e.g. a
+     *   module's tradition file. Each is keyed by its `shortcode`.
      * @param source - Provenance stamped on each tradition (default `"module"`).
      * @returns Which traditions installed and which were skipped.
      */

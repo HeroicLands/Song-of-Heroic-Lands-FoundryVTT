@@ -97,15 +97,90 @@ function validateSign(raw: unknown): AstrologySign | string {
     };
 }
 
+/** A raw tradition object as authored: self-describing via its own `shortcode`. */
+interface RawTradition {
+    /** The tradition's stable key, carried on the object itself. */
+    shortcode?: unknown;
+    /** The display label (may be a localization key). */
+    label?: unknown;
+    /** The raw signs comprising the tradition. */
+    signs?: unknown;
+}
+
 /**
- * Validate a raw, parsed traditions object (e.g. the shipped built-in data file,
- * a module's tradition JSON, a GM-imported file, or the persisted world setting)
- * into a clean {@link AstrologyTraditions} map, collecting a reason for every
- * entry it skips rather than throwing — so one bad tradition or sign never blocks
- * the rest. Each accepted tradition is tagged with `source` and keyed by its
- * object key; each sign is normalized (defaulted `label`/`cuspDays`,
- * numeric-coerced modifiers).
- * @param raw - The parsed object mapping tradition key → tradition.
+ * Validate one **self-describing** raw tradition — an object carrying its own
+ * `shortcode` (its stable key), a `label`, and a `signs` array — into a clean
+ * {@link AstrologyTradition}. Appends a reason to `skipped` (under the tradition's
+ * `shortcode`, or `fallbackKey` before one is known) and returns `undefined` on
+ * any failure rather than throwing. Signs are validated individually: a malformed
+ * sign is skipped by index while the rest are kept, and a tradition with no valid
+ * signs is dropped.
+ * @param raw - The raw tradition object.
+ * @param fallbackKey - The key to record a skip under before the `shortcode` is read.
+ * @param source - Provenance to stamp on the accepted tradition.
+ * @param skipped - The skip-list to append reasons to.
+ * @returns The validated tradition, or `undefined` when it is dropped.
+ */
+function validateTradition(
+    raw: unknown,
+    fallbackKey: string,
+    source: NonNullable<AstrologyTradition["source"]>,
+    skipped: SkippedEntry[],
+): AstrologyTradition | undefined {
+    if (!raw || typeof raw !== "object") {
+        skipped.push({
+            key: fallbackKey,
+            reason: "tradition is not an object",
+        });
+        return undefined;
+    }
+    const v = raw as RawTradition;
+    if (typeof v.shortcode !== "string" || !v.shortcode.trim()) {
+        skipped.push({
+            key: fallbackKey,
+            reason: "tradition is missing a string shortcode",
+        });
+        return undefined;
+    }
+    const key = v.shortcode;
+    if (!Array.isArray(v.signs)) {
+        skipped.push({ key, reason: "tradition has no signs array" });
+        return undefined;
+    }
+    const signs: AstrologySign[] = [];
+    v.signs.forEach((rawSign, i) => {
+        const result = validateSign(rawSign);
+        if (typeof result === "string") {
+            skipped.push({ key: `${key}.signs[${i}]`, reason: result });
+        } else {
+            signs.push(result);
+        }
+    });
+    if (!signs.length) {
+        skipped.push({ key, reason: "tradition has no valid signs" });
+        return undefined;
+    }
+    return {
+        key,
+        label: typeof v.label === "string" ? v.label : key,
+        signs,
+        source,
+    };
+}
+
+/**
+ * Validate raw, parsed astrology-tradition data (the shipped built-in data file,
+ * a module's tradition JSON, or a GM-imported file) into a clean
+ * {@link AstrologyTraditions} map, collecting a reason for every entry it skips
+ * rather than throwing — so one bad tradition or sign never blocks the rest. Each
+ * accepted tradition is keyed by its own `shortcode` and tagged with `source`;
+ * each sign is normalized (defaulted `label`/`cuspDays`, numeric-coerced modifiers).
+ *
+ * Each tradition is **self-describing** — it carries its own `shortcode`, `label`,
+ * and `signs` (the shipped `astrokyklos.json` shape). `raw` may be a **single**
+ * such tradition object or an **array** of them; either way the result is keyed by
+ * each tradition's `shortcode`.
+ * @param raw - The parsed tradition data (a single self-describing tradition, or an array).
  * @param source - Provenance to stamp on each accepted tradition (default `"world"`).
  * @returns The validated traditions and the list of skipped entries.
  */
@@ -115,38 +190,19 @@ export function validateTraditions(
 ): ValidateTraditionsResult {
     const traditions: AstrologyTraditions = {};
     const skipped: SkippedEntry[] = [];
+    const add = (tradition: AstrologyTradition | undefined): void => {
+        if (tradition) traditions[tradition.key] = tradition;
+    };
+
+    if (Array.isArray(raw)) {
+        raw.forEach((entry, i) => {
+            add(validateTradition(entry, `[${i}]`, source, skipped));
+        });
+        return { traditions, skipped };
+    }
     if (!raw || typeof raw !== "object") {
         return { traditions, skipped };
     }
-    for (const [key, value] of Object.entries(raw as Record<string, unknown>)) {
-        if (!value || typeof value !== "object") {
-            skipped.push({ key, reason: "tradition is not an object" });
-            continue;
-        }
-        const v = value as Partial<AstrologyTradition>;
-        if (!Array.isArray(v.signs)) {
-            skipped.push({ key, reason: "tradition has no signs array" });
-            continue;
-        }
-        const signs: AstrologySign[] = [];
-        v.signs.forEach((rawSign, i) => {
-            const result = validateSign(rawSign);
-            if (typeof result === "string") {
-                skipped.push({ key: `${key}.signs[${i}]`, reason: result });
-            } else {
-                signs.push(result);
-            }
-        });
-        if (!signs.length) {
-            skipped.push({ key, reason: "tradition has no valid signs" });
-            continue;
-        }
-        traditions[key] = {
-            key,
-            label: typeof v.label === "string" ? v.label : key,
-            signs,
-            source,
-        };
-    }
+    add(validateTradition(raw, "tradition", source, skipped));
     return { traditions, skipped };
 }

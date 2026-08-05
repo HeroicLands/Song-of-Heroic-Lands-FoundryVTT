@@ -130,9 +130,17 @@ Hooks.once("init", async () => {
 });
 ```
 
-Each tradition is keyed by an Affiliation `society`, so a birthsign Affiliation
-picks the tradition to interpret its member's birth date through. The registry
-resolves three layers — the shipped **built-in** (Astrokýklos), any
+A tradition file is a **self-describing** object carrying its own `shortcode`,
+`label`, and `signs` (the shape shipped in `astrokyklos.json`); `register` accepts
+one such tradition or an **array** of them, keying each by its `shortcode`:
+
+```json
+{ "shortcode": "my-tradition", "label": "…", "signs": [ … ] }
+```
+
+Each tradition's `shortcode` matches an Affiliation `society`, so a birthsign
+Affiliation picks the tradition to interpret its member's birth date through. The
+registry resolves three layers — the shipped **built-in** (Astrokýklos), any
 **module**-registered traditions, and the GM's **world** overrides (world wins).
 `register(json, source?)` validates the JSON (skipping malformed entries with
 reasons, never throwing); `unregister(key)` removes one; `all()` returns the

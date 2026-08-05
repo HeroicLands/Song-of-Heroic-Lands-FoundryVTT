@@ -33,11 +33,21 @@ import astrokyklosData from "./astrokyklos.json";
  */
 
 /**
+ * The **raw, self-describing** built-in tradition data as authored in
+ * `astrokyklos.json` (a single tradition object carrying its own `shortcode`,
+ * `label`, and `signs`) — before validation. This is the source of truth the
+ * system seeds into the registry at init (`register(builtinTraditionsData,
+ * "builtin")`), which validates it once. Use {@link builtinTraditions} when a
+ * validated {@link AstrologyTraditions} map is wanted instead.
+ */
+export const builtinTraditionsData: unknown = astrokyklosData;
+
+/**
  * The shipped built-in traditions, validated from the data file and tagged
  * `source: "builtin"`. Returned as a fresh object per call so callers may freely
  * mutate their copy.
  * @returns A map of built-in tradition key → tradition.
  */
 export function builtinTraditions(): AstrologyTraditions {
-    return validateTraditions(astrokyklosData, "builtin").traditions;
+    return validateTraditions(builtinTraditionsData, "builtin").traditions;
 }

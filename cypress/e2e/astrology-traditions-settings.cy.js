@@ -64,18 +64,17 @@ describe("astrology traditions settings (#1023)", () => {
         cy.foundry((win) => {
             const result = win.sohl.astrologyRegistry.register(
                 {
-                    modtrad: {
-                        label: "Module Tradition",
-                        signs: [
-                            {
-                                shortcode: "msign",
-                                start: { month: 1, day: 1 },
-                                end: { month: 12, day: 30 },
-                                cuspDays: 0,
-                                skillModifiers: { "subtype:combat": 3 },
-                            },
-                        ],
-                    },
+                    shortcode: "modtrad",
+                    label: "Module Tradition",
+                    signs: [
+                        {
+                            shortcode: "msign",
+                            start: { month: 1, day: 1 },
+                            end: { month: 12, day: 30 },
+                            cuspDays: 0,
+                            skillModifiers: { "subtype:combat": 3 },
+                        },
+                    ],
                 },
                 "module",
             );
@@ -98,18 +97,17 @@ describe("astrology traditions settings (#1023)", () => {
     it("round-trips a world tradition through the setting and overrides in the registry", () => {
         cy.foundry((win) => {
             const raw = {
-                arc: {
-                    label: "Arcane",
-                    signs: [
-                        {
-                            shortcode: "alpha",
-                            start: { month: 1, day: 1 },
-                            end: { month: 6, day: 30 },
-                            cuspDays: 2,
-                            skillModifiers: { pel: 15, "subtype:combat": 5 },
-                        },
-                    ],
-                },
+                shortcode: "arc",
+                label: "Arcane",
+                signs: [
+                    {
+                        shortcode: "alpha",
+                        start: { month: 1, day: 1 },
+                        end: { month: 6, day: 30 },
+                        cuspDays: 2,
+                        skillModifiers: { pel: 15, "subtype:combat": 5 },
+                    },
+                ],
             };
             const { traditions } =
                 win.sohl.entity.astrology.validateTraditions(raw);
