@@ -32,7 +32,7 @@ technique**. A single instrument of attack rarely does just one thing: a sword c
 **pommel** (blunt) — three separate ways of attacking, and so three separate
 strike modes on the same weapon. A spear can be **Thrust** in the hand or
 **Thrown**; a war-axe can **Chop** in melee or be **Hurled** as a missile. A
-**[[Gear|weapon]]** therefore carries **one or more** strike modes, and the
+**[[rules/sohl-gear|weapon]]** therefore carries **one or more** strike modes, and the
 wielder chooses which mode to use for a given attack.
 
 Each mode is a distinct attack with its **own properties** — a different
@@ -101,7 +101,7 @@ properties, it has:
 
 - **Projectile type** — the ammunition it consumes (arrow, bolt, bullet, dart),
   or **none** when the weapon itself is the missile (a thrown spear or axe). A
-  weapon that fires ammunition draws matching **[[Gear|projectiles]]**, and the
+  weapon that fires ammunition draws matching **[[rules/sohl-gear|projectiles]]**, and the
   projectile's impact combines with the strike mode's to determine the blow.
 - **Range** — the base distance the attack can reach before range penalties apply.
 - **Draw** — the time needed to ready, nock, or reload before the mode can fire.
