@@ -58,3 +58,27 @@ The Cohort sheet has these tabs:
 <!-- TODO: Document each field on the Properties tab of this type's sheet:
      what it means, what values to enter, and how it interacts with other
      fields and items. Include annotated screenshots. -->
+
+# Intrinsic Actions
+
+A Cohort defines no actions of its own. It carries only the actions every actor
+shares:
+
+| Action              | Shortcode           |
+| ------------------- | ------------------- |
+| Edit                | `editDocument`      |
+| Delete              | `deleteDocument`    |
+| Make Default Medium | `makeDefaultMedium` |
+
+All three belong to every actor and are described on [[Item_Base|Base Item]],
+which covers what each one does, how it is invoked, and what it produces — the
+shared document actions are the same wherever they appear.
+
+**Make Default Medium** picks which movement medium an actor is currently moving
+in, and it is driven by the star control in the movement table on a
+[[Actor_Being|Being]]'s **Profile** tab. The Cohort sheet has no movement table,
+so a cohort inherits the action without offering a control for it.
+
+The Beings listed on the **Members** tab keep their own actions on their own
+sheets; running an action on the cohort never rolls for a member, and running one
+on a member never speaks for the group.

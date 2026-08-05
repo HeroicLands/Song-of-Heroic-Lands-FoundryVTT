@@ -42,3 +42,23 @@ In addition to the [[Item_Gear|Standard Gear Properties]], the following additio
 <!-- TODO: Document each field on the Properties tab of this type's sheet:
      what it means, what values to enter, and how it interacts with other
      fields and items. Include annotated screenshots. -->
+
+# Intrinsic Actions
+
+A concoction defines no actions of its own. Everything you can run against one
+is a standard action it already inherits:
+
+| Action                     | Shortcode           |
+| -------------------------- | ------------------- |
+| Edit                       | `editDocument`      |
+| Delete                     | `deleteDocument`    |
+| Output Description to Chat | `outputDescription` |
+| Toggle Carried             | `toggleCarried`     |
+
+The first three belong to every item and are described on [[Item_Base|Base Item]];
+**Toggle Carried** belongs to every piece of gear and is described on
+[[Item_Gear|Gear]]. Those pages cover what each one does, how it is invoked, and
+what it produces — none of it changes for a concoction.
+In particular there is no "use" action: drinking, applying, or administering a
+concoction stays a table decision, so you adjust its **Quantity** and apply its
+effect yourself.

@@ -33,3 +33,23 @@ In addition to the [[Item_Gear|Standard Gear Properties]], the following additio
 <!-- TODO: Expand with details on how container capacity is enforced,
      how nested containers affect encumbrance calculations, and
      accessing items from containers during combat -->
+
+# Intrinsic Actions
+
+A container defines no actions of its own. Everything you can run against one
+is a standard action it already inherits:
+
+| Action                     | Shortcode           |
+| -------------------------- | ------------------- |
+| Edit                       | `editDocument`      |
+| Delete                     | `deleteDocument`    |
+| Output Description to Chat | `outputDescription` |
+| Toggle Carried             | `toggleCarried`     |
+
+The first three belong to every item and are described on [[Item_Base|Base Item]];
+**Toggle Carried** belongs to every piece of gear and is described on
+[[Item_Gear|Gear]]. Those pages cover what each one does, how it is invoked, and
+what it produces — none of it changes for a container.
+Everything else about a container — its capacity, and what is nested inside it —
+is set on the sheet or by dragging gear onto the container, not by running an
+action.

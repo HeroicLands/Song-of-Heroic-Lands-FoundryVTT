@@ -37,3 +37,23 @@ In addition to the [[Item_Gear|Standard Gear Properties]], the following additio
         - **Modifier:** The modifier value.
     - **Aspect:** Overrides the missile strike mode impact. (note that there are such things as blunt arrows and such, so this is in fact important to specify.)
 - **Traits:** Various traits for the projectile weapon.
+
+# Intrinsic Actions
+
+A projectile defines no actions of its own. Everything you can run against one is
+a standard action it already inherits:
+
+| Action                     | Shortcode           |
+| -------------------------- | ------------------- |
+| Edit                       | `editDocument`      |
+| Delete                     | `deleteDocument`    |
+| Output Description to Chat | `outputDescription` |
+| Toggle Carried             | `toggleCarried`     |
+
+The first three belong to every item and are described on [[Item_Base|Base Item]];
+**Toggle Carried** belongs to every piece of gear and is described on
+[[Item_Gear|Gear]]. Those pages cover what each one does, how it is invoked, and
+what it produces — none of it changes for a projectile.
+Shooting one is not an action on the projectile itself: you attack with the ranged
+weapon, whose Missile Strike Mode names the ammunition it uses — see
+[[Item_Weapongear|Weapon]].
