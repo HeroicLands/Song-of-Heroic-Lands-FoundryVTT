@@ -122,6 +122,34 @@ describe("SohlActiveEffect.targets", () => {
         expect(eff.targets).toEqual([sk1]);
     });
 
+    it("birthsign carrier: scope skill + subType predicate → skills of that subType", () => {
+        // A birthsign is authored as a Mystery(OTHER) carrying skill Active
+        // Effects; each effect scopes to the `skill` item kind and gates on the
+        // skill's subType, e.g. `itemLogic.data.subType === "combat"`. Only the
+        // matching skills become targets (the delta then lands on each one's
+        // masteryLevel — see SohlActiveEffectApply.test.ts).
+        const combatSkill = makeItem(
+            ITEM_KIND.SKILL,
+            "s1",
+            {},
+            { data: { subType: "combat" } },
+        );
+        const natureSkill = makeItem(
+            ITEM_KIND.SKILL,
+            "s2",
+            {},
+            { data: { subType: "nature" } },
+        );
+        const actor = makeActorWithItems([combatSkill, natureSkill]);
+        const eff = makeEffect({
+            scope: ITEM_KIND.SKILL,
+            test: 'itemLogic.data.subType === "combat"',
+            parent: actor,
+            actor,
+        });
+        expect(eff.targets).toEqual([combatSkill]);
+    });
+
     it("malformed predicate yields empty matches (compile-time failure)", () => {
         const sk1 = makeItem(ITEM_KIND.SKILL, "s1");
         const actor = makeActorWithItems([sk1]);

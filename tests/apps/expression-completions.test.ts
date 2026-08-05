@@ -25,28 +25,22 @@ function ctx(text: string, explicit = false): any {
 
 describe("makeExpressionCompletionSource", () => {
     it("offers registered helper functions, inserted with call parens", () => {
-        const result = makeExpressionCompletionSource([])(ctx("birth"));
+        const result = makeExpressionCompletionSource([])(ctx("skill"));
         expect(result).not.toBeNull();
         const sb = result!.options.find((o) => o.label === "sb");
-        const astrologySign = result!.options.find(
-            (o) => o.label === "astrologySign",
-        );
         expect(sb).toBeDefined();
         expect(sb!.type).toBe("function");
         expect((sb as any).apply).toBe("sb()");
-        expect(astrologySign).toBeDefined();
     });
 
     it("offers the field's context identifiers as variables", () => {
-        const result = makeExpressionCompletionSource(["attr", "birthsigns"])(
+        const result = makeExpressionCompletionSource(["attr", "custom"])(
             ctx("a"),
         );
         const attr = result!.options.find((o) => o.label === "attr");
         expect(attr).toBeDefined();
         expect(attr!.type).toBe("variable");
-        expect(
-            result!.options.find((o) => o.label === "birthsigns"),
-        ).toBeDefined();
+        expect(result!.options.find((o) => o.label === "custom")).toBeDefined();
     });
 
     it("anchors completions at the start of the typed word", () => {

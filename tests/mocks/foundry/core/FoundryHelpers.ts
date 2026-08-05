@@ -7,7 +7,6 @@
  */
 
 import { setUuidResolver } from "@src/utils/helpers";
-import * as astrology from "@src/entity/astrology";
 
 // ---------------------------------------------------------------------------
 // Dialog types (re-exported for consumers)
@@ -128,20 +127,6 @@ export function fvttWorldTime(): number {
 }
 
 export function fvttGetSetting(_module: string, _key: string): unknown {
-    return undefined;
-}
-
-// The astrology traditions registry and birth-date conversion — the Foundry
-// boundary the astrology producer crosses. Default to the built-in traditions
-// and "no calendar" (undefined date); spy per-test to inject a tradition or a
-// concrete { month, day, monthLengths } birth date.
-export function fvttAstrologyTraditions(): astrology.AstrologyTraditions {
-    return astrology.builtinTraditions();
-}
-
-export function fvttBirthDateToAstrologyDate(
-    _worldTime: number,
-): astrology.AstrologyDate | undefined {
     return undefined;
 }
 

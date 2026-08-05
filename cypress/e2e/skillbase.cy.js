@@ -17,10 +17,10 @@
  *
  * Tests the full surface: `sb(attr.a, attr.b)` two-attribute averaging with the
  * round-up/down tiebreak rule, 3+-attribute nearest rounding, flat numeric
- * modifiers written into the expression, `birthsignBonus(birthsigns, …)` bonuses
- * (now stacking), and the dependency contract when a referenced attribute is
- * absent (→ 0). Uses a mix of the Basic Folk compendium actor (for the "all real
- * skills at once" case) and synthetic actors (for isolated formula variants).
+ * modifiers written into the expression, and the dependency contract when a
+ * referenced attribute is absent (→ 0). Uses a mix of the Basic Folk compendium
+ * actor (for the "all real skills at once" case) and synthetic actors (for
+ * isolated formula variants).
  */
 describe("skillbase calculation contract", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
@@ -157,109 +157,6 @@ describe("skillbase calculation contract", () => {
             ],
             "sb(attr.a, attr.b) - 3",
         ).should("eq", 7); // floor(10) - 3 = 7
-    });
-
-    it("birthsign term — single birthsign mystery whose shortcode matches adds 1", () => {
-        cy.createActor("being", { name: "Birthsign Being" }).then((actor) => {
-            // Create attributes first so they initialize before the skill.
-            cy.createItemsOn(actor, [
-                {
-                    kind: "attribute",
-                    name: "A",
-                    system: { shortcode: "a", scoreBase: 10 },
-                },
-                {
-                    kind: "attribute",
-                    name: "B",
-                    system: { shortcode: "b", scoreBase: 10 },
-                },
-            ]).then(() =>
-                cy
-                    .createItemOn(actor, "mystery", {
-                        name: "Heron Birthsign",
-                        system: { shortcode: "heron", subType: "birthsign" },
-                    })
-                    .then(() =>
-                        cy
-                            .createItemOn(actor, "skill", {
-                                name: "Born Skill",
-                                system: {
-                                    skillBaseFormula:
-                                        "sb(attr.a, attr.b) + birthsignBonus(birthsigns, 'heron', 1)",
-                                },
-                            })
-                            .then(() => {
-                                cy.prepare(actor);
-                                cy.foundry((win) => {
-                                    const a = win.game.actors.get(actor.id);
-                                    const sk = a.items.find(
-                                        (i) => i.type === "skill",
-                                    );
-                                    return sk.logic.skillBase;
-                                }).should("eq", 11); // floor(10) + 1 = 11
-                            }),
-                    ),
-            );
-        });
-    });
-
-    it("birthsign term — two matching birthsign mysteries stack (#972)", () => {
-        cy.createActor("being", { name: "Multi-Sign Being" }).then((actor) => {
-            // Create attributes first so they initialize before the skill.
-            cy.createItemsOn(actor, [
-                {
-                    kind: "attribute",
-                    name: "A",
-                    system: { shortcode: "a", scoreBase: 10 },
-                },
-                {
-                    kind: "attribute",
-                    name: "B",
-                    system: { shortcode: "b", scoreBase: 10 },
-                },
-            ]).then(() =>
-                cy
-                    .createItemsOn(actor, [
-                        {
-                            kind: "mystery",
-                            name: "Heron Birthsign",
-                            system: {
-                                shortcode: "heron",
-                                subType: "birthsign",
-                            },
-                        },
-                        {
-                            kind: "mystery",
-                            name: "Dragon Birthsign",
-                            system: {
-                                shortcode: "dragon",
-                                subType: "birthsign",
-                            },
-                        },
-                    ])
-                    .then(() =>
-                        cy
-                            .createItemOn(actor, "skill", {
-                                name: "Dual-Sign Skill",
-                                // heron:2 and dragon:3 now STACK → +2 +3 = +5
-                                system: {
-                                    skillBaseFormula:
-                                        "sb(attr.a, attr.b) + birthsignBonus(birthsigns, 'heron', 2) + birthsignBonus(birthsigns, 'dragon', 3)",
-                                },
-                            })
-                            .then(() => {
-                                cy.prepare(actor);
-                                cy.foundry((win) => {
-                                    const a = win.game.actors.get(actor.id);
-                                    const sk = a.items.find(
-                                        (i) => i.type === "skill",
-                                    );
-                                    return sk.logic.skillBase;
-                                }).should("eq", 15); // floor(10) + 2 + 3 = 15
-                            }),
-                    ),
-            );
-        });
     });
 
     it("missing attribute — absent attr contributes 0, lowering skillBase", () => {

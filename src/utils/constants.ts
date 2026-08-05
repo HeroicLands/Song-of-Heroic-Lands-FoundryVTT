@@ -567,7 +567,6 @@ export const {
     OFFHAND: "OffHnd",
     OUTNUMBERED: "Outn",
     PLAYER: "SitMod",
-    BSMOD: "BSMod",
 });
 /** Union of all value-delta info-flag shortcodes. */
 export type ValueDeltaInfo =

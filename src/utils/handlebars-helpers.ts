@@ -94,7 +94,7 @@ export const EXPRESSION_FIELD_PARTIAL_NAME = "expressionField";
  * - `name` (required) — the form/update field path (e.g. `"system.skillBaseFormula"`).
  * - `value` — the current expression source.
  * - `context` — optional comma-separated context-identifier names the field's
- *   call site binds (e.g. `"attr,birthsigns"`), forwarded to the editor's
+ *   call site binds (e.g. `"attr"`), forwarded to the editor's
  *   autocomplete via `data-context`.
  */
 export const EXPRESSION_FIELD_PARTIAL = `<div class="expression-field">

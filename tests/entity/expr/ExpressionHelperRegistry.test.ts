@@ -355,9 +355,9 @@ describe("ExpressionHelperRegistry", () => {
             );
         });
 
-        it("folds several dict-lists together when variadic (#1036)", () => {
-            // merge(listA, listB, combiner) concatenates the leading lists, so a
-            // solar list and a cyclic list fold into one BSMod result.
+        it("folds several dict-lists together when variadic", () => {
+            // merge(listA, listB, combiner) concatenates the leading lists, so
+            // multiple modifier lists fold into one result.
             const variadic = STANDARD_HELPERS.merge as (
                 ...args: unknown[]
             ) => PlainObject;
@@ -368,155 +368,6 @@ describe("ExpressionHelperRegistry", () => {
             expect(variadic([{ a: 1 }], null, [{ a: 4 }], "sum")).toEqual({
                 a: 5,
             });
-        });
-    });
-
-    describe("astrology helpers (#1024)", () => {
-        const TRADITIONS = {
-            t: {
-                key: "t",
-                label: "T",
-                signs: [
-                    {
-                        shortcode: "alpha",
-                        label: "Alpha",
-                        start: { month: 1, day: 1 },
-                        end: { month: 6, day: 30 },
-                        cuspDays: 0,
-                        skillModifiers: { aaa: 15, "subtype:combat": 5 },
-                    },
-                    {
-                        shortcode: "beta",
-                        label: "Beta",
-                        start: { month: 7, day: 1 },
-                        end: { month: 12, day: 30 },
-                        cuspDays: 0,
-                        skillModifiers: { aaa: -15 },
-                    },
-                ],
-            },
-        };
-        const MONTHS_30 = Array(12).fill(30);
-        const dateOf = (month: number, day: number) => ({
-            month,
-            day,
-            monthLengths: MONTHS_30,
-        });
-
-        const sign = () =>
-            STANDARD_HELPERS.astrologySign as (
-                traditions: unknown,
-                t: unknown,
-                d: unknown,
-            ) => string[];
-        const settings = () =>
-            STANDARD_HELPERS.astrologySettings as (
-                traditions: unknown,
-                t: unknown,
-                d: unknown,
-            ) => PlainObject[];
-        const setting = () =>
-            STANDARD_HELPERS.astrologySetting as (
-                traditions: unknown,
-                t: unknown,
-                s: unknown,
-            ) => PlainObject;
-
-        it("astrologySign derives sign shortcodes from a date", () => {
-            expect(sign()(TRADITIONS, "t", dateOf(3, 15))).toEqual(["alpha"]);
-            expect(sign()(TRADITIONS, "t", dateOf(9, 15))).toEqual(["beta"]);
-        });
-
-        it("astrologySettings returns one modifier dict per governing sign", () => {
-            expect(settings()(TRADITIONS, "t", dateOf(3, 15))).toEqual([
-                { aaa: 15, "subtype:combat": 5 },
-            ]);
-        });
-
-        it("astrologySetting resolves an explicit sign's modifiers", () => {
-            expect(setting()(TRADITIONS, "t", "beta")).toEqual({ aaa: -15 });
-        });
-
-        it("degrade to empty when the tradition or sign is absent", () => {
-            expect(sign()(TRADITIONS, "missing", dateOf(3, 15))).toEqual([]);
-            expect(settings()(undefined, "t", dateOf(3, 15))).toEqual([]);
-            expect(setting()(TRADITIONS, "t", "gamma")).toEqual({});
-        });
-    });
-
-    describe("year-cycle helpers (#1036)", () => {
-        const TRADITIONS = {
-            t: {
-                key: "t",
-                label: "T",
-                signs: [],
-                cycles: [
-                    {
-                        shortcode: "animal",
-                        label: "Animal",
-                        cycleLength: 12,
-                        epochYear: 0,
-                        positions: Array.from({ length: 12 }, (_, i) => ({
-                            shortcode: `a${i}`,
-                            label: `A${i}`,
-                            skillModifiers: { [`s${i}`]: i },
-                        })),
-                    },
-                    {
-                        shortcode: "element",
-                        label: "Element",
-                        cycleLength: 3,
-                        epochYear: 700,
-                        positions: [
-                            { shortcode: "fire", skillModifiers: { hot: 5 } },
-                            { shortcode: "water", skillModifiers: { wet: 5 } },
-                            { shortcode: "air", skillModifiers: { dry: 5 } },
-                        ],
-                    },
-                ],
-            },
-        };
-
-        const yearSign = () =>
-            STANDARD_HELPERS.astrologyYearSign as (
-                traditions: unknown,
-                t: unknown,
-                y: unknown,
-            ) => string[];
-        const yearSettings = () =>
-            STANDARD_HELPERS.astrologyYearSettings as (
-                traditions: unknown,
-                t: unknown,
-                y: unknown,
-            ) => PlainObject[];
-        const yearInCycle = () =>
-            STANDARD_HELPERS.yearInCycle as (
-                y: unknown,
-                len: unknown,
-                epoch?: unknown,
-            ) => number;
-
-        it("astrologyYearSign derives one position shortcode per cycle", () => {
-            // year 701 → animal index 5 (a5) + element index 1 (water).
-            expect(yearSign()(TRADITIONS, "t", 701)).toEqual(["a5", "water"]);
-        });
-
-        it("astrologyYearSettings returns one modifier dict per cycle position", () => {
-            expect(yearSettings()(TRADITIONS, "t", 701)).toEqual([
-                { s5: 5 },
-                { wet: 5 },
-            ]);
-        });
-
-        it("degrades to empty when the tradition is absent", () => {
-            expect(yearSign()(TRADITIONS, "missing", 701)).toEqual([]);
-            expect(yearSettings()(undefined, "t", 701)).toEqual([]);
-        });
-
-        it("yearInCycle computes the 0-based position (default epoch 0)", () => {
-            expect(yearInCycle()(13, 12)).toBe(1);
-            expect(yearInCycle()(701, 3, 700)).toBe(1);
-            expect(yearInCycle()(699, 3, 700)).toBe(2); // wraps before epoch
         });
     });
 

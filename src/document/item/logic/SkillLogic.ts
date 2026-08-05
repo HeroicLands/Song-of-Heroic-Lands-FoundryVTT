@@ -1259,28 +1259,6 @@ export class SkillLogic<
     override finalize(): void {
         super.finalize();
 
-        // Birthsign modifier (BSMod): a per-skill mastery-level delta *derived*
-        // from the being's birth date + birthsign affiliations — its combined
-        // modifier dict (see {@link BeingLogic.astrologyModifiers}). A specific
-        // skill-shortcode entry overrides a `subtype:` wildcard for that skill
-        // (specificity). Applied before the strike-mode governing-ML fold below
-        // so a combat technique's derived Atk/Blk inherit it. Mystical Abilities
-        // inherit automatically via their associated skill's mastery-level merge.
-        if (!this.masteryLevel.disabled) {
-            const birthsignMods =
-                (
-                    this.actorLogic as {
-                        astrologyModifiers?: Record<string, number>;
-                    }
-                )?.astrologyModifiers ?? {};
-            const bsMod =
-                birthsignMods[this.data.shortcode] ??
-                birthsignMods[`subtype:${this.data.subType}`];
-            if (typeof bsMod === "number" && Number.isFinite(bsMod) && bsMod) {
-                this.masteryLevel.add(VALUE_DELTA_INFO.BSMOD, bsMod);
-            }
-        }
-
         if (this.masteryLevel.disabled) {
             this.fateMasteryLevel.disabled =
                 VALUE_DELTA_ID[VALUE_DELTA_INFO.MLDSBL].name;
