@@ -28,7 +28,7 @@ Standing arcane conditions a character carries. (The tradition-agnostic mysterie
 
 ## Fate
 
-The measure of a character's power to bend destiny in their favour — the pool of **Fate** a character holds. Fate is not performed as an ability; it is a resource the character spends. After a roll has settled, a character may spend Fate to improve that roll's outcome, raising its success level by one. See [[Fate|Fate]] for how Fate is held and spent, and _Divination_ below for the arcane act of reading fate.
+The measure of a character's power to bend destiny in their favour — the pool of **Fate** a character holds. Fate is not performed as an ability; it is a resource the character spends. After a roll has settled, a character may spend Fate to improve that roll's outcome, raising its success level by one. See [[rules/sohl-fate|Fate]] for how Fate is held and spent, and _Divination_ below for the arcane act of reading fate.
 
 # Mystical Abilities
 
