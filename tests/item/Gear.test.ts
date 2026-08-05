@@ -1,8 +1,10 @@
 import { describe, it, expect, vi } from "vitest";
+import { GearLogic } from "@src/document/item/logic/GearLogic";
 import { MiscGearLogic } from "@src/document/item/logic/MiscGearLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { BodyStructure } from "@src/entity/body/BodyStructure";
-import { ITEM_KIND } from "@src/utils/constants";
+import type { SohlAction } from "@src/entity/action/SohlAction";
+import { ACTION_SUBTYPE, ITEM_KIND } from "@src/utils/constants";
 import {
     makeItemLogic,
     makeMockActor,
@@ -137,6 +139,98 @@ describe("GearLogic (via MiscGearLogic)", () => {
                 "system.isCarried": false,
             });
         });
+
+        it("toggleCarried - merges the stow updates when putting the item down", async () => {
+            const logic = makeGear({ isCarried: true });
+            vi.spyOn(logic as any, "stowUpdates").mockReturnValue({
+                "system.isSomethingElse": false,
+            });
+            await logic.toggleCarried({} as any);
+            expect(logic.item.update).toHaveBeenCalledWith({
+                "system.isCarried": false,
+                "system.isSomethingElse": false,
+            });
+        });
+
+        it("toggleCarried - does NOT apply the stow updates when picking the item up", async () => {
+            const logic = makeGear({ isCarried: false });
+            vi.spyOn(logic as any, "stowUpdates").mockReturnValue({
+                "system.isSomethingElse": false,
+            });
+            await logic.toggleCarried({} as any);
+            expect(logic.item.update).toHaveBeenCalledWith({
+                "system.isCarried": true,
+            });
+        });
+    });
+
+    describe("isCarried (#1097)", () => {
+        it("exposes the persisted carried flag on the logic layer", () => {
+            expect(makeGear({ isCarried: true }).isCarried).toBe(true);
+            expect(makeGear({ isCarried: false }).isCarried).toBe(false);
+        });
+    });
+
+    describe("carried gate (#1097)", () => {
+        /** A minimal gear-behavior action definition. */
+        function def(overrides: Record<string, unknown> = {}) {
+            return {
+                shortcode: "useItem",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "Use Item",
+                executor: "useItem",
+                ...overrides,
+            } as Partial<SohlAction.Data>;
+        }
+
+        it("gates a gear-behavior action on the carried flag", () => {
+            const [gated] = GearLogic.gateOnCarried([def()]);
+            expect(gated.trigger).toBe(GearLogic.CARRIED_TRIGGER);
+        });
+
+        it.each(GearLogic.CARRIED_GATE_EXEMPT)(
+            "leaves the exempt action %s ungated",
+            (shortcode) => {
+                const [entry] = GearLogic.gateOnCarried([def({ shortcode })]);
+                expect(entry.trigger).toBeUndefined();
+            },
+        );
+
+        it("composes with an author's existing trigger rather than replacing it", () => {
+            const [gated] = GearLogic.gateOnCarried([
+                def({ trigger: "itemLogic.quantity > 0" }),
+            ]);
+            expect(gated.trigger).toBe(
+                `(itemLogic.quantity > 0) && ${GearLogic.CARRIED_TRIGGER}`,
+            );
+        });
+
+        it("is idempotent — re-gating an already-gated def does not double-wrap", () => {
+            const once = GearLogic.gateOnCarried([def()]);
+            const twice = GearLogic.gateOnCarried(once);
+            expect(twice[0].trigger).toBe(GearLogic.CARRIED_TRIGGER);
+        });
+
+        it("does not mutate the definitions it is given", () => {
+            const original = def();
+            GearLogic.gateOnCarried([original]);
+            expect(original.trigger).toBeUndefined();
+        });
+
+        it("keeps toggleCarried available while the item is not carried", () => {
+            const logic = makeGear({ isCarried: false });
+            const action = logic.actions.get("toggleCarried")!;
+            expect(action.trigger(logic.item, undefined)).toBe(true);
+        });
+
+        it.each(["editDocument", "deleteDocument", "outputDescription"])(
+            "keeps the universal item action %s available while not carried",
+            (shortcode) => {
+                const logic = makeGear({ isCarried: false });
+                const action = logic.actions.get(shortcode)!;
+                expect(action.trigger(logic.item, undefined)).toBe(true);
+            },
+        );
     });
 
     describe("heldLimbImpairments (#628)", () => {

@@ -145,12 +145,120 @@ export abstract class GearLogic<
         };
     }
 
+    /**
+     * Whether this item is on the character's person.
+     *
+     * Gear that is not carried has been set down — left on the ground, in a
+     * cart, or wherever the character parted with it. It still appears on the
+     * sheet, but it contributes nothing (no encumbrance, no protection) and
+     * cannot be acted with: every gear action except `toggleCarried` is gated
+     * on this flag (see {@link gateOnCarried}).
+     *
+     * @returns `true` when the item is carried.
+     */
+    get isCarried(): boolean {
+        return this.data.isCarried;
+    }
+
+    /* --------------------------------------------- */
+    /* Carried gate                                  */
+    /* --------------------------------------------- */
+
+    /**
+     * The {@link sohl.entity.expr.SafeExpression} source that gates a gear
+     * action on the item being carried (issue #1097). Composed into each gated
+     * action's `trigger` by {@link gateOnCarried} — `trigger` rather than
+     * `visible` because an uncarried item's actions must be genuinely
+     * *unavailable* (refused by {@link sohl.entity.action.SohlAction.execute},
+     * however invoked), not merely hidden from the context menu. Visibility
+     * composes with the trigger, so gated actions disappear from the menu too.
+     */
+    static readonly CARRIED_TRIGGER =
+        "defined(itemLogic) && itemLogic.isCarried";
+
+    /**
+     * Action shortcodes exempt from the carried gate:
+     *
+     * - `toggleCarried` — the way back. Gating it would strand an item you set
+     *   down, with no action left to pick it up again.
+     * - `editDocument` / `deleteDocument` / `outputDescription` — the universal
+     *   document actions every item carries. They manage or describe the *item*
+     *   rather than doing anything with the *gear*, and you must always be able
+     *   to edit, delete, or read out an item you are not carrying.
+     */
+    static readonly CARRIED_GATE_EXEMPT: readonly string[] = [
+        "toggleCarried",
+        "editDocument",
+        "deleteDocument",
+        "outputDescription",
+    ];
+
+    /**
+     * Gate a list of action definitions on the item being carried — the seam
+     * every gear logic runs its {@link defineIntrinsicActions} result through.
+     *
+     * Each definition not named in {@link CARRIED_GATE_EXEMPT} has
+     * {@link CARRIED_TRIGGER} conjoined onto its `trigger`, so the action is
+     * unavailable while `system.isCarried` is `false`. An author's existing
+     * trigger is preserved (parenthesized and `&&`-ed), never replaced.
+     *
+     * The transform is **idempotent** — a subclass gates the list it already
+     * received from its parent's `defineIntrinsicActions()`, so definitions pass
+     * through it once per level of the hierarchy — and **non-mutating**: gated
+     * definitions are returned as copies.
+     *
+     * @param defs - The action definitions to gate.
+     * @returns The definitions, with the carried gate applied to each
+     *   non-exempt entry.
+     */
+    static gateOnCarried(
+        defs: Partial<SohlAction.Data>[],
+    ): Partial<SohlAction.Data>[] {
+        return defs.map((def) => {
+            if (
+                !def.shortcode ||
+                GearLogic.CARRIED_GATE_EXEMPT.includes(def.shortcode)
+            ) {
+                return def;
+            }
+            const existing = def.trigger?.trim();
+            // Already gated (this list came from a parent's defineIntrinsicActions).
+            if (existing?.includes(GearLogic.CARRIED_TRIGGER)) return def;
+            return {
+                ...def,
+                trigger:
+                    existing && existing !== "true" ?
+                        `(${existing}) && ${GearLogic.CARRIED_TRIGGER}`
+                    :   GearLogic.CARRIED_TRIGGER,
+            };
+        });
+    }
+
     /* --------------------------------------------- */
     /* Intrinsic Actions                             */
     /* --------------------------------------------- */
 
     /**
+     * Additional `update()` payload applied alongside `system.isCarried: false`
+     * when this gear is set down (issue #1097). The base gear has no such
+     * state; a gear type carrying an "in use" flag of its own overrides this to
+     * clear it, so that state can never outlive the carrying that made it
+     * possible — see {@link sohl.document.item.logic.ArmorGearLogic}, which
+     * clears `isWorn`.
+     *
+     * @returns The extra update payload; empty by default.
+     */
+    protected stowUpdates(): PlainObject {
+        return {};
+    }
+
+    /**
      * Toggles whether this gear is carried on the character's person.
+     *
+     * Setting the item down also applies `stowUpdates()`, clearing any
+     * derived "in use" state (e.g. worn armor) in the same update — otherwise
+     * that state would be stuck, since the action that clears it is itself
+     * gated on the item being carried.
      *
      * Intrinsic-action executor for the `toggleCarried` action.
      *
@@ -158,15 +266,25 @@ export abstract class GearLogic<
      * @returns Resolves once the item update completes.
      */
     async toggleCarried(_context: SohlActionContext): Promise<void> {
-        await this.data.update({ "system.isCarried": !this.data.isCarried });
+        const isCarried = !this.data.isCarried;
+        await this.data.update({
+            "system.isCarried": isCarried,
+            ...(isCarried ? {} : this.stowUpdates()),
+        });
     }
 
     /**
      * Define and return all intrinsic actions for this logic type.
+     *
+     * @remarks
+     * Gear subclasses append their own definitions to this list and run the
+     * result back through {@link gateOnCarried}, so every gear action beyond
+     * {@link CARRIED_GATE_EXEMPT} is unavailable while the item is not carried.
+     *
      * @returns The base item actions plus the gear carry toggle.
      */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
-        return [
+        return GearLogic.gateOnCarried([
             ...SohlItemBaseLogic.defineIntrinsicActions(),
             {
                 shortcode: "toggleCarried",
@@ -178,7 +296,7 @@ export abstract class GearLogic<
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
-        ];
+        ]);
     }
 
     /* --------------------------------------------- */

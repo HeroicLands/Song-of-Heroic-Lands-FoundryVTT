@@ -65,7 +65,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="ledger__notes" data-tooltip="{{item.notes}}">{{item.notes}}</div>
                 <div class="ledger__controls">
                     {{#if item.isArmor}}
-                    <a class="item-worn icon-button{{#if item.isWorn}} icon-button--on{{/if}}" data-action="toggleWorn" title="Worn">
+                    {{!-- Worn is gated on carried (#1097): armor off the character's person cannot be worn. --}}
+                    <a class="item-worn icon-button{{#if item.isWorn}} icon-button--on{{/if}}" data-action="toggleWorn" title="{{#if item.isCarried}}{{localize "SOHL.Gear.worn"}}{{else}}{{localize "SOHL.Gear.wornRequiresCarried"}}{{/if}}"{{#unless item.isCarried}} disabled aria-disabled="true"{{/unless}}>
                         <i class="fa-solid fa-shield-halved"></i>
                     </a>
                     {{/if}}

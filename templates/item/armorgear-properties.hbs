@@ -19,7 +19,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{formGroup fields.weightBase rootId="armgear-wt" classes="text-field" stacked=true value=system.weightBase}}
             {{formGroup fields.valueBase rootId="armgear-val" classes="text-field" stacked=true value=system.valueBase}}
             {{formGroup fields.isCarried rootId="armgear-carried" classes="text-field" stacked=true value=system.isCarried}}
-            {{formGroup fields.isWorn rootId="armgear-worn" classes="text-field" stacked=true value=system.isWorn}}
+            {{!-- Worn is gated on carried (#1097): armor off the character's person cannot be worn. --}}
+            {{formGroup fields.isWorn rootId="armgear-worn" classes="text-field" stacked=true value=system.isWorn disabled=(not system.isCarried)}}
             {{formGroup fields.qualityBase rootId="armgear-qual" classes="text-field" stacked=true value=system.qualityBase}}
             {{formGroup fields.durabilityBase rootId="armgear-dur" classes="text-field" stacked=true value=system.durabilityBase}}
         </div>

@@ -91,6 +91,131 @@ describe("gear state controls", () => {
         });
     });
 
+    describe("carried gate (#1097)", () => {
+        /** Read the gate-relevant state of an armor item. */
+        function armorState(win, actorId, itemId) {
+            const item = win.game.actors.get(actorId).items.get(itemId);
+            return {
+                carried: item.system.isCarried,
+                worn: item.system.isWorn,
+            };
+        }
+
+        it("refuses toggleWorn while the armor is not carried, and allows it once carried", () => {
+            cy.importActor().then((actor) => {
+                cy.createItemOn(actor, "armorgear", {
+                    name: "Stowed Mail",
+                    system: { isCarried: false, isWorn: false },
+                }).then((a) => cy.wrap(a.id).as("aid"));
+                cy.then(function () {
+                    const aid = this.aid;
+                    cy.prepare(actor);
+
+                    // Uncarried: the action is refused, not merely hidden.
+                    cy.foundry((win) =>
+                        win.game.actors
+                            .get(actor.id)
+                            .items.get(aid)
+                            .logic.executeAction("toggleWorn")
+                            .then(() => armorState(win, actor.id, aid)),
+                    ).should((s) => {
+                        expect(s.carried, "still uncarried").to.be.false;
+                        expect(s.worn, "worn refused while uncarried").to.be
+                            .false;
+                    });
+
+                    // Toggle Carried is never gated — it is the way back.
+                    cy.foundry((win) =>
+                        win.game.actors
+                            .get(actor.id)
+                            .items.get(aid)
+                            .logic.executeAction("toggleCarried")
+                            .then(() => armorState(win, actor.id, aid)),
+                    ).should(
+                        (s) => expect(s.carried, "picked back up").to.be.true,
+                    );
+
+                    // Carried: the same action now performs.
+                    cy.foundry((win) =>
+                        win.game.actors
+                            .get(actor.id)
+                            .items.get(aid)
+                            .logic.executeAction("toggleWorn")
+                            .then(() => armorState(win, actor.id, aid)),
+                    ).should(
+                        (s) => expect(s.worn, "worn once carried").to.be.true,
+                    );
+                });
+            });
+        });
+
+        it("clears the worn state when worn armor is set down", () => {
+            cy.importActor().then((actor) => {
+                cy.createItemOn(actor, "armorgear", {
+                    name: "Worn Mail",
+                    system: { isCarried: true, isWorn: true },
+                }).then((a) => cy.wrap(a.id).as("aid"));
+                cy.then(function () {
+                    const aid = this.aid;
+                    cy.prepare(actor);
+                    cy.foundry((win) =>
+                        win.game.actors
+                            .get(actor.id)
+                            .items.get(aid)
+                            .logic.executeAction("toggleCarried")
+                            .then(() => armorState(win, actor.id, aid)),
+                    ).should((s) => {
+                        expect(s.carried, "set down").to.be.false;
+                        expect(s.worn, "worn cleared on stow").to.be.false;
+                    });
+                });
+            });
+        });
+
+        it("drops gated actions from the Actions context menu while uncarried", () => {
+            cy.importActor().then((actor) => {
+                cy.createItemOn(actor, "armorgear", {
+                    name: "Cart Mail",
+                    system: { isCarried: false },
+                }).then((a) => cy.wrap(a.id).as("aid"));
+                cy.then(function () {
+                    const aid = this.aid;
+                    cy.prepare(actor);
+                    cy.openSheet(actor);
+                    cy.switchTab("gear");
+                    cy.wait(400);
+                    cy.foundry((win) => {
+                        const row = win.game.actors
+                            .get(actor.id)
+                            .sheet.element.querySelector(
+                                `[data-item-id="${aid}"]`,
+                            );
+                        const logic = win.game.actors
+                            .get(actor.id)
+                            .items.get(aid).logic;
+                        const shown = logic
+                            .getContextOptions()
+                            .filter((e) => e.condition(row))
+                            .map((e) => e.id);
+                        return {
+                            shown,
+                            wornDisabled: !!row?.querySelector(
+                                '[data-action="toggleWorn"][disabled]',
+                            ),
+                        };
+                    }).should((r) => {
+                        expect(
+                            r.shown.join("|"),
+                            "toggleWorn hidden while uncarried",
+                        ).to.not.contain("toggleWorn");
+                        expect(r.wornDisabled, "worn control disabled").to.be
+                            .true;
+                    });
+                });
+            });
+        });
+    });
+
     describe("Combat tab: Held Items dropdowns", () => {
         /** Set a limb dropdown (nth `select.held-item-select`) to an item id. */
         function pick(win, actorId, nth, itemId) {

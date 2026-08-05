@@ -38,6 +38,20 @@ Armor and clothing that is worn (i.e., equipped) does not have any encumbrance, 
 
 When not worn but carried (i.e., carried but not equipped), the armor does have encumbrance based on its weight. In this case any encumbrance value is ignored, since the weight determines its encumbrance instead.
 
+# Wearing Requires Carrying
+
+Armor can only be worn while it is **carried** — it has to be on your character
+before it can be on their body. While a piece of armor is not carried, its **Worn**
+control is greyed out on both the Gear tab and the armor's own sheet, and the
+**Toggle Worn** action is unavailable from the Actions context menu.
+
+Putting armor **down** takes it off in the same stroke: setting Is Carried to false
+clears Worn, so armor can never sit in a cart while still counting as protection.
+Pick it back up with **Toggle Carried** and you can wear it again — but it starts
+off, so you have to put it on deliberately.
+
+See [[Item_Gear|Gear]] for the general rule this follows.
+
 <!-- TODO: Expand with details on how armor layering works, the
      relationship between armor quality and protection, encumbrance
      effects, and armor damage/repair mechanics -->
