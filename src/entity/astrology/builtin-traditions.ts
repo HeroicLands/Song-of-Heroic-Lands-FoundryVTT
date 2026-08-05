@@ -11,185 +11,33 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type {
-    AstrologySign,
-    AstrologyTradition,
-    AstrologyTraditions,
-    MonthDay,
-} from "./AstrologyTradition";
+import type { AstrologyTraditions } from "./AstrologyTradition";
+import { validateTraditions } from "./validate-traditions";
+import astrokyklosData from "./astrokyklos.json";
 
 /**
- * The **Astrokýklos** — the astrological tradition of the world of Thalorna,
- * shipped as SoHL's built-in default. Its twelve signs each cover a date window
- * (one per Turning Wheel month) that tiles the year exactly, and confer
- * modifiers along the six elements of the associated **Héx Hodäi** arcane
- * tradition: *earth (Physéra)*, *metal (Sidéros)*, *fire (Pyréthos)*, *air
- * (Zephäris)*, *spirit (Pneuménos)*, and *water (Hydälis)* — each mapped to the
- * skill subtypes it governs. (The seventh Héx Hodäi principle, *Kentra* — "The
- * All", the space encompassing every school — is not a birthsign element and so
- * has no column here.) A world replaces or extends this through the Astrology
- * Traditions settings editor.
+ * The system's shipped **built-in** astrology traditions, loaded from the
+ * `astrokyklos.json` **data file** (not hard-coded) so the sign table is data,
+ * editable in one place and validated on load.
+ *
+ * The default is the **Astrokýklos** — the astrological tradition of the world of
+ * Thalorna: twelve signs (one per Turning Wheel month) whose date windows tile
+ * the year, conferring modifiers along the six elements of the associated **Héx
+ * Hodäi** arcane tradition (earth, metal, fire, air, spirit, water) mapped to the
+ * skill subtypes they govern. (The seventh Héx Hodäi principle, *Kentra* — "The
+ * All" — is not a birthsign element and has no entry.)
+ *
+ * This is only the shipped default: a world layers overrides through the
+ * Astrology Traditions settings editor, and a module registers its own through
+ * the runtime registry (`sohl.astrologyRegistry.register(...)`).
  */
 
 /**
- * The first two and last two days of each sign's period are a **cusp**, where
- * both the sign and its neighbour are in force. With the padded-window model a
- * `cuspDays` of 2 means each sign's window extends 2 days past each boundary, so
- * those four days around every boundary (a sign's last 2 + the next sign's
- * first 2) fall under both signs; the interior stays a single sign.
- */
-const CUSP_DAYS = 2;
-
-/**
- * Héx Hodäi element → the skill subtype(s) it governs, in the six-column order
- * of the sign table below: earth, metal, fire, air, spirit, water. A column's
- * value is conferred on every subtype it lists.
- */
-const ELEMENT_SUBTYPES: readonly (readonly string[])[] = [
-    ["nature"], // earth — Physéra
-    ["script", "craft"], // metal — Sidéros
-    ["combattechnique", "combat"], // fire — Pyréthos
-    ["physical"], // air — Zephäris
-    ["mystical", "lore"], // spirit — Pneuménos
-    ["language", "social"], // water — Hydälis
-];
-
-/** One row of the authored Astrokýklos grid. */
-interface AstrokyklosSignRow {
-    /** The sign's name (its stable identity; lowercased for the shortcode). */
-    name: string;
-    /** Inclusive window start (1-based month/day). */
-    start: MonthDay;
-    /** Inclusive window end (1-based month/day; wraps year-end for Opsar). */
-    end: MonthDay;
-    /** Signed values in element order: [earth, metal, fire, air, spirit, water]. */
-    elements: readonly [number, number, number, number, number, number];
-}
-
-/**
- * The authored Astrokýklos grid, in Turning Wheel month order — windows
- * transcribed from the `from`/`to` columns and element values from the six
- * element columns.
- */
-const ASTROKYKLOS_SIGNS: readonly AstrokyklosSignRow[] = [
-    // name        from (m,d)    to (m,d)      earth metal fire  air  spirit water
-    {
-        name: "Arnos",
-        start: { month: 1, day: 4 },
-        end: { month: 2, day: 3 },
-        elements: [15, 5, -5, -15, -5, 5],
-    },
-    {
-        name: "Bourax",
-        start: { month: 2, day: 4 },
-        end: { month: 3, day: 2 },
-        elements: [10, 10, 0, -10, -10, 0],
-    },
-    {
-        name: "Diplos",
-        start: { month: 3, day: 3 },
-        end: { month: 4, day: 3 },
-        elements: [5, 15, 5, -5, -15, -5],
-    },
-    {
-        name: "Chelyx",
-        start: { month: 4, day: 4 },
-        end: { month: 5, day: 4 },
-        elements: [0, 10, 10, 0, -10, -10],
-    },
-    {
-        name: "Thyron",
-        start: { month: 5, day: 5 },
-        end: { month: 6, day: 6 },
-        elements: [-5, 5, 15, 5, -5, -15],
-    },
-    {
-        name: "Korith",
-        start: { month: 6, day: 7 },
-        end: { month: 7, day: 5 },
-        elements: [-10, 0, 10, 10, 0, -10],
-    },
-    {
-        name: "Stathmos",
-        start: { month: 7, day: 6 },
-        end: { month: 8, day: 4 },
-        elements: [-15, -5, 5, 15, 5, -5],
-    },
-    {
-        name: "Kentros",
-        start: { month: 8, day: 5 },
-        end: { month: 9, day: 3 },
-        elements: [-10, -10, 0, 10, 10, 0],
-    },
-    {
-        name: "Belos",
-        start: { month: 9, day: 4 },
-        end: { month: 10, day: 2 },
-        elements: [-5, -15, -5, 5, 15, 5],
-    },
-    {
-        name: "Tragyx",
-        start: { month: 10, day: 3 },
-        end: { month: 11, day: 2 },
-        elements: [0, -10, -10, 0, 10, 10],
-    },
-    {
-        name: "Nalos",
-        start: { month: 11, day: 3 },
-        end: { month: 12, day: 1 },
-        elements: [5, -5, -15, -5, 5, 15],
-    },
-    {
-        name: "Opsar",
-        start: { month: 12, day: 2 },
-        end: { month: 1, day: 3 },
-        elements: [10, 0, -10, -10, 0, 10],
-    },
-];
-
-/**
- * Expand an element-value row into a `skillModifiers` map keyed by
- * `"subtype:<skillSubType>"`. Zero-valued elements contribute nothing.
- * @param elements - Signed values in element order (earth…water).
- * @returns The subtype-keyed modifier map.
- */
-function buildSkillModifiers(
-    elements: readonly number[],
-): Record<string, number> {
-    const out: Record<string, number> = {};
-    elements.forEach((value, i) => {
-        if (value === 0) return;
-        for (const subType of ELEMENT_SUBTYPES[i]) {
-            out[`subtype:${subType}`] = value;
-        }
-    });
-    return out;
-}
-
-/** The Astrokýklos tradition, assembled from the authored grid. */
-const ASTROKYKLOS: AstrologyTradition = {
-    key: "astrokyklos",
-    label: "SOHL.Astrology.Tradition.Astrokyklos",
-    source: "builtin",
-    signs: ASTROKYKLOS_SIGNS.map(
-        (row): AstrologySign => ({
-            shortcode: row.name.toLowerCase(),
-            label: `SOHL.Astrology.Sign.${row.name}`,
-            start: row.start,
-            end: row.end,
-            cuspDays: CUSP_DAYS,
-            skillModifiers: buildSkillModifiers(row.elements),
-        }),
-    ),
-};
-
-/**
- * The registry the system ships with: the shipped-in built-in traditions, keyed
- * by tradition key. The Foundry boundary layers world traditions on top (a world
- * entry overrides a built-in of the same key). Returned as a fresh object per
- * call so callers can freely mutate their copy.
- * @returns A shallow map of built-in tradition key → tradition.
+ * The shipped built-in traditions, validated from the data file and tagged
+ * `source: "builtin"`. Returned as a fresh object per call so callers may freely
+ * mutate their copy.
+ * @returns A map of built-in tradition key → tradition.
  */
 export function builtinTraditions(): AstrologyTraditions {
-    return { [ASTROKYKLOS.key]: ASTROKYKLOS };
+    return validateTraditions(astrokyklosData, "builtin").traditions;
 }

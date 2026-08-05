@@ -98,16 +98,21 @@ function validateSign(raw: unknown): AstrologySign | string {
 }
 
 /**
- * Validate a raw, parsed traditions object (e.g. from a GM-imported JSON file or
- * the persisted world setting) into a clean {@link AstrologyTraditions} map,
- * collecting a reason for every entry it skips rather than throwing — so one bad
- * tradition or sign never blocks the rest. Each accepted tradition is tagged
- * `source: "world"` and keyed by its object key; each sign is normalized
- * (defaulted `label`/`cuspDays`, numeric-coerced modifiers).
+ * Validate a raw, parsed traditions object (e.g. the shipped built-in data file,
+ * a module's tradition JSON, a GM-imported file, or the persisted world setting)
+ * into a clean {@link AstrologyTraditions} map, collecting a reason for every
+ * entry it skips rather than throwing — so one bad tradition or sign never blocks
+ * the rest. Each accepted tradition is tagged with `source` and keyed by its
+ * object key; each sign is normalized (defaulted `label`/`cuspDays`,
+ * numeric-coerced modifiers).
  * @param raw - The parsed object mapping tradition key → tradition.
+ * @param source - Provenance to stamp on each accepted tradition (default `"world"`).
  * @returns The validated traditions and the list of skipped entries.
  */
-export function validateTraditions(raw: unknown): ValidateTraditionsResult {
+export function validateTraditions(
+    raw: unknown,
+    source: NonNullable<AstrologyTradition["source"]> = "world",
+): ValidateTraditionsResult {
     const traditions: AstrologyTraditions = {};
     const skipped: SkippedEntry[] = [];
     if (!raw || typeof raw !== "object") {
@@ -140,7 +145,7 @@ export function validateTraditions(raw: unknown): ValidateTraditionsResult {
             key,
             label: typeof v.label === "string" ? v.label : key,
             signs,
-            source: "world",
+            source,
         };
     }
     return { traditions, skipped };

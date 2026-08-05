@@ -72,8 +72,11 @@ export interface AstrologyTradition {
     label: string;
     /** The signs comprising the tradition, in authored order. */
     signs: AstrologySign[];
-    /** Provenance: a shipped built-in, or a world-authored/overridden tradition. */
-    source?: "builtin" | "world";
+    /**
+     * Provenance: a shipped `builtin`, a `module`-registered tradition, or a
+     * `world`-authored/overridden one (their resolution order in the registry).
+     */
+    source?: "builtin" | "module" | "world";
 }
 
 /** The whole traditions registry: tradition key → {@link AstrologyTradition}. */

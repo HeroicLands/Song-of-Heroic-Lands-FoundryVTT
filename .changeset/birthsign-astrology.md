@@ -19,12 +19,15 @@ modifier (`BSMod`). Closes #1018 and its sub-issues #1021–#1028.
   makes the affiliation a _birthsign affiliation_; the affiliation's existing
   `society` names the **tradition**.
 
-**Astrology traditions registry** — a world-setting-backed map of traditions
-(built-in defaults + per-world overrides), keyed by `society`, edited through a
-new **Astrology Traditions** settings menu (import/replace or clear from a
-validated JSON file). Each sign carries a date window, cusp width, and a map of
-skill-shortcode or `subtype:<skillSubType>` modifiers. The system ships the
-**Astrokýklos** — Thalorna's twelve-sign tradition — as its built-in default.
+**Astrology traditions registry** — `sohl.astrologyRegistry` resolves three
+layers, keyed by `society`: the shipped **built-in** default, **module**-registered
+traditions (`sohl.astrologyRegistry.register(json)` from a module's `init` hook),
+and the GM's **world** overrides — edited through a new **Astrology Traditions**
+settings menu (import/replace or clear a validated JSON file). Each sign carries a
+date window, cusp width, and a map of skill-shortcode or `subtype:<skillSubType>`
+modifiers. The system ships the **Astrokýklos** — Thalorna's twelve-sign
+tradition — as its built-in default, loaded at init from an `astrokyklos.json`
+**data file** (not hard-coded).
 
 **New `SafeExpression` helpers** — `astrologySign` / `astrologySettings` /
 `astrologySetting` (fed the resolved registry through a new context-injection

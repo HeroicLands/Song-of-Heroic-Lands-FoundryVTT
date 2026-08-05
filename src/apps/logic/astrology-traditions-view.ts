@@ -28,13 +28,15 @@ export interface TraditionRow {
     label: string;
     /** How many signs the tradition defines. */
     signCount: number;
-    /** Whether this tradition is world-authored/overridden (vs. a shipped built-in). */
+    /** Provenance: `builtin`, `module`, or `world` (defaults to `builtin`). */
+    source: NonNullable<AstrologyTraditions[string]["source"]>;
+    /** Whether this tradition is world-authored/overridden. */
     isWorld: boolean;
 }
 
 /** The render context for the Astrology Traditions menu. */
 export interface AstrologyTraditionsViewModel {
-    /** All traditions (built-in + world), sorted by label. */
+    /** All resolved traditions (built-in + module + world), sorted by label. */
     traditions: TraditionRow[];
     /** Whether any traditions exist at all. */
     hasTraditions: boolean;
@@ -44,28 +46,29 @@ export interface AstrologyTraditionsViewModel {
 
 /**
  * Build the Astrology Traditions view model: a label-sorted list of every
- * tradition, each flagged as a shipped built-in or a world entry.
- * @param registry - The merged tradition key → tradition map (built-ins + world).
- * @param worldKeys - The keys that come from the world setting (marks `isWorld`).
+ * resolved tradition, each flagged by its provenance (built-in / module / world).
+ * @param registry - The resolved tradition key → tradition map (built-in + module + world).
  * @returns The template render context.
  */
 export function buildAstrologyTraditionsViewModel(
     registry: AstrologyTraditions,
-    worldKeys: Iterable<string>,
 ): AstrologyTraditionsViewModel {
-    const world = new Set(worldKeys);
     const traditions: TraditionRow[] = Object.values(registry ?? {})
-        .map((t) => ({
-            key: t.key,
-            label: t.label,
-            signCount: t.signs?.length ?? 0,
-            isWorld: world.has(t.key),
-        }))
+        .map((t) => {
+            const source = t.source ?? "builtin";
+            return {
+                key: t.key,
+                label: t.label,
+                signCount: t.signs?.length ?? 0,
+                source,
+                isWorld: source === "world",
+            };
+        })
         .sort((a, b) => a.label.localeCompare(b.label));
 
     return {
         traditions,
         hasTraditions: traditions.length > 0,
-        hasWorld: world.size > 0,
+        hasWorld: traditions.some((t) => t.isWorld),
     };
 }

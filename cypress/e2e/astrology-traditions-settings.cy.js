@@ -12,10 +12,10 @@
  */
 
 /**
- * Astrology Traditions settings (#1023 / #1028) — the world-setting-backed
- * registry and its editor menu in a live world: the setting and menu are
- * registered, the built-in "Astrokýklos" tradition resolves, a world
- * tradition round-trips through the setting, and the editor renders the list.
+ * Astrology Traditions settings (#1023 / #1028) — the traditions registry and its
+ * editor menu in a live world: the setting and menu are registered, the shipped
+ * built-in "Astrokýklos" resolves through `sohl.astrologyRegistry`, a module can
+ * register its own tradition, the world layer overrides, and the editor renders.
  */
 describe("astrology traditions settings (#1023)", () => {
     before(() => cy.login());
@@ -43,23 +43,59 @@ describe("astrology traditions settings (#1023)", () => {
         });
     });
 
-    it("resolves the shipped built-in Astrokýklos tradition", () => {
+    it("resolves the shipped built-in Astrokýklos through the registry", () => {
         cy.foundry((win) => {
-            const reg = win.sohl.entity.astrology.builtinTraditions();
-            const t = reg["astrokyklos"];
+            const t = win.sohl.astrologyRegistry.all()["astrokyklos"];
             return {
                 key: t?.key,
+                source: t?.source,
                 signCount: t?.signs?.length,
                 firstSign: t?.signs?.[0]?.shortcode,
             };
         }).then((r) => {
             expect(r.key).to.eq("astrokyklos");
+            expect(r.source).to.eq("builtin");
             expect(r.signCount).to.eq(12);
             expect(r.firstSign).to.eq("arnos");
         });
     });
 
-    it("round-trips a world tradition through the setting and validator", () => {
+    it("lets a module register its own tradition via sohl.astrologyRegistry", () => {
+        cy.foundry((win) => {
+            const result = win.sohl.astrologyRegistry.register(
+                {
+                    modtrad: {
+                        label: "Module Tradition",
+                        signs: [
+                            {
+                                shortcode: "msign",
+                                start: { month: 1, day: 1 },
+                                end: { month: 12, day: 30 },
+                                cuspDays: 0,
+                                skillModifiers: { "subtype:combat": 3 },
+                            },
+                        ],
+                    },
+                },
+                "module",
+            );
+            const resolved = win.sohl.astrologyRegistry.all()["modtrad"];
+            return {
+                installed: result.installed,
+                source: resolved?.source,
+                stillHasBuiltin:
+                    !!win.sohl.astrologyRegistry.all()["astrokyklos"],
+            };
+        }).then((r) => {
+            expect(r.installed).to.deep.eq(["modtrad"]);
+            expect(r.source).to.eq("module");
+            expect(r.stillHasBuiltin, "built-in coexists").to.be.true;
+        });
+        // Clean up the module registration so later tests see only the built-in.
+        cy.foundry((win) => win.sohl.astrologyRegistry.unregister("modtrad"));
+    });
+
+    it("round-trips a world tradition through the setting and overrides in the registry", () => {
         cy.foundry((win) => {
             const raw = {
                 arc: {
@@ -79,12 +115,18 @@ describe("astrology traditions settings (#1023)", () => {
                 win.sohl.entity.astrology.validateTraditions(raw);
             return win.game.settings
                 .set("sohl", "astrologyTraditions", traditions)
-                .then(() =>
-                    win.game.settings.get("sohl", "astrologyTraditions"),
-                );
-        }).then((stored) => {
+                .then(() => ({
+                    stored: win.game.settings.get(
+                        "sohl",
+                        "astrologyTraditions",
+                    ),
+                    resolved: win.sohl.astrologyRegistry.all()["arc"],
+                }));
+        }).then(({ stored, resolved }) => {
             expect(stored.arc.source).to.eq("world");
             expect(stored.arc.signs[0].skillModifiers.pel).to.eq(15);
+            // The world tradition is visible through the resolved registry.
+            expect(resolved?.source).to.eq("world");
         });
     });
 

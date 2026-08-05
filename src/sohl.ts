@@ -19,6 +19,11 @@ import * as coreNs from "@src/core";
 import * as appsNs from "@src/apps";
 import * as utilsNs from "@src/utils";
 import { entitySurface } from "@src/entity/surface";
+import { builtinTraditions } from "@src/entity/astrology";
+import {
+    astrologyRegistry,
+    setAstrologyWorldProvider,
+} from "@src/core/foundry/astrology-registry";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import { turnStartCombatantUpdate } from "@src/document/combatant/logic/SohlCombatantLogic";
@@ -547,7 +552,24 @@ function registerSystemHooks() {
     system.core = coreNs;
     system.apps = appsNs;
     system.utils = utilsNs;
+    system.astrologyRegistry = astrologyRegistry;
     globalThis.sohl = system as unknown as SohlSystem;
+
+    // Seed the shipped built-in astrology tradition (Astrokýklos, from its data
+    // file) into the registry. Synchronous so birthsigns resolve during the
+    // first document prepare; modules add their own via
+    // `sohl.astrologyRegistry.register(...)` in their `init` hook.
+    astrologyRegistry.reset();
+    astrologyRegistry.register(builtinTraditions(), "builtin");
+    // Wire the world-override layer: the registry reads the GM's per-world
+    // traditions through this provider (so the registry itself never touches
+    // `game`), resolved on top of the built-in + module layers.
+    setAstrologyWorldProvider(
+        () =>
+            ((game as any).settings?.get?.("sohl", "astrologyTraditions") as
+                | Record<string, any>
+                | undefined) ?? {},
+    );
 
     rehydrateCalendars();
     applyActiveCalendar();

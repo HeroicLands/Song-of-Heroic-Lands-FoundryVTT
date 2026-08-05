@@ -13,6 +13,7 @@
 
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import * as astrology from "@src/entity/astrology";
+import { astrologyRegistry } from "@src/core/foundry/astrology-registry";
 import {
     FilePath,
     HTMLString,
@@ -304,20 +305,16 @@ export function fvttGetSetting(module: string, key: string): unknown {
 }
 
 /**
- * The resolved astrology **traditions registry** as plain data: the shipped
- * built-in traditions with the world's `sohl.astrologyTraditions` overrides
- * layered on top (a world entry replaces a built-in of the same key). This is
- * the Foundry boundary the logic layer crosses to reach the world-setting-backed
- * registry — the producer injects the result into a SafeExpression eval context
+ * The resolved astrology **traditions registry** as plain data — the built-in
+ * default, any module-registered traditions, and the GM's world overrides,
+ * resolved by {@link astrologyRegistry} (`sohl.astrologyRegistry`, world wins).
+ * This is the Foundry boundary the logic layer crosses to reach the registry: the
+ * producer injects the result into a SafeExpression eval context
  * (`astrologyTraditions`) so the astrology helpers stay pure (#1018 / #1023).
- * @returns The merged tradition key → tradition map.
+ * @returns The resolved tradition key → tradition map.
  */
 export function fvttAstrologyTraditions(): astrology.AstrologyTraditions {
-    const world =
-        ((game as any).settings?.get?.("sohl", "astrologyTraditions") as
-            | astrology.AstrologyTraditions
-            | undefined) ?? {};
-    return { ...astrology.builtinTraditions(), ...world };
+    return astrologyRegistry.all();
 }
 
 /**

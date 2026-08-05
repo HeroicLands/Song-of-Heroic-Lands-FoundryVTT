@@ -43,9 +43,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     {{this.signCount}}
                     {{localize "SOHL.Astrology.Settings.list.signs"}}
                 </span>
-                {{#if this.isWorld}}
+                {{#if (eq this.source "world")}}
                 <span class="tradition-source tradition-source-world">
                     {{localize "SOHL.Astrology.Settings.list.world"}}
+                </span>
+                {{else if (eq this.source "module")}}
+                <span class="tradition-source tradition-source-module">
+                    {{localize "SOHL.Astrology.Settings.list.module"}}
                 </span>
                 {{else}}
                 <span class="tradition-source tradition-source-builtin">

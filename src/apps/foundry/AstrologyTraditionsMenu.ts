@@ -12,7 +12,6 @@
  */
 
 import {
-    builtinTraditions,
     validateTraditions,
     type AstrologyTraditions,
 } from "@src/entity/astrology";
@@ -84,20 +83,14 @@ export class AstrologyTraditionsMenu extends (AstrologyTraditionsMenu_Base as ty
     }
 
     /**
-     * Build the render context: the merged registry (built-ins + world) and the
-     * world-defined keys (so each row is flagged built-in vs. world).
+     * Build the render context: the resolved registry (built-in + module +
+     * world), each row flagged by its provenance.
      * @param _options - The render options (unused).
      * @returns The template render context.
      */
     protected override async _prepareContext(_options: any): Promise<any> {
-        const world = AstrologyTraditionsMenu.worldTraditions();
-        const registry: AstrologyTraditions = {
-            ...builtinTraditions(),
-            ...world,
-        };
         const vm = buildAstrologyTraditionsViewModel(
-            registry,
-            Object.keys(world),
+            sohl.astrologyRegistry.all(),
         );
         return {
             ...vm,

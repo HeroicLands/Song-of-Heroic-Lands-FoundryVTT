@@ -142,6 +142,7 @@
     "SOHL.Astrology.Settings.import.success": "Loaded {count} tradition(s).",
     "SOHL.Astrology.Settings.list.builtin": "Built-in",
     "SOHL.Astrology.Settings.list.label": "Available Traditions",
+    "SOHL.Astrology.Settings.list.module": "Module",
     "SOHL.Astrology.Settings.list.none": "No traditions defined.",
     "SOHL.Astrology.Settings.list.signs": "signs",
     "SOHL.Astrology.Settings.list.world": "World",
