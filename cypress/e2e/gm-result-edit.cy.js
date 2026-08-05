@@ -48,7 +48,7 @@ describe("GM result-edit — re-evaluate on the frozen roll (#856)", () => {
                     shortcode: "esw",
                     subType: "combat",
                     masteryLevelBase: 50,
-                    skillBaseFormula: "@str,@dex",
+                    skillBaseFormula: "sb(attr.str, attr.dex)",
                 },
             }).then((skill) => {
                 cy.prepare(actor);
@@ -127,7 +127,7 @@ describe("GM result-edit — re-evaluate on the frozen roll (#856)", () => {
                     shortcode: "nsw",
                     subType: "combat",
                     masteryLevelBase: 50,
-                    skillBaseFormula: "@str,@dex",
+                    skillBaseFormula: "sb(attr.str, attr.dex)",
                 },
             }).then((skill) => {
                 cy.prepare(actor);

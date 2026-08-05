@@ -46,7 +46,7 @@ describe("Skill Value Test — graded success value (#848)", () => {
                     shortcode: "wcraft",
                     subType: "craft",
                     masteryLevelBase: 50,
-                    skillBaseFormula: "@str,@dex",
+                    skillBaseFormula: "sb(attr.str, attr.dex)",
                 },
             }).then((skill) => {
                 cy.prepare(actor);
