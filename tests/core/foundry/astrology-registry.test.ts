@@ -13,23 +13,22 @@ import {
     astrologyRegistry,
     setAstrologyWorldProvider,
 } from "@src/core/foundry/astrology-registry";
-import { builtinTraditions } from "@src/entity/astrology";
+import { builtinTraditionsData } from "@src/entity/astrology";
 
-/** A minimal valid tradition JSON (as a module would supply). */
-function traditionJson(key: string, shortcode = "aa") {
+/** A minimal valid self-describing tradition JSON (as a module would supply). */
+function traditionJson(key: string, signShortcode = "aa") {
     return {
-        [key]: {
-            label: `${key} label`,
-            signs: [
-                {
-                    shortcode,
-                    start: { month: 1, day: 1 },
-                    end: { month: 6, day: 30 },
-                    cuspDays: 0,
-                    skillModifiers: { "subtype:combat": 5 },
-                },
-            ],
-        },
+        shortcode: key,
+        label: `${key} label`,
+        signs: [
+            {
+                shortcode: signShortcode,
+                start: { month: 1, day: 1 },
+                end: { month: 6, day: 30 },
+                cuspDays: 0,
+                skillModifiers: { "subtype:combat": 5 },
+            },
+        ],
     };
 }
 
@@ -52,7 +51,7 @@ describe("astrologyRegistry", () => {
     });
 
     it("seeds the built-in default as source builtin", () => {
-        astrologyRegistry.register(builtinTraditions(), "builtin");
+        astrologyRegistry.register(builtinTraditionsData, "builtin");
         const reg = astrologyRegistry.registered();
         expect(reg["astrokyklos"]).toBeDefined();
         expect(reg["astrokyklos"].source).toBe("builtin");
@@ -103,10 +102,10 @@ describe("astrologyRegistry", () => {
     });
 
     it("skips malformed traditions with reasons, keeping valid ones", () => {
-        const result = astrologyRegistry.register({
-            good: traditionJson("good").good,
-            bad: { label: "no signs" },
-        });
+        const result = astrologyRegistry.register([
+            traditionJson("good"),
+            { shortcode: "bad", label: "no signs" },
+        ]);
         expect(result.installed).toEqual(["good"]);
         expect(result.skipped.map((s) => s.key)).toContain("bad");
     });

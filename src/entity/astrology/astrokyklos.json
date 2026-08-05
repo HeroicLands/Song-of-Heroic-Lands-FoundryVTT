@@ -1,287 +1,286 @@
 {
-    "astrokyklos": {
-        "label": "SOHL.Astrology.Tradition.Astrokyklos",
-        "signs": [
-            {
-                "shortcode": "arnos",
-                "label": "SOHL.Astrology.Sign.Arnos",
-                "start": {
-                    "month": 1,
-                    "day": 4
-                },
-                "end": {
-                    "month": 2,
-                    "day": 3
-                },
-                "cuspDays": 2,
-                "skillModifiers": {
-                    "subtype:nature": 15,
-                    "subtype:script": 5,
-                    "subtype:craft": 5,
-                    "subtype:combattechnique": -5,
-                    "subtype:combat": -5,
-                    "subtype:physical": -15,
-                    "subtype:mystical": -5,
-                    "subtype:lore": -5,
-                    "subtype:language": 5,
-                    "subtype:social": 5
-                }
+    "shortcode": "astrokyklos",
+    "label": "SOHL.Astrology.Tradition.Astrokyklos",
+    "signs": [
+        {
+            "shortcode": "arnos",
+            "label": "SOHL.Astrology.Sign.Arnos",
+            "start": {
+                "month": 1,
+                "day": 4
             },
-            {
-                "shortcode": "bourax",
-                "label": "SOHL.Astrology.Sign.Bourax",
-                "start": {
-                    "month": 2,
-                    "day": 4
-                },
-                "end": {
-                    "month": 3,
-                    "day": 2
-                },
-                "cuspDays": 2,
-                "skillModifiers": {
-                    "subtype:nature": 10,
-                    "subtype:script": 10,
-                    "subtype:craft": 10,
-                    "subtype:physical": -10,
-                    "subtype:mystical": -10,
-                    "subtype:lore": -10
-                }
+            "end": {
+                "month": 2,
+                "day": 3
             },
-            {
-                "shortcode": "diplos",
-                "label": "SOHL.Astrology.Sign.Diplos",
-                "start": {
-                    "month": 3,
-                    "day": 3
-                },
-                "end": {
-                    "month": 4,
-                    "day": 3
-                },
-                "cuspDays": 2,
-                "skillModifiers": {
-                    "subtype:nature": 5,
-                    "subtype:script": 15,
-                    "subtype:craft": 15,
-                    "subtype:combattechnique": 5,
-                    "subtype:combat": 5,
-                    "subtype:physical": -5,
-                    "subtype:mystical": -15,
-                    "subtype:lore": -15,
-                    "subtype:language": -5,
-                    "subtype:social": -5
-                }
-            },
-            {
-                "shortcode": "chelyx",
-                "label": "SOHL.Astrology.Sign.Chelyx",
-                "start": {
-                    "month": 4,
-                    "day": 4
-                },
-                "end": {
-                    "month": 5,
-                    "day": 4
-                },
-                "cuspDays": 2,
-                "skillModifiers": {
-                    "subtype:script": 10,
-                    "subtype:craft": 10,
-                    "subtype:combattechnique": 10,
-                    "subtype:combat": 10,
-                    "subtype:mystical": -10,
-                    "subtype:lore": -10,
-                    "subtype:language": -10,
-                    "subtype:social": -10
-                }
-            },
-            {
-                "shortcode": "thyron",
-                "label": "SOHL.Astrology.Sign.Thyron",
-                "start": {
-                    "month": 5,
-                    "day": 5
-                },
-                "end": {
-                    "month": 6,
-                    "day": 6
-                },
-                "cuspDays": 2,
-                "skillModifiers": {
-                    "subtype:nature": -5,
-                    "subtype:script": 5,
-                    "subtype:craft": 5,
-                    "subtype:combattechnique": 15,
-                    "subtype:combat": 15,
-                    "subtype:physical": 5,
-                    "subtype:mystical": -5,
-                    "subtype:lore": -5,
-                    "subtype:language": -15,
-                    "subtype:social": -15
-                }
-            },
-            {
-                "shortcode": "korith",
-                "label": "SOHL.Astrology.Sign.Korith",
-                "start": {
-                    "month": 6,
-                    "day": 7
-                },
-                "end": {
-                    "month": 7,
-                    "day": 5
-                },
-                "cuspDays": 2,
-                "skillModifiers": {
-                    "subtype:nature": -10,
-                    "subtype:combattechnique": 10,
-                    "subtype:combat": 10,
-                    "subtype:physical": 10,
-                    "subtype:language": -10,
-                    "subtype:social": -10
-                }
-            },
-            {
-                "shortcode": "stathmos",
-                "label": "SOHL.Astrology.Sign.Stathmos",
-                "start": {
-                    "month": 7,
-                    "day": 6
-                },
-                "end": {
-                    "month": 8,
-                    "day": 4
-                },
-                "cuspDays": 2,
-                "skillModifiers": {
-                    "subtype:nature": -15,
-                    "subtype:script": -5,
-                    "subtype:craft": -5,
-                    "subtype:combattechnique": 5,
-                    "subtype:combat": 5,
-                    "subtype:physical": 15,
-                    "subtype:mystical": 5,
-                    "subtype:lore": 5,
-                    "subtype:language": -5,
-                    "subtype:social": -5
-                }
-            },
-            {
-                "shortcode": "kentros",
-                "label": "SOHL.Astrology.Sign.Kentros",
-                "start": {
-                    "month": 8,
-                    "day": 5
-                },
-                "end": {
-                    "month": 9,
-                    "day": 3
-                },
-                "cuspDays": 2,
-                "skillModifiers": {
-                    "subtype:nature": -10,
-                    "subtype:script": -10,
-                    "subtype:craft": -10,
-                    "subtype:physical": 10,
-                    "subtype:mystical": 10,
-                    "subtype:lore": 10
-                }
-            },
-            {
-                "shortcode": "belos",
-                "label": "SOHL.Astrology.Sign.Belos",
-                "start": {
-                    "month": 9,
-                    "day": 4
-                },
-                "end": {
-                    "month": 10,
-                    "day": 2
-                },
-                "cuspDays": 2,
-                "skillModifiers": {
-                    "subtype:nature": -5,
-                    "subtype:script": -15,
-                    "subtype:craft": -15,
-                    "subtype:combattechnique": -5,
-                    "subtype:combat": -5,
-                    "subtype:physical": 5,
-                    "subtype:mystical": 15,
-                    "subtype:lore": 15,
-                    "subtype:language": 5,
-                    "subtype:social": 5
-                }
-            },
-            {
-                "shortcode": "tragyx",
-                "label": "SOHL.Astrology.Sign.Tragyx",
-                "start": {
-                    "month": 10,
-                    "day": 3
-                },
-                "end": {
-                    "month": 11,
-                    "day": 2
-                },
-                "cuspDays": 2,
-                "skillModifiers": {
-                    "subtype:script": -10,
-                    "subtype:craft": -10,
-                    "subtype:combattechnique": -10,
-                    "subtype:combat": -10,
-                    "subtype:mystical": 10,
-                    "subtype:lore": 10,
-                    "subtype:language": 10,
-                    "subtype:social": 10
-                }
-            },
-            {
-                "shortcode": "nalos",
-                "label": "SOHL.Astrology.Sign.Nalos",
-                "start": {
-                    "month": 11,
-                    "day": 3
-                },
-                "end": {
-                    "month": 12,
-                    "day": 1
-                },
-                "cuspDays": 2,
-                "skillModifiers": {
-                    "subtype:nature": 5,
-                    "subtype:script": -5,
-                    "subtype:craft": -5,
-                    "subtype:combattechnique": -15,
-                    "subtype:combat": -15,
-                    "subtype:physical": -5,
-                    "subtype:mystical": 5,
-                    "subtype:lore": 5,
-                    "subtype:language": 15,
-                    "subtype:social": 15
-                }
-            },
-            {
-                "shortcode": "opsar",
-                "label": "SOHL.Astrology.Sign.Opsar",
-                "start": {
-                    "month": 12,
-                    "day": 2
-                },
-                "end": {
-                    "month": 1,
-                    "day": 3
-                },
-                "cuspDays": 2,
-                "skillModifiers": {
-                    "subtype:nature": 10,
-                    "subtype:combattechnique": -10,
-                    "subtype:combat": -10,
-                    "subtype:physical": -10,
-                    "subtype:language": 10,
-                    "subtype:social": 10
-                }
+            "cuspDays": 2,
+            "skillModifiers": {
+                "subtype:nature": 15,
+                "subtype:script": 5,
+                "subtype:craft": 5,
+                "subtype:combattechnique": -5,
+                "subtype:combat": -5,
+                "subtype:physical": -15,
+                "subtype:mystical": -5,
+                "subtype:lore": -5,
+                "subtype:language": 5,
+                "subtype:social": 5
             }
-        ]
-    }
+        },
+        {
+            "shortcode": "bourax",
+            "label": "SOHL.Astrology.Sign.Bourax",
+            "start": {
+                "month": 2,
+                "day": 4
+            },
+            "end": {
+                "month": 3,
+                "day": 2
+            },
+            "cuspDays": 2,
+            "skillModifiers": {
+                "subtype:nature": 10,
+                "subtype:script": 10,
+                "subtype:craft": 10,
+                "subtype:physical": -10,
+                "subtype:mystical": -10,
+                "subtype:lore": -10
+            }
+        },
+        {
+            "shortcode": "diplos",
+            "label": "SOHL.Astrology.Sign.Diplos",
+            "start": {
+                "month": 3,
+                "day": 3
+            },
+            "end": {
+                "month": 4,
+                "day": 3
+            },
+            "cuspDays": 2,
+            "skillModifiers": {
+                "subtype:nature": 5,
+                "subtype:script": 15,
+                "subtype:craft": 15,
+                "subtype:combattechnique": 5,
+                "subtype:combat": 5,
+                "subtype:physical": -5,
+                "subtype:mystical": -15,
+                "subtype:lore": -15,
+                "subtype:language": -5,
+                "subtype:social": -5
+            }
+        },
+        {
+            "shortcode": "chelyx",
+            "label": "SOHL.Astrology.Sign.Chelyx",
+            "start": {
+                "month": 4,
+                "day": 4
+            },
+            "end": {
+                "month": 5,
+                "day": 4
+            },
+            "cuspDays": 2,
+            "skillModifiers": {
+                "subtype:script": 10,
+                "subtype:craft": 10,
+                "subtype:combattechnique": 10,
+                "subtype:combat": 10,
+                "subtype:mystical": -10,
+                "subtype:lore": -10,
+                "subtype:language": -10,
+                "subtype:social": -10
+            }
+        },
+        {
+            "shortcode": "thyron",
+            "label": "SOHL.Astrology.Sign.Thyron",
+            "start": {
+                "month": 5,
+                "day": 5
+            },
+            "end": {
+                "month": 6,
+                "day": 6
+            },
+            "cuspDays": 2,
+            "skillModifiers": {
+                "subtype:nature": -5,
+                "subtype:script": 5,
+                "subtype:craft": 5,
+                "subtype:combattechnique": 15,
+                "subtype:combat": 15,
+                "subtype:physical": 5,
+                "subtype:mystical": -5,
+                "subtype:lore": -5,
+                "subtype:language": -15,
+                "subtype:social": -15
+            }
+        },
+        {
+            "shortcode": "korith",
+            "label": "SOHL.Astrology.Sign.Korith",
+            "start": {
+                "month": 6,
+                "day": 7
+            },
+            "end": {
+                "month": 7,
+                "day": 5
+            },
+            "cuspDays": 2,
+            "skillModifiers": {
+                "subtype:nature": -10,
+                "subtype:combattechnique": 10,
+                "subtype:combat": 10,
+                "subtype:physical": 10,
+                "subtype:language": -10,
+                "subtype:social": -10
+            }
+        },
+        {
+            "shortcode": "stathmos",
+            "label": "SOHL.Astrology.Sign.Stathmos",
+            "start": {
+                "month": 7,
+                "day": 6
+            },
+            "end": {
+                "month": 8,
+                "day": 4
+            },
+            "cuspDays": 2,
+            "skillModifiers": {
+                "subtype:nature": -15,
+                "subtype:script": -5,
+                "subtype:craft": -5,
+                "subtype:combattechnique": 5,
+                "subtype:combat": 5,
+                "subtype:physical": 15,
+                "subtype:mystical": 5,
+                "subtype:lore": 5,
+                "subtype:language": -5,
+                "subtype:social": -5
+            }
+        },
+        {
+            "shortcode": "kentros",
+            "label": "SOHL.Astrology.Sign.Kentros",
+            "start": {
+                "month": 8,
+                "day": 5
+            },
+            "end": {
+                "month": 9,
+                "day": 3
+            },
+            "cuspDays": 2,
+            "skillModifiers": {
+                "subtype:nature": -10,
+                "subtype:script": -10,
+                "subtype:craft": -10,
+                "subtype:physical": 10,
+                "subtype:mystical": 10,
+                "subtype:lore": 10
+            }
+        },
+        {
+            "shortcode": "belos",
+            "label": "SOHL.Astrology.Sign.Belos",
+            "start": {
+                "month": 9,
+                "day": 4
+            },
+            "end": {
+                "month": 10,
+                "day": 2
+            },
+            "cuspDays": 2,
+            "skillModifiers": {
+                "subtype:nature": -5,
+                "subtype:script": -15,
+                "subtype:craft": -15,
+                "subtype:combattechnique": -5,
+                "subtype:combat": -5,
+                "subtype:physical": 5,
+                "subtype:mystical": 15,
+                "subtype:lore": 15,
+                "subtype:language": 5,
+                "subtype:social": 5
+            }
+        },
+        {
+            "shortcode": "tragyx",
+            "label": "SOHL.Astrology.Sign.Tragyx",
+            "start": {
+                "month": 10,
+                "day": 3
+            },
+            "end": {
+                "month": 11,
+                "day": 2
+            },
+            "cuspDays": 2,
+            "skillModifiers": {
+                "subtype:script": -10,
+                "subtype:craft": -10,
+                "subtype:combattechnique": -10,
+                "subtype:combat": -10,
+                "subtype:mystical": 10,
+                "subtype:lore": 10,
+                "subtype:language": 10,
+                "subtype:social": 10
+            }
+        },
+        {
+            "shortcode": "nalos",
+            "label": "SOHL.Astrology.Sign.Nalos",
+            "start": {
+                "month": 11,
+                "day": 3
+            },
+            "end": {
+                "month": 12,
+                "day": 1
+            },
+            "cuspDays": 2,
+            "skillModifiers": {
+                "subtype:nature": 5,
+                "subtype:script": -5,
+                "subtype:craft": -5,
+                "subtype:combattechnique": -15,
+                "subtype:combat": -15,
+                "subtype:physical": -5,
+                "subtype:mystical": 5,
+                "subtype:lore": 5,
+                "subtype:language": 15,
+                "subtype:social": 15
+            }
+        },
+        {
+            "shortcode": "opsar",
+            "label": "SOHL.Astrology.Sign.Opsar",
+            "start": {
+                "month": 12,
+                "day": 2
+            },
+            "end": {
+                "month": 1,
+                "day": 3
+            },
+            "cuspDays": 2,
+            "skillModifiers": {
+                "subtype:nature": 10,
+                "subtype:combattechnique": -10,
+                "subtype:combat": -10,
+                "subtype:physical": -10,
+                "subtype:language": 10,
+                "subtype:social": 10
+            }
+        }
+    ]
 }

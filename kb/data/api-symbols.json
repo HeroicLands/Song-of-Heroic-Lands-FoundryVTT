@@ -3181,6 +3181,7 @@
   "sohl.entity.astrology.ValidateTraditionsResult.skipped": "interfaces/sohl.entity.astrology.ValidateTraditionsResult.html#skipped",
   "sohl.entity.astrology.ValidateTraditionsResult.traditions": "interfaces/sohl.entity.astrology.ValidateTraditionsResult.html#traditions",
   "sohl.entity.astrology.builtinTraditions": "functions/sohl.entity.astrology.builtinTraditions.html",
+  "sohl.entity.astrology.builtinTraditionsData": "variables/sohl.entity.astrology.builtinTraditionsData.html",
   "sohl.entity.astrology.combineModifierDicts": "functions/sohl.entity.astrology.combineModifierDicts.html",
   "sohl.entity.astrology.dayOfYear": "functions/sohl.entity.astrology.dayOfYear.html",
   "sohl.entity.astrology.daysInYear": "functions/sohl.entity.astrology.daysInYear.html",

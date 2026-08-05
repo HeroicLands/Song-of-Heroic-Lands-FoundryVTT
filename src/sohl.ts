@@ -20,7 +20,7 @@ import * as coreNs from "@src/core";
 import * as appsNs from "@src/apps";
 import * as utilsNs from "@src/utils";
 import { entitySurface } from "@src/entity/surface";
-import { builtinTraditions } from "@src/entity/astrology";
+import { builtinTraditionsData } from "@src/entity/astrology";
 import {
     astrologyRegistry,
     setAstrologyWorldProvider,
@@ -561,7 +561,7 @@ function registerSystemHooks() {
     // first document prepare; modules add their own via
     // `sohl.astrologyRegistry.register(...)` in their `init` hook.
     astrologyRegistry.reset();
-    astrologyRegistry.register(builtinTraditions(), "builtin");
+    astrologyRegistry.register(builtinTraditionsData, "builtin");
     // Wire the world-override layer: the registry reads the GM's per-world
     // traditions through this provider (so the registry itself never touches
     // `game`), resolved on top of the built-in + module layers.
