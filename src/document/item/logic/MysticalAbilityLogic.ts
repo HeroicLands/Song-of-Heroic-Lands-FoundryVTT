@@ -94,10 +94,11 @@ export class MysticalAbilityLogic<
      * shortcode matches none. This is separate from the activating
      * {@link assocSkill | skill}: a religion, arcane or alchemical school, or
      * ancestor/totem/spirit whose membership confers an available area, level,
-     * or capability. Surfaced as the Being sheet's Affiliation column and (via
-     * its shortcode) available to capability derivations.
+     * or capability. Surfaced as the Being sheet's Affiliation column; a subtype
+     * may consult its {@link AffiliationLogic.level | rank} to inform a
+     * capability derivation.
      */
-    assocAffiliation?: AffiliationLogic;
+    affiliation?: AffiliationLogic;
 
     /**
      * Whether this ability's activation test is governed by a **Spirit Power**
@@ -390,7 +391,7 @@ export class MysticalAbilityLogic<
         // school, ancestor/totem/spirit) whose standing this ability draws on.
         // Resolved for every subtype that names one; undefined when blank or
         // unmatched.
-        this.assocAffiliation = resolveAssocAffiliation(
+        this.affiliation = resolveAssocAffiliation(
             actorLogic,
             this.data.assocAffiliationCode,
         );
@@ -444,7 +445,7 @@ export interface MysticalAbilityData<
      * Shortcode of the faction/Affiliation whose standing this ability draws on
      * (a religion, arcane/alchemical school, or ancestor/totem/spirit), or
      * `null` when the ability is not affiliation-associated. Resolved to
-     * {@link MysticalAbilityLogic.assocAffiliation} during
+     * {@link MysticalAbilityLogic.affiliation} during
      * {@link MysticalAbilityLogic.evaluate}.
      */
     assocAffiliationCode?: string | null;

@@ -179,7 +179,7 @@ describe("mysteries", () => {
                 cy.prepare(actor);
                 cy.foundry((win) => {
                     const it = win.game.actors.get(actor.id).items.get(item.id);
-                    return it.logic.assocAffiliation?.name ?? null;
+                    return it.logic.affiliation?.name ?? null;
                 }).should("eq", "Church of Larani");
 
                 cy.openSheet(actor);

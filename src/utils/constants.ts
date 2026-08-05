@@ -985,6 +985,22 @@ export function toSohlContextMenuSortGroup(
 }
 
 export const {
+    /** Map of affiliation effect-key name → change path. */
+    kind: AFFILIATION_EFFECT_KEY,
+    /** All affiliation effect-key change paths, as an array. */
+    values: AffiliationEffectKeys,
+    /** Type guard for affiliation effect-key change paths. */
+    isValue: isAffiliationEffectKey,
+    /** Localization keys per affiliation effect key. */
+    labels: affiliationEffectKeyLabels,
+} = defineType("SOHL.Affiliation.EffectKey", {
+    LEVEL: "mod:logic.level",
+});
+/** Union of all affiliation effect-key change paths. */
+export type AffiliationEffectKey =
+    (typeof AFFILIATION_EFFECT_KEY)[keyof typeof AFFILIATION_EFFECT_KEY];
+
+export const {
     /** Map of attribute effect-key name → change path. */
     kind: ATTRIBUTE_EFFECT_KEY,
     /** All attribute effect-key change paths, as an array. */

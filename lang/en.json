@@ -120,6 +120,7 @@
     "SOHL.Actor.currentMoveMedium.label": "Current Move Medium",
     "SOHL.Actor.movement.default": "Current move medium",
     "SOHL.Actor.movement.makeDefault": "Make this the current move medium",
+    "SOHL.Affiliation.EffectKey.LEVEL": "Rank",
     "SOHL.Affiliation.FIELDS.level.hint": "Standing or rank within the organization",
     "SOHL.Affiliation.FIELDS.level.label": "Rank",
     "SOHL.Affiliation.FIELDS.office.hint": "Specific position held within the organization",

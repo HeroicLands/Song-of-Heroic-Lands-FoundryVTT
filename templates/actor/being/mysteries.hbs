@@ -153,8 +153,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{else if (eq col.kind "affiliation")}}
                         {{!-- Affiliation column (#1012): the associated faction's
                               name, or "✕" when none is associated. --}}
-                        <div class="ledger__cell ledger__cell--text{{#unless ability.logic.assocAffiliation}} ledger__cell--dim{{/unless}}">
-                            {{#if ability.logic.assocAffiliation}}{{ability.logic.assocAffiliation.name}}{{else}}<i class="fa-solid fa-xmark fa-lg"></i>{{/if}}
+                        <div class="ledger__cell ledger__cell--text{{#unless ability.logic.affiliation}} ledger__cell--dim{{/unless}}">
+                            {{#if ability.logic.affiliation}}{{ability.logic.affiliation.name}}{{else}}<i class="fa-solid fa-xmark fa-lg"></i>{{/if}}
                         </div>
                         {{else if (eq col.kind "level")}}
                         <div class="ledger__cell{{#if ability.logic.level.disabled}} ledger__cell--dim{{/if}}"

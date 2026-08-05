@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { ITEM_KIND } from "@src/utils/constants";
 import { makeItemLogic } from "@tests/mocks/logicHarness";
 
@@ -57,8 +58,28 @@ describe("AffiliationLogic", () => {
         });
     });
 
+    describe("level", () => {
+        it("seeds the level ValueModifier from data.level (#1000)", () => {
+            const logic = makeAffiliation({ level: 4 });
+            logic.initialize();
+            expect(logic.level).toBeInstanceOf(ValueModifier);
+            expect(logic.level.base).toBe(4);
+            expect(logic.level.effective).toBe(4);
+            // Rank is a non-nullable integer, so the modifier is always enabled
+            // (it is an Active Effect target via `mod:logic.level`).
+            expect(logic.level.disabled).toBeFalsy();
+        });
+
+        it("keeps rank 0 as a real, enabled level", () => {
+            const logic = makeAffiliation({ level: 0 });
+            logic.initialize();
+            expect(logic.level.base).toBe(0);
+            expect(logic.level.disabled).toBeFalsy();
+        });
+    });
+
     describe("lifecycle", () => {
-        it("initialize / evaluate / finalize run without error (no derived state)", () => {
+        it("initialize / evaluate / finalize run without error", () => {
             const logic = makeAffiliation();
             expect(() => {
                 logic.initialize();
