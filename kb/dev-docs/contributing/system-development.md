@@ -222,6 +222,17 @@ shows up as unformatted, stop and ask — do not run `format` blind, since
 your commit. Once only your files are flagged, run `npm run format`, then `git add`
 only your files.
 
+### Commit messages
+
+Do **not** add AI/assistant attribution to commit messages, pull-request
+titles/bodies, or issues — no `Co-Authored-By:` trailer naming an assistant, and
+no "Generated with Claude Code"-style signature. A committed `commit-msg` hook
+(in `.githooks/`, activated for you when `npm install` runs its `prepare` script,
+which sets `core.hooksPath`) rejects such commits locally, and the **No
+Attribution** GitHub Actions check fails any pull request whose title, body, or
+commit messages carry it. Neither guard edits anything — they only report and
+fail, so you decide how to fix it.
+
 ### Submitting a pull request
 
 Before opening the PR, both of these must pass without errors:
