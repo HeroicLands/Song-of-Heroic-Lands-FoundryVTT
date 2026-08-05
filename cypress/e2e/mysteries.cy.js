@@ -197,6 +197,45 @@ describe("mysteries", () => {
         });
     });
 
+    // GREEN (#1076): a Mystery can likewise name the faction/Affiliation whose
+    // standing confers it; the logic resolves it on the same actor and the
+    // Mysteries-tab mystery ledger shows its name in the Affiliation column.
+    it("resolves and shows a Mystery's associated Affiliation in the Mysteries tab (#1076)", () => {
+        cy.createActor("being", { name: "mystic" }).then((actor) => {
+            cy.createItemOn(actor, "affiliation", {
+                name: "Church of Larani",
+                system: { shortcode: "larani", level: 3 },
+            });
+            cy.createItemOn(actor, "mystery", {
+                name: "Piety",
+                system: {
+                    subType: "piety",
+                    levelBase: 5,
+                    assocAffiliationCode: "larani",
+                },
+            }).then((item) => {
+                // The logic resolves the affiliation on the same actor.
+                cy.prepare(actor);
+                cy.foundry((win) => {
+                    const it = win.game.actors.get(actor.id).items.get(item.id);
+                    return it.logic.affiliation?.name ?? null;
+                }).should("eq", "Church of Larani");
+
+                cy.openSheet(actor);
+                cy.switchTab("mysteries", "primary");
+                const tab = 'section.tab[data-tab="mysteries"] ';
+                // The Affiliation column header renders…
+                cy.get(tab + ".mysteries-list .ledger__head").contains(
+                    "Affiliation",
+                );
+                // …and the mystery row shows the affiliation name.
+                cy.get(tab + ".mysteries-list .ledger__row").contains(
+                    "Church of Larani",
+                );
+            });
+        });
+    });
+
     // RED — blocked by #72 (Use Mystery action): the useMystery executor is not
     // yet implemented. Un-skip and assert the produced effect / chat card once wired.
     it.skip("useMystery performs the mystery's effect (#72)", () => {});

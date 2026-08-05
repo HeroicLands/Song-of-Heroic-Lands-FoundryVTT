@@ -38,11 +38,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </a>
                 </span>
             </div>
-            <div class="ledger" style="--ledger-cols:1.5rem minmax(140px,1.4fr) 6rem 3.6rem 4rem 1fr 1.6rem">
+            <div class="ledger" style="--ledger-cols:1.5rem minmax(140px,1.4fr) 6rem 6rem 3.6rem 4rem 1fr 1.6rem">
                 <div class="ledger__head">
                     <div></div>
                     <div>Mystery</div>
                     <div>Skill</div>
+                    <div>Affiliation</div>
                     <div class="ledger__head-num">Level</div>
                     <div class="ledger__head-num">Charges</div>
                     <div>Notes</div>
@@ -55,6 +56,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     <div class="ledger__name default-action" data-tooltip="{{mystery.name}}">{{mystery.name}}</div>
                     <div class="ledger__cell ledger__cell--text">{{#if mystery.logic.assocSkill}}{{mystery.logic.assocSkill.name}}{{/if}}</div>
+                    {{!-- Affiliation (#1076): the faction whose standing confers
+                          this mystery; blank when none is associated. --}}
+                    <div class="ledger__cell ledger__cell--text">{{#if mystery.logic.affiliation}}{{mystery.logic.affiliation.name}}{{/if}}</div>
                     <div class="ledger__cell{{#if mystery.logic.level.disabled}} ledger__cell--dim{{/if}}"
                         data-tooltip="{{mystery.logic.level.deltaLabel}}" data-tooltip-direction="UP">
                         {{!-- Level: "×" when disabled (levelBase null), else signed value --}}

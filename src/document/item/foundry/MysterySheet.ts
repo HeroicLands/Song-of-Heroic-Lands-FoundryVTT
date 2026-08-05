@@ -47,6 +47,7 @@ export class MysterySheet extends SohlItemSheetBase {
         return Object.assign(context, {
             subType: system.subType,
             assocSkillCode: system.assocSkillCode,
+            assocAffiliationCode: system.assocAffiliationCode,
             levelBase: system.levelBase,
             charges: system.charges,
             // Associated-skill dropdown (#974): the actor's skills when embedded;
@@ -56,6 +57,13 @@ export class MysterySheet extends SohlItemSheetBase {
                 this.document.actor?.logic,
                 ITEM_KIND.SKILL,
                 system.assocSkillCode,
+            ),
+            // Associated-affiliation dropdown (#1076): the actor's affiliations
+            // when embedded; empty off-actor → free-text shortcode entry.
+            assocAffiliationCodeOptions: actorItemRefOptions(
+                this.document.actor?.logic,
+                ITEM_KIND.AFFILIATION,
+                system.assocAffiliationCode,
             ),
         });
     }

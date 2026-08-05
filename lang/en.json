@@ -1080,6 +1080,8 @@
     "SOHL.Mystery.EffectKey.CHARGES": "Charges",
     "SOHL.Mystery.EffectKey.LEVEL": "Level",
     "SOHL.Mystery.EffectKey.MAX_CHARGES": "Maximum Charges",
+    "SOHL.Mystery.FIELDS.assocAffiliationCode.hint": "Shortcode of the faction/affiliation whose standing confers this mystery (religion, arcane or alchemical school, ancestor/totem/spirit)",
+    "SOHL.Mystery.FIELDS.assocAffiliationCode.label": "Associated Affiliation",
     "SOHL.Mystery.FIELDS.assocSkillCode.hint": "Shortcode of the skill this mystery is associated with (the skill a boon or boost affects, a fate re-roll applies to, etc.); leave blank when the mystery names no skill",
     "SOHL.Mystery.FIELDS.assocSkillCode.label": "Associated Skill",
     "SOHL.Mystery.FIELDS.charges.hint": "Usage tracking",
