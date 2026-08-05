@@ -63,9 +63,18 @@ Defined as standalone functions in `src/core/logic/sohl-calendar-logic.ts` and r
 
 `"sohl.relative"` also accepts options: `short` (compact form like `3d 4h`), `maxTerms` (cap the number of components), and `fromComponents` (anchor to a time other than the current world time). It never needed era data and is calendar-agnostic by construction.
 
-### Default calendar — "Turning Wheel"
+### Built-in calendars — loaded from JSON data files
 
-`src/utils/constants.ts` exports `SOHL_DEFAULT_CALENDAR_CONFIG`. Twelve 30-day months (Springtide, Blossomreach, Greengold, Highsun, Midsummer, Hayfall, Reapmoon, Emberwane, Fallmere, Frostwane, Snorest, Thawrise), a 10-day week, 360-day year, four seasons, `yearZero: 720`, era abbreviation `TR`. All names are localization keys.
+The shipped built-in calendars are **data files, not code**: `src/core/foundry/calendars/*.json`, imported and registered at init by `src/core/foundry/builtin-calendars.ts` (which exposes `BUILTIN_CALENDARS` and `DEFAULT_CALENDAR_SHORTCODE`). Each file is self-describing — a stable **`shortcode`** (its registry id, and the value a character's `social.calendar` names), a display `label`, and the Foundry `CalendarData` `config`.
+
+Two ship, both twelve 30-day months on a 10-day week (360-day year, four seasons, `yearZero: 720`, no year zero):
+
+| Shortcode | Calendar             | Era     | Months                                                  |
+| --------- | -------------------- | ------- | ------------------------------------------------------- |
+| `vylrec`  | **Vylarian Reckoning** (default) | VR / BVR | Floralis, Lusenar, Murkas, Taranis, Vulcar, Menaris, Venuris, Karnavar, Morveth, Thanaris, Aetheris, Janar |
+| `twheel`  | Turning Wheel        | AR      | Springtide, Blossomreach, Greengold, Highsun, Midsummer, Hayfall, Reapmoon, Emberwane, Fallmere, Frostwane, Snowrest, Thawrise |
+
+The **Vylarian Reckoning** (`vylrec`) — the reckoning of the world of Thalorna — is the default active calendar; its months are what the Astrokýklos birthsign sign windows read as. All names are localization keys.
 
 ## Calendar registry and GM workflow
 
@@ -75,7 +84,7 @@ Two world settings drive the GM-facing workflow:
 
 | Setting                  | Purpose                                                                                                                                                                        |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `sohl.activeCalendar`    | ID of the currently active calendar. Default `"sohl-default"`. Its `onChange` handler calls `SohlSystem.applyCalendar`, which re-initializes `game.time` — no reload required. |
+| `sohl.activeCalendar`    | ID of the currently active calendar. Default `"vylrec"` (Vylarian Reckoning). Its `onChange` handler calls `SohlSystem.applyCalendar`, which re-initializes `game.time` — no reload required. |
 | `sohl.importedCalendars` | Map of imported calendar configs persisted across sessions.                                                                                                                    |
 
 The `Calendar Settings` menu (`src/apps/foundry/CalendarSettingsMenu.ts`) lets the GM:
@@ -89,7 +98,7 @@ On reload, `src/sohl.ts` runs (in this order, during `init`):
 1. `registerSystemSettings()` — registers the two settings and the menu
 2. `setupSystem()` — merges `SohlSystem.CONFIG` into Foundry's `CONFIG`, installing `worldCalendarConfig`, `worldCalendarClass`, and the three formatters
 3. `rehydrateCalendars()` — re-registers all imported calendars from the world setting
-4. `applyActiveCalendar()` — reads `sohl.activeCalendar` and calls `SohlSystem.applyCalendar(id)`, falling back to `"sohl-default"` if the active ID is missing
+4. `applyActiveCalendar()` — reads `sohl.activeCalendar` and calls `SohlSystem.applyCalendar(id)`, falling back to `"vylrec"` if the active ID is missing
 
 Foundry then constructs `game.time` with SoHL's class and config. **The `init` hook is guaranteed to run before `game.time` construction** (verified against `client/game.mjs`: `Hooks.callAll("init")` runs in `initializeGame()`, `new helpers.GameTime()` runs later in `setupGame()`).
 
@@ -173,7 +182,7 @@ _None tracked at present. Add entries here as they surface._
 
 ## References
 
-- Source: `src/core/foundry/SohlCalendar.ts`, `src/core/logic/SohlSystem.ts`, `src/apps/foundry/CalendarSettingsMenu.ts`, `src/sohl.ts`, `src/utils/constants.ts` (`SOHL_DEFAULT_CALENDAR_CONFIG`)
+- Source: `src/core/foundry/SohlCalendar.ts`, `src/core/logic/SohlSystem.ts`, `src/apps/foundry/CalendarSettingsMenu.ts`, `src/sohl.ts`, `src/core/foundry/builtin-calendars.ts`, `src/core/foundry/calendars/*.json`
 - Tests: `tests/core/foundry/SohlCalendar.test.ts`
 - Foundry v14: `client/helpers/time.mjs` (`GameTime`, `initializeCalendar`), `client/data/calendar.mjs` (`CalendarData`), `client/game.mjs` (`Game#initializeGame` and `Game#setupGame`)
 - Foundry TS types: `node_modules/fvtt-types/src/foundry/client/data/calendar.d.mts`

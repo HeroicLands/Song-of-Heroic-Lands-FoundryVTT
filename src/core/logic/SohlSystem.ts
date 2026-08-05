@@ -13,6 +13,7 @@
 
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import { SohlCalendarData } from "@src/core/foundry/SohlCalendar";
+import { BUILTIN_CALENDARS } from "@src/core/foundry/builtin-calendars";
 import { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
 import type { Rng } from "@src/entity/random/Rng";
 import { createRng } from "@src/entity/random/createRng";
@@ -24,7 +25,6 @@ import {
     ItemKinds,
     ACTOR_KIND,
     WORLD_HOST_SHORTCODE,
-    SOHL_DEFAULT_CALENDAR_CONFIG,
     type ActorKind,
     type ItemKind,
 } from "@src/utils/constants";
@@ -569,10 +569,13 @@ export class SohlSystem {
     }
 }
 
-// Register the default calendar
-SohlSystem.registerCalendar("sohl-default", {
-    label: "SOHL.CalendarSettings.default",
-    config: SOHL_DEFAULT_CALENDAR_CONFIG,
-    calendarClass: SohlCalendarData,
-    builtin: true,
-});
+// Register the shipped built-in calendars from their JSON data files, each
+// keyed by its shortcode (the value a character's `social.calendar` names).
+for (const calendar of BUILTIN_CALENDARS) {
+    SohlSystem.registerCalendar(calendar.shortcode, {
+        label: calendar.label,
+        config: calendar.config,
+        calendarClass: SohlCalendarData,
+        builtin: true,
+    });
+}

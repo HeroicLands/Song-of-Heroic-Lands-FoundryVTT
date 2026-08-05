@@ -16,6 +16,7 @@
 
 export * from "./astrology-registry";
 export * from "./SafeExpressionField";
+export * from "./builtin-calendars";
 export * from "./SohlCalendar";
 export * from "./SohlDataModel";
 export * from "./SohlLocalize";

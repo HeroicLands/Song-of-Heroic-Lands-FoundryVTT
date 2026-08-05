@@ -12,6 +12,7 @@
  */
 
 import { SOHLCONFIG } from "@src/core/foundry/sohl-config";
+import { DEFAULT_CALENDAR_SHORTCODE } from "@src/core/foundry/builtin-calendars";
 import { migrateWorld } from "@src/core/foundry/migration";
 import { SohlSystem } from "@src/core/logic/SohlSystem";
 import * as documentNs from "@src/document";
@@ -229,7 +230,7 @@ function registerSystemSettings() {
         scope: "world",
         config: false,
         type: String,
-        default: "sohl-default",
+        default: DEFAULT_CALENDAR_SHORTCODE,
         onChange: (value: string): void => {
             try {
                 SohlSystem.applyCalendar(value);
@@ -356,7 +357,7 @@ function applyActiveCalendar(): void {
         console.warn(
             `SoHL | Calendar "${activeId}" not found, falling back to default`,
         );
-        SohlSystem.applyCalendar("sohl-default");
+        SohlSystem.applyCalendar(DEFAULT_CALENDAR_SHORTCODE);
     }
 }
 
