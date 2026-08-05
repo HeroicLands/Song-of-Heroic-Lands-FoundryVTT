@@ -145,28 +145,102 @@ Combat** instead.
 
 1. **Set up the encounter.** Place tokens for the combatants and add them to the
    combat tracker (see [Scene Setup](Scene_Setup.md)).
-2. **On the attacker's turn, target the opponent** (target their token) and
-   start the weapon's automated attack.
-3. **Answer the prompts** — choose the strike mode and any situational
-   modifiers; defaults are pre-filled.
+2. **On the attacker's turn, target the opponent** (target their token), then
+   **right-click the attacker's row in the combat tracker** and choose
+   **Automated Combat**.
+3. **Answer the attack dialog** — set the aim and any situational modifier;
+   defaults are pre-filled.
 4. **The defender responds** using the buttons that appear on their client,
    choosing one of the defenses below.
 5. **Read the results in chat.** Impact, hit location, armor, and injury are
    handled for you; the injury lands on the target sheet.
 
+Every automated action lives on the **combatant** — the tracker row, not the
+character sheet. See [[Combatant]] for the per-action reference: what each one
+asks for, when it refuses, and which are offered only as chat-card buttons.
+
+## The attack dialog
+
+Starting an automated attack opens a small dialog with two fields:
+
+- **Aim** — the body part you are striking at, listed from the defender's own
+  body. What you pick matters when the blow lands: an aimed strike hits that part
+  when your accuracy is good enough, and otherwise drifts outward to a neighbour
+  (see [Hit location: aimed vs. unaimed strikes](#hit-location-aimed-vs-unaimed-strikes)).
+- **Additional Modifier** — a whole-number bonus or penalty for the circumstances
+  (cover, footing, a called shot's difficulty, a house rule). Leave it at `0`
+  when nothing applies; type a negative number for a penalty.
+
+Press OK to roll the attack, or dismiss the dialog to call the whole thing off —
+nothing is rolled and nothing is posted.
+
+The weapon and strike mode are not asked for here: the system offers only the
+strike modes that can actually reach the target, and defaults to the one this
+combatant last attacked with in this fight, falling back to the best chance
+available.
+
+## The attack card
+
+The attack roll posts a card spoken by the attacker, titled with the strike mode
+(e.g. "Broadsword Melee Attack") and reading "_attacker_ vs. _defender_". It shows
+the parameters of the attack so every player can check them:
+
+- **Aim** — the body part being struck at.
+- **Aspect** — the damage aspect the strike mode delivers (blunt, edged,
+  piercing, …).
+- **AML** — the attacker's effective Attack Mastery Level, after every modifier.
+
+Below the card body sit the **defense buttons** — Dodge, Counterstrike, Block,
+and Ignore. They are addressed to the **defender**, so they only appear on the
+defending player's screen (and the GM's), and only the defenses that character can
+actually use are shown. Nothing resolves until the defender presses one.
+
+## The result card
+
+Pressing a defense resolves the exchange and posts a result card:
+
+- **Adjustment tables** — every modifier that went into the attacker's roll, and
+  the defender's too when they contested (Block or Dodge).
+- **Attack / Defend columns** — the weapon and defense used, each side's effective
+  mastery level (Eff. AML and Eff. DML), the roll, and the success level, coloured
+  by success or failure.
+- **Success Stars** — the victory margin as stars; "None" on a tie.
+- **The outcome** — "_attacker_ strikes!" or "Attack misses.", plus any Tactical
+  Advantages earned, whether a weapon broke, and whether either side must make a
+  **Fumble** or **Stumble** test.
+- **Attack Impact** — the impact (damage) formula, when a blow connected.
+- **Calculate _name_ Injury** — a button for each side that landed a blow. It opens
+  the injury resolution for that character; an aimed blow carries its hit location
+  through, an unaimed one asks where it landed.
+
+A **counterstrike** posts **two** of these cards — one for the original attack and
+one for the strike back — because both blows can land in the same exchange.
+
 ## The defenses
 
-When attacked in Automated Combat, the defender chooses one:
+When attacked in Automated Combat, the defender chooses one. These four are
+offered **only as buttons on the attack card**, on the defending player's screen —
+they are not in the combatant's Actions context menu, because a defense only makes
+sense as the answer to a particular attack. Each is filtered to what that
+character can actually do (no Dodge skill, no Dodge button), and an incapacitated
+defender is limited to Ignore.
 
 - **Block** — parry with a weapon or shield. On a win (or tie), the attack is
-  stopped.
+  stopped. Blocking asks which strike mode to parry with, pre-selecting the one
+  you blocked with last in this fight (otherwise your best chance), plus an
+  **Additional Modifier** field for the circumstances.
 - **Counterstrike** — defend _and_ strike back at once. Both blows may land: you
   can stop the attack and hit the attacker on the same exchange, at the risk of
-  taking the hit if you lose.
+  taking the hit if you lose. It asks for an aim and a modifier just like an
+  attack, offering only melee strike modes that can counterstrike and that reach
+  the attacker.
 - **Dodge** — get out of the way (a Dodge-skill roll). Avoids the blow when you
-  clearly beat the attack.
+  clearly beat the attack. Nothing is asked; the roll is made when you press the
+  button.
 - **Ignore** — take no defensive action; the attack simply resolves against you.
   An incapacitated defender is limited to Ignore.
+
+See [[Combatant]] for the full entry on each of these responses.
 
 # Blending the two modes
 
@@ -263,6 +337,8 @@ Once a blow connects and a location is chosen:
 
 # See also
 
+- [[Combatant]] — the combat-tracker row and its actions: starting an automated
+  attack, answering one, and moving a combatant between groups.
 - [Skill Tests](Skill_Tests.md) — the d100 roll-under test that underlies every
   combat roll.
 - [Working with Gear](Working_with_Gear.md) — equipping weapons, armor, and
