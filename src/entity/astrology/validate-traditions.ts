@@ -13,6 +13,8 @@
 
 import type {
     AstrologySign,
+    AstrologyCycle,
+    AstrologyCyclePosition,
     AstrologyTradition,
     AstrologyTraditions,
     MonthDay,
@@ -97,6 +99,110 @@ function validateSign(raw: unknown): AstrologySign | string {
     };
 }
 
+/**
+ * Validate one raw cycle position; returns the clean position or a reason string.
+ * @param raw - The raw position object.
+ * @returns The validated position, or an error-reason string.
+ */
+function validateCyclePosition(raw: unknown): AstrologyCyclePosition | string {
+    if (!raw || typeof raw !== "object") return "position is not an object";
+    const r = raw as Partial<AstrologyCyclePosition>;
+    if (typeof r.shortcode !== "string" || !r.shortcode.trim()) {
+        return "position is missing a string shortcode";
+    }
+    return {
+        shortcode: r.shortcode,
+        label: typeof r.label === "string" ? r.label : r.shortcode,
+        skillModifiers: skillModifiers(r.skillModifiers),
+    };
+}
+
+/** A raw cycle object as authored (before validation). */
+interface RawCycle {
+    /** The cycle's stable shortcode. */
+    shortcode?: unknown;
+    /** The display label (may be a localization key). */
+    label?: unknown;
+    /** The number of years per full turn of the cycle. */
+    cycleLength?: unknown;
+    /** The year at cycle position 0. */
+    epochYear?: unknown;
+    /** The raw positions comprising the cycle. */
+    positions?: unknown;
+}
+
+/**
+ * Validate one raw {@link AstrologyCycle}. Appends a reason to `skipped` (under
+ * `<key>.cycles[<index>]`, and per-position under `.positions[<i>]`) and returns
+ * `undefined` on failure rather than throwing. A cycle needs a string
+ * `shortcode`, a positive-integer `cycleLength`, and at least one valid position;
+ * positions may be sparse (fewer than `cycleLength`). `epochYear` defaults to `0`.
+ * @param raw - The raw cycle object.
+ * @param traditionKey - The owning tradition's key (for skip-key paths).
+ * @param index - The cycle's index within the tradition.
+ * @param skipped - The skip-list to append reasons to.
+ * @returns The validated cycle, or `undefined` when it is dropped.
+ */
+function validateCycle(
+    raw: unknown,
+    traditionKey: string,
+    index: number,
+    skipped: SkippedEntry[],
+): AstrologyCycle | undefined {
+    const cycleKey = `${traditionKey}.cycles[${index}]`;
+    if (!raw || typeof raw !== "object") {
+        skipped.push({ key: cycleKey, reason: "cycle is not an object" });
+        return undefined;
+    }
+    const r = raw as RawCycle;
+    if (typeof r.shortcode !== "string" || !r.shortcode.trim()) {
+        skipped.push({
+            key: cycleKey,
+            reason: "cycle is missing a string shortcode",
+        });
+        return undefined;
+    }
+    const cycleLength = num(r.cycleLength);
+    if (
+        cycleLength === undefined ||
+        cycleLength <= 0 ||
+        !Number.isInteger(cycleLength)
+    ) {
+        skipped.push({
+            key: cycleKey,
+            reason: "cycle has a non-positive-integer cycleLength",
+        });
+        return undefined;
+    }
+    if (!Array.isArray(r.positions)) {
+        skipped.push({ key: cycleKey, reason: "cycle has no positions array" });
+        return undefined;
+    }
+    const positions: AstrologyCyclePosition[] = [];
+    r.positions.forEach((rawPos, i) => {
+        const result = validateCyclePosition(rawPos);
+        if (typeof result === "string") {
+            skipped.push({
+                key: `${cycleKey}.positions[${i}]`,
+                reason: result,
+            });
+        } else {
+            positions.push(result);
+        }
+    });
+    if (!positions.length) {
+        skipped.push({ key: cycleKey, reason: "cycle has no valid positions" });
+        return undefined;
+    }
+    return {
+        shortcode: r.shortcode,
+        label: typeof r.label === "string" ? r.label : r.shortcode,
+        cycleLength,
+        epochYear: num(r.epochYear) ?? 0,
+        positions,
+    };
+}
+
 /** A raw tradition object as authored: self-describing via its own `shortcode`. */
 interface RawTradition {
     /** The tradition's stable key, carried on the object itself. */
@@ -105,6 +211,8 @@ interface RawTradition {
     label?: unknown;
     /** The raw signs comprising the tradition. */
     signs?: unknown;
+    /** The raw year cycles comprising the tradition. */
+    cycles?: unknown;
 }
 
 /**
@@ -143,27 +251,38 @@ function validateTradition(
         return undefined;
     }
     const key = v.shortcode;
-    if (!Array.isArray(v.signs)) {
-        skipped.push({ key, reason: "tradition has no signs array" });
-        return undefined;
-    }
     const signs: AstrologySign[] = [];
-    v.signs.forEach((rawSign, i) => {
-        const result = validateSign(rawSign);
-        if (typeof result === "string") {
-            skipped.push({ key: `${key}.signs[${i}]`, reason: result });
-        } else {
-            signs.push(result);
-        }
-    });
-    if (!signs.length) {
-        skipped.push({ key, reason: "tradition has no valid signs" });
+    if (Array.isArray(v.signs)) {
+        v.signs.forEach((rawSign, i) => {
+            const result = validateSign(rawSign);
+            if (typeof result === "string") {
+                skipped.push({ key: `${key}.signs[${i}]`, reason: result });
+            } else {
+                signs.push(result);
+            }
+        });
+    }
+    const cycles: AstrologyCycle[] = [];
+    if (Array.isArray(v.cycles)) {
+        v.cycles.forEach((rawCycle, i) => {
+            const result = validateCycle(rawCycle, key, i, skipped);
+            if (result) cycles.push(result);
+        });
+    }
+    // A tradition contributes birthsigns through solar signs and/or year cycles;
+    // one with neither valid signs nor valid cycles has nothing to derive.
+    if (!signs.length && !cycles.length) {
+        skipped.push({
+            key,
+            reason: "tradition has no valid signs or cycles",
+        });
         return undefined;
     }
     return {
         key,
         label: typeof v.label === "string" ? v.label : key,
         signs,
+        ...(cycles.length ? { cycles } : {}),
         source,
     };
 }

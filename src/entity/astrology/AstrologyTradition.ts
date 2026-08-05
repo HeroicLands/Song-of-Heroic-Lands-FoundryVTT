@@ -61,9 +61,61 @@ export interface AstrologySign {
 }
 
 /**
- * A named **astrological tradition** — a full set of {@link AstrologySign}s.
- * Keyed in the registry by the `society` of a birthsign Affiliation, so an
- * affiliation names the tradition to interpret its member's birth date through.
+ * A single **position** within an {@link AstrologyCycle} — the cyclic counterpart
+ * of an {@link AstrologySign}. A cycle of length _N_ has up to _N_ positions; a
+ * birth year selects exactly one (its offset from the cycle's epoch, modulo _N_).
+ */
+export interface AstrologyCyclePosition {
+    /** The position's shortcode (its stable identity within the cycle). */
+    shortcode: string;
+    /** The human-readable position name (a display label; may be a localization key). */
+    label: string;
+    /**
+     * The modifiers this position confers, keyed exactly as an
+     * {@link AstrologySign.skillModifiers} map (skill shortcode or
+     * `"subtype:<skillSubType>"`); values are signed numbers.
+     */
+    skillModifiers: Record<string, number>;
+}
+
+/**
+ * A **year-keyed cycle** within a tradition — an independent, repeating sequence
+ * of {@link AstrologyCyclePosition}s of arbitrary length (a 12-year animal cycle,
+ * a 28-year element cycle, a 60-year sexagenary cycle, …). A tradition may
+ * declare any number of cycles; each contributes one position's modifiers for a
+ * given birth **year**, combined with the solar {@link AstrologySign}s through
+ * the same `merge` pipeline. A cycle is orthogonal to the date windows: it keys
+ * off the year, they key off the day-of-year.
+ */
+export interface AstrologyCycle {
+    /** The cycle's shortcode (its stable identity within a tradition). */
+    shortcode: string;
+    /** The human-readable cycle name (a display label; may be a localization key). */
+    label: string;
+    /**
+     * The number of years in one full turn of the cycle; positions repeat every
+     * `cycleLength` years. Must be a positive integer.
+     */
+    cycleLength: number;
+    /**
+     * The calendar year that sits at cycle **position 0** — the cycle's anchor.
+     * A birth year's position is `(year - epochYear) mod cycleLength`. Defaults
+     * to `0` when omitted.
+     */
+    epochYear: number;
+    /**
+     * The positions comprising the cycle, in order — element index `i` is cycle
+     * **position `i`**. Usually `cycleLength` entries; a shorter array leaves the
+     * unauthored positions empty (a year landing on one contributes nothing).
+     */
+    positions: AstrologyCyclePosition[];
+}
+
+/**
+ * A named **astrological tradition** — a set of solar {@link AstrologySign} date
+ * windows and/or any number of year-keyed {@link AstrologyCycle}s. Keyed in the
+ * registry by the `society` of a birthsign Affiliation, so an affiliation names
+ * the tradition to interpret its member's birth date through.
  */
 export interface AstrologyTradition {
     /** The tradition's registry key (equal to an Affiliation `society`). */
@@ -72,6 +124,12 @@ export interface AstrologyTradition {
     label: string;
     /** The signs comprising the tradition, in authored order. */
     signs: AstrologySign[];
+    /**
+     * The year-keyed {@link AstrologyCycle}s the tradition declares, in authored
+     * order — independent of, and combinable with, the solar {@link signs}.
+     * Absent/empty for a purely solar tradition.
+     */
+    cycles?: AstrologyCycle[];
     /**
      * Provenance: a shipped `builtin`, a `module`-registered tradition, or a
      * `world`-authored/overridden one (their resolution order in the registry).
@@ -96,6 +154,12 @@ export interface AstrologyDate {
     day: number;
     /** Days in each month, index `0` = month 1. Its sum is the days in the year. */
     monthLengths: number[];
+    /**
+     * The calendar year of the birth date (the raw year, `0` = the calendar's
+     * `yearZero`). Present since #1036 so year-keyed {@link AstrologyCycle}s can
+     * resolve their position; absent (`undefined`) for a purely solar derivation.
+     */
+    year?: number;
 }
 
 /**
@@ -227,4 +291,84 @@ export function signByShortcode(
 ): AstrologySign | undefined {
     const needle = String(shortcode).toLowerCase();
     return tradition.signs.find((s) => s.shortcode.toLowerCase() === needle);
+}
+
+/**
+ * The 0-based **position index** a birth year occupies within a cycle — its
+ * offset from the cycle's `epochYear`, reduced modulo `cycleLength` (so years
+ * before the epoch wrap into range).
+ * @param cycle - The cycle to resolve against.
+ * @param year - The birth year (raw calendar year).
+ * @returns The position index in `0..cycleLength-1`, or `-1` when `cycleLength`
+ *   is not a positive number.
+ */
+export function positionIndexForYear(
+    cycle: AstrologyCycle,
+    year: number,
+): number {
+    const len = Math.trunc(cycle.cycleLength);
+    if (!(len > 0)) return -1;
+    const offset = Math.trunc(year) - Math.trunc(cycle.epochYear ?? 0);
+    return ((offset % len) + len) % len;
+}
+
+/**
+ * The {@link AstrologyCyclePosition} governing a birth year within a cycle.
+ * @param cycle - The cycle to resolve against.
+ * @param year - The birth year (raw calendar year).
+ * @returns The governing position, or `undefined` when the resolved index has no
+ *   authored position (a sparse cycle whose `positions` is shorter than
+ *   `cycleLength`) or `cycleLength` is invalid.
+ */
+export function positionForYear(
+    cycle: AstrologyCycle,
+    year: number,
+): AstrologyCyclePosition | undefined {
+    const idx = positionIndexForYear(cycle, year);
+    if (idx < 0 || idx >= cycle.positions.length) return undefined;
+    return cycle.positions[idx];
+}
+
+/**
+ * The cycle positions governing a birth year across **every** cycle a tradition
+ * declares — one per cycle that resolves, in the tradition's authored cycle
+ * order. The cyclic counterpart of {@link signsForDate}, and the year-keyed input
+ * to the `merge` pipeline: its positions' `skillModifiers` fold alongside the
+ * solar signs' into the same `BSMod` result.
+ * @param tradition - The tradition whose cycles to resolve.
+ * @param year - The birth year (raw calendar year).
+ * @returns One governing position per resolving cycle (empty when the tradition
+ *   declares no cycles, or none resolve for the year).
+ */
+export function positionsForYear(
+    tradition: AstrologyTradition,
+    year: number,
+): AstrologyCyclePosition[] {
+    const out: AstrologyCyclePosition[] = [];
+    for (const cycle of tradition.cycles ?? []) {
+        const pos = positionForYear(cycle, year);
+        if (pos) out.push(pos);
+    }
+    return out;
+}
+
+/**
+ * The per-month day counts for a specific year — the leap-aware month lengths
+ * that make day-of-year (and thus a near-boundary cusp) exact on calendars whose
+ * month lengths vary by year. In a leap year each month contributes its
+ * `leapDays` (falling back to `days` when a month declares none); in a common
+ * year, its `days`. For a fixed-length calendar (no `leapDays`, or not a leap
+ * year) this is just the base month lengths.
+ * @param months - The calendar's months, each with base `days` and optional
+ *   `leapDays`, in order.
+ * @param isLeapYear - Whether the birth year is a leap year in the calendar.
+ * @returns The day count for each month, index `0` = month 1.
+ */
+export function monthLengthsForYear(
+    months: { days: number; leapDays?: number | null }[],
+    isLeapYear: boolean,
+): number[] {
+    return months.map((m) =>
+        isLeapYear ? (m.leapDays ?? m.days ?? 0) : (m.days ?? 0),
+    );
 }

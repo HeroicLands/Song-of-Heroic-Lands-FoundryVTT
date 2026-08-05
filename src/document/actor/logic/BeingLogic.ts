@@ -2385,9 +2385,10 @@ export class BeingLogic<
      * {@link sohl.document.item.logic.AffiliationLogic | Affiliation}
      * ({@link sohl.document.item.logic.AffiliationLogic.isBirthsignAffiliation}),
      * never stored. Each affiliation's `astrologicalExpression` is evaluated
-     * against its tradition (`society`) with the resolved traditions registry
-     * and the calendar-converted birth date injected into the context; the
-     * per-affiliation dicts are combined **per key by algebraic max** (independent
+     * against its tradition (`society`) with the resolved traditions registry,
+     * the calendar-converted birth `date`, and the birth `year` (for year-keyed
+     * cycles, #1036) injected into the context; the per-affiliation dicts are
+     * combined **per key by algebraic max** (independent
      * traditions each contribute their own value; a skill named by only one keeps
      * it). Consumed by {@link sohl.document.item.logic.SkillLogic} as a `BSMod`
      * mastery-level delta (a specific skill shortcode overrides a `subtype:`
@@ -2432,6 +2433,7 @@ export class BeingLogic<
                 ).evaluate({
                     tradition: affiliation.data.society,
                     date,
+                    year: date?.year,
                     astrologyTraditions,
                 });
                 if (

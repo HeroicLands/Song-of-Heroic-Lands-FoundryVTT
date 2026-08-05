@@ -20,7 +20,10 @@ import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import {
     signsForDate,
     signByShortcode,
+    positionsForYear,
+    positionIndexForYear,
     type AstrologyDate,
+    type AstrologyCycle,
     type AstrologyTradition,
     type AstrologyTraditions,
 } from "@src/entity/astrology";
@@ -116,6 +119,8 @@ export const CONTEXT_BOUND_HELPERS: ReadonlyMap<string, string> = new Map([
     ["astrologySign", "astrologyTraditions"],
     ["astrologySettings", "astrologyTraditions"],
     ["astrologySetting", "astrologyTraditions"],
+    ["astrologyYearSign", "astrologyTraditions"],
+    ["astrologyYearSettings", "astrologyTraditions"],
 ]);
 
 /**
@@ -695,24 +700,35 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
     },
 
     /**
-     * Fold an array of **dicts** (or arrays) into one, **per key**, using a
-     * named pure combiner. For each key present in any element, the combiner is
-     * applied to the **present values only** (a key only one element supplies
-     * keeps that value — it is never combined against an implicit `0`). Array
-     * elements fold by index (`key = index`) and yield an array; dict elements
-     * yield a dict.
+     * Fold **dicts** (or arrays) into one, **per key**, using a named pure
+     * combiner passed as the **last** argument. For each key present in any
+     * element, the combiner is applied to the **present values only** (a key
+     * only one element supplies keeps that value — it is never combined against
+     * an implicit `0`). Array elements fold by index (`key = index`) and yield an
+     * array; dict elements yield a dict.
+     *
+     * The leading arguments are each a **list** of dicts/arrays; they are
+     * concatenated before folding, so `merge(listA, listB, "max")` folds both
+     * lists together — the seam that combines a solar-window list
+     * (`astrologySettings`) with a year-cycle list (`astrologyYearSettings`) into
+     * one `BSMod` result. The single-list form `merge(list, "max")` is the common
+     * case; a non-array leading argument is ignored.
      *
      * The combiner is passed **as a string** and resolved from the registry —
      * *selecting* a registered helper, never injecting code — and is restricted
      * to the pure combiners `max`, `min`, and `sum`. This is the astrology cusp
      * rule: `merge(astrologySettings(tradition, date), "max")`.
-     * @param iters - The array of dicts/arrays to fold.
-     * @param combinerName - The pure combiner to fold with (`"max"`, `"min"`, `"sum"`).
+     * @param args - One or more lists of dicts/arrays to fold, then the pure
+     *   combiner name (`"max"`, `"min"`, `"sum"`) as the final argument.
      * @returns The merged dict (or array when every element is an array).
      * @throws {SafeExpressionError} If the combiner is not an allowed pure combiner.
      */
-    merge(iters: unknown, combinerName: unknown): PlainObject | unknown[] {
-        const list = Array.isArray(iters) ? iters : [];
+    merge(...args: unknown[]): PlainObject | unknown[] {
+        const combinerName = args[args.length - 1];
+        const list: unknown[] = [];
+        for (const arg of args.slice(0, -1)) {
+            if (Array.isArray(arg)) list.push(...arg);
+        }
         const name = String(combinerName);
         if (!ALLOWED_MERGE_COMBINERS.has(name)) {
             throw new SafeExpressionError(
@@ -812,6 +828,77 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
         if (!t) return {};
         const s = signByShortcode(t, String(sign));
         return s ? { ...s.skillModifiers } : {};
+    },
+
+    /**
+     * The birthsign position shortcode(s) governing a birth **year** across a
+     * tradition's year cycles — one per cycle that resolves, in authored cycle
+     * order. The year-keyed counterpart of {@link STANDARD_HELPERS.astrologySign |
+     * astrologySign}. The traditions **registry** is injected as the first
+     * argument (see {@link CONTEXT_BOUND_HELPERS}); an author calls
+     * `astrologyYearSign(tradition, year)`.
+     * @param traditions - The traditions registry, injected from the context.
+     * @param tradition - The tradition key (an Affiliation `society`).
+     * @param year - The birth year (the `year` context binding).
+     * @returns The governing position shortcodes (empty when the tradition has no
+     *   cycles, none resolve, or the tradition/year is absent).
+     */
+    astrologyYearSign(
+        traditions: unknown,
+        tradition: unknown,
+        year: unknown,
+    ): string[] {
+        const t = resolveTradition(traditions, tradition);
+        if (!t || year === undefined || year === null) return [];
+        return positionsForYear(t, Number(year)).map((p) => p.shortcode);
+    },
+
+    /**
+     * One **modifier dict per governing cycle position** for a birth year within
+     * a tradition — the year-keyed counterpart of
+     * {@link STANDARD_HELPERS.astrologySettings | astrologySettings} and a second
+     * input to {@link STANDARD_HELPERS.merge | merge}. Fold it alongside the solar
+     * list to combine both:
+     * `merge(astrologySettings(tradition, date), astrologyYearSettings(tradition, year), "max")`.
+     * The registry is injected as the first argument; an author calls
+     * `astrologyYearSettings(tradition, year)`.
+     * @param traditions - The traditions registry, injected from the context.
+     * @param tradition - The tradition key (an Affiliation `society`).
+     * @param year - The birth year (the `year` context binding).
+     * @returns One `skillModifiers` dict per governing cycle position (empty array
+     *   when none).
+     */
+    astrologyYearSettings(
+        traditions: unknown,
+        tradition: unknown,
+        year: unknown,
+    ): PlainObject[] {
+        const t = resolveTradition(traditions, tradition);
+        if (!t || year === undefined || year === null) return [];
+        return positionsForYear(t, Number(year)).map((p) => ({
+            ...p.skillModifiers,
+        }));
+    },
+
+    /**
+     * The 0-based position a year occupies within a cycle of the given length —
+     * `(year - epoch) mod cycleLength`, wrapping years before the epoch into
+     * range. A pure arithmetic convenience for authors composing custom cyclic
+     * logic (the astrology helpers use the same rule internally).
+     * @param year - The year to place (the `year` context binding).
+     * @param cycleLength - The number of years per full cycle turn (positive).
+     * @param epoch - The year at position 0 (default `0`).
+     * @returns The 0-based position, or `-1` when `cycleLength` is not positive.
+     */
+    yearInCycle(year: unknown, cycleLength: unknown, epoch?: unknown): number {
+        return positionIndexForYear(
+            {
+                cycleLength: Number(cycleLength),
+                epochYear:
+                    epoch === undefined || epoch === null ? 0 : Number(epoch),
+            } as AstrologyCycle,
+            Number(year),
+        );
     },
 
     /**
