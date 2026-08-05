@@ -44,11 +44,10 @@ export class AffiliationLogic<
      * Affiliation is the system's **capability credential**: religious rank and
      * arcane grade live here, not on a Skill. This getter is the stable seam a
      * capability derivation reads — a Mystical Ability subtype that draws on its
-     * associated affiliation consults this level during its `evaluate()`, and a
-     * mystical Skill's Skill-Base formula can reference it as
-     * `affiliation.<code>.level` (see the `affiliation` expression namespace
-     * built in {@link sohl.document.item.logic.SkillLogic}). It only *informs* a
-     * derivation — no action is ever taken on the character automatically.
+     * {@link sohl.document.item.logic.MysticalAbilityLogic.assocAffiliation |
+     * associated affiliation} may consult this level during its `evaluate()`. It
+     * only *informs* a derivation — no action is ever taken on the character
+     * automatically.
      */
     get level(): number {
         return this.data.level;

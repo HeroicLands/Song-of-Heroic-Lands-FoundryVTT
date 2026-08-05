@@ -138,44 +138,11 @@ describe("resolveFromVersion", () => {
 });
 
 describe("SOHL_MIGRATIONS", () => {
-    it("registers the 0.8.0 Skill.levelBase-retirement step (#1000)", () => {
-        expect(SOHL_MIGRATIONS.map((s) => s.version)).toEqual(["0.8.0"]);
+    it("ships empty — infrastructure only (#957)", () => {
+        expect(SOHL_MIGRATIONS).toEqual([]);
     });
 
     it("is frozen so the registry cannot be mutated at runtime", () => {
         expect(Object.isFrozen(SOHL_MIGRATIONS)).toBe(true);
-    });
-
-    describe("Skill.levelBase retirement (#1000)", () => {
-        const step = SOHL_MIGRATIONS.find((s) => s.version === "0.8.0")!;
-        const migrate = (src: {
-            type?: string;
-            system?: Record<string, unknown>;
-        }) => step.migrators!.Item!(src as any);
-
-        it("deletes system.levelBase from a skill that has one", () => {
-            expect(
-                migrate({ type: "skill", system: { levelBase: 3 } }),
-            ).toEqual({ "system.-=levelBase": null });
-        });
-
-        it("deletes it even when the stored value is null (no level)", () => {
-            expect(
-                migrate({ type: "skill", system: { levelBase: null } }),
-            ).toEqual({ "system.-=levelBase": null });
-        });
-
-        it("no-ops a skill that has no stored levelBase", () => {
-            expect(
-                migrate({ type: "skill", system: { masteryLevelBase: 30 } }),
-            ).toBeUndefined();
-        });
-
-        it("no-ops a non-skill item that happens to carry levelBase", () => {
-            // Mystery / Mystical Ability / Trauma keep their own levelBase.
-            expect(
-                migrate({ type: "mystery", system: { levelBase: 2 } }),
-            ).toBeUndefined();
-        });
     });
 });

@@ -1013,14 +1013,10 @@ export class SkillLogic<
     /**
      * Compute the Skill Base from a raw formula source by evaluating it as a
      * value-returning {@link sohl.entity.expr.SafeExpression} against a
-     * Foundry-free context of attribute **values** (`attr.<shortcode>`) and
-     * **affiliation ranks** (`affiliation.<shortcode>.level`) — the latter lets a
-     * mystical skill's base scale with the character's standing in a church or
-     * arcane school (Affiliation is the capability credential; the context is
-     * built by `buildAffiliationContext`). The raw string is compiled here at
-     * evaluation time, never at author time (rule #10) — a world-item skill (no
-     * actor) simply evaluates against empty contexts where every `attr.*` is `0`
-     * and every `affiliation.*.level` is `0`.
+     * Foundry-free context of attribute **values** (`attr.<shortcode>`).
+     * The raw string is compiled here at evaluation time, never at
+     * author time (rule #10) — a world-item skill (no actor) simply evaluates
+     * against an empty context where every `attr.*` is `0`.
      *
      * - A blank/absent source yields `{ value: 0, expr: null }` — blank is not
      *   invalid.
@@ -1044,7 +1040,6 @@ export class SkillLogic<
             const expr = new SafeExpression({ source }, { parent: this });
             const raw = expr.evaluate({
                 attr: this.buildAttrContext(),
-                affiliation: this.buildAffiliationContext(),
             });
             const n = Number(raw);
             if (!Number.isFinite(n)) {
@@ -1087,44 +1082,6 @@ export class SkillLogic<
                     return Object.prototype.hasOwnProperty.call(target, key) ?
                             target[key]
                         :   0;
-                }
-                return Reflect.get(target, prop);
-            },
-        });
-    }
-
-    /**
-     * Build the zero-defaulting `affiliation` context: a map of the actor's
-     * affiliation shortcodes (lowercased) to a small record exposing that
-     * affiliation's `level` (its
-     * {@link sohl.document.item.logic.AffiliationLogic.level | rank / standing}).
-     * A Skill-Base formula references it as `affiliation.<code>.level`, so a
-     * character's grade in a church or arcane school can scale a mystical skill's
-     * base — the credential-driven replacement for the retired `Skill.level`.
-     *
-     * Wrapped in a Proxy so any absent affiliation resolves (case-insensitively)
-     * to a `{ level: 0 }` stub rather than throwing: `affiliation.<unknown>.level`
-     * is a benign `0`, mirroring the `attr` proxy's `?? 0` semantics. Off an
-     * actor the map is empty, so every `affiliation.*.level` is `0`.
-     *
-     * @returns The `affiliation` namespace object for expression evaluation.
-     */
-    private buildAffiliationContext(): Record<string, { level: number }> {
-        const ranks: Record<string, { level: number }> = {};
-        const affiliations =
-            this.actorLogic?.logicTypes?.[ITEM_KIND.AFFILIATION] ?? [];
-        for (const a of affiliations) {
-            const code = a.data.shortcode?.toLowerCase();
-            if (code) ranks[code] = { level: a.level ?? 0 };
-        }
-        const absent = { level: 0 };
-        return new Proxy(ranks, {
-            get(target, prop) {
-                if (typeof prop === "string") {
-                    const key = prop.toLowerCase();
-                    return Object.prototype.hasOwnProperty.call(target, key) ?
-                            target[key]
-                        :   absent;
                 }
                 return Reflect.get(target, prop);
             },
