@@ -118,11 +118,14 @@ maintained API.
 
 A module can also register its own **birthsign astrology traditions** through
 `sohl.astrologyRegistry`, typically in its `init` hook after loading its
-tradition JSON:
+tradition JSON. This is the same **two-stage load** the system uses for its own
+built-ins: fetch the data file with **`sohl.fetchJson(path)`** (stage one, the
+Foundry boundary), then hand the parsed JSON to the Foundry-free
+`register(json)` (stage two):
 
 ```js
 Hooks.once("init", async () => {
-    const traditions = await foundry.utils.fetchJsonWithTimeout(
+    const traditions = await sohl.fetchJson(
         "modules/my-module/data/my-traditions.json",
     );
     const { installed, skipped } = sohl.astrologyRegistry.register(traditions);

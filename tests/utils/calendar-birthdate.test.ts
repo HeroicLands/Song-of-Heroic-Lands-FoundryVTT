@@ -17,7 +17,7 @@ import {
     componentsToWorldTime,
     birthdayToWorldTime,
 } from "@src/utils/calendar-birthdate.mjs";
-import vylarianReckoning from "@src/core/foundry/calendars/vylarian-reckoning.json";
+import vylarianReckoning from "@assets/calendar/vylarian-reckoning.json";
 
 // The build converts an authored `traits.birthday` (Y/M/D era-year/month/day)
 // into the `Being.birthDate` world-time integer using a calendar's config.

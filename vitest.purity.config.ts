@@ -30,6 +30,10 @@ export default defineConfig({
                 replacement: path.resolve(__dirname, "src/$1"),
             },
             {
+                find: /^@assets\/(.*)/,
+                replacement: path.resolve(__dirname, "assets/$1"),
+            },
+            {
                 find: /^@tests\/(.*)/,
                 replacement: path.resolve(__dirname, "tests/$1"),
             },

@@ -4,7 +4,6 @@ import {
     daysInYear,
     signsForDate,
     signByShortcode,
-    builtinTraditions,
     positionIndexForYear,
     positionForYear,
     positionsForYear,
@@ -13,6 +12,7 @@ import {
     type AstrologyCycle,
     type AstrologyDate,
 } from "@src/entity/astrology";
+import { builtinTraditions } from "@tests/mocks/astrology";
 
 /** The default SoHL calendar: twelve 30-day months (360-day year). */
 const MONTHS_30 = Array(12).fill(30) as number[];

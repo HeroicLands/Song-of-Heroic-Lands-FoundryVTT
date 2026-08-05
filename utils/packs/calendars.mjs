@@ -16,10 +16,10 @@
  * a character's birth calendar (`social.calendar`, or the default) to convert an
  * authored `traits.birthday` into the stored `Being.birthDate` world-time value
  * (#1039). It reads the same JSON files the runtime registers
- * (`src/core/foundry/calendars/*.json`, see
- * `src/core/foundry/builtin-calendars.ts`), so there is no second copy of the
- * calendar definitions — only the default-shortcode constant is mirrored here,
- * since that lives in code, not data.
+ * (`assets/calendar/*.json`, see `src/core/foundry/builtin-calendars.ts`), so
+ * there is no second copy of the calendar definitions — only the
+ * default-shortcode constant is mirrored here, since that lives in code, not
+ * data.
  */
 
 import fs from "fs";
@@ -29,10 +29,7 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /** Directory holding the shipped calendar JSON files. */
-const CALENDARS_DIR = path.resolve(
-    __dirname,
-    "../../src/core/foundry/calendars",
-);
+const CALENDARS_DIR = path.resolve(__dirname, "../../assets/calendar");
 
 /**
  * The shortcode of the calendar used when a character names no `social.calendar`.

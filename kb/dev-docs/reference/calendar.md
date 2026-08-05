@@ -63,9 +63,9 @@ Defined as standalone functions in `src/core/logic/sohl-calendar-logic.ts` and r
 
 `"sohl.relative"` also accepts options: `short` (compact form like `3d 4h`), `maxTerms` (cap the number of components), and `fromComponents` (anchor to a time other than the current world time). It never needed era data and is calendar-agnostic by construction.
 
-### Built-in calendars — loaded from JSON data files
+### Built-in calendars — runtime-loaded data files
 
-The shipped built-in calendars are **data files, not code**: `src/core/foundry/calendars/*.json`, imported and registered at init by `src/core/foundry/builtin-calendars.ts` (which exposes `BUILTIN_CALENDARS` and `DEFAULT_CALENDAR_SHORTCODE`). Each file is self-describing — a stable **`shortcode`** (its registry id, and the value a character's `social.calendar` names), a display `label`, and the Foundry `CalendarData` `config`.
+The shipped built-in calendars are **data files, not code**: `assets/calendar/*.json` (deployed to `systems/sohl/assets/calendar/`). They are **fetched over HTTP** — not bundled into the code — and registered into the calendar registry. `src/core/foundry/builtin-calendars.ts` holds only the manifest of paths (`BUILTIN_CALENDAR_PATHS`) and `DEFAULT_CALENDAR_SHORTCODE`; `registerBuiltinCalendars` in `sohl.ts` fetches each path and calls `SohlSystem.registerCalendar`. Because a built-in calendar must be registered **before Foundry constructs `game.time`** (and Foundry's `init` phase is synchronous, awaiting no async work), the fetch uses the **synchronous** `fvttFetchJsonSync` shim — keeping the data loose and runtime-fetched while matching the pre-`game.time` timing a static import used to give. (Modules, whose calendars are not needed until after `init`, use the async `sohl.fetchJson` instead.) Each file is self-describing — a stable **`shortcode`** (its registry id, and the value a character's `social.calendar` names), a display `label`, and the Foundry `CalendarData` `config`.
 
 Two ship, both twelve 30-day months on a 10-day week (360-day year, four seasons, `yearZero: 720`, no year zero):
 
@@ -106,14 +106,15 @@ The `Calendar Settings` menu (`src/apps/foundry/CalendarSettingsMenu.ts`) lets t
 - Import a calendar from a JSON file (the file's `name` becomes the registry label; an ID is slugified from it)
 - Delete imported calendars (built-ins are protected)
 
-On reload, `src/sohl.ts` runs (in this order, during `init`):
+On reload, `src/sohl.ts` runs (in this order, during the **synchronous** `init` hook):
 
 1. `registerSystemSettings()` — registers the two settings and the menu
-2. `setupSystem()` — merges `SohlSystem.CONFIG` into Foundry's `CONFIG`, installing `worldCalendarConfig`, `worldCalendarClass`, and the three formatters
-3. `rehydrateCalendars()` — re-registers all imported calendars from the world setting
-4. `applyActiveCalendar()` — reads `sohl.activeCalendar` and calls `SohlSystem.applyCalendar(id)`, falling back to `"vylrec"` if the active ID is missing
+2. `setupSystem()` — merges `SohlSystem.CONFIG` into Foundry's `CONFIG`. `worldCalendarConfig` starts as a **bootstrap placeholder** (`DEFAULT_CALENDAR_CONFIG`, an empty object) — the real config is applied below, before `game.time` is built
+3. `registerBuiltinCalendars()` — **synchronously** fetches each built-in calendar data file (`fvttFetchJsonSync`) and registers it under its `shortcode`. The data is loaded here, not bundled
+4. `rehydrateCalendars()` — re-registers all imported calendars from the world setting
+5. `applyActiveCalendar()` — reads `sohl.activeCalendar` and calls `SohlSystem.applyCalendar(id)` (which overwrites the placeholder `worldCalendarConfig`), falling back to `"vylrec"` if the active ID is missing
 
-Foundry then constructs `game.time` with SoHL's class and config. **The `init` hook is guaranteed to run before `game.time` construction** (verified against `client/game.mjs`: `Hooks.callAll("init")` runs in `initializeGame()`, `new helpers.GameTime()` runs later in `setupGame()`).
+Foundry then constructs `game.time` with SoHL's class and config. **The `init` phase completes before `game.time` construction** (verified against `client/game.mjs`: `Hooks.callAll("init")` runs in `initialize()`, `new helpers.GameTime()` runs later in the separate `setupGame()` phase). Because the built-in fetch is **synchronous**, the whole `init` hook — fetch, registration, and `applyActiveCalendar` — completes before `game.time`, with no race. (An async fetch cannot: Foundry awaits no async work between `init` and `game.time`, so the data would not land in time.)
 
 ### JSON import format
 
@@ -195,7 +196,7 @@ _None tracked at present. Add entries here as they surface._
 
 ## References
 
-- Source: `src/core/foundry/SohlCalendar.ts`, `src/core/logic/SohlSystem.ts`, `src/apps/foundry/CalendarSettingsMenu.ts`, `src/sohl.ts`, `src/core/foundry/builtin-calendars.ts`, `src/core/foundry/calendars/*.json`
+- Source: `src/core/foundry/SohlCalendar.ts`, `src/core/logic/SohlSystem.ts`, `src/apps/foundry/CalendarSettingsMenu.ts`, `src/sohl.ts`, `src/core/foundry/builtin-calendars.ts`, `assets/calendar/*.json`
 - Tests: `tests/core/foundry/SohlCalendar.test.ts`
 - Foundry v14: `client/helpers/time.mjs` (`GameTime`, `initializeCalendar`), `client/data/calendar.mjs` (`CalendarData`), `client/game.mjs` (`Game#initializeGame` and `Game#setupGame`)
 - Foundry TS types: `node_modules/fvtt-types/src/foundry/client/data/calendar.d.mts`

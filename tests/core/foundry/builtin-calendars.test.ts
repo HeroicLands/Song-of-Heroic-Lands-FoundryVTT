@@ -8,35 +8,59 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, it, expect } from "vitest";
 import {
-    BUILTIN_CALENDARS,
+    BUILTIN_CALENDAR_PATHS,
     DEFAULT_CALENDAR_SHORTCODE,
     DEFAULT_CALENDAR_CONFIG,
+    type BuiltinCalendarData,
 } from "@src/core/foundry/builtin-calendars";
+
+// The built-in calendars are true data files fetched at runtime, not bundled.
+// There is no HTTP server in unit tests, so read each manifest path from disk
+// (the same bytes `fvttFetchJson` would return) to assert their content.
+const REPO_ROOT = resolve(fileURLToPath(import.meta.url), "../../../..");
+
+/** Read a shipped built-in calendar file (by its `systems/sohl/...` path). */
+function readCalendar(path: string): BuiltinCalendarData {
+    const rel = path.replace(/^systems\/sohl\//, "");
+    return JSON.parse(readFileSync(resolve(REPO_ROOT, rel), "utf8"));
+}
+
+const CALENDARS: BuiltinCalendarData[] =
+    BUILTIN_CALENDAR_PATHS.map(readCalendar);
 
 /** Narrow a built-in calendar's config to the fields we assert on. */
 function cfg(shortcode: string): any {
-    return BUILTIN_CALENDARS.find((c) => c.shortcode === shortcode)?.config;
+    return CALENDARS.find((c) => c.shortcode === shortcode)?.config;
 }
 
-describe("built-in calendars (loaded from JSON data files)", () => {
-    it("ships the Vylarian Reckoning (default) and the Turning Wheel", () => {
-        const shortcodes = BUILTIN_CALENDARS.map((c) => c.shortcode);
+describe("built-in calendars (runtime-loaded data files)", () => {
+    it("manifests the Vylarian Reckoning (default, first) and the Turning Wheel", () => {
+        const shortcodes = CALENDARS.map((c) => c.shortcode);
         expect(shortcodes).toContain("vylrec");
         expect(shortcodes).toContain("twheel");
+        expect(shortcodes[0]).toBe("vylrec"); // default first
         expect(DEFAULT_CALENDAR_SHORTCODE).toBe("vylrec");
     });
 
-    it("the default calendar config is the Vylarian Reckoning", () => {
-        expect((DEFAULT_CALENDAR_CONFIG as any).name).toBe(
-            "Vylarian Reckoning",
-        );
-        expect(cfg("vylrec")).toBe(DEFAULT_CALENDAR_CONFIG);
+    it("manifest paths point at the shipped calendar assets", () => {
+        for (const p of BUILTIN_CALENDAR_PATHS) {
+            expect(p).toMatch(/^systems\/sohl\/assets\/calendar\/.+\.json$/);
+        }
+    });
+
+    it("the DEFAULT_CALENDAR_CONFIG is only a bootstrap placeholder (applied at init)", () => {
+        // The real default config is fetched and applied at init; this constant
+        // exists only to keep SOHLCONFIG.time well-formed before that runs.
+        expect(DEFAULT_CALENDAR_CONFIG).toEqual({});
     });
 
     it("each built-in has a shortcode, a label, and a config", () => {
-        for (const c of BUILTIN_CALENDARS) {
+        for (const c of CALENDARS) {
             expect(c.shortcode, "shortcode")
                 .to.be.a("string")
                 .and.not.equal("");

@@ -17,7 +17,7 @@ import {
     resolveCalendarConfig,
 } from "../../utils/packs/calendars.mjs";
 
-// The build-time calendar loader reads the shipped `src/core/foundry/calendars/`
+// The build-time calendar loader reads the shipped `assets/calendar/`
 // JSON files (the same data the runtime registers) so the content build can map
 // a character's birth calendar without loading Foundry (#1039).
 describe("build calendar loader", () => {

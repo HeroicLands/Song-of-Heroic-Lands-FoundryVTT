@@ -13,7 +13,7 @@ import {
     astrologyRegistry,
     setAstrologyWorldProvider,
 } from "@src/core/foundry/astrology-registry";
-import { builtinTraditionsData } from "@src/entity/astrology";
+import { builtinTraditionsData } from "@tests/mocks/astrology";
 
 /** A minimal valid self-describing tradition JSON (as a module would supply). */
 function traditionJson(key: string, signShortcode = "aa") {
@@ -51,7 +51,7 @@ describe("astrologyRegistry", () => {
     });
 
     it("seeds the built-in default as source builtin", () => {
-        astrologyRegistry.register(builtinTraditionsData, "builtin");
+        astrologyRegistry.register(builtinTraditionsData(), "builtin");
         const reg = astrologyRegistry.registered();
         expect(reg["astrokyklos"]).toBeDefined();
         expect(reg["astrokyklos"].source).toBe("builtin");
