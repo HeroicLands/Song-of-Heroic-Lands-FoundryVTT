@@ -66,6 +66,139 @@ describe("SohlLogic", () => {
         });
     });
 
+    describe("intrinsic action override", () => {
+        it("a script action with an intrinsic's shortcode replaces it in actions", () => {
+            const logic = makeItemLogic(SohlItemBaseLogic, "misc", {
+                actionDefs: [
+                    scriptAction(
+                        "editDocument",
+                        SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+                    ),
+                ],
+            });
+            const editAction = logic.actions.get("editDocument")!;
+            expect(editAction.data.subType).toBe(ACTION_SUBTYPE.SCRIPT);
+        });
+
+        it("hides the intrinsic: exactly one action and one menu entry per shortcode", () => {
+            const baseline = makeItemLogic(SohlItemBaseLogic, "misc");
+            const overridden = makeItemLogic(SohlItemBaseLogic, "misc", {
+                actionDefs: [
+                    scriptAction(
+                        "editDocument",
+                        SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+                    ),
+                ],
+            });
+            // Overriding an intrinsic must not grow the action set.
+            expect(overridden.actions.size()).toBe(baseline.actions.size());
+            const shortcodes = Array.from(overridden.actions.values()).map(
+                (a) => a.shortcode,
+            );
+            expect(shortcodes.filter((s) => s === "editDocument")).toHaveLength(
+                1,
+            );
+            // The context menu mirrors the deduped set — one entry per action.
+            expect(overridden.getContextOptions()).toHaveLength(
+                overridden.actions.size(),
+            );
+        });
+
+        it("keeps the shadowed intrinsic individually invocable via intrinsicActions", () => {
+            const logic = makeItemLogic(SohlItemBaseLogic, "misc", {
+                actionDefs: [
+                    scriptAction(
+                        "editDocument",
+                        SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+                    ),
+                ],
+            });
+            const intrinsic = logic.intrinsicActions.get("editDocument")!;
+            expect(intrinsic.data.subType).toBe(ACTION_SUBTYPE.INTRINSIC);
+            // Every intrinsic is retained, override or not.
+            expect(logic.intrinsicActions.has("deleteDocument")).toBe(true);
+        });
+
+        it("executeAction runs the overriding script, never the shadowed intrinsic", async () => {
+            const actor = makeMockActor();
+            const logic = makeItemLogic(
+                SohlItemBaseLogic,
+                "misc",
+                {
+                    actionDefs: [
+                        scriptAction(
+                            "editDocument",
+                            SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+                        ),
+                    ],
+                },
+                { actor },
+            );
+            const script = logic.actions.get("editDocument")!;
+            const intrinsic = logic.intrinsicActions.get("editDocument")!;
+            const scriptSpy = vi
+                .spyOn(script, "execute")
+                .mockResolvedValue("script-ran");
+            const intrinsicSpy = vi
+                .spyOn(intrinsic, "execute")
+                .mockResolvedValue("intrinsic-ran");
+
+            const result = await logic.executeAction("editDocument");
+
+            expect(result).toBe("script-ran");
+            expect(scriptSpy).toHaveBeenCalledTimes(1);
+            expect(intrinsicSpy).not.toHaveBeenCalled();
+        });
+
+        it("executeIntrinsicAction reaches the intrinsic even when a script shadows it", async () => {
+            const actor = makeMockActor();
+            const logic = makeItemLogic(
+                SohlItemBaseLogic,
+                "misc",
+                {
+                    actionDefs: [
+                        scriptAction(
+                            "editDocument",
+                            SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+                        ),
+                    ],
+                },
+                { actor },
+            );
+            const script = logic.actions.get("editDocument")!;
+            const intrinsic = logic.intrinsicActions.get("editDocument")!;
+            const scriptSpy = vi
+                .spyOn(script, "execute")
+                .mockResolvedValue("script-ran");
+            const intrinsicSpy = vi
+                .spyOn(intrinsic, "execute")
+                .mockResolvedValue("intrinsic-ran");
+
+            const result = await logic.executeIntrinsicAction("editDocument");
+
+            expect(result).toBe("intrinsic-ran");
+            expect(intrinsicSpy).toHaveBeenCalledTimes(1);
+            expect(scriptSpy).not.toHaveBeenCalled();
+        });
+
+        it("leaves non-overridden intrinsics and non-colliding scripts intact", () => {
+            const logic = makeItemLogic(SohlItemBaseLogic, "misc", {
+                actionDefs: [
+                    scriptAction(
+                        "custom",
+                        SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+                    ),
+                ],
+            });
+            expect(logic.actions.get("editDocument")!.data.subType).toBe(
+                ACTION_SUBTYPE.INTRINSIC,
+            );
+            expect(logic.actions.get("custom")!.data.subType).toBe(
+                ACTION_SUBTYPE.SCRIPT,
+            );
+        });
+    });
+
     describe("document accessors", () => {
         it("id / name / type come from the owning document", () => {
             const logic = makeItemLogic(

@@ -99,8 +99,16 @@ export abstract class SohlLogic<
     TData extends SohlLogicData<any> = SohlLogicData<any>,
 > {
     private readonly _parent: TData;
-    /** Executable actions for this document, keyed by title — context-menu entries, chat-card buttons, and lifecycle hooks. */
+    /** Executable actions for this document, keyed by shortcode — context-menu entries, chat-card buttons, and lifecycle hooks. A script action shadows the intrinsic action of the same shortcode (see the constructor). */
     actions!: SohlMap<string, SohlAction>;
+    /**
+     * Every intrinsic action this logic type defines, keyed by shortcode —
+     * retained even when a script action shadows one in {@link actions}. An
+     * overriding script builds on the intrinsic it hides by invoking it here
+     * (see {@link executeIntrinsicAction}); calling {@link executeAction} with
+     * the same shortcode would re-enter the script itself.
+     */
+    intrinsicActions!: SohlMap<string, SohlAction>;
 
     /**
      * Runtime brand identifying any SohlLogic (or subtype) — inherited by every
@@ -342,16 +350,40 @@ export abstract class SohlLogic<
         }
         this._parent = options.parent;
 
-        // Initialize all actions, both intrinsic ones and scripts
-        const actns = [
-            ...(this.constructor as any).defineIntrinsicActions(),
-            ...this.data.actionDefs,
-        ].map((data) => new entity.SohlAction(data, { parent: this }));
+        // Build every intrinsic action this logic type defines, keyed by
+        // shortcode. These are retained in full (see `intrinsicActions`) so a
+        // script that overrides one can still invoke it via
+        // `executeIntrinsicAction`.
+        this.intrinsicActions = new SohlMap<string, SohlAction>(
+            (
+                (
+                    this.constructor as any
+                ).defineIntrinsicActions() as Partial<SohlAction.Data>[]
+            ).map((data) => {
+                const action = new entity.SohlAction(data, { parent: this });
+                return [action.shortcode, action] as [string, SohlAction];
+            }),
+        );
 
-        // Set the default action based on the parent's settings
-        // and generate a map from the array of actions.
+        // The live action set: intrinsic actions overlaid by the author-supplied
+        // script actions (`actionDefs`). A script action whose shortcode matches
+        // an intrinsic one WHOLLY OVERRIDES (hides) it — only the script is kept,
+        // so the context menu, default-action selection, and `executeAction` each
+        // resolve exactly one action per shortcode, never both. Deduplicating
+        // here — before `setDefaultAction` — means the shadowed intrinsic is
+        // never constructed into `actions` nor exposed to the sort/default logic.
+        const merged = new SohlMap<string, SohlAction>([
+            ...this.intrinsicActions.entries(),
+        ]);
+        for (const data of this.data.actionDefs) {
+            const action = new entity.SohlAction(data, { parent: this });
+            merged.set(action.shortcode, action);
+        }
         this.actions = new SohlMap<string, SohlAction>(
-            setDefaultAction(actns).map((act) => [act.shortcode, act]),
+            setDefaultAction([...merged.values()]).map((act) => [
+                act.shortcode,
+                act,
+            ]),
         );
     }
 
@@ -459,6 +491,46 @@ export abstract class SohlLogic<
         if (!action) {
             console.warn(
                 `SoHL | ${this.name} (Actor) has no action "${shortcode}"`,
+            );
+            return undefined;
+        }
+        return action.execute(context);
+    }
+
+    /**
+     * Execute an **intrinsic** action by shortcode, bypassing any script action
+     * that shadows it in {@link actions}.
+     *
+     * @remarks
+     * When a script action overrides an intrinsic one of the same shortcode, the
+     * script *wholly* replaces it: {@link executeAction} (and the context menu)
+     * resolve only the script. An overriding script that wants to build on the
+     * existing capability calls this to run the intrinsic it hides — invoking
+     * {@link executeAction} with the same shortcode would re-enter the script
+     * itself. On a logic with no such override, `executeIntrinsicAction` and
+     * {@link executeAction} resolve the same action.
+     * @param shortcode - The shortcode of the intrinsic action to execute.
+     * @param context - The action context to use, if any.
+     * @returns The result of the action execution, or `undefined` if no
+     *   intrinsic action with that shortcode exists or none could be executed.
+     */
+    async executeIntrinsicAction(
+        shortcode: string,
+        context?: SohlActionContext,
+    ): Promise<unknown> {
+        const actorLogic: SohlActorLogic<any> | undefined =
+            this.actorLogic ?? this.item?.actor?.logic;
+        if (!actorLogic) {
+            console.warn(
+                `SoHL | ${this.name} (Actor) has no actor to execute intrinsic action "${shortcode}"`,
+            );
+            return undefined;
+        }
+        context ??= actorLogic._getContext();
+        const action = this.intrinsicActions.get(shortcode);
+        if (!action) {
+            console.warn(
+                `SoHL | ${this.name} (Actor) has no intrinsic action "${shortcode}"`,
             );
             return undefined;
         }

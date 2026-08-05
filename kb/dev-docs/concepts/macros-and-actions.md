@@ -101,6 +101,25 @@ Logic class — see [Extension Points](../how-to/extension-points.md) and {@link
 {@link sohl.core.logic.SohlLogic} in the API reference. To affect _all_ documents of a type rather
 than attach one action, use [Lifecycle Hooks](../how-to/lifecycle-hooks.md).
 
+### Overriding an intrinsic action
+
+A GM can **replace** an intrinsic action with their own house-ruled behavior by
+adding a Script Action whose `shortcode` matches the intrinsic one. The script then
+_wholly overrides_ (hides) the intrinsic: the context menu, the default action, and
+{@link sohl.core.logic.SohlLogic.executeAction} all resolve **only** the script —
+the system never runs both. Because an action is keyed by `shortcode`, the two
+sources are merged with the script winning, and the shadowed intrinsic is dropped
+from {@link sohl.core.logic.SohlLogic.actions} entirely.
+
+The override is _total_ — the system does not chain the intrinsic before or after
+the script. If the script means only to **build on** the existing capability, it is
+responsible for invoking the intrinsic itself. Every intrinsic action stays
+individually reachable through {@link sohl.core.logic.SohlLogic.intrinsicActions}
+and {@link sohl.core.logic.SohlLogic.executeIntrinsicAction}, so an overriding
+script calls `logic.executeIntrinsicAction(shortcode)` to run the intrinsic it
+hides. (Calling `executeAction(shortcode)` from the overriding script would resolve
+back to the script itself and re-enter it.)
+
 The same action can also be **offered across the chat log** — a card button that
 runs it, pre-filled, on whoever is entitled to click. That is the same executor,
 just triggered differently, and it is how every cross-client interaction (combat,
