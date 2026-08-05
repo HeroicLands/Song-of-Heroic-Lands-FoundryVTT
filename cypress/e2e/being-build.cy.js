@@ -166,7 +166,7 @@ describe("being build — manual character-build chain", () => {
             cy.createItemOn(actor, "skill", {
                 name: "Auto Skill",
                 system: {
-                    skillBaseFormula: "@str, @agl",
+                    skillBaseFormula: "sb(attr.str, attr.agl)",
                     masteryLevelBase: null,
                     initSkillMult: 3,
                 },

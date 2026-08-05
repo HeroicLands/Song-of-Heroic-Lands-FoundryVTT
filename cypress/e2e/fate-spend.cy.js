@@ -67,7 +67,7 @@ describe("Fate spend — post-roll success-level bump (#854)", () => {
                         shortcode: "fsw",
                         subType: "combat",
                         masteryLevelBase: 50,
-                        skillBaseFormula: "@str,@dex",
+                        skillBaseFormula: "sb(attr.str, attr.dex)",
                     },
                 }).then((skill) => {
                     cy.prepare(actor);
