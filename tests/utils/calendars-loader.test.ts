@@ -17,9 +17,9 @@ import {
     resolveCalendarConfig,
 } from "../../utils/packs/calendars.mjs";
 
-// The build-time calendar loader reads the shipped `assets/calendar/`
-// JSON files (the same data the runtime registers) so the content build can map
-// a character's birth calendar without loading Foundry (#1039).
+// The build-time calendar loader reads the hardcoded calendar definitions
+// (`src/core/foundry/vylarian-reckoning.mjs`, shared with the runtime) so the
+// content build can map a character's birth calendar without loading Foundry (#1039).
 describe("build calendar loader", () => {
     it("defaults to the Vylarian Reckoning shortcode", () => {
         expect(DEFAULT_CALENDAR_SHORTCODE).toBe("vylrec");
@@ -29,10 +29,6 @@ describe("build calendar loader", () => {
         const config = resolveCalendarConfig(DEFAULT_CALENDAR_SHORTCODE) as any;
         expect(config.days.daysPerYear).toBe(360);
         expect(config.months.values).toHaveLength(12);
-    });
-
-    it("resolves the Turning Wheel calendar", () => {
-        expect(resolveCalendarConfig("twheel")).toBeTruthy();
     });
 
     it("throws (fails the build) on an unknown shortcode", () => {

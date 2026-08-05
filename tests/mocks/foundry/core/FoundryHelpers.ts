@@ -6,12 +6,8 @@
  * running Foundry VTT environment.
  */
 
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 import { setUuidResolver } from "@src/utils/helpers";
 import * as astrology from "@src/entity/astrology";
-import { builtinTraditions } from "@tests/mocks/astrology";
 
 // ---------------------------------------------------------------------------
 // Dialog types (re-exported for consumers)
@@ -135,26 +131,12 @@ export function fvttGetSetting(_module: string, _key: string): unknown {
     return undefined;
 }
 
-// Runtime JSON asset fetch. In tests there is no HTTP server, so resolve the
-// Foundry data path (`systems/sohl/assets/...`) to the repository's shipped
-// file on disk and parse it — so a loader test fetching a built-in data file
-// gets the real content. Spy per-test to inject arbitrary JSON or an error.
-export async function fvttFetchJson(path: string): Promise<unknown> {
-    return fvttFetchJsonSync(path);
-}
-
-export function fvttFetchJsonSync(path: string): unknown {
-    const repoRoot = resolve(fileURLToPath(import.meta.url), "../../../../..");
-    const rel = path.replace(/^systems\/sohl\//, "");
-    return JSON.parse(readFileSync(resolve(repoRoot, rel), "utf8"));
-}
-
 // The astrology traditions registry and birth-date conversion — the Foundry
 // boundary the astrology producer crosses. Default to the built-in traditions
 // and "no calendar" (undefined date); spy per-test to inject a tradition or a
 // concrete { month, day, monthLengths } birth date.
 export function fvttAstrologyTraditions(): astrology.AstrologyTraditions {
-    return builtinTraditions();
+    return astrology.builtinTraditions();
 }
 
 export function fvttBirthDateToAstrologyDate(

@@ -13,6 +13,7 @@
 
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import { SohlCalendarData } from "@src/core/foundry/SohlCalendar";
+import { BUILTIN_CALENDARS } from "@src/core/foundry/builtin-calendars";
 import { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
 import type { Rng } from "@src/entity/random/Rng";
 import { createRng } from "@src/entity/random/createRng";
@@ -132,15 +133,6 @@ export class SohlSystem {
      * binding stays cycle-free.
      */
     declare readonly astrologyRegistry: import("@src/core/foundry/astrology-registry").AstrologyRegistry;
-    /**
-     * Fetch and parse a JSON data file by Foundry path (`sohl.fetchJson`) — the
-     * runtime entry point for loading registry data files. Bound at init (in
-     * `sohl.ts`) to {@link fvttFetchJson}. A module uses
-     * it in its `init` hook to load its own calendar / astrology data, then hands
-     * the parsed JSON to the matching (Foundry-free) registry API, e.g.
-     * `sohl.astrologyRegistry.register(await sohl.fetchJson(path))`.
-     */
-    declare readonly fetchJson: (path: string) => Promise<unknown>;
     /**
      * The `utils` namespace (`sohl.utils`) — the Foundry-free utility superset:
      * the {@link sohl.utils.romanize}-style helpers and the constants (`ACTOR_KIND`, …)
@@ -575,4 +567,15 @@ export class SohlSystem {
         if (!fvttIsCurrentUserGM()) return undefined;
         return attachScriptAction(doc, spec);
     }
+}
+
+// Register the shipped built-in calendars from their JSON data files, each
+// keyed by its shortcode (the value a character's `social.calendar` names).
+for (const calendar of BUILTIN_CALENDARS) {
+    SohlSystem.registerCalendar(calendar.shortcode, {
+        label: calendar.label,
+        config: calendar.config,
+        calendarClass: SohlCalendarData,
+        builtin: true,
+    });
 }

@@ -305,61 +305,6 @@ export function fvttGetSetting(module: string, key: string): unknown {
 }
 
 /**
- * Fetch and parse a JSON asset by Foundry data path — the Foundry boundary for
- * **runtime** registry-data loading. Wraps Foundry's `fetchJsonWithTimeout`, and
- * is exposed to modules as `sohl.fetchJson`.
- *
- * This is stage one of the two-stage load pattern: fetch the file here, then hand
- * the parsed JSON to a **pure** registry API (e.g.
- * `sohl.astrologyRegistry.register(json)` or `SohlSystem.registerCalendar(...)`),
- * which never touches Foundry. A module loads its own calendar/tradition data
- * files this way in its `init` hook:
- * `sohl.astrologyRegistry.register(await sohl.fetchJson(path))`.
- *
- * The system's *own* shipped built-ins must be registered before Foundry builds
- * `game.time` and prepares the first document — earlier than this async fetch can
- * land — so they use the synchronous {@link fvttFetchJsonSync} instead.
- * @param path - A Foundry data path, e.g. `"systems/sohl/assets/calendar/turning-wheel.json"`.
- * @returns The parsed JSON.
- */
-export async function fvttFetchJson(path: string): Promise<unknown> {
-    return foundry.utils.fetchJsonWithTimeout(path);
-}
-
-/**
- * **Synchronously** fetch and parse a JSON asset by Foundry data path. This is
- * the Foundry boundary the system uses to load its *own* shipped registry data
- * (calendars, astrology traditions) during `init`: unlike a module's data, the
- * built-ins must be registered **before Foundry constructs `game.time` and
- * prepares the first document**, and Foundry's `init` phase is synchronous and
- * awaits no async work — so an async fetch cannot land in time. A synchronous
- * request keeps the data loose (fetched at runtime, not bundled) while matching
- * that timing exactly. Modules use the async {@link fvttFetchJson} (`sohl.fetchJson`)
- * instead, since their data is not needed until after `init`.
- *
- * The blocking request runs once per shipped file at startup over a same-origin,
- * local asset, so its main-thread cost is negligible.
- * @param path - A Foundry data path, e.g. `"systems/sohl/assets/calendar/turning-wheel.json"`.
- * @returns The parsed JSON.
- * @throws If the request fails (non-2xx status or transport error).
- */
-export function fvttFetchJsonSync(path: string): unknown {
-    const route =
-        (foundry.utils as { getRoute?: (p: string) => string }).getRoute?.(
-            path,
-        ) ?? path;
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", route, false); // synchronous
-    xhr.send();
-    if (xhr.status < 200 || xhr.status >= 300) {
-        throw new Error(
-            `fvttFetchJsonSync: HTTP ${xhr.status} fetching "${path}"`,
-        );
-    }
-    return JSON.parse(xhr.responseText);
-}
-
-/**
  * The resolved astrology **traditions registry** as plain data — the built-in
  * default, any module-registered traditions, and the GM's world overrides,
  * resolved by {@link astrologyRegistry} (`sohl.astrologyRegistry`, world wins).

@@ -6,7 +6,7 @@
 
 The shipped built-in calendars are now **data files, not code**. Instead of the
 hard-coded `SOHL_DEFAULT_CALENDAR_CONFIG` constant, the system loads
-`assets/calendar/*.json` at init and registers each into the calendar
+`src/core/foundry/calendars/*.json` at init and registers each into the calendar
 registry. Each file is self-describing — a stable **`shortcode`** (its registry
 id, and the value a character's `social.calendar` will name), a display `label`,
 and the Foundry `CalendarData` config. Closes #1038.

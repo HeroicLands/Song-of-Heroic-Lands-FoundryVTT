@@ -12,13 +12,7 @@
  */
 
 import { SOHLCONFIG } from "@src/core/foundry/sohl-config";
-import {
-    DEFAULT_CALENDAR_SHORTCODE,
-    DEFAULT_CALENDAR_CONFIG,
-    BUILTIN_CALENDAR_PATHS,
-    type BuiltinCalendarData,
-} from "@src/core/foundry/builtin-calendars";
-import { SohlCalendarData } from "@src/core/foundry/SohlCalendar";
+import { DEFAULT_CALENDAR_SHORTCODE } from "@src/core/foundry/builtin-calendars";
 import { migrateWorld } from "@src/core/foundry/migration";
 import { SohlSystem } from "@src/core/logic/SohlSystem";
 import * as documentNs from "@src/document";
@@ -26,10 +20,10 @@ import * as coreNs from "@src/core";
 import * as appsNs from "@src/apps";
 import * as utilsNs from "@src/utils";
 import { entitySurface } from "@src/entity/surface";
+import { builtinTraditionsData } from "@src/entity/astrology";
 import {
     astrologyRegistry,
     setAstrologyWorldProvider,
-    BUILTIN_ASTROLOGY_TRADITION_PATHS,
 } from "@src/core/foundry/astrology-registry";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
@@ -50,11 +44,7 @@ import { AstrologyTraditionsMenu } from "@src/apps/foundry/AstrologyTraditionsMe
 import { registerSystemTours } from "@src/apps/foundry/tours/register-tours";
 import { postWelcomeCard } from "@src/apps/foundry/welcome-card";
 import { injectSettingsLinks } from "@src/apps/foundry/settings-sidebar-links";
-import {
-    fvttSystemLinks,
-    fvttFetchJson,
-    fvttFetchJsonSync,
-} from "@src/core/FoundryHelpers";
+import { fvttSystemLinks } from "@src/core/FoundryHelpers";
 import { expressionHelpers } from "@src/entity/expr/ExpressionHelperRegistry";
 import { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import { SohlRegionTriggerBehavior } from "@src/document/region/foundry/SohlRegionTriggerBehavior";
@@ -314,40 +304,6 @@ function registerSystemSettings() {
 }
 
 /**
- * Fetch and register the shipped built-in astrology traditions from their data
- * files (`systems/sohl/assets/astrology/*.json`). Resets the registry first so a
- * re-init reseeds cleanly. The fetch is **synchronous** ({@link fvttFetchJsonSync})
- * and runs inside the synchronous `init` hook, so the registry is populated
- * before the first document prepares a birthsign — the same timing a static
- * import gave, but from loose, runtime-fetched files rather than bundled data.
- */
-function registerBuiltinTraditions(): void {
-    astrologyRegistry.reset();
-    for (const path of BUILTIN_ASTROLOGY_TRADITION_PATHS) {
-        astrologyRegistry.register(fvttFetchJsonSync(path), "builtin");
-    }
-}
-
-/**
- * Fetch and register the shipped built-in calendars from their data files
- * (`systems/sohl/assets/calendar/*.json`), each under its file's own `shortcode`.
- * The fetch is **synchronous** ({@link fvttFetchJsonSync}) and runs inside the
- * synchronous `init` hook, so the registry is populated before `applyActiveCalendar`
- * seeds `CONFIG.time` and before Foundry builds `game.time`.
- */
-function registerBuiltinCalendars(): void {
-    for (const path of BUILTIN_CALENDAR_PATHS) {
-        const cal = fvttFetchJsonSync(path) as BuiltinCalendarData;
-        SohlSystem.registerCalendar(cal.shortcode, {
-            label: cal.label,
-            config: cal.config,
-            calendarClass: SohlCalendarData,
-            builtin: true,
-        });
-    }
-}
-
-/**
  * Rehydrate imported calendars from the world setting into the registry.
  */
 function rehydrateCalendars(): void {
@@ -587,18 +543,6 @@ function registerSystemHooks() {
 
     registerSystemSettings();
 
-    // Fetch + register the built-in calendars, and seed the default calendar's
-    // real config into `SOHLCONFIG.time.worldCalendarConfig` **before**
-    // `setupSystem()` merges `SOHLCONFIG` into Foundry's `CONFIG`. That merge
-    // deep-copies the value into `CONFIG.time.worldCalendarConfig`, which is what
-    // Foundry reads when it later builds `game.time` — so the real config must be
-    // in place first. (`DEFAULT_CALENDAR_CONFIG` is only a bootstrap placeholder;
-    // the real config is not available until the data file is fetched here.)
-    registerBuiltinCalendars();
-    SOHLCONFIG.time.worldCalendarConfig =
-        (SohlSystem.getCalendar(DEFAULT_CALENDAR_SHORTCODE)?.config as object) ??
-        DEFAULT_CALENDAR_CONFIG;
-
     // Bind the runtime namespace tree onto the `sohl` global. Done here (the
     // last-loaded module) rather than in SohlSystem so importing these barrels —
     // which eager-load their whole subtree — introduces no import cycle. Their
@@ -610,15 +554,14 @@ function registerSystemHooks() {
     system.apps = appsNs;
     system.utils = utilsNs;
     system.astrologyRegistry = astrologyRegistry;
-    system.fetchJson = fvttFetchJson;
     globalThis.sohl = system as unknown as SohlSystem;
 
-    // Seed the shipped built-in astrology tradition (Astrokýklos) into the
-    // registry from its data file (fetched synchronously here). Runs before the
-    // first document prepare so birthsigns resolve; modules add their own via
-    // `sohl.astrologyRegistry.register(await sohl.fetchJson(...))` in their `init`
-    // hook.
-    registerBuiltinTraditions();
+    // Seed the shipped built-in astrology tradition (Astrokýklos, from its data
+    // file) into the registry. Synchronous so birthsigns resolve during the
+    // first document prepare; modules add their own via
+    // `sohl.astrologyRegistry.register(...)` in their `init` hook.
+    astrologyRegistry.reset();
+    astrologyRegistry.register(builtinTraditionsData, "builtin");
     // Wire the world-override layer: the registry reads the GM's per-world
     // traditions through this provider (so the registry itself never touches
     // `game`), resolved on top of the built-in + module layers.

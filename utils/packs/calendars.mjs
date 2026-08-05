@@ -12,51 +12,39 @@
  */
 
 /**
- * Build-time access to the shipped calendar data files. The content build reads
+ * Build-time access to the shipped calendar definitions. The content build reads
  * a character's birth calendar (`social.calendar`, or the default) to convert an
  * authored `traits.birthday` into the stored `Being.birthDate` world-time value
- * (#1039). It reads the same JSON files the runtime registers
- * (`assets/calendar/*.json`, see `src/core/foundry/builtin-calendars.ts`), so
- * there is no second copy of the calendar definitions — only the
- * default-shortcode constant is mirrored here, since that lives in code, not
- * data.
+ * (#1039). It imports the **same hardcoded definitions the runtime registers**
+ * (`src/core/foundry/vylarian-reckoning.mjs`, a framework-free `.mjs` shared with
+ * `src/core/foundry/builtin-calendars.ts`), so there is no second copy of the
+ * calendar definitions.
  */
 
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+import { VYLARIAN_RECKONING } from "../../src/core/foundry/vylarian-reckoning.mjs";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-/** Directory holding the shipped calendar JSON files. */
-const CALENDARS_DIR = path.resolve(__dirname, "../../assets/calendar");
+/** The shipped built-in calendars (default first) — hardcoded, shared with the runtime. */
+const BUILTIN_CALENDARS = [VYLARIAN_RECKONING];
 
 /**
  * The shortcode of the calendar used when a character names no `social.calendar`.
  * Mirrors `DEFAULT_CALENDAR_SHORTCODE` in
- * `src/core/foundry/builtin-calendars.ts` (a code constant, not a data file).
+ * `src/core/foundry/builtin-calendars.ts`.
  */
 export const DEFAULT_CALENDAR_SHORTCODE = "vylrec";
 
-/** @type {Map<string, object> | undefined} Lazily-loaded shortcode → config. */
+/** @type {Map<string, object> | undefined} Lazily-built shortcode → config. */
 let cache;
 
 /**
- * Load every shipped calendar, indexed by its `shortcode`. Cached after the
- * first call. Malformed files (no `shortcode`/`config`) are skipped.
+ * Index the shipped calendars by their `shortcode`. Cached after the first call.
  * @returns {Map<string, object>} Shortcode → Foundry `CalendarData` config.
  */
 function loadCalendars() {
     if (cache) return cache;
     cache = new Map();
-    for (const file of fs.readdirSync(CALENDARS_DIR)) {
-        if (!file.endsWith(".json")) continue;
-        const data = JSON.parse(
-            fs.readFileSync(path.join(CALENDARS_DIR, file), "utf8"),
-        );
-        if (data?.shortcode && data.config) {
-            cache.set(data.shortcode, data.config);
-        }
+    for (const cal of BUILTIN_CALENDARS) {
+        if (cal?.shortcode && cal.config) cache.set(cal.shortcode, cal.config);
     }
     return cache;
 }

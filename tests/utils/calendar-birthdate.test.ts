@@ -17,14 +17,14 @@ import {
     componentsToWorldTime,
     birthdayToWorldTime,
 } from "@src/utils/calendar-birthdate.mjs";
-import vylarianReckoning from "@assets/calendar/vylarian-reckoning.json";
+import { VYLARIAN_RECKONING } from "@src/core/foundry/vylarian-reckoning.mjs";
 
 // The build converts an authored `traits.birthday` (Y/M/D era-year/month/day)
 // into the `Being.birthDate` world-time integer using a calendar's config.
 // These expectations mirror Foundry's `CalendarData.componentsToTime` arithmetic
 // for the Vylarian Reckoning (12 × 30-day months, 360-day year, 86400 s/day,
 // `hasYearZero: false` so era-year N is absolute year N − 1).
-const VYLARIAN = vylarianReckoning.config;
+const VYLARIAN = VYLARIAN_RECKONING.config;
 const SECONDS_PER_DAY = 86400;
 const DAYS_PER_YEAR = 360;
 

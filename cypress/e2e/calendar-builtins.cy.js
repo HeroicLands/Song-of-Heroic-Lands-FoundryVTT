@@ -12,33 +12,29 @@
  */
 
 /**
- * Built-in calendars loaded from JSON data files (#1038) — in a live world, both
- * shipped calendars register into the calendar registry under their shortcodes,
- * the Vylarian Reckoning (`vylrec`) is the default, and applying each yields the
- * expected calendar. Companion to the Astrokýklos birthsign astrology: the
- * Vylarian months (Floralis … Janar) are what the sign windows read as.
+ * Built-in calendar (hardcoded) — in a live world, the shipped Vylarian Reckoning
+ * (`vylrec`) registers into the calendar registry as the built-in default, and
+ * applying it yields the expected calendar. Companion to the Astrokýklos birthsign
+ * astrology: the Vylarian months (Floralis … Janar) are what the sign windows read.
  */
-describe("built-in calendars from JSON (#1038)", () => {
+describe("built-in calendar (hardcoded)", () => {
     before(() => cy.login());
 
     const System = (win) => win.sohl.core.logic.SohlSystem;
 
-    it("registers both shipped built-ins under their shortcodes", () => {
+    it("registers the shipped Vylarian Reckoning as the sole built-in", () => {
         cy.foundry((win) => {
             const S = System(win);
             const vyl = S.getCalendar("vylrec");
-            const tw = S.getCalendar("twheel");
             return {
                 vylName: vyl?.config?.name,
                 vylBuiltin: vyl?.builtin,
-                twName: tw?.config?.name,
-                twBuiltin: tw?.builtin,
+                hasTwheel: !!S.getCalendar("twheel"),
             };
         }).then((r) => {
             expect(r.vylName).to.eq("Vylarian Reckoning");
             expect(r.vylBuiltin, "vylrec is built-in").to.be.true;
-            expect(r.twName).to.eq("Turning Wheel");
-            expect(r.twBuiltin, "twheel is built-in").to.be.true;
+            expect(r.hasTwheel, "Turning Wheel is removed").to.be.false;
         });
     });
 
@@ -53,18 +49,13 @@ describe("built-in calendars from JSON (#1038)", () => {
         });
     });
 
-    it("both built-ins are applicable (applyCalendar swaps the SoHL calendar config)", () => {
+    it("the built-in is applicable (applyCalendar swaps the SoHL calendar config)", () => {
         cy.foundry((win) => {
             const S = System(win);
-            // applyCalendar writes sohl.CONFIG.time.worldCalendarConfig
-            // synchronously; it accepts either registered built-in.
-            S.applyCalendar("twheel");
-            const twName = win.sohl.CONFIG.time.worldCalendarConfig.name;
+            // applyCalendar writes sohl.CONFIG.time.worldCalendarConfig synchronously.
             S.applyCalendar("vylrec");
-            const vylName = win.sohl.CONFIG.time.worldCalendarConfig.name;
-            return { twName, vylName };
+            return { vylName: win.sohl.CONFIG.time.worldCalendarConfig.name };
         }).then((r) => {
-            expect(r.twName).to.eq("Turning Wheel");
             expect(r.vylName).to.eq("Vylarian Reckoning");
         });
     });

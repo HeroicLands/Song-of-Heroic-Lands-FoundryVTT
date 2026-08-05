@@ -14,12 +14,10 @@
 /**
  * Copies static assets into the build output tree.
  *
- * Recursively copies `assets/docs` into `build/docs`, and the astrology/audio/
- * calendar/icons/silhouette/fonts/ui asset folders plus `lang` and `templates`
- * into `build/stage/...`; also copies `LICENSE.md` and `README.md` into
- * `build/stage`. Destination directories are created as needed. The `astrology`
- * and `calendar` folders hold the registry data files the runtime fetches at
- * init, so they must ship loose (not just be bundled).
+ * Recursively copies `assets/docs` into `build/docs`, and the audio/icons/
+ * silhouette/fonts/ui asset folders plus `lang` and `templates` into
+ * `build/stage/...`; also copies `LICENSE.md` and `README.md` into
+ * `build/stage`. Destination directories are created as needed.
  *
  * Usage:
  *   npm run build:assets        // node utils/copy-assets.mjs
@@ -74,9 +72,7 @@ function copyFile(src, dest) {
 copyFolder("assets/docs", "build/docs");
 
 // Copy static assets to build/stage
-copyFolder("assets/astrology", "build/stage/assets/astrology");
 copyFolder("assets/audio", "build/stage/assets/audio");
-copyFolder("assets/calendar", "build/stage/assets/calendar");
 copyFolder("assets/icons", "build/stage/assets/icons", themeSvg);
 copyFolder("assets/silhouette", "build/stage/assets/silhouette");
 copyFolder("assets/fonts", "build/stage/assets/fonts");

@@ -295,15 +295,12 @@ being's `birthDate` read through an **astrological tradition** named by a
 birthsign Affiliation's `society`. Traditions live in the **`sohl.astrologyRegistry`**,
 which resolves three layers (later wins):
 
-1. **Built-in** — the shipped default (**Astrokýklos**), fetched from its
-   `systems/sohl/assets/astrology/astrokyklos.json` data file at system init
-   (the same two-stage load a module uses — see below; the data is not bundled).
-2. **Module** — traditions a module registers, typically in its `init` hook. Use
-   the **two-stage load**: `sohl.astrologyRegistry.register(await sohl.fetchJson(path))`
-   — `sohl.fetchJson(path)` fetches the data file (the Foundry boundary), and the
-   Foundry-free `register(json)` validates and installs it (`register` /
-   `unregister` / `get` / `all`). Register in `init` and `await` the fetch — a
-   birthsign is read synchronously during document `prepareData`.
+1. **Built-in** — the shipped default (**Astrokýklos**), loaded from its
+   `astrokyklos.json` data file at system init.
+2. **Module** — traditions a module registers, typically in its `init` hook:
+   `sohl.astrologyRegistry.register(traditionsJson)` (`register` / `unregister` /
+   `get` / `all`). Register in `init` and `await` any fetch — a birthsign is read
+   synchronously during document `prepareData`.
 3. **World** — the GM's per-world overrides in the `sohl.astrologyTraditions`
    world setting, edited through the **Astrology Traditions** settings menu
    (import/replace or clear a validated JSON file).

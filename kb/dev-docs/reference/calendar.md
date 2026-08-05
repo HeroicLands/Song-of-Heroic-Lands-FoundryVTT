@@ -63,18 +63,17 @@ Defined as standalone functions in `src/core/logic/sohl-calendar-logic.ts` and r
 
 `"sohl.relative"` also accepts options: `short` (compact form like `3d 4h`), `maxTerms` (cap the number of components), and `fromComponents` (anchor to a time other than the current world time). It never needed era data and is calendar-agnostic by construction.
 
-### Built-in calendars — runtime-loaded data files
+### Built-in calendar — hardcoded
 
-The shipped built-in calendars are **data files, not code**: `assets/calendar/*.json` (deployed to `systems/sohl/assets/calendar/`). They are **fetched over HTTP** — not bundled into the code — and registered into the calendar registry. `src/core/foundry/builtin-calendars.ts` holds only the manifest of paths (`BUILTIN_CALENDAR_PATHS`) and `DEFAULT_CALENDAR_SHORTCODE`; `registerBuiltinCalendars` in `sohl.ts` fetches each path and calls `SohlSystem.registerCalendar`. Because a built-in calendar must be registered **before Foundry constructs `game.time`** (and Foundry's `init` phase is synchronous, awaiting no async work), the fetch uses the **synchronous** `fvttFetchJsonSync` shim — keeping the data loose and runtime-fetched while matching the pre-`game.time` timing a static import used to give. (Modules, whose calendars are not needed until after `init`, use the async `sohl.fetchJson` instead.) Each file is self-describing — a stable **`shortcode`** (its registry id, and the value a character's `social.calendar` names), a display `label`, and the Foundry `CalendarData` `config`.
+The shipped built-in calendar is **hardcoded in code**, not a data file. Its definition lives in `src/core/foundry/vylarian-reckoning.mjs` (a framework-free `.mjs` `VYLARIAN_RECKONING` constant) so it is a single source shared by the TypeScript runtime and the Node content build. `src/core/foundry/builtin-calendars.ts` imports it and exposes `BUILTIN_CALENDARS`, `DEFAULT_CALENDAR_SHORTCODE`, and `DEFAULT_CALENDAR_CONFIG`; `SohlSystem` registers it into the calendar registry at module load, so it is present before Foundry builds `game.time` with no fetch or timing concerns. Each entry is self-describing — a stable **`shortcode`** (its registry id, and the value a character's `social.calendar` names), a display `label`, and the Foundry `CalendarData` `config`.
 
-Two ship, both twelve 30-day months on a 10-day week (360-day year, four seasons, `yearZero: 720`, no year zero):
+One ships — twelve 30-day months on a 10-day week (360-day year, four seasons, `yearZero: 720`, no year zero):
 
 | Shortcode | Calendar             | Era     | Months                                                  |
 | --------- | -------------------- | ------- | ------------------------------------------------------- |
 | `vylrec`  | **Vylarian Reckoning** (default) | VR / BVR | Floralis, Lusenar, Murkas, Taranis, Vulcar, Menaris, Venuris, Karnavar, Morveth, Thanaris, Aetheris, Janar |
-| `twheel`  | Turning Wheel        | AR      | Springtide, Blossomreach, Greengold, Highsun, Midsummer, Hayfall, Reapmoon, Emberwane, Fallmere, Frostwane, Snowrest, Thawrise |
 
-The **Vylarian Reckoning** (`vylrec`) — the reckoning of the world of Thalorna — is the default active calendar; its months are what the Astrokýklos birthsign sign windows read as. All names are localization keys.
+The **Vylarian Reckoning** (`vylrec`) — the reckoning of the world of Thalorna — is the default active calendar; its months are what the Astrokýklos birthsign sign windows read as. All names are localization keys. A world adds more calendars through the Calendar Settings menu; a module via `SohlSystem.registerCalendar(...)`.
 
 ### Authoring birth dates in content
 
@@ -82,7 +81,7 @@ A being's `birthDate` (a world-time integer in seconds — the anchor birthsign 
 
 - **Authoring.** A character's YAML frontmatter carries `traits.birthday: Y/M/D` (era-year / month / day, e.g. `686/4/2`), alongside `traits.age`. Absent ⇒ no birthday ⇒ `birthDate` stays `null` (most creatures).
 - **Birth calendar.** An optional `social.calendar` names the calendar the date is expressed in (its `shortcode`, e.g. `vylrec`). When omitted, the build uses the default calendar (`DEFAULT_CALENDAR_SHORTCODE`, currently `vylrec`). An unknown shortcode fails the build.
-- **Conversion.** `utils/packs/calendars.mjs` reads the shipped `calendars/*.json` (the same data the runtime registers) to resolve the calendar `config`; the Foundry-free `src/utils/calendar-birthdate.mjs` then converts `Y/M/D` to seconds, mirroring Foundry's `CalendarData.componentsToTime`. That helper is a pure module (no Foundry, no `fs`), so it is unit-tested in Node against the calendar JSON.
+- **Conversion.** `utils/packs/calendars.mjs` imports the hardcoded `VYLARIAN_RECKONING` definition (the same one the runtime registers) to resolve the calendar `config`; the Foundry-free `src/utils/calendar-birthdate.mjs` then converts `Y/M/D` to seconds, mirroring Foundry's `CalendarData.componentsToTime`. That helper is a pure module (no Foundry), so it is unit-tested in Node against the calendar definition.
 
 Two design points settled here:
 
@@ -106,15 +105,16 @@ The `Calendar Settings` menu (`src/apps/foundry/CalendarSettingsMenu.ts`) lets t
 - Import a calendar from a JSON file (the file's `name` becomes the registry label; an ID is slugified from it)
 - Delete imported calendars (built-ins are protected)
 
-On reload, `src/sohl.ts` runs (in this order, during the **synchronous** `init` hook):
+The hardcoded built-in calendar is registered into the registry at **module load**
+(a top-level loop over `BUILTIN_CALENDARS` in `SohlSystem.ts`), before the `init`
+hook runs. On reload, `src/sohl.ts` then runs (in this order, during `init`):
 
 1. `registerSystemSettings()` — registers the two settings and the menu
-2. `setupSystem()` — merges `SohlSystem.CONFIG` into Foundry's `CONFIG`. `worldCalendarConfig` starts as a **bootstrap placeholder** (`DEFAULT_CALENDAR_CONFIG`, an empty object) — the real config is applied below, before `game.time` is built
-3. `registerBuiltinCalendars()` — **synchronously** fetches each built-in calendar data file (`fvttFetchJsonSync`) and registers it under its `shortcode`. The data is loaded here, not bundled
-4. `rehydrateCalendars()` — re-registers all imported calendars from the world setting
-5. `applyActiveCalendar()` — reads `sohl.activeCalendar` and calls `SohlSystem.applyCalendar(id)` (which overwrites the placeholder `worldCalendarConfig`), falling back to `"vylrec"` if the active ID is missing
+2. `setupSystem()` — merges `SohlSystem.CONFIG` into Foundry's `CONFIG`, installing `worldCalendarConfig` (`DEFAULT_CALENDAR_CONFIG`, the real hardcoded Vylarian config), `worldCalendarClass`, and the formatters
+3. `rehydrateCalendars()` — re-registers all imported calendars from the world setting
+4. `applyActiveCalendar()` — reads `sohl.activeCalendar` and calls `SohlSystem.applyCalendar(id)`, falling back to `"vylrec"` if the active ID is missing
 
-Foundry then constructs `game.time` with SoHL's class and config. **The `init` phase completes before `game.time` construction** (verified against `client/game.mjs`: `Hooks.callAll("init")` runs in `initialize()`, `new helpers.GameTime()` runs later in the separate `setupGame()` phase). Because the built-in fetch is **synchronous**, the whole `init` hook — fetch, registration, and `applyActiveCalendar` — completes before `game.time`, with no race. (An async fetch cannot: Foundry awaits no async work between `init` and `game.time`, so the data would not land in time.)
+Foundry then constructs `game.time` with SoHL's class and config. **The `init` phase completes before `game.time` construction** (verified against `client/game.mjs`: `Hooks.callAll("init")` runs in `initialize()`, `new helpers.GameTime()` runs later in the separate `setupGame()` phase). Because the built-in config is hardcoded (available synchronously at module load), `CONFIG.time.worldCalendarConfig` is already the real Vylarian config when `game.time` is built.
 
 ### JSON import format
 
@@ -196,7 +196,7 @@ _None tracked at present. Add entries here as they surface._
 
 ## References
 
-- Source: `src/core/foundry/SohlCalendar.ts`, `src/core/logic/SohlSystem.ts`, `src/apps/foundry/CalendarSettingsMenu.ts`, `src/sohl.ts`, `src/core/foundry/builtin-calendars.ts`, `assets/calendar/*.json`
+- Source: `src/core/foundry/SohlCalendar.ts`, `src/core/logic/SohlSystem.ts`, `src/apps/foundry/CalendarSettingsMenu.ts`, `src/sohl.ts`, `src/core/foundry/builtin-calendars.ts`, `src/core/foundry/vylarian-reckoning.mjs`
 - Tests: `tests/core/foundry/SohlCalendar.test.ts`
 - Foundry v14: `client/helpers/time.mjs` (`GameTime`, `initializeCalendar`), `client/data/calendar.mjs` (`CalendarData`), `client/game.mjs` (`Game#initializeGame` and `Game#setupGame`)
 - Foundry TS types: `node_modules/fvtt-types/src/foundry/client/data/calendar.d.mts`

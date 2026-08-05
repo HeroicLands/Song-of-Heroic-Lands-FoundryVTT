@@ -15,4 +15,5 @@
 // verifies every sibling module and subfolder here is re-exported.
 
 export * from "./AstrologyTradition";
+export * from "./builtin-traditions";
 export * from "./validate-traditions";

@@ -39,18 +39,6 @@ import {
  * context, keeping the logic layer Foundry-free.
  */
 
-/**
- * The Foundry data paths of the shipped built-in astrology tradition files.
- * These are true **data files** — fetched over HTTP at runtime (`sohl.fetchJson`
- * → {@link fvttFetchJson}) and handed to
- * {@link AstrologyRegistry.register}, exactly as a module loads its own; the
- * tradition data is never imported into the bundle. Fetched and registered at
- * init by `registerBuiltinTraditions` in `sohl.ts`.
- */
-export const BUILTIN_ASTROLOGY_TRADITION_PATHS: readonly string[] = [
-    "systems/sohl/assets/astrology/astrokyklos.json",
-];
-
 /** Built-in + module traditions, keyed by tradition key (the world layer is read live). */
 const registered = new Map<string, AstrologyTradition>();
 

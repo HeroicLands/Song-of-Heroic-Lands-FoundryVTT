@@ -11,25 +11,22 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { VYLARIAN_RECKONING } from "./vylarian-reckoning.mjs";
+
 /**
- * The manifest of the system's shipped **built-in calendars**. These are true
- * **data files** — fetched over HTTP at runtime (`sohl.fetchJson` →
- * {@link fvttFetchJson}) from
- * `systems/sohl/assets/calendar/` and registered into the calendar registry at
- * init, exactly as a module loads its own. This module holds only the *paths*
- * (and the code constants that must live in code, not data); the calendar
- * definitions are never imported into the bundle. Each file is self-describing —
- * a stable **`shortcode`** (its registry id, and the value a character's
- * `social.calendar` names), a display `label`, and the Foundry `CalendarData`
- * `config`.
+ * The system's shipped **built-in calendar(s)**, registered into the calendar
+ * registry at init (by {@link sohl.core.logic.SohlSystem}). The definitions are
+ * **hardcoded in code** — see {@link sohl.core.foundry} `vylarian-reckoning.mjs`
+ * — not loaded from a data file, so no fetch/timing concerns and nothing extra
+ * ships loose.
  *
- * Ships two: the **Vylarian Reckoning** (`vylrec`) — the reckoning of the world
- * of Thalorna and the default active calendar — and the **Turning Wheel**
- * (`twheel`). Both are twelve 30-day months on a 10-day week; they differ only in
- * their month and era names.
+ * Ships one: the **Vylarian Reckoning** (`vylrec`), the reckoning of the world of
+ * Thalorna and the default active calendar — twelve 30-day months on a 10-day
+ * week. A world imports additional calendars through the Calendar Settings menu;
+ * a module registers its own via `SohlSystem.registerCalendar(...)`.
  */
 
-/** A shipped built-in calendar file: its shortcode/id, display label, and config. */
+/** A shipped built-in calendar: its shortcode/id, display label, and config. */
 export interface BuiltinCalendarData {
     /** Stable identifier (the registry id; the value `social.calendar` names). */
     shortcode: string;
@@ -43,21 +40,17 @@ export interface BuiltinCalendarData {
 export const DEFAULT_CALENDAR_SHORTCODE = "vylrec";
 
 /**
- * The Foundry data paths of the shipped built-in calendar files, default first.
- * Fetched and registered at init by `registerBuiltinCalendars` in `sohl.ts`,
- * each under its file's own `shortcode`.
+ * The shipped built-in calendars, default first. Registered at init by
+ * {@link sohl.core.logic.SohlSystem} under each entry's `shortcode`.
  */
-export const BUILTIN_CALENDAR_PATHS: readonly string[] = [
-    "systems/sohl/assets/calendar/vylarian-reckoning.json",
-    "systems/sohl/assets/calendar/turning-wheel.json",
+export const BUILTIN_CALENDARS: readonly BuiltinCalendarData[] = [
+    VYLARIAN_RECKONING as BuiltinCalendarData,
 ];
 
 /**
- * A **bootstrap placeholder** for `SOHLCONFIG.time.worldCalendarConfig`. The real
- * default calendar config is not available synchronously at module load (it lives
- * in a data file). `sohl.ts` fetches it during `init` and assigns the real config
- * to `SOHLCONFIG.time.worldCalendarConfig` **before** `setupSystem()` merges
- * `SOHLCONFIG` into Foundry's `CONFIG` — so this empty object is only what the
- * field holds during the brief window before that runs.
+ * The config of the default built-in calendar (the {@link DEFAULT_CALENDAR_SHORTCODE}),
+ * used to seed `CONFIG.time.worldCalendarConfig`.
  */
-export const DEFAULT_CALENDAR_CONFIG: object = {};
+export const DEFAULT_CALENDAR_CONFIG: object = (
+    VYLARIAN_RECKONING as BuiltinCalendarData
+).config;
