@@ -27,3 +27,20 @@ Misc Gear appears on the Being sheet's **Gear** tab and can optionally be nested
 # Additional Properties
 
 There are no additional properties beyond the [[Item_Gear|Standard Gear Properties]].
+
+# Intrinsic Actions
+
+Miscellaneous Gear defines no actions of its own. Everything you can run against
+a piece of it is a standard action it already inherits:
+
+| Action                     | Shortcode           |
+| -------------------------- | ------------------- |
+| Edit                       | `editDocument`      |
+| Delete                     | `deleteDocument`    |
+| Output Description to Chat | `outputDescription` |
+| Toggle Carried             | `toggleCarried`     |
+
+The first three belong to every item and are described on [[Item_Base|Base Item]];
+**Toggle Carried** belongs to every piece of gear and is described on
+[[Item_Gear|Gear]]. Those pages cover what each one does, how it is invoked, and
+what it produces — none of it changes for Miscellaneous Gear.

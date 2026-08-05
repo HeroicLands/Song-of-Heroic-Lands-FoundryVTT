@@ -49,3 +49,22 @@ Along with the [[Item_Base|Standard Item Properties]], the following properties 
 - **Office:** The role or function the character fills within the organization, if any — for example a stewardship, a command, or a ministry.
 - **Title:** The title of the character's rank within the organization — the named form of their standing, sometimes influenced by their Office.
 - **Level:** The character's rank within the organization, as a number, with higher numbers indicating greater rank. Rank 0 is usually a lay member; rank 1 an initiate, acolyte, or apprentice; in most organizations a fully trained and accepted member — such as a guild master or an ordained priest — is around rank 3.
+
+# Intrinsic Actions
+
+An Affiliation is a credential rather than an activity, so it defines no action
+of its own. It carries only the standard actions every item has:
+
+| Action                     | Shortcode           |
+| -------------------------- | ------------------- |
+| Edit                       | `editDocument`      |
+| Delete                     | `deleteDocument`    |
+| Output Description to Chat | `outputDescription` |
+
+All three belong to every item and are described on [[Item_Base|Base Item]],
+which covers what each one does, how it is invoked, and what it produces.
+
+Nothing is rolled against an affiliation. A power that takes the character's
+standing into account is invoked from the
+[[Item_MysticalAbility|Mystical Ability]] that names this affiliation, and it is
+always the player who invokes it.
