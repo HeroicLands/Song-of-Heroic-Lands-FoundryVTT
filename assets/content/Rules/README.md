@@ -64,7 +64,7 @@ TBD
 
 ## Health, Injury & Recovery
 
-- [[Trauma|Trauma]] — the umbrella: harm to body, mind, and spirit, and how characters recover from it.
+- [[rules/sohl-trauma|Trauma]] — the umbrella: harm to body, mind, and spirit, and how characters recover from it.
 - [[Healing_Base|Healing Base]] — the recovery factor (average of END and WIL) used in every healing test.
 - [[rules/sohl-injury|Injury]] — physical wounds: Injury Level, impairment, treatment tables, and the Injury Healing Test.
 - [[Bleeding|Bleeding]] — life-threatening blood loss: the Blood Loss Advance Test, Shock State, and the Blood Stoppage Test.
