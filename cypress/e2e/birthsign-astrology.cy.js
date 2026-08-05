@@ -124,4 +124,17 @@ describe("birthsign astrology — derived BSMod skill delta (#1018)", () => {
             expect(r.effective).to.eq(40);
         });
     });
+
+    // The content build maps a character's authored `traits.birthday` (Y/M/D,
+    // interpreted in the Vylarian Reckoning) to the stored `birthDate`
+    // world-time integer (#1039). Basic Folk is authored `700/1/1` → era-year
+    // 700 = absolute year 699, day-of-year 0 → 699 × 360 × 86400 s.
+    it("imports a shipped being carrying its built birthDate (#1039)", () => {
+        cy.importActor().then((actor) => {
+            const id = actor.id ?? actor;
+            cy.foundry(
+                (win) => win.game.actors.get(id).system.birthDate,
+            ).should("eq", 699 * 360 * 86400);
+        });
+    });
 });
