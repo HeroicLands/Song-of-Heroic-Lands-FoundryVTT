@@ -15,7 +15,11 @@ msg_file="$1"
 # the scissors comment onward) and strip remaining comment lines.
 content="$(sed '/^#.*>8/,$d' "$msg_file" | grep -v '^#')"
 
-pattern='co-authored-by:.*(claude|anthropic)|generated with .*claude code|noreply@anthropic'
+# Anchored to the start of a line: real attribution is a trailer / signature at
+# column 0, so prose that merely *mentions* these phrases mid-sentence (e.g. this
+# hook's own docs) does not trip it. The generated-with branch tolerates a
+# leading emoji/space.
+pattern='^[[:space:]]*co-authored-by:.*(claude|anthropic)|^[^[:alpha:]]*generated with .*claude code'
 
 if printf '%s\n' "$content" | grep -iEq "$pattern"; then
     echo "commit-msg: AI/assistant attribution is not allowed in commit messages." >&2

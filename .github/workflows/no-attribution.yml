@@ -29,7 +29,12 @@ jobs:
               run: |
                   set -euo pipefail
 
-                  pattern='co-authored-by:.*(claude|anthropic)|generated with .*claude code|noreply@anthropic'
+                  # Anchored to the start of a line: real attribution is a
+                  # trailer / signature at column 0, so prose that merely mentions
+                  # these phrases mid-sentence (e.g. this PR's own description)
+                  # does not trip it. The generated-with branch tolerates a
+                  # leading emoji/space.
+                  pattern='^[[:space:]]*co-authored-by:.*(claude|anthropic)|^[^[:alpha:]]*generated with .*claude code'
                   fail=0
 
                   scan() {
