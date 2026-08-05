@@ -30,6 +30,7 @@
         "import": "./sohl.js"
     },
     "scripts": {
+        "prepare": "git config core.hooksPath .githooks || true",
         "clean": "node utils/clean.mjs",
         "distclean": "node utils/clean.mjs --distclean",
         "build": "npm ci && npm run build:noci",
