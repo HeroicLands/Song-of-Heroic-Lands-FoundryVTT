@@ -147,7 +147,7 @@ describe("SohlLogic", () => {
             });
             // The override hides the intrinsic action, but its capability — the
             // executor method — is untouched, so an overriding macro can call
-            // `item.logic.editDocument(sohlContext)` directly.
+            // `ctx.thisLogic.editDocument(ctx)` directly.
             expect(typeof logic.editDocument).toBe("function");
         });
 

@@ -21,7 +21,7 @@
  *
  * This drives the real running client (not the Node unit harness): a genuine
  * `Macro#execute` behind the overriding script — which itself reaches
- * `item.logic.editDocument` to prove the intrinsic capability is still
+ * `ctx.thisLogic.editDocument` to prove the intrinsic capability is still
  * accessible — dispatched through the same `SohlAction.execute` production uses.
  * The action lives on an item embedded in an owned actor so `resolveContext`
  * finds an actor for the execute-permission check.
@@ -52,17 +52,18 @@ describe("a script action overrides the intrinsic of the same shortcode", () => 
                 const baseSize = item.logic.actions.size();
 
                 // A macro standing in for a house rule that builds on the
-                // intrinsic: it returns whether the intrinsic's executor method
-                // is still reachable on the logic (an overriding macro would call
-                // `item.logic.editDocument(sohlContext)` to run the built-in
-                // behaviour). The `logic` global lets it reach its own logic.
+                // intrinsic. It receives the single `ctx` (the SohlActionContext)
+                // and reaches the intrinsic it overrides through `ctx.thisLogic`
+                // — the stand-in for `this` — exactly as an overriding macro
+                // would call `ctx.thisLogic.editDocument(ctx)`. Here it just
+                // confirms that executor method is still reachable.
                 const macro = await win.Macro.create(
                     win.JSON.parse(
                         JSON.stringify({
                             name: "e2e-override-editDocument",
                             type: "script",
                             command:
-                                "return typeof item.logic.editDocument === 'function' ? 'built-on-intrinsic' : 'intrinsic-lost';",
+                                "return typeof ctx?.thisLogic?.editDocument === 'function' ? 'built-on-intrinsic' : 'intrinsic-lost';",
                         }),
                     ),
                 );

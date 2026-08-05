@@ -13,6 +13,7 @@
 
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import { isA } from "@src/utils/constants";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
@@ -79,6 +80,15 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
     title: string;
     /** Arbitrary per-action payload carried through execution. */
     scope: S;
+    /**
+     * The Logic of the document on which this action is running — the stand-in
+     * for the `this` pointer inside a Script Action's macro (whose real `this`
+     * is the Foundry Macro, not the Logic). Every executor, intrinsic method or
+     * macro, receives the same single `ctx`; the macro reaches the intrinsic it
+     * overrides through this handle: `ctx.thisLogic.<executor>(ctx)`. Stamped by
+     * {@link sohl.entity.action.SohlAction.execute} at dispatch.
+     */
+    thisLogic?: SohlLogic<any>;
 
     /**
      * Build a context from {@link SohlActionContext.Data}.
@@ -114,6 +124,7 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
             type = "",
             title = "",
             scope = {} as S,
+            thisLogic,
         } = data;
 
         if (!speaker) {
@@ -131,6 +142,7 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
         this.type = type;
         this.title = title;
         this.scope = scope;
+        this.thisLogic = thisLogic;
     }
 
     /**
@@ -154,6 +166,7 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
             type: this.type,
             title: this.title,
             scope: this.scope,
+            thisLogic: this.thisLogic,
             ...overrides,
         });
     }
@@ -191,5 +204,7 @@ export namespace SohlActionContext {
         title: string;
         /** Arbitrary per-action payload. */
         scope: S;
+        /** The Logic of the document the action runs on (stamped at dispatch). */
+        thisLogic?: SohlLogic<any>;
     }
 }

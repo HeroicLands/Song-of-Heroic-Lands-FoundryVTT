@@ -115,21 +115,25 @@ The override is _total_ — the system does not chain the intrinsic before or af
 the script. If the script means only to **build on** the existing capability, it is
 responsible for invoking the intrinsic itself. The intrinsic's capability is a plain
 method on the Logic (the action's `executor`, e.g. `toggleCarried`), untouched by
-the override, so the macro calls it directly. Inside a Script Action's macro, `this`
-is the Foundry Macro (not the Logic), but the macro receives `item`, `actor`,
-`speaker`, and `sohlContext`, so it reaches the method through the owning logic —
-`item.logic` for a `SELF`/`ITEM`-scoped action, `actor.logic` for an `ACTOR`-scoped
-one:
+the override, so the macro calls it directly.
+
+Every executor — an intrinsic method or a Script Action's macro — receives the
+**same single argument**: the {@link sohl.entity.action.SohlActionContext}, exposed
+to the macro as `ctx`. Inside a macro `this` is the Foundry Macro (not the Logic),
+so the context carries `ctx.thisLogic` — the Logic the action runs on, the exact
+target an intrinsic method is bound to (so inside an intrinsic, `this` and
+`ctx.thisLogic` are the same object). An overriding macro reaches the intrinsic it
+hides through that handle:
 
 ```js
 // A Script Action macro overriding the intrinsic `toggleCarried`, then
-// building on it. `sohlContext` is the SohlActionContext.
-await item.logic.toggleCarried(sohlContext); // run the built-in behavior
+// building on it. `ctx` is the SohlActionContext; `ctx.thisLogic` is the Logic.
+await ctx.thisLogic.toggleCarried(ctx); // run the built-in behavior
 // …then apply the house rule on top.
 ```
 
-(Calling `item.logic.executeAction("toggleCarried")` instead would resolve back to
-this same script and re-enter it — call the executor method, not the action.)
+(Calling `ctx.thisLogic.executeAction("toggleCarried")` instead would resolve back
+to this same script and re-enter it — call the executor method, not the action.)
 
 The same action can also be **offered across the chat log** — a card button that
 runs it, pre-filled, on whoever is entitled to click. That is the same executor,
