@@ -100,15 +100,12 @@ Failure**.
 
 Each wound has a **required treatment** — the specific action that must be taken:
 
-| Code    | Treatment                                                                                 |
-| ------- | ----------------------------------------------------------------------------------------- |
-| **CLN** | Clean and dress the injury with water and bandages.                                       |
-| **CMP** | Apply a cool, wet dressing to ease discomfort.                                            |
-| **EXT** | Surgically extract a lodged projectile (S3/G4/G5). An MF or CF roll causes a **bleeder**. |
-| **SET** | Splint a simple fracture.                                                                 |
-| **SUR** | Complex surgery (requires surgical tools). An MF or CF roll causes a **bleeder**.         |
-| **WRM** | Warm the victim (blankets, hot drinks, warm compresses).                                  |
-| **AMP** | Amputate the affected location.                                                           |
+| Code    | Treatment                                                                         |
+| ------- | --------------------------------------------------------------------------------- |
+| **CLN** | Clean and dress the injury with water and bandages.                               |
+| **CMP** | Apply a cool, wet dressing to ease discomfort.                                    |
+| **SET** | Splint a simple fracture.                                                         |
+| **SUR** | Complex surgery (requires surgical tools). An MF or CF roll causes a **bleeder**. |
 
 Treatment is a **Physician** test with the treatment's difficulty modifier. Its
 result sets the injury's Healing Rate:
@@ -127,15 +124,12 @@ A result of **HEAL** heals the wound immediately.
 **Treatment actions** — the required action and its difficulty modifier by aspect
 and severity (_action_ / _modifier_):
 
-| Aspect                  | Minor     | Serious   | Grievous  |
-| ----------------------- | --------- | --------- | --------- |
-| Blunt                   | CMP / +30 | SET / +10 | SUR / 0   |
-| Edged                   | CLN / +20 | CLN / +10 | SUR / 0   |
-| Piercing                | CLN / +10 | CLN / 0   | SUR / −10 |
-| Projectile              | CLN / +10 | EXT / 0   | EXT / −10 |
-| Projectile (broad-head) | CLN / 0   | EXT / −20 | EXT / −30 |
-| Fire                    | CMP / +20 | CLN / +10 | CLN / 0   |
-| Frost                   | WRM / +40 | WRM / +20 | AMP / 0   |
+| Aspect   | Minor     | Serious   | Grievous  |
+| -------- | --------- | --------- | --------- |
+| Blunt    | CMP / +30 | SET / +10 | SUR / 0   |
+| Edged    | CLN / +20 | CLN / +10 | SUR / 0   |
+| Piercing | CLN / +10 | CLN / 0   | SUR / −10 |
+| Fire     | CMP / +20 | CLN / +10 | CLN / 0   |
 
 ### Special Injury Effects
 
@@ -143,18 +137,8 @@ Certain wounds carry an additional effect:
 
 - **Possible permanent impairment** — Serious HR 3–4 or Grievous HR 2–4 blunt
   wounds; Grievous HR 2–4 edged wounds; Serious HR 3 or Grievous HR 2–4 piercing
-  wounds; Serious HR 3–4 or Grievous HR 2–4 projectile wounds; Grievous HR 1–3
-  fire wounds; Serious HR 3 frost wounds.
-- **Bleeder** — Grievous HR 2 or HR 3 blunt, edged, point, or projectile wounds.
-- **Amputation required** (Grievous frost wounds) — the treatment roll inflicts an
-  edged wound to the affected location, and (except on a CS) a bleeder:
-
-    | Treatment roll | Result                          |
-    | -------------- | ------------------------------- |
-    | CF (−1)        | G5 edged wound, **bleeder**.    |
-    | MF (0)         | G4 edged wound, **bleeder**.    |
-    | MS (1)         | S3 edged wound, **bleeder**.    |
-    | CS (2)         | S2 edged wound (not a bleeder). |
+  wounds; Grievous HR 1–3 fire wounds.
+- **Bleeder** — Grievous HR 2 or HR 3 blunt, edged, or point wounds.
 
 ## Injury Healing Test
 
