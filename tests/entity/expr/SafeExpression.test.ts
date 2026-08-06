@@ -3,6 +3,7 @@ import {
     SafeExpression,
     SafeExpressionError,
 } from "@src/entity/expr/SafeExpression";
+import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 
@@ -602,6 +603,174 @@ describe("SafeExpression", () => {
             expect(() =>
                 SafeExpression.validateSource("sb(attr.str)"),
             ).not.toThrow();
+        });
+
+        it("checks the scope when one is supplied", () => {
+            const scope = expressionScopes.require("skill.base");
+            expect(
+                SafeExpression.validateSource("sb(attr.str)", scope),
+            ).toBeUndefined();
+            expect(
+                SafeExpression.validateSource("sb(strength)", scope),
+            ).toMatch(/Unknown identifier "strength"/);
+        });
+
+        it("accepts any identifier when no scope is supplied", () => {
+            expect(
+                SafeExpression.validateSource("whateverIdentifier > 3"),
+            ).toBeUndefined();
+        });
+    });
+
+    describe("scopes", () => {
+        const scope = expressionScopes.require("action.visible");
+
+        /** Construct against a scope (for rejection assertions). */
+        function compileScoped(source: string): () => SafeExpression {
+            return () =>
+                new SafeExpression({ source }, { parent: mockParent, scope });
+        }
+
+        it("accepts an identifier the scope declares", () => {
+            expect(compileScoped("itemLogic.masteryLevel > 3")).not.toThrow();
+            expect(compileScoped("isGM")).not.toThrow();
+        });
+
+        it("rejects an identifier the scope does not declare, at construction", () => {
+            // Issue #1090 in miniature: this compiled fine and then failed
+            // silently at every evaluation.
+            expect(compileScoped("nonesuch.shockState === 2")).toThrow(
+                SafeExpressionError,
+            );
+        });
+
+        it("names the offending identifier and lists the legal ones", () => {
+            let message = "";
+            try {
+                compileScoped("nonesuch")();
+            } catch (err) {
+                message = (err as Error).message;
+            }
+            expect(message).toContain('"nonesuch"');
+            expect(message).toContain('"action.visible"');
+            expect(message).toContain("itemLogic");
+        });
+
+        it("checks only the root of a member chain, never the object graph", () => {
+            // The roots are a knowable list; the reachable graph is not.
+            expect(
+                compileScoped("itemLogic.anything.at.all.here"),
+            ).not.toThrow();
+        });
+
+        it("checks a computed member key, which is resolved from the context", () => {
+            expect(compileScoped("itemLogic[isGM]")).not.toThrow();
+            expect(compileScoped("itemLogic[nonesuch]")).toThrow(
+                SafeExpressionError,
+            );
+        });
+
+        it("does not treat a string-literal computed key as an identifier", () => {
+            expect(compileScoped("itemLogic['nonesuch']")).not.toThrow();
+        });
+
+        it("does not treat a helper callee as an out-of-scope identifier", () => {
+            expect(compileScoped("sb(itemLogic.str) > 3")).not.toThrow();
+        });
+
+        it("moves the bare-helper-reference error forward to construction", () => {
+            // Without a scope this only surfaces at evaluation; knowing the
+            // scope lets it fail where the expression is authored.
+            expect(compileScoped("sb")).toThrow(/can only be called/);
+            expect(() =>
+                new SafeExpression(
+                    { source: "sb" },
+                    { parent: mockParent },
+                ).evaluate({}),
+            ).toThrow(/can only be called/);
+        });
+
+        it("lets a declared binding shadow a helper of the same name", () => {
+            // `str` is both a standard helper and, here, a declared binding —
+            // the binding wins, matching how `evalIdentifier` resolves it.
+            const body = expressionScopes.require("body.weight");
+            expect(body.has("str")).toBe(true);
+            const expr = new SafeExpression(
+                { source: "str * 2" },
+                { parent: mockParent, scope: body },
+            );
+            expect(expr.evaluate({ str: 12 })).toBe(24);
+        });
+
+        it("exposes the scope it was built against", () => {
+            const expr = new SafeExpression(
+                { source: "isGM" },
+                { parent: mockParent, scope },
+            );
+            expect(expr.scope).toBe(scope);
+            expect(
+                new SafeExpression({ source: "isGM" }, { parent: mockParent })
+                    .scope,
+            ).toBeUndefined();
+        });
+
+        it("accepts any identifier in an open scope", () => {
+            const open = expressionScopes.require("event.predicate");
+            expect(
+                () =>
+                    new SafeExpression(
+                        { source: "someCustomTriggerKey === 3" },
+                        { parent: mockParent, scope: open },
+                    ),
+            ).not.toThrow();
+        });
+
+        it("rejects every identifier in a scope that declares none", () => {
+            const none = expressionScopes.require("affliction.outcomeTrauma");
+            const build = (source: string) =>
+                new SafeExpression(
+                    { source },
+                    { parent: mockParent, scope: none },
+                );
+            expect(() => build("'gash'")).not.toThrow();
+            expect(() => build("upper('gash')")).not.toThrow();
+            expect(() => build("wound")).toThrow(SafeExpressionError);
+        });
+
+        it("says so plainly when a scope binds nothing", () => {
+            const none = expressionScopes.require("affliction.outcomeTrauma");
+            let message = "";
+            try {
+                new SafeExpression(
+                    { source: "wound" },
+                    { parent: mockParent, scope: none },
+                );
+            } catch (err) {
+                message = (err as Error).message;
+            }
+            expect(message).toMatch(/binds no identifiers/);
+        });
+
+        it("accepts the Shock Re-Test visibility expression (#1090)", () => {
+            // The action-visible scope binds `actorLogic`, so the expression
+            // BeingLogic registers for `shockReTest` compiles. It used to throw
+            // `Unknown identifier: actorLogic` on every menu render, which
+            // `compileVisibility` caught — hiding the action in every state.
+            expect(
+                SafeExpression.validateSource(
+                    "actorLogic.shockState === 2 || actorLogic.shockState === 3",
+                    scope,
+                ),
+            ).toBeUndefined();
+        });
+
+        it("serializes to source only — the scope is transient", () => {
+            const expr = new SafeExpression(
+                { source: "isGM" },
+                { parent: mockParent, scope },
+            );
+            expect(expr.toJSON()).not.toHaveProperty("scope");
+            expect(expr.toJSON()).toMatchObject({ source: "isGM" });
         });
     });
 });

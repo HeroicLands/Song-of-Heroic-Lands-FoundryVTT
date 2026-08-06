@@ -63,7 +63,7 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
         // marks the field for the code editor (edit button on the Skill sheet).
         // Its defaults are exactly this field's shape — nullable, non-blank,
         // `initial: null` (unset-when-blank) — so no options are needed.
-        skillBaseFormula: new SafeExpressionField(),
+        skillBaseFormula: new SafeExpressionField({ scope: "skill.base" }),
         // `null` = "not yet opened" (distinct from a deliberate 0). On an actor
         // an unopened skill opens at Skill Base × initSkillMult; see
         // SkillLogic.initialize.

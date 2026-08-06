@@ -13,6 +13,7 @@
 
 import { describe, it, expect } from "vitest";
 import { makeExpressionCompletionSource } from "@src/apps/foundry/expression-completions";
+import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 
 /** A minimal CompletionContext stub — the source only uses these two members. */
 function ctx(text: string, explicit = false): any {
@@ -25,7 +26,7 @@ function ctx(text: string, explicit = false): any {
 
 describe("makeExpressionCompletionSource", () => {
     it("offers registered helper functions, inserted with call parens", () => {
-        const result = makeExpressionCompletionSource([])(ctx("skill"));
+        const result = makeExpressionCompletionSource()(ctx("skill"));
         expect(result).not.toBeNull();
         const sb = result!.options.find((o) => o.label === "sb");
         expect(sb).toBeDefined();
@@ -33,22 +34,37 @@ describe("makeExpressionCompletionSource", () => {
         expect((sb as any).apply).toBe("sb()");
     });
 
-    it("offers the field's context identifiers as variables", () => {
-        const result = makeExpressionCompletionSource(["attr", "custom"])(
-            ctx("a"),
-        );
+    it("offers the scope's declared identifiers as variables", () => {
+        const scope = expressionScopes.require("action.visible");
+        const result = makeExpressionCompletionSource(scope)(ctx("a"));
+        const itemLogic = result!.options.find((o) => o.label === "itemLogic");
+        expect(itemLogic).toBeDefined();
+        expect(itemLogic!.type).toBe("variable");
+        // Every declared identifier is offered — and only those.
+        for (const name of scope.names) {
+            expect(result!.options.find((o) => o.label === name)).toBeDefined();
+        }
+        expect(result!.options.find((o) => o.label === "attr")).toBeUndefined();
+    });
+
+    it("carries each identifier's description as completion detail", () => {
+        const scope = expressionScopes.require("skill.base");
+        const result = makeExpressionCompletionSource(scope)(ctx("a"));
         const attr = result!.options.find((o) => o.label === "attr");
-        expect(attr).toBeDefined();
-        expect(attr!.type).toBe("variable");
-        expect(result!.options.find((o) => o.label === "custom")).toBeDefined();
+        expect((attr as any).detail).toBe(scope.describe("attr"));
+    });
+
+    it("offers helpers only when the field declares no scope", () => {
+        const result = makeExpressionCompletionSource()(ctx("a"));
+        expect(result!.options.every((o) => o.type === "function")).toBe(true);
     });
 
     it("anchors completions at the start of the typed word", () => {
-        const result = makeExpressionCompletionSource([])(ctx("sb"));
+        const result = makeExpressionCompletionSource()(ctx("sb"));
         expect(result!.from).toBe(0);
     });
 
     it("returns null on an empty non-explicit context (no word to complete)", () => {
-        expect(makeExpressionCompletionSource([])(ctx(""))).toBeNull();
+        expect(makeExpressionCompletionSource()(ctx(""))).toBeNull();
     });
 });

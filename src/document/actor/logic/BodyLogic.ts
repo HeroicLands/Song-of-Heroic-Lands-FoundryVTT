@@ -13,6 +13,7 @@
 
 import { entity } from "@src/entity/registry";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
@@ -134,16 +135,19 @@ export class BodyLogic {
      */
     evaluate(): void {
         if (this.data.weight.base === null) {
+            const scope = expressionScopes.require("body.weight");
             const bodyWeightCalc = new SafeExpression(
                 { source: this.data.weight.calc },
-                { parent: this.being },
+                { parent: this.being, scope },
             );
             this.weight.setBase(
-                (bodyWeightCalc.evaluate({
-                    str:
-                        this.being.getItemLogic("str", ITEM_KIND.ATTRIBUTE)
-                            ?.score?.effective ?? 0,
-                }) as number) ?? 0,
+                (bodyWeightCalc.evaluate(
+                    scope.bind({
+                        str:
+                            this.being.getItemLogic("str", ITEM_KIND.ATTRIBUTE)
+                                ?.score?.effective ?? 0,
+                    }),
+                ) as number) ?? 0,
             );
         }
         this.injuryTable = BASE_INJURY_THRESHOLDS.map(

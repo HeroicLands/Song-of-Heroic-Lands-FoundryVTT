@@ -20,6 +20,7 @@ import {
     fvttFindItemByShortcode,
 } from "@src/core/FoundryHelpers";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import { elapsedCheckpoints } from "@src/entity/event/scheduling";
 import {
     armScheduledActions,
@@ -918,10 +919,11 @@ export class AfflictionLogic<
      * @returns A promise that resolves once any outcome traumas are created.
      */
     private async contractOutcomeTraumas(): Promise<void> {
+        const scope = expressionScopes.require("affliction.outcomeTrauma");
         const value = new SafeExpression(
             { source: this.data.outcomeTrauma ?? undefined },
-            { parent: this },
-        ).evaluate({});
+            { parent: this, scope },
+        ).evaluate(scope.bind({}));
         const shortcodes = (Array.isArray(value) ? value : [value])
             .map((v) => String(v))
             .filter(Boolean);

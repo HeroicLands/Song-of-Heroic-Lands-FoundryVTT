@@ -17,6 +17,7 @@ import {
     SafeExpression,
     SafeExpressionError,
 } from "@src/entity/expr/SafeExpression";
+import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
@@ -1036,10 +1037,14 @@ export class SkillLogic<
     } {
         if (!source) return { value: 0, expr: null };
         try {
-            const expr = new SafeExpression({ source }, { parent: this });
-            const raw = expr.evaluate({
-                attr: this.buildAttrContext(),
-            });
+            const scope = expressionScopes.require("skill.base");
+            const expr = new SafeExpression(
+                { source },
+                { parent: this, scope },
+            );
+            const raw = expr.evaluate(
+                scope.bind({ attr: this.buildAttrContext() }),
+            );
             const n = Number(raw);
             if (!Number.isFinite(n)) {
                 return {

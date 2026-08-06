@@ -15,5 +15,6 @@
 // verifies every sibling module and subfolder here is re-exported.
 
 export * from "./ExpressionHelperRegistry";
+export * from "./ExpressionScopeRegistry";
 export * from "./SafeExpression";
 export * from "./SafeExpressionError";

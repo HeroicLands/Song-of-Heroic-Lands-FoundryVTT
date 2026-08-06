@@ -15,6 +15,7 @@ import { dialog } from "@src/core/FoundryHelpers";
 import { toHTMLString } from "@src/utils/helpers";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { expressionHelpers } from "@src/entity/expr/ExpressionHelperRegistry";
+import type { ExpressionScope } from "@src/entity/expr/ExpressionScopeRegistry";
 import {
     mountExpressionEditor,
     type MountedExpressionEditor,
@@ -48,10 +49,13 @@ const EDITOR_CONTENT = toHTMLString(
 /** Options for {@link openExpressionEditorDialog}. */
 export interface ExpressionEditorDialogOptions {
     /**
-     * Context-identifier names the field's call site binds (e.g. `attr`),
-     * offered in autocomplete alongside the helper functions.
+     * The edited field's {@link ExpressionScope} — the identifiers legal in this
+     * expression. Drives autocomplete and, because live validation checks
+     * against it too, makes an out-of-scope identifier disable **Save** as you
+     * type instead of failing silently at runtime. Omit for a field that
+     * declares no scope.
      */
-    contextNames?: string[];
+    scope?: ExpressionScope;
 }
 
 /**
@@ -114,7 +118,7 @@ export async function openExpressionEditorDialog(
             },
         ],
         render: (element: HTMLElement) =>
-            wireEditor(element, state, options.contextNames ?? []),
+            wireEditor(element, state, options.scope),
         callback: (_formData, action) => {
             state.action = action;
             if (action === "save" && state.editor) {
@@ -143,12 +147,13 @@ export async function openExpressionEditorDialog(
  * @param state - Shared mutable holder for the live editor value and handle.
  * @param state.source - The current editor text (updated on every edit).
  * @param state.editor - The mounted CodeMirror handle (captured for Save/destroy).
- * @param contextNames - Context-identifier names offered in autocomplete.
+ * @param scope - The edited field's declared scope, used for autocomplete and
+ *   for the live out-of-scope-identifier check.
  */
 function wireEditor(
     element: HTMLElement,
     state: { source: string; editor: MountedExpressionEditor | null },
-    contextNames: string[],
+    scope?: ExpressionScope,
 ): void {
     const container = element.querySelector<HTMLElement>("[data-editor]");
     const status = element.querySelector<HTMLElement>("[data-status]");
@@ -161,7 +166,7 @@ function wireEditor(
 
     const revalidate = (value: string): void => {
         state.source = value;
-        const error = SafeExpression.validateSource(value);
+        const error = SafeExpression.validateSource(value, scope);
         if (status) {
             status.textContent =
                 error ?? sohl.i18n.localize("SOHL.ExpressionEditor.valid");
@@ -173,7 +178,7 @@ function wireEditor(
 
     const editor = mountExpressionEditor(container, state.source, {
         onChange: revalidate,
-        contextNames,
+        scope,
     });
     state.editor = editor;
     // Expose the handle on the mount node so integration tests can drive the

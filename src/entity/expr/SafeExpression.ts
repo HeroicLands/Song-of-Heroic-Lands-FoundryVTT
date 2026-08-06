@@ -20,6 +20,7 @@ import {
     CONTEXT_BOUND_HELPERS,
 } from "./ExpressionHelperRegistry";
 import { SafeExpressionError, errorMessage } from "./SafeExpressionError";
+import type { ExpressionScope } from "./ExpressionScopeRegistry";
 
 // Re-exported so callers can import the error type alongside the class.
 export { SafeExpressionError } from "./SafeExpressionError";
@@ -113,6 +114,30 @@ jsep.removeUnaryOp("~");
  * expr.evaluate({ level: 9, injured: true });  // false
  * ```
  *
+ * ## Scopes — declaring what is in play
+ *
+ * An expression's identifiers only mean something against the bindings its call
+ * site supplies, and that contract used to be implicit: each site built an
+ * ad-hoc object literal, so writing an identifier the site did not bind parsed
+ * cleanly and only threw at evaluation — where the caller caught it, logged a
+ * warning, and silently treated the feature as off (issue #1142).
+ *
+ * Pass an {@link ExpressionScope} to close that gap. The scope declares the
+ * legal identifiers, and construction rejects anything outside them:
+ *
+ * ```ts
+ * const scope = expressionScopes.require("skill.base");
+ * new SafeExpression({ source: "sb(strength)" }, { parent, scope });
+ * // ✗ throws: Unknown identifier "strength" in the "skill.base" scope;
+ * //           available identifiers: attr
+ * ```
+ *
+ * Only the **root** identifier of a member chain is checked — `itemLogic.foo.bar`
+ * validates `itemLogic` and leaves the object graph alone, since the roots are a
+ * knowable list and the graph is not. The scope is optional: an expression built
+ * without one accepts any identifier and resolves it from the evaluation context,
+ * exactly as before.
+ *
  * ## The language
  *
  * **Allowed:** literals (`3`, `"orc"`, `true`), array literals (`[1, 2]`),
@@ -161,14 +186,24 @@ export class SafeExpression extends SohlEntity {
     private readonly ast: jsep.Expression;
 
     /**
+     * The call site's declared bindings, when one was supplied. Identifiers
+     * outside it are rejected at construction; without a scope, any identifier
+     * is accepted and resolved from the evaluation context. Transient — the
+     * scope belongs to the call site, not to the persisted expression.
+     */
+    readonly scope: ExpressionScope | undefined;
+
+    /**
      * Parse and statically validate an expression.
      * @param data - The expression data.
      * @param data.source - The expression text.
-     * @param options - Entity options, including the owning `parent` logic.
+     * @param options - Entity options, including the owning `parent` logic and
+     *   the optional `scope` declaring which identifiers are legal here.
      * @throws {SafeExpressionError} If `data.source` is not a string, if jsep
      *   cannot parse it, or if static validation rejects it — a disallowed
-     *   operator, a denied property key, a method or non-helper call, or an
-     *   unsupported node type (see `validate`).
+     *   operator, a denied property key, a method or non-helper call, an
+     *   identifier outside the declared `scope`, or an unsupported node type
+     *   (see `validate`).
      */
     constructor(
         data: Partial<SafeExpression.Data> = {},
@@ -181,6 +216,8 @@ export class SafeExpression extends SohlEntity {
             );
         }
         this.source = data.source;
+        // Assigned before validate(), which consults it for every identifier.
+        this.scope = options.scope;
         try {
             this.ast = jsep(this.source);
         } catch (err) {
@@ -210,11 +247,15 @@ export class SafeExpression extends SohlEntity {
      * broken one.
      *
      * @param source - The expression text to check (or blank/nullish for unset).
+     * @param scope - The call site's declared bindings, when known. Supplying it
+     *   also rejects an identifier outside the scope, so the editor flags an
+     *   out-of-scope name as you type rather than leaving it to fail at runtime.
      * @returns `undefined` when the source is valid or unset; otherwise the
      *   {@link SafeExpressionError} message describing why it is invalid.
      */
     static validateSource(
         source: string | null | undefined,
+        scope?: ExpressionScope,
     ): string | undefined {
         if (source == null || source.trim() === "") return undefined;
         try {
@@ -224,7 +265,10 @@ export class SafeExpression extends SohlEntity {
                 { source },
                 // A stub parent satisfies SohlEntity's presence check; static
                 // validation never dereferences it.
-                { parent: { id: "validate", name: "validate" } as never },
+                {
+                    parent: { id: "validate", name: "validate" } as never,
+                    scope,
+                },
             );
             return undefined;
         } catch (err) {
@@ -366,7 +410,10 @@ export class SafeExpression extends SohlEntity {
     private validate(node: jsep.Expression): void {
         switch (node.type) {
             case "Literal":
+                return;
+
             case "Identifier":
+                this.validateIdentifier((node as jsep.Identifier).name);
                 return;
 
             case "ArrayExpression": {
@@ -456,6 +503,42 @@ export class SafeExpression extends SohlEntity {
                     `Unsupported syntax: ${node.type}`,
                 );
         }
+    }
+
+    /**
+     * Check one bare identifier against the declared {@link scope}.
+     *
+     * Only reached for identifiers the language resolves from the evaluation
+     * context: a member chain's **root** (`itemLogic` in `itemLogic.a.b`) and a
+     * computed key (`y` in `x[y]`). A dotted property name and a helper callee
+     * are handled by their own `validate` cases and never arrive here, so
+     * `itemLogic.anythingAtAll` and `sb(...)` stay legal.
+     *
+     * A no-op when no scope was supplied, or when the scope is open.
+     * @param name - The identifier to check.
+     * @throws {SafeExpressionError} If a closed scope does not declare `name`.
+     */
+    private validateIdentifier(name: string): void {
+        if (!this.scope || this.scope.allows(name)) return;
+        // A registered helper named as a bare identifier is a distinct mistake
+        // with its own message. `evaluate` raises the same error for the
+        // scope-less case; knowing the scope lets us raise it here instead, at
+        // authoring time. A scope that *declares* a binding shadowing a helper
+        // name never reaches this branch — the binding wins, exactly as it does
+        // in `evalIdentifier`.
+        if (expressionHelpers.has(name)) {
+            throw new SafeExpressionError(
+                `Helper "${name}" can only be called, not referenced`,
+            );
+        }
+        const available =
+            this.scope.names.length ?
+                this.scope.names.join(", ")
+            :   "(none — this scope binds no identifiers)";
+        throw new SafeExpressionError(
+            `Unknown identifier "${name}" in the "${this.scope.id}" scope; ` +
+                `available identifiers: ${available}`,
+        );
     }
 
     /**
@@ -716,7 +799,14 @@ export namespace SafeExpression {
         source: string;
     }
 
-    export interface Options extends SohlEntity.Options {}
+    export interface Options extends SohlEntity.Options {
+        /**
+         * The call site's declared bindings. When supplied, an identifier the
+         * scope does not declare is rejected at construction; when omitted, any
+         * identifier is accepted and resolved from the evaluation context.
+         */
+        scope?: ExpressionScope;
+    }
 }
 
 registerKind(SafeExpression.Kind, SafeExpression);

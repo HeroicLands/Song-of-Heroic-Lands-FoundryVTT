@@ -68,7 +68,7 @@
         "deploy:prod": "run-s build push:prod",
         "deploy:release": "run-s build build:pack-release",
         "docs": "run-s docs:prepare docs:html docs:md docs:version",
-        "docs:prepare": "run-s docs:catalog",
+        "docs:prepare": "run-s docs:catalog docs:expr-scopes",
         "docs:catalog": "node utils/build-type-catalog.mjs",
         "docs:html": "typedoc --options typedoc-html.json",
         "docs:md": "typedoc --options typedoc-markdown.json",
@@ -91,7 +91,7 @@
         "test:e2e:open": "run-s push:test test:e2e:seed test:e2e:openrun",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
-        "lint": "run-s lint:todos lint:lang lint:lang-coverage lint:docs-index lint:ns-barrels lint:type-catalog lint:labels lint:packs lint:e2e-red lint:eslint lint:dts",
+        "lint": "run-s lint:todos lint:lang lint:lang-coverage lint:docs-index lint:ns-barrels lint:type-catalog lint:expr-scopes lint:labels lint:packs lint:e2e-red lint:eslint lint:dts",
         "lint:eslint": "eslint src/",
         "lint:fix": "eslint src/ --fix",
         "lint:todos": "node utils/check-todos.mjs",
@@ -106,7 +106,9 @@
         "lint:dts": "node utils/check-dts.mjs",
         "changeset": "changeset",
         "changeset:version": "changeset version",
-        "changeset:check": "changeset check"
+        "changeset:check": "changeset check",
+        "docs:expr-scopes": "node utils/build-expression-scopes-doc.mjs",
+        "lint:expr-scopes": "node utils/build-expression-scopes-doc.mjs --check"
     },
     "devDependencies": {
         "@babel/preset-env": "^7.26.9",
