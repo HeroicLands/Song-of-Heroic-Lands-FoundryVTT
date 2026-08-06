@@ -29,15 +29,10 @@ import {
     type SohlItemData,
 } from "@src/document/item/logic/SohlItemBaseLogic";
 import {
-    ACTION_SUBTYPE,
     ITEM_KIND,
     MYSTERY_SUBTYPE,
     MysterySubType,
-    SOHL_ACTION_SCOPE,
-    SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
-import { SohlAction } from "@src/entity/action/SohlAction";
-import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 
 /**
  * A passive or charge-based mystical power associated with a character or
@@ -47,6 +42,12 @@ import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
  * influence a character's capabilities. Unlike {@link MysticalAbilityLogic | Mystical Abilities}
  * (which are actively cast), mysteries are often passive or limited-use
  * powers that enhance skills, grant re-rolls, or provide divine favor.
+ *
+ * A Mystery models what a character **is** — a standing condition, pool, or
+ * blessing — so it carries no "use it" action of its own: there is no universal
+ * meaning to *using* a Mystery. Anything a character actively **invokes** is a
+ * {@link MysticalAbilityLogic | Mystical Ability}, which has its own action and
+ * roll; a subtype that should be spent down is driven by whatever consumes it.
  *
  * Each mystery tracks a **level** and optional **charges** (value and max); a
  * `null` charge value denotes infinite uses. A mystery may name an associated
@@ -118,42 +119,6 @@ export class MysteryLogic<
      * inform a capability derivation.
      */
     affiliation?: AffiliationLogic;
-
-    /* --------------------------------------------- */
-    /* Intrinsic Actions                             */
-    /* --------------------------------------------- */
-
-    /**
-     * Invoke this mystery's power (spend a charge, request the boon, etc.).
-     *
-     * Intrinsic-action executor for the `useMystery` action.
-     *
-     * @param _context - The action context (speaker, scope) for the invocation.
-     * @remarks Not yet implemented; warns and returns.
-     */
-    async useMystery(_context: SohlActionContext): Promise<void> {
-        sohl.log.uiWarn(`Using "${this.name}" is not yet implemented.`);
-    }
-
-    /**
-     * Define and return all intrinsic actions for mystery logic.
-     * @returns The intrinsic action definitions, including those inherited from the base logic.
-     */
-    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
-        return [
-            ...SohlItemBaseLogic.defineIntrinsicActions(),
-            {
-                shortcode: "useMystery",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Mystery.Action.useMystery.title",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "ginf-sparkles",
-                executor: "useMystery",
-                visible: "true",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-            },
-        ];
-    }
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */

@@ -73,7 +73,7 @@ export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
  *
  * - **Intrinsic actions** — defined in code by Logic classes via
  *   `defineIntrinsicActions()`. The `executor` is the *name of a method* on the
- *   scoped target logic (e.g. `useMystery` on a Mystery), looked up and bound at
+ *   scoped target logic (e.g. `successTest` on a Skill), looked up and bound at
  *   construction. This is how the system ships its built-in actions.
  * - **Script actions** — GM-authored. The `executor` is the **UUID of a
  *   Foundry `Macro`**; running the action invokes `Macro#execute` (which
@@ -105,7 +105,7 @@ export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
  * // An intrinsic action definition (from a Logic class's
  * // defineIntrinsicActions): the executor is the name of a method on the
  * // scoped target logic, bound at construction.
- * { subType: "intrinsic", scope: "self", executor: "useMystery", trigger: "true" }
+ * { subType: "intrinsic", scope: "self", executor: "successTest", trigger: "true" }
  *
  * @example
  * // A Script action references a GM-authored Macro by UUID; the Macro body is

@@ -2371,7 +2371,6 @@
   "sohl.document.item.logic.MysteryLogic.speaker": "classes/sohl.document.item.logic.MysteryLogic.html#speaker",
   "sohl.document.item.logic.MysteryLogic.toJSON": "classes/sohl.document.item.logic.MysteryLogic.html#tojson",
   "sohl.document.item.logic.MysteryLogic.typeLabel": "classes/sohl.document.item.logic.MysteryLogic.html#typelabel",
-  "sohl.document.item.logic.MysteryLogic.useMystery": "classes/sohl.document.item.logic.MysteryLogic.html#usemystery",
   "sohl.document.item.logic.MysteryLogic.uuid": "classes/sohl.document.item.logic.MysteryLogic.html#uuid",
   "sohl.document.item.logic.MysticalAbilityData": "interfaces/sohl.document.item.logic.MysticalAbilityData.html",
   "sohl.document.item.logic.MysticalAbilityData.actionDefs": "interfaces/sohl.document.item.logic.MysticalAbilityData.html#actiondefs",

@@ -93,16 +93,19 @@ afterEach(() => {
 
 describe("MysteryLogic", () => {
     describe("construction", () => {
-        it("constructs with its real intrinsic actions (useMystery is wired)", () => {
+        // #1089: a Mystery models what a character *is* — a standing
+        // condition, pool, or blessing. Anything a character actively invokes
+        // is a Mystical Ability, which carries its own action and roll. There
+        // is no universal meaning to "use" a Mystery, so the item offers no
+        // such action.
+        it("offers no useMystery action (#1089)", () => {
             const logic = makeMystery();
-            expect(logic.actions.has("useMystery")).toBe(true);
-        });
-
-        it("useMystery — warns (not yet implemented)", async () => {
-            const logic = makeMystery();
-            const warn = vi.spyOn(sohl.log, "uiWarn");
-            await expect(logic.useMystery({} as any)).resolves.toBeUndefined();
-            expect(warn).toHaveBeenCalled();
+            expect(logic.actions.has("useMystery")).toBe(false);
+            expect(
+                MysteryLogic.defineIntrinsicActions().some(
+                    (d) => d.shortcode === "useMystery",
+                ),
+            ).toBe(false);
         });
 
         it("constructs against a plain-object MysteryData (no Foundry)", () => {
