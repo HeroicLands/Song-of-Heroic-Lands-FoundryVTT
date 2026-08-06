@@ -115,7 +115,7 @@ condition glyphs that Font Awesome does not cover.
 | <i class="fa-solid fa-ban" aria-hidden="true"></i> | **Resume (Ignore)** | A combatant in the tracker |
 | <i class="fa-solid fas fa-people-arrows" aria-hidden="true"></i> | **Resume Opposed Test** | A token on the canvas |
 | <i class="far fa-face-dizzy" aria-hidden="true"></i> | **Shock Re-Test** | Being |
-| <i class="ginf-knocked-out-stars" aria-hidden="true"></i> | **Shock Test** | Being |
+| <i class="ginf-knockout" aria-hidden="true"></i> | **Shock Test** | Being |
 | <i class="ginf-heart-beats" aria-hidden="true"></i> | **Shock/Coma Course Test** | Trauma |
 | <i class="fa-solid fa-person-falling" aria-hidden="true"></i> | **Stumble Test** | Being |
 | <i class="fa-solid fa-bullseye" aria-hidden="true"></i> | **Success Test** | Skill |

@@ -167,7 +167,7 @@ card. It is documented with the Rally Test, where that card comes from.
 | ------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Shock Test                                                                                                             |
 | **Shortcode** | `shockTest`                                                                                                            |
-| **Icon**      | `ginf-knocked-out-stars` (a dazed face ringed with stars)                                                              |
+| **Icon**      | `ginf-knockout` (a knocked-out figure)                                                                                 |
 | **Invoked**   | The **Actions context menu** on the Being                                                                              |
 | **API**       | [`BeingLogic.shockTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#shocktest) |
 

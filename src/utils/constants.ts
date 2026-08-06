@@ -2091,7 +2091,7 @@ export const {
     SHOCKTEST: {
         id: "shockTest",
         name: "Shock Test",
-        iconClass: "ginf-knocked-out-stars",
+        iconClass: "ginf-knockout",
         condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },

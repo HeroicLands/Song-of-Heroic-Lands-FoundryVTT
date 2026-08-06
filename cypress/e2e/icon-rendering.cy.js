@@ -315,7 +315,7 @@ describe("icon rendering — Font Awesome Free + game-icons webfont", () => {
             ["fa-sack", "ginf-knapsack", "toggleCarried"],
             ["fa-wave-pulse", "ginf-heart-beats", "courseCheck"],
             ["fa-face-scream", "ginf-screaming", "fearTest"],
-            ["fa-face-eyes-xmarks", "ginf-knocked-out-stars", "shockTest"],
+            ["fa-face-eyes-xmarks", "ginf-knockout", "shockTest"],
             [
                 "fa-bullseye-arrow",
                 "fa-solid fa-bullseye",
