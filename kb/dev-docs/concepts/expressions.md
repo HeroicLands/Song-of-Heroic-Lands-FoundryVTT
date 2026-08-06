@@ -211,6 +211,64 @@ scope: item-kind scopes see the candidate item's logic as `itemLogic`; the
 strike-mode scopes (`meleestrikemode` / `missilestrikemode`) additionally bind
 the strike mode as `sm`.
 
+### Adding a call site — declaring its scope
+
+This part is for **contributors adding a new place that evaluates an
+expression**. Authors writing expressions need only the table above.
+
+Scopes live in `src/entity/expr/expression-scopes.mjs`. It is deliberately plain
+ESM — no TypeScript, no `@src` aliases, no Foundry — so the bare-`node`
+documentation script and the bundled TS runtime can both import it (the same
+arrangement as `src/utils/default-item-art.mjs`). That object **is** the
+registry; there is no separate registration step.
+
+1. **Declare the scope.** Add an entry keyed by a dotted `<subject>.<use>` id.
+   `label` / `site` / `field` / `result` / `summary` feed the generated table;
+   `bindings` maps each legal identifier to the description shown in the editor's
+   autocomplete. Set `open: true` **only** for a context whose keys genuinely
+   vary at runtime (today just `event.predicate`, whose bindings depend on the
+   trigger and may carry world-registered custom keys) — an open scope permits
+   undeclared identifiers, so its declarations are documentation, not a gate.
+   An entry with no bindings at all is legitimate: it means only literals and
+   helper calls may appear.
+
+2. **Pass it at construction.** `expressionScopes.require(id)` throws on an
+   unknown id, so a typo is a startup error rather than an unvalidated
+   expression:
+
+    ```ts
+    const scope = expressionScopes.require("skill.base");
+    const expr = new SafeExpression({ source }, { parent: this, scope });
+    ```
+
+3. **Bind through the scope at evaluation.** {@link sohl.entity.expr.ExpressionScope.bind}
+   checks that the context you supply matches what the scope promised, then
+   returns it unchanged:
+
+    ```ts
+    expr.evaluate(scope.bind({ attr: this.buildAttrContext() }));
+    ```
+
+   It guards the direction construction cannot: a call site that quietly stops
+   binding something, or invents a key nobody declared, warns once per distinct
+   shape. It never throws — a binding bug must not take a sheet down with it.
+
+4. **Regenerate the table.** `npm run docs:expr-scopes` rewrites the generated
+   region above; `npm run lint` fails when the committed copy is stale.
+
+**If the expression is authored in a data field**, declare the scope on the field
+rather than at the call site alone, so the schema itself carries the contract:
+
+```ts
+skillBaseFormula: new SafeExpressionField({ scope: "skill.base" });
+```
+
+The sheet's `expressionField` partial forwards that id to the editor as
+`data-expr-scope`, which is what makes autocomplete and the live
+"is this valid?" check agree with the code that will evaluate the value. Nothing
+about the binding contract is typed into a template — a hand-written list there
+is exactly what drifted before (#1142).
+
 ### The standard helpers
 
 Because method calls are banned, **helpers** are how behavior is exposed to an

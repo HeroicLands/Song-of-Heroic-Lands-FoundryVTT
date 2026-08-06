@@ -206,6 +206,13 @@ line-range fragments (they rot on any edit).
 `docs/reference/type-catalog.md` is **generated and committed**. When your schema
 change makes it show as modified, commit it — never hand-edit or revert it.
 
+The bound-variables table in `docs/concepts/expressions.md` is likewise generated
+— from the expression-scope catalog (`src/entity/expr/expression-scopes.mjs`) —
+into a marked region of an otherwise hand-written page. Adding or changing an
+expression call site means running `npm run docs:expr-scopes` and committing the
+result; `npm run lint` fails on a stale copy. Edit the catalog, never the
+generated region.
+
 ### Changesets
 
 `feat/*` and `bug/*` branches **always** add a `.changeset/` entry — regardless of

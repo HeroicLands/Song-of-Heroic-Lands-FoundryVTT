@@ -96,6 +96,7 @@ reads the Markdown directly.
 | `lint:todos`              | Fail if any `TODO`/`FIXME` marker appears under `src/` (deferred work belongs in issues).                                     |
 | `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                         |
 | `lint:packs`              | Fail on a duplicate `(type, shortcode)` within a compendium pack (`assets/content/`). See [Shortcode Integrity](../reference/shortcode-integrity.md). |
+| `lint:expr-scopes`        | Fail if the generated expression-scope table in [Expressions and Scripts](../concepts/expressions.md) is out of date with `src/entity/expr/expression-scopes.mjs`. Regenerate with `npm run docs:expr-scopes`. |
 | `lint:dts`                | Validate the generated public type surface.                                                                                   |
 | `format` / `format:check` | Prettier write / check the whole repo.                                                                                        |
 
@@ -104,7 +105,8 @@ reads the Markdown directly.
 | Script                      | What it does                                                                           |
 | --------------------------- | -------------------------------------------------------------------------------------- |
 | `docs`                      | Full doc build: `docs:prepare → docs:html → docs:md → docs:version`.                   |
-| `docs:prepare`              | `docs:catalog` (generate the type catalog) + `docs:bundle` (the TypeDoc entry barrel). |
+| `docs:prepare`              | `docs:catalog` (generate the type catalog) + `docs:expr-scopes` (generate the expression-scope table). |
+| `docs:expr-scopes`          | Regenerate the bound-variables table in [Expressions and Scripts](../concepts/expressions.md) from the scope catalog. |
 | `docs:html` / `docs:md`     | TypeDoc HTML / Markdown output.                                                        |
 | `docs:version`              | Rewrite `api.heroiclands.org/latest` → `…/v<version>` in the generated output.         |
 | `docs:coverage`             | Report doc-comment coverage.                                                           |
