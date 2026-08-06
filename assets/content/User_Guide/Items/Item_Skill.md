@@ -386,7 +386,7 @@ Action Request** card invites the other side to answer with a skill or attribute
 their own.
 
 The whole flow — the targeting rules, both cards, the responder's dialog, and how
-victory degrees are read — is described once on [[Token]], under _Starting an
+Victory Stars are read — is described once on [[Token]], under _Starting an
 Opposed Test_. For the rules behind a contest, see the
 [[rules/sohl-opposed-tests|Opposed Tests]] rules.
 

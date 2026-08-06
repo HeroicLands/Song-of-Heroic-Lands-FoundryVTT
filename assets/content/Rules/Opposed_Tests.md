@@ -3,6 +3,7 @@ aliases:
     - Opposed Test
     - Opposed Success Test
     - Victory Degrees
+    - Victory Stars
 id: 9y7OKpMC3KqGs8oT
 type: doc
 package: sohl
@@ -14,22 +15,38 @@ slug: sohl-opposed-tests
 folder: RqKUTBUBN2Y3MHYB
 ---
 
-When two characters act against one another—Stealth versus Awareness, Melee versus Dodge, Eloquence versus Eloquence—both make [[Success Tests]] simultaneously. The character who achieves a positive [[Success Tests#Success Level|success level]] and a higher success level than their opponent is the victor.
+Some actions are not measured against a fixed difficulty but against another character: sneaking past a sentry, wrestling an opponent's blade aside, talking a rival down in front of a crowd. Both characters make [[Success Tests]] at the same time, and the outcomes are compared.
 
-In combat, the two sides are referred to as the **attacker** and the **defender**. In non-combat opposed tests, the character who initiates the contest is the **initiator** and the other is the **respondent**.
+The victor is the character who **succeeds** — a Marginal or Critical Success, never a failure of any kind — **and** reaches a higher [[Success Tests#Success Level|success level]] than the other. Merely doing less badly is not winning: if neither character succeeds, neither one prevails, however close the rolls were.
 
-## Victory Degrees
+Success levels rank from lowest to highest: Critical Failure, Marginal Failure, Marginal Success, Critical Success.
 
-Some situations require knowing how decisively one side won. The difference between the two success levels equals the number of **victory degrees**. For example, a Critical Success (level 2) against a Critical Failure (level −1) equals three victory degrees. A Marginal Success (level 1) against a Marginal Failure (level 0) equals one victory degree.
+In combat, the two sides are called the **attacker** and the **defender**. In other contests, the character who starts it is the **initiator** and the other is the **respondent**.
 
-If both sides fail (MF or CF), there are usually no victory degrees. Unopposed tests similarly produce no victory degrees.
+## Victory Stars
 
-Since success levels can extend beyond the base −1 to 2 range when rules or modifiers shift them, there is no fixed limit to victory degrees.
+Some situations only ask who won; others need to know by how much. The gap between the two success levels answers that: **each step of success level between victor and loser is one Victory Star**.
+
+A Marginal Success against a Marginal Failure is one star. A Critical Success against a Critical Failure is three. Unopposed tests can earn stars too — ordinarily one for a Marginal Success and two for a Critical Success — and individual rules may say otherwise for their own case.
+
+There is no ceiling on the count. When a rule or condition shifts a success level beyond the ordinary four, the margin widens with it: a Marginal Success against a Critical Failure that a penalty has pushed one step lower is a three-star victory. The worsened Critical Failure is still just a Critical Failure in every other respect — only the margin grows.
+
+If both characters fail, there is usually no victor and no stars to award.
 
 ## Ties
 
-A tie in an opposed test—both sides achieving the same success level—results in zero victory degrees. This is often a perfectly acceptable outcome, signifying no advantage to either side.
+When both characters reach the same success level, the contest is a **tie**: no victor, and no stars. Two Critical Successes are as much a tie as two Marginal Successes; neither character gains an advantage over the other.
+
+A tie is usually a perfectly good outcome — the sentry neither spots the intruder nor is fooled, the wrestlers stay locked together — and needs no further resolution.
 
 ## Tiebreaks
 
-Some rules require tied successes to be broken. In such tiebreaks, a one-degree victory goes to the character who rolled a higher number on the d100 (while still succeeding). If the literal rolls are the same, the victor is whoever has the higher ML—or whoever rolls a higher d10 if ML is also equal.
+Some rules cannot leave a contest unresolved and require a tied success to be broken. Only tied **successes** can be broken this way; a tie in which both characters failed has no victor to find.
+
+A broken tie is always a **one-star victory**, decided in this order:
+
+1. The character who rolled **higher** on the d100 takes the contest.
+2. If both rolled the same number, the character with the higher Mastery Level takes it.
+3. If the Mastery Levels are also equal, both roll a d10 and the higher roll takes it, re-rolling as long as they match.
+
+Whether a given contest breaks its ties is a matter for the rule at hand, or for the table; a contest that does not call for a tiebreak simply ends tied.

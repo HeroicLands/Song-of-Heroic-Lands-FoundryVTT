@@ -19,13 +19,33 @@ import { entity, registerEntity } from "@src/entity/entityRegistry";
 import { defaultToJSON } from "@src/utils/helpers";
 import { registerKind } from "@src/utils/kindRegistry";
 import { TestResult } from "@src/entity/result/TestResult";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import {
     isOpposedTestResultTieBreak,
     OPPOSED_TEST_RESULT_TIEBREAK,
-    SYMBOL,
     TestType,
 } from "@src/utils/constants";
+
+/**
+ * How many d10 roll-offs a tie-break attempts before giving up and leaving the
+ * contest tied. Only reachable when every roll comes back level, which fair dice
+ * make vanishingly unlikely — the bound exists so a caller feeding identical
+ * forced values cannot spin forever.
+ */
+const ROLL_OFF_ATTEMPTS = 20;
+
+/**
+ * Localization key naming the rule that settled a broken tie, for the result
+ * card. Spelled out per reason (rather than built from the reason) so the keys
+ * stay greppable and the coverage check can see them.
+ */
+const TIE_BREAK_LABEL: Record<OpposedTestResult.TieBreakReason, string> = {
+    "": "",
+    roll: "SOHL.OpposedTestResult.toChat.tieBreak.roll",
+    ml: "SOHL.OpposedTestResult.toChat.tieBreak.ml",
+    rolloff: "SOHL.OpposedTestResult.toChat.tieBreak.rolloff",
+};
 
 /*
  * ── Construction indirection: base class (#83) ───────────────────────────────
@@ -85,10 +105,17 @@ export class OpposedTestResult extends TestResult {
     targetTestResult!: SuccessTestResult;
     /** Foundry roll mode for chat output. */
     rollMode!: string;
-    /** The configured tie-break rule/offset (an {@link OPPOSED_TEST_RESULT_TIEBREAK} value). */
+    /**
+     * Which side a tied contest is awarded to (an
+     * {@link OPPOSED_TEST_RESULT_TIEBREAK} value) — `NONE` while the tie stands.
+     * Set by `resolveTieBreak`, or supplied up front by a rule that dictates
+     * the victor.
+     */
     tieBreak!: number;
-    /** Whether ties should be broken (using {@link tieBreak}) rather than reported as a tie. */
+    /** Whether a tie should be broken (see `resolveTieBreak`) rather than reported as a tie. */
     breakTies!: boolean;
+    /** Which rule settled a broken tie, for the card to report; empty while the tie stands. */
+    tieBreakReason!: OpposedTestResult.TieBreakReason;
 
     /**
      * Constructs an opposed test result from a source success test plus either
@@ -131,6 +158,7 @@ export class OpposedTestResult extends TestResult {
                 data.tieBreak
             :   OPPOSED_TEST_RESULT_TIEBREAK.NONE;
         this.breakTies = !!data.breakTies;
+        this.tieBreakReason = data.tieBreakReason ?? "";
     }
 
     /**
@@ -147,16 +175,17 @@ export class OpposedTestResult extends TestResult {
             rollMode: this.rollMode,
             tieBreak: this.tieBreak,
             breakTies: this.breakTies,
+            tieBreakReason: this.tieBreakReason,
         };
     }
 
-    /** Whether both sides reached the same normalized success level (and at least one succeeded — cf. {@link bothFail}). */
+    /** Whether both sides reached the same success level (and at least one succeeded — cf. {@link bothFail}). */
     get isTied(): boolean {
         if (!this.targetTestResult) return false;
         return (
             !this.bothFail &&
-            this.sourceTestResult.normSuccessLevel ===
-                this.targetTestResult.normSuccessLevel
+            this.sourceTestResult.rawSuccessLevel ===
+                this.targetTestResult.rawSuccessLevel
         );
     }
 
@@ -173,7 +202,19 @@ export class OpposedTestResult extends TestResult {
         return !this.bothFail ? this.tieBreak : 0;
     }
 
-    /** Whether the source prevails — its normalized success level exceeds the target's (and not {@link bothFail}). */
+    /**
+     * Whether this contest was a tie that the tie-break rule then settled — the
+     * two sides reached the same success level, but {@link tieBreak} awarded the
+     * contest to one of them (see `resolveTieBreak`).
+     */
+    get isTieBroken(): boolean {
+        return (
+            this.isTied &&
+            this.tieBreakOffset !== OPPOSED_TEST_RESULT_TIEBREAK.NONE
+        );
+    }
+
+    /** Whether the source prevails — its success level exceeds the target's, or a tie was broken its way (and not {@link bothFail}). */
     get sourceWins(): boolean {
         let result = false;
         if (
@@ -182,13 +223,16 @@ export class OpposedTestResult extends TestResult {
         ) {
             result =
                 !this.bothFail &&
-                this.sourceTestResult.normSuccessLevel >
-                    this.targetTestResult.normSuccessLevel;
+                (this.sourceTestResult.rawSuccessLevel >
+                    this.targetTestResult.rawSuccessLevel ||
+                    (this.isTieBroken &&
+                        this.tieBreakOffset ===
+                            OPPOSED_TEST_RESULT_TIEBREAK.SOURCE));
         }
         return result;
     }
 
-    /** Whether the target prevails — its normalized success level exceeds the source's (and not {@link bothFail}). */
+    /** Whether the target prevails — its success level exceeds the source's, or a tie was broken its way (and not {@link bothFail}). */
     get targetWins(): boolean {
         let result = false;
         if (
@@ -197,16 +241,123 @@ export class OpposedTestResult extends TestResult {
         ) {
             result =
                 !this.bothFail &&
-                this.sourceTestResult.normSuccessLevel <
-                    this.targetTestResult.normSuccessLevel;
+                (this.sourceTestResult.rawSuccessLevel <
+                    this.targetTestResult.rawSuccessLevel ||
+                    (this.isTieBroken &&
+                        this.tieBreakOffset ===
+                            OPPOSED_TEST_RESULT_TIEBREAK.TARGET));
         }
         return result;
     }
 
     /**
-     * Evaluate both sides of the contest; the winner is then derived on demand
-     * from the two normalized success levels ({@link sourceWins} /
-     * {@link targetWins} / {@link isTied}).
+     * **Victory Stars** — how decisively the contest was won: one star per step
+     * between the two success levels, or exactly one for a tie settled by the
+     * tie-break rule.
+     *
+     * @remarks
+     * The margin has no ceiling. It is measured on the raw
+     * ({@link sohl.entity.result.SuccessTestResult.rawSuccessLevel | unclamped})
+     * levels, so a modifier that pushes a level past the four-point scale widens
+     * the margin with it — a Marginal Success against a Critical Failure worsened
+     * by −1 is three stars, not two. An unbroken tie and a mutual failure are both
+     * worth none.
+     */
+    get victoryStars(): number {
+        if (this.bothFail) return 0;
+        if (this.isTied) return this.isTieBroken ? 1 : 0;
+        return Math.abs(
+            this.sourceTestResult.rawSuccessLevel -
+                this.targetTestResult.rawSuccessLevel,
+        );
+    }
+
+    /**
+     * {@link victoryStars} as one entry per star for the card to draw — `true`
+     * where the star is the **tester's** (drawn filled) and `false` where it is
+     * the **target's** (drawn hollow), so a glance at the line says who won as
+     * well as by how much. Empty when nobody won.
+     *
+     * @remarks
+     * Marks, not markup: the card turns each entry into a Font Awesome star
+     * (`fa-solid` / `fa-regular`), matching how the sheets already draw a filled
+     * or hollow flag. Building the `<i>` elements here would put HTML in the
+     * Foundry-free layer for no gain.
+     */
+    get victoryStarMarks(): boolean[] {
+        return Array.from(
+            { length: this.victoryStars },
+            () => !this.targetWins,
+        );
+    }
+
+    /**
+     * Settle a tie when the contest was run with {@link breakTies}, recording the
+     * victor in {@link tieBreak} and the deciding rule in {@link tieBreakReason}.
+     *
+     * @remarks
+     * Only a tie in which at least one side *succeeded* can be broken — a mutual
+     * failure has no victor to award. The rule is applied in order: the higher
+     * d100 takes it; failing that the higher mastery level; failing that both
+     * sides roll a d10 until one is higher. Called from {@link evaluate}, and a
+     * no-op once a victor is recorded, so re-evaluating never re-rolls a settled
+     * contest.
+     */
+    protected resolveTieBreak(): void {
+        if (
+            !this.breakTies ||
+            !this.isTied ||
+            this.tieBreak !== OPPOSED_TEST_RESULT_TIEBREAK.NONE
+        ) {
+            return;
+        }
+
+        const source = this.sourceTestResult;
+        const target = this.targetTestResult;
+
+        const award = (
+            sourceValue: number,
+            targetValue: number,
+            reason: OpposedTestResult.TieBreakReason,
+        ): boolean => {
+            if (sourceValue === targetValue) return false;
+            this.tieBreak =
+                sourceValue > targetValue ?
+                    OPPOSED_TEST_RESULT_TIEBREAK.SOURCE
+                :   OPPOSED_TEST_RESULT_TIEBREAK.TARGET;
+            this.tieBreakReason = reason;
+            return true;
+        };
+
+        // The higher d100 takes a broken tie, then the higher mastery level.
+        if (award(source.roll.total, target.roll.total, "roll")) return;
+        if (
+            award(
+                source.masteryLevelModifier?.effective ?? 0,
+                target.masteryLevelModifier?.effective ?? 0,
+                "ml",
+            )
+        ) {
+            return;
+        }
+
+        // Still level: a d10 roll-off, repeated until it separates them. Bounded
+        // so a caller feeding identical forced values cannot spin forever.
+        const d10 = (): number =>
+            new SimpleRoll(
+                { numDice: 1, dieFaces: 10, modifier: 0 },
+                { parent: this.parent },
+            ).roll();
+        for (let attempt = 0; attempt < ROLL_OFF_ATTEMPTS; attempt++) {
+            if (award(d10(), d10(), "rolloff")) return;
+        }
+    }
+
+    /**
+     * Evaluate both sides of the contest, then settle a tie if the contest was
+     * run with {@link breakTies}. The winner is otherwise derived on demand from
+     * the two success levels ({@link sourceWins} / {@link targetWins} /
+     * {@link isTied}).
      *
      * @returns `false` if a test is missing or either side's evaluation is
      *   disallowed (e.g. a permission gate); otherwise `true`.
@@ -216,6 +367,7 @@ export class OpposedTestResult extends TestResult {
             let allowed = await super.evaluate();
             allowed &&= !!(await this.sourceTestResult.evaluate());
             allowed &&= !!(await this.targetTestResult.evaluate());
+            if (allowed) this.resolveTieBreak();
             return allowed;
         } else {
             return false;
@@ -262,13 +414,6 @@ export class OpposedTestResult extends TestResult {
             actor: { uuid: r.item?.actor?.uuid ?? "" },
         });
 
-        // Victory degrees — the difference in the two normalized success levels —
-        // shown as that many filled stars on the result card (#845).
-        const victoryDegrees = Math.abs(
-            this.sourceTestResult.normSuccessLevel -
-                this.targetTestResult.normSuccessLevel,
-        );
-
         const msgData: PlainObject = {
             template:
                 (data.template as string | undefined) ??
@@ -280,7 +425,17 @@ export class OpposedTestResult extends TestResult {
             targetTestResult: shape(this.targetTestResult),
             sourceWins: this.sourceWins,
             targetWins: this.targetWins,
-            vsText: SYMBOL.STARF.repeat(victoryDegrees),
+            // A contest with no winner is either a tie or a mutual failure; the
+            // card must tell them apart rather than calling both "Both Fail!"
+            // (#1081).
+            isTied: this.isTied,
+            bothFail: this.bothFail,
+            // A tie the tie-break rule settled reports the winner plus which rule
+            // decided it, so the players can see why (#1160).
+            isTieBroken: this.isTieBroken,
+            tieBreakKey: TIE_BREAK_LABEL[this.tieBreakReason],
+            vsStars: this.victoryStarMarks,
+            vsCount: this.victoryStars,
             // The Respond button's `scope` payload: the whole opposed test,
             // serialized as one `data-scope` blob and revived as a live
             // `OpposedTestResult` by the dispatch handler.
@@ -309,10 +464,13 @@ export class OpposedTestResult extends TestResult {
             ),
         };
 
-        msgData.rolls = [this.sourceTestResult.roll];
-        if (this.targetTestResult) {
-            msgData.rolls.push(this.targetTestResult.roll);
-        }
+        // Deliberately no `rolls` here. Whatever this passes along becomes part of
+        // the ChatMessage payload, and a SoHL `SimpleRoll` is not a Foundry `Roll`:
+        // handing the two contestants' dice over under `rolls` failed the
+        // document's validation, so `ChatMessage.create` returned nothing and
+        // **no opposed card was ever posted**. The delegate below attaches the
+        // source's die properly (converted, as the message's roll); both totals are
+        // shaped into the card data above, which is what the card actually reads.
         await this.sourceTestResult.toChat(msgData);
     }
 }
@@ -320,6 +478,13 @@ export class OpposedTestResult extends TestResult {
 export namespace OpposedTestResult {
     /** Registry key identifying this result kind for serialization. */
     export const Kind: string = "OpposedTestResult";
+
+    /**
+     * Which rule settled a broken tie: the higher d100 (`"roll"`), the higher
+     * mastery level (`"ml"`), or a d10 roll-off (`"rolloff"`). Empty when no tie
+     * was broken.
+     */
+    export type TieBreakReason = "" | "roll" | "ml" | "rolloff";
 
     /** Construction data for an {@link OpposedTestResult}. */
     export interface Data extends TestResult.Data {
@@ -329,10 +494,12 @@ export namespace OpposedTestResult {
         targetTestResult: SuccessTestResult;
         /** Foundry roll mode for chat output. */
         rollMode: string;
-        /** The tie-break rule/offset (an {@link OPPOSED_TEST_RESULT_TIEBREAK} value). */
+        /** The side a tie is awarded to (an {@link OPPOSED_TEST_RESULT_TIEBREAK} value). */
         tieBreak: number;
-        /** Whether ties should be broken rather than reported as a tie. */
+        /** Whether a tie should be broken rather than reported as a tie. */
         breakTies: boolean;
+        /** Which rule settled a broken tie. */
+        tieBreakReason: TieBreakReason;
         /** The target's token, used to build a target test when one isn't supplied. */
         targetToken: SohlTokenDocument | null;
     }
@@ -357,6 +524,10 @@ export namespace OpposedTestResult {
         situationalModifier?: number;
         /** A pre-rolled source success test to reuse. */
         sourceSuccessTestResult?: SuccessTestResult;
+        /** Show the **Break Ties** checkbox on the initiator's pre-roll dialog. */
+        askBreakTies?: boolean;
+        /** Whether a tie in this contest should be broken (the dialog's answer). */
+        breakTies?: boolean;
     }
 }
 

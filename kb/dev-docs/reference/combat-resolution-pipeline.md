@@ -109,18 +109,27 @@ The standard d100 roll-under mastery level test.
 
 Two competing SuccessTestResults compared to determine a winner.
 
-| Property                    | Type                | Description             |
-| --------------------------- | ------------------- | ----------------------- |
-| `sourceTestResult`          | `SuccessTestResult` | Initiating actor's test |
-| `targetTestResult`          | `SuccessTestResult` | Responding actor's test |
-| `tieBreak`                  | `number`            | Tie-breaking policy     |
-| `sourceWins` / `targetWins` | `boolean`           | Outcome flags           |
-| `isTied` / `bothFail`       | `boolean`           | Edge case flags         |
+| Property                    | Type                | Description                                                     |
+| --------------------------- | ------------------- | --------------------------------------------------------------- |
+| `sourceTestResult`          | `SuccessTestResult` | Initiating actor's test                                         |
+| `targetTestResult`          | `SuccessTestResult` | Responding actor's test                                         |
+| `breakTies`                 | `boolean`           | Whether a tie is settled rather than reported                   |
+| `tieBreak`                  | `number`            | Which side a tie was awarded to (`SOURCE` / `NONE` / `TARGET`)  |
+| `tieBreakReason`            | `string`            | Which rule settled it (`roll` / `ml` / `rolloff`)               |
+| `sourceWins` / `targetWins` | `boolean`           | Outcome flags                                                   |
+| `isTied` / `bothFail`       | `boolean`           | Edge case flags                                                 |
+| `isTieBroken`               | `boolean`           | The contest tied, and `tieBreak` then settled it                |
+| `victoryStars`              | `number`            | Margin in Victory Stars; `1` for a broken tie, `0` for a tie    |
+
+Winner and margin are compared on the **raw** (unclamped) success levels
+(`SuccessTestResult.rawSuccessLevel`), so a `successLevelMod` that pushes a level
+past the four-point scale widens the margin with it — the Victory Star count has no
+ceiling. `CombatResult.margin` is separate and still normalized (−3..+3).
 
 **Two-phase execution:**
 
-1. `opposedTestStart()` — source rolls, result posted to chat with "respond" button.
-2. `opposedTestResume()` — target rolls, opposed outcome evaluated and posted.
+1. `opposedTestStart()` — source rolls (its pre-roll dialog offers **Break Ties**), result posted to chat with "respond" button.
+2. `opposedTestResume()` — target rolls, opposed outcome evaluated (settling a tie when asked) and posted.
 
 **Chat output:** Renders via `templates/chat/opposed-request-card.hbs` (phase 1) and `templates/chat/opposed-result-card.hbs` (phase 2).
 

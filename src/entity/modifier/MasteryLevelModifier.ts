@@ -547,6 +547,7 @@ export class MasteryLevelModifier extends ValueModifier {
                   situationalModifier: number;
                   successLevelMod: number;
                   rollMode: string;
+                  breakTies: boolean;
               }
             | undefined;
         if (context.skipDialog) {
@@ -554,6 +555,7 @@ export class MasteryLevelModifier extends ValueModifier {
                 situationalModifier: context.scope.situationalModifier ?? 0,
                 successLevelMod: 0,
                 rollMode: testResult.rollMode,
+                breakTies: context.scope.breakTies ?? false,
             };
         } else {
             const dlgTemplate: FilePath = toFilePath(
@@ -572,6 +574,12 @@ export class MasteryLevelModifier extends ValueModifier {
                 situationalModifier: context.scope.situationalModifier ?? 0,
                 rollMode: testResult.rollMode,
                 rollModes: speakerRollModeOptions(),
+                // Only an opposed test can end in a tie, so only it offers the
+                // Break Ties choice — and only the initiator makes it, unchecked
+                // by default: a tie stands unless a rule or ruling says otherwise
+                // (#1160).
+                askBreakTies: context.scope.askBreakTies ?? false,
+                breakTies: context.scope.breakTies ?? false,
             };
             dlgResult = await dialog({
                 title: sohl.i18n.format(
@@ -585,6 +593,7 @@ export class MasteryLevelModifier extends ValueModifier {
                     successLevelMod:
                         parseInt(String(formData.successLevelMod), 10) || 0,
                     rollMode: String(formData.rollMode),
+                    breakTies: !!formData.breakTies,
                 }),
                 rejectClose: false,
             });
@@ -602,6 +611,11 @@ export class MasteryLevelModifier extends ValueModifier {
         testResult.masteryLevelModifier.successLevelMod =
             dlgResult.successLevelMod;
         testResult.rollMode = dlgResult.rollMode;
+        // The Break Ties answer belongs to the opposed test, not to this success
+        // test, so hand it back through the scope for opposedTestStart to read.
+        if (context.scope.askBreakTies) {
+            context.scope.breakTies = dlgResult.breakTies;
+        }
 
         let allowed: boolean = await testResult.evaluate();
 
@@ -677,8 +691,12 @@ export class MasteryLevelModifier extends ValueModifier {
         const scope: Partial<OpposedTestResult.ContextScope> =
             context.scope || {};
 
+        // The contest being re-run, when this is a GM re-roll rather than a fresh
+        // start. Captured before `scope.priorTestResult` is re-pointed at the
+        // source's own success test below.
+        const priorOpposedResult = scope.priorTestResult;
         let sourceTestResult: SuccessTestResult | false | null | undefined =
-            scope.priorTestResult?.sourceTestResult;
+            priorOpposedResult?.sourceTestResult;
 
         if (!sourceTestResult) {
             // No prior test result, so we are starting a new opposed test.
@@ -690,6 +708,10 @@ export class MasteryLevelModifier extends ValueModifier {
             scope.title ??= sohl.i18n.format("{label} Opposed Test", {
                 label: this.parent.label,
             });
+            // Offer the Break Ties choice on the initiator's pre-roll dialog —
+            // only when starting a fresh contest, since a resumed one already
+            // carries the answer given when it began (#1160).
+            scope.askBreakTies = true;
 
             if (!scope.targetToken.isOwner) {
                 sohl.log.uiWarn(
@@ -702,17 +724,19 @@ export class MasteryLevelModifier extends ValueModifier {
             }
         }
 
-        foundry.utils.mergeObject(
-            context,
-            {
-                scope: {
-                    priorTestResult: {
-                        sourceTestResult,
-                    },
-                },
-            },
-            { inplace: true },
-        );
+        // `successTest` reads `scope.priorTestResult` as a SuccessTestResult to
+        // reuse, so hand it the source's own prior test — not the opposed result
+        // that wraps it, and nothing at all when starting fresh. (Merging in a
+        // `{ sourceTestResult }` wrapper made every fresh contest hand
+        // `successTest` a bare object with no mastery-level modifier, which threw
+        // before a single card was posted.)
+        const testScope =
+            context.scope as Partial<SuccessTestResult.ContextScope>;
+        if (sourceTestResult) {
+            testScope.priorTestResult = sourceTestResult;
+        } else {
+            delete testScope.priorTestResult;
+        }
 
         // Perform the success test for the source actor.
         sourceTestResult = await this.successTest(context);
@@ -724,6 +748,13 @@ export class MasteryLevelModifier extends ValueModifier {
                 sourceTestResult,
                 targetTestResult: undefined,
                 targetToken: scope.targetToken,
+                // Answered on the pre-roll dialog above (or carried over from the
+                // contest being re-run); the tie is broken at resume time, once
+                // both sides have rolled.
+                // `scope` aliases `context.scope`, which successTest wrote the
+                // dialog's answer back into.
+                breakTies:
+                    scope.breakTies ?? priorOpposedResult?.breakTies ?? false,
             },
             {
                 ...context,
