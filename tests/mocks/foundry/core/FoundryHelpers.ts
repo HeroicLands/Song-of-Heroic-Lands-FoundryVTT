@@ -186,6 +186,10 @@ export function fvttActorByShortcode(_shortcode: string): any {
     return undefined;
 }
 
+export function fvttActorByRef(_ref: string): any {
+    return undefined;
+}
+
 export async function fvttCreateWorldActor(
     _data: Record<string, unknown>,
 ): Promise<any> {

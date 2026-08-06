@@ -1,8 +1,11 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
+import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import { CohortLogic } from "@src/document/actor/logic/CohortLogic";
+import { BeingLogic } from "@src/document/actor/logic/BeingLogic";
+import { MiscGearLogic } from "@src/document/item/logic/MiscGearLogic";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
-import { ACTOR_KIND } from "@src/utils/constants";
-import { makeActorLogic } from "@tests/mocks/logicHarness";
+import { ACTOR_KIND, ITEM_KIND } from "@src/utils/constants";
+import { makeActorLogic, makeItemLogic } from "@tests/mocks/logicHarness";
 
 /** A cohort member entry, keyed by the shortcode/UUID of its world actor. */
 function member(shortcodeOrUuid: string, role = "member") {
@@ -86,6 +89,124 @@ describe("CohortLogic", () => {
                 "system.members": [alpha],
             });
             expect(logic.data.members).toHaveLength(1);
+        });
+    });
+
+    describe("sharingRefs", () => {
+        it("lists the shortcode, id, and uuid a gear item may share with", () => {
+            const logic = makeCohort({ shortcode: "wardens" }) as CohortLogic;
+            expect(logic.sharingRefs).toContain("wardens");
+            expect(logic.sharingRefs).toContain(logic.data.id);
+            expect(logic.sharingRefs).toContain(logic.data.uuid);
+        });
+    });
+
+    describe("memberLogics", () => {
+        it("resolves each member's shortcodeOrUuid to its actor logic", () => {
+            const aldric = makeActorLogic(BeingLogic, ACTOR_KIND.BEING, {
+                name: "Aldric",
+                shortcode: "aldric",
+            });
+            vi.spyOn(FoundryHelpersMock, "fvttActorByRef").mockImplementation(
+                (ref: string) =>
+                    ref === "aldric" ? (aldric as any).actor : undefined,
+            );
+
+            const logic = makeCohort({
+                members: [member("aldric")],
+            }) as CohortLogic;
+
+            expect(logic.memberLogics).toEqual([aldric]);
+        });
+
+        it("skips a member whose actor no longer resolves", () => {
+            vi.spyOn(FoundryHelpersMock, "fvttActorByRef").mockReturnValue(
+                undefined,
+            );
+            const logic = makeCohort({
+                members: [member("ghost")],
+            }) as CohortLogic;
+            expect(logic.memberLogics).toEqual([]);
+        });
+    });
+
+    describe("sharedGear", () => {
+        /**
+         * Build a cohort whose single member carries `items` — each entry a
+         * `[name, sharedWithCohortIds]` pair — and return its logic.
+         */
+        function cohortWithMemberGear(
+            memberName: string,
+            items: [string, string[]][],
+            cohortFields: Record<string, unknown> = { shortcode: "wardens" },
+        ) {
+            const memberLogic = makeActorLogic(BeingLogic, ACTOR_KIND.BEING, {
+                name: memberName,
+                shortcode: memberName.toLowerCase(),
+            });
+            const memberActor = (memberLogic as any).actor;
+            memberActor.name = memberName;
+            (memberLogic as any).data.name = memberName;
+            for (const [name, sharedWithCohortIds] of items) {
+                makeItemLogic(
+                    MiscGearLogic,
+                    ITEM_KIND.MISCGEAR,
+                    {
+                        name,
+                        quantity: 1,
+                        weightBase: 1,
+                        valueBase: 1,
+                        isCarried: true,
+                        qualityBase: 0,
+                        durabilityBase: 0,
+                        sharedWithCohortIds,
+                        containerId: null,
+                    },
+                    { actor: memberActor, name, id: `item-${name}` },
+                );
+            }
+            vi.spyOn(FoundryHelpersMock, "fvttActorByRef").mockImplementation(
+                (ref: string) =>
+                    ref === memberName.toLowerCase() ? memberActor : undefined,
+            );
+            return makeCohort({
+                ...cohortFields,
+                members: [member(memberName.toLowerCase())],
+            }) as CohortLogic;
+        }
+
+        it("lists a member's gear shared with this cohort, naming its carrier", () => {
+            const logic = cohortWithMemberGear("Aldric", [
+                ["Rope", ["wardens"]],
+            ]);
+
+            const rows = logic.sharedGear;
+
+            expect(rows).toHaveLength(1);
+            expect(rows[0].gear.data.name).toBe("Rope");
+            expect(rows[0].carrierName).toBe("Aldric");
+        });
+
+        it("omits a member's gear that is not shared", () => {
+            const logic = cohortWithMemberGear("Aldric", [
+                ["Rope", ["wardens"]],
+                ["Dagger", []],
+            ]);
+            expect(logic.sharedGear.map((r) => r.gear.data.name)).toEqual([
+                "Rope",
+            ]);
+        });
+
+        it("omits gear shared with a different cohort", () => {
+            const logic = cohortWithMemberGear("Aldric", [
+                ["Rope", ["bandits"]],
+            ]);
+            expect(logic.sharedGear).toEqual([]);
+        });
+
+        it("is empty for a cohort with no members", () => {
+            const logic = makeCohort({ shortcode: "wardens" }) as CohortLogic;
+            expect(logic.sharedGear).toEqual([]);
         });
     });
 

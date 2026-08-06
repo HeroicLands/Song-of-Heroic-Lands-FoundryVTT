@@ -415,6 +415,26 @@ export function fvttActorByShortcode(shortcode: string): any {
 }
 
 /**
+ * Resolve an **actor reference** — the dual-key seam SoHL uses wherever one
+ * document points at an actor it does not own: a Cohort member's
+ * `shortcodeOrUuid`, or the cohort a gear item is shared with (issue #76).
+ *
+ * A reference is either a **UUID** (`Actor.xxx`, or a token-actor path — always
+ * dotted) or a **shortcode**, the stable, human-written key an author types.
+ * A raw document id is accepted too, so references recorded as ids keep
+ * resolving. The client sees only the actors it has permission for.
+ *
+ * @param ref - The actor reference: a UUID, a `system.shortcode`, or an id.
+ * @returns The referenced actor, or `undefined` when it does not resolve.
+ */
+export function fvttActorByRef(ref: string): any {
+    if (!ref) return undefined;
+    // Only a UUID contains a `.`; a shortcode and an id never do.
+    if (ref.includes(".")) return fvttResolveUuid(ref);
+    return fvttGetActor(ref) ?? fvttActorByShortcode(ref);
+}
+
+/**
  * Create a world (top-level) actor. GM-only in practice.
  * @param data - The actor creation data (name, type, system, ownership, …).
  * @returns The created actor document.

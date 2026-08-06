@@ -79,6 +79,36 @@ export const SHORTCODE_REF_PARTIAL = `{{#if embedded}}
 {{else}}{{#if field}}{{formGroup field rootId=rootId classes="text-field" stacked=true value=value}}{{else}}<label class="form-group stacked"><span>{{localize label}}</span>
     <input type="text" name="{{name}}" value="{{value}}"{{#if hint}} data-tooltip="{{localize hint}}"{{/if}} /></label>{{/if}}{{/if}}`;
 
+/** Name of the shared cohort-sharing field partial ({@link SHARED_COHORTS_PARTIAL}). */
+export const SHARED_COHORTS_PARTIAL_NAME = "sharedWithCohortsField";
+
+/**
+ * The reusable **cohort-sharing** control, registered as the named partial
+ * `sharedWithCohortsField` and rendered on every gear item's Properties tab
+ * (issue #76). It is the one place a gear item is marked as shared with a
+ * Cohort — a multi-select of the world's cohorts, storing each choice as that
+ * cohort's `system.shortcode` in `system.sharedWithCohortIds`. The cohort's
+ * **Shared Gear** tab is the read-only other end of the same link.
+ *
+ * The control renders only when the world actually has a cohort, so an ordinary
+ * character sheet is not cluttered by a field with nothing to choose.
+ *
+ * Invocation context:
+ * - `cohortChoices` — `{value,label}[]` of the world's cohorts (empty hides the
+ *   control).
+ * - `sharedWithCohortIds` — the item's current sharing list (the selection).
+ */
+export const SHARED_COHORTS_PARTIAL = `{{#if cohortChoices.length}}
+<div class="field-grid">
+    <div class="form-group stacked">
+        <label>{{localize "SOHL.Gear.FIELDS.sharedWithCohortIds.label"}}</label>
+        <select name="system.sharedWithCohortIds" multiple size="3" data-tooltip="{{localize "SOHL.Gear.FIELDS.sharedWithCohortIds.hint"}}">
+            {{selectOptions cohortChoices selected=sharedWithCohortIds valueAttr="value" labelAttr="label"}}
+        </select>
+    </div>
+</div>
+{{/if}}`;
+
 /** Name of the shared SafeExpression field partial ({@link EXPRESSION_FIELD_PARTIAL}). */
 export const EXPRESSION_FIELD_PARTIAL_NAME = "expressionField";
 
@@ -113,7 +143,9 @@ export const EXPRESSION_FIELD_PARTIAL = `<div class="expression-field">
  *
  * Registers: `selectArray`, `endswith`, `optionalString`, `setHas`, `contains`,
  * `toJSON`, `toLowerCase`, `arrayToString`, `injurySeverity`, `array`, and the
- * `shortcodeRefField` partial ({@link SHORTCODE_REF_PARTIAL}).
+ * `shortcodeRefField` ({@link SHORTCODE_REF_PARTIAL}), `expressionField`
+ * ({@link EXPRESSION_FIELD_PARTIAL}), and `sharedWithCohortsField`
+ * ({@link SHARED_COHORTS_PARTIAL}) partials.
  *
  * @param H - The Handlebars instance to register onto (Foundry's global, or the
  *   `handlebars` package in tests).
@@ -242,4 +274,5 @@ export function registerPureHandlebarsHelpers(H: HandlebarsLike): void {
     // two register it identically and template rendering never drifts.
     H.registerPartial(SHORTCODE_REF_PARTIAL_NAME, SHORTCODE_REF_PARTIAL);
     H.registerPartial(EXPRESSION_FIELD_PARTIAL_NAME, EXPRESSION_FIELD_PARTIAL);
+    H.registerPartial(SHARED_COHORTS_PARTIAL_NAME, SHARED_COHORTS_PARTIAL);
 }

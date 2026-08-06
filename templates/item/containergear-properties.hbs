@@ -22,6 +22,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{formGroup fields.qualityBase rootId="contgear-qual" classes="text-field" stacked=true value=system.qualityBase}}
             {{formGroup fields.durabilityBase rootId="contgear-dur" classes="text-field" stacked=true value=system.durabilityBase}}
         </div>
+        {{!-- Cohort sharing (#76): marks this item as shared with a cohort,
+              which then lists it on its read-only Shared Gear tab. --}}
+        {{> sharedWithCohortsField cohortChoices=cohortChoices sharedWithCohortIds=system.sharedWithCohortIds}}
     </fieldset>
 
     <div class="field-grid field-grid--3col">

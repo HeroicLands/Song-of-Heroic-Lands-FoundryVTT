@@ -536,33 +536,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
             (item: SohlItem) => (item.system as any).containerId,
         );
 
-        // Map a gear item to a compact display row.
-        const toRow = (item: SohlItem) => {
-            const gl = item.logic as any;
-            const sys = item.system as any;
-            const q = sys.qualityBase ?? 0;
-            return {
-                id: item.id,
-                uuid: item.uuid,
-                name: item.name,
-                img: item.img ?? "",
-                type: item.type,
-                typeLabel: sohl.i18n.localize(`TYPES.Item.${item.type}`),
-                quantity: sys.quantity ?? 1,
-                weight: gl?.weight?.effective ?? sys.weightBase ?? 0,
-                quality: `${q >= 0 ? "+" : ""}${q}`,
-                durability: sys.durabilityBase ?? 0,
-                // Derivation summaries for the weight/quality/durability
-                // hover tooltips (#769).
-                weightDeltaLabel: gl?.weight?.deltaLabel ?? "",
-                qualityDeltaLabel: gl?.quality?.deltaLabel ?? "",
-                durabilityDeltaLabel: gl?.durability?.deltaLabel ?? "",
-                notes: htmlToPlainText(sys.notes ?? ""),
-                isCarried: !!sys.isCarried,
-                isWorn: !!sys.isWorn,
-                isArmor: item.type === ITEM_KIND.ARMORGEAR,
-            };
-        };
+        const toRow = SohlActorSheetBase._gearRow;
 
         const onBody = {
             items: tree.onBodyItems.map(toRow),
@@ -579,6 +553,41 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         }));
 
         return Object.assign(context, { onBody, containers });
+    }
+
+    /**
+     * Map a gear item to the compact row the gear ledgers bind — the shared
+     * shape behind the Gear tab's sections and the Cohort sheet's Shared Gear
+     * tab (issue #76), so the two ledgers never drift apart column by column.
+     *
+     * @param item - The gear item to describe.
+     * @returns The display row for one ledger line.
+     */
+    protected static _gearRow(item: SohlItem): PlainObject {
+        const gl = item.logic as any;
+        const sys = item.system as any;
+        const q = sys.qualityBase ?? 0;
+        return {
+            id: item.id,
+            uuid: item.uuid,
+            name: item.name,
+            img: item.img ?? "",
+            type: item.type,
+            typeLabel: sohl.i18n.localize(`TYPES.Item.${item.type}`),
+            quantity: sys.quantity ?? 1,
+            weight: gl?.weight?.effective ?? sys.weightBase ?? 0,
+            quality: `${q >= 0 ? "+" : ""}${q}`,
+            durability: sys.durabilityBase ?? 0,
+            // Derivation summaries for the weight/quality/durability
+            // hover tooltips (#769).
+            weightDeltaLabel: gl?.weight?.deltaLabel ?? "",
+            qualityDeltaLabel: gl?.quality?.deltaLabel ?? "",
+            durabilityDeltaLabel: gl?.durability?.deltaLabel ?? "",
+            notes: htmlToPlainText(sys.notes ?? ""),
+            isCarried: !!sys.isCarried,
+            isWorn: !!sys.isWorn,
+            isArmor: item.type === ITEM_KIND.ARMORGEAR,
+        };
     }
 
     /**

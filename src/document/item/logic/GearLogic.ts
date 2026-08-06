@@ -19,7 +19,7 @@ import {
 } from "@src/document/item/logic/SohlItemBaseLogic";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
-import { fvttGetActor } from "@src/core/FoundryHelpers";
+import { fvttActorByRef } from "@src/core/FoundryHelpers";
 import {
     ACTION_SUBTYPE,
     SOHL_ACTION_SCOPE,
@@ -69,8 +69,13 @@ export abstract class GearLogic<
      * The Cohort actors this gear item is shared with, resolved from
      * {@link GearData.sharedWithCohortIds}.
      *
-     * Populated during {@link initialize} by looking up each cohort ID
-     * in the world actor collection.
+     * Populated during {@link initialize} by resolving each entry as a cohort
+     * **reference** — a `system.shortcode`, a document id, or a UUID (see
+     * {@link fvttActorByRef}). Sharing is normally
+     * keyed by the cohort's shortcode, the stable key an author writes.
+     * References that do not resolve are dropped. This is the inverse of
+     * {@link sohl.document.actor.logic.CohortLogic.sharedGear}, which the
+     * Cohort sheet's Shared Gear tab renders (issue #76).
      */
     sharedWithCohorts!: SohlActor[];
 
@@ -120,9 +125,9 @@ export abstract class GearLogic<
     /* --------------------------------------------- */
 
     /**
-     * Build an `update()` payload that adds a cohort ID to the sharing list.
-     * @param cohortId - The cohort actor ID to add to the sharing list.
-     * @returns An update payload adding the ID, or an empty object if already present.
+     * Build an `update()` payload that adds a cohort reference to the sharing list.
+     * @param cohortId - The cohort reference (shortcode, id, or UUID) to add.
+     * @returns An update payload adding the reference, or an empty object if already present.
      */
     addSharedCohortUpdate(cohortId: string): PlainObject {
         const canonical = this.data.sharedWithCohortIds;
@@ -133,9 +138,9 @@ export abstract class GearLogic<
     }
 
     /**
-     * Build an `update()` payload that removes a cohort ID from the sharing list.
-     * @param cohortId - The cohort actor ID to remove from the sharing list.
-     * @returns An update payload with the ID filtered out of the sharing list.
+     * Build an `update()` payload that removes a cohort reference from the sharing list.
+     * @param cohortId - The cohort reference (shortcode, id, or UUID) to remove.
+     * @returns An update payload with the reference filtered out of the sharing list.
      */
     removeSharedCohortUpdate(cohortId: string): PlainObject {
         return {
@@ -320,7 +325,7 @@ export abstract class GearLogic<
             { parent: this },
         ).setBase(this.data.durabilityBase);
         this.sharedWithCohorts = (this.data.sharedWithCohortIds ?? [])
-            .map((id) => fvttGetActor(id) as SohlActor | undefined)
+            .map((ref) => fvttActorByRef(ref) as SohlActor | undefined)
             .filter((a): a is SohlActor => a != null);
     }
 
@@ -386,7 +391,7 @@ export interface GearData<
     qualityBase: number;
     /** Structural integrity rating */
     durabilityBase: number;
-    /** IDs of Cohort actors this gear is shared with */
+    /** References (shortcode, id, or UUID) of the Cohort actors this gear is shared with */
     sharedWithCohortIds: string[];
     /** The container this item is contained in, if any */
     containerId: string | null;

@@ -23,6 +23,7 @@ export * from "./VehicleLogic";
 export * from "./affliction-contract";
 export * from "./being-print-view";
 export * from "./being-sheet-view";
+export * from "./cohort-shared-gear";
 export * from "./display-filter";
 export * from "./fear";
 export * from "./health";

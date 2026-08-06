@@ -65,7 +65,6 @@ const FENCED_RED_ALLOWLIST = {
 
     // --- Non-being actors (fenced: cohort / structure / vehicle) ---
     184: "Derived behavior for the non-being actor Logic classes",
-    76: "Cohort shared-gear tab",
 
     // --- Post-freeze behavior (schema frozen; action layer deferred) ---
     71: "Fate availability and consumption",

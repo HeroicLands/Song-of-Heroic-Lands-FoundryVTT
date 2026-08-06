@@ -52,6 +52,16 @@
             font-family: var(--sohl-font-mono);
             font-variant-numeric: tabular-nums;
         }
+
+        // Multi-select list (the gear cohort-sharing control, #76). Foundry
+        // sizes every `<select>` to the single-line `--input-height`, which
+        // squashes a `multiple` list to one row and spills the rest of its
+        // options past the fieldset. Let it size to its own rows instead.
+        select[multiple] {
+            height: auto;
+            min-height: 4.2rem;
+            padding: 0.15rem 0.2rem;
+        }
     }
 }
 

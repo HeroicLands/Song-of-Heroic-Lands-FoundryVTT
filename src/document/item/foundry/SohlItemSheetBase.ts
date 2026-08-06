@@ -24,9 +24,11 @@ import {
     deleteAction,
     runAction,
 } from "@src/core/foundry/sheet-actions";
-import { fvttCallHook } from "@src/core/FoundryHelpers";
+import { fvttCallHook, fvttWorldActors } from "@src/core/FoundryHelpers";
 import {
     ACTION_SUBTYPE,
+    ACTOR_KIND,
+    GearKinds,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
 import {
@@ -534,8 +536,9 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * Prepare context for the Properties tab.
      *
      * The base implementation provides the common item properties
-     * (notes, textReference). Subclasses override
-     * this to add type-specific properties.
+     * (notes, textReference) plus, for **gear**, the world's cohorts as the
+     * choices behind the `sharedWithCohortsField` control (issue #76).
+     * Subclasses override this to add type-specific properties.
      * @param context - The render context to augment.
      * @param _options - Sheet render options (unused).
      * @returns The context extended with common item properties.
@@ -548,7 +551,34 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         return Object.assign(context, {
             notes: system.notes ?? "",
             textReference: system.textReference ?? "",
+            cohortChoices: this._cohortChoices(),
         });
+    }
+
+    /**
+     * The world's Cohort actors as `{value,label}` choices for the gear
+     * sharing control (issue #76), keyed by each cohort's `system.shortcode` —
+     * the stable, human-written reference a sharing list records.
+     *
+     * Empty for a non-gear item, or when the world has no cohort (or none the
+     * viewer can see); the control renders nothing in that case, so no sheet
+     * carries a chooser with nothing to choose.
+     *
+     * @returns The cohort choices, ordered by name.
+     */
+    protected _cohortChoices(): { value: string; label: string }[] {
+        if (!GearKinds.includes(this.document.type as any)) return [];
+        return fvttWorldActors()
+            .filter(
+                (actor: any) =>
+                    actor.type === ACTOR_KIND.COHORT &&
+                    !!actor.system?.shortcode,
+            )
+            .map((actor: any) => ({
+                value: actor.system.shortcode as string,
+                label: actor.name as string,
+            }))
+            .sort((a, b) => a.label.localeCompare(b.label));
     }
 
     /**
