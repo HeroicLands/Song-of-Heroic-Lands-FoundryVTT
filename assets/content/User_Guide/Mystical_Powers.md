@@ -21,7 +21,7 @@ capabilities.
 
 To use a mystical ability:
 
-1. Open the character's sheet and go to the **Mystery** tab.
+1. Open the character's sheet and go to the **Mysteries** tab.
 2. Find the ability you want to use, under **Mystical Abilities**.
 3. Click its **EML** value to roll a success test — the same way you roll a
    skill. (Hold **Shift** while clicking to skip the roll dialog.)
@@ -39,17 +39,17 @@ Enchanted weapons, holy relics, and magical rings are all mystical devices.
 The device holds nested Mystical Abilities that the wielder can invoke.
 
 When a Mystical Device is given to a character (by dropping it onto their
-sheet), its abilities become available on the Mystical tab.
+sheet), its abilities become available on the Mysteries tab.
 
 <!-- TODO: Document how mystical devices interact with the character's
      own mystical capabilities, attunement requirements, and charges/uses -->
 
-# The Mystical Tab
+# The Mysteries Tab
 
-The Mystical tab on a Being's sheet shows:
+The Mysteries tab on a Being's sheet shows:
 
 - **Mysteries** the character has learned
 - **Mystical Abilities** available to the character
 
-<!-- TODO: Document the Mystical tab layout in detail, including how to
+<!-- TODO: Document the Mysteries tab layout in detail, including how to
      add/remove mystical capabilities and how the hierarchy is displayed -->

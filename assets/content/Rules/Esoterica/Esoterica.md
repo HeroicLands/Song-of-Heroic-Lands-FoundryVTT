@@ -36,7 +36,7 @@ Every mystical ability — and most mysteries — belongs to one of three broad 
 
 # Testing a Mystical Ability
 
-Invoking a Mystical Ability is resolved as a [[Success_Tests|Success Test]], exactly like a skill. Click the ability's **Effective Mastery Level (EML)** on the Being sheet's **Mystical** tab to roll it (hold **Shift** to skip the dialog), and read the success level (CF / MF / MS / CS) the same way.
+Invoking a Mystical Ability is resolved as a [[Success_Tests|Success Test]], exactly like a skill. Click the ability's **Effective Mastery Level (EML)** on the Being sheet's **Mysteries** tab to roll it (hold **Shift** to skip the dialog), and read the success level (CF / MF / MS / CS) the same way.
 
 Where an ability's EML comes from depends on how it is governed:
 

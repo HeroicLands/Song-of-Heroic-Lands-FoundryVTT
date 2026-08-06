@@ -50,6 +50,38 @@ The **Facade** tab shows the actor's portrait image and a rich-text
 description field. This is the "at a glance" view — use it for the actor's
 appearance, personality notes, or any freeform text.
 
+## Profile (Beings only)
+
+The **Profile** tab is unique to Beings. It shows:
+
+- **Attributes** — the core characteristics (Strength, Dexterity, Intelligence, etc.)
+- **Affiliations** — faction memberships and organizational ties
+- **Biography** — a rich-text biography field
+
+## Skills (Beings only)
+
+The **Skills** tab lists all skills grouped by category. Each skill shows
+its mastery level and any modifiers. Click a skill's name to perform a
+skill test.
+
+## Combat (Beings only)
+
+The **Combat** tab shows equipped weapons and their strike modes, armor
+and protection, and combat-relevant information.
+
+## Mystical (Beings only)
+
+The **Mysteries** tab shows mysteries and mystical
+abilities. This is where spellcasters and priests manage their supernatural
+capabilities.
+
+## Members (Cohorts only)
+
+The **Members** tab is unique to Cohorts. It rosters the individuals that belong
+to the group — each named by the actor it references, with its role and a
+chess-king marking the leader — and carries the controls that add a member,
+remove one, and set who leads. See [[Actor_Cohort|Cohort]].
+
 ## Gear
 
 The **Gear** tab is the actor's inventory: a character's possessions, a
@@ -88,6 +120,13 @@ From this tab you can:
 - **Edit or delete** an item from the ⋮ menu at the end of its row (or by
   right-clicking the row).
 - **Search** the tab with the box at the top, which filters rows by name.
+
+## Shared Gear (Cohorts only)
+
+The **Shared Gear** tab is unique to Cohorts. It lists the gear the group's
+members have marked as shared with the cohort, with the member who carries each
+item. It is a view, not a store: the items stay on their carriers. See
+[[Actor_Cohort|Cohort]].
 
 ## Actions
 
@@ -128,45 +167,6 @@ the item that carries it.
 
 Both lists can be filtered with the search box at the top of the tab.
 
-## Profile (Beings only)
-
-The **Profile** tab is unique to Beings. It shows:
-
-- **Attributes** — the core characteristics (Strength, Dexterity, Intelligence, etc.)
-- **Affiliations** — faction memberships and organizational ties
-- **Biography** — a rich-text biography field
-
-## Skills (Beings only)
-
-The **Skills** tab lists all skills grouped by category. Each skill shows
-its mastery level and any modifiers. Click a skill's name to perform a
-skill test.
-
-## Combat (Beings only)
-
-The **Combat** tab shows equipped weapons and their strike modes, armor
-and protection, and combat-relevant information.
-
-## Mystical (Beings only)
-
-The **Mystical** tab shows mysteries, philosophies, and mystical
-abilities. This is where spellcasters and priests manage their supernatural
-capabilities.
-
-## Members (Cohorts only)
-
-The **Members** tab is unique to Cohorts. It rosters the individuals that belong
-to the group — each named by the actor it references, with its role and a
-chess-king marking the leader — and carries the controls that add a member,
-remove one, and set who leads. See [[Actor_Cohort|Cohort]].
-
-## Shared Gear (Cohorts only)
-
-The **Shared Gear** tab is unique to Cohorts. It lists the gear the group's
-members have marked as shared with the cohort, with the member who carries each
-item. It is a view, not a store: the items stay on their carriers. See
-[[Actor_Cohort|Cohort]].
-
 # Common Item Tabs {#sheets-item-tabs}
 
 Item sheets share a consistent tab layout across all item types:
@@ -183,12 +183,6 @@ where you configure the item's game-mechanical properties.
 The **Description** tab provides a rich-text editor for the item's full
 description. Use this for flavor text, rules references, or any detailed
 notes about the item.
-
-## Nested Items
-
-The **Nested Items** tab appears for items that contain other items inside
-them. For example, a Weapon Gear contains Strike Modes, and Armor Gear
-contains Protection entries. This tab shows the hierarchy of contained items.
 
 ## Actions
 
