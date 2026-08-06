@@ -69,6 +69,7 @@ condition glyphs that Font Awesome does not cover.
 | Glyph | Name | Where you see it |
 | :---: | --- | --- |
 | <i class="fa-solid fa-check" style="font-size:2em" aria-hidden="true"></i> | **Accept Blood Stoppage** | Trauma |
+| <i class="fa-solid fa-user-plus" style="font-size:2em" aria-hidden="true"></i> | **Add Member** | Cohort |
 | <i class="fa-solid fa-flag" style="font-size:2em" aria-hidden="true"></i> | **Answer the Rally** | Being |
 | <i class="fa-solid fa-droplet" style="font-size:2em" aria-hidden="true"></i> | **Arm Blood-Loss Advance** | Trauma |
 | <i class="fa-solid fa-bed-pulse" style="font-size:2em" aria-hidden="true"></i> | **Arm Healing Check** | Trauma |
@@ -105,6 +106,7 @@ condition glyphs that Font Awesome does not cover.
 | <i class="fa-solid fa-brain" style="font-size:2em" aria-hidden="true"></i> | **Psyche Stress Recovery Test** | Trauma |
 | <i class="fa-solid fa-flag" style="font-size:2em" aria-hidden="true"></i> | **Rally Test** | Being |
 | <i class="fa-solid fa-person-walking-arrow-loop-left" style="font-size:2em" aria-hidden="true"></i> | **Reaction Test** | Being |
+| <i class="fa-solid fa-user-minus" style="font-size:2em" aria-hidden="true"></i> | **Remove Member** | Cohort |
 | <i class="fa-solid fa-droplet-slash" style="font-size:2em" aria-hidden="true"></i> | **Request Blood Stoppage** | Trauma |
 | <i class="fa-solid fa-hand" style="font-size:2em" aria-hidden="true"></i> | **Request Treatment** | Trauma |
 | <i class="fa-solid fa-heart-circle-bolt" style="font-size:2em" aria-hidden="true"></i> | **Resist the Pall** | Being |
@@ -122,6 +124,7 @@ condition glyphs that Font Awesome does not cover.
 | <i class="fa-solid fa-ranking-star" style="font-size:2em" aria-hidden="true"></i> | **Success Value Test** | Skill |
 | <i class="ginf-knapsack" style="font-size:2em" aria-hidden="true"></i> | **Toggle Carried** | Gear |
 | <i class="fa-solid fa-star-half-stroke" style="font-size:2em" aria-hidden="true"></i> | **Toggle Improve Flag** | Skill |
+| <i class="fa-solid fa-chess-king" style="font-size:2em" aria-hidden="true"></i> | **Toggle Leader** | Cohort |
 | <i class="fa-solid fa-shield-halved" style="font-size:2em" aria-hidden="true"></i> | **Toggle Worn** | Armor |
 | <i class="fa-solid fa-head-side-cough" style="font-size:2em" aria-hidden="true"></i> | **Transmit Affliction** | Affliction |
 | <i class="fa-solid fa-staff-snake" style="font-size:2em" aria-hidden="true"></i> | **Treat Injury** | Trauma |

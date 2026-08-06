@@ -20,6 +20,7 @@ import {
 } from "@src/utils/constants";
 import type { CohortData } from "@src/document/actor/logic/CohortLogic";
 import { CohortLogic } from "@src/document/actor/logic/CohortLogic";
+import { fvttActorByRef } from "@src/core/FoundryHelpers";
 
 const { ArrayField, SchemaField, StringField } = foundry.data.fields;
 
@@ -30,7 +31,10 @@ const { ArrayField, SchemaField, StringField } = foundry.data.fields;
 function defineCohortDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
-        leaderName: new StringField({
+        // The leader is one of the members, named by the same
+        // `shortcodeOrUuid` handle its `members` entry carries. `null` — or a
+        // handle no longer in the list — means the cohort has no leader.
+        leaderCode: new StringField({
             nullable: true,
             blank: false,
             initial: null,
@@ -70,7 +74,7 @@ export class CohortDataModel<
     ];
     /** @inheritDoc */
     static override readonly kind = ACTOR_KIND.COHORT;
-    leaderName!: string | null;
+    leaderCode!: string | null;
     members!: { shortcodeOrUuid: string; role: string }[];
 
     /**
@@ -270,14 +274,14 @@ export class CohortDataModel<
             const pos = positions[i];
             if (!pos) break;
 
-            const memberActor = game.actors?.find(
-                (a: any) => a.system?.shortcode === member.shortcode,
-            );
+            // Resolve through the same dual-key seam the sheet uses: a member
+            // handle is a shortcode (world/compendium actor) or a UUID (an
+            // unlinked Token Actor, which no shortcode can reliably find).
+            const memberActor = fvttActorByRef(member.shortcodeOrUuid);
             if (!memberActor) {
                 console.warn(
                     game.i18n.format("SOHL.Cohort.Drop.memberNotFound", {
-                        shortcode: member.shortcode,
-                        name: member.name,
+                        ref: member.shortcodeOrUuid,
                     }),
                 );
                 continue;
@@ -288,7 +292,7 @@ export class CohortDataModel<
                     x: pos.x,
                     y: pos.y,
                     elevation,
-                    name: member.name,
+                    name: memberActor.name,
                 },
                 { parent: scene },
             )) as any;

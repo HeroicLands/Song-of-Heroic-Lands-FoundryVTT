@@ -155,8 +155,10 @@ capabilities.
 
 ## Members (Cohorts only)
 
-The **Members** tab is unique to Cohorts. It shows the individuals that
-belong to the group.
+The **Members** tab is unique to Cohorts. It rosters the individuals that belong
+to the group — each named by the actor it references, with its role and a
+chess-king marking the leader — and carries the controls that add a member,
+remove one, and set who leads. See [[Actor_Cohort|Cohort]].
 
 ## Shared Gear (Cohorts only)
 
