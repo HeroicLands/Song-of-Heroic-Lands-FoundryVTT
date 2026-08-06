@@ -148,8 +148,8 @@ Combat** instead.
 2. **On the attacker's turn, target the opponent** (target their token), then
    **right-click the attacker's row in the combat tracker** and choose
    **Automated Combat**.
-3. **Answer the attack dialog** — set the aim and any situational modifier;
-   defaults are pre-filled.
+3. **Answer the attack dialog** — pick the strike mode, set the aim and any
+   situational modifier; defaults are pre-filled.
 4. **The defender responds** using the buttons that appear on their client,
    choosing one of the defenses below.
 5. **Read the results in chat.** Impact, hit location, armor, and injury are
@@ -161,8 +161,16 @@ asks for, when it refuses, and which are offered only as chat-card buttons.
 
 ## The attack dialog
 
-Starting an automated attack opens a small dialog with two fields:
+Starting an automated attack opens a small dialog with three fields:
 
+- **Strike Mode** — how you are attacking: one entry per strike mode that can
+  actually reach the target, drawn from the weapons you have readied and the
+  combat techniques you know (melee modes whose reach covers the distance,
+  missile modes within their base range). It is pre-selected for you — the mode
+  this combatant last attacked with in this fight if it is still available (or
+  the weapon whose own action started the attack), otherwise the one with the
+  best chance to hit — so you can usually just press OK. The damage aspect
+  follows from the mode you pick; it is not chosen separately.
 - **Aim** — the body part you are striking at, listed from the defender's own
   body. What you pick matters when the blow lands: an aimed strike hits that part
   when your accuracy is good enough, and otherwise drifts outward to a neighbour
@@ -173,11 +181,6 @@ Starting an automated attack opens a small dialog with two fields:
 
 Press OK to roll the attack, or dismiss the dialog to call the whole thing off —
 nothing is rolled and nothing is posted.
-
-The weapon and strike mode are not asked for here: the system offers only the
-strike modes that can actually reach the target, and defaults to the one this
-combatant last attacked with in this fight, falling back to the best chance
-available.
 
 ## The attack card
 

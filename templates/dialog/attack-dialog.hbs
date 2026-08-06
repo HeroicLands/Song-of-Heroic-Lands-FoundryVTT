@@ -12,12 +12,23 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 {{!--
-    Automated-combat attack dialog. The Weapon Aspect is derived from the
-    strike mode (it is not chosen here); the attacker only picks the Aim
-    (the target body part) and an Additional Modifier. Both choices are echoed
-    onto the attack chat card for transparency.
+    Automated-combat attack dialog. The attacker picks the Strike Mode (one of
+    the modes able to reach the target), the Aim (the target body part), and an
+    Additional Modifier; the Weapon Aspect is derived from the chosen strike
+    mode rather than chosen here. The choices are echoed onto the attack chat
+    card for transparency.
+
+    `modeChoices` is keyed by the mode's index in the caller's mode list, and
+    `defaultModeIdx` is that index for the pre-selected mode.
 --}}
 <form>
+    <div class="form-group">
+        <label>Strike Mode:</label>
+        <select name="modeIdx">
+            {{selectOptions modeChoices selected=defaultModeIdx}}
+        </select>
+    </div>
+
     <div class="form-group">
         <label>Aim:</label>
         <select name="aim">
