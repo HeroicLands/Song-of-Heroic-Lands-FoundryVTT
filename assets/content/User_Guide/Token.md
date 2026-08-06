@@ -47,7 +47,7 @@ makes, see [[Skill_Tests|Skill Tests and Opposed Tests]].
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Name**      | Opposed Test                                                                                                                                                 |
 | **Shortcode** | `opposedTestStart`                                                                                                                                           |
-| **Icon**      | `fa-arrow-down-left-and-arrow-up-right-to-center` (two arrows converging)                                                                                    |
+| **Icon**      | `fa-arrows-to-dot` (two arrows converging)                                                                                                                   |
 | **Invoked**   | **Hidden — not on the Actions context menu.** Triggered by the **Opposed Test** action on a skill or attribute (which _is_ on that item's menu).             |
 | **API**       | [`SohlTokenDocumentLogic.opposedTestStart`](https://api.heroiclands.org/main/classes/sohl.document.token.logic.SohlTokenDocumentLogic.html#opposedteststart) |
 

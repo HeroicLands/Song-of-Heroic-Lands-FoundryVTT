@@ -172,12 +172,12 @@ export class BeingSheet extends SohlActorSheetBase {
                 {
                     id: "skills",
                     label: "SOHL.Actor.SHEET.tab.skills.label",
-                    icon: "fa-solid fa-head-side-gear",
+                    icon: "ginf-skills",
                 },
                 {
                     id: "combat",
                     label: "SOHL.Actor.SHEET.tab.combat.label",
-                    icon: "fa-solid fa-sword",
+                    icon: "ginf-broadsword",
                 },
                 {
                     id: "trauma",
@@ -187,7 +187,7 @@ export class BeingSheet extends SohlActorSheetBase {
                 {
                     id: "mysteries",
                     label: "SOHL.Actor.SHEET.tab.mysteries.label",
-                    icon: "fa-solid fa-sparkles",
+                    icon: "ginf-sparkles",
                 },
                 {
                     id: "gear",

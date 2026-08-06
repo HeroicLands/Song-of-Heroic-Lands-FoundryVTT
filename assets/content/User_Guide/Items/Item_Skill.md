@@ -168,7 +168,7 @@ control, or open the skill and use its **Actions** tab.
 | ------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Success Test                                                                                                              |
 | **Shortcode** | `successTest`                                                                                                             |
-| **Icon**      | `fa-bullseye-arrow` (an arrow in a target)                                                                                |
+| **Icon**      | `fa-bullseye` (a target)                                                                                                  |
 | **Invoked**   | The **Actions** context menu, or by clicking the skill's **EML** cell on the Skills tab                                   |
 | **API**       | [`SkillLogic.successTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SkillLogic.html#successtest) |
 
@@ -224,7 +224,7 @@ Test Result_; spending Fate is described on [[Fate_System|Fate]].
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Success Value Test                                                                                                                  |
 | **Shortcode** | `successValueTest`                                                                                                                  |
-| **Icon**      | `fa-stars` (a cluster of stars)                                                                                                     |
+| **Icon**      | `fa-ranking-star` (a star above a podium)                                                                                           |
 | **Invoked**   | The **Actions** context menu                                                                                                        |
 | **API**       | [`SkillLogic.successValueTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SkillLogic.html#successvaluetest) |
 
@@ -352,7 +352,7 @@ There is **no dialog** — the action rolls straight away.
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Opposed Test                                                                                                                        |
 | **Shortcode** | `opposedTestStart`                                                                                                                  |
-| **Icon**      | `fa-arrow-down-left-and-arrow-up-right-to-center` (two arrows converging)                                                           |
+| **Icon**      | `fa-arrows-to-dot` (two arrows converging)                                                                                          |
 | **Invoked**   | The **Actions** context menu                                                                                                        |
 | **API**       | [`SkillLogic.opposedTestStart`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SkillLogic.html#opposedteststart) |
 
@@ -402,7 +402,7 @@ category they are not present at all.
 |               | Attack                                                                                                                  | Block                                                                                                                 | Counterstrike                                                                                                                         |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | **Shortcode** | `attackTest`                                                                                                            | `blockTest`                                                                                                           | `counterstrikeTest`                                                                                                                   |
-| **Icon**      | `fa-sword` (a sword)                                                                                                    | `fa-shield` (a shield)                                                                                                | `fa-circle-half-stroke` (a half-filled circle)                                                                                        |
+| **Icon**      | `ginf-broadsword` (a broadsword)                                                                                        | `fa-shield` (a shield)                                                                                                | `fa-circle-half-stroke` (a half-filled circle)                                                                                        |
 | **Invoked**   | Actions menu; the **Atk** cell                                                                                          | Actions menu; the **Blk** cell                                                                                        | Actions menu; the **CX** cell                                                                                                         |
 | **API**       | [`SkillLogic.attackTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SkillLogic.html#attacktest) | [`SkillLogic.blockTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SkillLogic.html#blocktest) | [`SkillLogic.counterstrikeTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SkillLogic.html#counterstriketest) |
 

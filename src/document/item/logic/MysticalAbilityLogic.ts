@@ -277,7 +277,7 @@ export class MysticalAbilityLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.MysticalAbility.Action.successTest",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-bullseye-arrow",
+                iconFAClass: "fa-solid fa-bullseye",
                 executor: "successTest",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,

@@ -120,7 +120,7 @@ export class SohlItemBaseLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.SohlItemBaseLogic.Action.outputDescription.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-message-lines",
+                iconFAClass: "fa-solid fa-message",
                 executor: "outputDescription",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,

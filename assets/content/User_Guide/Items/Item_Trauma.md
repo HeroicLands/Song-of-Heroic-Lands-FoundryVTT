@@ -510,7 +510,7 @@ here: the character loses blood one more time, and then the bleeder is cleared.
 | ------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Shock/Coma Course Test                                                                                                      |
 | **Shortcode** | `courseCheck`                                                                                                               |
-| **Icon**      | `fa-wave-pulse` (a pulse trace)                                                                                             |
+| **Icon**      | `ginf-heart-beats` (a pulse trace)                                                                                          |
 | **Invoked**   | **Hidden — not on the Actions context menu.** The **Perform** button on the course reminder in chat                         |
 | **API**       | [`TraumaLogic.courseCheck`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.TraumaLogic.html#coursecheck) |
 

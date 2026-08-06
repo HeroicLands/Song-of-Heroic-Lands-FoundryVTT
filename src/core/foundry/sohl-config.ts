@@ -662,8 +662,8 @@ export const SOHLCONFIG: SohlConfig = {
             sohleffectdata: "SOHL.SohlActiveEffect.sohleffectdata",
         },
         typeIcons: {
-            base: "fa-solid fa-aura",
-            sohleffectdata: "fa-solid fa-aura",
+            base: "ginf-aura",
+            sohleffectdata: "ginf-aura",
         },
         types: ["base", "sohleffectdata"],
     },
@@ -698,8 +698,8 @@ export const SOHLCONFIG: SohlConfig = {
             sohlcombatdata: "SOHL.SohlCombat.combatdata",
         },
         typeIcons: {
-            base: "fa-solid fa-swords",
-            sohlcombatdata: "fa-solid fa-swords",
+            base: "ginf-crossed-swords",
+            sohlcombatdata: "ginf-crossed-swords",
         },
         types: ["base", "sohlcombatdata"],
     },

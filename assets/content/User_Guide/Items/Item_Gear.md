@@ -65,7 +65,7 @@ inherit **Toggle Carried** exactly as described below.
 | ------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Toggle Carried                                                                                                              |
 | **Shortcode** | `toggleCarried`                                                                                                             |
-| **Icon**      | `fa-solid fa-sack` (a sack)                                                                                                 |
+| **Icon**      | `ginf-knapsack` (a knapsack)                                                                                                |
 | **Invoked**   | The **Actions context menu** on the gear item                                                                               |
 | **API**       | [`GearLogic.toggleCarried`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.GearLogic.html#togglecarried) |
 

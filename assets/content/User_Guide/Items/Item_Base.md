@@ -134,7 +134,7 @@ delete the empty container.
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Output Description to Chat                                                                                                                          |
 | **Shortcode** | `outputDescription`                                                                                                                                 |
-| **Icon**      | `fa-message-lines` (a speech bubble with lines of text)                                                                                             |
+| **Icon**      | `fa-message` (a speech bubble)                                                                                                                      |
 | **Invoked**   | The **Actions** context menu on any item                                                                                                            |
 | **API**       | [`SohlItemBaseLogic.outputDescription`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.SohlItemBaseLogic.html#outputdescription) |
 

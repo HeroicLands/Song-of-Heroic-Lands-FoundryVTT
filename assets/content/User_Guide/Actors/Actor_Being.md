@@ -167,7 +167,7 @@ card. It is documented with the Rally Test, where that card comes from.
 | ------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Shock Test                                                                                                             |
 | **Shortcode** | `shockTest`                                                                                                            |
-| **Icon**      | `far fa-face-eyes-xmarks` (a face with crossed-out eyes)                                                               |
+| **Icon**      | `ginf-knocked-out-stars` (a dazed face ringed with stars)                                                              |
 | **Invoked**   | The **Actions context menu** on the Being                                                                              |
 | **API**       | [`BeingLogic.shockTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#shocktest) |
 
@@ -346,7 +346,7 @@ described once on [[Item_Base|Base Item]]. Cancelling it abandons the test.
 | ------------- | -------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Fear Test                                                                                                            |
 | **Shortcode** | `fearTest`                                                                                                           |
-| **Icon**      | `far fa-face-scream` (a screaming face)                                                                              |
+| **Icon**      | `ginf-screaming` (a screaming face)                                                                                  |
 | **Invoked**   | The **Actions context menu** on the Being                                                                            |
 | **API**       | [`BeingLogic.fearTest`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#feartest) |
 
@@ -576,7 +576,7 @@ accumulated Cloud does to a character, and how it clears.
 | ------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | **Name**      | Calculate Impact                                                                                                         |
 | **Shortcode** | `calcImpact`                                                                                                             |
-| **Icon**      | `fa-solid fa-bullseye-arrow` (an arrow in a target)                                                                      |
+| **Icon**      | `fa-solid fa-bullseye` (a target)                                                                                        |
 | **Invoked**   | The **Actions context menu** on the Being — but it is normally reached from a combat card, not picked by hand            |
 | **API**       | [`BeingLogic.calcImpact`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#calcimpact) |
 
@@ -701,7 +701,7 @@ the [[rules/sohl-injury|Injury]] rules for the tables behind it, and
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Contract Disease                                                                                                                   |
 | **Shortcode** | `contractDisease`                                                                                                                  |
-| **Icon**      | `fa-solid fa-face-vomit` (a sickened face)                                                                                         |
+| **Icon**      | `fa-solid fa-virus` (a virus)                                                                                                      |
 | **Invoked**   | The **Actions context menu** on the Being                                                                                          |
 | **API**       | [`BeingLogic.contractDisease`](https://api.heroiclands.org/main/classes/sohl.document.actor.logic.BeingLogic.html#contractdisease) |
 

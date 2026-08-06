@@ -77,7 +77,7 @@ describe("buildCombatantActionMenuEntries", () => {
             (e) => e.__sohlActionTitle === ATTACK_TITLE,
         );
         expect(attack.label).toBe(ATTACK_TITLE);
-        expect(attack.icon).toBe("fa-solid fa-swords");
+        expect(attack.icon).toBe("ginf-crossed-swords");
         const move = entries.find((e) => e.__sohlActionTitle === MOVE_TITLE);
         expect(move.icon).toBe("fa-solid fa-users");
     });
