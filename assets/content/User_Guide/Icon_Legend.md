@@ -71,20 +71,20 @@ condition glyphs that Font Awesome does not cover.
 | <i class="fa-solid fa-check" style="font-size:2em" aria-hidden="true"></i> | **Accept Blood Stoppage** | Trauma |
 | <i class="fa-solid fa-flag" style="font-size:2em" aria-hidden="true"></i> | **Answer the Rally** | Being |
 | <i class="fa-solid fa-droplet" style="font-size:2em" aria-hidden="true"></i> | **Arm Blood-Loss Advance** | Trauma |
-| <i class="fa-solid fa-heart-pulse" style="font-size:2em" aria-hidden="true"></i> | **Arm Healing Check** | Trauma |
+| <i class="fa-solid fa-bed-pulse" style="font-size:2em" aria-hidden="true"></i> | **Arm Healing Check** | Trauma |
 | <i class="fa-solid fa-hourglass" style="font-size:2em" aria-hidden="true"></i> | **Arm Onset** | Affliction |
-| <i class="fa-solid fa-heart-pulse" style="font-size:2em" aria-hidden="true"></i> | **Arm Recovery Check** | Affliction |
+| <i class="fa-solid fa-bed-pulse" style="font-size:2em" aria-hidden="true"></i> | **Arm Recovery Check** | Affliction |
 | <i class="fa-solid fa-skull" style="font-size:2em" aria-hidden="true"></i> | **Arm Resolution** | Affliction |
 | <i class="ginf-broadsword" style="font-size:2em" aria-hidden="true"></i> | **Attack** | Weapon |
 | <i class="fa-solid fa-wand-sparkles" style="font-size:2em" aria-hidden="true"></i> | **Aural Shock Recovery Test** | Trauma |
 | <i class="ginf-crossed-swords" style="font-size:2em" aria-hidden="true"></i> | **Automated Combat** | A combatant in the tracker |
 | <i class="fa-solid fa-shield" style="font-size:2em" aria-hidden="true"></i> | **Block** | Weapon |
-| <i class="fa-solid fa-bullseye" style="font-size:2em" aria-hidden="true"></i> | **Calculate Impact** | Being |
+| <i class="fa-solid fa-burst" style="font-size:2em" aria-hidden="true"></i> | **Calculate Impact** | Being |
 | <i class="fa-regular fa-star" style="font-size:2em" aria-hidden="true"></i> | **Clear Improvement Flag** | Skill |
 | <i class="fa-solid fa-virus" style="font-size:2em" aria-hidden="true"></i> | **Contract Disease** | Being |
 | <i class="fa-solid fa-virus" style="font-size:2em" aria-hidden="true"></i> | **Contract Test** | Affliction |
 | <i class="fa-solid fa-circle-half-stroke" style="font-size:2em" aria-hidden="true"></i> | **Counterstrike** | Weapon |
-| <i class="fa-solid fa-heart-pulse" style="font-size:2em" aria-hidden="true"></i> | **Course Test** | Affliction |
+| <i class="ginf-heart-beats" style="font-size:2em" aria-hidden="true"></i> | **Course Test** | Affliction |
 | <i class="fa-solid fa-trash" style="font-size:2em" aria-hidden="true"></i> | **Delete** |  |
 | <i class="fa-solid fa-stethoscope" style="font-size:2em" aria-hidden="true"></i> | **Diagnosis Test** | Affliction |
 | <i class="fa-solid fa-pen-to-square" style="font-size:2em" aria-hidden="true"></i> | **Edit** |  |
@@ -93,13 +93,13 @@ condition glyphs that Font Awesome does not cover.
 | <i class="fa-solid fa-star" style="font-size:2em" aria-hidden="true"></i> | **Flag for Improvement** | Skill |
 | <i class="fa-solid fa-arrow-down" style="font-size:2em" aria-hidden="true"></i> | **Fumble Test** | Being |
 | <i class="fa-solid fa-heart-pulse" style="font-size:2em" aria-hidden="true"></i> | **Healing Test** | Trauma |
-| <i class="fa-solid fa-star" style="font-size:2em" aria-hidden="true"></i> | **Improve with SDR** | Skill |
+| <i class="fa-solid fa-arrow-trend-up" style="font-size:2em" aria-hidden="true"></i> | **Improve with SDR** | Skill |
 | <i class="fa-solid fa-person-swimming" style="font-size:2em" aria-hidden="true"></i> | **Make Default Medium** | Any actor |
 | <i class="fa-solid fa-shield-heart" style="font-size:2em" aria-hidden="true"></i> | **Morale Test** | Affliction |
 | <i class="fa-solid fa-users" style="font-size:2em" aria-hidden="true"></i> | **Move to Group…** | A combatant in the tracker |
 | <i class="fa-solid fa-arrows-to-dot" style="font-size:2em" aria-hidden="true"></i> | **Opposed Test** | A token on the canvas |
 | <i class="fa-solid fa-message" style="font-size:2em" aria-hidden="true"></i> | **Output Description to Chat** | Any item |
-| <i class="fa-solid fa-skull" style="font-size:2em" aria-hidden="true"></i> | **Pall Recovery Test** | Trauma |
+| <i class="fa-solid fa-heart-circle-check" style="font-size:2em" aria-hidden="true"></i> | **Pall Recovery Test** | Trauma |
 | <i class="fa-solid fa-droplet-slash" style="font-size:2em" aria-hidden="true"></i> | **Perform Blood Stoppage** | Being |
 | <i class="fa-solid fa-staff-snake" style="font-size:2em" aria-hidden="true"></i> | **Perform Treatment Test** | Being |
 | <i class="fa-solid fa-brain" style="font-size:2em" aria-hidden="true"></i> | **Psyche Stress Recovery Test** | Trauma |
@@ -107,7 +107,7 @@ condition glyphs that Font Awesome does not cover.
 | <i class="fa-solid fa-person-walking-arrow-loop-left" style="font-size:2em" aria-hidden="true"></i> | **Reaction Test** | Being |
 | <i class="fa-solid fa-droplet-slash" style="font-size:2em" aria-hidden="true"></i> | **Request Blood Stoppage** | Trauma |
 | <i class="fa-solid fa-hand" style="font-size:2em" aria-hidden="true"></i> | **Request Treatment** | Trauma |
-| <i class="fa-solid fa-skull" style="font-size:2em" aria-hidden="true"></i> | **Resist the Pall** | Being |
+| <i class="fa-solid fa-heart-circle-bolt" style="font-size:2em" aria-hidden="true"></i> | **Resist the Pall** | Being |
 | <i class="fa-solid fa-bandage" style="font-size:2em" aria-hidden="true"></i> | **Resolve Injury** | Being |
 | <i class="fa-solid fa-shield" style="font-size:2em" aria-hidden="true"></i> | **Resume (Block)** | A combatant in the tracker |
 | <i class="fa-solid fa-circle-half-stroke" style="font-size:2em" aria-hidden="true"></i> | **Resume (Counterstrike)** | A combatant in the tracker |

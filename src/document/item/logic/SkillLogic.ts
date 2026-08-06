@@ -952,7 +952,7 @@ export class SkillLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Skill.Action.improveWithSDR",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fa-solid fa-star",
+                iconFAClass: "fa-solid fa-arrow-trend-up",
                 executor: "improveWithSDR",
                 visible: "itemLogic.canImprove && !itemLogic.data.improveFlag",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
