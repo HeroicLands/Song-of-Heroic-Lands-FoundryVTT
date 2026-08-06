@@ -88,9 +88,31 @@ function topLevelEntries(block) {
     return out;
 }
 
-/** The `<i>` markup for an icon class, ready to drop into a markdown table. */
+/**
+ * How much larger than body text a legend glyph renders. At inline size an icon
+ * is legible in context but too small to *study*, which is what this page is
+ * for — a reader is learning the shape so they recognise it later on a sheet.
+ *
+ * Scaling the element (rather than any per-family rule) keeps the two families
+ * matched: `ginf-` glyphs carry their own `font-size` compensation on ::before,
+ * so a uniform element scale preserves the Font Awesome parity the icon metrics
+ * were tuned for, and the em-based baseline shift scales with it.
+ */
+const GLYPH_DISPLAY_SIZE = "2em";
+
+/**
+ * The `<i>` markup for an icon class, ready to drop into a markdown table.
+ *
+ * The size is inlined rather than shipped as a class because this page renders
+ * in two places — the Foundry journal and the Hugo knowledgebase — whose
+ * stylesheets live in different repositories. An inline style needs neither,
+ * and it is confined to this generated page.
+ */
 function glyph(cls) {
-    return `<i class="${cls}" aria-hidden="true"></i>`;
+    return (
+        `<i class="${cls}" style="font-size:${GLYPH_DISPLAY_SIZE}"` +
+        ` aria-hidden="true"></i>`
+    );
 }
 
 /** Pull `defineType("<id>", { … })` and return its top-level entries. */
