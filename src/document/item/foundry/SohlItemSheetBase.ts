@@ -16,6 +16,7 @@ import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import { SohlDataModel } from "@src/core/foundry/SohlDataModel";
 import { openDatePickerDialog } from "@src/apps/foundry/date-picker-dialog";
 import { openExpressionEditorDialog } from "@src/apps/foundry/expression-editor-dialog";
+import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import { hintsToLabelTooltips } from "@src/apps/foundry/sheet-hints";
 import {
     createAction,
@@ -282,15 +283,11 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             | string
             | null
             | undefined;
-        // Optional `data-context="attr"` names the identifiers the
-        // field's call site binds, offered in the editor's autocomplete.
-        const contextNames = (target.dataset.context ?? "")
-            .split(",")
-            .map((s) => s.trim())
-            .filter((s) => s.length > 0);
-        const result = await openExpressionEditorDialog(current, {
-            contextNames,
-        });
+        // `data-expr-scope` carries the id the SafeExpressionField declared, so
+        // the editor's autocomplete and live validation come from the same
+        // declaration the runtime validates against (#1142).
+        const scope = expressionScopes.get(target.dataset.exprScope);
+        const result = await openExpressionEditorDialog(current, { scope });
         if (result === undefined) return;
         await this.document.update({ [path]: result });
     }

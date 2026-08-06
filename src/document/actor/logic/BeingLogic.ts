@@ -13,6 +13,7 @@
 
 import { entity } from "@src/entity/registry";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
@@ -2355,13 +2356,16 @@ export class BeingLogic<
         this.body.evaluate();
         // Movement strength modifier: the active profile's `strMod` expression
         // of the being's strength (0 when disabled / no strength attribute).
+        const strModScope = expressionScopes.require("being.strengthModifier");
         const strModExpr = new SafeExpression(
             { source: this.moveProfile.strMod },
-            { parent: this },
+            { parent: this, scope: strModScope },
         );
         const str =
             this.getItemLogic("str", ITEM_KIND.ATTRIBUTE)?.score.effective ?? 0;
-        this.strengthModifier.setBase(strModExpr.evaluate({ str }) as number);
+        this.strengthModifier.setBase(
+            strModExpr.evaluate(strModScope.bind({ str })) as number,
+        );
         this.deriveHealingBase();
         this.aggregateArmorProtection();
     }
@@ -2435,12 +2439,15 @@ export class BeingLogic<
 
         // Encumbrance: the active movement profile's `encumbrance` expression of
         // the being's carried weight, known now that all gear has evaluated.
+        const encScope = expressionScopes.require("being.encumbrance");
         const encExpr = new SafeExpression(
             { source: this.moveProfile.encumbrance },
-            { parent: this },
+            { parent: this, scope: encScope },
         );
         this.encumbrance.setBase(
-            encExpr.evaluate({ wt: this.carriedWeight.effective }) as number,
+            encExpr.evaluate(
+                encScope.bind({ wt: this.carriedWeight.effective }),
+            ) as number,
         );
 
         // Per-item encumbrance value (#1010): armor and weapons may declare an

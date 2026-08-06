@@ -19,6 +19,7 @@ import type { SohlContextMenuSortGroup } from "@src/utils/constants";
 import { fvttGetActor, getContextItem } from "@src/core/FoundryHelpers";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 
 /**
  * The Foundry-free context-menu primitives shared by the logic layer and the
@@ -198,9 +199,10 @@ export function compileCondition(
         );
         return () => false;
     }
+    const scope = expressionScopes.require("menu.condition");
     let expression: SafeExpression;
     try {
-        expression = new SafeExpression({ source }, { parent });
+        expression = new SafeExpression({ source }, { parent, scope });
     } catch (err) {
         sohl.log.warn(
             "Failed to compile context menu condition; entry will be hidden:",
@@ -210,7 +212,9 @@ export function compileCondition(
     }
     return (target: HTMLElement): boolean => {
         try {
-            return !!expression.evaluate(makeConditionContext(target));
+            return !!expression.evaluate(
+                scope.bind(makeConditionContext(target)),
+            );
         } catch (err) {
             sohl.log.warn(
                 "Context menu condition threw; entry will be hidden:",

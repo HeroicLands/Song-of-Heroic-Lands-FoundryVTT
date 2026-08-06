@@ -24,6 +24,7 @@ import {
     ItemKinds,
 } from "@src/utils/constants";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { pushDeltaToValueModifier } from "@src/document/effect/logic/effect-logic";
@@ -114,15 +115,22 @@ export class SohlActiveEffect extends ActiveEffect {
      * test is empty (which matches every candidate). Returns `null` when the
      * source fails to compile (matches nothing), having logged a warning.
      *
+     * @param scopeId - The {@link sohl.entity.expr.ExpressionScope} the test is
+     *   evaluated against. The same `test` field binds differently depending on
+     *   the effect's scope — item targeting sees only `itemLogic`, strike-mode
+     *   targeting also sees `sm` — so the caller names which one applies.
      * @returns The compiled predicate, `undefined` (match all), or `null` (error).
      */
-    protected _compileTest(): SafeExpression | undefined | null {
+    protected _compileTest(scopeId: string): SafeExpression | undefined | null {
         const script = this.system.test;
         if (!script) return undefined;
         try {
             return new SafeExpression(
                 { source: script },
-                { parent: this.actor.logic },
+                {
+                    parent: this.actor.logic,
+                    scope: expressionScopes.require(scopeId),
+                },
             );
         } catch (err) {
             sohl.log.warn("Failed to compile test script on Active Effect:", {
@@ -146,7 +154,8 @@ export class SohlActiveEffect extends ActiveEffect {
     protected _resolveItemTypeTargets(itemKind: ItemKind): SohlItem[] {
         if (!this.actor) return [];
         const items = this.actor.items.values() as Iterable<SohlItem>;
-        const expression = this._compileTest();
+        const scope = expressionScopes.require("effect.itemTest");
+        const expression = this._compileTest(scope.id);
         if (expression === null) return [];
         const matched: SohlItem[] = [];
 
@@ -157,7 +166,7 @@ export class SohlActiveEffect extends ActiveEffect {
                 continue;
             }
             try {
-                if (expression.evaluate({ itemLogic: item.logic }))
+                if (expression.evaluate(scope.bind({ itemLogic: item.logic })))
                     matched.push(item);
             } catch (err) {
                 sohl.log.warn(
@@ -187,7 +196,8 @@ export class SohlActiveEffect extends ActiveEffect {
             (item.logic as any)?.strikeModes ?? [];
         if (!strikeModes.length) return [];
 
-        const expression = this._compileTest();
+        const scope = expressionScopes.require("effect.strikeModeTest");
+        const expression = this._compileTest(scope.id);
         if (expression === null) return [];
         const itemLogic = item.logic;
         const matched: StrikeModeBase[] = [];
@@ -198,7 +208,8 @@ export class SohlActiveEffect extends ActiveEffect {
                 continue;
             }
             try {
-                if (expression.evaluate({ itemLogic, sm })) matched.push(sm);
+                if (expression.evaluate(scope.bind({ itemLogic, sm })))
+                    matched.push(sm);
             } catch (err) {
                 sohl.log.warn(
                     "Test script threw on strike-mode Active Effect evaluation:",

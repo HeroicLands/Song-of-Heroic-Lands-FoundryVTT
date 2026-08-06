@@ -12,6 +12,10 @@
  */
 
 import type { SafeExpression } from "@src/entity/expr/SafeExpression";
+import {
+    expressionScopes,
+    type ExpressionScope,
+} from "@src/entity/expr/ExpressionScopeRegistry";
 
 /**
  * A {@link foundry.data.fields.StringField} whose value is a
@@ -36,8 +40,52 @@ import type { SafeExpression } from "@src/entity/expr/SafeExpression";
  * Defaults follow the null-at-the-edges convention for an optional "unset when
  * blank" string: `nullable`, non-`blank`, `initial: null` — a cleared editor or
  * form input cleans to `null`. Callers may override per field.
+ *
+ * ## Declaring the scope
+ *
+ * Pass the id of the {@link sohl.entity.expr.ExpressionScope} the field's value
+ * is evaluated against:
+ *
+ * ```ts
+ * skillBaseFormula: new SafeExpressionField({ scope: "skill.base" })
+ * ```
+ *
+ * That is what lets the *schema* tell the sheet which identifiers this formula
+ * may use, so the editor's autocomplete and live validation match the call site
+ * that actually evaluates it. Before scopes, the sheet template carried a
+ * hand-typed `data-context="attr"` string with nothing tying it to the
+ * evaluating code (issue #1142). The id is resolved through the registry, so a
+ * typo or a renamed scope fails loudly at schema construction.
  */
 export class SafeExpressionField extends foundry.data.fields.StringField {
+    /**
+     * Id of the {@link ExpressionScope} this field's expression is evaluated
+     * against, or `undefined` when the field declares none.
+     */
+    readonly scope: string | undefined;
+
+    /**
+     * Construct the field, resolving any declared expression scope eagerly.
+     *
+     * @param options - `StringField` options, plus `scope`: the id of the
+     *   expression scope this field's value is evaluated against.
+     * @param context - Standard Foundry `DataField` context.
+     * @throws {Error} If `scope` names a scope that is not declared in the
+     *   expression-scope catalog.
+     */
+    constructor(
+        options: SafeExpressionField.Options = {},
+        context: object = {},
+    ) {
+        super(options as never, context as never);
+        // Resolved eagerly so an unknown id is a startup error rather than a
+        // field that silently validates nothing.
+        if (options.scope !== undefined) {
+            expressionScopes.require(options.scope);
+        }
+        this.scope = options.scope;
+    }
+
     /** Optional, non-blank, nullable, unset-as-`null`, trimmed. */
     protected static override get _defaults(): foundry.data.fields.StringField.Options<unknown> {
         return foundry.utils.mergeObject(super._defaults, {
@@ -47,4 +95,29 @@ export class SafeExpressionField extends foundry.data.fields.StringField {
             initial: null,
         });
     }
+
+    /**
+     * The resolved {@link ExpressionScope} this field declares, if any. The
+     * sheet hands it to the expression editor.
+     */
+    get expressionScope(): ExpressionScope | undefined {
+        return expressionScopes.get(this.scope);
+    }
+}
+
+export namespace SafeExpressionField {
+    /**
+     * Construction options — every `StringField` option, plus the expression
+     * scope this field's value is evaluated against.
+     */
+    export type Options = ConstructorParameters<
+        typeof foundry.data.fields.StringField
+    >[0] & {
+        /**
+         * Id of the {@link sohl.entity.expr.ExpressionScope} declaring which
+         * identifiers this field's expression may use (e.g. `"skill.base"`).
+         * Resolved at construction, so an unknown id throws immediately.
+         */
+        scope?: string;
+    };
 }

@@ -99,7 +99,9 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
         // array of them — the host contracts as part of the outcome. Blank means
         // none. Combines with `outcome`. A SafeExpressionField so the sheet offers
         // the code editor; its defaults are nullable / non-blank / `initial: null`.
-        outcomeTrauma: new SafeExpressionField(),
+        outcomeTrauma: new SafeExpressionField({
+            scope: "affliction.outcomeTrauma",
+        }),
         ...phaseFields("onset"),
         ...durationFields("healingCheck"),
         ...phaseFields("resolution"),

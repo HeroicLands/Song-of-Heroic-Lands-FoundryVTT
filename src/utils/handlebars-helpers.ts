@@ -93,13 +93,16 @@ export const EXPRESSION_FIELD_PARTIAL_NAME = "expressionField";
  * - `rootId` — the control's id.
  * - `name` (required) — the form/update field path (e.g. `"system.skillBaseFormula"`).
  * - `value` — the current expression source.
- * - `context` — optional comma-separated context-identifier names the field's
- *   call site binds (e.g. `"attr"`), forwarded to the editor's
- *   autocomplete via `data-context`.
+ *
+ * The identifiers the expression may use are **not** declared here: a
+ * {@link sohl.core.foundry.SafeExpressionField} carries its
+ * {@link sohl.entity.expr.ExpressionScope} id, which this partial forwards as
+ * `data-expr-scope` for the editor to resolve. Nothing about the binding
+ * contract is typed into a template (issue #1142).
  */
 export const EXPRESSION_FIELD_PARTIAL = `<div class="expression-field">
     {{formGroup field rootId=rootId classes="text-field" stacked=true value=value}}
-    <button type="button" class="expression-field__edit" data-action="editExpression" data-field-path="{{name}}"{{#if context}} data-context="{{context}}"{{/if}} data-tooltip="{{localize "SOHL.ExpressionEditor.editTooltip"}}"><i class="fa-solid fa-code"></i></button>
+    <button type="button" class="expression-field__edit" data-action="editExpression" data-field-path="{{name}}"{{#if field.scope}} data-expr-scope="{{field.scope}}"{{/if}} data-tooltip="{{localize "SOHL.ExpressionEditor.editTooltip"}}"><i class="fa-solid fa-code"></i></button>
 </div>`;
 
 /**

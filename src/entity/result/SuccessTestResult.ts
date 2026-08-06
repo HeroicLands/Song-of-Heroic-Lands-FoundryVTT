@@ -32,6 +32,7 @@ import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { TestResult } from "@src/entity/result/TestResult";
 import { SohlEntity } from "@src/entity/SohlEntity";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import { toFilePath, defaultFromJSON, defaultToJSON } from "@src/utils/helpers";
 import {
@@ -457,11 +458,11 @@ export class SuccessTestResult extends TestResult {
             );
         if (!row) return empty;
         // Bindings a row's SafeExpression may reference.
-        const bindings = {
+        const bindings = expressionScopes.require("test.resultRow").bind({
             successLevel: this.successLevel,
             targetValue,
             lastDigit,
-        };
+        });
         const label =
             row.label instanceof SafeExpression ?
                 String(row.label.evaluate(bindings))

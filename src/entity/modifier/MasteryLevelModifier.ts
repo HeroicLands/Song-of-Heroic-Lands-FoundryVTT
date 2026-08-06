@@ -23,6 +23,7 @@ import {
     type BodyPartImpairment,
 } from "@src/entity/body/impairment";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import {
     reviveLimitedDescriptionTable,
     serializeLimitedDescriptionTable,
@@ -145,7 +146,7 @@ function getStandardSuccessDescriptionTable(
             success: false,
             result: new SafeExpression(
                 { source: "successLevel + 1" },
-                { parent },
+                { parent, scope: expressionScopes.require("test.resultRow") },
             ),
         },
         {
@@ -172,7 +173,7 @@ function getStandardSuccessDescriptionTable(
             success: true,
             result: new SafeExpression(
                 { source: "successLevel - 1" },
-                { parent },
+                { parent, scope: expressionScopes.require("test.resultRow") },
             ),
         },
     ];

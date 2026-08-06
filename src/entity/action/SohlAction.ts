@@ -29,6 +29,7 @@ import {
     fvttWorldTime,
 } from "@src/core/FoundryHelpers";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import {
     resolveContextActor,
     resolveContextItem,
@@ -453,11 +454,11 @@ export namespace SohlAction {
  * **Composition.** Visibility is `visibleSource AND scriptPermission AND
  * trigger`:
  *
- * 1. The visibility source is evaluated as a SafeExpression with
- *    `{element, itemLogic, isGM}` (its public contract; `itemLogic` is the
- *    resolved row item's logic layer, or `undefined`; `isGM` reflects
- *    whether the current user is a GM). If false, the action is hidden.
- *    The owning actor's logic is reachable as `itemLogic.actorLogic`.
+ * 1. The visibility source is evaluated as a SafeExpression against the
+ *    `action.visible` {@link sohl.entity.expr.ExpressionScope} — `element`,
+ *    `itemLogic`, `actorLogic`, and `isGM`. The two logic bindings are
+ *    `undefined` when nothing of that kind surrounds the element. If the
+ *    expression is false, the action is hidden.
  * 2. For `SCRIPT` subtypes, the current user must satisfy
  *    `data.minActorOwnership` against the surrounding actor (see
  *    {@link userMeetsExecutePermission}). This mirrors `execute()`'s
@@ -484,9 +485,10 @@ function compileVisibility(
     const source = data.visible;
     const title = data.title;
     const text = source && source.trim() ? source : "true";
+    const scope = expressionScopes.require("action.visible");
     let expression: SafeExpression;
     try {
-        expression = new SafeExpression({ source: text }, { parent });
+        expression = new SafeExpression({ source: text }, { parent, scope });
     } catch (err) {
         sohl.log.warn(
             "Failed to compile action visibility expression; action will be hidden:",
@@ -498,13 +500,24 @@ function compileVisibility(
     return (element: HTMLElement): boolean => {
         try {
             const item = resolveContextItem(element);
-            const visible = !!expression.evaluate({
-                element,
-                itemLogic: item?.logic,
-                isGM: !!fvttCurrentUser()?.isGM,
-            });
+            // Resolved before evaluation, not after: the permission gate below
+            // needs it either way, and `visible` expressions bind it too (#1090
+            // — `actorLogic` used to be an unknown identifier here, which hid
+            // the action unconditionally). The owning logic's own actor is the
+            // last fallback, exactly as `getContextOptions`' callback resolves
+            // the acting actor, so a menu on a document without a
+            // `data-actor-id` marker still sees the actor it will act on.
+            const actor =
+                resolveContextActor(element) ?? item?.actor ?? parent.actor;
+            const visible = !!expression.evaluate(
+                scope.bind({
+                    element,
+                    itemLogic: item?.logic,
+                    actorLogic: actor?.logic,
+                    isGM: !!fvttCurrentUser()?.isGM,
+                }),
+            );
             if (!visible) return false;
-            const actor = resolveContextActor(element) ?? item?.actor;
             if (isScript && !userMeetsExecutePermission(data, actor)) {
                 return false;
             }
@@ -540,9 +553,10 @@ function compileTrigger(
     parent: SohlLogic,
 ): ActionTriggerFn {
     const text = source && source.trim() ? source : "true";
+    const scope = expressionScopes.require("action.trigger");
     let expression: SafeExpression;
     try {
-        expression = new SafeExpression({ source: text }, { parent });
+        expression = new SafeExpression({ source: text }, { parent, scope });
     } catch (err) {
         sohl.log.warn(
             "Failed to compile action trigger expression; action will be inactive:",
@@ -552,10 +566,12 @@ function compileTrigger(
     }
     return (item?: SohlItem, actor?: SohlActor): boolean => {
         try {
-            return !!expression.evaluate({
-                itemLogic: item?.logic,
-                actorLogic: actor?.logic,
-            });
+            return !!expression.evaluate(
+                scope.bind({
+                    itemLogic: item?.logic,
+                    actorLogic: actor?.logic,
+                }),
+            );
         } catch (err) {
             sohl.log.warn(
                 "Action trigger expression threw; action will be inactive:",

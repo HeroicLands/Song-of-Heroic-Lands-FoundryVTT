@@ -87,18 +87,124 @@ importantly — **method calls**.
 
 ### Bound variables — what each call site provides
 
-The bindings available to an expression depend on where it is used. Reach for a
-SafeExpression whenever a GM or content author needs a **synchronous condition or
-computed value** from a data field; these are the call sites today:
+The identifiers an expression may use depend on where it is used. Each call site
+declares an **expression scope** — a named set of bindings, with a description
+for each — in `src/entity/expr/expression-scopes.mjs`. That one declaration is
+what the runtime validates against, what the formula editor autocompletes from,
+and what the table below is generated from, so the three cannot drift apart
+(issue #1142).
 
-| Call site                                                                  | Field(s)                               | Bindings                            | Result  |
-| -------------------------------------------------------------------------- | -------------------------------------- | ----------------------------------- | ------- |
-| Action, UI visibility ({@link sohl.entity.action.SohlAction})              | `visible`                              | `element`, `itemLogic`, `isGM`      | boolean |
-| Action, executability ({@link sohl.entity.action.SohlAction})              | `trigger`                              | `itemLogic`, `actorLogic`           | boolean |
-| Active effect, item targeting (`SohlActiveEffect`)                         | `test`                                 | `itemLogic`                         | boolean |
-| Active effect, strike-mode targeting (`SohlActiveEffect`)                  | `test`                                 | `itemLogic`, `sm`                   | boolean |
-| Context-menu entry (`ContextMenuEntry`)                                    | `condition`                            | `target`, `itemLogic`, `actorLogic` | boolean |
-| Being body/movement profile ({@link sohl.document.actor.logic.BeingLogic}) | `strMod`, `encumbrance`, `weight.calc` | `str` or `wt`                       | number  |
+Writing an identifier a scope does not declare is rejected when the expression is
+**compiled**, naming the offending identifier and listing the legal ones — rather
+than throwing on every evaluation, where the caller catches it and the feature
+silently does nothing.
+
+Reach for a SafeExpression whenever a GM or content author needs a **synchronous
+condition or computed value** from a data field. These are the call sites today:
+
+<!-- BEGIN GENERATED: expression-scopes -->
+
+| Call site | Where | Field(s) | Bindings | Result |
+| --------- | ----- | -------- | -------- | ------ |
+| Action — UI visibility | `SohlAction` (`compileVisibility`) | `visible` | `element`, `itemLogic`, `actorLogic`, `isGM` | boolean |
+| Action — executability | `SohlAction` (`compileTrigger`) | `trigger` | `itemLogic`, `actorLogic` | boolean |
+| Active Effect — item targeting | `SohlActiveEffect` (item-kind scope) | `test` | `itemLogic` | boolean |
+| Active Effect — strike-mode targeting | `SohlActiveEffect` (`meleestrikemode` / `missilestrikemode` scope) | `test` | `itemLogic`, `sm` | boolean |
+| Context-menu entry | `ContextMenuEntry` (`compileCondition`) | `condition` | `target`, `itemLogic`, `actorLogic` | boolean |
+| Skill Base formula | `SkillLogic` (`computeSkillBase`) | `skillBaseFormula` | `attr` | number |
+| Being — strength modifier | `BeingLogic` (`evaluate`) | `strMod` | `str` | number |
+| Being — encumbrance | `BeingLogic` (`evaluate`) | `encumbrance` | `wt` | number |
+| Body — derived weight | `BodyLogic` (`evaluate`) | `weight.calc` | `str` | number |
+| Result-description table row | `SuccessTestResult` (result-description tables) | `label`, `description`, `result` | `successLevel`, `targetValue`, `lastDigit` | string (label/description) or number (result) |
+| Event-queue subscription predicate | `SohlEventQueue` (`fire`) | `predicate` | `name`, `subscriberUuid`, `payload`, `worldTime`, `dt`, `combat`, `combatant`, `round`, `turn`, `skipped`, `sceneUuid`, `darkness`, `priorDarkness`, `regionUuid`, `regionId`, `regionName`, `tokenUuid`, `actorUuid` _(open)_ | boolean |
+| Affliction — outcome trauma | `AfflictionLogic` (`contractOutcomeTraumas`) | `outcomeTrauma` | _none_ | string or string[] (trauma shortcodes) |
+
+Scopes marked _(open)_ carry a context that varies at runtime, so an
+identifier beyond those listed is permitted there; everywhere else, an
+identifier the scope does not declare is rejected when the expression is
+compiled.
+
+#### What each binding means
+
+**`action.visible`** — Gates whether an action is offered on a context menu. Composed with the script-permission check and the action's own `trigger`.
+
+- `element` — The DOM element the context menu was opened on (the row or sheet control).
+- `itemLogic` — Logic layer of the row's item, or `undefined` when the menu is not on an item row.
+- `actorLogic` — Logic layer of the surrounding actor, or `undefined` when there is none.
+- `isGM` — Whether the current user is a GM.
+
+**`action.trigger`** — Gates whether an action may run at all. Evaluated programmatically, not from a DOM event.
+
+- `itemLogic` — Logic layer of the owning item, or `undefined` for an actor-owned action.
+- `actorLogic` — Logic layer of the owning actor, or `undefined` when there is none.
+
+**`effect.itemTest`** — Selects which of the actor's items of the effect's scope kind the effect applies to. A blank test matches every item of the kind.
+
+- `itemLogic` — Logic layer of the candidate item being tested.
+
+**`effect.strikeModeTest`** — Selects which of an item's strike modes the effect applies to. The same `test` field as item targeting, bound differently because the effect's scope is a strike-mode scope.
+
+- `itemLogic` — Logic layer of the item owning the strike mode.
+- `sm` — The candidate strike mode being tested.
+
+**`menu.condition`** — Gates whether a context-menu entry is shown for the element the menu was opened on.
+
+- `target` — The DOM element the menu was triggered on.
+- `itemLogic` — Logic layer of the nearest ancestor row's item, or `undefined`.
+- `actorLogic` — Logic layer of the nearest ancestor row's actor, or `undefined`.
+
+**`skill.base`** — Computes a skill's Skill Base from the owning actor's attributes, e.g. `sb(attr.str, attr.dex)`.
+
+- `attr` — Attribute scores by shortcode — `attr.str`, `attr['dex']`. An attribute the actor does not have reads as `0`.
+
+**`being.strengthModifier`** — Derives the being's strength modifier from its Strength attribute.
+
+- `str` — The being's effective Strength score.
+
+**`being.encumbrance`** — Derives the being's encumbrance level from the weight it is carrying.
+
+- `wt` — The being's effective carried weight.
+
+**`body.weight`** — Derives a body's weight from its Strength when no explicit base weight is set.
+
+- `str` — The being's effective Strength score.
+
+**`test.resultRow`** — Computes a result-table row's text or success-star count from the settled test result. Evaluated only for the one row a test matches.
+
+- `successLevel` — The test's computed success level.
+- `targetValue` — The test's effective target value.
+- `lastDigit` — The last digit of the rolled d100.
+
+**`event.predicate`** — Gates whether a due subscription is dispatched when its trigger fires. **Open scope** — the bindings are the trigger context, which varies by trigger (and a world may register custom triggers carrying custom keys), so undeclared identifiers are permitted here. Guard anything trigger-specific with `defined(...)`.
+
+- `name` — The trigger name that fired (e.g. `'turnEnd'`).
+- `subscriberUuid` — UUID of the document this subscription belongs to — compare against the trigger to scope it to yourself.
+- `payload` — The subscription's own attached data, when it has any.
+- `worldTime` — `updateWorldTime`: the new world time, in seconds.
+- `dt` — `updateWorldTime`: signed delta from the previous world time.
+- `combat` — Combat triggers: the combat document.
+- `combatant` — `turnStart` / `turnEnd`: the combatant whose turn it is.
+- `round` — Round and turn triggers: the round number.
+- `turn` — `turnStart` / `turnEnd`: the turn index.
+- `skipped` — Round and turn triggers: whether the change was skipped.
+- `sceneUuid` — Region and darkness triggers: UUID of the scene.
+- `darkness` — `sceneDarknessChange`: the new darkness level (0–1).
+- `priorDarkness` — `sceneDarknessChange`: the previous darkness level, when known.
+- `regionUuid` — Region triggers: UUID of the region.
+- `regionId` — Region triggers: the region's id.
+- `regionName` — Region triggers: the region's display name.
+- `tokenUuid` — Region triggers: UUID of the token that acted.
+- `actorUuid` — Region triggers: UUID of that token's actor, when it has one.
+
+**`affliction.outcomeTrauma`** — Chooses which trauma(s) an affliction inflicts on contraction. Bound to nothing: the expression may use only literals and helper calls (e.g. a shortcode literal, or a `roll('1d3').total` selection), never a bare identifier.
+
+- _No bindings._ Only literals and helper calls may appear.
+
+<!-- END GENERATED: expression-scopes -->
+
+Only the **root** of a member chain is checked: `itemLogic.masteryLevel.effective`
+validates `itemLogic` and leaves the rest to runtime, since the roots are a
+knowable list and the object graph behind them is not.
 
 The same `SohlActiveEffect.test` field is bound differently by the effect's
 scope: item-kind scopes see the candidate item's logic as `itemLogic`; the

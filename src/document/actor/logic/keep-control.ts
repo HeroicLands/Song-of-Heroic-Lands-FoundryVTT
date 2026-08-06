@@ -24,6 +24,7 @@
  */
 
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
 
@@ -57,7 +58,7 @@ export function keepControlTable(
             description: loc("CritFail.description"),
             result: new SafeExpression(
                 { source: "successLevel + 1" },
-                { parent },
+                { parent, scope: expressionScopes.require("test.resultRow") },
             ),
         },
         {
@@ -87,7 +88,7 @@ export function keepControlTable(
             description: loc("CritSuccess.description"),
             result: new SafeExpression(
                 { source: "successLevel - 1" },
-                { parent },
+                { parent, scope: expressionScopes.require("test.resultRow") },
             ),
         },
     ];

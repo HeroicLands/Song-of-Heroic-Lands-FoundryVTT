@@ -39,6 +39,7 @@
 import type { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
+import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 
 /**
  * One persisted recurring-schedule entry — the shape of an element of a
@@ -121,7 +122,10 @@ function buildPredicate(
             `A scheduled-action predicate ("${source}") requires the owning document's logic as its parent.`,
         );
     }
-    return new SafeExpression({ source }, { parent });
+    return new SafeExpression(
+        { source },
+        { parent, scope: expressionScopes.require("event.predicate") },
+    );
 }
 
 /**

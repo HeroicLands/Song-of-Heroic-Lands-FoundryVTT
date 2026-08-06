@@ -33,6 +33,10 @@ import {
 import { tags } from "@lezer/highlight";
 import { expressionHelpers } from "@src/entity/expr/ExpressionHelperRegistry";
 import { makeExpressionCompletionSource } from "./expression-completions";
+import {
+    expressionScopes,
+    type ExpressionScope,
+} from "@src/entity/expr/ExpressionScopeRegistry";
 
 /**
  * A mounted CodeMirror editor handle. The dialog reads the live value at Save
@@ -65,21 +69,21 @@ export interface ExpressionEditorOptions {
     /** Called with the full text on every edit (drives live validation). */
     onChange: (value: string) => void;
     /**
-     * Context-identifier names to offer in autocomplete alongside the helper
-     * functions (e.g. the namespaces the field's call site binds: `attr`,
-     * `actorLogic`). Helper names come from the registry.
+     * The edited field's {@link ExpressionScope}, whose declared identifiers are
+     * offered in autocomplete alongside the helper functions. Helper names come
+     * from the registry.
      */
-    contextNames?: string[];
+    scope?: ExpressionScope;
 }
 
-/** Identifiers that read as a bound namespace rather than a plain variable. */
-const NAMESPACE_WORDS = new Set([
-    "attr",
-    "actorLogic",
-    "itemLogic",
-    "sm",
-    "item",
-]);
+/**
+ * Identifiers that read as a bound namespace rather than a plain variable —
+ * every identifier any declared scope binds. Derived from the scope registry so
+ * the highlighter cannot fall behind the bindings themselves (issue #1142).
+ */
+const NAMESPACE_WORDS: ReadonlySet<string> = new Set(
+    expressionScopes.all().flatMap((scope) => scope.names),
+);
 
 /** Literal keywords the grammar allows. */
 const ATOM_WORDS = new Set(["true", "false", "null"]);
@@ -224,11 +228,7 @@ export function mountExpressionEditor(
                 syntaxHighlighting(highlightStyle),
                 safeExpressionLanguage,
                 autocompletion({
-                    override: [
-                        makeExpressionCompletionSource(
-                            options.contextNames ?? [],
-                        ),
-                    ],
+                    override: [makeExpressionCompletionSource(options.scope)],
                     icons: false,
                 }),
                 EditorView.lineWrapping,
