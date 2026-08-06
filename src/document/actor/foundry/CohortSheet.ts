@@ -14,6 +14,8 @@
 import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBase";
 import type { CohortLogic } from "@src/document/actor/logic/CohortLogic";
 import { fvttCallHook } from "@src/core/FoundryHelpers";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import type { SohlAction } from "@src/entity/action/SohlAction";
 
 type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<any>;
@@ -28,6 +30,15 @@ export class CohortSheet extends SohlActorSheetBase {
         position: { width: 900, height: 640 },
         classes: ["sohl", "sheet", "actor", "cohort"],
         dragDrop: [{ dragSelector: ".item-list .item", dropSelector: null }],
+        // The Members-tab controls. Each dispatches the matching intrinsic
+        // action on the cohort's logic rather than writing `system.members`
+        // here, so the tab and the Actions tab share one implementation
+        // (issue #1151) — the seam gear's `toggleCarried` control uses.
+        actions: {
+            addCohortMember: CohortSheet._onAddCohortMember,
+            removeCohortMember: CohortSheet._onRemoveCohortMember,
+            setCohortLeader: CohortSheet._onSetCohortLeader,
+        },
     };
 
     static PARTS = {
@@ -101,12 +112,21 @@ export class CohortSheet extends SohlActorSheetBase {
         context: RenderContext,
         options: RenderOptions,
     ): Promise<RenderContext> {
-        if (partId !== "sharedgear")
+        if (partId !== "sharedgear" && partId !== "members")
             return super._preparePartContext(partId, context, options);
 
         // Expose this part's tab descriptor, exactly as the base dispatcher
         // does, so the section resolves its `active` state and tab group.
         (context as any).tab = (context as any).tabs?.[partId];
+        if (partId === "members") {
+            context = await this._prepareMembersContext(context, options);
+            fvttCallHook(
+                `sohl.actor.${this.document.type}.prepareMembersContext`,
+                this,
+                context,
+            );
+            return context;
+        }
         context = await this._prepareSharedGearContext(context, options);
         fvttCallHook(
             `sohl.actor.${this.document.type}.prepareSharedGearContext`,
@@ -114,6 +134,31 @@ export class CohortSheet extends SohlActorSheetBase {
             context,
         );
         return context;
+    }
+
+    /**
+     * Build the `members` part's render context: one row per `system.members`
+     * entry, resolved through the cohort logic's {@link CohortLogic.memberRows}
+     * seam, plus the leader's name for the section legend.
+     *
+     * Without this the tab had no context of its own at all, which — together
+     * with a template binding fields the schema never carried — is why it
+     * listed nothing (issue #1151).
+     *
+     * @param context - The in-progress render context.
+     * @param _options - Sheet render options (unused).
+     * @returns The members part context.
+     */
+    protected async _prepareMembersContext(
+        context: RenderContext,
+        _options: RenderOptions,
+    ): Promise<RenderContext> {
+        const logic = this.document.logic as unknown as CohortLogic;
+        const members = logic.memberRows;
+        return Object.assign(context, {
+            members,
+            leaderName: logic.leader?.name ?? "",
+        });
     }
 
     /**
@@ -142,5 +187,102 @@ export class CohortSheet extends SohlActorSheetBase {
             }),
         );
         return Object.assign(context, { sharedGear });
+    }
+
+    /* -------------------------------------------- */
+    /*  Members tab controls (#1151)                */
+    /* -------------------------------------------- */
+
+    /**
+     * Run one of the cohort's membership intrinsic actions with the given
+     * scope. The control never writes `system.members` itself — the executor
+     * owns the rules (what resolves, what may be added, what a removal does to
+     * the leader) and the dialogs.
+     *
+     * @param name - The intrinsic action's shortcode.
+     * @param scope - The action scope (e.g. the row's member handle).
+     * @returns Resolves once the action completes.
+     */
+    private async _runMemberAction(
+        name: string,
+        scope: PlainObject = {},
+    ): Promise<void> {
+        const logic = this.document.logic as unknown as CohortLogic | undefined;
+        const action = logic?.actions.get(name) as SohlAction | undefined;
+        if (!logic || !action) return;
+        await action.execute(
+            new SohlActionContext({
+                speaker: (this.document as any).getSpeaker(),
+                type: name,
+                title: (action.data as any).title,
+                scope,
+            }),
+        );
+    }
+
+    /**
+     * The member handle of the clicked control's row (`data-member-ref`).
+     *
+     * @param target - The clicked control, within a `data-member-ref` element.
+     * @returns The member's `shortcodeOrUuid`, or `undefined`.
+     */
+    private static _memberRef(target: HTMLElement): string | undefined {
+        return (
+            target
+                .closest<HTMLElement>("[data-member-ref]")
+                ?.getAttribute("data-member-ref") ?? undefined
+        );
+    }
+
+    /**
+     * `data-action="addCohortMember"`: add a member to this cohort, via the
+     * `addMember` intrinsic action — which asks for the actor's shortcode or
+     * UUID and the role it takes.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param _target - The clicked add control (unused).
+     */
+    protected static async _onAddCohortMember(
+        this: CohortSheet,
+        _event: PointerEvent,
+        _target: HTMLElement,
+    ): Promise<void> {
+        await this._runMemberAction("addMember");
+    }
+
+    /**
+     * `data-action="removeCohortMember"`: remove the clicked row's member from
+     * this cohort, via the `removeMember` intrinsic action — which confirms
+     * first. The member's actor is untouched.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked control, within a `data-member-ref` row.
+     */
+    protected static async _onRemoveCohortMember(
+        this: CohortSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const ref = CohortSheet._memberRef(target);
+        if (!ref) return;
+        await this._runMemberAction("removeMember", { shortcodeOrUuid: ref });
+    }
+
+    /**
+     * `data-action="setCohortLeader"`: make the clicked row's member the
+     * cohort's leader — or, if that member already leads it, stand them down so
+     * the cohort has none — via the `toggleLeader` intrinsic action.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked king, within a `data-member-ref` row.
+     */
+    protected static async _onSetCohortLeader(
+        this: CohortSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const ref = CohortSheet._memberRef(target);
+        if (!ref) return;
+        await this._runMemberAction("toggleLeader", { shortcodeOrUuid: ref });
     }
 }

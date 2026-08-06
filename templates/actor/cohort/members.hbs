@@ -11,55 +11,67 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
-{{!--
-This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+{{!-- The cohort's Members roster (#1151): one row per `system.members` entry,
+      named from the actor its `shortcodeOrUuid` handle resolves to — a
+      shortcode for a world/compendium actor, a UUID for a Token Actor. Each row
+      carries the two controls that manage membership: the chess-king, which
+      makes that member the leader (and, on the leader's own row, stands them
+      down), and the trashcan, which removes them from the cohort. Both — and
+      the "+ Add Member" control in the legend — dispatch the cohort's
+      `toggleLeader` / `removeMember` / `addMember` intrinsic actions, so these
+      controls and the Actions tab drive one implementation.
 
-Licensed under the GNU General Public License v3.0 (GPLv3).
-You may copy, modify, and distribute this file under the terms of that license.
-
-See LICENSE.md in the project root or:
-https://www.gnu.org/licenses/gpl-3.0.html
-
-SPDX-License-Identifier: GPL-3.0-or-later
---}}
-
+      A member whose actor no longer resolves still gets a row, named by its raw
+      handle and greyed: a cohort must be able to see, and remove, a member it
+      can no longer reach. --}}
 <section class="tab members{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="members">
-    {{!-- Leader and Movement Rep --}}
-    {{#if leaderName}}
-    <div class="cohort-info flexrow">
-        <span class="label">Leader:</span>
-        <span class="value">{{leaderName}}</span>
+    <div class="section-legend">
+        <span class="section-legend__name">{{localize "SOHL.Cohort.FIELDS.members.label"}}</span>
+        {{#if leaderName}}
+        <span class="section-legend__meta">{{localize "SOHL.Cohort.FIELDS.leaderCode.label"}}: {{leaderName}}</span>
+        {{/if}}
+        <span class="section-legend__rule"></span>
+        <span class="section-legend__add">
+            <a class="add-button" data-action="addCohortMember" data-tooltip="{{localize 'SOHL.Cohort.Members.add.title'}}">
+                <i class="fa-solid fa-user-plus"></i><span>{{localize "SOHL.Cohort.Members.add.control"}}</span>
+            </a>
+        </span>
     </div>
-    {{/if}}
-    {{#if moveRepName}}
-    <div class="cohort-info flexrow">
-        <span class="label">Movement Rep:</span>
-        <span class="value">{{moveRepName}}</span>
-    </div>
-    {{/if}}
 
-    {{!-- Member List --}}
-    <fieldset>
-        <legend>Members</legend>
-        <ol class="list__items">
-            <li class="list__header flexrow">
-                <h3 class="list__name">Name</h3>
-                <div class="list__detail">Shortcode</div>
-                <div class="list__detail">Role</div>
-            </li>
-            {{#each members as |member|}}
-            <li class="item flexrow" data-search-name="{{member.name}}" data-item-id="{{member.id}}" data-item-name="{{member.name}}">
-                <div class="list__name default-action flexrow">
-                    <h4 data-tooltip="{{member.name}}">{{member.name}}</h4>
-                </div>
-                <div class="list__detail">{{member.shortcode}}</div>
-                <div class="list__detail">{{member.role}}</div>
-                <div class="list__controls">
-                    <a class="list__control item-contextmenu" title="Menu"><i class="fa-solid fa-ellipsis-vertical fa-fw"></i></a>
-                </div>
-            </li>
-            {{/each}}
-        </ol>
-    </fieldset>
+    {{#if members.length}}
+    <div class="ledger" style="--ledger-cols:1.5rem minmax(140px,1.6fr) minmax(90px,1fr) 1.8rem 1.8rem">
+        <div class="ledger__head">
+            <div></div>
+            <div>{{localize "SOHL.Cohort.Members.column.name"}}</div>
+            <div>{{localize "SOHL.Cohort.Members.column.role"}}</div>
+            <div></div>
+            <div></div>
+        </div>
+        {{#each members as |member|}}
+        <div class="ledger__row{{#unless member.isResolved}} ledger__row--disabled{{/unless}}" data-search-name="{{member.name}}"
+            data-member-ref="{{member.ref}}" data-uuid="{{member.uuid}}">
+            <div class="ledger__icon">
+                {{#if member.img}}<img src="{{member.img}}" alt="{{member.name}}" />{{/if}}
+            </div>
+            <div class="ledger__name" data-tooltip="{{member.ref}}">{{member.name}}</div>
+            <div class="ledger__cell ledger__cell--text">{{localize member.roleLabel}}</div>
+            <div class="ledger__controls">
+                <a class="icon-button{{#if member.isLeader}} is-on{{/if}}" data-action="setCohortLeader"
+                    data-member-ref="{{member.ref}}"
+                    data-tooltip="{{#if member.isLeader}}{{localize 'SOHL.Cohort.Members.leader.isLeader'}}{{else}}{{localize 'SOHL.Cohort.Members.leader.make'}}{{/if}}">
+                    <i class="fa-solid fa-chess-king fa-fw"></i>
+                </a>
+            </div>
+            <div class="ledger__controls">
+                <a class="icon-button icon-button--danger" data-action="removeCohortMember"
+                    data-member-ref="{{member.ref}}" data-tooltip="{{localize 'SOHL.Cohort.Members.remove.control'}}">
+                    <i class="fa-solid fa-trash fa-fw"></i>
+                </a>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    {{else}}
+    <p class="notes">{{localize "SOHL.Cohort.Members.empty.roster"}}</p>
+    {{/if}}
 </section>

@@ -69,7 +69,9 @@ describe("non-being actors: cohort / structure / vehicle", () => {
         cy.createActor("cohort", { name: "The Watch" }).then((actor) => {
             cy.foundry((win) =>
                 patchSystem(win, actor.id, {
-                    "system.leaderName": "Sergeant Vell",
+                    // The leader is one of the members, named by the same
+                    // handle its member entry carries (#1151).
+                    "system.leaderCode": "vell",
                     "system.members": [
                         { shortcodeOrUuid: "vell" },
                         { shortcodeOrUuid: "arn" },
@@ -79,14 +81,14 @@ describe("non-being actors: cohort / structure / vehicle", () => {
             cy.foundry((win) => {
                 const s = win.game.actors.get(actor.id).system;
                 return {
-                    leaderName: s.leaderName,
+                    leaderCode: s.leaderCode,
                     count: s.members.length,
                     refs: s.members.map((m) => m.shortcodeOrUuid),
                     // role defaults are applied by the SchemaField.
                     roles: s.members.map((m) => m.role),
                 };
             }).should((r) => {
-                expect(r.leaderName).to.eq("Sergeant Vell");
+                expect(r.leaderCode).to.eq("vell");
                 expect(r.count, "two members").to.eq(2);
                 expect(r.refs).to.have.members(["vell", "arn"]);
                 expect(

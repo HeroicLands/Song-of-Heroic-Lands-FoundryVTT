@@ -424,13 +424,21 @@ export function fvttActorByShortcode(shortcode: string): any {
  * A raw document id is accepted too, so references recorded as ids keep
  * resolving. The client sees only the actors it has permission for.
  *
+ * Only an **Actor** is ever returned: a UUID naming some other document (an
+ * Item, a Journal) resolves to `undefined`, exactly as an unresolvable one
+ * does. Callers therefore never have to re-check what came back, and a
+ * reference typed by hand cannot smuggle a non-actor into a member list.
+ *
  * @param ref - The actor reference: a UUID, a `system.shortcode`, or an id.
  * @returns The referenced actor, or `undefined` when it does not resolve.
  */
 export function fvttActorByRef(ref: string): any {
     if (!ref) return undefined;
     // Only a UUID contains a `.`; a shortcode and an id never do.
-    if (ref.includes(".")) return fvttResolveUuid(ref);
+    if (ref.includes(".")) {
+        const doc = fvttResolveUuid(ref);
+        return doc?.documentName === "Actor" ? doc : undefined;
+    }
     return fvttGetActor(ref) ?? fvttActorByShortcode(ref);
 }
 
