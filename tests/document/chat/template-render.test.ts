@@ -209,6 +209,28 @@ describe("dialogs render through the same shim as cards", () => {
         expect(html).toContain('name="healingRate"');
         expect(html).toContain('value="3"');
     });
+
+    it("treat-injury-dialog renders an undetermined (null) Healing Rate blank (#1087)", () => {
+        const html = renderTemplateReal(`${DIALOG}/treat-injury-dialog.hbs`, {
+            healingRate: null,
+        });
+        expect(html).toMatch(/name="healingRate"[^>]*value=""/);
+    });
+
+    it("treat-injury-dialog hint never promises that 0 heals the wound (#1087)", () => {
+        const html = renderTemplateReal(`${DIALOG}/treat-injury-dialog.hbs`, {
+            healingRate: 3,
+        });
+        // The label and hint are localized (no hardcoded English), …
+        expect(html).not.toContain("SOHL.Dialog.TreatInjury");
+        // … and the hint describes 0 as the dire rate it is, not a cure. The
+        // HEAL sentinel is reachable only from a Treatment Result card.
+        expect(html).not.toMatch(/0 heals/i);
+        expect(html).toMatch(/Healing Base × Healing Rate/);
+        expect(html).toMatch(/makes no progress/i);
+        // Blank is the honest spelling of "rate not yet determined".
+        expect(html).toMatch(/leave it blank/i);
+    });
 });
 
 describe("injury-card zone-die states (#828)", () => {

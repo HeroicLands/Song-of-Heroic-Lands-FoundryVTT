@@ -1204,6 +1204,49 @@ describe("Treatment action cards — requestTreatment / treatInjury", () => {
             );
         });
 
+        it("run by hand on an untreated wound, opens the dialog blank — an undetermined rate is not 0 (#1087)", async () => {
+            const dlg = vi
+                .spyOn(FoundryHelpersMock, "dialog")
+                .mockResolvedValue(null);
+            const logic = injury({ healingRateBase: null });
+            await logic.treatInjury({ scope: {} } as any);
+            // `null` is "no Healing Rate determined yet", not the dire rate 0:
+            // pre-filling 0 would let a blind confirm record the worst outcome.
+            expect(dlg.mock.calls[0][0]).toEqual(
+                expect.objectContaining({ data: { healingRate: null } }),
+            );
+        });
+
+        it("run by hand, a blank Healing Rate records nothing (#1087)", async () => {
+            vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue({
+                healingRate: "",
+            });
+            const logic = injury({ healingRateBase: null });
+            await expect(
+                logic.treatInjury({ scope: {} } as any),
+            ).resolves.toBeUndefined();
+            // Number("") is 0 — a blank field must not record a Healing Rate of 0.
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+
+        it("run by hand, a rate of 0 is recorded as a rate — it never heals the wound (#1087)", async () => {
+            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(500);
+            vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue({
+                healingRate: 0,
+            });
+            const logic = injury({ levelBase: 4 });
+            await logic.treatInjury({ scope: {} } as any);
+            // 0 is a legitimate (dire) Healing Rate, not the HEAL sentinel: the
+            // wound keeps its Injury Level.
+            expect(logic.item.update).toHaveBeenCalledWith({
+                "system.healingRateBase": 0,
+                "system.treatmentDate": 500,
+            });
+            expect(logic.item.update).not.toHaveBeenCalledWith(
+                expect.objectContaining({ "system.levelBase": 0 }),
+            );
+        });
+
         it("run by hand, is a no-op when the dialog is cancelled", async () => {
             vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(null);
             const logic = injury();

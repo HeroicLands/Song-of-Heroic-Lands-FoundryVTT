@@ -290,10 +290,16 @@ export class TraumaLogic<
      * physician's proposed rate with one click. A `HEAL` sentinel (only reachable
      * from a card) heals the wound outright.
      *
+     * Every value the dialog can yield is a Healing Rate — including `0`, which
+     * is the dire rate that leaves the wound making no progress, never a cure.
+     * A wound whose rate is still undetermined (`healingRateBase` `null`) opens
+     * the dialog **blank** rather than pre-filled with `0`, and a blank
+     * submission records nothing (issue #1087).
+     *
      * @param context - The action context; `scope.healingRate` supplies the rate
      *   when present (card path), else the dialog gathers it.
      * @returns The recorded Healing Rate, or `undefined` when none was supplied /
-     *   the dialog was cancelled.
+     *   the dialog was cancelled or left blank.
      */
     async treatInjury(
         context: SohlActionContext,
@@ -311,13 +317,23 @@ export class TraumaLogic<
                 template: toFilePath(
                     "systems/sohl/templates/dialog/treat-injury-dialog.hbs",
                 ),
-                data: { healingRate: this.data.healingRateBase ?? 0 },
+                // `null` (rate not yet determined) renders as an empty field —
+                // pre-filling 0 would invite a blind confirm to record the
+                // worst available rate (issue #1087).
+                data: { healingRate: this.data.healingRateBase },
                 callback: (data: PlainObject) => data,
                 rejectClose: false,
             })) as { healingRate?: unknown } | null;
             if (!form) return undefined;
-            const n = Number(form.healingRate);
-            if (Number.isNaN(n)) return undefined;
+            const entered = form.healingRate;
+            // A blank field is "no rate supplied", not 0 — `Number("")` is 0.
+            if (
+                entered == null ||
+                (typeof entered === "string" && !entered.trim())
+            )
+                return undefined;
+            const n = Number(entered);
+            if (!Number.isFinite(n)) return undefined;
             hr = n;
         }
         if (hr == null) return undefined;
