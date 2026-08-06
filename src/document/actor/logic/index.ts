@@ -32,5 +32,6 @@ export * from "./morale";
 export * from "./movement";
 export * from "./pall";
 export * from "./reach-helpers";
+export * from "./sheet-parts";
 export * from "./shock";
 export * from "./token-helpers";

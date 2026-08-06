@@ -51,6 +51,11 @@ The Cohort sheet has these tabs:
 - **Actions** — available group actions
 - **Effects** — active effects on the group
 
+**Facade**, **Actions**, and **Effects** are the common actor tabs and behave
+exactly as they do on a [[Actor_Being|Being]]; they are documented once, in
+[[Understanding_Sheets|Understanding Sheets]] under _Common Actor Tabs_. The
+**Members** tab is particular to a Cohort.
+
 <!-- TODO: Expand with details on how members are managed, how cohort-level
      skills/attributes interact with individual member capabilities, and how
      cohort combat works -->

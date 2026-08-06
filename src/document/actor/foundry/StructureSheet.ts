@@ -31,9 +31,18 @@ export class StructureSheet extends SohlActorSheetBase {
         },
         tabs: { template: "templates/generic/tab-navigation.hbs" },
         facade: { template: "systems/sohl/templates/actor/parts/facade.hbs" },
-        gear: { template: "systems/sohl/templates/actor/parts/gear.hbs" },
-        actions: { template: "systems/sohl/templates/actor/parts/actions.hbs" },
-        effects: { template: "systems/sohl/templates/actor/parts/effects.hbs" },
+        gear: {
+            template: "systems/sohl/templates/actor/parts/gear.hbs",
+            scrollable: [""],
+        },
+        actions: {
+            template: "systems/sohl/templates/actor/parts/actions.hbs",
+            scrollable: [""],
+        },
+        effects: {
+            template: "systems/sohl/templates/actor/parts/effects.hbs",
+            scrollable: [""],
+        },
     } as const;
 
     /** @inheritDoc */

@@ -12,7 +12,10 @@
  */
 
 import { SohlActor } from "@src/document/actor/foundry/SohlActor";
-import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBase";
+import {
+    SohlActorSheetBase,
+    type GearCapacity,
+} from "@src/document/actor/foundry/SohlActorSheetBase";
 import {
     createAction,
     editAction,
@@ -208,34 +211,9 @@ export class BeingSheet extends SohlActorSheetBase {
         },
     };
 
-    /**
-     * Choose which sheet parts to render, omitting the detail tabs when the
-     * actor is only viewable with limited permission.
-     *
-     * @param options - The render options whose `parts` list is populated.
-     * @param options.parts - Populated with the list of sheet part ids to render.
-     */
-    protected override _configureRenderOptions(
-        options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
-    ): void {
-        super._configureRenderOptions(options);
-
-        options.parts = ["header", "tabs", "facade"];
-
-        // Don't show the other tabs if only limited view
-        if ((this.document as any).limited) return;
-
-        options.parts.push(
-            "profile",
-            "skills",
-            "combat",
-            "trauma",
-            "mysteries",
-            "gear",
-            "actions",
-            "effects",
-        );
-    }
+    // The render-part list is derived from `PARTS` by the base sheet (which also
+    // withholds the detail tabs under limited permission), so this sheet does
+    // not restate it — restating it is what broke the fenced sheets (#1088).
 
     protected _filters: foundry.applications.ux.SearchFilter[] = [
         new foundry.applications.ux.SearchFilter({
@@ -298,11 +276,8 @@ export class BeingSheet extends SohlActorSheetBase {
                 ),
             );
 
-        // Bind the item/effect context menus (right-click on a `.item` row and
-        // click on its `.item-contextmenu` ⋮ control). Without this the sheet
-        // has no way to edit or delete any created item (#517). `_contextMenu`
-        // is provided by the SohlDataModel sheet mixin.
-        (this as any)._contextMenu?.((this as any).element);
+        // The item/effect context menus (#517) are bound by the base sheet's
+        // `_onRender`, since the ledgers carrying them are shared tab templates.
 
         // Profile tab Body Structure tree: click the per-row ⋮ to Edit a body
         // zone, part, or location in its own auto-saving editor (#721 / #722).
@@ -1010,15 +985,10 @@ export class BeingSheet extends SohlActorSheetBase {
             addInjury: BeingSheet._onAddInjury,
             toggleStatus: BeingSheet._onToggleStatus,
             toggleImproveFlag: BeingSheet._onToggleImproveFlag,
-            toggleCarried: BeingSheet._onToggleCarried,
-            toggleWorn: BeingSheet._onToggleWorn,
-            editItem: BeingSheet._onEditItem,
-            deleteItem: BeingSheet._onDeleteItem,
-            createItem: BeingSheet._onCreateItem,
-            runAction: BeingSheet._onRunAction,
-            createAction: BeingSheet._onCreateAction,
-            editAction: BeingSheet._onEditAction,
-            deleteAction: BeingSheet._onDeleteAction,
+            // The shared Gear/Actions tab controls (createItem, editItem,
+            // deleteItem, toggleCarried, toggleWorn, and the action controls)
+            // are registered by the base sheet — those templates render on
+            // every actor type (#1088).
             makeDefaultMedium: BeingSheet._onMakeDefaultMedium,
             printSheet: BeingSheet._onPrintSheet,
         },
@@ -1043,28 +1013,6 @@ export class BeingSheet extends SohlActorSheetBase {
             action: "printSheet",
         });
         return controls;
-    }
-
-    /**
-     * Handle clicks on an item-create control (class `item-create`,
-     * `data-action="createItem"`). Reads the control's `data-type` and
-     * `data-sub-type` (or `data-subtype`) to pre-seed the create dialog, then
-     * opens `SohlItem.createDialog` parented to this being.
-     *
-     * @param _event - The triggering pointer event (unused).
-     * @param target - The clicked control, carrying `data-type` / `data-sub-type`.
-     */
-    protected static async _onCreateItem(
-        this: BeingSheet,
-        _event: PointerEvent,
-        target: HTMLElement,
-    ): Promise<void> {
-        const type = target.dataset.type;
-        const subType = target.dataset.subType ?? target.dataset.subtype;
-        const data: PlainObject = {};
-        if (type) data.type = type;
-        if (subType) data.system = { subType };
-        await SohlItem.createDialog(data, { parent: this.document });
     }
 
     /* -------------------------------------------- */
@@ -1455,22 +1403,6 @@ html, body { margin: 0; padding: 0; background: #fff; }
     }
 
     /**
-     * Run the action for the clicked Actions-tab row (shift-click skips its
-     * configuration dialog), delegating to the shared {@link runAction} sheet
-     * helper. Script actions invoke their bound Macro.
-     *
-     * @param event - The triggering pointer event (shift skips the dialog).
-     * @param target - The clicked control, inside a `data-action-name` row.
-     */
-    protected static async _onRunAction(
-        this: BeingSheet,
-        event: PointerEvent,
-        target: HTMLElement,
-    ): Promise<void> {
-        await runAction(this.document, target, event);
-    }
-
-    /**
      * Make the clicked movement medium the being's current (default) one.
      * Invokes the actor's `makeDefaultMedium` intrinsic action with the medium
      * carried in the action scope; that executor persists
@@ -1500,55 +1432,6 @@ html, body { margin: 0; padding: 0; background: #fff; }
             scope: { medium },
         });
         await action.execute(context);
-    }
-
-    /**
-     * Create a custom (script) action, delegating to the shared
-     * {@link createAction} sheet helper. Prompts for an existing world Macro to
-     * bind — or `<New Macro…>`, which opens Foundry's Macro-create dialog — then
-     * appends a SCRIPT action def (bound by the Macro's UUID) to
-     * `system.actionDefs`.
-     *
-     * @param _event - The triggering pointer event (unused).
-     * @param _target - The clicked create control (unused).
-     */
-    protected static async _onCreateAction(
-        this: BeingSheet,
-        _event: PointerEvent,
-        _target: HTMLElement,
-    ): Promise<void> {
-        await createAction(this.document);
-    }
-
-    /**
-     * Open the bound Macro's own sheet for the clicked custom action, deferring
-     * all macro editing to Foundry's Macro UI (shared {@link editAction} helper).
-     *
-     * @param _event - The triggering pointer event (unused).
-     * @param target - The clicked control, inside a `data-action-name` row.
-     */
-    protected static async _onEditAction(
-        this: BeingSheet,
-        _event: PointerEvent,
-        target: HTMLElement,
-    ): Promise<void> {
-        await editAction(this.document, target);
-    }
-
-    /**
-     * Remove the clicked custom action from `system.actionDefs`, delegating to
-     * the shared {@link deleteAction} helper. Only the action def is removed —
-     * the bound Macro document is left untouched.
-     *
-     * @param _event - The triggering pointer event (unused).
-     * @param target - The clicked control, inside a `data-action-name` row.
-     */
-    protected static async _onDeleteAction(
-        this: BeingSheet,
-        _event: PointerEvent,
-        target: HTMLElement,
-    ): Promise<void> {
-        await deleteAction(this.document, target);
     }
 
     /**
@@ -1596,93 +1479,6 @@ html, body { margin: 0; padding: 0; background: #fff; }
         await item.update({
             "system.improveFlag": !(item.system as any).improveFlag,
         } as PlainObject);
-    }
-
-    /**
-     * Resolve the embedded item for a row control from the nearest ancestor
-     * carrying `data-item-id`.
-     *
-     * @param target - The clicked control.
-     * @returns The item, or `undefined` when none resolves.
-     */
-    private _itemFromControl(target: HTMLElement): SohlItem | undefined {
-        const itemId = target
-            .closest("[data-item-id]")
-            ?.getAttribute("data-item-id");
-        return itemId ? this.document.items.get(itemId) : undefined;
-    }
-
-    /**
-     * Open an embedded item's sheet — the Edit anchor on an item row.
-     *
-     * @param _event - The triggering pointer event (unused).
-     * @param target - The clicked control, within a `data-item-id` row.
-     */
-    protected static async _onEditItem(
-        this: BeingSheet,
-        _event: PointerEvent,
-        target: HTMLElement,
-    ): Promise<void> {
-        void fvttRenderSheet(this._itemFromControl(target));
-    }
-
-    /**
-     * Delete an embedded item after confirmation — the Delete anchor on an
-     * item row.
-     *
-     * @param _event - The triggering pointer event (unused).
-     * @param target - The clicked control, within a `data-item-id` row.
-     */
-    protected static async _onDeleteItem(
-        this: BeingSheet,
-        _event: PointerEvent,
-        target: HTMLElement,
-    ): Promise<void> {
-        const item = this._itemFromControl(target);
-        if (!item) return;
-        await (item as any).deleteDialog();
-    }
-
-    /**
-     * Toggle a gear item's **carried** state (on the character's person).
-     *
-     * Dispatches the item's `toggleCarried` intrinsic action rather than
-     * writing the field, so the ledger control and the Actions context menu
-     * share one implementation — including the stow-time clearing of any
-     * "in use" state (issue #1097).
-     *
-     * @param _event - The triggering pointer event (unused).
-     * @param target - The clicked control, within a `data-item-id` row.
-     */
-    protected static async _onToggleCarried(
-        this: BeingSheet,
-        _event: PointerEvent,
-        target: HTMLElement,
-    ): Promise<void> {
-        const item = this._itemFromControl(target);
-        if (!item) return;
-        await item.logic?.executeAction("toggleCarried");
-    }
-
-    /**
-     * Toggle an armor item's **worn** state — only worn armor feeds a being's
-     * armor-protection totals.
-     *
-     * Dispatches the item's `toggleWorn` intrinsic action rather than writing
-     * the field, so the ledger control honors the same carried gate as the
-     * Actions context menu: armor that is not carried cannot be worn (#1097).
-     *
-     * @param _event - The triggering pointer event (unused).
-     * @param target - The clicked control, within a `data-item-id` row.
-     */
-    protected static async _onToggleWorn(
-        this: BeingSheet,
-        _event: PointerEvent,
-        target: HTMLElement,
-    ): Promise<void> {
-        const item = this._itemFromControl(target);
-        if (!item) return;
-        await item.logic?.executeAction("toggleWorn");
     }
 
     /**
@@ -2629,158 +2425,23 @@ html, body { margin: 0; padding: 0; background: #fff; }
     }
 
     /**
-     * Prepare context for the Gear tab: containers with nested items
-     * and encumbrance totals.
+     * A being reports its overall load rather than a plain cargo weight: its
+     * total carried-gear weight (accumulated ground-up on
+     * {@link BeingLogic.carriedWeight}) and the resulting encumbrance for its
+     * active movement medium ({@link BeingLogic.encumbrance}). Unlike a
+     * container, "On Body" has no hard capacity cap.
      *
-     * @param context - The render context to augment.
-     * @param _options - The render options (unused).
-     * @returns The augmented render context.
+     * @param _items - The un-contained gear items (unused; the totals are
+     *   derived by the logic layer).
+     * @returns The encumbrance readout for the section legend.
      */
-    protected async _prepareGearContext(
-        context: RenderContext,
-        _options: RenderOptions,
-    ): Promise<RenderContext> {
-        const actor = this.document;
-        const logic = actor.logic as BeingLogic;
-
-        const containerGear = actor.itemTypes[ITEM_KIND.CONTAINERGEAR] ?? [];
-
-        // Collect all gear items (containers themselves included, so a
-        // top-level container appears both as a node and under "On Body").
-        const gearTypes = [
-            ITEM_KIND.ARMORGEAR,
-            ITEM_KIND.WEAPONGEAR,
-            ITEM_KIND.MISCGEAR,
-            ITEM_KIND.CONCOCTIONGEAR,
-            ITEM_KIND.PROJECTILEGEAR,
-            ITEM_KIND.CONTAINERGEAR,
-        ];
-        const allGear: SohlItem[] = [];
-        for (const type of gearTypes) {
-            allGear.push(...(actor.itemTypes[type] ?? []));
-        }
-
-        const tree = buildContainerTree(
-            containerGear,
-            allGear,
-            (item) => item.id,
-            (item) => (item.system as any).containerId,
-        );
-
-        // Map a gear item to a compact display row.
-        const toRow = (item: SohlItem) => {
-            const gl = item.logic as any;
-            const sys = item.system as any;
-            const q = sys.qualityBase ?? 0;
-            return {
-                id: item.id,
-                uuid: item.uuid,
-                name: item.name,
-                img: item.img ?? "",
-                type: item.type,
-                typeLabel: game.i18n.localize(`TYPES.Item.${item.type}`),
-                quantity: sys.quantity ?? 1,
-                weight: gl?.weight?.effective ?? sys.weightBase ?? 0,
-                quality: `${q >= 0 ? "+" : ""}${q}`,
-                durability: sys.durabilityBase ?? 0,
-                // Derivation summaries for the weight/quality/durability
-                // hover tooltips (#769).
-                weightDeltaLabel: gl?.weight?.deltaLabel ?? "",
-                qualityDeltaLabel: gl?.quality?.deltaLabel ?? "",
-                durabilityDeltaLabel: gl?.durability?.deltaLabel ?? "",
-                notes: htmlToPlainText(sys.notes ?? ""),
-                isCarried: !!sys.isCarried,
-                isWorn: !!sys.isWorn,
-                isArmor: item.type === ITEM_KIND.ARMORGEAR,
-            };
-        };
-        // Total weight of a set of gear items (per-unit effective weight × qty).
+    protected override _gearOnBodyCapacity(_items: SohlItem[]): GearCapacity {
+        const logic = this.document.logic as BeingLogic;
         const round1 = (n: number) => Math.round(n * 10) / 10;
-        const usedWeight = (items: SohlItem[]) =>
-            round1(
-                items.reduce((total, it) => {
-                    const gl = it.logic as any;
-                    const sys = it.system as any;
-                    const w = gl?.weight?.effective ?? sys.weightBase ?? 0;
-                    return total + w * (sys.quantity ?? 1);
-                }, 0),
-            );
-
-        // On Body has no hard capacity cap; it summarizes the being's overall
-        // load — its total carried-gear weight (accumulated ground-up on
-        // `BeingLogic.carriedWeight`) and the resulting encumbrance for its
-        // active movement medium (`BeingLogic.encumbrance`).
-        const onBody = {
-            items: tree.onBodyItems.map(toRow),
-            capacity: {
-                isEncumbrance: true,
-                used: round1(logic.carriedWeight?.effective ?? 0),
-                encumbrance: logic.encumbrance?.effective ?? 0,
-            },
+        return {
+            isEncumbrance: true,
+            used: round1(logic.carriedWeight?.effective ?? 0),
+            encumbrance: logic.encumbrance?.effective ?? 0,
         };
-        const containers = tree.containers.map((node) => ({
-            id: node.container.id,
-            name: node.container.name,
-            items: node.items.map(toRow),
-            capacity: {
-                used: usedWeight(node.items),
-                max: (node.container.logic as any)?.maxCapacity?.effective ?? 0,
-            },
-        }));
-
-        return Object.assign(context, { onBody, containers });
-    }
-
-    /**
-     * Prepare context for the Actions tab: actor-level actions.
-     *
-     * @param context - The render context to augment.
-     * @param _options - The render options (unused).
-     * @returns The augmented render context.
-     */
-    protected async _prepareActionsContext(
-        context: RenderContext,
-        _options: RenderOptions,
-    ): Promise<RenderContext> {
-        const logic = this.document.logic;
-        // Hidden-group actions are internal (lifecycle hooks) and never shown.
-        const all = (logic ? [...logic.actions.values()] : []).filter(
-            (a) =>
-                (a.data as any).group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-        );
-        // Custom (script) actions are GM-authored and editable; intrinsic
-        // actions are code-defined and read-only. Split them into their own
-        // sections.
-        const customActions = all.filter(
-            (a) => (a.data as any).subType === ACTION_SUBTYPE.SCRIPT,
-        );
-        const intrinsicActions = all.filter(
-            (a) => (a.data as any).subType === ACTION_SUBTYPE.INTRINSIC,
-        );
-        return Object.assign(context, { customActions, intrinsicActions });
-    }
-
-    /**
-     * Prepare context for the Effects tab: own and transferred effects.
-     *
-     * @param context - The render context to augment.
-     * @param _options - The render options (unused).
-     * @returns The augmented render context.
-     */
-    protected async _prepareEffectsContext(
-        context: RenderContext,
-        _options: RenderOptions,
-    ): Promise<RenderContext> {
-        const effects = (this.document as any).effects?.contents ?? [];
-        const trxEffects: PlainObject = {};
-        const transferredEffects = (this.document as any).transferredEffects;
-        if (transferredEffects) {
-            for (const effect of transferredEffects) {
-                if (!effect.disabled) {
-                    trxEffects[effect.id] = effect;
-                }
-            }
-        }
-        return Object.assign(context, { effects, trxEffects });
     }
 }

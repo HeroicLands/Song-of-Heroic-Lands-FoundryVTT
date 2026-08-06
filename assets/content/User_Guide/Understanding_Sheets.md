@@ -37,7 +37,12 @@ The header is always visible regardless of which tab you're on.
 
 Actor sheets (Beings, Cohorts, Structures, Vehicles) share several common
 tabs. Not every actor type has every tab, but when a tab appears, it works
-the same way across all actor types.
+the same way across all actor types — the **Gear**, **Actions**, and
+**Effects** tabs described below are the same tab on a character, a ship, and
+a warehouse, and this is the one place they are documented. The individual
+type pages ([[Actor_Being|Being]], [[Actor_Vehicle|Vehicle]],
+[[Actor_Structure|Structure]], [[Actor_Cohort|Cohort]]) describe only what is
+particular to that type.
 
 ## Facade
 
@@ -47,29 +52,81 @@ appearance, personality notes, or any freeform text.
 
 ## Gear
 
-The **Gear** tab lists all equipment carried by the actor — weapons, armor,
-containers, miscellaneous items, and their contents. Items can be nested
-(a sword inside a scabbard inside a backpack) and the display reflects this
-hierarchy.
+The **Gear** tab is the actor's inventory: a character's possessions, a
+vehicle's cargo, a structure's stores. It lists every piece of gear the actor
+holds — weapons, armor, containers, projectiles, concoctions, and
+miscellaneous items.
+
+Gear is grouped into **sections**. The first, **On Body**, holds everything
+that is not inside a container; each container the actor holds then gets its
+own section listing its contents, so a sword in a scabbard appears under the
+scabbard rather than loose. A section's banner carries a capacity readout:
+a container shows how much it holds against how much it can hold, and a
+[[Actor_Being|Being]]'s On Body section shows total carried weight and the
+resulting encumbrance instead (a vehicle or structure is not encumbered by
+its load, so it shows the weight alone).
+
+Each row shows the item's icon and name, its **Type**, **Qty** (quantity),
+**Weight**, **Qual** (quality), **Dur** (durability), and **Notes**. Hovering
+Weight, Qual, or Dur shows how that value was derived — the base value and
+every modifier applied to it.
 
 From this tab you can:
 
-- Drag items from compendiums or the world onto the sheet to add them
-- Right-click items for context menu options (edit, delete, equip)
-- Click the equip/carry icon to toggle whether an item is actively worn or carried
+- **Add gear** with the **Add Gear** control on a section's banner, which
+  opens the item-create dialog.
+- **Drag items** from a compendium, the sidebar, or another actor's sheet onto
+  the sheet to add them. Dragging from another actor _moves_ the item; a stack
+  of more than one prompts for how many to move (shift-drag moves the lot).
+  Dragging from a compendium or the world copies it.
+- **Toggle carried** with the knapsack control, marking whether the item is on
+  the actor's person (or, for a vehicle or structure, in active use rather than
+  stowed).
+- **Toggle worn** with the shield control, on armor only. Worn armor is what
+  feeds protection totals. Armor that is not carried cannot be worn, so the
+  control is disabled until it is.
+- **Edit or delete** an item from the ⋮ menu at the end of its row (or by
+  right-clicking the row).
+- **Search** the tab with the box at the top, which filters rows by name.
 
 ## Actions
 
-The **Actions** tab shows all executable actions available to this actor.
-Actions are procedures that can be triggered — skill tests, combat maneuvers,
-special abilities, and more. Click an action's name to execute it.
+The **Actions** tab lists every action the actor can run, in two sections.
+
+**Custom** actions are the ones a GM has added to this actor by binding a
+world Macro to it. Use **Create Action** to add one — you pick an existing
+Macro, or `<New Macro…>` to write a fresh one — and each row's controls let
+you open the bound Macro for editing, remove the action (the Macro itself is
+left alone), or run it.
+
+**Intrinsic** actions are built into the system for that kind of actor or
+item. They are read-only: you cannot add, edit, or remove them, only run them.
+
+Each row shows the action's icon and name, the menu group it sorts into, and
+any notes. Click the **▶** control to run an action; hold **shift** while
+clicking to skip its configuration dialog and run it with its defaults.
+Internal lifecycle actions the system runs on its own are never listed here.
+
+Actions are always run at your say-so — SoHL never runs one for you. See
+[[Actions]] for what actions are and how they work.
 
 ## Effects
 
-The **Effects** tab shows all active effects currently modifying this actor.
-Active effects are temporary or permanent modifiers that change the actor's
-stats, abilities, or behavior. Each effect shows its source, duration, and
-what it modifies.
+The **Effects** tab shows the active effects modifying this actor, in two
+sections.
+
+**Own Effects** are effects placed directly on the actor. Each row shows the
+effect's name, its **Target** (what it applies to), the time **Remaining**
+(or _Indefinite_), and how many **changes** it makes. Use **Create Effect** to
+add one; each row's controls enable or disable the effect, delete it, or open
+the ⋮ menu.
+
+**Transferred Effects** are effects that come from items the actor holds —
+a cursed blade's penalty, an amulet's blessing. They are read-only here and
+show which item they came from as their **Source**; to change one, edit it on
+the item that carries it.
+
+Both lists can be filtered with the search box at the top of the tab.
 
 ## Profile (Beings only)
 

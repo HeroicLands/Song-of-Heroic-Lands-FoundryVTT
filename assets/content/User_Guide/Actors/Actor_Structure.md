@@ -51,6 +51,17 @@ The Structure sheet has these tabs:
 - **Actions** — available actions
 - **Effects** — active effects
 
+All four are the common actor tabs, and they behave exactly as they do on a
+[[Actor_Being|Being]]: the Gear tab is the same inventory ledger (a structure's
+stores instead of a character's possessions), and the Actions and Effects tabs
+are identical. They are documented once, in
+[[Understanding_Sheets|Understanding Sheets]] under _Common Actor Tabs_ — see
+that page for the columns, controls, and how to add, stow, and remove things.
+
+The one difference: a Being's Gear tab reports carried weight and encumbrance,
+because a character is slowed by what it carries. A structure does not move, so
+its Gear tab reports the total weight of its contents alone.
+
 <!-- TODO: Expand with details on how structure damage works, protection
      ratings, siege mechanics, and placing structures on scenes -->
 
