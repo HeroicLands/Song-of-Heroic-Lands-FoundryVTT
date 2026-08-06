@@ -2070,7 +2070,7 @@ export const {
     IMPROVEWITHSDR: {
         id: "improveWithSDR",
         name: "Improve with SDR",
-        iconClass: "fa-solid fa-star",
+        iconClass: "fa-solid fa-arrow-trend-up",
         condition: "itemLogic.canImprove && !itemLogic.data.improveFlag",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
@@ -2140,7 +2140,7 @@ export const {
     COURSETTEST: {
         id: "courseTest",
         name: "Course Test",
-        iconClass: "fa-solid fa-heart-pulse",
+        iconClass: "ginf-heart-beats",
         condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },

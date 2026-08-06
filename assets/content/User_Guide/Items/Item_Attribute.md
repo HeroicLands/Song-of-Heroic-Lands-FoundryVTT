@@ -104,7 +104,7 @@ reached from the ✎ pencil on a posted test-result card and described on
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Success Test                                                                                                                      |
 | **Shortcode** | `successTest`                                                                                                                     |
-| **Icon**      | `fa-bullseye-arrow` (an arrow in a target)                                                                                        |
+| **Icon**      | `fa-bullseye` (a target)                                                                                                          |
 | **Invoked**   | The **Actions** context menu — the **⋮** on the attribute's Profile card, or the attribute's own Actions tab                      |
 | **API**       | [`AttributeLogic.successTest`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AttributeLogic.html#successtest) |
 
@@ -173,7 +173,7 @@ roll. A Strength test made on a crushed arm is not a normal Strength test.
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**      | Opposed Test                                                                                                                                |
 | **Shortcode** | `opposedTestStart`                                                                                                                          |
-| **Icon**      | `fa-arrow-down-left-and-arrow-up-right-to-center` (two arrows converging)                                                                   |
+| **Icon**      | `fa-arrows-to-dot` (arrows converging on a point)                                                                                           |
 | **Invoked**   | The **Actions** context menu                                                                                                                |
 | **API**       | [`AttributeLogic.opposedTestStart`](https://api.heroiclands.org/main/classes/sohl.document.item.logic.AttributeLogic.html#opposedteststart) |
 
