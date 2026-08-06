@@ -53,17 +53,20 @@ export interface AttackDialogResult {
     mode: StrikeModeBase.PointerData;
     /** Player-entered additional modifier. */
     situationalModifier: number;
-    /** The calculated spread for the attack. */
-    spread: number;
 }
 
 /**
- * Show the attack dialog (Aim + Additional Modifier) and resolve to the chosen
- * inputs, or `null` if dismissed. Side-effect-free.
+ * Show the attack dialog (Strike Mode + Aim + Additional Modifier) and resolve
+ * to the chosen inputs, or `null` if dismissed (or if there is no mode to offer).
+ * Side-effect-free.
+ *
+ * The strike-mode select is keyed by each mode's **index in `modes`** — the same
+ * convention the block dialog uses — because a strike-mode shortcode is unique
+ * only within its own weapon, so two weapons can both offer a `swing`.
  * @param title - The dialog window title.
  * @param aimChoices - The body-part aim options.
  * @param defaultAim - The pre-selected aim shortcode.
- * @param modes
+ * @param modes - The strike modes to offer, in display order.
  * @param defaultModeIdx - The pre-selected strike-mode index in `modes`.
  * @returns The chosen inputs, or `null` if the dialog was dismissed.
  */
@@ -71,12 +74,16 @@ export function showAttackDialog(
     title: string,
     aimChoices: Record<string, string>,
     defaultAim: string,
-    modes: Record<string, StrikeModeBase>,
+    modes: StrikeModeBase[],
     defaultModeIdx: number,
 ): Promise<AttackDialogResult | null> {
+    if (!modes.length) return Promise.resolve(null);
     const modeChoices: Record<string, string> = Object.fromEntries(
-        Object.entries(modes).map(([key, sm]) => [key, sm.shortcode]),
+        modes.map((sm, idx) => [String(idx), sm.name]),
     );
+    // An out-of-range default would leave the select with nothing selected and
+    // no mode to fall back to, so pin it to a real entry.
+    const fallbackIdx = modes[defaultModeIdx] ? defaultModeIdx : 0;
     return dialog({
         title,
         template: toFilePath("systems/sohl/templates/dialog/attack-dialog.hbs"),
@@ -84,17 +91,19 @@ export function showAttackDialog(
             aimChoices,
             defaultAim,
             modeChoices,
-            defaultModeIdx,
+            defaultModeIdx: String(fallbackIdx),
             situationalModifier: 0,
         },
-        callback: (f: PlainObject) =>
-            ({
+        callback: (f: PlainObject) => {
+            const chosenIdx = Number.parseInt(String(f.modeIdx), 10);
+            const mode = modes[chosenIdx] ?? modes[fallbackIdx];
+            return {
                 aim: String(f.aim ?? defaultAim),
                 situationalModifier:
                     Number.parseInt(String(f.situationalModifier), 10) || 0,
-                mode: modes[f.modeIdx as string].pointerData,
-                spread: Number.parseInt(String(f.spread), 10) || 0,
-            }) satisfies AttackDialogResult,
+                mode: mode.pointerData,
+            } satisfies AttackDialogResult;
+        },
         rejectClose: false,
     }) as Promise<AttackDialogResult | null>;
 }

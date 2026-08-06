@@ -516,7 +516,8 @@ export class SohlCombatantLogic<
     /**
      * Begin an automated attack — the **single entry point** for combat start.
      * @param context - Action context (supplies the target, scope, and chat
-     *   options); `scope.mode` selects the strike mode (asks if not provided).
+     *   options); `scope.mode` pre-selects the strike mode in the attack dialog
+     *   (and is the mode used outright when `skipDialog` is set).
      * @returns The attack result or `undefined` if cancelled.
      */
     async startAutomatedAttack(
@@ -1188,11 +1189,14 @@ export class SohlCombatantLogic<
 
 export namespace AutomatedCombat {
     /**
-     * The context scope of the current automated attack. If the attack strike mode
-     * is not supplied, the attack dialog will prompt for it.
+     * The context scope of the current automated attack. The attack dialog always
+     * offers the strike mode; a supplied `mode` is what it starts out selected on.
      */
     export interface AttackContextScope {
-        /** The strike mode to attack with. */
+        /**
+         * The strike mode to attack with — the attack dialog's pre-selected mode,
+         * and the mode used outright when the dialog is skipped.
+         */
         mode: StrikeModeBase.PointerData;
         /** The aim of the attack. */
         aim: string;
@@ -1434,29 +1438,30 @@ export function buildAimChoices(defenderActor: any): Record<string, string> {
 }
 
 /**
- * The default mode index for a picker: the most-recently-used mode if it is
- * still available, otherwise the best-chance mode (highest effective ML).
- * @param modes - The available attackable strike modes.
- * @param recent - The most-recently-used mode reference, or `null`.
- * @returns The index of the default mode in `modes`.
+ * The default mode index for a picker: the first of `preferences` that is still
+ * available, otherwise the best-chance mode (highest effective ML). Pure.
+ * @param modes - The available strike modes, in display order.
+ * @param preferences - Preferred mode pointers, most-preferred first; absent
+ *   (`undefined`/`null`) and no-longer-available entries are skipped.
+ * @param ml - Extracts the effective mastery level of a mode (the best-chance tiebreak).
+ * @returns The index of the default mode in `modes`, or -1 if `modes` is empty.
  */
-function defaultModeIndex(
-    modes: StrikeModeBase.PointerData[],
-    recent: { itemUuid: string; smId: string } | null,
+export function defaultModeIndex(
+    modes: StrikeModeBase[],
+    preferences: (StrikeModeBase.PointerData | undefined | null)[],
+    ml: (mode: StrikeModeBase) => number,
 ): number {
-    if (recent) {
+    if (!modes.length) return -1;
+    for (const pref of preferences) {
+        if (!pref) continue;
         const idx = modes.findIndex(
-            (m) => m.itemUuid === recent.itemUuid && m.smId === recent.smId,
+            (sm) =>
+                sm.pointerData.itemUuid === pref.itemUuid &&
+                sm.pointerData.smId === pref.smId,
         );
         if (idx >= 0) return idx;
     }
-    return Math.max(
-        0,
-        indexOfBestMastery(
-            modes.map((m) => StrikeModeBase.fromPointerData(m)),
-            (m) => (m ? m.attack.constrainedEffective : -Infinity),
-        ),
-    );
+    return Math.max(0, indexOfBestMastery(modes, ml));
 }
 
 /**
@@ -1571,25 +1576,20 @@ async function commonAttack(
         return undefined;
     }
 
-    // Determine the default strike mode index: the prior attack result's mode if
-    // it is available, otherwise the most-recently-used mode, and if
-    // neither is available, the best-chance mode (highest effective ML).
-    const priorMode = context.scope.priorAttackResult?.mode;
-    let defaultStrikeModeIdx: number =
-        priorMode ?
-            availStrikeModes.findIndex((sm) => !sm.compareTo(priorMode))
-        :   -1;
-    if (defaultStrikeModeIdx < 0 && attackerLogic.lastAttackMode) {
-        defaultStrikeModeIdx = availStrikeModes.findIndex(
-            (sm) => !sm.compareTo(attackerLogic.lastAttackMode!),
-        );
-    }
-    if (defaultStrikeModeIdx < 0) {
-        defaultStrikeModeIdx = indexOfBestMastery(
-            availStrikeModes,
-            strikeModeML,
-        );
-    }
+    // Determine the default strike mode index, in order of preference: the mode
+    // the action was invoked with (`scope.mode` — e.g. the weapon whose action
+    // started the attack), then the prior attack result's mode, then the
+    // most-recently-used mode, and if none of those is available, the
+    // best-chance mode (highest effective ML).
+    const defaultStrikeModeIdx = defaultModeIndex(
+        availStrikeModes,
+        [
+            context.scope?.mode,
+            context.scope?.priorAttackResult?.mode?.pointerData,
+            attackerLogic.lastAttackMode?.pointerData,
+        ],
+        strikeModeML,
+    );
 
     // Determine all of the available aim choices for this attack, and the
     // default aim choice: the prior attack result's aim if it is available,
@@ -1610,17 +1610,15 @@ async function commonAttack(
             aim: String(defaultAim),
             situationalModifier: 0,
             mode: availStrikeModes[defaultStrikeModeIdx].pointerData,
-            spread: 0,
-        } as AttackDialogResult;
+        } satisfies AttackDialogResult;
     } else {
-        // Show the attack dialog to the user, allowing them to select aim and mode.
+        // Show the attack dialog to the user, allowing them to select the
+        // strike mode, the aim, and a situational modifier.
         attackDlgResult = await showAttackDialog(
-            `${attackerLogic.name} vs. ${defenderLogic.name} ${form} with ${availStrikeModes[defaultStrikeModeIdx].name}`,
+            `${attackerLogic.name} vs. ${defenderLogic.name} — ${form}`,
             aimChoices,
             defaultAim,
-            Object.fromEntries(
-                availStrikeModes.map((mode) => [mode.shortcode, mode]),
-            ),
+            availStrikeModes,
             defaultStrikeModeIdx,
         );
     }

@@ -27,11 +27,9 @@ the character sheet — they are on the tracker row and on the chat cards the
 exchange produces.
 
 > ⚗️ **Automated Combat is still being finished.** It is deliberately outside the
-> frozen feature set for the Being-centric beta. The actions below are documented
-> as they exist; starting an automated attack from the tracker currently fails to
-> pick up your target (issue #1079), and the attack dialog does not yet offer the
-> strike-mode choice it is meant to (issue #1080). Use
-> [[Combat_Basics|Assisted Combat]] for play in the meantime.
+> frozen feature set for the Being-centric beta, so expect rough edges. The
+> actions below are documented as they exist; [[Combat_Basics|Assisted Combat]]
+> is the supported path for play in the meantime.
 
 # The combatant row
 
@@ -98,15 +96,15 @@ impact, hit location, armor, and the injury.
 **How to use it.** Target the opponent's token, then right-click **your**
 combatant's row in the tracker and choose **Automated Combat**.
 
-**What it asks for.** It opens the automated-combat **attack dialog** (Aim and an
-additional modifier). Those fields, and every card the exchange posts, are
-described in one place — see
+**What it asks for.** It opens the automated-combat **attack dialog** (Strike
+Mode, Aim, and an additional modifier). Those fields, and every card the exchange
+posts, are described in one place — see
 [[Combat_Basics|the Automated Combat section of Combat Basics]].
 
 **What happens.** Once you confirm the dialog, the system:
 
-- picks up the weapon or combat technique you are attacking with, offering only
-  strike modes that can actually reach — melee modes whose reach covers the
+- attacks with the **strike mode you picked**, offered from the weapons and
+  combat techniques that can actually reach — melee modes whose reach covers the
   distance to the target, missile modes within their base range (a point-blank
   missile shot also gains its close-range impact bonus);
 - **rolls your attack** then and there, so the attack is rolled by the attacker
