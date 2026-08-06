@@ -818,7 +818,7 @@ export class BeingLogic<
                             label: sohl.i18n.localize(
                                 "SOHL.Being.ShockTest.setStateYes",
                             ),
-                            icon: "ginf-knocked-out-stars",
+                            icon: "ginf-knockout",
                             default: true,
                         },
                         {
@@ -2194,7 +2194,7 @@ export class BeingLogic<
                 subType: ACTION_SUBTYPE.INTRINSIC,
                 title: "SOHL.Being.Action.shockTest",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "ginf-knocked-out-stars",
+                iconFAClass: "ginf-knockout",
                 executor: "shockTest",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
